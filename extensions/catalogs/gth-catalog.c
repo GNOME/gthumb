@@ -392,6 +392,14 @@ gth_catalog_insert_file (GthCatalog *catalog,
 }
 
 
+void
+gth_catalog_append_file (GthCatalog *catalog,
+		         GFile      *file)
+{
+	catalog->priv->file_list = g_list_append (catalog->priv->file_list, g_file_dup (file));
+}
+
+
 int
 gth_catalog_remove_file (GthCatalog *catalog,
 			 GFile      *file)

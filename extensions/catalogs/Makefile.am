@@ -12,10 +12,14 @@ libcatalogs_la_SOURCES = 		\
 	dlg-add-to-catalog.h		\
 	dlg-catalog-properties.c	\
 	dlg-catalog-properties.h	\
+	dlg-organize-files.c		\
+	dlg-organize-files.h		\
 	gth-catalog.c			\
 	gth-catalog.h			\
 	gth-file-source-catalogs.c 	\
 	gth-file-source-catalogs.h	\
+	gth-organize-task.c		\
+	gth-organize-task.h		\
 	main.c
 
 libcatalogs_la_CFLAGS = $(GTHUMB_CFLAGS) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

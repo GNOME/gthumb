@@ -27,6 +27,7 @@
 #include <gthumb.h>
 #include <gth-catalog.h>
 #include "dlg-catalog-properties.h"
+#include "dlg-organize-files.h"
 #include "gth-file-source-catalogs.h"
 #include "actions.h"
 
@@ -153,6 +154,7 @@ typedef struct {
 	gboolean        catalog_menu_loaded;
 	guint           monitor_events;
 	GtkWidget      *properties_button;
+	GtkWidget      *organize_button;
 } BrowserData;
 
 
@@ -578,6 +580,14 @@ properties_button_clicked_cb (GtkButton  *button,
 }
 
 
+static void
+organize_button_clicked_cb (GtkButton  *button,
+			    GthBrowser *browser)
+{
+	dlg_organize_files (browser, gth_browser_get_location (browser));
+}
+
+
 void
 catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 					      GthFileData  *location_data,
@@ -655,6 +665,18 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 					  browser);
 		}
 	}
-	else if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
-		gedit_message_area_add_button (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), _("Organize"), _RESPONSE_ORGANIZE);
+	else if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))) {
+		if (data->organize_button == NULL) {
+			data->organize_button = gtk_button_new ();
+			gtk_container_add (GTK_CONTAINER (data->organize_button), gtk_label_new (_("Organize")));
+			g_object_add_weak_pointer (G_OBJECT (data->organize_button), (gpointer *)&data->organize_button);
+			gtk_button_set_relief (GTK_BUTTON (data->organize_button), GTK_RELIEF_NONE);
+			gtk_widget_show_all (data->organize_button);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), data->organize_button, _RESPONSE_ORGANIZE);
+			g_signal_connect (data->organize_button,
+					  "clicked",
+					  G_CALLBACK (organize_button_clicked_cb),
+					  browser);
+		}
+	}
 }

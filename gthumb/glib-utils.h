@@ -53,6 +53,7 @@ G_BEGIN_DECLS
 #define GFILE_STANDARD_ATTRIBUTES (DEFINE_STANDARD_ATTRIBUTES(""))
 #define GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type"))
 #define GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type,standard::content-type"))
+#define GIO_ATTRIBUTES ("standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*")
 
 #define GNOME_COPIED_FILES (gdk_atom_intern_static_string ("x-special/gnome-copied-files"))
 #define IROUND(x) ((int)floor(((double)x) + 0.5))
@@ -249,6 +250,8 @@ GFile *         _g_file_append_prefix            (GFile      *file,
 						  const char *prefix);
 GFile *         _g_file_append_path              (GFile      *file,
 						  const char *path);
+gboolean        _g_file_attributes_matches_mask  (const char *attributes,
+						  const char *mask);
 gboolean        _g_file_attributes_matches       (const char *attributes,
 						  const char *mask);
 void            _g_file_info_swap_attributes     (GFileInfo  *info,

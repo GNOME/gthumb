@@ -26,6 +26,7 @@
 #include <gio/gio.h>
 #include "gth-file-data.h"
 #include "gth-hook.h"
+#include "gth-metadata-provider.h"
 #include "gth-overwrite-dialog.h"
 #include "glib-utils.h"
 #include "gio-utils.h"
@@ -188,6 +189,9 @@ typedef struct {
 	GFileEnumerator      *enumerator;
 	GError               *error;
 	guint                 source_id;
+	gboolean              metadata_attributes;
+	GList                *children;
+	GList                *current_child;
 } ForEachChildData;
 
 
@@ -311,19 +315,115 @@ for_each_child_close_enumerator (GObject      *source_object,
 }
 
 
+static void for_each_child_next_files_ready (GObject      *source_object,
+					     GAsyncResult *result,
+					     gpointer      user_data);
+
+
+static void
+for_each_child_read_next_files (ForEachChildData *fec)
+{
+	_g_object_list_unref (fec->children);
+	fec->children = NULL;
+	g_file_enumerator_next_files_async (fec->enumerator,
+					    N_FILES_PER_REQUEST,
+					    G_PRIORITY_DEFAULT,
+					    fec->cancellable,
+					    for_each_child_next_files_ready,
+					    fec);
+}
+
+
+static void for_each_child_read_current_child_metadata (ForEachChildData *fec);
+
+
+static void
+for_each_child_read_next_child_metadata (ForEachChildData *fec)
+{
+	fec->current_child = fec->current_child->next;
+	if (fec->current_child != NULL)
+		for_each_child_read_current_child_metadata (fec);
+	else
+		for_each_child_read_next_files (fec);
+}
+
+
+static void
+for_each_child_compute_child (ForEachChildData *fec,
+			      GFile            *file,
+			      GFileInfo        *info)
+{
+	if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) {
+		char *id;
+
+		/* avoid to visit a directory more than ones */
+
+		id = g_strdup (g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_ID_FILE));
+		if (id == NULL)
+			id = g_file_get_uri (file);
+
+		if (g_hash_table_lookup (fec->already_visited, id) == NULL) {
+			g_hash_table_insert (fec->already_visited, g_strdup (id), GINT_TO_POINTER (1));
+			fec->to_visit = g_list_append (fec->to_visit, child_data_new (file, info));
+		}
+
+		g_free (id);
+	}
+
+	fec->for_each_file_func (file, info, fec->user_data);
+}
+
+
+static void
+for_each_child_metadata_ready_func (GList    *files,
+				    GError   *error,
+				    gpointer  user_data)
+{
+	ForEachChildData *fec = user_data;
+
+	if (error == NULL) {
+		GthFileData *child_data = files->data;
+		for_each_child_compute_child (fec, child_data->file, child_data->info);
+	}
+
+	for_each_child_read_next_child_metadata (fec);
+}
+
+
+static void
+for_each_child_read_current_child_metadata (ForEachChildData *fec)
+{
+	GFileInfo   *child_info = fec->current_child->data;
+	GFile       *child_file;
+	GList       *file_list;
+	GthFileData *child_data;
+
+	child_file = g_file_get_child (fec->current->file, g_file_info_get_name (child_info));
+	child_data = gth_file_data_new (child_file, child_info);
+	file_list = g_list_append (NULL, child_data);
+	_g_query_metadata_async  (file_list,
+				  fec->attributes,
+				  NULL, /* FIXME: cannot use fec->cancellable here */
+				  for_each_child_metadata_ready_func,
+				  fec);
+
+	_g_object_list_unref (file_list);
+	g_object_unref (child_file);
+}
+
+
 static void
 for_each_child_next_files_ready (GObject      *source_object,
 				 GAsyncResult *result,
 				 gpointer      user_data)
 {
 	ForEachChildData *fec = user_data;
-	GList            *children, *scan;
 
-	children = g_file_enumerator_next_files_finish (fec->enumerator,
-							result,
-							&(fec->error));
+	fec->children = g_file_enumerator_next_files_finish (fec->enumerator,
+							     result,
+							     &(fec->error));
 
-	if (children == NULL) {
+	if (fec->children == NULL) {
 		g_file_enumerator_close_async (fec->enumerator,
 					       G_PRIORITY_DEFAULT,
 					       fec->cancellable,
@@ -332,41 +432,27 @@ for_each_child_next_files_ready (GObject      *source_object,
 		return;
 	}
 
-	for (scan = children; scan; scan = scan->next) {
-		GFileInfo *child_info = scan->data;
-		GFile     *file;
+	if (fec->metadata_attributes) {
+		fec->current_child = fec->children;
+		for_each_child_read_current_child_metadata (fec);
+	}
+	else {
+		GList *scan;
 
-		file = g_file_get_child (fec->current->file, g_file_info_get_name (child_info));
+		for (scan = fec->children; scan; scan = scan->next) {
+			GFileInfo *child_info = scan->data;
+			GFile     *child_file;
 
-		if (g_file_info_get_file_type (child_info) == G_FILE_TYPE_DIRECTORY) {
-			char *id;
+			child_file = g_file_get_child (fec->current->file, g_file_info_get_name (child_info));
+			for_each_child_compute_child (fec, child_file, child_info);
 
-			/* avoid to visit a directory more than ones */
-
-			id = g_strdup (g_file_info_get_attribute_string (child_info, G_FILE_ATTRIBUTE_ID_FILE));
-			if (id == NULL)
-				id = g_file_get_uri (file);
-
-			if (g_hash_table_lookup (fec->already_visited, id) == NULL) {
-				g_hash_table_insert (fec->already_visited, g_strdup (id), GINT_TO_POINTER (1));
-				fec->to_visit = g_list_append (fec->to_visit, child_data_new (file, child_info));
-			}
-
-			g_free (id);
+			g_object_unref (child_file);
 		}
 
-		fec->for_each_file_func (file, child_info, fec->user_data);
-
-		g_object_unref (file);
+		for_each_child_read_next_files (fec);
 	}
-
-	g_file_enumerator_next_files_async (fec->enumerator,
-					    N_FILES_PER_REQUEST,
-					    G_PRIORITY_DEFAULT,
-					    fec->cancellable,
-					    for_each_child_next_files_ready,
-					    fec);
 }
+
 
 static void
 for_each_child_ready (GObject      *source_object,
@@ -496,6 +582,7 @@ g_directory_foreach_child (GFile                *directory,
 						      g_str_equal,
 						      g_free,
 						      NULL);
+	fec->metadata_attributes = ! _g_file_attributes_matches_mask (fec->attributes, GIO_ATTRIBUTES);
 
 	g_file_query_info_async (fec->base_directory,
 				 fec->attributes,
