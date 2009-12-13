@@ -114,8 +114,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="create_singletons_checkbutton">
-                            <property name="label" translatable="yes">Do not create catalogs with a single file</property>
+                          <object class="GtkCheckButton" id="ignore_singletons_checkbutton">
+                            <property name="label" translatable="yes">Ignore groups with a single file</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -130,7 +130,7 @@
                             <property name="visible">True</property>
                             <property name="left_padding">12</property>
                             <child>
-                              <object class="GtkHBox" id="hbox1">
+                              <object class="GtkHBox" id="single_catalog_box">
                                 <property name="visible">True</property>
                                 <property name="spacing">6</property>
                                 <child>
@@ -139,7 +139,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="inconsistent">True</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
                                   <packing>

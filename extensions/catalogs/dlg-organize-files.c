@@ -55,7 +55,7 @@ start_button_clicked_cb (GtkWidget  *widget,
 
 	task = gth_organize_task_new (data->browser, data->folder, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("group_by_combobox"))));
 	gth_organize_task_set_recursive (GTH_ORGANIZE_TASK (task), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton"))));
-	gth_organize_task_set_create_singletons (GTH_ORGANIZE_TASK (task), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("create_singletons_checkbutton"))));
+	gth_organize_task_set_create_singletons (GTH_ORGANIZE_TASK (task), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ignore_singletons_checkbutton"))));
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton"))))
 		gth_organize_task_set_singletons_catalog (GTH_ORGANIZE_TASK (task), gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("single_catalog_entry"))));
 	gth_browser_exec_task (data->browser, task, FALSE);
@@ -70,6 +70,29 @@ help_button_clicked_cb (GtkWidget  *widget,
 			DialogData *data)
 {
 	show_help_dialog (GTK_WINDOW (data->dialog), "organize-files");
+}
+
+
+static void
+ignore_singletons_checkbutton_clicked_cb (GtkToggleButton *button,
+					  DialogData      *data)
+{
+	if (gtk_toggle_button_get_active (button)) {
+		gtk_widget_set_sensitive (GET_WIDGET ("single_catalog_box"), TRUE);
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton")), FALSE);
+	}
+	else {
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton")), TRUE);
+		gtk_widget_set_sensitive (GET_WIDGET ("single_catalog_box"), FALSE);
+	}
+}
+
+
+static void
+use_singletons_catalog_checkbutton_clicked_cb (GtkToggleButton *button,
+					       DialogData      *data)
+{
+	gtk_widget_set_sensitive (GET_WIDGET ("single_catalog_entry"), gtk_toggle_button_get_active (button));
 }
 
 
@@ -107,6 +130,18 @@ dlg_organize_files (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (start_button_clicked_cb),
 			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("ignore_singletons_checkbutton")),
+			  "clicked",
+			  G_CALLBACK (ignore_singletons_checkbutton_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("use_singletons_catalog_checkbutton")),
+			  "clicked",
+			  G_CALLBACK (use_singletons_catalog_checkbutton_clicked_cb),
+			  data);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ignore_singletons_checkbutton")), FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton")), FALSE);
 
 	/* run dialog. */
 

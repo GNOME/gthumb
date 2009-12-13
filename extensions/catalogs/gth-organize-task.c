@@ -29,7 +29,7 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
-
+#define KEY_FORMAT ("%Y.%m.%d")
 
 enum {
 	NAME_COLUMN = 0,
@@ -79,6 +79,7 @@ save_catalog (gpointer key,
 	GthOrganizeTask *self = user_data;
 	GthCatalog      *catalog = value;
 	GFile           *gio_file;
+	GFile           *gio_parent;
 	char            *data;
 	gsize            size;
 	GError          *error = NULL;
@@ -90,6 +91,8 @@ save_catalog (gpointer key,
 	}
 
 	gio_file = gth_catalog_file_to_gio_file (gth_catalog_get_file (catalog));
+	gio_parent = g_file_get_parent (gio_file);
+	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
 	data = gth_catalog_to_data (catalog, &size);
 	if (! g_write_file (gio_file,
 			    FALSE,
@@ -104,6 +107,7 @@ save_catalog (gpointer key,
 	}
 
 	g_free (data);
+	g_object_unref (gio_parent);
 	g_object_unref (gio_file);
 }
 
@@ -163,14 +167,15 @@ done_func (GError   *error,
 
 
 static GFile *
-get_catalog_file (const char *display_name)
+get_catalog_file (const char *base_uri,
+		  const char *display_name)
 {
 	GFile *base;
 	char  *name;
 	char  *name_escaped;
 	GFile *catalog_file;
 
-	base = g_file_new_for_uri ("catalog:///");
+	base = g_file_new_for_uri (base_uri);
 	name = g_strdup_printf ("%s.catalog", display_name);
 	name_escaped = _g_utf8_replace (name, "/", ".");
 	catalog_file = g_file_get_child_for_display_name (base, name_escaped, NULL);
@@ -178,6 +183,30 @@ get_catalog_file (const char *display_name)
 	g_free (name_escaped);
 	g_free (name);
 	g_object_unref (base);
+
+	return catalog_file;
+}
+
+
+static GFile *
+get_catalog_file_for_time (GTimeVal *timeval)
+{
+	char  *year;
+	char  *uri;
+	GFile *base;
+	char  *display_name;
+	GFile *catalog_file;
+
+	year = _g_time_val_strftime (timeval, "%Y");
+	uri = g_strconcat ("catalog:///", year, "/", NULL);
+	base = g_file_new_for_uri (uri);
+	display_name = _g_time_val_strftime (timeval, "%m-%d");
+	catalog_file = get_catalog_file (uri, display_name);
+
+	g_free (display_name);
+	g_object_unref (base);
+	g_free (uri);
+	g_free (year);
 
 	return catalog_file;
 }
@@ -200,20 +229,21 @@ for_each_file_func (GFile     *file,
 	key = NULL;
 	file_data = gth_file_data_new (file, info);
 	switch (self->priv->group_policy) {
-	case GTH_GROUP_POLICY_DIGITALIZED_DATE: {
-		GObject *metadata;
+	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
+		{
+			GObject *metadata;
 
-		metadata = g_file_info_get_attribute_object (info, "Embedded::Image::DateTime");
-		if (metadata != NULL) {
-			if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
-				key = g_strdup (_g_time_val_strftime (&timeval, "%x"));
+			metadata = g_file_info_get_attribute_object (info, "Embedded::Image::DateTime");
+			if (metadata != NULL) {
+				if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
+					key = g_strdup (_g_time_val_strftime (&timeval, KEY_FORMAT));
+			}
 		}
-	}
-	break;
+		break;
 
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
 		timeval = *gth_file_data_get_modification_time (file_data);
-		key = g_strdup (_g_time_val_strftime (&timeval, "%x"));
+		key = g_strdup (_g_time_val_strftime (&timeval, KEY_FORMAT));
 		break;
 	}
 
@@ -232,7 +262,7 @@ for_each_file_func (GFile     *file,
 		exif_date = _g_time_val_to_exif_date (&timeval);
 		gth_datetime_from_exif_date (date_time, exif_date);
 		gth_catalog_set_date (catalog, date_time);
-		catalog_file = get_catalog_file (key);
+		catalog_file = get_catalog_file_for_time (&timeval);
 		gth_catalog_set_file (catalog, catalog_file);
 		g_hash_table_insert (self->priv->catalogs, g_strdup (key), catalog);
 
@@ -413,13 +443,13 @@ gth_organize_task_set_singletons_catalog (GthOrganizeTask *self,
 {
 	GFile *file;
 
-	g_object_unref (self->priv->singletons_catalog);
+	_g_object_unref (self->priv->singletons_catalog);
 	self->priv->singletons_catalog = NULL;
 	if (catalog_name == NULL)
 		return;
 
 	self->priv->singletons_catalog = gth_catalog_new ();
-	file = get_catalog_file (catalog_name);
+	file = get_catalog_file ("catalog:///", catalog_name);
 	gth_catalog_set_file (self->priv->singletons_catalog, file);
 
 	g_object_unref (file);
