@@ -10,6 +10,10 @@
       <column type="gint"/>
       <!-- column-name create -->
       <column type="gboolean"/>
+      <!-- column-name key -->
+      <column type="gchararray"/>
+      <!-- column-name icon -->
+      <column type="GdkPixbuf"/>
     </columns>
   </object>
   <object class="GtkDialog" id="organize_files_dialog">
@@ -80,7 +84,7 @@
                           <object class="GtkLabel" id="progress_label">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Searching in...</property>
+                            <property name="ellipsize">middle</property>
                           </object>
                           <packing>
                             <property name="position">0</property>
@@ -141,16 +145,26 @@
                                 <property name="vscrollbar_policy">automatic</property>
                                 <property name="shadow_type">in</property>
                                 <child>
-                                  <object class="GtkTreeView" id="treeview1">
+                                  <object class="GtkTreeView" id="organization_treeview">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="model">results_liststore</property>
                                     <property name="headers_clickable">False</property>
+                                    <property name="rules_hint">True</property>
                                     <property name="search_column">0</property>
                                     <child>
                                       <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-                                        <property name="title">Date</property>
+                                        <property name="title">Catalog</property>
                                         <property name="expand">True</property>
+                                        <property name="reorderable">True</property>
+                                        <property name="sort_indicator">True</property>
+                                        <property name="sort_column_id">3</property>
+                                        <child>
+                                          <object class="GtkCellRendererPixbuf" id="icon_cellrendererpixbuf"/>
+                                          <attributes>
+                                            <attribute name="pixbuf">4</attribute>
+                                          </attributes>
+                                        </child>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext1"/>
                                           <attributes>
@@ -163,6 +177,9 @@
                                       <object class="GtkTreeViewColumn" id="treeviewcolumn2">
                                         <property name="title">Files</property>
                                         <property name="expand">True</property>
+                                        <property name="reorderable">True</property>
+                                        <property name="sort_indicator">True</property>
+                                        <property name="sort_column_id">1</property>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext2"/>
                                           <attributes>
@@ -173,9 +190,9 @@
                                     </child>
                                     <child>
                                       <object class="GtkTreeViewColumn" id="treeviewcolumn3">
-                                        <property name="title">Create Catalog</property>
+                                        <property name="title">Create</property>
                                         <child>
-                                          <object class="GtkCellRendererToggle" id="cellrenderertoggle2"/>
+                                          <object class="GtkCellRendererToggle" id="create_cellrenderertoggle"/>
                                           <attributes>
                                             <attribute name="active">2</attribute>
                                           </attributes>
@@ -232,6 +249,34 @@
                 <property name="position">0</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="close_button">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ok_button">
+                <property name="label">gtk-save</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -242,7 +287,9 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">cancel_button</action-widget>
+      <action-widget response="-6">cancel_button</action-widget>
+      <action-widget response="-7">close_button</action-widget>
+      <action-widget response="-5">ok_button</action-widget>
     </action-widgets>
   </object>
 </interface>
