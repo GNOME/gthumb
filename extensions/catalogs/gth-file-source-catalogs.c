@@ -73,7 +73,6 @@ update_file_info (GthFileSource *file_source,
 		  GFileInfo     *info)
 {
 	char *uri;
-	char *name;
 
 	uri = g_file_get_uri (catalog_file);
 
@@ -83,10 +82,7 @@ update_file_info (GthFileSource *file_source,
 		g_file_info_set_icon (info, g_themed_icon_new ("image-catalog"));
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 	else if (g_str_has_suffix (uri, ".search")) {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
@@ -94,10 +90,7 @@ update_file_info (GthFileSource *file_source,
 		g_file_info_set_icon (info, g_themed_icon_new ("image-search"));
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 	else {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
@@ -105,10 +98,7 @@ update_file_info (GthFileSource *file_source,
 		g_file_info_set_icon (info, g_themed_icon_new ("image-library"));
 		g_file_info_set_sort_order (info, 0);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", FALSE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 
 	g_free (uri);

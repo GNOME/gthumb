@@ -76,6 +76,12 @@ GthCatalog *  gth_catalog_new             (void);
 void          gth_catalog_set_file        (GthCatalog           *catalog,
 					   GFile                *file);
 GFile *       gth_catalog_get_file        (GthCatalog           *catalog);
+void          gth_catalog_set_name        (GthCatalog           *catalog,
+					   const char           *name);
+const char *  gth_catalog_get_name        (GthCatalog           *catalog);
+void          gth_catalog_set_date        (GthCatalog           *catalog,
+					   GthDateTime          *date_time);
+GthDateTime * gth_catalog_get_date        (GthCatalog           *catalog);
 void          gth_catalog_set_order       (GthCatalog           *catalog,
 					   const char           *order,
 					   gboolean              inverse);
@@ -97,9 +103,6 @@ void          gth_catalog_append_file     (GthCatalog           *catalog,
 					   GFile                *file);
 int           gth_catalog_remove_file     (GthCatalog           *catalog,
 					   GFile                *file);
-void          gth_catalog_set_date        (GthCatalog           *catalog,
-					   GthDateTime          *date_time);
-GthDateTime * gth_catalog_get_date        (GthCatalog           *catalog);
 void          gth_catalog_list_async      (GthCatalog           *catalog,
 					   const char           *attributes,
 					   GCancellable         *cancellable,
@@ -111,18 +114,19 @@ void          gth_catalog_update_metadata (GthCatalog           *catalog,
 
 /* utils */
 
-GFile *        gth_catalog_get_base                (void);
-GFile *        gth_catalog_file_to_gio_file        (GFile         *file);
-GFile *        gth_catalog_file_from_gio_file      (GFile         *file,
-						    GFile         *catalog);
-GFile *        gth_catalog_file_from_relative_path (const char    *name,
-						    const char    *file_extension);
-char *         gth_catalog_get_relative_path       (GFile         *file);
-GIcon *        gth_catalog_get_icon                (GFile         *file);
-char *         gth_catalog_get_display_name        (GFile         *file);
-void           gth_catalog_load_from_file          (GFile         *file,
-						    GCancellable  *cancellable,
-						    ReadyCallback  ready_func,
-						    gpointer       user_data);
+GFile *        gth_catalog_get_base                   (void);
+GFile *        gth_catalog_file_to_gio_file           (GFile         *file);
+GFile *        gth_catalog_file_from_gio_file         (GFile         *file,
+						       GFile         *catalog);
+GFile *        gth_catalog_file_from_relative_path    (const char    *name,
+						       const char    *file_extension);
+char *         gth_catalog_get_relative_path          (GFile         *file);
+GIcon *        gth_catalog_get_icon                   (GFile         *file);
+void           gth_catalog_update_standard_attributes (GFile         *file,
+						       GFileInfo     *info);
+void           gth_catalog_load_from_file             (GFile         *file,
+						       GCancellable  *cancellable,
+						       ReadyCallback  ready_func,
+						       gpointer       user_data);
 
 #endif /*GTH_CATALOG_H*/

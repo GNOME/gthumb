@@ -633,23 +633,8 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	    && ! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/library"))
 	{
 		GtkWidget *extra_widget;
-		GString   *name;
-		GObject   *metadata;
 
 		extra_widget = gth_browser_get_list_extra_widget (browser);
-
-		name = g_string_new ("");
-		if (g_file_info_get_display_name (location_data->info) != NULL)
-			g_string_append (name, g_file_info_get_display_name (location_data->info));
-		metadata = g_file_info_get_attribute_object (location_data->info, "general::event-date");
-		if (metadata != NULL) {
-			if (g_strcmp0 (name->str, "") != 0)
-				g_string_append (name, " - ");
-			g_string_append (name, gth_metadata_get_formatted (GTH_METADATA (metadata)));
-		}
-		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (extra_widget), name->str);
-
-		g_string_free (name, TRUE);
 
 		if (data->properties_button == NULL) {
 			data->properties_button = gtk_button_new ();

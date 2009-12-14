@@ -764,10 +764,10 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 				GtkTreeIter   *iter,
 				GthFileData   *file_data)
 {
-	GIcon       *icon;
-	GdkPixbuf   *pixbuf;
-	const char  *name;
-	char        *sort_key;
+	GIcon      *icon;
+	GdkPixbuf  *pixbuf;
+	const char *name;
+	char       *sort_key;
 
 	icon = g_file_info_get_icon (file_data->info);
 	pixbuf = gth_icon_cache_get_pixbuf (folder_tree->priv->icon_cache, icon);

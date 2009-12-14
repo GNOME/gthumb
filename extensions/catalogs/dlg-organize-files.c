@@ -110,8 +110,6 @@ dlg_organize_files (GthBrowser *browser,
 	data->builder = _gtk_builder_new_from_file ("organize-files.ui", "catalogs");
 	data->dialog = GET_WIDGET ("organize_files_dialog");
 
-	/*gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")), data->folder, NULL); FIXME */
-
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),

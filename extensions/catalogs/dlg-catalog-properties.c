@@ -85,30 +85,45 @@ catalog_saved_cb (void     *buffer,
 }
 
 
+static char *
+clear_name_for_file (const char *display_name)
+{
+	return _g_utf8_replace (display_name, "/", "_");
+}
+
+
 static void
 save_button_clicked_cb (GtkButton  *button,
 			DialogData *data)
 {
-	GFile       *parent;
-	char        *uri;
-	char        *display_name;
-	GFile       *new_file;
 	GthDateTime *date_time;
 	GFile       *gio_file;
 	char        *buffer;
 	gsize        buffer_size;
 
-	parent = g_file_get_parent (data->original_file);
-	uri = g_file_get_uri (data->original_file);
-	display_name = g_strconcat (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))), _g_uri_get_file_extension (uri), NULL);
-	new_file = g_file_get_child_for_display_name (parent, display_name, NULL);
-	if ((new_file != NULL) && ! g_file_equal (new_file, data->original_file))
-		gth_file_data_set_file (data->file_data, new_file);
+	if (strcmp (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))), "") != 0) {
+		GFile *parent;
+		char  *uri;
+		char  *clean_name;
+		char  *display_name;
+		GFile *new_file;
 
-	g_free (display_name);
-	g_free (uri);
-	_g_object_unref (new_file);
-	g_object_unref (parent);
+		parent = g_file_get_parent (data->original_file);
+		uri = g_file_get_uri (data->original_file);
+		clean_name = clear_name_for_file (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
+		display_name = g_strconcat (clean_name, _g_uri_get_file_extension (uri), NULL);
+		new_file = g_file_get_child_for_display_name (parent, display_name, NULL);
+		if ((new_file != NULL) && ! g_file_equal (new_file, data->original_file))
+			gth_file_data_set_file (data->file_data, new_file);
+
+		_g_object_unref (new_file);
+		g_free (display_name);
+		g_free (clean_name);
+		g_free (uri);
+		g_object_unref (parent);
+	}
+
+	gth_catalog_set_name (data->catalog, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
 
 	date_time = gth_datetime_new ();
 	gth_time_selector_get_value (GTH_TIME_SELECTOR (data->time_selector), date_time);
@@ -155,7 +170,9 @@ catalog_ready_cb (GObject  *object,
 	}
 
 	data->catalog = g_object_ref (object);
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_display_name (data->file_data->file));
+
+	if (gth_catalog_get_name (data->catalog) != NULL)
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_name (data->catalog));
 	gth_time_selector_set_value (GTH_TIME_SELECTOR (data->time_selector), gth_catalog_get_date (data->catalog));
 	gth_hook_invoke ("dlg-catalog-properties", data->builder, data->file_data, data->catalog);
 	gtk_widget_show (data->dialog);

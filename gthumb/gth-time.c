@@ -128,7 +128,9 @@ gth_datetime_from_exif_date (GthDateTime *dt,
 	GDateDay    day;
 	long        val;
 
-	g_return_val_if_fail (exif_date != NULL, FALSE);
+	if (exif_date == NULL)
+		return FALSE;
+
 	g_return_val_if_fail (dt != NULL, FALSE);
 
 	while (g_ascii_isspace (*exif_date))
