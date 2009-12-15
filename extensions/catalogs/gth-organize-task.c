@@ -52,6 +52,10 @@ struct _GthOrganizeTaskPrivate
 	GtkListStore   *results_liststore;
 	GHashTable     *catalogs;
 	GdkPixbuf      *icon_pixbuf;
+	gboolean        organized;
+	GtkWidget      *file_list;
+	int             n_catalogs;
+	int             n_files;
 };
 
 
@@ -89,12 +93,6 @@ save_catalog (gpointer key,
 	gsize            size;
 	GError          *error = NULL;
 
-	if (! self->priv->create_singletons) {
-		GList *file_list = gth_catalog_get_file_list (catalog);
-		if ((file_list == NULL) || (file_list->next == NULL))
-			return;
-	}
-
 	gio_file = gth_catalog_file_to_gio_file (gth_catalog_get_file (catalog));
 	gio_parent = g_file_get_parent (gio_file);
 	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
@@ -118,45 +116,47 @@ save_catalog (gpointer key,
 
 
 static void
-create_singletons_catalog (gpointer key,
-		           gpointer value,
-		           gpointer user_data)
-{
-	GthOrganizeTask *self = user_data;
-	GthCatalog      *catalog = value;
-	GList           *file_list;
-
-	file_list = gth_catalog_get_file_list (catalog);
-	if ((file_list != NULL) && (file_list->next == NULL))
-		gth_catalog_append_file (self->priv->singletons_catalog, (GFile *) file_list->data);
-}
-
-
-static void
 save_catalogs (GthOrganizeTask *self)
 {
-	g_hash_table_foreach (self->priv->catalogs, save_catalog, self);
+	GtkTreeIter iter;
 
-	if (! self->priv->create_singletons && (self->priv->singletons_catalog != NULL)) {
-		GFile *gio_file;
-		char  *data;
-		gsize  size;
+	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter)) {
+		do {
+			char     *key;
+			char     *name;
+			gboolean  create;
 
-		g_hash_table_foreach (self->priv->catalogs, create_singletons_catalog, self);
+			gtk_tree_model_get (GTK_TREE_MODEL (self->priv->results_liststore), &iter,
+					    KEY_COLUMN, &key,
+					    NAME_COLUMN, &name,
+					    CREATE_CATALOG_COLUMN, &create,
+					    -1);
+			if (create) {
+				GthCatalog *catalog;
+				char       *original_name;
 
-		gio_file = gth_catalog_file_to_gio_file (gth_catalog_get_file (self->priv->singletons_catalog));
-		data = gth_catalog_to_data (self->priv->singletons_catalog, &size);
-		g_write_file (gio_file,
-			      FALSE,
-			      G_FILE_CREATE_NONE,
-			      data,
-			      size,
-			      gth_task_get_cancellable (GTH_TASK (self)),
-			      NULL);
+				catalog = g_hash_table_lookup (self->priv->catalogs, key);
 
-		g_free (data);
-		g_object_unref (gio_file);
+				/* remove the name if it is equal to the date
+				 * to avoid a duplication in the display-name
+				 * attribute. */
+				original_name = gth_datetime_strftime (gth_catalog_get_date (catalog), "%x");
+				if (g_strcmp0 (original_name, name) != 0)
+					gth_catalog_set_name (catalog, name);
+				else
+					gth_catalog_set_name (catalog, NULL);
+
+				g_free (original_name);
+			}
+			else
+				g_hash_table_remove (self->priv->catalogs, key);
+
+			g_free (name);
+			g_free (key);
+		}
+		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
 	}
+	g_hash_table_foreach (self->priv->catalogs, save_catalog, self);
 
 	gth_task_completed (GTH_TASK (self), NULL);
 }
@@ -167,13 +167,65 @@ done_func (GError   *error,
 	   gpointer  user_data)
 {
 	GthOrganizeTask *self = user_data;
+	char            *status_text;
 
-	if (error != NULL) {
+	if ((error != NULL) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Operation completed."));
+	if (! self->priv->create_singletons) {
+		GtkTreeIter iter;
+		int         singletons = 0;
+
+		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter)) {
+			do {
+				char *key;
+				int   n;
+
+				gtk_tree_model_get (GTK_TREE_MODEL (self->priv->results_liststore), &iter,
+						    KEY_COLUMN, &key,
+						    CARDINALITY_COLUMN, &n,
+						    -1);
+				if (n == 1) {
+					GthCatalog *catalog;
+					GList      *file_list;
+
+					gtk_list_store_set (self->priv->results_liststore, &iter,
+							    CREATE_CATALOG_COLUMN, FALSE,
+							    -1);
+					singletons++;
+					catalog = g_hash_table_lookup (self->priv->catalogs, key);
+					file_list = gth_catalog_get_file_list (catalog);
+					gth_catalog_append_file (self->priv->singletons_catalog, file_list->data);
+					if (singletons == 1)
+						g_hash_table_insert (self->priv->catalogs,
+								     g_strdup (gth_catalog_get_name (self->priv->singletons_catalog)),
+								     g_object_ref (self->priv->singletons_catalog));
+				}
+
+				g_free (key);
+			}
+			while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
+		}
+
+		if ((self->priv->singletons_catalog != NULL) && (singletons > 0)) {
+			gtk_list_store_append (self->priv->results_liststore, &iter);
+			gtk_list_store_set (self->priv->results_liststore, &iter,
+					    KEY_COLUMN, gth_catalog_get_name (self->priv->singletons_catalog),
+					    NAME_COLUMN, gth_catalog_get_name (self->priv->singletons_catalog),
+					    CARDINALITY_COLUMN, singletons,
+					    CREATE_CATALOG_COLUMN, TRUE,
+					    ICON_COLUMN, self->priv->icon_pixbuf,
+					    -1);
+		}
+	}
+	self->priv->organized = TRUE;
+
+	status_text = g_strdup_printf (_("Operation completed. Catalogs: %d. Images: %d."), self->priv->n_catalogs, self->priv->n_files);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), status_text);
+	gtk_label_set_ellipsize (GTK_LABEL (GET_WIDGET ("progress_label")), PANGO_ELLIPSIZE_NONE);
+	g_free (status_text);
 
 	gtk_widget_hide (GET_WIDGET ("cancel_button"));
 	gtk_widget_show (GET_WIDGET ("close_button"));
@@ -291,6 +343,7 @@ for_each_file_func (GFile     *file,
 				    CREATE_CATALOG_COLUMN, TRUE,
 				    ICON_COLUMN, self->priv->icon_pixbuf,
 				    -1);
+		self->priv->n_catalogs++;
 
 		g_free (name);
 		g_object_unref (catalog_file);
@@ -315,6 +368,8 @@ for_each_file_func (GFile     *file,
 					gtk_list_store_set (self->priv->results_liststore, &iter,
 							    CARDINALITY_COLUMN, n + 1,
 							    -1);
+					self->priv->n_files++;
+
 					g_free (k);
 					break;
 				}
@@ -361,8 +416,10 @@ gth_organize_task_exec (GthTask *base)
 
 	self = GTH_ORGANIZE_TASK (base);
 
+	self->priv->organized = FALSE;
+	self->priv->n_catalogs = 0;
+	self->priv->n_files = 0;
 	gtk_list_store_clear (self->priv->results_liststore);
-
 	switch (self->priv->group_policy) {
 	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec,Embedded::Image::DateTime";
@@ -388,7 +445,7 @@ gth_organize_task_exec (GthTask *base)
 	gtk_window_set_modal (GTK_WINDOW (GET_WIDGET ("organize_files_dialog")), TRUE);
 	gtk_widget_show (GET_WIDGET ("organize_files_dialog"));
 
-	gth_task_dialog (base, TRUE); /* FIXME */
+	gth_task_dialog (base, TRUE);
 }
 
 
@@ -406,13 +463,22 @@ organize_files_dialog_response_cb (GtkDialog *dialog,
 {
 	GthOrganizeTask *self = user_data;
 
+	if (response_id == GTK_RESPONSE_DELETE_EVENT) {
+		if (self->priv->organized)
+			response_id = GTK_RESPONSE_CLOSE;
+		else
+			response_id = GTK_RESPONSE_CANCEL;
+	}
+
 	switch (response_id) {
 	case GTK_RESPONSE_CANCEL:
 		gth_task_cancel (GTH_TASK (self));
 		break;
+
 	case GTK_RESPONSE_CLOSE:
 		gth_task_completed (GTH_TASK (self), NULL);
 		break;
+
 	case GTK_RESPONSE_OK:
 		save_catalogs (self);
 		break;
@@ -435,6 +501,33 @@ gth_organize_task_class_init (GthOrganizeTaskClass *klass)
 	task_class = (GthTaskClass*) klass;
 	task_class->exec = gth_organize_task_exec;
 	task_class->cancelled = gth_organize_task_cancelled;
+}
+
+
+static void
+catalog_name_cellrenderertext_edited_cb (GtkCellRendererText *renderer,
+					 char                *path,
+					 char                *new_text,
+					 gpointer             user_data)
+{
+	GthOrganizeTask *self = user_data;
+	GtkTreePath     *tree_path;
+	GtkTreeIter      iter;
+
+	tree_path = gtk_tree_path_new_from_string (path);
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (self->priv->results_liststore),
+				       &iter,
+				       tree_path))
+	{
+		gtk_tree_path_free (tree_path);
+		return;
+	}
+	gtk_tree_path_free (tree_path);
+
+	gtk_list_store_set (self->priv->results_liststore,
+			    &iter,
+			    NAME_COLUMN, new_text,
+			    -1);
 }
 
 
@@ -467,6 +560,93 @@ create_cellrenderertoggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 
 static void
+file_list_info_ready_cb (GList    *files,
+			 GError   *error,
+			 gpointer  user_data)
+{
+	GthOrganizeTask *self = user_data;
+
+	if (error != NULL)
+		return;
+
+	gth_file_list_set_files (GTH_FILE_LIST (self->priv->file_list), files);
+}
+
+
+static void
+organization_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
+                                            gpointer          user_data)
+{
+	GthOrganizeTask *self = user_data;
+	GtkTreeIter      iter;
+	char            *key;
+	GthCatalog      *catalog;
+
+	if (! self->priv->organized)
+		return;
+	if (! gtk_tree_selection_get_selected (treeselection, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (self->priv->results_liststore), &iter,
+			    KEY_COLUMN, &key,
+			    -1);
+	catalog = g_hash_table_lookup (self->priv->catalogs, key);
+	if (catalog != NULL) {
+		GList *file_list;
+
+		gtk_widget_show (GET_WIDGET ("preview_box"));
+
+		file_list = gth_catalog_get_file_list (catalog);
+		_g_query_info_async (file_list,
+				     FALSE,
+				     TRUE,
+				     GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
+				     NULL,
+				     file_list_info_ready_cb,
+				     self);
+	}
+
+	g_free (key);
+}
+
+
+static void
+select_all_button_clicked_cb (GtkButton *button,
+			      gpointer   user_data)
+{
+	GthOrganizeTask *self = user_data;
+	GtkTreeIter      iter;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter))
+		return;
+	do {
+		gtk_list_store_set (self->priv->results_liststore, &iter,
+				    CREATE_CATALOG_COLUMN, TRUE,
+				    -1);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
+}
+
+
+static void
+select_none_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	GthOrganizeTask *self = user_data;
+	GtkTreeIter      iter;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter))
+		return;
+	do {
+		gtk_list_store_set (self->priv->results_liststore, &iter,
+				    CREATE_CATALOG_COLUMN, FALSE,
+				    -1);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
+}
+
+
+static void
 gth_organize_task_init (GthOrganizeTask *self)
 {
 	GIcon *icon;
@@ -477,6 +657,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->results_liststore), KEY_COLUMN, GTK_SORT_ASCENDING);
+	g_object_set (GET_WIDGET ("catalog_name_cellrenderertext"), "editable", TRUE, NULL);
 
 	icon = g_themed_icon_new ("image-catalog");
 	self->priv->icon_pixbuf = _g_icon_get_pixbuf (icon,
@@ -484,6 +665,15 @@ gth_organize_task_init (GthOrganizeTask *self)
 						      gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GET_WIDGET ("organization_treeview"))));
 	g_object_unref (icon);
 
+	self->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
+	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->file_list), "standard::display-name");
+	gtk_widget_show (self->priv->file_list);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_box")), self->priv->file_list, TRUE, TRUE, 0);
+
+	g_signal_connect (GET_WIDGET ("catalog_name_cellrenderertext"),
+			  "edited",
+			  G_CALLBACK (catalog_name_cellrenderertext_edited_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("create_cellrenderertoggle"),
 			  "toggled",
 			  G_CALLBACK (create_cellrenderertoggle_toggled_cb),
@@ -491,6 +681,18 @@ gth_organize_task_init (GthOrganizeTask *self)
 	g_signal_connect (GET_WIDGET ("organize_files_dialog"),
 			  "response",
 			  G_CALLBACK (organize_files_dialog_response_cb),
+			  self);
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("organization_treeview"))),
+			  "changed",
+			  G_CALLBACK (organization_treeview_selection_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("select_all_button"),
+			  "clicked",
+			  G_CALLBACK (select_all_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("select_none_button"),
+			  "clicked",
+			  G_CALLBACK (select_none_button_clicked_cb),
 			  self);
 }
 
@@ -569,6 +771,7 @@ gth_organize_task_set_singletons_catalog (GthOrganizeTask *self,
 	self->priv->singletons_catalog = gth_catalog_new ();
 	file = get_catalog_file ("catalog:///", catalog_name);
 	gth_catalog_set_file (self->priv->singletons_catalog, file);
+	gth_catalog_set_name (self->priv->singletons_catalog, catalog_name);
 
 	g_object_unref (file);
 }

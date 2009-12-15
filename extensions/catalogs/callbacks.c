@@ -325,11 +325,17 @@ sort_catalogs (gconstpointer a,
 	GthFileData *file_data_a = (GthFileData *) a;
 	GthFileData *file_data_b = (GthFileData *) b;
 
-	if (g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") != g_file_info_get_attribute_boolean (file_data_b->info, "gthumb::no-child"))
+	if (g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") != g_file_info_get_attribute_boolean (file_data_b->info, "gthumb::no-child")) {
+		/* put the libraries before the catalogs */
 		return g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") ? 1 : -1;
-	else
+	}
+	else if (g_file_info_get_sort_order (file_data_a->info) == g_file_info_get_sort_order (file_data_b->info))
 		return g_utf8_collate (g_file_info_get_display_name (file_data_a->info),
 				       g_file_info_get_display_name (file_data_b->info));
+	else if (g_file_info_get_sort_order (file_data_a->info) < g_file_info_get_sort_order (file_data_b->info))
+		return -1;
+	else
+		return 1;
 }
 
 
@@ -654,6 +660,7 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 		if (data->organize_button == NULL) {
 			data->organize_button = gtk_button_new ();
 			gtk_container_add (GTK_CONTAINER (data->organize_button), gtk_label_new (_("Organize")));
+			gtk_widget_set_tooltip_text (data->organize_button, _("Automatically organize files by date"));
 			g_object_add_weak_pointer (G_OBJECT (data->organize_button), (gpointer *)&data->organize_button);
 			gtk_button_set_relief (GTK_BUTTON (data->organize_button), GTK_RELIEF_NONE);
 			gtk_widget_show_all (data->organize_button);
