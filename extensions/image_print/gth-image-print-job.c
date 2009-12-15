@@ -544,12 +544,6 @@ _cairo_paint_pixbuf (cairo_t   *cr,
 	}
 
 	cairo_save (cr);
-	cairo_rectangle (cr,
-			 x,
-			 y,
-			 gdk_pixbuf_get_width (pixbuf),
-			 gdk_pixbuf_get_height (pixbuf));
-	cairo_clip (cr);
 	pattern = cairo_pattern_create_for_surface (s);
 	cairo_matrix_init_translate (&matrix, -x * scale_factor, -y * scale_factor);
 	cairo_matrix_scale (&matrix, scale_factor, scale_factor);
