@@ -31,12 +31,21 @@ extensions/catalogs/callbacks.c
 extensions/catalogs/callbacks.h
 extensions/catalogs/catalogs.extension.in.in
 [type: gettext/glade]extensions/catalogs/data/ui/add-to-catalog.ui
+[type: gettext/glade]extensions/catalogs/data/ui/catalog-properties.ui
+[type: gettext/glade]extensions/catalogs/data/ui/organize-files-task.ui
+[type: gettext/glade]extensions/catalogs/data/ui/organize-files.ui
 extensions/catalogs/dlg-add-to-catalog.c
 extensions/catalogs/dlg-add-to-catalog.h
+extensions/catalogs/dlg-catalog-properties.c
+extensions/catalogs/dlg-catalog-properties.h
+extensions/catalogs/dlg-organize-files.c
+extensions/catalogs/dlg-organize-files.h
 extensions/catalogs/gth-catalog.c
 extensions/catalogs/gth-catalog.h
 extensions/catalogs/gth-file-source-catalogs.c
 extensions/catalogs/gth-file-source-catalogs.h
+extensions/catalogs/gth-organize-task.c
+extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
 extensions/comments/comments.extension.in.in
 [type: gettext/glade]extensions/comments/data/ui/edit-comment-page.ui
@@ -127,6 +136,21 @@ extensions/gstreamer/gth-metadata-provider-gstreamer.c
 extensions/gstreamer/gth-metadata-provider-gstreamer.h
 extensions/gstreamer/main.c
 extensions/gstreamer/preferences.h
+extensions/image_print/actions.c
+extensions/image_print/actions.h
+extensions/image_print/callbacks.c
+extensions/image_print/callbacks.h
+extensions/image_print/data/gthumb_image_print.schemas.in
+[type: gettext/glade]extensions/image_print/data/ui/print-layout.ui
+extensions/image_print/gth-image-info.c
+extensions/image_print/gth-image-info.h
+extensions/image_print/gth-image-print-job.c
+extensions/image_print/gth-image-print-job.h
+extensions/image_print/gth-load-image-info-task.c
+extensions/image_print/gth-load-image-info-task.h
+extensions/image_print/image_print.extension.in.in
+extensions/image_print/main.c
+extensions/image_print/preferences.h
 extensions/image_rotation/actions.c
 extensions/image_rotation/actions.h
 extensions/image_rotation/callbacks.c
@@ -207,6 +231,8 @@ extensions/pixbuf_savers/main.c
 extensions/pixbuf_savers/pixbuf_savers.extension.in.in
 extensions/pixbuf_savers/preferences.c
 extensions/pixbuf_savers/preferences.h
+extensions/raw_files/main.c
+extensions/raw_files/raw_files.extension.in.in
 [type: gettext/glade]extensions/red_eye_removal/data/ui/red-eye-removal-options.ui
 extensions/red_eye_removal/gth-file-tool-red-eye.c
 extensions/red_eye_removal/gth-file-tool-red-eye.h
@@ -240,8 +266,10 @@ extensions/search/callbacks.c
 extensions/search/callbacks.h
 [type: gettext/glade]extensions/search/data/ui/search-editor.ui
 extensions/search/gth-search.c
+extensions/search/gth-search-editor.c
 extensions/search/gth-search-editor-dialog.c
 extensions/search/gth-search-editor-dialog.h
+extensions/search/gth-search-editor.h
 extensions/search/gth-search.h
 extensions/search/gth-search-task.c
 extensions/search/gth-search-task.h
@@ -379,6 +407,8 @@ gthumb/gth-main-default-tests.c
 gthumb/gth-main-default-types.c
 gthumb/gth-main.h
 gthumb/gth-metadata.c
+gthumb/gth-metadata-chooser.c
+gthumb/gth-metadata-chooser.h
 gthumb/gth-metadata.h
 gthumb/gth-metadata-provider.c
 gthumb/gth-metadata-provider-file.c
@@ -413,8 +443,6 @@ gthumb/gth-string-list.c
 gthumb/gth-string-list.h
 gthumb/gth-tags-entry.c
 gthumb/gth-tags-entry.h
-gthumb/gth-tags-expander.c
-gthumb/gth-tags-expander.h
 gthumb/gth-tags-file.c
 gthumb/gth-tags-file.h
 gthumb/gth-task.c
