@@ -171,8 +171,24 @@ catalog_ready_cb (GObject  *object,
 
 	data->catalog = g_object_ref (object);
 
-	if (gth_catalog_get_name (data->catalog) != NULL)
+	if (gth_catalog_get_name (data->catalog) != NULL) {
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_name (data->catalog));
+	}
+	else {
+		char *basename;
+		char *name;
+		char *utf8_name;
+
+		basename = g_file_get_basename (data->file_data->file);
+		name = _g_uri_remove_extension (basename);
+		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), utf8_name);
+
+		g_free (utf8_name);
+		g_free (name);
+		g_free (basename);
+	}
+
 	gth_time_selector_set_value (GTH_TIME_SELECTOR (data->time_selector), gth_catalog_get_date (data->catalog));
 	gth_hook_invoke ("dlg-catalog-properties", data->builder, data->file_data, data->catalog);
 	gtk_widget_show (data->dialog);
