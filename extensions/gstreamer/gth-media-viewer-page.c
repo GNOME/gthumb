@@ -61,6 +61,7 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        xwin_assigned;
 	GdkPixbuf      *icon;
 	PangoLayout    *caption_layout;
+	gboolean        block_next_jump;
 };
 
 
@@ -340,6 +341,37 @@ hscale_volume_format_value_cb (GtkScale *scale,
 }
 
 
+static gboolean
+hscale_position_change_value_cb (GtkRange      *range,
+				 GtkScrollType  scroll,
+				 gdouble        value,
+				 gpointer       user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	if (self->priv->block_next_jump && (scroll == GTK_SCROLL_JUMP)) {
+		self->priv->block_next_jump = FALSE;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+hscale_position_button_release_event_cb (GtkWidget      *widget,
+					 GdkEventButton *event,
+					 gpointer        user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	if (self->priv->playing)
+		self->priv->block_next_jump = TRUE;
+
+	return FALSE;
+}
+
+
 static void
 update_player_rate (GthMediaViewerPage *self)
 {
@@ -567,6 +599,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("adjustment_volume"), "value-changed", G_CALLBACK (volume_value_changed_cb), self);
 	g_signal_connect (GET_WIDGET ("adjustment_position"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
 	g_signal_connect (GET_WIDGET ("hscale_volume"), "format-value", G_CALLBACK (hscale_volume_format_value_cb), self);
+	g_signal_connect (GET_WIDGET ("hscale_position"), "change-value", G_CALLBACK (hscale_position_change_value_cb), self);
+	g_signal_connect (GET_WIDGET ("hscale_position"), "button-release-event", G_CALLBACK (hscale_position_button_release_event_cb), self);
 	g_signal_connect (GET_WIDGET ("button_play"), "clicked", G_CALLBACK (button_play_clicked_cb), self);
 	g_signal_connect (GET_WIDGET ("togglebutton_volume"), "toggled", G_CALLBACK (togglebutton_volume_toggled_cb), self);
 	g_signal_connect (GET_WIDGET ("button_play_slower"), "clicked", G_CALLBACK (button_play_slower_clicked_cb), self);
