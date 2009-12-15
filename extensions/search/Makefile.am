@@ -10,6 +10,8 @@ libsearch_la_SOURCES = 			\
 	callbacks.h			\
 	gth-search.c			\
 	gth-search.h			\
+	gth-search-editor.c		\
+	gth-search-editor.h		\
 	gth-search-editor-dialog.c	\
 	gth-search-editor-dialog.h	\
 	gth-search-task.c		\

@@ -35,6 +35,8 @@ struct _GthCatalogPrivate {
 	GthCatalogType  type;
 	GFile          *file;
 	GList          *file_list;
+	char           *name;
+	GthDateTime    *date_time;
 	gboolean        active;
 	char           *order;
 	gboolean        order_inverse;
@@ -53,13 +55,58 @@ gth_catalog_finalize (GObject *object)
 	if (catalog->priv != NULL) {
 		if (catalog->priv->file != NULL)
 			g_object_unref (catalog->priv->file);
+		g_free (catalog->priv->name);
 		_g_object_list_unref (catalog->priv->file_list);
+		gth_datetime_free (catalog->priv->date_time);
 		g_free (catalog->priv->order);
 		g_free (catalog->priv);
 		catalog->priv = NULL;
 	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static DomElement *
+base_create_root (GthCatalog  *catalog,
+		  DomDocument *doc)
+{
+	return dom_document_create_element (doc, "catalog",
+					    "version", CATALOG_FORMAT,
+					    NULL);
+}
+
+
+static void
+base_read_from_doc (GthCatalog  *catalog,
+		    DomElement *root)
+{
+	DomElement *child;
+
+	gth_catalog_set_file_list (catalog, NULL);
+
+	for (child = root->first_child; child; child = child->next_sibling) {
+		if (g_strcmp0 (child->tag_name, "files") == 0) {
+			DomElement *file;
+
+			for (file = child->first_child; file; file = file->next_sibling) {
+				const char *uri;
+
+				uri = dom_element_get_attribute (file, "uri");
+				if (uri != NULL)
+					catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
+			}
+		}
+		if (g_strcmp0 (child->tag_name, "order") == 0)
+			gth_catalog_set_order (catalog,
+					       dom_element_get_attribute (child, "type"),
+					       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
+		if (g_strcmp0 (child->tag_name, "date") == 0)
+			gth_datetime_from_exif_date (catalog->priv->date_time, dom_element_get_inner_text (child));
+		if (g_strcmp0 (child->tag_name, "name") == 0)
+			gth_catalog_set_name (catalog, dom_element_get_inner_text (child));
+	}
+	catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
 }
 
 
@@ -71,33 +118,9 @@ read_catalog_data_from_xml (GthCatalog  *catalog,
 {
 	DomDocument *doc;
 
-	gth_catalog_set_file_list (catalog, NULL);
-
 	doc = dom_document_new ();
-	if (dom_document_load (doc, buffer, count, error)) {
-		DomElement *root;
-		DomElement *child;
-
-		root = DOM_ELEMENT (doc)->first_child;
-		for (child = root->first_child; child; child = child->next_sibling) {
-			if (g_strcmp0 (child->tag_name, "files") == 0) {
-				DomElement *file;
-
-				for (file = child->first_child; file; file = file->next_sibling) {
-					const char *uri;
-
-					uri = dom_element_get_attribute (file, "uri");
-					if (uri != NULL)
-						catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
-				}
-			}
-			if (g_strcmp0 (child->tag_name, "order") == 0)
-				gth_catalog_set_order (catalog,
-						       dom_element_get_attribute (child, "type"),
-						       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
-		}
-		catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
-	}
+	if (dom_document_load (doc, buffer, count, error))
+		GTH_CATALOG_GET_CLASS (catalog)->read_from_doc (catalog, DOM_ELEMENT (doc)->first_child);
 
 	g_object_unref (doc);
 }
@@ -153,46 +176,30 @@ read_catalog_data_old_format (GthCatalog *catalog,
 
 
 static void
-base_load_from_data (GthCatalog  *catalog,
-		     const void  *buffer,
-		     gsize        count,
-		     GError     **error)
+base_write_to_doc (GthCatalog  *catalog,
+		   DomDocument *doc,
+		   DomElement  *root)
 {
-	char *text_buffer;
+	if (catalog->priv->name != NULL)
+		dom_element_append_child (root, dom_document_create_element_with_text (doc, catalog->priv->name, "name", NULL));
 
-	if (buffer == NULL)
-		return;
+	if (gth_datetime_valid (catalog->priv->date_time)) {
+		char *s;
 
-	text_buffer = (char*) buffer;
-	if (strncmp (text_buffer, "<?xml ", 6) == 0)
-		read_catalog_data_from_xml (catalog, text_buffer, count, error);
-	else
-		read_catalog_data_old_format (catalog, text_buffer, count);
-}
+		s = gth_datetime_to_exif_date (catalog->priv->date_time);
+		dom_element_append_child (root, dom_document_create_element_with_text (doc, s, "date", NULL));
+		g_free (s);
+	}
 
+	if (catalog->priv->order != NULL)
+		dom_element_append_child (root, dom_document_create_element (doc, "order",
+									     "type", catalog->priv->order,
+									     "inverse", (catalog->priv->order_inverse ? "1" : "0"),
+									     NULL));
 
-static char *
-base_to_data (GthCatalog *catalog,
-	      gsize      *length)
-{
-	DomDocument *doc;
-	DomElement  *root;
-	char        *data;
-
-	doc = dom_document_new ();
-	root = dom_document_create_element (doc, "catalog",
-					    "version", CATALOG_FORMAT,
-					    NULL);
-	dom_element_append_child (DOM_ELEMENT (doc), root);
 	if (catalog->priv->file_list != NULL) {
 		DomElement *node;
 		GList      *scan;
-
-		if (catalog->priv->order != NULL)
-			dom_element_append_child (root, dom_document_create_element (doc, "order",
-										     "type", catalog->priv->order,
-										     "inverse", (catalog->priv->order_inverse ? "1" : "0"),
-										     NULL));
 
 		node = dom_document_create_element (doc, "files", NULL);
 		dom_element_append_child (root, node);
@@ -207,11 +214,6 @@ base_to_data (GthCatalog *catalog,
 			g_free (uri);
 		}
 	}
-	data = dom_document_dump (doc, length);
-
-	g_object_unref (doc);
-
-	return data;
 }
 
 
@@ -225,8 +227,9 @@ gth_catalog_class_init (GthCatalogClass *class)
 
 	object_class->finalize = gth_catalog_finalize;
 
-	class->load_from_data = base_load_from_data;
-	class->to_data = base_to_data;
+	class->create_root = base_create_root;
+	class->read_from_doc = base_read_from_doc;
+	class->write_to_doc = base_write_to_doc;
 }
 
 
@@ -234,6 +237,7 @@ static void
 gth_catalog_init (GthCatalog *catalog)
 {
 	catalog->priv = g_new0 (GthCatalogPrivate, 1);
+	catalog->priv->date_time = gth_datetime_new ();
 }
 
 
@@ -296,6 +300,46 @@ gth_catalog_get_file (GthCatalog *catalog)
 
 
 void
+gth_catalog_set_name (GthCatalog *catalog,
+		      const char *name)
+{
+	g_free (catalog->priv->name);
+	catalog->priv->name = NULL;
+	if ((name != NULL) && (strcmp (name, "") != 0))
+		catalog->priv->name = g_strdup (name);;
+}
+
+
+const char *
+gth_catalog_get_name (GthCatalog *catalog)
+{
+	return catalog->priv->name;
+}
+
+
+void
+gth_catalog_set_date (GthCatalog  *catalog,
+		      GthDateTime *date_time)
+{
+	if (gth_datetime_valid (date_time))
+		g_date_set_dmy (catalog->priv->date_time->date,
+				g_date_get_day (date_time->date),
+				g_date_get_month (date_time->date),
+				g_date_get_year (date_time->date));
+	else
+		g_date_clear (catalog->priv->date_time->date, 1);
+	gth_time_set_hms (catalog->priv->date_time->time, 0, 0, 0, 0);
+}
+
+
+GthDateTime *
+gth_catalog_get_date (GthCatalog *catalog)
+{
+	return catalog->priv->date_time;
+}
+
+
+void
 gth_catalog_set_order (GthCatalog *catalog,
 		       const char *order,
 		       gboolean    inverse)
@@ -324,7 +368,16 @@ gth_catalog_load_from_data (GthCatalog  *catalog,
 			    gsize        count,
 			    GError     **error)
 {
-	GTH_CATALOG_GET_CLASS (catalog)->load_from_data (catalog, buffer, count, error);
+	char *text_buffer;
+
+	if (buffer == NULL)
+		return;
+
+	text_buffer = (char *) buffer;
+	if (strncmp (text_buffer, "<?xml ", 6) == 0)
+		read_catalog_data_from_xml (catalog, text_buffer, count, error);
+	else
+		read_catalog_data_old_format (catalog, text_buffer, count);
 }
 
 
@@ -332,7 +385,19 @@ char *
 gth_catalog_to_data (GthCatalog *catalog,
 		     gsize      *length)
 {
-	return GTH_CATALOG_GET_CLASS (catalog)->to_data (catalog, length);
+	DomDocument *doc;
+	DomElement  *root;
+	char        *data;
+
+	doc = dom_document_new ();
+	root = GTH_CATALOG_GET_CLASS (catalog)->create_root (catalog, doc);
+	dom_element_append_child (DOM_ELEMENT (doc), root);
+	GTH_CATALOG_GET_CLASS (catalog)->write_to_doc (catalog, doc, root);
+	data = dom_document_dump (doc, length);
+
+	g_object_unref (doc);
+
+	return data;
 }
 
 
@@ -369,6 +434,14 @@ gth_catalog_insert_file (GthCatalog *catalog,
 	catalog->priv->file_list = g_list_insert (catalog->priv->file_list, g_file_dup (file), pos);
 
 	return TRUE;
+}
+
+
+void
+gth_catalog_append_file (GthCatalog *catalog,
+		         GFile      *file)
+{
+	catalog->priv->file_list = g_list_append (catalog->priv->file_list, g_file_dup (file));
 }
 
 
@@ -695,25 +768,138 @@ gth_catalog_get_icon (GFile *file)
 }
 
 
-char *
-gth_catalog_get_display_name (GFile *file)
+static char *
+get_tag_value (const char *buffer,
+	       const char *tag_start,
+	       const char *tag_end)
+{
+	char *begin_tag;
+	char *end_tag;
+	char *value;
+
+	value = NULL;
+	begin_tag = strstr (buffer, tag_start);
+	if (begin_tag != NULL) {
+		begin_tag += strlen (tag_start);
+		end_tag = strstr (begin_tag, tag_end);
+		value = g_strndup (begin_tag, end_tag - begin_tag);
+	}
+
+	return value;
+}
+
+
+static char *
+get_display_name (GFile       *file,
+		  const char  *name,
+		  GthDateTime *date_time)
+{
+	GString *display_name;
+	char    *basename;
+
+	display_name = g_string_new ("");
+	basename = g_file_get_basename (file);
+	if ((basename == NULL) || (strcmp (basename, "/") == 0)) {
+		 g_string_append (display_name, _("Catalogs"));
+	}
+	else {
+		if ((name == NULL) && ! gth_datetime_valid (date_time)) {
+			char *name;
+			char *utf8_name;
+
+			name = _g_uri_remove_extension (basename);
+			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+			g_string_append (display_name, utf8_name);
+
+			g_free (utf8_name);
+			g_free (name);
+		}
+		else {
+			if (name != NULL)
+				g_string_append (display_name, name);
+
+			if (gth_datetime_valid (date_time)) {
+				char *formatted;
+
+				if (name != NULL)
+					g_string_append (display_name, " (");
+				formatted = gth_datetime_strftime (date_time, "%x");
+				g_string_append (display_name, formatted);
+				if (name != NULL)
+					g_string_append (display_name, ")");
+
+				g_free (formatted);
+			}
+		}
+	}
+
+	return g_string_free (display_name, FALSE);
+}
+
+
+void
+gth_catalog_update_standard_attributes (GFile     *file,
+				        GFileInfo *info)
 {
 	char *display_name = NULL;
 	char *basename;
 
 	basename = g_file_get_basename (file);
 	if ((basename != NULL) && (strcmp (basename, "/") != 0)) {
-		char *name;
+		char        *name;
+		GthDateTime *date_time;
 
-		name = _g_uri_remove_extension (basename);
-		display_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+		name = NULL;
+		date_time = gth_datetime_new ();
+		{
+			GFile            *gio_file;
+			GFileInputStream *istream;
+			const int         buffer_size = 256;
+			char              buffer[buffer_size];
 
+			gio_file = gth_catalog_file_to_gio_file (file);
+			istream = g_file_read (gio_file, NULL, NULL);
+			if (istream != NULL) {
+				gssize n;
+
+				n = g_input_stream_read (G_INPUT_STREAM (istream), buffer, buffer_size - 1, NULL, NULL);
+				if (n > 0) {
+					char *exif_date;
+
+					buffer[n] = '\0';
+					name = get_tag_value (buffer, "<name>", "</name>");
+					exif_date = get_tag_value (buffer, "<date>", "</date>");
+					if (exif_date != NULL)
+						gth_datetime_from_exif_date (date_time, exif_date);
+
+					g_free (exif_date);
+				}
+				g_object_unref (istream);
+			}
+			g_object_unref (gio_file);
+		}
+		display_name = get_display_name (file, name, date_time);
+
+		if (gth_datetime_valid (date_time)) {
+			char *sort_order_s;
+			int   sort_order;
+
+			sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
+			sort_order = atoi (sort_order_s);
+			g_file_info_set_sort_order (info, sort_order);
+		}
+
+		gth_datetime_free (date_time);
 		g_free (name);
 	}
 	else
 		display_name = g_strdup (_("Catalogs"));
 
-	return display_name;
+	if (display_name != NULL)
+		g_file_info_set_display_name (info, display_name);
+
+	g_free (display_name);
+	g_free (basename);
 }
 
 
@@ -768,4 +954,59 @@ gth_catalog_load_from_file (GFile         *file,
 			   load_data);
 
 	g_object_unref (gio_file);
+}
+
+
+void
+gth_catalog_update_metadata (GthCatalog  *catalog,
+			     GthFileData *file_data)
+{
+	const char *sort_type;
+	gboolean    sort_inverse;
+
+	/* sort::type,sort::inverse */
+
+	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
+	if (sort_type != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "sort::type", sort_type);
+		g_file_info_set_attribute_boolean (file_data->info, "sort::inverse", sort_inverse);
+	}
+	else {
+		g_file_info_remove_attribute (file_data->info, "sort::type");
+		g_file_info_remove_attribute (file_data->info, "sort::inverse");
+	}
+
+	/* general::event-date */
+
+	if (gth_datetime_valid (gth_catalog_get_date (catalog))) {
+		GObject *metadata;
+		char    *raw;
+		char    *formatted;
+		char    *sort_order_s;
+		int      sort_order;
+
+		metadata = (GObject *) gth_metadata_new ();
+		raw = gth_datetime_to_exif_date (gth_catalog_get_date (catalog));
+		formatted = gth_datetime_strftime (gth_catalog_get_date (catalog), "%x");
+		g_object_set (metadata,
+			      "id", "general::event-date",
+			      "raw", raw,
+			      "formatted", formatted,
+			      NULL);
+		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
+
+		sort_order_s = gth_datetime_strftime (gth_catalog_get_date (catalog), "%Y%m%d");
+		sort_order = atoi (sort_order_s);
+		g_file_info_set_sort_order (file_data->info, sort_order);
+
+		g_free (formatted);
+		g_free (raw);
+		g_object_unref (metadata);
+	}
+	else
+		g_file_info_remove_attribute (file_data->info, "general::event-date");
+
+	/* standard::display-name,standard::sort-order */
+
+	gth_catalog_update_standard_attributes (file_data->file, file_data->info);
 }

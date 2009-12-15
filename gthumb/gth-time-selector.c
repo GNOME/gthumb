@@ -44,6 +44,8 @@ struct _GthTimeSelectorPrivate
 	GtkWidget   *calendar_popup;
 	GtkWidget   *time_combo_box;
 	GtkWidget   *popup_box;
+	GtkWidget   *now_button;
+	gboolean     use_time;
 };
 
 
@@ -179,7 +181,13 @@ update_date_from_view (GthTimeSelector *self)
 	struct tm tm;
 
 	strptime (gtk_entry_get_text (GTK_ENTRY (self->priv->date_entry)), "%x", &tm);
-	strptime (gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box)))), "%X", &tm);
+	if (self->priv->use_time)
+		strptime (gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box)))), "%X", &tm);
+	else {
+		tm.tm_hour = 0;
+		tm.tm_min = 0;
+		tm.tm_sec = 0;
+	}
 	gth_datetime_from_struct_tm (self->priv->date_time, &tm);
 }
 
@@ -187,19 +195,21 @@ update_date_from_view (GthTimeSelector *self)
 static void
 update_view_from_data (GthTimeSelector *self)
 {
-	if (gth_time_valid (self->priv->date_time->time)) {
-		char      *text;
-		GtkWidget *entry;
+	if (self->priv->use_time) {
+		if (gth_time_valid (self->priv->date_time->time)) {
+			char      *text;
+			GtkWidget *entry;
 
-		text = gth_datetime_strftime (self->priv->date_time, "%X");
-		entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
-		gtk_entry_set_text (GTK_ENTRY (entry), text);
-	}
-	else {
-		GtkWidget *entry;
+			text = gth_datetime_strftime (self->priv->date_time, "%X");
+			entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
+			gtk_entry_set_text (GTK_ENTRY (entry), text);
+		}
+		else {
+			GtkWidget *entry;
 
-		entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
-		gtk_entry_set_text (GTK_ENTRY (entry), "");
+			entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
+			gtk_entry_set_text (GTK_ENTRY (entry), "");
+		}
 	}
 
 	if (g_date_valid (self->priv->date_time->date)) {
@@ -415,7 +425,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  G_CALLBACK (today_button_clicked_cb),
 			  self);
 
-	button = gtk_button_new_with_label (_("Now"));
+	self->priv->now_button = button = gtk_button_new_with_label (_("Now"));
 	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (button_box), button, TRUE, TRUE, 0);
 	g_signal_connect (button,
@@ -498,11 +508,29 @@ gth_time_selector_new (void)
 
 
 void
+gth_time_selector_show_time (GthTimeSelector *self,
+			     gboolean         show)
+{
+	self->priv->use_time = show;
+	if (show) {
+		gtk_widget_show (self->priv->time_combo_box);
+		gtk_widget_show (self->priv->now_button);
+	}
+	else {
+		gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box))), "00:00:00");
+		gtk_widget_hide (self->priv->time_combo_box);
+		gtk_widget_hide (self->priv->now_button);
+	}
+}
+
+
+void
 gth_time_selector_set_value (GthTimeSelector *self,
 			     GthDateTime     *date_time)
 {
 	*self->priv->date_time->date = *date_time->date;
-	*self->priv->date_time->time = *date_time->time;
+	if (self->priv->use_time)
+		*self->priv->date_time->time = *date_time->time;
 	update_view_from_data (self);
 }
 

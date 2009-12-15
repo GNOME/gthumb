@@ -73,39 +73,32 @@ update_file_info (GthFileSource *file_source,
 		  GFileInfo     *info)
 {
 	char *uri;
-	char *name;
 
 	uri = g_file_get_uri (catalog_file);
 
 	if (g_str_has_suffix (uri, ".gqv") || g_str_has_suffix (uri, ".catalog")) {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
+		g_file_info_set_content_type (info, "gthumb/catalog");
 		g_file_info_set_icon (info, g_themed_icon_new ("image-catalog"));
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 	else if (g_str_has_suffix (uri, ".search")) {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
+		g_file_info_set_content_type (info, "gthumb/search");
 		g_file_info_set_icon (info, g_themed_icon_new ("image-search"));
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 	else {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
+		g_file_info_set_content_type (info, "gthumb/library");
 		g_file_info_set_icon (info, g_themed_icon_new ("image-library"));
 		g_file_info_set_sort_order (info, 0);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", FALSE);
-
-		name = gth_catalog_get_display_name (catalog_file);
-		g_file_info_set_display_name (info, name);
-		g_free (name);
+		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 
 	g_free (uri);
@@ -346,18 +339,8 @@ read_metadata_catalog_ready_cb (GObject  *object,
 		g_clear_error (&error);
 
 	if (object != NULL) {
-		GthCatalog *catalog;
-		const char *sort_type;
-		gboolean    sort_inverse;
-
-		catalog = GTH_CATALOG (object);
-		sort_type = gth_catalog_get_order (catalog, &sort_inverse);
-		if (sort_type != NULL) {
-			g_file_info_set_attribute_string (read_metadata->file_data->info, "sort::type", sort_type);
-			g_file_info_set_attribute_boolean (read_metadata->file_data->info, "sort::inverse", sort_inverse);
-		}
-
-		g_object_unref (catalog);
+		gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
+		g_object_unref (object);
 	}
 
 	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
@@ -381,6 +364,8 @@ read_metadata_info_ready_cb (GList    *files,
 
 	result = files->data;
 	g_file_info_copy_into (result->info, read_metadata->file_data->info);
+
+	update_file_info (read_metadata->file_source, read_metadata->file_data->file, read_metadata->file_data->info);
 
 	if (_g_file_attributes_matches (read_metadata->attributes, "sort::*")) {
 		GFile *gio_file;

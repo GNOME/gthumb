@@ -237,20 +237,29 @@ style_set (GtkWidget        *widget,
 static void
 gedit_message_area_init (GeditMessageArea *message_area)
 {
+	GtkWidget *vbox;
+
 	message_area->priv = GEDIT_MESSAGE_AREA_GET_PRIVATE (message_area);
 
-	message_area->priv->main_hbox = gtk_hbox_new (FALSE, 16); /* FIXME: use style properties */
+	message_area->priv->main_hbox = gtk_hbox_new (FALSE, 3); /* FIXME: use style properties */
 	gtk_widget_show (message_area->priv->main_hbox);
-	gtk_container_set_border_width (GTK_CONTAINER (message_area->priv->main_hbox),
-					8); /* FIXME: use style properties */
+	gtk_container_set_border_width (GTK_CONTAINER (message_area->priv->main_hbox), 3); /* FIXME: use style properties */
 
-	message_area->priv->action_area = gtk_vbox_new (TRUE, 10); /* FIXME: use style properties */
-	gtk_widget_show (message_area->priv->action_area);
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (vbox);
 	gtk_box_pack_end (GTK_BOX (message_area->priv->main_hbox),
-			    message_area->priv->action_area,
-			    FALSE,
-			    TRUE,
-			    0);
+			  vbox,
+			  FALSE,
+			  FALSE,
+			  0);
+
+	message_area->priv->action_area = gtk_hbox_new (FALSE, 3); /* FIXME: use style properties */
+	gtk_widget_show (message_area->priv->action_area);
+	gtk_box_pack_end (GTK_BOX (vbox),
+			  message_area->priv->action_area,
+			  TRUE,
+			  FALSE,
+			  0);
 
 	gtk_box_pack_start (GTK_BOX (message_area),
 			    message_area->priv->main_hbox,
@@ -258,21 +267,24 @@ gedit_message_area_init (GeditMessageArea *message_area)
 			    TRUE,
 			    0);
 
+	/*
 	gtk_widget_set_app_paintable (GTK_WIDGET (message_area), TRUE);
 
 	g_signal_connect (message_area,
 			  "expose-event",
 			  G_CALLBACK (paint_message_area),
 			  NULL);
+	 */
 
 	/* Note that we connect to style-set on one of the internal
 	 * widgets, not on the message area itself, since gtk does
 	 * not deliver any further style-set signals for a widget on
 	 * which the style has been forced with gtk_widget_set_style() */
-	g_signal_connect (message_area->priv->main_hbox,
+
+	/*g_signal_connect (message_area->priv->main_hbox,
 			  "style-set",
 			  G_CALLBACK (style_set),
-			  message_area);
+			  message_area);*/
 }
 
 static gint
@@ -334,18 +346,11 @@ gedit_message_area_add_action_widget (GeditMessageArea *message_area,
 	else
 		g_warning ("Only 'activatable' widgets can be packed into the action area of a GeditMessageArea");
 
-	if (response_id != GTK_RESPONSE_HELP)
-		gtk_box_pack_start (GTK_BOX (message_area->priv->action_area),
-				    child,
-				    FALSE,
-				    FALSE,
-				    0);
-	else
-		gtk_box_pack_end (GTK_BOX (message_area->priv->action_area),
-				    child,
-				    FALSE,
-				    FALSE,
-				    0);
+	gtk_box_pack_end (GTK_BOX (message_area->priv->action_area),
+			  child,
+			  FALSE,
+			  FALSE,
+			  0);
 }
 
 /**
@@ -394,7 +399,7 @@ gedit_message_area_add_button (GeditMessageArea *message_area,
 	g_return_val_if_fail (button_text != NULL, NULL);
 
 	button = gtk_button_new_from_stock (button_text);
-
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
 
 	gtk_widget_show (button);

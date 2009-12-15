@@ -2121,9 +2121,41 @@ attribute_matches_mask (const char *attribute,
 }
 
 
-static gboolean
+gboolean
 _g_file_attributes_matches_mask (const char *attributes,
 			         const char *mask)
+{
+	gboolean   matches_all_mask = TRUE;
+	char     **attributes_v;
+	char     **mask_v;
+	int        j;
+
+	attributes_v = g_strsplit (attributes, ",", -1);
+	mask_v = g_strsplit (mask, ",", -1);
+	for (j = 0; matches_all_mask && (attributes_v[j] != NULL); j++) {
+		gboolean matches = FALSE;
+		int      i;
+
+		for (i = 0; ! matches && (mask_v[i] != NULL); i++) {
+			matches = attribute_matches_mask (attributes_v[j], mask_v[i]);
+#if 0
+			g_print ("attr: %s <=> mask: %s : %d\n", attributes_v[j], mask_v[i], matches);
+#endif
+		}
+
+		matches_all_mask = matches;
+	}
+
+	g_strfreev (mask_v);
+	g_strfreev (attributes_v);
+
+	return matches_all_mask;
+}
+
+
+static gboolean
+_attributes_matches_mask (const char *attributes,
+			  const char *mask)
 {
 	gboolean   matches = FALSE;
 	char     **attributes_v;
@@ -2154,7 +2186,7 @@ gboolean
 _g_file_attributes_matches (const char *attributes,
 			    const char *mask)
 {
-	return _g_file_attributes_matches_mask (attributes, mask) || _g_file_attributes_matches_mask (mask, attributes);
+	return _attributes_matches_mask (attributes, mask) || _attributes_matches_mask (mask, attributes);
 }
 
 
@@ -2318,6 +2350,17 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 
 	_g_file_attribute_value_free (value1);
 	_g_file_attribute_value_free (value2);
+}
+
+
+gboolean
+_g_content_type_is_a (const char *type,
+		      const char *supertype)
+{
+	if (type == NULL)
+		return FALSE;
+	else
+		return g_content_type_is_a (type, supertype);
 }
 
 

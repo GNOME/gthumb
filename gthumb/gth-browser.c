@@ -32,6 +32,7 @@
 #include "gth-browser-actions-entries.h"
 #include "gth-browser-ui.h"
 #include "gth-duplicable.h"
+#include "gth-embedded-dialog.h"
 #include "gth-enum-types.h"
 #include "gth-error.h"
 #include "gth-file-list.h"
@@ -526,6 +527,18 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 }
 
 
+void
+gth_browser_update_extra_widget (GthBrowser *browser)
+{
+	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (browser->priv->list_extra_widget));
+	if (g_file_info_get_icon (browser->priv->location->info) != NULL)
+		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_icon (browser->priv->location->info));
+	if (g_file_info_get_display_name (browser->priv->location->info) != NULL)
+		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_display_name (browser->priv->location->info));
+	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
+}
+
+
 static void
 _gth_browser_set_location (GthBrowser  *browser,
 			   GthFileData *location)
@@ -540,6 +553,7 @@ _gth_browser_set_location (GthBrowser  *browser,
 	gth_browser_update_title (browser);
 	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
+	gth_browser_update_extra_widget (browser);
 
 	g_signal_handlers_block_by_data (browser->priv->location_chooser, browser);
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (browser->priv->location_chooser), browser->priv->location->file);
@@ -978,6 +992,7 @@ load_data_done (LoadData *load_data,
 	    || (load_data->action == GTH_ACTION_GO_UP)
 	    || (load_data->action == GTH_ACTION_VIEW))
 	{
+		gth_browser_update_extra_widget (browser);
 		gth_hook_invoke ("gth-browser-load-location-after", browser, browser->priv->location, error);
 	}
 
@@ -1605,7 +1620,7 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	gth_browser_set_list_extra_widget (browser, NULL);
+	/* gth_browser_set_list_extra_widget (browser, NULL); FIXME */
 	load_data_load_next_folder (load_data);
 
 	g_object_unref (entry_point);
@@ -2605,22 +2620,24 @@ metadata_changed_cb (GthMonitor  *monitor,
 		     GthFileData *file_data,
 		     GthBrowser  *browser)
 {
-	if (browser->priv->current_file == NULL)
+	if ((browser->priv->location != NULL) && g_file_equal (browser->priv->location->file, file_data->file)) {
+		if (file_data->info != browser->priv->location->info)
+			g_file_info_copy_into (file_data->info, browser->priv->location->info);
+		gth_browser_update_extra_widget (browser);
 		return;
+	}
 
-	if (! g_file_equal (browser->priv->current_file->file, file_data->file))
-		return;
+	if ((browser->priv->current_file != NULL) && g_file_equal (browser->priv->current_file->file, file_data->file)) {
+		if (file_data->info != browser->priv->current_file->info)
+			g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 
-	if (file_data->info != browser->priv->current_file->info)
-		g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
+		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
+		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
 
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
-
-	_gth_browser_update_statusbar_file_info (browser);
-	gth_browser_update_title (browser);
-	gth_browser_update_sensitivity (browser);
-
+		_gth_browser_update_statusbar_file_info (browser);
+		gth_browser_update_title (browser);
+		gth_browser_update_sensitivity (browser);
+	}
 }
 
 
@@ -3244,7 +3261,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the box that contains the location and the folder list.  */
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_vbox_new (FALSE, 4);
 	gtk_widget_show (vbox);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, TRUE);
 
@@ -3314,9 +3331,14 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the list extra widget container */
 
-	browser->priv->list_extra_widget_container = gtk_vbox_new (FALSE, 0);
+	browser->priv->list_extra_widget_container = gtk_alignment_new (0, 0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->list_extra_widget_container), 0, 0, 0, 0);
 	gtk_widget_show (browser->priv->list_extra_widget_container);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->list_extra_widget_container, FALSE, FALSE, 0);
+
+	browser->priv->list_extra_widget = gth_embedded_dialog_new (NULL, NULL, NULL);
+	gtk_widget_show (browser->priv->list_extra_widget);
+	gtk_container_add (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
 
 	/* the file list */
 
@@ -3892,22 +3914,6 @@ gth_browser_exec_task (GthBrowser *browser,
 	browser->priv->activity_ref++;
 	gth_browser_update_sensitivity (browser);
 	gth_task_exec (browser->priv->task, NULL);
-}
-
-
-void
-gth_browser_set_list_extra_widget (GthBrowser *browser,
-				   GtkWidget  *widget)
-{
-	if (browser->priv->list_extra_widget != NULL) {
-		gtk_container_remove (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
-		browser->priv->list_extra_widget = NULL;
-	}
-
-	if (widget != NULL) {
-		browser->priv->list_extra_widget = widget;
-		gtk_container_add (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
-	}
 }
 
 

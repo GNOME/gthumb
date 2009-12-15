@@ -57,12 +57,13 @@ struct _GthCatalogClass
 
 	/*< virtual functions >*/
 
-	void   (*load_from_data) (GthCatalog  *catalog,
-				  const void  *buffer,
-				  gsize        count,
-				  GError     **error);
-	char * (*to_data)        (GthCatalog  *catalog,
-		     	          gsize       *length);
+	DomElement  * (*create_root)    (GthCatalog  *catalog,
+					 DomDocument *doc);
+	void          (*read_from_doc)  (GthCatalog  *catalog,
+					 DomElement  *root);
+	void          (*write_to_doc)   (GthCatalog  *catalog,
+					 DomDocument *doc,
+					 DomElement  *root);
 };
 
 typedef void (*CatalogReadyCallback) (GthCatalog *catalog,
@@ -70,51 +71,62 @@ typedef void (*CatalogReadyCallback) (GthCatalog *catalog,
 				      GError     *error,
 				      gpointer    user_data);
 
-GType         gth_catalog_get_type       (void) G_GNUC_CONST;
-GthCatalog *  gth_catalog_new            (void);
-void          gth_catalog_set_file       (GthCatalog           *catalog,
-					  GFile                *file);
-GFile *       gth_catalog_get_file       (GthCatalog           *catalog);
-void          gth_catalog_set_order      (GthCatalog           *catalog,
-					  const char           *order,
-					  gboolean              inverse);
-const char *  gth_catalog_get_order      (GthCatalog           *catalog,
-					  gboolean             *inverse);
-void          gth_catalog_load_from_data (GthCatalog           *catalog,
-					  const void           *buffer,
-					  gsize                 count,
-					  GError              **error);
-char *        gth_catalog_to_data        (GthCatalog           *catalog,
-		     			  gsize                *length);
-void          gth_catalog_set_file_list  (GthCatalog           *catalog,
-					  GList                *file_list);
-GList *       gth_catalog_get_file_list  (GthCatalog           *catalog);
-gboolean      gth_catalog_insert_file    (GthCatalog           *catalog,
-					  int                   pos,
-					  GFile                *file);
-int           gth_catalog_remove_file    (GthCatalog           *catalog,
-					  GFile                *file);
-void          gth_catalog_list_async     (GthCatalog           *catalog,
-					  const char           *attributes,
-					  GCancellable         *cancellable,
-					  CatalogReadyCallback  ready_func,
-					  gpointer              user_data);
-void          gth_catalog_cancel         (GthCatalog           *catalog);
+GType         gth_catalog_get_type        (void) G_GNUC_CONST;
+GthCatalog *  gth_catalog_new             (void);
+void          gth_catalog_set_file        (GthCatalog           *catalog,
+					   GFile                *file);
+GFile *       gth_catalog_get_file        (GthCatalog           *catalog);
+void          gth_catalog_set_name        (GthCatalog           *catalog,
+					   const char           *name);
+const char *  gth_catalog_get_name        (GthCatalog           *catalog);
+void          gth_catalog_set_date        (GthCatalog           *catalog,
+					   GthDateTime          *date_time);
+GthDateTime * gth_catalog_get_date        (GthCatalog           *catalog);
+void          gth_catalog_set_order       (GthCatalog           *catalog,
+					   const char           *order,
+					   gboolean              inverse);
+const char *  gth_catalog_get_order       (GthCatalog           *catalog,
+					   gboolean             *inverse);
+void          gth_catalog_load_from_data  (GthCatalog           *catalog,
+					   const void           *buffer,
+					   gsize                 count,
+					   GError              **error);
+char *        gth_catalog_to_data         (GthCatalog           *catalog,
+		     			   gsize                *length);
+void          gth_catalog_set_file_list   (GthCatalog           *catalog,
+					   GList                *file_list);
+GList *       gth_catalog_get_file_list   (GthCatalog           *catalog);
+gboolean      gth_catalog_insert_file     (GthCatalog           *catalog,
+					   int                   pos,
+					   GFile                *file);
+void          gth_catalog_append_file     (GthCatalog           *catalog,
+					   GFile                *file);
+int           gth_catalog_remove_file     (GthCatalog           *catalog,
+					   GFile                *file);
+void          gth_catalog_list_async      (GthCatalog           *catalog,
+					   const char           *attributes,
+					   GCancellable         *cancellable,
+					   CatalogReadyCallback  ready_func,
+					   gpointer              user_data);
+void          gth_catalog_cancel          (GthCatalog           *catalog);
+void          gth_catalog_update_metadata (GthCatalog           *catalog,
+					   GthFileData          *file_data);
 
 /* utils */
 
-GFile *        gth_catalog_get_base                (void);
-GFile *        gth_catalog_file_to_gio_file        (GFile         *file);
-GFile *        gth_catalog_file_from_gio_file      (GFile         *file,
-						    GFile         *catalog);
-GFile *        gth_catalog_file_from_relative_path (const char    *name,
-						    const char    *file_extension);
-char *         gth_catalog_get_relative_path       (GFile         *file);
-GIcon *        gth_catalog_get_icon                (GFile         *file);
-char *         gth_catalog_get_display_name        (GFile         *file);
-void           gth_catalog_load_from_file          (GFile         *file,
-						    GCancellable  *cancellable,
-						    ReadyCallback  ready_func,
-						    gpointer       user_data);
+GFile *        gth_catalog_get_base                   (void);
+GFile *        gth_catalog_file_to_gio_file           (GFile         *file);
+GFile *        gth_catalog_file_from_gio_file         (GFile         *file,
+						       GFile         *catalog);
+GFile *        gth_catalog_file_from_relative_path    (const char    *name,
+						       const char    *file_extension);
+char *         gth_catalog_get_relative_path          (GFile         *file);
+GIcon *        gth_catalog_get_icon                   (GFile         *file);
+void           gth_catalog_update_standard_attributes (GFile         *file,
+						       GFileInfo     *info);
+void           gth_catalog_load_from_file             (GFile         *file,
+						       GCancellable  *cancellable,
+						       ReadyCallback  ready_func,
+						       gpointer       user_data);
 
 #endif /*GTH_CATALOG_H*/

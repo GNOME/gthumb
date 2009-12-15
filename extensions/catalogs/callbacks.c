@@ -26,10 +26,15 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include <gth-catalog.h>
+#include "dlg-catalog-properties.h"
+#include "dlg-organize-files.h"
 #include "gth-file-source-catalogs.h"
 #include "actions.h"
 
+
 #define BROWSER_DATA_KEY "catalogs-browser-data"
+#define _RESPONSE_PROPERTIES 1
+#define _RESPONSE_ORGANIZE 2
 
 
 static const char *fixed_ui_info =
@@ -83,6 +88,8 @@ static const gchar *folder_popup_ui_info =
 "      <separator/>"
 "      <menuitem action='Catalog_Remove'/>"
 "      <menuitem action='Catalog_Rename'/>"
+"      <separator/>"
+"      <menuitem action='Catalog_Properties'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
@@ -129,7 +136,12 @@ static GtkActionEntry catalog_action_entries[] = {
 	{ "Catalog_Rename", NULL,
 	  N_("Rena_me"), NULL,
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_catalog_rename) }
+	  G_CALLBACK (gth_browser_activate_action_catalog_rename) },
+
+	{ "Catalog_Properties", GTK_STOCK_PROPERTIES,
+	  NULL, NULL,
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_catalog_properties) }
 };
 static guint catalog_action_entries_size = G_N_ELEMENTS (catalog_action_entries);
 
@@ -141,6 +153,8 @@ typedef struct {
 	guint           vfs_merge_id;
 	gboolean        catalog_menu_loaded;
 	guint           monitor_events;
+	GtkWidget      *properties_button;
+	GtkWidget      *organize_button;
 } BrowserData;
 
 
@@ -311,11 +325,17 @@ sort_catalogs (gconstpointer a,
 	GthFileData *file_data_a = (GthFileData *) a;
 	GthFileData *file_data_b = (GthFileData *) b;
 
-	if (g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") != g_file_info_get_attribute_boolean (file_data_b->info, "gthumb::no-child"))
+	if (g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") != g_file_info_get_attribute_boolean (file_data_b->info, "gthumb::no-child")) {
+		/* put the libraries before the catalogs */
 		return g_file_info_get_attribute_boolean (file_data_a->info, "gthumb::no-child") ? 1 : -1;
-	else
+	}
+	else if (g_file_info_get_sort_order (file_data_a->info) == g_file_info_get_sort_order (file_data_b->info))
 		return g_utf8_collate (g_file_info_get_display_name (file_data_a->info),
 				       g_file_info_get_display_name (file_data_b->info));
+	else if (g_file_info_get_sort_order (file_data_a->info) < g_file_info_get_sort_order (file_data_b->info))
+		return -1;
+	else
+		return 1;
 }
 
 
@@ -558,6 +578,22 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 }
 
 
+static void
+properties_button_clicked_cb (GtkButton  *button,
+			      GthBrowser *browser)
+{
+	dlg_catalog_properties (browser, gth_browser_get_location_data (browser));
+}
+
+
+static void
+organize_button_clicked_cb (GtkButton  *button,
+			    GthBrowser *browser)
+{
+	dlg_organize_files (browser, gth_browser_get_location (browser));
+}
+
+
 void
 catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 					      GthFileData  *location_data,
@@ -585,6 +621,54 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 		if (data->vfs_merge_id != 0) {
 			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
 			data->vfs_merge_id = 0;
+		}
+	}
+}
+
+
+void
+catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
+{
+	BrowserData *data;
+	GthFileData *location_data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	location_data = gth_browser_get_location_data (browser);
+	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))
+	    && ! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/library"))
+	{
+		GtkWidget *extra_widget;
+
+		extra_widget = gth_browser_get_list_extra_widget (browser);
+
+		if (data->properties_button == NULL) {
+			data->properties_button = gtk_button_new ();
+			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON));
+			g_object_add_weak_pointer (G_OBJECT (data->properties_button), (gpointer *)&data->properties_button);
+			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
+			gtk_widget_set_tooltip_text (data->properties_button, _("Properties"));
+			gtk_widget_show_all (data->properties_button);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (extra_widget), data->properties_button, _RESPONSE_PROPERTIES);
+			g_signal_connect (data->properties_button,
+					  "clicked",
+					  G_CALLBACK (properties_button_clicked_cb),
+					  browser);
+		}
+	}
+	else if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))) {
+		if (data->organize_button == NULL) {
+			data->organize_button = gtk_button_new ();
+			gtk_container_add (GTK_CONTAINER (data->organize_button), gtk_label_new (_("Organize")));
+			gtk_widget_set_tooltip_text (data->organize_button, _("Automatically organize files by date"));
+			g_object_add_weak_pointer (G_OBJECT (data->organize_button), (gpointer *)&data->organize_button);
+			gtk_button_set_relief (GTK_BUTTON (data->organize_button), GTK_RELIEF_NONE);
+			gtk_widget_show_all (data->organize_button);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), data->organize_button, _RESPONSE_ORGANIZE);
+			g_signal_connect (data->organize_button,
+					  "clicked",
+					  G_CALLBACK (organize_button_clicked_cb),
+					  browser);
 		}
 	}
 }

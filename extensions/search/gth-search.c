@@ -41,60 +41,87 @@ static DomDomizableIface  *dom_domizable_parent_iface = NULL;
 static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
 
 
+static DomElement *
+gth_search_create_root (GthCatalog  *catalog,
+			DomDocument *doc)
+{
+	return dom_document_create_element (doc, "search",
+					    "version", SEARCH_FORMAT,
+					    NULL);
+}
+
+
+static void
+gth_search_read_from_doc (GthCatalog *base,
+			  DomElement *root)
+{
+	GthSearch  *self;
+	DomElement *node;
+
+	g_return_if_fail (DOM_IS_ELEMENT (root));
+
+	self = GTH_SEARCH (base);
+	GTH_CATALOG_CLASS (parent_class)->read_from_doc (GTH_CATALOG (self), root);
+
+	gth_search_set_test (self, NULL);
+	for (node = root->first_child; node; node = node->next_sibling) {
+		if (g_strcmp0 (node->tag_name, "folder") == 0) {
+			GFile *folder;
+
+			folder = g_file_new_for_uri (dom_element_get_attribute (node, "uri"));
+			gth_search_set_folder (self, folder);
+			g_object_unref (folder);
+
+			gth_search_set_recursive (self, (g_strcmp0 (dom_element_get_attribute (node, "recursive"), "true") == 0));
+		}
+		else if (g_strcmp0 (node->tag_name, "tests") == 0) {
+			GthTest *test;
+
+			test = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
+			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
+			gth_search_set_test (self, GTH_TEST_CHAIN (test));
+		}
+	}
+}
+
+
+static void
+gth_search_write_to_doc (GthCatalog  *catalog,
+			 DomDocument *doc,
+			 DomElement  *root)
+{
+	GthSearch  *self;
+	char       *uri;
+
+	GTH_CATALOG_CLASS (parent_class)->write_to_doc (catalog, doc, root);
+
+	self = GTH_SEARCH (catalog);
+
+       	uri = g_file_get_uri (self->priv->folder);
+	dom_element_append_child (root,
+				  dom_document_create_element (doc, "folder",
+							       "uri", uri,
+							       "recursive", (self->priv->recursive ? "true" : "false"),
+							       NULL));
+	g_free (uri);
+
+	dom_element_append_child (root, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
+}
+
+
 static DomElement*
 gth_search_real_create_element (DomDomizable *base,
 				DomDocument  *doc)
 {
 	GthSearch  *self;
 	DomElement *element;
-	char       *uri;
-	const char *sort_order;
-	gboolean    sort_inverse;
-	GList      *file_list;
 	
 	g_return_val_if_fail (DOM_IS_DOCUMENT (doc), NULL);
 
 	self = GTH_SEARCH (base);
+	element = gth_search_create_root (GTH_CATALOG (self), doc);
+	gth_search_write_to_doc (GTH_CATALOG (self), doc, element);
 	
-	element = dom_document_create_element (doc, "search",
-					       "version", SEARCH_FORMAT,
-					       NULL);
-	
-       	uri = g_file_get_uri (self->priv->folder);
-	dom_element_append_child (element,
-				  dom_document_create_element (doc, "folder",
-							       "uri", uri,
-							       "recursive", (self->priv->recursive ? "true" : "false"), 
-							       NULL));
-	g_free (uri);					       
-
-	dom_element_append_child (element, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
-
-	sort_order = gth_catalog_get_order (GTH_CATALOG (self), &sort_inverse);
-	if (sort_order != NULL)
-		dom_element_append_child (element, dom_document_create_element (doc, "order",
-									       "type", sort_order,
-									       "inverse", (sort_inverse ? "1" : "0"),
-									       NULL));
-
-	file_list = gth_catalog_get_file_list (GTH_CATALOG (self));
-	if (file_list != NULL) {
-		DomElement *e_file_list;
-		GList      *scan;
-	
-		e_file_list = dom_document_create_element (doc, "files", NULL);
-		dom_element_append_child (element, e_file_list);
-		for (scan = file_list; scan; scan = scan->next) {
-			GFile *file = scan->data;
-			char  *uri;
-
-			uri = g_file_get_uri (file);
-			dom_element_append_child (e_file_list, dom_document_create_element (doc, "file", "uri", uri, NULL));
-			
-			g_free (uri);
-		}
-	}
-
 	return element;
 }
 
@@ -103,53 +130,7 @@ static void
 gth_search_real_load_from_element (DomDomizable *base,
 				   DomElement   *element)
 {
-	GthSearch  *self;
-	DomElement *node;
-	GFile      *folder;
-	GList      *files = NULL;
-	
-	g_return_if_fail (DOM_IS_ELEMENT (element));
-
-	self = GTH_SEARCH (base);
-	
-	gth_search_set_test (self, NULL);
-
-	for (node = element->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "folder") == 0) {
-			folder = g_file_new_for_uri (dom_element_get_attribute (node, "uri"));
-			gth_search_set_folder (self, folder);
-			g_object_unref (folder);
-			
-			gth_search_set_recursive (self, (g_strcmp0 (dom_element_get_attribute (node, "recursive"), "true") == 0));
-		}
-		else if (g_strcmp0 (node->tag_name, "tests") == 0) {
-			GthTest *test;
-			
-			test = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
-			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
-			gth_search_set_test (self, GTH_TEST_CHAIN (test));
-		}
-		else if (g_strcmp0 (node->tag_name, "files") == 0) {
-			DomElement *file;
-			
-			for (file = node->first_child; file; file = file->next_sibling) {
-				const char *uri;
-				
-				uri = dom_element_get_attribute (file, "uri");
-				if (uri != NULL)
-					files = g_list_prepend (files, g_file_new_for_uri (uri));
-			}
-			files = g_list_reverse (files);
-		}
-		else if (g_strcmp0 (node->tag_name, "order") == 0)
-			gth_catalog_set_order (GTH_CATALOG (self),
-					       dom_element_get_attribute (node, "type"),
-					       g_strcmp0 (dom_element_get_attribute (node, "inverse"), "1") == 0);
-
-	}
-	gth_catalog_set_file_list (GTH_CATALOG (self), files);
-	
-	_g_object_list_unref (files);
+	gth_search_read_from_doc (GTH_CATALOG (base), element);
 }
 
 
@@ -204,54 +185,6 @@ gth_search_finalize (GObject *object)
 
 
 static void
-gth_search_load_from_data (GthCatalog  *catalog,
-			   const void  *buffer,
-			   gsize        count,
-			   GError     **error)
-{
-	GthSearch   *search = GTH_SEARCH (catalog);
-	DomDocument *doc;
-	DomElement  *root;
-	
-		
-	doc = dom_document_new ();
-	if (! dom_document_load (doc, (const char *) buffer, count, error)) 
-		return;
-	
-	root = DOM_ELEMENT (doc)->first_child;
-	if (g_strcmp0 (root->tag_name, "search") != 0) {
-		*error = g_error_new_literal (DOM_ERROR, DOM_ERROR_INVALID_FORMAT, _("Invalid file format"));
-		return;
-	}
-	
-	dom_domizable_load_from_element (DOM_DOMIZABLE (search), root);
-	
-	g_object_unref (doc);
-}
-
-
-static char *
-gth_search_to_data (GthCatalog *catalog, 
-	  	    gsize      *length)
-{
-	GthSearch   *search = GTH_SEARCH (catalog);
-	DomDocument *doc;
-	DomElement  *root;
-	char        *data;
-	
-	doc = dom_document_new ();
-	root = dom_domizable_create_element (DOM_DOMIZABLE (search), doc);
-	dom_element_append_child (DOM_ELEMENT (doc), root);
-	
-	data = dom_document_dump (doc, length);
-	
-	g_object_unref (doc);
-	
-	return data;
-}
-
-
-static void
 gth_search_class_init (GthSearchClass *class)
 {
 	GObjectClass    *object_class;
@@ -263,8 +196,9 @@ gth_search_class_init (GthSearchClass *class)
 	object_class->finalize = gth_search_finalize;
 	
 	catalog_class = GTH_CATALOG_CLASS (class);
-	catalog_class->load_from_data = gth_search_load_from_data;
-	catalog_class->to_data = gth_search_to_data;
+	catalog_class->create_root = gth_search_create_root;
+	catalog_class->read_from_doc = gth_search_read_from_doc;
+	catalog_class->write_to_doc = gth_search_write_to_doc;
 }
 
 

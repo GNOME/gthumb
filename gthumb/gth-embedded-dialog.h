@@ -56,6 +56,8 @@ GtkWidget *   gth_embedded_dialog_new                (const char        *icon_st
 						      const char        *secondary_text);
 void          gth_embedded_dialog_set_icon           (GthEmbeddedDialog *dialog,
 						      const char        *icon_stock_id);
+void          gth_embedded_dialog_set_gicon          (GthEmbeddedDialog *dialog,
+						      GIcon             *icon);
 void          gth_embedded_dialog_set_primary_text   (GthEmbeddedDialog *dialog,
 						      const char        *primary_text);
 void          gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *dialog,

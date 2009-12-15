@@ -25,6 +25,7 @@
 #include <gthumb.h>
 #include <gth-catalog.h>
 #include "dlg-add-to-catalog.h"
+#include "dlg-catalog-properties.h"
 
 
 void
@@ -349,6 +350,21 @@ gth_browser_activate_action_catalog_rename (GtkAction  *action,
 	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
 	file_data = gth_folder_tree_get_selected (folder_tree);
 	gth_folder_tree_start_editing (folder_tree, file_data->file);
+
+	g_object_unref (file_data);
+}
+
+
+void
+gth_browser_activate_action_catalog_properties (GtkAction  *action,
+						GthBrowser *browser)
+{
+	GthFolderTree *folder_tree;
+	GthFileData   *file_data;
+
+	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
+	file_data = gth_folder_tree_get_selected (folder_tree);
+	dlg_catalog_properties (browser, file_data);
 
 	g_object_unref (file_data);
 }
