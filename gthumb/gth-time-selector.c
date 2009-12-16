@@ -95,6 +95,7 @@ gth_time_selector_init (GthTimeSelector *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIME_SELECTOR, GthTimeSelectorPrivate);
 	self->priv->date_time = gth_datetime_new ();
+	self->priv->use_time = TRUE;
 }
 
 
