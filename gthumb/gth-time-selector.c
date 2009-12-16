@@ -46,6 +46,7 @@ struct _GthTimeSelectorPrivate
 	GtkWidget   *popup_box;
 	GtkWidget   *now_button;
 	gboolean     use_time;
+	gulong       day_selected_event;
 };
 
 
@@ -218,6 +219,14 @@ update_view_from_data (GthTimeSelector *self)
 
 		text = gth_datetime_strftime (self->priv->date_time, "%x");
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
+
+		g_signal_handler_block (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
+		gtk_calendar_select_month (GTK_CALENDAR (self->priv->calendar),
+					   g_date_get_month (self->priv->date_time->date) - 1,
+					   g_date_get_year (self->priv->date_time->date));
+		gtk_calendar_select_day (GTK_CALENDAR (self->priv->calendar),
+					 g_date_get_day (self->priv->date_time->date));
+		g_signal_handler_unblock (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
 	}
 	else
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), "");
@@ -409,10 +418,11 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  "day-selected-double-click",
 			  G_CALLBACK (calendar_day_selected_double_click_cb),
 			  self);
-	g_signal_connect (self->priv->calendar,
-			  "day-selected",
-			  G_CALLBACK (calendar_day_selected_cb),
-			  self);
+	self->priv->day_selected_event =
+			g_signal_connect (self->priv->calendar,
+					  "day-selected",
+					  G_CALLBACK (calendar_day_selected_cb),
+					  self);
 
 	button_box = gtk_hbox_new (TRUE, 6);
 	gtk_widget_show (button_box);
