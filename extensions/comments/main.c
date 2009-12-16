@@ -120,9 +120,9 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
+		text = gth_metadata_get_raw (metadata);
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
 		if (metadata != NULL) {
-			text = gth_metadata_get_raw (metadata);
 			if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
 				gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
 				write_comment = TRUE;
