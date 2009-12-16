@@ -28,13 +28,17 @@
 
 
 #define ORDER_CHANGED_DELAY 250
+#define CATEGORY_SIZE 1000
 
 
 enum {
+	WEIGHT_COLUMN,
 	NAME_COLUMN,
 	ID_COLUMN,
+	SORT_ORDER_COLUMN,
 	USED_COLUMN,
 	SEPARATOR_COLUMN,
+	IS_METADATA_COLUMN,
 	N_COLUMNS
 };
 
@@ -99,6 +103,7 @@ gth_metadata_chooser_class_init (GthMetadataChooserClass *klass)
 
 typedef struct {
 	int       pos;
+	int       sort_order;
 	char     *name;
 	char     *id;
 	gboolean  used;
@@ -147,8 +152,12 @@ item_data_compare_func (gconstpointer a,
 				return 0;
 		}
 		else {
-			/* sort by name for the unused items */
-			return g_utf8_collate (item_a->name, item_b->name);
+			if (item_a->sort_order < item_b->sort_order)
+				return -1;
+			else if (item_a->sort_order > item_b->sort_order)
+				return 1;
+			else
+				return 0;
 		}
 	}
 	else if (item_a->used)
@@ -183,6 +192,7 @@ gth_metadata_chooser_reorder_list (GthMetadataChooser *self)
 		gtk_tree_model_get (model, &iter,
 				    NAME_COLUMN, &item_data->name,
 				    ID_COLUMN, &item_data->id,
+				    SORT_ORDER_COLUMN, &item_data->sort_order,
 				    USED_COLUMN, &item_data->used,
 				    SEPARATOR_COLUMN, &item_data->separator,
 				    -1);
@@ -311,8 +321,11 @@ gth_metadata_chooser_instance_init (GthMetadataChooser *self)
 	/* the list view */
 
 	store = gtk_list_store_new (N_COLUMNS,
+				    PANGO_TYPE_WEIGHT,
 				    G_TYPE_STRING,
 				    G_TYPE_STRING,
+				    G_TYPE_INT,
+				    G_TYPE_BOOLEAN,
 				    G_TYPE_BOOLEAN,
 				    G_TYPE_BOOLEAN);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (self), GTK_TREE_MODEL (store));
@@ -344,6 +357,7 @@ gth_metadata_chooser_instance_init (GthMetadataChooser *self)
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
 					     "active", USED_COLUMN,
+					     "visible", IS_METADATA_COLUMN,
 					     NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self), column);
 
@@ -354,6 +368,7 @@ gth_metadata_chooser_instance_init (GthMetadataChooser *self)
         gtk_tree_view_column_pack_start (column, renderer, TRUE);
         gtk_tree_view_column_set_attributes (column, renderer,
                                              "text", NAME_COLUMN,
+                                             "weight", WEIGHT_COLUMN,
                                              NULL);
         gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self), column);
@@ -410,6 +425,7 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 	char         **ids_v;
 	int            i;
 	GtkTreeIter    iter;
+	GHashTable    *category_root;
 
 	store = (GtkListStore *) gtk_tree_view_get_model (GTK_TREE_VIEW (self));
 
@@ -421,9 +437,10 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 	attributes_v = gth_main_get_metadata_attributes ("*");
 	ids_v = g_strsplit (ids, ",", -1);
 	for (i = 0; ids_v[i] != NULL; i++) {
-		int              idx;
-		GthMetadataInfo *info;
-		const char      *name;
+		int                  idx;
+		GthMetadataInfo     *info;
+		const char          *name;
+		GthMetadataCategory *category;
 
 		idx = _g_strv_find (attributes_v, ids_v[i]);
 		if (idx < 0)
@@ -437,12 +454,17 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 		if (name == NULL)
 			name = info->id;
 
+		category = gth_main_get_metadata_category (info->category);
+
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
+				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    NAME_COLUMN, name,
 				    ID_COLUMN, info->id,
+				    SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
 				    USED_COLUMN, TRUE,
 				    SEPARATOR_COLUMN, FALSE,
+				    IS_METADATA_COLUMN, TRUE,
 				    -1);
 	}
 
@@ -451,10 +473,12 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 			    SEPARATOR_COLUMN, TRUE,
 			    -1);
 
+	category_root = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	for (i = 0; attributes_v[i] != NULL; i++) {
-		GtkTreeIter      iter;
-		GthMetadataInfo *info;
-		const char      *name;
+		GtkTreeIter          iter;
+		GthMetadataInfo     *info;
+		const char          *name;
+		GthMetadataCategory *category;
 
 		if (_g_strv_find (ids_v, attributes_v[i]) >= 0)
 			continue;
@@ -467,18 +491,40 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 		if (name == NULL)
 			name = info->id;
 
+		category = gth_main_get_metadata_category (info->category);
+
+		if (g_hash_table_lookup (category_root, category->id) == NULL) {
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter,
+					    WEIGHT_COLUMN, PANGO_WEIGHT_BOLD,
+					    NAME_COLUMN, category->display_name,
+					    ID_COLUMN, category->id,
+					    SORT_ORDER_COLUMN, category->sort_order * CATEGORY_SIZE,
+					    USED_COLUMN, FALSE,
+					    SEPARATOR_COLUMN, FALSE,
+					    IS_METADATA_COLUMN, FALSE,
+					    -1);
+
+			g_hash_table_insert (category_root, g_strdup (info->category), GINT_TO_POINTER (1));
+		}
+
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
+				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    NAME_COLUMN, name,
 				    ID_COLUMN, info->id,
+				    SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
 				    USED_COLUMN, FALSE,
 				    SEPARATOR_COLUMN, FALSE,
+				    IS_METADATA_COLUMN, TRUE,
 				    -1);
 	}
+	gth_metadata_chooser_reorder_list (self);
 
 	g_signal_handler_unblock (store, self->priv->row_inserted_event);
 	g_signal_handler_unblock (store, self->priv->row_deleted_event);
 
+	g_hash_table_destroy (category_root);
 	g_strfreev (attributes_v);
 	g_strfreev (ids_v);
 }
