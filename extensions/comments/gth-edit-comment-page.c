@@ -89,12 +89,10 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
-		/*gtk_widget_set_sensitive (self->priv->date_selector, TRUE);*/
 	}
 	else {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
-		/*gtk_widget_set_sensitive (self->priv->date_selector, FALSE);*/
 	}
 
 	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
