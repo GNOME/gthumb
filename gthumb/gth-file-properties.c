@@ -72,7 +72,7 @@ get_comment (GthFileData *file_data)
 
 	string = g_string_new (NULL);
 
-	value = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	value = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
 	if (value != NULL) {
 		const char *formatted;
 

@@ -503,7 +503,7 @@ create_example_file_data (void)
 				 "raw", "2005:03:09 13:23:51",
 				 "formatted", "2005:03:09 13:23:51",
 				 NULL);
-	g_file_info_set_attribute_object (info, "Embedded::Image::DateTime", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
 
 	g_object_unref (metadata);
 	g_object_unref (info);

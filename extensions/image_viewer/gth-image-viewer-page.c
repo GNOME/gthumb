@@ -918,7 +918,7 @@ _gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
 	size = g_strdup_printf ("%d x %d", width, height);
-	g_file_info_set_attribute_string (file_data->info, "general::size", size);
+	g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
 
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), file_data);
 

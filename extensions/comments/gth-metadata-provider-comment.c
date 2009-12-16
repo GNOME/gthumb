@@ -77,13 +77,13 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	value = gth_comment_get_note (comment);
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
-		set_attribute_from_string (file_data->info, "Embedded::Image::Comment", value, NULL);
+		set_attribute_from_string (file_data->info, "general::comment", value, NULL);
 	}
 
 	value = gth_comment_get_place (comment);
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::place", value);
-		set_attribute_from_string (file_data->info, "Embedded::Image::Location", value, NULL);
+		set_attribute_from_string (file_data->info, "general::location", value, NULL);
 	}
 
 	categories = gth_comment_get_categories (comment);
@@ -92,7 +92,7 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 		value = (GObject *) gth_string_list_new_from_ptr_array (categories);
 		g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
-		g_file_info_set_attribute_object (file_data->info, "Embedded::Image::Keywords", value);
+		g_file_info_set_attribute_object (file_data->info, "general::tags", value);
 		g_object_unref (value);
 	}
 
@@ -106,7 +106,7 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 		else
 			formatted = g_strdup (comment_time);
 		set_attribute_from_string (file_data->info, "comment::time", comment_time, formatted);
-		set_attribute_from_string (file_data->info, "Embedded::Image::DateTime", comment_time, formatted);
+		set_attribute_from_string (file_data->info, "general::datetime", comment_time, formatted);
 
 		g_free (formatted);
 		g_free (comment_time);
@@ -135,7 +135,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* comment */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
 	if (metadata == NULL)
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
 	else
@@ -144,7 +144,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* location */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata == NULL)
 		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
 	else
@@ -153,7 +153,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* time */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata == NULL)
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
 	if (metadata != NULL)
@@ -164,7 +164,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* keywords */
 
-	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (categories == NULL)
 		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
 	if (categories != NULL) {
@@ -214,8 +214,8 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "comment::*,Embedded::Image::*", NULL);
-	g_object_set (self, "writable-attributes", "comment::*,Embedded::Image::*", NULL);
+	g_object_set (self, "readable-attributes", "comment::*,general::datetime,general::comment,general::location,general::tags", NULL);
+	g_object_set (self, "writable-attributes", "comment::*,general::datetime,general::comment,general::location,general::tags", NULL);
 
 	return obj;
 }

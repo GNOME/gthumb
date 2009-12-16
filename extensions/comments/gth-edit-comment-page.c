@@ -68,7 +68,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	self->priv->file_data = g_object_ref (file_data);
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
 	if (metadata != NULL) {
 		GtkTextIter iter;
 
@@ -79,13 +79,13 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	else
 		gtk_text_buffer_set_text (buffer, "", -1);
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), gth_metadata_get_formatted (metadata));
 	else
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), "");
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
@@ -97,7 +97,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		/*gtk_widget_set_sensitive (self->priv->date_selector, FALSE);*/
 	}
 
-	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (tags != NULL) {
 		char *value;
 
@@ -138,22 +138,22 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "Embedded::Image::Comment",
+				 "id", "general::comment",
 				 "raw", text,
 				 "formatted", text,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Comment", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "general::comment", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	g_free (text);
 
 	/* location */
 
 	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "Embedded::Image::Location",
+				 "id", "general::location",
 				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
 				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Location", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "general::location", G_OBJECT (metadata));
 	g_object_unref (metadata);
 
 	/* date */
@@ -162,11 +162,11 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
 	exif_date = gth_datetime_to_exif_date (date_time);
 	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "Embedded::Image::DateTime",
+				 "id", "general::datetime",
 				 "raw", exif_date,
 				 "formatted", exif_date,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::DateTime", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "general::datetime", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	gth_datetime_free (date_time);
 
@@ -178,7 +178,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
 	string_list = gth_string_list_new (tags);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Keywords", G_OBJECT (string_list));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "general::tags", G_OBJECT (string_list));
 
 	g_free (exif_date);
 	g_object_unref (string_list);
@@ -259,7 +259,7 @@ get_date_from_option (GthEditCommentPage *self,
 		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->file_data->info, "time::created-usec");
 		break;
 	case NO_CHANGE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "Embedded::Image::DateTime");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "general::datetime");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else

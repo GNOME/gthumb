@@ -93,27 +93,27 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))
 		return;
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::comment");
 	if (metadata != NULL) {
 		g_file_info_set_attribute_object (file_data->info, "Exif::Photo::UserComment", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::description", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
 	}
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL) {
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Location", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::LocationName", metadata);
 	}
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (metadata != NULL) {
 		GthMetadata *meta;
 		char        *raw;
 
 		meta = gth_metadata_new ();
-		raw = gth_file_data_get_attribute_as_string (file_data, "Embedded::Image::Keywords");
-		g_object_set (meta, "id", "Embedded::Image::Keywords", "raw", raw, NULL);
+		raw = gth_file_data_get_attribute_as_string (file_data, "general::tags");
+		g_object_set (meta, "id", "general::tags", "raw", raw, NULL);
 
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", G_OBJECT (meta));
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", G_OBJECT (meta));
@@ -122,7 +122,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 		g_object_unref (meta);
 	}
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL)
 		g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
 
@@ -188,8 +188,8 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*", NULL);
-	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*", NULL);
+	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,general::datetime,general::comment,general::location,general::tags", NULL);
+	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,general::datetime,general::comment,general::location,general::tags", NULL);
 
 	return obj;
 }

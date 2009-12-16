@@ -63,7 +63,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
 		size = g_strdup_printf ("%d x %d", width, height);
-		g_file_info_set_attribute_string (file_data->info, "general::size", size);
+		g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
 
 		g_free (size);
 	}
@@ -96,7 +96,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "general::format,general::size,image::width,image::height", NULL);
+	g_object_set (self, "readable-attributes", "general::format,general::dimensions,image::width,image::height", NULL);
 
 	return obj;
 }

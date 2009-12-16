@@ -130,7 +130,7 @@ add_metadata (GFileInfo  *info,
 	if (raw == NULL)
 		return;
 
-	if (strcmp (key, "general::size") == 0) {
+	if (strcmp (key, "general::dimensions") == 0) {
 		g_file_info_set_attribute_string (info, key, raw);
 		return;
 	}
@@ -386,7 +386,7 @@ extract_metadata (MetadataExtractor *extractor,
 
         if ((extractor->video_height >= 0) && (extractor->video_width >= 0))
                 add_metadata (info,
-                	      "general::size",
+                	      "general::dimensions",
                 	      g_strdup_printf ("%d x %d", (guint) extractor->video_width, (guint) extractor->video_height),
                 	      NULL);
 

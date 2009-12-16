@@ -412,7 +412,7 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 	else if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
 		GthMetadata *metadata;
 
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else

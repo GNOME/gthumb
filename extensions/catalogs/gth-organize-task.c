@@ -316,7 +316,7 @@ for_each_file_func (GFile     *file,
 		{
 			GObject *metadata;
 
-			metadata = g_file_info_get_attribute_object (info, "Embedded::Image::DateTime");
+			metadata = g_file_info_get_attribute_object (info, "Embedded::Photo::DateTimeOriginal");
 			if (metadata != NULL) {
 				if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
 					key = g_strdup (_g_time_val_strftime (&timeval, KEY_FORMAT));
@@ -438,7 +438,7 @@ gth_organize_task_exec (GthTask *base)
 	gtk_list_store_clear (self->priv->results_liststore);
 	switch (self->priv->group_policy) {
 	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
-		attributes = "standard::name,standard::type,time::modified,time::modified-usec,Embedded::Image::DateTime";
+		attributes = "standard::name,standard::type,time::modified,time::modified-usec,Embedded::Photo::DateTimeOriginal";
 		break;
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec";
