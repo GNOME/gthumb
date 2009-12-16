@@ -837,6 +837,30 @@ get_display_name (GFile       *file,
 }
 
 
+static void
+update_standard_attributes (GFile       *file,
+			    GFileInfo   *info,
+			    const char  *name,
+			    GthDateTime *date_time)
+{
+	char *display_name;
+
+	display_name = get_display_name (file, name, date_time);
+
+	if (gth_datetime_valid (date_time)) {
+		char *sort_order_s;
+		int   sort_order;
+
+		sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
+		sort_order = atoi (sort_order_s);
+		g_file_info_set_sort_order (info, sort_order);
+	}
+
+	if (display_name != NULL)
+		g_file_info_set_display_name (info, display_name);
+}
+
+
 void
 gth_catalog_update_standard_attributes (GFile     *file,
 				        GFileInfo *info)
@@ -878,16 +902,8 @@ gth_catalog_update_standard_attributes (GFile     *file,
 			}
 			g_object_unref (gio_file);
 		}
-		display_name = get_display_name (file, name, date_time);
 
-		if (gth_datetime_valid (date_time)) {
-			char *sort_order_s;
-			int   sort_order;
-
-			sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
-			sort_order = atoi (sort_order_s);
-			g_file_info_set_sort_order (info, sort_order);
-		}
+		update_standard_attributes (file, info, name, date_time);
 
 		gth_datetime_free (date_time);
 		g_free (name);
@@ -978,7 +994,7 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 
 	/* general::event-date */
 
-	if (gth_datetime_valid (gth_catalog_get_date (catalog))) {
+	if (gth_datetime_valid (catalog->priv->date_time)) {
 		GObject *metadata;
 		char    *raw;
 		char    *formatted;
@@ -986,8 +1002,8 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 		int      sort_order;
 
 		metadata = (GObject *) gth_metadata_new ();
-		raw = gth_datetime_to_exif_date (gth_catalog_get_date (catalog));
-		formatted = gth_datetime_strftime (gth_catalog_get_date (catalog), "%x");
+		raw = gth_datetime_to_exif_date (catalog->priv->date_time);
+		formatted = gth_datetime_strftime (catalog->priv->date_time, "%x");
 		g_object_set (metadata,
 			      "id", "general::event-date",
 			      "raw", raw,
@@ -995,7 +1011,7 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 			      NULL);
 		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
 
-		sort_order_s = gth_datetime_strftime (gth_catalog_get_date (catalog), "%Y%m%d");
+		sort_order_s = gth_datetime_strftime (catalog->priv->date_time, "%Y%m%d");
 		sort_order = atoi (sort_order_s);
 		g_file_info_set_sort_order (file_data->info, sort_order);
 
@@ -1008,5 +1024,8 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 
 	/* standard::display-name,standard::sort-order */
 
-	gth_catalog_update_standard_attributes (file_data->file, file_data->info);
+	update_standard_attributes (file_data->file,
+				    file_data->info,
+				    catalog->priv->name,
+				    catalog->priv->date_time);
 }
