@@ -363,15 +363,15 @@ gth_metadata_chooser_instance_init (GthMetadataChooser *self)
 
 	/* the name column. */
 
-	column = gtk_tree_view_column_new ();
+	/*column = gtk_tree_view_column_new (); FIXME: delete if not used */
 	renderer = gtk_cell_renderer_text_new ();
         gtk_tree_view_column_pack_start (column, renderer, TRUE);
         gtk_tree_view_column_set_attributes (column, renderer,
                                              "text", NAME_COLUMN,
                                              "weight", WEIGHT_COLUMN,
                                              NULL);
-        gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (self), column);
+        /*gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (self), column);*/
 }
 
 
