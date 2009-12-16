@@ -436,6 +436,8 @@ _g_time_val_from_exif_date (const char *exif_date,
 	if (! g_ascii_isdigit (*exif_date))
 		return FALSE;
 
+	tm.tm_isdst = -1;
+
 	/* YYYY */
 
 	val = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
