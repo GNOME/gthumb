@@ -87,13 +87,15 @@ save_catalog (gpointer key,
 {
 	GthOrganizeTask *self = user_data;
 	GthCatalog      *catalog = value;
+	GFile           *file;
 	GFile           *gio_file;
 	GFile           *gio_parent;
 	char            *data;
 	gsize            size;
 	GError          *error = NULL;
 
-	gio_file = gth_catalog_file_to_gio_file (gth_catalog_get_file (catalog));
+	file = gth_catalog_get_file (catalog);
+	gio_file = gth_catalog_file_to_gio_file (file);
 	gio_parent = g_file_get_parent (gio_file);
 	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
 	data = gth_catalog_to_data (catalog, &size);
@@ -107,6 +109,20 @@ save_catalog (gpointer key,
 	{
 		g_warning ("%s", error->message);
 		g_clear_error (&error);
+	}
+	else {
+		GFile *parent;
+		GList *list;
+
+		parent = g_file_get_parent (file);
+		list = g_list_append (NULL, file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				            parent,
+				            list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		g_list_free (list);
+		g_object_unref (parent);
 	}
 
 	g_free (data);
