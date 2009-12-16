@@ -139,7 +139,7 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 			g_free (value);
 			value = tmp_value;
 		}
-		tooltip = g_markup_printf_escaped ("%s: %s", /*info->display_name*/ info->id, value);
+		tooltip = g_markup_printf_escaped ("%s: %s", /*info->display_name FIXME: use the display name before releasing*/ info->id, value);
 
 		if (g_hash_table_lookup (category_root, category->id) == NULL) {
 			GtkTreeIter parent;
