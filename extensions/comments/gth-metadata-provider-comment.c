@@ -43,17 +43,19 @@ static gpointer parent_class = NULL;
 static void
 set_attribute_from_string (GFileInfo  *info,
 			   const char *key,
-			   const char *value,
+			   const char *raw,
 			   const char *formatted)
 {
 	GthMetadata *metadata;
 
 	metadata = g_object_new (GTH_TYPE_METADATA,
 				 "id", key,
-				 "raw", value,
-				 "formatted", (formatted != NULL ? formatted : value),
+				 "raw", raw,
+				 "formatted", (formatted != NULL ? formatted : raw),
 				 NULL);
 	g_file_info_set_attribute_object (info, key, G_OBJECT (metadata));
+
+	g_object_unref (metadata);
 }
 
 
