@@ -514,7 +514,10 @@ for_each_child__start_dir_func (GFile       *directory,
 				GError     **error,
 				gpointer     user_data)
 {
-	return DIR_OP_CONTINUE;
+	if (g_file_info_get_is_hidden (info))
+		return DIR_OP_SKIP;
+	else
+		return DIR_OP_CONTINUE;
 }
 
 
@@ -529,6 +532,9 @@ for_each_child__catalog_list_ready_cb (GthCatalog *catalog,
 
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
+
+		if (g_file_info_get_is_hidden (file_data->info))
+			continue;
 
 		data->for_each_file_func (file_data->file,
 					  file_data->info,
@@ -578,7 +584,7 @@ for_each_child__visit_file (ForEachChildData *data,
 		g_directory_foreach_child (gio_file,
 					   FALSE,
 					   TRUE,
-					   "standard::name,standard::type",
+					   GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 					   gth_file_source_get_cancellable (data->file_source),
 					   for_each_child__start_dir_func,
 					   for_each_child__for_each_file_func,
@@ -640,7 +646,7 @@ gth_file_source_catalogs_for_each_child (GthFileSource        *file_source,
 
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
 	g_file_query_info_async (gio_parent,
-				 "standard::name,standard::type",
+			         GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 				 G_FILE_QUERY_INFO_NONE,
 				 G_PRIORITY_DEFAULT,
 				 gth_file_source_get_cancellable (data->file_source),
