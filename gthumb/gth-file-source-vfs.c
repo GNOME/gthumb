@@ -37,13 +37,16 @@
 
 struct _GthFileSourceVfsPrivate
 {
-	GList             *files;
-	ListReady          ready_func;
-	gpointer           ready_data;
-	GHashTable        *monitors;
-	GList             *monitor_queue[GTH_MONITOR_N_EVENTS];
-	guint              monitor_update_id;
-	GUnixMountMonitor *mount_monitor;
+	GList                *files;
+	ListReady             list_ready_func;
+	StartDirCallback      start_dir_func;
+	ForEachChildCallback  for_each_file_func;
+	ReadyCallback         ready_func;
+	gpointer              user_data;
+	GHashTable           *monitors;
+	GList                *monitor_queue[GTH_MONITOR_N_EVENTS];
+	guint                 monitor_update_id;
+	GUnixMountMonitor    *mount_monitor;
 };
 
 
@@ -157,60 +160,53 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 }
 
 
-/* -- gth_file_source_vfs_list -- */
+/* -- gth_file_source_vfs_for_each_child -- */
 
 
 static void
-list__done_func (GError   *error,
-		 gpointer  user_data)
+fec__done_func (GError   *error,
+		gpointer  user_data)
 {
 	GthFileSourceVfs *file_source_vfs = user_data;
 
-	if (G_IS_OBJECT (file_source_vfs))
-		gth_file_source_set_active (GTH_FILE_SOURCE (file_source_vfs), FALSE);
-
-	file_source_vfs->priv->ready_func ((GthFileSource *)file_source_vfs,
-					   file_source_vfs->priv->files,
+	gth_file_source_set_active (GTH_FILE_SOURCE (file_source_vfs), FALSE);
+	file_source_vfs->priv->ready_func (G_OBJECT (file_source_vfs),
 					   error,
-					   file_source_vfs->priv->ready_data);
-	g_object_unref (file_source_vfs);
+					   file_source_vfs->priv->user_data);
 }
 
 
 static void
-list__for_each_file_func (GFile     *file,
-			  GFileInfo *info,
-			  gpointer   user_data)
+fec__for_each_file_func (GFile       *file,
+		         GFileInfo   *info,
+		         gpointer     user_data)
 {
 	GthFileSourceVfs *file_source_vfs = user_data;
-
-	switch (g_file_info_get_file_type (info)) {
-	case G_FILE_TYPE_REGULAR:
-	case G_FILE_TYPE_DIRECTORY:
-		file_source_vfs->priv->files = g_list_prepend (file_source_vfs->priv->files, gth_file_data_new (file, info));
-		break;
-	default:
-		break;
-	}
+	file_source_vfs->priv->for_each_file_func (file, info, file_source_vfs->priv->user_data);
 }
 
 
 static DirOp
-list__start_dir_func (GFile       *directory,
-		      GFileInfo   *info,
-		      GError     **error,
-		      gpointer     user_data)
+fec__start_dir_func (GFile       *directory,
+		     GFileInfo   *info,
+		     GError     **error,
+		     gpointer     user_data)
 {
-	return DIR_OP_CONTINUE;
+	GthFileSourceVfs *file_source_vfs = user_data;
+
+	return file_source_vfs->priv->start_dir_func (directory, info, error, file_source_vfs->priv->user_data);
 }
 
 
 static void
-gth_file_source_vfs_list (GthFileSource *file_source,
-			  GFile         *folder,
-			  const char    *attributes,
-			  ListReady      func,
-			  gpointer       user_data)
+gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
+				    GFile                *parent,
+				    gboolean              recursive,
+				    const char           *attributes,
+				    StartDirCallback      start_dir_func,
+				    ForEachChildCallback  for_each_file_func,
+				    ReadyCallback         ready_func,
+				    gpointer              user_data)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
 	GFile            *gio_folder;
@@ -218,22 +214,20 @@ gth_file_source_vfs_list (GthFileSource *file_source,
 	gth_file_source_set_active (file_source, TRUE);
 	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
 
-	_g_object_list_unref (file_source_vfs->priv->files);
-	file_source_vfs->priv->files = NULL;
+	file_source_vfs->priv->start_dir_func = start_dir_func;
+	file_source_vfs->priv->for_each_file_func = for_each_file_func;
+	file_source_vfs->priv->ready_func = ready_func;
+	file_source_vfs->priv->user_data = user_data;
 
-	file_source_vfs->priv->ready_func = func;
-	file_source_vfs->priv->ready_data = user_data;
-
-	g_object_ref (file_source);
-	gio_folder = gth_file_source_to_gio_file (file_source, folder);
+	gio_folder = gth_file_source_to_gio_file (file_source, parent);
 	g_directory_foreach_child (gio_folder,
-				   FALSE,
+				   recursive,
 				   TRUE,
 				   attributes,
 				   gth_file_source_get_cancellable (file_source),
-				   list__start_dir_func,
-				   list__for_each_file_func,
-				   list__done_func,
+				   fec__start_dir_func,
+				   fec__for_each_file_func,
+				   fec__done_func,
 				   file_source);
 
 	g_object_unref (gio_folder);
@@ -576,7 +570,7 @@ gth_file_source_vfs_class_init (GthFileSourceVfsClass *class)
 	file_source_class->get_entry_points = gth_file_source_vfs_get_entry_points;
 	file_source_class->to_gio_file = gth_file_source_vfs_to_gio_file;
 	file_source_class->get_file_info = gth_file_source_vfs_get_file_info;
-	file_source_class->list = gth_file_source_vfs_list;
+	file_source_class->for_each_child = gth_file_source_vfs_for_each_child;
 	file_source_class->copy = gth_file_source_vfs_copy;
 	file_source_class->can_cut = gth_file_source_vfs_can_cut;
 	file_source_class->monitor_entry_points = gth_file_source_vfs_monitor_entry_points;

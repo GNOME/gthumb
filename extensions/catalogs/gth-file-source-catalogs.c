@@ -417,126 +417,237 @@ gth_file_source_catalogs_read_metadata (GthFileSource *file_source,
 }
 
 
-/* -- list -- */
+/* -- gth_file_source_catalogs_for_each_child -- */
+
+
+typedef struct {
+	GthFileSource         *file_source;
+	gboolean               recursive;
+	const char            *attributes;
+	StartDirCallback       start_dir_func;
+	ForEachChildCallback   for_each_file_func;
+	ReadyCallback          ready_func;
+	gpointer               user_data;
+	GthCatalog            *catalog;
+	GList                 *to_visit;
+} ForEachChildData;
 
 
 static void
-list__done_func (GError   *error,
-		 gpointer  user_data)
+for_each_child_data_free (ForEachChildData *data)
 {
-	GthFileSourceCatalogs *catalogs = user_data;
-
-	if (G_IS_OBJECT (catalogs))
-		gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), FALSE);
-
-	if (error != NULL) {
-		_g_object_list_unref (catalogs->priv->files);
-		catalogs->priv->files = NULL;
-		g_clear_error (&error);
-	}
-
-	g_object_ref (catalogs);
-	catalogs->priv->ready_func ((GthFileSource *) catalogs,
-				    catalogs->priv->files,
-				    error,
-				    catalogs->priv->ready_data);
-	g_object_unref (catalogs);
+	_g_object_list_unref (data->to_visit);
+	g_object_ref (data->catalog);
+	g_object_ref (data->file_source);
 }
 
 
 static void
-list__for_each_file_func (GFile     *file,
-			  GFileInfo *info,
-			  gpointer   user_data)
+for_each_child_data_done (ForEachChildData *data,
+			  GError           *error)
 {
-	GthFileSourceCatalogs *catalogs = user_data;
-	GthFileData           *file_data;
+	gth_file_source_set_active (data->file_source, FALSE);
+	data->ready_func (G_OBJECT (data->file_source), error, data->user_data);
 
-	file_data = gth_file_source_get_file_data (GTH_FILE_SOURCE (catalogs), file, info);
-	if (file_data != NULL)
-		catalogs->priv->files = g_list_prepend (catalogs->priv->files, file_data);
+	for_each_child_data_free (data);
+}
+
+
+static void for_each_child__visit_file (ForEachChildData *data,
+				        GthFileData      *library);
+
+
+static void
+for_each_child__continue (ForEachChildData *data)
+{
+	GthFileData *file;
+	GList       *tmp;
+
+	if (! data->recursive || (data->to_visit == NULL)) {
+		for_each_child_data_done (data, NULL);
+		return;
+	}
+
+	file = data->to_visit->data;
+	tmp = data->to_visit;
+	data->to_visit = g_list_remove_link (data->to_visit, tmp);
+	g_list_free (tmp);
+
+	for_each_child__visit_file (data, file);
+
+	g_object_unref (file);
+}
+
+
+static void
+for_each_child__done_func (GError   *error,
+			   gpointer  user_data)
+{
+	for_each_child__continue ((ForEachChildData *) user_data);
+}
+
+
+static void
+for_each_child__for_each_file_func (GFile     *file,
+				    GFileInfo *info,
+				    gpointer   user_data)
+{
+	ForEachChildData *data = user_data;
+	GthFileData      *file_data;
+
+	file_data = gth_file_source_get_file_data (data->file_source, file, info);
+	if (file_data == NULL)
+		return;
+
+	data->for_each_file_func (file_data->file, file_data->info, data->user_data);
+
+	if (data->recursive && (g_file_info_get_file_type (file_data->info) == G_FILE_TYPE_DIRECTORY))
+		data->to_visit = g_list_append (data->to_visit, g_object_ref (file_data));
+
+	g_object_unref (file_data);
 }
 
 
 static DirOp
-list__start_dir_func (GFile       *directory,
-		      GFileInfo   *info,
-		      GError     **error,
-		      gpointer     user_data)
+for_each_child__start_dir_func (GFile       *directory,
+				GFileInfo   *info,
+				GError     **error,
+				gpointer     user_data)
 {
 	return DIR_OP_CONTINUE;
 }
 
 
 static void
-catalog_list_ready_cb (GthCatalog *catalog,
-		       GList      *files,
-		       GError     *error,
-		       gpointer    user_data)
+for_each_child__catalog_list_ready_cb (GthCatalog *catalog,
+				       GList      *files,
+				       GError     *error,
+				       gpointer    user_data)
 {
-	GthFileSourceCatalogs *catalogs = user_data;
+	ForEachChildData *data = user_data;
+	GList            *scan;
 
-	g_object_ref (catalogs);
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
 
-	catalogs->priv->ready_func ((GthFileSource *) catalogs,
-				    files,
-				    error,
-				    catalogs->priv->ready_data);
+		data->for_each_file_func (file_data->file,
+					  file_data->info,
+					  data->user_data);
+	}
 
-	gth_catalog_set_file_list (catalogs->priv->catalog, NULL);
-	g_object_unref (catalogs);
-	if (G_IS_OBJECT (catalogs))
-		gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), FALSE);
+	for_each_child__continue (data);
 }
 
 
 static void
-gth_file_source_catalogs_list (GthFileSource *file_source,
-			       GFile         *folder,
-			       const char    *attributes,
-			       ListReady      func,
-			       gpointer       user_data)
+for_each_child__visit_file (ForEachChildData *data,
+			    GthFileData      *file_data)
 {
-	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
-	char                  *uri;
-	GFile                 *gio_file;
+	GFile *gio_file;
+	char  *uri;
 
-	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
-	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
+	if (data->start_dir_func != NULL) {
+		GError *error = NULL;
 
-	_g_object_list_unref (catalogs->priv->files);
-	catalogs->priv->files = NULL;
+		switch (data->start_dir_func (file_data->file, file_data->info, &error, data->user_data)) {
+		case DIR_OP_CONTINUE:
+			break;
+		case DIR_OP_SKIP:
+			for_each_child__continue (data);
+			return;
+		case DIR_OP_STOP:
+			for_each_child_data_done (data, NULL);
+			return;
+		}
+	}
 
-	catalogs->priv->ready_func = func;
-	catalogs->priv->ready_data = user_data;
-
-	uri = g_file_get_uri (folder);
-	gio_file = gth_file_source_to_gio_file (file_source, folder);
-
+	gio_file = gth_file_source_to_gio_file (data->file_source, file_data->file);
+	uri = g_file_get_uri (file_data->file);
 	if (g_str_has_suffix (uri, ".gqv")
 	    || g_str_has_suffix (uri, ".catalog")
 	    || g_str_has_suffix (uri, ".search"))
 	{
-		gth_catalog_set_file (catalogs->priv->catalog, gio_file);
-		gth_catalog_list_async (catalogs->priv->catalog,
-					attributes,
-					gth_file_source_get_cancellable (file_source),
-					catalog_list_ready_cb,
-					file_source);
+		gth_catalog_set_file (data->catalog, gio_file);
+		gth_catalog_list_async (data->catalog,
+					data->attributes,
+					gth_file_source_get_cancellable (data->file_source),
+					for_each_child__catalog_list_ready_cb,
+					data);
 	}
 	else
 		g_directory_foreach_child (gio_file,
 					   FALSE,
 					   TRUE,
-					   attributes,
-					   gth_file_source_get_cancellable (file_source),
-					   list__start_dir_func,
-					   list__for_each_file_func,
-					   list__done_func,
-					   file_source);
+					   "standard::name,standard::type",
+					   gth_file_source_get_cancellable (data->file_source),
+					   for_each_child__start_dir_func,
+					   for_each_child__for_each_file_func,
+					   for_each_child__done_func,
+					   data);
 
 	g_object_unref (gio_file);
 	g_free (uri);
+}
+
+
+static void
+for_each_child__parent_info_ready_cb (GObject      *source_object,
+				      GAsyncResult *result,
+				      gpointer      user_data)
+{
+	ForEachChildData *data = user_data;
+	GFile            *file;
+	GFileInfo        *info;
+	GError           *error = NULL;
+	GthFileData      *file_data;
+
+	file = G_FILE (source_object);
+	info = g_file_query_info_finish (file, result, &error);
+	if (info == NULL) {
+		for_each_child_data_done (data, error);
+		return;
+	}
+
+	file_data = gth_file_source_get_file_data (data->file_source, file, info);
+	for_each_child__visit_file (data, file_data);
+
+	g_object_unref (file_data);
+}
+
+
+static void
+gth_file_source_catalogs_for_each_child (GthFileSource        *file_source,
+					 GFile                *parent,
+					 gboolean              recursive,
+					 const char           *attributes,
+					 StartDirCallback      start_dir_func,
+					 ForEachChildCallback  for_each_file_func,
+					 ReadyCallback         ready_func,
+					 gpointer              user_data)
+{
+	ForEachChildData *data;
+	GFile            *gio_parent;
+
+	data = g_new0 (ForEachChildData, 1);
+	data->file_source = g_object_ref (file_source);
+	data->recursive = recursive;
+	data->attributes = attributes;
+	data->start_dir_func = start_dir_func;
+	data->for_each_file_func = for_each_file_func;
+	data->ready_func = ready_func;
+	data->user_data = user_data;
+	data->catalog = gth_catalog_new ();
+
+	gio_parent = gth_file_source_to_gio_file (file_source, parent);
+	g_file_query_info_async (gio_parent,
+				 "standard::name,standard::type",
+				 G_FILE_QUERY_INFO_NONE,
+				 G_PRIORITY_DEFAULT,
+				 gth_file_source_get_cancellable (data->file_source),
+				 for_each_child__parent_info_ready_cb,
+				 data);
+
+	g_object_unref (gio_parent);
 }
 
 
@@ -883,7 +994,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->get_file_data = gth_file_source_catalogs_get_file_data;
 	file_source_class->write_metadata = gth_file_source_catalogs_write_metadata;
 	file_source_class->read_metadata = gth_file_source_catalogs_read_metadata;
-	file_source_class->list = gth_file_source_catalogs_list;
+	file_source_class->for_each_child = gth_file_source_catalogs_for_each_child;
 	file_source_class->copy = gth_file_source_catalogs_copy;
 	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;
 	file_source_class->reorder = gth_file_source_catalogs_reorder;

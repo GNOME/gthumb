@@ -27,6 +27,7 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gio-utils.h"
 #include "gth-file-data.h"
 #include "typedefs.h"
 
@@ -86,11 +87,14 @@ struct _GthFileSourceClass
 					       const char       *attributes,
 					       ReadyCallback     callback,
 					       gpointer          data);
-	void         (*list)                  (GthFileSource    *file_source,
-					       GFile            *folder,
-					       const char       *attributes,
-					       ListReady         func,
-					       gpointer          data);
+	void         (*for_each_child)        (GthFileSource        *file_source,
+					       GFile                *parent,
+					       gboolean              recursive,
+					       const char           *attributes,
+					       StartDirCallback      dir_func,
+					       ForEachChildCallback  child_func,
+					       ReadyCallback         ready_func,
+					       gpointer              data);
 	void         (*rename)                (GthFileSource    *file_source,
 					       GFile            *file,
 					       GFile            *new_file,
@@ -152,6 +156,14 @@ void           gth_file_source_list                  (GthFileSource    *file_sou
 						      const char       *attributes,
 						      ListReady         func,
 						      gpointer          data);
+void           gth_file_source_for_each_child        (GthFileSource        *file_source,
+						      GFile                *parent,
+						      gboolean              recursive,
+						      const char           *attributes,
+						      StartDirCallback      dir_func,
+						      ForEachChildCallback  child_func,
+						      ReadyCallback         ready_func,
+						      gpointer              data);
 void           gth_file_source_read_attributes       (GthFileSource    *file_source,
 						      GList            *files,
 						      const char       *attributes,

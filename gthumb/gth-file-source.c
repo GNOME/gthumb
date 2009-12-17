@@ -50,6 +50,7 @@ typedef enum {
 	FILE_SOURCE_OP_WRITE_METADATA,
 	FILE_SOURCE_OP_READ_METADATA,
 	FILE_SOURCE_OP_LIST,
+	FILE_SOURCE_OP_FOR_EACH_CHILD,
 	FILE_SOURCE_OP_READ_ATTRIBUTES,
 	FILE_SOURCE_OP_RENAME,
 	FILE_SOURCE_OP_COPY,
@@ -118,10 +119,22 @@ typedef struct {
 
 
 typedef struct {
+	GFile                *parent;
+	gboolean              recursive;
+	const char           *attributes;
+	StartDirCallback      dir_func;
+	ForEachChildCallback  child_func;
+	ReadyCallback         ready_func;
+	gpointer              data;
+} ForEachChildData;
+
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
 		ListData           list;
+		ForEachChildData   fec;
 		ReadAttributesData read_attributes;
 		RenameData         rename;
 		CopyData           copy;
@@ -146,6 +159,9 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 		break;
 	case FILE_SOURCE_OP_LIST:
 		g_object_unref (async_op->data.list.folder);
+		break;
+	case FILE_SOURCE_OP_FOR_EACH_CHILD:
+		g_object_unref (async_op->data.fec.parent);
 		break;
 	case FILE_SOURCE_OP_READ_ATTRIBUTES:
 		_g_object_list_unref (async_op->data.read_attributes.files);
@@ -226,6 +242,33 @@ gth_file_source_queue_list (GthFileSource *file_source,
 	async_op->data.list.attributes = attributes;
 	async_op->data.list.func = func;
 	async_op->data.list.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
+gth_file_source_queue_for_each_child (GthFileSource        *file_source,
+				      GFile                *parent,
+				      gboolean              recursive,
+				      const char           *attributes,
+				      StartDirCallback      dir_func,
+				      ForEachChildCallback  child_func,
+				      ReadyCallback         ready_func,
+				      gpointer              data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_FOR_EACH_CHILD;
+	async_op->data.fec.parent = g_file_dup (parent);
+	async_op->data.fec.recursive = recursive;
+	async_op->data.fec.attributes = attributes;
+	async_op->data.fec.dir_func = dir_func;
+	async_op->data.fec.child_func = child_func;
+	async_op->data.fec.ready_func = ready_func;
+	async_op->data.fec.data = data;
 
 	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
 }
@@ -357,6 +400,16 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 				      async_op->data.list.attributes,
 				      async_op->data.list.func,
 				      async_op->data.list.data);
+		break;
+	case FILE_SOURCE_OP_FOR_EACH_CHILD:
+		gth_file_source_for_each_child (file_source,
+						async_op->data.fec.parent,
+						async_op->data.fec.recursive,
+						async_op->data.fec.attributes,
+						async_op->data.fec.dir_func,
+						async_op->data.fec.child_func,
+						async_op->data.fec.ready_func,
+						async_op->data.fec.data);
 		break;
 	case FILE_SOURCE_OP_READ_ATTRIBUTES:
 		gth_file_source_read_attributes (file_source,
@@ -549,17 +602,6 @@ base_read_metadata (GthFileSource *file_source,
 
 
 static void
-base_list (GthFileSource *file_source,
-	   GFile         *folder,
-	   const char    *attributes,
-	   ListReady      func,
-	   gpointer       data)
-{
-	/* void */
-}
-
-
-static void
 base_rename (GthFileSource *file_source,
 	     GFile         *file,
 	     GFile         *new_file,
@@ -636,7 +678,7 @@ gth_file_source_finalize (GObject *object)
 	if (file_source->priv != NULL) {
 		gth_file_source_clear_queue (file_source);
 		_g_string_list_free (file_source->priv->schemes);
-		g_object_unref (file_source->priv->cancellable);
+		_g_object_unref (file_source->priv->cancellable);
 
 		g_free (file_source->priv);
 		file_source->priv = NULL;
@@ -662,7 +704,6 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->get_file_data = base_get_file_data;
 	class->write_metadata = base_write_metadata;
 	class->read_metadata = base_read_metadata;
-	class->list = base_list;
 	class->rename = base_rename;
 	class->can_cut = base_can_cut;
 	class->monitor_entry_points = base_monitor_entry_points;
@@ -853,18 +894,105 @@ gth_file_source_read_metadata (GthFileSource *file_source,
 }
 
 
+/* -- gth_file_source_list -- */
+
+
+typedef struct {
+	GthFileSource *file_source;
+	ListReady      ready_func;
+	gpointer       user_data;
+	GList         *files;
+} ListOpData;
+
+
+static void
+list__done_func (GObject  *source,
+		 GError   *error,
+		 gpointer  user_data)
+{
+	ListOpData *data = user_data;
+
+	data->ready_func (data->file_source, data->files, error, data->user_data);
+
+	_g_object_list_unref (data->files);
+	g_object_unref (data->file_source);
+	g_free (data);
+}
+
+
+static void
+list__for_each_file_func (GFile     *file,
+			  GFileInfo *info,
+			  gpointer   user_data)
+{
+	ListOpData *data = user_data;
+
+	switch (g_file_info_get_file_type (info)) {
+	case G_FILE_TYPE_REGULAR:
+	case G_FILE_TYPE_DIRECTORY:
+		data->files = g_list_prepend (data->files, gth_file_data_new (file, info));
+		break;
+	default:
+		break;
+	}
+}
+
+
+static DirOp
+list__start_dir_func (GFile       *directory,
+		      GFileInfo   *info,
+		      GError     **error,
+		      gpointer     user_data)
+{
+	return DIR_OP_CONTINUE;
+}
+
+
 void
 gth_file_source_list (GthFileSource *file_source,
 		      GFile         *folder,
 		      const char    *attributes,
 		      ListReady      func,
-		      gpointer       data)
+		      gpointer       user_data)
 {
+	ListOpData *data;
+
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_list (file_source, folder, attributes, func, data);
+		gth_file_source_queue_list (file_source, folder, attributes, func, user_data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->list (file_source, folder, attributes, func, data);
+
+	data = g_new0 (ListOpData, 1);
+	data->file_source = g_object_ref (file_source);
+	data->ready_func = func;
+	data->user_data = user_data;
+
+	gth_file_source_for_each_child (file_source,
+				        folder,
+				        FALSE,
+				        attributes,
+				        list__start_dir_func,
+				        list__for_each_file_func,
+				        list__done_func,
+				        data);
+}
+
+
+void
+gth_file_source_for_each_child (GthFileSource        *file_source,
+				GFile                *parent,
+				gboolean              recursive,
+				const char           *attributes,
+				StartDirCallback      dir_func,
+				ForEachChildCallback  child_func,
+				ReadyCallback         ready_func,
+				gpointer              data)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_for_each_child (file_source, parent, recursive, attributes, dir_func, child_func, ready_func, data);
+		return;
+	}
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->for_each_child (file_source, parent, recursive, attributes, dir_func, child_func, ready_func, data);
 }
 
 
