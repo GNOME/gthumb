@@ -6,7 +6,7 @@
 
   <name xml:lang="en">gthumb</name>
   <shortdesc xml:lang="en">gthumb image viewer</shortdesc>
-  <homepage rdf:resource="http://gthumb.sourceforge.net/" />
+  <homepage rdf:resource="http://live.gnome.org/gthumb" />
   
   <!--
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/desktop-devel-list" />

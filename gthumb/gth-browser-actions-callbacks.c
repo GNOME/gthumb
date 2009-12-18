@@ -393,7 +393,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 			       "logo-icon-name", "gthumb",
 			       "license", license_text,
 			       "wrap-license", TRUE,
-			       "website", "http://gthumb.sourceforge.net",
+			       "website", "http://live.gnome.org/gthumb",
 			       NULL);
 
 	g_free (license_text);
