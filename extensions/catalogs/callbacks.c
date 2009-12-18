@@ -647,7 +647,7 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON));
 			g_object_add_weak_pointer (G_OBJECT (data->properties_button), (gpointer *)&data->properties_button);
 			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
-			gtk_widget_set_tooltip_text (data->properties_button, _("Properties"));
+			gtk_widget_set_tooltip_text (data->properties_button, _("Catalog Properties"));
 			gtk_widget_show_all (data->properties_button);
 			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (extra_widget), data->properties_button, _RESPONSE_PROPERTIES);
 			g_signal_connect (data->properties_button,
