@@ -773,16 +773,24 @@ get_tag_value (const char *buffer,
 	       const char *tag_start,
 	       const char *tag_end)
 {
-	char *begin_tag;
-	char *end_tag;
 	char *value;
+	char *begin_tag;
 
 	value = NULL;
 	begin_tag = strstr (buffer, tag_start);
 	if (begin_tag != NULL) {
-		begin_tag += strlen (tag_start);
+		char        *end_tag;
+		char        *xml;
+		DomDocument *doc;
+
 		end_tag = strstr (begin_tag, tag_end);
-		value = g_strndup (begin_tag, end_tag - begin_tag);
+		xml = g_strndup (begin_tag, (end_tag - begin_tag) + strlen (tag_end));
+		doc = dom_document_new ();
+		if (dom_document_load (doc, xml, strlen (xml), NULL))
+			value = g_strdup (dom_element_get_inner_text (DOM_ELEMENT (doc)->first_child));
+
+		g_object_unref (doc);
+		g_free (xml);
 	}
 
 	return value;

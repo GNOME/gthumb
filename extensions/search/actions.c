@@ -66,19 +66,11 @@ void
 gth_browser_activate_action_edit_find (GtkAction  *action,
 				       GthBrowser *browser)
 {
-	GthSearch     *search;
-	GthFileSource *file_source;
-	GtkWidget     *dialog;
+	GthSearch *search;
+	GtkWidget *dialog;
 
 	search = gth_search_new ();
-	file_source = gth_main_get_file_source (gth_browser_get_location (browser));
-	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
-		GFile *folder;
-
-		folder = gth_file_source_to_gio_file (file_source, gth_browser_get_location (browser));
-		gth_search_set_folder (search, folder);
-		g_object_unref (folder);
-	}
+	gth_search_set_folder (search, gth_browser_get_location (browser));
 	gth_search_set_recursive (search, TRUE);
 
 	dialog = gth_search_editor_dialog_new (_("Find"), search, GTK_WINDOW (browser));
@@ -92,7 +84,6 @@ gth_browser_activate_action_edit_find (GtkAction  *action,
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
 
-	g_object_unref (file_source);
 	g_object_unref (search);
 }
 

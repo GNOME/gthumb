@@ -126,7 +126,9 @@ GType          gth_file_source_get_type              (void) G_GNUC_CONST;
 
 /*< public >*/
 
-GList *        gth_file_source_get_entry_points      (GthFileSource    *file_source); /* GthFileData list */
+void           gth_file_source_set_cancellable       (GthFileSource    *file_source,
+						      GCancellable     *cancellable);
+GList *        gth_file_source_get_entry_points      (GthFileSource    *file_source); /* returns GthFileData list */
 GList *        gth_file_source_get_current_list      (GthFileSource    *file_source,  /* GFile list */
 						      GFile            *file);
 GFile *        gth_file_source_to_gio_file           (GthFileSource    *file_source,

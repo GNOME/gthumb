@@ -319,6 +319,9 @@ gth_main_get_file_source (GFile *file)
 	char          *uri;
 	GthFileSource *file_source;
 
+	if (file == NULL)
+		return NULL;
+
 	uri = g_file_get_uri (file);
 	file_source = gth_main_get_file_source_for_uri (uri);
 	g_free (uri);

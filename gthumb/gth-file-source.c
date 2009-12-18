@@ -787,6 +787,17 @@ gth_file_source_set_active (GthFileSource *file_source,
 }
 
 
+void
+gth_file_source_set_cancellable (GthFileSource *file_source,
+				 GCancellable  *cancellable)
+{
+	_g_object_unref (file_source->priv->cancellable);
+	file_source->priv->cancellable = NULL;
+	if (cancellable != NULL)
+		file_source->priv->cancellable = g_object_ref (cancellable);
+}
+
+
 GList *
 gth_file_source_get_entry_points (GthFileSource *file_source)
 {

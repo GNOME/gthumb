@@ -35,6 +35,7 @@ static gpointer parent_class = NULL;
 
 struct _GthSearchEditorPrivate {
 	GtkBuilder *builder;
+	GtkWidget  *location_chooser;
 	GtkWidget  *match_type_combobox;
 };
 
@@ -129,6 +130,10 @@ gth_search_editor_construct (GthSearchEditor *self,
     	gtk_container_set_border_width (GTK_CONTAINER (content), 0);
   	gtk_box_pack_start (GTK_BOX (self), content, TRUE, TRUE, 0);
 
+	self->priv->location_chooser = gth_location_chooser_new ();
+	gtk_widget_show (self->priv->location_chooser);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("location_box")), self->priv->location_chooser, TRUE, TRUE, 0);
+
 	self->priv->match_type_combobox = gtk_combo_box_new_text ();
   	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->match_type_combobox),
   				     _("all the following rules"),
@@ -147,7 +152,7 @@ gth_search_editor_construct (GthSearchEditor *self,
 
 
 GtkWidget *
-gth_search_editor_new (GthSearch  *search)
+gth_search_editor_new (GthSearch *search)
 {
 	GthSearchEditor *self;
 
@@ -216,7 +221,12 @@ _gth_search_editor_add_test (GthSearchEditor *self,
 static void
 _gth_search_editor_set_new_search (GthSearchEditor *self)
 {
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")), get_home_uri ());
+	GFile *home_location;
+
+	home_location = g_file_new_for_uri (get_home_uri ());
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), home_location);
+	g_object_unref (home_location);
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), TRUE);
 	_gtk_container_remove_children (GTK_CONTAINER (GET_WIDGET ("tests_box")), NULL, NULL);
 }
@@ -237,15 +247,7 @@ gth_search_editor_set_search (GthSearchEditor *self,
 		return;
 	}
 
-	if (gth_search_get_folder (search) != NULL) {
-		char *uri;
-
-		uri = g_file_get_uri (gth_search_get_folder (search));
-		if (uri != NULL) {
-			gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")), uri);
-			g_free (uri);
-		}
-	}
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), gth_search_get_folder (search));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), gth_search_is_recursive (search));
 
 	test = gth_search_get_test (search);
@@ -277,21 +279,16 @@ gth_search_editor_get_search (GthSearchEditor  *self,
 			      GError          **error)
 {
 	GthSearch *search;
-	char      *uri;
+	GFile     *folder;
 	GthTest   *test;
 	GList     *test_selectors;
 	GList     *scan;
 
 	search = gth_search_new ();
 
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")));
-	if (uri != NULL) {
-		GFile *folder;
-
-		folder = g_file_new_for_uri (uri);
+	folder = gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser));
+	if (folder != NULL)
 		gth_search_set_folder (search, folder);
-		g_object_unref (folder);
-	}
 
 	gth_search_set_recursive (search, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton"))));
 

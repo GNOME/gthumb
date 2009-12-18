@@ -30,14 +30,15 @@
 
 struct _GthSearchTaskPrivate
 {
-	GthBrowser   *browser;
-	GthSearch    *search;
-	GthTestChain *test;
-	GFile        *search_catalog;
-	gboolean      io_operation;
-	GError       *error;
-	gulong        location_ready_id;
-	GtkWidget    *dialog;
+	GthBrowser    *browser;
+	GthSearch     *search;
+	GthTestChain  *test;
+	GFile         *search_catalog;
+	gboolean       io_operation;
+	GError        *error;
+	gulong         location_ready_id;
+	GtkWidget     *dialog;
+	GthFileSource *file_source;
 };
 
 
@@ -60,6 +61,7 @@ gth_task_finalize (GObject *object)
 	task = GTH_SEARCH_TASK (object);
 
 	if (task->priv != NULL) {
+		g_object_unref (task->priv->file_source);
 		g_object_unref (task->priv->search);
 		g_object_unref (task->priv->test);
 		g_object_unref (task->priv->search_catalog);
@@ -146,7 +148,8 @@ save_search_result_copy_done_cb (void     *buffer,
 
 
 static void
-done_func (GError   *error,
+done_func (GObject  *object,
+	   GError   *error,
 	   gpointer  user_data)
 {
 	GthSearchTask *task = user_data;
@@ -290,15 +293,17 @@ browser_location_ready_cb (GthBrowser    *browser,
 	}
 
 	task->priv->io_operation = TRUE;
-	g_directory_foreach_child (gth_search_get_folder (task->priv->search),
-				   gth_search_is_recursive (task->priv->search),
-				   TRUE,
-				   eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-				   gth_task_get_cancellable (GTH_TASK (task)),
-				   start_dir_func,
-				   for_each_file_func,
-				   done_func,
-				   task);
+
+	task->priv->file_source = gth_main_get_file_source (gth_search_get_folder (task->priv->search));
+	gth_file_source_set_cancellable (task->priv->file_source, gth_task_get_cancellable (GTH_TASK (task)));
+	gth_file_source_for_each_child (task->priv->file_source,
+					gth_search_get_folder (task->priv->search),
+					gth_search_is_recursive (task->priv->search),
+					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+					start_dir_func,
+					for_each_file_func,
+					done_func,
+					task);
 }
 
 
