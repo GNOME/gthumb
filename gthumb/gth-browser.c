@@ -4204,6 +4204,7 @@ file_metadata_ready_cb (GList    *files,
 	if (file_data == NULL)
 		return;
 
+	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), file_data);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), file_data);
 	_gth_browser_update_statusbar_file_info (browser);
