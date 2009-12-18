@@ -377,7 +377,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
 
 	self->priv->date_entry = gtk_entry_new ();
-	gtk_entry_set_width_chars (GTK_ENTRY (self->priv->date_entry), 15);
+	gtk_entry_set_width_chars (GTK_ENTRY (self->priv->date_entry), 10);
 	gtk_editable_set_editable (GTK_EDITABLE (self->priv->date_entry), TRUE);
 	gtk_widget_show (self->priv->date_entry);
 	gtk_box_pack_start (GTK_BOX (box), self->priv->date_entry, FALSE, FALSE, 0);
