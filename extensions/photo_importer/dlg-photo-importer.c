@@ -139,6 +139,7 @@ destroy_dialog (gpointer user_data)
 						    subfolder_type,
 						    subfolder_format,
 						    single_subfolder,
+						    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))),
 						    tags,
 						    delete_imported,
 						    overwrite_files,

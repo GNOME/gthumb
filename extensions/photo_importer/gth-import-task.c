@@ -36,6 +36,7 @@ struct _GthImportTaskPrivate {
 	GthSubfolderType     subfolder_type;
 	GthSubfolderFormat   subfolder_format;
 	gboolean             single_subfolder;
+	char                *event_name;
 	char               **tags;
 	gboolean             delete_imported;
 	gboolean             overwrite_files;
@@ -67,6 +68,7 @@ gth_import_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
+	g_free (self->priv->event_name);
 	g_strfreev (self->priv->tags);
 	g_hash_table_destroy (self->priv->catalogs);
 	g_object_unref (self->priv->imported_catalog);
@@ -170,7 +172,10 @@ catalog_imported_file (GthImportTask *self)
 
 		gth_catalog_set_file (catalog, self->priv->imported_catalog);
 		gth_catalog_set_date (catalog, date_time);
-		display_name = gth_datetime_strftime (date_time, _("Imported %x %X"));
+		if ((self->priv->event_name != NULL) && ! _g_utf8_all_spaces (self->priv->event_name))
+			display_name = gth_datetime_strftime (date_time, self->priv->event_name);
+		else
+			display_name = gth_datetime_strftime (date_time, _("Imported %x %X"));
 		gth_catalog_set_name (catalog, display_name);
 
 		g_hash_table_insert (self->priv->catalogs, g_strdup (IMPORTED_KEY), catalog);
@@ -483,6 +488,7 @@ gth_import_task_new (GthBrowser         *browser,
 		     GthSubfolderType    subfolder_type,
 		     GthSubfolderFormat  subfolder_format,
 		     gboolean            single_subfolder,
+		     const char         *event_name,
 		     char              **tags,
 		     gboolean            delete_imported,
 		     gboolean            overwrite_files,
@@ -497,6 +503,7 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->subfolder_type = subfolder_type;
 	self->priv->subfolder_format = subfolder_format;
 	self->priv->single_subfolder = single_subfolder;
+	self->priv->event_name = g_strdup (event_name);
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
 	self->priv->overwrite_files = overwrite_files;
