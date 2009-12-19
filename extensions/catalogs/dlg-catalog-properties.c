@@ -174,7 +174,7 @@ catalog_ready_cb (GObject  *object,
 	if (gth_catalog_get_name (data->catalog) != NULL) {
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_name (data->catalog));
 	}
-	else {
+	else if (! gth_datetime_valid (gth_catalog_get_date (data->catalog))) {
 		char *basename;
 		char *name;
 		char *utf8_name;
