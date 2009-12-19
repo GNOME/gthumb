@@ -363,6 +363,20 @@ gth_catalog_get_order (GthCatalog *catalog,
 
 
 void
+gth_catalog_set_for_date (GthCatalog  *catalog,
+			  GthDateTime *date_time)
+{
+	GFile *catalog_file;
+
+	gth_catalog_set_date (catalog, date_time);
+	catalog_file = gth_catalog_get_file_for_date (date_time);
+	gth_catalog_set_file (catalog, catalog_file);
+
+	g_object_unref (catalog_file);
+}
+
+
+void
 gth_catalog_load_from_data (GthCatalog  *catalog,
 			    const void  *buffer,
 			    gsize        count,
@@ -605,6 +619,138 @@ gth_catalog_cancel (GthCatalog *catalog)
 }
 
 
+static char *
+get_display_name (GFile       *file,
+		  const char  *name,
+		  GthDateTime *date_time)
+{
+	GString *display_name;
+	char    *basename;
+
+	display_name = g_string_new ("");
+	basename = g_file_get_basename (file);
+	if ((basename == NULL) || (strcmp (basename, "/") == 0)) {
+		 g_string_append (display_name, _("Catalogs"));
+	}
+	else {
+		if ((name == NULL) && ! gth_datetime_valid (date_time)) {
+			char *name;
+			char *utf8_name;
+
+			name = _g_uri_remove_extension (basename);
+			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+			g_string_append (display_name, utf8_name);
+
+			g_free (utf8_name);
+			g_free (name);
+		}
+		else {
+			if (name != NULL)
+				g_string_append (display_name, name);
+
+			if (gth_datetime_valid (date_time)) {
+				char *formatted;
+
+				formatted = gth_datetime_strftime (date_time, "%x");
+				if ((name == NULL) || (strstr (name, formatted) == NULL)) {
+					if (name != NULL)
+						g_string_append (display_name, " (");
+					g_string_append (display_name, formatted);
+					if (name != NULL)
+						g_string_append (display_name, ")");
+				}
+				g_free (formatted);
+			}
+		}
+	}
+
+	return g_string_free (display_name, FALSE);
+}
+
+
+static void
+update_standard_attributes (GFile       *file,
+			    GFileInfo   *info,
+			    const char  *name,
+			    GthDateTime *date_time)
+{
+	char *display_name;
+
+	if (gth_datetime_valid (date_time)) {
+		char *sort_order_s;
+		int   sort_order;
+
+		sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
+		sort_order = atoi (sort_order_s);
+		g_file_info_set_sort_order (info, sort_order);
+	}
+	else if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
+		g_file_info_set_sort_order (info, 99999999);
+
+	display_name = get_display_name (file, name, date_time);
+	if (display_name != NULL)
+		g_file_info_set_display_name (info, display_name);
+}
+
+
+void
+gth_catalog_update_metadata (GthCatalog  *catalog,
+			     GthFileData *file_data)
+{
+	const char *sort_type;
+	gboolean    sort_inverse;
+
+	/* sort::type,sort::inverse */
+
+	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
+	if (sort_type != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "sort::type", sort_type);
+		g_file_info_set_attribute_boolean (file_data->info, "sort::inverse", sort_inverse);
+	}
+	else {
+		g_file_info_remove_attribute (file_data->info, "sort::type");
+		g_file_info_remove_attribute (file_data->info, "sort::inverse");
+	}
+
+	/* general::event-date */
+
+	if (gth_datetime_valid (catalog->priv->date_time)) {
+		GObject *metadata;
+		char    *raw;
+		char    *formatted;
+		char    *sort_order_s;
+		int      sort_order;
+
+		metadata = (GObject *) gth_metadata_new ();
+		raw = gth_datetime_to_exif_date (catalog->priv->date_time);
+		formatted = gth_datetime_strftime (catalog->priv->date_time, "%x");
+		g_object_set (metadata,
+			      "id", "general::event-date",
+			      "raw", raw,
+			      "formatted", formatted,
+			      NULL);
+		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
+
+		sort_order_s = gth_datetime_strftime (catalog->priv->date_time, "%Y%m%d");
+		sort_order = atoi (sort_order_s);
+		g_file_info_set_sort_order (file_data->info, sort_order);
+
+		g_free (formatted);
+		g_free (raw);
+		g_object_unref (metadata);
+	}
+	else
+		g_file_info_remove_attribute (file_data->info, "general::event-date");
+
+	/* standard::display-name,standard::sort-order */
+
+	update_standard_attributes (file_data->file,
+				    file_data->info,
+				    catalog->priv->name,
+				    catalog->priv->date_time);
+}
+
+
 /* utils */
 
 
@@ -797,78 +943,6 @@ get_tag_value (const char *buffer,
 }
 
 
-static char *
-get_display_name (GFile       *file,
-		  const char  *name,
-		  GthDateTime *date_time)
-{
-	GString *display_name;
-	char    *basename;
-
-	display_name = g_string_new ("");
-	basename = g_file_get_basename (file);
-	if ((basename == NULL) || (strcmp (basename, "/") == 0)) {
-		 g_string_append (display_name, _("Catalogs"));
-	}
-	else {
-		if ((name == NULL) && ! gth_datetime_valid (date_time)) {
-			char *name;
-			char *utf8_name;
-
-			name = _g_uri_remove_extension (basename);
-			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
-			g_string_append (display_name, utf8_name);
-
-			g_free (utf8_name);
-			g_free (name);
-		}
-		else {
-			if (name != NULL)
-				g_string_append (display_name, name);
-
-			if (gth_datetime_valid (date_time)) {
-				char *formatted;
-
-				if (name != NULL)
-					g_string_append (display_name, " (");
-				formatted = gth_datetime_strftime (date_time, "%x");
-				g_string_append (display_name, formatted);
-				if (name != NULL)
-					g_string_append (display_name, ")");
-
-				g_free (formatted);
-			}
-		}
-	}
-
-	return g_string_free (display_name, FALSE);
-}
-
-
-static void
-update_standard_attributes (GFile       *file,
-			    GFileInfo   *info,
-			    const char  *name,
-			    GthDateTime *date_time)
-{
-	char *display_name;
-
-	display_name = get_display_name (file, name, date_time);
-
-	if (gth_datetime_valid (date_time)) {
-		char *sort_order_s;
-		int   sort_order;
-
-		sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
-		sort_order = atoi (sort_order_s);
-		g_file_info_set_sort_order (info, sort_order);
-	}
-
-	if (display_name != NULL)
-		g_file_info_set_display_name (info, display_name);
-}
-
-
 void
 gth_catalog_update_standard_attributes (GFile     *file,
 				        GFileInfo *info)
@@ -958,10 +1032,10 @@ load__catalog_buffer_ready_cb (void     *buffer,
 
 
 void
-gth_catalog_load_from_file (GFile         *file,
-		            GCancellable  *cancellable,
-			    ReadyCallback  ready_func,
-			    gpointer       user_data)
+gth_catalog_load_from_file_async (GFile         *file,
+				  GCancellable  *cancellable,
+				  ReadyCallback  ready_func,
+				  gpointer       user_data)
 {
 	LoadData *load_data;
 	GFile    *gio_file;
@@ -981,59 +1055,106 @@ gth_catalog_load_from_file (GFile         *file,
 }
 
 
-void
-gth_catalog_update_metadata (GthCatalog  *catalog,
-			     GthFileData *file_data)
+GFile *
+gth_catalog_get_file_for_date (GthDateTime *date_time)
 {
-	const char *sort_type;
-	gboolean    sort_inverse;
+	char  *year;
+	char  *uri;
+	GFile *base;
+	char  *display_name;
+	GFile *catalog_file;
 
-	/* sort::type,sort::inverse */
+	year = gth_datetime_strftime (date_time, "%Y");
+	uri = g_strconcat ("catalog:///", year, "/", NULL);
+	base = g_file_new_for_uri (uri);
+	display_name = gth_datetime_strftime (date_time, "%Y-%m-%d");
+	catalog_file = _g_file_new_for_display_name (uri, display_name, ".catalog");
 
-	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
-	if (sort_type != NULL) {
-		g_file_info_set_attribute_string (file_data->info, "sort::type", sort_type);
-		g_file_info_set_attribute_boolean (file_data->info, "sort::inverse", sort_inverse);
+	g_free (display_name);
+	g_object_unref (base);
+	g_free (uri);
+	g_free (year);
+
+	return catalog_file;
+}
+
+
+GthCatalog *
+gth_catalog_load_from_file (GFile *file)
+{
+	GthCatalog *catalog;
+	GFile      *gio_file;
+	void       *buffer;
+	gsize       buffer_size;
+
+	gio_file = gth_catalog_file_to_gio_file (file);
+	if (! g_load_file_in_buffer (gio_file, &buffer, &buffer_size, NULL))
+		return NULL;
+
+	catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
+	if (catalog != NULL)
+		gth_catalog_load_from_data (catalog, buffer, buffer_size, NULL);
+
+	g_free (buffer);
+	g_object_unref (gio_file);
+
+	return catalog;
+}
+
+
+void
+gth_catalog_save (GthCatalog *catalog)
+{
+	GFile  *file;
+	GFile  *gio_file;
+	GFile  *gio_parent;
+	char   *data;
+	gsize   size;
+	GError *error = NULL;
+
+	file = gth_catalog_get_file (catalog);
+	gio_file = gth_catalog_file_to_gio_file (file);
+	gio_parent = g_file_get_parent (gio_file);
+	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
+	data = gth_catalog_to_data (catalog, &size);
+	if (! g_write_file (gio_file,
+			    FALSE,
+			    G_FILE_CREATE_NONE,
+			    data,
+			    size,
+			    NULL,
+			    &error))
+	{
+		g_warning ("%s", error->message);
+		g_clear_error (&error);
 	}
 	else {
-		g_file_info_remove_attribute (file_data->info, "sort::type");
-		g_file_info_remove_attribute (file_data->info, "sort::inverse");
+		GFile *parent_parent;
+		GFile *parent;
+		GList *list;
+
+		parent = g_file_get_parent (file);
+		parent_parent = g_file_get_parent (parent);
+		if (parent_parent != NULL) {
+			list = g_list_append (NULL, parent);
+			gth_monitor_folder_changed (gth_main_get_default_monitor (),
+						    parent_parent,
+					            list,
+						    GTH_MONITOR_EVENT_CREATED);
+			g_list_free (list);
+		}
+
+		list = g_list_append (NULL, file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				            parent,
+				            list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		g_list_free (list);
+		g_object_unref (parent);
 	}
 
-	/* general::event-date */
-
-	if (gth_datetime_valid (catalog->priv->date_time)) {
-		GObject *metadata;
-		char    *raw;
-		char    *formatted;
-		char    *sort_order_s;
-		int      sort_order;
-
-		metadata = (GObject *) gth_metadata_new ();
-		raw = gth_datetime_to_exif_date (catalog->priv->date_time);
-		formatted = gth_datetime_strftime (catalog->priv->date_time, "%x");
-		g_object_set (metadata,
-			      "id", "general::event-date",
-			      "raw", raw,
-			      "formatted", formatted,
-			      NULL);
-		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
-
-		sort_order_s = gth_datetime_strftime (catalog->priv->date_time, "%Y%m%d");
-		sort_order = atoi (sort_order_s);
-		g_file_info_set_sort_order (file_data->info, sort_order);
-
-		g_free (formatted);
-		g_free (raw);
-		g_object_unref (metadata);
-	}
-	else
-		g_file_info_remove_attribute (file_data->info, "general::event-date");
-
-	/* standard::display-name,standard::sort-order */
-
-	update_standard_attributes (file_data->file,
-				    file_data->info,
-				    catalog->priv->name,
-				    catalog->priv->date_time);
+	g_free (data);
+	g_object_unref (gio_parent);
+	g_object_unref (gio_file);
 }

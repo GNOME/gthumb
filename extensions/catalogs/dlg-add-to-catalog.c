@@ -159,10 +159,10 @@ catalog_ready_cb (GObject  *catalog,
 static void
 add_data_exec (AddData *add_data)
 {
-	gth_catalog_load_from_file (add_data->catalog_file,
-				    NULL,
-				    catalog_ready_cb,
-				    add_data);
+	gth_catalog_load_from_file_async (add_data->catalog_file,
+					  NULL,
+					  catalog_ready_cb,
+					  add_data);
 }
 
 

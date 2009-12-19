@@ -825,6 +825,20 @@ gth_extension_manager_deactivate (GthExtensionManager  *manager,
 }
 
 
+gboolean
+gth_extension_manager_is_active (GthExtensionManager *manager,
+				 const char          *extension_name)
+{
+	GthExtensionDescription *description;
+
+	description = g_hash_table_lookup (manager->priv->extensions, extension_name);
+	if (description != NULL)
+		return gth_extension_description_is_active (description);
+	else
+		return NULL;
+}
+
+
 GList *
 gth_extension_manager_get_extensions (GthExtensionManager *manager)
 {

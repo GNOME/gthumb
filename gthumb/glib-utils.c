@@ -1663,6 +1663,29 @@ _g_build_uri (const char *base, ...)
 /* GIO utils */
 
 
+GFile *
+_g_file_new_for_display_name (const char *base_uri,
+			      const char *display_name,
+			      const char *extension)
+{
+	GFile *base;
+	char  *name;
+	char  *name_escaped;
+	GFile *catalog_file;
+
+	base = g_file_new_for_uri (base_uri);
+	name = g_strdup_printf ("%s%s", display_name, extension);
+	name_escaped = _g_utf8_replace (name, "/", ".");
+	catalog_file = g_file_get_child_for_display_name (base, name_escaped, NULL);
+
+	g_free (name_escaped);
+	g_free (name);
+	g_object_unref (base);
+
+	return catalog_file;
+}
+
+
 gboolean
 _g_file_equal (GFile *file1,
 	       GFile *file2)

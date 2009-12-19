@@ -87,6 +87,8 @@ void          gth_catalog_set_order       (GthCatalog           *catalog,
 					   gboolean              inverse);
 const char *  gth_catalog_get_order       (GthCatalog           *catalog,
 					   gboolean             *inverse);
+void          gth_catalog_set_for_date    (GthCatalog           *catalog,
+					   GthDateTime          *date_time);
 void          gth_catalog_load_from_data  (GthCatalog           *catalog,
 					   const void           *buffer,
 					   gsize                 count,
@@ -124,9 +126,12 @@ char *         gth_catalog_get_relative_path          (GFile         *file);
 GIcon *        gth_catalog_get_icon                   (GFile         *file);
 void           gth_catalog_update_standard_attributes (GFile         *file,
 						       GFileInfo     *info);
-void           gth_catalog_load_from_file             (GFile         *file,
+void           gth_catalog_load_from_file_async       (GFile         *file,
 						       GCancellable  *cancellable,
 						       ReadyCallback  ready_func,
 						       gpointer       user_data);
+GFile *        gth_catalog_get_file_for_date          (GthDateTime   *date_time);
+GthCatalog *   gth_catalog_load_from_file             (GFile         *file);
+void           gth_catalog_save                       (GthCatalog    *catalog);
 
 #endif /*GTH_CATALOG_H*/

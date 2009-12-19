@@ -119,6 +119,19 @@ gth_datetime_valid (GthDateTime *dt)
 }
 
 
+void
+gth_datetime_from_timeval (GthDateTime *dt,
+			   GTimeVal    *tv)
+{
+	char *exif_date;
+
+	exif_date = _g_time_val_to_exif_date (tv);
+	gth_datetime_from_exif_date (dt, exif_date);
+
+	g_free (exif_date);
+}
+
+
 gboolean
 gth_datetime_from_exif_date (GthDateTime *dt,
 			     const char  *exif_date)

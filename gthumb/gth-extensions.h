@@ -168,6 +168,8 @@ gboolean                   gth_extension_manager_activate          (GthExtension
 gboolean                   gth_extension_manager_deactivate        (GthExtensionManager  *manager,
 								    const char           *extension_name,
 								    GError              **error);
+gboolean                   gth_extension_manager_is_active         (GthExtensionManager  *manager,
+								    const char           *extension_name);
 GList *                    gth_extension_manager_get_extensions    (GthExtensionManager  *manager);
 GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager  *manager,
 								    const char           *extension_name);

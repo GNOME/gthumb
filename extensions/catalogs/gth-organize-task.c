@@ -85,60 +85,9 @@ save_catalog (gpointer key,
 	      gpointer value,
 	      gpointer user_data)
 {
-	GthOrganizeTask *self = user_data;
-	GthCatalog      *catalog = value;
-	GFile           *file;
-	GFile           *gio_file;
-	GFile           *gio_parent;
-	char            *data;
-	gsize            size;
-	GError          *error = NULL;
+	GthCatalog *catalog = value;
 
-	file = gth_catalog_get_file (catalog);
-	gio_file = gth_catalog_file_to_gio_file (file);
-	gio_parent = g_file_get_parent (gio_file);
-	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
-	data = gth_catalog_to_data (catalog, &size);
-	if (! g_write_file (gio_file,
-			    FALSE,
-			    G_FILE_CREATE_NONE,
-			    data,
-			    size,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    &error))
-	{
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-	else {
-		GFile *parent_parent;
-		GFile *parent;
-		GList *list;
-
-		parent = g_file_get_parent (file);
-		parent_parent = g_file_get_parent (parent);
-		if (parent_parent != NULL) {
-			list = g_list_append (NULL, parent);
-			gth_monitor_folder_changed (gth_main_get_default_monitor (),
-						    parent_parent,
-					            list,
-						    GTH_MONITOR_EVENT_CREATED);
-			g_list_free (list);
-		}
-
-		list = g_list_append (NULL, file);
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				            parent,
-				            list,
-					    GTH_MONITOR_EVENT_CREATED);
-
-		g_list_free (list);
-		g_object_unref (parent);
-	}
-
-	g_free (data);
-	g_object_unref (gio_parent);
-	g_object_unref (gio_file);
+	gth_catalog_save (catalog);
 }
 
 
@@ -183,7 +132,7 @@ save_catalogs (GthOrganizeTask *self)
 		}
 		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
 	}
-	g_hash_table_foreach (self->priv->catalogs, save_catalog, self);
+	g_hash_table_foreach (self->priv->catalogs, save_catalog, NULL);
 
 	gth_task_completed (GTH_TASK (self), NULL);
 }
@@ -260,52 +209,6 @@ done_func (GError   *error,
 }
 
 
-static GFile *
-get_catalog_file (const char *base_uri,
-		  const char *display_name)
-{
-	GFile *base;
-	char  *name;
-	char  *name_escaped;
-	GFile *catalog_file;
-
-	base = g_file_new_for_uri (base_uri);
-	name = g_strdup_printf ("%s.catalog", display_name);
-	name_escaped = _g_utf8_replace (name, "/", ".");
-	catalog_file = g_file_get_child_for_display_name (base, name_escaped, NULL);
-
-	g_free (name_escaped);
-	g_free (name);
-	g_object_unref (base);
-
-	return catalog_file;
-}
-
-
-static GFile *
-get_catalog_file_for_time (GTimeVal *timeval)
-{
-	char  *year;
-	char  *uri;
-	GFile *base;
-	char  *display_name;
-	GFile *catalog_file;
-
-	year = _g_time_val_strftime (timeval, "%Y");
-	uri = g_strconcat ("catalog:///", year, "/", NULL);
-	base = g_file_new_for_uri (uri);
-	display_name = _g_time_val_strftime (timeval, "%Y-%m-%d");
-	catalog_file = get_catalog_file (uri, display_name);
-
-	g_free (display_name);
-	g_object_unref (base);
-	g_free (uri);
-	g_free (year);
-
-	return catalog_file;
-}
-
-
 static void
 for_each_file_func (GFile     *file,
 		    GFileInfo *info,
@@ -330,14 +233,13 @@ for_each_file_func (GFile     *file,
 			metadata = g_file_info_get_attribute_object (info, "Embedded::Photo::DateTimeOriginal");
 			if (metadata != NULL) {
 				if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
-					key = g_strdup (_g_time_val_strftime (&timeval, KEY_FORMAT));
+					key = _g_time_val_strftime (&timeval, KEY_FORMAT);
 			}
 		}
 		break;
-
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
 		timeval = *gth_file_data_get_modification_time (file_data);
-		key = g_strdup (_g_time_val_strftime (&timeval, KEY_FORMAT));
+		key = _g_time_val_strftime (&timeval, KEY_FORMAT);
 		break;
 	}
 
@@ -347,18 +249,19 @@ for_each_file_func (GFile     *file,
 	catalog = g_hash_table_lookup (self->priv->catalogs, key);
 	if (catalog == NULL) {
 		GthDateTime *date_time;
-		char        *exif_date;
 		GFile       *catalog_file;
 		char        *name;
 		GtkTreeIter  iter;
 
-		catalog = gth_catalog_new ();
 		date_time = gth_datetime_new ();
-		exif_date = _g_time_val_to_exif_date (&timeval);
-		gth_datetime_from_exif_date (date_time, exif_date);
-		gth_catalog_set_date (catalog, date_time);
-		catalog_file = get_catalog_file_for_time (&timeval);
-		gth_catalog_set_file (catalog, catalog_file);
+		gth_datetime_from_timeval (date_time, &timeval);
+
+		catalog_file = gth_catalog_get_file_for_date (date_time);
+		catalog = gth_catalog_load_from_file (catalog_file);
+		if (catalog == NULL)
+			catalog = gth_catalog_new ();
+		gth_catalog_set_for_date (catalog, date_time);
+
 		g_hash_table_insert (self->priv->catalogs, g_strdup (key), catalog);
 
 		name = gth_datetime_strftime (date_time, "%x");
@@ -374,7 +277,6 @@ for_each_file_func (GFile     *file,
 
 		g_free (name);
 		g_object_unref (catalog_file);
-		g_free (exif_date);
 		gth_datetime_free (date_time);
 	}
 
@@ -796,7 +698,7 @@ gth_organize_task_set_singletons_catalog (GthOrganizeTask *self,
 		return;
 
 	self->priv->singletons_catalog = gth_catalog_new ();
-	file = get_catalog_file ("catalog:///", catalog_name);
+	file = _g_file_new_for_display_name ("catalog:///", catalog_name, ".catalog");
 	gth_catalog_set_file (self->priv->singletons_catalog, file);
 	gth_catalog_set_name (self->priv->singletons_catalog, catalog_name);
 

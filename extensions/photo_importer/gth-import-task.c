@@ -21,27 +21,33 @@
  */
 
 #include <config.h>
+#include <extensions/catalogs/gth-catalog.h>
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
 
 
-struct _GthImportTaskPrivate {
-	GthBrowser         *browser;
-	GList              *files;
-	GFile              *destination;
-	GthSubfolderType    subfolder_type;
-	GthSubfolderFormat  subfolder_format;
-	gboolean            single_subfolder;
-	char              **tags;
-	gboolean            delete_imported;
-	gboolean            overwrite_files;
-	gboolean            adjust_orientation;
+#define IMPORTED_KEY "imported"
 
-	gsize               tot_size;
-	gsize               copied_size;
-	gsize               current_file_size;
-	GList              *current;
-	GthFileData        *destination_file;
+
+struct _GthImportTaskPrivate {
+	GthBrowser          *browser;
+	GList               *files;
+	GFile               *destination;
+	GthSubfolderType     subfolder_type;
+	GthSubfolderFormat   subfolder_format;
+	gboolean             single_subfolder;
+	char               **tags;
+	gboolean             delete_imported;
+	gboolean             overwrite_files;
+	gboolean             adjust_orientation;
+
+	GHashTable          *catalogs;
+	gsize                tot_size;
+	gsize                copied_size;
+	gsize                current_file_size;
+	GList               *current;
+	GthFileData         *destination_file;
+	GFile               *imported_catalog;
 };
 
 
@@ -62,6 +68,8 @@ gth_import_task_finalize (GObject *object)
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
 	g_strfreev (self->priv->tags);
+	g_hash_table_destroy (self->priv->catalogs);
+	g_object_unref (self->priv->imported_catalog);
 	g_object_unref (self->priv->browser);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -81,6 +89,105 @@ import_next_file (GthImportTask *self)
 
 
 static void
+save_catalog (gpointer key,
+	      gpointer value,
+	      gpointer user_data)
+{
+	GthCatalog *catalog = value;
+
+	gth_catalog_save (catalog);
+}
+
+
+static void
+save_catalogs (GthImportTask *self)
+{
+	g_hash_table_foreach (self->priv->catalogs, save_catalog, self);
+}
+
+
+static void
+catalog_imported_file (GthImportTask *self)
+{
+	char       *key;
+	GObject    *metadata;
+	GTimeVal    timeval;
+	GthCatalog *catalog;
+
+	if (! gth_main_extension_is_active ("catalogs")) {
+		import_next_file (self);
+		return;
+	}
+
+	key = NULL;
+	metadata = g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Photo::DateTimeOriginal");
+	if (metadata != NULL) {
+		if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
+			key = _g_time_val_strftime (&timeval, "%Y.%m.%d");
+	}
+
+	if (key == NULL) {
+		g_free (key);
+		import_next_file (self);
+		return;
+	}
+
+	catalog = g_hash_table_lookup (self->priv->catalogs, key);
+	if (catalog == NULL) {
+		GthDateTime *date_time;
+		GFile       *catalog_file;
+
+		date_time = gth_datetime_new ();
+		gth_datetime_from_timeval (date_time, &timeval);
+
+		catalog_file = gth_catalog_get_file_for_date (date_time);
+		catalog = gth_catalog_load_from_file (catalog_file);
+		if (catalog == NULL)
+			catalog = gth_catalog_new ();
+		gth_catalog_set_for_date (catalog, date_time);
+
+		g_hash_table_insert (self->priv->catalogs, g_strdup (key), catalog);
+
+		g_object_unref (catalog_file);
+		gth_datetime_free (date_time);
+	}
+	gth_catalog_append_file (catalog, self->priv->destination_file->file);
+
+	catalog = g_hash_table_lookup (self->priv->catalogs, IMPORTED_KEY);
+	if (catalog == NULL) {
+		GthDateTime *date_time;
+		char        *name;
+		char        *display_name;
+
+		date_time = gth_datetime_new ();
+		gth_datetime_from_timeval (date_time, &timeval);
+
+		name = gth_datetime_strftime (date_time, "%Y.%m.%d-%H.%M.%S");
+		self->priv->imported_catalog = _g_file_new_for_display_name ("catalog://", name, ".catalog");
+		catalog = gth_catalog_load_from_file (self->priv->imported_catalog);
+		if (catalog == NULL)
+			catalog = gth_catalog_new ();
+
+		gth_catalog_set_file (catalog, self->priv->imported_catalog);
+		gth_catalog_set_date (catalog, date_time);
+		display_name = gth_datetime_strftime (date_time, _("Imported %x %X"));
+		gth_catalog_set_name (catalog, display_name);
+
+		g_hash_table_insert (self->priv->catalogs, g_strdup (IMPORTED_KEY), catalog);
+
+		g_free (display_name);
+		g_free (name);
+		gth_datetime_free (date_time);
+	}
+	gth_catalog_append_file (catalog, self->priv->destination_file->file);
+
+	import_next_file (self);
+
+	g_free (key);
+}
+
+
+static void
 write_metadata_ready_func (GError   *error,
 			   gpointer  user_data)
 {
@@ -89,7 +196,7 @@ write_metadata_ready_func (GError   *error,
 	if (error != NULL)
 		g_clear_error (&error);
 
-	import_next_file (self);
+	catalog_imported_file (self);
 }
 
 
@@ -102,7 +209,7 @@ transformation_ready_cb (GError   *error,
 	GList         *file_list;
 
 	if (self->priv->tags[0] == NULL) {
-		import_next_file (self);
+		catalog_imported_file (self);
 		return;
 	}
 
@@ -140,7 +247,7 @@ copy_ready_cb (GError   *error,
 	if (self->priv->adjust_orientation) {
 		GthMetadata *metadata;
 
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Exif::Image::Orientation");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
 		if (metadata != NULL) {
 			const char *value;
 
@@ -186,6 +293,7 @@ copy_progress_cb (GObject    *object,
 
 		s1 = g_format_size_for_display (((double) self->priv->current_file_size * fraction) + self->priv->copied_size);
 		s2 = g_format_size_for_display (self->priv->tot_size);
+		/* translators: this a copy progress message, for example: 1.2MB of 12MB */
 		local_details = g_strdup_printf (_("%s of %s"), s1, s2);
 		details = local_details;
 
@@ -277,7 +385,11 @@ import_current_file (GthImportTask *self)
 	GList       *list;
 
 	if (self->priv->current == NULL) {
-		gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
+		save_catalogs (self);
+		if (self->priv->imported_catalog != NULL)
+			gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
+		else
+			gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
@@ -285,7 +397,7 @@ import_current_file (GthImportTask *self)
 	file_data = self->priv->current->data;
 	list = g_list_prepend (NULL, file_data);
 	_g_query_metadata_async (list,
-				 "Exif::Image::DateTime,Exif::Image::Orientation",
+				 "Embedded::Photo::DateTimeOriginal,Embedded::Image::Orientation",
 				 gth_task_get_cancellable (GTH_TASK (self)),
 				 file_info_ready_cb,
 				 self);
@@ -332,6 +444,7 @@ static void
 gth_import_task_init (GthImportTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_TASK, GthImportTaskPrivate);
+	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 
 
@@ -412,7 +525,7 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 	else if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
 		GthMetadata *metadata;
 
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else

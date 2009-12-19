@@ -53,6 +53,8 @@ GthDateTime * gth_datetime_new             (void);
 void          gth_datetime_free            (GthDateTime *dt);
 void          gth_datetime_clear           (GthDateTime *dt);
 gboolean      gth_datetime_valid           (GthDateTime *dt);
+void          gth_datetime_from_timeval    (GthDateTime *dt,
+					    GTimeVal    *tv);
 gboolean      gth_datetime_from_exif_date  (GthDateTime *dt,
 					    const char  *exif_date);
 void          gth_datetime_from_struct_tm  (GthDateTime *dt,

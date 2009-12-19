@@ -243,5 +243,5 @@ dlg_catalog_properties (GthBrowser  *browser,
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 
-	gth_catalog_load_from_file (file_data->file, NULL, catalog_ready_cb, data);
+	gth_catalog_load_from_file_async (file_data->file, NULL, catalog_ready_cb, data);
 }

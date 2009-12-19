@@ -1247,6 +1247,16 @@ gth_main_activate_extensions (void)
 }
 
 
+gboolean
+gth_main_extension_is_active (const char *extension_name)
+{
+	if (Main->priv->extension_manager == NULL)
+		return FALSE;
+	else
+		return gth_extension_manager_is_active (Main->priv->extension_manager, extension_name);
+}
+
+
 /* utilities */
 
 

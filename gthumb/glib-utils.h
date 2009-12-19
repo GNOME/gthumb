@@ -218,6 +218,9 @@ char *          _g_build_uri                     (const char *base,
 
 /* GIO utils */
 
+GFile *         _g_file_new_for_display_name     (const char *base_uri,
+					          const char *display_name,
+					          const char *extension);
 gboolean        _g_file_equal                    (GFile      *file1,
 						  GFile      *file2);
 char *          _g_file_get_display_name         (GFile      *file);

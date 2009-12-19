@@ -371,10 +371,10 @@ read_metadata_info_ready_cb (GList    *files,
 		GFile *gio_file;
 
 		gio_file = gth_catalog_file_to_gio_file (read_metadata->file_data->file);
-		gth_catalog_load_from_file (gio_file,
-					    gth_file_source_get_cancellable (read_metadata->file_source),
-					    read_metadata_catalog_ready_cb,
-					    read_metadata);
+		gth_catalog_load_from_file_async (gio_file,
+						  gth_file_source_get_cancellable (read_metadata->file_source),
+						  read_metadata_catalog_ready_cb,
+						  read_metadata);
 
 		g_object_unref (gio_file);
 	}
@@ -763,10 +763,10 @@ copy__file_list_info_ready_cb (GList    *files,
 	}
 	cod->files = g_list_reverse (cod->files);
 
-	gth_catalog_load_from_file (cod->destination->file,
-				   gth_file_source_get_cancellable (cod->file_source),
-				   catalog_ready_cb,
-				   cod);
+	gth_catalog_load_from_file_async (cod->destination->file,
+					  gth_file_source_get_cancellable (cod->file_source),
+					  catalog_ready_cb,
+					  cod);
 }
 
 
@@ -955,10 +955,10 @@ gth_file_source_catalogs_reorder (GthFileSource *file_source,
 	reorder_data->data = data;
 
 	gio_file = gth_file_source_to_gio_file (file_source, destination->file);
-	gth_catalog_load_from_file (gio_file,
-				    gth_file_source_get_cancellable (file_source),
-				    reorder_catalog_ready_cb,
-				    reorder_data);
+	gth_catalog_load_from_file_async (gio_file,
+					  gth_file_source_get_cancellable (file_source),
+					  reorder_catalog_ready_cb,
+					  reorder_data);
 
 	g_object_unref (gio_file);
 }
