@@ -22,7 +22,7 @@
 	<default>none</default>
 	<locale name="C">
 	  <short></short>
-	  <long>Possible values are: none, file_day, file_month, today, now, custom
+	  <long>Possible values are: none, file_date, current_date
 	  </long>
 	</locale>
       </schema>
@@ -45,7 +45,7 @@
         <applyto>/apps/gthumb/ext/photo_importer/subfolder_single</applyto>
         <owner>gthumb</owner>
         <type>bool</type>
-        <default>TRUE</default>
+        <default>FALSE</default>
         <locale name="C">
           <short></short>
           <long>
@@ -84,7 +84,7 @@
 	<applyto>/apps/gthumb/ext/photo_importer/adjust_orientation</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>TRUE</default>
+	<default>FALSE</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

@@ -752,8 +752,8 @@ dlg_photo_importer (GthBrowser *browser,
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("overwrite_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_OVERWRITE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, FALSE));
 	subfolder_type = eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("autosubfolder_checkbutton")), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), (subfolder_type == 0) ? 0 : subfolder_type - 1);
