@@ -111,10 +111,21 @@ save_catalog (gpointer key,
 		g_clear_error (&error);
 	}
 	else {
+		GFile *parent_parent;
 		GFile *parent;
 		GList *list;
 
 		parent = g_file_get_parent (file);
+		parent_parent = g_file_get_parent (parent);
+		if (parent_parent != NULL) {
+			list = g_list_append (NULL, parent);
+			gth_monitor_folder_changed (gth_main_get_default_monitor (),
+						    parent_parent,
+					            list,
+						    GTH_MONITOR_EVENT_CREATED);
+			g_list_free (list);
+		}
+
 		list = g_list_append (NULL, file);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				            parent,
