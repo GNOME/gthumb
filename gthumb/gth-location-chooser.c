@@ -35,6 +35,8 @@
 #include "pixbuf-utils.h"
 
 
+#define MIN_WIDTH 200
+
 
 enum {
 	ITEM_TYPE_NONE,
@@ -321,6 +323,7 @@ gth_location_chooser_construct (GthLocationChooser *chooser)
 					      row_separator_func,
 					      chooser,
 					      NULL);
+	gtk_widget_set_size_request (chooser->priv->combo, MIN_WIDTH, -1);
 
 	/* icon column */
 
