@@ -294,7 +294,7 @@ get_catalog_file_for_time (GTimeVal *timeval)
 	year = _g_time_val_strftime (timeval, "%Y");
 	uri = g_strconcat ("catalog:///", year, "/", NULL);
 	base = g_file_new_for_uri (uri);
-	display_name = _g_time_val_strftime (timeval, "%m-%d");
+	display_name = _g_time_val_strftime (timeval, "%Y-%m-%d");
 	catalog_file = get_catalog_file (uri, display_name);
 
 	g_free (display_name);
