@@ -266,16 +266,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	GthImageLoader *image_loader;
 
 	if (error != NULL) {
-		/*
-		char *msg;
-
-		msg = g_strdup_printf (_("Could not view the file \"%s\""), g_file_info_get_display_name (self->priv->file_data->info));
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), msg, &error);
-
-		g_free (msg);
-		return;
-		*/
-		g_clear_error (&error);
+		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 		return;
 	}
 
