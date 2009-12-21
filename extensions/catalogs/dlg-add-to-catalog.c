@@ -139,7 +139,7 @@ catalog_ready_cb (GObject  *catalog,
 
 	for (scan = add_data->files; scan; scan = scan->next) {
 		GthFileData *file_to_add = scan->data;
-		gth_catalog_insert_file (add_data->catalog, -1, file_to_add->file);
+		gth_catalog_insert_file (add_data->catalog, file_to_add->file, -1);
 	}
 
 	add_data->buffer = gth_catalog_to_data (add_data->catalog, &add_data->length);

@@ -725,7 +725,7 @@ catalog_ready_cb (GObject  *catalog,
 	cod->catalog = (GthCatalog *) catalog;
 
 	for (scan = cod->files; scan; scan = scan->next)
-		gth_catalog_insert_file (cod->catalog, -1, (GFile *) scan->data);
+		gth_catalog_insert_file (cod->catalog, (GFile *) scan->data, -1);
 
 	cod->buffer = gth_catalog_to_data (cod->catalog, &cod->length);
 	gio_file = gth_catalog_file_to_gio_file (cod->destination->file);
@@ -882,7 +882,7 @@ reorder_catalog_list (GthCatalog *catalog,
 	}
 
 	for (scan = file_list; scan; scan = scan->next)
-		if (gth_catalog_insert_file (catalog, dest_pos, (GFile *) scan->data))
+		if (gth_catalog_insert_file (catalog, (GFile *) scan->data, dest_pos))
 			dest_pos++;
 
 	all_files = gth_catalog_get_file_list (catalog);

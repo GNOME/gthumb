@@ -97,14 +97,9 @@ embedded_dialog_response_cb (GeditMessageArea *message_area,
 	EmbeddedDialogData *data = user_data;
 
 	switch (response_id) {
-	case GTK_RESPONSE_CLOSE:
-		/* gth_browser_set_list_extra_widget (data->browser, NULL); FIXME */
-		break;
-
 	case GTK_RESPONSE_CANCEL:
 		gth_task_cancel (GTH_TASK (data->task));
 		break;
-
 	default:
 		break;
 	}
@@ -118,29 +113,9 @@ save_search_result_copy_done_cb (void     *buffer,
 				 gpointer  user_data)
 {
 	GthSearchTask *task = user_data;
-	GList         *result;
-	int            n;
-	char          *text;
 
 	g_free (buffer);
-
-	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), _("Search completed"));
-
-	/*result = gth_catalog_get_file_list (GTH_CATALOG (task->priv->search));
-	n = g_list_length (result);
-	text = g_strdup_printf (ngettext("%d file found.", "%d files found.", n), n);
-	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text);
-
-	g_free (text);*/
-
 	gth_browser_update_extra_widget (task->priv->browser);
-
-	/* FIXME
-	gedit_message_area_add_stock_button_with_text (GEDIT_MESSAGE_AREA (task->priv->dialog),
-						       NULL,
-						       GTK_STOCK_CLOSE,
-						       GTK_RESPONSE_CLOSE);
-	*/
 
 	task->priv->io_operation = FALSE;
 	gth_task_completed (GTH_TASK (task), task->priv->error);
@@ -167,6 +142,11 @@ done_func (GObject  *object,
 		else
 			task->priv->error = error;
 	}
+
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    task->priv->search_catalog,
+				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
+				    GTH_MONITOR_EVENT_CREATED);
 
 	/* save the search result */
 
@@ -201,18 +181,8 @@ for_each_file_func (GFile     *file,
 
 	file_data = gth_file_data_new (file, info);
 
-	if (gth_test_match (GTH_TEST (task->priv->test), file_data)) {
-		GList *list;
-
-		gth_catalog_insert_file (GTH_CATALOG (task->priv->search), -1, file_data->file);
-
-		list = g_list_prepend (NULL, g_object_ref (file_data->file));
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    task->priv->search_catalog,
-					    list,
-					    GTH_MONITOR_EVENT_CREATED);
-		_g_object_list_unref (list);
-	}
+	if (gth_test_match (GTH_TEST (task->priv->test), file_data))
+		gth_catalog_insert_file (GTH_CATALOG (task->priv->search), file_data->file, -1);
 
 	g_object_unref (file_data);
 }
@@ -230,7 +200,6 @@ start_dir_func (GFile      *directory,
 
 	uri = g_file_get_parse_name (directory);
 	text = g_strdup_printf ("Searching in %s", uri);
-	/*gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text); FIXME */
 	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text);
 
 	g_free (text);

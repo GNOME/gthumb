@@ -119,6 +119,7 @@ gth_embedded_dialog_construct (GthEmbeddedDialog *self)
 	gtk_box_pack_start (GTK_BOX (vbox), primary_label, TRUE, TRUE, 0);
 	gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (primary_label), TRUE);
+	gtk_label_set_ellipsize (GTK_LABEL (primary_label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (primary_label), 0, 6);
 	GTK_WIDGET_SET_FLAGS (primary_label, GTK_CAN_FOCUS);
