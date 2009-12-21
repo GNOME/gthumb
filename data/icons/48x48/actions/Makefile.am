@@ -6,7 +6,10 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 			\
 	browser-mode.png	\
-	palette.png
+	file-catalog.png	\
+	file-library.png	\
+	file-search.png		\
+	palette.png		
 
 EXTRA_DIST = $(icons_DATA)	
 

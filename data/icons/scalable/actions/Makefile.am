@@ -1,16 +1,15 @@
 themedir = $(pkgdatadir)/icons/hicolor
-size = 22x22
+size = scalable
 context = actions
 
 iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 			\
-	browser-mode.png	\
-	file-catalog.png	\
-	file-library.png	\
-	file-search.png		\
-	palette.png		\
-	zoom-fit-width.png
+	browser-mode.svg	\
+	file-catalog.svg	\
+	file-library.svg	\
+	file-search.svg		\
+	palette.svg
 
 EXTRA_DIST = $(icons_DATA)	
 
