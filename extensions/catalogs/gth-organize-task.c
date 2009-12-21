@@ -173,7 +173,7 @@ done_func (GError   *error,
 					singletons++;
 					catalog = g_hash_table_lookup (self->priv->catalogs, key);
 					file_list = gth_catalog_get_file_list (catalog);
-					gth_catalog_append_file (self->priv->singletons_catalog, file_list->data);
+					gth_catalog_insert_file (self->priv->singletons_catalog, file_list->data, -1);
 					if (singletons == 1)
 						g_hash_table_insert (self->priv->catalogs,
 								     g_strdup (gth_catalog_get_name (self->priv->singletons_catalog)),
@@ -308,7 +308,7 @@ for_each_file_func (GFile     *file,
 			while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
 		}
 
-		gth_catalog_append_file (catalog, file_data->file);
+		gth_catalog_insert_file (catalog, file_data->file, -1);
 	}
 
 	g_object_unref (file_data);

@@ -35,6 +35,7 @@ struct _GthCatalogPrivate {
 	GthCatalogType  type;
 	GFile          *file;
 	GList          *file_list;
+	GHashTable     *file_hash;  /* used to avoid duplicates */
 	char           *name;
 	GthDateTime    *date_time;
 	gboolean        active;
@@ -57,6 +58,7 @@ gth_catalog_finalize (GObject *object)
 			g_object_unref (catalog->priv->file);
 		g_free (catalog->priv->name);
 		_g_object_list_unref (catalog->priv->file_list);
+		g_hash_table_destroy (catalog->priv->file_hash);
 		gth_datetime_free (catalog->priv->date_time);
 		g_free (catalog->priv->order);
 		g_free (catalog->priv);
@@ -81,10 +83,10 @@ static void
 base_read_from_doc (GthCatalog  *catalog,
 		    DomElement *root)
 {
+	GList      *file_list;
 	DomElement *child;
 
-	gth_catalog_set_file_list (catalog, NULL);
-
+	file_list = NULL;
 	for (child = root->first_child; child; child = child->next_sibling) {
 		if (g_strcmp0 (child->tag_name, "files") == 0) {
 			DomElement *file;
@@ -94,8 +96,9 @@ base_read_from_doc (GthCatalog  *catalog,
 
 				uri = dom_element_get_attribute (file, "uri");
 				if (uri != NULL)
-					catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
+					file_list = g_list_prepend (file_list, g_file_new_for_uri (uri));
 			}
+			file_list = g_list_reverse (file_list);
 		}
 		if (g_strcmp0 (child->tag_name, "order") == 0)
 			gth_catalog_set_order (catalog,
@@ -106,7 +109,9 @@ base_read_from_doc (GthCatalog  *catalog,
 		if (g_strcmp0 (child->tag_name, "name") == 0)
 			gth_catalog_set_name (catalog, dom_element_get_inner_text (child));
 	}
-	catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
+	gth_catalog_set_file_list (catalog, file_list);
+
+	_g_object_list_unref (file_list);
 }
 
 
@@ -238,6 +243,7 @@ gth_catalog_init (GthCatalog *catalog)
 {
 	catalog->priv = g_new0 (GthCatalogPrivate, 1);
 	catalog->priv->date_time = gth_datetime_new ();
+	catalog->priv->file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, NULL, NULL);
 }
 
 
@@ -421,9 +427,24 @@ gth_catalog_set_file_list (GthCatalog *catalog,
 {
 	_g_object_list_unref (catalog->priv->file_list);
 	catalog->priv->file_list = NULL;
+	g_hash_table_remove_all (catalog->priv->file_hash);
 
-	if (file_list != NULL)
-		catalog->priv->file_list = _g_file_list_dup (file_list);
+	if (file_list != NULL) {
+		GList *list;
+		GList *scan;
+
+		list = NULL;
+		for (scan = file_list; scan; scan = scan->next) {
+			GFile *file = scan->data;
+
+			if (g_hash_table_lookup (catalog->priv->file_hash, file) != NULL)
+				continue;
+			file = g_file_dup (file);
+			list = g_list_prepend (list, file);
+			g_hash_table_insert (catalog->priv->file_hash, file, GINT_TO_POINTER (1));
+		}
+		catalog->priv->file_list = g_list_reverse (list);
+	}
 }
 
 
@@ -436,26 +457,17 @@ gth_catalog_get_file_list (GthCatalog *catalog)
 
 gboolean
 gth_catalog_insert_file (GthCatalog *catalog,
-			 int         pos,
-			 GFile      *file)
+			 GFile      *file,
+			 int         pos)
 {
-	GList *link;
-
-	link = g_list_find_custom (catalog->priv->file_list, file, (GCompareFunc) _g_file_cmp_uris);
-	if (link != NULL)
+	if (g_hash_table_lookup (catalog->priv->file_hash, file) != NULL)
 		return FALSE;
 
-	catalog->priv->file_list = g_list_insert (catalog->priv->file_list, g_file_dup (file), pos);
+	file = g_file_dup (file);
+	catalog->priv->file_list = g_list_insert (catalog->priv->file_list, file, pos);
+	g_hash_table_insert (catalog->priv->file_hash, file, GINT_TO_POINTER (1));
 
 	return TRUE;
-}
-
-
-void
-gth_catalog_append_file (GthCatalog *catalog,
-		         GFile      *file)
-{
-	catalog->priv->file_list = g_list_append (catalog->priv->file_list, g_file_dup (file));
 }
 
 
@@ -477,6 +489,8 @@ gth_catalog_remove_file (GthCatalog *catalog,
 		return -1;
 
 	catalog->priv->file_list = g_list_remove_link (catalog->priv->file_list, scan);
+	g_hash_table_remove (catalog->priv->file_hash, file);
+
 	_g_object_list_unref (scan);
 
 	return i;
@@ -503,8 +517,10 @@ gth_catalog_list_done (ListData *list_data,
 	GthCatalog *catalog = list_data->catalog;
 
 	catalog->priv->active = FALSE;
-	if (list_data->list_ready_func != NULL)
+	if (list_data->list_ready_func != NULL) {
+		list_data->files = g_list_reverse (list_data->files);
 		list_data->list_ready_func (catalog, list_data->files, error, list_data->user_data);
+	}
 
 	_g_object_list_unref (list_data->files);
 	g_free (list_data);

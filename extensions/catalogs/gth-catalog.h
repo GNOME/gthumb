@@ -99,10 +99,8 @@ void          gth_catalog_set_file_list   (GthCatalog           *catalog,
 					   GList                *file_list);
 GList *       gth_catalog_get_file_list   (GthCatalog           *catalog);
 gboolean      gth_catalog_insert_file     (GthCatalog           *catalog,
-					   int                   pos,
-					   GFile                *file);
-void          gth_catalog_append_file     (GthCatalog           *catalog,
-					   GFile                *file);
+					   GFile                *file,
+					   int                   pos);
 int           gth_catalog_remove_file     (GthCatalog           *catalog,
 					   GFile                *file);
 void          gth_catalog_list_async      (GthCatalog           *catalog,

@@ -153,7 +153,7 @@ catalog_imported_file (GthImportTask *self)
 		g_object_unref (catalog_file);
 		gth_datetime_free (date_time);
 	}
-	gth_catalog_append_file (catalog, self->priv->destination_file->file);
+	gth_catalog_insert_file (catalog, self->priv->destination_file->file, -1);
 
 	catalog = g_hash_table_lookup (self->priv->catalogs, IMPORTED_KEY);
 	if (catalog == NULL) {
@@ -161,6 +161,7 @@ catalog_imported_file (GthImportTask *self)
 		char        *name;
 		char        *display_name;
 
+		g_get_current_time (&timeval);
 		date_time = gth_datetime_new ();
 		gth_datetime_from_timeval (date_time, &timeval);
 
@@ -184,7 +185,7 @@ catalog_imported_file (GthImportTask *self)
 		g_free (name);
 		gth_datetime_free (date_time);
 	}
-	gth_catalog_append_file (catalog, self->priv->destination_file->file);
+	gth_catalog_insert_file (catalog, self->priv->destination_file->file, -1);
 
 	import_next_file (self);
 
