@@ -4184,6 +4184,22 @@ gth_browser_show_last_image (GthBrowser *browser,
 
 
 static void
+gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
+				gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
+
+	gth_browser_update_title (browser);
+	_gth_browser_update_statusbar_file_info (browser);
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
+	gth_browser_update_sensitivity (browser);
+}
+
+
+static void
 file_metadata_ready_cb (GList    *files,
 			GError   *error,
 			gpointer  user_data)
@@ -4199,15 +4215,11 @@ file_metadata_ready_cb (GList    *files,
 		return;
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), file_data);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), file_data);
-	_gth_browser_update_statusbar_file_info (browser);
 
 	if (browser->priv->viewer_page != NULL)
 		gth_viewer_page_view (browser->priv->viewer_page, file_data);
-
-	gth_browser_update_title (browser);
-	gth_browser_update_sensitivity (browser);
+	else
+		gth_viewer_page_file_loaded_cb (NULL, browser);
 
 	if (browser->priv->location == NULL) {
 		GFile *parent;
@@ -4339,6 +4351,11 @@ _gth_browser_load_file (GthBrowser  *browser,
 				browser->priv->viewer_page = g_object_new (G_OBJECT_TYPE (registered_viewer_page), NULL);
 				gth_viewer_page_activate (browser->priv->viewer_page, browser);
 				gtk_ui_manager_ensure_update (browser->priv->ui);
+
+				g_signal_connect (browser->priv->viewer_page,
+						  "file-loaded",
+						  G_CALLBACK (gth_viewer_page_file_loaded_cb),
+						  browser);
 			}
 			break;
 		}

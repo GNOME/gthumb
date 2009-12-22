@@ -23,6 +23,35 @@
 #include <config.h>
 #include "gth-viewer-page.h"
 
+enum {
+    FILE_LOADED,
+    LAST_SIGNAL
+};
+
+static guint gth_viewer_page_signals[LAST_SIGNAL] = { 0 };
+
+
+static void
+gth_viewer_page_base_init (gpointer g_iface)
+{
+	static gboolean initialized = FALSE;
+
+	if (initialized)
+		return;
+
+	gth_viewer_page_signals[FILE_LOADED] =
+	            g_signal_new ("file-loaded",
+	        		  GTH_TYPE_VIEWER_PAGE,
+	                          G_SIGNAL_RUN_LAST,
+	                          G_STRUCT_OFFSET (GthViewerPageIface, file_loaded),
+	                          NULL, NULL,
+	                          g_cclosure_marshal_VOID__VOID,
+	                          G_TYPE_NONE,
+	                          0);
+
+	initialized = TRUE;
+}
+
 
 GType
 gth_viewer_page_get_type (void) {
@@ -30,7 +59,7 @@ gth_viewer_page_get_type (void) {
 	if (gth_viewer_page_type_id == 0) {
 		static const GTypeInfo g_define_type_info = {
 			sizeof (GthViewerPageIface),
-			(GBaseInitFunc) NULL,
+			(GBaseInitFunc) gth_viewer_page_base_init,
 			(GBaseFinalizeFunc) NULL,
 			(GClassInitFunc) NULL,
 			(GClassFinalizeFunc) NULL,
@@ -157,4 +186,11 @@ void
 gth_viewer_page_revert (GthViewerPage *self)
 {
 	GTH_VIEWER_PAGE_GET_INTERFACE (self)->revert (self);
+}
+
+
+void
+gth_viewer_page_file_loaded (GthViewerPage *self)
+{
+	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, NULL);
 }

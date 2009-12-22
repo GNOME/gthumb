@@ -930,6 +930,7 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 
 	/**/
 
+	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self));
 	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), 0.0);
 	g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);

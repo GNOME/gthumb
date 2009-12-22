@@ -206,9 +206,7 @@ image_ready_cb (GtkWidget          *widget,
 	gth_image_history_add_image (self->priv->history,
 				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
-
-	g_file_info_set_attribute_boolean (self->priv->file_data->info, "gth::file::is-modified", FALSE);
-	gth_monitor_metadata_changed (gth_main_get_default_monitor (), self->priv->file_data);
+	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self));
 }
 
 

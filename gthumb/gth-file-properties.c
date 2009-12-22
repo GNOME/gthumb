@@ -92,26 +92,27 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		 		   GthFileData     *file_data)
 {
 	GthFileProperties *file_properties;
-	GHashTable        *category_root;
+	GHashTable        *category_hash;
 	GPtrArray         *metadata_info;
 	int                i;
 	GtkTextBuffer     *text_buffer;
 	char              *comment;
 
 	file_properties = GTH_FILE_PROPERTIES (self);
-
 	gtk_list_store_clear (file_properties->priv->tree_model);
 
 	if (file_data == NULL)
 		return;
 
-	category_root = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (file_properties->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
+
+	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
 	for (i = 0; i < metadata_info->len; i++) {
 		GthMetadataInfo     *info;
-		GthMetadataCategory *category;
 		char                *value;
 		char                *tooltip;
+		GthMetadataCategory *category;
 		GtkTreeIter          iter;
 
 		info = g_ptr_array_index (metadata_info, i);
@@ -120,8 +121,6 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 
 		if ((info->display_name == NULL) || (strncmp (info->display_name, "0x", 2) == 0))
 			continue;
-
-		category = gth_main_get_metadata_category (info->category);
 
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
 		if ((value == NULL) || (*value == '\0'))
@@ -139,19 +138,19 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 			g_free (value);
 			value = tmp_value;
 		}
-		tooltip = g_markup_printf_escaped ("%s: %s", /*info->display_name FIXME: use the display name before releasing*/ info->id, value);
+		tooltip = g_markup_printf_escaped ("%s: %s", info->display_name, value);
 
-		if (g_hash_table_lookup (category_root, category->id) == NULL) {
-			GtkTreeIter parent;
-
-			gtk_list_store_append (file_properties->priv->tree_model, &parent);
-			gtk_list_store_set (file_properties->priv->tree_model, &parent,
+		category = g_hash_table_lookup (category_hash, info->category);
+		if (category == NULL) {
+			category = gth_main_get_metadata_category (info->category);
+			gtk_list_store_append (file_properties->priv->tree_model, &iter);
+			gtk_list_store_set (file_properties->priv->tree_model, &iter,
 					    WEIGHT_COLUMN, PANGO_WEIGHT_BOLD,
 					    ID_COLUMN, category->id,
 					    DISPLAY_NAME_COLUMN, category->display_name,
 					    POS_COLUMN, category->sort_order * CATEGORY_SIZE,
 					    -1);
-			g_hash_table_insert (category_root, g_strdup (category->id), GINT_TO_POINTER (1));
+			g_hash_table_insert (category_hash, g_strdup (info->category), category);
 		}
 
 		gtk_list_store_append (file_properties->priv->tree_model, &iter);
@@ -168,9 +167,11 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		g_free (tooltip);
 		g_free (value);
 	}
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (file_properties->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (file_properties->priv->tree_view));
 
-	g_hash_table_destroy (category_root);
+	g_hash_table_destroy (category_hash);
 
 	/* comment */
 
