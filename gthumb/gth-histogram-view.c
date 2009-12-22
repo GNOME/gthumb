@@ -173,7 +173,7 @@ gth_histogram_paint_channel (GthHistogramView *self,
 		max = 1.0;
 
 	step = w / 256.0;
-	cairo_set_line_width (cr, step);
+	cairo_set_line_width (cr, 0.5);
 	for (i = 0; i < 256; i++) {
 		double value;
 		int    y;
@@ -181,14 +181,14 @@ gth_histogram_paint_channel (GthHistogramView *self,
 		value = gth_histogram_get_value (self->priv->histogram, channel, i);
 		y = (int) (h * convert_to_scale (self->priv->scale_type, value)) / max;
 
-		cairo_new_path (cr);
-		cairo_move_to (cr, i * step + (step / 2), h - y);
-		cairo_line_to (cr, i * step + (step / 2), h);
+		/*cairo_new_path (cr);
+		cairo_move_to (cr, i * step + (step / 2) + 0.5, h - y);
+		cairo_line_to (cr, i * step + (step / 2) + 0.5, h);
 		cairo_close_path (cr);
-		cairo_stroke (cr);
+		cairo_stroke (cr);*/
 
-		/*cairo_rectangle (cr, i * step, h - y, 1 + step, h);
-		cairo_fill (cr);*/
+		cairo_rectangle (cr, (i * step) + 0.5, h - y, 1 + step, h);
+		cairo_fill (cr);
 	}
 }
 
@@ -200,7 +200,7 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	GtkWidget *widget = GTK_WIDGET (self);
 	int        w;
 	int        h;
-	/*int        i;*/
+	int        i;
 
 	w = widget->allocation.width;
 	h = widget->allocation.height;
@@ -211,18 +211,18 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	cairo_rectangle (cr, 0, 0, w, h);
 	cairo_stroke (cr);
 
-	/*cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 0.5);
 	for (i = 1; i <= 4; i++) {
 		int x;
 
 		x = (i * 64) * ((float) w / 256);
 
 		cairo_new_path (cr);
-		cairo_move_to (cr, x, 0);
-		cairo_line_to (cr, x, h);
+		cairo_move_to (cr, x + 0.5, 0);
+		cairo_line_to (cr, x + 0.5, h);
 		cairo_close_path (cr);
 		cairo_stroke (cr);
-	}*/
+	}
 }
 
 
