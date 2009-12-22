@@ -15,9 +15,9 @@
    id="svg3834"
    inkscape:version="0.47pre4 r22446"
    sodipodi:docname="browser-mode.svg"
-   inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/48x48/actions/browser-mode.png"
-   inkscape:export-xdpi="6.5098085"
-   inkscape:export-ydpi="6.5098085">
+   inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/16x16/actions/browser-mode.png"
+   inkscape:export-xdpi="2.1512165"
+   inkscape:export-ydpi="2.1512165">
   <metadata
      id="metadata3869">
     <rdf:RDF>
@@ -44,14 +44,31 @@
      id="namedview3867"
      showgrid="false"
      inkscape:zoom="0.65045503"
-     inkscape:cx="418.92075"
-     inkscape:cy="372.00924"
+     inkscape:cx="361.5129"
+     inkscape:cy="368.93447"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3834"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="1,0"
+       position="43.046788,348.98646"
+       id="guide3663" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="292.10321,697.97293"
+       id="guide3665" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="702.58508,625.71582"
+       id="guide3667" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="799.44035,44.584174"
+       id="guide3669" />
+  </sodipodi:namedview>
   <defs
      id="defs3836">
     <linearGradient
@@ -284,7 +301,7 @@
   </defs>
   <g
      id="g4065"
-     transform="translate(-13.528997,11.069162)">
+     transform="translate(-14.36271,13.994024)">
     <rect
        ry="46.736511"
        y="313.62662"
@@ -367,7 +384,7 @@
   </g>
   <g
      id="g4056"
-     transform="translate(22.138346,18.448624)">
+     transform="translate(20.074725,16.753663)">
     <rect
        style="fill:#eeeeec;fill-opacity:1;stroke:#2e3436;stroke-width:12.80000019;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3874"
@@ -410,7 +427,7 @@
   </g>
   <g
      id="g4081"
-     transform="translate(7.3794593,11.069162)">
+     transform="translate(13.132812,13.994024)">
     <rect
        style="fill:#eeeeec;fill-opacity:1;stroke:#2e3436;stroke-width:12.80000019;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3886"
@@ -452,7 +469,7 @@
   </g>
   <g
      id="g4045"
-     transform="translate(8.6093675,-8.609358)">
+     transform="translate(13.132812,-10.304319)">
     <rect
        ry="46.736511"
        y="47.201561"
