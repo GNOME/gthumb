@@ -2755,17 +2755,11 @@ gth_file_view_item_activated_cb (GtkIconView *iconview,
 				 gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	GList      *list;
-	GList      *files;
 
-	list = g_list_prepend (NULL, path);
-	files = gth_file_list_get_files (GTH_FILE_LIST (browser->priv->file_list), list);
-
-	if (files != NULL)
-		gth_browser_load_file (browser, (GthFileData *) files->data, TRUE);
-
-	_g_object_list_unref (files);
-	g_list_free (list);
+	if (browser->priv->viewer_page != NULL) {
+		gth_viewer_page_show (GTH_VIEWER_PAGE (browser->priv->viewer_page));
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+	}
 }
 
 
