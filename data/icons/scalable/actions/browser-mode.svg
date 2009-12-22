@@ -15,9 +15,9 @@
    id="svg3834"
    inkscape:version="0.47pre4 r22446"
    sodipodi:docname="browser-mode.svg"
-   inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/16x16/actions/browser-mode.png"
-   inkscape:export-xdpi="2.1512165"
-   inkscape:export-ydpi="2.1512165">
+   inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/48x48/actions/browser-mode.png"
+   inkscape:export-xdpi="6.453649"
+   inkscape:export-ydpi="6.453649">
   <metadata
      id="metadata3869">
     <rdf:RDF>
@@ -39,36 +39,19 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1125"
-     inkscape:window-height="920"
+     inkscape:window-width="1280"
+     inkscape:window-height="951"
      id="namedview3867"
      showgrid="false"
-     inkscape:zoom="0.65045503"
-     inkscape:cx="361.5129"
+     inkscape:zoom="0.45994116"
+     inkscape:cx="247.92473"
      inkscape:cy="368.93447"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg3834"
      showguides="true"
-     inkscape:guide-bbox="true">
-    <sodipodi:guide
-       orientation="1,0"
-       position="43.046788,348.98646"
-       id="guide3663" />
-    <sodipodi:guide
-       orientation="0,1"
-       position="292.10321,697.97293"
-       id="guide3665" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="702.58508,625.71582"
-       id="guide3667" />
-    <sodipodi:guide
-       orientation="0,1"
-       position="799.44035,44.584174"
-       id="guide3669" />
-  </sodipodi:namedview>
+     inkscape:guide-bbox="true" />
   <defs
      id="defs3836">
     <linearGradient
@@ -503,4 +486,33 @@
        d="m 439.62342,215.74087 c 0,0 -9.83641,-25.83059 -4.94075,-37.43006 5.74794,-13.61884 29.26369,-22.26221 43.95822,-20.32654 l 27.18872,3.58151 0.0702,53.95659 -66.27641,0.2185 z"
        style="fill:url(#linearGradient4054);fill-opacity:1;stroke:none" />
   </g>
+  <rect
+     style="opacity:0.1;fill:#000000;fill-opacity:1;stroke:#2e3436;stroke-width:16;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect2905"
+     width="186.98044"
+     height="136.97404"
+     x="97.8386"
+     y="120.10162"
+     transform="scale(0.80000001,0.80000001)" />
+  <rect
+     y="384.81387"
+     x="370.48218"
+     height="109.57924"
+     width="149.58435"
+     id="rect3679"
+     style="opacity:0.1;fill:#000000;fill-opacity:1;stroke:#2e3436;stroke-width:12.80000019000000044;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     style="opacity:0.1;fill:#000000;fill-opacity:1;stroke:#2e3436;stroke-width:12.80000019000000044;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect3681"
+     width="149.58435"
+     height="109.57924"
+     x="74.792175"
+     y="384.81387" />
+  <rect
+     y="92.602592"
+     x="370.48218"
+     height="109.57924"
+     width="149.58435"
+     id="rect3683"
+     style="opacity:0.1;fill:#000000;fill-opacity:1;stroke:#2e3436;stroke-width:12.80000019000000044;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
 </svg>
