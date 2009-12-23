@@ -1620,7 +1620,6 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	/* gth_browser_set_list_extra_widget (browser, NULL); FIXME */
 	load_data_load_next_folder (load_data);
 
 	g_object_unref (entry_point);
