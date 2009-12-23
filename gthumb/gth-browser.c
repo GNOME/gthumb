@@ -803,18 +803,18 @@ _gth_browser_get_file_filter (GthBrowser *browser)
 static void
 _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 {
-	GList *file_list;
-	int    n_total;
-	gsize  size_total;
-	GList *scan;
-	int    n_selected;
-	gsize  size_selected;
-	GList *selected;
-	char  *size_total_formatted;
-	char  *size_selected_formatted;
-	char  *text_total;
-	char  *text_selected;
-	char  *text;
+	GList   *file_list;
+	int      n_total;
+	goffset  size_total;
+	GList   *scan;
+	int      n_selected;
+	goffset  size_selected;
+	GList   *selected;
+	char    *size_total_formatted;
+	char    *size_selected_formatted;
+	char    *text_total;
+	char    *text_selected;
+	char    *text;
 
 	/* total */
 
