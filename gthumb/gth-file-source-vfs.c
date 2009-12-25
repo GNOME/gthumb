@@ -57,19 +57,23 @@ static guint mount_monitor_id = 0;
 static GList *
 gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 {
-	GList     *list;
-	GFile     *file;
-	GFileInfo *info;
-	GList     *mounts;
-	GList     *scan;
+	const gchar *path;
+	GList       *list;
+	GFile       *file;
+	GFileInfo   *info;
+	GList       *mounts;
+	GList       *scan;
 
 	list = NULL;
 
-	file = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_PICTURES));
-	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-	list = g_list_append (list, gth_file_data_new (file, info));
-	g_object_unref (info);
-	g_object_unref (file);
+	path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+	if (path != NULL) {
+		file = g_file_new_for_path (path);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+		list = g_list_append (list, gth_file_data_new (file, info));
+		g_object_unref (info);
+		g_object_unref (file);
+	}
 
 	file = g_file_new_for_uri (get_home_uri ());
 	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
