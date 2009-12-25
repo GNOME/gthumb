@@ -1226,7 +1226,7 @@ load_data_load_next_folder (LoadData *load_data)
 	}
 	while (TRUE);
 
-	if (g_file_equal (folder_to_load, load_data->requested_folder->file))
+	if ((load_data->action != GTH_ACTION_LIST_CHILDREN) && g_file_equal (folder_to_load, load_data->requested_folder->file))
 		gth_file_source_read_metadata (load_data->file_source,
 					       load_data->requested_folder,
 					       GFILE_BASIC_ATTRIBUTES ",access::*,sort::*",
@@ -1307,16 +1307,15 @@ load_data_continue (LoadData *load_data,
 	load_data_done (load_data, NULL);
 
 	switch (load_data->action) {
-	case GTH_ACTION_VIEW:
+	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
-	case GTH_ACTION_GO_TO:
+	case GTH_ACTION_GO_UP:
+	case GTH_ACTION_VIEW:
+	case GTH_ACTION_LIST_CHILDREN:
 		if (path != NULL) {
 			GList *entry_points;
 			GList *scan;
-
-			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, FALSE, .0, .0);
-			gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
 
 			/* expand the path if it's an entry point */
 
@@ -1330,6 +1329,11 @@ load_data_continue (LoadData *load_data,
 				}
 			}
 
+			if (load_data->action != GTH_ACTION_LIST_CHILDREN) {
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, FALSE, 0.0, 0.0);
+				gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+			}
+
 			_g_object_list_unref (entry_points);
 		}
 		break;
@@ -1338,11 +1342,11 @@ load_data_continue (LoadData *load_data,
 	}
 
 	switch (load_data->action) {
-	case GTH_ACTION_VIEW:
+	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
-	case GTH_ACTION_GO_INTO:
-	case GTH_ACTION_GO_TO:
+	case GTH_ACTION_GO_UP:
+	case GTH_ACTION_VIEW:
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
@@ -1406,22 +1410,25 @@ metadata_ready_cb (GList    *files,
 
 
 static void
-load_data_ready (LoadData *data,
+load_data_ready (LoadData *load_data,
 		 GList    *files,
 		 GError   *error)
 {
 	if (error != NULL) {
-		load_data_done (data, error);
-		load_data_free (data);
+		load_data_done (load_data, error);
+		load_data_free (load_data);
 	}
-	else if (g_file_equal ((GFile *) data->current->data, data->requested_folder->file))
+	else if ((load_data->action != GTH_ACTION_LIST_CHILDREN)
+		 && g_file_equal ((GFile *) load_data->current->data, load_data->requested_folder->file))
+	{
 		_g_query_metadata_async (files,
-					 _gth_browser_get_list_attributes (data->browser, TRUE),
-					 data->cancellable,
+					 _gth_browser_get_list_attributes (load_data->browser, TRUE),
+					 load_data->cancellable,
 					 metadata_ready_cb,
-				 	 data);
+					 load_data);
+	}
 	else
-		load_data_continue (data, files);
+		load_data_continue (load_data, files);
 }
 
 
@@ -1519,12 +1526,13 @@ _gth_browser_load (GthBrowser *browser,
 	LoadData *load_data;
 	GFile    *entry_point;
 
-	_gth_browser_cancel (browser);
-
 	switch (action) {
+	case GTH_ACTION_GO_TO:
+	case GTH_ACTION_GO_INTO:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
-	case GTH_ACTION_GO_TO:
+	case GTH_ACTION_GO_UP:
+	case GTH_ACTION_VIEW:
 		if (browser->priv->location_source != NULL) {
 			gth_file_source_monitor_directory (browser->priv->location_source,
 							   browser->priv->location->file,
@@ -2154,6 +2162,8 @@ folder_tree_list_children_cb (GthFolderTree *folder_tree,
 			      GFile         *file,
 			      GthBrowser    *browser)
 {
+	g_print ("list children: %s\n", g_file_get_uri (file));
+
 	_gth_browser_load (browser, file, NULL, GTH_ACTION_LIST_CHILDREN, FALSE);
 }
 

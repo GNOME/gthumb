@@ -369,12 +369,12 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	/* command line options */
-
 #ifdef HAVE_CLUTTER
-	if (gtk_clutter_init (&argc, &argv) != CLUTTER_INIT_SUCCESS)
+	if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
 		g_error ("Unable to initialize GtkClutter");
 #endif
+
+	/* command line options */
 
 	context = g_option_context_new (N_("- Image browser and viewer"));
 	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);

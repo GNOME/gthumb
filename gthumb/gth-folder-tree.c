@@ -79,7 +79,6 @@ struct _GthFolderTreePrivate
 	GthIconCache    *icon_cache;
 	GtkCellRenderer *text_renderer;
 	GtkTreePath     *hover_path;
-	GtkTreePath     *click_path;
 };
 
 
@@ -310,12 +309,6 @@ row_expanded_cb (GtkTreeView  *tree_view,
 	GthFileData   *file_data;
 	gboolean       loaded;
 
-	if ((folder_tree->priv->click_path == NULL)
-	    || gtk_tree_path_compare (folder_tree->priv->click_path, expanded_path) != 0)
-	{
-		return FALSE;
-	}
-
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    expanded_iter,
 			    COLUMN_TYPE, &entry_type,
@@ -325,9 +318,6 @@ row_expanded_cb (GtkTreeView  *tree_view,
 
 	if ((entry_type == ENTRY_TYPE_FILE) && ! loaded)
 		g_signal_emit (folder_tree, gth_folder_tree_signals[LIST_CHILDREN], 0, file_data->file);
-
-	gtk_tree_path_free (folder_tree->priv->click_path);
-	folder_tree->priv->click_path = NULL;
 
 	_g_object_unref (file_data);
 
@@ -352,11 +342,6 @@ button_press_cb (GtkWidget      *widget,
 	retval = FALSE;
 
 	gtk_widget_grab_focus (widget);
-
-	if (folder_tree->priv->click_path != NULL) {
-		gtk_tree_path_free (folder_tree->priv->click_path);
-		folder_tree->priv->click_path = NULL;
-	}
 
 	if ((event->state & GDK_SHIFT_MASK) || (event->state & GDK_CONTROL_MASK))
 		return retval;
@@ -466,8 +451,6 @@ button_press_cb (GtkWidget      *widget,
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 		if ((cell_x > start_pos) && gtk_tree_selection_iter_is_selected (selection, &iter))
 			 retval = TRUE;
-
-		folder_tree->priv->click_path = gtk_tree_path_copy (path);
 	}
 	else if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
 		if (! gtk_tree_view_row_expanded (GTK_TREE_VIEW (folder_tree), path))
@@ -493,62 +476,6 @@ load_uri (GthFolderTree *folder_tree,
 }
 
 
-static int
-button_release_cb (GtkWidget      *widget,
-		   GdkEventButton *event,
-		   gpointer        data)
-{
-	GthFolderTree    *folder_tree = data;
-	GtkTreeStore     *tree_store = folder_tree->priv->tree_store;
-	GtkTreePath      *path;
-	GtkTreeIter       iter;
-	GtkTreeSelection *selection;
-
-	if ((event->state & GDK_SHIFT_MASK) || (event->state & GDK_CONTROL_MASK))
-		return FALSE;
-
-return FALSE;
-
-	if (event->button != 1)
-		return FALSE;
-
-	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (folder_tree),
-					     event->x, event->y,
-					     &path, NULL, NULL, NULL))
-	{
-		return FALSE;
-	}
-
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (tree_store),
-				       &iter,
-				       path))
-	{
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-	if (gtk_tree_selection_iter_is_selected (selection, &iter)) {
-		EntryType    entry_type;
-		GthFileData *file_data;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (tree_store),
-				    &iter,
-				    COLUMN_TYPE, &entry_type,
-				    COLUMN_FILE_DATA, &file_data,
-				    -1);
-
-		load_uri (folder_tree, entry_type, file_data);
-
-		_g_object_unref (file_data);
-	}
-
-	gtk_tree_path_free (path);
-
-	return FALSE;
-}
-
-
 static gboolean
 selection_changed_cb (GtkTreeSelection *selection,
 		      gpointer          user_data)
@@ -563,18 +490,6 @@ selection_changed_cb (GtkTreeSelection *selection,
 		return FALSE;
 
 	selected_path = gtk_tree_model_get_path (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter);
-
-	if ((folder_tree->priv->click_path == NULL)
-	    || gtk_tree_path_compare (folder_tree->priv->click_path, selected_path) != 0)
-	{
-		gtk_tree_path_free (selected_path);
-		return FALSE;
-	}
-
-	/* FIXME
-	gtk_tree_path_free (folder_tree->priv->click_path);
-	folder_tree->priv->click_path = NULL;
-	*/
 
 	/*if (! gtk_tree_view_row_expanded (GTK_TREE_VIEW (folder_tree), selected_path))
 		gtk_tree_view_expand_row (GTK_TREE_VIEW (folder_tree), selected_path, FALSE);*/
@@ -881,10 +796,6 @@ gth_folder_tree_construct (GthFolderTree *folder_tree)
 	g_signal_connect (G_OBJECT (folder_tree),
 			  "button_press_event",
 			  G_CALLBACK (button_press_cb),
-			  folder_tree);
-	g_signal_connect (G_OBJECT (folder_tree),
-			  "button_release_event",
-			  G_CALLBACK (button_release_cb),
 			  folder_tree);
 	g_signal_connect (G_OBJECT (folder_tree),
 			  "row-activated",
