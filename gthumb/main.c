@@ -369,11 +369,6 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-#ifdef HAVE_CLUTTER
-	if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
-		g_error ("Unable to initialize GtkClutter");
-#endif
-
 	/* command line options */
 
 	context = g_option_context_new (N_("- Image browser and viewer"));
@@ -381,6 +376,9 @@ main (int argc, char *argv[])
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));
 	g_option_context_add_group (context, egg_sm_client_get_option_group ());
+#ifdef HAVE_CLUTTER
+	g_option_context_add_group (context, clutter_get_option_group ());
+#endif
 	if (! g_option_context_parse (context, &argc, &argv, &error)) {
 		g_critical ("Failed to parse arguments: %s", error->message);
 		g_error_free (error);
