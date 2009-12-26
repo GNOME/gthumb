@@ -304,6 +304,7 @@ _gth_browser_add_file_menu_item_full (GthBrowser *browser,
 	pixbuf = gth_icon_cache_get_pixbuf (browser->priv->menu_icon_cache, icon);
 
 	menu_item = gtk_image_menu_item_new_with_label (display_name);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (menu_item), TRUE);
 	if (pixbuf != NULL)
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
 	else
