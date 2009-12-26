@@ -368,6 +368,8 @@ insert_menu_item (CatalogListData *list_data,
 	GtkWidget *image;
 
 	item = gtk_image_menu_item_new_with_label (g_file_info_get_display_name (file_data->info));
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (item), TRUE);
+
 	image = gtk_image_new_from_gicon (g_file_info_get_icon (file_data->info), GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
