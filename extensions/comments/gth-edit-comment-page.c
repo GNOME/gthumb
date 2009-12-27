@@ -68,7 +68,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	self->priv->file_data = g_object_ref (file_data);
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata != NULL) {
 		GtkTextIter iter;
 
@@ -136,11 +136,11 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "general::comment",
+				 "id", "general::description",
 				 "raw", text,
 				 "formatted", text,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "general::comment", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "general::description", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	g_free (text);
 

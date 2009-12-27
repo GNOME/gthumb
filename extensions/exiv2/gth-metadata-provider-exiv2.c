@@ -93,7 +93,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))
 		return;
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "general::comment");
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata != NULL) {
 		g_file_info_set_attribute_object (file_data->info, "Exif::Photo::UserComment", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::description", metadata);
@@ -188,8 +188,8 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::comment,general::location,general::tags", NULL);
-	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::comment,general::location,general::tags", NULL);
+	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::description,general::location,general::tags", NULL);
+	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::description,general::location,general::tags", NULL);
 
 	return obj;
 }

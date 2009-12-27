@@ -79,7 +79,7 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	value = gth_comment_get_note (comment);
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
-		set_attribute_from_string (file_data->info, "general::comment", value, NULL);
+		set_attribute_from_string (file_data->info, "general::description", value, NULL);
 	}
 
 	value = gth_comment_get_place (comment);
@@ -137,7 +137,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* comment */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata == NULL)
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
 	else
@@ -216,8 +216,8 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "comment::*,general::datetime,general::comment,general::location,general::tags", NULL);
-	g_object_set (self, "writable-attributes", "comment::*,general::datetime,general::comment,general::location,general::tags", NULL);
+	g_object_set (self, "readable-attributes", "comment::*,general::datetime,general::description,general::location,general::tags", NULL);
+	g_object_set (self, "writable-attributes", "comment::*,general::datetime,general::description,general::location,general::tags", NULL);
 
 	return obj;
 }

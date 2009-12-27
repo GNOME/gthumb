@@ -129,7 +129,7 @@ const char *_ORIENTATION_TAG_NAMES[] = {
 	NULL
 };
 
-const char *_COMMENT_TAG_NAMES[] = {
+const char *_DESCRIPTION_TAG_NAMES[] = {
 	"Exif::Photo::UserComment",
 	"Exif::Image::ImageDescription",
 	"Xmp::dc::description",
@@ -315,7 +315,7 @@ static void
 set_attributes_from_tagsets (GFileInfo *info)
 {
 	set_attribute_from_tagset (info, "general::datetime", _DATE_TAG_NAMES);
-	set_attribute_from_tagset (info, "general::comment", _COMMENT_TAG_NAMES);
+	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);

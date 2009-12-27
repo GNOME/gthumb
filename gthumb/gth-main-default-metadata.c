@@ -49,7 +49,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "general::format", N_("Format"), "general", 12, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "general::location", N_("Place"), "general", 14, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::datetime", N_("Date"), "general", 15, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::comment", N_("Comment"), "general", 16, GTH_METADATA_ALLOW_IN_PRINT },
+	{ "general::description", N_("Description"), "general", 16, GTH_METADATA_ALLOW_IN_PRINT },
 	{ "general::tags", N_("Tags"), "general", 17, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::rating", N_("Rating"), "general", 18, GTH_METADATA_ALLOW_EVERYWHERE },
 

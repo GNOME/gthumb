@@ -100,7 +100,7 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 
 	/* sync embedded data and .comment data if required */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::comment");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
 		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
