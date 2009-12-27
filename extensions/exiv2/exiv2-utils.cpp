@@ -208,8 +208,15 @@ set_file_info (GFileInfo  *info,
 		else
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
 	}
-	else
-			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
+	else {
+		const char *formatted_clean;
+
+		if (strncmp (formatted_value, "lang=", 5) == 0)
+			formatted_clean = strchr (formatted_value, ' ') + 1;
+		else
+			formatted_clean = formatted_value;
+		formatted_value_utf8 = g_locale_to_utf8 (formatted_clean, -1, NULL, NULL, NULL);
+	}
 
 /*
 g_print ("%s (%s): %s (%s)\n", key, description, formatted_value, raw_value);
