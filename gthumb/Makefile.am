@@ -36,7 +36,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-cursors.h					\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
-	gth-edit-metadata-dialog.h			\
 	gth-embedded-dialog.h				\
 	gth-empty-list.h				\
 	gth-extensions.h				\
@@ -113,7 +112,6 @@ PUBLIC_HEADER_FILES = 					\
 	$(NULL)
 	
 PRIVATE_HEADER_FILES = 					\
-	dlg-edit-metadata.h				\
 	dlg-extensions.h				\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
@@ -132,7 +130,6 @@ gthumb_SOURCES = 					\
 	$(EXTERNAL)					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
-	dlg-edit-metadata.c				\
 	dlg-extensions.c				\
 	dlg-personalize-filters.c			\
 	dlg-preferences.c				\
@@ -149,7 +146,6 @@ gthumb_SOURCES = 					\
 	gth-cursors.c					\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
-	gth-edit-metadata-dialog.c			\
 	gth-embedded-dialog.c				\
 	gth-empty-list.c				\
 	gth-error.c					\

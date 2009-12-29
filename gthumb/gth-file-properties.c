@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "dlg-edit-metadata.h"
 #include "glib-utils.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
@@ -220,23 +219,12 @@ gth_file_properties_class_init (GthFilePropertiesClass *klass)
 
 
 static void
-edit_properties_clicked_cb (GtkButton *button,
-			    gpointer   user_data)
-{
-	GthFileProperties *file_properties = user_data;
-
-	dlg_edit_metadata (GTH_BROWSER (gtk_widget_get_toplevel (GTK_WIDGET (file_properties))));
-}
-
-
-static void
 gth_file_properties_init (GthFileProperties *file_properties)
 {
 	GtkWidget         *vpaned;
 	GtkWidget         *scrolled_win;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	GtkWidget         *button;
 
 	file_properties->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (file_properties);
 
@@ -322,17 +310,6 @@ gth_file_properties_init (GthFileProperties *file_properties)
 	gtk_widget_set_size_request (file_properties->priv->comment_view, -1, COMMENT_HEIGHT);
 	gtk_widget_show (file_properties->priv->comment_view);
 	gtk_container_add (GTK_CONTAINER (file_properties->priv->comment_win), file_properties->priv->comment_view);
-
-	/* edit button */
-
-	button = gtk_button_new_from_stock (GTK_STOCK_EDIT);
-	/*gtk_widget_show (button); FIXME */
-	gtk_box_pack_start (GTK_BOX (file_properties), button, FALSE, FALSE, 0);
-
-	g_signal_connect (button,
-			  "clicked",
-			  G_CALLBACK (edit_properties_clicked_cb),
-			  file_properties);
 }
 
 

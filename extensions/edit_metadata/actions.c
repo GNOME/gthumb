@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,11 +20,15 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_EDIT_METADATA_H
-#define DLG_EDIT_METADATA_H
 
-#include "gth-browser.h"
+#include <config.h>
+#include <gthumb.h>
+#include "dlg-edit-metadata.h"
 
-void dlg_edit_metadata (GthBrowser *browser);
 
-#endif /* DLG_EDIT_METADATA_H */
+void
+gth_browser_activate_action_edit_metadata (GtkAction  *action,
+				 	   GthBrowser *browser)
+{
+	dlg_edit_metadata (browser);
+}

@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "gth-comment.h"
-#include "gth-edit-comment-page.h"
 #include "gth-metadata-provider-comment.h"
 #include "gth-test-category.h"
 
@@ -176,12 +175,11 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_category (comments_metadata_category);
 	gth_main_register_metadata_info_v (comments_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_COMMENT);
-	gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_COMMENT_PAGE);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "comment::note",
 				  GTH_TYPE_TEST_SIMPLE,
 				  "attributes", "comment::note",
-				  "display-name", _("Comment"),
+				  "display-name", _("Description"),
 				  "data-type", GTH_TEST_DATA_TYPE_STRING,
 				  "get-data-func", get_comment_for_test,
 				  NULL);

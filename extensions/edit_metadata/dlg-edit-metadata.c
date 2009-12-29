@@ -22,12 +22,9 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gthumb.h>
 #include "dlg-edit-metadata.h"
-#include "glib-utils.h"
 #include "gth-edit-metadata-dialog.h"
-#include "gth-main.h"
-#include "gth-metadata-provider.h"
-#include "gtk-utils.h"
 
 
 typedef struct {
@@ -56,7 +53,7 @@ write_metadata_ready_cb (GError   *error,
 	GList      *files;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save file properties"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the file metadata"), &error);
 		return;
 	}
 

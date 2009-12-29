@@ -1,13 +1,9 @@
-SUBDIRS = data
-
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libcomments.la
 
 libcomments_la_SOURCES = 			\
 	gth-comment.c				\
 	gth-comment.h				\
-	gth-edit-comment-page.c			\
-	gth-edit-comment-page.h			\
 	gth-metadata-provider-comment.c		\
 	gth-metadata-provider-comment.h		\
 	gth-test-category.c			\

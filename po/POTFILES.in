@@ -48,11 +48,8 @@ extensions/catalogs/gth-organize-task.c
 extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
 extensions/comments/comments.extension.in.in
-[type: gettext/glade]extensions/comments/data/ui/edit-comment-page.ui
 extensions/comments/gth-comment.c
 extensions/comments/gth-comment.h
-extensions/comments/gth-edit-comment-page.c
-extensions/comments/gth-edit-comment-page.h
 extensions/comments/gth-metadata-provider-comment.c
 extensions/comments/gth-metadata-provider-comment.h
 extensions/comments/gth-test-category.c
@@ -64,6 +61,19 @@ extensions/desktop_background/callbacks.c
 extensions/desktop_background/callbacks.h
 extensions/desktop_background/desktop_background.extension.in.in
 extensions/desktop_background/main.c
+extensions/edit_metadata/actions.c
+extensions/edit_metadata/actions.h
+extensions/edit_metadata/callbacks.c
+extensions/edit_metadata/callbacks.h
+[type: gettext/glade]extensions/edit_metadata/data/ui/edit-comment-page.ui
+extensions/edit_metadata/dlg-edit-metadata.c
+extensions/edit_metadata/dlg-edit-metadata.h
+extensions/edit_metadata/edit_metadata.extension.in.in
+extensions/edit_metadata/gth-edit-comment-page.c
+extensions/edit_metadata/gth-edit-comment-page.h
+extensions/edit_metadata/gth-edit-metadata-dialog.c
+extensions/edit_metadata/gth-edit-metadata-dialog.h
+extensions/edit_metadata/main.c
 extensions/exiv2/exiv2.extension.in.in
 extensions/exiv2/exiv2-utils.cpp
 extensions/exiv2/exiv2-utils.h
@@ -289,8 +299,6 @@ extensions/slideshow/main.c
 extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
 extensions/slideshow/slideshow.extension.in.in
-gthumb/dlg-edit-metadata.c
-gthumb/dlg-edit-metadata.h
 gthumb/dlg-extensions.c
 gthumb/dlg-extensions.h
 gthumb/dlg-personalize-filters.c
@@ -333,8 +341,6 @@ gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
 gthumb/gth-duplicable.h
-gthumb/gth-edit-metadata-dialog.c
-gthumb/gth-edit-metadata-dialog.h
 gthumb/gth-embedded-dialog.c
 gthumb/gth-embedded-dialog.h
 gthumb/gth-empty-list.c

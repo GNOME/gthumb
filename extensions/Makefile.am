@@ -3,6 +3,7 @@ SUBDIRS = 			\
 	catalogs		\
 	comments		\
 	desktop_background	\
+	edit_metadata		\
 	exiv2			\
 	file_manager		\
 	file_tools		\

@@ -1,8 +1,8 @@
 [Extension]
 _Name=Catalogs
 _Description=Create file collections.
-_Authors=Paolo Bacchilega <paobac@src.gnome.org>
-Copyright=Copyright © 2008-2009 The Free Software Foundation, Inc.
+_Authors=gthumb development team
+Copyright=Copyright © 2008-2010 The Free Software Foundation, Inc.
 Version=1.0
 URL=http://live.gnome.org/gthumb
 

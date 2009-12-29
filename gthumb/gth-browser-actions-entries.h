@@ -86,11 +86,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_edit_select_all) },
 
-	{ "Edit_Metadata", GTK_STOCK_EDIT,
-	  N_("Metadata"), "<control>M",
-	  N_("Edit file metadata"),
-	  G_CALLBACK (gth_browser_activate_action_edit_metadata) },
-
 	{ "View_Sort_By", NULL,
 	  N_("_Sort By..."), NULL,
 	  NULL,

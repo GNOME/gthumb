@@ -518,7 +518,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
-	_gth_browser_set_action_sensitive (browser, "Edit_Metadata", n_selected == 1);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	if (browser->priv->viewer_page != NULL)
@@ -3184,10 +3183,8 @@ _gth_browser_construct (GthBrowser *browser)
 
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Prev")), TRUE);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Next")), TRUE);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/Edit_Metadata")), TRUE);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Prev")), TRUE);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Next")), TRUE);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/Edit_Metadata")), TRUE);
 
 	/* content */
 

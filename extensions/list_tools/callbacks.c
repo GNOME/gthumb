@@ -242,7 +242,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
 	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_viewer_toolbar (browser)), tool_item, 9);
+	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_viewer_toolbar (browser)), tool_item, 11);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 

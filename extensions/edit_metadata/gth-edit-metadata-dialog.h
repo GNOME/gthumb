@@ -24,7 +24,7 @@
 #define GTH_EDIT_METADATA_DIALOG_H
 
 #include <gtk/gtk.h>
-#include "gth-file-data.h"
+#include <gthumb.h>
 
 G_BEGIN_DECLS
 
@@ -65,12 +65,16 @@ struct _GthEditMetadataPageIface {
 	const char * (*get_name)    (GthEditMetadataPage *self);
 };
 
+/* GthEditMetadataDialog */
+
 GType          gth_edit_metadata_dialog_get_type    (void);
 GtkWidget *    gth_edit_metadata_dialog_new         (void);
 void           gth_edit_metadata_dialog_set_file    (GthEditMetadataDialog *dialog,
 						     GthFileData           *file);
 void           gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *dialog,
 						     GFileInfo             *info);
+
+/* GthEditMetadataPage */
 
 GType          gth_edit_metadata_page_get_type      (void);
 void           gth_edit_metadata_page_set_file      (GthEditMetadataPage   *self,

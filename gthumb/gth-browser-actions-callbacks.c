@@ -23,7 +23,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "dlg-extensions.h"
-#include "dlg-edit-metadata.h"
 #include "dlg-personalize-filters.h"
 #include "dlg-preferences.h"
 #include "dlg-sort-order.h"
@@ -331,14 +330,6 @@ gth_browser_activate_action_viewer_tools (GtkAction  *action,
 					  GthBrowser *browser)
 {
 	gth_browser_show_viewer_tools (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
-void
-gth_browser_activate_action_edit_metadata (GtkAction  *action,
-				 	   GthBrowser *browser)
-{
-	dlg_edit_metadata (browser);
 }
 
 

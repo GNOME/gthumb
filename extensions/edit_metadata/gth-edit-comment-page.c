@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include "gth-edit-comment-page.h"
+#include "gth-edit-metadata-dialog.h"
 
 
 #define GTH_EDIT_COMMENT_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_EDIT_COMMENT_PAGE, GthEditCommentPagePrivate))
@@ -290,7 +291,7 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
 
-	self->priv->builder = _gtk_builder_new_from_file ("edit-comment-page.ui", "comments");
+	self->priv->builder = _gtk_builder_new_from_file ("edit-comment-page.ui", "edit_metadata");
   	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);
 
   	self->priv->date_combobox = gtk_combo_box_new_text ();

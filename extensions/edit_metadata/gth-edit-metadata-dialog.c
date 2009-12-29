@@ -23,7 +23,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "gth-edit-metadata-dialog.h"
-#include "gth-main.h"
 
 
 #define GTH_EDIT_METADATA_DIALOG_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_EDIT_METADATA_DIALOG, GthEditMetadataDialogPrivate))
