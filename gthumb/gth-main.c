@@ -99,7 +99,6 @@ struct _GthMainPrivate
 	gboolean             metadata_info_sorted;
 	GHashTable          *sort_types;
 	GHashTable          *loaders;
-	GList               *viewer_pages;
 	GHashTable          *types;
 	GHashTable          *classes;
 	GHashTable          *objects_order;
@@ -121,7 +120,6 @@ gth_main_finalize (GObject *object)
 
 	if (gth_main->priv != NULL) {
 		_g_object_list_unref (gth_main->priv->file_sources);
-		_g_object_list_unref (gth_main->priv->viewer_pages);
 
 		g_ptr_array_free (gth_main->priv->metadata_category, TRUE);
 		g_ptr_array_free (gth_main->priv->metadata_info, TRUE);
@@ -841,27 +839,6 @@ gth_main_add_general_filter (GthTest *original_filter)
 	}
 
 	return test;
-}
-
-
-void
-gth_main_register_viewer_page (GType viewer_page_type)
-{
-	GObject *viewer_page;
-
-	g_static_mutex_lock (&register_mutex);
-
-	viewer_page = g_object_new (viewer_page_type, NULL);
-	Main->priv->viewer_pages = g_list_prepend (Main->priv->viewer_pages, viewer_page);
-
-	g_static_mutex_unlock (&register_mutex);
-}
-
-
-GList *
-gth_main_get_all_viewer_pages (void)
-{
-	return Main->priv->viewer_pages;
 }
 
 
