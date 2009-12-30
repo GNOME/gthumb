@@ -456,7 +456,7 @@ gth_filter_editor_dialog_set_filter (GthFilterEditorDialog *self,
 			}
 		}
 		else {
-			value = g_strdup_printf ("%lld", limit_value);
+			value = g_strdup_printf ("%" G_GOFFSET_FORMAT, limit_value);
 			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("limit_size_entry")), value);
 			g_free (value);
 

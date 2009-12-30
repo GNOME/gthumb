@@ -603,7 +603,7 @@ gth_test_simple_real_create_element (DomDomizable *base,
 		if (self->priv->op != GTH_TEST_OP_NONE) {
 			if (self->priv->negative)
 				dom_element_set_attribute (element, "negative", self->priv->negative ? "true" : "false");
-			value = g_strdup_printf ("%lld", self->priv->data.i);
+			value = g_strdup_printf ("%" G_GINT64_FORMAT, self->priv->data.i);
 			dom_element_set_attribute (element, "value", value);
 			g_free (value);
 		}

@@ -88,7 +88,7 @@ gth_filter_real_create_element (DomDomizable *base,
 		DomElement *limit;
 		char       *value;
 
-		value = g_strdup_printf ("%lld", self->priv->limit);
+		value = g_strdup_printf ("%" G_GOFFSET_FORMAT, self->priv->limit);
 		limit = dom_document_create_element (doc, "limit",
 						     "value", value,
 						     "type", _g_enum_type_get_value (GTH_TYPE_LIMIT_TYPE, self->priv->limit_type)->value_nick,
@@ -263,7 +263,7 @@ create_control_for_files (GthFilter *filter)
 
 	filter->priv->limit_entry = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (filter->priv->limit_entry), 6);
-	value = g_strdup_printf ("%lld", filter->priv->limit);
+	value = g_strdup_printf ("%" G_GOFFSET_FORMAT, filter->priv->limit);
 	gtk_entry_set_text (GTK_ENTRY (filter->priv->limit_entry), value);
 	g_free (value);
 	gtk_widget_show (filter->priv->limit_entry);

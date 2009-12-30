@@ -216,7 +216,7 @@ template_eval_cb (const GMatchInfo *info,
 	else if (strncmp (match, "#", 1) == 0) {
 		char *format;
 
-		format = g_strdup_printf ("%%0%dd", strlen (match));
+		format = g_strdup_printf ("%%0%" G_GSIZE_FORMAT "d", strlen (match));
 		r = g_strdup_printf (format, template_data->n);
 
 		g_free (format);

@@ -141,6 +141,7 @@ gedit_message_area_close (GeditMessageArea *message_area)
 				     GTK_RESPONSE_CANCEL);
 }
 
+/*
 static gboolean
 paint_message_area (GtkWidget      *widget,
 		    GdkEventExpose *event,
@@ -172,6 +173,7 @@ paint_message_area (GtkWidget      *widget,
 
 	return FALSE;
 }
+*/
 
 static void
 gedit_message_area_class_init (GeditMessageAreaClass *klass)
@@ -208,6 +210,7 @@ gedit_message_area_class_init (GeditMessageAreaClass *klass)
 	gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "close", 0);
 }
 
+/*
 static void
 style_set (GtkWidget        *widget,
 	   GtkStyle         *prev_style,
@@ -219,7 +222,7 @@ style_set (GtkWidget        *widget,
 	if (message_area->priv->changing_style)
 		return;
 
-	/* This is a hack needed to use the tooltip background color */
+	// This is a hack needed to use the tooltip background color
 	window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_set_name (window, "gtk-tooltip");
 	gtk_widget_ensure_style (window);
@@ -233,6 +236,7 @@ style_set (GtkWidget        *widget,
 
 	gtk_widget_queue_draw (GTK_WIDGET (message_area));
 }
+*/
 
 static void
 gedit_message_area_init (GeditMessageArea *message_area)
