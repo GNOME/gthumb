@@ -37,13 +37,11 @@ G_BEGIN_DECLS
 #define GTH_METADATA_PROVIDER_FILE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_METADATA_PROVIDER_FILE, GthMetadataProviderFileClass))
 
 typedef struct _GthMetadataProviderFile         GthMetadataProviderFile;
-typedef struct _GthMetadataProviderFilePrivate  GthMetadataProviderFilePrivate;
 typedef struct _GthMetadataProviderFileClass    GthMetadataProviderFileClass;
 
 struct _GthMetadataProviderFile
 {
 	GthMetadataProvider __parent;
-	GthMetadataProviderFilePrivate *priv;
 };
 
 struct _GthMetadataProviderFileClass

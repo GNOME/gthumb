@@ -526,7 +526,8 @@ gth_main_get_metadata_attributes (const char *mask)
 
 
 GthMetadataProvider *
-gth_main_get_metadata_reader (const char *id)
+gth_main_get_metadata_reader (const char *id,
+			      const char *mime_type)
 {
 	GthMetadataProvider *metadata = NULL;
 	GList               *scan;
@@ -535,7 +536,28 @@ gth_main_get_metadata_reader (const char *id)
 	for (scan = Main->priv->metadata_provider; scan; scan = scan->next) {
 		GthMetadataProvider *registered_metadata = scan->data;
 
-		if (gth_metadata_provider_can_read (registered_metadata, (char **)attribute_v)) {
+		if (gth_metadata_provider_can_read (registered_metadata, mime_type, (char **)attribute_v)) {
+			metadata = g_object_new (G_OBJECT_TYPE (registered_metadata), NULL);
+			break;
+		}
+	}
+
+	return metadata;
+}
+
+
+GthMetadataProvider *
+gth_main_get_metadata_writer (const char *id,
+			      const char *mime_type)
+{
+	GthMetadataProvider *metadata = NULL;
+	GList               *scan;
+	const char          *attribute_v[] = { id, NULL };
+
+	for (scan = Main->priv->metadata_provider; scan; scan = scan->next) {
+		GthMetadataProvider *registered_metadata = scan->data;
+
+		if (gth_metadata_provider_can_write (registered_metadata, mime_type, (char **)attribute_v)) {
 			metadata = g_object_new (G_OBJECT_TYPE (registered_metadata), NULL);
 			break;
 		}
@@ -1261,8 +1283,8 @@ gth_main_extension_is_active (const char *extension_name)
 
 
 gboolean
-attribute_list_reaload_required (const char *old_attributes,
-				 const char *new_attributes)
+attribute_list_reload_required (const char *old_attributes,
+				const char *new_attributes)
 {
 	char     **old_attributes_v;
 	char     **new_attributes_v;
@@ -1285,7 +1307,7 @@ attribute_list_reaload_required (const char *old_attributes,
 		GthMetadataProvider *provider;
 		int                  j;
 
-		provider = gth_main_get_metadata_reader (old_attributes_v[i]);
+		provider = gth_main_get_metadata_reader (old_attributes_v[i], "*");
 		if (provider == NULL)
 			continue;
 
@@ -1298,7 +1320,7 @@ attribute_list_reaload_required (const char *old_attributes,
 
 				attr_v[0] = new_attributes_v[j];
 				attr_v[1] = NULL;
-				if (gth_metadata_provider_can_read (provider, attr_v)) {
+				if (gth_metadata_provider_can_read (provider, "*", attr_v)) {
 					g_free (new_attributes_v[j]);
 					new_attributes_v[j] = NULL;
 				}

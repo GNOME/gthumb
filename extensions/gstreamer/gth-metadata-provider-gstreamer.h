@@ -35,13 +35,11 @@
 #define GTH_METADATA_PROVIDER_GSTREAMER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_METADATA_PROVIDER_GSTREAMER, GthMetadataProviderGstreamerClass))
 
 typedef struct _GthMetadataProviderGstreamer         GthMetadataProviderGstreamer;
-typedef struct _GthMetadataProviderGstreamerPrivate  GthMetadataProviderGstreamerPrivate;
 typedef struct _GthMetadataProviderGstreamerClass    GthMetadataProviderGstreamerClass;
 
 struct _GthMetadataProviderGstreamer
 {
 	GthMetadataProvider __parent;
-	GthMetadataProviderGstreamerPrivate *priv;
 };
 
 struct _GthMetadataProviderGstreamerClass

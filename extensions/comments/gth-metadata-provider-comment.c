@@ -21,23 +21,41 @@
  */
 
 #include <config.h>
-#include <string.h>
-#include <glib/gi18n.h>
 #include <glib.h>
 #include <gthumb.h>
 #include "gth-comment.h"
 #include "gth-metadata-provider-comment.h"
 
 
-#define GTH_METADATA_PROVIDER_COMMENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_COMMENT, GthMetadataProviderCommentPrivate))
-
-
-struct _GthMetadataProviderCommentPrivate {
-	int dummy;
-};
-
-
 static gpointer parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_comment_can_read (GthMetadataProvider  *self,
+				        const char           *mime_type,
+				        char                **attribute_v)
+{
+	return _g_file_attributes_matches_any_v ("comment::*,"
+						 "general::datetime,"
+						 "general::description,"
+						 "general::location,"
+						 "general::tags",
+					         attribute_v);
+}
+
+
+static gboolean
+gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
+				         const char           *mime_type,
+				         char                **attribute_v)
+{
+	return _g_file_attributes_matches_any_v ("comment::*,"
+						 "general::datetime,"
+						 "general::description,"
+						 "general::location,"
+						 "general::tags",
+					         attribute_v);
+}
 
 
 static void
@@ -193,53 +211,14 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_comment_finalize (GObject *object)
-{
-	/*GthMetadataProviderComment *comment = GTH_METADATA_PROVIDER_COMMENT (object);*/
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GObject *
-gth_metadata_provider_constructor (GType                  type,
-				   guint                  n_construct_properties,
-				   GObjectConstructParam *construct_properties)
-{
-	GthMetadataProviderClass *klass;
-	GObjectClass             *parent_class;
-	GObject                  *obj;
-	GthMetadataProvider      *self;
-
-	klass = GTH_METADATA_PROVIDER_CLASS (g_type_class_peek (GTH_TYPE_METADATA_PROVIDER));
-	parent_class = G_OBJECT_CLASS (g_type_class_peek_parent (klass));
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_object_set (self, "readable-attributes", "comment::*,general::datetime,general::description,general::location,general::tags", NULL);
-	g_object_set (self, "writable-attributes", "comment::*,general::datetime,general::description,general::location,general::tags", NULL);
-
-	return obj;
-}
-
-
-static void
 gth_metadata_provider_comment_class_init (GthMetadataProviderCommentClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderCommentPrivate));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_comment_finalize;
-	G_OBJECT_CLASS (klass)->constructor = gth_metadata_provider_constructor;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_comment_can_read;
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_comment_can_write;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_comment_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_comment_write;
-}
-
-
-static void
-gth_metadata_provider_comment_init (GthMetadataProviderComment *catalogs)
-{
 }
 
 
@@ -258,7 +237,7 @@ gth_metadata_provider_comment_get_type (void)
 			NULL,
 			sizeof (GthMetadataProviderComment),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_comment_init
+			(GInstanceInitFunc) NULL
 		};
 
 		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,

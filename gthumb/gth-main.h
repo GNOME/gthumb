@@ -80,7 +80,10 @@ void                   gth_main_register_metadata_info_v      (GthMetadataInfo  
 void                   gth_main_register_metadata_provider    (GType                 metadata_provider_type);
 GList *                gth_main_get_all_metadata_providers    (void);
 char **                gth_main_get_metadata_attributes       (const char           *mask);
-GthMetadataProvider *  gth_main_get_metadata_reader           (const char           *id);
+GthMetadataProvider *  gth_main_get_metadata_reader           (const char           *id,
+							       const char           *mime_type);
+GthMetadataProvider *  gth_main_get_metadata_writer           (const char           *id,
+							       const char           *mime_type);
 GthMetadataCategory *  gth_main_get_metadata_category         (const char           *id);
 GthMetadataInfo *      gth_main_get_metadata_info             (const char           *id);
 GPtrArray *            gth_main_get_all_metadata_info         (void);
@@ -126,7 +129,7 @@ gboolean               gth_main_extension_is_active           (const char *exten
 
 /* utilities */
 
-gboolean               attribute_list_reaload_required        (const char *old_attributes,
+gboolean               attribute_list_reload_required         (const char *old_attributes,
 							       const char *new_attributes);
 
 G_END_DECLS

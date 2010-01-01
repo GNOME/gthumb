@@ -21,23 +21,31 @@
  */
 
 #include <config.h>
-#include <string.h>
-#include <glib/gi18n.h>
 #include <glib.h>
 #include <gthumb.h>
 #include "gstreamer-utils.h"
 #include "gth-metadata-provider-gstreamer.h"
 
 
-#define GTH_METADATA_PROVIDER_GSTREAMER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_GSTREAMER, GthMetadataProviderGstreamerPrivate))
-
-
-struct _GthMetadataProviderGstreamerPrivate {
-	int dummy;
-};
-
-
 static GthMetadataProviderClass *parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
+				          const char           *mime_type,
+				          char                **attribute_v)
+{
+	if (! _g_content_type_is_a (mime_type, "audio/*")
+	    && ! _g_content_type_is_a (mime_type, "video/*"))
+	{
+		return FALSE;
+	}
+
+	return _g_file_attributes_matches_any_v ("general::format,"
+						 "general::dimensions,"
+						 "audio-video::*",
+					         attribute_v);
+}
 
 
 static void
@@ -59,51 +67,12 @@ gth_metadata_provider_gstreamer_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_gstreamer_finalize (GObject *object)
-{
-	/*GthMetadataProviderGstreamer *comment = GTH_METADATA_PROVIDER_GSTREAMER (object);*/
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GObject *
-gth_metadata_provider_constructor (GType                  type,
-				   guint                  n_construct_properties,
-				   GObjectConstructParam *construct_properties)
-{
-	GthMetadataProviderClass *klass;
-	GObjectClass             *parent_class;
-	GObject                  *obj;
-	GthMetadataProvider      *self;
-
-	klass = GTH_METADATA_PROVIDER_CLASS (g_type_class_peek (GTH_TYPE_METADATA_PROVIDER));
-	parent_class = G_OBJECT_CLASS (g_type_class_peek_parent (klass));
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_object_set (self, "readable-attributes", "general::format,general::dimensions,audio-video::*", NULL);
-
-	return obj;
-}
-
-
-static void
 gth_metadata_provider_gstreamer_class_init (GthMetadataProviderGstreamerClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderGstreamerPrivate));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_gstreamer_finalize;
-	G_OBJECT_CLASS (klass)->constructor = gth_metadata_provider_constructor;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_gstreamer_can_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_gstreamer_read;
-}
-
-
-static void
-gth_metadata_provider_gstreamer_init (GthMetadataProviderGstreamer *catalogs)
-{
 }
 
 
@@ -122,7 +91,7 @@ gth_metadata_provider_gstreamer_get_type (void)
 			NULL,
 			sizeof (GthMetadataProviderGstreamer),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_gstreamer_init
+			(GInstanceInitFunc) NULL
 		};
 
 		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,

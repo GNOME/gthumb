@@ -35,13 +35,11 @@
 #define GTH_METADATA_PROVIDER_EXIV2_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_METADATA_PROVIDER_EXIV2, GthMetadataProviderExiv2Class))
 
 typedef struct _GthMetadataProviderExiv2         GthMetadataProviderExiv2;
-typedef struct _GthMetadataProviderExiv2Private  GthMetadataProviderExiv2Private;
 typedef struct _GthMetadataProviderExiv2Class    GthMetadataProviderExiv2Class;
 
 struct _GthMetadataProviderExiv2
 {
 	GthMetadataProvider __parent;
-	GthMetadataProviderExiv2Private *priv;
 };
 
 struct _GthMetadataProviderExiv2Class

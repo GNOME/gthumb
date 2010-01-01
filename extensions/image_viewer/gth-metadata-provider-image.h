@@ -35,13 +35,11 @@
 #define GTH_METADATA_PROVIDER_IMAGE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_METADATA_PROVIDER_IMAGE, GthMetadataProviderImageClass))
 
 typedef struct _GthMetadataProviderImage         GthMetadataProviderImage;
-typedef struct _GthMetadataProviderImagePrivate  GthMetadataProviderImagePrivate;
 typedef struct _GthMetadataProviderImageClass    GthMetadataProviderImageClass;
 
 struct _GthMetadataProviderImage
 {
 	GthMetadataProvider __parent;
-	GthMetadataProviderImagePrivate *priv;
 };
 
 struct _GthMetadataProviderImageClass

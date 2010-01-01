@@ -29,15 +29,49 @@
 #include "gth-metadata-provider-exiv2.h"
 
 
-#define GTH_METADATA_PROVIDER_EXIV2_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_EXIV2, GthMetadataProviderExiv2Private))
-
-
-struct _GthMetadataProviderExiv2Private {
-	int dummy;
-};
-
-
 static GthMetadataProviderClass *parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_exiv2_can_read (GthMetadataProvider  *self,
+				      const char           *mime_type,
+				      char                **attribute_v)
+{
+	if (! _g_content_type_is_a (mime_type, "image/*"))
+		return FALSE;
+
+	return _g_file_attributes_matches_any_v ("Exif::*,"
+						 "Xmp::*,"
+						 "Iptc::*,"
+						 "Embedded::Image::*,"
+						 "Embedded::Photo::*,"
+						 "general::datetime,"
+						 "general::description,"
+						 "general::location,"
+						 "general::tags",
+					         attribute_v);
+}
+
+
+static gboolean
+gth_metadata_provider_exiv2_can_write (GthMetadataProvider  *self,
+				       const char           *mime_type,
+				       char                **attribute_v)
+{
+	if (! exiv2_supports_writes (mime_type))
+		return FALSE;
+
+	return _g_file_attributes_matches_any_v ("Exif::*,"
+						 "Xmp::*,"
+						 "Iptc::*,"
+						 "Embedded::Image::*,"
+						 "Embedded::Photo::*,"
+						 "general::datetime,"
+						 "general::description,"
+						 "general::location,"
+						 "general::tags",
+					         attribute_v);
+}
 
 
 static void
@@ -165,53 +199,14 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_exiv2_finalize (GObject *object)
-{
-	/*GthMetadataProviderExiv2 *comment = GTH_METADATA_PROVIDER_EXIV2 (object);*/
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GObject *
-gth_metadata_provider_constructor (GType                  type,
-				   guint                  n_construct_properties,
-				   GObjectConstructParam *construct_properties)
-{
-	GthMetadataProviderClass *klass;
-	GObjectClass             *parent_class;
-	GObject                  *obj;
-	GthMetadataProvider      *self;
-
-	klass = GTH_METADATA_PROVIDER_CLASS (g_type_class_peek (GTH_TYPE_METADATA_PROVIDER));
-	parent_class = G_OBJECT_CLASS (g_type_class_peek_parent (klass));
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::description,general::location,general::tags", NULL);
-	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*,Embedded::Photo::*,general::datetime,general::description,general::location,general::tags", NULL);
-
-	return obj;
-}
-
-
-static void
 gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderExiv2Private));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_exiv2_finalize;
-	G_OBJECT_CLASS (klass)->constructor = gth_metadata_provider_constructor;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_exiv2_can_read;
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_exiv2_can_write;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_exiv2_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_exiv2_write;
-}
-
-
-static void
-gth_metadata_provider_exiv2_init (GthMetadataProviderExiv2 *catalogs)
-{
 }
 
 
@@ -230,7 +225,7 @@ gth_metadata_provider_exiv2_get_type (void)
 			NULL,
 			sizeof (GthMetadataProviderExiv2),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_exiv2_init
+			(GInstanceInitFunc) NULL
 		};
 
 		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,

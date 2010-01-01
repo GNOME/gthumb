@@ -27,23 +27,28 @@
 #include "gth-metadata-provider.h"
 
 
-#define GTH_METADATA_PROVIDER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER, GthMetadataProviderPrivate))
 #define CHECK_THREAD_RATE 5
 
 
-enum  {
-	GTH_METADATA_PROVIDER_DUMMY_PROPERTY,
-	GTH_METADATA_PROVIDER_READABLE_ATTRIBUTES,
-	GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES
-};
-
-
-struct _GthMetadataProviderPrivate {
-	char *_readable_attributes;
-	char *_writable_attributes;
-};
-
 static gpointer gth_metadata_provider_parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_real_can_read (GthMetadataProvider  *self,
+				     const char           *mime_type,
+				     char                **attribute_v)
+{
+	return FALSE;
+}
+
+
+static gboolean
+gth_metadata_provider_real_can_write (GthMetadataProvider  *self,
+				      const char           *mime_type,
+				      char                **attribute_v)
+{
+	return FALSE;
+}
 
 
 static void
@@ -63,129 +68,14 @@ gth_metadata_provider_real_write (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_set_readable_attributes (GthMetadataProvider *self,
-					       const char          *value)
-{
-	if (self->priv->_readable_attributes != NULL) {
-		g_free (self->priv->_readable_attributes);
-		self->priv->_readable_attributes = NULL;
-	}
-
-	if (value != NULL)
-		self->priv->_readable_attributes = g_strdup (value);
-}
-
-
-static void
-gth_metadata_provider_set_writable_attributes (GthMetadataProvider *self,
-					       const char          *value)
-{
-	if (self->priv->_writable_attributes != NULL) {
-		g_free (self->priv->_writable_attributes);
-		self->priv->_writable_attributes = NULL;
-	}
-
-	if (value != NULL)
-		self->priv->_writable_attributes = g_strdup (value);
-}
-
-
-static void
-gth_metadata_provider_set_property (GObject      *object,
-				    guint         property_id,
-				    const GValue *value,
-				    GParamSpec   *pspec)
-{
-	GthMetadataProvider *self;
-
-	self = GTH_METADATA_PROVIDER (object);
-
-	switch (property_id) {
-	case GTH_METADATA_PROVIDER_READABLE_ATTRIBUTES:
-		gth_metadata_provider_set_readable_attributes (self, g_value_get_string (value));
-		break;
-	case GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES:
-		gth_metadata_provider_set_writable_attributes (self, g_value_get_string (value));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-
-static void
-gth_metadata_provider_get_property (GObject    *object,
-				    guint       property_id,
-				    GValue     *value,
-				    GParamSpec *pspec)
-{
-	GthMetadataProvider *self;
-
-	self = GTH_METADATA_PROVIDER (object);
-
-	switch (property_id) {
-	case GTH_METADATA_PROVIDER_READABLE_ATTRIBUTES:
-		g_value_set_string (value, self->priv->_readable_attributes);
-		break;
-	case GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES:
-		g_value_set_string (value, self->priv->_writable_attributes);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-
-static void
-gth_metadata_provider_finalize (GObject *obj)
-{
-	GthMetadataProvider *self;
-
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_free (self->priv->_readable_attributes);
-	g_free (self->priv->_writable_attributes);
-
-	G_OBJECT_CLASS (gth_metadata_provider_parent_class)->finalize (obj);
-}
-
-
-static void
 gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 {
 	gth_metadata_provider_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderPrivate));
 
-	G_OBJECT_CLASS (klass)->set_property = gth_metadata_provider_set_property;
-	G_OBJECT_CLASS (klass)->get_property = gth_metadata_provider_get_property;
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_finalize;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_real_can_read;
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_real_can_write;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_real_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_real_write;
-
-	g_object_class_install_property (G_OBJECT_CLASS (klass),
-					 GTH_METADATA_PROVIDER_READABLE_ATTRIBUTES,
-					 g_param_spec_string ("readable-attributes",
-					 		      "readable-attributes",
-					 		      "readable-attributes",
-					 		      NULL,
-					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
-	g_object_class_install_property (G_OBJECT_CLASS (klass),
-					 GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES,
-					 g_param_spec_string ("writable-attributes",
-					 		      "writable-attributes",
-					 		      "writable-attributes",
-					 		      NULL,
-					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
-}
-
-
-static void
-gth_metadata_provider_instance_init (GthMetadataProvider *self)
-{
-	self->priv = GTH_METADATA_PROVIDER_GET_PRIVATE (self);
 }
 
 
@@ -203,7 +93,7 @@ gth_metadata_provider_get_type (void)
 			NULL,
 			sizeof (GthMetadataProvider),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_instance_init,
+			(GInstanceInitFunc) NULL,
 			NULL
 		};
 		gth_metadata_provider_type_id = g_type_register_static (G_TYPE_OBJECT, "GthMetadataProvider", &g_define_type_info, 0);
@@ -212,51 +102,21 @@ gth_metadata_provider_get_type (void)
 }
 
 
-GthMetadataProvider *
-gth_metadata_provider_new (void)
-{
-
-	return g_object_new (GTH_TYPE_METADATA_PROVIDER, NULL);
-}
-
-
-static gboolean
-attribute_matches_attributes (const char  *attributes,
-			      char       **attribute_v)
-{
-	gboolean matches;
-	int      i;
-
-	if (attributes == NULL)
-		return FALSE;
-
-	matches = FALSE;
-	for (i = 0; ! matches && (attribute_v[i] != NULL); i++)
-		matches = _g_file_attributes_matches (attributes, attribute_v[i]);
-
-	return matches;
-}
-
-
 gboolean
 gth_metadata_provider_can_read (GthMetadataProvider  *self,
+				const char           *mime_type,
 				char                **attribute_v)
 {
-	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (attribute_v != NULL, FALSE);
-
-	return attribute_matches_attributes (self->priv->_readable_attributes, attribute_v);
+	return GTH_METADATA_PROVIDER_GET_CLASS (self)->can_read (self, mime_type, attribute_v);
 }
 
 
 gboolean
 gth_metadata_provider_can_write (GthMetadataProvider  *self,
+				 const char           *mime_type,
 				 char                **attribute_v)
 {
-	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (attribute_v != NULL, FALSE);
-
-	return attribute_matches_attributes (self->priv->_writable_attributes, attribute_v);
+	return GTH_METADATA_PROVIDER_GET_CLASS (self)->can_write (self, mime_type, attribute_v);
 }
 
 
@@ -326,33 +186,35 @@ static gpointer
 read_metadata_thread (gpointer data)
 {
 	QueryMetadataThreadData *rmtd = data;
+	GList                   *providers;
 	GList                   *scan;
 	gboolean                 cancelled = FALSE;
 
-	for (scan = gth_main_get_all_metadata_providers (); ! cancelled && scan; scan = scan->next) {
-		GthMetadataProvider *metadata_provider;
+	providers = NULL;
+	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next)
+		providers = g_list_prepend (providers, g_object_new (G_OBJECT_TYPE (scan->data), NULL));
+	providers = g_list_reverse (providers);
 
-		metadata_provider = g_object_new (G_OBJECT_TYPE (scan->data), NULL);
+	for (scan = rmtd->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		GList       *scan_providers;
 
-		if (gth_metadata_provider_can_read (metadata_provider, rmtd->attributes_v)) {
-			GList *scan_files;
+		g_mutex_lock (rmtd->mutex);
+		cancelled = rmtd->thread_done;
+		g_mutex_unlock (rmtd->mutex);
 
-			for (scan_files = rmtd->files; scan_files; scan_files = scan_files->next) {
-				GthFileData *file_data = scan_files->data;
+		if (cancelled)
+			break;
 
-				g_mutex_lock (rmtd->mutex);
-				cancelled = rmtd->thread_done;
-				g_mutex_unlock (rmtd->mutex);
+		for (scan_providers = providers; scan_providers; scan_providers = scan_providers->next) {
+			GthMetadataProvider *metadata_provider = scan_providers->data;
 
-				if (cancelled)
-					break;
-
+			if (gth_metadata_provider_can_read (metadata_provider, gth_file_data_get_mime_type (file_data), rmtd->attributes_v))
 				gth_metadata_provider_read (metadata_provider, file_data, rmtd->attributes);
-			}
 		}
-
-		g_object_unref (metadata_provider);
 	}
+
+	_g_object_list_unref (providers);
 
 	if (! cancelled)
 		for (scan = rmtd->files; scan; scan = scan->next) {
@@ -480,24 +342,35 @@ static gpointer
 write_metadata_thread (gpointer data)
 {
 	WriteMetadataThreadData *wmtd = data;
+	GList                   *providers;
 	GList                   *scan;
+	gboolean                 cancelled = FALSE;
 
-	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next) {
-		GthMetadataProvider *metadata_provider;
+	providers = NULL;
+	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next)
+		providers = g_list_prepend (providers, g_object_new (G_OBJECT_TYPE (scan->data), NULL));
+	providers = g_list_reverse (providers);
 
-		metadata_provider = g_object_new (G_OBJECT_TYPE (scan->data), NULL);
+	for (scan = wmtd->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		GList       *scan_providers;
 
-		if (gth_metadata_provider_can_write (metadata_provider, wmtd->attributes_v)) {
-			GList *scan_files;
+		g_mutex_lock (wmtd->mutex);
+		cancelled = wmtd->thread_done;
+		g_mutex_unlock (wmtd->mutex);
 
-			for (scan_files = wmtd->files; scan_files; scan_files = scan_files->next) {
-				GthFileData *file_data = scan_files->data;
+		if (cancelled)
+			break;
+
+		for (scan_providers = providers; scan_providers; scan_providers = scan_providers->next) {
+			GthMetadataProvider *metadata_provider = scan_providers->data;
+
+			if (gth_metadata_provider_can_write (metadata_provider, gth_file_data_get_mime_type (file_data), wmtd->attributes_v))
 				gth_metadata_provider_write (metadata_provider, file_data, wmtd->attributes);
-			}
 		}
-
-		g_object_unref (metadata_provider);
 	}
+
+	_g_object_list_unref (providers);
 
 	g_mutex_lock (wmtd->mutex);
 	wmtd->thread_done = TRUE;

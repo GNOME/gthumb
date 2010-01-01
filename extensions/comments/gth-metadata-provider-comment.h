@@ -35,13 +35,11 @@
 #define GTH_METADATA_PROVIDER_COMMENT_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_METADATA_PROVIDER_COMMENT, GthMetadataProviderCommentClass))
 
 typedef struct _GthMetadataProviderComment         GthMetadataProviderComment;
-typedef struct _GthMetadataProviderCommentPrivate  GthMetadataProviderCommentPrivate;
 typedef struct _GthMetadataProviderCommentClass    GthMetadataProviderCommentClass;
 
 struct _GthMetadataProviderComment
 {
 	GthMetadataProvider __parent;
-	GthMetadataProviderCommentPrivate *priv;
 };
 
 struct _GthMetadataProviderCommentClass

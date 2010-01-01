@@ -39,28 +39,33 @@ G_BEGIN_DECLS
 
 typedef struct _GthMetadataProvider GthMetadataProvider;
 typedef struct _GthMetadataProviderClass GthMetadataProviderClass;
-typedef struct _GthMetadataProviderPrivate GthMetadataProviderPrivate;
 
 struct _GthMetadataProvider {
 	GObject parent_instance;
-	GthMetadataProviderPrivate *priv;
 };
 
 struct _GthMetadataProviderClass {
 	GObjectClass parent_class;
-	void (*read)  (GthMetadataProvider *self,
-		       GthFileData         *file_data,
-		       const char          *attributes);
-	void (*write) (GthMetadataProvider *self,
-		       GthFileData         *file_data,
-		       const char          *attributes);
+	gboolean  (*can_read)  (GthMetadataProvider  *self,
+			        const char           *mime_type,
+			        char                **attribute_v);
+	gboolean  (*can_write) (GthMetadataProvider  *self,
+			        const char           *mime_type,
+			        char                **attribute_v);
+	void      (*read)      (GthMetadataProvider  *self,
+		                GthFileData          *file_data,
+		                const char           *attributes);
+	void      (*write)     (GthMetadataProvider  *self,
+			        GthFileData          *file_data,
+			        const char           *attributes);
 };
 
 GType                   gth_metadata_provider_get_type   (void);
-GthMetadataProvider *   gth_metadata_provider_new        (void);
 gboolean                gth_metadata_provider_can_read   (GthMetadataProvider  *self,
+							  const char           *mime_type,
 						          char                **attribute_v);
 gboolean                gth_metadata_provider_can_write  (GthMetadataProvider  *self,
+							  const char           *mime_type,
 						          char                **attribute_v);
 void                    gth_metadata_provider_read       (GthMetadataProvider  *self,
 							  GthFileData          *file_data,
@@ -68,6 +73,7 @@ void                    gth_metadata_provider_read       (GthMetadataProvider  *
 void                    gth_metadata_provider_write      (GthMetadataProvider  *self,
 							  GthFileData          *file_data,
 							  const char           *attributes);
+
 void                    _g_query_metadata_async          (GList                *files, /* GthFileData * list */
 							  const char           *attributes,
 							  GCancellable         *cancellable,

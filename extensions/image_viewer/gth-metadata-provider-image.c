@@ -21,23 +21,29 @@
  */
 
 #include <config.h>
-#include <string.h>
-#include <glib/gi18n.h>
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gthumb.h>
 #include "gth-metadata-provider-image.h"
 
 
-#define GTH_METADATA_PROVIDER_IMAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_IMAGE, GthMetadataProviderImagePrivate))
-
-
-struct _GthMetadataProviderImagePrivate {
-	int dummy;
-};
-
-
 static GthMetadataProviderClass *parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
+				      const char           *mime_type,
+				      char                **attribute_v)
+{
+	if (! _g_content_type_is_a (mime_type, "image/*"))
+		return FALSE;
+
+	return _g_file_attributes_matches_any_v ("general::format,"
+			                         "general::dimensions,"
+						 "image::width,"
+						 "image::height",
+					         attribute_v);
+}
 
 
 static void
@@ -73,51 +79,12 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_image_finalize (GObject *object)
-{
-	/*GthMetadataProviderImage *image = GTH_METADATA_PROVIDER_IMAGE (object);*/
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GObject *
-gth_metadata_provider_constructor (GType                  type,
-				   guint                  n_construct_properties,
-				   GObjectConstructParam *construct_properties)
-{
-	GthMetadataProviderClass *klass;
-	GObjectClass             *parent_class;
-	GObject                  *obj;
-	GthMetadataProvider      *self;
-
-	klass = GTH_METADATA_PROVIDER_CLASS (g_type_class_peek (GTH_TYPE_METADATA_PROVIDER));
-	parent_class = G_OBJECT_CLASS (g_type_class_peek_parent (klass));
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_object_set (self, "readable-attributes", "general::format,general::dimensions,image::width,image::height", NULL);
-
-	return obj;
-}
-
-
-static void
 gth_metadata_provider_image_class_init (GthMetadataProviderImageClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderImagePrivate));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_image_finalize;
-	G_OBJECT_CLASS (klass)->constructor = gth_metadata_provider_constructor;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_image_can_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_image_read;
-}
-
-
-static void
-gth_metadata_provider_image_init (GthMetadataProviderImage *catalogs)
-{
 }
 
 
@@ -136,7 +103,7 @@ gth_metadata_provider_image_get_type (void)
 			NULL,
 			sizeof (GthMetadataProviderImage),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_image_init
+			(GInstanceInitFunc) NULL
 		};
 
 		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,

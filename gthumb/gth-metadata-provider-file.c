@@ -21,8 +21,6 @@
  */
 
 #include <config.h>
-#include <string.h>
-#include <glib/gi18n.h>
 #include <glib.h>
 #include "glib-utils.h"
 #include "gth-metadata-provider-file.h"
@@ -31,12 +29,21 @@
 #define GTH_METADATA_PROVIDER_FILE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_COMMENT, GthMetadataProviderFilePrivate))
 
 
-struct _GthMetadataProviderFilePrivate {
-	int dummy;
-};
-
-
 static GthMetadataProviderClass *parent_class = NULL;
+
+
+static gboolean
+gth_metadata_provider_file_can_read (GthMetadataProvider  *self,
+				     const char           *mime_type,
+				     char                **attribute_v)
+{
+	return _g_file_attributes_matches_any_v ("gth::file::display-size,"
+						 "gth::file::display-mtime,"
+						 "gth::file::content-type,"
+						 "gth::file::is-modified,"
+						 "gth::file::full-name",
+					         attribute_v);
+}
 
 
 static void
@@ -73,51 +80,12 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_file_finalize (GObject *object)
-{
-	/*GthMetadataProviderFile *file = GTH_METADATA_PROVIDER_FILE (object);*/
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GObject *
-gth_metadata_provider_constructor (GType                  type,
-				   guint                  n_construct_properties,
-				   GObjectConstructParam *construct_properties)
-{
-	GthMetadataProviderClass *klass;
-	GObjectClass     *parent_class;
-	GObject          *obj;
-	GthMetadataProvider      *self;
-
-	klass = GTH_METADATA_PROVIDER_CLASS (g_type_class_peek (GTH_TYPE_METADATA_PROVIDER));
-	parent_class = G_OBJECT_CLASS (g_type_class_peek_parent (klass));
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-	self = GTH_METADATA_PROVIDER (obj);
-
-	g_object_set (self, "readable-attributes", "gth::file::display-size,gth::file::display-mtime,gth::file::content-type,gth::file::is-modified,gth::file::full-name", NULL);
-
-	return obj;
-}
-
-
-static void
 gth_metadata_provider_file_class_init (GthMetadataProviderFileClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderFilePrivate));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_file_finalize;
-	G_OBJECT_CLASS (klass)->constructor = gth_metadata_provider_constructor;
-
+	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_file_can_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_file_read;
-}
-
-
-static void
-gth_metadata_provider_file_init (GthMetadataProviderFile *catalogs)
-{
 }
 
 
@@ -136,7 +104,7 @@ gth_metadata_provider_file_get_type (void)
 			NULL,
 			sizeof (GthMetadataProviderFile),
 			0,
-			(GInstanceInitFunc) gth_metadata_provider_file_init
+			(GInstanceInitFunc) NULL
 		};
 
 		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
