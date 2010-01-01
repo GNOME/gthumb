@@ -40,7 +40,8 @@ gth_metadata_provider_comment_can_read (GthMetadataProvider  *self,
 						 "general::title,"
 						 "general::description,"
 						 "general::location,"
-						 "general::tags",
+						 "general::tags,"
+						 "general::rating",
 					         attribute_v);
 }
 
@@ -55,7 +56,8 @@ gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
 						 "general::title,"
 						 "general::description,"
 						 "general::location,"
-						 "general::tags",
+						 "general::tags,"
+						 "general::rating",
 					         attribute_v);
 }
 
@@ -112,6 +114,16 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::place", value);
 		set_attribute_from_string (file_data->info, "general::location", value, NULL);
+	}
+
+	if (gth_comment_get_rating (comment) > 0) {
+		char *v;
+
+		g_file_info_set_attribute_int32 (file_data->info, "comment::rating", gth_comment_get_rating (comment));
+		v = g_strdup_printf ("%d", gth_comment_get_rating (comment));
+		set_attribute_from_string (file_data->info, "general::rating", v, NULL);
+
+		g_free (v);
 	}
 
 	categories = gth_comment_get_categories (comment);
@@ -211,6 +223,16 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 		list = gth_string_list_get_list (categories);
 		for (scan = list; scan; scan = scan->next)
 			gth_comment_add_category (comment, (char *) scan->data);
+	}
+
+	/* rating */
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
+	if (metadata != NULL) {
+		int rating;
+
+		sscanf (gth_metadata_get_raw (metadata), "%d", &rating);
+		gth_comment_set_rating (comment, rating);
 	}
 
 	data = gth_comment_to_data (comment, &length);

@@ -117,6 +117,16 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	else
 		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), "");
 
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
+	if (metadata != NULL) {
+		int v;
+
+		sscanf (gth_metadata_get_raw (metadata), "%d", &v);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton")), v);
+	}
+	else
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton")), 0);
+
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
 
 	no_provider = TRUE;
@@ -236,6 +246,24 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	string_list = gth_string_list_new (tags);
 	g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
 
+	/* rating */
+
+	if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))) > 0) {
+		char *s;
+
+		s = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))));
+		metadata = g_object_new (GTH_TYPE_METADATA,
+					 "id", "general::rating",
+					 "raw", s,
+					 "formatted", s,
+					 NULL);
+		g_file_info_set_attribute_object (info, "general::rating", G_OBJECT (metadata));
+		g_object_unref (metadata);
+		g_free (s);
+	}
+	else
+		g_file_info_remove_attribute (info, "general::rating");
+
 	g_free (exif_date);
 	g_object_unref (string_list);
 	g_strfreev (tagv);
@@ -288,6 +316,7 @@ get_date_from_option (GthEditCommentPage *self,
 	switch (option) {
 	case NO_DATE:
 		return g_strdup ("");
+
 	case FOLLOWING_DATE:
 		date_time = gth_datetime_new ();
 		gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
@@ -296,9 +325,11 @@ get_date_from_option (GthEditCommentPage *self,
 		g_free (exif_date);
 		gth_datetime_free (date_time);
 		break;
+
 	case CURRENT_DATE:
 		g_get_current_time (&timeval);
 		break;
+
 	case PHOTO_DATE:
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "Embedded::Photo::DateTimeOriginal");
 		if (metadata != NULL)
@@ -306,14 +337,17 @@ get_date_from_option (GthEditCommentPage *self,
 		else
 			return g_strdup ("");
 		break;
+
 	case LAST_MODIFIED_DATE:
 		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::modified");
 		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::modified-usec");
 		break;
+
 	case CREATION_DATE:
 		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::created");
 		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::created-usec");
 		break;
+
 	case NO_CHANGE:
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
 		if (metadata != NULL)

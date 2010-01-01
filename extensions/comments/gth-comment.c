@@ -33,7 +33,8 @@
 struct _GthCommentPrivate { /* All strings in utf8 format. */
 	char       *caption;
 	char       *note;
-	char       *place;           
+	char       *place;
+	int         rating;
 	GPtrArray  *categories;
 	GDate      *date;
 	GthTime    *time_of_day;	
@@ -96,6 +97,7 @@ gth_comment_instance_init (GthComment *self)
 	self->priv->caption = NULL;
 	self->priv->note = NULL;
 	self->priv->place = NULL;
+	self->priv->rating = 0;
 	self->priv->categories = g_ptr_array_new ();
 	self->priv->date = g_date_new ();
 	self->priv->time_of_day = gth_time_new ();
@@ -138,6 +140,12 @@ gth_comment_real_create_element (DomDomizable *base,
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->note, "note", NULL));
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->place, "place", NULL));
 	
+	if (self->priv->rating > 0) {
+		value = g_strdup_printf ("%d", self->priv->rating);
+		dom_element_append_child (element, dom_document_create_element (doc, "rating", "value", value, NULL));
+		g_free (value);
+	}
+
 	value = gth_comment_get_time_as_exif_format (self);
 	if (value != NULL) {
 		dom_element_append_child (element, dom_document_create_element (doc,  "time", "value", value, NULL));
@@ -200,6 +208,12 @@ gth_comment_real_load_from_element (DomDomizable *base,
 				gth_comment_set_place (self, dom_element_get_inner_text (node));
 			else if (g_strcmp0 (node->tag_name, "time") == 0) 
 				gth_comment_set_time_from_exif_format (self, dom_element_get_attribute (node, "value"));
+			else if (g_strcmp0 (node->tag_name, "rating") == 0) {
+				int v;
+
+				sscanf (dom_element_get_attribute (node, "value"), "%d", &v);
+				gth_comment_set_rating (self, v);
+			}
 			else if (g_strcmp0 (node->tag_name, "categories") == 0) {
 				DomElement *child;
 				
@@ -367,6 +381,7 @@ gth_comment_dup (GthComment *self)
 	gth_comment_set_caption (comment, gth_comment_get_caption (self));
 	gth_comment_set_note (comment, gth_comment_get_note (self));
 	gth_comment_set_place (comment, gth_comment_get_place (self));
+	gth_comment_set_rating (comment, gth_comment_get_rating (self));
 	time = gth_comment_get_time_as_exif_format (self);
 	gth_comment_set_time_from_exif_format (comment, time);
 	for (i = 0; i < self->priv->categories->len; i++)
@@ -420,6 +435,14 @@ gth_comment_set_place (GthComment *comment,
 	
 	if (value != NULL)
 		comment->priv->place = g_strdup (value);
+}
+
+
+void
+gth_comment_set_rating (GthComment *comment,
+		        int         value)
+{
+	comment->priv->rating = value;
 }
 
 
@@ -504,6 +527,13 @@ const char *
 gth_comment_get_place (GthComment *comment)
 {
 	return comment->priv->place;
+}
+
+
+int
+gth_comment_get_rating (GthComment *comment)
+{
+	return comment->priv->rating;
 }
 
 
