@@ -8,4 +8,4 @@ Version=1.0
 [Loader]
 Type=module
 File=%LIBRARY%
-After=image_rotation;comments
+After=image_rotation;comments;edit_metadata
