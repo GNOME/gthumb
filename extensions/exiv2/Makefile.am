@@ -1,11 +1,15 @@
 if ENABLE_EXIV2
 
+SUBDIRS = data
+
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libexiv2.la
 
 libexiv2_la_SOURCES = 			\
 	exiv2-utils.h			\
 	exiv2-utils.cpp			\
+	gth-edit-exiv2-page.c		\
+	gth-edit-exiv2-page.h		\
 	gth-metadata-provider-exiv2.c	\
 	gth-metadata-provider-exiv2.h	\
 	main.c

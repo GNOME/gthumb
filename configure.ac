@@ -326,6 +326,8 @@ extensions/edit_metadata/Makefile
 extensions/edit_metadata/data/Makefile
 extensions/edit_metadata/data/ui/Makefile
 extensions/exiv2/Makefile
+extensions/exiv2/data/Makefile
+extensions/exiv2/data/ui/Makefile
 extensions/file_manager/Makefile
 extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
