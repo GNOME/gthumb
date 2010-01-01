@@ -57,6 +57,8 @@ char *            gth_comment_to_data                    (GthComment  *comment,
 							  gsize       *length);
 GthComment *      gth_comment_dup                        (GthComment  *comment);
 void              gth_comment_reset                      (GthComment  *comment);
+void              gth_comment_set_caption                (GthComment  *comment,
+							  const char  *value);
 void              gth_comment_set_note                   (GthComment  *comment,
 							  const char  *value);
 void              gth_comment_set_place                  (GthComment  *comment,
@@ -69,6 +71,7 @@ void              gth_comment_set_time_from_exif_format  (GthComment  *comment,
 							  const char  *value);
 void              gth_comment_set_time_from_time_t       (GthComment  *comment,
 							  time_t       value);						  
+const char *      gth_comment_get_caption                (GthComment  *comment);
 const char *      gth_comment_get_note                   (GthComment  *comment);
 const char *      gth_comment_get_place                  (GthComment  *comment);
 GPtrArray *       gth_comment_get_categories             (GthComment  *comment);

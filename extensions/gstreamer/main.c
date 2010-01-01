@@ -37,7 +37,6 @@ GthMetadataCategory gstreamer_metadata_category[] = {
 
 
 GthMetadataInfo gstreamer_metadata_info[] = {
-	{ "audio-video::general::title", N_("Title"), "general", 1, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::general::artist", N_("Artist"), "general", 2, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::general::album", N_("Album"), "general", 3, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::general::bitrate", N_("Bitrate"), "general", 20, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },

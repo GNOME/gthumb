@@ -290,7 +290,7 @@ tag_iterate (const GstTagList *list,
 		tag_key = "audio-video::general::encoder";
 	}
 	else if (strcmp (tag, "title") == 0) {
-		tag_key = "audio-video::general::title";
+		tag_key = "general::title";
 	}
 	else if (strcmp (tag, "artist") == 0) {
 		tag_key = "audio-video::general::artist";

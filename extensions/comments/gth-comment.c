@@ -31,6 +31,7 @@
 
 
 struct _GthCommentPrivate { /* All strings in utf8 format. */
+	char       *caption;
 	char       *note;
 	char       *place;           
 	GPtrArray  *categories;
@@ -54,6 +55,11 @@ gth_comment_free_data (GthComment *self)
 	if (self->priv->note != NULL) {
 		g_free (self->priv->note);
 		self->priv->note = NULL;
+	}
+
+	if (self->priv->caption != NULL) {
+		g_free (self->priv->caption);
+		self->priv->caption = NULL;
 	}
 }
 
@@ -87,6 +93,9 @@ static void
 gth_comment_instance_init (GthComment *self) 
 {
 	self->priv = GTH_COMMENT_GET_PRIVATE (self);
+	self->priv->caption = NULL;
+	self->priv->note = NULL;
+	self->priv->place = NULL;
 	self->priv->categories = g_ptr_array_new ();
 	self->priv->date = g_date_new ();
 	self->priv->time_of_day = gth_time_new ();
@@ -125,6 +134,7 @@ gth_comment_real_create_element (DomDomizable *base,
 					       "version", COMMENT_VERSION,
 					       NULL);
 
+	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->caption, "caption", NULL));
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->note, "note", NULL));
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->place, "place", NULL));
 	
@@ -158,7 +168,7 @@ gth_comment_real_load_from_element (DomDomizable *base,
 
 	if (g_strcmp0 (dom_element_get_attribute (element, "format"), "2.0") == 0) {
 		for (node = element->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "Note") == 0) 
+			if (g_strcmp0 (node->tag_name, "Note") == 0)
 				gth_comment_set_note (self, dom_element_get_inner_text (node));
 			else if (g_strcmp0 (node->tag_name, "Place") == 0) 
 				gth_comment_set_place (self, dom_element_get_inner_text (node));
@@ -182,7 +192,9 @@ gth_comment_real_load_from_element (DomDomizable *base,
 	}
 	else if (g_strcmp0 (dom_element_get_attribute (element, "version"), "3.0") == 0) {
 		for (node = element->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "note") == 0) 
+			if (g_strcmp0 (node->tag_name, "caption") == 0)
+				gth_comment_set_caption (self, dom_element_get_inner_text (node));
+			else if (g_strcmp0 (node->tag_name, "note") == 0)
 				gth_comment_set_note (self, dom_element_get_inner_text (node));
 			else if (g_strcmp0 (node->tag_name, "place") == 0) 
 				gth_comment_set_place (self, dom_element_get_inner_text (node));
@@ -352,6 +364,7 @@ gth_comment_dup (GthComment *self)
 		return NULL;
 
 	comment = gth_comment_new ();
+	gth_comment_set_caption (comment, gth_comment_get_caption (self));
 	gth_comment_set_note (comment, gth_comment_get_note (self));
 	gth_comment_set_place (comment, gth_comment_get_place (self));
 	time = gth_comment_get_time_as_exif_format (self);
@@ -371,6 +384,18 @@ gth_comment_reset (GthComment *self)
 	gth_comment_free_data (self);
 	gth_comment_clear_categories (self);
 	gth_comment_reset_time (self);
+}
+
+
+void
+gth_comment_set_caption (GthComment  *comment,
+			 const char  *value)
+{
+	g_free (comment->priv->caption);
+	comment->priv->caption = NULL;
+
+	if (value != NULL)
+		comment->priv->caption = g_strdup (value);
 }
 
 
@@ -458,6 +483,13 @@ gth_comment_set_time_from_time_t (GthComment *comment,
 	tm = localtime (&value);
 	g_date_set_dmy (comment->priv->date, tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
 	gth_time_set_hms (comment->priv->time_of_day, tm->tm_hour, tm->tm_min, tm->tm_sec, 0);
+}
+
+
+const char *
+gth_comment_get_caption (GthComment *comment)
+{
+	return comment->priv->caption;
 }
 
 

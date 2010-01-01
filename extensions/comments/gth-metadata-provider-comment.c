@@ -37,6 +37,7 @@ gth_metadata_provider_comment_can_read (GthMetadataProvider  *self,
 {
 	return _g_file_attributes_matches_any_v ("comment::*,"
 						 "general::datetime,"
+						 "general::title,"
 						 "general::description,"
 						 "general::location,"
 						 "general::tags",
@@ -51,6 +52,7 @@ gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
 {
 	return _g_file_attributes_matches_any_v ("comment::*,"
 						 "general::datetime,"
+						 "general::title,"
 						 "general::description,"
 						 "general::location,"
 						 "general::tags",
@@ -98,6 +100,12 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
 		set_attribute_from_string (file_data->info, "general::description", value, NULL);
+	}
+
+	value = gth_comment_get_caption (comment);
+	if (value != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "comment::caption", value);
+		set_attribute_from_string (file_data->info, "general::title", value, NULL);
 	}
 
 	value = gth_comment_get_place (comment);
@@ -152,6 +160,15 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 	GFile         *comment_folder;
 
 	comment = gth_comment_new ();
+
+	/* caption */
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
+	if (metadata == NULL)
+		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
+	else
+		text = gth_metadata_get_raw (metadata);
+	gth_comment_set_caption (comment, text);
 
 	/* comment */
 

@@ -103,7 +103,7 @@ _gth_media_viewer_page_update_caption (GthMediaViewerPage *self)
 		GthMetadata *metadata;
 
 		text = NULL;
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "audio-video::general::title");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "general::title");
 		if (metadata != NULL)
 			text = gth_metadata_get_formatted (metadata);
 		else

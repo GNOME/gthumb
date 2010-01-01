@@ -139,6 +139,11 @@ const char *_DESCRIPTION_TAG_NAMES[] = {
 	NULL
 };
 
+const char *_TITLE_TAG_NAMES[] = {
+	"Xmp::dc::title",
+	NULL
+};
+
 const char *_LOCATION_TAG_NAMES[] = {
 	"Xmp::iptc::Location",
 	"Iptc::Application2::LocationName",
@@ -316,6 +321,7 @@ set_attributes_from_tagsets (GFileInfo *info)
 {
 	set_attribute_from_tagset (info, "general::datetime", _DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
+	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);

@@ -46,6 +46,7 @@ gth_metadata_provider_exiv2_can_read (GthMetadataProvider  *self,
 						 "Embedded::Image::*,"
 						 "Embedded::Photo::*,"
 						 "general::datetime,"
+						 "general::title,"
 						 "general::description,"
 						 "general::location,"
 						 "general::tags",
@@ -67,6 +68,7 @@ gth_metadata_provider_exiv2_can_write (GthMetadataProvider  *self,
 						 "Embedded::Image::*,"
 						 "Embedded::Photo::*,"
 						 "general::datetime,"
+						 "general::title,"
 						 "general::description,"
 						 "general::location,"
 						 "general::tags",

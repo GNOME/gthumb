@@ -83,6 +83,12 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	else
 		gtk_text_buffer_set_text (buffer, "", -1);
 
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
+	if (metadata != NULL)
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), gth_metadata_get_formatted (metadata));
+	else
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), "");
+
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), gth_metadata_get_formatted (metadata));
@@ -140,6 +146,12 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		no_provider = FALSE;
 	_g_object_unref (provider);
 
+	provider = gth_main_get_metadata_writer ("general::rating", gth_file_data_get_mime_type (file_data));
+	gtk_widget_set_sensitive (GET_WIDGET ("rating_spinbutton"), provider != NULL);
+	if (no_provider && (provider != NULL))
+		no_provider = FALSE;
+	_g_object_unref (provider);
+
 	if (no_provider)
 		gtk_widget_hide (GTK_WIDGET (self));
 	else
@@ -165,6 +177,16 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	char                *exif_date;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
+
+	/* caption */
+
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "id", "general::title",
+				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
+				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
+				 NULL);
+	g_file_info_set_attribute_object (info, "general::title", G_OBJECT (metadata));
+	g_object_unref (metadata);
 
 	/* comment */
 
