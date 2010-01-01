@@ -835,7 +835,7 @@ gth_extension_manager_is_active (GthExtensionManager *manager,
 	if (description != NULL)
 		return gth_extension_description_is_active (description);
 	else
-		return NULL;
+		return FALSE;
 }
 
 
