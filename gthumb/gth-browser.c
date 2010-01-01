@@ -2161,8 +2161,6 @@ folder_tree_list_children_cb (GthFolderTree *folder_tree,
 			      GFile         *file,
 			      GthBrowser    *browser)
 {
-	g_print ("list children: %s\n", g_file_get_uri (file));
-
 	_gth_browser_load (browser, file, NULL, GTH_ACTION_LIST_CHILDREN, FALSE);
 }
 
