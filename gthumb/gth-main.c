@@ -1275,7 +1275,7 @@ attribute_list_reaload_required (const char *old_attributes,
 	new_attributes_len = g_strv_length (new_attributes_v);
 
 	for (i = 0; i < new_attributes_len; i++) {
-		if (_g_file_attributes_matches (new_attributes_v[i], GIO_ATTRIBUTES)) {
+		if (_g_file_attributes_matches_any (new_attributes_v[i], GIO_ATTRIBUTES)) {
 			g_free (new_attributes_v[i]);
 			new_attributes_v[i] = NULL;
 		}

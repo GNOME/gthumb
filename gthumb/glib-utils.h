@@ -253,10 +253,12 @@ GFile *         _g_file_append_prefix            (GFile      *file,
 						  const char *prefix);
 GFile *         _g_file_append_path              (GFile      *file,
 						  const char *path);
-gboolean        _g_file_attributes_matches_mask  (const char *attributes,
+gboolean        _g_file_attributes_matches_all   (const char *attributes,
 						  const char *mask);
-gboolean        _g_file_attributes_matches       (const char *attributes,
+gboolean        _g_file_attributes_matches_any   (const char *attributes,
 						  const char *mask);
+gboolean        _g_file_attributes_matches_any_v (const char *attributes,
+						  char      **attribute_v);
 void            _g_file_info_swap_attributes     (GFileInfo  *info,
 						  const char *attr1,
 						  const char *attr2);

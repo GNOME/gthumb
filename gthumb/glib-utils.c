@@ -2147,8 +2147,8 @@ attribute_matches_mask (const char *attribute,
 
 
 gboolean
-_g_file_attributes_matches_mask (const char *attributes,
-			         const char *mask)
+_g_file_attributes_matches_all (const char *attributes,
+			        const char *mask)
 {
 	gboolean   matches_all_mask = TRUE;
 	char     **attributes_v;
@@ -2208,10 +2208,28 @@ _attributes_matches_mask (const char *attributes,
 
 
 gboolean
-_g_file_attributes_matches (const char *attributes,
-			    const char *mask)
+_g_file_attributes_matches_any (const char *attributes,
+			        const char *mask)
 {
 	return _attributes_matches_mask (attributes, mask) || _attributes_matches_mask (mask, attributes);
+}
+
+
+gboolean
+_g_file_attributes_matches_any_v (const char *attributes,
+				  char      **attribute_v)
+{
+	gboolean matches;
+	int      i;
+
+	if (attributes == NULL)
+		return FALSE;
+
+	matches = FALSE;
+	for (i = 0; ! matches && (attribute_v[i] != NULL); i++)
+		matches = _g_file_attributes_matches_any (attributes, attribute_v[i]);
+
+	return matches;
 }
 
 

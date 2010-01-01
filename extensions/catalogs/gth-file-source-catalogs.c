@@ -240,7 +240,7 @@ write_metadata_load_buffer_ready_cb (void     *buffer,
 		return;
 	}
 
-	if (_g_file_attributes_matches (metadata_op->attributes, "sort::*"))
+	if (_g_file_attributes_matches_any (metadata_op->attributes, "sort::*"))
 		gth_catalog_set_order (metadata_op->catalog,
 				       g_file_info_get_attribute_string (metadata_op->file_data->info, "sort::type"),
 				       g_file_info_get_attribute_boolean (metadata_op->file_data->info, "sort::inverse"));
@@ -367,7 +367,7 @@ read_metadata_info_ready_cb (GList    *files,
 
 	update_file_info (read_metadata->file_source, read_metadata->file_data->file, read_metadata->file_data->info);
 
-	if (_g_file_attributes_matches (read_metadata->attributes, "sort::*")) {
+	if (_g_file_attributes_matches_any (read_metadata->attributes, "sort::*")) {
 		GFile *gio_file;
 
 		gio_file = gth_catalog_file_to_gio_file (read_metadata->file_data->file);
