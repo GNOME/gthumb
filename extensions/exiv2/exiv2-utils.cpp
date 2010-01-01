@@ -714,8 +714,8 @@ extern "C"
 gboolean
 exiv2_supports_writes (const char *mime_type)
 {
-	return (g_content_type_equals (mime_type, "image/jpeg") ||
-		g_content_type_equals (mime_type, "image/png"));
+	return (_g_content_type_is_a (mime_type, "image/jpeg") ||
+		_g_content_type_is_a (mime_type, "image/png"));
 }
 
 

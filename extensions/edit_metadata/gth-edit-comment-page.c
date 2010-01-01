@@ -46,11 +46,11 @@ static gpointer gth_edit_comment_page_parent_class = NULL;
 
 
 struct _GthEditCommentPagePrivate {
-	GthFileData *file_data;
-	GtkBuilder  *builder;
-	GtkWidget   *date_combobox;
-	GtkWidget   *date_selector;
-	GtkWidget   *tags_entry;
+	GFileInfo  *info;
+	GtkBuilder *builder;
+	GtkWidget  *date_combobox;
+	GtkWidget  *date_selector;
+	GtkWidget  *tags_entry;
 };
 
 
@@ -58,15 +58,18 @@ void
 gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		 		     GthFileData         *file_data)
 {
-	GthEditCommentPage *self;
-	GtkTextBuffer      *buffer;
-	GthMetadata        *metadata;
-	GthStringList      *tags;
+	GthEditCommentPage  *self;
+	GtkTextBuffer       *buffer;
+	GthMetadata         *metadata;
+	GthStringList       *tags;
+	GthMetadataProvider *provider;
+	gboolean             no_provider;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
-	_g_object_unref (self->priv->file_data);
-	self->priv->file_data = g_object_ref (file_data);
+	_g_object_unref (self->priv->info);
+	self->priv->info = g_file_info_new ();
+	g_file_info_copy_into (file_data->info, self->priv->info);
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
@@ -109,6 +112,38 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), "");
 
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
+
+	no_provider = TRUE;
+
+  	provider = gth_main_get_metadata_writer ("general::description", gth_file_data_get_mime_type (file_data));
+	gtk_widget_set_sensitive (GET_WIDGET ("note_text"), provider != NULL);
+	if (no_provider && (provider != NULL))
+		no_provider = FALSE;
+	_g_object_unref (provider);
+
+	provider = gth_main_get_metadata_writer ("general::location", gth_file_data_get_mime_type (file_data));
+	gtk_widget_set_sensitive (GET_WIDGET ("place_entry"), provider != NULL);
+	if (no_provider && (provider != NULL))
+		no_provider = FALSE;
+	_g_object_unref (provider);
+
+	provider = gth_main_get_metadata_writer ("general::datetime", gth_file_data_get_mime_type (file_data));
+	gtk_widget_set_sensitive (self->priv->date_combobox, provider != NULL);
+	gtk_widget_set_sensitive (self->priv->date_selector, provider != NULL);
+	if (no_provider && (provider != NULL))
+		no_provider = FALSE;
+	_g_object_unref (provider);
+
+	provider = gth_main_get_metadata_writer ("general::tags", gth_file_data_get_mime_type (file_data));
+	gtk_widget_set_sensitive (self->priv->tags_entry, provider != NULL);
+	if (no_provider && (provider != NULL))
+		no_provider = FALSE;
+	_g_object_unref (provider);
+
+	if (no_provider)
+		gtk_widget_hide (GTK_WIDGET (self));
+	else
+		gtk_widget_show (GTK_WIDGET (self));
 }
 
 
@@ -141,7 +176,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 				 "raw", text,
 				 "formatted", text,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "general::description", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (info, "general::description", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	g_free (text);
 
@@ -152,7 +187,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
 				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "general::location", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (info, "general::location", G_OBJECT (metadata));
 	g_object_unref (metadata);
 
 	/* date */
@@ -165,7 +200,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 				 "raw", exif_date,
 				 "formatted", exif_date,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "general::datetime", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	gth_datetime_free (date_time);
 
@@ -177,7 +212,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
 	string_list = gth_string_list_new (tags);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "general::tags", G_OBJECT (string_list));
+	g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
 
 	g_free (exif_date);
 	g_object_unref (string_list);
@@ -200,7 +235,7 @@ gth_edit_comment_page_finalize (GObject *object)
 
 	self = GTH_EDIT_COMMENT_PAGE (object);
 
-	_g_object_unref (self->priv->file_data);
+	_g_object_unref (self->priv->info);
 	g_object_unref (self->priv->builder);
 
 	G_OBJECT_CLASS (gth_edit_comment_page_parent_class)->finalize (object);
@@ -243,22 +278,22 @@ get_date_from_option (GthEditCommentPage *self,
 		g_get_current_time (&timeval);
 		break;
 	case PHOTO_DATE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "Embedded::Photo::DateTimeOriginal");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "Embedded::Photo::DateTimeOriginal");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else
 			return g_strdup ("");
 		break;
 	case LAST_MODIFIED_DATE:
-		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->file_data->info, "time::modified");
-		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->file_data->info, "time::modified-usec");
+		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::modified");
+		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::modified-usec");
 		break;
 	case CREATION_DATE:
-		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->file_data->info, "time::created");
-		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->file_data->info, "time::created-usec");
+		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::created");
+		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::created-usec");
 		break;
 	case NO_CHANGE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "general::datetime");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else
@@ -288,6 +323,7 @@ static void
 gth_edit_comment_page_init (GthEditCommentPage *self)
 {
 	self->priv = GTH_EDIT_COMMENT_PAGE_GET_PRIVATE (self);
+	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
 
