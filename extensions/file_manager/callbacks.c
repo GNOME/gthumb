@@ -36,13 +36,10 @@
 #define SCROLL_TIMEOUT 30 /* autoscroll timeout in milliseconds */
 
 
-static const char *vfs_ui_info =
+static const char *fixed_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Folder_Actions'>"
-"        <menuitem action='Edit_Duplicate'/>"
-"      </placeholder>"
 "      <placeholder name='Folder_Actions_2'>"
 "        <menuitem action='Edit_Trash'/>"
 "        <menuitem action='Edit_Delete'/>"
@@ -67,6 +64,18 @@ static const char *vfs_ui_info =
 "      <menuitem action='Edit_Delete'/>"
 "    </placeholder>"
 "  </popup>"
+"</ui>";
+
+
+static const char *vfs_ui_info =
+"<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu name='Edit' action='EditMenu'>"
+"      <placeholder name='Folder_Actions'>"
+"        <menuitem action='Edit_Duplicate'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
 "</ui>";
 
 
@@ -201,6 +210,7 @@ static GtkActionEntry action_entries[] = {
 
 typedef struct {
 	GtkActionGroup *action_group;
+	guint           fixed_merge_id;
 	guint           vfs_merge_id;
 	guint           browser_merge_id;
 	guint           browser_vfs_merge_id;
@@ -443,6 +453,7 @@ void
 fm__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
+	GError      *error;
 	GtkWidget   *file_view;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
@@ -457,6 +468,12 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 				      browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
+
+	data->fixed_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error);
+	if (data->fixed_merge_id == 0) {
+		g_warning ("building ui failed: %s", error->message);
+		g_error_free (error);
+	}
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	g_signal_connect (file_view,
