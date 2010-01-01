@@ -113,9 +113,9 @@ dlg_edit_metadata (GthBrowser *browser)
 			  G_CALLBACK (edit_metadata_dialog__response_cb),
 			  data);
 
+	gth_edit_metadata_dialog_set_file (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_data);
+
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (data->dialog));
-
-	gth_edit_metadata_dialog_set_file (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_data);
 }
