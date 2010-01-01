@@ -1101,7 +1101,7 @@ _gth_browser_reload_required (GthBrowser *browser)
 
 	old_attributes = g_strdup (_gth_browser_get_list_attributes (browser, FALSE));
 	new_attributes = _gth_browser_get_list_attributes (browser, TRUE);
-	reload_required = attribute_list_reaload_required (old_attributes, new_attributes);
+	reload_required = attribute_list_reload_required (old_attributes, new_attributes);
 
 	g_free (old_attributes);
 
@@ -1924,7 +1924,6 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ToolBar/BrowserCommands/Edit_Metadata")), TRUE);
 	}
 	else if (browser->priv->browser_ui_merge_id != 0) {
 		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->browser_ui_merge_id);

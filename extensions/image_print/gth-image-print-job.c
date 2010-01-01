@@ -1064,7 +1064,7 @@ caption_chooser_changed_cb (GthMetadataChooser *chooser,
 	gboolean          reload_required;
 
 	new_caption_attributes = gth_metadata_chooser_get_selection (chooser);
-	reload_required = attribute_list_reaload_required (self->priv->caption_attributes, new_caption_attributes);
+	reload_required = attribute_list_reload_required (self->priv->caption_attributes, new_caption_attributes);
 	g_free (self->priv->caption_attributes);
 	self->priv->caption_attributes = new_caption_attributes;
 	eel_gconf_set_string (PREF_IMAGE_PRINT_CAPTION, self->priv->caption_attributes);
