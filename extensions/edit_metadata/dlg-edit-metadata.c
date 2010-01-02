@@ -61,6 +61,7 @@ write_metadata_ready_cb (GError   *error,
 	parent = g_file_get_parent (data->file_data->file);
 	files = g_list_prepend (NULL, g_object_ref (data->file_data->file));
 	gth_monitor_folder_changed (monitor, parent, files, GTH_MONITOR_EVENT_CHANGED);
+	gth_monitor_metadata_changed (monitor, data->file_data);
 
 	gtk_widget_destroy (GTK_WIDGET (data->dialog));
 
