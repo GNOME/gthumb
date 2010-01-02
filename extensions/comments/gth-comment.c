@@ -409,7 +409,7 @@ gth_comment_set_caption (GthComment  *comment,
 	g_free (comment->priv->caption);
 	comment->priv->caption = NULL;
 
-	if (value != NULL)
+	if ((value != NULL) && (strcmp (value, "") != 0))
 		comment->priv->caption = g_strdup (value);
 }
 
@@ -421,7 +421,7 @@ gth_comment_set_note (GthComment *comment,
 	g_free (comment->priv->note);
 	comment->priv->note = NULL;
 	
-	if (value != NULL)
+	if ((value != NULL) && (strcmp (value, "") != 0))
 		comment->priv->note = g_strdup (value);
 }
 
@@ -433,7 +433,7 @@ gth_comment_set_place (GthComment *comment,
 	g_free (comment->priv->place);
 	comment->priv->place = NULL;
 	
-	if (value != NULL)
+	if ((value != NULL) && (strcmp (value, "") != 0))
 		comment->priv->place = g_strdup (value);
 }
 
