@@ -129,9 +129,8 @@ catalog_imported_file (GthImportTask *self)
 	}
 
 	if (key == NULL) {
-		g_free (key);
-		import_next_file (self);
-		return;
+		g_get_current_time (&timeval);
+		key = _g_time_val_strftime (&timeval, "%Y.%m.%d");
 	}
 
 	catalog = g_hash_table_lookup (self->priv->catalogs, key);
@@ -523,14 +522,10 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 {
 	GFile     *file_destination;
 	GTimeVal   timeval;
-	GDate     *date;
-	char     **parts = NULL;
+	char     **parts;
 	char      *child;
 
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE) {
-		g_get_current_time (&timeval);
-	}
-	else if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
+	if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
 		GthMetadata *metadata;
 
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
@@ -540,19 +535,31 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 			subfolder_type = GTH_SUBFOLDER_TYPE_NONE;
 	}
 
-	date = g_date_new ();
+	if (subfolder_type == GTH_SUBFOLDER_TYPE_NONE)
+		subfolder_type = GTH_SUBFOLDER_TYPE_CURRENT_DATE;
 
+	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
+		g_get_current_time (&timeval);
+
+	parts = NULL;
 	switch (subfolder_type) {
 	case GTH_SUBFOLDER_TYPE_FILE_DATE:
 	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
-		g_date_set_time_val (date, &timeval);
+		{
+			GDate *date;
 
-		parts = g_new0 (char *, 4);
-		parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
-		if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYY) {
-			parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
-			if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYYMM)
-				parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
+			date = g_date_new ();
+			g_date_set_time_val (date, &timeval);
+
+			parts = g_new0 (char *, 4);
+			parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
+			if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYY) {
+				parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
+				if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYYMM)
+					parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
+			}
+
+			g_date_free (date);
 		}
 		break;
 
@@ -571,7 +578,6 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 
 	g_free (child);
 	g_strfreev (parts);
-	g_date_free (date);
 
 	return file_destination;
 }
