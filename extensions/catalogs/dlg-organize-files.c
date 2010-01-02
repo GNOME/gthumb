@@ -140,6 +140,7 @@ dlg_organize_files (GthBrowser *browser,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ignore_singletons_checkbutton")), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton")), FALSE);
+	gtk_widget_set_sensitive (GET_WIDGET ("single_catalog_box"), FALSE);
 
 	/* run dialog. */
 
