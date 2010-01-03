@@ -84,6 +84,12 @@
                                 <property name="model">group_by_liststore</property>
                                 <property name="active">0</property>
                                 <child>
+                                  <object class="GtkCellRendererPixbuf" id="cellrenderertext2"/>
+                                  <attributes>
+                                    <attribute name="icon-name">2</attribute>
+                                  </attributes>
+                                </child>
+                                <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext1"/>
                                   <attributes>
                                     <attribute name="text">1</attribute>
@@ -250,26 +256,30 @@
       <action-widget response="0">start_button</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-execute</property>
+  </object>
   <object class="GtkListStore" id="group_by_liststore">
     <columns>
       <!-- column-name type -->
       <column type="gint"/>
       <!-- column-name name -->
       <column type="gchararray"/>
+      <!-- column-name icon-name -->
+      <column type="gchararray"/>
     </columns>
     <data>
       <row>
         <col id="0">0</col>
         <col id="1" translatable="yes">date photo was taken</col>
+        <col id="2" translatable="yes">camera-photo</col>
       </row>
       <row>
         <col id="0">1</col>
         <col id="1" translatable="yes">file modified date</col>
+        <col id="2" translatable="yes">appointment-soon</col>
       </row>
     </data>
-  </object>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="stock">gtk-execute</property>
   </object>
 </interface>
