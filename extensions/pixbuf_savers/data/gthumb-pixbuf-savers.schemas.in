@@ -1,0 +1,130 @@
+<gconfschemafile>
+    <schemalist>
+
+      <!-- JPEG Options -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/jpeg/quality</key>
+	<applyto>/apps/gthumb/save_options/jpeg/quality</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>85</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/jpeg/smoothing</key>
+	<applyto>/apps/gthumb/save_options/jpeg/smoothing</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/jpeg/optimize</key>
+	<applyto>/apps/gthumb/save_options/jpeg/optimize</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/jpeg/pregressive</key>
+	<applyto>/apps/gthumb/save_options/jpeg/pregressive</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- PNG Options -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/png/compression_level</key>
+	<applyto>/apps/gthumb/save_options/png/compression_level</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>6</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TGA Options -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/tga/rle_compression</key>
+	<applyto>/apps/gthumb/save_options/tga/rle_compression</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TIFF Options -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/tiff/compression</key>
+	<applyto>/apps/gthumb/save_options/tiff/compression</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>deflate</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: none, deflate, jpeg.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/tiff/horizontal_resolution</key>
+	<applyto>/apps/gthumb/save_options/tiff/horizontal_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/tiff/vertical_resolution</key>
+	<applyto>/apps/gthumb/save_options/tiff/vertical_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

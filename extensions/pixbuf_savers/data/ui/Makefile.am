@@ -1,0 +1,10 @@
+uidir = $(datadir)/gthumb-2.0/ui
+ui_DATA = 				\
+	jpeg-options.ui 		\
+	png-options.ui			\
+	save-options-preferences.ui	\
+	tga-options.ui			\
+	tiff-options.ui
+EXTRA_DIST = $(ui_DATA)
+
+-include $(top_srcdir)/git.mk

@@ -4,9 +4,9 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">gThumb</name>
-  <shortdesc xml:lang="en">gThumb Image Viewer</shortdesc>
-  <homepage rdf:resource="http://gthumb.sourceforge.net/" />
+  <name xml:lang="en">gthumb</name>
+  <shortdesc xml:lang="en">gthumb image viewer</shortdesc>
+  <homepage rdf:resource="http://live.gnome.org/gthumb" />
   
   <!--
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/desktop-devel-list" />
@@ -15,7 +15,7 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Paolo Bacchilega</foaf:name>
-      <foaf:mbox rdf:resource="paobac@svn.gnome.org" />
+      <foaf:mbox rdf:resource="mailto:paobac@src.gnome.org" />
       <gnome:userid>paobac</gnome:userid>
     </foaf:Person>
   </maintainer>

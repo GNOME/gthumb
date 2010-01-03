@@ -1,0 +1,97 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_quality</key>
+	<applyto>/apps/gthumb/viewer/zoom_quality</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>high</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: high, low.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_change</key>
+	<applyto>/apps/gthumb/viewer/zoom_change</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>fit-size-if-larger</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: actual-size, keep-prev, fit-size,
+	    fit-size-if-larger, fit-width, fit-width-if-larger.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/transparency_type</key>
+	<applyto>/apps/gthumb/viewer/transparency_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: white, black, checked, none.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/reset_scrollbars</key>
+	<applyto>/apps/gthumb/viewer/reset_scrollbars</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Whether to reset the scrollbar positions after changing image
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_type</key>
+	<applyto>/apps/gthumb/viewer/check_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>midtone</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: light, midtone, dark.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_size</key>
+	<applyto>/apps/gthumb/viewer/check_size</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>medium</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: small, medium, large.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/black_background</key>
+	<applyto>/apps/gthumb/viewer/black_background</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Whether to always use a black background.
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

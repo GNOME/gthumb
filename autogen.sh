@@ -4,11 +4,11 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="gThumb"
+PKG_NAME="gthumb"
 REQUIRED_AUTOMAKE_VERSION=1.8
 
-(test -f $srcdir/configure.in \
-  && test -d $srcdir/src) || {
+(test -f $srcdir/configure.ac \
+  && test -d $srcdir/gthumb) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level $PKG_NAME directory"
     exit 1

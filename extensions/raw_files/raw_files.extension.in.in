@@ -1,0 +1,10 @@
+[Extension]
+_Name=Raw format support
+_Description=Allow to load raw format images.
+_Authors=gthumb development team
+Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Version=1.0
+
+[Loader]
+Type=module
+File=%LIBRARY%

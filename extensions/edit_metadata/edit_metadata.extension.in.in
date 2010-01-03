@@ -1,0 +1,11 @@
+[Extension]
+_Name=Edit metadata
+_Description=Allow to edit files metadata.
+_Authors=gthumb development team
+Copyright=Copyright © 2009-2010 The Free Software Foundation, Inc.
+Version=1.0
+URL=http://live.gnome.org/gthumb
+
+[Loader]
+Type=module
+File=%LIBRARY%

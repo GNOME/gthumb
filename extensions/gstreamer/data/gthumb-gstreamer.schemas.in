@@ -1,0 +1,17 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/gstreamer/screenshot_location</key>
+	<applyto>/apps/gthumb/ext/gstreamer/screenshot_location</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>~</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

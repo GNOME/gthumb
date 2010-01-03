@@ -1,12 +1,11 @@
-SUBDIRS = albumthemes glade icons
+SUBDIRS = icons ui
 
-@INTLTOOL_DESKTOP_RULE@
-
+desktop_in_in_files = gthumb.desktop.in.in gthumb-import.desktop.in.in
+desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in) 
 desktopdir = $(datadir)/applications
-desktop_in_files=gthumb.desktop.in gthumb-import.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop) 
 
-man_MANS = gthumb.1
+@INTLTOOL_DESKTOP_RULE@
 
 schemadir = @GCONF_SCHEMA_FILE_DIR@
 schema_in_files = gthumb.schemas.in
@@ -14,24 +13,20 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
-serverdir = $(libdir)/bonobo/servers
-server_DATA = GNOME_GThumb.server
-
 if GCONF_SCHEMAS_INSTALL
 install-data-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/data/$(schema_DATA)
 endif
 
-EXTRA_DIST = 			\
-	gthumb.schemas		\
-	gthumb.schemas.in	\
-	$(desktop_in_files)	\
-	$(desktop_DATA)		\
-	$(man_MANS)		\
-	$(server_DATA)
+EXTRA_DIST =                    \
+	$(desktop_in_in_files)  \
+	$(schema_in_files)
 
 DISTCLEANFILES =                \
-	$(schema_DATA)		\
-	$(desktop_DATA)
+	$(desktop_in_files)     
+
+CLEANFILES =			\
+	$(desktop_DATA)         \
+	$(schema_DATA)
 
 -include $(top_srcdir)/git.mk

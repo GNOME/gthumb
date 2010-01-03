@@ -1,0 +1,11 @@
+[Extension]
+_Name=Search
+_Description=File search tool.
+_Authors=gthumb development team
+Copyright=Copyright © 2008-2009 The Free Software Foundation, Inc.
+Version=1.0
+
+[Loader]
+Type=module
+File=%LIBRARY%
+Requires=catalogs

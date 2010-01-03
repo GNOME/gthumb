@@ -1,0 +1,11 @@
+[Extension]
+_Name=Image viewer
+_Description=Basic image viewing.
+_Authors=gthumb development team
+Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Version=1.0
+
+[Loader]
+After=file_viewer
+Type=module
+File=%LIBRARY%

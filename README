@@ -18,7 +18,7 @@ Notes:
  * versions 2.11.0 and higher are for GNOME 2.26.
 
  * more information about gthumb can be found at:
-   http://gthumb.sourceforge.net
+   http://live.gnome.org/gthumb
 
 What is gThumb
 ==============
@@ -102,10 +102,10 @@ Compiling
   If the libtiff library is present you can save images in TIFF
   format.
 
-  If the libgphoto2 backend for gvfs you can import photos from your
-  camera.
+  If the libgphoto2 library version >= 2.1.3 is present you can import
+  photos from your camera.
 
-  If the libopenraw library version >= 0.0.4 is present you can view
+  If the libopenraw library version >= 0.0.2 is present you can view
   RAW photo thumbnails.
 
   If dcraw is present (and is in your executable search path), 

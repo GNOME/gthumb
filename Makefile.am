@@ -1,52 +1,70 @@
-## Process this file with automake to produce Makefile.in.
-AMCFLAGS = -fPIC -DPIC
+SUBDIRS = copy-n-paste data po gthumb extensions tests help
+ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS =		\
-	po		\
-	libgthumb	\
-	src		\
-	doc		\
-	data
-
-distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out'
-
-distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
-
-
-EXTRA_DIST = 			\
-        AUTHORS                 \
-	MAINTAINERS		\
+EXTRA_DIST =                    \
+	AUTHORS                 \
+	ChangeLog.pre-git	\
+        MAINTAINERS             \
         NEWS                    \
         README                  \
-	add-include-prefix	\
-	intltool-merge.in 	\
-        intltool-update.in 	\
-        intltool-extract.in	\
-	omf.make		\
-	xmldocs.make		\
-	gnome-doc-utils.make	\
-	ChangeLog.pre-git
+	config.rpath		\
+	intltool-merge.in       \
+	intltool-update.in      \
+	intltool-extract.in
 
-DISTCLEANFILES =                	\
-	po/.intltool-merge-cache	\
-	intltool-extract        	\
-	intltool-merge          	\
-	intltool-update			\
+DISTCLEANFILES =                        \
+	po/.intltool-merge-cache        \
+	intltool-extract                \
+	intltool-merge                  \
+	intltool-update                 \
 	gnome-doc-utils.make
 
-CLEANFILES = \
-	ChangeLog
+MAINTAINERCLEANFILES = \
+	$(srcdir)/INSTALL \
+	$(srcdir)/aclocal.m4 \
+	$(srcdir)/autoscan.log \
+	$(srcdir)/compile \
+	$(srcdir)/config.guess \
+	$(srcdir)/config.h.in \
+	$(srcdir)/config.sub \
+	$(srcdir)/configure.scan \
+	$(srcdir)/depcomp \
+	$(srcdir)/install-sh \
+	$(srcdir)/ltmain.sh \
+	$(srcdir)/m4 \
+	$(srcdir)/missing \
+	$(srcdir)/mkinstalldirs \
+	$(srcdir)/omf.make \
+	$(srcdir)/xmldocs.make \
+	$(srcdir)/gtk-doc.make \
+	$(srcdir)/ChangeLog \
+	`find "$(srcdir)" -type f -name Makefile.in -print`
+
+GITIGNOREFILES = build .cdt* .cproject .project .settings/
 
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
 
--include $(top_srcdir)/git.mk
+CLEANFILES = ChangeLog
 
 # Build ChangeLog from GIT history
+
+CHANGELOG_START = GTHUMB_2_10_11
 ChangeLog:
+	@echo Creating $@
 	@if test -d $(top_srcdir)/.git; then \
-		GIT_DIR="$(top_srcdir)/.git" git log --stat > $@; \
+		(GIT_DIR=$(top_srcdir)/.git $(top_srcdir)/missing --run git log $(CHANGELOG_START).. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
+		 && mv -f $@.tmp $@ \
+		 || ($(RM) $@.tmp; \
+		     echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \
+		     (test -f $@ || echo git-log is required to generate this file >> $@)); \
+	else \
+		test -f $@ || \
+		(echo A git checkout and git-log is required to generate ChangeLog >&2 && \
+		echo A git checkout and git-log is required to generate this file >> $@); \
 	fi
 
 dist: ChangeLog
 
 .PHONY: ChangeLog
+
+-include $(top_srcdir)/git.mk
