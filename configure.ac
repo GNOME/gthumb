@@ -1,4 +1,4 @@
-AC_INIT([gthumb], [2.11.0], [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb], [2.11.1], [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 
 GNOME_COMMON_INIT
 
