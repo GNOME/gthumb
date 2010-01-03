@@ -1,86 +1,68 @@
-trunk, since last 2.10.x
+version 2.11.1
+--------------
 
-	Major Distro-Related Changes:
+	New features and user visible changes:
 
-	* gThumb now requires gnome-desktop >= 2.25.1
-	* gThumb now requires exiv2 >= 0.18
-	* gThumb now imports photos using the libgphoto2 backend for gvfs.
-	  It is no longer necessary to unmount any gvfs/libgphoto2 mounts
-	  under ~/.gvfs beforing importing. The import process may be
-	  invoked using:
+	* Added a video/audio player.  Added ability to take a screenshot of
+	  the current video.
+	* Allow to edit IPTC/XMP fields.
+	* Added 3D effects to the slideshow transition.
+	* Use a tree view for the folders.
+	* Catalogs are listed in the folder tree instead of using a different
+	  pane.
+	* Allow to create custom file filters.  Allow to view any kind of file
+	  not just images, audio and video files.
+	* Allow to search files in the libraries (catalog collections).
+	* Added tool to automatically organize files in catalogs, based on
+	  the file creation or modification date.
+	* Allow to choose the metadata to display in the file list.
+	* The cut and red-eye removal tools are now integrated in the image
+	  viewer, instead of using a separate dialog.
+	* Added an "Adjust colors" tool to modify the colors of an image in
+	  single place.
+	* Group imported files by date, automatically creating a catalog for
+	  each different date, furthermore creates a catalog with all the
+	  imported files.
+	* Removed the Tools menu, the file list tools are now listed in a
+	  toolbar dropdown button.
+	* Allow to add files to catalogs using the context submenu, instead of
+	  using a separate dialog.
+	* Use a context submenu to open a file with an external application
+	  instead of using a separate dialog.
+	* Allow to set a custom name for the bookmark menu items.
+	* Added a delete command to permanently delete files without moving them 
+	  to the trash.
+	* Allow to choose the metadata to print, instead of just allowing to
+	  print the comment.
+	* Moved the system bookmarks in the Bookmarks menu.
+	* Allow to set the file type specific options in the preferences dialog
+	  instead of always asking them before saving a file.
+	* The image properties are displayed in a sidebar, no more at the
+	  bottom of the image.
+	* Removed the Image menu. Image tools are now listed in a sidebar
+	  when the image viewer mode is active.
+	* Allow to set a title and a date for the catalogs.
+	* Searches are updated in place, without the use of a separate dialog.
+	* Removed the script menu, and moved the scripts in a toolbar dropdown
+	  button. Simplified the script editor tough it still requires some
+	  advanced skill to be used.
+	* Started work to use modern icons. New Tango-ized application icon
+	  by Ulisse Perusin.
 
-	  gthumb --import-photos
-	  or
-	  gthumb --import-photos /path/to/device/mount
+	Technical changes:
 
-	  If no path is given as an argument, gThumb will scan all folders
-	  under /media and ~/.gvfs/gphoto2*, looking for "dcim" or "DCIM"
-	  sub-folders.
+	* Rewritten the whole code in order to use an extension (or plug-in)
+	  based architecture that allows to add new features with ease.
+	* Removed the use of old and deprecated libraries such as gnome-vfs,
+	  libgnome, libgnomeui, libgnomecanvas, libbonobo and many others.
 
-	UI Changes:
+	Regressions:
 
-	* Make the cropping dialog more intuitive. Bug #408342.
-	* Modified redeye tool to reflect crop tool changes.
-	* Added tool to change exif date. Bug #408183.
-	* Use "Position" instead of "Selection" in redeye removal dialog.
-	* Fixed Bug 427984 - Show and Help items share the same mnemonic
-	* New Tango-ized app icon by Ulisse Perusin <uli.peru@gmail.com>.
-	* Optionally use subfolders when generating web albums. Bug #119492.
-	* Wrap to next/previous line when navigating with arrow keys
-          at start/end of a row of images. Bug 449338.
-	* Added a warning when renaming imported photos to avoid file
-	  overwrites. Bug #332684.
-	* Corrected the Rename tool documentation (help file).
-	* Add option to change text case when renaming files. Bug #459349.
-	* Add option to preserve the original enumerator when renaming 
-	  files. Bug #459349.
-	* Added exposure time, f-number, ISO, focal length to fullscreen
-	  properties display. Bug #472491.
-	* Added exif-date-based and mtime-based subfolder grouping of images
-	  upon import. Removed the concept of a "film" name. Bug #431187.
-	* Added %b (basename) and %m (basename without extension) parameters
-	  for hotkeys. Bug #501420.
-	* Moved the hotkey / script definitions out of the Preferences menu,
-	  and into a new "Scripts" menu. Added names for scripts. Added menu
-	  launching of scripts (in addition to hotkey launching). Bug 502309.
-	* Use "Slideshow" instead of "Slide Show". Bug #504326.
-	* Default aspect-ratio constraint mode when cropping is now "none".
-	  Bug #504580.
-	* Bug #402942 - Add status message during photo import (orientation
-	  adjust step)
-	* Added preference to ignore audio and video files. Bug #467468.
-	* Made UI for selecting a web album theme more obvious. Bug #501570.
-	* Allow swapping of height and width during scale-series for
-	  best fit. Bug #507216.
-
-	Bugfixes:
-
-	* Do not use tifftopnm / pamscale to load tiff thumbnails after all, 
-	  even though this greatly reduces memory usage, because the tiff 
-	  orientation tag is not accounted for. Partial reversion of patch 
-	  for bug 142428.
-	* Fixed bug #454492. Web export does not support themes with spaces 
-	  in the name.
-	* In fullscreen mode, detect motion based on movement rather than
-	  acceleration. Bug #472491.
-	* Fixed bug #327245: Full screen mode crippled if Xinerama is used
-	* Added support for importing ASF files (bug #471496)
-	* Fixed bug #543993: web export of camera data prints warnings 
-	  about _g_escape_text_for_html
-
-	Other features:
-	* Added basic XMP metadata support (read only)
-	* Extract video metadata with gstreamer
-	* Added a Flickr uploader (by launching Postr). Bug #489403.
-	* Added user prompts to the scripting feature.
-	* Added strftime format codes to the scripting feature.
-	* Added page_rows and page_cols web album tags. Bug #543966.
-
-	Library changes:
-	* exiv2 0.18 or higher is now required.
-	* libiptcdata is no longer used.
-	* libexif is no longer used.
-
+	* Some tools, present in the 2.10 series, are missing because of the
+	  complete code rewrite.  Some of these tools are considered important,
+	  such as the web album exporter, and will be added during the 2.11
+	  development series, other secondary tools will added in the next
+	  development cycle (2.13).
 
 version 2.10.12
 ---------------
