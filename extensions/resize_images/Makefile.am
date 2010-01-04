@@ -10,7 +10,8 @@ libresize_images_la_SOURCES = 		\
 	callbacks.h			\
 	dlg-resize-images.c		\
 	dlg-resize-images.h		\
-	main.c
+	main.c				\
+	preferences.h
 
 libresize_images_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libresize_images_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
