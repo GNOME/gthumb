@@ -74,9 +74,12 @@ extensions/edit_metadata/gth-edit-comment-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
 extensions/edit_metadata/gth-edit-metadata-dialog.h
 extensions/edit_metadata/main.c
+[type: gettext/glade]extensions/exiv2/data/ui/edit-exiv2-page.ui
 extensions/exiv2/exiv2.extension.in.in
 extensions/exiv2/exiv2-utils.cpp
 extensions/exiv2/exiv2-utils.h
+extensions/exiv2/gth-edit-exiv2-page.c
+extensions/exiv2/gth-edit-exiv2-page.h
 extensions/exiv2/gth-metadata-provider-exiv2.c
 extensions/exiv2/gth-metadata-provider-exiv2.h
 extensions/exiv2/main.c
