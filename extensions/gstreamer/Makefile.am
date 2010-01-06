@@ -2,7 +2,7 @@ if ENABLE_GSTREAMER
 
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libgstreamer.la
 
 libgstreamer_la_SOURCES = 			\

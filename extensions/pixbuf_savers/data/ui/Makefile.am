@@ -1,4 +1,4 @@
-uidir = $(datadir)/gthumb-2.0/ui
+uidir = $(pkgdatadir)/ui
 ui_DATA = 				\
 	jpeg-options.ui 		\
 	png-options.ui			\

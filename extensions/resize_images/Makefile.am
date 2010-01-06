@@ -1,6 +1,6 @@
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libresize_images.la
 
 libresize_images_la_SOURCES = 		\

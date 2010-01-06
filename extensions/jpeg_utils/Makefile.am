@@ -1,4 +1,4 @@
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libjpeg_utils.la
 
 if ENABLE_JPEG_TOOLS

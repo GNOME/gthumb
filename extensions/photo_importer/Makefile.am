@@ -1,6 +1,6 @@
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libphoto_importer.la
 
 ENUM_TYPES =				\

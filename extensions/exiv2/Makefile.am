@@ -2,7 +2,7 @@ if ENABLE_EXIV2
 
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libexiv2.la
 
 libexiv2_la_SOURCES = 			\

@@ -1,6 +1,6 @@
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libred_eye_removal.la
 
 libred_eye_removal_la_SOURCES = 	\

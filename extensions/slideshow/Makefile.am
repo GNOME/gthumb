@@ -2,7 +2,7 @@ if ENABLE_CLUTTER
 
 SUBDIRS = data
 
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libslideshow.la
 
 libslideshow_la_SOURCES = 		\

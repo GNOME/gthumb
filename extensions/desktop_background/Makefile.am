@@ -1,4 +1,4 @@
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libdesktop_background.la
 
 libdesktop_background_la_SOURCES = 	\

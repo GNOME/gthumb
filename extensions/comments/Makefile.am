@@ -1,4 +1,4 @@
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcomments.la
 
 libcomments_la_SOURCES = 			\

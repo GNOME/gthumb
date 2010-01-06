@@ -1,4 +1,4 @@
-extensiondir = $(libdir)/gthumb-2.0/extensions
+extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libraw_files.la
 
 libraw_files_la_SOURCES = \

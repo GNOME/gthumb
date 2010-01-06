@@ -1,4 +1,4 @@
-uidir = $(datadir)/gthumb-2.0/ui
+uidir = $(pkgdatadir)/ui
 ui_DATA = edit-comment-page.ui
 EXTRA_DIST = $(ui_DATA)
 

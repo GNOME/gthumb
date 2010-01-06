@@ -1,4 +1,4 @@
-uidir = $(datadir)/gthumb-2.0/ui
+uidir = $(pkgdatadir)/ui
 ui_DATA = adjust-colors-options.ui crop-options.ui
 EXTRA_DIST = $(ui_DATA)
 
