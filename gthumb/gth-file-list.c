@@ -1273,9 +1273,13 @@ can_create_file_thumbnail (GthFileData *file_data,
 			   GTimeVal    *current_time,
 			   gboolean    *young_file_found)
 {
+	time_t   time_diff;
 	gboolean young_file;
 
-	young_file = (current_time->tv_sec - gth_file_data_get_mtime (file_data)) <= 1;
+	/* Check for files that are exactly 0 or 1 seconds old; they may still be changing. */
+	time_diff = current_time->tv_sec - gth_file_data_get_mtime (file_data);
+	young_file = (time_diff <= 1) && (time_diff >= 0);
+
 	if (young_file)
 		*young_file_found = TRUE;
 
