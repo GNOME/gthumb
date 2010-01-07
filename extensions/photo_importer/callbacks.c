@@ -93,9 +93,48 @@ pi__gth_browser_construct_cb (GthBrowser *browser)
 }
 
 
+/* -- pi__import_photos_cb -- */
+
+
+typedef struct {
+	GthBrowser *browser;
+	GFile      *source;
+} ImportData;
+
+
+static void
+import_data_unref (gpointer user_data)
+{
+	ImportData *data = user_data;
+
+	g_object_unref (data->browser);
+	g_object_unref (data->source);
+	g_free (data);
+}
+
+
+static gboolean
+import_photos_idle_cb (gpointer user_data)
+{
+	ImportData *data = user_data;
+
+	dlg_photo_importer (data->browser, data->source);
+	return FALSE;
+}
+
+
 void
 pi__import_photos_cb (GthBrowser *browser,
 		      GFile      *source)
 {
+	ImportData *data;
+
+	data = g_new0 (ImportData, 1);
+	data->browser = g_object_ref (browser);
+	data->source = g_object_ref (source);
+	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+			 import_photos_idle_cb,
+			 data,
+			 import_data_unref);
 	dlg_photo_importer (browser, source);
 }
