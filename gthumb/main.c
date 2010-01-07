@@ -377,7 +377,7 @@ main (int argc, char *argv[])
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));
 	g_option_context_add_group (context, egg_sm_client_get_option_group ());
 #ifdef HAVE_CLUTTER
-	g_option_context_add_group (context, clutter_get_option_group ());
+	g_option_context_add_group (context, clutter_get_option_group_without_init ());
 #endif
 	if (! g_option_context_parse (context, &argc, &argv, &error)) {
 		g_critical ("Failed to parse arguments: %s", error->message);
@@ -385,7 +385,11 @@ main (int argc, char *argv[])
 		g_option_context_free (context);
 		return EXIT_FAILURE;
 	}
-	g_option_context_free (context);
+
+#ifdef HAVE_CLUTTER
+	if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
+		g_error ("Unable to initialize GtkClutter");
+#endif
 
 	if (version) {
 		g_printf ("%s %s, Copyright (C) 2001-2009 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
@@ -398,6 +402,8 @@ main (int argc, char *argv[])
 	gth_pref_initialize ();
 	gth_main_initialize ();
 	prepare_application ();
+
+	g_option_context_free (context);
 
 	if (! unique_app_is_running (gthumb_app)) {
 		gdk_threads_enter ();
