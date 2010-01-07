@@ -36,16 +36,48 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow" id="extensions_scrolledwindow">
-                    <property name="width_request">300</property>
-                    <property name="height_request">350</property>
+                  <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
-                    <property name="shadow_type">in</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <placeholder/>
+                      <object class="GtkScrolledWindow" id="extensions_scrolledwindow">
+                        <property name="width_request">350</property>
+                        <property name="height_request">350</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox2">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkLinkButton" id="linkbutton1">
+                            <property name="label" translatable="yes">More extensions...</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="relief">none</property>
+                            <property name="uri">http://live.gnome.org/gthumb/extensions</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -68,7 +100,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="about_button">
-                <property name="label" translatable="yes">gtk-about</property>
+                <property name="label">gtk-about</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -78,26 +110,12 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="more_button">
-                <property name="label" translatable="yes">_More</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="tooltip_markup">Additional user-contributed extensions are available for download.</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="secondary">True</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="preferences_button">
-                <property name="label" translatable="yes">gtk-preferences</property>
+                <property name="label">gtk-preferences</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
@@ -108,12 +126,12 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">-1</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="close_button">
-                <property name="label" translatable="yes">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -122,7 +140,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -136,7 +154,6 @@
     </child>
     <action-widgets>
       <action-widget response="0">about_button</action-widget>
-      <action-widget response="0">more_button</action-widget>
       <action-widget response="0">preferences_button</action-widget>
       <action-widget response="0">close_button</action-widget>
     </action-widgets>
