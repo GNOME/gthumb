@@ -26,7 +26,7 @@
                   <object class="GtkLabel" id="extensions_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">_Available extensions:</property>
+                    <property name="label" translatable="yes">Available _extensions:</property>
                     <property name="use_underline">True</property>
                   </object>
                   <packing>
@@ -81,12 +81,28 @@
               </packing>
             </child>
             <child>
+              <object class="GtkButton" id="more_button">
+                <property name="label" translatable="yes">_More</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="tooltip_markup">Additional user-contributed extensions are available for download.</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="preferences_button">
                 <property name="label" translatable="yes">gtk-preferences</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_markup">Some extensions are configurable.</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -106,7 +122,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
@@ -120,6 +136,7 @@
     </child>
     <action-widgets>
       <action-widget response="0">about_button</action-widget>
+      <action-widget response="0">more_button</action-widget>
       <action-widget response="0">preferences_button</action-widget>
       <action-widget response="0">close_button</action-widget>
     </action-widgets>

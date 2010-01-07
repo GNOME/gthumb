@@ -353,6 +353,41 @@ about_button_clicked_cb (GtkButton *button,
 }
 
 
+static void
+more_button_clicked_cb (GtkButton *button,
+                        gpointer   user_data)
+{
+        DialogData  *data = user_data;
+        GError      *error = NULL;
+
+        if (! gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (data->dialog)),
+			    "http://live.gnome.org/gthumb/extensions",
+			    GDK_CURRENT_TIME,
+			    &error)) {
+                GtkWidget *dialog;
+
+                dialog = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+                                                  GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                  GTK_STOCK_DIALOG_ERROR,
+                                                  _("Could not load extensions web page in browser"),
+                                                  error->message,
+                                                  GTK_STOCK_OK, GTK_RESPONSE_OK,
+                                                  NULL);
+                gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+                g_signal_connect (G_OBJECT (dialog), "response",
+                                  G_CALLBACK (gtk_widget_destroy),
+                                  NULL);
+
+                gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+
+                gtk_widget_show (dialog);
+
+                g_clear_error (&error);
+        }
+}
+
+
 void
 dlg_extensions (GthBrowser *browser)
 {
@@ -426,6 +461,10 @@ dlg_extensions (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (about_button_clicked_cb),
 			  data);
+        g_signal_connect (GET_WIDGET ("more_button"),
+                          "clicked",
+                          G_CALLBACK (more_button_clicked_cb),
+                          data);
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)),
 			  "changed",
 			  G_CALLBACK (list_view_selection_changed_cb),
