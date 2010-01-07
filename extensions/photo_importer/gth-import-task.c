@@ -535,9 +535,6 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 			subfolder_type = GTH_SUBFOLDER_TYPE_NONE;
 	}
 
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_NONE)
-		subfolder_type = GTH_SUBFOLDER_TYPE_CURRENT_DATE;
-
 	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
 		g_get_current_time (&timeval);
 
