@@ -136,5 +136,4 @@ pi__import_photos_cb (GthBrowser *browser,
 			 import_photos_idle_cb,
 			 data,
 			 import_data_unref);
-	dlg_photo_importer (browser, source);
 }
