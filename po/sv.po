@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-10 14:30+0100\n"
-"PO-Revision-Date: 2010-01-10 14:33+0100\n"
+"PO-Revision-Date: 2010-01-10 15:04+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: ../copy-n-paste/eggdesktopfile.c:958
 #, c-format
 msgid "Starting %s"
-msgstr ""
+msgstr "Startar %s"
 
 #: ../copy-n-paste/eggdesktopfile.c:1100
 #, c-format
@@ -480,9 +480,8 @@ msgstr "M_iniatyrbildsstorlek:"
 
 #: ../data/ui/preferences.ui.h:41
 #: ../extensions/image_viewer/preferences.c:121
-#, fuzzy
 msgid "White"
-msgstr "Bredd"
+msgstr "Vit"
 
 #: ../data/ui/preferences.ui.h:42
 msgid "_Toolbar style:"
@@ -504,9 +503,8 @@ msgstr "Om_vänd ordning"
 
 #: ../data/ui/sort-order.ui.h:3
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
-#, fuzzy
 msgid "_Sort by:"
-msgstr "_Sortera:"
+msgstr "_Sortera efter:"
 
 #: ../extensions/bookmarks/callbacks.c:53
 msgid "_Bookmarks"
@@ -542,31 +540,27 @@ msgid "_Bookmarks:"
 msgstr "_Bokmärken:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#, fuzzy
 msgid "_Location"
-msgstr "Plats"
+msgstr "_Plats"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "_Namn"
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:71
-#, fuzzy
 msgid "Could not remove the bookmark"
-msgstr "Kunde inte flytta bilden:"
+msgstr "Kunde inte ta bort bokmärket"
 
 #: ../extensions/catalogs/actions.c:63
-#, fuzzy
 msgid "Could not remove the files from the catalog"
-msgstr "Ta bort de markerade bilderna från albumet"
+msgstr "Kunde inte ta bort filerna från albumet"
 
 #: ../extensions/catalogs/actions.c:120
 #: ../extensions/exiv2/exiv2-utils.cpp:448
 #: ../extensions/exiv2/exiv2-utils.cpp:476
 #: ../extensions/search/gth-search.c:291
-#, fuzzy
 msgid "Invalid file format"
-msgstr "Ogiltigt argument"
+msgstr "Ogiltigt filformat"
 
 #: ../extensions/catalogs/actions.c:189
 #: ../extensions/catalogs/dlg-add-to-catalog.c:219
@@ -584,9 +578,8 @@ msgstr "S_kapa"
 #: ../extensions/catalogs/actions.c:233
 #: ../extensions/catalogs/dlg-add-to-catalog.c:263
 #: ../extensions/search/gth-search-task.c:288
-#, fuzzy
 msgid "Could not create the catalog"
-msgstr "Kunde inte skapa albumet \"%s\": %s"
+msgstr "Kunde inte skapa albumet"
 
 #: ../extensions/catalogs/actions.c:255
 #: ../extensions/catalogs/dlg-add-to-catalog.c:285
@@ -595,24 +588,20 @@ msgstr "Ange biblioteksnamnet: "
 
 #: ../extensions/catalogs/actions.c:299
 #: ../extensions/catalogs/dlg-add-to-catalog.c:329
-#, fuzzy
 msgid "Could not create the library"
-msgstr "Kunde inte skapa biblioteket \"%s\""
+msgstr "Kunde inte skapa biblioteket"
 
 #: ../extensions/catalogs/actions.c:335
-#, fuzzy
 msgid "Could not remove the catalog"
-msgstr "Kunde inte byta namn på albumet \"%s\""
+msgstr "Kunde inte ta bort albumet"
 
 #: ../extensions/catalogs/callbacks.c:99
-#, fuzzy
 msgid "_Add to Catalog"
-msgstr "_Lägg till i album..."
+msgstr "_Lägg till i album"
 
 #: ../extensions/catalogs/callbacks.c:102
-#, fuzzy
 msgid "Open _Folder"
-msgstr "Aktuell _mapp"
+msgstr "Öppna _mapp"
 
 #: ../extensions/catalogs/callbacks.c:103
 #, fuzzy
@@ -645,19 +634,16 @@ msgid "Remove selected images from the catalog"
 msgstr "Ta bort de markerade bilderna från albumet"
 
 #: ../extensions/catalogs/callbacks.c:122
-#, fuzzy
 msgid "Create _Catalog"
-msgstr "Skapa ett nytt album"
+msgstr "Skapa _album"
 
 #: ../extensions/catalogs/callbacks.c:127
-#, fuzzy
 msgid "Create _Library"
-msgstr "Nytt _bibliotek"
+msgstr "Skapa _bibliotek"
 
 #: ../extensions/catalogs/callbacks.c:137
-#, fuzzy
 msgid "Rena_me"
-msgstr "Byt namn"
+msgstr "By_t namn"
 
 #: ../extensions/catalogs/callbacks.c:454
 #: ../extensions/catalogs/callbacks.c:459
@@ -706,15 +692,13 @@ msgid "gtk-cancel"
 msgstr "Avbryt"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#, fuzzy
 msgid "Catalog"
-msgstr "Al_bum"
+msgstr "Album"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../gthumb/gth-file-properties.c:202
-#, fuzzy
 msgid "Properties"
-msgstr "Egenska_per"
+msgstr "Egenskaper"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
@@ -747,14 +731,12 @@ msgid "Organizing files"
 msgstr "Åtgärden misslyckades"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
-#, fuzzy
 msgid "Select All"
-msgstr "_Välj alla"
+msgstr "Markera allt"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
-#, fuzzy
 msgid "Select None"
-msgstr "Välj ett typsnitt"
+msgstr "Markera inget"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 msgid "Files will be organized in catalogs. No file will be moved on disk."
@@ -774,9 +756,8 @@ msgid "Singles"
 msgstr "Enkel"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:6
-#, fuzzy
 msgid "_Group files by:"
-msgstr "_Gruppera i undermappar:"
+msgstr "_Gruppera filer efter:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 #: ../extensions/search/data/ui/search-editor.ui.h:2
@@ -804,19 +785,16 @@ msgstr "efter filens ändringstid"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:105
 #: ../extensions/catalogs/dlg-add-to-catalog.c:134
-#, fuzzy
 msgid "Could not add the files to the catalog"
-msgstr "Kunde inte byta namn på albumet \"%s\""
+msgstr "Kunde inte lägga till filerna till albumet"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:81
-#, fuzzy
 msgid "Could not save the catalog"
-msgstr "Kunde inte byta namn på albumet \"%s\""
+msgstr "Kunde inte spara albumet"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:167
-#, fuzzy
 msgid "Could not load the catalog"
-msgstr "Kunde inte byta namn på albumet \"%s\""
+msgstr "Kunde inte läsa in albumet"
 
 #: ../extensions/catalogs/gth-catalog.c:649
 #: ../extensions/catalogs/gth-catalog.c:1010
@@ -824,9 +802,9 @@ msgid "Catalogs"
 msgstr "Album"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:797
-#, fuzzy, c-format
+#, c-format
 msgid "Copying files to '%s'"
-msgstr "Kopierar fil %d av %d"
+msgstr "Kopierar filer till \"%s\""
 
 #: ../extensions/catalogs/gth-organize-task.c:201
 #, c-format
@@ -859,9 +837,8 @@ msgstr "Kommentar"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:53
-#, fuzzy
 msgid "Description"
-msgstr "_Mål:"
+msgstr "Beskrivning"
 
 #: ../extensions/comments/main.c:191
 #: ../gthumb/gth-main-default-metadata.c:51
@@ -878,14 +855,12 @@ msgid "Could not show the desktop background properties"
 msgstr "Ställ in bilden som skrivbordsbakgrund (sida vid sida)"
 
 #: ../extensions/desktop_background/callbacks.c:45
-#, fuzzy
 msgid "Set as Desktop Background"
-msgstr "Ställ in bilden som skrivbordsbakgrund (sida vid sida)"
+msgstr "Ställ in som skrivbordsbakgrund"
 
 #: ../extensions/desktop_background/callbacks.c:46
-#, fuzzy
 msgid "Set the image as desktop background"
-msgstr "Ställ in bilden som skrivbordsbakgrund (sida vid sida)"
+msgstr "Ställ in bilden som skrivbordsbakgrund"
 
 #: ../extensions/edit_metadata/callbacks.c:90
 msgid "Metadata"
@@ -896,9 +871,8 @@ msgid "Edit file metadata"
 msgstr ""
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
-#, fuzzy
 msgid "D_escription:"
-msgstr "_Mål:"
+msgstr "B_eskrivning:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
 msgid "_Place:"
@@ -955,23 +929,21 @@ msgid "Do not modify"
 msgstr "Ändra inte"
 
 #: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "%s Metadata"
-msgstr "_Metadata"
+msgstr "%s-metadata"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:1
 msgid "Byline _Title:"
 msgstr ""
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:2
-#, fuzzy
 msgid "C_opyright:"
-msgstr "_Höger"
+msgstr "C_opyright:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:3
-#, fuzzy
 msgid "Co_untry:"
-msgstr "Komm_entar:"
+msgstr "Lan_d:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:4
 #, fuzzy
@@ -984,14 +956,12 @@ msgid "_Byline:"
 msgstr "_Ljusstyrka:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:6
-#, fuzzy
 msgid "_City:"
-msgstr "_Kvalitet:"
+msgstr "S_tad:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:7
-#, fuzzy
 msgid "_Code:"
-msgstr "_Modell:"
+msgstr "_Kod:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:8
 #: ../extensions/gstreamer/data/ui/save-screenshot.ui.h:2
@@ -1008,9 +978,8 @@ msgstr ""
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:11
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:12
-#, fuzzy
 msgid "_Source:"
-msgstr "_Sortera:"
+msgstr "_Källa:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:12
 msgid "_Urgency:"
@@ -1066,15 +1035,13 @@ msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
 #: ../extensions/file_manager/actions.c:65
-#, fuzzy
 msgid "Could not create the folder"
-msgstr "Kunde inte skapa mappen \"%s\""
+msgstr "Kunde inte skapa mappen"
 
 #: ../extensions/file_manager/actions.c:302
 #: ../extensions/file_manager/callbacks.c:299
-#, fuzzy
 msgid "Could not move the files"
-msgstr "Kunde inte flytta objekten:"
+msgstr "Kunde inte flytta filerna"
 
 #: ../extensions/file_manager/actions.c:303
 #: ../extensions/file_manager/callbacks.c:300
@@ -1082,9 +1049,8 @@ msgid "Files cannot be moved to the current location, as alternative you can cho
 msgstr ""
 
 #: ../extensions/file_manager/actions.c:390
-#, fuzzy
 msgid "Could not delete the files"
-msgstr "Kunde inte ta bort bilderna:"
+msgstr "Kunde inte ta bort filerna"
 
 #: ../extensions/file_manager/actions.c:437
 #, fuzzy
@@ -1141,9 +1107,8 @@ msgstr "Kunde inte flytta mappen \"%s\": %s"
 
 #: ../extensions/file_manager/callbacks.c:149
 #: ../extensions/file_manager/callbacks.c:181
-#, fuzzy
 msgid "Create _Folder"
-msgstr "Aktuell _mapp"
+msgstr "Skapa _mapp"
 
 #: ../extensions/file_manager/callbacks.c:150
 #: ../extensions/file_manager/callbacks.c:182
@@ -1162,7 +1127,6 @@ msgstr "Duplicera de markerade bilderna"
 
 #: ../extensions/file_manager/callbacks.c:169
 #: ../extensions/file_manager/callbacks.c:201
-#, fuzzy
 msgid "Mo_ve to Trash"
 msgstr "Flytta till _papperskorgen"
 
@@ -1173,14 +1137,12 @@ msgstr "Flytta de markerade bilderna till papperskorgen"
 
 #: ../extensions/file_manager/callbacks.c:173
 #: ../extensions/file_manager/callbacks.c:205
-#, fuzzy
 msgid "_Delete"
-msgstr "_Välj"
+msgstr "_Ta bort"
 
 #: ../extensions/file_manager/callbacks.c:174
-#, fuzzy
 msgid "Delete the selected files"
-msgstr "Öppna den markerade mappen"
+msgstr "Ta bort markerade filer"
 
 #: ../extensions/file_manager/callbacks.c:177
 msgid "Open with the _File Manager"
@@ -1205,14 +1167,12 @@ msgid "Could not perform the operation"
 msgstr "Kunde inte importera bilder"
 
 #: ../extensions/file_manager/gth-delete-task.c:63
-#, fuzzy
 msgid "Deleting files"
-msgstr "Tar bort fil %ld av %ld"
+msgstr "Tar bort filer"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-#, fuzzy
 msgid "Color Levels"
-msgstr "<b>Färgnivåer</b>"
+msgstr "Färgnivåer"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
 msgid "Con_trast:"
@@ -1336,14 +1296,12 @@ msgid "Crop"
 msgstr "Beskär"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:101
-#, fuzzy
 msgid "Desaturating image"
-msgstr "_Avmätta"
+msgstr "Avmätta bilden"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:119
-#, fuzzy
 msgid "Desaturate"
-msgstr "_Avmätta"
+msgstr "Avmätta"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:249
 msgid "White balance correction"
@@ -1351,29 +1309,25 @@ msgstr ""
 
 #. FIXME GTH_STOCK_ENHANCE
 #: ../extensions/file_tools/gth-file-tool-enhance.c:281
-#, fuzzy
 msgid "Enhance Colors"
-msgstr "Reducera färger"
+msgstr "Förbättra färger"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:282
 msgid "Automatic white balance correction"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:169
-#, fuzzy
 msgid "Equalizing image histogram"
-msgstr "Jämna ut bildhistogrammet automatiskt"
+msgstr "Jämnar ut bildhistogrammet"
 
 #. FIXME GTH_STOCK_EQUALIZE
 #: ../extensions/file_tools/gth-file-tool-equalize.c:201
-#, fuzzy
 msgid "Equalize"
-msgstr "_Jämna ut"
+msgstr "Jämna ut"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:202
-#, fuzzy
 msgid "Equalize image histogram"
-msgstr "Jämna ut bildhistogrammet automatiskt"
+msgstr "Jämna ut bildhistogrammet"
 
 #. FIXME GTH_STOCK_FLIP
 #: ../extensions/file_tools/gth-file-tool-flip.c:74
@@ -1420,14 +1374,12 @@ msgstr "Ångra"
 #: ../extensions/gstreamer/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:714
 #: ../gthumb/gth-browser.c:1670
-#, fuzzy
 msgid "Could not save the file"
-msgstr "Kunde inte flytta bilden:"
+msgstr "Kunde inte spara filen"
 
 #: ../extensions/gstreamer/actions.c:124
-#, fuzzy
 msgid "Could not take a screenshot"
-msgstr "Kunde inte importera bilder"
+msgstr "Kunde inte ta en skärmbild"
 
 #: ../extensions/gstreamer/actions.c:130
 #: ../extensions/image_viewer/gth-image-viewer-page.c:857
@@ -1553,9 +1505,8 @@ msgid "Sample rate"
 msgstr "Samplingsfrekvens"
 
 #: ../extensions/image_print/callbacks.c:50
-#, fuzzy
 msgid "Print the selected images"
-msgstr "Byt namn på markerade bilder"
+msgstr "Skriv ut markerade bilder"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "0&#xB0;"
@@ -1623,9 +1574,8 @@ msgid "Preview"
 msgstr "Förhandsgranska"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:20
-#, fuzzy
 msgid "Rotation:"
-msgstr "Plats"
+msgstr "Rotation:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:21
 #, fuzzy
@@ -1993,9 +1943,9 @@ msgstr ""
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:241
 #: ../gthumb/gth-filter-editor-dialog.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "No name specified"
-msgstr "Ingen kamera hittades"
+msgstr "Inget namn angivet"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:247
 #, c-format
@@ -2360,9 +2310,8 @@ msgid "Ask"
 msgstr "Fråga"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-#, fuzzy
 msgid "Overwrite"
-msgstr "Skriv _över"
+msgstr "Skriv över"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "Skip"
@@ -2636,7 +2585,7 @@ msgstr ""
 "Bo Rosén\n"
 "\n"
 "Skicka synpunkter på översättningen till\n"
-"tp-sv@listor.tp-sv.se"
+"<tp-sv@listor.tp-sv.se>."
 
 #: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
@@ -2902,14 +2851,14 @@ msgid "View the list of upper locations"
 msgstr "Ta bort listan över besökta platser"
 
 #: ../gthumb/gth-browser.c:4580
-#, fuzzy, c-format
+#, c-format
 msgid "File type not supported %s"
-msgstr "Bildtypen stöds inte: %s"
+msgstr "Filtypen stöds inte %s"
 
 #: ../gthumb/gth-extensions.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the module `%s`: %s"
-msgstr "Kunde inte flytta mappen \"%s\": %s"
+msgstr "Kunde inte öppna modulen \"%s\": %s"
 
 #: ../gthumb/gth-extensions.c:814
 #, c-format
@@ -2917,9 +2866,8 @@ msgid "The extension '%s' is required by the extension '%s'"
 msgstr ""
 
 #: ../gthumb/gth-file-source-vfs.c:80
-#, fuzzy
 msgid "Home Folder"
-msgstr "Ny mapp"
+msgstr "Hemmapp"
 
 #: ../gthumb/gth-file-source-vfs.c:87
 msgid "File System"
@@ -3085,9 +3033,8 @@ msgid "No options available for this file type"
 msgstr ""
 
 #: ../gthumb/gth-progress-dialog.c:132
-#, fuzzy
 msgid "Cancel operation"
-msgstr "Text"
+msgstr "Avbryt åtgärden"
 
 #: ../gthumb/gth-tags-entry.c:346
 #, c-format
@@ -3151,9 +3098,8 @@ msgid "Add a new rule"
 msgstr "Lägg till en ny regel"
 
 #: ../gthumb/gth-test-selector.c:289
-#, fuzzy
 msgid "Remove this rule"
-msgstr "Byt namn på denna bild"
+msgstr "Ta bort denna regel"
 
 #: ../gthumb/gth-test-simple.c:45
 msgid "contains"
@@ -3206,9 +3152,8 @@ msgstr "Kunde inte visa hjälp"
 
 #: ../gthumb/gtk-utils.c:1065
 #: ../gthumb/gtk-utils.c:1073
-#, fuzzy
 msgid "Could not launch the application"
-msgstr "Kunde inte kopiera bilden:"
+msgstr "Kunde inte starta programmet"
 
 #: ../gthumb/main.c:64
 msgid "Open a new window"
@@ -3232,9 +3177,8 @@ msgstr "Visa version"
 
 #. command line options
 #: ../gthumb/main.c:374
-#, fuzzy
 msgid "- Image browser and viewer"
-msgstr "Bildförhandsgranskning"
+msgstr "- Bildbläddrare och bildvisare"
 
 #: ../gthumb/pixbuf-io.c:166
 #, fuzzy, c-format
