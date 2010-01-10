@@ -20,7 +20,7 @@ libslideshow_la_SOURCES = 		\
 
 libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libslideshow_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libslideshow_la_LIBADD = $(GTHUMB_LIBS)
+libslideshow_la_LIBADD = $(GTHUMB_LIBS) $(CLUTTER_LIBS)
 libslideshow_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

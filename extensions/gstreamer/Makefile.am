@@ -21,7 +21,7 @@ libgstreamer_la_SOURCES = 			\
 
 libgstreamer_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(GSTREAMER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libgstreamer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libgstreamer_la_LIBADD = $(GTHUMB_LIBS) 
+libgstreamer_la_LIBADD = $(GTHUMB_LIBS) $(GSTREAMER_LIBS)
 libgstreamer_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

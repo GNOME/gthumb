@@ -6,7 +6,7 @@ libraw_files_la_SOURCES = \
 
 libraw_files_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBOPENRAW_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libraw_files_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libraw_files_la_LIBADD = $(GTHUMB_LIBS)
+libraw_files_la_LIBADD = $(GTHUMB_LIBS) $(LIBOPENRAW_LIBS)
 libraw_files_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

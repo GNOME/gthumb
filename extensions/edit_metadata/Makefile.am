@@ -16,7 +16,7 @@ libedit_metadata_la_SOURCES = 		\
 	gth-edit-metadata-dialog.h	\
 	main.c
 
-libedit_metadata_la_CFLAGS = $(GTHUMB_CFLAGS) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libedit_metadata_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libedit_metadata_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libedit_metadata_la_LIBADD = $(GTHUMB_LIBS)
 libedit_metadata_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
