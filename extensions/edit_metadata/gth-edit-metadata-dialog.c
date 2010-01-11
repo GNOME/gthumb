@@ -144,6 +144,7 @@ gth_edit_metadata_dialog_set_file (GthEditMetadataDialog *dialog,
 	if (file == NULL)
 		return;
 
+	/* Translators: the %s in the string is the file name */
 	title = g_strdup_printf (_("%s Metadata"), g_file_info_get_display_name (file->info));
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
