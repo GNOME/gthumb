@@ -1,16 +1,14 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
-# Daniel Mustieles <daniel.mustieles@ie.edu>, 2008.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 200, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-03 19:29+0000\n"
-"PO-Revision-Date: 2010-01-06 15:29+0100\n"
+"POT-Creation-Date: 2010-01-11 04:41+0000\n"
+"PO-Revision-Date: 2010-01-12 20:53+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4140,17 +4138,6 @@ msgid "{..strftime format code..}"
 msgstr "{..strftime código de formato..}"
 
 #: C/gthumb.xml:3162(para)
-#| msgid ""
-#| "A date format string. The text inside the curly brackets will be "
-#| "interpreted by the standard C \"strftime\" function. (The brackets will "
-#| "not appear in the output. To treat a bracket-enclosed block of text "
-#| "literally, precede the opening bracket with a backslash.) The date will "
-#| "be determined from the metadata embedded in the photo, if available (for "
-#| "example, the Exif DateTime tag). If the photo has no embedded date "
-#| "metadata, the file modification date will be used. Ordinary text can be "
-#| "mixed with the date codes. If the format code starts with a \"#\" sign, "
-#| "then the text will not be replaced, but the value will be remembered for "
-#| "date prompts (see below)."
 msgid ""
 "A date format string. The text inside the curly brackets will be interpreted "
 "by the standard C \"strftime\" function. (The brackets will not appear in "
@@ -4187,16 +4174,6 @@ msgid "{TEXT}"
 msgstr "{TEXTO}"
 
 #: C/gthumb.xml:3181(para)
-#, fuzzy
-#| msgid ""
-#| "A user prompt dependent on the previous date format string. The prompt "
-#| "will be used once for each different result of the date. All future "
-#| "prompts with the same name will use the same value.The text supplied by "
-#| "the user through the prompt dialog will replace this code. You can put a "
-#| "\"#\" sign at the beginning of the prompt name to prevent the "
-#| "replacement. This can be used to store a prompted value to insert later "
-#| "on. (To treat a bracket-enclosed block of text literally, precede the "
-#| "opening bracket with a backslash.)"
 msgid ""
 "A user prompt dependent on the previous date format string. The prompt will "
 "be used once for each different result of the date. All future prompts with "
@@ -4223,7 +4200,16 @@ msgstr ""
 "nombre de la consulta para prevenir el reemplazo. Esto puede usarse para "
 "almacenar un valor ya consultado e insertarlo posteriormente. (Para tratar "
 "un bloque de texto literal encerrado entre corchetes, preceda el corchete de "
-"apertura con una barra invertida.)"
+"apertura con una barra invertida). Ejemplos: <command>mkdir -p %p/{%Y-%m-%d_}"
+"{COMENTARIO}; cp %f %p/{%Y-%m-%d_}{COMENTARIO}/</command> Este guión creará "
+"una subcarpeta precedida por la fecha de la imagen y un comentario del "
+"usuario (similar a «/home/usuario/2007-05-04_MiCumpleaños» o «/home/"
+"usuario/2007-03-17_Día de San Patricio» y copiará las fotos en ella. "
+"<command>mkdir -p %p/{#%B}{CARPETA}; cp %f %p/{CARPETA}/</command> Este "
+"guión creará una serie de subcarpetas basadas en el mes en que se tomó la "
+"imagen, pero se nombrarán de acuerdo a los comentarios del usuario en esa "
+"fecha. Por lo que si introduce la palabra «Amigos» para marzo, todas las "
+"fotos tomadas en marzo se copiarán en «/home/usuarios/fotos/Amigos/»"
 
 #: C/gthumb.xml:3204(para)
 msgid ""
@@ -5117,8 +5103,8 @@ msgstr "Salir del modo a pantalla completa."
 #: C/gthumb.xml:0(None)
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@ie.edu>, 2008.\n"
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2008."
+"Daniel Mustieles <daniel.mustieles@ie.edu>, 2008-2010\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
 #~ msgid ""
 #~ "<command>mkdir -p %p/{%A photos}; cp %f %p/{%A photos}/</command> This "
