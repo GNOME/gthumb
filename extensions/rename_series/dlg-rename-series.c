@@ -221,25 +221,56 @@ template_eval_cb (const GMatchInfo *info,
 
 		g_free (format);
 	}
-	else if (strncmp (match, "%date", 5) == 0) {
-		GTimeVal timeval;
+	else if (strncmp (match, "%D",2) == 0) {
+		GTimeVal   timeval;
 		GRegex    *re;
 		char     **a;
 		char      *date = NULL;
 
-		/* Get file time info */
-		if(!gth_file_data_get_digitalization_time (template_data->file_data,&timeval))
-			timeval = *gth_file_data_get_modification_time (template_data->file_data);
+		/* Get file digitalization time info */
+		if(gth_file_data_get_digitalization_time (template_data->file_data,&timeval)) {
+			/* Get input date format */
+			re = g_regex_new ("%D\\{([^}]+)\\}", 0, 0, NULL);
+			a = g_regex_split (re, match, 0);
+			if (g_strv_length (a) >= 2)
+				date = g_strstrip (a[1]);
+
+			/* Convert */
+			if ((date != NULL) && (*date != '\0')) {
+				r = _g_time_val_strftime (&timeval, date);
+			}
+			else {
+				/* default if no input format */
+				r = _g_time_val_strftime (&timeval, "%Y-%m-%d");
+			}
+
+			g_strfreev (a);
+			g_regex_unref (re);
+		}
+	}
+	else if (strncmp (match, "%M",2) == 0) {
+		GTimeVal   timeval;
+		GRegex    *re;
+		char     **a;
+		char      *date = NULL;
+
+		/* Get file modification time info */
+		timeval = *gth_file_data_get_modification_time (template_data->file_data);
 
 		/* Get input date format */
-		re = g_regex_new ("%date\\{([^}]+)\\}", 0, 0, NULL);
+		re = g_regex_new ("%M\\{([^}]+)\\}", 0, 0, NULL);
 		a = g_regex_split (re, match, 0);
 		if (g_strv_length (a) >= 2)
 			date = g_strstrip (a[1]);
 
 		/* Convert */
-		if ((date != NULL) && (*date != '\0'))
+		if ((date != NULL) && (*date != '\0')) {
 			r = _g_time_val_strftime (&timeval, date);
+		}
+		else {
+			/* default if no input format */
+			r = _g_time_val_strftime (&timeval, "%Y-%m-%d");
+		}
 
 		g_strfreev (a);
 		g_regex_unref (re);
@@ -297,7 +328,7 @@ dlg_rename_series_update_preview (DialogData *data)
 	template_data->error = &error;
 	template_data->n = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")));
 	template_data->template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-	re = g_regex_new ("#+|%F|%E|%N|%attr\\{[^}]+\\}|%date\\{[^}]+\\}", 0, 0, NULL);
+	re = g_regex_new ("#+|%F|%E|%N|%attr\\{[^}]+\\}|%D(\\{[^}]+\\})?|%M(\\{[^}]+\\})?", 0, 0, NULL);
 	for (scan = data->new_file_list; scan; scan = scan->next) {
 		char *new_name;
 		char *new_name2;

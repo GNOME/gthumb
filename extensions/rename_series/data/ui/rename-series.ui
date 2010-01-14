@@ -129,7 +129,7 @@
                     </child>
                     <child>
                       <object class="GtkTable" id="template_help_table">
-                        <property name="n_rows">7</property>
+                        <property name="n_rows">8</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
@@ -313,7 +313,7 @@
                           <object class="GtkLabel" id="label4">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">%date{ date format }</property>
+                            <property name="label" translatable="yes">%M{ date format }</property>
                             <attributes>
                               <attribute name="size" value="8000"/>
                             </attributes>
@@ -327,7 +327,8 @@
                           <object class="GtkLabel" id="label8">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">A date format</property>
+                            <property name="label" translatable="yes">A modification date format</property>
+                            <property name="wrap">True</property>
                             <attributes>
                               <attribute name="size" value="8000"/>
                             </attributes>
@@ -337,6 +338,36 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">6</property>
                             <property name="bottom_attach">7</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label12">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">%D{ date format }</property>
+                            <attributes>
+                              <attribute name="size" value="8000"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label13">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">A digital date format</property>
+                            <attributes>
+                              <attribute name="size" value="8000"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
                           </packing>
                         </child>
                       </object>
@@ -525,8 +556,8 @@
   <object class="GtkSizeGroup" id="sizegroup1">
     <property name="mode">vertical</property>
     <widgets>
-      <widget name="label1"/>
       <widget name="template_entry"/>
+      <widget name="label1"/>
     </widgets>
   </object>
   <object class="GtkAdjustment" id="start_at_adjustment">
