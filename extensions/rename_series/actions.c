@@ -27,17 +27,39 @@
 #include "dlg-rename-series.h"
 
 
+static void
+file_list_ready_cb (GList    *file_list,
+		    GError   *error,
+		    gpointer  user_data)
+{
+	GthBrowser *browser = user_data;
+
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Cannot read file information"), &error);
+		return;
+	}
+
+	dlg_rename_series (browser, file_list);
+
+	g_object_unref (browser);
+}
+
+
 void
 gth_browser_activate_action_edit_rename (GtkAction  *action,
 					 GthBrowser *browser)
 {
 	GList *items;
+	GList *file_data_list;
 	GList *file_list;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	dlg_rename_series (browser, file_list);
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_list = gth_file_data_list_to_file_list (file_data_list);
+	g_object_ref (browser);
+	_g_query_all_metadata_async (file_list, FALSE, TRUE, "*", NULL, file_list_ready_cb, browser);
 
 	_g_object_list_unref (file_list);
+	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 }

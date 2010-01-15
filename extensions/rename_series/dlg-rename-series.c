@@ -161,7 +161,7 @@ get_attribute_value (GthFileData *file_data,
 	char      *attribute = NULL;
 	char      *value = NULL;
 
-	re = g_regex_new ("%attr\\{([^}]+)\\}", 0, 0, NULL);
+	re = g_regex_new ("%A\\{([^}]+)\\}", 0, 0, NULL);
 	a = g_regex_split (re, match, 0);
 	if (g_strv_length (a) >= 2)
 		attribute = g_strstrip (a[1]);
@@ -208,7 +208,7 @@ template_eval_cb (const GMatchInfo *info,
 	else if (strcmp (match, "%N") == 0) {
 		r = get_original_enum (template_data->file_data, match);
 	}
-	else if (strncmp (match, "%attr", 5) == 0) {
+	else if (strncmp (match, "%A", 2) == 0) {
 		r = get_attribute_value (template_data->file_data, match);
 		/*if (r == NULL)
 			*template_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed template"));*/
@@ -221,59 +221,37 @@ template_eval_cb (const GMatchInfo *info,
 
 		g_free (format);
 	}
-	else if (strncmp (match, "%D",2) == 0) {
-		GTimeVal   timeval;
-		GRegex    *re;
-		char     **a;
-		char      *date = NULL;
+	else if ((strncmp (match, "%D", 2) == 0) || (strncmp (match, "%M", 2) == 0)) {
+		gboolean value_available = FALSE;
+		GTimeVal timeval;
 
-		/* Get file digitalization time info */
-		if(gth_file_data_get_digitalization_time (template_data->file_data,&timeval)) {
-			/* Get input date format */
-			re = g_regex_new ("%D\\{([^}]+)\\}", 0, 0, NULL);
+		if (strncmp (match, "%D", 2) == 0) {
+			value_available = gth_file_data_get_digitalization_time (template_data->file_data, &timeval);
+		}
+		else if (strncmp (match, "%M", 2) == 0) {
+			timeval = *gth_file_data_get_modification_time (template_data->file_data);
+			value_available = TRUE;
+		}
+
+		if (value_available) {
+			GRegex  *re;
+			char   **a;
+			char    *date = NULL;
+
+			/* Get the date format */
+
+			re = g_regex_new ("%[A-Z]\\{([^}]+)\\}", 0, 0, NULL);
 			a = g_regex_split (re, match, 0);
 			if (g_strv_length (a) >= 2)
 				date = g_strstrip (a[1]);
+			if ((date == NULL) || (*date == '\0'))
+				date = "%Y-%m-%d";
 
-			/* Convert */
-			if ((date != NULL) && (*date != '\0')) {
-				r = _g_time_val_strftime (&timeval, date);
-			}
-			else {
-				/* default if no input format */
-				r = _g_time_val_strftime (&timeval, "%Y-%m-%d");
-			}
+			r = _g_time_val_strftime (&timeval, date);
 
 			g_strfreev (a);
 			g_regex_unref (re);
 		}
-	}
-	else if (strncmp (match, "%M",2) == 0) {
-		GTimeVal   timeval;
-		GRegex    *re;
-		char     **a;
-		char      *date = NULL;
-
-		/* Get file modification time info */
-		timeval = *gth_file_data_get_modification_time (template_data->file_data);
-
-		/* Get input date format */
-		re = g_regex_new ("%M\\{([^}]+)\\}", 0, 0, NULL);
-		a = g_regex_split (re, match, 0);
-		if (g_strv_length (a) >= 2)
-			date = g_strstrip (a[1]);
-
-		/* Convert */
-		if ((date != NULL) && (*date != '\0')) {
-			r = _g_time_val_strftime (&timeval, date);
-		}
-		else {
-			/* default if no input format */
-			r = _g_time_val_strftime (&timeval, "%Y-%m-%d");
-		}
-
-		g_strfreev (a);
-		g_regex_unref (re);
 	}
 
 	if (r != NULL)
@@ -328,7 +306,7 @@ dlg_rename_series_update_preview (DialogData *data)
 	template_data->error = &error;
 	template_data->n = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")));
 	template_data->template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-	re = g_regex_new ("#+|%F|%E|%N|%attr\\{[^}]+\\}|%D(\\{[^}]+\\})?|%M(\\{[^}]+\\})?", 0, 0, NULL);
+	re = g_regex_new ("#+|%F|%E|%N|%D(\\{[^}]+\\})?|%M(\\{[^}]+\\})?|%A\\{[^}]+\\}", 0, 0, NULL);
 	for (scan = data->new_file_list; scan; scan = scan->next) {
 		char *new_name;
 		char *new_name2;
