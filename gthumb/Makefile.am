@@ -267,17 +267,17 @@ gthumb_CFLAGS =							\
 	$(NULL)
 
 gth-enum-types.h: $(PUBLIC_HEADER_FILES) $(GLIB_MKENUMS)
-	$(GLIB_MKENUMS) \
+	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#ifndef GTH_ENUM_TYPES_H\n#define GTH_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTH_ENUM_TYPES_H */" \
 		$^> xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gth-enum-types.h || cp xgen-$(@F) gth-enum-types.h ) \
-	&& rm -f xgen-$(@F)
+	&& rm -f xgen-$(@F) )
 
 gth-enum-types.c: $(PUBLIC_HEADER_FILES) gth-enum-types.h
-	$(GLIB_MKENUMS) \
+	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#include <glib-object.h>\n" \
 		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
 		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {" \
@@ -285,23 +285,23 @@ gth-enum-types.c: $(PUBLIC_HEADER_FILES) gth-enum-types.h
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
 		$^> xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gth-enum-types.c || cp xgen-$(@F) gth-enum-types.c ) \
-	&& rm -f xgen-$(@F)
+	&& rm -f xgen-$(@F) )
 
 gth-marshal.h: gth-marshal.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --header --prefix=gth_marshal > $@
+	$(AM_V_GEN)( $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --header --prefix=gth_marshal > $@ )
 
 gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
-	echo "#include \"gth-marshal.h\"" > $@ \
-	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@ 
+	$(AM_V_GEN)( echo "#include \"gth-marshal.h\"" > $@ \
+	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@ ) 
 
 gthumb.h: make-header.sh gthumb.h.template Makefile.am
-	$(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) gth-enum-types.h > xgen-$(@F) \
+	$(AM_V_GEN)( $(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) gth-enum-types.h > xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gthumb.h || cp xgen-$(@F) gthumb.h ) \
-	&& rm -f xgen-$(@F)
+	&& rm -f xgen-$(@F) )
 
 AUTHORS.tab : $(top_srcdir)/AUTHORS
-	sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp
-	mv $@.tmp $@
+	$(AM_V_GEN)( sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp \
+	&& mv $@.tmp $@ )
 
 gthumbincludedir = $(includedir)/gthumb-2.0
 gthumbinclude_HEADERS = gthumb.h

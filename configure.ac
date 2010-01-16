@@ -11,7 +11,7 @@ if test -z "$enable_maintainer_mode"; then
 fi
 AM_MAINTAINER_MODE([enable])
 
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AM_PROG_LIBTOOL
 
