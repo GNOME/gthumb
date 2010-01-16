@@ -80,23 +80,25 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 {
 	gboolean       write_comment = FALSE;
 	GthMetadata   *metadata;
+	GthStringList *comment_categories;
+	GList         *scan;
 	const char    *text;
 	GthComment    *comment;
-	GPtrArray     *keywords;
-	int            i;
 	GthStringList *categories;
 
 	comment = gth_comment_new ();
 	gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
+	gth_comment_set_caption (comment, g_file_info_get_attribute_string (file_data->info, "comment::caption"));
 	gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
 	if (metadata != NULL)
 		gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
 
-	keywords = gth_comment_get_categories (comment);
-	for (i = 0; i < keywords->len; i++)
-		gth_comment_add_category (comment, g_ptr_array_index (keywords, i));
+	comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+	if (comment_categories != NULL)
+		for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next)
+			gth_comment_add_category (comment, (char *) scan->data);
 
 	/* sync embedded data and .comment data if required */
 
@@ -105,6 +107,15 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
 		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
 			gth_comment_set_note (comment, gth_metadata_get_raw (metadata));
+			write_comment = TRUE;
+		}
+	}
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
+	if (metadata != NULL) {
+		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
+		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
+			gth_comment_set_caption (comment, gth_metadata_get_raw (metadata));
 			write_comment = TRUE;
 		}
 	}
@@ -132,16 +143,12 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 
 	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (categories != NULL) {
-		GthStringList *comment_categories;
-
 		comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
 		if (! gth_string_list_equal (categories, comment_categories)) {
-			GList *list;
 			GList *scan;
 
 			gth_comment_clear_categories (comment);
-			list = gth_string_list_get_list (categories);
-			for (scan = list; scan; scan = scan->next)
+			for (scan = gth_string_list_get_list (categories); scan; scan = scan->next)
 				gth_comment_add_category (comment, scan->data);
 			write_comment = TRUE;
 		}
