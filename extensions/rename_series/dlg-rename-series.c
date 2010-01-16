@@ -237,18 +237,18 @@ template_eval_cb (const GMatchInfo *info,
 		if (value_available) {
 			GRegex  *re;
 			char   **a;
-			char    *date = NULL;
+			char    *format = NULL;
 
 			/* Get the date format */
 
 			re = g_regex_new ("%[A-Z]\\{([^}]+)\\}", 0, 0, NULL);
 			a = g_regex_split (re, match, 0);
 			if (g_strv_length (a) >= 2)
-				date = g_strstrip (a[1]);
-			if ((date == NULL) || (*date == '\0'))
-				date = "%Y-%m-%d";
+				format = g_strstrip (a[1]);
+			if ((format == NULL) || (*format == '\0'))
+				format = "%Y-%m-%d";
 
-			r = _g_time_val_strftime (&timeval, date);
+			r = _g_time_val_strftime (&timeval, format);
 
 			g_strfreev (a);
 			g_regex_unref (re);
@@ -334,6 +334,7 @@ dlg_rename_series_update_preview (DialogData *data)
 
 		g_free (new_name);
 	}
+	g_regex_unref (re);
 	data->new_names_list = g_list_reverse (data->new_names_list);
 
 	if (error != NULL) {
