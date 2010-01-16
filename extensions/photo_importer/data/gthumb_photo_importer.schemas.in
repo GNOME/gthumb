@@ -54,6 +54,19 @@
       </schema>
 
       <schema>
+        <key>/schemas/apps/gthumb/ext/photo_importer/subfolder_custom_format</key>
+        <applyto>/apps/gthumb/ext/photo_importer/subfolder_custom_format</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/photo_importer/delete_from_camera</key>
 	<applyto>/apps/gthumb/ext/photo_importer/delete_from_camera</applyto>
 	<owner>gthumb</owner>

@@ -36,6 +36,7 @@ struct _GthImportTaskPrivate {
 	GthSubfolderType     subfolder_type;
 	GthSubfolderFormat   subfolder_format;
 	gboolean             single_subfolder;
+	char                *custom_format;
 	char                *event_name;
 	char               **tags;
 	gboolean             delete_imported;
@@ -68,6 +69,7 @@ gth_import_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
+	g_free (self->priv->custom_format);
 	g_free (self->priv->event_name);
 	g_strfreev (self->priv->tags);
 	g_hash_table_destroy (self->priv->catalogs);
@@ -343,7 +345,9 @@ file_info_ready_cb (GList    *files,
 							    self->priv->destination,
 							    self->priv->subfolder_type,
 							    self->priv->subfolder_format,
-							    self->priv->single_subfolder);
+							    self->priv->single_subfolder,
+							    self->priv->custom_format,
+							    self->priv->event_name);
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);
@@ -488,6 +492,7 @@ gth_import_task_new (GthBrowser         *browser,
 		     GthSubfolderType    subfolder_type,
 		     GthSubfolderFormat  subfolder_format,
 		     gboolean            single_subfolder,
+		     const char         *custom_format,
 		     const char         *event_name,
 		     char              **tags,
 		     gboolean            delete_imported,
@@ -503,6 +508,10 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->subfolder_type = subfolder_type;
 	self->priv->subfolder_format = subfolder_format;
 	self->priv->single_subfolder = single_subfolder;
+	if (custom_format != NULL)
+		self->priv->custom_format = g_strdup (custom_format);
+	else
+		self->priv->custom_format = NULL;
 	self->priv->event_name = g_strdup (event_name);
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
@@ -518,12 +527,13 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 				      GFile              *destination,
 				      GthSubfolderType    subfolder_type,
 				      GthSubfolderFormat  subfolder_format,
-				      gboolean            single_subfolder)
+				      gboolean            single_subfolder,
+				      const char         *custom_format,
+				      const char         *event_name)
 {
-	GFile     *file_destination;
-	GTimeVal   timeval;
-	char     **parts;
-	char      *child;
+	GTimeVal  timeval;
+	char     *child;
+	GFile    *file_destination;
 
 	if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
 		GthMetadata *metadata;
@@ -538,12 +548,12 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
 		g_get_current_time (&timeval);
 
-	parts = NULL;
 	switch (subfolder_type) {
 	case GTH_SUBFOLDER_TYPE_FILE_DATE:
 	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
-		{
-			GDate *date;
+		if (subfolder_format != GTH_SUBFOLDER_FORMAT_CUSTOM) {
+			GDate  *date;
+			char  **parts;
 
 			date = g_date_new ();
 			g_date_set_time_val (date, &timeval);
@@ -556,25 +566,40 @@ gth_import_task_get_file_destination (GthFileData        *file_data,
 					parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
 			}
 
+			if (single_subfolder)
+				child = g_strjoinv ("-", parts);
+			else
+				child = g_strjoinv ("/", parts);
+
+			g_strfreev (parts);
 			g_date_free (date);
+		}
+		else {
+			char *format = NULL;
+
+			if (event_name != NULL) {
+				GRegex *re;
+
+				re = g_regex_new ("%E", 0, 0, NULL);
+				format = g_regex_replace_literal (re, custom_format, -1, 0, event_name, 0, NULL);
+
+				g_regex_unref (re);
+			}
+			if (format == NULL)
+				format = g_strdup (custom_format);
+			child = _g_time_val_strftime (&timeval, format);
+
+			g_free (format);
 		}
 		break;
 
 	case GTH_SUBFOLDER_TYPE_NONE:
+		child = NULL;
 		break;
 	}
-
-	if (parts == NULL)
-		child = NULL;
-	else if (single_subfolder)
-		child = g_strjoinv ("-", parts);
-	else
-		child = g_strjoinv ("/", parts);
-
 	file_destination = _g_file_append_path (destination, child);
 
 	g_free (child);
-	g_strfreev (parts);
 
 	return file_destination;
 }

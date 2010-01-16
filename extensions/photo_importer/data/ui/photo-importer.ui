@@ -416,13 +416,43 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="single_subfolder_checkbutton">
-                            <property name="label" translatable="yes">as _single subfolder</property>
+                          <object class="GtkNotebook" id="subfolder_options_notebook">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_underline">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="show_tabs">False</property>
+                            <property name="show_border">False</property>
+                            <child>
+                              <object class="GtkCheckButton" id="single_subfolder_checkbutton">
+                                <property name="label" translatable="yes">as _single subfolder</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_indicator">True</property>
+                              </object>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="custom_format_entry">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
                           </object>
                           <packing>
                             <property name="pack_type">end</property>
@@ -445,7 +475,7 @@
                       <object class="GtkLabel" id="example_label">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">example: file:///home/paolo/images/2009/08/12</property>
+                        <property name="label">example: file:///home/paolo/images/2009/08/12</property>
                         <attributes>
                           <attribute name="size" value="8500"/>
                         </attributes>
@@ -546,6 +576,21 @@
                 <property name="position">0</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="help_button">
+                <property name="label">gtk-help</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+                <property name="secondary">True</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -557,6 +602,7 @@
     </child>
     <action-widgets>
       <action-widget response="0">p_close_button</action-widget>
+      <action-widget response="0">help_button</action-widget>
     </action-widgets>
   </object>
 </interface>

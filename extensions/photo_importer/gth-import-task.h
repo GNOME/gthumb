@@ -56,6 +56,7 @@ GthTask *   gth_import_task_new                    (GthBrowser         *browser,
 						    GthSubfolderType    subfolder_type,
 						    GthSubfolderFormat  subfolder_format,
 						    gboolean            single_subfolder,
+						    const char         *custom_format,
 						    const char         *event_name,
 						    char              **tags,
 						    gboolean            delete_imported,
@@ -65,7 +66,9 @@ GFile *     gth_import_task_get_file_destination   (GthFileData        *file_dat
 					            GFile              *destination,
 					            GthSubfolderType    subfolder_type,
 					            GthSubfolderFormat  subfolder_format,
-					            gboolean            single_subfolder);
+					            gboolean            single_subfolder,
+					            const char         *custom_format,
+						    const char         *event_name);
 
 G_END_DECLS
 
