@@ -67,6 +67,7 @@ gthumb_extension_activate (void)
 	 **/
 	gth_hook_register ("dlg-catalog-properties-saved", 3);
 
+	gth_hook_add_callback ("command-line-files", 10, G_CALLBACK (catalogs__command_line_files_cb), NULL);
 	gth_hook_add_callback ("gth-catalog-load-from-data", 10, G_CALLBACK (catalogs__gth_catalog_load_from_data_cb), NULL);
 
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_CATALOGS);

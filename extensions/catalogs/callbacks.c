@@ -247,6 +247,30 @@ catalogs__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 }
 
 
+GFile *
+catalogs__command_line_files_cb (GList *files)
+{
+	GFile      *file;
+	GthCatalog *catalog;
+	GList      *scan;
+
+	if (g_list_length (files) <= 1)
+		return NULL;
+
+	file = g_file_new_for_uri ("catalog://command_line.catalog");
+	catalog = gth_catalog_new ();
+	gth_catalog_set_file (catalog, file);
+	gth_catalog_set_name (catalog, _("Command Line"));
+	for (scan = files; scan; scan = scan->next)
+		gth_catalog_insert_file (catalog, (GFile *) scan->data, -1);
+	gth_catalog_save (catalog);
+
+	g_object_unref (catalog);
+
+	return file;
+}
+
+
 GthCatalog *
 catalogs__gth_catalog_load_from_data_cb (const void *buffer)
 {

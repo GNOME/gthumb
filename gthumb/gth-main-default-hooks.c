@@ -224,7 +224,6 @@ gth_main_register_default_hooks (void)
 	 **/
 	gth_hook_register ("import-photos", 2);
 
-
 	/**
 	 * Called at start up time if the --slideshow argument is
 	 * specified.
@@ -232,4 +231,15 @@ gth_main_register_default_hooks (void)
 	 * @browser (GthBrowser*): the main window.
 	 **/
 	gth_hook_register ("slideshow", 1);
+
+	/**
+	 * Called at start up time with the list of the command line
+	 * files.
+	 *
+	 * @file_list (GList *): list of GFile with the files specified
+	 * on the command line.
+	 * @return (GFile *): the location where to open the window at or NULL
+	 * for nothing.
+	 **/
+	gth_hook_register ("command-line-files", 1);
 }

@@ -290,25 +290,29 @@ prepare_application (void)
 	EggSMClient *client = NULL;
 	const char  *arg;
 	int          i;
+	GList       *files;
+	GList       *dirs;
+	GFile       *location;
+	GList       *scan;
 
 	gthumb_app = unique_app_new_with_commands ("org.gnome.gthumb", NULL,
 						   "import-photos", COMMAND_IMPORT_PHOTOS,
 						   NULL);
 
-	if (! unique_app_is_running (gthumb_app)) {
-		gth_main_register_default_hooks ();
-		gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
-		gth_main_register_default_sort_types ();
-		gth_main_register_default_tests ();
-		gth_main_register_default_types ();
-		gth_main_register_default_metadata ();
-		gth_main_activate_extensions ();
-		gth_hook_invoke ("initialize", NULL);
+	gth_main_register_default_hooks ();
+	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
+	gth_main_register_default_sort_types ();
+	gth_main_register_default_tests ();
+	gth_main_register_default_types ();
+	gth_main_register_default_metadata ();
+	gth_main_activate_extensions ();
+	gth_hook_invoke ("initialize", NULL);
+
+	if (! unique_app_is_running (gthumb_app))
 		g_signal_connect (gthumb_app,
 				  "message-received",
 				  G_CALLBACK (unique_app_message_received_cb),
 				  NULL);
-	}
 
 	client = egg_sm_client_get ();
 	if (egg_sm_client_is_resumed (client)) {
@@ -337,16 +341,40 @@ prepare_application (void)
 		return;
 	}
 
-	/* open each location in a new window */
+	/* At least a location was specified */
 
+	files = NULL;
+	dirs = NULL;
 	for (i = 0; (arg = remaining_args[i]) != NULL; i++) {
-		GFile *location;
+		GFile     *location;
+		GFileType  file_type;
 
 		location = g_file_new_for_commandline_arg (arg);
-		open_browser_window (location);
+		file_type = _g_file_get_standard_type (location);
+		if (file_type == G_FILE_TYPE_REGULAR)
+			files = g_list_prepend (files, location);
+		else
+			dirs = g_list_prepend (dirs, location);
+	}
+	files = g_list_reverse (files);
+	dirs = g_list_reverse (dirs);
 
+	location = gth_hook_invoke_get ("command-line-files", files);
+	if (location != NULL) {
+		open_browser_window (location);
 		g_object_unref (location);
 	}
+	else /* Open each file in a new window */
+		for (scan = files; scan; scan = scan->next)
+			open_browser_window ((GFile *) scan->data);
+
+	/* Open each dir in a new window */
+
+	for (scan = dirs; scan; scan = scan->next)
+		open_browser_window ((GFile *) scan->data);
+
+	_g_object_list_unref (dirs);
+	_g_object_list_unref (files);
 }
 
 
