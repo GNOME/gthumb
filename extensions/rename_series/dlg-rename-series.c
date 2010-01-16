@@ -194,8 +194,19 @@ template_eval_cb (const GMatchInfo *info,
 	char         *match;
 
 	match = g_match_info_fetch (info, 0);
-	if (strcmp (match, "%F") == 0) {
-		r = g_file_get_basename (template_data->file_data->file);
+
+	if (strncmp (match, "#", 1) == 0) {
+		char *format;
+
+		format = g_strdup_printf ("%%0%" G_GSIZE_FORMAT "d", strlen (match));
+		r = g_strdup_printf (format, template_data->n);
+
+		g_free (format);
+	}
+	else if (strncmp (match, "%A", 2) == 0) {
+		r = get_attribute_value (template_data->file_data, match);
+		/*if (r == NULL)
+			*template_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed template"));*/
 	}
 	else if (strcmp (match, "%E") == 0) {
 		char *uri;
@@ -205,21 +216,11 @@ template_eval_cb (const GMatchInfo *info,
 
 		g_free (uri);
 	}
+	else if (strcmp (match, "%F") == 0) {
+		r = g_file_get_basename (template_data->file_data->file);
+	}
 	else if (strcmp (match, "%N") == 0) {
 		r = get_original_enum (template_data->file_data, match);
-	}
-	else if (strncmp (match, "%A", 2) == 0) {
-		r = get_attribute_value (template_data->file_data, match);
-		/*if (r == NULL)
-			*template_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed template"));*/
-	}
-	else if (strncmp (match, "#", 1) == 0) {
-		char *format;
-
-		format = g_strdup_printf ("%%0%" G_GSIZE_FORMAT "d", strlen (match));
-		r = g_strdup_printf (format, template_data->n);
-
-		g_free (format);
 	}
 	else if ((strncmp (match, "%D", 2) == 0) || (strncmp (match, "%M", 2) == 0)) {
 		gboolean value_available = FALSE;
@@ -306,7 +307,7 @@ dlg_rename_series_update_preview (DialogData *data)
 	template_data->error = &error;
 	template_data->n = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")));
 	template_data->template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-	re = g_regex_new ("#+|%F|%E|%N|%D(\\{[^}]+\\})?|%M(\\{[^}]+\\})?|%A\\{[^}]+\\}", 0, 0, NULL);
+	re = g_regex_new ("#+|%[ADEFMN](\\{[^}]+\\})?", 0, 0, NULL);
 	for (scan = data->new_file_list; scan; scan = scan->next) {
 		char *new_name;
 		char *new_name2;
