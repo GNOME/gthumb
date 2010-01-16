@@ -127,6 +127,7 @@ struct _GthBrowserPrivateData {
 	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
+	GFile             *monitor_location;
 	gboolean           activity_ref;
 	GthIconCache      *menu_icon_cache;
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
@@ -1371,8 +1372,11 @@ load_data_continue (LoadData *load_data,
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
+	if (browser->priv->monitor_location != NULL)
+		g_object_unref (browser->priv->monitor_location);
+	browser->priv->monitor_location = g_file_dup (browser->priv->location->file);
 	gth_file_source_monitor_directory (browser->priv->location_source,
-					   browser->priv->location->file,
+					   browser->priv->monitor_location,
 					   TRUE);
 
 	if (StartSlideshow) {
@@ -1535,10 +1539,10 @@ _gth_browser_load (GthBrowser *browser,
 	case GTH_ACTION_VIEW:
 		if (browser->priv->location_source != NULL) {
 			gth_file_source_monitor_directory (browser->priv->location_source,
-							   browser->priv->location->file,
+							   browser->priv->monitor_location,
 							   FALSE);
-			_g_object_unref (browser->priv->location_source);
-			browser->priv->location_source = NULL;
+			_g_object_clear (&browser->priv->location_source);
+			_g_object_clear (&browser->priv->monitor_location);
 		}
 		break;
 	default:
@@ -2004,6 +2008,7 @@ gth_browser_finalize (GObject *object)
 		if (browser->priv->progress_dialog != NULL)
 			gtk_widget_destroy (browser->priv->progress_dialog);
 		_g_object_unref (browser->priv->location_source);
+		_g_object_unref (browser->priv->monitor_location);
 		_g_object_unref (browser->priv->location);
 		_g_object_unref (browser->priv->current_file);
 		_g_object_unref (browser->priv->viewer_page);
