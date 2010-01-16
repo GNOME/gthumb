@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009-2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ gth_import_task_finalize (GObject *object)
 	g_free (self->priv->event_name);
 	g_strfreev (self->priv->tags);
 	g_hash_table_destroy (self->priv->catalogs);
-	g_object_unref (self->priv->imported_catalog);
+	_g_object_unref (self->priv->imported_catalog);
 	g_object_unref (self->priv->browser);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -157,36 +157,8 @@ catalog_imported_file (GthImportTask *self)
 	gth_catalog_insert_file (catalog, self->priv->destination_file->file, -1);
 
 	catalog = g_hash_table_lookup (self->priv->catalogs, IMPORTED_KEY);
-	if (catalog == NULL) {
-		GthDateTime *date_time;
-		char        *name;
-		char        *display_name;
-
-		g_get_current_time (&timeval);
-		date_time = gth_datetime_new ();
-		gth_datetime_from_timeval (date_time, &timeval);
-
-		name = gth_datetime_strftime (date_time, "%Y.%m.%d-%H.%M.%S");
-		self->priv->imported_catalog = _g_file_new_for_display_name ("catalog://", name, ".catalog");
-		catalog = gth_catalog_load_from_file (self->priv->imported_catalog);
-		if (catalog == NULL)
-			catalog = gth_catalog_new ();
-
-		gth_catalog_set_file (catalog, self->priv->imported_catalog);
-		gth_catalog_set_date (catalog, date_time);
-		if ((self->priv->event_name != NULL) && ! _g_utf8_all_spaces (self->priv->event_name))
-			display_name = gth_datetime_strftime (date_time, self->priv->event_name);
-		else
-			display_name = gth_datetime_strftime (date_time, _("Imported %x %X"));
-		gth_catalog_set_name (catalog, display_name);
-
-		g_hash_table_insert (self->priv->catalogs, g_strdup (IMPORTED_KEY), catalog);
-
-		g_free (display_name);
-		g_free (name);
-		gth_datetime_free (date_time);
-	}
-	gth_catalog_insert_file (catalog, self->priv->destination_file->file, -1);
+	if (catalog != NULL)
+		gth_catalog_insert_file (catalog, self->priv->destination_file->file, -1);
 
 	import_next_file (self);
 
@@ -425,6 +397,43 @@ gth_import_task_exec (GthTask *base)
 	for (scan = self->priv->files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 		self->priv->tot_size += g_file_info_get_size (file_data->info);
+	}
+
+	/* create the imported files catalog */
+
+	if (gth_main_extension_is_active ("catalogs")) {
+		GTimeVal    timeval;
+		GthDateTime *date_time;
+		char        *display_name;
+		GthCatalog  *catalog = NULL;
+
+		g_get_current_time (&timeval);
+		date_time = gth_datetime_new ();
+		gth_datetime_from_timeval (date_time, &timeval);
+
+		if ((self->priv->event_name != NULL) && ! _g_utf8_all_spaces (self->priv->event_name)) {
+			display_name = g_strdup (self->priv->event_name);
+			self->priv->imported_catalog = _g_file_new_for_display_name ("catalog://", display_name, ".catalog");
+			/* append files to the catalog if an event name was given */
+			catalog = gth_catalog_load_from_file (self->priv->imported_catalog);
+		}
+		else {
+			display_name = g_strdup (_("Last imported"));
+			self->priv->imported_catalog = _g_file_new_for_display_name ("catalog://", display_name, ".catalog");
+			/* overwrite the catalog content if the generic "last imported" catalog is used. */
+			catalog = NULL;
+		}
+
+		if (catalog == NULL)
+			catalog = gth_catalog_new ();
+		gth_catalog_set_file (catalog, self->priv->imported_catalog);
+		gth_catalog_set_date (catalog, date_time);
+		gth_catalog_set_name (catalog, display_name);
+
+		g_hash_table_insert (self->priv->catalogs, g_strdup (IMPORTED_KEY), catalog);
+
+		g_free (display_name);
+		gth_datetime_free (date_time);
 	}
 
 	self->priv->current = self->priv->files;
