@@ -1735,7 +1735,8 @@ _g_file_get_standard_type (GFile *file)
 		g_error_free (error);
 	}
 
-	g_object_unref (info);
+	if (info != NULL)
+		g_object_unref (info);
 
 	return result;
 }

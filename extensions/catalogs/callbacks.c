@@ -257,7 +257,7 @@ catalogs__command_line_files_cb (GList *files)
 	if (g_list_length (files) <= 1)
 		return NULL;
 
-	file = g_file_new_for_uri ("catalog://command_line.catalog");
+	file = _g_file_new_for_display_name ("catalog:///", _("Command Line"), ".catalog");
 	catalog = gth_catalog_new ();
 	gth_catalog_set_file (catalog, file);
 	gth_catalog_set_name (catalog, _("Command Line"));

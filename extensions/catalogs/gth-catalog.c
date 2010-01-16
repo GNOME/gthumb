@@ -1130,6 +1130,7 @@ gth_catalog_save (GthCatalog *catalog)
 
 	file = gth_catalog_get_file (catalog);
 	gio_file = gth_catalog_file_to_gio_file (file);
+
 	gio_parent = g_file_get_parent (gio_file);
 	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
 	data = gth_catalog_to_data (catalog, &size);
