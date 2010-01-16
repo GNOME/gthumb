@@ -24,9 +24,11 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "dlg-comments-preferences.h"
 #include "gth-comment.h"
 #include "gth-metadata-provider-comment.h"
 #include "gth-test-category.h"
+#include "preferences.h"
 
 
 GthMetadataCategory comments_metadata_category[] = {
@@ -85,6 +87,9 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	const char    *text;
 	GthComment    *comment;
 	GthStringList *categories;
+
+	if (! eel_gconf_get_boolean (PREF_COMMENTS_SYNCHRONIZE, TRUE))
+		return;
 
 	comment = gth_comment_new ();
 	gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
@@ -218,11 +223,12 @@ gthumb_extension_deactivate (void)
 G_MODULE_EXPORT gboolean
 gthumb_extension_is_configurable (void)
 {
-	return FALSE;
+	return TRUE;
 }
 
 
 G_MODULE_EXPORT void
 gthumb_extension_configure (GtkWindow *parent)
 {
+	dlg_comments_preferences (parent);
 }

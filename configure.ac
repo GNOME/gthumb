@@ -329,6 +329,8 @@ extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile
 extensions/comments/Makefile
+extensions/comments/data/Makefile
+extensions/comments/data/ui/Makefile
 extensions/desktop_background/Makefile
 extensions/edit_metadata/Makefile
 extensions/edit_metadata/data/Makefile

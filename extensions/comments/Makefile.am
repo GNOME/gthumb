@@ -1,14 +1,19 @@
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcomments.la
 
 libcomments_la_SOURCES = 			\
+	dlg-comments-preferences.c		\
+	dlg-comments-preferences.h		\
 	gth-comment.c				\
 	gth-comment.h				\
 	gth-metadata-provider-comment.c		\
 	gth-metadata-provider-comment.h		\
 	gth-test-category.c			\
 	gth-test-category.h			\
-	main.c
+	main.c					\
+	preferences.h
 
 libcomments_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libcomments_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

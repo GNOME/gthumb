@@ -353,6 +353,28 @@ about_button_clicked_cb (GtkButton *button,
 }
 
 
+static void
+preferences_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	DialogData              *data = user_data;
+	GtkTreeModel            *model;
+	GtkTreeIter              iter;
+	GthExtensionDescription *description;
+	GthExtension            *extension;
+
+	model = GTK_TREE_MODEL (data->list_store);
+	if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)), &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter, 0, &description, -1);
+	extension = gth_extension_description_get_extension (description);
+	gth_extension_configure (extension, GTK_WINDOW (data->dialog));
+
+	g_object_unref (description);
+}
+
+
 void
 dlg_extensions (GthBrowser *browser)
 {
@@ -425,6 +447,10 @@ dlg_extensions (GthBrowser *browser)
 	g_signal_connect (GET_WIDGET ("about_button"),
 			  "clicked",
 			  G_CALLBACK (about_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("preferences_button"),
+			  "clicked",
+			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)),
 			  "changed",

@@ -48,6 +48,10 @@ extensions/catalogs/gth-organize-task.c
 extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
 extensions/comments/comments.extension.in.in
+extensions/comments/data/gthumb-comments.schemas.in
+[type: gettext/glade]extensions/comments/data/ui/comments-preferences.ui
+extensions/comments/dlg-comments-preferences.c
+extensions/comments/dlg-comments-preferences.h
 extensions/comments/gth-comment.c
 extensions/comments/gth-comment.h
 extensions/comments/gth-metadata-provider-comment.c
@@ -55,6 +59,7 @@ extensions/comments/gth-metadata-provider-comment.h
 extensions/comments/gth-test-category.c
 extensions/comments/gth-test-category.h
 extensions/comments/main.c
+extensions/comments/preferences.h
 extensions/desktop_background/actions.c
 extensions/desktop_background/actions.h
 extensions/desktop_background/callbacks.c
