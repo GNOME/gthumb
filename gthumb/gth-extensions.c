@@ -527,11 +527,11 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 
 	basename = g_file_get_basename (file);
 	desc->id = _g_uri_remove_extension (basename);
-	desc->name = g_key_file_get_string (key_file, "Extension", "Name", NULL);
-	desc->description = g_key_file_get_string (key_file, "Extension", "Description", NULL);
-	desc->version = g_key_file_get_string (key_file, "Extension", "Version", NULL);
-	desc->authors = g_key_file_get_string_list (key_file, "Extension", "Authors", NULL, NULL);
-	desc->copyright = g_key_file_get_string (key_file, "Extension", "Copyright", NULL);
+	desc->name = g_key_file_get_locale_string (key_file, "Extension", "Name", NULL, NULL);
+	desc->description = g_key_file_get_locale_string (key_file, "Extension", "Description", NULL, NULL);
+	desc->version = g_key_file_get_locale_string (key_file, "Extension", "Version", NULL, NULL);
+	desc->authors = g_key_file_get_locale_string_list (key_file, "Extension", "Authors", NULL, NULL, NULL);
+	desc->copyright = g_key_file_get_locale_string (key_file, "Extension", "Copyright", NULL, NULL);
 	desc->icon_name = g_key_file_get_string (key_file, "Extension", "Icon", NULL);
 	desc->url = g_key_file_get_string (key_file, "Extension", "URL", NULL);
 	desc->mandatory = g_key_file_get_boolean (key_file, "Extension", "Mandatory", NULL);
