@@ -18,7 +18,7 @@ data/gthumb.schemas.in
 [type: gettext/glade]data/ui/sort-order.ui
 extensions/bookmarks/actions.c
 extensions/bookmarks/actions.h
-extensions/bookmarks/bookmarks.extension.in.in
+[type: gettext/ini]extensions/bookmarks/bookmarks.extension.in.in
 extensions/bookmarks/callbacks.c
 extensions/bookmarks/callbacks.h
 [type: gettext/glade]extensions/bookmarks/data/ui/bookmarks.ui
@@ -29,7 +29,7 @@ extensions/catalogs/actions.c
 extensions/catalogs/actions.h
 extensions/catalogs/callbacks.c
 extensions/catalogs/callbacks.h
-extensions/catalogs/catalogs.extension.in.in
+[type: gettext/ini]extensions/catalogs/catalogs.extension.in.in
 [type: gettext/glade]extensions/catalogs/data/ui/add-to-catalog.ui
 [type: gettext/glade]extensions/catalogs/data/ui/catalog-properties.ui
 [type: gettext/glade]extensions/catalogs/data/ui/organize-files-task.ui
@@ -47,7 +47,7 @@ extensions/catalogs/gth-file-source-catalogs.h
 extensions/catalogs/gth-organize-task.c
 extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
-extensions/comments/comments.extension.in.in
+[type: gettext/ini]extensions/comments/comments.extension.in.in
 extensions/comments/data/gthumb-comments.schemas.in
 [type: gettext/glade]extensions/comments/data/ui/comments-preferences.ui
 extensions/comments/dlg-comments-preferences.c
@@ -64,7 +64,7 @@ extensions/desktop_background/actions.c
 extensions/desktop_background/actions.h
 extensions/desktop_background/callbacks.c
 extensions/desktop_background/callbacks.h
-extensions/desktop_background/desktop_background.extension.in.in
+[type: gettext/ini]extensions/desktop_background/desktop_background.extension.in.in
 extensions/desktop_background/main.c
 extensions/edit_metadata/actions.c
 extensions/edit_metadata/actions.h
@@ -73,14 +73,14 @@ extensions/edit_metadata/callbacks.h
 [type: gettext/glade]extensions/edit_metadata/data/ui/edit-comment-page.ui
 extensions/edit_metadata/dlg-edit-metadata.c
 extensions/edit_metadata/dlg-edit-metadata.h
-extensions/edit_metadata/edit_metadata.extension.in.in
+[type: gettext/ini]extensions/edit_metadata/edit_metadata.extension.in.in
 extensions/edit_metadata/gth-edit-comment-page.c
 extensions/edit_metadata/gth-edit-comment-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
 extensions/edit_metadata/gth-edit-metadata-dialog.h
 extensions/edit_metadata/main.c
 [type: gettext/glade]extensions/exiv2/data/ui/edit-exiv2-page.ui
-extensions/exiv2/exiv2.extension.in.in
+[type: gettext/ini]extensions/exiv2/exiv2.extension.in.in
 extensions/exiv2/exiv2-utils.cpp
 extensions/exiv2/exiv2-utils.h
 extensions/exiv2/gth-edit-exiv2-page.c
@@ -92,7 +92,7 @@ extensions/file_manager/actions.c
 extensions/file_manager/actions.h
 extensions/file_manager/callbacks.c
 extensions/file_manager/callbacks.h
-extensions/file_manager/file_manager.extension.in.in
+[type: gettext/ini]extensions/file_manager/file_manager.extension.in.in
 extensions/file_manager/gth-copy-task.c
 extensions/file_manager/gth-copy-task.h
 extensions/file_manager/gth-delete-task.c
@@ -104,7 +104,7 @@ extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
-extensions/file_tools/file_tools.extension.in.in
+[type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-crop.c
@@ -134,7 +134,7 @@ extensions/file_tools/gth-file-tool-save.h
 extensions/file_tools/gth-file-tool-undo.c
 extensions/file_tools/gth-file-tool-undo.h
 extensions/file_tools/main.c
-extensions/file_viewer/file_viewer.extension.in.in
+[type: gettext/ini]extensions/file_viewer/file_viewer.extension.in.in
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
@@ -143,7 +143,7 @@ extensions/gstreamer/actions.h
 extensions/gstreamer/data/gthumb-gstreamer.schemas.in
 [type: gettext/glade]extensions/gstreamer/data/ui/mediabar.ui
 [type: gettext/glade]extensions/gstreamer/data/ui/save-screenshot.ui
-extensions/gstreamer/gstreamer.extension.in.in
+[type: gettext/ini]extensions/gstreamer/gstreamer.extension.in.in
 extensions/gstreamer/gstreamer-utils.c
 extensions/gstreamer/gstreamer-utils.h
 extensions/gstreamer/gstscreenshot.c
@@ -166,7 +166,7 @@ extensions/image_print/gth-image-print-job.c
 extensions/image_print/gth-image-print-job.h
 extensions/image_print/gth-load-image-info-task.c
 extensions/image_print/gth-load-image-info-task.h
-extensions/image_print/image_print.extension.in.in
+[type: gettext/ini]extensions/image_print/image_print.extension.in.in
 extensions/image_print/main.c
 extensions/image_print/preferences.h
 extensions/image_rotation/actions.c
@@ -175,7 +175,7 @@ extensions/image_rotation/callbacks.c
 extensions/image_rotation/callbacks.h
 extensions/image_rotation/gth-transform-task.c
 extensions/image_rotation/gth-transform-task.h
-extensions/image_rotation/image_rotation.extension.in.in
+[type: gettext/ini]extensions/image_rotation/image_rotation.extension.in.in
 extensions/image_rotation/main.c
 extensions/image_rotation/rotation-utils.c
 extensions/image_rotation/rotation-utils.h
@@ -185,7 +185,7 @@ extensions/image_viewer/gth-image-viewer-page.c
 extensions/image_viewer/gth-image-viewer-page.h
 extensions/image_viewer/gth-metadata-provider-image.c
 extensions/image_viewer/gth-metadata-provider-image.h
-extensions/image_viewer/image_viewer.extension.in.in
+[type: gettext/ini]extensions/image_viewer/image_viewer.extension.in.in
 extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
@@ -195,7 +195,7 @@ extensions/jpeg_utils/jmemorysrc.c
 extensions/jpeg_utils/jmemorysrc.h
 extensions/jpeg_utils/jpegtran.c
 extensions/jpeg_utils/jpegtran.h
-extensions/jpeg_utils/jpeg_utils.extension.in.in
+[type: gettext/ini]extensions/jpeg_utils/jpeg_utils.extension.in.in
 extensions/jpeg_utils/main.c
 extensions/jpeg_utils/transupp.c
 extensions/jpeg_utils/transupp.h
@@ -216,7 +216,7 @@ extensions/list_tools/gth-script-file.h
 extensions/list_tools/gth-script.h
 extensions/list_tools/gth-script-task.c
 extensions/list_tools/gth-script-task.h
-extensions/list_tools/list_tools.extension.in.in
+[type: gettext/ini]extensions/list_tools/list_tools.extension.in.in
 extensions/list_tools/main.c
 extensions/photo_importer/actions.c
 extensions/photo_importer/actions.h
@@ -229,7 +229,7 @@ extensions/photo_importer/dlg-photo-importer.h
 extensions/photo_importer/gth-import-task.c
 extensions/photo_importer/gth-import-task.h
 extensions/photo_importer/main.c
-extensions/photo_importer/photo_importer.extension.in.in
+[type: gettext/ini]extensions/photo_importer/photo_importer.extension.in.in
 extensions/photo_importer/preferences.h
 extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in
 [type: gettext/glade]extensions/pixbuf_savers/data/ui/jpeg-options.ui
@@ -246,16 +246,16 @@ extensions/pixbuf_savers/gth-tga-saver.h
 extensions/pixbuf_savers/gth-tiff-saver.c
 extensions/pixbuf_savers/gth-tiff-saver.h
 extensions/pixbuf_savers/main.c
-extensions/pixbuf_savers/pixbuf_savers.extension.in.in
+[type: gettext/ini]extensions/pixbuf_savers/pixbuf_savers.extension.in.in
 extensions/pixbuf_savers/preferences.c
 extensions/pixbuf_savers/preferences.h
 extensions/raw_files/main.c
-extensions/raw_files/raw_files.extension.in.in
+[type: gettext/ini]extensions/raw_files/raw_files.extension.in.in
 [type: gettext/glade]extensions/red_eye_removal/data/ui/red-eye-removal-options.ui
 extensions/red_eye_removal/gth-file-tool-red-eye.c
 extensions/red_eye_removal/gth-file-tool-red-eye.h
 extensions/red_eye_removal/main.c
-extensions/red_eye_removal/red_eye_removal.extension.in.in
+[type: gettext/ini]extensions/red_eye_removal/red_eye_removal.extension.in.in
 extensions/rename_series/actions.c
 extensions/rename_series/actions.h
 extensions/rename_series/callbacks.c
@@ -266,7 +266,7 @@ extensions/rename_series/dlg-rename-series.h
 extensions/rename_series/gth-rename-task.c
 extensions/rename_series/gth-rename-task.h
 extensions/rename_series/main.c
-extensions/rename_series/rename_series.extension.in.in
+[type: gettext/ini]extensions/rename_series/rename_series.extension.in.in
 extensions/resize_images/actions.c
 extensions/resize_images/actions.h
 extensions/resize_images/callbacks.c
@@ -277,7 +277,7 @@ extensions/resize_images/dlg-resize-images.c
 extensions/resize_images/dlg-resize-images.h
 extensions/resize_images/main.c
 extensions/resize_images/preferences.h
-extensions/resize_images/resize_images.extension.in.in
+[type: gettext/ini]extensions/resize_images/resize_images.extension.in.in
 extensions/search/actions.c
 extensions/search/actions.h
 extensions/search/callbacks.c
@@ -292,7 +292,7 @@ extensions/search/gth-search.h
 extensions/search/gth-search-task.c
 extensions/search/gth-search-task.h
 extensions/search/main.c
-extensions/search/search.extension.in.in
+[type: gettext/ini]extensions/search/search.extension.in.in
 extensions/slideshow/actions.c
 extensions/slideshow/actions.h
 extensions/slideshow/callbacks.c
@@ -306,7 +306,7 @@ extensions/slideshow/gth-transition.h
 extensions/slideshow/main.c
 extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
-extensions/slideshow/slideshow.extension.in.in
+[type: gettext/ini]extensions/slideshow/slideshow.extension.in.in
 gthumb/dlg-extensions.c
 gthumb/dlg-extensions.h
 gthumb/dlg-personalize-filters.c
