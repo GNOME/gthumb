@@ -303,10 +303,10 @@ AUTHORS.tab : $(top_srcdir)/AUTHORS
 	$(AM_V_GEN)( sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp \
 	&& mv $@.tmp $@ )
 
-gthumbincludedir = $(includedir)/gthumb-2.0
+gthumbincludedir = $(includedir)/gthumb-$(GTHUMB_API_VERSION)
 gthumbinclude_HEADERS = gthumb.h
 
-gthumbsubincludedir = $(includedir)/gthumb-2.0/gthumb
+gthumbsubincludedir = $(includedir)/gthumb-$(GTHUMB_API_VERSION)/gthumb
 gthumbsubinclude_HEADERS = $(PUBLIC_HEADER_FILES)
 
 BUILT_SOURCES = AUTHORS.tab gthumb.h $(MARSHALLERS) $(ENUM_TYPES)
