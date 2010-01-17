@@ -878,7 +878,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 			  data);
 
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (self->priv->browser));
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (file_sel), FALSE);
 	gtk_widget_show (file_sel);
 
 	g_free (uri);
