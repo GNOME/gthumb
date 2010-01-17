@@ -20,7 +20,12 @@ EXTERNAL = 						\
 	gnome-desktop-thumbnail.h			\
 	gnome-thumbnail-pixbuf-utils.c
 
+PUBLIC_BUILT_HEADER_FILES =				\
+	gth-enum-types.h				\
+	gth-marshal.h
+
 PUBLIC_HEADER_FILES = 					\
+	$(PUBLIC_BUILT_HEADER_FILES)			\
 	dom.h						\
 	egg-macros.h					\
 	eggfileformatchooser.h				\
@@ -298,7 +303,7 @@ gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
 	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@ ) 
 
 gthumb.h: make-header.sh gthumb.h.template Makefile.am
-	$(AM_V_GEN)( $(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) gth-enum-types.h > xgen-$(@F) \
+	$(AM_V_GEN)( $(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) > xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gthumb.h || cp xgen-$(@F) gthumb.h ) \
 	&& rm -f xgen-$(@F) )
 
