@@ -334,7 +334,7 @@ list_source_files (gpointer user_data)
 	DialogData *data = user_data;
 	GList      *list;
 
-	_g_object_clear (&data->last_source);
+	_g_clear_object (&data->last_source);
 	_g_object_list_unref (data->files);
 	data->files = NULL;
 
@@ -379,8 +379,8 @@ source_list_changed_cb (GtkWidget  *widget,
 	GMount      *mount;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->source_list), &iter)) {
-		_g_object_clear (&data->source);
-		_g_object_clear (&data->last_source);
+		_g_clear_object (&data->source);
+		_g_clear_object (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
 		return;
 	}
@@ -390,8 +390,8 @@ source_list_changed_cb (GtkWidget  *widget,
 			    -1);
 
 	if (volume == NULL) {
-		_g_object_clear (&data->source);
-		_g_object_clear (&data->last_source);
+		_g_clear_object (&data->source);
+		_g_clear_object (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Empty"));
 		return;
 	}

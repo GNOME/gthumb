@@ -55,7 +55,7 @@ _g_object_unref (gpointer object)
 
 
 void
-_g_object_clear (gpointer p)
+_g_clear_object (gpointer p)
 {
 	gpointer *object_p = (gpointer *) p;
 

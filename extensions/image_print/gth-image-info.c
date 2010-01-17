@@ -101,10 +101,10 @@ gth_image_info_set_pixbuf (GthImageInfo *image_info,
 
 	g_return_if_fail (pixbuf != NULL);
 
-	_g_object_clear (&image_info->pixbuf);
-	_g_object_clear (&image_info->thumbnail_original);
-	_g_object_clear (&image_info->thumbnail);
-	_g_object_clear (&image_info->thumbnail_active);
+	_g_clear_object (&image_info->pixbuf);
+	_g_clear_object (&image_info->thumbnail_original);
+	_g_clear_object (&image_info->thumbnail);
+	_g_clear_object (&image_info->thumbnail_active);
 
 	image_info->pixbuf = g_object_ref (pixbuf);
 	thumb_w = image_info->original_width = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
@@ -150,11 +150,11 @@ gth_image_info_rotate (GthImageInfo *image_info,
 		break;
 	}
 
-	_g_object_clear (&image_info->thumbnail);
+	_g_clear_object (&image_info->thumbnail);
 	if (image_info->thumbnail_original != NULL)
 		image_info->thumbnail = _gdk_pixbuf_transform (image_info->thumbnail_original, image_info->rotation);
 
-	_g_object_clear (&image_info->thumbnail_active);
+	_g_clear_object (&image_info->thumbnail_active);
 	if (image_info->thumbnail != NULL) {
 		image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
 		_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);

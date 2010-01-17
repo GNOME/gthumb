@@ -1541,8 +1541,8 @@ _gth_browser_load (GthBrowser *browser,
 			gth_file_source_monitor_directory (browser->priv->location_source,
 							   browser->priv->monitor_location,
 							   FALSE);
-			_g_object_clear (&browser->priv->location_source);
-			_g_object_clear (&browser->priv->monitor_location);
+			_g_clear_object (&browser->priv->location_source);
+			_g_clear_object (&browser->priv->monitor_location);
 		}
 		break;
 	default:

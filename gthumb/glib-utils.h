@@ -78,7 +78,7 @@ G_BEGIN_DECLS
 
 gpointer      _g_object_ref                  (gpointer     object);
 void          _g_object_unref                (gpointer     object);
-void          _g_object_clear                (gpointer     object_p);
+void          _g_clear_object                (gpointer     object_p);
 GList *       _g_object_list_ref             (GList       *list);
 void          _g_object_list_unref           (GList       *list);
 GType         g_object_list_get_type         (void);
