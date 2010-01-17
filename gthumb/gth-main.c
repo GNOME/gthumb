@@ -256,7 +256,7 @@ gth_main_initialize (void)
 
 	g_set_application_name (_("gthumb"));
 	gtk_window_set_default_icon_name ("gthumb");
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_PKGDATADIR G_DIR_SEPARATOR_S "icons");
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_ICON_DIR);
 	gtk_about_dialog_set_url_hook (about_dialog_activate_link_cb, NULL, NULL);
 	gtk_about_dialog_set_email_hook (about_dialog_activate_email_cb, NULL, NULL);
 }

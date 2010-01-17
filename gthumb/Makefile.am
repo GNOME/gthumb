@@ -243,10 +243,12 @@ gthumb_LDADD =						\
 
 if RUN_IN_PLACE
 ui_dir = $(abs_top_srcdir)/data/ui
+icon_dir = $(abs_top_srcdir)/data/icons
 extensions_ui_dir = $(abs_top_srcdir)/extensions
 extensions_dir = $(abs_top_builddir)/extensions
 else
 ui_dir = $(pkgdatadir)/ui
+icon_dir = $(pkgdatadir)/icons
 extensions_ui_dir = $(pkgdatadir)/ui
 extensions_dir = $(pkglibdir)/extensions
 endif
@@ -262,6 +264,7 @@ gthumb_CFLAGS =							\
 	-DGTHUMB_LIBDIR=\"$(libdir)\" 				\
 	-DGTHUMB_PKGDATADIR=\"$(pkgdatadir)\"			\
 	-DGTHUMB_UI_DIR=\"$(ui_dir)\"				\
+	-DGTHUMB_ICON_DIR=\"$(icon_dir)\"			\
 	-DGTHUMB_EXTENSIONS_UI_DIR=\"$(extensions_ui_dir)\"	\
 	-DGTHUMB_EXTENSIONS_DIR=\"$(extensions_dir)\"		\
 	$(NULL)
