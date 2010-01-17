@@ -958,11 +958,28 @@ load_data_cancel (LoadData *data)
 static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *scroll_to_file, GthAction action, gboolean automatic);
 
 
+static char *
+file_format (const char *format,
+	     GFile      *file)
+{
+	char *name;
+	char *s;
+
+	name = g_file_get_parse_name (file);
+	s = g_strdup_printf (format, name);
+
+	g_free (name);
+
+	return s;
+}
+
+
 static void
 load_data_done (LoadData *load_data,
 		GError   *error)
 {
 	GthBrowser *browser = load_data->browser;
+	char       *title;
 
 	{
 		char *uri;
@@ -1021,7 +1038,10 @@ load_data_done (LoadData *load_data,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
+	title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
+	_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+
+	g_free (title);
 }
 
 
@@ -1521,6 +1541,38 @@ get_nearest_entry_point (GFile *file)
 
 
 static void
+mount_volume_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	LoadData *load_data = user_data;
+	GError   *error = NULL;
+
+	if (! g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error)) {
+		char *title;
+
+		title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (load_data->browser), title, &error);
+
+		g_free (title);
+		load_data_free (load_data);
+		return;
+	}
+
+	/* try to load again */
+
+	_gth_browser_update_entry_point_list (load_data->browser);
+	_gth_browser_load (load_data->browser,
+			   load_data->requested_folder->file,
+			   load_data->scroll_to_file,
+			   load_data->action,
+			   load_data->automatic);
+
+	load_data_free (load_data);
+}
+
+
+static void
 _gth_browser_load (GthBrowser *browser,
 		   GFile      *location,
 		   GFile      *scroll_to_file,
@@ -1551,6 +1603,19 @@ _gth_browser_load (GthBrowser *browser,
 
 	entry_point = get_nearest_entry_point (location);
 	load_data = load_data_new (browser, location, scroll_to_file, action, automatic, entry_point);
+
+	if (entry_point == NULL) {
+		GMountOperation *mount_op;
+
+		/* try to mount the enclosing volume */
+
+		mount_op = gtk_mount_operation_new (GTK_WINDOW (browser));
+		g_file_mount_enclosing_volume (location, 0, mount_op, NULL, mount_volume_ready_cb, load_data);
+
+		g_object_unref (mount_op);
+
+		return;
+	}
 
 	if ((load_data->action == GTH_ACTION_GO_TO)
 	    || (load_data->action == GTH_ACTION_GO_INTO)
@@ -4578,14 +4643,14 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 			gth_browser_go_to (browser, file_data->file, NULL);
 		}
 		else {
+			char   *title;
 			GError *error;
-			char   *uri;
 
-			uri = g_file_get_uri (data->location);
-			error = g_error_new (GTH_ERROR, 0, _("File type not supported %s"), uri);
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
+			title =  file_format (_("Could not load the position \"%s\""), data->location);
+			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
 
-			g_free (uri);
+			g_free (title);
 		}
 	}
 	else if (browser->priv->history == NULL) {
@@ -4597,8 +4662,14 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 
 		g_object_unref (home);
 	}
-	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
+	else {
+		char *title;
+
+		title =  file_format (_("Could not load the position \"%s\""), data->location);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+
+		g_free (title);
+	}
 
 	load_location_data_free (data);
 }
@@ -4616,14 +4687,14 @@ gth_browser_load_location (GthBrowser *browser,
 	data->location = g_object_ref (location);
 	data->file_source = gth_main_get_file_source (data->location);
 	if (data->file_source == NULL) {
+		char   *title;
 		GError *error;
-		char   *uri;
 
-		uri = g_file_get_uri (data->location);
-		error = g_error_new (GTH_ERROR, 0, _("No suitable module found for %s"), uri);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
+		title =  file_format (_("Could not load the position \"%s\""), data->location);
+		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
 
-		g_free (uri);
+		g_free (title);
 	}
 
 	list = g_list_prepend (NULL, g_object_ref (data->location));

@@ -74,7 +74,7 @@ G_BEGIN_DECLS
     g_signal_handlers_unblock_matched ((instance), G_SIGNAL_MATCH_DATA, \
 				       0, 0, NULL, NULL, (data))
 
-/* gobject utils*/
+/* gobject utils */
 
 gpointer      _g_object_ref                  (gpointer     object);
 void          _g_object_unref                (gpointer     object);
