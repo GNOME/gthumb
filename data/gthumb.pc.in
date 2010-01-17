@@ -1,0 +1,14 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@/gthumb
+includedir=@includedir@/gthumb
+extensionsdir=@libdir@/gthumb/extensions
+datarootdir=@datarootdir@
+datadir=@datadir@
+
+Name: gthumb 
+Description: Image viewer and browser
+Version: @VERSION@
+Requires: gtk+-2.0
+Libs: -L${libdir}
+Cflags: -I${includedir}

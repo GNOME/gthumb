@@ -6,6 +6,9 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([configure.ac])
 
+GTHUMB_API_VERSION=2.12
+AC_SUBST([GTHUMB_API_VERSION])
+
 if test -z "$enable_maintainer_mode"; then
   enable_maintainer_mode=yes
 fi
@@ -46,8 +49,8 @@ UNIQUE_REQUIRED=1.1.2
 dnl ===========================================================================
 
 CFLAGS=${CFLAGS-:""}
-CFLAGS+=" -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES "
-CFLAGS+="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED "
+CFLAGS+=" -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
+CFLAGS+=" -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
 
 AC_ARG_ENABLE(debug,
 	      AS_HELP_STRING([--enable-debug], [enable compilation of debugging messages]),
@@ -59,7 +62,7 @@ AC_ARG_ENABLE(debug,
 	      [ENABLE_DEBUG=no])
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
-	CFLAGS+="-g -O0 "
+	CFLAGS+=" -g -O0"
 fi
 
 AC_ARG_ENABLE(run_in_place,
@@ -303,6 +306,7 @@ Makefile
 copy-n-paste/Makefile
 data/Makefile
 data/gthumb.desktop.in
+data/gthumb-${GTHUMB_API_VERSION}.pc:data/gthumb.pc.in
 data/gthumb-import.desktop.in
 data/icons/Makefile
 data/icons/16x16/Makefile

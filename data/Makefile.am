@@ -18,12 +18,17 @@ install-data-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/data/$(schema_DATA)
 endif
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = gthumb-$(GTHUMB_API_VERSION).pc
+
 EXTRA_DIST =                    \
 	$(desktop_in_in_files)  \
+	$(pkgconfig_DATA)	\
 	$(schema_in_files)
 
 DISTCLEANFILES =                \
-	$(desktop_in_files)     
+	$(desktop_in_files)	\
+	$(pkgconfig_DATA)
 
 CLEANFILES =			\
 	$(desktop_DATA)         \
