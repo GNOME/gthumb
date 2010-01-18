@@ -23,4 +23,6 @@ SUBDIRS = 			\
 	search			\
 	slideshow
 
+EXTRA_DIST = example
+
 -include $(top_srcdir)/git.mk
