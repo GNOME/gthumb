@@ -1,24 +1,8 @@
 This is the distribution of gThumb, an image viewer and browser utility
 for the GNOME environment.
 
-Notes:
+Information about gthumb can be found at http://live.gnome.org/gthumb.
 
- * versions from 0.1 to 0.13 are for the GNOME 1.x environment.
-
- * versions from 1.100 to 2.0 are for the GNOME 2.0 environment, though
-   they can be used even in the GNOME 2.2 environment but in this case
-   gThumb and Nautilus do not share the thumbnails database.
-
- * versions 2.2.0 to 2.4.2 are for GNOME 2.2 and GNOME 2.4.
-
- * versions 2.5 and higher are for GNOME 2.6.
-
- * versions 2.9.1 and higher are for GNOME 2.16.
-
- * versions 2.11.0 and higher are for GNOME 2.26.
-
- * more information about gthumb can be found at:
-   http://live.gnome.org/gthumb
 
 What is gThumb
 ==============
@@ -69,7 +53,7 @@ What is gThumb
    + Change images date and time.
    + JPEG lossless transformations.
    + Find duplicated images.
-   + Write images to CD/DVD.
+
 
 Licensing
 =========
@@ -79,6 +63,7 @@ Licensing
 
   You can find a copy of the license in the file COPYING.
 
+
 Compiling
 =========
 
@@ -86,40 +71,53 @@ Compiling
   version 2 or greater, with the development tools installed properly.
   The following is the detailed list of libraries you need:
 
-	* glib	 		version >= 2.19.0
+	* glib	 		version >= 2.16.0
 	* gtk 			version >= 2.16.0
-	* libxml 		version >= 2.4.0
-	* libgnome 		version >= 2.6.0
-	* libgnomeui 		version >= 2.6.0
-	* libgnomecanvas 	version >= 2.6.0
-	* gnome-vfs 		version >= 2.6.0
-	* gnome-desktop		version >= 2.25.1
-	* libglade 		version >= 2.4.0
+	* gthread
+ 	* gmodule
+	* gio-unix
+	* gconf			version >= 2.6.0
 	* intltool		version >= 0.35.0
+	* unique		version >= 1.1.2
+
+
+  While not mandatory, these libraries greatly increase gThumb's
+  basic usefulness:
+
 	* exiv2			version >= 0.18
+	  (embedded metadata support)
+
+	* gstreamer		version >= 0.10
+	  (video support)
+
 	* libjpeg
+	* libtiff
+	  (jpeg and tiff writing support)
 
-  If the libtiff library is present you can save images in TIFF
-  format.
 
-  If the libgphoto2 library version >= 2.1.3 is present you can import
-  photos from your camera.
+  These libraries are optional:
 
-  If the libopenraw library version >= 0.0.2 is present you can view
-  RAW photo thumbnails.
+	* clutter		version >= 1.0.0
+	* clutter-gtk		version >= 0.10.0
+          (These libraries provide enhanced slideshow effects.)
+
+	* libopenraw		version >= 0.0.8
+          (This adds some support for RAW photos)
+
 
   If dcraw is present (and is in your executable search path), 
   gthumb can view full RAW photos.
 
-  If exiv2 version 0.16 or higher is present, you can read XMP metadata.
 
-  If pfstools and pfstmo are installed, gthumb can view HDR images. 
-  See http://www.mpi-inf.mpg.de/resources/pfstools.
-  To view OpenEXR files with pfstools, the OpenEXR libraries need
-  to be installed. See http://www.openexr.com/.
+Extensions
+==========
 
-  If mplayer (and its helper script, midentify) is installed, gThumb
-  can properly sort video files using the embedded DateTime tag.
+  gThumb has a plug-in system for extensions. Some standard features
+  are implemented as extensions and are supplied with the standard
+  distribution. Users may write (and share) additional extensions.
+
+  See http://live.gnome.org/gthumb/extensions for details.
+
 
 Download
 ========
@@ -128,10 +126,18 @@ Download
 
     http://ftp.gnome.org/pub/GNOME/sources/gthumb
 
-  * If you know what the SVN is and how to use it, you can download the
-    latest development version using the following command:
+  * If you know what git is and how to use it, you can download and
+    compile the latest development version using the following
+    commands:
 
-    svn checkout http://svn.gnome.org/svn/gthumb/trunk
+        git clone git://git.gnome.org/gthumb
+        cd gthumb
+        ./autogen.sh --prefix=/usr CFLAGS="-ggdb"
+        make
+        sudo make install
+
+    More development information is available at
+    http://live.gnome.org/gthumb/development
 
 
-20 July 2007
+18 January 2010
