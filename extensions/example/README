@@ -17,5 +17,8 @@ at this point the extension is ready to be compiled with the usual commands:
 make
 sudo make install
 
+After installing the extension, start gthumb and activate it with the
+Edit->Extensions command.
+
 If you think your extension can be useful to others as well, add it to
 the extensions list available at http://live.gnome.org/gthumb/extensions
