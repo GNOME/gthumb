@@ -20,7 +20,9 @@ extension_name=`echo $extensionname | tr '-' '_'`
 
 orig_dir=`pwd`
 
-sed -e "s|$originalname|$extensionname|" < autogen.sh > autogen.sh
+sed -e "s|$originalname|$extensionname|" < autogen.sh > autogen.sh.tmp
+mv autogen.sh.tmp autogen.sh
+chmod a+x autogen.sh
 
 if [ -e configure.ac.example ]; then
   mv configure.ac.example configure.ac
