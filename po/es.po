@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-01-17 21:44+0000\n"
-"PO-Revision-Date: 2010-01-18 23:19+0100\n"
+"POT-Creation-Date: 2010-01-18 22:19+0000\n"
+"PO-Revision-Date: 2010-01-19 22:59+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -187,10 +187,8 @@ msgid "More extensions..."
 msgstr "Dimensiones"
 
 #: ../data/ui/extensions.ui.h:3
-#, fuzzy
-#| msgid "Determine by extension"
 msgid "gthumb Extensions"
-msgstr "Determinar por extensión"
+msgstr "Extensiones de gthumb"
 
 #: ../data/ui/filter-editor.ui.h:1
 #, fuzzy
@@ -351,7 +349,7 @@ msgstr "Activar elementos con una sola pulsación"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Appearance"
-msgstr ""
+msgstr "Apariencia"
 
 #: ../data/ui/preferences.ui.h:13
 #, fuzzy
@@ -518,7 +516,7 @@ msgstr "Marcadores"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 msgid "Paolo Bacchilega <paobac@src.gnome.org>"
-msgstr ""
+msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
 
 #: ../extensions/bookmarks/callbacks.c:53
 msgid "_Bookmarks"
@@ -576,10 +574,8 @@ msgstr "Eliminar las imágenes seleccionadas del catálogo"
 #: ../extensions/exiv2/exiv2-utils.cpp:448
 #: ../extensions/exiv2/exiv2-utils.cpp:476
 #: ../extensions/search/gth-search.c:291
-#, fuzzy
-#| msgid "Invalid argument"
 msgid "Invalid file format"
-msgstr "Argumento no válido"
+msgstr "Formato de archivo no válido"
 
 #: ../extensions/catalogs/actions.c:189
 #: ../extensions/catalogs/dlg-add-to-catalog.c:219
@@ -620,10 +616,8 @@ msgid "Could not remove the catalog"
 msgstr "No se pudo renombrar el catálogo «%s»"
 
 #: ../extensions/catalogs/callbacks.c:99
-#, fuzzy
-#| msgid "_Add to Catalog..."
 msgid "_Add to Catalog"
-msgstr "_Añadir al catálogo..."
+msgstr "_Añadir al catálogo"
 
 #: ../extensions/catalogs/callbacks.c:102
 msgid "Open _Folder"
@@ -893,17 +887,13 @@ msgid "Add comments and tags to any file type."
 msgstr ""
 
 #: ../extensions/comments/comments.extension.in.in.h:2
-#, fuzzy
-#| msgid "Co_mment date"
 msgid "Comments and tags"
-msgstr "Fecha del _comentario"
+msgstr "Comentarios y etiquetas"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
-#, fuzzy
-#| msgid "_Preferences..."
 msgid "Preferences"
-msgstr "_Preferencias..."
+msgstr "Preferencias"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:2
 msgid "_Synchronize with the embedded metadata"
@@ -965,10 +955,8 @@ msgid "Set the image as desktop background"
 msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Desktop background"
-msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
+msgstr "Fondo de escritorio"
 
 #: ../extensions/edit_metadata/callbacks.c:90
 msgid "Metadata"
@@ -1012,10 +1000,8 @@ msgid "Allow to edit files metadata."
 msgstr "No se pudo mover la imagen:"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
-#, fuzzy
-#| msgid "Metadata"
 msgid "Edit metadata"
-msgstr "Metadatos"
+msgstr "Editar metadatos"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:391
 msgid "No date"
@@ -1041,10 +1027,8 @@ msgid "Last modified date"
 msgstr "Última fecha de modificación"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:396
-#, fuzzy
-#| msgid "Image creation date"
 msgid "File creation date"
-msgstr "Fecha de creación de la imagen"
+msgstr "Fecha de creación del archivo"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:397
 msgid "Do not modify"
@@ -1054,7 +1038,7 @@ msgstr "No modificar"
 #: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:148
 #, c-format
 msgid "%s Metadata"
-msgstr "%s metadatos"
+msgstr "Metadatos de %s"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:1
 msgid "Byline _Title:"
@@ -1167,17 +1151,13 @@ msgid "Enter the folder name: "
 msgstr "Introduzca el nombre de la carpeta: "
 
 #: ../extensions/file_manager/actions.c:65
-#, fuzzy
-#| msgid "Could not create the folder \"%s\""
 msgid "Could not create the folder"
-msgstr "No se pudo crear la carpeta «%s»"
+msgstr "No se pudo crear la carpeta"
 
 #: ../extensions/file_manager/actions.c:302
 #: ../extensions/file_manager/callbacks.c:299
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not move the files"
-msgstr "No se han podido mover los elementos:"
+msgstr "No se pudieron mover los archivos"
 
 #: ../extensions/file_manager/actions.c:303
 #: ../extensions/file_manager/callbacks.c:300
@@ -1230,10 +1210,8 @@ msgid "If you delete a file, it will be permanently lost."
 msgstr ""
 
 #: ../extensions/file_manager/actions.c:527
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\""
 msgid "Could not open the location"
-msgstr "No se pudo renombrar el catálogo «%s»"
+msgstr "No se pudo abrir la ubicación"
 
 #: ../extensions/file_manager/actions.c:661
 #, fuzzy
@@ -1427,7 +1405,7 @@ msgstr "_Y:"
 
 #: ../extensions/file_tools/file_tools.extension.in.in.h:1
 msgid "Basic tools to modify images."
-msgstr ""
+msgstr "Herramientas básicas para modificar imágenes."
 
 #: ../extensions/file_tools/file_tools.extension.in.in.h:2
 #, fuzzy
@@ -1499,7 +1477,7 @@ msgstr "Desaturar"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:249
 msgid "White balance correction"
-msgstr ""
+msgstr "Corrección del balance de blancos"
 
 #. FIXME GTH_STOCK_ENHANCE
 #: ../extensions/file_tools/gth-file-tool-enhance.c:281
@@ -1510,7 +1488,7 @@ msgstr "Reducir colores"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:282
 msgid "Automatic white balance correction"
-msgstr ""
+msgstr "Corrección automática del balance de blancos"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:169
 #, fuzzy
@@ -1642,7 +1620,7 @@ msgstr "Sonido / vídeo"
 
 #: ../extensions/gstreamer/gstreamer.extension.in.in.h:2
 msgid "Play audio and video files."
-msgstr ""
+msgstr "Reproducir archivos de vídeo y de sonido."
 
 #: ../extensions/gstreamer/gstreamer-utils.c:361
 msgid "Stereo"
@@ -1918,7 +1896,7 @@ msgstr "Recor_tar"
 
 #: ../extensions/image_rotation/rotation-utils.c:130
 msgid "_Accept distortion"
-msgstr ""
+msgstr "_Aceptar distorsión"
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
 #, fuzzy
@@ -2060,10 +2038,8 @@ msgid "Batch tools for multiple files"
 msgstr ""
 
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
-#, fuzzy
-#| msgid "Skip"
 msgid "_Skip"
-msgstr "Saltar"
+msgstr "_Omitir"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
 msgid "Co_mmands:"
@@ -2127,7 +2103,7 @@ msgstr "%quote{ texto }"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 msgid "A file attribute"
-msgstr ""
+msgstr "El atributo de un archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:23
 msgid "Ask an input value"
@@ -2179,7 +2155,6 @@ msgid "The parent folder path"
 msgstr "Mover la carpeta actual"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:34
-#| msgid "Co_mment:"
 msgid "_Command:"
 msgstr "Coman_do:"
 
@@ -2220,7 +2195,7 @@ msgstr "Introducir un valor:"
 
 #: ../extensions/list_tools/gth-script.c:741
 msgid "Malformed command"
-msgstr ""
+msgstr "Comando mal formado"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:241
 #: ../gthumb/gth-filter-editor-dialog.c:489
@@ -2231,7 +2206,7 @@ msgstr "No se especificó ningún nombre"
 #: ../extensions/list_tools/gth-script-editor-dialog.c:247
 #, c-format
 msgid "No command specified"
-msgstr ""
+msgstr "No se especificó ningún comando"
 
 #: ../extensions/list_tools/gth-script-task.c:85
 #, c-format
@@ -2273,10 +2248,8 @@ msgid "Destination"
 msgstr "_Destino:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
-#, fuzzy
-#| msgid "_File"
 msgid "Files"
-msgstr "_Archivo"
+msgstr "Archivos"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #, fuzzy
@@ -2547,7 +2520,7 @@ msgstr "Eliminar las imágenes seleccionadas del catálogo"
 #: ../extensions/rename_series/actions.c:38
 #: ../gthumb/gth-overwrite-dialog.c:118
 msgid "Cannot read file information"
-msgstr ""
+msgstr "No se puede leer la información del archivo"
 
 #: ../extensions/rename_series/callbacks.c:49
 #, fuzzy
@@ -2559,19 +2532,19 @@ msgstr "Renombrar las imágenes seleccionadas"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #, no-c-format
 msgid "%A{ identifier }"
-msgstr ""
+msgstr "%A{ identificador }"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
 #, no-c-format
 msgid "%D{ format }"
-msgstr ""
+msgstr "%D{ formato }"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
 #, no-c-format
 msgid "%M{ format }"
-msgstr ""
+msgstr "%M{ formato }"
 
 #. Translators: this is the text case (upper or lower case).
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:18
@@ -2598,7 +2571,7 @@ msgstr "Iniciar _en:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "The digitalization date"
-msgstr ""
+msgstr "La fecha de la digitalización"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 #, fuzzy
@@ -2734,10 +2707,8 @@ msgid "_Preserve original aspect ratios"
 msgstr "I_nvertir la proporción de la imagen"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:17
-#, fuzzy
-#| msgid "pixels"
 msgid "pixel"
-msgstr "píxeles"
+msgstr "píxel"
 
 #: ../extensions/resize_images/dlg-resize-images.c:142
 #, fuzzy
@@ -2930,10 +2901,8 @@ msgid "Extension"
 msgstr "Versiones Exif"
 
 #: ../gthumb/dlg-personalize-filters.c:237
-#, fuzzy
-#| msgid "_Filter"
 msgid "Filter"
-msgstr "_Filtro"
+msgstr "Filtro"
 
 #: ../gthumb/dlg-personalize-filters.c:315
 #, fuzzy
