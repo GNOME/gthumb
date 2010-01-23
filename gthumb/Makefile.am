@@ -242,8 +242,10 @@ gthumb_LDADD =						\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
+	$(GNOME_KEYRING_LIBS)				\
 	$(GSTREAMER_LIBS)				\
 	$(LIBOPENRAW_LIBS)				\
+	$(LIBSOUP_LIBS)					\
 	$(NULL)	
 
 if RUN_IN_PLACE

@@ -46,6 +46,7 @@ GSTREAMER_REQUIRED=0.10
 OPENRAW_REQUIRED=0.0.8
 UNIQUE_REQUIRED=1.1.2
 LIBSOUP_REQUIRED=2.26
+GNOME_KEYRING_REQUIRED=2.28
 
 dnl ===========================================================================
 
@@ -302,6 +303,22 @@ AC_MSG_RESULT($enable_libopenraw)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([gnome-keyring],
+	      [AS_HELP_STRING([--disable-gnome-keyring],[do not compile code that uses the gnome-keyring library])],,
+	      [enable_gnome_keyring=yes])
+
+if test x$enable_gnome_keyring = xyes ; then
+	PKG_CHECK_MODULES(GNOME_KEYRING,
+			  [gnome-keyring-1 >= $GNOME_KEYRING_REQUIRED],
+			  [AC_DEFINE(HAVE_GNOME_KEYRING, 1, [Have gnome-keyring])
+			   enable_gnome_keyring=yes],
+			  [enable_gnome_keyring=no])
+fi
+AC_SUBST(GNOME_KEYRING_CFLAGS)
+AC_SUBST(GNOME_KEYRING_LIBS)
+
+dnl ===========================================================================
+
 AC_ARG_ENABLE([libsoup],
 	      [AS_HELP_STRING([--disable-libsoup],[do not compile code that uses the libsoup library])],,
 	      [enable_libsoup=yes])
@@ -320,6 +337,7 @@ if test x$enable_libsoup = xyes ; then
 fi
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
+AM_CONDITIONAL(ENABLE_WEB_SERVICES, test "x$enable_libsoup" = xyes)
 
 dnl ===========================================================================
 
@@ -387,6 +405,9 @@ extensions/list_tools/data/ui/Makefile
 extensions/photo_importer/Makefile
 extensions/photo_importer/data/Makefile
 extensions/photo_importer/data/ui/Makefile
+extensions/picasaweb/Makefile
+extensions/picasaweb/data/Makefile
+extensions/picasaweb/data/ui/Makefile
 extensions/pixbuf_savers/Makefile
 extensions/pixbuf_savers/data/Makefile
 extensions/pixbuf_savers/data/ui/Makefile
@@ -432,4 +453,5 @@ Configuration:
 	GStreamer support    : ${enable_gstreamer}
 	Use libopenraw       : ${enable_libopenraw}
 	Web services         : ${enable_libsoup}
+	Use GNOME Keyring    : ${enable_gnome_keyring}
 "

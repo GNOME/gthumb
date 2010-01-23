@@ -15,6 +15,7 @@ SUBDIRS = 			\
 	jpeg_utils		\
 	list_tools		\
 	photo_importer		\
+	picasaweb		\
 	pixbuf_savers		\
 	raw_files		\
 	red_eye_removal		\

@@ -34,7 +34,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "GoMenu", NULL, N_("_Go") },
 	{ "HelpMenu", NULL, N_("_Help") },
 	{ "OpenWithMenu", NULL, N_("Open _With") },
-	{ "ExportMenu", NULL, N_("E_xport") },
+	{ "ExportMenu", NULL, N_("E_xport To") },
 
 	{ "File_NewWindow", "window-new",
 	  N_("New _Window"), "<control>N",
