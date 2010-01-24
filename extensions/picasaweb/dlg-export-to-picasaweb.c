@@ -426,7 +426,7 @@ new_account_dialog (DialogData *data)
 			  G_CALLBACK (new_account_dialog_response_cb),
 			  data);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("New Account"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Account"));
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
