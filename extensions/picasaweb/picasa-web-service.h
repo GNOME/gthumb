@@ -25,6 +25,7 @@
 
 #include <glib-object.h>
 #include "google-connection.h"
+#include "picasa-web-album.h"
 
 #define PICASA_TYPE_WEB_SERVICE         (picasa_web_service_get_type ())
 #define PICASA_WEB_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PICASA_TYPE_WEB_SERVICE, PicasaWebService))
@@ -48,15 +49,28 @@ struct _PicasaWebServiceClass
 	GObjectClass __parent_class;
 };
 
-GType                picasa_web_service_get_type           (void) G_GNUC_CONST;
-PicasaWebService *   picasa_web_service_new                (GoogleConnection     *conn);
-void                 picasa_web_service_list_albums        (PicasaWebService     *service,
-						            const char           *user_id,
-						            GCancellable         *cancellable,
-						            GAsyncReadyCallback   callback,
-						            gpointer              user_data);
-GList *              picasa_web_service_list_albums_finish (PicasaWebService     *service,
-						            GAsyncResult         *result,
-						            GError              **error);
+GType                picasa_web_service_get_type            (void) G_GNUC_CONST;
+PicasaWebService *   picasa_web_service_new                 (GoogleConnection     *conn);
+void                 picasa_web_service_list_albums         (PicasaWebService     *service,
+						             const char           *user_id,
+						             GCancellable         *cancellable,
+						             GAsyncReadyCallback   callback,
+						             gpointer              user_data);
+GList *              picasa_web_service_list_albums_finish  (PicasaWebService     *service,
+						             GAsyncResult         *result,
+						             GError              **error);
+void                 picasa_web_service_create_album        (PicasaWebService     *service,
+							     PicasaWebAlbum       *album,
+							     GCancellable         *cancellable,
+							     GAsyncReadyCallback   callback,
+							     gpointer              user_data);
+PicasaWebAlbum *     picasa_web_service_create_album_finish (PicasaWebService     *service,
+							     GAsyncResult         *result,
+							     GError              **error);
+
+/* utilities */
+
+GList *              picasa_web_accounts_load_from_file    (void);
+void                 picasa_web_accounts_save_to_file      (GList *accounts);
 
 #endif /* PICASA_WEB_SERVICE_H */

@@ -24,6 +24,11 @@
 #define GOOGLE_CONNECTION_H
 
 #include <glib-object.h>
+#ifdef HAVE_LIBSOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#else
+#include <libsoup/soup.h>
+#endif /* HAVE_LIBSOUP_GNOME */
 #include <gthumb.h>
 
 #define GOOGLE_SERVICE_PICASA_WEB_ALBUM "lh2"
@@ -65,18 +70,27 @@ struct _GoogleConnectionClass
 	GthTaskClass __parent_class;
 };
 
-GType                google_connection_get_type        (void) G_GNUC_CONST;
-GoogleConnection *   google_connection_new             (const char           *service);
-void                 google_connection_connect         (GoogleConnection     *conn,
-						        const char           *email,
-						        const char           *password,
-						        const char           *challange,
-						        GCancellable         *cancellable,
-						        GAsyncReadyCallback   callback,
-						        gpointer              user_data);
-gboolean             google_connection_connect_finish  (GoogleConnection     *conn,
-						        GAsyncResult         *result,
-						        GError              **error);
-const char *         google_connection_get_token       (GoogleConnection     *conn);
+GType                google_connection_get_type          (void) G_GNUC_CONST;
+GoogleConnection *   google_connection_new               (const char           *service);
+void		     google_connection_send_message      (GoogleConnection     *self,
+							  SoupMessage          *msg,
+							  GCancellable         *cancellable,
+							  GAsyncReadyCallback   callback,
+							  gpointer              user_data,
+							  gpointer              source_tag,
+							  SoupSessionCallback   soup_session_cb,
+							  gpointer              soup_session_cb_data);
+GSimpleAsyncResult * google_connection_get_result        (GoogleConnection     *self);
+void                 google_connection_connect           (GoogleConnection     *self,
+						          const char           *email,
+						          const char           *password,
+						          const char           *challange,
+						          GCancellable         *cancellable,
+						          GAsyncReadyCallback   callback,
+						          gpointer              user_data);
+gboolean             google_connection_connect_finish    (GoogleConnection     *self,
+						          GAsyncResult         *result,
+						          GError              **error);
+const char *         google_connection_get_challange_url (GoogleConnection     *self);
 
 #endif /* GOOGLE_CONNECTION_H */

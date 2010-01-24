@@ -25,13 +25,18 @@
 #include "gth-account-properties-dialog.h"
 
 
+#define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+
+
 static gpointer parent_class = NULL;
 
 
 struct _GthAccountPropertiesDialogPrivate {
-	char *email;
-	char *password;
-	char *challange;
+	GtkBuilder   *builder;
+	char         *email;
+	char         *password;
+	char         *challange_url;
+	GCancellable *cancellable;
 };
 
 
@@ -41,9 +46,11 @@ gth_account_properties_dialog_finalize (GObject *object)
 	GthAccountPropertiesDialog *self;
 
 	self = GTH_ACCOUNT_PROPERTIES_DIALOG (object);
+	_g_object_unref (self->priv->builder);
 	g_free (self->priv->email);
 	g_free (self->priv->password);
-	g_free (self->priv->challange);
+	g_free (self->priv->challange_url);
+	g_object_unref (self->priv->cancellable);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -65,10 +72,32 @@ gth_account_properties_dialog_class_init (GthAccountPropertiesDialogClass *klass
 static void
 gth_account_properties_dialog_init (GthAccountPropertiesDialog *self)
 {
+	GtkWidget *content;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCOUNT_PROPERTIES_DIALOG, GthAccountPropertiesDialogPrivate);
 	self->priv->email = NULL;
 	self->priv->password = NULL;
-	self->priv->challange = NULL;
+	self->priv->challange_url = NULL;
+	self->priv->cancellable = g_cancellable_new ();
+	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-properties.ui", "picasaweb");
+
+	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
+
+	content = _gtk_builder_get_widget (self->priv->builder, "account_properties");
+	gtk_container_set_border_width (GTK_CONTAINER (content), 0);
+  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
+
+  	gtk_entry_set_visibility (GTK_ENTRY (GET_WIDGET ("password_entry")), FALSE);
+
+	gtk_dialog_add_buttons (GTK_DIALOG (self),
+				GTK_STOCK_HELP, GTK_RESPONSE_HELP,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }
 
 
@@ -100,15 +129,78 @@ gth_account_properties_dialog_get_type (void)
 }
 
 
+static void
+image_buffer_ready_cb (void     *buffer,
+		       gsize     count,
+		       GError   *error,
+		       gpointer  user_data)
+{
+	GthAccountPropertiesDialog *self = user_data;
+	GInputStream               *stream;
+	GdkPixbuf                  *pixbuf;
+
+	if (error != NULL) {
+		/* FIXME: show the error dialog */
+		return;
+	}
+
+	stream = g_memory_input_stream_new_from_data (buffer, count, NULL);
+	pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+	if (pixbuf != NULL) {
+		gtk_widget_show (GET_WIDGET ("challange_box"));
+		gtk_image_set_from_pixbuf (GTK_IMAGE (GET_WIDGET ("challenge_image")), pixbuf);
+		g_object_unref (pixbuf);
+	}
+
+	g_object_unref (stream);
+}
+
+
+static void
+gth_account_properties_dialog_construct (GthAccountPropertiesDialog *self,
+					 const char                 *email,
+					 const char                 *password,
+					 const char                 *challange_url)
+{
+	if (email != NULL) {
+		self->priv->email = g_strdup (email);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("email_entry")), self->priv->email);
+	}
+
+	if (password != NULL) {
+		self->priv->password = g_strdup (password);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("password_entry")), self->priv->password);
+	}
+
+	if (challange_url != NULL) {
+		char  *url;
+		GFile *file;
+
+		self->priv->challange_url = g_strdup (challange_url);
+
+		url = g_strconcat ("http://www.google.com/accounts/", challange_url, NULL);
+		file = g_file_new_for_uri (url);
+		g_load_file_async (file,
+				   G_PRIORITY_DEFAULT,
+				   self->priv->cancellable,
+				   image_buffer_ready_cb,
+				   self);
+
+		g_object_unref (file);
+		g_free (url);
+	}
+}
+
+
 GtkWidget *
 gth_account_properties_dialog_new (const char *email,
-			           const char *password)
+			           const char *password,
+				   const char *challange_url)
 {
 	GthAccountPropertiesDialog *self;
 
 	self = g_object_new (GTH_TYPE_ACCOUNT_PROPERTIES_DIALOG, NULL);
-	self->priv->email = g_strdup (email);
-	self->priv->password = g_strdup (password);
+	gth_account_properties_dialog_construct (self, email, password, challange_url);
 
 	return (GtkWidget *) self;
 }
@@ -117,19 +209,19 @@ gth_account_properties_dialog_new (const char *email,
 const char *
 gth_account_properties_dialog_get_email (GthAccountPropertiesDialog *self)
 {
-	return self->priv->email;
+	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("email_entry")));
 }
 
 
 const char *
 gth_account_properties_dialog_get_password (GthAccountPropertiesDialog *self)
 {
-	return self->priv->password;
+	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("password_entry")));
 }
 
 
 const char *
 gth_account_properties_dialog_get_challange (GthAccountPropertiesDialog *self)
 {
-	return self->priv->challange;
+	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("challenge_entry")));
 }

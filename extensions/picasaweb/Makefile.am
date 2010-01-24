@@ -19,13 +19,15 @@ libpicasaweb_la_SOURCES = 		\
 	gth-account-properties-dialog.c	\
 	gth-account-properties-dialog.h	\
 	main.c				\
+	picasa-web-album.c		\
+	picasa-web-album.h		\
 	picasa-web-service.c		\
 	picasa-web-service.h		\
 	preferences.h
 
-libpicasaweb_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libpicasaweb_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libpicasaweb_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libpicasaweb_la_LIBADD = $(GTHUMB_LIBS)
+libpicasaweb_la_LIBADD = $(GTHUMB_LIBS) 
 libpicasaweb_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

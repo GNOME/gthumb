@@ -50,7 +50,8 @@ struct _GthAccountPropertiesDialogClass {
 
 GType          gth_account_properties_dialog_get_type      (void);
 GtkWidget *    gth_account_properties_dialog_new           (const char *email,
-							    const char *password);
+							    const char *password,
+							    const char *challange);
 const char *   gth_account_properties_dialog_get_email     (GthAccountPropertiesDialog *self);
 const char *   gth_account_properties_dialog_get_password  (GthAccountPropertiesDialog *self);
 const char *   gth_account_properties_dialog_get_challange (GthAccountPropertiesDialog *self);

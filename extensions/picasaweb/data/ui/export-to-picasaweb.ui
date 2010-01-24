@@ -2,6 +2,34 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkListStore" id="account_liststore">
+    <columns>
+      <!-- column-name account -->
+      <column type="gchararray"/>
+      <!-- column-name type -->
+      <column type="gint"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name icon -->
+      <column type="gchararray"/>
+      <!-- column-name sensitive -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="album_liststore">
+    <columns>
+      <!-- column-name album -->
+      <column type="GObject"/>
+      <!-- column-name type -->
+      <column type="gint"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name icon -->
+      <column type="gchararray"/>
+      <!-- column-name sensitive -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="export_dialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Upload to Picasa Web Albums</property>
@@ -59,6 +87,7 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -74,6 +103,7 @@
                     <property name="use_underline">True</property>
                   </object>
                   <packing>
+                    <property name="expand">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -161,7 +191,6 @@
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -231,34 +260,6 @@
   <object class="GtkImage" id="upload_image">
     <property name="visible">True</property>
     <property name="stock">gtk-goto-top</property>
-  </object>
-  <object class="GtkListStore" id="album_liststore">
-    <columns>
-      <!-- column-name album data -->
-      <column type="gpointer"/>
-      <!-- column-name type -->
-      <column type="gint"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name icon name -->
-      <column type="gchararray"/>
-      <!-- column-name sensitive -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="account_liststore">
-    <columns>
-      <!-- column-name account data -->
-      <column type="gpointer"/>
-      <!-- column-name type -->
-      <column type="gint"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name icon name -->
-      <column type="gchararray"/>
-      <!-- column-name sensitive -->
-      <column type="gboolean"/>
-    </columns>
   </object>
   <object class="GtkDialog" id="choose_account_dialog">
     <property name="border_width">5</property>
