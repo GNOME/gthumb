@@ -632,12 +632,7 @@ get_toplevel (GtkWidget *widget)
   GtkWidget *toplevel;
 
   toplevel = gtk_widget_get_toplevel (widget);
-
-#if GTK_CHECK_VERSION (2, 19, 3)
-  if (!gtk_widget_is_toplevel (toplevel))
-#else
   if (!GTK_WIDGET_TOPLEVEL (toplevel))
-#endif
     return NULL;
   else
     return GTK_WINDOW (toplevel);
