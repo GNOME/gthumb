@@ -18,6 +18,8 @@ libpicasaweb_la_SOURCES = 		\
 	gth-account-chooser-dialog.h	\
 	gth-account-properties-dialog.c	\
 	gth-account-properties-dialog.h	\
+	gth-album-properties-dialog.c	\
+	gth-album-properties-dialog.h	\
 	main.c				\
 	picasa-web-album.c		\
 	picasa-web-album.h		\

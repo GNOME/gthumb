@@ -213,7 +213,6 @@ picasa_web_service_list_albums (PicasaWebService    *self,
 					list_albums_ready_cb,
 					self);
 
-	g_object_unref (msg);
 	g_free (url);
 }
 
@@ -302,7 +301,7 @@ picasa_web_service_create_album (PicasaWebService     *self,
 
 	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", self->priv->user_id, NULL);
 	msg = soup_message_new ("POST", url);
-	soup_message_set_response (msg, "text/xml", SOUP_MEMORY_TAKE, buffer, len);
+	soup_message_set_request (msg, ATOM_ENTRY_MIME_TYPE, SOUP_MEMORY_TAKE, buffer, len);
 	google_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
@@ -312,7 +311,6 @@ picasa_web_service_create_album (PicasaWebService     *self,
 					create_album_ready_cb,
 					self);
 
-	g_object_unref (msg);
 	g_free (url);
 	g_object_unref (doc);
 }
@@ -405,7 +403,7 @@ picasa_web_accounts_save_to_file (GList *accounts)
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
 	file = g_file_new_for_path (filename);
 	buffer = dom_document_dump (doc, &len);
-	g_write_file (file, FALSE, 0, buffer, len, NULL, NULL);
+	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE|G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);

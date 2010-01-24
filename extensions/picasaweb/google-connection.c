@@ -120,7 +120,6 @@ google_connection_init (GoogleConnection *self)
 	self->priv->challange_url = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
-
 }
 
 
@@ -231,9 +230,9 @@ get_keys_from_message_body (SoupBuffer *body)
 
 
 static void
-connect_cb (SoupSession *session,
-            SoupMessage *msg,
-            gpointer     user_data)
+connect_ready_cb (SoupSession *session,
+		  SoupMessage *msg,
+		  gpointer     user_data)
 {
 	GoogleConnection *self = user_data;
 	SoupBuffer       *body;
@@ -305,14 +304,12 @@ connect_cb (SoupSession *session,
 		self->priv->token = g_strdup (g_hash_table_lookup (keys, "Auth"));
 		g_simple_async_result_set_op_res_gboolean (self->priv->result, TRUE);
 	}
-	else {
+	else
 		g_simple_async_result_set_error (self->priv->result,
 						 SOUP_HTTP_ERROR,
 						 msg->status_code,
 						 "%s",
 						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (self->priv->result);
-	}
 
 	g_simple_async_result_complete_in_idle (self->priv->result);
 
@@ -373,9 +370,8 @@ google_connection_connect (GoogleConnection    *self,
 	msg = soup_form_request_new_from_hash ("POST",
 					       "https://www.google.com/accounts/ClientLogin",
 					       data_set);
-	soup_session_queue_message (self->priv->session, msg, connect_cb, self);
+	soup_session_queue_message (self->priv->session, msg, connect_ready_cb, self);
 
-	g_object_unref (msg);
 	g_hash_table_destroy (data_set);
 }
 

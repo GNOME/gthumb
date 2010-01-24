@@ -33,9 +33,6 @@ static gpointer parent_class = NULL;
 
 struct _GthAccountPropertiesDialogPrivate {
 	GtkBuilder   *builder;
-	char         *email;
-	char         *password;
-	char         *challange_url;
 	GCancellable *cancellable;
 };
 
@@ -47,9 +44,6 @@ gth_account_properties_dialog_finalize (GObject *object)
 
 	self = GTH_ACCOUNT_PROPERTIES_DIALOG (object);
 	_g_object_unref (self->priv->builder);
-	g_free (self->priv->email);
-	g_free (self->priv->password);
-	g_free (self->priv->challange_url);
 	g_object_unref (self->priv->cancellable);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -75,9 +69,6 @@ gth_account_properties_dialog_init (GthAccountPropertiesDialog *self)
 	GtkWidget *content;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCOUNT_PROPERTIES_DIALOG, GthAccountPropertiesDialogPrivate);
-	self->priv->email = NULL;
-	self->priv->password = NULL;
-	self->priv->challange_url = NULL;
 	self->priv->cancellable = g_cancellable_new ();
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-properties.ui", "picasaweb");
 
@@ -162,21 +153,15 @@ gth_account_properties_dialog_construct (GthAccountPropertiesDialog *self,
 					 const char                 *password,
 					 const char                 *challange_url)
 {
-	if (email != NULL) {
-		self->priv->email = g_strdup (email);
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("email_entry")), self->priv->email);
-	}
+	if (email != NULL)
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("email_entry")), email);
 
-	if (password != NULL) {
-		self->priv->password = g_strdup (password);
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("password_entry")), self->priv->password);
-	}
+	if (password != NULL)
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("password_entry")), password);
 
 	if (challange_url != NULL) {
 		char  *url;
 		GFile *file;
-
-		self->priv->challange_url = g_strdup (challange_url);
 
 		url = g_strconcat ("http://www.google.com/accounts/", challange_url, NULL);
 		file = g_file_new_for_uri (url);

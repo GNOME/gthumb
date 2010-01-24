@@ -29,6 +29,7 @@
 #include "dlg-export-to-picasaweb.h"
 #include "gth-account-chooser-dialog.h"
 #include "gth-account-properties-dialog.h"
+#include "gth-album-properties-dialog.h"
 #include "picasa-web-album.h"
 #include "picasa-web-service.h"
 
@@ -81,7 +82,6 @@ static void
 export_dialog_destroy_cb (GtkWidget  *widget,
 			  DialogData *data)
 {
-	picasa_web_accounts_save_to_file (data->albums);
 	if (data->conn != NULL)
 		gth_task_completed (GTH_TASK (data->conn), NULL);
 
@@ -93,7 +93,7 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	g_free (data->password);
 	g_free (data->email);
 	_g_string_list_free (data->accounts);
-	g_object_unref (data->builder);
+	_g_object_unref (data->builder);
 	g_free (data);
 }
 
@@ -112,6 +112,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
+		picasa_web_accounts_save_to_file (data->accounts);
 		gtk_widget_destroy (data->dialog);
 		break;
 
@@ -121,6 +122,31 @@ export_dialog_response_cb (GtkDialog *dialog,
 	default:
 		break;
 	}
+}
+
+
+static void
+update_album_list (DialogData *data)
+{
+	GtkTreeIter  iter;
+	GList       *scan;
+
+	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("album_liststore")));
+
+	for (scan = data->albums; scan; scan = scan->next) {
+		PicasaWebAlbum *album = scan->data;
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
+				    ALBUM_DATA_COLUMN, album,
+				    ALBUM_TYPE_COLUMN, ITEM_TYPE_ENTRY,
+				    ALBUM_ICON_COLUMN, "file-catalog",
+				    ALBUM_NAME_COLUMN, album->title,
+				    ALBUM_SENSITIVE_COLUMN, TRUE,
+				    -1);
+	}
+
+	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), data->albums != NULL);
 }
 
 
@@ -168,25 +194,11 @@ show_export_dialog (DialogData *data)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account);
 
-	/* Albums */
-
-	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("album_liststore")));
-
-	for (scan = data->albums; scan; scan = scan->next) {
-		PicasaWebAlbum *album = scan->data;
-
-		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
-		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
-				    ALBUM_DATA_COLUMN, album,
-				    ALBUM_TYPE_COLUMN, ITEM_TYPE_ENTRY,
-				    ALBUM_NAME_COLUMN, album->title,
-				    ALBUM_SENSITIVE_COLUMN, TRUE,
-				    -1);
-	}
-
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), data->albums != NULL);
+	update_album_list (data);
 
 	/**/
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE); /* FIXME */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -206,7 +218,7 @@ list_albums_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->albums);
 	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -471,6 +483,83 @@ account_combobox_row_separator_func (GtkTreeModel *model,
 }
 
 
+static void
+create_album_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	DialogData       *data = user_data;
+	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
+	PicasaWebAlbum   *album;
+	GError           *error = NULL;
+
+	album = picasa_web_service_create_album_finish (picasaweb, result, &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
+		return;
+	}
+
+	data->albums = g_list_append (data->albums, album);
+	update_album_list (data);
+}
+
+
+static void
+new_album_dialog_response_cb (GtkDialog *dialog,
+			      int        response_id,
+			      gpointer   user_data)
+{
+	DialogData *data = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_CANCEL:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		break;
+
+	case GTK_RESPONSE_OK:
+		{
+			PicasaWebAlbum *album;
+
+			album = picasa_web_album_new ();
+			picasa_web_album_set_title (album, gth_album_properties_dialog_get_name (GTH_ALBUM_PROPERTIES_DIALOG (dialog)));
+			album->access = gth_album_properties_dialog_get_access (GTH_ALBUM_PROPERTIES_DIALOG (dialog));
+			picasa_web_service_create_album (data->picasaweb,
+							 album,
+							 data->cancellable,
+							 create_album_ready_cb,
+							 data);
+
+			g_object_unref (album);
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+add_album_button_clicked_cb (GtkButton *button,
+			     gpointer   user_data)
+{
+	DialogData *data = user_data;
+	GtkWidget  *dialog;
+
+	dialog = gth_album_properties_dialog_new (NULL, PICASA_WEB_ACCESS_PUBLIC);  /* FIXME: use the current catalog/folder name as default value */
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (new_album_dialog_response_cb),
+			  data);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("New Album"));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+
+}
+
+
 void
 dlg_export_to_picasaweb (GthBrowser *browser)
 {
@@ -499,9 +588,14 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 			  "response",
 			  G_CALLBACK (export_dialog_response_cb),
 			  data);
+	g_signal_connect (GET_WIDGET ("add_album_button"),
+			  "clicked",
+			  G_CALLBACK (add_album_button_clicked_cb),
+			  data);
 
+	data->accounts = picasa_web_accounts_load_from_file ();
 	if (data->accounts != NULL) {
-		if (data->accounts->next == NULL) {
+		if (data->accounts->next != NULL) { /* FIXME: == */
 			data->email = g_strdup ((char *)data->accounts->data);
 			connect_to_server (data);
 		}
@@ -514,6 +608,7 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 					  G_CALLBACK (account_chooser_dialog_response_cb),
 					  data);
 
+			gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
 			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (browser));
 			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 			gtk_window_present (GTK_WINDOW (dialog));

@@ -32,6 +32,7 @@
 #include <gthumb.h>
 
 #define GOOGLE_SERVICE_PICASA_WEB_ALBUM "lh2"
+#define ATOM_ENTRY_MIME_TYPE "application/atom+xml; charset=UTF-8; type=entry"
 
 typedef enum {
 	GOOGLE_CONNECTION_ERROR_BAD_AUTHENTICATION,

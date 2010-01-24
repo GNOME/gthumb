@@ -24,12 +24,30 @@
 #include <glib/gi18n.h>
 #include "gth-account-chooser-dialog.h"
 
+#define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+
+
+typedef enum {
+	ITEM_TYPE_COMMAND,
+	ITEM_TYPE_ENTRY,
+	ITEM_TYPE_SEPARATOR
+} ItemType;
+
+
+enum {
+	ACCOUNT_DATA_COLUMN,
+	ACCOUNT_TYPE_COLUMN,
+	ACCOUNT_NAME_COLUMN,
+	ACCOUNT_ICON_COLUMN,
+	ACCOUNT_SENSITIVE_COLUMN
+};
+
 
 static gpointer parent_class = NULL;
 
 
 struct _GthAccountChooserDialogPrivate {
-	GList *accounts;
+	GtkBuilder *builder;
 };
 
 
@@ -39,7 +57,8 @@ gth_account_chooser_dialog_finalize (GObject *object)
 	GthAccountChooserDialog *self;
 
 	self = GTH_ACCOUNT_CHOOSER_DIALOG (object);
-	_g_string_list_free (self->priv->accounts);
+
+	_g_object_unref (self->priv->builder);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -61,8 +80,30 @@ gth_account_chooser_dialog_class_init (GthAccountChooserDialogClass *klass)
 static void
 gth_account_chooser_dialog_init (GthAccountChooserDialog *self)
 {
+	GtkWidget *content;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCOUNT_CHOOSER_DIALOG, GthAccountChooserDialogPrivate);
-	self->priv->accounts = NULL;
+	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-chooser.ui", "picasaweb");
+
+	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
+
+	content = _gtk_builder_get_widget (self->priv->builder, "account_chooser");
+	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
+
+	gtk_dialog_add_button (GTK_DIALOG (self),
+			       GTK_STOCK_NEW,
+			       GTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
+	gtk_dialog_add_button (GTK_DIALOG (self),
+			       GTK_STOCK_CANCEL,
+			       GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (self),
+			       GTK_STOCK_OK,
+			       GTK_RESPONSE_OK);
+	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }
 
 
@@ -94,13 +135,38 @@ gth_account_chooser_dialog_get_type (void)
 }
 
 
+static void
+gth_account_chooser_dialog_construct (GthAccountChooserDialog *self,
+				      GList                   *accounts)
+{
+	GtkTreeIter  iter;
+	GList       *scan;
+
+	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
+
+	for (scan = accounts; scan; scan = scan->next) {
+		char *account = scan->data;
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
+				    ACCOUNT_DATA_COLUMN, account,
+				    ACCOUNT_TYPE_COLUMN, ITEM_TYPE_ENTRY,
+				    ACCOUNT_NAME_COLUMN, account,
+				    ACCOUNT_SENSITIVE_COLUMN, TRUE,
+				    -1);
+	}
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), 0);
+}
+
+
 GtkWidget *
 gth_account_chooser_dialog_new (GList *accounts)
 {
 	GthAccountChooserDialog *self;
 
 	self = g_object_new (GTH_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
-	self->priv->accounts = _g_string_list_dup (accounts);
+	gth_account_chooser_dialog_construct (self, accounts);
 
 	return (GtkWidget *) self;
 }
