@@ -52,7 +52,7 @@ struct _GthAccountChooserDialogClass {
 
 GType          gth_account_chooser_dialog_get_type    (void);
 GtkWidget *    gth_account_chooser_dialog_new         (GList *accounts);
-const char *   gth_account_chooser_dialog_get_active  (GthAccountChooserDialog *self);
+char *         gth_account_chooser_dialog_get_active  (GthAccountChooserDialog *self);
 
 G_END_DECLS
 

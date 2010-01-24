@@ -172,9 +172,18 @@ gth_account_chooser_dialog_new (GList *accounts)
 }
 
 
-const char *
+char *
 gth_account_chooser_dialog_get_active (GthAccountChooserDialog *self)
 {
-	/* FIXME */
-	return NULL;
+	GtkTreeIter  iter;
+	char        *email;
+
+	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), &iter))
+		return NULL;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("account_liststore")), &iter,
+			    ACCOUNT_DATA_COLUMN, &email,
+			    -1);
+
+	return email;
 }

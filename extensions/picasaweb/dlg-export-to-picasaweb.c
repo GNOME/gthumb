@@ -452,7 +452,7 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 		g_free (data->challange);
 		data->challange = NULL;
 		g_free (data->email);
-		data->email = g_strdup (gth_account_chooser_dialog_get_active (GTH_ACCOUNT_CHOOSER_DIALOG (dialog)));
+		data->email = gth_account_chooser_dialog_get_active (GTH_ACCOUNT_CHOOSER_DIALOG (dialog));
 		if (data->email != NULL) {
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 			connect_to_server (data);
