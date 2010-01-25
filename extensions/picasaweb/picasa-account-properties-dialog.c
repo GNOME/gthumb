@@ -174,6 +174,14 @@ picasa_account_properties_dialog_construct (PicasaAccountPropertiesDialog *self,
 		g_object_unref (file);
 		g_free (url);
 	}
+
+	if (email == NULL)
+		gtk_widget_grab_focus (GET_WIDGET ("email_entry"));
+	else if (password == NULL)
+		gtk_widget_grab_focus (GET_WIDGET ("password_entry"));
+	else
+		gtk_widget_grab_focus (GET_WIDGET ("challenge_entry"));
+
 }
 
 

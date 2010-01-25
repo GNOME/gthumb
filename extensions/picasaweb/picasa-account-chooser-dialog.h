@@ -51,7 +51,8 @@ struct _PicasaAccountChooserDialogClass {
 };
 
 GType          picasa_account_chooser_dialog_get_type    (void);
-GtkWidget *    picasa_account_chooser_dialog_new         (GList *accounts);
+GtkWidget *    picasa_account_chooser_dialog_new         (GList      *accounts,
+							  const char *_default);
 char *         picasa_account_chooser_dialog_get_active  (PicasaAccountChooserDialog *self);
 
 G_END_DECLS

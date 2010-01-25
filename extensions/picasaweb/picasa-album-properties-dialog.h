@@ -49,11 +49,13 @@ struct _PicasaAlbumPropertiesDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType            picasa_album_properties_dialog_get_type      (void);
-GtkWidget *      picasa_album_properties_dialog_new           (const char                  *name,
-							       PicasaWebAccess              access);
-const char *     picasa_album_properties_dialog_get_name      (PicasaAlbumPropertiesDialog *self);
-PicasaWebAccess  picasa_album_properties_dialog_get_access    (PicasaAlbumPropertiesDialog *self);
+GType            picasa_album_properties_dialog_get_type        (void);
+GtkWidget *      picasa_album_properties_dialog_new             (const char                  *name,
+								 const char                  *description,
+							         PicasaWebAccess              access);
+const char *     picasa_album_properties_dialog_get_name        (PicasaAlbumPropertiesDialog *self);
+const char *     picasa_album_properties_dialog_get_description (PicasaAlbumPropertiesDialog *self);
+PicasaWebAccess  picasa_album_properties_dialog_get_access      (PicasaAlbumPropertiesDialog *self);
 
 G_END_DECLS
 

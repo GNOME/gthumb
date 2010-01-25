@@ -31,7 +31,7 @@
 struct _PicasaWebServicePrivate
 {
 	GoogleConnection *conn;
-	char             *user_id;
+	PicasaWebUser    *user;
 };
 
 
@@ -45,7 +45,7 @@ picasa_web_service_finalize (GObject *object)
 
 	self = PICASA_WEB_SERVICE (object);
 	_g_object_unref (self->priv->conn);
-	g_free (self->priv->user_id);
+	_g_object_unref (self->priv->user);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -69,7 +69,7 @@ picasa_web_service_init (PicasaWebService *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_WEB_SERVICE, PicasaWebServicePrivate);
 	self->priv->conn = NULL;
-	self->priv->user_id = g_strdup ("default");
+	self->priv->user = NULL;
 }
 
 
@@ -113,6 +113,13 @@ picasa_web_service_new (GoogleConnection *conn)
 }
 
 
+PicasaWebUser *
+picasa_web_service_get_user (PicasaWebService *self)
+{
+	return self->priv->user;
+}
+
+
 /* -- picasa_web_service_list_albums -- */
 
 
@@ -151,22 +158,17 @@ list_albums_ready_cb (SoupSession *session,
 
 		if (feed_node != NULL) {
 			DomElement     *node;
-			PicasaWebAlbum *album = NULL;
+			PicasaWebAlbum *album;
 
+			self->priv->user = picasa_web_user_new ();
+			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
+
+			album = NULL;
 			for (node = feed_node->first_child;
 			     node != NULL;
 			     node = node->next_sibling)
 			{
-				if (g_strcmp0 (node->tag_name, "id") == 0) { /* get the user id */
-					char *user_id;
-
-					user_id = strrchr (dom_element_get_inner_text (node), '/');
-					if (user_id != NULL) {
-						g_free (self->priv->user_id);
-						self->priv->user_id = g_strdup (user_id + 1);
-					}
-				}
-				else if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the album data */
+				if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the album data */
 					if (album != NULL)
 						albums = g_list_prepend (albums, album);
 					album = picasa_web_album_new ();
@@ -201,6 +203,8 @@ picasa_web_service_list_albums (PicasaWebService    *self,
 	SoupMessage *msg;
 
 	g_return_if_fail (user_id != NULL);
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
 
 	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", user_id, NULL);
 	msg = soup_message_new ("GET", url);
@@ -289,7 +293,9 @@ picasa_web_service_create_album (PicasaWebService     *self,
 	char        *url;
 	SoupMessage *msg;
 
-	g_return_if_fail (self->priv->user_id != NULL);
+	g_return_if_fail (self->priv->user != NULL);
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
 
 	doc = dom_document_new ();
 	entry = dom_domizable_create_element (DOM_DOMIZABLE (album), doc);
@@ -299,7 +305,7 @@ picasa_web_service_create_album (PicasaWebService     *self,
 	dom_element_append_child (DOM_ELEMENT (doc), entry);
 	buffer = dom_document_dump (doc, &len);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", self->priv->user_id, NULL);
+	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", self->priv->user->id, NULL);
 	msg = soup_message_new ("POST", url);
 	soup_message_set_request (msg, ATOM_ENTRY_MIME_TYPE, SOUP_MEMORY_TAKE, buffer, len);
 	google_connection_send_message (self->priv->conn,
@@ -332,7 +338,7 @@ picasa_web_service_create_album_finish (PicasaWebService  *service,
 
 
 GList *
-picasa_web_accounts_load_from_file (void)
+picasa_web_accounts_load_from_file (char **_default)
 {
 	GList       *accounts = NULL;
 	char        *filename;
@@ -364,6 +370,8 @@ picasa_web_accounts_load_from_file (void)
 					value = dom_element_get_attribute (child, "email");
 					if (value != NULL)
 						accounts = g_list_prepend (accounts, g_strdup (value));
+					if ((_default != NULL)  && (g_strcmp0 (dom_element_get_attribute (child, "default"), "1") == 0))
+						*_default = g_strdup (value);
 				}
 			}
 
@@ -380,7 +388,8 @@ picasa_web_accounts_load_from_file (void)
 
 
 void
-picasa_web_accounts_save_to_file (GList *accounts)
+picasa_web_accounts_save_to_file (GList      *accounts,
+				  const char *_default)
 {
 	DomDocument *doc;
 	DomElement  *root;
@@ -393,11 +402,17 @@ picasa_web_accounts_save_to_file (GList *accounts)
 	doc = dom_document_new ();
 	root = dom_document_create_element (doc, "accounts", NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), root);
-	for (scan = accounts; scan; scan = scan->next)
-		dom_element_append_child (root,
-					  dom_document_create_element (doc, "account",
-								       "email", (char *) scan->data,
-								       NULL));
+	for (scan = accounts; scan; scan = scan->next) {
+		const char *email = scan->data;
+		DomElement *node;
+
+		node = dom_document_create_element (doc, "account",
+						    "email", email,
+						    NULL);
+		if (g_strcmp0 (email, _default) == 0)
+			dom_element_set_attribute (node, "default", "1");
+		dom_element_append_child (root, node);
+	}
 
 	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);

@@ -116,23 +116,27 @@ picasa_album_properties_dialog_get_type (void)
 
 static void
 picasa_album_properties_dialog_construct (PicasaAlbumPropertiesDialog *self,
-				       const char               *name,
-				       PicasaWebAccess           access)
+				          const char                  *name,
+				          const char                  *description,
+				          PicasaWebAccess              access)
 {
 	if (name != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), name);
+	if (description != NULL)
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("description_entry")), description);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox")), (access == PICASA_WEB_ACCESS_PUBLIC) ? 0 : 1);
 }
 
 
 GtkWidget *
 picasa_album_properties_dialog_new (const char      *name,
-				 PicasaWebAccess  access)
+				    const char      *description,
+				    PicasaWebAccess  access)
 {
 	PicasaAlbumPropertiesDialog *self;
 
 	self = g_object_new (PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
-	picasa_album_properties_dialog_construct (self, name, access);
+	picasa_album_properties_dialog_construct (self, name, description, access);
 
 	return (GtkWidget *) self;
 }
@@ -142,6 +146,13 @@ const char *
 picasa_album_properties_dialog_get_name (PicasaAlbumPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry")));
+}
+
+
+const char *
+picasa_album_properties_dialog_get_description (PicasaAlbumPropertiesDialog *self)
+{
+	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("description_entry")));
 }
 
 

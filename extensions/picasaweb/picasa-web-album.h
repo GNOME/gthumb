@@ -54,31 +54,41 @@ struct _PicasaWebAlbum {
 	char            *id;
 	char            *title;
 	char            *summary;
+	char            *location;
 	char            *edit_url;
 	PicasaWebAccess  access;
 	int              n_photos;
+	int              n_photos_remaining;
+	goffset          used_bytes;
 };
 
 struct _PicasaWebAlbumClass {
 	GObjectClass parent_class;
 };
 
-GType             picasa_web_album_get_type     (void);
-PicasaWebAlbum *  picasa_web_album_new          (void);
-void              picasa_web_album_set_etag     (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_id       (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_title    (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_summary  (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_edit_url (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_access   (PicasaWebAlbum *self,
-						 const char     *value);
-void              picasa_web_album_set_n_photos (PicasaWebAlbum *self,
-						 const char     *value);
+GType             picasa_web_album_get_type          (void);
+PicasaWebAlbum *  picasa_web_album_new               (void);
+void              picasa_web_album_set_etag          (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_id            (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_title         (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_summary       (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_location      (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_edit_url      (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_access        (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_used_bytes    (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_n_photos      (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_n_photos_remaining
+						     (PicasaWebAlbum *self,
+						      const char     *value);
 
 G_END_DECLS
 

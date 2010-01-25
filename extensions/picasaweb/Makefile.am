@@ -17,6 +17,8 @@ libpicasaweb_la_SOURCES = 			\
 	main.c					\
 	picasa-account-chooser-dialog.c		\
 	picasa-account-chooser-dialog.h		\
+	picasa-account-manager-dialog.c		\
+	picasa-account-manager-dialog.h		\
 	picasa-account-properties-dialog.c	\
 	picasa-account-properties-dialog.h	\
 	picasa-album-properties-dialog.c	\
@@ -25,6 +27,8 @@ libpicasaweb_la_SOURCES = 			\
 	picasa-web-album.h			\
 	picasa-web-service.c			\
 	picasa-web-service.h			\
+	picasa-web-user.c			\
+	picasa-web-user.h			\
 	preferences.h
 
 libpicasaweb_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

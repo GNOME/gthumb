@@ -137,15 +137,21 @@ picasa_account_chooser_dialog_get_type (void)
 
 static void
 picasa_account_chooser_dialog_construct (PicasaAccountChooserDialog *self,
-				         GList                   *accounts)
+				         GList                      *accounts,
+				         const char                 *_default)
 {
 	GtkTreeIter  iter;
 	GList       *scan;
+	int          active = 0;
+	int          idx;
 
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
-	for (scan = accounts; scan; scan = scan->next) {
+	for (scan = accounts, idx = 0; scan; scan = scan->next, idx++) {
 		char *account = scan->data;
+
+		if (g_strcmp0 (account, _default) == 0)
+			active = idx;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
@@ -156,17 +162,18 @@ picasa_account_chooser_dialog_construct (PicasaAccountChooserDialog *self,
 				    -1);
 	}
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), 0);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), active);
 }
 
 
 GtkWidget *
-picasa_account_chooser_dialog_new (GList *accounts)
+picasa_account_chooser_dialog_new (GList      *accounts,
+				   const char *_default)
 {
 	PicasaAccountChooserDialog *self;
 
 	self = g_object_new (PICASA_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
-	picasa_account_chooser_dialog_construct (self, accounts);
+	picasa_account_chooser_dialog_construct (self, accounts, _default);
 
 	return (GtkWidget *) self;
 }

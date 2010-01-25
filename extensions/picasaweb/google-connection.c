@@ -357,6 +357,8 @@ google_connection_connect (GoogleConnection    *self,
 							user_data,
 							google_connection_connect);
 
+	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
+
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "accountType", "HOSTED_OR_GOOGLE");
 	g_hash_table_insert (data_set, "service", self->priv->service);

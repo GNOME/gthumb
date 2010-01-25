@@ -75,6 +75,8 @@ picasa_web_album_create_element (DomDomizable *base,
 		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->title, "title", "type", "text", NULL));
 	if (self->summary != NULL)
 		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->summary, "summary", "type", "text", NULL));
+	if (self->location != NULL)
+		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->location, "gphoto:location", NULL));
 
 	switch (self->access) {
 	case PICASA_WEB_ACCESS_ALL:
@@ -117,6 +119,8 @@ picasa_web_album_load_from_element (DomDomizable *base,
 	picasa_web_album_set_edit_url (self, NULL);
 	picasa_web_album_set_access (self, NULL);
 	self->n_photos = 0;
+	self->n_photos_remaining = 0;
+	self->used_bytes = 0;
 
 	picasa_web_album_set_etag (self, dom_element_get_attribute (element, "gd:etag"));
 	for (node = element->first_child; node; node = node->next_sibling) {
@@ -129,6 +133,9 @@ picasa_web_album_load_from_element (DomDomizable *base,
 		else if (g_strcmp0 (node->tag_name, "summary") == 0) {
 			picasa_web_album_set_summary (self, dom_element_get_inner_text (node));
 		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:location") == 0) {
+			picasa_web_album_set_location (self, dom_element_get_inner_text (node));
+		}
 		else if (g_strcmp0 (node->tag_name, "link") == 0) {
 			if (g_strcmp0 (dom_element_get_attribute (node, "rel"), "edit") == 0)
 				picasa_web_album_set_edit_url (self, dom_element_get_attribute (node, "href"));
@@ -138,6 +145,12 @@ picasa_web_album_load_from_element (DomDomizable *base,
 		}
 		else if (g_strcmp0 (node->tag_name, "gphoto:numphotos") == 0) {
 			picasa_web_album_set_n_photos (self, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:numphotosremaining") == 0) {
+			picasa_web_album_set_n_photos_remaining (self, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:bytesUsed") == 0) {
+			picasa_web_album_set_used_bytes (self, dom_element_get_inner_text (node));
 		}
 	}
 }
@@ -244,6 +257,17 @@ picasa_web_album_set_summary (PicasaWebAlbum *self,
 
 
 void
+picasa_web_album_set_location (PicasaWebAlbum *self,
+			       const char     *value)
+{
+	g_free (self->location);
+	self->location = NULL;
+	if (value != NULL)
+		self->location = g_strdup (value);
+}
+
+
+void
 picasa_web_album_set_edit_url (PicasaWebAlbum *self,
 			       const char     *value)
 {
@@ -274,6 +298,14 @@ picasa_web_album_set_access (PicasaWebAlbum *self,
 
 
 void
+picasa_web_album_set_used_bytes (PicasaWebAlbum *self,
+				 const char     *value)
+{
+	self->used_bytes = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
 picasa_web_album_set_n_photos (PicasaWebAlbum *self,
 			       const char     *value)
 {
@@ -281,4 +313,15 @@ picasa_web_album_set_n_photos (PicasaWebAlbum *self,
 		self->n_photos = atoi (value);
 	else
 		self->n_photos = 0;
+}
+
+
+void
+picasa_web_album_set_n_photos_remaining (PicasaWebAlbum *self,
+					 const char     *value)
+{
+	if (value != NULL)
+		self->n_photos_remaining = atoi (value);
+	else
+		self->n_photos_remaining = 0;
 }
