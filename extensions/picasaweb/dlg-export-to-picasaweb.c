@@ -27,9 +27,9 @@
 #endif /* HAVE_GNOME_KEYRING */
 #include <gthumb.h>
 #include "dlg-export-to-picasaweb.h"
-#include "gth-account-chooser-dialog.h"
-#include "gth-account-properties-dialog.h"
-#include "gth-album-properties-dialog.h"
+#include "picasa-account-chooser-dialog.h"
+#include "picasa-account-properties-dialog.h"
+#include "picasa-album-properties-dialog.h"
 #include "picasa-web-album.h"
 #include "picasa-web-service.h"
 
@@ -350,9 +350,9 @@ challange_account_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_OK:
 		g_free (data->email);
 		g_free (data->password);
-		data->email = g_strdup (gth_account_properties_dialog_get_email (GTH_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->password = g_strdup (gth_account_properties_dialog_get_password (GTH_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->challange = g_strdup (gth_account_properties_dialog_get_challange (GTH_ACCOUNT_PROPERTIES_DIALOG (dialog)));
+		data->email = g_strdup (picasa_account_properties_dialog_get_email (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
+		data->password = g_strdup (picasa_account_properties_dialog_get_password (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
+		data->challange = g_strdup (picasa_account_properties_dialog_get_challange (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		connect_to_server (data);
 		break;
@@ -368,7 +368,7 @@ challange_account_dialog (DialogData *data)
 {
 	GtkWidget *dialog;
 
-	dialog = gth_account_properties_dialog_new (data->email, data->password, google_connection_get_challange_url (data->conn));
+	dialog = picasa_account_properties_dialog_new (data->email, data->password, google_connection_get_challange_url (data->conn));
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (challange_account_dialog_response_cb),
@@ -402,8 +402,8 @@ new_account_dialog_response_cb (GtkDialog *dialog,
 		g_free (data->email);
 		g_free (data->password);
 		g_free (data->challange);
-		data->email = g_strdup (gth_account_properties_dialog_get_email (GTH_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->password = g_strdup (gth_account_properties_dialog_get_password (GTH_ACCOUNT_PROPERTIES_DIALOG (dialog)));
+		data->email = g_strdup (picasa_account_properties_dialog_get_email (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
+		data->password = g_strdup (picasa_account_properties_dialog_get_password (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
 		data->challange = NULL;
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		connect_to_server (data);
@@ -420,7 +420,7 @@ new_account_dialog (DialogData *data)
 {
 	GtkWidget *dialog;
 
-	dialog = gth_account_properties_dialog_new (NULL, NULL, NULL);
+	dialog = picasa_account_properties_dialog_new (NULL, NULL, NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (new_account_dialog_response_cb),
@@ -452,14 +452,14 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 		g_free (data->challange);
 		data->challange = NULL;
 		g_free (data->email);
-		data->email = gth_account_chooser_dialog_get_active (GTH_ACCOUNT_CHOOSER_DIALOG (dialog));
+		data->email = picasa_account_chooser_dialog_get_active (PICASA_ACCOUNT_CHOOSER_DIALOG (dialog));
 		if (data->email != NULL) {
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 			connect_to_server (data);
 		}
 		break;
 
-	case GTH_ACCOUNT_CHOOSER_RESPONSE_NEW:
+	case PICASA_ACCOUNT_CHOOSER_RESPONSE_NEW:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		new_account_dialog (data);
 		break;
@@ -521,8 +521,8 @@ new_album_dialog_response_cb (GtkDialog *dialog,
 			PicasaWebAlbum *album;
 
 			album = picasa_web_album_new ();
-			picasa_web_album_set_title (album, gth_album_properties_dialog_get_name (GTH_ALBUM_PROPERTIES_DIALOG (dialog)));
-			album->access = gth_album_properties_dialog_get_access (GTH_ALBUM_PROPERTIES_DIALOG (dialog));
+			picasa_web_album_set_title (album, picasa_album_properties_dialog_get_name (PICASA_ALBUM_PROPERTIES_DIALOG (dialog)));
+			album->access = picasa_album_properties_dialog_get_access (PICASA_ALBUM_PROPERTIES_DIALOG (dialog));
 			picasa_web_service_create_album (data->picasaweb,
 							 album,
 							 data->cancellable,
@@ -546,7 +546,7 @@ add_album_button_clicked_cb (GtkButton *button,
 	DialogData *data = user_data;
 	GtkWidget  *dialog;
 
-	dialog = gth_album_properties_dialog_new (NULL, PICASA_WEB_ACCESS_PUBLIC);  /* FIXME: use the current catalog/folder name as default value */
+	dialog = picasa_album_properties_dialog_new (NULL, PICASA_WEB_ACCESS_PUBLIC);  /* FIXME: use the current catalog/folder name as default value */
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (new_album_dialog_response_cb),
@@ -602,7 +602,7 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 		else {
 			GtkWidget *dialog;
 
-			dialog = gth_account_chooser_dialog_new (data->accounts);
+			dialog = picasa_account_chooser_dialog_new (data->accounts);
 			g_signal_connect (dialog,
 					  "response",
 					  G_CALLBACK (account_chooser_dialog_response_cb),

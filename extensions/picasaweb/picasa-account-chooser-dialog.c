@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "gth-account-chooser-dialog.h"
+#include "picasa-account-chooser-dialog.h"
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
@@ -46,17 +46,17 @@ enum {
 static gpointer parent_class = NULL;
 
 
-struct _GthAccountChooserDialogPrivate {
+struct _PicasaAccountChooserDialogPrivate {
 	GtkBuilder *builder;
 };
 
 
 static void
-gth_account_chooser_dialog_finalize (GObject *object)
+picasa_account_chooser_dialog_finalize (GObject *object)
 {
-	GthAccountChooserDialog *self;
+	PicasaAccountChooserDialog *self;
 
-	self = GTH_ACCOUNT_CHOOSER_DIALOG (object);
+	self = PICASA_ACCOUNT_CHOOSER_DIALOG (object);
 
 	_g_object_unref (self->priv->builder);
 
@@ -65,24 +65,24 @@ gth_account_chooser_dialog_finalize (GObject *object)
 
 
 static void
-gth_account_chooser_dialog_class_init (GthAccountChooserDialogClass *klass)
+picasa_account_chooser_dialog_class_init (PicasaAccountChooserDialogClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthAccountChooserDialogPrivate));
+	g_type_class_add_private (klass, sizeof (PicasaAccountChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = gth_account_chooser_dialog_finalize;
+	object_class->finalize = picasa_account_chooser_dialog_finalize;
 }
 
 
 static void
-gth_account_chooser_dialog_init (GthAccountChooserDialog *self)
+picasa_account_chooser_dialog_init (PicasaAccountChooserDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCOUNT_CHOOSER_DIALOG, GthAccountChooserDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_ACCOUNT_CHOOSER_DIALOG, PicasaAccountChooserDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-chooser.ui", "picasaweb");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -96,7 +96,7 @@ gth_account_chooser_dialog_init (GthAccountChooserDialog *self)
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_NEW,
-			       GTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
+			       PICASA_ACCOUNT_CHOOSER_RESPONSE_NEW);
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
@@ -108,25 +108,25 @@ gth_account_chooser_dialog_init (GthAccountChooserDialog *self)
 
 
 GType
-gth_account_chooser_dialog_get_type (void)
+picasa_account_chooser_dialog_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (GthAccountChooserDialogClass),
+			sizeof (PicasaAccountChooserDialogClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_account_chooser_dialog_class_init,
+			(GClassInitFunc) picasa_account_chooser_dialog_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (GthAccountChooserDialog),
+			sizeof (PicasaAccountChooserDialog),
 			0,
-			(GInstanceInitFunc) gth_account_chooser_dialog_init,
+			(GInstanceInitFunc) picasa_account_chooser_dialog_init,
 			NULL
 		};
 		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthAccountChooserDialog",
+					       "PicasaAccountChooserDialog",
 					       &g_define_type_info,
 					       0);
 	}
@@ -136,8 +136,8 @@ gth_account_chooser_dialog_get_type (void)
 
 
 static void
-gth_account_chooser_dialog_construct (GthAccountChooserDialog *self,
-				      GList                   *accounts)
+picasa_account_chooser_dialog_construct (PicasaAccountChooserDialog *self,
+				         GList                   *accounts)
 {
 	GtkTreeIter  iter;
 	GList       *scan;
@@ -161,19 +161,19 @@ gth_account_chooser_dialog_construct (GthAccountChooserDialog *self,
 
 
 GtkWidget *
-gth_account_chooser_dialog_new (GList *accounts)
+picasa_account_chooser_dialog_new (GList *accounts)
 {
-	GthAccountChooserDialog *self;
+	PicasaAccountChooserDialog *self;
 
-	self = g_object_new (GTH_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
-	gth_account_chooser_dialog_construct (self, accounts);
+	self = g_object_new (PICASA_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
+	picasa_account_chooser_dialog_construct (self, accounts);
 
 	return (GtkWidget *) self;
 }
 
 
 char *
-gth_account_chooser_dialog_get_active (GthAccountChooserDialog *self)
+picasa_account_chooser_dialog_get_active (PicasaAccountChooserDialog *self)
 {
 	GtkTreeIter  iter;
 	char        *email;

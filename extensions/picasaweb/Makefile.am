@@ -5,26 +5,26 @@ SUBDIRS = data
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libpicasaweb.la
 
-libpicasaweb_la_SOURCES = 		\
-	actions.c			\
-	actions.h			\
-	callbacks.c			\
-	callbacks.h			\
-	dlg-export-to-picasaweb.c	\
-	dlg-export-to-picasaweb.h	\
-	google-connection.c		\
-	google-connection.h		\
-	gth-account-chooser-dialog.c	\
-	gth-account-chooser-dialog.h	\
-	gth-account-properties-dialog.c	\
-	gth-account-properties-dialog.h	\
-	gth-album-properties-dialog.c	\
-	gth-album-properties-dialog.h	\
-	main.c				\
-	picasa-web-album.c		\
-	picasa-web-album.h		\
-	picasa-web-service.c		\
-	picasa-web-service.h		\
+libpicasaweb_la_SOURCES = 			\
+	actions.c				\
+	actions.h				\
+	callbacks.c				\
+	callbacks.h				\
+	dlg-export-to-picasaweb.c		\
+	dlg-export-to-picasaweb.h		\
+	google-connection.c			\
+	google-connection.h			\
+	main.c					\
+	picasa-account-chooser-dialog.c		\
+	picasa-account-chooser-dialog.h		\
+	picasa-account-properties-dialog.c	\
+	picasa-account-properties-dialog.h	\
+	picasa-album-properties-dialog.c	\
+	picasa-album-properties-dialog.h	\
+	picasa-web-album.c			\
+	picasa-web-album.h			\
+	picasa-web-service.c			\
+	picasa-web-service.h			\
 	preferences.h
 
 libpicasaweb_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

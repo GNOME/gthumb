@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "gth-album-properties-dialog.h"
+#include "picasa-album-properties-dialog.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -31,17 +31,17 @@
 static gpointer parent_class = NULL;
 
 
-struct _GthAlbumPropertiesDialogPrivate {
+struct _PicasaAlbumPropertiesDialogPrivate {
 	GtkBuilder *builder;
 };
 
 
 static void
-gth_album_properties_dialog_finalize (GObject *object)
+picasa_album_properties_dialog_finalize (GObject *object)
 {
-	GthAlbumPropertiesDialog *self;
+	PicasaAlbumPropertiesDialog *self;
 
-	self = GTH_ALBUM_PROPERTIES_DIALOG (object);
+	self = PICASA_ALBUM_PROPERTIES_DIALOG (object);
 	_g_object_unref (self->priv->builder);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -49,24 +49,24 @@ gth_album_properties_dialog_finalize (GObject *object)
 
 
 static void
-gth_album_properties_dialog_class_init (GthAlbumPropertiesDialogClass *klass)
+picasa_album_properties_dialog_class_init (PicasaAlbumPropertiesDialogClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthAlbumPropertiesDialogPrivate));
+	g_type_class_add_private (klass, sizeof (PicasaAlbumPropertiesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = gth_album_properties_dialog_finalize;
+	object_class->finalize = picasa_album_properties_dialog_finalize;
 }
 
 
 static void
-gth_album_properties_dialog_init (GthAlbumPropertiesDialog *self)
+picasa_album_properties_dialog_init (PicasaAlbumPropertiesDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ALBUM_PROPERTIES_DIALOG, GthAlbumPropertiesDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, PicasaAlbumPropertiesDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-album-properties.ui", "picasaweb");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -87,25 +87,25 @@ gth_album_properties_dialog_init (GthAlbumPropertiesDialog *self)
 
 
 GType
-gth_album_properties_dialog_get_type (void)
+picasa_album_properties_dialog_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (GthAlbumPropertiesDialogClass),
+			sizeof (PicasaAlbumPropertiesDialogClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_album_properties_dialog_class_init,
+			(GClassInitFunc) picasa_album_properties_dialog_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (GthAlbumPropertiesDialog),
+			sizeof (PicasaAlbumPropertiesDialog),
 			0,
-			(GInstanceInitFunc) gth_album_properties_dialog_init,
+			(GInstanceInitFunc) picasa_album_properties_dialog_init,
 			NULL
 		};
 		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthAlbumPropertiesDialog",
+					       "PicasaAlbumPropertiesDialog",
 					       &g_define_type_info,
 					       0);
 	}
@@ -115,7 +115,7 @@ gth_album_properties_dialog_get_type (void)
 
 
 static void
-gth_album_properties_dialog_construct (GthAlbumPropertiesDialog *self,
+picasa_album_properties_dialog_construct (PicasaAlbumPropertiesDialog *self,
 				       const char               *name,
 				       PicasaWebAccess           access)
 {
@@ -126,27 +126,27 @@ gth_album_properties_dialog_construct (GthAlbumPropertiesDialog *self,
 
 
 GtkWidget *
-gth_album_properties_dialog_new (const char      *name,
+picasa_album_properties_dialog_new (const char      *name,
 				 PicasaWebAccess  access)
 {
-	GthAlbumPropertiesDialog *self;
+	PicasaAlbumPropertiesDialog *self;
 
-	self = g_object_new (GTH_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
-	gth_album_properties_dialog_construct (self, name, access);
+	self = g_object_new (PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
+	picasa_album_properties_dialog_construct (self, name, access);
 
 	return (GtkWidget *) self;
 }
 
 
 const char *
-gth_album_properties_dialog_get_name (GthAlbumPropertiesDialog *self)
+picasa_album_properties_dialog_get_name (PicasaAlbumPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry")));
 }
 
 
 PicasaWebAccess
-gth_album_properties_dialog_get_access (GthAlbumPropertiesDialog *self)
+picasa_album_properties_dialog_get_access (PicasaAlbumPropertiesDialog *self)
 {
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox"))) == 0)
 		return PICASA_WEB_ACCESS_PUBLIC;

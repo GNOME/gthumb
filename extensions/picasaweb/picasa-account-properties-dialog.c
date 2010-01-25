@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "gth-account-properties-dialog.h"
+#include "picasa-account-properties-dialog.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -31,18 +31,18 @@
 static gpointer parent_class = NULL;
 
 
-struct _GthAccountPropertiesDialogPrivate {
+struct _PicasaAccountPropertiesDialogPrivate {
 	GtkBuilder   *builder;
 	GCancellable *cancellable;
 };
 
 
 static void
-gth_account_properties_dialog_finalize (GObject *object)
+picasa_account_properties_dialog_finalize (GObject *object)
 {
-	GthAccountPropertiesDialog *self;
+	PicasaAccountPropertiesDialog *self;
 
-	self = GTH_ACCOUNT_PROPERTIES_DIALOG (object);
+	self = PICASA_ACCOUNT_PROPERTIES_DIALOG (object);
 	_g_object_unref (self->priv->builder);
 	g_object_unref (self->priv->cancellable);
 
@@ -51,24 +51,24 @@ gth_account_properties_dialog_finalize (GObject *object)
 
 
 static void
-gth_account_properties_dialog_class_init (GthAccountPropertiesDialogClass *klass)
+picasa_account_properties_dialog_class_init (PicasaAccountPropertiesDialogClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthAccountPropertiesDialogPrivate));
+	g_type_class_add_private (klass, sizeof (PicasaAccountPropertiesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = gth_account_properties_dialog_finalize;
+	object_class->finalize = picasa_account_properties_dialog_finalize;
 }
 
 
 static void
-gth_account_properties_dialog_init (GthAccountPropertiesDialog *self)
+picasa_account_properties_dialog_init (PicasaAccountPropertiesDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCOUNT_PROPERTIES_DIALOG, GthAccountPropertiesDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_ACCOUNT_PROPERTIES_DIALOG, PicasaAccountPropertiesDialogPrivate);
 	self->priv->cancellable = g_cancellable_new ();
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-properties.ui", "picasaweb");
 
@@ -93,25 +93,25 @@ gth_account_properties_dialog_init (GthAccountPropertiesDialog *self)
 
 
 GType
-gth_account_properties_dialog_get_type (void)
+picasa_account_properties_dialog_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (GthAccountPropertiesDialogClass),
+			sizeof (PicasaAccountPropertiesDialogClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_account_properties_dialog_class_init,
+			(GClassInitFunc) picasa_account_properties_dialog_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (GthAccountPropertiesDialog),
+			sizeof (PicasaAccountPropertiesDialog),
 			0,
-			(GInstanceInitFunc) gth_account_properties_dialog_init,
+			(GInstanceInitFunc) picasa_account_properties_dialog_init,
 			NULL
 		};
 		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthAccountPropertiesDialog",
+					       "PicasaAccountPropertiesDialog",
 					       &g_define_type_info,
 					       0);
 	}
@@ -126,7 +126,7 @@ image_buffer_ready_cb (void     *buffer,
 		       GError   *error,
 		       gpointer  user_data)
 {
-	GthAccountPropertiesDialog *self = user_data;
+	PicasaAccountPropertiesDialog *self = user_data;
 	GInputStream               *stream;
 	GdkPixbuf                  *pixbuf;
 
@@ -148,10 +148,10 @@ image_buffer_ready_cb (void     *buffer,
 
 
 static void
-gth_account_properties_dialog_construct (GthAccountPropertiesDialog *self,
-					 const char                 *email,
-					 const char                 *password,
-					 const char                 *challange_url)
+picasa_account_properties_dialog_construct (PicasaAccountPropertiesDialog *self,
+					    const char                 *email,
+					    const char                 *password,
+					    const char                 *challange_url)
 {
 	if (email != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("email_entry")), email);
@@ -178,35 +178,35 @@ gth_account_properties_dialog_construct (GthAccountPropertiesDialog *self,
 
 
 GtkWidget *
-gth_account_properties_dialog_new (const char *email,
-			           const char *password,
-				   const char *challange_url)
+picasa_account_properties_dialog_new (const char *email,
+			              const char *password,
+				      const char *challange_url)
 {
-	GthAccountPropertiesDialog *self;
+	PicasaAccountPropertiesDialog *self;
 
-	self = g_object_new (GTH_TYPE_ACCOUNT_PROPERTIES_DIALOG, NULL);
-	gth_account_properties_dialog_construct (self, email, password, challange_url);
+	self = g_object_new (PICASA_TYPE_ACCOUNT_PROPERTIES_DIALOG, NULL);
+	picasa_account_properties_dialog_construct (self, email, password, challange_url);
 
 	return (GtkWidget *) self;
 }
 
 
 const char *
-gth_account_properties_dialog_get_email (GthAccountPropertiesDialog *self)
+picasa_account_properties_dialog_get_email (PicasaAccountPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("email_entry")));
 }
 
 
 const char *
-gth_account_properties_dialog_get_password (GthAccountPropertiesDialog *self)
+picasa_account_properties_dialog_get_password (PicasaAccountPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("password_entry")));
 }
 
 
 const char *
-gth_account_properties_dialog_get_challange (GthAccountPropertiesDialog *self)
+picasa_account_properties_dialog_get_challange (PicasaAccountPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("challenge_entry")));
 }
