@@ -225,7 +225,7 @@ picasa_web_service_list_albums_finish (PicasaWebService  *service,
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
 	else
-		return g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
 
 
@@ -262,7 +262,7 @@ create_album_ready_cb (SoupSession *session,
 
 		album = picasa_web_album_new ();
 		dom_domizable_load_from_element (DOM_DOMIZABLE (album), DOM_ELEMENT (doc)->first_child);
-		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) _g_object_list_unref);
+		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) g_object_unref);
 	}
 	else {
 		g_simple_async_result_set_from_error (result, error);
@@ -324,7 +324,7 @@ picasa_web_service_create_album_finish (PicasaWebService  *service,
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
 	else
-		return g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
 
 
