@@ -57,6 +57,7 @@ enum {
 
 typedef struct {
 	GthBrowser       *browser;
+	GList            *file_list;
 	GtkBuilder       *builder;
 	GtkWidget        *dialog;
 	GtkWidget        *progress_dialog;
@@ -89,6 +90,7 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->user);
 	_g_string_list_free (data->accounts);
 	_g_object_unref (data->builder);
+	_g_object_list_unref (data->file_list);
 	g_free (data);
 }
 
@@ -112,6 +114,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 		break;
 
 	case GTK_RESPONSE_OK:
+		/* FIXME */
 		break;
 
 	default:
@@ -711,10 +714,17 @@ albums_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 
 
 void
-dlg_export_to_picasaweb (GthBrowser *browser)
+dlg_export_to_picasaweb (GthBrowser *browser,
+		         GList      *file_list)
 {
 	DialogData       *data;
+	GtkWidget        *list_view;
 	GtkTreeSelection *selection;
+	GList            *scan;
+	int               n_total;
+	goffset           total_size;
+	char             *total_size_formatted;
+	char             *text;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -722,7 +732,55 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
 
+	data->file_list = NULL;
+	n_total = 0;
+	total_size = 0;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		const char  *mime_type;
+
+		mime_type = gth_file_data_get_mime_type (file_data);
+		if (g_content_type_equals (mime_type, "image/bmp")
+		    || g_content_type_equals (mime_type, "image/gif")
+		    || g_content_type_equals (mime_type, "image/jpeg")
+		    || g_content_type_equals (mime_type, "image/png"))
+		{
+			GthFileData *new_file_data;
+
+			new_file_data = gth_file_data_dup (file_data);
+			new_file_data->thumb_loaded = FALSE;
+			total_size += g_file_info_get_size (new_file_data->info);
+			n_total++;
+			data->file_list = g_list_prepend (data->file_list, new_file_data);
+		}
+	}
+
+	if (data->file_list == NULL) {
+		GError *error;
+
+		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
+		export_dialog_destroy_cb (NULL, data);
+		return;
+	}
+
+	total_size_formatted = g_format_size_for_display (total_size);
+	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, total_size_formatted);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text);
+	g_free (text);
+	g_free (total_size_formatted);
+
 	/* Set the widget data */
+
+	list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (list_view), 112);
+	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (list_view))), 0);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (list_view), TRUE);
+	gth_file_list_set_caption (GTH_FILE_LIST (list_view), "none");
+	gth_file_list_set_sort_func (GTH_FILE_LIST (list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
+	gtk_widget_show (list_view);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
+	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 

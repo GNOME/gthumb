@@ -25,6 +25,7 @@
 
 #include <gthumb.h>
 
-void dlg_export_to_picasaweb (GthBrowser *browser);
+void dlg_export_to_picasaweb (GthBrowser *browser,
+			      GList      *file_list);
 
 #endif /* DLG_EXPORT_TO_PICASAWEB_H */

@@ -102,6 +102,14 @@ gth_file_view_get_cursor (GthFileView *self)
 
 
 void
+gth_file_view_set_spacing (GthFileView *self,
+			   int          spacing)
+{
+	GTH_FILE_VIEW_GET_INTERFACE (self)->set_spacing (self, spacing);
+}
+
+
+void
 gth_file_view_enable_drag_source (GthFileView          *self,
 				  GdkModifierType       start_button_mask,
 				  const GtkTargetEntry *targets,
