@@ -1,5 +1,5 @@
-AC_PREREQ([2.57])
-AC_INIT([gthumb], [2.11.1], [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_PREREQ(2.63)
+AC_INIT([gthumb],[2.11.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 AM_INIT_AUTOMAKE([1.9 foreign])
 
 AC_CONFIG_HEADERS([config.h])
@@ -16,11 +16,18 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-AM_PROG_LIBTOOL
+LT_INIT
 
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
+
 AC_PROG_CC
-AM_PROG_CC_STDC
+AC_DIAGNOSE([obsolete],[AM_PROG_CC_STDC:
+	your code should no longer depend upon `am_cv_prog_cc_stdc', but upon
+	`ac_cv_prog_cc_stdc'.  Remove this warning and the assignment when
+	you adjust the code.  You can also remove the above call to
+	AC_PROG_CC if you already called it elsewhere.])
+am_cv_prog_cc_stdc=$ac_cv_prog_cc_stdc
+
 AM_PROG_CC_C_O
 AC_HEADER_STDC
 AC_C_BIGENDIAN
@@ -238,7 +245,7 @@ for option in $WARN_CFLAGS; do
 	SAVE_CFLAGS="$CFLAGS"
 	CFLAGS="$CFLAGS $option"
 	AC_MSG_CHECKING([whether gcc understands $option])
-	AC_TRY_COMPILE([], [], [has_option=yes], [has_option=no])
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[has_option=yes],[has_option=no])
 	if test x$has_option = xyes; then
 		WARNINGS="$WARNINGS $option"
 	fi
@@ -274,7 +281,7 @@ dnl ===========================================================================
 
 AC_MSG_CHECKING(TIFF Support)
 AC_ARG_ENABLE([tiff],
-	      [AC_HELP_STRING([--disable-tiff],[do not compile code that uses the libtiff library])],,
+	      [AS_HELP_STRING([--disable-tiff],[do not compile code that uses the libtiff library])],,
 	      [enable_tiff=yes])
 if test x$enable_tiff = xyes ; then
 	AC_CHECK_LIB(tiff, TIFFWriteScanline,
