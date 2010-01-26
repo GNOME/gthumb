@@ -39,16 +39,8 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
 
 
-typedef enum {
-	ITEM_TYPE_COMMAND,
-	ITEM_TYPE_ENTRY,
-	ITEM_TYPE_SEPARATOR
-} ItemType;
-
-
 enum {
 	ACCOUNT_EMAIL_COLUMN,
-	ACCOUNT_TYPE_COLUMN,
 	ACCOUNT_NAME_COLUMN,
 	ACCOUNT_ICON_COLUMN
 };
@@ -147,25 +139,9 @@ update_account_list (DialogData *data)
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_EMAIL_COLUMN, account,
-				    ACCOUNT_TYPE_COLUMN, ITEM_TYPE_ENTRY,
 				    ACCOUNT_NAME_COLUMN, account,
 				    -1);
 	}
-
-	/* FIXME
-	gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
-			    ACCOUNT_TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-			    -1);
-
-	gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
-			    ACCOUNT_EMAIL_COLUMN, NULL,
-			    ACCOUNT_TYPE_COLUMN, ITEM_TYPE_COMMAND,
-			    ACCOUNT_ICON_COLUMN, GTK_STOCK_EDIT,
-			    ACCOUNT_NAME_COLUMN, _("Edit Accounts..."),
-			    -1);
-	*/
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account);
 }
@@ -533,19 +509,6 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 }
 
 
-static gboolean
-account_combobox_row_separator_func (GtkTreeModel *model,
-				     GtkTreeIter  *iter,
-				     gpointer      data)
-{
-	int item_type;
-
-	gtk_tree_model_get (model, iter, ACCOUNT_TYPE_COLUMN, &item_type, -1);
-
-	return item_type == ITEM_TYPE_SEPARATOR;
-}
-
-
 static void
 create_album_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
@@ -629,7 +592,6 @@ auto_select_account (DialogData *data)
 	gtk_widget_hide (data->dialog);
 
 	if (data->accounts != NULL) {
-		/* FIXME: remove comment when done
 		if (data->email != NULL) {
 			connect_to_server (data);
 		}
@@ -637,7 +599,7 @@ auto_select_account (DialogData *data)
 			data->email = g_strdup ((char *)data->accounts->data);
 			connect_to_server (data);
 		}
-		else {*/
+		else {
 			GtkWidget *dialog;
 
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
@@ -650,7 +612,7 @@ auto_select_account (DialogData *data)
 			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
 			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 			gtk_window_present (GTK_WINDOW (dialog));
-		/*}*/
+		}
 	}
 	else
 		account_properties_dialog (data, NULL);
@@ -711,6 +673,32 @@ edit_accounts_button_clicked_cb (GtkButton *button,
 
 
 static void
+account_combobox_changed_cb (GtkComboBox *widget,
+			     gpointer     user_data)
+{
+	DialogData  *data = user_data;
+	GtkTreeIter  iter;
+	char        *email;
+
+	if (! gtk_combo_box_get_active_iter (widget, &iter))
+		return;
+
+	gtk_tree_model_get (gtk_combo_box_get_model (widget),
+			    &iter,
+			    ACCOUNT_EMAIL_COLUMN, &email,
+			    -1);
+
+	if (g_strcmp0 (email, data->email) != 0) {
+		g_free (data->email);
+		data->email = email;
+		auto_select_account (data);
+	}
+	else
+		g_free (email);
+}
+
+
+static void
 albums_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 				      gpointer          user_data)
 {
@@ -736,10 +724,6 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 
 	/* Set the widget data */
 
-	gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")),
-					      account_combobox_row_separator_func,
-					      data,
-					      NULL);
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
 	/* Set the signals handlers. */
@@ -759,6 +743,10 @@ dlg_export_to_picasaweb (GthBrowser *browser)
 	g_signal_connect (GET_WIDGET ("edit_accounts_button"),
 			  "clicked",
 			  G_CALLBACK (edit_accounts_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("account_combobox"),
+			  "changed",
+			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview")));

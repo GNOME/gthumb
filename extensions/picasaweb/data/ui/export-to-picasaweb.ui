@@ -20,11 +20,9 @@
     <columns>
       <!-- column-name email -->
       <column type="gchararray"/>
-      <!-- column-name type -->
-      <column type="gint"/>
       <!-- column-name name -->
       <column type="gchararray"/>
-      <!-- column-name icon name -->
+      <!-- column-name icon -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -83,13 +81,13 @@
                             <child>
                               <object class="GtkCellRendererPixbuf" id="cellrenderertext1"/>
                               <attributes>
-                                <attribute name="icon-name">3</attribute>
+                                <attribute name="icon-name">2</attribute>
                               </attributes>
                             </child>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext3"/>
                               <attributes>
-                                <attribute name="text">2</attribute>
+                                <attribute name="text">1</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -111,6 +109,7 @@
                             </child>
                           </object>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
