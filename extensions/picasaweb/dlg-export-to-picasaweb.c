@@ -58,6 +58,7 @@ enum {
 
 typedef struct {
 	GthBrowser       *browser;
+	GthFileData      *location;
 	GList            *file_list;
 	GtkBuilder       *builder;
 	GtkWidget        *dialog;
@@ -92,6 +93,7 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	_g_string_list_free (data->accounts);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
+	_g_object_unref (data->location);
 	g_free (data);
 }
 
@@ -142,6 +144,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			GtkTreeModel   *tree_model;
 			GtkTreeIter     iter;
 			PicasaWebAlbum *album;
+			GList          *file_list;
 
 			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
 				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
@@ -153,13 +156,16 @@ export_dialog_response_cb (GtkDialog *dialog,
 					    -1);
 
 			gth_task_dialog (GTH_TASK (data->conn), FALSE);
+
+			file_list = gth_file_data_list_to_file_list (data->file_list);
 			picasa_web_service_post_photos (data->picasaweb,
 							album,
-							data->file_list,
+							file_list,
 							data->cancellable,
 							post_photos_ready_cb,
 							data);
 
+			_g_object_list_unref (file_list);
 			g_object_unref (album);
 		}
 		break;
@@ -629,7 +635,9 @@ add_album_button_clicked_cb (GtkButton *button,
 	DialogData *data = user_data;
 	GtkWidget  *dialog;
 
-	dialog = picasa_album_properties_dialog_new (NULL, NULL, PICASA_WEB_ACCESS_PUBLIC);  /* FIXME: use the current catalog/folder name as default value */
+	dialog = picasa_album_properties_dialog_new (g_file_info_get_display_name (data->location->info),
+						     NULL,
+						     PICASA_WEB_ACCESS_PUBLIC);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (new_album_dialog_response_cb),
@@ -781,6 +789,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
+	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-picasaweb.ui", "picasaweb");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();

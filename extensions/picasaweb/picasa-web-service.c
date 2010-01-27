@@ -417,7 +417,8 @@ post_photo_file_buffer_ready_cb (void     *buffer,
 	GthFileData        *file_data;
 	SoupMultipart      *multipart;
 	const char         *filename;
-	char               *summary;
+	char               *value;
+	GObject            *metadata;
 	DomDocument        *doc;
 	DomElement         *entry;
 	char               *entry_buffer;
@@ -438,19 +439,42 @@ post_photo_file_buffer_ready_cb (void     *buffer,
 
 	/* the metadata part */
 
-	filename = g_file_info_get_display_name (file_data->info);
-	summary = gth_file_data_get_attribute_as_string (file_data, "general::description");
-	if (summary == NULL)
-		summary = gth_file_data_get_attribute_as_string (file_data, "general::title");
-
 	doc = dom_document_new ();
 	entry = dom_document_create_element (doc, "entry",
 					     "xmlns", "http://www.w3.org/2005/Atom",
+					     "xmlns:gphoto", "http://schemas.google.com/photos/2007",
+					     "xmlns:media", "http://search.yahoo.com/mrss/",
 					     NULL);
+
+	filename = g_file_info_get_display_name (file_data->info);
 	dom_element_append_child (entry,
 				  dom_document_create_element_with_text (doc, filename, "title", NULL));
+
+	value = gth_file_data_get_attribute_as_string (file_data, "general::description");
+	if (value == NULL)
+		value = gth_file_data_get_attribute_as_string (file_data, "general::title");
 	dom_element_append_child (entry,
-				  dom_document_create_element_with_text (doc, summary, "summary", NULL));
+				  dom_document_create_element_with_text (doc, value, "summary", NULL));
+
+	value = gth_file_data_get_attribute_as_string (file_data, "general::location");
+	if (value != NULL)
+		dom_element_append_child (entry,
+					  dom_document_create_element_with_text (doc, value, "gphoto:location", NULL));
+
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
+	if ((metadata != NULL) && GTH_IS_STRING_LIST (metadata))
+		value = gth_string_list_join (GTH_STRING_LIST (metadata), ", ");
+	if (value != NULL) {
+		DomElement *group;
+
+		group = dom_document_create_element (doc, "media:group", NULL);
+		dom_element_append_child (group,
+					  dom_document_create_element_with_text (doc, value, "media:keywords", NULL));
+		dom_element_append_child (entry, group);
+
+		g_free (value);
+	}
+
 	dom_element_append_child (entry,
 				  dom_document_create_element (doc, "category",
 							       "scheme", "http://schemas.google.com/g/2005#kind",
@@ -467,7 +491,6 @@ post_photo_file_buffer_ready_cb (void     *buffer,
 	soup_buffer_free (body);
 	soup_message_headers_free (headers);
 	g_object_unref (doc);
-	g_free (summary);
 
 	/* the file part */
 
@@ -526,10 +549,28 @@ picasa_wev_service_post_current_file (PicasaWebService *self)
 }
 
 
+static void
+post_photos_info_ready_cb (GList    *files,
+		           GError   *error,
+		           gpointer  user_data)
+{
+	PicasaWebService *self = user_data;
+
+	if (error != NULL) {
+		post_photos_done (self, error);
+		return;
+	}
+
+	self->priv->post_photos->file_list = _g_object_list_ref (files);
+	self->priv->post_photos->current = self->priv->post_photos->file_list;
+	picasa_wev_service_post_current_file (self);
+}
+
+
 void
 picasa_web_service_post_photos (PicasaWebService    *self,
 			        PicasaWebAlbum      *album,
-			        GList               *file_list, /* GthFileData list */
+			        GList               *file_list, /* GFile list */
 			        GCancellable        *cancellable,
 			        GAsyncReadyCallback  callback,
 			        gpointer             user_data)
@@ -543,7 +584,6 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
 	self->priv->post_photos->album = g_object_ref (album);
-	self->priv->post_photos->file_list = _g_object_list_ref (file_list);
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;
@@ -556,8 +596,13 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 		self->priv->post_photos->n_files += 1;
 	}
 
-	self->priv->post_photos->current = self->priv->post_photos->file_list;
-	picasa_wev_service_post_current_file (self);
+	_g_query_all_metadata_async (file_list,
+				     FALSE,
+				     TRUE,
+				     "*",
+				     self->priv->post_photos->cancellable,
+				     post_photos_info_ready_cb,
+				     self);
 }
 
 

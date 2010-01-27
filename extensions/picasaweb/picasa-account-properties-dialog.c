@@ -131,7 +131,7 @@ image_buffer_ready_cb (void     *buffer,
 	GdkPixbuf                  *pixbuf;
 
 	if (error != NULL) {
-		/* FIXME: show the error dialog */
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self), _("Could not load the file"), &error);
 		return;
 	}
 

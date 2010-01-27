@@ -27,7 +27,7 @@
 #include "google-connection.h"
 
 
-#define SOUP_LOG_LEVEL SOUP_LOGGER_LOG_BODY /* FIXME: set to SOUP_LOGGER_LOG_NONE when done */
+#define SOUP_LOG_LEVEL SOUP_LOGGER_LOG_NONE
 #define GTHUMB_SOURCE ("GNOME-" PACKAGE "-" VERSION)
 
 
