@@ -51,7 +51,8 @@ enum {
 	ALBUM_NAME_COLUMN,
 	ALBUM_ICON_COLUMN,
 	ALBUM_REMAINING_IMAGES_COLUMN,
-	ALBUM_USED_BYTES_COLUMN
+	ALBUM_USED_BYTES_COLUMN,
+	ALBUM_EMBLEM_COLUMN
 };
 
 
@@ -95,6 +96,29 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
+static void get_album_list (DialogData *data);
+
+
+static void
+post_photos_ready_cb (GObject      *source_object,
+		      GAsyncResult *result,
+		      gpointer      user_data)
+{
+	DialogData       *data = user_data;
+	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
+	GError           *error = NULL;
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+
+	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
+		return;
+	}
+
+	get_album_list (data);
+}
+
+
 static void
 export_dialog_response_cb (GtkDialog *dialog,
 			   int        response_id,
@@ -114,7 +138,30 @@ export_dialog_response_cb (GtkDialog *dialog,
 		break;
 
 	case GTK_RESPONSE_OK:
-		/* FIXME */
+		{
+			GtkTreeModel   *tree_model;
+			GtkTreeIter     iter;
+			PicasaWebAlbum *album;
+
+			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
+				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
+				return;
+			}
+
+			gtk_tree_model_get (tree_model, &iter,
+					    ALBUM_DATA_COLUMN, &album,
+					    -1);
+
+			gth_task_dialog (GTH_TASK (data->conn), FALSE);
+			picasa_web_service_post_photos (data->picasaweb,
+							album,
+							data->file_list,
+							data->cancellable,
+							post_photos_ready_cb,
+							data);
+
+			g_object_unref (album);
+		}
 		break;
 
 	default:
@@ -179,13 +226,19 @@ update_album_list (DialogData *data)
 				    ALBUM_NAME_COLUMN, album->title,
 				    ALBUM_REMAINING_IMAGES_COLUMN, n_photos_remaining,
 				    ALBUM_USED_BYTES_COLUMN, used_bytes,
+				    ALBUM_EMBLEM_COLUMN, "emblem-readonly",
 				    -1);
+
+		if (album->access == PICASA_WEB_ACCESS_PRIVATE)
+			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
+					    ALBUM_EMBLEM_COLUMN, "emblem-readonly",
+					    -1);
 
 		g_free (used_bytes);
 		g_free (n_photos_remaining);
 	}
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), data->albums != NULL);
+	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 }
 
 
@@ -583,7 +636,7 @@ add_album_button_clicked_cb (GtkButton *button,
 			  data);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Album"));
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
 }
@@ -669,7 +722,7 @@ edit_accounts_button_clicked_cb (GtkButton *button,
 			  data);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Accounts"));
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
 }
@@ -731,6 +784,31 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 	data->builder = _gtk_builder_new_from_file ("export-to-picasaweb.ui", "picasaweb");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
+
+	{
+		GtkTreeViewColumn *tree_column;
+		GtkCellRenderer   *renderer;
+
+		tree_column = GTK_TREE_VIEW_COLUMN (GET_WIDGET ("name_treeviewcolumn"));
+
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_tree_view_column_pack_start (tree_column, renderer, FALSE);
+		gtk_tree_view_column_set_attributes (tree_column, renderer,
+						     "icon-name", ALBUM_ICON_COLUMN,
+						     NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_tree_view_column_pack_start (tree_column, renderer, TRUE);
+		gtk_tree_view_column_set_attributes (tree_column, renderer,
+						     "text", ALBUM_NAME_COLUMN,
+						     NULL);
+
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_tree_view_column_pack_start (tree_column, renderer, FALSE);
+		gtk_tree_view_column_set_attributes (tree_column, renderer,
+						     "icon-name", ALBUM_EMBLEM_COLUMN,
+						     NULL);
+	}
 
 	data->file_list = NULL;
 	n_total = 0;

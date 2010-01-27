@@ -69,6 +69,15 @@ void                 picasa_web_service_create_album        (PicasaWebService   
 PicasaWebAlbum *     picasa_web_service_create_album_finish (PicasaWebService     *self,
 							     GAsyncResult         *result,
 							     GError              **error);
+void                 picasa_web_service_post_photos         (PicasaWebService     *self,
+							     PicasaWebAlbum       *album,
+							     GList                *file_list, /* GthFileData list */
+							     GCancellable         *cancellable,
+							     GAsyncReadyCallback   callback,
+							     gpointer              user_data);
+gboolean             picasa_web_service_post_photos_finish  (PicasaWebService     *self,
+							     GAsyncResult         *result,
+							     GError              **error);
 
 /* utilities */
 

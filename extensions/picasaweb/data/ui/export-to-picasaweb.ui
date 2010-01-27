@@ -2,6 +2,16 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkListStore" id="account_liststore">
+    <columns>
+      <!-- column-name email -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name icon -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="album_liststore">
     <columns>
       <!-- column-name data -->
@@ -14,15 +24,7 @@
       <column type="gchararray"/>
       <!-- column-name size -->
       <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="account_liststore">
-    <columns>
-      <!-- column-name email -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name icon -->
+      <!-- column-name emblem -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -39,10 +41,12 @@
           <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="border_width">5</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkVBox" id="images_box">
-                <property name="width_request">166</property>
+                <property name="width_request">460</property>
+                <property name="height_request">220</property>
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
@@ -58,7 +62,6 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -231,21 +234,9 @@
                                 <property name="rules_hint">True</property>
                                 <property name="search_column">1</property>
                                 <child>
-                                  <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                                  <object class="GtkTreeViewColumn" id="name_treeviewcolumn">
                                     <property name="title">Name</property>
                                     <property name="expand">True</property>
-                                    <child>
-                                      <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf1"/>
-                                      <attributes>
-                                        <attribute name="icon-name">2</attribute>
-                                      </attributes>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCellRendererText" id="cellrenderertext5"/>
-                                      <attributes>
-                                        <attribute name="text">1</attribute>
-                                      </attributes>
-                                    </child>
                                   </object>
                                 </child>
                                 <child>
@@ -318,6 +309,7 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">1</property>
               </packing>
             </child>

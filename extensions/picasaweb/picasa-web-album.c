@@ -284,13 +284,13 @@ picasa_web_album_set_access (PicasaWebAlbum *self,
 {
 	if (value == NULL)
 		self->access = PICASA_WEB_ACCESS_PRIVATE;
-	else if (strcmp (value, "all"))
+	else if (strcmp (value, "all") == 0)
 		self->access = PICASA_WEB_ACCESS_ALL;
-	else if (strcmp (value, "private"))
+	else if (strcmp (value, "private") == 0)
 		self->access = PICASA_WEB_ACCESS_PRIVATE;
-	else if (strcmp (value, "public"))
+	else if (strcmp (value, "public") == 0)
 		self->access = PICASA_WEB_ACCESS_PUBLIC;
-	else if (strcmp (value, "visible"))
+	else if (strcmp (value, "visible") == 0)
 		self->access = PICASA_WEB_ACCESS_VISIBLE;
 	else
 		self->access = PICASA_WEB_ACCESS_PRIVATE;
