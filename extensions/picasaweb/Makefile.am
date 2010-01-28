@@ -12,6 +12,8 @@ libpicasaweb_la_SOURCES = 			\
 	callbacks.h				\
 	dlg-export-to-picasaweb.c		\
 	dlg-export-to-picasaweb.h		\
+	dlg-import-from-picasaweb.c		\
+	dlg-import-from-picasaweb.h		\
 	google-connection.c			\
 	google-connection.h			\
 	main.c					\

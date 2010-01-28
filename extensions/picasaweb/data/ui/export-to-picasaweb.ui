@@ -30,7 +30,7 @@
   </object>
   <object class="GtkDialog" id="export_dialog">
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Upload to Picasa Web Albums</property>
+    <property name="title" translatable="yes">Export to Picasa Web Albums</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -49,7 +49,7 @@
                 <property name="height_request">220</property>
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
+                <property name="spacing">3</property>
                 <child>
                   <object class="GtkLabel" id="images_info_label">
                     <property name="visible">True</property>

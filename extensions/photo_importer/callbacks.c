@@ -36,17 +36,19 @@ static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
-"      <placeholder name='Misc_Actions'>"
-"        <menuitem action='File_Import'/>"
-"      </placeholder>"
+"      <menu name='Import' action='ImportMenu'>"
+"        <placeholder name='Misc_Actions'>"
+"          <menuitem action='File_ImportFromDevice'/>"
+"        </placeholder>"
+"      </menu>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Import", NULL,
-	  N_("_Import..."), NULL,
+	{ "File_ImportFromDevice", NULL,
+	  N_("_Removable Device..."), NULL,
 	  N_("Import photos and other files from a removable device"),
 	  G_CALLBACK (gth_browser_activate_action_import_files) },
 };

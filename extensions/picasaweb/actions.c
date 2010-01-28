@@ -25,6 +25,15 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "dlg-export-to-picasaweb.h"
+#include "dlg-import-from-picasaweb.h"
+
+
+void
+gth_browser_activate_action_import_picasaweb (GtkAction  *action,
+					      GthBrowser *browser)
+{
+	dlg_import_from_picasaweb (browser);
+}
 
 
 void

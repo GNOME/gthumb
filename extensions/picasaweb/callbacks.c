@@ -35,6 +35,11 @@ static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
+"      <menu name='Import' action='ImportMenu'>"
+"        <placeholder name='Web_Services'>"
+"          <menuitem action='File_Import_PicasaWeb'/>"
+"        </placeholder>"
+"      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Export_PicasaWeb'/>"
@@ -46,8 +51,12 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
+	{ "File_Import_PicasaWeb", NULL,
+	  N_("_Picasa Web Album..."), NULL,
+	  N_("Download photos from Picasa Web Album"),
+	  G_CALLBACK (gth_browser_activate_action_import_picasaweb) },
 	{ "File_Export_PicasaWeb", NULL,
-	  N_("Picasa Web Album..."), NULL,
+	  N_("_Picasa Web Album..."), NULL,
 	  N_("Upload photos to Picasa Web Album"),
 	  G_CALLBACK (gth_browser_activate_action_export_picasaweb) },
 };
