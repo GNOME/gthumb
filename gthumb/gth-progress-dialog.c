@@ -27,6 +27,7 @@
 
 #define DIALOG_WIDTH 450
 #define SHOW_DELAY 500
+#define PULSE_INTERVAL 500
 
 
 /* -- gth_task_progress -- */
@@ -51,6 +52,7 @@ struct _GthTaskProgress {
 	GtkWidget *cancel_button;
 	gulong     task_progress;
 	gulong     task_completed;
+	guint      pulse_event;
 };
 
 struct _GthTaskProgressClass {
@@ -65,6 +67,8 @@ gth_task_progress_finalize (GObject *base)
 {
 	GthTaskProgress *self = (GthTaskProgress *) base;
 
+	if (self->pulse_event != 0)
+		g_source_remove (self->pulse_event);
 	g_signal_handler_disconnect (self->task, self->task_progress);
 	g_signal_handler_disconnect (self->task, self->task_completed);
 	gth_task_cancel (self->task);
@@ -98,6 +102,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	GtkWidget     *image;
 
 	self->task = NULL;
+	self->pulse_event = 0;
 
 	vbox = gtk_vbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
@@ -168,6 +173,17 @@ gth_task_progress_get_type (void)
 }
 
 
+static gboolean
+task_pulse_cb (gpointer user_data)
+{
+	GthTaskProgress *self = user_data;
+
+	gtk_progress_bar_pulse (GTK_PROGRESS_BAR (self->fraction_progressbar));
+
+	return (self->pulse_event != 0);
+}
+
+
 static void
 task_progress_cb (GthTask    *task,
 		  const char *description,
@@ -182,10 +198,18 @@ task_progress_cb (GthTask    *task,
 		gtk_label_set_text (GTK_LABEL (self->description_label), description);
 	if (details != NULL)
 		gtk_label_set_text (GTK_LABEL (self->details_label), details);
-	if (pulse)
+	if (pulse) {
 		gtk_progress_bar_pulse (GTK_PROGRESS_BAR (self->fraction_progressbar));
-	else
+		if (self->pulse_event == 0)
+			self->pulse_event = gdk_threads_add_timeout (PULSE_INTERVAL, task_pulse_cb, self);
+	}
+	else {
+		if (self->pulse_event != 0) {
+			g_source_remove (self->pulse_event);
+			self->pulse_event = 0;
+		}
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (self->fraction_progressbar), fraction);
+	}
 }
 
 
@@ -199,6 +223,10 @@ task_completed_cb (GthTask  *task,
 {
 	GthTaskProgress *self = user_data;
 
+	if (self->pulse_event != 0) {
+		g_source_remove (self->pulse_event);
+		self->pulse_event = 0;
+	}
 	gth_progress_dialog_remove_child (GTH_PROGRESS_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (self))), GTK_WIDGET (self));
 }
 
