@@ -190,6 +190,7 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
+	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
 	self->priv->builder = _gtk_builder_new_from_file ("overwrite-dialog.ui", NULL);
 	box = _gtk_builder_get_widget (self->priv->builder, "overwrite_dialog_box");
