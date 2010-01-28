@@ -512,14 +512,14 @@
   <title>To View an Image</title>
     <para>
       In order to view an image just click on its thumbnail and the image will
-      be visualized in the viewer pane.  If the image doesn't fit the viewer
+      be visualized in the viewer pane.  If the image does not fit the viewer
       pane you can give more space to the viewer hiding the browser, this can
       be accomplished double-clicking on the thumbnails or pressing the
       <keycap>Return</keycap> key, pressing it
       again the browser will be displayed again.
       Another way of viewing a big image is to view it in full screen
       mode, type <keycombo><keycap>F</keycap></keycombo> to
-      activate/disactivate the full screen mode.
+      activate/deactivate the full screen mode.
     </para>
     <para>
       Mouse operations :
@@ -772,7 +772,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Change the color balancement.
+	        Change the color balancing.
 	      </para>
 	    </entry>
 	  </row>
@@ -1292,7 +1292,7 @@
   </para>
   <para>
     Image comments are displayed in the image list in italic text above the
-    image filename.  If the comment is too long the simbol "[..]" is
+    image filename.  If the comment is too long the symbol "[..]" is
     appended to the displayed part of the comment to signal you that
     the comment is not entirely visible, to view the whole comment use
     the image properties dialog that can be displayed using the
@@ -1413,7 +1413,7 @@
       </listitem>
       <listitem>
         <para>Click on <guibutton>Save</guibutton>. &app; assigns
-        the catories to the images.
+        the categories to the images.
         </para>
       </listitem>
     </orderedlist>
@@ -1446,7 +1446,7 @@
       </listitem>
       <listitem>
         <para>Click on <guibutton>Ok</guibutton>. &app; assigns
-        the catories to the folder.
+        the categories to the folder.
         </para>
       </listitem>
     </orderedlist>
@@ -1788,19 +1788,19 @@
             </row>
             <row valign="top">
               <entry><para>
-                <userinput>holiday ; rome</userinput>
+                <userinput>holiday ; Rome</userinput>
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images that have "holiday" OR
-                "rome" in the comment.
+                "Rome" in the comment.
               </para></entry>
             </row>
             <row valign="top">
               <entry><para>
-                <userinput>holiday in rome; my birthday</userinput>
+                <userinput>holiday in Rome; my birthday</userinput>
               </para></entry>
               <entry align="left"><para>
-                &app; searches for images that have "holiday in rome"
+                &app; searches for images that have "holiday in Rome"
 		OR "my birthday" in the comment.
               </para></entry>
             </row>
@@ -1839,20 +1839,20 @@
           <tbody>
             <row valign="top">
               <entry><para>
-                <userinput>rome</userinput>
+                <userinput>Rome</userinput>
               </para></entry>
               <entry align="left"><para>
-                &app; searches for images that have "rome" in the
+                &app; searches for images that have "Rome" in the
                 place field.
               </para></entry>
             </row>
             <row valign="top">
               <entry><para>
-                <userinput>paris; rome; london</userinput>
+                <userinput>Paris; Rome; London</userinput>
               </para></entry>
               <entry align="left"><para>
-                &app; searches for images that have "paris" OR
-                "rome" OR "london" in the place field.
+                &app; searches for images that have "Paris" OR
+                "Rome" OR "London" in the place field.
               </para></entry>
             </row>
           </tbody>
@@ -1899,8 +1899,8 @@
 	    <keycombo><keycap>K</keycap></keycombo>.
             </para>
 	    <para>
-	      You can choose to search for images that belongs to all
-	      the specified tags or at least to one of them,
+	      You can choose to search for images that belong to all
+	      the specified tags or at least to one of them, by 
 	      checking the corresponding option.
 	    </para>
             <para>
@@ -2101,7 +2101,7 @@
 	  </listitem>
 	  <listitem>
 	    <para><guilabel>Scaled</guilabel>: The image will be scaled to fill
-	      the screen mantaining the aspect ratio.</para>
+	      the screen maintaining the aspect ratio.</para>
 	  </listitem>
 	  <listitem>
 	    <para><guilabel>Stretched</guilabel>: The image will be scaled to
@@ -2421,7 +2421,7 @@
          A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be
 	 defined. These labels will appear at the top and bottom of every page
 	 in the album.  HTML markup may be used in headers and footers, as long
-	 every '&gt;', '&lt;', and '&amp;' character is preceeded by a
+	 every '&gt;', '&lt;', and '&amp;' character is preceded by a
 	 backslash.  For example, "&lt;hr/&gt;" must be written as
 	 "\&lt;hr/\&gt;".  Also, the sequence "%d" will be replaced by the
 	 current date.  To make a literal backslash ('\') or percent symbol
@@ -3015,7 +3015,7 @@
        <para>
          If the <guilabel>Rotate images physically</guilabel> checkbox is selected,
          and the imported photo contains an Exif orientation tag, the image data
-         will be physically transformed (losslessly) so that the viewed image
+         will be physically transformed (without loss) so that the viewed image
          looks the same as before but the orientation tag is reset to "top left".
          If this checkbox is not enabled, the image data and the orientation tag
          are both left unchanged. The image will be displayed identically by
