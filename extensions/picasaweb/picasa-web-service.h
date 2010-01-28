@@ -78,6 +78,14 @@ void                 picasa_web_service_post_photos         (PicasaWebService   
 gboolean             picasa_web_service_post_photos_finish  (PicasaWebService     *self,
 							     GAsyncResult         *result,
 							     GError              **error);
+void                 picasa_web_service_list_photos         (PicasaWebService     *self,
+							     PicasaWebAlbum       *album,
+						             GCancellable         *cancellable,
+						             GAsyncReadyCallback   callback,
+						             gpointer              user_data);
+GList *              picasa_web_service_list_photos_finish  (PicasaWebService     *self,
+							     GAsyncResult         *result,
+							     GError              **error);
 
 /* utilities */
 

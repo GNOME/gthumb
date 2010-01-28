@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include "picasa-web-types.h"
 
 G_BEGIN_DECLS
 
@@ -38,13 +39,6 @@ G_BEGIN_DECLS
 typedef struct _PicasaWebAlbum PicasaWebAlbum;
 typedef struct _PicasaWebAlbumClass PicasaWebAlbumClass;
 typedef struct _PicasaWebAlbumPrivate PicasaWebAlbumPrivate;
-
-typedef enum  {
-	PICASA_WEB_ACCESS_ALL,
-	PICASA_WEB_ACCESS_PRIVATE,
-	PICASA_WEB_ACCESS_PUBLIC,
-	PICASA_WEB_ACCESS_VISIBLE
-} PicasaWebAccess;
 
 struct _PicasaWebAlbum {
 	GObject parent_instance;

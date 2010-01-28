@@ -25,8 +25,11 @@ libpicasaweb_la_SOURCES = 			\
 	picasa-album-properties-dialog.h	\
 	picasa-web-album.c			\
 	picasa-web-album.h			\
+	picasa-web-photo.c			\
+	picasa-web-photo.h			\
 	picasa-web-service.c			\
 	picasa-web-service.h			\
+	picasa-web-types.h			\
 	picasa-web-user.c			\
 	picasa-web-user.h			\
 	preferences.h
