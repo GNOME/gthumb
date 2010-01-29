@@ -108,6 +108,21 @@ typedef enum {
 } GthOverwriteMode;
 
 
+typedef enum {
+	GTH_SUBFOLDER_TYPE_NONE = 0,
+        GTH_SUBFOLDER_TYPE_FILE_DATE,
+	GTH_SUBFOLDER_TYPE_CURRENT_DATE,
+} GthSubfolderType;
+
+
+typedef enum {
+	GTH_SUBFOLDER_FORMAT_YYYYMMDD,
+	GTH_SUBFOLDER_FORMAT_YYYYMM,
+	GTH_SUBFOLDER_FORMAT_YYYY,
+	GTH_SUBFOLDER_FORMAT_CUSTOM
+} GthSubfolderFormat;
+
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);

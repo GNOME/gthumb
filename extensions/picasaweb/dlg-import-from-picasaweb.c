@@ -61,6 +61,7 @@ typedef struct {
 	GthFileData      *location;
 	GtkBuilder       *builder;
 	GtkWidget        *dialog;
+	GtkWidget        *preferences_dialog;
 	GtkWidget        *progress_dialog;
 	GtkWidget        *file_list;
 	GList            *accounts;
@@ -860,6 +861,14 @@ file_list_selection_changed_cb (GtkIconView *iconview,
 }
 
 
+static void
+preferences_button_clicked_cb (GtkWidget  *widget,
+			       DialogData *data)
+{
+	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
+}
+
+
 void
 dlg_import_from_picasaweb (GthBrowser *browser)
 {
@@ -915,6 +924,9 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 
 	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
 
+	data->preferences_dialog = gth_import_preferences_dialog_new ();
+	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -940,6 +952,10 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
 			  "selection_changed",
 			  G_CALLBACK (file_list_selection_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("preferences_button"),
+			  "clicked",
+			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
 
 	data->accounts = picasa_web_accounts_load_from_file (&data->email);
