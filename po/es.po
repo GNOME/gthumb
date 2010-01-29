@@ -7,21 +7,22 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-01-18 22:19+0000\n"
-"PO-Revision-Date: 2010-01-19 22:59+0100\n"
+"POT-Creation-Date: 2010-01-28 21:45+0000\n"
+"PO-Revision-Date: 2010-01-29 08:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
@@ -200,7 +201,7 @@ msgstr "_Nombre del archivo:"
 #: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:259
 #: ../gthumb/gth-filter.c:331
 msgid "_Limit to"
-msgstr ""
+msgstr "_Limitar a"
 
 #: ../data/ui/filter-editor.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:3
@@ -280,7 +281,7 @@ msgstr "_General"
 
 #: ../data/ui/personalize-filters.ui.h:3
 msgid "_Other filters:"
-msgstr ""
+msgstr "_otros filtros:"
 
 #: ../data/ui/personalize-filters.ui.h:4
 msgid "gtk-close"
@@ -446,6 +447,7 @@ msgstr "Al iniciar:"
 #: ../data/ui/preferences.ui.h:33
 #: ../extensions/exiv2/gth-edit-exiv2-page.c:165
 #: ../extensions/gstreamer/main.c:34
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Other"
 msgstr "Otro"
 
@@ -549,20 +551,16 @@ msgid "_Bookmarks:"
 msgstr "_Marcadores:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#, fuzzy
-#| msgid "Location"
 msgid "_Location"
-msgstr "Lugar"
+msgstr "_Ubicación"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "_Nombre"
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:71
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not remove the bookmark"
-msgstr "No se pudo mover la imagen:"
+msgstr "No se pudo quitar el marcador"
 
 #: ../extensions/catalogs/actions.c:63
 #, fuzzy
@@ -610,10 +608,8 @@ msgid "Could not create the library"
 msgstr "No se pudo crear la biblioteca «%s»"
 
 #: ../extensions/catalogs/actions.c:335
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\""
 msgid "Could not remove the catalog"
-msgstr "No se pudo renombrar el catálogo «%s»"
+msgstr "No se pudo quitar el catálogo "
 
 #: ../extensions/catalogs/callbacks.c:99
 msgid "_Add to Catalog"
@@ -634,10 +630,8 @@ msgid "Other..."
 msgstr "Otro..."
 
 #: ../extensions/catalogs/callbacks.c:108
-#, fuzzy
-#| msgid "C_hoose from the catalog"
 msgid "Choose another catalog"
-msgstr "_Seleccione del catálogo"
+msgstr "Seleccione otro catálogo"
 
 #: ../extensions/catalogs/callbacks.c:112
 msgid "_Add to Catalog..."
@@ -653,7 +647,7 @@ msgstr "Eli_minar del catálogo"
 
 #: ../extensions/catalogs/callbacks.c:118
 msgid "Remove selected images from the catalog"
-msgstr "Eliminar las imágenes seleccionadas del catálogo"
+msgstr "Quitar las imágenes seleccionadas del catálogo"
 
 #: ../extensions/catalogs/callbacks.c:122
 msgid "Create _Catalog"
@@ -681,10 +675,8 @@ msgid "(Empty)"
 msgstr ""
 
 #: ../extensions/catalogs/callbacks.c:676
-#, fuzzy
-#| msgid "%s Properties"
 msgid "Catalog Properties"
-msgstr "Propiedades de %s"
+msgstr "Propiedades del catálogo"
 
 #: ../extensions/catalogs/callbacks.c:688
 msgid "Organize"
@@ -702,7 +694,7 @@ msgstr "Catálogos"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:2
 msgid "Create file collections."
-msgstr ""
+msgstr "Crear colecciones de archivos."
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
 #: ../extensions/comments/comments.extension.in.in.h:3
@@ -787,20 +779,16 @@ msgid "Organize Files"
 msgstr "Organizar archivos"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
-#, fuzzy
-#| msgid "Operation failed"
 msgid "Organizing files"
-msgstr "Falló la operación"
+msgstr "Organizando archivos"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
 msgid "Select All"
 msgstr "Seleccionar todo"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select None"
-msgstr "Seleccione una tipografía"
+msgstr "No seleccionar nada"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 msgid "Files will be organized in catalogs. No file will be moved on disk."
@@ -860,16 +848,12 @@ msgid "Could not add the files to the catalog"
 msgstr "No se pudo renombrar el catálogo «%s»"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:81
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\""
 msgid "Could not save the catalog"
-msgstr "No se pudo renombrar el catálogo «%s»"
+msgstr "No se pudo guardar el catálogo"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:167
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\""
 msgid "Could not load the catalog"
-msgstr "No se pudo renombrar el catálogo «%s»"
+msgstr "No se pudo cargar el catálogo"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:797
 #, fuzzy, c-format
@@ -942,10 +926,8 @@ msgid "Could not show the desktop background properties"
 msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
 
 #: ../extensions/desktop_background/callbacks.c:45
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set as Desktop Background"
-msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
+msgstr "Establecer como fondo del escritorio"
 
 #: ../extensions/desktop_background/callbacks.c:46
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
@@ -964,7 +946,7 @@ msgstr "Metadatos"
 
 #: ../extensions/edit_metadata/callbacks.c:91
 msgid "Edit file metadata"
-msgstr ""
+msgstr "Editar los metadatos del archivo"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 msgid "D_escription:"
@@ -1017,10 +999,8 @@ msgid "Current date"
 msgstr "Fecha actual"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:394
-#, fuzzy
-#| msgid "By day photo taken"
 msgid "Date photo was taken"
-msgstr "Fotos tomadas por día"
+msgstr "Fecha en que se tomó la foto"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:395
 msgid "Last modified date"
@@ -1090,7 +1070,7 @@ msgstr "_Origen:"
 
 #: ../extensions/exiv2/data/ui/edit-exiv2-page.ui.h:12
 msgid "_Urgency:"
-msgstr ""
+msgstr "_Urgencia:"
 
 #: ../extensions/exiv2/exiv2.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
@@ -1167,10 +1147,8 @@ msgid ""
 msgstr ""
 
 #: ../extensions/file_manager/actions.c:390
-#, fuzzy
-#| msgid "Could not delete the images:"
 msgid "Could not delete the files"
-msgstr "No se han podido borrar las imágenes:"
+msgstr "No se pudieron borrar los archivos"
 
 #: ../extensions/file_manager/actions.c:437
 #, fuzzy
@@ -1185,16 +1163,14 @@ msgstr ""
 "permanentemente?"
 
 #: ../extensions/file_manager/actions.c:447
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not move the files to the Trash"
-msgstr "No se han podido mover los elementos:"
+msgstr "No se pudieron mover los archivos a la papelera"
 
 #: ../extensions/file_manager/actions.c:484
 #: ../extensions/file_manager/actions.c:777
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr ""
+msgstr "¿Seguro que quiere borrar permanentemente «%s»?"
 
 #: ../extensions/file_manager/actions.c:487
 #, c-format
@@ -1367,17 +1343,17 @@ msgid "_Yellow-Blue:"
 msgstr "A_marillo-azul:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
-msgid "<b>Aspect ratio</b>"
-msgstr "<b>Proporciones</b>"
+msgid "Aspect ratio"
+msgstr "Proporción de aspecto"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:2
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
-msgid "<b>Selection</b>"
-msgstr "<b>Selección</b>"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 msgid "I_nvert aspect ratio"
 msgstr "I_nvertir la proporción de la imagen"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
+msgid "Selection"
+msgstr "Selección"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 msgid "_Crop"
@@ -1774,10 +1750,8 @@ msgid "Select Caption Font"
 msgstr "Seleccione una tipografía"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:23
-#, fuzzy
-#| msgid "_Top:"
 msgid "Top"
-msgstr "_Superior:"
+msgstr "Arriba"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
 msgid "Unit:"
@@ -1919,35 +1893,31 @@ msgstr "    "
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 #, fuzzy
 #| msgid "After _loading an image:"
-msgid "<b>After loading an image:</b>"
+msgid "After loading an image:"
 msgstr "D_espués de cargar una imagen:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-msgid "<b>Other</b>"
-msgstr "<b>Otro</b>"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-msgid "<b>Zoom quality</b>"
-msgstr "<b>Calidad de ampliación</b>"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "H_igh"
 msgstr "A_lta"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Lo_w"
 msgstr "Ba_ja"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
 #, fuzzy
 #| msgid "Reset scrollbar positions after loading an image"
 msgid "Reset scrollbar positions"
 msgstr ""
 "Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
 msgid "Transparency _type:"
 msgstr "Tipo de _transparencia:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+msgid "Zoom quality"
+msgstr "Calidad de la ampliación"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:170
 msgid "In"
@@ -2022,10 +1992,8 @@ msgid "Viewer"
 msgstr "Visor"
 
 #: ../extensions/list_tools/callbacks.c:65 ../gthumb/gth-filterbar.c:304
-#, fuzzy
-#| msgid "_Posterize..."
 msgid "Personalize..."
-msgstr "_Posterizar..."
+msgstr "_Personalizar..."
 
 #: ../extensions/list_tools/callbacks.c:230
 #: ../extensions/list_tools/callbacks.c:239
@@ -2242,26 +2210,20 @@ msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
 msgstr "Los valores posibles son: «mm», «in»."
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
-#, fuzzy
-#| msgid "_Destination:"
 msgid "Destination"
-msgstr "_Destino:"
+msgstr "Destino"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
 msgid "Files"
 msgstr "Archivos"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#, fuzzy
-#| msgid "_Import"
 msgid "Import"
-msgstr "_Importar"
+msgstr "Importar"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 #: ../gthumb/gth-filterbar.c:414
-#, fuzzy
-#| msgid "Sh_ow:"
 msgid "S_how:"
 msgstr "M_ostrar:"
 
@@ -2278,10 +2240,8 @@ msgid "_Delete the imported files from the source"
 msgstr "_Borrar las imágenes importadas de la cámara"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:8
-#, fuzzy
-#| msgid "Co_mment:"
 msgid "_Event:"
-msgstr "Co_mentario:"
+msgstr "_Evento:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:9
 msgid "_Import"
@@ -2330,10 +2290,8 @@ msgid "example: %s"
 msgstr "ejemplo: %s"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:694
-#, fuzzy
-#| msgid "File _name"
 msgid "File date"
-msgstr "_Nombre del archivo"
+msgstr "Fecha del archivo"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("files_label")), data->file_list);
 #: ../extensions/photo_importer/dlg-photo-importer.c:715
@@ -2345,10 +2303,8 @@ msgid "year-month"
 msgstr "año-mes"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:717
-#, fuzzy
-#| msgid "Search"
 msgid "year"
-msgstr "Buscar"
+msgstr "año"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:718
 #, fuzzy
@@ -2371,8 +2327,6 @@ msgid "Last imported"
 msgstr "Última modificación"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
-#, fuzzy
-#| msgid "Import Photos"
 msgid "Import photos"
 msgstr "Importar fotos"
 
@@ -2415,16 +2369,18 @@ msgid "_RLE compression"
 msgstr "Compresión _RLE"
 
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:2
-msgid "<b>Compression</b>"
-msgstr "<b>Compresión</b>"
+msgid "Compression"
+msgstr "Compresión"
 
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
-msgid "<b>Resolution</b>"
-msgstr "<b>Resolución</b>"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
 msgid "No_rmal (Deflate)"
 msgstr "No_rmal (sin compresión)"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+#, fuzzy
+#| msgid "<b>Resolution</b>"
+msgid "Resolution"
+msgstr "<b>Resolución</b>"
 
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
 msgid "_Horizontal:"
@@ -2447,7 +2403,7 @@ msgid "dpi"
 msgstr "dpi"
 
 #: ../extensions/pixbuf_savers/gth-jpeg-saver.c:479
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
 msgid "JPEG"
 msgstr "JPEG"
 
@@ -2683,12 +2639,14 @@ msgid "%"
 msgstr "%"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:4
-msgid "<b>New dimensions</b>"
-msgstr "<b>Dimensiones nuevas</b>"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
 msgid "Ask"
 msgstr "Preguntar"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+#, fuzzy
+#| msgid "<b>New dimensions</b>"
+msgid "New dimensions"
+msgstr "<b>Dimensiones nuevas</b>"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 #, fuzzy
@@ -3504,7 +3462,7 @@ msgstr "Nombre del archivo"
 msgid "No options available for this file type"
 msgstr ""
 
-#: ../gthumb/gth-progress-dialog.c:132
+#: ../gthumb/gth-progress-dialog.c:137
 #, fuzzy
 #| msgid "Caption"
 msgid "Cancel operation"
@@ -3676,6 +3634,15 @@ msgstr "Vista previa de la imagen"
 #| msgid "Could not duplicate the image \"%s\": %s"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "No se pudo duplicar la imagen «%s»: %s"
+
+#~ msgid "<b>Selection</b>"
+#~ msgstr "<b>Selección</b>"
+
+#~ msgid "<b>Other</b>"
+#~ msgstr "<b>Otro</b>"
+
+#~ msgid "<b>Compression</b>"
+#~ msgstr "<b>Compresión</b>"
 
 #, fuzzy
 #~| msgid "Importer"
