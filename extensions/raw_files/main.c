@@ -184,15 +184,14 @@ openraw_get_pixbuf_from_file (GthFileData  *file_data,
 
 static GdkPixbufAnimation *
 openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
-					GError      **error,
-					int           requested_width,
-					int           requested_height)
+					int           requested_size,
+					GError      **error)
 {
 	GdkPixbufAnimation *animation;
 	GdkPixbuf          *pixbuf;
 
-	if ((requested_width == 0) || (requested_height == 0))
-		pixbuf = openraw_extract_thumbnail_from_file (file_data, requested_width, error);
+	if (requested_size == 0)
+		pixbuf = openraw_extract_thumbnail_from_file (file_data, requested_size, error);
 	else
 		pixbuf = openraw_get_pixbuf_from_file (file_data, error);
 
@@ -272,9 +271,8 @@ get_file_mtime (const char *path)
 
 static GdkPixbufAnimation *
 openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
-					GError      **error,
-					int           requested_width,
-					int           requested_height)
+					int           requested_size,
+					GError      **error)
 {
 	GdkPixbufAnimation *animation;
 	GdkPixbuf          *pixbuf;
@@ -288,7 +286,7 @@ openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 	char	           *local_file_esc;
 	char	           *command = NULL;
 
-	is_thumbnail = requested_width > 0;
+	is_thumbnail = requested_size > 0;
 	is_raw = _g_mime_type_is_raw (gth_file_data_get_mime_type (file_data));
 	is_hdr = _g_mime_type_is_hdr (gth_file_data_get_mime_type (file_data));
 
@@ -383,8 +381,8 @@ openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 
 			if (is_thumbnail)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
-								  requested_width,
-								  requested_height);
+								  requested_size,
+								  requested_size);
 			else
 				resize_command = g_strdup_printf (" ");
 

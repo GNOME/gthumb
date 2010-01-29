@@ -30,4 +30,10 @@ typedef enum  {
 	PICASA_WEB_ACCESS_VISIBLE
 } PicasaWebAccess;
 
+typedef enum {
+	PICASA_WEB_THUMB_SIZE_SMALL = 72,
+	PICASA_WEB_THUMB_SIZE_MEDIUM = 144,
+	PICASA_WEB_THUMB_SIZE_LARGE = 288
+} PicasaWebThumbSize;
+
 #endif /* PICASA_WEB_TYPES_H */

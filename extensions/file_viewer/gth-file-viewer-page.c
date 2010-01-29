@@ -106,7 +106,7 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 		g_error_free (error);
 	}
 
-	self->priv->thumb_loader = gth_thumb_loader_new (128, 128);
+	self->priv->thumb_loader = gth_thumb_loader_new (128);
 	self->priv->thumb_loader_ready_event =
 			g_signal_connect (G_OBJECT (self->priv->thumb_loader),
 					  "ready",

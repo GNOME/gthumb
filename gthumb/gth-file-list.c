@@ -483,7 +483,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* thumbnail loader */
 
-	file_list->priv->thumb_loader = gth_thumb_loader_new (file_list->priv->thumb_size, file_list->priv->thumb_size);
+	file_list->priv->thumb_loader = gth_thumb_loader_new (file_list->priv->thumb_size);
 	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
 			  "ready",
 			  G_CALLBACK (thumb_loader_ready_cb),
@@ -710,6 +710,13 @@ gth_file_list_cancel (GthFileList *file_list,
 	file_list->priv->done_func = done_func;
 	file_list->priv->done_func_data = user_data;
 	gth_thumb_loader_cancel (file_list->priv->thumb_loader, cancel_step2, file_list);
+}
+
+
+GthThumbLoader *
+gth_file_list_get_thumb_loader (GthFileList *file_list)
+{
+	return file_list->priv->thumb_loader;
 }
 
 
@@ -1115,7 +1122,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 			      int          size)
 {
 	file_list->priv->thumb_size = size;
-	gth_thumb_loader_set_thumb_size (file_list->priv->thumb_loader, size, size);
+	gth_thumb_loader_set_requested_size (file_list->priv->thumb_loader, size);
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);

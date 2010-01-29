@@ -50,8 +50,17 @@ struct _PicasaWebPhoto {
 	char            *title;
 	char            *summary;
 	char            *uri;
+	char            *mime_type;
 	PicasaWebAccess  access;
+	char            *credit;
+	char            *description;
 	char            *keywords;
+	char            *thumbnail_72;
+	char            *thumbnail_144;
+	char            *thumbnail_288;
+	float            position;
+	guint32          rotation;
+	goffset          size;
 };
 
 struct _PicasaWebPhotoClass {
@@ -72,9 +81,27 @@ void              picasa_web_photo_set_summary       (PicasaWebPhoto *self,
 						      const char     *value);
 void              picasa_web_photo_set_uri           (PicasaWebPhoto *self,
 						      const char     *value);
+void              picasa_web_photo_set_mime_type     (PicasaWebPhoto *self,
+						      const char     *value);
 void              picasa_web_photo_set_access        (PicasaWebPhoto *self,
 						      const char     *value);
+void              picasa_web_photo_set_credit        (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_description   (PicasaWebPhoto *self,
+						      const char     *value);
 void              picasa_web_photo_set_keywords      (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_thumbnail_72  (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_thumbnail_144 (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_thumbnail_288 (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_position      (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_rotation      (PicasaWebPhoto *self,
+						      const char     *value);
+void              picasa_web_photo_set_size          (PicasaWebPhoto *self,
 						      const char     *value);
 
 G_END_DECLS

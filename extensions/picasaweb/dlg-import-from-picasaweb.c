@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#define GDK_PIXBUF_ENABLE_BACKEND
 #include <gtk/gtk.h>
 #ifdef HAVE_GNOME_KEYRING
 #include <gnome-keyring.h>
@@ -32,6 +33,7 @@
 #include "picasa-account-properties-dialog.h"
 #include "picasa-album-properties-dialog.h"
 #include "picasa-web-album.h"
+#include "picasa-web-photo.h"
 #include "picasa-web-service.h"
 #include "picasa-web-user.h"
 
@@ -60,13 +62,14 @@ typedef struct {
 	GtkBuilder       *builder;
 	GtkWidget        *dialog;
 	GtkWidget        *progress_dialog;
-	GtkWidget        *list_view;
+	GtkWidget        *file_list;
 	GList            *accounts;
 	PicasaWebUser    *user;
 	char             *email;
 	char             *password;
 	char             *challange;
 	GList            *albums;
+	GList            *photos;
 	GoogleConnection *conn;
 	PicasaWebService *picasaweb;
 	GCancellable     *cancellable;
@@ -83,6 +86,7 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->picasaweb);
 	_g_object_unref (data->conn);
 	_g_object_list_unref (data->albums);
+	_g_object_list_unref (data->photos);
 	g_free (data->challange);
 	g_free (data->password);
 	g_free (data->email);
@@ -214,16 +218,23 @@ update_album_list (DialogData *data)
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("album_liststore")));
 	for (scan = data->albums; scan; scan = scan->next) {
 		PicasaWebAlbum *album = scan->data;
+		char           *used_bytes;
+
+		used_bytes = g_format_size_for_display (album->used_bytes);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
 				    ALBUM_DATA_COLUMN, album,
 				    ALBUM_ICON_COLUMN, "file-catalog",
 				    ALBUM_NAME_COLUMN, album->title,
+				    ALBUM_SIZE_COLUMN, used_bytes,
 				    -1);
+
+		g_free (used_bytes);
 	}
 
 	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), -1);
 }
 
 
@@ -268,6 +279,7 @@ get_album_list (DialogData *data)
 {
 	if (data->picasaweb == NULL)
 		data->picasaweb = picasa_web_service_new (data->conn);
+	gth_task_dialog (GTH_TASK (data->conn), FALSE);
 	picasa_web_service_list_albums (data->picasaweb,
 				        "default",
 				        data->cancellable,
@@ -662,10 +674,197 @@ account_combobox_changed_cb (GtkComboBox *widget,
 }
 
 
+static void
+update_selection_status (DialogData *data)
+{
+	GthFileView *file_view;
+	GList       *selected;
+	GList       *file_list;
+	int          n_selected;
+	goffset      size_selected;
+	GList       *scan;
+	char        *size_selected_formatted;
+	char        *text_selected;
+
+	file_view = (GthFileView *) gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
+	selected = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
+	if (selected != NULL)
+		file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), selected);
+	else
+		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (file_view)));
+	n_selected = 0;
+	size_selected = 0;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		n_selected++;
+		size_selected += g_file_info_get_size (file_data->info);
+	}
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (selected);
+
+	size_selected_formatted = g_format_size_for_display (size_selected);
+	text_selected = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_selected), n_selected, size_selected_formatted);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text_selected);
+
+	g_free (text_selected);
+	g_free (size_selected_formatted);
+}
+
+
+static void
+list_photos_ready_cb (GObject      *source_object,
+		      GAsyncResult *result,
+		      gpointer      user_data)
+{
+	DialogData       *data = user_data;
+	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
+	GError           *error = NULL;
+	GList            *list;
+	GList            *scan;
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	_g_object_list_unref (data->photos);
+	data->photos = picasa_web_service_list_albums_finish (picasaweb, result, &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
+		gtk_widget_destroy (data->dialog);
+		return;
+	}
+
+	list = NULL;
+	for (scan = data->photos; scan; scan = scan->next) {
+		PicasaWebPhoto *photo = scan->data;
+		GthFileData    *file_data;
+
+		file_data = gth_file_data_new_for_uri (photo->uri, photo->mime_type);
+		g_file_info_set_file_type (file_data->info, G_FILE_TYPE_REGULAR);
+		g_file_info_set_size (file_data->info, photo->size);
+		g_file_info_set_attribute_object (file_data->info, "gphoto::object", G_OBJECT (photo));
+
+		list = g_list_prepend (list, file_data);
+	}
+	gth_file_list_set_files (GTH_FILE_LIST (data->file_list), list);
+	update_selection_status (data);
+	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), list != NULL);
+
+	_g_object_list_unref (list);
+}
+
+
+static void
+album_combobox_changed_cb (GtkComboBox *widget,
+			   gpointer     user_data)
+{
+	DialogData     *data = user_data;
+	GtkTreeIter     iter;
+	PicasaWebAlbum *album;
+
+	if (! gtk_combo_box_get_active_iter (widget, &iter)) {
+		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("No album selected"));
+		return;
+	}
+
+	gtk_tree_model_get (gtk_combo_box_get_model (widget),
+			    &iter,
+			    ALBUM_DATA_COLUMN, &album,
+			    -1);
+
+	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	picasa_web_service_list_photos (data->picasaweb,
+					album,
+					data->cancellable,
+					list_photos_ready_cb,
+					data);
+
+	g_object_unref (album);
+}
+
+
+GdkPixbufAnimation *
+picasa_web_thumbnail_loader (GthFileData  *file_data,
+			     GError      **error,
+			     gpointer      data)
+{
+	GdkPixbufAnimation *animation = NULL;
+	GthThumbLoader     *thumb_loader = data;
+	int                 requested_size;
+	PicasaWebPhoto     *photo;
+	const char         *uri;
+
+	photo = (PicasaWebPhoto *) g_file_info_get_attribute_object (file_data->info, "gphoto::object");
+	requested_size = gth_thumb_loader_get_requested_size (thumb_loader);
+	if (requested_size == 72)
+		uri = photo->thumbnail_72;
+	else if (requested_size == 144)
+		uri = photo->thumbnail_144;
+	else if (requested_size == 288)
+		uri = photo->thumbnail_288;
+	else
+		uri = NULL;
+
+	if (uri == NULL)
+		uri = photo->uri;
+
+	if (uri != NULL) {
+		GFile *file;
+		void  *buffer;
+		gsize  size;
+
+		file = g_file_new_for_uri (uri);
+		if (g_load_file_in_buffer (file, &buffer, &size, error)) {
+			GInputStream *stream;
+			GdkPixbuf    *pixbuf;
+
+			stream = g_memory_input_stream_new_from_data (buffer, size, g_free);
+			pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
+			if (pixbuf != NULL)
+				animation = gdk_pixbuf_non_anim_new (pixbuf);
+
+			g_object_unref (stream);
+		}
+
+		g_object_unref (file);
+	}
+	else
+		*error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
+
+	return animation;
+}
+
+
+static int
+picasa_web_photo_position_func (GthFileData *a,
+			        GthFileData *b)
+{
+	PicasaWebPhoto *photo_a;
+	PicasaWebPhoto *photo_b;
+
+	photo_a = (PicasaWebPhoto *) g_file_info_get_attribute_object (a->info, "gphoto::object");
+	photo_b = (PicasaWebPhoto *) g_file_info_get_attribute_object (b->info, "gphoto::object");
+
+	if (photo_a->position == photo_b->position)
+		return strcmp (photo_a->title, photo_b->title);
+	else if (photo_a->position > photo_b->position)
+		return 1;
+	else
+		return -1;
+}
+
+
+static void
+file_list_selection_changed_cb (GtkIconView *iconview,
+				gpointer     user_data)
+{
+	update_selection_status ((DialogData *) user_data);
+}
+
+
 void
 dlg_import_from_picasaweb (GthBrowser *browser)
 {
-	DialogData *data;
+	DialogData     *data;
+	GthThumbLoader *thumb_loader;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -701,14 +900,18 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 
 	/* Set the widget data */
 
-	data->list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION);
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
-	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->list_view))), 0);
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
-	gth_file_list_set_caption (GTH_FILE_LIST (data->list_view), "none");
-	gth_file_list_set_sort_func (GTH_FILE_LIST (data->list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
-	gtk_widget_show (data->list_view);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
+	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
+	thumb_loader = gth_file_list_get_thumb_loader (GTH_FILE_LIST (data->file_list));
+	gth_thumb_loader_use_cache (thumb_loader, FALSE);
+	gth_thumb_loader_set_loader (thumb_loader, picasa_web_thumbnail_loader);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), PICASA_WEB_THUMB_SIZE_SMALL);
+	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))), 0);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
+	gth_file_list_set_caption (GTH_FILE_LIST (data->file_list), "none");
+	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), picasa_web_photo_position_func, FALSE);
+	gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("No album selected"));
+	gtk_widget_show (data->file_list);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->file_list, TRUE, TRUE, 0);
 
 	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
 
@@ -730,12 +933,14 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
-	/* FIXME
 	g_signal_connect (GET_WIDGET ("album_combobox"),
 			  "changed",
 			  G_CALLBACK (album_combobox_changed_cb),
 			  data);
-	*/
+	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
+			  "selection_changed",
+			  G_CALLBACK (file_list_selection_changed_cb),
+			  data);
 
 	data->accounts = picasa_web_accounts_load_from_file (&data->email);
 	auto_select_account (data);

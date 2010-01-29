@@ -103,7 +103,12 @@ picasa_web_photo_create_element (DomDomizable *base,
 		DomElement *group;
 
 		group = dom_document_create_element (doc, "media:group", NULL);
-		dom_element_append_child (group, dom_document_create_element_with_text (doc, self->keywords, "media:keywords", NULL));
+		if (self->credit != NULL)
+			dom_element_append_child (group, dom_document_create_element_with_text (doc, self->credit, "media:credit", NULL));
+		if (self->description != NULL)
+			dom_element_append_child (group, dom_document_create_element_with_text (doc, self->description, "media:description", "type", "plain", NULL));
+		if (self->keywords != NULL)
+			dom_element_append_child (group, dom_document_create_element_with_text (doc, self->keywords, "media:keywords", NULL));
 		dom_element_append_child (element, group);
 	}
 
@@ -150,6 +155,7 @@ picasa_web_photo_load_from_element (DomDomizable *base,
 		}
 		else if (g_strcmp0 (node->tag_name, "content") == 0) {
 			picasa_web_photo_set_uri (self, dom_element_get_attribute (node, "src"));
+			picasa_web_photo_set_mime_type (self, dom_element_get_attribute (node, "type"));
 		}
 		else if (g_strcmp0 (node->tag_name, "gphoto:access") == 0) {
 			picasa_web_photo_set_access (self, dom_element_get_inner_text (node));
@@ -158,11 +164,42 @@ picasa_web_photo_load_from_element (DomDomizable *base,
 			DomElement *child;
 
 			for (child = node->first_child; child; child = child->next_sibling) {
+				if (g_strcmp0 (child->tag_name, "media:credit") == 0) {
+					picasa_web_photo_set_credit (self, dom_element_get_inner_text (child));
+					break;
+				}
+				if (g_strcmp0 (child->tag_name, "media:description") == 0) {
+					picasa_web_photo_set_description (self, dom_element_get_inner_text (child));
+					break;
+				}
 				if (g_strcmp0 (child->tag_name, "media:keywords") == 0) {
 					picasa_web_photo_set_keywords (self, dom_element_get_inner_text (child));
 					break;
 				}
+				if (g_strcmp0 (child->tag_name, "media:thumbnail") == 0) {
+					int width;
+					int height;
+
+					width = atoi (dom_element_get_attribute (child, "width"));
+					height = atoi (dom_element_get_attribute (child, "height"));
+
+					if ((width <= 72) && (height <= 72))
+						picasa_web_photo_set_thumbnail_72 (self, dom_element_get_attribute (child, "url"));
+					else if ((width <= 144) && (height <= 144))
+						picasa_web_photo_set_thumbnail_144 (self, dom_element_get_attribute (child, "url"));
+					else if ((width <= 288) && (height <= 288))
+						picasa_web_photo_set_thumbnail_288 (self, dom_element_get_attribute (child, "url"));
+				}
 			}
+		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:position") == 0) {
+			picasa_web_photo_set_position (self, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:rotation") == 0) {
+			picasa_web_photo_set_rotation (self, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "gphoto:size") == 0) {
+			picasa_web_photo_set_size (self, dom_element_get_inner_text (node));
 		}
 	}
 }
@@ -291,6 +328,17 @@ picasa_web_photo_set_uri (PicasaWebPhoto *self,
 
 
 void
+picasa_web_photo_set_mime_type (PicasaWebPhoto *self,
+				const char     *value)
+{
+	g_free (self->mime_type);
+	self->mime_type = NULL;
+	if (value != NULL)
+		self->mime_type = g_strdup (value);
+}
+
+
+void
 picasa_web_photo_set_access (PicasaWebPhoto *self,
 			     const char     *value)
 {
@@ -310,6 +358,28 @@ picasa_web_photo_set_access (PicasaWebPhoto *self,
 
 
 void
+picasa_web_photo_set_credit (PicasaWebPhoto *self,
+			     const char     *value)
+{
+	g_free (self->credit);
+	self->credit = NULL;
+	if (value != NULL)
+		self->credit = g_strdup (value);
+}
+
+
+void
+picasa_web_photo_set_description (PicasaWebPhoto *self,
+				  const char     *value)
+{
+	g_free (self->description);
+	self->description = NULL;
+	if (value != NULL)
+		self->description = g_strdup (value);
+}
+
+
+void
 picasa_web_photo_set_keywords (PicasaWebPhoto *self,
 			       const char     *value)
 {
@@ -317,4 +387,61 @@ picasa_web_photo_set_keywords (PicasaWebPhoto *self,
 	self->keywords = NULL;
 	if (value != NULL)
 		self->keywords = g_strdup (value);
+}
+
+
+void
+picasa_web_photo_set_thumbnail_72 (PicasaWebPhoto *self,
+				   const char     *value)
+{
+	g_free (self->thumbnail_72);
+	self->thumbnail_72 = NULL;
+	if (value != NULL)
+		self->thumbnail_72 = g_strdup (value);
+}
+
+
+void
+picasa_web_photo_set_thumbnail_144 (PicasaWebPhoto *self,
+				    const char     *value)
+{
+	g_free (self->thumbnail_144);
+	self->thumbnail_144 = NULL;
+	if (value != NULL)
+		self->thumbnail_144 = g_strdup (value);
+}
+
+
+void
+picasa_web_photo_set_thumbnail_288 (PicasaWebPhoto *self,
+				    const char     *value)
+{
+	g_free (self->thumbnail_288);
+	self->thumbnail_288 = NULL;
+	if (value != NULL)
+		self->thumbnail_288 = g_strdup (value);
+}
+
+
+void
+picasa_web_photo_set_position (PicasaWebPhoto *self,
+			       const char     *value)
+{
+	sscanf (value, "%f", &self->position);
+}
+
+
+void
+picasa_web_photo_set_rotation (PicasaWebPhoto *self,
+			       const char     *value)
+{
+	sscanf (value, "%u", &self->rotation);
+}
+
+
+void
+picasa_web_photo_set_size (PicasaWebPhoto *self,
+			   const char     *value)
+{
+	self->size = g_ascii_strtoull (value, NULL, 10);
 }

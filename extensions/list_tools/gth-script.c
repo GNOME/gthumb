@@ -624,7 +624,7 @@ ask_value (ReplaceData  *replace_data,
 		gtk_widget_hide (_gtk_builder_get_widget (builder, "skip_button"));
 
 	g_object_ref (builder);
-	thumb_loader = gth_thumb_loader_new (128, 128);
+	thumb_loader = gth_thumb_loader_new (128);
 	g_signal_connect (thumb_loader, "ready", G_CALLBACK (thumb_loader_ready_cb), builder);
 	gth_thumb_loader_set_file (thumb_loader, file_data);
 	gth_thumb_loader_load (thumb_loader);
