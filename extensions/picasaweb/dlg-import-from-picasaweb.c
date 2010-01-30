@@ -142,27 +142,65 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		{
-			GtkTreeModel   *tree_model;
 			GtkTreeIter     iter;
 			PicasaWebAlbum *album;
-			/*GList          *file_list;*/
+			GList          *file_list;
 
-			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
+			if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter)) {
 				gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
 				return;
 			}
 
-			gtk_tree_model_get (tree_model, &iter,
+			gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("album_liststore")), &iter,
 					    ALBUM_DATA_COLUMN, &album,
 					    -1);
 
-			gth_task_dialog (GTH_TASK (data->conn), FALSE);
-
-			/* FIXME
 			file_list = get_files_to_download (data);
+			if (file_list != NULL) {
+				GFile               *destination;
+				gboolean             single_subfolder;
+				GthSubfolderType     subfolder_type;
+				GthSubfolderFormat   subfolder_format;
+				char                *custom_format;
+				gboolean             overwrite_files;
+				gboolean             adjust_orientation;
+				char               **tags;
+				int                  i;
+				GthTask             *task;
+
+				destination = gth_import_preferences_get_destination ();
+				subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
+				subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
+				single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
+				custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
+				overwrite_files = eel_gconf_get_boolean (PREF_IMPORT_OVERWRITE, FALSE);
+				adjust_orientation = eel_gconf_get_boolean (PREF_IMPORT_ADJUST_ORIENTATION, FALSE);
+
+				tags = g_strsplit ((album->keywords != NULL ? album->keywords : ""), ",", -1);
+				for (i = 0; tags[i] != NULL; i++)
+					tags[i] = g_strstrip (tags[i]);
+
+				task = gth_import_task_new (data->browser,
+							    file_list,
+							    destination,
+							    subfolder_type,
+							    subfolder_format,
+							    single_subfolder,
+							    custom_format,
+							    (album->title != NULL ? album->title : ""),
+							    tags,
+							    FALSE,
+							    overwrite_files,
+							    adjust_orientation);
+				gth_browser_exec_task (data->browser, task, FALSE);
+				gtk_widget_destroy (data->dialog);
+
+				g_object_unref (task);
+				g_strfreev (tags);
+				_g_object_unref (destination);
+			}
 
 			_g_object_list_unref (file_list);
-			*/
 			g_object_unref (album);
 		}
 		break;

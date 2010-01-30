@@ -440,6 +440,12 @@ exiv2_read_metadata_from_file (GFile      *file,
 		char *path;
 
 		path = g_file_get_path (file);
+		if (path == NULL) {
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+			return FALSE;
+		}
+
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
 		g_free (path);
 
@@ -498,6 +504,9 @@ exiv2_read_sidecar (GFile     *file,
 		char *path;
 
 		path = g_file_get_path (file);
+		if (path == NULL)
+			return FALSE;
+
 		Exiv2::DataBuf buf = Exiv2::readFile(path);
 		g_free (path);
 
