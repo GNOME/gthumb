@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,15 +20,14 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PHOTO_IMPORTER_PREFERENCES_H
-#define PHOTO_IMPORTER_PREFERENCES_H
 
-#include <gthumb.h>
+#ifndef IMPORTER_H
+#define IMPORTER_H
 
-G_BEGIN_DECLS
+#include "extensions/importer/gth-import-enum-types.h"
+#include "extensions/importer/gth-import-preferences-dialog.h"
+#include "extensions/importer/gth-import-task.h"
+#include "extensions/importer/preferences.h"
+#include "extensions/importer/utils.h"
 
-#define PREF_PHOTO_IMPORT_DELETE "/apps/gthumb/ext/photo_importer/delete_from_device"
-
-G_END_DECLS
-
-#endif /* PHOTO_IMPORTER_PREFERENCES_H */
+#endif /* IMPORTER_H */

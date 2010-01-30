@@ -54,6 +54,7 @@ struct _PicasaWebAlbum {
 	int              n_photos;
 	int              n_photos_remaining;
 	goffset          used_bytes;
+	char            *keywords;
 };
 
 struct _PicasaWebAlbumClass {
@@ -82,6 +83,8 @@ void              picasa_web_album_set_n_photos      (PicasaWebAlbum *self,
 						      const char     *value);
 void              picasa_web_album_set_n_photos_remaining
 						     (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_keywords      (PicasaWebAlbum *self,
 						      const char     *value);
 
 G_END_DECLS

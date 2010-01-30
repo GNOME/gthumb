@@ -120,6 +120,7 @@ struct _GthExtensionDescription {
 	char     **loader_requires;
 	char     **loader_after;
 	gboolean   mandatory;
+	gboolean   hidden;
 	GthExtensionDescriptionPrivate *priv;
 };
 

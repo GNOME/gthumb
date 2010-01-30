@@ -1187,7 +1187,6 @@ void
 gth_main_activate_extensions (void)
 {
 	const char *mandatory_extensions[] = {	"file_viewer",
-						"jpeg_utils",
 						NULL };
 	const char *default_extensions[] = {	"bookmarks",
 						"catalogs",
@@ -1200,6 +1199,8 @@ gth_main_activate_extensions (void)
 						"image_print",
 						"image_rotation",
 						"image_viewer",
+						"importer",
+						"jpeg_utils",
 						"list_tools",
 						"photo_importer",
 						"pixbuf_savers",

@@ -398,6 +398,9 @@ extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
 extensions/image_viewer/data/ui/Makefile
+extensions/importer/Makefile
+extensions/importer/data/Makefile
+extensions/importer/data/ui/Makefile
 extensions/jpeg_utils/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile

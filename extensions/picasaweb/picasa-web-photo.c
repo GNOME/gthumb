@@ -166,15 +166,12 @@ picasa_web_photo_load_from_element (DomDomizable *base,
 			for (child = node->first_child; child; child = child->next_sibling) {
 				if (g_strcmp0 (child->tag_name, "media:credit") == 0) {
 					picasa_web_photo_set_credit (self, dom_element_get_inner_text (child));
-					break;
 				}
 				if (g_strcmp0 (child->tag_name, "media:description") == 0) {
 					picasa_web_photo_set_description (self, dom_element_get_inner_text (child));
-					break;
 				}
 				if (g_strcmp0 (child->tag_name, "media:keywords") == 0) {
 					picasa_web_photo_set_keywords (self, dom_element_get_inner_text (child));
-					break;
 				}
 				if (g_strcmp0 (child->tag_name, "media:thumbnail") == 0) {
 					int width;

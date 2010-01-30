@@ -1,0 +1,96 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/destination</key>
+	<applyto>/apps/gthumb/ext/importer/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/subfolder_type</key>
+	<applyto>/apps/gthumb/ext/importer/subfolder_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are: none, file_date, current_date
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/subfolder_format</key>
+	<applyto>/apps/gthumb/ext/importer/subfolder_format</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>yyyymmdd</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are: yyyymmdd, yyyymm, yyyy
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/ext/importer/subfolder_single</key>
+        <applyto>/apps/gthumb/ext/importer/subfolder_single</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>FALSE</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/ext/importer/subfolder_custom_format</key>
+        <applyto>/apps/gthumb/ext/importer/subfolder_custom_format</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/overwrite_files</key>
+	<applyto>/apps/gthumb/ext/importer/overwrite_files</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/adjust_orientation</key>
+	<applyto>/apps/gthumb/ext/importer/adjust_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

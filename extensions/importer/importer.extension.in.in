@@ -4,3 +4,4 @@ Hidden=true
 [Loader]
 Type=module
 File=%LIBRARY%
+After=catalogs

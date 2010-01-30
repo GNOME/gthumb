@@ -25,7 +25,7 @@
 
 #include <glib.h>
 #include <gthumb.h>
-#include "preferences.h"
+#include "utils.h"
 
 G_BEGIN_DECLS
 
@@ -49,26 +49,19 @@ struct _GthImportTaskClass {
 	GthTaskClass __parent;
 };
 
-GType       gth_import_task_get_type               (void);
-GthTask *   gth_import_task_new                    (GthBrowser         *browser,
-						    GList              *files, /* GthFileData list */
-						    GFile              *destination,
-						    GthSubfolderType    subfolder_type,
-						    GthSubfolderFormat  subfolder_format,
-						    gboolean            single_subfolder,
-						    const char         *custom_format,
-						    const char         *event_name,
-						    char              **tags,
-						    gboolean            delete_imported,
-						    gboolean            overwrite_files,
-						    gboolean            adjust_orientation);
-GFile *     gth_import_task_get_file_destination   (GthFileData        *file_data,
-					            GFile              *destination,
-					            GthSubfolderType    subfolder_type,
-					            GthSubfolderFormat  subfolder_format,
-					            gboolean            single_subfolder,
-					            const char         *custom_format,
-						    const char         *event_name);
+GType       gth_import_task_get_type   (void);
+GthTask *   gth_import_task_new        (GthBrowser         *browser,
+					GList              *files, /* GthFileData list */
+					GFile              *destination,
+					GthSubfolderType    subfolder_type,
+					GthSubfolderFormat  subfolder_format,
+					gboolean            single_subfolder,
+					const char         *custom_format,
+					const char         *event_name,
+					char              **tags,
+					gboolean            delete_imported,
+					gboolean            overwrite_files,
+					gboolean            adjust_orientation);
 
 G_END_DECLS
 

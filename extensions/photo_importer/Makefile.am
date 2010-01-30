@@ -3,46 +3,15 @@ SUBDIRS = data
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libphoto_importer.la
 
-ENUM_TYPES =				\
-	enum-types.h			\
-	enum-types.c
-
-HEADER_FILES = 				\
-	actions.h			\
-	callbacks.h			\
-	dlg-photo-importer.h		\
-	gth-import-task.h		\
-	preferences.h
-
-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
-	$(AM_V_GEN)( $(GLIB_MKENUMS) \
-		--fhead "#ifndef ENUM_TYPES_H\n#define ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
-		--fprod "/* enumerations from \"@filename@\" */\n" \
-		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
-		--ftail "G_END_DECLS\n\n#endif /* ENUM_TYPES_H */" \
-		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) enum-types.h || cp xgen-$(@F) enum-types.h ) \
-	&& rm -f xgen-$(@F) )
-
-enum-types.c: $(HEADER_FILES) enum-types.h
-	$(AM_V_GEN)( $(GLIB_MKENUMS) \
-		--fhead "#include <glib-object.h>\n" \
-		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
-		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {" \
-		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
-		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
-		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) enum-types.c || cp xgen-$(@F) enum-types.c ) \
-	&& rm -f xgen-$(@F) )
-
 libphoto_importer_la_SOURCES = 		\
-	$(ENUM_TYPES)			\
-	$(HEADER_FILES)			\
 	actions.c			\
+	actions.h			\
 	callbacks.c			\
+	callbacks.h			\
 	dlg-photo-importer.c		\
-	gth-import-task.c		\
-	main.c
+	dlg-photo-importer.h		\
+	main.c				\
+	preferences.h
 	
 libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphoto_importer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
@@ -60,8 +29,6 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 %.extension: %.extension.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 
 EXTRA_DIST = $(extensionini_in_files) 
-BUILT_SOURCES = $(ENUM_TYPES)
-CLEANFILES = $(BUILT_SOURCES)
 DISTCLEANFILES = $(extensionini_DATA) 
 
 dist-hook:

@@ -20,15 +20,21 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PHOTO_IMPORTER_PREFERENCES_H
-#define PHOTO_IMPORTER_PREFERENCES_H
+#ifndef IMPORTER_PREFERENCES_H
+#define IMPORTER_PREFERENCES_H
 
 #include <gthumb.h>
 
 G_BEGIN_DECLS
 
-#define PREF_PHOTO_IMPORT_DELETE "/apps/gthumb/ext/photo_importer/delete_from_device"
+#define PREF_IMPORT_DESTINATION             "/apps/gthumb/ext/importer/destination"
+#define PREF_IMPORT_SUBFOLDER_TYPE          "/apps/gthumb/ext/importer/subfolder_type"
+#define PREF_IMPORT_SUBFOLDER_FORMAT        "/apps/gthumb/ext/importer/subfolder_format"
+#define PREF_IMPORT_SUBFOLDER_SINGLE        "/apps/gthumb/ext/importer/subfolder_single"
+#define PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT "/apps/gthumb/ext/importer/subfolder_custom_format"
+#define PREF_IMPORT_OVERWRITE               "/apps/gthumb/ext/importer/overwrite_files"
+#define PREF_IMPORT_ADJUST_ORIENTATION      "/apps/gthumb/ext/importer/adjust_orientation"
 
 G_END_DECLS
 
-#endif /* PHOTO_IMPORTER_PREFERENCES_H */
+#endif /* IMPORTER_PREFERENCES_H */

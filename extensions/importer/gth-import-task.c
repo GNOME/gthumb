@@ -24,6 +24,7 @@
 #include <extensions/catalogs/gth-catalog.h>
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
+#include "utils.h"
 
 
 #define IMPORTED_KEY "imported"
@@ -223,7 +224,7 @@ copy_ready_cb (GError   *error,
 		return;
 	}
 
-	if (self->priv->adjust_orientation) {
+	if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
 		GthMetadata *metadata;
 
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
@@ -313,13 +314,13 @@ file_info_ready_cb (GList    *files,
 	file_data = self->priv->current->data;
 	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
-	destination = gth_import_task_get_file_destination (file_data,
-							    self->priv->destination,
-							    self->priv->subfolder_type,
-							    self->priv->subfolder_format,
-							    self->priv->single_subfolder,
-							    self->priv->custom_format,
-							    self->priv->event_name);
+	destination = gth_import_utils_get_file_destination (file_data,
+							     self->priv->destination,
+							     self->priv->subfolder_type,
+							     self->priv->subfolder_format,
+							     self->priv->single_subfolder,
+							     self->priv->custom_format,
+							     self->priv->event_name);
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,15 +20,32 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PHOTO_IMPORTER_PREFERENCES_H
-#define PHOTO_IMPORTER_PREFERENCES_H
 
+#include <config.h>
+#include <gtk/gtk.h>
 #include <gthumb.h>
 
-G_BEGIN_DECLS
 
-#define PREF_PHOTO_IMPORT_DELETE "/apps/gthumb/ext/photo_importer/delete_from_device"
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
+{
+}
 
-G_END_DECLS
 
-#endif /* PHOTO_IMPORTER_PREFERENCES_H */
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
+}

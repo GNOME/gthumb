@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,15 +20,35 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PHOTO_IMPORTER_PREFERENCES_H
-#define PHOTO_IMPORTER_PREFERENCES_H
-
-#include <gthumb.h>
+#ifndef IMPORTER_UTILS_H
+#define IMPORTER_UTILS_H
 
 G_BEGIN_DECLS
 
-#define PREF_PHOTO_IMPORT_DELETE "/apps/gthumb/ext/photo_importer/delete_from_device"
+#include <gthumb.h>
+
+typedef enum {
+	GTH_SUBFOLDER_TYPE_NONE = 0,
+        GTH_SUBFOLDER_TYPE_FILE_DATE,
+	GTH_SUBFOLDER_TYPE_CURRENT_DATE,
+} GthSubfolderType;
+
+typedef enum {
+	GTH_SUBFOLDER_FORMAT_YYYYMMDD,
+	GTH_SUBFOLDER_FORMAT_YYYYMM,
+	GTH_SUBFOLDER_FORMAT_YYYY,
+	GTH_SUBFOLDER_FORMAT_CUSTOM
+} GthSubfolderFormat;
+
+GFile *   gth_import_preferences_get_destination  (void);
+GFile *   gth_import_utils_get_file_destination   (GthFileData        *file_data,
+						   GFile              *destination,
+						   GthSubfolderType    subfolder_type,
+						   GthSubfolderFormat  subfolder_format,
+						   gboolean            single_subfolder,
+						   const char         *custom_format,
+						   const char         *event_name);
 
 G_END_DECLS
 
-#endif /* PHOTO_IMPORTER_PREFERENCES_H */
+#endif /* IMPORTER_UTILS_H */

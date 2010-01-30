@@ -535,6 +535,7 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	desc->icon_name = g_key_file_get_string (key_file, "Extension", "Icon", NULL);
 	desc->url = g_key_file_get_string (key_file, "Extension", "URL", NULL);
 	desc->mandatory = g_key_file_get_boolean (key_file, "Extension", "Mandatory", NULL);
+	desc->hidden = g_key_file_get_boolean (key_file, "Extension", "Hidden", NULL);
 	desc->loader_type = g_key_file_get_string (key_file, "Loader", "Type", NULL);
 	desc->loader_file = g_key_file_get_string (key_file, "Loader", "File", NULL);
 	desc->loader_requires = g_key_file_get_string_list (key_file, "Loader", "Requires", NULL, NULL);

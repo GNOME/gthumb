@@ -22,15 +22,10 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "gth-import-enum-types.h"
 #include "gth-import-preferences-dialog.h"
-#include "gth-enum-types.h"
-#include "gth-file-data.h"
-#include "gth-metadata.h"
-#include "gth-preferences.h"
-#include "gtk-utils.h"
-#include "gconf-utils.h"
-#include "glib-utils.h"
-#include "typedefs.h"
+#include "preferences.h"
+#include "utils.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -300,7 +295,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	char             *custom_format;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_PREFERENCES_DIALOG, GthImportPreferencesDialogPrivate);
-	self->priv->builder = _gtk_builder_new_from_file ("import-preferences.ui", NULL);
+	self->priv->builder = _gtk_builder_new_from_file ("import-preferences.ui", "importer");
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -441,111 +436,4 @@ gth_import_preferences_dialog_set_event (GthImportPreferencesDialog *self,
 {
 	g_free (self->priv->event);
 	self->priv->event = g_strdup (event);
-}
-
-
-GFile *
-gth_import_preferences_get_destination (void)
-{
-	char  *last_destination;
-	GFile *folder;
-
-	last_destination = eel_gconf_get_string (PREF_IMPORT_DESTINATION, NULL);
-	if ((last_destination == NULL) || (*last_destination == 0)) {
-		char *default_path;
-
-		default_path = xdg_user_dir_lookup ("PICTURES");
-		folder = g_file_new_for_path (default_path);
-
-		g_free (default_path);
-	}
-	else
-		folder = g_file_new_for_uri (last_destination);
-
-	g_free (last_destination);
-
-	return folder;
-}
-
-
-GFile *
-gth_import_utils_get_file_destination (GthFileData        *file_data,
-				       GFile              *destination,
-				       GthSubfolderType    subfolder_type,
-				       GthSubfolderFormat  subfolder_format,
-				       gboolean            single_subfolder,
-				       const char         *custom_format,
-				       const char         *event_name)
-{
-	GTimeVal  timeval;
-	char     *child;
-	GFile    *file_destination;
-
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
-		GthMetadata *metadata;
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
-		if (metadata != NULL)
-			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
-		else
-			subfolder_type = GTH_SUBFOLDER_TYPE_CURRENT_DATE;
-	}
-
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
-		g_get_current_time (&timeval);
-
-	switch (subfolder_type) {
-	case GTH_SUBFOLDER_TYPE_FILE_DATE:
-	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
-		if (subfolder_format != GTH_SUBFOLDER_FORMAT_CUSTOM) {
-			GDate  *date;
-			char  **parts;
-
-			date = g_date_new ();
-			g_date_set_time_val (date, &timeval);
-
-			parts = g_new0 (char *, 4);
-			parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
-			if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYY) {
-				parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
-				if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYYMM)
-					parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
-			}
-
-			if (single_subfolder)
-				child = g_strjoinv ("-", parts);
-			else
-				child = g_strjoinv ("/", parts);
-
-			g_strfreev (parts);
-			g_date_free (date);
-		}
-		else {
-			char *format = NULL;
-
-			if (event_name != NULL) {
-				GRegex *re;
-
-				re = g_regex_new ("%E", 0, 0, NULL);
-				format = g_regex_replace_literal (re, custom_format, -1, 0, event_name, 0, NULL);
-
-				g_regex_unref (re);
-			}
-			if (format == NULL)
-				format = g_strdup (custom_format);
-			child = _g_time_val_strftime (&timeval, format);
-
-			g_free (format);
-		}
-		break;
-
-	case GTH_SUBFOLDER_TYPE_NONE:
-		child = NULL;
-		break;
-	}
-	file_destination = _g_file_append_path (destination, child);
-
-	g_free (child);
-
-	return file_destination;
 }

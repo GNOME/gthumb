@@ -23,9 +23,8 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/importer/importer.h>
 #include "dlg-photo-importer.h"
-#include "enum-types.h"
-#include "gth-import-task.h"
 #include "preferences.h"
 
 

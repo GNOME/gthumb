@@ -152,6 +152,16 @@ picasa_web_album_load_from_element (DomDomizable *base,
 		else if (g_strcmp0 (node->tag_name, "gphoto:bytesUsed") == 0) {
 			picasa_web_album_set_used_bytes (self, dom_element_get_inner_text (node));
 		}
+		else if (g_strcmp0 (node->tag_name, "media:group") == 0) {
+			DomElement *child;
+
+			for (child = node->first_child; child; child = child->next_sibling) {
+				if (g_strcmp0 (child->tag_name, "media:keywords") == 0) {
+					picasa_web_album_set_keywords (self, dom_element_get_inner_text (child));
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -324,4 +334,15 @@ picasa_web_album_set_n_photos_remaining (PicasaWebAlbum *self,
 		self->n_photos_remaining = atoi (value);
 	else
 		self->n_photos_remaining = 0;
+}
+
+
+void
+picasa_web_album_set_keywords (PicasaWebAlbum *self,
+			       const char     *value)
+{
+	g_free (self->keywords);
+	self->keywords = NULL;
+	if (value != NULL)
+		self->keywords = g_strdup (value);
 }

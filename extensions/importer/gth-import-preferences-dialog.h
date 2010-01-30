@@ -24,8 +24,8 @@
 #define GTH_IMPORT_PREFERENCES_DIALOG_H
 
 #include <gtk/gtk.h>
-#include "gth-file-data.h"
-#include "typedefs.h"
+#include <gthumb.h>
+#include "gth-import-task.h"
 
 G_BEGIN_DECLS
 
@@ -53,15 +53,6 @@ GType        gth_import_preferences_dialog_get_type  (void);
 GtkWidget *  gth_import_preferences_dialog_new       (void);
 void         gth_import_preferences_dialog_set_event (GthImportPreferencesDialog *self,
 						      const char                 *event);
-GFile *      gth_import_preferences_get_destination  (void);
-GFile *      gth_import_utils_get_file_destination   (GthFileData        *file_data,
-						      GFile              *destination,
-						      GthSubfolderType    subfolder_type,
-						      GthSubfolderFormat  subfolder_format,
-						      gboolean            single_subfolder,
-						      const char         *custom_format,
-						      const char         *event_name);
-
 
 G_END_DECLS
 

@@ -27,6 +27,7 @@
 #include <gnome-keyring.h>
 #endif /* HAVE_GNOME_KEYRING */
 #include <gthumb.h>
+#include <extensions/importer/importer.h>
 #include "dlg-import-from-picasaweb.h"
 #include "picasa-account-chooser-dialog.h"
 #include "picasa-account-manager-dialog.h"
@@ -70,6 +71,7 @@ typedef struct {
 	char             *password;
 	char             *challange;
 	GList            *albums;
+	PicasaWebAlbum   *album;
 	GList            *photos;
 	GoogleConnection *conn;
 	PicasaWebService *picasaweb;
@@ -87,6 +89,7 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->picasaweb);
 	_g_object_unref (data->conn);
 	_g_object_list_unref (data->albums);
+	_g_object_unref (data->album);
 	_g_object_list_unref (data->photos);
 	g_free (data->challange);
 	g_free (data->password);
@@ -99,29 +102,24 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
-/* FIXME
-static void get_album_list (DialogData *data);
-
-
-static void
-post_photos_ready_cb (GObject      *source_object,
-		      GAsyncResult *result,
-		      gpointer      user_data)
+GList *
+get_files_to_download (DialogData *data)
 {
-	DialogData       *data = user_data;
-	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
-	GError           *error = NULL;
+	GthFileView *file_view;
+	GList       *selected;
+	GList       *file_list;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	file_view = (GthFileView *) gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
+	selected = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
+	if (selected != NULL)
+		file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), selected);
+	else
+		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (file_view)));
 
-	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
-		return;
-	}
+	_gtk_tree_path_list_free (selected);
 
-	get_album_list (data);
+	return file_list;
 }
-*/
 
 
 static void
@@ -161,13 +159,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 			gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
 			/* FIXME
-			file_list = gth_file_data_list_to_file_list (data->file_list);
-			picasa_web_service_post_photos (data->picasaweb,
-							album,
-							file_list,
-							data->cancellable,
-							post_photos_ready_cb,
-							data);
+			file_list = get_files_to_download (data);
 
 			_g_object_list_unref (file_list);
 			*/
@@ -678,21 +670,14 @@ account_combobox_changed_cb (GtkComboBox *widget,
 static void
 update_selection_status (DialogData *data)
 {
-	GthFileView *file_view;
-	GList       *selected;
-	GList       *file_list;
-	int          n_selected;
-	goffset      size_selected;
-	GList       *scan;
-	char        *size_selected_formatted;
-	char        *text_selected;
+	GList    *file_list;
+	int       n_selected;
+	goffset   size_selected;
+	GList    *scan;
+	char     *size_selected_formatted;
+	char     *text_selected;
 
-	file_view = (GthFileView *) gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
-	selected = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
-	if (selected != NULL)
-		file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), selected);
-	else
-		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (file_view)));
+	file_list = get_files_to_download (data);
 	n_selected = 0;
 	size_selected = 0;
 	for (scan = file_list; scan; scan = scan->next) {
@@ -701,8 +686,6 @@ update_selection_status (DialogData *data)
 		n_selected++;
 		size_selected += g_file_info_get_size (file_data->info);
 	}
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (selected);
 
 	size_selected_formatted = g_format_size_for_display (size_selected);
 	text_selected = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_selected), n_selected, size_selected_formatted);
@@ -710,6 +693,7 @@ update_selection_status (DialogData *data)
 
 	g_free (text_selected);
 	g_free (size_selected_formatted);
+	_g_object_list_unref (file_list);
 }
 
 
@@ -757,28 +741,26 @@ static void
 album_combobox_changed_cb (GtkComboBox *widget,
 			   gpointer     user_data)
 {
-	DialogData     *data = user_data;
-	GtkTreeIter     iter;
-	PicasaWebAlbum *album;
+	DialogData  *data = user_data;
+	GtkTreeIter  iter;
 
 	if (! gtk_combo_box_get_active_iter (widget, &iter)) {
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("No album selected"));
 		return;
 	}
 
+	_g_object_unref (data->album);
 	gtk_tree_model_get (gtk_combo_box_get_model (widget),
 			    &iter,
-			    ALBUM_DATA_COLUMN, &album,
+			    ALBUM_DATA_COLUMN, &data->album,
 			    -1);
 
 	gth_task_dialog (GTH_TASK (data->conn), FALSE);
 	picasa_web_service_list_photos (data->picasaweb,
-					album,
+					data->album,
 					data->cancellable,
 					list_photos_ready_cb,
 					data);
-
-	g_object_unref (album);
 }
 
 
@@ -865,6 +847,8 @@ static void
 preferences_button_clicked_cb (GtkWidget  *widget,
 			       DialogData *data)
 {
+	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
+						 (data->album != NULL) ? data->album->title : "");
 	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
 }
 

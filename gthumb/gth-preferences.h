@@ -73,14 +73,6 @@ G_BEGIN_DECLS
 #define PREF_UI_PROPERTIES_HEIGHT           "/apps/gthumb/ui/properties_height"
 #define PREF_UI_COMMENT_HEIGHT              "/apps/gthumb/ui/comment_height"
 
-#define PREF_IMPORT_DESTINATION             "/apps/gthumb/importer/destination"
-#define PREF_IMPORT_SUBFOLDER_TYPE          "/apps/gthumb/importer/subfolder_type"
-#define PREF_IMPORT_SUBFOLDER_FORMAT        "/apps/gthumb/importer/subfolder_format"
-#define PREF_IMPORT_SUBFOLDER_SINGLE        "/apps/gthumb/importer/subfolder_single"
-#define PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT "/apps/gthumb/importer/subfolder_custom_format"
-#define PREF_IMPORT_OVERWRITE               "/apps/gthumb/importer/overwrite_files"
-#define PREF_IMPORT_ADJUST_ORIENTATION      "/apps/gthumb/importer/adjust_orientation"
-
 #define PREF_ADD_TO_CATALOG_LAST_CATALOG    "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
 #define PREF_ADD_TO_CATALOG_VIEW            "/apps/gthumb/dialogs/add_to_catalog/view"
 

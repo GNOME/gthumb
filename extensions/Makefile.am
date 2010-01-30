@@ -12,6 +12,7 @@ SUBDIRS = 			\
 	image_print		\
 	image_rotation		\
 	image_viewer		\
+	importer		\
 	jpeg_utils		\
 	list_tools		\
 	photo_importer		\

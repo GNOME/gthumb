@@ -72,7 +72,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-selector.h				\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
-	gth-import-preferences-dialog.h			\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-metadata.h					\
@@ -183,7 +182,6 @@ gthumb_SOURCES = 					\
 	gth-image-selector.c				\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
-	gth-import-preferences-dialog.c			\
 	gth-location-chooser.c				\
 	gth-main.c					\
 	gth-main-default-hooks.c			\
