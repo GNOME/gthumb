@@ -8,14 +8,15 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-01-28 21:45+0000\n"
-"PO-Revision-Date: 2010-01-29 08:54+0100\n"
+"POT-Creation-Date: 2010-01-30 09:30+0000\n"
+"PO-Revision-Date: 2010-01-30 19:08+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -176,10 +177,8 @@ msgstr ""
 "tras cambiar la imagen"
 
 #: ../data/ui/extensions.ui.h:1
-#, fuzzy
-#| msgid "A_vailable applications:"
 msgid "Available _extensions:"
-msgstr "A_plicaciones disponibles:"
+msgstr "E_xtensiones disponibles:"
 
 #: ../data/ui/extensions.ui.h:2
 #, fuzzy
@@ -672,7 +671,7 @@ msgstr "Línea de comandos"
 #: ../extensions/photo_importer/dlg-photo-importer.c:384
 #: ../gthumb/gth-file-list.c:42 ../gthumb/gth-folder-tree.c:668
 msgid "(Empty)"
-msgstr ""
+msgstr "(Vacío)"
 
 #: ../extensions/catalogs/callbacks.c:676
 msgid "Catalog Properties"
@@ -1074,7 +1073,7 @@ msgstr "_Urgencia:"
 
 #: ../extensions/exiv2/exiv2.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
-msgstr ""
+msgstr "Soporte para EXIF, IPTC y XMP"
 
 #: ../extensions/exiv2/exiv2.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
@@ -1291,10 +1290,8 @@ msgid "Could not perform the operation"
 msgstr "No se han podido importar fotos"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:1
-#, fuzzy
-#| msgid "Filename"
 msgid "File manager"
-msgstr "Nombre del archivo"
+msgstr "Gestor de archivos"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 #, fuzzy
@@ -1442,10 +1439,8 @@ msgid "Crop"
 msgstr "Recortar"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:101
-#, fuzzy
-#| msgid "_Desaturate"
 msgid "Desaturating image"
-msgstr "_Desaturar"
+msgstr "Desaturar imagen"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:119
 msgid "Desaturate"
@@ -1457,10 +1452,8 @@ msgstr "Corrección del balance de blancos"
 
 #. FIXME GTH_STOCK_ENHANCE
 #: ../extensions/file_tools/gth-file-tool-enhance.c:281
-#, fuzzy
-#| msgid "Reduce Colors"
 msgid "Enhance Colors"
-msgstr "Reducir colores"
+msgstr "Realzar colores"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:282
 msgid "Automatic white balance correction"
@@ -1589,10 +1582,8 @@ msgid "Choose a folder"
 msgstr "Elegir una carpeta"
 
 #: ../extensions/gstreamer/gstreamer.extension.in.in.h:1
-#, fuzzy
-#| msgid "Audio / Video"
 msgid "Audio/Video support"
-msgstr "Sonido / vídeo"
+msgstr "Soporte de sonido/vídeo"
 
 #: ../extensions/gstreamer/gstreamer.extension.in.in.h:2
 msgid "Play audio and video files."
@@ -1781,10 +1772,8 @@ msgstr "Página %d de %d"
 #: ../extensions/image_print/gth-image-print-job.c:1488
 #: ../extensions/image_print/gth-image-print-job.c:1568
 #: ../extensions/image_print/gth-image-print-job.c:1589
-#, fuzzy
-#| msgid "Could not import photos"
 msgid "Could not print"
-msgstr "No se han podido importar fotos"
+msgstr "No se pudo imprimir"
 
 #: ../extensions/image_print/gth-image-print-job.c:1524
 msgid "Layout"
@@ -1823,10 +1812,8 @@ msgid "Rotate the selected images 90° to the left"
 msgstr "Mover las imágenes seleccionadas a la papelera"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
-#, fuzzy
-#| msgid "Image Caption"
 msgid "Image rotation"
-msgstr "Descripción de la imagen"
+msgstr "Rotación de la imagen"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
 #, fuzzy
@@ -1956,10 +1943,8 @@ msgid "Zoom to fit width"
 msgstr "Ampliar hasta ajustarse a la anchura"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:195
-#, fuzzy
-#| msgid "Fit to window if larger"
 msgid "_Fit Window to Image"
-msgstr "Ajustar a la ventana si es mayor"
+msgstr "_Ajustar ventana a la imagen"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:196
 #, fuzzy
@@ -2107,10 +2092,8 @@ msgid "The file extension"
 msgstr "Determinar por extensión"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:31
-#, fuzzy
-#| msgid "File pa_th"
 msgid "The file path"
-msgstr "Ru_ta del archivo"
+msgstr "La ruta del archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:32
 msgid "The file uri"
@@ -2228,10 +2211,8 @@ msgid "S_how:"
 msgstr "M_ostrar:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
-#, fuzzy
-#| msgid "Custom subfolder"
 msgid "_Automatic subfolder"
-msgstr "Subcarpeta personal"
+msgstr "Subcarpeta _automática"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 #, fuzzy
@@ -2270,10 +2251,8 @@ msgid "Files to import: %d (%s)"
 msgstr "Archivos que importar: %d (%s)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:317
-#, fuzzy
-#| msgid "Could not find the style folder"
 msgid "Could not load the folder"
-msgstr "No se pudo encontrar la carpeta de estilo"
+msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:347
 #: ../gthumb/gth-browser.c:1652
@@ -2307,10 +2286,8 @@ msgid "year"
 msgstr "año"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:718
-#, fuzzy
-#| msgid "Custom subfolder:"
 msgid "custom format"
-msgstr "Subcarpeta personal:"
+msgstr "formato personalizado"
 
 #. translators: this a copy progress message, for example: 1.2MB of 12MB
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
@@ -2377,10 +2354,8 @@ msgid "No_rmal (Deflate)"
 msgstr "No_rmal (sin compresión)"
 
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
-#, fuzzy
-#| msgid "<b>Resolution</b>"
 msgid "Resolution"
-msgstr "<b>Resolución</b>"
+msgstr "Resolución"
 
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
 msgid "_Horizontal:"
@@ -2438,10 +2413,8 @@ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr ""
 
 #: ../extensions/pixbuf_savers/preferences.c:135
-#, fuzzy
-#| msgid "<b>Saving</b>"
 msgid "Saving"
-msgstr "<b>Guardando</b>"
+msgstr "Guardando"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
 msgid "Allow to load raw format images."
@@ -2449,11 +2422,9 @@ msgstr ""
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Raw format support"
-msgstr ""
+msgstr "Soporte para formato raw"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
-#, fuzzy
-#| msgid "Red-Eye Removal"
 msgid "Red Eye Removal"
 msgstr "Quitar ojos rojos"
 
@@ -2554,10 +2525,8 @@ msgid "The original filename"
 msgstr "_Mantener nombres originales"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:30
-#, fuzzy
-#| msgid "_Preview"
 msgid "_Preview:"
-msgstr "Vista _previa"
+msgstr "_Vista previa:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:33
 msgid "_Template:"
@@ -2603,10 +2572,8 @@ msgid "Renaming files"
 msgstr "Renombrar"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:1
-#, fuzzy
-#| msgid "Rename"
 msgid "Rename files"
-msgstr "Renombrar"
+msgstr "Renombrar archivos"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:2
 #, fuzzy
@@ -2616,10 +2583,8 @@ msgstr "Renombrar las imágenes seleccionadas"
 
 #: ../extensions/resize_images/callbacks.c:46
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:10
-#, fuzzy
-#| msgid "Resize Image"
 msgid "Resize Images"
-msgstr "Redimensionar imagen"
+msgstr "Redimensionar imágenes"
 
 #: ../extensions/resize_images/callbacks.c:47
 #, fuzzy
@@ -2649,10 +2614,8 @@ msgid "New dimensions"
 msgstr "<b>Dimensiones nuevas</b>"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-#, fuzzy
-#| msgid "_Overwrite"
 msgid "Overwrite"
-msgstr "_Sobreescribir"
+msgstr "Sobreescribir"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "Skip"
@@ -2669,16 +2632,12 @@ msgid "pixel"
 msgstr "píxel"
 
 #: ../extensions/resize_images/dlg-resize-images.c:142
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resizing images"
-msgstr "Redimensionar imagen"
+msgstr "Redimensionando imágenes"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:1
-#, fuzzy
-#| msgid "Resize Image"
 msgid "Resize images"
-msgstr "Redimensionar imagen"
+msgstr "Redimensionar imágenes"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:2
 #, fuzzy
@@ -2740,7 +2699,7 @@ msgstr "_Buscar..."
 
 #: ../extensions/search/search.extension.in.in.h:1
 msgid "File search tool."
-msgstr ""
+msgstr "Herramienta de búsqueda de archivos."
 
 #: ../extensions/slideshow/callbacks.c:55
 msgid "View as a slideshow"
@@ -2800,10 +2759,8 @@ msgid "Cube from bottom"
 msgstr ""
 
 #: ../extensions/slideshow/preferences.c:154
-#, fuzzy
-#| msgid "Ran_dom"
 msgid "Random"
-msgstr "A_leatorio"
+msgstr "Aleatorio"
 
 #: ../extensions/slideshow/preferences.c:183
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
@@ -2831,10 +2788,8 @@ msgid "_Continue"
 msgstr "_Continuar"
 
 #: ../gthumb/dlg-extensions.c:110
-#, fuzzy
-#| msgid "_Restore"
 msgid "_Restart"
-msgstr "_Restaurar"
+msgstr "_Reiniciar"
 
 #: ../gthumb/dlg-extensions.c:208
 #, fuzzy
@@ -2853,10 +2808,8 @@ msgid "Use"
 msgstr "Usar"
 
 #: ../gthumb/dlg-extensions.c:252
-#, fuzzy
-#| msgid "Exif Versions"
 msgid "Extension"
-msgstr "Versiones Exif"
+msgstr "Extensión"
 
 #: ../gthumb/dlg-personalize-filters.c:237
 msgid "Filter"
@@ -2898,16 +2851,12 @@ msgid "By Extension"
 msgstr "Por extensión"
 
 #: ../gthumb/eggfileformatchooser.c:422
-#, fuzzy
-#| msgid "File pa_th"
 msgid "File Format"
-msgstr "Ru_ta del archivo"
+msgstr "Formato de archivo"
 
 #: ../gthumb/eggfileformatchooser.c:440
-#, fuzzy
-#| msgid "Exif Versions"
 msgid "Extension(s)"
-msgstr "Versiones Exif"
+msgstr "Extensión(es)"
 
 #: ../gthumb/eggfileformatchooser.c:675
 #, c-format
@@ -2929,22 +2878,17 @@ msgid "Moving \"%s\" to \"%s\""
 msgstr "Moviendo «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1366
-#, fuzzy, c-format
-#| msgid "Copying file %d of %d"
+#, c-format
 msgid "Copying \"%s\" to \"%s\""
-msgstr "Copiando archivo %d de %d"
+msgstr "Copiando «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1694
-#, fuzzy
-#| msgid "Moving file %ld of %ld"
 msgid "Moving files"
-msgstr "Moviendo archivo %ld de %ld"
+msgstr "Moviendo archivos"
 
 #: ../gthumb/gio-utils.c:1694
-#, fuzzy
-#| msgid "Copying file %d of %d"
 msgid "Copying files"
-msgstr "Copiando archivo %d de %d"
+msgstr "Copiando archivos"
 
 #: ../gthumb/gio-utils.c:1695
 #, fuzzy
@@ -3017,10 +2961,8 @@ msgid "Open _With"
 msgstr "Abrir _con"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
-#, fuzzy
-#| msgid "_Import"
 msgid "E_xport"
-msgstr "_Importar"
+msgstr "E_xportar"
 
 #: ../gthumb/gth-browser-actions-entries.h:40
 msgid "New _Window"
@@ -3208,8 +3150,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1041 ../gthumb/gth-browser.c:1554
-#: ../gthumb/gth-browser.c:4649 ../gthumb/gth-browser.c:4668
-#: ../gthumb/gth-browser.c:4693
+#: ../gthumb/gth-browser.c:4655 ../gthumb/gth-browser.c:4674
+#: ../gthumb/gth-browser.c:4699
 #, fuzzy, c-format
 #| msgid "Could not move the items:"
 msgid "Could not load the position \"%s\""
@@ -3257,13 +3199,13 @@ msgstr "Borrar la lista de lugares visitados"
 msgid "View the list of upper locations"
 msgstr "Borrar la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:4650
+#: ../gthumb/gth-browser.c:4656
 #, fuzzy, c-format
 #| msgid "Image type not supported: %s"
 msgid "File type not supported"
 msgstr "Tipo de imagen no soportado: %s"
 
-#: ../gthumb/gth-browser.c:4694
+#: ../gthumb/gth-browser.c:4700
 #, fuzzy, c-format
 #| msgid "No images found"
 msgid "No suitable module found"
