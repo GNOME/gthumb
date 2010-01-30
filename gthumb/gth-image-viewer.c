@@ -58,7 +58,6 @@ enum {
 	ZOOM_CHANGED,
 	SIZE_CHANGED,
 	REPAINTED,
-	MOUSE_WHEEL_SCROLL,
 	SCROLL,
 	LAST_SIGNAL
 };
@@ -1167,13 +1166,8 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 		}
 	}
 
-	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN) {
-		g_signal_emit (G_OBJECT (viewer),
-			       gth_image_viewer_signals[MOUSE_WHEEL_SCROLL],
-			       0,
-			       event);
-		return TRUE;
-	}
+	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN)
+		return FALSE;
 
 	adj = viewer->hadj;
 
@@ -1458,17 +1452,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	gth_image_viewer_signals[MOUSE_WHEEL_SCROLL] =
-		g_signal_new ("mouse_wheel_scroll",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthImageViewerClass, mouse_wheel_scroll),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE,
-			      1,
-			      GDK_TYPE_SCROLL_DIRECTION);
-
 	class->set_scroll_adjustments = set_scroll_adjustments;
 	widget_class->set_scroll_adjustments_signal =
 		g_signal_new ("set_scroll_adjustments",

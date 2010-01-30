@@ -199,8 +199,8 @@ static GtkActionEntry image_viewer_action_entries[] = {
 
 
 static void
-image_ready_cb (GtkWidget          *widget,
-		GthImageViewerPage *self)
+viewer_image_ready_cb (GtkWidget          *widget,
+		       GthImageViewerPage *self)
 {
 	gth_image_history_clear (self->priv->history);
 	gth_image_history_add_image (self->priv->history,
@@ -211,8 +211,8 @@ image_ready_cb (GtkWidget          *widget,
 
 
 static gboolean
-zoom_changed_cb (GtkWidget          *widget,
-		 GthImageViewerPage *self)
+viewer_zoom_changed_cb (GtkWidget          *widget,
+			GthImageViewerPage *self)
 {
 	double  zoom;
 	char   *text;
@@ -230,18 +230,18 @@ zoom_changed_cb (GtkWidget          *widget,
 
 
 static gboolean
-image_button_press_cb (GtkWidget          *widget,
-		       GdkEventButton     *event,
-		       GthImageViewerPage *self)
+viewer_button_press_event_cb (GtkWidget          *widget,
+			      GdkEventButton     *event,
+			      GthImageViewerPage *self)
 {
 	return gth_browser_viewer_button_press_cb (self->priv->browser, event);
 }
 
 
 static gboolean
-mouse_whell_scroll_cb (GtkWidget 	   *widget,
-		       GdkEventScroll      *event,
-		       GthImageViewerPage  *self)
+viewer_scroll_event_cb (GtkWidget 	   *widget,
+		        GdkEventScroll      *event,
+		        GthImageViewerPage  *self)
 {
 	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
 }
@@ -413,19 +413,19 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "image_ready",
-			  G_CALLBACK (image_ready_cb),
+			  G_CALLBACK (viewer_image_ready_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "zoom_changed",
-			  G_CALLBACK (zoom_changed_cb),
+			  G_CALLBACK (viewer_zoom_changed_cb),
 			  self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"button_press_event",
-				G_CALLBACK (image_button_press_cb),
+				G_CALLBACK (viewer_button_press_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
-				"mouse_wheel_scroll",
-				G_CALLBACK (mouse_whell_scroll_cb),
+				"scroll_event",
+				G_CALLBACK (viewer_scroll_event_cb),
 				self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "key_press_event",

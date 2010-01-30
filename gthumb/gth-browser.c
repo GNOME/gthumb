@@ -3996,6 +3996,8 @@ gboolean
 gth_browser_viewer_button_press_cb (GthBrowser     *browser,
 				    GdkEventButton *event)
 {
+	g_return_val_if_fail (event != NULL, FALSE);
+
 	if (event->button == 3) {
 		gth_browser_file_menu_popup (browser, event);
 		return TRUE;
@@ -4009,6 +4011,8 @@ gboolean
 gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 				    GdkEventScroll *event)
 {
+	g_return_val_if_fail (event != NULL, FALSE);
+
 	if (event->state & GDK_SHIFT_MASK)
 		return FALSE;
 
@@ -4028,6 +4032,8 @@ gboolean
 gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 				 GdkEventKey *event)
 {
+	g_return_val_if_fail (event != NULL, FALSE);
+
 	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_Page_Up:
 	case GDK_BackSpace:

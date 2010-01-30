@@ -134,8 +134,6 @@ struct _GthImageViewerClass
 					 GtkAdjustment      *hadj,
 					 GtkAdjustment      *vadj);
 	void (* repainted)              (GthImageViewer     *viewer);
-	void (* mouse_wheel_scroll)	(GthImageViewer     *viewer,
-					 GdkEventScroll     *event);
 
 	/* -- Key binding signals -- */
 
