@@ -409,10 +409,10 @@ post_photo_ready_cb (SoupSession *session,
 
 
 static void
-post_photo_file_buffer_ready_cb (void     *buffer,
-				 gsize     count,
-				 GError   *error,
-				 gpointer  user_data)
+post_photo_file_buffer_ready_cb (void     **buffer,
+				 gsize      count,
+				 GError    *error,
+				 gpointer   user_data)
 {
 	PicasaWebService   *self = user_data;
 	GthFileData        *file_data;
@@ -495,7 +495,7 @@ post_photo_file_buffer_ready_cb (void     *buffer,
 
 	/* the file part */
 
-	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, buffer, count);
+	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
 					 "file",
 					 NULL,

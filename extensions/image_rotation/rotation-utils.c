@@ -233,14 +233,13 @@ transformation_data_free (TransformatioData *tdata)
 
 
 static void
-write_file_ready_cb (void     *buffer,
-		     gsize     count,
-		     GError   *error,
-		     gpointer  user_data)
+write_file_ready_cb (void     **buffer,
+		     gsize      count,
+		     GError    *error,
+		     gpointer   user_data)
 {
 	TransformatioData *tdata = user_data;
 
-	g_free (buffer);
 	tdata->ready_func (error, tdata->user_data);
 	transformation_data_free (tdata);
 }
@@ -259,10 +258,10 @@ pixbuf_saved_cb (GthFileData *file_data,
 
 
 static void
-file_buffer_ready_cb (void     *buffer,
-		      gsize     count,
-		      GError   *error,
-		      gpointer  user_data)
+file_buffer_ready_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	TransformatioData *tdata = user_data;
 
@@ -277,7 +276,7 @@ file_buffer_ready_cb (void     *buffer,
 		void  *out_buffer;
 		gsize  out_buffer_size;
 
-		if (! jpegtran (buffer,
+		if (! jpegtran (*buffer,
 				count,
 				&out_buffer,
 				&out_buffer_size,
@@ -305,7 +304,7 @@ file_buffer_ready_cb (void     *buffer,
 		GdkPixbuf    *original_pixbuf;
 		GdkPixbuf    *transformed_pixbuf;
 
-		istream = g_memory_input_stream_new_from_data (buffer, count, NULL);
+		istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
 		original_pixbuf = gdk_pixbuf_new_from_stream (istream, tdata->cancellable, &error);
 		if (original_pixbuf == NULL) {
 			tdata->ready_func (error, tdata->user_data);

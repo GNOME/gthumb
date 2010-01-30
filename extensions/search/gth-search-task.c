@@ -107,14 +107,13 @@ embedded_dialog_response_cb (GeditMessageArea *message_area,
 
 
 static void
-save_search_result_copy_done_cb (void     *buffer,
-				 gsize     count,
-				 GError   *error,
-				 gpointer  user_data)
+save_search_result_copy_done_cb (void     **buffer,
+				 gsize      count,
+				 GError    *error,
+				 gpointer   user_data)
 {
 	GthSearchTask *task = user_data;
 
-	g_free (buffer);
 	gth_browser_update_extra_widget (task->priv->browser);
 
 	task->priv->io_operation = FALSE;
@@ -277,10 +276,10 @@ browser_location_ready_cb (GthBrowser    *browser,
 
 
 static void
-clear_search_result_copy_done_cb (void     *buffer,
-				  gsize     count,
-				  GError   *error,
-				  gpointer  user_data)
+clear_search_result_copy_done_cb (void     **buffer,
+				  gsize      count,
+				  GError    *error,
+				  gpointer   user_data)
 {
 	GthSearchTask *task = user_data;
 

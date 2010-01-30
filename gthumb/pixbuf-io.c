@@ -92,12 +92,14 @@ static void save_current_file (SaveData *save_data);
 
 
 static void
-file_saved_cb (void     *buffer,
-	       gsize     count,
-	       GError   *error,
-	       gpointer  user_data)
+file_saved_cb (void     **buffer,
+	       gsize      count,
+	       GError    *error,
+	       gpointer   user_data)
 {
 	SaveData *save_data = user_data;
+
+	*buffer = NULL; /* do not free the buffer, it's owned by file->buffer */
 
 	if (error != NULL) {
 		save_data->data->error = &error;

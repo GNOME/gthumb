@@ -103,10 +103,10 @@ search_data_free (SearchData *search_data)
 
 
 static void
-search_update_buffer_ready_cb (void     *buffer,
-			       gsize     count,
-			       GError   *error,
-			       gpointer  user_data)
+search_update_buffer_ready_cb (void     **buffer,
+			       gsize      count,
+			       GError    *error,
+			       gpointer   user_data)
 {
 	SearchData *search_data = user_data;
 	GError     *local_error = NULL;
@@ -118,7 +118,7 @@ search_update_buffer_ready_cb (void     *buffer,
 		return;
 	}
 
-	search = gth_search_new_from_data (buffer, count, &local_error);
+	search = gth_search_new_from_data (*buffer, count, &local_error);
 	if (search == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &local_error);
 		return;

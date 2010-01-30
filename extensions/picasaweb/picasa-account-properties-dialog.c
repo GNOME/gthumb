@@ -121,10 +121,10 @@ picasa_account_properties_dialog_get_type (void)
 
 
 static void
-image_buffer_ready_cb (void     *buffer,
-		       gsize     count,
-		       GError   *error,
-		       gpointer  user_data)
+image_buffer_ready_cb (void     **buffer,
+		       gsize      count,
+		       GError    *error,
+		       gpointer   user_data)
 {
 	PicasaAccountPropertiesDialog *self = user_data;
 	GInputStream               *stream;
@@ -135,7 +135,7 @@ image_buffer_ready_cb (void     *buffer,
 		return;
 	}
 
-	stream = g_memory_input_stream_new_from_data (buffer, count, NULL);
+	stream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
 	pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
 	if (pixbuf != NULL) {
 		gtk_widget_show (GET_WIDGET ("challange_box"));

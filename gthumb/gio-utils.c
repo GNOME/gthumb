@@ -1950,14 +1950,14 @@ load_file__stream_read_cb (GObject      *source_object,
 
 	count = g_input_stream_read_finish (load_data->stream, result, &error);
 	if (count < 0) {
-		load_data->callback (NULL, -1, error, load_data->user_data);
+		load_data->callback (&load_data->buffer, -1, error, load_data->user_data);
 		load_data_free (load_data);
 		return;
 	}
 	else if (count == 0) {
 		if (load_data->buffer != NULL)
 			((char *)load_data->buffer)[load_data->count] = 0;
-		load_data->callback (load_data->buffer, load_data->count, NULL, load_data->user_data);
+		load_data->callback (&load_data->buffer, load_data->count, NULL, load_data->user_data);
 		load_data_free (load_data);
 		return;
 	}
@@ -1986,7 +1986,7 @@ load_file__file_read_cb (GObject      *source_object,
 
 	load_data->stream = (GInputStream *) g_file_read_finish (G_FILE (source_object), result, &error);
 	if (load_data->stream == NULL) {
-		load_data->callback (NULL, -1, error, load_data->user_data);
+		load_data->callback (&load_data->buffer, -1, error, load_data->user_data);
 		load_data_free (load_data);
 		return;
 	}
@@ -2039,6 +2039,7 @@ typedef struct {
 static void
 write_data_free (WriteData *write_data)
 {
+	g_free (write_data->buffer);
 	g_free (write_data);
 }
 
@@ -2048,7 +2049,7 @@ write_file__notify (gpointer user_data)
 {
 	WriteData *write_data = user_data;
 
-	write_data->callback (write_data->buffer, write_data->count, write_data->error, write_data->user_data);
+	write_data->callback (&write_data->buffer, write_data->count, write_data->error, write_data->user_data);
 	write_data_free (write_data);
 }
 
@@ -2113,7 +2114,7 @@ write_file__replace_ready_cb (GObject      *source_object,
 
 	stream = (GOutputStream*) g_file_replace_finish ((GFile*) source_object, result, &error);
 	if (stream == NULL) {
-		write_data->callback (write_data->buffer, write_data->count, error, write_data->user_data);
+		write_data->callback (&write_data->buffer, write_data->count, error, write_data->user_data);
 		write_data_free (write_data);
 		return;
 	}
