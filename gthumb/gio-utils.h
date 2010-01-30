@@ -49,7 +49,7 @@ typedef void (*ListReadyCallback)    (GList       *files,
 				      GList       *dirs,
 				      GError      *error,
 				      gpointer     user_data);
-typedef void (*BufferReadyCallback)  (void        *buffer,
+typedef void (*BufferReadyCallback)  (void       **buffer,
 				      gsize        count,
 				      GError      *error,
 				      gpointer     user_data);

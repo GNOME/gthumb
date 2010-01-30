@@ -201,15 +201,13 @@ metadata_op_free (MetadataOpData *metadata_op)
 
 
 static void
-write_metadata_write_buffer_ready_cb (void     *buffer,
-				      gsize     count,
-				      GError   *error,
-				      gpointer  user_data)
+write_metadata_write_buffer_ready_cb (void     **buffer,
+				      gsize      count,
+				      GError    *error,
+				      gpointer   user_data)
 {
 	MetadataOpData        *metadata_op = user_data;
 	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
-
-	g_free (buffer);
 
 	metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
 	metadata_op_free (metadata_op);
@@ -217,14 +215,16 @@ write_metadata_write_buffer_ready_cb (void     *buffer,
 
 
 static void
-write_metadata_load_buffer_ready_cb (void     *buffer,
-				     gsize     count,
-				     GError   *error,
-				     gpointer  user_data)
+write_metadata_load_buffer_ready_cb (void     **buffer,
+				     gsize      count,
+				     GError    *error,
+				     gpointer   user_data)
 {
 	MetadataOpData        *metadata_op = user_data;
 	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
 	GFile                 *gio_file;
+	void                  *catalog_buffer;
+	gsize                  catalog_size;
 
 	if (error != NULL) {
 		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
@@ -232,7 +232,7 @@ write_metadata_load_buffer_ready_cb (void     *buffer,
 		return;
 	}
 
-	gth_catalog_load_from_data (metadata_op->catalog, buffer, count, &error);
+	gth_catalog_load_from_data (metadata_op->catalog, *buffer, count, &error);
 
 	if (error != NULL) {
 		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
@@ -245,11 +245,11 @@ write_metadata_load_buffer_ready_cb (void     *buffer,
 				       g_file_info_get_attribute_string (metadata_op->file_data->info, "sort::type"),
 				       g_file_info_get_attribute_boolean (metadata_op->file_data->info, "sort::inverse"));
 
-	buffer = gth_catalog_to_data (metadata_op->catalog, &count);
+	catalog_buffer = gth_catalog_to_data (metadata_op->catalog, &catalog_size);
 	gio_file = gth_catalog_file_to_gio_file (metadata_op->file_data->file);
 	g_write_file_async (gio_file,
-			    buffer,
-			    count,
+			    catalog_buffer,
+			    catalog_size,
 			    G_PRIORITY_DEFAULT,
 			    gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->catalogs)),
 			    write_metadata_write_buffer_ready_cb,
@@ -670,15 +670,12 @@ typedef struct {
 	gpointer          user_data;
 	GList            *files;
 	GthCatalog       *catalog;
-	char             *buffer;
-	gsize             length;
 } CopyOpData;
 
 
 static void
 copy_op_data_free (CopyOpData *cod)
 {
-	g_free (cod->buffer);
 	_g_object_unref (cod->catalog);
 	_g_object_list_unref (cod->files);
 	_g_object_list_unref (cod->file_list);
@@ -689,10 +686,10 @@ copy_op_data_free (CopyOpData *cod)
 
 
 static void
-catalog_save_done_cb (void     *buffer,
-		      gsize     count,
-		      GError   *error,
-		      gpointer  user_data)
+catalog_save_done_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	CopyOpData *cod = user_data;
 
@@ -714,6 +711,8 @@ catalog_ready_cb (GObject  *catalog,
 {
 	CopyOpData *cod = user_data;
 	GList      *scan;
+	char       *buffer;
+	gsize       size;
 	GFile      *gio_file;
 
 	if (error != NULL) {
@@ -727,11 +726,11 @@ catalog_ready_cb (GObject  *catalog,
 	for (scan = cod->files; scan; scan = scan->next)
 		gth_catalog_insert_file (cod->catalog, (GFile *) scan->data, -1);
 
-	cod->buffer = gth_catalog_to_data (cod->catalog, &cod->length);
+	buffer = gth_catalog_to_data (cod->catalog, &size);
 	gio_file = gth_catalog_file_to_gio_file (cod->destination->file);
 	g_write_file_async (gio_file,
-			    cod->buffer,
-			    cod->length,
+			    buffer,
+			    size,
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    catalog_save_done_cb,
@@ -842,14 +841,12 @@ reorder_data_free (ReorderData *reorder_data)
 
 
 static void
-reorder_buffer_ready_cb (void     *buffer,
-		         gsize     count,
-		         GError   *error,
-		         gpointer  user_data)
+reorder_buffer_ready_cb (void     **buffer,
+		         gsize      count,
+		         GError    *error,
+		         gpointer   user_data)
 {
 	ReorderData *reorder_data = user_data;
-
-	g_free (buffer);
 
 	gth_monitor_order_changed (gth_main_get_default_monitor (),
 				   reorder_data->destination->file,
@@ -904,7 +901,7 @@ reorder_catalog_ready_cb (GObject  *object,
 	ReorderData *reorder_data = user_data;
 	GthCatalog  *catalog;
 	char        *buffer;
-	gsize        buffer_size;
+	gsize        size;
 	GFile       *gio_file;
 
 	if (error != NULL) {
@@ -917,11 +914,11 @@ reorder_catalog_ready_cb (GObject  *object,
 	reorder_data->new_order = reorder_catalog_list (catalog, reorder_data->file_list, reorder_data->dest_pos);
 	gth_catalog_set_order (catalog, "general::unsorted", FALSE);
 
-	buffer = gth_catalog_to_data (catalog, &buffer_size);
+	buffer = gth_catalog_to_data (catalog, &size);
 	gio_file = gth_file_source_to_gio_file (reorder_data->file_source, reorder_data->destination->file);
 	g_write_file_async (gio_file,
 			    buffer,
-			    buffer_size,
+			    size,
 			    G_PRIORITY_DEFAULT,
 			    gth_file_source_get_cancellable (reorder_data->file_source),
 			    reorder_buffer_ready_cb,

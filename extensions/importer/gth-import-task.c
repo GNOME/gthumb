@@ -22,8 +22,10 @@
 
 #include <config.h>
 #include <extensions/catalogs/gth-catalog.h>
+#include <extensions/exiv2/exiv2-utils.h>
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
+#include "utils.h"
 
 
 #define IMPORTED_KEY "imported"
@@ -207,23 +209,40 @@ transformation_ready_cb (GError   *error,
 
 
 static void
-copy_ready_cb (GError   *error,
-	       gpointer  user_data)
+write_buffer_ready_cb (void     **buffer,
+		       gsize      count,
+		       GError    *error,
+		       gpointer   user_data)
 {
 	GthImportTask *self = user_data;
+	GthFileData   *file_data;
 	gboolean       appling_tranformation = FALSE;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
-		self->priv->delete_imported = FALSE;
-		error = NULL;
-	}
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	if (self->priv->adjust_orientation) {
+	file_data = self->priv->current->data;
+	if (self->priv->delete_imported) {
+		GError *local_error = NULL;
+
+		if (! g_file_delete (file_data->file,
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     &local_error))
+		{
+			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+				self->priv->delete_imported = FALSE;
+				local_error = NULL;
+			}
+			if (local_error != NULL) {
+				gth_task_completed (GTH_TASK (self), local_error);
+				return;
+			}
+		}
+	}
+
+	if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
 		GthMetadata *metadata;
 
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
@@ -256,49 +275,10 @@ copy_ready_cb (GError   *error,
 
 
 static void
-copy_progress_cb (GObject    *object,
-		  const char *description,
-		  const char *details,
-		  gboolean    pulse,
-		  double      fraction,
-		  gpointer    user_data)
-{
-	GthImportTask *self = user_data;
-	char          *local_details = NULL;
-
-	if (! pulse) {
-		char *s1;
-		char *s2;
-
-		s1 = g_format_size_for_display (((double) self->priv->current_file_size * fraction) + self->priv->copied_size);
-		s2 = g_format_size_for_display (self->priv->tot_size);
-		/* translators: this a copy progress message, for example: 1.2MB of 12MB */
-		local_details = g_strdup_printf (_("%s of %s"), s1, s2);
-		details = local_details;
-
-		fraction = (((double) self->priv->current_file_size * fraction) + self->priv->copied_size) / self->priv->tot_size;
-	}
-
-	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
-
-	g_free (local_details);
-}
-
-
-static void
-copy_dialog_cb (gboolean  opened,
-		gpointer  user_data)
-{
-	GthImportTask *self = user_data;
-
-	gth_task_dialog (GTH_TASK (self), opened);
-}
-
-
-static void
-file_info_ready_cb (GList    *files,
-		    GError   *error,
-		    gpointer  user_data)
+file_buffer_ready_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	GthImportTask *self = user_data;
 	GthFileData   *file_data;
@@ -311,15 +291,16 @@ file_info_ready_cb (GList    *files,
 	}
 
 	file_data = self->priv->current->data;
-	self->priv->current_file_size = g_file_info_get_size (file_data->info);
+	if (gth_main_extension_is_active ("exiv2"))
+		exiv2_read_metadata_from_buffer (*buffer, count, file_data->info, NULL);
 
-	destination = gth_import_task_get_file_destination (file_data,
-							    self->priv->destination,
-							    self->priv->subfolder_type,
-							    self->priv->subfolder_format,
-							    self->priv->single_subfolder,
-							    self->priv->custom_format,
-							    self->priv->event_name);
+	destination = gth_import_utils_get_file_destination (file_data,
+							     self->priv->destination,
+							     self->priv->subfolder_type,
+							     self->priv->subfolder_format,
+							     self->priv->single_subfolder,
+							     self->priv->custom_format,
+							     self->priv->event_name);
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);
@@ -329,27 +310,23 @@ file_info_ready_cb (GList    *files,
 
 	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
 	if (self->priv->overwrite_files || ! g_file_query_exists (destination_file, NULL)) {
-		GFileCopyFlags copy_flags;
-
 		_g_object_unref (self->priv->destination_file);
 		self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
 
-		copy_flags = G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS;
-		if (self->priv->overwrite_files)
-			copy_flags |= G_FILE_COPY_OVERWRITE;
+		gth_task_progress (GTH_TASK (self),
+				   _("Importing files"),
+				   g_file_info_get_display_name (file_data->info),
+				   FALSE,
+				   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
 
-		_g_copy_file_async (file_data,
-				    destination_file,
-				    self->priv->delete_imported,
-				    copy_flags,
+		g_write_file_async (self->priv->destination_file->file,
+				    *buffer,
+				    count,
 				    G_PRIORITY_DEFAULT,
 				    gth_task_get_cancellable (GTH_TASK (self)),
-				    copy_progress_cb,
-				    self,
-				    copy_dialog_cb,
-				    self,
-				    copy_ready_cb,
+				    write_buffer_ready_cb,
 				    self);
+		*buffer = NULL; /* g_write_file_async takes ownership of the buffer */
 	}
 	else
 		call_when_idle ((DataFunc) import_next_file, self);
@@ -363,7 +340,6 @@ static void
 import_current_file (GthImportTask *self)
 {
 	GthFileData *file_data;
-	GList       *list;
 
 	if (self->priv->current == NULL) {
 		save_catalogs (self);
@@ -376,14 +352,19 @@ import_current_file (GthImportTask *self)
 	}
 
 	file_data = self->priv->current->data;
-	list = g_list_prepend (NULL, file_data);
-	_g_query_metadata_async (list,
-				 "Embedded::Photo::DateTimeOriginal,Embedded::Image::Orientation",
-				 gth_task_get_cancellable (GTH_TASK (self)),
-				 file_info_ready_cb,
-				 self);
+	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
-	g_list_free (list);
+	gth_task_progress (GTH_TASK (self),
+			   _("Importing files"),
+			   g_file_info_get_display_name (file_data->info),
+			   FALSE,
+			   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0)) / self->priv->tot_size);
+
+	g_load_file_async (file_data->file,
+			   G_PRIORITY_DEFAULT,
+			   gth_task_get_cancellable (GTH_TASK (self)),
+			   file_buffer_ready_cb,
+			   self);
 }
 
 
@@ -528,87 +509,4 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;
-}
-
-
-GFile *
-gth_import_task_get_file_destination (GthFileData        *file_data,
-				      GFile              *destination,
-				      GthSubfolderType    subfolder_type,
-				      GthSubfolderFormat  subfolder_format,
-				      gboolean            single_subfolder,
-				      const char         *custom_format,
-				      const char         *event_name)
-{
-	GTimeVal  timeval;
-	char     *child;
-	GFile    *file_destination;
-
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) {
-		GthMetadata *metadata;
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
-		if (metadata != NULL)
-			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
-		else
-			subfolder_type = GTH_SUBFOLDER_TYPE_CURRENT_DATE;
-	}
-
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
-		g_get_current_time (&timeval);
-
-	switch (subfolder_type) {
-	case GTH_SUBFOLDER_TYPE_FILE_DATE:
-	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
-		if (subfolder_format != GTH_SUBFOLDER_FORMAT_CUSTOM) {
-			GDate  *date;
-			char  **parts;
-
-			date = g_date_new ();
-			g_date_set_time_val (date, &timeval);
-
-			parts = g_new0 (char *, 4);
-			parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
-			if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYY) {
-				parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
-				if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYYMM)
-					parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
-			}
-
-			if (single_subfolder)
-				child = g_strjoinv ("-", parts);
-			else
-				child = g_strjoinv ("/", parts);
-
-			g_strfreev (parts);
-			g_date_free (date);
-		}
-		else {
-			char *format = NULL;
-
-			if (event_name != NULL) {
-				GRegex *re;
-
-				re = g_regex_new ("%E", 0, 0, NULL);
-				format = g_regex_replace_literal (re, custom_format, -1, 0, event_name, 0, NULL);
-
-				g_regex_unref (re);
-			}
-			if (format == NULL)
-				format = g_strdup (custom_format);
-			child = _g_time_val_strftime (&timeval, format);
-
-			g_free (format);
-		}
-		break;
-
-	case GTH_SUBFOLDER_TYPE_NONE:
-		child = NULL;
-		break;
-	}
-	file_destination = _g_file_append_path (destination, child);
-
-	g_free (child);
-
-	return file_destination;
 }

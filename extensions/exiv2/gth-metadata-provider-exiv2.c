@@ -148,7 +148,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 		char        *raw;
 
 		meta = gth_metadata_new ();
-		raw = gth_file_data_get_attribute_as_string (file_data, "general::tags");
+		raw = gth_string_list_join (GTH_STRING_LIST (metadata), ", ");
 		g_object_set (meta, "id", "general::tags", "raw", raw, NULL);
 
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", G_OBJECT (meta));

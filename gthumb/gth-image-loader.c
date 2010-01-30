@@ -231,7 +231,7 @@ load_image_thread (void *thread_data)
 
 				loader = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file));
 				if (loader != NULL)
-					animation = loader (file, &error, -1, -1);
+					animation = loader (file, -1, &error);
 				else
 					error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 			}

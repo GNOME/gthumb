@@ -253,8 +253,8 @@ gth_file_list_class_init (GthFileListClass *class)
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
 
+	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_list_finalize;
 }
 
@@ -483,7 +483,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* thumbnail loader */
 
-	file_list->priv->thumb_loader = gth_thumb_loader_new (file_list->priv->thumb_size, file_list->priv->thumb_size);
+	file_list->priv->thumb_loader = gth_thumb_loader_new (file_list->priv->thumb_size);
 	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
 			  "ready",
 			  G_CALLBACK (thumb_loader_ready_cb),
@@ -528,7 +528,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	file_list->priv->view = gth_icon_view_new_with_model (GTK_TREE_MODEL (model));
 	g_object_unref (model);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)
+	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
 	else
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
@@ -560,7 +560,7 @@ gth_file_list_construct (GthFileList     *file_list,
 					"active", GTH_FILE_STORE_CHECKED_COLUMN,
 					NULL);
 	g_object_set (file_list->priv->checkbox_renderer,
-		      "visible", (file_list->priv->type != GTH_FILE_LIST_TYPE_NORMAL),
+		      "visible", ((file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER) || (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)),
 		      NULL);
 	g_signal_connect (file_list->priv->checkbox_renderer,
 			  "toggled",
@@ -710,6 +710,13 @@ gth_file_list_cancel (GthFileList *file_list,
 	file_list->priv->done_func = done_func;
 	file_list->priv->done_func_data = user_data;
 	gth_thumb_loader_cancel (file_list->priv->thumb_loader, cancel_step2, file_list);
+}
+
+
+GthThumbLoader *
+gth_file_list_get_thumb_loader (GthFileList *file_list)
+{
+	return file_list->priv->thumb_loader;
 }
 
 
@@ -1115,7 +1122,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 			      int          size)
 {
 	file_list->priv->thumb_size = size;
-	gth_thumb_loader_set_thumb_size (file_list->priv->thumb_loader, size, size);
+	gth_thumb_loader_set_requested_size (file_list->priv->thumb_loader, size);
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);

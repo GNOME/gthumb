@@ -155,10 +155,10 @@ pixbuf_task_completed_cb (GthTask  *task,
 
 
 static void
-file_buffer_ready_cb (void     *buffer,
-		      gsize     count,
-		      GError   *error,
-		      gpointer  user_data)
+file_buffer_ready_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	GthPixbufListTask *self = user_data;
 	GInputStream      *istream;
@@ -168,7 +168,7 @@ file_buffer_ready_cb (void     *buffer,
 		return;
 	}
 
-	istream = g_memory_input_stream_new_from_data (buffer, count, NULL);
+	istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
 	self->priv->original_pixbuf = gdk_pixbuf_new_from_stream (istream, gth_task_get_cancellable (GTH_TASK (self)), &error);
 	g_object_unref (istream);
 

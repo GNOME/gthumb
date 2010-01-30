@@ -52,6 +52,8 @@ CLUTTER_GTK_REQUIRED=0.10.0
 GSTREAMER_REQUIRED=0.10
 OPENRAW_REQUIRED=0.0.8
 UNIQUE_REQUIRED=1.1.2
+LIBSOUP_REQUIRED=2.26
+GNOME_KEYRING_REQUIRED=2.28
 
 dnl ===========================================================================
 
@@ -259,7 +261,6 @@ CFLAGS+="$WARNINGS "
 
 dnl ===========================================================================
 
-AC_MSG_CHECKING(JPEG Support)
 AC_ARG_ENABLE([jpeg],
 	      [AS_HELP_STRING([--disable-jpeg],[do not compile code that uses the libjpeg library])],,
 	      [enable_jpeg=yes])
@@ -274,12 +275,9 @@ if test "x$enable_jpeg" = "xyes"; then
 fi
 AC_SUBST(JPEG_LIBS)
 AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
-AC_MSG_RESULT($enable_jpeg)
-
 
 dnl ===========================================================================
 
-AC_MSG_CHECKING(TIFF Support)
 AC_ARG_ENABLE([tiff],
 	      [AS_HELP_STRING([--disable-tiff],[do not compile code that uses the libtiff library])],,
 	      [enable_tiff=yes])
@@ -295,10 +293,10 @@ if test x$enable_tiff = xyes ; then
 	fi
 fi
 AC_SUBST(TIFF_LIBS)
-AC_MSG_RESULT($enable_tiff)
 
 dnl ===========================================================================
 
+AC_MSG_CHECKING(liboperaw)
 AC_ARG_ENABLE([libopenraw],
 	      [AS_HELP_STRING([--enable-libopenraw],[use the libopenraw library to read raw files [default=no]])],,
 	      [enable_libopenraw=no])
@@ -309,11 +307,53 @@ if test x$enable_libopenraw = xyes ; then
 			  [enable_libopenraw=yes],
 			  [enable_libopenraw=no])
 	if test "x$enable_libopenraw" = "xyes"; then
-		AC_DEFINE(ENABLE_LIBOPENRAW, 1, [Define to 1 if libopenraw must be used to read raw files])
+		AC_DEFINE(ENABLE_LIBOPENRAW, 1, [Define to 1 if libopenraw must be used to read raw files instead of dcraw])
 	fi
+fi
+if test x$enable_libopenraw = xno ; then
+	enable_libopenraw='no (uses dcraw)'
 fi
 AC_SUBST(LIBOPENRAW_LIBS)
 AC_SUBST(LIBOPENRAW_CFLAGS)
+AC_MSG_RESULT($enable_libopenraw)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([gnome-keyring],
+	      [AS_HELP_STRING([--disable-gnome-keyring],[do not compile code that uses the gnome-keyring library])],,
+	      [enable_gnome_keyring=yes])
+
+if test x$enable_gnome_keyring = xyes ; then
+	PKG_CHECK_MODULES(GNOME_KEYRING,
+			  [gnome-keyring-1 >= $GNOME_KEYRING_REQUIRED],
+			  [AC_DEFINE(HAVE_GNOME_KEYRING, 1, [Have gnome-keyring])
+			   enable_gnome_keyring=yes],
+			  [enable_gnome_keyring=no])
+fi
+AC_SUBST(GNOME_KEYRING_CFLAGS)
+AC_SUBST(GNOME_KEYRING_LIBS)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([libsoup],
+	      [AS_HELP_STRING([--disable-libsoup],[do not compile code that uses the libsoup library])],,
+	      [enable_libsoup=yes])
+
+if test x$enable_libsoup = xyes ; then
+	PKG_CHECK_MODULES(LIBSOUP_GNOME,
+			  [libsoup-gnome-2.4 >= $LIBSOUP_REQUIRED],
+			  [LIBSOUP_CFLAGS="$LIBSOUP_GNOME_CFLAGS"
+			   LIBSOUP_LIBS="$LIBSOUP_GNOME_LIBS"
+			   AC_DEFINE(HAVE_LIBSOUP_GNOME, 1, [Have libsoup-gnome])
+			   enable_libsoup=yes],
+			  [PKG_CHECK_MODULES(LIBSOUP,
+					     [libsoup-2.4 >= $LIBSOUP_REQUIRED],
+					     [enable_libsoup=yes],
+					     [enable_libsoup=no])])
+fi
+AC_SUBST(LIBSOUP_CFLAGS)
+AC_SUBST(LIBSOUP_LIBS)
+AM_CONDITIONAL(ENABLE_WEB_SERVICES, test "x$enable_libsoup" = xyes)
 
 dnl ===========================================================================
 
@@ -374,6 +414,9 @@ extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
 extensions/image_viewer/data/ui/Makefile
+extensions/importer/Makefile
+extensions/importer/data/Makefile
+extensions/importer/data/ui/Makefile
 extensions/jpeg_utils/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile
@@ -381,6 +424,9 @@ extensions/list_tools/data/ui/Makefile
 extensions/photo_importer/Makefile
 extensions/photo_importer/data/Makefile
 extensions/photo_importer/data/ui/Makefile
+extensions/picasaweb/Makefile
+extensions/picasaweb/data/Makefile
+extensions/picasaweb/data/ui/Makefile
 extensions/pixbuf_savers/Makefile
 extensions/pixbuf_savers/data/Makefile
 extensions/pixbuf_savers/data/ui/Makefile
@@ -425,4 +471,6 @@ Configuration:
 	Clutter support      : ${enable_clutter}
 	GStreamer support    : ${enable_gstreamer}
 	Use libopenraw       : ${enable_libopenraw}
+	Web services         : ${enable_libsoup}
+	Use GNOME Keyring    : ${enable_gnome_keyring}
 "

@@ -426,7 +426,7 @@ dlg_extensions (GthBrowser *browser)
 		GtkTreeIter              iter;
 
 		description = gth_extension_manager_get_description (manager, name);
-		if ((description == NULL) || description->mandatory)
+		if ((description == NULL) || description->mandatory || description->hidden)
 			continue;
 
 		gtk_list_store_append (data->list_store, &iter);

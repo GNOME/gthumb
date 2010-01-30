@@ -1,5 +1,5 @@
 [Extension]
-Mandatory=true
+Hidden=true
 
 [Loader]
 Type=module

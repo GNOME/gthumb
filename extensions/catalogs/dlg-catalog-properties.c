@@ -52,10 +52,10 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-catalog_saved_cb (void     *buffer,
-		  gsize     count,
-		  GError   *error,
-		  gpointer  user_data)
+catalog_saved_cb (void     **buffer,
+		  gsize      count,
+		  GError    *error,
+		  gpointer   user_data)
 {
 	DialogData *data = user_data;
 
@@ -80,7 +80,6 @@ catalog_saved_cb (void     *buffer,
 	else
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the catalog"), &error);
 
-	g_free (buffer);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -99,7 +98,7 @@ save_button_clicked_cb (GtkButton  *button,
 	GthDateTime *date_time;
 	GFile       *gio_file;
 	char        *buffer;
-	gsize        buffer_size;
+	gsize        size;
 
 	if (strcmp (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))), "") != 0) {
 		GFile *parent;
@@ -135,10 +134,10 @@ save_button_clicked_cb (GtkButton  *button,
 	gth_hook_invoke ("dlg-catalog-properties-save", data->builder, data->file_data, data->catalog);
 
 	gio_file = gth_catalog_file_to_gio_file (data->file_data->file);
-	buffer = gth_catalog_to_data (data->catalog, &buffer_size);
+	buffer = gth_catalog_to_data (data->catalog, &size);
 	g_write_file_async (gio_file,
 			    buffer,
-			    buffer_size,
+			    size,
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    catalog_saved_cb,

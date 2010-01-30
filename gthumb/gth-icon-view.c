@@ -25,8 +25,8 @@
 #include "gth-icon-view.h"
 
 
-#define IMAGE_TEXT_SPACING 5
-#define ICON_SPACING 12
+#define IMAGE_TEXT_SPACING 0
+#define DEFAULT_ICON_SPACING 12
 #define SIZE_REQUEST 50
 
 
@@ -179,6 +179,16 @@ gth_icon_view_real_get_cursor (GthFileView *base)
 	gtk_tree_path_free (path);
 
 	return pos;
+}
+
+
+void
+gth_icon_view_real_set_spacing (GthFileView *self,
+			        int          spacing)
+{
+	gtk_icon_view_set_margin (GTK_ICON_VIEW (self), spacing);
+	gtk_icon_view_set_column_spacing (GTK_ICON_VIEW (self), spacing);
+	gtk_icon_view_set_row_spacing (GTK_ICON_VIEW (self), spacing);
 }
 
 
@@ -460,9 +470,7 @@ static void
 gth_icon_view_init (GthIconView *icon_view)
 {
 	gtk_icon_view_set_spacing (GTK_ICON_VIEW (icon_view), IMAGE_TEXT_SPACING);
-	gtk_icon_view_set_margin (GTK_ICON_VIEW (icon_view), ICON_SPACING);
-	gtk_icon_view_set_column_spacing (GTK_ICON_VIEW (icon_view), ICON_SPACING);
-	gtk_icon_view_set_row_spacing (GTK_ICON_VIEW (icon_view), ICON_SPACING);
+	gth_icon_view_real_set_spacing (GTH_FILE_VIEW (icon_view), DEFAULT_ICON_SPACING);
 	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
 	gtk_widget_set_size_request (GTK_WIDGET (icon_view), SIZE_REQUEST, SIZE_REQUEST);
 }
@@ -482,6 +490,7 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	iface->activated = gth_icon_view_real_activated;
 	iface->set_cursor = gth_icon_view_real_set_cursor;
 	iface->get_cursor = gth_icon_view_real_get_cursor;
+	iface->set_spacing = gth_icon_view_real_set_spacing;
 	iface->enable_drag_source = gth_icon_view_enable_drag_source;
 	iface->unset_drag_source = gth_icon_view_unset_drag_source;
 	iface->enable_drag_dest = gth_icon_view_enable_drag_dest;

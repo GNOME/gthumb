@@ -2021,15 +2021,8 @@ resolve_symlinks (GFile   *file,
 	}
 
 	path = g_file_get_path (file);
-	if (path == NULL) {
-		char *uri;
-
-		uri = g_file_get_uri (file);
-		*error = g_error_new (G_IO_ERROR, G_IO_ERROR_FAILED, "No local pathname for file: %s.", uri);
-		g_free (uri);
-
-		return NULL;
-	}
+	if (path == NULL)
+		return g_file_dup (file);
 
 	resolved = g_file_new_for_path (G_DIR_SEPARATOR_S);
 

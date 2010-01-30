@@ -37,15 +37,12 @@ typedef struct {
 	gboolean       view_destination;
 	GFile         *catalog_file;
 	GthCatalog    *catalog;
-	char          *buffer;
-	gsize          length;
 } AddData;
 
 
 static void
 add_data_free (AddData *add_data)
 {
-	g_free (add_data->buffer);
 	_g_object_unref (add_data->catalog);
 	_g_object_list_unref (add_data->files);
 	_g_object_unref (add_data->catalog_file);
@@ -94,10 +91,10 @@ get_selected_catalog (DialogData *data)
 
 
 static void
-catalog_save_done_cb (void     *buffer,
-		      gsize     count,
-		      GError   *error,
-		      gpointer  user_data)
+catalog_save_done_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	AddData *add_data = user_data;
 
@@ -128,6 +125,8 @@ catalog_ready_cb (GObject  *catalog,
 {
 	AddData *add_data = user_data;
 	GList   *scan;
+	char    *buffer;
+	gsize    length;
 	GFile   *gio_file;
 
 	if (error != NULL) {
@@ -142,11 +141,11 @@ catalog_ready_cb (GObject  *catalog,
 		gth_catalog_insert_file (add_data->catalog, file_to_add->file, -1);
 	}
 
-	add_data->buffer = gth_catalog_to_data (add_data->catalog, &add_data->length);
+	buffer = gth_catalog_to_data (add_data->catalog, &length);
 	gio_file = gth_catalog_file_to_gio_file (add_data->catalog_file);
 	g_write_file_async (gio_file,
-			    add_data->buffer,
-			    add_data->length,
+			    buffer,
+			    length,
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    catalog_save_done_cb,

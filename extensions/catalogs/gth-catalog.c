@@ -561,16 +561,16 @@ catalog_file_info_ready_cb (GObject      *source_object,
 
 
 static void
-list__catalog_buffer_ready_cb (void     *buffer,
-			       gsize     count,
-			       GError   *error,
-			       gpointer  user_data)
+list__catalog_buffer_ready_cb (void     **buffer,
+			       gsize      count,
+			       GError    *error,
+			       gpointer   user_data)
 {
 	ListData   *list_data = user_data;
 	GthCatalog *catalog = list_data->catalog;
 
-	if ((error == NULL) && (buffer != NULL)) {
-		gth_catalog_load_from_data (catalog, buffer,  count, &error);
+	if ((error == NULL) && (*buffer != NULL)) {
+		gth_catalog_load_from_data (catalog, *buffer,  count, &error);
 		if (error != NULL) {
 			gth_catalog_list_done (list_data, error);
 			return;
@@ -1027,18 +1027,18 @@ typedef struct {
 
 
 static void
-load__catalog_buffer_ready_cb (void     *buffer,
-			       gsize     count,
-			       GError   *error,
-			       gpointer  user_data)
+load__catalog_buffer_ready_cb (void     **buffer,
+			       gsize      count,
+			       GError    *error,
+			       gpointer   user_data)
 {
 	LoadData   *load_data = user_data;
 	GthCatalog *catalog = NULL;
 
 	if (error == NULL) {
-		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
+		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", *buffer);
 		if (catalog != NULL)
-			gth_catalog_load_from_data (catalog, buffer, count, &error);
+			gth_catalog_load_from_data (catalog, *buffer, count, &error);
 	}
 
 	load_data->ready_func (G_OBJECT (catalog), error, load_data->user_data);

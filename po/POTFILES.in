@@ -79,6 +79,8 @@ extensions/edit_metadata/gth-edit-comment-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
 extensions/edit_metadata/gth-edit-metadata-dialog.h
 extensions/edit_metadata/main.c
+[type: gettext/ini]extensions/example/src/example.extension.in.in
+extensions/example/src/main.c
 [type: gettext/glade]extensions/exiv2/data/ui/edit-exiv2-page.ui
 [type: gettext/ini]extensions/exiv2/exiv2.extension.in.in
 extensions/exiv2/exiv2-utils.cpp
@@ -189,6 +191,18 @@ extensions/image_viewer/gth-metadata-provider-image.h
 extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
+extensions/importer/data/gthumb-importer.schemas.in
+[type: gettext/glade]extensions/importer/data/ui/import-preferences.ui
+extensions/importer/gth-import-preferences-dialog.c
+extensions/importer/gth-import-preferences-dialog.h
+extensions/importer/gth-import-task.c
+extensions/importer/gth-import-task.h
+[type: gettext/ini]extensions/importer/importer.extension.in.in
+extensions/importer/importer.h
+extensions/importer/main.c
+extensions/importer/preferences.h
+extensions/importer/utils.c
+extensions/importer/utils.h
 extensions/jpeg_utils/jmemorydest.c
 extensions/jpeg_utils/jmemorydest.h
 extensions/jpeg_utils/jmemorysrc.c
@@ -226,11 +240,46 @@ extensions/photo_importer/data/gthumb_photo_importer.schemas.in
 [type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
 extensions/photo_importer/dlg-photo-importer.c
 extensions/photo_importer/dlg-photo-importer.h
-extensions/photo_importer/gth-import-task.c
-extensions/photo_importer/gth-import-task.h
 extensions/photo_importer/main.c
 [type: gettext/ini]extensions/photo_importer/photo_importer.extension.in.in
 extensions/photo_importer/preferences.h
+extensions/picasaweb/actions.c
+extensions/picasaweb/actions.h
+extensions/picasaweb/callbacks.c
+extensions/picasaweb/callbacks.h
+extensions/picasaweb/data/gthumb-picasaweb.schemas.in
+[type: gettext/glade]extensions/picasaweb/data/ui/export-to-picasaweb.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/import-from-picasaweb.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-chooser.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-manager.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-properties.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-album-properties.ui
+extensions/picasaweb/dlg-export-to-picasaweb.c
+extensions/picasaweb/dlg-export-to-picasaweb.h
+extensions/picasaweb/dlg-import-from-picasaweb.c
+extensions/picasaweb/dlg-import-from-picasaweb.h
+extensions/picasaweb/google-connection.c
+extensions/picasaweb/google-connection.h
+extensions/picasaweb/main.c
+extensions/picasaweb/picasa-account-chooser-dialog.c
+extensions/picasaweb/picasa-account-chooser-dialog.h
+extensions/picasaweb/picasa-account-manager-dialog.c
+extensions/picasaweb/picasa-account-manager-dialog.h
+extensions/picasaweb/picasa-account-properties-dialog.c
+extensions/picasaweb/picasa-account-properties-dialog.h
+extensions/picasaweb/picasa-album-properties-dialog.c
+extensions/picasaweb/picasa-album-properties-dialog.h
+extensions/picasaweb/picasa-web-album.c
+extensions/picasaweb/picasa-web-album.h
+[type: gettext/ini]extensions/picasaweb/picasaweb.extension.in.in
+extensions/picasaweb/picasa-web-photo.c
+extensions/picasaweb/picasa-web-photo.h
+extensions/picasaweb/picasa-web-service.c
+extensions/picasaweb/picasa-web-service.h
+extensions/picasaweb/picasa-web-types.h
+extensions/picasaweb/picasa-web-user.c
+extensions/picasaweb/picasa-web-user.h
+extensions/picasaweb/preferences.h
 extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in
 [type: gettext/glade]extensions/pixbuf_savers/data/ui/jpeg-options.ui
 [type: gettext/glade]extensions/pixbuf_savers/data/ui/png-options.ui

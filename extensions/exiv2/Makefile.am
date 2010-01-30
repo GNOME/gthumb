@@ -16,7 +16,7 @@ libexiv2_la_SOURCES = 			\
 
 libexiv2_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(EXIV2_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libexiv2_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libexiv2_la_LIBADD = $(GTHUMB_LIBS)
+libexiv2_la_LIBADD = $(GTHUMB_LIBS) $(EXIV2_LIBS)
 libexiv2_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

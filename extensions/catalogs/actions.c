@@ -50,8 +50,6 @@ typedef struct {
 	GList      *file_data_list;
 	GFile      *gio_file;
 	GthCatalog *catalog;
-	char       *buffer;
-	gsize       length;
 } RemoveFromCatalogData;
 
 
@@ -62,7 +60,6 @@ remove_from_catalog_end (GError                *error,
 	if (error != NULL)
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not remove the files from the catalog"), &error);
 
-	g_free (data->buffer);
 	g_object_unref (data->catalog);
 	g_object_unref (data->gio_file);
 	_g_object_list_unref (data->file_data_list);
@@ -71,10 +68,10 @@ remove_from_catalog_end (GError                *error,
 
 
 static void
-catalog_save_done_cb (void     *buffer,
-		      gsize     count,
-		      GError   *error,
-		      gpointer  user_data)
+catalog_save_done_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
 {
 	RemoveFromCatalogData *data = user_data;
 
@@ -102,27 +99,29 @@ catalog_save_done_cb (void     *buffer,
 
 
 static void
-catalog_buffer_ready_cb (void     *buffer,
-			 gsize     count,
-			 GError   *error,
-			 gpointer  user_data)
+catalog_buffer_ready_cb (void     **buffer,
+			 gsize      count,
+			 GError    *error,
+			 gpointer   user_data)
 {
 	RemoveFromCatalogData *data = user_data;
 	GList                 *scan;
+	void                  *catalog_buffer;
+	gsize                  catalog_size;
 
 	if (error != NULL) {
 		remove_from_catalog_end (error, data);
 		return;
 	}
 
-	data->catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
+	data->catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", *buffer);
 	if (data->catalog == NULL) {
 		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
 		remove_from_catalog_end (error, data);
 		return;
 	}
 
-	gth_catalog_load_from_data (data->catalog, buffer, count, &error);
+	gth_catalog_load_from_data (data->catalog, *buffer, count, &error);
 	if (error != NULL) {
 		remove_from_catalog_end (error, data);
 		return;
@@ -134,15 +133,15 @@ catalog_buffer_ready_cb (void     *buffer,
 		gth_catalog_remove_file (data->catalog, file_data->file);
 	}
 
-	data->buffer = gth_catalog_to_data (data->catalog, &data->length);
+	catalog_buffer = gth_catalog_to_data (data->catalog, &catalog_size);
 	if (error != NULL) {
 		remove_from_catalog_end (error, data);
 		return;
 	}
 
 	g_write_file_async (data->gio_file,
-			    data->buffer,
-			    data->length,
+			    catalog_buffer,
+			    catalog_size,
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    catalog_save_done_cb,
