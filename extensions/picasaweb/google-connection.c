@@ -26,8 +26,8 @@
 #include <gthumb.h>
 #include "google-connection.h"
 
-
-#define SOUP_LOG_LEVEL SOUP_LOGGER_LOG_NONE
+#undef DEBUG_GOOGLE_CONNECTION
+#define SOUP_LOG_LEVEL SOUP_LOGGER_LOG_BODY
 #define GTHUMB_SOURCE ("GNOME-" PACKAGE "-" VERSION)
 
 
@@ -334,18 +334,22 @@ google_connection_connect (GoogleConnection    *self,
 	g_return_if_fail (password != NULL);
 
 	if (self->priv->session == NULL) {
-		SoupLogger *logger;
-
 		self->priv->session = soup_session_async_new_with_options (
 #ifdef HAVE_LIBSOUP_GNOME
 			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_PROXY_RESOLVER_GNOME,
 #endif
 			NULL);
 
-		logger = soup_logger_new (SOUP_LOG_LEVEL, -1);
-		soup_session_add_feature (self->priv->session, SOUP_SESSION_FEATURE (logger));
+#ifdef DEBUG_GOOGLE_CONNECTION
+		{
+			SoupLogger *logger;
 
-		g_object_unref (logger);
+			logger = soup_logger_new (SOUP_LOG_LEVEL, -1);
+			soup_session_add_feature (self->priv->session, SOUP_SESSION_FEATURE (logger));
+
+			g_object_unref (logger);
+		}
+#endif
 	}
 
 	_g_object_unref (self->priv->cancellable);
