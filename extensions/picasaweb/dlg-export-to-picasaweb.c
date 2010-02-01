@@ -618,6 +618,7 @@ new_album_dialog_response_cb (GtkDialog *dialog,
 
 			g_object_unref (album);
 		}
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 
 	default:
