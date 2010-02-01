@@ -430,7 +430,7 @@ gth_test_changed (GthTest *self)
 void
 gth_test_reset (GthTest *self)
 {
-	return GTH_TEST_GET_CLASS (self)->reset (self);
+	GTH_TEST_GET_CLASS (self)->reset (self);
 }
 
 

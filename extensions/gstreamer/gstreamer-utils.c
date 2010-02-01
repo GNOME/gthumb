@@ -703,12 +703,14 @@ get_current_frame_step2 (GstBuffer *buf,
 
 	if (buf == NULL) {
 		g_warning ("Could not take screenshot: %s", "conversion failed");
-		return screenshot_data_finalize (data);
+		screenshot_data_finalize (data);
+		return;
 	}
 
 	if (GST_BUFFER_CAPS (buf) == NULL) {
 		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
-		return screenshot_data_finalize (data);
+		screenshot_data_finalize (data);
+		return;
 	}
 
 	s = gst_caps_get_structure (GST_BUFFER_CAPS (buf), 0);
