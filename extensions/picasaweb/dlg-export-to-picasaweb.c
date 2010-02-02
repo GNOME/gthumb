@@ -868,6 +868,8 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
 
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("album_liststore")), ALBUM_NAME_COLUMN, GTK_SORT_ASCENDING);
+
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
 	/* Set the signals handlers. */

@@ -237,6 +237,7 @@
                                   <object class="GtkTreeViewColumn" id="name_treeviewcolumn">
                                     <property name="title">Name</property>
                                     <property name="expand">True</property>
+                                    <property name="sort_column_id">1</property>
                                   </object>
                                 </child>
                                 <child>

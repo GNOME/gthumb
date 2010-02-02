@@ -944,6 +944,8 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 	gtk_widget_show (data->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->file_list, TRUE, TRUE, 0);
 
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("album_liststore")), ALBUM_NAME_COLUMN, GTK_SORT_ASCENDING);
+
 	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
 
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
