@@ -427,6 +427,7 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 		GthFileData *file_data = scan->data;
 
 		if (! g_file_trash (file_data->file, NULL, &error)) {
+			moved_to_trash = FALSE;
 			if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
 				GtkWidget *d;
 
@@ -437,15 +438,15 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 							   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
 							   GTK_STOCK_CANCEL,
 							   GTK_STOCK_DELETE);
-				g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
+				g_signal_connect (d,
+						  "response",
+						  G_CALLBACK (delete_permanently_response_cb),
+						  gth_file_data_list_dup (file_list));
 				gtk_widget_show (d);
-
-				file_list = NULL;
 
 				break;
 			}
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the files to the Trash"), &error);
-			moved_to_trash = FALSE;
 			break;
 		}
 	}
