@@ -291,7 +291,7 @@ file_buffer_ready_cb (void     **buffer,
 	}
 
 	file_data = self->priv->current->data;
-	if (gth_main_extension_is_active ("exiv2"))
+	if (gth_main_extension_is_active ("exiv2_tools"))
 		exiv2_read_metadata_from_buffer (*buffer, count, file_data->info, NULL);
 
 	destination = gth_import_utils_get_file_destination (file_data,

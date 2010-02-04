@@ -196,7 +196,7 @@ gth_edit_exiv2_page_init (GthEditExiv2Page *self)
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
 
-	self->priv->builder = _gtk_builder_new_from_file ("edit-exiv2-page.ui", "exiv2");
+	self->priv->builder = _gtk_builder_new_from_file ("edit-exiv2-page.ui", "exiv2_tools");
   	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);
 }
 
