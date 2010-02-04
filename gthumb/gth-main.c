@@ -1192,7 +1192,7 @@ gth_main_activate_extensions (void)
 						"catalogs",
 						"comments",
 						"desktop_background",
-						"exiv2",
+						"exiv2_tools",
 						"file_manager",
 						"file_tools",
 						"gstreamer",

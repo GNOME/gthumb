@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <extensions/catalogs/gth-catalog.h>
-#include <extensions/exiv2/exiv2-utils.h>
+#include <extensions/exiv2_tools/exiv2-utils.h>
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
 #include "utils.h"

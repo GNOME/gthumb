@@ -4,7 +4,7 @@ SUBDIRS = 			\
 	comments		\
 	desktop_background	\
 	edit_metadata		\
-	exiv2			\
+	exiv2_tools		\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
