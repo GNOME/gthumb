@@ -4265,9 +4265,53 @@ gth_browser_show_last_image (GthBrowser *browser,
 
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
+				gboolean       success,
+				gpointer       user_data);
+
+
+static void
+_gth_browser_set_current_viewer_page (GthBrowser    *browser,
+				      GthViewerPage *registered_viewer_page)
+{
+	if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page))) {
+		gth_viewer_page_deactivate (browser->priv->viewer_page);
+		gtk_ui_manager_ensure_update (browser->priv->ui);
+		gth_browser_set_viewer_widget (browser, NULL);
+		g_object_unref (browser->priv->viewer_page);
+		browser->priv->viewer_page = NULL;
+	}
+	if (browser->priv->viewer_page == NULL) {
+		browser->priv->viewer_page = g_object_new (G_OBJECT_TYPE (registered_viewer_page), NULL);
+		gth_viewer_page_activate (browser->priv->viewer_page, browser);
+		gtk_ui_manager_ensure_update (browser->priv->ui);
+
+		g_signal_connect (browser->priv->viewer_page,
+				  "file-loaded",
+				  G_CALLBACK (gth_viewer_page_file_loaded_cb),
+				  browser);
+	}
+}
+
+
+static void
+gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
+				gboolean       success,
 				gpointer       user_data)
 {
 	GthBrowser *browser = user_data;
+
+	if (! success) {
+		GthViewerPage *basic_viewer_page;
+
+		/* Use the basic viewer if the default viewer failed.  The
+		 * basic viewer is registered before any other viewer, so it's
+		 * the last one in the viewer_pages list. */
+
+		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
+		_gth_browser_set_current_viewer_page (browser, basic_viewer_page);
+		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+		return;
+	}
 
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
@@ -4299,7 +4343,7 @@ file_metadata_ready_cb (GList    *files,
 	if (browser->priv->viewer_page != NULL)
 		gth_viewer_page_view (browser->priv->viewer_page, file_data);
 	else
-		gth_viewer_page_file_loaded_cb (NULL, browser);
+		gth_viewer_page_file_loaded_cb (NULL, FALSE, browser);
 
 	if (browser->priv->location == NULL) {
 		GFile *parent;
@@ -4420,23 +4464,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 		GthViewerPage *registered_viewer_page = scan->data;
 
 		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
-			if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page))) {
-				gth_viewer_page_deactivate (browser->priv->viewer_page);
-				gtk_ui_manager_ensure_update (browser->priv->ui);
-				gth_browser_set_viewer_widget (browser, NULL);
-				g_object_unref (browser->priv->viewer_page);
-				browser->priv->viewer_page = NULL;
-			}
-			if (browser->priv->viewer_page == NULL) {
-				browser->priv->viewer_page = g_object_new (G_OBJECT_TYPE (registered_viewer_page), NULL);
-				gth_viewer_page_activate (browser->priv->viewer_page, browser);
-				gtk_ui_manager_ensure_update (browser->priv->ui);
-
-				g_signal_connect (browser->priv->viewer_page,
-						  "file-loaded",
-						  G_CALLBACK (gth_viewer_page_file_loaded_cb),
-						  browser);
-			}
+			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
 			break;
 		}
 	}

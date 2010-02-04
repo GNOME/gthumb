@@ -81,9 +81,9 @@ thumb_loader_ready_cb (GthThumbLoader    *il,
 		       GError            *error,
 		       GthFileViewerPage *self)
 {
-	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self));
 	if (error == NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
+	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), TRUE);
 }
 
 
@@ -298,6 +298,7 @@ static void
 gth_file_viewer_page_instance_init (GthFileViewerPage *self)
 {
 	self->priv = GTH_FILE_VIEWER_PAGE_GET_PRIVATE (self);
+	self->priv->thumb_loader = NULL;
 }
 
 

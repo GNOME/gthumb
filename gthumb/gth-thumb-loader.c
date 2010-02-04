@@ -97,8 +97,8 @@ gth_thumb_loader_finalize (GObject *object)
 	if (self->priv != NULL) {
 		g_free (self->priv->thumbnailer_tmpfile);
 		_g_object_unref (self->priv->pixbuf);
-		g_object_unref (self->priv->iloader);
-		g_object_unref (self->priv->file_data);
+		_g_object_unref (self->priv->iloader);
+		_g_object_unref (self->priv->file_data);
 		g_free (self->priv);
 		self->priv = NULL;
 	}

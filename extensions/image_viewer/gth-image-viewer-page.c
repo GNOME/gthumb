@@ -206,7 +206,7 @@ viewer_image_ready_cb (GtkWidget          *widget,
 	gth_image_history_add_image (self->priv->history,
 				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
-	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self));
+	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), TRUE);
 }
 
 
@@ -264,13 +264,15 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	GthImageLoader *image_loader;
 
 	if (error != NULL) {
-		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), FALSE);
 		return;
 	}
 
 	image_loader = gth_image_preloader_get_loader (self->priv->preloader, gth_image_preloader_get_requested (self->priv->preloader));
-	if (image_loader == NULL)
+	if (image_loader == NULL) {
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), FALSE);
 		return;
+	}
 
 	if (GTK_WIDGET_VISIBLE (self->priv->viewer))
 		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));

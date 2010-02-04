@@ -45,9 +45,10 @@ gth_viewer_page_base_init (gpointer g_iface)
 	                          G_SIGNAL_RUN_LAST,
 	                          G_STRUCT_OFFSET (GthViewerPageIface, file_loaded),
 	                          NULL, NULL,
-	                          g_cclosure_marshal_VOID__VOID,
+	                          g_cclosure_marshal_VOID__BOOLEAN,
 	                          G_TYPE_NONE,
-	                          0);
+	                          1,
+	                          G_TYPE_BOOLEAN);
 
 	initialized = TRUE;
 }
@@ -190,7 +191,8 @@ gth_viewer_page_revert (GthViewerPage *self)
 
 
 void
-gth_viewer_page_file_loaded (GthViewerPage *self)
+gth_viewer_page_file_loaded (GthViewerPage *self,
+			     gboolean       success)
 {
-	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, NULL);
+	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, success);
 }
