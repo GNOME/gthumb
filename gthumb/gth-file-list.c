@@ -40,6 +40,7 @@
 #define UPDATE_THUMBNAILS_TIMEOUT 250
 #define N_LOOKAHEAD 50
 #define EMPTY (N_("(Empty)"))
+#define THUMBNAIL_BORDER (8 * 2)
 
 typedef enum {
 	GTH_FILE_LIST_OP_TYPE_SET_FILES,
@@ -598,10 +599,11 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	file_list->priv->text_renderer = renderer = gtk_cell_renderer_text_new ();
 	g_object_set (G_OBJECT (renderer),
-		      "ellipsize", PANGO_ELLIPSIZE_END,
+		      /*"ellipsize", PANGO_ELLIPSIZE_NONE,*/
 		      "alignment", PANGO_ALIGN_CENTER,
-		      "width", file_list->priv->thumb_size + (8 * 2) /* FIXME: remove the numbers */,
-		      /*"single-paragraph-mode", TRUE,*/
+		      "width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
+		      "wrap-mode", PANGO_WRAP_WORD_CHAR,
+		      "wrap-width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
 		      NULL);
 
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
@@ -1128,10 +1130,11 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);
 
 	g_object_set (file_list->priv->thumbnail_renderer,
-		      "size", size,
+		      "size", file_list->priv->thumb_size,
 		      NULL);
 	g_object_set (file_list->priv->text_renderer,
-		      "width", size + (8 * 2),
+		      "width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
+		      "wrap-width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
 		      NULL);
 }
 
