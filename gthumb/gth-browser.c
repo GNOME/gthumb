@@ -4263,6 +4263,53 @@ gth_browser_show_last_image (GthBrowser *browser,
 }
 
 
+/* -- gth_browser_load_file -- */
+
+
+typedef struct {
+	int          ref;
+	GthBrowser  *browser;
+	GthFileData *file_data;
+	gboolean     view;
+} LoadFileData;
+
+
+static LoadFileData *
+load_file_data_new (GthBrowser  *browser,
+		    GthFileData *file_data,
+		    gboolean     view)
+{
+	LoadFileData *data;
+
+	data = g_new0 (LoadFileData, 1);
+	data->ref = 1;
+	data->browser = g_object_ref (browser);
+	if (file_data != NULL)
+		data->file_data = g_object_ref (file_data);
+	data->view = view;
+
+	return data;
+}
+
+
+static void
+load_file_data_ref (LoadFileData *data)
+{
+	data->ref++;
+}
+
+
+static void
+load_file_data_unref (LoadFileData *data)
+{
+	if (--data->ref > 0)
+		return;
+	_g_object_unref (data->file_data);
+	_g_object_unref (data->browser);
+	g_free (data);
+}
+
+
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 				gboolean       success,
@@ -4324,41 +4371,6 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 
 
 static void
-file_metadata_ready_cb (GList    *files,
-			GError   *error,
-			gpointer  user_data)
-{
-	GthBrowser  *browser = user_data;
-	GthFileData *file_data;
-
-	file_data = files->data;
-	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file))
-		file_data = NULL;
-
-	if (file_data == NULL)
-		return;
-
-	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
-
-	if (browser->priv->viewer_page != NULL)
-		gth_viewer_page_view (browser->priv->viewer_page, file_data);
-	else
-		gth_viewer_page_file_loaded_cb (NULL, FALSE, browser);
-
-	if (browser->priv->location == NULL) {
-		GFile *parent;
-
-		parent = g_file_get_parent (file_data->file);
-		_gth_browser_load (browser, parent, file_data->file, GTH_ACTION_GO_TO, FALSE);
-		g_object_unref (parent);
-	}
-}
-
-
-/* -- gth_browser_load_file -- */
-
-
-static void
 _gth_browser_make_file_visible (GthBrowser  *browser,
 				GthFileData *file_data)
 {
@@ -4403,6 +4415,78 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 
 
 static void
+file_metadata_ready_cb (GList    *files,
+			GError   *error,
+			gpointer  user_data)
+{
+	LoadFileData *data = user_data;
+	GthBrowser   *browser;
+	GthFileData  *file_data;
+	GList        *scan;
+
+	browser = data->browser;
+	file_data = files->data;
+
+	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file)) {
+		load_file_data_unref (data);
+		return;
+	}
+
+	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
+
+	if (! GTK_WIDGET_VISIBLE (browser->priv->file_properties)) {
+		GtkTreePath *path;
+
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
+		gtk_widget_show (browser->priv->file_properties);
+
+		if (browser->priv->location != NULL) {
+			path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
+			if (path != NULL) {
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);
+				gtk_tree_path_free (path);
+			}
+		}
+	}
+
+	if (browser->priv->viewer_pages == NULL)
+		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
+	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
+		GthViewerPage *registered_viewer_page = scan->data;
+
+		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
+			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
+			break;
+		}
+	}
+
+	if (data->view) {
+		gth_viewer_page_show (browser->priv->viewer_page);
+		if (browser->priv->fullscreen) {
+			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
+			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
+		}
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+	}
+
+	if (browser->priv->viewer_page != NULL)
+		gth_viewer_page_view (browser->priv->viewer_page, file_data);
+	else
+		gth_viewer_page_file_loaded_cb (NULL, FALSE, browser);
+
+	if (browser->priv->location == NULL) {
+		GFile *parent;
+
+		parent = g_file_get_parent (file_data->file);
+		_gth_browser_load (browser, parent, file_data->file, GTH_ACTION_GO_TO, FALSE);
+		g_object_unref (parent);
+	}
+
+	load_file_data_unref (data);
+}
+
+
+static void
 _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 {
 	if (browser->priv->viewer_page != NULL) {
@@ -4420,8 +4504,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 			GthFileData *file_data,
 			gboolean     view)
 {
-	GList *scan;
-	GList *files;
+	LoadFileData *data;
+	GList        *files;
 
 	if (file_data == NULL) {
 		_gth_browser_deactivate_viewer_page (browser);
@@ -4436,99 +4520,28 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 		return;
 	}
-	else if (! GTK_WIDGET_VISIBLE (browser->priv->file_properties)) {
-		GtkTreePath *path;
 
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
-		gtk_widget_show (browser->priv->file_properties);
-
-		if (browser->priv->location != NULL) {
-			path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
-			if (path != NULL) {
-				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);
-				gtk_tree_path_free (path);
-			}
-		}
+	if ((browser->priv->current_file != NULL) && g_file_equal (file_data->file, browser->priv->current_file->file)) {
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+		return;
 	}
 
-	g_object_ref (file_data);
 	_g_object_unref (browser->priv->current_file);
 	browser->priv->current_file = gth_file_data_dup (file_data);
-	g_object_unref (file_data);
 
 	_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
-	if (browser->priv->viewer_pages == NULL)
-		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
-	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
-		GthViewerPage *registered_viewer_page = scan->data;
+	data = load_file_data_new (browser, file_data, view);
+	files = g_list_prepend (NULL, data->file_data->file);
+	_g_query_all_metadata_async (files,
+				     FALSE,
+				     TRUE,
+				     "*",
+				     NULL,
+				     file_metadata_ready_cb,
+				     data);
 
-		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
-			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
-			break;
-		}
-	}
-
-	if (view) {
-		gth_viewer_page_show (browser->priv->viewer_page);
-		if (browser->priv->fullscreen) {
-			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
-			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
-		}
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
-	}
-
-	files = g_list_prepend (NULL, gth_file_data_dup (browser->priv->current_file));
-	_g_query_metadata_async (files,
-				 "*",
-				 NULL,
-				 file_metadata_ready_cb,
-			 	 browser);
-
-	_g_object_list_unref (files);
-}
-
-
-typedef struct {
-	int          ref;
-	GthBrowser  *browser;
-	GthFileData *file_data;
-	gboolean     view;
-} LoadFileData;
-
-
-static LoadFileData *
-load_file_data_new (GthBrowser  *browser,
-		    GthFileData *file_data,
-		    gboolean     view)
-{
-	LoadFileData *data;
-
-	data = g_new0 (LoadFileData, 1);
-	data->ref = 1;
-	data->browser = browser;
-	if (file_data != NULL)
-		data->file_data = g_object_ref (file_data);
-	data->view = view;
-
-	return data;
-}
-
-
-static void
-load_file_data_ref (LoadFileData *data)
-{
-	data->ref++;
-}
-
-
-static void
-load_file_data_unref (LoadFileData *data)
-{
-	if (--data->ref > 0)
-		return;
-	_g_object_unref (data->file_data);
-	g_free (data);
+	g_list_free (files);
 }
 
 
