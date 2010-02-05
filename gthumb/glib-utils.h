@@ -182,6 +182,11 @@ int             _g_strv_find                     (char        **v,
 char *          _g_str_remove_suffix             (const char   *s,
 						  const char   *suffix);
 
+/* Array utils*/
+
+char *          _g_string_array_join             (GPtrArray    *array,
+						  const char   *separator);
+
 /* Regexp utils */
 
 GRegex **       get_regexps_from_pattern         (const char  *pattern_string,
