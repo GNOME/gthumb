@@ -4,6 +4,7 @@ _Description=File search tool.
 _Authors=gthumb development team
 Copyright=Copyright © 2008-2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=edit-find
 
 [Loader]
 Type=module

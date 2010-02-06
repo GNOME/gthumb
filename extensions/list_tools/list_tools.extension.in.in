@@ -4,6 +4,7 @@ _Description=Scripting and batch manipulation of files.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=applications-engineering
 
 [Loader]
 Type=module

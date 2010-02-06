@@ -4,6 +4,7 @@ _Description=File manager operations.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=system-file-manager
 
 [Loader]
 Type=module

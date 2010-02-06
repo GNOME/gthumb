@@ -4,6 +4,7 @@ _Description=Set the image as desktop background
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=desktop
 
 [Loader]
 Type=module

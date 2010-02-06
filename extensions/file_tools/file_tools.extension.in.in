@@ -4,6 +4,7 @@ _Description=Basic tools to modify images.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=palette
 
 [Loader]
 Type=module

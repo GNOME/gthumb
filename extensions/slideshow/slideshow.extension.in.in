@@ -4,6 +4,7 @@ _Description=View images as a slideshow.
 _Authors=gthumb development team
 Copyright=Copyright © 2008-2009 The Free Software Foundation, Inc.
 Version=1.0
+Icon=x-office-presentation
 
 [Loader]
 Type=module
