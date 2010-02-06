@@ -98,9 +98,24 @@ gth_datetime_new (void)
 void
 gth_datetime_free (GthDateTime *dt)
 {
+	if (dt == NULL)
+		return;
 	g_date_free (dt->date);
 	gth_time_free (dt->time);
 	g_free (dt);
+}
+
+
+void
+gth_datetime_copy (GthDateTime *src,
+		   GthDateTime *dest)
+{
+	if (gth_datetime_valid (src)) {
+		*dest->date = *src->date;
+		*dest->time = *src->time;
+	}
+	else
+		gth_datetime_clear (dest);
 }
 
 
@@ -261,6 +276,22 @@ gth_datetime_to_struct_tm (GthDateTime *dt,
 	tm->tm_hour = dt->time->hour;
 	tm->tm_min = dt->time->min;
 	tm->tm_sec = dt->time->sec;
+}
+
+
+gboolean
+gth_datetime_to_timeval (GthDateTime *dt,
+			 GTimeVal    *tv)
+{
+	char     *exif_date;
+	gboolean  result;
+
+	exif_date = gth_datetime_to_exif_date (dt);
+	result = _g_time_val_from_exif_date (exif_date, tv);
+
+	g_free (exif_date);
+
+	return result;
 }
 
 

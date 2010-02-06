@@ -52,6 +52,8 @@ void          gth_time_set_hms 		   (GthTime     *time,
 GthDateTime * gth_datetime_new             (void);
 void          gth_datetime_free            (GthDateTime *dt);
 void          gth_datetime_clear           (GthDateTime *dt);
+void          gth_datetime_copy            (GthDateTime *src,
+					    GthDateTime *dest);
 gboolean      gth_datetime_valid           (GthDateTime *dt);
 void          gth_datetime_from_timeval    (GthDateTime *dt,
 					    GTimeVal    *tv);
@@ -62,6 +64,8 @@ void          gth_datetime_from_struct_tm  (GthDateTime *dt,
 char *        gth_datetime_to_exif_date    (GthDateTime *dt);
 void          gth_datetime_to_struct_tm    (GthDateTime *dt,
 					    struct tm   *tm);
+gboolean      gth_datetime_to_timeval      (GthDateTime *dt,
+					    GTimeVal    *tv);
 char *        gth_datetime_strftime        (GthDateTime *dt,
 					    const char  *format);
 

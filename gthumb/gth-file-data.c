@@ -32,6 +32,7 @@
 #define GTH_FILE_DATA_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_DATA, GthFileDataPrivate))
 
 struct _GthFileDataPrivate {
+	GTimeVal  ctime;   /* creation time */
 	GTimeVal  mtime;   /* modification time */
 	GTimeVal  dtime;   /* digitalization time */
 	char     *sort_key;
@@ -261,6 +262,15 @@ gth_file_data_get_modification_time (GthFileData *self)
 {
 	g_file_info_get_modification_time (self->info, &self->priv->mtime);
 	return &self->priv->mtime;
+}
+
+
+GTimeVal *
+gth_file_data_get_creation_time (GthFileData *self)
+{
+	self->priv->ctime.tv_sec = g_file_info_get_attribute_uint64 (self->info, G_FILE_ATTRIBUTE_TIME_CREATED);
+	self->priv->ctime.tv_usec = g_file_info_get_attribute_uint32 (self->info, G_FILE_ATTRIBUTE_TIME_CREATED_USEC);
+	return &self->priv->ctime;
 }
 
 

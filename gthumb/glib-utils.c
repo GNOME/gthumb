@@ -1104,6 +1104,27 @@ _g_str_remove_suffix (const char *s,
 }
 
 
+/* Array utils*/
+
+
+char *
+_g_string_array_join (GPtrArray  *array,
+		      const char *separator)
+{
+	GString *s;
+	int      i;
+
+	s = g_string_new ("");
+	for (i = 0; i < array->len; i++) {
+		if ((i > 0) && (separator != NULL))
+			g_string_append (s, separator);
+		g_string_append (s, g_ptr_array_index (array, i));
+	}
+
+	return g_string_free (s, FALSE);
+}
+
+
 /* Regexp utils */
 
 static char **

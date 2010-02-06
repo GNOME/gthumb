@@ -389,6 +389,9 @@ extensions/bookmarks/data/ui/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile
+extensions/change_date/Makefile
+extensions/change_date/data/Makefile
+extensions/change_date/data/ui/Makefile
 extensions/comments/Makefile
 extensions/comments/data/Makefile
 extensions/comments/data/ui/Makefile

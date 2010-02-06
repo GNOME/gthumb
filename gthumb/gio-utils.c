@@ -2298,3 +2298,22 @@ _g_directory_make (GFile    *file,
 					    NULL,
 					    error);
 }
+
+
+gboolean
+_g_file_set_modification_time (GFile         *file,
+			       GTimeVal      *timeval,
+			       GCancellable  *cancellable,
+			       GError       **error)
+{
+	GFileInfo *info;
+	gboolean   result;
+
+	info = g_file_info_new ();
+        g_file_info_set_modification_time (info, timeval);
+        result = g_file_set_attributes_from_info (file, info, G_FILE_QUERY_INFO_NONE, cancellable, error);
+
+        g_object_unref (info);
+
+        return result;
+}

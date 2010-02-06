@@ -4522,7 +4522,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 	}
 
 	if ((browser->priv->current_file != NULL) && g_file_equal (file_data->file, browser->priv->current_file->file)) {
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+		if (view)
+			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 		return;
 	}
 

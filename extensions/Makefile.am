@@ -1,6 +1,7 @@
 SUBDIRS = 			\
 	bookmarks		\
 	catalogs		\
+	change_date		\
 	comments		\
 	desktop_background	\
 	edit_metadata		\
