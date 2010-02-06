@@ -24,6 +24,9 @@
 #include "gth-change-date-task.h"
 
 
+#define HOURS_TO_SECONDS(h) ((h) * 3600)
+
+
 struct _GthChangeDateTaskPrivate {
 	GList           *files; /* GFile */
 	GList           *file_list; /* GthFileData */
@@ -56,20 +59,21 @@ gth_change_date_task_finalize (GObject *object)
 
 
 static void
-set_date_from_change_type (GthChangeDateTask *self,
-			   GthFileData       *file_data,
-			   GthDateTime       *date_time)
+set_date_time_from_change_type (GthChangeDateTask *self,
+				GthDateTime       *date_time,
+				GthChangeType      change_type,
+				GthFileData       *file_data)
 {
-	if (self->priv->change_type == GTH_CHANGE_TO_FOLLOWING_DATE) {
+	if (change_type == GTH_CHANGE_TO_FOLLOWING_DATE) {
 		gth_datetime_copy (self->priv->date_time, date_time);
 	}
-	else if (self->priv->change_type == GTH_CHANGE_TO_FILE_MODIFIED_DATE) {
+	else if (change_type == GTH_CHANGE_TO_FILE_MODIFIED_DATE) {
 		gth_datetime_from_timeval (date_time, gth_file_data_get_modification_time (file_data));
 	}
-	else if (self->priv->change_type == GTH_CHANGE_TO_FILE_CREATION_DATE) {
+	else if (change_type == GTH_CHANGE_TO_FILE_CREATION_DATE) {
 		gth_datetime_from_timeval (date_time, gth_file_data_get_creation_time (file_data));
 	}
-	else if (self->priv->change_type == GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE) {
+	else if (change_type == GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE) {
 		GTimeVal time_val;
 
 		if (gth_file_data_get_digitalization_time (file_data, &time_val))
@@ -96,11 +100,16 @@ update_modification_time (GthChangeDateTask *self)
 		GTimeVal     timeval;
 
 		gth_datetime_clear (date_time);
-		set_date_from_change_type (self, file_data, date_time);
+		if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
+			set_date_time_from_change_type (self, date_time, GTH_CHANGE_TO_FILE_MODIFIED_DATE, file_data);
+		else
+			set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
 		if (! gth_datetime_valid (date_time))
 			continue;
 
 		if (gth_datetime_to_timeval (date_time, &timeval)) {
+			if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
+				timeval.tv_sec += HOURS_TO_SECONDS (self->priv->timezone_offset);
 			if (! _g_file_set_modification_time (file_data->file,
 							     &timeval,
 							     gth_task_get_cancellable (GTH_TASK (self)),
@@ -137,6 +146,76 @@ write_metadata_reasy_cb (GError   *error,
 
 
 static void
+set_date_metadata (GthFileData *file_data,
+		   const char  *attribute,
+		   GthDateTime *date_time,
+		   int          timezone_offset)
+{
+	char    *raw;
+	char    *formatted;
+	GObject *metadata;
+
+	if (timezone_offset != 0) {
+		GTimeVal     timeval;
+		GthDateTime *adjusted_date;
+
+		gth_datetime_to_timeval (date_time, &timeval);
+		timeval.tv_sec += HOURS_TO_SECONDS (timezone_offset);
+		adjusted_date = gth_datetime_new ();
+		gth_datetime_from_timeval (adjusted_date, &timeval);
+		raw = gth_datetime_to_exif_date (adjusted_date);
+		formatted = gth_datetime_strftime (adjusted_date, "%x");
+
+		gth_datetime_free (adjusted_date);
+	}
+	else {
+		raw = gth_datetime_to_exif_date (date_time);
+		formatted = gth_datetime_strftime (date_time, "%x");
+	}
+
+	metadata = (GObject *) gth_metadata_new ();
+	g_object_set (metadata,
+		      "id", attribute,
+		      "raw", raw,
+		      "formatted", formatted,
+		      NULL);
+	g_file_info_set_attribute_object (file_data->info, attribute, metadata);
+
+	g_object_unref (metadata);
+	g_free (formatted);
+	g_free (raw);
+}
+
+
+static void
+set_date_time_from_field (GthChangeDateTask *self,
+			  GthDateTime       *date_time,
+			  GthChangeFields    field,
+			  GthFileData       *file_data)
+{
+	if (field & GTH_CHANGE_LAST_MODIFIED_DATE) {
+		gth_datetime_from_timeval (date_time, gth_file_data_get_modification_time (file_data));
+	}
+	else if (field & GTH_CHANGE_COMMENT_DATE) {
+		GthMetadata *m;
+		GTimeVal     time_val;
+
+		m = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
+		if ((m != NULL) && _g_time_val_from_exif_date (gth_metadata_get_raw (m), &time_val))
+			gth_datetime_from_timeval (date_time, &time_val);
+	}
+	else if (field & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
+		GthMetadata *m;
+		GTimeVal     time_val;
+
+		m = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Exif::Photo::DateTimeOriginal");
+		if ((m != NULL) && _g_time_val_from_exif_date (gth_metadata_get_raw (m), &time_val))
+			gth_datetime_from_timeval (date_time, &time_val);
+	}
+}
+
+
+static void
 info_ready_cb (GList    *files,
 	       GError   *error,
 	       gpointer  user_data)
@@ -160,86 +239,40 @@ info_ready_cb (GList    *files,
 	self->priv->file_list = _g_object_list_ref (files);
 	for (scan = self->priv->file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-		char        *raw;
-		char        *formatted;
 
 		if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE) {
-			/* FIXME */
-			return;
+			if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
+				gth_datetime_clear (date_time);
+				set_date_time_from_field (self, date_time, GTH_CHANGE_COMMENT_DATE, file_data);
+				if (gth_datetime_valid (date_time))
+					set_date_metadata (file_data, "general::datetime", date_time, self->priv->timezone_offset);
+			}
+			if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
+				gth_datetime_clear (date_time);
+				set_date_time_from_field (self, date_time, GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG, file_data);
+				if (gth_datetime_valid (date_time))
+					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, self->priv->timezone_offset);
+			}
 		}
-
-		gth_datetime_clear (date_time);
-		set_date_from_change_type (self, file_data, date_time);
-		if (! gth_datetime_valid (date_time))
-			continue;
-
-		raw = gth_datetime_to_exif_date (date_time);
-		formatted = gth_datetime_strftime (date_time, "%x");
-		if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
-			GObject *metadata;
-
-			metadata = (GObject *) gth_metadata_new ();
-			g_object_set (metadata,
-				      "id", "general::datetime",
-				      "raw", raw,
-				      "formatted", formatted,
-				      NULL);
-			g_file_info_set_attribute_object (file_data->info, "general::datetime", metadata);
-			g_object_unref (metadata);
+		else {
+			gth_datetime_clear (date_time);
+			set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
+			if (gth_datetime_valid (date_time)) {
+				if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
+					set_date_metadata (file_data, "general::datetime", date_time, 0);
+				}
+				else if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
+					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, 0);
+				}
+			}
 		}
-		else if (self->priv->fields & GTH_CHANGE_EXIF_DATETIME_TAG) {
-			GObject *metadata;
-
-			metadata = (GObject *) gth_metadata_new ();
-			g_object_set (metadata,
-				      "id", "Exif::Image::DateTime",
-				      "raw", raw,
-				      "formatted", formatted,
-				      NULL);
-			g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
-
-			g_object_unref (metadata);
-		}
-		else if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
-			GObject *metadata;
-
-			metadata = (GObject *) gth_metadata_new ();
-			g_object_set (metadata,
-				      "id", "Exif::Photo::DateTimeOriginal",
-				      "raw", raw,
-				      "formatted", formatted,
-				      NULL);
-			g_file_info_set_attribute_object (file_data->info, "Exif::Photo::DateTimeOriginal", metadata);
-
-			g_object_unref (metadata);
-		}
-		else if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEDIGITIZED_TAG) {
-			GObject *metadata;
-
-			metadata = (GObject *) gth_metadata_new ();
-			g_object_set (metadata,
-				      "id", "Exif::Photo::DateTimeDigitized",
-				      "raw", raw,
-				      "formatted", formatted,
-				      NULL);
-			g_file_info_set_attribute_object (file_data->info, "Exif::Photo::DateTimeDigitized", metadata);
-
-			g_object_unref (metadata);
-		}
-
-		g_free (formatted);
-		g_free (raw);
 	}
 
 	attribute_v = g_ptr_array_new ();
 	if (self->priv->fields & GTH_CHANGE_COMMENT_DATE)
 		g_ptr_array_add (attribute_v, "general::datetime");
-	if (self->priv->fields & GTH_CHANGE_EXIF_DATETIME_TAG)
-		g_ptr_array_add (attribute_v, "Exif::Image::DateTime");
 	if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG)
 		g_ptr_array_add (attribute_v, "Exif::Photo::DateTimeOriginal");
-	if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEDIGITIZED_TAG)
-		g_ptr_array_add (attribute_v, "Exif::Photo::DateTimeDigitized");
 	if (attribute_v->len > 0) {
 		char *attributes;
 
@@ -341,7 +374,8 @@ gth_change_date_task_new (GList             *files, /* GthFileData */
 	self->priv->files = gth_file_data_list_to_file_list (files);
 	self->priv->fields = fields;
 	self->priv->change_type = change_type;
-	gth_datetime_copy (date_time, self->priv->date_time);
+	if (date_time != NULL)
+		gth_datetime_copy (date_time, self->priv->date_time);
 	self->priv->timezone_offset = timezone_offset;
 
 	return (GthTask *) self;

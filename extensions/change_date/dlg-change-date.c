@@ -66,12 +66,8 @@ ok_button_clicked (GtkWidget  *button,
 		change_fields |= GTH_CHANGE_LAST_MODIFIED_DATE;
 	if (IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton")))
 		change_fields |= GTH_CHANGE_COMMENT_DATE;
-	if (IS_ACTIVE (GET_WIDGET ("change_datetime_checkbutton")))
-		change_fields |= GTH_CHANGE_EXIF_DATETIME_TAG;
 	if (IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton")))
 		change_fields |= GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG;
-	if (IS_ACTIVE (GET_WIDGET ("change_datetimedigitized_checkbutton")))
-		change_fields |= GTH_CHANGE_EXIF_DATETIMEDIGITIZED_TAG;
 
 	if (IS_ACTIVE (GET_WIDGET ("to_following_date_radiobutton"))) {
 		change_type = GTH_CHANGE_TO_FOLLOWING_DATE;
@@ -116,9 +112,7 @@ update_sensitivity (DialogData *data)
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"),
 				  (IS_ACTIVE (GET_WIDGET ("change_last_modified_checkbutton"))
 				   || IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton"))
-				   || IS_ACTIVE (GET_WIDGET ("change_datetime_checkbutton"))
-				   || IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton"))
-				   || IS_ACTIVE (GET_WIDGET ("change_datetimedigitized_checkbutton"))));
+				   || IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton"))));
 	gtk_widget_set_sensitive (data->date_selector, IS_ACTIVE (GET_WIDGET ("to_following_date_radiobutton")));
 	gtk_widget_set_sensitive (GET_WIDGET ("timezone_box"), IS_ACTIVE (GET_WIDGET ("adjust_timezone_radiobutton")));
 
@@ -197,15 +191,7 @@ dlg_change_date (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);
-	g_signal_connect (GET_WIDGET ("change_datetime_checkbutton"),
-			  "clicked",
-			  G_CALLBACK (radio_button_clicked),
-			  data);
 	g_signal_connect (GET_WIDGET ("change_datetimeoriginal_checkbutton"),
-			  "clicked",
-			  G_CALLBACK (radio_button_clicked),
-			  data);
-	g_signal_connect (GET_WIDGET ("change_datetimedigitized_checkbutton"),
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);

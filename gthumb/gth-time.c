@@ -98,6 +98,8 @@ gth_datetime_new (void)
 void
 gth_datetime_free (GthDateTime *dt)
 {
+	if (dt == NULL)
+		return;
 	g_date_free (dt->date);
 	gth_time_free (dt->time);
 	g_free (dt);
