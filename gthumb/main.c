@@ -420,7 +420,7 @@ main (int argc, char *argv[])
 #endif
 
 	if (version) {
-		g_printf ("%s %s, Copyright (C) 2001-2009 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
+		g_printf ("%s %s, Copyright (C) 2001-2010 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
 		return 0;
 	}
 
