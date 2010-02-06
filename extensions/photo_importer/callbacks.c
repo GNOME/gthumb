@@ -47,7 +47,7 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_ImportFromDevice", NULL,
+	{ "File_ImportFromDevice", "camera-photo",
 	  N_("_Removable Device..."), NULL,
 	  N_("Import photos and other files from a removable device"),
 	  G_CALLBACK (gth_browser_activate_action_import_files) },
