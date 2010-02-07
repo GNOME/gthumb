@@ -126,6 +126,7 @@ save_current_file (SaveData *save_data)
 	g_write_file_async (file->file,
 			    file->buffer,
 			    file->buffer_size,
+			    (g_file_equal (save_data->data->file_data->file, file->file) ? save_data->data->replace : TRUE),
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    file_saved_cb,
@@ -154,6 +155,7 @@ void
 _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 			GthFileData      *file_data,
 			const char       *mime_type,
+			gboolean          replace,
 			GthFileDataFunc   ready_func,
 			gpointer          ready_data)
 {
@@ -185,6 +187,7 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 	data->file_data = g_object_ref (file_data);
 	data->pixbuf = g_object_ref (pixbuf);
 	data->mime_type = mime_type;
+	data->replace = replace;
 	data->buffer = buffer;
 	data->buffer_size = buffer_size;
 	data->files = NULL;

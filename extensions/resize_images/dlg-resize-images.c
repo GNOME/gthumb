@@ -40,6 +40,7 @@ typedef struct {
 	GList      *file_list;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
+	gboolean    use_destination;
 } DialogData;
 
 
@@ -149,6 +150,15 @@ ok_clicked_cb (GtkWidget  *widget,
 	list_task = gth_pixbuf_list_task_new (data->browser,
 					      data->file_list,
 					      GTH_PIXBUF_TASK (resize_task));
+	gth_pixbuf_list_task_set_overwrite_mode (GTH_PIXBUF_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
+	if (data->use_destination) {
+		GFile *destination;
+
+		destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+		gth_pixbuf_list_task_set_destination (GTH_PIXBUF_LIST_TASK (list_task), destination);
+
+		g_object_unref (destination);
+	}
 	gth_browser_exec_task (data->browser, list_task, FALSE);
 
 	g_object_unref (list_task);
@@ -187,6 +197,7 @@ dlg_resize_images (GthBrowser *browser,
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("resize-images.ui", "resize_images");
 	data->file_list = gth_file_data_list_dup (file_list);
+	data->use_destination = GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source(browser));
 
 	/* Get the widgets. */
 
@@ -201,6 +212,13 @@ dlg_resize_images (GthBrowser *browser,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
 	update_sensitivity (data);
+
+	if (data->use_destination) {
+		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), gth_browser_get_location (browser), NULL);
+		gtk_widget_show (GET_WIDGET ("saving_box"));
+	}
+	else
+		gtk_widget_hide (GET_WIDGET ("saving_box"));
 
 	/* Set the signals handlers. */
 

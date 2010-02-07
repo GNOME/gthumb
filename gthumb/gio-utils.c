@@ -1278,6 +1278,7 @@ copy_file_ready_cb (GObject      *source_object,
 				copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
 
 			dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
+							   NULL,
 							   copy_file_data->current_destination,
 							   copy_file_data->default_response,
 							   copy_file_data->tot_files == 1);
@@ -2130,10 +2131,38 @@ write_file__replace_ready_cb (GObject      *source_object,
 }
 
 
+static void
+write_file__create_ready_cb (GObject      *source_object,
+			     GAsyncResult *result,
+			     gpointer      user_data)
+{
+	WriteData     *write_data = user_data;
+	GOutputStream *stream;
+	GError        *error = NULL;
+
+	stream = (GOutputStream*) g_file_create_finish ((GFile*) source_object, result, &error);
+	if (stream == NULL) {
+		write_data->callback (&write_data->buffer, write_data->count, error, write_data->user_data);
+		write_data_free (write_data);
+		return;
+	}
+
+	write_data->written = 0;
+	g_output_stream_write_async (stream,
+				     write_data->buffer,
+				     write_data->count,
+				     write_data->io_priority,
+				     write_data->cancellable,
+				     write_file__stream_write_ready_cb,
+				     write_data);
+}
+
+
 void
 g_write_file_async (GFile               *file,
 		    void                *buffer,
 		    gsize                count,
+		    gboolean             replace,
 		    int                  io_priority,
 		    GCancellable        *cancellable,
 		    BufferReadyCallback  callback,
@@ -2149,7 +2178,22 @@ g_write_file_async (GFile               *file,
 	write_data->callback = callback;
 	write_data->user_data = user_data;
 
-	g_file_replace_async (file, NULL, FALSE, 0, io_priority, cancellable, write_file__replace_ready_cb, write_data);
+	if (replace)
+		g_file_replace_async (file,
+				      NULL,
+				      FALSE,
+				      0,
+				      io_priority,
+				      cancellable,
+				      write_file__replace_ready_cb,
+				      write_data);
+	else
+		g_file_create_async (file,
+				     0,
+				     io_priority,
+				     cancellable,
+				     write_file__create_ready_cb,
+				     write_data);
 }
 
 

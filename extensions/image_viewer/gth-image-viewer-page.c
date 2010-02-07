@@ -765,6 +765,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	_gdk_pixbuf_save_async (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
 			        current_file,
 			        mime_type,
+			        TRUE,
 				image_saved_cb,
 				data);
 }

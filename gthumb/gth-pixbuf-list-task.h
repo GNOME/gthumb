@@ -26,6 +26,7 @@
 #include <glib.h>
 #include "gth-browser.h"
 #include "gth-pixbuf-task.h"
+#include "typedefs.h"
 
 G_BEGIN_DECLS
 
@@ -49,10 +50,14 @@ struct _GthPixbufListTaskClass {
 	GthTaskClass __parent;
 };
 
-GType      gth_pixbuf_list_task_get_type  (void);
-GthTask *  gth_pixbuf_list_task_new       (GthBrowser    *browser,
-					   GList         *file_list, /* GthFileData list */
-					   GthPixbufTask *task);
+GType      gth_pixbuf_list_task_get_type            (void);
+GthTask *  gth_pixbuf_list_task_new                 (GthBrowser           *browser,
+						     GList                *file_list, /* GthFileData list */
+						     GthPixbufTask        *task);
+void       gth_pixbuf_list_task_set_destination     (GthPixbufListTask    *self,
+						     GFile                *folder);
+void       gth_pixbuf_list_task_set_overwrite_mode  (GthPixbufListTask    *self,
+						     GthOverwriteMode      overwrite_mode);
 
 G_END_DECLS
 

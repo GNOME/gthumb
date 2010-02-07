@@ -102,6 +102,7 @@ save_as_response_cb (GtkDialog  *file_sel,
 	_gdk_pixbuf_save_async (save_data->pixbuf,
 				save_data->file_data,
 				mime_type,
+				TRUE,
 				screenshot_saved_cb,
 				save_data);
 

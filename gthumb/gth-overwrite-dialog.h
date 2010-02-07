@@ -58,6 +58,7 @@ struct _GthOverwriteDialogClass {
 
 GType                 gth_overwrite_dialog_get_type      (void);
 GtkWidget *           gth_overwrite_dialog_new           (GFile                *source,
+							  GdkPixbuf            *source_pixbuf,
 						          GFile                *destination,
 						          GthOverwriteResponse  default_respose,
 						          gboolean              single_file);

@@ -179,6 +179,7 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 				GtkWidget *dialog;
 
 				dialog = gth_overwrite_dialog_new (source,
+								   NULL,
 								   destination,
 								   self->priv->default_response,
 								   self->priv->n_files == 1);
