@@ -50,15 +50,16 @@ struct _GthPixbufListTaskClass {
 	GthTaskClass __parent;
 };
 
-GType      gth_pixbuf_list_task_get_type            (void);
-GthTask *  gth_pixbuf_list_task_new                 (GthBrowser           *browser,
-						     GList                *file_list, /* GthFileData list */
-						     GthPixbufTask        *task);
-void       gth_pixbuf_list_task_set_destination     (GthPixbufListTask    *self,
-						     GFile                *folder);
-void       gth_pixbuf_list_task_set_overwrite_mode  (GthPixbufListTask    *self,
-						     GthOverwriteMode      overwrite_mode);
-
+GType      gth_pixbuf_list_task_get_type             (void);
+GthTask *  gth_pixbuf_list_task_new                  (GthBrowser           *browser,
+						      GList                *file_list, /* GthFileData list */
+						      GthPixbufTask        *task);
+void       gth_pixbuf_list_task_set_destination      (GthPixbufListTask    *self,
+						      GFile                *folder);
+void       gth_pixbuf_list_task_set_overwrite_mode   (GthPixbufListTask    *self,
+						      GthOverwriteMode      overwrite_mode);
+void       gth_pixbuf_list_task_set_output_mime_type (GthPixbufListTask    *self,
+						      const char           *mime_type);
 G_END_DECLS
 
 #endif /* GTH_PIXBUF_LIST_TASK_H */

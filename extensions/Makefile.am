@@ -3,6 +3,7 @@ SUBDIRS = 			\
 	catalogs		\
 	change_date		\
 	comments		\
+	convert_format		\
 	desktop_background	\
 	edit_metadata		\
 	exiv2_tools		\

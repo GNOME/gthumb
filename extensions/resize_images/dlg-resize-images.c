@@ -28,9 +28,9 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
-#define DEFAULT_FILE_TYPE "jpeg"
 #define DEFAULT_WIDTH 640
 #define DEFAULT_HEIGHT 480
+
 
 GthUnit units[] = { GTH_UNIT_PIXELS, GTH_UNIT_PERCENTAGE };
 
@@ -197,7 +197,7 @@ dlg_resize_images (GthBrowser *browser,
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("resize-images.ui", "resize_images");
 	data->file_list = gth_file_data_list_dup (file_list);
-	data->use_destination = GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source(browser));
+	data->use_destination = GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser));
 
 	/* Get the widgets. */
 
@@ -225,7 +225,6 @@ dlg_resize_images (GthBrowser *browser,
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
-
 			  data);
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",

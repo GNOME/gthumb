@@ -395,6 +395,9 @@ extensions/change_date/data/ui/Makefile
 extensions/comments/Makefile
 extensions/comments/data/Makefile
 extensions/comments/data/ui/Makefile
+extensions/convert_format/Makefile
+extensions/convert_format/data/Makefile
+extensions/convert_format/data/ui/Makefile
 extensions/desktop_background/Makefile
 extensions/edit_metadata/Makefile
 extensions/edit_metadata/data/Makefile

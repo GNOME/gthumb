@@ -40,9 +40,10 @@ struct _GthPixbufListTaskPrivate {
 	int                   n_files;
 	GdkPixbuf            *original_pixbuf;
 	GdkPixbuf            *new_pixbuf;
-	GFile                *destination;
+	GFile                *destination_folder;
 	GthOverwriteMode      overwrite_mode;
 	GthOverwriteResponse  overwrite_response;
+	char                 *mime_type;
 };
 
 
@@ -56,7 +57,8 @@ gth_pixbuf_list_task_finalize (GObject *object)
 
 	self = GTH_PIXBUF_LIST_TASK (object);
 
-	_g_object_unref (self->priv->destination);
+	g_free (self->priv->mime_type);
+	_g_object_unref (self->priv->destination_folder);
 	_g_object_unref (self->priv->original_pixbuf);
 	_g_object_unref (self->priv->new_pixbuf);
 	g_signal_handler_disconnect (self->priv->task, self->priv->task_completed);
@@ -122,8 +124,8 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 			GFile *parent;
 			GFile *new_destination;
 
-			if (self->priv->destination != NULL) {
-				parent = g_object_ref (self->priv->destination);
+			if (self->priv->destination_folder != NULL) {
+				parent = g_object_ref (self->priv->destination_folder);
 			}
 			else {
 				GthFileData *file_data;
@@ -263,6 +265,44 @@ pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
 
 
 static void
+set_current_destination_file (GthPixbufListTask *self)
+{
+	GthFileData *file_data;
+	char        *display_name;
+	GFile       *parent;
+	GFile       *destination;
+
+	file_data = self->priv->current->data;
+	if (self->priv->mime_type != NULL) {
+		char           *no_ext;
+		GthPixbufSaver *saver;
+
+		no_ext = _g_uri_remove_extension (g_file_info_get_display_name (file_data->info));
+		saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
+		g_return_if_fail (saver != NULL);
+		display_name = g_strconcat (no_ext, ".", gth_pixbuf_saver_get_default_ext (saver), NULL);
+		gth_file_data_set_mime_type (file_data, self->priv->mime_type);
+
+		g_object_unref (saver);
+		g_free (no_ext);
+	}
+	else
+		display_name = g_strdup (g_file_info_get_display_name (file_data->info));
+
+	if (self->priv->destination_folder != NULL)
+		parent = g_object_ref (self->priv->destination_folder);
+	else
+		parent = g_file_get_parent (file_data->file);
+	destination = g_file_get_child_for_display_name (parent, display_name, NULL);
+	gth_file_data_set_file (file_data, destination);
+
+	g_object_unref (destination);
+	g_object_unref (parent);
+	g_free (display_name);
+}
+
+
+static void
 pixbuf_task_completed_cb (GthTask  *task,
 			  GError   *error,
 			  gpointer  user_data)
@@ -279,6 +319,7 @@ pixbuf_task_completed_cb (GthTask  *task,
 		return;
 	}
 
+	set_current_destination_file (self);
 	pixbuf_task_save_current_pixbuf (self,
 					 NULL,
 					 (self->priv->overwrite_mode == GTH_OVERWRITE_OVERWRITE));
@@ -381,8 +422,9 @@ gth_pixbuf_list_task_init (GthPixbufListTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PIXBUF_LIST_TASK, GthPixbufListTaskPrivate);
 	self->priv->original_pixbuf = NULL;
-	self->priv->destination = NULL;
+	self->priv->destination_folder = NULL;
 	self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+	self->priv->mime_type = NULL;
 }
 
 
@@ -449,8 +491,8 @@ void
 gth_pixbuf_list_task_set_destination (GthPixbufListTask *self,
 				      GFile             *folder)
 {
-	_g_object_unref (self->priv->destination);
-	self->priv->destination = _g_object_ref (folder);
+	_g_object_unref (self->priv->destination_folder);
+	self->priv->destination_folder = _g_object_ref (folder);
 }
 
 
@@ -459,4 +501,15 @@ gth_pixbuf_list_task_set_overwrite_mode (GthPixbufListTask    *self,
 					 GthOverwriteMode      overwrite_mode)
 {
 	self->priv->overwrite_mode = overwrite_mode;
+}
+
+
+void
+gth_pixbuf_list_task_set_output_mime_type (GthPixbufListTask *self,
+					   const char        *mime_type)
+{
+	g_free (self->priv->mime_type);
+	self->priv->mime_type = NULL;
+	if (mime_type != NULL)
+		self->priv->mime_type = g_strdup (mime_type);
 }

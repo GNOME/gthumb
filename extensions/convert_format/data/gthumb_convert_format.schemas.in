@@ -1,0 +1,17 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/convert_format/mime_type</key>
+	<applyto>/apps/gthumb/ext/convert_format/mime_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>image/jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

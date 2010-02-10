@@ -119,7 +119,8 @@ execute_step (GthPixbufTask *self)
 
 	self->line_step = 0;
 	while (self->line_step < self->width) {
-		(*self->priv->step_func) (self);
+		if (self->priv->step_func != NULL)
+			(*self->priv->step_func) (self);
 		self->src_pixel += dir * self->bytes_per_pixel;
 		self->dest_pixel += dir * self->bytes_per_pixel;
 		self->column += dir;
@@ -147,7 +148,8 @@ execute_pixbuf_task (gpointer user_data)
 	if (self->priv->single_step) {
 		gboolean terminated;
 
-		(*self->priv->step_func) (self);
+		if (self->priv->step_func != NULL)
+			(*self->priv->step_func) (self);
 		terminated = TRUE;
 		gth_async_task_set_data (GTH_ASYNC_TASK (self), &terminated, NULL, NULL);
 	}
