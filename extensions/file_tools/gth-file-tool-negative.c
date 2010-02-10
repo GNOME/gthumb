@@ -98,7 +98,7 @@ gth_file_tool_negative_activate (GthFileTool *base)
 static void
 gth_file_tool_negative_instance_init (GthFileToolNegative *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Negative"), _("Negative"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-invert", _("Negative"), _("Negative"), FALSE);
 }
 
 

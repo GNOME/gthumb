@@ -59,7 +59,7 @@ gth_file_tool_undo_activate (GthFileTool *base)
 static void
 gth_file_tool_undo_instance_init (GthFileToolUndo *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_UNDO, _("Undo"), _("Undo"), TRUE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "undo", _("Undo"), _("Undo"), TRUE);
 }
 
 

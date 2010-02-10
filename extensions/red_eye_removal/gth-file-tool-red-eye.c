@@ -436,7 +436,7 @@ gth_file_tool_red_eye_instance_init (GthFileToolRedEye *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RED_EYE, GthFileToolRedEyePrivate);
 	self->priv->is_red = NULL;
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Red Eye Removal"), _("Red Eye Removal"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-red-eye", _("Red Eye Removal..."), _("Red Eye Removal"), FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Remove the red eye effect caused by camera flashes"));
 }
 

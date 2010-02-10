@@ -116,7 +116,7 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 static void
 gth_file_tool_desaturate_instance_init (GthFileToolDesaturate *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Desaturate"), _("Desaturate"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-desaturate", _("Desaturate"), _("Desaturate"), FALSE);
 }
 
 

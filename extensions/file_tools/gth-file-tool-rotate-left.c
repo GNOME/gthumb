@@ -71,7 +71,7 @@ gth_file_tool_rotate_left_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_rotate_left_instance_init (GthFileToolRotateLeft *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_ROTATE_LEFT */, _("Rotate Left"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate-270", _("Rotate Left"), NULL, FALSE);
 	/*gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));*/
 }
 

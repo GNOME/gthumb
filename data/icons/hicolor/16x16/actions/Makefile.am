@@ -8,7 +8,18 @@ icons_DATA = 			\
 	browser-mode.png	\
 	file-catalog.png	\
 	file-library.png	\
-	file-search.png
+	file-search.png		\
+	histogram.png		\
+	tool-adjust-colors.png	\
+	tool-crop.png		\
+	tool-desaturate.png	\
+	tool-enhance.png	\
+	tool-flip.png		\
+	tool-invert.png		\
+	tool-mirror.png		\
+	tool-red-eye.png	\
+	tool-rotate-270.png	\
+	tool-rotate-90.png
 
 EXTRA_DIST = $(icons_DATA)	
 

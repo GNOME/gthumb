@@ -9,7 +9,13 @@ icons_DATA = 			\
 	file-catalog.png	\
 	file-library.png	\
 	file-search.png		\
+	histogram.png		\
 	palette.png		\
+	tool-adjust-colors.png	\
+	tool-crop.png		\
+	tool-desaturate.png	\
+	tool-enhance.png	\
+	tool-red-eye.png	\
 	zoom-fit-width.png
 
 EXTRA_DIST = $(icons_DATA)	

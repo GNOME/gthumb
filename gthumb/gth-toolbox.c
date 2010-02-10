@@ -238,7 +238,7 @@ child_show_options_cb (GtkWidget *tool,
 
 	markup = g_markup_printf_escaped ("<span size='large' weight='bold'>%s</span>", gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
 	gtk_label_set_markup (GTK_LABEL (toolbox->priv->options_title), markup);
-	gtk_image_set_from_stock (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (toolbox->priv->options), options);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_OPTIONS_PAGE);
 

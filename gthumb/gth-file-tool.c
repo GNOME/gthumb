@@ -176,7 +176,7 @@ gth_file_tool_construct (GthFileTool *self,
 
 	hbox = gtk_hbox_new (FALSE, 6);
 
-	icon = gtk_image_new_from_stock (icon_name, GTK_ICON_SIZE_MENU);
+	icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
 	gtk_widget_show (icon);
 	gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 

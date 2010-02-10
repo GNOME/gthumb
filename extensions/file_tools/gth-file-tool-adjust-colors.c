@@ -498,7 +498,7 @@ gth_file_tool_adjust_colors_instance_init (GthFileToolAdjustColors *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
 	self->priv->histogram = gth_histogram_new ();
 
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Adjust Colors"), _("Adjust Colors"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-colors", _("Adjust Colors..."), _("Adjust Colors"), FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Change brightness, contrast, saturation and gamma level of the image"));
 }
 
