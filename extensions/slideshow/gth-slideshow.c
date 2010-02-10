@@ -32,24 +32,24 @@
 
 
 struct _GthSlideshowPrivate {
-	GthBrowser      *browser;
-	GList           *file_list; /* GthFileData */
-	gboolean         automatic;
-	gboolean         loop;
-	GList           *current;
-	GthImageLoader  *image_loader;
-	GList           *transitions; /* GthTransition */
-	int              n_transitions;
-	GthTransition   *transition;
-	ClutterTimeline *timeline;
-	ClutterActor    *image1;
-	ClutterActor    *image2;
-	guint            next_event;
-	guint            delay;
-	guint            hide_cursor_event;
-	GRand           *rand;
-	gboolean         first_show;
-	gboolean         one_loaded;
+	GthBrowser        *browser;
+	GList             *file_list; /* GthFileData */
+	gboolean           automatic;
+	gboolean           loop;
+	GList             *current;
+	GthImagePreloader *preloader;
+	GList             *transitions; /* GthTransition */
+	int                n_transitions;
+	GthTransition     *transition;
+	ClutterTimeline   *timeline;
+	ClutterActor      *image1;
+	ClutterActor      *image2;
+	guint              next_event;
+	guint              delay;
+	guint              hide_cursor_event;
+	GRand             *rand;
+	gboolean           first_show;
+	gboolean           one_loaded;
 };
 
 
@@ -74,6 +74,10 @@ _gth_slideshow_close (GthSlideshow *self)
 static void
 _gth_slideshow_load_current_image (GthSlideshow *self)
 {
+	GthFileData *requested_file;
+	GthFileData *next_file;
+	GthFileData *prev_file;
+
 	if (self->priv->next_event != 0) {
 		g_source_remove (self->priv->next_event);
 		self->priv->next_event = 0;
@@ -91,8 +95,19 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 			self->priv->current = g_list_last (self->priv->file_list);
 	}
 
-	gth_image_loader_set_file_data (GTH_IMAGE_LOADER (self->priv->image_loader), (GthFileData *) self->priv->current->data);
-	gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->image_loader));
+	requested_file = (GthFileData *) self->priv->current->data;
+	if (self->priv->current->next != NULL)
+		next_file = (GthFileData *) self->priv->current->next->data;
+	else
+		next_file = NULL;
+	if (self->priv->current->prev != NULL)
+		prev_file = (GthFileData *) self->priv->current->prev->data;
+	else
+		prev_file = NULL;
+	gth_image_preloader_load (self->priv->preloader,
+				  requested_file,
+				  next_file,
+				  prev_file);
 }
 
 
@@ -274,16 +289,18 @@ _gth_slideshow_get_transition (GthSlideshow *self)
 
 
 static void
-image_loader_ready_cb (GthImageLoader *image_loader,
-		       GError         *error,
-		       GthSlideshow   *self)
+image_preloader_requested_ready_cb (GthImagePreloader *preloader,
+				    GError            *error,
+				    gpointer           user_data)
 {
-	GdkPixbuf    *pixbuf;
-	GdkPixbuf    *image;
-	ClutterActor *texture;
-	int           pixbuf_w, pixbuf_h;
-	float         stage_w, stage_h;
-	int           pixbuf_x, pixbuf_y;
+	GthSlideshow   *self = user_data;
+	GthImageLoader *image_loader;
+	GdkPixbuf      *pixbuf;
+	GdkPixbuf      *image;
+	ClutterActor   *texture;
+	int             pixbuf_w, pixbuf_h;
+	float           stage_w, stage_h;
+	int             pixbuf_x, pixbuf_y;
 
 	if (error != NULL) {
 		g_clear_error (&error);
@@ -297,7 +314,18 @@ image_loader_ready_cb (GthImageLoader *image_loader,
 	if ((stage_w == 0) || (stage_h == 0))
 		return;
 
-	pixbuf = gth_image_loader_get_pixbuf (GTH_IMAGE_LOADER (image_loader));
+	image_loader = gth_image_preloader_get_loader (self->priv->preloader, (GthFileData *) self->priv->current->data);
+	if (image_loader == NULL) {
+		_gth_slideshow_load_next_image (self);
+		return;
+	}
+
+	pixbuf = gth_image_loader_get_pixbuf (image_loader);
+	if (image_loader == NULL) {
+		_gth_slideshow_load_next_image (self);
+		return;
+	}
+
 	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
 				FALSE,
 				gdk_pixbuf_get_bits_per_sample (pixbuf),
@@ -361,8 +389,11 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->rand = g_rand_new ();
 	self->priv->first_show = TRUE;
 
-	self->priv->image_loader = gth_image_loader_new (FALSE);
-	g_signal_connect (self->priv->image_loader, "ready", G_CALLBACK (image_loader_ready_cb), self);
+	self->priv->preloader = gth_image_preloader_new ();
+	g_signal_connect (self->priv->preloader,
+			  "requested_ready",
+			  G_CALLBACK (image_preloader_requested_ready_cb),
+			  self);
 }
 
 
@@ -378,7 +409,7 @@ gth_slideshow_finalize (GObject *object)
 
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->browser);
-	_g_object_unref (self->priv->image_loader);
+	_g_object_unref (self->priv->preloader);
 	_g_object_unref (self->priv->timeline);
 	_g_object_list_unref (self->priv->transitions);
 	g_rand_free (self->priv->rand);
