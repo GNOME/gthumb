@@ -368,7 +368,11 @@ read_metadata_info_ready_cb (GList    *files,
 
 	update_file_info (read_metadata->file_source, read_metadata->file_data->file, read_metadata->file_data->info);
 
-	if (_g_file_attributes_matches_any (read_metadata->attributes, "sort::*")) {
+	if (_g_file_attributes_matches_any (read_metadata->attributes,
+					    "sort::*,"
+					    "general::event-date,"
+					    "standard::display-name,standard::sort-order"))
+	{
 		GFile *gio_file;
 
 		gio_file = gth_catalog_file_to_gio_file (read_metadata->file_data->file);
