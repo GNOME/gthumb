@@ -30,7 +30,7 @@
 #define  PREF_SLIDESHOW_AUTOMATIC        "/apps/gthumb/ext/slideshow/automatic"
 #define  PREF_SLIDESHOW_TRANSITION       "/apps/gthumb/ext/slideshow/transition"
 
-#define  DEFAULT_TRANSITION "fade-in"
+#define  DEFAULT_TRANSITION "random"
 
 void ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GthBrowser *browser,
