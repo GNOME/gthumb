@@ -4041,11 +4041,11 @@ msgstr "Автоматически настроить уровни контра�
 
 #: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
-msgstr "_Выравнить"
+msgstr "_Выровнять"
 
 #: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
-msgstr "Автоматически выравнить гистограмму изображения"
+msgstr "Автоматически выровнять гистограмму изображения"
 
 #: ../src/gth-window-actions-entries.h:155
 msgid "_Posterize..."
