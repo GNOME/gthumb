@@ -1320,8 +1320,8 @@ gth_folder_tree_is_loaded (GthFolderTree *folder_tree,
 
 
 static void
-gth_folder_tree_set_loaded (GthFolderTree *folder_tree,
-			    GtkTreeIter   *root)
+_gth_folder_tree_reset_loaded (GthFolderTree *folder_tree,
+			       GtkTreeIter   *root)
 {
 	GtkTreeModel *tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
 	GtkTreeIter   iter;
@@ -1333,7 +1333,7 @@ gth_folder_tree_set_loaded (GthFolderTree *folder_tree,
 
 	if (gtk_tree_model_iter_children (tree_model, &iter, root)) {
 		do {
-			gth_folder_tree_set_loaded (folder_tree, &iter);
+			_gth_folder_tree_reset_loaded (folder_tree, &iter);
 		}
 		while (gtk_tree_model_iter_next (tree_model, &iter));
 	}
@@ -1343,7 +1343,7 @@ gth_folder_tree_set_loaded (GthFolderTree *folder_tree,
 void
 gth_folder_tree_reset_loaded (GthFolderTree *folder_tree)
 {
-	gth_folder_tree_set_loaded (folder_tree, NULL);
+	_gth_folder_tree_reset_loaded (folder_tree, NULL);
 }
 
 
