@@ -1228,8 +1228,16 @@ load_data_load_next_folder (LoadData *load_data)
 		if (g_file_equal (folder_to_load, load_data->requested_folder->file))
 			break;
 
-		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent))
-			break;
+		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent)) {
+			path = gth_folder_tree_get_path (folder_tree, folder_to_load);
+			if (path == NULL)
+				break;
+
+			if (! gth_folder_tree_is_loaded (folder_tree, path)) {
+				gtk_tree_path_free (path);
+				break;
+			}
+		}
 
 		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
 		if (path == NULL)
