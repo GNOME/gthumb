@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "gth-slideshow-preferences.h"
 #include "gth-transition.h"
 #include "preferences.h"
 
@@ -30,22 +31,14 @@
 #define BROWSER_DATA_KEY "slideshow-preference-data"
 
 
-enum {
-	TRANSITION_COLUMN_ID,
-	TRANSITION_COLUMN_DISPLAY_NAME
-};
-
-
 typedef struct {
-	GtkBuilder *builder;
-	GtkWidget  *transition_combobox;
+	GtkWidget *preferences_page;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
-	g_object_unref (data->builder);
 	g_free (data);
 }
 
@@ -54,16 +47,11 @@ static void
 transition_combobox_changed_cb (GtkComboBox *combo_box,
 				BrowserData *data)
 {
-	GtkTreeIter   iter;
-	GtkTreeModel *tree_model;
-	char         *transition_id;
+	char *transition_id;
 
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->transition_combobox), &iter))
-		return;
-
-	tree_model = gtk_combo_box_get_model (GTK_COMBO_BOX (data->transition_combobox));
-	gtk_tree_model_get (tree_model, &iter, TRANSITION_COLUMN_ID, &transition_id, -1);
-	eel_gconf_set_string (PREF_SLIDESHOW_TRANSITION, transition_id);
+	transition_id = gth_slideshow_preferences_get_transition_id (GTH_SLIDESHOW_PREFERENCES (data->preferences_page));
+	if (transition_id != NULL)
+		eel_gconf_set_string (PREF_SLIDESHOW_TRANSITION, transition_id);
 
 	g_free (transition_id);
 }
@@ -98,84 +86,35 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				  GthBrowser *browser,
 				  GtkBuilder *dialog_builder)
 {
-	BrowserData     *data;
-	GtkWidget       *notebook;
-	GtkWidget       *page;
-	GtkListStore    *model;
-	GtkCellRenderer *renderer;
-	char            *current_transition;
-	GList           *transitions;
-	GList           *scan;
-	GtkTreeIter      iter;
-	int              i, i_active;
-	GtkWidget       *label;
-
-	data = g_new0 (BrowserData, 1);
-	data->builder = _gtk_builder_new_from_file ("slideshow-preferences.ui", "slideshow");
+	BrowserData *data;
+	GtkWidget   *notebook;
+	char        *current_transition;
+	GtkWidget   *label;
 
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 
-	page = _gtk_builder_get_widget (data->builder, "preferences_page");
-	gtk_widget_show (page);
-
-	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	data->transition_combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (model));
-	g_object_unref (model);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->transition_combobox),
-				    renderer,
-				    TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->transition_combobox),
-					renderer,
-					"text", TRANSITION_COLUMN_DISPLAY_NAME,
-					NULL);
-
+	data = g_new0 (BrowserData, 1);
 	current_transition = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
-	transitions = gth_main_get_registered_objects (GTH_TYPE_TRANSITION);
-	for (i = 0, i_active = 0, scan = transitions; scan; scan = scan->next, i++) {
-		GthTransition *transition = scan->data;
-
-		if (strcmp (gth_transition_get_id (transition), current_transition) == 0)
-			i_active = i;
-
-		gtk_list_store_append (model, &iter);
-		gtk_list_store_set (model, &iter,
-				    TRANSITION_COLUMN_ID, gth_transition_get_id (transition),
-				    TRANSITION_COLUMN_DISPLAY_NAME, gth_transition_get_display_name (transition),
-				    -1);
-	}
-
-	if (strcmp ("random", current_transition) == 0)
-		i_active = i;
-	gtk_list_store_append (model, &iter);
-	gtk_list_store_set (model, &iter,
-			    TRANSITION_COLUMN_ID, "random",
-			    TRANSITION_COLUMN_DISPLAY_NAME, _("Random"),
-			    -1);
-
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->transition_combobox), i_active);
-	gtk_widget_show (data->transition_combobox);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("transition_box")), data->transition_combobox);
+	data->preferences_page = gth_slideshow_preferences_new (current_transition,
+							        eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
+							        eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0),
+							        eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+	gtk_widget_show (data->preferences_page);
 	g_free (current_transition);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("change_delay_spinbutton")), eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("automatic_checkbutton")), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wrap_around_checkbutton")), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
-
-	g_signal_connect (G_OBJECT (data->transition_combobox),
+	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "transition_combobox"),
 			  "changed",
 			  G_CALLBACK (transition_combobox_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("automatic_checkbutton")),
+	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "automatic_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (automatic_checkbutton_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("wrap_around_checkbutton")),
+	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "wrap_around_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (wrap_around_checkbutton_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("change_delay_spinbutton")),
+	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "change_delay_spinbutton"),
 			  "value-changed",
 			  G_CALLBACK (change_delay_spinbutton_value_changed_cb),
 			  data);
@@ -183,7 +122,7 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	label = gtk_label_new (_("Slideshow"));
 	gtk_widget_show (label);
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), data->preferences_page, label);
 
 	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

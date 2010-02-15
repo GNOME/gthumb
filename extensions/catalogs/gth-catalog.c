@@ -53,6 +53,8 @@ gth_catalog_finalize (GObject *object)
 {
 	GthCatalog *catalog = GTH_CATALOG (object);
 
+	g_value_hash_unref (catalog->attributes);
+
 	if (catalog->priv != NULL) {
 		if (catalog->priv->file != NULL)
 			g_object_unref (catalog->priv->file);
@@ -80,7 +82,7 @@ base_create_root (GthCatalog  *catalog,
 
 
 static void
-base_read_from_doc (GthCatalog  *catalog,
+base_read_from_doc (GthCatalog *catalog,
 		    DomElement *root)
 {
 	GList      *file_list;
@@ -110,6 +112,9 @@ base_read_from_doc (GthCatalog  *catalog,
 			gth_catalog_set_name (catalog, dom_element_get_inner_text (child));
 	}
 	gth_catalog_set_file_list (catalog, file_list);
+
+	/* FIXME */
+	gth_hook_invoke ("gth-catalog-read-from-doc", catalog, root);
 
 	_g_object_list_unref (file_list);
 }
@@ -219,6 +224,9 @@ base_write_to_doc (GthCatalog  *catalog,
 			g_free (uri);
 		}
 	}
+
+	/* FIXME */
+	gth_hook_invoke ("gth-catalog-write-to-doc", catalog, doc, root);
 }
 
 
@@ -241,6 +249,7 @@ gth_catalog_class_init (GthCatalogClass *class)
 static void
 gth_catalog_init (GthCatalog *catalog)
 {
+	catalog->attributes = g_value_hash_new ();
 	catalog->priv = g_new0 (GthCatalogPrivate, 1);
 	catalog->priv->date_time = gth_datetime_new ();
 	catalog->priv->file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, NULL, NULL);
@@ -764,6 +773,9 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 				    file_data->info,
 				    catalog->priv->name,
 				    catalog->priv->date_time);
+
+	/* FIXME */
+	gth_hook_invoke ("gth-catalog-write-metadata", catalog, file_data);
 }
 
 

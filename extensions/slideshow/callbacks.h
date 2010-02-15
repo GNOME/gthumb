@@ -24,9 +24,25 @@
 #define CALLBACKS_H
 
 #include <gthumb.h>
+#include <extensions/catalogs/gth-catalog.h>
 
-void ss__gth_browser_construct_cb          (GthBrowser *browser);
-void ss__gth_browser_update_sensitivity_cb (GthBrowser *browser);
-void ss__slideshow_cb                      (GthBrowser *browser);
+void ss__gth_browser_construct_cb          (GthBrowser  *browser);
+void ss__gth_browser_update_sensitivity_cb (GthBrowser  *browser);
+void ss__slideshow_cb                      (GthBrowser  *browser);
+void ss__gth_catalog_read_metadata         (GthCatalog  *catalog,
+					    GthFileData *file_data);
+void ss__gth_catalog_write_metadata        (GthCatalog  *catalog,
+					    GthFileData *file_data);
+void ss__gth_catalog_read_from_doc         (GthCatalog  *catalog,
+					    DomElement  *root);
+void ss__gth_catalog_write_to_doc          (GthCatalog  *catalog,
+					    DomDocument *doc,
+					    DomElement  *root);
+void ss__dlg_catalog_properties            (GtkBuilder  *builder,
+					    GthFileData *file_data,
+					    GthCatalog  *catalog);
+void ss__dlg_catalog_properties_save       (GtkBuilder  *builder,
+					    GthFileData *file_data,
+					    GthCatalog  *catalog);
 
 #endif /* CALLBACKS_H */

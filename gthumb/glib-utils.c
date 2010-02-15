@@ -1432,6 +1432,22 @@ _g_string_list_dup (GList *string_list)
 }
 
 
+char **
+_g_string_list_to_strv (GList *string_list)
+{
+	char  **strv;
+	GList  *scan;
+	int     i;
+
+	strv = g_new0 (char *, g_list_length (string_list));
+	for (scan = string_list, i = 0; scan; scan = scan->next)
+		strv[i++] = g_strdup ((char *)scan->data);
+	strv[i++] = NULL;
+
+	return strv;
+}
+
+
 GType
 g_string_list_get_type (void)
 {

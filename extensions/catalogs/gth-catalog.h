@@ -48,6 +48,7 @@ typedef struct _GthCatalogClass    GthCatalogClass;
 struct _GthCatalog
 {
 	GObject __parent;
+	GValueHash *attributes;
 	GthCatalogPrivate *priv;
 };
 

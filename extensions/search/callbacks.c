@@ -169,8 +169,9 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (builder, "main_vbox")), vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (builder, "general_vbox")), vbox, FALSE, FALSE, 0);
 
+	/* Translators: This is not a verb, it's a name as in "the search properties". */
 	label = gtk_label_new (_("Search"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	attrs = pango_attr_list_new ();

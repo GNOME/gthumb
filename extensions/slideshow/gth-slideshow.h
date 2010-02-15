@@ -68,6 +68,9 @@ void             gth_slideshow_set_loop        (GthSlideshow     *self,
 					        gboolean          loop);
 void             gth_slideshow_set_transitions (GthSlideshow     *self,
 					        GList            *transitions);
+void             gth_slideshow_set_playlist    (GthSlideshow     *self,
+						char            **files,
+						gboolean          loop);
 
 G_END_DECLS
 

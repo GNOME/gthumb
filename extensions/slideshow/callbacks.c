@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009-2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,9 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "callbacks.h"
+#include "gth-slideshow-preferences.h"
+#include "preferences.h"
 
 
 #define BROWSER_DATA_KEY "slideshow-browser-data"
@@ -130,4 +133,306 @@ void
 ss__slideshow_cb (GthBrowser *browser)
 {
 	gth_browser_activate_action_view_slideshow (NULL, browser);
+}
+
+
+void
+ss__gth_catalog_read_metadata (GthCatalog  *catalog,
+			       GthFileData *file_data)
+{
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::personalize") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::personalize",
+					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::personalize"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::auto") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::auto",
+					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::auto"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::loop") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::loop",
+					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::loop"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::delay") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_float (catalog->attributes,
+					"slideshow::delay",
+					g_file_info_get_attribute_int32 (file_data->info, "slideshow::delay") / 10.0);
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::transition") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_string (catalog->attributes,
+					 "slideshow::transition",
+				 	 g_file_info_get_attribute_string (file_data->info, "slideshow::transition"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::audio-loop") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::audio-loop",
+					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::audio-loop"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::audio-files") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_stringv (catalog->attributes,
+					  "slideshow::audio-files",
+					  g_file_info_get_attribute_stringv (file_data->info, "slideshow::audio-files"));
+}
+
+
+void
+ss__gth_catalog_write_metadata (GthCatalog  *catalog,
+			        GthFileData *file_data)
+{
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::personalize")) {
+		g_file_info_set_attribute_boolean (file_data->info,
+						   "slideshow::personalize",
+						   g_value_hash_get_boolean (catalog->attributes, "slideshow::personalize"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::personalize",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::auto")) {
+		g_file_info_set_attribute_boolean (file_data->info,
+						   "slideshow::auto",
+						   g_value_hash_get_boolean (catalog->attributes, "slideshow::auto"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::auto",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::loop")) {
+		g_file_info_set_attribute_boolean (file_data->info,
+						   "slideshow::loop",
+						   g_value_hash_get_boolean (catalog->attributes, "slideshow::loop"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::loop",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::delay")) {
+		g_file_info_set_attribute_int32 (file_data->info,
+						 "slideshow::delay",
+						 (int) g_value_hash_get_float (catalog->attributes, "slideshow::delay") * 10.0);
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::delay",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::transition")) {
+		g_file_info_set_attribute_string (file_data->info,
+						  "slideshow::transition",
+						  g_value_hash_get_string (catalog->attributes, "slideshow::transition"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::transition",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::audio-loop")) {
+		g_file_info_set_attribute_boolean (file_data->info,
+						   "slideshow::audio-loop",
+						   g_value_hash_get_boolean (catalog->attributes, "slideshow::audio-loop"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::audio-loop",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::audio-files")) {
+		g_file_info_set_attribute_stringv (file_data->info,
+						   "slideshow::audio-files",
+						   g_value_hash_get_stringv (catalog->attributes, "slideshow::audio-files"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::audio-files",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+}
+
+
+void
+ss__gth_catalog_read_from_doc (GthCatalog *catalog,
+			       DomElement *root)
+{
+	DomElement *node;
+
+	for (node = root->first_child; node; node = node->next_sibling) {
+		DomElement *child;
+
+		if (g_strcmp0 (node->tag_name, "slideshow") != 0)
+			continue;
+
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::personalize",
+					  g_strcmp0 (dom_element_get_attribute (node, "personalize"), "true") == 0);
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::auto",
+					  g_strcmp0 (dom_element_get_attribute (node, "auto"), "true") == 0);
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::loop",
+					  g_strcmp0 (dom_element_get_attribute (node, "loop"), "true") == 0);
+
+		for (child = node->first_child; child; child = child->next_sibling) {
+			if (g_strcmp0 (child->tag_name, "delay") == 0) {
+				float delay;
+
+				sscanf (dom_element_get_inner_text (child), "%f", &delay);
+				g_value_hash_set_float (catalog->attributes,
+							"slideshow::delay",
+							delay);
+			}
+			else if (g_strcmp0 (child->tag_name, "transition") == 0) {
+				g_value_hash_set_string (catalog->attributes,
+							 "slideshow::transition",
+							 dom_element_get_inner_text (child));
+			}
+			else if (g_strcmp0 (child->tag_name, "audio") == 0) {
+				DomElement  *file;
+				GList       *audio_files;
+
+				g_value_hash_set_boolean (catalog->attributes,
+							  "slideshow::audio-loop",
+							  g_strcmp0 (dom_element_get_attribute (child, "loop"), "true") == 0);
+
+				audio_files = NULL;
+				for (file = child->first_child; file; file = file->next_sibling) {
+					if (g_strcmp0 (file->tag_name, "file") == 0)
+						audio_files = g_list_prepend (audio_files, g_strdup (dom_element_get_attribute (file, "uri")));
+				}
+				audio_files = g_list_reverse (audio_files);
+				if (audio_files != NULL) {
+					char **audio_files_v;
+
+					audio_files_v = _g_string_list_to_strv (audio_files);
+					g_value_hash_set_stringv (catalog->attributes,
+								  "slideshow::audio-files",
+								  audio_files_v);
+
+					g_strfreev (audio_files_v);
+				}
+				else
+					g_value_hash_unset (catalog->attributes, "slideshow::audio-files");
+
+				_g_string_list_free (audio_files);
+			}
+		}
+	}
+}
+
+
+void
+ss__gth_catalog_write_to_doc (GthCatalog  *catalog,
+			      DomDocument *doc,
+			      DomElement  *root)
+{
+	DomElement  *slideshow;
+	char        *delay;
+	DomElement  *audio;
+	char       **audio_files;
+	int          i;
+
+	slideshow = dom_document_create_element (doc,
+						 "slideshow",
+						 "personalize", (g_value_hash_get_boolean (catalog->attributes, "slideshow::personalize") ? "true" : "false"),
+						 "auto", (g_value_hash_get_boolean (catalog->attributes, "slideshow::auto") ? "true" : "false"),
+						 "loop", (g_value_hash_get_boolean (catalog->attributes, "slideshow::loop") ? "true" : "false"),
+						 NULL);
+	dom_element_append_child (root, slideshow);
+
+	delay = g_strdup_printf ("%f", g_value_hash_get_float (catalog->attributes, "slideshow::delay"));
+	dom_element_append_child (slideshow,
+				  dom_document_create_element_with_text (doc, delay, "delay", NULL));
+	g_free (delay);
+
+	dom_element_append_child (slideshow,
+				  dom_document_create_element_with_text (doc,
+									 g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
+									 "transition",
+									 NULL));
+
+	audio = dom_document_create_element (doc,
+					     "audio",
+					     "loop", (g_value_hash_get_boolean (catalog->attributes, "slideshow::audio-loop") ? "true" : "false"),
+					     NULL);
+	dom_element_append_child (slideshow, audio);
+
+	audio_files = g_value_hash_get_stringv (catalog->attributes, "slideshow::audio-files");
+	for (i = 0; audio_files[i] != NULL; i++)
+		dom_element_append_child (audio, dom_document_create_element (doc, "file", "uri", audio_files[i], NULL));
+}
+
+
+void
+ss__dlg_catalog_properties (GtkBuilder  *builder,
+			    GthFileData *file_data,
+			    GthCatalog  *catalog)
+{
+	GtkWidget *slideshow_preferences;
+	GtkWidget *label;
+
+	if (! g_value_hash_is_set (catalog->attributes, "slideshow::personalize")
+	    || ! g_value_hash_get_boolean (catalog->attributes, "slideshow::personalize"))
+	{
+		char *current_transition;
+
+		current_transition = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+		slideshow_preferences = gth_slideshow_preferences_new (current_transition,
+								       eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
+								       eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0),
+								       eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), FALSE);
+
+		g_free (current_transition);
+	}
+	else {
+		slideshow_preferences = gth_slideshow_preferences_new (g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
+								       g_value_hash_get_boolean (catalog->attributes, "slideshow::auto"),
+								       g_value_hash_get_float (catalog->attributes, "slideshow::delay"),
+								       g_value_hash_get_boolean (catalog->attributes, "slideshow::loop"));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_checkbutton")), TRUE);
+		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), TRUE);
+	}
+
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::audio-files"))
+		gth_slideshow_preferences_set_audio (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences),
+						     g_value_hash_get_boolean (catalog->attributes, "slideshow::audio-loop"),
+						     g_value_hash_get_stringv (catalog->attributes, "slideshow::audio-files"));
+
+	gtk_widget_show (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_checkbutton"));
+	gtk_widget_hide (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "slideshow_label"));
+	gtk_widget_show (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "playlist_box"));
+	gtk_widget_show (slideshow_preferences);
+
+	label = gtk_label_new (_("Slideshow"));
+	gtk_widget_show (label);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (_gtk_builder_get_widget (builder, "properties_notebook")), slideshow_preferences, label);
+	g_object_set_data (G_OBJECT (builder), "slideshow_preferences", slideshow_preferences);
+}
+
+
+void
+ss__dlg_catalog_properties_save (GtkBuilder  *builder,
+				 GthFileData *file_data,
+				 GthCatalog  *catalog)
+{
+	GtkWidget  *slideshow_preferences;
+	char       *transition_id;
+	char      **files;
+
+	slideshow_preferences = g_object_get_data (G_OBJECT (builder), "slideshow_preferences");
+
+	g_value_hash_set_boolean (catalog->attributes,
+				  "slideshow::personalize",
+				  gth_slideshow_preferences_get_personalize (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+
+	transition_id = gth_slideshow_preferences_get_transition_id (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences));
+	g_value_hash_set_string (catalog->attributes,
+				 "slideshow::transition",
+				 transition_id);
+	g_free (transition_id);
+
+	g_value_hash_set_boolean (catalog->attributes,
+				  "slideshow::auto",
+				  gth_slideshow_preferences_get_automatic (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+	g_value_hash_set_float (catalog->attributes,
+				"slideshow::delay",
+				gth_slideshow_preferences_get_delay (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+	g_value_hash_set_boolean (catalog->attributes,
+				  "slideshow::loop",
+				  gth_slideshow_preferences_get_wrap_around (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+
+	files = gth_slideshow_preferences_get_audio_files (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences));
+	g_value_hash_set_stringv (catalog->attributes,
+				  "slideshow::audio-files",
+				  files);
+	g_strfreev (files);
+
+	g_value_hash_set_boolean (catalog->attributes,
+				  "slideshow::audio-loop",
+				  gth_slideshow_preferences_get_audio_loop (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
 }

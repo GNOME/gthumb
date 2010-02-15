@@ -9,3 +9,4 @@ Icon=x-office-presentation
 [Loader]
 Type=module
 File=%LIBRARY%
+After=catalogs

@@ -24,6 +24,9 @@
 #include <gtk/gtk.h>
 #include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
+#if HAVE_GSTREAMER
+#include <gst/gst.h>
+#endif
 #include "gth-slideshow.h"
 #include "gth-transition.h"
 
@@ -50,6 +53,12 @@ struct _GthSlideshowPrivate {
 	GRand             *rand;
 	gboolean           first_show;
 	gboolean           one_loaded;
+	char             **audio_files;
+	gboolean           audio_loop;
+#if HAVE_GSTREAMER
+	int                current_audio_file;
+	GstElement        *playbin;
+#endif
 };
 
 
@@ -388,6 +397,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->n_transitions = 0;
 	self->priv->rand = g_rand_new ();
 	self->priv->first_show = TRUE;
+	self->priv->audio_files = NULL;
 
 	self->priv->preloader = gth_image_preloader_new ();
 	g_signal_connect (self->priv->preloader,
@@ -413,6 +423,15 @@ gth_slideshow_finalize (GObject *object)
 	_g_object_unref (self->priv->timeline);
 	_g_object_list_unref (self->priv->transitions);
 	g_rand_free (self->priv->rand);
+	g_strfreev (self->priv->audio_files);
+
+#if HAVE_GSTREAMER
+	if (self->priv->playbin != NULL) {
+		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		gst_object_unref (GST_OBJECT (self->priv->playbin));
+		self->priv->playbin = NULL;
+	}
+#endif
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -502,12 +521,55 @@ stage_input_cb (ClutterStage *stage,
 }
 
 
+#if HAVE_GSTREAMER
+static void
+bus_message_cb (GstBus     *bus,
+                GstMessage *message,
+                gpointer    user_data)
+{
+	GthSlideshow *self = user_data;
+
+	if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_EOS) {
+		self->priv->current_audio_file++;
+		if ((self->priv->audio_files[self->priv->current_audio_file] == NULL)
+		    && self->priv->audio_loop)
+		{
+			self->priv->current_audio_file = 0;
+		}
+		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	}
+}
+#endif
+
+
 static void
 gth_slideshow_show_cb (GtkWidget    *widget,
 		       GthSlideshow *self)
 {
 	if (! self->priv->first_show)
 		return;
+
+#if HAVE_GSTREAMER
+	if ((self->priv->audio_files != NULL) && (self->priv->audio_files[0] != NULL)) {
+		self->priv->current_audio_file = 0;
+		if (self->priv->playbin == NULL) {
+			GstBus *bus;
+
+			gst_init_check (NULL, NULL, NULL); /* FIXME */
+
+			self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+			bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
+			gst_bus_add_signal_watch (bus);
+			g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
+		}
+		else
+			gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	}
+#endif
 
 	_gth_slideshow_load_current_image (self);
 	self->priv->first_show = FALSE;
@@ -601,4 +663,14 @@ gth_slideshow_set_transitions (GthSlideshow *self,
 	_g_object_list_unref (self->priv->transitions);
 	self->priv->transitions = _g_object_list_ref (transitions);
 	self->priv->n_transitions = g_list_length (self->priv->transitions);
+}
+
+
+void
+gth_slideshow_set_playlist (GthSlideshow  *self,
+			    char         **files,
+			    gboolean       loop)
+{
+	self->priv->audio_files = g_strdupv (files);
+	self->priv->audio_loop = loop;
 }

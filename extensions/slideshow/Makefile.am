@@ -12,15 +12,17 @@ libslideshow_la_SOURCES = 		\
 	callbacks.h			\
 	gth-slideshow.c			\
 	gth-slideshow.h			\
+	gth-slideshow-preferences.c	\
+	gth-slideshow-preferences.h	\
 	gth-transition.c		\
 	gth-transition.h		\
 	main.c				\
 	preferences.c			\
 	preferences.h
 
-libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) $(GSTREAMER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libslideshow_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libslideshow_la_LIBADD = $(GTHUMB_LIBS) $(CLUTTER_LIBS)
+libslideshow_la_LIBADD = $(GTHUMB_LIBS) $(CLUTTER_LIBS) $(GSTREAMER_LIBS) ../catalogs/libcatalogs.la
 libslideshow_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

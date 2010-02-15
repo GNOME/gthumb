@@ -208,6 +208,7 @@ gboolean        same_uri                         (const char *uri1,
 						  const char *uri2);
 void            _g_string_list_free              (GList      *string_list);
 GList *         _g_string_list_dup               (GList      *string_list);
+char **         _g_string_list_to_strv           (GList      *string_list);
 GType           g_string_list_get_type           (void);
 GList *         get_file_list_from_url_list      (char       *url_list);
 const char *    _g_uri_get_basename              (const char *uri);

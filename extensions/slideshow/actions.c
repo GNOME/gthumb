@@ -33,11 +33,12 @@ void
 gth_browser_activate_action_view_slideshow (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	GList     *items;
-	GList     *file_list;
-	GtkWidget *slideshow;
-	char      *transition_id;
-	GList     *transitions = NULL;
+	GList       *items;
+	GList       *file_list;
+	GtkWidget   *slideshow;
+	GthFileData *location;
+	char        *transition_id;
+	GList       *transitions = NULL;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if ((items == NULL) || (items->next == NULL))
@@ -46,11 +47,26 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
 	slideshow = gth_slideshow_new (browser, file_list);
-	gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5) * 1000);
-	gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
-	gth_slideshow_set_loop (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 
-	transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+	location = gth_browser_get_location_data (browser);
+	if (g_file_info_get_attribute_status (location->info, "slideshow::personalize") == G_FILE_ATTRIBUTE_STATUS_SET) {
+		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_int32 (location->info, "slideshow::delay") / 10.0);
+		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::auto"));
+		gth_slideshow_set_loop (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::loop"));
+		transition_id = g_strdup (g_file_info_get_attribute_string (location->info, "slideshow::transition"));
+	}
+	else {
+		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5) * 1000);
+		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
+		gth_slideshow_set_loop (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+		transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+	}
+
+	if (g_file_info_get_attribute_status (location->info, "slideshow::audio-files") == G_FILE_ATTRIBUTE_STATUS_SET)
+		gth_slideshow_set_playlist (GTH_SLIDESHOW (slideshow),
+					    g_file_info_get_attribute_stringv (location->info, "slideshow::audio-files"),
+					    g_file_info_get_attribute_boolean (location->info, "slideshow::audio-loop"));
+
 	if (strcmp (transition_id, "random") == 0) {
 		GList *scan;
 
@@ -75,8 +91,8 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	}
 	gth_slideshow_set_transitions (GTH_SLIDESHOW (slideshow), transitions);
 
-	gtk_window_fullscreen (GTK_WINDOW (slideshow));
-	/*gtk_window_set_default_size (GTK_WINDOW (slideshow), 700, 700);*/
+	/*gtk_window_fullscreen (GTK_WINDOW (slideshow)); FIXME */
+	gtk_window_set_default_size (GTK_WINDOW (slideshow), 700, 700);
 	gtk_window_present (GTK_WINDOW (slideshow));
 
 	_g_object_list_unref (transitions);

@@ -32,13 +32,46 @@ G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	/**
-	 * Called to create the catalog class from the given file data.
+	 * Called to create the catalog class from the given file content.
 	 *
-	 * @buffer (const char *): the file data.
+	 * @buffer (const char *): the file content.
 	 * @return (GthCatalog *): return a pointer to the object that can
 	 * handle the catalog data, or NULL if the data type doesn't match.
 	 **/
 	gth_hook_register ("gth-catalog-load-from-data", 1);
+
+	/**
+	 * Called to update the catalog data from a given file data.
+	 *
+	 * @catalog (GthCatalog *): the catalog to update
+	 * @file_data (GthFileData *): the file data
+	 **/
+	gth_hook_register ("gth-catalog-read-metadata", 2);
+
+	/**
+	 * Called to update the file metadata from a catalog.
+	 *
+	 * @catalog (GthCatalog *): the catalog
+	 * @file_data (GthFileData *): the file data to update
+	 **/
+	gth_hook_register ("gth-catalog-write-metadata", 2);
+
+	/**
+	 * Called to update the catalog from a xml file.
+	 *
+	 * @catalog (GthCatalog *):
+	 * @root (DomElement *):
+	 */
+	gth_hook_register ("gth-catalog-read-from-doc", 2);
+
+	/**
+	 * Called to update a xml file from a catalog.
+	 *
+	 * @catalog (GthCatalog *):
+	 * @doc (DomDocument *):
+	 * @root (DomElement *):
+	 */
+	gth_hook_register ("gth-catalog-write-to-doc", 3);
 
 	/**
 	 * Called to add sections to the catalog properties dialog.

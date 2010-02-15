@@ -318,6 +318,12 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ss__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ss__gth_browser_update_sensitivity_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 20, G_CALLBACK (ss__dlg_preferences_construct_cb), NULL);
+	gth_hook_add_callback ("gth-catalog-read-metadata", 10, G_CALLBACK (ss__gth_catalog_read_metadata), NULL);
+	gth_hook_add_callback ("gth-catalog-write-metadata", 10, G_CALLBACK (ss__gth_catalog_write_metadata), NULL);
+	gth_hook_add_callback ("gth-catalog-read-from-doc", 10, G_CALLBACK (ss__gth_catalog_read_from_doc), NULL);
+	gth_hook_add_callback ("gth-catalog-write-to-doc", 10, G_CALLBACK (ss__gth_catalog_write_to_doc), NULL);
+	gth_hook_add_callback ("dlg-catalog-properties", 10, G_CALLBACK (ss__dlg_catalog_properties), NULL);
+	gth_hook_add_callback ("dlg-catalog-properties-save", 10, G_CALLBACK (ss__dlg_catalog_properties_save), NULL);
 }
 
 

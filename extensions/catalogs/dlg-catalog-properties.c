@@ -240,6 +240,7 @@ dlg_catalog_properties (GthBrowser  *browser,
 
 	/* run dialog. */
 
+	gtk_widget_grab_focus (GET_WIDGET ("name_entry"));
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 

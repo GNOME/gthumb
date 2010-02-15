@@ -108,6 +108,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-viewer-page.h				\
 	gth-window.h					\
 	gtk-utils.h					\
+	gvaluehash.h					\
 	main.h						\
 	pixbuf-cache.h					\
 	pixbuf-io.h					\
@@ -224,6 +225,7 @@ gthumb_SOURCES = 					\
 	gth-window.c					\
 	gth-window-actions-callbacks.c			\
 	gtk-utils.c					\
+	gvaluehash.c					\
 	main.c						\
 	pixbuf-cache.c					\
 	pixbuf-io.c					\

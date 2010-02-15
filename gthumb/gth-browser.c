@@ -1258,7 +1258,7 @@ load_data_load_next_folder (LoadData *load_data)
 	if ((load_data->action != GTH_ACTION_LIST_CHILDREN) && g_file_equal (folder_to_load, load_data->requested_folder->file))
 		gth_file_source_read_metadata (load_data->file_source,
 					       load_data->requested_folder,
-					       GFILE_BASIC_ATTRIBUTES ",access::*,sort::*",
+					       "*", /*GFILE_BASIC_ATTRIBUTES ",access::*,sort::*", FIXME*/
 					       requested_folder_attributes_ready_cb,
      					       load_data);
 	else
