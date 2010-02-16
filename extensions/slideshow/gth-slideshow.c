@@ -60,6 +60,7 @@ struct _GthSlideshowPrivate {
 	int                current_audio_file;
 	GstElement        *playbin;
 #endif
+	gboolean           paused;
 };
 
 
@@ -215,6 +216,9 @@ _gth_slideshow_load_next_image (GthSlideshow *self)
 		clutter_timeline_pause (self->priv->timeline);
 		_gth_slideshow_animation_completed (self);
 	}
+
+	if (self->priv->paused)
+		return;
 
 	self->priv->current = self->priv->current->next;
 	clutter_timeline_set_direction (self->priv->timeline, CLUTTER_TIMELINE_FORWARD);
@@ -399,6 +403,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->rand = g_rand_new ();
 	self->priv->first_show = TRUE;
 	self->priv->audio_files = NULL;
+	self->priv->paused = FALSE;
 
 	self->priv->preloader = gth_image_preloader_new ();
 	g_signal_connect (self->priv->preloader,
@@ -494,6 +499,29 @@ hide_cursor_cb (gpointer data)
 
 
 static void
+_gth_slideshow_toggle_pause (GthSlideshow *self)
+{
+	self->priv->paused = ! self->priv->paused;
+	if (self->priv->paused) {
+		clutter_timeline_pause (self->priv->timeline);
+		_gth_slideshow_animation_completed (self);
+#if HAVE_GSTREAMER
+		if (self->priv->playbin != NULL)
+			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+#endif
+	}
+	else { /* resume */
+		clutter_timeline_rewind (self->priv->timeline);
+		clutter_timeline_start (self->priv->timeline);
+#if HAVE_GSTREAMER
+		if (self->priv->playbin != NULL)
+			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+#endif
+	}
+}
+
+
+static void
 stage_input_cb (ClutterStage *stage,
 	        ClutterEvent *event,
 	        GthSlideshow *self)
@@ -511,10 +539,16 @@ stage_input_cb (ClutterStage *stage,
 			break;
 
 		case CLUTTER_space:
+			_gth_slideshow_toggle_pause (self);
+			break;
+
+		case CLUTTER_Up:
+		case CLUTTER_Right:
 			_gth_slideshow_load_next_image (self);
 			break;
 
-		case CLUTTER_BackSpace:
+		case CLUTTER_Down:
+		case CLUTTER_Left:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}
