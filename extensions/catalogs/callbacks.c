@@ -244,6 +244,10 @@ catalogs__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	action = gtk_action_group_get_action (data->actions, "Edit_RemoveFromCatalog");
 	sensitive = (n_selected > 0) && GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser));
 	g_object_set (action, "sensitive", sensitive, NULL);
+
+	action = gtk_action_group_get_action (data->actions, "Go_FileContainer");
+	sensitive = (n_selected == 1);
+	g_object_set (action, "sensitive", sensitive, NULL);
 }
 
 
