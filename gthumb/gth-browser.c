@@ -4469,12 +4469,12 @@ file_metadata_ready_cb (GList    *files,
 	}
 
 	if (data->view) {
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
 		}
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	}
 
 	if (browser->priv->viewer_page != NULL)
