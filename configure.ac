@@ -411,9 +411,10 @@ extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
-extensions/gstreamer/Makefile
-extensions/gstreamer/data/Makefile
-extensions/gstreamer/data/ui/Makefile
+extensions/gstreamer_tools/Makefile
+extensions/gstreamer_tools/data/Makefile
+extensions/gstreamer_tools/data/ui/Makefile
+extensions/gstreamer_utils/Makefile
 extensions/image_print/Makefile
 extensions/image_print/data/Makefile
 extensions/image_print/data/ui/Makefile

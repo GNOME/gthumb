@@ -10,7 +10,8 @@ SUBDIRS = 			\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
-	gstreamer		\
+	gstreamer_utils		\
+	gstreamer_tools		\
 	image_print		\
 	image_rotation		\
 	image_viewer		\
