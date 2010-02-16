@@ -591,7 +591,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 
 	/* mediabar */
 
-	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer");
+	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer_tools");
 	self->priv->mediabar = GET_WIDGET ("mediabar");
 	gtk_widget_show (self->priv->mediabar);
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
