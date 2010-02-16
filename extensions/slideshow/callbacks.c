@@ -153,9 +153,9 @@ ss__gth_catalog_read_metadata (GthCatalog  *catalog,
 					  "slideshow::loop",
 					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::loop"));
 	if (g_file_info_get_attribute_status (file_data->info, "slideshow::delay") == G_FILE_ATTRIBUTE_STATUS_SET)
-		g_value_hash_set_float (catalog->attributes,
-					"slideshow::delay",
-					g_file_info_get_attribute_int32 (file_data->info, "slideshow::delay") / 10.0);
+		g_value_hash_set_int (catalog->attributes,
+				      "slideshow::delay",
+				      g_file_info_get_attribute_int32 (file_data->info, "slideshow::delay"));
 	if (g_file_info_get_attribute_status (file_data->info, "slideshow::transition") == G_FILE_ATTRIBUTE_STATUS_SET)
 		g_value_hash_set_string (catalog->attributes,
 					 "slideshow::transition",
@@ -202,7 +202,7 @@ ss__gth_catalog_write_metadata (GthCatalog  *catalog,
 	if (g_value_hash_is_set (catalog->attributes, "slideshow::delay")) {
 		g_file_info_set_attribute_int32 (file_data->info,
 						 "slideshow::delay",
-						 (int) g_value_hash_get_float (catalog->attributes, "slideshow::delay") * 10.0);
+						 g_value_hash_get_int (catalog->attributes, "slideshow::delay"));
 		g_file_info_set_attribute_status (file_data->info,
 						  "slideshow::delay",
 						  G_FILE_ATTRIBUTE_STATUS_SET);
@@ -258,12 +258,12 @@ ss__gth_catalog_read_from_doc (GthCatalog *catalog,
 
 		for (child = node->first_child; child; child = child->next_sibling) {
 			if (g_strcmp0 (child->tag_name, "delay") == 0) {
-				float delay;
+				int delay;
 
-				sscanf (dom_element_get_inner_text (child), "%f", &delay);
-				g_value_hash_set_float (catalog->attributes,
-							"slideshow::delay",
-							delay);
+				sscanf (dom_element_get_inner_text (child), "%d", &delay);
+				g_value_hash_set_int (catalog->attributes,
+						      "slideshow::delay",
+						      delay);
 			}
 			else if (g_strcmp0 (child->tag_name, "transition") == 0) {
 				g_value_hash_set_string (catalog->attributes,
@@ -323,7 +323,7 @@ ss__gth_catalog_write_to_doc (GthCatalog  *catalog,
 						 NULL);
 	dom_element_append_child (root, slideshow);
 
-	delay = g_strdup_printf ("%f", g_value_hash_get_float (catalog->attributes, "slideshow::delay"));
+	delay = g_strdup_printf ("%d", g_value_hash_get_int (catalog->attributes, "slideshow::delay"));
 	dom_element_append_child (slideshow,
 				  dom_document_create_element_with_text (doc, delay, "delay", NULL));
 	g_free (delay);
@@ -362,7 +362,7 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 		current_transition = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
 		slideshow_preferences = gth_slideshow_preferences_new (current_transition,
 								       eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
-								       eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0),
+								       (int) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)),
 								       eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), FALSE);
 
@@ -371,7 +371,7 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 	else {
 		slideshow_preferences = gth_slideshow_preferences_new (g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
 								       g_value_hash_get_boolean (catalog->attributes, "slideshow::auto"),
-								       g_value_hash_get_float (catalog->attributes, "slideshow::delay"),
+								       g_value_hash_get_int (catalog->attributes, "slideshow::delay"),
 								       g_value_hash_get_boolean (catalog->attributes, "slideshow::loop"));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_checkbutton")), TRUE);
 		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), TRUE);
@@ -419,9 +419,9 @@ ss__dlg_catalog_properties_save (GtkBuilder  *builder,
 	g_value_hash_set_boolean (catalog->attributes,
 				  "slideshow::auto",
 				  gth_slideshow_preferences_get_automatic (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
-	g_value_hash_set_float (catalog->attributes,
-				"slideshow::delay",
-				gth_slideshow_preferences_get_delay (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+	g_value_hash_set_int (catalog->attributes,
+			      "slideshow::delay",
+			      gth_slideshow_preferences_get_delay (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
 	g_value_hash_set_boolean (catalog->attributes,
 				  "slideshow::loop",
 				  gth_slideshow_preferences_get_wrap_around (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));

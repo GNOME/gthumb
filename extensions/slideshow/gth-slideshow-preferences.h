@@ -52,7 +52,7 @@ struct _GthSlideshowPreferencesClass
 GType         gth_slideshow_preferences_get_type           (void);
 GtkWidget *   gth_slideshow_preferences_new                (const char               *transition,
 						            gboolean                  automatic,
-						            float                     delay,
+						            int                       delay,
 						            gboolean                  wrap_around);
 void          gth_slideshow_preferences_set_audio          (GthSlideshowPreferences  *self,
 							    gboolean                  loop,
@@ -62,7 +62,7 @@ GtkWidget *   gth_slideshow_preferences_get_widget         (GthSlideshowPreferen
 gboolean      gth_slideshow_preferences_get_personalize    (GthSlideshowPreferences  *self);
 char *        gth_slideshow_preferences_get_transition_id  (GthSlideshowPreferences  *self);
 gboolean      gth_slideshow_preferences_get_automatic      (GthSlideshowPreferences  *self);
-float         gth_slideshow_preferences_get_delay          (GthSlideshowPreferences  *self);
+int           gth_slideshow_preferences_get_delay          (GthSlideshowPreferences  *self);
 gboolean      gth_slideshow_preferences_get_wrap_around    (GthSlideshowPreferences  *self);
 char **       gth_slideshow_preferences_get_audio_files    (GthSlideshowPreferences  *self);
 gboolean      gth_slideshow_preferences_get_audio_loop     (GthSlideshowPreferences  *self);

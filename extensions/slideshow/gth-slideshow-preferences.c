@@ -232,7 +232,7 @@ static void
 gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 				     const char              *current_transition,
 				     gboolean                 automatic,
-				     float                    delay,
+				     int                      delay,
 				     gboolean                 wrap_around)
 {
 	GtkListStore    *model;
@@ -285,7 +285,7 @@ gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "transition_box")), self->priv->transition_combobox);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "automatic_checkbutton")), automatic);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "change_delay_spinbutton")), delay);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "change_delay_spinbutton")), ((float) delay) / 1000.0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "wrap_around_checkbutton")), wrap_around);
 
 	/* signals */
@@ -312,7 +312,7 @@ gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 GtkWidget *
 gth_slideshow_preferences_new (const char *transition,
 			       gboolean    automatic,
-			       float       delay,
+			       int         delay,
 			       gboolean    wrap_around)
 {
 	GtkWidget *widget;
@@ -411,10 +411,10 @@ gth_slideshow_preferences_get_automatic (GthSlideshowPreferences *self)
 }
 
 
-float
+int
 gth_slideshow_preferences_get_delay (GthSlideshowPreferences *self)
 {
-	return (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (gtk_builder_get_object (self->priv->builder, "change_delay_spinbutton")));
+	return (int) (1000.0 * gtk_spin_button_get_value (GTK_SPIN_BUTTON (gtk_builder_get_object (self->priv->builder, "change_delay_spinbutton"))));
 }
 
 
