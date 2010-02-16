@@ -47,6 +47,17 @@ extensions/catalogs/gth-file-source-catalogs.h
 extensions/catalogs/gth-organize-task.c
 extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
+extensions/change_date/actions.c
+extensions/change_date/actions.h
+extensions/change_date/callbacks.c
+extensions/change_date/callbacks.h
+[type: gettext/ini]extensions/change_date/change_date.extension.in.in
+[type: gettext/glade]extensions/change_date/data/ui/change-date.ui
+extensions/change_date/dlg-change-date.c
+extensions/change_date/dlg-change-date.h
+extensions/change_date/gth-change-date-task.c
+extensions/change_date/gth-change-date-task.h
+extensions/change_date/main.c
 [type: gettext/ini]extensions/comments/comments.extension.in.in
 extensions/comments/data/gthumb-comments.schemas.in
 [type: gettext/glade]extensions/comments/data/ui/comments-preferences.ui
@@ -60,6 +71,17 @@ extensions/comments/gth-test-category.c
 extensions/comments/gth-test-category.h
 extensions/comments/main.c
 extensions/comments/preferences.h
+extensions/convert_format/actions.c
+extensions/convert_format/actions.h
+extensions/convert_format/callbacks.c
+extensions/convert_format/callbacks.h
+[type: gettext/ini]extensions/convert_format/convert_format.extension.in.in
+extensions/convert_format/data/gthumb_convert_format.schemas.in
+[type: gettext/glade]extensions/convert_format/data/ui/convert-format.ui
+extensions/convert_format/dlg-convert-format.c
+extensions/convert_format/dlg-convert-format.h
+extensions/convert_format/main.c
+extensions/convert_format/preferences.h
 extensions/desktop_background/actions.c
 extensions/desktop_background/actions.h
 extensions/desktop_background/callbacks.c
@@ -81,15 +103,15 @@ extensions/edit_metadata/gth-edit-metadata-dialog.h
 extensions/edit_metadata/main.c
 [type: gettext/ini]extensions/example/src/example.extension.in.in
 extensions/example/src/main.c
-[type: gettext/glade]extensions/exiv2/data/ui/edit-exiv2-page.ui
-[type: gettext/ini]extensions/exiv2/exiv2.extension.in.in
-extensions/exiv2/exiv2-utils.cpp
-extensions/exiv2/exiv2-utils.h
-extensions/exiv2/gth-edit-exiv2-page.c
-extensions/exiv2/gth-edit-exiv2-page.h
-extensions/exiv2/gth-metadata-provider-exiv2.c
-extensions/exiv2/gth-metadata-provider-exiv2.h
-extensions/exiv2/main.c
+[type: gettext/glade]extensions/exiv2_tools/data/ui/edit-exiv2-page.ui
+[type: gettext/ini]extensions/exiv2_tools/exiv2_tools.extension.in.in
+extensions/exiv2_tools/exiv2-utils.cpp
+extensions/exiv2_tools/exiv2-utils.h
+extensions/exiv2_tools/gth-edit-exiv2-page.c
+extensions/exiv2_tools/gth-edit-exiv2-page.h
+extensions/exiv2_tools/gth-metadata-provider-exiv2.c
+extensions/exiv2_tools/gth-metadata-provider-exiv2.h
+extensions/exiv2_tools/main.c
 extensions/file_manager/actions.c
 extensions/file_manager/actions.h
 extensions/file_manager/callbacks.c
@@ -140,22 +162,24 @@ extensions/file_tools/main.c
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
-extensions/gstreamer/actions.c
-extensions/gstreamer/actions.h
-extensions/gstreamer/data/gthumb-gstreamer.schemas.in
-[type: gettext/glade]extensions/gstreamer/data/ui/mediabar.ui
-[type: gettext/glade]extensions/gstreamer/data/ui/save-screenshot.ui
-[type: gettext/ini]extensions/gstreamer/gstreamer.extension.in.in
-extensions/gstreamer/gstreamer-utils.c
-extensions/gstreamer/gstreamer-utils.h
-extensions/gstreamer/gstscreenshot.c
-extensions/gstreamer/gstscreenshot.h
-extensions/gstreamer/gth-media-viewer-page.c
-extensions/gstreamer/gth-media-viewer-page.h
-extensions/gstreamer/gth-metadata-provider-gstreamer.c
-extensions/gstreamer/gth-metadata-provider-gstreamer.h
-extensions/gstreamer/main.c
-extensions/gstreamer/preferences.h
+extensions/gstreamer_tools/actions.c
+extensions/gstreamer_tools/actions.h
+extensions/gstreamer_tools/data/gthumb-gstreamer.schemas.in
+[type: gettext/glade]extensions/gstreamer_tools/data/ui/mediabar.ui
+[type: gettext/glade]extensions/gstreamer_tools/data/ui/save-screenshot.ui
+[type: gettext/ini]extensions/gstreamer_tools/gstreamer_tools.extension.in.in
+extensions/gstreamer_tools/gth-media-viewer-page.c
+extensions/gstreamer_tools/gth-media-viewer-page.h
+extensions/gstreamer_tools/gth-metadata-provider-gstreamer.c
+extensions/gstreamer_tools/gth-metadata-provider-gstreamer.h
+extensions/gstreamer_tools/main.c
+extensions/gstreamer_tools/preferences.h
+extensions/gstreamer_utils/gstreamer-utils.c
+[type: gettext/ini]extensions/gstreamer_utils/gstreamer_utils.extension.in.in
+extensions/gstreamer_utils/gstreamer-utils.h
+extensions/gstreamer_utils/gstscreenshot.c
+extensions/gstreamer_utils/gstscreenshot.h
+extensions/gstreamer_utils/main.c
 extensions/image_print/actions.c
 extensions/image_print/actions.h
 extensions/image_print/callbacks.c
@@ -350,6 +374,8 @@ extensions/slideshow/data/gthumb-slideshow.schemas.in
 [type: gettext/glade]extensions/slideshow/data/ui/slideshow-preferences.ui
 extensions/slideshow/gth-slideshow.c
 extensions/slideshow/gth-slideshow.h
+extensions/slideshow/gth-slideshow-preferences.c
+extensions/slideshow/gth-slideshow-preferences.h
 extensions/slideshow/gth-transition.c
 extensions/slideshow/gth-transition.h
 extensions/slideshow/main.c
@@ -541,6 +567,8 @@ gthumb/gth-window.c
 gthumb/gth-window.h
 gthumb/gtk-utils.c
 gthumb/gtk-utils.h
+gthumb/gvaluehash.c
+gthumb/gvaluehash.h
 gthumb/main.c
 gthumb/main.h
 gthumb/pixbuf-cache.c
