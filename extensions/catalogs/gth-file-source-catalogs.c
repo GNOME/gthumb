@@ -245,7 +245,6 @@ write_metadata_load_buffer_ready_cb (void     **buffer,
 				       g_file_info_get_attribute_string (metadata_op->file_data->info, "sort::type"),
 				       g_file_info_get_attribute_boolean (metadata_op->file_data->info, "sort::inverse"));
 
-	/* FIXME */
 	gth_hook_invoke ("gth-catalog-read-metadata", metadata_op->catalog, metadata_op->file_data);
 
 	catalog_buffer = gth_catalog_to_data (metadata_op->catalog, &catalog_size);

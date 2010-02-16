@@ -304,7 +304,7 @@ script_editor_dialog__response_cb (GtkDialog *dialog,
 
 
 	if (response == GTK_RESPONSE_HELP) {
-		/* FIXME */
+		/* FIXME: show help dialog */
 		return;
 	}
 

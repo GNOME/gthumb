@@ -113,7 +113,6 @@ base_read_from_doc (GthCatalog *catalog,
 	}
 	gth_catalog_set_file_list (catalog, file_list);
 
-	/* FIXME */
 	gth_hook_invoke ("gth-catalog-read-from-doc", catalog, root);
 
 	_g_object_list_unref (file_list);
@@ -225,7 +224,6 @@ base_write_to_doc (GthCatalog  *catalog,
 		}
 	}
 
-	/* FIXME */
 	gth_hook_invoke ("gth-catalog-write-to-doc", catalog, doc, root);
 }
 
@@ -774,7 +772,6 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 				    catalog->priv->name,
 				    catalog->priv->date_time);
 
-	/* FIXME */
 	gth_hook_invoke ("gth-catalog-write-metadata", catalog, file_data);
 }
 

@@ -71,7 +71,7 @@ gth_file_tool_flip_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_flip_instance_init (GthFileToolFlip *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-flip" /* FIXME GTH_STOCK_FLIP */, _("Flip"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-flip", _("Flip"), NULL, FALSE);
 	/*gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));*/
 }
 
