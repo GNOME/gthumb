@@ -872,7 +872,8 @@ get_extension_optional_dependencies (GthExtensionManager     *manager,
 		dependencies = g_list_prepend (dependencies, extension_name);
 
 		other_description = g_hash_table_lookup (manager->priv->extensions, extension_name);
-		dependencies = g_list_concat (get_extension_optional_dependencies (manager, other_description), dependencies);
+		if (other_description != NULL)
+			dependencies = g_list_concat (get_extension_optional_dependencies (manager, other_description), dependencies);
 	}
 
 	return dependencies;
