@@ -211,6 +211,7 @@ add_file_button_clicked_cb (GtkButton *button,
 {
 	GthSlideshowPreferences *self = user_data;
 	GtkWidget               *dialog;
+	GtkFileFilter           *filter;
 
 	dialog = gtk_file_chooser_dialog_new (_("Choose the files to play"),
 					      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (self))),
@@ -219,6 +220,11 @@ add_file_button_clicked_cb (GtkButton *button,
 					      GTK_STOCK_OK, GTK_RESPONSE_OK,
 					      NULL);
 	gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), g_get_user_special_dir (G_USER_DIRECTORY_MUSIC));
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("Audio files"));
+	gtk_file_filter_add_mime_type (filter, "audio/*");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (file_chooser_dialog_response_cb),
