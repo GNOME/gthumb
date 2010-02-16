@@ -61,6 +61,7 @@ struct _GthSlideshowPrivate {
 	GstElement        *playbin;
 #endif
 	gboolean           paused;
+	gboolean           animating;
 };
 
 
@@ -203,6 +204,7 @@ _gth_slideshow_reset_textures_position (GthSlideshow *self)
 static void
 _gth_slideshow_animation_completed (GthSlideshow *self)
 {
+	self->priv->animating = FALSE;
 	if (clutter_timeline_get_direction (self->priv->timeline) == CLUTTER_TIMELINE_FORWARD)
 		_gth_slideshow_swap_current_and_next (self);
 	_gth_slideshow_reset_textures_position (self);
@@ -285,6 +287,7 @@ static void
 animation_started_cb (ClutterTimeline *timeline,
 		      GthSlideshow    *self)
 {
+	self->priv->animating = TRUE;
 	self->first_frame = TRUE;
 }
 
@@ -404,6 +407,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->first_show = TRUE;
 	self->priv->audio_files = NULL;
 	self->priv->paused = FALSE;
+	self->priv->animating = FALSE;
 
 	self->priv->preloader = gth_image_preloader_new ();
 	g_signal_connect (self->priv->preloader,
@@ -503,16 +507,17 @@ _gth_slideshow_toggle_pause (GthSlideshow *self)
 {
 	self->priv->paused = ! self->priv->paused;
 	if (self->priv->paused) {
-		clutter_timeline_pause (self->priv->timeline);
-		_gth_slideshow_animation_completed (self);
+		if (self->priv->animating) {
+			clutter_timeline_pause (self->priv->timeline);
+			_gth_slideshow_animation_completed (self);
+		}
 #if HAVE_GSTREAMER
 		if (self->priv->playbin != NULL)
 			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 #endif
 	}
 	else { /* resume */
-		clutter_timeline_rewind (self->priv->timeline);
-		clutter_timeline_start (self->priv->timeline);
+		_gth_slideshow_load_next_image (self);
 #if HAVE_GSTREAMER
 		if (self->priv->playbin != NULL)
 			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
