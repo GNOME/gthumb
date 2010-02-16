@@ -4529,12 +4529,6 @@ _gth_browser_load_file (GthBrowser  *browser,
 		return;
 	}
 
-	if ((browser->priv->current_file != NULL) && g_file_equal (file_data->file, browser->priv->current_file->file)) {
-		if (view)
-			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
-		return;
-	}
-
 	_g_object_unref (browser->priv->current_file);
 	browser->priv->current_file = gth_file_data_dup (file_data);
 
