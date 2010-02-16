@@ -295,38 +295,49 @@ ss__gth_catalog_write_to_doc (GthCatalog  *catalog,
 			      DomElement  *root)
 {
 	DomElement  *slideshow;
-	char        *delay;
-	char       **playlist_files;
+
+	if (! g_value_hash_is_set (catalog->attributes, "slideshow::personalize"))
+		return;
 
 	slideshow = dom_document_create_element (doc,
 						 "slideshow",
-						 "personalize", (g_value_hash_get_boolean (catalog->attributes, "slideshow::personalize") ? "true" : "false"),
-						 "automatic", (g_value_hash_get_boolean (catalog->attributes, "slideshow::automatic") ? "true" : "false"),
-						 "wrap-around", (g_value_hash_get_boolean (catalog->attributes, "slideshow::wrap-around") ? "true" : "false"),
+						 "personalize", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::personalize", FALSE) ? "true" : "false"),
+						 "automatic", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::automatic", FALSE) ? "true" : "false"),
+						 "wrap-around", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::wrap-around", FALSE) ? "true" : "false"),
 						 NULL);
 	dom_element_append_child (root, slideshow);
 
-	delay = g_strdup_printf ("%d", g_value_hash_get_int (catalog->attributes, "slideshow::delay"));
-	dom_element_append_child (slideshow,
-				  dom_document_create_element_with_text (doc, delay, "delay", NULL));
-	g_free (delay);
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::delay")) {
+		char *delay;
 
-	dom_element_append_child (slideshow,
-				  dom_document_create_element_with_text (doc,
-									 g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
-									 "transition",
-									 NULL));
+		delay = g_strdup_printf ("%d", g_value_hash_get_int (catalog->attributes, "slideshow::delay"));
+		dom_element_append_child (slideshow,
+					  dom_document_create_element_with_text (doc, delay, "delay", NULL));
 
-	playlist_files = g_value_hash_get_stringv (catalog->attributes, "slideshow::playlist");
-	if (playlist_files[0] != NULL) {
-		DomElement *playlist;
-		int         i;
+		g_free (delay);
+	}
 
-		playlist = dom_document_create_element (doc, "playlist", NULL);
-		dom_element_append_child (slideshow, playlist);
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::transition"))
+		dom_element_append_child (slideshow,
+					  dom_document_create_element_with_text (doc,
+										 g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
+										 "transition",
+										 NULL));
 
-		for (i = 0; playlist_files[i] != NULL; i++)
-			dom_element_append_child (playlist, dom_document_create_element (doc, "file", "uri", playlist_files[i], NULL));
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::playlist")) {
+		char **playlist_files;
+
+		playlist_files = g_value_hash_get_stringv (catalog->attributes, "slideshow::playlist");
+		if (playlist_files[0] != NULL) {
+			DomElement *playlist;
+			int         i;
+
+			playlist = dom_document_create_element (doc, "playlist", NULL);
+			dom_element_append_child (slideshow, playlist);
+
+			for (i = 0; playlist_files[i] != NULL; i++)
+				dom_element_append_child (playlist, dom_document_create_element (doc, "file", "uri", playlist_files[i], NULL));
+		}
 	}
 }
 

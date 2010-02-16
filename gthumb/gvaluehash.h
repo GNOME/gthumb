@@ -64,12 +64,18 @@ GValue *       g_value_hash_get_value       (GValueHash  *self,
 					     const char  *key);
 gboolean       g_value_hash_is_set          (GValueHash  *self,
 					     const char  *key);
-#define        g_value_hash_get_boolean(self, key)          (g_value_get_boolean (g_value_hash_get_value ((self), (key))))
-#define        g_value_hash_get_float(self, key)            (g_value_get_float (g_value_hash_get_value ((self), (key))))
-#define        g_value_hash_get_int(self, key)              (g_value_get_int (g_value_hash_get_value ((self), (key))))
-#define        g_value_hash_get_string(self, key)           (g_value_get_string (g_value_hash_get_value ((self), (key))))
-#define        g_value_hash_get_stringv(self, key)          ((char **) g_value_get_boxed (g_value_hash_get_value ((self), (key))))
-#define        g_value_hash_get_string_list(self, key)      ((GList *) g_value_get_boxed (g_value_hash_get_value ((self), (key))))))
+#define        g_value_hash_get_boolean(self, key) 	                     (g_value_get_boolean (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_float(self, key)                             (g_value_get_float (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_int(self, key)                               (g_value_get_int (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_string(self, key)                            (g_value_get_string (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_stringv(self, key)                           ((char **) g_value_get_boxed (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_string_list(self, key)                       ((GList *) g_value_get_boxed (g_value_hash_get_value ((self), (key))))
+#define        g_value_hash_get_boolean_or_default(self, key, _default)      (g_value_hash_is_set ((self), (key)) ? g_value_get_boolean (g_value_hash_get_value ((self), (key))) : (_default))
+#define        g_value_hash_get_float_or_default(self, key, _default)        (g_value_hash_is_set ((self), (key)) ? g_value_get_float (g_value_hash_get_value ((self), (key))) : (_default))
+#define        g_value_hash_get_int_or_default(self, key, _default)          (g_value_hash_is_set ((self), (key)) ? g_value_get_int (g_value_hash_get_value ((self), (key))) : (_default))
+#define        g_value_hash_get_string_or_default(self, key, _default)       (g_value_hash_is_set ((self), (key)) ? g_value_get_string (g_value_hash_get_value ((self), (key))) : (_default))
+#define        g_value_hash_get_stringv_or_default(self, key, _default)      (g_value_hash_is_set ((self), (key)) ? (char **) g_value_get_boxed (g_value_hash_get_value ((self), (key))) : (_default))
+#define        g_value_hash_get_string_list_or_default(self, key, _default)  (g_value_hash_is_set ((self), (key)) ? (GList *) g_value_get_boxed (g_value_hash_get_value ((self), (key))) : (_default))
 void           g_value_hash_unset           (GValueHash *self,
 					     const char *key);
 void           g_value_hash_clear           (GValueHash *self);
