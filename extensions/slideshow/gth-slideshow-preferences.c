@@ -169,7 +169,6 @@ file_chooser_dialog_response_cb (GtkDialog *dialog,
 			files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
 			icon_cache = gth_icon_cache_new_for_widget(GTK_WIDGET (self), GTK_ICON_SIZE_MENU);
 			list_store = (GtkListStore *) gtk_builder_get_object (self->priv->builder, "files_liststore");
-			gtk_list_store_clear (list_store);
 			for (scan = files; scan; scan = scan->next) {
 				GFile       *file = scan->data;
 				GIcon       *icon;
