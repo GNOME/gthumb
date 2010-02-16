@@ -64,13 +64,12 @@ void             gth_slideshow_set_delay       (GthSlideshow     *self,
 					        guint             msecs);
 void             gth_slideshow_set_automatic   (GthSlideshow     *self,
 					        gboolean          automatic);
-void             gth_slideshow_set_loop        (GthSlideshow     *self,
-					        gboolean          loop);
+void             gth_slideshow_set_wrap_around (GthSlideshow     *self,
+					        gboolean          wrap_around);
 void             gth_slideshow_set_transitions (GthSlideshow     *self,
 					        GList            *transitions);
 void             gth_slideshow_set_playlist    (GthSlideshow     *self,
-						char            **files,
-						gboolean          loop);
+						char            **files);
 
 G_END_DECLS
 

@@ -51,21 +51,20 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	location = gth_browser_get_location_data (browser);
 	if (g_file_info_get_attribute_status (location->info, "slideshow::personalize") == G_FILE_ATTRIBUTE_STATUS_SET) {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_int32 (location->info, "slideshow::delay"));
-		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::auto"));
-		gth_slideshow_set_loop (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::loop"));
+		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::automatic"));
+		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::wrap-around"));
 		transition_id = g_strdup (g_file_info_get_attribute_string (location->info, "slideshow::transition"));
 	}
 	else {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), (guint) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)));
 		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
-		gth_slideshow_set_loop (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 		transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
 	}
 
-	if (g_file_info_get_attribute_status (location->info, "slideshow::audio-files") == G_FILE_ATTRIBUTE_STATUS_SET)
+	if (g_file_info_get_attribute_status (location->info, "slideshow::playlist") == G_FILE_ATTRIBUTE_STATUS_SET)
 		gth_slideshow_set_playlist (GTH_SLIDESHOW (slideshow),
-					    g_file_info_get_attribute_stringv (location->info, "slideshow::audio-files"),
-					    g_file_info_get_attribute_boolean (location->info, "slideshow::audio-loop"));
+					    g_file_info_get_attribute_stringv (location->info, "slideshow::playlist"));
 
 	if (strcmp (transition_id, "random") == 0) {
 		GList *scan;

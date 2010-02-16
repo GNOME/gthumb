@@ -39,7 +39,7 @@ struct _GthSlideshowPrivate {
 	GthBrowser        *browser;
 	GList             *file_list; /* GthFileData */
 	gboolean           automatic;
-	gboolean           loop;
+	gboolean           wrap_around;
 	GList             *current;
 	GthImagePreloader *preloader;
 	GList             *transitions; /* GthTransition */
@@ -96,7 +96,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	}
 
 	if (self->priv->current == NULL) {
-		if (! self->priv->one_loaded || ! self->priv->loop) {
+		if (! self->priv->one_loaded || ! self->priv->wrap_around) {
 			_gth_slideshow_close (self);
 			return;
 		}
@@ -400,7 +400,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->next_event = 0;
 	self->priv->delay = DEFAULT_DELAY;
 	self->priv->automatic = FALSE;
-	self->priv->loop = FALSE;
+	self->priv->wrap_around = FALSE;
 	self->priv->transitions = NULL;
 	self->priv->n_transitions = 0;
 	self->priv->rand = g_rand_new ();
@@ -689,10 +689,10 @@ gth_slideshow_set_automatic (GthSlideshow *self,
 
 
 void
-gth_slideshow_set_loop (GthSlideshow *self,
-			gboolean      loop)
+gth_slideshow_set_wrap_around (GthSlideshow *self,
+			       gboolean      wrap_around)
 {
-	self->priv->loop = loop;
+	self->priv->wrap_around = wrap_around;
 }
 
 
@@ -708,9 +708,8 @@ gth_slideshow_set_transitions (GthSlideshow *self,
 
 void
 gth_slideshow_set_playlist (GthSlideshow  *self,
-			    char         **files,
-			    gboolean       loop)
+			    char         **files)
 {
 	self->priv->audio_files = g_strdupv (files);
-	self->priv->audio_loop = loop;
+	self->priv->audio_loop = TRUE;
 }

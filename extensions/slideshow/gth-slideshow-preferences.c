@@ -335,14 +335,11 @@ gth_slideshow_preferences_new (const char *transition,
 
 void
 gth_slideshow_preferences_set_audio (GthSlideshowPreferences  *self,
-				     gboolean                  loop,
 				     char                    **files)
 {
 	GthIconCache *icon_cache;
 	GtkListStore *list_store;
 	int           i;
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "loop_checkbutton")), loop);
 
 	icon_cache = gth_icon_cache_new_for_widget(GTK_WIDGET (self), GTK_ICON_SIZE_MENU);
 	list_store = (GtkListStore *) gtk_builder_get_object (self->priv->builder, "files_liststore");
@@ -456,11 +453,4 @@ gth_slideshow_preferences_get_audio_files (GthSlideshowPreferences *self)
 	_g_string_list_free (files);
 
 	return files_v;
-}
-
-
-gboolean
-gth_slideshow_preferences_get_audio_loop (GthSlideshowPreferences *self)
-{
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (self->priv->builder, "loop_checkbutton")));
 }
