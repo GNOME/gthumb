@@ -7,7 +7,8 @@ libgstreamer_utils_la_SOURCES = 		\
 	gstreamer-utils.c			\
 	gstreamer-utils.h			\
 	gstscreenshot.c				\
-	gstscreenshot.h
+	gstscreenshot.h				\
+	main.c
 
 libgstreamer_utils_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(GSTREAMER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libgstreamer_utils_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
