@@ -64,5 +64,7 @@ gboolean          gth_search_is_recursive     (GthSearch    *search);
 void              gth_search_set_test         (GthSearch    *search,
 					       GthTestChain *test);
 GthTestChain *    gth_search_get_test         (GthSearch    *search);
+gboolean          gth_search_equal            (GthSearch    *a,
+					       GthSearch    *b);
 
 #endif /* GTH_SEARCH_H */

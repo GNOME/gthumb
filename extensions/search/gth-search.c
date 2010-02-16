@@ -86,18 +86,13 @@ gth_search_read_from_doc (GthCatalog *base,
 
 
 static void
-gth_search_write_to_doc (GthCatalog  *catalog,
-			 DomDocument *doc,
-			 DomElement  *root)
+_gth_search_write_to_doc (GthSearch   *self,
+			  DomDocument *doc,
+			  DomElement  *root)
 {
-	GthSearch  *self;
-	char       *uri;
+	char *uri;
 
-	GTH_CATALOG_CLASS (parent_class)->write_to_doc (catalog, doc, root);
-
-	self = GTH_SEARCH (catalog);
-
-       	uri = g_file_get_uri (self->priv->folder);
+	uri = g_file_get_uri (self->priv->folder);
 	dom_element_append_child (root,
 				  dom_document_create_element (doc, "folder",
 							       "uri", uri,
@@ -106,6 +101,16 @@ gth_search_write_to_doc (GthCatalog  *catalog,
 	g_free (uri);
 
 	dom_element_append_child (root, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
+}
+
+
+static void
+gth_search_write_to_doc (GthCatalog  *catalog,
+			 DomDocument *doc,
+			 DomElement  *root)
+{
+	GTH_CATALOG_CLASS (parent_class)->write_to_doc (catalog, doc, root);
+	_gth_search_write_to_doc (GTH_SEARCH (catalog), doc, root);
 }
 
 
@@ -359,4 +364,44 @@ gth_search_get_test (GthSearch *search)
 		return search->priv->test;
 	else
 		return NULL;
+}
+
+
+static DomDocument *
+_create_fake_document (GthSearch *self)
+{
+	DomDocument *doc;
+	DomElement  *root;
+
+	doc = dom_document_new ();
+	root = dom_document_create_element (doc, "search", NULL);
+	dom_element_append_child (DOM_ELEMENT (doc), root);
+	_gth_search_write_to_doc (self, doc, root);
+
+	return doc;
+}
+
+
+gboolean
+gth_search_equal (GthSearch *a,
+		  GthSearch *b)
+{
+	DomDocument *doc_a;
+	DomDocument *doc_b;
+	char        *xml_a;
+	gsize        size_a;
+	char        *xml_b;
+	gsize        size_b;
+	gboolean     equal;
+
+	doc_a = _create_fake_document (a);
+	doc_b = _create_fake_document (b);
+	xml_a = dom_document_dump (doc_a, &size_a);
+	xml_b = dom_document_dump (doc_b, &size_b);
+	equal = (size_a == size_b) && (g_strcmp0 (xml_a, xml_b) == 0);
+
+	g_free (xml_a);
+	g_free (xml_b);
+
+	return equal;
 }

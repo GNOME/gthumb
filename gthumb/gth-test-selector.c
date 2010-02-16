@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
+#include "gth-duplicable.h"
 #include "gth-main.h"
 #include "gth-test-selector.h"
 
@@ -372,21 +373,23 @@ gth_test_selector_set_test (GthTestSelector *self,
 			    GthTest         *test)
 {
 	GtkWidget *control;
-	GthTest   *local_test = NULL;
 
-	if (test == NULL)
-		test = local_test = gth_main_get_registered_object (GTH_TYPE_TEST, "file::name");
+	_g_object_unref (self->priv->test);
+	if (test != NULL)
+		self->priv->test = (GthTest *) gth_duplicable_duplicate (GTH_DUPLICABLE (test));
+	else
+		self->priv->test = gth_main_get_registered_object (GTH_TYPE_TEST, "file::name");
 
 	/* update the active test */
 
 	g_signal_handlers_block_by_func (self->priv->test_combo_box, test_combo_box_changed_cb, self);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->test_combo_box), get_test_index (self, test));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->test_combo_box), get_test_index (self, self->priv->test));
 	g_signal_handlers_unblock_by_func (self->priv->test_combo_box, test_combo_box_changed_cb, self);
 
 	/* set the test control */
 
-	if (test != NULL)
-		control = gth_test_create_control (test);
+	if (self->priv->test != NULL)
+		control = gth_test_create_control (self->priv->test);
 	else
 		control = NULL;
 
@@ -402,13 +405,6 @@ gth_test_selector_set_test (GthTestSelector *self,
 		gtk_container_add (GTK_CONTAINER (self->priv->control_box),
 				   self->priv->control);
 	}
-
-	if (self->priv->test != NULL)
-		g_object_unref (self->priv->test);
-	self->priv->test = g_object_ref (test);
-
-	if (local_test != NULL)
-		g_object_unref (local_test);
 }
 
 

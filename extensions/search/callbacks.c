@@ -207,6 +207,7 @@ search__dlg_catalog_properties_save (GtkBuilder  *builder,
 
 	search = gth_search_editor_get_search (GTH_SEARCH_EDITOR (g_object_get_data (G_OBJECT(builder), "search_editor")), NULL);
 	if (search != NULL) {
+		g_file_info_set_attribute_boolean (file_data->info, "gthumb::search-modified", ! gth_search_equal (GTH_SEARCH (catalog), search));
 		gth_search_set_folder (GTH_SEARCH (catalog), gth_search_get_folder (search));
 		gth_search_set_recursive (GTH_SEARCH (catalog), gth_search_is_recursive (search));
 		gth_search_set_test (GTH_SEARCH (catalog), gth_search_get_test (search));
@@ -224,7 +225,9 @@ search__dlg_catalog_properties_saved (GthBrowser  *browser,
 	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
 		return;
 
-	/* FIXME: search only if the search parameters changed */
+	/* Search only if the search parameters changed */
+	if (! g_file_info_get_attribute_boolean (file_data->info, "gthumb::search-modified"))
+		return;
 
 	task = gth_search_task_new (browser, GTH_SEARCH (catalog), file_data->file);
 	gth_browser_exec_task (browser, task, TRUE);
