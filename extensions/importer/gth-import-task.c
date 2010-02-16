@@ -231,7 +231,7 @@ write_buffer_ready_cb (void     **buffer,
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     &local_error))
 		{
-			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
 				self->priv->delete_imported = FALSE;
 				local_error = NULL;
 			}
