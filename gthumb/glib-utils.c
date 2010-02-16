@@ -1439,7 +1439,7 @@ _g_string_list_to_strv (GList *string_list)
 	GList  *scan;
 	int     i;
 
-	strv = g_new0 (char *, g_list_length (string_list));
+	strv = g_new0 (char *, g_list_length (string_list) + 1);
 	for (scan = string_list, i = 0; scan; scan = scan->next)
 		strv[i++] = g_strdup ((char *)scan->data);
 	strv[i++] = NULL;
