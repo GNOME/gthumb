@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2008 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -376,7 +376,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
 			       "version", VERSION,
-			       "copyright", "Copyright \xc2\xa9 2001-2009 Free Software Foundation, Inc.",
+			       "copyright", "Copyright \xc2\xa9 2001-2010 Free Software Foundation, Inc.",
 			       "comments", _("An image viewer and browser for GNOME."),
 			       "authors", authors,
 			       "documenters", documenters,
