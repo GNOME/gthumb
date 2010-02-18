@@ -955,7 +955,7 @@ gth_media_viewer_page_real_focus (GthViewerPage *base)
 	GtkWidget *widget;
 
 	widget = GTH_MEDIA_VIEWER_PAGE (base)->priv->area;
-	if (GTK_WIDGET_REALIZED (widget))
+	if (GTK_WIDGET_REALIZED (widget) && GTK_WIDGET_MAPPED (widget))
 		gtk_widget_grab_focus (widget);
 }
 
