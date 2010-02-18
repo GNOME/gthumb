@@ -274,8 +274,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 		return;
 	}
 
-	if (GTK_WIDGET_VISIBLE (self->priv->viewer))
-		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	gth_image_viewer_load_from_image_loader (GTH_IMAGE_VIEWER (self->priv->viewer), image_loader);
 }
@@ -608,7 +607,7 @@ gth_image_viewer_page_real_focus (GthViewerPage *base)
 	GtkWidget *widget;
 
 	widget = GTH_IMAGE_VIEWER_PAGE (base)->priv->viewer;
-	if (GTK_WIDGET_REALIZED (widget))
+	if (GTK_WIDGET_REALIZED (widget) && GTK_WIDGET_MAPPED (widget))
 		gtk_widget_grab_focus (widget);
 }
 
