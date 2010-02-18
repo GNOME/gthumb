@@ -34,6 +34,7 @@ G_BEGIN_DECLS
 #define PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT "/apps/gthumb/ext/importer/subfolder_custom_format"
 #define PREF_IMPORT_OVERWRITE               "/apps/gthumb/ext/importer/overwrite_files"
 #define PREF_IMPORT_ADJUST_ORIENTATION      "/apps/gthumb/ext/importer/adjust_orientation"
+#define PREF_IMPORT_WARN_DELETE_UNSUPPORTED "/apps/gthumb/ext/importer/warn_delete_unsupported"
 
 G_END_DECLS
 

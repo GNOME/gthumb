@@ -25,6 +25,7 @@
 #include <extensions/exiv2_tools/exiv2-utils.h>
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
+#include "preferences.h"
 #include "utils.h"
 
 
@@ -52,6 +53,8 @@ struct _GthImportTaskPrivate {
 	GList               *current;
 	GthFileData         *destination_file;
 	GFile               *imported_catalog;
+	gboolean             delete_not_supported;
+	int                  n_imported;
 };
 
 
@@ -119,6 +122,8 @@ catalog_imported_file (GthImportTask *self)
 	GObject    *metadata;
 	GTimeVal    timeval;
 	GthCatalog *catalog;
+
+	self->priv->n_imported++;
 
 	if (! gth_main_extension_is_active ("catalogs")) {
 		import_next_file (self);
@@ -233,6 +238,7 @@ write_buffer_ready_cb (void     **buffer,
 		{
 			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
 				self->priv->delete_imported = FALSE;
+				self->priv->delete_not_supported = TRUE;
 				local_error = NULL;
 			}
 			if (local_error != NULL) {
@@ -344,10 +350,47 @@ import_current_file (GthImportTask *self)
 
 	if (self->priv->current == NULL) {
 		save_catalogs (self);
-		if (self->priv->imported_catalog != NULL)
-			gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
-		else
-			gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
+
+		if (self->priv->n_imported == 0) {
+			GtkWidget *d;
+
+			d =  _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
+						      0,
+						      GTK_STOCK_DIALOG_WARNING,
+						      _("No file imported"),
+						      _("The selected files are already present in the destination."),
+						      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+						      NULL);
+			g_signal_connect (G_OBJECT (d), "response",
+					  G_CALLBACK (gtk_widget_destroy),
+					  NULL);
+			gtk_widget_show (d);
+		}
+		else {
+			if (self->priv->imported_catalog != NULL)
+				gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
+			else
+				gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
+
+			if (self->priv->delete_not_supported && eel_gconf_get_boolean (PREF_IMPORT_WARN_DELETE_UNSUPPORTED, TRUE)) {
+				GtkWidget *d;
+
+				d =  _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
+							      0,
+							      GTK_STOCK_DIALOG_WARNING,
+							      _("Could not delete the files"),
+							      _("Delete operation not supported."),
+							      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+							      NULL);
+				g_signal_connect (G_OBJECT (d), "response",
+						  G_CALLBACK (gtk_widget_destroy),
+						  NULL);
+				gtk_widget_show (d);
+
+				eel_gconf_set_boolean (PREF_IMPORT_WARN_DELETE_UNSUPPORTED, FALSE);
+			}
+		}
+
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
@@ -375,6 +418,7 @@ gth_import_task_exec (GthTask *base)
 	GthImportTask *self = (GthImportTask *) base;
 	GList         *scan;
 
+	self->priv->n_imported = 0;
 	self->priv->tot_size = 0;
 	for (scan = self->priv->files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
@@ -445,6 +489,7 @@ gth_import_task_init (GthImportTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_TASK, GthImportTaskPrivate);
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	self->priv->delete_not_supported = FALSE;
 }
 
 

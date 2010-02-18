@@ -92,5 +92,18 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/importer/warn_delete_unsupported</key>
+	<applyto>/apps/gthumb/ext/importer/warn_delete_unsupported</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>TRUE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

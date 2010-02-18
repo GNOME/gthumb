@@ -119,7 +119,8 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 					       escaped_message,
 					       escaped_secondary_message);
 		g_free (escaped_secondary_message);
-	} else
+	}
+	else
 		markup_text = g_strdup (escaped_message);
 	gtk_label_set_markup (GTK_LABEL (label), markup_text);
 	g_free (markup_text);
@@ -128,7 +129,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
-	hbox = gtk_hbox_new (FALSE, 6);
+	hbox = gtk_hbox_new (FALSE, 18);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
