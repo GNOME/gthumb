@@ -2022,6 +2022,8 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	_gth_browser_update_viewer_ui (browser, page);
 	_gth_browser_update_browser_ui (browser, page);
+	if (page == GTH_BROWSER_PAGE_BROWSER)
+		gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
 
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 
