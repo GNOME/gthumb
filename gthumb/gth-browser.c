@@ -2955,6 +2955,7 @@ _gth_browser_construct_step2 (gpointer data)
 
 	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
 	_gth_browser_monitor_entry_points (browser);
+	gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
 }
 
 
