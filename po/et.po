@@ -10,500 +10,243 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-02-16 13:06+0000\n"
-"PO-Revision-Date: 2010-02-18 11:15+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&component=general\n"
+"POT-Creation-Date: 2010-02-18 10:26+0000\n"
+"PO-Revision-Date: 2010-02-18 16:58+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Previous"
-msgstr "Eelmine"
+#, c-format
+msgid "File is not a valid .desktop file"
+msgstr "See ei ole sobiv .desktop-fail"
 
-msgid "Next"
-msgstr "Järgmine"
+#, c-format
+msgid "Unrecognized desktop file Version '%s'"
+msgstr ""
 
-msgid "Index"
-msgstr "Indeks"
+#, c-format
+msgid "Starting %s"
+msgstr "%s käivitamine"
 
-msgid "Image"
-msgstr "Pilt"
+#, c-format
+msgid "Application does not accept documents on command line"
+msgstr ""
 
-msgid "Dimensions"
-msgstr "Suurus"
+#, c-format
+msgid "Unrecognized launch option: %d"
+msgstr ""
 
-msgid "Bytes"
-msgstr "Faili suurus"
+#, c-format
+msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+msgstr ""
 
-msgid "Date"
-msgstr "Kuupäev"
+#, c-format
+msgid "Not a launchable item"
+msgstr ""
 
-msgid "Exposure time"
-msgstr "Säriaeg"
+msgid "Disable connection to session manager"
+msgstr ""
 
-msgid "Exposure mode"
-msgstr "Säritusrežiim"
+msgid "Specify file containing saved configuration"
+msgstr ""
 
-msgid "Flash"
-msgstr "Välk"
+msgid "FILE"
+msgstr "FAIL"
 
-msgid "Shutter speed"
-msgstr "Katiku kiirus"
+msgid "Specify session management ID"
+msgstr ""
 
-msgid "Aperture value"
-msgstr "Ava suurus"
+msgid "ID"
+msgstr "ID"
 
-msgid "Focal length"
-msgstr "Fookuskaugus"
+msgid "Session management options:"
+msgstr ""
 
-msgid "Camera model"
-msgstr "Kaamera mudel"
+msgid "Show session management options"
+msgstr ""
 
-msgid "pixels"
-msgstr "pikslit"
+msgid "Image Viewer"
+msgstr "Pildinäitaja"
 
-msgid "    "
-msgstr "    "
+msgid "View and organize your images"
+msgstr "Vaata ja korrasta oma pilte"
 
-msgid "<b>Categories:</b>"
-msgstr "<b>Kategooriad:</b>"
+msgid "gThumb"
+msgstr "gThumb"
 
-msgid "<b>Information on Channel:</b>"
-msgstr "<b>Informatsioon kanalis:</b>"
+msgid "gThumb Image Viewer"
+msgstr "gThumb Pildivaataja"
 
-msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>Kas kirjutame vana pildi uuega üle?</b>"
+#, fuzzy
+#| msgid "Import photos from a digital camera"
+msgid "Import the photos on your camera card"
+msgstr "Digitaalkaametast fotode sissetõmbamine"
 
-msgid "A_vailable applications:"
-msgstr "_Kättesaadavad programmid:"
+#| msgid "Import Photos"
+msgid "Photo Import Tool"
+msgstr "Fotode importimise tööriist"
 
-msgid "Alpha"
-msgstr "Alfa"
-
-msgid "Blue"
-msgstr "Sinine"
-
-msgid "Bookmarks"
-msgstr "Järjehoidjad"
-
-msgid "C_atalogs:"
-msgstr "K_ataloogid:"
-
-msgid "Choose a Catalog"
-msgstr "Vali kataloog"
-
-msgid "Comm_ent"
-msgstr "_Kommentaar"
-
-msgid "Do not overwrite _the old image"
-msgstr "Ära vana pil_ti üle kirjuta"
-
-msgid "Green"
-msgstr "Roheline"
-
-msgid "New Image:"
-msgstr "Uus pilt:"
-
-msgid "New _Library"
-msgstr "Uus k_ogumik"
-
-msgid "Old Image:"
-msgstr "Vana pilt:"
-
-msgid "Open Images"
-msgstr "Ava pildid"
-
-msgid "Over_write the old image"
-msgstr "_Kirjuta vana pilt üle"
-
-msgid "Overwrite Image"
-msgstr "Kirjuta pilt üle"
-
-msgid "Overwrite _all images"
-msgstr "Kirjut_a kõik pildid üle"
-
-msgid "Photo _Data (EXIF)"
-msgstr "Foto an_dmed (EXIF)"
-
-msgid "R_ecent applications:"
-msgstr "_Varemkasutatud programmid:"
-
-msgid "Red"
-msgstr "Punane"
-
-msgid "Value"
-msgstr "Väärtus"
-
-msgid "_Application:"
-msgstr "_Rakendus:"
-
-msgid "_Bookmarks:"
-msgstr "_Järjehoidjad:"
-
-msgid "_Do not overwrite any image"
-msgstr "Ä_ra kirjuta ühtki pilti üle"
-
-msgid "_General"
-msgstr "Ü_ldine"
-
-msgid "_Histogram"
-msgstr "_Histogramm"
-
-msgid "_New Catalog"
-msgstr "_Uus kataloog"
-
-msgid "_Next"
-msgstr "_Järgmine"
-
-msgid "_Previous"
-msgstr "_Eelmine"
-
-msgid "_Save the new image as:"
-msgstr "_Salvesta uus pilt kui:"
-
-#| msgid "Choose the destination folder"
-msgid "_View the destination"
-msgstr "_Vaata sihtkataloogi"
-
-msgid "..."
-msgstr "..."
-
-#| msgid "Choose a Catalog"
-msgid "C_hoose from the catalog"
-msgstr "_Kataloogist valimine"
-
-msgid "Ca_tegories:"
-msgstr "Ka_tegooriad:"
-
-msgid "Camera Model"
-msgstr "Kaamera mudel"
-
-msgid "Choose destination folder"
-msgstr "Sihtkausta valimine"
-
-msgid "Delete selected images from the camera"
-msgstr "Kustuta valitud pildid kaamerast"
-
-msgid "If this checkbox is enabled and the imported photo contains an Exif orientation tag, the image data will be physically transformed (losslessly) so that the viewed image looks the same as before but the orientation tag is reset to \"top left\". If this checkbox is not enabled, the image data and the orientation tag are both left unchanged. The image will be displayed identically by gthumb for both possibilities, but for maximum compatibility with other applications this checkbox should be enabled."
-msgstr "Kui see märkekast on valitud ja imporditud foto omab EXIF suunamärgendit, muudetakse füüsiliselt (kadudeta) pildi andmeid nii, et pilt ise jääb täpselt samasuguseks, aga pildi suunaks määratakse \"üles-vasakule\". Kui märkekast on valimata, jäävad pildi andmed ja suunamärgend muutmata. GThumb näitab mõlemal juhul pilti täpselt samamoodi, kuid probleem võib tekkida teiste programmidega. Seega oleks maksimaalse ühilduvuse tagamiseks hea see märkekast valida."
-
-msgid "Import Photos"
-msgstr "Fotode importimine"
-
-msgid "No camera detected"
-msgstr "Kaamerat ei leitud"
-
-#| msgid "Rotate image"
-msgid "Rotate images physically"
-msgstr "Pilte pööratakse füüsiliselt"
-
-msgid "Select a camera model"
-msgstr "Vali kaamera mudel"
-
-msgid "Update previews"
-msgstr "Uuenda eelvaateid"
-
-msgid "_Delete imported images from the camera"
-msgstr "_Imporditud pildid kustutatakse kaamerast"
-
-msgid "_Destination:"
-msgstr "_Sihtkoht:"
-
-msgid "_Film:"
-msgstr "_Film:"
-
-msgid "_Import"
-msgstr "_Impordi"
-
-msgid "_Keep original filenames"
-msgstr "_Säilitatakse originaalnimed"
-
-msgid "_Model:"
-msgstr "_Mudel:"
-
-msgid "_Port:"
-msgstr "_Port:"
-
-msgid "A_vailable categories:"
-msgstr "_Saadaolevad kategooriad:"
-
-msgid "Categories"
-msgstr "Kategooriad"
-
-msgid "Co_mment:"
-msgstr "Ko_mmentaar:"
-
-msgid "Comment"
-msgstr "Kommentaar"
-
-msgid "Create a new category"
-msgstr "Loo uus kategooria"
-
-msgid "Current date"
-msgstr "Tänane kuupäev"
-
-msgid "Do not modify"
-msgstr "Ei muudeta"
-
-msgid "Image creation date"
-msgstr "Pildi loomise kuupäev"
-
-msgid "Last modified date"
-msgstr "Viimati muutmise kuupäev"
-
-msgid "No date"
-msgstr "Kuupäev puudub"
-
-msgid "Photo digitalization date (From EXIF data)"
-msgstr "Foto digitaliseerimise kuupäev (EXIF andmetest)"
-
-msgid "Remove selected category"
-msgstr "Eemalda valitud kategooria"
-
-msgid "Save only cha_nged fields"
-msgstr "Salvesta ai_nult muudetud väljad"
-
-msgid "The following date"
-msgstr "Määra kuupäev käsitsi"
-
-msgid "_Date:"
-msgstr "_Kuupäev:"
-
-msgid "_Place:"
-msgstr "_Koht:"
-
-msgid "_Selected categories:"
-msgstr "_Valitud kategooriad:"
-
-msgid "<b>Compression</b>"
-msgstr "<b>Tihendus</b>"
-
-msgid "<b>Image type</b>"
-msgstr "<b>Pildi tüüp</b>"
-
-msgid "<b>Resolution</b>"
-msgstr "<b>Eraldusvõime</b>"
-
-msgid "<b>Saving</b>"
-msgstr "<b>Salvestamine</b>"
-
-msgid "Compression _level:"
-msgstr "Tihenduse _aste:"
-
-msgid "Convert Format"
-msgstr "Formaadi teisendamine"
-
-msgid "JPEG Options"
-msgstr "JPEG võimalused"
-
-msgid "No_rmal (Deflate)"
-msgstr "No_rmaalne (Deflate)"
-
-msgid "Opti_mize"
-msgstr "Opti_meeri"
-
-msgid "Overwrite mode:"
-msgstr "Ülekirjutusrežiim:"
-
-msgid "PNG Options"
-msgstr "PNG võimalused"
-
-msgid "R_emove original"
-msgstr "_Eemalda algne"
-
-msgid "Rename"
-msgstr "Ümbernimetamine"
+msgid "gThumb Photo Import Tool"
+msgstr ""
 
 msgid ""
-"Skip\n"
-"Rename\n"
-"Ask\n"
-"Overwrite"
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
 msgstr ""
-"Jäta vahele\n"
-"Nimeta ümber\n"
-"Küsi\n"
-"Kirjuta üle"
+"Pildidest mis on määratud suurusest (baitides) suuremad, ei tehta pisipilte. "
+"Kasuta väärtust 0 kui soovid genereerida pisipilte kõigist piltidest."
 
-msgid "TGA Options"
-msgstr "TGA valikud"
+msgid ""
+"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+msgstr ""
+"Võimalikud väärtused: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
 
-msgid "TIFF Options"
-msgstr "TIFF valikud"
+msgid "Possible values are: high, low."
+msgstr "Võimalikud väärtused: kõrge, madal."
 
-msgid "T_GA"
-msgstr "T_GA"
+msgid "Possible values are: light, midtone, dark."
+msgstr "Võimalikud väärtused: light, midtone, dark."
 
-msgid "_Horizontal:"
-msgstr "_Horisontaalne:"
+msgid "Possible values are: list, thumbnails."
+msgstr "Võimalikud väärtused: nimekiri, pisipildid."
 
-msgid "_JPEG"
-msgstr "_JPEG"
+#| msgid "Possible values are: none, deflate, jpeg."
+msgid "Possible values are: none, file_date, current_date"
+msgstr "Võimalikud väärtused: none, file_date, current_date"
 
-msgid "_Loss compression (JPEG)"
-msgstr "_Kadudega pakkimine (JPEG)"
+msgid "Possible values are: small, medium, large."
+msgstr "Võimalikud väärtused: väike, keskmine, suur."
 
-msgid "_No compression"
-msgstr "_Pakkimata"
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Võimalikud väärtused: system, text_below, text_beside, text_only, icons_only."
 
-msgid "_PNG"
-msgstr "_PNG"
+msgid "Possible values are: white, black, checked, none."
+msgstr "Võimalikud väärtused: valge, must, märgitud, puudub."
 
-msgid "_Progressive"
-msgstr "_Progresseeruv"
+#| msgid "Possible values are: mm, in."
+msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+msgstr "Võimalikud väärtused: yyyymmdd, yyyymm, yyyy"
 
-msgid "_Quality:"
-msgstr "_Kvaliteet:"
+msgid "Whether to always use a black background."
+msgstr "Kas kasutada alati musta tagapõhja."
 
-msgid "_RLE compression"
-msgstr "_RLE tihendus"
+msgid "Whether to reset the scrollbar positions after changing image"
+msgstr "Kas pärast pildi muutmist lähtestada kerimisriba asukohad"
 
-msgid "_Smoothing:"
-msgstr "_Silumine:"
+#| msgid "A_vailable applications:"
+msgid "Available _extensions:"
+msgstr "Saadaolevad _laiendused:"
 
-msgid "_TIFF"
-msgstr "_TIFF"
+#| msgid "Determine by extension"
+msgid "More extensions..."
+msgstr "Veel laiendusi..."
 
-msgid "_Vertical:"
-msgstr "_Vertikaalne:"
+#| msgid "Determine by extension"
+msgid "gthumb Extensions"
+msgstr "GThumb'i laiendused"
 
-msgid "dpi"
-msgstr "dpi"
+#, fuzzy
+#| msgid "File _name:"
+msgid "Filter _Name:"
+msgstr "Faili_nimi:"
 
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (Raamat, DVD)"
+#. limit label
+msgid "_Limit to"
+msgstr ""
 
-msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (Postkaart)"
+#, fuzzy
+#| msgid "_Search"
+msgid "_Match"
+msgstr "_Otsi"
 
-msgid "5 x 7"
-msgstr "5 x 7"
+#, fuzzy
+#| msgid "1 selected (%s)"
+msgid "selected by"
+msgstr "1 valitud (%s)"
 
-msgid "8 x 10"
-msgstr "8 x 10"
+#, fuzzy
+#| msgid "Do not overwrite _the old image"
+msgid "Do not overwrite _the old file"
+msgstr "Ära vana pil_ti üle kirjuta"
 
-msgid "<b>Aspect ratio</b>"
-msgstr "<b>Proportsioon</b>"
+#| msgid "Filename"
+msgid "Filename:"
+msgstr "Failinimi:"
 
-msgid "<b>Selection</b>"
-msgstr "<b>Valik</b>"
+#| msgid "Modified"
+msgid "Modified:"
+msgstr "Muudetud:"
 
-msgid "Crop"
-msgstr "Kärpimine"
+#| msgid "New Folder"
+msgid "New File:"
+msgstr "Uus fail:"
 
-msgid "Custom"
-msgstr "Kohandatud"
+#| msgid "Old Image:"
+msgid "Old File:"
+msgstr "Vana fail:"
 
-msgid "I_nvert aspect ratio"
-msgstr "Proportsioon vastupidine_"
+#, fuzzy
+#| msgid "Over_write the old image"
+msgid "Over_write the old file"
+msgstr "_Kirjuta vana pilt üle"
 
-msgid "None"
-msgstr "Puudub"
+#, fuzzy
+#| msgid "Overwrite _all images"
+msgid "Overwrite _all files"
+msgstr "Kirjut_a kõik pildid üle"
 
-msgid "Square"
-msgstr "Ruut"
+#, fuzzy
+#| msgid "<b>Overwrite the old image with the new one?</b>"
+msgid "Overwrite the old file with the new one?"
+msgstr "<b>Kas kirjutame vana pildi uuega üle?</b>"
 
-msgid "_Crop"
-msgstr "_Kärbi"
+#| msgid "Size"
+msgid "Size:"
+msgstr "Suurus:"
 
-msgid "_Height:"
-msgstr "_Kõrgus:"
+#, fuzzy
+#| msgid "_Do not overwrite any image"
+msgid "_Do not overwrite any file"
+msgstr "Ä_ra kirjuta ühtki pilti üle"
 
-msgid "_Width:"
-msgstr "_Laius:"
+#, fuzzy
+#| msgid "_Save the new image as:"
+msgid "_Save the new file as:"
+msgstr "_Salvesta uus pilt kui:"
 
-msgid "_X:"
-msgstr "_X:"
+#| msgid "_Filter"
+msgid "Filters"
+msgstr "Filtrid"
 
-msgid "_Y:"
-msgstr "_Y:"
+#| msgid "_General"
+msgid "_General filter:"
+msgstr "Üld_filter:"
 
-msgid "     "
-msgstr "     "
+msgid "_Other filters:"
+msgstr ""
 
-#, no-c-format
-msgid "%"
-msgstr "%"
+msgid "gtk-close"
+msgstr "gtk-close"
 
-msgid "<b>Color levels</b>"
-msgstr "<b>Värvitasemed</b>"
+msgid "gtk-edit"
+msgstr "gtk-edit"
 
-msgid "<b>New dimensions</b>"
-msgstr "<b>Uued mõõtmed</b>"
+msgid "gtk-help"
+msgstr "gtk-help"
 
-msgid "<b>Original dimensions</b>"
-msgstr "<b>Algsed mõõtmed</b>"
+msgid "gtk-new"
+msgstr "gtk-new"
 
-msgid "<b>Scale ratio</b>"
-msgstr "<b>Mõõtkava suhe</b>"
-
-msgid "Brightness - Contrast"
-msgstr "Heledus - Kontrastsus"
-
-msgid "Color Balance"
-msgstr "Värvitasakaal"
-
-msgid "Con_trast:"
-msgstr "Kon_trastsus:"
-
-msgid "Cyan-_Red:"
-msgstr "_Tsüaan-Punane:"
-
-msgid "Height:"
-msgstr "Kõrgus:"
-
-msgid "High _quality"
-msgstr "_Kõrgekvaliteediline"
-
-msgid "Hue - Saturation"
-msgstr "Värvitoon - Küllastus"
-
-msgid "Posterize"
-msgstr "Posterdamine"
-
-msgid "Preserve l_uminosity"
-msgstr "_Helenduse säilitamine"
-
-msgid "Scale Image"
-msgstr "Pildi mõõtuviimine"
-
-msgid "Width:"
-msgstr "Laius:"
-
-msgid "_Brightness:"
-msgstr "_Heledus:"
-
-msgid "_Hue:"
-msgstr "_Värvitoon:"
-
-msgid "_Keep aspect ratio"
-msgstr "Proportsiooni _säilitamine"
-
-msgid "_Levels:"
-msgstr "_Tasemed:"
-
-msgid "_Lightness:"
-msgstr "_Valgustatus:"
-
-msgid "_Magenta-Green:"
-msgstr "_Magenta-Roheline:"
-
-msgid "_Preview"
-msgstr "_Eelvaade"
-
-msgid "_Reset"
-msgstr "_Reset"
-
-msgid "_Saturation:"
-msgstr "_Küllastus:"
-
-msgid "_Scale"
-msgstr "_Vii mõõtu"
-
-msgid "_Yellow-Blue:"
-msgstr "_Kollane-Sinine"
+msgid "gtk-remove"
+msgstr "gtk-remove"
 
 msgid "112"
 msgstr "112"
@@ -526,285 +269,11 @@ msgstr "48"
 msgid "64"
 msgstr "64"
 
-msgid "75"
-msgstr "75"
-
 msgid "85"
 msgstr "85"
 
 msgid "95"
 msgstr "95"
-
-msgid "<b>Background style</b>"
-msgstr "<b>Tagapõhja stiil</b>"
-
-msgid "<b>Caption</b>"
-msgstr "<b>Pealkiri</b>"
-
-msgid "<b>Footer</b>"
-msgstr "<b>Jalus</b>"
-
-msgid "<b>Header and footer</b>"
-msgstr "<b>Päis ja jalus</b>"
-
-msgid "<b>Header</b>"
-msgstr "<b>Päis</b>"
-
-msgid "<b>Index images</b>"
-msgstr "<b>Indekspildid</b>"
-
-msgid "<b>Page size</b>"
-msgstr "<b>Lehe suurus</b>"
-
-msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b>Märkus:</b> # (nummerdaja)</i>.</small>"
-
-#, no-c-format
-msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
-msgstr "<small><i><b>Märkus:</b> %p (lehe number), %n (lehti kokku)</i>.</small>"
-
-msgid "Co_mment"
-msgstr "Ko_mmentaar"
-
-msgid "Col_umns:"
-msgstr "_Veerge:"
-
-msgid "Colo_r:"
-msgstr "Vä_rv:"
-
-msgid "Create Index Image"
-msgstr "Loo indekspilt"
-
-msgid "Create _HTML image map"
-msgstr "Loo _HTML pildikaart"
-
-msgid "F_ooter:"
-msgstr "_Jalus:"
-
-msgid "File _name"
-msgstr "Faili_nimi"
-
-msgid "File pa_th"
-msgstr "Faili _asukoht"
-
-msgid "File si_ze"
-msgstr "Faili _suurus"
-
-msgid "Frame _style:"
-msgstr "Raami _stiil:"
-
-msgid "Frame co_lor:"
-msgstr "Raami _värv:"
-
-msgid "H_eader:"
-msgstr "_Päis:"
-
-msgid "Header/Footer"
-msgstr "Päis/Jalus"
-
-msgid "Hei_ght:"
-msgstr "_Kõrgus:"
-
-msgid "Image dim_ensions"
-msgstr "Pildi _mõõtmed"
-
-msgid "Images"
-msgstr "Pildid"
-
-msgid "Index Image Style"
-msgstr "Indekspildi stiil"
-
-msgid "Page"
-msgstr "Leht"
-
-msgid "Pi_xels"
-msgstr "_Piksleid"
-
-msgid "Re_verse order"
-msgstr "_Vastupidises järjekorras"
-
-msgid "Rows a_nd columns"
-msgstr "Read _ja veerud"
-
-msgid "Select a color"
-msgstr "Vali värv"
-
-msgid "Select a font"
-msgstr "Vali font"
-
-msgid "Shadow in"
-msgstr "Vari sisse"
-
-msgid "Shadow only"
-msgstr "Ainult vari"
-
-msgid "Shadow out"
-msgstr "Vari välja"
-
-msgid "Simple"
-msgstr "Lihtne"
-
-msgid "Simple with shadow"
-msgstr "Lihtne varjuga"
-
-msgid "Slide"
-msgstr "Slaid"
-
-msgid "Sor_t:"
-msgstr "Sor_teeri:"
-
-msgid "Sort"
-msgstr "Sorteeri"
-
-msgid "St_yle"
-msgstr "_Stiil"
-
-msgid "Start _at:"
-msgstr "_Alustatakse:"
-
-msgid "Style Preview"
-msgstr "Stiili eelvaade"
-
-msgid "Wi_dth:"
-msgstr "_Laius:"
-
-msgid "_All pages with the same size"
-msgstr "_Kõik lehed sama suurusega"
-
-msgid "_Draw frame"
-msgstr "_Joonista raam"
-
-msgid "_Font:"
-msgstr "_Font:"
-
-msgid "_Gradient"
-msgstr "_Sujuv üleminek"
-
-msgid "_Image size:"
-msgstr "_Pildi suurus:"
-
-msgid "_Rows:"
-msgstr "_Ridu:"
-
-msgid "_Solid color"
-msgstr "_Lausvärv"
-
-msgid "_Template:"
-msgstr "_Mall:"
-
-msgid "by name"
-msgstr "nime järgi"
-
-msgid "jpeg"
-msgstr "jpeg"
-
-msgid "png"
-msgstr "png"
-
-msgid "0:"
-msgstr "0:"
-
-msgid "112 x 112"
-msgstr "112 x 112"
-
-msgid "128 x 128"
-msgstr "128 x 128"
-
-msgid "164 x 164"
-msgstr "164 x 164"
-
-#| msgid "1:1"
-msgid "1:"
-msgstr "1:"
-
-msgid "200 x 200"
-msgstr "200 x 200"
-
-msgid "256 x 256"
-msgstr "256 x 256"
-
-#| msgid "2"
-msgid "2:"
-msgstr "2:"
-
-msgid "3:"
-msgstr "3:"
-
-msgid "48 x 48"
-msgstr "48 x 48"
-
-#| msgid "4"
-msgid "4:"
-msgstr "4:"
-
-msgid "5:"
-msgstr "5:"
-
-msgid "64 x 64"
-msgstr "64 x 64"
-
-msgid "6:"
-msgstr "6:"
-
-msgid "7:"
-msgstr "7:"
-
-msgid "85 x 85"
-msgstr "85 x 85"
-
-#| msgid "8"
-msgid "8:"
-msgstr "8:"
-
-msgid "95 x 95"
-msgstr "95 x 95"
-
-msgid "9:"
-msgstr "9:"
-
-msgid "<b>Direction</b>"
-msgstr "<b>Suund</b>"
-
-msgid "<b>Hide/Show</b>"
-msgstr "<b>Peida/Näita</b>"
-
-msgid "<b>Interface</b>"
-msgstr "<b>Liides</b>"
-
-msgid "<b>On startup:</b>"
-msgstr "<b>Käivitamisel:</b>"
-
-msgid "<b>Other</b>"
-msgstr "<b>Muu</b>"
-
-msgid "<b>Slide show</b>"
-msgstr "<b>Slaidiesitlus</b>"
-
-msgid "<b>Viewer</b>"
-msgstr "<b>Vaataja</b>"
-
-msgid "<b>Zoom quality</b>"
-msgstr "<b>Suurenduse kvaliteet</b>"
-
-#, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b>\n"
-"%F = all selected filenames on one line, space delimited\n"
-"%f = a single filename, including path\n"
-"%n = a single filename, including path, with no extension\n"
-"%e = a single extension (starting with a period)\n"
-"%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.\n"
-"The default scripts are explained in the Help file.</small>"
-msgstr ""
-"<small><i><b>Spetsiaalsed märgid:</b>\n"
-"%F = kõik valitud failinimed ühel real, eraldatud tühikutega\n"
-"%f = üksik failinimi koos asukohaga\n"
-"%n = üksik failinimi koos asukohaga, faililaiendita\n"
-"%e = üksik faililaiend (algab punktiga)\n"
-"%p = üksiku faili emakaust</i>\n"
-"Sõltumata valitud failide arvust, käivitatakse %F-koodiga skriptid ainult üks kord. Kõik teised käivitatakse üks kord iga valitud faili kohta.\n"
-"Vaikimisi skriptid on lahti seletatud abifailis.</small>"
 
 msgid "Activate items with a double click"
 msgstr "Aktiveeri elemente topeltklõpsuga"
@@ -812,14 +281,16 @@ msgstr "Aktiveeri elemente topeltklõpsuga"
 msgid "Activate items with a single click"
 msgstr "Aktiveeri elemente ühe klõpsuga"
 
-msgid "After _loading an image:"
-msgstr "Pärast pildi _laadimist:"
+msgid "Appearance"
+msgstr "Välimus"
 
-msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Kinnituse küsimine piltide või kataloogide _kustutamisel"
+#| msgid "As_k confirmation before deleting images or catalogs"
+msgid "As_k confirmation before deleting files or catalogs"
+msgstr "Kinnituse küsimine piltide või pildialbumite _kustutamisel"
 
-msgid "Ask whether to save _modified images"
-msgstr "Kinnituse küsimine muudetud piltide _salvestamisel"
+#| msgid "Ask whether to save _modified images"
+msgid "Ask whether to save _modified files"
+msgstr "Kinnituse küsimine muudetud failide _salvestamisel"
 
 msgid "Black"
 msgstr "Must"
@@ -827,8 +298,8 @@ msgstr "Must"
 msgid "Browser"
 msgstr "Sirvija"
 
-msgid "C_lick policy:"
-msgstr "K_lõpsu käitumine:"
+msgid "Caption"
+msgstr "Pealkiri"
 
 msgid "Checked"
 msgstr "Märgitud"
@@ -836,45 +307,34 @@ msgstr "Märgitud"
 msgid "Choose startup folder"
 msgstr "Vali käivitamisel avatav kaust"
 
-msgid "Co_mments"
-msgstr "Ko_mmentaarid"
-
-msgid "D_elay before changing image:"
-msgstr "_Paus piltide vahel:"
-
 msgid "D_etermine image type from content (slower)"
 msgstr "_Otsusta pildi tüüp sisu järgi (aeglasem)"
 
 msgid "Do _not change folder"
 msgstr "Kausta ei _muudeta"
 
-#| msgid "Fit to window if larger"
 msgid "Fit to width if larger"
-msgstr "Mahutatakse pilt laiuse järgi"
+msgstr "Mahutatakse laiusesse, kui pilt on suurem"
+
+#| msgid "Fit to window if larger"
+msgid "Fit to window"
+msgstr "Mahutatakse pilt aknasse"
 
 msgid "Fit to window if larger"
-msgstr "Mahuta pilt aknasse kui pilt on aknast suurem"
+msgstr "Mahutatakse aknasse, kui pilt on suurem"
 
 msgid "Follow Nautilus behaviour"
 msgstr "Järgitakse Nautiluse seadeid"
 
-msgid "For_ward"
-msgstr "_Edasi"
-
 msgid "General"
 msgstr "Üldine"
 
-msgid "Go to last _visited folder or catalog"
-msgstr "Minnakse _viimati külastatud kausta või kataloogi"
+#| msgid "Go to the next visited location"
+msgid "Go to last _visited location"
+msgstr "Minnakse _viimati külastatud asukohta"
 
 msgid "Go to this _folder:"
 msgstr "Minnakse siia _kausta:"
-
-msgid "H_igh"
-msgstr "_Kõrge"
-
-msgid "Hot Keys"
-msgstr "Kiirklahvid"
 
 msgid "Icons only"
 msgstr "Ainult ikoonid"
@@ -882,26 +342,15 @@ msgstr "Ainult ikoonid"
 msgid "Keep previous zoom"
 msgstr "Kasutatakse eelmist suurendusastet"
 
-msgid "Keys 0-9 on the numeric keypad can be used in the browser to open or modify the selected images with other applications."
-msgstr "Numbriklaviatuuri klahve 0-9 saab kasutada valitud piltide avamiseks või redigeerimiseks mõne teise rakendusega."
+msgid "None"
+msgstr "Puudub"
 
-msgid "Layout:"
-msgstr "Paigutus:"
+#| msgid "<b>On startup:</b>"
+msgid "On startup:"
+msgstr "Käivitamisel:"
 
-msgid "Lo_w"
-msgstr "_Madal"
-
-msgid "Ran_dom"
-msgstr "_Juhuslik"
-
-msgid "Re_verse"
-msgstr "_Tagurpidi"
-
-msgid "Reset scrollbar positions after loading an image"
-msgstr "Kerimisriba asukoht lähtestatakse pärast pildi laadimist"
-
-msgid "Resta_rt when finished"
-msgstr "_Lõpuni jõudes alustatakse uuesti"
+msgid "Other"
+msgstr "Muu"
 
 msgid "Set image to actual size"
 msgstr "Näidatakse pildi tegelikku suurust"
@@ -909,9 +358,7 @@ msgstr "Näidatakse pildi tegelikku suurust"
 msgid "Set to C_urrent"
 msgstr "_Aktiivne kaust"
 
-msgid "Slide Show"
-msgstr "Slaidiesitlus"
-
+#. Set widgets data.
 msgid "System settings"
 msgstr "Süsteemi seaded"
 
@@ -924,785 +371,82 @@ msgstr "Tekst ikoonide kõrval"
 msgid "Text only"
 msgstr "Ainult tekst"
 
-msgid "Th_umbnail size:"
-msgstr "Pisipildi s_uurus:"
-
-msgid "Transparency _type:"
-msgstr "Läbipaistvuse _tüüp:"
-
-#| msgid "D_elay before changing image:"
-msgid "Use a _fading effect when changing image"
-msgstr "Piltide vahetamisel kasutatakse _hajuvat üleminekut"
-
-msgid "Viewer"
-msgstr "Vaataja"
+#| msgid "Th_umbnail size:"
+msgid "Thumbnail _size:"
+msgstr "Pisipildi _suurus:"
 
 msgid "White"
 msgstr "Valge"
 
-msgid "_Filenames"
-msgstr "_Failinimed"
-
-msgid "_Thumbnails"
-msgstr "_Pisipildid"
-
 msgid "_Toolbar style:"
 msgstr "_Tööriistariba stiil:"
 
-msgid "gThumb Preferences"
-msgstr "gThumb häälestus"
-
-msgid "seconds"
-msgstr "sekundit"
-
-msgid "1"
-msgstr "1"
-
-msgid "150"
-msgstr "150"
-
-msgid "16"
-msgstr "16"
-
-msgid "2"
-msgstr "2"
-
-#| msgid "200"
-msgid "300"
-msgstr "300"
-
-msgid "4"
-msgstr "4"
-
-#| msgid "200"
-msgid "600"
-msgstr "600"
-
-#| msgid "2"
-msgid "72"
-msgstr "72"
-
-msgid "8"
-msgstr "8"
-
-#| msgid "<b>Page size</b>"
-msgid "<b>Image Sizing</b>"
-msgstr "<b>Piltide mõõtmed</b>"
-
-msgid "<b>Margins</b>"
-msgstr "<b>Veerised</b>"
-
-msgid "<b>Orientation</b>"
-msgstr "<b>Suund</b>"
-
-msgid "<b>Size</b>"
-msgstr "<b>Suurus</b>"
-
-msgid ""
-"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
-"Click on an image to rotate it.</i></small>"
-msgstr ""
-"<small><i><b>Märkus:</b> Lohista pilt lehele.\n"
-"Pööramiseks klõpsa pildil.</i></small>"
-
-msgid ""
-"<small><i><b>Note:</b> High-resolution images will be\n"
-"down-sampled to this resolution. Increase\n"
-"the resolution to get better image quality.\n"
-"Decrease it to get shorter print times.</i></small>"
-msgstr ""
-"<small><i><b>Märkus:</b> Kõrge eraldusvõimega pildid\n"
-"vähendatakse selle väärtuseni. Suurem eraldusvõime\n"
-"annab parema pildikvaliteedi. Väiksem resolutsioon\n"
-"annab lühema printimisaja.</i></small>"
-
-msgid "A4"
-msgstr "A4"
-
-msgid "Automatic sizing"
-msgstr "Automaatne skaleerimine"
-
-msgid "Center _on Page"
-msgstr "Lehe _keskele"
-
-msgid "Comment _font:"
-msgstr "Kommentaari _font:"
-
-msgid "Executive"
-msgstr "Executive"
-
-msgid "I_nclude comment"
-msgstr "Lisatakse komme_ntaari"
-
-msgid "Images per page:"
-msgstr "Pilte ühel lehel:"
-
-msgid "Inches"
-msgstr "Tolli"
-
-#| msgid "Inde_x file:"
-msgid "Include filename"
-msgstr "Failinime lisamine"
-
-msgid "Lan_dscape"
-msgstr "_Maastik"
-
-msgid "Layout"
-msgstr "Paigutus"
-
-msgid "Legal"
-msgstr "Legal"
-
-msgid "Letter"
-msgstr "Letter"
-
-msgid "Millimeters"
-msgstr "Millimeetrit"
-
-msgid "P_ortrait"
-msgstr "_Portree"
-
-msgid "Paper Details"
-msgstr "Paberi detailid"
-
-msgid "Postcard"
-msgstr "Postkaart"
-
-#.
-msgid "Print"
-msgstr "Prindi"
-
-#| msgid "Set image to actual size"
-msgid "Scale to this size"
-msgstr "Vii mõõtu"
-
-msgid "Tabloid"
-msgstr "Tabloid"
-
-msgid "_Bottom:"
-msgstr "_Alumine:"
-
-msgid "_Left:"
-msgstr "_Vasak:"
-
-msgid "_Right:"
-msgstr "_Parem:"
-
-msgid "_Scale:"
-msgstr "_Mõõtmed:"
-
-msgid "_Top:"
-msgstr "Ü_lemine:"
-
-msgid "_Unit:"
-msgstr "Ü_hik:"
-
-#| msgid "Actual size"
-msgid "Actual Size"
-msgstr "Tegelik suurus"
-
-msgid "Red-Eye Removal"
-msgstr "Punasilmsuse eemaldamine"
-
-#| msgid "Red"
-msgid "Redo"
-msgstr "Uuesti"
-
-msgid "Undo"
-msgstr "Unusta"
-
-#| msgid "Zoom in"
-msgid "Zoom In"
-msgstr "Suurenda"
-
-#| msgid "Zoom out"
-msgid "Zoom Out"
-msgstr "Vähenda"
-
-#| msgid "Zoom out"
-msgid "Zoom to Fit"
-msgstr "Mahuta aknasse"
-
-msgid "<b>Search criteria</b>"
-msgstr "<b>Otsingu mõõdupuu</b>"
-
-msgid "<b>Search scope</b>"
-msgstr "<b>Otsingu ulatus</b>"
-
-msgid "After"
-msgstr "Pärast"
-
-msgid "Any"
-msgstr "Kõik"
-
-msgid "Before"
-msgstr "Enne"
-
-msgid "Choose categories from the saved list"
-msgstr "Vali kategooriad salvestatud nimekirjast"
-
-msgid "Equal to"
-msgstr "Võrdne"
-
-msgid "File _name:"
-msgstr "Faili_nimi:"
-
-msgid "Found images:"
-msgstr "Leitud pildid:"
-
-msgid "Match a_ll selected categories"
-msgstr "Vastab _kõigile valitud kategooriatele"
-
-msgid "Match a_ny selected category"
-msgstr "Vastab _vähemalt ühele valitud kategooriale"
-
-msgid "New _Search..."
-msgstr "Uus _otsing..."
-
-msgid "No images found"
-msgstr "Pilte ei leidnud"
-
-#| msgid "_Search"
-msgid "Search"
-msgstr "Otsi"
-
-msgid "Search Progress"
-msgstr "Otsingu edenemine"
-
-msgid "Searching in:"
-msgstr "Otsingukoht praegu:"
-
-msgid "_Edit Search"
-msgstr "_Redigeeri otsingut"
-
-msgid "_Include sub-folders"
-msgstr "_Ka alamkaustadest"
-
-msgid "_Save"
-msgstr "_Salvesta"
-
-msgid "_Search"
-msgstr "_Otsi"
-
-msgid "_View"
-msgstr "_Vaade"
-
-#| msgid "<b>Categories:</b>"
-msgid "<b>Change the following values:</b>"
-msgstr "<b>Muudetavad väärtused:</b>"
-
-#| msgid "<b>Caption</b>"
-msgid "<b>Change to:</b>"
-msgstr "<b>Väärtused:</b>"
-
-msgid "<b>Write to CD</b>"
-msgstr "<b>CD-le kirjutatakse</b>"
-
-msgid ""
-"<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
-"When viewing images, you can use the [ and ] shortcut\n"
-"keys to rotate and save losslessly, bypassing this dialog.</i></small>"
-msgstr ""
-"<small><i><b>Märkus</b>: JPEG-piltide teisendused on tavaliselt kadudeta.\n"
-"Piltide vaatamisel saab pööramiseks ja kadudeta salvestamiseks kasutada\n"
-"kiirklahve [ ja ].</i></small>"
-
-#, no-c-format
-#| msgid ""
-#| "<small><i><b>Special characters:</b> # (enumerator), %f (original "
-#| "filename), %d (image date), %s (image size).</i></small>"
-msgid "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %d (image date), %s (image size), %e (original extension).</i></small>"
-msgstr "<small><i><b>Spetsiaalsed märgid:</b> # (nummerdaja), %f (algne failinimi), %d (pildi kuupäev), %s (pildi suurus), %e (algne faililaiend).</i></small>"
-
-msgid "A_djust timezone:"
-msgstr "Kohanda _ajavööndit:"
-
-msgid "Apply physical _transform"
-msgstr "Füüsiline _teisendamine"
-
-#| msgid "Apply to _all images"
-msgid "Apply to all _images"
-msgstr "Rakendatakse _kõigile piltidele"
-
-msgid "C_urrent date"
-msgstr "Tänane k_uupäev"
-
-msgid "Ca_talog"
-msgstr "Ka_taloog"
-
-msgid "Change Date"
-msgstr "Muuda kuupäeva"
-
-msgid "Check _All"
-msgstr "Märgi _kõik"
-
-msgid "Check _None"
-msgstr "_Tühista valik"
-
-msgid "Checking image:"
-msgstr "Pildi kontrollimine:"
-
-msgid "Click OK to reset the Exif orientation tag for the selected images to Top-Left."
-msgstr "Valitud piltide EXIF suunasildi lähtestamiseks üles-vasakule klõpsa \"Olgu\"."
-
-#| msgid "C_urrent date"
-msgid "Co_mment date"
-msgstr "_Kommentaari kuupäev"
-
-msgid "Current _Folder"
-msgstr "_Aktiivne kaust"
-
-msgid "Equal images:"
-msgstr "Võrdsed pildid:"
-
-msgid "Found duplicates:"
-msgstr "Duplikaate leitud:"
-
-msgid "Image c_reation date"
-msgstr "Pildi _loomise kuupäev"
-
-msgid "Mirror image horizontally (left-right)"
-msgstr "Peegelda pilti horisontaalselt (vasak-parem)"
-
-msgid "Mirror image vertically (top-bottom)"
-msgstr "Peegelda pilti vertikaalselt (ülemine-alumine)"
-
-msgid "Move to _Trash"
-msgstr "Viska _prügikasti"
-
-msgid "New names _preview:"
-msgstr "Uute nimede _eelvaade:"
-
-msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "_Foto digitaliseerimise kuupäev (EXIF andmetest)"
-
-msgid "Re_verse Order"
+#| msgid "gThumb Preferences"
+msgid "gthumb Preferences"
+msgstr "GThumb'i eelistused"
+
+#| msgid "Sort"
+msgid "Sort By"
+msgstr "Sortimine"
+
+#| msgid "Re_verse order"
+msgid "_Inverse order"
 msgstr "_Vastupidises järjekorras"
 
-msgid "Reset Exif Orientation Tags"
-msgstr "EXIF suunasildi lähtestamine"
+#| msgid "_Sort:"
+msgid "_Sort by:"
+msgstr "_Sortimine:"
 
-msgid "Rotate Images"
-msgstr "Piltide pööramine"
+#| msgid "_Add Bookmark"
+msgid "Add bookmarks support."
+msgstr "Järjehoidjate toe lisamine."
 
-msgid "Rotate image 90 degrees clockwise"
-msgstr "Pööra pilti 90 kraadi päripäeva"
+msgid "Bookmarks"
+msgstr "Järjehoidjad"
 
-msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Pööra pilti 90 kraadi vastupäeva"
-
-#| msgid "Save Image"
-msgid "Scale Images"
-msgstr "Piltide mõõtuviimine"
-
-#| msgid "Duplicates"
-msgid "Search for Duplicates"
-msgstr "Duplikaatide otsimine"
-
-msgid "Search terminated, no duplicates found."
-msgstr "Otsing lõpetatud, duplikaate ei leidnud."
-
-msgid "The _following date:"
-msgstr "_Järgnev kuupäev:"
-
-msgid "This checkbox governs the rotation method used for JPEG images that contain Exif orientation tags. If this checkbox is enabled, the rotation will be performed using a physical transform, and the Exif orientation tag will be reset to the default \"top left\" value. If it is not enabled, the rotation will be performed by changing the Exif orientation tag only. For maximum compatibility with other applications, this checkbox should be enabled."
-msgstr "See märkekast juhib JPEG piltide puhul kasutatavat EXIF suunamärgendit. Kui märkekast on märgitud, kasutatakse füüsilist pööramist ja EXIF suunamärgend seatakse vaikimisi \"üles-vasakule\". Kui kast pole märgitud, pööratakse ainult EXIF suunamärgendit muutes. Teiste rakendustega ühildumise huvides võiks kastike siiski märgitud olla."
-
-msgid "Write To CD"
-msgstr "CD-le kirjutamine"
-
-#| msgid "Last modified date"
-msgid "_Last modified date"
-msgstr "_Viimati muutmise kuupäev"
-
-msgid "_Rename"
-msgstr "_Nimeta ümber"
-
-msgid "_Selected Images"
-msgstr "_Valitud pildid"
-
-msgid "_Sort:"
-msgstr "_Sorteeri:"
-
-msgid "hours"
-msgstr "tundi"
-
-msgid "1024 x 1024"
-msgstr "1024 x 1024"
-
-msgid "1024 x 768"
-msgstr "1024 x 768"
-
-msgid "1280 x 1280"
-msgstr "1280 x 1280"
-
-msgid "1280 x 960"
-msgstr "1280 x 960"
-
-msgid "320 x 200"
-msgstr "320 x 200"
-
-msgid "320 x 320"
-msgstr "320 x 320"
-
-msgid "640 x 480"
-msgstr "640 x 480"
-
-msgid "640 x 640"
-msgstr "640 x 640"
-
-msgid "800 x 600"
-msgstr "800 x 600"
-
-msgid "800 x 800"
-msgstr "800 x 800"
-
-#| msgid "<b>Album</b>"
-msgid "<b>Album Style</b>"
-msgstr "<b>Albumi stiil</b>"
-
-#| msgid "<b>Information on Channel:</b>"
-msgid "<b>Basic Information</b>"
-msgstr "<b>Põhiandmed</b>"
-
-#| msgid "<b>Header</b>"
-msgid "<b>Camera Data</b>"
-msgstr "<b>Kaamera andmed</b>"
-
-#| msgid "<b>Compression</b>"
-msgid "<b>Comments</b>"
-msgstr "<b>Kommentaarid</b>"
-
-#| msgid "<b>Index Layout</b>"
-msgid "<b>Index Page Layout</b>"
-msgstr "<b>Indekslehe paigutus</b>"
-
-msgid "<b>Personalize theme</b>"
-msgstr "<b>Muuda teema isikupärasemaks</b>"
-
-msgid "<b>Theme</b>"
-msgstr "<b>Teema</b>"
-
-#, no-c-format
-msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b>Märkus:</b> %d (tänane kuupäev).</i></small>"
-
-msgid ""
-"<small><i><b>Note:</b> Some themes may auto-adjust the\n"
-"number of rows and columns, but keep the total \n"
-"number of images per page constant.</i></small>"
+msgid "Paolo Bacchilega <paobac@src.gnome.org>"
 msgstr ""
-"<small><i><b>Märkus:</b> Mõni teema võib veergude ja\n"
-"ridade arvu automaatselt reguleerida, kuid piltide koguarv\n"
-"ühel lehel püsib muutumatuna.</i></small>"
 
-msgid "Came_ra Model"
-msgstr "Kaame_ra mudel"
+msgid "_Bookmarks"
+msgstr "_Järjehoidjad"
 
-msgid "Caption"
-msgstr "Pealkiri"
+#| msgid "_Bookmarks"
+msgid "_System Bookmarks"
+msgstr "_Süsteemi järjehoidjad"
 
-#| msgid "_Date and Time"
-msgid "Da_te and Time"
-msgstr "K_uupäev ja kellaaeg"
+msgid "_Add Bookmark"
+msgstr "_Lisa järrjehoidja"
 
-msgid "E_xposure mode"
-msgstr "Sä_rituse režiim"
+msgid "Add current location to bookmarks"
+msgstr "Lisa aktiivne asukoht järjehoidjatesse"
 
-msgid "Exposure _time"
-msgstr "_Säriaeg"
+msgid "_Edit Bookmarks..."
+msgstr "_Redigeeri järjehoidjaid..."
 
-msgid "Focal _length"
-msgstr "Fookus_kaugus"
+msgid "Edit bookmarks"
+msgstr "Redigeeri järjehoidjaid"
 
-msgid "I_mage Caption..."
-msgstr "_Pildi pealkiri..."
+msgid "_Bookmarks:"
+msgstr "_Järjehoidjad:"
 
-msgid "Inde_x file:"
-msgstr "_Indeksfail::"
+#| msgid "Location"
+msgid "_Location"
+msgstr "_Asukoht"
 
-#| msgid "_Port:"
-msgid "S_ort:"
-msgstr "S_orteerimine:"
+#| msgid "Name"
+msgid "_Name"
+msgstr "_Nimi"
 
-msgid "Web Album"
-msgstr "Veebialbum"
+#| msgid "Could not move the image:"
+msgid "Could not remove the bookmark"
+msgstr "Järjehoidja eemaldamine nurjus"
 
-msgid "Web Album Theme"
-msgstr "Veebialbumi teema"
+#| msgid "Remove selected images from the catalog"
+msgid "Could not remove the files from the catalog"
+msgstr "Failide eemaldamine pildialbumist nurjus"
 
-msgid "_Aperture value"
-msgstr "_Ava väärtus"
-
-msgid "_Copy originals to destination"
-msgstr "_Algsed kopeeritakse sihtkohta"
-
-msgid "_Date and Time"
-msgstr "K_uupäev ja kellaaeg"
-
-msgid "_Flash"
-msgstr "_Välk"
-
-#| msgid "F_ooter:"
-msgid "_Footer:"
-msgstr "_Jalus:"
-
-msgid "_Go to Theme Folder"
-msgstr "_Mine teemakausta"
-
-#| msgid "H_eader:"
-msgid "_Header:"
-msgstr "_Päis:"
-
-msgid "_Install Theme..."
-msgstr "_Installeeri teema..."
-
-#| msgid "_Place:"
-msgid "_Place"
-msgstr "_Koht:"
-
-#| msgid "Resi_ze if larger than:"
-msgid "_Resize if larger than:"
-msgstr "_Maksimum suurus:"
-
-msgid "_Select"
-msgstr "_Vali"
-
-msgid "_Shutter speed"
-msgstr "_Katiku kiirus"
-
-#| msgid "Si_ze :"
-msgid "_Size :"
-msgstr "_Suurus:"
-
-#| msgid "Th_eme:"
-msgid "_Theme:"
-msgstr "_Teema:"
-
-msgid "_Thumbnail Caption..."
-msgstr "_Pisipildi pealkiri..."
-
-#| msgid "columns"
-msgid "columns, by"
-msgstr "veergu ja"
-
-msgid "index.html"
-msgstr "index.html"
-
-msgid "or _use a single index page"
-msgstr "või kasutada _ühte indekslehte"
-
-#| msgid "Images per page:"
-msgid "rows per page,"
-msgstr "rida lehe kohta"
-
-#| msgid "gThumb Image Viewer"
-msgid "Image Viewer"
-msgstr "Pildinäitaja"
-
-msgid "View and organize your images"
-msgstr "Vaata ja korrasta oma pilte"
-
-msgid "gThumb Image Viewer"
-msgstr "gThumb Pildivaataja"
-
-msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
-msgstr "Pildidest mis on määratud suurusest (baitides) suuremad, ei tehta pisipilte. Kasuta väärtust 0 kui soovid genereerida pisipilte kõigist piltidest."
-
-msgid "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)"
-msgstr "Võimalikud väärtused on 0 (portree), 1 (maastik), 2 (tagurpidi portree), 3 (tagurpidi maastik)"
-
-msgid "Possible values are: 1, 2, 3, 4."
-msgstr "Cõimalikud väärtused on: 1, 2, 3, 4."
-
-#| msgid "Possible values are: 1, 2, 3, 4."
-msgid "Possible values are: 72, 150, 300, 600."
-msgstr "Võimalikud väärtused: 72, 150, 300, 600."
-
-msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
-msgstr "Võimalikud väärtused: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
-
-msgid "Possible values are: ascending, descending."
-msgstr "Võimalikud väärtused: kasvav, kahanev."
-
-msgid "Possible values are: forward, backward, random."
-msgstr "Võimalikud väärtused: edasi, tagasi, juhuslik."
-
-msgid "Possible values are: high, low."
-msgstr "Võimalikud väärtused: kõrge, madal."
-
-msgid "Possible values are: image, data, comment."
-msgstr "Võimalikud väärtused: pilt, andmed, kommentaar."
-
-msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr "Võimalikud väärtused: jpeg, png, tga, tiff."
-
-msgid "Possible values are: light, midtone, dark."
-msgstr "Võimalikud väärtused: light, midtone, dark."
-
-msgid "Possible values are: list, thumbnails."
-msgstr "Võimalikud väärtused: nimekiri, pisipildid."
-
-#| msgid "Possible values are: mm, in."
-msgid "Possible values are: manual, auto."
-msgstr "Võimalikud väärtused: manual, auto."
-
-msgid "Possible values are: mm, in."
-msgstr "Võimalikud väärtused: mm, toll."
-
-msgid "Possible values are: nautilus, single, double."
-msgstr "Võimalikud väärtused: nautilus, üksik, topelt."
-
-msgid "Possible values are: none, deflate, jpeg."
-msgstr "Võimalikud väärtused: puudub, deflate, jpeg."
-
-#| msgid "Possible values are: none, name, path, size, time."
-msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Võimalikud väärtused: none, name, path, size, time, exifdate, comment."
-
-msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
-msgstr "Võimalikud väärtused: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
-
-msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
-msgstr "Võimalikud väärtused: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
-
-msgid "Possible values are: pixels, percentage."
-msgstr "Võimalikud väärtused: pikslit, protsenti."
-
-msgid "Possible values are: png, jpeg."
-msgstr "Võimalikud väärtused: png, jpeg."
-
-msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "Võimalikud väärtused: skip, rename, ask, overwrite."
-
-msgid "Possible values are: small, medium, large."
-msgstr "Võimalikud väärtused: väike, keskmine, suur."
-
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Võimalikud väärtused: system, text_below, text_beside, text_only, icons_only."
-
-msgid "Possible values are: white, black, checked, none."
-msgstr "Võimalikud väärtused: valge, must, märgitud, puudub."
-
-msgid "Whether to always use a black background."
-msgstr "Kas kasutada alati musta tagapõhja."
-
-msgid "Whether to reset the scrollbar positions after changing image"
-msgstr "Kas pärast pildi muutmist lähtestada kerimisriba asukohad"
-
-#, c-format
-msgid "Cannot open catalog \"%s\": %s"
-msgstr "Ei suutnud avada kataloogi \"%s\": %s"
-
-#, c-format
-msgid "Cannot save catalog \"%s\": %s"
-msgstr "Ei suutnud salvestada kataloogi \"%s\": %s"
-
-msgid "%d %B %Y"
-msgstr "%d %B %Y"
-
-msgid "%d %B %Y, %H:%M"
-msgstr "%d %B %Y, %H:%M"
-
-msgid "(No Comment)"
-msgstr "(Kommentaar puudub)"
-
-#, c-format
-msgid "Image type not supported: %s"
-msgstr "Pildi tüüp pole toetatud: %s"
-
-msgid "Determine by extension"
-msgstr "Otsusta faililaiendi järgi"
-
-msgid "Save Image"
-msgstr "Salvesta pilt"
-
-msgid "Image type:"
-msgstr "Pildi tüüp:"
-
-#| msgid "_Catalogs"
-msgid "Catalogs"
-msgstr "Kataloogid"
-
-#| msgid "File si_ze"
-msgid "File System"
-msgstr "Failisüsteem"
-
-msgid "Home"
-msgstr "Kodu"
-
-msgid "Library not empty"
-msgstr "Kogumik ei ole tühi"
-
-#, c-format
-msgid "Cannot remove library \"%s\": %s"
-msgstr "Kogumiku \"%s\" eemaldamine nurjus: %s"
-
-#, c-format
-msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Kataloogi \"%s\" eemaldamine nurjus: %s"
-
-msgid "No image"
-msgstr "Pilt puudub"
-
-#| msgid "Could not display help: %s"
-msgid "Could not display help"
-msgstr "Abiteabe kuvamine ebaõnnestus"
-
-msgid "Ro_tate Images"
-msgstr "_Pööra pilte"
-
-#, c-format
-msgid "Page %d of %d"
-msgstr "Leht %d %d-st"
-
-#, c-format
-msgid "Loading image: %s"
-msgstr "Laen pilti: %s"
-
-msgid "Deleting all thumbnails, wait please..."
-msgstr "Kustutan kõik pisipildid, palun oota..."
-
-msgid "Deleting old thumbnails, wait please..."
-msgstr "Kustutan vanad pisipildid, palun oota..."
-
-msgid "(Invalid Name)"
-msgstr "(Vigane nimi)"
-
-#, c-format
-msgid "%d x %d pixels"
-msgstr "%d x %d pikslit"
-
-msgid "Saving images"
-msgstr "Piltide salvestamine"
-
-#, c-format
-msgid "Creating image: %s.%s"
-msgstr "Loon pilti: %s.%s"
-
-msgid "Saving thumbnails"
-msgstr "Pisipiltide salvestamine"
-
-msgid "Saving HTML pages: Images"
-msgstr "HTML lehtede salvestamine: Pildid"
-
-msgid "Saving HTML pages: Indexes"
-msgstr "HTML lehtede salvestamine: Indeksid"
-
-#. This function is used when "Copy originals to destination" is
-#. enabled, and resizing is NOT enabled. This allows us to use a
-#. lossless copy (and rotate). When resizing is enabled, a lossy
-#. save has to be used.
-#| msgid "_Keep original filenames"
-msgid "Copying original images"
-msgstr "Originaalpiltide kopeerimine"
-
-msgid "Could not create a temporary folder"
-msgstr "Ei suutnud luua ajutist kausta"
-
-#. Load thumbnails.
-msgid "Loading images"
-msgstr "Piltide laadimine"
+msgid "Invalid file format"
+msgstr ""
 
 msgid "Enter the catalog name: "
 msgstr "Sisesta kataloogi nimi: "
@@ -1710,430 +454,40 @@ msgstr "Sisesta kataloogi nimi: "
 msgid "C_reate"
 msgstr "_Loo"
 
+#| msgid "Could not create the catalog \"%s\": %s"
+msgid "Could not create the catalog"
+msgstr "Pildialbumi loomine nurjus"
+
 msgid "Enter the library name: "
 msgstr "Sisesta kogumiku nimi: "
 
-msgid "Move Catalog to..."
-msgstr "Teisalda kataloog..."
-
-msgid "Enter the new category name"
-msgstr "Sisesta uue kategooria nimi"
-
-#, c-format
-msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
-msgstr "Nime \"%s\" ei saa kasutada sest see sisaldab tähemärki \",\". Palun kasuta teistsugust nime."
-
-#, c-format
-msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "Kategooria \"%s\" on juba olemas. Palun vali mõni teine nimi."
-
-#, c-format
-msgid "Converting image: %s"
-msgstr "Teisendan pilti: %s"
-
-#, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Pilt nimega \"%s\" on juba olemas. Palun vali mõni teine nimi."
-
-#, c-format
-msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "Pilt nimega \"%s\" on juba olemas. Kas tahad seda üle kirjutada?"
-
-msgid "Skip"
-msgstr "Jäta vahele"
-
-msgid "_Overwrite"
-msgstr "_Kirjuta üle"
-
-#, c-format
-msgid "%d x %d (Image)"
-msgstr "%d x %d (Pilt)"
-
-#, c-format
-#| msgid "%d x %d (Image)"
-msgid "%d x %d (Screen)"
-msgstr "%d x %d (Ekraan)"
-
-msgid "Duplicates"
-msgstr "Duplikaadid"
-
-msgid "Duplicates Size"
-msgstr "Duplikaatide suurused"
-
-#.
-msgid "Name"
-msgstr "Nimi"
-
-msgid "Last modified"
-msgstr "Viimati muudetud"
-
-msgid "Location"
-msgstr "Asukoht"
-
-msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "Valitud pildid visatakse prügikasti. Kas see on sinu kindel soov?"
-
-msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "Sihtkausta pole olemas. Kas soovid luua selle?"
-
-#, c-format
-msgid "Could not create folder \"%s\": %s."
-msgstr "Ei suutnud luua kausta \"%s\": %s."
-
-#, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Sul puudub õigus luua pilte \"%s\" kausta"
-
-msgid "Could not delete the images:"
-msgstr "Ei saanud kustutada pilte:"
-
-msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
-msgstr "Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult kustutada?"
-
-msgid "_Do not display this message again"
-msgstr "Ära seda teadet _rohkem näita"
-
-msgid "_Move"
-msgstr "_Teisalda"
-
-msgid "Choose the destination folder"
-msgstr "Sihtkausta valimine"
-
-msgid "%d %b %Y, %H:%M"
-msgstr "%d %b %Y, %H:%M"
-
-msgid "You didn't enter the new name"
-msgstr "Sa ei sisestanud uut nime"
-
-#, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
-msgstr "Nimi \"%s\" on selles kaustas juba kasutusel. Palun vali mõni teine nimi."
-
-msgid "Could not rename the image:"
-msgstr "Ei suutnud pilti ümber nimetada:"
-
-msgid "Could not rename the following images:"
-msgstr "Järgnevaid pilte ei suutnud ümber nimetada:"
-
-msgid "Could not move the image:"
-msgstr "Ei suutnud teisaldada pilti:"
-
-msgid "Could not copy the image:"
-msgstr "Ei suutnud pilti kopeerida:"
-
-msgid "_Abort"
-msgstr "_Katkesta"
-
-msgid "_Continue"
-msgstr "_Jätka"
-
-#, c-format
-msgid "Copying file %d of %d"
-msgstr "Kopeerin faili %d %d-st"
-
-msgid "Collecting images info"
-msgstr "Kogun piltide kohta infot"
-
-#, c-format
-msgid "Deleting file %ld of %ld"
-msgstr "Kustutan faili %ld %ld-st"
-
-#, c-format
-msgid "Copying file %ld of %ld"
-msgstr "Kopeerin faili %ld %ld-st"
-
-#, c-format
-msgid "Moving file %ld of %ld"
-msgstr "Teisaldan faili %ld %ld-st"
-
-#, c-format
-msgid "Could not move the folder \"%s\": %s"
-msgstr "Kausta \"%s\" teisaldamine nurjus: %s"
-
-msgid "Size"
-msgstr "Suurus"
-
-msgid "Type"
-msgstr "Tüüp"
-
-msgid "Modified"
-msgstr "Muudetud"
-
-msgid "Information on Channel"
-msgstr "Informatsioon kanalis"
-
-#, c-format
-msgid "%s Properties"
-msgstr "%s omadused"
-
-msgid "Could not move temporary file to remote location. Check remote permissions."
-msgstr "Ajutise faili teisaldamine kaugasukohta nurjus. Kontrolli pääsuõigusi."
-
-msgid "Could not import photos"
-msgstr "Ei suutnud fotosid importida"
-
-msgid "Film"
-msgstr "Film"
-
-#| msgid "No camera detected"
-msgid "Import errors detected"
-msgstr "Importimisel tuvastati vead"
-
-msgid "The files on the camera will not be deleted"
-msgstr "Kaameras olevaid faile ei kustutata"
-
-#, c-format
-msgid "Could not create the folder \"%s\": %s"
-msgstr "Kausta \"%s\" loomine nurjus: %s"
-
-msgid "Not enough free space left on disk"
-msgstr "Kettal pole piisavalt vaba ruumi"
-
-msgid "Image Caption"
-msgstr "Pildi pealkiri"
-
-msgid "Header"
-msgstr "Päis"
-
-msgid "Footer"
-msgstr "Jalus"
-
-msgid "by path"
-msgstr "asukoha järgi"
-
-msgid "by size"
-msgstr "suuruse järgi"
-
-#| msgid "by modified time"
-msgid "by file modified time"
-msgstr "faili muutmisaja järgi"
-
-msgid "by Exif DateTime tag"
-msgstr "EXIF DateTime järgi"
-
-#| msgid "Comment"
-msgid "by comment"
-msgstr "kommentaari järgi"
-
-msgid "manual order"
-msgstr "käsitsi järjekorras"
-
-#, c-format
-msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
-msgstr "Nimi \"%s\" ei ole kasutatav sest see sisaldab tähemärki \"/\". Palun vali mõni teine nimi."
-
-msgid "Old Name"
-msgstr "Vana nimi"
-
-msgid "New Name"
-msgstr "Uus nimi"
-
-msgid "Search Result"
-msgstr "Otsingu tulemused"
-
-msgid "Select Album Theme"
-msgstr "Vali albumi teema"
-
-msgid "Could not move the items:"
-msgstr "Ei suutnud teisaldada elemente:"
-
-msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Pilt visatakse prügikasti. Kas see on sinu kindel soov ja tahtmine?"
-
-#, c-format
-msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Ei suutnud dubleerida pilti \"%s\": %s"
-
-msgid "Stop"
-msgstr "Peata"
-
-msgid "Continue"
-msgstr "Jätka"
-
-msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Valitud pildid visatakse prügikasti. On see sinu kindel soov?"
-
-msgid "Enter the new name: "
-msgstr "Sisesta uus nimi: "
-
-#, c-format
-msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Nimi \"%s\" on juba kasutusel. Palun vali mõni teine nimi."
-
-#, c-format
-msgid "Could not rename the library \"%s\": %s"
-msgstr "Kogumikku \"%s\" ümbernimetamine nurjus: %s"
-
-#, c-format
-msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Kataloogi \"%s\" ümbernimetamine nurjus: %s"
-
-msgid "The selected library will be removed, are you sure?"
-msgstr "Oled kindel, et eemaldada valitud kogumik?"
-
-msgid "The selected catalog will be removed, are you sure?"
-msgstr "Oled kindel, et eemaldada valitud kataloog?"
-
-msgid "New Catalog"
-msgstr "Uus kataloog"
-
-#, c-format
-msgid "Could not create the catalog \"%s\": %s"
-msgstr "Ei suutnud luua kataloogi \"%s\": %s"
-
-msgid "New Library"
-msgstr "Uus kogumik"
-
-#, c-format
-msgid "Could not create the library \"%s\": %s"
-msgstr "Kogumiku \"%s\" loomine nurjus: %s"
-
-#, c-format
-msgid "Could not rename the folder \"%s\": %s"
-msgstr "Kausta \"%s\" ümbernimetamine nurjus: %s"
-
-msgid "source and destination are the same"
-msgstr "lähtefail ja sihtfail on samad"
-
-#, c-format
-msgid "Could not delete the folder \"%s\": %s"
-msgstr "Kausta \"%s\" kustutamine nurjus: %s"
-
-#, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "\"%s\" ei saanud visata prügikasti. Kas soovid selle lõplikult kustutada?"
-
-msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Valitud kaust visatakse prügikasti. On see sinu kindel soov?"
-
-#, c-format
-msgid "Could not copy the folder \"%s\": %s"
-msgstr "Kausta \"%s\" kopeerimine nurjus: %s"
-
-msgid "source contains destination"
-msgstr "lähtefail sisaldab sihtfaili"
-
-msgid "a folder with that name is already present."
-msgstr "sellise nimega kaust on juba olemas."
-
-msgid "New Folder"
-msgstr "Uus kaust"
-
-msgid "Enter the folder name: "
-msgstr "Sisesta kausta nimi: "
-
-#| msgid "Location"
-msgid "Open Location"
-msgstr "Asukoha avamine"
-
-msgid "_File"
-msgstr "_Fail"
-
-msgid "_Folder"
-msgstr "_Kaust"
-
-msgid "_Edit"
-msgstr "_Redigeeri"
-
-msgid "Show/_Hide"
-msgstr "Näita/_Peida"
-
-msgid "S_ort Images"
-msgstr "S_orteeri pilte"
-
-msgid "_Zoom"
-msgstr "_Suurendus"
-
-msgid "_Go"
-msgstr "_Liikumine"
-
-msgid "_Image"
-msgstr "_Pilt"
-
-msgid "_Bookmarks"
-msgstr "_Järjehoidjad"
-
-msgid "_Tools"
-msgstr "_Tööriistad"
-
-msgid "Set Image as _Wallpaper"
-msgstr "Määra töölaua _taustaks"
-
-msgid "_Help"
-msgstr "_Abi"
-
-msgid "New _Window"
-msgstr "Uus _Aken"
-
-msgid "Create a new window"
-msgstr "Uue akna loomine"
-
-#| msgid "Open the selecte image in a new window"
-msgid "Open the selected image in a new window"
-msgstr "Valitud pildi avamine uues aknas"
-
-msgid "View image properties"
-msgstr "Vaata pildi omadusi"
-
-msgid "_Import Photos..."
-msgstr "_Fotode importimine..."
-
-msgid "Import photos from a digital camera"
-msgstr "Digitaalkaametast fotode sissetõmbamine"
-
-#| msgid "_Write To CD"
-msgid "_Write To CD..."
-msgstr "Kirjuta _CD-le"
-
-msgid "Write selection to CD"
-msgstr "Kirjuta valik CD-le"
-
-msgid "_Rename..."
-msgstr "_Nimeta ümber..."
-
-msgid "Rename this image"
-msgstr "Nimeta see pilt ümber"
-
-msgid "Move this image to the Trash"
-msgstr "Viska see pilt prügikasti"
-
-msgid "_Copy..."
-msgstr "_Kopeeri..."
-
-msgid "Copy this image to another location"
-msgstr "Kopeeri see pilt teise asukohta"
-
-msgid "_Move..."
-msgstr "_Teisalda..."
-
-msgid "Move this image to another location"
-msgstr "Teisalda see pilt teise asukohta"
-
-#| msgid "Rename selected image"
-msgid "Rename selected images"
-msgstr "Valitud piltide ümbernimetamine"
-
-msgid "D_uplicate"
-msgstr "D_ubleeri"
-
-#| msgid "Duplicate selected image"
-msgid "Duplicate selected images"
-msgstr "Valitud piltide dubleerimine"
-
-msgid "Move the selected images to the Trash"
-msgstr "Viska valitud pildid prügikasti"
-
-msgid "Copy selected images to another location"
-msgstr "Kopeeri valitud pildid teise asukohta"
-
-msgid "Move selected images to another location"
-msgstr "Teisalda valitud pildid teise asukohta"
-
-msgid "_Select All"
-msgstr "_Vali kõik"
-
-msgid "Select all images"
-msgstr "Vali kõik pildid"
+#| msgid "Could not create the library \"%s\": %s"
+msgid "Could not create the library"
+msgstr "Albumikogu loomine nurjus"
+
+#| msgid "Could not rename the catalog \"%s\": %s"
+msgid "Could not remove the catalog"
+msgstr "Pildialbumi eemaldamine nurjus"
+
+#| msgid "_Add to Catalog..."
+msgid "_Add to Catalog"
+msgstr "_Lisa pildialbumisse"
+
+#| msgid "Current _Folder"
+msgid "Open _Folder"
+msgstr "Ava _kataloog"
+
+#| msgid "Go to the folder that contains the selected image"
+msgid "Go to the folder that contains the selected file"
+msgstr "Valitud faili sisaldava kataloogi avamine"
+
+msgid "Other..."
+msgstr "Muu..."
+
+#, fuzzy
+#| msgid "C_hoose from the catalog"
+msgid "Choose another catalog"
+msgstr "_Kataloogist valimine"
 
 msgid "_Add to Catalog..."
 msgstr "_Lisa kataloog..."
@@ -2147,432 +501,228 @@ msgstr "_Eemalda kataloogist"
 msgid "Remove selected images from the catalog"
 msgstr "Eemalda valitud pildid kataloogist"
 
-msgid "Open"
-msgstr "Ava"
+#| msgid "Create a new catalog"
+msgid "Create _Catalog"
+msgstr "Uus _Pildialbum"
 
-#| msgid "Rename selected catalog"
-msgid "Open the selected catalog"
-msgstr "Valitud kataloogi avamine"
+#| msgid "New _Library"
+msgid "Create _Library"
+msgstr "Uus _albumikogu"
 
-msgid "Open in New Window"
-msgstr "Ava uues aknas"
+#| msgid "Rename"
+msgid "Rena_me"
+msgstr "_Nimeta ümber"
 
-#| msgid "Open the selecte image in a new window"
-msgid "Open the selected catalog in a new window"
-msgstr "Valitud kataloogi avamine uues aknas"
+msgid "Command Line"
+msgstr "Käsurida"
 
-msgid "Rename selected catalog"
-msgstr "Nimeta valitud kataloog ümber"
+msgid "(Empty)"
+msgstr "(Tühi)"
 
-msgid "Rem_ove"
-msgstr "_Eemalda"
+#| msgid "%s Properties"
+msgid "Catalog Properties"
+msgstr "Pildialbumi omadused"
 
-msgid "Remove selected catalog"
-msgstr "Eemalda valitud kataloog"
+msgid "Organize"
+msgstr "Organiseeri"
 
-msgid "Move selected catalog to another location"
-msgstr "Teisalda valitud kataloog teise asukohta"
+msgid "Automatically organize files by date"
+msgstr ""
 
-#| msgid "_Edit Search"
-msgid "_Edit Search..."
-msgstr "R_edigeeri otsingut..."
+msgid "Catalogs"
+msgstr "Kataloogid"
 
-msgid "Modify search criteria"
-msgstr "Muuda otsimise aluseid"
+msgid "Create file collections."
+msgstr ""
 
-msgid "Redo _Search"
-msgstr "_Otsi uuesti"
+msgid "gthumb development team"
+msgstr ""
 
-msgid "Redo the search"
-msgstr "Otsi uuesti"
+msgid "C_atalogs:"
+msgstr "K_ataloogid:"
 
-msgid "_New Catalog..."
-msgstr "Uus _kataloog..."
+msgid "New _Library"
+msgstr "Uus k_ogumik"
 
-msgid "Create a new catalog"
-msgstr "Uue kataloogi loomine"
+msgid "_New Catalog"
+msgstr "_Uus kataloog"
 
-msgid "New _Library..."
-msgstr "Uus _kogumik..."
+msgid "_View the destination"
+msgstr "_Vaata sihtkataloogi"
 
-msgid "Create a new catalog library"
-msgstr "Uue kogumiku loomine"
+msgid "gtk-add"
+msgstr "gtk-add"
 
-msgid "Rename current catalog"
-msgstr "Nimeta aktiivne kataloog ümber"
+msgid "gtk-cancel"
+msgstr "gtk-cancel"
 
-msgid "Remove current catalog"
-msgstr "Eemalda aktiivne kataloog"
+#| msgid "Ca_talog"
+msgid "Catalog"
+msgstr "Pildialbum"
 
-msgid "Move current catalog to another location"
-msgstr "Teisalda aktiivne kataloog teise asukohta"
+#| msgid "Proper_ties"
+msgid "Properties"
+msgstr "Omadused"
 
-msgid "Open the selected folder"
-msgstr "Ava valitud kaust"
+msgid "_Date:"
+msgstr "_Kuupäev:"
 
-msgid "Open the selected folder in a new window"
-msgstr "Ava valitud kaust uues aknas"
+#| msgid "Name"
+msgid "_Name:"
+msgstr "_Nimi:"
 
-msgid "Open with the _File Manager"
-msgstr "Ava _failihalduris"
+#| msgid "Style Preview"
+msgid "Catalog _Preview:"
+msgstr "Pildialbumi _eelvaade"
 
-msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Ava valitud kaust failihaldur Nautilus'ega"
+msgid "Organization:"
+msgstr ""
 
-msgid "Rename selected folder"
-msgstr "Nimeta valitud kaust ümber"
+msgid "Organize Files"
+msgstr ""
 
-msgid "Move the selected folder to the Trash"
-msgstr "Viska valitud kaust prügikasti"
+msgid "Organizing files"
+msgstr ""
 
-msgid "Copy selected folder"
-msgstr "Kopeeri valitud kaust"
+#| msgid "_Select All"
+msgid "Select All"
+msgstr "Vali kõik"
 
-msgid "Move selected folder"
-msgstr "Teisalda valitud kaust"
+#| msgid "Select a font"
+msgid "Select None"
+msgstr "Valiku tühistamine"
 
-#| msgid "Ca_tegories"
-msgid "Ca_tegories..."
-msgstr "Ka_tegooriad..."
+msgid "Files will be organized in catalogs. No file will be moved on disk."
+msgstr ""
 
-msgid "Assign categories to the selected folder"
-msgstr "Omista valitud kaustale kategooriad"
+msgid "Ignore catalogs with a single file"
+msgstr ""
 
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Ava aktiivne kasut failihaldur Nautilus'ega"
+msgid "Put single files in the catalog:"
+msgstr ""
 
-msgid "Rename current folder"
-msgstr "Nimeta aktiivne kaust ümber"
-
-msgid "Move the current folder to the Trash"
-msgstr "Viska aktiivne kaust prügikasti"
-
-msgid "Copy current folder"
-msgstr "Kopeeri aktiivne kaust"
-
-msgid "Move current folder"
-msgstr "Teisalda aktiivne kaust"
-
-msgid "Assign categories to the current folder"
-msgstr "Omista kategooriad aktiivsele kaustale"
-
-msgid "_New Folder..."
-msgstr "_Uus kaust..."
-
-msgid "Create a new folder"
-msgstr "Loo uus kaust"
-
-msgid "View next image"
-msgstr "Vaata järgmist pilti"
-
-msgid "View previous image"
-msgstr "Vaata eelmist pilti"
-
-msgid "Go to the previous visited location"
-msgstr "Mine eelnevalt külastatud asukohta"
-
-msgid "Go to the next visited location"
-msgstr "Mine järgnevalt külastatud asukohta"
-
-msgid "Go up one level"
-msgstr "Mine ühe taseme võrra üles"
-
-msgid "_Reload"
-msgstr "_Lae uuesti"
-
-msgid "Reload the current location"
-msgstr "Loe praegune asukoht uuesti sisse"
-
-msgid "Stop loading current location"
-msgstr "Peata praeguse asukoha sisselugemine"
-
-msgid "Go to the home folder"
-msgstr "Mine kodukausta"
-
-msgid "_Go to the Image Folder"
-msgstr "_Mine pildikausta"
-
-msgid "Go to the folder that contains the selected image"
-msgstr "Mine kausta kus valitud pilt asub"
-
-msgid "_Delete History"
-msgstr "_Kustuta ajalugu"
-
-msgid "Delete the list of visited locations"
-msgstr "Kustuta külastatud asukohtade nimekiri"
-
-msgid "_Location..."
-msgstr "_Asukoht..."
-
-msgid "Specify a location to visit"
-msgstr "Sisesta asukoht, mida tahad külastada"
-
-msgid "_Add Bookmark"
-msgstr "_Lisa järrjehoidja"
-
-msgid "Add current location to bookmarks"
-msgstr "Lisa aktiivne asukoht järjehoidjatesse"
-
-#| msgid "_Edit Bookmarks"
-msgid "_Edit Bookmarks..."
-msgstr "_Redigeeri järjehoidjaid..."
-
-msgid "Edit bookmarks"
-msgstr "Redigeeri järjehoidjaid"
-
-msgid "_Slide Show"
-msgstr "_Slaidiesitus"
-
-msgid "View as a slide show"
-msgstr "Vaata slaidiesitusena"
-
-#| msgid "New _Search..."
-msgid "_Search..."
-msgstr "_Otsi..."
-
-#| msgid "Create _Index Image"
-msgid "Create _Index Image..."
-msgstr "Loo _indekspilt..."
-
-#| msgid "Create _Web Album"
-msgid "Create _Web Album..."
-msgstr "Loo _veebialbum..."
-
-#| msgid "Convert F_ormat"
-msgid "Convert F_ormat..."
-msgstr "Teisenda _formaati..."
-
-#| msgid "Fi_nd Duplicates..."
-msgid "Search for _Duplicates..."
-msgstr "Otsi _duplikaate..."
-
-#| msgid "gThumb Preferences"
-msgid "_Preferences..."
-msgstr "Eelistuse_d..."
-
-msgid "Edit various preferences"
-msgstr "Redigeeri erinevaid seadeid"
-
-#| msgid "Save Image"
-msgid "Scale Images..."
-msgstr "Vii pildid mõõtu..."
-
-msgid "_Toolbar"
-msgstr "_Tööriistariba"
-
-msgid "View or hide the toolbar of this window"
-msgstr "Näita või peida selle akna tööriistariba"
-
-msgid "_Statusbar"
-msgstr "_Olekuriba"
-
-msgid "View or hide the statusbar of this window"
-msgstr "Näita või peoda selle akna olekuriba"
-
-#| msgid "_File"
-msgid "_Filter"
-msgstr "_Filter"
-
-#| msgid "View or hide the toolbar of this window"
-msgid "View or hide the filterbar of this window"
-msgstr "Filtririba näitamine või peitmine aktiivses aknas"
-
-msgid "View thumbnails"
-msgstr "Vaata pisipilte"
-
-msgid "_Image Preview"
-msgstr "_Pildi eelvaatlus"
-
-msgid "View the image"
-msgstr "Vaata pilti"
-
-#| msgid "Show/_Hide"
-msgid "Show _Hidden Files"
-msgstr "Kuva _peidetud failid"
-
-msgid "Show hidden files and folders"
-msgstr "Peidetud failide ja kaustade näitamine"
-
-msgid "_Reversed Order"
-msgstr "_Vastupidises järjekorras"
-
-msgid "Reverse images order"
-msgstr "Muuda piltide järjekorda"
-
-msgid "by _Name"
-msgstr "_nime järgi"
-
-msgid "Sort images by name"
-msgstr "Piltide sorteerimine nime järgi"
-
-msgid "by _Path"
-msgstr "_asukoha järgi"
-
-msgid "Sort images by path"
-msgstr "Piltide sorteerimine asukoha järgi"
-
-msgid "by _Size"
-msgstr "_suuruse järgi"
-
-msgid "Sort images by file size"
-msgstr "Piltide sorteerimine suuruse järgi"
-
-#| msgid "by Modification date"
-msgid "by Modification _Time"
-msgstr "_muutmisaja järgi"
-
-#| msgid "Sort images by modification time"
-msgid "Sort images by file modification time"
-msgstr "Piltide sorteerimine muutmisaja järgi"
-
-#| msgid "by _Time"
-msgid "by _Exif Time"
-msgstr "_EXIF Time järgi"
-
-#| msgid "Sort images by name"
-msgid "Sort images by Exif DateTime tag"
-msgstr "Piltide sorteerimine EXIF DateTime järgi"
-
-#| msgid "Comment"
-msgid "by _Comment"
-msgstr "_kommentaari järgi"
-
-#| msgid "Sort images by name"
-msgid "Sort images by comment"
-msgstr "Piltide sorteerimine kommentaari järgi"
-
-msgid "_Manual Order"
-msgstr "_käsitsi"
-
-#| msgid "Sort images by name"
-msgid "Sort images manually"
-msgstr "Piltide sorteerimine käsitsi"
-
-#| msgid "View as a slide show"
-msgid "View As Slides"
-msgstr "Vaata slaididena"
-
-msgid "View As List"
-msgstr "Vaata nimekirjana"
-
-msgid "_Folders"
-msgstr "_Kaustad"
-
-msgid "View the folders"
-msgstr "Vaata kaustu"
-
-msgid "_Catalogs"
-msgstr "_Kataloogid"
-
-msgid "View the catalogs"
-msgstr "Vaata katalooge"
-
-msgid "[Press 'c' to add a comment]"
-msgstr "[Vajuta 'c' kommentaari lisamiseks]"
-
-msgid "[modified]"
-msgstr "[muudetud]"
-
-msgid "gThumb"
-msgstr "gThumb"
+#, fuzzy
+#| msgid "Simple"
+msgid "Singles"
+msgstr "Lihtne"
+
+msgid "_Group files by:"
+msgstr ""
+
+msgid "_Include sub-folders"
+msgstr "_Ka alamkaustadest"
+
+msgid "appointment-soon"
+msgstr ""
+
+msgid "camera-photo"
+msgstr ""
+
+msgid "date photo was taken"
+msgstr ""
+
+#, fuzzy
+#| msgid "by file modified time"
+msgid "file modified date"
+msgstr "faili muutmisaja järgi"
+
+#, fuzzy
+#| msgid "Could not delete the images:"
+msgid "Could not add the files to the catalog"
+msgstr "Ei saanud kustutada pilte:"
+
+#, fuzzy
+#| msgid "Could not rename the catalog \"%s\": %s"
+msgid "Could not save the catalog"
+msgstr "Kataloogi \"%s\" ümbernimetamine nurjus: %s"
+
+#, fuzzy
+#| msgid "Could not rename the catalog \"%s\": %s"
+msgid "Could not load the catalog"
+msgstr "Kataloogi \"%s\" ümbernimetamine nurjus: %s"
+
+#, fuzzy, c-format
+#| msgid "Copying file %d of %d"
+msgid "Copying files to '%s'"
+msgstr "Kopeerin faili %d %d-st"
 
 #, c-format
-msgid "1 image (%s)"
-msgstr "1 pilt (%s)"
+msgid "Operation completed. Catalogs: %d. Images: %d."
+msgstr ""
 
-#, c-format
-msgid "%d images (%s)"
-msgstr "%d pilti (%s)"
+msgid "Change _Date..."
+msgstr "Muuda _kuupäeva..."
 
-#, c-format
-msgid "1 selected (%s)"
-msgstr "1 valitud (%s)"
+msgid "Change images last modified date"
+msgstr "Muuda pildi viimase muutmise kuupäeva"
 
-#, c-format
-msgid "%d selected (%s)"
-msgstr "%d valitud (%s)"
+#| msgid "Change Date"
+msgid "Change date"
+msgstr "Kuupäeva muutmine"
 
-msgid "The current image has been modified, do you want to save it?"
-msgstr "Aktiivset pilti on muudetud, kas soovid muudatusi salvestada?"
+#| msgid "Change images last modified date"
+msgid "Change the files date"
+msgstr "Failide kuupäeva muutmine."
 
-msgid "Do Not Save"
-msgstr "Ära salvesta"
+msgid "A_djust by"
+msgstr ""
 
-msgid "Dragged Images"
-msgstr "Lohistatud pildid"
+msgid "Change Date"
+msgstr "Muuda kuupäeva"
 
-msgid "Rotate images without loss of quality"
-msgstr "Pööra pilte kvaliteedis kaotamata"
+#, fuzzy
+#| msgid "<b>Change the following values:</b>"
+msgid "Change the following values:"
+msgstr "<b>Muudetavad väärtused:</b>"
 
-msgid "Getting folder listing..."
-msgstr "Kausta sisu hankimine..."
+#, fuzzy
+#| msgid "Change Date"
+msgid "Change to:"
+msgstr "Muuda kuupäeva"
 
-#, c-format
-msgid "Cannot load folder \"%s\": %s\n"
-msgstr "Kausta \"%s\" laadimine nurjus: %s\n"
+msgid "Co_mment date"
+msgstr "_Kommentaari kuupäev"
 
-msgid "Close"
-msgstr "Sulge"
+msgid "Date p_hoto was taken"
+msgstr ""
 
-msgid "Image comment"
-msgstr "Pildi kommentaar"
+#, fuzzy
+#| msgid "by Exif DateTime tag"
+msgid "Exif DateTimeOriginal tag"
+msgstr "EXIF DateTime järgi"
 
-msgid "Image data"
-msgstr "Pildi andmed"
+#, fuzzy
+#| msgid "Last modified date"
+msgid "File _modified date"
+msgstr "Viimati muutmise kuupäev"
 
-msgid "Image preview"
-msgstr "Pildi eelvaatlus"
+#, fuzzy
+#| msgid "Image c_reation date"
+msgid "File c_reation date"
+msgstr "Pildi _loomise kuupäev"
 
-msgid "The specified catalog does not exist."
-msgstr "Kirjeldatud kataloogi pole olemas."
+msgid "The _following date:"
+msgstr "_Järgnev kuupäev:"
 
-msgid "Wait please..."
-msgstr "Oota palun..."
+msgid "_Last modified date"
+msgstr "_Viimati muutmise kuupäev"
 
-msgid "Filesystem Data"
-msgstr "Failisüsteemi andmed"
+msgid "hours"
+msgstr "tundi"
 
-msgid "General Information"
-msgstr "Üldandmed"
+msgid "Add comments and tags to any file type."
+msgstr "Siltide ja kommentaaride lisamine kõikidele failidele."
 
-msgid "Picture-Taking Conditions"
-msgstr "Pildistamise tingimused"
+#| msgid "Co_mment date"
+msgid "Comments and tags"
+msgstr "Sildid ja kommentaarid"
 
-msgid "Maker Notes"
-msgstr "Valmistaja märked"
+#| msgid "_Preferences..."
+msgid "Preferences"
+msgstr "Eelistused"
 
-msgid "GPS Coordinates"
-msgstr "GPS-koordinaadid"
-
-#| msgid "Image type:"
-msgid "Image Structure"
-msgstr "Pildi struktuur"
-
-#| msgid "_Thumbnails"
-msgid "Embedded Thumbnail"
-msgstr "Põimitud pisipilt"
-
-msgid "Versions & Interoperability"
-msgstr "Versioonid & koostalitlusvõime"
-
-#| msgid "After"
-msgid "Other"
-msgstr "Muu"
-
-#| msgid "by _Path"
-msgid "Path"
-msgstr "Asukoht"
-
-#| msgid "Continue"
-msgid "contains"
-msgstr "sisaldab fraasi"
-
-msgid "starts with"
-msgstr "algab fraasiga"
-
-#| msgid "_Open With"
-msgid "ends with"
-msgstr "lõpeb fraasiga"
+msgid "_Synchronize with the embedded metadata"
+msgstr ""
 
 msgid "is"
 msgstr "on"
@@ -2580,253 +730,926 @@ msgstr "on"
 msgid "is not"
 msgstr "ei ole"
 
-msgid "does not contain"
-msgstr "ei sisalda fraasi"
+#, c-format
+msgid "The test definition is incomplete"
+msgstr ""
 
-#| msgid "Equal to"
-msgid "is equal to"
-msgstr "on"
+msgid "Comment"
+msgstr "Kommentaar"
 
-msgid "is lower than"
-msgstr "on väiksem kui"
+#| msgid "_Destination:"
+msgid "Description"
+msgstr "Kirjeldus"
 
-msgid "is greater than"
-msgstr "on suurem kui"
-
-#| msgid "Before"
-msgid "is before"
-msgstr "on enne"
-
-#| msgid "After"
-msgid "is after"
-msgstr "on pärast"
-
-msgid "KB"
-msgstr "KB"
-
-msgid "MB"
-msgstr "MB"
-
-msgid "Filename"
-msgstr "Failinimi"
-
-#| msgid "_Place:"
 msgid "Place"
 msgstr "Asukoht"
 
-#| msgid "Categories"
-msgid "Category"
-msgstr "Kategooria"
+msgid "Tag"
+msgstr "Silt"
 
-#| msgid "Text only"
-msgid "Text contains"
-msgstr "Sisaldab teksti"
+#| msgid "Convert F_ormat..."
+msgid "Convert Format..."
+msgstr "Teisenda formaati..."
 
-msgid "All"
-msgstr "Kõiki"
+#| msgid "Convert Format"
+msgid "Convert image format"
+msgstr "Pildiformaadi teisendamine"
 
-#. view label
-#| msgid "_Rows:"
-msgid "S_how:"
-msgstr "_Näidatakse:"
+#| msgid "Convert Format"
+msgid "Convert format"
+msgstr "Pildiformaadi teisendamine"
 
-#| msgid "<b>Footer</b>"
-msgid "<b>_Folder</b>"
-msgstr "<b>_Kaust</b>"
+msgid "Save images in a different format"
+msgstr "Piltide salvestamine teise formaati."
 
-msgid "_Browse..."
-msgstr "_Sirvi..."
+msgid "Choose destination folder"
+msgstr "Sihtkausta valimine"
 
-#| msgid "<b>Header and footer</b>"
-msgid "<b>_Recent folders:</b>"
-msgstr "<b>_Viimati kasutatud kaustad:</b>"
+msgid "Convert Format"
+msgstr "Formaadi teisendamine"
 
-msgid "Proper_ties"
-msgstr "_Omadused"
+#| msgid "_Destination:"
+msgid "Destination"
+msgstr "Sihtkoht:"
 
-msgid "Other..."
-msgstr "Muu..."
+#| msgid "New Image:"
+msgid "New format"
+msgstr "Uus formaat"
 
-msgid "_Transform"
-msgstr "_Teisenda"
+#| msgid "Converting image: %s"
+msgid "Converting images"
+msgstr "Piltide teisendamine"
 
-msgid "Auto"
-msgstr "Automaatne"
+#| msgid "Set the image as desktop background (tiled)"
+msgid "Could not show the desktop background properties"
+msgstr "Töölaua tausta omadusi ei saa näidata"
 
-#| msgid "New _Window"
-msgid "_Single Window"
-msgstr "Ük_sik aken"
+#| msgid "Set the image as desktop background (tiled)"
+msgid "Set as Desktop Background"
+msgstr "Määra töölaua taustaks"
 
-msgid "Reuse this window to view other images"
-msgstr "Kasutada kõikide piltide vaatamiseks seda ühte akent"
+#| msgid "Set the image as desktop background (tiled)"
+msgid "Set the image as desktop background"
+msgstr "Pildi määramine töölaua taustapildiks"
 
-msgid "_None"
-msgstr "_Puudub"
+msgid "Desktop background"
+msgstr "Töölaua taust"
 
-msgid "_Open With"
-msgstr "Ava _rakendusega..."
-
-msgid "Open selected images with an application"
-msgstr "Valitud piltide avamine rakendusega"
-
-msgid "An image viewer and browser for GNOME."
-msgstr "GNOME piltide vaataja ja sirvija."
-
-msgid "translator_credits"
+msgid "Metadata"
 msgstr ""
-"Olle Niit, 2005-2007\n"
-"Rene Pärts, 2010"
 
-#| msgid "Reduce the number of colors"
-msgid "Reduce Colors"
+msgid "Edit file metadata"
+msgstr ""
+
+#, fuzzy
+#| msgid "_Destination:"
+msgid "D_escription:"
+msgstr "_Sihtkoht:"
+
+msgid "_Place:"
+msgstr "_Koht:"
+
+#, fuzzy
+#| msgid "_Right:"
+msgid "_Rating:"
+msgstr "_Parem:"
+
+#| msgid "C_atalogs:"
+msgid "_Tags:"
+msgstr "_Sildid:"
+
+#, fuzzy
+#| msgid "_Tiled"
+msgid "_Title:"
+msgstr "_Paanidena"
+
+#, fuzzy
+#| msgid "Could not move the image:"
+msgid "Could not save the file metadata"
+msgstr "Ei suutnud teisaldada pilti:"
+
+msgid "Allow to edit files metadata."
+msgstr "Failide metaandmete muutmine."
+
+msgid "Edit metadata"
+msgstr "Metaandmete muutmine"
+
+msgid "No date"
+msgstr "Kuupäev puudub"
+
+msgid "The following date"
+msgstr "Määra kuupäev käsitsi"
+
+msgid "Current date"
+msgstr "Tänane kuupäev"
+
+msgid "Date photo was taken"
+msgstr ""
+
+msgid "Last modified date"
+msgstr "Viimati muutmise kuupäev"
+
+#, fuzzy
+#| msgid "Image creation date"
+msgid "File creation date"
+msgstr "Pildi loomise kuupäev"
+
+msgid "Do not modify"
+msgstr "Ei muudeta"
+
+#. Translators: the %s in the string is the file name
+#, c-format
+msgid "%s Metadata"
+msgstr ""
+
+#, fuzzy
+#| msgid "Simple"
+msgid "Example"
+msgstr "Lihtne"
+
+msgid "Extension example."
+msgstr ""
+
+msgid "Byline _Title:"
+msgstr ""
+
+#, fuzzy
+#| msgid "_Right:"
+msgid "C_opyright:"
+msgstr "_Parem:"
+
+#, fuzzy
+#| msgid "Co_mment:"
+msgid "Co_untry:"
+msgstr "Ko_mmentaar:"
+
+#, fuzzy
+#| msgid "_Height:"
+msgid "Cr_edit:"
+msgstr "_Kõrgus:"
+
+#, fuzzy
+#| msgid "_Brightness:"
+msgid "_Byline:"
+msgstr "_Heledus:"
+
+#, fuzzy
+#| msgid "_Quality:"
+msgid "_City:"
+msgstr "_Kvaliteet:"
+
+#, fuzzy
+#| msgid "_Model:"
+msgid "_Code:"
+msgstr "_Mudel:"
+
+msgid "_Destination:"
+msgstr "_Sihtkoht:"
+
+msgid "_Language:"
+msgstr ""
+
+msgid "_Object Name:"
+msgstr ""
+
+#| msgid "_Sort:"
+msgid "_Source:"
+msgstr "_Allikas:"
+
+msgid "_Urgency:"
+msgstr ""
+
+msgid "EXIF, IPTC, XMP support"
+msgstr ""
+
+msgid "Read and write exif, iptc and xmp metadata."
+msgstr ""
+
+#, fuzzy
+#| msgid "General"
+msgid "Exif General"
+msgstr "Üldine"
+
+#, fuzzy
+#| msgid "Picture-Taking Conditions"
+msgid "Exif Conditions"
+msgstr "Pildistamise tingimused"
+
+#, fuzzy
+#| msgid "Image Structure"
+msgid "Exif Structure"
+msgstr "Pildi struktuur"
+
+#, fuzzy
+#| msgid "_Thumbnails"
+msgid "Exif Thumbnail"
+msgstr "_Pisipildid"
+
+msgid "Exif GPS"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maker Notes"
+msgid "Exif Maker Notes"
+msgstr "Valmistaja märked"
+
+#, fuzzy
+#| msgid "Dimensions"
+msgid "Exif Versions"
+msgstr "Suurus"
+
+#, fuzzy
+#| msgid "Other"
+msgid "Exif Other"
+msgstr "Muu"
+
+msgid "IPTC"
+msgstr ""
+
+msgid "XMP Embedded"
+msgstr ""
+
+msgid "XMP Attached"
+msgstr ""
+
+msgid "Enter the folder name: "
+msgstr "Sisesta kausta nimi: "
+
+#, fuzzy
+#| msgid "Could not create the folder \"%s\": %s"
+msgid "Could not create the folder"
+msgstr "Kausta \"%s\" loomine nurjus: %s"
+
+#, fuzzy
+#| msgid "Could not move the items:"
+msgid "Could not move the files"
+msgstr "Ei suutnud teisaldada elemente:"
+
+msgid ""
+"Files cannot be moved to the current location, as alternative you can choose "
+"to copy them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not delete the images:"
+msgid "Could not delete the files"
+msgstr "Ei saanud kustutada pilte:"
+
+#, fuzzy
+#| msgid ""
+#| "The images cannot be moved to the Trash. Do you want to delete them "
+#| "permanently?"
+msgid ""
+"The files cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr ""
+"Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult "
+"kustutada?"
+
+#, fuzzy
+#| msgid "Could not move the items:"
+msgid "Could not move the files to the Trash"
+msgstr "Ei suutnud teisaldada elemente:"
+
+#, c-format
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr ""
+
+#, c-format
+msgid "Are you sure you want to permanently delete the %'d selected file?"
+msgid_plural ""
+"Are you sure you want to permanently delete the %'d selected files?"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "If you delete a file, it will be permanently lost."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not move the image:"
+msgid "Could not open the location"
+msgstr "Ei suutnud teisaldada pilti:"
+
+#, fuzzy
+#| msgid ""
+#| "The images cannot be moved to the Trash. Do you want to delete them "
+#| "permanently?"
+msgid ""
+"The folder is not empty, do you want to delete the folder and its content "
+"permanently?"
+msgstr ""
+"Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult "
+"kustutada?"
+
+#, fuzzy
+#| msgid "Could not delete the folder \"%s\": %s"
+msgid "Could not delete the folder"
+msgstr "Kausta \"%s\" kustutamine nurjus: %s"
+
+#, fuzzy
+#| msgid ""
+#| "The images cannot be moved to the Trash. Do you want to delete them "
+#| "permanently?"
+msgid ""
+"The folder cannot be moved to the Trash. Do you want to delete it "
+"permanently?"
+msgstr ""
+"Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult "
+"kustutada?"
+
+#, fuzzy
+#| msgid "Could not move the folder \"%s\": %s"
+msgid "Could not move the folder to the Trash"
+msgstr "Kausta \"%s\" teisaldamine nurjus: %s"
+
+#| msgid "Current _Folder"
+msgid "Create _Folder"
+msgstr "Uus _kataloog"
+
+#| msgid "Create a new folder"
+msgid "Create a new empty folder inside this folder"
+msgstr "Uue kataloogi loomine aktiivsesse kataloogi"
+
+msgid "D_uplicate"
+msgstr "D_ubleeri"
+
+#, fuzzy
+#| msgid "Duplicate selected images"
+msgid "Duplicate the selected files"
+msgstr "Valitud piltide dubleerimine"
+
+#, fuzzy
+#| msgid "Move to _Trash"
+msgid "Mo_ve to Trash"
+msgstr "Viska _prügikasti"
+
+#, fuzzy
+#| msgid "Move the selected images to the Trash"
+msgid "Move the selected files to the Trash"
+msgstr "Viska valitud pildid prügikasti"
+
+#| msgid "_Select"
+msgid "_Delete"
+msgstr "_Kustuta"
+
+#, fuzzy
+#| msgid "Open the selected folder"
+msgid "Delete the selected files"
+msgstr "Ava valitud kaust"
+
+msgid "Open with the _File Manager"
+msgstr "Ava _failihalduris"
+
+msgid "_Rename"
+msgstr "_Nimeta ümber"
+
+#, fuzzy
+#| msgid "Current _Folder"
+msgid "_Paste Into Folder"
+msgstr "_Aktiivne kaust"
+
+#, fuzzy
+#| msgid "Could not import photos"
+msgid "Could not perform the operation"
+msgstr "Ei suutnud fotosid importida"
+
+#| msgid "File _name"
+msgid "File manager"
+msgstr "Failihaldur"
+
+#| msgid "View image properties"
+msgid "File manager operations."
+msgstr "Failihalduri tegevused"
+
+#, fuzzy
+#| msgid "Deleting file %ld of %ld"
+msgid "Deleting files"
+msgstr "Kustutan faili %ld %ld-st"
+
+#, fuzzy
+#| msgid "<b>Color levels</b>"
+msgid "Color Levels"
+msgstr "<b>Värvitasemed</b>"
+
+msgid "Con_trast:"
+msgstr "Kon_trastsus:"
+
+msgid "Cyan-_Red:"
+msgstr "_Tsüaan-Punane:"
+
+msgid "_Brightness:"
+msgstr "_Heledus:"
+
+msgid "_Gamma:"
+msgstr ""
+
+msgid "_Magenta-Green:"
+msgstr "_Magenta-Roheline:"
+
+msgid "_Reset"
+msgstr "_Reset"
+
+msgid "_Saturation:"
+msgstr "_Küllastus:"
+
+msgid "_Yellow-Blue:"
+msgstr "_Kollane-Sinine"
+
+#, fuzzy
+#| msgid "<b>Aspect ratio</b>"
+msgid "Aspect ratio"
+msgstr "<b>Proportsioon</b>"
+
+msgid "I_nvert aspect ratio"
+msgstr "Proportsioon vastupidine_"
+
+#, fuzzy
+#| msgid "_Select"
+msgid "Selection"
+msgstr "_Vali"
+
+msgid "_Crop"
+msgstr "_Kärbi"
+
+msgid "_Height:"
+msgstr "_Kõrgus:"
+
+msgid "_Width:"
+msgstr "_Laius:"
+
+msgid "_X:"
+msgstr "_X:"
+
+msgid "_Y:"
+msgstr "_Y:"
+
+msgid "Basic tools to modify images."
+msgstr "Põhitööriistad piltide muutmiseks"
+
+#| msgid "Images"
+msgid "Image tools"
+msgstr "Pildi tööriistad"
+
+msgid "Applying changes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reduce Colors"
+msgid "Adjust Colors..."
 msgstr "Taanda värve"
 
-msgid "Close this window"
-msgstr "Sulge aken"
+#, fuzzy
+#| msgid "Reduce Colors"
+msgid "Adjust Colors"
+msgstr "Taanda värve"
 
-#| msgid "_Open With"
-msgid "_Open With..."
-msgstr "Ava _rakendusega..."
+msgid "Change brightness, contrast, saturation and gamma level of the image"
+msgstr ""
 
-msgid "Save current image"
-msgstr "Salvesta aktiivne pilt"
+msgid "Square"
+msgstr "Ruut"
 
-msgid "Save _As..."
-msgstr "Salvesta _kui..."
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (Pilt)"
 
-msgid "Revert to saved image"
-msgstr "Taastamine salvestatud pildifailist"
+#, c-format
+msgid "%d x %d (Screen)"
+msgstr "%d x %d (Ekraan)"
 
-#| msgid "Print"
-msgid "Print..."
-msgstr "Prindi..."
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 x 3 (Raamat, DVD)"
 
-msgid "Print the current image"
-msgstr "Prindi aktiivne pilt"
+msgid "4 x 6 (Postcard)"
+msgstr "4 x 6 (Postkaart)"
 
-msgid "Open this image with an application"
-msgstr "Ava see pilt programmiga"
+msgid "5 x 7"
+msgstr "5 x 7"
 
-#| msgid "Comm_ent"
-msgid "Comm_ent..."
-msgstr "K_ommenteeri..."
+msgid "8 x 10"
+msgstr "8 x 10"
 
-msgid "Add a comment to selected images"
-msgstr "Lisa valitud piltidele kommentaarid"
+msgid "Custom"
+msgstr "Kohandatud"
 
-msgid "Rem_ove Comment"
-msgstr "_Eemalda kommentaar"
+#| msgid "_Crop..."
+msgid "Crop..."
+msgstr "Kärbi..."
 
-msgid "Remove comments of selected images"
-msgstr "Eemalda kommentaarid valtud piltidelt"
+msgid "Crop"
+msgstr "Kärpimine"
 
-msgid "Assign categories to selected images"
-msgstr "Omista valitud piltidele kategooriad"
-
-msgid "Ca_tegories"
-msgstr "Ka_tegooriad"
-
-msgid "Rotate Ri_ght"
-msgstr "Pööra _paremale"
-
-msgid "View the image rotated clockwise"
-msgstr "Vaata pilti päripäeva pööratult"
-
-msgid "Rotate _Left"
-msgstr "Pööra _vasakule"
-
-msgid "View the image rotated counter-clockwise"
-msgstr "Vaata pilti vastupäeva pööratult"
-
-msgid "_Flip"
-msgstr "Pööra ü_mber"
-
-msgid "View the image flipped"
-msgstr "Pildi vaatamine ümberpööratult"
-
-msgid "_Mirror"
-msgstr "_Peegelda"
-
-msgid "View the image mirrored"
-msgstr "Pildi vaatamine peegeldatuna"
-
-msgid "_Desaturate"
+#, fuzzy
+#| msgid "_Desaturate"
+msgid "Desaturating image"
 msgstr "_Mustvalgeks"
 
-msgid "View the image in black and white"
-msgstr "Pildi vaatamine mustvalgena"
+#, fuzzy
+#| msgid "_Desaturate"
+msgid "Desaturate"
+msgstr "_Mustvalgeks"
 
-msgid "_Negative"
-msgstr "_Negatiiv"
+msgid "White balance correction"
+msgstr ""
 
-msgid "View the image with negative colors"
-msgstr "Pildi vaatamine negatiivina"
+#, fuzzy
+#| msgid "Reduce Colors"
+msgid "Enhance Colors"
+msgstr "Taanda värve"
 
-msgid "_Enhance"
-msgstr "_Paranda"
+msgid "Automatic white balance correction"
+msgstr ""
 
-msgid "Automatically adjust the color levels"
-msgstr "Automaatne värvitasemete reguleerimine"
-
-msgid "_Equalize"
-msgstr "_Korrektuur"
-
-msgid "Automatically equalize the image histogram"
+#, fuzzy
+#| msgid "Automatically equalize the image histogram"
+msgid "Equalizing image histogram"
 msgstr "Automaatne pildi histogrammi korrektuur"
 
-#| msgid "_Posterize"
-msgid "_Posterize..."
-msgstr "_Posterda..."
+#, fuzzy
+#| msgid "_Equalize"
+msgid "Equalize"
+msgstr "_Korrektuur"
 
-msgid "Reduce the number of colors"
-msgstr "Värvide arvu vähendamine"
+#, fuzzy
+#| msgid "Automatically equalize the image histogram"
+msgid "Equalize image histogram"
+msgstr "Automaatne pildi histogrammi korrektuur"
 
-#| msgid "_Brightness-Contrast"
-msgid "_Brightness-Contrast..."
-msgstr "_Heledus-Kontrastsus..."
+#| msgid "_Flip"
+msgid "Flip"
+msgstr "Pööra ümber"
 
-msgid "Adjust brightness and contrast"
-msgstr "Heleduse ja kontrastsuse reguleerimine"
+#| msgid "_Mirror"
+msgid "Mirror"
+msgstr "Peegelda"
 
-#| msgid "_Hue-Saturation"
-msgid "_Hue-Saturation..."
-msgstr "_Värvitoon-Küllastus..."
+#| msgid "_Negative"
+msgid "Negative"
+msgstr "Negatiiv"
 
-msgid "Adjust hue and saturation"
-msgstr "Värvitooni ja küllastuse reguleerimine"
+msgid "Redo"
+msgstr "Uuesti"
 
-msgid "_Redeye Removal..."
-msgstr "_Punasilmsuse eemaldamine..."
+#| msgid "Rotate _Left"
+msgid "Rotate Left"
+msgstr "Pööra vasakule"
 
-msgid "Redeye Removal Tool"
-msgstr "Punasilmsuse eemaldamise tööriist"
+#| msgid "Rotate Ri_ght"
+msgid "Rotate Right"
+msgstr "Pööra paremale"
 
-#| msgid "_Color Balance"
-msgid "_Color Balance..."
-msgstr "_Värvitasakaal..."
+#| msgid "Save _As..."
+msgid "Save As"
+msgstr "Salvesta kui"
 
-msgid "Adjust color balance"
-msgstr "Värvitasakaalu reguleerimine"
+#| msgid "_Save"
+msgid "Save"
+msgstr "Salvesta"
 
-#| msgid "_Rename..."
-msgid "_Resize..."
-msgstr "Muuda _suurust..."
+msgid "Undo"
+msgstr "Unusta"
 
-msgid "Resize image"
-msgstr "Pildi mõõtmete muutmine"
+#, fuzzy
+#| msgid "Could not move the image:"
+msgid "Could not save the file"
+msgstr "Ei suutnud teisaldada pilti:"
 
-#| msgid "_Copy..."
-msgid "_Crop..."
-msgstr "_Kärbi..."
+#, fuzzy
+#| msgid "Could not import photos"
+msgid "Could not take a screenshot"
+msgstr "Ei suutnud fotosid importida"
 
-msgid "Crop image"
-msgstr "Kärbi pilti"
+msgid "Save Image"
+msgstr "Salvesta pilt"
 
-msgid "Black and White"
-msgstr "Must ja valge"
+#, fuzzy
+#| msgid "Screenshots"
+msgctxt "Filename"
+msgid "Screenshot"
+msgstr "Ekraanipildid"
 
-msgid "Web Palette"
-msgstr "Veebipalett"
+#. this is an empty time
+msgid "--:--"
+msgstr "--:--"
+
+#. this is the separator between current position and duration of a media file
+msgid "/"
+msgstr "/"
+
+msgid "Change volume level"
+msgstr ""
+
+#, fuzzy
+#| msgid "Footer"
+msgid "Faster"
+msgstr "Jalus"
+
+#, fuzzy
+#| msgid "Place"
+msgid "Play"
+msgstr "Asukoht"
+
+#, fuzzy
+#| msgid "Browser"
+msgid "Slower"
+msgstr "Sirvija"
+
+#, fuzzy
+#| msgid "_Theme:"
+msgid "Time:"
+msgstr "_Teema:"
+
+msgid "Toggle volume"
+msgstr ""
+
+#, fuzzy
+#| msgid "Choose startup folder"
+msgid "Choose a folder"
+msgstr "Vali käivitamisel avatav kaust"
+
+msgid "Audio/Video support"
+msgstr "Audio/video toetus"
+
+msgid "Play audio and video files."
+msgstr "Audio ja video failide esitamine."
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Ekraanipildid"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Take a screenshot"
+msgstr "Ekraanipildid"
+
+#, fuzzy
+#| msgid "Page"
+msgid "Pause"
+msgstr "Leht"
+
+#| msgid "Slide"
+msgid "Video"
+msgstr "Video"
+
+#| msgid "Auto"
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Artist"
+msgstr ""
+
+#| msgid "Web Album"
+msgid "Album"
+msgstr "Album"
+
+msgid "Bitrate"
+msgstr ""
+
+msgid "Encoder"
+msgstr ""
+
+#, fuzzy
+#| msgid "Close"
+msgid "Codec"
+msgstr "Sulge"
+
+#, fuzzy
+#| msgid "Frame _style:"
+msgid "Framerate"
+msgstr "Raami _stiil:"
+
+msgid "Width"
+msgstr "Laius"
+
+#, fuzzy
+#| msgid "Height:"
+msgid "Height"
+msgstr "Kõrgus:"
+
+msgid "Channels"
+msgstr ""
+
+#, fuzzy
+#| msgid "Scale Image"
+msgid "Sample rate"
+msgstr "Pildi mõõtuviimine"
+
+#, fuzzy
+#| msgid "Stop"
+msgid "Stereo"
+msgstr "Peata"
+
+msgid "Mono"
+msgstr ""
+
+#| msgid "Rename selected images"
+msgid "Print the selected images"
+msgstr "Valitud piltide printimine"
+
+msgid "0&#xB0;"
+msgstr "0&#xB0;"
+
+msgid "1"
+msgstr "1"
+
+msgid "16"
+msgstr "16"
+
+msgid "180&#xB0;"
+msgstr "180&#xB0;"
+
+msgid "2"
+msgstr "2"
+
+msgid "270&#xB0;"
+msgstr "270&#xB0;"
+
+#| msgid "2"
+msgid "32"
+msgstr "32"
+
+msgid "4"
+msgstr "4"
+
+msgid "8"
+msgstr "8"
+
+msgid "90&#xB0;"
+msgstr "90&#xB0;"
+
+#, fuzzy
+#| msgid "_Centered"
+msgid "Centered"
+msgstr "_Keskjoondatud"
+
+msgid "Image"
+msgstr "Pilt"
+
+msgid "Images per page:"
+msgstr "Pilte ühel lehel:"
+
+#, fuzzy
+#| msgid "_Left:"
+msgid "Left"
+msgstr "_Vasak:"
+
+#, fuzzy
+#| msgid "_Destination:"
+msgid "Position:"
+msgstr "_Sihtkoht:"
+
+#, fuzzy
+#| msgid "_Preview"
+msgid "Preview"
+msgstr "_Eelvaade"
+
+#, fuzzy
+#| msgid "Location"
+msgid "Rotation:"
+msgstr "Asukoht"
+
+#, fuzzy
+#| msgid "Select a font"
+msgid "Select Caption Font"
+msgstr "Vali font"
+
+#, fuzzy
+#| msgid "_Top:"
+msgid "Top"
+msgstr "Ü_lemine:"
+
+#, fuzzy
+#| msgid "_Unit:"
+msgid "Unit:"
+msgstr "Ü_hik:"
+
+msgid "_Font:"
+msgstr "_Font:"
+
+#, fuzzy
+#| msgid "Inches"
+msgid "inches"
+msgstr "Tolli"
+
+#, fuzzy
+#| msgid "Millimeters"
+msgid "millimeters"
+msgstr "Millimeetrit"
+
+msgid "pixels"
+msgstr "pikslit"
+
+#, c-format
+msgid "Page %d of %d"
+msgstr "Leht %d %d-st"
+
+#, fuzzy
+#| msgid "Could not import photos"
+msgid "Could not print"
+msgstr "Ei suutnud fotosid importida"
+
+msgid "Layout"
+msgstr "Paigutus"
+
+#. translators: %s is a filename
+#, fuzzy, c-format
+#| msgid "Loading images"
+msgid "Loading \"%s\""
+msgstr "Piltide laadimine"
+
+msgid "Loading images"
+msgstr "Piltide laadimine"
+
+msgid "Allow to print images choosing the page layout."
+msgstr "Piltide printimine ja lehe välimuse valimine"
+
+#| msgid "Image Caption"
+msgid "Image print"
+msgstr "Pildi printimine"
+
+#| msgid "Move the selected images to the Trash"
+msgid "Rotate the selected images 90° to the right"
+msgstr "Valitud pildi pööramine 90° paremale"
+
+#| msgid "Move the selected images to the Trash"
+msgid "Rotate the selected images 90° to the left"
+msgstr "Valitud pildi pööramine 90° vasakule"
+
+#| msgid "Image Caption"
+msgid "Image rotation"
+msgstr "Pildi pööramine"
+
+#| msgid "Rotate images without loss of quality"
+msgid "Rotate images without data loss."
+msgstr "Kadudeta piltide pööramine"
+
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr "Tõrge pildi teisendamisel: %s"
+
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+"See teisendus võib kaasa tuua pildi ühe või rohkema serva mõningase "
+"moonutuse, kuna pildi mõõtmed ei ole arvu 8 kordarvud.\n"
+"\n"
+"Moonutus on taastatav. Kui tulemus ei vasta ootustele, siis tuleb algse "
+"pildi saamiseks rakendada teisendus vastupidiselt.\n"
+"\n"
+"Mitteteisendatavad pikslid võib ka hüljata (või kärpida). Selline võimalus "
+"annab praktiliselt küll parima tulemuse, kuid tulemus pole enam täiesti "
+"kadudeta."
+
+msgid "_Trim"
+msgstr "_Kärbi"
+
+msgid "_Accept distortion"
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+#| "fit_width_if_larger."
+msgid ""
+"Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
+"fit-width, fit-width-if-larger."
+msgstr ""
+"Võimalikud väärtused: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+
+msgid "    "
+msgstr "    "
+
+#| msgid "After _loading an image:"
+msgid "After loading an image:"
+msgstr "Pärast pildi laadimist:"
+
+msgid "H_igh"
+msgstr "_Kõrge"
+
+msgid "Lo_w"
+msgstr "_Madal"
+
+#| msgid "Reset scrollbar positions after loading an image"
+msgid "Reset scrollbar positions"
+msgstr "Kerimisribade lähtestamine"
+
+msgid "Transparency _type:"
+msgstr "Läbipaistvuse _tüüp:"
+
+#| msgid "<b>Zoom quality</b>"
+msgid "Zoom quality"
+msgstr "Suurenduse kvaliteet"
 
 msgid "In"
 msgstr "Sisse"
@@ -2852,105 +1675,1379 @@ msgstr "Mahuta"
 msgid "Zoom to fit window"
 msgstr "Pildi mahutamine aknasse"
 
-#| msgid "Width:"
-msgid "Width"
-msgstr "Laius"
-
-#| msgid "Zoom to fit window"
 msgid "Zoom to fit width"
 msgstr "Mahuta laiuse järgi"
 
-msgid "Step A_nimation"
-msgstr "A_nimatsiooni samm"
+#, fuzzy
+#| msgid "Fit to window if larger"
+msgid "_Fit Window to Image"
+msgstr "Mahuta pilt aknasse kui pilt on aknast suurem"
 
-msgid "View next animation frame"
-msgstr "Vaata järgmist animeeritud raami"
+#, fuzzy
+#| msgid "Reuse this window to view other images"
+msgid "Resize the window to the size of the image"
+msgstr "Kasutada kõikide piltide vaatamiseks seda ühte akent"
 
-msgid "_Centered"
-msgstr "_Keskjoondatud"
+msgid "Basic image viewing."
+msgstr "Tavaline piltide vaatamine"
 
-msgid "Set the image as desktop background (centered)"
-msgstr "Määra töölaua taustaks (keskele)"
+#| msgid "Image Viewer"
+msgid "Image viewer"
+msgstr "Pildinäitaja"
 
-msgid "_Tiled"
-msgstr "_Paanidena"
+#| msgid "Set image to actual size"
+msgid "Set to actual size"
+msgstr "Näidatakse pildi tegelikku suurust"
 
-msgid "Set the image as desktop background (tiled)"
-msgstr "Määra töölaua taustaks (paanidena)"
+#| msgid "Fit to width if larger"
+msgid "Fit to width"
+msgstr "Mahutatakse laiusesse"
 
-msgid "_Scaled"
-msgstr "_Mõõtu viidud"
+msgid "Viewer"
+msgstr "Vaataja"
 
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Määra töölaua taustaks (proportsionaalselt skaleeritud)"
+#, fuzzy
+#| msgid "_File"
+msgid "Files"
+msgstr "_Fail"
 
-msgid "Str_etched"
-msgstr "_Venitatud"
+#| msgid "Automatic sizing"
+msgid "_Automatic subfolder"
+msgstr "_Automaatne alamkataloog"
 
-msgid "Set the image as desktop background (stretched)"
-msgstr "Määra töölaua taustaks (venitatutud)"
+#| msgid "Overwrite _all images"
+msgid "_Overwrite existing files"
+msgstr "_Olemasolevad failid kirjutatakse üle"
 
-msgid "_Restore"
-msgstr "_Taasta"
+#| msgid "Rotate images physically"
+msgid "_Rotate images physically"
+msgstr "_Piltide füüsiline pööramine"
 
-msgid "Restore the original desktop wallpaper"
-msgstr "Taasta algne töölaua taust"
+#, fuzzy
+#| msgid "_Include sub-folders"
+msgid "as _single subfolder"
+msgstr "_Ka alamkaustadest"
 
-#| msgid "Change _Date"
-msgid "Change _Date..."
-msgstr "Muuda _kuupäeva..."
+#, c-format
+msgid "example: %s"
+msgstr "näide: %s"
 
-msgid "Change images last modified date"
-msgstr "Muuda pildi viimase muutmise kuupäeva"
+#. subfolder type
+#| msgid "File _name"
+msgid "File date"
+msgstr "Faili kuupäev"
 
-msgid "Reset _Exif Orientation"
-msgstr "Lähtesta _EXIF suund"
+#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
+#. subfolder format
+msgid "year-month-day"
+msgstr "aasta-kuu-päev"
 
-msgid "Reset Exif orientation to top-left"
-msgstr "Määra EXIF suunaks \"üles-vasakule\""
+msgid "year-month"
+msgstr "aasta-kuu"
 
-msgid "Show information about gThumb"
-msgstr "Näita teavet gThumbi kohta"
+#| msgid "Search"
+msgid "year"
+msgstr "aasta"
+
+msgid "custom format"
+msgstr "kohandatud"
+
+msgid "Importing files"
+msgstr ""
+
+#, fuzzy
+#| msgid "Last modified"
+msgid "Last imported"
+msgstr "Viimati muudetud"
+
+#| msgid "_Posterize..."
+msgid "Personalize..."
+msgstr "Kohanda..."
+
+#, fuzzy
+#| msgid "_Tools"
+msgid "Tools"
+msgstr "_Tööriistad"
+
+msgid "Batch tools for multiple files"
+msgstr ""
+
+#, fuzzy
+#| msgid "Skip"
+msgid "_Skip"
+msgstr "Jäta vahele"
+
+#| msgid "Co_mment:"
+msgid "Co_mmands:"
+msgstr "_Käsud:"
 
 #| msgid "Co_mments"
+msgid "Commands"
+msgstr "Käsud"
+
+#, no-c-format
+#| msgid "%"
+msgid "%B"
+msgstr "%B"
+
+#, no-c-format
+#| msgid "%"
+msgid "%E"
+msgstr "%E"
+
+#, no-c-format
+#| msgid "%"
+msgid "%F"
+msgstr "%F"
+
+#, no-c-format
+#| msgid "%"
+msgid "%N"
+msgstr "%N"
+
+#, no-c-format
+#| msgid "%"
+msgid "%P"
+msgstr "%P"
+
+#, no-c-format
+#| msgid "%"
+msgid "%U"
+msgstr "%U"
+
+#. Translate only 'message' and 'default_value'.
+#, no-c-format
+msgid "%ask{ message }{ default value }"
+msgstr ""
+
+#. Translate only 'attribute name'
+#, no-c-format
+msgid "%attr{ attribute name }"
+msgstr ""
+
+#. Translate only 'text'.
+#, no-c-format
+msgid "%quote{ text }"
+msgstr ""
+
+msgid "A file attribute"
+msgstr ""
+
+msgid "Ask an input value"
+msgstr ""
+
+msgid "E_xecute command once for every file"
+msgstr "Käsk _rakendatakse igale failile eraldi"
+
+msgid "Quote the text "
+msgstr ""
+
+msgid "Special code"
+msgstr "Spetsiaalne kood"
+
+#| msgid "Include filename"
+msgid "The file basename"
+msgstr "Failinimi"
+
+msgid "The file basename without extension"
+msgstr "Failinimi ilma laienduseta"
+
+#| msgid "Determine by extension"
+msgid "The file extension"
+msgstr "Faililaiend"
+
+#| msgid "File pa_th"
+msgid "The file path"
+msgstr "Faili asukoht"
+
+msgid "The file uri"
+msgstr "Faili URI"
+
+#| msgid "Move current folder"
+msgid "The parent folder path"
+msgstr "Emakausta asukoht"
+
+#| msgid "Co_mment:"
+msgid "_Command:"
+msgstr "_Käsk:"
+
+msgid "_Terminal command (shell script)"
+msgstr "_Terminali käsk (shell'i skript)"
+
+msgid "_Wait for the command to finish"
+msgstr "_Oodatakse käsu lõpetamist"
+
+#| msgid "Sort"
+msgid "Script"
+msgstr "Skript"
+
+#| msgid "S_how:"
+msgid "Show"
+msgstr "Näidatakse"
+
+#| msgid "Could not move the items:"
+msgid "Could not save the script"
+msgstr "Skripti ei saanud salvestada"
+
+#| msgid "(No Comment)"
+msgid "New Command"
+msgstr "Uus käsk"
+
+#| msgid "Edit bookmarks"
+msgid "Edit Command"
+msgstr "Redigeeri käsku"
+
+msgid "Enter a value:"
+msgstr "Sisesta väärtus:"
+
+msgid "Malformed command"
+msgstr "Vigane käsk"
+
+#, c-format
+#| msgid "No camera detected"
+msgid "No name specified"
+msgstr "Nimi on määramata"
+
+#, c-format
+msgid "No command specified"
+msgstr "Käsk määramata"
+
+#, c-format
+msgid "Command exited abnormally with status %d"
+msgstr "Käsk lõpetas tavatult olekuga %d"
+
+msgid "File list tools"
+msgstr ""
+
+msgid "Scripting and batch manipulation of files."
+msgstr ""
+
+msgid "_Removable Device..."
+msgstr "_Eemaldatav seade..."
+
+msgid "Import photos and other files from a removable device"
+msgstr "Fotode ja muude failide importimine eemaldatavalt seadmelt"
+
+msgid "Import from Removable Device"
+msgstr "Eemaldatavalt seadmelt importimine"
+
+#. view label
+msgid "S_how:"
+msgstr "_Näidatakse:"
+
+#| msgid "_Delete imported images from the camera"
+msgid "_Delete the imported files from the source"
+msgstr "_Imporditud failid kustutatakse allikast"
+
+#| msgid "Co_mment:"
+msgid "_Event:"
+msgstr "_Sündmus:"
+
+msgid "_Import"
+msgstr "_Impordi"
+
+#. translators: %d is the number of files, %s the total size
+#, c-format
+msgid "Files to import: %d (%s)"
+msgstr "Imporditavad failid: %d (%s)"
+
+#| msgid "Could not move the folder \"%s\": %s"
+msgid "Could not load the folder"
+msgstr "Kataloogi laadimine nurjus"
+
+msgid "Getting folder listing..."
+msgstr "Kataloogi sisu hankimine..."
+
+msgid "Empty"
+msgstr "Tühi"
+
+#| msgid "Import Photos"
+msgid "Import photos"
+msgstr "Fotode importimine"
+
+#| msgid "Import photos from a digital camera"
+msgid "Import photos from removable devices."
+msgstr "Fotode importimine eemaldatavatest seadmetest."
+
+#| msgid "Create _Web Album..."
+msgid "_Picasa Web Album..."
+msgstr "_Picasa veebialbum..."
+
+msgid "Download photos from Picasa Web Album"
+msgstr "Fotode allalaadimine Picasa veebialbumist"
+
+msgid "Upload photos to Picasa Web Album"
+msgstr ""
+
+#| msgid "_Font:"
+msgid "A_ccount:"
+msgstr "_Konto:"
+
+msgid "Add a new album"
+msgstr ""
+
+msgid "Edit accounts"
+msgstr ""
+
+msgid "Export to Picasa Web Albums"
+msgstr "Eksportimine Picasa veebialbumisse"
+
+msgid "Free space:"
+msgstr "Vaba ruum:"
+
+msgid "_Albums:"
+msgstr ""
+
+#| msgid "_Reload"
+msgid "_Upload"
+msgstr "_Lae üles"
+
+msgid "Import from Picasa Web Album"
+msgstr "Importimine Picasa veebialbumist"
+
+#| msgid "Web Album"
+msgid "_Album:"
+msgstr "_Album:"
+
+#| msgid "_Font:"
+msgid "A_ccounts:"
+msgstr "_Kontod:"
+
+msgid ""
+"Type the characters you see in the picture below. Letters are not case-"
+"sensitive."
+msgstr ""
+
+msgid "_E-Mail:"
+msgstr "_E-post:"
+
+#| msgid "_Port:"
+msgid "_Password:"
+msgstr "_Salasõna:"
+
+#| msgid "Print"
+msgid "Private"
+msgstr "Privaatne"
+
+msgid "Public"
+msgstr "Avalik"
+
+msgid "_Visibility:"
+msgstr ""
+
+#| msgid "Could not move the items:"
+msgid "Could not upload the files"
+msgstr "Failide üleslaadimine nurjus"
+
+#| msgid "Could not move the items:"
+msgid "Could not get the album list"
+msgstr "Albumiloendi laadimine nurjus"
+
+#| msgid "Could not move the image:"
+msgid "Could not connect to the server"
+msgstr "Serverisse ühendumine nurjus"
+
+#| msgid "Web Album"
+msgid "Picasa Web Album"
+msgstr "Picasa veebialbum"
+
+msgid "Account"
+msgstr "Konto"
+
+#| msgid "Could not rename the image:"
+msgid "Could not create the album"
+msgstr "Albumi loomine nurjus"
+
+#| msgid "Web Album"
+msgid "New Album"
+msgstr "Uus album"
+
+msgid "Choose Account"
+msgstr ""
+
+msgid "Edit Accounts"
+msgstr ""
+
+msgid "No valid file selected."
+msgstr ""
+
+#| msgid "Could not move the items:"
+msgid "Could not export the files"
+msgstr "Failide eksportimine nurjus"
+
+#| msgid "Could not import photos"
+msgid "Could not get the photo list"
+msgstr "Pildiloendi laadimine nurjus"
+
+#| msgid "No camera detected"
+msgid "No album selected"
+msgstr "Ühtegi albumit pole valitud"
+
+msgid "Connecting to the server"
+msgstr ""
+
+#| msgid "Could not move the image:"
+msgid "Could not load the file"
+msgstr "Faili laadimine nurjus"
+
+#| msgid "Web Album"
+msgid "Picasa Web Albums"
+msgstr "Picasa veebialbum"
+
+msgid "Upload images to Picasa Web Albums"
+msgstr ""
+
+msgid "Getting the album list"
+msgstr "Albumiloendi laadimine"
+
+#| msgid "Create a new catalog"
+msgid "Creating the new album"
+msgstr "Uue albumi loomine"
+
+#. send the file
+#. Translators: %s is a filename
+#, c-format
+msgid "Uploading '%s'"
+msgstr ""
+
+msgid "Uploading the files to the server"
+msgstr ""
+
+msgid "Getting the photo list"
+msgstr "Pildiloendi laadimine"
+
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Võimalikud väärtused: puudub, deflate, jpeg."
+
+msgid "Opti_mize"
+msgstr "Opti_meeri"
+
+msgid "_Progressive"
+msgstr "_Progresseeruv"
+
+msgid "_Quality:"
+msgstr "_Kvaliteet:"
+
+msgid "_Smoothing:"
+msgstr "_Silumine:"
+
+msgid "Compression _level:"
+msgstr "Tihenduse _aste:"
+
+msgid "Default options:"
+msgstr "Vaikevalikud:"
+
+msgid "_RLE compression"
+msgstr "_RLE tihendus"
+
+#, fuzzy
+#| msgid "_No compression"
+msgid "Compression"
+msgstr "_Pakkimata"
+
+msgid "No_rmal (Deflate)"
+msgstr "No_rmaalne (Deflate)"
+
+#, fuzzy
+#| msgid "<b>Resolution</b>"
+msgid "Resolution"
+msgstr "<b>Eraldusvõime</b>"
+
+msgid "_Horizontal:"
+msgstr "_Horisontaalne:"
+
+msgid "_Loss compression (JPEG)"
+msgstr "_Kadudega pakkimine (JPEG)"
+
+msgid "_No compression"
+msgstr "_Pakkimata"
+
+msgid "_Vertical:"
+msgstr "_Vertikaalne:"
+
+msgid "dpi"
+msgstr "dpi"
+
+#| msgid "_JPEG"
+msgid "JPEG"
+msgstr "JPEG"
+
+#| msgid "_PNG"
+msgid "PNG"
+msgstr "PNG"
+
+msgid "Insufficient memory"
+msgstr ""
+
+#| msgid "T_GA"
+msgid "TGA"
+msgstr "TGA"
+
+#| msgid "_TIFF"
+msgid "TIFF"
+msgstr "TIFF"
+
+#| msgid "Save Image"
+msgid "Save images"
+msgstr "Salvesta pildid"
+
+msgid "Save images in common file formats such as JPEG, PNG and TIFF"
+msgstr ""
+
+#| msgid "<b>Saving</b>"
+msgid "Saving"
+msgstr "Salvestamine"
+
+msgid "Allow to load raw format images."
+msgstr ""
+
+msgid "Raw format support"
+msgstr ""
+
+#, fuzzy
+#| msgid "_Redeye Removal..."
+msgid "Red Eye Removal..."
+msgstr "_Punasilmsuse eemaldamine..."
+
+#, fuzzy
+#| msgid "Red-Eye Removal"
+msgid "Red Eye Removal"
+msgstr "Punasilmsuse eemaldamine"
+
+msgid "Remove the red eye effect caused by camera flashes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Red-Eye Removal"
+msgid "Red-eye removal"
+msgstr "Punasilmsuse eemaldamine"
+
+msgid "Tool to remove the red-eye effect from a photo."
+msgstr ""
+
+#, fuzzy
+#| msgid "General Information"
+msgid "Cannot read file information"
+msgstr "Üldandmed"
+
+#, fuzzy
+#| msgid "Rename selected images"
+msgid "Rename the selected files"
+msgstr "Valitud piltide ümbernimetamine"
+
+#. translate only the text in the curly brackets
+#, no-c-format
+msgid "%A{ identifier }"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#, no-c-format
+msgid "%D{ format }"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#, no-c-format
+msgid "%M{ format }"
+msgstr ""
+
+#. Translators: this is the text case (upper or lower case).
+#, fuzzy
+#| msgid "Cyan-_Red:"
+msgid "Cas_e:"
+msgstr "_Tsüaan-Punane:"
+
+msgid "New enumerator digit"
+msgstr ""
+
+msgid "Re_verse Order"
+msgstr "_Vastupidises järjekorras"
+
+msgid "Rename"
+msgstr "Ümbernimetamine"
+
+msgid "Start _at:"
+msgstr "_Alustatakse:"
+
+#, fuzzy
+#| msgid "Photo digitalization date (From EXIF data)"
+msgid "The digitalization date"
+msgstr "Foto digitaliseerimise kuupäev (EXIF andmetest)"
+
+#, fuzzy
+#| msgid "by Modification _Time"
+msgid "The modification date"
+msgstr "_muutmisaja järgi"
+
+#, fuzzy
+#| msgid "_Keep original filenames"
+msgid "The original enumerator"
+msgstr "_Säilitatakse originaalnimed"
+
+#, fuzzy
+#| msgid "Determine by extension"
+msgid "The original extension"
+msgstr "Otsusta faililaiendi järgi"
+
+#, fuzzy
+#| msgid "_Keep original filenames"
+msgid "The original filename"
+msgstr "_Säilitatakse originaalnimed"
+
+#, fuzzy
+#| msgid "_Preview"
+msgid "_Preview:"
+msgstr "_Eelvaade"
+
+msgid "_Template:"
+msgstr "_Mall:"
+
+#, fuzzy
+#| msgid "Could not rename the image:"
+msgid "Could not rename the files"
+msgstr "Ei suutnud pilti ümber nimetada:"
+
+msgid "Old Name"
+msgstr "Vana nimi"
+
+msgid "New Name"
+msgstr "Uus nimi"
+
+#. change case
+#, fuzzy
+#| msgid "_Keep original filenames"
+msgid "Keep original case"
+msgstr "_Säilitatakse originaalnimed"
+
+#, fuzzy
+#| msgid "Convert Format"
+msgid "Convert to lower-case"
+msgstr "Formaadi teisendamine"
+
+#, fuzzy
+#| msgid "Convert Format"
+msgid "Convert to upper-case"
+msgstr "Formaadi teisendamine"
+
+#, fuzzy
+#| msgid "Rename"
+msgid "Renaming files"
+msgstr "Ümbernimetamine"
+
+#, fuzzy
+#| msgid "Rename"
+msgid "Rename files"
+msgstr "Ümbernimetamine"
+
+#, fuzzy
+#| msgid "Rename selected images"
+msgid "Rename series of files."
+msgstr "Valitud piltide ümbernimetamine"
+
+#, fuzzy
+#| msgid "Resize image"
+msgid "Resize Images..."
+msgstr "Pildi mõõtmete muutmine"
+
+#, fuzzy
+#| msgid "Rename selected images"
+msgid "Resize the selected images"
+msgstr "Valitud piltide ümbernimetamine"
+
+#, fuzzy
+#| msgid "Possible values are: pixels, percentage."
+msgid "Possible values: pixels, percentage"
+msgstr "Võimalikud väärtused: pikslit, protsenti."
+
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+msgid "Ask"
+msgstr ""
+
+#| msgid "<b>New dimensions</b>"
+msgid "New dimensions"
+msgstr "Uued mõõtmed"
+
+#, fuzzy
+#| msgid "_Overwrite"
+msgid "Overwrite"
+msgstr "_Kirjuta üle"
+
+#, fuzzy
+#| msgid "Resize image"
+msgid "Resize Images"
+msgstr "Pildi mõõtmete muutmine"
+
+msgid "Skip"
+msgstr "Jäta vahele"
+
+#, fuzzy
+#| msgid "I_nvert aspect ratio"
+msgid "_Preserve original aspect ratios"
+msgstr "Proportsioon vastupidine_"
+
+#, fuzzy
+#| msgid "pixels"
+msgid "pixel"
+msgstr "pikslit"
+
+#, fuzzy
+#| msgid "Resize image"
+msgid "Resizing images"
+msgstr "Pildi mõõtmete muutmine"
+
+#, fuzzy
+#| msgid "Resize image"
+msgid "Resize images"
+msgstr "Pildi mõõtmete muutmine"
+
+#, fuzzy
+#| msgid "Resize image"
+msgid "Resize series of images."
+msgstr "Pildi mõõtmete muutmine"
+
+#, fuzzy
+#| msgid "Could not rename the image:"
+msgid "Could not perform the search"
+msgstr "Ei suutnud pilti ümber nimetada:"
+
+msgid "Search Result"
+msgstr "Otsingu tulemused"
+
+msgid "Find"
+msgstr ""
+
+#, fuzzy
+#| msgid "Inde_x file:"
+msgid "Find files"
+msgstr "_Indeksfail::"
+
+#, fuzzy
+#| msgid "Searching in:"
+msgid "Search again"
+msgstr "Otsingukoht praegu:"
+
+#. Translators: This is not a verb, it's a name as in "the search properties".
+msgid "Search"
+msgstr "Otsi"
+
+#, fuzzy
+#| msgid "The following date"
+msgid "all the following rules"
+msgstr "Määra kuupäev käsitsi"
+
+#, fuzzy
+#| msgid "<b>Change the following values:</b>"
+msgid "any of the following rules"
+msgstr "<b>Muudetavad väärtused:</b>"
+
+#, fuzzy
+#| msgid "_Search..."
+msgid "Searching..."
+msgstr "_Otsi..."
+
+msgid "File search tool."
+msgstr ""
+
+#| msgid "View as a slide show"
+msgid "View as a slideshow"
+msgstr "Vaata slaidiesitusena"
+
+#| msgid "Slide Show"
+msgid "Slideshow"
+msgstr "Slaidiesitlus"
+
+msgid "Add files to the playlist"
+msgstr ""
+
+msgid "Playlist"
+msgstr ""
+
+#, fuzzy
+#| msgid "Open the selected folder"
+msgid "Remove the selected files"
+msgstr "Ava valitud kaust"
+
+#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
+msgid "_Change automatically, every"
+msgstr "_Vahetatakse automaatselt pärast"
+
+#, fuzzy
+#| msgid "<b>Personalize theme</b>"
+msgid "_Personalize"
+msgstr "<b>Muuda teema isikupärasemaks</b>"
+
+#| msgid "Resta_rt when finished"
+msgid "_Restart when finished"
+msgstr "_Lõpuni jõudes alustatakse uuesti"
+
+msgid "_Transition effect:"
+msgstr "_Siirde efekt:"
+
+msgid "seconds"
+msgstr "sekundit"
+
+#, fuzzy
+#| msgid "Choose the destination folder"
+msgid "Choose the files to play"
+msgstr "Sihtkausta valimine"
+
+msgid "Audio files"
+msgstr ""
+
+#, fuzzy
+#| msgid "Ran_dom"
+msgid "Random"
+msgstr "_Juhuslik"
+
+msgid "Push from right"
+msgstr ""
+
+msgid "Push from bottom"
+msgstr ""
+
+msgid "Slide from right"
+msgstr ""
+
+msgid "Slide from bottom"
+msgstr ""
+
+#, fuzzy
+#| msgid "Shadow in"
+msgid "Fade in"
+msgstr "Vari sisse"
+
+msgid "Flip page"
+msgstr ""
+
+msgid "Cube from right"
+msgstr ""
+
+msgid "Cube from bottom"
+msgstr ""
+
+#, fuzzy
+#| msgid "View as a slide show"
+msgid "View images as a slideshow."
+msgstr "Vaata slaidiesitusena"
+
+#| msgid "Resta_rt when finished"
+msgid "Restart required"
+msgstr "Vajalik taaskäivitus"
+
+msgid "You need to restart gthumb for these changes to take effect"
+msgstr ""
+
+msgid "_Continue"
+msgstr "_Jätka"
+
+#| msgid "_Restore"
+msgid "_Restart"
+msgstr "_Taaskäivita"
+
+#, fuzzy
+#| msgid "Could not move the items:"
+msgid "Could not activate the extension"
+msgstr "Ei suutnud teisaldada elemente:"
+
+#, fuzzy
+#| msgid "Could not move the items:"
+msgid "Could not deactivate the extension"
+msgstr "Ei suutnud teisaldada elemente:"
+
+msgid "Use"
+msgstr "Kasuta"
+
+#, fuzzy
+#| msgid "Dimensions"
+msgid "Extension"
+msgstr "Suurus"
+
+#, fuzzy
+#| msgid "_Filter"
+msgid "Filter"
+msgstr "_Filter"
+
+#, fuzzy
+#| msgid "Could not move the items:"
+msgid "Could not save the filter"
+msgstr "Ei suutnud teisaldada elemente:"
+
+#, fuzzy
+#| msgid "New Folder"
+msgid "New Filter"
+msgstr "Uus kaust"
+
+#, fuzzy
+#| msgid "_Filter"
+msgid "Edit Filter"
+msgstr "_Filter"
+
+#, c-format
+msgid "File _Format: %s"
+msgstr ""
+
+msgid "All Files"
+msgstr "Kõik failid"
+
+msgid "All Supported Files"
+msgstr ""
+
+msgid "By Extension"
+msgstr ""
+
+#, fuzzy
+#| msgid "File pa_th"
+msgid "File Format"
+msgstr "Faili _asukoht"
+
+#, fuzzy
+#| msgid "Dimensions"
+msgid "Extension(s)"
+msgstr "Suurus"
+
+#, c-format
+msgid ""
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
+"choose a file format from the list below."
+msgstr ""
+
+msgid "File format not recognized"
+msgstr ""
+
+#. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
+#, c-format
+msgid "%s of %s"
+msgstr ""
+
+#, c-format
+msgid "Moving \"%s\" to \"%s\""
+msgstr ""
+
+#, fuzzy, c-format
+#| msgid "Copying file %d of %d"
+msgid "Copying \"%s\" to \"%s\""
+msgstr "Kopeerin faili %d %d-st"
+
+#, fuzzy
+#| msgid "Moving file %ld of %ld"
+msgid "Moving files"
+msgstr "Teisaldan faili %ld %ld-st"
+
+#, fuzzy
+#| msgid "Copying file %d of %d"
+msgid "Copying files"
+msgstr "Kopeerin faili %d %d-st"
+
+#, fuzzy
+#| msgid "General Information"
+msgid "Getting file information"
+msgstr "Üldandmed"
+
+#. hour:minutes:seconds
+#. Translators: This is a time format, like "9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. * the separator that your locale uses or use "%Id" instead
+#. * of "%d" if your locale uses localized digits.
+#.
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. minutes:seconds
+#. Translators: This is a time format, like "5:02" for 5
+#. * minutes and 2 seconds. You may change ":" to the
+#. * separator that your locale uses or use "%Id" instead of
+#. * "%d" if your locale uses localized digits.
+#.
+#, c-format
+msgctxt "short time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+msgid "An image viewer and browser for GNOME."
+msgstr "GNOME piltide vaataja ja sirvija."
+
+msgid "translator_credits"
+msgstr ""
+"Olle Niit, 2005-2007\n"
+"Rene Pärts, 2010"
+
+msgid "_File"
+msgstr "_Fail"
+
+msgid "_Edit"
+msgstr "_Redigeerimine"
+
+msgid "_View"
+msgstr "_Vaade"
+
+msgid "_Go"
+msgstr "_Liikumine"
+
+msgid "_Help"
+msgstr "A_bi"
+
+#| msgid "_Open With"
+msgid "Open _With"
+msgstr "Ava _rakendusega"
+
+#| msgid "Import Photos"
+msgid "I_mport From"
+msgstr "I_mpordi"
+
+#| msgid "E_xposure mode"
+msgid "E_xport To"
+msgstr "E_kspordi"
+
+msgid "New _Window"
+msgstr "Uus _aken"
+
+#| msgid "Open in New Window"
+msgid "Open another window"
+msgstr "Uue akna avamine"
+
+msgid "Open"
+msgstr "Ava"
+
+msgid "Open in New Window"
+msgstr "Ava uues aknas"
+
+msgid "Edit various preferences"
+msgstr "Redigeeri erinevaid seadeid"
+
+#| msgid "Dimensions"
+msgid "Extensions"
+msgstr "Laiendid"
+
+msgid "Activate, deactivate and configure the gthumb extensions"
+msgstr ""
+
+#| msgid "_Copy..."
+msgid "_Sort By..."
+msgstr "_Sordi..."
+
+#| msgid "_Filter"
+msgid "_Filter..."
+msgstr "_Filtreeri..."
+
+msgid "Previous"
+msgstr "Eelmine"
+
+msgid "View previous image"
+msgstr "Vaata eelmist pilti"
+
+msgid "Next"
+msgstr "Järgmine"
+
+msgid "View next image"
+msgstr "Vaata järgmist pilti"
+
+msgid "Go to the previous visited location"
+msgstr "Mine eelnevalt külastatud asukohta"
+
+msgid "Go to the next visited location"
+msgstr "Mine järgnevalt külastatud asukohta"
+
+msgid "Go up one level"
+msgstr "Mine ühe taseme võrra üles"
+
+msgid "_Delete History"
+msgstr "_Kustuta ajalugu"
+
+msgid "Delete the list of visited locations"
+msgstr "Kustuta külastatud asukohtade nimekiri"
+
+msgid "View the folders"
+msgstr "Vaata kaustu"
+
+#, fuzzy
+#| msgid "Show information about gThumb"
+msgid "Show information about gthumb"
+msgstr "Näita teavet gThumbi kohta"
+
 msgid "Contents"
 msgstr "Sisukord"
 
-msgid "Display the gThumb Manual"
-msgstr "gThumb'i käsiraamatu kuvamine"
+#| msgid "Display the gThumb Manual"
+msgid "Display the gthumb Manual"
+msgstr "GThumb'i käsiraamatu kuvamine"
 
 msgid "_Keyboard Shortcuts"
 msgstr "_Klaviatuuri kiirklahvid"
 
-msgid "Play _Animation"
-msgstr "Esita _animatsiooni"
+msgid "_Toolbar"
+msgstr "_Tööriistariba"
 
-msgid "Start or stop current animation"
-msgstr "Alustab või lõpetab aktiivse animatsiooni"
+msgid "View or hide the toolbar of this window"
+msgstr "Tööriistariba näitamine või peitmine aktiivses aknas"
 
-msgid "_High Quality"
-msgstr "_Kõrge kvaliteet"
+msgid "_Statusbar"
+msgstr "_Olekuriba"
 
-msgid "Use high quality zoom"
-msgstr "Kasuta kõrgekvaliteedilist suurendust"
+msgid "View or hide the statusbar of this window"
+msgstr "Olekuriba näitamine või peitmine aktiivses aknas"
 
-msgid "_Low Quality"
-msgstr "_Madal kvaliteet"
+#| msgid "_Filter"
+msgid "_Filterbar"
+msgstr "_Filtririba"
 
-msgid "Use low quality zoom"
-msgstr "Kasuta madalakvaliteedilist suurendust"
+msgid "View or hide the filterbar of this window"
+msgstr "Filtririba näitamine või peitmine aktiivses aknas"
 
-msgid "Start in fullscreen mode"
-msgstr "Käivitu täisekraani režiimis"
+#| msgid "_Search"
+msgid "_Sidebar"
+msgstr "_Külgriba"
 
-msgid "Automatically start a slideshow"
-msgstr "Alusta slaidiesitlust automaatselt"
+#| msgid "View or hide the filterbar of this window"
+msgid "View or hide the sidebar of this window"
+msgstr "Külgriba näitamine või peitmine aktiivses aknas"
 
-msgid "Automatically import digital camera photos"
-msgstr "Impordi digitaalkaamera fotod automaatselt"
+msgid "_Thumbnails"
+msgstr "_Pisipildid"
 
-msgid "Use the viewer mode to view single images"
-msgstr "Üksikute piltide vaatamiseks kasuta vaaterežiimi"
+msgid "View thumbnails"
+msgstr "Vaata pisipilte"
+
+msgid "Show _Hidden Files"
+msgstr "Kuva _peidetud failid"
+
+msgid "Show hidden files and folders"
+msgstr "Peidetud failide ja kaustade näitamine"
+
+#, fuzzy
+#| msgid "View image properties"
+msgid "View file properties"
+msgstr "Vaata pildi omadusi"
+
+#, fuzzy
+#| msgid "_Edit"
+msgid "Edit"
+msgstr "_Redigeeri"
+
+msgid "Edit file"
+msgstr ""
+
+#, fuzzy, c-format
+#| msgid "Open"
+msgid "Open %s"
+msgstr "Ava"
+
+msgid "[modified]"
+msgstr "[muudetud]"
+
+#, fuzzy
+#| msgid "gThumb"
+msgid "gthumb"
+msgstr "gThumb"
+
+#, fuzzy, c-format
+#| msgid "Could not move the folder \"%s\": %s"
+msgid "Could not load the position \"%s\""
+msgstr "Kausta \"%s\" teisaldamine nurjus: %s"
+
+#, c-format
+msgid "No suitable module found for %s"
+msgstr ""
+
+#, fuzzy, c-format
+#| msgid "Save only cha_nged fields"
+msgid "Save changes to file '%s'?"
+msgstr "Salvesta ai_nult muudetud väljad"
+
+msgid "If you don't save, changes to the file will be permanently lost."
+msgstr ""
+
+#, fuzzy
+#| msgid "Do Not Save"
+msgid "Do _Not Save"
+msgstr "Ära salvesta"
+
+#, fuzzy
+#| msgid "Could not copy the image:"
+msgid "Could not change name"
+msgstr "Ei suutnud pilti kopeerida:"
+
+msgid "Modified"
+msgstr "Muudetud"
+
+#, fuzzy
+#| msgid "Delete the list of visited locations"
+msgid "View the list of visited locations"
+msgstr "Kustuta külastatud asukohtade nimekiri"
+
+#, fuzzy
+#| msgid "Delete the list of visited locations"
+msgid "View the list of upper locations"
+msgstr "Kustuta külastatud asukohtade nimekiri"
+
+#, fuzzy, c-format
+#| msgid "Image type not supported: %s"
+msgid "File type not supported"
+msgstr "Pildi tüüp pole toetatud: %s"
+
+#, fuzzy, c-format
+#| msgid "No images found"
+msgid "No suitable module found"
+msgstr "Pilte ei leidnud"
+
+#, fuzzy, c-format
+#| msgid "Could not move the folder \"%s\": %s"
+msgid "Could not open the module `%s`: %s"
+msgstr "Kausta \"%s\" teisaldamine nurjus: %s"
+
+#, c-format
+msgid "The extension '%s' is required by the extension '%s'"
+msgstr ""
+
+#, fuzzy
+#| msgid "New Folder"
+msgid "Home Folder"
+msgstr "Uus kaust"
+
+msgid "File System"
+msgstr "Failisüsteem"
+
+msgid "All"
+msgstr "Kõiki"
+
+msgid "Close"
+msgstr "Sulge"
+
+msgid "kB"
+msgstr "kB"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "GB"
+msgstr "GB"
+
+#. "files" label
+#| msgid "_File"
+msgid "files"
+msgstr "faili"
+
+msgid "ascending"
+msgstr ""
+
+msgid "descending"
+msgstr ""
+
+#, c-format
+msgid "No limit specified"
+msgstr ""
+
+#| msgid "_Location..."
+msgid "Loading..."
+msgstr "Laadimine..."
+
+msgid "(Open Parent)"
+msgstr ""
+
+msgid "No suitable loader available for this file type"
+msgstr ""
+
+#, c-format
+msgid "Unable to show '%s'"
+msgstr ""
+
+#, c-format
+msgid "Unable to open '%s'"
+msgstr ""
+
+#| msgid "_File"
+msgid "File"
+msgstr "Fail"
+
+msgid "Name"
+msgstr "Nimi"
+
+msgid "Size"
+msgstr "Suurus"
+
+msgid "Type"
+msgstr "Tüüp"
+
+#| msgid "Old Name"
+msgid "Full Name"
+msgstr "Täisnimi"
+
+#| msgid "_Tiled"
+msgid "Title"
+msgstr "Pealkiri"
+
+msgid "Dimensions"
+msgstr "Mõõtmed"
+
+#| msgid "_Saturation:"
+msgid "Duration"
+msgstr "Kestvus"
+
+#, fuzzy
+#| msgid "Convert Format"
+msgid "Format"
+msgstr "Formaadi teisendamine"
+
+msgid "Date"
+msgstr "Kuupäev"
+
+#| msgid "Images"
+msgid "Tags"
+msgstr "Sildid"
+
+#| msgid "Caption"
+msgid "Rating"
+msgstr "Hinnang"
+
+#, fuzzy
+#| msgid "File _name"
+msgid "file name"
+msgstr "Faili_nimi"
+
+#, fuzzy
+#| msgid "File si_ze"
+msgid "file size"
+msgstr "Faili _suurus"
+
+#, fuzzy
+#| msgid "by file modified time"
+msgid "file modified date "
+msgstr "faili muutmisaja järgi"
+
+msgid "no sorting"
+msgstr ""
+
+msgid "Images"
+msgstr "Pildid"
+
+msgid "Media"
+msgstr "Meedia"
+
+#| msgid "Text only"
+msgid "Text Files"
+msgstr "Tekstifailid"
+
+msgid "Filename"
+msgstr "Failinimi"
+
+msgid "No options available for this file type"
+msgstr ""
+
+#, fuzzy
+#| msgid "General Information"
+msgid "Cancel operation"
+msgstr "Üldandmed"
+
+#, c-format
+msgid "Create tag «%s»"
+msgstr ""
+
+msgid "Show all the tags"
+msgstr ""
 
 msgid "Holidays"
 msgstr "Puhkus"
@@ -2964,8 +3061,9 @@ msgstr "Ekraanipildid"
 msgid "Science"
 msgstr "Teadus"
 
-msgid "Favourite"
-msgstr "Lemmikud"
+#| msgid "Favourite"
+msgid "Favorite"
+msgstr "Lemmik"
 
 msgid "Important"
 msgstr "Tähtis"
@@ -2988,35 +3086,84 @@ msgstr "Astronoomia"
 msgid "Family"
 msgstr "Perekond"
 
-msgid "Command Line"
-msgstr "Käsurida"
-
-#, c-format
-#| msgid "Could not rename the image \"%s\": %s"
-msgid "Problem transforming the image: %s"
-msgstr "Tõrge pildi teisendamisel: %s"
-
-msgid ""
-"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
-"\n"
-"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
-"\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
+msgid "Add a new rule"
 msgstr ""
-"See teisendus võib kaasa tuua pildi ühe või rohkema serva mõningase moonutuse, kuna pildi mõõtmed ei ole arvu 8 kordarvud.\n"
-"\n"
-"Moonutus on taastatav. Kui tulemus ei vasta ootustele, siis tuleb algse pildi saamiseks rakendada teisendus vastupidiselt.\n"
-"\n"
-"Mitteteisendatavad pikslid võib ka hüljata (või kärpida). Selline võimalus annab praktiliselt küll parima tulemuse, kuid tulemus pole enam täiesti kadudeta."
 
-#| msgid "by _Time"
-msgid "_Trim"
-msgstr "_Kärbi"
+#, fuzzy
+#| msgid "Rename this image"
+msgid "Remove this rule"
+msgstr "Nimeta see pilt ümber"
 
-#| msgid "Could not create a temporary folder"
-msgid "Could not create a local temporary copy of the remote file."
-msgstr "Kaugfailist kohaliku ajutise koopia loomine nurjus."
+msgid "contains"
+msgstr "sisaldab fraasi"
 
-msgid "Could not move temporary file to local destination. Check folder permissions."
-msgstr "Ei suutnud liigutada ajutist faili kohalikku sihtkohta. Kontrolli kausta õigusi."
+msgid "starts with"
+msgstr "algab fraasiga"
 
+msgid "ends with"
+msgstr "lõpeb fraasiga"
+
+msgid "does not contain"
+msgstr "ei sisalda fraasi"
+
+#, fuzzy
+#| msgid "Images"
+msgid "matches"
+msgstr "Pildid"
+
+msgid "is lower than"
+msgstr "on väiksem kui"
+
+msgid "is greater than"
+msgstr "on suurem kui"
+
+msgid "is equal to"
+msgstr "on"
+
+#| msgid "Holidays"
+msgid "Today"
+msgstr "Täna"
+
+msgid "Now"
+msgstr ""
+
+msgid "Close this window"
+msgstr "Sulge aken"
+
+msgid "Could not display help"
+msgstr "Abiteabe kuvamine ebaõnnestus"
+
+#, fuzzy
+#| msgid "Could not copy the image:"
+msgid "Could not launch the application"
+msgstr "Ei suutnud pilti kopeerida:"
+
+#, fuzzy
+#| msgid "Open in New Window"
+msgid "Open a new window"
+msgstr "Ava uues aknas"
+
+msgid "Start in fullscreen mode"
+msgstr "Käivitu täisekraani režiimis"
+
+msgid "Automatically start a slideshow"
+msgstr "Alusta slaidiesitlust automaatselt"
+
+msgid "Automatically import digital camera photos"
+msgstr "Impordi digitaalkaamera fotod automaatselt"
+
+#, fuzzy
+#| msgid "Shadow in"
+msgid "Show version"
+msgstr "Vari sisse"
+
+#. command line options
+#, fuzzy
+#| msgid "Image preview"
+msgid "- Image browser and viewer"
+msgstr "Pildi eelvaatlus"
+
+#, fuzzy, c-format
+#| msgid "Could not duplicate the image \"%s\": %s"
+msgid "Could not find a suitable module to save the image as \"%s\""
+msgstr "Ei suutnud dubleerida pilti \"%s\": %s"
