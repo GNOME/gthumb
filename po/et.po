@@ -5,458 +5,317 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Olle Niit <olle@teknet.ee>, 2005-2007
+# Rene Pärts <rene87@hot.ee>, 2010
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-07 03:18+0100\n"
-"PO-Revision-Date: 2007-10-01 00:42+0300\n"
-"Last-Translator: Olle Niit <olle@teknet.ee>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
+"POT-Creation-Date: 2010-02-16 13:06+0000\n"
+"PO-Revision-Date: 2010-02-18 11:15+0300\n"
+"Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
-#: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
 msgstr "Eelmine"
 
-#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
-#: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Next"
 msgstr "Järgmine"
 
-#: ../data/albumthemes/text.h:29
 msgid "Index"
 msgstr "Indeks"
 
-#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
 msgid "Image"
 msgstr "Pilt"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
 msgid "Dimensions"
 msgstr "Suurus"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
 msgid "Bytes"
 msgstr "Faili suurus"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
 msgid "Date"
 msgstr "Kuupäev"
 
-#: ../data/albumthemes/text.h:34
 msgid "Exposure time"
 msgstr "Säriaeg"
 
-#: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
 msgstr "Säritusrežiim"
 
-#: ../data/albumthemes/text.h:36
 msgid "Flash"
 msgstr "Välk"
 
-#: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
 msgstr "Katiku kiirus"
 
-#: ../data/albumthemes/text.h:38
 msgid "Aperture value"
 msgstr "Ava suurus"
 
-#: ../data/albumthemes/text.h:39
 msgid "Focal length"
 msgstr "Fookuskaugus"
 
-#: ../data/albumthemes/text.h:40
 msgid "Camera model"
 msgstr "Kaamera mudel"
 
-#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:84
 msgid "pixels"
 msgstr "pikslit"
 
-#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
-#: ../data/glade/gthumb_edit.glade.h:1
-#: ../data/glade/gthumb_png_exporter.glade.h:1
-#: ../data/glade/gthumb_preferences.glade.h:1
-#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
-#: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: ../data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
 msgstr "<b>Kategooriad:</b>"
 
-#: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>Informatsioon kanalis:</b>"
 
-#: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Kas kirjutame vana pildi uuega üle?</b>"
 
-#: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
 msgstr "_Kättesaadavad programmid:"
 
-#: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
 msgstr "Alfa"
 
-#: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
 msgstr "Sinine"
 
-#: ../data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
 msgstr "Järjehoidjad"
 
-#: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
 msgstr "K_ataloogid:"
 
-#: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
 msgstr "Vali kataloog"
 
-#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
-msgstr "Komm_entaar"
+msgstr "_Kommentaar"
 
-#: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
 msgstr "Ära vana pil_ti üle kirjuta"
 
-#: ../data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "Roheline"
 
-#: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
 msgstr "Uus pilt:"
 
-#: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
-msgstr "Uus _Pildikogu"
+msgstr "Uus k_ogumik"
 
-#: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
 msgstr "Vana pilt:"
 
-#: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
 msgstr "Ava pildid"
 
-#: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
 msgstr "_Kirjuta vana pilt üle"
 
-#: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
 msgstr "Kirjuta pilt üle"
 
-#: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
 msgstr "Kirjut_a kõik pildid üle"
 
-#: ../data/glade/gthumb.glade.h:21
+msgid "Photo _Data (EXIF)"
+msgstr "Foto an_dmed (EXIF)"
+
 msgid "R_ecent applications:"
 msgstr "_Varemkasutatud programmid:"
 
-#: ../data/glade/gthumb.glade.h:22
 msgid "Red"
 msgstr "Punane"
 
-#: ../data/glade/gthumb.glade.h:23
 msgid "Value"
 msgstr "Väärtus"
 
-#: ../data/glade/gthumb.glade.h:24
 msgid "_Application:"
 msgstr "_Rakendus:"
 
-#: ../data/glade/gthumb.glade.h:25
 msgid "_Bookmarks:"
 msgstr "_Järjehoidjad:"
 
-#: ../data/glade/gthumb.glade.h:26
 msgid "_Do not overwrite any image"
 msgstr "Ä_ra kirjuta ühtki pilti üle"
 
-#: ../data/glade/gthumb.glade.h:27
 msgid "_General"
 msgstr "Ü_ldine"
 
-#: ../data/glade/gthumb.glade.h:28
 msgid "_Histogram"
 msgstr "_Histogramm"
 
-#: ../data/glade/gthumb.glade.h:29
-msgid "_Metadata"
-msgstr "_Metaandmed"
-
-#: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
 msgstr "_Uus kataloog"
 
-#: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
 msgstr "_Järgmine"
 
-#: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
 msgstr "_Eelmine"
 
-#: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
 msgstr "_Salvesta uus pilt kui:"
 
-#: ../data/glade/gthumb.glade.h:34
+#| msgid "Choose the destination folder"
 msgid "_View the destination"
-msgstr "_Vaata sihtkausta"
+msgstr "_Vaata sihtkataloogi"
 
-#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
-#: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
-#: ../data/glade/gthumb_camera.glade.h:2
+#| msgid "Choose a Catalog"
 msgid "C_hoose from the catalog"
-msgstr "Vali _kataloogist"
+msgstr "_Kataloogist valimine"
 
-#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "Ka_tegooriad:"
 
-#: ../data/glade/gthumb_camera.glade.h:4
 msgid "Camera Model"
 msgstr "Kaamera mudel"
 
-#: ../data/glade/gthumb_camera.glade.h:5
-#: ../data/glade/gthumb_convert.glade.h:6
-#: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:30
-#: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Choose destination folder"
-msgstr "Vali sihtkaust"
+msgstr "Sihtkausta valimine"
 
-#: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
-msgstr "Kustuta valitud pildid kaaerast"
+msgstr "Kustuta valitud pildid kaamerast"
 
-#: ../data/glade/gthumb_camera.glade.h:7
-msgid ""
-"If this checkbox is enabled and the imported photo contains an Exif "
-"orientation tag, the image data will be physically transformed (losslessly) "
-"so that the viewed image looks the same as before but the orientation tag is "
-"reset to \"top left\". If this checkbox is not enabled, the image data and "
-"the orientation tag are both left unchanged. The image will be displayed "
-"identically by gthumb for both possibilities, but for maximum compatibility "
-"with other applications this checkbox should be enabled."
-msgstr ""
-"Kui see kontrollkastike on märgitud ja imporditud foto koosneb Exif suuna "
-"märgendit, muudetakse füüsiliselt pildi andmeid (kadudeta). Pilt jääb "
-"täpselt samasuguseks, ainult pildi suund määratakse \"ülemine-vasak\". Kui "
-"kontrollkastike on tühi, jäävad pildi andmed ja suuna märgend muutmata. "
-"GThumb näitab mõlemal juhul pilti täpselt ühte moodi. Probleem võib tekkida "
-"teiste programmidega, seega oleks hea see kontrollkastike ära märkida."
+msgid "If this checkbox is enabled and the imported photo contains an Exif orientation tag, the image data will be physically transformed (losslessly) so that the viewed image looks the same as before but the orientation tag is reset to \"top left\". If this checkbox is not enabled, the image data and the orientation tag are both left unchanged. The image will be displayed identically by gthumb for both possibilities, but for maximum compatibility with other applications this checkbox should be enabled."
+msgstr "Kui see märkekast on valitud ja imporditud foto omab EXIF suunamärgendit, muudetakse füüsiliselt (kadudeta) pildi andmeid nii, et pilt ise jääb täpselt samasuguseks, aga pildi suunaks määratakse \"üles-vasakule\". Kui märkekast on valimata, jäävad pildi andmed ja suunamärgend muutmata. GThumb näitab mõlemal juhul pilti täpselt samamoodi, kuid probleem võib tekkida teiste programmidega. Seega oleks maksimaalse ühilduvuse tagamiseks hea see märkekast valida."
 
-#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
 msgstr "Fotode importimine"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
-#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1604
-#: ../src/dlg-photo-importer.c:2348
 msgid "No camera detected"
-msgstr "Ei leidnud kaamerat"
+msgstr "Kaamerat ei leitud"
 
-#: ../data/glade/gthumb_camera.glade.h:10
+#| msgid "Rotate image"
 msgid "Rotate images physically"
-msgstr "Pööra pilte füüsiliselt"
+msgstr "Pilte pööratakse füüsiliselt"
 
-#: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
 msgstr "Vali kaamera mudel"
 
-#: ../data/glade/gthumb_camera.glade.h:12
 msgid "Update previews"
 msgstr "Uuenda eelvaateid"
 
-#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
-msgstr "_Kustuta imporditud pildid kaamerast"
+msgstr "_Imporditud pildid kustutatakse kaamerast"
 
-#: ../data/glade/gthumb_camera.glade.h:14
-#: ../data/glade/gthumb_convert.glade.h:23
-#: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:66
-#: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Destination:"
 msgstr "_Sihtkoht:"
 
-#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
 msgstr "_Film:"
 
-#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
 msgstr "_Impordi"
 
-#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
-msgstr "_Jäta originaalfailinimed alles"
+msgstr "_Säilitatakse originaalnimed"
 
-#: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Model:"
 msgstr "_Mudel:"
 
-#: ../data/glade/gthumb_camera.glade.h:19
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../data/glade/gthumb_comments.glade.h:1
-#: ../data/glade/gthumb_search.glade.h:4
 msgid "A_vailable categories:"
-msgstr "_Kättesaadavad kategooriad:"
+msgstr "_Saadaolevad kategooriad:"
 
-#: ../data/glade/gthumb_comments.glade.h:2
-#: ../data/glade/gthumb_search.glade.h:9
 msgid "Categories"
 msgstr "Kategooriad"
 
-#: ../data/glade/gthumb_comments.glade.h:3
-#: ../data/glade/gthumb_search.glade.h:11
 msgid "Co_mment:"
 msgstr "Ko_mmentaar:"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
 msgid "Comment"
 msgstr "Kommentaar"
 
-#: ../data/glade/gthumb_comments.glade.h:5
 msgid "Create a new category"
 msgstr "Loo uus kategooria"
 
-#: ../data/glade/gthumb_comments.glade.h:6
 msgid "Current date"
 msgstr "Tänane kuupäev"
 
-#: ../data/glade/gthumb_comments.glade.h:7
 msgid "Do not modify"
-msgstr "Ära muuda"
+msgstr "Ei muudeta"
 
-#: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
 msgstr "Pildi loomise kuupäev"
 
-#: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
 msgstr "Viimati muutmise kuupäev"
 
-#: ../data/glade/gthumb_comments.glade.h:10
 msgid "No date"
-msgstr "Kuupäeva pole"
+msgstr "Kuupäev puudub"
 
-#: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Foto digitaliseerimise kuupäev (EXIF andmetest)"
 
-#: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
 msgstr "Eemalda valitud kategooria"
 
-#: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
 msgstr "Salvesta ai_nult muudetud väljad"
 
-#: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
-msgstr "Pane selline kuupäev"
+msgstr "Määra kuupäev käsitsi"
 
-#: ../data/glade/gthumb_comments.glade.h:15
-#: ../data/glade/gthumb_search.glade.h:23
 msgid "_Date:"
 msgstr "_Kuupäev:"
 
-#: ../data/glade/gthumb_comments.glade.h:16
-#: ../data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
 msgstr "_Koht:"
 
-#: ../data/glade/gthumb_comments.glade.h:17
-#: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
 msgstr "_Valitud kategooriad:"
 
-#: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
 msgstr "<b>Tihendus</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
 msgstr "<b>Pildi tüüp</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:4
-#: ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
 msgstr "<b>Eraldusvõime</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:5
-#: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_tools.glade.h:9
-#: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
 msgstr "<b>Salvestamine</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
 msgstr "Tihenduse _aste:"
 
-#: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
-msgstr "Teisenda formaati"
+msgstr "Formaadi teisendamine"
 
-#: ../data/glade/gthumb_convert.glade.h:9
 msgid "JPEG Options"
 msgstr "JPEG võimalused"
 
-#: ../data/glade/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
 msgstr "No_rmaalne (Deflate)"
 
-#: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
 msgstr "Opti_meeri"
 
-#: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:45
 msgid "Overwrite mode:"
 msgstr "Ülekirjutusrežiim:"
 
-#: ../data/glade/gthumb_convert.glade.h:13
 msgid "PNG Options"
 msgstr "PNG võimalused"
 
-#: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:47
 msgid "R_emove original"
-msgstr "Eemalda originaal"
+msgstr "_Eemalda algne"
 
-#: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Rename"
-msgstr "Nimeta ümber"
+msgstr "Ümbernimetamine"
 
-#: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:57
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -468,642 +327,465 @@ msgstr ""
 "Küsi\n"
 "Kirjuta üle"
 
-#: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
-msgstr "TGA võimalused"
+msgstr "TGA valikud"
 
-#: ../data/glade/gthumb_convert.glade.h:21
 msgid "TIFF Options"
-msgstr "TIFF võimalused"
+msgstr "TIFF valikud"
 
-#: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:62
 msgid "T_GA"
 msgstr "T_GA"
 
-#: ../data/glade/gthumb_convert.glade.h:24
-#: ../data/glade/gthumb_png_exporter.glade.h:65
 msgid "_Horizontal:"
 msgstr "_Horisontaalne:"
 
-#: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:69
 msgid "_JPEG"
 msgstr "_JPEG"
 
-#: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
 msgstr "_Kadudega pakkimine (JPEG)"
 
-#: ../data/glade/gthumb_convert.glade.h:27
 msgid "_No compression"
 msgstr "_Pakkimata"
 
-#: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:72
 msgid "_PNG"
 msgstr "_PNG"
 
-#: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Progressive"
 msgstr "_Progresseeruv"
 
-#: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
 msgstr "_Kvaliteet:"
 
-#: ../data/glade/gthumb_convert.glade.h:31
 msgid "_RLE compression"
 msgstr "_RLE tihendus"
 
-#: ../data/glade/gthumb_convert.glade.h:32
 msgid "_Smoothing:"
 msgstr "_Silumine:"
 
-#: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:78
 msgid "_TIFF"
 msgstr "_TIFF"
 
-#: ../data/glade/gthumb_convert.glade.h:34
-#: ../data/glade/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
 msgstr "_Vertikaalne:"
 
-#: ../data/glade/gthumb_convert.glade.h:35
-#: ../data/glade/gthumb_print.glade.h:53
 msgid "dpi"
 msgstr "dpi"
 
-#: ../data/glade/gthumb_crop.glade.h:1
 msgid "4 x 3 (Book, DVD)"
 msgstr "4 x 3 (Raamat, DVD)"
 
-#: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
 msgstr "4 x 6 (Postkaart)"
 
-#: ../data/glade/gthumb_crop.glade.h:3
 msgid "5 x 7"
 msgstr "5 x 7"
 
-#: ../data/glade/gthumb_crop.glade.h:4
 msgid "8 x 10"
 msgstr "8 x 10"
 
-#: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
-msgstr "<b>Külgede suhe</b>"
+msgstr "<b>Proportsioon</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Selection</b>"
 msgstr "<b>Valik</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:7
 msgid "Crop"
-msgstr "Kärbi"
+msgstr "Kärpimine"
 
-#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
-msgstr "Omatehtud"
+msgstr "Kohandatud"
 
-#: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
-msgstr "_Muuda külgede suhe vastupidiseks"
+msgstr "Proportsioon vastupidine_"
 
-#: ../data/glade/gthumb_crop.glade.h:10
-#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
 msgstr "Puudub"
 
-#: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
 msgstr "Ruut"
 
-#: ../data/glade/gthumb_crop.glade.h:12
 msgid "_Crop"
 msgstr "_Kärbi"
 
-#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Height:"
 msgstr "_Kõrgus:"
 
-#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:81
 msgid "_Width:"
 msgstr "_Laius:"
 
-#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../data/glade/gthumb_edit.glade.h:2
-#: ../data/glade/gthumb_png_exporter.glade.h:2
-#: ../data/glade/gthumb_preferences.glade.h:2
-#: ../data/glade/gthumb_tools.glade.h:2
-#: ../data/glade/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
-#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
-#: ../data/glade/gthumb_tools.glade.h:4
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
 msgstr "<b>Värvitasemed</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
 msgstr "<b>Uued mõõtmed</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
 msgstr "<b>Algsed mõõtmed</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
-msgstr "Mõõtkava suhe"
+msgstr "<b>Mõõtkava suhe</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
 msgstr "Heledus - Kontrastsus"
 
-#: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
 msgstr "Värvitasakaal"
 
-#: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
 msgstr "Kon_trastsus:"
 
-#: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr "Tsüaan-_Punane:"
+msgstr "_Tsüaan-Punane:"
 
-#: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
 msgstr "Kõrgus:"
 
-#: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
 msgstr "_Kõrgekvaliteediline"
 
-#: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
 msgstr "Värvitoon - Küllastus"
 
-#: ../data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
-msgstr "Väheste värvidega"
+msgstr "Posterdamine"
 
-#: ../data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
-msgstr "Säilita paistv_us"
+msgstr "_Helenduse säilitamine"
 
-#: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
 msgstr "Pildi mõõtuviimine"
 
-#: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
 msgstr "Laius:"
 
-#: ../data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
 msgstr "_Heledus:"
 
-#: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
 msgstr "_Värvitoon:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:70
 msgid "_Keep aspect ratio"
-msgstr "Säilita _külgede suhe"
+msgstr "Proportsiooni _säilitamine"
 
-#: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
 msgstr "_Tasemed:"
 
-#: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
 msgstr "_Valgustatus:"
 
-#: ../data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
 msgstr "_Magenta-Roheline:"
 
-#: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
 msgstr "_Eelvaade"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:74
 msgid "_Reset"
 msgstr "_Reset"
 
-#: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
 msgstr "_Küllastus:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:75
 msgid "_Scale"
 msgstr "_Vii mõõtu"
 
-#: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
 msgstr "_Kollane-Sinine"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:3
 msgid "112"
 msgstr "112"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:4
 msgid "128"
 msgstr "128"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:5
 msgid "164"
 msgstr "164"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:6
 msgid "200"
 msgstr "200"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:7
 msgid "256"
 msgstr "256"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:8
 msgid "48"
 msgstr "48"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:9
 msgid "64"
 msgstr "64"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:10
 msgid "75"
 msgstr "75"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:11
 msgid "85"
 msgstr "85"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:12
 msgid "95"
 msgstr "95"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:13
 msgid "<b>Background style</b>"
 msgstr "<b>Tagapõhja stiil</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
 msgstr "<b>Pealkiri</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
 msgstr "<b>Jalus</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
 msgstr "<b>Päis ja jalus</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
 msgstr "<b>Päis</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
 msgstr "<b>Indekspildid</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
 msgstr "<b>Lehe suurus</b>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b>Märkus:</b> # (numbriloend)</i>.</small>"
+msgstr "<small><i><b>Märkus:</b> # (nummerdaja)</i>.</small>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
-msgid ""
-"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-"small>"
-msgstr ""
-"<small><i><b>Märkus:</b> %p (lehe number), %n (lehti kokku)</i>.</small>"
+msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
+msgstr "<small><i><b>Märkus:</b> %p (lehe number), %n (lehti kokku)</i>.</small>"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:25
-#: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Co_mment"
 msgstr "Ko_mmentaar"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
 msgstr "_Veerge:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
 msgstr "Vä_rv:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
 msgstr "Loo indekspilt"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
 msgstr "Loo _HTML pildikaart"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
 msgstr "_Jalus:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:31
-#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "File _name"
 msgstr "Faili_nimi"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
 msgstr "Faili _asukoht"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:33
-#: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "File si_ze"
 msgstr "Faili _suurus"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:34
 msgid "Frame _style:"
 msgstr "Raami _stiil:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
 msgstr "Raami _värv:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:36
 msgid "H_eader:"
 msgstr "_Päis:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
 msgstr "Päis/Jalus"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
 msgstr "_Kõrgus:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:39
-#: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "Image dim_ensions"
 msgstr "Pildi _mõõtmed"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
 msgstr "Pildid"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
 msgstr "Indekspildi stiil"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
 msgstr "Leht"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
 msgstr "_Piksleid"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:44
-#: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "Re_verse order"
 msgstr "_Vastupidises järjekorras"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
 msgstr "Read _ja veerud"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
 msgstr "Vali värv"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:47
 msgid "Select a font"
 msgstr "Vali font"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
 msgstr "Vari sisse"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
 msgstr "Ainult vari"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:50
 msgid "Shadow out"
 msgstr "Vari välja"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
 msgstr "Lihtne"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
 msgstr "Lihtne varjuga"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:53
 msgid "Slide"
 msgstr "Slaid"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:54
 msgid "Sor_t:"
 msgstr "Sor_teeri:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
 msgstr "Sorteeri"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
 msgstr "_Stiil"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:57
-#: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:61
 msgid "Start _at:"
-msgstr "_Stardipaik:"
+msgstr "_Alustatakse:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:58
-#: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "Style Preview"
 msgstr "Stiili eelvaade"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
 msgstr "_Laius:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
 msgstr "_Kõik lehed sama suurusega"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
 msgstr "_Joonista raam"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
 msgstr "_Font:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
 msgstr "_Sujuv üleminek"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:66
 msgid "_Image size:"
 msgstr "_Pildi suurus:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
 msgstr "_Ridu:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
 msgstr "_Lausvärv"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:79
 msgid "_Template:"
 msgstr "_Mall:"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:82
-#: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "by name"
 msgstr "nime järgi"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:72
 msgid "jpeg"
 msgstr "jpeg"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:73
 msgid "png"
 msgstr "png"
 
-#: ../data/glade/gthumb_preferences.glade.h:3
 msgid "0:"
 msgstr "0:"
 
-#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: ../data/glade/gthumb_preferences.glade.h:7
+#| msgid "1:1"
 msgid "1:"
 msgstr "1:"
 
-#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: ../data/glade/gthumb_preferences.glade.h:10
+#| msgid "2"
 msgid "2:"
 msgstr "2:"
 
-#: ../data/glade/gthumb_preferences.glade.h:11
 msgid "3:"
 msgstr "3:"
 
-#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: ../data/glade/gthumb_preferences.glade.h:13
+#| msgid "4"
 msgid "4:"
 msgstr "4:"
 
-#: ../data/glade/gthumb_preferences.glade.h:14
 msgid "5:"
 msgstr "5:"
 
-#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: ../data/glade/gthumb_preferences.glade.h:16
 msgid "6:"
 msgstr "6:"
 
-#: ../data/glade/gthumb_preferences.glade.h:17
 msgid "7:"
 msgstr "7:"
 
-#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: ../data/glade/gthumb_preferences.glade.h:19
+#| msgid "8"
 msgid "8:"
 msgstr "8:"
 
-#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "9:"
 msgstr "9:"
 
-#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "<b>Direction</b>"
 msgstr "<b>Suund</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Peida/Näita</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
 msgstr "<b>Liides</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
 msgstr "<b>Käivitamisel:</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "<b>Other</b>"
 msgstr "<b>Muu</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "<b>Slide show</b>"
 msgstr "<b>Slaidiesitlus</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "<b>Viewer</b>"
 msgstr "<b>Vaataja</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "<b>Zoom quality</b>"
 msgstr "<b>Suurenduse kvaliteet</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b>\n"
@@ -1112,275 +794,210 @@ msgid ""
 "%n = a single filename, including path, with no extension\n"
 "%e = a single extension (starting with a period)\n"
 "%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the "
-"number of files selected. All other scripts will be executed once per "
-"selected file.\n"
+"Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
 "<small><i><b>Spetsiaalsed märgid:</b>\n"
-"%F = kõik valitud failinimed ühel real, tühikutega eraldatud\n"
-"%f = üksik failinimi koos katalooginimega\n"
-"%n = üksik failinimi koos kataloogiga, ilma faililaiendita\n"
+"%F = kõik valitud failinimed ühel real, eraldatud tühikutega\n"
+"%f = üksik failinimi koos asukohaga\n"
+"%n = üksik failinimi koos asukohaga, faililaiendita\n"
 "%e = üksik faililaiend (algab punktiga)\n"
 "%p = üksiku faili emakaust</i>\n"
-"Skriptid %F koodiga käivitatakse ainult ühe korra, sõltumata valitud failide "
-"arvust. Kõik teised käivitatakse üks kord iga valitud faili kohta. \n"
-"Vaikimisi skriptid on lahti seletatud Abifailis.</small>"
+"Sõltumata valitud failide arvust, käivitatakse %F-koodiga skriptid ainult üks kord. Kõik teised käivitatakse üks kord iga valitud faili kohta.\n"
+"Vaikimisi skriptid on lahti seletatud abifailis.</small>"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
 msgstr "Aktiveeri elemente topeltklõpsuga"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Activate items with a single click"
 msgstr "Aktiveeri elemente ühe klõpsuga"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "After _loading an image:"
-msgstr "Peale pildi _laadimist:"
+msgstr "Pärast pildi _laadimist:"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "_Küsi kinnitust enne piltide või kataloogide kustutamist"
+msgstr "Kinnituse küsimine piltide või kataloogide _kustutamisel"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Ask whether to save _modified images"
-msgstr "Küsi _muudetud piltide salvestamisel kinnitust"
+msgstr "Kinnituse küsimine muudetud piltide _salvestamisel"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Black"
 msgstr "Must"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Browser"
 msgstr "Sirvija"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "C_lick policy:"
 msgstr "K_lõpsu käitumine:"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Checked"
 msgstr "Märgitud"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Choose startup folder"
-msgstr "Vali käivitamisel avanev kasut"
+msgstr "Vali käivitamisel avatav kaust"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Co_mments"
 msgstr "Ko_mmentaarid"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
 msgstr "_Paus piltide vahel:"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
 msgstr "_Otsusta pildi tüüp sisu järgi (aeglasem)"
 
-#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
-msgstr "Ära kausta _muuda"
+msgstr "Kausta ei _muudeta"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#| msgid "Fit to window if larger"
 msgid "Fit to width if larger"
-msgstr "Mahuta pilt laiuse järgi kui pilt on suurem"
+msgstr "Mahutatakse pilt laiuse järgi"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Fit to window if larger"
 msgstr "Mahuta pilt aknasse kui pilt on aknast suurem"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Follow Nautilus behaviour"
-msgstr "Käitu vastavalt Nautiluse seadetele"
+msgstr "Järgitakse Nautiluse seadeid"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "For_ward"
 msgstr "_Edasi"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "General"
 msgstr "Üldine"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Go to last _visited folder or catalog"
-msgstr "Mine _viimati külastatud kausta või kataloogi"
+msgstr "Minnakse _viimati külastatud kausta või kataloogi"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Go to this _folder:"
-msgstr "Mine sellesse _kausta:"
+msgstr "Minnakse siia _kausta:"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "H_igh"
 msgstr "_Kõrge"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Hot Keys"
 msgstr "Kiirklahvid"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
 msgstr "Ainult ikoonid"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Keep previous zoom"
-msgstr "Kasuta eelmist suurendusastet"
+msgstr "Kasutatakse eelmist suurendusastet"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
-msgid ""
-"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
-"the selected images with other applications."
-msgstr ""
-"Numbriklaviatuuri klahve 0-9 saab kasutada valitud piltide avamiseks või "
-"muutmiseks mõne teise programmiga."
+msgid "Keys 0-9 on the numeric keypad can be used in the browser to open or modify the selected images with other applications."
+msgstr "Numbriklaviatuuri klahve 0-9 saab kasutada valitud piltide avamiseks või redigeerimiseks mõne teise rakendusega."
 
-#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
 msgstr "Paigutus:"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "Lo_w"
 msgstr "_Madal"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "Ran_dom"
 msgstr "_Juhuslik"
 
-#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "Re_verse"
 msgstr "_Tagurpidi"
 
-#: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr "Nulli kerimisriba asukohad peale pildi laadimist"
+msgstr "Kerimisriba asukoht lähtestatakse pärast pildi laadimist"
 
-#: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
-msgstr "_Peale lõpetamist alusta otsast"
+msgstr "_Lõpuni jõudes alustatakse uuesti"
 
-#: ../data/glade/gthumb_preferences.glade.h:72
 msgid "Set image to actual size"
-msgstr "Pildi tegelik suurus"
+msgstr "Näidatakse pildi tegelikku suurust"
 
-#: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
-msgstr "_Praegune suurus"
+msgstr "_Aktiivne kaust"
 
-#: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
 msgstr "Slaidiesitlus"
 
-#: ../data/glade/gthumb_preferences.glade.h:75
 msgid "System settings"
 msgstr "Süsteemi seaded"
 
-#: ../data/glade/gthumb_preferences.glade.h:76
 msgid "Text below icons"
 msgstr "Tekst ikoonide all"
 
-#: ../data/glade/gthumb_preferences.glade.h:77
 msgid "Text beside icons"
 msgstr "Tekst ikoonide kõrval"
 
-#: ../data/glade/gthumb_preferences.glade.h:78
 msgid "Text only"
 msgstr "Ainult tekst"
 
-#: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
 msgstr "Pisipildi s_uurus:"
 
-#: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
 msgstr "Läbipaistvuse _tüüp:"
 
-#: ../data/glade/gthumb_preferences.glade.h:81
+#| msgid "D_elay before changing image:"
 msgid "Use a _fading effect when changing image"
-msgstr "Kasuta piltide vahetamisel _sujuvat üleminekut"
+msgstr "Piltide vahetamisel kasutatakse _hajuvat üleminekut"
 
-#: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
 msgstr "Vaataja"
 
-#: ../data/glade/gthumb_preferences.glade.h:83
 msgid "White"
 msgstr "Valge"
 
-#: ../data/glade/gthumb_preferences.glade.h:84
 msgid "_Filenames"
 msgstr "_Failinimed"
 
-#: ../data/glade/gthumb_preferences.glade.h:85
-#: ../src/gth-browser-actions-entries.h:422
 msgid "_Thumbnails"
 msgstr "_Pisipildid"
 
-#: ../data/glade/gthumb_preferences.glade.h:86
 msgid "_Toolbar style:"
 msgstr "_Tööriistariba stiil:"
 
-#: ../data/glade/gthumb_preferences.glade.h:87
 msgid "gThumb Preferences"
 msgstr "gThumb häälestus"
 
-#: ../data/glade/gthumb_preferences.glade.h:88
 msgid "seconds"
 msgstr "sekundit"
 
-#: ../data/glade/gthumb_print.glade.h:4
 msgid "1"
 msgstr "1"
 
-#: ../data/glade/gthumb_print.glade.h:5
 msgid "150"
 msgstr "150"
 
-#: ../data/glade/gthumb_print.glade.h:6
 msgid "16"
 msgstr "16"
 
-#: ../data/glade/gthumb_print.glade.h:7
 msgid "2"
 msgstr "2"
 
-#: ../data/glade/gthumb_print.glade.h:8
+#| msgid "200"
 msgid "300"
 msgstr "300"
 
-#: ../data/glade/gthumb_print.glade.h:9
 msgid "4"
 msgstr "4"
 
-#: ../data/glade/gthumb_print.glade.h:10
+#| msgid "200"
 msgid "600"
 msgstr "600"
 
-#: ../data/glade/gthumb_print.glade.h:11
+#| msgid "2"
 msgid "72"
 msgstr "72"
 
-#: ../data/glade/gthumb_print.glade.h:12
 msgid "8"
 msgstr "8"
 
-#: ../data/glade/gthumb_print.glade.h:13
+#| msgid "<b>Page size</b>"
 msgid "<b>Image Sizing</b>"
 msgstr "<b>Piltide mõõtmed</b>"
 
-#: ../data/glade/gthumb_print.glade.h:14
 msgid "<b>Margins</b>"
 msgstr "<b>Veerised</b>"
 
-#: ../data/glade/gthumb_print.glade.h:15
 msgid "<b>Orientation</b>"
 msgstr "<b>Suund</b>"
 
-#: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
 msgstr "<b>Suurus</b>"
 
-#: ../data/glade/gthumb_print.glade.h:18
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
@@ -1388,937 +1005,687 @@ msgstr ""
 "<small><i><b>Märkus:</b> Lohista pilt lehele.\n"
 "Pööramiseks klõpsa pildil.</i></small>"
 
-#: ../data/glade/gthumb_print.glade.h:20
 msgid ""
 "<small><i><b>Note:</b> High-resolution images will be\n"
 "down-sampled to this resolution. Increase\n"
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
-"<small><i><b>Märkus:</b> Suure resolutsiooniga pilte saab\n"
-"selle resolutsioonini vähendada. Suurem resolutsioon\n"
-"annab parema pildi kvaliteedi. Väiksem resolutsioon\n"
+"<small><i><b>Märkus:</b> Kõrge eraldusvõimega pildid\n"
+"vähendatakse selle väärtuseni. Suurem eraldusvõime\n"
+"annab parema pildikvaliteedi. Väiksem resolutsioon\n"
 "annab lühema printimisaja.</i></small>"
 
-#: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
 msgstr "A4"
 
-#: ../data/glade/gthumb_print.glade.h:25
 msgid "Automatic sizing"
-msgstr "Automaatne suuruse muutmine"
+msgstr "Automaatne skaleerimine"
 
-#: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
 msgstr "Lehe _keskele"
 
-#: ../data/glade/gthumb_print.glade.h:27
 msgid "Comment _font:"
 msgstr "Kommentaari _font:"
 
-#: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
 msgstr "Executive"
 
-#: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
-msgstr "Koos komme_ntaariga"
+msgstr "Lisatakse komme_ntaari"
 
-#: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
 msgstr "Pilte ühel lehel:"
 
-#: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
 msgstr "Tolli"
 
-#: ../data/glade/gthumb_print.glade.h:33
+#| msgid "Inde_x file:"
 msgid "Include filename"
-msgstr "Koos failinimega"
+msgstr "Failinime lisamine"
 
-#: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
 msgstr "_Maastik"
 
-#: ../data/glade/gthumb_print.glade.h:35
 msgid "Layout"
 msgstr "Paigutus"
 
-#: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
 msgstr "Legal"
 
-#: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
 msgstr "Letter"
 
-#: ../data/glade/gthumb_print.glade.h:38
 msgid "Millimeters"
 msgstr "Millimeetrit"
 
-#: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
 msgstr "_Portree"
 
-#: ../data/glade/gthumb_print.glade.h:40
 msgid "Paper Details"
-msgstr "Paberi täppishäälestus"
+msgstr "Paberi detailid"
 
-#: ../data/glade/gthumb_print.glade.h:41
 msgid "Postcard"
 msgstr "Postkaart"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2709
-#: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Prindi"
 
-#: ../data/glade/gthumb_print.glade.h:43
+#| msgid "Set image to actual size"
 msgid "Scale to this size"
-msgstr "Vii pilt mõõtu"
+msgstr "Vii mõõtu"
 
-#: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
 msgstr "Tabloid"
 
-#: ../data/glade/gthumb_print.glade.h:45
 msgid "_Bottom:"
 msgstr "_Alumine:"
 
-#: ../data/glade/gthumb_print.glade.h:47
 msgid "_Left:"
 msgstr "_Vasak:"
 
-#: ../data/glade/gthumb_print.glade.h:48
 msgid "_Right:"
 msgstr "_Parem:"
 
-#: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
 msgstr "_Mõõtmed:"
 
-#: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
 msgstr "Ü_lemine:"
 
-#: ../data/glade/gthumb_print.glade.h:51
 msgid "_Unit:"
 msgstr "Ü_hik:"
 
-#: ../data/glade/gthumb_redeye.glade.h:1
-msgid "<b>Position</b>"
-msgstr "<b>Asukoht</b>"
-
-#: ../data/glade/gthumb_redeye.glade.h:2
+#| msgid "Actual size"
 msgid "Actual Size"
 msgstr "Tegelik suurus"
 
-#: ../data/glade/gthumb_redeye.glade.h:3
 msgid "Red-Eye Removal"
 msgstr "Punasilmsuse eemaldamine"
 
-#: ../data/glade/gthumb_redeye.glade.h:4
+#| msgid "Red"
 msgid "Redo"
-msgstr "Tee uuesti"
+msgstr "Uuesti"
 
-#: ../data/glade/gthumb_redeye.glade.h:5
 msgid "Undo"
-msgstr "Tühista"
+msgstr "Unusta"
 
-#: ../data/glade/gthumb_redeye.glade.h:6
+#| msgid "Zoom in"
 msgid "Zoom In"
-msgstr "Suureneda"
+msgstr "Suurenda"
 
-#: ../data/glade/gthumb_redeye.glade.h:7
+#| msgid "Zoom out"
 msgid "Zoom Out"
 msgstr "Vähenda"
 
-#: ../data/glade/gthumb_redeye.glade.h:8
+#| msgid "Zoom out"
 msgid "Zoom to Fit"
 msgstr "Mahuta aknasse"
 
-#: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
 msgstr "<b>Otsingu mõõdupuu</b>"
 
-#: ../data/glade/gthumb_search.glade.h:3
 msgid "<b>Search scope</b>"
 msgstr "<b>Otsingu ulatus</b>"
 
-#: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
 msgstr "Pärast"
 
-#: ../data/glade/gthumb_search.glade.h:6
 msgid "Any"
 msgstr "Kõik"
 
-#: ../data/glade/gthumb_search.glade.h:7
 msgid "Before"
 msgstr "Enne"
 
-#: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
 msgstr "Vali kategooriad salvestatud nimekirjast"
 
-#: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
 msgstr "Võrdne"
 
-#: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
 msgstr "Faili_nimi:"
 
-#: ../data/glade/gthumb_search.glade.h:14
 msgid "Found images:"
-msgstr "Leitud pilte:"
+msgstr "Leitud pildid:"
 
-#: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
 msgstr "Vastab _kõigile valitud kategooriatele"
 
-#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
 msgstr "Vastab _vähemalt ühele valitud kategooriale"
 
-#: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
 msgstr "Uus _otsing..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
-#: ../src/dlg-photo-importer.c:1651
 msgid "No images found"
 msgstr "Pilte ei leidnud"
 
-#: ../data/glade/gthumb_search.glade.h:19
-#: ../src/gth-browser-actions-entries.h:363
+#| msgid "_Search"
 msgid "Search"
 msgstr "Otsi"
 
-#: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
 msgstr "Otsingu edenemine"
 
-#: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:56
 msgid "Searching in:"
 msgstr "Otsingukoht praegu:"
 
-#: ../data/glade/gthumb_search.glade.h:24
 msgid "_Edit Search"
 msgstr "_Redigeeri otsingut"
 
-#: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Include sub-folders"
-msgstr "_Ka alamkataloogidest"
+msgstr "_Ka alamkaustadest"
 
-#: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
 msgstr "_Salvesta"
 
-#: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
 msgstr "_Otsi"
 
-#: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:80
-#: ../src/gth-browser-actions-entries.h:41
-#: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
-msgstr "_Vaata"
+msgstr "_Vaade"
 
-#: ../data/glade/gthumb_tools.glade.h:5
+#| msgid "<b>Categories:</b>"
 msgid "<b>Change the following values:</b>"
-msgstr "<b>Muuda järgmisi väärtusi:</b>"
+msgstr "<b>Muudetavad väärtused:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:6
+#| msgid "<b>Caption</b>"
 msgid "<b>Change to:</b>"
-msgstr "<b>Pärast muutmist:</b>"
+msgstr "<b>Väärtused:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:10
 msgid "<b>Write to CD</b>"
-msgstr "<b>Kirjuta CD-le</b>"
+msgstr "<b>CD-le kirjutatakse</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:11
 msgid ""
 "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
-"<small><i><b>Märkus</b>: JPEG teisendamised on tavaliselt kadudeta.\n"
-"Piltide vaatamisel saad kasutada kiirklahve [ ja ] piltide\n"
-"pööramiseks ja kadudeta salvestamiseks ilma dialoogita.</i></small>"
+"<small><i><b>Märkus</b>: JPEG-piltide teisendused on tavaliselt kadudeta.\n"
+"Piltide vaatamisel saab pööramiseks ja kadudeta salvestamiseks kasutada\n"
+"kiirklahve [ ja ].</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b> # (new enumerator digit),\n"
-"%f (original filename), %e (original extension),\n"
-"%d (image date), %s (image size), \n"
-"%n (original enumerator).</i></small>"
-msgstr ""
-"<small><i><b>Spetsiaaltähemärgid:</b> # (numbriloend), %f "
-"(originaalfailinimi), %d (pildi kuupäev), %s (pildi suurus), %e "
-"(originaalfaililaiend).</i></small>"
+#, no-c-format
+#| msgid ""
+#| "<small><i><b>Special characters:</b> # (enumerator), %f (original "
+#| "filename), %d (image date), %s (image size).</i></small>"
+msgid "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %d (image date), %s (image size), %e (original extension).</i></small>"
+msgstr "<small><i><b>Spetsiaalsed märgid:</b> # (nummerdaja), %f (algne failinimi), %d (pildi kuupäev), %s (pildi suurus), %e (algne faililaiend).</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:19
 msgid "A_djust timezone:"
-msgstr "Reguleeri ajavöön_dit:"
+msgstr "Kohanda _ajavööndit:"
 
-#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Apply physical _transform"
-msgstr "Rakenda füüsilist _teisendamist"
+msgstr "Füüsiline _teisendamine"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#| msgid "Apply to _all images"
 msgid "Apply to all _images"
-msgstr "Rakenda _kõigile piltidele"
+msgstr "Rakendatakse _kõigile piltidele"
 
-#: ../data/glade/gthumb_tools.glade.h:22
 msgid "C_urrent date"
 msgstr "Tänane k_uupäev"
 
-#: ../data/glade/gthumb_tools.glade.h:23
-#: ../src/gth-browser-actions-entries.h:38
-#: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "Ka_taloog"
 
-#. Translators: this is the text case (upper or lower case).
-#: ../data/glade/gthumb_tools.glade.h:25
-msgid "Cas_e:"
-msgstr "Täh_ed:"
-
-#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Change Date"
 msgstr "Muuda kuupäeva"
 
-#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Check _All"
 msgstr "Märgi _kõik"
 
-#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Check _None"
 msgstr "_Tühista valik"
 
-#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Checking image:"
-msgstr "Pildi märkimine:"
+msgstr "Pildi kontrollimine:"
 
-#: ../data/glade/gthumb_tools.glade.h:31
-msgid ""
-"Click OK to reset the Exif orientation tag for the selected images to Top-"
-"Left."
-msgstr "Klõpsa OK et seada valitud piltide Exif suund ülemine-vasak."
+msgid "Click OK to reset the Exif orientation tag for the selected images to Top-Left."
+msgstr "Valitud piltide EXIF suunasildi lähtestamiseks üles-vasakule klõpsa \"Olgu\"."
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#| msgid "C_urrent date"
 msgid "Co_mment date"
-msgstr "Ko_mmentaari kuupäev"
+msgstr "_Kommentaari kuupäev"
 
-#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Current _Folder"
-msgstr "_Aktiivne kataloog"
+msgstr "_Aktiivne kaust"
 
-#: ../data/glade/gthumb_tools.glade.h:34
-msgid ""
-"Do not change\n"
-"Convert to lower-case\n"
-"Convert to upper-case"
-msgstr ""
-"Ei muudeta\n"
-"Teisenda väiketähtedeks\n"
-"Teisenda suurtähtedeks"
-
-#: ../data/glade/gthumb_tools.glade.h:37
-msgid "EXIF date"
-msgstr "EXIF kuupäev"
-
-#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Equal images:"
 msgstr "Võrdsed pildid:"
 
-#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Found duplicates:"
 msgstr "Duplikaate leitud:"
 
-#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Image c_reation date"
 msgstr "Pildi _loomise kuupäev"
 
-#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Mirror image horizontally (left-right)"
 msgstr "Peegelda pilti horisontaalselt (vasak-parem)"
 
-#: ../data/glade/gthumb_tools.glade.h:42
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Peegelda pilti vertikaalselt (ülemine-alumine)"
 
-#: ../data/glade/gthumb_tools.glade.h:43
-#: ../src/gth-browser-actions-entries.h:83
-#: ../src/gth-browser-actions-entries.h:108
-#: ../src/gth-browser-actions-entries.h:228
-#: ../src/gth-browser-actions-entries.h:258
 msgid "Move to _Trash"
 msgstr "Viska _prügikasti"
 
-#: ../data/glade/gthumb_tools.glade.h:44
 msgid "New names _preview:"
-msgstr "Uute nimede _eelvaatus:"
+msgstr "Uute nimede _eelvaade:"
 
-#: ../data/glade/gthumb_tools.glade.h:46
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "_Foto digitaliseerimis kuupäev (EXIF andmetest)"
+msgstr "_Foto digitaliseerimise kuupäev (EXIF andmetest)"
 
-#: ../data/glade/gthumb_tools.glade.h:48
 msgid "Re_verse Order"
 msgstr "_Vastupidises järjekorras"
 
-#: ../data/glade/gthumb_tools.glade.h:50
 msgid "Reset Exif Orientation Tags"
-msgstr "Määra piltide Exif suund"
+msgstr "EXIF suunasildi lähtestamine"
 
-#: ../data/glade/gthumb_tools.glade.h:51
 msgid "Rotate Images"
-msgstr "Pööra pilte"
+msgstr "Piltide pööramine"
 
-#: ../data/glade/gthumb_tools.glade.h:52
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Pööra pilti 90 kraadi päripäeva"
 
-#: ../data/glade/gthumb_tools.glade.h:53
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Pööra pilti 90 kraadi vastupäeva"
 
-#: ../data/glade/gthumb_tools.glade.h:54
-msgid "Search for Duplicates"
-msgstr "Otsi duplikaate"
+#| msgid "Save Image"
+msgid "Scale Images"
+msgstr "Piltide mõõtuviimine"
 
-#: ../data/glade/gthumb_tools.glade.h:55
+#| msgid "Duplicates"
+msgid "Search for Duplicates"
+msgstr "Duplikaatide otsimine"
+
 msgid "Search terminated, no duplicates found."
 msgstr "Otsing lõpetatud, duplikaate ei leidnud."
 
-#: ../data/glade/gthumb_tools.glade.h:63
 msgid "The _following date:"
 msgstr "_Järgnev kuupäev:"
 
-#: ../data/glade/gthumb_tools.glade.h:64
-msgid ""
-"This checkbox governs the rotation method used for JPEG images that contain "
-"Exif orientation tags. If this checkbox is enabled, the rotation will be "
-"performed using a physical transform, and the Exif orientation tag will be "
-"reset to the default \"top left\" value. If it is not enabled, the rotation "
-"will be performed by changing the Exif orientation tag only. For maximum "
-"compatibility with other applications, this checkbox should be enabled."
-msgstr ""
-"See kontrollkastike juhib JPEG piltide puhul kasutatavat Exif suuna "
-"märgendit. Kui kastike on täidetud, kasutatakse füüsilist pööramist ja Exif "
-"suuna märgend seatakse vaikimisi \"ülemine-vasak\". Kui kastike pole "
-"täidetud, pööratakse nii et ainult Exif suunda muudetakse. Parima teiste "
-"programmidega ühildumise huvides võiks kastike ikkagi täidetud olla."
+msgid "This checkbox governs the rotation method used for JPEG images that contain Exif orientation tags. If this checkbox is enabled, the rotation will be performed using a physical transform, and the Exif orientation tag will be reset to the default \"top left\" value. If it is not enabled, the rotation will be performed by changing the Exif orientation tag only. For maximum compatibility with other applications, this checkbox should be enabled."
+msgstr "See märkekast juhib JPEG piltide puhul kasutatavat EXIF suunamärgendit. Kui märkekast on märgitud, kasutatakse füüsilist pööramist ja EXIF suunamärgend seatakse vaikimisi \"üles-vasakule\". Kui kast pole märgitud, pööratakse ainult EXIF suunamärgendit muutes. Teiste rakendustega ühildumise huvides võiks kastike siiski märgitud olla."
 
-#: ../data/glade/gthumb_tools.glade.h:65
 msgid "Write To CD"
-msgstr "Kirjuta CD-le"
+msgstr "CD-le kirjutamine"
 
-#: ../data/glade/gthumb_tools.glade.h:71
+#| msgid "Last modified date"
 msgid "_Last modified date"
-msgstr "Viimati _muutmise kuupäev"
+msgstr "_Viimati muutmise kuupäev"
 
-#: ../data/glade/gthumb_tools.glade.h:73
-#: ../src/gth-browser-actions-callbacks.c:470
-#: ../src/gth-browser-actions-callbacks.c:980
 msgid "_Rename"
 msgstr "_Nimeta ümber"
 
-#: ../data/glade/gthumb_tools.glade.h:76
 msgid "_Selected Images"
 msgstr "_Valitud pildid"
 
-#: ../data/glade/gthumb_tools.glade.h:77
 msgid "_Sort:"
 msgstr "_Sorteeri:"
 
-#: ../data/glade/gthumb_tools.glade.h:83
 msgid "hours"
 msgstr "tundi"
 
-#. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
-#: ../data/glade/gthumb_tools.glade.h:86
-msgid "title|Scale Images"
-msgstr "Muuda piltide suurust"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 1024"
 msgstr "1024 x 1024"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "1280 x 1280"
 msgstr "1280 x 1280"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "1280 x 960"
 msgstr "1280 x 960"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "320 x 200"
 msgstr "320 x 200"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "320 x 320"
 msgstr "320 x 320"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "640 x 480"
 msgstr "640 x 480"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "640 x 640"
 msgstr "640 x 640"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "800 x 600"
 msgstr "800 x 600"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "800 x 800"
 msgstr "800 x 800"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:14
+#| msgid "<b>Album</b>"
 msgid "<b>Album Style</b>"
 msgstr "<b>Albumi stiil</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:15
+#| msgid "<b>Information on Channel:</b>"
 msgid "<b>Basic Information</b>"
-msgstr "<b>Lihtinformatsioon</b>"
+msgstr "<b>Põhiandmed</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:16
+#| msgid "<b>Header</b>"
 msgid "<b>Camera Data</b>"
 msgstr "<b>Kaamera andmed</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:17
+#| msgid "<b>Compression</b>"
 msgid "<b>Comments</b>"
 msgstr "<b>Kommentaarid</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:18
+#| msgid "<b>Index Layout</b>"
 msgid "<b>Index Page Layout</b>"
 msgstr "<b>Indekslehe paigutus</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
 msgstr "<b>Muuda teema isikupärasemaks</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
 msgstr "<b>Teema</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
 msgstr "<small><i><b>Märkus:</b> %d (tänane kuupäev).</i></small>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
 "<small><i><b>Note:</b> Some themes may auto-adjust the\n"
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
 msgstr ""
-"<small><i><b>Märkus:</b> Mõni teema võib automaatselt reguleerida\n"
-"veergude ja ridade arvu, kuid piltide koguarv ühel lehel\n"
-"püsib muutumatuna.</i></small>"
+"<small><i><b>Märkus:</b> Mõni teema võib veergude ja\n"
+"ridade arvu automaatselt reguleerida, kuid piltide koguarv\n"
+"ühel lehel püsib muutumatuna.</i></small>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
 msgstr "Kaame_ra mudel"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
 msgstr "Pealkiri"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:31
+#| msgid "_Date and Time"
 msgid "Da_te and Time"
 msgstr "K_uupäev ja kellaaeg"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "E_xposure mode"
 msgstr "Sä_rituse režiim"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Exposure _time"
 msgstr "_Säriaeg"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Focal _length"
 msgstr "Fookus_kaugus"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
 msgstr "_Pildi pealkiri..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:40
+msgid "Inde_x file:"
+msgstr "_Indeksfail::"
+
+#| msgid "_Port:"
 msgid "S_ort:"
-msgstr "S_orteeri:"
+msgstr "S_orteerimine:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:42
-msgid "Use subfolders to organize files"
-msgstr "Kasuta failide paigutamiseks alamkatalooge"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
 msgstr "Veebialbum"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
 msgstr "Veebialbumi teema"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
 msgstr "_Ava väärtus"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr "_Kopeeri originaalid sihtkohta"
+msgstr "_Algsed kopeeritakse sihtkohta"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
 msgstr "K_uupäev ja kellaaeg"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "_Flash"
 msgstr "_Välk"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:50
+#| msgid "F_ooter:"
 msgid "_Footer:"
 msgstr "_Jalus:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Go to Theme Folder"
 msgstr "_Mine teemakausta"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:52
+#| msgid "H_eader:"
 msgid "_Header:"
 msgstr "_Päis:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Install Theme..."
 msgstr "_Installeeri teema..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:54
+#| msgid "_Place:"
 msgid "_Place"
 msgstr "_Koht:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:55
+#| msgid "Resi_ze if larger than:"
 msgid "_Resize if larger than:"
-msgstr "_Muuda suurust kui on suurem kui:"
+msgstr "_Maksimum suurus:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:56
 msgid "_Select"
 msgstr "_Vali"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Shutter speed"
 msgstr "_Katiku kiirus"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:58
+#| msgid "Si_ze :"
 msgid "_Size :"
-msgstr "_Suurus :"
+msgstr "_Suurus:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:59
+#| msgid "Th_eme:"
 msgid "_Theme:"
 msgstr "_Teema:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
 msgstr "_Pisipildi pealkiri..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:62
+#| msgid "columns"
 msgid "columns, by"
-msgstr "veerge,"
+msgstr "veergu ja"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:63
+msgid "index.html"
+msgstr "index.html"
+
 msgid "or _use a single index page"
-msgstr "või kas_uta ühte indekslehte"
+msgstr "või kasutada _ühte indekslehte"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:64
+#| msgid "Images per page:"
 msgid "rows per page,"
-msgstr "rida lehel,"
+msgstr "rida lehe kohta"
 
-#: ../data/gthumb.desktop.in.h:1
+#| msgid "gThumb Image Viewer"
 msgid "Image Viewer"
-msgstr "gThumb Pildivaataja"
+msgstr "Pildinäitaja"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
 msgid "View and organize your images"
 msgstr "Vaata ja korrasta oma pilte"
 
-#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "gThumb Pildivaataja"
 
-#: ../data/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"Pildidest mis on määratud suurusest (baitides) suuremad, ei tehta pisipilte. "
-"Kasuta väärtust 0 kui soovid genereerida pisipilte kõigist piltidest."
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "Pildidest mis on määratud suurusest (baitides) suuremad, ei tehta pisipilte. Kasuta väärtust 0 kui soovid genereerida pisipilte kõigist piltidest."
 
-#: ../data/gthumb.schemas.in.h:2
-msgid ""
-"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-"(reverse landscape)"
-msgstr ""
-"Võimalikud väärtused on 0 (portree), 1 (maastik), 2 (tagurpidi portree), 3 "
-"(tagurpidi maastik)"
+msgid "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)"
+msgstr "Võimalikud väärtused on 0 (portree), 1 (maastik), 2 (tagurpidi portree), 3 (tagurpidi maastik)"
 
-#: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr "Võimalikud väärtused on: 1, 2, 3, 4."
+msgstr "Cõimalikud väärtused on: 1, 2, 3, 4."
 
-#: ../data/gthumb.schemas.in.h:4
+#| msgid "Possible values are: 1, 2, 3, 4."
 msgid "Possible values are: 72, 150, 300, 600."
-msgstr "Võimalikud väärtused on: 72, 150, 300, 600."
+msgstr "Võimalikud väärtused: 72, 150, 300, 600."
 
-#: ../data/gthumb.schemas.in.h:5
-msgid ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
-msgstr ""
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
+msgstr "Võimalikud väärtused: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
 
-#: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
 msgstr "Võimalikud väärtused: kasvav, kahanev."
 
-#: ../data/gthumb.schemas.in.h:7
 msgid "Possible values are: forward, backward, random."
 msgstr "Võimalikud väärtused: edasi, tagasi, juhuslik."
 
-#: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: high, low."
 msgstr "Võimalikud väärtused: kõrge, madal."
 
-#: ../data/gthumb.schemas.in.h:9
 msgid "Possible values are: image, data, comment."
 msgstr "Võimalikud väärtused: pilt, andmed, kommentaar."
 
-#: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: jpeg, png, tga, tiff."
 msgstr "Võimalikud väärtused: jpeg, png, tga, tiff."
 
-#: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: light, midtone, dark."
-msgstr ""
+msgstr "Võimalikud väärtused: light, midtone, dark."
 
-#: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: list, thumbnails."
 msgstr "Võimalikud väärtused: nimekiri, pisipildid."
 
-#: ../data/gthumb.schemas.in.h:13
+#| msgid "Possible values are: mm, in."
 msgid "Possible values are: manual, auto."
-msgstr "Võimalikud väärtused: käsitsi, automaatselt."
+msgstr "Võimalikud väärtused: manual, auto."
 
-#: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: mm, in."
 msgstr "Võimalikud väärtused: mm, toll."
 
-#: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: nautilus, single, double."
 msgstr "Võimalikud väärtused: nautilus, üksik, topelt."
 
-#: ../data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Võimalikud väärtused: puudub, deflate, jpeg."
 
-#: ../data/gthumb.schemas.in.h:17
+#| msgid "Possible values are: none, name, path, size, time."
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr ""
-"Võimalikud väärtused: puudub, nimi, asukoht, suurus, kuupäev, exifdate, "
-"kommentaar."
+msgstr "Võimalikud väärtused: none, name, path, size, time, exifdate, comment."
 
-#: ../data/gthumb.schemas.in.h:18
-msgid ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-msgstr ""
+msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr "Võimalikud väärtused: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
 
-#: ../data/gthumb.schemas.in.h:19
-msgid ""
-"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom."
-msgstr ""
+msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgstr "Võimalikud väärtused: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
-#: ../data/gthumb.schemas.in.h:20
-msgid "Possible values are: original, lower, upper."
-msgstr "Võimalikud väärtused: originaal, väiketähed, suurtähed."
-
-#: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: pixels, percentage."
 msgstr "Võimalikud väärtused: pikslit, protsenti."
 
-#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: png, jpeg."
 msgstr "Võimalikud väärtused: png, jpeg."
 
-#: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "Võimalikud väärtused on: jäta vahele, nimeta ümber, küsi, kirjuta üle."
+msgstr "Võimalikud väärtused: skip, rename, ask, overwrite."
 
-#: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: small, medium, large."
 msgstr "Võimalikud väärtused: väike, keskmine, suur."
 
-#: ../data/gthumb.schemas.in.h:25
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Võimalikud väärtused: system, text_below, text_beside, text_only, icons_only."
 
-#: ../data/gthumb.schemas.in.h:26
 msgid "Possible values are: white, black, checked, none."
 msgstr "Võimalikud väärtused: valge, must, märgitud, puudub."
 
-#: ../data/gthumb.schemas.in.h:27
 msgid "Whether to always use a black background."
-msgstr "Kas alati kasutada musta tagapõhja."
+msgstr "Kas kasutada alati musta tagapõhja."
 
-#: ../data/gthumb.schemas.in.h:28
 msgid "Whether to reset the scrollbar positions after changing image"
-msgstr "Kas peale pildi muutmist nullida kerimisriba asukohad"
+msgstr "Kas pärast pildi muutmist lähtestada kerimisriba asukohad"
 
-#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Ei suutnud avada kataloogi \"%s\": %s"
 
-#: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Ei suutnud salvestada kataloogi \"%s\": %s"
 
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:155
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:57
-#: ../src/catalog-web-exporter.c:157 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
-#: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
 msgid "(No Comment)"
 msgstr "(Kommentaar puudub)"
 
-#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:277
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Pildi tüüp pole toetatud: %s"
 
-#: ../libgthumb/dlg-save-image.c:207
 msgid "Determine by extension"
 msgstr "Otsusta faililaiendi järgi"
 
-#: ../libgthumb/dlg-save-image.c:241
 msgid "Save Image"
 msgstr "Salvesta pilt"
 
-#: ../libgthumb/dlg-save-image.c:261
 msgid "Image type:"
 msgstr "Pildi tüüp:"
 
-#: ../libgthumb/file-utils.c:1485 ../src/gth-location.c:815
+#| msgid "_Catalogs"
 msgid "Catalogs"
 msgstr "Kataloogid"
 
-#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:823
+#| msgid "File si_ze"
 msgid "File System"
 msgstr "Failisüsteem"
 
-#: ../libgthumb/file-utils.c:1517 ../src/gth-location.c:831
 msgid "Home"
 msgstr "Kodu"
 
-#: ../libgthumb/file-utils.c:2152
 msgid "Library not empty"
-msgstr "Pildikogu ei ole tühi"
+msgstr "Kogumik ei ole tühi"
 
-#: ../libgthumb/file-utils.c:2161
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "Ei suutnud eemaldada pildikogu \"%s\": %s"
+msgstr "Kogumiku \"%s\" eemaldamine nurjus: %s"
 
-#: ../libgthumb/file-utils.c:2188
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Ei suutnud eemaldada kataloogi \"%s\": %s"
+msgstr "Kataloogi \"%s\" eemaldamine nurjus: %s"
 
-#: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:774
-#: ../src/gth-browser.c:4498 ../src/gth-viewer.c:748
 msgid "No image"
-msgstr "Pilti pole"
+msgstr "Pilt puudub"
 
-#: ../libgthumb/gth-utils.c:46
+#| msgid "Could not display help: %s"
 msgid "Could not display help"
-msgstr "Ei suuda näidata abiinfot"
+msgstr "Abiteabe kuvamine ebaõnnestus"
 
-#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "_Pööra pilte"
 
-#: ../libgthumb/print-callbacks.c:821
 #, c-format
 msgid "Page %d of %d"
 msgstr "Leht %d %d-st"
 
-#: ../libgthumb/print-callbacks.c:2240 ../src/catalog-png-exporter.c:1427
 #, c-format
 msgid "Loading image: %s"
 msgstr "Laen pilti: %s"
 
-#: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Kustutan kõik pisipildid, palun oota..."
 
-#: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Kustutan vanad pisipildid, palun oota..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1343
-#: ../src/gth-browser.c:1347 ../src/gth-browser.c:1359
 msgid "(Invalid Name)"
 msgstr "(Vigane nimi)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pikslit"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2470
-#: ../src/catalog-web-exporter.c:2694
 msgid "Saving images"
 msgstr "Piltide salvestamine"
 
-#: ../src/catalog-png-exporter.c:1657
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Loon pilti: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2185
 msgid "Saving thumbnails"
 msgstr "Pisipiltide salvestamine"
 
-#: ../src/catalog-web-exporter.c:2258
 msgid "Saving HTML pages: Images"
 msgstr "HTML lehtede salvestamine: Pildid"
 
-#: ../src/catalog-web-exporter.c:2338
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML lehtede salvestamine: Indeksid"
 
@@ -2326,2078 +1693,1508 @@ msgstr "HTML lehtede salvestamine: Indeksid"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2512
+#| msgid "_Keep original filenames"
 msgid "Copying original images"
 msgstr "Originaalpiltide kopeerimine"
 
-#: ../src/catalog-web-exporter.c:2903
-#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Ei suutnud luua ajutist kausta"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2959
 msgid "Loading images"
 msgstr "Piltide laadimine"
 
-#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:686
 msgid "Enter the catalog name: "
 msgstr "Sisesta kataloogi nimi: "
 
-#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
-#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:772
 msgid "C_reate"
 msgstr "_Loo"
 
-#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:828
 msgid "Enter the library name: "
-msgstr "Sisesta pildikogu nimi: "
+msgstr "Sisesta kogumiku nimi: "
 
-#: ../src/dlg-catalog.c:502
 msgid "Move Catalog to..."
 msgstr "Teisalda kataloog..."
 
-#: ../src/dlg-categories.c:240
 msgid "Enter the new category name"
 msgstr "Sisesta uue kategooria nimi"
 
-#: ../src/dlg-categories.c:251
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \",\". Please "
-"use a different name."
-msgstr ""
-"Nime \"%s\" ei saa kasutada sest see sisaldab tähemärki \",\". Palun kasuta "
-"teistsugust nime."
+msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
+msgstr "Nime \"%s\" ei saa kasutada sest see sisaldab tähemärki \",\". Palun kasuta teistsugust nime."
 
-#: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategooria \"%s\" on juba olemas. Palun vali mõni teine nimi."
 
-#: ../src/dlg-change-date.c:180 ../src/rotation-utils.c:169
-msgid "Could not create a local temporary copy of the remote file."
-msgstr "Ei suutnud luua kaugfailist kohalikku ajutist koopiat."
-
-#: ../src/dlg-change-date.c:196
-#, c-format
-msgid "Could not write Exif DataTime tag. Error %d."
-msgstr "Ei suutnud kirjutada Exif DataTime silti. Viga %d."
-
-#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:258
-#: ../src/dlg-reset-exif.c:128
-msgid ""
-"Could not move temporary file to remote location. Check remote permissions."
-msgstr ""
-"Ei suutnud ajutist faili kaugfailiks liigutada. Kontrolli kaugfaili õigusi."
-
-#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
 #, c-format
 msgid "Converting image: %s"
 msgstr "Teisendan pilti: %s"
 
-#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Pilt nimega \"%s\" on juba olemas. Palun vali mõni teine nimi."
 
-#: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Pilt nimega \"%s\" on juba olemas. Kas tahad seda üle kirjutada?"
 
-#: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
 msgid "Skip"
 msgstr "Jäta vahele"
 
-#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
 msgid "_Overwrite"
 msgstr "_Kirjuta üle"
 
-#: ../src/dlg-crop.c:527
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Pilt)"
 
-#: ../src/dlg-crop.c:535
 #, c-format
+#| msgid "%d x %d (Image)"
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Ekraan)"
 
-#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
 msgid "Duplicates"
 msgstr "Duplikaadid"
 
-#: ../src/dlg-duplicates.c:290
 msgid "Duplicates Size"
 msgstr "Duplikaatide suurused"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
-#: ../src/gth-exif-data-viewer.c:800
 msgid "Name"
 msgstr "Nimi"
 
-#: ../src/dlg-duplicates.c:397
 msgid "Last modified"
 msgstr "Viimati muudetud"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
 msgid "Location"
 msgstr "Asukoht"
 
-#: ../src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Valitud pildid visatakse prügikasti. Kas see on sinu kindel soov?"
 
-#: ../src/dlg-file-utils.c:90
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "Sihtkausta ei ole olemas. Kas loome selle kausta?"
+msgstr "Sihtkausta pole olemas. Kas soovid luua selle?"
 
-#: ../src/dlg-file-utils.c:106
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Ei suutnud luua kausta \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1676
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Sul puudub õigus luua pilte \"%s\" kausta"
 
-#: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
 msgstr "Ei saanud kustutada pilte:"
 
-#: ../src/dlg-file-utils.c:226
-msgid ""
-"The images cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
-msgstr ""
-"Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult "
-"kustutada?"
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "Pilte ei saanud prügikasti visata. Kas soovid need pildid lõplikult kustutada?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1894 ../src/gth-viewer.c:998
-#: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "Ära seda teadet _rohkem näita"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
 msgid "_Move"
 msgstr "_Teisalda"
 
-#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
-#: ../src/gth-browser-actions-callbacks.c:1403
 msgid "Choose the destination folder"
-msgstr "Vali sihtkaust"
+msgstr "Sihtkausta valimine"
 
-#: ../src/dlg-file-utils.c:548
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
 msgid "You didn't enter the new name"
 msgstr "Sa ei sisestanud uut nime"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
-msgstr ""
-"Nimi \"%s\" on selles kaustas juba kasutusel. Palun vali mõni teine nimi."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr "Nimi \"%s\" on selles kaustas juba kasutusel. Palun vali mõni teine nimi."
 
-#: ../src/dlg-file-utils.c:1041
 msgid "Could not rename the image:"
 msgstr "Ei suutnud pilti ümber nimetada:"
 
-#: ../src/dlg-file-utils.c:1043
 msgid "Could not rename the following images:"
 msgstr "Järgnevaid pilte ei suutnud ümber nimetada:"
 
-#: ../src/dlg-file-utils.c:1176
 msgid "Could not move the image:"
 msgstr "Ei suutnud teisaldada pilti:"
 
-#: ../src/dlg-file-utils.c:1178
 msgid "Could not copy the image:"
 msgstr "Ei suutnud pilti kopeerida:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
 msgid "_Abort"
 msgstr "_Katkesta"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
 msgid "_Continue"
 msgstr "_Jätka"
 
-#: ../src/dlg-file-utils.c:1381
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopeerin faili %d %d-st"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
 msgid "Collecting images info"
 msgstr "Kogun piltide kohta infot"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Kustutan faili %ld %ld-st"
 
-#: ../src/dlg-file-utils.c:2023
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopeerin faili %ld %ld-st"
 
-#: ../src/dlg-file-utils.c:2028
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Teisaldan faili %ld %ld-st"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
-#: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "Ei suutnud teisaldada kausta \"%s\": %s"
+msgstr "Kausta \"%s\" teisaldamine nurjus: %s"
 
-#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Suurus"
 
-#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:805
 msgid "Type"
 msgstr "Tüüp"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
-#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "Muudetud"
 
-#: ../src/dlg-image-prop.c:623
 msgid "Information on Channel"
 msgstr "Informatsioon kanalis"
 
-#: ../src/dlg-image-prop.c:732
 #, c-format
 msgid "%s Properties"
 msgstr "%s omadused"
 
-#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1603
-#: ../src/dlg-photo-importer.c:1650 ../src/dlg-photo-importer.c:1662
-#: ../src/dlg-photo-importer.c:1678 ../src/dlg-photo-importer.c:1707
+msgid "Could not move temporary file to remote location. Check remote permissions."
+msgstr "Ajutise faili teisaldamine kaugasukohta nurjus. Kontrolli pääsuõigusi."
+
 msgid "Could not import photos"
 msgstr "Ei suutnud fotosid importida"
 
-#: ../src/dlg-photo-importer.c:1330 ../src/main.c:1011
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1342
+#| msgid "No camera detected"
 msgid "Import errors detected"
-msgstr "Importimisel tekkisid vead"
+msgstr "Importimisel tuvastati vead"
 
-#: ../src/dlg-photo-importer.c:1343
 msgid "The files on the camera will not be deleted"
 msgstr "Kaameras olevaid faile ei kustutata"
 
-#: ../src/dlg-photo-importer.c:1659
-#: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "Ei suutnud luua kausta \"%s\": %s"
+msgstr "Kausta \"%s\" loomine nurjus: %s"
 
-#: ../src/dlg-photo-importer.c:1708
 msgid "Not enough free space left on disk"
 msgstr "Kettal pole piisavalt vaba ruumi"
 
-#: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
 msgstr "Pildi pealkiri"
 
-#: ../src/dlg-png-exporter.c:962
 msgid "Header"
 msgstr "Päis"
 
-#: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
 msgid "Footer"
 msgstr "Jalus"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:561
-#: ../src/dlg-web-exporter.c:481
 msgid "by path"
 msgstr "asukoha järgi"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:563
-#: ../src/dlg-web-exporter.c:483
 msgid "by size"
 msgstr "suuruse järgi"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:565
-#: ../src/dlg-web-exporter.c:485
+#| msgid "by modified time"
 msgid "by file modified time"
-msgstr "muutmisaja järgi"
+msgstr "faili muutmisaja järgi"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:567
-#: ../src/dlg-web-exporter.c:487
 msgid "by Exif DateTime tag"
-msgstr "Exif DateTime järgi"
+msgstr "EXIF DateTime järgi"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:569
-#: ../src/dlg-web-exporter.c:489
+#| msgid "Comment"
 msgid "by comment"
 msgstr "kommentaari järgi"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:572
-#: ../src/dlg-web-exporter.c:492
 msgid "manual order"
 msgstr "käsitsi järjekorras"
 
-#: ../src/dlg-rename-series.c:118 ../src/gth-browser-actions-callbacks.c:486
-#: ../src/gth-browser-actions-callbacks.c:702
-#: ../src/gth-browser-actions-callbacks.c:785
-#: ../src/gth-browser-actions-callbacks.c:994
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"Nimi \"%s\" ei ole kasutatav sest see sisaldab tähemärki \"/\". Palun vali "
-"mõni teine nimi."
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
+msgstr "Nimi \"%s\" ei ole kasutatav sest see sisaldab tähemärki \"/\". Palun vali mõni teine nimi."
 
-#: ../src/dlg-rename-series.c:545
 msgid "Old Name"
 msgstr "Vana nimi"
 
-#: ../src/dlg-rename-series.c:553
 msgid "New Name"
 msgstr "Uus nimi"
 
-#: ../src/dlg-search.c:359
 msgid "Search Result"
 msgstr "Otsingu tulemused"
 
-#: ../src/dlg-web-exporter.c:843
 msgid "Select Album Theme"
 msgstr "Vali albumi teema"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3848
 msgid "Could not move the items:"
 msgstr "Ei suutnud teisaldada elemente:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Pilt visatakse prügikasti. Kas see on sinu kindel soov ja tahtmine?"
 
-#: ../src/gth-browser-actions-callbacks.c:267
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Ei suutnud dubleerida pilti \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:275
 msgid "Stop"
-msgstr "Stop"
+msgstr "Peata"
 
-#: ../src/gth-browser-actions-callbacks.c:276
 msgid "Continue"
 msgstr "Jätka"
 
-#: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Valitud pildid visatakse prügikasti. On see sinu kindel soov?"
 
-#: ../src/gth-browser-actions-callbacks.c:466
-#: ../src/gth-browser-actions-callbacks.c:976
 msgid "Enter the new name: "
 msgstr "Sisesta uus nimi: "
 
-#: ../src/gth-browser-actions-callbacks.c:508
-#: ../src/gth-browser-actions-callbacks.c:721
-#: ../src/gth-browser-actions-callbacks.c:801
-#: ../src/gth-browser-actions-callbacks.c:1024
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Nimi \"%s\" on juba kasutusel. Palun vali mõni teine nimi."
 
-#: ../src/gth-browser-actions-callbacks.c:520
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "Ei suutnud pildikogu \"%s\" ümber nimetada: %s"
+msgstr "Kogumikku \"%s\" ümbernimetamine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:520
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Ei suutnud kataloogi \"%s\" ümber nimetada: %s"
+msgstr "Kataloogi \"%s\" ümbernimetamine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:590
 msgid "The selected library will be removed, are you sure?"
-msgstr "Valitud pildikogu kustutatakse, oled sa ikka päris kindel?"
+msgstr "Oled kindel, et eemaldada valitud kogumik?"
 
-#: ../src/gth-browser-actions-callbacks.c:592
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "Valitud kataloog kustutatakse, oled sa ikka päris kindel?"
+msgstr "Oled kindel, et eemaldada valitud kataloog?"
 
-#: ../src/gth-browser-actions-callbacks.c:687
 msgid "New Catalog"
 msgstr "Uus kataloog"
 
-#: ../src/gth-browser-actions-callbacks.c:733
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Ei suutnud luua kataloogi \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:827
 msgid "New Library"
-msgstr "Uus pildikogu"
+msgstr "Uus kogumik"
 
-#: ../src/gth-browser-actions-callbacks.c:829
 #, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr "Ei suutnud luua pildikogu \"%s\": %s"
+msgstr "Kogumiku \"%s\" loomine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1014
-#: ../src/gth-browser-actions-callbacks.c:1049
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "Ei suutnud kausta \"%s\" ümber nimetada: %s"
+msgstr "Kausta \"%s\" ümbernimetamine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1016
-#: ../src/gth-browser-actions-callbacks.c:1295
 msgid "source and destination are the same"
 msgstr "lähtefail ja sihtfail on samad"
 
-#: ../src/gth-browser-actions-callbacks.c:1099
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "Ei suutnud kustutada kataloogi \"%s\": %s"
+msgstr "Kausta \"%s\" kustutamine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1130
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
-"\"%s\" ei saanud visata prügikasti. Kas soovid selle lõplikult kustutada?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" ei saanud visata prügikasti. Kas soovid selle lõplikult kustutada?"
 
-#: ../src/gth-browser-actions-callbacks.c:1174
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Valitud kaust visatakse prügikasti. On see sinu kindel soov?"
 
-#: ../src/gth-browser-actions-callbacks.c:1227
-#: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "Ei suutnud kopeerida kausta \"%s\": %s"
+msgstr "Kausta \"%s\" kopeerimine nurjus: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1306
 msgid "source contains destination"
 msgstr "lähtefail sisaldab sihtfaili"
 
-#: ../src/gth-browser-actions-callbacks.c:1317
 msgid "a folder with that name is already present."
 msgstr "sellise nimega kaust on juba olemas."
 
-#: ../src/gth-browser-actions-callbacks.c:1601
 msgid "New Folder"
 msgstr "Uus kaust"
 
-#: ../src/gth-browser-actions-callbacks.c:1602
 msgid "Enter the folder name: "
 msgstr "Sisesta kausta nimi: "
 
-#: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
+#| msgid "Location"
 msgid "Open Location"
-msgstr "Ava asukoht"
+msgstr "Asukoha avamine"
 
-#: ../src/gth-browser-actions-entries.h:36
-#: ../src/gth-viewer-actions-entries.h:35
 msgid "_File"
 msgstr "_Fail"
 
-#: ../src/gth-browser-actions-entries.h:37
 msgid "_Folder"
 msgstr "_Kaust"
 
-#: ../src/gth-browser-actions-entries.h:40
-#: ../src/gth-viewer-actions-entries.h:36
 msgid "_Edit"
 msgstr "_Redigeeri"
 
-#: ../src/gth-browser-actions-entries.h:42
-#: ../src/gth-viewer-actions-entries.h:38
 msgid "Show/_Hide"
 msgstr "Näita/_Peida"
 
-#: ../src/gth-browser-actions-entries.h:43
 msgid "S_ort Images"
 msgstr "S_orteeri pilte"
 
-#: ../src/gth-browser-actions-entries.h:44
-#: ../src/gth-viewer-actions-entries.h:39
 msgid "_Zoom"
 msgstr "_Suurendus"
 
-#: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
-msgstr "_Mine"
+msgstr "_Liikumine"
 
-#: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:499
-#: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Pilt"
 
-#: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
 msgstr "_Järjehoidjad"
 
-#: ../src/gth-browser-actions-entries.h:48
-#: ../src/gth-viewer-actions-entries.h:43
 msgid "_Tools"
 msgstr "_Tööriistad"
 
-#: ../src/gth-browser-actions-entries.h:49
-#: ../src/gth-viewer-actions-entries.h:44
 msgid "Set Image as _Wallpaper"
-msgstr "Sea pilt _taustapildiks"
+msgstr "Määra töölaua _taustaks"
 
-#: ../src/gth-browser-actions-entries.h:50
-#: ../src/gth-viewer-actions-entries.h:45
 msgid "_Help"
 msgstr "_Abi"
 
-#: ../src/gth-browser-actions-entries.h:53
-#: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
 msgstr "Uus _Aken"
 
-#: ../src/gth-browser-actions-entries.h:54
-#: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
-msgstr "Loo uus aken"
+msgstr "Uue akna loomine"
 
-#: ../src/gth-browser-actions-entries.h:59
+#| msgid "Open the selecte image in a new window"
 msgid "Open the selected image in a new window"
-msgstr "Ava valitud pilt uues aknas"
+msgstr "Valitud pildi avamine uues aknas"
 
-#: ../src/gth-browser-actions-entries.h:64
-#: ../src/gth-browser-actions-entries.h:433
-#: ../src/gth-viewer-actions-entries.h:84
 msgid "View image properties"
 msgstr "Vaata pildi omadusi"
 
-#: ../src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
 msgstr "_Fotode importimine..."
 
-#: ../src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
 msgstr "Digitaalkaametast fotode sissetõmbamine"
 
-#: ../src/gth-browser-actions-entries.h:73
+#| msgid "_Write To CD"
 msgid "_Write To CD..."
-msgstr "_Kirjuta CD-le"
+msgstr "Kirjuta _CD-le"
 
-#: ../src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
 msgstr "Kirjuta valik CD-le"
 
-#: ../src/gth-browser-actions-entries.h:78
-#: ../src/gth-browser-actions-entries.h:98
-#: ../src/gth-browser-actions-entries.h:148
-#: ../src/gth-browser-actions-entries.h:183
-#: ../src/gth-browser-actions-entries.h:223
-#: ../src/gth-browser-actions-entries.h:253
 msgid "_Rename..."
 msgstr "_Nimeta ümber..."
 
-#: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
 msgstr "Nimeta see pilt ümber"
 
-#: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
 msgstr "Viska see pilt prügikasti"
 
-#: ../src/gth-browser-actions-entries.h:88
-#: ../src/gth-browser-actions-entries.h:113
-#: ../src/gth-browser-actions-entries.h:233
-#: ../src/gth-browser-actions-entries.h:263
 msgid "_Copy..."
 msgstr "_Kopeeri..."
 
-#: ../src/gth-browser-actions-entries.h:89
 msgid "Copy this image to another location"
 msgstr "Kopeeri see pilt teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:93
-#: ../src/gth-browser-actions-entries.h:118
-#: ../src/gth-browser-actions-entries.h:158
-#: ../src/gth-browser-actions-entries.h:193
-#: ../src/gth-browser-actions-entries.h:238
-#: ../src/gth-browser-actions-entries.h:268
 msgid "_Move..."
 msgstr "_Teisalda..."
 
-#: ../src/gth-browser-actions-entries.h:94
 msgid "Move this image to another location"
 msgstr "Teisalda see pilt teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:99
+#| msgid "Rename selected image"
 msgid "Rename selected images"
-msgstr "Nimeta valitud pildid ümber"
+msgstr "Valitud piltide ümbernimetamine"
 
-#: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
 msgstr "D_ubleeri"
 
-#: ../src/gth-browser-actions-entries.h:104
+#| msgid "Duplicate selected image"
 msgid "Duplicate selected images"
-msgstr "Dubleeri valitud pildid"
+msgstr "Valitud piltide dubleerimine"
 
-#: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
 msgstr "Viska valitud pildid prügikasti"
 
-#: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
 msgstr "Kopeeri valitud pildid teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:119
 msgid "Move selected images to another location"
 msgstr "Teisalda valitud pildid teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:123
 msgid "_Select All"
 msgstr "_Vali kõik"
 
-#: ../src/gth-browser-actions-entries.h:124
 msgid "Select all images"
 msgstr "Vali kõik pildid"
 
-#: ../src/gth-browser-actions-entries.h:128
-#: ../src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
 msgstr "_Lisa kataloog..."
 
-#: ../src/gth-browser-actions-entries.h:129
-#: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
 msgstr "Lisa valitud pildid kataloogi"
 
-#: ../src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
 msgstr "_Eemalda kataloogist"
 
-#: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
 msgstr "Eemalda valitud pildid kataloogist"
 
-#: ../src/gth-browser-actions-entries.h:138
-#: ../src/gth-browser-actions-entries.h:208
 msgid "Open"
 msgstr "Ava"
 
-#: ../src/gth-browser-actions-entries.h:139
+#| msgid "Rename selected catalog"
 msgid "Open the selected catalog"
-msgstr "Ava valitud kataloog"
+msgstr "Valitud kataloogi avamine"
 
-#: ../src/gth-browser-actions-entries.h:143
-#: ../src/gth-browser-actions-entries.h:213
 msgid "Open in New Window"
 msgstr "Ava uues aknas"
 
-#: ../src/gth-browser-actions-entries.h:144
+#| msgid "Open the selecte image in a new window"
 msgid "Open the selected catalog in a new window"
-msgstr "Ava valitud kataloog uues aknas"
+msgstr "Valitud kataloogi avamine uues aknas"
 
-#: ../src/gth-browser-actions-entries.h:149
 msgid "Rename selected catalog"
 msgstr "Nimeta valitud kataloog ümber"
 
-#: ../src/gth-browser-actions-entries.h:153
-#: ../src/gth-browser-actions-entries.h:188
 msgid "Rem_ove"
 msgstr "_Eemalda"
 
-#: ../src/gth-browser-actions-entries.h:154
 msgid "Remove selected catalog"
 msgstr "Eemalda valitud kataloog"
 
-#: ../src/gth-browser-actions-entries.h:159
 msgid "Move selected catalog to another location"
 msgstr "Teisalda valitud kataloog teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:163
-#: ../src/gth-browser-actions-entries.h:198
+#| msgid "_Edit Search"
 msgid "_Edit Search..."
 msgstr "R_edigeeri otsingut..."
 
-#: ../src/gth-browser-actions-entries.h:164
-#: ../src/gth-browser-actions-entries.h:199
 msgid "Modify search criteria"
 msgstr "Muuda otsimise aluseid"
 
-#: ../src/gth-browser-actions-entries.h:168
-#: ../src/gth-browser-actions-entries.h:203
 msgid "Redo _Search"
 msgstr "_Otsi uuesti"
 
-#: ../src/gth-browser-actions-entries.h:169
-#: ../src/gth-browser-actions-entries.h:204
 msgid "Redo the search"
 msgstr "Otsi uuesti"
 
-#: ../src/gth-browser-actions-entries.h:173
 msgid "_New Catalog..."
-msgstr "_Uus kataloog..."
+msgstr "Uus _kataloog..."
 
-#: ../src/gth-browser-actions-entries.h:174
 msgid "Create a new catalog"
-msgstr "Loo uus kataloog"
+msgstr "Uue kataloogi loomine"
 
-#: ../src/gth-browser-actions-entries.h:178
 msgid "New _Library..."
-msgstr "Uus pi_ldikogu..."
+msgstr "Uus _kogumik..."
 
-#: ../src/gth-browser-actions-entries.h:179
 msgid "Create a new catalog library"
-msgstr "Loo uus kataloogi pildikogu"
+msgstr "Uue kogumiku loomine"
 
-#: ../src/gth-browser-actions-entries.h:184
 msgid "Rename current catalog"
 msgstr "Nimeta aktiivne kataloog ümber"
 
-#: ../src/gth-browser-actions-entries.h:189
 msgid "Remove current catalog"
 msgstr "Eemalda aktiivne kataloog"
 
-#: ../src/gth-browser-actions-entries.h:194
 msgid "Move current catalog to another location"
 msgstr "Teisalda aktiivne kataloog teise asukohta"
 
-#: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
 msgstr "Ava valitud kaust"
 
-#: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
 msgstr "Ava valitud kaust uues aknas"
 
-#: ../src/gth-browser-actions-entries.h:218
-#: ../src/gth-browser-actions-entries.h:248
 msgid "Open with the _File Manager"
-msgstr "Ava _File Manager'iga"
+msgstr "Ava _failihalduris"
 
-#: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
 msgstr "Ava valitud kaust failihaldur Nautilus'ega"
 
-#: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
 msgstr "Nimeta valitud kaust ümber"
 
-#: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
 msgstr "Viska valitud kaust prügikasti"
 
-#: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
 msgstr "Kopeeri valitud kaust"
 
-#: ../src/gth-browser-actions-entries.h:239
 msgid "Move selected folder"
 msgstr "Teisalda valitud kaust"
 
-#: ../src/gth-browser-actions-entries.h:243
-#: ../src/gth-browser-actions-entries.h:273
-#: ../src/gth-window-actions-entries.h:95
+#| msgid "Ca_tegories"
 msgid "Ca_tegories..."
 msgstr "Ka_tegooriad..."
 
-#: ../src/gth-browser-actions-entries.h:244
 msgid "Assign categories to the selected folder"
 msgstr "Omista valitud kaustale kategooriad"
 
-#: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Ava aktiivne kasut failihaldur Nautilus'ega"
 
-#: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
 msgstr "Nimeta aktiivne kaust ümber"
 
-#: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
 msgstr "Viska aktiivne kaust prügikasti"
 
-#: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
 msgstr "Kopeeri aktiivne kaust"
 
-#: ../src/gth-browser-actions-entries.h:269
 msgid "Move current folder"
 msgstr "Teisalda aktiivne kaust"
 
-#: ../src/gth-browser-actions-entries.h:274
 msgid "Assign categories to the current folder"
 msgstr "Omista kategooriad aktiivsele kaustale"
 
-#: ../src/gth-browser-actions-entries.h:278
 msgid "_New Folder..."
 msgstr "_Uus kaust..."
 
-#: ../src/gth-browser-actions-entries.h:279
 msgid "Create a new folder"
 msgstr "Loo uus kaust"
 
-#: ../src/gth-browser-actions-entries.h:284
-#: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
 msgstr "Vaata järgmist pilti"
 
-#: ../src/gth-browser-actions-entries.h:289
-#: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
 msgstr "Vaata eelmist pilti"
 
-#: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
 msgstr "Mine eelnevalt külastatud asukohta"
 
-#: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
 msgstr "Mine järgnevalt külastatud asukohta"
 
-#: ../src/gth-browser-actions-entries.h:309
 msgid "Go up one level"
 msgstr "Mine ühe taseme võrra üles"
 
-#: ../src/gth-browser-actions-entries.h:313
-#: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "_Lae uuesti"
 
-#: ../src/gth-browser-actions-entries.h:314
-#: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "Loe praegune asukoht uuesti sisse"
 
-#: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
 msgstr "Peata praeguse asukoha sisselugemine"
 
-#: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
 msgstr "Mine kodukausta"
 
-#: ../src/gth-browser-actions-entries.h:328
-#: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "_Mine pildikausta"
 
-#: ../src/gth-browser-actions-entries.h:329
-#: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "Mine kausta kus valitud pilt asub"
 
-#: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
 msgstr "_Kustuta ajalugu"
 
-#: ../src/gth-browser-actions-entries.h:334
 msgid "Delete the list of visited locations"
 msgstr "Kustuta külastatud asukohtade nimekiri"
 
-#: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
 msgstr "_Asukoht..."
 
-#: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
 msgstr "Sisesta asukoht, mida tahad külastada"
 
-#: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
 msgstr "_Lisa järrjehoidja"
 
-#: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
 msgstr "Lisa aktiivne asukoht järjehoidjatesse"
 
-#: ../src/gth-browser-actions-entries.h:348
+#| msgid "_Edit Bookmarks"
 msgid "_Edit Bookmarks..."
 msgstr "_Redigeeri järjehoidjaid..."
 
-#: ../src/gth-browser-actions-entries.h:349
 msgid "Edit bookmarks"
 msgstr "Redigeeri järjehoidjaid"
 
-#: ../src/gth-browser-actions-entries.h:353
 msgid "_Slide Show"
 msgstr "_Slaidiesitus"
 
-#: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
 msgstr "Vaata slaidiesitusena"
 
-#: ../src/gth-browser-actions-entries.h:358
+#| msgid "New _Search..."
 msgid "_Search..."
-msgstr "Ot_si..."
+msgstr "_Otsi..."
 
-#: ../src/gth-browser-actions-entries.h:368
+#| msgid "Create _Index Image"
 msgid "Create _Index Image..."
 msgstr "Loo _indekspilt..."
 
-#: ../src/gth-browser-actions-entries.h:373
+#| msgid "Create _Web Album"
 msgid "Create _Web Album..."
 msgstr "Loo _veebialbum..."
 
-#: ../src/gth-browser-actions-entries.h:378
+#| msgid "Convert F_ormat"
 msgid "Convert F_ormat..."
-msgstr "_Teisenda teise formaati..."
+msgstr "Teisenda _formaati..."
 
-#: ../src/gth-browser-actions-entries.h:379
-msgid "Convert image format"
-msgstr "Teisenda pildi formaati"
-
-#: ../src/gth-browser-actions-entries.h:383
+#| msgid "Fi_nd Duplicates..."
 msgid "Search for _Duplicates..."
 msgstr "Otsi _duplikaate..."
 
-#: ../src/gth-browser-actions-entries.h:388
+#| msgid "gThumb Preferences"
 msgid "_Preferences..."
-msgstr "_Häälestus..."
+msgstr "Eelistuse_d..."
 
-#: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
 msgstr "Redigeeri erinevaid seadeid"
 
-#: ../src/gth-browser-actions-entries.h:393
+#| msgid "Save Image"
 msgid "Scale Images..."
 msgstr "Vii pildid mõõtu..."
 
-#. Translators: This is a tooltip. A different translation
-#. may be required than for the identical string used as a
-#. dialog window title used elsewhere, depending on your
-#. language's grammar.
-#: ../src/gth-browser-actions-entries.h:398
-msgid "Scale Images"
-msgstr "Muuda piltide suurust"
-
-#: ../src/gth-browser-actions-entries.h:406
-#: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "_Tööriistariba"
 
-#: ../src/gth-browser-actions-entries.h:407
-#: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "Näita või peida selle akna tööriistariba"
 
-#: ../src/gth-browser-actions-entries.h:411
-#: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "_Olekuriba"
 
-#: ../src/gth-browser-actions-entries.h:412
-#: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "Näita või peoda selle akna olekuriba"
 
-#: ../src/gth-browser-actions-entries.h:416
+#| msgid "_File"
 msgid "_Filter"
-msgstr "_Filtreeri"
+msgstr "_Filter"
 
-#: ../src/gth-browser-actions-entries.h:417
+#| msgid "View or hide the toolbar of this window"
 msgid "View or hide the filterbar of this window"
-msgstr "Näita või peida selle akna filtririba"
+msgstr "Filtririba näitamine või peitmine aktiivses aknas"
 
-#: ../src/gth-browser-actions-entries.h:423
 msgid "View thumbnails"
 msgstr "Vaata pisipilte"
 
-#: ../src/gth-browser-actions-entries.h:427
 msgid "_Image Preview"
 msgstr "_Pildi eelvaatlus"
 
-#: ../src/gth-browser-actions-entries.h:428
-#: ../src/gth-browser-actions-entries.h:500
 msgid "View the image"
 msgstr "Vaata pilti"
 
-#: ../src/gth-browser-actions-entries.h:438
+#| msgid "Show/_Hide"
 msgid "Show _Hidden Files"
-msgstr "Näita _peietud faile"
+msgstr "Kuva _peidetud failid"
 
-#: ../src/gth-browser-actions-entries.h:439
 msgid "Show hidden files and folders"
-msgstr "Peidetud failide ja kataloogide näitamine"
+msgstr "Peidetud failide ja kaustade näitamine"
 
-#: ../src/gth-browser-actions-entries.h:444
 msgid "_Reversed Order"
 msgstr "_Vastupidises järjekorras"
 
-#: ../src/gth-browser-actions-entries.h:445
 msgid "Reverse images order"
 msgstr "Muuda piltide järjekorda"
 
-#: ../src/gth-browser-actions-entries.h:454
 msgid "by _Name"
 msgstr "_nime järgi"
 
-#: ../src/gth-browser-actions-entries.h:455
 msgid "Sort images by name"
-msgstr "Sorteeri pilte nime järgi"
+msgstr "Piltide sorteerimine nime järgi"
 
-#: ../src/gth-browser-actions-entries.h:457
 msgid "by _Path"
 msgstr "_asukoha järgi"
 
-#: ../src/gth-browser-actions-entries.h:458
 msgid "Sort images by path"
-msgstr "Sorteeri pilte nende asukoha järgi"
+msgstr "Piltide sorteerimine asukoha järgi"
 
-#: ../src/gth-browser-actions-entries.h:460
 msgid "by _Size"
 msgstr "_suuruse järgi"
 
-#: ../src/gth-browser-actions-entries.h:461
 msgid "Sort images by file size"
-msgstr "Sorteeri pilte suuruse järgi"
+msgstr "Piltide sorteerimine suuruse järgi"
 
-#: ../src/gth-browser-actions-entries.h:463
+#| msgid "by Modification date"
 msgid "by Modification _Time"
-msgstr "muu_tmise kuupäeva järgi"
+msgstr "_muutmisaja järgi"
 
-#: ../src/gth-browser-actions-entries.h:464
+#| msgid "Sort images by modification time"
 msgid "Sort images by file modification time"
-msgstr "Sorteeri pilte faili muutmisaja järgi"
+msgstr "Piltide sorteerimine muutmisaja järgi"
 
-#: ../src/gth-browser-actions-entries.h:466
+#| msgid "by _Time"
 msgid "by _Exif Time"
-msgstr "_Exif Time järgi"
+msgstr "_EXIF Time järgi"
 
-#: ../src/gth-browser-actions-entries.h:467
+#| msgid "Sort images by name"
 msgid "Sort images by Exif DateTime tag"
-msgstr "Sorteeri pilte Exif DateTime järgi"
+msgstr "Piltide sorteerimine EXIF DateTime järgi"
 
-#: ../src/gth-browser-actions-entries.h:469
+#| msgid "Comment"
 msgid "by _Comment"
-msgstr "_Kommentaari järgi"
+msgstr "_kommentaari järgi"
 
-#: ../src/gth-browser-actions-entries.h:470
+#| msgid "Sort images by name"
 msgid "Sort images by comment"
-msgstr "Sorteeri pilte kommantaari järgi"
+msgstr "Piltide sorteerimine kommentaari järgi"
 
-#: ../src/gth-browser-actions-entries.h:472
 msgid "_Manual Order"
-msgstr "_Käsitsi järjekord"
+msgstr "_käsitsi"
 
-#: ../src/gth-browser-actions-entries.h:473
+#| msgid "Sort images by name"
 msgid "Sort images manually"
-msgstr "Sorteeri pilte käsitsi"
+msgstr "Piltide sorteerimine käsitsi"
 
-#: ../src/gth-browser-actions-entries.h:480
-msgid "View As Sli_des"
-msgstr "Vaata slai_didena"
-
-#: ../src/gth-browser-actions-entries.h:481
+#| msgid "View as a slide show"
 msgid "View As Slides"
 msgstr "Vaata slaididena"
 
-#: ../src/gth-browser-actions-entries.h:483
-msgid "View As _List"
-msgstr "Vaata _nimekirjana"
-
-#: ../src/gth-browser-actions-entries.h:484
 msgid "View As List"
 msgstr "Vaata nimekirjana"
 
-#: ../src/gth-browser-actions-entries.h:493
 msgid "_Folders"
 msgstr "_Kaustad"
 
-#: ../src/gth-browser-actions-entries.h:494
 msgid "View the folders"
 msgstr "Vaata kaustu"
 
-#: ../src/gth-browser-actions-entries.h:496
 msgid "_Catalogs"
 msgstr "_Kataloogid"
 
-#: ../src/gth-browser-actions-entries.h:497
 msgid "View the catalogs"
 msgstr "Vaata katalooge"
 
-#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[Vajuta 'c' kommentaari lisamiseks]"
 
-#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[muudetud]"
 
-#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 pilt (%s)"
 
-#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d pilti (%s)"
 
-#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 valitud (%s)"
 
-#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d valitud (%s)"
 
-#: ../src/gth-browser.c:1891 ../src/gth-viewer.c:995
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Aktiivset pilti on muudetud, kas soovid muudatusi salvestada?"
 
-#: ../src/gth-browser.c:1892 ../src/gth-viewer.c:996
 msgid "Do Not Save"
 msgstr "Ära salvesta"
 
-#: ../src/gth-browser.c:3607
 msgid "Dragged Images"
 msgstr "Lohistatud pildid"
 
-#: ../src/gth-browser.c:5399 ../src/gth-browser.c:5400
-#: ../src/gth-window-actions-entries.h:276
-#: ../src/gth-window-actions-entries.h:281
-#: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Pööra pilte kvaliteedis kaotamata"
 
-#: ../src/gth-browser.c:6287
 msgid "Getting folder listing..."
-msgstr "Kausta sisu saamine..."
+msgstr "Kausta sisu hankimine..."
 
-#: ../src/gth-browser.c:6308
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "Ei suuda laadida kausta \"%s\": %s\n"
+msgstr "Kausta \"%s\" laadimine nurjus: %s\n"
 
-#: ../src/gth-browser.c:6811 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Sulge"
 
-#: ../src/gth-browser.c:6825 ../src/gth-viewer.c:1640
 msgid "Image comment"
 msgstr "Pildi kommentaar"
 
-#: ../src/gth-browser.c:6839
 msgid "Image data"
 msgstr "Pildi andmed"
 
-#: ../src/gth-browser.c:6853
 msgid "Image preview"
 msgstr "Pildi eelvaatlus"
 
-#: ../src/gth-browser.c:7905
 msgid "The specified catalog does not exist."
 msgstr "Kirjeldatud kataloogi pole olemas."
 
-#: ../src/gth-browser.c:8537 ../src/gth-viewer.c:2085
 msgid "Wait please..."
 msgstr "Oota palun..."
 
-#: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
 msgstr "Failisüsteemi andmed"
 
-#: ../src/gth-exif-data-viewer.c:66
 msgid "General Information"
-msgstr "Üldinformatsioon"
+msgstr "Üldandmed"
 
-#: ../src/gth-exif-data-viewer.c:67
 msgid "Picture-Taking Conditions"
-msgstr "Pildistamise olud"
+msgstr "Pildistamise tingimused"
 
-#: ../src/gth-exif-data-viewer.c:68
 msgid "Maker Notes"
-msgstr "Valmistaja märkused"
+msgstr "Valmistaja märked"
 
-#: ../src/gth-exif-data-viewer.c:69
 msgid "GPS Coordinates"
-msgstr "GPS koordinaadid"
+msgstr "GPS-koordinaadid"
 
-#: ../src/gth-exif-data-viewer.c:70
+#| msgid "Image type:"
 msgid "Image Structure"
 msgstr "Pildi struktuur"
 
-#: ../src/gth-exif-data-viewer.c:71
+#| msgid "_Thumbnails"
 msgid "Embedded Thumbnail"
-msgstr "Pisipilt manuses"
+msgstr "Põimitud pisipilt"
 
-#: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
 msgstr "Versioonid & koostalitlusvõime"
 
-#: ../src/gth-exif-data-viewer.c:73
+#| msgid "After"
 msgid "Other"
 msgstr "Muu"
 
-#: ../src/gth-exif-data-viewer.c:801
+#| msgid "by _Path"
 msgid "Path"
 msgstr "Asukoht"
 
-#: ../src/gth-filter-bar.c:176
+#| msgid "Continue"
 msgid "contains"
-msgstr "sisaldab"
+msgstr "sisaldab fraasi"
 
-#: ../src/gth-filter-bar.c:177
 msgid "starts with"
-msgstr "algab"
+msgstr "algab fraasiga"
 
-#: ../src/gth-filter-bar.c:178
+#| msgid "_Open With"
 msgid "ends with"
-msgstr "lõppeb"
+msgstr "lõpeb fraasiga"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
 msgid "is"
 msgstr "on"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
 msgid "is not"
 msgstr "ei ole"
 
-#: ../src/gth-filter-bar.c:181
 msgid "does not contain"
-msgstr "ei sisalda"
+msgstr "ei sisalda fraasi"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#| msgid "Equal to"
 msgid "is equal to"
-msgstr "on võrdne"
+msgstr "on"
 
-#: ../src/gth-filter-bar.c:185
 msgid "is lower than"
-msgstr "on madalam kui"
+msgstr "on väiksem kui"
 
-#: ../src/gth-filter-bar.c:186
 msgid "is greater than"
 msgstr "on suurem kui"
 
-#: ../src/gth-filter-bar.c:190
+#| msgid "Before"
 msgid "is before"
 msgstr "on enne"
 
-#: ../src/gth-filter-bar.c:191
+#| msgid "After"
 msgid "is after"
 msgstr "on pärast"
 
-#: ../src/gth-filter-bar.c:200
 msgid "KB"
 msgstr "KB"
 
-#: ../src/gth-filter-bar.c:201
 msgid "MB"
 msgstr "MB"
 
-#: ../src/gth-filter-bar.c:207
 msgid "Filename"
 msgstr "Failinimi"
 
-#: ../src/gth-filter-bar.c:209
+#| msgid "_Place:"
 msgid "Place"
 msgstr "Asukoht"
 
-#: ../src/gth-filter-bar.c:212
+#| msgid "Categories"
 msgid "Category"
 msgstr "Kategooria"
 
-#: ../src/gth-filter-bar.c:213
+#| msgid "Text only"
 msgid "Text contains"
-msgstr "Tekst sisaldab"
+msgstr "Sisaldab teksti"
 
-#: ../src/gth-filter-bar.c:494
 msgid "All"
-msgstr "Kõik"
+msgstr "Kõiki"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
-msgid "Sh_ow:"
-msgstr "_Näita:"
+#| msgid "_Rows:"
+msgid "S_how:"
+msgstr "_Näidatakse:"
 
-#: ../src/gth-folder-selection-dialog.c:281
+#| msgid "<b>Footer</b>"
 msgid "<b>_Folder</b>"
 msgstr "<b>_Kaust</b>"
 
-#: ../src/gth-folder-selection-dialog.c:299
 msgid "_Browse..."
 msgstr "_Sirvi..."
 
-#. Go to destination
-#: ../src/gth-folder-selection-dialog.c:304
-msgid "_Go to the destination folder"
-msgstr "_Mine sihtkausta"
-
-#: ../src/gth-folder-selection-dialog.c:317
+#| msgid "<b>Header and footer</b>"
 msgid "<b>_Recent folders:</b>"
-msgstr "<b>_Eelmised kataloogid:</b>"
+msgstr "<b>_Viimati kasutatud kaustad:</b>"
 
-#: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
 msgstr "_Omadused"
 
-#: ../src/gth-location.c:385
 msgid "Other..."
 msgstr "Muu..."
 
-#: ../src/gth-viewer-actions-entries.h:41
-#: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
 msgstr "_Teisenda"
 
-#: ../src/gth-viewer-actions-entries.h:42
-#: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
 msgstr "Automaatne"
 
-#: ../src/gth-viewer-actions-entries.h:88
+#| msgid "New _Window"
 msgid "_Single Window"
 msgstr "Ük_sik aken"
 
-#: ../src/gth-viewer-actions-entries.h:89
 msgid "Reuse this window to view other images"
-msgstr "Kasuta sama akent teiste piltide vaatamiseks"
+msgstr "Kasutada kõikide piltide vaatamiseks seda ühte akent"
 
-#: ../src/gth-viewer.c:820
 msgid "_None"
 msgstr "_Puudub"
 
-#: ../src/gth-viewer.c:1436 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
-msgstr "_Ava..."
+msgstr "Ava _rakendusega..."
 
-#: ../src/gth-viewer.c:1442 ../src/gth-viewer.c:1443
-#: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "Ava valitud pildid programmiga"
+msgstr "Valitud piltide avamine rakendusega"
 
-#: ../src/gth-window-actions-callbacks.c:911
 msgid "An image viewer and browser for GNOME."
 msgstr "GNOME piltide vaataja ja sirvija."
 
-#: ../src/gth-window-actions-callbacks.c:914
 msgid "translator_credits"
-msgstr "Tõlkis: Olle Niit"
+msgstr ""
+"Olle Niit, 2005-2007\n"
+"Rene Pärts, 2010"
 
-#: ../src/gth-window-actions-entries.h:37
+#| msgid "Reduce the number of colors"
 msgid "Reduce Colors"
-msgstr "Vähenda värvide arvu"
+msgstr "Taanda värve"
 
-#: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Sulge aken"
 
-#: ../src/gth-window-actions-entries.h:45
+#| msgid "_Open With"
 msgid "_Open With..."
-msgstr "_Ava..."
+msgstr "Ava _rakendusega..."
 
-#: ../src/gth-window-actions-entries.h:51
-#: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
 msgstr "Salvesta aktiivne pilt"
 
-#: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
 msgstr "Salvesta _kui..."
 
-#: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
-msgstr "Taasta salvestatud pildist"
+msgstr "Taastamine salvestatud pildifailist"
 
-#: ../src/gth-window-actions-entries.h:65
+#| msgid "Print"
 msgid "Print..."
 msgstr "Prindi..."
 
-#: ../src/gth-window-actions-entries.h:66
-#: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
 msgstr "Prindi aktiivne pilt"
 
-#: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
 msgstr "Ava see pilt programmiga"
 
-#: ../src/gth-window-actions-entries.h:80
+#| msgid "Comm_ent"
 msgid "Comm_ent..."
-msgstr "Komm_entaar..."
+msgstr "K_ommenteeri..."
 
-#: ../src/gth-window-actions-entries.h:81
-#: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
 msgstr "Lisa valitud piltidele kommentaarid"
 
-#: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
 msgstr "_Eemalda kommentaar"
 
-#: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
 msgstr "Eemalda kommentaarid valtud piltidelt"
 
-#: ../src/gth-window-actions-entries.h:96
-#: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
 msgstr "Omista valitud piltidele kategooriad"
 
-#: ../src/gth-window-actions-entries.h:100
 msgid "Ca_tegories"
 msgstr "Ka_tegooriad"
 
-#: ../src/gth-window-actions-entries.h:115
-#: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
 msgstr "Pööra _paremale"
 
-#: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
 msgstr "Vaata pilti päripäeva pööratult"
 
-#: ../src/gth-window-actions-entries.h:120
-#: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
 msgstr "Pööra _vasakule"
 
-#: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
 msgstr "Vaata pilti vastupäeva pööratult"
 
-#: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
-msgstr "_Sussid püsti"
+msgstr "Pööra ü_mber"
 
-#: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
-msgstr "Vaata pilti sussid püsti pööratult"
+msgstr "Pildi vaatamine ümberpööratult"
 
-#: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
 msgstr "_Peegelda"
 
-#: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
-msgstr "Vaata pilti peegelpildina"
+msgstr "Pildi vaatamine peegeldatuna"
 
-#: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
-msgstr "_Suurenda küllastust"
+msgstr "_Mustvalgeks"
 
-#: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
-msgstr "Vaata pilti mustvalgelt"
+msgstr "Pildi vaatamine mustvalgena"
 
-#: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
 msgstr "_Negatiiv"
 
-#: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
-msgstr "Vaata pilti negatiivina"
+msgstr "Pildi vaatamine negatiivina"
 
-#: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
-msgstr "_Tee ilusamaks"
+msgstr "_Paranda"
 
-#: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
 msgstr "Automaatne värvitasemete reguleerimine"
 
-#: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
 msgstr "_Korrektuur"
 
-#: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
 msgstr "Automaatne pildi histogrammi korrektuur"
 
-#: ../src/gth-window-actions-entries.h:155
+#| msgid "_Posterize"
 msgid "_Posterize..."
-msgstr "_Väheste värvidega..."
+msgstr "_Posterda..."
 
-#: ../src/gth-window-actions-entries.h:156
-#: ../src/gth-window-actions-entries.h:191
-#: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
-msgstr "Vähenda värvide arvu"
+msgstr "Värvide arvu vähendamine"
 
-#: ../src/gth-window-actions-entries.h:160
+#| msgid "_Brightness-Contrast"
 msgid "_Brightness-Contrast..."
 msgstr "_Heledus-Kontrastsus..."
 
-#: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
-msgstr "Reguleeri heledust ja kontrastsust"
+msgstr "Heleduse ja kontrastsuse reguleerimine"
 
-#: ../src/gth-window-actions-entries.h:165
+#| msgid "_Hue-Saturation"
 msgid "_Hue-Saturation..."
 msgstr "_Värvitoon-Küllastus..."
 
-#: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
-msgstr "Reguleeri värvitooni ja küllastust"
+msgstr "Värvitooni ja küllastuse reguleerimine"
 
-#: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
 msgstr "_Punasilmsuse eemaldamine..."
 
-#: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
 msgstr "Punasilmsuse eemaldamise tööriist"
 
-#: ../src/gth-window-actions-entries.h:175
+#| msgid "_Color Balance"
 msgid "_Color Balance..."
 msgstr "_Värvitasakaal..."
 
-#: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
-msgstr "Reguleeri värvitasakaalu"
+msgstr "Värvitasakaalu reguleerimine"
 
-#: ../src/gth-window-actions-entries.h:180
+#| msgid "_Rename..."
 msgid "_Resize..."
-msgstr "Muuda suu_rust..."
+msgstr "Muuda _suurust..."
 
-#: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
-msgstr "Muuda pildi suurust"
+msgstr "Pildi mõõtmete muutmine"
 
-#: ../src/gth-window-actions-entries.h:185
+#| msgid "_Copy..."
 msgid "_Crop..."
 msgstr "_Kärbi..."
 
-#: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
 msgstr "Kärbi pilti"
 
-#: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
 msgstr "Must ja valge"
 
-#: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
-msgstr "Veebi värvitoonid"
+msgstr "Veebipalett"
 
-#: ../src/gth-window-actions-entries.h:200
-#: ../src/gth-window-actions-entries.h:307
 msgid "In"
 msgstr "Sisse"
 
-#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
-msgstr "Suurendus sisse"
+msgstr "Suurenda pilti"
 
-#: ../src/gth-window-actions-entries.h:205
 msgid "Out"
 msgstr "Välja"
 
-#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
-msgstr "Suurendus välja"
+msgstr "Vähenda pilti"
 
-#: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
 msgstr "1:1"
 
-#: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
 msgstr "Tegelik suurus"
 
-#: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
-msgstr "Täida"
+msgstr "Mahuta"
 
-#: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
-msgstr "Pilt akna suuruseks"
+msgstr "Pildi mahutamine aknasse"
 
-#: ../src/gth-window-actions-entries.h:220
+#| msgid "Width:"
 msgid "Width"
 msgstr "Laius"
 
-#: ../src/gth-window-actions-entries.h:221
+#| msgid "Zoom to fit window"
 msgid "Zoom to fit width"
-msgstr "Mahuta ekraanile laiuse järgi"
+msgstr "Mahuta laiuse järgi"
 
-#: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
 msgstr "A_nimatsiooni samm"
 
-#: ../src/gth-window-actions-entries.h:226
 msgid "View next animation frame"
 msgstr "Vaata järgmist animeeritud raami"
 
-#: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
 msgstr "_Keskjoondatud"
 
-#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr "Sea pilt töölaua taustapildiks (keskele)"
+msgstr "Määra töölaua taustaks (keskele)"
 
-#: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
 msgstr "_Paanidena"
 
-#: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr "Sea pilt töölaua taustapildiks (paanidena)"
+msgstr "Määra töölaua taustaks (paanidena)"
 
-#: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
 msgstr "_Mõõtu viidud"
 
-#: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Sea pilt töölaua taustapildiks (külgede suhet muutmata mõõtu viidud)"
+msgstr "Määra töölaua taustaks (proportsionaalselt skaleeritud)"
 
-#: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
 msgstr "_Venitatud"
 
-#: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr "Sea pilt töölaua taustapildiks (venitatutud)"
+msgstr "Määra töölaua taustaks (venitatutud)"
 
-#: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
 msgstr "_Taasta"
 
-#: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
-msgstr "Taasta algne töölaua taustapilt"
+msgstr "Taasta algne töölaua taust"
 
-#: ../src/gth-window-actions-entries.h:265
+#| msgid "Change _Date"
 msgid "Change _Date..."
 msgstr "Muuda _kuupäeva..."
 
-#: ../src/gth-window-actions-entries.h:266
 msgid "Change images last modified date"
 msgstr "Muuda pildi viimase muutmise kuupäeva"
 
-#: ../src/gth-window-actions-entries.h:270
 msgid "Reset _Exif Orientation"
-msgstr "Määra _Exif suund"
+msgstr "Lähtesta _EXIF suund"
 
-#: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
-msgstr "Määra Exif suunaks vasak-ülemine"
+msgstr "Määra EXIF suunaks \"üles-vasakule\""
 
-#: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
 msgstr "Näita teavet gThumbi kohta"
 
-#: ../src/gth-window-actions-entries.h:295
+#| msgid "Co_mments"
 msgid "Contents"
-msgstr "Sisu"
+msgstr "Sisukord"
 
-#: ../src/gth-window-actions-entries.h:300
+msgid "Display the gThumb Manual"
+msgstr "gThumb'i käsiraamatu kuvamine"
+
 msgid "_Keyboard Shortcuts"
 msgstr "_Klaviatuuri kiirklahvid"
 
-#: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
-msgstr "Mängi _animatsiooni"
+msgstr "Esita _animatsiooni"
 
-#: ../src/gth-window-actions-entries.h:317
 msgid "Start or stop current animation"
 msgstr "Alustab või lõpetab aktiivse animatsiooni"
 
-#: ../src/main.c:90
+msgid "_High Quality"
+msgstr "_Kõrge kvaliteet"
+
+msgid "Use high quality zoom"
+msgstr "Kasuta kõrgekvaliteedilist suurendust"
+
+msgid "_Low Quality"
+msgstr "_Madal kvaliteet"
+
+msgid "Use low quality zoom"
+msgstr "Kasuta madalakvaliteedilist suurendust"
+
 msgid "Start in fullscreen mode"
 msgstr "Käivitu täisekraani režiimis"
 
-#: ../src/main.c:94
 msgid "Automatically start a slideshow"
 msgstr "Alusta slaidiesitlust automaatselt"
 
-#: ../src/main.c:98
 msgid "Automatically import digital camera photos"
 msgstr "Impordi digitaalkaamera fotod automaatselt"
 
-#: ../src/main.c:102
 msgid "Use the viewer mode to view single images"
-msgstr "Kasuta vaaterežiimi üksikute piltide vaatamiseks"
+msgstr "Üksikute piltide vaatamiseks kasuta vaaterežiimi"
 
-#: ../src/main.c:147
 msgid "Holidays"
 msgstr "Puhkus"
 
-#: ../src/main.c:148
 msgid "Temporary"
 msgstr "Ajutine"
 
-#: ../src/main.c:149
 msgid "Screenshots"
 msgstr "Ekraanipildid"
 
-#: ../src/main.c:150
 msgid "Science"
 msgstr "Teadus"
 
-#: ../src/main.c:151
 msgid "Favourite"
 msgstr "Lemmikud"
 
-#: ../src/main.c:152
 msgid "Important"
 msgstr "Tähtis"
 
-#: ../src/main.c:153
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:154
 msgid "Games"
 msgstr "Mängud"
 
-#: ../src/main.c:155
 msgid "Party"
 msgstr "Pidu"
 
-#: ../src/main.c:156
 msgid "Birthday"
 msgstr "Sünnipäev"
 
-#: ../src/main.c:157
 msgid "Astronomy"
 msgstr "Astronoomia"
 
-#: ../src/main.c:158
 msgid "Family"
 msgstr "Perekond"
 
-#: ../src/main.c:380
 msgid "Command Line"
 msgstr "Käsurida"
 
-#: ../src/rotation-utils.c:113
 #, c-format
+#| msgid "Could not rename the image \"%s\": %s"
 msgid "Problem transforming the image: %s"
-msgstr "Ei suutnud pilti ümber teha: %s"
+msgstr "Tõrge pildi teisendamisel: %s"
 
-#: ../src/rotation-utils.c:118
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
+"See teisendus võib kaasa tuua pildi ühe või rohkema serva mõningase moonutuse, kuna pildi mõõtmed ei ole arvu 8 kordarvud.\n"
+"\n"
+"Moonutus on taastatav. Kui tulemus ei vasta ootustele, siis tuleb algse pildi saamiseks rakendada teisendus vastupidiselt.\n"
+"\n"
+"Mitteteisendatavad pikslid võib ka hüljata (või kärpida). Selline võimalus annab praktiliselt küll parima tulemuse, kuid tulemus pole enam täiesti kadudeta."
 
-#: ../src/rotation-utils.c:126
+#| msgid "by _Time"
 msgid "_Trim"
-msgstr "_Trimmi"
+msgstr "_Kärbi"
 
-#: ../src/rotation-utils.c:215
-msgid ""
-"Could not move temporary file to local destination. Check folder permissions."
-msgstr ""
-"Ei suutnud liigutada ajutist faili kohalikku sihtkohta. Kontrolli kataloogi "
-"õigusi."
+#| msgid "Could not create a temporary folder"
+msgid "Could not create a local temporary copy of the remote file."
+msgstr "Kaugfailist kohaliku ajutise koopia loomine nurjus."
 
-#~ msgid "_High Quality"
-#~ msgstr "_Kõrge kvaliteet"
-
-#~ msgid "Use high quality zoom"
-#~ msgstr "Kasuta kõrgekvaliteedilist suurendust"
-
-#~ msgid "_Low Quality"
-#~ msgstr "_Madal kvaliteet"
-
-#~ msgid "Use low quality zoom"
-#~ msgstr "Kasuta madalakvaliteedilist suurendust"
-
-#~ msgid "Photo _Data (EXIF)"
-#~ msgstr "Foto An_dmed (EXIF)"
-
-#~ msgid "Inde_x file:"
-#~ msgstr "_Indeksfail::"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
+msgid "Could not move temporary file to local destination. Check folder permissions."
+msgstr "Ei suutnud liigutada ajutist faili kohalikku sihtkohta. Kontrolli kausta õigusi."
 
 #~ msgid "Catalog"
 #~ msgstr "Kataloog"
-
 #~ msgid "GThumb Catalog View"
 #~ msgstr "GThumb kataloogivaade"
-
 #~ msgid "View as Catalog"
 #~ msgstr "Vaata kataloogina"
-
 #~ msgid "_Print"
 #~ msgstr "_Prindi"
-
 #~ msgid "GThumb Image"
 #~ msgstr "GThumb pilt"
-
 #~ msgid "GThumb Viewer"
 #~ msgstr "GThumb Vaajata"
-
 #~ msgid "View with GThumb"
 #~ msgstr "Vaata GThumb'iga"
-
 #~ msgid "Flip"
 #~ msgstr "Sussid püsti"
-
 #~ msgid "Flip the image"
 #~ msgstr "Pöörab pilti 180 kraadi"
-
 #~ msgid "High"
 #~ msgstr "Kõrge"
-
 #~ msgid "Low"
 #~ msgstr "Madal"
-
 #~ msgid "Mirror"
 #~ msgstr "Peegel"
-
 #~ msgid "Mirror the image"
 #~ msgstr "Peegelda pilt"
-
 #~ msgid "Rotate"
 #~ msgstr "Pööra"
-
 #~ msgid "Rotate 180 _Degrees"
 #~ msgstr "Pööra 180 _kraadi"
-
 #~ msgid "Rotate the image clockwise"
 #~ msgstr "Pööra pilti päripäeva"
-
 #~ msgid "Rotate the image of 180 degrees"
 #~ msgstr "Pööra pilti 180 kraadi"
-
 #~ msgid "Start/Stop _Animation"
 #~ msgstr "_Animatsiooni Start/Stop"
-
 #~ msgid "Transparency T_ype"
 #~ msgstr "Läbipaistvuse _tüüp"
-
 #~ msgid "_Black"
 #~ msgstr "_Must"
-
 #~ msgid "_Checked"
 #~ msgstr "_Märgitud"
-
 #~ msgid "_Rotate Clockwise"
 #~ msgstr "_Pööra päripäeva"
-
 #~ msgid "_White"
 #~ msgstr "_Valge"
-
 #~ msgid "_Zoom Quality"
 #~ msgstr "_Suurenduse kvaliteet"
-
 #~ msgid "GThumb Application"
 #~ msgstr "GThumb programm"
-
 #~ msgid "GThumb Application Factory"
 #~ msgstr "GThumb programmi tehas"
-
 #~ msgid "*"
 #~ msgstr "*"
-
 #~ msgid "_Remove"
 #~ msgstr "_Eemalda"
-
 #~ msgid "_Auto Detect"
 #~ msgstr "_Automaatne leidmine"
-
 #~ msgid "_Delete"
 #~ msgstr "_Kustuta"
-
 #~ msgid "_New"
 #~ msgstr "_Uus"
-
 #~ msgid "Ask"
 #~ msgstr "Küsi"
-
 #~ msgid "Overwrite"
 #~ msgstr "Kirjuta üle"
-
 #~ msgid "by time"
 #~ msgstr "kuupäeva järgi"
-
 #~ msgid "<b>View images as</b>"
 #~ msgstr "<b>Vaata pilte kui</b>"
-
 #~ msgid "Fit image to window"
 #~ msgstr "Mahuta pilt aknasse"
-
 #~ msgid "_List"
 #~ msgstr "_Nimekiri"
-
 #~ msgid "_Slides"
 #~ msgstr "_Slaidid"
-
 #~ msgid "Find"
 #~ msgstr "Leia"
-
 #~ msgid ""
 #~ "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 #~ msgstr "<small><i><b>Märkus</b>: jpeg teisendatakse kadudeta.</i></small>"
-
 #~ msgid "Adjust photo _orientation"
 #~ msgstr "Reguleeri foto _suunda"
-
 #~ msgid "Change the last modified date to:"
 #~ msgstr "Pane viimase muutmise kuupäevaks:"
-
 #~ msgid "Find Duplicates"
 #~ msgstr "Leia duplikaadid"
-
 #~ msgid "Rename Series"
 #~ msgstr "Hulgiümbernimetamine"
-
 #~ msgid "by Name"
 #~ msgstr "nime järgi"
-
 #~ msgid "by Size"
 #~ msgstr "suuruse järgi"
-
 #~ msgid "<b>Photo data</b>"
 #~ msgstr "<b>Foto andmed</b>"
-
 #~ msgid "rows"
 #~ msgstr "ridu"
-
 #~ msgid "Possible values are: name, path, size, time."
 #~ msgstr "Võimalikud väärtused: nimi, asukoht, suurus, kuupäev."
-
 #~ msgid "Possible values are: name, size, time."
 #~ msgstr "Võimalikud väärtused: nimi, suurus, kuupäev."
-
 #~ msgid "Deleting all comments, wait please..."
 #~ msgstr "Kustutan kõik kommentaarid, oota palun..."
-
 #~ msgid "Deleting old comments, wait please..."
 #~ msgstr "Kustutan vanad kommentaarid, oota palun..."
-
 #~ msgid "Preview"
 #~ msgstr "Eelvaade"
-
 #~ msgid "Font Selection"
 #~ msgstr "Fondi valik"
-
 #~ msgid "Sans Regular 12"
 #~ msgstr "Sans Regular 12"
-
 #~ msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 #~ msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-
 #~ msgid "Pick a Font"
 #~ msgstr "Vali font"
-
 #~ msgid "Title"
 #~ msgstr "Pealkiri"
-
 #~ msgid "Font name"
 #~ msgstr "Fondi nimi"
-
 #~ msgid "Name of the selected font"
 #~ msgstr "Valitud fondi nimi"
-
 #~ msgid "Preview text"
 #~ msgstr "Eelvaate tekst"
-
 #~ msgid "Preview text shown in the dialog"
 #~ msgstr "Vaata dialoogis näidatav teks üle"
-
 #~ msgid "Show size"
 #~ msgstr "Näita suurust"
-
 #~ msgid "Font"
 #~ msgstr "Font"
-
 #~ msgid "%d x %d (Display)"
 #~ msgstr "%d x %d (Ekraan)"
-
 #~ msgid "Folder"
 #~ msgstr "Kaust"
-
 #~ msgid "Find images"
 #~ msgstr "Leia pilte"
-
 #~ msgid "_Rename Series"
 #~ msgstr "_Hulgiümbernimetamine"
-
 #~ msgid "Image _Comment"
 #~ msgstr "Pildi _kommentaar"
-
 #~ msgid "View image comment"
 #~ msgstr "Vaata pildi kommentaari"
-
 #~ msgid "Back"
 #~ msgstr "Tagasi"
-
 #~ msgid "Field"
 #~ msgstr "Väli"
-
 #~ msgid "Value "
 #~ msgstr "Väärtus "
-
 #~ msgid "_Recents:"
 #~ msgstr "_Hiljutised:"
-
 #~ msgid "Restore Normal View"
 #~ msgstr "Taasta normaalvaade"
-
 #~ msgid "Image Info"
 #~ msgstr "Pildi info"
-
 #~ msgid "Pause"
 #~ msgstr "Paus"
-
 #~ msgid "Open _Folder"
 #~ msgstr "Ava _Kaust"
-
 #~ msgid "Browse the image folder"
 #~ msgstr "Sirvi pildikausta"
-
 #~ msgid "_Normalize"
 #~ msgstr "_Tee normaalseks"
-
 #~ msgid "Automatically normalize the contrast"
 #~ msgstr "Automaatne kontrastsuse normaliseerimine"
-
 #~ msgid "_Stretch Contrast"
 #~ msgstr "_Pinguta kontrastsust"
-
 #~ msgid "Automatically stretch the contrast"
 #~ msgstr "Kontrastsuse automaatne pingutamine"
-
 #~ msgid "_Threshold"
 #~ msgstr "_Lävi"
-
 #~ msgid "Apply threshold"
 #~ msgstr "Rakenda läve"
-
 #~ msgid "_Rotate"
 #~ msgstr "_Pööra"
-
 #~ msgid "_Full Screen"
 #~ msgstr "_Täisekraan"
-
 #~ msgid "View image in fullscreen mode"
 #~ msgstr "Vaata pilti täisekraanirežiimis"
+
