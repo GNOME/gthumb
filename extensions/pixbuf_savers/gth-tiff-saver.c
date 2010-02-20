@@ -219,7 +219,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 {
 	GthBufferData *buffer_data;
 	TIFF          *tif;
-	int            cols, col, rows, row;
+	int            cols, rows, row;
 	glong          rowsperstrip;
 	gushort        compression;
 	int            alpha;
@@ -227,9 +227,9 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	gshort         photometric;
 	gshort         samplesperpixel;
 	gshort         bitspersample;
+	gushort        extra_samples[1];
 	int            rowstride;
-	guchar        *pixels, *buf, *ptr;
-	int            success;
+	guchar        *pixels;
 	int            horizontal_dpi = 72, vertical_dpi = 72;
 	gboolean       save_resolution = FALSE;
 
@@ -371,8 +371,6 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	}
 
 	if (alpha) {
-		gushort extra_samples[1];
-
 		extra_samples [0] = EXTRASAMPLE_ASSOCALPHA;
 		TIFFSetField (tif, TIFFTAG_EXTRASAMPLES, 1, extra_samples);
 	}
@@ -389,27 +387,9 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		TIFFSetField (tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
 	}
 
-	/* allocate a small buffer to convert image data */
-	buf = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
-	if (! buf) {
-		g_set_error_literal (error,
-				     GDK_PIXBUF_ERROR,
-				     GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
-				     "Couldn't allocate memory for writing TIFF file");
-		return FALSE;
-	}
-
-	ptr = pixels;
-
 	/* Now write the TIFF data. */
 	for (row = 0; row < rows; row++) {
-		/* convert scanline from ARGB to RGB packed */
-		for (col = 0; col < cols; col++)
-			memcpy (&(buf[col * 3]), &(ptr[col * samplesperpixel]), 3);
-
-		success = TIFFWriteScanline (tif, buf, row, 0) >= 0;
-
-		if (! success) {
+		if (TIFFWriteScanline (tif, pixels + row * rowstride, row, 0) < 0) {
 			g_set_error (error,
 				     GDK_PIXBUF_ERROR,
 				     GDK_PIXBUF_ERROR_FAILED,
@@ -417,14 +397,10 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 				     row);
 			return FALSE;
 		}
-
-		ptr += rowstride;
 	}
 
 	TIFFFlushData (tif);
 	TIFFClose (tif);
-
-	g_free (buf);
 
 	gth_buffer_data_get (buffer_data, buffer, buffer_size);
 	gth_buffer_data_free (buffer_data, FALSE);
