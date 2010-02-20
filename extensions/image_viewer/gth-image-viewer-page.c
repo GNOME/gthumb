@@ -248,6 +248,16 @@ viewer_scroll_event_cb (GtkWidget 	   *widget,
 
 
 static gboolean
+viewer_image_map_event_cb (GtkWidget          *widget,
+			   GdkEvent           *event,
+			   GthImageViewerPage *self)
+{
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+	return FALSE;
+}
+
+
+static gboolean
 viewer_key_press_cb (GtkWidget          *widget,
 		     GdkEventKey        *event,
 		     GthImageViewerPage *self)
@@ -427,6 +437,10 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"scroll_event",
 				G_CALLBACK (viewer_scroll_event_cb),
+				self);
+	g_signal_connect_after (G_OBJECT (self->priv->viewer),
+				"map_event",
+				G_CALLBACK (viewer_image_map_event_cb),
 				self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "key_press_event",
