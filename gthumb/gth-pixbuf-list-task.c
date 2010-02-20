@@ -355,9 +355,36 @@ file_buffer_ready_cb (void     **buffer,
 
 
 static void
+file_info_ready_cb (GList    *files,
+		    GError   *error,
+		    gpointer  user_data)
+{
+	GthPixbufListTask *self = user_data;
+	GthFileData       *updated_file_data;
+	GthFileData       *file_data;
+
+	if (error != NULL) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	file_data = self->priv->current->data;
+	updated_file_data = (GthFileData*) files->data;
+	g_file_info_copy_into (updated_file_data->info, file_data->info);
+
+	g_load_file_async (file_data->file,
+			   G_PRIORITY_DEFAULT,
+			   gth_task_get_cancellable (GTH_TASK (self)),
+			   file_buffer_ready_cb,
+			   self);
+}
+
+
+static void
 process_current_file (GthPixbufListTask *self)
 {
 	GthFileData *file_data;
+	GList       *singleton;
 
 	if (self->priv->current == NULL) {
 		gth_task_completed (GTH_TASK (self), NULL);
@@ -376,11 +403,16 @@ process_current_file (GthPixbufListTask *self)
 			   ((double) self->priv->n_current + 1) / (self->priv->n_files + 1));
 
 	file_data = self->priv->current->data;
-	g_load_file_async (file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   gth_task_get_cancellable (GTH_TASK (self)),
-			   file_buffer_ready_cb,
-			   self);
+	singleton = g_list_append (NULL, g_object_ref (file_data->file));
+	_g_query_all_metadata_async (singleton,
+				     FALSE,
+				     TRUE,
+				     "*",
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     file_info_ready_cb,
+				     self);
+
+	_g_object_list_unref (singleton);
 }
 
 
