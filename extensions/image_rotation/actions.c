@@ -32,16 +32,19 @@ gth_browser_activate_action_tool_rotate_right (GtkAction  *action,
 					       GthBrowser *browser)
 {
 	GList   *items;
+	GList   *file_data_list;
 	GList   *file_list;
 	GthTask *task;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_ROTATE_90);
 	gth_browser_exec_task (browser, task, FALSE);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
+	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 }
 
@@ -51,15 +54,18 @@ gth_browser_activate_action_tool_rotate_left (GtkAction  *action,
 					      GthBrowser *browser)
 {
 	GList   *items;
+	GList   *file_data_list;
 	GList   *file_list;
 	GthTask *task;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_ROTATE_270);
 	gth_browser_exec_task (browser, task, FALSE);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
+	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 }

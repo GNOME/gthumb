@@ -50,7 +50,7 @@ struct _GthTransformTaskClass {
 
 GType         gth_transform_task_get_type     (void);
 GthTask *     gth_transform_task_new          (GthBrowser   *browser,
-					       GList        *file_list,
+					       GList        *file_list, /* GFile list */
 					       GthTransform  transform);
 
 G_END_DECLS

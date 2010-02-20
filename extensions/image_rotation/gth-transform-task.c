@@ -29,6 +29,7 @@ struct _GthTransformTaskPrivate {
 	GthBrowser    *browser;
 	GList         *file_list;
 	GList         *current;
+	GthFileData   *file_data;
 	GthTransform   transform;
 	JpegMcuAction  default_action;
 };
@@ -44,6 +45,7 @@ gth_transform_task_finalize (GObject *object)
 
 	self = GTH_TRANSFORM_TASK (object);
 
+	_g_object_unref (self->priv->file_data);
 	_g_object_list_unref (self->priv->file_list);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -84,7 +86,6 @@ transform_file_ready_cb (GError   *error,
 			 gpointer  user_data)
 {
 	GthTransformTask *self = user_data;
-	GthFileData      *file_data;
 	GFile            *parent;
 	GList            *file_list;
 
@@ -93,10 +94,8 @@ transform_file_ready_cb (GError   *error,
 			g_clear_error (&error);
 
 			gth_task_dialog (GTH_TASK (self), TRUE);
-
-			file_data = self->priv->current->data;
 			ask_whether_to_trim (GTK_WINDOW (self->priv->browser),
-					     file_data,
+					     self->priv->file_data,
 					     trim_response_cb,
 					     self);
 
@@ -107,9 +106,8 @@ transform_file_ready_cb (GError   *error,
 		return;
 	}
 
-	file_data = self->priv->current->data;
-	parent = g_file_get_parent (file_data->file);
-	file_list = g_list_append (NULL, file_data->file);
+	parent = g_file_get_parent (self->priv->file_data->file);
+	file_list = g_list_append (NULL, self->priv->file_data->file);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    parent,
 				    file_list,
@@ -123,22 +121,50 @@ transform_file_ready_cb (GError   *error,
 
 
 static void
+file_info_ready_cb (GList    *files,
+		    GError   *error,
+		    gpointer  user_data)
+{
+	GthTransformTask *self = user_data;
+
+	if (error != NULL) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = g_object_ref ((GthFileData *) files->data);
+	apply_transformation_async (self->priv->file_data,
+				    self->priv->transform,
+				    self->priv->default_action,
+				    gth_task_get_cancellable (GTH_TASK (self)),
+				    transform_file_ready_cb,
+				    self);
+}
+
+
+static void
 transform_current_file (GthTransformTask *self)
 {
-	GthFileData *file_data;
+	GFile *file;
+	GList *singleton;
 
 	if (self->priv->current == NULL) {
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
 
-	file_data = self->priv->current->data;
-	apply_transformation_async (file_data,
-				    self->priv->transform,
-				    self->priv->default_action,
-				    gth_task_get_cancellable (GTH_TASK (self)),
-				    transform_file_ready_cb,
-				    self);
+	file = self->priv->current->data;
+	singleton = g_list_append (NULL, g_object_ref (file));
+	_g_query_all_metadata_async (singleton,
+				     FALSE,
+				     TRUE,
+				     "*",
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     file_info_ready_cb,
+				     self);
+
+	_g_object_list_unref (singleton);
 }
 
 
@@ -178,6 +204,7 @@ gth_transform_task_init (GthTransformTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSFORM_TASK, GthTransformTaskPrivate);
 	self->priv->default_action = JPEG_MCU_ACTION_ABORT; /* FIXME: save a gconf value for this */
+	self->priv->file_data = NULL;
 }
 
 
