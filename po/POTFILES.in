@@ -128,6 +128,7 @@ extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
 [type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
@@ -147,6 +148,8 @@ extensions/file_tools/gth-file-tool-negative.c
 extensions/file_tools/gth-file-tool-negative.h
 extensions/file_tools/gth-file-tool-redo.c
 extensions/file_tools/gth-file-tool-redo.h
+extensions/file_tools/gth-file-tool-resize.c
+extensions/file_tools/gth-file-tool-resize.h
 extensions/file_tools/gth-file-tool-rotate-left.c
 extensions/file_tools/gth-file-tool-rotate-left.h
 extensions/file_tools/gth-file-tool-rotate-right.c
