@@ -34,8 +34,9 @@
 #include "gth-folder-tree.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
-#include "gth-viewer-page.h"
+#include "gth-sidebar.h"
 #include "gtk-utils.h"
+#include "gth-viewer-page.h"
 
 
 void
@@ -313,7 +314,13 @@ void
 gth_browser_activate_action_browser_mode (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
+	GtkWidget *viewer_sidebar;
+
+	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
+	if (gth_sidebar_is_tool_active (GTH_SIDEBAR (viewer_sidebar)))
+		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
+	else
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
 }
 
 

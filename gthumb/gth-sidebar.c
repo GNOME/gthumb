@@ -187,6 +187,13 @@ gth_sidebar_is_tool_active (GthSidebar *sidebar)
 
 
 void
+gth_sidebar_deactivate_tool (GthSidebar *sidebar)
+{
+	gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
+}
+
+
+void
 gth_sidebar_update_sensitivity (GthSidebar *sidebar)
 {
 	gth_toolbox_update_sensitivity (GTH_TOOLBOX (sidebar->priv->toolbox));
