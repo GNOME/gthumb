@@ -2837,12 +2837,14 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if (n_selected == 1) {
-		GList *items;
-		GList *file_list = NULL;
+		GList       *items;
+		GList       *file_list;
+		GthFileData *selected_file_data;
 
 		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-		gth_browser_load_file (browser, (GthFileData *) file_list->data, FALSE);
+		selected_file_data = (GthFileData *) file_list->data;
+		gth_browser_load_file (browser, selected_file_data, FALSE);
 
 		_g_object_list_unref (file_list);
 		_gtk_tree_path_list_free (items);
@@ -2857,14 +2859,18 @@ gth_file_view_item_activated_cb (GtkIconView *iconview,
 				 GtkTreePath *path,
 				 gpointer     user_data)
 {
-	GthBrowser *browser = user_data;
+	GthBrowser   *browser = user_data;
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
 
-	if (browser->priv->viewer_page != NULL) {
-		gth_viewer_page_show (GTH_VIEWER_PAGE (browser->priv->viewer_page));
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+	file_store = gth_browser_get_file_store (browser);
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, path)) {
+		GthFileData *file_data;
+
+		file_data = gth_file_store_get_file (file_store, &iter);
+		if (file_data != NULL)
+			gth_browser_load_file (browser, file_data, TRUE);
 	}
-	else if (browser->priv->current_file != NULL)
-		gth_browser_load_file (browser, browser->priv->current_file, TRUE);
 }
 
 
