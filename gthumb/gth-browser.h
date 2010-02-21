@@ -120,9 +120,6 @@ void             gth_browser_exec_task              (GthBrowser       *browser,
 						     GthTask          *task,
 						     gboolean          foreground);
 GtkWidget *      gth_browser_get_list_extra_widget  (GthBrowser       *browser);
-void             gth_browser_set_current_page       (GthBrowser       *browser,
-						     GthBrowserPage    page);
-GthBrowserPage 	 gth_browser_get_current_page       (GthBrowser       *browser);
 gboolean         gth_browser_viewer_button_press_cb (GthBrowser       *browser,
 						     GdkEventButton   *event);
 gboolean	 gth_browser_viewer_scroll_event_cb (GthBrowser       *browser,

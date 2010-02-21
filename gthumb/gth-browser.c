@@ -156,6 +156,7 @@ struct _GthBrowserPrivateData {
 	guint              motion_signal;
 	gdouble            last_mouse_x;
 	gdouble            last_mouse_y;
+	int                page_before_fullscreen;
 
 	/* history */
 
@@ -4907,6 +4908,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->fullscreen_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
 	gth_browser_show_viewer_properties (browser, FALSE);
+	browser->priv->page_before_fullscreen = gth_window_get_current_page (GTH_WINDOW (browser));
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 	gtk_window_fullscreen (GTK_WINDOW (browser));
@@ -4938,6 +4940,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	browser->priv->fullscreen = FALSE;
 
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
+	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->page_before_fullscreen);
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
 	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
