@@ -1,3 +1,81 @@
+version 2.11.2
+--------------
+
+	New features and user visible changes:
+
+	* Added the "convert format" tool, the "change date" tool, the
+	  "resize image" tool.
+	* Added a Picasa Web importer and exporter.
+	* Added ability to specify a list of audio files to play during a
+	  slideshow, and to personalize the slidehoshow options for each
+	  catalog.
+	* Create the "command line" catalog if more than a file is specified
+	  at command line.
+	* Photo importer: always use the "Last imported" special catalog
+	  instead of creating a new catalog for each import operation;
+	  added ability to specify a custom format, the custom format consists
+	  of the strftime format plus the %E code which is used to specify the
+	  event name.
+	* Rename files: added %D and %M for file dates; allow to specify a
+	  custom date format; use %A instead of %attr for the generic attribute.
+	* Resize tool changes: added ability to specify a destination
+          folder; ask confirmation before overwriting a file. (#605914)
+	* Wrap the file captions if they don't fit the available space. (#594134)
+	* Allow to disable comment synchronization with embedded metadata.
+          (#604720)
+	* Allow to view an image directly in fullscreen mode double-clicking
+	  with the middle mouse button.
+	* Changed some key accelerators: control+delete to move the
+	  selected files to the trash; control+shift+delete to delete the
+	  selected files.
+	* Used a preloader to speed-up image loading during a slideshow.
+	* Added icons to the image tools.
+
+        Bugs fixed:
+
+	* Fixed double-click that sometimes doesn't open the viewer.
+	* Fixed saving of tiff files when there is an alpha channel (#610388).
+	* Fixed some focus issues (#608364, #608364).  Give focus to the file
+          list by default (#608364).
+	* Do not delete the metadata after rotating or resizing images (#610389)
+	* Show a warning if no file was imported, or the delete operation is
+          not supported (#610190)
+	* Fixed not refreshed images after rotation (#610091).
+	* Fixed importer failure if the delete operation is not supported (#610090)
+	* Added missing modules and libraries to LIBADD (#608710)
+	* Fixed crash when deleting files (#608717)
+	* Make the code compile with the sunstudio compiler (Jerry Tan) (#608660)
+	* Fixed crash on mouse wheel move (#608463)
+	* Corrected minor spelling and grammar mistakes in the documentation
+          (Christian Kirbach) (#597353)
+	* Added a --disable-deprecated option to configure to disable
+          deprecated API usage. (#607757)
+	* Use a "command line catalog" if more files are specified on the
+          command line (#606203)
+	* Fixed crash when loading a file from a location which is not
+          the current location. (#606205)
+	* Fixed missing extension linking. Some extensions were "underlinked".
+          (Fryderyk Dziarmagowski) (#606507)
+	* Fixed slideshow crash.
+	* Do not ignore CFLAGS. (Matthias Clasen) (#606227)
+	* Use the default data dir instead of hardcoding the gthumb-2.0 value
+          (#606052)
+	* Modernized autotools syntax as suggested by autoupdate.
+	* Activated silent rules by default.
+
+	New or updated application translations:
+
+	* Español (Jorge González)
+	* Estonian (Rene Pärts)
+	* Italian (Luca Ferretti)
+	* Russian (Nickolay V. Shmyrev)
+	* Slovenian Translation (Andrej Žnidaršič)
+	* Swedish (Daniel Nylander)
+
+	New or updated manual translations:
+
+	* Español (Daniel Mustieles)
+
 version 2.11.1
 --------------
 
@@ -30,7 +108,7 @@ version 2.11.1
 	* Use a context submenu to open a file with an external application
 	  instead of using a separate dialog.
 	* Allow to set a custom name for the bookmark menu items.
-	* Added a delete command to permanently delete files without moving them 
+	* Added a delete command to permanently delete files without moving them
 	  to the trash.
 	* Allow to choose the metadata to print, instead of just allowing to
 	  print the comment.
@@ -107,7 +185,7 @@ version 2.10.9
 	* Fixed bug #508873 - gthumb cannot scale up images
 	* Fixed bug #510326 - x-content/* support
 	* Fixed bug #510521 - Canceling Save stops movement between pictures
-	* Fixed bug #477285 - Hitting enter in Open Location Dialog while 
+	* Fixed bug #477285 - Hitting enter in Open Location Dialog while
 	  text entry is focused does nothing
 	* Fixed bug #512374 - array accessed past end.
 	* Fixed bug #543584 - fix build with libgphoto2 2.4.2
@@ -118,10 +196,10 @@ version 2.10.8
 
 	* If the directory doesn't exists go to the closest existing parent.
 	  Fixes bug #495575 – infinite loop when browsing deleted dirs
-	* Fixed bug #Bug 498741 – gthumb always saves thumbnails despite the 
-	  gconf option in apps -> gthumb -> browser -> save_thumbnails set 
-	  to "false"	  
-	* Fixed bug #500719 – segfault when canceling batch operations  
+	* Fixed bug #Bug 498741 – gthumb always saves thumbnails despite the
+	  gconf option in apps -> gthumb -> browser -> save_thumbnails set
+	  to "false"
+	* Fixed bug #500719 – segfault when canceling batch operations
 	* Fixed bug #486886: Crash opening an image with no Exif IFD1
 	* Fixed bug #487982: can freeze gthumb during printing
 	* Fixed a printing crash, g_free -> gtk_paper_size_free
@@ -132,12 +210,12 @@ version 2.10.8
 	* Fixed bug #492370: monitor name conflict with libc on solaris10
 	* Fixed exif tag read/write functions, so they can access 32-bit
 	  values correctly on 64-bit platforms
-	* Fixed bug #476989: gthumb doesn't move images if destination 
+	* Fixed bug #476989: gthumb doesn't move images if destination
 	  directory is selected from folder drop down list
 	* Fixed bug #495529: Search not working
 	* Fixed bug #498995: gthumb gets it's locking wrong and crashes
 	* When sorting by exif time, fall back to sorting by mtime if no
-          exif time is present. 
+          exif time is present.
 	* Fixed bug #438027: cancel isn't honoured in "reset exif orientation"
 	  progress dialog or rotation-tool dialog
 	* Fixed bug #499795: silently fails to save bmp picture
@@ -151,7 +229,7 @@ version 2.10.7
 	* Fixed bug #485721: Crash in fullscreen mode after deleting an image.
 	* Fixed bug #471234: Fix build with gcc 2.x
 	* Fixed bug #485998: '[' and ']' don't work in fullscreen anymore.
-	* Fixed Ubuntu bug #152246: gThumb does not allow to change 
+	* Fixed Ubuntu bug #152246: gThumb does not allow to change
 	  picture's "Last modified date" to "Photo digitalization date
 	  (from EXIF data)"
 
@@ -159,10 +237,10 @@ version 2.10.6
 --------------
 
 	* Fixed bug #450675. Should delete the thumbnails of deleted files
-	* Fixed bug #453986. Check for invalid unicode in embedded comments. 
+	* Fixed bug #453986. Check for invalid unicode in embedded comments.
 	* Fixed bug #454037. Invalid free when selecting Print in the menu.
 	* Fixed bug #454489. Theme uses the wrong captions in the thumbnails.
-	* The default import folder was not properly set to the correct XDG 
+	* The default import folder was not properly set to the correct XDG
 	  "PICTURES" folder. Fixed.
 	* Fixed bug #455911. Symlink/vfs problem (Ubuntu bug 109579).
         * Much faster loading of exif DataTime tags. This provides faster
@@ -216,7 +294,7 @@ version 2.10.3
 	* Small memory leak fixed in web-exported error handling.
 	* Small memory leak fixed in apply_transformation_jpeg.
 	* Enable debug messages with an environment variable. Bug 361367.
-	* Bypass libexif when writing tags, to avoid MakerNote corruption. 
+	* Bypass libexif when writing tags, to avoid MakerNote corruption.
 	  Bug #408185.
 	* Don't list xcf files, no loader is available for them. Bug 433639.
 	* Fixed bug 431838 - renaming with exif date and time doesn't work.
@@ -227,19 +305,19 @@ version 2.10.3
           white balance on raw images. Bug 431484.
 	* Add support for ogg thumbnails. Bug 430777.
 	* Run gtk-update-icon-cache in uninstall-hook, as per bug 362604.
-	* Better code sharing: Use gdk_pixbuf_new_from_file_at_scale to load 
+	* Better code sharing: Use gdk_pixbuf_new_from_file_at_scale to load
 	  jpeg thumbnails. Same speed as the old f_load_scaled_jpeg function.
 	* Fixed a crash when a file has no recognized mime type. Bug 428278.
 	* Fixed bug 407871 - Crash after deleting catalog file.
 	* Check dimensions of all images types, not just jpegs, to avoid
-          preloading giant tiff files. Bug 160460. 	
+          preloading giant tiff files. Bug 160460.
 	* Fixed Bug 434445 - cache grows too large when viewing RAW files
         * Fixed Bug 434034 - improperly initialized GnomeVFSFileInfo instance.
-        * Fixed Bug 434951 - Setting displayed date to exif date is disabled 
+        * Fixed Bug 434951 - Setting displayed date to exif date is disabled
           when the first selected image does not have exif data.
-	* Fixed bug 435379. Add image/x-canon-cr2 to the list of known raw 
+	* Fixed bug 435379. Add image/x-canon-cr2 to the list of known raw
 	  photo mime types.
-	* Fixed Bug 436872 - web export fails when image filenames contain 
+	* Fixed Bug 436872 - web export fails when image filenames contain
 	  escapable characters
 	* Fixed Bug 436881 - web export exports malformed xml
 	* Fixed Bug 427986 - Navigating folder list with keyboard is difficult
@@ -272,7 +350,7 @@ version 2.10.1
 	* Go to the destination folder when the 'go to destination folder'
 	  option is active in the copy/move dialogs.
 	* Fixed a bug that prevented the user to choose
-	  'overwrite this image' or 'do not overwrite this image' options in 
+	  'overwrite this image' or 'do not overwrite this image' options in
 	  the overwrite dialog.
 	* Fixed bug #420557 - View > Show/Hide > Toolbar is broken, no display
 	* Fixed bug #414711 - thumbnail explosion if opening ~/.thumbnails
