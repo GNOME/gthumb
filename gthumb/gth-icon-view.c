@@ -145,9 +145,15 @@ static void
 gth_icon_view_real_activated (GthFileView *base,
 			      int          pos)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
+	GthIconView *self = GTH_ICON_VIEW (base);
+	GtkTreePath *path;
+
 	g_return_if_fail (pos >= 0);
+
+	path = gtk_tree_path_new_from_indices (pos, -1);
+	gtk_icon_view_item_activated (GTK_ICON_VIEW (self), path);
+
+	gtk_tree_path_free (path);
 }
 
 
