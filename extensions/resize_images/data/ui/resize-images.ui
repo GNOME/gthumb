@@ -253,8 +253,8 @@
                     <child>
                       <object class="GtkFileChooserButton" id="destination_filechooserbutton">
                         <property name="visible">True</property>
-                        <property name="action">select-folder</property>
                         <property name="create_folders">False</property>
+                        <property name="action">select-folder</property>
                         <property name="title" translatable="yes">Choose destination folder</property>
                       </object>
                     </child>

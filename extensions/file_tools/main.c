@@ -33,6 +33,7 @@
 #include "gth-file-tool-mirror.h"
 #include "gth-file-tool-negative.h"
 #include "gth-file-tool-redo.h"
+#include "gth-file-tool-resize.h"
 #include "gth-file-tool-rotate-left.h"
 #include "gth-file-tool-rotate-right.h"
 #include "gth-file-tool-save.h"
@@ -59,6 +60,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_RESIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 }
 

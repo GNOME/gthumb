@@ -18,6 +18,7 @@ icons_DATA = 			\
 	tool-invert.png		\
 	tool-mirror.png		\
 	tool-red-eye.png	\
+	tool-resize.png		\
 	tool-rotate-270.png	\
 	tool-rotate-90.png
 

@@ -16,6 +16,7 @@ icons_DATA = 			\
 	tool-desaturate.png	\
 	tool-enhance.png	\
 	tool-red-eye.png	\
+	tool-resize.png		\
 	zoom-fit-width.png
 
 EXTRA_DIST = $(icons_DATA)	

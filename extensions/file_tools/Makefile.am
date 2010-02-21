@@ -22,6 +22,8 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-negative.h	\
 	gth-file-tool-redo.c		\
 	gth-file-tool-redo.h		\
+	gth-file-tool-resize.c		\
+	gth-file-tool-resize.h		\
 	gth-file-tool-rotate-left.c	\
 	gth-file-tool-rotate-left.h	\
 	gth-file-tool-rotate-right.c	\
