@@ -2863,6 +2863,8 @@ gth_file_view_item_activated_cb (GtkIconView *iconview,
 		gth_viewer_page_show (GTH_VIEWER_PAGE (browser->priv->viewer_page));
 		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	}
+	else if (browser->priv->current_file != NULL)
+		gth_browser_load_file (browser, browser->priv->current_file, TRUE);
 }
 
 
