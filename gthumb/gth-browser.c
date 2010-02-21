@@ -2799,6 +2799,22 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 				event->time);
 		return TRUE;
 	}
+	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 2)) {
+		GtkWidget *file_view;
+		int        pos;
+
+		file_view = gth_browser_get_file_list_view (browser);
+		pos = gth_file_view_get_at_position (GTH_FILE_VIEW (file_view), event->x, event->y);
+		if ((pos >= 0) && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_view), pos)) {
+			gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
+			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
+		}
+		return TRUE;
+	}
+	else if ((event->type == GDK_2BUTTON_PRESS) && (event->button == 2)) {
+		gth_browser_fullscreen (browser);
+		return TRUE;
+	}
 
 	return FALSE;
 }
