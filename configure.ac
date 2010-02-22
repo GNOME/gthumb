@@ -1,5 +1,5 @@
 AC_PREREQ(2.63)
-AC_INIT([gthumb],[2.11.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb],[2.11.2],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 AM_INIT_AUTOMAKE([1.9 foreign])
 
 AC_CONFIG_HEADERS([config.h])
@@ -284,7 +284,7 @@ AC_ARG_ENABLE([tiff],
 	      [enable_tiff=yes])
 if test x$enable_tiff = xyes ; then
 	AC_CHECK_LIB(tiff, TIFFWriteScanline,
-		     [AC_CHECK_HEADER(tiffio.h,				    
+		     [AC_CHECK_HEADER(tiffio.h,
 				      [enable_tiff=yes],
 				      [enable_tiff=no])],
 		     [enable_tiff=no])
