@@ -515,17 +515,17 @@ get_basename_func (GthFileData *file_data)
 
 
 static char *
-get_name_wo_ext_func (GthFileData *file_data)
+get_basename_wo_ext_func (GthFileData *file_data)
 {
-	char *path;
-	char *name;
+	char *basename;
+	char *basename_wo_ext;
 
-	path = g_file_get_path (file_data->file);
-	name = _g_uri_remove_extension (path);
+	basename = g_file_get_basename (file_data->file);
+	basename_wo_ext = _g_uri_remove_extension (basename);
 
-	g_free (path);
+	g_free (basename);
 
-	return name;
+	return basename_wo_ext;
 }
 
 
@@ -730,7 +730,7 @@ command_line_eval_cb (const GMatchInfo *info,
 	else if (strcmp (match, "%B") == 0)
 		r = create_file_list (replace_data->file_list, get_basename_func, replace_data->quote_values);
 	else if (strcmp (match, "%N") == 0)
-		r = create_file_list (replace_data->file_list, get_name_wo_ext_func, replace_data->quote_values);
+		r = create_file_list (replace_data->file_list, get_basename_wo_ext_func, replace_data->quote_values);
 	else if (strcmp (match, "%E") == 0)
 		r = create_file_list (replace_data->file_list, get_ext_func, replace_data->quote_values);
 	else if (strcmp (match, "%P") == 0)
