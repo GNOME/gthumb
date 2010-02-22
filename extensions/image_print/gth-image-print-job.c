@@ -1092,6 +1092,7 @@ unit_combobox_changed_cb (GtkComboBox *combo_box,
 		digits = 0;
 		break;
 	case GTH_METRIC_PIXELS:
+	default:
 		digits = 0;
 		break;
 	}

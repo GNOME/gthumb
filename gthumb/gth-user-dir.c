@@ -37,6 +37,7 @@ gth_user_dir_get_file_va_list (GthDir      dir_type,
 	const char *element;
 	char       *filename;
 
+	user_dir = NULL;
 	switch (dir_type) {
 	case GTH_DIR_CONFIG:
 		user_dir = g_get_user_config_dir ();

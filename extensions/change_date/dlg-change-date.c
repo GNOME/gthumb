@@ -69,6 +69,8 @@ ok_button_clicked (GtkWidget  *button,
 	if (IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton")))
 		change_fields |= GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG;
 
+	change_type = 0;
+	time_adjustment = 0;
 	if (IS_ACTIVE (GET_WIDGET ("to_following_date_radiobutton"))) {
 		change_type = GTH_CHANGE_TO_FOLLOWING_DATE;
 		date_time = gth_datetime_new ();
@@ -158,7 +160,7 @@ dlg_change_date (GthBrowser *browser,
 	gth_time_selector_set_value (GTH_TIME_SELECTOR (data->date_selector), datetime);
 	gtk_widget_show (data->date_selector);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_box")), data->date_selector, TRUE, TRUE, 0);
-	
+
 	gth_datetime_free (datetime);
 
 	/* Set widgets data. */
@@ -166,8 +168,8 @@ dlg_change_date (GthBrowser *browser,
 	update_sensitivity (data);
 
 	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
+
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (dialog_destroy_cb),
 			  data);
@@ -218,7 +220,7 @@ dlg_change_date (GthBrowser *browser,
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);

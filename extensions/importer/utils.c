@@ -122,6 +122,7 @@ gth_import_utils_get_file_destination (GthFileData        *file_data,
 		break;
 
 	case GTH_SUBFOLDER_TYPE_NONE:
+	default:
 		child = NULL;
 		break;
 	}

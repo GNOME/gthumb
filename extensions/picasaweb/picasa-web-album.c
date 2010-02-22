@@ -83,6 +83,7 @@ picasa_web_album_create_element (DomDomizable *base,
 		value = "all";
 		break;
 	case PICASA_WEB_ACCESS_PRIVATE:
+	default:
 		value = "private";
 		break;
 	case PICASA_WEB_ACCESS_PUBLIC:

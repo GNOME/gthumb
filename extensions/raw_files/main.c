@@ -396,7 +396,15 @@ openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 		}
 
 		if (command != NULL) {
-			system (command);
+			if (system (command) == -1) {
+				g_free (command);
+				g_free (cache_file_esc);
+				g_free (local_file_esc);
+				g_free (cache_file);
+				g_free (local_file);
+
+				return NULL;
+			}
 			g_free (command);
 		}
 	}

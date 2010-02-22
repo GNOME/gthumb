@@ -413,6 +413,7 @@ monitor_changed_cb (GFileMonitor      *file_monitor,
 
 	switch (file_event_type) {
 	case G_FILE_MONITOR_EVENT_CREATED:
+	default:
 		event_type = GTH_MONITOR_EVENT_CREATED;
 		break;
 
@@ -424,11 +425,6 @@ monitor_changed_cb (GFileMonitor      *file_monitor,
 	case G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED:
 		event_type = GTH_MONITOR_EVENT_CHANGED;
 		break;
-
-	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
-	case G_FILE_MONITOR_EVENT_PRE_UNMOUNT:
-	case G_FILE_MONITOR_EVENT_UNMOUNTED:
-		return;
 	}
 
 #ifdef DEBUG_MONITOR

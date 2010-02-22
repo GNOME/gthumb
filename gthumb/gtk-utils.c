@@ -723,6 +723,7 @@ _g_icon_get_pixbuf (GIcon        *icon,
 	if (icon == NULL)
 		return NULL;
 
+	pixbuf = NULL;
 	if (G_IS_THEMED_ICON (icon))
 		pixbuf = get_themed_icon_pixbuf (G_THEMED_ICON (icon), size, theme);
 	if (G_IS_FILE_ICON (icon))

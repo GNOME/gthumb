@@ -752,6 +752,7 @@ gth_test_simple_real_update_from_control (GthTest  *base,
 
 	switch (self->priv->data_type) {
 	case GTH_TEST_DATA_TYPE_NONE:
+	default:
 		retval = TRUE;
 		break;
 	case GTH_TEST_DATA_TYPE_INT:

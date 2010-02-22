@@ -2206,7 +2206,7 @@ _g_file_create_unique (GFile       *parent,
 	GFile             *file = NULL;
 	GError            *local_error = NULL;
 	int                n;
-	GFileOutputStream *stream;
+	GFileOutputStream *stream = NULL;
 
 	file = g_file_get_child_for_display_name (parent, display_name, &local_error);
 	n = 0;

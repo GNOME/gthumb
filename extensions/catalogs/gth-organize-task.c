@@ -354,6 +354,7 @@ gth_organize_task_exec (GthTask *base)
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec,Embedded::Photo::DateTimeOriginal";
 		break;
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
+	default:
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec";
 		break;
 	}

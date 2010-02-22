@@ -218,6 +218,7 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 
 	switch (default_response) {
 	case GTH_OVERWRITE_RESPONSE_YES:
+	default:
 		overwrite_radiobutton = _gtk_builder_get_widget (self->priv->builder, "overwrite_yes_radiobutton");
 		break;
 	case GTH_OVERWRITE_RESPONSE_NO:
