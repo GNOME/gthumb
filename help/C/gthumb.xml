@@ -303,45 +303,39 @@
       linkend="gthumb-TBL-keyword-shortcuts-browser"/>.
     </para>
     <sect2 id="gthumb-change-folder">
-    <title>To Change Folder</title>
+    <title>To Change Folders</title>
     <para>
-      If you want to change folder you have two ways:
-      <orderedlist>
-	<listitem>
-	  <para>click on the folder name in the folder list.</para>
-        </listitem>
-        <listitem>
-	  <para>type the folder name in the location entry.</para>
-        </listitem>
-      </orderedlist>
+      The folder tree is the main method of navigating the filesystem.
+      Single-clicking on a folder will load its images in the
+      browser view. Double-clicking a folder, or clicking the expander arrow,
+      will also list folder's subfolders in the tree.
     </para>
     <para>
-      When using the location entry you can press
-      <keycombo><keycap>TAB</keycap></keycombo> to
-      try to automatically complete the folder name,  this simplify the
-      typing of long names.  You can quickly give focus to the
-      location entry pressing
-      <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>.
-    </para>
-    <para>
-      To go to a previously visited folder you can use the
-      toolbar <guilabel>Back</guilabel> button.
+      The drop-down box above the folder-tree provides quick access to
+      the folders above the current folder, up to the root folder.
+      It also provides quick access to certain other key locations, including
+      the home folder, the filesystem root folder, and any mounted
+      removable devices (like flash memory cards or cameras).
     </para>
     <para>
       Other navigation commands are located in the
-      <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu></menuchoice>
-      menu.
+      <menuchoice><guimenu>Go</guimenu></menuchoice> menu. This menu also
+      provides a history of recent folders.
     </para>
   </sect2>
   <sect2 id="gthumb-sort">
   <title>To Sort Images</title>
     <para>
-      To sort images in a different order use the <guimenuitem>Sort
-      images</guimenuitem> submenu in the <guimenu>View</guimenu>
-      menu, use <keycombo><keycap>Ctrl</keycap><keycap>R</keycap>
-      </keycombo> to reload the current folder,  type
-      <keycombo><keycap>T</keycap></keycombo> to view or hide the
-      thumbnails in the images list.
+      To sort images in a different order use the
+      <menuchoice><guimenu>View</guimenu><guimenuitem>Sort By</guimenuitem></menuchoice>
+      menu item.
+    </para>
+    <para>
+      To reload the current folder, use <keycombo action="simul"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>.
+    </para>
+    <para>
+      To disable or re-enable the thumbnails in the browser view, use 
+      <keycombo action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo>.
     </para>
   </sect2>
   <sect2 id="gthumb-bookmarks">
