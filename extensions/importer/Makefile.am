@@ -63,4 +63,7 @@ BUILT_SOURCES = $(ENUM_TYPES)
 CLEANFILES = $(BUILT_SOURCES)
 DISTCLEANFILES = $(extensionini_DATA)
 
+dist-hook:
+	cd $(distdir); rm -f $(CLEANFILES)
+
 -include $(top_srcdir)/git.mk

@@ -61,7 +61,11 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 %.extension: %.extension.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 
 EXTRA_DIST = $(extensionini_in_files) 
-
 DISTCLEANFILES = $(extensionini_DATA)
+BUILT_SOURCES = $(ENUM_TYPES)
+CLEANFILES = $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(CLEANFILES)
 
 -include $(top_srcdir)/git.mk
