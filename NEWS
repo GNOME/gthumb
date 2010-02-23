@@ -1,3 +1,10 @@
+version 2.11.2.1
+----------------
+
+	Bugs fixed:
+
+	* Fixed build error. (#610742)
+
 version 2.11.2
 --------------
 
