@@ -133,6 +133,11 @@
       &app; provides a systems of extensions (or plug-ins), to allow
       users to extend the functionality of &app;.
     </para>
+    <para>
+      More information about these extensions, and about gThumb generally,
+      is available at
+      <ulink url="http://live.gnome.org/gthumb">http://live.gnome.org/gthumb</ulink>.
+    </para>
   </sect1>
 
   <!-- ============= Getting Started ==============================  -->
