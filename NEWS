@@ -5,6 +5,10 @@ version 2.11.2.1
 
 	* Fixed build error. (#610742)
 
+        New or updated application translations:
+
+        * Estonian (Rene Pärts)
+
 version 2.11.2
 --------------
 
