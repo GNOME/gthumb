@@ -2,9 +2,9 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "2.11.0">
-  <!ENTITY manualversion "2.11.0">
-  <!ENTITY date "October 2006">
+  <!ENTITY appversion "2.11.2">
+  <!ENTITY manualversion "2.11.2">
+  <!ENTITY date "February 2010">
   <!ENTITY appname "gThumb">
   <!ENTITY app "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
@@ -23,6 +23,7 @@
       <year>2003</year>
       <year>2004</year>
       <year>2006</year>
+      <year>2010</year>
       <holder>Paolo Bacchilega</holder>
     </copyright>
 
@@ -105,24 +106,32 @@
       of many different formats.
     </para>
     <para>
-      The most common image formats are JPEG and GIF. The JPEG format
-      is good for medium and big sized images because it has a high
-      compression rate keeping a good image quality.
-      The GIF format is used in Web pages for displaying little
-      animations or little static images.
-      Another important image format is PNG, this format is very
-      common on Unix platforms and is considered
-      a replacement of the GIF format.
+      gThumb supports the most common graphics formats, including
+      JPEG, GIF, TIF, and PNG. gThumb will also display other
+      less common image types if the supporting libraries are
+      installed, including TGA, ICO, BMP, XPM, and others.
     </para>
     <para>
-      &app; supports all this formats and many others, it also displays
-      GIF animations.
+      Some support for RAW image types is included, especially if
+      the dcraw program is installed on your system.
     </para>
     <para>
       &app; not only lets you view image files but has many other features
-      such as add comments to images, organize images
-      in catalogs, print images, view slideshows, set your desktop
+      such as adding comments to images, organizing images
+      into catalogs, printing images, slideshows, setting your desktop
       background, and more.
+    </para>
+    <para>
+      &app; includes a tool to import photos from attached cameras
+      and memory card readers.
+    </para>
+    <para>
+      &app; can read EXIF, XMP, and IPTC metadata that is commonly
+      embedded in files.
+    </para>
+    <para>
+      &app; provides a systems of extensions (or plug-ins), to allow
+      users to extend the functionality of &app;.
     </para>
   </sect1>
 
