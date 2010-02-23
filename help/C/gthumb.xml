@@ -215,7 +215,8 @@
       <varlistentry> <term>Toolbar</term>
         <listitem>
            <para>The toolbar contains a subset of the commands that
-           you can access from the menubar. </para>
+           you can access from the menubar. In particular, the Tools button
+	   contains functions for batch processing multiple images.</para>
         </listitem>
       </varlistentry>
       <varlistentry> <term>Locationbar</term>
@@ -223,17 +224,30 @@
           <para>The locationbar contains the current folder name. </para>
         </listitem>
       </varlistentry>
-      <varlistentry> <term>Folder list</term>
+      <varlistentry> <term>Folder Tree</term>
       <listitem>
-        <para>The folder list shows the
-	  subfolders contained in the current folder.
+        <para>The folder tree allows you to navigate the filesystem.
+          Single-clicking on a folder will load its images in the
+	  browser view. Double-clicking a folder, or clicking the expander arrow,
+          will also list folder's subfolders in the tree.
 	</para>
       </listitem>
       </varlistentry>
-      <varlistentry> <term>Image list</term>
+      <varlistentry> <term>Browser View</term>
       <listitem>
-        <para>The image list which shows the images in the current folder.
+        <para>The browser view shows the images in the current folder.
+	Single-clicking an image will enable the Information Sidebar
+	for that image. Double-clicking an image will open it in the
+	viewer mode. Double-clicking with the middle mouse button will
+	load the image in fullscreen viewer mode.
 	</para>
+      </listitem>
+      </varlistentry>
+     <varlistentry> <term>Organize Button</term>
+      <listitem>
+        <para>The Organize button, just above the browser view, allows
+	you to group images into catalogs.
+        </para>
       </listitem>
       </varlistentry>
       <varlistentry> <term>Statusbar</term>
@@ -254,10 +268,27 @@
 	</para>
       </listitem>
       </varlistentry>
-    </variablelist>
-    </para>
-  </sect2>
-  </sect1>
+      <varlistentry> <term>Information Sidebar</term>
+      <listitem>
+        <para>If a single image is selected, the information sidebar (below the folder tree)
+	will display detailed information (such as EXIF or XMP tags) about the selected image.
+        </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry> <term>Filter Bar</term>
+      <listitem>
+        <para>An image filtering tool is provided just below the browser view.
+        This can be used to filter the displayed images. For example, the browser view
+        can be limited to files of a certain size, date, or name pattern, or other
+	characteristics.
+        </para>
+      </listitem>
+      </varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+</sect1>
 
   <!-- ============= Browsing Folders ==============================  -->
   <sect1 id="gthumb-browsing">
