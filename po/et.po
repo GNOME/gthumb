@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
 "POT-Creation-Date: 2010-02-21 12:46+0000\n"
-"PO-Revision-Date: 2010-02-22 12:47+0300\n"
+"PO-Revision-Date: 2010-02-22 23:20+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgid "Not a launchable item"
 msgstr "Pole käivitatav kirje"
 
 msgid "Disable connection to session manager"
-msgstr "Seansihalduriga ühendumise keelamine"
+msgstr "Seansihalduriga ühendumine keelatud"
 
 msgid "Specify file containing saved configuration"
 msgstr "Määra salvestatud seadistusfaili asukoht"
@@ -83,7 +83,7 @@ msgid "gThumb Image Viewer"
 msgstr "gThumb Pildivaataja"
 
 msgid "Import the photos on your camera card"
-msgstr "Digitaalkaamera mälukaardilt fotode importimine"
+msgstr "Digikaamera mälukaardilt fotode importimine"
 
 msgid "Photo Import Tool"
 msgstr "Fotode importimise tööriist"
@@ -377,10 +377,10 @@ msgid "Add current location to bookmarks"
 msgstr "Lisa aktiivne asukoht järjehoidjatesse"
 
 msgid "_Edit Bookmarks..."
-msgstr "_Redigeeri järjehoidjaid..."
+msgstr "_Järjehoidjate redigeerimine..."
 
 msgid "Edit bookmarks"
-msgstr "Redigeeri järjehoidjaid"
+msgstr "Järjehoidjate redigeerimine"
 
 msgid "_Bookmarks:"
 msgstr "_Järjehoidjad:"
@@ -557,7 +557,7 @@ msgid "file modified date"
 msgstr "faili muutmisaja järgi"
 
 msgid "Could not add the files to the catalog"
-msgstr "Pilte ei saanud albumisse lisada"
+msgstr "Pilte pole võimalik albumisse lisada"
 
 msgid "Could not save the catalog"
 msgstr "Albumi salvestamine nurjus"
@@ -574,7 +574,7 @@ msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Toiming lõpetatud. Albumeid: %d. Pilte: %d."
 
 msgid "Change _Date..."
-msgstr "Muuda _kuupäeva..."
+msgstr "_Kuupäeva muutmine..."
 
 msgid "Change images last modified date"
 msgstr "Muuda pildi viimase muutmise kuupäeva"
@@ -656,13 +656,13 @@ msgid "Tag"
 msgstr "Silt"
 
 msgid "Convert Format..."
-msgstr "Teisenda vormingut..."
+msgstr "Vormingu muutmine..."
 
 msgid "Convert image format"
-msgstr "Pildivormingu teisendamine"
+msgstr "Pildivormingu muutmine"
 
 msgid "Convert format"
-msgstr "Pildivormingu teisendamine"
+msgstr "Pildivormingu muutmine"
 
 msgid "Save images in a different format"
 msgstr "Piltide salvestamine teise vormingusse."
@@ -716,7 +716,7 @@ msgid "_Title:"
 msgstr "_Pealkiri:"
 
 msgid "Could not save the file metadata"
-msgstr "Metaandmeid ei saanud salvestada"
+msgstr "Metaandmeid pole võimalik salvestada"
 
 msgid "Allow to edit files metadata."
 msgstr "Failide metaandmete muutmine."
@@ -835,10 +835,10 @@ msgid "Enter the folder name: "
 msgstr "Sisesta kausta nimi: "
 
 msgid "Could not create the folder"
-msgstr "Kausta ei saanud luua"
+msgstr "Kausta pole võimalik luua"
 
 msgid "Could not move the files"
-msgstr "Faile ei saanud teisaldada"
+msgstr "Faile pole võimalik teisaldada"
 
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
@@ -848,15 +848,15 @@ msgstr ""
 "kopeerimist."
 
 msgid "Could not delete the files"
-msgstr "Faile ei saanud kustutada"
+msgstr "Faile pole võimalik kustutada"
 
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "Faile ei saanud prügikasti visata. Kas kustutada need jäädavalt?"
+msgstr "Faile pole võimalik prügikasti visata. Kas kustutada need jäädavalt?"
 
 msgid "Could not move the files to the Trash"
-msgstr "Faile ei saanud prügikasti visata"
+msgstr "Faile pole võimalik prügikasti visata"
 
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
@@ -873,7 +873,7 @@ msgid "If you delete a file, it will be permanently lost."
 msgstr "Faili kustutamisel kaob see jäädavalt."
 
 msgid "Could not open the location"
-msgstr "Asukohta ei saanud avada"
+msgstr "Asukohta pole võimalik avada"
 
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
@@ -881,15 +881,16 @@ msgid ""
 msgstr "Kataloog ei ole tühi. Kas kustutada kataloog koos sisuga jäädavalt?"
 
 msgid "Could not delete the folder"
-msgstr "Kataloogi ei saanud kustutada"
+msgstr "Kataloogi pole võimalik kustutada"
 
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
-msgstr "Kataloogi ei saanud prügikasti visata. Kas kustutada see jäädavalt?"
+msgstr ""
+"Kataloogi pole võimalik prügikasti visata. Kas kustutada see jäädavalt?"
 
 msgid "Could not move the folder to the Trash"
-msgstr "Kataloogi ei saanud prügikasti visata"
+msgstr "Kataloogi pole võimalik prügikasti visata"
 
 msgid "Create _Folder"
 msgstr "Uus _kataloog"
@@ -925,7 +926,7 @@ msgid "_Paste Into Folder"
 msgstr "_Aseta kataloogi"
 
 msgid "Could not perform the operation"
-msgstr "Toimingut ei saanud teha"
+msgstr "Toimingut pole võimalik teostada"
 
 msgid "File manager"
 msgstr "Failihaldur"
@@ -1097,7 +1098,7 @@ msgstr "Uuesti"
 
 #| msgid "Resize Images..."
 msgid "Resize..."
-msgstr "Muuda mõõtmeid..."
+msgstr "Mõõtmete muutmine..."
 
 #| msgid "_Reset"
 msgid "Resize"
@@ -1119,10 +1120,10 @@ msgid "Undo"
 msgstr "Unusta"
 
 msgid "Could not save the file"
-msgstr "Faili ei saanud salvestada"
+msgstr "Faili pole võimalik salvestada"
 
 msgid "Could not take a screenshot"
-msgstr "Kuvatõmmist ei saanud võtta"
+msgstr "Kuvatõmmist pole võimalik võtta"
 
 msgid "Save Image"
 msgstr "Pildi salvestamine"
@@ -1486,7 +1487,7 @@ msgid "Last imported"
 msgstr "Viimati imporditud"
 
 msgid "Personalize..."
-msgstr "Kohanda..."
+msgstr "Kohandamine..."
 
 msgid "Tools"
 msgstr "Tööriistad"
@@ -1591,7 +1592,7 @@ msgid "Show"
 msgstr "Näidatakse"
 
 msgid "Could not save the script"
-msgstr "Skripti ei saanud salvestada"
+msgstr "Skripti pole võimalik salvestada"
 
 msgid "New Command"
 msgstr "Uue käsu loomine"
@@ -1948,7 +1949,7 @@ msgid "_Template:"
 msgstr "_Mall:"
 
 msgid "Could not rename the files"
-msgstr "Faile ei saanud ümber nimetada"
+msgstr "Faile pole võimalik ümber nimetada"
 
 msgid "Old Name"
 msgstr "Vana nimi"
@@ -2125,10 +2126,10 @@ msgid "_Restart"
 msgstr "_Taaskäivita"
 
 msgid "Could not activate the extension"
-msgstr "Laiendust ei saanud aktiveerida"
+msgstr "Laiendust pole võimalik aktiveerida"
 
 msgid "Could not deactivate the extension"
-msgstr "Laiendust ei saanud deaktiveerida"
+msgstr "Laiendust pole võimalik deaktiveerida"
 
 msgid "Use"
 msgstr "Kasuta"
@@ -2140,7 +2141,7 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Could not save the filter"
-msgstr "Filtrit ei saanud salvestada"
+msgstr "Filtrit pole võimalik salvestada"
 
 msgid "New Filter"
 msgstr "Uue filtri loomine"
@@ -2278,10 +2279,10 @@ msgid "Activate, deactivate and configure the gthumb extensions"
 msgstr "GThumb'i laienduste aktiveerimine, deaktiveerimine ja seadistamine"
 
 msgid "_Sort By..."
-msgstr "_Sordi..."
+msgstr "_Sortimine..."
 
 msgid "_Filter..."
-msgstr "_Filtreeri..."
+msgstr "_Filtreerimine..."
 
 msgid "Previous"
 msgstr "Eelmine"
@@ -2627,7 +2628,7 @@ msgid "Could not display help"
 msgstr "Abiteabe kuvamine ebaõnnestus"
 
 msgid "Could not launch the application"
-msgstr "Rakendust ei saanud käivitada"
+msgstr "Rakendust pole võimalik käivitada"
 
 msgid "Open a new window"
 msgstr "Uue akna avamine"
