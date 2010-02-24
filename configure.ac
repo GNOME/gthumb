@@ -54,6 +54,7 @@ OPENRAW_REQUIRED=0.0.8
 UNIQUE_REQUIRED=1.1.2
 LIBSOUP_REQUIRED=2.26
 GNOME_KEYRING_REQUIRED=2.28
+LIBBRASERO_REQUIRED=2.28
 
 dnl ===========================================================================
 
@@ -358,6 +359,23 @@ AM_CONDITIONAL(ENABLE_WEB_SERVICES, test "x$enable_libsoup" = xyes)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([libbrasero],
+	      [AS_HELP_STRING([--disable-libbrasero],[do not compile code that uses the libbrasero library])],,
+	      [enable_libbrasero=yes])
+
+if test x$enable_libbrasero = xyes ; then
+	PKG_CHECK_MODULES(LIBBRASERO,
+			  [libbrasero-burn >= $LIBBRASERO_REQUIRED],
+			  [AC_DEFINE(HAVE_LIBBRASERO, 1, [Have libbrasero])
+			   enable_libbrasero=yes],
+			  [enable_libbrasero=no])
+fi
+AC_SUBST(LIBBRASERO_CFLAGS)
+AC_SUBST(LIBBRASERO_LIBS)
+AM_CONDITIONAL(ENABLE_BRASERO_TOOLS, test "x$enable_libbrasero" = xyes)
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile
@@ -387,6 +405,7 @@ extensions/Makefile
 extensions/bookmarks/Makefile
 extensions/bookmarks/data/Makefile
 extensions/bookmarks/data/ui/Makefile
+extensions/burn_disc/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile
@@ -479,6 +498,7 @@ Configuration:
 	Clutter support      : ${enable_clutter}
 	GStreamer support    : ${enable_gstreamer}
 	Use libopenraw       : ${enable_libopenraw}
-	Web services         : ${enable_libsoup}
+	Web services support : ${enable_libsoup}
 	Use GNOME Keyring    : ${enable_gnome_keyring}
+	Burn disc support    : ${enable_libbrasero}
 "
