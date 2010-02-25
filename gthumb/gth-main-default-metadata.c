@@ -42,7 +42,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "gth::file::display-mtime", N_("Modified"), "file", 3, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::fast-content-type", N_("Type"), "file", 4, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::is-modified", NULL, "file", 5, GTH_METADATA_ALLOW_NOWHERE },
-	{ "gth::file::full-name", N_("Full Name"), "file", 6, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "gth::file::full-name", N_("Full Name"), "file", 6, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "general::title", N_("Title"), "general", 1, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::dimensions", N_("Dimensions"), "general", 10, GTH_METADATA_ALLOW_EVERYWHERE },
