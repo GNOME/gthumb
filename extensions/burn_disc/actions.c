@@ -54,10 +54,10 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
 	{
-		BraseroTrackDataCfg *track;
-		GList               *sidecars;
-		GList               *scan;
 		BraseroSessionCfg   *session;
+		BraseroTrackDataCfg *track;
+		GList               *scan;
+		GHashTable          *parents;
 		GtkWidget           *dialog;
 		GtkResponseType      result;
 
@@ -78,21 +78,81 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 			g_free (uri);
 		}
 
-		sidecars = NULL;
+		parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_path_free);
 		for (scan = file_list; scan; scan = scan->next) {
 			GthFileData *file_data = scan->data;
-			gth_hook_invoke ("add-sidecars", file_data->file, &sidecars);
-		}
-		sidecars = g_list_reverse (sidecars);
+			GFile       *parent;
+			GList       *file_sidecars = NULL;
+			GList       *scan_sidecars;
 
-		for (scan = sidecars; scan; scan = scan->next) {
-			GFile *file = scan->data;
-			char  *uri;
+			gth_hook_invoke ("add-sidecars", file_data->file, &file_sidecars);
+			parent = g_file_get_parent (file_data->file);
+			for (scan_sidecars = file_sidecars; scan_sidecars; scan_sidecars = scan_sidecars->next) {
+				GFile       *sidecar = scan_sidecars->data;
+				char        *relative_path;
+				char        *parent_path;
+				GtkTreePath *tree_path;
+				char        *uri;
 
-			uri = g_file_get_uri (file);
-			brasero_track_data_cfg_add (track, uri, NULL);
+				relative_path = g_file_get_relative_path (parent, sidecar);
+				parent_path = _g_uri_get_parent (relative_path);
 
-			g_free (uri);
+				if (g_strcmp0 (parent_path, "") == 0) {
+					g_free (parent_path);
+					parent_path = NULL;
+				}
+
+				if (parent_path != NULL) {
+					char **subfolders;
+					int    i;
+					char  *subfolder;
+
+					/* add all the subfolders to the track data */
+
+					subfolder = NULL;
+					subfolders = g_strsplit (parent_path, "/", -1);
+					for (i = 0; subfolders[i] != NULL; i++) {
+						char *subfolder_parent;
+
+						subfolder_parent = subfolder;
+						if (subfolder_parent != NULL)
+							subfolder = g_strconcat (subfolder_parent, "/", subfolders[i], NULL);
+						else
+							subfolder = g_strdup (subfolders[i]);
+
+						tree_path = g_hash_table_lookup (parents, subfolder);
+						if (tree_path == NULL) {
+							GtkTreePath *subfolder_parent_tpath;
+							GtkTreePath *subfolder_tpath;
+
+							if (subfolder_parent != NULL)
+								subfolder_parent_tpath = g_hash_table_lookup (parents, subfolder_parent);
+							else
+								subfolder_parent_tpath = NULL;
+							subfolder_tpath = brasero_track_data_cfg_add_empty_directory (track, parent_path, subfolder_parent_tpath);
+							g_hash_table_insert (parents, g_strdup (parent_path), subfolder_tpath);
+						}
+
+						g_free (subfolder_parent);
+					}
+
+					g_strfreev (subfolders);
+				}
+
+				tree_path = NULL;
+				if (parent_path != NULL)
+					tree_path = g_hash_table_lookup (parents, parent_path);
+
+				uri = g_file_get_uri (sidecar);
+				brasero_track_data_cfg_add (track, uri, tree_path);
+
+				g_free (uri);
+				g_free (parent_path);
+				g_free (relative_path);
+			}
+
+			g_object_unref (parent);
+			_g_object_list_unref (file_sidecars);
 		}
 
 		dialog = brasero_burn_options_new (session);
@@ -115,6 +175,7 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 			gtk_widget_destroy (dialog);
 		}
 
+		g_hash_table_unref (parents);
 		g_object_unref (session);
 	}
 
