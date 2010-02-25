@@ -1,5 +1,7 @@
 if ENABLE_BRASERO_TOOLS
 
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libburn_disc.la
 

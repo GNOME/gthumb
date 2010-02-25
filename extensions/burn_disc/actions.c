@@ -33,6 +33,14 @@
 #include <gthumb.h>
 
 
+static void
+label_entry_changed_cb (GtkEntry           *entry,
+			BraseroBurnSession *session)
+{
+	brasero_burn_session_set_label (session, gtk_entry_get_text (entry));
+}
+
+
 void
 gth_browser_activate_action_burn_disc (GtkAction  *action,
 				       GthBrowser *browser)
@@ -59,6 +67,8 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 		GList               *scan;
 		GHashTable          *parents;
 		GtkWidget           *dialog;
+		GtkBuilder          *builder;
+		GtkWidget           *options;
 		GtkResponseType      result;
 
 		session = brasero_session_cfg_new ();
@@ -159,7 +169,18 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), gtk_window_get_icon_name (GTK_WINDOW (browser)));
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Write to Disc"));
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (browser));
-		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+		builder = _gtk_builder_new_from_file ("burn-disc-options.ui", "burn_disc");
+		options = _gtk_builder_get_widget (builder, "options");
+		gtk_entry_set_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "label_entry")),
+				    g_file_info_get_display_name (gth_browser_get_location_data (browser)->info));
+		g_signal_connect (_gtk_builder_get_widget (builder, "label_entry"),
+				  "changed",
+				  G_CALLBACK (label_entry_changed_cb),
+				  session);
+		gtk_widget_show (options);
+		brasero_burn_options_add_options (BRASERO_BURN_OPTIONS (dialog), options);
+
 		result = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
@@ -168,6 +189,7 @@ gth_browser_activate_action_burn_disc (GtkAction  *action,
 			gtk_window_set_icon_name (GTK_WINDOW (dialog), gtk_window_get_icon_name (GTK_WINDOW (browser)));
 			gtk_window_set_title (GTK_WINDOW (dialog), _("Write to Disc"));
 			brasero_session_cfg_disable (session);
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (browser));
 			gtk_window_present (GTK_WINDOW (dialog));
 			brasero_burn_dialog_run (BRASERO_BURN_DIALOG (dialog),
 						 BRASERO_BURN_SESSION (session));
