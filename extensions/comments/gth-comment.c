@@ -37,7 +37,7 @@ struct _GthCommentPrivate { /* All strings in utf8 format. */
 	int         rating;
 	GPtrArray  *categories;
 	GDate      *date;
-	GthTime    *time_of_day;	
+	GthTime    *time_of_day;
 	gboolean    changed;
 	gboolean    utf8;
 };
@@ -65,33 +65,33 @@ gth_comment_free_data (GthComment *self)
 }
 
 
-static void 
-gth_comment_finalize (GObject *obj) 
+static void
+gth_comment_finalize (GObject *obj)
 {
 	GthComment *self = GTH_COMMENT (obj);
-	
+
 	gth_comment_free_data (self);
 	gth_comment_clear_categories (self);
 	g_ptr_array_free (self->priv->categories, TRUE);
 	g_date_free (self->priv->date);
 	gth_time_free (self->priv->time_of_day);
-		
+
 	G_OBJECT_CLASS (gth_comment_parent_class)->finalize (obj);
 }
 
 
-static void 
-gth_comment_class_init (GthCommentClass *klass) 
+static void
+gth_comment_class_init (GthCommentClass *klass)
 {
 	gth_comment_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthCommentPrivate));
-	
+
 	G_OBJECT_CLASS (klass)->finalize = gth_comment_finalize;
 }
 
 
-static void 
-gth_comment_instance_init (GthComment *self) 
+static void
+gth_comment_instance_init (GthComment *self)
 {
 	self->priv = GTH_COMMENT_GET_PRIVATE (self);
 	self->priv->caption = NULL;
@@ -104,15 +104,15 @@ gth_comment_instance_init (GthComment *self)
 }
 
 
-static GObject * 
-gth_comment_real_duplicate (GthDuplicable *base) 
+static GObject *
+gth_comment_real_duplicate (GthDuplicable *base)
 {
 	return (GObject *) gth_comment_dup ((GthComment*) base);
 }
 
 
-static void 
-gth_comment_gth_duplicable_interface_init (GthDuplicableIface *iface) 
+static void
+gth_comment_gth_duplicable_interface_init (GthDuplicableIface *iface)
 {
 	iface->duplicate = gth_comment_real_duplicate;
 }
@@ -128,7 +128,7 @@ gth_comment_real_create_element (DomDomizable *base,
 	GPtrArray  *categories;
 	DomElement *categories_element;
 	int         i;
-	
+
 	g_return_val_if_fail (DOM_IS_DOCUMENT (doc), NULL);
 
 	self = GTH_COMMENT (base);
@@ -139,7 +139,7 @@ gth_comment_real_create_element (DomDomizable *base,
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->caption, "caption", NULL));
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->note, "note", NULL));
 	dom_element_append_child (element, dom_document_create_element_with_text (doc, self->priv->place, "place", NULL));
-	
+
 	if (self->priv->rating > 0) {
 		value = g_strdup_printf ("%d", self->priv->rating);
 		dom_element_append_child (element, dom_document_create_element (doc, "rating", "value", value, NULL));
@@ -154,10 +154,10 @@ gth_comment_real_create_element (DomDomizable *base,
 
 	categories = gth_comment_get_categories (self);
 	categories_element = dom_document_create_element (doc, "categories", NULL);
-	dom_element_append_child (element, categories_element);	
-	for (i = 0; i < categories->len; i++) 
+	dom_element_append_child (element, categories_element);
+	for (i = 0; i < categories->len; i++)
 		dom_element_append_child (categories_element, dom_document_create_element (doc, "category", "value", g_ptr_array_index (categories, i), NULL));
-	
+
 	return element;
 }
 
@@ -178,9 +178,9 @@ gth_comment_real_load_from_element (DomDomizable *base,
 		for (node = element->first_child; node; node = node->next_sibling) {
 			if (g_strcmp0 (node->tag_name, "Note") == 0)
 				gth_comment_set_note (self, dom_element_get_inner_text (node));
-			else if (g_strcmp0 (node->tag_name, "Place") == 0) 
+			else if (g_strcmp0 (node->tag_name, "Place") == 0)
 				gth_comment_set_place (self, dom_element_get_inner_text (node));
-			else if (g_strcmp0 (node->tag_name, "Time") == 0) 
+			else if (g_strcmp0 (node->tag_name, "Time") == 0)
 				gth_comment_set_time_from_time_t (self, atol (dom_element_get_inner_text (node)));
 			else if (g_strcmp0 (node->tag_name, "Keywords") == 0) {
 				const char  *text;
@@ -204,9 +204,9 @@ gth_comment_real_load_from_element (DomDomizable *base,
 				gth_comment_set_caption (self, dom_element_get_inner_text (node));
 			else if (g_strcmp0 (node->tag_name, "note") == 0)
 				gth_comment_set_note (self, dom_element_get_inner_text (node));
-			else if (g_strcmp0 (node->tag_name, "place") == 0) 
+			else if (g_strcmp0 (node->tag_name, "place") == 0)
 				gth_comment_set_place (self, dom_element_get_inner_text (node));
-			else if (g_strcmp0 (node->tag_name, "time") == 0) 
+			else if (g_strcmp0 (node->tag_name, "time") == 0)
 				gth_comment_set_time_from_exif_format (self, dom_element_get_attribute (node, "value"));
 			else if (g_strcmp0 (node->tag_name, "rating") == 0) {
 				int v;
@@ -216,7 +216,7 @@ gth_comment_real_load_from_element (DomDomizable *base,
 			}
 			else if (g_strcmp0 (node->tag_name, "categories") == 0) {
 				DomElement *child;
-				
+
 				for (child = node->first_child; child != NULL; child = child->next_sibling)
 					if (strcmp (child->tag_name, "category") == 0)
 						gth_comment_add_category (self, dom_element_get_attribute (child, "value"));
@@ -234,27 +234,27 @@ gth_comment_dom_domizable_interface_init (DomDomizableIface *iface)
 }
 
 
-GType 
-gth_comment_get_type (void) 
+GType
+gth_comment_get_type (void)
 {
 	static GType gth_comment_type_id = 0;
-	
+
 	if (gth_comment_type_id == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthCommentClass), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) gth_comment_class_init, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			sizeof (GthComment), 
-			0, 
-			(GInstanceInitFunc) gth_comment_instance_init, 
-			NULL 
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthCommentClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) gth_comment_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			sizeof (GthComment),
+			0,
+			(GInstanceInitFunc) gth_comment_instance_init,
+			NULL
 		};
-		static const GInterfaceInfo gth_duplicable_info = { 
-			(GInterfaceInitFunc) gth_comment_gth_duplicable_interface_init, 
-			(GInterfaceFinalizeFunc) NULL, 
+		static const GInterfaceInfo gth_duplicable_info = {
+			(GInterfaceInitFunc) gth_comment_gth_duplicable_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
 		static const GInterfaceInfo dom_domizable_info = {
@@ -266,13 +266,13 @@ gth_comment_get_type (void)
 		g_type_add_interface_static (gth_comment_type_id, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
 		g_type_add_interface_static (gth_comment_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
 	}
-	
+
 	return gth_comment_type_id;
 }
 
 
-GthComment * 
-gth_comment_new (void) 
+GthComment *
+gth_comment_new (void)
 {
 	return g_object_new (GTH_TYPE_COMMENT, NULL);
 }
@@ -285,11 +285,11 @@ gth_comment_get_comment_file (GFile *file)
 	char  *basename;
 	char  *comment_basename;
 	GFile *comment_file;
-	
+
 	parent = g_file_get_parent (file);
 	if (parent == NULL)
 		return NULL;
-	
+
 	basename = g_file_get_basename (file);
 	comment_basename = g_strconcat (basename, ".xml", NULL);
 	comment_file = _g_file_get_child (parent, ".comments", comment_basename, NULL);
@@ -297,7 +297,7 @@ gth_comment_get_comment_file (GFile *file)
 	g_free (comment_basename);
 	g_free (basename);
 	g_object_unref (parent);
-	
+
 	return comment_file;
 }
 
@@ -313,25 +313,28 @@ gth_comment_new_for_file (GFile   *file,
 	void        *buffer;
 	gsize        size;
 	DomDocument *doc;
-	
+
 	comment_file = gth_comment_get_comment_file (file);
+	if (comment_file == NULL)
+		return NULL;
+
 	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, error)) {
-		g_object_unref (comment_file); 
+		g_object_unref (comment_file);
 		return NULL;
 	}
 	g_object_unref (comment_file);
-		
+
 	if ((zipped_buffer != NULL) && (((char *) zipped_buffer)[0] != '<')) {
-		if (! zlib_decompress_buffer (zipped_buffer, zipped_size, &buffer, &size)) 
+		if (! zlib_decompress_buffer (zipped_buffer, zipped_size, &buffer, &size))
 			return NULL;
 	}
 	else {
 		buffer = zipped_buffer;
 		size = zipped_size;
-		
+
 		zipped_buffer = NULL;
 	}
-	
+
 	comment = gth_comment_new ();
 	doc = dom_document_new ();
 	if (dom_document_load (doc, buffer, size, error)) {
@@ -342,10 +345,10 @@ gth_comment_new_for_file (GFile   *file,
 		g_object_unref (comment);
 		comment = NULL;
 	}
-	
+
 	g_free (buffer);
 	g_free (zipped_buffer);
-	
+
 	return comment;
 }
 
@@ -356,7 +359,7 @@ gth_comment_to_data (GthComment *comment,
 {
 	DomDocument *doc;
 	char        *data;
-		
+
 	doc = dom_document_new ();
 	dom_element_append_child (DOM_ELEMENT (doc), dom_domizable_create_element (DOM_DOMIZABLE (comment), doc));
 	data = dom_document_dump (doc, length);
@@ -393,7 +396,7 @@ gth_comment_dup (GthComment *self)
 }
 
 
-void 
+void
 gth_comment_reset (GthComment *self)
 {
 	gth_comment_free_data (self);
@@ -414,13 +417,13 @@ gth_comment_set_caption (GthComment  *comment,
 }
 
 
-void 
+void
 gth_comment_set_note (GthComment *comment,
 		      const char *value)
 {
 	g_free (comment->priv->note);
 	comment->priv->note = NULL;
-	
+
 	if ((value != NULL) && (strcmp (value, "") != 0))
 		comment->priv->note = g_strdup (value);
 }
@@ -432,7 +435,7 @@ gth_comment_set_place (GthComment *comment,
 {
 	g_free (comment->priv->place);
 	comment->priv->place = NULL;
-	
+
 	if ((value != NULL) && (strcmp (value, "") != 0))
 		comment->priv->place = g_strdup (value);
 }
@@ -460,13 +463,13 @@ gth_comment_add_category (GthComment *comment,
 			  const char *value)
 {
 	g_return_if_fail (value != NULL);
-	
+
 	g_ptr_array_add (comment->priv->categories, g_strdup (value));
 }
 
 
 void
-gth_comment_reset_time (GthComment *self) 
+gth_comment_reset_time (GthComment *self)
 {
 	g_date_clear (self->priv->date, 1);
 	gth_time_clear (self->priv->time_of_day);
@@ -478,17 +481,17 @@ gth_comment_set_time_from_exif_format (GthComment *comment,
 				       const char *value)
 {
 	unsigned int y, m, d, hh, mm, ss;
-	
+
 	gth_comment_reset_time (comment);
-	
+
 	if ((value == NULL) || (*value == '\0'))
 		return;
-	
+
 	if (sscanf (value, "%u:%u:%u %u:%u:%u", &y, &m, &d, &hh, &mm, &ss) != 6) {
 		g_warning ("invalid time format: %s", value);
 		return;
 	}
-	
+
 	g_date_set_dmy (comment->priv->date, d, m, y);
 	gth_time_set_hms (comment->priv->time_of_day, hh, mm, ss, 0);
 }
@@ -499,10 +502,10 @@ gth_comment_set_time_from_time_t (GthComment *comment,
 				  time_t      value)
 {
 	struct tm *tm;
-	
+
 	if (value == 0)
 		return;
-		
+
 	tm = localtime (&value);
 	g_date_set_dmy (comment->priv->date, tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
 	gth_time_set_hms (comment->priv->time_of_day, tm->tm_hour, tm->tm_min, tm->tm_sec, 0);
@@ -544,7 +547,7 @@ gth_comment_get_categories (GthComment *comment)
 }
 
 
-GDate * 
+GDate *
 gth_comment_get_date (GthComment *comment)
 {
 	return comment->priv->date;
@@ -562,10 +565,10 @@ char *
 gth_comment_get_time_as_exif_format (GthComment *comment)
 {
 	char *s;
-	
+
 	if (! g_date_valid (comment->priv->date))
 		return NULL;
-	
+
 	s = g_strdup_printf ("%04u:%02u:%02u %02u:%02u:%02u",
 			     g_date_get_year (comment->priv->date),
 			     g_date_get_month (comment->priv->date),
@@ -573,6 +576,6 @@ gth_comment_get_time_as_exif_format (GthComment *comment)
 			     comment->priv->time_of_day->hour,
 			     comment->priv->time_of_day->min,
 			     comment->priv->time_of_day->sec);
-			     
+
 	return s;
 }
