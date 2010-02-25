@@ -146,6 +146,7 @@ gth_search_editor_construct (GthSearchEditor *self,
 
 	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("match_label")), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("match_label")), self->priv->match_type_combobox);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("start_at_label")), self->priv->location_chooser);
 
   	gth_search_editor_set_search (self, search);
 }
