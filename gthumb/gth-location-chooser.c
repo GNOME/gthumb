@@ -95,16 +95,28 @@ gth_location_chooser_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+gth_location_chooser_grab_focus (GtkWidget *widget)
+{
+	GthLocationChooser *chooser = GTH_LOCATION_CHOOSER (widget);
+
+	gtk_widget_grab_focus (chooser->priv->combo);
+}
+
 
 static void
 gth_location_chooser_class_init (GthLocationChooserClass *class)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
 
+	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_location_chooser_finalize;
+
+	widget_class = (GtkWidgetClass *) class;
+	widget_class->grab_focus = gth_location_chooser_grab_focus;
 
 	gth_location_chooser_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -121,6 +133,7 @@ gth_location_chooser_class_init (GthLocationChooserClass *class)
 static void
 gth_location_chooser_init (GthLocationChooser *chooser)
 {
+	GTK_WIDGET_SET_FLAGS (chooser, GTK_CAN_FOCUS);
 	chooser->priv = g_new0 (GthLocationChooserPrivate, 1);
 }
 
