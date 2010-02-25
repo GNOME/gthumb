@@ -170,6 +170,18 @@ ok_clicked_cb (GtkWidget  *widget,
 static void
 update_sensitivity (DialogData *data)
 {
+	GthUnit unit;
+
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if (unit == GTH_UNIT_PERCENTAGE) {
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), 2);
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), 2);
+	}
+	else if (unit == GTH_UNIT_PIXELS) {
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), 0);
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), 0);
+	}
+
 	gtk_widget_set_sensitive (GET_WIDGET ("keep_ratio_checkbutton"), units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))] != GTH_UNIT_PERCENTAGE);
 }
 
