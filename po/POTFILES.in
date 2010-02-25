@@ -25,6 +25,13 @@ extensions/bookmarks/callbacks.h
 extensions/bookmarks/dlg-bookmarks.c
 extensions/bookmarks/dlg-bookmarks.h
 extensions/bookmarks/main.c
+extensions/burn_disc/actions.c
+extensions/burn_disc/actions.h
+[type: gettext/ini]extensions/burn_disc/burn_disc.extension.in.in
+extensions/burn_disc/callbacks.c
+extensions/burn_disc/callbacks.h
+[type: gettext/glade]extensions/burn_disc/data/ui/burn-disc-options.ui
+extensions/burn_disc/main.c
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
 extensions/catalogs/callbacks.c
