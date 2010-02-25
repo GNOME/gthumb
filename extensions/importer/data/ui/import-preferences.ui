@@ -29,9 +29,9 @@
                     <child>
                       <object class="GtkFileChooserButton" id="destination_filechooserbutton">
                         <property name="visible">True</property>
-                        <property name="create_folders">False</property>
-                        <property name="local_only">False</property>
                         <property name="action">select-folder</property>
+                        <property name="local_only">False</property>
+                        <property name="create_folders">False</property>
                       </object>
                       <packing>
                         <property name="position">0</property>
@@ -48,10 +48,12 @@
           </object>
         </child>
         <child type="label">
-          <object class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="destination_label">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Destination</property>
+            <property name="label" translatable="yes">_Destination</property>
             <property name="use_markup">True</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">destination_filechooserbutton</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>

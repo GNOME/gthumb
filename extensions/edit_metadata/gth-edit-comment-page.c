@@ -407,10 +407,12 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   	self->priv->date_selector = gth_time_selector_new ();
   	gtk_widget_show (self->priv->date_selector);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_container")), self->priv->date_selector, FALSE, FALSE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("date_label")), self->priv->date_combobox);
 
   	self->priv->tags_entry = gth_tags_entry_new ();
   	gtk_widget_show (self->priv->tags_entry);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), self->priv->tags_entry);
 }
 
 

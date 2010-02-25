@@ -15,14 +15,14 @@
         <property name="yalign">0</property>
         <property name="label" translatable="yes">D_escription:</property>
         <property name="use_underline">True</property>
-        <property name="mnemonic_widget">scrolledwindow3</property>
+        <property name="mnemonic_widget">note_text</property>
       </object>
       <packing>
         <property name="x_options">GTK_FILL</property>
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label13">
+      <object class="GtkLabel" id="date_label">
         <property name="visible">True</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">_Date:</property>
@@ -110,11 +110,11 @@
         <property name="visible">True</property>
         <property name="top_padding">2</property>
         <child>
-          <object class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="tags_label">
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="yalign">0</property>
-            <property name="label" translatable="yes">_Tags:</property>
+            <property name="label" translatable="yes">T_ags:</property>
             <property name="use_underline">True</property>
           </object>
         </child>
@@ -194,6 +194,7 @@
         <property name="yalign">0.60000002384185791</property>
         <property name="label" translatable="yes">_Rating:</property>
         <property name="use_underline">True</property>
+        <property name="mnemonic_widget">rating_spinbutton</property>
       </object>
       <packing>
         <property name="top_attach">5</property>
@@ -223,6 +224,7 @@
         <property name="yalign">0.60000002384185791</property>
         <property name="label" translatable="yes">_Title:</property>
         <property name="use_underline">True</property>
+        <property name="mnemonic_widget">title_entry</property>
       </object>
       <packing>
         <property name="top_attach">1</property>

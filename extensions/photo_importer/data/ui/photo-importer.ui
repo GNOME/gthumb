@@ -175,11 +175,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label4">
+                  <object class="GtkLabel" id="event_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Event:</property>
                     <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">event_entry</property>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>

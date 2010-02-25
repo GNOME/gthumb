@@ -95,15 +95,28 @@ gth_tags_entry_finalize (GObject *obj)
 
 
 static void
+gth_tags_entry_grab_focus (GtkWidget *widget)
+{
+	GthTagsEntry *entry = GTH_TAGS_ENTRY (widget);
+
+	gtk_widget_grab_focus (entry->priv->entry);
+}
+
+
+static void
 gth_tags_entry_class_init (GthTagsEntryClass *klass)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTagsEntryPrivate));
 
 	object_class = (GObjectClass*) (klass);
 	object_class->finalize = gth_tags_entry_finalize;
+
+	widget_class = (GtkWidgetClass *) klass;
+	widget_class->grab_focus = gth_tags_entry_grab_focus;
 }
 
 
@@ -658,6 +671,8 @@ gth_tags_entry_instance_init (GthTagsEntry *self)
 	GtkWidget         *hbox;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
+
+	GTK_WIDGET_SET_FLAGS (self, GTK_CAN_FOCUS);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
