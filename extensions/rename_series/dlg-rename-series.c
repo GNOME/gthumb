@@ -440,6 +440,8 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_widget_show (data->list_view);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("preview_scrolledwindow")), data->list_view);
 
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), data->list_view);
+
 	if (data->file_list->next == NULL) {
 		GthFileData *file_data = data->file_list->data;
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
