@@ -208,12 +208,15 @@ static void
 ok_button_clicked_cb (GtkButton               *button,
 		      GthFileToolAdjustColors *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	if (self->priv->dest_pixbuf != NULL) {
+		GtkWidget *window;
+		GtkWidget *viewer_page;
 
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, TRUE);
+		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, TRUE);
+	}
+
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
