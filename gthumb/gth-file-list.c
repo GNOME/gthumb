@@ -1088,6 +1088,7 @@ gfl_enable_thumbs (GthFileList *file_list,
 			GdkPixbuf   *pixbuf;
 
 			file_data = gth_file_store_get_file (file_store, &iter);
+			file_data->thumb_loaded = FALSE;
 			icon = g_file_info_get_icon (file_data->info);
 			pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
 			gth_file_store_queue_set (file_store,
