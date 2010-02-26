@@ -476,6 +476,7 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_combobox), 0);
 	gtk_widget_show (data->sort_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("sort_by_box")), data->sort_combobox);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("sort_by_label")), data->sort_combobox);
 
 	/* change case */
 
@@ -486,6 +487,7 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->change_case_combobox), 0);
 	gtk_widget_show (data->change_case_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("change_case_box")), data->change_case_combobox);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("change_case_label")), data->change_case_combobox);
 
 	dlg_rename_series_update_preview (data);
 

@@ -36,11 +36,12 @@
                             <property name="column_spacing">6</property>
                             <property name="row_spacing">6</property>
                             <child>
-                              <object class="GtkLabel" id="label3">
+                              <object class="GtkLabel" id="crop_x_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_X:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">crop_x_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -48,11 +49,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label5">
+                              <object class="GtkLabel" id="crop_y_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Y:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">crop_y_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -62,11 +64,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label4">
+                              <object class="GtkLabel" id="crop_width_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Width:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">crop_width_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">2</property>
@@ -76,11 +79,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label6">
+                              <object class="GtkLabel" id="crop_height_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_Height:</property>
+                                <property name="label" translatable="yes">Heigh_t:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">crop_height_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">3</property>
@@ -353,7 +357,7 @@
             <property name="layout_style">center</property>
             <child>
               <object class="GtkButton" id="crop_button">
-                <property name="label" translatable="yes">_Crop</property>
+                <property name="label" translatable="yes">C_rop</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

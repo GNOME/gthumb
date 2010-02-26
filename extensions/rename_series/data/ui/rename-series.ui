@@ -26,7 +26,7 @@
                 <property name="column_spacing">12</property>
                 <property name="row_spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label7">
+                  <object class="GtkLabel" id="start_at_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Start _at:</property>
@@ -41,7 +41,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label5">
+                  <object class="GtkLabel" id="sort_by_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Sort by:</property>
@@ -55,7 +55,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label123">
+                  <object class="GtkLabel" id="change_case_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes" comments="Translators: this is the text case (upper or lower case).">Cas_e:</property>
@@ -386,11 +386,12 @@
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="template_label">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">_Template:</property>
                         <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">template_entry</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -444,12 +445,11 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label69">
+                  <object class="GtkLabel" id="preview_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">_Preview:</property>
+                    <property name="label" translatable="yes">Preview:</property>
                     <property name="use_markup">True</property>
-                    <property name="use_underline">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -556,13 +556,13 @@
   <object class="GtkSizeGroup" id="sizegroup1">
     <property name="mode">vertical</property>
     <widgets>
-      <widget name="label1"/>
       <widget name="template_entry"/>
+      <widget name="template_label"/>
     </widgets>
   </object>
   <object class="GtkAdjustment" id="start_at_adjustment">
-    <property name="upper">1000000000</property>
     <property name="value">1</property>
+    <property name="upper">1000000000</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
