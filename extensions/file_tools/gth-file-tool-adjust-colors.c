@@ -342,6 +342,7 @@ value_changed_cb (GtkAdjustment           *adj,
 
 static GtkAdjustment *
 gimp_scale_entry_new (GtkWidget *parent_box,
+		      GtkLabel  *label,
 		      float      value,
 		      float      lower,
 		      float      upper,
@@ -372,6 +373,8 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 
 	gtk_box_pack_start (GTK_BOX (parent_box), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (hbox);
+
+	gtk_label_set_mnemonic_widget (label, scale);
 
 	return (GtkAdjustment *) adj;
 }
@@ -412,13 +415,27 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->histogram_view);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("histogram_hbox")), self->priv->histogram_view, TRUE, TRUE, 0);
 
-	self->priv->brightness_adj = gimp_scale_entry_new (GET_WIDGET ("brightness_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->contrast_adj = gimp_scale_entry_new (GET_WIDGET ("contrast_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->gamma_adj = gimp_scale_entry_new (GET_WIDGET ("gamma_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->saturation_adj = gimp_scale_entry_new (GET_WIDGET ("saturation_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->cyan_red_adj = gimp_scale_entry_new (GET_WIDGET ("cyan_red_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->magenta_green_adj = gimp_scale_entry_new (GET_WIDGET ("magenta_green_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->yellow_blue_adj = gimp_scale_entry_new (GET_WIDGET ("yellow_blue_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->brightness_adj    = gimp_scale_entry_new (GET_WIDGET ("brightness_hbox"),
+							      GTK_LABEL (GET_WIDGET ("brightness_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->contrast_adj      = gimp_scale_entry_new (GET_WIDGET ("contrast_hbox"), 
+							      GTK_LABEL (GET_WIDGET ("contrast_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->gamma_adj         = gimp_scale_entry_new (GET_WIDGET ("gamma_hbox"),
+							      GTK_LABEL (GET_WIDGET ("gamma_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->saturation_adj    = gimp_scale_entry_new (GET_WIDGET ("saturation_hbox"),
+							      GTK_LABEL (GET_WIDGET ("saturation_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->cyan_red_adj      = gimp_scale_entry_new (GET_WIDGET ("cyan_red_hbox"),
+							      GTK_LABEL (GET_WIDGET ("cyan_red_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->magenta_green_adj = gimp_scale_entry_new (GET_WIDGET ("magenta_green_hbox"),
+							      GTK_LABEL (GET_WIDGET ("magenta_green_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->yellow_blue_adj   = gimp_scale_entry_new (GET_WIDGET ("yellow_blue_hbox"),
+							      GTK_LABEL (GET_WIDGET ("yellow_blue_label")),
+							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",

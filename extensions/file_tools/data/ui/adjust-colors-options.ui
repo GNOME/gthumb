@@ -38,7 +38,7 @@
                   <object class="GtkLabel" id="brightness_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">_Brightness:</property>
+                    <property name="label" translatable="yes">B_rightness:</property>
                     <property name="use_underline">True</property>
                   </object>
                   <packing>
@@ -131,7 +131,7 @@
                   <object class="GtkLabel" id="gamma_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">_Gamma:</property>
+                    <property name="label" translatable="yes">G_amma:</property>
                     <property name="use_underline">True</property>
                   </object>
                   <packing>

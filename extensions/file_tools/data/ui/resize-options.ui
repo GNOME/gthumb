@@ -37,11 +37,12 @@
                             <property name="column_spacing">6</property>
                             <property name="row_spacing">6</property>
                             <child>
-                              <object class="GtkLabel" id="label4">
+                              <object class="GtkLabel" id="resize_width_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Width:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">resize_width_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -49,11 +50,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label6">
+                              <object class="GtkLabel" id="resize_height_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_Height:</property>
+                                <property name="label" translatable="yes">Heigh_t:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">resize_height_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
