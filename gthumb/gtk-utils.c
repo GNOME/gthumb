@@ -698,14 +698,20 @@ static GdkPixbuf *
 get_file_icon_pixbuf (GFileIcon *icon,
 		      int        size)
 {
+	GdkPixbuf *pixbuf = NULL;
 	GFile     *file;
-	char      *filename;
-	GdkPixbuf *pixbuf;
 
 	file = g_file_icon_get_file (icon);
-	filename = g_file_get_path (file);
-	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, size, -1, NULL);
-	g_free (filename);
+	if (file != NULL) {
+		char *filename;
+
+		filename = g_file_get_path (file);
+		if (filename != NULL)
+			pixbuf = gdk_pixbuf_new_from_file_at_size (filename, size, -1, NULL);
+
+		g_free (filename);
+	}
+
 	g_object_unref (file);
 
 	return pixbuf;
