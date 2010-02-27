@@ -136,7 +136,10 @@ gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 		return pixbuf;
 	}
 
-	if (icon == NULL) {
+	if (icon != NULL)
+		pixbuf = _g_icon_get_pixbuf (icon, icon_cache->icon_size, icon_cache->icon_theme);
+
+	if (pixbuf == NULL) {
 		GIcon *unknown_icon;
 
 		unknown_icon = g_themed_icon_new ("missing-image");
@@ -144,8 +147,7 @@ gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 
 		g_object_unref (unknown_icon);
 	}
-	else
-		pixbuf = _g_icon_get_pixbuf (icon, icon_cache->icon_size, icon_cache->icon_theme);
+
 	g_hash_table_insert (icon_cache->cache, (gpointer) key, g_object_ref (pixbuf));
 
 	performance (DEBUG_INFO, "done (not cached)");
