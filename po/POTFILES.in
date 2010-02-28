@@ -31,6 +31,9 @@ extensions/burn_disc/actions.h
 extensions/burn_disc/callbacks.c
 extensions/burn_disc/callbacks.h
 [type: gettext/glade]extensions/burn_disc/data/ui/burn-disc-options.ui
+[type: gettext/glade]extensions/burn_disc/data/ui/burn-source-selector.ui
+extensions/burn_disc/gth-burn-task.c
+extensions/burn_disc/gth-burn-task.h
 extensions/burn_disc/main.c
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
