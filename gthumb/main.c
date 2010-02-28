@@ -384,10 +384,8 @@ main (int argc, char *argv[])
 	GOptionContext *context = NULL;
 	GError         *error = NULL;
 
-	if (! g_thread_supported ()) {
+	if (! g_thread_supported ())
 		g_thread_init (NULL);
-		gdk_threads_init ();
-	}
 
 	program_argv0 = argv[0];
 
@@ -433,11 +431,8 @@ main (int argc, char *argv[])
 
 	g_option_context_free (context);
 
-	if (! unique_app_is_running (gthumb_app)) {
-		gdk_threads_enter ();
+	if (! unique_app_is_running (gthumb_app))
 		gtk_main ();
-		gdk_threads_leave ();
-	}
 
 	g_object_unref (gthumb_app);
 	gth_main_release ();

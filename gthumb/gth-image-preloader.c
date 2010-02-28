@@ -335,7 +335,7 @@ load_data_new (GthImagePreloader *image_preloader,
 	load_data = g_new0 (LoadData, 1);
 
 	load_data->image_preloader = image_preloader;
-	load_data->requested = check_file (requested);
+	load_data->requested = gth_file_data_dup (requested);
 	load_data->next1 = check_file (next1);
 	load_data->prev1 = check_file (prev1);
 

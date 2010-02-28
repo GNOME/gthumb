@@ -1,5 +1,6 @@
 SUBDIRS = 			\
 	bookmarks		\
+	burn_disc		\
 	catalogs		\
 	change_date		\
 	comments		\

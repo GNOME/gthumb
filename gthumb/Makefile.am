@@ -246,6 +246,7 @@ gthumb_LDADD =						\
 	$(CLUTTER_LIBS)					\
 	$(GNOME_KEYRING_LIBS)				\
 	$(GSTREAMER_LIBS)				\
+	$(LIBBRASERO_LIBS)				\
 	$(LIBOPENRAW_LIBS)				\
 	$(LIBSOUP_LIBS)					\
 	$(NULL)	
