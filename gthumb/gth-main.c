@@ -1189,6 +1189,7 @@ gth_main_activate_extensions (void)
 	const char *mandatory_extensions[] = {	"file_viewer",
 						NULL };
 	const char *default_extensions[] = {	"bookmarks",
+						"burn_disc",
 						"catalogs",
 						"change_date",
 						"comments",
