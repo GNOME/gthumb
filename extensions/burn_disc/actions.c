@@ -162,6 +162,9 @@ add_content_list (gpointer key,
 			char  *relative_path;
 			char  *subfolder_path;
 
+			if (! g_file_query_exists (sidecar, NULL))
+				continue;
+
 			relative_path = g_file_get_relative_path (file_parent, sidecar);
 			subfolder_path = _g_uri_get_parent (relative_path);
 			if (g_strcmp0 (subfolder_path, "") == 0) {
