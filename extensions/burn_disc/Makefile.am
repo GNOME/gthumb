@@ -10,6 +10,8 @@ libburn_disc_la_SOURCES = 		\
 	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
+	gth-burn-task.c			\
+	gth-burn-task.h			\
 	main.c
 
 libburn_disc_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBBRASERO_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
