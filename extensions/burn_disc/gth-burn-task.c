@@ -72,6 +72,7 @@ gth_task_finalize (GObject *object)
 	task = GTH_BURN_TASK (object);
 
 	if (task->priv != NULL) {
+		gtk_widget_destroy (task->priv->dialog);
 		g_hash_table_foreach (task->priv->content, free_file_list_from_content, NULL);
 		g_hash_table_unref (task->priv->content);
 		g_hash_table_unref (task->priv->parents);
@@ -372,8 +373,6 @@ source_dialog_response_cb (GtkDialog   *dialog,
 	}
 	else
 		gth_task_completed (GTH_TASK (task), NULL);
-
-	gtk_widget_destroy (task->priv->dialog);
 }
 
 
