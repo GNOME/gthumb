@@ -209,18 +209,21 @@ static void
 burn_content_to_disc (GthBurnTask *task)
 {
 	static gboolean  initialized = FALSE;
+	GdkCursor       *cursor;
 	GtkWidget       *dialog;
 	GtkBuilder      *builder;
 	GtkWidget       *options;
 	GtkResponseType  result;
+
+	cursor = gdk_cursor_new (GDK_WATCH);
+	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (task->priv->browser)), cursor);
+	gdk_cursor_unref (cursor);
 
 	if (! initialized) {
 		brasero_media_library_start ();
 		brasero_burn_library_start (NULL, NULL);
 		initialized = TRUE;
 	}
-
-	gth_task_dialog (GTH_TASK (task), TRUE);
 
 	task->priv->session = brasero_session_cfg_new ();
 	task->priv->track = brasero_track_data_cfg_new ();
@@ -247,6 +250,7 @@ burn_content_to_disc (GthBurnTask *task)
 	gtk_widget_show (options);
 	brasero_burn_options_add_options (BRASERO_BURN_OPTIONS (dialog), options);
 
+	gth_task_dialog (GTH_TASK (task), TRUE);
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
@@ -262,6 +266,8 @@ burn_content_to_disc (GthBurnTask *task)
 
 		gtk_widget_destroy (dialog);
 	}
+
+	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (task->priv->browser)), NULL);
 
 	g_object_unref (task->priv->session);
 	gth_task_completed (GTH_TASK (task), NULL);
