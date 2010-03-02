@@ -37,25 +37,25 @@ GthMetadataCategory file_metadata_category[] = {
 
 
 GthMetadataInfo file_metadata_info[] = {
-	{ "standard::display-name", N_("Name"), "file", 1, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "gth::file::display-size", N_("Size"), "file", 2, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "gth::file::display-mtime", N_("Modified"), "file", 3, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "standard::fast-content-type", N_("Type"), "file", 4, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "gth::file::is-modified", NULL, "file", 5, GTH_METADATA_ALLOW_NOWHERE },
-	{ "gth::file::full-name", N_("Full Name"), "file", 6, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "standard::display-name", N_("Name"), "file", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::display-size", N_("Size"), "file", 2, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::display-mtime", N_("Modified"), "file", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "standard::fast-content-type", N_("Type"), "file", 4, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::is-modified", NULL, "file", 5, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "gth::file::full-name", N_("Full Name"), "file", 6, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
-	{ "general::title", N_("Title"), "general", 1, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::dimensions", N_("Dimensions"), "general", 10, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::duration", N_("Duration"), "general", 11, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::format", N_("Format"), "general", 12, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "general::location", N_("Place"), "general", 14, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::datetime", N_("Date"), "general", 15, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::description", N_("Description"), "general", 17, GTH_METADATA_ALLOW_IN_PRINT },
-	{ "general::tags", N_("Tags"), "general", 18, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::rating", N_("Rating"), "general", 19, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::title", N_("Title"), "general", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::dimensions", N_("Dimensions"), "general", 10, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::duration", N_("Duration"), "general", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::format", N_("Format"), "general", 12, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "general::location", N_("Place"), "general", 14, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::datetime", N_("Date"), "general", 15, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::description", N_("Description"), "general", 17, NULL, GTH_METADATA_ALLOW_IN_PRINT },
+	{ "general::tags", N_("Tags"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::rating", N_("Rating"), "general", 19, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 
-	{ "Embedded::Image::Orientation", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
-	{ "Embedded::Photo::DateTimeOriginal", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Embedded::Image::Orientation", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Embedded::Photo::DateTimeOriginal", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 
 	{ NULL, NULL, NULL, 0, 0 }
 };

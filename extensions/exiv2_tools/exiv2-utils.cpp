@@ -186,13 +186,14 @@ attribute_is_date (const char *key)
 }
 
 
-inline static void
+static void
 set_file_info (GFileInfo  *info,
 	       const char *key,
 	       const char *description,
 	       const char *formatted_value,
 	       const char *raw_value,
-	       const char *category)
+	       const char *category,
+	       const char *type_name)
 {
 	char            *attribute;
 	GthMetadataInfo *metadata_info;
@@ -232,6 +233,7 @@ g_print ("%s (%s): %s (%s)\n", key, description, formatted_value, raw_value);
 		GthMetadataInfo info;
 
 		info.id = attribute;
+		info.type = (type_name != NULL) ? g_strdup (type_name) : NULL;
 		info.display_name = description_utf8;
 		info.category = category;
 		info.sort_order = 500;
@@ -281,7 +283,7 @@ set_attribute_from_tagset (GFileInfo  *info,
 		      "formatted", &formatted_value,
 		      "raw", &raw_value,
 		      NULL);
-	set_file_info (info, attribute, description, formatted_value, raw_value, NULL);
+	set_file_info (info, attribute, description, formatted_value, raw_value, NULL, NULL);
 }
 
 
@@ -378,7 +380,8 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 				       short_name.str().c_str(),
 				       value.str().c_str(),
 				       md->toString().c_str(),
-				       get_exif_default_category (*md));
+				       get_exif_default_category (*md),
+				       md->typeName());
 		}
 	}
 
@@ -397,7 +400,8 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 				       short_name.str().c_str(),
 				       value.str().c_str(),
 				       md->toString().c_str(),
-				       "Iptc");
+				       "Iptc",
+				       md->typeName());
 		}
 	}
 
@@ -416,7 +420,8 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 				       short_name.str().c_str(),
 				       value.str().c_str(),
 				       md->toString().c_str(),
-				       "Xmp::Embedded");
+				       "Xmp::Embedded",
+				       md->typeName());
 		}
 	}
 
@@ -531,7 +536,8 @@ exiv2_read_sidecar (GFile     *file,
 					       short_name.str().c_str(),
 					       value.str().c_str(),
 					       md->toString().c_str(),
-					       "Xmp::Sidecar");
+					       "Xmp::Sidecar",
+					       md->typeName());
 			}
 		}
 		Exiv2::XmpParser::terminate();
@@ -591,6 +597,23 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		key = exiv2_key_from_attribute (attributes[i]);
 
 		try {
+			/* If the metadatum has no value yet, a new empty value
+			 * is created. The type is taken from Exiv2's tag
+			 * lookup tables. If the tag is not found in the table,
+			 * the type defaults to Ascii.
+			 * We always create the metadatum explicilty if the
+			 * type is available to avoid type errors.
+			 * See bug #610389 for more details.  The original
+			 * expanation is here:
+			 * http://uk.groups.yahoo.com/group/exiv2/message/1472
+			 */
+
+			GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
+			if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
+				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
+				Exiv2::ExifKey exif_key(key);
+				ed.add (exif_key, value.get());
+			}
 			ed[key] = gth_metadata_get_raw (metadatum);
 		}
 		catch (Exiv2::AnyError& e) {
@@ -676,6 +699,13 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		char *key = exiv2_key_from_attribute (attributes[i]);
 
 		try {
+			/* See the exif data code above for an explanation. */
+			GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
+			if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
+				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
+				Exiv2::IptcKey iptc_key(key);
+				id.add (iptc_key, value.get());
+			}
 			id[key] = gth_metadata_get_raw (metadatum);
 		}
 		catch (Exiv2::AnyError& e) {
@@ -705,8 +735,16 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		try {
 			const char *value = gth_metadata_get_raw (metadatum);
 
-			if ((value != NULL) && strcmp (value, "") != 0)
+			if ((value != NULL) && strcmp (value, "") != 0) {
+				/* See the exif data code above for an explanation. */
+				GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
+				if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
+					Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
+					Exiv2::XmpKey xmp_key(key);
+					xd.add (xmp_key, value.get());
+				}
 				xd[key] = gth_metadata_get_raw (metadatum);
+			}
 		}
 		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */

@@ -222,6 +222,8 @@ gth_metadata_info_dup (GthMetadataInfo *info)
 	new_info = g_new0 (GthMetadataInfo, 1);
 	if (info->id != NULL)
 		new_info->id = g_strdup (info->id);
+	if (info->type != NULL)
+		new_info->type = g_strdup (info->type);
 	if (info->display_name != NULL)
 		new_info->display_name = g_strdup (info->display_name);
 	if (info->category != NULL)

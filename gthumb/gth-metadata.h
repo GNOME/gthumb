@@ -48,6 +48,7 @@ typedef struct {
 	const char         *display_name;
 	const char         *category;
 	int                 sort_order;
+	const char         *type;
 	GthMetadataFlags    flags;
 } GthMetadataInfo;
 

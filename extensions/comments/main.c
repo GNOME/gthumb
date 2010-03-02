@@ -38,12 +38,12 @@ GthMetadataCategory comments_metadata_category[] = {
 
 
 GthMetadataInfo comments_metadata_info[] = {
-	{ "comment::caption", "", "comment", 1, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::note", "", "comment", 2, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::place", "", "comment", 3, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::time", "", "comment", 4, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::categories", "", "comment", 5, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::rating", "", "comment", 6, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::caption", "", "comment", 1, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::note", "", "comment", 2, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::place", "", "comment", 3, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::time", "", "comment", 4, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::categories", "", "comment", 5, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::rating", "", "comment", 6, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ NULL, NULL, NULL, 0, 0 }
 };
 

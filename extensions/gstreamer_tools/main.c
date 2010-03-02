@@ -37,19 +37,19 @@ GthMetadataCategory gstreamer_metadata_category[] = {
 
 
 GthMetadataInfo gstreamer_metadata_info[] = {
-	{ "audio-video::general::artist", N_("Artist"), "general", 2, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::album", N_("Album"), "general", 3, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::bitrate", N_("Bitrate"), "general", 20, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::general::encoder", N_("Encoder"), "general", 21, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::artist", N_("Artist"), "general", 2, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::general::album", N_("Album"), "general", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::general::bitrate", N_("Bitrate"), "general", 20, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::encoder", N_("Encoder"), "general", 21, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
-	{ "audio-video::video::codec", N_("Codec"), "audio-video::video", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::video::framerate", N_("Framerate"), "audio-video::video", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::video::width", N_("Width"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },
-	{ "audio-video::video::height", N_("Height"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },
+	{ "audio-video::video::codec", N_("Codec"), "audio-video::video", 2, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::video::framerate", N_("Framerate"), "audio-video::video", 3, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::video::width", N_("Width"), "audio-video::video", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "audio-video::video::height", N_("Height"), "audio-video::video", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 
-	{ "audio-video::audio::codec", N_("Codec"), "audio-video::audio", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::audio::channels", N_("Channels"), "audio-video::audio", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::audio::samplerate", N_("Sample rate"), "audio-video::audio", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::audio::codec", N_("Codec"), "audio-video::audio", 1, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::audio::channels", N_("Channels"), "audio-video::audio", 2, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::audio::samplerate", N_("Sample rate"), "audio-video::audio", 3, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ NULL, NULL, NULL, 0, 0 }
 };
