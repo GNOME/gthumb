@@ -598,31 +598,31 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">48</col>
+        <col id="0">48</col>
       </row>
       <row>
-        <col id="0" translatable="yes">64</col>
+        <col id="0">64</col>
       </row>
       <row>
-        <col id="0" translatable="yes">85</col>
+        <col id="0">85</col>
       </row>
       <row>
-        <col id="0" translatable="yes">95</col>
+        <col id="0">95</col>
       </row>
       <row>
-        <col id="0" translatable="yes">112</col>
+        <col id="0">112</col>
       </row>
       <row>
-        <col id="0" translatable="yes">128</col>
+        <col id="0">128</col>
       </row>
       <row>
-        <col id="0" translatable="yes">164</col>
+        <col id="0">164</col>
       </row>
       <row>
-        <col id="0" translatable="yes">200</col>
+        <col id="0">200</col>
       </row>
       <row>
-        <col id="0" translatable="yes">256</col>
+        <col id="0">256</col>
       </row>
     </data>
   </object>

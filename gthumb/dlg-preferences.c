@@ -213,7 +213,7 @@ dlg_preferences (GthBrowser *browser)
 	/* Set widgets data. */
 
 	data->toolbar_style_combobox = _gtk_combo_box_new_with_texts (_("System settings"), _("Text below icons"), _("Text beside icons"), _("Icons only"), _("Text only"), NULL);
-	data->thumbnail_size_combobox = _gtk_combo_box_new_with_texts (_("48"), _("64"), _("85"), _("95"), _("112"), _("128"), _("164"), _("200"), _("256"), NULL);
+	data->thumbnail_size_combobox = _gtk_combo_box_new_with_texts ("48", "64", "85", "95", "112", "128", "164", "200", "256", NULL);
 
 	/* caption list */
 

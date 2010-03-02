@@ -43,7 +43,7 @@
             <child>
               <object class="GtkLabel" id="label188">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -139,7 +139,7 @@
             <child>
               <object class="GtkLabel" id="label186">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -238,7 +238,7 @@
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
