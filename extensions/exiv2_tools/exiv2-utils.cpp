@@ -752,6 +752,7 @@ exiv2_write_metadata (SavePixbufData *data)
 		catch (Exiv2::AnyError& e) {
 			if (data->error != NULL)
 				*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
+			g_warning ("%s\n", e.what());
 			return FALSE;
 		}
 	}
