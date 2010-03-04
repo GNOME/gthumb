@@ -248,7 +248,7 @@ update_view (NavWindow *nav_win)
 	nav_win->pixbuf = gdk_pixbuf_scale_simple (image_pixbuf,
 						   popup_width,
 						   popup_height,
-						   GDK_INTERP_BILINEAR);
+						   GDK_INTERP_TILES);
 
 	/* The square. */
 
