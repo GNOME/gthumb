@@ -142,12 +142,12 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 		return;
 
 	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
-		interp_type = GDK_INTERP_NEAREST;
+		interp_type = GDK_INTERP_TILES;
 	else
 		interp_type = GDK_INTERP_BILINEAR;
 
 	if (FLOAT_EQUAL (gth_image_viewer_get_zoom (viewer), 1.0))
-		interp_type = GDK_INTERP_NEAREST;
+		interp_type = GDK_INTERP_TILES;
 
 	if (gdk_rectangle_intersect (&viewer->image_area, event_area, &paint_area))
 		gth_image_viewer_paint (viewer,

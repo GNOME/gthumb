@@ -609,7 +609,7 @@ paint_background (GthImageSelector *self,
 				paint_area.y,
 				paint_area.width,
 				paint_area.height,
-				GDK_INTERP_NEAREST);
+				GDK_INTERP_TILES);
 }
 
 
@@ -634,7 +634,7 @@ paint_selection (GthImageSelector *self,
 				paint_area.y,
 				paint_area.width,
 				paint_area.height,
-				GDK_INTERP_NEAREST);
+				GDK_INTERP_TILES);
 }
 
 
@@ -655,7 +655,7 @@ paint_image (GthImageSelector *self,
 				paint_area.y,
 				paint_area.width,
 				paint_area.height,
-				GDK_INTERP_NEAREST);
+				GDK_INTERP_TILES);
 }
 
 
@@ -1253,7 +1253,7 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 					self->priv->pixbuf,
 					gdk_pixbuf_get_width (self->priv->pixbuf),
 					gdk_pixbuf_get_height (self->priv->pixbuf),
-					GDK_INTERP_NEAREST,
+					GDK_INTERP_TILES,
 					128 /*196 FIXME: find a goob value */,
 					10,
 					0x00000000,
