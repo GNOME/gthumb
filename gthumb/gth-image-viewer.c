@@ -66,7 +66,6 @@ enum {
 struct _GthImageViewerPrivate {
 	gboolean                is_animation;
 	gboolean                play_animation;
-	gboolean                rendering;
 	gboolean                cursor_visible;
 
 	gboolean                frame_visible;
@@ -718,11 +717,6 @@ gth_image_viewer_expose (GtkWidget      *widget,
 
 	viewer = GTH_IMAGE_VIEWER (widget);
 
-	if (viewer->priv->rendering)
-		return FALSE;
-
-	viewer->priv->rendering = TRUE;
-
 	/* Draw the background. */
 
 	gdk_width = widget->allocation.width - viewer->priv->frame_border2;
@@ -861,8 +855,6 @@ gth_image_viewer_expose (GtkWidget      *widget,
 
 	gth_image_viewer_tool_expose (viewer->priv->tool, &event->area);
 
-	viewer->priv->rendering = FALSE;
-
 	/* Draw the focus. */
 
 #if 0
@@ -986,9 +978,6 @@ scroll_to (GthImageViewer *viewer,
 	g_return_if_fail (viewer != NULL);
 
 	if (gth_image_viewer_get_current_pixbuf (viewer) == NULL)
-		return;
-
-	if (viewer->priv->rendering)
 		return;
 
 	get_zoomed_size (viewer, &width, &height, viewer->priv->zoom_level);
@@ -1117,9 +1106,6 @@ gth_image_viewer_motion_notify (GtkWidget      *widget,
 				GdkEventMotion *event)
 {
 	GthImageViewer *viewer = GTH_IMAGE_VIEWER (widget);
-
-	if (viewer->priv->rendering)
-		return FALSE;
 
 	if (viewer->pressed) {
 		viewer->drag_x = event->x + viewer->x_offset;
@@ -1753,7 +1739,6 @@ gth_image_viewer_instance_init (GthImageViewer *viewer)
 
 	viewer->priv->is_animation = FALSE;
 	viewer->priv->play_animation = TRUE;
-	viewer->priv->rendering = FALSE;
 	viewer->priv->cursor_visible = TRUE;
 
 	viewer->priv->frame_visible = TRUE;
@@ -2007,7 +1992,7 @@ gth_image_viewer_set_pixbuf (GthImageViewer *viewer,
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (viewer->priv->is_animation || viewer->priv->rendering)
+	if (viewer->priv->is_animation)
 		return;
 
 	viewer->priv->is_void = (pixbuf == NULL);
@@ -2179,9 +2164,10 @@ gth_image_viewer_step_animation (GthImageViewer *viewer)
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (!viewer->priv->is_animation) return;
-	if (viewer->priv->play_animation) return;
-	if (viewer->priv->rendering) return;
+	if (! viewer->priv->is_animation)
+		return;
+	if (viewer->priv->play_animation)
+		return;
 
 	change_frame_cb (viewer);
 }
@@ -2459,9 +2445,6 @@ gth_image_viewer_scroll_to (GthImageViewer *viewer,
 	if (gth_image_viewer_get_current_pixbuf (viewer) == NULL)
 		return;
 
-	if (viewer->priv->rendering)
-		return;
-
 	scroll_to (viewer, &x_offset, &y_offset);
 
 	g_signal_handlers_block_by_data (G_OBJECT (viewer->hadj), viewer);
@@ -2635,6 +2618,10 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 	int            bits_per_sample;
 	GdkColorspace  color_space;
 
+	/* FIXME
+	g_print ("(%d, %d) => (%d, %d) [%d, %d]\n", src_x, src_y, dest_x, dest_y, width, height);
+*/
+
 	zoom_level = viewer->priv->zoom_level;
 
 	color_space = gdk_pixbuf_get_colorspace (pixbuf);
@@ -2691,7 +2678,7 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 				      GTK_WIDGET (viewer)->style->black_gc,
 				      dest_x, dest_y,
 				      width, height,
-				      GDK_RGB_DITHER_MAX,
+				      GDK_RGB_DITHER_NONE /*GDK_RGB_DITHER_MAX*/,
 				      gdk_pixbuf_get_pixels (viewer->priv->paint_pixbuf),
 				      gdk_pixbuf_get_rowstride (viewer->priv->paint_pixbuf),
 				      dest_x, dest_y);
