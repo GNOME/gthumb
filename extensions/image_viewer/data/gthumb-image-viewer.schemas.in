@@ -6,7 +6,7 @@
 	<applyto>/apps/gthumb/viewer/zoom_quality</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>high</default>
+	<default>low</default>
 	<locale name="C">
 	  <short></short>
 	  <long> Possible values are: high, low.
