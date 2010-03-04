@@ -44,23 +44,12 @@ browser_data_free (BrowserData *data)
 
 
 static void
-zoom_quality_high_cb (GtkToggleButton *button,
-		      BrowserData     *data)
+zoom_quality_changed_cb (GtkComboBox *combo_box,
+			 BrowserData     *data)
 {
-	if (! gtk_toggle_button_get_active (button))
-		return;
-	eel_gconf_set_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_HIGH);
+	eel_gconf_set_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, gtk_combo_box_get_active (combo_box));
 }
 
-
-static void
-zoom_quality_low_cb (GtkToggleButton *button,
-		     BrowserData     *data)
-{
-	if (! gtk_toggle_button_get_active (button))
-		return;
-	eel_gconf_set_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_LOW);
-}
 
 
 static void
@@ -127,18 +116,11 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	gtk_widget_show (data->transp_type_combobox);
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (data->builder, "transp_type_box")), data->transp_type_combobox);
 
-	if (eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_HIGH) == GTH_ZOOM_QUALITY_HIGH)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (data->builder, "opt_zoom_quality_high")), TRUE);
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (data->builder, "opt_zoom_quality_low")), TRUE);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (data->builder, "zoom_quality_combobox")), eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_LOW));
 
-	g_signal_connect (G_OBJECT (_gtk_builder_get_widget (data->builder, "opt_zoom_quality_high")),
-			  "toggled",
-			  G_CALLBACK (zoom_quality_high_cb),
-			  data);
-	g_signal_connect (G_OBJECT (_gtk_builder_get_widget (data->builder, "opt_zoom_quality_low")),
-			  "toggled",
-			  G_CALLBACK (zoom_quality_low_cb),
+	g_signal_connect (_gtk_builder_get_widget (data->builder, "zoom_quality_combobox"),
+			  "changed",
+			  G_CALLBACK (zoom_quality_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->change_zoom_combobox),
 			  "changed",
