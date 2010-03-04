@@ -1254,7 +1254,7 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 					gdk_pixbuf_get_width (self->priv->pixbuf),
 					gdk_pixbuf_get_height (self->priv->pixbuf),
 					GDK_INTERP_TILES,
-					128 /*196 FIXME: find a goob value */,
+					128,
 					10,
 					0x00000000,
 					0x00000000);

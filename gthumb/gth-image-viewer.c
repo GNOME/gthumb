@@ -1075,29 +1075,6 @@ scroll_to (GthImageViewer *viewer,
 		     viewer->priv->frame_border,
 		     abs (delta_x),
 		     gdk_height);
-
-	/* Process graphics exposures */
-
-#if 0 /* FIXME: gdk_event_get_graphics_expose is deprecated now */
-	replay_animation = viewer->priv->play_animation;
-	viewer->priv->play_animation = FALSE;
-	while ((event = gdk_event_get_graphics_expose (drawable)) != NULL) {
-		GdkEventExpose *expose = (GdkEventExpose*) event;
-
-		expose_area (viewer,
-			     expose->area.x,
-			     expose->area.y,
-			     expose->area.width,
-			     expose->area.height);
-
-		if (expose->count == 0) {
-			gdk_event_free (event);
-			break;
-		}
-		gdk_event_free (event);
-	}
-	viewer->priv->play_animation = replay_animation;
-#endif
 }
 
 
@@ -2617,6 +2594,8 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 	double         zoom_level;
 	int            bits_per_sample;
 	GdkColorspace  color_space;
+	guchar        *pixels;
+	int            rowstride;
 
 	/* FIXME
 	g_print ("(%d, %d) => (%d, %d) [%d, %d]\n", src_x, src_y, dest_x, dest_y, width, height);
@@ -2648,39 +2627,48 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 		viewer->priv->paint_bps = bits_per_sample;
 	}
 
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		gdk_pixbuf_composite_color (pixbuf,
-					    viewer->priv->paint_pixbuf,
-					    0, 0,
-					    width, height,
-					    (double) -src_x,
-					    (double) -src_y,
-					    zoom_level,
-					    zoom_level,
-					    interp_type,
-					    255,
-					    src_x, src_y,
-					    viewer->priv->check_size,
-					    viewer->priv->check_color1,
-					    viewer->priv->check_color2);
-	else
-		gdk_pixbuf_scale (pixbuf,
-				  viewer->priv->paint_pixbuf,
-				  0, 0,
-				  width, height,
-				  (double) -src_x,
-				  (double) -src_y,
-				  zoom_level,
-				  zoom_level,
-				  interp_type);
+	if ((zoom_level == 1.0) && ! gdk_pixbuf_get_has_alpha (pixbuf) && (bits_per_sample == 8)) {
+		rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+		pixels = gdk_pixbuf_get_pixels (pixbuf) + (src_y * rowstride) + (src_x * gdk_pixbuf_get_n_channels (pixbuf));
+	}
+	else {
+		if (gdk_pixbuf_get_has_alpha (pixbuf))
+			gdk_pixbuf_composite_color (pixbuf,
+						    viewer->priv->paint_pixbuf,
+						    0, 0,
+						    width, height,
+						    (double) -src_x,
+						    (double) -src_y,
+						    zoom_level,
+						    zoom_level,
+						    interp_type,
+						    255,
+						    src_x, src_y,
+						    viewer->priv->check_size,
+						    viewer->priv->check_color1,
+						    viewer->priv->check_color2);
+		else
+			gdk_pixbuf_scale (pixbuf,
+					  viewer->priv->paint_pixbuf,
+					  0, 0,
+					  width, height,
+					  (double) -src_x,
+					  (double) -src_y,
+					  zoom_level,
+					  zoom_level,
+					  interp_type);
+
+		rowstride = gdk_pixbuf_get_rowstride (viewer->priv->paint_pixbuf);
+		pixels = gdk_pixbuf_get_pixels (viewer->priv->paint_pixbuf);
+	}
 
 	gdk_draw_rgb_image_dithalign (GTK_WIDGET (viewer)->window,
 				      GTK_WIDGET (viewer)->style->black_gc,
 				      dest_x, dest_y,
 				      width, height,
-				      GDK_RGB_DITHER_NONE /*GDK_RGB_DITHER_MAX*/,
-				      gdk_pixbuf_get_pixels (viewer->priv->paint_pixbuf),
-				      gdk_pixbuf_get_rowstride (viewer->priv->paint_pixbuf),
+				      GDK_RGB_DITHER_MAX,
+				      pixels,
+				      rowstride,
 				      dest_x, dest_y);
 
 #if 0
