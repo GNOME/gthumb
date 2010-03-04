@@ -395,27 +395,27 @@
     </child>
   </object>
   <object class="GtkAdjustment" id="ratio_w_adjustment">
-    <property name="upper">99999</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="crop_x_adjustment">
-    <property name="upper">100</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="crop_y_adjustment">
-    <property name="upper">100</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="crop_width_adjustment">
-    <property name="upper">100</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="crop_height_adjustment">
-    <property name="upper">100</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="ratio_h_adjustment">
-    <property name="upper">100</property>
+    <property name="upper">999999</property>
     <property name="step_increment">1</property>
   </object>
 </interface>
