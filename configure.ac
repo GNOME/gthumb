@@ -432,6 +432,7 @@ extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
+extensions/flicker/Makefile
 extensions/gstreamer_tools/Makefile
 extensions/gstreamer_tools/data/Makefile
 extensions/gstreamer_tools/data/ui/Makefile
