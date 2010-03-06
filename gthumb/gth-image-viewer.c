@@ -1703,7 +1703,6 @@ static void
 gth_image_viewer_instance_init (GthImageViewer *viewer)
 {
 	GTK_WIDGET_SET_FLAGS (viewer, GTK_CAN_FOCUS);
-	/*GTK_WIDGET_UNSET_FLAGS (viewer, GTK_DOUBLE_BUFFERED); FIXME: check if this is correct */
 
 	viewer->priv = GTH_IMAGE_VIEWER_GET_PRIVATE (viewer);
 
@@ -2596,10 +2595,6 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 	GdkColorspace  color_space;
 	guchar        *pixels;
 	int            rowstride;
-
-	/* FIXME
-	g_print ("(%d, %d) => (%d, %d) [%d, %d]\n", src_x, src_y, dest_x, dest_y, width, height);
-*/
 
 	zoom_level = viewer->priv->zoom_level;
 

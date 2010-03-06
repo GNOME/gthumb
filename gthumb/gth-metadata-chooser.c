@@ -63,26 +63,10 @@ static guint gth_metadata_chooser_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
-gth_metadata_chooser_finalize (GObject *obj)
-{
-/*	GthMetadataChooser *self;
-
-	self = GTH_METADATA_CHOOSER (obj); FIXME: delete if not needed */
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-
-static void
 gth_metadata_chooser_class_init (GthMetadataChooserClass *klass)
 {
-	GObjectClass *object_class;
-
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMetadataChooserPrivate));
-
-	object_class = (GObjectClass*) (klass);
-	object_class->finalize = gth_metadata_chooser_finalize;
 
 	/* signals */
 
