@@ -828,10 +828,8 @@ gth_file_source_to_gio_file_list (GthFileSource *file_source,
 	GList *gio_files = NULL;
 	GList *scan;
 
-	for (scan = files; scan; scan = scan->next) {
-g_print ("%s ==> %s\n", g_file_get_uri ((GFile *) scan->data), g_file_get_uri (gth_file_source_to_gio_file (file_source, (GFile *) scan->data)));
+	for (scan = files; scan; scan = scan->next)
 		gio_files = g_list_prepend (gio_files, gth_file_source_to_gio_file (file_source, (GFile *) scan->data));
-	}
 
 	return g_list_reverse (gio_files);
 }
