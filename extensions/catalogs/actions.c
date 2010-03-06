@@ -34,12 +34,14 @@ gth_browser_activate_action_edit_add_to_catalog (GtkAction  *action,
 {
 	GList *items;
 	GList *file_list = NULL;
+	GList *files;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	files = gth_file_data_list_to_file_list (file_list);
+	dlg_add_to_catalog (browser, files);
 
-	dlg_add_to_catalog (browser, file_list);
-
+	_g_object_list_unref (files);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
@@ -129,7 +131,6 @@ catalog_buffer_ready_cb (void     **buffer,
 
 	for (scan = data->file_data_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-
 		gth_catalog_remove_file (data->catalog, file_data->file);
 	}
 
@@ -400,14 +401,16 @@ gth_browser_add_to_catalog (GthBrowser *browser,
   			    GFile      *catalog)
 {
 	GList *items;
-	GList *file_list = NULL;
+	GList *file_list;
+	GList *files;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	files = gth_file_data_list_to_file_list (file_list);
+	if (files != NULL)
+		add_to_catalog (browser, catalog, files);
 
-	if (file_list != NULL)
-		add_to_catalog (browser, catalog, file_list);
-
+	_g_object_list_unref (files);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }

@@ -88,7 +88,7 @@ void          gth_monitor_filters_changed            (GthMonitor      *monitor);
 void          gth_monitor_tags_changed               (GthMonitor      *monitor);
 void          gth_monitor_folder_changed             (GthMonitor      *monitor,
 						      GFile           *parent,
-						      GList           *list,
+						      GList           *list, /* GFile list */
 						      GthMonitorEvent  event);
 void          gth_monitor_file_renamed               (GthMonitor      *monitor,
 						      GFile           *file,

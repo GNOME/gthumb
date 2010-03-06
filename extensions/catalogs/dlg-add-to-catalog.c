@@ -136,10 +136,8 @@ catalog_ready_cb (GObject  *catalog,
 
 	add_data->catalog = (GthCatalog *) catalog;
 
-	for (scan = add_data->files; scan; scan = scan->next) {
-		GthFileData *file_to_add = scan->data;
-		gth_catalog_insert_file (add_data->catalog, file_to_add->file, -1);
-	}
+	for (scan = add_data->files; scan; scan = scan->next)
+		gth_catalog_insert_file (add_data->catalog, (GFile *) scan->data, -1);
 
 	buffer = gth_catalog_to_data (add_data->catalog, &length);
 	gio_file = gth_catalog_file_to_gio_file (add_data->catalog_file);

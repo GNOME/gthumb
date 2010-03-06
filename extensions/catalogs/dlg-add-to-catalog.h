@@ -27,10 +27,10 @@
 #include <gthumb.h>
 
 void   dlg_add_to_catalog              (GthBrowser *browser,
-					GList      *list);
+					GList      *list /* GFile list */);
 void   add_to_catalog                  (GthBrowser *browser,
 					GFile      *catalog,
-					GList      *list);
+					GList      *list /* GFile list */);
 void   dlg_move_to_catalog_directory   (GthBrowser *browser,
 					char       *catalog_path);
 
