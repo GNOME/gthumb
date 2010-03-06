@@ -2290,11 +2290,11 @@ _g_file_attribute_value_free (_GFileAttributeValue *attr_value)
 	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
 		g_free (attr_value->v.string);
 		break;
-/* FIXME: add if glib >= 2.22
+#if GLIB_CHECK_VERSION(2,22,0)
 	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
 		g_strfreev (attr_value->v.stringv);
 		break;
-*/
+#endif
 	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
 		g_object_unref (attr_value->v.object);
 		break;
@@ -2329,11 +2329,11 @@ _g_file_info_get_value (GFileInfo  *info,
 	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
 		attr_value->v.string = g_strdup ((char *) value);
 		break;
-/* FIXME: add if glib >= 2.22
+#if GLIB_CHECK_VERSION(2,22,0)
 	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
 		attr_value->v.stringv = g_strdupv ((char **) value);
 		break;
-*/
+#endif
 	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
 		attr_value->v.boolean = * ((gboolean *) value);
 		break;
@@ -2376,11 +2376,11 @@ _g_file_info_set_value (GFileInfo            *info,
 	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
 		value = attr_value->v.string;
 		break;
-/* FIXME: add if glib >= 2.22
+#if GLIB_CHECK_VERSION(2,22,0)
 	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
 		value = attr_value->v.stringv;
 		break;
-*/
+#endif
 	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
 		value = &attr_value->v.boolean;
 		break;
