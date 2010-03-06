@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-02-27 12:03+0000\n"
-"PO-Revision-Date: 2010-02-28 14:11+0100\n"
+"POT-Creation-Date: 2010-03-04 22:31+0000\n"
+"PO-Revision-Date: 2010-03-06 09:16+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgid "Overwrite the old file with the new one?"
 msgstr "Ali naj bo stara datoteka prepisana z novo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#: ../extensions/image_print/data/ui/print-layout.ui.h:22
+#: ../extensions/image_print/data/ui/print-layout.ui.h:12
 msgid "Size:"
 msgstr "Velikost:"
 
@@ -278,207 +278,162 @@ msgid "gtk-remove"
 msgstr "gtk-odstrani"
 
 #: ../data/ui/preferences.ui.h:1
-#: ../gthumb/dlg-preferences.c:216
-msgid "112"
-msgstr "112"
-
-#: ../data/ui/preferences.ui.h:2
-#: ../gthumb/dlg-preferences.c:216
-msgid "128"
-msgstr "128"
-
-#: ../data/ui/preferences.ui.h:3
-#: ../gthumb/dlg-preferences.c:216
-msgid "164"
-msgstr "164"
-
-#: ../data/ui/preferences.ui.h:4
-#: ../gthumb/dlg-preferences.c:216
-msgid "200"
-msgstr "200"
-
-#: ../data/ui/preferences.ui.h:5
-#: ../gthumb/dlg-preferences.c:216
-msgid "256"
-msgstr "256"
-
-#: ../data/ui/preferences.ui.h:6
-#: ../gthumb/dlg-preferences.c:216
-msgid "48"
-msgstr "48"
-
-#: ../data/ui/preferences.ui.h:7
-#: ../gthumb/dlg-preferences.c:216
-msgid "64"
-msgstr "64"
-
-#: ../data/ui/preferences.ui.h:8
-#: ../gthumb/dlg-preferences.c:216
-msgid "85"
-msgstr "85"
-
-#: ../data/ui/preferences.ui.h:9
-#: ../gthumb/dlg-preferences.c:216
-msgid "95"
-msgstr "95"
-
-#: ../data/ui/preferences.ui.h:10
 msgid "Activate items with a double click"
 msgstr "Zaženi predmete z dvojnim klikom miške"
 
-#: ../data/ui/preferences.ui.h:11
+#: ../data/ui/preferences.ui.h:2
 msgid "Activate items with a single click"
 msgstr "Zaženi predmete z enojnim klikom miške"
 
-#: ../data/ui/preferences.ui.h:12
+#: ../data/ui/preferences.ui.h:3
 msgid "Appearance"
 msgstr "Videz"
 
-#: ../data/ui/preferences.ui.h:13
+#: ../data/ui/preferences.ui.h:4
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Pred izbrisom slik ali katalogov _vprašaj za potrditev"
 
-#: ../data/ui/preferences.ui.h:14
+#: ../data/ui/preferences.ui.h:5
 msgid "Ask whether to save _modified files"
 msgstr "Vprašaj ali naj bodo _spremenjene datoteke shranjene"
 
-#: ../data/ui/preferences.ui.h:15
-#: ../extensions/image_viewer/preferences.c:123
+#: ../data/ui/preferences.ui.h:6
+#: ../extensions/image_viewer/preferences.c:112
 msgid "Black"
 msgstr "Črna"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:7
 #: ../gthumb/gth-browser-actions-entries.h:156
 msgid "Browser"
 msgstr "Brskalnik"
 
-#: ../data/ui/preferences.ui.h:17
-#: ../extensions/image_print/data/ui/print-layout.ui.h:11
+#: ../data/ui/preferences.ui.h:8
+#: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Caption"
 msgstr "Naslov"
 
-#: ../data/ui/preferences.ui.h:18
-#: ../extensions/image_viewer/preferences.c:124
+#: ../data/ui/preferences.ui.h:9
+#: ../extensions/image_viewer/preferences.c:113
 msgid "Checked"
 msgstr "Preverjeno"
 
-#: ../data/ui/preferences.ui.h:19
+#: ../data/ui/preferences.ui.h:10
 msgid "Choose startup folder"
 msgstr "Izbor zagonske mape"
 
-#: ../data/ui/preferences.ui.h:20
+#: ../data/ui/preferences.ui.h:11
 msgid "D_etermine image type from content (slower)"
 msgstr "_Določi vrsto slike iz vsebine (počasneje) "
 
-#: ../data/ui/preferences.ui.h:21
+#: ../data/ui/preferences.ui.h:12
 msgid "Do _not change folder"
 msgstr "_Ne spremeni mape"
 
-#: ../data/ui/preferences.ui.h:22
-#: ../extensions/image_viewer/preferences.c:113
+#: ../data/ui/preferences.ui.h:13
+#: ../extensions/image_viewer/preferences.c:102
 msgid "Fit to width if larger"
 msgstr "Prilagodi velikost širini, če je večja"
 
-#: ../data/ui/preferences.ui.h:23
-#: ../extensions/image_viewer/preferences.c:110
+#: ../data/ui/preferences.ui.h:14
+#: ../extensions/image_viewer/preferences.c:99
 msgid "Fit to window"
 msgstr "Prilagodi oknu"
 
-#: ../data/ui/preferences.ui.h:24
-#: ../extensions/image_viewer/preferences.c:111
+#: ../data/ui/preferences.ui.h:15
+#: ../extensions/image_viewer/preferences.c:100
 msgid "Fit to window if larger"
 msgstr "Prilagodi velikost oknu, če je večja"
 
-#: ../data/ui/preferences.ui.h:25
+#: ../data/ui/preferences.ui.h:16
 msgid "Follow Nautilus behaviour"
 msgstr "Sledi obnašanju Nautilusa"
 
-#: ../data/ui/preferences.ui.h:26
+#: ../data/ui/preferences.ui.h:17
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:277
 #: ../gthumb/gth-main-default-metadata.c:34
 msgid "General"
 msgstr "Splošno"
 
-#: ../data/ui/preferences.ui.h:27
+#: ../data/ui/preferences.ui.h:18
 msgid "Go to last _visited location"
 msgstr "Pojdi na _zadnje obiskano mesto"
 
-#: ../data/ui/preferences.ui.h:28
+#: ../data/ui/preferences.ui.h:19
 msgid "Go to this _folder:"
 msgstr "Pojdi v to _mapo:"
 
-#: ../data/ui/preferences.ui.h:29
+#: ../data/ui/preferences.ui.h:20
 #: ../gthumb/dlg-preferences.c:215
 msgid "Icons only"
 msgstr "Le ikone"
 
-#: ../data/ui/preferences.ui.h:30
-#: ../extensions/image_viewer/preferences.c:109
+#: ../data/ui/preferences.ui.h:21
+#: ../extensions/image_viewer/preferences.c:98
 msgid "Keep previous zoom"
 msgstr "Ohrani nastavljeno približanje"
 
-#: ../data/ui/preferences.ui.h:31
+#: ../data/ui/preferences.ui.h:22
 #: ../extensions/file_tools/gth-file-tool-crop.c:347
-#: ../extensions/image_viewer/preferences.c:122
+#: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:265
 msgid "None"
 msgstr "Brez"
 
-#: ../data/ui/preferences.ui.h:32
+#: ../data/ui/preferences.ui.h:23
 msgid "On startup:"
 msgstr "Ob zagonu:"
 
-#: ../data/ui/preferences.ui.h:33
+#: ../data/ui/preferences.ui.h:24
 #: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
 #: ../extensions/gstreamer_tools/main.c:34
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
 msgstr "Ostalo"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:25
 msgid "Set image to actual size"
 msgstr "Nastavi sliko na dejansko velikost"
 
-#: ../data/ui/preferences.ui.h:35
+#: ../data/ui/preferences.ui.h:26
 msgid "Set to C_urrent"
 msgstr "Nastavi na t_retnuno"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:36
+#: ../data/ui/preferences.ui.h:27
 #: ../gthumb/dlg-preferences.c:215
 msgid "System settings"
 msgstr "Sistemske nastavitve"
 
-#: ../data/ui/preferences.ui.h:37
+#: ../data/ui/preferences.ui.h:28
 #: ../gthumb/dlg-preferences.c:215
 msgid "Text below icons"
 msgstr "Besedilo pod ikonami"
 
-#: ../data/ui/preferences.ui.h:38
+#: ../data/ui/preferences.ui.h:29
 #: ../gthumb/dlg-preferences.c:215
 msgid "Text beside icons"
 msgstr "Besedilo ob ikonah"
 
-#: ../data/ui/preferences.ui.h:39
+#: ../data/ui/preferences.ui.h:30
 #: ../gthumb/dlg-preferences.c:215
 msgid "Text only"
 msgstr "Le besedilo"
 
-#: ../data/ui/preferences.ui.h:40
+#: ../data/ui/preferences.ui.h:31
 msgid "Thumbnail _size:"
 msgstr "_Velikost sličic:"
 
-#: ../data/ui/preferences.ui.h:41
-#: ../extensions/image_viewer/preferences.c:121
+#: ../data/ui/preferences.ui.h:32
+#: ../extensions/image_viewer/preferences.c:110
 msgid "White"
 msgstr "Bela"
 
-#: ../data/ui/preferences.ui.h:42
+#: ../data/ui/preferences.ui.h:33
 msgid "_Toolbar style:"
 msgstr "_Slog orodne vrstice:"
 
-#: ../data/ui/preferences.ui.h:43
+#: ../data/ui/preferences.ui.h:34
 msgid "gthumb Preferences"
 msgstr "Možnosti gThumb "
 
@@ -548,14 +503,82 @@ msgstr "_Ime"
 msgid "Could not remove the bookmark"
 msgstr "Zaznamka ni mogoče odstraniti"
 
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
+msgid "Burn CD/DVD"
+msgstr "Zapiši CD/DVD"
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
+msgid "Save files to an optical disc."
+msgstr "Shranjevanje datotek na optični disk."
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
+#: ../extensions/catalogs/catalogs.extension.in.in.h:3
+#: ../extensions/change_date/change_date.extension.in.in.h:3
+#: ../extensions/comments/comments.extension.in.in.h:3
+#: ../extensions/convert_format/convert_format.extension.in.in.h:3
+#: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
+#: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
+#: ../extensions/file_manager/file_manager.extension.in.in.h:3
+#: ../extensions/file_tools/file_tools.extension.in.in.h:3
+#: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
+#: ../extensions/image_print/image_print.extension.in.in.h:3
+#: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
+#: ../extensions/image_viewer/image_viewer.extension.in.in.h:3
+#: ../extensions/list_tools/list_tools.extension.in.in.h:3
+#: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
+#: ../extensions/pixbuf_savers/pixbuf_savers.extension.in.in.h:3
+#: ../extensions/raw_files/raw_files.extension.in.in.h:3
+#: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:3
+#: ../extensions/rename_series/rename_series.extension.in.in.h:3
+#: ../extensions/resize_images/resize_images.extension.in.in.h:3
+#: ../extensions/search/search.extension.in.in.h:3
+#: ../extensions/slideshow/slideshow.extension.in.in.h:3
+msgid "gthumb development team"
+msgstr "razvijalska ekipa gthumb"
+
+#: ../extensions/burn_disc/callbacks.c:51
+msgid "_Optical Disc..."
+msgstr "_Optični disk"
+
+#: ../extensions/burn_disc/callbacks.c:52
+msgid "Write files to an optical disc"
+msgstr "Zapiši datoteke na optični disk"
+
+#: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
+msgid "Disc Name"
+msgstr "Ime diska"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
+msgid "Current _folder"
+msgstr "Trenutna _mapa"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
+msgid "Current folder and its s_ub-folders"
+msgstr "Trenutna mapa in njene _podmape"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
+msgid "Source"
+msgstr "Vir"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
+msgid "_Selected files"
+msgstr "_Izbrane datoteke"
+
+#: ../extensions/burn_disc/gth-burn-task.c:239
+#: ../extensions/burn_disc/gth-burn-task.c:260
+#: ../extensions/burn_disc/gth-burn-task.c:393
+msgid "Write to Disc"
+msgstr "Zapiši na disk"
+
 #: ../extensions/catalogs/actions.c:61
 msgid "Could not remove the files from the catalog"
 msgstr "Ni mogoče odstraniti datotek iz kataloga"
 
 #: ../extensions/catalogs/actions.c:119
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:445
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:454
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:482
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:450
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:459
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:487
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Neveljaven zapis datoteke"
@@ -677,31 +700,6 @@ msgstr "Katalogi"
 msgid "Create file collections."
 msgstr "Ustvari zbirke datotek."
 
-#: ../extensions/catalogs/catalogs.extension.in.in.h:3
-#: ../extensions/change_date/change_date.extension.in.in.h:3
-#: ../extensions/comments/comments.extension.in.in.h:3
-#: ../extensions/convert_format/convert_format.extension.in.in.h:3
-#: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
-#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
-#: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
-#: ../extensions/file_manager/file_manager.extension.in.in.h:3
-#: ../extensions/file_tools/file_tools.extension.in.in.h:3
-#: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
-#: ../extensions/image_print/image_print.extension.in.in.h:3
-#: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:3
-#: ../extensions/list_tools/list_tools.extension.in.in.h:3
-#: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
-#: ../extensions/pixbuf_savers/pixbuf_savers.extension.in.in.h:3
-#: ../extensions/raw_files/raw_files.extension.in.in.h:3
-#: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:3
-#: ../extensions/rename_series/rename_series.extension.in.in.h:3
-#: ../extensions/resize_images/resize_images.extension.in.in.h:3
-#: ../extensions/search/search.extension.in.in.h:3
-#: ../extensions/slideshow/slideshow.extension.in.in.h:3
-msgid "gthumb development team"
-msgstr "razvijalska ekipa gthumb"
-
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
 msgid "C_atalogs:"
 msgstr "_Katalogi:"
@@ -806,7 +804,7 @@ msgid "camera-photo"
 msgstr "fotografija-fotoaparata"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:10
-#: ../extensions/exiv2_tools/main.c:216
+#: ../extensions/exiv2_tools/main.c:214
 msgid "date photo was taken"
 msgstr "Datum zajema fotografije"
 
@@ -973,7 +971,7 @@ msgid "Save images in a different format"
 msgstr "Shrani slike v drugem zapisu"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
 msgid "Choose destination folder"
 msgstr "Izbor ciljne mape"
 
@@ -982,7 +980,7 @@ msgid "Convert Format"
 msgstr "Pretvorba oblike zapisa"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
 msgid "Destination"
 msgstr "Cilj"
 
@@ -1396,7 +1394,7 @@ msgstr "Izbira"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:18
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
 msgid "_Width:"
 msgstr "_Širina:"
 
@@ -1411,7 +1409,7 @@ msgid "_Y:"
 msgstr "_Y:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -1434,7 +1432,7 @@ msgid "_Preserve original aspect ratio"
 msgstr "O_hrani izvorno razmerje velikosti"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:9
-#: ../extensions/image_print/data/ui/print-layout.ui.h:29
+#: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "pixels"
 msgstr "točke"
 
@@ -1494,7 +1492,7 @@ msgid "8 x 10"
 msgstr "8 x 10"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:359
-#: ../extensions/image_print/data/ui/print-layout.ui.h:13
+#: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Po meri"
 
@@ -1699,13 +1697,13 @@ msgid "Framerate"
 msgstr "Hitrost sličic"
 
 #: ../extensions/gstreamer_tools/main.c:47
-#: ../extensions/image_print/data/ui/print-layout.ui.h:25
+#: ../extensions/image_print/data/ui/print-layout.ui.h:15
 #: ../extensions/image_viewer/gth-image-viewer-page.c:190
 msgid "Width"
 msgstr "Širina"
 
 #: ../extensions/gstreamer_tools/main.c:48
-#: ../extensions/image_print/data/ui/print-layout.ui.h:14
+#: ../extensions/image_print/data/ui/print-layout.ui.h:4
 msgid "Height"
 msgstr "Višina"
 
@@ -1729,95 +1727,55 @@ msgstr "Mono"
 msgid "Print the selected images"
 msgstr "Natisni izbrane slike"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:1
-msgid "0&#xB0;"
-msgstr "0&#xB0;"
-
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
-msgid "1"
-msgstr "1"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:3
-msgid "16"
-msgstr "16"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:4
-msgid "180&#xB0;"
-msgstr "180&#xB0;"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:5
-msgid "2"
-msgstr "2"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:6
-msgid "270&#xB0;"
-msgstr "270&#xB0;"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:7
-msgid "32"
-msgstr "32"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:8
-msgid "4"
-msgstr "4"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:9
-msgid "8"
-msgstr "8"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:10
-msgid "90&#xB0;"
-msgstr "90&#xB0;"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:12
 msgid "Centered"
 msgstr "Sredinjeno"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+#: ../extensions/image_print/data/ui/print-layout.ui.h:5
 msgid "Image"
 msgstr "Slika"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../extensions/image_print/data/ui/print-layout.ui.h:6
 msgid "Images per page:"
 msgstr "Slik na stran:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:17
+#: ../extensions/image_print/data/ui/print-layout.ui.h:7
 msgid "Left"
 msgstr "Levo"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+#: ../extensions/image_print/data/ui/print-layout.ui.h:8
 msgid "Position:"
 msgstr "Položaj:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:19
+#: ../extensions/image_print/data/ui/print-layout.ui.h:9
 msgid "Preview"
 msgstr "Predogled"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:20
+#: ../extensions/image_print/data/ui/print-layout.ui.h:10
 msgid "Rotation:"
 msgstr "Vrtenje:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:21
+#: ../extensions/image_print/data/ui/print-layout.ui.h:11
 msgid "Select Caption Font"
 msgstr "Izbor pisave naslova"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+#: ../extensions/image_print/data/ui/print-layout.ui.h:13
 msgid "Top"
 msgstr "Na vrhu"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:24
+#: ../extensions/image_print/data/ui/print-layout.ui.h:14
 msgid "Unit:"
 msgstr "Enota:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:26
+#: ../extensions/image_print/data/ui/print-layout.ui.h:16
 msgid "_Font:"
 msgstr "Pis_ava:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:27
+#: ../extensions/image_print/data/ui/print-layout.ui.h:17
 msgid "inches"
 msgstr "palci"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:28
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
 msgid "millimeters"
 msgstr "milimetri"
 
@@ -1902,34 +1860,28 @@ msgid "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger
 msgstr "Mogoče vrednosti so: dejanska-velikost, prilagodi, obdrži-prejšnje, prilagodi-če-večje, prilagodi-širino-če-večje."
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:1
-msgid "    "
-msgstr "    "
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "After loading an image:"
 msgstr "Po nalaganju slike:"
 
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+msgid "High"
+msgstr "Visoka"
+
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-msgid "H_igh"
-msgstr "_Visoko"
+msgid "Low"
+msgstr "Nizka"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-msgid "Lo_w"
-msgstr "N_izko"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Reset scrollbar positions"
 msgstr "Ponastavi položaje drsnikov"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
 msgid "Transparency _type:"
 msgstr "_Vrsta prosojnosti:"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
-msgid "Zoom quality"
-msgstr "Kakovost povečeve"
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+msgid "_Zoom quality:"
+msgstr "_Kakovost približanja:"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:170
 msgid "In"
@@ -1983,15 +1935,15 @@ msgstr "Osnoven ogled slik."
 msgid "Image viewer"
 msgstr "Pregledovalnik slik"
 
-#: ../extensions/image_viewer/preferences.c:108
+#: ../extensions/image_viewer/preferences.c:97
 msgid "Set to actual size"
 msgstr "Nastavi sliko na dejansko velikost"
 
-#: ../extensions/image_viewer/preferences.c:112
+#: ../extensions/image_viewer/preferences.c:101
 msgid "Fit to width"
 msgstr "Prilagodi širini"
 
-#: ../extensions/image_viewer/preferences.c:156
+#: ../extensions/image_viewer/preferences.c:138
 msgid "Viewer"
 msgstr "Pregledovalnik"
 
@@ -2529,45 +2481,45 @@ msgstr "Privzete možnosti:"
 msgid "_RLE compression"
 msgstr "_RLE stiskanje"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:2
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
 msgid "Compression"
 msgstr "Stiskanje"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:2
 msgid "No_rmal (Deflate)"
 msgstr "O_bičajno (stisnjeno)"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
 msgid "Resolution"
 msgstr "Ločljivost"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
 msgid "_Horizontal:"
 msgstr "_Vodoravno:"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
 msgid "_Loss compression (JPEG)"
 msgstr "_Stiskanje z izgubo (JPEG)"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
 msgid "_No compression"
 msgstr "_Brez stiskanja"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
 msgid "_Vertical:"
 msgstr "_Navpično:"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "dpi"
 msgstr "dpi"
 
 #: ../extensions/pixbuf_savers/gth-jpeg-saver.c:479
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "JPEG"
 msgstr "JPEG"
 
 #: ../extensions/pixbuf_savers/gth-png-saver.c:146
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "PNG"
 msgstr "PNG"
 
@@ -2577,12 +2529,12 @@ msgid "Insufficient memory"
 msgstr "Nezadostana količina pomnilnika"
 
 #: ../extensions/pixbuf_savers/gth-tga-saver.c:379
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:14
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:13
 msgid "TGA"
 msgstr "TGA"
 
 #: ../extensions/pixbuf_savers/gth-tiff-saver.c:498
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:15
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:14
 msgid "TIFF"
 msgstr "TIFF"
 
@@ -2667,7 +2619,7 @@ msgid "Re_verse Order"
 msgstr "Obrnjen vrstni red"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:22
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "Rename"
 msgstr "Preimenuj"
 
@@ -2753,35 +2705,35 @@ msgstr "Spremeni velikost izbranih slik"
 msgid "Possible values: pixels, percentage"
 msgstr "Mogoči vrednosti sta: točke, odstotek"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
 msgid "Ask"
 msgstr "Vprašaj"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 msgid "New dimensions"
 msgstr "Nove mere"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "Overwrite"
 msgstr "Prepiši"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "Resize Images"
 msgstr "Spremeni velikost slik"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:13
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
 msgid "Skip"
 msgstr "Preskoči"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:16
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:15
 msgid "_Height:"
 msgstr "_Višina:"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:16
 msgid "_Preserve original aspect ratios"
 msgstr "_Ohrani izvorno razmerje velikosti"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:19
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:18
 msgid "pixel"
 msgstr "točka"
 
@@ -3650,7 +3602,7 @@ msgid "Show version"
 msgstr "Pokaži različico"
 
 #. command line options
-#: ../gthumb/main.c:402
+#: ../gthumb/main.c:400
 msgid "- Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
@@ -3659,6 +3611,46 @@ msgstr "- Brskalnik in pregledovalnik slik"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 
+#~ msgid "112"
+#~ msgstr "112"
+#~ msgid "128"
+#~ msgstr "128"
+#~ msgid "164"
+#~ msgstr "164"
+#~ msgid "200"
+#~ msgstr "200"
+#~ msgid "256"
+#~ msgstr "256"
+#~ msgid "48"
+#~ msgstr "48"
+#~ msgid "64"
+#~ msgstr "64"
+#~ msgid "85"
+#~ msgstr "85"
+#~ msgid "95"
+#~ msgstr "95"
+#~ msgid "0&#xB0;"
+#~ msgstr "0&#xB0;"
+#~ msgid "1"
+#~ msgstr "1"
+#~ msgid "16"
+#~ msgstr "16"
+#~ msgid "180&#xB0;"
+#~ msgstr "180&#xB0;"
+#~ msgid "2"
+#~ msgstr "2"
+#~ msgid "270&#xB0;"
+#~ msgstr "270&#xB0;"
+#~ msgid "32"
+#~ msgstr "32"
+#~ msgid "4"
+#~ msgstr "4"
+#~ msgid "8"
+#~ msgstr "8"
+#~ msgid "90&#xB0;"
+#~ msgstr "90&#xB0;"
+#~ msgid "    "
+#~ msgstr "    "
 #~ msgid "_Crop"
 #~ msgstr "_Obreži"
 #~ msgid "Index"
@@ -4166,10 +4158,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ "polje ni izbrano, bo vrtenje izvedeno samo s spremembo Exif oznake "
 #~ "usmerjenosti. Za največjo združljivost z ostalimi programi mora biti "
 #~ "potrditveno polje izbrano."
-#~ msgid "Write To CD"
-#~ msgstr "Zapiši na CD"
-#~ msgid "_Selected Images"
-#~ msgstr "_Izbrane slike"
 #~ msgid "1024 x 1024"
 #~ msgstr "1024 x 1024"
 #~ msgid "1024 x 768"
@@ -4561,8 +4549,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Preimenuj trenutno mapo"
 #~ msgid "Move the current folder to the Trash"
 #~ msgstr "Premakne trenutno mapo v smeti"
-#~ msgid "Copy current folder"
-#~ msgstr "Kopiraj trenutno mapo"
 #~ msgid "Assign categories to the current folder"
 #~ msgstr "Dodeli kategorije trenutni mapi"
 #~ msgid "_New Folder..."
