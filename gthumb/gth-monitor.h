@@ -32,8 +32,9 @@ G_BEGIN_DECLS
 
 typedef enum {
 	GTH_MONITOR_EVENT_CREATED = 0,
-	GTH_MONITOR_EVENT_DELETED,
-	GTH_MONITOR_EVENT_CHANGED
+	GTH_MONITOR_EVENT_DELETED,     /* used when a file or folder is deleted from disk */
+	GTH_MONITOR_EVENT_CHANGED,
+	GTH_MONITOR_EVENT_REMOVED      /* used when a file is removed from a catalog */
 } GthMonitorEvent;
 
 #define GTH_TYPE_MONITOR              (gth_monitor_get_type ())

@@ -264,6 +264,7 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 			break;
 
 		case GTH_MONITOR_EVENT_DELETED:
+		case GTH_MONITOR_EVENT_REMOVED:
 			gth_folder_tree_delete_children (GTH_FOLDER_TREE (source_tree), parent, list);
 			break;
 		}

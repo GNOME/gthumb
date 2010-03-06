@@ -2510,6 +2510,9 @@ folder_changed_cb (GthMonitor      *monitor,
 		}
 	}
 
+	if ((event == GTH_MONITOR_EVENT_REMOVED) && g_file_equal (parent, browser->priv->location->file))
+		event = GTH_MONITOR_EVENT_DELETED;
+
 	if (update_folder_tree || update_file_list) {
 		MonitorEventData *monitor_data;
 		gboolean          current_file_deleted = FALSE;
@@ -2576,6 +2579,9 @@ folder_changed_cb (GthMonitor      *monitor,
 
 			_gth_browser_update_statusbar_list_info (browser);
 			gth_browser_update_sensitivity (browser);
+			break;
+
+		default:
 			break;
 		}
 	}

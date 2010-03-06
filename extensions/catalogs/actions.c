@@ -90,7 +90,7 @@ catalog_save_done_cb (void     **buffer,
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    catalog_file,
 					    files,
-					    GTH_MONITOR_EVENT_DELETED);
+					    GTH_MONITOR_EVENT_REMOVED);
 
 		_g_object_list_unref (files);
 		g_object_unref (catalog_file);
