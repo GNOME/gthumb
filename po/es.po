@@ -27,8 +27,7 @@ msgstr ""
 #, c-format
 msgid "File is not a valid .desktop file"
 msgstr ""
-"El archivo no es un archivo .desktop válido\n"
-"\n"
+"El archivo no es un archivo .desktop válido"
 
 #: ../copy-n-paste/eggdesktopfile.c:188
 #, c-format
