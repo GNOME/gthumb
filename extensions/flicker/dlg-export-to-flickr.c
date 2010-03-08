@@ -40,6 +40,14 @@ enum {
 };
 
 
+enum {
+	PHOTOSET_DATA_COLUMN,
+	PHOTOSET_ICON_COLUMN,
+	PHOTOSET_TITLE_COLUMN,
+	PHOTOSET_N_PHOTOS_COLUMN
+};
+
+
 typedef struct {
 	GthBrowser       *browser;
 	GthFileData      *location;
@@ -50,6 +58,7 @@ typedef struct {
 	GList            *accounts;
 	FlickrAccount    *account;
 	FlickrUser       *user;
+	GList            *photosets;
 	FlickrConnection *conn;
 	FlickrService    *service;
 	GCancellable     *cancellable;
@@ -68,11 +77,40 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_list_unref (data->accounts);
 	_g_object_unref (data->account);
 	_g_object_unref (data->user);
+	_g_object_list_unref (data->photosets);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
 	g_free (data);
 }
+
+
+#if 0
+
+static void get_photoset_list (DialogData *data);
+
+
+static void
+post_photos_ready_cb (GObject      *source_object,
+		      GAsyncResult *result,
+		      gpointer      user_data)
+{
+	DialogData *data = user_data;
+	GError     *error = NULL;
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+
+	if (! flickr_service_post_photos_finish (FLICKR_SERVICE (source_object), result, &error)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
+		return;
+	}
+
+	/* FIXME */
+
+	get_photoset_list (data);
+}
+
+#endif
 
 
 static void
@@ -164,6 +202,63 @@ update_account_list (DialogData *data)
 
 
 static void
+photoset_list_ready_cb (GObject      *source_object,
+			GAsyncResult *res,
+			gpointer      user_data)
+{
+	DialogData *data = user_data;
+	GError     *error = NULL;
+	GList      *scan;
+
+	_g_object_list_unref (data->photosets);
+	data->photosets = flickr_service_list_photosets_finish (FLICKR_SERVICE (source_object), res, &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+		gtk_widget_destroy (data->dialog);
+		return;
+	}
+
+	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")));
+	for (scan = data->photosets; scan; scan = scan->next) {
+		FlickrPhotoset *photoset = scan->data;
+		char           *n_photos;
+		GtkTreeIter     iter;
+
+		n_photos = g_strdup_printf ("%d", photoset->n_photos);
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter,
+				    PHOTOSET_DATA_COLUMN, photoset,
+				    PHOTOSET_ICON_COLUMN, "file-catalog",
+				    PHOTOSET_TITLE_COLUMN, photoset->title,
+				    PHOTOSET_N_PHOTOS_COLUMN, n_photos,
+				    -1);
+
+		g_free (n_photos);
+	}
+
+	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), TRUE);
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_window_present (GTK_WINDOW (data->dialog));
+}
+
+
+static void
+get_photoset_list (DialogData *data)
+{
+	flickr_service_list_photosets (data->service,
+				       NULL,
+				       data->cancellable,
+				       photoset_list_ready_cb,
+				       data);
+}
+
+
+static void
 upload_status_ready_cb (GObject      *source_object,
 			GAsyncResult *res,
 			gpointer      user_data)
@@ -172,18 +267,14 @@ upload_status_ready_cb (GObject      *source_object,
 	GError     *error = NULL;
 
 	data->user = flickr_service_get_upload_status_finish (FLICKR_SERVICE (source_object), res, &error);
-	if (data->user == NULL) {
+	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
 	update_account_list (data);
-
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
-	gtk_window_present (GTK_WINDOW (data->dialog));
+	get_photoset_list (data);
 }
 
 

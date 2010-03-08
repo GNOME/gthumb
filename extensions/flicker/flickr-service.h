@@ -60,14 +60,15 @@ void              flickr_service_get_upload_status        (FlickrService        
 FlickrUser *      flickr_service_get_upload_status_finish (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
-#if 0
 void              flickr_service_list_photosets           (FlickrService        *self,
+							   const char           *user_id,
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
 						           gpointer              user_data);
 GList *           flickr_service_list_photosets_finish    (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
+#if 0
 void              flickr_service_create_photoset          (FlickrService        *self,
 						           FlickrPhotoset       *photoset,
 						           GCancellable         *cancellable,

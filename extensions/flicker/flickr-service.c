@@ -243,22 +243,21 @@ flickr_service_get_upload_status_finish (FlickrService  *self,
 }
 
 
-#if 0
-/* -- flickr_service_list_albums -- */
+/* -- flickr_service_list_photosets -- */
 
 
 static void
-list_albums_ready_cb (SoupSession *session,
-		      SoupMessage *msg,
-		      gpointer     user_data)
+list_photosets_ready_cb (SoupSession *session,
+			 SoupMessage *msg,
+			 gpointer     user_data)
 {
-	FlickrService   *self = user_data;
+	FlickrService      *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
-	DomDocument        *doc;
+	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = flickr_connection_get_result (self->priv->conn);
 
 	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (result,
@@ -271,84 +270,77 @@ list_albums_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	doc = dom_document_new ();
-	if (dom_document_load (doc, body->data, body->length, &error)) {
-		DomElement *feed_node;
-		GList      *albums = NULL;
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *response;
+		DomElement *node;
+		GList      *photosets = NULL;
 
-		feed_node = DOM_ELEMENT (doc)->first_child;
-		while ((feed_node != NULL) && g_strcmp0 (feed_node->tag_name, "feed") != 0)
-			feed_node = feed_node->next_sibling;
+		response = DOM_ELEMENT (doc)->first_child;
+		for (node = response->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "photosets") == 0) {
+				DomElement *child;
 
-		if (feed_node != NULL) {
-			DomElement     *node;
-			FlickrPhotoset *album;
+				for (child = node->first_child; child; child = child->next_sibling) {
+					if (g_strcmp0 (child->tag_name, "photoset") == 0) {
+						FlickrPhotoset *photoset;
 
-			self->priv->user = flickr_user_new ();
-			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
-
-			album = NULL;
-			for (node = feed_node->first_child;
-			     node != NULL;
-			     node = node->next_sibling)
-			{
-				if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the album data */
-					if (album != NULL)
-						albums = g_list_prepend (albums, album);
-					album = flickr_album_new ();
-					dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
+						photoset = flickr_photoset_new ();
+						dom_domizable_load_from_element (DOM_DOMIZABLE (photoset), child);
+						photosets = g_list_prepend (photosets, photoset);
+					}
 				}
 			}
-			if (album != NULL)
-				albums = g_list_prepend (albums, album);
 		}
-		albums = g_list_reverse (albums);
-		g_simple_async_result_set_op_res_gpointer (result, albums, (GDestroyNotify) _g_object_list_unref);
+
+		photosets = g_list_reverse (photosets);
+		g_simple_async_result_set_op_res_gpointer (result, photosets, (GDestroyNotify) _g_object_list_unref);
+
+		g_object_unref (doc);
 	}
-	else {
+	else
 		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
+
 	g_simple_async_result_complete_in_idle (result);
 
-	g_object_unref (doc);
 	soup_buffer_free (body);
 }
 
 
 void
-flickr_service_list_albums (FlickrService       *self,
-			    const char          *user_id,
-			    GCancellable        *cancellable,
-			    GAsyncReadyCallback  callback,
-			    gpointer             user_data)
+flickr_service_list_photosets (FlickrService       *self,
+			       const char          *user_id,
+			       GCancellable        *cancellable,
+			       GAsyncReadyCallback  callback,
+			       gpointer             user_data)
 {
-	char        *url;
+	GHashTable  *data_set;
 	SoupMessage *msg;
-
-	g_return_if_fail (user_id != NULL);
 
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", user_id, NULL);
-	msg = soup_message_new ("GET", url);
-	google_connection_send_message (self->priv->conn,
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.photosets.getList");
+	if (user_id != NULL)
+		g_hash_table_insert (data_set, "user_id", (char *) user_id);
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
 					callback,
 					user_data,
-					flickr_service_list_albums,
-					list_albums_ready_cb,
+					flickr_service_list_photosets,
+					list_photosets_ready_cb,
 					self);
 
-	g_free (url);
+	g_hash_table_destroy (data_set);
 }
 
 
 GList *
-flickr_service_list_albums_finish (FlickrService  *service,
-				   GAsyncResult   *result,
-				   GError        **error)
+flickr_service_list_photosets_finish (FlickrService  *service,
+				      GAsyncResult   *result,
+				      GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
@@ -357,6 +349,7 @@ flickr_service_list_albums_finish (FlickrService  *service,
 }
 
 
+#if 0
 /* -- flickr_service_create_album -- */
 
 

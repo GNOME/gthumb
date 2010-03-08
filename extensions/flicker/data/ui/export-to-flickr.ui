@@ -172,19 +172,20 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxEntry" id="album_comboboxentry">
+                      <object class="GtkComboBoxEntry" id="photoset_comboboxentry">
                         <property name="visible">True</property>
-                        <property name="model">album_liststore</property>
+                        <property name="model">photoset_liststore</property>
+                        <property name="text_column">2</property>
                         <child>
                           <object class="GtkCellRendererPixbuf" id="cellrenderertext1"/>
                           <attributes>
-                            <attribute name="icon-name">2</attribute>
+                            <attribute name="icon-name">1</attribute>
                           </attributes>
                         </child>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext2"/>
                           <attributes>
-                            <attribute name="text">1</attribute>
+                            <attribute name="text">2</attribute>
                           </attributes>
                         </child>
                       </object>
@@ -279,21 +280,21 @@
     <property name="visible">True</property>
     <property name="stock">gtk-goto-top</property>
   </object>
-  <object class="GtkListStore" id="album_liststore">
-    <columns>
-      <!-- column-name data -->
-      <column type="GObject"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name icon -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="account_liststore">
     <columns>
       <!-- column-name account -->
       <column type="GObject"/>
       <!-- column-name username -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="photoset_liststore">
+    <columns>
+      <!-- column-name data -->
+      <column type="GObject"/>
+      <!-- column-name icon -->
+      <column type="gchararray"/>
+      <!-- column-name title -->
       <column type="gchararray"/>
     </columns>
   </object>
