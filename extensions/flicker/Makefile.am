@@ -1,5 +1,7 @@
 if ENABLE_WEB_SERVICES
 
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libflicker.la
 
@@ -8,6 +10,23 @@ libflicker_la_SOURCES = 			\
 	actions.h				\
 	callbacks.c				\
 	callbacks.h				\
+	dlg-export-to-flickr.c			\
+	dlg-export-to-flickr.h			\
+	flickr-account.c			\
+	flickr-account.h			\
+	flickr-account-chooser-dialog.c		\
+	flickr-account-chooser-dialog.h		\
+	flickr-account-manager-dialog.c		\
+	flickr-account-manager-dialog.h		\
+	flickr-connection.c			\
+	flickr-connection.h			\
+	flickr-photoset.c			\
+	flickr-photoset.h			\
+	flickr-service.c			\
+	flickr-service.h			\
+	flickr-types.h				\
+	flickr-user.c				\
+	flickr-user.h				\
 	main.c
 
 libflicker_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

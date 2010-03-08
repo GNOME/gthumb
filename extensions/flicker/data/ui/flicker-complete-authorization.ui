@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkMessageDialog" id="complete_authorization_messagedialog">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Upload to Flickr</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="type_hint">normal</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="message_type">other</property>
+    <property name="text" translatable="yes">Complete authorization</property>
+    <property name="secondary_text" translatable="yes">Return to this window after you have finished the authorization process on Flickr.com, and click the 'Complete' button below.</property>
+    <property name="image">icon_image1</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox4">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area4">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="cancel_button1">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="xalign">0.50999999046325684</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="complete_button">
+                <property name="label" translatable="yes">C_omplete</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">button_image1</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">cancel_button1</action-widget>
+      <action-widget response="-5">complete_button</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkImage" id="icon_image1">
+    <property name="visible">True</property>
+    <property name="yalign">0</property>
+    <property name="stock">gtk-dialog-authentication</property>
+    <property name="icon-size">6</property>
+  </object>
+  <object class="GtkImage" id="button_image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-dialog-authentication</property>
+  </object>
+</interface>

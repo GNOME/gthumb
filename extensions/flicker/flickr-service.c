@@ -24,13 +24,15 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "picasa-web-album.h"
-#include "picasa-web-photo.h"
-#include "picasa-web-service.h"
+#include "flickr-account.h"
+#include "flickr-connection.h"
+#include "flickr-photoset.h"
+#include "flickr-service.h"
+#include "flickr-user.h"
 
 
 typedef struct {
-	PicasaWebAlbum      *album;
+	FlickrPhotoset      *album;
 	GList               *file_list;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
@@ -55,10 +57,10 @@ post_photos_data_free (PostPhotosData *post_photos)
 }
 
 
-struct _PicasaWebServicePrivate
+struct _FlickrServicePrivate
 {
-	GoogleConnection *conn;
-	PicasaWebUser    *user;
+	FlickrConnection *conn;
+	FlickrUser       *user;
 	PostPhotosData   *post_photos;
 };
 
@@ -67,11 +69,11 @@ static gpointer parent_class = NULL;
 
 
 static void
-picasa_web_service_finalize (GObject *object)
+flickr_service_finalize (GObject *object)
 {
-	PicasaWebService *self;
+	FlickrService *self;
 
-	self = PICASA_WEB_SERVICE (object);
+	self = FLICKR_SERVICE (object);
 
 	_g_object_unref (self->priv->conn);
 	_g_object_unref (self->priv->user);
@@ -82,22 +84,22 @@ picasa_web_service_finalize (GObject *object)
 
 
 static void
-picasa_web_service_class_init (PicasaWebServiceClass *klass)
+flickr_service_class_init (FlickrServiceClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (PicasaWebServicePrivate));
+	g_type_class_add_private (klass, sizeof (FlickrServicePrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = picasa_web_service_finalize;
+	object_class->finalize = flickr_service_finalize;
 }
 
 
 static void
-picasa_web_service_init (PicasaWebService *self)
+flickr_service_init (FlickrService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_WEB_SERVICE, PicasaWebServicePrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_SERVICE, FlickrServicePrivate);
 	self->priv->conn = NULL;
 	self->priv->user = NULL;
 	self->priv->post_photos = NULL;
@@ -105,25 +107,25 @@ picasa_web_service_init (PicasaWebService *self)
 
 
 GType
-picasa_web_service_get_type (void)
+flickr_service_get_type (void)
 {
 	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {
-			sizeof (PicasaWebServiceClass),
+			sizeof (FlickrServiceClass),
 			NULL,
 			NULL,
-			(GClassInitFunc) picasa_web_service_class_init,
+			(GClassInitFunc) flickr_service_class_init,
 			NULL,
 			NULL,
-			sizeof (PicasaWebService),
+			sizeof (FlickrService),
 			0,
-			(GInstanceInitFunc) picasa_web_service_init
+			(GInstanceInitFunc) flickr_service_init
 		};
 
 		type = g_type_register_static (G_TYPE_OBJECT,
-					       "PicasaWebService",
+					       "FlickrService",
 					       &type_info,
 					       0);
 	}
@@ -132,26 +134,117 @@ picasa_web_service_get_type (void)
 }
 
 
-PicasaWebService *
-picasa_web_service_new (GoogleConnection *conn)
+FlickrService *
+flickr_service_new (FlickrConnection *conn)
 {
-	PicasaWebService *self;
+	FlickrService *self;
 
-	self = (PicasaWebService *) g_object_new (PICASA_TYPE_WEB_SERVICE, NULL);
+	self = (FlickrService *) g_object_new (FLICKR_TYPE_SERVICE, NULL);
 	self->priv->conn = g_object_ref (conn);
 
 	return self;
 }
 
 
-PicasaWebUser *
-picasa_web_service_get_user (PicasaWebService *self)
+/* -- flickr_service_get_upload_status -- */
+
+
+static void
+get_upload_status_ready_cb (SoupSession *session,
+			    SoupMessage *msg,
+			    gpointer     user_data)
 {
-	return self->priv->user;
+	FlickrService      *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	DomDocument        *doc = NULL;
+	GError             *error = NULL;
+
+	result = flickr_connection_get_result (self->priv->conn);
+
+	if (msg->status_code != 200) {
+		g_simple_async_result_set_error (result,
+						 SOUP_HTTP_ERROR,
+						 msg->status_code,
+						 "%s",
+						 soup_status_get_phrase (msg->status_code));
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	body = soup_message_body_flatten (msg->response_body);
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *response;
+		DomElement *node;
+		FlickrUser *user = NULL;
+
+		response = DOM_ELEMENT (doc)->first_child;
+		for (node = response->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "user") == 0) {
+				user = flickr_user_new ();
+				dom_domizable_load_from_element (DOM_DOMIZABLE (user), node);
+				g_simple_async_result_set_op_res_gpointer (result, user, (GDestroyNotify) g_object_unref);
+			}
+		}
+
+		if (user == NULL) {
+			error = g_error_new_literal (FLICKR_CONNECTION_ERROR, 0, _("Unknown error"));
+			g_simple_async_result_set_from_error (result, error);
+		}
+
+		g_object_unref (doc);
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+
+	soup_buffer_free (body);
 }
 
 
-/* -- picasa_web_service_list_albums -- */
+void
+flickr_service_get_upload_status (FlickrService       *self,
+				  GCancellable        *cancellable,
+				  GAsyncReadyCallback  callback,
+				  gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.people.getUploadStatus");
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	flickr_connection_send_message (self->priv->conn,
+					msg,
+					cancellable,
+					callback,
+					user_data,
+					flickr_service_get_upload_status,
+					get_upload_status_ready_cb,
+					self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+FlickrUser *
+flickr_service_get_upload_status_finish (FlickrService  *self,
+					 GAsyncResult   *result,
+					 GError        **error)
+{
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return NULL;
+	else
+		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+}
+
+
+#if 0
+/* -- flickr_service_list_albums -- */
 
 
 static void
@@ -159,7 +252,7 @@ list_albums_ready_cb (SoupSession *session,
 		      SoupMessage *msg,
 		      gpointer     user_data)
 {
-	PicasaWebService   *self = user_data;
+	FlickrService   *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
 	DomDocument        *doc;
@@ -189,9 +282,9 @@ list_albums_ready_cb (SoupSession *session,
 
 		if (feed_node != NULL) {
 			DomElement     *node;
-			PicasaWebAlbum *album;
+			FlickrPhotoset *album;
 
-			self->priv->user = picasa_web_user_new ();
+			self->priv->user = flickr_user_new ();
 			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
 
 			album = NULL;
@@ -202,7 +295,7 @@ list_albums_ready_cb (SoupSession *session,
 				if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the album data */
 					if (album != NULL)
 						albums = g_list_prepend (albums, album);
-					album = picasa_web_album_new ();
+					album = flickr_album_new ();
 					dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
 				}
 			}
@@ -224,11 +317,11 @@ list_albums_ready_cb (SoupSession *session,
 
 
 void
-picasa_web_service_list_albums (PicasaWebService    *self,
-			        const char          *user_id,
-			        GCancellable        *cancellable,
-			        GAsyncReadyCallback  callback,
-			        gpointer             user_data)
+flickr_service_list_albums (FlickrService       *self,
+			    const char          *user_id,
+			    GCancellable        *cancellable,
+			    GAsyncReadyCallback  callback,
+			    gpointer             user_data)
 {
 	char        *url;
 	SoupMessage *msg;
@@ -244,7 +337,7 @@ picasa_web_service_list_albums (PicasaWebService    *self,
 					cancellable,
 					callback,
 					user_data,
-					picasa_web_service_list_albums,
+					flickr_service_list_albums,
 					list_albums_ready_cb,
 					self);
 
@@ -253,9 +346,9 @@ picasa_web_service_list_albums (PicasaWebService    *self,
 
 
 GList *
-picasa_web_service_list_albums_finish (PicasaWebService  *service,
-				       GAsyncResult      *result,
-				       GError           **error)
+flickr_service_list_albums_finish (FlickrService  *service,
+				   GAsyncResult   *result,
+				   GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
@@ -264,7 +357,7 @@ picasa_web_service_list_albums_finish (PicasaWebService  *service,
 }
 
 
-/* -- picasa_web_service_create_album -- */
+/* -- flickr_service_create_album -- */
 
 
 static void
@@ -272,7 +365,7 @@ create_album_ready_cb (SoupSession *session,
 		       SoupMessage *msg,
 		       gpointer     user_data)
 {
-	PicasaWebService   *self = user_data;
+	FlickrService      *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
 	DomDocument        *doc;
@@ -293,9 +386,9 @@ create_album_ready_cb (SoupSession *session,
 	body = soup_message_body_flatten (msg->response_body);
 	doc = dom_document_new ();
 	if (dom_document_load (doc, body->data, body->length, &error)) {
-		PicasaWebAlbum *album;
+		FlickrPhotoset *album;
 
-		album = picasa_web_album_new ();
+		album = flickr_album_new ();
 		dom_domizable_load_from_element (DOM_DOMIZABLE (album), DOM_ELEMENT (doc)->first_child);
 		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) g_object_unref);
 	}
@@ -311,11 +404,11 @@ create_album_ready_cb (SoupSession *session,
 
 
 void
-picasa_web_service_create_album (PicasaWebService     *self,
-				 PicasaWebAlbum       *album,
-				 GCancellable         *cancellable,
-				 GAsyncReadyCallback   callback,
-				 gpointer              user_data)
+flickr_service_create_album (FlickrService        *self,
+			     FlickrPhotoset       *album,
+			     GCancellable         *cancellable,
+			     GAsyncReadyCallback   callback,
+			     gpointer              user_data)
 {
 	DomDocument *doc;
 	DomElement  *entry;
@@ -344,7 +437,7 @@ picasa_web_service_create_album (PicasaWebService     *self,
 					cancellable,
 					callback,
 					user_data,
-					picasa_web_service_create_album,
+					flickr_service_create_album,
 					create_album_ready_cb,
 					self);
 
@@ -353,10 +446,10 @@ picasa_web_service_create_album (PicasaWebService     *self,
 }
 
 
-PicasaWebAlbum *
-picasa_web_service_create_album_finish (PicasaWebService  *service,
-					GAsyncResult      *result,
-					GError           **error)
+FlickrPhotoset *
+flickr_service_create_album_finish (FlickrService  *service,
+				    GAsyncResult   *result,
+				    GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
@@ -365,12 +458,12 @@ picasa_web_service_create_album_finish (PicasaWebService  *service,
 }
 
 
-/* -- picasa_web_service_post_photos -- */
+/* -- flickr_service_post_photos -- */
 
 
 static void
-post_photos_done (PicasaWebService *self,
-		  GError           *error)
+post_photos_done (FlickrService *self,
+		  GError        *error)
 {
 	GSimpleAsyncResult *result;
 
@@ -383,7 +476,7 @@ post_photos_done (PicasaWebService *self,
 }
 
 
-static void picasa_wev_service_post_current_file (PicasaWebService *self);
+static void picasa_wev_service_post_current_file (FlickrService *self);
 
 
 static void
@@ -391,7 +484,7 @@ post_photo_ready_cb (SoupSession *session,
 		     SoupMessage *msg,
 		     gpointer     user_data)
 {
-	PicasaWebService *self = user_data;
+	FlickrService *self = user_data;
 
 	if (msg->status_code != 201) {
 		GError *error;
@@ -414,7 +507,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 				 GError    *error,
 				 gpointer   user_data)
 {
-	PicasaWebService   *self = user_data;
+	FlickrService   *self = user_data;
 	GthFileData        *file_data;
 	SoupMultipart      *multipart;
 	const char         *filename;
@@ -522,7 +615,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 					self->priv->post_photos->cancellable,
 					self->priv->post_photos->callback,
 					self->priv->post_photos->user_data,
-					picasa_web_service_post_photos,
+					flickr_service_post_photos,
 					post_photo_ready_cb,
 					self);
 
@@ -532,7 +625,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 
 
 static void
-picasa_wev_service_post_current_file (PicasaWebService *self)
+picasa_wev_service_post_current_file (FlickrService *self)
 {
 	GthFileData *file_data;
 
@@ -555,7 +648,7 @@ post_photos_info_ready_cb (GList    *files,
 		           GError   *error,
 		           gpointer  user_data)
 {
-	PicasaWebService *self = user_data;
+	FlickrService *self = user_data;
 
 	if (error != NULL) {
 		post_photos_done (self, error);
@@ -569,12 +662,12 @@ post_photos_info_ready_cb (GList    *files,
 
 
 void
-picasa_web_service_post_photos (PicasaWebService    *self,
-			        PicasaWebAlbum      *album,
-			        GList               *file_list, /* GFile list */
-			        GCancellable        *cancellable,
-			        GAsyncReadyCallback  callback,
-			        gpointer             user_data)
+flickr_service_post_photos (FlickrService       *self,
+			    FlickrPhotoset      *album,
+			    GList               *file_list, /* GFile list */
+			    GCancellable        *cancellable,
+			    GAsyncReadyCallback  callback,
+			    gpointer             user_data)
 {
 	GList *scan;
 
@@ -608,9 +701,9 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 
 
 gboolean
-picasa_web_service_post_photos_finish (PicasaWebService  *self,
-				       GAsyncResult      *result,
-				       GError           **error)
+flickr_service_post_photos_finish (FlickrService  *self,
+				   GAsyncResult   *result,
+				   GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return FALSE;
@@ -619,7 +712,7 @@ picasa_web_service_post_photos_finish (PicasaWebService  *self,
 }
 
 
-/* -- picasa_web_service_list_photos -- */
+/* -- flickr_service_list_photos -- */
 
 
 static void
@@ -627,7 +720,7 @@ list_photos_ready_cb (SoupSession *session,
 		      SoupMessage *msg,
 		      gpointer     user_data)
 {
-	PicasaWebService   *self = user_data;
+	FlickrService   *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
 	DomDocument        *doc;
@@ -659,7 +752,7 @@ list_photos_ready_cb (SoupSession *session,
 			DomElement     *node;
 			PicasaWebPhoto *photo;
 
-			self->priv->user = picasa_web_user_new ();
+			self->priv->user = flickr_user_new ();
 			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
 
 			photo = NULL;
@@ -670,7 +763,7 @@ list_photos_ready_cb (SoupSession *session,
 				if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the photo data */
 					if (photo != NULL)
 						photos = g_list_prepend (photos, photo);
-					photo = picasa_web_photo_new ();
+					photo = flickr_photo_new ();
 					dom_domizable_load_from_element (DOM_DOMIZABLE (photo), node);
 				}
 			}
@@ -692,11 +785,11 @@ list_photos_ready_cb (SoupSession *session,
 
 
 void
-picasa_web_service_list_photos (PicasaWebService    *self,
-				PicasaWebAlbum      *album,
-				GCancellable        *cancellable,
-				GAsyncReadyCallback  callback,
-				gpointer             user_data)
+flickr_service_list_photos (FlickrService       *self,
+			    FlickrPhotoset      *album,
+			    GCancellable        *cancellable,
+			    GAsyncReadyCallback  callback,
+			    gpointer             user_data)
 {
 	char        *url;
 	SoupMessage *msg;
@@ -716,7 +809,7 @@ picasa_web_service_list_photos (PicasaWebService    *self,
 					cancellable,
 					callback,
 					user_data,
-					picasa_web_service_list_photos,
+					flickr_service_list_photos,
 					list_photos_ready_cb,
 					self);
 
@@ -725,9 +818,9 @@ picasa_web_service_list_photos (PicasaWebService    *self,
 
 
 GList *
-picasa_web_service_list_photos_finish (PicasaWebService  *self,
-				       GAsyncResult      *result,
-				       GError           **error)
+flickr_service_list_photos_finish (FlickrService  *self,
+				   GAsyncResult   *result,
+				   GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
@@ -735,12 +828,14 @@ picasa_web_service_list_photos_finish (PicasaWebService  *self,
 		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
 
+#endif
+
 
 /* utilities */
 
 
 GList *
-picasa_web_accounts_load_from_file (char **_default)
+flickr_accounts_load_from_file (void)
 {
 	GList       *accounts = NULL;
 	char        *filename;
@@ -748,7 +843,7 @@ picasa_web_accounts_load_from_file (char **_default)
 	gsize        len;
 	DomDocument *doc;
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
 	if (! g_file_get_contents (filename, &buffer, &len, NULL)) {
 		g_free (filename);
 		return NULL;
@@ -767,13 +862,12 @@ picasa_web_accounts_load_from_file (char **_default)
 			     child = child->next_sibling)
 			{
 				if (strcmp (child->tag_name, "account") == 0) {
-					const char *value;
+					FlickrAccount *account;
 
-					value = dom_element_get_attribute (child, "email");
-					if (value != NULL)
-						accounts = g_list_prepend (accounts, g_strdup (value));
-					if ((_default != NULL)  && (g_strcmp0 (dom_element_get_attribute (child, "default"), "1") == 0))
-						*_default = g_strdup (value);
+					account = flickr_account_new ();
+					dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
+
+					accounts = g_list_prepend (accounts, account);
 				}
 			}
 
@@ -789,9 +883,25 @@ picasa_web_accounts_load_from_file (char **_default)
 }
 
 
+FlickrAccount *
+flickr_accounts_find_default (GList *accounts)
+{
+	GList *scan;
+
+	for (scan = accounts; scan; scan = scan->next) {
+		FlickrAccount *account = scan->data;
+
+		if (account->is_default)
+			return g_object_ref (account);
+	}
+
+	return NULL;
+}
+
+
 void
-picasa_web_accounts_save_to_file (GList      *accounts,
-				  const char *_default)
+flickr_accounts_save_to_file (GList         *accounts,
+			      FlickrAccount *default_account)
 {
 	DomDocument *doc;
 	DomElement  *root;
@@ -805,19 +915,19 @@ picasa_web_accounts_save_to_file (GList      *accounts,
 	root = dom_document_create_element (doc, "accounts", NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), root);
 	for (scan = accounts; scan; scan = scan->next) {
-		const char *email = scan->data;
-		DomElement *node;
+		FlickrAccount *account = scan->data;
+		DomElement    *node;
 
-		node = dom_document_create_element (doc, "account",
-						    "email", email,
-						    NULL);
-		if (g_strcmp0 (email, _default) == 0)
-			dom_element_set_attribute (node, "default", "1");
+		if ((default_account != NULL) && g_strcmp0 (account->username, default_account->username) == 0)
+			account->is_default = TRUE;
+		else
+			account->is_default = FALSE;
+		node = dom_domizable_create_element (DOM_DOMIZABLE (account), doc);
 		dom_element_append_child (root, node);
 	}
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
+	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
 	file = g_file_new_for_path (filename);
 	buffer = dom_document_dump (doc, &len);
 	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);

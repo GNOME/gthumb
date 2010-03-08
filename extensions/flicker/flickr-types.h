@@ -20,26 +20,24 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef FLICKR_TYPES_H
+#define FLICKR_TYPES_H
 
-#include <config.h>
-#include <glib/gi18n.h>
-#include <gthumb.h>
-#include "dlg-export-to-flickr.h"
+typedef enum  {
+	FLICKR_SAFETY_LEVEL_SAFE = 1,
+	FLICKR_SAFETY_LEVEL_MODERATE = 2,
+	FLICKR_SAFETY_LEVEL_RESTRICTED = 3
+} FlickrSafetyLevel;
 
+typedef enum  {
+	FLICKR_CONTENT_TYPE_PHOTO = 1,
+	FLICKR_CONTENT_TYPE_SCREENSHOT = 2,
+	FLICKR_CONTENT_TYPE_OTHER = 3
+} FlickrContentType;
 
-void
-gth_browser_activate_action_export_flicker (GtkAction  *action,
-					      GthBrowser *browser)
-{
-	GList *items;
-	GList *file_list;
+typedef enum  {
+	FLICKR_HIDDEN_PUBLIC = 1,
+	FLICKR_HIDDEN_HIDDEN = 2,
+} FlickrHiddenType;
 
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	if (file_list == NULL)
-		file_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
-	dlg_export_to_flickr (browser, file_list);
-
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
+#endif /* FLICKR_TYPES_H */

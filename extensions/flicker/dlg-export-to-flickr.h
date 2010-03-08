@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,26 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef DLG_EXPORT_TO_FLICKR_H
+#define DLG_EXPORT_TO_FLICKR_H
 
-#include <config.h>
-#include <glib/gi18n.h>
 #include <gthumb.h>
-#include "dlg-export-to-flickr.h"
 
+void dlg_export_to_flickr (GthBrowser *browser,
+			   GList      *file_list);
 
-void
-gth_browser_activate_action_export_flicker (GtkAction  *action,
-					      GthBrowser *browser)
-{
-	GList *items;
-	GList *file_list;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	if (file_list == NULL)
-		file_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
-	dlg_export_to_flickr (browser, file_list);
-
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
+#endif /* DLG_EXPORT_TO_FLICKR_H */
