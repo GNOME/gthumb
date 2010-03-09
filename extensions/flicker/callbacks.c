@@ -46,7 +46,7 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Export_Flicker", NULL,
+	{ "File_Export_Flicker", "flickr",
 	  N_("_Flickr..."), NULL,
 	  N_("Upload photos to Flickr"),
 	  G_CALLBACK (gth_browser_activate_action_export_flicker) },
