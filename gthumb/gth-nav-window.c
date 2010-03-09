@@ -26,6 +26,7 @@
 #include "gth-nav-window.h"
 #include "gth-image-viewer.h"
 #include "gtk-utils.h"
+#include "pixbuf-utils.h"
 #include "icons/nav_button.xpm"
 
 #define GTH_NAV_WINDOW_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_NAV_WINDOW, GthNavWindowPrivate))
