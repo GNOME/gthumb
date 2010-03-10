@@ -32,7 +32,9 @@
 
 
 typedef struct {
-	FlickrPhotoset      *album;
+	FlickrPrivacyType    privacy_level;
+	FlickrSafetyType     safety_level;
+	gboolean             hidden;
 	GList               *file_list;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
@@ -42,6 +44,7 @@ typedef struct {
 	goffset              uploaded_size;
 	int                  n_files;
 	int                  uploaded_files;
+	GList               *ids;
 } PostPhotosData;
 
 
@@ -50,10 +53,34 @@ post_photos_data_free (PostPhotosData *post_photos)
 {
 	if (post_photos == NULL)
 		return;
+	_g_string_list_free (post_photos->ids);
 	_g_object_unref (post_photos->cancellable);
 	_g_object_list_unref (post_photos->file_list);
-	g_object_unref (post_photos->album);
 	g_free (post_photos);
+}
+
+
+typedef struct {
+	FlickrPhotoset      *photoset;
+	GList               *photo_ids;
+	GCancellable        *cancellable;
+        GAsyncReadyCallback  callback;
+        gpointer             user_data;
+        int                  n_files;
+        GList               *current;
+        int                  n_current;
+} AddPhotosData;
+
+
+static void
+add_photos_data_free (AddPhotosData *add_photos)
+{
+	if (add_photos == NULL)
+		return;
+	_g_object_unref (add_photos->photoset);
+	_g_string_list_free (add_photos->photo_ids);
+	_g_object_unref (add_photos->cancellable);
+	g_free (add_photos);
 }
 
 
@@ -62,6 +89,7 @@ struct _FlickrServicePrivate
 	FlickrConnection *conn;
 	FlickrUser       *user;
 	PostPhotosData   *post_photos;
+	AddPhotosData    *add_photos;
 };
 
 
@@ -78,6 +106,7 @@ flickr_service_finalize (GObject *object)
 	_g_object_unref (self->priv->conn);
 	_g_object_unref (self->priv->user);
 	post_photos_data_free (self->priv->post_photos);
+	add_photos_data_free (self->priv->add_photos);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -349,24 +378,23 @@ flickr_service_list_photosets_finish (FlickrService  *service,
 }
 
 
-#if 0
-/* -- flickr_service_create_album -- */
+/* -- flickr_service_create_photoset_finish -- */
 
 
 static void
-create_album_ready_cb (SoupSession *session,
-		       SoupMessage *msg,
-		       gpointer     user_data)
+create_photoset_ready_cb (SoupSession *session,
+			  SoupMessage *msg,
+			  gpointer     user_data)
 {
 	FlickrService      *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
-	DomDocument        *doc;
+	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = flickr_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 201) {
+	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (result,
 						 SOUP_HTTP_ERROR,
 						 msg->status_code,
@@ -377,77 +405,227 @@ create_album_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	doc = dom_document_new ();
-	if (dom_document_load (doc, body->data, body->length, &error)) {
-		FlickrPhotoset *album;
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement     *response;
+		DomElement     *node;
+		FlickrPhotoset *photoset = NULL;
 
-		album = flickr_album_new ();
-		dom_domizable_load_from_element (DOM_DOMIZABLE (album), DOM_ELEMENT (doc)->first_child);
-		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) g_object_unref);
+		response = DOM_ELEMENT (doc)->first_child;
+		for (node = response->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "photoset") == 0) {
+				photoset = flickr_photoset_new ();
+				dom_domizable_load_from_element (DOM_DOMIZABLE (photoset), node);
+				g_simple_async_result_set_op_res_gpointer (result, photoset, (GDestroyNotify) g_object_unref);
+			}
+		}
+
+		if (photoset == NULL) {
+			error = g_error_new_literal (FLICKR_CONNECTION_ERROR, 0, _("Unknown error"));
+			g_simple_async_result_set_from_error (result, error);
+		}
+
+		g_object_unref (doc);
 	}
-	else {
+	else
 		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
+
 	g_simple_async_result_complete_in_idle (result);
 
-	g_object_unref (doc);
 	soup_buffer_free (body);
 }
 
 
 void
-flickr_service_create_album (FlickrService        *self,
-			     FlickrPhotoset       *album,
-			     GCancellable         *cancellable,
-			     GAsyncReadyCallback   callback,
-			     gpointer              user_data)
+flickr_service_create_photoset (FlickrService       *self,
+				FlickrPhotoset      *photoset,
+				GCancellable        *cancellable,
+				GAsyncReadyCallback  callback,
+				gpointer             user_data)
 {
-	DomDocument *doc;
-	DomElement  *entry;
-	char        *buffer;
-	gsize        len;
-	char        *url;
+	GHashTable  *data_set;
 	SoupMessage *msg;
 
-	g_return_if_fail (self->priv->user != NULL);
+	g_return_if_fail (photoset != NULL);
+	g_return_if_fail (photoset->primary != NULL);
 
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
 
-	doc = dom_document_new ();
-	entry = dom_domizable_create_element (DOM_DOMIZABLE (album), doc);
-	dom_element_set_attribute (entry, "xmlns", "http://www.w3.org/2005/Atom");
-	dom_element_set_attribute (entry, "xmlns:media", "http://search.yahoo.com/mrss/");
-	dom_element_set_attribute (entry, "xmlns:gphoto", "http://schemas.google.com/photos/2007");
-	dom_element_append_child (DOM_ELEMENT (doc), entry);
-	buffer = dom_document_dump (doc, &len);
-
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", self->priv->user->id, NULL);
-	msg = soup_message_new ("POST", url);
-	soup_message_set_request (msg, ATOM_ENTRY_MIME_TYPE, SOUP_MEMORY_TAKE, buffer, len);
-	google_connection_send_message (self->priv->conn,
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.photosets.create");
+	g_hash_table_insert (data_set, "title", photoset->title);
+	g_hash_table_insert (data_set, "primary_photo_id", photoset->primary);
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
 					callback,
 					user_data,
-					flickr_service_create_album,
-					create_album_ready_cb,
+					flickr_service_create_photoset,
+					create_photoset_ready_cb,
 					self);
 
-	g_free (url);
-	g_object_unref (doc);
+	g_hash_table_destroy (data_set);
 }
 
 
 FlickrPhotoset *
-flickr_service_create_album_finish (FlickrService  *service,
-				    GAsyncResult   *result,
-				    GError        **error)
+flickr_service_create_photoset_finish (FlickrService  *self,
+				       GAsyncResult   *result,
+				       GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
 	else
 		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+}
+
+
+/* -- flickr_service_add_photos_to_set -- */
+
+
+static void
+add_photos_to_set_done (FlickrService *self,
+			GError        *error)
+{
+	GSimpleAsyncResult *result;
+
+	result = flickr_connection_get_result (self->priv->conn);
+	if (error == NULL)
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+}
+
+
+static void add_current_photo_to_set (FlickrService *self);
+
+
+static void
+add_next_photo_to_set (FlickrService *self)
+{
+	self->priv->add_photos->current = self->priv->add_photos->current->next;
+	self->priv->add_photos->n_current += 1;
+	add_current_photo_to_set (self);
+}
+
+
+static void
+add_current_photo_to_set_ready_cb (SoupSession *session,
+				   SoupMessage *msg,
+				   gpointer     user_data)
+{
+	FlickrService      *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	DomDocument        *doc = NULL;
+	GError             *error = NULL;
+
+	result = flickr_connection_get_result (self->priv->conn);
+
+	if (msg->status_code != 200) {
+		g_simple_async_result_set_error (result,
+						 SOUP_HTTP_ERROR,
+						 msg->status_code,
+						 "%s",
+						 soup_status_get_phrase (msg->status_code));
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	body = soup_message_body_flatten (msg->response_body);
+	if (! flickr_utils_parse_response (body, &doc, &error)) {
+		soup_buffer_free (body);
+		add_photos_to_set_done (self, error);
+		return;
+	}
+
+	g_object_unref (doc);
+	soup_buffer_free (body);
+
+	add_next_photo_to_set (self);
+}
+
+
+static void
+add_current_photo_to_set (FlickrService *self)
+{
+	char        *photo_id;
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	if (self->priv->add_photos->current == NULL) {
+		add_photos_to_set_done (self, NULL);
+		return;
+	}
+
+	gth_task_progress (GTH_TASK (self->priv->conn),
+			   _("Creating the new album"),
+			   "",
+			   FALSE,
+			   (double) self->priv->add_photos->n_current / (self->priv->add_photos->n_files + 1));
+
+	photo_id = self->priv->add_photos->current->data;
+	if (g_strcmp0 (photo_id, self->priv->add_photos->photoset->primary) == 0) {
+		add_next_photo_to_set (self);
+		return;
+	}
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.photosets.addPhoto");
+	g_hash_table_insert (data_set, "photoset_id", self->priv->add_photos->photoset->id);
+	g_hash_table_insert (data_set, "photo_id", photo_id);
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("POST", "http://api.flickr.com/services/rest", data_set);
+	flickr_connection_send_message (self->priv->conn,
+					msg,
+					self->priv->add_photos->cancellable,
+					self->priv->add_photos->callback,
+					self->priv->add_photos->user_data,
+					flickr_service_add_photos_to_set,
+					add_current_photo_to_set_ready_cb,
+					self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+void
+flickr_service_add_photos_to_set (FlickrService        *self,
+				  FlickrPhotoset       *photoset,
+				  GList                *photo_ids,
+				  GCancellable         *cancellable,
+				  GAsyncReadyCallback   callback,
+				  gpointer              user_data)
+{
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
+
+	add_photos_data_free (self->priv->add_photos);
+	self->priv->add_photos = g_new0 (AddPhotosData, 1);
+	self->priv->add_photos->photoset = _g_object_ref (photoset);
+	self->priv->add_photos->photo_ids = _g_string_list_dup (photo_ids);
+	self->priv->add_photos->cancellable = _g_object_ref (cancellable);
+	self->priv->add_photos->callback = callback;
+	self->priv->add_photos->user_data = user_data;
+	self->priv->add_photos->n_files = g_list_length (self->priv->add_photos->photo_ids);
+	self->priv->add_photos->current = self->priv->add_photos->photo_ids;
+	self->priv->add_photos->n_current = 1;
+
+	add_current_photo_to_set (self);
+}
+
+
+gboolean
+flickr_service_add_photos_to_set_finish (FlickrService  *self,
+					 GAsyncResult   *result,
+					 GError        **error)
+{
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return FALSE;
+	else
+		return TRUE;
 }
 
 
@@ -460,16 +638,20 @@ post_photos_done (FlickrService *self,
 {
 	GSimpleAsyncResult *result;
 
-	result = google_connection_get_result (self->priv->conn);
-	if (error == NULL)
-		g_simple_async_result_set_op_res_gboolean (result, TRUE);
+	result = flickr_connection_get_result (self->priv->conn);
+	if (error == NULL) {
+		self->priv->post_photos->ids = g_list_reverse (self->priv->post_photos->ids);
+		g_simple_async_result_set_op_res_gpointer (result, self->priv->post_photos->ids, (GDestroyNotify) _g_string_list_free);
+		self->priv->post_photos->ids = NULL;
+	}
 	else
 		g_simple_async_result_set_from_error (result, error);
+
 	g_simple_async_result_complete_in_idle (result);
 }
 
 
-static void picasa_wev_service_post_current_file (FlickrService *self);
+static void flickr_service_post_current_file (FlickrService *self);
 
 
 static void
@@ -478,8 +660,12 @@ post_photo_ready_cb (SoupSession *session,
 		     gpointer     user_data)
 {
 	FlickrService *self = user_data;
+	SoupBuffer    *body;
+	DomDocument   *doc = NULL;
+	GError        *error = NULL;
+	GthFileData   *file_data;
 
-	if (msg->status_code != 201) {
+	if (msg->status_code != 200) {
 		GError *error;
 
 		error = g_error_new (SOUP_HTTP_ERROR, msg->status_code, "%s", soup_status_get_phrase (msg->status_code));
@@ -489,8 +675,60 @@ post_photo_ready_cb (SoupSession *session,
 		return;
 	}
 
+	body = soup_message_body_flatten (msg->response_body);
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *response;
+		DomElement *node;
+
+		/* save the file id */
+
+		response = DOM_ELEMENT (doc)->first_child;
+		for (node = response->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "photoid") == 0) {
+				const char *id;
+
+				id = dom_element_get_inner_text (node);
+				self->priv->post_photos->ids = g_list_prepend (self->priv->post_photos->ids, g_strdup (id));
+			}
+		}
+
+		g_object_unref (doc);
+	}
+	else {
+		soup_buffer_free (body);
+		post_photos_done (self, error);
+		return;
+	}
+
+	soup_buffer_free (body);
+
+	file_data = self->priv->post_photos->current->data;
+	self->priv->post_photos->uploaded_size += g_file_info_get_size (file_data->info);
 	self->priv->post_photos->current = self->priv->post_photos->current->next;
-	picasa_wev_service_post_current_file (self);
+	flickr_service_post_current_file (self);
+}
+
+
+static char *
+get_safety_value (FlickrSafetyType safety_level)
+{
+	char *value = NULL;
+
+	switch (safety_level) {
+	case FLICKR_SAFETY_SAFE:
+		value = "1";
+		break;
+
+	case FLICKR_SAFETY_MODERATE:
+		value = "2";
+		break;
+
+	case FLICKR_SAFETY_RESTRICTED:
+		value = "3";
+		break;
+	}
+
+	return value;
 }
 
 
@@ -500,21 +738,12 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 				 GError    *error,
 				 gpointer   user_data)
 {
-	FlickrService   *self = user_data;
-	GthFileData        *file_data;
-	SoupMultipart      *multipart;
-	const char         *filename;
-	char               *value;
-	GObject            *metadata;
-	DomDocument        *doc;
-	DomElement         *entry;
-	char               *entry_buffer;
-	gsize               entry_len;
-	SoupMessageHeaders *headers;
-	SoupBuffer         *body;
-	char               *details;
-	char               *url;
-	SoupMessage        *msg;
+	FlickrService *self = user_data;
+	GthFileData   *file_data;
+	SoupMultipart *multipart;
+	char          *uri;
+	SoupBuffer    *body;
+	SoupMessage   *msg;
 
 	if (error != NULL) {
 		post_photos_done (self, error);
@@ -522,88 +751,84 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 	}
 
 	file_data = self->priv->post_photos->current->data;
-	multipart = soup_multipart_new ("multipart/related");
+	multipart = soup_multipart_new ("multipart/form-data");
 
 	/* the metadata part */
 
-	doc = dom_document_new ();
-	entry = dom_document_create_element (doc, "entry",
-					     "xmlns", "http://www.w3.org/2005/Atom",
-					     "xmlns:gphoto", "http://schemas.google.com/photos/2007",
-					     "xmlns:media", "http://search.yahoo.com/mrss/",
-					     NULL);
+	{
+		GHashTable *data_set;
+		char       *title;
+		char       *description;
+		char       *tags;
+		GObject    *metadata;
+		GList      *keys;
+		GList      *scan;
 
-	filename = g_file_info_get_display_name (file_data->info);
-	dom_element_append_child (entry,
-				  dom_document_create_element_with_text (doc, filename, "title", NULL));
+		data_set = g_hash_table_new (g_str_hash, g_str_equal);
 
-	value = gth_file_data_get_attribute_as_string (file_data, "general::description");
-	if (value == NULL)
-		value = gth_file_data_get_attribute_as_string (file_data, "general::title");
-	dom_element_append_child (entry,
-				  dom_document_create_element_with_text (doc, value, "summary", NULL));
+		title = gth_file_data_get_attribute_as_string (file_data, "general::title");
+		if (title != NULL)
+			g_hash_table_insert (data_set, "title", title);
 
-	value = gth_file_data_get_attribute_as_string (file_data, "general::location");
-	if (value != NULL)
-		dom_element_append_child (entry,
-					  dom_document_create_element_with_text (doc, value, "gphoto:location", NULL));
+		description = gth_file_data_get_attribute_as_string (file_data, "general::description");
+		if (description != NULL)
+			g_hash_table_insert (data_set, "description", description);
 
-	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
-	if ((metadata != NULL) && GTH_IS_STRING_LIST (metadata))
-		value = gth_string_list_join (GTH_STRING_LIST (metadata), ", ");
-	if (value != NULL) {
-		DomElement *group;
+		tags = NULL;
+		metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
+		if ((metadata != NULL) && GTH_IS_STRING_LIST (metadata))
+			tags = gth_string_list_join (GTH_STRING_LIST (metadata), " ");
+		if (tags != NULL)
+			g_hash_table_insert (data_set, "tags", tags);
 
-		group = dom_document_create_element (doc, "media:group", NULL);
-		dom_element_append_child (group,
-					  dom_document_create_element_with_text (doc, value, "media:keywords", NULL));
-		dom_element_append_child (entry, group);
+		g_hash_table_insert (data_set, "is_public", (self->priv->post_photos->privacy_level == FLICKR_PRIVACY_PUBLIC) ? "1" : "0");
+		g_hash_table_insert (data_set, "is_friend", ((self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FRIENDS) || (self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FRIENDS_FAMILY)) ? "1" : "0");
+		g_hash_table_insert (data_set, "is_family", ((self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FAMILY) || (self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FRIENDS_FAMILY)) ? "1" : "0");
+		g_hash_table_insert (data_set, "safety_level", get_safety_value (self->priv->post_photos->safety_level));
+		g_hash_table_insert (data_set, "hidden", self->priv->post_photos->hidden ? "2" : "1");
+		flickr_connection_add_api_sig (self->priv->conn, data_set);
 
-		g_free (value);
+		keys = g_hash_table_get_keys (data_set);
+		for (scan = keys; scan; scan = scan->next) {
+			char *key = scan->data;
+			soup_multipart_append_form_string (multipart, key, g_hash_table_lookup (data_set, key));
+		}
+
+		g_free (tags);
+		g_list_free (keys);
+		g_hash_table_unref (data_set);
 	}
-
-	dom_element_append_child (entry,
-				  dom_document_create_element (doc, "category",
-							       "scheme", "http://schemas.google.com/g/2005#kind",
-							       "term", "http://schemas.google.com/photos/2007#photo",
-							       NULL));
-	dom_element_append_child (DOM_ELEMENT (doc), entry);
-	entry_buffer = dom_document_dump (doc, &entry_len);
-
-	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_REQUEST);
-	soup_message_headers_append (headers, "Content-Type", "application/atom+xml");
-	body = soup_buffer_new (SOUP_MEMORY_TAKE, entry_buffer, entry_len);
-	soup_multipart_append_part (multipart, headers, body);
-
-	soup_buffer_free (body);
-	soup_message_headers_free (headers);
-	g_object_unref (doc);
 
 	/* the file part */
 
+	uri = g_file_get_uri (file_data->file);
 	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
-					 "file",
-					 NULL,
+					 "photo",
+					 uri,
 					 gth_file_data_get_mime_type (file_data),
 					 body);
 
 	soup_buffer_free (body);
+	g_free (uri);
 
 	/* send the file */
 
-	/* Translators: %s is a filename */
-	details = g_strdup_printf (_("Uploading '%s'"), filename);
-	gth_task_progress (GTH_TASK (self->priv->conn), NULL, details, TRUE, 0.0);
-	g_free (details);
+	{
+		char *details;
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/",
-			   self->priv->user->id,
-			   "/albumid/",
-			   self->priv->post_photos->album->id,
-			   NULL);
-	msg = soup_form_request_new_from_multipart (url, multipart);
-	google_connection_send_message (self->priv->conn,
+		/* Translators: %s is a filename */
+		details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
+		gth_task_progress (GTH_TASK (self->priv->conn),
+				   NULL, details,
+				   FALSE,
+				   (double) (self->priv->post_photos->uploaded_size + (g_file_info_get_size (file_data->info) / 2.0)) / self->priv->post_photos->total_size);
+
+		g_free (details);
+	}
+
+	msg = soup_form_request_new_from_multipart ("http://api.flickr.com/services/upload/", multipart);
+	flickr_connection_send_message (self->priv->conn,
 					msg,
 					self->priv->post_photos->cancellable,
 					self->priv->post_photos->callback,
@@ -612,13 +837,12 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 					post_photo_ready_cb,
 					self);
 
-	g_free (url);
 	soup_multipart_free (multipart);
 }
 
 
 static void
-picasa_wev_service_post_current_file (FlickrService *self)
+flickr_service_post_current_file (FlickrService *self)
 {
 	GthFileData *file_data;
 
@@ -642,6 +866,7 @@ post_photos_info_ready_cb (GList    *files,
 		           gpointer  user_data)
 {
 	FlickrService *self = user_data;
+	GList         *scan;
 
 	if (error != NULL) {
 		post_photos_done (self, error);
@@ -649,39 +874,40 @@ post_photos_info_ready_cb (GList    *files,
 	}
 
 	self->priv->post_photos->file_list = _g_object_list_ref (files);
-	self->priv->post_photos->current = self->priv->post_photos->file_list;
-	picasa_wev_service_post_current_file (self);
-}
-
-
-void
-flickr_service_post_photos (FlickrService       *self,
-			    FlickrPhotoset      *album,
-			    GList               *file_list, /* GFile list */
-			    GCancellable        *cancellable,
-			    GAsyncReadyCallback  callback,
-			    gpointer             user_data)
-{
-	GList *scan;
-
-	g_return_if_fail (album != NULL);
-	g_return_if_fail (self->priv->post_photos == NULL);
-
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Uploading the files to the server"), NULL, TRUE, 0.0);
-
-	self->priv->post_photos = g_new0 (PostPhotosData, 1);
-	self->priv->post_photos->album = g_object_ref (album);
-	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
-	self->priv->post_photos->callback = callback;
-	self->priv->post_photos->user_data = user_data;
-	self->priv->post_photos->total_size = 0;
-	self->priv->post_photos->n_files = 0;
 	for (scan = self->priv->post_photos->file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
 		self->priv->post_photos->total_size += g_file_info_get_size (file_data->info);
 		self->priv->post_photos->n_files += 1;
 	}
+
+	self->priv->post_photos->current = self->priv->post_photos->file_list;
+	flickr_service_post_current_file (self);
+}
+
+
+void
+flickr_service_post_photos (FlickrService       *self,
+			    FlickrPrivacyType    privacy_level,
+			    FlickrSafetyType     safety_level,
+			    gboolean             hidden,
+			    GList               *file_list, /* GFile list */
+			    GCancellable        *cancellable,
+			    GAsyncReadyCallback  callback,
+			    gpointer             user_data)
+{
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Uploading the files to the server"), NULL, TRUE, 0.0);
+
+	post_photos_data_free (self->priv->post_photos);
+	self->priv->post_photos = g_new0 (PostPhotosData, 1);
+	self->priv->post_photos->privacy_level = privacy_level;
+	self->priv->post_photos->safety_level = safety_level;
+	self->priv->post_photos->hidden = hidden;
+	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
+	self->priv->post_photos->callback = callback;
+	self->priv->post_photos->user_data = user_data;
+	self->priv->post_photos->total_size = 0;
+	self->priv->post_photos->n_files = 0;
 
 	_g_query_all_metadata_async (file_list,
 				     FALSE,
@@ -693,17 +919,19 @@ flickr_service_post_photos (FlickrService       *self,
 }
 
 
-gboolean
+GList *
 flickr_service_post_photos_finish (FlickrService  *self,
 				   GAsyncResult   *result,
 				   GError        **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return FALSE;
+		return NULL;
 	else
-		return TRUE;
+		return _g_string_list_dup (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
 
+
+#if 0
 
 /* -- flickr_service_list_photos -- */
 

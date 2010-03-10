@@ -51,6 +51,7 @@ struct _FlickrPhotoset {
 	char *secret;
 	char *server;
 	char *farm;
+	char *url;
 };
 
 struct _FlickrPhotosetClass {
@@ -74,6 +75,8 @@ void              flickr_photoset_set_secret        (FlickrPhotoset *self,
 void              flickr_photoset_set_server        (FlickrPhotoset *self,
 						     const char     *value);
 void              flickr_photoset_set_farm          (FlickrPhotoset *self,
+						     const char     *value);
+void              flickr_photoset_set_url           (FlickrPhotoset *self,
 						     const char     *value);
 
 G_END_DECLS

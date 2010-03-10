@@ -32,6 +32,7 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
+#define _OPEN_IN_BROWSER_RESPONSE 1
 
 
 enum {
@@ -59,8 +60,10 @@ typedef struct {
 	FlickrAccount    *account;
 	FlickrUser       *user;
 	GList            *photosets;
+	FlickrPhotoset   *photoset;
 	FlickrConnection *conn;
 	FlickrService    *service;
+	GList            *photos_ids;
 	GCancellable     *cancellable;
 } DialogData;
 
@@ -78,6 +81,8 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->account);
 	_g_object_unref (data->user);
 	_g_object_list_unref (data->photosets);
+	_g_object_unref (data->photoset);
+	_g_string_list_free (data->photos_ids);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -85,9 +90,135 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
-#if 0
+static void
+completed_messagedialog_response_cb (GtkDialog *dialog,
+				     int        response_id,
+				     gpointer   user_data)
+{
+	DialogData *data = user_data;
 
-static void get_photoset_list (DialogData *data);
+	switch (response_id) {
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CLOSE:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gtk_widget_destroy (data->dialog);
+		break;
+
+	case _OPEN_IN_BROWSER_RESPONSE:
+		{
+			char   *url = NULL;
+			GError *error = NULL;
+
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+
+			if (data->photoset == NULL) {
+				GString *ids;
+				GList   *scan;
+
+				ids = g_string_new ("");
+				for (scan = data->photos_ids; scan; scan = scan->next) {
+					if (scan != data->photos_ids)
+						g_string_append (ids, ",");
+					g_string_append (ids, (char *) scan->data);
+				}
+				url = g_strconcat ("http://www.flickr.com/photos/upload/edit/?ids=", ids->str, NULL);
+
+				g_string_free (ids, TRUE);
+			}
+			else if (data->photoset->url != NULL)
+				url = g_strdup (data->photoset->url);
+			else if (data->photoset->id != NULL)
+				url = g_strconcat ("http://www.flickr.com/photos/", data->user->id, "/sets/", data->photoset->id, NULL);
+
+			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error))
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+			gtk_widget_destroy (data->dialog);
+
+			g_free (url);
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+export_completed_with_success (DialogData *data)
+{
+	GtkBuilder *builder;
+	GtkWidget  *dialog;
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+
+	builder = _gtk_builder_new_from_file ("flicker-export-completed.ui", "flicker");
+	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
+	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (completed_messagedialog_response_cb),
+			  data);
+
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
+static void
+add_photos_to_photoset_ready_cb (GObject      *source_object,
+				 GAsyncResult *result,
+				 gpointer      user_data)
+{
+	DialogData *data = user_data;
+	GError     *error = NULL;
+
+	if (! flickr_service_add_photos_to_set_finish (FLICKR_SERVICE (source_object), result, &error)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
+		gtk_widget_destroy (data->dialog);
+		return;
+	}
+
+	export_completed_with_success (data);
+}
+
+
+static void
+add_photos_to_photoset (DialogData *data)
+{
+	flickr_service_add_photos_to_set (data->service,
+					  data->photoset,
+					  data->photos_ids,
+					  data->cancellable,
+					  add_photos_to_photoset_ready_cb,
+					  data);
+}
+
+
+static void
+create_photoset_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
+{
+	DialogData *data = user_data;
+	GError     *error = NULL;
+	char       *primary;
+
+	primary = g_strdup (data->photoset->primary);
+	g_object_unref (data->photoset);
+	data->photoset = flickr_service_create_photoset_finish (FLICKR_SERVICE (source_object), result, &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
+		gtk_widget_destroy (data->dialog);
+	}
+	else {
+		flickr_photoset_set_primary (data->photoset, primary);
+		add_photos_to_photoset (data);
+	}
+
+	g_free (primary);
+}
 
 
 static void
@@ -98,19 +229,42 @@ post_photos_ready_cb (GObject      *source_object,
 	DialogData *data = user_data;
 	GError     *error = NULL;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
-
-	if (! flickr_service_post_photos_finish (FLICKR_SERVICE (source_object), result, &error)) {
+	data->photos_ids = flickr_service_post_photos_finish (FLICKR_SERVICE (source_object), result, &error);
+	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
+		gtk_widget_destroy (data->dialog);
 		return;
 	}
 
-	/* FIXME */
+	if (data->photoset == NULL) {
+		export_completed_with_success (data);
+		return;
+	}
 
-	get_photoset_list (data);
+	/* create the photoset if it doesn't exists */
+
+	if (data->photoset->id == NULL) {
+		char *first_id;
+
+		first_id = data->photos_ids->data;
+		flickr_photoset_set_primary (data->photoset, first_id);
+		flickr_service_create_photoset (data->service,
+						data->photoset,
+						data->cancellable,
+						create_photoset_ready_cb,
+						data);
+	}
+	else
+		add_photos_to_photoset (data);
 }
 
-#endif
+
+static int
+find_photoset_by_title (FlickrPhotoset *photoset,
+		        const char     *name)
+{
+	return g_strcmp0 (photoset->title, name);
+}
 
 
 static void
@@ -133,34 +287,39 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		{
-			/* FIXME
-			GtkTreeModel   *tree_model;
-			GtkTreeIter     iter;
-			PicasaWebAlbum *album;
-			GList          *file_list;
+			char  *photoset_title;
+			GList *file_list;
 
-			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
-				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
-				return;
-			}
-
-			gtk_tree_model_get (tree_model, &iter,
-					    ALBUM_DATA_COLUMN, &album,
-					    -1);
-
+			gtk_widget_hide (data->dialog);
 			gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
+			data->photoset = NULL;
+			photoset_title = gtk_combo_box_get_active_text (GTK_COMBO_BOX (GET_WIDGET ("photoset_comboboxentry")));
+			if ((photoset_title != NULL) && (g_strcmp0 (photoset_title, "") != 0)) {
+				GList *link;
+
+				link = g_list_find_custom (data->photosets, photoset_title, (GCompareFunc) find_photoset_by_title);
+				if (link != NULL)
+					data->photoset = g_object_ref (link->data);
+
+				if (data->photoset == NULL) {
+					data->photoset = flickr_photoset_new ();
+					flickr_photoset_set_title (data->photoset, photoset_title);
+				}
+			}
+
 			file_list = gth_file_data_list_to_file_list (data->file_list);
-			flickr_service_post_photos (data->picasaweb,
-						    album,
+			flickr_service_post_photos (data->service,
+						    gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("privacy_combobox"))),
+						    gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("safety_combobox"))),
+						    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("hidden_checkbutton"))),
 						    file_list,
 						    data->cancellable,
 						    post_photos_ready_cb,
 						    data);
 
 			_g_object_list_unref (file_list);
-			g_object_unref (album);
-			*/
+			g_free (photoset_title);
 		}
 		break;
 
@@ -224,7 +383,7 @@ photoset_list_ready_cb (GObject      *source_object,
 		char           *n_photos;
 		GtkTreeIter     iter;
 
-		n_photos = g_strdup_printf ("%d", photoset->n_photos);
+		n_photos = g_strdup_printf ("(%d)", photoset->n_photos);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter,
@@ -626,14 +785,13 @@ void
 dlg_export_to_flickr (GthBrowser *browser,
 		      GList      *file_list)
 {
-	DialogData       *data;
-	GList            *scan;
-	int               n_total;
-	goffset           total_size;
-	char             *total_size_formatted;
-	char             *text;
-	GtkWidget        *list_view;
-	/*GtkTreeSelection *selection;*/
+	DialogData *data;
+	GList      *scan;
+	int         n_total;
+	goffset     total_size;
+	char       *total_size_formatted;
+	char       *text;
+	GtkWidget  *list_view;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -664,6 +822,7 @@ dlg_export_to_flickr (GthBrowser *browser,
 			data->file_list = g_list_prepend (data->file_list, new_file_data);
 		}
 	}
+	data->file_list = g_list_reverse (data->file_list);
 
 	if (data->file_list == NULL) {
 		GError *error;
@@ -671,6 +830,7 @@ dlg_export_to_flickr (GthBrowser *browser,
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
 		gtk_widget_destroy (data->dialog);
+
 		return;
 	}
 
@@ -692,6 +852,7 @@ dlg_export_to_flickr (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
 
+	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (GET_WIDGET ("photoset_comboboxentry")))), g_file_info_get_edit_name (data->location->info));
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
 	/* Set the signals handlers. */
@@ -700,7 +861,6 @@ dlg_export_to_flickr (GthBrowser *browser,
 			  "destroy",
 			  G_CALLBACK (export_dialog_destroy_cb),
 			  data);
-
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (export_dialog_response_cb),
@@ -714,19 +874,10 @@ dlg_export_to_flickr (GthBrowser *browser,
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
 
-	/* FIXME
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview")));
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (selection,
-			  "changed",
-			  G_CALLBACK (albums_treeview_selection_changed_cb),
-			  data);
-
-	data->accounts = flickr_accounts_load_from_file (&data->username);
-	auto_select_account (data);
-	*/
-
 	data->conn = flickr_connection_new ();
+	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
+
 	data->accounts = flickr_accounts_load_from_file ();
 	data->account = flickr_accounts_find_default (data->accounts);
 	auto_select_account (data);

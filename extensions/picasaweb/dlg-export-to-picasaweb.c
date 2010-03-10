@@ -634,7 +634,7 @@ add_album_button_clicked_cb (GtkButton *button,
 	DialogData *data = user_data;
 	GtkWidget  *dialog;
 
-	dialog = picasa_album_properties_dialog_new (g_file_info_get_display_name (data->location->info),
+	dialog = picasa_album_properties_dialog_new (g_file_info_get_edit_name (data->location->info),
 						     NULL,
 						     PICASA_WEB_ACCESS_PUBLIC);
 	g_signal_connect (dialog,

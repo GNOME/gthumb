@@ -29,6 +29,20 @@
 #include "flickr-photoset.h"
 #include "flickr-user.h"
 
+typedef enum {
+	FLICKR_PRIVACY_PUBLIC,
+	FLICKR_PRIVACY_FRIENDS_FAMILY,
+	FLICKR_PRIVACY_FRIENDS,
+	FLICKR_PRIVACY_FAMILY,
+	FLICKR_PRIVACY_PRIVATE
+} FlickrPrivacyType;
+
+typedef enum {
+	FLICKR_SAFETY_SAFE,
+	FLICKR_SAFETY_MODERATE,
+	FLICKR_SAFETY_RESTRICTED
+} FlickrSafetyType;
+
 #define FLICKR_TYPE_SERVICE         (flickr_service_get_type ())
 #define FLICKR_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FLICKR_TYPE_SERVICE, FlickrService))
 #define FLICKR_SERVICE_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), FLICKR_TYPE_SERVICE, FlickrServiceClass))
@@ -68,7 +82,6 @@ void              flickr_service_list_photosets           (FlickrService        
 GList *           flickr_service_list_photosets_finish    (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
-#if 0
 void              flickr_service_create_photoset          (FlickrService        *self,
 						           FlickrPhotoset       *photoset,
 						           GCancellable         *cancellable,
@@ -77,15 +90,27 @@ void              flickr_service_create_photoset          (FlickrService        
 FlickrPhotoset *  flickr_service_create_photoset_finish   (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
+void              flickr_service_add_photos_to_set        (FlickrService        *self,
+						           FlickrPhotoset       *photoset,
+						           GList                *photo_ids,
+						           GCancellable         *cancellable,
+						           GAsyncReadyCallback   callback,
+						           gpointer              user_data);
+gboolean          flickr_service_add_photos_to_set_finish (FlickrService        *self,
+						           GAsyncResult         *result,
+						           GError              **error);
 void              flickr_service_post_photos              (FlickrService        *self,
-							   FlickrPhotoset       *photoset,
+							   FlickrPrivacyType     privacy_level,
+							   FlickrSafetyType      safety_level,
+							   gboolean              hidden,
 						           GList                *file_list, /* GFile list */
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
 						           gpointer              user_data);
-gboolean          flickr_service_post_photos_finish       (FlickrService        *self,
+GList *           flickr_service_post_photos_finish       (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
+#if 0
 void              flickr_service_list_photos              (FlickrService        *self,
 							   FlickrPhotoset       *photoset,
 						           GCancellable         *cancellable,

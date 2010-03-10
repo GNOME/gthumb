@@ -110,6 +110,7 @@ flickr_photoset_load_from_element (DomDomizable *base,
 	flickr_photoset_set_secret (self, dom_element_get_attribute (element, "secret"));
 	flickr_photoset_set_server (self, dom_element_get_attribute (element, "server"));
 	flickr_photoset_set_farm (self, dom_element_get_attribute (element, "farm"));
+	flickr_photoset_set_url (self, dom_element_get_attribute (element, "url"));
 
 	for (node = element->first_child; node; node = node->next_sibling) {
 		if (g_strcmp0 (node->tag_name, "title") == 0) {
@@ -263,4 +264,15 @@ flickr_photoset_set_farm (FlickrPhotoset *self,
 	self->farm = NULL;
 	if (value != NULL)
 		self->farm = g_strdup (value);
+}
+
+
+void
+flickr_photoset_set_url (FlickrPhotoset *self,
+			 const char     *value)
+{
+	g_free (self->url);
+	self->url = NULL;
+	if (value != NULL)
+		self->url = g_strdup (value);
 }
