@@ -1199,6 +1199,7 @@ gth_main_activate_extensions (void)
 						"exiv2_tools",
 						"file_manager",
 						"file_tools",
+						"flicker",
 						"gstreamer_tools",
 						"gstreamer_utils",
 						"image_print",
