@@ -10,8 +10,8 @@
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">other</property>
-    <property name="text" translatable="yes">Authorization required</property>
-    <property name="secondary_text" translatable="yes">Authorizing is a simple process which takes place in your web browser. When you're finished, return to this window to complete authorization.</property>
+    <property name="text" translatable="yes">gthumb requires your authorization to upload the photos to Flickr</property>
+    <property name="secondary_text" translatable="yes">Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization.</property>
     <property name="image">icon_image</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">

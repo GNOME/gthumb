@@ -10,8 +10,8 @@
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">other</property>
-    <property name="text" translatable="yes">Complete authorization</property>
-    <property name="secondary_text" translatable="yes">Return to this window after you have finished the authorization process on Flickr.com, and click the 'Complete' button below.</property>
+    <property name="text" translatable="yes">Return to this window when you have finished the authorization process on Flickr.com</property>
+    <property name="secondary_text" translatable="yes">Once you're done, click the 'Continue' button below.</property>
     <property name="image">icon_image1</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
@@ -39,7 +39,7 @@
             </child>
             <child>
               <object class="GtkButton" id="complete_button">
-                <property name="label" translatable="yes">C_omplete</property>
+                <property name="label" translatable="yes">C_ontinue</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
