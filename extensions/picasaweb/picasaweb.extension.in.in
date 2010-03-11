@@ -4,6 +4,7 @@ _Description=Upload images to Picasa Web Albums
 Authors=gthumb development team
 Copyright=Copyright © 2010 The Free Software Foundation, Inc.
 Version=1.0
+Icon=picasaweb
 
 [Loader]
 Type=module
