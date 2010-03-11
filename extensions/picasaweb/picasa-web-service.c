@@ -820,7 +820,7 @@ picasa_web_accounts_save_to_file (GList      *accounts,
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
 	file = g_file_new_for_path (filename);
 	buffer = dom_document_dump (doc, &len);
-	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE|G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
+	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);

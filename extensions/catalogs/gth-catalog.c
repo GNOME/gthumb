@@ -691,6 +691,28 @@ get_display_name (GFile       *file,
 }
 
 
+static char *
+get_edit_name (GFile       *file,
+	       const char  *name,
+	       GthDateTime *date_time)
+{
+	GString *display_name;
+	char    *basename;
+
+	display_name = g_string_new ("");
+	basename = g_file_get_basename (file);
+	if ((basename == NULL) || (strcmp (basename, "/") == 0)) {
+		 g_string_append (display_name, _("Catalogs"));
+	}
+	else {
+		if (name != NULL)
+			g_string_append (display_name, name);
+	}
+
+	return g_string_free (display_name, FALSE);
+}
+
+
 static void
 update_standard_attributes (GFile       *file,
 			    GFileInfo   *info,
@@ -698,6 +720,7 @@ update_standard_attributes (GFile       *file,
 			    GthDateTime *date_time)
 {
 	char *display_name;
+	char *edit_name;
 
 	if (gth_datetime_valid (date_time)) {
 		char *sort_order_s;
@@ -711,8 +734,16 @@ update_standard_attributes (GFile       *file,
 		g_file_info_set_sort_order (info, 99999999);
 
 	display_name = get_display_name (file, name, date_time);
-	if (display_name != NULL)
+	if (display_name != NULL) {
 		g_file_info_set_display_name (info, display_name);
+		g_free (display_name);
+	}
+
+	edit_name = get_edit_name (file, name, date_time);
+	if (edit_name != NULL) {
+		g_file_info_set_edit_name (info, edit_name);
+		g_free (edit_name);
+	}
 }
 
 
@@ -973,6 +1004,7 @@ gth_catalog_update_standard_attributes (GFile     *file,
 				        GFileInfo *info)
 {
 	char *display_name = NULL;
+	char *edit_name = NULL;
 	char *basename;
 
 	basename = g_file_get_basename (file);
@@ -1015,12 +1047,17 @@ gth_catalog_update_standard_attributes (GFile     *file,
 		gth_datetime_free (date_time);
 		g_free (name);
 	}
-	else
+	else {
 		display_name = g_strdup (_("Catalogs"));
+		edit_name = g_strdup (_("Catalogs"));
+	}
 
 	if (display_name != NULL)
 		g_file_info_set_display_name (info, display_name);
+	if (edit_name != NULL)
+		g_file_info_set_edit_name (info, edit_name);
 
+	g_free (edit_name);
 	g_free (display_name);
 	g_free (basename);
 }

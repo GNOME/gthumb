@@ -9,7 +9,9 @@ icons_DATA = 			\
 	file-catalog.png	\
 	file-library.png	\
 	file-search.png		\
+	flickr.png		\
 	histogram.png		\
+	picasaweb.png		\
 	tool-adjust-colors.png	\
 	tool-crop.png		\
 	tool-desaturate.png	\

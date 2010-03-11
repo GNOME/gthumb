@@ -634,7 +634,7 @@ add_album_button_clicked_cb (GtkButton *button,
 	DialogData *data = user_data;
 	GtkWidget  *dialog;
 
-	dialog = picasa_album_properties_dialog_new (g_file_info_get_display_name (data->location->info),
+	dialog = picasa_album_properties_dialog_new (g_file_info_get_edit_name (data->location->info),
 						     NULL,
 						     PICASA_WEB_ACCESS_PUBLIC);
 	g_signal_connect (dialog,
@@ -653,6 +653,7 @@ static void
 auto_select_account (DialogData *data)
 {
 	gtk_widget_hide (data->dialog);
+	gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
 	if (data->accounts != NULL) {
 		if (data->email != NULL) {
@@ -665,6 +666,7 @@ auto_select_account (DialogData *data)
 		else {
 			GtkWidget *dialog;
 
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
 			g_signal_connect (dialog,
 					  "response",

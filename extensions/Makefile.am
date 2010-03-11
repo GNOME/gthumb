@@ -11,6 +11,7 @@ SUBDIRS = 			\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
+	flicker			\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\

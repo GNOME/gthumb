@@ -26,6 +26,7 @@
 #include "gth-nav-window.h"
 #include "gth-image-viewer.h"
 #include "gtk-utils.h"
+#include "pixbuf-utils.h"
 #include "icons/nav_button.xpm"
 #include "pixbuf-utils.h"
 

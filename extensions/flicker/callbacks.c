@@ -28,21 +28,16 @@
 #include "actions.h"
 
 
-#define BROWSER_DATA_KEY "picasaweb-browser-data"
+#define BROWSER_DATA_KEY "flicker-browser-data"
 
 
 static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
-"      <menu name='Import' action='ImportMenu'>"
-"        <placeholder name='Web_Services'>"
-"          <menuitem action='File_Import_PicasaWeb'/>"
-"        </placeholder>"
-"      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
-"          <menuitem action='File_Export_PicasaWeb'/>"
+"          <menuitem action='File_Export_Flicker'/>"
 "        </placeholder>"
 "      </menu>"
 "    </menu>"
@@ -51,14 +46,10 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Import_PicasaWeb", "picasaweb",
-	  N_("_Picasa Web Album..."), NULL,
-	  N_("Download photos from Picasa Web Album"),
-	  G_CALLBACK (gth_browser_activate_action_import_picasaweb) },
-	{ "File_Export_PicasaWeb", "picasaweb",
-	  N_("_Picasa Web Album..."), NULL,
-	  N_("Upload photos to Picasa Web Album"),
-	  G_CALLBACK (gth_browser_activate_action_export_picasaweb) },
+	{ "File_Export_Flicker", "flickr",
+	  N_("_Flickr..."), NULL,
+	  N_("Upload photos to Flickr"),
+	  G_CALLBACK (gth_browser_activate_action_export_flicker) },
 };
 
 
@@ -75,7 +66,7 @@ browser_data_free (BrowserData *data)
 
 
 void
-pw__gth_browser_construct_cb (GthBrowser *browser)
+fl__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;
@@ -85,7 +76,7 @@ pw__gth_browser_construct_cb (GthBrowser *browser)
 
 	data = g_new0 (BrowserData, 1);
 
-	data->action_group = gtk_action_group_new ("Picasa Web Actions");
+	data->action_group = gtk_action_group_new ("Flicker Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
 	gtk_action_group_add_actions (data->action_group,
 				      action_entries,
