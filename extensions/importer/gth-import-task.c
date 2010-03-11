@@ -367,7 +367,7 @@ import_current_file (GthImportTask *self)
 			gtk_widget_show (d);
 		}
 		else {
-			if (self->priv->imported_catalog != NULL)
+			if ((self->priv->subfolder_type != GTH_SUBFOLDER_TYPE_NONE) && (self->priv->imported_catalog != NULL))
 				gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
 			else
 				gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
