@@ -19,7 +19,7 @@
 	<applyto>/apps/gthumb/ext/image_print/font_name</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>[sans serif] [normal] [10]</default>
+	<default>sans normal 10</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

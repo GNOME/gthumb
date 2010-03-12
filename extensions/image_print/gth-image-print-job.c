@@ -31,6 +31,7 @@
 #include "preferences.h"
 
 
+#define DEFAULT_FONT_NAME "sans normal 10"
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
@@ -135,7 +136,7 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->page_setup = NULL;
 	self->priv->current_page = 0;
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
-	self->priv->font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, "sans 10");
+	self->priv->font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_FONT_NAME);
 	self->priv->selected = NULL;
 	self->priv->requested_images_per_page = eel_gconf_get_integer (PREF_IMAGE_PRINT_IMAGES_PER_PAGE, 1);
 	self->priv->unit = eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS);
