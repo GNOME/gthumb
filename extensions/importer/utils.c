@@ -57,7 +57,8 @@ gth_import_utils_get_file_destination (GthFileData        *file_data,
 				       GthSubfolderFormat  subfolder_format,
 				       gboolean            single_subfolder,
 				       const char         *custom_format,
-				       const char         *event_name)
+				       const char         *event_name,
+				       GTimeVal            import_start_time)
 {
 	GTimeVal  timeval;
 	char     *child;
@@ -74,7 +75,7 @@ gth_import_utils_get_file_destination (GthFileData        *file_data,
 	}
 
 	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
-		g_get_current_time (&timeval);
+		timeval = import_start_time;
 
 	switch (subfolder_type) {
 	case GTH_SUBFOLDER_TYPE_FILE_DATE:

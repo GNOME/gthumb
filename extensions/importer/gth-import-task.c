@@ -42,6 +42,7 @@ struct _GthImportTaskPrivate {
 	char                *custom_format;
 	char                *event_name;
 	char               **tags;
+	GTimeVal             import_start_time;
 	gboolean             delete_imported;
 	gboolean             overwrite_files;
 	gboolean             adjust_orientation;
@@ -306,7 +307,8 @@ file_buffer_ready_cb (void     **buffer,
 							     self->priv->subfolder_format,
 							     self->priv->single_subfolder,
 							     self->priv->custom_format,
-							     self->priv->event_name);
+							     self->priv->event_name,
+							     self->priv->import_start_time);
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);
@@ -416,6 +418,7 @@ static void
 gth_import_task_exec (GthTask *base)
 {
 	GthImportTask *self = (GthImportTask *) base;
+	GTimeVal       timeval;
 	GList         *scan;
 
 	self->priv->n_imported = 0;
@@ -424,16 +427,16 @@ gth_import_task_exec (GthTask *base)
 		GthFileData *file_data = scan->data;
 		self->priv->tot_size += g_file_info_get_size (file_data->info);
 	}
+	g_get_current_time (&timeval);
+	self->priv->import_start_time = timeval;
 
 	/* create the imported files catalog */
 
 	if (gth_main_extension_is_active ("catalogs")) {
-		GTimeVal    timeval;
 		GthDateTime *date_time;
 		char        *display_name;
 		GthCatalog  *catalog = NULL;
 
-		g_get_current_time (&timeval);
 		date_time = gth_datetime_new ();
 		gth_datetime_from_timeval (date_time, &timeval);
 

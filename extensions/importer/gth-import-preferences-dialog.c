@@ -175,6 +175,7 @@ update_destination (GthImportPreferencesDialog *self)
 	gboolean            single_subfolder;
 	const char         *custom_format;
 	GthFileData        *example_data;
+	GTimeVal            timeval;
 	GFile              *destination_example;
 	char               *uri;
 	char               *example;
@@ -189,13 +190,16 @@ update_destination (GthImportPreferencesDialog *self)
 	custom_format = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")));
 
 	example_data = create_example_file_data ();
+	g_get_current_time (&timeval);
+
 	destination_example = gth_import_utils_get_file_destination (example_data,
 								     destination,
 								     subfolder_type,
 								     subfolder_format,
 								     single_subfolder,
 								     custom_format,
-								     self->priv->event);
+								     self->priv->event,
+								     timeval);
 
 	uri = g_file_get_parse_name (destination_example);
 	example = g_strdup_printf (_("example: %s"), uri);

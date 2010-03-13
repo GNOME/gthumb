@@ -47,7 +47,8 @@ GFile *   gth_import_utils_get_file_destination   (GthFileData        *file_data
 						   GthSubfolderFormat  subfolder_format,
 						   gboolean            single_subfolder,
 						   const char         *custom_format,
-						   const char         *event_name);
+						   const char         *event_name,
+						   GTimeVal            import_start_time);
 
 G_END_DECLS
 
