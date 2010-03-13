@@ -6,6 +6,7 @@ Copyright=Copyright © 2008-2010 The Free Software Foundation, Inc.
 Version=1.0
 URL=http://live.gnome.org/gthumb
 Icon=file-catalog
+Category=Browser
 
 [Loader]
 Type=module

@@ -460,6 +460,7 @@ gth_extension_description_finalize (GObject *obj)
 	g_free (self->version);
 	g_free (self->icon_name);
 	g_free (self->url);
+	g_free (self->category);
 	g_free (self->loader_type);
 	g_free (self->loader_file);
 	g_strfreev (self->loader_requires);
@@ -534,6 +535,7 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	desc->copyright = g_key_file_get_locale_string (key_file, "Extension", "Copyright", NULL, NULL);
 	desc->icon_name = g_key_file_get_string (key_file, "Extension", "Icon", NULL);
 	desc->url = g_key_file_get_string (key_file, "Extension", "URL", NULL);
+	desc->category = g_key_file_get_string (key_file, "Extension", "Category", NULL);
 	desc->mandatory = g_key_file_get_boolean (key_file, "Extension", "Mandatory", NULL);
 	desc->hidden = g_key_file_get_boolean (key_file, "Extension", "Hidden", NULL);
 	desc->loader_type = g_key_file_get_string (key_file, "Loader", "Type", NULL);

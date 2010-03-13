@@ -15,7 +15,7 @@
         <child>
           <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
-            <property name="border_width">6</property>
+            <property name="border_width">5</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkVBox" id="vbox1">
@@ -23,65 +23,147 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="extensions_label">
+                  <object class="GtkHPaned" id="hpaned1">
                     <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Available _extensions:</property>
-                    <property name="use_underline">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkVBox" id="vbox2">
-                    <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">3</property>
+                    <property name="can_focus">True</property>
                     <child>
-                      <object class="GtkScrolledWindow" id="extensions_scrolledwindow">
-                        <property name="width_request">350</property>
-                        <property name="height_request">350</property>
+                      <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <property name="shadow_type">in</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
                         <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox2">
-                        <property name="visible">True</property>
-                        <child>
-                          <object class="GtkLinkButton" id="linkbutton1">
-                            <property name="label" translatable="yes">More extensions...</property>
+                          <object class="GtkLabel" id="label1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="relief">none</property>
-                            <property name="uri">http://live.gnome.org/gthumb/extensions</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">_Categories:</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="scrolledwindow1">
+                            <property name="width_request">120</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="category_treeview">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="model">category_liststore</property>
+                                <property name="headers_visible">False</property>
+                                <property name="enable_search">False</property>
+                                <child>
+                                  <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                                    <property name="sort_column_id">0</property>
+                                    <child>
+                                      <object class="GtkCellRendererPixbuf" id="cellrenderertext1"/>
+                                      <attributes>
+                                        <attribute name="icon-name">2</attribute>
+                                      </attributes>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCellRendererText" id="cellrendererpixbuf1"/>
+                                      <attributes>
+                                        <attribute name="text">1</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="position">1</property>
+                        <property name="resize">False</property>
+                        <property name="shrink">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkVBox" id="vbox2">
+                        <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkLabel" id="extensions_label">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Available _extensions:</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkVBox" id="vbox4">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">3</property>
+                            <child>
+                              <object class="GtkScrolledWindow" id="extensions_scrolledwindow">
+                                <property name="width_request">350</property>
+                                <property name="height_request">350</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox2">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkLinkButton" id="linkbutton1">
+                        <property name="label" translatable="yes">More extensions...</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
+                        <property name="uri">http://live.gnome.org/gthumb/extensions</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -158,5 +240,17 @@
       <action-widget response="0">preferences_button</action-widget>
       <action-widget response="0">close_button</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="category_liststore">
+    <columns>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name icon -->
+      <column type="gchararray"/>
+      <!-- column-name separator -->
+      <column type="gboolean"/>
+    </columns>
   </object>
 </interface>

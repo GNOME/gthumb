@@ -5,6 +5,7 @@ _Authors=gthumb development team
 Copyright=Copyright © 2009-2010 The Free Software Foundation, Inc.
 Version=1.0
 Icon=video-x-generic
+Category=Viewer
 
 [Loader]
 Type=module
