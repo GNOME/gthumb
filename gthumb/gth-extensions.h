@@ -115,6 +115,7 @@ struct _GthExtensionDescription {
 	char      *version;
 	char      *icon_name;
 	char      *url;
+	char      *category;
 	char      *loader_type;
 	char      *loader_file;
 	char     **loader_requires;

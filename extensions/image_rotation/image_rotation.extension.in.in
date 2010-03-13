@@ -4,6 +4,7 @@ _Description=Rotate images without data loss.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Category=List-Tool
 
 [Loader]
 Type=module

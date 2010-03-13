@@ -4,6 +4,7 @@ _Description=Change the files date
 _Authors=gthumb development team
 Copyright=Copyright © 2010 The Free Software Foundation, Inc.
 Version=1.0
+Category=List-Tool
 
 [Loader]
 Type=module

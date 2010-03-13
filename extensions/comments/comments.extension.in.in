@@ -4,6 +4,7 @@ _Description=Add comments and tags to any file type.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
+Category=Metadata
 
 [Loader]
 Type=module
