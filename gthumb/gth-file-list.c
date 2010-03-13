@@ -1377,8 +1377,8 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 
 		/* ...continue from the one before the first visible upward to
-		 * the first one */
-
+		 * the first one.
+		 * Don't do this to avoid thumbnail jumps (see bug #603642)
 		if (new_pos == -1) {
 			pos = first_pos - 1;
 			scan = g_list_nth (list, pos);
@@ -1392,6 +1392,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 				scan = scan->prev;
 			}
 		}
+		*/
 	}
 
 	if (new_pos != -1)
