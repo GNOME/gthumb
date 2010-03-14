@@ -491,6 +491,12 @@ add_photos_to_set_done (FlickrService *self,
 	GSimpleAsyncResult *result;
 
 	result = flickr_connection_get_result (self->priv->conn);
+	if (result == NULL)
+		result = g_simple_async_result_new (G_OBJECT (self),
+						    self->priv->add_photos->callback,
+						    self->priv->add_photos->user_data,
+						    flickr_service_add_photos_to_set);
+
 	if (error == NULL)
 		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 	else
@@ -613,6 +619,7 @@ flickr_service_add_photos_to_set (FlickrService        *self,
 	self->priv->add_photos->current = self->priv->add_photos->photo_ids;
 	self->priv->add_photos->n_current = 1;
 
+	flickr_connection_reset_result (self->priv->conn);
 	add_current_photo_to_set (self);
 }
 

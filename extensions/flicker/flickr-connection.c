@@ -219,6 +219,14 @@ flickr_connection_get_result (FlickrConnection *self)
 
 
 void
+flickr_connection_reset_result (FlickrConnection *self)
+{
+	_g_object_unref (self->priv->result);
+	self->priv->result = NULL;
+}
+
+
+void
 flickr_connection_add_api_sig (FlickrConnection *self,
 			       GHashTable       *data_set)
 {

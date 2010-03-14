@@ -73,6 +73,7 @@ void		     flickr_connection_send_message       (FlickrConnection      *self,
 						           SoupSessionCallback    soup_session_cb,
 						           gpointer               soup_session_cb_data);
 GSimpleAsyncResult * flickr_connection_get_result         (FlickrConnection      *self);
+void                 flickr_connection_reset_result       (FlickrConnection      *self);
 void                 flickr_connection_add_api_sig        (FlickrConnection      *self,
 						           GHashTable            *data_set);
 void                 flickr_connection_get_frob           (FlickrConnection      *self,
