@@ -166,11 +166,11 @@ static GtkActionEntry action_entries[] = {
 	  N_("Duplicate the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate) },
 	{ "Edit_Trash", "user-trash",
-	  N_("Mo_ve to Trash"), "<control>Delete",
+	  N_("Mo_ve to Trash"), NULL,
 	  N_("Move the selected files to the Trash"),
 	  G_CALLBACK (gth_browser_activate_action_edit_trash) },
 	{ "Edit_Delete", "edit-delete",
-	  N_("_Delete"), "<control><shift>Delete",
+	  N_("_Delete"), NULL,
 	  N_("Delete the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_delete) },
 	{ "Folder_OpenInFileManager", NULL,
@@ -951,20 +951,30 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	GList    *file_data_list;
 	GList    *file_list;
 
-	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
-		return NULL;
-
 	switch (gdk_keyval_to_lower (event->keyval)) {
-        case GDK_g:
-		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-		file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-		file_list = gth_file_data_list_to_file_list (file_data_list);
-		_g_launch_command (GTK_WIDGET (browser), "gimp", "Gimp", file_list);
+	case GDK_g:
+		if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+			file_list = gth_file_data_list_to_file_list (file_data_list);
+			_g_launch_command (GTK_WIDGET (browser), "gimp", "Gimp", file_list);
 
-		_g_object_list_unref (file_list);
-		_g_object_list_unref (file_data_list);
-		_gtk_tree_path_list_free (items);
-		result = GINT_TO_POINTER (1);
+			_g_object_list_unref (file_list);
+			_g_object_list_unref (file_data_list);
+			_gtk_tree_path_list_free (items);
+			result = GINT_TO_POINTER (1);
+		}
+		break;
+
+	case GDK_Delete:
+		if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+			gth_browser_activate_action_edit_trash (NULL, browser);
+			result = GINT_TO_POINTER (1);
+		}
+		else if (! (event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
+			gth_browser_activate_action_edit_delete (NULL, browser);
+			result = GINT_TO_POINTER (1);
+		}
 		break;
 	}
 
