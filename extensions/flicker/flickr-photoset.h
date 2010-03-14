@@ -37,11 +37,9 @@ G_BEGIN_DECLS
 
 typedef struct _FlickrPhotoset FlickrPhotoset;
 typedef struct _FlickrPhotosetClass FlickrPhotosetClass;
-typedef struct _FlickrPhotosetPrivate FlickrPhotosetPrivate;
 
 struct _FlickrPhotoset {
 	GObject parent_instance;
-	FlickrPhotosetPrivate *priv;
 
 	char *id;
 	char *title;

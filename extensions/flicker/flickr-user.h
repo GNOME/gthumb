@@ -37,11 +37,9 @@ G_BEGIN_DECLS
 
 typedef struct _FlickrUser FlickrUser;
 typedef struct _FlickrUserClass FlickrUserClass;
-typedef struct _FlickrUserPrivate FlickrUserPrivate;
 
 struct _FlickrUser {
 	GObject parent_instance;
-	FlickrUserPrivate *priv;
 
 	char     *id;
 	gboolean  is_pro;

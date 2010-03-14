@@ -116,6 +116,8 @@ flickr_user_dom_domizable_interface_init (DomDomizableIface *iface)
 static void
 flickr_user_instance_init (FlickrUser *self)
 {
+	self->id = NULL;
+	self->username = NULL;
 }
 
 

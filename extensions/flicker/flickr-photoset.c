@@ -134,6 +134,14 @@ flickr_photoset_dom_domizable_interface_init (DomDomizableIface *iface)
 static void
 flickr_photoset_instance_init (FlickrPhotoset *self)
 {
+	self->id = NULL;
+	self->title = NULL;
+	self->description = NULL;
+	self->primary = NULL;
+	self->secret = NULL;
+	self->server = NULL;
+	self->farm = NULL;
+	self->url = NULL;
 }
 
 
