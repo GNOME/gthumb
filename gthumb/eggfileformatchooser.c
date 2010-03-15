@@ -602,6 +602,7 @@ error_message_with_parent (GtkWindow  *parent,
 {
   gboolean first_call = TRUE;
   GtkWidget *dialog;
+  GtkWindowGroup *window_group;
 
   if (first_call)
     {
@@ -618,8 +619,9 @@ error_message_with_parent (GtkWindow  *parent,
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
 					    "%s", detail);
 
-  if (parent->group)
-    gtk_window_group_add_window (parent->group, GTK_WINDOW (dialog));
+  window_group = gtk_window_get_group (parent);
+  if (window_group)
+    gtk_window_group_add_window (window_group, GTK_WINDOW (dialog));
 
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
@@ -632,7 +634,11 @@ get_toplevel (GtkWidget *widget)
   GtkWidget *toplevel;
 
   toplevel = gtk_widget_get_toplevel (widget);
+#if GTK_CHECK_VERSION (2,18,0)
+  if (!gtk_widget_is_toplevel (toplevel))
+#else
   if (!GTK_WIDGET_TOPLEVEL (toplevel))
+#endif
     return NULL;
   else
     return GTK_WINDOW (toplevel);
