@@ -7,14 +7,15 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-06 16:09+0000\n"
-"PO-Revision-Date: 2010-03-07 18:22+0100\n"
+"POT-Creation-Date: 2010-03-15 11:42+0000\n"
+"PO-Revision-Date: 2010-03-15 19:17+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +27,7 @@ msgstr ""
 #: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
-"El archivo no es un archivo .desktop válido"
+msgstr "El archivo no es un archivo .desktop válido"
 
 #: ../copy-n-paste/eggdesktopfile.c:188
 #, c-format
@@ -198,6 +198,12 @@ msgid "More extensions..."
 msgstr "Más extensiones…"
 
 #: ../data/ui/extensions.ui.h:3
+#, fuzzy
+#| msgid "Ca_tegories:"
+msgid "_Categories:"
+msgstr "Ca_tegorías:"
+
+#: ../data/ui/extensions.ui.h:4
 msgid "gthumb Extensions"
 msgstr "Extensiones de gthumb"
 
@@ -340,7 +346,8 @@ msgstr "Preguntar si se deben guardar las imágenes _modificadas"
 msgid "Black"
 msgstr "Negro"
 
-#: ../data/ui/preferences.ui.h:7 ../gthumb/gth-browser-actions-entries.h:156
+#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:58
+#: ../gthumb/gth-browser-actions-entries.h:156
 msgid "Browser"
 msgstr "Navegador"
 
@@ -537,11 +544,11 @@ msgstr "No se pudo quitar el marcador"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
 msgid "Burn CD/DVD"
-msgstr ""
+msgstr "Grabar CD/DVD"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
 msgid "Save files to an optical disc."
-msgstr ""
+msgstr "Guardar archivos en un disco óptico."
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
@@ -571,11 +578,11 @@ msgstr "equipo de desarrollo de gthumb"
 
 #: ../extensions/burn_disc/callbacks.c:51
 msgid "_Optical Disc..."
-msgstr ""
+msgstr "Disco óptic_o…"
 
 #: ../extensions/burn_disc/callbacks.c:52
 msgid "Write files to an optical disc"
-msgstr ""
+msgstr "Escribir archivos en un disco óptico."
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
 #, fuzzy
@@ -742,7 +749,9 @@ msgstr "Organizar los archivos automáticamente por fecha"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:656
-#: ../extensions/catalogs/gth-catalog.c:1019
+#: ../extensions/catalogs/gth-catalog.c:705
+#: ../extensions/catalogs/gth-catalog.c:1051
+#: ../extensions/catalogs/gth-catalog.c:1052
 msgid "Catalogs"
 msgstr "Catálogos"
 
@@ -825,14 +834,16 @@ msgstr "No seleccionar nada"
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
+"Los archivos se organizarán en catálogos. No se moverá ningún archivo del "
+"disco."
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
 msgid "Ignore catalogs with a single file"
-msgstr ""
+msgstr "Ignorar catálogos con un único archivo"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Put single files in the catalog:"
-msgstr ""
+msgstr "Poner archivos sueltos en el catálogo:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 msgid "Singles"
@@ -851,7 +862,7 @@ msgstr "_Incluir sub-carpetas"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
 msgid "appointment-soon"
-msgstr ""
+msgstr "cita pronto"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
 msgid "camera-photo"
@@ -890,7 +901,7 @@ msgstr "Copiando archivo %d de %d"
 #: ../extensions/catalogs/gth-organize-task.c:201
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
-msgstr ""
+msgstr "Operación completada. Catálogos: %d. Imágenes: %d."
 
 #: ../extensions/change_date/callbacks.c:45
 msgid "Change _Date..."
@@ -974,20 +985,20 @@ msgstr "horas"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Add comments and tags to any file type."
-msgstr ""
+msgstr "Añadir comentarios y etiquetas a cualquier tipo de archivo."
 
 #: ../extensions/comments/comments.extension.in.in.h:2
 msgid "Comments and tags"
 msgstr "Comentarios y etiquetas"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:300
+#: ../extensions/importer/gth-import-preferences-dialog.c:304
 msgid "Preferences"
 msgstr "Preferencias"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:2
 msgid "_Synchronize with the embedded metadata"
-msgstr ""
+msgstr "_Sincronizar con los metadatos empotrados"
 
 #: ../extensions/comments/gth-test-category.c:40
 #: ../gthumb/gth-test-simple.c:48
@@ -1004,7 +1015,7 @@ msgstr "no es"
 #: ../gthumb/gth-test-simple.c:727
 #, c-format
 msgid "The test definition is incomplete"
-msgstr ""
+msgstr "La prueba de definición está incompleto"
 
 #: ../extensions/comments/main.c:35
 msgid "Comment"
@@ -1039,7 +1050,7 @@ msgstr "Convertir formato"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:2
 msgid "Save images in a different format"
-msgstr ""
+msgstr "Guardar las imágenes en un formato diferente"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:4
@@ -1084,7 +1095,7 @@ msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
 msgid "Desktop background"
 msgstr "Fondo de escritorio"
 
-#: ../extensions/edit_metadata/callbacks.c:90
+#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
 msgid "Metadata"
 msgstr "Metadatos"
 
@@ -1140,7 +1151,7 @@ msgid "The following date"
 msgstr "La siguiente fecha"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:313
+#: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "Current date"
 msgstr "Fecha actual"
 
@@ -1232,7 +1243,7 @@ msgstr "Soporte para EXIF, IPTC y XMP"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
-msgstr ""
+msgstr "Leer y escribir metadatos exif, iptc y xmp."
 
 #: ../extensions/exiv2_tools/main.c:33
 msgid "Exif General"
@@ -1299,9 +1310,11 @@ msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
+"No se pueden mover los archivos a la ubicación actual, como alternativa "
+"puede elegir copiarlos."
 
 #: ../extensions/file_manager/actions.c:390
-#: ../extensions/importer/gth-import-task.c:381
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Could not delete the files"
 msgstr "No se pudieron borrar los archivos"
 
@@ -1333,12 +1346,16 @@ msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] ""
+"¿Está seguro de que quiere borrar permanentemente el %'d archivo "
+"seleccionado?"
 msgstr[1] ""
+"¿Está seguro de que quiere borrar permanentemente los %'d archivos "
+"seleccionados?"
 
 #: ../extensions/file_manager/actions.c:498
 #: ../extensions/file_manager/actions.c:788
 msgid "If you delete a file, it will be permanently lost."
-msgstr ""
+msgstr "Si borra un archivo, se perderá definitivamente."
 
 #: ../extensions/file_manager/actions.c:528
 msgid "Could not open the location"
@@ -1588,7 +1605,7 @@ msgstr "Ajustar colores"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:522
 msgid "Change brightness, contrast, saturation and gamma level of the image"
-msgstr ""
+msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:347
 msgid "Square"
@@ -1918,18 +1935,18 @@ msgstr "pulgadas"
 msgid "millimeters"
 msgstr "milímetros"
 
-#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/image_print/gth-image-print-job.c:815
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1489
-#: ../extensions/image_print/gth-image-print-job.c:1569
-#: ../extensions/image_print/gth-image-print-job.c:1590
+#: ../extensions/image_print/gth-image-print-job.c:1490
+#: ../extensions/image_print/gth-image-print-job.c:1570
+#: ../extensions/image_print/gth-image-print-job.c:1591
 msgid "Could not print"
 msgstr "No se pudo imprimir"
 
-#: ../extensions/image_print/gth-image-print-job.c:1525
+#: ../extensions/image_print/gth-image-print-job.c:1526
 msgid "Layout"
 msgstr "Distribución"
 
@@ -1945,7 +1962,7 @@ msgstr "Cargando las imágenes"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
 msgid "Allow to print images choosing the page layout."
-msgstr ""
+msgstr "Permitir imprimir imágenes seleccionando la orientación de la página."
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
 #, fuzzy
@@ -2108,7 +2125,7 @@ msgstr "Reutiliza esta ventana para ver otras imágenes"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
 msgid "Basic image viewing."
-msgstr ""
+msgstr "Vista básica de la imagen."
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
 msgid "Image viewer"
@@ -2158,56 +2175,56 @@ msgstr "_Rotar imágenes físicamente"
 msgid "as _single subfolder"
 msgstr "_Incluir sub-carpetas"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:201
+#: ../extensions/importer/gth-import-preferences-dialog.c:205
 #, c-format
 msgid "example: %s"
 msgstr "ejemplo: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:312
+#: ../extensions/importer/gth-import-preferences-dialog.c:316
 msgid "File date"
 msgstr "Fecha del archivo"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:322
+#: ../extensions/importer/gth-import-preferences-dialog.c:326
 msgid "year-month-day"
 msgstr "año-mes-día"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:323
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "year-month"
 msgstr "año-mes"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:324
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "year"
 msgstr "año"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:325
+#: ../extensions/importer/gth-import-preferences-dialog.c:329
 msgid "custom format"
 msgstr "formato personalizado"
 
-#: ../extensions/importer/gth-import-task.c:323
-#: ../extensions/importer/gth-import-task.c:402
+#: ../extensions/importer/gth-import-task.c:325
+#: ../extensions/importer/gth-import-task.c:404
 msgid "Importing files"
 msgstr "Importando archivos"
 
-#: ../extensions/importer/gth-import-task.c:360
+#: ../extensions/importer/gth-import-task.c:362
 #, fuzzy
 #| msgid "Last imported"
 msgid "No file imported"
 msgstr "Último importado"
 
-#: ../extensions/importer/gth-import-task.c:361
+#: ../extensions/importer/gth-import-task.c:363
 msgid "The selected files are already present in the destination."
-msgstr ""
+msgstr "Los archivos seleccionados ya existen en el destino."
 
-#: ../extensions/importer/gth-import-task.c:382
+#: ../extensions/importer/gth-import-task.c:384
 #, fuzzy
 #| msgid "Image type not supported: %s"
 msgid "Delete operation not supported."
 msgstr "Tipo de imagen no soportado: %s"
 
-#: ../extensions/importer/gth-import-task.c:447
+#: ../extensions/importer/gth-import-task.c:450
 msgid "Last imported"
 msgstr "Último importado"
 
@@ -2299,7 +2316,7 @@ msgstr "Pedir un valor de entrada"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "E_xecute command once for every file"
-msgstr ""
+msgstr "_Ejecutar el comando una vez por cada archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:26
 msgid "Quote the text "
@@ -2318,7 +2335,7 @@ msgstr "Incluir nombre de archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "The file basename without extension"
-msgstr ""
+msgstr "El nombre del archivo sin extensión"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 #, fuzzy
@@ -2346,11 +2363,11 @@ msgstr "Coman_do:"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:36
 msgid "_Terminal command (shell script)"
-msgstr ""
+msgstr "_Terminal de comandos (shell script)"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:37
 msgid "_Wait for the command to finish"
-msgstr ""
+msgstr "_Esperar a que el comando termine"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:234
 msgid "Script"
@@ -2397,7 +2414,7 @@ msgstr "No se especificó ningún comando"
 #: ../extensions/list_tools/gth-script-task.c:85
 #, c-format
 msgid "Command exited abnormally with status %d"
-msgstr ""
+msgstr "El comando finalizó anormalmente con estado %d"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:1
 msgid "File list tools"
@@ -2405,7 +2422,7 @@ msgstr "Herramientas de lista de archivos"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
-msgstr ""
+msgstr "Scripting y manipulación de archivos por lotes."
 
 #: ../extensions/photo_importer/callbacks.c:51
 msgid "_Removable Device..."
@@ -2413,7 +2430,7 @@ msgstr "Dispositivo extraíble…"
 
 #: ../extensions/photo_importer/callbacks.c:52
 msgid "Import photos and other files from a removable device"
-msgstr ""
+msgstr "Importar fotos y otros archivos desde un dispositivo extraíble"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 #, fuzzy
@@ -2593,21 +2610,21 @@ msgstr "No se pudo crear el álbum"
 msgid "New Album"
 msgstr "Álbum nuevo"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:674
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
 msgid "Choose Account"
 msgstr "Seleccionar cuenta"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:731
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
 msgid "Edit Accounts"
 msgstr "Editar cuentas"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:847
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
 msgid "No valid file selected."
 msgstr "No se seleccionó ningún un archivo válido."
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:848
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
 msgid "Could not export the files"
 msgstr "No se pudieron exportar los archivos"
 
@@ -2638,7 +2655,7 @@ msgstr "Álbumes web de Picasa"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
-msgstr ""
+msgstr "Subir imágenes a álbumes web Picasa"
 
 #: ../extensions/picasaweb/picasa-web-service.c:238
 msgid "Getting the album list"
@@ -3076,7 +3093,7 @@ msgstr "Renombrar las imágenes seleccionadas"
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
 msgid "_Change automatically, every"
-msgstr ""
+msgstr "_Cambiar automáticamente, cada"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Personalize"
@@ -3138,11 +3155,11 @@ msgstr "Voltear página"
 
 #: ../extensions/slideshow/main.c:307
 msgid "Cube from right"
-msgstr ""
+msgstr "Cubo desde la derecha"
 
 #: ../extensions/slideshow/main.c:313
 msgid "Cube from bottom"
-msgstr ""
+msgstr "Cubo desde abajo"
 
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
 #, fuzzy
@@ -3150,41 +3167,83 @@ msgstr ""
 msgid "View images as a slideshow."
 msgstr "Ver como diapositivas"
 
-#: ../gthumb/dlg-extensions.c:107
+#: ../gthumb/dlg-extensions.c:54 ../gthumb/gth-filterbar.c:270
+msgid "All"
+msgstr "Todas"
+
+#: ../gthumb/dlg-extensions.c:55
+msgid "Enabled"
+msgstr ""
+
+#: ../gthumb/dlg-extensions.c:56
+msgid "Disabled"
+msgstr ""
+
+#: ../gthumb/dlg-extensions.c:59
+#, fuzzy
+#| msgid "Viewer"
+msgid "Viewers"
+msgstr "Visor"
+
+#: ../gthumb/dlg-extensions.c:61
+#, fuzzy
+#| msgid "File list tools"
+msgid "File tools"
+msgstr "Herramientas de lista de archivos"
+
+#: ../gthumb/dlg-extensions.c:62
+#, fuzzy
+#| msgid "File list tools"
+msgid "List tools"
+msgstr "Herramientas de lista de archivos"
+
+#: ../gthumb/dlg-extensions.c:63
+#, fuzzy
+#| msgid "_Import"
+msgid "Importers"
+msgstr "_Importar"
+
+#: ../gthumb/dlg-extensions.c:64
+#, fuzzy
+#| msgid "Exposure time"
+msgid "Exporters"
+msgstr "Tiempo de exposición"
+
+#: ../gthumb/dlg-extensions.c:140
 #, fuzzy
 #| msgid "Resta_rt when finished"
 msgid "Restart required"
 msgstr "Reinicia_r al finalizar"
 
-#: ../gthumb/dlg-extensions.c:108
+#: ../gthumb/dlg-extensions.c:141
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Debe reiniciar gthumb para que estos cambios tengan efecto"
 
-#: ../gthumb/dlg-extensions.c:109
+#: ../gthumb/dlg-extensions.c:142
 msgid "_Continue"
 msgstr "_Continuar"
 
-#: ../gthumb/dlg-extensions.c:110
+#: ../gthumb/dlg-extensions.c:143
 msgid "_Restart"
 msgstr "_Reiniciar"
 
-#: ../gthumb/dlg-extensions.c:208
+#: ../gthumb/dlg-extensions.c:244
 #, fuzzy
 #| msgid "Could not move the items:"
 msgid "Could not activate the extension"
 msgstr "No se han podido mover los elementos:"
 
-#: ../gthumb/dlg-extensions.c:214
+#: ../gthumb/dlg-extensions.c:250
 #, fuzzy
 #| msgid "Could not move the items:"
 msgid "Could not deactivate the extension"
 msgstr "No se han podido mover los elementos:"
 
-#: ../gthumb/dlg-extensions.c:236
+#: ../gthumb/dlg-extensions.c:272
 msgid "Use"
 msgstr "Usar"
 
-#: ../gthumb/dlg-extensions.c:252
+#: ../gthumb/dlg-extensions.c:288
 msgid "Extension"
 msgstr "Extensión"
 
@@ -3231,7 +3290,7 @@ msgstr "Formato de archivo"
 msgid "Extension(s)"
 msgstr "Extensión(es)"
 
-#: ../gthumb/eggfileformatchooser.c:675
+#: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
 "The program was not able to find out the file format you want to use for `%"
@@ -3242,7 +3301,7 @@ msgstr ""
 "s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
-#: ../gthumb/eggfileformatchooser.c:682
+#: ../gthumb/eggfileformatchooser.c:688
 #, fuzzy
 #| msgid "File not found"
 msgid "File format not recognized"
@@ -3595,7 +3654,7 @@ msgstr "No se encontraron imágenes"
 msgid "Could not open the module `%s`: %s"
 msgstr "No se pudo mover la carpeta «%s»: %s"
 
-#: ../gthumb/gth-extensions.c:815
+#: ../gthumb/gth-extensions.c:817
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "La extensión «%s» requiere la extensión «%s»"
@@ -3607,10 +3666,6 @@ msgstr "Carpeta personal"
 #: ../gthumb/gth-file-source-vfs.c:87
 msgid "File System"
 msgstr "Sistema de archivos"
-
-#: ../gthumb/gth-filterbar.c:270
-msgid "All"
-msgstr "Todas"
 
 #: ../gthumb/gth-filterbar.c:406
 msgid "Close"
@@ -3659,7 +3714,7 @@ msgstr "(Abrir padre)"
 
 #: ../gthumb/gth-image-loader.c:236
 msgid "No suitable loader available for this file type"
-msgstr ""
+msgstr "No hay disponible ningún cargador para este tipo de archivo"
 
 #: ../gthumb/gth-main.c:220
 #, c-format
@@ -4038,9 +4093,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 
 #~ msgid "Bytes"
 #~ msgstr "Bytes"
-
-#~ msgid "Exposure time"
-#~ msgstr "Tiempo de exposición"
 
 #~ msgid "Exposure mode"
 #~ msgstr "Modo de exposición"
@@ -5882,9 +5934,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 
 #~ msgid "<b>Categories:</b>"
 #~ msgstr "<b>Categorías:</b>"
-
-#~ msgid "Ca_tegories:"
-#~ msgstr "Ca_tegorías:"
 
 #~ msgid "Camera Model"
 #~ msgstr "Modelo de cámara"
