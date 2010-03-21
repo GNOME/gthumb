@@ -278,6 +278,25 @@ fi
 AC_SUBST(JPEG_LIBS)
 AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
 
+have_libjpeg_80=no
+if test "x$enable_jpeg" = "xyes"; then
+	AC_MSG_CHECKING([[libjpeg version is 8 or greater]])
+	AC_COMPILE_IFELSE([ AC_LANG_SOURCE(
+			  [[
+#include <stdio.h>
+#include <jpeglib.h>
+#if JPEG_LIB_VERSION < 80
+#error "wrong version"
+#endif
+int main(int c, char**v) { return 0; }
+			  ]]) ],
+			  [AC_MSG_RESULT(yes)
+			   have_libjpeg_80=yes],
+		          [AC_MSG_RESULT(no)
+		           have_libjpeg_80=no])
+fi
+AM_CONDITIONAL(HAVE_LIBJPEG_80, test "x$have_libjpeg_80" = xyes)
+
 dnl ===========================================================================
 
 AC_ARG_ENABLE([tiff],

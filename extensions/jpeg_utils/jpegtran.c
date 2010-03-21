@@ -48,10 +48,10 @@
 #include <jpeglib.h>
 #include <glib.h>
 #include <gthumb.h>
-#include "transupp.h"
 #include "jmemorydest.h"
 #include "jmemorysrc.h"
 #include "jpegtran.h"
+#include "transupp.h"
 
 
 GQuark
@@ -104,6 +104,7 @@ output_message_handler (j_common_ptr cinfo)
 }
 
 
+#if JPEG_LIB_VERSION < 80
 static boolean
 jtransform_perfect_transform (JDIMENSION  image_width,
 			      JDIMENSION  image_height,
@@ -141,6 +142,7 @@ jtransform_perfect_transform (JDIMENSION  image_width,
 
 	return result;
 }
+#endif
 
 
 static gboolean
@@ -225,10 +227,14 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	if (option == JCOPYOPT_NONE)
 		dstinfo->write_JFIF_header = FALSE;
 
+#if JPEG_LIB_VERSION < 80
 	/* Adjust the markers to create a standard EXIF file if an EXIF marker
 	 * is present in the input. By default, libjpeg creates a JFIF file,
 	 * which is incompatible with the EXIF standard. */
 	jcopy_markers_exif (srcinfo, dstinfo, option);
+#else
+	jcopy_markers_execute (srcinfo, dstinfo, option);
+#endif
 
 	/* Adjust destination parameters if required by transform options;
 	 * also find out which set of coefficient arrays will hold the output.

@@ -43,7 +43,7 @@
 
 #include <stdio.h>
 #include <jpeglib.h>
-#include "transupp.h"		/* My own external interface */
+#include "transupp-62.h"		/* My own external interface */
 
 #ifndef MAX
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
@@ -939,7 +939,7 @@ jcopy_markers_setup (j_decompress_ptr srcinfo, JCOPY_OPTION option)
 }
 
 /* Adjust the markers to create a standard EXIF file if an EXIF marker
- * is present in the input. By default, libjpeg creates a JFIF file, 
+ * is present in the input. By default, libjpeg creates a JFIF file,
  * which is incompatible with the EXIF standard.
  *
  * This must be called after jpeg_copy_critical_parameters()
@@ -972,14 +972,14 @@ jcopy_markers_exif (j_decompress_ptr srcinfo, j_compress_ptr dstinfo,
 		prev_marker = cur_marker;
 		cur_marker = cur_marker->next;
 	}
-	/* Do not emit a (incompatible) JFIF marker if an EXIF marker is found. 
-	 * The EXIF standard requires the EXIF marker to be the first extra marker, 
+	/* Do not emit a (incompatible) JFIF marker if an EXIF marker is found.
+	 * The EXIF standard requires the EXIF marker to be the first extra marker,
 	 * but JFIF has the same requirement. */
 	if (cur_marker != NULL) {
 		dstinfo->write_JFIF_header = FALSE;
 	}
 	/* Force the EXIF marker to be the first marker (if necessary).
-	 * This will also recover EXIF files that where converted to JFIF 
+	 * This will also recover EXIF files that where converted to JFIF
 	 * by non EXIF-aware software (if the EXIF marker is still present). */
 	if (cur_marker != NULL && prev_marker != NULL) {
 		prev_marker->next = cur_marker->next;
@@ -1002,11 +1002,11 @@ jcopy_markers_execute (j_decompress_ptr srcinfo, j_compress_ptr dstinfo,
   jpeg_saved_marker_ptr marker;
 
 	/* If the first marker is an EXIF marker, we do not
-	 * copy any (incompatible) JFIF marker, by pretending 
-	 * the library already wrote one. This should have no 
+	 * copy any (incompatible) JFIF marker, by pretending
+	 * the library already wrote one. This should have no
 	 * effect unless jcopy_markers_exif was used before.*/
 	marker = srcinfo->marker_list;
-	if (marker != NULL && 
+	if (marker != NULL &&
 		marker->marker == JPEG_APP0+1 &&
 		marker->data_length >= 6 &&
 		GETJOCTET(marker->data[0]) == 0x45 &&

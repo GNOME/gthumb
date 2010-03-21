@@ -9,9 +9,19 @@ libjpeg_utils_la_SOURCES = 		\
 	jmemorysrc.h			\
 	jpegtran.c			\
 	jpegtran.h			\
-	main.c				\
-	transupp.c			\
-	transupp.h
+	transupp.h			\
+	main.c
+	
+if HAVE_LIBJPEG_80
+libjpeg_utils_la_SOURCES +=		\
+	transupp-80.c			\
+	transupp-80.h
+else
+libjpeg_utils_la_SOURCES +=		\
+	transupp-62.c			\
+	transupp-62.h
+endif
+	
 else
 libjpeg_utils_la_SOURCES =
 endif
