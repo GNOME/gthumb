@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-04 22:31+0000\n"
-"PO-Revision-Date: 2010-03-06 09:16+0100\n"
+"POT-Creation-Date: 2010-03-19 15:31+0000\n"
+"PO-Revision-Date: 2010-03-20 17:12+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -176,6 +176,10 @@ msgid "More extensions..."
 msgstr "Več razširitev ..."
 
 #: ../data/ui/extensions.ui.h:3
+msgid "_Categories:"
+msgstr "_Kategorije:"
+
+#: ../data/ui/extensions.ui.h:4
 msgid "gthumb Extensions"
 msgstr "Razširitve gthumb"
 
@@ -303,6 +307,7 @@ msgid "Black"
 msgstr "Črna"
 
 #: ../data/ui/preferences.ui.h:7
+#: ../gthumb/dlg-extensions.c:58
 #: ../gthumb/gth-browser-actions-entries.h:156
 msgid "Browser"
 msgstr "Brskalnik"
@@ -571,11 +576,11 @@ msgstr "_Izbrane datoteke"
 msgid "Write to Disc"
 msgstr "Zapiši na disk"
 
-#: ../extensions/catalogs/actions.c:61
+#: ../extensions/catalogs/actions.c:63
 msgid "Could not remove the files from the catalog"
 msgstr "Ni mogoče odstraniti datotek iz kataloga"
 
-#: ../extensions/catalogs/actions.c:119
+#: ../extensions/catalogs/actions.c:121
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:450
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:459
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:487
@@ -583,36 +588,36 @@ msgstr "Ni mogoče odstraniti datotek iz kataloga"
 msgid "Invalid file format"
 msgstr "Neveljaven zapis datoteke"
 
-#: ../extensions/catalogs/actions.c:189
-#: ../extensions/catalogs/dlg-add-to-catalog.c:219
+#: ../extensions/catalogs/actions.c:190
+#: ../extensions/catalogs/dlg-add-to-catalog.c:217
 msgid "Enter the catalog name: "
 msgstr "Vnos imena kataloga:"
 
-#: ../extensions/catalogs/actions.c:193
-#: ../extensions/catalogs/actions.c:259
-#: ../extensions/catalogs/dlg-add-to-catalog.c:223
-#: ../extensions/catalogs/dlg-add-to-catalog.c:289
+#: ../extensions/catalogs/actions.c:194
+#: ../extensions/catalogs/actions.c:260
+#: ../extensions/catalogs/dlg-add-to-catalog.c:221
+#: ../extensions/catalogs/dlg-add-to-catalog.c:287
 #: ../extensions/file_manager/actions.c:47
 msgid "C_reate"
 msgstr "Ustva_ri"
 
-#: ../extensions/catalogs/actions.c:233
-#: ../extensions/catalogs/dlg-add-to-catalog.c:263
+#: ../extensions/catalogs/actions.c:234
+#: ../extensions/catalogs/dlg-add-to-catalog.c:261
 #: ../extensions/search/gth-search-task.c:288
 msgid "Could not create the catalog"
 msgstr "Kataloga ni mogoče ustvariti"
 
-#: ../extensions/catalogs/actions.c:255
-#: ../extensions/catalogs/dlg-add-to-catalog.c:285
+#: ../extensions/catalogs/actions.c:256
+#: ../extensions/catalogs/dlg-add-to-catalog.c:283
 msgid "Enter the library name: "
 msgstr "Vnos imena knjižnice:"
 
-#: ../extensions/catalogs/actions.c:299
-#: ../extensions/catalogs/dlg-add-to-catalog.c:329
+#: ../extensions/catalogs/actions.c:300
+#: ../extensions/catalogs/dlg-add-to-catalog.c:327
 msgid "Could not create the library"
 msgstr "Knjižnice ni mogoče ustvariti"
 
-#: ../extensions/catalogs/actions.c:335
+#: ../extensions/catalogs/actions.c:336
 msgid "Could not remove the catalog"
 msgstr "Kataloga ni mogoče odstraniti"
 
@@ -692,7 +697,9 @@ msgstr "Samodejno organiziraj datoteke po datumu"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:656
-#: ../extensions/catalogs/gth-catalog.c:1019
+#: ../extensions/catalogs/gth-catalog.c:705
+#: ../extensions/catalogs/gth-catalog.c:1051
+#: ../extensions/catalogs/gth-catalog.c:1052
 msgid "Catalogs"
 msgstr "Katalogi"
 
@@ -908,7 +915,7 @@ msgid "Comments and tags"
 msgstr "Opombe in oznake"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:300
+#: ../extensions/importer/gth-import-preferences-dialog.c:304
 msgid "Preferences"
 msgstr "Možnosti"
 
@@ -1010,6 +1017,7 @@ msgid "Desktop background"
 msgstr "Ozadje namizja"
 
 #: ../extensions/edit_metadata/callbacks.c:90
+#: ../gthumb/dlg-extensions.c:60
 msgid "Metadata"
 msgstr "Metapodatki"
 
@@ -1059,7 +1067,7 @@ msgid "The following date"
 msgstr "Naslednji datum"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:313
+#: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "Current date"
 msgstr "Trenutni datum"
 
@@ -1214,7 +1222,7 @@ msgid "Files cannot be moved to the current location, as alternative you can cho
 msgstr "Datotek ni mogoče premakniti na trenutno mesto, lahko pa jih poskusite kopirati."
 
 #: ../extensions/file_manager/actions.c:390
-#: ../extensions/importer/gth-import-task.c:381
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Could not delete the files"
 msgstr "Datotek ni mogoče izbrisat"
 
@@ -1317,8 +1325,8 @@ msgid "_Paste Into Folder"
 msgstr "_Prilepi v mapo"
 
 #: ../extensions/file_manager/callbacks.c:796
-#: ../gthumb/gth-browser.c:3918
-#: ../gthumb/gth-browser.c:3956
+#: ../gthumb/gth-browser.c:3924
+#: ../gthumb/gth-browser.c:3962
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -1779,18 +1787,18 @@ msgstr "palci"
 msgid "millimeters"
 msgstr "milimetri"
 
-#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/image_print/gth-image-print-job.c:815
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stran %d od %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1489
-#: ../extensions/image_print/gth-image-print-job.c:1569
-#: ../extensions/image_print/gth-image-print-job.c:1590
+#: ../extensions/image_print/gth-image-print-job.c:1490
+#: ../extensions/image_print/gth-image-print-job.c:1570
+#: ../extensions/image_print/gth-image-print-job.c:1591
 msgid "Could not print"
 msgstr "Ni mogoče natisniti"
 
-#: ../extensions/image_print/gth-image-print-job.c:1525
+#: ../extensions/image_print/gth-image-print-job.c:1526
 msgid "Layout"
 msgstr "Razporeditev"
 
@@ -1971,52 +1979,52 @@ msgstr "Fizično _zavrti slike"
 msgid "as _single subfolder"
 msgstr "kot _ena podmapa"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:201
+#: ../extensions/importer/gth-import-preferences-dialog.c:205
 #, c-format
 msgid "example: %s"
 msgstr "primer: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:312
+#: ../extensions/importer/gth-import-preferences-dialog.c:316
 msgid "File date"
 msgstr "Datum datoteke"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:322
+#: ../extensions/importer/gth-import-preferences-dialog.c:326
 msgid "year-month-day"
 msgstr "leto-mesec-dan"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:323
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "year-month"
 msgstr "leto-mesec"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:324
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "year"
 msgstr "leto"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:325
+#: ../extensions/importer/gth-import-preferences-dialog.c:329
 msgid "custom format"
 msgstr "oblika po meri"
 
-#: ../extensions/importer/gth-import-task.c:323
-#: ../extensions/importer/gth-import-task.c:402
+#: ../extensions/importer/gth-import-task.c:325
+#: ../extensions/importer/gth-import-task.c:404
 msgid "Importing files"
 msgstr "Uvažanje datotek"
 
-#: ../extensions/importer/gth-import-task.c:360
+#: ../extensions/importer/gth-import-task.c:362
 msgid "No file imported"
 msgstr "Nobena datoteka ni bila uvožena"
 
-#: ../extensions/importer/gth-import-task.c:361
+#: ../extensions/importer/gth-import-task.c:363
 msgid "The selected files are already present in the destination."
 msgstr "Izbrane datoteke so že prisotne na cilju."
 
-#: ../extensions/importer/gth-import-task.c:382
+#: ../extensions/importer/gth-import-task.c:384
 msgid "Delete operation not supported."
 msgstr "Dejanje izbrisa ni podprto."
 
-#: ../extensions/importer/gth-import-task.c:447
+#: ../extensions/importer/gth-import-task.c:450
 msgid "Last imported"
 msgstr "Nazadnje uvožene"
 
@@ -2383,21 +2391,21 @@ msgstr "Albuma ni mogoče ustvariti"
 msgid "New Album"
 msgstr "Nov album"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:674
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
 msgid "Choose Account"
 msgstr "Izbor računa"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:731
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
 msgid "Edit Accounts"
 msgstr "Urejanje računov"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:847
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
 msgid "No valid file selected."
 msgstr "Nobena veljavna datoteka ni izbrana."
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:848
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
 msgid "Could not export the files"
 msgstr "Datotek ni mogoče izvoziti"
 
@@ -2887,35 +2895,68 @@ msgstr "Kocka od spodaj"
 msgid "View images as a slideshow."
 msgstr "Ogled slik kot diaprojekcija."
 
-#: ../gthumb/dlg-extensions.c:107
+#: ../gthumb/dlg-extensions.c:54
+#: ../gthumb/gth-filterbar.c:270
+msgid "All"
+msgstr "Vse"
+
+#: ../gthumb/dlg-extensions.c:55
+msgid "Enabled"
+msgstr "Omogočeno"
+
+#: ../gthumb/dlg-extensions.c:56
+msgid "Disabled"
+msgstr "Onemogočeno"
+
+#: ../gthumb/dlg-extensions.c:59
+msgid "Viewers"
+msgstr "Pregledovalniki"
+
+#: ../gthumb/dlg-extensions.c:61
+msgid "File tools"
+msgstr "Datotečna orodja"
+
+#: ../gthumb/dlg-extensions.c:62
+msgid "List tools"
+msgstr "Orodja seznama"
+
+#: ../gthumb/dlg-extensions.c:63
+msgid "Importers"
+msgstr "Uvozniki"
+
+#: ../gthumb/dlg-extensions.c:64
+msgid "Exporters"
+msgstr "Izvozniki"
+
+#: ../gthumb/dlg-extensions.c:140
 msgid "Restart required"
 msgstr "Zahtevan je ponoven zagon"
 
-#: ../gthumb/dlg-extensions.c:108
+#: ../gthumb/dlg-extensions.c:141
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Za uveljavitev nekaterih sprememb je treba ponovno zagnati program "
 
-#: ../gthumb/dlg-extensions.c:109
+#: ../gthumb/dlg-extensions.c:142
 msgid "_Continue"
 msgstr "_Nadaljuj"
 
-#: ../gthumb/dlg-extensions.c:110
+#: ../gthumb/dlg-extensions.c:143
 msgid "_Restart"
 msgstr "_Ponovno zaženi"
 
-#: ../gthumb/dlg-extensions.c:208
+#: ../gthumb/dlg-extensions.c:244
 msgid "Could not activate the extension"
 msgstr "Ni mogoče omogočiti razširitve"
 
-#: ../gthumb/dlg-extensions.c:214
+#: ../gthumb/dlg-extensions.c:250
 msgid "Could not deactivate the extension"
 msgstr "Ni mogoče onemogočiti razširitve"
 
-#: ../gthumb/dlg-extensions.c:236
+#: ../gthumb/dlg-extensions.c:272
 msgid "Use"
 msgstr "Uporabi"
 
-#: ../gthumb/dlg-extensions.c:252
+#: ../gthumb/dlg-extensions.c:288
 msgid "Extension"
 msgstr "Razširitev"
 
@@ -2961,12 +3002,12 @@ msgstr "Zapis datoteke"
 msgid "Extension(s)"
 msgstr "Pripone"
 
-#: ../gthumb/eggfileformatchooser.c:675
+#: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid "The program was not able to find out the file format you want to use for `%s'. Please make sure to use a known extension for that file or manually choose a file format from the list below."
 msgstr "Ni mogoče določiti zapisa datoteke, uporabljene za `%s'. Prepričajte se, da uporabljate znano končnico datoteke ali pa sami izberite zapis iz spodnjega seznama."
 
-#: ../gthumb/eggfileformatchooser.c:682
+#: ../gthumb/eggfileformatchooser.c:688
 msgid "File format not recognized"
 msgstr "Zapis datoteke ni bil prepoznan"
 
@@ -3117,17 +3158,17 @@ msgid "View next image"
 msgstr "Ogled naslednje slike"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#: ../gthumb/gth-browser.c:2919
+#: ../gthumb/gth-browser.c:2925
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:137
-#: ../gthumb/gth-browser.c:2940
+#: ../gthumb/gth-browser.c:2946
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:142
-#: ../gthumb/gth-browser.c:2961
+#: ../gthumb/gth-browser.c:2967
 msgid "Go up one level"
 msgstr "Pojdi raven višje"
 
@@ -3236,9 +3277,9 @@ msgstr "gThumb"
 
 #: ../gthumb/gth-browser.c:1042
 #: ../gthumb/gth-browser.c:1563
-#: ../gthumb/gth-browser.c:4727
-#: ../gthumb/gth-browser.c:4746
-#: ../gthumb/gth-browser.c:4771
+#: ../gthumb/gth-browser.c:4733
+#: ../gthumb/gth-browser.c:4752
+#: ../gthumb/gth-browser.c:4777
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nisem mogel naložiti položaja  \"%s\""
@@ -3269,26 +3310,26 @@ msgstr "_Ne shrani"
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:2693
+#: ../gthumb/gth-browser.c:2699
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:2920
-#: ../gthumb/gth-browser.c:2941
+#: ../gthumb/gth-browser.c:2926
+#: ../gthumb/gth-browser.c:2947
 msgid "View the list of visited locations"
 msgstr "Ogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:2962
+#: ../gthumb/gth-browser.c:2968
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:4728
+#: ../gthumb/gth-browser.c:4734
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:4772
+#: ../gthumb/gth-browser.c:4778
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -3298,7 +3339,7 @@ msgstr "Ni mogoče najti primernega modula"
 msgid "Could not open the module `%s`: %s"
 msgstr "Ni mogoče odpreti modula `%s`: %s"
 
-#: ../gthumb/gth-extensions.c:815
+#: ../gthumb/gth-extensions.c:817
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Razširitev '%s' je potrebna za delovanje razširitve '%s'"
@@ -3310,10 +3351,6 @@ msgstr "Domača mapa"
 #: ../gthumb/gth-file-source-vfs.c:87
 msgid "File System"
 msgstr "Datotečni sistem"
-
-#: ../gthumb/gth-filterbar.c:270
-msgid "All"
-msgstr "Vse"
 
 #: ../gthumb/gth-filterbar.c:406
 msgid "Close"
@@ -3657,8 +3694,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Kazalo"
 #~ msgid "Bytes"
 #~ msgstr "Bajti"
-#~ msgid "Exposure time"
-#~ msgstr "Čas osvetlitve"
 #~ msgid "Exposure mode"
 #~ msgstr "Način osvetlitve"
 #~ msgid "Flash"
@@ -3707,8 +3742,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "_Predhodni"
 #~ msgid "..."
 #~ msgstr "..."
-#~ msgid "Ca_tegories:"
-#~ msgstr "Ka_tegorije:"
 #~ msgid "Camera Model"
 #~ msgstr "Model fotoaparata"
 #~ msgid "Delete selected images from the camera"
