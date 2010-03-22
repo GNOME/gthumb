@@ -7,15 +7,14 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-15 11:42+0000\n"
-"PO-Revision-Date: 2010-03-15 19:17+0100\n"
+"POT-Creation-Date: 2010-03-22 09:56+0000\n"
+"PO-Revision-Date: 2010-03-22 20:08+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -585,16 +584,12 @@ msgid "Write files to an optical disc"
 msgstr "Escribir archivos en un disco óptico."
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
-#, fuzzy
-#| msgid "Name"
 msgid "Disc Name"
-msgstr "Nombre"
+msgstr "Nombre del disco"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
-#, fuzzy
-#| msgid "Copy current folder"
 msgid "Current _folder"
-msgstr "Copiar la carpeta actual"
+msgstr "Carpeta _actual"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
 #, fuzzy
@@ -603,24 +598,18 @@ msgid "Current folder and its s_ub-folders"
 msgstr "Crear una carpeta nueva"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
-#, fuzzy
-#| msgid "_Source:"
 msgid "Source"
-msgstr "_Origen:"
+msgstr "Origen"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
-#, fuzzy
-#| msgid "_Selected Images"
 msgid "_Selected files"
-msgstr "Imágenes _seleccionadas"
+msgstr "Archivos _seleccionados"
 
 #: ../extensions/burn_disc/gth-burn-task.c:239
 #: ../extensions/burn_disc/gth-burn-task.c:260
 #: ../extensions/burn_disc/gth-burn-task.c:393
-#, fuzzy
-#| msgid "Write To CD"
 msgid "Write to Disc"
-msgstr "Escribir en un CD"
+msgstr "Grabar al disco"
 
 #: ../extensions/catalogs/actions.c:63
 #, fuzzy
@@ -651,10 +640,8 @@ msgstr "C_rear"
 #: ../extensions/catalogs/actions.c:234
 #: ../extensions/catalogs/dlg-add-to-catalog.c:261
 #: ../extensions/search/gth-search-task.c:288
-#, fuzzy
-#| msgid "Could not create the catalog \"%s\": %s"
 msgid "Could not create the catalog"
-msgstr "No se pudo crear el catálogo «%s»: %s"
+msgstr "No se pudo crear el catálogo"
 
 #: ../extensions/catalogs/actions.c:256
 #: ../extensions/catalogs/dlg-add-to-catalog.c:283
@@ -663,10 +650,8 @@ msgstr "Introduzca el nombre de la biblioteca: "
 
 #: ../extensions/catalogs/actions.c:300
 #: ../extensions/catalogs/dlg-add-to-catalog.c:327
-#, fuzzy
-#| msgid "Could not create the library \"%s\""
 msgid "Could not create the library"
-msgstr "No se pudo crear la biblioteca «%s»"
+msgstr "No se pudo crear la biblioteca"
 
 #: ../extensions/catalogs/actions.c:336
 msgid "Could not remove the catalog"
@@ -805,10 +790,8 @@ msgid "_Name:"
 msgstr "_Nombre:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
-#, fuzzy
-#| msgid "Style Preview"
 msgid "Catalog _Preview:"
-msgstr "Vista previa del estilo"
+msgstr "_Vista previa del catálogo:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organization:"
@@ -850,10 +833,8 @@ msgid "Singles"
 msgstr "Simples"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:6
-#, fuzzy
-#| msgid "_Group into subfolders:"
 msgid "_Group files by:"
-msgstr "A_grupar en subcarpetas:"
+msgstr "Ag_rupar archivos por:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 #: ../extensions/search/data/ui/search-editor.ui.h:2
@@ -893,10 +874,9 @@ msgid "Could not load the catalog"
 msgstr "No se pudo cargar el catálogo"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:792
-#, fuzzy, c-format
-#| msgid "Copying file %d of %d"
+#, c-format
 msgid "Copying files to '%s'"
-msgstr "Copiando archivo %d de %d"
+msgstr "Copiando archivos a «%s»"
 
 #: ../extensions/catalogs/gth-organize-task.c:201
 #, c-format
@@ -922,10 +902,8 @@ msgid "Change the files date"
 msgstr "Cambiar la fecha de modificación de las imágenes"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-#, fuzzy
-#| msgid "Adjust Colors"
 msgid "A_djust by"
-msgstr "Ajustar colores"
+msgstr "Aju_star por"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:2
 msgid "Change Date"
@@ -938,16 +916,12 @@ msgid "Change the following values:"
 msgstr "La siguiente fecha"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:4
-#, fuzzy
-#| msgid "Change Date"
 msgid "Change to:"
-msgstr "Cambiar fecha"
+msgstr "Cambiar a:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:5
-#, fuzzy
-#| msgid "C_urrent date"
 msgid "Co_mment date"
-msgstr "Fecha act_ual"
+msgstr "Fecha del co_mentario"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:6
 #, fuzzy
@@ -960,16 +934,12 @@ msgid "Exif DateTimeOriginal tag"
 msgstr "Etiqueta EXIF de fecha y hora originales"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:8
-#, fuzzy
-#| msgid "file modified date"
 msgid "File _modified date"
-msgstr "fecha de modificación del archivo"
+msgstr "Fecha de _modificación del archivo"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:9
-#, fuzzy
-#| msgid "File creation date"
 msgid "File c_reation date"
-msgstr "Fecha de creación del archivo"
+msgstr "Fecha de c_reación del archivo"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:10
 msgid "The _following date:"
@@ -1109,10 +1079,8 @@ msgid "D_escription:"
 msgstr "D_escripción:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
-#, fuzzy
-#| msgid "T_ags"
 msgid "T_ags:"
-msgstr "E_tiquetas"
+msgstr "E_tiquetas:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
 msgid "_Place:"
@@ -1187,7 +1155,7 @@ msgstr "Extensión de ejemplo."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
 msgid "Byline _Title:"
-msgstr ""
+msgstr "_Título por línea:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
@@ -1423,10 +1391,8 @@ msgid "Mo_ve to Trash"
 msgstr "Mo_ver a la papelera"
 
 #: ../extensions/file_manager/callbacks.c:170
-#, fuzzy
-#| msgid "Move the selected images to the Trash"
 msgid "Move the selected files to the Trash"
-msgstr "Mover las imágenes seleccionadas a la papelera"
+msgstr "Mover los archivos seleccionados a la papelera"
 
 #: ../extensions/file_manager/callbacks.c:173
 #: ../extensions/file_manager/callbacks.c:205
@@ -1471,8 +1437,6 @@ msgid "Deleting files"
 msgstr "Borrando archivos"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-#, fuzzy
-#| msgid "_Brightness:"
 msgid "B_rightness:"
 msgstr "_Brillo:"
 
@@ -1489,8 +1453,6 @@ msgid "Cyan-_Red:"
 msgstr "Cian-_rojo:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
-#, fuzzy
-#| msgid "_Gamma:"
 msgid "G_amma:"
 msgstr "_Gamma:"
 
@@ -1515,17 +1477,13 @@ msgid "Aspect ratio"
 msgstr "Proporción de aspecto"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:2
-#, fuzzy
-#| msgid "Crop"
 msgid "C_rop"
-msgstr "Recortar"
+msgstr "Recor_tar"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:4
-#, fuzzy
-#| msgid "_Height:"
 msgid "Heigh_t:"
-msgstr "A_ltura:"
+msgstr "Al_tura:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 msgid "I_nvert aspect ratio"
@@ -1731,6 +1689,278 @@ msgstr "Guardar"
 #: ../extensions/file_tools/gth-file-tool-undo.c:62
 msgid "Undo"
 msgstr "Deshacer"
+
+#: ../extensions/flicker/callbacks.c:50
+#, fuzzy
+#| msgid "_Filter..."
+msgid "_Flickr..."
+msgstr "_Filtro…"
+
+#: ../extensions/flicker/callbacks.c:51
+#, fuzzy
+#| msgid "Upload files to Flickr"
+msgid "Upload photos to Flickr"
+msgstr "Subir archivos a Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "Edit accounts"
+msgstr "Editar cuentas"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+#, fuzzy
+#| msgid "Upload files to Flickr"
+msgid "Export to Flickr"
+msgstr "Subir archivos a Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:3
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Free space:"
+msgstr "Espacio libre:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+msgid "Hi_de from public searches"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
+msgid "Moderate content"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+msgid "Ph_otoset:"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
+#, fuzzy
+#| msgid "Import photos"
+msgid "Private photos"
+msgstr "Importar fotos"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:8
+msgid "Private photos, visible to family"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
+msgid "Private photos, visible to family and friends"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to friends"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+#, fuzzy
+#| msgid "Public"
+msgid "Public photos"
+msgstr "Público"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
+msgid "Restricted content"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+#, fuzzy
+#| msgid "Image comment"
+msgid "Safe content"
+msgstr "Comentario de la imagen"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
+#, fuzzy
+#| msgid "A_ccount:"
+msgid "_Account:"
+msgstr "C_uenta:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
+#, fuzzy
+#| msgid "_Place:"
+msgid "_Privacy:"
+msgstr "_Lugar:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+#, fuzzy
+#| msgid "_Scale:"
+msgid "_Safety:"
+msgstr "E_scala:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:17
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
+msgid "_Upload"
+msgstr "Su_bir"
+
+#: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
+msgid "A_ccount:"
+msgstr "C_uenta:"
+
+#: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "Cue_ntas:"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to Flickr. When you're finished, return to this window to complete "
+"the authorization."
+msgstr ""
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:2
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:4
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+#, fuzzy
+#| msgid "Upload files to Flickr"
+msgid "Upload to Flickr"
+msgstr "Subir archivos a Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:3
+#, fuzzy
+#| msgid "Ca_tegories..."
+msgid "_Authorize..."
+msgstr "Ca_tegorías..."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:4
+msgid "gthumb requires your authorization to upload the photos to Flickr"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+#, fuzzy
+#| msgid "Continue"
+msgid "C_ontinue"
+msgstr "Continuar"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:2
+msgid "Once you're done, click the 'Continue' button below."
+msgstr ""
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:3
+msgid ""
+"Return to this window when you have finished the authorization process on "
+"Flickr.com"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+msgid "Files successfully uploaded to the server."
+msgstr ""
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:3
+#, fuzzy
+#| msgid "Open in New Window"
+msgid "_Open in the Browser"
+msgstr "Abrir en ventana nueva"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:134
+#: ../extensions/flicker/dlg-export-to-flickr.c:375
+#: ../extensions/flicker/dlg-export-to-flickr.c:430
+#: ../extensions/flicker/dlg-export-to-flickr.c:465
+#: ../extensions/flicker/dlg-export-to-flickr.c:571
+#: ../extensions/flicker/dlg-export-to-flickr.c:616
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
+msgid "Could not connect to the server"
+msgstr "No se pudo conectar con el servidor"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:178
+#: ../extensions/flicker/dlg-export-to-flickr.c:212
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
+msgid "Could not create the album"
+msgstr "No se pudo crear el álbum"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:234
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
+msgid "Could not upload the files"
+msgstr "No se pudieron subir los archivos"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:694
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
+msgid "Choose Account"
+msgstr "Seleccionar cuenta"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:751
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
+msgid "Edit Accounts"
+msgstr "Editar cuentas"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:830
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
+msgid "No valid file selected."
+msgstr "No se seleccionó ningún un archivo válido."
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:831
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
+msgid "Could not export the files"
+msgstr "No se pudieron exportar los archivos"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+#, fuzzy
+#| msgid "To _Flickr"
+msgid "Flicker"
+msgstr "A _Flickr"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+#, fuzzy
+#| msgid "Upload files to Flickr"
+msgid "Upload images to Flickr"
+msgstr "Subir archivos a Flickr"
+
+#: ../extensions/flicker/flickr-connection.c:281
+#: ../extensions/flicker/flickr-connection.c:428
+#: ../extensions/flicker/flickr-service.c:220
+#: ../extensions/flicker/flickr-service.c:423
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: ../extensions/flicker/flickr-connection.c:307
+#: ../extensions/flicker/flickr-connection.c:454
+#: ../extensions/flicker/flickr-service.c:244
+#: ../extensions/picasaweb/google-connection.c:364
+msgid "Connecting to the server"
+msgstr "Conectando con el servidor"
+
+#: ../extensions/flicker/flickr-service.c:244
+#, fuzzy
+#| msgid "Getting folder listing..."
+msgid "Getting account information"
+msgstr "Obteniendo la lista de carpetas..."
+
+#: ../extensions/flicker/flickr-service.c:348
+#: ../extensions/picasaweb/picasa-web-service.c:238
+msgid "Getting the album list"
+msgstr "Obteniendo la lista de álbumes"
+
+#: ../extensions/flicker/flickr-service.c:451
+#: ../extensions/flicker/flickr-service.c:571
+#: ../extensions/flicker/flickr-service.c:609
+#: ../extensions/picasaweb/picasa-web-service.c:329
+#, fuzzy
+#| msgid "Create _Web Album..."
+msgid "Creating the new album"
+msgstr "Crear un álbum para la _web..."
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#: ../extensions/flicker/flickr-service.c:828
+#: ../extensions/picasaweb/picasa-web-service.c:510
+#, c-format
+msgid "Uploading '%s'"
+msgstr "Subiendo «%s»"
+
+#: ../extensions/flicker/flickr-service.c:906
+#: ../extensions/picasaweb/picasa-web-service.c:584
+#, fuzzy
+#| msgid "Could not move the files to the Trash"
+msgid "Uploading the files to the server"
+msgstr "No se pudieron mover los archivos a la papelera"
+
+#: ../extensions/flicker/flickr-service.c:1027
+#: ../extensions/picasaweb/picasa-web-service.c:706
+msgid "Getting the photo list"
+msgstr "Obteniendo la lista de fotos"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
@@ -2232,13 +2462,12 @@ msgstr "Último importado"
 msgid "Personalize..."
 msgstr "Personalizar…"
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:210
 msgid "Tools"
 msgstr "Herramientas"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:248
+#: ../extensions/list_tools/callbacks.c:257
 msgid "Batch tools for multiple files"
 msgstr "Conjunto de herramientas para múltiples archivos"
 
@@ -2505,36 +2734,17 @@ msgstr "Descargar fotos de un álbum web de Picasa"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Subir fotos a álbum web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "C_uenta:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Añadir un álbum nuevo"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Editar cuentas"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
 msgstr "Exportar a álbumes web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "Free space:"
-msgstr "Espacio libre:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 msgid "_Albums:"
 msgstr "Álbu_mes"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
-msgid "_Upload"
-msgstr "Su_bir"
 
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Import from Picasa Web Album"
@@ -2543,10 +2753,6 @@ msgstr "Importar de álbumes web de Picasa"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 msgid "_Album:"
 msgstr "Á_lbum:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "Cue_ntas:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
 msgid ""
@@ -2576,21 +2782,12 @@ msgstr "Público"
 msgid "_Visibility:"
 msgstr "_Visibilidad:"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
-msgid "Could not upload the files"
-msgstr "No se pudieron subir los archivos"
-
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:274
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:297
 #, fuzzy
 #| msgid "Could not delete the files"
 msgid "Could not get the album list"
 msgstr "No se pudieron borrar los archivos"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
-msgid "Could not connect to the server"
-msgstr "No se pudo conectar con el servidor"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
@@ -2602,31 +2799,9 @@ msgstr "Álbum web de Picasa"
 msgid "Account"
 msgstr "Cuenta"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
-msgid "Could not create the album"
-msgstr "No se pudo crear el álbum"
-
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
 msgid "New Album"
 msgstr "Álbum nuevo"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
-msgid "Choose Account"
-msgstr "Seleccionar cuenta"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
-msgid "Edit Accounts"
-msgstr "Editar cuentas"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
-msgid "No valid file selected."
-msgstr "No se seleccionó ningún un archivo válido."
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
-msgid "Could not export the files"
-msgstr "No se pudieron exportar los archivos"
 
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:753
 #, fuzzy
@@ -2641,10 +2816,6 @@ msgstr "No se pudieron borrar los archivos"
 msgid "No album selected"
 msgstr "No se especificó ningún nombre"
 
-#: ../extensions/picasaweb/google-connection.c:364
-msgid "Connecting to the server"
-msgstr "Conectando con el servidor"
-
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 msgid "Could not load the file"
 msgstr "No se pudo cargar el archivo"
@@ -2656,33 +2827,6 @@ msgstr "Álbumes web de Picasa"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Subir imágenes a álbumes web Picasa"
-
-#: ../extensions/picasaweb/picasa-web-service.c:238
-msgid "Getting the album list"
-msgstr "Obteniendo la lista de álbumes"
-
-#: ../extensions/picasaweb/picasa-web-service.c:329
-#, fuzzy
-#| msgid "Create _Web Album..."
-msgid "Creating the new album"
-msgstr "Crear un álbum para la _web..."
-
-#. send the file
-#. Translators: %s is a filename
-#: ../extensions/picasaweb/picasa-web-service.c:510
-#, c-format
-msgid "Uploading '%s'"
-msgstr "Subiendo «%s»"
-
-#: ../extensions/picasaweb/picasa-web-service.c:584
-#, fuzzy
-#| msgid "Could not move the files to the Trash"
-msgid "Uploading the files to the server"
-msgstr "No se pudieron mover los archivos a la papelera"
-
-#: ../extensions/picasaweb/picasa-web-service.c:706
-msgid "Getting the photo list"
-msgstr "Obteniendo la lista de fotos"
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
 msgid "Possible values are: none, deflate, jpeg."
@@ -3173,11 +3317,11 @@ msgstr "Todas"
 
 #: ../gthumb/dlg-extensions.c:55
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: ../gthumb/dlg-extensions.c:56
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivado"
 
 #: ../gthumb/dlg-extensions.c:59
 #, fuzzy
@@ -4674,9 +4818,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ msgid "_Bottom:"
 #~ msgstr "_Pie de página:"
 
-#~ msgid "_Scale:"
-#~ msgstr "E_scala:"
-
 #~ msgid "<b>Other Actions</b>"
 #~ msgstr "<b>Otras acciones</b>"
 
@@ -5233,9 +5374,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ "El nombre «%s» ya está siendo usado en esta carpeta. Use un nombre "
 #~ "distinto."
 
-#~ msgid "Unknown error"
-#~ msgstr "Error desconocido"
-
 #~ msgid "Could not rename the following images:"
 #~ msgstr "No se han podido renombrar las siguientes imágenes:"
 
@@ -5351,9 +5489,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ msgid "Make a zip file and email it"
 #~ msgstr "Crear un archivo zip y enviarlo por correo-e"
 
-#~ msgid "Upload files to Flickr"
-#~ msgstr "Subir archivos a Flickr"
-
 #~ msgid "Script Progress"
 #~ msgstr "Progreso del script"
 
@@ -5387,9 +5522,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 
 #~ msgid "The image will be moved to the Trash, are you sure?"
 #~ msgstr "La imagen será movida a la Papelera. ¿Está seguro?"
-
-#~ msgid "Continue"
-#~ msgstr "Continuar"
 
 #~ msgid "The selected images will be moved to the Trash, are you sure?"
 #~ msgstr ""
@@ -5731,9 +5863,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ msgid "Cannot load folder \"%s\": %s\n"
 #~ msgstr "No se puede cargar la carpeta «%s»: %s\n"
 
-#~ msgid "Image comment"
-#~ msgstr "Comentario de la imagen"
-
 #~ msgid "Image data"
 #~ msgstr "Datos de la imagen"
 
@@ -6001,9 +6130,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ msgid "The files on the camera will not be deleted"
 #~ msgstr "No se borrarán los archivos en la cámara"
 
-#~ msgid "Ca_tegories..."
-#~ msgstr "Ca_tegorías..."
-
 #~ msgid "Category"
 #~ msgstr "Categoría"
 
@@ -6038,9 +6164,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 #~ msgstr ""
 #~ "El paquete de software «Postr» debe estar instalado para poder usar esta "
 #~ "función."
-
-#~ msgid "To _Flickr"
-#~ msgstr "A _Flickr"
 
 #~ msgid "<b>Hide/Show</b>"
 #~ msgstr "<b>Mostrar/Ocultar</b>"
