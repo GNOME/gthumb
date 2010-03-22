@@ -175,6 +175,35 @@ extensions/file_tools/main.c
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
+extensions/flicker/actions.c
+extensions/flicker/actions.h
+extensions/flicker/callbacks.c
+extensions/flicker/callbacks.h
+[type: gettext/glade]extensions/flicker/data/ui/export-to-flickr.ui
+[type: gettext/glade]extensions/flicker/data/ui/flicker-account-chooser.ui
+[type: gettext/glade]extensions/flicker/data/ui/flicker-account-manager.ui
+[type: gettext/glade]extensions/flicker/data/ui/flicker-ask-authorization.ui
+[type: gettext/glade]extensions/flicker/data/ui/flicker-complete-authorization.ui
+[type: gettext/glade]extensions/flicker/data/ui/flicker-export-completed.ui
+extensions/flicker/dlg-export-to-flickr.c
+extensions/flicker/dlg-export-to-flickr.h
+[type: gettext/ini]extensions/flicker/flicker.extension.in.in
+extensions/flicker/flickr-account.c
+extensions/flicker/flickr-account-chooser-dialog.c
+extensions/flicker/flickr-account-chooser-dialog.h
+extensions/flicker/flickr-account.h
+extensions/flicker/flickr-account-manager-dialog.c
+extensions/flicker/flickr-account-manager-dialog.h
+extensions/flicker/flickr-connection.c
+extensions/flicker/flickr-connection.h
+extensions/flicker/flickr-photoset.c
+extensions/flicker/flickr-photoset.h
+extensions/flicker/flickr-service.c
+extensions/flicker/flickr-service.h
+extensions/flicker/flickr-types.h
+extensions/flicker/flickr-user.c
+extensions/flicker/flickr-user.h
+extensions/flicker/main.c
 extensions/gstreamer_tools/actions.c
 extensions/gstreamer_tools/actions.h
 extensions/gstreamer_tools/data/gthumb-gstreamer.schemas.in
@@ -248,7 +277,10 @@ extensions/jpeg_utils/jpegtran.c
 extensions/jpeg_utils/jpegtran.h
 [type: gettext/ini]extensions/jpeg_utils/jpeg_utils.extension.in.in
 extensions/jpeg_utils/main.c
-extensions/jpeg_utils/transupp.c
+extensions/jpeg_utils/transupp-62.c
+extensions/jpeg_utils/transupp-62.h
+extensions/jpeg_utils/transupp-80.c
+extensions/jpeg_utils/transupp-80.h
 extensions/jpeg_utils/transupp.h
 extensions/list_tools/actions.c
 extensions/list_tools/actions.h
