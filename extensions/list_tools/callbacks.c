@@ -203,17 +203,21 @@ scripts_changed_cb (GthScriptFile *script_file,
 static GtkWidget *
 create_tool_label_widget (void)
 {
-	GtkWidget *box;
+	GtkWidget *box1;
+	GtkWidget *box2;
 	GtkWidget *child;
 
-	box = gtk_hbox_new (FALSE, 6);
+	box2 = gtk_hbox_new (FALSE, 6);
 	child = gtk_label_new (_("Tools"));
-	gtk_box_pack_start (GTK_BOX (box), child, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
 	child = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	gtk_box_pack_start (GTK_BOX (box), child, FALSE, FALSE, 0);
-	gtk_widget_show_all (box);
+	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
 
-	return box;
+	box1 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box1), box2, TRUE, FALSE, 0);
+	gtk_widget_show_all (box1);
+
+	return box1;
 }
 
 
