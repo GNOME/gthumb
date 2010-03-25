@@ -24,7 +24,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <glib.h>
-#include <gio/gunixmounts.h>
 #include "gth-file-data.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
@@ -46,12 +45,14 @@ struct _GthFileSourceVfsPrivate
 	GHashTable           *monitors;
 	GList                *monitor_queue[GTH_MONITOR_N_EVENTS];
 	guint                 monitor_update_id;
-	GUnixMountMonitor    *mount_monitor;
+	GVolumeMonitor       *mount_monitor;
 };
 
 
 static GthFileSourceClass *parent_class = NULL;
-static guint mount_monitor_id = 0;
+static guint mount_changed_event_id = 0;
+static guint mount_added_event_id = 0;
+static guint mount_removed_event_id = 0;
 
 
 static GList *
@@ -301,8 +302,9 @@ gth_file_source_vfs_can_cut (GthFileSource *file_source)
 
 
 static void
-mount_monitor_mountpoints_changed_cb (GUnixMountMonitor *monitor,
-				      gpointer           user_data)
+mount_monitor_mountpoints_changed_cb (GVolumeMonitor *volume_monitor,
+				      GMount         *mount,
+				      gpointer        user_data)
 {
 	gth_monitor_file_entry_points_changed (gth_main_get_default_monitor ());
 }
@@ -313,14 +315,24 @@ gth_file_source_vfs_monitor_entry_points (GthFileSource *file_source)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
 
-	if (mount_monitor_id != 0)
-		return;
+	if (file_source_vfs->priv->mount_monitor == NULL)
+		file_source_vfs->priv->mount_monitor = g_volume_monitor_get ();
 
-	file_source_vfs->priv->mount_monitor = g_unix_mount_monitor_new ();
-	mount_monitor_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
-					     "mounts-changed",
-					     G_CALLBACK (mount_monitor_mountpoints_changed_cb),
-					     file_source_vfs);
+	if (mount_changed_event_id == 0)
+		mount_changed_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							   "mount-changed",
+							   G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							   file_source_vfs);
+	if (mount_added_event_id == 0)
+		mount_added_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							 "mount-added",
+							 G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							 file_source_vfs);
+	if (mount_removed_event_id == 0)
+		mount_removed_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							   "mount-removed",
+							   G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							   file_source_vfs);
 }
 
 
