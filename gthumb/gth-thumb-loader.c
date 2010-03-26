@@ -67,10 +67,6 @@ struct _GthThumbLoaderPrivateData
 			  thumb_size;
 	GnomeDesktopThumbnailFactory
 			 *thumb_factory;
-	char             *thumbnailer_tmpfile;
-	GPid              thumbnailer_pid;
-	guint             thumbnailer_watch;
-	guint             thumbnailer_timeout;
 };
 
 
@@ -95,7 +91,6 @@ gth_thumb_loader_finalize (GObject *object)
 	self = GTH_THUMB_LOADER (object);
 
 	if (self->priv != NULL) {
-		g_free (self->priv->thumbnailer_tmpfile);
 		_g_object_unref (self->priv->pixbuf);
 		_g_object_unref (self->priv->iloader);
 		_g_object_unref (self->priv->file_data);
@@ -380,137 +375,56 @@ image_loader_error (GthImageLoader *iloader,
 }
 
 
-static gboolean
-kill_thumbnailer_cb (gpointer data)
-{
-	GthThumbLoader *self = data;
-
-	g_source_remove (self->priv->thumbnailer_timeout);
-	self->priv->thumbnailer_timeout = 0;
-
-	if (self->priv->thumbnailer_pid != 0) {
-		/*g_source_remove (self->priv->thumbnailer_watch);
-		self->priv->thumbnailer_watch = 0;*/
-		kill (self->priv->thumbnailer_pid, SIGTERM);
-		/*self->priv->thumbnailer_pid = 0;*/
-	}
-
-	return FALSE;
-}
-
-
-static void
-watch_thumbnailer_cb (GPid     pid,
-                      int      status,
-                      gpointer data)
-{
-	GthThumbLoader *self = data;
-	GdkPixbuf      *pixbuf;
-	GError         *error;
-
-	if (self->priv->thumbnailer_timeout != 0) {
-		g_source_remove (self->priv->thumbnailer_timeout);
-		self->priv->thumbnailer_timeout = 0;
-	}
-
-	g_spawn_close_pid (pid);
-	self->priv->thumbnailer_pid = 0;
-	self->priv->thumbnailer_watch = 0;
-
-	if (status != 0) {
-		error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
-		image_loader_error (NULL, error, data);
-		return;
-	}
-
-	pixbuf = gnome_desktop_thumbnail_factory_load_from_tempfile (self->priv->thumb_factory,
-								     &self->priv->thumbnailer_tmpfile);
-	if (pixbuf != NULL) {
-		image_loader_loaded (NULL, pixbuf, data);
-		g_object_unref (pixbuf);
-	}
-	else {
-		error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
-		image_loader_error (NULL, error, data);
-	}
-}
-
-
 static void
 image_loader_ready_cb (GthImageLoader *iloader,
 		       GError         *error,
 		       gpointer        data)
 {
 	GthThumbLoader *self = data;
-	char           *uri;
 
-	if (error == NULL) {
+	if (error == NULL)
 		image_loader_loaded (iloader, gth_image_loader_get_pixbuf (self->priv->iloader), data);
-		return;
-	}
-
-	/* error != NULL */
-
-	if (self->priv->loading_from_cache) {
+	else if (self->priv->loading_from_cache)
+		gth_thumb_loader_load (self);
+	else
 		image_loader_error (iloader, error, data);
-		return;
-	}
-
-	/* try with the system thumbnailer as fallback */
-
-	g_clear_error (&error);
-	g_free (self->priv->thumbnailer_tmpfile);
-	self->priv->thumbnailer_tmpfile = NULL;
-	uri = g_file_get_uri (self->priv->file_data->file);
-	if (gnome_desktop_thumbnail_factory_generate_thumbnail_async (self->priv->thumb_factory,
-								      uri,
-								      gth_file_data_get_mime_type (self->priv->file_data),
-								      &self->priv->thumbnailer_pid,
-								      &self->priv->thumbnailer_tmpfile,
-								      &error))
-	{
-		self->priv->thumbnailer_watch = g_child_watch_add (self->priv->thumbnailer_pid,
-								   watch_thumbnailer_cb,
-								   self);
-		self->priv->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
-								 kill_thumbnailer_cb,
-								 self);
-	}
-	else {
-		if (error == NULL)
-			error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
-		image_loader_error (iloader, error, data);
-	}
-
-	g_free (uri);
 }
 
 
 static GdkPixbufAnimation*
-thumb_loader (GthFileData  *file,
+thumb_loader (GthFileData  *file_data,
 	      GError      **error,
 	      gpointer      data)
 {
 	GthThumbLoader     *self = data;
+	GdkPixbuf          *pixbuf = NULL;
 	GdkPixbufAnimation *animation;
 
 	animation = NULL;
 	if (! self->priv->loading_from_cache) {
-		PixbufLoader thumbnailer;
+		char *uri;
 
-		thumbnailer = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file));
-		if (thumbnailer != NULL)
-			animation = thumbnailer (file, self->priv->cache_max_size, error);
-	}
-	else {
-		GdkPixbuf *pixbuf;
+		uri = g_file_get_uri (file_data->file);
+		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (self->priv->thumb_factory,
+									     uri,
+									     gth_file_data_get_mime_type (file_data));
+		if (pixbuf == NULL) {
+			PixbufLoader thumbnailer;
 
-		pixbuf = gth_pixbuf_new_from_file (file, -1, error);
-		if (pixbuf != NULL) {
-			g_clear_error (error);
-			animation = gdk_pixbuf_non_anim_new (pixbuf);
-			g_object_unref (pixbuf);
+			thumbnailer = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file_data));
+			if (thumbnailer != NULL)
+				animation = thumbnailer (file_data, self->priv->cache_max_size, error);
 		}
+
+		g_free (uri);
+	}
+	else
+		pixbuf = gth_pixbuf_new_from_file (file_data, -1, error);
+
+	if (pixbuf != NULL) {
+		g_clear_error (error);
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		g_object_unref (pixbuf);
 	}
 
 	if (animation == NULL)
@@ -747,18 +661,6 @@ gth_thumb_loader_cancel (GthThumbLoader *self,
 			 gpointer        done_func_data)
 {
 	g_return_if_fail (self->priv->iloader != NULL);
-
-	if (self->priv->thumbnailer_timeout != 0) {
-		g_source_remove (self->priv->thumbnailer_timeout);
-		self->priv->thumbnailer_timeout = 0;
-	}
-
-	if (self->priv->thumbnailer_pid != 0) {
-		g_source_remove (self->priv->thumbnailer_watch);
-		self->priv->thumbnailer_watch = 0;
-		kill (self->priv->thumbnailer_pid, SIGTERM);
-		self->priv->thumbnailer_pid = 0;
-	}
 
 	gth_image_loader_cancel (self->priv->iloader, done_func, done_func_data);
 }
