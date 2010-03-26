@@ -29,22 +29,25 @@
 
 G_BEGIN_DECLS
 
-gboolean  exiv2_read_metadata_from_file    (GFile           *file,
-					    GFileInfo       *info,
-					    GError         **error);
-gboolean  exiv2_read_metadata_from_buffer  (void            *buffer,
-					    gsize            buffer_size,
-					    GFileInfo       *info,
-					    GError         **error);
-gboolean  exiv2_read_sidecar               (GFile           *file,
-					    GFileInfo       *info);
-gboolean  exiv2_write_metadata  	   (SavePixbufData  *data);
-gboolean  exiv2_write_metadata_to_buffer   (void           **buffer,
-					    gsize           *buffer_size,
-					    GFileInfo       *info,
-					    GdkPixbuf       *pixbuf, /* optional */
-					    GError         **error);
-gboolean  exiv2_supports_writes            (const char      *mime_type);
+gboolean   exiv2_read_metadata_from_file    (GFile           *file,
+					     GFileInfo       *info,
+					     GError         **error);
+gboolean   exiv2_read_metadata_from_buffer  (void            *buffer,
+					     gsize            buffer_size,
+					     GFileInfo       *info,
+					     GError         **error);
+gboolean   exiv2_read_sidecar               (GFile           *file,
+					     GFileInfo       *info);
+gboolean   exiv2_supports_writes            (const char      *mime_type);
+gboolean   exiv2_write_metadata  	    (SavePixbufData  *data);
+gboolean   exiv2_write_metadata_to_buffer   (void           **buffer,
+					     gsize           *buffer_size,
+					     GFileInfo       *info,
+					     GdkPixbuf       *pixbuf, /* optional */
+					     GError         **error);
+GdkPixbuf *exiv2_generate_thumbnail         (const char      *uri,
+					     const char      *mime_type,
+					     int              size);
 
 G_END_DECLS
 

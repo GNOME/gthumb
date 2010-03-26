@@ -22,6 +22,8 @@
 
 #include <config.h>
 #include <glib.h>
+#define GDK_PIXBUF_ENABLE_BACKEND
+#include <gdk-pixbuf/gdk-pixbuf-io.h>
 #include <exiv2/basicio.hpp>
 #include <exiv2/error.hpp>
 #include <exiv2/image.hpp>
@@ -824,4 +826,66 @@ exiv2_write_metadata_to_buffer (void      **buffer,
 	}
 
 	return TRUE;
+}
+
+
+GdkPixbuf *
+exiv2_generate_thumbnail (const char *uri,
+			  const char *mime_type,
+			  int         size)
+{
+	GdkPixbuf *pixbuf = NULL;
+
+	if (! _g_content_type_is_a (mime_type, "image/jpeg")
+	    && ! _g_content_type_is_a (mime_type, "image/tiff"))
+	{
+		return NULL;
+	}
+
+	try {
+		char *path;
+
+		path = g_filename_from_uri (uri, NULL, NULL);
+		if (path != NULL) {
+			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open (path);
+			image->readMetadata ();
+			Exiv2::ExifThumbC exifThumb (image->exifData ());
+			Exiv2::DataBuf thumb = exifThumb.copy ();
+
+			if (thumb.pData_ != NULL) {
+				GInputStream *stream = g_memory_input_stream_new_from_data (thumb.pData_, thumb.size_, NULL);
+				pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+
+				Exiv2::ExifData &ed = image->exifData();
+				long w = ed["Exif.Photo.PixelXDimension"].toLong();
+				if (w > 0) {
+					char *s;
+
+					s = g_strdup_printf ("%ld", w);
+					gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", s);
+					g_object_set_data (G_OBJECT (pixbuf), "gnome-original-width", GINT_TO_POINTER ((int) w));
+
+					g_free (s);
+				}
+				long h = ed["Exif.Photo.PixelYDimension"].toLong();
+				if (h > 0) {
+					char *s;
+
+					s = g_strdup_printf ("%ld", w);
+					gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", s);
+					g_object_set_data (G_OBJECT (pixbuf), "gnome-original-height", GINT_TO_POINTER ((int) h));
+
+					g_free (s);
+				}
+
+				g_object_unref (stream);
+			}
+
+			g_free (path);
+		}
+	}
+	catch (Exiv2::AnyError& e) {
+	}
+
+	return pixbuf;
 }

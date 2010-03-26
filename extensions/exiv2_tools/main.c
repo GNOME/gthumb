@@ -230,6 +230,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("save-pixbuf", 10, G_CALLBACK (exiv2_write_metadata), NULL);
 	if (gth_hook_present ("jpegtran-after"))
 		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
+	gth_hook_add_callback ("generate-thumbnail", 10, G_CALLBACK (exiv2_generate_thumbnail), NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (exiv2_sort_types); i++)
 		gth_main_register_sort_type (&exiv2_sort_types[i]);
