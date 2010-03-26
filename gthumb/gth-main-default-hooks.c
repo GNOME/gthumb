@@ -197,6 +197,16 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("read-metadata-ready", 2);
 
 	/**
+	 * Called to generate a thumbnail pixbuf for a file
+	 *
+	 * @uri (char *): the file uri
+	 * @mime_type (char *): the file mime type
+	 * @size (int): the requested thumbnail size
+	 * @return (GdkPixbuf *): the thumbnail pixbuf
+	 */
+	gth_hook_register ("generate-thumbnail", 3);
+
+	/**
 	 * Called when creating the preferences dialog to add other tabs to
 	 * the dialog.
 	 *
