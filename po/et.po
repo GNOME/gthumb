@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
 "POT-Creation-Date: 2010-03-22 09:56+0000\n"
-"PO-Revision-Date: 2010-03-26 16:15+0300\n"
+"PO-Revision-Date: 2010-03-27 17:58+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1104,14 +1104,14 @@ msgstr "_Flickr..."
 
 #| msgid "Upload photos to Picasa Web Album"
 msgid "Upload photos to Flickr"
-msgstr "Fotode üleslaadimine Flickerisse"
+msgstr "Fotode üleslaadimine Flickrisse"
 
 msgid "Edit accounts"
 msgstr "Muuda kontosid"
 
 #| msgid "E_xport To"
 msgid "Export to Flickr"
-msgstr "Eksportimine Flickerisse"
+msgstr "Eksportimine Flickrisse"
 
 msgid "Free space:"
 msgstr "Vaba ruum:"
@@ -1143,11 +1143,11 @@ msgid "Public photos"
 msgstr "Avalikud fotod"
 
 msgid "Restricted content"
-msgstr "Keelatud sisu"
+msgstr "Piiratud sisu"
 
 #| msgid "Contents"
 msgid "Safe content"
-msgstr "Ohutu sisu"
+msgstr "Turvaline sisu"
 
 #| msgid "A_ccount:"
 msgid "_Account:"
@@ -1161,7 +1161,7 @@ msgid "_Safety:"
 msgstr "_Ohutus:"
 
 msgid "_Upload"
-msgstr "_Lae üles"
+msgstr "_Laadi üles"
 
 msgid "A_ccount:"
 msgstr "_Konto:"
@@ -1170,16 +1170,16 @@ msgid "A_ccounts:"
 msgstr "_Kontod:"
 
 msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization."
-msgstr "Flickeri üleslaadimisõiguste andmiseks ja veebibrauseri avamiseks klõpsa 'Autoriseeri'. Seejärel naase siia, et lõpetada autoriseerimine."
+msgstr "Flickri üleslaadimisõiguste andmiseks ja veebibrauseri avamiseks klõpsa 'Autoriseeri'. Seejärel naase siia, et lõpetada autoriseerimine."
 
 msgid "Upload to Flickr"
-msgstr "Laadimine Flickr'isse"
+msgstr "Laadimine Flickrisse"
 
 msgid "_Authorize..."
 msgstr "_Autoriseeri..."
 
 msgid "gthumb requires your authorization to upload the photos to Flickr"
-msgstr "gthumb vajab õigusi fotode laadimiseks Flickerisse"
+msgstr "gthumb vajab õigusi fotode laadimiseks Flickrisse"
 
 #| msgid "_Continue"
 msgid "C_ontinue"
@@ -1205,7 +1205,7 @@ msgid "Could not create the album"
 msgstr "Albumi loomine nurjus"
 
 msgid "Could not upload the files"
-msgstr "Failide üleslaadimine nurjus"
+msgstr "Faile ei suudetud üles laadida"
 
 msgid "Choose Account"
 msgstr "Vali konto"
@@ -1225,7 +1225,7 @@ msgstr "Flicker"
 
 #| msgid "Upload images to Picasa Web Albums"
 msgid "Upload images to Flickr"
-msgstr "Fotode üleslaadimine Flickerisse"
+msgstr "Fotode üleslaadimine Flickrisse"
 
 msgid "Unknown error"
 msgstr "Tundmatu viga"
@@ -1238,7 +1238,7 @@ msgid "Getting account information"
 msgstr "Konto andmete hankimine"
 
 msgid "Getting the album list"
-msgstr "Albumiloendi laadimine"
+msgstr "Albumiloendi hankimine"
 
 msgid "Creating the new album"
 msgstr "Uue albumi loomine"
@@ -2237,7 +2237,7 @@ msgstr "Laiend(id)"
 
 #, c-format
 msgid "The program was not able to find out the file format you want to use for `%s'. Please make sure to use a known extension for that file or manually choose a file format from the list below."
-msgstr "Rakendus ei suutnud tuvastada kasutatavat failivormingut failile `%s'. Veendu, et failil kasutatakse tuntud laiendit või vali failivorming allolevast loendist."
+msgstr "Rakendus ei suutnud tuvastada kasutatavat failivormingut failile `%s'. Veendu, et fail kasutab tuntud laiendit või vali failivorming allolevast loendist."
 
 msgid "File format not recognized"
 msgstr "Tundmatu failivorming"
@@ -2710,3 +2710,4 @@ msgstr "- Piltide sirvija ja vaataja"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Pildi salvestamiseks \"%s\"-na ei leitud sobivat moodulit"
+
