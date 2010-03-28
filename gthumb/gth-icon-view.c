@@ -502,10 +502,8 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 
 		path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view), event->x, event->y);
 		if (path == NULL) {
-			if (event->state & GDK_SHIFT_MASK) {
-				gtk_icon_view_unselect_all (GTK_ICON_VIEW (icon_view));
+			if (event->state & GDK_SHIFT_MASK)
 				return TRUE;
-			}
 			else
 				return FALSE;
 		}
