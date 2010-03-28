@@ -71,6 +71,7 @@
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
+#define UPDATE_SELECTION_DELAY 200
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -149,6 +150,7 @@ struct _GthBrowserPrivateData {
 	guint              load_file_timeout;
 	char              *list_attributes;
 	gboolean           constructed;
+	guint              selection_changed_event;
 
 	/* fulscreen */
 
@@ -2079,6 +2081,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv = g_new0 (GthBrowserPrivateData, 1);
 	browser->priv->menu_icon_cache = gth_icon_cache_new_for_widget (GTK_WIDGET (browser), GTK_ICON_SIZE_MENU);
 	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
+	browser->priv->selection_changed_event = 0;
 
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 		browser->priv->cnxn_id[i] = 0;
@@ -2091,6 +2094,10 @@ gth_browser_finalize (GObject *object)
 	GthBrowser *browser = GTH_BROWSER (object);
 
 	if (browser->priv != NULL) {
+		if (browser->priv->selection_changed_event != 0) {
+			g_source_remove (browser->priv->selection_changed_event);
+			browser->priv->selection_changed_event = 0;
+		}
 		if (browser->priv->progress_dialog != NULL)
 			gtk_widget_destroy (browser->priv->progress_dialog);
 		_g_object_unref (browser->priv->location_source);
@@ -2844,12 +2851,14 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 }
 
 
-static void
-gth_file_view_selection_changed_cb (GtkIconView *iconview,
-				    gpointer     user_data)
+static gboolean
+update_selection_cb (gpointer user_data)
 {
 	GthBrowser *browser = user_data;
 	int         n_selected;
+
+	g_source_remove (browser->priv->selection_changed_event);
+	browser->priv->selection_changed_event = 0;
 
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
@@ -2857,7 +2866,7 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 	gth_hook_invoke ("gth-browser-selection-changed", browser);
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
-		return;
+		return FALSE;
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if (n_selected == 1) {
@@ -2875,6 +2884,23 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 	}
 	else
 		gth_browser_load_file (browser, NULL, FALSE);
+
+	return FALSE;
+}
+
+
+static void
+gth_file_view_selection_changed_cb (GtkIconView *iconview,
+				    gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+
+	if (browser->priv->selection_changed_event != 0)
+		g_source_remove (browser->priv->selection_changed_event);
+
+	browser->priv->selection_changed_event = g_timeout_add (UPDATE_SELECTION_DELAY,
+								update_selection_cb,
+								browser);
 }
 
 
