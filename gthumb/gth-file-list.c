@@ -577,6 +577,8 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
+	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL)
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_SINGLE);
 	else
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
 
@@ -620,6 +622,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	g_object_set (renderer,
 		      "size", file_list->priv->thumb_size,
 		      "yalign", 1.0,
+		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL), /* FIXME */
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
 
