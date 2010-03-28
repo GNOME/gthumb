@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-19 15:31+0000\n"
-"PO-Revision-Date: 2010-03-20 17:12+0100\n"
+"POT-Creation-Date: 2010-03-27 17:55+0000\n"
+"PO-Revision-Date: 2010-03-28 20:17+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -581,9 +581,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "Ni mogoče odstraniti datotek iz kataloga"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:450
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:459
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:487
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:452
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:461
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:489
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Neveljaven zapis datoteke"
@@ -1590,6 +1590,237 @@ msgstr "Shrani"
 msgid "Undo"
 msgstr "Razveljavi"
 
+#: ../extensions/flicker/callbacks.c:50
+msgid "_Flickr..."
+msgstr "_Flickr ..."
+
+#: ../extensions/flicker/callbacks.c:51
+msgid "Upload photos to Flickr"
+msgstr "Pošlji fotografija na Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "Edit accounts"
+msgstr "Urejanje računov"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+msgid "Export to Flickr"
+msgstr "Izvozi v Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:3
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Free space:"
+msgstr "Neporabljen prostor:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+msgid "Hi_de from public searches"
+msgstr "Sk_rij iz javnih iskanj"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
+msgid "Moderate content"
+msgstr "Srednja vebina"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+msgid "Ph_otoset:"
+msgstr "Niz _Fotografij:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
+msgid "Private photos"
+msgstr "Zasebne fotografije"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:8
+msgid "Private photos, visible to family"
+msgstr "Zasebne fotografije, vidne družini"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
+msgid "Private photos, visible to family and friends"
+msgstr "Zasebne fotografije, vidne družini in prijateljem"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to friends"
+msgstr "Zasebne fotografije, vidne prijateljem"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+msgid "Public photos"
+msgstr "Javne fotografije"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
+msgid "Restricted content"
+msgstr "Omejena vsebina"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+msgid "Safe content"
+msgstr "Varna vsebina"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
+msgid "_Account:"
+msgstr "R_ačun:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
+msgid "_Privacy:"
+msgstr "_Zasebnost:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+msgid "_Safety:"
+msgstr "_Varnost:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:17
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
+msgid "_Upload"
+msgstr "_Pošlji"
+
+#: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
+msgid "A_ccount:"
+msgstr "Ra_čun:"
+
+#: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "R_ačuni:"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization."
+msgstr "Kliknite 'Pooblasti' za odprtje spletnega brskalnika in pooblastite gthumb za pošiljanje fotografij na Flickr. Ko boste končali, se vrnite v to okno za dokončanje pooblastitve."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:2
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:4
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+msgid "Upload to Flickr"
+msgstr "Pošlji na Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:3
+msgid "_Authorize..."
+msgstr "Poo_blasti ..."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:4
+msgid "gthumb requires your authorization to upload the photos to Flickr"
+msgstr "gthumb zahteva vašo pooblastitev za pošiljanje fotografij na Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "_Nadaljuj"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:2
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "Ko ste končali, kliknite na gumb 'Nadaljuj' spodaj."
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:3
+msgid "Return to this window when you have finished the authorization process on Flickr.com"
+msgstr "Vrnite se v to okno, ko ste končali opravilo pooblastitve na Flickr.com"
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+msgid "Files successfully uploaded to the server."
+msgstr "Datoteke so bile uspešno poslane na strežnik."
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:3
+msgid "_Open in the Browser"
+msgstr "_Odpri v brskalniku"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:134
+#: ../extensions/flicker/dlg-export-to-flickr.c:375
+#: ../extensions/flicker/dlg-export-to-flickr.c:430
+#: ../extensions/flicker/dlg-export-to-flickr.c:465
+#: ../extensions/flicker/dlg-export-to-flickr.c:571
+#: ../extensions/flicker/dlg-export-to-flickr.c:616
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
+msgid "Could not connect to the server"
+msgstr "Ni se mogoče povezati s strežnikom"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:178
+#: ../extensions/flicker/dlg-export-to-flickr.c:212
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
+msgid "Could not create the album"
+msgstr "Albuma ni mogoče ustvariti"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:234
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
+msgid "Could not upload the files"
+msgstr "Datotek ni mogoče poslati"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:694
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
+msgid "Choose Account"
+msgstr "Izbor računa"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:751
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
+msgid "Edit Accounts"
+msgstr "Urejanje računov"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:830
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
+msgid "No valid file selected."
+msgstr "Nobena veljavna datoteka ni izbrana."
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:831
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
+msgid "Could not export the files"
+msgstr "Datotek ni mogoče izvoziti"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+msgid "Flicker"
+msgstr "Flicker"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+msgid "Upload images to Flickr"
+msgstr "Pošiljanje slik na Flickr"
+
+#: ../extensions/flicker/flickr-connection.c:281
+#: ../extensions/flicker/flickr-connection.c:428
+#: ../extensions/flicker/flickr-service.c:220
+#: ../extensions/flicker/flickr-service.c:423
+msgid "Unknown error"
+msgstr "Neznana napaka"
+
+#: ../extensions/flicker/flickr-connection.c:307
+#: ../extensions/flicker/flickr-connection.c:454
+#: ../extensions/flicker/flickr-service.c:244
+#: ../extensions/picasaweb/google-connection.c:364
+msgid "Connecting to the server"
+msgstr "Povezovanje s strežnikom"
+
+#: ../extensions/flicker/flickr-service.c:244
+msgid "Getting account information"
+msgstr "Pridobivanje podrobnosti računa"
+
+#: ../extensions/flicker/flickr-service.c:348
+#: ../extensions/picasaweb/picasa-web-service.c:238
+msgid "Getting the album list"
+msgstr "Pridobivanje seznama albumov"
+
+#: ../extensions/flicker/flickr-service.c:451
+#: ../extensions/flicker/flickr-service.c:571
+#: ../extensions/flicker/flickr-service.c:609
+#: ../extensions/picasaweb/picasa-web-service.c:329
+msgid "Creating the new album"
+msgstr "Ustvarjanje novega albuma"
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#: ../extensions/flicker/flickr-service.c:828
+#: ../extensions/picasaweb/picasa-web-service.c:510
+#, c-format
+msgid "Uploading '%s'"
+msgstr "Pošiljanje '%s'"
+
+#: ../extensions/flicker/flickr-service.c:906
+#: ../extensions/picasaweb/picasa-web-service.c:584
+msgid "Uploading the files to the server"
+msgstr "Pošiljanje datotek na strežnik"
+
+#: ../extensions/flicker/flickr-service.c:1027
+#: ../extensions/picasaweb/picasa-web-service.c:706
+msgid "Getting the photo list"
+msgstr "Pridobivanje seznama fotografij"
+
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
 #: ../gthumb/gth-browser.c:1748
@@ -2033,13 +2264,12 @@ msgstr "Nazadnje uvožene"
 msgid "Personalize..."
 msgstr "Poosebi ..."
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:211
 msgid "Tools"
 msgstr "Orodja"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:252
+#: ../extensions/list_tools/callbacks.c:261
 msgid "Batch tools for multiple files"
 msgstr "Paketna orodja za več datotek"
 
@@ -2292,36 +2522,17 @@ msgstr "Prejmi fotografije iz Picasa spletnega albuma"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Pošlji fotografije v Picasa spletne albume"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "Ra_čun:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Dodaj nov album"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Urejanje računov"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
 msgstr "Izvozi v Picasa spletne albume"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "Free space:"
-msgstr "Neporabljen prostor:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 msgid "_Albums:"
 msgstr "_Albumi:"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
-msgid "_Upload"
-msgstr "_Pošlji"
 
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Import from Picasa Web Album"
@@ -2330,10 +2541,6 @@ msgstr "Uvozi iz spletnega albuma Picasa"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 msgid "_Album:"
 msgstr "_Album:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "R_ačuni:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
 msgid "Type the characters you see in the picture below. Letters are not case-sensitive."
@@ -2359,19 +2566,10 @@ msgstr "Javno"
 msgid "_Visibility:"
 msgstr "_Vidnost:"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
-msgid "Could not upload the files"
-msgstr "Datotek ni mogoče poslati"
-
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:274
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:297
 msgid "Could not get the album list"
 msgstr "Ni mogoče dobiti seznama albumov"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
-msgid "Could not connect to the server"
-msgstr "Ni se mogoče povezati s strežnikom"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
@@ -2383,31 +2581,9 @@ msgstr "Spletni album Picasa"
 msgid "Account"
 msgstr "Račun"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
-msgid "Could not create the album"
-msgstr "Albuma ni mogoče ustvariti"
-
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
 msgid "New Album"
 msgstr "Nov album"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
-msgid "Choose Account"
-msgstr "Izbor računa"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
-msgid "Edit Accounts"
-msgstr "Urejanje računov"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
-msgid "No valid file selected."
-msgstr "Nobena veljavna datoteka ni izbrana."
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
-msgid "Could not export the files"
-msgstr "Datotek ni mogoče izvoziti"
 
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:753
 msgid "Could not get the photo list"
@@ -2417,10 +2593,6 @@ msgstr "Ni mogoče dobiti seznama fotografij"
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:943
 msgid "No album selected"
 msgstr "Noben album ni izbran"
-
-#: ../extensions/picasaweb/google-connection.c:364
-msgid "Connecting to the server"
-msgstr "Povezovanje s strežnikom"
 
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 msgid "Could not load the file"
@@ -2433,29 +2605,6 @@ msgstr "Picasa spletni albumi"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Pošlje slike na Picasa spletne albume"
-
-#: ../extensions/picasaweb/picasa-web-service.c:238
-msgid "Getting the album list"
-msgstr "Pridobivanje seznama albumov"
-
-#: ../extensions/picasaweb/picasa-web-service.c:329
-msgid "Creating the new album"
-msgstr "Ustvarjanje novega albuma"
-
-#. send the file
-#. Translators: %s is a filename
-#: ../extensions/picasaweb/picasa-web-service.c:510
-#, c-format
-msgid "Uploading '%s'"
-msgstr "Pošiljanje '%s'"
-
-#: ../extensions/picasaweb/picasa-web-service.c:584
-msgid "Uploading the files to the server"
-msgstr "Pošiljanje datotek na strežnik"
-
-#: ../extensions/picasaweb/picasa-web-service.c:706
-msgid "Getting the photo list"
-msgstr "Pridobivanje seznama fotografij"
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
 msgid "Possible values are: none, deflate, jpeg."
@@ -3344,11 +3493,11 @@ msgstr "Ni mogoče odpreti modula `%s`: %s"
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Razširitev '%s' je potrebna za delovanje razširitve '%s'"
 
-#: ../gthumb/gth-file-source-vfs.c:80
+#: ../gthumb/gth-file-source-vfs.c:81
 msgid "Home Folder"
 msgstr "Domača mapa"
 
-#: ../gthumb/gth-file-source-vfs.c:87
+#: ../gthumb/gth-file-source-vfs.c:88
 msgid "File System"
 msgstr "Datotečni sistem"
 
@@ -4072,8 +4221,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Tabloid"
 #~ msgid "_Bottom:"
 #~ msgstr "_Spodaj:"
-#~ msgid "_Scale:"
-#~ msgstr "_Merilo:"
 #~ msgid "Actual Size"
 #~ msgstr "Dejanska velikost"
 #~ msgid "Zoom In"
@@ -4454,8 +4601,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Izbor teme albuma"
 #~ msgid "The image will be moved to the Trash, are you sure?"
 #~ msgstr "Slika bo premaknjena v smeti, ali ste prepričani?"
-#~ msgid "Continue"
-#~ msgstr "Nadaljuj"
 #~ msgid "The selected images will be moved to the Trash, are you sure?"
 #~ msgstr "Izbrane slike bodo premaknjene v smeti, ali ste prepričani?"
 #~ msgid "Enter the new name: "
@@ -4572,8 +4717,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Kopiraj izbrano mapo"
 #~ msgid "Move selected folder"
 #~ msgstr "Premakni izbrano mapo"
-#~ msgid "Ca_tegories..."
-#~ msgstr "Ka_tegorije ..."
 #~ msgid "Assign categories to the selected folder"
 #~ msgstr "Dodeli kategorije izbrani mapi"
 #~ msgid "Open current folder with the Nautilus file manager"
@@ -4662,8 +4805,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Povlečene slike"
 #~ msgid "Cannot load folder \"%s\": %s\n"
 #~ msgstr "Mape \"%s\" ni mogoče naložiti: %s\n"
-#~ msgid "Image comment"
-#~ msgstr "Opomba slike"
 #~ msgid "Image data"
 #~ msgstr "Podatki slike"
 #~ msgid "The specified catalog does not exist."
