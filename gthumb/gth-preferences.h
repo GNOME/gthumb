@@ -34,10 +34,6 @@ G_BEGIN_DECLS
 #define PREF_GO_TO_LAST_LOCATION            "/apps/gthumb/general/go_to_last_location"
 #define PREF_USE_STARTUP_LOCATION           "/apps/gthumb/general/use_startup_location"
 #define PREF_STARTUP_LOCATION               "/apps/gthumb/general/startup_location"
-#define PREF_MAX_HISTORY_LENGTH             "/apps/gthumb/general/max_history_length"
-#define PREF_EDITORS                        "/apps/gthumb/general/editors"
-#define PREF_MIGRATE_DIRECTORIES            "/apps/gthumb/general/migrate_directories"
-#define PREF_MIGRATE_COMMENT_SYSTEM         "/apps/gthumb/general/migrate_comment_system"
 #define PREF_ACTIVE_EXTENSIONS              "/apps/gthumb/general/active_extensions"
 
 #define PREF_GENERAL_FILTER                 "/apps/gthumb/browser/general_filter"
