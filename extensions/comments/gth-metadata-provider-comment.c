@@ -63,25 +63,6 @@ gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
 
 
 static void
-set_attribute_from_string (GFileInfo  *info,
-			   const char *key,
-			   const char *raw,
-			   const char *formatted)
-{
-	GthMetadata *metadata;
-
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", key,
-				 "raw", raw,
-				 "formatted", (formatted != NULL ? formatted : raw),
-				 NULL);
-	g_file_info_set_attribute_object (info, key, G_OBJECT (metadata));
-
-	g_object_unref (metadata);
-}
-
-
-static void
 gth_metadata_provider_comment_read (GthMetadataProvider *self,
 				    GthFileData         *file_data,
 				    const char          *attributes)
@@ -99,32 +80,21 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	matcher = g_file_attribute_matcher_new (attributes);
 
 	value = gth_comment_get_note (comment);
-	if (value != NULL) {
+	if (value != NULL)
 		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
-		set_attribute_from_string (file_data->info, "general::description", value, NULL);
-	}
 
 	value = gth_comment_get_caption (comment);
-	if (value != NULL) {
+	if (value != NULL)
 		g_file_info_set_attribute_string (file_data->info, "comment::caption", value);
-		set_attribute_from_string (file_data->info, "general::title", value, NULL);
-	}
 
 	value = gth_comment_get_place (comment);
-	if (value != NULL) {
+	if (value != NULL)
 		g_file_info_set_attribute_string (file_data->info, "comment::place", value);
-		set_attribute_from_string (file_data->info, "general::location", value, NULL);
-	}
 
-	if (gth_comment_get_rating (comment) > 0) {
-		char *v;
-
+	if (gth_comment_get_rating (comment) > 0)
 		g_file_info_set_attribute_int32 (file_data->info, "comment::rating", gth_comment_get_rating (comment));
-		v = g_strdup_printf ("%d", gth_comment_get_rating (comment));
-		set_attribute_from_string (file_data->info, "general::rating", v, NULL);
-
-		g_free (v);
-	}
+	else
+		g_file_info_remove_attribute (file_data->info, "comment::rating");
 
 	categories = gth_comment_get_categories (comment);
 	if (categories->len > 0) {
@@ -132,9 +102,11 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 		value = (GObject *) gth_string_list_new_from_ptr_array (categories);
 		g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
-		g_file_info_set_attribute_object (file_data->info, "general::tags", value);
+
 		g_object_unref (value);
 	}
+	else
+		g_file_info_remove_attribute (file_data->info, "comment::categories");
 
 	comment_time = gth_comment_get_time_as_exif_format (comment);
 	if (comment_time != NULL) {
@@ -146,11 +118,14 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 		else
 			formatted = g_strdup (comment_time);
 		set_attribute_from_string (file_data->info, "comment::time", comment_time, formatted);
-		set_attribute_from_string (file_data->info, "general::datetime", comment_time, formatted);
 
 		g_free (formatted);
 		g_free (comment_time);
 	}
+	else
+		g_file_info_remove_attribute (file_data->info, "comment::time");
+
+	gth_comment_update_general_attributes (file_data);
 
 	g_file_attribute_matcher_unref (matcher);
 	g_object_unref (comment);

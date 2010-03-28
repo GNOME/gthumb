@@ -56,6 +56,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/general/store_metadata_in_files</key>
+	<applyto>/apps/gthumb/general/store_metadata_in_files</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Browser -->
 
       <schema>

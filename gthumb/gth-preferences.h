@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 #define PREF_USE_STARTUP_LOCATION           "/apps/gthumb/general/use_startup_location"
 #define PREF_STARTUP_LOCATION               "/apps/gthumb/general/startup_location"
 #define PREF_ACTIVE_EXTENSIONS              "/apps/gthumb/general/active_extensions"
-
+#define PREF_STORE_METADATA_IN_FILES        "/apps/gthumb/general/store_metadata_in_files"
 #define PREF_GENERAL_FILTER                 "/apps/gthumb/browser/general_filter"
 #define PREF_SHOW_HIDDEN_FILES              "/apps/gthumb/browser/show_hidden_files"
 #define PREF_SHOW_THUMBNAILS                "/apps/gthumb/browser/show_thumbnails"
