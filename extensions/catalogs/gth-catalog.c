@@ -705,7 +705,18 @@ get_edit_name (GFile       *file,
 		 g_string_append (display_name, _("Catalogs"));
 	}
 	else {
-		if (name != NULL)
+		if (name == NULL) {
+			char *name;
+			char *utf8_name;
+
+			name = _g_uri_remove_extension (basename);
+			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+			g_string_append (display_name, utf8_name);
+
+			g_free (utf8_name);
+			g_free (name);
+		}
+		else
 			g_string_append (display_name, name);
 	}
 
