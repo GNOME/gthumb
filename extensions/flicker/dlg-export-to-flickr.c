@@ -813,13 +813,9 @@ dlg_export_to_flickr (GthBrowser *browser,
 		    || g_content_type_equals (mime_type, "image/jpeg")
 		    || g_content_type_equals (mime_type, "image/png"))
 		{
-			GthFileData *new_file_data;
-
-			new_file_data = gth_file_data_dup (file_data);
-			new_file_data->thumb_loaded = FALSE;
-			total_size += g_file_info_get_size (new_file_data->info);
+			total_size += g_file_info_get_size (file_data->info);
 			n_total++;
-			data->file_list = g_list_prepend (data->file_list, new_file_data);
+			data->file_list = g_list_prepend (data->file_list, g_object_ref (file_data));
 		}
 	}
 	data->file_list = g_list_reverse (data->file_list);
