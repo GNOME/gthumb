@@ -653,7 +653,8 @@ static void
 auto_select_account (DialogData *data)
 {
 	gtk_widget_hide (data->dialog);
-	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	if (data->conn != NULL)
+		gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
 	if (data->accounts != NULL) {
 		if (data->email != NULL) {
