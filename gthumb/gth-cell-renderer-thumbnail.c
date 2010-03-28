@@ -323,7 +323,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   	else
   		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
 
-	if (self->priv->is_icon /*|| (state != GTK_STATE_NORMAL) FIXME */ || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
+	if (self->priv->is_icon || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		int R = 7;
 
 		if (state == GTK_STATE_NORMAL)

@@ -1161,7 +1161,7 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
 				     sort_type->cmp_func,
 				     inverse);
-	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->thumbnail_list),  /* FIXME */
+	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->thumbnail_list),
 				     sort_type->cmp_func,
 				     inverse);
 	gth_browser_update_title (browser);
@@ -1387,8 +1387,8 @@ load_data_continue (LoadData *load_data,
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
-		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter); /* FIXME */
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files); /* FIXME */
+		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
+		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		g_object_unref (filter);
 		break;
 	default:
@@ -2363,7 +2363,7 @@ filterbar_changed_cb (GthFilterbar *filterbar,
 
 	filter = _gth_browser_get_file_filter (browser);
 	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
-	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter); /* FIXME */
+	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
 	g_object_unref (filter);
 
 	_gth_browser_update_statusbar_list_info (browser);
@@ -3175,6 +3175,8 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	if (file_pos < 0)
 		return;
 
+	/* the main file list */
+
 	view = gth_browser_get_file_list_view (browser);
 	g_signal_handlers_block_by_func (view, gth_file_view_selection_changed_cb, browser);
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (view));
@@ -3204,7 +3206,7 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 		gth_file_view_scroll_to (GTH_FILE_VIEW (view), file_pos, align);
 	}
 
-	/* FIXME */
+	/* the thumbnail list in viewer mode */
 
 	view = gth_browser_get_thumbnail_list_view (browser);
 	g_signal_handlers_block_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
@@ -3460,17 +3462,17 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, TRUE);
 
-	{
-		/* FIXME */
+	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL);
+	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
+	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
+	_gth_browser_set_thumbnail_list_visibility (browser, eel_gconf_get_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, TRUE));
 
-		browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL);
-		gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
-		gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
-		gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
-		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
-
-		_gth_browser_set_thumbnail_list_visibility (browser, eel_gconf_get_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, TRUE));
-	}
+	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))),
+			  "selection_changed",
+			  G_CALLBACK (gth_thumbnail_view_selection_changed_cb),
+			  browser);
 
 	/* -- browser page -- */
 
@@ -3645,13 +3647,6 @@ _gth_browser_construct (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (browser->priv->file_list),
 			  "key_press_event",
 			  G_CALLBACK (gth_file_list_key_press_cb),
-			  browser);
-
-	/* FIXME */
-
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))),
-			  "selection_changed",
-			  G_CALLBACK (gth_thumbnail_view_selection_changed_cb),
 			  browser);
 
 	browser->priv->file_list_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup");

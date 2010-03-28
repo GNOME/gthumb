@@ -622,7 +622,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	g_object_set (renderer,
 		      "size", file_list->priv->thumb_size,
 		      "yalign", 1.0,
-		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL), /* FIXME */
+		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL),
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
 
@@ -867,11 +867,6 @@ gfl_add_files (GthFileList *file_list,
 				     g_object_ref (file_data->file),
 				     thumb_data_new ());
 
-		/* FIXME
-		if (gth_file_store_find (file_store, file_data->file, NULL))
-			continue;
-		*/
-
 		icon = g_file_info_get_icon (file_data->info);
 		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
 		metadata = _gth_file_list_get_metadata (file_list, file_data);
@@ -916,7 +911,6 @@ gfl_delete_files (GthFileList *file_list,
 		GFile       *file = scan->data;
 		GtkTreeIter  iter;
 
-		/* FIXME */
 		if (g_hash_table_lookup (file_list->priv->thumb_data, file) == NULL)
 			continue;
 
