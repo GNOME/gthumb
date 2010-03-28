@@ -123,6 +123,9 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 	GError  *error = NULL;
 	GObject *metadata;
 
+	if (! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE))
+		return;
+
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
 		return;
 
