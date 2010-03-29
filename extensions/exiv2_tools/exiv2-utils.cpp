@@ -870,6 +870,7 @@ exiv2_generate_thumbnail (const char *uri,
 						double image_ratio = (((double) image_width) / image_height);
 						double thumbnail_ratio = (((double) gdk_pixbuf_get_width (pixbuf)) / gdk_pixbuf_get_height (pixbuf));
 						double ratio_delta = (image_ratio > thumbnail_ratio) ? (image_ratio - thumbnail_ratio) : (thumbnail_ratio - image_ratio);
+
 						if (ratio_delta > MAX_RATIO_ERROR_TOLERANCE) {
 							g_object_unref (pixbuf);
 							pixbuf = NULL;
@@ -890,13 +891,9 @@ exiv2_generate_thumbnail (const char *uri,
 							/* Set the orientation option to correctly rotate the thumbnail
 							 * in gnome_desktop_thumbnail_factory_generate_thumbnail() */
 
-							for (int i = 0; _ORIENTATION_TAG_NAMES[i] != NULL; i++) {
-								const char *orientation = ed[_ORIENTATION_TAG_NAMES[i]].toString().c_str();
-								if (orientation != NULL) {
-									gdk_pixbuf_set_option (pixbuf, "orientation", orientation);
-									break;
-								}
-							}
+							const char *orientation = ed["Exif.Image.Orientation"].toString().c_str();
+							if (orientation != NULL)
+								gdk_pixbuf_set_option (pixbuf, "orientation", orientation);
 						}
 					}
 
