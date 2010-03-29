@@ -655,6 +655,8 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		height = gdk_pixbuf_get_height (pixbuf);
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
+
+		ed["Exif.Image.Orientation"] = 0;
 	}
 
 	// Update the thumbnail
