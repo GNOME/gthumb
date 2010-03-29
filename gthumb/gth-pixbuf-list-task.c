@@ -334,6 +334,7 @@ file_buffer_ready_cb (void     **buffer,
 {
 	GthPixbufListTask *self = user_data;
 	GInputStream      *istream;
+	GdkPixbuf         *pixbuf;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
@@ -341,7 +342,14 @@ file_buffer_ready_cb (void     **buffer,
 	}
 
 	istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
-	self->priv->original_pixbuf = gdk_pixbuf_new_from_stream (istream, gth_task_get_cancellable (GTH_TASK (self)), &error);
+	pixbuf = gdk_pixbuf_new_from_stream (istream, gth_task_get_cancellable (GTH_TASK (self)), &error);
+	if (pixbuf != NULL) {
+		self->priv->original_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+		g_object_unref (pixbuf);
+	}
+	else
+		self->priv->original_pixbuf = NULL;
+
 	g_object_unref (istream);
 
 	if (self->priv->original_pixbuf == NULL) {

@@ -839,9 +839,17 @@ picasa_web_thumbnail_loader (GthFileData  *file_data,
 
 			stream = g_memory_input_stream_new_from_data (buffer, size, g_free);
 			pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
-			if (pixbuf != NULL)
-				animation = gdk_pixbuf_non_anim_new (pixbuf);
+			if (pixbuf != NULL) {
+				GdkPixbuf *rotated;
 
+				rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+				g_object_unref (pixbuf);
+				pixbuf = rotated;
+
+				animation = gdk_pixbuf_non_anim_new (pixbuf);
+			}
+
+			g_object_unref (pixbuf);
 			g_object_unref (stream);
 		}
 
