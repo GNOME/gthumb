@@ -933,6 +933,176 @@ gnome_desktop_thumbnail_factory_generate_thumbnail (GnomeDesktopThumbnailFactory
   return pixbuf;
 }
 
+
+GdkPixbuf *
+gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory *factory,
+						    const char            *uri,
+						    const char            *mime_type)
+{
+  GdkPixbuf *pixbuf, *scaled, *tmp_pixbuf;
+  int width, height, size;
+  int original_width = 0;
+  int original_height = 0;
+  char dimension[12];
+  double scale;
+
+  g_return_val_if_fail (uri != NULL, NULL);
+  g_return_val_if_fail (mime_type != NULL, NULL);
+
+  /* Doesn't access any volatile fields in factory, so it's threadsafe */
+
+  size = 128;
+  if (factory->priv->size == GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE)
+    size = 256;
+
+  /* Use a registered thumbnail generator */
+  pixbuf = gth_hook_invoke_get ("generate-thumbnail", (char *) uri, mime_type, size);
+
+  /* Fall back to gdk-pixbuf */
+  if (pixbuf == NULL)
+    pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE);
+
+  if (pixbuf == NULL)
+    return NULL;
+
+  if (pixbuf != NULL)
+    {
+      original_width = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf),
+                                                           "gnome-original-width"));
+      original_height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf),
+                                                            "gnome-original-height"));
+    }
+
+  /* The pixbuf loader may attach an "orientation" option to the pixbuf,
+     if the tiff or exif jpeg file had an orientation tag. Rotate/flip
+     the pixbuf as specified by this tag, if present. */
+  tmp_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+  g_object_unref (pixbuf);
+  pixbuf = tmp_pixbuf;
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  if (width > size || height > size)
+    {
+      const gchar *orig_width, *orig_height;
+      scale = (double)size / MAX (width, height);
+
+      /* if the scale factor is small, use bilinear interpolation for better quality */
+      if ((scale >= 0.5) && (scale <= 2))
+	      scaled = _gdk_pixbuf_scale_simple_safe (pixbuf,
+						      floor (width * scale + 0.5),
+						      floor (height * scale + 0.5),
+						      GDK_INTERP_BILINEAR);
+      else
+	      scaled = gnome_desktop_thumbnail_scale_down_pixbuf (pixbuf,
+							          floor (width * scale + 0.5),
+							          floor (height * scale + 0.5));
+
+      orig_width = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Width");
+      orig_height = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Height");
+
+      if (orig_width != NULL) {
+	      gdk_pixbuf_set_option (scaled, "tEXt::Thumb::Image::Width", orig_width);
+      }
+      if (orig_height != NULL) {
+	      gdk_pixbuf_set_option (scaled, "tEXt::Thumb::Image::Height", orig_height);
+      }
+
+      g_object_unref (pixbuf);
+      pixbuf = scaled;
+    }
+
+  if (original_width > 0)
+    {
+      g_snprintf (dimension, sizeof (dimension), "%i", original_width);
+      gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", dimension);
+    }
+  if (original_height > 0)
+    {
+      g_snprintf (dimension, sizeof (dimension), "%i", original_height);
+      gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", dimension);
+    }
+
+  return pixbuf;
+}
+
+
+gboolean
+gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFactory  *factory,
+						      const char                    *uri,
+						      const char                    *mime_type,
+						      GPid                          *pid,
+						      char                         **tmpname,
+						      GError                       **error)
+{
+	gboolean   retval = FALSE;
+	int        size;
+	char      *script;
+	int        fd;
+	char      *expanded_script;
+	int        argc;
+	char     **argv;
+
+	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
+	size = 128;
+	if (factory->priv->size == GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE)
+		size = 256;
+
+	script = NULL;
+	g_mutex_lock (factory->priv->lock);
+	if (factory->priv->scripts_hash != NULL) {
+		script = g_hash_table_lookup (factory->priv->scripts_hash, mime_type);
+		if (script)
+			script = g_strdup (script);
+	}
+	g_mutex_unlock (factory->priv->lock);
+
+	if (script == NULL)
+		return FALSE;
+
+	fd = g_file_open_tmp (".gnome_desktop_thumbnail.XXXXXX", tmpname, error);
+	if (fd == -1)
+		return FALSE;
+	close (fd);
+
+	expanded_script = expand_thumbnailing_script (script, size, uri, *tmpname);
+	if (g_shell_parse_argv (expanded_script, &argc, &argv, error))
+		if (g_spawn_async (NULL, argv, NULL, G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, pid, error))
+			retval = TRUE;
+
+	g_free (expanded_script);
+	g_free (script);
+
+	return retval;
+}
+
+
+GdkPixbuf *
+gnome_desktop_thumbnail_factory_load_from_tempfile (GnomeDesktopThumbnailFactory  *factory,
+						    char                         **tmpname)
+{
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *tmp_pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_file (*tmpname, NULL);
+	g_unlink (*tmpname);
+	g_free (*tmpname);
+	*tmpname = NULL;
+
+	if (pixbuf == NULL)
+		return NULL;
+
+	tmp_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+	g_object_unref (pixbuf);
+	pixbuf = tmp_pixbuf;
+
+	return pixbuf;
+}
+
+
 static gboolean
 make_thumbnail_dirs (GnomeDesktopThumbnailFactory *factory)
 {
