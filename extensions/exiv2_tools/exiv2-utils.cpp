@@ -859,10 +859,14 @@ exiv2_generate_thumbnail (const char *uri,
 
 			if (thumb.pData_ != NULL) {
 				Exiv2::ExifData &ed = image->exifData();
+
+				const char *orientation = ed["Exif.Image.Orientation"].toString().c_str();
 				long image_width = ed["Exif.Photo.PixelXDimension"].toLong();
 				long image_height = ed["Exif.Photo.PixelYDimension"].toLong();
 
-				if ((image_width > 0) && (image_height > 0)) {
+				if (((orientation == NULL) || (strcmp (orientation, "") == 0) || (strcmp (orientation, "1") == 0))
+				    && (image_width > 0) && (image_height > 0))
+				{
 					GInputStream *stream = g_memory_input_stream_new_from_data (thumb.pData_, thumb.size_, NULL);
 					pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
 
@@ -894,7 +898,7 @@ exiv2_generate_thumbnail (const char *uri,
 							 * in gnome_desktop_thumbnail_factory_generate_thumbnail() */
 
 							const char *orientation = ed["Exif.Image.Orientation"].toString().c_str();
-							if (orientation != NULL)
+							if ((orientation != NULL) && (strcmp (orientation, "") != 0))
 								gdk_pixbuf_set_option (pixbuf, "orientation", orientation);
 						}
 					}
