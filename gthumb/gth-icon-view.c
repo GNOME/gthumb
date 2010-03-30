@@ -30,7 +30,12 @@
 #define SIZE_REQUEST 50
 
 
-static gpointer               gth_icon_view_parent_class = NULL;
+struct _GthIconViewPrivate {
+	int selection_range_start;
+};
+
+
+static gpointer               parent_class = NULL;
 static GthFileViewIface      *gth_icon_view_gth_file_view_parent_iface = NULL;
 static GthFileSelectionIface *gth_icon_view_gth_file_selection_parent_iface = NULL;
 
@@ -457,11 +462,23 @@ gtk_icon_view_add_move_binding (GtkBindingSet  *binding_set,
 
 
 static void
+gth_icon_view_finalize (GObject *object)
+{
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static void
 gth_icon_view_class_init (GthIconViewClass *klass)
 {
+	GObjectClass  *object_class;
 	GtkBindingSet *binding_set;
 
-	gth_icon_view_parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthIconViewPrivate));
+
+	object_class = (GObjectClass*) klass;
+	object_class->finalize = gth_icon_view_finalize;
 
 	binding_set = gtk_binding_set_by_class (klass);
 
@@ -472,13 +489,112 @@ gth_icon_view_class_init (GthIconViewClass *klass)
 }
 
 
+static gboolean
+icon_view_button_press_event_cb (GtkWidget      *widget,
+				 GdkEventButton *event,
+				 gpointer        user_data)
+{
+	GthIconView *icon_view = user_data;
+
+	if (event->button == 1) {
+		GtkTreePath *path;
+		int          new_selection_end;
+
+		path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view), event->x, event->y);
+		if (path == NULL) {
+			if (event->state & GDK_SHIFT_MASK)
+				return TRUE;
+			else
+				return FALSE;
+		}
+
+		new_selection_end = gtk_tree_path_get_indices (path)[0];
+		if (event->state & GDK_SHIFT_MASK) {
+			int    selection_start;
+			int    selection_end;
+			GList *list;
+			GList *scan;
+			int    i;
+
+			gtk_tree_path_free (path);
+
+			selection_start = MIN (icon_view->priv->selection_range_start, new_selection_end);
+			selection_end = MAX (new_selection_end, icon_view->priv->selection_range_start);
+
+			/* unselect items out of the new range */
+
+			list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (icon_view));
+			for (scan = list; scan; scan = scan->next) {
+				GtkTreePath *path = scan->data;
+				int          pos = gtk_tree_path_get_indices (path)[0];
+
+				if ((pos < selection_start) || (pos > selection_end)) {
+					path = gtk_tree_path_new_from_indices (pos, -1);
+					gtk_icon_view_unselect_path (GTK_ICON_VIEW (icon_view), path);
+
+					gtk_tree_path_free (path);
+				}
+			}
+
+			g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+			g_list_free (list);
+
+			/* select the images in the range */
+
+			for (i = selection_start; i <= selection_end; i++) {
+				path = gtk_tree_path_new_from_indices (i, -1);
+				gtk_icon_view_select_path (GTK_ICON_VIEW (icon_view), path);
+
+				gtk_tree_path_free (path);
+			}
+
+			return TRUE;
+		}
+		else
+			icon_view->priv->selection_range_start = new_selection_end;
+	}
+
+	return FALSE;
+}
+
+
+static void
+icon_view_selection_changed_cb (GtkIconView *widget,
+				gpointer     user_data)
+{
+	GthIconView *icon_view = user_data;
+	GList       *list;
+
+	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (icon_view));
+	if ((list != NULL) && (list->next == NULL)) {
+		GtkTreePath *path = list->data;
+		icon_view->priv->selection_range_start = gtk_tree_path_get_indices (path)[0];
+	}
+
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
+}
+
+
 static void
 gth_icon_view_init (GthIconView *icon_view)
 {
+	icon_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (icon_view, GTH_TYPE_ICON_VIEW, GthIconViewPrivate);
+	icon_view->priv->selection_range_start = 0;
+
 	gtk_icon_view_set_spacing (GTK_ICON_VIEW (icon_view), IMAGE_TEXT_SPACING);
 	gth_icon_view_real_set_spacing (GTH_FILE_VIEW (icon_view), DEFAULT_ICON_SPACING);
 	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
 	gtk_widget_set_size_request (GTK_WIDGET (icon_view), SIZE_REQUEST, SIZE_REQUEST);
+
+	g_signal_connect (icon_view,
+			  "button-press-event",
+			  G_CALLBACK (icon_view_button_press_event_cb),
+			  icon_view);
+	g_signal_connect (icon_view,
+			  "selection-changed",
+			  G_CALLBACK (icon_view_selection_changed_cb),
+			  icon_view);
 }
 
 

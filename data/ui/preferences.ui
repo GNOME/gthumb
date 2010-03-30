@@ -189,8 +189,8 @@
                                 <child>
                                   <object class="GtkFileChooserButton" id="startup_dir_filechooserbutton">
                                     <property name="visible">True</property>
-                                    <property name="action">select-folder</property>
                                     <property name="local_only">False</property>
+                                    <property name="action">select-folder</property>
                                     <property name="title" translatable="yes">Choose startup folder</property>
                                   </object>
                                   <packing>
@@ -308,6 +308,19 @@
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="embed_metadata_checkbutton">
+                                <property name="label" translatable="yes">_Store metadata inside files if possible</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_indicator">True</property>
+                              </object>
+                              <packing>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>

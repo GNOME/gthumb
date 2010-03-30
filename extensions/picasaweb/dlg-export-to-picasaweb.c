@@ -653,7 +653,8 @@ static void
 auto_select_account (DialogData *data)
 {
 	gtk_widget_hide (data->dialog);
-	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	if (data->conn != NULL)
+		gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
 	if (data->accounts != NULL) {
 		if (data->email != NULL) {
@@ -833,13 +834,9 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 		    || g_content_type_equals (mime_type, "image/jpeg")
 		    || g_content_type_equals (mime_type, "image/png"))
 		{
-			GthFileData *new_file_data;
-
-			new_file_data = gth_file_data_dup (file_data);
-			new_file_data->thumb_loaded = FALSE;
-			total_size += g_file_info_get_size (new_file_data->info);
+			total_size += g_file_info_get_size (file_data->info);
 			n_total++;
-			data->file_list = g_list_prepend (data->file_list, new_file_data);
+			data->file_list = g_list_prepend (data->file_list, g_object_ref (file_data));
 		}
 	}
 

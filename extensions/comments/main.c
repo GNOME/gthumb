@@ -88,6 +88,18 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	GthComment    *comment;
 	GthStringList *categories;
 
+	if (! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE)) {
+		/* if PREF_STORE_METADATA_IN_FILES is false, avoid to
+		 * synchronize the .comment metadata because the embedded
+		 * metadata is likely to be out-of-date.
+		 * Give priority to the .comment metadata which, if present,
+		 * is the most up-to-date. */
+
+		gth_comment_update_general_attributes (file_data);
+
+		return;
+	}
+
 	if (! eel_gconf_get_boolean (PREF_COMMENTS_SYNCHRONIZE, TRUE))
 		return;
 

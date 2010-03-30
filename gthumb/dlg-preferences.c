@@ -80,6 +80,7 @@ apply_changes (DialogData *data)
 
 	eel_gconf_set_boolean (PREF_GO_TO_LAST_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton"))));
 	eel_gconf_set_boolean (PREF_USE_STARTUP_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton"))));
+	eel_gconf_set_boolean (PREF_STORE_METADATA_IN_FILES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("embed_metadata_checkbutton"))));
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
 		char *location;
@@ -268,6 +269,8 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_to_save_checkbutton")), eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->toolbar_style_combobox), eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("embed_metadata_checkbutton")), eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE));
 
 	/* * browser */
 

@@ -99,7 +99,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 			continue;
 
 		file = g_mount_get_root (mount);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+		info = g_file_query_info (file, GFILE_BASIC_ATTRIBUTES ",access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
 		volume = g_mount_get_volume (mount);
 		if (volume != NULL) {

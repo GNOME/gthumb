@@ -65,14 +65,14 @@ void              gth_comment_set_place                  (GthComment  *comment,
 							  const char  *value);
 void              gth_comment_set_rating                 (GthComment  *comment,
 							  int          value);
-void              gth_comment_clear_categories           (GthComment  *comment);							  
+void              gth_comment_clear_categories           (GthComment  *comment);
 void              gth_comment_add_category               (GthComment  *comment,
 							  const char  *value);
-void              gth_comment_reset_time                 (GthComment  *comment); 							  
+void              gth_comment_reset_time                 (GthComment  *comment);
 void              gth_comment_set_time_from_exif_format  (GthComment  *comment,
 							  const char  *value);
 void              gth_comment_set_time_from_time_t       (GthComment  *comment,
-							  time_t       value);						  
+							  time_t       value);
 const char *      gth_comment_get_caption                (GthComment  *comment);
 const char *      gth_comment_get_note                   (GthComment  *comment);
 const char *      gth_comment_get_place                  (GthComment  *comment);
@@ -81,5 +81,6 @@ GPtrArray *       gth_comment_get_categories             (GthComment  *comment);
 GDate *           gth_comment_get_date                   (GthComment  *comment);
 GthTime *         gth_comment_get_time_of_day            (GthComment  *comment);
 char *            gth_comment_get_time_as_exif_format    (GthComment  *comment);
+void              gth_comment_update_general_attributes  (GthFileData *file_data);
 
 #endif /* GTH_COMMENT_H */

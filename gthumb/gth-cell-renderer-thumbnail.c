@@ -41,7 +41,8 @@ enum {
 	PROP_THUMBNAIL,
 	PROP_CHECKED,
 	PROP_SELECTED,
-	PROP_FILE
+	PROP_FILE,
+	PROP_FIXED_SIZE
 };
 
 
@@ -53,6 +54,7 @@ struct _GthCellRendererThumbnailPrivate
 	GthFileData *file;
 	gboolean     checked;
 	gboolean     selected;
+	gboolean     fixed_size;
 };
 
 
@@ -106,6 +108,9 @@ gth_cell_renderer_thumbnail_get_property (GObject    *object,
 	case PROP_SELECTED:
 		g_value_set_boolean (value, self->priv->selected);
 		break;
+	case PROP_FIXED_SIZE:
+		g_value_set_boolean (value, self->priv->fixed_size);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -142,6 +147,9 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 	case PROP_SELECTED:
 		self->priv->selected = g_value_get_boolean (value);
 		break;
+	case PROP_FIXED_SIZE:
+		self->priv->fixed_size = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -175,7 +183,7 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
   		image_height = 0;
   	}
 
-	if (self->priv->is_icon || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
+	if (self->priv->is_icon || self->priv->fixed_size || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
 		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
 		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + self->priv->size;
 	}
@@ -315,7 +323,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   	else
   		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
 
-	if (self->priv->is_icon || (state != GTK_STATE_NORMAL) || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
+	if (self->priv->is_icon || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		int R = 7;
 
 		if (state == GTK_STATE_NORMAL)
@@ -337,6 +345,9 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 	if (! self->priv->is_icon && ! ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		GdkRectangle frame_rect;
+
+		if (state == GTK_STATE_ACTIVE)
+			state = GTK_STATE_SELECTED;
 
 		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
 			B = 1;
@@ -489,6 +500,13 @@ gth_cell_renderer_thumbnail_class_init (GthCellRendererThumbnailClass *klass)
 					 g_param_spec_boolean ("selected",
 					 		       "Selected",
 							       "Whether the image has been selected by the user",
+							       FALSE,
+							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_FIXED_SIZE,
+					 g_param_spec_boolean ("fixed-size",
+					 		       "Fixed size",
+							       "Whether to always use the maximum size for width and height",
 							       FALSE,
 							       G_PARAM_READWRITE));
 }

@@ -161,9 +161,6 @@ gth_file_data_dup (GthFileData *self)
 	file = g_object_new (GTH_TYPE_FILE_DATA, NULL);
 	file->file = g_file_dup (self->file);
 	file->info = g_file_info_dup (self->info);
-	file->error = self->error;
-	file->thumb_created = self->thumb_created;
-	file->thumb_loaded = self->thumb_loaded;
 
 	return file;
 }

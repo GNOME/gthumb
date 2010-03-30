@@ -41,15 +41,9 @@ typedef struct _GthFileDataClass GthFileDataClass;
 typedef struct _GthFileDataPrivate GthFileDataPrivate;
 
 struct _GthFileData {
-	GObject     parent_instance;
-	GFile      *file;
-	GFileInfo  *info;
-	guint       error : 1;         /* Whether an error occurred loading
-					* this file. */
-	guint       thumb_loaded : 1;  /* Whether we have a thumb of this
-					* image. */
-	guint       thumb_created : 1; /* Whether a thumb has been
-					* created for this image. */
+	GObject    parent_instance;
+	GFile     *file;
+	GFileInfo *info;
 	GthFileDataPrivate *priv;
 };
 

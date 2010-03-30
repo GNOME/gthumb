@@ -233,3 +233,22 @@ gth_metadata_info_dup (GthMetadataInfo *info)
 
 	return new_info;
 }
+
+
+void
+set_attribute_from_string (GFileInfo  *info,
+			   const char *key,
+			   const char *raw,
+			   const char *formatted)
+{
+	GthMetadata *metadata;
+
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "id", key,
+				 "raw", raw,
+				 "formatted", (formatted != NULL ? formatted : raw),
+				 NULL);
+	g_file_info_set_attribute_object (info, key, G_OBJECT (metadata));
+
+	g_object_unref (metadata);
+}

@@ -105,6 +105,7 @@ GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_thumbnail_list_view(GthBrowser       *browser);
 GthFileSource *  gth_browser_get_location_source    (GthBrowser       *browser);
 GthFileStore *   gth_browser_get_file_store         (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_folder_tree        (GthBrowser       *browser);
