@@ -99,7 +99,6 @@ struct _GthFileListPrivateData
 	GtkAdjustment   *vadj;
 	GtkWidget       *notebook;
 	GtkWidget       *view;
-	GtkWidget       *scrolledwindow;
 	GtkWidget       *message;
 	GthIconCache    *icon_cache;
 	GthFileSource   *file_source;
@@ -555,7 +554,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* the file view */
 
-	file_list->priv->scrolledwindow = scrolled = gtk_scrolled_window_new (NULL, NULL);
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
@@ -1210,17 +1209,10 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 		      "wrap-width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
 		      NULL);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL) {
-		int spacing;
-
-		gtk_widget_style_get (GTK_WIDGET (file_list->priv->scrolledwindow),
-				      "scrollbar-spacing", &spacing,
-				      NULL);
-
-		gtk_widget_set_size_request (GTK_WIDGET (file_list),
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_THUMBNAIL)
+		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
 					     -1,
-					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + spacing);
-	}
+					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
 }
 
 
