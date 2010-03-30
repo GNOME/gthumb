@@ -656,7 +656,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
 
-		ed["Exif.Image.Orientation"] = 0;
+		ed["Exif.Image.Orientation"] = 1;
 	}
 
 	// Update the thumbnail
