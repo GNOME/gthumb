@@ -2024,6 +2024,10 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 /* --- _gth_browser_set_current_page --- */
 
 
+static void _gth_browser_make_file_visible (GthBrowser  *browser,
+					    GthFileData *file_data);
+
+
 static void
 _gth_browser_real_set_current_page (GthWindow *window,
 				    int        page)
@@ -2036,6 +2040,8 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_update_browser_ui (browser, page);
 	if (page == GTH_BROWSER_PAGE_BROWSER)
 		gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
+	else if (page == GTH_BROWSER_PAGE_VIEWER)
+		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 
@@ -4726,7 +4732,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 	_g_object_unref (browser->priv->current_file);
 	browser->priv->current_file = gth_file_data_dup (file_data);
 
-	_gth_browser_make_file_visible (browser, browser->priv->current_file);
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
 	data = load_file_data_new (browser, file_data, view);
 	files = g_list_prepend (NULL, data->file_data->file);
