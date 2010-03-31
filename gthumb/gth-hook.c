@@ -249,7 +249,7 @@ gth_hook_invoke (const char *name,
 	}
 
 	if (invoke_marshaller != NULL)
-		g_hook_list_marshal (hook->list, FALSE, invoke_marshaller, marshal_data);
+		g_hook_list_marshal (hook->list, TRUE, invoke_marshaller, marshal_data);
 
 	g_free (marshal_data);
 }
@@ -346,7 +346,7 @@ gth_hook_invoke_get (const char *name,
 	}
 
 	if (invoke_marshaller != NULL)
-		g_hook_list_marshal (hook->list, FALSE, invoke_marshaller, marshal_data);
+		g_hook_list_marshal (hook->list, TRUE, invoke_marshaller, marshal_data);
 
 	value = marshal_data[hook->n_args];
 
