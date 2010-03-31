@@ -1021,20 +1021,30 @@ _gtk_tree_path_list_free (GList *list)
 int
 _gtk_paned_get_position2 (GtkPaned *paned)
 {
-	GtkRequisition requisition;
-	int            pos;
-	int            size;
+	int             pos;
+	GtkWidget      *w;
+	GtkRequisition  requisition;
+	int             size;
 
 	if (! GTK_WIDGET_VISIBLE (paned))
 		return 0;
 
 	pos = gtk_paned_get_position (paned);
+	if (pos == 0)
+		return 0;
 
-	gtk_window_get_size (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (paned))), &(requisition.width), &(requisition.height));
+	w = gtk_widget_get_toplevel (GTK_WIDGET (paned));
+	if (! GTK_WIDGET_TOPLEVEL (w))
+		return 0;
+
+	gtk_window_get_size (GTK_WINDOW (w), &(requisition.width), &(requisition.height));
 	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
 		size = requisition.width;
 	else
 		size = requisition.height;
+
+	if (size == 0)
+		return 0;
 
 	return size - pos;
 }
@@ -1048,6 +1058,9 @@ _gtk_paned_set_position2 (GtkPaned *paned,
 	int        size;
 
 	top_level = gtk_widget_get_toplevel (GTK_WIDGET (paned));
+	if (! GTK_WIDGET_TOPLEVEL (top_level))
+		return;
+
 	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
 		size = top_level->allocation.width;
 	else
