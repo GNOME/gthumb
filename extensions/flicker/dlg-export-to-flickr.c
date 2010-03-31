@@ -130,8 +130,11 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 			else if (data->photoset->id != NULL)
 				url = g_strconcat ("http://www.flickr.com/photos/", data->user->id, "/sets/", data->photoset->id, NULL);
 
-			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error))
+			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
+				if (data->conn != NULL)
+					gth_task_dialog (GTH_TASK (data->conn), TRUE);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+			}
 			gtk_widget_destroy (data->dialog);
 
 			g_free (url);
@@ -372,6 +375,8 @@ photoset_list_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->photosets);
 	data->photosets = flickr_service_list_photosets_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -427,6 +432,8 @@ upload_status_ready_cb (GObject      *source_object,
 
 	data->user = flickr_service_get_upload_status_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -462,6 +469,8 @@ connection_token_ready_cb (GObject      *source_object,
 	GList      *link;
 
 	if (! flickr_connection_get_token_finish (FLICKR_CONNECTION (source_object), res, &error)) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -568,6 +577,8 @@ ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
 				complete_authorization (data);
 			}
 			else {
+				if (data->conn != NULL)
+					gth_task_dialog (GTH_TASK (data->conn), TRUE);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 				gtk_widget_destroy (data->dialog);
 			}
@@ -613,6 +624,8 @@ connection_frob_ready_cb (GObject      *source_object,
 	GError     *error = NULL;
 
 	if (! flickr_connection_get_frob_finish (FLICKR_CONNECTION (source_object), res, &error)) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
