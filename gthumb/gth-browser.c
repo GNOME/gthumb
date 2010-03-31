@@ -161,7 +161,12 @@ struct _GthBrowserPrivateData {
 	guint              motion_signal;
 	gdouble            last_mouse_x;
 	gdouble            last_mouse_y;
-	int                page_before_fullscreen;
+	struct {
+		int      page;
+		gboolean viewer_properties;
+		gboolean viewer_tools;
+		gboolean thumbnail_list;
+	} before_fullscreen;
 
 	/* history */
 
@@ -248,6 +253,20 @@ _gth_browser_set_action_active (GthBrowser  *browser,
 
 	action = gtk_action_group_get_action (browser->priv->actions, action_name);
 	g_object_set (action, "active", active, NULL);
+}
+
+
+static gboolean
+_gth_browser_get_action_active (GthBrowser  *browser,
+				const char  *action_name)
+{
+	GtkAction *action;
+	gboolean   active;
+
+	action = gtk_action_group_get_action (browser->priv->actions, action_name);
+	g_object_get (action, "active", &active, NULL);
+
+	return active;
 }
 
 
@@ -5104,8 +5123,15 @@ gth_browser_fullscreen (GthBrowser *browser)
 	g_list_free (browser->priv->fullscreen_controls);
 	browser->priv->fullscreen_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
+	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
+	browser->priv->before_fullscreen.viewer_properties = _gth_browser_get_action_active (browser, "Viewer_Properties");
+	browser->priv->before_fullscreen.viewer_tools = _gth_browser_get_action_active (browser, "Viewer_Tools");
+	browser->priv->before_fullscreen.thumbnail_list = _gth_browser_get_action_active (browser, "View_Thumbnail_List");
+
 	gth_browser_show_viewer_properties (browser, FALSE);
-	browser->priv->page_before_fullscreen = gth_window_get_current_page (GTH_WINDOW (browser));
+	gth_browser_show_viewer_tools (browser, FALSE);
+
+	_gth_browser_set_thumbnail_list_visibility (browser, FALSE);
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 	gtk_window_fullscreen (GTK_WINDOW (browser));
@@ -5137,8 +5163,18 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	browser->priv->fullscreen = FALSE;
 
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
-	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->page_before_fullscreen);
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
+	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->before_fullscreen.page);
+	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->before_fullscreen.thumbnail_list);
+	if (browser->priv->before_fullscreen.viewer_properties)
+		gth_browser_show_viewer_properties (browser, TRUE);
+	else if (browser->priv->before_fullscreen.viewer_tools)
+		gth_browser_show_viewer_tools (browser, TRUE);
+	else {
+		gth_browser_show_viewer_properties (browser, FALSE);
+		gth_browser_show_viewer_tools (browser, FALSE);
+	}
+
 	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
