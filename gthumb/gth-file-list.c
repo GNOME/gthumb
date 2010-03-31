@@ -946,7 +946,16 @@ gfl_update_files (GthFileList *file_list,
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
+		ThumbData   *thumb_data;
 		GtkTreeIter  iter;
+
+		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
+		if (thumb_data == NULL)
+			continue;
+
+		thumb_data->error = FALSE;
+		thumb_data->thumb_loaded = FALSE;
+		thumb_data->thumb_created = FALSE;
 
 		if (gth_file_store_find (file_store, file_data->file, &iter)) {
 			GString *metadata;
