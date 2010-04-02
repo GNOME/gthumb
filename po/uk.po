@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-11 14:15+0200\n"
+"POT-Creation-Date: 2010-04-02 16:37+0300\n"
 "PO-Revision-Date: 2010-01-31 14:42+0300\n"
 "Last-Translator: Maxim Dziumanenko <dziumanenko@gmail.com>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,8 @@ msgstr "Невідомий параметр запуску: %d"
 #: ../copy-n-paste/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "Не вдається передати URI документу у елемент 'Type=Link' у файлі desktop"
+msgstr ""
+"Не вдається передати URI документу у елемент 'Type=Link' у файлі desktop"
 
 #: ../copy-n-paste/eggdesktopfile.c:1392
 #, c-format
@@ -140,40 +141,30 @@ msgid "Possible values are: list, thumbnails."
 msgstr "Можливі значення: list(список), thumbnails(мініатюри)."
 
 #: ../data/gthumb.schemas.in.h:6
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-msgid "Possible values are: none, file_date, current_date"
-msgstr "Можливі значення: none, file_date, current_date"
-
-#: ../data/gthumb.schemas.in.h:7
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
 msgid "Possible values are: small, medium, large."
 msgstr "Можливі значення: small(маленький), medium(середній), large(великий)."
 
-#: ../data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:7
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Можливі значення: system(як у системі), text_below(текст під значками), "
 "text_beside(текст поруч), text_only(лише текст), icons_only(лише значки)."
 
-#: ../data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
 msgid "Possible values are: white, black, checked, none."
 msgstr ""
 "Можливі значення: white(білий), black(чорний), checked(клітинки), none"
 "(немає)."
 
-#: ../data/gthumb.schemas.in.h:10
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr "Можливі значення: yyyymmdd, yyyymm, yyyy"
-
-#: ../data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:9
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:6
 msgid "Whether to always use a black background."
 msgstr "Чи завжди використовувати чорне тло."
 
-#: ../data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:10
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:7
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Відновити позиції смуг прокрутки після зміни зображення"
@@ -187,6 +178,10 @@ msgid "More extensions..."
 msgstr "Більше розширень..."
 
 #: ../data/ui/extensions.ui.h:3
+msgid "_Categories:"
+msgstr "_Категорії:"
+
+#: ../data/ui/extensions.ui.h:4
 msgid "gthumb Extensions"
 msgstr "Розширення gthumb"
 
@@ -311,7 +306,8 @@ msgstr "Питати чи зберігати з_мінені файли"
 msgid "Black"
 msgstr "чорним кольором"
 
-#: ../data/ui/preferences.ui.h:7 ../gthumb/gth-browser-actions-entries.h:156
+#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:58
+#: ../gthumb/gth-browser-actions-entries.h:156
 msgid "Browser"
 msgstr "Переглядач"
 
@@ -367,7 +363,7 @@ msgstr "Перейти до _останнього відвіданого міс�
 msgid "Go to this _folder:"
 msgstr "Перейти до вказаної _теки:"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:216
 msgid "Icons only"
 msgstr "лише значки"
 
@@ -402,19 +398,19 @@ msgid "Set to C_urrent"
 msgstr "П_оточна"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:216
 msgid "System settings"
 msgstr "системні параметри"
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:216
 msgid "Text below icons"
 msgstr "текст під значками"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:216
 msgid "Text beside icons"
 msgstr "текст за значками"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:216
 msgid "Text only"
 msgstr "лише текст"
 
@@ -427,10 +423,14 @@ msgid "White"
 msgstr "білим кольором"
 
 #: ../data/ui/preferences.ui.h:33
+msgid "_Store metadata inside files if possible"
+msgstr "_Зберегти метадані у файлах, якщо можливо"
+
+#: ../data/ui/preferences.ui.h:34
 msgid "_Toolbar style:"
 msgstr "Панель _інструментів:"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:35
 msgid "gthumb Preferences"
 msgstr "Налаштовування GThumb"
 
@@ -573,9 +573,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "Не вдається видалити файли з альбому"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:450
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:459
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:487
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:452
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:461
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:489
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Неправильний формат файлів"
@@ -687,7 +687,9 @@ msgstr "Автоматично впорядковувати файли за да
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:656
-#: ../extensions/catalogs/gth-catalog.c:1019
+#: ../extensions/catalogs/gth-catalog.c:705
+#: ../extensions/catalogs/gth-catalog.c:1062
+#: ../extensions/catalogs/gth-catalog.c:1063
 msgid "Catalogs"
 msgstr "Альбоми"
 
@@ -903,7 +905,7 @@ msgid "Comments and tags"
 msgstr "Коментарі та теги"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:300
+#: ../extensions/importer/gth-import-preferences-dialog.c:304
 msgid "Preferences"
 msgstr "Параметри"
 
@@ -932,18 +934,18 @@ msgstr "Перевірку визначення завершено"
 msgid "Comment"
 msgstr "Коментар"
 
-#: ../extensions/comments/main.c:195
+#: ../extensions/comments/main.c:207
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Description"
 msgstr "Опис:"
 
-#: ../extensions/comments/main.c:203 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:215 ../gthumb/gth-main-default-metadata.c:51
 msgid "Place"
 msgstr "Місце:"
 
-#: ../extensions/comments/main.c:210
+#: ../extensions/comments/main.c:222
 msgid "Tag"
 msgstr "Тег"
 
@@ -1002,7 +1004,7 @@ msgstr "Встановити зображення як тло робочого �
 msgid "Desktop background"
 msgstr "Тло робочого столу"
 
-#: ../extensions/edit_metadata/callbacks.c:90
+#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
 msgid "Metadata"
 msgstr "Метадані"
 
@@ -1052,7 +1054,7 @@ msgid "The following date"
 msgstr "Наступна дата"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:313
+#: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "Current date"
 msgstr "Поточна дата"
 
@@ -1207,10 +1209,11 @@ msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
-"Неможливо перемістити файли у поточне місце, ви можете ви можете їх скопіювати."
+"Неможливо перемістити файли у поточне місце, ви можете ви можете їх "
+"скопіювати."
 
 #: ../extensions/file_manager/actions.c:390
-#: ../extensions/importer/gth-import-task.c:381
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Could not delete the files"
 msgstr "Не вдається вилучити файли"
 
@@ -1318,8 +1321,8 @@ msgstr "Перей_менувати"
 msgid "_Paste Into Folder"
 msgstr "Вст_авити у теку:"
 
-#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:3924
-#: ../gthumb/gth-browser.c:3962
+#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:4152
+#: ../gthumb/gth-browser.c:4190
 msgid "Could not perform the operation"
 msgstr "Не вдається виконати операцію"
 
@@ -1583,9 +1586,260 @@ msgstr "З_берегти"
 msgid "Undo"
 msgstr "Вернути"
 
+#: ../extensions/flicker/callbacks.c:50
+msgid "_Flickr..."
+msgstr "_Flickr..."
+
+#: ../extensions/flicker/callbacks.c:51
+msgid "Upload photos to Flickr"
+msgstr "Запис фото до веб-альбому Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "Edit accounts"
+msgstr "Редагувати облікові записи"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+msgid "Export to Flickr"
+msgstr "Експорт на Flickr"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:3
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Free space:"
+msgstr "Вільний простір:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+msgid "Hi_de from public searches"
+msgstr "С_ховати від публічного пошуку"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
+msgid "Moderate content"
+msgstr "Помірний зміст"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+msgid "Ph_otoset:"
+msgstr "_Фотонабір:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
+msgid "Private photos"
+msgstr "Приватні фотографії"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:8
+msgid "Private photos, visible to family"
+msgstr "Приватні фотографії, видимі лише родині"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
+msgid "Private photos, visible to family and friends"
+msgstr "Приватні фотографії, видимі сім'ї та друзям"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to friends"
+msgstr "Приватні фотографії, видимі друзям"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+msgid "Public photos"
+msgstr "Публічні фотографії"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
+msgid "Restricted content"
+msgstr "Обмежений зміст"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+msgid "Safe content"
+msgstr "Безпечний зміст"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
+msgid "_Account:"
+msgstr "_Обліковий рахунок:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
+msgid "_Privacy:"
+msgstr "_Приватність:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+msgid "_Safety:"
+msgstr "_Безпека:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:17
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
+msgid "_Upload"
+msgstr "_Відвантажити"
+
+#: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
+msgid "A_ccount:"
+msgstr "_Обліковий рахунок:"
+
+#: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "_Облікові записи:"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to Flickr. When you're finished, return to this window to complete "
+"the authorization."
+msgstr ""
+"Натисніть 'Авторизувати' для відкриття веб-оглядача та авторизації gthumb "
+"для вивантаження фотографій на Flickr. По закінченню, повернутись до цього "
+"вікна для завершення авторизації."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:2
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:4
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+msgid "Upload to Flickr"
+msgstr "Відвантажити на Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:3
+msgid "_Authorize..."
+msgstr "_Авторизувати..."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:4
+msgid "gthumb requires your authorization to upload the photos to Flickr"
+msgstr "gthumb вимагає авторизації для відвантаження фотографій на Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "Пр_одовжити"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:2
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "По закінченню, натисніть на кнопку 'Продовжити'."
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:3
+msgid ""
+"Return to this window when you have finished the authorization process on "
+"Flickr.com"
+msgstr ""
+"Повернутись до цього вікна після закінчення процесу авторизації на Flickr.com"
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+msgid "Files successfully uploaded to the server."
+msgstr "Файли успішно відвантажено на сервер."
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:3
+msgid "_Open in the Browser"
+msgstr "_Відкрити у веб-оглядачі"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:136
+#: ../extensions/flicker/dlg-export-to-flickr.c:380
+#: ../extensions/flicker/dlg-export-to-flickr.c:437
+#: ../extensions/flicker/dlg-export-to-flickr.c:474
+#: ../extensions/flicker/dlg-export-to-flickr.c:582
+#: ../extensions/flicker/dlg-export-to-flickr.c:629
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:334
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
+msgid "Could not connect to the server"
+msgstr "Не вдається з'єднатися з сервером"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:181
+#: ../extensions/flicker/dlg-export-to-flickr.c:215
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:590
+msgid "Could not create the album"
+msgstr "Не вдається створити альбом"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:237
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
+msgid "Could not upload the files"
+msgstr "Не вдається записати файли"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:707
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:683
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
+msgid "Choose Account"
+msgstr "Виберіть обліковий рахунок"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:764
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:740
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
+msgid "Edit Accounts"
+msgstr "Редагувати рахунки"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:839
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:855
+msgid "No valid file selected."
+msgstr "Не вибрано коректного файлу."
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:840
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:856
+msgid "Could not export the files"
+msgstr "Не вдається експортувати файли"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:847
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:862
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:729
+#: ../gthumb/gth-browser.c:879 ../gthumb/gth-browser.c:880
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d файл (%s)"
+msgstr[1] "%d файли (%s)"
+msgstr[2] "%d файлів (%s)"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+msgid "Flicker"
+msgstr "Flicker"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+msgid "Upload images to Flickr"
+msgstr "Запис зображень до Flickr"
+
+#: ../extensions/flicker/flickr-connection.c:281
+#: ../extensions/flicker/flickr-connection.c:428
+#: ../extensions/flicker/flickr-service.c:220
+#: ../extensions/flicker/flickr-service.c:423
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: ../extensions/flicker/flickr-connection.c:307
+#: ../extensions/flicker/flickr-connection.c:454
+#: ../extensions/flicker/flickr-service.c:244
+#: ../extensions/picasaweb/google-connection.c:364
+msgid "Connecting to the server"
+msgstr "З'єднання з сервером'"
+
+#: ../extensions/flicker/flickr-service.c:244
+msgid "Getting account information"
+msgstr "Отримання інформації про обліковий рахунок"
+
+#: ../extensions/flicker/flickr-service.c:348
+#: ../extensions/picasaweb/picasa-web-service.c:238
+msgid "Getting the album list"
+msgstr "Отримання покажчика альбому"
+
+#: ../extensions/flicker/flickr-service.c:451
+#: ../extensions/flicker/flickr-service.c:571
+#: ../extensions/flicker/flickr-service.c:609
+#: ../extensions/picasaweb/picasa-web-service.c:329
+msgid "Creating the new album"
+msgstr "Створити новий альбом"
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#: ../extensions/flicker/flickr-service.c:828
+#: ../extensions/picasaweb/picasa-web-service.c:510
+#, c-format
+msgid "Uploading '%s'"
+msgstr "Запис '%s'"
+
+#: ../extensions/flicker/flickr-service.c:906
+#: ../extensions/picasaweb/picasa-web-service.c:584
+msgid "Uploading the files to the server"
+msgstr "Запис файлів на сервер"
+
+#: ../extensions/flicker/flickr-service.c:1027
+#: ../extensions/picasaweb/picasa-web-service.c:706
+msgid "Getting the photo list"
+msgstr "Отримання списку фотографій"
+
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1748
+#: ../gthumb/gth-browser.c:1778
 msgid "Could not save the file"
 msgstr "Не вдається зьберегти файл"
 
@@ -1780,18 +2034,18 @@ msgstr "дюйми"
 msgid "millimeters"
 msgstr "міліметри"
 
-#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/image_print/gth-image-print-job.c:815
 #, c-format
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1489
-#: ../extensions/image_print/gth-image-print-job.c:1569
-#: ../extensions/image_print/gth-image-print-job.c:1590
+#: ../extensions/image_print/gth-image-print-job.c:1490
+#: ../extensions/image_print/gth-image-print-job.c:1570
+#: ../extensions/image_print/gth-image-print-job.c:1591
 msgid "Could not print"
 msgstr "Не вдається надрукувати"
 
-#: ../extensions/image_print/gth-image-print-job.c:1525
+#: ../extensions/image_print/gth-image-print-job.c:1526
 msgid "Layout"
 msgstr "Розташування"
 
@@ -1870,8 +2124,9 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Можливі значення: actual_size(не масштабувати), fit-size(масштабувати), keep_prev"
-"(попередній масштаб), fit-size-if-larger(зменшувати великі), fit-width-if-larger"
+"Можливі значення: actual_size(не масштабувати), fit-size(масштабувати), "
+"keep_prev(попередній масштаб), fit-size-if-larger(зменшувати великі), fit-"
+"width-if-larger"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "After loading an image:"
@@ -1961,6 +2216,14 @@ msgstr "Підігнати ширину"
 msgid "Viewer"
 msgstr "Перегляд"
 
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
+msgid "Possible values are: none, file_date, current_date"
+msgstr "Можливі значення: none, file_date, current_date"
+
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
+msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+msgstr "Можливі значення: yyyymmdd, yyyymm, yyyy"
+
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 msgid "Files"
 msgstr "Файли"
@@ -1985,52 +2248,52 @@ msgstr "_Обертати зображення фізично"
 msgid "as _single subfolder"
 msgstr " як _одну підтеку"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:201
+#: ../extensions/importer/gth-import-preferences-dialog.c:205
 #, c-format
 msgid "example: %s"
 msgstr "приклад: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:312
+#: ../extensions/importer/gth-import-preferences-dialog.c:316
 msgid "File date"
 msgstr "Дата файлу"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:322
+#: ../extensions/importer/gth-import-preferences-dialog.c:326
 msgid "year-month-day"
 msgstr "day-month-year"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:323
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "year-month"
 msgstr "month-year"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:324
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "year"
 msgstr "year"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:325
+#: ../extensions/importer/gth-import-preferences-dialog.c:329
 msgid "custom format"
 msgstr "інший формат"
 
-#: ../extensions/importer/gth-import-task.c:323
-#: ../extensions/importer/gth-import-task.c:402
+#: ../extensions/importer/gth-import-task.c:325
+#: ../extensions/importer/gth-import-task.c:404
 msgid "Importing files"
 msgstr "Імпорт файлів"
 
-#: ../extensions/importer/gth-import-task.c:360
+#: ../extensions/importer/gth-import-task.c:362
 msgid "No file imported"
 msgstr "Немає файлу для імпорту"
 
-#: ../extensions/importer/gth-import-task.c:361
+#: ../extensions/importer/gth-import-task.c:363
 msgid "The selected files are already present in the destination."
 msgstr "Обрані файли вже присутні у цільовій теці."
 
-#: ../extensions/importer/gth-import-task.c:382
+#: ../extensions/importer/gth-import-task.c:384
 msgid "Delete operation not supported."
 msgstr "Операція видалення не підтримується."
 
-#: ../extensions/importer/gth-import-task.c:447
+#: ../extensions/importer/gth-import-task.c:450
 msgid "Last imported"
 msgstr "Останній імпорт"
 
@@ -2038,13 +2301,12 @@ msgstr "Останній імпорт"
 msgid "Personalize..."
 msgstr "Персоналізувати..."
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:211
 msgid "Tools"
 msgstr "Сервіс"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:252
+#: ../extensions/list_tools/callbacks.c:261
 msgid "Batch tools for multiple files"
 msgstr "Засоби пакетної обробки файлів"
 
@@ -2268,7 +2530,7 @@ msgid "Could not load the folder"
 msgstr "Не вдається завантажити теку"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1661
+#: ../gthumb/gth-browser.c:1691
 msgid "Getting folder listing..."
 msgstr "Читання теки..."
 
@@ -2297,36 +2559,17 @@ msgstr "Завантажити фото з веб-альбому Picasa"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Запис фото до веб-альбому Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "_Обліковий рахунок:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Додати новий альбом"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Редагувати облікові записи"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
 msgstr "Експорт до веб-альбому Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "Free space:"
-msgstr "Вільний простір:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 msgid "_Albums:"
 msgstr "_Альбоми:"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
-msgid "_Upload"
-msgstr "_Відвантажити"
 
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Import from Picasa Web Album"
@@ -2336,16 +2579,11 @@ msgstr "Імпорт з веб-альбому Picasa"
 msgid "_Album:"
 msgstr "_Альбом:"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "_Облікові записи:"
-
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
 msgid ""
 "Type the characters you see in the picture below. Letters are not case-"
 "sensitive."
-msgstr ""
-"Введіть символи, які ви бачите. Регістр літер не має значення."
+msgstr "Введіть символи, які ви бачите. Регістр літер не має значення."
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
 msgid "_E-Mail:"
@@ -2367,78 +2605,33 @@ msgstr "Публічне"
 msgid "_Visibility:"
 msgstr "_Видимість"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
-msgid "Could not upload the files"
-msgstr "Не вдається записати файли"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:274
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:276
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:297
 msgid "Could not get the album list"
 msgstr "Не вдається отримати список альбому"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
-msgid "Could not connect to the server"
-msgstr "Не вдається з'єднатися з сервером"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:347
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
 msgid "Picasa Web Album"
 msgstr "Веб-альбом Picasa"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:413
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:417
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:437
 msgid "Account"
 msgstr "Обліковий рахунок"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
-msgid "Could not create the album"
-msgstr "Не вдається створити альбом"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:651
 msgid "New Album"
 msgstr "Новий альбом"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:674
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
-msgid "Choose Account"
-msgstr "Виберіть обліковий рахунок"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:731
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
-msgid "Edit Accounts"
-msgstr "Редагувати рахунки"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:847
-msgid "No valid file selected."
-msgstr "Не вибрано коректного файлу."
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:848
-msgid "Could not export the files"
-msgstr "Не вдається експортувати файли"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:854
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:729
-#: ../gthumb/gth-browser.c:854 ../gthumb/gth-browser.c:855
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d файл (%s)"
-msgstr[1] "%d файли (%s)"
-msgstr[2] "%d файлів (%s)"
 
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:753
 msgid "Could not get the photo list"
 msgstr "Не вдається отримати список фотографій"
 
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:786
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:943
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:951
 msgid "No album selected"
 msgstr "Альбом не знайдено"
-
-#: ../extensions/picasaweb/google-connection.c:364
-msgid "Connecting to the server"
-msgstr "З'єднання з сервером'"
 
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 msgid "Could not load the file"
@@ -2451,29 +2644,6 @@ msgstr "Веб-альбом Picasa"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Запис зображень до веб-альбому Picasa"
-
-#: ../extensions/picasaweb/picasa-web-service.c:238
-msgid "Getting the album list"
-msgstr "Отримання покажчика альбому"
-
-#: ../extensions/picasaweb/picasa-web-service.c:329
-msgid "Creating the new album"
-msgstr "Створити новий альбом"
-
-#. send the file
-#. Translators: %s is a filename
-#: ../extensions/picasaweb/picasa-web-service.c:510
-#, c-format
-msgid "Uploading '%s'"
-msgstr "Запис '%s'"
-
-#: ../extensions/picasaweb/picasa-web-service.c:584
-msgid "Uploading the files to the server"
-msgstr "Запис файлів на сервер"
-
-#: ../extensions/picasaweb/picasa-web-service.c:706
-msgid "Getting the photo list"
-msgstr "Отримання списку фотографій"
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
 msgid "Possible values are: none, deflate, jpeg."
@@ -2913,35 +3083,67 @@ msgstr "Куб знизу"
 msgid "View images as a slideshow."
 msgstr "Показати зображення як слайд-шоу"
 
-#: ../gthumb/dlg-extensions.c:107
+#: ../gthumb/dlg-extensions.c:54 ../gthumb/gth-filterbar.c:270
+msgid "All"
+msgstr "Всі"
+
+#: ../gthumb/dlg-extensions.c:55
+msgid "Enabled"
+msgstr "Увімкнено"
+
+#: ../gthumb/dlg-extensions.c:56
+msgid "Disabled"
+msgstr "Вимкнено"
+
+#: ../gthumb/dlg-extensions.c:59
+msgid "Viewers"
+msgstr "Переглядачі"
+
+#: ../gthumb/dlg-extensions.c:61
+msgid "File tools"
+msgstr "Інструменти роботи з файлами"
+
+#: ../gthumb/dlg-extensions.c:62
+msgid "List tools"
+msgstr "Інструменти роботи зі списками"
+
+#: ../gthumb/dlg-extensions.c:63
+msgid "Importers"
+msgstr "Імпортери"
+
+#: ../gthumb/dlg-extensions.c:64
+msgid "Exporters"
+msgstr "Експортери"
+
+#: ../gthumb/dlg-extensions.c:140
 msgid "Restart required"
 msgstr "Потрібен перезапуск"
 
-#: ../gthumb/dlg-extensions.c:108
+#: ../gthumb/dlg-extensions.c:141
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Треба перезавантажити gthumb щоб зміни набрали сили"
 
-#: ../gthumb/dlg-extensions.c:109
+#: ../gthumb/dlg-extensions.c:142
 msgid "_Continue"
 msgstr "Пр_одовжити"
 
-#: ../gthumb/dlg-extensions.c:110
+#: ../gthumb/dlg-extensions.c:143
 msgid "_Restart"
 msgstr "_Перезапустити"
 
-#: ../gthumb/dlg-extensions.c:208
+#: ../gthumb/dlg-extensions.c:244
 msgid "Could not activate the extension"
 msgstr "Не вдається активувати розширення"
 
-#: ../gthumb/dlg-extensions.c:214
+#: ../gthumb/dlg-extensions.c:250
 msgid "Could not deactivate the extension"
 msgstr "Не вдається деактивувати розширення"
 
-#: ../gthumb/dlg-extensions.c:236
+#: ../gthumb/dlg-extensions.c:272
 msgid "Use"
 msgstr "Використання"
 
-#: ../gthumb/dlg-extensions.c:252
+#: ../gthumb/dlg-extensions.c:288
 msgid "Extension"
 msgstr "Розширення"
 
@@ -2986,17 +3188,17 @@ msgstr "Формат файлу"
 msgid "Extension(s)"
 msgstr "Розширення"
 
-#: ../gthumb/eggfileformatchooser.c:675
+#: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
 "The program was not able to find out the file format you want to use for `%"
 "s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"Програма не може визначити формат  `%"
-"s'. Перевірте розширення файлу або вручну виберіть формат файлу зі списку."
+"Програма не може визначити формат  `%s'. Перевірте розширення файлу або "
+"вручну виберіть формат файлу зі списку."
 
-#: ../gthumb/eggfileformatchooser.c:682
+#: ../gthumb/eggfileformatchooser.c:688
 msgid "File format not recognized"
 msgstr "Невідомий формат файлу"
 
@@ -3052,11 +3254,11 @@ msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:387
+#: ../gthumb/gth-browser-actions-callbacks.c:395
 msgid "An image viewer and browser for GNOME."
 msgstr "Переглядач зображень та фотоальбомів для GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:390
+#: ../gthumb/gth-browser-actions-callbacks.c:398
 msgid "translator_credits"
 msgstr ""
 "Юрій Сирота <yuriy@beer.com>\n"
@@ -3147,19 +3349,19 @@ msgstr "Наступне"
 msgid "View next image"
 msgstr "Наступне зображення"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:2925
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3022
 msgid "Go to the previous visited location"
 msgstr "Перейти до попереднього відвіданого місця"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:2946
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3043
 msgid "Go to the next visited location"
 msgstr "Перейти до наступного відвіданого місця"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:2967
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3064
 msgid "Go up one level"
 msgstr "Піднятися рівнем вище"
 
-#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:618
+#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:643
 msgid "_Delete History"
 msgstr "О_чистити історію"
 
@@ -3220,94 +3422,102 @@ msgid "View or hide the sidebar of this window"
 msgstr "Показати чи сховати бічну панель"
 
 #: ../gthumb/gth-browser-actions-entries.h:200
+msgid "_Thumbnail Pane"
+msgstr "Панель _ескізів"
+
+#: ../gthumb/gth-browser-actions-entries.h:201
+msgid "View or hide the thumbnail pane in viewer mode"
+msgstr "Показати чи сховати панель ескізів у режимі перегляду"
+
+#: ../gthumb/gth-browser-actions-entries.h:205
 msgid "_Thumbnails"
 msgstr "_Ескізи"
 
-#: ../gthumb/gth-browser-actions-entries.h:201
+#: ../gthumb/gth-browser-actions-entries.h:206
 msgid "View thumbnails"
 msgstr "Увімкнути чи вимкнути показ ескізів"
 
-#: ../gthumb/gth-browser-actions-entries.h:205
+#: ../gthumb/gth-browser-actions-entries.h:210
 msgid "Show _Hidden Files"
 msgstr "По_казувати приховані файли"
 
-#: ../gthumb/gth-browser-actions-entries.h:206
+#: ../gthumb/gth-browser-actions-entries.h:211
 msgid "Show hidden files and folders"
 msgstr "Показувати приховані файли та теки"
 
-#: ../gthumb/gth-browser-actions-entries.h:211
+#: ../gthumb/gth-browser-actions-entries.h:216
 msgid "View file properties"
 msgstr "Перегляд властивостей"
 
-#: ../gthumb/gth-browser-actions-entries.h:215
+#: ../gthumb/gth-browser-actions-entries.h:220
 msgid "Edit"
 msgstr "Редагувати"
 
-#: ../gthumb/gth-browser-actions-entries.h:216
+#: ../gthumb/gth-browser-actions-entries.h:221
 msgid "Edit file"
 msgstr "Редагувати файл"
 
-#: ../gthumb/gth-browser.c:325
+#: ../gthumb/gth-browser.c:349
 #, c-format
 msgid "Open %s"
 msgstr "Відкрити %s"
 
-#: ../gthumb/gth-browser.c:464
+#: ../gthumb/gth-browser.c:488
 msgid "[modified]"
 msgstr "[змінено]"
 
-#: ../gthumb/gth-browser.c:468 ../gthumb/gth-main.c:257
+#: ../gthumb/gth-browser.c:492 ../gthumb/gth-main.c:257
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1042 ../gthumb/gth-browser.c:1563
-#: ../gthumb/gth-browser.c:4733 ../gthumb/gth-browser.c:4752
-#: ../gthumb/gth-browser.c:4777
+#: ../gthumb/gth-browser.c:1067 ../gthumb/gth-browser.c:1593
+#: ../gthumb/gth-browser.c:4916 ../gthumb/gth-browser.c:4935
+#: ../gthumb/gth-browser.c:4960
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Не вдається завантажити \"%s\""
 
-#: ../gthumb/gth-browser.c:1645 ../gthumb/gth-browser.c:1672
+#: ../gthumb/gth-browser.c:1675 ../gthumb/gth-browser.c:1702
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Не знайдено відповідного модуля для %s"
 
-#: ../gthumb/gth-browser.c:1790
+#: ../gthumb/gth-browser.c:1820
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Зберегти зміни у файлі '%s'?"
 
-#: ../gthumb/gth-browser.c:1795
+#: ../gthumb/gth-browser.c:1825
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Якщо ви не збережете зиміни, зміни до файлу будуть остаточно втрачено"
 
-#: ../gthumb/gth-browser.c:1796
+#: ../gthumb/gth-browser.c:1826
 msgid "Do _Not Save"
 msgstr "_Не зберігати"
 
-#: ../gthumb/gth-browser.c:2301 ../gthumb/gth-browser.c:2325
+#: ../gthumb/gth-browser.c:2344 ../gthumb/gth-browser.c:2368
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Не вдається змінити назву"
 
-#: ../gthumb/gth-browser.c:2699 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2749 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Дата зміни"
 
-#: ../gthumb/gth-browser.c:2926 ../gthumb/gth-browser.c:2947
+#: ../gthumb/gth-browser.c:3023 ../gthumb/gth-browser.c:3044
 msgid "View the list of visited locations"
 msgstr "Переглянути список відвіданих адрес"
 
-#: ../gthumb/gth-browser.c:2968
+#: ../gthumb/gth-browser.c:3065
 msgid "View the list of upper locations"
 msgstr "Переглянути список верхніх адрес"
 
-#: ../gthumb/gth-browser.c:4734
+#: ../gthumb/gth-browser.c:4917
 #, c-format
 msgid "File type not supported"
 msgstr "Тип файлів не підтримується"
 
-#: ../gthumb/gth-browser.c:4778
+#: ../gthumb/gth-browser.c:4961
 #, c-format
 msgid "No suitable module found"
 msgstr "Не було знайдено придатного модуля"
@@ -3317,22 +3527,18 @@ msgstr "Не було знайдено придатного модуля"
 msgid "Could not open the module `%s`: %s"
 msgstr "Не вдається відкрити модуль `%s`: %s"
 
-#: ../gthumb/gth-extensions.c:815
+#: ../gthumb/gth-extensions.c:817
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Розширення '%s' є обов'язковим для розширення '%s'"
 
-#: ../gthumb/gth-file-source-vfs.c:80
+#: ../gthumb/gth-file-source-vfs.c:81
 msgid "Home Folder"
 msgstr "Домашня тека"
 
-#: ../gthumb/gth-file-source-vfs.c:87
+#: ../gthumb/gth-file-source-vfs.c:88
 msgid "File System"
 msgstr "Файлова система"
-
-#: ../gthumb/gth-filterbar.c:270
-msgid "All"
-msgstr "Всі"
 
 #: ../gthumb/gth-filterbar.c:406
 msgid "Close"
@@ -3591,7 +3797,7 @@ msgstr "Закрити поточне вікно"
 msgid "Could not display help"
 msgstr "Не вдається відобразити довідку"
 
-#: ../gthumb/gtk-utils.c:1073 ../gthumb/gtk-utils.c:1081
+#: ../gthumb/gtk-utils.c:1086 ../gthumb/gtk-utils.c:1094
 msgid "Could not launch the application"
 msgstr "Не вдається запустити програму"
 
@@ -3623,6 +3829,6 @@ msgstr " - перегляд зображень"
 #: ../gthumb/pixbuf-io.c:170
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
-msgstr "Не вдається знайти відповідний модуль для збереження зображення у форматі \"%s\""
-
-
+msgstr ""
+"Не вдається знайти відповідний модуль для збереження зображення у форматі \"%"
+"s\""
