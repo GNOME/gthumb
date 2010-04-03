@@ -51,7 +51,7 @@ enum {
 };
 
 
-static gpointer gth_file_properties_parent_class = NULL;
+static gpointer parent_class = NULL;
 
 
 struct _GthFilePropertiesPrivate {
@@ -59,6 +59,7 @@ struct _GthFilePropertiesPrivate {
 	GtkWidget     *comment_view;
 	GtkWidget     *comment_win;
 	GtkListStore  *tree_model;
+	GtkWidget     *popup_menu;
 };
 
 
@@ -87,23 +88,23 @@ get_comment (GthFileData *file_data)
 
 
 void
-gth_file_properties_real_set_file (GthPropertyView *self,
+gth_file_properties_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
-	GthFileProperties *file_properties;
+	GthFileProperties *self;
 	GHashTable        *category_hash;
 	GPtrArray         *metadata_info;
 	int                i;
 	GtkTextBuffer     *text_buffer;
 	char              *comment;
 
-	file_properties = GTH_FILE_PROPERTIES (self);
-	gtk_list_store_clear (file_properties->priv->tree_model);
+	self = GTH_FILE_PROPERTIES (base);
+	gtk_list_store_clear (self->priv->tree_model);
 
 	if (file_data == NULL)
 		return;
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (file_properties->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 
 	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
@@ -142,8 +143,8 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		category = g_hash_table_lookup (category_hash, info->category);
 		if (category == NULL) {
 			category = gth_main_get_metadata_category (info->category);
-			gtk_list_store_append (file_properties->priv->tree_model, &iter);
-			gtk_list_store_set (file_properties->priv->tree_model, &iter,
+			gtk_list_store_append (self->priv->tree_model, &iter);
+			gtk_list_store_set (self->priv->tree_model, &iter,
 					    WEIGHT_COLUMN, PANGO_WEIGHT_BOLD,
 					    ID_COLUMN, category->id,
 					    DISPLAY_NAME_COLUMN, category->display_name,
@@ -152,8 +153,8 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 			g_hash_table_insert (category_hash, g_strdup (info->category), category);
 		}
 
-		gtk_list_store_append (file_properties->priv->tree_model, &iter);
-		gtk_list_store_set (file_properties->priv->tree_model,
+		gtk_list_store_append (self->priv->tree_model, &iter);
+		gtk_list_store_set (self->priv->tree_model,
 				    &iter,
 				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    ID_COLUMN, info->id,
@@ -167,14 +168,14 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		g_free (value);
 	}
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (file_properties->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
-	gtk_tree_view_expand_all (GTK_TREE_VIEW (file_properties->priv->tree_view));
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (self->priv->tree_view));
 
 	g_hash_table_destroy (category_hash);
 
 	/* comment */
 
-	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (file_properties->priv->comment_view));
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self->priv->comment_view));
 	comment = get_comment (file_data);
 	if (comment != NULL) {
 		GtkTextIter    iter;
@@ -184,15 +185,15 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		gtk_text_buffer_get_iter_at_line (text_buffer, &iter, 0);
 		gtk_text_buffer_place_cursor (text_buffer, &iter);
 
-		vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (file_properties->priv->comment_win));
+		vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (self->priv->comment_win));
 		gtk_adjustment_set_value (vadj, 0.0);
 
-		gtk_widget_show (file_properties->priv->comment_win);
+		gtk_widget_show (self->priv->comment_win);
 
 		g_free (comment);
 	}
 	else
-		gtk_widget_hide (file_properties->priv->comment_win);
+		gtk_widget_hide (self->priv->comment_win);
 }
 
 
@@ -211,28 +212,105 @@ gth_file_properties_real_get_icon (GthMultipageChild *self)
 
 
 static void
-gth_file_properties_class_init (GthFilePropertiesClass *klass)
+gth_file_properties_finalize (GObject *base)
 {
-	gth_file_properties_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthFilePropertiesPrivate));
+	GthFileProperties *self;
+
+	self = (GthFileProperties *) base;
+
+	if (self->priv->popup_menu != NULL)
+		gtk_widget_destroy (self->priv->popup_menu);
+
+	G_OBJECT_CLASS (parent_class)->finalize (base);
 }
 
 
 static void
-gth_file_properties_init (GthFileProperties *file_properties)
+gth_file_properties_class_init (GthFilePropertiesClass *klass)
+{
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthFilePropertiesPrivate));
+
+	G_OBJECT_CLASS (klass)->finalize = gth_file_properties_finalize;
+}
+
+
+static void
+copy_menu_item_activate_cb (GtkMenuItem *menuitem,
+			    gpointer     user_data)
+{
+	GthFileProperties *self = user_data;
+	GtkTreeModel      *model;
+	GtkTreeIter        iter;
+	char              *value;
+
+	if (! gtk_tree_selection_get_selected (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter,
+			    VALUE_COLUMN, &value,
+			    -1);
+	gtk_clipboard_set_text (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (menuitem)), GDK_SELECTION_CLIPBOARD),
+			        value,
+			        -1);
+
+	g_free (value);
+}
+
+
+static gboolean
+tree_view_button_press_event_cb (GtkWidget      *widget,
+				 GdkEventButton *event,
+				 gpointer        user_data)
+{
+	GthFileProperties *self = user_data;
+
+	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
+		GtkTreePath *path;
+
+		if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (self->priv->tree_view),
+						     event->x,
+						     event->y,
+						     &path,
+						     NULL,
+						     NULL,
+						     NULL))
+			return FALSE;
+
+		gtk_tree_selection_select_path (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), path);
+		gtk_menu_popup (GTK_MENU (self->priv->popup_menu),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				event->button,
+				event->time);
+
+		gtk_tree_path_free (path);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static void
+gth_file_properties_init (GthFileProperties *self)
 {
 	GtkWidget         *vpaned;
 	GtkWidget         *scrolled_win;
+	GtkWidget         *menu_item;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
-	file_properties->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (file_properties);
+	self->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (self);
 
-	gtk_box_set_spacing (GTK_BOX (file_properties), 6);
+	gtk_box_set_spacing (GTK_BOX (self), 6);
 
 	vpaned = gtk_vpaned_new ();
 	gtk_widget_show (vpaned);
-	gtk_box_pack_start (GTK_BOX (file_properties), vpaned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (self), vpaned, TRUE, TRUE, 0);
 
 	scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -240,24 +318,40 @@ gth_file_properties_init (GthFileProperties *file_properties)
 	gtk_widget_show (scrolled_win);
 	gtk_paned_pack1 (GTK_PANED (vpaned), scrolled_win, TRUE, TRUE);
 
-	file_properties->priv->tree_view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (file_properties->priv->tree_view), FALSE);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (file_properties->priv->tree_view), TRUE);
-	gtk_tree_view_set_tooltip_column (GTK_TREE_VIEW (file_properties->priv->tree_view), TOOLTIP_COLUMN);
-	file_properties->priv->tree_model = gtk_list_store_new (NUM_COLUMNS,
-								PANGO_TYPE_WEIGHT,
-								G_TYPE_STRING,
-								G_TYPE_STRING,
-								G_TYPE_STRING,
-								G_TYPE_STRING,
-								G_TYPE_STRING,
-							  	G_TYPE_INT,
-							  	G_TYPE_BOOLEAN);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (file_properties->priv->tree_view),
-				 GTK_TREE_MODEL (file_properties->priv->tree_model));
-	g_object_unref (file_properties->priv->tree_model);
-	gtk_widget_show (file_properties->priv->tree_view);
-	gtk_container_add (GTK_CONTAINER (scrolled_win), file_properties->priv->tree_view);
+	self->priv->tree_view = gtk_tree_view_new ();
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (self->priv->tree_view), TRUE);
+	gtk_tree_view_set_tooltip_column (GTK_TREE_VIEW (self->priv->tree_view), TOOLTIP_COLUMN);
+	self->priv->tree_model = gtk_list_store_new (NUM_COLUMNS,
+						     PANGO_TYPE_WEIGHT,
+						     G_TYPE_STRING,
+						     G_TYPE_STRING,
+						     G_TYPE_STRING,
+						     G_TYPE_STRING,
+						     G_TYPE_STRING,
+						     G_TYPE_INT,
+						     G_TYPE_BOOLEAN);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (self->priv->tree_view),
+				 GTK_TREE_MODEL (self->priv->tree_model));
+	g_object_unref (self->priv->tree_model);
+	gtk_widget_show (self->priv->tree_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_win), self->priv->tree_view);
+
+	/* popup menu */
+
+	self->priv->popup_menu = gtk_menu_new ();
+	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
+	gtk_widget_show (menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu),
+			       menu_item);
+	g_signal_connect (menu_item,
+			  "activate",
+			  G_CALLBACK (copy_menu_item_activate_cb),
+			  self);
+	g_signal_connect (self->priv->tree_view,
+			  "button-press-event",
+			  G_CALLBACK (tree_view_button_press_event_cb),
+			  self);
 
 	/**/
 
@@ -274,7 +368,7 @@ gth_file_properties_init (GthFileProperties *file_properties)
 
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (file_properties->priv->tree_view),
+	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->tree_view),
 				     column);
 
 	/**/
@@ -291,25 +385,25 @@ gth_file_properties_init (GthFileProperties *file_properties)
 
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (file_properties->priv->tree_view),
+	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->tree_view),
 				     column);
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (file_properties->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
 	/* comment */
 
-	file_properties->priv->comment_win = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_properties->priv->comment_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_properties->priv->comment_win), GTK_SHADOW_ETCHED_IN);
-	gtk_paned_pack2 (GTK_PANED (vpaned), file_properties->priv->comment_win, FALSE, TRUE);
+	self->priv->comment_win = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_SHADOW_ETCHED_IN);
+	gtk_paned_pack2 (GTK_PANED (vpaned), self->priv->comment_win, FALSE, TRUE);
 
-	file_properties->priv->comment_view = gtk_text_view_new ();
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (file_properties->priv->comment_view), FALSE);
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (file_properties->priv->comment_view), GTK_WRAP_WORD);
-	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (file_properties->priv->comment_view), TRUE);
-	gtk_widget_set_size_request (file_properties->priv->comment_view, -1, COMMENT_HEIGHT);
-	gtk_widget_show (file_properties->priv->comment_view);
-	gtk_container_add (GTK_CONTAINER (file_properties->priv->comment_win), file_properties->priv->comment_view);
+	self->priv->comment_view = gtk_text_view_new ();
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (self->priv->comment_view), FALSE);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (self->priv->comment_view), GTK_WRAP_WORD);
+	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self->priv->comment_view), TRUE);
+	gtk_widget_set_size_request (self->priv->comment_view, -1, COMMENT_HEIGHT);
+	gtk_widget_show (self->priv->comment_view);
+	gtk_container_add (GTK_CONTAINER (self->priv->comment_win), self->priv->comment_view);
 }
 
 
