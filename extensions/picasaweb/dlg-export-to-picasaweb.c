@@ -112,6 +112,8 @@ post_photos_ready_cb (GObject      *source_object,
 	gth_task_dialog (GTH_TASK (data->conn), TRUE);
 
 	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
 		return;
 	}

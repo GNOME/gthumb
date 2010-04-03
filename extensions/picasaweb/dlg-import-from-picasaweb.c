@@ -294,6 +294,8 @@ list_albums_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->albums);
 	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -351,6 +353,8 @@ connection_ready_cb (GObject      *source_object,
 			account_properties_dialog (data, data->email);
 		}
 		else {
+			if (data->conn != NULL)
+				gth_task_dialog (GTH_TASK (data->conn), TRUE);
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			gtk_widget_destroy (data->dialog);
 		}
@@ -750,6 +754,8 @@ list_photos_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->photos);
 	data->photos = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
+		if (data->conn != NULL)
+			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
