@@ -77,7 +77,8 @@ gth_import_task_finalize (GObject *object)
 	_g_object_unref (self->priv->destination_file);
 	g_free (self->priv->custom_format);
 	g_free (self->priv->event_name);
-	g_strfreev (self->priv->tags);
+	if (self->priv->tags != NULL)
+		g_strfreev (self->priv->tags);
 	g_hash_table_destroy (self->priv->catalogs);
 	_g_object_unref (self->priv->imported_catalog);
 	g_object_unref (self->priv->browser);
@@ -195,7 +196,7 @@ transformation_ready_cb (GError   *error,
 	GthStringList *tag_list;
 	GList         *file_list;
 
-	if (self->priv->tags[0] == NULL) {
+	if ((self->priv->tags == NULL) || (self->priv->tags[0] == NULL)) {
 		catalog_imported_file (self);
 		return;
 	}
