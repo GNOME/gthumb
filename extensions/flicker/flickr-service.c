@@ -26,6 +26,7 @@
 #include <gthumb.h>
 #include "flickr-account.h"
 #include "flickr-connection.h"
+#include "flickr-photo.h"
 #include "flickr-photoset.h"
 #include "flickr-service.h"
 #include "flickr-user.h"
@@ -938,8 +939,6 @@ flickr_service_post_photos_finish (FlickrService  *self,
 }
 
 
-#if 0
-
 /* -- flickr_service_list_photos -- */
 
 
@@ -948,13 +947,13 @@ list_photos_ready_cb (SoupSession *session,
 		      SoupMessage *msg,
 		      gpointer     user_data)
 {
-	FlickrService   *self = user_data;
+	FlickrService      *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
-	DomDocument        *doc;
+	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = flickr_connection_get_result (self->priv->conn);
 
 	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (result,
@@ -967,72 +966,81 @@ list_photos_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	doc = dom_document_new ();
-	if (dom_document_load (doc, body->data, body->length, &error)) {
-		DomElement *feed_node;
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *response;
+		DomElement *node;
 		GList      *photos = NULL;
 
-		feed_node = DOM_ELEMENT (doc)->first_child;
-		while ((feed_node != NULL) && g_strcmp0 (feed_node->tag_name, "feed") != 0)
-			feed_node = feed_node->next_sibling;
+		response = DOM_ELEMENT (doc)->first_child;
+		for (node = response->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "photoset") == 0) {
+				DomElement *child;
+				int         position;
 
-		if (feed_node != NULL) {
-			DomElement     *node;
-			PicasaWebPhoto *photo;
+				position = 0;
+				for (child = node->first_child; child; child = child->next_sibling) {
+					if (g_strcmp0 (child->tag_name, "photo") == 0) {
+						FlickrPhoto *photo;
 
-			self->priv->user = flickr_user_new ();
-			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
-
-			photo = NULL;
-			for (node = feed_node->first_child;
-			     node != NULL;
-			     node = node->next_sibling)
-			{
-				if (g_strcmp0 (node->tag_name, "entry") == 0) { /* read the photo data */
-					if (photo != NULL)
+						photo = flickr_photo_new ();
+						dom_domizable_load_from_element (DOM_DOMIZABLE (photo), child);
+						photo->position = position++;
 						photos = g_list_prepend (photos, photo);
-					photo = flickr_photo_new ();
-					dom_domizable_load_from_element (DOM_DOMIZABLE (photo), node);
+					}
 				}
 			}
-			if (photo != NULL)
-				photos = g_list_prepend (photos, photo);
 		}
+
 		photos = g_list_reverse (photos);
 		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
+
+		g_object_unref (doc);
 	}
-	else {
+	else
 		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
+
 	g_simple_async_result_complete_in_idle (result);
 
-	g_object_unref (doc);
 	soup_buffer_free (body);
 }
 
 
 void
 flickr_service_list_photos (FlickrService       *self,
-			    FlickrPhotoset      *album,
+			    FlickrPhotoset      *photoset,
+			    const char          *extras,
+			    int                  per_page,
+			    int                  page,
 			    GCancellable        *cancellable,
 			    GAsyncReadyCallback  callback,
 			    gpointer             user_data)
 {
-	char        *url;
+	GHashTable  *data_set;
+	char        *s;
 	SoupMessage *msg;
 
-	g_return_if_fail (album != NULL);
+	g_return_if_fail (photoset != NULL);
 
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/",
-			   self->priv->user->id,
-			   "/albumid/",
-			   album->id,
-			   NULL);
-	msg = soup_message_new ("GET", url);
-	google_connection_send_message (self->priv->conn,
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.photosets.getPhotos");
+	g_hash_table_insert (data_set, "photoset_id", photoset->id);
+	if (extras != NULL)
+		g_hash_table_insert (data_set, "extras", (char *) extras);
+	if (per_page > 0) {
+		s = g_strdup_printf ("%d", per_page);
+		g_hash_table_insert (data_set, "per_page", s);
+		g_free (s);
+	}
+	if (page > 0) {
+		s = g_strdup_printf ("%d", page);
+		g_hash_table_insert (data_set, "page", s);
+		g_free (s);
+	}
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
 					callback,
@@ -1041,7 +1049,7 @@ flickr_service_list_photos (FlickrService       *self,
 					list_photos_ready_cb,
 					self);
 
-	g_free (url);
+	g_hash_table_destroy (data_set);
 }
 
 
@@ -1055,8 +1063,6 @@ flickr_service_list_photos_finish (FlickrService  *self,
 	else
 		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
-
-#endif
 
 
 /* utilities */

@@ -110,16 +110,17 @@ void              flickr_service_post_photos              (FlickrService        
 GList *           flickr_service_post_photos_finish       (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
-#if 0
 void              flickr_service_list_photos              (FlickrService        *self,
 							   FlickrPhotoset       *photoset,
+							   const char           *extras,
+							   int                   per_page,
+							   int                   page,
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
 						           gpointer              user_data);
 GList *           flickr_service_list_photos_finish       (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
-#endif
 
 /* utilities */
 
