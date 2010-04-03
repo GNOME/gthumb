@@ -996,6 +996,8 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
 
+	update_selection_status (data);
+
 	data->accounts = picasa_web_accounts_load_from_file (&data->email);
 	auto_select_account (data);
 }
