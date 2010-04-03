@@ -12,6 +12,8 @@ libflicker_la_SOURCES = 			\
 	callbacks.h				\
 	dlg-export-to-flickr.c			\
 	dlg-export-to-flickr.h			\
+	dlg-import-from-flickr.c		\
+	dlg-import-from-flickr.h		\
 	flickr-account.c			\
 	flickr-account.h			\
 	flickr-account-chooser-dialog.c		\
@@ -20,6 +22,8 @@ libflicker_la_SOURCES = 			\
 	flickr-account-manager-dialog.h		\
 	flickr-connection.c			\
 	flickr-connection.h			\
+	flickr-photo.c				\
+	flickr-photo.h				\
 	flickr-photoset.c			\
 	flickr-photoset.h			\
 	flickr-service.c			\

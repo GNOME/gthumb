@@ -35,6 +35,11 @@ static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
+"      <menu name='Import' action='ImportMenu'>"
+"        <placeholder name='Web_Services'>"
+"          <menuitem action='File_Import_Flicker'/>"
+"        </placeholder>"
+"      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Export_Flicker'/>"
@@ -46,6 +51,10 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
+	{ "File_Import_Flicker", "flickr",
+	  N_("_Flickr..."), NULL,
+	  N_("Download photos from Flickr"),
+	  G_CALLBACK (gth_browser_activate_action_import_flicker) },
 	{ "File_Export_Flicker", "flickr",
 	  N_("_Flickr..."), NULL,
 	  N_("Upload photos to Flickr"),

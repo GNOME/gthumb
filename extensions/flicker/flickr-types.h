@@ -40,4 +40,12 @@ typedef enum  {
 	FLICKR_HIDDEN_HIDDEN = 2,
 } FlickrHiddenType;
 
+typedef enum {
+	FLICKR_SIZE_SMALL_SQUARE = 75,
+	FLICKR_SIZE_THUMBNAIL = 100,
+	FLICKR_SIZE_SMALL = 240,
+	FLICKR_SIZE_MEDIUM = 500,
+	FLICKR_SIZE_LARGE = 1024
+} FlickrSize;
+
 #endif /* FLICKR_TYPES_H */

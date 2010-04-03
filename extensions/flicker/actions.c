@@ -25,11 +25,12 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "dlg-export-to-flickr.h"
+#include "dlg-import-from-flickr.h"
 
 
 void
 gth_browser_activate_action_export_flicker (GtkAction  *action,
-					      GthBrowser *browser)
+					    GthBrowser *browser)
 {
 	GList *items;
 	GList *file_list;
@@ -42,4 +43,12 @@ gth_browser_activate_action_export_flicker (GtkAction  *action,
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_action_import_flicker (GtkAction  *action,
+					    GthBrowser *browser)
+{
+	dlg_import_from_flickr (browser);
 }

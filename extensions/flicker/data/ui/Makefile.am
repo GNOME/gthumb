@@ -5,7 +5,8 @@ ui_DATA = 					\
 	flicker-account-manager.ui		\
 	flicker-ask-authorization.ui		\
 	flicker-complete-authorization.ui	\
-	flicker-export-completed.ui
+	flicker-export-completed.ui		\
+	import-from-flickr.ui
 
 EXTRA_DIST = $(ui_DATA)
 
