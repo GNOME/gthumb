@@ -11,7 +11,6 @@ SUBDIRS = 			\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
-	flicker			\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
@@ -28,7 +27,8 @@ SUBDIRS = 			\
 	rename_series 		\
 	resize_images		\
 	search			\
-	slideshow
+	slideshow		\
+	flicker
 
 EXTRA_DIST = example
 
