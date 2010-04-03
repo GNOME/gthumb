@@ -430,6 +430,7 @@ upload_status_ready_cb (GObject      *source_object,
 	DialogData *data = user_data;
 	GError     *error = NULL;
 
+	_g_object_unref (data->user);
 	data->user = flickr_service_get_upload_status_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
