@@ -65,13 +65,14 @@
 #define MAX_HISTORY_LENGTH 15
 #define GCONF_NOTIFICATIONS 12
 #define DEF_SIDEBAR_WIDTH 255
-#define DEF_VIEWER_SIDEBAR_WIDTH 295
+#define DEF_VIEWER_SIDEBAR_WIDTH 280
 #define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
 #define UPDATE_SELECTION_DELAY 200
+#define MIN_SIDEBAR_SIZE 100
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -1868,15 +1869,15 @@ _gth_browser_close_final_step (gpointer user_data)
 		}
 
 		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
-		if (allocation.width > 0)
+		if (allocation.width > MIN_SIDEBAR_SIZE)
 			eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, allocation.width);
 
 		gtk_widget_get_allocation (browser->priv->viewer_sidebar, &allocation);
-		if (allocation.width > 0)
+		if (allocation.width > MIN_SIDEBAR_SIZE)
 			eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, allocation.width);
 
 		gtk_widget_get_allocation (browser->priv->file_properties, &allocation);
-		if (allocation.height > 0)
+		if (allocation.height > MIN_SIDEBAR_SIZE)
 			eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, allocation.height);
 	}
 
@@ -3512,7 +3513,7 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, TRUE);
 
 	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
-	gtk_widget_set_size_request (browser->priv->viewer_sidebar, eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), -1);
+	gtk_widget_set_size_request (browser->priv->viewer_sidebar, MAX (eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), DEF_VIEWER_SIDEBAR_WIDTH), -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, TRUE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL);
