@@ -20,6 +20,8 @@ libflicker_la_SOURCES = 			\
 	flickr-account-chooser-dialog.h		\
 	flickr-account-manager-dialog.c		\
 	flickr-account-manager-dialog.h		\
+	flickr-authentication.c			\
+	flickr-authentication.h			\
 	flickr-connection.c			\
 	flickr-connection.h			\
 	flickr-photo.c				\

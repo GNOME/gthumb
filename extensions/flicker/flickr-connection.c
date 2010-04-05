@@ -28,7 +28,7 @@
 #include "flickr-user.h"
 
 
-#undef DEBUG_FLICKR_CONNECTION
+#undef  DEBUG_FLICKR_CONNECTION
 #define GTHUMB_FLICKR_API_KEY "8960706ee7f4151e893b11837e9c24ce"
 #define GTHUMB_FLICKR_SHARED_SECRET "1ff8d1e45c873423"
 
@@ -305,6 +305,9 @@ flickr_connection_get_frob (FlickrConnection    *self,
 	SoupMessage *msg;
 
 	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
+
+	g_free (self->priv->token);
+	self->priv->token = NULL;
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "method", "flickr.auth.getFrob");
