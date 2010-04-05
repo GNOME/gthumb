@@ -93,6 +93,10 @@ slide_from_right_transition (GthSlideshow *self,
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 	clutter_actor_set_x (self->next_image, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
 
+	if (self->current_image != NULL)
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
+
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
 			clutter_actor_show (self->current_image);
@@ -111,6 +115,10 @@ slide_from_bottom_transition (GthSlideshow *self,
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 	clutter_actor_set_y (self->next_image, (float) VALUE_AT_MSECS (stage_h, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.y);
+
+	if (self->current_image != NULL)
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
 
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
