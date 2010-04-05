@@ -49,6 +49,7 @@ enum {
 
 
 typedef struct {
+	FlickrServer         *server;
 	GthBrowser           *browser;
 	GthFileData          *location;
 	GList                *file_list;
@@ -118,14 +119,14 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 						g_string_append (ids, ",");
 					g_string_append (ids, (char *) scan->data);
 				}
-				url = g_strconcat ("http://www.flickr.com/photos/upload/edit/?ids=", ids->str, NULL);
+				url = g_strconcat (data->server->url, "/photos/upload/edit/?ids=", ids->str, NULL);
 
 				g_string_free (ids, TRUE);
 			}
 			else if (data->photoset->url != NULL)
 				url = g_strdup (data->photoset->url);
 			else if (data->photoset->id != NULL)
-				url = g_strconcat ("http://www.flickr.com/photos/", data->user->id, "/sets/", data->photoset->id, NULL);
+				url = g_strconcat (data->server->url, "/photos/", data->user->id, "/sets/", data->photoset->id, NULL);
 
 			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				if (data->conn != NULL)
@@ -467,8 +468,9 @@ account_combobox_changed_cb (GtkComboBox *widget,
 
 
 void
-dlg_export_to_flickr (GthBrowser *browser,
-		      GList      *file_list)
+dlg_export_to_flickr (FlickrServer *server,
+		      GthBrowser   *browser,
+		      GList        *file_list)
 {
 	DialogData *data;
 	GList      *scan;
@@ -479,6 +481,7 @@ dlg_export_to_flickr (GthBrowser *browser,
 	GtkWidget  *list_view;
 
 	data = g_new0 (DialogData, 1);
+	data->server = server;
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-flickr.ui", "flicker");
@@ -555,7 +558,7 @@ dlg_export_to_flickr (GthBrowser *browser,
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
 
-	data->conn = flickr_connection_new ();
+	data->conn = flickr_connection_new (data->server);
 	data->service = flickr_service_new (data->conn);
 	data->auth = flickr_authentication_new (data->conn,
 						data->service,

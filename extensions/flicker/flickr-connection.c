@@ -28,9 +28,7 @@
 #include "flickr-user.h"
 
 
-#undef  DEBUG_FLICKR_CONNECTION
-#define GTHUMB_FLICKR_API_KEY "8960706ee7f4151e893b11837e9c24ce"
-#define GTHUMB_FLICKR_SHARED_SECRET "1ff8d1e45c873423"
+#undef DEBUG_FLICKR_CONNECTION
 
 
 GQuark
@@ -160,9 +158,21 @@ flickr_connection_get_type (void)
 
 
 FlickrConnection *
-flickr_connection_new (void)
+flickr_connection_new (FlickrServer *server)
 {
-	return (FlickrConnection *) g_object_new (FLICKR_TYPE_CONNECTION, NULL);
+	FlickrConnection *self;
+
+	self = (FlickrConnection *) g_object_new (FLICKR_TYPE_CONNECTION, NULL);
+	self->server = server;
+
+	return self;
+}
+
+
+FlickrServer *
+flickr_connection_get_server (FlickrConnection *self)
+{
+	return self->server;
 }
 
 
@@ -233,12 +243,12 @@ flickr_connection_add_api_sig (FlickrConnection *self,
 	GList *keys;
 	GList *scan;
 
-	g_hash_table_insert (data_set, "api_key", GTHUMB_FLICKR_API_KEY);
+	g_hash_table_insert (data_set, "api_key", (gpointer) self->server->api_key);
 	if (self->priv->token != NULL)
 		g_hash_table_insert (data_set, "auth_token", self->priv->token);
 
 	g_checksum_reset (self->priv->checksum);
-	g_checksum_update (self->priv->checksum, (guchar *) GTHUMB_FLICKR_SHARED_SECRET, -1);
+	g_checksum_update (self->priv->checksum, (guchar *) self->server->shared_secret, -1);
 
 	keys = g_hash_table_get_keys (data_set);
 	keys = g_list_sort (keys, (GCompareFunc) strcmp);
@@ -312,7 +322,7 @@ flickr_connection_get_frob (FlickrConnection    *self,
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "method", "flickr.auth.getFrob");
 	flickr_connection_add_api_sig (self, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->server->rest_url, data_set);
 	flickr_connection_send_message (self,
 					msg,
 					cancellable,
@@ -376,7 +386,8 @@ flickr_connection_get_login_link (FlickrConnection *self,
 	g_hash_table_insert (data_set, "perms", get_access_type_name (access_type));
 	flickr_connection_add_api_sig (self, data_set);
 
-	link = g_string_new ("http://www.flickr.com/services/auth/?");
+	link = g_string_new (self->server->authentication_url);
+	g_string_append (link, "?");
 	keys = g_hash_table_get_keys (data_set);
 	for (scan = keys; scan; scan = scan->next) {
 		char *key = scan->data;
@@ -463,7 +474,7 @@ flickr_connection_get_token (FlickrConnection    *self,
 	g_hash_table_insert (data_set, "method", "flickr.auth.getToken");
 	g_hash_table_insert (data_set, "frob", self->priv->frob);
 	flickr_connection_add_api_sig (self, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->server->rest_url, data_set);
 	flickr_connection_send_message (self,
 					msg,
 					cancellable,

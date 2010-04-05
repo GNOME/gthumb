@@ -53,6 +53,7 @@ enum {
 
 
 typedef struct {
+	FlickrServer         *server;
 	GthBrowser           *browser;
 	GthFileData          *location;
 	GtkBuilder           *builder;
@@ -509,12 +510,14 @@ preferences_button_clicked_cb (GtkWidget  *widget,
 
 
 void
-dlg_import_from_flickr (GthBrowser *browser)
+dlg_import_from_flickr (FlickrServer *server,
+		        GthBrowser   *browser)
 {
 	DialogData     *data;
 	GthThumbLoader *thumb_loader;
 
 	data = g_new0 (DialogData, 1);
+	data->server = server;
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("import-from-flickr.ui", "flicker");
@@ -601,7 +604,7 @@ dlg_import_from_flickr (GthBrowser *browser)
 
 	update_selection_status (data);
 
-	data->conn = flickr_connection_new ();
+	data->conn = flickr_connection_new (data->server);
 	data->service = flickr_service_new (data->conn);
 	data->auth = flickr_authentication_new (data->conn,
 						data->service,

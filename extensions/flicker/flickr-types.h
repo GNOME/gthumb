@@ -48,4 +48,14 @@ typedef enum {
 	FLICKR_SIZE_LARGE = 1024
 } FlickrSize;
 
+typedef struct {
+	const char *name;
+	const char *url;
+	const char *authentication_url;
+	const char *rest_url;
+	const char *upload_url;
+	const char *api_key;
+	const char *shared_secret;
+} FlickrServer;
+
 #endif /* FLICKR_TYPES_H */
