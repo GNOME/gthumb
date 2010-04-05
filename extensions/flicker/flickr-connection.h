@@ -54,14 +54,14 @@ typedef struct _FlickrConnectionClass    FlickrConnectionClass;
 
 struct _FlickrConnection
 {
-	GObject __parent;
+	GthTask __parent;
 	FlickrServer *server;
 	FlickrConnectionPrivate *priv;
 };
 
 struct _FlickrConnectionClass
 {
-	GObjectClass __parent_class;
+	GthTaskClass __parent_class;
 };
 
 GType                flickr_connection_get_type           (void) G_GNUC_CONST;

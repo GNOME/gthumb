@@ -299,20 +299,31 @@ complete_authorization (FlickrAuthentication *self)
 {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
+	char       *text;
+	char       *secondary_text;
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
 
 	builder = _gtk_builder_new_from_file ("flicker-complete-authorization.ui", "flicker");
 	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
+	text = g_strdup_printf ("Return to this window when you have finished the authorization process on %s", self->priv->conn->server->name);
+	secondary_text = g_strdup ("Once you're done, click the 'Continue' button below.");
+	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
 			  self);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
+	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
+	else
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
+
+	g_free (secondary_text);
+	g_free (text);
 }
 
 
@@ -367,21 +378,31 @@ ask_authorization (FlickrAuthentication *self)
 {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
+	char       *text;
+	char       *secondary_text;
 
-	gtk_widget_hide (self->priv->dialog);
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
 
 	builder = _gtk_builder_new_from_file ("flicker-ask-authorization.ui", "flicker");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
+	text = g_strdup_printf ("gthumb requires your authorization to upload the photos to %s", self->priv->conn->server->name);
+	secondary_text = g_strdup_printf ("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization.", self->priv->conn->server->name);
+	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (ask_authorization_messagedialog_response_cb),
 			  self);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
+	else
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
 	gtk_window_present (GTK_WINDOW (dialog));
+
+	g_free (secondary_text);
+	g_free (text);
 }
 
 

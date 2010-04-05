@@ -479,6 +479,7 @@ dlg_export_to_flickr (FlickrServer *server,
 	char       *total_size_formatted;
 	char       *text;
 	GtkWidget  *list_view;
+	char       *title;
 
 	data = g_new0 (DialogData, 1);
 	data->server = server;
@@ -538,6 +539,10 @@ dlg_export_to_flickr (FlickrServer *server,
 
 	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (GET_WIDGET ("photoset_comboboxentry")))), g_file_info_get_edit_name (data->location->info));
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
+
+	title = g_strdup_printf (_("Export to %s"), data->server->name);
+	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
+	g_free (title);
 
 	/* Set the signals handlers. */
 

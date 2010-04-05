@@ -515,6 +515,7 @@ dlg_import_from_flickr (FlickrServer *server,
 {
 	DialogData     *data;
 	GthThumbLoader *thumb_loader;
+	char           *title;
 
 	data = g_new0 (DialogData, 1);
 	data->server = server;
@@ -570,6 +571,10 @@ dlg_import_from_flickr (FlickrServer *server,
 
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
+
+	title = g_strdup_printf (_("Import from %s"), data->server->name);
+	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
+	g_free (title);
 
 	/* Set the signals handlers. */
 
