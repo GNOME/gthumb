@@ -370,7 +370,9 @@
   <sect1 id="gthumb-folders">
     <title>Working with Folders</title>
     <para>
-      &app; offers the functionalities to manage folders.
+      &app; allows you to manipulate folders using the folder tree. 
+      See <xref linkend="gthumb-change-folder"/> to learn about
+      basic folder tree usage.
       <note>
         <title>WARNING</title>
         <para>
@@ -387,14 +389,15 @@
     <para>To create a new folder, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder where the new folder will be created.
+        <para>Using the folder tree, navigate to the parent folder.
         </para>
       </listitem>
       <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guimenuitem>New
-        Folder</guimenuitem></menuchoice> to display the <guilabel>New
-        Folder</guilabel> dialog.
+        <para>Right-click the parent folder in the folder tree.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Select <guimenuitem>Create Folder</guimenuitem> from the pop-up menu.
         </para>
       </listitem>
       <listitem>
@@ -414,13 +417,15 @@
     <para>To open a folder with the file manager, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder you want to open.</para>
+        <para>Using the folder tree, navigate to the folder.
+        </para>
       </listitem>
       <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Open
-        with the File Manager</guimenuitem></menuchoice>. &app;
-        opens the folder with the file manager.
+        <para>Right-click the folder in the folder tree.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Select <guimenuitem>Open with the File Manager</guimenuitem> from the pop-up menu.
         </para>
       </listitem>
     </orderedlist>
@@ -431,23 +436,22 @@
     <para>To rename a folder, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder you want to rename.</para>
-      </listitem>
-      <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Rename</guimenuitem></menuchoice>
-        to display the <guilabel>Rename Folder</guilabel> dialog.
+        <para>Using the folder tree, navigate to the folder.
         </para>
       </listitem>
       <listitem>
-        <para>Enter the new folder name.
+        <para>Right-click the folder in the folder tree.
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Rename</guibutton>. &app; renames
-        the folder.
+        <para>Select <guimenuitem>Rename</guimenuitem> from the pop-up menu.
         </para>
       </listitem>
+      <listitem>
+        <para>Enter the new folder name in area provided in the folder tree.
+        </para>
+      </listitem>
+
     </orderedlist>
     </para>
   </sect2>
@@ -456,13 +460,18 @@
     <para>To delete a folder, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder you want to delete.</para>
+        <para>Using the folder tree, navigate to the folder.
+        </para>
       </listitem>
       <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Move
-        to Trash</guimenuitem></menuchoice>. &app; moves the folder
-        to the system trash.
+        <para>Right-click the folder in the folder tree.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Select either <guimenuitem>Move to Trash</guimenuitem> or 
+	<guimenuitem>Delete</guimenuitem> from the pop-up menu. Files can be
+	recovered from the Trash if <guimenuitem>Move to Trash</guimenuitem> is used.
+	They can not be recovered if <guimenuitem>Delete</guimenuitem> is used.
         </para>
       </listitem>
     </orderedlist>
@@ -474,30 +483,27 @@
     following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder you want to copy.</para>
-      </listitem>
-      <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Copy</guimenuitem></menuchoice>
-        to display the <guilabel>Copy Folder</guilabel> dialog.
+        <para>Using the folder tree, navigate to the folder you wish to copy.
         </para>
       </listitem>
       <listitem>
-        <para>The <guilabel>Copy Folder</guilabel> dialog is used to
-        choose the destination folder. You can type the folder name in
-        the <guilabel>Folder</guilabel> entry, or click on
-        <guibutton>Browse</guibutton> to select a folder from your
-        disk. The <guilabel>Recents</guilabel> list contains the list
-        of recently specified destination folders, while the
-        <guilabel>Bookmarks</guilabel> list contains the folders you
-        have a bookmark for.
-        Click on a folder in these lists to insert the folder name in
-        the <guilabel>Folder</guilabel> entry.
+        <para>Right-click the folder in the folder tree.
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &app; copies the
-        folder to the destination folder.
+        <para>Select <guimenuitem>Copy</guimenuitem> from the pop-up menu.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Using the folder tree, navigate to the destination parent folder.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Right-click the destination parent folder in the folder tree.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Select <guimenuitem>Paste into Folder</guimenuitem> from the pop-up menu.
         </para>
       </listitem>
     </orderedlist>
@@ -509,30 +515,27 @@
     following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder you want to move.</para>
-      </listitem>
-      <listitem>
-        <para>Choose
-        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Move</guimenuitem></menuchoice>
-        to display the <guilabel>Move Folder</guilabel> dialog.
+        <para>Using the folder tree, navigate to the folder you wish to copy.
         </para>
       </listitem>
       <listitem>
-        <para>The <guilabel>Move Folder</guilabel> dialog is used to
-        choose the destination folder. You can type the folder name in
-        the <guilabel>Folder</guilabel> entry, or click on
-        <guibutton>Browse</guibutton> to select a folder from your
-        disk. The <guilabel>Recents</guilabel> list contains the list
-        of recently specified destination folders, while the
-        <guilabel>Bookmarks</guilabel> list contains the folders you
-        have a bookmark for.
-        Click on a folder in these lists to insert the folder name in
-        the <guilabel>Folder</guilabel> entry.
+        <para>Right-click the folder in the folder tree.
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &app; moves the
-        folder to the destination folder.
+        <para>Select <guimenuitem>Cut</guimenuitem> from the pop-up menu.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Using the folder tree, navigate to the destination parent folder.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Right-click the destination parent folder in the folder tree.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Select <guimenuitem>Paste into Folder</guimenuitem> from the pop-up menu.
         </para>
       </listitem>
     </orderedlist>
