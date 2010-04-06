@@ -23,6 +23,9 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_GNOME_KEYRING
+#include <gnome-keyring.h>
+#endif /* HAVE_GNOME_KEYRING */
 #include <gthumb.h>
 #include "flickr-account.h"
 
@@ -57,15 +60,26 @@ flickr_account_create_element (DomDomizable *base,
 			       DomDocument  *doc)
 {
 	FlickrAccount *self;
-	DomElement *element;
+	DomElement    *element;
+	gboolean       set_token;
 
 	self = FLICKR_ACCOUNT (base);
 
 	element = dom_document_create_element (doc, "account", NULL);
 	if (self->username != NULL)
 		dom_element_set_attribute (element, "username", self->username);
-	if (self->token != NULL)
+
+	/* Don't save the token in the configuration file if gnome-keyring is
+	 * available. */
+
+	set_token = TRUE;
+#ifdef HAVE_GNOME_KEYRING
+	if (gnome_keyring_is_available ())
+		set_token = FALSE;
+#endif
+	if (set_token && (self->token != NULL))
 		dom_element_set_attribute (element, "token", self->token);
+
 	if (self->is_default)
 		dom_element_set_attribute (element, "default", "1");
 

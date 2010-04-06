@@ -26,6 +26,18 @@
 #include <gthumb.h>
 #include "dlg-export-to-flickr.h"
 #include "dlg-import-from-flickr.h"
+#include "flickr-types.h"
+
+
+static FlickrServer www_flickr_com = {
+	"Flickr.com",
+	"http://www.flickr.com",
+	"http://www.flickr.com/services/auth/",
+	"http://api.flickr.com/services/rest",
+	"http://api.flickr.com/services/upload/",
+	"8960706ee7f4151e893b11837e9c24ce",
+	"1ff8d1e45c873423"
+};
 
 
 void
@@ -39,7 +51,7 @@ gth_browser_activate_action_export_flicker (GtkAction  *action,
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	if (file_list == NULL)
 		file_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
-	dlg_export_to_flickr (browser, file_list);
+	dlg_export_to_flickr (&www_flickr_com, browser, file_list);
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
@@ -50,5 +62,5 @@ void
 gth_browser_activate_action_import_flicker (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	dlg_import_from_flickr (browser);
+	dlg_import_from_flickr (&www_flickr_com, browser);
 }

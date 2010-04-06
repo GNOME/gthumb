@@ -24,8 +24,10 @@
 #define DLG_EXPORT_TO_FLICKR_H
 
 #include <gthumb.h>
+#include "flickr-types.h"
 
-void dlg_export_to_flickr (GthBrowser *browser,
-			   GList      *file_list);
+void dlg_export_to_flickr (FlickrServer *server,
+			   GthBrowser   *browser,
+			   GList        *file_list);
 
 #endif /* DLG_EXPORT_TO_FLICKR_H */

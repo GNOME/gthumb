@@ -247,7 +247,7 @@ flickr_service_get_upload_status (FlickrService       *self,
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "method", "flickr.people.getUploadStatus");
 	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
@@ -353,7 +353,7 @@ flickr_service_list_photosets (FlickrService       *self,
 	if (user_id != NULL)
 		g_hash_table_insert (data_set, "user_id", (char *) user_id);
 	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
@@ -456,7 +456,7 @@ flickr_service_create_photoset (FlickrService       *self,
 	g_hash_table_insert (data_set, "title", photoset->title);
 	g_hash_table_insert (data_set, "primary_photo_id", photoset->primary);
 	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,
@@ -585,7 +585,7 @@ add_current_photo_to_set (FlickrService *self)
 	g_hash_table_insert (data_set, "photoset_id", self->priv->add_photos->photoset->id);
 	g_hash_table_insert (data_set, "photo_id", photo_id);
 	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("POST", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("POST", self->priv->conn->server->rest_url, data_set);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					self->priv->add_photos->cancellable,
@@ -835,7 +835,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 		g_free (details);
 	}
 
-	msg = soup_form_request_new_from_multipart ("http://api.flickr.com/services/upload/", multipart);
+	msg = soup_form_request_new_from_multipart (self->priv->conn->server->upload_url, multipart);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					self->priv->post_photos->cancellable,
@@ -1039,7 +1039,7 @@ flickr_service_list_photos (FlickrService       *self,
 		g_free (s);
 	}
 	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.flickr.com/services/rest", data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
 	flickr_connection_send_message (self->priv->conn,
 					msg,
 					cancellable,

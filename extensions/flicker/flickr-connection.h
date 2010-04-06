@@ -30,6 +30,7 @@
 #include <libsoup/soup.h>
 #endif /* HAVE_LIBSOUP_GNOME */
 #include <gthumb.h>
+#include "flickr-types.h"
 
 typedef enum {
 	FLICKR_ACCESS_READ,
@@ -54,6 +55,7 @@ typedef struct _FlickrConnectionClass    FlickrConnectionClass;
 struct _FlickrConnection
 {
 	GthTask __parent;
+	FlickrServer *server;
 	FlickrConnectionPrivate *priv;
 };
 
@@ -63,7 +65,7 @@ struct _FlickrConnectionClass
 };
 
 GType                flickr_connection_get_type           (void) G_GNUC_CONST;
-FlickrConnection *   flickr_connection_new                (void);
+FlickrConnection *   flickr_connection_new                (FlickrServer          *server);
 void		     flickr_connection_send_message       (FlickrConnection      *self,
 						           SoupMessage           *msg,
 						           GCancellable          *cancellable,

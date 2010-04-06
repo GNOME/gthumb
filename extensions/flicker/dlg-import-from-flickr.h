@@ -24,7 +24,9 @@
 #define DLG_IMPORT_FROM_FLICKR_H
 
 #include <gthumb.h>
+#include "flickr-types.h"
 
-void dlg_import_from_flickr (GthBrowser *browser);
+void dlg_import_from_flickr (FlickrServer *server,
+			     GthBrowser   *browser);
 
 #endif /* DLG_IMPORT_FROM_FLICKR_H */

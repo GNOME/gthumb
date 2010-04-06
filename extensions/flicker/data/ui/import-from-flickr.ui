@@ -4,7 +4,6 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="import_dialog">
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Import from Flickr</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">

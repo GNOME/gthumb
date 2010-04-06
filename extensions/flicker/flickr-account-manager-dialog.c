@@ -140,6 +140,9 @@ flickr_account_manager_dialog_init (FlickrAccountManagerDialog *self)
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
+			       GTK_STOCK_NEW,
+			       FLICKR_ACCOUNT_MANAGER_RESPONSE_NEW);
+	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
