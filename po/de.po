@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-06 16:09+0000\n"
-"PO-Revision-Date: 2010-03-06 17:04+0100\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2010-04-03 23:32+0000\n"
+"PO-Revision-Date: 2010-04-06 21:13+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,17 +120,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
-"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
-"Miniatur-Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
+"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
+"Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
-"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
+"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -148,40 +148,30 @@ msgid "Possible values are: list, thumbnails."
 msgstr "Zulässige Werte: list (Liste), thumbnails (Miniatur-Vorschaubilder)."
 
 #: ../data/gthumb.schemas.in.h:6
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-msgid "Possible values are: none, file_date, current_date"
-msgstr "Zulässige Werte: none, file_date, current_date"
-
-#: ../data/gthumb.schemas.in.h:7
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
 msgid "Possible values are: small, medium, large."
 msgstr "Zulässige Werte: small (klein), medium (mittel) sowie large (groß)."
 
-#: ../data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:7
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Zulässige Werte: system, text_below (Text unterhalb), text_beside (Text "
 "daneben), text_only (nur Text) sowie icons_only (nur Symbole)."
 
-#: ../data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
 msgid "Possible values are: white, black, checked, none."
 msgstr ""
 "Zulässige Werte: white (weiß), black (schwarz), checked (Schachbrettmuster), "
 "none (keiner)."
 
-#: ../data/gthumb.schemas.in.h:10
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr "Zulässige Werte: yyyymmdd, yyyymm, yyyy"
-
-#: ../data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:9
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:6
 msgid "Whether to always use a black background."
 msgstr "Soll stets ein schwarzer Hintergrund verwendet werden?"
 
-#: ../data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:10
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:7
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr ""
@@ -196,6 +186,10 @@ msgid "More extensions..."
 msgstr "Mehr Erweiterungen …"
 
 #: ../data/ui/extensions.ui.h:3
+msgid "_Categories:"
+msgstr "_Kategorien:"
+
+#: ../data/ui/extensions.ui.h:4
 msgid "gthumb Extensions"
 msgstr "gthumb-Erweiterungen"
 
@@ -320,7 +314,8 @@ msgstr "Nachfragen, ob _geänderte Dateien gespeichert werden sollen"
 msgid "Black"
 msgstr "Schwarz"
 
-#: ../data/ui/preferences.ui.h:7 ../gthumb/gth-browser-actions-entries.h:156
+#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:58
+#: ../gthumb/gth-browser-actions-entries.h:156
 msgid "Browser"
 msgstr "Browser"
 
@@ -376,7 +371,7 @@ msgstr "Zum letzten _besuchten Ort wechseln"
 msgid "Go to this _folder:"
 msgstr "Zu _folgendem Ordner gehen:"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:216
 msgid "Icons only"
 msgstr "Nur Symbole"
 
@@ -411,19 +406,19 @@ msgid "Set to C_urrent"
 msgstr "Auf _momentan geöffneten setzen"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:216
 msgid "System settings"
 msgstr "Systemeinstellungen"
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:216
 msgid "Text below icons"
 msgstr "Text unter Symbolen"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:216
 msgid "Text beside icons"
 msgstr "Text neben Symbolen"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:216
 msgid "Text only"
 msgstr "Nur Text"
 
@@ -436,10 +431,14 @@ msgid "White"
 msgstr "Weiß"
 
 #: ../data/ui/preferences.ui.h:33
+msgid "_Store metadata inside files if possible"
+msgstr "Metadaten in Dateien _speichern, wenn möglich"
+
+#: ../data/ui/preferences.ui.h:34
 msgid "_Toolbar style:"
 msgstr "_Werkzeugleisten-Stil:"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:35
 msgid "gthumb Preferences"
 msgstr "gThumb-Einstellungen"
 
@@ -582,9 +581,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "Die gewählten Bilder konnten nicht aus dem Katalog entfernt werden"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:450
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:459
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:487
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:452
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:461
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:489
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Ungültiges Dateiformat"
@@ -696,7 +695,9 @@ msgstr "Dateien automatisch nach Datum ordnen"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:656
-#: ../extensions/catalogs/gth-catalog.c:1019
+#: ../extensions/catalogs/gth-catalog.c:705
+#: ../extensions/catalogs/gth-catalog.c:1062
+#: ../extensions/catalogs/gth-catalog.c:1063
 msgid "Catalogs"
 msgstr "Kataloge"
 
@@ -733,7 +734,7 @@ msgid "Catalog"
 msgstr "Katalog"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
-#: ../gthumb/gth-file-properties.c:202
+#: ../gthumb/gth-file-properties.c:203
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -914,7 +915,7 @@ msgid "Comments and tags"
 msgstr "Kommentare und Schlagwörter"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:300
+#: ../extensions/importer/gth-import-preferences-dialog.c:304
 msgid "Preferences"
 msgstr "Einstellungen"
 
@@ -922,13 +923,11 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40
-#: ../gthumb/gth-test-simple.c:48
+#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:48
 msgid "is"
 msgstr "ist"
 
-#: ../extensions/comments/gth-test-category.c:41
-#: ../gthumb/gth-test-simple.c:49
+#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:49
 msgid "is not"
 msgstr "ist nicht"
 
@@ -943,18 +942,18 @@ msgstr "Die Testdefinition ist unvollständig"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: ../extensions/comments/main.c:195
+#: ../extensions/comments/main.c:207
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../extensions/comments/main.c:203 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:215 ../gthumb/gth-main-default-metadata.c:51
 msgid "Place"
 msgstr "Ort"
 
-#: ../extensions/comments/main.c:210
+#: ../extensions/comments/main.c:222
 msgid "Tag"
 msgstr "Schlagwort"
 
@@ -1015,7 +1014,7 @@ msgstr "Das Bild als Arbeitsflächenhintergrund verwenden"
 msgid "Desktop background"
 msgstr "Arbeitsflächenhintergrund"
 
-#: ../extensions/edit_metadata/callbacks.c:90
+#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
 msgid "Metadata"
 msgstr "Metadaten"
 
@@ -1065,7 +1064,7 @@ msgid "The following date"
 msgstr "Folgendes Datum"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:313
+#: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "Current date"
 msgstr "Heutiges Datum"
 
@@ -1225,7 +1224,7 @@ msgstr ""
 "können Sie sie kopieren."
 
 #: ../extensions/file_manager/actions.c:390
-#: ../extensions/importer/gth-import-task.c:381
+#: ../extensions/importer/gth-import-task.c:384
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
@@ -1278,8 +1277,7 @@ msgstr "Der Ordner konnte nicht gelöscht werden"
 
 #: ../extensions/file_manager/actions.c:737
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
@@ -1338,8 +1336,8 @@ msgstr "_Umbenennen"
 msgid "_Paste Into Folder"
 msgstr "In Ordner e_infügen"
 
-#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:3924
-#: ../gthumb/gth-browser.c:3962
+#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:4153
+#: ../gthumb/gth-browser.c:4191
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -1605,9 +1603,258 @@ msgstr "Speichern"
 msgid "Undo"
 msgstr "Rückgängig"
 
+#: ../extensions/flicker/callbacks.c:55 ../extensions/flicker/callbacks.c:59
+msgid "_Flickr..."
+msgstr "_Flickr …"
+
+#: ../extensions/flicker/callbacks.c:56
+#| msgid "Upload photos to Flickr"
+msgid "Download photos from Flickr"
+msgstr "Fotos von Flickr herunterladen"
+
+#: ../extensions/flicker/callbacks.c:60
+msgid "Upload photos to Flickr"
+msgstr "Fotos zu Flickr übertragen"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "Edit accounts"
+msgstr "Konten bearbeiten"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+msgid "Export to Flickr"
+msgstr "Zu Flickr exportieren"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:3
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Free space:"
+msgstr "Freier Platz:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+msgid "Hi_de from public searches"
+msgstr "Von _öffentlichen Suchvorgängen ausschließen"
+
+# CHECK: Moderater Inhalt? Inhalt moderieren?
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
+msgid "Moderate content"
+msgstr "Moderierter Inhalt"
+
+# CHECK: Bildersatz? Wie heißt das denn bei Flickr?
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+msgid "Ph_otoset:"
+msgstr "Bilder_sammlung:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
+msgid "Private photos"
+msgstr "Private Fotos"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:8
+msgid "Private photos, visible to family"
+msgstr "Private Fotos, für die Familie sichtbar"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
+msgid "Private photos, visible to family and friends"
+msgstr "Private Fotos, für die Familie und Freunde sichtbar"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to friends"
+msgstr "Private Fotos, für Freunde sichtbar"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+msgid "Public photos"
+msgstr "Öffentliche Fotos"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
+msgid "Restricted content"
+msgstr "Eingeschränkter Inhalt"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+msgid "Safe content"
+msgstr "Sicherer Inhalt"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
+msgid "_Account:"
+msgstr "K_onto:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
+msgid "_Privacy:"
+msgstr "_Privatsphäre:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+msgid "_Safety:"
+msgstr "_Sicherheit:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:17
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
+msgid "_Upload"
+msgstr "_Hochladen"
+
+#: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
+msgid "A_ccount:"
+msgstr "K_onto:"
+
+#: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "_Konten:"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to Flickr. When you're finished, return to this window to complete the "
+"authorization."
+msgstr ""
+"Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
+"legitimieren, Fotos zu Flickr zu übertragen. Sobald dies erledigt ist, kehren "
+"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:2
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:4
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+msgid "Upload to Flickr"
+msgstr "Hochladen zu Flickr"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:3
+msgid "_Authorize..."
+msgstr "_Legitimieren …"
+
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:4
+msgid "gthumb requires your authorization to upload the photos to Flickr"
+msgstr ""
+"gthumb benötigt Ihre Legitimierung, um Bilder zu Flickr übertragen zu können."
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "F_ortfahren"
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:2
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "Sobald dies erledigt ist, klicken Sie auf »Fortsetzen«."
+
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:3
+msgid ""
+"Return to this window when you have finished the authorization process on "
+"Flickr.com"
+msgstr ""
+"Kehren Sie zu diesem Fenster zurück, sobald der Legitimierungsvorgang auf "
+"Flickr.com abgeschlossen ist."
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+msgid "Files successfully uploaded to the server."
+msgstr "Dateien wurden erfolgreich zum Server übertragen."
+
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:3
+msgid "_Open in the Browser"
+msgstr "Im Br_owser öffnen"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:136
+#: ../extensions/flicker/dlg-export-to-flickr.c:380
+#: ../extensions/flicker/dlg-export-to-flickr.c:438
+#: ../extensions/flicker/dlg-export-to-flickr.c:475
+#: ../extensions/flicker/dlg-export-to-flickr.c:583
+#: ../extensions/flicker/dlg-export-to-flickr.c:630
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:336
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:358
+msgid "Could not connect to the server"
+msgstr "Verbindung zum Server konnte nicht hergestellt werden"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:181
+#: ../extensions/flicker/dlg-export-to-flickr.c:215
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:592
+msgid "Could not create the album"
+msgstr "Das Album konnte nicht angelegt werden"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:237
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:117
+msgid "Could not upload the files"
+msgstr "Die Dateien konnten nicht übertragen werden"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:708
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:685
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
+msgid "Choose Account"
+msgstr "Konto wählen"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:765
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:742
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
+msgid "Edit Accounts"
+msgstr "Konten bearbeiten"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:840
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:857
+msgid "No valid file selected."
+msgstr "Keine gültige Datei ausgewählt"
+
+#: ../extensions/flicker/dlg-export-to-flickr.c:841
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:858
+msgid "Could not export the files"
+msgstr "Die Dateien konnten nicht exportiert werden"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+msgid "Flicker"
+msgstr "Flickr"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+msgid "Upload images to Flickr"
+msgstr "Bilder zu Flickr übertragen"
+
+#: ../extensions/flicker/flickr-connection.c:281
+#: ../extensions/flicker/flickr-connection.c:428
+#: ../extensions/flicker/flickr-service.c:221
+#: ../extensions/flicker/flickr-service.c:424
+msgid "Unknown error"
+msgstr "Unbekannter Fehler"
+
+#: ../extensions/flicker/flickr-connection.c:307
+#: ../extensions/flicker/flickr-connection.c:454
+#: ../extensions/flicker/flickr-service.c:245
+#: ../extensions/picasaweb/google-connection.c:364
+msgid "Connecting to the server"
+msgstr "Verbindung mit Server wird aufgebaut"
+
+#: ../extensions/flicker/flickr-service.c:245
+msgid "Getting account information"
+msgstr "Kontoinformationen wird ermittelt"
+
+#: ../extensions/flicker/flickr-service.c:349
+#: ../extensions/picasaweb/picasa-web-service.c:238
+msgid "Getting the album list"
+msgstr "Albenliste wird geholt"
+
+#: ../extensions/flicker/flickr-service.c:452
+#: ../extensions/flicker/flickr-service.c:572
+#: ../extensions/flicker/flickr-service.c:610
+#: ../extensions/picasaweb/picasa-web-service.c:329
+msgid "Creating the new album"
+msgstr "Neues Album wird angelegt"
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#: ../extensions/flicker/flickr-service.c:829
+#: ../extensions/picasaweb/picasa-web-service.c:510
+#, c-format
+msgid "Uploading '%s'"
+msgstr "»%s« wird übertragen …"
+
+#: ../extensions/flicker/flickr-service.c:907
+#: ../extensions/picasaweb/picasa-web-service.c:584
+msgid "Uploading the files to the server"
+msgstr "Dateien werden zum Server übertragen"
+
+#: ../extensions/flicker/flickr-service.c:1024
+#: ../extensions/picasaweb/picasa-web-service.c:706
+msgid "Getting the photo list"
+msgstr "Bilderliste wird geholt"
+
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1748
+#: ../gthumb/gth-browser.c:1779
 msgid "Could not save the file"
 msgstr "Die Datei konnte nicht gespeichert werden"
 
@@ -1802,18 +2049,18 @@ msgstr "Zoll"
 msgid "millimeters"
 msgstr "Millimeter"
 
-#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/image_print/gth-image-print-job.c:815
 #, c-format
 msgid "Page %d of %d"
 msgstr "Seite %d von %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1489
-#: ../extensions/image_print/gth-image-print-job.c:1569
-#: ../extensions/image_print/gth-image-print-job.c:1590
+#: ../extensions/image_print/gth-image-print-job.c:1490
+#: ../extensions/image_print/gth-image-print-job.c:1570
+#: ../extensions/image_print/gth-image-print-job.c:1591
 msgid "Could not print"
 msgstr "Drucken nicht möglich"
 
-#: ../extensions/image_print/gth-image-print-job.c:1525
+#: ../extensions/image_print/gth-image-print-job.c:1526
 msgid "Layout"
 msgstr "Layout"
 
@@ -1865,8 +2112,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -1877,9 +2124,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
-"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
-"mehr strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
+"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
+"strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
@@ -1895,8 +2142,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
-"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
+"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
@@ -1987,6 +2234,14 @@ msgstr "Größe an Breite anpassen"
 msgid "Viewer"
 msgstr "Betrachter"
 
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
+msgid "Possible values are: none, file_date, current_date"
+msgstr "Zulässige Werte: none, file_date, current_date"
+
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
+msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+msgstr "Zulässige Werte: yyyymmdd, yyyymm, yyyy"
+
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 msgid "Files"
 msgstr "Dateien"
@@ -2011,52 +2266,52 @@ msgstr "Bilder tatsächlich _drehen"
 msgid "as _single subfolder"
 msgstr "als einzelner _Unterordner"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:201
+#: ../extensions/importer/gth-import-preferences-dialog.c:205
 #, c-format
 msgid "example: %s"
 msgstr "Beispiel: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:312
+#: ../extensions/importer/gth-import-preferences-dialog.c:316
 msgid "File date"
 msgstr "Dateidatum"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:322
+#: ../extensions/importer/gth-import-preferences-dialog.c:326
 msgid "year-month-day"
 msgstr "Jahr-Monat-Tag"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:323
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "year-month"
 msgstr "Jahr-Monat"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:324
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "year"
 msgstr "Jahr"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:325
+#: ../extensions/importer/gth-import-preferences-dialog.c:329
 msgid "custom format"
 msgstr "Benutzerdefiniertes Format"
 
-#: ../extensions/importer/gth-import-task.c:323
-#: ../extensions/importer/gth-import-task.c:402
+#: ../extensions/importer/gth-import-task.c:326
+#: ../extensions/importer/gth-import-task.c:405
 msgid "Importing files"
 msgstr "Dateien werden importiert"
 
-#: ../extensions/importer/gth-import-task.c:360
+#: ../extensions/importer/gth-import-task.c:363
 msgid "No file imported"
 msgstr "Keine Datei importiert"
 
-#: ../extensions/importer/gth-import-task.c:361
+#: ../extensions/importer/gth-import-task.c:364
 msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
-#: ../extensions/importer/gth-import-task.c:382
+#: ../extensions/importer/gth-import-task.c:385
 msgid "Delete operation not supported."
 msgstr "Löschvorgang wird nicht unterstützt."
 
-#: ../extensions/importer/gth-import-task.c:447
+#: ../extensions/importer/gth-import-task.c:451
 msgid "Last imported"
 msgstr "Zuletzt importiert"
 
@@ -2064,13 +2319,12 @@ msgstr "Zuletzt importiert"
 msgid "Personalize..."
 msgstr "_Personalisieren …"
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:211
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:252
+#: ../extensions/list_tools/callbacks.c:261
 msgid "Batch tools for multiple files"
 msgstr "Stapelverarbeitung für mehrere Dateien"
 
@@ -2295,7 +2549,7 @@ msgid "Could not load the folder"
 msgstr "Ordner konnte nicht geladen werden"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1661
+#: ../gthumb/gth-browser.c:1692
 msgid "Getting folder listing..."
 msgstr "Ordnerinhalt wird ermittelt …"
 
@@ -2324,36 +2578,17 @@ msgstr "Fotos vom Picasa-Webalbum herunterladen"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Fotos zum Picasa-Webalbum übertragen"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "K_onto:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Neues Album hinzufügen"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Konten bearbeiten"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
 msgstr "In Picasa-Webalbum exportieren"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "Free space:"
-msgstr "Freier Platz:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 msgid "_Albums:"
 msgstr "_Alben:"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
-msgid "_Upload"
-msgstr "_Hochladen"
 
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Import from Picasa Web Album"
@@ -2362,10 +2597,6 @@ msgstr "Aus dem Picasa-Webalbum importieren"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 msgid "_Album:"
 msgstr "_Album:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "_Konten:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
 msgid ""
@@ -2395,68 +2626,33 @@ msgstr "Öffentlich"
 msgid "_Visibility:"
 msgstr "_Sichtbarkeit:"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
-msgid "Could not upload the files"
-msgstr "Die Dateien konnten nicht übertragen werden"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:274
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:297
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:278
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:299
 msgid "Could not get the album list"
 msgstr "Die Albenliste konnte nicht geholt werden"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
-msgid "Could not connect to the server"
-msgstr "Verbindung zum Server konnte nicht hergestellt werden"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:349
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:371
 msgid "Picasa Web Album"
 msgstr "Picasa-Webalbum"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:413
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:437
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:419
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:441
 msgid "Account"
 msgstr "Konto"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
-msgid "Could not create the album"
-msgstr "Das Album konnte nicht angelegt werden"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:653
 msgid "New Album"
 msgstr "Neues Album"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:674
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
-msgid "Choose Account"
-msgstr "Konto wählen"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:731
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
-msgid "Edit Accounts"
-msgstr "Konten bearbeiten"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:847
-msgid "No valid file selected."
-msgstr "Keine gültige Datei ausgewählt"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:848
-msgid "Could not export the files"
-msgstr "Die Dateien konnten nicht exportiert werden"
-
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:753
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
 msgid "Could not get the photo list"
 msgstr "Fotoliste konnten nicht geholt werden"
 
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:786
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:943
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:792
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:957
 msgid "No album selected"
 msgstr "Keine Album ausgewählt"
-
-#: ../extensions/picasaweb/google-connection.c:364
-msgid "Connecting to the server"
-msgstr "Verbindung mit Server wird aufgebaut"
 
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 msgid "Could not load the file"
@@ -2469,29 +2665,6 @@ msgstr "Picasa-Webalben"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Bilder zu Picasa-Webalben übertragen"
-
-#: ../extensions/picasaweb/picasa-web-service.c:238
-msgid "Getting the album list"
-msgstr "Albenliste wird geholt"
-
-#: ../extensions/picasaweb/picasa-web-service.c:329
-msgid "Creating the new album"
-msgstr "Neues Album wird angelegt"
-
-#. send the file
-#. Translators: %s is a filename
-#: ../extensions/picasaweb/picasa-web-service.c:510
-#, c-format
-msgid "Uploading '%s'"
-msgstr "»%s« wird übertragen …"
-
-#: ../extensions/picasaweb/picasa-web-service.c:584
-msgid "Uploading the files to the server"
-msgstr "Dateien werden zum Server übertragen"
-
-#: ../extensions/picasaweb/picasa-web-service.c:706
-msgid "Getting the photo list"
-msgstr "Bilderliste wird geholt"
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
 msgid "Possible values are: none, deflate, jpeg."
@@ -2931,36 +3104,68 @@ msgstr "Würfel von unten"
 msgid "View images as a slideshow."
 msgstr "Bilder als Diashow betrachten."
 
-#: ../gthumb/dlg-extensions.c:107
+#: ../gthumb/dlg-extensions.c:54 ../gthumb/gth-filterbar.c:270
+msgid "All"
+msgstr "Alle"
+
+#: ../gthumb/dlg-extensions.c:55
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: ../gthumb/dlg-extensions.c:56
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: ../gthumb/dlg-extensions.c:59
+msgid "Viewers"
+msgstr "Betrachter"
+
+#: ../gthumb/dlg-extensions.c:61
+msgid "File tools"
+msgstr "Dateiwerkzeuge"
+
+#: ../gthumb/dlg-extensions.c:62
+msgid "List tools"
+msgstr "Werkzeuge zur Dateiauflistung"
+
+#: ../gthumb/dlg-extensions.c:63
+msgid "Importers"
+msgstr "Importierer"
+
+#: ../gthumb/dlg-extensions.c:64
+msgid "Exporters"
+msgstr "Exportierer"
+
+#: ../gthumb/dlg-extensions.c:140
 msgid "Restart required"
 msgstr "Neustart ist erforderlich"
 
-#: ../gthumb/dlg-extensions.c:108
+#: ../gthumb/dlg-extensions.c:141
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr ""
 "Sie müssen gthumb neu starten, um die Änderungen wirksam werden zu lassen"
 
-#: ../gthumb/dlg-extensions.c:109
+#: ../gthumb/dlg-extensions.c:142
 msgid "_Continue"
 msgstr "_Fortfahren"
 
-#: ../gthumb/dlg-extensions.c:110
+#: ../gthumb/dlg-extensions.c:143
 msgid "_Restart"
 msgstr "_Neu starten"
 
-#: ../gthumb/dlg-extensions.c:208
+#: ../gthumb/dlg-extensions.c:244
 msgid "Could not activate the extension"
 msgstr "Die Erweiterung konnte nicht aktiviert werden"
 
-#: ../gthumb/dlg-extensions.c:214
+#: ../gthumb/dlg-extensions.c:250
 msgid "Could not deactivate the extension"
 msgstr "Die Erweiterung konnte nicht deaktiviert werden"
 
-#: ../gthumb/dlg-extensions.c:236
+#: ../gthumb/dlg-extensions.c:272
 msgid "Use"
 msgstr "Verwenden"
 
-#: ../gthumb/dlg-extensions.c:252
+#: ../gthumb/dlg-extensions.c:288
 msgid "Extension"
 msgstr "Erweiterung"
 
@@ -3005,7 +3210,7 @@ msgstr "Dateiformat"
 msgid "Extension(s)"
 msgstr "Erweiterung(en)"
 
-#: ../gthumb/eggfileformatchooser.c:675
+#: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
 "The program was not able to find out the file format you want to use for `%"
@@ -3017,7 +3222,7 @@ msgstr ""
 "Erweiterung verwenden, oder wählen Sie manuell ein Dateiformat aus der "
 "nachstehenden Liste aus."
 
-#: ../gthumb/eggfileformatchooser.c:682
+#: ../gthumb/eggfileformatchooser.c:688
 msgid "File format not recognized"
 msgstr "Dateiformat wurde nicht erkannt"
 
@@ -3073,11 +3278,11 @@ msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:387
+#: ../gthumb/gth-browser-actions-callbacks.c:395
 msgid "An image viewer and browser for GNOME."
 msgstr "Ein Bildbetrachter und Browser für GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:390
+#: ../gthumb/gth-browser-actions-callbacks.c:398
 msgid "translator_credits"
 msgstr ""
 "Christian Neumair <chris@gnome-de.org>\n"
@@ -3168,19 +3373,19 @@ msgstr "Nächstes"
 msgid "View next image"
 msgstr "Das nächste Bild anzeigen"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:2925
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3023
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:2946
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3044
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:2967
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3065
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
-#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:618
+#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:644
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
@@ -3241,96 +3446,106 @@ msgid "View or hide the sidebar of this window"
 msgstr "Die Seitenleiste dieses Fensters anzeigen/verbergen"
 
 #: ../gthumb/gth-browser-actions-entries.h:200
+#| msgid "_Thumbnails"
+msgid "_Thumbnail Pane"
+msgstr "_Vorschauleiste"
+
+#: ../gthumb/gth-browser-actions-entries.h:201
+#| msgid "View or hide the statusbar of this window"
+msgid "View or hide the thumbnail pane in viewer mode"
+msgstr "Die Vorschauleiste im Ansichtsmodus anzeigen/verbergen"
+
+#: ../gthumb/gth-browser-actions-entries.h:205
 msgid "_Thumbnails"
 msgstr "_Miniatur-Vorschaubilder"
 
-#: ../gthumb/gth-browser-actions-entries.h:201
+#: ../gthumb/gth-browser-actions-entries.h:206
 msgid "View thumbnails"
 msgstr "Miniatur-Vorschaubilder anzeigen"
 
-#: ../gthumb/gth-browser-actions-entries.h:205
+#: ../gthumb/gth-browser-actions-entries.h:210
 msgid "Show _Hidden Files"
 msgstr "_Verborgene Dateien anzeigen"
 
-#: ../gthumb/gth-browser-actions-entries.h:206
+#: ../gthumb/gth-browser-actions-entries.h:211
 msgid "Show hidden files and folders"
 msgstr "Verborgene Dateien und Ordner anzeigen"
 
-#: ../gthumb/gth-browser-actions-entries.h:211
+#: ../gthumb/gth-browser-actions-entries.h:216
 msgid "View file properties"
 msgstr "Die Eigenschaften der Datei anzeigen"
 
-#: ../gthumb/gth-browser-actions-entries.h:215
+#: ../gthumb/gth-browser-actions-entries.h:220
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: ../gthumb/gth-browser-actions-entries.h:216
+#: ../gthumb/gth-browser-actions-entries.h:221
 msgid "Edit file"
 msgstr "Datei bearbeiten"
 
-#: ../gthumb/gth-browser.c:325
+#: ../gthumb/gth-browser.c:350
 #, c-format
 msgid "Open %s"
 msgstr "%s öffnen"
 
-#: ../gthumb/gth-browser.c:464
+#: ../gthumb/gth-browser.c:489
 msgid "[modified]"
 msgstr "[geändert]"
 
-#: ../gthumb/gth-browser.c:468 ../gthumb/gth-main.c:257
+#: ../gthumb/gth-browser.c:493 ../gthumb/gth-main.c:257
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1042 ../gthumb/gth-browser.c:1563
-#: ../gthumb/gth-browser.c:4733 ../gthumb/gth-browser.c:4752
-#: ../gthumb/gth-browser.c:4777
+#: ../gthumb/gth-browser.c:1068 ../gthumb/gth-browser.c:1594
+#: ../gthumb/gth-browser.c:4917 ../gthumb/gth-browser.c:4936
+#: ../gthumb/gth-browser.c:4961
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
 
-#: ../gthumb/gth-browser.c:1645 ../gthumb/gth-browser.c:1672
+#: ../gthumb/gth-browser.c:1676 ../gthumb/gth-browser.c:1703
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Kein passendes Modul für %s gefunden"
 
-#: ../gthumb/gth-browser.c:1790
+#: ../gthumb/gth-browser.c:1821
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Die Änderungen an Datei »%s« speichern?"
 
-#: ../gthumb/gth-browser.c:1795
+#: ../gthumb/gth-browser.c:1826
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Wenn Sie nicht speichern, gehen die Änderungen an dieser Datei permanent "
 "verloren"
 
-#: ../gthumb/gth-browser.c:1796
+#: ../gthumb/gth-browser.c:1827
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: ../gthumb/gth-browser.c:2301 ../gthumb/gth-browser.c:2325
+#: ../gthumb/gth-browser.c:2345 ../gthumb/gth-browser.c:2369
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Name konnte nicht geändert werden"
 
-#: ../gthumb/gth-browser.c:2699 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2750 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Geändert"
 
-#: ../gthumb/gth-browser.c:2926 ../gthumb/gth-browser.c:2947
+#: ../gthumb/gth-browser.c:3024 ../gthumb/gth-browser.c:3045
 msgid "View the list of visited locations"
 msgstr "Die Liste besuchter Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:2968
+#: ../gthumb/gth-browser.c:3066
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:4734
+#: ../gthumb/gth-browser.c:4918
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:4778
+#: ../gthumb/gth-browser.c:4962
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -3340,22 +3555,18 @@ msgstr "Kein passendes Modul gefunden"
 msgid "Could not open the module `%s`: %s"
 msgstr "Modul »%s« konnte nicht geöffnet werden: %s"
 
-#: ../gthumb/gth-extensions.c:815
+#: ../gthumb/gth-extensions.c:817
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Die Erweiterung »%s« wird von der Erweiterung »%s« benötigt"
 
-#: ../gthumb/gth-file-source-vfs.c:80
+#: ../gthumb/gth-file-source-vfs.c:81
 msgid "Home Folder"
 msgstr "Persönlicher Ordner"
 
-#: ../gthumb/gth-file-source-vfs.c:87
+#: ../gthumb/gth-file-source-vfs.c:88
 msgid "File System"
 msgstr "Dateisystem"
-
-#: ../gthumb/gth-filterbar.c:270
-msgid "All"
-msgstr "Alle"
 
 #: ../gthumb/gth-filterbar.c:406
 msgid "Close"
@@ -3614,7 +3825,7 @@ msgstr "Dieses Fenster schließen"
 msgid "Could not display help"
 msgstr "Hilfe konnte nicht angezeigt werden"
 
-#: ../gthumb/gtk-utils.c:1073 ../gthumb/gtk-utils.c:1081
+#: ../gthumb/gtk-utils.c:1086 ../gthumb/gtk-utils.c:1094
 msgid "Could not launch the application"
 msgstr "Anwendung konnte nicht gestartet werden"
 
