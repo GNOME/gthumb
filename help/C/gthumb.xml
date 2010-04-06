@@ -545,116 +545,55 @@
 
   <!-- ============= Viewing ================================== -->
   <sect1 id="gthumb-image-viewing">
-  <title>Viewing Images</title>
+  <title>Opening Images</title>
   <para>
      Keyboard shortcuts to view images are described in <xref
      linkend="gthumb-TBL-keyword-shortcuts-viewer"/>.
   </para>
   <sect2 id="gthumb-view-images">
-  <title>To View an Image</title>
+  <title>To Open an Image</title>
     <para>
-      In order to view an image just click on its thumbnail and the image will
-      be visualized in the viewer pane.  If the image does not fit the viewer
-      pane you can give more space to the viewer hiding the browser, this can
-      be accomplished double-clicking on the thumbnails or pressing the
-      <keycap>Return</keycap> key, pressing it
-      again the browser will be displayed again.
-      Another way of viewing a big image is to view it in full screen
-      mode, type <keycombo><keycap>F</keycap></keycombo> to
-      activate/deactivate the full screen mode.
+	The browser view shows the images in the current folder (see
+	<xref linkend="gthumb-main-window"/>).
     </para>
     <para>
-      Mouse operations :
+	Single-clicking an image will enable the Information Sidebar
+	for that image.
     </para>
-      <informaltable frame="topbot">
-        <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
-                colwidth="30.65*"/>
-        <colspec colname="COLSPEC1" colwidth="69.35*"/>
-        <tbody>
-          <row>
-            <entry>
-              <para>Holding down the left button and moving the mouse</para></entry>
-            <entry>
-              <para>move the image.</para></entry>
-          </row>
-          <row>
-            <entry>
-              <para>Left-click</para></entry>
-            <entry>
-              <para>Show next image.</para></entry>
-          </row>
-          <row>
-            <entry>
-              <para>Middle-click</para></entry>
-            <entry>
-              <para>Show previous image.</para></entry>
-          </row>
-          <row>
-            <entry>
-              <para>Right-click</para></entry>
-            <entry>
-              <para>Pop up the image menu.</para></entry>
-          </row>
-        </tbody>
-        </tgroup>
-      </informaltable>
     <para>
-      Another way of moving images is by the navigation button :
-      <screenshot>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="figures/nav-button.png" format="PNG"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-      located in the
-      right bottom corner of the viewer window when the images does not fit
-      in the window.  Clicking and holding this
-      button will show you a preview of the image.  Moving the mouse you will
-      move the image to the desired position.
+	Double-clicking an image (or pressing <keycap>Return</keycap>)
+	will open it in the viewer mode.
+    </para> 
+    <para>
+	Double-clicking with the middle mouse button (or pressing <keycap>f</keycap>)
+	will load the image in fullscreen viewer mode.
+    </para> 
+    <para>
+        Pressing <keycap>Escape</keycap> will exit the viewer mode, and return
+	the user to the browser mode. A toolbar button (<guibutton>View the folders</guibutton>)
+	is also provided for this purpose.
     </para>
    </sect2>
-   <sect2 id="gthumb-view-prop">
-   <title>To View the Image Properties</title>
-     <para>
-        To view the image properties, perform the following steps:
-        <orderedlist>
-          <listitem>
-            <para>Select the image.</para>
-          </listitem>
-          <listitem>
-            <para>Choose <menuchoice><guimenu>File</guimenu><guimenuitem>Properties
-            </guimenuitem></menuchoice>. &app; displays a
-            <guilabel>Properties</guilabel> dialog.</para>
-          </listitem>
-        </orderedlist>
-     </para>
+  <sect2 id="gthumb-change-images">
+  <title>Opening a Different Image</title>
+    <para>
+        Once in image has been opened in viewer mode, the image is displayed in the
+	main body of the window. A thumbnail pane may be optionally displayed along the
+	bottom of the window (<menuchoice><guisubmenu>View</guisubmenu><guimenuitem>Thumbnail Pane</guimenuitem></menuchoice>).
+    </para>
+    <para>
+        You can advance to the next image by clicking the <guibutton>Next</guibutton>
+	button, or by pressing <keycap>Space</keycap> or <keycap>Page Down</keycap>.
+    </para>
+    <para>
+        You can go back to the previous image by clicking the <guibutton>Previous</guibutton>
+        button, or by pressing <keycap>Backspace</keycap> or <keycap>Page Up</keycap>.
+    </para>
+    <para>
+        You can go also click on thumbnails in the thumbnail pane to open a different image.
+    </para>
    </sect2>
-  <!-- ============= EXIF ================================== -->
-  <sect2 id="gthumb-exif">
-  <title>To View the Image EXIF Data</title>
-  <para>
-     To view the exif data attached to an image, use the
-     <guilabel>Properties</guilabel> dialog (<xref
-      linkend="gthumb-view-prop"/>) or perform the following
-     steps:
-     <orderedlist>
-        <listitem><para>
-           Select the image.
-        </para></listitem>
-        <listitem><para>
-           View the image pressing <keycap>Return</keycap> or double
-           clicking on it.
-        </para></listitem>
-        <listitem><para>
-           Choose
-           <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
-           Comment</guimenuitem></menuchoice> or press
-           <keycap>I</keycap>. &app; displays the exif data.
-        </para></listitem>
-     </orderedlist>
-  </para>
-  </sect2>
+
   </sect1>
 
   <!-- ============= working with images ================================== -->
@@ -2102,13 +2041,13 @@
         <listitem>
           <para>Press <keycombo action="simul">
 	  <keycap>Space</keycap></keycombo> or <keycombo action="simul">
-	  <keycap>N</keycap></keycombo>. &app; displays the next image.
+	  <keycap>Page Down</keycap></keycombo>. &app; displays the next image.
           </para>
         </listitem>
         <listitem>
           <para>Press <keycombo action="simul">
 	  <keycap>BackSpace</keycap></keycombo> or <keycombo action="simul">
-	  <keycap>B</keycap></keycombo>. &app; displays the previous image.
+	  <keycap>Page Up</keycap></keycombo>. &app; displays the previous image.
           </para>
         </listitem>
       </orderedlist>
@@ -3572,7 +3511,6 @@
 	  <row valign="top">
             <entry>
 	      <para>
-		<keycombo><keycap>n</keycap></keycombo> or
 	        <keycombo action="simul"><keycap>Space</keycap></keycombo> or
 		<keycombo action="simul"><keycap>Page Down</keycap></keycombo>
 	      </para>
@@ -3587,7 +3525,6 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo action="simul"><keycap>b</keycap></keycombo> or
 		<keycombo><keycap>Backspace</keycap></keycombo> or
 		<keycombo action="simul"><keycap>Page Up</keycap></keycombo>
 	      </para>
