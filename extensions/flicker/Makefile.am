@@ -35,9 +35,9 @@ libflicker_la_SOURCES = 			\
 	flickr-user.h				\
 	main.c
 
-libflicker_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libflicker_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libflicker_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libflicker_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) 
+libflicker_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(GNOME_KEYRING_LIBS)
 libflicker_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

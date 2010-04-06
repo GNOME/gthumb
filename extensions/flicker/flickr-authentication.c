@@ -22,6 +22,9 @@
 
 #include <config.h>
 #include <glib.h>
+#ifdef HAVE_GNOME_KEYRING
+#include <gnome-keyring.h>
+#endif /* HAVE_GNOME_KEYRING */
 #include "flickr-account-chooser-dialog.h"
 #include "flickr-account-manager-dialog.h"
 #include "flickr-authentication.h"
@@ -199,16 +202,59 @@ upload_status_ready_cb (GObject      *source_object,
 }
 
 
-static void
-connect_to_server (FlickrAuthentication *self)
-{
-	g_return_if_fail (self->priv->account != NULL);
+static void start_authorization_process (FlickrAuthentication *self);
 
+
+static void
+connect_to_server_step2 (FlickrAuthentication *self)
+{
+	if (self->priv->account->token == NULL) {
+		start_authorization_process (self);
+		return;
+	}
 	flickr_connection_set_auth_token (self->priv->conn, self->priv->account->token);
 	flickr_service_get_upload_status (self->priv->service,
 					  self->priv->cancellable,
 					  upload_status_ready_cb,
 					  self);
+}
+
+
+#ifdef HAVE_GNOME_KEYRING
+static void
+find_password_cb (GnomeKeyringResult  result,
+                  const char         *string,
+                  gpointer            user_data)
+{
+	FlickrAuthentication *self = user_data;
+
+	if (string != NULL)
+		self->priv->account->token = g_strdup (string);
+	connect_to_server_step2 (self);
+}
+#endif
+
+
+static void
+connect_to_server (FlickrAuthentication *self)
+{
+	g_return_if_fail (self->priv->account != NULL);
+
+#ifdef HAVE_GNOME_KEYRING
+	if ((self->priv->account->token == NULL) && gnome_keyring_is_available ()) {
+		gnome_keyring_find_password (GNOME_KEYRING_NETWORK_PASSWORD,
+					     find_password_cb,
+					     self,
+					     NULL,
+					     "user", self->priv->account->username,
+					     "server", self->priv->conn->server->url,
+					     "protocol", "http",
+					     NULL);
+		return;
+	}
+#endif
+
+	connect_to_server_step2 (self);
 }
 
 
@@ -234,6 +280,17 @@ set_account (FlickrAuthentication *self,
 }
 
 
+#ifdef HAVE_GNOME_KEYRING
+static void
+store_password_done_cb (GnomeKeyringResult result,
+			gpointer           user_data)
+{
+	FlickrAuthentication *self = user_data;
+	connect_to_server (self);
+}
+#endif
+
+
 static void
 connection_token_ready_cb (GObject      *source_object,
 			   GAsyncResult *res,
@@ -256,6 +313,23 @@ connection_token_ready_cb (GObject      *source_object,
 	flickr_account_set_token (account, flickr_connection_get_auth_token (self->priv->conn));
 	set_account (self, account);
 	g_object_unref (account);
+
+#ifdef HAVE_GNOME_KEYRING
+	if (gnome_keyring_is_available ()) {
+		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
+					      GNOME_KEYRING_SESSION,
+					      self->priv->conn->server->name,
+					      flickr_connection_get_auth_token (self->priv->conn),
+					      store_password_done_cb,
+					      self,
+					      NULL,
+					      "user", flickr_connection_get_username (self->priv->conn),
+					      "server", self->priv->conn->server->url,
+					      "protocol", "http",
+					      NULL);
+		return;
+	}
+#endif
 
 	connect_to_server (self);
 }
