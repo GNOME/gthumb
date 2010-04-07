@@ -235,7 +235,7 @@
       </varlistentry>
       <varlistentry> <term>Locationbar</term>
         <listitem>
-          <para>The locationbar contains the current folder name. </para>
+          <para>The locationbar contains the current folder or catalog name. </para>
         </listitem>
       </varlistentry>
       <varlistentry> <term>Folder Tree</term>
@@ -249,7 +249,7 @@
       </varlistentry>
       <varlistentry> <term>Browser View</term>
       <listitem>
-        <para>The browser view shows the images in the current folder.
+        <para>The browser view shows the images in the current folder or catalog.
 	Single-clicking an image will enable the Information Sidebar
 	for that image. Double-clicking an image will open it in the
 	viewer mode. Double-clicking with the middle mouse button will
@@ -270,7 +270,7 @@
 	  <orderedlist>
 	    <listitem>
               <para>the total number of images contained in the
-	      current folder and their total size.</para>
+	      current folder or catalog and their total size.</para>
 	    </listitem>
 	    <listitem>
 	      <para>the number of the selected images and their size.</para>
@@ -345,7 +345,7 @@
       menu item.
     </para>
     <para>
-      To reload the current folder, use <keycombo action="simul"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>.
+      To reload the current folder or catalog, use <keycombo action="simul"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>.
     </para>
     <para>
       To disable or re-enable the thumbnails in the browser view, use 
@@ -553,7 +553,7 @@
   <sect2 id="gthumb-view-images">
   <title>To Open an Image</title>
     <para>
-	The browser view shows the images in the current folder (see
+	The browser view shows the images in the current folder or catalog (see
 	<xref linkend="gthumb-main-window"/>).
     </para>
     <para>
@@ -1957,7 +1957,7 @@
     <sect1 id="slideshow">
       <title>Slide Shows</title>
       <para>
-        You can start a slide show of the images in the current folder by
+        You can start a slide show of the images in the current folder or catalog by
 	pressing <keycombo action="simul"><keycap>s</keycap></keycombo> or
 	selecting the <menuchoice><guimenu>View
 	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
