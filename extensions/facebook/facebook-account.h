@@ -43,8 +43,10 @@ struct _FacebookAccount {
 	GObject parent_instance;
 	FacebookAccountPrivate *priv;
 
+	char     *user_id;
 	char     *username;
-	char     *token;
+	char     *session_key;
+	char     *secret;
 	gboolean  is_default;
 };
 
@@ -52,14 +54,18 @@ struct _FacebookAccountClass {
 	GObjectClass parent_class;
 };
 
-GType             facebook_account_get_type       (void);
-FacebookAccount *   facebook_account_new            (void);
-void              facebook_account_set_username   (FacebookAccount *self,
-						 const char    *value);
-void              facebook_account_set_token      (FacebookAccount *self,
-						 const char    *value);
-int               facebook_account_cmp            (FacebookAccount *a,
-						 FacebookAccount *b);
+GType             facebook_account_get_type         (void);
+FacebookAccount * facebook_account_new              (void);
+void              facebook_account_set_session_key  (FacebookAccount *self,
+						     const char      *value);
+void              facebook_account_set_secret       (FacebookAccount *self,
+						     const char      *value);
+void              facebook_account_set_user_id      (FacebookAccount *self,
+						     const char      *value);
+void              facebook_account_set_username     (FacebookAccount *self,
+						     const char      *value);
+int               facebook_account_cmp              (FacebookAccount *a,
+						     FacebookAccount *b);
 
 G_END_DECLS
 

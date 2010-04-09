@@ -189,7 +189,7 @@ facebook_account_manager_dialog_get_type (void)
 
 static void
 facebook_account_manager_dialog_construct (FacebookAccountManagerDialog *self,
-				         GList                      *accounts)
+				           GList                        *accounts)
 {
 	GtkListStore *list_store;
 	GtkTreeIter   iter;

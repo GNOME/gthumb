@@ -6,6 +6,7 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 			\
 	browser-mode.png	\
+	facebook.png		\
 	file-catalog.png	\
 	file-library.png	\
 	file-search.png		\

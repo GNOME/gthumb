@@ -66,7 +66,7 @@ browser_data_free (BrowserData *data)
 
 
 void
-fl__gth_browser_construct_cb (GthBrowser *browser)
+fb__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;

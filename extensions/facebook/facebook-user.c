@@ -54,7 +54,7 @@ facebook_user_class_init (FacebookUserClass *klass)
 
 static DomElement*
 facebook_user_create_element (DomDomizable *base,
-			    DomDocument  *doc)
+			      DomDocument  *doc)
 {
 	FacebookUser *self;
 	DomElement *element;
@@ -64,6 +64,8 @@ facebook_user_create_element (DomDomizable *base,
 	element = dom_document_create_element (doc, "user", NULL);
 	if (self->id != NULL)
 		dom_element_set_attribute (element, "id", self->id);
+	if (self->username != NULL)
+		dom_element_set_attribute (element, "name", self->username);
 
 	return element;
 }
@@ -71,35 +73,19 @@ facebook_user_create_element (DomDomizable *base,
 
 static void
 facebook_user_load_from_element (DomDomizable *base,
-			       DomElement   *element)
+			         DomElement   *element)
 {
 	FacebookUser *self;
 	DomElement *node;
 
 	self = FACEBOOK_USER (base);
 
-	facebook_user_set_id (self, dom_element_get_attribute (element, "id"));
-	facebook_user_set_is_pro (self, dom_element_get_attribute (element, "ispro"));
-
 	for (node = element->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "username") == 0) {
-			facebook_user_set_username (self, dom_element_get_inner_text (node));
+		if (g_strcmp0 (node->tag_name, "uid") == 0) {
+			_g_strset (&self->id, dom_element_get_inner_text (node));
 		}
-		else if (g_strcmp0 (node->tag_name, "bandwidth") == 0) {
-			facebook_user_set_max_bandwidth (self, dom_element_get_attribute (node, "maxbytes"));
-			facebook_user_set_used_bandwidth (self, dom_element_get_attribute (node, "usedbytes"));
-		}
-		else if (g_strcmp0 (node->tag_name, "filesize") == 0) {
-			facebook_user_set_max_filesize (self, dom_element_get_attribute (node, "maxbytes"));
-		}
-		else if (g_strcmp0 (node->tag_name, "videosize") == 0) {
-			facebook_user_set_max_videosize (self, dom_element_get_attribute (node, "maxbytes"));
-		}
-		else if (g_strcmp0 (node->tag_name, "sets") == 0) {
-			facebook_user_set_n_sets (self, dom_element_get_attribute (node, "created"));
-		}
-		else if (g_strcmp0 (node->tag_name, "videos") == 0) {
-			facebook_user_set_n_videos (self, dom_element_get_attribute (node, "uploaded"));
+		else if (g_strcmp0 (node->tag_name, "name") == 0) {
+			_g_strset (&self->username, dom_element_get_inner_text (node));
 		}
 	}
 }
@@ -146,9 +132,9 @@ facebook_user_get_type (void)
 		};
 
 		facebook_user_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FacebookUser",
-								   &g_define_type_info,
-								   0);
+								"FacebookUser",
+								&g_define_type_info,
+								0);
 		g_type_add_interface_static (facebook_user_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
 	}
 
@@ -165,83 +151,17 @@ facebook_user_new (void)
 
 void
 facebook_user_set_id (FacebookUser *self,
-		    const char *value)
+		      const char   *value)
 {
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	_g_strset (&self->id, value);
 }
 
 
 void
-facebook_user_set_is_pro (FacebookUser *self,
-			const char *value)
+facebook_user_set_username (FacebookUser *self,
+			    const char   *value)
 {
-	self->is_pro = (g_strcmp0 (value, "1") == 0);
+	_g_strset (&self->username, value);
 }
 
 
-void
-facebook_user_set_username(FacebookUser *self,
-			 const char *value)
-{
-	g_free (self->username);
-	self->username = NULL;
-	if (value != NULL)
-		self->username = g_strdup (value);
-}
-
-
-void
-facebook_user_set_max_bandwidth (FacebookUser *self,
-			       const char *value)
-{
-	self->max_bandwidth = g_ascii_strtoull (value, NULL, 10);
-}
-
-
-void
-facebook_user_set_used_bandwidth (FacebookUser *self,
-				const char *value)
-{
-	self->used_bandwidth = g_ascii_strtoull (value, NULL, 10);
-}
-
-
-void
-facebook_user_set_max_filesize (FacebookUser *self,
-			      const char *value)
-{
-	self->max_filesize = g_ascii_strtoull (value, NULL, 10);
-}
-
-
-void
-facebook_user_set_max_videosize (FacebookUser *self,
-			       const char *value)
-{
-	self->max_videosize = g_ascii_strtoull (value, NULL, 10);
-}
-
-
-void
-facebook_user_set_n_sets (FacebookUser *self,
-			const char *value)
-{
-	if (value != NULL)
-		self->n_sets = atoi (value);
-	else
-		self->n_sets = 0;
-}
-
-
-void
-facebook_user_set_n_videos (FacebookUser *self,
-			  const char *value)
-{
-	if (value != NULL)
-		self->n_videos = atoi (value);
-	else
-		self->n_videos = 0;
-}

@@ -24,68 +24,51 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gthumb.h>
-#include "facebook-photoset.h"
+#include "facebook-album.h"
 
 
-static gpointer facebook_photoset_parent_class = NULL;
+static gpointer facebook_album_parent_class = NULL;
 
 
 static void
-facebook_photoset_finalize (GObject *obj)
+facebook_album_finalize (GObject *obj)
 {
-	FacebookPhotoset *self;
+	FacebookAlbum *self;
 
-	self = FACEBOOK_PHOTOSET (obj);
+	self = FACEBOOK_ALBUM (obj);
 
 	g_free (self->id);
-	g_free (self->title);
+	g_free (self->name);
 	g_free (self->description);
-	g_free (self->primary);
-	g_free (self->secret);
-	g_free (self->server);
-	g_free (self->farm);
+	g_free (self->location);
+	g_free (self->link);
 
-	G_OBJECT_CLASS (facebook_photoset_parent_class)->finalize (obj);
+	G_OBJECT_CLASS (facebook_album_parent_class)->finalize (obj);
 }
 
 
 static void
-facebook_photoset_class_init (FacebookPhotosetClass *klass)
+facebook_album_class_init (FacebookAlbumClass *klass)
 {
-	facebook_photoset_parent_class = g_type_class_peek_parent (klass);
-	G_OBJECT_CLASS (klass)->finalize = facebook_photoset_finalize;
+	facebook_album_parent_class = g_type_class_peek_parent (klass);
+	G_OBJECT_CLASS (klass)->finalize = facebook_album_finalize;
 }
 
 
 static DomElement*
-facebook_photoset_create_element (DomDomizable *base,
-				DomDocument  *doc)
+facebook_album_create_element (DomDomizable *base,
+			       DomDocument  *doc)
 {
-	FacebookPhotoset *self;
-	DomElement     *element;
-	char           *value;
+	FacebookAlbum *self;
+	DomElement    *element;
 
-	self = FACEBOOK_PHOTOSET (base);
+	self = FACEBOOK_ALBUM (base);
 
 	element = dom_document_create_element (doc, "photoset", NULL);
 	if (self->id != NULL)
-		dom_element_set_attribute (element, "id", self->id);
-	if (self->primary != NULL)
-		dom_element_set_attribute (element, "primary", self->primary);
-	if (self->secret != NULL)
-		dom_element_set_attribute (element, "secret", self->secret);
-	if (self->server != NULL)
-		dom_element_set_attribute (element, "server", self->server);
-	if (self->n_photos >= 0) {
-		value = g_strdup_printf ("%d", self->n_photos);
-		dom_element_set_attribute (element, "photos", value);
-		g_free (value);
-	}
-	if (self->farm != NULL)
-		dom_element_set_attribute (element, "farm", self->farm);
-
-	if (self->title != NULL)
-		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->title, "title", NULL));
+		dom_element_set_attribute (element, "aid", self->id);
+	if (self->name != NULL)
+		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->name, "name", NULL));
 	if (self->description != NULL)
 		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->description, "description", NULL));
 
@@ -93,194 +76,153 @@ facebook_photoset_create_element (DomDomizable *base,
 }
 
 
+static FacebookVisibility
+get_visibility_by_name (const char *name)
+{
+	if (name == NULL)
+		return FACEBOOK_VISIBILITY_EVERYONE;
+	if (g_strcmp0 (name, "everyone") == 0)
+		return FACEBOOK_VISIBILITY_EVERYONE;
+	if (g_strcmp0 (name, "networks_friends") == 0)
+		return FACEBOOK_VISIBILITY_NETWORKS_FRIENDS;
+	if (g_strcmp0 (name, "friends_of_friends") == 0)
+		return FACEBOOK_VISIBILITY_FRIENDS_OF_FRIENDS;
+	if (g_strcmp0 (name, "all_friends") == 0)
+		return FACEBOOK_VISIBILITY_ALL_FRIENDS;
+	if (g_strcmp0 (name, "self") == 0)
+		return FACEBOOK_VISIBILITY_SELF;
+	if (g_strcmp0 (name, "custom") == 0)
+		return FACEBOOK_VISIBILITY_CUSTOM;
+
+	return FACEBOOK_VISIBILITY_EVERYONE;
+}
+
+
 static void
-facebook_photoset_load_from_element (DomDomizable *base,
+facebook_album_load_from_element (DomDomizable *base,
 				   DomElement   *element)
 {
-	FacebookPhotoset *self;
+	FacebookAlbum *self;
 	DomElement     *node;
 
-	self = FACEBOOK_PHOTOSET (base);
+	self = FACEBOOK_ALBUM (base);
 
-	facebook_photoset_set_id (self, dom_element_get_attribute (element, "id"));
-	facebook_photoset_set_title (self, NULL);
-	facebook_photoset_set_description (self, NULL);
-	facebook_photoset_set_n_photos (self, dom_element_get_attribute (element, "photos"));
-	facebook_photoset_set_primary (self, dom_element_get_attribute (element, "primary"));
-	facebook_photoset_set_secret (self, dom_element_get_attribute (element, "secret"));
-	facebook_photoset_set_server (self, dom_element_get_attribute (element, "server"));
-	facebook_photoset_set_farm (self, dom_element_get_attribute (element, "farm"));
-	facebook_photoset_set_url (self, dom_element_get_attribute (element, "url"));
+	_g_strset (&self->id, NULL);
+	_g_strset (&self->name, NULL);
+	_g_strset (&self->description, NULL);
+	_g_strset (&self->location, NULL);
+	_g_strset (&self->link, NULL);
+	self->size = 0;
+	self->visibility = FACEBOOK_VISIBILITY_SELF;
 
 	for (node = element->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "title") == 0) {
-			facebook_photoset_set_title (self, dom_element_get_inner_text (node));
+		if (g_strcmp0 (node->tag_name, "aid") == 0) {
+			_g_strset (&self->id, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "name") == 0) {
+			_g_strset (&self->name, dom_element_get_inner_text (node));
 		}
 		else if (g_strcmp0 (node->tag_name, "description") == 0) {
-			facebook_photoset_set_description (self, dom_element_get_inner_text (node));
+			_g_strset (&self->description, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "location") == 0) {
+			_g_strset (&self->location, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "link") == 0) {
+			_g_strset (&self->link, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "size") == 0) {
+			self->size = atoi (dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "visible") == 0) {
+			self->visibility = get_visibility_by_name (dom_element_get_inner_text (node));
 		}
 	}
 }
 
 
 static void
-facebook_photoset_dom_domizable_interface_init (DomDomizableIface *iface)
+facebook_album_dom_domizable_interface_init (DomDomizableIface *iface)
 {
-	iface->create_element = facebook_photoset_create_element;
-	iface->load_from_element = facebook_photoset_load_from_element;
+	iface->create_element = facebook_album_create_element;
+	iface->load_from_element = facebook_album_load_from_element;
 }
 
 
 static void
-facebook_photoset_instance_init (FacebookPhotoset *self)
+facebook_album_instance_init (FacebookAlbum *self)
 {
 	self->id = NULL;
-	self->title = NULL;
+	self->name = NULL;
 	self->description = NULL;
-	self->primary = NULL;
-	self->secret = NULL;
-	self->server = NULL;
-	self->farm = NULL;
-	self->url = NULL;
+	self->location = NULL;
+	self->link = NULL;
+	self->size = 0;
+	self->visibility = FACEBOOK_VISIBILITY_SELF;
 }
 
 
 GType
-facebook_photoset_get_type (void)
+facebook_album_get_type (void)
 {
-	static GType facebook_photoset_type_id = 0;
+	static GType facebook_album_type_id = 0;
 
-	if (facebook_photoset_type_id == 0) {
+	if (facebook_album_type_id == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookPhotosetClass),
+			sizeof (FacebookAlbumClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_photoset_class_init,
+			(GClassInitFunc) facebook_album_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (FacebookPhotoset),
+			sizeof (FacebookAlbum),
 			0,
-			(GInstanceInitFunc) facebook_photoset_instance_init,
+			(GInstanceInitFunc) facebook_album_instance_init,
 			NULL
 		};
 		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) facebook_photoset_dom_domizable_interface_init,
+			(GInterfaceInitFunc) facebook_album_dom_domizable_interface_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
 
-		facebook_photoset_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FacebookPhotoset",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (facebook_photoset_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
+		facebook_album_type_id = g_type_register_static (G_TYPE_OBJECT,
+								 "FacebookAlbum",
+								 &g_define_type_info,
+								 0);
+		g_type_add_interface_static (facebook_album_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
 	}
 
-	return facebook_photoset_type_id;
+	return facebook_album_type_id;
 }
 
 
-FacebookPhotoset *
-facebook_photoset_new (void)
+FacebookAlbum *
+facebook_album_new (void)
 {
-	return g_object_new (FACEBOOK_TYPE_PHOTOSET, NULL);
-}
-
-
-void
-facebook_photoset_set_id (FacebookPhotoset *self,
-			const char     *value)
-{
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	return g_object_new (FACEBOOK_TYPE_ALBUM, NULL);
 }
 
 
 void
-facebook_photoset_set_title (FacebookPhotoset *self,
-			   const char     *value)
+facebook_album_set_name (FacebookAlbum *self,
+			 const char    *value)
 {
-	g_free (self->title);
-	self->title = NULL;
-	if (value != NULL)
-		self->title = g_strdup (value);
+	_g_strset (&self->name, value);
 }
 
 
 void
-facebook_photoset_set_description (FacebookPhotoset *self,
-			         const char     *value)
+facebook_album_set_location (FacebookAlbum *self,
+			     const char    *value)
 {
-	g_free (self->description);
-	self->description = NULL;
-	if (value != NULL)
-		self->description = g_strdup (value);
+	_g_strset (&self->location, value);
 }
 
 
 void
-facebook_photoset_set_n_photos (FacebookPhotoset *self,
-			      const char     *value)
+facebook_album_set_description (FacebookAlbum *self,
+				const char    *value)
 {
-	if (value != NULL)
-		self->n_photos = atoi (value);
-	else
-		self->n_photos = 0;
-}
-
-
-void
-facebook_photoset_set_primary (FacebookPhotoset *self,
-			     const char     *value)
-{
-	g_free (self->primary);
-	self->primary = NULL;
-	if (value != NULL)
-		self->primary = g_strdup (value);
-}
-
-
-void
-facebook_photoset_set_secret (FacebookPhotoset *self,
-			    const char     *value)
-{
-	g_free (self->secret);
-	self->secret = NULL;
-	if (value != NULL)
-		self->secret = g_strdup (value);
-}
-
-
-void
-facebook_photoset_set_server (FacebookPhotoset *self,
-			    const char     *value)
-{
-	g_free (self->server);
-	self->server = NULL;
-	if (value != NULL)
-		self->server = g_strdup (value);
-}
-
-
-void
-facebook_photoset_set_farm (FacebookPhotoset *self,
-			  const char     *value)
-{
-	g_free (self->farm);
-	self->farm = NULL;
-	if (value != NULL)
-		self->farm = g_strdup (value);
-}
-
-
-void
-facebook_photoset_set_url (FacebookPhotoset *self,
-			 const char     *value)
-{
-	g_free (self->url);
-	self->url = NULL;
-	if (value != NULL)
-		self->url = g_strdup (value);
+	_g_strset (&self->description, value);
 }

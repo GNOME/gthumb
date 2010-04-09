@@ -23,6 +23,9 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_GNOME_KEYRING
+#include <gnome-keyring.h>
+#endif /* HAVE_GNOME_KEYRING */
 #include <gthumb.h>
 #include "facebook-account.h"
 
@@ -37,8 +40,10 @@ facebook_account_finalize (GObject *obj)
 
 	self = FACEBOOK_ACCOUNT (obj);
 
+	g_free (self->user_id);
 	g_free (self->username);
-	g_free (self->token);
+	g_free (self->session_key);
+	g_free (self->secret);
 
 	G_OBJECT_CLASS (facebook_account_parent_class)->finalize (obj);
 }
@@ -57,15 +62,31 @@ facebook_account_create_element (DomDomizable *base,
 			       DomDocument  *doc)
 {
 	FacebookAccount *self;
-	DomElement *element;
+	DomElement      *element;
+	gboolean         set_secret;
 
 	self = FACEBOOK_ACCOUNT (base);
 
 	element = dom_document_create_element (doc, "account", NULL);
+	if (self->user_id != NULL)
+		dom_element_set_attribute (element, "uid", self->user_id);
 	if (self->username != NULL)
 		dom_element_set_attribute (element, "username", self->username);
-	if (self->token != NULL)
-		dom_element_set_attribute (element, "token", self->token);
+
+	/* Don't save the secret in the configuration file if gnome-keyring is
+	 * available. */
+
+	set_secret = TRUE;
+#ifdef HAVE_GNOME_KEYRING
+	if (gnome_keyring_is_available ())
+		set_secret = FALSE;
+#endif
+	if (set_secret) {
+		if (self->session_key != NULL)
+			dom_element_set_attribute (element, "session_key", self->session_key);
+		if (self->secret != NULL)
+			dom_element_set_attribute (element, "secret", self->secret);
+	}
 	if (self->is_default)
 		dom_element_set_attribute (element, "default", "1");
 
@@ -81,8 +102,10 @@ facebook_account_load_from_element (DomDomizable *base,
 
 	self = FACEBOOK_ACCOUNT (base);
 
-	facebook_account_set_username (self, dom_element_get_attribute (element, "username"));
-	facebook_account_set_token (self, dom_element_get_attribute (element, "token"));
+	_g_strset (&self->user_id, dom_element_get_attribute (element, "uid"));
+	_g_strset (&self->username, dom_element_get_attribute (element, "username"));
+	_g_strset (&self->session_key, dom_element_get_attribute (element, "session_key"));
+	_g_strset (&self->secret, dom_element_get_attribute (element, "secret"));
 	self->is_default = (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0);
 }
 
@@ -98,6 +121,11 @@ facebook_account_dom_domizable_interface_init (DomDomizableIface *iface)
 static void
 facebook_account_instance_init (FacebookAccount *self)
 {
+	self->user_id = NULL;
+	self->username = NULL;
+	self->session_key = NULL;
+	self->secret = NULL;
+	self->is_default = FALSE;
 }
 
 
@@ -144,30 +172,40 @@ facebook_account_new (void)
 
 
 void
-facebook_account_set_username (FacebookAccount *self,
-			     const char    *value)
+facebook_account_set_session_key (FacebookAccount *self,
+				  const char      *value)
 {
-	g_free (self->username);
-	self->username = NULL;
-	if (value != NULL)
-		self->username = g_strdup (value);
+	_g_strset (&self->session_key, value);
 }
 
 
 void
-facebook_account_set_token (FacebookAccount *self,
-			  const char    *value)
+facebook_account_set_secret (FacebookAccount *self,
+			     const char      *value)
 {
-	g_free (self->token);
-	self->token = NULL;
-	if (value != NULL)
-		self->token = g_strdup (value);
+	_g_strset (&self->secret, value);
+}
+
+
+void
+facebook_account_set_user_id (FacebookAccount *self,
+			      const char      *value)
+{
+	_g_strset (&self->user_id, value);
+}
+
+
+void
+facebook_account_set_username (FacebookAccount *self,
+			       const char      *value)
+{
+	_g_strset (&self->username, value);
 }
 
 
 int
 facebook_account_cmp (FacebookAccount *a,
-		    FacebookAccount *b)
+		      FacebookAccount *b)
 {
 	if ((a == NULL) && (b == NULL))
 		return 0;
@@ -176,5 +214,5 @@ facebook_account_cmp (FacebookAccount *a,
 	else if (b == NULL)
 		return -1;
 	else
-		return g_strcmp0 (a->username, b->username);
+		return g_strcmp0 (a->user_id, b->user_id);
 }

@@ -51,7 +51,7 @@ struct _FacebookAccountManagerDialogClass {
 };
 
 GType          facebook_account_manager_dialog_get_type     (void);
-GtkWidget *    facebook_account_manager_dialog_new          (GList                      *accounts);
+GtkWidget *    facebook_account_manager_dialog_new          (GList                        *accounts);
 GList *        facebook_account_manager_dialog_get_accounts (FacebookAccountManagerDialog *dialog);
 
 G_END_DECLS

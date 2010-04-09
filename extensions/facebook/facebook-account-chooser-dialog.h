@@ -51,9 +51,9 @@ struct _FacebookAccountChooserDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType           facebook_account_chooser_dialog_get_type    (void);
-GtkWidget *     facebook_account_chooser_dialog_new         (GList                      *accounts,
-							   FacebookAccount              *default_account);
+GType             facebook_account_chooser_dialog_get_type    (void);
+GtkWidget *       facebook_account_chooser_dialog_new         (GList                        *accounts,
+							       FacebookAccount              *default_account);
 FacebookAccount * facebook_account_chooser_dialog_get_active  (FacebookAccountChooserDialog *self);
 
 G_END_DECLS

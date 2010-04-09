@@ -41,41 +41,20 @@ typedef struct _FacebookUserClass FacebookUserClass;
 struct _FacebookUser {
 	GObject parent_instance;
 
-	char     *id;
-	gboolean  is_pro;
-	char     *username;
-	goffset   max_bandwidth;
-	goffset   used_bandwidth;
-	goffset   max_filesize;
-	goffset   max_videosize;
-	int       n_sets;
-	int       n_videos;
+	char *id;
+	char *username;
 };
 
 struct _FacebookUserClass {
 	GObjectClass parent_class;
 };
 
-GType             facebook_user_get_type             (void);
-FacebookUser *    facebook_user_new                  (void);
-void              facebook_user_set_id               (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_is_pro           (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_username         (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_max_bandwidth    (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_used_bandwidth   (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_max_filesize     (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_max_videosize    (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_n_sets           (FacebookUser *self,
-						      const char   *value);
-void              facebook_user_set_n_videos         (FacebookUser *self,
-						      const char   *value);
+GType          facebook_user_get_type     (void);
+FacebookUser * facebook_user_new          (void);
+void           facebook_user_set_id       (FacebookUser *self,
+				           const char   *value);
+void           facebook_user_set_username (FacebookUser *self,
+				           const char   *value);
 
 G_END_DECLS
 

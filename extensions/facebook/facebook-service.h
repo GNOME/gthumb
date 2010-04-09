@@ -26,22 +26,9 @@
 #include <glib-object.h>
 #include "facebook-account.h"
 #include "facebook-connection.h"
-#include "facebook-photoset.h"
+#include "facebook-album.h"
+#include "facebook-types.h"
 #include "facebook-user.h"
-
-typedef enum {
-	FACEBOOK_PRIVACY_PUBLIC,
-	FACEBOOK_PRIVACY_FRIENDS_FAMILY,
-	FACEBOOK_PRIVACY_FRIENDS,
-	FACEBOOK_PRIVACY_FAMILY,
-	FACEBOOK_PRIVACY_PRIVATE
-} FacebookPrivacyType;
-
-typedef enum {
-	FACEBOOK_SAFETY_SAFE,
-	FACEBOOK_SAFETY_MODERATE,
-	FACEBOOK_SAFETY_RESTRICTED
-} FacebookSafetyType;
 
 #define FACEBOOK_TYPE_SERVICE         (facebook_service_get_type ())
 #define FACEBOOK_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FACEBOOK_TYPE_SERVICE, FacebookService))
@@ -65,68 +52,63 @@ struct _FacebookServiceClass
 	GObjectClass __parent_class;
 };
 
-GType             facebook_service_get_type                 (void) G_GNUC_CONST;
-FacebookService *   facebook_service_new                      (FacebookConnection     *conn);
-void              facebook_service_get_upload_status        (FacebookService        *self,
-							   GCancellable         *cancellable,
-							   GAsyncReadyCallback   callback,
-							   gpointer              user_data);
-FacebookUser *      facebook_service_get_upload_status_finish (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
-void              facebook_service_list_photosets           (FacebookService        *self,
-							   const char           *user_id,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-GList *           facebook_service_list_photosets_finish    (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
-void              facebook_service_create_photoset          (FacebookService        *self,
-						           FacebookPhotoset       *photoset,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-FacebookPhotoset *  facebook_service_create_photoset_finish   (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
-void              facebook_service_add_photos_to_set        (FacebookService        *self,
-						           FacebookPhotoset       *photoset,
-						           GList                *photo_ids,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-gboolean          facebook_service_add_photos_to_set_finish (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
-void              facebook_service_post_photos              (FacebookService        *self,
-							   FacebookPrivacyType     privacy_level,
-							   FacebookSafetyType      safety_level,
-							   gboolean              hidden,
-						           GList                *file_list, /* GFile list */
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-GList *           facebook_service_post_photos_finish       (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
-void              facebook_service_list_photos              (FacebookService        *self,
-							   FacebookPhotoset       *photoset,
-							   const char           *extras,
-							   int                   per_page,
-							   int                   page,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-GList *           facebook_service_list_photos_finish       (FacebookService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
+GType             facebook_service_get_type                   (void) G_GNUC_CONST;
+FacebookService * facebook_service_new                        (FacebookConnection   *conn);
+void              facebook_service_get_logged_in_user         (FacebookService      *self,
+							       GCancellable         *cancellable,
+							       GAsyncReadyCallback   callback,
+							       gpointer              user_data);
+char *            facebook_service_get_logged_in_user_finish  (FacebookService      *self,
+						               GAsyncResult         *result,
+						               GError              **error);
+void              facebook_service_get_user_info              (FacebookService      *self,
+							       const char           *fields,
+							       GCancellable         *cancellable,
+							       GAsyncReadyCallback   callback,
+							       gpointer              user_data);
+FacebookUser *    facebook_service_get_user_info_finish       (FacebookService      *self,
+						               GAsyncResult         *result,
+						               GError              **error);
+void              facebook_service_get_albums                 (FacebookService      *self,
+							       const char           *user_id,
+							       GCancellable         *cancellable,
+							       GAsyncReadyCallback   callback,
+							       gpointer              user_data);
+GList *           facebook_service_get_albums_finish          (FacebookService      *self,
+							       GAsyncResult         *result,
+							       GError              **error);
+void              facebook_service_create_album               (FacebookService      *self,
+						               FacebookAlbum        *album,
+						               GCancellable         *cancellable,
+						               GAsyncReadyCallback   callback,
+						               gpointer              user_data);
+FacebookAlbum *   facebook_service_create_album_finish        (FacebookService      *self,
+						               GAsyncResult         *result,
+						               GError              **error);
+void              facebook_service_upload_photos              (FacebookService      *self,
+							       FacebookAlbum        *album,
+							       GList                *file_list, /* GFile list */
+							       GCancellable         *cancellable,
+							       GAsyncReadyCallback   callback,
+							       gpointer              user_data);
+GList *           facebook_service_upload_photos_finish       (FacebookService      *self,
+						               GAsyncResult         *result,
+						               GError              **error);
+#if 0
+void              facebook_service_list_photos                (FacebookService      *self,
+							       FacebookAlbum        *album,
+							       GAsyncReadyCallback   callback,
+							       gpointer              user_data);
+GList *           facebook_service_list_photos_finish         (FacebookService      *self,
+							       GAsyncResult         *result,
+							       GError              **error);
+#endif
 
 /* utilities */
 
-GList *          facebook_accounts_load_from_file  (void);
-FacebookAccount *  facebook_accounts_find_default    (GList         *accounts);
-void             facebook_accounts_save_to_file    (GList         *accounts,
-						  FacebookAccount *default_account);
+GList *            facebook_accounts_load_from_file  (void);
+FacebookAccount *  facebook_accounts_find_default    (GList           *accounts);
+void               facebook_accounts_save_to_file    (GList           *accounts,
+						      FacebookAccount *default_account);
 
 #endif /* FACEBOOK_SERVICE_H */

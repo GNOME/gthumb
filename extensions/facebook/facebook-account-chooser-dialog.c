@@ -127,8 +127,8 @@ facebook_account_chooser_dialog_get_type (void)
 
 static void
 facebook_account_chooser_dialog_construct (FacebookAccountChooserDialog *self,
-				         GList                      *accounts,
-				         FacebookAccount              *default_account)
+				           GList                        *accounts,
+				           FacebookAccount              *default_account)
 {
 	GtkTreeIter  iter;
 	GList       *scan;
@@ -155,8 +155,8 @@ facebook_account_chooser_dialog_construct (FacebookAccountChooserDialog *self,
 
 
 GtkWidget *
-facebook_account_chooser_dialog_new (GList         *accounts,
-				   FacebookAccount *default_account)
+facebook_account_chooser_dialog_new (GList           *accounts,
+				     FacebookAccount *default_account)
 {
 	FacebookAccountChooserDialog *self;
 
@@ -170,7 +170,7 @@ facebook_account_chooser_dialog_new (GList         *accounts,
 FacebookAccount *
 facebook_account_chooser_dialog_get_active (FacebookAccountChooserDialog *self)
 {
-	GtkTreeIter    iter;
+	GtkTreeIter      iter;
 	FacebookAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), &iter))

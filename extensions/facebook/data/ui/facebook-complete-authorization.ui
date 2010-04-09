@@ -1,22 +1,19 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkMessageDialog" id="complete_authorization_messagedialog">
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Upload to Flickr</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">other</property>
-    <property name="text" translatable="yes">Return to this window when you have finished the authorization process on Flickr.com</property>
     <property name="secondary_text" translatable="yes">Once you're done, click the 'Continue' button below.</property>
     <property name="image">icon_image1</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area4">
