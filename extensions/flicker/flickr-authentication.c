@@ -32,6 +32,9 @@
 #include "flickr-service.h"
 
 
+#define FLICKR_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 2
+
+
 /* Signals */
 enum {
 	READY,
@@ -175,6 +178,61 @@ flickr_authentication_new (FlickrConnection *conn,
 }
 
 
+static void show_choose_account_dialog (FlickrAuthentication *self);
+
+
+static void
+authentication_error_dialog_response_cb (GtkDialog *dialog,
+					 int        response_id,
+					 gpointer   user_data)
+{
+	FlickrAuthentication *self = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CANCEL:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gtk_widget_destroy (self->priv->dialog);
+		break;
+
+	case FLICKR_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		show_choose_account_dialog (self);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+show_authentication_error_dialog (FlickrAuthentication  *self,
+				  GError               **error)
+{
+	GtkWidget *dialog;
+
+	if (self->priv->conn != NULL)
+		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+
+	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
+			             GTK_DIALOG_MODAL,
+				     GTK_STOCK_DIALOG_ERROR,
+				     _("Could not connect to the server"),
+				     (*error)->message,
+				     _("Choose _Account..."), FLICKR_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT,
+				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				     NULL);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (authentication_error_dialog_response_cb),
+			  self);
+	gtk_widget_show (dialog);
+
+	g_clear_error (error);
+}
+
+
 /* -- flickr_authentication_auto_connect -- */
 
 
@@ -189,10 +247,7 @@ upload_status_ready_cb (GObject      *source_object,
 
 	user = flickr_service_get_upload_status_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
+		show_authentication_error_dialog (self, &error);
 		return;
 	}
 	flickr_accounts_save_to_file (self->priv->accounts, self->priv->account);
@@ -302,10 +357,7 @@ connection_token_ready_cb (GObject      *source_object,
 	FlickrAccount        *account;
 
 	if (! flickr_connection_get_token_finish (FLICKR_CONNECTION (source_object), res, &error)) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
+		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
@@ -428,15 +480,10 @@ ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
 			url = flickr_connection_get_login_link (self->priv->conn, FLICKR_ACCESS_WRITE);
-			if (gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
+			if (gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error))
 				complete_authorization (self);
-			}
-			else {
-				if (self->priv->conn != NULL)
-					gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-				gtk_widget_destroy (self->priv->dialog);
-			}
+			else
+				show_authentication_error_dialog (self, &error);
 
 			g_free (url);
 		}
@@ -489,15 +536,10 @@ connection_frob_ready_cb (GObject      *source_object,
 	FlickrAuthentication *self = user_data;
 	GError               *error = NULL;
 
-	if (! flickr_connection_get_frob_finish (FLICKR_CONNECTION (source_object), res, &error)) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
-		return;
-	}
-
-	ask_authorization (self);
+	if (! flickr_connection_get_frob_finish (FLICKR_CONNECTION (source_object), res, &error))
+		show_authentication_error_dialog (self, &error);
+	else
+		ask_authorization (self);
 }
 
 
@@ -546,6 +588,25 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 }
 
 
+static void
+show_choose_account_dialog (FlickrAuthentication *self)
+{
+	GtkWidget *dialog;
+
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	dialog = flickr_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (account_chooser_dialog_response_cb),
+			  self);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
 void
 flickr_authentication_auto_connect (FlickrAuthentication *self)
 {
@@ -560,21 +621,8 @@ flickr_authentication_auto_connect (FlickrAuthentication *self)
 			self->priv->account = g_object_ref (self->priv->accounts->data);
 			connect_to_server (self);
 		}
-		else {
-			GtkWidget *dialog;
-
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-			dialog = flickr_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
-			g_signal_connect (dialog,
-					  "response",
-					  G_CALLBACK (account_chooser_dialog_response_cb),
-					  self);
-
-			gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
-			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-			gtk_window_present (GTK_WINDOW (dialog));
-		}
+		else
+			show_choose_account_dialog (self);
 	}
 	else
 		start_authorization_process (self);

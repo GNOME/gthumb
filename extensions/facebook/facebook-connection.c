@@ -28,7 +28,7 @@
 #include "facebook-user.h"
 
 
-#define DEBUG_FACEBOOK_CONNECTION 1
+#undef  DEBUG_FACEBOOK_CONNECTION
 #define GTHUMB_FACEBOOK_API_KEY "1536ca726857c69843423d0312b9b356"
 #define GTHUMB_FACEBOOK_SHARED_SECRET "8c0b99672a9bbc159ebec3c9a8240679"
 #define FACEBOOK_API_VERSION "1.0"
@@ -283,15 +283,6 @@ create_token_ready_cb (SoupSession *session,
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	g_free (self->priv->token);
-	g_free (self->priv->session_key);
-	g_free (self->priv->secret);
-	g_free (self->priv->user_id);
-	self->priv->token = NULL;
-	self->priv->session_key = NULL;
-	self->priv->secret = NULL;
-	self->priv->user_id = NULL;
-
 	body = soup_message_body_flatten (msg->response_body);
 	if (facebook_utils_parse_response (body, &doc, &error)) {
 		DomElement *root;
@@ -326,6 +317,15 @@ facebook_connection_create_token (FacebookConnection  *self,
 {
 	GHashTable  *data_set;
 	SoupMessage *msg;
+
+	g_free (self->priv->token);
+	g_free (self->priv->session_key);
+	g_free (self->priv->secret);
+	g_free (self->priv->user_id);
+	self->priv->token = NULL;
+	self->priv->session_key = NULL;
+	self->priv->secret = NULL;
+	self->priv->user_id = NULL;
 
 	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
 
@@ -392,6 +392,8 @@ facebook_connection_get_login_link (FacebookConnection *self,
 	g_hash_table_insert (data_set, "api_key", GTHUMB_FACEBOOK_API_KEY);
 	g_hash_table_insert (data_set, "auth_token", self->priv->token);
 	g_hash_table_insert (data_set, "req_perms", get_access_type_name (access_type));
+	g_hash_table_insert (data_set, "connect_display", "page");
+	g_hash_table_insert (data_set, "fbconnect", "true");
 
 	link = g_string_new ("http://www.facebook.com/login.php?");
 	keys = g_hash_table_get_keys (data_set);

@@ -33,6 +33,7 @@
 
 
 #define SECRET_SEPARATOR ("::")
+#define FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 2
 
 
 /* Signals */
@@ -178,6 +179,61 @@ facebook_authentication_new (FacebookConnection *conn,
 }
 
 
+static void show_choose_account_dialog (FacebookAuthentication *self);
+
+
+static void
+authentication_error_dialog_response_cb (GtkDialog *dialog,
+					 int        response_id,
+					 gpointer   user_data)
+{
+	FacebookAuthentication *self = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CANCEL:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gtk_widget_destroy (self->priv->dialog);
+		break;
+
+	case FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		show_choose_account_dialog (self);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+show_authentication_error_dialog (FacebookAuthentication  *self,
+				  GError                 **error)
+{
+	GtkWidget *dialog;
+
+	if (self->priv->conn != NULL)
+		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+
+	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
+			             GTK_DIALOG_MODAL,
+				     GTK_STOCK_DIALOG_ERROR,
+				     _("Could not connect to the server"),
+				     (*error)->message,
+				     _("Choose _Account..."), FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT,
+				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				     NULL);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (authentication_error_dialog_response_cb),
+			  self);
+	gtk_widget_show (dialog);
+
+	g_clear_error (error);
+}
+
+
 /* -- facebook_authentication_auto_connect -- */
 
 
@@ -192,10 +248,7 @@ get_user_info_ready_cb (GObject      *source_object,
 
 	user = facebook_service_get_user_info_finish (FACEBOOK_SERVICE (source_object), res, &error);
 	if (error != NULL) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
+		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
@@ -222,10 +275,7 @@ get_logged_in_user_ready_cb (GObject      *source_object,
 
 	uid = facebook_service_get_logged_in_user_finish (FACEBOOK_SERVICE (source_object), res, &error);
 	if (error != NULL) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
+		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
@@ -363,10 +413,7 @@ get_session_ready_cb (GObject      *source_object,
 	FacebookAccount        *account;
 
 	if (! facebook_connection_get_session_finish (FACEBOOK_CONNECTION (source_object), res, &error)) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
+		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
@@ -500,12 +547,8 @@ ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
 			if (gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				complete_authorization (self);
 			}
-			else {
-				if (self->priv->conn != NULL)
-					gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-				gtk_widget_destroy (self->priv->dialog);
-			}
+			else
+				show_authentication_error_dialog (self, &error);
 
 			g_free (url);
 		}
@@ -556,17 +599,12 @@ create_token_ready_cb (GObject      *source_object,
 		       gpointer      user_data)
 {
 	FacebookAuthentication *self = user_data;
-	GError               *error = NULL;
+	GError                 *error = NULL;
 
-	if (! facebook_connection_create_token_finish (FACEBOOK_CONNECTION (source_object), res, &error)) {
-		if (self->priv->conn != NULL)
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (self->priv->dialog);
-		return;
-	}
-
-	ask_authorization (self);
+	if (! facebook_connection_create_token_finish (FACEBOOK_CONNECTION (source_object), res, &error))
+		show_authentication_error_dialog (self, &error);
+	else
+		ask_authorization (self);
 }
 
 
@@ -615,6 +653,25 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 }
 
 
+static void
+show_choose_account_dialog (FacebookAuthentication *self)
+{
+	GtkWidget *dialog;
+
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	dialog = facebook_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (account_chooser_dialog_response_cb),
+			  self);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
 void
 facebook_authentication_auto_connect (FacebookAuthentication *self)
 {
@@ -629,21 +686,8 @@ facebook_authentication_auto_connect (FacebookAuthentication *self)
 			self->priv->account = g_object_ref (self->priv->accounts->data);
 			connect_to_server (self);
 		}
-		else {
-			GtkWidget *dialog;
-
-			gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-			dialog = facebook_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
-			g_signal_connect (dialog,
-					  "response",
-					  G_CALLBACK (account_chooser_dialog_response_cb),
-					  self);
-
-			gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
-			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-			gtk_window_present (GTK_WINDOW (dialog));
-		}
+		else
+			show_choose_account_dialog (self);
 	}
 	else
 		start_authorization_process (self);

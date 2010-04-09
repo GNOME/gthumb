@@ -29,7 +29,9 @@
 
 enum {
 	ACCOUNT_DATA_COLUMN,
-	ACCOUNT_NAME_COLUMN
+	ACCOUNT_NAME_COLUMN,
+	ACCOUNT_SEPARATOR_COLUMN,
+	ACCOUNT_ICON_COLUMN
 };
 
 
@@ -68,12 +70,51 @@ facebook_account_chooser_dialog_class_init (FacebookAccountChooserDialogClass *k
 
 
 static void
+account_combobox_changed_cb (GtkComboBox *combobox,
+			     gpointer     user_data)
+{
+	FacebookAccountChooserDialog *self = user_data;
+	GtkTreeIter                   iter;
+	FacebookAccount              *account;
+
+	if (! gtk_combo_box_get_active_iter (combobox, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("account_liststore")), &iter,
+			    ACCOUNT_DATA_COLUMN, &account,
+			    -1);
+
+	if (account == NULL)
+		gtk_dialog_response (GTK_DIALOG (self), FACEBOOK_ACCOUNT_CHOOSER_RESPONSE_NEW);
+
+	_g_object_unref (account);
+}
+
+
+static gboolean
+row_separator_func (GtkTreeModel *model,
+		    GtkTreeIter  *iter,
+		    gpointer      user_data)
+{
+	FacebookAccountChooserDialog *self = user_data;
+	gboolean                      is_separator;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("account_liststore")),
+			    iter,
+			    ACCOUNT_SEPARATOR_COLUMN, &is_separator,
+			    -1);
+
+	return is_separator;
+}
+
+
+static void
 facebook_account_chooser_dialog_init (FacebookAccountChooserDialog *self)
 {
 	GtkWidget *content;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FACEBOOK_TYPE_ACCOUNT_CHOOSER_DIALOG, FacebookAccountChooserDialogPrivate);
-	self->priv->builder = _gtk_builder_new_from_file ("flicker-account-chooser.ui", "flicker");
+	self->priv->builder = _gtk_builder_new_from_file ("facebook-account-chooser.ui", "facebook");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
@@ -84,9 +125,33 @@ facebook_account_chooser_dialog_init (FacebookAccountChooserDialog *self)
 	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_NEW,
-			       FACEBOOK_ACCOUNT_CHOOSER_RESPONSE_NEW);
+	{
+		GtkCellLayout   *cell_layout;
+		GtkCellRenderer *renderer;
+
+		cell_layout = GTK_CELL_LAYOUT (GET_WIDGET ("account_combobox"));
+
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"icon-name", ACCOUNT_ICON_COLUMN,
+						NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"text", ACCOUNT_NAME_COLUMN,
+						NULL);
+	}
+	gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")),
+					      row_separator_func,
+					      self,
+					      NULL);
+	g_signal_connect (GET_WIDGET ("account_combobox"),
+			  "changed",
+			  G_CALLBACK (account_combobox_changed_cb),
+			  self);
+
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
@@ -147,8 +212,23 @@ facebook_account_chooser_dialog_construct (FacebookAccountChooserDialog *self,
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_DATA_COLUMN, account,
 				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_SEPARATOR_COLUMN, FALSE,
+				    ACCOUNT_ICON_COLUMN, "dialog-password",
 				    -1);
 	}
+
+	gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
+			    ACCOUNT_SEPARATOR_COLUMN, TRUE,
+			    -1);
+
+	gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
+			    ACCOUNT_DATA_COLUMN, NULL,
+			    ACCOUNT_NAME_COLUMN, _("New authentication..."),
+			    ACCOUNT_SEPARATOR_COLUMN, FALSE,
+			    ACCOUNT_ICON_COLUMN, GTK_STOCK_NEW,
+			    -1);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), active);
 }
