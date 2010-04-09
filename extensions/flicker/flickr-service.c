@@ -652,8 +652,17 @@ post_photos_done (FlickrService *self,
 		g_simple_async_result_set_op_res_gpointer (result, self->priv->post_photos->ids, (GDestroyNotify) _g_string_list_free);
 		self->priv->post_photos->ids = NULL;
 	}
-	else
+	else {
+		if (self->priv->post_photos->current != NULL) {
+			GthFileData *file_data = self->priv->post_photos->current->data;
+			char        *msg;
+
+			msg = g_strdup_printf (_("Could not upload '%s': %s"), g_file_info_get_display_name (file_data->info), error->message);
+			g_free (error->message);
+			error->message = msg;
+		}
 		g_simple_async_result_set_from_error (result, error);
+	}
 
 	g_simple_async_result_complete_in_idle (result);
 }
@@ -676,7 +685,7 @@ post_photo_ready_cb (SoupSession *session,
 	if (msg->status_code != 200) {
 		GError *error;
 
-		error = g_error_new (SOUP_HTTP_ERROR, msg->status_code, "%s", soup_status_get_phrase (msg->status_code));
+		error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
 		post_photos_done (self, error);
 		g_error_free (error);
 
