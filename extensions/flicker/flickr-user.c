@@ -167,10 +167,7 @@ void
 flickr_user_set_id (FlickrUser *self,
 		    const char *value)
 {
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	_g_strset (&self->id, value);
 }
 
 
@@ -186,10 +183,7 @@ void
 flickr_user_set_username(FlickrUser *self,
 			 const char *value)
 {
-	g_free (self->username);
-	self->username = NULL;
-	if (value != NULL)
-		self->username = g_strdup (value);
+	_g_strset (&self->username, value);
 }
 
 

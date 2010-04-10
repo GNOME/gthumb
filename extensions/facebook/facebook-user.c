@@ -163,5 +163,3 @@ facebook_user_set_username (FacebookUser *self,
 {
 	_g_strset (&self->username, value);
 }
-
-

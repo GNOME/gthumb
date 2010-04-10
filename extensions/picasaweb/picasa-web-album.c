@@ -227,10 +227,7 @@ void
 picasa_web_album_set_etag (PicasaWebAlbum *self,
 			   const char     *value)
 {
-	g_free (self->etag);
-	self->etag = NULL;
-	if (value != NULL)
-		self->etag = g_strdup (value);
+	_g_strset (&self->etag, value);
 }
 
 
@@ -238,10 +235,7 @@ void
 picasa_web_album_set_id (PicasaWebAlbum *self,
 			 const char     *value)
 {
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	_g_strset (&self->id, value);
 }
 
 
@@ -249,10 +243,7 @@ void
 picasa_web_album_set_title (PicasaWebAlbum *self,
 			    const char     *value)
 {
-	g_free (self->title);
-	self->title = NULL;
-	if (value != NULL)
-		self->title = g_strdup (value);
+	_g_strset (&self->title, value);
 }
 
 
@@ -260,10 +251,7 @@ void
 picasa_web_album_set_summary (PicasaWebAlbum *self,
 			      const char     *value)
 {
-	g_free (self->summary);
-	self->summary = NULL;
-	if (value != NULL)
-		self->summary = g_strdup (value);
+	_g_strset (&self->summary, value);
 }
 
 
@@ -271,10 +259,7 @@ void
 picasa_web_album_set_location (PicasaWebAlbum *self,
 			       const char     *value)
 {
-	g_free (self->location);
-	self->location = NULL;
-	if (value != NULL)
-		self->location = g_strdup (value);
+	_g_strset (&self->location, value);
 }
 
 
@@ -282,10 +267,7 @@ void
 picasa_web_album_set_edit_url (PicasaWebAlbum *self,
 			       const char     *value)
 {
-	g_free (self->edit_url);
-	self->edit_url = NULL;
-	if (value != NULL)
-		self->edit_url = g_strdup (value);
+	_g_strset (&self->edit_url, value);
 }
 
 
@@ -342,8 +324,5 @@ void
 picasa_web_album_set_keywords (PicasaWebAlbum *self,
 			       const char     *value)
 {
-	g_free (self->keywords);
-	self->keywords = NULL;
-	if (value != NULL)
-		self->keywords = g_strdup (value);
+	_g_strset (&self->keywords, value);
 }

@@ -161,10 +161,7 @@ void
 flickr_account_set_username (FlickrAccount *self,
 			     const char    *value)
 {
-	g_free (self->username);
-	self->username = NULL;
-	if (value != NULL)
-		self->username = g_strdup (value);
+	_g_strset (&self->username, value);
 }
 
 
@@ -172,10 +169,7 @@ void
 flickr_account_set_token (FlickrAccount *self,
 			  const char    *value)
 {
-	g_free (self->token);
-	self->token = NULL;
-	if (value != NULL)
-		self->token = g_strdup (value);
+	_g_strset (&self->token, value);
 }
 
 

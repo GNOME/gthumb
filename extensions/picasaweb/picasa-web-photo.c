@@ -263,10 +263,7 @@ void
 picasa_web_photo_set_etag (PicasaWebPhoto *self,
 			   const char    *value)
 {
-	g_free (self->etag);
-	self->etag = NULL;
-	if (value != NULL)
-		self->etag = g_strdup (value);
+	_g_strset (&self->etag, value);
 }
 
 
@@ -274,10 +271,7 @@ void
 picasa_web_photo_set_id (PicasaWebPhoto *self,
 			const char    *value)
 {
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	_g_strset (&self->id, value);
 }
 
 
@@ -285,10 +279,7 @@ void
 picasa_web_photo_set_album_id (PicasaWebPhoto *self,
 			       const char    *value)
 {
-	g_free (self->album_id);
-	self->album_id = NULL;
-	if (value != NULL)
-		self->album_id = g_strdup (value);
+	_g_strset (&self->album_id, value);
 }
 
 
@@ -296,10 +287,7 @@ void
 picasa_web_photo_set_title (PicasaWebPhoto *self,
 			    const char     *value)
 {
-	g_free (self->title);
-	self->title = NULL;
-	if (value != NULL)
-		self->title = g_strdup (value);
+	_g_strset (&self->title, value);
 }
 
 
@@ -307,10 +295,7 @@ void
 picasa_web_photo_set_summary (PicasaWebPhoto *self,
 			      const char     *value)
 {
-	g_free (self->summary);
-	self->summary = NULL;
-	if (value != NULL)
-		self->summary = g_strdup (value);
+	_g_strset (&self->summary, value);
 }
 
 
@@ -318,10 +303,7 @@ void
 picasa_web_photo_set_uri (PicasaWebPhoto *self,
 			  const char     *value)
 {
-	g_free (self->uri);
-	self->uri = NULL;
-	if (value != NULL)
-		self->uri = g_strdup (value);
+	_g_strset (&self->uri, value);
 }
 
 
@@ -329,10 +311,7 @@ void
 picasa_web_photo_set_mime_type (PicasaWebPhoto *self,
 				const char     *value)
 {
-	g_free (self->mime_type);
-	self->mime_type = NULL;
-	if (value != NULL)
-		self->mime_type = g_strdup (value);
+	_g_strset (&self->mime_type, value);
 }
 
 
@@ -359,10 +338,7 @@ void
 picasa_web_photo_set_credit (PicasaWebPhoto *self,
 			     const char     *value)
 {
-	g_free (self->credit);
-	self->credit = NULL;
-	if (value != NULL)
-		self->credit = g_strdup (value);
+	_g_strset (&self->credit, value);
 }
 
 
@@ -370,10 +346,7 @@ void
 picasa_web_photo_set_description (PicasaWebPhoto *self,
 				  const char     *value)
 {
-	g_free (self->description);
-	self->description = NULL;
-	if (value != NULL)
-		self->description = g_strdup (value);
+	_g_strset (&self->description, value);
 }
 
 
@@ -381,10 +354,7 @@ void
 picasa_web_photo_set_keywords (PicasaWebPhoto *self,
 			       const char     *value)
 {
-	g_free (self->keywords);
-	self->keywords = NULL;
-	if (value != NULL)
-		self->keywords = g_strdup (value);
+	_g_strset (&self->keywords, value);
 }
 
 
@@ -392,10 +362,7 @@ void
 picasa_web_photo_set_thumbnail_72 (PicasaWebPhoto *self,
 				   const char     *value)
 {
-	g_free (self->thumbnail_72);
-	self->thumbnail_72 = NULL;
-	if (value != NULL)
-		self->thumbnail_72 = g_strdup (value);
+	_g_strset (&self->thumbnail_72, value);
 }
 
 
@@ -403,10 +370,7 @@ void
 picasa_web_photo_set_thumbnail_144 (PicasaWebPhoto *self,
 				    const char     *value)
 {
-	g_free (self->thumbnail_144);
-	self->thumbnail_144 = NULL;
-	if (value != NULL)
-		self->thumbnail_144 = g_strdup (value);
+	_g_strset (&self->thumbnail_144, value);
 }
 
 
@@ -414,10 +378,7 @@ void
 picasa_web_photo_set_thumbnail_288 (PicasaWebPhoto *self,
 				    const char     *value)
 {
-	g_free (self->thumbnail_288);
-	self->thumbnail_288 = NULL;
-	if (value != NULL)
-		self->thumbnail_288 = g_strdup (value);
+	_g_strset (&self->thumbnail_288, value);
 }
 
 

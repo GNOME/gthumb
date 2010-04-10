@@ -183,10 +183,7 @@ void
 picasa_web_user_set_id (PicasaWebUser *self,
 			const char    *value)
 {
-	g_free (self->id);
-	self->id = NULL;
-	if (value != NULL)
-		self->id = g_strdup (value);
+	_g_strset (&self->id, value);
 }
 
 
@@ -194,10 +191,7 @@ void
 picasa_web_user_set_nickname (PicasaWebUser *self,
 			      const char    *value)
 {
-	g_free (self->nickname);
-	self->nickname = NULL;
-	if (value != NULL)
-		self->nickname = g_strdup (value);
+	_g_strset (&self->nickname, value);
 }
 
 
@@ -205,10 +199,7 @@ void
 picasa_web_user_set_icon (PicasaWebUser *self,
 			  const char    *value)
 {
-	g_free (self->icon);
-	self->icon = NULL;
-	if (value != NULL)
-		self->icon = g_strdup (value);
+	_g_strset (&self->icon, value);
 }
 
 
