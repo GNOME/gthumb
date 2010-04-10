@@ -153,6 +153,9 @@ flickr_account_chooser_dialog_init (FlickrAccountChooserDialog *self)
 			  self);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
+			       GTK_STOCK_NEW,
+			       FLICKR_ACCOUNT_CHOOSER_RESPONSE_NEW);
+	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
