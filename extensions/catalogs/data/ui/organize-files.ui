@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -10,13 +10,11 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
             <property name="border_width">5</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkHBox" id="hbox3">
@@ -38,12 +36,10 @@
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkAlignment" id="alignment2">
@@ -158,7 +154,7 @@
                                     <property name="visible">True</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="text" translatable="yes">Singles</property>
                                   </object>
                                   <packing>
@@ -273,12 +269,12 @@
       <row>
         <col id="0">0</col>
         <col id="1" translatable="yes">date photo was taken</col>
-        <col id="2" translatable="yes">camera-photo</col>
+        <col id="2">camera-photo</col>
       </row>
       <row>
         <col id="0">1</col>
         <col id="1" translatable="yes">file modified date</col>
-        <col id="2" translatable="yes">appointment-soon</col>
+        <col id="2">appointment-soon</col>
       </row>
     </data>
   </object>
