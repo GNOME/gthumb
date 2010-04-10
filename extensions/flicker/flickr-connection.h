@@ -40,6 +40,7 @@ typedef enum {
 
 #define FLICKR_CONNECTION_ERROR flickr_connection_error_quark ()
 GQuark flickr_connection_error_quark (void);
+#define FLICKR_CONNECTION_ERROR_INVALID_TOKEN 98
 
 #define FLICKR_TYPE_CONNECTION         (flickr_connection_get_type ())
 #define FLICKR_CONNECTION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FLICKR_TYPE_CONNECTION, FlickrConnection))

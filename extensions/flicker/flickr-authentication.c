@@ -58,13 +58,6 @@ static GObjectClass *parent_class = NULL;
 static guint flickr_authentication_signals[LAST_SIGNAL] = { 0 };
 
 
-GQuark
-flickr_authentication_error_quark (void)
-{
-	return g_quark_from_static_string ("flickr-authentication-error-quark");
-}
-
-
 static void
 flickr_authentication_finalize (GObject *object)
 {
@@ -206,11 +199,19 @@ authentication_error_dialog_response_cb (GtkDialog *dialog,
 }
 
 
+static void start_authorization_process (FlickrAuthentication *self);
+
+
 static void
 show_authentication_error_dialog (FlickrAuthentication  *self,
 				  GError               **error)
 {
 	GtkWidget *dialog;
+
+	if (g_error_matches (*error, FLICKR_CONNECTION_ERROR, FLICKR_CONNECTION_ERROR_INVALID_TOKEN)) {
+		start_authorization_process (self);
+		return;
+	}
 
 	if (self->priv->conn != NULL)
 		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
@@ -256,9 +257,6 @@ upload_status_ready_cb (GObject      *source_object,
 
 	g_object_unref (user);
 }
-
-
-static void start_authorization_process (FlickrAuthentication *self);
 
 
 static void

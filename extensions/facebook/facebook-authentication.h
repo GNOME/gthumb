@@ -32,6 +32,8 @@
 
 G_BEGIN_DECLS
 
+#define FACEBOOK_AUTHENTICATION_ERROR facebook_authentication_error_quark()
+
 #define FACEBOOK_TYPE_AUTHENTICATION            (facebook_authentication_get_type ())
 #define FACEBOOK_AUTHENTICATION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FACEBOOK_TYPE_AUTHENTICATION, FacebookAuthentication))
 #define FACEBOOK_AUTHENTICATION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FACEBOOK_TYPE_AUTHENTICATION, FacebookAuthenticationClass))
@@ -57,6 +59,7 @@ struct _FacebookAuthenticationClass {
 				    FacebookUser           *user);
 	void  (*accounts_changed)  (FacebookAuthentication *auth);
 };
+
 
 GType                     facebook_authentication_get_type       (void);
 FacebookAuthentication *  facebook_authentication_new            (FacebookConnection     *conn,

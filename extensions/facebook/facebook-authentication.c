@@ -59,13 +59,6 @@ static GObjectClass *parent_class = NULL;
 static guint facebook_authentication_signals[LAST_SIGNAL] = { 0 };
 
 
-GQuark
-facebook_authentication_error_quark (void)
-{
-	return g_quark_from_static_string ("facebook-authentication-error-quark");
-}
-
-
 static void
 facebook_authentication_finalize (GObject *object)
 {
@@ -207,11 +200,19 @@ authentication_error_dialog_response_cb (GtkDialog *dialog,
 }
 
 
+static void start_authorization_process (FacebookAuthentication *self);
+
+
 static void
 show_authentication_error_dialog (FacebookAuthentication  *self,
 				  GError                 **error)
 {
 	GtkWidget *dialog;
+
+	if (g_error_matches (*error, FACEBOOK_CONNECTION_ERROR, FACEBOOK_CONNECTION_ERROR_SESSION_KEY_INVALID)) {
+		start_authorization_process (self);
+		return;
+	}
 
 	if (self->priv->conn != NULL)
 		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
@@ -259,9 +260,6 @@ get_user_info_ready_cb (GObject      *source_object,
 
 	g_object_unref (user);
 }
-
-
-static void start_authorization_process (FacebookAuthentication *self);
 
 
 static void

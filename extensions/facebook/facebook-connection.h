@@ -43,6 +43,8 @@ typedef enum {
 #define FACEBOOK_CONNECTION_ERROR facebook_connection_error_quark ()
 GQuark facebook_connection_error_quark (void);
 
+#define FACEBOOK_CONNECTION_ERROR_SESSION_KEY_INVALID 102
+
 #define FACEBOOK_TYPE_CONNECTION         (facebook_connection_get_type ())
 #define FACEBOOK_CONNECTION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FACEBOOK_TYPE_CONNECTION, FacebookConnection))
 #define FACEBOOK_CONNECTION_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), FACEBOOK_TYPE_CONNECTION, FacebookConnectionClass))
