@@ -370,7 +370,7 @@ connection_token_ready_cb (GObject      *source_object,
 #ifdef HAVE_GNOME_KEYRING
 	if (gnome_keyring_is_available ()) {
 		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					      GNOME_KEYRING_SESSION,
+					      NULL,
 					      self->priv->conn->server->name,
 					      flickr_connection_get_auth_token (self->priv->conn),
 					      store_password_done_cb,

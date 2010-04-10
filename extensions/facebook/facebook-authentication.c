@@ -433,7 +433,7 @@ get_session_ready_cb (GObject      *source_object,
 				      facebook_connection_get_secret (self->priv->conn),
 				      NULL);
 		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					      GNOME_KEYRING_SESSION,
+					      NULL,
 					      "Facebook",
 					      secret,
 					      store_password_done_cb,
