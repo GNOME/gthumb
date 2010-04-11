@@ -34,6 +34,7 @@ PUBLIC_HEADER_FILES = 					\
 	gio-utils.h					\
 	glib-utils.h					\
 	gnome-desktop-thumbnail.h			\
+	gsignature.h					\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
 	gth-browser.h					\
@@ -144,6 +145,7 @@ gthumb_SOURCES = 					\
 	gconf-utils.c					\
 	gio-utils.c					\
 	glib-utils.c					\
+	gsignature.c					\
 	gth-async-task.c				\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\

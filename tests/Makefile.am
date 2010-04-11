@@ -1,5 +1,5 @@
 if BUILD_TEST_SUITE
-bin_PROGRAMS = dom-test glib-utils-test
+bin_PROGRAMS = dom-test glib-utils-test gsignature_test
 endif
 
 dom_test_SOURCES = dom-test.c $(top_srcdir)/gthumb/dom.c
@@ -9,4 +9,9 @@ dom_test_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir)/gthumb
 glib_utils_test_SOURCES = glib-utils-test.c $(top_srcdir)/gthumb/glib-utils.c
 glib_utils_test_LDADD = $(GTHUMB_LIBS) 
 glib_utils_test_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir)/gthumb
+
+gsignature_test_SOURCES = gsignature-test.c $(top_srcdir)/gthumb/gsignature.c
+gsignature_test_LDADD = $(GTHUMB_LIBS) 
+gsignature_test_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir)/gthumb
+
 -include $(top_srcdir)/git.mk
