@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-10 08:57+0000\n"
-"PO-Revision-Date: 2010-04-10 18:36+0200\n"
+"POT-Creation-Date: 2010-04-10 21:27+0000\n"
+"PO-Revision-Date: 2010-04-11 14:18+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -270,27 +270,6 @@ msgstr "Filtro ge_neral:"
 #: ../data/ui/personalize-filters.ui.h:3
 msgid "_Other filters:"
 msgstr "_otros filtros:"
-
-#: ../data/ui/personalize-filters.ui.h:4
-msgid "gtk-close"
-msgstr "gtk-close"
-
-#: ../data/ui/personalize-filters.ui.h:5
-msgid "gtk-edit"
-msgstr "gtk-edit"
-
-#: ../data/ui/personalize-filters.ui.h:6
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:7
-msgid "gtk-help"
-msgstr "gtk-help"
-
-#: ../data/ui/personalize-filters.ui.h:7
-msgid "gtk-new"
-msgstr "gtk-new"
-
-#: ../data/ui/personalize-filters.ui.h:8
-msgid "gtk-remove"
-msgstr "gtk-remove"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Activate items with a double click"
@@ -735,14 +714,6 @@ msgstr "Catálogo _nuevo"
 msgid "_View the destination"
 msgstr "_Ver el destino"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-msgid "gtk-add"
-msgstr "gtk-add"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 msgid "Catalog"
 msgstr "Catálogo"
@@ -818,19 +789,11 @@ msgid "_Include sub-folders"
 msgstr "_Incluir sub-carpetas"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-msgid "appointment-soon"
-msgstr "cita pronto"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-msgid "camera-photo"
-msgstr "cámara de fotos"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
 #: ../extensions/exiv2_tools/main.c:214
 msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:11
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
 msgid "file modified date"
 msgstr "fecha de modificación del archivo"
 
@@ -1228,17 +1191,13 @@ msgstr "XMP adjunto"
 
 #: ../extensions/facebook/callbacks.c:50
 msgid "Face_book..."
-msgstr ""
+msgstr "Face_book…"
 
 #: ../extensions/facebook/callbacks.c:51
-#, fuzzy
-#| msgid "Upload photos to Flickr"
 msgid "Upload photos to Facebook"
-msgstr "Subir fotos a Flickr"
+msgstr "Subir fotos a Facebook"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-#, fuzzy
-#| msgid "_Album:"
 msgid "A_lbum:"
 msgstr "Á_lbum:"
 
@@ -1301,10 +1260,8 @@ msgid "Public photos"
 msgstr "Fotos públicas"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-#, fuzzy
-#| msgid "_Location"
 msgid "_Location:"
-msgstr "_Ubicación"
+msgstr "_Lugar:"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
@@ -1334,10 +1291,8 @@ msgstr "Archivo subido satisfactoriamente al servidor."
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:2
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "_Open in the Browser"
-msgstr "Abrir en ventana nueva"
+msgstr "Abrir en el na_vegador"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:118
 #: ../extensions/facebook/dlg-export-to-facebook.c:301
@@ -1389,17 +1344,13 @@ msgstr "Exportar a %s"
 
 #: ../extensions/facebook/facebook-account-chooser-dialog.c:231
 #: ../extensions/flicker/flickr-account-chooser-dialog.c:231
-#, fuzzy
-#| msgid "_View the destination"
 msgid "New authentication..."
-msgstr "_Ver el destino"
+msgstr "Nueva autenticación…"
 
 #: ../extensions/facebook/facebook-authentication.c:225
 #: ../extensions/flicker/flickr-authentication.c:224
-#, fuzzy
-#| msgid "Choose Account"
 msgid "Choose _Account..."
-msgstr "Seleccionar cuenta"
+msgstr "Seleccionar c_uenta…"
 
 #: ../extensions/facebook/facebook-authentication.c:498
 #: ../extensions/flicker/flickr-authentication.c:434
@@ -1415,26 +1366,21 @@ msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:578
 #: ../extensions/flicker/flickr-authentication.c:508
-#, fuzzy, c-format
-#| msgid "gthumb requires your authorization to upload the photos to Flickr"
+#, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
-msgstr "gThumb requiere su autorización para subir las fotos a Flickr"
+msgstr "gThumb requiere su autorización para subir las fotos a %s"
 
 #: ../extensions/facebook/facebook-authentication.c:579
 #: ../extensions/flicker/flickr-authentication.c:509
-#, fuzzy, c-format
-#| msgid ""
-#| "Click 'Authorize' to open your web browser and authorize gthumb to upload "
-#| "photos to Flickr. When you're finished, return to this window to complete "
-#| "the authorization."
+#, c-format
 msgid ""
 "Click 'Authorize' to open your web browser and authorize gthumb to upload "
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
 "Pulse «Autorizar» para abrir su navegador web y autorizar a gThumb a subir "
-"fotos a Flickr. Cuando haya terminado, vuelva a esta ventana para completar "
-"la autorización."
+"fotos a %s. Cuando haya terminado, vuelva a esta ventana para completar la "
+"autorización."
 
 #: ../extensions/facebook/facebook-authentication.c:666
 #: ../extensions/flicker/flickr-authentication.c:601
@@ -1475,13 +1421,11 @@ msgstr "Conectando con el servidor"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
-#, fuzzy
-#| msgid "Upload images to Flickr"
 msgid "Upload images to Facebook"
-msgstr "Subir imágenes a Flickr"
+msgstr "Subir imágenes a Facebook"
 
 #: ../extensions/facebook/facebook-service.c:214
 #: ../extensions/facebook/facebook-service.c:316
@@ -1506,10 +1450,9 @@ msgstr "Creando un álbum nuevo"
 #: ../extensions/facebook/facebook-service.c:610
 #: ../extensions/flicker/flickr-service.c:660
 #: ../extensions/picasaweb/picasa-web-service.c:386
-#, fuzzy, c-format
-#| msgid "Could not upload the files"
+#, c-format
 msgid "Could not upload '%s': %s"
-msgstr "No se pudieron subir los archivos"
+msgstr "No se pudo subir «%s»: %s"
 
 #. Translators: %s is a filename
 #. send the file
@@ -1558,18 +1501,14 @@ msgstr ""
 #: ../extensions/file_manager/actions.c:390
 #: ../extensions/importer/gth-import-task.c:384
 msgid "Could not delete the files"
-msgstr "No se pudieron borrar los archivos"
+msgstr "No se pudieron eliminar los archivos"
 
 #: ../extensions/file_manager/actions.c:438
-#, fuzzy
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Las imágenes no pueden ser movidas a la papelera. ¿Desea borrarlas "
+"Las imágenes no se pueden mover a la papelera. ¿Desea eliminarlas "
 "permanentemente?"
 
 #: ../extensions/file_manager/actions.c:449
@@ -1580,7 +1519,7 @@ msgstr "No se pudieron mover los archivos a la papelera"
 #: ../extensions/file_manager/actions.c:778
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "¿Seguro que quiere borrar permanentemente «%s»?"
+msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
 #: ../extensions/file_manager/actions.c:488
 #, c-format
@@ -1588,16 +1527,16 @@ msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] ""
-"¿Está seguro de que quiere borrar permanentemente el %'d archivo "
+"¿Está seguro de que quiere eliminar permanentemente el %'d archivo "
 "seleccionado?"
 msgstr[1] ""
-"¿Está seguro de que quiere borrar permanentemente los %'d archivos "
+"¿Está seguro de que quiere eliminar permanentemente los %'d archivos "
 "seleccionados?"
 
 #: ../extensions/file_manager/actions.c:498
 #: ../extensions/file_manager/actions.c:788
 msgid "If you delete a file, it will be permanently lost."
-msgstr "Si borra un archivo, se perderá definitivamente."
+msgstr "Si elimina un archivo, se perderá definitivamente."
 
 #: ../extensions/file_manager/actions.c:528
 msgid "Could not open the location"
@@ -1617,7 +1556,7 @@ msgstr ""
 
 #: ../extensions/file_manager/actions.c:678
 msgid "Could not delete the folder"
-msgstr "No se pudo borrar la carpeta"
+msgstr "No se pudo eliminar la carpeta"
 
 #: ../extensions/file_manager/actions.c:737
 #, fuzzy
@@ -1665,7 +1604,7 @@ msgstr "Mover los archivos seleccionados a la papelera"
 #: ../extensions/file_manager/callbacks.c:173
 #: ../extensions/file_manager/callbacks.c:205
 msgid "_Delete"
-msgstr "_Borrar"
+msgstr "_Eliminar"
 
 #: ../extensions/file_manager/callbacks.c:174
 msgid "Delete the selected files"
@@ -1702,7 +1641,7 @@ msgstr "Descripción"
 
 #: ../extensions/file_manager/gth-delete-task.c:63
 msgid "Deleting files"
-msgstr "Borrando archivos"
+msgstr "Eliminando archivos"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 msgid "B_rightness:"
@@ -1905,10 +1844,8 @@ msgid "Equalize"
 msgstr "Ecualizar"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:202
-#, fuzzy
-#| msgid "Automatically equalize the image histogram"
 msgid "Equalize image histogram"
-msgstr "Ecualizar el histograma de la imagen automáticamente"
+msgstr "Ecualizar el histograma de la imagen"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:74
 msgid "Flip"
@@ -2035,10 +1972,9 @@ msgid "No album selected"
 msgstr "No se seleccionó ningún álbum"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:575
-#, fuzzy, c-format
-#| msgid "Import"
+#, c-format
 msgid "Import from %s"
-msgstr "Importar"
+msgstr "Importar desde %s"
 
 #: ../extensions/flicker/flicker.extension.in.in.h:1
 msgid "Flicker"
@@ -2425,10 +2361,8 @@ msgid "Image viewer"
 msgstr "Visor de imágenes"
 
 #: ../extensions/image_viewer/preferences.c:97
-#, fuzzy
-#| msgid "Set image to actual size"
 msgid "Set to actual size"
-msgstr "Mostrar la imagen con su tamaño normal"
+msgstr "Establecer al tamaño actual"
 
 #: ../extensions/image_viewer/preferences.c:101
 msgid "Fit to width"
@@ -2510,10 +2444,8 @@ msgid "Importing files"
 msgstr "Importando archivos"
 
 #: ../extensions/importer/gth-import-task.c:363
-#, fuzzy
-#| msgid "Last imported"
 msgid "No file imported"
-msgstr "Último importado"
+msgstr "No se importó ningún archivo"
 
 #: ../extensions/importer/gth-import-task.c:364
 msgid "The selected files are already present in the destination."
@@ -2978,7 +2910,7 @@ msgstr "Quitar ojos rojos"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:440
 msgid "Remove the red eye effect caused by camera flashes"
-msgstr "Eliminar el efecto «ojos rojos» producido por el flash de las cámaras"
+msgstr "Quitar el efecto «ojos rojos» producido por el flash de las cámaras"
 
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:1
 msgid "Red-eye removal"
@@ -3049,22 +2981,16 @@ msgid "The modification date"
 msgstr "La fecha de modificación"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:27
-#, fuzzy
-#| msgid "_Keep original filenames"
 msgid "The original enumerator"
-msgstr "_Mantener nombres originales"
+msgstr "El enumerador original"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:28
-#, fuzzy
-#| msgid "Determine by extension"
 msgid "The original extension"
-msgstr "Determinar por extensión"
+msgstr "La extensión original"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:29
-#, fuzzy
-#| msgid "_Keep original filenames"
 msgid "The original filename"
-msgstr "_Mantener nombres originales"
+msgstr "El nombre original del archivo"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:30
 msgid "_Preview:"
@@ -3249,7 +3175,7 @@ msgstr "Lista de reproducción"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
 msgid "Remove the selected files"
-msgstr "Renombrar los archivos seleccionados"
+msgstr "Quitar los archivos seleccionados"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
@@ -4035,7 +3961,7 @@ msgstr "Añadir una nueva regla"
 
 #: ../gthumb/gth-test-selector.c:290
 msgid "Remove this rule"
-msgstr "Eliminar esta regla"
+msgstr "Quitar esta regla"
 
 #: ../gthumb/gth-test-simple.c:45
 msgid "contains"
@@ -4123,6 +4049,33 @@ msgstr "Vista previa de la imagen"
 #| msgid "Could not duplicate the image \"%s\": %s"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "No se pudo duplicar la imagen «%s»: %s"
+
+#~ msgid "gtk-close"
+#~ msgstr "gtk-close"
+
+#~ msgid "gtk-edit"
+#~ msgstr "gtk-edit"
+
+#~ msgid "gtk-help"
+#~ msgstr "gtk-help"
+
+#~ msgid "gtk-new"
+#~ msgstr "gtk-new"
+
+#~ msgid "gtk-remove"
+#~ msgstr "gtk-remove"
+
+#~ msgid "gtk-add"
+#~ msgstr "gtk-add"
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "appointment-soon"
+#~ msgstr "cita pronto"
+
+#~ msgid "camera-photo"
+#~ msgstr "cámara de fotos"
 
 #~ msgid "Upload to Flickr"
 #~ msgstr "Subir a Flickr"
