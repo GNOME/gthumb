@@ -14,6 +14,7 @@ libjpeg_utils_la_SOURCES = 		\
 	
 if HAVE_LIBJPEG_80
 libjpeg_utils_la_SOURCES +=		\
+	jpegint-80.h			\
 	transupp-80.c			\
 	transupp-80.h
 else

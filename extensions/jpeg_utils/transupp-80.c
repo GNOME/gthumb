@@ -37,14 +37,11 @@
  * interfaces.
  */
 
-/* Although this file really shouldn't have access to the library internals,
- * it's helpful to let it call jround_up() and jcopy_block_row().
- */
-#define JPEG_INTERNALS
-
 #include <config.h>
 #include <stdio.h>
 #include <jpeglib.h>
+#include <jerror.h>
+#include "jpegint-80.h"
 #include "transupp-80.h"	/* My own external interface */
 #include <ctype.h>		/* to declare isdigit() */
 
