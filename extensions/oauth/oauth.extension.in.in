@@ -1,0 +1,6 @@
+[Extension]
+Hidden=true
+
+[Loader]
+Type=module
+File=%LIBRARY%

@@ -475,9 +475,15 @@ extensions/jpeg_utils/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile
 extensions/list_tools/data/ui/Makefile
+extensions/oauth/Makefile
+extensions/oauth/data/Makefile
+extensions/oauth/data/ui/Makefile
 extensions/photo_importer/Makefile
 extensions/photo_importer/data/Makefile
 extensions/photo_importer/data/ui/Makefile
+extensions/photobucket/Makefile
+extensions/photobucket/data/Makefile
+extensions/photobucket/data/ui/Makefile
 extensions/picasaweb/Makefile
 extensions/picasaweb/data/Makefile
 extensions/picasaweb/data/ui/Makefile

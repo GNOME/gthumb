@@ -20,7 +20,9 @@ SUBDIRS = 			\
 	jpeg_utils		\
 	image_rotation		\
 	list_tools		\
+	oauth			\
 	photo_importer		\
+	photobucket		\
 	picasaweb		\
 	pixbuf_savers		\
 	raw_files		\

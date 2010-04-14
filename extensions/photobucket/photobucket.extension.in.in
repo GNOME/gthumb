@@ -1,0 +1,13 @@
+[Extension]
+_Name=PhotoBucket
+_Description=Upload images to PhotoBucket
+Authors=gthumb development team
+Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Version=1.0
+Icon=photobucket
+Category=Exporter
+
+[Loader]
+Type=module
+File=%LIBRARY%
+Requires=oauth
