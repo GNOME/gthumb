@@ -421,7 +421,7 @@ flickr_thumbnail_loader (GthFileData  *file_data,
 	GthThumbLoader     *thumb_loader = data;
 	int                 requested_size;
 	FlickrPhoto        *photo;
-	const char         *uri;
+	const char         *uri = NULL;
 
 	photo = (FlickrPhoto *) g_file_info_get_attribute_object (file_data->info, "flickr::object");
 	requested_size = gth_thumb_loader_get_requested_size (thumb_loader);

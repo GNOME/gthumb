@@ -3239,7 +3239,7 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
 	visibility = gth_file_view_get_visibility (GTH_FILE_VIEW (view), file_pos);
 	if (visibility != GTH_VISIBILITY_FULL) {
-		double align;
+		double align = 0.0;
 
 		switch (visibility) {
 		case GTH_VISIBILITY_NONE:
@@ -3269,7 +3269,7 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	g_signal_handlers_unblock_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
 	visibility = gth_file_view_get_visibility (GTH_FILE_VIEW (view), file_pos);
 	if (visibility != GTH_VISIBILITY_FULL) {
-		double align;
+		double align = 0.0;
 
 		switch (visibility) {
 		case GTH_VISIBILITY_NONE:
