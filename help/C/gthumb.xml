@@ -348,7 +348,7 @@
       To reload the current folder or catalog, use <keycombo action="simul"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>.
     </para>
     <para>
-      To disable or re-enable the thumbnails in the browser view, use 
+      To disable or re-enable the thumbnails in the browser view, use
       <keycombo action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo>.
     </para>
   </sect2>
@@ -370,7 +370,7 @@
   <sect1 id="gthumb-folders">
     <title>Working with Folders</title>
     <para>
-      &app; allows you to manipulate folders using the folder tree. 
+      &app; allows you to manipulate folders using the folder tree.
       See <xref linkend="gthumb-change-folder"/> to learn about
       basic folder tree usage.
       <note>
@@ -468,7 +468,7 @@
         </para>
       </listitem>
       <listitem>
-        <para>Select either <guimenuitem>Move to Trash</guimenuitem> or 
+        <para>Select either <guimenuitem>Move to Trash</guimenuitem> or
 	<guimenuitem>Delete</guimenuitem> from the pop-up menu. Files can be
 	recovered from the Trash if <guimenuitem>Move to Trash</guimenuitem> is used.
 	They can not be recovered if <guimenuitem>Delete</guimenuitem> is used.
@@ -563,11 +563,11 @@
     <para>
 	Double-clicking an image (or pressing <keycap>Return</keycap>)
 	will open it in the viewer mode.
-    </para> 
+    </para>
     <para>
 	Double-clicking with the middle mouse button (or pressing <keycap>f</keycap>)
 	will load the image in fullscreen viewer mode.
-    </para> 
+    </para>
     <para>
         Pressing <keycap>Escape</keycap> will exit the viewer mode, and return
 	the user to the browser mode. A toolbar button (<guibutton>View the folders</guibutton>)
@@ -913,11 +913,11 @@
     <title>Crop tool</title>
       <para>
       &app; provides a crop tool, which can be used to discard some parts of the image or to make it fit to
-      a particular aspect ratio. 
+      a particular aspect ratio.
       </para>
       <para>To use the tool, open the picture to be cropped. Then, select <menuchoice><guimenu>Image</guimenu>
       <guimenuitem>Crop</guimenuitem></menuchoice>. A new window will be launched. You can select the area
-      you want to keep by dragging the mouse, or by typing values in the fields to the right of the picture. 
+      you want to keep by dragging the mouse, or by typing values in the fields to the right of the picture.
       Additionally, you can force your selection to keep a given aspect ratio using the <guimenu>Aspect ratio</guimenu> menu.
       </para>
       <para>
@@ -926,7 +926,7 @@
       will revert it. Clicking on the <guibutton>Cancel</guibutton> button will abandon all your changes and close the
       window. When you're happy with the result, click the <guibutton>Save</guibutton> to save your changes to the file
       and close the window, or click the <guibutton>Done</guibutton> button to apply your changes to the image without
-      saving it (in which case the file can be saved later using 
+      saving it (in which case the file can be saved later using
       <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>).
       </para>
       <para>
@@ -1332,8 +1332,7 @@
   <title>To View an Image Comment</title>
   <para>
      To view an image comment, use the
-     <guilabel>Properties</guilabel> dialog (<xref
-      linkend="gthumb-view-prop"/>) or perform the following
+     <guilabel>Properties</guilabel> dialog or perform the following
      steps:
      <orderedlist>
         <listitem><para>
@@ -1881,7 +1880,7 @@
             </para>
 	    <para>
 	      You can choose to search for images that belong to all
-	      the specified tags or at least to one of them, by 
+	      the specified tags or at least to one of them, by
 	      checking the corresponding option.
 	    </para>
             <para>
@@ -2350,9 +2349,9 @@
        <para>
 	 The web album will be generated in the <guilabel>Destination</guilabel>
 	 folder. The starting page of the album (index.html) will be stored in this
-	 folder. If the <guilabel>Use subfolders to organize files</guilabel> 
+	 folder. If the <guilabel>Use subfolders to organize files</guilabel>
 	 checkbox is enabled, all other album files (such as images, thumbnails,
-	 and html pages) will be stored in subfolders of the the Destination 
+	 and html pages) will be stored in subfolders of the the Destination
 	 folder. If it is not enabled, all files will be stored in the Destination
 	 folder, and no subfolders will be created.
        </para>
@@ -2360,11 +2359,11 @@
           <title>Old Custom Themes</title>
           <para>
 	    The <guilabel>Use subfolders to organize files</guilabel> option
-	    was added in &app; version 2.11.0. If you created a custom theme for 
-	    use with an earlier version of &app; and wish to continue using it 
-	    without modification, make sure that 
+	    was added in &app; version 2.11.0. If you created a custom theme for
+	    use with an earlier version of &app; and wish to continue using it
+	    without modification, make sure that
 	    <guilabel>Use subfolders to organize files</guilabel> is disabled.
-	    Otherwise, modifications will be required to the custom theme. 
+	    Otherwise, modifications will be required to the custom theme.
           </para>
         </note>
        <para>
@@ -2437,7 +2436,7 @@
          <guilabel>Destination folder</guilabel> box. The photos
 	 can be imported directly into this folder, or into subfolders
 	 of this main destination folder, depending on the setting of
-	 the <guilabel>Group into subfolders</guilabel> box. 
+	 the <guilabel>Group into subfolders</guilabel> box.
        </para>
        <para>
          If the <guilabel>Group into subfolders</guilabel> box is set to
@@ -2461,19 +2460,19 @@
        <para>
          If the <guilabel>Group into subfolders</guilabel> box is set to
          <guilabel>By current date and time</guilabel> a single subfolder
-	 will be created, based on the date and time of importing. This is 
+	 will be created, based on the date and time of importing. This is
  	 different than the dates when the photos were taken.
        </para>
        <para>
 	 Lastly, subfolders names can be generated using a custom user-specified
          format, if the <guilabel>Group into subfolders</guilabel> box is set to
          <guilabel>Custom subfolder</guilabel>. The subfolder name will be determined
-	 by the format string entered into the text box below the 
+	 by the format string entered into the text box below the
 	 <guilabel>Group into subfolders</guilabel> box. This string can contain
 	 a combination of text and/or date codes. Any date code supported by the
          standard C strftime function is supported. For instance, if you
-	 enter "Vacation %B", the "%B" will be replaced by the full month name 
-	 according to the current locale ("Vacation September", for example). 
+	 enter "Vacation %B", the "%B" will be replaced by the full month name
+	 according to the current locale ("Vacation September", for example).
 	 The date is based on the date the photo
 	 was taken. This date is read from the Exif data in the photo, if available.
 	 If it is not, the file modification time is used instead. Here is a summary
@@ -2501,7 +2500,7 @@
             </entry>
             <entry>
 	      <para>
-                The abbreviated weekday name according to the current locale. 
+                The abbreviated weekday name according to the current locale.
 	      </para>
             </entry>
           </row>
@@ -2513,7 +2512,7 @@
             </entry>
             <entry>
               <para>
-                The full weekday name according to the current locale. 
+                The full weekday name according to the current locale.
               </para>
             </entry>
           </row>
@@ -2525,7 +2524,7 @@
             </entry>
             <entry>
               <para>
-                The abbreviated month name according to the current locale. 
+                The abbreviated month name according to the current locale.
               </para>
             </entry>
           </row>
@@ -2537,7 +2536,7 @@
             </entry>
             <entry>
               <para>
-                The full month name according to the current locale. 
+                The full month name according to the current locale.
               </para>
             </entry>
           </row>
@@ -2549,7 +2548,7 @@
             </entry>
             <entry>
               <para>
-                The preferred date and time representation for the current locale. 
+                The preferred date and time representation for the current locale.
               </para>
             </entry>
           </row>
@@ -2561,7 +2560,7 @@
             </entry>
             <entry>
               <para>
-                The century number (year/100) as a 2-digit integer.  
+                The century number (year/100) as a 2-digit integer.
               </para>
             </entry>
           </row>
@@ -2573,7 +2572,7 @@
             </entry>
             <entry>
               <para>
-                The day of the month as a decimal number (range 01 to 31). 
+                The day of the month as a decimal number (range 01 to 31).
               </para>
             </entry>
           </row>
@@ -2585,7 +2584,7 @@
             </entry>
             <entry>
               <para>
-                Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note that in other countries %d/%m/%y is rather common. This means that in international context this format is ambiguous and should not be used.)  
+                Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note that in other countries %d/%m/%y is rather common. This means that in international context this format is ambiguous and should not be used.)
               </para>
             </entry>
           </row>
@@ -2597,7 +2596,7 @@
             </entry>
             <entry>
               <para>
-                Like %d, the day of the month as a decimal number, but a leading zero is replaced by a space.  
+                Like %d, the day of the month as a decimal number, but a leading zero is replaced by a space.
               </para>
             </entry>
           </row>
@@ -2609,7 +2608,7 @@
             </entry>
             <entry>
               <para>
-                Modifier: use alternative format, see below.  
+                Modifier: use alternative format, see below.
               </para>
             </entry>
           </row>
@@ -2621,7 +2620,7 @@
             </entry>
             <entry>
               <para>
-                Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99) 
+                Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)
               </para>
             </entry>
           </row>
@@ -2633,7 +2632,7 @@
             </entry>
             <entry>
               <para>
-                The ISO 8601 year with century as a decimal number. The 4-digit year corresponding to the ISO week number (see %V). This has the same format and value as %y, except that if the ISO week number belongs to the previous or next year, that year is used instead.  
+                The ISO 8601 year with century as a decimal number. The 4-digit year corresponding to the ISO week number (see %V). This has the same format and value as %y, except that if the ISO week number belongs to the previous or next year, that year is used instead.
               </para>
             </entry>
           </row>
@@ -2645,7 +2644,7 @@
             </entry>
             <entry>
               <para>
-                Like %G, but without century, i.e., with a 2-digit year (00-99).  
+                Like %G, but without century, i.e., with a 2-digit year (00-99).
               </para>
             </entry>
           </row>
@@ -2657,7 +2656,7 @@
             </entry>
             <entry>
               <para>
-                Equivalent to %b.  
+                Equivalent to %b.
               </para>
             </entry>
           </row>
@@ -2669,7 +2668,7 @@
             </entry>
             <entry>
               <para>
-                The hour as a decimal number using a 24-hour clock (range 00 to 23). 
+                The hour as a decimal number using a 24-hour clock (range 00 to 23).
               </para>
             </entry>
           </row>
@@ -2681,7 +2680,7 @@
             </entry>
             <entry>
               <para>
-                The hour as a decimal number using a 12-hour clock (range 01 to 12). 
+                The hour as a decimal number using a 12-hour clock (range 01 to 12).
               </para>
             </entry>
           </row>
@@ -2693,7 +2692,7 @@
             </entry>
             <entry>
               <para>
-                The day of the year as a decimal number (range 001 to 366). 
+                The day of the year as a decimal number (range 001 to 366).
               </para>
             </entry>
           </row>
@@ -2705,7 +2704,7 @@
             </entry>
             <entry>
               <para>
-                The hour (24-hour clock) as a decimal number (range 0 to 23); single digits are preceded by a blank. (See also %H.)  
+                The hour (24-hour clock) as a decimal number (range 0 to 23); single digits are preceded by a blank. (See also %H.)
               </para>
             </entry>
           </row>
@@ -2717,7 +2716,7 @@
             </entry>
             <entry>
               <para>
-                The hour (12-hour clock) as a decimal number (range 1 to 12); single digits are preceded by a blank. (See also %I.)  
+                The hour (12-hour clock) as a decimal number (range 1 to 12); single digits are preceded by a blank. (See also %I.)
               </para>
             </entry>
           </row>
@@ -2729,7 +2728,7 @@
             </entry>
             <entry>
               <para>
-                The month as a decimal number (range 01 to 12). 
+                The month as a decimal number (range 01 to 12).
               </para>
             </entry>
           </row>
@@ -2741,7 +2740,7 @@
             </entry>
             <entry>
               <para>
-                The minute as a decimal number (range 00 to 59). 
+                The minute as a decimal number (range 00 to 59).
               </para>
             </entry>
           </row>
@@ -2753,7 +2752,7 @@
             </entry>
             <entry>
               <para>
-                Modifier: use alternative format, see below.  
+                Modifier: use alternative format, see below.
               </para>
             </entry>
           </row>
@@ -2765,7 +2764,7 @@
             </entry>
             <entry>
               <para>
-                Either 'AM' or 'PM' according to the given time value, or the corresponding strings for the current locale. Noon is treated as 'pm' and midnight as 'am'. 
+                Either 'AM' or 'PM' according to the given time value, or the corresponding strings for the current locale. Noon is treated as 'pm' and midnight as 'am'.
               </para>
             </entry>
           </row>
@@ -2777,7 +2776,7 @@
             </entry>
             <entry>
               <para>
-                Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the current locale.  
+                Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the current locale.
               </para>
             </entry>
           </row>
@@ -2789,7 +2788,7 @@
             </entry>
             <entry>
               <para>
-                The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to '%I:%M:%S %p'.  
+                The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to '%I:%M:%S %p'.
               </para>
             </entry>
           </row>
@@ -2801,7 +2800,7 @@
             </entry>
             <entry>
               <para>
-                The time in 24-hour notation (%H:%M).  For a version including the seconds, see %T below. 
+                The time in 24-hour notation (%H:%M).  For a version including the seconds, see %T below.
               </para>
             </entry>
           </row>
@@ -2813,7 +2812,7 @@
             </entry>
             <entry>
               <para>
-                The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC.  
+                The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC.
               </para>
             </entry>
           </row>
@@ -2825,7 +2824,7 @@
             </entry>
             <entry>
               <para>
-                The second as a decimal number (range 00 to 60). (The range is up to 60 to allow for occasional leap seconds.) 
+                The second as a decimal number (range 00 to 60). (The range is up to 60 to allow for occasional leap seconds.)
               </para>
             </entry>
           </row>
@@ -2837,7 +2836,7 @@
             </entry>
             <entry>
               <para>
-                The time in 24-hour notation (%H:%M:%S).  
+                The time in 24-hour notation (%H:%M:%S).
               </para>
             </entry>
           </row>
@@ -2849,7 +2848,7 @@
             </entry>
             <entry>
               <para>
-                The day of the week as a decimal number, range 1 to 7, Monday being 1. See also %w.  
+                The day of the week as a decimal number, range 1 to 7, Monday being 1. See also %w.
               </para>
             </entry>
           </row>
@@ -2861,7 +2860,7 @@
             </entry>
             <entry>
               <para>
-                The week number of the current year as a decimal number, range 00 to 53, starting with the first Sunday as the first day of week 01. See also %V and %W. 
+                The week number of the current year as a decimal number, range 00 to 53, starting with the first Sunday as the first day of week 01. See also %V and %W.
               </para>
             </entry>
           </row>
@@ -2873,7 +2872,7 @@
             </entry>
             <entry>
               <para>
-                The ISO 8601:1988 week number of the current year as a decimal number, range 01 to 53, where week 1 is the first week that has at least 4 days in the current year, and with Monday as the first day of the week. See also %U and %W.  
+                The ISO 8601:1988 week number of the current year as a decimal number, range 01 to 53, where week 1 is the first week that has at least 4 days in the current year, and with Monday as the first day of the week. See also %U and %W.
               </para>
             </entry>
           </row>
@@ -2885,7 +2884,7 @@
             </entry>
             <entry>
               <para>
-                The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u. 
+                The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u.
               </para>
             </entry>
           </row>
@@ -2897,7 +2896,7 @@
             </entry>
             <entry>
               <para>
-                The week number of the current year as a decimal number, range 00 to 53, starting with the first Monday as the first day of week 01. 
+                The week number of the current year as a decimal number, range 00 to 53, starting with the first Monday as the first day of week 01.
               </para>
             </entry>
           </row>
@@ -2909,7 +2908,7 @@
             </entry>
             <entry>
               <para>
-                The preferred date representation for the current locale without the time. 
+                The preferred date representation for the current locale without the time.
               </para>
             </entry>
           </row>
@@ -2921,7 +2920,7 @@
             </entry>
             <entry>
               <para>
-                The preferred time representation for the current locale without the date. 
+                The preferred time representation for the current locale without the date.
               </para>
             </entry>
           </row>
@@ -2933,7 +2932,7 @@
             </entry>
             <entry>
               <para>
-                The year as a decimal number without a century (range 00 to 99). 
+                The year as a decimal number without a century (range 00 to 99).
               </para>
             </entry>
           </row>
@@ -2945,7 +2944,7 @@
             </entry>
             <entry>
               <para>
-                The year as a decimal number including the century. 
+                The year as a decimal number including the century.
               </para>
             </entry>
           </row>
@@ -2957,7 +2956,7 @@
             </entry>
             <entry>
               <para>
-                The time-zone as hour offset from GMT. Required to emit RFC 822-conformant dates (using "%a, %d %b %Y %H:%M:%S %z").  
+                The time-zone as hour offset from GMT. Required to emit RFC 822-conformant dates (using "%a, %d %b %Y %H:%M:%S %z").
               </para>
             </entry>
           </row>
@@ -2977,11 +2976,11 @@
      </tgroup>
    </table>
        <para>
-	Some conversion specifications can be modified by preceding the conversion specifier character by the E or O modifier 
-	to indicate that an alternative format should be used. If the alternative format or specification does not exist for 
-	the current locale, the behaviour will be as if the unmodified conversion specification were used.  The Single 
-	Unix Specification mentions %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, 
-	%OW, %Oy, where the effect of the O modifier is to use alternative numeric symbols (say, roman numerals), and that 
+	Some conversion specifications can be modified by preceding the conversion specifier character by the E or O modifier
+	to indicate that an alternative format should be used. If the alternative format or specification does not exist for
+	the current locale, the behaviour will be as if the unmodified conversion specification were used.  The Single
+	Unix Specification mentions %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow,
+	%OW, %Oy, where the effect of the O modifier is to use alternative numeric symbols (say, roman numerals), and that
 	of the E modifier is to use a locale-dependent alternative representation.
        </para>
        <para>
@@ -3058,7 +3057,7 @@
   <sect1 id="scripts">
       <title>External Scripts and Hot Keys</title>
       <para>
-	This dialog contains the shell script definitions that control the 
+	This dialog contains the shell script definitions that control the
 	hot keys 0-9 on the numeric keypad. These scripts can also be
 	launched from the <guimenu>Scripts</guimenu>
 	menu.
@@ -3066,14 +3065,14 @@
           <title>Numeric Keypad on Laptops</title>
           <para>
             Laptop computers may not have a numeric keypad, but most laptops
-            provide a way of emulating the numeric keypad, typically using 
+            provide a way of emulating the numeric keypad, typically using
 	    the <keycap>Fn</keycap> key. This feature may need to be enabled
 	    in the BIOS.
           </para>
         </note>
       </para>
       <para>
-	When a user presses one of these keys, an external shell script 
+	When a user presses one of these keys, an external shell script
 	will be launched. Certain codes can be included in the script.
 	These codes will be replaced by &app; when a script is actually
 	launched, as follows:
@@ -3125,7 +3124,7 @@
               <entry align="left"><para>A user prompt, refreshed for each iteration. If the %F code is not
 	        used, then a prompt dialog will appear for every file that is selected. This code
 	        consists of lower-case text (only) enclosed in square brackets. The text supplied
-	        by the user through the prompt dialog will replace this code. (To treat a 
+	        by the user through the prompt dialog will replace this code. (To treat a
 		bracket-enclosed block of text literally, precede the opening bracket with
 		a backslash.)</para></entry>
             </row>
@@ -3135,12 +3134,12 @@
 	        prompt dialog will only appear once, no matter how many files are selected. This code
                 consists of upper-case text (only) enclosed in square brackets. The text supplied
                 by the user through the prompt dialog will replace this code. (To treat a
-                bracket-enclosed block of text literally, precede the opening bracket with 
+                bracket-enclosed block of text literally, precede the opening bracket with
                 a backslash.)</para></entry>
             </row>
             <row valign="top">
               <entry><para>{..strftime format code..}</para></entry>
-              <entry align="left"><para>A date format string. 
+              <entry align="left"><para>A date format string.
 	        The text inside the curly brackets will be interpreted by the standard C "strftime" function.
 		(The brackets will not appear in the output. To treat a
                 bracket-enclosed block of text literally, precede the opening bracket with
@@ -3187,7 +3186,7 @@
 	All other scripts will be executed once per selected file.
       </para>
       <para>
-      Several default scripts are provided. These can be replaced by the user, if desired. 
+      Several default scripts are provided. These can be replaced by the user, if desired.
       The default scripts are explained below:
       </para>
       <itemizedlist>
@@ -3253,7 +3252,7 @@
         <note>
           <title>Foreground / Background Issues</title>
           <para>
-            If you use a script to launch a long-running program, you should probably 
+            If you use a script to launch a long-running program, you should probably
             add the background character '&amp;' to the end of the script, to ensure that it
             does not block further script iterations and the operation of gthumb itself.
           </para>
@@ -3264,7 +3263,7 @@
           <title>Password Security</title>
           <para>
             &appname; saves the most recent user prompt responses in the gconf database,
-            unless the name of the prompt is "password" or "PASSWORD". 
+            unless the name of the prompt is "password" or "PASSWORD".
           </para>
         </note>
       </para>
