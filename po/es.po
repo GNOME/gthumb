@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-10 21:27+0000\n"
-"PO-Revision-Date: 2010-04-11 14:18+0200\n"
+"POT-Creation-Date: 2010-04-11 17:44+0000\n"
+"PO-Revision-Date: 2010-04-14 20:01+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -254,10 +254,8 @@ msgid "_Do not overwrite any file"
 msgstr "_No sobreescribir ningún archivo"
 
 #: ../data/ui/overwrite-dialog.ui.h:11
-#, fuzzy
-#| msgid "_Save the new image as:"
 msgid "_Save the new file as:"
-msgstr "G_uardar la imagen nueva como:"
+msgstr "G_uardar el archivo nuevo como:"
 
 #: ../data/ui/personalize-filters.ui.h:1
 msgid "Filters"
@@ -349,10 +347,8 @@ msgid "General"
 msgstr "General"
 
 #: ../data/ui/preferences.ui.h:18
-#, fuzzy
-#| msgid "Go to the next visited location"
 msgid "Go to last _visited location"
-msgstr "Ir a la siguiente ubicación visitada"
+msgstr "Ir a la última _ubicación visitada"
 
 #: ../data/ui/preferences.ui.h:19
 msgid "Go to this _folder:"
@@ -620,10 +616,8 @@ msgid "Open _Folder"
 msgstr "Abrir _carpeta"
 
 #: ../extensions/catalogs/callbacks.c:103
-#, fuzzy
-#| msgid "Go to the folder that contains the selected image"
 msgid "Go to the folder that contains the selected file"
-msgstr "Ir a la carpeta que contiene la imagen seleccionada"
+msgstr "Ir a la carpeta que contiene el archivo seleccionado"
 
 #: ../extensions/catalogs/callbacks.c:107
 msgid "Other..."
@@ -976,10 +970,8 @@ msgid "Converting images"
 msgstr "Convirtiendo imágenes"
 
 #: ../extensions/desktop_background/actions.c:54
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Could not show the desktop background properties"
-msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
+msgstr "No se pudieron mostrar las propiedades del fondo del escritorio"
 
 #: ../extensions/desktop_background/callbacks.c:45
 msgid "Set as Desktop Background"
@@ -987,10 +979,8 @@ msgstr "Establecer como fondo del escritorio"
 
 #: ../extensions/desktop_background/callbacks.c:46
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set the image as desktop background"
-msgstr "Utilizar esta imagen como fondo del escritorio (en mosaico)"
+msgstr "Utilizar esta imagen como fondo del escritorio"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
 msgid "Desktop background"
@@ -1027,16 +1017,12 @@ msgid "_Title:"
 msgstr "Tít_ulo:"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:56
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not save the file metadata"
-msgstr "No se pudo mover la imagen:"
+msgstr "No se pudieron guardar los metadatos del archivo"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Allow to edit files metadata."
-msgstr "No se pudo mover la imagen:"
+msgstr "Permitir la edición de los metadatos de los archivos."
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Edit metadata"
@@ -1354,15 +1340,11 @@ msgstr "Seleccionar c_uenta…"
 
 #: ../extensions/facebook/facebook-authentication.c:498
 #: ../extensions/flicker/flickr-authentication.c:434
-#, fuzzy, c-format
-#| msgid ""
-#| "Return to this window when you have finished the authorization process on "
-#| "Flickr.com"
+#, c-format
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
-"Volver a esta ventana cuando haya finalizado el proceso de autorización el "
-"Flickr.com"
+"Volver a esta ventana cuando haya finalizado el proceso de autorización en %s"
 
 #: ../extensions/facebook/facebook-authentication.c:578
 #: ../extensions/flicker/flickr-authentication.c:508
@@ -1634,10 +1616,8 @@ msgid "File manager"
 msgstr "Gestor de archivos"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
-#, fuzzy
-#| msgid "Caption"
 msgid "File manager operations."
-msgstr "Descripción"
+msgstr "Operaciones del gestor de archivos."
 
 #: ../extensions/file_manager/gth-delete-task.c:63
 msgid "Deleting files"
@@ -1737,10 +1717,8 @@ msgid "Options"
 msgstr "Opciones"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
-#, fuzzy
-#| msgid "I_nvert aspect ratio"
 msgid "_Preserve original aspect ratio"
-msgstr "I_nvertir la proporción de la imagen"
+msgstr "Man_tener la proporción de aspecto original"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
@@ -1959,10 +1937,8 @@ msgstr "_Importar"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:360
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
-#, fuzzy
-#| msgid "Could not delete the files"
 msgid "Could not get the photo list"
-msgstr "No se pudieron borrar los archivos"
+msgstr "No se pudo obtener la lista de fotos"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:393
 #: ../extensions/flicker/dlg-import-from-flickr.c:564
@@ -2395,10 +2371,8 @@ msgid "_Destination"
 msgstr "_Destino"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
-#, fuzzy
-#| msgid "Overwrite _all images"
 msgid "_Overwrite existing files"
-msgstr "Sobreescribir _todas las imágenes"
+msgstr "Sobreescribir los archiv_os existentes"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
 msgid "_Rotate images physically"
@@ -2558,10 +2532,8 @@ msgid "Special code"
 msgstr "Código especial"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:28
-#, fuzzy
-#| msgid "Include file name"
 msgid "The file basename"
-msgstr "Incluir nombre de archivo"
+msgstr "El nombre base del archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "The file basename without extension"
@@ -2580,10 +2552,8 @@ msgid "The file uri"
 msgstr "El URI del archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:33
-#, fuzzy
-#| msgid "Move current folder"
 msgid "The parent folder path"
-msgstr "Mover la carpeta actual"
+msgstr "La ruta de la carpeta padre"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:34
 msgid "_Command:"
@@ -3001,10 +2971,8 @@ msgid "_Template:"
 msgstr "Plan_tilla:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:341
-#, fuzzy
-#| msgid "Could not rename the image:"
 msgid "Could not rename the files"
-msgstr "No se pudo renombrar la imagen:"
+msgstr "No se pudieron renombrar los archivos"
 
 #: ../extensions/rename_series/dlg-rename-series.c:425
 msgid "Old Name"
@@ -3036,26 +3004,20 @@ msgid "Rename files"
 msgstr "Renombrar archivos"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:2
-#, fuzzy
-#| msgid "Rename selected images"
 msgid "Rename series of files."
-msgstr "Renombrar las imágenes seleccionadas"
+msgstr "Renombrar series de archivos."
 
 #: ../extensions/resize_images/callbacks.c:46
 msgid "Resize Images..."
 msgstr "Redimensionar imágenes…"
 
 #: ../extensions/resize_images/callbacks.c:47
-#, fuzzy
-#| msgid "Rename selected images"
 msgid "Resize the selected images"
-msgstr "Renombrar las imágenes seleccionadas"
+msgstr "Redimensionar las imágenes seleccionadas"
 
 #: ../extensions/resize_images/data/gthumb_resize_images.schemas.in.h:1
-#, fuzzy
-#| msgid "Possible values are: pixels, percentage."
 msgid "Possible values: pixels, percentage"
-msgstr "Los valores posibles son: «pixels», «percentage»."
+msgstr "Valores posibles: «pixels», «percentage»."
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:3
 msgid "Ask"
