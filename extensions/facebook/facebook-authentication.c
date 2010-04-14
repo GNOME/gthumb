@@ -420,16 +420,12 @@ get_session_ready_cb (GObject      *source_object,
 	facebook_account_set_secret (account, facebook_connection_get_secret (self->priv->conn));
 	facebook_account_set_user_id (account, facebook_connection_get_user_id (self->priv->conn));
 	set_account (self, account);
-	g_object_unref (account);
 
 #ifdef HAVE_GNOME_KEYRING
 	if (gnome_keyring_is_available ()) {
 		char *secret;
 
-		secret = g_strconcat (facebook_connection_get_session_key (self->priv->conn),
-				      SECRET_SEPARATOR,
-				      facebook_connection_get_secret (self->priv->conn),
-				      NULL);
+		secret = g_strconcat (account->session_key, SECRET_SEPARATOR, account->secret, NULL);
 		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
 					      NULL,
 					      "Facebook",
@@ -437,7 +433,7 @@ get_session_ready_cb (GObject      *source_object,
 					      store_password_done_cb,
 					      self,
 					      NULL,
-					      "user", facebook_connection_get_user_id (self->priv->conn),
+					      "user", account->user_id,
 					      "server", FACEBOOK_HTTPS_REST_SERVER,
 					      "protocol", "https",
 					      NULL);
@@ -446,6 +442,7 @@ get_session_ready_cb (GObject      *source_object,
 	}
 #endif
 
+	g_object_unref (account);
 	connect_to_server (self);
 }
 
