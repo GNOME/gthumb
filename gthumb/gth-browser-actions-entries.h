@@ -99,12 +99,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "View_Stop", GTK_STOCK_STOP,
 	  NULL, "Escape",
-	  NULL,
+	  N_("Stop loading the current location"),
 	  G_CALLBACK (gth_browser_activate_action_view_stop) },
 
 	{ "View_Reload", GTK_STOCK_REFRESH,
 	  NULL, "<control>R",
-	  NULL,
+	  N_("Reload the current location"),
 	  G_CALLBACK (gth_browser_activate_action_view_reload) },
 
 	{ "View_Prev", GTK_STOCK_GO_UP,
@@ -119,12 +119,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "View_Fullscreen", GTK_STOCK_FULLSCREEN,
 	  NULL, "F11",
-	  NULL,
+	  N_("Switch to fullscreen"),
 	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
 
 	{ "View_Leave_Fullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
 	  NULL, NULL,
-	  NULL,
+	  N_("Leave Fullscreen"),
 	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
 
 	{ "Go_Back", GTK_STOCK_GO_BACK,
