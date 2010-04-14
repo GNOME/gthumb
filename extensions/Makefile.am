@@ -15,10 +15,10 @@ SUBDIRS = 			\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
-	image_rotation		\
 	image_viewer		\
 	importer		\
 	jpeg_utils		\
+	image_rotation		\
 	list_tools		\
 	photo_importer		\
 	picasaweb		\

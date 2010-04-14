@@ -11,11 +11,11 @@ libimage_rotation_la_SOURCES = 		\
 	gth-transform-task.h		\
 	main.c				\
 	rotation-utils.c		\
-	rotation-utils.h		
+	rotation-utils.h
 
-libimage_rotation_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libimage_rotation_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
 libimage_rotation_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libimage_rotation_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS)
+libimage_rotation_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) ../jpeg_utils/libjpeg_utils.la
 libimage_rotation_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
