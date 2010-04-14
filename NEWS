@@ -1,3 +1,58 @@
+version 2.11.3
+--------------
+
+	New features and user visible changes:
+
+	* Added an "Export to disc" tool, to burn files to optical discs.
+	* Added a Flickr importer and exporter.
+	* Added a Facebook exporter.
+	* Save web account passwords in the GNOME Keyring if available.
+	* Added option to avoid to store metadata in files. (#533819)
+	* Added a thumbnail pane in viewer mode. (#533132)
+	* Read the image thumbnail from the embedded metadata if available.
+	* Organize extensions in categories.
+	* Added a fade effect to the slide transition.
+	* Make shift-click select a range of consecutive files. (#610419)
+	* Use delete to move to trash and shift+delete to delete files. (#595763)
+	* Updated the user manual.
+
+        Bugs fixed:
+
+        * Don't mark ids as translatable strings. (#615310)
+        * Show the error dialog correctly, after a connection failure. (#614450)
+        * Fixed listening to mount/unmount events. (#613875)
+        * Use transupp 8 if libjpeg is version 8. (#612809)
+        * Avoid thumbnail jumps. (#603642)
+        * Fixed the default print font value. (#612629)
+        * Use a better low quality zoom algorigthm. (#611812)
+        * Allow to resize images larger than 10000 pixels. (#478990)
+        * Fixed metadata lost after resize. (#610389)
+        * Fixed crash when cancelling the export to disc operation. (#611456)
+        * Reload the thumbnails when enabled again. (#610873)
+        * Fixed crash when clicking Apply with no changes in the adjust colors
+          tool. (#611156)
+
+        New or updated application translations:
+
+        * Basque (Iñaki Larrañaga Murgoitio)
+        * Chinese (simplified) (Zhang Miao)
+        * Danish (Joe Hansen)
+        * Deutsch (Mario Blättermann)
+        * Español (Jorge González)
+        * Estonian (Rene Pärts)
+        * Finnish (Miika Laaksonen)
+        * Low German (Nils-Christoph Fiedler)
+        * Norwegian/Bokmaal (Kjartan Maraas)
+        * Slovenian Translation (Andrej Žnidaršič)
+        * Swedish (Daniel Nylander)
+        * Ukrainian (Maxim Dziumanenko)
+
+        New or updated manual translations:
+
+        * Español (Jorge González)
+        * German (Christian Kirbach)
+        * Simplified Chinese (Zhang Miao)
+
 version 2.11.2.1
 ----------------
 
