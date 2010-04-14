@@ -20,8 +20,12 @@ libexiv2_tools_la_LIBADD = $(GTHUMB_LIBS) $(EXIV2_LIBS) ../edit_metadata/libedit
 libexiv2_tools_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
-extensionini_in_files = exiv2_tools.extension.in.in
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
+DISTCLEANFILES = $(extensionini_DATA)
+
+endif
+
+extensionini_in_files = exiv2_tools.extension.in.in
 
 %.extension.in: %.extension.in.in $(extension_LTLIBRARIES)
 	$(AM_V_GEN)( sed -e "s|%LIBRARY%|`. ./$(extension_LTLIBRARIES) && echo $$dlname`|" \
@@ -29,10 +33,6 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 
 %.extension: %.extension.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 
-EXTRA_DIST = $(extensionini_in_files) 
-
-DISTCLEANFILES = $(extensionini_DATA)
-
-endif
+EXTRA_DIST = $(extensionini_in_files)
 
 -include $(top_srcdir)/git.mk
