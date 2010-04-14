@@ -41,7 +41,7 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 
 %.extension: %.extension.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
 
-EXTRA_DIST = $(extensionini_in_files) 
+EXTRA_DIST = $(extensionini_in_files) README.6b README.8a
 
 DISTCLEANFILES = $(extensionini_DATA)
 
