@@ -43,6 +43,7 @@
 
 #include <stdio.h>
 #include <jpeglib.h>
+#include <jerror.h>
 #include "transupp-62.h"		/* My own external interface */
 
 #ifndef MAX
@@ -53,14 +54,6 @@
 #define height_in_blocks height_in_data_units
 #define width_in_blocks  width_in_data_units
 #endif
-
-enum {
-  JERR_CONVERSION_NOTIMPL
-};
-
-#define ERREXIT(cinfo,code)  \
-  ((cinfo)->err->msg_code = (code), \
-   (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
 
 
 static long
