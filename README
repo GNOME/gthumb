@@ -72,7 +72,7 @@ Compiling
   The following is the detailed list of libraries you need:
 
 	* glib	 		version >= 2.16.0
-	* gtk 			version >= 2.16.0
+	* gtk 			version >= 2.18.0
 	* gthread
  	* gmodule
 	* gio-unix
