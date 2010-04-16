@@ -9,13 +9,14 @@
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-11 17:44+0000\n"
-"PO-Revision-Date: 2010-04-14 20:01+0200\n"
+"POT-Creation-Date: 2010-04-15 13:21+0000\n"
+"PO-Revision-Date: 2010-04-16 19:00+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -239,10 +240,8 @@ msgid "Overwrite _all files"
 msgstr "Sobreescribir _todos los archivos"
 
 #: ../data/ui/overwrite-dialog.ui.h:8
-#, fuzzy
-#| msgid "<b>Overwrite the old image with the new one?</b>"
 msgid "Overwrite the old file with the new one?"
-msgstr "<b>¿Sobreescribir la imagen anterior con la imagen nueva?</b>"
+msgstr "¿Sobreescribir el archivo anterior con el nuevo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
@@ -562,10 +561,8 @@ msgid "Write to Disc"
 msgstr "Grabar al disco"
 
 #: ../extensions/catalogs/actions.c:63
-#, fuzzy
-#| msgid "Remove selected images from the catalog"
 msgid "Could not remove the files from the catalog"
-msgstr "Eliminar las imágenes seleccionadas del catálogo"
+msgstr "No se pudieron quitar los archivos del catálogo"
 
 #: ../extensions/catalogs/actions.c:121
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:452
@@ -1265,7 +1262,7 @@ msgid "C_ontinue"
 msgstr "Continuar"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
-#: ../extensions/facebook/facebook-authentication.c:499
+#: ../extensions/facebook/facebook-authentication.c:496
 #: ../extensions/flicker/flickr-authentication.c:435
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Cuando haya terminado, pulse el botón «Continuar»."
@@ -1338,7 +1335,7 @@ msgstr "Nueva autenticación…"
 msgid "Choose _Account..."
 msgstr "Seleccionar c_uenta…"
 
-#: ../extensions/facebook/facebook-authentication.c:498
+#: ../extensions/facebook/facebook-authentication.c:495
 #: ../extensions/flicker/flickr-authentication.c:434
 #, c-format
 msgid ""
@@ -1346,13 +1343,13 @@ msgid ""
 msgstr ""
 "Volver a esta ventana cuando haya finalizado el proceso de autorización en %s"
 
-#: ../extensions/facebook/facebook-authentication.c:578
+#: ../extensions/facebook/facebook-authentication.c:575
 #: ../extensions/flicker/flickr-authentication.c:508
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr "gThumb requiere su autorización para subir las fotos a %s"
 
-#: ../extensions/facebook/facebook-authentication.c:579
+#: ../extensions/facebook/facebook-authentication.c:576
 #: ../extensions/flicker/flickr-authentication.c:509
 #, c-format
 msgid ""
@@ -1364,14 +1361,14 @@ msgstr ""
 "fotos a %s. Cuando haya terminado, vuelva a esta ventana para completar la "
 "autorización."
 
-#: ../extensions/facebook/facebook-authentication.c:666
+#: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:685
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
 msgstr "Seleccionar cuenta"
 
-#: ../extensions/facebook/facebook-authentication.c:771
+#: ../extensions/facebook/facebook-authentication.c:768
 #: ../extensions/flicker/flickr-authentication.c:706
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:742
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
@@ -2249,16 +2246,12 @@ msgid "_Accept distortion"
 msgstr "_Aceptar distorsión"
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
-#, fuzzy
-#| msgid ""
-#| "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-#| "fit_width_if_larger."
 msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
-"«fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
+"larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "After loading an image:"
@@ -2622,17 +2615,15 @@ msgstr "Scripting y manipulación de archivos por lotes."
 
 #: ../extensions/photo_importer/callbacks.c:51
 msgid "_Removable Device..."
-msgstr "Dispositivo extraíble…"
+msgstr "Dispositivo e_xtraíble…"
 
 #: ../extensions/photo_importer/callbacks.c:52
 msgid "Import photos and other files from a removable device"
 msgstr "Importar fotos y otros archivos desde un dispositivo extraíble"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
-#, fuzzy
-#| msgid "Import photos from a digital camera"
 msgid "Import from Removable Device"
-msgstr "Importar fotos desde una cámara digital"
+msgstr "Importar desde un dispositivo extraíble"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
@@ -2678,10 +2669,8 @@ msgid "Import photos"
 msgstr "Importar fotos"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
-#, fuzzy
-#| msgid "Import photos from a digital camera"
 msgid "Import photos from removable devices."
-msgstr "Importar fotos desde una cámara digital"
+msgstr "Importar fotos desde dispositivos extraíbles."
 
 #: ../extensions/picasaweb/callbacks.c:55
 #: ../extensions/picasaweb/callbacks.c:59
@@ -2734,10 +2723,8 @@ msgstr "Público"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:278
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:299
-#, fuzzy
-#| msgid "Could not delete the files"
 msgid "Could not get the album list"
-msgstr "No se pudieron borrar los archivos"
+msgstr "No se pudo obtener la lista de álbumes"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:349
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:371
@@ -2887,10 +2874,8 @@ msgid "Red-eye removal"
 msgstr "Reducción de ojos rojos"
 
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
-#, fuzzy
-#| msgid "Remove selected images from the catalog"
 msgid "Tool to remove the red-eye effect from a photo."
-msgstr "Eliminar las imágenes seleccionadas del catálogo"
+msgstr "Herramienta para eliminar el efecto ojos rojos de una foto."
 
 #: ../extensions/rename_series/actions.c:38
 #: ../gthumb/gth-overwrite-dialog.c:119
@@ -3062,10 +3047,8 @@ msgid "Resize images"
 msgstr "Redimensionar imágenes"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:2
-#, fuzzy
-#| msgid "Rename selected images"
 msgid "Resize series of images."
-msgstr "Renombrar las imágenes seleccionadas"
+msgstr "Redimensionar series de imágenes."
 
 #: ../extensions/search/actions.c:50 ../extensions/search/actions.c:117
 #: ../extensions/search/actions.c:123
@@ -3096,17 +3079,13 @@ msgstr "Buscar"
 
 #: ../extensions/search/gth-search-editor.c:139
 #: ../gthumb/gth-filter-editor-dialog.c:196
-#, fuzzy
-#| msgid "The following date"
 msgid "all the following rules"
-msgstr "La siguiente fecha"
+msgstr "todas las siguientes reglas"
 
 #: ../extensions/search/gth-search-editor.c:140
 #: ../gthumb/gth-filter-editor-dialog.c:197
-#, fuzzy
-#| msgid "<b>Change the following values:</b>"
 msgid "any of the following rules"
-msgstr "<b>Cambiar los valores siguientes:</b>"
+msgstr "cualquiera de las siguientes reglas"
 
 #: ../extensions/search/gth-search-task.c:229
 msgid "Searching..."
@@ -3149,8 +3128,6 @@ msgid "_Personalize"
 msgstr "_Personalizar"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
-#, fuzzy
-#| msgid "Resta_rt when finished"
 msgid "_Restart when finished"
 msgstr "Reinicia_r al finalizar"
 
@@ -3193,8 +3170,6 @@ msgid "Slide from bottom"
 msgstr "Deslizar desde abajo"
 
 #: ../extensions/slideshow/main.c:303
-#, fuzzy
-#| msgid "Shadow in"
 msgid "Fade in"
 msgstr "Sombra entrante"
 
@@ -3211,10 +3186,8 @@ msgid "Cube from bottom"
 msgstr "Cubo desde abajo"
 
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
-#, fuzzy
-#| msgid "View as a slideshow"
 msgid "View images as a slideshow."
-msgstr "Ver como diapositivas"
+msgstr "Ver imágenes como diapositivas."
 
 #: ../gthumb/dlg-extensions.c:54 ../gthumb/gth-filterbar.c:270
 msgid "All"
@@ -3233,16 +3206,12 @@ msgid "Viewers"
 msgstr "Visores"
 
 #: ../gthumb/dlg-extensions.c:61
-#, fuzzy
-#| msgid "File list tools"
 msgid "File tools"
-msgstr "Herramientas de lista de archivos"
+msgstr "Herramientas de archivos"
 
 #: ../gthumb/dlg-extensions.c:62
-#, fuzzy
-#| msgid "File list tools"
 msgid "List tools"
-msgstr "Herramientas de lista de archivos"
+msgstr "Herramientas de listas"
 
 #: ../gthumb/dlg-extensions.c:63
 #, fuzzy
@@ -3257,10 +3226,8 @@ msgid "Exporters"
 msgstr "Tiempo de exposición"
 
 #: ../gthumb/dlg-extensions.c:140
-#, fuzzy
-#| msgid "Resta_rt when finished"
 msgid "Restart required"
-msgstr "Reinicia_r al finalizar"
+msgstr "Se requiere reiniciar"
 
 #: ../gthumb/dlg-extensions.c:141
 msgid "You need to restart gthumb for these changes to take effect"
@@ -3275,16 +3242,12 @@ msgid "_Restart"
 msgstr "_Reiniciar"
 
 #: ../gthumb/dlg-extensions.c:244
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not activate the extension"
-msgstr "No se han podido mover los elementos:"
+msgstr "No se pudo activar la extensión"
 
 #: ../gthumb/dlg-extensions.c:250
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not deactivate the extension"
-msgstr "No se han podido mover los elementos:"
+msgstr "No se pudo desactivar la extensión"
 
 #: ../gthumb/dlg-extensions.c:272
 msgid "Use"
@@ -3299,10 +3262,8 @@ msgid "Filter"
 msgstr "Filtro"
 
 #: ../gthumb/dlg-personalize-filters.c:315
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not save the filter"
-msgstr "No se han podido mover los elementos:"
+msgstr "No se pudo guardar el filtro"
 
 #: ../gthumb/dlg-personalize-filters.c:357
 msgid "New Filter"
@@ -3349,10 +3310,8 @@ msgstr ""
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
-#, fuzzy
-#| msgid "File not found"
 msgid "File format not recognized"
-msgstr "No se encontró el archivo"
+msgstr "No se reconoció el formato de archivo"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
 #: ../gthumb/gio-utils.c:1333
@@ -3379,10 +3338,8 @@ msgid "Copying files"
 msgstr "Copiando archivos"
 
 #: ../gthumb/gio-utils.c:1696
-#, fuzzy
-#| msgid "Getting folder listing..."
 msgid "Getting file information"
-msgstr "Obteniendo la lista de carpetas..."
+msgstr "Obteniendo información del archivo"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9:05:02" for 9
@@ -3447,10 +3404,8 @@ msgid "Open _With"
 msgstr "Abrir _con"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
-#, fuzzy
-#| msgid "Import"
 msgid "I_mport From"
-msgstr "Importar"
+msgstr "I_mportar desde"
 
 #: ../gthumb/gth-browser-actions-entries.h:38
 msgid "E_xport To"
@@ -3492,6 +3447,14 @@ msgstr "_Ordenar por…"
 msgid "_Filter..."
 msgstr "_Filtro…"
 
+#: ../gthumb/gth-browser-actions-entries.h:102
+msgid "Stop loading the current location"
+msgstr "Deja de cargar el lugar actual"
+
+#: ../gthumb/gth-browser-actions-entries.h:107
+msgid "Reload the current location"
+msgstr "Recargar la ubicación actual"
+
 #: ../gthumb/gth-browser-actions-entries.h:111
 msgid "Previous"
 msgstr "Anterior"
@@ -3507,6 +3470,14 @@ msgstr "Siguiente"
 #: ../gthumb/gth-browser-actions-entries.h:117
 msgid "View next image"
 msgstr "Ver la próxima imagen"
+
+#: ../gthumb/gth-browser-actions-entries.h:122
+msgid "Switch to fullscreen"
+msgstr "Cambiar a pantalla completa"
+
+#: ../gthumb/gth-browser-actions-entries.h:127
+msgid "Leave Fullscreen"
+msgstr "Salir de «Pantalla completa»"
 
 #: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3023
 msgid "Go to the previous visited location"
@@ -3613,10 +3584,8 @@ msgid "Show hidden files and folders"
 msgstr "Mostrar archivos y carpetas ocultos"
 
 #: ../gthumb/gth-browser-actions-entries.h:216
-#, fuzzy
-#| msgid "View image properties"
 msgid "View file properties"
-msgstr "Ver las propiedades de la imagen"
+msgstr "Ver las propiedades del archivo"
 
 #: ../gthumb/gth-browser-actions-entries.h:220
 msgid "Edit"
@@ -3860,10 +3829,9 @@ msgid "Cancel operation"
 msgstr "Cancelar operación"
 
 #: ../gthumb/gth-tags-entry.c:359
-#, fuzzy, c-format
-#| msgid "Create a new tag"
+#, c-format
 msgid "Create tag «%s»"
-msgstr "Crear una etiqueta nueva"
+msgstr "Crear etiqueta «%s»"
 
 #: ../gthumb/gth-tags-entry.c:717
 msgid "Show all the tags"
@@ -4007,10 +3975,10 @@ msgid "- Image browser and viewer"
 msgstr "Vista previa de la imagen"
 
 #: ../gthumb/pixbuf-io.c:170
-#, fuzzy, c-format
-#| msgid "Could not duplicate the image \"%s\": %s"
+#, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
-msgstr "No se pudo duplicar la imagen «%s»: %s"
+msgstr ""
+"No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
 
 #~ msgid "gtk-close"
 #~ msgstr "gtk-close"
@@ -5631,12 +5599,6 @@ msgstr "No se pudo duplicar la imagen «%s»: %s"
 
 #~ msgid "_Reload"
 #~ msgstr "_Recargar"
-
-#~ msgid "Reload the current location"
-#~ msgstr "Recargar la ubicación actual"
-
-#~ msgid "Stop loading current location"
-#~ msgstr "Detiene la carga del lugar actual"
 
 #~ msgid "Go to the home folder"
 #~ msgstr "Ir a la carpeta personal"
