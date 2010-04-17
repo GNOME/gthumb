@@ -9,7 +9,7 @@ DOC_FIGURES = 	figures/comment.png \
 		figures/nav-button.png \
 		figures/preferences.png
 
-DOC_LINGUAS = de el es fr oc sv zh_CN
+DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
 EXTRA_DIST = theme-xml.txt
 
