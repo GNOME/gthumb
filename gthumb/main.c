@@ -50,6 +50,9 @@ gboolean NewWindow = FALSE;
 gboolean StartInFullscreen = FALSE;
 gboolean StartSlideshow = FALSE;
 gboolean ImportPhotos = FALSE;
+#ifdef HAVE_CLUTTER
+int      ClutterInitResult = CLUTTER_INIT_ERROR_UNKNOWN;
+#endif
 
 
 static UniqueApp   *gthumb_app;
@@ -413,8 +416,7 @@ main (int argc, char *argv[])
 	}
 
 #ifdef HAVE_CLUTTER
-	if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
-		g_error ("Unable to initialize GtkClutter");
+	ClutterInitResult = gtk_clutter_init (NULL, NULL);
 #endif
 
 	if (version) {

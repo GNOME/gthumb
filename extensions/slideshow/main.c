@@ -267,6 +267,9 @@ cube_from_bottom_transition (GthSlideshow *self,
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	if (ClutterInitResult != CLUTTER_INIT_SUCCESS)
+		return;
+
 	gth_main_register_object (GTH_TYPE_TRANSITION,
 				  "none",
 				  GTH_TYPE_TRANSITION,

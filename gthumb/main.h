@@ -30,6 +30,10 @@ extern gboolean StartInFullscreen;
 extern gboolean StartSlideshow;
 extern gboolean ImportPhotos;
 
+#ifdef HAVE_CLUTTER
+extern int ClutterInitResult;
+#endif
+
 void gth_restart (void);
 
 G_END_DECLS
