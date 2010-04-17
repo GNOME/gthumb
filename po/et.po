@@ -2,7 +2,7 @@
 # Estonian translation of GThumb.
 #
 # Copyright (C) 2000, 2005 Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the PACKAGE package.l
 #
 # Olle Niit <olle@teknet.ee>, 2005-2007
 # Rene Pärts <rene87@hot.ee>, 2010
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-03-22 09:56+0000\n"
-"PO-Revision-Date: 2010-03-27 17:58+0300\n"
+"POT-Creation-Date: 2010-04-14 18:39+0000\n"
+"PO-Revision-Date: 2010-04-16 17:28+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -105,9 +105,6 @@ msgstr "Võimalikud väärtused: light, midtone, dark."
 msgid "Possible values are: list, thumbnails."
 msgstr "Võimalikud väärtused: list, thumbnails."
 
-msgid "Possible values are: none, file_date, current_date"
-msgstr "Võimalikud väärtused: none, file_date, current_date"
-
 msgid "Possible values are: small, medium, large."
 msgstr "Võimalikud väärtused: small, medium, large."
 
@@ -116,9 +113,6 @@ msgstr "Võimalikud väärtused: system, text_below, text_beside, text_only, ico
 
 msgid "Possible values are: white, black, checked, none."
 msgstr "Võimalikud väärtused: white, black, checked, none."
-
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr "Võimalikud väärtused: yyyymmdd, yyyymm, yyyy"
 
 msgid "Whether to always use a black background."
 msgstr "Kas kasutada alati musta tagapõhja."
@@ -132,7 +126,6 @@ msgstr "Saadaolevad _laiendused:"
 msgid "More extensions..."
 msgstr "Veel laiendusi..."
 
-#| msgid "Catalog Properties"
 msgid "_Categories:"
 msgstr "_Kategooriad:"
 
@@ -193,21 +186,6 @@ msgstr "Üld_filter:"
 
 msgid "_Other filters:"
 msgstr "_Teised filtrid:"
-
-msgid "gtk-close"
-msgstr "gtk-close"
-
-msgid "gtk-edit"
-msgstr "gtk-edit"
-
-msgid "gtk-help"
-msgstr "gtk-help"
-
-msgid "gtk-new"
-msgstr "gtk-new"
-
-msgid "gtk-remove"
-msgstr "gtk-remove"
 
 msgid "Activate items with a double click"
 msgstr "Aktiveeri elemente topeltklõpsuga"
@@ -285,7 +263,7 @@ msgid "Set image to actual size"
 msgstr "Näidatakse pildi tegelikku suurust"
 
 msgid "Set to C_urrent"
-msgstr "_Aktiivne kaust"
+msgstr "_Aktiivne kataloog"
 
 #. Set widgets data.
 msgid "System settings"
@@ -305,6 +283,9 @@ msgstr "Pisipildi _suurus:"
 
 msgid "White"
 msgstr "Valge"
+
+msgid "_Store metadata inside files if possible"
+msgstr "Võimalusel salvestatakse _metaandmed failidesse"
 
 msgid "_Toolbar style:"
 msgstr "_Tööriistariba stiil:"
@@ -486,12 +467,6 @@ msgstr "_Uus album"
 msgid "_View the destination"
 msgstr "_Vaata sihtkataloogi"
 
-msgid "gtk-add"
-msgstr "gtk-add"
-
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
 msgid "Catalog"
 msgstr "Album"
 
@@ -539,12 +514,6 @@ msgstr "Failide _grupeerimine:"
 
 msgid "_Include sub-folders"
 msgstr "_Ka alamkataloogidest"
-
-msgid "appointment-soon"
-msgstr "appointment-soon"
-
-msgid "camera-photo"
-msgstr "camera-photo"
 
 msgid "date photo was taken"
 msgstr "pildistamisaja järgi"
@@ -827,6 +796,161 @@ msgstr "Põimitud XMP"
 msgid "XMP Attached"
 msgstr "Manustatud XMP"
 
+msgid "Face_book..."
+msgstr "Face_book..."
+
+#| msgid "Upload photos to Flickr"
+msgid "Upload photos to Facebook"
+msgstr "Fotode üleslaadimine Facebooki"
+
+#| msgid "_Album:"
+msgid "A_lbum:"
+msgstr "_Album:"
+
+msgid "Add a new album"
+msgstr "Lisa uus album"
+
+msgid "Edit accounts"
+msgstr "Muuda kontosid"
+
+msgid "Export to Flickr"
+msgstr "Eksportimine Flickrisse"
+
+msgid "_Account:"
+msgstr "_Konto:"
+
+msgid "_Upload"
+msgstr "Laa_di üles"
+
+msgid "A_ccount:"
+msgstr "_Konto:"
+
+msgid "A_ccounts:"
+msgstr "_Kontod:"
+
+msgid "Private"
+msgstr "Privaatne"
+
+msgid "Private photos, visible to friends"
+msgstr "Privaatsed fotod, nähtavad sõpradele"
+
+msgid "Public photos"
+msgstr "Avalikud fotod"
+
+#| msgid "_Location"
+msgid "_Location:"
+msgstr "_Asukoht:"
+
+msgid "_Visibility:"
+msgstr "_Nähtavus:"
+
+msgid "_Authorize..."
+msgstr "_Autoriseeri..."
+
+msgid "C_ontinue"
+msgstr "_Jätka"
+
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "Jätkamiseks klõpsa alloleval nupul \"Jätka\"."
+
+msgid "Files successfully uploaded to the server."
+msgstr "Failid edukalt serverisse laetud."
+
+msgid "_Open in the Browser"
+msgstr "_Ava brauseris"
+
+msgid "Could not connect to the server"
+msgstr "Serverisse ühendumine nurjus"
+
+msgid "Could not upload the files"
+msgstr "Faile ei suudetud üles laadida"
+
+msgid "Could not create the album"
+msgstr "Albumi loomine nurjus"
+
+msgid "New Album"
+msgstr "Uue albumi loomine"
+
+msgid "No valid file selected."
+msgstr "Ühtegi sobivat faili pole valitud."
+
+msgid "Could not export the files"
+msgstr "Failide eksportimine nurjus"
+
+#, c-format
+#| msgid "E_xport To"
+msgid "Export to %s"
+msgstr "Eksportimine %s kontole"
+
+#| msgid "_View the destination"
+msgid "New authentication..."
+msgstr "Uus autentimine..."
+
+#| msgid "Choose Account"
+msgid "Choose _Account..."
+msgstr "Vali _konto..."
+
+#, c-format
+#| msgid "Return to this window when you have finished the authorization process on Flickr.com"
+msgid "Return to this window when you have finished the authorization process on %s"
+msgstr "Pärast autoriseerimist saidil %s naase siia aknasse."
+
+#, c-format
+#| msgid "gthumb requires your authorization to upload the photos to Flickr"
+msgid "gthumb requires your authorization to upload the photos to %s"
+msgstr "gthumb vajab õigusi fotode laadimiseks %s-i"
+
+#, c-format
+#| msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization."
+msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
+msgstr "%s üleslaadimisõiguste andmiseks gthumbile ja veebibrauseri avamiseks klõpsa 'Autoriseeri'. Autoriseerimise lõpetamiseks naase siia."
+
+msgid "Choose Account"
+msgstr "Vali konto"
+
+msgid "Edit Accounts"
+msgstr "Kontode redigeerimine"
+
+msgid "Unknown error"
+msgstr "Tundmatu viga"
+
+msgid "Connecting to the server"
+msgstr "Ühendumine serverisse"
+
+msgid "Facebook"
+msgstr "Facebook"
+
+#| msgid "Upload images to Flickr"
+msgid "Upload images to Facebook"
+msgstr "Fotode üleslaadimine Facebooki"
+
+msgid "Getting account information"
+msgstr "Konto andmete hankimine"
+
+msgid "Getting the album list"
+msgstr "Albumiloendi hankimine"
+
+msgid "Creating the new album"
+msgstr "Uue albumi loomine"
+
+#, c-format
+#| msgid "Could not upload the files"
+msgid "Could not upload '%s': %s"
+msgstr "Faili '%s' ei saanud üles laadida: %s"
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#, c-format
+msgid "Uploading '%s'"
+msgstr "Faili '%s' üleslaadimine"
+
+msgid "Uploading the files to the server"
+msgstr "Failide laadimine serverisse"
+
+msgid "Getting the photo list"
+msgstr "Pildiloendi laadimine"
+
 msgid "Enter the folder name: "
 msgstr "Sisesta kausta nimi: "
 
@@ -1098,20 +1222,15 @@ msgstr "Salvesta"
 msgid "Undo"
 msgstr "Unusta"
 
-#| msgid "_Filter..."
 msgid "_Flickr..."
 msgstr "_Flickr..."
 
-#| msgid "Upload photos to Picasa Web Album"
+#| msgid "Upload photos to Flickr"
+msgid "Download photos from Flickr"
+msgstr "Fotode allalaadimine Flickrist"
+
 msgid "Upload photos to Flickr"
 msgstr "Fotode üleslaadimine Flickrisse"
-
-msgid "Edit accounts"
-msgstr "Muuda kontosid"
-
-#| msgid "E_xport To"
-msgid "Export to Flickr"
-msgstr "Eksportimine Flickrisse"
 
 msgid "Free space:"
 msgstr "Vaba ruum:"
@@ -1125,7 +1244,6 @@ msgstr "Keskmine sisu"
 msgid "Ph_otoset:"
 msgstr "_Fotokogu:"
 
-#| msgid "Import photos"
 msgid "Private photos"
 msgstr "Privaatsed fotod"
 
@@ -1135,126 +1253,37 @@ msgstr "Privaatsed fotod, nähtavad perele"
 msgid "Private photos, visible to family and friends"
 msgstr "Privaatsed fotod, nähtavad perele ja sõpradele"
 
-msgid "Private photos, visible to friends"
-msgstr "Privaatsed fotod, nähtavad sõpradele"
-
-#| msgid "Public"
-msgid "Public photos"
-msgstr "Avalikud fotod"
-
 msgid "Restricted content"
 msgstr "Piiratud sisu"
 
-#| msgid "Contents"
 msgid "Safe content"
 msgstr "Turvaline sisu"
 
-#| msgid "A_ccount:"
-msgid "_Account:"
-msgstr "_Konto:"
-
-#| msgid "_Place:"
 msgid "_Privacy:"
 msgstr "_Privaatsus:"
 
 msgid "_Safety:"
 msgstr "_Ohutus:"
 
-msgid "_Upload"
-msgstr "_Laadi üles"
+msgid "_Import"
+msgstr "_Impordi"
 
-msgid "A_ccount:"
-msgstr "_Konto:"
+msgid "Could not get the photo list"
+msgstr "Pildiloendi laadimine nurjus"
 
-msgid "A_ccounts:"
-msgstr "_Kontod:"
+msgid "No album selected"
+msgstr "Ühtegi albumit pole valitud"
 
-msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization."
-msgstr "Flickri üleslaadimisõiguste andmiseks ja veebibrauseri avamiseks klõpsa 'Autoriseeri'. Seejärel naase siia, et lõpetada autoriseerimine."
+#, c-format
+#| msgid "I_mport From"
+msgid "Import from %s"
+msgstr "Importimine %s kontolt"
 
-msgid "Upload to Flickr"
-msgstr "Laadimine Flickrisse"
-
-msgid "_Authorize..."
-msgstr "_Autoriseeri..."
-
-msgid "gthumb requires your authorization to upload the photos to Flickr"
-msgstr "gthumb vajab õigusi fotode laadimiseks Flickrisse"
-
-#| msgid "_Continue"
-msgid "C_ontinue"
-msgstr "_Jätka"
-
-msgid "Once you're done, click the 'Continue' button below."
-msgstr "Jätkamiseks klõpsa alloleval \"Jätka\" nupul."
-
-msgid "Return to this window when you have finished the authorization process on Flickr.com"
-msgstr "Pärast autoriseerimist saidil Flickr.com naase siia."
-
-msgid "Files successfully uploaded to the server."
-msgstr "Failid edukalt serverisse laetud."
-
-#| msgid "Open in New Window"
-msgid "_Open in the Browser"
-msgstr "_Ava brauseris"
-
-msgid "Could not connect to the server"
-msgstr "Serverisse ühendumine nurjus"
-
-msgid "Could not create the album"
-msgstr "Albumi loomine nurjus"
-
-msgid "Could not upload the files"
-msgstr "Faile ei suudetud üles laadida"
-
-msgid "Choose Account"
-msgstr "Vali konto"
-
-msgid "Edit Accounts"
-msgstr "Kontode redigeerimine"
-
-msgid "No valid file selected."
-msgstr "Ühtegi sobivat faili pole valitud."
-
-msgid "Could not export the files"
-msgstr "Failide eksportimine nurjus"
-
-#| msgid "Filter"
 msgid "Flicker"
 msgstr "Flicker"
 
-#| msgid "Upload images to Picasa Web Albums"
 msgid "Upload images to Flickr"
 msgstr "Fotode üleslaadimine Flickrisse"
-
-msgid "Unknown error"
-msgstr "Tundmatu viga"
-
-msgid "Connecting to the server"
-msgstr "Ühendumine serverisse"
-
-#| msgid "Getting file information"
-msgid "Getting account information"
-msgstr "Konto andmete hankimine"
-
-msgid "Getting the album list"
-msgstr "Albumiloendi hankimine"
-
-msgid "Creating the new album"
-msgstr "Uue albumi loomine"
-
-#. Translators: %s is a filename
-#. send the file
-#. Translators: %s is a filename
-#, c-format
-msgid "Uploading '%s'"
-msgstr "Faili '%s' üleslaadimine"
-
-msgid "Uploading the files to the server"
-msgstr "Failide laadimine serverisse"
-
-msgid "Getting the photo list"
-msgstr "Pildiloendi laadimine"
 
 msgid "Could not save the file"
 msgstr "Faili pole võimalik salvestada"
@@ -1525,6 +1554,12 @@ msgstr "Mahutatakse laiusesse"
 msgid "Viewer"
 msgstr "Vaataja"
 
+msgid "Possible values are: none, file_date, current_date"
+msgstr "Võimalikud väärtused: none, file_date, current_date"
+
+msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+msgstr "Võimalikud väärtused: yyyymmdd, yyyymm, yyyy"
+
 msgid "Files"
 msgstr "Faile"
 
@@ -1737,9 +1772,6 @@ msgstr "_Imporditud failid kustutatakse allikast"
 msgid "_Event:"
 msgstr "_Sündmus:"
 
-msgid "_Import"
-msgstr "_Impordi"
-
 msgid "_Tags:"
 msgstr "_Sildid:"
 
@@ -1772,9 +1804,6 @@ msgstr "Fotode allalaadimine Picasa veebialbumist"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Fotode üleslaadimine Picasa veebialbumisse"
 
-msgid "Add a new album"
-msgstr "Lisa uus album"
-
 msgid "Export to Picasa Web Albums"
 msgstr "Eksportimine Picasa veebialbumisse"
 
@@ -1796,14 +1825,8 @@ msgstr "_E-post:"
 msgid "_Password:"
 msgstr "_Salasõna:"
 
-msgid "Private"
-msgstr "Privaatne"
-
 msgid "Public"
 msgstr "Avalik"
-
-msgid "_Visibility:"
-msgstr "_Nähtavus:"
 
 msgid "Could not get the album list"
 msgstr "Albumiloendi laadimine nurjus"
@@ -1813,15 +1836,6 @@ msgstr "Picasa veebialbum"
 
 msgid "Account"
 msgstr "Konto"
-
-msgid "New Album"
-msgstr "Uue albumi loomine"
-
-msgid "Could not get the photo list"
-msgstr "Pildiloendi laadimine nurjus"
-
-msgid "No album selected"
-msgstr "Ühtegi albumit pole valitud"
 
 msgid "Could not load the file"
 msgstr "Faili laadimine nurjus"
@@ -2160,23 +2174,18 @@ msgstr "Lubatud"
 msgid "Disabled"
 msgstr "Keelatud"
 
-#| msgid "Viewer"
 msgid "Viewers"
 msgstr "Vaatajad"
 
-#| msgid "File list tools"
 msgid "File tools"
 msgstr "Failitööriistad"
 
-#| msgid "File list tools"
 msgid "List tools"
 msgstr "Loendi tööriistad"
 
-#| msgid "_Import"
 msgid "Importers"
 msgstr "Importijad"
 
-#| msgid "E_xport To"
 msgid "Exporters"
 msgstr "Eksportijad"
 
@@ -2345,6 +2354,14 @@ msgstr "_Sortimine..."
 msgid "_Filter..."
 msgstr "_Filtreerimine..."
 
+#| msgid "Could not open the location"
+msgid "Stop loading the current location"
+msgstr "Katkesta käesoleva asukoha laadimine"
+
+#| msgid "Could not open the location"
+msgid "Reload the current location"
+msgstr "Laadi käesolev asukoht uuesti"
+
 msgid "Previous"
 msgstr "Eelmine"
 
@@ -2356,6 +2373,13 @@ msgstr "Järgmine"
 
 msgid "View next image"
 msgstr "Vaata järgmist pilti"
+
+#| msgid "Start in fullscreen mode"
+msgid "Switch to fullscreen"
+msgstr "Lülitu täisekraanvaatesse"
+
+msgid "Leave Fullscreen"
+msgstr "Välju täisekraanvaatest"
 
 msgid "Go to the previous visited location"
 msgstr "Liikumine eelmisesse külastatud kohta"
@@ -2410,6 +2434,14 @@ msgstr "_Külgriba"
 
 msgid "View or hide the sidebar of this window"
 msgstr "Külgriba näitamine või peitmine aktiivses aknas"
+
+#| msgid "_Thumbnails"
+msgid "_Thumbnail Pane"
+msgstr "_Pisipildipaneel"
+
+#| msgid "View or hide the statusbar of this window"
+msgid "View or hide the thumbnail pane in viewer mode"
+msgstr "Pisipiltide paneeli näitamine või peitmine"
 
 msgid "_Thumbnails"
 msgstr "_Pisipildid"
@@ -2710,4 +2742,3 @@ msgstr "- Piltide sirvija ja vaataja"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Pildi salvestamiseks \"%s\"-na ei leitud sobivat moodulit"
-
