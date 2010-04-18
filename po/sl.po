@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-10 21:27+0000\n"
-"PO-Revision-Date: 2010-04-11 11:01+0100\n"
+"POT-Creation-Date: 2010-04-17 19:22+0000\n"
+"PO-Revision-Date: 2010-04-18 08:03+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -350,7 +350,7 @@ msgstr "Ohrani nastavljeno približanje"
 #: ../data/ui/preferences.ui.h:22
 #: ../extensions/file_tools/gth-file-tool-crop.c:347
 #: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:273
+#: ../extensions/slideshow/main.c:276
 msgid "None"
 msgstr "Brez"
 
@@ -1252,7 +1252,7 @@ msgid "C_ontinue"
 msgstr "_Nadaljuj"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
-#: ../extensions/facebook/facebook-authentication.c:499
+#: ../extensions/facebook/facebook-authentication.c:496
 #: ../extensions/flicker/flickr-authentication.c:435
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Ko ste končali, kliknite na gumb 'Nadaljuj' spodaj."
@@ -1325,32 +1325,32 @@ msgstr "Nova overitev ..."
 msgid "Choose _Account..."
 msgstr "Izberi _račun ..."
 
-#: ../extensions/facebook/facebook-authentication.c:498
+#: ../extensions/facebook/facebook-authentication.c:495
 #: ../extensions/flicker/flickr-authentication.c:434
 #, c-format
 msgid "Return to this window when you have finished the authorization process on %s"
 msgstr "Vrnite se v to okno, ko ste končali opravilo pooblastitve na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:578
+#: ../extensions/facebook/facebook-authentication.c:575
 #: ../extensions/flicker/flickr-authentication.c:508
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr "gthumb zahteva vašo pooblastitev za pošiljanje fotografij na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:579
+#: ../extensions/facebook/facebook-authentication.c:576
 #: ../extensions/flicker/flickr-authentication.c:509
 #, c-format
 msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
 msgstr "Kliknite 'Pooblasti' za odprtje spletnega brskalnika in pooblastite gthumb za pošiljanje fotografij na %s. Ko boste končali, se vrnite v to okno za dokončanje pooblastitve."
 
-#: ../extensions/facebook/facebook-authentication.c:666
+#: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:685
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
 msgstr "Izbor računa"
 
-#: ../extensions/facebook/facebook-authentication.c:771
+#: ../extensions/facebook/facebook-authentication.c:768
 #: ../extensions/flicker/flickr-authentication.c:706
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:742
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
@@ -3079,35 +3079,35 @@ msgstr "Zvočne datoteke"
 msgid "Random"
 msgstr "Naključno"
 
-#: ../extensions/slideshow/main.c:279
+#: ../extensions/slideshow/main.c:282
 msgid "Push from right"
 msgstr "Potisk z desne"
 
-#: ../extensions/slideshow/main.c:285
+#: ../extensions/slideshow/main.c:288
 msgid "Push from bottom"
 msgstr "Potisk od spodaj"
 
-#: ../extensions/slideshow/main.c:291
+#: ../extensions/slideshow/main.c:294
 msgid "Slide from right"
 msgstr "Diapozitiv z desne"
 
-#: ../extensions/slideshow/main.c:297
+#: ../extensions/slideshow/main.c:300
 msgid "Slide from bottom"
 msgstr "Diapozitiv od spodaj"
 
-#: ../extensions/slideshow/main.c:303
+#: ../extensions/slideshow/main.c:306
 msgid "Fade in"
 msgstr "Fade in"
 
-#: ../extensions/slideshow/main.c:309
+#: ../extensions/slideshow/main.c:312
 msgid "Flip page"
 msgstr "Obrni stran"
 
-#: ../extensions/slideshow/main.c:315
+#: ../extensions/slideshow/main.c:318
 msgid "Cube from right"
 msgstr "Kocka z desne"
 
-#: ../extensions/slideshow/main.c:321
+#: ../extensions/slideshow/main.c:324
 msgid "Cube from bottom"
 msgstr "Kocka od spodaj"
 
@@ -3361,6 +3361,14 @@ msgstr "_Razvrsti po"
 msgid "_Filter..."
 msgstr "_Filter ..."
 
+#: ../gthumb/gth-browser-actions-entries.h:102
+msgid "Stop loading the current location"
+msgstr "Zaustavi nalaganje trenutnega mesta"
+
+#: ../gthumb/gth-browser-actions-entries.h:107
+msgid "Reload the current location"
+msgstr "Ponovno naloži trenutno mesto"
+
 #: ../gthumb/gth-browser-actions-entries.h:111
 msgid "Previous"
 msgstr "Predhodni"
@@ -3376,6 +3384,14 @@ msgstr "Naslednji"
 #: ../gthumb/gth-browser-actions-entries.h:117
 msgid "View next image"
 msgstr "Ogled naslednje slike"
+
+#: ../gthumb/gth-browser-actions-entries.h:122
+msgid "Switch to fullscreen"
+msgstr "Preklopi na cel zaslon"
+
+#: ../gthumb/gth-browser-actions-entries.h:127
+msgid "Leave Fullscreen"
+msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
 #: ../gthumb/gth-browser.c:3023
@@ -3570,7 +3586,7 @@ msgstr "Ni mogoče odpreti modula `%s`: %s"
 #: ../gthumb/gth-extensions.c:817
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
-msgstr "Razširitev '%s' je potrebna za delovanje razširitve '%s'"
+msgstr "Razširitev '%s' je zahtevana za pravilno delovanje razširitve '%s'"
 
 #: ../gthumb/gth-file-source-vfs.c:81
 msgid "Home Folder"
@@ -3846,28 +3862,28 @@ msgstr "Ni mogoče prikazati pomoči"
 msgid "Could not launch the application"
 msgstr "Programa ni mogoče zagnati"
 
-#: ../gthumb/main.c:64
+#: ../gthumb/main.c:67
 msgid "Open a new window"
 msgstr "Odpri novo okno"
 
-#: ../gthumb/main.c:68
+#: ../gthumb/main.c:71
 msgid "Start in fullscreen mode"
 msgstr "Zagon v celozaslonskem načinu"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:75
 msgid "Automatically start a slideshow"
 msgstr "Samodejno začni diapredstavitev"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:79
 msgid "Automatically import digital camera photos"
 msgstr "Samodejno uvozi fotografije iz digitalnega fotoaparata"
 
-#: ../gthumb/main.c:80
+#: ../gthumb/main.c:83
 msgid "Show version"
 msgstr "Pokaži različico"
 
 #. command line options
-#: ../gthumb/main.c:400
+#: ../gthumb/main.c:403
 msgid "- Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
@@ -4828,10 +4844,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Dodeli kategorije trenutni mapi"
 #~ msgid "_New Folder..."
 #~ msgstr "_Nova mapa ..."
-#~ msgid "Reload the current location"
-#~ msgstr "Ponovno naloži trenutno mesto"
-#~ msgid "Stop loading current location"
-#~ msgstr "Zaustavi nalaganje trenutnega mesta"
 #~ msgid "Go to the home folder"
 #~ msgstr "Pojdi v mapo slik"
 #~ msgid "_Go to the Image Folder"
