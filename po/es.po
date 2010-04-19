@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-15 13:21+0000\n"
-"PO-Revision-Date: 2010-04-16 19:00+0200\n"
+"POT-Creation-Date: 2010-04-17 11:48+0000\n"
+"PO-Revision-Date: 2010-04-19 07:39+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -281,16 +281,12 @@ msgid "Appearance"
 msgstr "Apariencia"
 
 #: ../data/ui/preferences.ui.h:4
-#, fuzzy
-#| msgid "As_k confirmation before deleting images or catalogs"
 msgid "As_k confirmation before deleting files or catalogs"
-msgstr "Solicitar co_nfirmación antes de borrar imágenes o catálogos"
+msgstr "Solicitar co_nfirmación antes de borrar archivos o catálogos"
 
 #: ../data/ui/preferences.ui.h:5
-#, fuzzy
-#| msgid "Ask whether to save _modified images"
 msgid "Ask whether to save _modified files"
-msgstr "Preguntar si se deben guardar las imágenes _modificadas"
+msgstr "Preguntar si se deben guardar los archivos _modificados"
 
 #: ../data/ui/preferences.ui.h:6 ../extensions/image_viewer/preferences.c:112
 msgid "Black"
@@ -364,7 +360,7 @@ msgstr "Mantener la ampliación anterior"
 #: ../data/ui/preferences.ui.h:22
 #: ../extensions/file_tools/gth-file-tool-crop.c:347
 #: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:273
+#: ../extensions/slideshow/main.c:276
 msgid "None"
 msgstr "Ninguna"
 
@@ -541,10 +537,8 @@ msgid "Current _folder"
 msgstr "Carpeta _actual"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
-#, fuzzy
-#| msgid "Create a new folder"
 msgid "Current folder and its s_ub-folders"
-msgstr "Crear una carpeta nueva"
+msgstr "La carpeta actual y sus s_ubcarpetas"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
 msgid "Source"
@@ -1085,10 +1079,9 @@ msgid "Cr_edit:"
 msgstr "Crédi_tos:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-#, fuzzy
 #| msgid "_Brightness:"
 msgid "_Byline:"
-msgstr "_Brillo:"
+msgstr "_Firmante:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 msgid "_City:"
@@ -1487,7 +1480,7 @@ msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Las imágenes no se pueden mover a la papelera. ¿Desea eliminarlas "
+"Las imágenes no se pueden mover a la papelera. ¿Quiere eliminarlas "
 "permanentemente?"
 
 #: ../extensions/file_manager/actions.c:449
@@ -1522,15 +1515,11 @@ msgid "Could not open the location"
 msgstr "No se pudo abrir la ubicación"
 
 #: ../extensions/file_manager/actions.c:662
-#, fuzzy
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr ""
-"Las imágenes no pueden ser movidas a la papelera. ¿Desea borrarlas "
+"La carpeta no está vacía. ¿Quiere borrar la carpeta y su contenido "
 "permanentemente?"
 
 #: ../extensions/file_manager/actions.c:678
@@ -1538,16 +1527,11 @@ msgid "Could not delete the folder"
 msgstr "No se pudo eliminar la carpeta"
 
 #: ../extensions/file_manager/actions.c:737
-#, fuzzy
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
-"Las imágenes no pueden ser movidas a la papelera. ¿Desea borrarlas "
-"permanentemente?"
+"No se puede mover la carpeta a la papelera. ¿Quiere borrarla permanentemente?"
 
 #: ../extensions/file_manager/actions.c:744
 msgid "Could not move the folder to the Trash"
@@ -2131,10 +2115,8 @@ msgid "Rotation:"
 msgstr "Rotación:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select Caption Font"
-msgstr "Seleccione una tipografía"
+msgstr "Seleccionar la tipografía del título"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
 msgid "Top"
@@ -2186,10 +2168,9 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Permitir imprimir imágenes seleccionando la orientación de la página."
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
-#, fuzzy
 #| msgid "Image Caption"
 msgid "Image print"
-msgstr "Descripción de la imagen"
+msgstr "Impresión de la imagen"
 
 #: ../extensions/image_rotation/callbacks.c:48
 msgid "Rotate the selected images 90° to the right"
@@ -2342,10 +2323,8 @@ msgid "Viewer"
 msgstr "Visor"
 
 #: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-#, fuzzy
-#| msgid "Possible values are: none, deflate, jpeg."
 msgid "Possible values are: none, file_date, current_date"
-msgstr "Los valores posibles son: «none», «deflate», «jpeg»."
+msgstr "Los valores posibles son: «none», «file_date», «current_date»"
 
 #: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
 msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
@@ -2372,10 +2351,9 @@ msgid "_Rotate images physically"
 msgstr "_Rotar imágenes físicamente"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
-#, fuzzy
 #| msgid "_Include sub-folders"
 msgid "as _single subfolder"
-msgstr "_Incluir sub-carpetas"
+msgstr "como una sola subca_rpeta"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:205
 #, c-format
@@ -2632,10 +2610,8 @@ msgid "S_how:"
 msgstr "M_ostrar:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#, fuzzy
-#| msgid "_Delete imported images from the camera"
 msgid "_Delete the imported files from the source"
-msgstr "_Borrar las imágenes importadas de la cámara"
+msgstr "_Borrar los archivos importados del origen"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
 msgid "_Event:"
@@ -3029,10 +3005,8 @@ msgid "_Height:"
 msgstr "A_ltura:"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:16
-#, fuzzy
-#| msgid "I_nvert aspect ratio"
 msgid "_Preserve original aspect ratios"
-msgstr "I_nvertir la proporción de la imagen"
+msgstr "Man_tener la proporción de aspecto original"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:18
 msgid "pixel"
@@ -3140,10 +3114,8 @@ msgid "seconds"
 msgstr "segundos"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:215
-#, fuzzy
-#| msgid "Could not move the files to the Trash"
 msgid "Choose the files to play"
-msgstr "No se pudieron mover los archivos a la papelera"
+msgstr "Seleccionar los archivos que reproducir"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:224
 msgid "Audio files"
@@ -3153,35 +3125,35 @@ msgstr "Archivos de sonido"
 msgid "Random"
 msgstr "Aleatorio"
 
-#: ../extensions/slideshow/main.c:279
+#: ../extensions/slideshow/main.c:282
 msgid "Push from right"
 msgstr "Empujar desde la derecha"
 
-#: ../extensions/slideshow/main.c:285
+#: ../extensions/slideshow/main.c:288
 msgid "Push from bottom"
 msgstr "Empujar desde abajo"
 
-#: ../extensions/slideshow/main.c:291
+#: ../extensions/slideshow/main.c:294
 msgid "Slide from right"
 msgstr "Deslizar desde la derecha"
 
-#: ../extensions/slideshow/main.c:297
+#: ../extensions/slideshow/main.c:300
 msgid "Slide from bottom"
 msgstr "Deslizar desde abajo"
 
-#: ../extensions/slideshow/main.c:303
+#: ../extensions/slideshow/main.c:306
 msgid "Fade in"
 msgstr "Sombra entrante"
 
-#: ../extensions/slideshow/main.c:309
+#: ../extensions/slideshow/main.c:312
 msgid "Flip page"
 msgstr "Voltear página"
 
-#: ../extensions/slideshow/main.c:315
+#: ../extensions/slideshow/main.c:318
 msgid "Cube from right"
 msgstr "Cubo desde la derecha"
 
-#: ../extensions/slideshow/main.c:321
+#: ../extensions/slideshow/main.c:324
 msgid "Cube from bottom"
 msgstr "Cubo desde abajo"
 
@@ -3214,16 +3186,12 @@ msgid "List tools"
 msgstr "Herramientas de listas"
 
 #: ../gthumb/dlg-extensions.c:63
-#, fuzzy
-#| msgid "_Import"
 msgid "Importers"
-msgstr "_Importar"
+msgstr "Importadores"
 
 #: ../gthumb/dlg-extensions.c:64
-#, fuzzy
-#| msgid "Exposure time"
 msgid "Exporters"
-msgstr "Tiempo de exposición"
+msgstr "Exportadores"
 
 #: ../gthumb/dlg-extensions.c:140
 msgid "Restart required"
@@ -3504,10 +3472,8 @@ msgid "View the folders"
 msgstr "Ver las carpetas"
 
 #: ../gthumb/gth-browser-actions-entries.h:162
-#, fuzzy
-#| msgid "Show information about gThumb"
 msgid "Show information about gthumb"
-msgstr "Mostrar información referente a gThumb"
+msgstr "Mostrar información acerca de gThumb"
 
 #: ../gthumb/gth-browser-actions-entries.h:166
 msgid "Contents"
@@ -3538,10 +3504,8 @@ msgid "View or hide the statusbar of this window"
 msgstr "Mostrar u ocultar la barra de estado de esta ventana"
 
 #: ../gthumb/gth-browser-actions-entries.h:190
-#, fuzzy
-#| msgid "_Filter"
 msgid "_Filterbar"
-msgstr "_Filtro"
+msgstr "Barra de _filtros"
 
 #: ../gthumb/gth-browser-actions-entries.h:191
 msgid "View or hide the filterbar of this window"
@@ -3552,20 +3516,16 @@ msgid "_Sidebar"
 msgstr "Barra _lateral"
 
 #: ../gthumb/gth-browser-actions-entries.h:196
-#, fuzzy
-#| msgid "View or hide the filterbar of this window"
 msgid "View or hide the sidebar of this window"
-msgstr "Mostrar u ocultar la barra de filtros de esta ventana"
+msgstr "Mostrar u ocultar la barra lateral de esta ventana"
 
 #: ../gthumb/gth-browser-actions-entries.h:200
 msgid "_Thumbnail Pane"
 msgstr "Panel de minia_turas"
 
 #: ../gthumb/gth-browser-actions-entries.h:201
-#, fuzzy
-#| msgid "View or hide the statusbar of this window"
 msgid "View or hide the thumbnail pane in viewer mode"
-msgstr "Mostrar u ocultar la barra de estado de esta ventana"
+msgstr "Mostrar u ocultar el panel de miniaturas en el modo visor"
 
 #: ../gthumb/gth-browser-actions-entries.h:205
 msgid "_Thumbnails"
@@ -3621,10 +3581,9 @@ msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
 #: ../gthumb/gth-browser.c:1821
-#, fuzzy, c-format
-#| msgid "Save only cha_nged fields"
+#, c-format
 msgid "Save changes to file '%s'?"
-msgstr "Guardar sólo ca_mpos alterados"
+msgstr "¿Guardar los cambios al archivo «%s»?"
 
 #: ../gthumb/gth-browser.c:1826
 msgid "If you don't save, changes to the file will be permanently lost."
@@ -3644,16 +3603,12 @@ msgid "Modified"
 msgstr "Modificado"
 
 #: ../gthumb/gth-browser.c:3024 ../gthumb/gth-browser.c:3045
-#, fuzzy
-#| msgid "Delete the list of visited locations"
 msgid "View the list of visited locations"
-msgstr "Borrar la lista de lugares visitados"
+msgstr "Ver la lista de lugares visitados"
 
 #: ../gthumb/gth-browser.c:3066
-#, fuzzy
-#| msgid "Delete the list of visited locations"
 msgid "View the list of upper locations"
-msgstr "Borrar la lista de lugares visitados"
+msgstr "Ver la lista de lugares anteriores"
 
 #: ../gthumb/gth-browser.c:4918
 #, c-format
@@ -3661,10 +3616,9 @@ msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
 #: ../gthumb/gth-browser.c:4962
-#, fuzzy, c-format
-#| msgid "No images found"
+#, c-format
 msgid "No suitable module found"
-msgstr "No se encontraron imágenes"
+msgstr "No se encontró un modulo adecuado"
 
 #: ../gthumb/gth-extensions.c:229
 #, c-format
@@ -3942,37 +3896,33 @@ msgid "Could not display help"
 msgstr "No se pudo mostrar la ayuda"
 
 #: ../gthumb/gtk-utils.c:1086 ../gthumb/gtk-utils.c:1094
-#, fuzzy
-#| msgid "Could not copy the image:"
 msgid "Could not launch the application"
-msgstr "No se pudo copiar la imagen:"
+msgstr "No se pudo lanzar la aplicación"
 
-#: ../gthumb/main.c:64
+#: ../gthumb/main.c:67
 msgid "Open a new window"
 msgstr "Abrir una ventana nueva"
 
-#: ../gthumb/main.c:68
+#: ../gthumb/main.c:71
 msgid "Start in fullscreen mode"
 msgstr "Iniciar en modo de pantalla completa"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:75
 msgid "Automatically start a slideshow"
 msgstr "Iniciar una secuencia automáticamente"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:79
 msgid "Automatically import digital camera photos"
 msgstr "Importar automáticamente fotos de la cámara digital"
 
-#: ../gthumb/main.c:80
+#: ../gthumb/main.c:83
 msgid "Show version"
 msgstr "Mostrar versión"
 
 #. command line options
-#: ../gthumb/main.c:400
-#, fuzzy
-#| msgid "Image preview"
+#: ../gthumb/main.c:403
 msgid "- Image browser and viewer"
-msgstr "Vista previa de la imagen"
+msgstr "- Explorador de imágenes y visor"
 
 #: ../gthumb/pixbuf-io.c:170
 #, c-format
