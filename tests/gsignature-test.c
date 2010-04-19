@@ -40,14 +40,14 @@ test_g_signature_md5 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 16; i++)
 		g_string_append (key, "\x0b");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, "Hi There", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, -1, "Hi There", -1);
 	g_assert_cmpstr (sig, == , "9294727a3638bb1c13f48ef8158bfc9d");
 	g_free (sig);
 	g_string_free (key, TRUE);
 
 	/* test case 2 */
 
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, "Jefe", "what do ya want for nothing?", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, "Jefe", -1, "what do ya want for nothing?", -1);
 	g_assert_cmpstr (sig, == , "750c783e6ab0b503eaa86e310a5db738");
 	g_free (sig);
 
@@ -59,7 +59,7 @@ test_g_signature_md5 (void)
 	data = g_string_new ("");
 	for (i = 0; i < 50; i++)
 		g_string_append (data, "\xdd");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, data->str, -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, -1, data->str, -1);
 	g_assert_cmpstr (sig, == , "56be34521d144c88dbb8c733f0e8b3f6");
 	g_free (sig);
 	g_string_free (data, TRUE);
@@ -70,7 +70,7 @@ test_g_signature_md5 (void)
 	data = g_string_new ("");
 	for (i = 0; i < 50; i++)
 		g_string_append (data, "\xcd");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19", data->str, -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19", -1, data->str, -1);
 	g_assert_cmpstr (sig, == , "697eaf0aca3a3aea3a75164746ffaa79");
 	g_free (sig);
 	g_string_free (data, TRUE);
@@ -80,7 +80,7 @@ test_g_signature_md5 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 16; i++)
 		g_string_append (key, "\x0c");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, "Test With Truncation", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, -1, "Test With Truncation", -1);
 	g_assert_cmpstr (sig, == , "56461ef2342edc00f9bab995690efd4c");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -90,7 +90,7 @@ test_g_signature_md5 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 80; i++)
 		g_string_append (key, "\xaa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, -1, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
 	g_assert_cmpstr (sig, == , "6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -100,7 +100,7 @@ test_g_signature_md5 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 80; i++)
 		g_string_append (key, "\xaa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_MD5, key->str, -1, "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data", -1);
 	g_assert_cmpstr (sig, == , "6f630fad67cda0ee1fb1f562db3aa53e");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -122,14 +122,14 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 20; i++)
 		g_string_append (key, "\x0b");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Hi There", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Hi There", -1);
 	g_assert_cmpstr (sig, == , "b617318655057264e28bc0b6fb378c8ef146be00");
 	g_free (sig);
 	g_string_free (key, TRUE);
 
 	/* test case 2 */
 
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "Jefe", "what do ya want for nothing?", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "Jefe", -1, "what do ya want for nothing?", -1);
 	g_assert_cmpstr (sig, == , "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79");
 	g_free (sig);
 
@@ -141,7 +141,7 @@ test_g_signature_sha1 (void)
 	data = g_string_new ("");
 	for (i = 0; i < 50; i++)
 		g_string_append (data, "\xdd");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, data->str, -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, data->str, -1);
 	g_assert_cmpstr (sig, == , "125d7342b9ac11cd91a39af48aa17b4f63f175d3");
 	g_free (sig);
 	g_string_free (data, TRUE);
@@ -152,7 +152,7 @@ test_g_signature_sha1 (void)
 	data = g_string_new ("");
 	for (i = 0; i < 50; i++)
 		g_string_append (data, "\xcd");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19", data->str, -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19", -1, data->str, -1);
 	g_assert_cmpstr (sig, == , "4c9007f4026250c6bc8414f9bf50c86c2d7235da");
 	g_free (sig);
 	g_string_free (data, TRUE);
@@ -162,7 +162,7 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 20; i++)
 		g_string_append (key, "\x0c");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test With Truncation", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test With Truncation", -1);
 	g_assert_cmpstr (sig, == , "4c1a03424b55e07fe7f27be1d58bb9324a9a5a04");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -172,7 +172,7 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 80; i++)
 		g_string_append (key, "\xaa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
 	g_assert_cmpstr (sig, == , "aa4ae5e15272d00e95705637ce8a3b55ed402112");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -182,27 +182,27 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 80; i++)
 		g_string_append (key, "\xaa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data", -1);
 	g_assert_cmpstr (sig, == , "e8e99d0f45237d786d6bbaa7965c7808bbff1a91");
 	g_free (sig);
 	g_string_free (key, TRUE);
 
 	/* -- test case taken from php-5.3.2/ext/hash/tests/hash_hmac_bacis.phpt -- */
 
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "secret", "This is a sample string used to test the hash_hmac function with various hashing algorithms", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "secret", -1, "This is a sample string used to test the hash_hmac function with various hashing algorithms", -1);
 	g_assert_cmpstr (sig, == , "5bfdb62b97e2c987405463e9f7c193139c0e1fd0");
 	g_free (sig);
 
 	/* -- test case created using the crypto-js library (http://code.google.com/p/crypto-js/) -- */
 
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "Secret Passphrase", "Message", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, "Secret Passphrase", -1, "Message", -1);
 	g_assert_cmpstr (sig, == , "e90f713295ea4cc06c92c9248696ffafc5d01faf");
 	g_free (sig);
 
 	key = g_string_new ("");
 	for (i = 0; i < 1; i++)
 		g_string_append (key, "aa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
 	g_assert_cmpstr (sig, == , "4f8e4da5b85182a352041a22b4d566b4b53abf9e");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -210,7 +210,7 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 20; i++)
 		g_string_append (key, "aa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
 	g_assert_cmpstr (sig, == , "cb8da9d75b1cd177c00e8c46bd9c17fa313b9f6c");
 	g_free (sig);
 	g_string_free (key, TRUE);
@@ -218,7 +218,7 @@ test_g_signature_sha1 (void)
 	key = g_string_new ("");
 	for (i = 0; i < 80; i++)
 		g_string_append (key, "aa");
-	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
+	sig = g_compute_signature_for_string (G_CHECKSUM_SHA1, key->str, -1, "Test Using Larger Than Block-Size Key - Hash Key First", -1);
 	g_assert_cmpstr (sig, == , "f196c43f06a566cb096a72227a3196d97236898b");
 	g_free (sig);
 	g_string_free (key, TRUE);

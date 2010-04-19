@@ -45,12 +45,14 @@ void                   g_signature_get_value   (GSignature       *signature,
 
 gchar *g_compute_signature_for_data   (GChecksumType  checksum_type,
 				       const gchar   *key,
+				       gssize         key_length,
                                        const guchar  *data,
-                                       gsize          length);
+                                       gsize          data_length);
 gchar *g_compute_signature_for_string (GChecksumType  checksum_type,
 				       const gchar   *key,
+				       gssize         key_length,
                                        const gchar   *str,
-                                       gssize         length);
+                                       gssize         str_length);
 
 G_END_DECLS
 

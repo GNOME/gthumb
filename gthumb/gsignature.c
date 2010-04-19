@@ -180,19 +180,20 @@ g_signature_get_value (GSignature *signature,
 gchar *
 g_compute_signature_for_data (GChecksumType  checksum_type,
 			      const gchar   *key,
+			      gssize         key_length,
 			      const guchar  *data,
-			      gsize          length)
+			      gsize          data_length)
 {
 	GSignature *signature;
 	gchar      *retval;
 
 	g_return_val_if_fail (data != NULL, NULL);
 
-	signature = g_signature_new (checksum_type, key, -1);
+	signature = g_signature_new (checksum_type, key, key_length);
 	if (signature == NULL)
 		return NULL;
 
-	g_signature_update (signature, data, length);
+	g_signature_update (signature, data, data_length);
 	retval = g_strdup (g_signature_get_string (signature));
 	g_signature_free (signature);
 
@@ -203,13 +204,14 @@ g_compute_signature_for_data (GChecksumType  checksum_type,
 gchar *
 g_compute_signature_for_string (GChecksumType  checksum_type,
 				const gchar   *key,
+				gssize         key_length,
 				const gchar   *str,
-				gssize         length)
+				gssize         str_length)
 {
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (length < 0)
-		length = strlen (str);
+	if (str_length < 0)
+		str_length = strlen (str);
 
-	return g_compute_signature_for_data (checksum_type, key, (const guchar *) str, length);
+	return g_compute_signature_for_data (checksum_type, key, key_length, (const guchar *) str, str_length);
 }
