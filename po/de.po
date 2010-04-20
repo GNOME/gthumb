@@ -5,21 +5,19 @@
 # Maren Reinecke <ma-reinecke@web.de>, 2008.
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
 # Mario Blättermann <mariobl@gnome.org>, 2010.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2010.
-#
+# Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2008, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-09 23:30+0000\n"
-"PO-Revision-Date: 2010-04-10 13:00+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-20 17:02+0200\n"
+"PO-Revision-Date: 2010-04-20 17:04+0200\n"
+"Last-Translator: Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 
@@ -121,17 +119,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
-"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
-"Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
+"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
+"Miniatur-Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
-"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
+"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -270,27 +268,6 @@ msgstr "_Allgemeine Filter:"
 msgid "_Other filters:"
 msgstr "_Weitere Filter:"
 
-#: ../data/ui/personalize-filters.ui.h:4
-msgid "gtk-close"
-msgstr "gtk-close"
-
-#: ../data/ui/personalize-filters.ui.h:5
-msgid "gtk-edit"
-msgstr "gtk-edit"
-
-#: ../data/ui/personalize-filters.ui.h:6
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:7
-msgid "gtk-help"
-msgstr "gtk-help"
-
-#: ../data/ui/personalize-filters.ui.h:7
-msgid "gtk-new"
-msgstr "gtk-new"
-
-#: ../data/ui/personalize-filters.ui.h:8
-msgid "gtk-remove"
-msgstr "gtk-remove"
-
 #: ../data/ui/preferences.ui.h:1
 msgid "Activate items with a double click"
 msgstr "Objekte durch Doppelklick aktivieren"
@@ -383,7 +360,7 @@ msgstr "Letzte Vergrößerung beibehalten"
 #: ../data/ui/preferences.ui.h:22
 #: ../extensions/file_tools/gth-file-tool-crop.c:347
 #: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:273
+#: ../extensions/slideshow/main.c:276
 msgid "None"
 msgstr "Keiner"
 
@@ -722,14 +699,6 @@ msgstr "Katalog a_nlegen"
 msgid "_View the destination"
 msgstr "Ziel _betrachten"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-msgid "gtk-add"
-msgstr "gtk-add"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 msgid "Catalog"
 msgstr "Katalog"
@@ -805,19 +774,11 @@ msgid "_Include sub-folders"
 msgstr "_Unterordner einbeziehen"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-msgid "appointment-soon"
-msgstr "appointment-soon"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-msgid "camera-photo"
-msgstr "camera-photo"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
-#: ../extensions/exiv2_tools/main.c:214
+#: ../extensions/exiv2_tools/main.c:217
 msgid "date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:11
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
 msgid "file modified date"
 msgstr "Änderungszeitpunkt"
 
@@ -925,11 +886,13 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:48
+#: ../extensions/comments/gth-test-category.c:40
+#: ../gthumb/gth-test-simple.c:48
 msgid "is"
 msgstr "ist"
 
-#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:49
+#: ../extensions/comments/gth-test-category.c:41
+#: ../gthumb/gth-test-simple.c:49
 msgid "is not"
 msgstr "ist nicht"
 
@@ -1209,12 +1172,10 @@ msgid "Face_book..."
 msgstr "Face_book..."
 
 #: ../extensions/facebook/callbacks.c:51
-#| msgid "Upload photos to Flickr"
 msgid "Upload photos to Facebook"
 msgstr "Fotos zu Facebook übertragen"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-#| msgid "_Album:"
 msgid "A_lbum:"
 msgstr "A_lbum:"
 
@@ -1277,7 +1238,6 @@ msgid "Public photos"
 msgstr "Öffentliche Fotos"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-#| msgid "_Location"
 msgid "_Location:"
 msgstr "_Ort:"
 
@@ -1297,8 +1257,8 @@ msgid "C_ontinue"
 msgstr "F_ortfahren"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
-#: ../extensions/facebook/facebook-authentication.c:501
-#: ../extensions/flicker/flickr-authentication.c:437
+#: ../extensions/facebook/facebook-authentication.c:496
+#: ../extensions/flicker/flickr-authentication.c:435
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Sobald dies erledigt ist, klicken Sie auf »Fortsetzen«."
 
@@ -1314,11 +1274,11 @@ msgstr "Im Br_owser öffnen"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:118
 #: ../extensions/facebook/dlg-export-to-facebook.c:301
-#: ../extensions/facebook/facebook-authentication.c:222
+#: ../extensions/facebook/facebook-authentication.c:223
 #: ../extensions/flicker/dlg-export-to-flickr.c:134
 #: ../extensions/flicker/dlg-export-to-flickr.c:388
 #: ../extensions/flicker/dlg-import-from-flickr.c:239
-#: ../extensions/flicker/flickr-authentication.c:221
+#: ../extensions/flicker/flickr-authentication.c:222
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:336
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:358
 msgid "Could not connect to the server"
@@ -1354,70 +1314,70 @@ msgstr "Keine gültige Datei ausgewählt"
 msgid "Could not export the files"
 msgstr "Die Dateien konnten nicht exportiert werden"
 
+#: ../extensions/facebook/dlg-export-to-facebook.c:529
+#: ../extensions/flicker/dlg-export-to-flickr.c:523
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:864
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
+#: ../gthumb/gth-browser.c:880 ../gthumb/gth-browser.c:881
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d Datei (%s)"
+msgstr[1] "%d Dateien (%s)"
+
 #: ../extensions/facebook/dlg-export-to-facebook.c:548
 #: ../extensions/flicker/dlg-export-to-flickr.c:543
 #, c-format
-#| msgid "E_xport To"
 msgid "Export to %s"
 msgstr "Exportieren nach %s"
 
-#: ../extensions/facebook/facebook-account-chooser-dialog.c:228
-#: ../extensions/flicker/flickr-account-chooser-dialog.c:228
-#| msgid "_View the destination"
+#: ../extensions/facebook/facebook-account-chooser-dialog.c:231
+#: ../extensions/flicker/flickr-account-chooser-dialog.c:231
 msgid "New authentication..."
 msgstr "Neue Legitimierung …"
 
-#: ../extensions/facebook/facebook-authentication.c:224
-#: ../extensions/flicker/flickr-authentication.c:223
-#| msgid "Choose Account"
+#: ../extensions/facebook/facebook-authentication.c:225
+#: ../extensions/flicker/flickr-authentication.c:224
 msgid "Choose _Account..."
 msgstr "K_onto wählen …"
 
-#: ../extensions/facebook/facebook-authentication.c:500
-#: ../extensions/flicker/flickr-authentication.c:436
+#: ../extensions/facebook/facebook-authentication.c:495
+#: ../extensions/flicker/flickr-authentication.c:434
 #, c-format
-#| msgid ""
-#| "Return to this window when you have finished the authorization process on "
-#| "Flickr.com"
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 "Kehren Sie zu diesem Fenster zurück, sobald der Legitimierungsvorgang auf %s "
 "abgeschlossen ist."
 
-#: ../extensions/facebook/facebook-authentication.c:580
-#: ../extensions/flicker/flickr-authentication.c:510
+#: ../extensions/facebook/facebook-authentication.c:575
+#: ../extensions/flicker/flickr-authentication.c:508
 #, c-format
-#| msgid "gthumb requires your authorization to upload the photos to Flickr"
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr ""
 "gthumb benötigt Ihre Legitimierung, um Bilder zu %s übertragen zu können."
 
-#: ../extensions/facebook/facebook-authentication.c:581
-#: ../extensions/flicker/flickr-authentication.c:511
+#: ../extensions/facebook/facebook-authentication.c:576
+#: ../extensions/flicker/flickr-authentication.c:509
 #, c-format
-#| msgid ""
-#| "Click 'Authorize' to open your web browser and authorize gthumb to upload "
-#| "photos to Flickr. When you're finished, return to this window to complete "
-#| "the authorization."
 msgid ""
 "Click 'Authorize' to open your web browser and authorize gthumb to upload "
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
 "Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
-"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
-"zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren "
+"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
-#: ../extensions/facebook/facebook-authentication.c:668
-#: ../extensions/flicker/flickr-authentication.c:603
+#: ../extensions/facebook/facebook-authentication.c:663
+#: ../extensions/flicker/flickr-authentication.c:601
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:685
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
 msgstr "Konto wählen"
 
-#: ../extensions/facebook/facebook-authentication.c:773
-#: ../extensions/flicker/flickr-authentication.c:708
+#: ../extensions/facebook/facebook-authentication.c:768
+#: ../extensions/flicker/flickr-authentication.c:706
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:742
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
 msgid "Edit Accounts"
@@ -1451,7 +1411,6 @@ msgid "Facebook"
 msgstr "Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
-#| msgid "Upload images to Flickr"
 msgid "Upload images to Facebook"
 msgstr "Bilder zu Facebook übertragen"
 
@@ -1479,7 +1438,6 @@ msgstr "Neues Album wird angelegt"
 #: ../extensions/flicker/flickr-service.c:660
 #: ../extensions/picasaweb/picasa-web-service.c:386
 #, c-format
-#| msgid "Could not upload the files"
 msgid "Could not upload '%s': %s"
 msgstr "»%s« konnte nicht übertragen werden: %s"
 
@@ -1581,7 +1539,8 @@ msgstr "Der Ordner konnte nicht gelöscht werden"
 
 #: ../extensions/file_manager/actions.c:737
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it "
+"permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
@@ -1973,6 +1932,13 @@ msgstr "_Sicherheit:"
 msgid "_Import"
 msgstr "_Importieren"
 
+#: ../extensions/flicker/dlg-import-from-flickr.c:336
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d Datei"
+msgstr[1] "%d Dateien"
+
 #: ../extensions/flicker/dlg-import-from-flickr.c:360
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
 msgid "Could not get the photo list"
@@ -1987,7 +1953,6 @@ msgstr "Keine Album ausgewählt"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:575
 #, c-format
-#| msgid "I_mport From"
 msgid "Import from %s"
 msgstr "Importieren von %s"
 
@@ -2259,8 +2224,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. For "
-"practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -2271,9 +2236,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
-"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
-"strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
+"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
+"mehr strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
@@ -2289,8 +2254,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
-"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
+"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
@@ -3185,35 +3150,35 @@ msgstr "Audiodateien"
 msgid "Random"
 msgstr "Zufällig"
 
-#: ../extensions/slideshow/main.c:279
+#: ../extensions/slideshow/main.c:282
 msgid "Push from right"
 msgstr "Schieben von rechts"
 
-#: ../extensions/slideshow/main.c:285
+#: ../extensions/slideshow/main.c:288
 msgid "Push from bottom"
 msgstr "Schieben von unten"
 
-#: ../extensions/slideshow/main.c:291
+#: ../extensions/slideshow/main.c:294
 msgid "Slide from right"
 msgstr "Gleiten von rechts"
 
-#: ../extensions/slideshow/main.c:297
+#: ../extensions/slideshow/main.c:300
 msgid "Slide from bottom"
 msgstr "Gleiten von unten"
 
-#: ../extensions/slideshow/main.c:303
+#: ../extensions/slideshow/main.c:306
 msgid "Fade in"
 msgstr "Einblenden"
 
-#: ../extensions/slideshow/main.c:309
+#: ../extensions/slideshow/main.c:312
 msgid "Flip page"
 msgstr "Seite spiegeln"
 
-#: ../extensions/slideshow/main.c:315
+#: ../extensions/slideshow/main.c:318
 msgid "Cube from right"
 msgstr "Würfel von rechts"
 
-#: ../extensions/slideshow/main.c:321
+#: ../extensions/slideshow/main.c:324
 msgid "Cube from bottom"
 msgstr "Würfel von unten"
 
@@ -3474,6 +3439,14 @@ msgstr "_Sortieren nach …"
 msgid "_Filter..."
 msgstr "_Filter …"
 
+#: ../gthumb/gth-browser-actions-entries.h:102
+msgid "Stop loading the current location"
+msgstr "Den aktuellen Ort nicht weiter laden"
+
+#: ../gthumb/gth-browser-actions-entries.h:107
+msgid "Reload the current location"
+msgstr "Den aktuellen Ort neu laden"
+
 #: ../gthumb/gth-browser-actions-entries.h:111
 msgid "Previous"
 msgstr "Vorheriges"
@@ -3489,6 +3462,14 @@ msgstr "Nächstes"
 #: ../gthumb/gth-browser-actions-entries.h:117
 msgid "View next image"
 msgstr "Das nächste Bild anzeigen"
+
+#: ../gthumb/gth-browser-actions-entries.h:122
+msgid "Switch to fullscreen"
+msgstr "In den Vollbildmodus wechseln"
+
+#: ../gthumb/gth-browser-actions-entries.h:127
+msgid "Leave Fullscreen"
+msgstr "Vollbild verlassen"
 
 #: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3023
 msgid "Go to the previous visited location"
@@ -3944,28 +3925,28 @@ msgstr "Hilfe konnte nicht angezeigt werden"
 msgid "Could not launch the application"
 msgstr "Anwendung konnte nicht gestartet werden"
 
-#: ../gthumb/main.c:64
+#: ../gthumb/main.c:67
 msgid "Open a new window"
 msgstr "In neuem Fenster öffnen"
 
-#: ../gthumb/main.c:68
+#: ../gthumb/main.c:71
 msgid "Start in fullscreen mode"
 msgstr "Im Vollbildmodus starten"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:75
 msgid "Automatically start a slideshow"
 msgstr "Automatisch eine Diashow beginnen"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:79
 msgid "Automatically import digital camera photos"
 msgstr "Fotos von Digitalkameras automatisch importieren"
 
-#: ../gthumb/main.c:80
+#: ../gthumb/main.c:83
 msgid "Show version"
 msgstr "Version anzeigen"
 
 #. command line options
-#: ../gthumb/main.c:400
+#: ../gthumb/main.c:403
 msgid "- Image browser and viewer"
 msgstr "- Bildbrowser und Betrachter"
 
@@ -3975,6 +3956,33 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
+
+#~ msgid "gtk-close"
+#~ msgstr "gtk-close"
+
+#~ msgid "gtk-edit"
+#~ msgstr "gtk-edit"
+
+#~ msgid "gtk-help"
+#~ msgstr "gtk-help"
+
+#~ msgid "gtk-new"
+#~ msgstr "gtk-new"
+
+#~ msgid "gtk-remove"
+#~ msgstr "gtk-remove"
+
+#~ msgid "gtk-add"
+#~ msgstr "gtk-add"
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "appointment-soon"
+#~ msgstr "appointment-soon"
+
+#~ msgid "camera-photo"
+#~ msgstr "camera-photo"
 
 #~ msgid "Upload to Flickr"
 #~ msgstr "Hochladen zu Flickr"
