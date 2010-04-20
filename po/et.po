@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-14 18:39+0000\n"
-"PO-Revision-Date: 2010-04-16 17:28+0300\n"
+"POT-Creation-Date: 2010-04-17 10:51+0000\n"
+"PO-Revision-Date: 2010-04-19 16:41+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -799,11 +799,9 @@ msgstr "Manustatud XMP"
 msgid "Face_book..."
 msgstr "Face_book..."
 
-#| msgid "Upload photos to Flickr"
 msgid "Upload photos to Facebook"
 msgstr "Fotode üleslaadimine Facebooki"
 
-#| msgid "_Album:"
 msgid "A_lbum:"
 msgstr "_Album:"
 
@@ -837,7 +835,6 @@ msgstr "Privaatsed fotod, nähtavad sõpradele"
 msgid "Public photos"
 msgstr "Avalikud fotod"
 
-#| msgid "_Location"
 msgid "_Location:"
 msgstr "_Asukoht:"
 
@@ -854,7 +851,7 @@ msgid "Once you're done, click the 'Continue' button below."
 msgstr "Jätkamiseks klõpsa alloleval nupul \"Jätka\"."
 
 msgid "Files successfully uploaded to the server."
-msgstr "Failid edukalt serverisse laetud."
+msgstr "Failid edukalt serverisse laaditud."
 
 msgid "_Open in the Browser"
 msgstr "_Ava brauseris"
@@ -878,30 +875,24 @@ msgid "Could not export the files"
 msgstr "Failide eksportimine nurjus"
 
 #, c-format
-#| msgid "E_xport To"
 msgid "Export to %s"
 msgstr "Eksportimine %s kontole"
 
-#| msgid "_View the destination"
 msgid "New authentication..."
 msgstr "Uus autentimine..."
 
-#| msgid "Choose Account"
 msgid "Choose _Account..."
 msgstr "Vali _konto..."
 
 #, c-format
-#| msgid "Return to this window when you have finished the authorization process on Flickr.com"
 msgid "Return to this window when you have finished the authorization process on %s"
 msgstr "Pärast autoriseerimist saidil %s naase siia aknasse."
 
 #, c-format
-#| msgid "gthumb requires your authorization to upload the photos to Flickr"
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr "gthumb vajab õigusi fotode laadimiseks %s-i"
 
 #, c-format
-#| msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to Flickr. When you're finished, return to this window to complete the authorization."
 msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
 msgstr "%s üleslaadimisõiguste andmiseks gthumbile ja veebibrauseri avamiseks klõpsa 'Autoriseeri'. Autoriseerimise lõpetamiseks naase siia."
 
@@ -920,7 +911,6 @@ msgstr "Ühendumine serverisse"
 msgid "Facebook"
 msgstr "Facebook"
 
-#| msgid "Upload images to Flickr"
 msgid "Upload images to Facebook"
 msgstr "Fotode üleslaadimine Facebooki"
 
@@ -934,7 +924,6 @@ msgid "Creating the new album"
 msgstr "Uue albumi loomine"
 
 #, c-format
-#| msgid "Could not upload the files"
 msgid "Could not upload '%s': %s"
 msgstr "Faili '%s' ei saanud üles laadida: %s"
 
@@ -1225,7 +1214,6 @@ msgstr "Unusta"
 msgid "_Flickr..."
 msgstr "_Flickr..."
 
-#| msgid "Upload photos to Flickr"
 msgid "Download photos from Flickr"
 msgstr "Fotode allalaadimine Flickrist"
 
@@ -1275,7 +1263,6 @@ msgid "No album selected"
 msgstr "Ühtegi albumit pole valitud"
 
 #, c-format
-#| msgid "I_mport From"
 msgid "Import from %s"
 msgstr "Importimine %s kontolt"
 
@@ -2354,11 +2341,9 @@ msgstr "_Sortimine..."
 msgid "_Filter..."
 msgstr "_Filtreerimine..."
 
-#| msgid "Could not open the location"
 msgid "Stop loading the current location"
 msgstr "Katkesta käesoleva asukoha laadimine"
 
-#| msgid "Could not open the location"
 msgid "Reload the current location"
 msgstr "Laadi käesolev asukoht uuesti"
 
@@ -2374,7 +2359,6 @@ msgstr "Järgmine"
 msgid "View next image"
 msgstr "Vaata järgmist pilti"
 
-#| msgid "Start in fullscreen mode"
 msgid "Switch to fullscreen"
 msgstr "Lülitu täisekraanvaatesse"
 
@@ -2435,11 +2419,9 @@ msgstr "_Külgriba"
 msgid "View or hide the sidebar of this window"
 msgstr "Külgriba näitamine või peitmine aktiivses aknas"
 
-#| msgid "_Thumbnails"
 msgid "_Thumbnail Pane"
 msgstr "_Pisipildipaneel"
 
-#| msgid "View or hide the statusbar of this window"
 msgid "View or hide the thumbnail pane in viewer mode"
 msgstr "Pisipiltide paneeli näitamine või peitmine"
 
