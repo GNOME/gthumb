@@ -34,10 +34,14 @@ typedef enum {
 	GTH_CROP_RATIO_SQUARE,
 	GTH_CROP_RATIO_IMAGE,
 	GTH_CROP_RATIO_DISPLAY,
+	GTH_CROP_RATIO_5_4,
 	GTH_CROP_RATIO_4_3,
-	GTH_CROP_RATIO_4_6,
-	GTH_CROP_RATIO_5_7,
-	GTH_CROP_RATIO_8_10,
+	GTH_CROP_RATIO_7_5,
+	GTH_CROP_RATIO_3_2,
+	GTH_CROP_RATIO_16_10,
+	GTH_CROP_RATIO_16_9,
+	GTH_CROP_RATIO_185_100,
+	GTH_CROP_RATIO_239_100,
 	GTH_CROP_RATIO_CUSTOM
 } GthCropRatio;
 
@@ -231,21 +235,37 @@ ratio_combobox_changed_cb (GtkComboBox      *combobox,
 		w = self->priv->screen_width;
 		h = self->priv->screen_height;
 		break;
+	case GTH_CROP_RATIO_5_4:
+		w = 5;
+		h = 4;
+		break;
 	case GTH_CROP_RATIO_4_3:
 		w = 4;
 		h = 3;
 		break;
-	case GTH_CROP_RATIO_4_6:
-		w = 4;
-		h = 6;
+	case GTH_CROP_RATIO_7_5:
+		w = 7;
+		h = 5;
 		break;
-	case GTH_CROP_RATIO_5_7:
-		w = 5;
-		h = 7;
+	case GTH_CROP_RATIO_3_2:
+		w = 3;
+		h = 2;
 		break;
-	case GTH_CROP_RATIO_8_10:
-		w = 8;
+	case GTH_CROP_RATIO_16_10:
+		w = 16;
 		h = 10;
+		break;
+	case GTH_CROP_RATIO_16_9:
+		w = 16;
+		h = 9;
+		break;
+	case GTH_CROP_RATIO_185_100:
+		w = 185;
+		h = 100;
+		break;
+	case GTH_CROP_RATIO_239_100:
+		w = 239;
+		h = 100;
 		break;
 	case GTH_CROP_RATIO_CUSTOM:
 	default:
@@ -352,10 +372,14 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->ratio_combobox), text);
 	g_free (text);
 	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->ratio_combobox),
-				     _("4 x 3 (Book, DVD)"),
-				     _("4 x 6 (Postcard)"),
-				     _("5 x 7"),
-				     _("8 x 10"),
+				     _("5:4"),
+				     _("4:3 (DVD, Book)"),
+				     _("7:5"),
+				     _("3:2 (Postcard)"),
+				     _("16:10"),
+				     _("16:9 (DVD)"),
+				     _("1.85:1"),
+				     _("2.39:1"),
 				     _("Custom"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);
