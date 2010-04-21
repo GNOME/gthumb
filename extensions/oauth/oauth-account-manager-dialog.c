@@ -22,8 +22,8 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "flickr-account.h"
-#include "flickr-account-manager-dialog.h"
+#include "oauth-account.h"
+#include "oauth-account-manager-dialog.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -38,17 +38,17 @@ enum {
 static gpointer parent_class = NULL;
 
 
-struct _FlickrAccountManagerDialogPrivate {
+struct _OAuthAccountManagerDialogPrivate {
 	GtkBuilder *builder;
 };
 
 
 static void
-flickr_account_manager_dialog_finalize (GObject *object)
+oauth_account_manager_dialog_finalize (GObject *object)
 {
-	FlickrAccountManagerDialog *self;
+	OAuthAccountManagerDialog *self;
 
-	self = FLICKR_ACCOUNT_MANAGER_DIALOG (object);
+	self = OAUTH_ACCOUNT_MANAGER_DIALOG (object);
 
 	_g_object_unref (self->priv->builder);
 
@@ -57,15 +57,15 @@ flickr_account_manager_dialog_finalize (GObject *object)
 
 
 static void
-flickr_account_manager_dialog_class_init (FlickrAccountManagerDialogClass *klass)
+oauth_account_manager_dialog_class_init (OAuthAccountManagerDialogClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (FlickrAccountManagerDialogPrivate));
+	g_type_class_add_private (klass, sizeof (OAuthAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = flickr_account_manager_dialog_finalize;
+	object_class->finalize = oauth_account_manager_dialog_finalize;
 }
 
 
@@ -73,7 +73,7 @@ static void
 delete_button_clicked_cb (GtkWidget *button,
 		          gpointer   user_data)
 {
-	FlickrAccountManagerDialog *self = user_data;
+	OAuthAccountManagerDialog *self = user_data;
 	GtkTreeModel               *tree_model;
 	GtkTreeIter                 iter;
 
@@ -92,10 +92,10 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 			 char                *new_text,
 			 gpointer             user_data)
 {
-	FlickrAccountManagerDialog *self = user_data;
+	OAuthAccountManagerDialog *self = user_data;
 	GtkTreePath                *tree_path;
 	GtkTreeIter                 iter;
-	FlickrAccount              *account;
+	OAuthAccount              *account;
 
 	tree_path = gtk_tree_path_new_from_string (path);
 	tree_path = gtk_tree_path_new_from_string (path);
@@ -111,7 +111,7 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("accounts_liststore")), &iter,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
-	flickr_account_set_username (account, new_text);
+	oauth_account_set_username (account, new_text);
 
 	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("accounts_liststore")), &iter,
 			    ACCOUNT_DATA_COLUMN, account,
@@ -123,11 +123,11 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 
 
 static void
-flickr_account_manager_dialog_init (FlickrAccountManagerDialog *self)
+oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG, FlickrAccountManagerDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("flicker-account-manager.ui", "flicker");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -141,7 +141,7 @@ flickr_account_manager_dialog_init (FlickrAccountManagerDialog *self)
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_NEW,
-			       FLICKR_ACCOUNT_MANAGER_RESPONSE_NEW);
+			       OAUTH_ACCOUNT_MANAGER_RESPONSE_NEW);
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
@@ -163,25 +163,25 @@ flickr_account_manager_dialog_init (FlickrAccountManagerDialog *self)
 
 
 GType
-flickr_account_manager_dialog_get_type (void)
+oauth_account_manager_dialog_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrAccountManagerDialogClass),
+			sizeof (OAuthAccountManagerDialogClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_account_manager_dialog_class_init,
+			(GClassInitFunc) oauth_account_manager_dialog_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (FlickrAccountManagerDialog),
+			sizeof (OAuthAccountManagerDialog),
 			0,
-			(GInstanceInitFunc) flickr_account_manager_dialog_init,
+			(GInstanceInitFunc) oauth_account_manager_dialog_init,
 			NULL
 		};
 		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FlickrAccountManagerDialog",
+					       "OAuthAccountManagerDialog",
 					       &g_define_type_info,
 					       0);
 	}
@@ -191,7 +191,7 @@ flickr_account_manager_dialog_get_type (void)
 
 
 static void
-flickr_account_manager_dialog_construct (FlickrAccountManagerDialog *self,
+oauth_account_manager_dialog_construct (OAuthAccountManagerDialog *self,
 				         GList                      *accounts)
 {
 	GtkListStore *list_store;
@@ -201,7 +201,7 @@ flickr_account_manager_dialog_construct (FlickrAccountManagerDialog *self,
 	list_store = GTK_LIST_STORE (GET_WIDGET ("accounts_liststore"));
 	gtk_list_store_clear (list_store);
 	for (scan = accounts; scan; scan = scan->next) {
-		FlickrAccount *account = scan->data;
+		OAuthAccount *account = scan->data;
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
@@ -213,19 +213,19 @@ flickr_account_manager_dialog_construct (FlickrAccountManagerDialog *self,
 
 
 GtkWidget *
-flickr_account_manager_dialog_new (GList *accounts)
+oauth_account_manager_dialog_new (GList *accounts)
 {
-	FlickrAccountManagerDialog *self;
+	OAuthAccountManagerDialog *self;
 
-	self = g_object_new (FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG, NULL);
-	flickr_account_manager_dialog_construct (self, accounts);
+	self = g_object_new (OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, NULL);
+	oauth_account_manager_dialog_construct (self, accounts);
 
 	return (GtkWidget *) self;
 }
 
 
 GList *
-flickr_account_manager_dialog_get_accounts (FlickrAccountManagerDialog *self)
+oauth_account_manager_dialog_get_accounts (OAuthAccountManagerDialog *self)
 {
 	GList        *accounts;
 	GtkTreeModel *tree_model;
@@ -237,7 +237,7 @@ flickr_account_manager_dialog_get_accounts (FlickrAccountManagerDialog *self)
 
 	accounts = NULL;
 	do {
-		FlickrAccount *account;
+		OAuthAccount *account;
 
 		gtk_tree_model_get (tree_model, &iter,
 				    ACCOUNT_DATA_COLUMN, &account,

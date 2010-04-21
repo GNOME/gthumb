@@ -31,7 +31,7 @@
 #include "oauth-authentication.h"
 
 
-#define SECRET_SEPARATOR ("::")
+#define TOKEN_SECRET_SEPARATOR ("::")
 #define OAUTH_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 1
 
 
@@ -157,7 +157,7 @@ oauth_authentication_new (OAuthConnection *conn,
 	self = (OAuthAuthentication *) g_object_new (OAUTH_TYPE_AUTHENTICATION, NULL);
 	self->priv->conn = g_object_ref (conn);
 	self->priv->cancellable = _g_object_ref (cancellable);
-	self->priv->accounts = oauth_accounts_load_from_file ();
+	self->priv->accounts = oauth_accounts_load_from_file (self->priv->conn->consumer->name);
 	self->priv->account = oauth_accounts_find_default (self->priv->accounts);
 	self->priv->browser = browser;
 	self->priv->dialog = dialog;
@@ -244,7 +244,7 @@ check_token_ready_cb (GObject      *source_object,
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
-	oauth_accounts_save_to_file (self->priv->accounts, self->priv->account);
+	oauth_accounts_save_to_file (self->priv->conn->consumer->name, self->priv->accounts, self->priv->account);
 	g_signal_emit (self, oauth_authentication_signals[READY], 0);
 }
 
@@ -252,13 +252,13 @@ check_token_ready_cb (GObject      *source_object,
 static void
 connect_to_server_step2 (OAuthAuthentication *self)
 {
-	if (self->priv->account->access_token == NULL) {
+	if (self->priv->account->token == NULL) {
 		start_authorization_process (self);
 		return;
 	}
 
 	oauth_connection_set_token (self->priv->conn,
-				    self->priv->account->access_token,
+				    self->priv->account->token,
 				    self->priv->account->token_secret);
 	oauth_connection_check_token (self->priv->conn,
 				      self->priv->cancellable,
@@ -278,9 +278,9 @@ find_password_cb (GnomeKeyringResult  result,
 	if (string != NULL) {
 		char **values;
 
-		values = g_strsplit (string, SECRET_SEPARATOR, 2);
+		values = g_strsplit (string, TOKEN_SECRET_SEPARATOR, 2);
 		if ((values[0] != NULL) && (values[1] != NULL)) {
-			self->priv->account->access_token = g_strdup (values[0]);
+			self->priv->account->token = g_strdup (values[0]);
 			self->priv->account->token_secret = g_strdup (values[1]);
 		}
 
@@ -298,7 +298,7 @@ connect_to_server (OAuthAuthentication *self)
 	g_return_if_fail (self->priv->account != NULL);
 
 #ifdef HAVE_GNOME_KEYRING
-	if (((self->priv->account->access_token == NULL) || (self->priv->account->token_secret == NULL)) && gnome_keyring_is_available ()) {
+	if (((self->priv->account->token == NULL) || (self->priv->account->token_secret == NULL)) && gnome_keyring_is_available ()) {
 		gnome_keyring_find_password (GNOME_KEYRING_NETWORK_PASSWORD,
 					     find_password_cb,
 					     self,
@@ -369,13 +369,13 @@ get_access_token_ready_cb (GObject      *source_object,
 	if (gnome_keyring_is_available ()) {
 		char *secret;
 
-		secret = g_strconcat (account->access_token,
+		secret = g_strconcat (account->token,
 				      TOKEN_SECRET_SEPARATOR,
 				      account->token_secret,
 				      NULL);
 		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
 					      NULL,
-					      self->priv->conn->consumer->name,
+					      self->priv->conn->consumer->display_name,
 					      secret,
 					      store_password_done_cb,
 					      self,
@@ -438,7 +438,7 @@ complete_authorization (OAuthAuthentication *self)
 
 	builder = _gtk_builder_new_from_file ("oauth-complete-authorization.ui", "oauth");
 	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
-	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->conn->consumer->name);
+	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->conn->consumer->display_name);
 	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
@@ -512,8 +512,8 @@ ask_authorization (OAuthAuthentication *self)
 
 	builder = _gtk_builder_new_from_file ("oauth-ask-authorization.ui", "oauth");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
-	text = g_strdup_printf (_("gthumb requires your authorization to upload the photos to %s"), self->priv->conn->consumer->name);
-	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->conn->consumer->name);
+	text = g_strdup_printf (_("gthumb requires your authorization to upload the photos to %s"), self->priv->conn->consumer->display_name);
+	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->conn->consumer->display_name);
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
@@ -534,14 +534,14 @@ ask_authorization (OAuthAuthentication *self)
 
 
 static void
-login_request_ready_cb (GObject      *source_object,
-			GAsyncResult *res,
-			gpointer      user_data)
+get_request_token_ready_cb (GObject      *source_object,
+			    GAsyncResult *res,
+			    gpointer      user_data)
 {
 	OAuthAuthentication *self = user_data;
 	GError              *error = NULL;
 
-	if (! oauth_connection_login_request_finish (OAUTH_CONNECTION (source_object), res, &error))
+	if (! oauth_connection_get_request_token_finish (OAUTH_CONNECTION (source_object), res, &error))
 		show_authentication_error_dialog (self, &error);
 	else
 		ask_authorization (self);
@@ -551,10 +551,10 @@ login_request_ready_cb (GObject      *source_object,
 static void
 start_authorization_process (OAuthAuthentication *self)
 {
-	oauth_connection_login_request (self->priv->conn,
-					self->priv->cancellable,
-					login_request_ready_cb,
-					self);
+	oauth_connection_get_request_token (self->priv->conn,
+					    self->priv->cancellable,
+					    get_request_token_ready_cb,
+					    self);
 }
 
 
@@ -682,7 +682,7 @@ account_manager_dialog_response_cb (GtkDialog *dialog,
 		}
 		else
 			g_signal_emit (self, oauth_authentication_signals[ACCOUNTS_CHANGED], 0);
-		oauth_accounts_save_to_file (self->priv->accounts, self->priv->account);
+		oauth_accounts_save_to_file (self->priv->conn->consumer->name, self->priv->accounts, self->priv->account);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 
@@ -713,4 +713,113 @@ oauth_authentication_edit_accounts (OAuthAuthentication *self,
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
+/* utilities */
+
+
+GList *
+oauth_accounts_load_from_file (const char *service_name)
+{
+	GList       *accounts = NULL;
+	char        *filename;
+	char        *buffer;
+	gsize        len;
+	DomDocument *doc;
+
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
+	if (! g_file_get_contents (filename, &buffer, &len, NULL)) {
+		g_free (filename);
+		return NULL;
+	}
+
+	doc = dom_document_new ();
+	if (dom_document_load (doc, buffer, len, NULL)) {
+		DomElement *node;
+
+		node = DOM_ELEMENT (doc)->first_child;
+		if ((node != NULL) && (g_strcmp0 (node->tag_name, "accounts") == 0)) {
+			DomElement *child;
+
+			for (child = node->first_child;
+			     child != NULL;
+			     child = child->next_sibling)
+			{
+				if (strcmp (child->tag_name, "account") == 0) {
+					OAuthAccount *account;
+
+					account = oauth_account_new ();
+					dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
+
+					accounts = g_list_prepend (accounts, account);
+				}
+			}
+
+			accounts = g_list_reverse (accounts);
+		}
+	}
+
+	g_object_unref (doc);
+	g_free (buffer);
+	g_free (filename);
+
+	return accounts;
+}
+
+
+OAuthAccount *
+oauth_accounts_find_default (GList *accounts)
+{
+	GList *scan;
+
+	for (scan = accounts; scan; scan = scan->next) {
+		OAuthAccount *account = scan->data;
+
+		if (account->is_default)
+			return g_object_ref (account);
+	}
+
+	return NULL;
+}
+
+
+void
+oauth_accounts_save_to_file (const char   *service_name,
+			     GList        *accounts,
+			     OAuthAccount *default_account)
+{
+	DomDocument *doc;
+	DomElement  *root;
+	GList       *scan;
+	char        *buffer;
+	gsize        len;
+	char        *filename;
+	GFile       *file;
+
+	doc = dom_document_new ();
+	root = dom_document_create_element (doc, "accounts", NULL);
+	dom_element_append_child (DOM_ELEMENT (doc), root);
+	for (scan = accounts; scan; scan = scan->next) {
+		OAuthAccount *account = scan->data;
+		DomElement    *node;
+
+		if ((default_account != NULL) && g_strcmp0 (account->username, default_account->username) == 0)
+			account->is_default = TRUE;
+		else
+			account->is_default = FALSE;
+		node = dom_domizable_create_element (DOM_DOMIZABLE (account), doc);
+		dom_element_append_child (root, node);
+	}
+
+	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
+	file = g_file_new_for_path (filename);
+	buffer = dom_document_dump (doc, &len);
+	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
+
+	g_free (buffer);
+	g_object_unref (file);
+	g_free (filename);
+	g_object_unref (doc);
 }

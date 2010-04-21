@@ -42,6 +42,7 @@ oauth_account_finalize (GObject *obj)
 
 	g_free (self->username);
 	g_free (self->token);
+	g_free (self->token_secret);
 
 	G_OBJECT_CLASS (oauth_account_parent_class)->finalize (obj);
 }
@@ -170,6 +171,14 @@ oauth_account_set_token (OAuthAccount *self,
 			 const char    *value)
 {
 	_g_strset (&self->token, value);
+}
+
+
+void
+oauth_account_set_token_secret (OAuthAccount *self,
+				const char   *value)
+{
+	_g_strset (&self->token_secret, value);
 }
 
 

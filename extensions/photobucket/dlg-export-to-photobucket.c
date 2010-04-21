@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-export-to-photobucket.h"
-#include "photobucket-service.h"
+#include "photobucket-consumer.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
@@ -53,7 +53,6 @@ typedef struct {
 	GtkWidget           *dialog;
 	GtkWidget           *progress_dialog;
 	OAuthConnection     *conn;
-	PhotobucketService  *service;
 	OAuthAuthentication *auth;
 	PhotobucketUser     *user;
 	GList               *albums;
@@ -75,7 +74,6 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_list_unref (data->albums);
 	_g_object_unref (data->user);
 	_g_object_unref (data->auth);
-	_g_object_unref (data->service);
 	_g_object_unref (data->conn);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);

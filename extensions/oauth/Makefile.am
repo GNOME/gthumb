@@ -16,12 +16,7 @@ liboauth_la_SOURCES = 				\
 	oauth-authentication.c			\
 	oauth-authentication.h			\
 	oauth-connection.c			\
-	oauth-connection.h			\
-	oauth-service.c				\
-	oauth-service.h				\
-	oauth-types.h				\
-	oauth-user.c				\
-	oauth-user.h
+	oauth-connection.h
 
 liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 liboauth_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

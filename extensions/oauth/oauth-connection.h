@@ -30,7 +30,7 @@
 #include <libsoup/soup.h>
 #endif /* HAVE_LIBSOUP_GNOME */
 #include <gthumb.h>
-#include "oauth-types.h"
+#include "oauth-account.h"
 
 #define OAUTH_CONNECTION_ERROR oauth_connection_error_quark ()
 GQuark oauth_connection_error_quark (void);
@@ -47,6 +47,7 @@ GQuark oauth_connection_error_quark (void);
 typedef struct _OAuthConnection         OAuthConnection;
 typedef struct _OAuthConnectionPrivate  OAuthConnectionPrivate;
 typedef struct _OAuthConnectionClass    OAuthConnectionClass;
+typedef struct _OAuthConsumer           OAuthConsumer;
 
 struct _OAuthConnection
 {
@@ -103,5 +104,34 @@ void                 oauth_connection_check_token              (OAuthConnection 
 gboolean             oauth_connection_check_token_finish       (OAuthConnection      *self,
 						                GAsyncResult         *result,
 						                GError              **error);
+
+/* -- OAuthConsumer -- */
+
+typedef void   (*OAuthResponseFunc)  (OAuthConnection    *self,
+				      SoupMessage        *msg,
+				      SoupBuffer         *body,
+				      GSimpleAsyncResult *result);
+typedef char * (*OAuthLoginLinkFunc) (OAuthConnection    *self);
+
+
+struct _OAuthConsumer {
+	const char         *display_name;
+	const char         *name;
+	const char         *url;
+	const char         *protocol;
+	const char         *consumer_key;
+	const char         *consumer_secret;
+
+	const char         *request_token_url;
+	OAuthResponseFunc   get_request_token_response;
+
+	OAuthLoginLinkFunc  get_login_link;
+
+	const char         *access_token_url;
+	OAuthResponseFunc   get_access_token_response;
+
+	const char         *check_token_url;
+	OAuthResponseFunc   check_token_response;
+};
 
 #endif /* OAUTH_CONNECTION_H */

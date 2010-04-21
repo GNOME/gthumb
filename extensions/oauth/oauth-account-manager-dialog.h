@@ -20,40 +20,40 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef FLICKR_ACCOUNT_MANAGER_DIALOG_H
-#define FLICKR_ACCOUNT_MANAGER_DIALOG_H
+#ifndef OAUTH_ACCOUNT_MANAGER_DIALOG_H
+#define OAUTH_ACCOUNT_MANAGER_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <gthumb.h>
 
 G_BEGIN_DECLS
 
-#define FLICKR_ACCOUNT_MANAGER_RESPONSE_NEW 1
+#define OAUTH_ACCOUNT_MANAGER_RESPONSE_NEW 1
 
-#define FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG            (flickr_account_manager_dialog_get_type ())
-#define FLICKR_ACCOUNT_MANAGER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG, FlickrAccountManagerDialog))
-#define FLICKR_ACCOUNT_MANAGER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG, FlickrAccountManagerDialogClass))
-#define FLICKR_IS_ACCOUNT_MANAGER_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG))
-#define FLICKR_IS_ACCOUNT_MANAGER_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG))
-#define FLICKR_ACCOUNT_MANAGER_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FLICKR_TYPE_ACCOUNT_MANAGER_DIALOG, FlickrAccountManagerDialogClass))
+#define OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG            (oauth_account_manager_dialog_get_type ())
+#define OAUTH_ACCOUNT_MANAGER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialog))
+#define OAUTH_ACCOUNT_MANAGER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogClass))
+#define OAUTH_IS_ACCOUNT_MANAGER_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG))
+#define OAUTH_IS_ACCOUNT_MANAGER_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG))
+#define OAUTH_ACCOUNT_MANAGER_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogClass))
 
-typedef struct _FlickrAccountManagerDialog FlickrAccountManagerDialog;
-typedef struct _FlickrAccountManagerDialogClass FlickrAccountManagerDialogClass;
-typedef struct _FlickrAccountManagerDialogPrivate FlickrAccountManagerDialogPrivate;
+typedef struct _OAuthAccountManagerDialog OAuthAccountManagerDialog;
+typedef struct _OAuthAccountManagerDialogClass OAuthAccountManagerDialogClass;
+typedef struct _OAuthAccountManagerDialogPrivate OAuthAccountManagerDialogPrivate;
 
-struct _FlickrAccountManagerDialog {
+struct _OAuthAccountManagerDialog {
 	GtkDialog parent_instance;
-	FlickrAccountManagerDialogPrivate *priv;
+	OAuthAccountManagerDialogPrivate *priv;
 };
 
-struct _FlickrAccountManagerDialogClass {
+struct _OAuthAccountManagerDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType          flickr_account_manager_dialog_get_type     (void);
-GtkWidget *    flickr_account_manager_dialog_new          (GList                      *accounts);
-GList *        flickr_account_manager_dialog_get_accounts (FlickrAccountManagerDialog *dialog);
+GType          oauth_account_manager_dialog_get_type     (void);
+GtkWidget *    oauth_account_manager_dialog_new          (GList                     *accounts);
+GList *        oauth_account_manager_dialog_get_accounts (OAuthAccountManagerDialog *dialog);
 
 G_END_DECLS
 
-#endif /* FLICKR_ACCOUNT_MANAGER_DIALOG_H */
+#endif /* OAUTH_ACCOUNT_MANAGER_DIALOG_H */

@@ -68,6 +68,14 @@ GList *                 oauth_authentication_get_accounts   (OAuthAuthentication
 void                    oauth_authentication_edit_accounts  (OAuthAuthentication *auth,
 							     GtkWindow           *parent);
 
+/* utilities */
+
+GList *          oauth_accounts_load_from_file  (const char    *service_name);
+OAuthAccount *   oauth_accounts_find_default    (GList         *accounts);
+void             oauth_accounts_save_to_file    (const char    *service_name,
+						 GList         *accounts,
+						 OAuthAccount  *default_account);
+
 G_END_DECLS
 
 #endif /* OAUTH_AUTHENTICATION_H */

@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "flickr-account-chooser-dialog.h"
+#include "oauth-account-chooser-dialog.h"
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
@@ -38,17 +38,17 @@ enum {
 static gpointer parent_class = NULL;
 
 
-struct _FlickrAccountChooserDialogPrivate {
+struct _OAuthAccountChooserDialogPrivate {
 	GtkBuilder *builder;
 };
 
 
 static void
-flickr_account_chooser_dialog_finalize (GObject *object)
+oauth_account_chooser_dialog_finalize (GObject *object)
 {
-	FlickrAccountChooserDialog *self;
+	OAuthAccountChooserDialog *self;
 
-	self = FLICKR_ACCOUNT_CHOOSER_DIALOG (object);
+	self = OAUTH_ACCOUNT_CHOOSER_DIALOG (object);
 
 	_g_object_unref (self->priv->builder);
 
@@ -57,15 +57,15 @@ flickr_account_chooser_dialog_finalize (GObject *object)
 
 
 static void
-flickr_account_chooser_dialog_class_init (FlickrAccountChooserDialogClass *klass)
+oauth_account_chooser_dialog_class_init (OAuthAccountChooserDialogClass *klass)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (FlickrAccountChooserDialogPrivate));
+	g_type_class_add_private (klass, sizeof (OAuthAccountChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->finalize = flickr_account_chooser_dialog_finalize;
+	object_class->finalize = oauth_account_chooser_dialog_finalize;
 }
 
 
@@ -73,9 +73,9 @@ static void
 account_combobox_changed_cb (GtkComboBox *combobox,
 			     gpointer     user_data)
 {
-	FlickrAccountChooserDialog *self = user_data;
-	GtkTreeIter                 iter;
-	FlickrAccount              *account;
+	OAuthAccountChooserDialog *self = user_data;
+	GtkTreeIter                iter;
+	OAuthAccount              *account;
 
 	if (! gtk_combo_box_get_active_iter (combobox, &iter))
 		return;
@@ -85,7 +85,7 @@ account_combobox_changed_cb (GtkComboBox *combobox,
 			    -1);
 
 	if (account == NULL)
-		gtk_dialog_response (GTK_DIALOG (self), FLICKR_ACCOUNT_CHOOSER_RESPONSE_NEW);
+		gtk_dialog_response (GTK_DIALOG (self), OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
 
 	_g_object_unref (account);
 }
@@ -96,7 +96,7 @@ row_separator_func (GtkTreeModel *model,
 		    GtkTreeIter  *iter,
 		    gpointer      user_data)
 {
-	FlickrAccountChooserDialog *self = user_data;
+	OAuthAccountChooserDialog *self = user_data;
 	gboolean                    is_separator;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("account_liststore")),
@@ -109,11 +109,11 @@ row_separator_func (GtkTreeModel *model,
 
 
 static void
-flickr_account_chooser_dialog_init (FlickrAccountChooserDialog *self)
+oauth_account_chooser_dialog_init (OAuthAccountChooserDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG, FlickrAccountChooserDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("flicker-account-chooser.ui", "flicker");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -154,7 +154,7 @@ flickr_account_chooser_dialog_init (FlickrAccountChooserDialog *self)
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_NEW,
-			       FLICKR_ACCOUNT_CHOOSER_RESPONSE_NEW);
+			       OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
@@ -166,25 +166,25 @@ flickr_account_chooser_dialog_init (FlickrAccountChooserDialog *self)
 
 
 GType
-flickr_account_chooser_dialog_get_type (void)
+oauth_account_chooser_dialog_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrAccountChooserDialogClass),
+			sizeof (OAuthAccountChooserDialogClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_account_chooser_dialog_class_init,
+			(GClassInitFunc) oauth_account_chooser_dialog_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (FlickrAccountChooserDialog),
+			sizeof (OAuthAccountChooserDialog),
 			0,
-			(GInstanceInitFunc) flickr_account_chooser_dialog_init,
+			(GInstanceInitFunc) oauth_account_chooser_dialog_init,
 			NULL
 		};
 		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FlickrAccountChooserDialog",
+					       "OAuthAccountChooserDialog",
 					       &g_define_type_info,
 					       0);
 	}
@@ -194,9 +194,9 @@ flickr_account_chooser_dialog_get_type (void)
 
 
 static void
-flickr_account_chooser_dialog_construct (FlickrAccountChooserDialog *self,
+oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 				         GList                      *accounts,
-				         FlickrAccount              *default_account)
+				         OAuthAccount              *default_account)
 {
 	GtkTreeIter  iter;
 	GList       *scan;
@@ -206,7 +206,7 @@ flickr_account_chooser_dialog_construct (FlickrAccountChooserDialog *self,
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
 	for (scan = accounts, idx = 0; scan; scan = scan->next, idx++) {
-		FlickrAccount *account = scan->data;
+		OAuthAccount *account = scan->data;
 
 		if ((default_account != NULL) && (g_strcmp0 (account->username, default_account->username) == 0))
 			active = idx;
@@ -238,23 +238,23 @@ flickr_account_chooser_dialog_construct (FlickrAccountChooserDialog *self,
 
 
 GtkWidget *
-flickr_account_chooser_dialog_new (GList         *accounts,
-				   FlickrAccount *default_account)
+oauth_account_chooser_dialog_new (GList        *accounts,
+				  OAuthAccount *default_account)
 {
-	FlickrAccountChooserDialog *self;
+	OAuthAccountChooserDialog *self;
 
-	self = g_object_new (FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
-	flickr_account_chooser_dialog_construct (self, accounts, default_account);
+	self = g_object_new (OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, NULL);
+	oauth_account_chooser_dialog_construct (self, accounts, default_account);
 
 	return (GtkWidget *) self;
 }
 
 
-FlickrAccount *
-flickr_account_chooser_dialog_get_active (FlickrAccountChooserDialog *self)
+OAuthAccount *
+oauth_account_chooser_dialog_get_active (OAuthAccountChooserDialog *self)
 {
 	GtkTreeIter    iter;
-	FlickrAccount *account;
+	OAuthAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), &iter))
 		return NULL;

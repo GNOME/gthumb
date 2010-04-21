@@ -12,26 +12,9 @@ libphotobucket_la_SOURCES = 			\
 	callbacks.h				\
 	dlg-export-to-photobucket.c		\
 	dlg-export-to-photobucket.h		\
-	photobucket-account.c			\
-	photobucket-account.h			\
-	photobucket-account-chooser-dialog.c	\
-	photobucket-account-chooser-dialog.h	\
-	photobucket-account-manager-dialog.c	\
-	photobucket-account-manager-dialog.h	\
-	photobucket-authentication.c		\
-	photobucket-authentication.h		\
-	photobucket-connection.c		\
-	photobucket-connection.h		\
-	photobucket-photo.c			\
-	photobucket-photo.h			\
-	photobucket-photoset.c			\
-	photobucket-photoset.h			\
-	photobucket-service.c			\
-	photobucket-service.h			\
-	photobucket-types.h			\
-	photobucket-user.c			\
-	photobucket-user.h			\
-	main.c
+	main.c					\
+	photobucket-consumer.c			\
+	photobucket-consumer.h
 
 libphotobucket_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphotobucket_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

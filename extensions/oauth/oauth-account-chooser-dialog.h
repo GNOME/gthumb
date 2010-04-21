@@ -20,42 +20,42 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef FLICKR_ACCOUNT_CHOOSER_DIALOG_H
-#define FLICKR_ACCOUNT_CHOOSER_DIALOG_H
+#ifndef OAUTH_ACCOUNT_CHOOSER_DIALOG_H
+#define OAUTH_ACCOUNT_CHOOSER_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include "flickr-account.h"
+#include "oauth-account.h"
 
 G_BEGIN_DECLS
 
-#define FLICKR_ACCOUNT_CHOOSER_RESPONSE_NEW 1
+#define OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW 1
 
-#define FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG            (flickr_account_chooser_dialog_get_type ())
-#define FLICKR_ACCOUNT_CHOOSER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG, FlickrAccountChooserDialog))
-#define FLICKR_ACCOUNT_CHOOSER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG, FlickrAccountChooserDialogClass))
-#define FLICKR_IS_ACCOUNT_CHOOSER_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG))
-#define FLICKR_IS_ACCOUNT_CHOOSER_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG))
-#define FLICKR_ACCOUNT_CHOOSER_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FLICKR_TYPE_ACCOUNT_CHOOSER_DIALOG, FlickrAccountChooserDialogClass))
+#define OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG            (oauth_account_chooser_dialog_get_type ())
+#define OAUTH_ACCOUNT_CHOOSER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialog))
+#define OAUTH_ACCOUNT_CHOOSER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialogClass))
+#define OAUTH_IS_ACCOUNT_CHOOSER_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG))
+#define OAUTH_IS_ACCOUNT_CHOOSER_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG))
+#define OAUTH_ACCOUNT_CHOOSER_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialogClass))
 
-typedef struct _FlickrAccountChooserDialog FlickrAccountChooserDialog;
-typedef struct _FlickrAccountChooserDialogClass FlickrAccountChooserDialogClass;
-typedef struct _FlickrAccountChooserDialogPrivate FlickrAccountChooserDialogPrivate;
+typedef struct _OAuthAccountChooserDialog OAuthAccountChooserDialog;
+typedef struct _OAuthAccountChooserDialogClass OAuthAccountChooserDialogClass;
+typedef struct _OAuthAccountChooserDialogPrivate OAuthAccountChooserDialogPrivate;
 
-struct _FlickrAccountChooserDialog {
+struct _OAuthAccountChooserDialog {
 	GtkDialog parent_instance;
-	FlickrAccountChooserDialogPrivate *priv;
+	OAuthAccountChooserDialogPrivate *priv;
 };
 
-struct _FlickrAccountChooserDialogClass {
+struct _OAuthAccountChooserDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType           flickr_account_chooser_dialog_get_type    (void);
-GtkWidget *     flickr_account_chooser_dialog_new         (GList                      *accounts,
-							   FlickrAccount              *default_account);
-FlickrAccount * flickr_account_chooser_dialog_get_active  (FlickrAccountChooserDialog *self);
+GType           oauth_account_chooser_dialog_get_type    (void);
+GtkWidget *     oauth_account_chooser_dialog_new         (GList                     *accounts,
+							  OAuthAccount              *default_account);
+OAuthAccount *  oauth_account_chooser_dialog_get_active  (OAuthAccountChooserDialog *self);
 
 G_END_DECLS
 
-#endif /* FLICKR_ACCOUNT_CHOOSER_DIALOG_H */
+#endif /* OAUTH_ACCOUNT_CHOOSER_DIALOG_H */

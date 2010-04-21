@@ -44,7 +44,7 @@ struct _OAuthAccount {
 	OAuthAccountPrivate *priv;
 
 	char     *username;
-	char     *access_token;
+	char     *token;
 	char     *token_secret;
 	gboolean  is_default;
 };
@@ -57,7 +57,7 @@ GType             oauth_account_get_type         (void);
 OAuthAccount *    oauth_account_new              (void);
 void              oauth_account_set_username     (OAuthAccount *self,
 						  const char   *value);
-void              oauth_account_set_access_token (OAuthAccount *self,
+void              oauth_account_set_token        (OAuthAccount *self,
 						  const char   *value);
 void              oauth_account_set_token_secret (OAuthAccount *self,
 						  const char   *value);
