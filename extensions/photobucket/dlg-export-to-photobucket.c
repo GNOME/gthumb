@@ -45,17 +45,6 @@ enum {
 };
 
 
-static OAuthServer photobucket_server = {
-	"PhotoBucket",
-	"http://www.photobucket.com",
-	"http://www.flickr.com/services/auth/",
-	"http://api.flickr.com/services/rest",
-	"http://api.flickr.com/services/upload/",
-	"8960706ee7f4151e893b11837e9c24ce",
-	"1ff8d1e45c873423"
-};
-
-
 typedef struct {
 	GthBrowser          *browser;
 	GthFileData         *location;
