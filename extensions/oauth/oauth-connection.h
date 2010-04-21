@@ -76,11 +76,11 @@ void                 oauth_connection_add_signature            (OAuthConnection 
 								const char           *method,
 								const char           *url,
 								GHashTable           *parameters);
-void                 oauth_connection_login_request            (OAuthConnection      *self,
+void                 oauth_connection_get_request_token        (OAuthConnection      *self,
 							        GCancellable         *cancellable,
 							        GAsyncReadyCallback   callback,
 							        gpointer              user_data);
-gboolean             oauth_connection_login_request_finish     (OAuthConnection      *self,
+gboolean             oauth_connection_get_request_token_finish (OAuthConnection      *self,
 						                GAsyncResult         *result,
 						                GError              **error);
 char *               oauth_connection_get_login_link           (OAuthConnection      *self);
@@ -88,44 +88,20 @@ void                 oauth_connection_get_access_token         (OAuthConnection 
 								GCancellable         *cancellable,
 							        GAsyncReadyCallback   callback,
 							        gpointer              user_data);
-gboolean             oauth_connection_get_access_token_finish  (OAuthConnection      *self,
+OAuthAccount *       oauth_connection_get_access_token_finish  (OAuthConnection      *self,
 								GAsyncResult         *result,
 								GError              **error);
 void                 oauth_connection_set_token                (OAuthConnection      *self,
 							        const char           *token,
 								const char           *token_secret);
-const char *         oauth_connection_get_username             (OAuthConnection      *self);
 const char *         oauth_connection_get_token                (OAuthConnection      *self);
 const char *         oauth_connection_get_token_secret         (OAuthConnection      *self);
-
-#if 0
-void                 oauth_connection_get_frob           (OAuthConnection       *self,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-gboolean             oauth_connection_get_frob_finish    (OAuthConnection       *self,
-							   GAsyncResult         *result,
-							   GError              **error);
-char *               oauth_connection_get_login_link     (OAuthConnection       *self,
-							   OAuthAccessType       access_type);
-void                 oauth_connection_get_token          (OAuthConnection       *self,
-						           GCancellable         *cancellable,
-						           GAsyncReadyCallback   callback,
-						           gpointer              user_data);
-gboolean             oauth_connection_get_token_finish   (OAuthConnection       *self,
-							   GAsyncResult         *result,
-							   GError              **error);
-void                 oauth_connection_set_auth_token     (OAuthConnection       *self,
-							   const char           *value);
-const char *         oauth_connection_get_auth_token     (OAuthConnection       *self);
-const char *         oauth_connection_get_username       (OAuthConnection       *self);
-const char *         oauth_connection_get_user_id        (OAuthConnection       *self);
-
-/* utilities */
-
-gboolean             oauth_utils_parse_response          (SoupBuffer            *body,
-							  DomDocument          **doc_p,
-							  GError               **error);
-#endif
+void                 oauth_connection_check_token              (OAuthConnection      *self,
+							        GCancellable         *cancellable,
+							        GAsyncReadyCallback   callback,
+							        gpointer              user_data);
+gboolean             oauth_connection_check_token_finish       (OAuthConnection      *self,
+						                GAsyncResult         *result,
+						                GError              **error);
 
 #endif /* OAUTH_CONNECTION_H */

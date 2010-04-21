@@ -54,6 +54,7 @@ struct _OAuthConnectionPrivate
 	char               *nonce;
 	char               *signature;
 	char               *token;
+	char               *token_secret;
 	GCancellable       *cancellable;
 	GSimpleAsyncResult *result;
 };
@@ -72,6 +73,7 @@ oauth_connection_finalize (GObject *object)
 	_g_object_unref (self->priv->result);
 	_g_object_unref (self->priv->cancellable);
 	g_free (self->priv->token);
+	g_free (self->priv->token_secret);
 	g_free (self->priv->signature);
 	g_free (self->priv->nonce);
 	g_free (self->priv->timestamp);
@@ -122,6 +124,7 @@ oauth_connection_init (OAuthConnection *self)
 	self->priv->nonce = NULL;
 	self->priv->signature = NULL;
 	self->priv->token = NULL;
+	self->priv->token_secret = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
 }
@@ -285,7 +288,7 @@ oauth_connection_add_signature (OAuthConnection *self,
 	if (self->priv->token != NULL)
 		g_hash_table_insert (parameters, "oauth_token", self->priv->token);
 
-	/* Create parameter string */
+	/* Create the parameter string */
 
 	param_string = g_string_new ("");
 	keys = g_hash_table_get_keys (parameters);
@@ -321,7 +324,8 @@ oauth_connection_add_signature (OAuthConnection *self,
 		g_string_append (signature_key, self->priv->token);
 	g_free (self->priv->signature);
 	self->priv->signature = g_compute_signature_for_string (G_CHECKSUM_SHA1,
-							        signature_key,
+							        signature_key->str,
+							        signature_key->len,
 							        base_string->str,
 							        base_string->len);
 	g_hash_table_insert (parameters, "oauth_signature", self->priv->signature);
@@ -333,13 +337,13 @@ oauth_connection_add_signature (OAuthConnection *self,
 }
 
 
-/* -- oauth_connection_login_request -- */
+/* -- oauth_connection_get_request_token -- */
 
 
 static void
-login_request_ready_cb (SoupSession *session,
-			SoupMessage *msg,
-			gpointer     user_data)
+get_request_token_ready_cb (SoupSession *session,
+			    SoupMessage *msg,
+			    gpointer     user_data)
 {
 	OAuthConnection    *self = user_data;
 	GSimpleAsyncResult *result;
@@ -359,7 +363,7 @@ login_request_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	self->consumer->login_request_result (msg, body, result);
+	self->consumer->login_request_response (self, msg, body, result);
 	g_simple_async_result_complete_in_idle (result);
 
 	soup_buffer_free (body);
@@ -367,10 +371,10 @@ login_request_ready_cb (SoupSession *session,
 
 
 void
-oauth_connection_login_request (OAuthConnection     *self,
-				GCancellable        *cancellable,
-				GAsyncReadyCallback  callback,
-				gpointer             user_data)
+oauth_connection_get_request_token (OAuthConnection     *self,
+				    GCancellable        *cancellable,
+				    GAsyncReadyCallback  callback,
+				    gpointer             user_data)
 {
 	GHashTable  *data_set;
 	SoupMessage *msg;
@@ -378,15 +382,15 @@ oauth_connection_login_request (OAuthConnection     *self,
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	oauth_connection_add_signature (self->priv->conn, "POST", self->consumer->login_request_uri, data_set);
-	msg = soup_form_request_new_from_hash ("POST", self->consumer->login_request_uri, data_set);
+	oauth_connection_add_signature (self->priv->conn, "POST", self->consumer->request_token_url, data_set);
+	msg = soup_form_request_new_from_hash ("POST", self->consumer->request_token_url, data_set);
 	oauth_connection_send_message (self->priv->conn,
 				       msg,
 				       cancellable,
 				       callback,
 				       user_data,
-				       oauth_connection_login_request,
-				       login_request_ready_cb,
+				       oauth_connection_get_request_token,
+				       get_request_token_ready_cb,
 				       self);
 
 	g_hash_table_destroy (data_set);
@@ -394,9 +398,9 @@ oauth_connection_login_request (OAuthConnection     *self,
 
 
 gboolean
-oauth_connection_login_request_finish (OAuthConnection  *self,
-				       GAsyncResult     *result,
-				       GError          **error)
+oauth_connection_get_request_token_finish (OAuthConnection  *self,
+					   GAsyncResult     *result,
+					   GError          **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return FALSE;
@@ -408,11 +412,41 @@ oauth_connection_login_request_finish (OAuthConnection  *self,
 char *
 oauth_connection_get_login_link (OAuthConnection *self)
 {
-
+	self->consumer->get_login_link (self);
 }
 
 
 /* -- oauth_connection_get_access_token -- */
+
+
+static void
+get_access_token_ready_cb (SoupSession *session,
+			   SoupMessage *msg,
+			   gpointer     user_data)
+{
+	OAuthConnection    *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	GError             *error = NULL;
+
+	result = oauth_connection_get_result (self->priv->conn);
+
+	if (msg->status_code != 200) {
+		g_simple_async_result_set_error (result,
+						 SOUP_HTTP_ERROR,
+						 msg->status_code,
+						 "%s",
+						 soup_status_get_phrase (msg->status_code));
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	body = soup_message_body_flatten (msg->response_body);
+	self->consumer->get_access_token_response (self, msg, body, result);
+	g_simple_async_result_complete_in_idle (result);
+
+	soup_buffer_free (body);
+}
 
 
 void
@@ -421,328 +455,130 @@ oauth_connection_get_access_token (OAuthConnection     *self,
 				   GAsyncReadyCallback  callback,
 				   gpointer             user_data)
 {
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	oauth_connection_add_signature (self->priv->conn, "POST", self->consumer->access_token_url, data_set);
+	msg = soup_form_request_new_from_hash ("POST", self->consumer->access_token_url, data_set);
+	oauth_connection_send_message (self->priv->conn,
+				       msg,
+				       cancellable,
+				       callback,
+				       user_data,
+				       oauth_connection_get_access_token,
+				       get_access_token_ready_cb,
+				       self);
+
+	g_hash_table_destroy (data_set);
 }
 
 
-gboolean
+OAuthAccount *
 oauth_connection_get_access_token_finish (OAuthConnection  *self,
 					  GAsyncResult     *result,
 					  GError          **error)
 {
-
-}
-
-
-#if 0
-
-
-static void
-connection_frob_ready_cb (SoupSession *session,
-			  SoupMessage *msg,
-			  gpointer     user_data)
-{
-	OAuthConnection *self = user_data;
-	SoupBuffer       *body;
-	DomDocument      *doc = NULL;
-	GError           *error = NULL;
-
-	g_free (self->priv->frob);
-	self->priv->frob = NULL;
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (oauth_utils_parse_response (body, &doc, &error)) {
-		DomElement *root;
-		DomElement *child;
-
-		root = DOM_ELEMENT (doc)->first_child;
-		for (child = root->first_child; child; child = child->next_sibling)
-			if (g_strcmp0 (child->tag_name, "frob") == 0)
-				self->priv->frob = g_strdup (dom_element_get_inner_text (child));
-
-		if (self->priv->frob == NULL) {
-			error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (self->priv->result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gboolean (self->priv->result, TRUE);
-
-		g_object_unref (doc);
-	}
-	else
-		g_simple_async_result_set_from_error (self->priv->result, error);
-
-	g_simple_async_result_complete_in_idle (self->priv->result);
-
-	soup_buffer_free (body);
-}
-
-
-void
-oauth_connection_get_frob (OAuthConnection    *self,
-			    GCancellable        *cancellable,
-			    GAsyncReadyCallback  callback,
-			    gpointer             user_data)
-{
-	GHashTable  *data_set;
-	SoupMessage *msg;
-
-	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
-
-	g_free (self->priv->token);
-	self->priv->token = NULL;
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "oauth.auth.getFrob");
-	oauth_connection_add_api_sig (self, data_set);
-	msg = soup_form_request_new_from_hash ("GET", self->consumer->rest_url, data_set);
-	oauth_connection_send_message (self,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					oauth_connection_get_frob,
-					connection_frob_ready_cb,
-					self);
-
-	g_hash_table_destroy (data_set);
-}
-
-
-gboolean
-oauth_connection_get_frob_finish (OAuthConnection  *self,
-				   GAsyncResult      *result,
-				   GError           **error)
-{
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return FALSE;
 	else
-		return TRUE;
-}
-
-
-static char *
-get_access_type_name (OAuthAccessType access_type)
-{
-	char *name = NULL;
-
-	switch (access_type) {
-	case OAUTH_ACCESS_READ:
-		name = "read";
-		break;
-
-	case OAUTH_ACCESS_WRITE:
-		name = "write";
-		break;
-
-	case OAUTH_ACCESS_DELETE:
-		name = "delete";
-		break;
-	}
-
-	return name;
-}
-
-char *
-oauth_connection_get_login_link (OAuthConnection *self,
-				  OAuthAccessType  access_type)
-{
-	GHashTable *data_set;
-	GString    *link;
-	GList      *keys;
-	GList      *scan;
-
-	g_return_val_if_fail (self->priv->frob != NULL, NULL);
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "frob", self->priv->frob);
-	g_hash_table_insert (data_set, "perms", get_access_type_name (access_type));
-	oauth_connection_add_api_sig (self, data_set);
-
-	link = g_string_new (self->consumer->authentication_url);
-	g_string_append (link, "?");
-	keys = g_hash_table_get_keys (data_set);
-	for (scan = keys; scan; scan = scan->next) {
-		char *key = scan->data;
-
-		if (scan != keys)
-			g_string_append (link, "&");
-		g_string_append (link, key);
-		g_string_append (link, "=");
-		g_string_append (link, g_hash_table_lookup (data_set, key));
-	}
-
-	g_list_free (keys);
-	g_hash_table_destroy (data_set);
-
-	return g_string_free (link, FALSE);
-}
-
-
-static void
-connection_token_ready_cb (SoupSession *session,
-			   SoupMessage *msg,
-			   gpointer     user_data)
-{
-	OAuthConnection *self = user_data;
-	SoupBuffer       *body;
-	DomDocument      *doc = NULL;
-	GError           *error = NULL;
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (oauth_utils_parse_response (body, &doc, &error)) {
-		DomElement *response;
-		DomElement *auth;
-
-		response = DOM_ELEMENT (doc)->first_child;
-		for (auth = response->first_child; auth; auth = auth->next_sibling) {
-			if (g_strcmp0 (auth->tag_name, "auth") == 0) {
-				DomElement *node;
-
-				for (node = auth->first_child; node; node = node->next_sibling) {
-					if (g_strcmp0 (node->tag_name, "token") == 0) {
-						self->priv->token = g_strdup (dom_element_get_inner_text (node));
-					}
-					else if (g_strcmp0 (node->tag_name, "user") == 0) {
-						self->priv->username = g_strdup (dom_element_get_attribute (node, "username"));
-						self->priv->user_id = g_strdup (dom_element_get_attribute (node, "nsid"));
-					}
-				}
-			}
-		}
-
-		if (self->priv->token == NULL) {
-			error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (self->priv->result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gboolean (self->priv->result, TRUE);
-
-		g_object_unref (doc);
-	}
-	else
-		g_simple_async_result_set_from_error (self->priv->result, error);
-
-	g_simple_async_result_complete_in_idle (self->priv->result);
-
-	soup_buffer_free (body);
+		return g_object_ref (g_simple_async_result_get_op_res_gpointer (result));
 }
 
 
 void
-oauth_connection_get_token (OAuthConnection    *self,
-			     GCancellable        *cancellable,
-			     GAsyncReadyCallback  callback,
-			     gpointer             user_data)
+oauth_connection_set_token (OAuthConnection *self,
+			    const char      *token,
+			    const char      *token_secret)
 {
-	GHashTable  *data_set;
-	SoupMessage *msg;
-
-	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
-
-	g_free (self->priv->token);
-	self->priv->token = NULL;
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "oauth.auth.getToken");
-	g_hash_table_insert (data_set, "frob", self->priv->frob);
-	oauth_connection_add_api_sig (self, data_set);
-	msg = soup_form_request_new_from_hash ("GET", self->consumer->rest_url, data_set);
-	oauth_connection_send_message (self,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					oauth_connection_get_token,
-					connection_token_ready_cb,
-					self);
-
-	g_hash_table_destroy (data_set);
-}
-
-
-gboolean
-oauth_connection_get_token_finish (OAuthConnection  *self,
-				    GAsyncResult      *result,
-				    GError           **error)
-{
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return FALSE;
-	else
-		return TRUE;
-}
-
-
-void
-oauth_connection_set_auth_token (OAuthConnection *self,
-				  const char       *value)
-{
-	g_free (self->priv->token);
-	self->priv->token = NULL;
-	if (value != NULL)
-		self->priv->token = g_strdup (value);
+	_g_strset (&self->priv->token, token);
+	_g_strset (&self->priv->token_secret, token_secret);
 }
 
 
 const char *
-oauth_connection_get_auth_token (OAuthConnection *self)
+oauth_connection_get_token (OAuthConnection *self)
 {
 	return self->priv->token;
 }
 
 
 const char *
-oauth_connection_get_username (OAuthConnection *self)
+oauth_connection_get_token_secret (OAuthConnection *self)
 {
-	return self->priv->username;
+	return self->priv->token_secret;
 }
 
 
-const char *
-oauth_connection_get_user_id (OAuthConnection *self)
+/* -- oauth_connection_check_token -- */
+
+
+static void
+check_token_ready_cb (SoupSession *session,
+		      SoupMessage *msg,
+		      gpointer     user_data)
 {
-	return self->priv->user_id;
+	OAuthConnection    *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	GError             *error = NULL;
+
+	result = oauth_connection_get_result (self->priv->conn);
+
+	if (msg->status_code != 200) {
+		g_simple_async_result_set_error (result,
+						 SOUP_HTTP_ERROR,
+						 msg->status_code,
+						 "%s",
+						 soup_status_get_phrase (msg->status_code));
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	body = soup_message_body_flatten (msg->response_body);
+	self->consumer->check_token_response (self, msg, body, result);
+	g_simple_async_result_complete_in_idle (result);
+
+	soup_buffer_free (body);
 }
 
 
-/* utilities */
+void
+oauth_connection_check_token (OAuthConnection     *self,
+			      GCancellable        *cancellable,
+			      GAsyncReadyCallback  callback,
+			      gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	oauth_connection_add_signature (self->priv->conn, "POST", self->consumer->check_token_url, data_set);
+	msg = soup_form_request_new_from_hash ("POST", self->consumer->check_token_url, data_set);
+	oauth_connection_send_message (self->priv->conn,
+				       msg,
+				       cancellable,
+				       callback,
+				       user_data,
+				       oauth_connection_check_token,
+				       check_token_ready_cb,
+				       self);
+
+	g_hash_table_destroy (data_set);
+}
 
 
 gboolean
-oauth_utils_parse_response (SoupBuffer   *body,
-			     DomDocument **doc_p,
-			     GError      **error)
+oauth_connection_check_token_finish (OAuthConnection  *self,
+				     GAsyncResult     *result,
+				     GError          **error)
 {
-	DomDocument *doc;
-	DomElement  *node;
-
-	doc = dom_document_new ();
-	if (! dom_document_load (doc, body->data, body->length, error)) {
-		g_object_unref (doc);
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return FALSE;
-	}
-
-	for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "rsp") == 0) {
-			if (g_strcmp0 (dom_element_get_attribute (node, "stat"), "ok") != 0) {
-				DomElement *child;
-
-				for (child = node->first_child; child; child = child->next_sibling) {
-					if (g_strcmp0 (child->tag_name, "err") == 0) {
-						*error = g_error_new_literal (OAUTH_CONNECTION_ERROR,
-									      atoi (dom_element_get_attribute (child, "code")),
-									      dom_element_get_attribute (child, "msg"));
-					}
-				}
-
-				g_object_unref (doc);
-				return FALSE;
-			}
-		}
-	}
-
-	*doc_p = doc;
-
-	return TRUE;
+	else
+		return TRUE;
 }
-
-#endif

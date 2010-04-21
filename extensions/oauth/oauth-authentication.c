@@ -233,14 +233,14 @@ show_authentication_error_dialog (OAuthAuthentication  *self,
 
 
 static void
-upload_status_ready_cb (GObject      *source_object,
-			GAsyncResult *res,
-			gpointer      user_data)
+check_token_ready_cb (GObject      *source_object,
+		      GAsyncResult *res,
+		      gpointer      user_data)
 {
 	OAuthAuthentication *self = user_data;
 	GError              *error = NULL;
 
-	if (! oauth_service_get_upload_status_finish (OAUTH_SERVICE (source_object), res, &error)) {
+	if (! oauth_connection_check_token_finish (self->priv->conn, res, &error)) {
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
@@ -256,13 +256,14 @@ connect_to_server_step2 (OAuthAuthentication *self)
 		start_authorization_process (self);
 		return;
 	}
-	oauth_connection_set_token (self->priv->conn, self->priv->account->access_token, self->priv->account->token_secret);
 
-	/* FIXME: oauth_connection_get_user_info */
-	oauth_service_get_upload_status (self->priv->service,
-					 self->priv->cancellable,
-					 upload_status_ready_cb,
-					 self);
+	oauth_connection_set_token (self->priv->conn,
+				    self->priv->account->access_token,
+				    self->priv->account->token_secret);
+	oauth_connection_check_token (self->priv->conn,
+				      self->priv->cancellable,
+				      check_token_ready_cb,
+				      self);
 }
 
 
@@ -356,15 +357,12 @@ get_access_token_ready_cb (GObject      *source_object,
 	GError              *error = NULL;
 	OAuthAccount        *account;
 
-	if (! oauth_connection_get_access_token_finish (OAUTH_CONNECTION (source_object), res, &error)) {
+	account = oauth_connection_get_access_token_finish (OAUTH_CONNECTION (source_object), res, &error);
+	if (error != NULL) {
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
-	account = oauth_account_new ();
-	oauth_account_set_username (account, oauth_connection_get_username (self->priv->conn));
-	oauth_account_set_access_token (account, oauth_connection_get_token (self->priv->conn));
-	oauth_account_set_token_secret (account, oauth_connection_get_token_secret (self->priv->conn));
 	set_account (self, account);
 
 #ifdef HAVE_GNOME_KEYRING
@@ -536,9 +534,9 @@ ask_authorization (OAuthAuthentication *self)
 
 
 static void
-connection_frob_ready_cb (GObject      *source_object,
-			  GAsyncResult *res,
-			  gpointer      user_data)
+login_request_ready_cb (GObject      *source_object,
+			GAsyncResult *res,
+			gpointer      user_data)
 {
 	OAuthAuthentication *self = user_data;
 	GError              *error = NULL;
@@ -701,9 +699,9 @@ account_manager_dialog_response_cb (GtkDialog *dialog,
 
 void
 oauth_authentication_edit_accounts (OAuthAuthentication *self,
-				     GtkWindow            *parent)
+				    GtkWindow           *parent)
 {
-	GtkWidget  *dialog;
+	GtkWidget *dialog;
 
 	dialog = oauth_account_manager_dialog_new (self->priv->accounts);
 	g_signal_connect (dialog,

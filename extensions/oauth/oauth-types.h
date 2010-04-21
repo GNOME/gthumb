@@ -23,19 +23,30 @@
 #ifndef OAUTH_TYPES_H
 #define OAUTH_TYPES_H
 
+typedef void   (*OAuthResponseFunc)  (OAuthConnection    *self,
+				      SoupMessage        *msg,
+				      SoupBuffer         *body,
+				      GSimpleAsyncResult *result);
+typedef char * (*OAuthLoginLinkFunc) (OAuthConnection    *self);
+
+
 typedef struct {
-	const char *name;
-	const char *url;
-	const char *protocol;
-	const char *request_token_url;
-	const char *user_authorization_url;
-	const char *access_token_url;
-	const char *consumer_key;
-	const char *consumer_secret;
-	const char *login_request_uri;
-	void      (* login_request_result) (SoupMessage        *msg,
-					    SoupBuffer         *body,
-					    GSimpleAsyncResult *result);
+	const char         *name;
+	const char         *url;
+	const char         *protocol;
+	const char         *consumer_key;
+	const char         *consumer_secret;
+
+	const char         *request_token_url;
+	OAuthResponseFunc   get_request_token_response;
+
+	OAuthLoginLinkFunc  get_login_link;
+
+	const char         *access_token_url;
+	OAuthResponseFunc   get_access_token_response;
+
+	const char         *check_token_url;
+	OAuthResponseFunc   check_token_response;
 } OAuthConsumer;
 
 #endif /* OAUTH_TYPES_H */
