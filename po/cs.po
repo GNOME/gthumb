@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-17 21:21+0200\n"
-"PO-Revision-Date: 2010-04-12 15:42+0200\n"
+"POT-Creation-Date: 2010-04-22 23:55+0200\n"
+"PO-Revision-Date: 2010-04-17 23:24+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -770,7 +770,7 @@ msgid "_Include sub-folders"
 msgstr "_Včetně podsložek"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-#: ../extensions/exiv2_tools/main.c:214
+#: ../extensions/exiv2_tools/main.c:217
 msgid "date photo was taken"
 msgstr "data pořízení fotografie"
 
@@ -3423,9 +3423,8 @@ msgid "_Filter..."
 msgstr "_Filtr…"
 
 #: ../gthumb/gth-browser-actions-entries.h:102
-#, fuzzy
 msgid "Stop loading the current location"
-msgstr "Přestat s načítáním tohoto místa"
+msgstr "Zastavit načítání současného místa"
 
 #: ../gthumb/gth-browser-actions-entries.h:107
 msgid "Reload the current location"
@@ -3448,13 +3447,12 @@ msgid "View next image"
 msgstr "Zobrazit následující obrázek"
 
 #: ../gthumb/gth-browser-actions-entries.h:122
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Začít v režimu celé obrazovky"
+msgstr "Přepnout na celou obrazovku"
 
 #: ../gthumb/gth-browser-actions-entries.h:127
 msgid "Leave Fullscreen"
-msgstr ""
+msgstr "Opustit celou obrazovku"
 
 #: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3023
 msgid "Go to the previous visited location"
