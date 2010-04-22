@@ -94,9 +94,6 @@ gboolean               gnome_desktop_thumbnail_factory_can_thumbnail (GnomeDeskt
 								      const char            *uri,
 								      const char            *mime_type,
 								      time_t                 mtime);
-GdkPixbuf *            gnome_desktop_thumbnail_factory_generate_thumbnail (GnomeDesktopThumbnailFactory *factory,
-									   const char            *uri,
-									   const char            *mime_type);
 GdkPixbuf *            gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory *factory,
 									   const char            *uri,
 									   const char            *mime_type);
