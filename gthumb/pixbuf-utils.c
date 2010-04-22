@@ -429,8 +429,8 @@ _gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
 	int        x_ratio, y_ratio;
 	int        temp_width = dest_width, temp_height = dest_height;
 
-	g_assert (dest_width > 1);
-	g_assert (dest_height > 1);
+	g_assert (dest_width >= 1);
+	g_assert (dest_height >= 1);
 
 	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
 	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
