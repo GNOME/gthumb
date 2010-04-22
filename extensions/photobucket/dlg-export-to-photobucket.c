@@ -54,6 +54,7 @@ typedef struct {
 	GtkWidget           *progress_dialog;
 	OAuthConnection     *conn;
 	OAuthAuthentication *auth;
+	PhotobucktService   *service;
 	PhotobucketUser     *user;
 	GList               *albums;
 	PhotobucketAlbum    *album;
@@ -367,8 +368,8 @@ authentication_accounts_changed_cb (PhotobucketAuthentication *auth,
 
 static void
 album_list_ready_cb (GObject      *source_object,
-			GAsyncResult *res,
-			gpointer      user_data)
+		     GAsyncResult *res,
+		     gpointer      user_data)
 {
 	DialogData *data = user_data;
 	GError     *error = NULL;
@@ -414,19 +415,18 @@ album_list_ready_cb (GObject      *source_object,
 
 
 static void
-authentication_ready_cb (PhotobucketAuthentication *auth,
-			 PhotobucketUser           *user,
-			 DialogData           *data)
+authentication_ready_cb (OAuthAuthentication *auth,
+			 DialogData          *data)
 {
 	_g_object_unref (data->user);
 	data->user = g_object_ref (user);
 	update_account_list (data);
 
 	photobucket_service_list_albums (data->service,
-				       NULL,
-				       data->cancellable,
-				       album_list_ready_cb,
-				       data);
+				         NULL,
+				         data->cancellable,
+				         album_list_ready_cb,
+				         data);
 }
 
 
@@ -434,7 +434,7 @@ static void
 edit_accounts_button_clicked_cb (GtkButton  *button,
 				 DialogData *data)
 {
-	photobucket_authentication_edit_accounts (data->auth, GTK_WINDOW (data->dialog));
+	oauth_authentication_edit_accounts (data->auth, GTK_WINDOW (data->dialog));
 }
 
 
@@ -442,9 +442,9 @@ static void
 account_combobox_changed_cb (GtkComboBox *widget,
 			     gpointer     user_data)
 {
-	DialogData    *data = user_data;
-	GtkTreeIter    iter;
-	PhotobucketAccount *account;
+	DialogData   *data = user_data;
+	GtkTreeIter   iter;
+	OAuthAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (widget, &iter))
 		return;
@@ -454,8 +454,8 @@ account_combobox_changed_cb (GtkComboBox *widget,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (photobucket_account_cmp (account, photobucket_authentication_get_account (data->auth)) != 0)
-		photobucket_authentication_connect (data->auth, account);
+	if (oauth_account_cmp (account, oauth_authentication_get_account (data->auth)) != 0)
+		oauth_authentication_connect (data->auth, account);
 
 	g_object_unref (account);
 }
@@ -475,7 +475,6 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	char       *title;
 
 	data = g_new0 (DialogData, 1);
-	data->server = server;
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-photobucket.ui", "photobucket");
@@ -533,7 +532,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (GET_WIDGET ("album_comboboxentry")))), g_file_info_get_edit_name (data->location->info));
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
-	title = g_strdup_printf (_("Export to %s"), data->server->name);
+	title = g_strdup_printf (_("Export to %s"), photobucket_consumer->display_name);
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
 
@@ -556,7 +555,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
 
-	data->conn = oauth_connection_new (photobucket_server);
+	data->conn = oauth_connection_new (photobucket_consumer);
 	data->service = photobucket_service_new (data->conn);
 	data->auth = oauth_authentication_new (data->conn,
 					       data->cancellable,
