@@ -581,6 +581,10 @@ dlg_photo_importer (GthBrowser *browser,
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
 
+	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
+				     -1,
+				     gdk_screen_get_height (gtk_widget_get_screen (GTK_WIDGET (data->dialog))) * 2 / 3);
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
