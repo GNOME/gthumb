@@ -1336,6 +1336,7 @@ load_data_continue (LoadData *load_data,
 	GthBrowser  *browser = load_data->browser;
 	GList       *files;
 	GFile       *loaded_folder;
+	gboolean     loaded_requested_folder;
 	GtkTreePath *path;
 	GthTest     *filter;
 
@@ -1351,11 +1352,13 @@ load_data_continue (LoadData *load_data,
 
 	loaded_folder = (GFile *) load_data->current->data;
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder, files);
+
+	loaded_requested_folder = g_file_equal (loaded_folder, load_data->requested_folder->file);
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder);
-	if ((path != NULL) && ! g_file_equal (loaded_folder, load_data->requested_folder->file))
+	if ((path != NULL) && ! loaded_requested_folder)
 		gth_folder_tree_expand_row (GTH_FOLDER_TREE (browser->priv->folder_tree), path, FALSE);
 
-	if (! g_file_equal (loaded_folder, load_data->requested_folder->file)) {
+	if (! loaded_requested_folder) {
 		gtk_tree_path_free (path);
 		_g_object_list_unref (files);
 

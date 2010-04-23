@@ -599,6 +599,40 @@ gth_folder_tree_get_iter (GthFolderTree *folder_tree,
 
 
 static gboolean
+_gth_folder_tree_get_child (GthFolderTree *folder_tree,
+			    GFile         *file,
+			    GtkTreeIter   *file_iter,
+			    GtkTreeIter   *parent)
+{
+	GtkTreeModel *tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
+	GtkTreeIter   iter;
+
+	if (! gtk_tree_model_iter_children (tree_model, &iter, parent))
+		return FALSE;
+
+	do {
+		GthFileData *test_file_data;
+		EntryType    file_entry_type;
+
+		gtk_tree_model_get (tree_model, &iter,
+				    COLUMN_FILE_DATA, &test_file_data,
+				    COLUMN_TYPE, &file_entry_type,
+				    -1);
+		if ((file_entry_type == ENTRY_TYPE_FILE) && (test_file_data != NULL) && g_file_equal (file, test_file_data->file)) {
+			_g_object_unref (test_file_data);
+			*file_iter = iter;
+			return TRUE;
+		}
+
+		_g_object_unref (test_file_data);
+	}
+	while (gtk_tree_model_iter_next (tree_model, &iter));
+
+	return FALSE;
+}
+
+
+static gboolean
 _gth_folder_tree_child_type_present (GthFolderTree *folder_tree,
 				     GtkTreeIter   *parent,
 				     EntryType      entry_type)
@@ -626,12 +660,13 @@ _gth_folder_tree_child_type_present (GthFolderTree *folder_tree,
 
 static void
 _gth_folder_tree_add_loading_item (GthFolderTree *folder_tree,
-				   GtkTreeIter   *parent)
+				   GtkTreeIter   *parent,
+				   gboolean       forced)
 {
 	char        *sort_key;
 	GtkTreeIter  iter;
 
-	if (_gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_LOADING))
+	if (! forced && _gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_LOADING))
 		return;
 
 	sort_key = g_utf8_collate_key_for_filename (LOADING_URI, -1);
@@ -651,12 +686,13 @@ _gth_folder_tree_add_loading_item (GthFolderTree *folder_tree,
 
 static void
 _gth_folder_tree_add_empty_item (GthFolderTree *folder_tree,
-				 GtkTreeIter   *parent)
+				 GtkTreeIter   *parent,
+				 gboolean       forced)
 {
 	char        *sort_key;
 	GtkTreeIter  iter;
 
-	if (_gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_EMPTY))
+	if (! forced && _gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_EMPTY))
 		return;
 
 	sort_key = g_utf8_collate_key_for_filename (EMPTY_URI, -1);
@@ -754,8 +790,8 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 				    COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 				    -1);
 
-	if (! _gth_folder_tree_iter_has_no_child (folder_tree, &iter))
-		_gth_folder_tree_add_loading_item (folder_tree, &iter);
+	if (! g_file_info_get_attribute_boolean (fd->info, "gthumb::no-child"))
+		_gth_folder_tree_add_loading_item (folder_tree, &iter, TRUE);
 
 	return TRUE;
 }
@@ -937,6 +973,7 @@ emit_fake_motion_notify_event (GthFolderTree *folder_tree)
 }
 
 
+G_GNUC_UNUSED
 static GList *
 _gth_folder_tree_get_children (GthFolderTree *folder_tree,
 			       GtkTreeIter   *parent)
@@ -994,15 +1031,17 @@ _gth_folder_tree_remove_child_type (GthFolderTree *folder_tree,
 
 void
 gth_folder_tree_set_children (GthFolderTree *folder_tree,
-			      GFile         *parent,
-			      GList         *files)
+			       GFile         *parent,
+			       GList         *files)
 {
-	GtkTreeIter  parent_iter;
-	GtkTreeIter *p_parent_iter;
-	gboolean     is_empty;
-	GList       *old_files;
-	GList       *scan;
-	GtkTreeIter  iter;
+	GtkTreeIter   parent_iter;
+	GtkTreeIter  *p_parent_iter;
+	gboolean      is_empty;
+	GHashTable   *file_hash;
+	GList        *scan;
+	GList        *old_files;
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
 
 	if (g_file_equal (parent, folder_tree->priv->root))
 		p_parent_iter = NULL;
@@ -1014,36 +1053,83 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	if (_gth_folder_tree_iter_has_no_child (folder_tree, p_parent_iter))
 		return;
 
+	tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
+
 	is_empty = TRUE;
-	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter);
-	_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_LOADING);
+	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter, FALSE);
 
-	/* delete the children not present in the new file list */
+	/* delete the children not present in the new file list, update the
+	 * already existing files */
 
-	old_files = _gth_folder_tree_get_children (folder_tree, p_parent_iter);
+	file_hash = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		g_hash_table_insert (file_hash, file_data->file, GINT_TO_POINTER (1));
+	}
+
+	old_files = NULL;
+	if (gtk_tree_model_iter_children (tree_model, &iter, p_parent_iter)) {
+		gboolean valid = TRUE;
+
+		do {
+			GthFileData *file_data;
+			EntryType    file_type;
+
+			gtk_tree_model_get (tree_model, &iter,
+					    COLUMN_FILE_DATA, &file_data,
+					    COLUMN_TYPE, &file_type,
+					    -1);
+
+			if (file_type == ENTRY_TYPE_LOADING) {
+				valid = gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
+			}
+			else if (file_type == ENTRY_TYPE_FILE) {
+				/* save the old files list to compute the new files list below */
+				old_files = g_list_prepend (old_files, g_object_ref (file_data));
+
+				if (g_hash_table_lookup (file_hash, file_data->file)) {
+					/* file_data is already present in the list, just update it */
+					if (_gth_folder_tree_set_file_data (folder_tree, &iter, file_data))
+						is_empty = FALSE;
+					valid = gtk_tree_model_iter_next (tree_model, &iter);
+				}
+				else {
+					/* file_data is not present anymore, remove it from the tree */
+					valid = gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
+				}
+			}
+			else
+				valid = gtk_tree_model_iter_next (tree_model, &iter);
+
+			_g_object_unref (file_data);
+		}
+		while (valid);
+	}
+
+	g_hash_table_unref (file_hash);
+
+	/* add the new files */
+
+	file_hash = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
 	for (scan = old_files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-
-		if (! gth_file_data_list_find_file (files, file_data->file)
-		    && gth_folder_tree_get_iter (folder_tree, file_data->file, &iter, p_parent_iter))
-		{
-			gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
-		}
+		g_hash_table_insert (file_hash, file_data->file, GINT_TO_POINTER (1));
 	}
-	_g_object_list_unref (old_files);
-
-	/* add or update the new files */
 
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (gth_folder_tree_get_iter (folder_tree, file_data->file, &iter, p_parent_iter)) {
-			if (_gth_folder_tree_set_file_data (folder_tree, &iter, file_data))
+		if (! g_hash_table_lookup (file_hash, file_data->file)) {
+			if (_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data))
 				is_empty = FALSE;
 		}
-		else if (_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data))
-			is_empty = FALSE;
 	}
+
+	_g_object_list_unref (old_files);
+	g_hash_table_unref (file_hash);
+
+	/**/
 
 	if (! is_empty)
 		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
@@ -1052,6 +1138,8 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 		gtk_tree_store_set (folder_tree->priv->tree_store, p_parent_iter,
 				    COLUMN_LOADED, TRUE,
 				    -1);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (folder_tree->priv->tree_store), COLUMN_NAME, GTK_SORT_ASCENDING);
 
 	emit_fake_motion_notify_event (folder_tree);
 }
@@ -1073,7 +1161,7 @@ gth_folder_tree_loading_children (GthFolderTree *folder_tree,
 	else
 		return;
 
-	_gth_folder_tree_add_loading_item (folder_tree, p_parent_iter);
+	_gth_folder_tree_add_loading_item (folder_tree, p_parent_iter, FALSE);
 
 	/* remove anything but the loading item */
 	gtk_tree_model_iter_children (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter, p_parent_iter);
@@ -1157,40 +1245,6 @@ gth_folder_tree_add_children (GthFolderTree *folder_tree,
 }
 
 
-static gboolean
-_gth_folder_tree_get_child (GthFolderTree *folder_tree,
-			    GFile         *file,
-			    GtkTreeIter   *file_iter,
-			    GtkTreeIter   *parent)
-{
-	GtkTreeModel *tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
-	GtkTreeIter   iter;
-
-	if (! gtk_tree_model_iter_children (tree_model, &iter, parent))
-		return FALSE;
-
-	do {
-		GthFileData *test_file_data;
-		EntryType    file_entry_type;
-
-		gtk_tree_model_get (tree_model, &iter,
-				    COLUMN_FILE_DATA, &test_file_data,
-				    COLUMN_TYPE, &file_entry_type,
-				    -1);
-		if ((file_entry_type == ENTRY_TYPE_FILE) && (test_file_data != NULL) && g_file_equal (file, test_file_data->file)) {
-			_g_object_unref (test_file_data);
-			*file_iter = iter;
-			return TRUE;
-		}
-
-		_g_object_unref (test_file_data);
-	}
-	while (gtk_tree_model_iter_next (tree_model, &iter));
-
-	return FALSE;
-}
-
-
 void
 gth_folder_tree_update_children (GthFolderTree *folder_tree,
 				 GFile         *parent,
@@ -1251,13 +1305,13 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 		return;
 
 	/* add the empty item first to not allow the folder to collapse. */
-	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter);
+	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter, TRUE);
 
 	for (scan = files; scan; scan = scan->next) {
 		GFile       *file = scan->data;
 		GtkTreeIter  iter;
 
-		if (gth_folder_tree_get_iter (folder_tree, file, &iter, p_parent_iter))
+		if (_gth_folder_tree_get_child (folder_tree, file, &iter, p_parent_iter))
 			gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
 	}
 
