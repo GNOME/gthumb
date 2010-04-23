@@ -674,20 +674,22 @@ _gth_folder_tree_add_empty_item (GthFolderTree *folder_tree,
 }
 
 
-static void
+static gboolean
 _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 				GtkTreeIter   *iter,
 				GthFileData   *file_data)
 {
-	GIcon      *icon;
-	GdkPixbuf  *pixbuf;
 	const char *name;
 	char       *sort_key;
+	GIcon      *icon;
+	GdkPixbuf  *pixbuf;
 
+	name = g_file_info_get_display_name (file_data->info);
+	if (name == NULL)
+		return FALSE;
+	sort_key = g_utf8_collate_key_for_filename (name, -1);
 	icon = g_file_info_get_icon (file_data->info);
 	pixbuf = gth_icon_cache_get_pixbuf (folder_tree->priv->icon_cache, icon);
-	name = g_file_info_get_display_name (file_data->info);
-	sort_key = g_utf8_collate_key_for_filename (name, -1);
 
 	gtk_tree_store_set (folder_tree->priv->tree_store, iter,
 			    COLUMN_STYLE, PANGO_STYLE_NORMAL,
@@ -703,6 +705,8 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 
 	g_free (sort_key);
 	_g_object_unref (pixbuf);
+
+	return TRUE;
 }
 
 
@@ -736,7 +740,10 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 	/* add the folder */
 
 	gtk_tree_store_append (folder_tree->priv->tree_store, &iter, parent);
-	_gth_folder_tree_set_file_data (folder_tree, &iter, fd);
+	if (! _gth_folder_tree_set_file_data (folder_tree, &iter, fd)) {
+		gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
+		return FALSE;
+	}
 
 	if (g_file_info_get_attribute_boolean (fd->info, "gthumb::entry-point"))
 		gtk_tree_store_set (folder_tree->priv->tree_store, &iter,
@@ -1031,8 +1038,8 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 		GthFileData *file_data = scan->data;
 
 		if (gth_folder_tree_get_iter (folder_tree, file_data->file, &iter, p_parent_iter)) {
-			_gth_folder_tree_set_file_data (folder_tree, &iter, file_data);
-			is_empty = FALSE;
+			if (_gth_folder_tree_set_file_data (folder_tree, &iter, file_data))
+				is_empty = FALSE;
 		}
 		else if (_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data))
 			is_empty = FALSE;
