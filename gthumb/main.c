@@ -406,6 +406,7 @@ main (int argc, char *argv[])
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));
 	g_option_context_add_group (context, egg_sm_client_get_option_group ());
 #ifdef HAVE_CLUTTER
+	g_option_context_add_group (context, cogl_get_option_group ());
 	g_option_context_add_group (context, clutter_get_option_group_without_init ());
 #endif
 	if (! g_option_context_parse (context, &argc, &argv, &error)) {
