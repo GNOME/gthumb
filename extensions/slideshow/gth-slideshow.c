@@ -338,7 +338,7 @@ image_preloader_requested_ready_cb (GthImagePreloader *preloader,
 	}
 
 	pixbuf = gth_image_loader_get_pixbuf (image_loader);
-	if (image_loader == NULL) {
+	if (pixbuf == NULL) {
 		_gth_slideshow_load_next_image (self);
 		return;
 	}
@@ -537,6 +537,18 @@ stage_input_cb (ClutterStage *stage,
 			g_source_remove (self->priv->hide_cursor_event);
 		self->priv->hide_cursor_event = g_timeout_add (HIDE_CURSOR_DELAY, hide_cursor_cb, self);
 	}
+	else if (event->type == CLUTTER_BUTTON_PRESS) {
+		switch (clutter_event_get_button (event)) {
+		case 1:
+			_gth_slideshow_load_next_image (self);
+			break;
+		case 3:
+			_gth_slideshow_load_prev_image (self);
+			break;
+		default:
+			break;
+		}
+	}
 	else if (event->type == CLUTTER_KEY_RELEASE) {
 		switch (clutter_event_get_key_symbol (event)) {
 		case CLUTTER_Escape:
@@ -592,7 +604,7 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 		return;
 
 #if HAVE_GSTREAMER
-	if (gstreamer_init()) {
+	if (gstreamer_init ()) {
 		if ((self->priv->audio_files != NULL) && (self->priv->audio_files[0] != NULL)) {
 			self->priv->current_audio_file = 0;
 			if (self->priv->playbin == NULL) {
@@ -622,7 +634,7 @@ _gth_slideshow_construct (GthSlideshow *self,
 			  GList        *file_list)
 {
 	GtkWidget    *embed;
-	ClutterColor  stage_color = { 0x0, 0x0, 0x0, 0xff };
+	ClutterColor  background_color = { 0x0, 0x0, 0x0, 0xff };
 
 	self->priv->browser = _g_object_ref (browser);
 	self->priv->file_list = _g_object_list_ref (file_list);
@@ -632,7 +644,8 @@ _gth_slideshow_construct (GthSlideshow *self,
 	embed = gtk_clutter_embed_new ();
 	self->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
 	clutter_stage_hide_cursor (CLUTTER_STAGE (self->stage));
-	clutter_stage_set_color (CLUTTER_STAGE (self->stage), &stage_color);
+	clutter_stage_set_color (CLUTTER_STAGE (self->stage), &background_color);
+	g_signal_connect (self->stage, "button-press-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "motion-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "key-release-event", G_CALLBACK (stage_input_cb), self);
 
