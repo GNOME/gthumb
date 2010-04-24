@@ -80,13 +80,15 @@
                                 <property name="model">group_by_liststore</property>
                                 <property name="active">0</property>
                                 <child>
-                                  <object class="GtkCellRendererPixbuf" id="cellrenderertext2"/>
+                                  <object class="GtkCellRendererPixbuf" id="cellrenderertext1">
+                                    <property name="xpad">3</property>
+                                  </object>
                                   <attributes>
                                     <attribute name="icon-name">2</attribute>
                                   </attributes>
                                 </child>
                                 <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
                                   <attributes>
                                     <attribute name="text">1</attribute>
                                   </attributes>
