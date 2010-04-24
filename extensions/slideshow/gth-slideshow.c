@@ -629,6 +629,75 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 
 
 static void
+gth_slideshow_size_allocate_cb (GtkWidget     *widget,
+				GtkAllocation *allocation,
+				gpointer       user_data)
+{
+	GthSlideshow   *self = user_data;
+	gfloat          stage_w, stage_h;
+	GthImageLoader *image_loader;
+	GdkPixbuf      *pixbuf;
+	GdkPixbuf      *image;
+	int             pixbuf_w, pixbuf_h;
+	int             pixbuf_x, pixbuf_y;
+	ClutterActor   *texture;
+
+	if (self->current_image == NULL)
+		return;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+	if ((stage_w == 0) || (stage_h == 0))
+		return;
+
+	image_loader = gth_image_preloader_get_loader (self->priv->preloader, (GthFileData *) self->priv->current->data);
+	if (image_loader == NULL)
+		return;
+
+	pixbuf = gth_image_loader_get_pixbuf (image_loader);
+	if (pixbuf == NULL)
+		return;
+
+	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
+				FALSE,
+				gdk_pixbuf_get_bits_per_sample (pixbuf),
+				stage_w,
+				stage_h);
+	gdk_pixbuf_fill (image, 0x000000ff);
+
+	pixbuf_w = gdk_pixbuf_get_width (pixbuf);
+	pixbuf_h = gdk_pixbuf_get_height (pixbuf);
+	scale_keeping_ratio (&pixbuf_w, &pixbuf_h, (int) stage_w, (int) stage_h, TRUE);
+	pixbuf_x = (stage_w - pixbuf_w) / 2;
+	pixbuf_y = (stage_h - pixbuf_h) / 2;
+
+	gdk_pixbuf_composite (pixbuf,
+			      image,
+			      pixbuf_x,
+			      pixbuf_y,
+			      pixbuf_w,
+			      pixbuf_h,
+			      pixbuf_x,
+			      pixbuf_y,
+			      (double) pixbuf_w / gdk_pixbuf_get_width (pixbuf),
+			      (double) pixbuf_h / gdk_pixbuf_get_height (pixbuf),
+			      GDK_INTERP_BILINEAR,
+			      255);
+
+	if (self->current_image == self->priv->image1)
+		texture = self->priv->image1;
+	else
+		texture = self->priv->image2;
+	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (texture), image, NULL);
+
+	self->current_geometry.x = 0;
+	self->current_geometry.y = 0;
+	self->current_geometry.width = stage_w;
+	self->current_geometry.height = stage_h;
+	_gth_slideshow_reset_textures_position (self);
+}
+
+
+static void
 _gth_slideshow_construct (GthSlideshow *self,
 			  GthBrowser   *browser,
 			  GList        *file_list)
@@ -669,6 +738,7 @@ _gth_slideshow_construct (GthSlideshow *self,
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
+	g_signal_connect (self, "size-allocate", G_CALLBACK (gth_slideshow_size_allocate_cb), self);
 }
 
 
