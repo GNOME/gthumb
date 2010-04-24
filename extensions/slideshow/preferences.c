@@ -102,6 +102,10 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	gtk_widget_show (data->preferences_page);
 	g_free (current_transition);
 
+#ifndef HAVE_CLUTTER
+	gtk_widget_hide (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "transition_box"));
+#endif /* ! HAVE_CLUTTER */
+
 	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "transition_combobox"),
 			  "changed",
 			  G_CALLBACK (transition_combobox_changed_cb),

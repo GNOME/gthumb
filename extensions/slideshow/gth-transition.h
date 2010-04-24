@@ -24,8 +24,6 @@
 #define GTH_TRANSITION_H
 
 #include <glib-object.h>
-#include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h>
 #include "gth-slideshow.h"
 
 G_BEGIN_DECLS
@@ -47,13 +45,13 @@ typedef void (*FrameFunc) (GthSlideshow *slideshow, int msecs);
 
 struct _GthTransition
 {
-	GtkWindow __parent;
+	GObject __parent;
 	GthTransitionPrivate *priv;
 };
 
 struct _GthTransitionClass
 {
-	GtkWindowClass __parent_class;
+	GObjectClass __parent_class;
 };
 
 GType             gth_transition_get_type         (void);

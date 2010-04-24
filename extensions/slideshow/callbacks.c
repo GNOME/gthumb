@@ -382,6 +382,10 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 	gtk_widget_show (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "playlist_box"));
 	gtk_widget_show (slideshow_preferences);
 
+#ifndef HAVE_CLUTTER
+	gtk_widget_hide (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "transition_box"));
+#endif /* ! HAVE_CLUTTER */
+
 	label = gtk_label_new (_("Slideshow"));
 	gtk_widget_show (label);
 

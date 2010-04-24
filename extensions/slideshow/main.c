@@ -29,6 +29,8 @@
 #include "preferences.h"
 
 
+#ifdef HAVE_CLUTTER
+
 #define VALUE_AT_MSECS(v, t)(((double) (v) * ((double) (t) / GTH_TRANSITION_DURATION)))
 
 
@@ -264,12 +266,13 @@ cube_from_bottom_transition (GthSlideshow *self,
 }
 
 
+#endif /* HAVE_CLUTTER */
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	if (ClutterInitResult != CLUTTER_INIT_SUCCESS)
-		return;
-
+#ifdef HAVE_CLUTTER
 	gth_main_register_object (GTH_TYPE_TRANSITION,
 				  "none",
 				  GTH_TYPE_TRANSITION,
@@ -324,6 +327,7 @@ gthumb_extension_activate (void)
 				  "display-name", _("Cube from bottom"),
 				  "frame-func", cube_from_bottom_transition,
 				  NULL);
+#endif /* HAVE_CLUTTER */
 
 	gth_hook_add_callback ("slideshow", 10, G_CALLBACK (ss__slideshow_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ss__gth_browser_construct_cb), NULL);

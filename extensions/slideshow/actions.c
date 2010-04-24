@@ -33,12 +33,13 @@ void
 gth_browser_activate_action_view_slideshow (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	GList       *items;
-	GList       *file_list;
-	GtkWidget   *slideshow;
-	GthFileData *location;
-	char        *transition_id;
-	GList       *transitions = NULL;
+	GList        *items;
+	GList        *file_list;
+	GthProjector *projector;
+	GtkWidget    *slideshow;
+	GthFileData  *location;
+	char         *transition_id;
+	GList        *transitions = NULL;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if ((items == NULL) || (items->next == NULL))
@@ -46,10 +47,18 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	else
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
-	slideshow = gth_slideshow_new (browser, file_list);
+	projector = NULL;
+#ifdef HAVE_CLUTTER
+	if (ClutterInitResult == CLUTTER_INIT_SUCCESS)
+		projector = &clutter_projector;
+#endif /* HAVE_CLUTTER */
+	if (projector == NULL)
+		projector = &default_projector;
+
+	slideshow = gth_slideshow_new (projector, browser, file_list);
 
 	location = gth_browser_get_location_data (browser);
-	if (g_file_info_get_attribute_status (location->info, "slideshow::personalize") == G_FILE_ATTRIBUTE_STATUS_SET) {
+	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize")) {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_int32 (location->info, "slideshow::delay"));
 		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::automatic"));
 		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::wrap-around"));

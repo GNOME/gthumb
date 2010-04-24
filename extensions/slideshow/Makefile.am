@@ -1,5 +1,3 @@
-if ENABLE_CLUTTER
-
 SUBDIRS = data
 
 extensiondir = $(pkglibdir)/extensions
@@ -31,8 +29,6 @@ libslideshow_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 extensioninidir = $(extensiondir)
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 DISTCLEANFILES = $(extensionini_DATA)
-
-endif
 
 extensionini_in_files = slideshow.extension.in.in
 

@@ -24,8 +24,10 @@
 #define GTH_SLIDESHOW_H
 
 #include <gthumb.h>
+#ifdef HAVE_CLUTTER
 #include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
+#endif /* HAVE_CLUTTER */
 
 G_BEGIN_DECLS
 
@@ -43,12 +45,14 @@ typedef struct _GthSlideshowPrivate  GthSlideshowPrivate;
 struct _GthSlideshow
 {
 	GtkWindow __parent;
+#ifdef HAVE_CLUTTER
 	ClutterActor        *stage;
 	ClutterActor        *current_image;
 	ClutterActor        *next_image;
 	ClutterGeometry      current_geometry;
 	ClutterGeometry      next_geometry;
 	gboolean             first_frame;
+#endif /* HAVE_CLUTTER */
 	GthSlideshowPrivate *priv;
 };
 
@@ -57,19 +61,36 @@ struct _GthSlideshowClass
 	GtkWindowClass __parent_class;
 };
 
+typedef struct {
+	void (* construct)       (GthSlideshow *self);
+	void (* paused)          (GthSlideshow *self);
+	void (* hide_cursor)     (GthSlideshow *self);
+	void (* finalize)        (GthSlideshow *self);
+	void (* image_ready)     (GthSlideshow *self,
+			          GdkPixbuf    *pixbuf);
+	void (* load_prev_image) (GthSlideshow *self);
+	void (* load_next_image) (GthSlideshow *self);
+} GthProjector;
+
+extern GthProjector default_projector;
+#ifdef HAVE_CLUTTER
+extern GthProjector clutter_projector;
+#endif /* HAVE_CLUTTER */
+
 GType            gth_slideshow_get_type        (void);
-GtkWidget *      gth_slideshow_new             (GthBrowser       *browser,
-					        GList            *file_list /* GthFileData */);
-void             gth_slideshow_set_delay       (GthSlideshow     *self,
-					        guint             msecs);
-void             gth_slideshow_set_automatic   (GthSlideshow     *self,
-					        gboolean          automatic);
-void             gth_slideshow_set_wrap_around (GthSlideshow     *self,
-					        gboolean          wrap_around);
-void             gth_slideshow_set_transitions (GthSlideshow     *self,
-					        GList            *transitions);
-void             gth_slideshow_set_playlist    (GthSlideshow     *self,
-						char            **files);
+GtkWidget *      gth_slideshow_new             (GthProjector  *projector,
+						GthBrowser    *browser,
+					        GList         *file_list /* GthFileData */);
+void             gth_slideshow_set_delay       (GthSlideshow  *self,
+					        guint          msecs);
+void             gth_slideshow_set_automatic   (GthSlideshow  *self,
+					        gboolean       automatic);
+void             gth_slideshow_set_wrap_around (GthSlideshow  *self,
+					        gboolean       wrap_around);
+void             gth_slideshow_set_transitions (GthSlideshow  *self,
+					        GList         *transitions);
+void             gth_slideshow_set_playlist    (GthSlideshow  *self,
+						char         **files);
 
 G_END_DECLS
 

@@ -34,9 +34,9 @@ enum {
 
 
 struct _GthTransitionPrivate {
-	char         *id;
-	char         *display_name;
-	FrameFunc     frame_func;
+	char      *id;
+	char      *display_name;
+	FrameFunc  frame_func;
 };
 
 
