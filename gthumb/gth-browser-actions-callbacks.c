@@ -283,11 +283,9 @@ void
 gth_browser_activate_action_folder_open (GtkAction  *action,
 					 GthBrowser *browser)
 {
-	GtkWidget   *folder_tree;
 	GthFileData *file_data;
 
-	folder_tree = gth_browser_get_folder_tree (browser);
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -301,12 +299,10 @@ void
 gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 						       GthBrowser *browser)
 {
-	GtkWidget   *folder_tree;
 	GthFileData *file_data;
 	GtkWidget   *new_browser;
 
-	folder_tree = gth_browser_get_folder_tree (browser);
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 

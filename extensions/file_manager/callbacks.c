@@ -693,7 +693,7 @@ clipboard_targets_received_cb (GtkClipboard *clipboard,
 
 	set_action_sensitive (data, "Edit_PasteInFolder", data->can_paste);
 
-	folder = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	folder = gth_browser_get_folder_popup_file_data (browser);
 	set_action_sensitive (data, "Folder_Paste", (folder != NULL) && data->can_paste && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
 
 	_g_object_unref (folder);
@@ -745,7 +745,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_Delete", sensitive);
 	set_action_sensitive (data, "Edit_Duplicate", sensitive);
 
-	folder = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	folder = gth_browser_get_folder_popup_file_data (browser);
 	set_action_sensitive (data, "Folder_Create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
 	set_action_sensitive (data, "Folder_Rename", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME));
 	set_action_sensitive (data, "Folder_Delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));

@@ -357,13 +357,6 @@ button_press_cb (GtkWidget      *widget,
 					     &cell_y))
 	{
 		if (event->button == 3) {
-			GtkTreeSelection *selection;
-
-			/* Update the selection. */
-
-			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-			gtk_tree_selection_unselect_all (selection);
-
 			g_signal_emit (folder_tree,
 				       gth_folder_tree_signals[FOLDER_POPUP],
 				       0,
@@ -394,18 +387,6 @@ button_press_cb (GtkWidget      *widget,
 				    -1);
 
 		if (entry_type == ENTRY_TYPE_FILE) {
-			GtkTreeSelection *selection;
-
-			/* Update the selection. */
-
-			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-			if (! gtk_tree_selection_iter_is_selected (selection, &iter)) {
-				gtk_tree_selection_unselect_all (selection);
-				gtk_tree_selection_select_iter (selection, &iter);
-			}
-
-			/* Show the folder popup menu. */
-
 			g_signal_emit (folder_tree,
 				       gth_folder_tree_signals[FOLDER_POPUP],
 				       0,

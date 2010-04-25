@@ -515,7 +515,7 @@ gth_browser_activate_action_folder_open_in_file_manager (GtkAction  *action,
 	char        *uri;
 	GError      *error = NULL;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -539,13 +539,11 @@ gth_browser_activate_action_folder_create (GtkAction  *action,
 {
 	GthFileData *parent;
 
-	parent = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
-	if (parent == NULL)
-		return;
-
-	_gth_browser_create_new_folder (browser, parent->file);
-
-	g_object_unref (parent);
+	parent = gth_browser_get_folder_popup_file_data (browser);
+	if (parent != NULL) {
+		_gth_browser_create_new_folder (browser, parent->file);
+		g_object_unref (parent);
+	}
 }
 
 
@@ -555,7 +553,7 @@ gth_browser_activate_action_folder_rename (GtkAction  *action,
 {
 	GthFileData *file_data;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -572,7 +570,7 @@ gth_browser_activate_action_folder_cut (GtkAction  *action,
 	GthFileData *file_data;
 	GList       *file_list;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -590,7 +588,7 @@ gth_browser_activate_action_folder_copy (GtkAction  *action,
 	GthFileData *file_data;
 	GList       *file_list;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -608,7 +606,7 @@ gth_browser_activate_action_folder_paste (GtkAction  *action,
 	GthFileData *file_data;
 	PasteData   *paste_data;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -717,7 +715,7 @@ gth_browser_activate_action_folder_trash (GtkAction  *action,
 	GthFileData *file_data;
 	GError      *error = NULL;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
@@ -771,7 +769,7 @@ gth_browser_activate_action_folder_delete (GtkAction  *action,
 	DeleteFolderData *delete_data;
 	GtkWidget        *d;
 
-	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
 		return;
 
