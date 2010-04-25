@@ -525,7 +525,7 @@ dlg_photo_importer (GthBrowser *browser,
 					"text", SOURCE_LIST_COLUMN_NAME,
 					NULL);
 
-	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
+	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	sort_type = gth_main_get_sort_type ("file::mtime");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), sort_type->cmp_func, FALSE);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
