@@ -101,6 +101,8 @@ void          gth_folder_tree_expand_row       (GthFolderTree   *folder_tree,
 void          gth_folder_tree_select_path      (GthFolderTree   *folder_tree,
 						GtkTreePath     *path);
 GFile *       gth_folder_tree_get_root         (GthFolderTree   *folder_tree);
+GthFileData * gth_folder_tree_get_file         (GthFolderTree   *folder_tree,
+						GtkTreePath     *path);
 GthFileData * gth_folder_tree_get_selected     (GthFolderTree   *folder_tree);
 GthFileData * gth_folder_tree_get_selected_or_parent
 					       (GthFolderTree   *folder_tree);

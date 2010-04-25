@@ -581,9 +581,9 @@ gth_file_list_construct (GthFileList     *file_list,
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
 
 	if (enable_drag_drop) {
-		GtkTargetList   *target_list;
-		GtkTargetEntry  *targets;
-		int              n_targets;
+		GtkTargetList  *target_list;
+		GtkTargetEntry *targets;
+		int             n_targets;
 
 		target_list = gtk_target_list_new (NULL, 0);
 		gtk_target_list_add_uri_targets (target_list, 0);

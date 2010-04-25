@@ -140,6 +140,17 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-folder-tree-popup-before", 3);
 
 	/**
+	 * Called after a drag-data-received event on the folder tree
+	 *
+	 * @browser (GthBrowser *): the relative window.
+	 * @destination (GthFileData *): the drop destination.
+	 * @file_list (GList *): the GFile list of the dropped files
+	 * @action (GdkDragAction): the drag action
+	 * pressed in an empty area.
+	 **/
+	gth_hook_register ("gth-browser-folder-tree-drag-data-received", 4);
+
+	/**
 	 * Called to view file
 	 *
 	 * @browser (GthBrowser*): the relative window.

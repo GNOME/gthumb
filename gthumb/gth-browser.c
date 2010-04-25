@@ -2270,6 +2270,80 @@ connect_proxy_cb (GtkUIManager *manager,
 
 
 static void
+folder_tree_drag_data_received (GtkWidget        *tree_view,
+				GdkDragContext   *context,
+				int               x,
+				int               y,
+				GtkSelectionData *selection_data,
+				guint             info,
+				guint             time,
+				gpointer          user_data)
+{
+	GthBrowser   *browser = user_data;
+	gboolean      success = FALSE;
+	GtkTreePath  *path;
+	GthFileData  *destination;
+	char        **uris;
+	GList        *file_list;
+
+	if ((context->suggested_action == GDK_ACTION_COPY)
+	    || (context->suggested_action == GDK_ACTION_MOVE))
+	{
+		success = TRUE;
+	}
+
+	if (! gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (browser->priv->folder_tree),
+						 x, y,
+						 &path,
+						 NULL))
+	{
+		success = FALSE;
+	}
+
+	gtk_drag_finish (context, success, FALSE, time);
+
+	if (! success)
+		return;
+
+	destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+	uris = gtk_selection_data_get_uris (selection_data);
+	file_list = _g_file_list_new_from_uriv (uris);
+	if (file_list != NULL)
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->suggested_action);
+
+	_g_object_list_unref (file_list);
+	g_strfreev (uris);
+	g_object_unref (destination);
+}
+
+
+static void
+folder_tree_drag_data_get_cb (GtkWidget        *widget,
+			      GdkDragContext   *drag_context,
+			      GtkSelectionData *data,
+			      guint             info,
+			      guint             time,
+			      gpointer          user_data)
+{
+	GthBrowser   *browser = user_data;
+	GthFileData  *file_data;
+	char        **uris;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (browser->priv->folder_tree));
+	if (file_data == NULL)
+		return;
+
+	uris = g_new (char *, 2);
+	uris[0] = g_file_get_uri (file_data->file);
+	uris[1] = NULL;
+	gtk_selection_data_set_uris (data, uris);
+
+	g_strfreev (uris);
+	g_object_unref (file_data);
+}
+
+
+static void
 folder_tree_open_cb (GthFolderTree *folder_tree,
 		     GFile         *file,
 		     GthBrowser    *browser)
@@ -3636,6 +3710,39 @@ _gth_browser_construct (GthBrowser *browser)
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), browser->priv->folder_tree);
 	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+
+	{
+		GtkTargetList  *target_list;
+		GtkTargetEntry *targets;
+		int             n_targets;
+
+		target_list = gtk_target_list_new (NULL, 0);
+		gtk_target_list_add_uri_targets (target_list, 0);
+		gtk_target_list_add_text_targets (target_list, 0);
+		targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+		gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (browser->priv->folder_tree),
+						      targets,
+						      n_targets,
+						      GDK_ACTION_MOVE | GDK_ACTION_COPY);
+		gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (browser->priv->folder_tree),
+							GDK_BUTTON1_MASK,
+							targets,
+							n_targets,
+							GDK_ACTION_MOVE | GDK_ACTION_COPY);
+
+		g_signal_connect (browser->priv->folder_tree,
+	                          "drag-data-received",
+	                          G_CALLBACK (folder_tree_drag_data_received),
+	                          browser);
+		g_signal_connect (browser->priv->folder_tree,
+				  "drag-data-get",
+				  G_CALLBACK (folder_tree_drag_data_get_cb),
+				  browser);
+
+		gtk_target_list_unref (target_list);
+		gtk_target_table_free (targets, n_targets);
+	}
 
 	g_signal_connect (browser->priv->folder_tree,
 			  "open",

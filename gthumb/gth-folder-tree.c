@@ -1400,6 +1400,34 @@ gth_folder_tree_expand_row (GthFolderTree *folder_tree,
 }
 
 
+GthFileData *
+gth_folder_tree_get_file (GthFolderTree *folder_tree,
+			  GtkTreePath   *path)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
+	EntryType     entry_type;
+	GthFileData  *file_data;
+
+	tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
+	if (! gtk_tree_model_get_iter (tree_model, &iter, path))
+			return NULL;
+
+	file_data = NULL;
+	gtk_tree_model_get (tree_model,
+			    &iter,
+			    COLUMN_TYPE, &entry_type,
+			    COLUMN_FILE_DATA, &file_data,
+			    -1);
+	if (entry_type != ENTRY_TYPE_FILE) {
+		_g_object_unref (file_data);
+		file_data = NULL;
+	}
+
+	return file_data;
+}
+
+
 void
 gth_folder_tree_select_path (GthFolderTree *folder_tree,
 			     GtkTreePath   *path)

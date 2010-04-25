@@ -673,6 +673,51 @@ fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 }
 
 
+void
+fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
+						   GthFileData   *destination,
+						   GList         *file_list,
+						   GdkDragAction  action)
+{
+	GthFileSource *file_source;
+	GthTask       *task;
+
+	file_source = gth_main_get_file_source (destination->file);
+	if (file_source == NULL)
+		return;
+
+	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source)) {
+		GtkWidget *dialog;
+		int        response;
+
+		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
+						  GTK_DIALOG_MODAL,
+						  GTK_STOCK_DIALOG_QUESTION,
+						  _("Could not move the files"),
+						  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
+						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						  GTK_STOCK_COPY, GTK_RESPONSE_OK,
+						  NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		if (response == GTK_RESPONSE_CANCEL)
+			return;
+
+		action = GDK_ACTION_COPY;
+	}
+
+	task = gth_copy_task_new (file_source,
+				  destination,
+				  (action == GDK_ACTION_MOVE),
+				  file_list);
+	gth_browser_exec_task (browser, task, FALSE);
+
+	g_object_unref (task);
+	g_object_unref (file_source);
+}
+
+
 static void
 clipboard_targets_received_cb (GtkClipboard *clipboard,
 			       GdkAtom      *atoms,

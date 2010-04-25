@@ -85,7 +85,7 @@ gth_hook_register (const char *name,
 	GthHook *hook;
 
 	g_return_if_fail (name != NULL);
-	g_return_if_fail ((n_args >= 0) || (n_args <= 3));
+	g_return_if_fail ((n_args >= 0) || (n_args <= 4));
 
 	if (g_hash_table_lookup (hooks, name) != NULL) {
 		g_warning ("hook '%s' already registered", name);
@@ -168,6 +168,7 @@ typedef void (*GthMarshaller0Args) (gpointer);
 typedef void (*GthMarshaller1Arg)  (gpointer, gpointer);
 typedef void (*GthMarshaller2Args) (gpointer, gpointer, gpointer);
 typedef void (*GthMarshaller3Args) (gpointer, gpointer, gpointer, gpointer);
+typedef void (*GthMarshaller4Args) (gpointer, gpointer, gpointer, gpointer, gpointer);
 
 
 static void
@@ -208,6 +209,16 @@ invoke_marshaller_3 (GHook    *hook,
 }
 
 
+static void
+invoke_marshaller_4 (GHook    *hook,
+                     gpointer  data)
+{
+	gpointer *marshal_data = data;
+
+	((GthMarshaller4Args) hook->func) (marshal_data[0], marshal_data[1], marshal_data[2], marshal_data[3], hook->data);
+}
+
+
 void
 gth_hook_invoke (const char *name,
 		 gpointer    first_data,
@@ -243,6 +254,9 @@ gth_hook_invoke (const char *name,
 	case 3:
 		invoke_marshaller = invoke_marshaller_3;
 		break;
+	case 4:
+		invoke_marshaller = invoke_marshaller_4;
+		break;
 	default:
 		invoke_marshaller = NULL;
 		break;
@@ -259,6 +273,7 @@ typedef void * (*GthMarshaller0ArgsGet) (gpointer);
 typedef void * (*GthMarshaller1ArgGet)  (gpointer, gpointer);
 typedef void * (*GthMarshaller2ArgsGet) (gpointer, gpointer, gpointer);
 typedef void * (*GthMarshaller3ArgsGet) (gpointer, gpointer, gpointer, gpointer);
+typedef void * (*GthMarshaller4ArgsGet) (gpointer, gpointer, gpointer, gpointer, gpointer);
 
 
 static void
@@ -305,6 +320,17 @@ invoke_marshaller_3_get (GHook    *hook,
 }
 
 
+static void
+invoke_marshaller_4_get (GHook    *hook,
+                         gpointer  data)
+{
+	gpointer *marshal_data = data;
+
+	if (marshal_data[4] == NULL)
+		marshal_data[4] = ((GthMarshaller4ArgsGet) hook->func) (marshal_data[0], marshal_data[1], marshal_data[2], marshal_data[3], hook->data);
+}
+
+
 void *
 gth_hook_invoke_get (const char *name,
 		     gpointer    first_data,
@@ -339,6 +365,9 @@ gth_hook_invoke_get (const char *name,
 		break;
 	case 3:
 		invoke_marshaller = invoke_marshaller_3_get;
+		break;
+	case 4:
+		invoke_marshaller = invoke_marshaller_4_get;
 		break;
 	default:
 		invoke_marshaller = NULL;
