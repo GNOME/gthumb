@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-17 19:22+0000\n"
-"PO-Revision-Date: 2010-04-18 08:03+0100\n"
+"POT-Creation-Date: 2010-04-24 21:39+0000\n"
+"PO-Revision-Date: 2010-04-25 11:30+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -348,9 +348,9 @@ msgid "Keep previous zoom"
 msgstr "Ohrani nastavljeno približanje"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:276
+#: ../extensions/slideshow/main.c:279
 msgid "None"
 msgstr "Brez"
 
@@ -652,7 +652,7 @@ msgstr "Ukazna vrstica"
 #: ../extensions/photo_importer/dlg-photo-importer.c:310
 #: ../extensions/photo_importer/dlg-photo-importer.c:352
 #: ../gthumb/gth-file-list.c:42
-#: ../gthumb/gth-folder-tree.c:668
+#: ../gthumb/gth-folder-tree.c:704
 msgid "(Empty)"
 msgstr "(Prazno)"
 
@@ -769,7 +769,7 @@ msgid "_Include sub-folders"
 msgstr "_Vključi podmape"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-#: ../extensions/exiv2_tools/main.c:214
+#: ../extensions/exiv2_tools/main.c:217
 msgid "date photo was taken"
 msgstr "Datum zajema fotografije"
 
@@ -1559,8 +1559,8 @@ msgid "_Paste Into Folder"
 msgstr "_Prilepi v mapo"
 
 #: ../extensions/file_manager/callbacks.c:796
-#: ../gthumb/gth-browser.c:4153
-#: ../gthumb/gth-browser.c:4191
+#: ../gthumb/gth-browser.c:4156
+#: ../gthumb/gth-browser.c:4194
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -1703,46 +1703,62 @@ msgstr "Prilagajanje barv"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 msgid "Square"
 msgstr "Kvadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:348
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (slika)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:351
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (zaslon)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:355
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (knjiga, DVD)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+msgid "5:4"
+msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:356
-msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (razglednica)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (knjiga, DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:357
-msgid "5 x 7"
-msgstr "5 x 7"
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+msgid "7:5"
+msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:358
-msgid "8 x 10"
-msgstr "8 x 10"
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
+msgid "3:2 (Postcard)"
+msgstr "3:2 (Razglednica)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:359
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
+msgid "1.85:1"
+msgstr "1.85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
+msgid "2.39:1"
+msgstr "2.39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop..."
 msgstr "Obreži ..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop"
 msgstr "Obreži"
 
@@ -1916,7 +1932,7 @@ msgstr "Pošiljanje slik na Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1779
+#: ../gthumb/gth-browser.c:1782
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
@@ -2589,7 +2605,7 @@ msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1692
+#: ../gthumb/gth-browser.c:1695
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
@@ -3027,9 +3043,9 @@ msgstr "Orodje iskanja datotek."
 msgid "View as a slideshow"
 msgstr "Ogled kot diaprojekcija"
 
-#: ../extensions/slideshow/callbacks.c:385
+#: ../extensions/slideshow/callbacks.c:389
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-#: ../extensions/slideshow/preferences.c:122
+#: ../extensions/slideshow/preferences.c:126
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Diaprojektcija"
@@ -3079,35 +3095,35 @@ msgstr "Zvočne datoteke"
 msgid "Random"
 msgstr "Naključno"
 
-#: ../extensions/slideshow/main.c:282
+#: ../extensions/slideshow/main.c:285
 msgid "Push from right"
 msgstr "Potisk z desne"
 
-#: ../extensions/slideshow/main.c:288
+#: ../extensions/slideshow/main.c:291
 msgid "Push from bottom"
 msgstr "Potisk od spodaj"
 
-#: ../extensions/slideshow/main.c:294
+#: ../extensions/slideshow/main.c:297
 msgid "Slide from right"
 msgstr "Diapozitiv z desne"
 
-#: ../extensions/slideshow/main.c:300
+#: ../extensions/slideshow/main.c:303
 msgid "Slide from bottom"
 msgstr "Diapozitiv od spodaj"
 
-#: ../extensions/slideshow/main.c:306
+#: ../extensions/slideshow/main.c:309
 msgid "Fade in"
 msgstr "Fade in"
 
-#: ../extensions/slideshow/main.c:312
+#: ../extensions/slideshow/main.c:315
 msgid "Flip page"
 msgstr "Obrni stran"
 
-#: ../extensions/slideshow/main.c:318
+#: ../extensions/slideshow/main.c:321
 msgid "Cube from right"
 msgstr "Kocka z desne"
 
-#: ../extensions/slideshow/main.c:324
+#: ../extensions/slideshow/main.c:327
 msgid "Cube from bottom"
 msgstr "Kocka od spodaj"
 
@@ -3394,17 +3410,17 @@ msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#: ../gthumb/gth-browser.c:3023
+#: ../gthumb/gth-browser.c:3026
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:137
-#: ../gthumb/gth-browser.c:3044
+#: ../gthumb/gth-browser.c:3047
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:142
-#: ../gthumb/gth-browser.c:3065
+#: ../gthumb/gth-browser.c:3068
 msgid "Go up one level"
 msgstr "Pojdi raven višje"
 
@@ -3520,60 +3536,60 @@ msgid "gthumb"
 msgstr "gThumb"
 
 #: ../gthumb/gth-browser.c:1068
-#: ../gthumb/gth-browser.c:1594
-#: ../gthumb/gth-browser.c:4917
-#: ../gthumb/gth-browser.c:4936
-#: ../gthumb/gth-browser.c:4961
+#: ../gthumb/gth-browser.c:1597
+#: ../gthumb/gth-browser.c:4920
+#: ../gthumb/gth-browser.c:4939
+#: ../gthumb/gth-browser.c:4964
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nisem mogel naložiti položaja  \"%s\""
 
-#: ../gthumb/gth-browser.c:1676
-#: ../gthumb/gth-browser.c:1703
+#: ../gthumb/gth-browser.c:1679
+#: ../gthumb/gth-browser.c:1706
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Primeren module za %s ni bil najden"
 
-#: ../gthumb/gth-browser.c:1821
+#: ../gthumb/gth-browser.c:1824
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Naj bodo spremembe datoteke '%s' shranjene?"
 
-#: ../gthumb/gth-browser.c:1826
+#: ../gthumb/gth-browser.c:1829
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "V primeru, da sprememb ne shranite, bodo te trajno izgubljene."
 
-#: ../gthumb/gth-browser.c:1827
+#: ../gthumb/gth-browser.c:1830
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2345
-#: ../gthumb/gth-browser.c:2369
+#: ../gthumb/gth-browser.c:2348
+#: ../gthumb/gth-browser.c:2372
 #: ../gthumb/gth-source-tree.c:179
 #: ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:2750
+#: ../gthumb/gth-browser.c:2753
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3024
-#: ../gthumb/gth-browser.c:3045
+#: ../gthumb/gth-browser.c:3027
+#: ../gthumb/gth-browser.c:3048
 msgid "View the list of visited locations"
 msgstr "Ogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3066
+#: ../gthumb/gth-browser.c:3069
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:4918
+#: ../gthumb/gth-browser.c:4921
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:4962
+#: ../gthumb/gth-browser.c:4965
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -3637,11 +3653,11 @@ msgstr "podajoče"
 msgid "No limit specified"
 msgstr "Omejitev ni določena"
 
-#: ../gthumb/gth-folder-tree.c:643
+#: ../gthumb/gth-folder-tree.c:678
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
-#: ../gthumb/gth-folder-tree.c:890
+#: ../gthumb/gth-folder-tree.c:933
 msgid "(Open Parent)"
 msgstr "(Odpri nadrejeno)"
 
@@ -3892,6 +3908,12 @@ msgstr "- Brskalnik in pregledovalnik slik"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 x 3 (knjiga, DVD)"
+#~ msgid "5 x 7"
+#~ msgstr "5 x 7"
+#~ msgid "8 x 10"
+#~ msgstr "8 x 10"
 #~ msgid "gtk-close"
 #~ msgstr "gtk-zapri"
 #~ msgid "gtk-edit"
@@ -4097,8 +4119,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "_Svetlost:"
 #~ msgid "_Scale"
 #~ msgstr "_Umeritev"
-#~ msgid "75"
-#~ msgstr "75"
 #~ msgid "<b>Background style</b>"
 #~ msgstr "<b>Slog ozadja</b>"
 #~ msgid "<b>Caption</b>"
@@ -4203,8 +4223,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "48 x 48"
 #~ msgid "4:"
 #~ msgstr "4:"
-#~ msgid "5:"
-#~ msgstr "5:"
 #~ msgid "64 x 64"
 #~ msgstr "64 x 64"
 #~ msgid "6:"
