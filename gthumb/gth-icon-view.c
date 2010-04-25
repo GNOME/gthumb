@@ -626,42 +626,6 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 }
 
 
-static void
-_gdk_pixbuf_set_transparency (GdkPixbuf *dest,
-			      GdkPixbuf *src,
-			      int        alpha_value)
-{
-	int     i, j;
-	int     width, height, has_alpha, srcrowstride, destrowstride;
-	guchar *target_pixels;
-	guchar *original_pixels;
-	guchar *pixsrc;
-	guchar *pixdest;
-
-	has_alpha       = gdk_pixbuf_get_has_alpha (src);
-	width           = gdk_pixbuf_get_width (src);
-	height          = gdk_pixbuf_get_height (src);
-	srcrowstride    = gdk_pixbuf_get_rowstride (src);
-	destrowstride   = gdk_pixbuf_get_rowstride (dest);
-	target_pixels   = gdk_pixbuf_get_pixels (dest);
-	original_pixels = gdk_pixbuf_get_pixels (src);
-
-	for (i = 0; i < height; i++) {
-		pixdest = target_pixels + i * destrowstride;
-		pixsrc  = original_pixels + i * srcrowstride;
-		for (j = 0; j < width; j++) {
-			*(pixdest++) = *(pixsrc++);
-			*(pixdest++) = *(pixsrc++);
-			*(pixdest++) = *(pixsrc++);
-			if (has_alpha) {
-				*(pixdest++) = (*pixsrc != 0) ? alpha_value : 0;
-				pixsrc++;
-			}
-		}
-	}
-}
-
-
 static gboolean
 icon_view_motion_notify_event_cb (GtkWidget      *widget,
 				  GdkEventButton *event,
@@ -724,7 +688,6 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 								      0, 0,
 								      i * offset, i * offset,
 								      width, height);
-				_gdk_pixbuf_set_transparency (multi_dnd_icon, multi_dnd_icon, 128);
 				gtk_drag_set_icon_pixbuf (context,
 							  multi_dnd_icon,
 							  width / 4,
