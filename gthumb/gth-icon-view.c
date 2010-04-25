@@ -568,7 +568,10 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 
 		pos = gtk_tree_path_get_indices (path)[0];
 
-		if (! (event->state & GDK_CONTROL_MASK) && gth_file_selection_is_selected (GTH_FILE_SELECTION (icon_view), pos)) {
+		if (icon_view->priv->drag_source_enabled &&
+		    ! (event->state & GDK_CONTROL_MASK)
+		    && gth_file_selection_is_selected (GTH_FILE_SELECTION (icon_view), pos))
+		{
 			icon_view->priv->selection_pending = TRUE;
 			icon_view->priv->selection_pending_pos = pos;
 			retval = TRUE;
@@ -632,6 +635,9 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 				  gpointer        user_data)
 {
 	GthIconView *icon_view = user_data;
+
+	if (! icon_view->priv->drag_source_enabled)
+		return FALSE;
 
 	if (icon_view->priv->dragging) {
 		if (! icon_view->priv->drag_started
