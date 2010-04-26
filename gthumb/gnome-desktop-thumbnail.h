@@ -90,10 +90,6 @@ char *                 gnome_desktop_thumbnail_factory_lookup   (GnomeDesktopThu
 gboolean               gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (GnomeDesktopThumbnailFactory *factory,
 										   const char            *uri,
 										   time_t                 mtime);
-gboolean               gnome_desktop_thumbnail_factory_can_thumbnail (GnomeDesktopThumbnailFactory *factory,
-								      const char            *uri,
-								      const char            *mime_type,
-								      time_t                 mtime);
 GdkPixbuf *            gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory *factory,
 									   const char            *uri,
 									   const char            *mime_type);
@@ -114,8 +110,6 @@ void                   gnome_desktop_thumbnail_factory_create_failed_thumbnail (
 										time_t                 mtime);
 
 /* Thumbnailing utils: */
-gboolean   gnome_desktop_thumbnail_has_uri           (GdkPixbuf          *pixbuf,
-						      const char         *uri);
 gboolean   gnome_desktop_thumbnail_is_valid          (GdkPixbuf          *pixbuf,
 						      const char         *uri,
 						      time_t              mtime);

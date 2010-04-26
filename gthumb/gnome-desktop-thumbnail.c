@@ -631,91 +631,6 @@ gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (GnomeDesktopThumbnai
   return res;
 }
 
-static gboolean
-mimetype_supported_by_gdk_pixbuf (const char *mime_type)
-{
-	guint i;
-	static GHashTable *formats_hash = NULL;
-
-	if (!formats_hash) {
-		GSList *formats, *list;
-
-		formats_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-		formats = gdk_pixbuf_get_formats ();
-		list = formats;
-
-		while (list) {
-			GdkPixbufFormat *format = list->data;
-			gchar **mime_types;
-
-			mime_types = gdk_pixbuf_format_get_mime_types (format);
-
-			for (i = 0; mime_types[i] != NULL; i++)
-				g_hash_table_insert (formats_hash,
-						     (gpointer) g_strdup (mime_types[i]),
-						     GUINT_TO_POINTER (1));
-
-			g_strfreev (mime_types);
-			list = list->next;
-		}
-		g_slist_free (formats);
-	}
-
-	if (g_hash_table_lookup (formats_hash, mime_type))
-		return TRUE;
-
-	return FALSE;
-}
-
-/**
- * gnome_desktop_thumbnail_factory_can_thumbnail:
- * @factory: a #GnomeDesktopThumbnailFactory
- * @uri: the uri of a file
- * @mime_type: the mime type of the file
- * @mtime: the mtime of the file
- *
- * Returns TRUE if this GnomeIconFactory can (at least try) to thumbnail
- * this file. Thumbnails or files with failed thumbnails won't be thumbnailed.
- *
- * Usage of this function is threadsafe.
- *
- * Return value: TRUE if the file can be thumbnailed.
- *
- * Since: 2.2
- **/
-gboolean
-gnome_desktop_thumbnail_factory_can_thumbnail (GnomeDesktopThumbnailFactory *factory,
-					       const char            *uri,
-					       const char            *mime_type,
-					       time_t                 mtime)
-{
-  gboolean have_script;
-
-  /* Don't thumbnail thumbnails */
-  if (uri &&
-      strncmp (uri, "file:/", 6) == 0 &&
-      strstr (uri, "/.thumbnails/") != NULL)
-    return FALSE;
-
-  if (!mime_type)
-    return FALSE;
-
-  g_mutex_lock (factory->priv->lock);
-  have_script = (factory->priv->scripts_hash != NULL &&
-                 g_hash_table_lookup (factory->priv->scripts_hash, mime_type));
-  g_mutex_unlock (factory->priv->lock);
-
-  if (have_script || mimetype_supported_by_gdk_pixbuf (mime_type))
-    {
-      return !gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (factory,
-                                                                          uri,
-                                                                          mtime);
-    }
-
-  return FALSE;
-}
-
 static char *
 expand_thumbnailing_script (const char *script,
 			    const int   size,
@@ -1284,29 +1199,6 @@ gnome_desktop_thumbnail_path_for_uri (const char         *uri,
   return path;
 }
 
-/**
-sa * @pixbuf: an loaded thumbnail pixbuf
- * @uri: a uri
- *
- * Returns whether the thumbnail has the correct uri embedded in the
- * Thumb::URI option in the png.
- *
- * Return value: TRUE if the thumbnail is for @uri
- *
- * Since: 2.2
- **/
-gboolean
-gnome_desktop_thumbnail_has_uri (GdkPixbuf          *pixbuf,
-				 const char         *uri)
-{
-  const char *thumb_uri;
-
-  thumb_uri = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::URI");
-  if (!thumb_uri)
-    return FALSE;
-
-  return strcmp (uri, thumb_uri) == 0;
-}
 
 /**
  * gnome_desktop_thumbnail_is_valid:
