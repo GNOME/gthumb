@@ -4947,6 +4947,7 @@ gth_browser_load_file (GthBrowser  *browser,
 			browser->priv->load_file_timeout = 0;
 			load_file_delayed_cb (data);
 		}
+		load_file_data_unref (data);
 		return;
 	}
 
