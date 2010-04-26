@@ -540,7 +540,24 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 	GthIconView *icon_view = user_data;
 	gboolean     retval = FALSE;
 
-	if (event->button == 1) {
+	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
+		GtkTreePath *path;
+
+		path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view), event->x, event->y);
+		if (path != NULL) {
+			if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+				stop_dragging (icon_view);
+				icon_view->priv->selection_pending = FALSE;
+
+				gtk_icon_view_item_activated (GTK_ICON_VIEW (icon_view), path);
+			}
+			gtk_tree_path_free (path);
+		}
+
+		return TRUE;
+	}
+
+	if ((event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
 		GtkTreePath *path;
 		int          pos;
 		int          new_selection_end;
@@ -577,6 +594,9 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 			retval = TRUE;
 		}
 
+		gtk_tree_path_free (path);
+		path = NULL;
+
 		new_selection_end = pos;
 		if (event->state & GDK_SHIFT_MASK) {
 			int    selection_start;
@@ -584,8 +604,6 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 			GList *list;
 			GList *scan;
 			int    i;
-
-			gtk_tree_path_free (path);
 
 			selection_start = MIN (icon_view->priv->selection_range_start, new_selection_end);
 			selection_end = MAX (new_selection_end, icon_view->priv->selection_range_start);

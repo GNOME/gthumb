@@ -4912,8 +4912,10 @@ load_file_delayed_cb (gpointer user_data)
 
 	load_file_data_ref (data);
 
-	g_source_remove (browser->priv->load_file_timeout);
-	browser->priv->load_file_timeout = 0;
+	if (browser->priv->load_file_timeout != 0) {
+		g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout = 0;
+	}
 
 	if (gth_browser_get_file_modified (browser)) {
 		load_file_data_ref (data);
@@ -4939,8 +4941,15 @@ gth_browser_load_file (GthBrowser  *browser,
 
 	data = load_file_data_new (browser, file_data, view);
 
-	if (browser->priv->load_file_timeout != 0)
-		g_source_remove (browser->priv->load_file_timeout);
+	if (browser->priv->load_file_timeout != 0) {
+		if (view) {
+			g_source_remove (browser->priv->load_file_timeout);
+			browser->priv->load_file_timeout = 0;
+			load_file_delayed_cb (data);
+		}
+		return;
+	}
+
 	browser->priv->load_file_timeout =
 			g_timeout_add_full (G_PRIORITY_DEFAULT,
 					    LOAD_FILE_DELAY,
