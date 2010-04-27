@@ -3725,12 +3725,11 @@ _gth_browser_construct (GthBrowser *browser)
 						      targets,
 						      n_targets,
 						      GDK_ACTION_MOVE | GDK_ACTION_COPY);
-		gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (browser->priv->folder_tree),
-							GDK_BUTTON1_MASK,
-							targets,
-							n_targets,
-							GDK_ACTION_MOVE | GDK_ACTION_COPY);
-
+		gth_folder_tree_enable_drag_source (GTH_FOLDER_TREE (browser->priv->folder_tree),
+						    GDK_BUTTON1_MASK,
+						    targets,
+						    n_targets,
+						    GDK_ACTION_MOVE | GDK_ACTION_COPY);
 		g_signal_connect (browser->priv->folder_tree,
 	                          "drag-data-received",
 	                          G_CALLBACK (folder_tree_drag_data_received),

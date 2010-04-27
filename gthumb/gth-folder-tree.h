@@ -65,47 +65,53 @@ struct _GthFolderTreeClass {
 			       const char    *new_name);
 };
 
-GType         gth_folder_tree_get_type         (void);
-GtkWidget *   gth_folder_tree_new              (const char      *uri);
-void          gth_folder_tree_set_list         (GthFolderTree   *folder_tree,
-						GFile           *root,
-						GList           *files,
-						gboolean         open_parent);
-void          gth_folder_tree_set_children     (GthFolderTree   *folder_tree,
-						GFile           *parent,
-						GList           *files /* GthFileData */);
-void          gth_folder_tree_loading_children (GthFolderTree   *folder_tree,
-						GFile           *parent);
-void          gth_folder_tree_add_children     (GthFolderTree   *folder_tree,
-						GFile           *parent,
-						GList           *files /* GthFileData */);
-void          gth_folder_tree_update_children  (GthFolderTree   *folder_tree,
-						GFile           *parent,
-						GList           *files /* GthFileData */);
-void          gth_folder_tree_update_child     (GthFolderTree   *folder_tree,
-						GFile           *file,
-						GthFileData     *file_data);
-void          gth_folder_tree_delete_children  (GthFolderTree   *folder_tree,
-						GFile           *parent,
-						GList           *files /* GFile */);
-void          gth_folder_tree_start_editing    (GthFolderTree   *folder_tree,
-						GFile           *file);
-GtkTreePath * gth_folder_tree_get_path         (GthFolderTree   *folder_tree,
-						GFile           *file);
-gboolean      gth_folder_tree_is_loaded        (GthFolderTree   *folder_tree,
-						GtkTreePath     *path);
-void          gth_folder_tree_reset_loaded     (GthFolderTree   *folder_tree);
-void          gth_folder_tree_expand_row       (GthFolderTree   *folder_tree,
-						GtkTreePath     *path,
-						gboolean         open_all);
-void          gth_folder_tree_select_path      (GthFolderTree   *folder_tree,
-						GtkTreePath     *path);
-GFile *       gth_folder_tree_get_root         (GthFolderTree   *folder_tree);
-GthFileData * gth_folder_tree_get_file         (GthFolderTree   *folder_tree,
-						GtkTreePath     *path);
-GthFileData * gth_folder_tree_get_selected     (GthFolderTree   *folder_tree);
+GType         gth_folder_tree_get_type           (void);
+GtkWidget *   gth_folder_tree_new                (const char           *uri);
+void          gth_folder_tree_set_list           (GthFolderTree        *folder_tree,
+						  GFile                *root,
+						  GList                *files,
+						  gboolean              open_parent);
+void          gth_folder_tree_set_children       (GthFolderTree        *folder_tree,
+						  GFile                *parent,
+						  GList                *files /* GthFileData */);
+void          gth_folder_tree_loading_children   (GthFolderTree        *folder_tree,
+						  GFile                *parent);
+void          gth_folder_tree_add_children       (GthFolderTree        *folder_tree,
+						  GFile                *parent,
+						  GList                *files /* GthFileData */);
+void          gth_folder_tree_update_children    (GthFolderTree        *folder_tree,
+						  GFile                *parent,
+						  GList                *files /* GthFileData */);
+void          gth_folder_tree_update_child       (GthFolderTree        *folder_tree,
+						  GFile                *file,
+						  GthFileData          *file_data);
+void          gth_folder_tree_delete_children    (GthFolderTree        *folder_tree,
+						  GFile                *parent,
+						  GList                *files /* GFile */);
+void          gth_folder_tree_start_editing      (GthFolderTree        *folder_tree,
+						  GFile                *file);
+GtkTreePath * gth_folder_tree_get_path           (GthFolderTree        *folder_tree,
+						  GFile                *file);
+gboolean      gth_folder_tree_is_loaded          (GthFolderTree        *folder_tree,
+						  GtkTreePath          *path);
+void          gth_folder_tree_reset_loaded       (GthFolderTree        *folder_tree);
+void          gth_folder_tree_expand_row         (GthFolderTree        *folder_tree,
+						  GtkTreePath          *path,
+						  gboolean              open_all);
+void          gth_folder_tree_select_path        (GthFolderTree        *folder_tree,
+						  GtkTreePath          *path);
+GFile *       gth_folder_tree_get_root           (GthFolderTree        *folder_tree);
+GthFileData * gth_folder_tree_get_file           (GthFolderTree        *folder_tree,
+						  GtkTreePath          *path);
+GthFileData * gth_folder_tree_get_selected       (GthFolderTree        *folder_tree);
 GthFileData * gth_folder_tree_get_selected_or_parent
-					       (GthFolderTree   *folder_tree);
+					         (GthFolderTree        *folder_tree);
+void          gth_folder_tree_enable_drag_source (GthFolderTree        *self,
+						  GdkModifierType       start_button_mask,
+						  const GtkTargetEntry *targets,
+						  int                   n_targets,
+						  GdkDragAction         actions);
+void          gth_folder_tree_unset_drag_source  (GthFolderTree        *self);
 
 G_END_DECLS
 

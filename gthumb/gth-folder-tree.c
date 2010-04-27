@@ -74,11 +74,23 @@ enum {
 
 struct _GthFolderTreePrivate
 {
-	GFile           *root;
-	GtkTreeStore    *tree_store;
-	GthIconCache    *icon_cache;
-	GtkCellRenderer *text_renderer;
-	GtkTreePath     *hover_path;
+	GFile            *root;
+	GtkTreeStore     *tree_store;
+	GthIconCache     *icon_cache;
+	GtkCellRenderer  *text_renderer;
+	GtkTreePath      *hover_path;
+
+	/* drag-and-drop */
+
+	gboolean         drag_source_enabled;
+	GdkModifierType  drag_start_button_mask;
+	GtkTargetList   *drag_target_list;
+	GdkDragAction    drag_actions;
+
+	gboolean         dragging : 1;        /* Whether the user is dragging items. */
+	gboolean         drag_started : 1;    /* Whether the drag has started. */
+	int              drag_start_x;        /* The position where the drag started. */
+	int              drag_start_y;
 };
 
 
@@ -94,6 +106,10 @@ gth_folder_tree_finalize (GObject *object)
 	folder_tree = GTH_FOLDER_TREE (object);
 
 	if (folder_tree->priv != NULL) {
+		if (folder_tree->priv->drag_target_list != NULL) {
+			gtk_target_list_unref (folder_tree->priv->drag_target_list);
+			folder_tree->priv->drag_target_list = NULL;
+		}
 		if (folder_tree->priv->root != NULL)
 			g_object_unref (folder_tree->priv->root);
 		gth_icon_cache_free (folder_tree->priv->icon_cache);
@@ -108,12 +124,16 @@ gth_folder_tree_finalize (GObject *object)
 static void
 gth_folder_tree_class_init (GthFolderTreeClass *class)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
 
+	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_folder_tree_finalize;
+
+	widget_class = (GtkWidgetClass*) class;
+	widget_class->drag_begin = NULL;
 
 	gth_folder_tree_signals[FOLDER_POPUP] =
 		g_signal_new ("folder_popup",
@@ -405,6 +425,19 @@ button_press_cb (GtkWidget      *widget,
 		int               expander_size;
 		int               horizontal_separator;
 
+		/* This can be the start of a dragging action. */
+
+		if (! (event->state & GDK_CONTROL_MASK)
+		    && ! (event->state & GDK_SHIFT_MASK)
+		    && folder_tree->priv->drag_source_enabled)
+		{
+			folder_tree->priv->dragging = TRUE;
+			folder_tree->priv->drag_start_x = event->x;
+			folder_tree->priv->drag_start_y = event->y;
+		}
+
+		/**/
+
 		if (! gtk_tree_view_column_cell_get_position (column,
 							      folder_tree->priv->text_renderer,
 							      &start_pos,
@@ -444,6 +477,87 @@ button_press_cb (GtkWidget      *widget,
 	gtk_tree_path_free (path);
 
 	return retval;
+}
+
+
+static gboolean
+motion_notify_event_cb (GtkWidget      *widget,
+			GdkEventButton *event,
+			gpointer        user_data)
+{
+	GthFolderTree *folder_tree = user_data;
+
+	if (! folder_tree->priv->drag_source_enabled)
+		return FALSE;
+
+	if (folder_tree->priv->dragging) {
+		if (! folder_tree->priv->drag_started
+		    && gtk_drag_check_threshold (widget,
+					         folder_tree->priv->drag_start_x,
+					         folder_tree->priv->drag_start_y,
+						 event->x,
+						 event->y))
+		{
+			GtkTreePath    *path = NULL;
+			GdkDragContext *context;
+			int             cell_x;
+			int             cell_y;
+			GdkPixmap      *dnd_icon;
+
+			if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (folder_tree),
+							     event->x,
+							     event->y,
+							     &path,
+							     NULL,
+							     &cell_x,
+							     &cell_y))
+			{
+				return FALSE;
+			}
+
+			gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree), path, NULL, FALSE);
+			folder_tree->priv->drag_started = TRUE;
+
+			/**/
+
+			context = gtk_drag_begin (widget,
+						  folder_tree->priv->drag_target_list,
+						  folder_tree->priv->drag_actions,
+						  1,
+						  (GdkEvent *) event);
+
+			dnd_icon = gtk_tree_view_create_row_drag_icon (GTK_TREE_VIEW (folder_tree), path);
+			gtk_drag_set_icon_pixmap (context,
+						  gdk_drawable_get_colormap (dnd_icon),
+						  dnd_icon,
+						  NULL,
+						  cell_x,
+						  cell_y);
+
+			g_object_unref (dnd_icon);
+			gtk_tree_path_free (path);
+		}
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+button_release_event_cb (GtkWidget      *widget,
+			 GdkEventButton *event,
+			 gpointer        user_data)
+{
+	GthFolderTree *folder_tree = user_data;
+
+	if (folder_tree->priv->dragging) {
+		folder_tree->priv->dragging = FALSE;
+		folder_tree->priv->drag_started = FALSE;
+	}
+
+	return FALSE;
 }
 
 
@@ -817,15 +931,23 @@ gth_folder_tree_construct (GthFolderTree *folder_tree)
 
 	/**/
 
-	g_signal_connect (G_OBJECT (folder_tree),
-			  "button_press_event",
+	g_signal_connect (folder_tree,
+			  "button-press-event",
 			  G_CALLBACK (button_press_cb),
 			  folder_tree);
-	g_signal_connect (G_OBJECT (folder_tree),
+	g_signal_connect (folder_tree,
+			  "motion-notify-event",
+			  G_CALLBACK (motion_notify_event_cb),
+			  folder_tree);
+	g_signal_connect (folder_tree,
+			  "button-release-event",
+			  G_CALLBACK (button_release_event_cb),
+			  folder_tree);
+	g_signal_connect (folder_tree,
 			  "row-activated",
 			  G_CALLBACK (row_activated_cb),
 			  folder_tree);
-	g_signal_connect (G_OBJECT (folder_tree),
+	g_signal_connect (folder_tree,
 			  "row-expanded",
 			  G_CALLBACK (row_expanded_cb),
 			  folder_tree);
@@ -836,6 +958,10 @@ static void
 gth_folder_tree_init (GthFolderTree *folder_tree)
 {
 	folder_tree->priv = g_new0 (GthFolderTreePrivate, 1);
+	folder_tree->priv->drag_source_enabled = FALSE;
+	folder_tree->priv->dragging = FALSE;
+	folder_tree->priv->drag_started = FALSE;
+	folder_tree->priv->drag_target_list = NULL;
 	gth_folder_tree_construct (folder_tree);
 }
 
@@ -1518,3 +1644,28 @@ gth_folder_tree_get_selected_or_parent (GthFolderTree *folder_tree)
 
 	return file_data;
 }
+
+
+void
+gth_folder_tree_enable_drag_source (GthFolderTree        *self,
+				    GdkModifierType       start_button_mask,
+				    const GtkTargetEntry *targets,
+				    int                   n_targets,
+				    GdkDragAction         actions)
+{
+	if (self->priv->drag_target_list != NULL)
+		gtk_target_list_unref (self->priv->drag_target_list);
+
+	self->priv->drag_source_enabled = TRUE;
+	self->priv->drag_start_button_mask = start_button_mask;
+	self->priv->drag_target_list = gtk_target_list_new (targets, n_targets);
+	self->priv->drag_actions = actions;
+}
+
+
+void
+gth_folder_tree_unset_drag_source (GthFolderTree *self)
+{
+	self->priv->drag_source_enabled = FALSE;
+}
+
