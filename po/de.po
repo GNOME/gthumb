@@ -6,13 +6,15 @@
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
 # Mario Blättermann <mariobl@gnome.org>, 2010.
 # Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2008, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-20 17:02+0200\n"
-"PO-Revision-Date: 2010-04-20 17:04+0200\n"
-"Last-Translator: Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&component=general\n"
+"POT-Creation-Date: 2010-04-23 14:04+0000\n"
+"PO-Revision-Date: 2010-04-27 22:42+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,17 +121,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
-"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
-"Miniatur-Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
+"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
+"Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
-"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
+"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -358,7 +360,7 @@ msgid "Keep previous zoom"
 msgstr "Letzte Vergrößerung beibehalten"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:276
 msgid "None"
@@ -886,13 +888,11 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40
-#: ../gthumb/gth-test-simple.c:48
+#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:48
 msgid "is"
 msgstr "ist"
 
-#: ../extensions/comments/gth-test-category.c:41
-#: ../gthumb/gth-test-simple.c:49
+#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:49
 msgid "is not"
 msgstr "ist nicht"
 
@@ -1314,17 +1314,6 @@ msgstr "Keine gültige Datei ausgewählt"
 msgid "Could not export the files"
 msgstr "Die Dateien konnten nicht exportiert werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:529
-#: ../extensions/flicker/dlg-export-to-flickr.c:523
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
-#: ../gthumb/gth-browser.c:880 ../gthumb/gth-browser.c:881
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d Datei (%s)"
-msgstr[1] "%d Dateien (%s)"
-
 #: ../extensions/facebook/dlg-export-to-facebook.c:548
 #: ../extensions/flicker/dlg-export-to-flickr.c:543
 #, c-format
@@ -1366,8 +1355,8 @@ msgid ""
 "authorization."
 msgstr ""
 "Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
-"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren "
-"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
+"zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
 #: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
@@ -1539,8 +1528,7 @@ msgstr "Der Ordner konnte nicht gelöscht werden"
 
 #: ../extensions/file_manager/actions.c:737
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
@@ -1743,47 +1731,66 @@ msgstr "Farbabgleich"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Helligkeit, Kontrast, Sättigung und Gammawert eines Bildes ändern"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 msgid "Square"
 msgstr "Quadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:348
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Bild)"
 
 # CHECK
-#: ../extensions/file_tools/gth-file-tool-crop.c:351
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Bildschirm)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:355
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (Buch, DVD)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+msgid "5:4"
+msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:356
-msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (Postkarte)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, Buch)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:357
-msgid "5 x 7"
-msgstr "5 x 7"
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+msgid "7:5"
+msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:358
-msgid "8 x 10"
-msgstr "8 x 10"
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
+#| msgid "4 x 6 (Postcard)"
+msgid "3:2 (Postcard)"
+msgstr "3:2 (Postkarte)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:359
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
+#| msgid "1:1"
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
+#| msgid "1:1"
+msgid "1.85:1"
+msgstr "1.85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
+msgid "2.39:1"
+msgstr "2.39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Benutzerdefiniert:"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop..."
 msgstr "Zuschneiden …"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop"
 msgstr "Zuschneiden"
 
@@ -1931,13 +1938,6 @@ msgstr "_Sicherheit:"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 msgid "_Import"
 msgstr "_Importieren"
-
-#: ../extensions/flicker/dlg-import-from-flickr.c:336
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d Datei"
-msgstr[1] "%d Dateien"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:360
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
@@ -2224,8 +2224,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -2236,9 +2236,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
-"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
-"mehr strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
+"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
+"strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
@@ -2254,8 +2254,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
-"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
+"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
@@ -3956,6 +3956,25 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
+
+#~ msgid "%d file (%s)"
+#~ msgid_plural "%d files (%s)"
+#~ msgstr[0] "%d Datei (%s)"
+#~ msgstr[1] "%d Dateien (%s)"
+
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 x 3 (Buch, DVD)"
+
+#~ msgid "5 x 7"
+#~ msgstr "5 x 7"
+
+#~ msgid "8 x 10"
+#~ msgstr "8 x 10"
+
+#~ msgid "%d file"
+#~ msgid_plural "%d files"
+#~ msgstr[0] "%d Datei"
+#~ msgstr[1] "%d Dateien"
 
 #~ msgid "gtk-close"
 #~ msgstr "gtk-close"
