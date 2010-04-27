@@ -470,13 +470,13 @@ preferences_button_clicked_cb (GtkWidget  *widget,
 	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
 }
 
-
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
 {
 	DialogData       *data;
 	GtkCellRenderer  *renderer;
+	GdkScreen        *screen;
 	GthFileDataSort  *sort_type;
 	GList            *tests, *scan;
 	char             *general_filter;
@@ -501,6 +501,17 @@ dlg_photo_importer (GthBrowser *browser,
 	data->dialog = _gtk_builder_get_widget (data->builder, "photo_importer_dialog");
 	gth_browser_set_dialog (browser, "photo_importer", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
+
+	screen = gtk_widget_get_screen (data->dialog);
+	if (screen && gdk_screen_get_height (screen) < 768) {
+		/* maximize on netbooks */
+		gtk_window_maximize (GTK_WINDOW (data->dialog));
+	} else {
+		/* This should fit on a XGA/WXGA (height 768) screen
+		 * with top and bottom panels */
+		gtk_window_set_default_size (GTK_WINDOW (data->dialog),
+					     580, 670);
+	}
 
 	data->source_store = gtk_list_store_new (SOURCE_LIST_COLUMNS, G_TYPE_OBJECT, G_TYPE_ICON, G_TYPE_STRING);
 	data->source_list = gtk_combo_box_new_with_model (GTK_TREE_MODEL (data->source_store));
@@ -580,10 +591,6 @@ dlg_photo_importer (GthBrowser *browser,
 
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
-
-	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
-				     -1,
-				     gdk_screen_get_height (gtk_widget_get_screen (GTK_WIDGET (data->dialog))) * 2 / 3);
 
 	/* Set the signals handlers. */
 

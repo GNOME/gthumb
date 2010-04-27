@@ -111,7 +111,6 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkHBox" id="filelist_box">
-                    <property name="width_request">550</property>
                     <property name="visible">True</property>
                     <property name="spacing">6</property>
                     <child>
