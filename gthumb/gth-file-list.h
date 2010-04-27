@@ -61,7 +61,8 @@ struct _GthFileListClass {
 };
 
 GType             gth_file_list_get_type         (void);
-GtkWidget *       gth_file_list_new              (GthFileListType       list_type);
+GtkWidget *       gth_file_list_new              (GthFileListType       list_type,
+						  gboolean              enable_drag_drop);
 void              gth_file_list_cancel           (GthFileList          *file_list,
 					          DataFunc              done_func,
 					          gpointer              user_data);

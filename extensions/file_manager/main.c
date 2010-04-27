@@ -34,6 +34,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("gth-browser-load-location-after", 10, G_CALLBACK (fm__gth_browser_load_location_after_cb), NULL);
 	gth_hook_add_callback ("gth-browser-set-current-page", 10, G_CALLBACK (fm__gth_browser_set_current_page_cb), NULL);
 	gth_hook_add_callback ("gth-browser-folder-tree-popup-before", 10, G_CALLBACK (fm__gth_browser_folder_tree_popup_before_cb), NULL);
+	gth_hook_add_callback ("gth-browser-folder-tree-drag-data-received", 10, G_CALLBACK (fm__gth_browser_folder_tree_drag_data_received_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (fm__gth_browser_update_sensitivity_cb), NULL);
 	gth_hook_add_callback ("gth-browser-realize", 10, G_CALLBACK (fm__gth_browser_realize_cb), NULL);
 	gth_hook_add_callback ("gth-browser-unrealize", 10, G_CALLBACK (fm__gth_browser_unrealize_cb), NULL);

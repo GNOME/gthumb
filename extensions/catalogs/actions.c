@@ -195,7 +195,7 @@ gth_browser_activate_action_catalog_new (GtkAction  *action,
 	if (name == NULL)
 		return;
 
-	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	selected_parent = gth_browser_get_folder_popup_file_data (browser);
 	if (selected_parent != NULL) {
 		GthFileSource *file_source;
 		GFileInfo     *info;
@@ -261,7 +261,7 @@ gth_browser_activate_action_catalog_new_library (GtkAction  *action,
 	if (name == NULL)
 		return;
 
-	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	selected_parent = gth_browser_get_folder_popup_file_data (browser);
 	if (selected_parent != NULL) {
 		GthFileSource *file_source;
 		GFileInfo     *info;
@@ -309,13 +309,11 @@ void
 gth_browser_activate_action_catalog_remove (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	GthFolderTree *folder_tree;
-	GthFileData   *file_data;
-	GFile         *gio_file;
-	GError        *error = NULL;
+	GthFileData *file_data;
+	GFile       *gio_file;
+	GError      *error = NULL;
 
-	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
-	file_data = gth_folder_tree_get_selected (folder_tree);
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	gio_file = gth_main_get_gio_file (file_data->file);
 	if (g_file_delete (gio_file, NULL, &error)) {
 		GFile *parent;
@@ -345,12 +343,10 @@ void
 gth_browser_activate_action_catalog_rename (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	GthFolderTree *folder_tree;
-	GthFileData   *file_data;
+	GthFileData *file_data;
 
-	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
-	file_data = gth_folder_tree_get_selected (folder_tree);
-	gth_folder_tree_start_editing (folder_tree, file_data->file);
+	file_data = gth_browser_get_folder_popup_file_data (browser);
+	gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file_data->file);
 
 	g_object_unref (file_data);
 }
@@ -360,11 +356,9 @@ void
 gth_browser_activate_action_catalog_properties (GtkAction  *action,
 						GthBrowser *browser)
 {
-	GthFolderTree *folder_tree;
-	GthFileData   *file_data;
+	GthFileData *file_data;
 
-	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
-	file_data = gth_folder_tree_get_selected (folder_tree);
+	file_data = gth_browser_get_folder_popup_file_data (browser);
 	dlg_catalog_properties (browser, file_data);
 
 	g_object_unref (file_data);

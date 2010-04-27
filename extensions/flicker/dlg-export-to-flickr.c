@@ -527,7 +527,7 @@ dlg_export_to_flickr (FlickrServer *server,
 
 	/* Set the widget data */
 
-	list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION);
+	list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (list_view), 112);
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (list_view))), 0);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (list_view), TRUE);

@@ -152,6 +152,7 @@ struct _GthBrowserPrivateData {
 	char              *list_attributes;
 	gboolean           constructed;
 	guint              selection_changed_event;
+	GthFileData       *folder_popup_file_data;
 
 	/* fulscreen */
 
@@ -2141,6 +2142,7 @@ gth_browser_finalize (GObject *object)
 		gth_icon_cache_free (browser->priv->menu_icon_cache);
 		g_hash_table_unref (browser->priv->named_dialogs);
 		g_free (browser->priv->list_attributes);
+		_g_object_unref (browser->priv->folder_popup_file_data);
 		g_free (browser->priv);
 		browser->priv = NULL;
 	}
@@ -2268,6 +2270,80 @@ connect_proxy_cb (GtkUIManager *manager,
 
 
 static void
+folder_tree_drag_data_received (GtkWidget        *tree_view,
+				GdkDragContext   *context,
+				int               x,
+				int               y,
+				GtkSelectionData *selection_data,
+				guint             info,
+				guint             time,
+				gpointer          user_data)
+{
+	GthBrowser   *browser = user_data;
+	gboolean      success = FALSE;
+	GtkTreePath  *path;
+	GthFileData  *destination;
+	char        **uris;
+	GList        *file_list;
+
+	if ((context->suggested_action == GDK_ACTION_COPY)
+	    || (context->suggested_action == GDK_ACTION_MOVE))
+	{
+		success = TRUE;
+	}
+
+	if (! gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (browser->priv->folder_tree),
+						 x, y,
+						 &path,
+						 NULL))
+	{
+		success = FALSE;
+	}
+
+	gtk_drag_finish (context, success, FALSE, time);
+
+	if (! success)
+		return;
+
+	destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+	uris = gtk_selection_data_get_uris (selection_data);
+	file_list = _g_file_list_new_from_uriv (uris);
+	if (file_list != NULL)
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->suggested_action);
+
+	_g_object_list_unref (file_list);
+	g_strfreev (uris);
+	g_object_unref (destination);
+}
+
+
+static void
+folder_tree_drag_data_get_cb (GtkWidget        *widget,
+			      GdkDragContext   *drag_context,
+			      GtkSelectionData *data,
+			      guint             info,
+			      guint             time,
+			      gpointer          user_data)
+{
+	GthBrowser   *browser = user_data;
+	GthFileData  *file_data;
+	char        **uris;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (browser->priv->folder_tree));
+	if (file_data == NULL)
+		return;
+
+	uris = g_new (char *, 2);
+	uris[0] = g_file_get_uri (file_data->file);
+	uris[1] = NULL;
+	gtk_selection_data_set_uris (data, uris);
+
+	g_strfreev (uris);
+	g_object_unref (file_data);
+}
+
+
+static void
 folder_tree_open_cb (GthFolderTree *folder_tree,
 		     GFile         *file,
 		     GthBrowser    *browser)
@@ -2316,6 +2392,9 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 	_gth_browser_set_action_sensitive (browser, "Folder_Open", sensitive);
 	_gth_browser_set_action_sensitive (browser, "Folder_OpenInNewWindow", sensitive);
 
+	_g_object_unref (browser->priv->folder_popup_file_data);
+	browser->priv->folder_popup_file_data = _g_object_ref (file_data);
+
 	if (file_data != NULL)
 		file_source = gth_main_get_file_source (file_data->file);
 	else
@@ -2332,6 +2411,13 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 			(guint32) time);
 
 	_g_object_unref (file_source);
+}
+
+
+GthFileData *
+gth_browser_get_folder_popup_file_data (GthBrowser *browser)
+{
+	return _g_object_ref (browser->priv->folder_popup_file_data);
 }
 
 
@@ -2482,7 +2568,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 }
 
 
-GList *
+static GList *
 _g_file_list_find_file_or_ancestor (GList *l,
 				    GFile *file)
 {
@@ -3519,7 +3605,7 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar, MAX (eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), DEF_VIEWER_SIDEBAR_WIDTH), -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, TRUE);
 
-	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL);
+	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
@@ -3625,6 +3711,38 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_container_add (GTK_CONTAINER (scrolled_window), browser->priv->folder_tree);
 	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
 
+	{
+		GtkTargetList  *target_list;
+		GtkTargetEntry *targets;
+		int             n_targets;
+
+		target_list = gtk_target_list_new (NULL, 0);
+		gtk_target_list_add_uri_targets (target_list, 0);
+		gtk_target_list_add_text_targets (target_list, 0);
+		targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+		gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (browser->priv->folder_tree),
+						      targets,
+						      n_targets,
+						      GDK_ACTION_MOVE | GDK_ACTION_COPY);
+		gth_folder_tree_enable_drag_source (GTH_FOLDER_TREE (browser->priv->folder_tree),
+						    GDK_BUTTON1_MASK,
+						    targets,
+						    n_targets,
+						    GDK_ACTION_MOVE | GDK_ACTION_COPY);
+		g_signal_connect (browser->priv->folder_tree,
+	                          "drag-data-received",
+	                          G_CALLBACK (folder_tree_drag_data_received),
+	                          browser);
+		g_signal_connect (browser->priv->folder_tree,
+				  "drag-data-get",
+				  G_CALLBACK (folder_tree_drag_data_get_cb),
+				  browser);
+
+		gtk_target_list_unref (target_list);
+		gtk_target_table_free (targets, n_targets);
+	}
+
 	g_signal_connect (browser->priv->folder_tree,
 			  "open",
 			  G_CALLBACK (folder_tree_open_cb),
@@ -3675,7 +3793,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the file list */
 
-	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
+	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, TRUE);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
 				    FALSE);
@@ -4793,8 +4911,10 @@ load_file_delayed_cb (gpointer user_data)
 
 	load_file_data_ref (data);
 
-	g_source_remove (browser->priv->load_file_timeout);
-	browser->priv->load_file_timeout = 0;
+	if (browser->priv->load_file_timeout != 0) {
+		g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout = 0;
+	}
 
 	if (gth_browser_get_file_modified (browser)) {
 		load_file_data_ref (data);
@@ -4820,8 +4940,16 @@ gth_browser_load_file (GthBrowser  *browser,
 
 	data = load_file_data_new (browser, file_data, view);
 
-	if (browser->priv->load_file_timeout != 0)
-		g_source_remove (browser->priv->load_file_timeout);
+	if (browser->priv->load_file_timeout != 0) {
+		if (view) {
+			g_source_remove (browser->priv->load_file_timeout);
+			browser->priv->load_file_timeout = 0;
+			load_file_delayed_cb (data);
+		}
+		load_file_data_unref (data);
+		return;
+	}
+
 	browser->priv->load_file_timeout =
 			g_timeout_add_full (G_PRIORITY_DEFAULT,
 					    LOAD_FILE_DELAY,

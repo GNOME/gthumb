@@ -516,15 +516,13 @@ checkbox_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 static void
 gth_file_list_construct (GthFileList     *file_list,
-			 GthFileListType  list_type)
+			 GthFileListType  list_type,
+			 gboolean         enable_drag_drop)
 {
 	GtkWidget       *scrolled;
 	GtkWidget       *viewport;
 	GtkCellRenderer *renderer;
 	GthFileStore    *model;
-	GtkTargetList   *target_list;
-	GtkTargetEntry  *targets;
-	int              n_targets;
 
 	file_list->priv->type = list_type;
 
@@ -582,23 +580,29 @@ gth_file_list_construct (GthFileList     *file_list,
 	else
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
 
-	target_list = gtk_target_list_new (NULL, 0);
-	gtk_target_list_add_uri_targets (target_list, 0);
-	gtk_target_list_add_text_targets (target_list, 0);
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-	gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
-					  GDK_BUTTON1_MASK,
-					  targets,
-					  n_targets,
-					  GDK_ACTION_MOVE | GDK_ACTION_COPY);
+	if (enable_drag_drop) {
+		GtkTargetList  *target_list;
+		GtkTargetEntry *targets;
+		int             n_targets;
 
-	gtk_target_list_unref (target_list);
-	gtk_target_table_free (targets, n_targets);
+		target_list = gtk_target_list_new (NULL, 0);
+		gtk_target_list_add_uri_targets (target_list, 0);
+		gtk_target_list_add_text_targets (target_list, 0);
+		targets = gtk_target_table_new_from_list (target_list, &n_targets);
+		gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
+						  GDK_BUTTON1_MASK,
+						  targets,
+						  n_targets,
+						  GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
-	g_signal_connect (G_OBJECT (file_list->priv->view),
-			  "drag-data-get",
-			  G_CALLBACK (file_view_drag_data_get_cb),
-			  file_list);
+		gtk_target_list_unref (target_list);
+		gtk_target_table_free (targets, n_targets);
+
+		g_signal_connect (G_OBJECT (file_list->priv->view),
+				  "drag-data-get",
+				  G_CALLBACK (file_view_drag_data_get_cb),
+				  file_list);
+	}
 
 	/* checkbox */
 
@@ -711,12 +715,13 @@ gth_file_list_get_type (void)
 
 
 GtkWidget*
-gth_file_list_new (GthFileListType list_type)
+gth_file_list_new (GthFileListType list_type,
+		   gboolean        enable_drag_drop)
 {
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (g_object_new (GTH_TYPE_FILE_LIST, NULL));
-	gth_file_list_construct (GTH_FILE_LIST (widget), list_type);
+	gth_file_list_construct (GTH_FILE_LIST (widget), list_type, enable_drag_drop);
 
 	return widget;
 }

@@ -169,6 +169,7 @@ void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
 void             gth_browser_file_menu_popup        (GthBrowser       *browser,
 						     GdkEventButton   *event);
+GthFileData *    gth_browser_get_folder_popup_file_data (GthBrowser *browser);
 
 /* protected methods */
 

@@ -540,7 +540,24 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 	GthIconView *icon_view = user_data;
 	gboolean     retval = FALSE;
 
-	if (event->button == 1) {
+	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
+		GtkTreePath *path;
+
+		path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view), event->x, event->y);
+		if (path != NULL) {
+			if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+				stop_dragging (icon_view);
+				icon_view->priv->selection_pending = FALSE;
+
+				gtk_icon_view_item_activated (GTK_ICON_VIEW (icon_view), path);
+			}
+			gtk_tree_path_free (path);
+		}
+
+		return TRUE;
+	}
+
+	if ((event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
 		GtkTreePath *path;
 		int          pos;
 		int          new_selection_end;
@@ -568,11 +585,17 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 
 		pos = gtk_tree_path_get_indices (path)[0];
 
-		if (! (event->state & GDK_CONTROL_MASK) && gth_file_selection_is_selected (GTH_FILE_SELECTION (icon_view), pos)) {
+		if (icon_view->priv->drag_source_enabled &&
+		    ! (event->state & GDK_CONTROL_MASK)
+		    && gth_file_selection_is_selected (GTH_FILE_SELECTION (icon_view), pos))
+		{
 			icon_view->priv->selection_pending = TRUE;
 			icon_view->priv->selection_pending_pos = pos;
 			retval = TRUE;
 		}
+
+		gtk_tree_path_free (path);
+		path = NULL;
 
 		new_selection_end = pos;
 		if (event->state & GDK_SHIFT_MASK) {
@@ -581,8 +604,6 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 			GList *list;
 			GList *scan;
 			int    i;
-
-			gtk_tree_path_free (path);
 
 			selection_start = MIN (icon_view->priv->selection_range_start, new_selection_end);
 			selection_end = MAX (new_selection_end, icon_view->priv->selection_range_start);
@@ -626,48 +647,15 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 }
 
 
-static void
-_gdk_pixbuf_set_transparency (GdkPixbuf *dest,
-			      GdkPixbuf *src,
-			      int        alpha_value)
-{
-	int     i, j;
-	int     width, height, has_alpha, srcrowstride, destrowstride;
-	guchar *target_pixels;
-	guchar *original_pixels;
-	guchar *pixsrc;
-	guchar *pixdest;
-
-	has_alpha       = gdk_pixbuf_get_has_alpha (src);
-	width           = gdk_pixbuf_get_width (src);
-	height          = gdk_pixbuf_get_height (src);
-	srcrowstride    = gdk_pixbuf_get_rowstride (src);
-	destrowstride   = gdk_pixbuf_get_rowstride (dest);
-	target_pixels   = gdk_pixbuf_get_pixels (dest);
-	original_pixels = gdk_pixbuf_get_pixels (src);
-
-	for (i = 0; i < height; i++) {
-		pixdest = target_pixels + i * destrowstride;
-		pixsrc  = original_pixels + i * srcrowstride;
-		for (j = 0; j < width; j++) {
-			*(pixdest++) = *(pixsrc++);
-			*(pixdest++) = *(pixsrc++);
-			*(pixdest++) = *(pixsrc++);
-			if (has_alpha) {
-				*(pixdest++) = (*pixsrc != 0) ? alpha_value : 0;
-				pixsrc++;
-			}
-		}
-	}
-}
-
-
 static gboolean
 icon_view_motion_notify_event_cb (GtkWidget      *widget,
 				  GdkEventButton *event,
 				  gpointer        user_data)
 {
 	GthIconView *icon_view = user_data;
+
+	if (! icon_view->priv->drag_source_enabled)
+		return FALSE;
 
 	if (icon_view->priv->dragging) {
 		if (! icon_view->priv->drag_started
@@ -724,7 +712,6 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 								      0, 0,
 								      i * offset, i * offset,
 								      width, height);
-				_gdk_pixbuf_set_transparency (multi_dnd_icon, multi_dnd_icon, 128);
 				gtk_drag_set_icon_pixbuf (context,
 							  multi_dnd_icon,
 							  width / 4,

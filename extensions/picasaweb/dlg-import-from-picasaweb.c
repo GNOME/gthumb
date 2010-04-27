@@ -945,7 +945,7 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 
 	/* Set the widget data */
 
-	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
+	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	thumb_loader = gth_file_list_get_thumb_loader (GTH_FILE_LIST (data->file_list));
 	gth_thumb_loader_use_cache (thumb_loader, FALSE);
 	gth_thumb_loader_set_loader (thumb_loader, picasa_web_thumbnail_loader);
