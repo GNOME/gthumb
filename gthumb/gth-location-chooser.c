@@ -261,6 +261,7 @@ update_entry_point_list (GthLocationChooser *chooser)
 	int    first_position;
 	int    i;
 	int    position;
+	GList *entry_points;
 	GList *scan;
 
 	if (! get_nth_separator_pos (chooser, 1, &first_position))
@@ -280,26 +281,20 @@ update_entry_point_list (GthLocationChooser *chooser)
 	}
 
 	position = first_position + 1;
-	for (scan = gth_main_get_all_file_sources (); scan; scan = scan->next) {
-		GthFileSource *file_source = scan->data;
-		GList         *entry_points;
-		GList         *scan_entry;
+	entry_points = gth_main_get_all_entry_points ();
+	for (scan = entry_points; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
 
-		entry_points = gth_file_source_get_entry_points (file_source);
-		for (scan_entry = entry_points; scan_entry; scan_entry = scan_entry->next) {
-			GthFileData *file_data = scan_entry->data;
-
-			add_file_source_entries (chooser,
-						 file_data->file,
-						 g_file_info_get_display_name (file_data->info),
-						 g_file_info_get_icon (file_data->info),
-						 position++,
-						 FALSE,
-						 ITEM_TYPE_ENTRY_POINT);
-		}
-
-		_g_object_list_unref (entry_points);
+		add_file_source_entries (chooser,
+					 file_data->file,
+					 g_file_info_get_display_name (file_data->info),
+					 g_file_info_get_icon (file_data->info),
+					 position++,
+					 FALSE,
+					 ITEM_TYPE_ENTRY_POINT);
 	}
+
+	_g_object_list_unref (entry_points);
 }
 
 
