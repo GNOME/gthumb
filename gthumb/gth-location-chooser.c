@@ -302,7 +302,7 @@ static void
 entry_points_changed_cb (GthMonitor         *monitor,
 			 GthLocationChooser *chooser)
 {
-	update_entry_point_list (chooser);
+	call_when_idle ((DataFunc) update_entry_point_list, chooser);
 }
 
 
