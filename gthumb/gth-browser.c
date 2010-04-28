@@ -2410,7 +2410,33 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 			3,
 			(guint32) time);
 
+	if (file_data != NULL) {
+		GtkTreePath *path;
+
+		path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), file_data->file);
+		gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+
+		gtk_tree_path_free (path);
+	}
+
 	_g_object_unref (file_source);
+}
+
+
+static void
+folder_popup_hide_cb (GtkWidget *widget,
+		      gpointer   user_data)
+{
+	GthBrowser  *browser = user_data;
+	GtkTreePath *path;
+
+	if (browser->priv->location == NULL)
+		return;
+
+	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
+	gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+
+	gtk_tree_path_free (path);
 }
 
 
@@ -3649,6 +3675,10 @@ _gth_browser_construct (GthBrowser *browser)
 #endif
 	gth_window_attach (GTH_WINDOW (browser), menubar, GTH_WINDOW_MENUBAR);
 	browser->priv->folder_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FolderListPopup");
+	g_signal_connect (browser->priv->folder_popup,
+			  "hide",
+			  G_CALLBACK (folder_popup_hide_cb),
+			  browser);
 
 	/* toolbar */
 
