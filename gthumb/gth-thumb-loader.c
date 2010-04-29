@@ -599,8 +599,10 @@ kill_thumbnailer_cb (gpointer data)
 {
 	GthThumbLoader *self = data;
 
-	g_source_remove (self->priv->thumbnailer_timeout);
-	self->priv->thumbnailer_timeout = 0;
+	if (self->priv->thumbnailer_timeout != 0) {
+		g_source_remove (self->priv->thumbnailer_timeout);
+		self->priv->thumbnailer_timeout = 0;
+	}
 
 	if (self->priv->thumbnailer_pid != 0) {
 		/*g_source_remove (self->priv->thumbnailer_watch);
@@ -746,6 +748,13 @@ gth_thumb_loader_cancel (GthThumbLoader *self,
 			 gpointer        done_func_data)
 {
 	g_return_if_fail (self->priv->iloader != NULL);
+
+	if (self->priv->thumbnailer_watch != 0) {
+		/* kill the thumbnailer script */
+		g_source_remove (self->priv->thumbnailer_watch);
+		self->priv->thumbnailer_watch = 0;
+		kill_thumbnailer_cb (self);
+	}
 
 	gth_image_loader_cancel (self->priv->iloader, done_func, done_func_data);
 }
