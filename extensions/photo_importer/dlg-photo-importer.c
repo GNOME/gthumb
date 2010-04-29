@@ -55,7 +55,7 @@ typedef struct {
 	GthFileSource *vfs_source;
 	DataFunc       done_func;
 	gboolean       cancelling;
-	gulong         monitor_event;
+	gulong         entry_points_changed_id;
 	GtkWidget     *filter_combobox;
 	GtkWidget     *tags_entry;
 	GList         *general_tests;
@@ -68,7 +68,7 @@ destroy_dialog (gpointer user_data)
 	DialogData *data = user_data;
 	gboolean    delete_imported;
 
-	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->entry_points_changed_id);
 
 	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
@@ -626,10 +626,10 @@ dlg_photo_importer (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
-	data->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
-						"entry_points_changed",
-						G_CALLBACK (entry_points_changed_cb),
-						data);
+	data->entry_points_changed_id = g_signal_connect (gth_main_get_default_monitor (),
+							  "entry-points-changed",
+							  G_CALLBACK (entry_points_changed_cb),
+							  data);
 
 	/* Run dialog. */
 
