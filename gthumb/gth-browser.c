@@ -1549,7 +1549,9 @@ get_nearest_entry_point (GFile *file)
 	GList *scan;
 	GList *entries;
 	char  *nearest_uri;
-	int    max_len;
+	char  *uri;
+	int    file_uri_len;
+	int    min_diff;
 	GFile *nearest;
 
 	entries = NULL;
@@ -1562,16 +1564,21 @@ get_nearest_entry_point (GFile *file)
 	}
 
 	nearest_uri = NULL;
-	max_len = 0;
+	uri = g_file_get_uri (file);
+	file_uri_len = strlen (uri);
+	min_diff = 0;
 	for (scan = entries; scan; scan = scan->next) {
 		char *entry_uri = scan->data;
 		int   entry_len = strlen (entry_uri);
+		int   diff;
 
-		if (entry_len > max_len) {
+		diff = abs (entry_len - file_uri_len);
+		if ((scan == entries) || (diff < min_diff)) {
+			min_diff = diff;
 			nearest_uri = entry_uri;
-			max_len = entry_len;
 		}
 	}
+	g_free (uri);
 
 	nearest = NULL;
 	if (nearest_uri != NULL)
@@ -2635,7 +2642,7 @@ folder_changed_cb (GthMonitor      *monitor,
 	gboolean     update_file_list;
 
 	if (browser->priv->location == NULL)
-			return;
+		return;
 
 	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
 		_gth_browser_load (browser, parent, NULL, GTH_ACTION_GO_TO, TRUE);
