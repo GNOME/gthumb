@@ -36,8 +36,7 @@
 #include "gtk-utils.h"
 
 #define DEFAULT_THUMBNAIL_SIZE 112
-#define N_THUMBS_PER_NOTIFICATION 15
-#define UPDATE_THUMBNAILS_TIMEOUT 150
+#define UPDATE_THUMBNAILS_TIMEOUT 200
 #define N_LOOKAHEAD 50
 #define EMPTY (N_("(Empty)"))
 #define THUMBNAIL_BORDER (8 * 2)
@@ -336,6 +335,15 @@ flash_queue_cb (gpointer data)
 
 
 static void
+queue_flash_updates (GthFileList *file_list)
+{
+	file_list->priv->dirty = TRUE;
+	if (file_list->priv->dirty_event == 0)
+		file_list->priv->dirty_event = g_timeout_add (UPDATE_THUMBNAILS_TIMEOUT, flash_queue_cb, file_list);
+}
+
+
+static void
 update_thumb_in_file_view (GthFileList *file_list)
 {
 	GthFileStore *file_store;
@@ -353,9 +361,7 @@ update_thumb_in_file_view (GthFileList *file_list)
 						  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
 						  GTH_FILE_STORE_IS_ICON_COLUMN, FALSE,
 						  -1);
-			file_list->priv->dirty = TRUE;
-			if (file_list->priv->dirty_event == 0)
-				file_list->priv->dirty_event = g_timeout_add (UPDATE_THUMBNAILS_TIMEOUT, flash_queue_cb, file_list);
+			queue_flash_updates (file_list);
 		}
 	}
 }
@@ -382,6 +388,7 @@ set_mime_type_icon (GthFileList *file_list,
 				  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
 				  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
 				  -1);
+	queue_flash_updates (file_list);
 
 	_g_object_unref (pixbuf);
 }
@@ -1327,6 +1334,7 @@ set_loading_icon (GthFileList *file_list,
 				  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
 				  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
 				  -1);
+	queue_flash_updates (file_list);
 
 	_g_object_unref (pixbuf);
 	g_object_unref (icon);
