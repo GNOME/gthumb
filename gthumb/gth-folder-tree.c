@@ -650,44 +650,85 @@ column_name_compare_func (GtkTreeModel *model,
 
 
 static gboolean
+iter_stores_file (GtkTreeModel *tree_model,
+	          GtkTreeIter  *iter,
+	          GFile        *file,
+	          GtkTreeIter  *file_iter)
+{
+	GthFileData *iter_file_data;
+	EntryType    iter_type;
+	gboolean     found;
+
+	gtk_tree_model_get (tree_model, iter,
+			    COLUMN_FILE_DATA, &iter_file_data,
+			    COLUMN_TYPE, &iter_type,
+			    -1);
+	found = (iter_type == ENTRY_TYPE_FILE) && (iter_file_data != NULL) && g_file_equal (file, iter_file_data->file);
+
+	_g_object_unref (iter_file_data);
+
+	if (found)
+		*file_iter = *iter;
+
+	return found;
+}
+
+
+static gboolean
+_gth_folder_tree_find_file_in_children (GtkTreeModel *tree_model,
+				        GFile        *file,
+				        GtkTreeIter  *file_iter,
+				        GtkTreeIter  *root)
+{
+	GtkTreeIter iter;
+
+	/* check the children... */
+
+	if (! gtk_tree_model_iter_children (tree_model, &iter, root))
+		return FALSE;
+
+	do {
+		if (iter_stores_file (tree_model, &iter, file, file_iter))
+			return TRUE;
+	}
+	while (gtk_tree_model_iter_next (tree_model, &iter));
+
+	/* ...if no child stores the file, search recursively */
+
+	if (gtk_tree_model_iter_children (tree_model, &iter, root)) {
+		do {
+			if (_gth_folder_tree_find_file_in_children (tree_model, file, file_iter, &iter))
+				return TRUE;
+		}
+		while (gtk_tree_model_iter_next (tree_model, &iter));
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
 gth_folder_tree_get_iter (GthFolderTree *folder_tree,
 			  GFile         *file,
 			  GtkTreeIter   *file_iter,
 			  GtkTreeIter   *root)
 {
 	GtkTreeModel *tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
-	GtkTreeIter   iter;
 
 	if (file == NULL)
 		return FALSE;
 
-	if (root != NULL) {
-		GthFileData *root_file_data;
-		EntryType    root_type;
-		gboolean     found;
+	if ((root != NULL) && iter_stores_file (tree_model, root, file, file_iter))
+		return TRUE;
 
-		gtk_tree_model_get (tree_model, root,
-				    COLUMN_FILE_DATA, &root_file_data,
-				    COLUMN_TYPE, &root_type,
-				    -1);
-		found = (root_type == ENTRY_TYPE_FILE) && (root_file_data != NULL) && g_file_equal (file, root_file_data->file);
+	/* This type of search is useful to give priority to the first level
+	 * of entries which contains all the entry points.
+	 * For example if file is "file:///media/usb-disk" this function must
+	 * return the entry point corresponding to the device instead of
+	 * returing the usb-disk folder located in "file:///media". */
 
-		_g_object_unref (root_file_data);
-
-		if (found) {
-			*file_iter = *root;
-			return TRUE;
-		}
-	}
-
-	if (! gtk_tree_model_iter_children (tree_model, &iter, root))
-		return FALSE;
-
-	do {
-		if (gth_folder_tree_get_iter (folder_tree, file, file_iter, &iter))
-			return TRUE;
-	}
-	while (gtk_tree_model_iter_next (tree_model, &iter));
+	if (_gth_folder_tree_find_file_in_children (tree_model, file, file_iter, root))
+		return TRUE;
 
 	return FALSE;
 }
@@ -1169,10 +1210,10 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	/* delete the children not present in the new file list, update the
 	 * already existing files */
 
-	file_hash = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
+	file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-		g_hash_table_insert (file_hash, file_data->file, GINT_TO_POINTER (1));
+		g_hash_table_insert (file_hash, g_object_ref (file_data->file), GINT_TO_POINTER (1));
 	}
 
 	old_files = NULL;
@@ -1180,7 +1221,7 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 		gboolean valid = TRUE;
 
 		do {
-			GthFileData *file_data;
+			GthFileData *file_data = NULL;
 			EntryType    file_type;
 
 			gtk_tree_model_get (tree_model, &iter,
@@ -1218,10 +1259,10 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 
 	/* add the new files */
 
-	file_hash = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
+	file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	for (scan = old_files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-		g_hash_table_insert (file_hash, file_data->file, GINT_TO_POINTER (1));
+		g_hash_table_insert (file_hash, g_object_ref (file_data->file), GINT_TO_POINTER (1));
 	}
 
 	for (scan = files; scan; scan = scan->next) {
