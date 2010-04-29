@@ -306,7 +306,7 @@ mount_monitor_mountpoints_changed_cb (GVolumeMonitor *volume_monitor,
 				      GMount         *mount,
 				      gpointer        user_data)
 {
-	gth_monitor_file_entry_points_changed (gth_main_get_default_monitor ());
+	call_when_idle ((DataFunc) gth_monitor_file_entry_points_changed, gth_main_get_default_monitor ());
 }
 
 
