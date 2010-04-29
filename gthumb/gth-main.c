@@ -342,20 +342,10 @@ gth_main_get_all_entry_points (void)
 
 	for (scan = gth_main_get_all_file_sources (); scan; scan = scan->next) {
 		GthFileSource *file_source = scan->data;
-		GList         *entry_points;
-		GList         *scan_entry;
-
-		entry_points = gth_file_source_get_entry_points (file_source);
-		for (scan_entry = entry_points; scan_entry; scan_entry = scan_entry->next) {
-			GthFileData *file_data = scan_entry->data;
-
-			list = g_list_prepend (list, g_object_ref (file_data));
-		}
-
-		_g_object_list_unref (entry_points);
+		list = g_list_concat (list, gth_file_source_get_entry_points (file_source));
 	}
 
-	return g_list_reverse (list);
+	return list;
 }
 
 
