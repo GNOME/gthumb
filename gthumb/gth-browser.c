@@ -2904,7 +2904,7 @@ static void
 entry_points_changed_cb (GthMonitor *monitor,
 			 GthBrowser *browser)
 {
-	_gth_browser_update_entry_point_list (browser);
+	call_when_idle ((DataFunc) _gth_browser_update_entry_point_list, browser);
 }
 
 
