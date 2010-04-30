@@ -832,8 +832,10 @@ gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFacto
 	}
 	g_mutex_unlock (factory->priv->lock);
 
-	if (script == NULL)
+	if (script == NULL) {
+		*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "No script");
 		return FALSE;
+	}
 
 	fd = g_file_open_tmp (".gnome_desktop_thumbnail.XXXXXX", tmpname, error);
 	if (fd == -1)
