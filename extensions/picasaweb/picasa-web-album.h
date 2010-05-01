@@ -49,6 +49,7 @@ struct _PicasaWebAlbum {
 	char            *title;
 	char            *summary;
 	char            *location;
+	char            *alternate_url;
 	char            *edit_url;
 	PicasaWebAccess  access;
 	int              n_photos;
@@ -72,6 +73,8 @@ void              picasa_web_album_set_title         (PicasaWebAlbum *self,
 void              picasa_web_album_set_summary       (PicasaWebAlbum *self,
 						      const char     *value);
 void              picasa_web_album_set_location      (PicasaWebAlbum *self,
+						      const char     *value);
+void              picasa_web_album_set_alternate_url (PicasaWebAlbum *self,
 						      const char     *value);
 void              picasa_web_album_set_edit_url      (PicasaWebAlbum *self,
 						      const char     *value);

@@ -117,6 +117,7 @@ picasa_web_album_load_from_element (DomDomizable *base,
 	picasa_web_album_set_id (self, NULL);
 	picasa_web_album_set_title (self, NULL);
 	picasa_web_album_set_summary (self, NULL);
+	picasa_web_album_set_alternate_url (self, NULL);
 	picasa_web_album_set_edit_url (self, NULL);
 	picasa_web_album_set_access (self, NULL);
 	self->n_photos = 0;
@@ -140,6 +141,8 @@ picasa_web_album_load_from_element (DomDomizable *base,
 		else if (g_strcmp0 (node->tag_name, "link") == 0) {
 			if (g_strcmp0 (dom_element_get_attribute (node, "rel"), "edit") == 0)
 				picasa_web_album_set_edit_url (self, dom_element_get_attribute (node, "href"));
+			else if (g_strcmp0 (dom_element_get_attribute (node, "rel"), "alternate") == 0)
+				picasa_web_album_set_alternate_url (self, dom_element_get_attribute (node, "href"));
 		}
 		else if (g_strcmp0 (node->tag_name, "gphoto:access") == 0) {
 			picasa_web_album_set_access (self, dom_element_get_inner_text (node));
@@ -260,6 +263,14 @@ picasa_web_album_set_location (PicasaWebAlbum *self,
 			       const char     *value)
 {
 	_g_strset (&self->location, value);
+}
+
+
+void
+picasa_web_album_set_alternate_url (PicasaWebAlbum *self,
+				    const char     *value)
+{
+	_g_strset (&self->alternate_url, value);
 }
 
 

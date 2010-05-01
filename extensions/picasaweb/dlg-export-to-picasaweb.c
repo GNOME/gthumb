@@ -37,6 +37,7 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
+#define _OPEN_IN_BROWSER_RESPONSE 1
 
 
 enum {
@@ -62,6 +63,7 @@ typedef struct {
 	GList            *file_list;
 	GtkBuilder       *builder;
 	GtkWidget        *dialog;
+	GtkWidget        *list_view;
 	GtkWidget        *progress_dialog;
 	GList            *accounts;
 	PicasaWebUser    *user;
@@ -71,17 +73,20 @@ typedef struct {
 	GList            *albums;
 	GoogleConnection *conn;
 	PicasaWebService *picasaweb;
+	PicasaWebAlbum   *album;
 	GCancellable     *cancellable;
 } DialogData;
 
 
 static void
-export_dialog_destroy_cb (GtkWidget  *widget,
-			  DialogData *data)
+destroy_dialog (DialogData *data)
 {
+	if (data->dialog != NULL)
+		gtk_widget_destroy (data->dialog);
 	if (data->conn != NULL)
 		gth_task_completed (GTH_TASK (data->conn), NULL);
 	_g_object_unref (data->cancellable);
+	_g_object_unref (data->album);
 	_g_object_unref (data->picasaweb);
 	_g_object_unref (data->conn);
 	_g_object_list_unref (data->albums);
@@ -97,7 +102,73 @@ export_dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
-static void get_album_list (DialogData *data);
+static void
+completed_messagedialog_response_cb (GtkDialog *dialog,
+				     int        response_id,
+				     gpointer   user_data)
+{
+	DialogData *data = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CLOSE:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
+		break;
+
+	case _OPEN_IN_BROWSER_RESPONSE:
+		{
+			char   *url = NULL;
+			GError *error = NULL;
+
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+
+			if (data->album != NULL) {
+				if (data->album->alternate_url != NULL)
+					url = g_strdup (data->album->alternate_url);
+				else
+					url = g_strconcat ("http://picasaweb.google.com/", data->user->id, "/", data->album->id, NULL);
+			}
+			else
+				url = g_strconcat ("http://picasaweb.google.com/", data->user->id, NULL);
+
+			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
+				if (data->conn != NULL)
+					gth_task_dialog (GTH_TASK (data->conn), TRUE);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+			}
+			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
+
+			g_free (url);
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+export_completed_with_success (DialogData *data)
+{
+	GtkBuilder *builder;
+	GtkWidget  *dialog;
+
+	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+
+	builder = _gtk_builder_new_from_file ("picasa-web-export-completed.ui", "picasaweb");
+	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
+	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (completed_messagedialog_response_cb),
+			  data);
+
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+}
 
 
 static void
@@ -118,7 +189,7 @@ post_photos_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	get_album_list (data);
+	export_completed_with_success (data);
 }
 
 
@@ -137,37 +208,37 @@ export_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		picasa_web_accounts_save_to_file (data->accounts, data->email);
-		gtk_widget_destroy (data->dialog);
+		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);
 		break;
 
 	case GTK_RESPONSE_OK:
 		{
-			GtkTreeModel   *tree_model;
-			GtkTreeIter     iter;
-			PicasaWebAlbum *album;
-			GList          *file_list;
+			GtkTreeModel *tree_model;
+			GtkTreeIter   iter;
+			GList        *file_list;
 
 			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
 				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 				return;
 			}
 
+			_g_clear_object (&data->album);
 			gtk_tree_model_get (tree_model, &iter,
-					    ALBUM_DATA_COLUMN, &album,
+					    ALBUM_DATA_COLUMN, &data->album,
 					    -1);
 
+			gtk_widget_hide (data->dialog);
 			gth_task_dialog (GTH_TASK (data->conn), FALSE);
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 			picasa_web_service_post_photos (data->picasaweb,
-							album,
+							data->album,
 							file_list,
 							data->cancellable,
 							post_photos_ready_cb,
 							data);
 
 			_g_object_list_unref (file_list);
-			g_object_unref (album);
 		}
 		break;
 
@@ -276,7 +347,7 @@ list_albums_ready_cb (GObject      *source_object,
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
 	}
 
@@ -334,7 +405,7 @@ connection_ready_cb (GObject      *source_object,
 			if (data->conn != NULL)
 				gth_task_dialog (GTH_TASK (data->conn), TRUE);
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
-			gtk_widget_destroy (data->dialog);
+			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		}
 		return;
 	}
@@ -381,7 +452,7 @@ account_properties_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -500,7 +571,7 @@ challange_account_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -547,7 +618,7 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -789,7 +860,6 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 		         GList      *file_list)
 {
 	DialogData       *data;
-	GtkWidget        *list_view;
 	GtkTreeSelection *selection;
 	GList            *scan;
 	int               n_total;
@@ -847,6 +917,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 			data->file_list = g_list_prepend (data->file_list, g_object_ref (file_data));
 		}
 	}
+	data->file_list = g_list_reverse (data->file_list);
 
 	if (data->file_list == NULL) {
 		GError *error;
@@ -856,7 +927,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
-		export_dialog_destroy_cb (NULL, data);
+		destroy_dialog (data);
 		return;
 	}
 
@@ -868,15 +939,15 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	/* Set the widget data */
 
-	list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (list_view), 112);
-	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (list_view))), 0);
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (list_view), TRUE);
-	gth_file_list_set_caption (GTH_FILE_LIST (list_view), "none");
-	gth_file_list_set_sort_func (GTH_FILE_LIST (list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
-	gtk_widget_show (list_view);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
-	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
+	data->list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
+	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->list_view))), 0);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
+	gth_file_list_set_caption (GTH_FILE_LIST (data->list_view), "none");
+	gth_file_list_set_sort_func (GTH_FILE_LIST (data->list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
+	gtk_widget_show (data->list_view);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
+	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("album_liststore")), ALBUM_NAME_COLUMN, GTK_SORT_ASCENDING);
 
@@ -884,10 +955,10 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (export_dialog_destroy_cb),
-			  data);
+	g_signal_connect (data->dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (export_dialog_response_cb),
