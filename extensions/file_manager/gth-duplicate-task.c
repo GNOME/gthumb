@@ -25,9 +25,10 @@
 
 
 struct _GthDuplicateTaskPrivate {
-	GList *file_list;
-	GList *current;
-	int    attempt;
+	GList                *file_list;
+	GList                *current;
+	int                   attempt;
+	GthOverwriteResponse  default_response;
 };
 
 
@@ -101,8 +102,9 @@ static void duplicate_current_file (GthDuplicateTask *self);
 
 
 static void
-copy_ready_cb (GError    *error,
-               gpointer   user_data)
+copy_ready_cb (GthOverwriteResponse  response,
+	       GError               *error,
+               gpointer              user_data)
 {
 	GthDuplicateTask *self = user_data;
 
@@ -119,6 +121,7 @@ copy_ready_cb (GError    *error,
 		return;
 	}
 
+	self->priv->default_response = response;
 	self->priv->current = self->priv->current->next;
 	self->priv->attempt = 1;
 	duplicate_current_file (self);
@@ -143,6 +146,7 @@ duplicate_current_file (GthDuplicateTask *self)
 			    destination,
 			    FALSE,
 			    G_FILE_COPY_ALL_METADATA,
+			    self->priv->default_response,
 			    G_PRIORITY_DEFAULT,
 			    gth_task_get_cancellable (GTH_TASK (self)),
 			    copy_progress_cb,
@@ -192,6 +196,7 @@ static void
 gth_duplicate_task_init (GthDuplicateTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DUPLICATE_TASK, GthDuplicateTaskPrivate);
+	self->priv->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 }
 
 

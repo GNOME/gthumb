@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <gio/gio.h>
 #include "gth-file-data.h"
+#include "gth-overwrite-dialog.h"
 #include "typedefs.h"
 
 G_BEGIN_DECLS
@@ -38,24 +39,27 @@ typedef enum { /*< skip >*/
 	DIR_OP_STOP
 } DirOp;
 
-typedef DirOp (*StartDirCallback)    (GFile       *directory,
-				      GFileInfo   *info,
-				      GError     **error,
-				      gpointer     user_data);
-typedef void (*ForEachChildCallback) (GFile       *file,
-				      GFileInfo   *info,
-				      gpointer     user_data);
-typedef void (*ListReadyCallback)    (GList       *files,
-				      GList       *dirs,
-				      GError      *error,
-				      gpointer     user_data);
-typedef void (*BufferReadyCallback)  (void       **buffer,
-				      gsize        count,
-				      GError      *error,
-				      gpointer     user_data);
-typedef void (*InfoReadyCallback)    (GList       *files,
-				      GError      *error,
-				      gpointer     user_data);
+typedef DirOp (*StartDirCallback)    (GFile                *directory,
+				      GFileInfo            *info,
+				      GError              **error,
+				      gpointer              user_data);
+typedef void (*ForEachChildCallback) (GFile                *file,
+				      GFileInfo            *info,
+				      gpointer              user_data);
+typedef void (*ListReadyCallback)    (GList                *files,
+				      GList                *dirs,
+				      GError               *error,
+				      gpointer              user_data);
+typedef void (*BufferReadyCallback)  (void                **buffer,
+				      gsize                 count,
+				      GError               *error,
+				      gpointer              user_data);
+typedef void (*InfoReadyCallback)    (GList                *files,
+				      GError               *error,
+				      gpointer              user_data);
+typedef void (*CopyReadyCallback)    (GthOverwriteResponse  default_response,
+				      GError               *error,
+			 	      gpointer              user_data);
 
 /* asynchronous recursive list functions */
 
@@ -97,13 +101,14 @@ void     _g_copy_file_async          (GthFileData           *source,
 				      GFile                 *destination,
 				      gboolean               move,
 				      GFileCopyFlags         flags,
+				      GthOverwriteResponse   default_response,
 				      int                    io_priority,
 				      GCancellable          *cancellable,
 				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
 				      DialogCallback         dialog_callback,
 				      gpointer               dialog_callback_data,
-				      ReadyFunc              ready_callback,
+				      CopyReadyCallback      ready_callback,
 				      gpointer               user_data);
 void     _g_copy_files_async         (GList                 *sources,
 				      GFile                 *destination,

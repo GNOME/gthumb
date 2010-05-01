@@ -1085,30 +1085,30 @@ _g_dummy_file_op_async (ReadyFunc callback,
 
 
 typedef struct {
-	GthFileData      *source;
-	GFile            *destination;
-	gboolean          move;
-	GFileCopyFlags    flags;
-	int               io_priority;
-	goffset           tot_size;
-	goffset           copied_size;
-	gsize             tot_files;
-	GCancellable     *cancellable;
-	ProgressCallback  progress_callback;
-	gpointer          progress_callback_data;
-	DialogCallback    dialog_callback;
-	gpointer          dialog_callback_data;
-	ReadyFunc         ready_callback;
-	gpointer          user_data;
+	GthFileData          *source;
+	GFile                *destination;
+	gboolean              move;
+	GFileCopyFlags        flags;
+	int                   io_priority;
+	goffset               tot_size;
+	goffset               copied_size;
+	gsize                 tot_files;
+	GCancellable         *cancellable;
+	ProgressCallback      progress_callback;
+	gpointer              progress_callback_data;
+	DialogCallback        dialog_callback;
+	gpointer              dialog_callback_data;
+	CopyReadyCallback     ready_callback;
+	gpointer              user_data;
 
-	GFile            *current_destination;
-	char             *message;
-	int               default_response;
+	GFile                *current_destination;
+	char                 *message;
+	GthOverwriteResponse  default_response;
 
-	GList            *source_sidecars;  /* GFile list */
-	GList            *destination_sidecars;  /* GFile list */
-	GList            *current_source_sidecar;
-	GList            *current_destination_sidecar;
+	GList                *source_sidecars;  /* GFile list */
+	GList                *destination_sidecars;  /* GFile list */
+	GList                *current_source_sidecar;
+	GList                *current_destination_sidecar;
 } CopyFileData;
 
 
@@ -1132,14 +1132,14 @@ copy_file__delete_source (CopyFileData *copy_file_data)
 	GError *error = NULL;
 
 	if (! copy_file_data->move) {
-		copy_file_data->ready_callback (NULL, copy_file_data->user_data);
+		copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
 		copy_file_data_free (copy_file_data);
 		return;
 	}
 
 	g_file_delete (copy_file_data->source->file, copy_file_data->cancellable, &error);
 
-	copy_file_data->ready_callback (error, copy_file_data->user_data);
+	copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 	copy_file_data_free (copy_file_data);
 }
 
@@ -1234,7 +1234,7 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 	case GTH_OVERWRITE_RESPONSE_NO:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
 	case GTH_OVERWRITE_RESPONSE_UNSPECIFIED:
-		copy_file_data->ready_callback (NULL, copy_file_data->user_data);
+		copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
 		copy_file_data_free (copy_file_data);
 		return;
 
@@ -1272,25 +1272,30 @@ copy_file_ready_cb (GObject      *source_object,
 
 	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-			GtkWidget *dialog;
+			if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
+				GtkWidget *dialog;
 
-			if (copy_file_data->dialog_callback != NULL)
-				copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
+				if (copy_file_data->dialog_callback != NULL)
+					copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
 
-			dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
-							   NULL,
-							   copy_file_data->current_destination,
-							   copy_file_data->default_response,
-							   copy_file_data->tot_files == 1);
-			g_signal_connect (dialog,
-					  "response",
-					  G_CALLBACK (copy_file__overwrite_dialog_response_cb),
-					  copy_file_data);
-			gtk_widget_show (dialog);
-
+				dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
+								   NULL,
+								   copy_file_data->current_destination,
+								   copy_file_data->default_response,
+								   copy_file_data->tot_files == 1);
+				g_signal_connect (dialog,
+						  "response",
+						  G_CALLBACK (copy_file__overwrite_dialog_response_cb),
+						  copy_file_data);
+				gtk_widget_show (dialog);
+			}
+			else {
+				copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
+				copy_file_data_free (copy_file_data);
+			}
 			return;
 		}
-		copy_file_data->ready_callback (error, copy_file_data->user_data);
+		copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 		copy_file_data_free (copy_file_data);
 		return;
 	}
@@ -1353,6 +1358,9 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 	_g_object_unref (copy_file_data->current_destination);
 	copy_file_data->current_destination = g_file_dup (destination);
 
+	if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
+		flags = G_FILE_COPY_OVERWRITE;
+
 	if (copy_file_data->progress_callback != NULL) {
 		GFile *destination_parent;
 		char  *destination_name;
@@ -1384,7 +1392,7 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
 				g_clear_error (&error);
 		}
-		copy_file_data->ready_callback (error, copy_file_data->user_data);
+		copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 		copy_file_data_free (copy_file_data);
 		return;
 	}
@@ -1401,11 +1409,12 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 }
 
 
-void
+static void
 _g_copy_file_async_private (GthFileData           *source,
 			    GFile                 *destination,
 			    gboolean               move,
 			    GFileCopyFlags         flags,
+			    GthOverwriteResponse   default_response,
 			    int                    io_priority,
 			    goffset                tot_size,
 			    goffset                copied_size,
@@ -1415,7 +1424,7 @@ _g_copy_file_async_private (GthFileData           *source,
 			    gpointer               progress_callback_data,
 			    DialogCallback         dialog_callback,
 			    gpointer               dialog_callback_data,
-			    ReadyFunc              ready_callback,
+			    CopyReadyCallback      ready_callback,
 			    gpointer               user_data)
 {
 	CopyFileData *copy_file_data;
@@ -1436,6 +1445,7 @@ _g_copy_file_async_private (GthFileData           *source,
 	copy_file_data->dialog_callback_data = dialog_callback_data;
 	copy_file_data->ready_callback = ready_callback;
 	copy_file_data->user_data = user_data;
+	copy_file_data->default_response = default_response;
 
 	_g_copy_file_to_destination (copy_file_data, copy_file_data->destination, 0);
 }
@@ -1446,19 +1456,21 @@ _g_copy_file_async (GthFileData           *source,
 		    GFile                 *destination,
 		    gboolean               move,
 		    GFileCopyFlags         flags,
+		    GthOverwriteResponse   default_response,
 		    int                    io_priority,
 		    GCancellable          *cancellable,
 		    ProgressCallback       progress_callback,
 		    gpointer               progress_callback_data,
 		    DialogCallback         dialog_callback,
 		    gpointer               dialog_callback_data,
-		    ReadyFunc              ready_callback,
+		    CopyReadyCallback      ready_callback,
 		    gpointer               user_data)
 {
 	_g_copy_file_async_private (source,
 				    destination,
 				    move,
 				    flags,
+				    default_response,
 				    io_priority,
 				    g_file_info_get_size (source->info),
 				    0,
@@ -1477,37 +1489,37 @@ _g_copy_file_async (GthFileData           *source,
 
 
 typedef struct {
-	GHashTable        *source_hash;
-	GFile             *destination;
+	GHashTable           *source_hash;
+	GFile                *destination;
 
-	GList             *files;  /* GthFileData list */
-	GList             *current;
-	GFile             *source_base;
-	GFile             *current_destination;
+	GList                *files;  /* GthFileData list */
+	GList                *current;
+	GFile                *source_base;
+	GFile                *current_destination;
 
-	GList             *source_sidecars;  /* GFile list */
-	GList             *destination_sidecars;  /* GFile list */
-	GList             *current_source_sidecar;
-	GList             *current_destination_sidecar;
+	GList                *source_sidecars;  /* GFile list */
+	GList                *destination_sidecars;  /* GFile list */
+	GList                *current_source_sidecar;
+	GList                *current_destination_sidecar;
 
-	goffset            tot_size;
-	goffset            copied_size;
-	gsize              tot_files;
-	gsize              copied_files;
+	goffset               tot_size;
+	goffset               copied_size;
+	gsize                 tot_files;
+	gsize                 copied_files;
 
-	char              *message;
-	int                default_response;
+	char                 *message;
+	GthOverwriteResponse  default_response;
 
-	gboolean           move;
-	GFileCopyFlags     flags;
-	int                io_priority;
-	GCancellable      *cancellable;
-	ProgressCallback   progress_callback;
-	gpointer           progress_callback_data;
-	DialogCallback     dialog_callback;
-	gpointer           dialog_callback_data;
-	ReadyFunc          done_callback;
-	gpointer           user_data;
+	gboolean              move;
+	GFileCopyFlags        flags;
+	int                   io_priority;
+	GCancellable         *cancellable;
+	ProgressCallback      progress_callback;
+	gpointer              progress_callback_data;
+	DialogCallback        dialog_callback;
+	gpointer              dialog_callback_data;
+	ReadyFunc             done_callback;
+	gpointer              user_data;
 } CopyData;
 
 
@@ -1567,8 +1579,9 @@ copy_data__copy_next_file (CopyData *copy_data)
 
 
 static void
-copy_data__copy_current_file_ready_cb (GError   *error,
-			 	       gpointer  user_data)
+copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
+				       GError               *error,
+			 	       gpointer              user_data)
 {
 	CopyData *copy_data = user_data;
 
@@ -1578,6 +1591,7 @@ copy_data__copy_current_file_ready_cb (GError   *error,
 		return;
 	}
 
+	copy_data->default_response = response;
 	copy_data__copy_next_file (copy_data);
 }
 
@@ -1609,6 +1623,7 @@ copy_data__copy_current_file (CopyData *copy_data)
 				    destination,
 				    FALSE,
 				    flags,
+				    copy_data->default_response,
 				    copy_data->io_priority,
 				    copy_data->tot_size,
 				    copy_data->copied_size,
@@ -1685,6 +1700,7 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 	copy_data->dialog_callback_data = dialog_callback_data;
 	copy_data->done_callback = done_callback;
 	copy_data->user_data = user_data;
+	copy_data->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 
 	copy_data->source_hash = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
 	for (scan = sources; scan; scan = scan->next)
