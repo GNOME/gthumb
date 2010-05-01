@@ -829,6 +829,41 @@ _gth_browser_get_file_filter (GthBrowser *browser)
 }
 
 
+static gboolean
+_gth_browser_get_fast_file_type (GthBrowser *browser,
+				 GFile      *file)
+{
+	gboolean fast_file_type;
+
+	fast_file_type = browser->priv->fast_file_type;
+
+	/* Force the value to FALSE when browsing a cache.  This is mainly used
+	 * to browse the Firefox cache without changing the general preference
+	 * each time, but can be usefull for other caches as well. */
+	if (g_file_has_uri_scheme (file, "file")) {
+		char  *uri;
+		char **uri_v;
+		int    i;
+
+		uri = g_file_get_uri (file);
+		uri_v = g_strsplit (uri, "/", -1);
+		for (i = 0; uri_v[i] != NULL; i++)
+			if (strstr (uri_v[i], "cache")
+			    || strstr (uri_v[i], "CACHE")
+			    || strstr (uri_v[i], "Cache"))
+			{
+				fast_file_type = FALSE;
+				break;
+			}
+
+		 g_strfreev (uri_v);
+		 g_free (uri);
+	}
+
+	return fast_file_type;
+}
+
+
 static void
 _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 {
@@ -1093,7 +1128,7 @@ _gth_browser_get_list_attributes (GthBrowser *browser,
 
 	/* standard attributes */
 
-	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
+	if (browser->priv->fast_file_type)
 		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
 	else
 		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
@@ -1234,7 +1269,7 @@ requested_folder_attributes_ready_cb (GObject  *file_source,
 
 	gth_file_source_list (load_data->file_source,
 			      load_data->requested_folder->file,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      _gth_browser_get_fast_file_type (browser, load_data->requested_folder->file) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 			      _gth_browser_load_ready_cb,
 			      load_data);
 }
@@ -1295,7 +1330,7 @@ load_data_load_next_folder (LoadData *load_data)
 	else
 		gth_file_source_list (load_data->file_source,
 				      folder_to_load,
-				      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				      GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 				      _gth_browser_load_ready_cb,
 				      load_data);
 }
@@ -2837,7 +2872,7 @@ file_renamed_cb (GthMonitor *monitor,
 	list = g_list_prepend (NULL, new_file);
 	gth_file_source_read_attributes (rename_data->file_source,
 				 	 list,
-				 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				 	 GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 				 	 renamed_file_attributes_ready_cb,
 				 	 rename_data);
 
@@ -5136,7 +5171,7 @@ gth_browser_load_location (GthBrowser *browser,
 	list = g_list_prepend (NULL, g_object_ref (data->location));
 	gth_file_source_read_attributes (data->file_source,
 					 list,
-					 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+					 GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 					 load_file_attributes_ready_cb,
 					 data);
 
