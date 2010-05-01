@@ -55,6 +55,7 @@ typedef struct {
 	GList                  *file_list;
 	GtkBuilder             *builder;
 	GtkWidget              *dialog;
+	GtkWidget              *list_view;
 	GtkWidget              *progress_dialog;
 	FacebookConnection     *conn;
 	FacebookAuthentication *auth;
@@ -68,9 +69,10 @@ typedef struct {
 
 
 static void
-export_dialog_destroy_cb (GtkWidget  *widget,
-			  DialogData *data)
+destroy_dialog (DialogData *data)
 {
+	if (data->dialog != NULL)
+		gtk_widget_destroy (data->dialog);
 	if (data->conn != NULL)
 		gth_task_completed (GTH_TASK (data->conn), NULL);
 	_g_object_unref (data->cancellable);
@@ -99,7 +101,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CLOSE:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case _OPEN_IN_BROWSER_RESPONSE:
@@ -118,7 +120,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			}
 
-			gtk_widget_destroy (data->dialog);
+			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 
 			g_free (url);
 		}
@@ -163,7 +165,7 @@ upload_photos_ready_cb (GObject      *source_object,
 	data->photos_ids = facebook_service_upload_photos_finish (FACEBOOK_SERVICE (source_object), result, &error);
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
 	}
 
@@ -185,7 +187,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (data->dialog);
+		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -299,7 +301,7 @@ get_albums_ready_cb (GObject      *source_object,
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
 	}
 
@@ -455,7 +457,6 @@ dlg_export_to_facebook (GthBrowser *browser,
 	goffset     total_size;
 	char       *total_size_formatted;
 	char       *text;
-	GtkWidget  *list_view;
 	char       *title;
 
 	data = g_new0 (DialogData, 1);
@@ -520,7 +521,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
-		gtk_widget_destroy (data->dialog);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 
 		return;
 	}
@@ -533,15 +534,15 @@ dlg_export_to_facebook (GthBrowser *browser,
 
 	/* Set the widget data */
 
-	list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (list_view), 112);
-	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (list_view))), 0);
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (list_view), TRUE);
-	gth_file_list_set_caption (GTH_FILE_LIST (list_view), "none");
-	gth_file_list_set_sort_func (GTH_FILE_LIST (list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
-	gtk_widget_show (list_view);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
-	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
+	data->list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
+	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->list_view))), 0);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
+	gth_file_list_set_caption (GTH_FILE_LIST (data->list_view), "none");
+	gth_file_list_set_sort_func (GTH_FILE_LIST (data->list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
+	gtk_widget_show (data->list_view);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
+	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
@@ -551,10 +552,10 @@ dlg_export_to_facebook (GthBrowser *browser,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (export_dialog_destroy_cb),
-			  data);
+	g_signal_connect (data->dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (export_dialog_response_cb),

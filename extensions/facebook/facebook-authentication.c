@@ -186,7 +186,7 @@ authentication_error_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (self->priv->dialog);
+		gtk_dialog_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT:
@@ -462,7 +462,7 @@ complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (self->priv->dialog);
+		gtk_dialog_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -528,7 +528,7 @@ ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (self->priv->dialog);
+		gtk_dialog_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -624,7 +624,7 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_widget_destroy (self->priv->dialog);
+		gtk_dialog_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
 	case GTK_RESPONSE_OK:
