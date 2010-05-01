@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-17 11:48+0000\n"
-"PO-Revision-Date: 2010-04-19 07:39+0200\n"
+"POT-Creation-Date: 2010-04-29 21:46+0000\n"
+"PO-Revision-Date: 2010-05-01 10:07+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -358,9 +358,9 @@ msgid "Keep previous zoom"
 msgstr "Mantener la ampliación anterior"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:276
+#: ../extensions/slideshow/main.c:279
 msgid "None"
 msgstr "Ninguna"
 
@@ -594,7 +594,7 @@ msgstr "Introduzca el nombre de la biblioteca: "
 msgid "Could not create the library"
 msgstr "No se pudo crear la biblioteca"
 
-#: ../extensions/catalogs/actions.c:336
+#: ../extensions/catalogs/actions.c:334
 msgid "Could not remove the catalog"
 msgstr "No se pudo quitar el catálogo "
 
@@ -655,7 +655,7 @@ msgstr "Línea de comandos"
 #: ../extensions/catalogs/callbacks.c:487
 #: ../extensions/photo_importer/dlg-photo-importer.c:310
 #: ../extensions/photo_importer/dlg-photo-importer.c:352
-#: ../gthumb/gth-file-list.c:42 ../gthumb/gth-folder-tree.c:668
+#: ../gthumb/gth-file-list.c:41 ../gthumb/gth-folder-tree.c:840
 msgid "(Empty)"
 msgstr "(Vacío)"
 
@@ -774,7 +774,7 @@ msgid "_Include sub-folders"
 msgstr "_Incluir sub-carpetas"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-#: ../extensions/exiv2_tools/main.c:214
+#: ../extensions/exiv2_tools/main.c:217
 msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
@@ -1079,7 +1079,6 @@ msgid "Cr_edit:"
 msgstr "Crédi_tos:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-#| msgid "_Brightness:"
 msgid "_Byline:"
 msgstr "_Firmante:"
 
@@ -1458,11 +1457,13 @@ msgstr "No se pudo crear la carpeta"
 
 #: ../extensions/file_manager/actions.c:302
 #: ../extensions/file_manager/callbacks.c:299
+#: ../extensions/file_manager/callbacks.c:696
 msgid "Could not move the files"
 msgstr "No se pudieron mover los archivos"
 
 #: ../extensions/file_manager/actions.c:303
 #: ../extensions/file_manager/callbacks.c:300
+#: ../extensions/file_manager/callbacks.c:697
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1480,7 +1481,7 @@ msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Las imágenes no se pueden mover a la papelera. ¿Quiere eliminarlas "
+"No se pueden mover los archivos a la papelera. ¿Quiere eliminarlos "
 "permanentemente?"
 
 #: ../extensions/file_manager/actions.c:449
@@ -1488,7 +1489,7 @@ msgid "Could not move the files to the Trash"
 msgstr "No se pudieron mover los archivos a la papelera"
 
 #: ../extensions/file_manager/actions.c:485
-#: ../extensions/file_manager/actions.c:778
+#: ../extensions/file_manager/actions.c:776
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
@@ -1506,7 +1507,7 @@ msgstr[1] ""
 "seleccionados?"
 
 #: ../extensions/file_manager/actions.c:498
-#: ../extensions/file_manager/actions.c:788
+#: ../extensions/file_manager/actions.c:786
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
@@ -1514,7 +1515,7 @@ msgstr "Si elimina un archivo, se perderá definitivamente."
 msgid "Could not open the location"
 msgstr "No se pudo abrir la ubicación"
 
-#: ../extensions/file_manager/actions.c:662
+#: ../extensions/file_manager/actions.c:660
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1522,18 +1523,18 @@ msgstr ""
 "La carpeta no está vacía. ¿Quiere borrar la carpeta y su contenido "
 "permanentemente?"
 
-#: ../extensions/file_manager/actions.c:678
+#: ../extensions/file_manager/actions.c:676
 msgid "Could not delete the folder"
 msgstr "No se pudo eliminar la carpeta"
 
-#: ../extensions/file_manager/actions.c:737
+#: ../extensions/file_manager/actions.c:735
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
 "No se puede mover la carpeta a la papelera. ¿Quiere borrarla permanentemente?"
 
-#: ../extensions/file_manager/actions.c:744
+#: ../extensions/file_manager/actions.c:742
 msgid "Could not move the folder to the Trash"
 msgstr "No se pudo mover la carpeta a la papelera"
 
@@ -1587,8 +1588,8 @@ msgstr "_Renombrar"
 msgid "_Paste Into Folder"
 msgstr "_Pegar en la carpeta"
 
-#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:4153
-#: ../gthumb/gth-browser.c:4191
+#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4311
+#: ../gthumb/gth-browser.c:4349
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -1731,46 +1732,66 @@ msgstr "Ajustar colores"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 msgid "Square"
 msgstr "Cuadrado"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:348
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Imagen)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:351
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #, c-format
 msgid "%d x %d (Screen)"
-msgstr "%d x %d (Imagen)"
+msgstr "%d x %d (Pantalla)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:355
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (Libro, DVD)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+msgid "5:4"
+msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:356
-msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (Postal)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, libro)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:357
-msgid "5 x 7"
-msgstr "5 x 7"
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#| msgid "75"
+msgid "7:5"
+msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:358
-msgid "8 x 10"
-msgstr "8 x 10"
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
+#| msgid "4 x 6 (Postcard)"
+msgid "3:2 (Postcard)"
+msgstr "3:2 (Postal)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:359
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
+#| msgid "1:1"
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
+#| msgid "1:1"
+msgid "1.85:1"
+msgstr "1.85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
+msgid "2.39:1"
+msgstr "2.39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop..."
 msgstr "Recortar…"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop"
 msgstr "Recortar"
 
@@ -1943,7 +1964,7 @@ msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1779
+#: ../gthumb/gth-browser.c:1790
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2168,7 +2189,6 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Permitir imprimir imágenes seleccionando la orientación de la página."
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
-#| msgid "Image Caption"
 msgid "Image print"
 msgstr "Impresión de la imagen"
 
@@ -2351,7 +2371,6 @@ msgid "_Rotate images physically"
 msgstr "_Rotar imágenes físicamente"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
-#| msgid "_Include sub-folders"
 msgid "as _single subfolder"
 msgstr "como una sola subca_rpeta"
 
@@ -2632,7 +2651,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1692
+#: ../gthumb/gth-browser.c:1703
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -3073,9 +3092,9 @@ msgstr "Herramienta de búsqueda de archivos."
 msgid "View as a slideshow"
 msgstr "Ver como diapositivas"
 
-#: ../extensions/slideshow/callbacks.c:385
+#: ../extensions/slideshow/callbacks.c:389
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-#: ../extensions/slideshow/preferences.c:122
+#: ../extensions/slideshow/preferences.c:126
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Mostrar diapositivas"
@@ -3125,35 +3144,35 @@ msgstr "Archivos de sonido"
 msgid "Random"
 msgstr "Aleatorio"
 
-#: ../extensions/slideshow/main.c:282
+#: ../extensions/slideshow/main.c:285
 msgid "Push from right"
 msgstr "Empujar desde la derecha"
 
-#: ../extensions/slideshow/main.c:288
+#: ../extensions/slideshow/main.c:291
 msgid "Push from bottom"
 msgstr "Empujar desde abajo"
 
-#: ../extensions/slideshow/main.c:294
+#: ../extensions/slideshow/main.c:297
 msgid "Slide from right"
 msgstr "Deslizar desde la derecha"
 
-#: ../extensions/slideshow/main.c:300
+#: ../extensions/slideshow/main.c:303
 msgid "Slide from bottom"
 msgstr "Deslizar desde abajo"
 
-#: ../extensions/slideshow/main.c:306
+#: ../extensions/slideshow/main.c:309
 msgid "Fade in"
 msgstr "Sombra entrante"
 
-#: ../extensions/slideshow/main.c:312
+#: ../extensions/slideshow/main.c:315
 msgid "Flip page"
 msgstr "Voltear página"
 
-#: ../extensions/slideshow/main.c:318
+#: ../extensions/slideshow/main.c:321
 msgid "Cube from right"
 msgstr "Cubo desde la derecha"
 
-#: ../extensions/slideshow/main.c:324
+#: ../extensions/slideshow/main.c:327
 msgid "Cube from bottom"
 msgstr "Cubo desde abajo"
 
@@ -3333,11 +3352,11 @@ msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:395
+#: ../gthumb/gth-browser-actions-callbacks.c:391
 msgid "An image viewer and browser for GNOME."
 msgstr "Un visor y navegador de imágenes para GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:398
+#: ../gthumb/gth-browser-actions-callbacks.c:394
 msgid "translator_credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010\n"
@@ -3447,19 +3466,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3023
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3145
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3044
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3166
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3065
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3187
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:644
+#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:645
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -3555,67 +3574,67 @@ msgstr "Editar"
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: ../gthumb/gth-browser.c:350
+#: ../gthumb/gth-browser.c:351
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../gthumb/gth-browser.c:489
+#: ../gthumb/gth-browser.c:490
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../gthumb/gth-browser.c:493 ../gthumb/gth-main.c:257
+#: ../gthumb/gth-browser.c:494 ../gthumb/gth-main.c:257
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1068 ../gthumb/gth-browser.c:1594
-#: ../gthumb/gth-browser.c:4917 ../gthumb/gth-browser.c:4936
-#: ../gthumb/gth-browser.c:4961
+#: ../gthumb/gth-browser.c:1069 ../gthumb/gth-browser.c:1605
+#: ../gthumb/gth-browser.c:5085 ../gthumb/gth-browser.c:5104
+#: ../gthumb/gth-browser.c:5129
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1676 ../gthumb/gth-browser.c:1703
+#: ../gthumb/gth-browser.c:1687 ../gthumb/gth-browser.c:1714
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1821
+#: ../gthumb/gth-browser.c:1832
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1826
+#: ../gthumb/gth-browser.c:1837
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1827
+#: ../gthumb/gth-browser.c:1838
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2345 ../gthumb/gth-browser.c:2369
+#: ../gthumb/gth-browser.c:2467 ../gthumb/gth-browser.c:2491
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:2750 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2872 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3024 ../gthumb/gth-browser.c:3045
+#: ../gthumb/gth-browser.c:3146 ../gthumb/gth-browser.c:3167
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3066
+#: ../gthumb/gth-browser.c:3188
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:4918
+#: ../gthumb/gth-browser.c:5086
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:4962
+#: ../gthumb/gth-browser.c:5130
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -3675,11 +3694,11 @@ msgstr "descendiente"
 msgid "No limit specified"
 msgstr "No se especificó ningún límite"
 
-#: ../gthumb/gth-folder-tree.c:643
+#: ../gthumb/gth-folder-tree.c:814
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../gthumb/gth-folder-tree.c:890
+#: ../gthumb/gth-folder-tree.c:1081
 msgid "(Open Parent)"
 msgstr "(Abrir padre)"
 
@@ -3929,6 +3948,15 @@ msgstr "- Explorador de imágenes y visor"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
+
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 x 3 (Libro, DVD)"
+
+#~ msgid "5 x 7"
+#~ msgstr "5 x 7"
+
+#~ msgid "8 x 10"
+#~ msgstr "8 x 10"
 
 #~ msgid "gtk-close"
 #~ msgstr "gtk-close"
@@ -4269,9 +4297,6 @@ msgstr ""
 
 #~ msgid "_Scale"
 #~ msgstr "E_scala"
-
-#~ msgid "75"
-#~ msgstr "75"
 
 #~ msgid "<b>Background style</b>"
 #~ msgstr "<b>Estilo del fondo</b>"
