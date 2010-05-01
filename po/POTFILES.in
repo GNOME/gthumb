@@ -316,6 +316,7 @@ extensions/jpeg_utils/jmemorydest.c
 extensions/jpeg_utils/jmemorydest.h
 extensions/jpeg_utils/jmemorysrc.c
 extensions/jpeg_utils/jmemorysrc.h
+extensions/jpeg_utils/jpegint-80.h
 extensions/jpeg_utils/jpegtran.c
 extensions/jpeg_utils/jpegtran.h
 [type: gettext/ini]extensions/jpeg_utils/jpeg_utils.extension.in.in
@@ -366,6 +367,7 @@ extensions/picasaweb/data/gthumb-picasaweb.schemas.in
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-manager.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-properties.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-album-properties.ui
+[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-export-completed.ui
 extensions/picasaweb/dlg-export-to-picasaweb.c
 extensions/picasaweb/dlg-export-to-picasaweb.h
 extensions/picasaweb/dlg-import-from-picasaweb.c
