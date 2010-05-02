@@ -10,9 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-22 23:55+0200\n"
-"PO-Revision-Date: 2010-04-17 23:24+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&component=general\n"
+"POT-Creation-Date: 2010-04-23 14:04+0000\n"
+"PO-Revision-Date: 2010-04-24 11:45+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -354,7 +355,7 @@ msgid "Keep previous zoom"
 msgstr "Ponechat předchozí přiblížení"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:276
 msgid "None"
@@ -1310,18 +1311,6 @@ msgstr "Není vybrán žádný platný soubor."
 msgid "Could not export the files"
 msgstr "Nelze exportovat soubory"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:529
-#: ../extensions/flicker/dlg-export-to-flickr.c:523
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
-#: ../gthumb/gth-browser.c:880 ../gthumb/gth-browser.c:881
-#, fuzzy, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "obrázků: %d (%s)"
-msgstr[1] "obrázků: %d (%s)"
-msgstr[2] "obrázků: %d (%s)"
-
 #: ../extensions/facebook/dlg-export-to-facebook.c:548
 #: ../extensions/flicker/dlg-export-to-flickr.c:543
 #, c-format
@@ -1732,46 +1721,67 @@ msgstr "Úprava barev"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Změnit jas, kontrast, sytost a úroveň gamy obrázku"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 msgid "Square"
 msgstr "Čtverec"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:348
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Obrázek)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:351
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (Obrazovka)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:355
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 × 3 (Kniha, DVD)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#| msgid "5:"
+msgid "5:4"
+msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:356
-msgid "4 x 6 (Postcard)"
-msgstr "4 × 6 (Pohlednice)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, kniha)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:357
-msgid "5 x 7"
-msgstr "5 × 7"
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#| msgid "75"
+msgid "7:5"
+msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:358
-msgid "8 x 10"
-msgstr "8 × 10"
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
+#| msgid "4 x 6 (Postcard)"
+msgid "3:2 (Postcard)"
+msgstr "3:2 (Pohlednice)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:359
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
+#| msgid "1:1"
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
+#| msgid "1:1"
+msgid "1.85:1"
+msgstr "1,85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
+msgid "2.39:1"
+msgstr "2,39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop..."
 msgstr "Oříznout…"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:482
 msgid "Crop"
 msgstr "Oříznutí"
 
@@ -1916,14 +1926,6 @@ msgstr "_Ochrana:"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 msgid "_Import"
 msgstr "_Import"
-
-#: ../extensions/flicker/dlg-import-from-flickr.c:336
-#, fuzzy, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "Upravit soubor"
-msgstr[1] "Upravit soubor"
-msgstr[2] "Upravit soubor"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:360
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
@@ -3938,6 +3940,29 @@ msgstr "- prohlížeč obrázků"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Nelze najít vhodný modul k uložení obrázku jako „%s“"
 
+#, fuzzy
+#~ msgid "%d file (%s)"
+#~ msgid_plural "%d files (%s)"
+#~ msgstr[0] "obrázků: %d (%s)"
+#~ msgstr[1] "obrázků: %d (%s)"
+#~ msgstr[2] "obrázků: %d (%s)"
+
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 × 3 (Kniha, DVD)"
+
+#~ msgid "5 x 7"
+#~ msgstr "5 × 7"
+
+#~ msgid "8 x 10"
+#~ msgstr "8 × 10"
+
+#, fuzzy
+#~ msgid "%d file"
+#~ msgid_plural "%d files"
+#~ msgstr[0] "Upravit soubor"
+#~ msgstr[1] "Upravit soubor"
+#~ msgstr[2] "Upravit soubor"
+
 #~ msgid "gtk-close"
 #~ msgstr "gtk-close"
 
@@ -4213,9 +4238,6 @@ msgstr "Nelze najít vhodný modul k uložení obrázku jako „%s“"
 
 #~ msgid "64"
 #~ msgstr "64"
-
-#~ msgid "75"
-#~ msgstr "75"
 
 #~ msgid "85"
 #~ msgstr "85"
@@ -5667,9 +5689,6 @@ msgstr "Nelze najít vhodný modul k uložení obrázku jako „%s“"
 
 #~ msgid "4:"
 #~ msgstr "4:"
-
-#~ msgid "5:"
-#~ msgstr "5:"
 
 #~ msgid "6:"
 #~ msgstr "6:"
