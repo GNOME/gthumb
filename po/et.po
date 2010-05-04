@@ -1,8 +1,8 @@
 # GThumb eesti keele tõlge.
-# Estonian translation of GThumb.
+# Estonian translation of gThumb.
 #
 # Copyright (C) 2000, 2005 Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.l
+# This file is distributed under the same license as the gThumb package.
 #
 # Olle Niit <olle@teknet.ee>, 2005-2007
 # Rene Pärts <rene87@hot.ee>, 2010
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-04-17 10:51+0000\n"
-"PO-Revision-Date: 2010-04-19 16:41+0300\n"
+"POT-Creation-Date: 2010-04-23 14:04+0000\n"
+"PO-Revision-Date: 2010-05-03 17:00+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -438,7 +438,7 @@ msgid "Command Line"
 msgstr "Käsurida"
 
 msgid "(Empty)"
-msgstr "(Tühi)"
+msgstr "(tühi)"
 
 msgid "Catalog Properties"
 msgstr "Albumi omadused"
@@ -1127,23 +1127,38 @@ msgstr "Ruut"
 
 #, c-format
 msgid "%d x %d (Image)"
-msgstr "%d x %d (Pilt)"
+msgstr "%d x %d (pilt)"
 
 #, c-format
 msgid "%d x %d (Screen)"
-msgstr "%d x %d (Ekraan)"
+msgstr "%d x %d (ekraan)"
 
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (Raamat, DVD)"
+msgid "5:4"
+msgstr "5:4"
 
-msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (Postkaart)"
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, raamat)"
 
-msgid "5 x 7"
-msgstr "5 x 7"
+msgid "7:5"
+msgstr "7:5"
 
-msgid "8 x 10"
-msgstr "8 x 10"
+#| msgid "4 x 6 (Postcard)"
+msgid "3:2 (Postcard)"
+msgstr "3:2 (postkaart)"
+
+#| msgid "1:1"
+msgid "16:10"
+msgstr "16:10"
+
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#| msgid "1:1"
+msgid "1.85:1"
+msgstr "1.85:1"
+
+msgid "2.39:1"
+msgstr "2.39:1"
 
 msgid "Custom"
 msgstr "Kohandatud"
@@ -1861,7 +1876,7 @@ msgid "Compression"
 msgstr "Tihendus"
 
 msgid "No_rmal (Deflate)"
-msgstr "No_rmaalne (Deflate)"
+msgstr "No_rmaalne (deflate)"
 
 msgid "Resolution"
 msgstr "Eraldusvõime"
@@ -2538,7 +2553,7 @@ msgid "Loading..."
 msgstr "Laadimine..."
 
 msgid "(Open Parent)"
-msgstr "(Ava ülemine kataloog)"
+msgstr "(ava ülemine kataloog)"
 
 msgid "No suitable loader available for this file type"
 msgstr "Sellele failitüübile puudub sobiv laadur"
@@ -2724,3 +2739,12 @@ msgstr "- Piltide sirvija ja vaataja"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Pildi salvestamiseks \"%s\"-na ei leitud sobivat moodulit"
+
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 x 3 (Raamat, DVD)"
+
+#~ msgid "5 x 7"
+#~ msgstr "5 x 7"
+
+#~ msgid "8 x 10"
+#~ msgstr "8 x 10"
