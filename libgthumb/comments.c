@@ -216,7 +216,7 @@ comments_get_comment_filename (const char *uri,
 	char *filename = NULL;
 	char *comment_uri = NULL;
 
-	if (uri == NULL) 
+	if (uri == NULL)
 		return NULL;
 
 	source_real = g_strdup (uri);
@@ -230,7 +230,7 @@ comments_get_comment_filename (const char *uri,
 		if (result == GNOME_VFS_OK) {
 			g_free (source_real);
 			source_real = resolved;
-		} 
+		}
 		else
 			g_free (resolved);
 	}
@@ -270,8 +270,8 @@ load_comment_from_iptc (const char *uri)
 
 	d = iptc_data_new_from_jpeg (local_file);
 	g_free (local_file);
-	
-	if (d == NULL) 
+
+	if (d == NULL)
 		return NULL;
 
 	data = comment_data_new ();
@@ -565,7 +565,7 @@ delete_comment_iptc (const char *uri)
 	save_iptc_data (local_file, d);
 	iptc_data_unref (d);
 	g_free (local_file);
-	
+
 	set_file_mtime (uri, mtime);
 }
 
@@ -739,13 +739,15 @@ load_comment_from_xml (const char *uri)
 
 	g_free (comment_uri);
         g_free (local_file);
-        
-	if (doc == NULL) 
+
+	if (doc == NULL)
 		return NULL;
-	
+
 	data = comment_data_new ();
         root = xmlDocGetRootElement (doc);
 	format = xmlGetProp (root, FORMAT_TAG);
+	if (format == NULL)
+		return NULL;
 	if (strcmp ((char*)format, "1.0") == 0)
 		data->utf8_format = FALSE;
 	else
