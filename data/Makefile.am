@@ -1,5 +1,8 @@
 SUBDIRS = albumthemes glade
 
+install-data-local: install-schemas update-icon-cache
+uninstall-local: uninstall-schemas
+
 @INTLTOOL_DESKTOP_RULE@
 
 desktopdir = $(datadir)/applications
@@ -34,9 +37,28 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 serverdir = $(libdir)/bonobo/servers
 server_DATA = GNOME_GThumb.server
 
+install-schemas: $(schema_DATA)
 if GCONF_SCHEMAS_INSTALL
-install-data-local:
-	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/data/$(schema_DATA)
+	if test -z "$(DESTDIR)" ; then \
+	for p in $^ ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+			$(GCONFTOOL) \
+			--makefile-install-rule \
+			$(top_builddir)/data/$$p; \
+	done \
+	fi
+endif
+
+uninstall-schemas: $(schema_DATA)
+if GCONF_SCHEMAS_INSTALL
+	if test -z "$(DESTDIR)" ; then \
+	for p in $^ ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+			$(GCONFTOOL) \
+			--makefile-uninstall-rule \
+			$(top_builddir)/data/$$p; \
+	done \
+	fi
 endif
 
 EXTRA_DIST = 			\
@@ -48,7 +70,7 @@ EXTRA_DIST = 			\
 	$(man_MANS)		\
 	$(server_DATA)
 
-DISTCLEANFILES =                \
+DISTCLEANFILES =               	\
 	$(schema_DATA)		\
 	$(desktop_DATA)
 

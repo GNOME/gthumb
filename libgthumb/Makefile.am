@@ -171,7 +171,11 @@ gthumb-enum-types.c: $(HEADER_FILES) gthumb-enum-types.h
 	&& (cmp -s xgen-$(@F) gthumb-enum-types.c || cp xgen-$(@F) gthumb-enum-types.c ) \
         && rm -f xgen-$(@F)
 
+BUILT_SOURCES = $(MARSHALLERS) $(ENUM_TYPES)
 CLEANFILES = $(MARSHALLERS) $(ENUMS)
 EXTRA_DIST = gthumb-marshal.list
+
+dist-hook:
+	cd $(distdir); rm -f $(CLEANFILES)
 
 -include $(top_srcdir)/git.mk
