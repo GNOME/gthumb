@@ -178,7 +178,7 @@ print_done_cb (gpointer data)
 	g_free (tmp_dir);
 
 	tmp_dir = remove_level_from_path (tmp_filename);
-	local_dir_remove_recursive (tmp_dir);	
+	local_dir_remove_recursive (tmp_dir);
 	g_free (tmp_dir);
 
 	g_free (tmp_filename);
@@ -206,9 +206,9 @@ gth_window_activate_action_file_print (GtkAction *action,
 
 		image_viewer = gth_window_get_image_viewer (window);
 		pixbuf = image_viewer_get_current_pixbuf (image_viewer);
-		if (pixbuf == NULL) 
+		if (pixbuf == NULL)
 			return;
-			
+
 		g_object_ref (pixbuf);
 		tmp_dir = get_temp_dir_name ();
 		if (tmp_dir == NULL) {
@@ -219,22 +219,22 @@ gth_window_activate_action_file_print (GtkAction *action,
 
 			return;
 		}
-			
-		tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
+
+		tmp_filename = get_temp_file_name (tmp_dir, "jpeg");
 		if (! _gdk_pixbuf_save (pixbuf,
 					tmp_filename,
 					"jpeg",
 					&error,
-					NULL)) 
+					NULL))
 		{
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
 			local_dir_remove_recursive (tmp_dir);
 
-			g_object_unref (pixbuf);				
+			g_object_unref (pixbuf);
 			g_free (tmp_filename);
 			g_free (tmp_dir);
 			file_data_list_free (list);
-				
+
 			return;
 		}
 
@@ -244,7 +244,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 		current = file_data_list_find_path (list, image_filename);
 		if (current != NULL) {
 			FileData *fd;
-					
+
 			fd = file_data_dup (current->data);
 			g_free (fd->path);
 			fd->path =  get_uri_from_local_path (tmp_filename);
@@ -253,7 +253,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 
 		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, get_uri_from_local_path (tmp_filename));
 
-		g_free (tmp_filename);		
+		g_free (tmp_filename);
 		g_free (tmp_dir);
 	}
 	else
@@ -648,9 +648,9 @@ typedef struct {
 } SetWallpaperData;
 
 
-static void 
-set_wallpaper_step_2 (const char     *uri, 
-		      GnomeVFSResult  result, 
+static void
+set_wallpaper_step_2 (const char     *uri,
+		      GnomeVFSResult  result,
 		      gpointer        callback_data)
 {
 	SetWallpaperData *data = callback_data;
@@ -667,14 +667,14 @@ set_wallpaper_step_2 (const char     *uri,
 
 	if (path_is_file (uri)) {
 		char *image_path;
-		
+
 		image_path = get_local_path_from_uri (uri);
 		gconf_client_set_string (client,
 					 "/desktop/gnome/background/picture_filename",
 					 image_path,
 					 NULL);
 		g_free (image_path);
-		
+
 		switch (data->align) {
 		case WALLPAPER_ALIGN_TILED:
 			options = "wallpaper";
@@ -699,8 +699,8 @@ set_wallpaper_step_2 (const char     *uri,
 				 options,
 				 NULL);
         g_object_unref (G_OBJECT (client));
-        
-	g_free (data);	
+
+	g_free (data);
 }
 
 
@@ -722,10 +722,10 @@ get_wallpaper_filename (int n)
 
 
 static char *
-get_new_wallpaper_filename (void) 
+get_new_wallpaper_filename (void)
 {
 	char *wallpaper_filename;
-	
+
 	wallpaper_filename = get_wallpaper_filename (1);
 	if (path_is_file (wallpaper_filename)) {
 		/* Use a new filename to force an update. */
@@ -735,7 +735,7 @@ get_new_wallpaper_filename (void)
 		if (path_is_file (wallpaper_filename))
 			file_unlink (wallpaper_filename);
 	}
-	
+
 	return 	wallpaper_filename;
 }
 
@@ -746,16 +746,16 @@ set_wallpaper (GthWindow      *window,
 	       WallpaperAlign  align)
 {
 	SetWallpaperData *data;
-	
+
 	data = g_new0 (SetWallpaperData, 1);
 	data->window = window;
 	data->align = align;
-	
+
 	if (is_local_file (image_path))
 		set_wallpaper_step_2 (image_path, GNOME_VFS_OK, data);
 	else {
 		char *wallpaper_filename;
-		
+
 		wallpaper_filename = get_new_wallpaper_filename ();
 		copy_file_async (image_path, wallpaper_filename, set_wallpaper_step_2, data);
 		g_free (wallpaper_filename);
@@ -773,7 +773,7 @@ set_wallpaper_from_window (GthWindow      *window,
 		const char *filename = gth_window_get_image_filename (window);
 		if (filename != NULL)
 			image_path = g_strdup (filename);
-	} 
+	}
 	else {
 		ImageViewer *image_viewer;
 		GdkPixbuf   *pixbuf;
@@ -794,17 +794,17 @@ set_wallpaper_from_window (GthWindow      *window,
 					local_file,
 					"jpeg",
 					&error,
-					NULL)) 
+					NULL))
 		{
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
 			g_object_unref (pixbuf);
-			g_free (local_file);			
+			g_free (local_file);
 			g_free (wallpaper_filename);
 			return;
 		}
 
 		image_path = wallpaper_filename;
-		
+
 		g_object_unref (pixbuf);
 		g_free (local_file);
 	}

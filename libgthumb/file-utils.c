@@ -2488,7 +2488,7 @@ get_temp_file_name (const char *tmpdir,
 
 	g_static_mutex_lock (&count_mutex);
 	if (ext != NULL)
-		name = g_strdup_printf ("%d%s", count++, ext);
+		name = g_strdup_printf ("%d.%s", count++, ext);
 	else
 		name = g_strdup_printf ("%d", count++);
 	g_static_mutex_unlock (&count_mutex);

@@ -253,14 +253,14 @@ static void update_info (DialogData *data);
 static gboolean async_operation_step (gpointer callback_data);
 
 
-static void 
+static void
 async_operation_next_step (AsyncOperationData *aodata)
 {
 	aodata->current++;
 	aodata->scan = aodata->scan->next;
 	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT,
 					  async_operation_step,
-					  aodata);	
+					  aodata);
 }
 
 
@@ -810,18 +810,24 @@ load_images_preview__step (AsyncOperationData *aodata,
 
 	camera_folder = remove_level_from_path (camera_path);
 	camera_filename = file_name_from_path (camera_path);
-	gp_camera_file_get (data->camera,
-			    camera_folder,
-			    camera_filename,
-			    GP_FILE_TYPE_PREVIEW,
-			    file,
-			    data->context);
+	if (gp_camera_file_get (data->camera,
+	                        camera_folder,
+	                        camera_filename,
+	                        GP_FILE_TYPE_PREVIEW,
+	                        file,
+	                        data->context) < 0) {
+		/* clear error flag if thumbnail generation failed (e.g. for
+		 * movies), this should not stop the import*/
+		g_mutex_lock (data->data_mutex);
+		data->error = FALSE;
+		g_mutex_unlock (data->data_mutex);
+	}
 
 	tmp_dir = get_temp_dir_name ();
-	if (tmp_dir == NULL) 
+	if (tmp_dir == NULL)
 		/* should we display an error message here? */
 		return;
-	
+
 	tmp_filename = get_temp_file_name (tmp_dir, get_filename_extension (camera_filename));
 
 	if (gp_file_save (file, tmp_filename) >= 0) {
@@ -830,8 +836,10 @@ load_images_preview__step (AsyncOperationData *aodata,
 		FileData  *fdata;
 
 		tmp_file = file_data_new_from_local_path (tmp_filename);
-		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
-		
+		/* fast mime type should even work for empty files (if thumbnail creation failed)
+		 * by using the extension*/
+		file_data_update_mime_type (tmp_file, TRUE);
+
 		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, tmp_file);
@@ -842,7 +850,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 camera_filename,
 						 NULL,
 						 fdata);
-						 
+
 		g_object_unref (pixbuf);
 		file_data_unref (tmp_file);
 		file_data_unref (fdata);
@@ -900,7 +908,7 @@ load_images_preview (DialogData *data)
 		gtk_widget_show (data->progress_info_box);
 		gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 		return;
-	} 
+	}
 	else {
 		gtk_widget_show (data->import_preview_box);
 		gtk_widget_hide (data->progress_info_box);
@@ -959,7 +967,7 @@ set_camera_model (DialogData *data,
 		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), model);
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->camera_present_pixbuf);
 		load_images_preview (data);
-	} 
+	}
 	else {
 		data->camera_setted = FALSE;
 		display_error_dialog (data,
@@ -1210,7 +1218,7 @@ get_file_name (DialogData *data,
 	if (data->keep_original_filename) {
 		file_name = g_strdup (file_name_from_path (camera_path));
 		/* set_lowercase (file_name); see #339291 */
-	} 
+	}
 	else {
 		char *s, *new_ext;
 
@@ -1246,7 +1254,7 @@ add_categories_to_image (DialogData *data,
 	CommentData *cdata;
 	GList       *scan;
 	char        *uri;
-	
+
 	if (data->categories_list == NULL)
 		return;
 
@@ -1262,7 +1270,7 @@ add_categories_to_image (DialogData *data,
 
 	comments_save_categories (uri, cdata);
 	comment_data_free (cdata);
-	
+
 	g_free (uri);
 }
 
@@ -1297,13 +1305,13 @@ save_image (DialogData *data,
 
 	local_path = get_cache_filename_from_uri (file_uri);
 	if ((local_path != NULL) && gp_file_save (file, local_path) >= 0) {
-		if (data->adjust_orientation) 
+		if (data->adjust_orientation)
 			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (file_uri));
 		if (data->delete_from_camera)
 			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
 		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (file_uri));
 		add_categories_to_image (data, local_path);
-	} 
+	}
 	else {
 		g_mutex_lock (data->data_mutex);
 		data->error = TRUE;
@@ -1401,7 +1409,7 @@ copy_images__step (AsyncOperationData *aodata,
 {
 	const char *uri = aodata->scan->data;
 	FileData   *file;
-	
+
 	file = file_data_new (uri, NULL);
 	update_file_from_cache (file, done_func, aodata);
 	file_data_unref (file);
@@ -1503,7 +1511,7 @@ adjust_orientation__done (AsyncOperationData *aodata,
 					    		    copy_images__step,
 					    		    copy_images__done,
 					    		    data);
-	async_operation_start (data->aodata);	
+	async_operation_start (data->aodata);
 }
 
 
@@ -1625,7 +1633,7 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-	if (sel_list == NULL) 
+	if (sel_list == NULL)
 		sel_list = gth_image_list_get_list (GTH_IMAGE_LIST (data->image_list));
 
 	if (sel_list != NULL) {
@@ -1911,7 +1919,7 @@ check_thread (gpointer cb_data)
 		default:
 			break;
 		}
-	} 
+	}
 	else	/* Add check again. */
 		data->check_id = g_timeout_add (REFRESH_RATE, check_thread, data);
 
@@ -2055,7 +2063,7 @@ dlg_photo_importer (GthBrowser *browser)
 	if ((default_path == NULL) || (*default_path == 0))
 		default_path = xdg_user_dir_lookup ("PICTURES");
 	default_uri = add_scheme_if_absent (default_path);
-		
+
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton),
 					         default_uri);
 	g_free (default_path);
