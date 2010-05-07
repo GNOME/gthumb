@@ -325,6 +325,14 @@ invert_ratio_changed_cb (GtkSpinButton    *spin,
 }
 
 
+static void
+show_grid_changed_cb (GtkCheckButton  *button,
+		      GthFileToolCrop *self)
+{
+	gth_image_selector_set_grid_visible (self->priv->selector, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
+}
+
+
 static GtkWidget *
 gth_file_tool_crop_get_options (GthFileTool *base)
 {
@@ -425,6 +433,10 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  "toggled",
 			  G_CALLBACK (invert_ratio_changed_cb),
 			  self);
+        g_signal_connect (GET_WIDGET ("show_grid_checkbutton"),
+                          "toggled",
+                          G_CALLBACK (show_grid_changed_cb),
+                          self);
 
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
 	g_signal_connect (self->priv->selector,
@@ -438,6 +450,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), 0);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "show_grid_checkbutton")), TRUE);
 
 	return options;
 }

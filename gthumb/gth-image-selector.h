@@ -66,6 +66,7 @@ struct _GthImageSelectorClass
 					  int               x,
 					  int               y);
 	void (* mask_visibility_changed) (GthImageSelector *selector);
+        void (* grid_visibility_changed) (GthImageSelector *selector);
 };
 
 GType                 gth_image_selector_get_type             (void);
@@ -92,6 +93,9 @@ gboolean              gth_image_selector_get_use_ratio        (GthImageSelector 
 void                  gth_image_selector_set_mask_visible     (GthImageSelector *selector,
 							       gboolean          visible);
 gboolean              gth_image_selector_get_mask_visible     (GthImageSelector *selector);
+void                  gth_image_selector_set_grid_visible     (GthImageSelector *selector,
+                                                               gboolean          visible);
+gboolean              gth_image_selector_get_grid_visible     (GthImageSelector *selector);
 
 G_END_DECLS
 

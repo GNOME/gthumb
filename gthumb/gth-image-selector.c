@@ -181,6 +181,7 @@ enum {
 	SELECTED,
 	MOTION_NOTIFY,
 	MASK_VISIBILITY_CHANGED,
+	GRID_VISIBILITY_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -200,6 +201,7 @@ struct _GthImageSelectorPrivate {
 	gboolean         use_ratio;
 	double           ratio;
 	gboolean         mask_visible;
+	gboolean         grid_visible;
 	gboolean         active;
 
 	GdkRectangle     drag_start_selection_area;
@@ -635,6 +637,33 @@ paint_selection (GthImageSelector *self,
 				paint_area.width,
 				paint_area.height,
 				GDK_INTERP_TILES);
+
+	if (self->priv->grid_visible) {
+		gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
+			       self->priv->selection_gc,
+			       paint_area.x+paint_area.width/3,
+			       paint_area.y,
+			       paint_area.x+paint_area.width/3,
+			       paint_area.y+paint_area.height);
+	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
+        	               self->priv->selection_gc,
+                	       paint_area.x+2*paint_area.width/3,
+	                       paint_area.y,
+        	               paint_area.x+2*paint_area.width/3,
+                	       paint_area.y+paint_area.height);
+	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
+        	               self->priv->selection_gc,
+                	       paint_area.x,
+	                       paint_area.y+paint_area.height/3,
+        	               paint_area.x+paint_area.width,
+                	       paint_area.y+paint_area.height/3);
+	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
+        	               self->priv->selection_gc,
+                	       paint_area.x,
+	                       paint_area.y+2*paint_area.height/3,
+        	               paint_area.x+paint_area.width,
+                	       paint_area.y+2*paint_area.height/3);
+	}
 }
 
 
@@ -1281,6 +1310,7 @@ gth_image_selector_instance_init (GthImageSelector *self)
 	self->priv->type = GTH_SELECTOR_TYPE_REGION;
 	self->priv->ratio = 1.0;
 	self->priv->mask_visible = TRUE;
+	self->priv->grid_visible = FALSE;
 }
 
 
@@ -1349,6 +1379,14 @@ gth_image_selector_class_init (GthImageSelectorClass *class)
 							 g_cclosure_marshal_VOID__VOID,
 							 G_TYPE_NONE,
 							 0);
+        signals[GRID_VISIBILITY_CHANGED] = g_signal_new ("grid_visibility_changed",
+                                                         G_TYPE_FROM_CLASS (class),
+                                                         G_SIGNAL_RUN_LAST,
+                                                         G_STRUCT_OFFSET (GthImageSelectorClass, grid_visibility_changed),
+                                                         NULL, NULL,
+                                                         g_cclosure_marshal_VOID__VOID,
+                                                         G_TYPE_NONE,
+                                                         0);
 }
 
 
@@ -1553,9 +1591,30 @@ gth_image_selector_set_mask_visible (GthImageSelector *self,
 }
 
 
+void
+gth_image_selector_set_grid_visible (GthImageSelector *self,
+                                     gboolean          visible)
+{
+        if (visible == self->priv->grid_visible)
+                return;
+
+        self->priv->grid_visible = visible;
+        gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+        g_signal_emit (G_OBJECT (self),
+                       signals[GRID_VISIBILITY_CHANGED],
+                       0);
+}
+
+
 gboolean
 gth_image_selector_get_mask_visible (GthImageSelector *self)
 {
 	return self->priv->mask_visible;
 }
 
+
+gboolean
+gth_image_selector_get_grid_visible (GthImageSelector *self)
+{
+        return self->priv->grid_visible;
+}
