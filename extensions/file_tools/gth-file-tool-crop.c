@@ -62,6 +62,7 @@ struct _GthFileToolCropPrivate {
 	GtkWidget        *crop_y_spinbutton;
 	GtkWidget        *crop_width_spinbutton;
 	GtkWidget        *crop_height_spinbutton;
+	GtkWidget	 *grid_type_combobox;
 };
 
 
@@ -326,10 +327,10 @@ invert_ratio_changed_cb (GtkSpinButton    *spin,
 
 
 static void
-show_grid_changed_cb (GtkCheckButton  *button,
+grid_type_changed_cb (GtkComboBox     *combobox,
 		      GthFileToolCrop *self)
 {
-	gth_image_selector_set_grid_visible (self->priv->selector, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
+	gth_image_selector_set_grid_type (self->priv->selector, gtk_combo_box_get_active (combobox));
 }
 
 
@@ -393,6 +394,10 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
 
+	self->priv->grid_type_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Rule of Thirds"), _("Golden Sections"), NULL);
+	gtk_widget_show (self->priv->grid_type_combobox);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("grid_type_combobox_box")), self->priv->grid_type_combobox, FALSE, FALSE, 0);
+
 	g_signal_connect (GET_WIDGET ("crop_button"),
 			  "clicked",
 			  G_CALLBACK (crop_button_clicked_cb),
@@ -433,9 +438,9 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  "toggled",
 			  G_CALLBACK (invert_ratio_changed_cb),
 			  self);
-        g_signal_connect (GET_WIDGET ("show_grid_checkbutton"),
-                          "toggled",
-                          G_CALLBACK (show_grid_changed_cb),
+        g_signal_connect (self->priv->grid_type_combobox,
+                          "changed",
+                          G_CALLBACK (grid_type_changed_cb),
                           self);
 
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
@@ -450,7 +455,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), 0);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "show_grid_checkbutton")), TRUE);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), GTH_GRID_THIRDS);
 
 	return options;
 }

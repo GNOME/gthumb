@@ -46,6 +46,12 @@ typedef enum {
 	GTH_SELECTOR_TYPE_POINT
 } GthSelectorType;
 
+typedef enum {
+	GTH_GRID_NONE = 0,
+	GTH_GRID_THIRDS,
+	GTH_GRID_GOLDEN
+} GthGridType;
+
 struct _GthImageSelector
 {
 	GObject __parent;
@@ -93,9 +99,9 @@ gboolean              gth_image_selector_get_use_ratio        (GthImageSelector 
 void                  gth_image_selector_set_mask_visible     (GthImageSelector *selector,
 							       gboolean          visible);
 gboolean              gth_image_selector_get_mask_visible     (GthImageSelector *selector);
-void                  gth_image_selector_set_grid_visible     (GthImageSelector *selector,
-                                                               gboolean          visible);
-gboolean              gth_image_selector_get_grid_visible     (GthImageSelector *selector);
+void                  gth_image_selector_set_grid_type        (GthImageSelector *selector,
+                                                               GthGridType       grid_type);
+GthGridType           gth_image_selector_get_grid_type        (GthImageSelector *selector);
 
 G_END_DECLS
 

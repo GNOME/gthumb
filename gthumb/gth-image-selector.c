@@ -34,6 +34,7 @@
 #define DRAG_THRESHOLD 1
 #define STEP_INCREMENT 20.0  /* scroll increment. */
 #define SCROLL_TIMEOUT 30    /* autoscroll timeout in milliseconds */
+#define GOLDEN_RATIO   1.6180339887
 
 
 typedef struct {
@@ -201,7 +202,7 @@ struct _GthImageSelectorPrivate {
 	gboolean         use_ratio;
 	double           ratio;
 	gboolean         mask_visible;
-	gboolean         grid_visible;
+	GthGridType      grid_type;
 	gboolean         active;
 
 	GdkRectangle     drag_start_selection_area;
@@ -621,6 +622,10 @@ paint_selection (GthImageSelector *self,
 {
 	GdkRectangle selection_area, paint_area;
 
+	int grid_x0, grid_x1, grid_x2, grid_x3;
+        int grid_y0, grid_y1, grid_y2, grid_y3;
+	int x_delta, y_delta;
+
 	selection_area = self->priv->selection_area;
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
 	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
@@ -638,31 +643,44 @@ paint_selection (GthImageSelector *self,
 				paint_area.height,
 				GDK_INTERP_TILES);
 
-	if (self->priv->grid_visible) {
+	if (self->priv->grid_type != GTH_GRID_NONE) {
+
+		grid_x0 = paint_area.x;
+		grid_x3 = paint_area.x+paint_area.width;
+
+                grid_y0 = paint_area.y;
+                grid_y3 = paint_area.y+paint_area.height;
+
+		if (self->priv->grid_type == GTH_GRID_THIRDS) {
+			x_delta = paint_area.width / 3;
+			y_delta = paint_area.height /3;
+		} else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
+			x_delta = paint_area.width * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
+			y_delta = paint_area.height * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
+		}
+
+		grid_x1 = grid_x0 + x_delta;
+		grid_x2 = grid_x3 - x_delta;
+                grid_y1 = grid_y0 + y_delta;
+                grid_y2 = grid_y3 - y_delta;
+
 		gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
 			       self->priv->selection_gc,
-			       paint_area.x+paint_area.width/3,
-			       paint_area.y,
-			       paint_area.x+paint_area.width/3,
-			       paint_area.y+paint_area.height);
+			       grid_x1, grid_y0,
+			       grid_x1, grid_y3);
 	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-        	               self->priv->selection_gc,
-                	       paint_area.x+2*paint_area.width/3,
-	                       paint_area.y,
-        	               paint_area.x+2*paint_area.width/3,
-                	       paint_area.y+paint_area.height);
+       		               self->priv->selection_gc,
+ 			       grid_x2, grid_y0,
+			       grid_x2, grid_y3);
+        	gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
+       	        	       self->priv->selection_gc,
+                               grid_x0, grid_y1,
+                               grid_x3, grid_y1);
 	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-        	               self->priv->selection_gc,
-                	       paint_area.x,
-	                       paint_area.y+paint_area.height/3,
-        	               paint_area.x+paint_area.width,
-                	       paint_area.y+paint_area.height/3);
-	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-        	               self->priv->selection_gc,
-                	       paint_area.x,
-	                       paint_area.y+2*paint_area.height/3,
-        	               paint_area.x+paint_area.width,
-                	       paint_area.y+2*paint_area.height/3);
+       		               self->priv->selection_gc,
+                               grid_x0, grid_y2,
+                               grid_x3, grid_y2);
+
 	}
 }
 
@@ -1310,7 +1328,7 @@ gth_image_selector_instance_init (GthImageSelector *self)
 	self->priv->type = GTH_SELECTOR_TYPE_REGION;
 	self->priv->ratio = 1.0;
 	self->priv->mask_visible = TRUE;
-	self->priv->grid_visible = FALSE;
+	self->priv->grid_type = GTH_GRID_NONE;
 }
 
 
@@ -1592,13 +1610,13 @@ gth_image_selector_set_mask_visible (GthImageSelector *self,
 
 
 void
-gth_image_selector_set_grid_visible (GthImageSelector *self,
-                                     gboolean          visible)
+gth_image_selector_set_grid_type (GthImageSelector *self,
+                                  GthGridType       grid_type)
 {
-        if (visible == self->priv->grid_visible)
+        if (grid_type == self->priv->grid_type)
                 return;
 
-        self->priv->grid_visible = visible;
+        self->priv->grid_type = grid_type;
         gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
         g_signal_emit (G_OBJECT (self),
                        signals[GRID_VISIBILITY_CHANGED],
@@ -1613,8 +1631,8 @@ gth_image_selector_get_mask_visible (GthImageSelector *self)
 }
 
 
-gboolean
-gth_image_selector_get_grid_visible (GthImageSelector *self)
+GthGridType
+gth_image_selector_get_grid_type (GthImageSelector *self)
 {
-        return self->priv->grid_visible;
+        return self->priv->grid_type;
 }

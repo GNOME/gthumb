@@ -201,25 +201,37 @@
                               <object class="GtkHBox" id="hbox1">
                                 <property name="visible">True</property>
                                 <child>
-                                  <object class="GtkCheckButton" id="show_grid_checkbutton">
-                                    <property name="label" translatable="yes">Show _grid</property>
+                                  <object class="GtkHBox" id="grid_type_combobox_box">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="draw_indicator">True</property>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
+                                <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
                                 <property name="top_attach">4</property>
                                 <property name="bottom_attach">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="crop_grid_label">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">_Grid:</property>
+                                <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">crop_x_spinbutton</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">4</property>
+                                <property name="bottom_attach">5</property>
+                                <property name="x_options">GTK_FILL</property>
+                                <property name="y_options"></property>
                               </packing>
                             </child>
                           </object>
