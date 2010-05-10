@@ -25,9 +25,7 @@
 #include <gthumb.h>
 #include "dlg-rename-series.h"
 #include "gth-rename-task.h"
-
-
-#define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
+#include "preferences.h"
 
 
 enum {
@@ -47,6 +45,15 @@ enum {
 	PREVIEW_NEW_NAME_COLUMN,
 	PREVIEW_NUM_COLUMNS
 };
+
+
+#define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
+
+#define DEFAULT_TEMPLATE       "####%E"
+#define DEFAULT_START_AT       1
+#define DEFAULT_SORT_BY        "general::unsorted"
+#define DEFAULT_REVERSE_ORDER  FALSE
+#define DEFAULT_CHANGE_CASE    GTH_CHANGE_CASE_NONE
 
 
 typedef struct {
@@ -84,11 +91,36 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
-	GList   *old_files;
-	GList   *new_files;
-	GList   *scan1;
-	GList   *scan2;
-	GthTask *task;
+        GtkTreeIter   iter;
+	GList        *old_files;
+	GList        *new_files;
+	GList        *scan1;
+	GList        *scan2;
+	GthTask      *task;
+
+	/* -- save preferences -- */
+
+	if (data->file_list->next != NULL)
+		eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
+
+         eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton"))));
+
+        if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_combobox), &iter)) {
+                GthFileDataSort *sort_type;
+
+                gtk_tree_model_get (GTK_TREE_MODEL (data->sort_model),
+                                    &iter,
+                                    SORT_DATA_COLUMN, &sort_type,
+                                    -1);
+
+                eel_gconf_set_string (PREF_RENAME_SERIES_SORT_BY, sort_type->name);
+        }
+
+        eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE_ORDER, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton"))));
+        eel_gconf_set_integer (PREF_RENAME_SERIES_CHANGE_CASE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->change_case_combobox)));
+
+
+        /* -- prepare and exec rename task -- */
 
 	old_files = NULL;
 	new_files = NULL;
@@ -396,6 +428,10 @@ dlg_rename_series (GthBrowser *browser,
 	GtkTreeViewColumn *column;
 	int                i;
 	GList             *scan;
+	int                change_case;
+	int                start_at;
+	char              *sort_by;
+	gboolean           found;
 
 	if (gth_browser_get_dialog (browser, "rename_series") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "rename_series")));
@@ -447,9 +483,12 @@ dlg_rename_series (GthBrowser *browser,
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
 	}
 	else
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), "####%E");
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, DEFAULT_TEMPLATE));
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")), 1.0);
+	start_at = eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, DEFAULT_START_AT);
+	if (start_at < 0)
+		start_at = DEFAULT_START_AT;
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")),  start_at * 1.0);
 
 	/* sort by */
 
@@ -465,6 +504,9 @@ dlg_rename_series (GthBrowser *browser,
 					"text", SORT_NAME_COLUMN,
 					NULL);
 
+	sort_by = eel_gconf_get_string (PREF_RENAME_SERIES_SORT_BY, DEFAULT_SORT_BY);
+	found = FALSE;
+
 	for (i = 0, scan = gth_main_get_all_sort_types (); scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
@@ -474,19 +516,36 @@ dlg_rename_series (GthBrowser *browser,
 				    SORT_DATA_COLUMN, sort_type,
 				    SORT_NAME_COLUMN, sort_type->display_name,
 				    -1);
+
+                if (strcmp (sort_by, sort_type->name) == 0) {
+                	gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->sort_combobox), &iter);
+                	found = TRUE;
+                }
 	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_combobox), 0);
+	g_free (sort_by);
+
+	if (!found)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_combobox), 0);
+
 	gtk_widget_show (data->sort_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("sort_by_box")), data->sort_combobox);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("sort_by_label")), data->sort_combobox);
 
+	/* reverse order */
+
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE_ORDER, DEFAULT_REVERSE_ORDER));
+
 	/* change case */
+
+        change_case = eel_gconf_get_integer (PREF_RENAME_SERIES_CHANGE_CASE, DEFAULT_CHANGE_CASE);
+        if ((change_case < GTH_CHANGE_CASE_NONE)  || (change_case > GTH_CHANGE_CASE_UPPER))
+                change_case = DEFAULT_CHANGE_CASE;
 
 	data->change_case_combobox = _gtk_combo_box_new_with_texts (_("Keep original case"),
 								    _("Convert to lower-case"),
 								    _("Convert to upper-case"),
 								    NULL);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->change_case_combobox), 0);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->change_case_combobox), change_case);
 	gtk_widget_show (data->change_case_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("change_case_box")), data->change_case_combobox);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("change_case_label")), data->change_case_combobox);

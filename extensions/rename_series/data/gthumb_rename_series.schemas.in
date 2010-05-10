@@ -1,0 +1,65 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rename_series/template</key>
+	<applyto>/apps/gthumb/ext/rename_series/template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>####%E</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+       <schema>
+	<key>/schemas/apps/gthumb/ext/rename_series/start_at</key>
+	<applyto>/apps/gthumb/ext/rename_series/start_at</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rename_series/sort_by</key>
+	<applyto>/apps/gthumb/ext/rename_series/sort_by</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>general::unsorted</default>
+	<locale name="C">
+	  <short>Possible values include: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal</short>
+	  <long></long>
+	</locale>
+      </schema>
+ 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rename_series/reverse_order</key>
+	<applyto>/apps/gthumb/ext/rename_series/reverse_order</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rename_series/change_case</key>
+	<applyto>/apps/gthumb/ext/rename_series/change_case</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short>Possible values: 0 (none), 1 (lower), 2 (upper)</short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

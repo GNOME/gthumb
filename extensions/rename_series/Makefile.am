@@ -12,7 +12,8 @@ librename_series_la_SOURCES = 		\
 	dlg-rename-series.h		\
 	gth-rename-task.c		\
 	gth-rename-task.h		\
-	main.c
+	main.c				\
+	preferences.h
 
 librename_series_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 librename_series_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
