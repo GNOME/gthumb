@@ -1,13 +1,13 @@
 # gthumb ja.po.
-# Copyright (C) 2001-2007 Free Software Foundation, Inc.
+# Copyright (C) 2001-2007,2009,2010 Free Software Foundation, Inc.
 # Takeshi Aihana <takeshi.aihana@gmail.com>, 2001-2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-25 00:32+0900\n"
-"PO-Revision-Date: 2009-03-25 00:22+0900\n"
+"POT-Creation-Date: 2010-05-11 23:56+0900\n"
+"PO-Revision-Date: 2010-05-11 23:56+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "画像の寸法"
 msgid "Bytes"
 msgstr "バイト数"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "日付"
 
@@ -267,9 +267,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "写真のインポート"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
-#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
-#: ../src/dlg-photo-importer.c:2341
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:938
+#: ../src/dlg-photo-importer.c:977 ../src/dlg-photo-importer.c:1605
+#: ../src/dlg-photo-importer.c:2352
 msgid "No camera detected"
 msgstr "カメラを検出できませんでした"
 
@@ -332,7 +332,7 @@ msgstr "カテゴリ"
 msgid "Co_mment:"
 msgstr "コメント(_M):"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "コメント"
 
@@ -1466,7 +1466,7 @@ msgid "Postcard"
 msgstr "はがき"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "印刷"
@@ -1579,8 +1579,8 @@ msgstr "選択したいくつかのカテゴリに一致する(_N)"
 msgid "New _Search..."
 msgstr "新規の検索(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
-#: ../src/dlg-photo-importer.c:1644
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:907
+#: ../src/dlg-photo-importer.c:1652
 msgid "No images found"
 msgstr "画像が見つかりませんでした"
 
@@ -2170,19 +2170,19 @@ msgstr "カタログ \"%s\" が開けません: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を保存できません: %s"
 
-#: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
+#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
 msgstr "%Y年%B%e日"
 
-#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
+#: ../libgthumb/comments.c:1242 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
 #: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y年%B%e日 %H:%M"
 
-#: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
+#: ../libgthumb/comments.c:1252 ../libgthumb/comments.c:1254
 msgid "(No Comment)"
 msgstr "(コメントなし)"
 
@@ -2215,22 +2215,22 @@ msgstr "ファイル・システム"
 msgid "Home"
 msgstr "ホーム"
 
-#: ../libgthumb/file-utils.c:2155
+#: ../libgthumb/file-utils.c:2158
 msgid "Library not empty"
 msgstr "ライブラリは空ではありません"
 
-#: ../libgthumb/file-utils.c:2164
+#: ../libgthumb/file-utils.c:2167
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "ライブラリ \"%s\" を削除できません: %s"
 
-#: ../libgthumb/file-utils.c:2191
+#: ../libgthumb/file-utils.c:2194
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を削除できません: %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:775
-#: ../src/gth-browser.c:4509 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4508 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "画像はありません"
 
@@ -2242,12 +2242,12 @@ msgstr "ヘルプを表示することができませんでした"
 msgid "Ro_tate Images"
 msgstr "画像の回転(_T)"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:825
 #, c-format
 msgid "Page %d of %d"
 msgstr "ページ %d / %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1423
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "画像の読み込み中: %s"
@@ -2260,13 +2260,13 @@ msgstr "全てのサムネイルを削除しています。少々お待ち下さ
 msgid "Deleting old thumbnails, wait please..."
 msgstr "古いサムネイルを削除しています。少々お待ち下さい..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
-#: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
 msgid "(Invalid Name)"
 msgstr "(不正な名前)"
 
 #: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
 #: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
@@ -2326,7 +2326,7 @@ msgstr "生成(_R)"
 msgid "Enter the library name: "
 msgstr "ライブラリの名前を入力して下さい: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "カタログの移動..."
 
@@ -2417,7 +2417,7 @@ msgstr "送り先のフォルダが存在しません。そのフォルダを作
 msgid "Could not create folder \"%s\": %s."
 msgstr "フォルダ \"%s\" を生成できませんでした: %s"
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1669
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1677
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2434,7 +2434,7 @@ msgid ""
 msgstr "画像をゴミ箱に移動することができません。画像を完全に消去しますか？"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
+#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "次回からこのメッセージを表示しない(_D)"
@@ -2448,77 +2448,77 @@ msgstr "移動(_M)"
 msgid "Choose the destination folder"
 msgstr "送り先のフォルダを選択して下さい"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:547
 msgid "%d %b %Y, %H:%M"
 msgstr "%Y年%B%e日 %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
 msgid "You didn't enter the new name"
 msgstr "新しい名前を入力していません。"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "名前 \"%s\" は既にこのフォルダで使用しています。別の名前を入力して下さい。"
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1033
 msgid "Could not rename the image:"
 msgstr "画像を削除することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1035
 msgid "Could not rename the following images:"
 msgstr "次の画像の名前を変更することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1168
 msgid "Could not move the image:"
 msgstr "画像を移動することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1170
 msgid "Could not copy the image:"
 msgstr "画像をコピーすることができませんでした:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
 msgstr "続行(_C)"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1373
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "ファイルのコピー中: %d/%d"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
 msgid "Collecting images info"
 msgstr "画像情報の収集"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "ファイルの削除中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2015
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "ファイルのコピー中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2020
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "ファイルの移動中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
 #: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を移動できませんでした: %s"
 
 #: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "サイズ"
 
@@ -2526,7 +2526,7 @@ msgstr "サイズ"
 msgid "Type"
 msgstr "種類"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "修正日時"
@@ -2547,31 +2547,31 @@ msgstr ""
 "一時的なファイルをリモートのマシン上に移動できませんでした (移動先の権限を確"
 "認して下さい)"
 
-#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1596
-#: ../src/dlg-photo-importer.c:1643 ../src/dlg-photo-importer.c:1655
-#: ../src/dlg-photo-importer.c:1671 ../src/dlg-photo-importer.c:1700
+#: ../src/dlg-photo-importer.c:974 ../src/dlg-photo-importer.c:1604
+#: ../src/dlg-photo-importer.c:1651 ../src/dlg-photo-importer.c:1663
+#: ../src/dlg-photo-importer.c:1679 ../src/dlg-photo-importer.c:1708
 msgid "Could not import photos"
 msgstr "写真をインポートできませんでした"
 
-#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
+#: ../src/dlg-photo-importer.c:1337 ../src/main.c:1012
 msgid "Film"
 msgstr "フィルム"
 
-#: ../src/dlg-photo-importer.c:1341
+#: ../src/dlg-photo-importer.c:1349
 msgid "Import errors detected"
 msgstr "インポート・エラーです"
 
-#: ../src/dlg-photo-importer.c:1342
+#: ../src/dlg-photo-importer.c:1350
 msgid "The files on the camera will not be deleted"
 msgstr "カメラの中にあるファイルは削除されません"
 
-#: ../src/dlg-photo-importer.c:1652
+#: ../src/dlg-photo-importer.c:1660
 #: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を生成できませんでした: %s"
 
-#: ../src/dlg-photo-importer.c:1701
+#: ../src/dlg-photo-importer.c:1709
 msgid "Not enough free space left on disk"
 msgstr "空き容量が足りません"
 
@@ -2587,32 +2587,32 @@ msgstr "ヘッダ"
 msgid "Footer"
 msgstr "フッタ"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "パス名順"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "サイズ順"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "最終修正日時順"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "Exif タグの日時順"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "コメント順"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "順番を指定する"
@@ -2645,7 +2645,7 @@ msgstr "検索結果"
 msgid "Select Album Theme"
 msgstr "アルバムのテーマの選択"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3859
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3858
 msgid "Could not move the items:"
 msgstr "アイテムを移動することができませんでした:"
 
@@ -3374,87 +3374,87 @@ msgstr "カタログ(_C)"
 msgid "View the catalogs"
 msgstr "カタログを表示します"
 
-#: ../src/gth-browser.c:548 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[コメントを追加する時は 'c' キーを押して下さい]"
 
-#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[変更済]"
 
-#: ../src/gth-browser.c:697 ../src/main.c:437 ../src/main.c:723
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr " 1個の画像 (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr " %d個の画像 (%s)"
 
-#: ../src/gth-browser.c:787
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr " 1つ選択 (%s)"
 
-#: ../src/gth-browser.c:790
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr " %dつ選択 (%s)"
 
-#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:997
+#: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
 msgstr "この画像が変更されました。保存しますか？"
 
-#: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
 msgid "Do Not Save"
 msgstr "保存しない"
 
-#: ../src/gth-browser.c:3618
+#: ../src/gth-browser.c:3617
 msgid "Dragged Images"
 msgstr "画像のドラッグ"
 
-#: ../src/gth-browser.c:5461 ../src/gth-browser.c:5462
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "品質を維持したまま画像を回転します"
 
-#: ../src/gth-browser.c:6351
+#: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
 msgstr "フォルダの一覧を取得してます..."
 
-#: ../src/gth-browser.c:6373
+#: ../src/gth-browser.c:6372
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "フォルダ \"%s\" を読み込めません: %s\n"
 
-#: ../src/gth-browser.c:6921 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "このペインを閉じます"
 
-#: ../src/gth-browser.c:6935 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "画像にコメントを追加します"
 
-#: ../src/gth-browser.c:6949
+#: ../src/gth-browser.c:6941
 msgid "Image data"
 msgstr "画像のデータを表示します"
 
-#: ../src/gth-browser.c:6963
+#: ../src/gth-browser.c:6953
 msgid "Image preview"
 msgstr "画像をプレビュー表示します"
 
-#: ../src/gth-browser.c:8021
+#: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
 msgstr "指定したカタログは存在しません。"
 
-#: ../src/gth-browser.c:8653 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "しばらくお待ち下さい..."
 
@@ -3498,80 +3498,80 @@ msgstr "その他"
 msgid "Path"
 msgstr "パス"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "が次を含む"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "が次で始まる"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "が次で終わる"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "が次である"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "が次ではない"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "は次を含まない"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "が次と同じ"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "が次より小さい"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "が次より大きい"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "が次より前"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "が次より後"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "Kバイト"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "Mバイト"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "ファイル名"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "場所"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "カテゴリ"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr "文字列が次を含む"
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "全て"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
+#: ../src/gth-filter-bar.c:540
 msgid "S_how:"
 msgstr "フィルタ(_H):"
 
@@ -3626,11 +3626,11 @@ msgstr "他で開く(_O)"
 msgid "Open selected images with an application"
 msgstr "選択した画像を他のアプリケーションで開きます"
 
-#: ../src/gth-window-actions-callbacks.c:924
+#: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
 msgstr "GNOME 向けの画像ビューアとブラウザです。"
 
-#: ../src/gth-window-actions-callbacks.c:927
+#: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
 msgstr ""
 "相花 毅 <takeshi.aihana@gmail.com>\n"
@@ -3944,6 +3944,10 @@ msgstr "gThumb の情報を表示します"
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
 msgstr "目次"
+
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "gThumb のマニュアルを表示します"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
