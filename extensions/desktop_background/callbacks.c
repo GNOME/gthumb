@@ -32,8 +32,13 @@
 
 static const char *fixed_ui_info =
 "<ui>"
-"  <popup name='ListToolsPopup'>"
-"    <placeholder name='Tools'>"
+"  <popup name='FileListPopup'>"
+"    <placeholder name='Screen_Actions'>"
+"      <menuitem name='DesktopBackground' action='Tool_DesktopBackground'/>"
+"    </placeholder>"
+"  </popup>"
+"  <popup name='FilePopup'>"
+"    <placeholder name='Screen_Actions'>"
 "      <menuitem name='DesktopBackground' action='Tool_DesktopBackground'/>"
 "    </placeholder>"
 "  </popup>"
@@ -82,7 +87,8 @@ db__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Tools/DesktopBackground")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/FileListPopup/Screen_Actions/DesktopBackground")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/FilePopup/Screen_Actions/DesktopBackground")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
