@@ -622,10 +622,6 @@ paint_selection (GthImageSelector *self,
 {
 	GdkRectangle selection_area, paint_area;
 
-	int grid_x0, grid_x1, grid_x2, grid_x3;
-        int grid_y0, grid_y1, grid_y2, grid_y3;
-	int x_delta, y_delta;
-
 	selection_area = self->priv->selection_area;
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
 	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
@@ -644,17 +640,21 @@ paint_selection (GthImageSelector *self,
 				GDK_INTERP_TILES);
 
 	if (self->priv->grid_type != GTH_GRID_NONE) {
+		int grid_x0, grid_x1, grid_x2, grid_x3;
+	        int grid_y0, grid_y1, grid_y2, grid_y3;
+		int x_delta, y_delta;
 
 		grid_x0 = paint_area.x;
-		grid_x3 = paint_area.x+paint_area.width;
+		grid_x3 = paint_area.x + paint_area.width;
 
                 grid_y0 = paint_area.y;
-                grid_y3 = paint_area.y+paint_area.height;
+                grid_y3 = paint_area.y + paint_area.height;
 
 		if (self->priv->grid_type == GTH_GRID_THIRDS) {
 			x_delta = paint_area.width / 3;
 			y_delta = paint_area.height /3;
-		} else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
+		}
+		else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
 			x_delta = paint_area.width * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
 			y_delta = paint_area.height * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
 		}
@@ -680,7 +680,6 @@ paint_selection (GthImageSelector *self,
        		               self->priv->selection_gc,
                                grid_x0, grid_y2,
                                grid_x3, grid_y2);
-
 	}
 }
 
