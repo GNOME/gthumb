@@ -97,8 +97,8 @@ gth_image_dragger_unrealize (GthImageViewerTool *base)
 
 
 static void
-gth_image_dragger_size_allocate (GthImageViewerTool  *base,
-				 GtkAllocation       *allocation)
+gth_image_dragger_size_allocate (GthImageViewerTool *base,
+				 GtkAllocation      *allocation)
 {
 	GthImageDragger *self;
 	GthImageViewer  *viewer;
@@ -106,7 +106,7 @@ gth_image_dragger_size_allocate (GthImageViewerTool  *base,
 	self = (GthImageDragger *) base;
 	viewer = (GthImageViewer *) self->priv->viewer;
 
-	self->priv->draggable = (viewer->hadj->upper > viewer->hadj->page_size) || (viewer->vadj->upper > viewer->vadj->page_size);
+	self->priv->draggable = (viewer->hadj->page_size > 0) && (viewer->vadj->page_size > 0) && ((viewer->hadj->upper > viewer->hadj->page_size) || (viewer->vadj->upper > viewer->vadj->page_size));
 	if (GTK_WIDGET_REALIZED (viewer))
 		_gth_image_dragger_update_cursor (self);
 }

@@ -495,6 +495,9 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 	gdk_width = allocation->width - viewer->priv->frame_border2;
 	gdk_height = allocation->height - viewer->priv->frame_border2;
 
+	if ((gdk_width < 0) || (gdk_height < 0))
+		return;
+
 	current_pixbuf = gth_image_viewer_get_current_pixbuf (viewer);
 
 	/* If a fit type is active update the zoom level. */
@@ -601,8 +604,10 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 
 	if (GTK_WIDGET_REALIZED (widget))
 		gdk_window_move_resize (widget->window,
-					allocation->x, allocation->y,
-					allocation->width, allocation->height);
+					allocation->x,
+					allocation->y,
+					allocation->width,
+					allocation->height);
 
 	gth_image_viewer_tool_size_allocate (viewer->priv->tool, allocation);
 
