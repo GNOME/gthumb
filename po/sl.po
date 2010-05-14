@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-05-07 18:28+0000\n"
-"PO-Revision-Date: 2010-05-08 09:41+0100\n"
+"POT-Creation-Date: 2010-05-14 11:29+0000\n"
+"PO-Revision-Date: 2010-05-14 19:24+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -348,7 +348,8 @@ msgid "Keep previous zoom"
 msgstr "Ohrani nastavljeno približanje"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:397
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
 msgid "None"
@@ -961,11 +962,11 @@ msgstr "Pretvarjanje slik"
 msgid "Could not show the desktop background properties"
 msgstr "Lastnosti ozadja namizja ni mogoče pokazati"
 
-#: ../extensions/desktop_background/callbacks.c:45
+#: ../extensions/desktop_background/callbacks.c:50
 msgid "Set as Desktop Background"
 msgstr "Nastavi za ozadje namizja"
 
-#: ../extensions/desktop_background/callbacks.c:46
+#: ../extensions/desktop_background/callbacks.c:51
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
 msgid "Set the image as desktop background"
 msgstr "Nastavi sliko kot ozadje namizja"
@@ -1302,15 +1303,29 @@ msgstr "Nov album"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:522
 #: ../extensions/flicker/dlg-export-to-flickr.c:516
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:928
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:940
 msgid "No valid file selected."
 msgstr "Nobena veljavna datoteka ni izbrana."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:523
 #: ../extensions/flicker/dlg-export-to-flickr.c:517
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:941
 msgid "Could not export the files"
 msgstr "Datotek ni mogoče izvoziti"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:530
+#: ../extensions/flicker/dlg-export-to-flickr.c:524
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:947
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
+#: ../gthumb/gth-browser.c:917
+#: ../gthumb/gth-browser.c:918
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d datotek (%s)"
+msgstr[1] "%d datoteka (%s)"
+msgstr[2] "%d datoteki (%s)"
+msgstr[3] "%d datoteke (%s)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:549
 #: ../extensions/flicker/dlg-export-to-flickr.c:544
@@ -1564,8 +1579,8 @@ msgid "_Paste Into Folder"
 msgstr "_Prilepi v mapo"
 
 #: ../extensions/file_manager/callbacks.c:841
-#: ../gthumb/gth-browser.c:4346
-#: ../gthumb/gth-browser.c:4384
+#: ../gthumb/gth-browser.c:4349
+#: ../gthumb/gth-browser.c:4387
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -1640,8 +1655,8 @@ msgid "Selection"
 msgstr "Izbira"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:6
-msgid "Show _grid"
-msgstr "Pokaži _mrežo"
+msgid "_Grid:"
+msgstr "_Mreža:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
@@ -1712,62 +1727,70 @@ msgstr "Prilagajanje barv"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
 msgid "Square"
 msgstr "Kvadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (slika)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:379
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (zaslon)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:383
+#: ../extensions/file_tools/gth-file-tool-crop.c:384
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:384
+#: ../extensions/file_tools/gth-file-tool-crop.c:385
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (knjiga, DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:385
+#: ../extensions/file_tools/gth-file-tool-crop.c:386
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:386
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Razglednica)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:388
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:389
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:389
+#: ../extensions/file_tools/gth-file-tool-crop.c:390
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:390
+#: ../extensions/file_tools/gth-file-tool-crop.c:391
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:391
+#: ../extensions/file_tools/gth-file-tool-crop.c:392
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:495
+#: ../extensions/file_tools/gth-file-tool-crop.c:397
+msgid "Rule of Thirds"
+msgstr "Pravilo tretin"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:397
+msgid "Golden Sections"
+msgstr "Zlati rezi"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:500
 msgid "Crop..."
 msgstr "Obreži ..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:495
+#: ../extensions/file_tools/gth-file-tool-crop.c:500
 msgid "Crop"
 msgstr "Obreži"
 
@@ -1914,6 +1937,15 @@ msgstr "_Varnost:"
 msgid "_Import"
 msgstr "_Uvoz "
 
+#: ../extensions/flicker/dlg-import-from-flickr.c:336
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d datotek"
+msgstr[1] "%d datoteka"
+msgstr[2] "%d datoteki"
+msgstr[3] "%d datoteke"
+
 #: ../extensions/flicker/dlg-import-from-flickr.c:360
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
 msgid "Could not get the photo list"
@@ -1941,7 +1973,7 @@ msgstr "Pošiljanje slik na Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1825
+#: ../gthumb/gth-browser.c:1826
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
@@ -2614,7 +2646,7 @@ msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1738
+#: ../gthumb/gth-browser.c:1739
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
@@ -2909,28 +2941,27 @@ msgstr "_Predogled:"
 msgid "_Template:"
 msgstr "_Predloga:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:341
+#: ../extensions/rename_series/dlg-rename-series.c:371
 msgid "Could not rename the files"
 msgstr "Ni mogoče preimenovati datotek"
 
-#: ../extensions/rename_series/dlg-rename-series.c:425
+#: ../extensions/rename_series/dlg-rename-series.c:459
 msgid "Old Name"
 msgstr "Staro ime"
 
-#: ../extensions/rename_series/dlg-rename-series.c:433
+#: ../extensions/rename_series/dlg-rename-series.c:467
 msgid "New Name"
 msgstr "Novo ime"
 
-#. change case
-#: ../extensions/rename_series/dlg-rename-series.c:485
+#: ../extensions/rename_series/dlg-rename-series.c:542
 msgid "Keep original case"
 msgstr "Ohrani izvorno velikost"
 
-#: ../extensions/rename_series/dlg-rename-series.c:486
+#: ../extensions/rename_series/dlg-rename-series.c:543
 msgid "Convert to lower-case"
 msgstr "Pretvori v male črke"
 
-#: ../extensions/rename_series/dlg-rename-series.c:487
+#: ../extensions/rename_series/dlg-rename-series.c:544
 msgid "Convert to upper-case"
 msgstr "Pretvori v velike črke"
 
@@ -3419,22 +3450,22 @@ msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#: ../gthumb/gth-browser.c:3180
+#: ../gthumb/gth-browser.c:3181
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:137
-#: ../gthumb/gth-browser.c:3201
+#: ../gthumb/gth-browser.c:3202
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:142
-#: ../gthumb/gth-browser.c:3222
+#: ../gthumb/gth-browser.c:3223
 msgid "Go up one level"
 msgstr "Pojdi raven višje"
 
 #: ../gthumb/gth-browser-actions-entries.h:151
-#: ../gthumb/gth-browser.c:645
+#: ../gthumb/gth-browser.c:646
 msgid "_Delete History"
 msgstr "_Izbriši zgodovino"
 
@@ -3530,75 +3561,75 @@ msgstr "Uredi"
 msgid "Edit file"
 msgstr "Uredi datoteko"
 
-#: ../gthumb/gth-browser.c:351
+#: ../gthumb/gth-browser.c:352
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
 
-#: ../gthumb/gth-browser.c:490
+#: ../gthumb/gth-browser.c:491
 msgid "[modified]"
 msgstr "[spremenjeno]"
 
-#: ../gthumb/gth-browser.c:494
+#: ../gthumb/gth-browser.c:495
 #: ../gthumb/gth-main.c:257
 msgid "gthumb"
 msgstr "gThumb"
 
-#: ../gthumb/gth-browser.c:1104
-#: ../gthumb/gth-browser.c:1640
-#: ../gthumb/gth-browser.c:5120
-#: ../gthumb/gth-browser.c:5139
-#: ../gthumb/gth-browser.c:5164
+#: ../gthumb/gth-browser.c:1105
+#: ../gthumb/gth-browser.c:1641
+#: ../gthumb/gth-browser.c:5123
+#: ../gthumb/gth-browser.c:5142
+#: ../gthumb/gth-browser.c:5167
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nisem mogel naložiti položaja  \"%s\""
 
-#: ../gthumb/gth-browser.c:1722
-#: ../gthumb/gth-browser.c:1749
+#: ../gthumb/gth-browser.c:1723
+#: ../gthumb/gth-browser.c:1750
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Primeren module za %s ni bil najden"
 
-#: ../gthumb/gth-browser.c:1867
+#: ../gthumb/gth-browser.c:1868
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Naj bodo spremembe datoteke '%s' shranjene?"
 
-#: ../gthumb/gth-browser.c:1872
+#: ../gthumb/gth-browser.c:1873
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "V primeru, da sprememb ne shranite, bodo te trajno izgubljene."
 
-#: ../gthumb/gth-browser.c:1873
+#: ../gthumb/gth-browser.c:1874
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2502
-#: ../gthumb/gth-browser.c:2526
+#: ../gthumb/gth-browser.c:2503
+#: ../gthumb/gth-browser.c:2527
 #: ../gthumb/gth-source-tree.c:179
 #: ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:2907
+#: ../gthumb/gth-browser.c:2908
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3181
-#: ../gthumb/gth-browser.c:3202
+#: ../gthumb/gth-browser.c:3182
+#: ../gthumb/gth-browser.c:3203
 msgid "View the list of visited locations"
 msgstr "Ogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3223
+#: ../gthumb/gth-browser.c:3224
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5121
+#: ../gthumb/gth-browser.c:5124
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5165
+#: ../gthumb/gth-browser.c:5168
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -3917,6 +3948,8 @@ msgstr "- Brskalnik in pregledovalnik slik"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 
+#~ msgid "Show _grid"
+#~ msgstr "Pokaži _mrežo"
 #~ msgid "4 x 3 (Book, DVD)"
 #~ msgstr "4 x 3 (knjiga, DVD)"
 #~ msgid "5 x 7"
@@ -4931,8 +4964,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "[Pritisnite 'c' za dodajanje opombe]"
 #~ msgid "1 image (%s)"
 #~ msgstr "1 slika (%s)"
-#~ msgid "%d images (%s)"
-#~ msgstr "%d slik (%s)"
 #~ msgid "%d selected (%s)"
 #~ msgstr "%d izbranih (%s)"
 #~ msgid "The current image has been modified, do you want to save it?"
