@@ -317,19 +317,28 @@ gth_file_list_init (GthFileList *file_list)
 static void _gth_file_list_update_next_thumb (GthFileList *file_list);
 
 
+static void
+flash_queue (GthFileList *file_list)
+{
+	if (file_list->priv->dirty) {
+		GthFileStore *file_store;
+
+		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+		gth_file_store_exec_set (file_store);
+		file_list->priv->dirty = FALSE;
+	}
+
+	if (file_list->priv->dirty_event != 0) {
+		g_source_remove (file_list->priv->dirty_event);
+		file_list->priv->dirty_event = 0;
+	}
+}
+
+
 static gboolean
 flash_queue_cb (gpointer data)
 {
-	GthFileList *file_list = data;
-	GthFileStore *file_store;
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	gth_file_store_exec_set (file_store);
-
-	g_source_remove (file_list->priv->dirty_event);
-	file_list->priv->dirty_event = 0;
-	file_list->priv->dirty = FALSE;
-
+	flash_queue ((GthFileList *) data);
 	return FALSE;
 }
 
@@ -1303,12 +1312,7 @@ gth_file_list_get_vadjustment (GthFileList *file_list)
 static void
 _gth_file_list_thumbs_completed (GthFileList *file_list)
 {
-	GthFileStore *file_store;
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	if (file_list->priv->n_thumb >= 0)
-		gth_file_store_exec_set (file_store);
-
+	flash_queue (file_list);
 	_gth_file_list_done (file_list);
 }
 
