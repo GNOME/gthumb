@@ -65,7 +65,7 @@
 #define MAX_HISTORY_LENGTH 15
 #define GCONF_NOTIFICATIONS 12
 #define DEF_SIDEBAR_WIDTH 255
-#define DEF_VIEWER_SIDEBAR_WIDTH 280
+#define DEF_VIEWER_SIDEBAR_WIDTH 285
 #define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
 #define LOAD_FILE_DELAY 150
@@ -73,6 +73,7 @@
 #define MOTION_THRESHOLD 0
 #define UPDATE_SELECTION_DELAY 200
 #define MIN_SIDEBAR_SIZE 100
+#define MIN_VIEWER_SIZE 256
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -3662,16 +3663,18 @@ _gth_browser_construct (GthBrowser *browser)
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
 	browser->priv->viewer_sidebar_pane = gtk_hpaned_new ();
+	gtk_widget_set_size_request (browser->priv->viewer_sidebar_pane, -1, MIN_VIEWER_SIZE);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
 
 	browser->priv->viewer_container = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_widget_set_size_request (browser->priv->viewer_container, MIN_VIEWER_SIZE, -1);
 	gtk_widget_show (browser->priv->viewer_container);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, TRUE);
 
+	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar, MAX (eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), DEF_VIEWER_SIDEBAR_WIDTH), -1);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
