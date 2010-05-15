@@ -232,8 +232,6 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	 * is present in the input. By default, libjpeg creates a JFIF file,
 	 * which is incompatible with the EXIF standard. */
 	jcopy_markers_exif (srcinfo, dstinfo, option);
-#else
-	jcopy_markers_execute (srcinfo, dstinfo, option);
 #endif
 
 	/* Adjust destination parameters if required by transform options;
