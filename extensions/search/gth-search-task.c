@@ -114,9 +114,13 @@ save_search_result_copy_done_cb (void     **buffer,
 {
 	GthSearchTask *task = user_data;
 
-	gth_browser_update_extra_widget (task->priv->browser);
-
 	task->priv->io_operation = FALSE;
+
+	gth_browser_update_extra_widget (task->priv->browser);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    task->priv->search_catalog,
+				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
+				    GTH_MONITOR_EVENT_CREATED);
 	gth_task_completed (GTH_TASK (task), task->priv->error);
 }
 
@@ -137,15 +141,14 @@ done_func (GObject  *object,
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			task->priv->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 			g_error_free (error);
+
+			/* reset the cancellable because it's re-used below to
+			 * save the partial result. */
+			g_cancellable_reset (gth_task_get_cancellable (GTH_TASK (task)));
 		}
 		else
 			task->priv->error = error;
 	}
-
-	gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				    task->priv->search_catalog,
-				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
-				    GTH_MONITOR_EVENT_CREATED);
 
 	/* save the search result */
 
@@ -286,6 +289,8 @@ clear_search_result_copy_done_cb (void     **buffer,
 	GFile         *parent;
 	GList         *files;
 
+	task->priv->io_operation = FALSE;
+
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (task->priv->browser), _("Could not create the catalog"), &error);
 		return;
@@ -319,9 +324,10 @@ gth_search_task_exec (GthTask *base)
 	GFile         *search_result_real_file;
 
 	gth_catalog_set_file_list (GTH_CATALOG (task->priv->search), NULL);
-	task->priv->io_operation = FALSE;
 
 	/* save the search result */
+
+	task->priv->io_operation = TRUE;
 
 	doc = dom_document_new ();
 	dom_element_append_child (DOM_ELEMENT (doc), dom_domizable_create_element (DOM_DOMIZABLE (task->priv->search), doc));
