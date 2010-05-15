@@ -49,7 +49,9 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 
 	new_folder = g_file_get_child_for_display_name (parent, folder_name, &error);
 	if ((new_folder != NULL) && (g_file_make_directory (new_folder, NULL, &error))) {
-		GList *list;
+		GList       *list;
+		GtkWidget   *folder_tree;
+		GtkTreePath *path;
 
 		list = g_list_prepend (NULL, new_folder);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
@@ -57,6 +59,11 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 					    list,
 					    GTH_MONITOR_EVENT_CREATED);
 
+		folder_tree = gth_browser_get_folder_tree (browser);
+		path = gth_folder_tree_get_path (GTH_FOLDER_TREE (folder_tree), parent);
+		gth_folder_tree_expand_row (GTH_FOLDER_TREE (folder_tree), path, FALSE);
+
+		gtk_tree_path_free (path);
 		g_list_free (list);
 	}
 	else
