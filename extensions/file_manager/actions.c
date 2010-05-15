@@ -33,10 +33,9 @@ static void
 _gth_browser_create_new_folder (GthBrowser *browser,
 				GFile      *parent)
 {
-	char          *folder_name;
-	GthFileSource *file_source;
-	GError        *error = NULL;
-	GFile         *file;
+	char   *folder_name;
+	GError *error = NULL;
+	GFile  *new_folder;
 
 	folder_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
 					       GTK_DIALOG_MODAL,
@@ -48,12 +47,11 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 	if (folder_name == NULL)
 		return;
 
-	file_source = gth_main_get_file_source (parent);
-	file = _g_directory_create_unique (parent, folder_name, "", &error);
-	if (file != NULL) {
+	new_folder = g_file_get_child_for_display_name (parent, folder_name, &error);
+	if ((new_folder != NULL) && (g_file_make_directory (new_folder, NULL, &error))) {
 		GList *list;
 
-		list = g_list_prepend (NULL, file);
+		list = g_list_prepend (NULL, new_folder);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    parent,
 					    list,
@@ -64,8 +62,8 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 	else
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the folder"), &error);
 
-	_g_object_unref (file);
-	g_object_unref (file_source);
+	_g_object_unref (new_folder);
+	g_free (folder_name);
 }
 
 
