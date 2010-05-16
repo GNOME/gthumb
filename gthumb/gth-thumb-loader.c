@@ -41,7 +41,6 @@
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 
-#define DEFAULT_MAX_FILE_SIZE     (4*1024*1024)
 #define THUMBNAIL_LARGE_SIZE	  256
 #define THUMBNAIL_NORMAL_SIZE	  128
 #define THUMBNAIL_DIR_PERMISSIONS 0700
