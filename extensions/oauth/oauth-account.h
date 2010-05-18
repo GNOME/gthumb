@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gthumb.h>
 
 G_BEGIN_DECLS
 
@@ -53,16 +54,20 @@ struct _OAuthAccountClass {
 	GObjectClass parent_class;
 };
 
-GType             oauth_account_get_type         (void);
-OAuthAccount *    oauth_account_new              (void);
-void              oauth_account_set_username     (OAuthAccount *self,
-						  const char   *value);
-void              oauth_account_set_token        (OAuthAccount *self,
-						  const char   *value);
-void              oauth_account_set_token_secret (OAuthAccount *self,
-						  const char   *value);
-int               oauth_account_cmp              (OAuthAccount *a,
-					  	  OAuthAccount *b);
+GType             oauth_account_get_type           (void);
+OAuthAccount *    oauth_account_new                (void);
+void              oauth_account_set_username       (OAuthAccount *self,
+						    const char   *value);
+void              oauth_account_set_token          (OAuthAccount *self,
+						    const char   *value);
+void              oauth_account_set_token_secret   (OAuthAccount *self,
+						    const char   *value);
+int               oauth_account_cmp                (OAuthAccount *a,
+						    OAuthAccount *b);
+DomElement *      oauth_account_create_element     (DomDomizable *base,
+					            DomDocument  *doc);
+void              oauth_account_load_from_element  (DomDomizable *base,
+						    DomElement   *element);
 
 G_END_DECLS
 

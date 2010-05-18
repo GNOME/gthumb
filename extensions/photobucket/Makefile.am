@@ -13,8 +13,18 @@ libphotobucket_la_SOURCES = 			\
 	dlg-export-to-photobucket.c		\
 	dlg-export-to-photobucket.h		\
 	main.c					\
+	photobucket-account.c			\
+	photobucket-account.h			\
+	photobucket-album.c			\
+	photobucket-album.h			\
+	photobucket-album-properties-dialog.c	\
+	photobucket-album-properties-dialog.h	\
 	photobucket-consumer.c			\
-	photobucket-consumer.h
+	photobucket-consumer.h			\
+	photobucket-photo.c			\
+	photobucket-photo.h			\
+	photobucket-service.c			\
+	photobucket-service.h
 
 libphotobucket_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphotobucket_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

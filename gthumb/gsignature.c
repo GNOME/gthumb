@@ -121,7 +121,7 @@ g_signature_free (GSignature *signature)
 
 	g_checksum_free (signature->primary);
 	g_checksum_free (signature->internal);
-	g_free (signature);
+	g_slice_free (GSignature, signature);
 }
 
 
@@ -179,13 +179,14 @@ g_signature_get_value (GSignature *signature,
 
 gchar *
 g_compute_signature_for_data (GChecksumType  checksum_type,
+			      GSignatureEnc  encoding,
 			      const gchar   *key,
 			      gssize         key_length,
 			      const guchar  *data,
 			      gsize          data_length)
 {
 	GSignature *signature;
-	gchar      *retval;
+	gchar      *retval = NULL;
 
 	g_return_val_if_fail (data != NULL, NULL);
 
@@ -194,7 +195,26 @@ g_compute_signature_for_data (GChecksumType  checksum_type,
 		return NULL;
 
 	g_signature_update (signature, data, data_length);
-	retval = g_strdup (g_signature_get_string (signature));
+	switch (encoding) {
+	case G_SIGNATURE_ENC_BASE64:
+		{
+			gsize   buffer_len;
+			guint8 *buffer;
+
+			buffer_len = g_checksum_type_get_length (signature->checksum_type);
+			buffer = g_new (guint8, buffer_len);
+			g_signature_get_value (signature, buffer, &buffer_len);
+			retval = g_base64_encode (buffer, buffer_len);
+
+			g_free (buffer);
+		}
+		break;
+
+	case G_SIGNATURE_ENC_STRING:
+		retval = g_strdup (g_signature_get_string (signature));
+		break;
+	}
+
 	g_signature_free (signature);
 
 	return retval;
@@ -203,6 +223,7 @@ g_compute_signature_for_data (GChecksumType  checksum_type,
 
 gchar *
 g_compute_signature_for_string (GChecksumType  checksum_type,
+				GSignatureEnc  encoding,
 				const gchar   *key,
 				gssize         key_length,
 				const gchar   *str,
@@ -213,5 +234,5 @@ g_compute_signature_for_string (GChecksumType  checksum_type,
 	if (str_length < 0)
 		str_length = strlen (str);
 
-	return g_compute_signature_for_data (checksum_type, key, key_length, (const guchar *) str, str_length);
+	return g_compute_signature_for_data (checksum_type, encoding, key, key_length, (const guchar *) str, str_length);
 }

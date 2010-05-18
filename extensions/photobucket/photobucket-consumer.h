@@ -23,8 +23,14 @@
 #ifndef PHOTOBUCKET_CONSUMER_H
 #define PHOTOBUCKET_CONSUMER_H
 
+#include <gthumb.h>
 #include <extensions/oauth/oauth-connection.h>
 
 extern OAuthConsumer photobucket_consumer;
+
+gboolean  photobucket_utils_parse_response (SoupBuffer          *body,
+				            DomDocument        **doc_p,
+				            GSimpleAsyncResult  *result,
+				            GError             **error);
 
 #endif /* PHOTOBUCKET_CONSUMER_H */

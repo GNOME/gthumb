@@ -56,7 +56,7 @@ oauth_account_class_init (OAuthAccountClass *klass)
 }
 
 
-static DomElement*
+DomElement*
 oauth_account_create_element (DomDomizable *base,
 			      DomDocument  *doc)
 {
@@ -88,9 +88,9 @@ oauth_account_create_element (DomDomizable *base,
 }
 
 
-static void
+void
 oauth_account_load_from_element (DomDomizable *base,
-			          DomElement   *element)
+			         DomElement   *element)
 {
 	OAuthAccount *self;
 

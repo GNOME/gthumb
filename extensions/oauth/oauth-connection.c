@@ -203,7 +203,7 @@ oauth_connection_send_message (OAuthConnection     *self,
 	self->priv->cancellable = _g_object_ref (cancellable);
 
 	_g_object_unref (self->priv->result);
-	self->priv->result = g_simple_async_result_new (G_OBJECT (soup_session_cb_data),
+	self->priv->result = g_simple_async_result_new (G_OBJECT (self),
 							callback,
 							user_data,
 							source_tag);
@@ -317,12 +317,13 @@ oauth_connection_add_signature (OAuthConnection *self,
 	/* Calculate the signature value */
 
 	signature_key = g_string_new ("");
-	g_string_append (signature_key, self->consumer->consumer_key);
+	g_string_append (signature_key, self->consumer->consumer_secret);
 	g_string_append (signature_key, "&");
-	if (self->priv->token != NULL)
-		g_string_append (signature_key, self->priv->token);
+	if (self->priv->token_secret != NULL)
+		g_string_append (signature_key, self->priv->token_secret);
 	g_free (self->priv->signature);
 	self->priv->signature = g_compute_signature_for_string (G_CHECKSUM_SHA1,
+								G_SIGNATURE_ENC_BASE64,
 							        signature_key->str,
 							        signature_key->len,
 							        base_string->str,
@@ -506,12 +507,19 @@ oauth_connection_get_token_secret (OAuthConnection *self)
 /* -- oauth_connection_check_token -- */
 
 
+typedef struct {
+	OAuthConnection *conn;
+	OAuthAccount    *account;
+} CheckTokenData;
+
+
 static void
 check_token_ready_cb (SoupSession *session,
 		      SoupMessage *msg,
 		      gpointer     user_data)
 {
-	OAuthConnection *self = user_data;
+	CheckTokenData  *check_token_data = user_data;
+	OAuthConnection *self = check_token_data->conn;
 	SoupBuffer      *body;
 
 	if (msg->status_code != 200) {
@@ -525,27 +533,40 @@ check_token_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	self->consumer->check_token_response (self, msg, body, self->priv->result);
+	self->consumer->check_token_response (self, msg, body, self->priv->result, check_token_data->account);
 	g_simple_async_result_complete_in_idle (self->priv->result);
 
 	soup_buffer_free (body);
+	g_free (check_token_data);
 }
 
 
 void
 oauth_connection_check_token (OAuthConnection     *self,
+			      OAuthAccount        *account,
 			      GCancellable        *cancellable,
 			      GAsyncReadyCallback  callback,
 			      gpointer             user_data)
 {
-	GHashTable  *data_set;
-	SoupMessage *msg;
+	CheckTokenData *check_token_data;
+	GHashTable     *data_set;
+	char           *url;
+	SoupMessage    *msg;
+
+	check_token_data = g_new0 (CheckTokenData, 1);
+	check_token_data->conn = self;
+	check_token_data->account = account;
 
 	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	oauth_connection_add_signature (self, "POST", self->consumer->check_token_url, data_set);
-	msg = soup_form_request_new_from_hash ("POST", self->consumer->check_token_url, data_set);
+
+	url = self->consumer->get_check_token_url (self, account, TRUE);
+	oauth_connection_add_signature (self, "GET", url, data_set);
+	g_free (url);
+
+	url = self->consumer->get_check_token_url (self, account, FALSE);
+	msg = soup_form_request_new_from_hash ("GET", url, data_set);
 	oauth_connection_send_message (self,
 				       msg,
 				       cancellable,
@@ -553,8 +574,9 @@ oauth_connection_check_token (OAuthConnection     *self,
 				       user_data,
 				       oauth_connection_check_token,
 				       check_token_ready_cb,
-				       self);
+				       check_token_data);
 
+	g_free (url);
 	g_hash_table_destroy (data_set);
 }
 

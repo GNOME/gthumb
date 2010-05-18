@@ -146,6 +146,7 @@ oauth_authentication_get_type (void)
 
 OAuthAuthentication *
 oauth_authentication_new (OAuthConnection *conn,
+			  GType            account_type,
 			  GCancellable    *cancellable,
 			  GtkWidget       *browser,
 			  GtkWidget       *dialog)
@@ -157,7 +158,7 @@ oauth_authentication_new (OAuthConnection *conn,
 	self = (OAuthAuthentication *) g_object_new (OAUTH_TYPE_AUTHENTICATION, NULL);
 	self->priv->conn = g_object_ref (conn);
 	self->priv->cancellable = _g_object_ref (cancellable);
-	self->priv->accounts = oauth_accounts_load_from_file (self->priv->conn->consumer->name);
+	self->priv->accounts = oauth_accounts_load_from_file (self->priv->conn->consumer->name, account_type);
 	self->priv->account = oauth_accounts_find_default (self->priv->accounts);
 	self->priv->browser = browser;
 	self->priv->dialog = dialog;
@@ -244,7 +245,9 @@ check_token_ready_cb (GObject      *source_object,
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
-	oauth_accounts_save_to_file (self->priv->conn->consumer->name, self->priv->accounts, self->priv->account);
+	oauth_accounts_save_to_file (self->priv->conn->consumer->name,
+				     self->priv->accounts,
+				     self->priv->account);
 	g_signal_emit (self, oauth_authentication_signals[READY], 0);
 }
 
@@ -261,6 +264,7 @@ connect_to_server_step2 (OAuthAuthentication *self)
 				    self->priv->account->token,
 				    self->priv->account->token_secret);
 	oauth_connection_check_token (self->priv->conn,
+				      self->priv->account,
 				      self->priv->cancellable,
 				      check_token_ready_cb,
 				      self);
@@ -357,7 +361,7 @@ get_access_token_ready_cb (GObject      *source_object,
 	GError              *error = NULL;
 	OAuthAccount        *account;
 
-	account = oauth_connection_get_access_token_finish (OAUTH_CONNECTION (source_object), res, &error);
+	account = oauth_connection_get_access_token_finish (self->priv->conn, res, &error);
 	if (error != NULL) {
 		show_authentication_error_dialog (self, &error);
 		return;
@@ -541,7 +545,7 @@ get_request_token_ready_cb (GObject      *source_object,
 	OAuthAuthentication *self = user_data;
 	GError              *error = NULL;
 
-	if (! oauth_connection_get_request_token_finish (OAUTH_CONNECTION (source_object), res, &error))
+	if (! oauth_connection_get_request_token_finish (self->priv->conn, res, &error))
 		show_authentication_error_dialog (self, &error);
 	else
 		ask_authorization (self);
@@ -720,16 +724,23 @@ oauth_authentication_edit_accounts (OAuthAuthentication *self,
 
 
 GList *
-oauth_accounts_load_from_file (const char *service_name)
+oauth_accounts_load_from_file (const char *service_name,
+			       GType       account_type)
 {
 	GList       *accounts = NULL;
 	char        *filename;
+	char        *path;
 	char        *buffer;
 	gsize        len;
+	GError      *error = NULL;
 	DomDocument *doc;
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
-	if (! g_file_get_contents (filename, &buffer, &len, NULL)) {
+	filename = g_strconcat (service_name, ".xml", NULL);
+	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	if (! g_file_get_contents (path, &buffer, &len, &error)) {
+		g_warning ("%s\n", error->message);
+		g_error_free (error);
+		g_free (path);
 		g_free (filename);
 		return NULL;
 	}
@@ -749,7 +760,7 @@ oauth_accounts_load_from_file (const char *service_name)
 				if (strcmp (child->tag_name, "account") == 0) {
 					OAuthAccount *account;
 
-					account = oauth_account_new ();
+					account = g_object_new (account_type, NULL);
 					dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
 
 					accounts = g_list_prepend (accounts, account);
@@ -762,6 +773,7 @@ oauth_accounts_load_from_file (const char *service_name)
 
 	g_object_unref (doc);
 	g_free (buffer);
+	g_free (path);
 	g_free (filename);
 
 	return accounts;
@@ -795,6 +807,7 @@ oauth_accounts_save_to_file (const char   *service_name,
 	char        *buffer;
 	gsize        len;
 	char        *filename;
+	char        *path;
 	GFile       *file;
 
 	doc = dom_document_new ();
@@ -812,14 +825,16 @@ oauth_accounts_save_to_file (const char   *service_name,
 		dom_element_append_child (root, node);
 	}
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", service_name, ".xml", NULL);
-	file = g_file_new_for_path (filename);
+	filename = g_strconcat (service_name, ".xml", NULL);
+	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	file = g_file_new_for_path (path);
 	buffer = dom_document_dump (doc, &len);
 	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);
+	g_free (path);
 	g_free (filename);
 	g_object_unref (doc);
 }

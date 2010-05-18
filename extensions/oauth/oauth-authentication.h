@@ -57,6 +57,7 @@ struct _OAuthAuthenticationClass {
 
 GType                   oauth_authentication_get_type       (void);
 OAuthAuthentication *   oauth_authentication_new            (OAuthConnection     *conn,
+							     GType                account_type,
 							     GCancellable        *cancellable,
 							     GtkWidget           *browser,
 							     GtkWidget           *dialog);
@@ -70,7 +71,8 @@ void                    oauth_authentication_edit_accounts  (OAuthAuthentication
 
 /* utilities */
 
-GList *          oauth_accounts_load_from_file  (const char    *service_name);
+GList *          oauth_accounts_load_from_file  (const char    *service_name,
+						 GType          account_type);
 OAuthAccount *   oauth_accounts_find_default    (GList         *accounts);
 void             oauth_accounts_save_to_file    (const char    *service_name,
 						 GList         *accounts,

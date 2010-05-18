@@ -24,13 +24,15 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "photobucket-account.h"
 #include "photobucket-consumer.h"
 
 
-static gboolean
-photobucket_utils_parse_response (SoupBuffer   *body,
-				  DomDocument **doc_p,
-				  GError      **error)
+gboolean
+photobucket_utils_parse_response (SoupBuffer          *body,
+				  DomDocument        **doc_p,
+				  GSimpleAsyncResult  *result,
+				  GError             **error)
 {
 	DomDocument *doc;
 	DomElement  *node;
@@ -61,8 +63,8 @@ photobucket_utils_parse_response (SoupBuffer   *body,
 			}
 
 			if (status == NULL) {
-				error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 999, _("Unknown error"));
-				g_simple_async_result_set_from_error (self->priv->result, error);
+				*error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 999, _("Unknown error"));
+				g_simple_async_result_set_from_error (result, *error);
 			}
 			else if (strcmp (status, "Exception") == 0) {
 				*error = g_error_new_literal (OAUTH_CONNECTION_ERROR,
@@ -70,8 +72,10 @@ photobucket_utils_parse_response (SoupBuffer   *body,
 							      (message != NULL) ? message : _("Unknown error"));
 			}
 
-			g_object_unref (doc);
-			return FALSE;
+			if (*error != NULL) {
+				g_object_unref (doc);
+				return FALSE;
+			}
 		}
 	}
 
@@ -87,40 +91,25 @@ photobucket_login_request_response (OAuthConnection    *self,
 				    SoupBuffer         *body,
 				    GSimpleAsyncResult *result)
 {
-	DomDocument *doc = NULL;
-	GError      *error = NULL;
+	GHashTable *values;
+	char       *token;
+	char       *token_secret;
 
-	if (photobucket_utils_parse_response (body, &doc, &error)) {
-		/*OAuthAccount *account;
-		char         *username;*/
-
-		/* FIXME: set the connection token and token_secret from the response */
-
-		/*account = oauth_account_new ();
-		oauth_account_set_username (account, username);
-		oauth_account_set_token (account, oauth_connection_get_token (self));
-		oauth_account_set_token_secret (account, oauth_connection_get_token_secret (self));*/
-
-		char *token;
-		char *token_secret;
-
-		token = NULL;
-		token_secret = NULL;
-
-		/* FIXME: parse the body and set the token */
-		/*oauth_connection_set_token (self, token, token_secret);*/
-
-		if ((token == NULL) || (token_secret == NULL)) {
-			error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gboolean (self->priv->result, TRUE);
-
-		g_object_unref (doc);
+	values = soup_form_decode (body->data);
+	token = g_hash_table_lookup (values, "oauth_token");
+	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
+	if ((token != NULL) && (token_secret != NULL)) {
+		oauth_connection_set_token (self, token, token_secret);
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 	}
-	else
+	else {
+		GError *error;
+
+		error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
 		g_simple_async_result_set_from_error (result, error);
+	}
+
+	g_hash_table_destroy (values);
 }
 
 
@@ -145,33 +134,49 @@ photobucket_get_access_token_response (OAuthConnection    *self,
 				       SoupBuffer         *body,
 				       GSimpleAsyncResult *result)
 {
-	DomDocument *doc = NULL;
-	GError      *error = NULL;
+	GHashTable *values;
+	char       *username;
+	char       *token;
+	char       *token_secret;
 
-	if (photobucket_utils_parse_response (body, &doc, &error)) {
-		OAuthAccount *account = NULL;
-		char         *username;
+	values = soup_form_decode (body->data);
 
-		/* FIXME: parse the body and set the account */
+	username = g_hash_table_lookup (values, "username");
+	token = g_hash_table_lookup (values, "oauth_token");
+	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
+	if ((username != NULL) && (token != NULL) && (token_secret != NULL)) {
+		OAuthAccount *account;
 
-		/*account = oauth_account_new ();
+		oauth_connection_set_token (self, token, token_secret);
+
+		account = photobucket_account_new ();
 		oauth_account_set_username (account, username);
-		oauth_account_set_token (account, oauth_connection_get_token (self));
-		oauth_account_set_token_secret (account, oauth_connection_get_token_secret (self));*/
-
-		/*oauth_connection_set_token (self, token, token_secret);*/
-
-		if (account == NULL) {
-			error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gpointer (self->priv->result, account, g_object_unref);
-
-		g_object_unref (doc);
+		oauth_account_set_token (account, token);
+		oauth_account_set_token_secret (account, token_secret);
+		photobucket_account_set_subdomain (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "subdomain"));
+		photobucket_account_set_home_url (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "homeurl"));
+		g_simple_async_result_set_op_res_gpointer (result, account, g_object_unref);
 	}
-	else
+	else {
+		GError *error;
+
+		error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
 		g_simple_async_result_set_from_error (result, error);
+	}
+
+	g_hash_table_destroy (values);
+}
+
+
+static char *
+photobucket_get_check_token_url (OAuthConnection *self,
+				 OAuthAccount    *account,
+			         gboolean         for_signature)
+{
+	if (for_signature)
+		return g_strconcat ("http://api.photobucket.com/user/", account->username, NULL);
+	else
+		return g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/user/", account->username, NULL);
 }
 
 
@@ -179,14 +184,30 @@ static void
 photobucket_check_token_response (OAuthConnection    *self,
 				  SoupMessage        *msg,
 				  SoupBuffer         *body,
-				  GSimpleAsyncResult *result)
+				  GSimpleAsyncResult *result,
+				  OAuthAccount       *account)
 {
 	DomDocument *doc = NULL;
 	GError      *error = NULL;
 
-	if (photobucket_utils_parse_response (body, &doc, &error)) {
-		/* FIXME: add other user info to the account */
-		g_simple_async_result_set_op_res_gboolean (self->priv->result, TRUE);
+	if (photobucket_utils_parse_response (body, &doc, result, &error)) {
+		DomElement *node;
+
+		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "response") == 0) {
+				DomElement *child;
+
+				for (child = DOM_ELEMENT (node)->first_child; child; child = child->next_sibling) {
+					if (g_strcmp0 (child->tag_name, "content") == 0) {
+						dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
+						break;
+					}
+				}
+				break;
+			}
+		}
+
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 		g_object_unref (doc);
 	}
 	else
@@ -195,17 +216,17 @@ photobucket_check_token_response (OAuthConnection    *self,
 
 
 OAuthConsumer photobucket_consumer = {
-	"PhotoBucket",
+	"Photobucket",
 	"photobucket",
 	"http://www.photobucket.com",
 	"http",
-	"8960706ee7f4151e893b11837e9c24ce",
-	"1ff8d1e45c873423",
+	"149829931",
+	"b4e542229836cc59b66489c6d2d8ca04",
 	"http://api.photobucket.com/login/request",
 	photobucket_login_request_response,
 	phoyobucket_get_login_link,
 	"http://api.photobucket.com/login/access",
 	photobucket_get_access_token_response,
-	"http://api.photobucket.com/user/",
+	photobucket_get_check_token_url,
 	photobucket_check_token_response
 };

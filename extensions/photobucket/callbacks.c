@@ -47,8 +47,8 @@ static const char *ui_info =
 
 static GtkActionEntry action_entries[] = {
 	{ "File_Export_PhotoBucket", "photobucket",
-	  N_("PhotoBucket..."), NULL,
-	  N_("Upload photos to PhotoBucket"),
+	  N_("Photobucket..."), NULL,
+	  N_("Upload photos to Photobucket"),
 	  G_CALLBACK (gth_browser_activate_action_export_photobucket) },
 };
 
@@ -66,7 +66,7 @@ browser_data_free (BrowserData *data)
 
 
 void
-fl__gth_browser_construct_cb (GthBrowser *browser)
+pb__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;

@@ -28,6 +28,10 @@
 G_BEGIN_DECLS
 
 typedef struct _GSignature GSignature;
+typedef enum {
+	G_SIGNATURE_ENC_STRING,
+	G_SIGNATURE_ENC_BASE64
+} GSignatureEnc;
 
 GSignature *           g_signature_new         (GChecksumType     checksum_type,
 					        const gchar      *key,
@@ -44,11 +48,13 @@ void                   g_signature_get_value   (GSignature       *signature,
 						gsize            *buffer_len);
 
 gchar *g_compute_signature_for_data   (GChecksumType  checksum_type,
+				       GSignatureEnc  encoding,
 				       const gchar   *key,
 				       gssize         key_length,
                                        const guchar  *data,
                                        gsize          data_length);
 gchar *g_compute_signature_for_string (GChecksumType  checksum_type,
+				       GSignatureEnc  encoding,
 				       const gchar   *key,
 				       gssize         key_length,
                                        const gchar   *str,

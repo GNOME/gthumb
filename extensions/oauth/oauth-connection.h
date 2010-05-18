@@ -98,6 +98,7 @@ void                 oauth_connection_set_token                (OAuthConnection 
 const char *         oauth_connection_get_token                (OAuthConnection      *self);
 const char *         oauth_connection_get_token_secret         (OAuthConnection      *self);
 void                 oauth_connection_check_token              (OAuthConnection      *self,
+								OAuthAccount         *account,
 							        GCancellable         *cancellable,
 							        GAsyncReadyCallback   callback,
 							        gpointer              user_data);
@@ -107,31 +108,34 @@ gboolean             oauth_connection_check_token_finish       (OAuthConnection 
 
 /* -- OAuthConsumer -- */
 
-typedef void   (*OAuthResponseFunc)  (OAuthConnection    *self,
-				      SoupMessage        *msg,
-				      SoupBuffer         *body,
-				      GSimpleAsyncResult *result);
-typedef char * (*OAuthLoginLinkFunc) (OAuthConnection    *self);
-
+typedef void   (*OAuthResponseFunc)        (OAuthConnection    *self,
+				            SoupMessage        *msg,
+				            SoupBuffer         *body,
+				            GSimpleAsyncResult *result);
+typedef void   (*OAuthAccountResponseFunc) (OAuthConnection    *self,
+				            SoupMessage        *msg,
+				            SoupBuffer         *body,
+				            GSimpleAsyncResult *result,
+				            OAuthAccount       *account);
+typedef char * (*OAuthStringFunc)          (OAuthConnection    *self);
+typedef char * (*OAuthUrlFunc)             (OAuthConnection    *self,
+				            OAuthAccount       *account,
+				            gboolean            for_signature);
 
 struct _OAuthConsumer {
-	const char         *display_name;
-	const char         *name;
-	const char         *url;
-	const char         *protocol;
-	const char         *consumer_key;
-	const char         *consumer_secret;
-
-	const char         *request_token_url;
-	OAuthResponseFunc   get_request_token_response;
-
-	OAuthLoginLinkFunc  get_login_link;
-
-	const char         *access_token_url;
-	OAuthResponseFunc   get_access_token_response;
-
-	const char         *check_token_url;
-	OAuthResponseFunc   check_token_response;
+	const char               *display_name;
+	const char               *name;
+	const char               *url;
+	const char               *protocol;
+	const char               *consumer_key;
+	const char               *consumer_secret;
+	const char               *request_token_url;
+	OAuthResponseFunc         get_request_token_response;
+	OAuthStringFunc           get_login_link;
+	const char               *access_token_url;
+	OAuthResponseFunc         get_access_token_response;
+	OAuthUrlFunc              get_check_token_url;
+	OAuthAccountResponseFunc  check_token_response;
 };
 
 #endif /* OAUTH_CONNECTION_H */
