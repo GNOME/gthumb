@@ -555,6 +555,9 @@ get_request_token_ready_cb (GObject      *source_object,
 static void
 start_authorization_process (OAuthAuthentication *self)
 {
+	gtk_widget_hide (self->priv->dialog);
+	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+
 	oauth_connection_get_request_token (self->priv->conn,
 					    self->priv->cancellable,
 					    get_request_token_ready_cb,
