@@ -52,23 +52,6 @@ struct _PhotobucketServiceClass
 
 GType                photobucket_service_get_type                   (void) G_GNUC_CONST;
 PhotobucketService * photobucket_service_new                        (OAuthConnection        *conn);
-#if 0
-void                 photobucket_service_get_logged_in_user         (PhotobucketService     *self,
-								     GCancellable           *cancellable,
-								     GAsyncReadyCallback     callback,
-								     gpointer                user_data);
-char *               photobucket_service_get_logged_in_user_finish  (PhotobucketService     *self,
-						                     GAsyncResult           *result,
-						                     GError                **error);
-void                 photobucket_service_get_user_info              (PhotobucketService     *self,
-								     const char             *fields,
-								     GCancellable           *cancellable,
-								     GAsyncReadyCallback     callback,
-								     gpointer                user_data);
-PhotobucketUser *    photobucket_service_get_user_info_finish       (PhotobucketService     *self,
-						                     GAsyncResult           *result,
-						                     GError                **error);
-#endif
 void                 photobucket_service_get_albums                 (PhotobucketService     *self,
 								     PhotobucketAccount     *account,
 							             GCancellable           *cancellable,
