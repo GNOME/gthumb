@@ -122,7 +122,7 @@ photobucket_login_request_response (OAuthConnection    *self,
 
 
 static char *
-phoyobucket_get_login_link (OAuthConnection *self)
+photobucket_get_login_link (OAuthConnection *self)
 {
 	char *token;
 	char *uri;
@@ -231,7 +231,7 @@ OAuthConsumer photobucket_consumer = {
 	"b4e542229836cc59b66489c6d2d8ca04",
 	"http://api.photobucket.com/login/request",
 	photobucket_login_request_response,
-	phoyobucket_get_login_link,
+	photobucket_get_login_link,
 	"http://api.photobucket.com/login/access",
 	photobucket_get_access_token_response,
 	photobucket_get_check_token_url,
