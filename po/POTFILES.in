@@ -345,6 +345,45 @@ extensions/list_tools/gth-script-task.c
 extensions/list_tools/gth-script-task.h
 [type: gettext/ini]extensions/list_tools/list_tools.extension.in.in
 extensions/list_tools/main.c
+[type: gettext/glade]extensions/oauth/data/ui/oauth-account-chooser.ui
+[type: gettext/glade]extensions/oauth/data/ui/oauth-account-manager.ui
+[type: gettext/glade]extensions/oauth/data/ui/oauth-ask-authorization.ui
+[type: gettext/glade]extensions/oauth/data/ui/oauth-complete-authorization.ui
+extensions/oauth/main.c
+extensions/oauth/oauth-account.c
+extensions/oauth/oauth-account-chooser-dialog.c
+extensions/oauth/oauth-account-chooser-dialog.h
+extensions/oauth/oauth-account.h
+extensions/oauth/oauth-account-manager-dialog.c
+extensions/oauth/oauth-account-manager-dialog.h
+extensions/oauth/oauth-authentication.c
+extensions/oauth/oauth-authentication.h
+extensions/oauth/oauth-connection.c
+extensions/oauth/oauth-connection.h
+[type: gettext/ini]extensions/oauth/oauth.extension.in.in
+extensions/photobucket/actions.c
+extensions/photobucket/actions.h
+extensions/photobucket/callbacks.c
+extensions/photobucket/callbacks.h
+[type: gettext/glade]extensions/photobucket/data/ui/export-to-photobucket.ui
+[type: gettext/glade]extensions/photobucket/data/ui/photobucket-album-properties.ui
+[type: gettext/glade]extensions/photobucket/data/ui/photobucket-export-completed.ui
+extensions/photobucket/dlg-export-to-photobucket.c
+extensions/photobucket/dlg-export-to-photobucket.h
+extensions/photobucket/main.c
+extensions/photobucket/photobucket-account.c
+extensions/photobucket/photobucket-account.h
+extensions/photobucket/photobucket-album.c
+extensions/photobucket/photobucket-album.h
+extensions/photobucket/photobucket-album-properties-dialog.c
+extensions/photobucket/photobucket-album-properties-dialog.h
+extensions/photobucket/photobucket-consumer.c
+extensions/photobucket/photobucket-consumer.h
+[type: gettext/ini]extensions/photobucket/photobucket.extension.in.in
+extensions/photobucket/photobucket-photo.c
+extensions/photobucket/photobucket-photo.h
+extensions/photobucket/photobucket-service.c
+extensions/photobucket/photobucket-service.h
 extensions/photo_importer/actions.c
 extensions/photo_importer/actions.h
 extensions/photo_importer/callbacks.c
@@ -423,12 +462,14 @@ extensions/rename_series/actions.c
 extensions/rename_series/actions.h
 extensions/rename_series/callbacks.c
 extensions/rename_series/callbacks.h
+extensions/rename_series/data/gthumb_rename_series.schemas.in
 [type: gettext/glade]extensions/rename_series/data/ui/rename-series.ui
 extensions/rename_series/dlg-rename-series.c
 extensions/rename_series/dlg-rename-series.h
 extensions/rename_series/gth-rename-task.c
 extensions/rename_series/gth-rename-task.h
 extensions/rename_series/main.c
+extensions/rename_series/preferences.h
 [type: gettext/ini]extensions/rename_series/rename_series.extension.in.in
 extensions/resize_images/actions.c
 extensions/resize_images/actions.h
@@ -496,6 +537,8 @@ gthumb/glib-utils.h
 gthumb/gnome-desktop-thumbnail.c
 gthumb/gnome-desktop-thumbnail.h
 gthumb/gnome-thumbnail-pixbuf-utils.c
+gthumb/gsignature.c
+gthumb/gsignature.h
 gthumb/gth-async-task.c
 gthumb/gth-async-task.h
 gthumb/gth-browser-actions-callbacks.c
@@ -672,3 +715,5 @@ gthumb/zlib-utils.c
 gthumb/zlib-utils.h
 tests/dom-test.c
 tests/glib-utils-test.c
+tests/gsignature-test.c
+tests/oauth-test.c
