@@ -1097,3 +1097,20 @@ _g_launch_command (GtkWidget  *parent,
 
 	g_object_unref (app_info);
 }
+
+
+void
+_gtk_window_resize_to_fit_screen_height (GtkWidget *window,
+					 int        default_width)
+{
+	GdkScreen *screen;
+
+	screen = gtk_widget_get_screen (window);
+	if ((screen != NULL) && (gdk_screen_get_height (screen) < 768))
+		/* maximize on netbooks */
+		gtk_window_maximize (GTK_WINDOW (window));
+	else
+		/* This should fit on a XGA/WXGA (height 768) screen
+		 * with top and bottom panels */
+		gtk_window_set_default_size (GTK_WINDOW (window), default_width, 670);
+}

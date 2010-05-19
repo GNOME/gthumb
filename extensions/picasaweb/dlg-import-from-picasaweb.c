@@ -943,6 +943,8 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 						NULL);
 	}
 
+	_gtk_window_resize_to_fit_screen_height (data->dialog, 500);
+
 	/* Set the widget data */
 
 	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);

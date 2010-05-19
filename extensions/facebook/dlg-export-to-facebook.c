@@ -532,6 +532,8 @@ dlg_export_to_facebook (GthBrowser *browser,
 	g_free (text);
 	g_free (total_size_formatted);
 
+	_gtk_window_resize_to_fit_screen_height (data->dialog, 500);
+
 	/* Set the widget data */
 
 	data->list_view = gth_file_list_new (GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);

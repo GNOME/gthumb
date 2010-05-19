@@ -476,7 +476,6 @@ dlg_photo_importer (GthBrowser *browser,
 {
 	DialogData       *data;
 	GtkCellRenderer  *renderer;
-	GdkScreen        *screen;
 	GthFileDataSort  *sort_type;
 	GList            *tests, *scan;
 	char             *general_filter;
@@ -499,19 +498,9 @@ dlg_photo_importer (GthBrowser *browser,
 	/* Get the widgets. */
 
 	data->dialog = _gtk_builder_get_widget (data->builder, "photo_importer_dialog");
+	_gtk_window_resize_to_fit_screen_height (data->dialog, 580);
 	gth_browser_set_dialog (browser, "photo_importer", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
-
-	screen = gtk_widget_get_screen (data->dialog);
-	if (screen && gdk_screen_get_height (screen) < 768) {
-		/* maximize on netbooks */
-		gtk_window_maximize (GTK_WINDOW (data->dialog));
-	} else {
-		/* This should fit on a XGA/WXGA (height 768) screen
-		 * with top and bottom panels */
-		gtk_window_set_default_size (GTK_WINDOW (data->dialog),
-					     580, 670);
-	}
 
 	data->source_store = gtk_list_store_new (SOURCE_LIST_COLUMNS, G_TYPE_OBJECT, G_TYPE_ICON, G_TYPE_STRING);
 	data->source_list = gtk_combo_box_new_with_model (GTK_TREE_MODEL (data->source_store));

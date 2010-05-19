@@ -576,6 +576,8 @@ dlg_import_from_flickr (FlickrServer *server,
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
 
+	_gtk_window_resize_to_fit_screen_height (data->dialog, 500);
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),

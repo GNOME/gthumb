@@ -861,7 +861,6 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 {
 	DialogData       *data;
 	GtkTreeSelection *selection;
-	GdkScreen        *screen;
 	GList            *scan;
 	int               n_total;
 	goffset           total_size;
@@ -900,16 +899,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 						NULL);
 	}
 
-	screen = gtk_widget_get_screen (data->dialog);
-	if (screen && gdk_screen_get_height (screen) < 768) {
-		/* maximize on netbooks */
-		gtk_window_maximize (GTK_WINDOW (data->dialog));
-	} else {
-		/* This should fit on a XGA/WXGA (height 768) screen
-		 * with top and bottom panels */
-		gtk_window_set_default_size (GTK_WINDOW (data->dialog),
-					     580, 670);
-	}
+	_gtk_window_resize_to_fit_screen_height (data->dialog, 500);
 
 	data->file_list = NULL;
 	n_total = 0;
