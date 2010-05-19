@@ -114,7 +114,6 @@ typedef void   (*OAuthResponseFunc)        (OAuthConnection    *self,
 				            GSimpleAsyncResult *result);
 typedef void   (*OAuthAccountResponseFunc) (OAuthConnection    *self,
 				            SoupMessage        *msg,
-				            SoupBuffer         *body,
 				            GSimpleAsyncResult *result,
 				            OAuthAccount       *account);
 typedef char * (*OAuthStringFunc)          (OAuthConnection    *self);

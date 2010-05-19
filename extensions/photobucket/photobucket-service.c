@@ -31,7 +31,10 @@
 
 
 typedef struct {
+	PhotobucketAccount  *account;
 	PhotobucketAlbum    *album;
+	int                  size;
+	gboolean             scramble;
 	GList               *file_list;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
@@ -41,7 +44,6 @@ typedef struct {
 	goffset              uploaded_size;
 	int                  n_files;
 	int                  uploaded_files;
-	GList               *ids;
 } PostPhotosData;
 
 
@@ -50,9 +52,10 @@ post_photos_data_free (PostPhotosData *post_photos)
 {
 	if (post_photos == NULL)
 		return;
-	_g_string_list_free (post_photos->ids);
 	_g_object_unref (post_photos->cancellable);
 	_g_object_list_unref (post_photos->file_list);
+	_g_object_unref (post_photos->album);
+	g_object_unref (post_photos->account);
 	g_free (post_photos);
 }
 
@@ -147,7 +150,7 @@ photobucket_service_new (OAuthConnection *conn)
 
 
 static DomElement *
-get_content (DomDocument *doc)
+get_content_root (DomDocument *doc)
 {
 	DomElement *root;
 
@@ -168,43 +171,42 @@ get_content (DomDocument *doc)
 
 
 static void
+read_albums_recursively (DomElement  *root,
+			 GList      **albums)
+{
+	DomElement *node;
+
+	for (node = root->first_child; node; node = node->next_sibling) {
+		if (g_strcmp0 (node->tag_name, "album") == 0) {
+			PhotobucketAlbum *album;
+
+			album = photobucket_album_new ();
+			dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
+			*albums = g_list_prepend (*albums, album);
+
+			if (atoi (dom_element_get_attribute (node, "subalbum_count")) > 0)
+				read_albums_recursively (node, albums);
+		}
+	}
+}
+
+
+static void
 get_albums_ready_cb (SoupSession *session,
 		     SoupMessage *msg,
 		     gpointer     user_data)
 {
 	PhotobucketService *self = user_data;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
 	result = oauth_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
+	if (photobucket_utils_parse_response (msg, &doc, &error)) {
+		GList *albums = NULL;
 
-	body = soup_message_body_flatten (msg->response_body);
-	if (photobucket_utils_parse_response (body, &doc, result, &error)) {
-		GList      *albums = NULL;
-		DomElement *node;
-
-		for (node = get_content (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "album") == 0) {
-				PhotobucketAlbum *album;
-
-				album = photobucket_album_new ();
-				dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
-				albums = g_list_prepend (albums, album);
-			}
-		}
-
+		read_albums_recursively (get_content_root (doc), &albums);
 		albums = g_list_reverse (albums);
 		g_simple_async_result_set_op_res_gpointer (result, albums, (GDestroyNotify) _g_object_list_unref);
 
@@ -214,8 +216,6 @@ get_albums_ready_cb (SoupSession *session,
 		g_simple_async_result_set_from_error (result, error);
 
 	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
 }
 
 
@@ -236,6 +236,9 @@ photobucket_service_get_albums (PhotobucketService  *self,
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "recurse", "true");
+	g_hash_table_insert (data_set, "view", "nested");
+	g_hash_table_insert (data_set, "media", "none");
 	url = g_strconcat ("http://api.photobucket.com/album/", OAUTH_ACCOUNT (account)->username, NULL);
 	oauth_connection_add_signature (self->priv->conn, "GET", url, data_set);
 	g_free (url);
@@ -251,8 +254,8 @@ photobucket_service_get_albums (PhotobucketService  *self,
 				       get_albums_ready_cb,
 				       self);
 
-	g_hash_table_destroy (data_set);
 	g_free (url);
+	g_hash_table_destroy (data_set);
 }
 
 
@@ -271,49 +274,36 @@ photobucket_service_get_albums_finish (PhotobucketService  *service,
 /* -- photobucket_service_create_album -- */
 
 
+typedef struct {
+	PhotobucketService *service;
+	PhotobucketAlbum   *album;
+} CreateAlbumData;
+
+
+static void
+create_album_data_free (CreateAlbumData *create_album_data)
+{
+	g_object_unref (create_album_data->service);
+	g_object_unref (create_album_data->album);
+	g_free (create_album_data);
+}
+
+
 static void
 create_album_ready_cb (SoupSession *session,
 		       SoupMessage *msg,
 		       gpointer     user_data)
 {
-	PhotobucketService *self = user_data;
+	CreateAlbumData    *create_album_data = user_data;
+	PhotobucketService *self = create_album_data->service;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
 	result = oauth_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (photobucket_utils_parse_response (body, &doc, result, &error)) {
-		DomElement    *node;
-		PhotobucketAlbum *album = NULL;
-
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "photos_createAlbum_response") == 0) {
-				album = photobucket_album_new ();
-				dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
-				break;
-			}
-		}
-
-		if (album == NULL) {
-			error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) _g_object_unref);
-
+	if (photobucket_utils_parse_response (msg, &doc, &error)) {
+		g_simple_async_result_set_op_res_gpointer (result, g_object_ref (create_album_data->album), g_object_unref);
 		g_object_unref (doc);
 	}
 	else
@@ -321,39 +311,50 @@ create_album_ready_cb (SoupSession *session,
 
 	g_simple_async_result_complete_in_idle (result);
 
-	soup_buffer_free (body);
+	create_album_data_free (create_album_data);
 }
 
 
 void
 photobucket_service_create_album (PhotobucketService  *self,
+				  PhotobucketAccount  *account,
+				  const char          *parent_album,
 			          PhotobucketAlbum    *album,
 			          GCancellable        *cancellable,
 			          GAsyncReadyCallback  callback,
 			          gpointer             user_data)
 {
-	GHashTable  *data_set;
-	const char  *privacy;
-	SoupMessage *msg;
+	CreateAlbumData *create_album_data;
+	char            *path;
+	GHashTable      *data_set;
+	char            *identifier;
+	char            *url;
+	SoupMessage     *msg;
 
 	g_return_if_fail (album != NULL);
 	g_return_if_fail (album->name != NULL);
 
+	create_album_data = g_new0 (CreateAlbumData, 1);
+	create_album_data->service = g_object_ref (self);
+	create_album_data->album = photobucket_album_new ();
+
+	path = g_strconcat (parent_album, "/", album->name, NULL);
+	photobucket_album_set_name (create_album_data->album, path);
+	g_free (path);
+
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
 
-	/* FIXME
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "photobucket.photos.createAlbum");
 	g_hash_table_insert (data_set, "name", album->name);
-	if (album->description != NULL)
-		g_hash_table_insert (data_set, "description", album->description);
-	if (album->location != NULL)
-		g_hash_table_insert (data_set, "location", album->location);
-	privacy = get_privacy_from_visibility (album->visibility);
-	if (privacy != NULL)
-		g_hash_table_insert (data_set, "privacy", (char *) privacy);
-	oauth_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("POST", PHOTOBUCKET_HTTPS_REST_SERVER, data_set);
+	identifier = soup_uri_encode (parent_album, NULL);
+	url = g_strconcat ("http://api.photobucket.com/album/", identifier, NULL);
+	oauth_connection_add_signature (self->priv->conn, "POST", url, data_set);
+
+	g_free (identifier);
+	g_free (url);
+
+	url = g_strconcat ("http://", account->subdomain, "/album/", parent_album, NULL);
+	msg = soup_form_request_new_from_hash ("POST", url, data_set);
 	oauth_connection_send_message (self->priv->conn,
 				       msg,
 				       cancellable,
@@ -361,10 +362,10 @@ photobucket_service_create_album (PhotobucketService  *self,
 				       user_data,
 				       photobucket_service_create_album,
 				       create_album_ready_cb,
-				       self);
+				       create_album_data);
 
+	g_free (url);
 	g_hash_table_destroy (data_set);
-	*/
 }
 
 
@@ -391,9 +392,7 @@ upload_photos_done (PhotobucketService *self,
 
 	result = oauth_connection_get_result (self->priv->conn);
 	if (error == NULL) {
-		self->priv->post_photos->ids = g_list_reverse (self->priv->post_photos->ids);
-		g_simple_async_result_set_op_res_gpointer (result, self->priv->post_photos->ids, (GDestroyNotify) _g_string_list_free);
-		self->priv->post_photos->ids = NULL;
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 	}
 	else {
 		if (self->priv->post_photos->current != NULL) {
@@ -421,47 +420,17 @@ upload_photo_ready_cb (SoupSession *session,
 {
 	PhotobucketService *self = user_data;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 	GthFileData        *file_data;
 
 	result = oauth_connection_get_result (self->priv->conn);
-
-	if (msg->status_code != 200) {
-		GError *error;
-
-		error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
+	if (! photobucket_utils_parse_response (msg, &doc, &error)) {
 		upload_photos_done (self, error);
-		g_error_free (error);
-
 		return;
 	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (photobucket_utils_parse_response (body, &doc, result, &error)) {
-		DomElement *node;
-
-		/* save the photo id */
-
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "pid") == 0) {
-				const char *id;
-
-				id = dom_element_get_inner_text (node);
-				self->priv->post_photos->ids = g_list_prepend (self->priv->post_photos->ids, g_strdup (id));
-			}
-		}
-
+	else
 		g_object_unref (doc);
-	}
-	else {
-		soup_buffer_free (body);
-		upload_photos_done (self, error);
-		return;
-	}
-
-	soup_buffer_free (body);
 
 	file_data = self->priv->post_photos->current->data;
 	self->priv->post_photos->uploaded_size += g_file_info_get_size (file_data->info);
@@ -479,8 +448,10 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	PhotobucketService *self = user_data;
 	GthFileData        *file_data;
 	SoupMultipart      *multipart;
+	char               *identifier;
 	char               *uri;
 	SoupBuffer         *body;
+	char               *url;
 	SoupMessage        *msg;
 
 	if (error != NULL) {
@@ -490,6 +461,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 
 	file_data = self->priv->post_photos->current->data;
 	multipart = soup_multipart_new ("multipart/form-data");
+	identifier = soup_uri_encode (self->priv->post_photos->album->name, NULL);
 
 	/* the metadata part */
 
@@ -497,24 +469,27 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		GHashTable *data_set;
 		char       *title;
 		char       *description;
+		char       *url;
+		char       *s_size = NULL;
 		GList      *keys;
 		GList      *scan;
 
 		data_set = g_hash_table_new (g_str_hash, g_str_equal);
-
-		g_hash_table_insert (data_set, "method", "photobucket.photos.upload");
-
+		g_hash_table_insert (data_set, "type", "image");
 		title = gth_file_data_get_attribute_as_string (file_data, "general::title");
+		if (title != NULL)
+			g_hash_table_insert (data_set, "title", title);
 		description = gth_file_data_get_attribute_as_string (file_data, "general::description");
 		if (description != NULL)
-			g_hash_table_insert (data_set, "caption", description);
-		else if (title != NULL)
-			g_hash_table_insert (data_set, "caption", title);
-
-		if (self->priv->post_photos->album != NULL)
-			g_hash_table_insert (data_set, "aid", self->priv->post_photos->album->name);
-
-		oauth_connection_add_signature (self->priv->conn, "POST", "FIXME", data_set); /* FIXME */
+			g_hash_table_insert (data_set, "description", description);
+		if (self->priv->post_photos->size != 0) {
+			s_size = g_strdup_printf ("%d", self->priv->post_photos->size);
+			g_hash_table_insert (data_set, "size", s_size);
+		}
+		if (self->priv->post_photos->scramble)
+			g_hash_table_insert (data_set, "scramble", "true");
+		url = g_strconcat ("http://api.photobucket.com", "/album/", identifier, "/upload", NULL);
+		oauth_connection_add_signature (self->priv->conn, "POST", url, data_set);
 
 		keys = g_hash_table_get_keys (data_set);
 		for (scan = keys; scan; scan = scan->next) {
@@ -523,6 +498,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		}
 
 		g_list_free (keys);
+		g_free (url);
+		g_free (s_size);
 		g_hash_table_unref (data_set);
 	}
 
@@ -531,7 +508,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	uri = g_file_get_uri (file_data->file);
 	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
-					 NULL,
+					 "uploadfile",
 					 _g_uri_get_basename (uri),
 					 gth_file_data_get_mime_type (file_data),
 					 body);
@@ -554,8 +531,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		g_free (details);
 	}
 
-	/* FIXME
-	msg = soup_form_request_new_from_multipart (PHOTOBUCKET_HTTPS_REST_SERVER, multipart);
+	url = g_strconcat ("http://", self->priv->post_photos->account->subdomain, "/album/", identifier, "/upload", NULL);
+	msg = soup_form_request_new_from_multipart (url, multipart);
 	oauth_connection_send_message (self->priv->conn,
 				       msg,
 				       self->priv->post_photos->cancellable,
@@ -564,8 +541,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 				       photobucket_service_upload_photos,
 				       upload_photo_ready_cb,
 				       self);
-	*/
 
+	g_free (url);
 	soup_multipart_free (multipart);
 }
 
@@ -617,7 +594,10 @@ upload_photos_info_ready_cb (GList    *files,
 
 void
 photobucket_service_upload_photos (PhotobucketService  *self,
+				   PhotobucketAccount  *account,
 				   PhotobucketAlbum    *album,
+				   int                  size,
+				   gboolean             scramble,
 				   GList               *file_list, /* GFile list */
 				   GCancellable        *cancellable,
 				   GAsyncReadyCallback  callback,
@@ -627,7 +607,10 @@ photobucket_service_upload_photos (PhotobucketService  *self,
 
 	post_photos_data_free (self->priv->post_photos);
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
+	self->priv->post_photos->account = g_object_ref (account);
 	self->priv->post_photos->album = _g_object_ref (album);
+	self->priv->post_photos->size = size;
+	self->priv->post_photos->scramble = scramble;
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;
@@ -644,143 +627,13 @@ photobucket_service_upload_photos (PhotobucketService  *self,
 }
 
 
-GList *
+gboolean
 photobucket_service_upload_photos_finish (PhotobucketService  *self,
 				          GAsyncResult        *result,
 				          GError             **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
+		return FALSE;
 	else
-		return _g_string_list_dup (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+		return TRUE;
 }
-
-
-#if 0
-
-/* -- photobucket_service_list_photos -- */
-
-
-static void
-list_photos_ready_cb (SoupSession *session,
-		      SoupMessage *msg,
-		      gpointer     user_data)
-{
-	PhotobucketService      *self = user_data;
-	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
-	GError             *error = NULL;
-
-	result = oauth_connection_get_result (self->priv->conn);
-
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (photobucket_utils_parse_response (body, &doc, &error)) {
-		DomElement *response;
-		DomElement *node;
-		GList      *photos = NULL;
-
-		response = DOM_ELEMENT (doc)->first_child;
-		for (node = response->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "photoset") == 0) {
-				DomElement *child;
-				int         position;
-
-				position = 0;
-				for (child = node->first_child; child; child = child->next_sibling) {
-					if (g_strcmp0 (child->tag_name, "photo") == 0) {
-						PhotobucketPhoto *photo;
-
-						photo = photobucket_photo_new ();
-						dom_domizable_load_from_element (DOM_DOMIZABLE (photo), child);
-						photo->position = position++;
-						photos = g_list_prepend (photos, photo);
-					}
-				}
-			}
-		}
-
-		photos = g_list_reverse (photos);
-		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
-
-		g_object_unref (doc);
-	}
-	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
-}
-
-
-void
-photobucket_service_list_photos (PhotobucketService       *self,
-			    PhotobucketPhotoset      *photoset,
-			    const char          *extras,
-			    int                  per_page,
-			    int                  page,
-			    GCancellable        *cancellable,
-			    GAsyncReadyCallback  callback,
-			    gpointer             user_data)
-{
-	GHashTable  *data_set;
-	char        *s;
-	SoupMessage *msg;
-
-	g_return_if_fail (photoset != NULL);
-
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "photobucket.photosets.getPhotos");
-	g_hash_table_insert (data_set, "photoset_id", photoset->id);
-	if (extras != NULL)
-		g_hash_table_insert (data_set, "extras", (char *) extras);
-	if (per_page > 0) {
-		s = g_strdup_printf ("%d", per_page);
-		g_hash_table_insert (data_set, "per_page", s);
-		g_free (s);
-	}
-	if (page > 0) {
-		s = g_strdup_printf ("%d", page);
-		g_hash_table_insert (data_set, "page", s);
-		g_free (s);
-	}
-	oauth_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.photobucket.com/services/rest", data_set);
-	oauth_connection_send_message (self->priv->conn,
-				       msg,
-				       cancellable,
-				       callback,
-				       user_data,
-				       photobucket_service_list_photos,
-				       list_photos_ready_cb,
-				       self);
-
-	g_hash_table_destroy (data_set);
-}
-
-
-GList *
-photobucket_service_list_photos_finish (PhotobucketService  *self,
-				   GAsyncResult   *result,
-				   GError        **error)
-{
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
-}
-
-#endif

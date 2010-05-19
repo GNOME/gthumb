@@ -49,9 +49,11 @@ struct _PhotobucketAlbumPropertiesDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType          photobucket_album_properties_dialog_get_type   (void);
-GtkWidget *    photobucket_album_properties_dialog_new        (const char *name);
-const char *   photobucket_album_properties_dialog_get_name   (PhotobucketAlbumPropertiesDialog *self);
+GType          photobucket_album_properties_dialog_get_type         (void);
+GtkWidget *    photobucket_album_properties_dialog_new              (const char *name,
+								     GList      *albums);
+const char *   photobucket_album_properties_dialog_get_name         (PhotobucketAlbumPropertiesDialog *self);
+char *         photobucket_album_properties_dialog_get_parent_album (PhotobucketAlbumPropertiesDialog *self);
 
 G_END_DECLS
 

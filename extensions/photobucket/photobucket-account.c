@@ -90,6 +90,9 @@ photobucket_account_load_from_element (DomDomizable *base,
 			else if (g_str_equal (node->tag_name, "megabytes_allowed")) {
 				photobucket_account_set_megabytes_allowed (self, dom_element_get_inner_text (node));
 			}
+			else if (g_str_equal (node->tag_name, "premium")) {
+				photobucket_account_set_is_premium (self, dom_element_get_inner_text (node));
+			}
 			else if (g_str_equal (node->tag_name, "public")) {
 				photobucket_account_set_is_public (self, dom_element_get_inner_text (node));
 			}
@@ -116,6 +119,8 @@ photobucket_account_instance_init (PhotobucketAccount *self)
 	self->subdomain = NULL;
 	self->home_url = NULL;
 	self->album_url = NULL;
+	self->is_premium = FALSE;
+	self->is_public = TRUE;
 }
 
 
@@ -198,6 +203,14 @@ photobucket_account_set_megabytes_allowed (PhotobucketAccount *self,
 					   const char         *value)
 {
 	self->megabytes_allowed = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
+photobucket_account_set_is_premium (PhotobucketAccount *self,
+				    const char         *value)
+{
+	self->is_premium =  g_str_equal (value, "1");
 }
 
 

@@ -61,6 +61,8 @@ GList *              photobucket_service_get_albums_finish          (Photobucket
 							             GAsyncResult           *result,
 							             GError                **error);
 void                 photobucket_service_create_album               (PhotobucketService     *self,
+								     PhotobucketAccount     *account,
+								     const char             *parent_album,
 						                     PhotobucketAlbum       *album,
 						                     GCancellable           *cancellable,
 						                     GAsyncReadyCallback     callback,
@@ -69,22 +71,16 @@ PhotobucketAlbum *   photobucket_service_create_album_finish        (Photobucket
 						                     GAsyncResult           *result,
 						                     GError                **error);
 void                 photobucket_service_upload_photos              (PhotobucketService     *self,
+								     PhotobucketAccount     *account,
 							             PhotobucketAlbum       *album,
+							             int                     size,
+							             gboolean                scramble,
 							             GList                  *file_list, /* GFile list */
 							             GCancellable           *cancellable,
 							             GAsyncReadyCallback     callback,
 							             gpointer                user_data);
-GList *              photobucket_service_upload_photos_finish       (PhotobucketService     *self,
+gboolean             photobucket_service_upload_photos_finish       (PhotobucketService     *self,
 						                     GAsyncResult           *result,
 						                     GError                **error);
-#if 0
-void                 photobucket_service_list_photos                (PhotobucketService     *self,
-							             PhotobucketAlbum       *album,
-							             GAsyncReadyCallback     callback,
-							             gpointer                user_data);
-GList *              photobucket_service_list_photos_finish         (PhotobucketService     *self,
-							             GAsyncResult           *result,
-							             GError                **error);
-#endif
 
 #endif /* PHOTOBUCKET_SERVICE_H */

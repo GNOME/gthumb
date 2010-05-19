@@ -28,9 +28,8 @@
 
 extern OAuthConsumer photobucket_consumer;
 
-gboolean  photobucket_utils_parse_response (SoupBuffer          *body,
-				            DomDocument        **doc_p,
-				            GSimpleAsyncResult  *result,
-				            GError             **error);
+gboolean  photobucket_utils_parse_response (SoupMessage  *msg,
+					    DomDocument **doc_p,
+					    GError      **error);
 
 #endif /* PHOTOBUCKET_CONSUMER_H */

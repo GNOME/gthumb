@@ -28,6 +28,14 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+enum {
+	ALBUM_DATA_COLUMN,
+	ALBUM_ICON_COLUMN,
+	ALBUM_TITLE_COLUMN,
+	ALBUM_N_PHOTOS_COLUMN
+};
+
+
 static gpointer parent_class = NULL;
 
 
@@ -83,6 +91,32 @@ photobucket_album_properties_dialog_init (PhotobucketAlbumPropertiesDialog *self
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+
+
+	{
+		GtkCellLayout   *cell_layout;
+		GtkCellRenderer *renderer;
+
+		cell_layout = GTK_CELL_LAYOUT (GET_WIDGET ("album_combobox"));
+
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"icon-name", ALBUM_ICON_COLUMN,
+						NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"text", ALBUM_TITLE_COLUMN,
+						NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"text", ALBUM_N_PHOTOS_COLUMN,
+						NULL);
+	}
 }
 
 
@@ -116,20 +150,46 @@ photobucket_album_properties_dialog_get_type (void)
 
 static void
 photobucket_album_properties_dialog_construct (PhotobucketAlbumPropertiesDialog *self,
-				               const char                       *name)
+				               const char                       *name,
+				               GList                            *albums)
 {
+	GList *scan;
+
 	if (name != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), name);
+
+	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("album_liststore")));
+	for (scan = albums; scan; scan = scan->next) {
+		PhotobucketAlbum *album = scan->data;
+		char             *size;
+		GtkTreeIter       iter;
+
+		size = g_strdup_printf ("(%d)", album->photo_count + album->video_count);
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
+				    ALBUM_DATA_COLUMN, album,
+				    ALBUM_ICON_COLUMN, "file-catalog",
+				    ALBUM_TITLE_COLUMN, album->name,
+				    ALBUM_N_PHOTOS_COLUMN, size,
+				    -1);
+
+		g_free (size);
+	}
+
+	if (albums != NULL)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), 0);
 }
 
 
 GtkWidget *
-photobucket_album_properties_dialog_new (const char *name)
+photobucket_album_properties_dialog_new (const char *name,
+					 GList      *albums)
 {
 	PhotobucketAlbumPropertiesDialog *self;
 
 	self = g_object_new (PHOTOBUCKET_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
-	photobucket_album_properties_dialog_construct (self, name);
+	photobucket_album_properties_dialog_construct (self, name, albums);
 
 	return (GtkWidget *) self;
 }
@@ -139,4 +199,30 @@ const char *
 photobucket_album_properties_dialog_get_name (PhotobucketAlbumPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry")));
+}
+
+
+char *
+photobucket_album_properties_dialog_get_parent_album (PhotobucketAlbumPropertiesDialog *self)
+{
+	GtkTreeIter       iter;
+	PhotobucketAlbum *album;
+	char             *name;
+
+	album = NULL;
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter)) {
+		gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (GET_WIDGET ("album_combobox"))),
+				    &iter,
+				    ALBUM_DATA_COLUMN, &album,
+				    -1);
+	}
+
+	if (album == NULL)
+		return NULL;
+
+	name = g_strdup (album->name);
+
+	g_object_unref (album);
+
+	return name;
 }

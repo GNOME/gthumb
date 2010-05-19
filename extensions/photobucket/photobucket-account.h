@@ -47,6 +47,7 @@ struct _PhotobucketAccount {
 	char     *album_url;
 	goffset   megabytes_used;
 	goffset   megabytes_allowed;
+	gboolean  is_premium;
 	gboolean  is_public;
 };
 
@@ -66,6 +67,8 @@ void              photobucket_account_set_megabytes_used     (PhotobucketAccount
 							      const char         *value);
 void              photobucket_account_set_megabytes_allowed  (PhotobucketAccount *self,
 						              const char         *value);
+void              photobucket_account_set_is_premium         (PhotobucketAccount *self,
+							      const char         *value);
 void              photobucket_account_set_is_public          (PhotobucketAccount *self,
 							      const char         *value);
 

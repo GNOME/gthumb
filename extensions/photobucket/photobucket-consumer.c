@@ -29,19 +29,28 @@
 
 
 gboolean
-photobucket_utils_parse_response (SoupBuffer          *body,
+photobucket_utils_parse_response (SoupMessage         *msg,
 				  DomDocument        **doc_p,
-				  GSimpleAsyncResult  *result,
 				  GError             **error)
 {
+	SoupBuffer  *body;
 	DomDocument *doc;
 	DomElement  *node;
 
+	body = soup_message_body_flatten (msg->response_body);
+
 	doc = dom_document_new ();
 	if (! dom_document_load (doc, body->data, body->length, error)) {
+		if (msg->status_code != 200) {
+			g_clear_error (error);
+			*error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
+		}
 		g_object_unref (doc);
+		soup_buffer_free (body);
 		return FALSE;
 	}
+
+	soup_buffer_free (body);
 
 	for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
 		if (g_strcmp0 (node->tag_name, "response") == 0) {
@@ -64,7 +73,6 @@ photobucket_utils_parse_response (SoupBuffer          *body,
 
 			if (status == NULL) {
 				*error = g_error_new_literal (OAUTH_CONNECTION_ERROR, 999, _("Unknown error"));
-				g_simple_async_result_set_from_error (result, *error);
 			}
 			else if (strcmp (status, "Exception") == 0) {
 				*error = g_error_new_literal (OAUTH_CONNECTION_ERROR,
@@ -183,14 +191,13 @@ photobucket_get_check_token_url (OAuthConnection *self,
 static void
 photobucket_check_token_response (OAuthConnection    *self,
 				  SoupMessage        *msg,
-				  SoupBuffer         *body,
 				  GSimpleAsyncResult *result,
 				  OAuthAccount       *account)
 {
 	DomDocument *doc = NULL;
 	GError      *error = NULL;
 
-	if (photobucket_utils_parse_response (body, &doc, result, &error)) {
+	if (photobucket_utils_parse_response (msg, &doc, &error)) {
 		DomElement *node;
 
 		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {

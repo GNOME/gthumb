@@ -520,7 +520,6 @@ check_token_ready_cb (SoupSession *session,
 {
 	CheckTokenData  *check_token_data = user_data;
 	OAuthConnection *self = check_token_data->conn;
-	SoupBuffer      *body;
 
 	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (self->priv->result,
@@ -532,11 +531,9 @@ check_token_ready_cb (SoupSession *session,
 		return;
 	}
 
-	body = soup_message_body_flatten (msg->response_body);
-	self->consumer->check_token_response (self, msg, body, self->priv->result, check_token_data->account);
+	self->consumer->check_token_response (self, msg, self->priv->result, check_token_data->account);
 	g_simple_async_result_complete_in_idle (self->priv->result);
 
-	soup_buffer_free (body);
 	g_free (check_token_data);
 }
 
