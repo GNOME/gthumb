@@ -112,8 +112,17 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
-			if (data->account->album_url)
-				url = g_strconcat (data->account->album_url, data->album->name + strlen (OAUTH_ACCOUNT (data->account)->username), NULL);
+			if (data->account->album_url != NULL) {
+				char *username;
+
+				username = OAUTH_ACCOUNT (data->account)->username;
+				if (g_str_equal (data->album->name, username))
+					url = g_strdup (data->account->album_url);
+				else
+					url = g_strconcat (data->account->album_url,
+							   data->album->name + strlen (username) + 1,
+							   NULL);
+			}
 
 			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				if (data->conn != NULL)
