@@ -102,7 +102,7 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
-GList *
+static GList *
 get_files_to_download (DialogData *data)
 {
 	GthFileView *file_view;
