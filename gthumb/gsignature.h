@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 typedef struct _GSignature GSignature;
 typedef enum {
-	G_SIGNATURE_ENC_STRING,
+	G_SIGNATURE_ENC_HEX,
 	G_SIGNATURE_ENC_BASE64
 } GSignatureEnc;
 

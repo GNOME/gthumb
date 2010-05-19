@@ -210,7 +210,7 @@ g_compute_signature_for_data (GChecksumType  checksum_type,
 		}
 		break;
 
-	case G_SIGNATURE_ENC_STRING:
+	case G_SIGNATURE_ENC_HEX:
 		retval = g_strdup (g_signature_get_string (signature));
 		break;
 	}
