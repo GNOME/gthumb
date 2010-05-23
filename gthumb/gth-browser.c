@@ -4858,13 +4858,16 @@ file_metadata_ready_cb (GList    *files,
 			gpointer  user_data)
 {
 	LoadFileData *data = user_data;
-	GthBrowser   *browser;
+	GthBrowser   *browser = data->browser;
 	GthFileData  *file_data;
 	GList        *scan;
 
-	browser = data->browser;
-	file_data = files->data;
+	if ((error != NULL) || (files == NULL)) {
+		load_file_data_unref (data);
+		return;
+	}
 
+	file_data = files->data;
 	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file)) {
 		load_file_data_unref (data);
 		return;
