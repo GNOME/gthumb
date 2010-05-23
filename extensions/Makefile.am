@@ -31,6 +31,7 @@ SUBDIRS = 			\
 	resize_images		\
 	search			\
 	slideshow		\
+	webalbums		\
 	flicker
 
 EXTRA_DIST = example

@@ -395,6 +395,27 @@ AM_CONDITIONAL(ENABLE_BRASERO_TOOLS, test "x$enable_libbrasero" = xyes)
 
 dnl ===========================================================================
 
+enable_web_albums=yes
+if test x$enable_web_albums = xyes; then
+	AC_CHECK_PROGS(BISON, bison, no)
+	if test "$BISON" = "no"; then
+		enable_web_albums=no
+	fi
+fi
+if test x$enable_web_albums = xyes; then
+	AC_CHECK_PROGS(FLEX, flex lex, no)
+	if test "$FLEX" = "no"; then
+		enable_web_albums=no
+	else
+		AC_PROG_LEX
+	fi
+fi
+AC_SUBST(BISON)
+AC_SUBST(FLEX)
+AM_CONDITIONAL(ENABLE_WEB_ALBUMS, test "x$enable_web_albums" = xyes)
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile
@@ -506,6 +527,9 @@ extensions/search/data/ui/Makefile
 extensions/slideshow/Makefile
 extensions/slideshow/data/Makefile
 extensions/slideshow/data/ui/Makefile
+extensions/webalbums/Makefile
+extensions/webalbums/data/Makefile
+extensions/webalbums/data/ui/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
 gthumb/icons/Makefile
@@ -534,4 +558,5 @@ Configuration:
 	Web services support : ${enable_libsoup}
 	Use GNOME Keyring    : ${enable_gnome_keyring}
 	Burn disc support    : ${enable_libbrasero}
+	Web albums           : ${enable_web_albums}
 "
