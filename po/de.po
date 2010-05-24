@@ -6,12 +6,14 @@
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
 # Mario Blättermann <mariobl@gnome.org>, 2010.
 # Christian Kirbach <christian.kirbach@googlemail.com>, 2008, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-13 22:39+0200\n"
-"PO-Revision-Date: 2010-05-13 22:43+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&component=general\n"
+"POT-Creation-Date: 2010-05-23 16:17+0000\n"
+"PO-Revision-Date: 2010-05-24 13:12+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@googlemail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -575,13 +577,13 @@ msgstr "Geben Sie einen Namen für den Katalog ein: "
 #: ../extensions/catalogs/actions.c:194 ../extensions/catalogs/actions.c:260
 #: ../extensions/catalogs/dlg-add-to-catalog.c:221
 #: ../extensions/catalogs/dlg-add-to-catalog.c:287
-#: ../extensions/file_manager/actions.c:47
+#: ../extensions/file_manager/actions.c:46
 msgid "C_reate"
 msgstr "_Erstellen"
 
 #: ../extensions/catalogs/actions.c:234
 #: ../extensions/catalogs/dlg-add-to-catalog.c:261
-#: ../extensions/search/gth-search-task.c:288
+#: ../extensions/search/gth-search-task.c:295
 msgid "Could not create the catalog"
 msgstr "Der Katalog konnte nicht angelegt werden"
 
@@ -718,6 +720,7 @@ msgstr "_Datum:"
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
 msgstr "_Name:"
@@ -967,11 +970,11 @@ msgstr ""
 "Die Eigenschaften des Arbeitsflächenhintergrundes konnten nicht angezeigt "
 "werden"
 
-#: ../extensions/desktop_background/callbacks.c:45
+#: ../extensions/desktop_background/callbacks.c:50
 msgid "Set as Desktop Background"
 msgstr "Als Arbeitsflächenhintergrund verwenden"
 
-#: ../extensions/desktop_background/callbacks.c:46
+#: ../extensions/desktop_background/callbacks.c:51
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
 msgid "Set the image as desktop background"
 msgstr "Das Bild als Arbeitsflächenhintergrund verwenden"
@@ -1177,10 +1180,12 @@ msgid "Upload photos to Facebook"
 msgstr "Fotos zu Facebook übertragen"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
 msgid "A_lbum:"
 msgstr "A_lbum:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Neues Album hinzufügen"
@@ -1188,22 +1193,26 @@ msgstr "Neues Album hinzufügen"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "Edit accounts"
 msgstr "Konten bearbeiten"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 msgid "Export to Flickr"
 msgstr "Zu Flickr exportieren"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
 msgid "_Account:"
 msgstr "K_onto:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
 msgid "_Upload"
 msgstr "_Hochladen"
@@ -1211,6 +1220,7 @@ msgstr "_Hochladen"
 #: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
@@ -1219,6 +1229,7 @@ msgstr "K_onto:"
 
 #: ../extensions/facebook/data/ui/facebook-account-manager.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
 msgid "A_ccounts:"
 msgstr "_Konten:"
@@ -1249,28 +1260,33 @@ msgstr "_Sichtbarkeit:"
 
 #: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
 msgid "_Authorize..."
 msgstr "_Legitimieren …"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
 msgid "C_ontinue"
 msgstr "F_ortfahren"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
 #: ../extensions/facebook/facebook-authentication.c:496
 #: ../extensions/flicker/flickr-authentication.c:435
+#: ../extensions/oauth/oauth-authentication.c:446
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Sobald dies erledigt ist, klicken Sie auf »Fortsetzen«."
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:1
 msgid "Files successfully uploaded to the server."
 msgstr "Dateien wurden erfolgreich zum Server übertragen."
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:2
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
 msgid "_Open in the Browser"
 msgstr "Im Br_owser öffnen"
@@ -1282,6 +1298,9 @@ msgstr "Im Br_owser öffnen"
 #: ../extensions/flicker/dlg-export-to-flickr.c:390
 #: ../extensions/flicker/dlg-import-from-flickr.c:239
 #: ../extensions/flicker/flickr-authentication.c:222
+#: ../extensions/oauth/oauth-authentication.c:218
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:130
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:369
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:138
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:407
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:358
@@ -1290,6 +1309,7 @@ msgstr "Verbindung zum Server konnte nicht hergestellt werden"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:167
 #: ../extensions/flicker/dlg-export-to-flickr.c:237
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:176
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:188
 msgid "Could not upload the files"
 msgstr "Die Dateien konnten nicht übertragen werden"
@@ -1297,56 +1317,65 @@ msgstr "Die Dateien konnten nicht übertragen werden"
 #: ../extensions/facebook/dlg-export-to-facebook.c:379
 #: ../extensions/flicker/dlg-export-to-flickr.c:181
 #: ../extensions/flicker/dlg-export-to-flickr.c:215
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:454
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:663
 msgid "Could not create the album"
 msgstr "Das Album konnte nicht angelegt werden"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:443
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:521
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:724
 msgid "New Album"
 msgstr "Neues Album"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:522
 #: ../extensions/flicker/dlg-export-to-flickr.c:516
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:928
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:601
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:930
 msgid "No valid file selected."
 msgstr "Keine gültige Datei ausgewählt"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:523
 #: ../extensions/flicker/dlg-export-to-flickr.c:517
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:602
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:931
 msgid "Could not export the files"
 msgstr "Die Dateien konnten nicht exportiert werden"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:530
 #: ../extensions/flicker/dlg-export-to-flickr.c:524
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:935
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:609
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:937
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
-#: ../gthumb/gth-browser.c:916 ../gthumb/gth-browser.c:917
+#: ../gthumb/gth-browser.c:932 ../gthumb/gth-browser.c:933
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d Datei (%s)"
 msgstr[1] "%d Dateien (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:549
-#: ../extensions/flicker/dlg-export-to-flickr.c:544
+#: ../extensions/facebook/dlg-export-to-facebook.c:551
+#: ../extensions/flicker/dlg-export-to-flickr.c:546
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:629
 #, c-format
 msgid "Export to %s"
 msgstr "Exportieren nach %s"
 
 #: ../extensions/facebook/facebook-account-chooser-dialog.c:231
 #: ../extensions/flicker/flickr-account-chooser-dialog.c:231
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:231
 msgid "New authentication..."
 msgstr "Neue Legitimierung …"
 
 #: ../extensions/facebook/facebook-authentication.c:225
 #: ../extensions/flicker/flickr-authentication.c:224
+#: ../extensions/oauth/oauth-authentication.c:220
 msgid "Choose _Account..."
 msgstr "K_onto wählen …"
 
 #: ../extensions/facebook/facebook-authentication.c:495
 #: ../extensions/flicker/flickr-authentication.c:434
+#: ../extensions/oauth/oauth-authentication.c:445
 #, c-format
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
@@ -1356,6 +1385,7 @@ msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:575
 #: ../extensions/flicker/flickr-authentication.c:508
+#: ../extensions/oauth/oauth-authentication.c:519
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr ""
@@ -1363,6 +1393,7 @@ msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:576
 #: ../extensions/flicker/flickr-authentication.c:509
+#: ../extensions/oauth/oauth-authentication.c:520
 #, c-format
 msgid ""
 "Click 'Authorize' to open your web browser and authorize gthumb to upload "
@@ -1375,6 +1406,7 @@ msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
+#: ../extensions/oauth/oauth-authentication.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:756
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
@@ -1382,6 +1414,7 @@ msgstr "Konto wählen"
 
 #: ../extensions/facebook/facebook-authentication.c:768
 #: ../extensions/flicker/flickr-authentication.c:706
+#: ../extensions/oauth/oauth-authentication.c:719
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:813
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
 msgid "Edit Accounts"
@@ -1396,6 +1429,10 @@ msgstr "Konten bearbeiten"
 #: ../extensions/flicker/flickr-connection.c:442
 #: ../extensions/flicker/flickr-service.c:221
 #: ../extensions/flicker/flickr-service.c:424
+#: ../extensions/photobucket/photobucket-consumer.c:75
+#: ../extensions/photobucket/photobucket-consumer.c:80
+#: ../extensions/photobucket/photobucket-consumer.c:116
+#: ../extensions/photobucket/photobucket-consumer.c:171
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
@@ -1406,6 +1443,9 @@ msgstr "Unbekannter Fehler"
 #: ../extensions/flicker/flickr-connection.c:317
 #: ../extensions/flicker/flickr-connection.c:468
 #: ../extensions/flicker/flickr-service.c:245
+#: ../extensions/oauth/oauth-connection.c:378
+#: ../extensions/oauth/oauth-connection.c:453
+#: ../extensions/oauth/oauth-connection.c:557
 #: ../extensions/picasaweb/google-connection.c:364
 msgid "Connecting to the server"
 msgstr "Verbindung mit Server wird aufgebaut"
@@ -1421,11 +1461,15 @@ msgstr "Bilder zu Facebook übertragen"
 #: ../extensions/facebook/facebook-service.c:214
 #: ../extensions/facebook/facebook-service.c:316
 #: ../extensions/flicker/flickr-service.c:245
+#: ../extensions/oauth/oauth-connection.c:378
+#: ../extensions/oauth/oauth-connection.c:453
+#: ../extensions/oauth/oauth-connection.c:557
 msgid "Getting account information"
 msgstr "Kontoinformationen wird ermittelt"
 
 #: ../extensions/facebook/facebook-service.c:422
 #: ../extensions/flicker/flickr-service.c:349
+#: ../extensions/photobucket/photobucket-service.c:236
 #: ../extensions/picasaweb/picasa-web-service.c:238
 msgid "Getting the album list"
 msgstr "Albenliste wird geholt"
@@ -1434,12 +1478,14 @@ msgstr "Albenliste wird geholt"
 #: ../extensions/flicker/flickr-service.c:452
 #: ../extensions/flicker/flickr-service.c:572
 #: ../extensions/flicker/flickr-service.c:610
+#: ../extensions/photobucket/photobucket-service.c:345
 #: ../extensions/picasaweb/picasa-web-service.c:329
 msgid "Creating the new album"
 msgstr "Neues Album wird angelegt"
 
 #: ../extensions/facebook/facebook-service.c:610
 #: ../extensions/flicker/flickr-service.c:660
+#: ../extensions/photobucket/photobucket-service.c:402
 #: ../extensions/picasaweb/picasa-web-service.c:386
 #, c-format
 msgid "Could not upload '%s': %s"
@@ -1450,6 +1496,7 @@ msgstr "»%s« konnte nicht übertragen werden: %s"
 #. Translators: %s is a filename
 #: ../extensions/facebook/facebook-service.c:752
 #: ../extensions/flicker/flickr-service.c:838
+#: ../extensions/photobucket/photobucket-service.c:525
 #: ../extensions/picasaweb/picasa-web-service.c:521
 #, c-format
 msgid "Uploading '%s'"
@@ -1457,6 +1504,7 @@ msgstr "»%s« wird übertragen …"
 
 #: ../extensions/facebook/facebook-service.c:828
 #: ../extensions/flicker/flickr-service.c:916
+#: ../extensions/photobucket/photobucket-service.c:606
 #: ../extensions/picasaweb/picasa-web-service.c:595
 msgid "Uploading the files to the server"
 msgstr "Dateien werden zum Server übertragen"
@@ -1467,21 +1515,21 @@ msgstr "Dateien werden zum Server übertragen"
 msgid "Getting the photo list"
 msgstr "Bilderliste wird geholt"
 
-#: ../extensions/file_manager/actions.c:43
+#: ../extensions/file_manager/actions.c:42
 msgid "Enter the folder name: "
 msgstr "Geben Sie einen Namen für den Ordner ein: "
 
-#: ../extensions/file_manager/actions.c:65
+#: ../extensions/file_manager/actions.c:70
 msgid "Could not create the folder"
 msgstr "Der Ordner konnte nicht angelegt werden"
 
-#: ../extensions/file_manager/actions.c:302
+#: ../extensions/file_manager/actions.c:307
 #: ../extensions/file_manager/callbacks.c:299
 #: ../extensions/file_manager/callbacks.c:696
 msgid "Could not move the files"
 msgstr "Die Dateien konnten nicht verschoben werden"
 
-#: ../extensions/file_manager/actions.c:303
+#: ../extensions/file_manager/actions.c:308
 #: ../extensions/file_manager/callbacks.c:300
 #: ../extensions/file_manager/callbacks.c:697
 msgid ""
@@ -1491,12 +1539,12 @@ msgstr ""
 "Dateien können nicht an den aktuellen Ort verschoben werden, alternativ "
 "können Sie sie kopieren."
 
-#: ../extensions/file_manager/actions.c:390
+#: ../extensions/file_manager/actions.c:395
 #: ../extensions/importer/gth-import-task.c:384
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:438
+#: ../extensions/file_manager/actions.c:443
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -1504,17 +1552,17 @@ msgstr ""
 "Die Dateien konnten nicht in den Müll verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:449
+#: ../extensions/file_manager/actions.c:454
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Müll verschoben werden"
 
-#: ../extensions/file_manager/actions.c:485
-#: ../extensions/file_manager/actions.c:776
+#: ../extensions/file_manager/actions.c:490
+#: ../extensions/file_manager/actions.c:781
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:488
+#: ../extensions/file_manager/actions.c:493
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1522,16 +1570,16 @@ msgid_plural ""
 msgstr[0] "Soll %'d ausgewählte Datei unwiderruflich gelöscht werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:498
-#: ../extensions/file_manager/actions.c:786
+#: ../extensions/file_manager/actions.c:503
+#: ../extensions/file_manager/actions.c:791
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
-#: ../extensions/file_manager/actions.c:528
+#: ../extensions/file_manager/actions.c:533
 msgid "Could not open the location"
 msgstr "Der Ort konnte nicht geöffnet werden"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:665
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1539,11 +1587,11 @@ msgstr ""
 "Der Ordner ist nicht leer, sollen der Ordner und die enthaltenen Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:676
+#: ../extensions/file_manager/actions.c:681
 msgid "Could not delete the folder"
 msgstr "Der Ordner konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:735
+#: ../extensions/file_manager/actions.c:740
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
@@ -1551,7 +1599,7 @@ msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:742
+#: ../extensions/file_manager/actions.c:747
 msgid "Could not move the folder to the Trash"
 msgstr "Der Ordner konnte nicht in den Müll verschoben werden"
 
@@ -1605,8 +1653,8 @@ msgstr "_Umbenennen"
 msgid "_Paste Into Folder"
 msgstr "In Ordner e_infügen"
 
-#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4346
-#: ../gthumb/gth-browser.c:4384
+#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4364
+#: ../gthumb/gth-browser.c:4402
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -1913,6 +1961,7 @@ msgid "Upload photos to Flickr"
 msgstr "Fotos zu Flickr übertragen"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "Free space:"
 msgstr "Freier Platz:"
@@ -1981,7 +2030,7 @@ msgstr "Fotoliste konnten nicht geholt werden"
 #: ../extensions/flicker/dlg-import-from-flickr.c:393
 #: ../extensions/flicker/dlg-import-from-flickr.c:564
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:792
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:957
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:959
 msgid "No album selected"
 msgstr "Keine Album ausgewählt"
 
@@ -2000,7 +2049,7 @@ msgstr "Bilder zu Flickr übertragen"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1825
+#: ../gthumb/gth-browser.c:1841
 msgid "Could not save the file"
 msgstr "Die Datei konnte nicht gespeichert werden"
 
@@ -2649,6 +2698,92 @@ msgstr "Werkzeuge zur Dateiauflistung"
 msgid "Scripting and batch manipulation of files."
 msgstr "Stapelverarbeitung und Bearbeitung von Dateien mittels Skripten."
 
+#: ../extensions/photobucket/callbacks.c:50
+msgid "Photobucket..."
+msgstr "Photobucket ..."
+
+#: ../extensions/photobucket/callbacks.c:51
+msgid "Upload photos to Photobucket"
+msgstr "Fotos zu Photobucket übertragen"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+msgid "1 megabyte file size"
+msgstr "Dateigröße 1 Megabyte"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr "15ʺ Bildschirm ( 800 x 600 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr "17ʺ Bildschirm ( 1024 x 768 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+msgid "Large ( 640 x 480 )"
+msgstr "Groß ( 640 x 480 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+msgid "Medium ( 320 x 240 )"
+msgstr "Mittel ( 320 x 240 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+msgid "Small ( 160 x 120 )"
+msgstr "Klein ( 160 x 120 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+msgid "Tiny ( 100 x 75 )"
+msgstr "Winzig ( 100 x 75 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+msgid "_Resize to:"
+msgstr "_Größe ändern auf:"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+msgid "_Scramble filenames"
+msgstr "Dateinamen ver_würfeln"
+
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+msgid "_Container:"
+msgstr "_Container:"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:284
+msgid "Tiny ( 100 × 75 )"
+msgstr "Winzig ( 100 x 75 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:285
+msgid "Small ( 160 × 120 )"
+msgstr "Klein ( 160 x 120 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
+msgid "Medium ( 320 × 240 )"
+msgstr "Mittel ( 320 x 240 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
+msgid "Large ( 640 × 480 )"
+msgstr "Groß ( 640 x 480 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+msgid "15ʺ screen ( 800 × 600 )"
+msgstr "15ʺ Bildschirm ( 800 x 600 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+msgid "17ʺ screen ( 1024 × 768 )"
+msgstr "17ʺ Bildschirm ( 1024 x 768 )"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:297
+msgid "2 megabyte file size"
+msgstr "Dateigröße 2 Megabyte"
+
+# CHECK: Bildersatz? Wie heißt das denn bei Flickr?
+#: ../extensions/photobucket/photobucket.extension.in.in.h:1
+msgid "PhotoBucket"
+msgstr "PhotoBucket"
+
+#: ../extensions/photobucket/photobucket.extension.in.in.h:2
+msgid "Upload images to PhotoBucket"
+msgstr "Fotos zu PhotoBucket übertragen"
+
 #: ../extensions/photo_importer/callbacks.c:51
 msgid "_Removable Device..."
 msgstr "T_ragbares Gerät …"
@@ -2690,7 +2825,7 @@ msgid "Could not load the folder"
 msgstr "Ordner konnte nicht geladen werden"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1738
+#: ../gthumb/gth-browser.c:1754
 msgid "Getting folder listing..."
 msgstr "Ordnerinhalt wird ermittelt …"
 
@@ -2921,6 +3056,20 @@ msgstr "Dateiinformation konnte nicht gelesen werden"
 msgid "Rename the selected files"
 msgstr "Gewählte Dateien umbenennen"
 
+#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:1
+msgid ""
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
+msgstr ""
+"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::"
+"size, file::mtime, exif::photo::datetimeoriginal"
+
+#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
+#, fuzzy
+#| msgid "Possible values are: none, deflate, jpeg."
+msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
+msgstr "Zulässige Werte: 0 (keine), 1 (niedriger) sowie 2 (höher)."
+
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #, no-c-format
@@ -2990,28 +3139,27 @@ msgstr "_Vorschau:"
 msgid "_Template:"
 msgstr "_Vorlage:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:341
+#: ../extensions/rename_series/dlg-rename-series.c:371
 msgid "Could not rename the files"
 msgstr "Dateien konnten nicht umbenannt werden"
 
-#: ../extensions/rename_series/dlg-rename-series.c:425
+#: ../extensions/rename_series/dlg-rename-series.c:459
 msgid "Old Name"
 msgstr "Alter Name"
 
-#: ../extensions/rename_series/dlg-rename-series.c:433
+#: ../extensions/rename_series/dlg-rename-series.c:467
 msgid "New Name"
 msgstr "Neuer Name"
 
-#. change case
-#: ../extensions/rename_series/dlg-rename-series.c:485
+#: ../extensions/rename_series/dlg-rename-series.c:542
 msgid "Keep original case"
 msgstr "Groß-/Kleinschreibung beibehalten"
 
-#: ../extensions/rename_series/dlg-rename-series.c:486
+#: ../extensions/rename_series/dlg-rename-series.c:543
 msgid "Convert to lower-case"
 msgstr "In Kleinschreibung umwandeln"
 
-#: ../extensions/rename_series/dlg-rename-series.c:487
+#: ../extensions/rename_series/dlg-rename-series.c:544
 msgid "Convert to upper-case"
 msgstr "In Großschreibung umwandeln"
 
@@ -3120,7 +3268,7 @@ msgstr "alle folgenden Regeln"
 msgid "any of the following rules"
 msgstr "eine der folgenden Regeln"
 
-#: ../extensions/search/gth-search-task.c:229
+#: ../extensions/search/gth-search-task.c:232
 msgid "Searching..."
 msgstr "Suche läuft …"
 
@@ -3505,19 +3653,19 @@ msgstr "In den Vollbildmodus wechseln"
 msgid "Leave Fullscreen"
 msgstr "Vollbild verlassen"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3180
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3196
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3201
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3217
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3222
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3238
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
-#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:645
+#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:646
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
@@ -3613,69 +3761,69 @@ msgstr "Bearbeiten"
 msgid "Edit file"
 msgstr "Datei bearbeiten"
 
-#: ../gthumb/gth-browser.c:351
+#: ../gthumb/gth-browser.c:352
 #, c-format
 msgid "Open %s"
 msgstr "%s öffnen"
 
-#: ../gthumb/gth-browser.c:490
+#: ../gthumb/gth-browser.c:491
 msgid "[modified]"
 msgstr "[geändert]"
 
-#: ../gthumb/gth-browser.c:494 ../gthumb/gth-main.c:257
+#: ../gthumb/gth-browser.c:495 ../gthumb/gth-main.c:257
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1104 ../gthumb/gth-browser.c:1640
-#: ../gthumb/gth-browser.c:5120 ../gthumb/gth-browser.c:5139
-#: ../gthumb/gth-browser.c:5164
+#: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1656
+#: ../gthumb/gth-browser.c:5141 ../gthumb/gth-browser.c:5160
+#: ../gthumb/gth-browser.c:5185
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
 
-#: ../gthumb/gth-browser.c:1722 ../gthumb/gth-browser.c:1749
+#: ../gthumb/gth-browser.c:1738 ../gthumb/gth-browser.c:1765
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Kein passendes Modul für %s gefunden"
 
-#: ../gthumb/gth-browser.c:1867
+#: ../gthumb/gth-browser.c:1883
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Die Änderungen an Datei »%s« speichern?"
 
-#: ../gthumb/gth-browser.c:1872
+#: ../gthumb/gth-browser.c:1888
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Wenn Sie nicht speichern, gehen die Änderungen an dieser Datei permanent "
 "verloren"
 
-#: ../gthumb/gth-browser.c:1873
+#: ../gthumb/gth-browser.c:1889
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: ../gthumb/gth-browser.c:2502 ../gthumb/gth-browser.c:2526
+#: ../gthumb/gth-browser.c:2518 ../gthumb/gth-browser.c:2542
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Name konnte nicht geändert werden"
 
-#: ../gthumb/gth-browser.c:2907 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2923 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Geändert"
 
-#: ../gthumb/gth-browser.c:3181 ../gthumb/gth-browser.c:3202
+#: ../gthumb/gth-browser.c:3197 ../gthumb/gth-browser.c:3218
 msgid "View the list of visited locations"
 msgstr "Die Liste besuchter Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:3223
+#: ../gthumb/gth-browser.c:3239
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5121
+#: ../gthumb/gth-browser.c:5142
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5165
+#: ../gthumb/gth-browser.c:5186
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
