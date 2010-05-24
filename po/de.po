@@ -3065,8 +3065,6 @@ msgstr ""
 "size, file::mtime, exif::photo::datetimeoriginal"
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
-#, fuzzy
-#| msgid "Possible values are: none, deflate, jpeg."
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
 msgstr "Zulässige Werte: 0 (keine), 1 (niedriger) sowie 2 (höher)."
 
