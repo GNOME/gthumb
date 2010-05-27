@@ -71,7 +71,7 @@ gth_import_utils_get_file_destination (GthFileData        *file_data,
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else
-			subfolder_type = GTH_SUBFOLDER_TYPE_CURRENT_DATE;
+			g_file_info_get_modification_time (file_data->info, &timeval);
 	}
 
 	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
