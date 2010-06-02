@@ -2,13 +2,13 @@
 # Copyright (C) 2009 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
-# Nils-Christoph Fiedler <fiedler@medienkompanie.de>, 2009, 2010.
+# Nils-Christoph Fiedler <ncfiedler@gnome.org>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-2-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
 "POT-Creation-Date: 2010-02-21 12:46+0000\n"
-"PO-Revision-Date: 2010-02-24 10:43+0100\n"
+"PO-Revision-Date: 2010-06-03 01:35+0100\n"
 "Last-Translator: Nils-Christoph Fiedler <fiedler@medienkompanie.de>\n"
 "Language-Team: Low German <nds-lowgerman@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 #: ../copy-n-paste/eggdesktopfile.c:1392
 #, c-format
 msgid "Not a launchable item"
-msgstr ""
+msgstr "Keen startbares Element"
 
 #: ../copy-n-paste/eggsmclient.c:225
 msgid "Disable connection to session manager"
@@ -93,7 +93,7 @@ msgstr "gThumb"
 
 #: ../data/gthumb.desktop.in.in.h:4
 msgid "gThumb Image Viewer"
-msgstr ""
+msgstr "gThumb Billopwieser"
 
 #: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import the photos on your camera card"
@@ -101,11 +101,11 @@ msgstr ""
 
 #: ../data/gthumb-import.desktop.in.in.h:2
 msgid "Photo Import Tool"
-msgstr ""
+msgstr "Billinfögenwarktüüg"
 
 #: ../data/gthumb-import.desktop.in.in.h:4
 msgid "gThumb Photo Import Tool"
-msgstr ""
+msgstr "gThumb Billinfögenwarktüüg"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
@@ -193,11 +193,11 @@ msgstr ""
 
 #: ../data/ui/filter-editor.ui.h:4
 msgid "selected by"
-msgstr ""
+msgstr "utwählt bi"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
 msgid "Do not overwrite _the old file"
-msgstr ""
+msgstr "Ole _Datei nich överschrieven"
 
 #: ../data/ui/overwrite-dialog.ui.h:2
 msgid "Filename:"
@@ -250,28 +250,28 @@ msgstr "_Allgemeener Filter:"
 
 #: ../data/ui/personalize-filters.ui.h:3
 msgid "_Other filters:"
-msgstr ""
+msgstr "_Annere Filter:"
 
 #: ../data/ui/personalize-filters.ui.h:4
 msgid "gtk-close"
-msgstr ""
+msgstr "gtk-Sluten"
 
 #: ../data/ui/personalize-filters.ui.h:5
 msgid "gtk-edit"
-msgstr ""
+msgstr "gtk-Bewarken"
 
 #: ../data/ui/personalize-filters.ui.h:6
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:7
 msgid "gtk-help"
-msgstr ""
+msgstr "gtk-Hölp"
 
 #: ../data/ui/personalize-filters.ui.h:7
 msgid "gtk-new"
-msgstr ""
+msgstr "gtk-Nej"
 
 #: ../data/ui/personalize-filters.ui.h:8
 msgid "gtk-remove"
-msgstr ""
+msgstr "gtk-Löschen"
 
 #: ../data/ui/preferences.ui.h:1
 #: ../gthumb/dlg-preferences.c:216
@@ -423,7 +423,7 @@ msgstr "Keen"
 
 #: ../data/ui/preferences.ui.h:32
 msgid "On startup:"
-msgstr ""
+msgstr "Bi'm Start:"
 
 #: ../data/ui/preferences.ui.h:33
 #: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
@@ -484,7 +484,7 @@ msgstr "Grupperen nah"
 
 #: ../data/ui/sort-order.ui.h:2
 msgid "_Inverse order"
-msgstr ""
+msgstr "Grupperen _umdreihn"
 
 #: ../data/ui/sort-order.ui.h:3
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:32
@@ -640,7 +640,7 @@ msgstr "Annern Naa_m geven"
 #: ../extensions/catalogs/callbacks.c:264
 #: ../extensions/catalogs/callbacks.c:267
 msgid "Command Line"
-msgstr ""
+msgstr "Orderreeg"
 
 #: ../extensions/catalogs/callbacks.c:482
 #: ../extensions/catalogs/callbacks.c:487
@@ -649,7 +649,7 @@ msgstr ""
 #: ../gthumb/gth-file-list.c:42
 #: ../gthumb/gth-folder-tree.c:668
 msgid "(Empty)"
-msgstr ""
+msgstr "(Leer)"
 
 #: ../extensions/catalogs/callbacks.c:680
 msgid "Catalog Properties"
@@ -716,11 +716,11 @@ msgstr "_Tääl opwiesen"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 msgid "gtk-add"
-msgstr ""
+msgstr "gtk-Hentofögen"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
 msgid "gtk-cancel"
-msgstr ""
+msgstr "gtk-Avbreken"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 msgid "Catalog"
@@ -863,11 +863,11 @@ msgstr ""
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change to:"
-msgstr ""
+msgstr "Ännern nah:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:5
 msgid "Co_mment date"
-msgstr ""
+msgstr "Ko_mmentardag"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:6
 msgid "Date p_hoto was taken"
@@ -950,7 +950,7 @@ msgstr "Ort"
 
 #: ../extensions/comments/main.c:210
 msgid "Tag"
-msgstr ""
+msgstr "Slötelwoort"
 
 #: ../extensions/convert_format/callbacks.c:46
 msgid "Convert Format..."
@@ -1010,7 +1010,7 @@ msgstr ""
 
 #: ../extensions/edit_metadata/callbacks.c:90
 msgid "Metadata"
-msgstr ""
+msgstr "Metadaten"
 
 #: ../extensions/edit_metadata/callbacks.c:91
 msgid "Edit file metadata"
@@ -1099,11 +1099,11 @@ msgstr ""
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
-msgstr ""
+msgstr "K_operrecht:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
 msgid "Co_untry:"
-msgstr ""
+msgstr "_Land:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
 msgid "Cr_edit:"
@@ -1128,11 +1128,11 @@ msgstr "_Tääl:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 msgid "_Language:"
-msgstr ""
+msgstr "_Sprak:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Object Name:"
-msgstr ""
+msgstr "_Elementnaam:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
@@ -1153,7 +1153,7 @@ msgstr ""
 
 #: ../extensions/exiv2_tools/main.c:33
 msgid "Exif General"
-msgstr ""
+msgstr "Exif allgemeen"
 
 #: ../extensions/exiv2_tools/main.c:34
 msgid "Exif Conditions"
@@ -1181,7 +1181,7 @@ msgstr ""
 
 #: ../extensions/exiv2_tools/main.c:40
 msgid "Exif Other"
-msgstr ""
+msgstr "Exif annere"
 
 #: ../extensions/exiv2_tools/main.c:41
 msgid "IPTC"
@@ -1322,15 +1322,15 @@ msgstr ""
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:1
 msgid "File manager"
-msgstr ""
+msgstr "Dateioppasser"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 msgid "File manager operations."
-msgstr ""
+msgstr "Dateioppasseroperatschoonen."
 
 #: ../extensions/file_manager/gth-delete-task.c:63
 msgid "Deleting files"
-msgstr ""
+msgstr "Lösche Dateien"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 msgid "Color Levels"
@@ -1541,11 +1541,11 @@ msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:74
 msgid "Mirror"
-msgstr ""
+msgstr "Speegel"
 
 #: ../extensions/file_tools/gth-file-tool-negative.c:101
 msgid "Negative"
-msgstr ""
+msgstr "Negativ"
 
 #: ../extensions/file_tools/gth-file-tool-redo.c:63
 msgid "Redo"
@@ -1562,12 +1562,12 @@ msgstr "Gröte ännern"
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:74
 #: ../extensions/image_rotation/callbacks.c:52
 msgid "Rotate Left"
-msgstr ""
+msgstr "Nah links dreihn"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:74
 #: ../extensions/image_rotation/callbacks.c:47
 msgid "Rotate Right"
-msgstr ""
+msgstr "Nah rechts dreihn"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:57
 msgid "Save As"
@@ -1668,15 +1668,15 @@ msgstr "Film"
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../gthumb/gth-main-default-tests.c:162
 msgid "Audio"
-msgstr ""
+msgstr "Ton"
 
 #: ../extensions/gstreamer_tools/main.c:40
 msgid "Artist"
-msgstr ""
+msgstr "Musiker"
 
 #: ../extensions/gstreamer_tools/main.c:41
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: ../extensions/gstreamer_tools/main.c:42
 msgid "Bitrate"
@@ -1804,7 +1804,7 @@ msgstr "Boven"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
 msgid "Unit:"
-msgstr ""
+msgstr "Eenheet:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:26
 msgid "_Font:"
@@ -1816,7 +1816,7 @@ msgstr "Inch"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:28
 msgid "millimeters"
-msgstr ""
+msgstr "Millimeter"
 
 #: ../extensions/image_print/gth-image-print-job.c:814
 #, c-format
@@ -2293,7 +2293,7 @@ msgstr ""
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:363
 msgid "Empty"
-msgstr ""
+msgstr "Leer"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
 msgid "Import photos"
@@ -2324,12 +2324,12 @@ msgstr "T_ogang:"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
-msgstr ""
+msgstr "Nejes Album hentofögen"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "Edit accounts"
-msgstr ""
+msgstr "Togänge bewarken"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
@@ -2400,12 +2400,12 @@ msgstr ""
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
 msgid "Picasa Web Album"
-msgstr ""
+msgstr "Picasa Netalbum"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:413
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:437
 msgid "Account"
-msgstr ""
+msgstr "Togang"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
 msgid "Could not create the album"
@@ -2413,17 +2413,17 @@ msgstr ""
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
 msgid "New Album"
-msgstr ""
+msgstr "Nejes Album"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:674
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
 msgid "Choose Account"
-msgstr ""
+msgstr "Togang wählen"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:731
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
 msgid "Edit Accounts"
-msgstr ""
+msgstr "Togang bewarken"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:847
 msgid "No valid file selected."
@@ -2739,7 +2739,7 @@ msgstr ""
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:4
 msgid "Ask"
-msgstr ""
+msgstr "Fragen"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "New dimensions"
@@ -2751,7 +2751,7 @@ msgstr "Överschrieven"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:12
 msgid "Resize Images"
-msgstr ""
+msgstr "Billgröten ännern"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:13
 msgid "Skip"
@@ -2789,7 +2789,7 @@ msgstr "Sökrutkamen"
 
 #: ../extensions/search/actions.c:76
 msgid "Find"
-msgstr ""
+msgstr "Finnen"
 
 #: ../extensions/search/callbacks.c:59
 msgid "Find files"
@@ -2797,7 +2797,7 @@ msgstr "Dateien finnen"
 
 #: ../extensions/search/callbacks.c:133
 msgid "Search again"
-msgstr ""
+msgstr "Nohmal söken"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:175
@@ -2840,7 +2840,7 @@ msgstr ""
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 msgid "Playlist"
-msgstr ""
+msgstr "Speellist"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
 msgid "Remove the selected files"
@@ -2941,7 +2941,7 @@ msgstr ""
 
 #: ../gthumb/dlg-extensions.c:236
 msgid "Use"
-msgstr ""
+msgstr "Bruken"
 
 #: ../gthumb/dlg-extensions.c:252
 msgid "Extension"
@@ -2971,11 +2971,11 @@ msgstr ""
 #: ../gthumb/eggfileformatchooser.c:397
 #: ../gthumb/gth-main-default-tests.c:141
 msgid "All Files"
-msgstr ""
+msgstr "All Dateien"
 
 #: ../gthumb/eggfileformatchooser.c:398
 msgid "All Supported Files"
-msgstr ""
+msgstr "All unnerstütte Dateien"
 
 #: ../gthumb/eggfileformatchooser.c:407
 msgid "By Extension"
@@ -3016,11 +3016,11 @@ msgstr ""
 
 #: ../gthumb/gio-utils.c:1695
 msgid "Moving files"
-msgstr ""
+msgstr "Verschuve Dateien"
 
 #: ../gthumb/gio-utils.c:1695
 msgid "Copying files"
-msgstr ""
+msgstr "Kopere Dateien"
 
 #: ../gthumb/gio-utils.c:1696
 msgid "Getting file information"
@@ -3056,7 +3056,7 @@ msgstr ""
 
 #: ../gthumb/gth-browser-actions-callbacks.c:383
 msgid "translator_credits"
-msgstr "Nils-Christoph Fiedler <fiedler@medienkompanie.de>"
+msgstr "Nils-Christoph Fiedler <ncfiedler@gnome.org>"
 
 #: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
@@ -3080,7 +3080,7 @@ msgstr "_Hölp"
 
 #: ../gthumb/gth-browser-actions-entries.h:36
 msgid "Open _With"
-msgstr ""
+msgstr "Opmaken _mit"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
 msgid "I_mport From"
@@ -3244,7 +3244,7 @@ msgstr "Bewarken"
 
 #: ../gthumb/gth-browser-actions-entries.h:216
 msgid "Edit file"
-msgstr ""
+msgstr "datei bewarken"
 
 #: ../gthumb/gth-browser.c:324
 #, c-format
@@ -3349,7 +3349,7 @@ msgstr "Sluten"
 #: ../gthumb/gth-filter-editor-dialog.c:209
 #: ../gthumb/gth-test-simple.c:68
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: ../gthumb/gth-filter.c:45
 #: ../gthumb/gth-filter-editor-dialog.c:210
@@ -3361,7 +3361,7 @@ msgstr "MB"
 #: ../gthumb/gth-filter-editor-dialog.c:211
 #: ../gthumb/gth-test-simple.c:70
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #. "files" label
 #: ../gthumb/gth-filter.c:280
@@ -3471,7 +3471,7 @@ msgstr "Billers"
 
 #: ../gthumb/gth-main-default-tests.c:169
 msgid "Media"
-msgstr ""
+msgstr "Medien"
 
 #: ../gthumb/gth-main-default-tests.c:176
 msgid "Text Files"
@@ -3500,7 +3500,7 @@ msgstr ""
 
 #: ../gthumb/gth-tags-file.c:235
 msgid "Holidays"
-msgstr ""
+msgstr "Ferien"
 
 #: ../gthumb/gth-tags-file.c:236
 msgid "Temporary"
@@ -3536,7 +3536,7 @@ msgstr "Fier"
 
 #: ../gthumb/gth-tags-file.c:244
 msgid "Birthday"
-msgstr ""
+msgstr "Burtsdag"
 
 #: ../gthumb/gth-tags-file.c:245
 msgid "Astronomy"
@@ -3544,7 +3544,7 @@ msgstr ""
 
 #: ../gthumb/gth-tags-file.c:246
 msgid "Family"
-msgstr ""
+msgstr "Familie"
 
 #: ../gthumb/gth-test-selector.c:279
 msgid "Add a new rule"
@@ -3588,11 +3588,11 @@ msgstr "is liekers to"
 
 #: ../gthumb/gth-time-selector.c:431
 msgid "Today"
-msgstr ""
+msgstr "Vandag"
 
 #: ../gthumb/gth-time-selector.c:439
 msgid "Now"
-msgstr ""
+msgstr "Nu"
 
 #: ../gthumb/gth-window-actions-entries.h:33
 msgid "Close this window"
