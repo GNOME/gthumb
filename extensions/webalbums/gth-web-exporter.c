@@ -64,16 +64,11 @@ typedef enum {
 	GTH_IMAGE_TYPE_PREVIEW
 } GthAttrImageType;
 
-enum {
-	START_COPYING,
-	LAST_SIGNAL
-};
 
 extern int yyparse (void);
 extern GFileInputStream *yy_istream;
 
 static GObjectClass *parent_class = NULL;
-static guint         gth_web_exporter_signals[LAST_SIGNAL] = { 0 };
 
 typedef struct {
 	GthFileData *file_data;
@@ -2625,17 +2620,6 @@ gth_web_exporter_class_init (GthWebExporterClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_web_exporter_exec;
-
-	/* FIXME: delete if not useful */
-	gth_web_exporter_signals[START_COPYING] =
-		g_signal_new ("start-copying",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthWebExporterClass, start_copying),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
 }
 
 

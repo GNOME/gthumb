@@ -47,10 +47,6 @@ struct _GthWebExporter {
 
 struct _GthWebExporterClass {
 	GthTaskClass __parent;
-
-	/* -- signals -- */
-
-	void (*start_copying) (GthWebExporter *self);
 };
 
 GType      gth_web_exporter_get_type              (void);
