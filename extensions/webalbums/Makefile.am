@@ -5,14 +5,17 @@ SUBDIRS = data
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libwebalbums.la
 
-libwebalbums_la_SOURCES = 			\
-	albumtheme.c				\
-	albumtheme-private.c			\
-	albumtheme-private.h			\
-	catalog-web-exporter.c			\
-	catalog-web-exporter.h			\
-	dlg-web-exporter.c			\
-	dlg-web-exporter.h
+libwebalbums_la_SOURCES = 		\
+	actions.c			\
+	actions.h			\
+	albumtheme.c			\
+	albumtheme-private.c		\
+	albumtheme-private.h		\
+	callbacks.c			\
+	callbacks.h			\
+	dlg-web-exporter.c		\
+	dlg-web-exporter.h		\
+	main.c
 
 albumtheme-lex.c: albumtheme.l 
 	$(AM_V_GEN)( $(FLEX) $< && mv $(LEX_OUTPUT_ROOT).c albumtheme-lex.c ) 
@@ -43,7 +46,7 @@ EXTRA_DIST = $(extensionini_in_files)	\
 	albumtheme.c			\
 	albumtheme.y			\
 	albumtheme.l			\
-	lex.albumtheme.c
+	albumtheme-lex.c
 
 CLEANFILES = $(BUILT_SOURCES) 
 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003-2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,11 +20,35 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_WEB_EXPORTER_H
-#define DLG_WEB_EXPORTER_H
 
+#include <config.h>
+#include <gtk/gtk.h>
 #include <gthumb.h>
+#include "callbacks.h"
 
-void  dlg_web_exporter (GthBrowser *browser);
 
-#endif /* DLG_WEB_EXPORTER_H */
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
+{
+	gth_hook_add_callback ("gth-browser-construct", 70, G_CALLBACK (wa__gth_browser_construct_cb), NULL);
+	/*gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (wa__gth_browser_update_sensitivity_cb), NULL);*/
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
+}

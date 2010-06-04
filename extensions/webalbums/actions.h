@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003-2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_WEB_EXPORTER_H
-#define DLG_WEB_EXPORTER_H
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
-#include <gthumb.h>
+#include <gtk/gtk.h>
 
-void  dlg_web_exporter (GthBrowser *browser);
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-#endif /* DLG_WEB_EXPORTER_H */
+DEFINE_ACTION(gth_browser_activate_action_export_webalbum)
+
+#endif /* ACTIONS_H */
