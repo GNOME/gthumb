@@ -2,7 +2,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,10 +25,10 @@
 GFileInputStream *yy_istream;
 
 #undef YY_INPUT
-#define YY_INPUT(buf,result,max_size)									\
-{													\
-	gssize n = g_input_stream_read (G_INPUT_STREAM (yy_istream), buf, max_size, NULL, NULL);	\
-	result = (n <= 0 ? YY_NULL : n);								\
+#define YY_INPUT(buf,result,max_size)                                      	                  \
+{                                                                          	                  \
+	gssize n = g_input_stream_read (G_INPUT_STREAM(yy_istream), buf, max_size, NULL, NULL);   \
+	result = (n <= 0 ? YY_NULL : n);                                                          \
 }
 
 %}
@@ -39,57 +39,127 @@ number           [0-9]+
 name             [a-zA-Z_][0-9a-zA-Z_:@]*
 string           ([^'\n]|\\')*
 
-%x TAG STR
+%x TAG STAG STR SSTR
 
 %%
 
-"<gthumb:theme-link"		{
+"<gthumb:header"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_HEADER;
+					return HEADER;
+				}
+"<gthumb:footer"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FOOTER;
+					return FOOTER;
+				}
+"<gthumb:language"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_LANGUAGE;
+					return LANGUAGE;
+				}
+"<gthumb:theme_link"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_THEME_LINK;
 					return THEME_LINK;
 				}
-"<gthumb:image"			{
+"<gthumb:image"			{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_IMAGE;
 					return IMAGE;
 				}
-"<gthumb:image-link"		{
+"<gthumb:image_link"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_IMAGE_LINK;
 					return IMAGE_LINK;
 				}
-"<gthumb:image-index"		{
+"<gthumb:image_idx"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_IMAGE_IDX;
 					return IMAGE_IDX;
 				}
-"<gthumb:images"		{
+"<gthumb:image_dim"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGE_DIM;
+					return IMAGE_DIM;
+				}
+"<gthumb:images"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_IMAGES;
 					return IMAGES;
 				}
-"<gthumb:page-link"		{
+"<gthumb:file_name"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILENAME;
+					return FILENAME;
+				}
+"<gthumb:file_path"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILEPATH;
+					return FILEPATH;
+				}
+"<gthumb:file_size"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILESIZE;
+					return FILESIZE;
+				}
+"<gthumb:comment"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_COMMENT;
+					return COMMENT;
+				}
+"<gthumb:place"			{
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PLACE;
+					return PLACE;
+				}
+"<gthumb:date_time"			{
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_DATE_TIME;
+					return DATE_TIME;
+				}
+"<gthumb:page_link"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_PAGE_LINK;
 					return PAGE_LINK;
 				}
-"<gthumb:page-index"		{
+"<gthumb:page_idx"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_PAGE_IDX;
 					return PAGE_IDX;
 				}
-"<gthumb:table"			{
+"<gthumb:page_rows"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_ROWS;
+					return PAGE_ROWS;
+				}
+"<gthumb:page_cols"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_COLS;
+					return PAGE_COLS;
+				}
+"<gthumb:pages"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGES;
+					return PAGES;
+				}
+"<gthumb:table"			{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_TABLE;
 					return TABLE;
 				}
-"<gthumb:thumbs"		{
+"<gthumb:thumbs"			{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_THUMBS;
 					return THUMBS;
 				}
-"<gthumb:text"			{
+"<gthumb:date"			{ 
 					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_DATE;
+					return DATE;
+				}
+"<gthumb:text"			{ 
+					BEGIN (STAG);
 					yylval.ivalue = GTH_TAG_TEXT;
 					return TEXT;
 				}
@@ -97,34 +167,69 @@ string           ([^'\n]|\\')*
 					BEGIN (INITIAL);
 					return TEXT_END;
 				}
-"<gthumb:set"			{
+"<gthumb:exif:exposure_time"	{ 
 					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_SET;
-					return SET;
+					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_TIME;
+					return EXIF_EXPOSURE_TIME;
 				}
-"<gthumb:get"    	        {
+"<gthumb:exif:exposure_mode"	{ 
 					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_GET;
-					return GET;
+					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_MODE;
+					return EXIF_EXPOSURE_MODE;
+				}
+"<gthumb:exif:flash"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_FLASH;
+					return EXIF_FLASH;
+				}
+"<gthumb:exif:shutter_speed"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_SHUTTER_SPEED;
+					return EXIF_SHUTTER_SPEED;
+				}
+"<gthumb:exif:aperture_value"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_APERTURE_VALUE;
+					return EXIF_APERTURE_VALUE;
+				}
+"<gthumb:exif:focal_length"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_FOCAL_LENGTH;
+					return EXIF_FOCAL_LENGTH;
+				}
+"<gthumb:exif:date_time"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_DATE_TIME;
+					return EXIF_DATE_TIME;
+				}
+"<gthumb:exif:camera_model"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_CAMERA_MODEL;
+					return EXIF_CAMERA_MODEL;
+				}
+"<gthumb:set_var"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_SET_VAR;
+					return SET_VAR;
 				}
 "<gthumb:eval"			{
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_EVAL;
 					return EVAL;
 				}
-"<gthumb:if"			{
+"<gthumb:if"			{ 
 					BEGIN (TAG);
 					return IF;
 				}
-"<gthumb:else"			{
+"<gthumb:else"			{ 
 					BEGIN (TAG);
 					return ELSE;
 				}
-"<gthumb:else_if"		{
+"<gthumb:else_if"		{ 
 					BEGIN (TAG);
 					return ELSE_IF;
 				}
-"<gthumb:end"			{
+"<gthumb:end"			{ 
 					BEGIN (TAG);
 					return END;
 				}
@@ -132,7 +237,11 @@ string           ([^'\n]|\\')*
 					BEGIN (STR);
 					return '\'';
 				}
-<STR>{string}			{
+<STAG>"'"			{
+					BEGIN (SSTR);
+					return '\'';
+				}
+<STR,SSTR>{string}		{
 					yylval.text = g_strdup (yytext);
 					return STRING;
 				}
@@ -140,15 +249,19 @@ string           ([^'\n]|\\')*
 					BEGIN (TAG);
 					return '\'';
 				}
-<TAG>{number}			{
+<SSTR>"'"			{
+					BEGIN (STAG);
+					return '\'';
+				}
+<TAG,STAG>{number}		{
 					yylval.ivalue = atoi (yytext);
 					return NUMBER;
 				}
-<TAG>{name}			{
+<TAG,STAG>{name}		{
 					yylval.text = g_strdup (yytext);
 					return NAME;
 				}
-<TAG>"="			{
+<TAG,STAG>"="			{
 					return '=';
 				}
 <TAG,STAG>"<"			{

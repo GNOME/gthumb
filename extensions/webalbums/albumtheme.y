@@ -2,7 +2,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -211,6 +211,7 @@ gthumb_end	: END END_TAG
 expr		: '(' expr ')' {
 			$$ = $2;
 		}
+
 		| expr COMPARE expr {
 			GthExpr *e = gth_expr_new ();
 
@@ -223,6 +224,7 @@ expr		: '(' expr ')' {
 
 			$$ = e;
 		}
+
 		| expr '+' expr {
 			GthExpr *e = gth_expr_new ();
 
@@ -235,6 +237,7 @@ expr		: '(' expr ')' {
 
 			$$ = e;
 		}
+
 		| expr '-' expr {
 			GthExpr *e = gth_expr_new ();
 
@@ -260,6 +263,7 @@ expr		: '(' expr ')' {
 
 			$$ = e;
 		}
+
 		| expr '/' expr {
 			GthExpr *e = gth_expr_new ();
 
@@ -272,6 +276,7 @@ expr		: '(' expr ')' {
 
 			$$ = e;
 		}
+
 		| expr BOOL_OP expr {
 			GthExpr *e = gth_expr_new ();
 
@@ -284,23 +289,28 @@ expr		: '(' expr ')' {
 
 			$$ = e;
 		}
+
 		| '+' expr %prec UNARY_OP {
 			$$ = $2;
 		}
+
 		| '-' expr %prec UNARY_OP {
 			gth_expr_push_op ($2, GTH_OP_NEG);
 			$$ = $2;
 		}
+
 		| '!' expr %prec UNARY_OP {
 			gth_expr_push_op ($2, GTH_OP_NOT);
 			$$ = $2;
 		}
+
 		| NAME {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			g_free ($1);
 			$$ = e;
 		}
+
 		| NUMBER {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_constant (e, $1);
@@ -312,45 +322,47 @@ quoted_expr     : expr {
 		}
 		| STRING {
 			GthExpr *e = gth_expr_new ();
-			gth_expr_push_var (e, $1);
-			g_free ($1);
+			gth_expr_push_var(e, $1);
+			g_free($1);
 			$$ = e;
 		}
 		| constant1 constant constant_list {
 			GthExpr *e = gth_expr_new ();
-			g_string_append ($1, $2->str);
-			g_string_free ($2, TRUE);
-			if ($3 != NULL) {
-				g_string_append ($1, $3->str);
-				g_string_free ($3, TRUE);
+			g_string_append($1, $2->str);
+			g_string_free($2, TRUE);
+			if ($3 != NULL)
+			{
+				g_string_append($1, $3->str);
+				g_string_free($3, TRUE);
 			}
-			gth_expr_push_var (e, $1->str);
-			g_string_free ($1, TRUE);
+			gth_expr_push_var(e, $1->str);
+			g_string_free($1, TRUE);
 			$$ = e;
 		}
 		;
 constant1       : NAME {
-			GString *s = g_string_new ($1);
-			g_free ($1);
+			GString* s = g_string_new($1);
+			g_free($1);
 			$$ = s;
 		}
 		;
 constant        : NAME {
-			GString *s = g_string_new ($1);
-			g_string_prepend_c (s, ' ');
-			g_free ($1);
+			GString* s = g_string_new($1);
+			g_string_prepend_c(s, ' ');
+			g_free($1);
 			$$ = s;
 		}
 		| NUMBER {
-			GString *s = g_string_new ("");
-			g_string_sprintf (s, " %i", $1);
+			GString* s = g_string_new("");
+			g_string_sprintf(s, " %i", $1);
 			$$ = s;
 		}
 		;
 constant_list   : constant constant_list {
-			if ($2 != NULL)	{
-				g_string_append ($1, $2->str);
-				g_string_free ($2, TRUE);
+			if ($2 != NULL)
+			{
+				g_string_append($1, $2->str);
+				g_string_free($2, TRUE);
 			}
 			$$ = $1;
 		}
@@ -435,6 +447,8 @@ arg		: NAME '=' expr {
 		}
 		;
 
+
+
 %%
 
 int
@@ -444,8 +458,7 @@ yywrap (void)
 }
 
 
-void
-yyerror (char *fmt, ...)
+void yyerror (char *fmt, ...)
 {
 	va_list ap;
 
