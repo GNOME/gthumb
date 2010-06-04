@@ -1,0 +1,95 @@
+/* Gthumb "NeatRound" style, v. 2005-02-25 */
+
+/* Common */
+
+body {
+	background-color: white;
+	color: black;
+}
+
+span.title {
+	font-weight: bold;
+	font-size: 150%;
+	color: #555555;
+}
+
+span.page_index {
+	font-weight: bold;
+	font-size: small;
+	color: #969696;
+}
+
+span.file_name {
+	font-family: monospace;
+}
+
+span.copyright {
+	font-size: small;
+	color: #969696;
+}
+
+
+/* image.gthtml */
+
+
+img.preview {
+	border-style: none;
+}
+
+img.thumbnail {
+	border-style: none;
+}
+
+div.preview_comment {
+	text-align: justify;
+}
+
+span.comment {
+	font-size: small;
+}
+
+div.properties {
+	width: 80%;
+}
+
+span.property {
+	font-size: small;
+	font-weight: bold;
+	color: #969696;
+}
+
+span.property_value {
+	font-size: small;
+}
+
+/* index.gthtml */
+
+td.td_index {
+	color: #969696;
+}
+
+td.td_index span.image_dim {
+	font-weight: bold;
+}
+
+
+/* links */
+
+a:link { 
+	font-weight: bold;
+	text-decoration: none;
+	color: black;
+}
+
+a:visited { 
+	font-weight: bold;
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	font-weight: bold;
+	text-decoration: none;
+	color: #FFD700;
+}
+

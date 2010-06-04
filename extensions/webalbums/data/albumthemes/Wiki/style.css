@@ -1,0 +1,79 @@
+/* Gthumb "Wiki" style */
+
+  body {
+    background: white;
+  }
+
+  td.photo {
+    border: 1px solid #ccc;
+  }
+
+  table.nav_button {
+    border: 0px outset #bbb;
+  }
+
+  div.copyright {
+    font-size: 8pt;
+    color: #888;
+  }
+
+  img.photo_center {
+    border: 1px solid #ccc;
+  }
+
+  img.preview {
+    border: 1px solid #ccc;
+  }
+
+  .comment, .property, .property_value {
+    font-size: 9pt;
+  }
+
+  .property_value file_name {
+    font-family: monospace;
+  }
+
+  .property {
+    font-weight: bold;
+  }
+
+  .comment, .property_value {
+    font-size: 9pt;
+  }
+  
+  .comment {
+    font-style: italic;
+  }
+
+  div.title {
+    color: #000;
+  }
+
+  span.page_index {
+    color: #000;
+  }
+
+  /* links */
+
+  a:link { 
+    color: #0000FF;
+    text-decoration: none;
+  }
+
+  a:visited { 
+    color: #0000FF;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #0000FF;
+    text-decoration: underline;
+  }
+
+  span.nolink {
+    color: #AAA;
+  }
+
+  span.link {
+    padding: 10px;;
+  }

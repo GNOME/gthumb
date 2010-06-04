@@ -1,0 +1,93 @@
+/* Gthumb "Classic" style, v. 2005-02-25 */
+
+/* Common */
+
+body {
+	background-color: #4B4B4B;
+	color: white;
+}
+
+span.title {
+	font-weight: bold;
+	font-size: 150%;
+}
+
+span.page_index {
+	font-weight: bold;
+	font-size: small;
+}
+
+span.file_name {
+	font-family: monospace;
+}
+
+span.copyright {
+	font-size: small;
+}
+
+
+/* image.gthtml */
+
+
+img.preview {
+	border: solid 2px white;
+}
+
+img.thumbnail {
+	border: solid 2px white;
+}
+
+div.preview_comment {
+	text-align: justify;
+}
+
+span.comment {
+	font-size: small;
+}
+
+div.properties {
+	width: 80%;
+}
+
+span.property {
+	font-size: small;
+	font-weight: bold;
+	color: #969696;
+}
+
+span.property_value {
+	font-size: small;
+	color: white;
+}
+
+/* index.gthtml */
+
+td.td_index {
+	color: #969696;
+}
+
+td.td_index span.image_dim {
+	font-weight: bold;
+}
+
+
+/* links */
+
+a:link { 
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+a:visited { 
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	font-weight: bold;
+	text-decoration: none;
+	color: #FFD700;
+}
+

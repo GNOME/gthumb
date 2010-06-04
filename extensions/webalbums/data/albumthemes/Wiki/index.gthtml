@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<gthumb:language/>">
+<head>
+<gthumb:if pages > 1 />
+  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+<gthumb:else/>
+  <title><gthumb:header/></title>
+<gthumb:end/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="Generator" content="gThumb Image Viewer" />
+  <link href="<gthumb:theme_link src='layout.css'/>" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='style.css'/>" rel="stylesheet" type="text/css" />
+</head>
+<gthumb:set_var thumbnail_width="140" thumbnail_height="140"/>
+<gthumb:set_var preview_width="550" preview_height="500"/>
+<body>
+
+  <!-- Header -->
+  <div class="title">
+    <gthumb:header/>
+  </div>
+
+
+  <!-- Navigation Bar -->
+  <gthumb:if pages > 1 />
+  <div class="nav_bar">
+    <span class="link">
+      <gthumb:if page_idx > 1 />
+        <a href="<gthumb:page_link idx_relative="-1"/>">
+          <gthumb:text>Previous</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Previous</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
+
+    <span class="link">
+      <gthumb:if page_idx < pages />
+        <a href="<gthumb:page_link idx_relative="+1"/>">
+          <gthumb:text>Next</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Next</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
+  </div>
+  <gthumb:end/>
+
+
+  <!-- Index -->
+  <div class="thumbnails">
+    <table class="thumbnails" summary="thumbnails">
+      <gthumb:table/>
+    </table>
+  </div>
+
+
+  <!-- Footer -->
+  <div class="copyright">
+    <gthumb:footer/>
+  </div>
+
+</body>
+</html>

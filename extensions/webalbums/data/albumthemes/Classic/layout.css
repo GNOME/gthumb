@@ -1,0 +1,142 @@
+/* Gthumb "Classic" layout, v. 2005-02-25 */
+
+html, body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-width: 0;
+}
+
+td {
+	border-width: 0;
+	padding: 0;
+	vertical-align: middle;
+	text-align: center;
+}
+
+/* Title, header, footer */
+
+table.full_size {
+	width: 100%;
+	height: 100%;
+}
+
+table.row {
+	width: 100%;
+}
+
+td.title {
+	height: 4em;
+	vertical-align: middle; 
+}
+
+table.title {
+	height: 4em;
+	width: 100%;
+}
+
+td.nav_bar {
+	height: 30px;
+}
+
+td.button {
+	width: 60px;
+	white-space: nowrap;
+}
+
+td.button img,
+td.button a img {
+	border-style: none;
+}
+
+td.footer {
+	height: 3em;
+}
+
+
+/* image.gthtml */
+
+td.left_thumbnail {
+	width: 115px;
+	text-align: left;
+	padding-left: 10px;
+}
+
+td.right_thumbnail {
+	width: 115px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+div.properties {
+	margin-top: 1em;
+	margin-left: 10%;
+	text-align: left;
+}
+
+div.preview_comment {
+	margin-bottom: 1em;
+}
+
+div.properties table td {
+	text-align: left;
+	padding: 0.2em 1em 0.2em 0em;
+}
+
+
+
+/* index.gthtml */
+
+div.thumbnails table {
+	margin:auto;
+}
+
+td.td_index {
+	width: 215px;
+	padding: 8px 5px 8px 5px;
+	vertical-align: top;
+}
+
+
+/* thumbnail.gthtml */
+
+table.photo {
+	cursor: pointer;
+}
+
+td.photo {
+	background-color: white;
+	width: 162px;
+	height: 122px;
+}
+
+img.photo_top {
+	border-style: none;
+	vertical-align: bottom;
+}
+
+img.photo_bottom {
+	border-style: none;
+	vertical-align: top;
+}
+
+img.photo_left {
+	border-style: none;
+	text-align: right;
+	vertical-align: top;
+}
+
+img.photo_right {
+	border-style: none;
+	text-align: left;
+	vertical-align: top;
+}
+
+img.photo_center {
+	border-style: none;
+	vertical-align: top;
+}
