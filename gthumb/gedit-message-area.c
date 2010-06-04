@@ -150,14 +150,14 @@ paint_message_area (GtkWidget      *widget,
 	guint        border;
 	GdkRectangle area;
 	GdkRectangle paint_area;
-	
+
 	border = gtk_container_get_border_width (GTK_CONTAINER (widget));
-	
+
 	area.x = widget->allocation.x + border;
 	area.y = widget->allocation.y + border;
 	area.width = widget->allocation.width - (border * 2);
 	area.height = widget->allocation.height - (border * 2);
-	
+
 	if (gdk_rectangle_intersect (&event->area, &area, &paint_area))
 		gtk_paint_flat_box (widget->style,
 				    widget->window,
@@ -384,7 +384,7 @@ gedit_message_area_set_contents	(GeditMessageArea *message_area,
  * @message_area: a #GeditMessageArea
  * @button_text: text of button, or stock ID
  * @response_id: response ID for the button
- * 
+ *
  * Adds a button with the given text (or a stock button, if button_text is a stock ID)
  * and sets things up so that clicking the button will emit the "response" signal
  * with the given response_id. The button is appended to the end of the message area's
@@ -404,7 +404,7 @@ gedit_message_area_add_button (GeditMessageArea *message_area,
 
 	button = gtk_button_new_from_stock (button_text);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (button, TRUE);
 
 	gtk_widget_show (button);
 
@@ -473,9 +473,9 @@ gedit_message_area_add_buttons (GeditMessageArea *message_area,
 
 /**
  * gedit_message_area_new:
- * 
+ *
  * Creates a new #GeditMessageArea object.
- * 
+ *
  * Returns: a new #GeditMessageArea object
  */
 GtkWidget *
@@ -488,11 +488,11 @@ gedit_message_area_new (void)
  * gedit_message_area_new_with_buttons:
  * @first_button_text: stock ID or text to go in first button, or NULL
  * @...: response ID for first button, then additional buttons, ending with NULL
- * 
- * Creates a new #GeditMessageArea with buttons. Button text/response ID pairs 
+ *
+ * Creates a new #GeditMessageArea with buttons. Button text/response ID pairs
  * should be listed, with a NULL pointer ending the list. Button text can be either
  * a stock ID such as GTK_STOCK_OK, or some arbitrary text. A response ID can be any
- * positive number, or one of the values in the GtkResponseType enumeration. If 
+ * positive number, or one of the values in the GtkResponseType enumeration. If
  * the user clicks one of these dialog buttons, GeditMessageArea will emit the "response"
  * signal with the corresponding response ID.
  *
@@ -634,10 +634,9 @@ gedit_message_area_add_stock_button_with_text (GeditMessageArea *message_area,
 		gtk_button_set_image (GTK_BUTTON (button), gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON));
 	}
 	else
-		button = gtk_button_new_from_stock (stock_id);	
-        
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+		button = gtk_button_new_from_stock (stock_id);
 
+	gtk_widget_set_can_default (button, TRUE);
 	gtk_widget_show (button);
 
 	gedit_message_area_add_action_widget (message_area,

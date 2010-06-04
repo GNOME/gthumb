@@ -1920,12 +1920,12 @@ _gth_browser_close_final_step (gpointer user_data)
 		gboolean       maximized;
 		GtkAllocation  allocation;
 
-		state = gdk_window_get_state (GTK_WIDGET (browser)->window);
+		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
 		maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
-		if (! maximized && GTK_WIDGET_VISIBLE (browser)) {
+		if (! maximized && gtk_widget_get_visible (GTK_WIDGET (browser))) {
 			int width, height;
 
-			gdk_drawable_get_size (GTK_WIDGET (browser)->window, &width, &height);
+			gdk_drawable_get_size (gtk_widget_get_window (GTK_WIDGET (browser)), &width, &height);
 			eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
 			eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
 		}
@@ -2337,18 +2337,18 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 				guint             time,
 				gpointer          user_data)
 {
-	GthBrowser   *browser = user_data;
-	gboolean      success = FALSE;
-	GtkTreePath  *path;
-	GthFileData  *destination;
-	char        **uris;
-	GList        *file_list;
+	GthBrowser     *browser = user_data;
+	gboolean        success = FALSE;
+	GdkDragAction   suggested_action;
+	GtkTreePath    *path;
+	GthFileData    *destination;
+	char          **uris;
+	GList          *file_list;
 
-	if ((context->suggested_action == GDK_ACTION_COPY)
-	    || (context->suggested_action == GDK_ACTION_MOVE))
-	{
+	suggested_action = context->suggested_action; /* gdk_drag_context_get_suggested_action (context) */
+
+	if ((suggested_action == GDK_ACTION_COPY) || (suggested_action == GDK_ACTION_MOVE))
 		success = TRUE;
-	}
 
 	if (! gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (browser->priv->folder_tree),
 						 x, y,
@@ -2367,7 +2367,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
-		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->suggested_action);
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, suggested_action);
 
 	_g_object_list_unref (file_list);
 	g_strfreev (uris);
@@ -3366,9 +3366,12 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 
 	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
 	if (visible) {
+		GtkAllocation allocation;
+
 		gtk_widget_show (browser->priv->browser_sidebar);
 		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container), eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH));
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
+		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
 	}
 	else
 		gtk_widget_hide (browser->priv->browser_sidebar);
@@ -5266,12 +5269,12 @@ hide_mouse_pointer_cb (gpointer data)
 	int         px, py;
 	GList      *scan;
 
-	gdk_window_get_pointer (GTK_WIDGET (browser)->window, &px, &py, 0);
+	gdk_window_get_pointer (gtk_widget_get_window (GTK_WIDGET (browser)), &px, &py, 0);
 	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next) {
 		GtkWidget *widget = scan->data;
 		int        x, y, w, h;
 
-		gdk_window_get_geometry (widget->window, &x, &y, &w, &h, NULL);
+		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h, NULL);
 
 		if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
 			return FALSE;
@@ -5304,7 +5307,7 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 	if ((abs (browser->priv->last_mouse_x - event->x) > MOTION_THRESHOLD)
 	    || (abs (browser->priv->last_mouse_y - event->y) > MOTION_THRESHOLD))
 	{
-		if (! GTK_WIDGET_VISIBLE (browser->priv->fullscreen_toolbar)) {
+		if (! gtk_widget_get_visible (browser->priv->fullscreen_toolbar)) {
 			GList *scan;
 
 			for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next)
