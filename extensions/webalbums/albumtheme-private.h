@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,23 +35,15 @@ typedef struct {
 } GthMem;
 
 GthMem*   gth_mem_new        (int     size);
-
 void      gth_mem_free       (GthMem *mem);
-
 void      gth_mem_set_empty  (GthMem *mem);
-
 gboolean  gth_mem_is_empty   (GthMem *mem);
-
-void      gth_mem_push       (GthMem *mem, 
+void      gth_mem_push       (GthMem *mem,
 			      int     val);
-
 int       gth_mem_pop        (GthMem *mem);
-
-int       gth_mem_get_pos    (GthMem *mem, 
+int       gth_mem_get_pos    (GthMem *mem,
 			      int     pos);
-
 int       gth_mem_get        (GthMem *mem);
-
 int       gth_mem_get_top    (GthMem *mem);
 
 /* GthCell */
@@ -90,9 +82,7 @@ typedef struct {
 } GthCell;
 
 GthCell*   gth_cell_new   (void);
-
 GthCell*   gth_cell_ref   (GthCell *cell);
-
 void       gth_cell_unref (GthCell *cell);
 
 /* GthExpr */
@@ -107,37 +97,28 @@ typedef struct {
 	gpointer             get_var_value_data;
 } GthExpr;
 
-GthExpr*  gth_expr_new               (void);
-
-GthExpr*  gth_expr_ref               (GthExpr *e);
-
-void      gth_expr_unref             (GthExpr *e);
-
-void      gth_expr_set_empty         (GthExpr *e);
-
-gboolean  gth_expr_is_empty          (GthExpr *e);
-
-void      gth_expr_push_expr         (GthExpr *e, GthExpr *e2);
-
-void      gth_expr_push_op           (GthExpr *e, GthOp op);
-
-void      gth_expr_push_var          (GthExpr *e, const char *name);
-
-void      gth_expr_push_constant     (GthExpr *e, int value);
-
-void      gth_expr_pop               (GthExpr *e);
-
-GthCell*  gth_expr_get_pos           (GthExpr *e, int pos);
-
-GthCell*  gth_expr_get               (GthExpr *e);
-
-int       gth_expr_get_top           (GthExpr *e);
-
-void      gth_expr_set_get_var_value_func (GthExpr *e,
-					   GthGetVarValueFunc f,
-					   gpointer data);
-
-int       gth_expr_eval              (GthExpr *e);
+GthExpr*  gth_expr_new                    (void);
+GthExpr*  gth_expr_ref                    (GthExpr            *e);
+void      gth_expr_unref                  (GthExpr            *e);
+void      gth_expr_set_empty              (GthExpr            *e);
+gboolean  gth_expr_is_empty               (GthExpr            *e);
+void      gth_expr_push_expr              (GthExpr            *e,
+					   GthExpr            *e2);
+void      gth_expr_push_op                (GthExpr            *e,
+					   GthOp               op);
+void      gth_expr_push_var               (GthExpr            *e,
+					   const char         *name);
+void      gth_expr_push_constant          (GthExpr            *e,
+					   int                 value);
+void      gth_expr_pop                    (GthExpr            *e);
+GthCell*  gth_expr_get_pos                (GthExpr            *e,
+					   int                 pos);
+GthCell*  gth_expr_get                    (GthExpr            *e);
+int       gth_expr_get_top                (GthExpr            *e);
+void      gth_expr_set_get_var_value_func (GthExpr            *e,
+					   GthGetVarValueFunc  f,
+					   gpointer            data);
+int       gth_expr_eval                   (GthExpr            *e);
 
 /* GthVar */
 
@@ -156,12 +137,11 @@ typedef struct {
 } GthVar;
 
 GthVar*  gth_var_new_constant   (int value);
-
-GthVar*  gth_var_new_expression (const char *name, GthExpr *e);
-
-GthVar*  gth_var_new_string     (const char *name, const char *string);
-
-void     gth_var_free           (GthVar *var);
+GthVar*  gth_var_new_expression (const char *name,
+				 GthExpr    *e);
+GthVar*  gth_var_new_string     (const char *name,
+				 const char *string);
+void     gth_var_free           (GthVar     *var);
 
 /* GthCondition */
 
@@ -171,9 +151,7 @@ typedef struct {
 } GthCondition;
 
 GthCondition * gth_condition_new           (GthExpr      *expr);
-
 void           gth_condition_free          (GthCondition *cond);
-
 void           gth_condition_add_document  (GthCondition *cond,
 					    GList        *document);
 
@@ -221,26 +199,22 @@ typedef enum {
 typedef struct {
 	GthTagType type;
 	union {
-		GList *arg_list;    /* GthVar list */ 
+		GList *arg_list;    /* GthVar list */
 		char  *html;        /* html */
 		GList *cond_list;   /* GthCondition list */
 	} value;
 	GList *document; /* GthTag list */
 } GthTag;
 
-GthTag * gth_tag_new                 (GthTagType    type, 
+GthTag * gth_tag_new                 (GthTagType    type,
 				      GList        *arg_list);
-
 GthTag * gth_tag_new_html            (const char   *html);
-
 GthTag * gth_tag_new_condition       (GList        *cond_list);
-
 void     gth_tag_add_document        (GthTag       *tag,
 				      GList        *document);
-
 void     gth_tag_free                (GthTag       *tag);
 
-/**/
+/* Utils */
 
 void     gth_parsed_doc_free         (GList *parsed_doc);
 

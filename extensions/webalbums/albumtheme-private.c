@@ -67,7 +67,7 @@ gth_mem_is_empty (GthMem *mem)
 
 
 void
-gth_mem_push (GthMem *mem, 
+gth_mem_push (GthMem *mem,
 	      int     val)
 {
 	mem->data[mem->top++] = val;
@@ -87,7 +87,7 @@ gth_mem_pop (GthMem *mem)
 
 
 int
-gth_mem_get_pos (GthMem *mem, 
+gth_mem_get_pos (GthMem *mem,
 		 int     pos)
 {
 	if ((pos <= 0) || (pos > mem->top))
@@ -192,7 +192,7 @@ gth_expr_unref (GthExpr *e)
 	if (e->ref == 0) {
 		int i;
 
-		for (i = 0; i < MAX_EXPR_SIZE; i++) 
+		for (i = 0; i < MAX_EXPR_SIZE; i++)
 			gth_cell_unref (e->data[i]);
 		g_free (e->data);
 		g_free (e);
@@ -200,7 +200,7 @@ gth_expr_unref (GthExpr *e)
 }
 
 
-void      
+void
 gth_expr_set_empty (GthExpr *e)
 {
 	e->top = 0;
@@ -338,13 +338,13 @@ void
 gth_expr_print (GthExpr *e)
 {
 	int i;
-	
+
 	for (i = 0; i < gth_expr_get_top (e); i++) {
 		GthCell *cell = gth_expr_get_pos (e, i + 1);
 
 		switch (cell->type) {
 		case GTH_CELL_TYPE_VAR:
-			printf ("VAR: %s (%d)\n", 
+			printf ("VAR: %s (%d)\n",
 				cell->value.var,
 				e->get_var_value_func (cell->value.var,
 						       e->get_var_value_data));
@@ -377,7 +377,7 @@ gth_expr_eval (GthExpr *e)
 
 		switch (cell->type) {
 		case GTH_CELL_TYPE_VAR:
-			gth_mem_push (mem, 
+			gth_mem_push (mem,
 				      e->get_var_value_func (cell->value.var,
 							     e->get_var_value_data));
 			break;
@@ -513,7 +513,7 @@ gth_var_new_constant (int value)
 
 
 GthVar *
-gth_var_new_expression (const char *name, 
+gth_var_new_expression (const char *name,
 			GthExpr    *e)
 {
 	GthVar *var;
@@ -531,7 +531,7 @@ gth_var_new_expression (const char *name,
 
 GthVar*
 gth_var_new_string (const char *name,
-		    const char *string)
+                   const char *string)
 {
 	GthVar *var;
 
@@ -599,7 +599,7 @@ gth_condition_add_document  (GthCondition *cond,
 
 
 GthTag *
-gth_tag_new (GthTagType  type, 
+gth_tag_new (GthTagType  type,
 	     GList      *arg_list)
 {
 	GthTag *tag;
@@ -621,12 +621,12 @@ gth_tag_new_html (const char *html)
 	tag->type = GTH_TAG_HTML;
 	tag->value.html = g_strdup (html);
 
-	return tag;	
+	return tag;
 }
 
 
 GthTag *
-gth_tag_new_condition (GList *cond_list) 
+gth_tag_new_condition (GList *cond_list)
 {
 	GthTag *tag;
 
@@ -634,7 +634,7 @@ gth_tag_new_condition (GList *cond_list)
 	tag->type = GTH_TAG_IF;
 	tag->value.cond_list = cond_list;
 
-	return tag;	
+	return tag;
 }
 
 
@@ -651,18 +651,18 @@ gth_tag_add_document (GthTag *tag,
 void
 gth_tag_free (GthTag *tag)
 {
-	if (tag->type == GTH_TAG_HTML) 
+	if (tag->type == GTH_TAG_HTML)
 		g_free (tag->value.html);
 
 	else if (tag->type == GTH_TAG_IF) {
-		g_list_foreach (tag->value.cond_list, 
+		g_list_foreach (tag->value.cond_list,
 				(GFunc) gth_condition_free,
 				NULL);
 		g_list_free (tag->value.cond_list);
 
 	} else {
-		g_list_foreach (tag->value.arg_list, 
-				(GFunc) gth_var_free, 
+		g_list_foreach (tag->value.arg_list,
+				(GFunc) gth_var_free,
 				NULL);
 		g_list_free (tag->value.arg_list);
 	}
