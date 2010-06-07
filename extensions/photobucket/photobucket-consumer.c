@@ -56,8 +56,8 @@ photobucket_utils_parse_response (SoupMessage         *msg,
 		if (g_strcmp0 (node->tag_name, "response") == 0) {
 			DomElement *child;
 			const char *status = NULL;
-			const char *message;
-			const char *code;
+			const char *message = NULL;
+			const char *code = NULL;
 
 			for (child = node->first_child; child; child = child->next_sibling) {
 				if (g_strcmp0 (child->tag_name, "status") == 0) {
