@@ -25,9 +25,9 @@
 #include <gio/gio.h>
 #include "albumtheme-private.h"
 
-void  yyerror (char *fmt, ...);
-int   yywrap  (void);
-int   yylex   (void);
+int   gth_albumtheme_yylex ();
+void  gth_albumtheme_yyerror (char *fmt, ...);
+int   gth_albumtheme_yywrap  (void);
 
 #define YY_NO_UNPUT
 
@@ -452,13 +452,14 @@ arg		: NAME '=' expr {
 %%
 
 int
-yywrap (void)
+gth_albumtheme_yywrap (void)
 {
 	return 1;
 }
 
 
-void yyerror (char *fmt, ...)
+void
+gth_albumtheme_yyerror (char *fmt, ...)
 {
 	va_list ap;
 

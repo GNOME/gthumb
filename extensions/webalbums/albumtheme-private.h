@@ -216,6 +216,7 @@ void     gth_tag_free                (GthTag       *tag);
 
 /* Utils */
 
+int      gth_albumtheme_yyparse      (void);
 void     gth_parsed_doc_free         (GList *parsed_doc);
 
 #endif /* ALBUMTHEME_PRIVATE_H */

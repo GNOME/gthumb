@@ -17,13 +17,12 @@ libwebalbums_la_SOURCES = 		\
 	dlg-web-exporter.h		\
 	main.c
 
-albumtheme-lex.c: albumtheme.l 
-	$(AM_V_GEN)( $(FLEX) $< && mv $(LEX_OUTPUT_ROOT).c albumtheme-lex.c ) 
+albumtheme-lex.c: albumtheme.l
+	$(AM_V_GEN)( $(FLEX) -Pgth_albumtheme_yy -oalbumtheme-lex.c $< )
 	
 albumtheme.c: albumtheme.y albumtheme-lex.c
-	$(AM_V_GEN)( $(BISON) $< -o albumtheme.c ) 
-	
 libwebalbums_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+	$(AM_V_GEN)( $(BISON) $< -p gth_albumtheme_yy -o albumtheme.c )
 libwebalbums_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libwebalbums_la_LIBADD = $(GTHUMB_LIBS)
 libwebalbums_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
