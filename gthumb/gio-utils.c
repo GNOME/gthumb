@@ -2313,6 +2313,39 @@ _g_directory_create_unique (GFile       *parent,
 }
 
 
+#define MAX_ATTEMPS 10
+
+
+GFile *
+_g_directory_create_tmp (void)
+{
+	GFile *tmp_dir;
+	GFile *dir = NULL;
+	int    n;
+
+	tmp_dir = g_file_new_for_path (g_get_tmp_dir ());
+	if (tmp_dir == NULL)
+		return NULL;
+
+	for (n = 0; n < MAX_ATTEMPS; n++) {
+		char  *name;
+
+		name = _g_rand_string (12);
+		dir = g_file_get_child (tmp_dir, name);
+		g_free (name);
+
+		if (g_file_make_directory (dir, NULL, NULL))
+			break;
+
+		g_object_unref (dir);
+	}
+
+	g_object_unref (tmp_dir);
+
+	return dir;
+}
+
+
 /* -- g_write_file -- */
 
 

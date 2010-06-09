@@ -173,6 +173,7 @@ GFile * _g_directory_create_unique   (GFile                 *parent,
 				      const char            *display_name,
 				      const char            *suffix,
 				      GError               **error);
+GFile * _g_directory_create_tmp      (void);
 gboolean _g_file_set_modification_time (GFile               *file,
 					GTimeVal            *timeval,
 					GCancellable        *cancellable,

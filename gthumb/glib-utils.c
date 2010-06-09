@@ -1104,6 +1104,93 @@ _g_str_remove_suffix (const char *s,
 }
 
 
+/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)
+ * This version does not escape ' and ''. Needed  because IE does not recognize
+ * &apos; and &quot; */
+void
+_g_string_append_for_html (GString    *str,
+		 	   const char *text,
+		 	   gssize      length)
+{
+	const gchar *p;
+	const gchar *end;
+	gunichar     ch;
+	int          state = 0;
+
+	p = text;
+	end = text + length;
+
+	while (p != end) {
+		const char *next;
+
+		next = g_utf8_next_char (p);
+		ch = g_utf8_get_char (p);
+
+		switch (state) {
+		case 1: /* escaped */
+			if ((ch > 127) || ! g_ascii_isprint ((char) ch))
+				g_string_append_printf (str, "\\&#%d;", ch);
+			else
+				g_string_append_unichar (str, ch);
+			state = 0;
+			break;
+
+		default: /* not escaped */
+			switch (*p) {
+			case '\\':
+				state = 1; /* next character is escaped */
+				break;
+
+			case '&':
+				g_string_append (str, "&amp;");
+				break;
+
+			case '<':
+				g_string_append (str, "&lt;");
+				break;
+
+			case '>':
+				g_string_append (str, "&gt;");
+				break;
+
+			case '\n':
+				g_string_append (str, "<br />");
+				break;
+
+			default:
+				if ((ch > 127) ||  ! g_ascii_isprint ((char)ch))
+					g_string_append_printf (str, "&#%d;", ch);
+				else
+					g_string_append_unichar (str, ch);
+				state = 0;
+				break;
+			}
+		}
+
+		p = next;
+	}
+}
+
+
+char *
+_g_escape_for_html (const char *text,
+		    gssize      length)
+{
+        GString *str;
+
+        g_return_val_if_fail (text != NULL, NULL);
+
+        if (length < 0)
+                length = strlen (text);
+
+        /* prealloc at least as long as original text */
+        str = g_string_sized_new (length);
+        _g_string_append_for_html (str, text, length);
+
+        return g_string_free (str, FALSE);
+}
+
+
 /* Array utils*/
 
 
@@ -1694,6 +1781,146 @@ _g_build_uri (const char *base, ...)
 	va_end (args);
 
 	return g_string_free (uri, FALSE);
+}
+
+
+char *
+_g_uri_get_scheme (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return NULL;
+	else
+		return g_strndup (uri, (idx - uri) + 3);
+}
+
+
+const char *
+_g_uri_remove_host (const char *uri)
+{
+	const char *idx, *sep;
+
+	if (uri == NULL)
+		return NULL;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return uri;
+
+	idx += 3;
+	if (*idx == '\0')
+		return "/";
+
+	sep = strstr (idx, "/");
+	if (sep == NULL)
+		return idx;
+
+	return sep;
+}
+
+
+char *
+_g_uri_get_host (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return g_strdup ("file://");
+
+	idx = strstr (idx + 3, "/");
+	if (idx == NULL) {
+		char *scheme;
+
+		scheme = _g_uri_get_scheme (uri);
+		if (scheme == NULL)
+			scheme = g_strdup ("file://");
+		return scheme;
+	}
+
+	return g_strndup (uri, (idx - uri));
+}
+
+
+/* example 1 : uri      = file:///xxx/yyy/zzz/foo
+ *             base     = file:///xxx/www
+ *             return   : ../yyy/zzz/foo
+ *
+ * example 2 : uri      = file:///xxx/yyy/foo
+ *             base     = file:///xxx
+ *             return   : yyy/foo
+ *
+ * example 3 : uri      = smb:///xxx/yyy/foo
+ *             base     = file://hhh/xxx
+ *             return   : smb:///xxx/yyy/foo
+ *
+ * example 4 : uri      = file://hhh/xxx
+ *             base     = file://hhh/xxx
+ *             return   : ./
+ */
+char *
+_g_uri_get_relative_path (const char *uri,
+			  const char *base)
+{
+	char      *uri_host;
+	char      *base_host;
+	gboolean   same_host;
+	char      *source_dir;
+	char     **source_dir_v;
+	char     **base_v;
+	GString   *relative_path;
+	int        i, j;
+
+	if ((uri == NULL) || (base == NULL))
+		return NULL;
+
+	if (strcmp (uri, base) == 0)
+		return g_strdup ("./");
+
+	uri_host = _g_uri_get_host (uri);
+	base_host = _g_uri_get_host (base);
+	same_host = g_str_equal (uri_host, base_host);
+
+	g_free (base_host);
+	g_free (uri_host);
+
+	if (! same_host)
+		return g_strdup (uri);
+
+	source_dir = _g_uri_get_parent (_g_uri_remove_host (uri));
+	source_dir_v = g_strsplit (source_dir, "/", 0);
+	base_v = g_strsplit (_g_uri_remove_host (base), "/", 0);
+
+	relative_path = g_string_new (NULL);
+
+	i = 0;
+	while ((source_dir_v[i] != NULL)
+	       && (base_v[i] != NULL)
+	       && (strcmp (source_dir_v[i], base_v[i]) == 0))
+	{
+		i++;
+	}
+
+	j = i;
+
+	while (base_v[i++] != NULL)
+		g_string_append (relative_path, "../");
+
+	while (source_dir_v[j] != NULL) {
+		g_string_append (relative_path, source_dir_v[j]);
+		g_string_append_c (relative_path, '/');
+		j++;
+	}
+
+	g_string_append (relative_path, _g_uri_get_basename (uri));
+
+	g_strfreev (base_v);
+	g_strfreev (source_dir_v);
+	g_free (source_dir);
+
+	return g_string_free (relative_path, FALSE);
 }
 
 

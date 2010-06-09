@@ -91,7 +91,6 @@ _gth_icon_cache_get_icon_key (GIcon *icon)
 
 		g_object_get (icon, "names", &icon_names, NULL);
 		name = g_strjoinv (",", icon_names);
-
 		key = get_static_string (name);
 
 		g_free (name);
@@ -99,14 +98,17 @@ _gth_icon_cache_get_icon_key (GIcon *icon)
 	}
 	else if (G_IS_FILE_ICON (icon)) {
 		GFile *file;
-		char  *filename;
 
 		file = g_file_icon_get_file (G_FILE_ICON (icon));
-		filename = g_file_get_path (file);
+		if (file != NULL) {
+			char *filename;
 
-		key = get_static_string (filename);
+			filename = g_file_get_path (file);
+			key = get_static_string (filename);
 
-		g_free (filename);
+			g_free (filename);
+		}
+
 		g_object_unref (file);
 	}
 

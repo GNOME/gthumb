@@ -33,6 +33,7 @@
 #include <gthumb.h>
 #include "gth-web-exporter.h"
 #include "albumtheme-private.h"
+#include "preferences.h"
 
 #define DATE_FORMAT _("%d %B %Y, %H:%M")
 #define DEFAULT_THUMB_SIZE 100
@@ -72,9 +73,6 @@ static GObjectClass *parent_class = NULL;
 
 typedef struct {
 	GthFileData *file_data;
-	char        *comment;
-	char        *place;
-	char        *date_time;
 	char        *dest_filename;
 	GdkPixbuf   *image;
 	int          image_width, image_height;
@@ -100,65 +98,53 @@ typedef struct {
 
 
 struct _GthWebExporterPrivate {
-	GthBrowser   *browser;
+	GthBrowser      *browser;
+	GList           *gfile_list;             /* GFile list */
 
-	GList        *file_list;              /* GFile elements. */
+	/* options */
 
-	char         *header;
-	char         *footer;
-	int           page_rows;              /* Number of rows and columns
-	 				       * each page must have. */
-	int           page_cols;
-	gboolean      single_index;
-	gboolean      use_subfolders;
-	AlbumDirs     directories;
-	char         *index_file;
+	char            *header;
+	char            *footer;
+	GFile           *style_dir;
+	GFile           *target_dir;             /* Save files in this location. */
+	gboolean         use_subfolders;
+	AlbumDirs        directories;
+	char            *index_file;
+	gboolean         copy_images;
+	gboolean         resize_images;
+	int              resize_max_width;
+	int              resize_max_height;
+	GthFileDataSort *sort_type;
+	gboolean         sort_inverse;
+	int              page_rows;              /* Number of rows and columns */
+	int              page_cols;		 /* each page must have. */
+	gboolean         single_index;
+	int              thumb_width;
+	int              thumb_height;
+	int              preview_max_width;
+	int              preview_max_height;
+	int              preview_min_width;
+	int              preview_min_height;
+	char            *image_caption;
+	char            *thumbnail_caption;
 
-	GFile        *style_dir;
-	GFile        *target_dir;               /* Save files in this location. */
-	GFile        *target_tmp_dir;
+	/* private date */
 
-	char         *info;
-
-	int           thumb_width;
-	int           thumb_height;
-
-	gboolean      copy_images;
-	GthSortMethod sort_method;
-	GtkSortType   sort_type;
-
-	gboolean      resize_images;
-	int           resize_max_width;
-	int           resize_max_height;
-
-	int           preview_min_width;
-	int           preview_min_height;
-
-	int           preview_max_width;
-	int           preview_max_height;
-
-	guint16       index_caption_mask;
-	guint16       image_caption_mask;
-
-	/**/
-
-	ImageLoader  *iloader;
-	GList        *current_file;          /* Next file to be loaded. */
-
-	int           n_images;              /* Used for the progress signal.*/
-	int           n_images_done;
-	int           n_pages;
-	int           page;
-	int           image;
-	GList        *index_parsed;
-	GList        *thumbnail_parsed;
-	GList        *image_parsed;
-
-	GList        *current_image;
-	guint         saving_timeout;
-	ImageData    *eval_image;
-
-	gboolean      interrupted;
+	GList           *file_list;             /* ImageData list */
+	GFile           *tmp_dir;
+	GthImageLoader  *iloader;
+	GList           *current_file;          /* Next file to be loaded. */
+	int              n_images;              /* Used for the progress signal. */
+	int              n_pages;
+	int              image;
+	int              page;
+	GList           *index_template;
+	GList           *thumbnail_template;
+	GList           *image_template;
+	guint            saving_timeout;
+	ImageData       *eval_image;
+	GError          *error;
+	gboolean         interrupted;
 };
 
 
@@ -167,38 +153,11 @@ image_data_new (GthFileData *file_data,
 		int          file_idx)
 {
 	ImageData   *idata;
-	CommentData *cdata;
 
 	idata = g_new0 (ImageData, 1);
-
-	cdata = comments_load_comment (file->path, TRUE);
-	if (cdata != NULL) {
-		idata->comment = g_strdup (cdata->comment);
-		idata->place = g_strdup (cdata->place);
-		if (cdata->time != 0) {
-			struct tm *tm;
-			char   time_txt[50];
-			tm = localtime (&(cdata->time));
-			if (tm->tm_hour + tm->tm_min + tm->tm_sec == 0)
-				strftime (time_txt, 50, _("%d %B %Y"), tm);
-			else
-				strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
-			idata->date_time = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-		}
-		else
-			idata->date_time = NULL;
-		comment_data_free (cdata);
-	}
-	else {
-		idata->comment = NULL;
-		idata->place = NULL;
-		idata->date_time = NULL;
-	}
-
-	idata->file_data = file_data_ref (file);
-	idata->dest_filename = g_strdup_printf ("%03d-%s",
-						file_idx,
-						file_name_from_path (file->path));
+	idata->file_data = g_object_ref (file_data);
+	/* FIXME */
+	idata->dest_filename = g_strdup_printf ("%03d-%s", file_idx, g_file_info_get_name (file_data->info));
 
 	idata->image = NULL;
 	idata->image_width = 0;
@@ -222,19 +181,11 @@ image_data_new (GthFileData *file_data,
 static void
 image_data_free (ImageData *idata)
 {
-	g_free (idata->comment);
-	g_free (idata->place);
-	g_free (idata->date_time);
-	file_data_unref (idata->file_data);
+	_g_object_unref (idata->preview);
+	_g_object_unref (idata->thumb);
+	_g_object_unref (idata->image);
 	g_free (idata->dest_filename);
-
-	if (idata->image != NULL)
-		g_object_unref (idata->image);
-	if (idata->thumb != NULL)
-		g_object_unref (idata->thumb);
-	if (idata->preview != NULL)
-		g_object_unref (idata->preview);
-
+	_g_object_unref (idata->file_data);
 	g_free (idata);
 }
 
@@ -242,57 +193,55 @@ image_data_free (ImageData *idata)
 static void
 free_parsed_docs (GthWebExporter *self)
 {
-	if (self->priv->index_parsed != NULL) {
-		gth_parsed_doc_free (self->priv->index_parsed);
-		self->priv->index_parsed = NULL;
+	if (self->priv->index_template != NULL) {
+		gth_parsed_doc_free (self->priv->index_template);
+		self->priv->index_template = NULL;
 	}
 
-	if (self->priv->thumbnail_parsed != NULL) {
-		gth_parsed_doc_free (self->priv->thumbnail_parsed);
-		self->priv->thumbnail_parsed = NULL;
+	if (self->priv->thumbnail_template != NULL) {
+		gth_parsed_doc_free (self->priv->thumbnail_template);
+		self->priv->thumbnail_template = NULL;
 	}
 
-	if (self->priv->image_parsed != NULL) {
-		gth_parsed_doc_free (self->priv->image_parsed);
-		self->priv->image_parsed = NULL;
+	if (self->priv->image_template != NULL) {
+		gth_parsed_doc_free (self->priv->image_template);
+		self->priv->image_template = NULL;
 	}
 }
 
 
 static GFile *
-gfile_get_style_dir (GthWebExporter *self,
-		     const char     *style)
+get_style_dir (GthWebExporter *self,
+	       const char     *style_name)
 {
-	GFile *dir;
+	char  *style_path;
 	GFile *style_dir;
+	GFile *data_dir;
 
-	if (style == NULL)
+	if (style_name == NULL)
 		return NULL;
 
-	dir = gfile_get_home_dir ();
-	style_dir = gfile_append_path (dir,
-			               ".gnome2",
-			               "gthumb",
-			               "albumthemes",
-			               style,
-			               NULL);
- 	g_object_unref (dir);
+	/* search in local themes */
 
-	if (! gfile_path_is_dir (style_dir)) {
-		g_object_unref (style_dir);
+	style_path = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "albumthemes", style_name, NULL);
+	style_dir = g_file_new_for_path (style_path);
+	g_free (style_path);
+	if (g_file_query_exists (style_dir, NULL))
+		return style_dir;
 
-		style_dir = gfile_new_va (GTHUMB_DATADIR,
-				          "gthumb",
-				          "albumthemes",
-				          style,
-				          NULL);
-		if (! gfile_path_is_dir (style_dir)) {
-			g_object_unref (style_dir);
-			style_dir = NULL;
-		}
-	}
+	g_object_unref (style_dir);
 
-	return style_dir;
+	/* search in system themes */
+
+	data_dir = g_file_new_for_path (WEBALBUM_DATADIR);
+	style_dir = _g_file_get_child (data_dir, "albumthemes", style_name, NULL);
+	g_object_unref (data_dir);
+	if (g_file_query_exists (style_dir, NULL))
+		return style_dir;
+
+	g_object_unref (style_dir);
+
+	return NULL;
 }
 
 
@@ -349,6 +298,8 @@ get_var_value (const char *var_name,
 	else if (strcmp (var_name, "thumb_height") == 0)
 		RETURN_IMAGE_FIELD (self->priv->eval_image, thumb_height)
 
+	/* FIXME: use a generic function to get an attribute visibility */
+/*
 	else if (strcmp (var_name, "image_dim_visibility_index") == 0)
 		return self->priv->index_caption_mask & GTH_CAPTION_IMAGE_DIM;
 	else if (strcmp (var_name, "file_name_visibility_index") == 0)
@@ -410,6 +361,7 @@ get_var_value (const char *var_name,
 		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
 	else if (strcmp (var_name, "exif_camera_model_visibility_image") == 0)
 		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
+*/
 
 	else if (strcmp (var_name, "copy_originals") == 0)
 		return self->priv->copy_images;
@@ -422,7 +374,7 @@ get_var_value (const char *var_name,
 
 static int
 expression_value (GthWebExporter *self,
-		  GthExpr            *expr)
+		  GthExpr        *expr)
 {
 	gth_expr_set_get_var_value_func (expr, get_var_value, self);
 	return gth_expr_eval (expr);
@@ -430,10 +382,10 @@ expression_value (GthWebExporter *self,
 
 
 static int
-gth_tag_get_idx (GthTag             *tag,
+gth_tag_get_idx (GthTag         *tag,
 		 GthWebExporter *self,
-		 int                 default_value,
-		 int                 max_value)
+		 int             default_value,
+		 int             max_value)
 {
 	GList *scan;
 	int    retval = default_value;
@@ -459,7 +411,7 @@ gth_tag_get_idx (GthTag             *tag,
 
 
 static int
-get_image_idx (GthTag             *tag,
+get_image_idx (GthTag         *tag,
 	       GthWebExporter *self)
 {
 	return gth_tag_get_idx (tag, self, self->priv->image, self->priv->n_images - 1);
@@ -467,7 +419,7 @@ get_image_idx (GthTag             *tag,
 
 
 static int
-get_page_idx (GthTag             *tag,
+get_page_idx (GthTag         *tag,
 	      GthWebExporter *self)
 {
 	return gth_tag_get_idx (tag, self, self->priv->page, self->priv->n_pages - 1);
@@ -513,7 +465,7 @@ gth_tag_get_str (GthWebExporter *self,
 
 static int
 get_page_idx_from_image_idx (GthWebExporter *self,
-			     int                 image_idx)
+			     int             image_idx)
 {
 	if (self->priv->single_index)
 		return 0;
@@ -531,9 +483,7 @@ line_is_void (const char *line)
 		return TRUE;
 
 	for (scan = line; *scan != '\0'; scan++)
-		if ((*scan != ' ')
-		    && (*scan != '\t')
-		    && (*scan != '\n'))
+		if ((*scan != ' ') && (*scan != '\t') && (*scan != '\n'))
 			return FALSE;
 
 	return TRUE;
@@ -541,92 +491,136 @@ line_is_void (const char *line)
 
 
 /* write a line when no error is pending */
-
 static void
 _write_line (GFileOutputStream   *ostream,
-	     GError             **error,
-	     const char          *line)
+	     const char          *line,
+	     GError             **error)
 {
-	if (error != NULL && *error != NULL)
+	if ((error != NULL) && (*error != NULL))
 		return;
 
-	gfile_output_stream_write (ostream, error, line);
+	g_output_stream_write_all (G_OUTPUT_STREAM (ostream),
+			           line,
+			           strlen (line),
+			           NULL,
+			           NULL,
+			           error);
 }
 
 
 static void
 _write_locale_line (GFileOutputStream  *ostream,
-		    GError            **error,
-		    const char         *line)
+		    const char         *line,
+		    GError            **error)
 {
 	char *utf8_line;
 
-	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, 0);
-	_write_line (ostream, error, utf8_line);
+	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, error);
+	_write_line (ostream, utf8_line, error);
+
 	g_free (utf8_line);
 }
 
 
 static void
 write_line (GFileOutputStream  *ostream,
-	    GError            **error,
-	    const char         *line)
+	    const char         *line,
+	    GError            **error)
 {
-	if (line_is_void (line))
-		return;
-
-	_write_line (ostream, error, line);
+	if (! line_is_void (line))
+		_write_line (ostream, line, error);
 }
 
 
 static void
 write_markup_escape_line (GFileOutputStream  *ostream,
-                          GError            **error,
-                          const char         *line)
+                          const char         *line,
+                          GError            **error)
 {
 	char *e_line;
 
 	if (line_is_void (line))
 		return;
 
-	e_line = _g_escape_text_for_html (line, -1);
-	_write_line (ostream, error, e_line);
+	e_line = _g_escape_for_html (line, -1);
+	_write_line (ostream, e_line, error);
+
 	g_free (e_line);
 }
 
 
 static void
 write_markup_escape_locale_line (GFileOutputStream  *ostream,
-                                 GError            **error,
-                                 const char         *line)
+                                 const char         *line,
+                                 GError            **error)
 {
 	char *e_line;
 
-	if (line == NULL)
-		return;
-	if (*line == 0)
+	if ((line == NULL) || (*line == 0))
 		return;
 
-	e_line = _g_escape_text_for_html (line, -1);
-	_write_locale_line (ostream, error, e_line);
+	e_line = _g_escape_for_html (line, -1);
+	_write_locale_line (ostream, e_line, error);
+
 	g_free (e_line);
+}
+
+
+static char *
+get_image_attribute (GthWebExporter    *self,
+		     GthTag            *tag,
+		     const char        *attribute)
+{
+	int        image_idx;
+	ImageData *image_data;
+	char      *value;
+	int        max_size;
+	char      *line = NULL;
+
+	image_idx = get_image_idx (tag, self);
+	image_data = g_list_nth (self->priv->file_list, image_idx)->data;
+	self->priv->eval_image = image_data;
+
+	/* FIXME */
+	value = g_file_info_get_attribute_as_string (image_data->file_data->info, attribute);
+	if (value == NULL)
+		return NULL;
+
+	max_size = gth_tag_get_var (self, tag, "max_size");
+	if (max_size > 0) {
+		char *truncated;
+
+		truncated = g_strndup (value, max_size);
+		if (strlen (truncated) < strlen (value))
+			line = g_strconcat (truncated, "...", NULL);
+		else
+			line = g_strdup (truncated);
+
+		g_free (truncated);
+	}
+	else
+		line = g_strdup (value);
+
+	g_free (value);
+
+	return line;
 }
 
 
 /* GFile to string */
 
+
 static char *
 gfile_get_relative_uri (GFile *file,
 		        GFile *relative_to)
 {
-	char  *escaped;
-	char  *relative_uri;
-	char  *result;
+	char *escaped;
+	char *relative_uri;
+	char *result;
 
-	escaped = gfile_get_uri (file);
-	relative_uri = gfile_get_uri (relative_to);
-
-	result = get_path_relative_to_uri (escaped, relative_uri);
+	escaped = g_file_get_uri (file);
+	relative_uri = g_file_get_uri (relative_to);
+	result = _g_uri_get_relative_path (escaped, relative_uri);
 
 	g_free (relative_uri);
 	g_free (escaped);
@@ -639,7 +633,8 @@ static char *
 gfile_get_relative_path (GFile *file,
 		         GFile *relative_to)
 {
-	char  *escaped, *unescaped;
+	char *escaped;
+	char *unescaped;
 
 	escaped = gfile_get_relative_uri (file, relative_to);
 	unescaped = g_uri_unescape_string (escaped, NULL);
@@ -797,6 +792,8 @@ get_current_date (void)
 	struct tm *tp;
 	char       s[100];
 
+	/* FIXME */
+
 	t = time (NULL);
 	tp = localtime (&t);
 	strftime (s, 99, DATE_FORMAT, tp);
@@ -851,8 +848,9 @@ get_current_language (void)
 }
 
 
+/* FIXME: add support for date formats */
 static char *
-get_hf_text (const char *utf8_text)
+get_header_footer_text (const char *utf8_text)
 {
 	const char *s;
 	GString    *r;
@@ -890,7 +888,8 @@ get_hf_text (const char *utf8_text)
 				g_free (t);
 				break;
 			}
-		} else
+		}
+		else
 			g_string_append_unichar (r, ch);
 	}
 
@@ -901,10 +900,9 @@ get_hf_text (const char *utf8_text)
 }
 
 
-
 static GthAttrImageType
 get_attr_image_type_from_tag (GthWebExporter *self,
-			      GthTag             *tag)
+			      GthTag         *tag)
 {
 	if (gth_tag_get_var (self, tag, "thumbnail") != 0)
 		return GTH_IMAGE_TYPE_THUMBNAIL;
@@ -919,10 +917,10 @@ get_attr_image_type_from_tag (GthWebExporter *self,
 static void
 gth_parsed_doc_print (GList               *document,
 		      GFile		  *relative_to,
-		      GthWebExporter  *self,
+		      GthWebExporter      *self,
 		      GFileOutputStream   *ostream,
-		      GError             **error,
-		      gboolean             allow_table)
+		      gboolean             allow_table,
+		      GError             **error)
 {
 	GList *scan;
 
@@ -948,41 +946,35 @@ gth_parsed_doc_print (GList               *document,
 		char       *alt_attr = NULL;
 		const char *id = NULL;
 		char       *id_attr = NULL;
-		gboolean   relative;
+		gboolean    relative;
 		GList      *scan;
 
-
-		if (error != NULL && *error != NULL)
+		if ((error != NULL) && (*error != NULL))
 			return;
 
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
-			line = get_hf_text (self->priv->header);
-			write_markup_escape_line (ostream, error, line);
+			line = get_header_footer_text (self->priv->header);
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_FOOTER:
-			line = get_hf_text (self->priv->footer);
-			write_markup_escape_line (ostream, error, line);
+			line = get_header_footer_text (self->priv->footer);
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_LANGUAGE:
 			line = get_current_language ();
-			write_markup_escape_line (ostream, error, line);
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_THEME_LINK:
 			src = gth_tag_get_str (self, tag, "src");
 			if (src == NULL)
 				break;
-
-			file = get_theme_file (self,
-					       self->priv->target_dir,
-					       src);
+			file = get_theme_file (self, self->priv->target_dir, src);
 			line = gfile_get_relative_uri (file, relative_to);
-
-			write_markup_escape_line (ostream, error, line);
-
+			write_markup_escape_line (ostream, line, error);
 			g_object_unref (file);
 			break;
 
@@ -993,32 +985,26 @@ gth_parsed_doc_print (GList               *document,
 
 			switch (get_attr_image_type_from_tag (self, tag)) {
 			case GTH_IMAGE_TYPE_THUMBNAIL:
-				file = get_thumbnail_file (self,
-							   idata,
-							   self->priv->target_dir);
+				file = get_thumbnail_file (self, idata, self->priv->target_dir);
 				image_width = idata->thumb_width;
 				image_height = idata->thumb_height;
 				break;
 
 			case GTH_IMAGE_TYPE_PREVIEW:
-				file = get_preview_file (self,
-							 idata,
-							 self->priv->target_dir);
+				file = get_preview_file (self, idata, self->priv->target_dir);
 				image_width = idata->preview_width;
 				image_height = idata->preview_height;
 				break;
 
 			case GTH_IMAGE_TYPE_IMAGE:
-				file = get_image_file (self,
-						       idata,
-						       self->priv->target_dir);
+				file = get_image_file (self, idata, self->priv->target_dir);
 				image_width = idata->image_width;
 				image_height = idata->image_height;
 				break;
 			}
 
 			image_src = gfile_get_relative_uri (file, relative_to);
-			src_attr = _g_escape_text_for_html (image_src, -1);
+			src_attr = _g_escape_for_html (image_src, -1);
 
 			class = gth_tag_get_str (self, tag, "class");
 			if (class)
@@ -1041,7 +1027,7 @@ gth_parsed_doc_print (GList               *document,
 				char *unescaped_path;
 
 				unescaped_path = g_uri_unescape_string (image_src, NULL);
-				alt_attr = _g_escape_text_for_html (unescaped_path, -1);
+				alt_attr = _g_escape_for_html (unescaped_path, -1);
 				g_free (unescaped_path);
 			}
 
@@ -1058,7 +1044,7 @@ gth_parsed_doc_print (GList               *document,
 						image_height,
 						id_attr,
 						class_attr);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 
 			g_free (src_attr);
 			g_free (id_attr);
@@ -1071,32 +1057,27 @@ gth_parsed_doc_print (GList               *document,
 		case GTH_TAG_IMAGE_LINK:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			file = get_html_image_file (self,
-						    idata,
-						    self->priv->target_dir);
+			file = get_html_image_file (self, idata, self->priv->target_dir);
 			line = gfile_get_relative_uri (file, relative_to);
-			write_markup_escape_line (ostream, error, line);
-
+			write_markup_escape_line (ostream, line, error);
 			g_object_unref (file);
 			break;
 
 		case GTH_TAG_IMAGE_IDX:
 			line = g_strdup_printf ("%d", get_image_idx (tag, self) + 1);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_IMAGE_DIM:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = g_strdup_printf ("%dx%d",
-						idata->image_width,
-						idata->image_height);
-			write_line (ostream, error, line);
+			line = g_strdup_printf ("%d×%d", idata->image_width, idata->image_height);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_IMAGES:
 			line = g_strdup_printf ("%d", self->priv->n_images);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_FILENAME:
@@ -1106,44 +1087,37 @@ gth_parsed_doc_print (GList               *document,
 
 			switch (get_attr_image_type_from_tag (self, tag)) {
 			case GTH_IMAGE_TYPE_THUMBNAIL:
-				file = get_thumbnail_file (self,
-							   idata,
-							   self->priv->target_dir);
+				file = get_thumbnail_file (self, idata, self->priv->target_dir);
 				break;
 
 			case GTH_IMAGE_TYPE_PREVIEW:
-				file = get_preview_file (self,
-							 idata,
-							 self->priv->target_dir);
+				file = get_preview_file (self, idata, self->priv->target_dir);
 				break;
 
 			case GTH_IMAGE_TYPE_IMAGE:
-				file = get_image_file (self,
-						       idata,
-						       self->priv->target_dir);
+				file = get_image_file (self, idata, self->priv->target_dir);
 				break;
 			}
 
 			relative = (gth_tag_get_var (self, tag, "with_relative_path") != 0);
 
 			if (relative)
-				unescaped_path = gfile_get_relative_path (file,
-									 relative_to);
+				unescaped_path = gfile_get_relative_path (file, relative_to);
 			else
-				unescaped_path = gfile_get_path (file);
-
+				unescaped_path = g_file_get_path (file);
 
 			if (relative || (gth_tag_get_var (self, tag, "with_path") != 0)) {
 				line = unescaped_path;
-			} else {
-				line = g_strdup (file_name_from_path (unescaped_path));
+			}
+			else {
+				line = g_strdup (_g_uri_get_basename (unescaped_path));
 				g_free (unescaped_path);
 			}
 
 			if  (gth_tag_get_var (self, tag, "utf8") != 0)
-				write_markup_escape_locale_line (ostream, error, line);
+				write_markup_escape_locale_line (ostream, line, error);
 			else
-				write_markup_escape_line (ostream, error, line);
+				write_markup_escape_line (ostream, line, error);
 
 			g_object_unref (file);
 			break;
@@ -1178,15 +1152,14 @@ gth_parsed_doc_print (GList               *document,
 			relative = (gth_tag_get_var (self, tag, "relative_path") != 0);
 
 			if (relative)
-				line = gfile_get_relative_path (dir,
-							       relative_to);
+				line = gfile_get_relative_path (dir, relative_to);
 			else
-				line = gfile_get_path (dir);
+				line = g_file_get_path (dir);
 
 			if  (gth_tag_get_var (self, tag, "utf8") != 0)
-				write_markup_escape_locale_line (ostream, error, line);
+				write_markup_escape_locale_line (ostream, line, error);
 			else
-				write_markup_escape_line (ostream, error, line);
+				write_markup_escape_line (ostream, line, error);
 
 			g_object_unref (dir);
 			g_object_unref (file);
@@ -1195,60 +1168,25 @@ gth_parsed_doc_print (GList               *document,
 		case GTH_TAG_FILESIZE:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = g_format_size_for_display (idata->file_data->size);
-			write_markup_escape_line (ostream, error, line);
+			line = g_format_size_for_display (g_file_info_get_size (idata->file_data->info));
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_COMMENT:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			self->priv->eval_image = idata;
-
-			if (idata->comment == NULL)
-				break;
-
-			max_size = gth_tag_get_var (self, tag, "max_size");
-			if (max_size <= 0)
-				line = g_strdup (idata->comment);
-			else {
-				char *comment;
-
-				comment = g_strndup (idata->comment, max_size);
-				if (strlen (comment) < strlen (idata->comment))
-					line = g_strconcat (comment, "...", NULL);
-				else
-					line = g_strdup (comment);
-				g_free (comment);
-			}
-
-			write_markup_escape_line (ostream, error, line);
+			line = get_image_attribute (self, tag, "general::title");
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_PLACE:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			self->priv->eval_image = idata;
-
-			if (idata->place == NULL)
-				break;
-
-			max_size = gth_tag_get_var (self, tag, "max_size");
-			if (max_size <= 0)
-				line = g_strdup (idata->place);
-			else
-			{
-				char *place = g_strndup (idata->place, max_size);
-				if (strlen (place) < strlen (idata->place))
-					line = g_strconcat (place, "...", NULL);
-				else
-					line = g_strdup (place);
-				g_free (place);
-			}
-
-			write_markup_escape_line (ostream, error, line);
+			line = get_image_attribute (self, tag, "general::location");
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_DATE_TIME:
+			line = get_image_attribute (self, tag, "general::datetime");
+			write_markup_escape_line (ostream, line, error);
+			break;
+			/* FIXME
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
 			self->priv->eval_image = idata;
@@ -1270,6 +1208,7 @@ gth_parsed_doc_print (GList               *document,
 
 			write_markup_escape_line (ostream, error, line);
 			break;
+			*/
 
 		case GTH_TAG_PAGE_LINK:
 			if (gth_tag_get_var (self, tag, "image_idx") != 0) {
@@ -1280,33 +1219,31 @@ gth_parsed_doc_print (GList               *document,
 			else
 				idx = get_page_idx (tag, self);
 
-			file = get_html_index_file (self,
-						    idx,
-						    self->priv->target_dir);
+			file = get_html_index_file (self, idx, self->priv->target_dir);
 			line = gfile_get_relative_uri (file, relative_to);
-			write_markup_escape_line (ostream, error, line);
+			write_markup_escape_line (ostream, line, error);
 
 			g_object_unref (file);
 			break;
 
 		case GTH_TAG_PAGE_IDX:
 			line = g_strdup_printf ("%d", get_page_idx (tag, self) + 1);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_PAGE_ROWS:
 			line = g_strdup_printf ("%d", self->priv->page_rows);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_PAGE_COLS:
 			line = g_strdup_printf ("%d", self->priv->page_cols);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_PAGES:
 			line = g_strdup_printf ("%d", self->priv->n_pages);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_TABLE:
@@ -1319,28 +1256,28 @@ gth_parsed_doc_print (GList               *document,
 			/* this may not work correctly if single_index is set */
 			for (r = 0; r < self->priv->page_rows; r++) {
 				if (self->priv->image < self->priv->n_images)
-					write_line (ostream, error, "  <tr class=\"tr_index\">\n");
+					write_line (ostream, "  <tr class=\"tr_index\">\n", error);
 				else
-					write_line (ostream, error, "  <tr class=\"tr_empty_index\">\n");
+					write_line (ostream, "  <tr class=\"tr_empty_index\">\n", error);
 				for (c = 0; c < self->priv->page_cols; c++) {
 					if (self->priv->image < self->priv->n_images) {
-						write_line (ostream, error, "    <td class=\"td_index\">\n");
-						gth_parsed_doc_print (self->priv->thumbnail_parsed,
+						write_line (ostream, "    <td class=\"td_index\">\n", error);
+						gth_parsed_doc_print (self->priv->thumbnail_template,
 								      relative_to,
 								      self,
 								      ostream,
-								      error,
-								      FALSE);
-						write_line (ostream, error, "    </td>\n");
+								      FALSE,
+								      error);
+						write_line (ostream, "    </td>\n", error);
 						self->priv->image++;
 					}
 					else {
-						write_line (ostream, error, "    <td class=\"td_empty_index\">\n");
-						write_line (ostream, error, "    &nbsp;\n");
-						write_line (ostream, error, "    </td>\n");
+						write_line (ostream, "    <td class=\"td_empty_index\">\n", error);
+						write_line (ostream, "    &nbsp;\n", error);
+						write_line (ostream, "    </td>\n", error);
 					}
 				}
-				write_line (ostream, error, "  </tr>\n");
+				write_line (ostream, "  </tr>\n", error);
 			}
 			break;
 
@@ -1348,34 +1285,34 @@ gth_parsed_doc_print (GList               *document,
 			if (! allow_table)
 				break;
 
-			for (r = 0; r < (self->priv->single_index ? self->priv->n_images : self->priv->page_rows * self->priv->page_cols); r++)
-			{
+			for (r = 0; r < (self->priv->single_index ? self->priv->n_images : self->priv->page_rows * self->priv->page_cols); r++) {
 				if (self->priv->image >= self->priv->n_images)
 					break;
-				gth_parsed_doc_print (self->priv->thumbnail_parsed,
+				gth_parsed_doc_print (self->priv->thumbnail_template,
 						      relative_to,
 						      self,
 						      ostream,
-						      error,
-						      FALSE);
+						      FALSE,
+						      error);
 				self->priv->image++;
 			}
 			break;
 
 		case GTH_TAG_DATE:
 			line = get_current_date ();
-			write_markup_escape_line (ostream, error, line);
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_HTML:
-			write_line (ostream, error, tag->value.html);
+			write_line (ostream, tag->value.html, error);
 			break;
 
+			/* FIXME: make a generic function to print file attributes */
+#if 0
 		case GTH_TAG_EXIF_EXPOSURE_TIME:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-							    TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
+			line = get_metadata_tagset_string (idata->file_data, TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
 			write_markup_escape_line (ostream, error, line);
 			break;
 
@@ -1457,6 +1394,7 @@ gth_parsed_doc_print (GList               *document,
 
 		case GTH_TAG_SET_VAR:
 			break;
+#endif
 
 		case GTH_TAG_EVAL:
 			idx = get_image_idx (tag, self);
@@ -1464,9 +1402,8 @@ gth_parsed_doc_print (GList               *document,
 			self->priv->eval_image = idata;
 
 			value = gth_tag_get_var (self, tag, "expr");
-
 			line = g_strdup_printf ("%d", value);
-			write_line (ostream, error, line);
+			write_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_IF:
@@ -1481,8 +1418,8 @@ gth_parsed_doc_print (GList               *document,
 							      relative_to,
 							      self,
 							      ostream,
-							      error,
-							      FALSE);
+							      FALSE,
+							      error);
 					break;
 				}
 			}
@@ -1495,7 +1432,7 @@ gth_parsed_doc_print (GList               *document,
 				if (child->type != GTH_TAG_HTML)
 					break;
 				line = g_strdup (_(child->value.html));
-				write_markup_escape_line (ostream, error, line);
+				write_markup_escape_line (ostream, line, error);
 			}
 			break;
 
@@ -1508,42 +1445,25 @@ gth_parsed_doc_print (GList               *document,
 }
 
 
-
-static gboolean
-gfile_parsed_doc_print (GthWebExporter *self,
-                        GList              *document,
-                        GFile              *file,
-			GFile              *relative_to)
+static void
+save_template (GthWebExporter  *self,
+	       GList           *document,
+	       GFile           *file,
+	       GFile           *relative_to,
+	       GError         **error)
 {
-        GFileOutputStream  *ostream;
-        GError             *error = NULL;
-        gboolean            result;
+	GFileOutputStream *ostream;
 
-	gfile_debug (DEBUG_INFO, "save html file", file);
-
-        ostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error);
-
-        if (error) {
-                gfile_warning ("Cannot open html file for writing",
-                               file,
-                               error);
-        }
-        else {
+	ostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, error);
+	if (ostream != NULL) {
 		gth_parsed_doc_print (document,
 				      relative_to,
 				      self,
 				      ostream,
-				      &error,
-				      TRUE);
+				      TRUE,
+				      error);
+		g_object_unref (ostream);
 	}
-
-	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, &error);
-	g_object_unref (ostream);
-
-	result = (error == NULL);
-	g_clear_error (&error);
-
-	return result;
 }
 
 
@@ -1563,8 +1483,6 @@ static void
 cleanup_and_terminate (GthWebExporter *self,
 		       GError         *error)
 {
-	GList *file_list;
-
 	if (error != NULL)
 		self->priv->error = g_error_copy (error);
 
@@ -1574,19 +1492,26 @@ cleanup_and_terminate (GthWebExporter *self,
 		self->priv->file_list = NULL;
 	}
 
-	file_list = g_list_append (NULL, self->priv->target_tmp_dir);
-	_g_delete_files_async (file_list,
-			       TRUE,
-			       TRUE,
-			       NULL,
-			       delete_temp_dir_ready_cb,
-			       self);
+	if (self->priv->tmp_dir != NULL) {
+		GList *file_list;
+
+		file_list = g_list_append (NULL, self->priv->tmp_dir);
+		_g_delete_files_async (file_list,
+				       TRUE,
+				       TRUE,
+				       NULL,
+				       delete_temp_dir_ready_cb,
+				       self);
+
+		g_list_free (file_list);
+	}
+	else
+		delete_temp_dir_ready_cb (NULL, self);
 }
 
 
 static void
-copy_to_destination_ready_cb (GObject  *object,
-			      GError   *error,
+copy_to_destination_ready_cb (GError   *error,
 			      gpointer  user_data)
 {
 	cleanup_and_terminate (GTH_WEB_EXPORTER (user_data), error);
@@ -1594,12 +1519,12 @@ copy_to_destination_ready_cb (GObject  *object,
 
 
 static void
-save_other_files_progress_cb (GObject    *object,
-			      const char *description,
-			      const char *details,
-			      gboolean    pulse,
-			      double      fraction,
-			      gpointer    user_data)
+save_files_progress_cb (GObject    *object,
+			const char *description,
+			const char *details,
+			gboolean    pulse,
+			double      fraction,
+			gpointer    user_data)
 {
 	GthWebExporter *self = user_data;
 
@@ -1612,39 +1537,63 @@ save_other_files_progress_cb (GObject    *object,
 
 
 static void
-save_other_files_dialog_cb (gboolean opened,
-			    gpointer user_data)
+save_files_dialog_cb (gboolean opened,
+		      gpointer user_data)
 {
 	gth_task_dialog (GTH_TASK (user_data), opened);
 }
 
 
 static void
-save_other_files_ready_cb (GObject  *object,
-			   GError   *error,
+save_other_files_ready_cb (GError   *error,
 			   gpointer  user_data)
 {
-	GthWebExporter *self = user_data;
+	GthWebExporter  *self = user_data;
+	GFileEnumerator *enumerator;
+	GFileInfo       *info;
+	GList           *files;
 
 	if (error != NULL) {
 		cleanup_and_terminate (self, error);
 		return;
 	}
 
-	source = gth_file_data_new (self->priv->target_tmp_dir, NULL);
-	_g_copy_file_async (source,
-			    self->priv->target_dir,
-			    FALSE,
-			    G_FILE_COPY_NONE,
-			    GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
-			    G_PRIORITY_NORMAL,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    save_other_files_progress_cb,
-			    self,
-			    save_other_files_dialog_cb,
-			    self,
-			    copy_to_destination_ready_cb,
-			    self);
+	enumerator = g_file_enumerate_children (self->priv->tmp_dir,
+					        G_FILE_ATTRIBUTE_STANDARD_NAME "," G_FILE_ATTRIBUTE_STANDARD_TYPE,
+					        0,
+					        gth_task_get_cancellable (GTH_TASK (self)),
+					        &error);
+
+	if (error != NULL) {
+		cleanup_and_terminate (self, error);
+		return;
+	}
+
+	files = NULL;
+	while ((error == NULL) && ((info = g_file_enumerator_next_file (enumerator, NULL, &error)) != NULL)) {
+		files = g_list_prepend (files, g_file_get_child (self->priv->tmp_dir, g_file_info_get_name (info)));
+		g_object_unref (info);
+	}
+
+	g_object_unref (enumerator);
+
+	if (error == NULL)
+		_g_copy_files_async (files,
+				     self->priv->target_dir,
+				     FALSE,
+				     G_FILE_COPY_NONE,
+				     G_PRIORITY_DEFAULT,
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     save_files_progress_cb,
+				     self,
+				     save_files_dialog_cb,
+				     self,
+				     copy_to_destination_ready_cb,
+				     self);
+	else
+		cleanup_and_terminate (self, error);
+
+	_g_object_list_unref (files);
 }
 
 
@@ -1671,7 +1620,6 @@ save_other_files (GthWebExporter *self)
 	while ((error == NULL) && ((info = g_file_enumerator_next_file (enumerator, NULL, &error)) != NULL)) {
 		const char *name;
 		GFile      *source;
-		GFile      *destination;
 
 		if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) {
 			g_object_unref (info);
@@ -1689,7 +1637,7 @@ save_other_files (GthWebExporter *self)
 		}
 
 		source = g_file_get_child (self->priv->style_dir, name);
-		files = g_list_prepend (files, source);
+		files = g_list_prepend (files, g_object_ref (source));
 
 		g_object_unref (source);
 		g_object_unref (info);
@@ -1699,14 +1647,14 @@ save_other_files (GthWebExporter *self)
 
 	if (error == NULL)
 		_g_copy_files_async (files,
-				     self->priv->target_tmp_dir,
+				     self->priv->tmp_dir,
 				     FALSE,
 				     G_FILE_COPY_NONE,
-				     G_PRIORITY_NORMAL,
+				     G_PRIORITY_DEFAULT,
 				     gth_task_get_cancellable (GTH_TASK (self)),
-				     save_other_files_progress_cb,
+				     save_files_progress_cb,
 				     self,
-				     save_other_files_dialog_cb,
+				     save_files_dialog_cb,
 				     self,
 				     save_other_files_ready_cb,
 				     self);
@@ -1723,9 +1671,9 @@ static gboolean save_thumbnail (gpointer data);
 static void
 save_next_thumbnail (GthWebExporter *self)
 {
-	self->priv->current_image = self->priv->current_image->next;
+	self->priv->current_file = self->priv->current_file->next;
 	self->priv->image++;
-	self->priv->saving_timeout = g_idle_add (save_thumbnail, data);
+	self->priv->saving_timeout = g_idle_add (save_thumbnail, self);
 }
 
 
@@ -1742,7 +1690,7 @@ save_thumbnail_ready_cb (GthFileData *file_data,
 		return;
 	}
 
-	image_data = self->priv->current_image->data;
+	image_data = self->priv->current_file->data;
 	g_object_unref (image_data->thumb);
 	image_data->thumb = NULL;
 
@@ -1761,12 +1709,12 @@ save_thumbnail (gpointer data)
 		self->priv->saving_timeout = 0;
 	}
 
-	if (self->priv->current_image == NULL) {
+	if (self->priv->current_file == NULL) {
 		save_other_files (self);
 		return FALSE;
 	}
 
-	image_data = self->priv->current_image->data;
+	image_data = self->priv->current_file->data;
 	if (image_data->thumb != NULL) {
 		GFile       *destination;
 		GthFileData *file_data;
@@ -1777,7 +1725,7 @@ save_thumbnail (gpointer data)
 				   FALSE,
 				   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
 
-		destination = get_thumbnail_file (self, image_data, self->priv->target_tmp_dir);
+		destination = get_thumbnail_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
 		_gdk_pixbuf_save_async (image_data->thumb,
 					file_data,
@@ -1789,8 +1737,8 @@ save_thumbnail (gpointer data)
 		g_object_unref (file_data);
 		g_object_unref (destination);
 	}
-
-	save_next_thumbnail (self);
+	else
+		save_next_thumbnail (self);
 
 	return FALSE;
 }
@@ -1802,7 +1750,7 @@ save_thumbnails (GthWebExporter *self)
 	gth_task_progress (GTH_TASK (self), _("Saving thumbnails"), NULL, TRUE, 0);
 
 	self->priv->image = 0;
-	self->priv->current_image = self->priv->file_list;
+	self->priv->current_file = self->priv->file_list;
 	self->priv->saving_timeout = g_idle_add (save_thumbnail, self);
 }
 
@@ -1814,13 +1762,14 @@ save_html_image (gpointer data)
 	ImageData      *image_data;
 	GFile          *file;
 	GFile          *relative_to;
+	GError         *error = NULL;
 
 	if (self->priv->saving_timeout != 0) {
 		g_source_remove (self->priv->saving_timeout);
 		self->priv->saving_timeout = 0;
 	}
 
-	if (self->priv->current_image == NULL) {
+	if (self->priv->current_file == NULL) {
 		save_thumbnails (self);
 		return FALSE;
 	}
@@ -1831,17 +1780,22 @@ save_html_image (gpointer data)
 			   FALSE,
 			   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
 
-	image_data = self->priv->current_image->data;
-	file = get_html_image_file (self, image_data, self->priv->target_tmp_dir);
+	image_data = self->priv->current_file->data;
+	file = get_html_image_file (self, image_data, self->priv->tmp_dir);
 	relative_to = get_html_image_dir (self, self->priv->target_dir);
-	gfile_parsed_doc_print (self, self->priv->image_parsed, file, relative_to);
+	save_template (self, self->priv->image_template, file, relative_to, &error);
 
 	g_object_unref (file);
 	g_object_unref (relative_to);
 
 	/**/
 
-	self->priv->current_image = self->priv->current_image->next;
+	if (error != NULL) {
+		cleanup_and_terminate (self, error);
+		return FALSE;
+	}
+
+	self->priv->current_file = self->priv->current_file->next;
 	self->priv->image++;
 	self->priv->saving_timeout = g_idle_add (save_html_image, data);
 
@@ -1852,10 +1806,8 @@ save_html_image (gpointer data)
 static void
 save_html_images (GthWebExporter *self)
 {
-	/*exporter_set_info (self, _("Saving HTML pages: Images")); FIXME */
-
 	self->priv->image = 0;
-	self->priv->current_image = self->priv->file_list;
+	self->priv->current_file = self->priv->file_list;
 	self->priv->saving_timeout = g_idle_add (save_html_image, self);
 }
 
@@ -1866,6 +1818,7 @@ save_html_index (gpointer data)
 	GthWebExporter *self = data;
 	GFile          *file;
 	GFile          *relative_to;
+	GError         *error = NULL;
 
 	if (self->priv->saving_timeout != 0) {
 		g_source_remove (self->priv->saving_timeout);
@@ -1885,14 +1838,19 @@ save_html_index (gpointer data)
 			   FALSE,
 			   (double) (self->priv->page + 1) / (self->priv->n_pages + 1));
 
-	file = get_html_index_file (self, self->priv->page, self->priv->target_tmp_dir);
+	file = get_html_index_file (self, self->priv->page, self->priv->tmp_dir);
 	relative_to = get_html_index_dir (self, self->priv->page, self->priv->target_dir);
-	gfile_parsed_doc_print (self, self->priv->index_parsed, file, relative_to);
+	save_template (self, self->priv->index_template, file, relative_to, &error);
 
 	g_object_unref (file);
 	g_object_unref (relative_to);
 
 	/**/
+
+	if (error != NULL) {
+		cleanup_and_terminate (self, error);
+		return FALSE;
+	}
 
 	self->priv->page++;
 	self->priv->saving_timeout = g_idle_add (save_html_index, data);
@@ -1904,14 +1862,6 @@ save_html_index (gpointer data)
 static void
 save_html_files (GthWebExporter *self)
 {
-	gth_task_progress (GTH_TASK (self),
-			   _("Saving HTML pages: Indexes"),
-			   NULL,
-			   TRUE,
-			   0);
-
-	self->priv->image = 0;
-	self->priv->eval_image = NULL;
 	self->priv->page = 0;
 	self->priv->saving_timeout = g_idle_add (save_html_index, self);
 }
@@ -1947,7 +1897,7 @@ load_next_file (GthWebExporter *self)
 		}
 	}
 
-	self->priv->n_images_done++;
+	self->priv->image++;
 	self->priv->current_file = self->priv->current_file->next;
 	load_current_file (self);
 }
@@ -2001,9 +1951,13 @@ save_image_preview (gpointer data)
 		GFile       *destination;
 		GthFileData *file_data;
 
-		/* exporter_set_info (self, _("Saving images")); FIXME */
+		gth_task_progress (GTH_TASK (self),
+				   _("Saving images"),
+				   g_file_info_get_display_name (image_data->file_data->info),
+				   FALSE,
+				   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
 
-		destination = get_preview_file (self, image_data, self->priv->target_tmp_dir);
+		destination = get_preview_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
 		_gdk_pixbuf_save_async (image_data->preview,
 					file_data,
@@ -2054,9 +2008,13 @@ save_resized_image (gpointer data)
 		GFile       *destination;
 		GthFileData *file_data;
 
-		/* exporter_set_info (self, _("Saving images")); FIXME */
+		gth_task_progress (GTH_TASK (self),
+				   _("Saving images"),
+				   g_file_info_get_display_name (image_data->file_data->info),
+				   FALSE,
+				   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
 
-		destination = get_image_file (self, image_data, self->priv->target_tmp_dir);
+		destination = get_image_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
 		_gdk_pixbuf_save_async (image_data->image,
 					file_data,
@@ -2076,25 +2034,26 @@ save_resized_image (gpointer data)
 
 
 static gboolean
-copy_current_image (GthWebExporter *self)
+copy_current_file (GthWebExporter *self)
 {
 	ImageData  *image_data;
 	GFile      *destination;
-
-	if (self->priv->saving_timeout != 0) {
-		g_source_remove (self->priv->saving_timeout);
-		self->priv->saving_timeout = 0;
-	}
+	GError     *error = NULL;
 
 	/* This function is used when "Copy originals to destination" is
 	   enabled, and resizing is NOT enabled. This allows us to use a
 	   lossless copy (and rotate). When resizing is enabled, a lossy
 	   save has to be used. */
 
-	/* exporter_set_info (self, _("Copying original images")); FIXME */
+	if (self->priv->saving_timeout != 0) {
+		g_source_remove (self->priv->saving_timeout);
+		self->priv->saving_timeout = 0;
+	}
+
+	gth_task_progress (GTH_TASK (self), _("Copying original images"), NULL, TRUE, 0);
 
 	image_data = self->priv->current_file->data;
-	destination = get_image_file (self, image_data, self->priv->target_tmp_dir);
+	destination = get_image_file (self, image_data, self->priv->tmp_dir);
 	if (g_file_copy (image_data->file_data->file,
 			 destination,
 			 G_FILE_COPY_NONE,
@@ -2246,7 +2205,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 
 	/* thumbnail. */
 
-	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);
+	idata->thumb = pixbuf = gth_image_loader_get_pixbuf (iloader);
 	g_object_ref (idata->thumb);
 
 	if ((self->priv->thumb_width > 0) && (self->priv->thumb_height > 0)) {
@@ -2272,12 +2231,10 @@ image_loader_ready_cb (GthImageLoader *iloader,
 	/* save the image */
 
 	if (self->priv->copy_images) {
-		if (self->priv->resize_images) {
-			/* exporter_set_info (self, _("Saving images")); FIXME */
+		if (self->priv->resize_images)
 			self->priv->saving_timeout = g_idle_add (save_resized_image, self);
-		}
 		else
-			copy_current_image (self);
+			copy_current_file (self);
 	}
 	else
 		self->priv->saving_timeout = g_idle_add (save_image_preview, self);
@@ -2291,14 +2248,12 @@ load_current_file (GthWebExporter *self)
 
 	if (self->priv->current_file == NULL) {
 		/* FIXME
-		if ((self->priv->sort_method != GTH_SORT_METHOD_NONE)
-		    && (self->priv->sort_method != GTH_SORT_METHOD_MANUAL))
-			self->priv->file_list = g_list_sort (self->priv->file_list, get_sortfunc (self));
+		if (self->priv->sort_type != NULL)
+			self->priv->file_list = g_list_sort (self->priv->file_list, (GCompareFunc) self->priv->sort_type->cmp_func);
 		*/
-		if (self->priv->sort_type == GTK_SORT_DESCENDING)
+		if (self->priv->sort_inverse)
 			self->priv->file_list = g_list_reverse (self->priv->file_list);
 		save_html_files (self);
-
 		return;
 	}
 
@@ -2307,9 +2262,38 @@ load_current_file (GthWebExporter *self)
 			   _("Loading images"),
 			   g_file_info_get_display_name (file_data->info),
 			   FALSE,
-			   (double) (self->priv->n_images_done + 1) / (self->priv->n_images + 1));
+			   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
 	gth_image_loader_set_file_data (self->priv->iloader, file_data);
-	gth_image_loader_start (self->priv->iloader);
+	gth_image_loader_load (self->priv->iloader);
+}
+
+
+static void
+file_list_info_ready_cb (GList    *files,
+			 GError   *error,
+			 gpointer  user_data)
+{
+	GthWebExporter *self = user_data;
+	GList          *scan;
+	int             file_idx;
+
+	if (error != NULL) {
+		cleanup_and_terminate (self, error);
+		return;
+	}
+
+	file_idx = 0;
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		self->priv->file_list = g_list_prepend (self->priv->file_list, image_data_new (file_data, file_idx++));
+	}
+	self->priv->file_list = g_list_reverse (self->priv->file_list);
+
+	/* load the thumbnails */
+
+	self->priv->image = 0;
+	self->priv->current_file = self->priv->file_list;
+	load_current_file (self);
 }
 
 
@@ -2322,7 +2306,7 @@ parse_template (GFile *file)
 	yy_parsed_doc = NULL;
 	yy_istream = g_file_read (file, NULL, &error);
 	if (error == NULL) {
-		if (yyparse () == 0)
+		if (gth_albumtheme_yyparse () == 0)
 			result = yy_parsed_doc;
 		else
 			debug (DEBUG_INFO, "<<syntax error>>");
@@ -2352,18 +2336,18 @@ parse_theme_files (GthWebExporter *self)
 	/* read and parse index.gthtml */
 
 	template = g_file_get_child (self->priv->style_dir, "index.gthtml");
-	self->priv->index_parsed = parse_template (template);
-	if (self->priv->index_parsed == NULL) {
+	self->priv->index_template = parse_template (template);
+	if (self->priv->index_template == NULL) {
 		GthTag *tag = gth_tag_new (GTH_TAG_TABLE, NULL);
-		self->priv->index_parsed = g_list_prepend (NULL, tag);
+		self->priv->index_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
 
 	/* read and parse thumbnail.gthtml */
 
 	template = g_file_get_child (self->priv->style_dir, "thumbnail.gthtml");
-	self->priv->thumbnail_parsed = parse_template (template);
-	if (self->priv->thumbnail_parsed == NULL) {
+	self->priv->thumbnail_template = parse_template (template);
+	if (self->priv->thumbnail_template == NULL) {
 		GthExpr *expr;
 		GthVar  *var;
 		GList   *vars = NULL;
@@ -2380,15 +2364,15 @@ parse_theme_files (GthWebExporter *self)
 		vars = g_list_prepend (vars, var);
 
 		tag = gth_tag_new (GTH_TAG_IMAGE, vars);
-		self->priv->thumbnail_parsed = g_list_prepend (NULL, tag);
+		self->priv->thumbnail_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
 
 	/* Read and parse image.gthtml */
 
 	template = g_file_get_child (self->priv->style_dir, "image.gthtml");
-	self->priv->image_parsed = parse_template (template);
-	if (self->priv->image_parsed == NULL) {
+	self->priv->image_template = parse_template (template);
+	if (self->priv->image_template == NULL) {
 		GthExpr *expr;
 		GthVar  *var;
 		GList   *vars = NULL;
@@ -2405,53 +2389,54 @@ parse_theme_files (GthWebExporter *self)
 		vars = g_list_prepend (vars, var);
 
 		tag = gth_tag_new (GTH_TAG_IMAGE, vars);
-		self->priv->image_parsed = g_list_prepend (NULL, tag);
+		self->priv->image_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
 
 	/* read index.html and set variables. */
 
-	for (scan = self->priv->index_parsed; scan; scan = scan->next) {
+	for (scan = self->priv->index_template; scan; scan = scan->next) {
 		GthTag *tag = scan->data;
-		int     width, height;
 
-		switch (tag->type) {
-		case GTH_TAG_SET_VAR:
+		if (tag->type == GTH_TAG_SET_VAR) {
+			int width;
+			int height;
 
 			width = gth_tag_get_var (self, tag, "thumbnail_width");
 			height = gth_tag_get_var (self, tag, "thumbnail_height");
-
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "thumbnail --> %dx%d", width, height);
 				gth_web_exporter_set_thumb_size (self, width, height);
-				break;
+				continue;
 			}
-
-			/**/
 
 			width = gth_tag_get_var (self, tag, "preview_width");
 			height = gth_tag_get_var (self, tag, "preview_height");
-
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "preview --> %dx%d", width, height);
 				gth_web_exporter_set_preview_size (self, width, height);
-				break;
+				continue;
 			}
 
 			width = gth_tag_get_var (self, tag, "preview_min_width");
 			height = gth_tag_get_var (self, tag, "preview_min_height");
-
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "preview min --> %dx%d", width, height);
 				gth_web_exporter_set_preview_min_size (self, width, height);
-				break;
+				continue;
 			}
-
-			break;
-
-		default:
-			break;
 		}
+	}
+
+	if (self->priv->copy_images
+	    && self->priv->resize_images
+	    && (self->priv->resize_max_width > 0)
+	    && (self->priv->resize_max_height > 0))
+	{
+		if (self->priv->preview_max_width > self->priv->resize_max_width)
+			self->priv->preview_max_width = self->priv->resize_max_width;
+		if (self->priv->preview_max_height > self->priv->resize_max_height)
+			self->priv->preview_max_height = self->priv->resize_max_height;
 	}
 }
 
@@ -2477,19 +2462,30 @@ static void
 gth_web_exporter_exec (GthTask *task)
 {
 	GthWebExporter *self;
-	GthFileData    *file_data;
 	GError         *error = NULL;
+	GString        *required_attributes;
 
-	g_return_if_fail (GTH_IS_WEB_EXPORTER (object));
+	g_return_if_fail (GTH_IS_WEB_EXPORTER (task));
 
 	self = GTH_WEB_EXPORTER (task);
 
-	if (self->priv->file_list == NULL) {
+	if (self->priv->gfile_list == NULL) {
 		cleanup_and_terminate (self, NULL);
 		return;
 	}
 
-	self->priv->n_images = g_list_length (self->priv->file_list);
+	/*
+	 * check that the style directory is not NULL.  A NULL indicates that
+	 * the folder of the selected style has been deleted or renamed
+	 * before the user started the export.  It is unlikely.
+	 */
+	if (self->priv->style_dir == NULL) {
+		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not find the style folder"));
+		cleanup_and_terminate (self, error);
+		return;
+	}
+
+	self->priv->n_images = g_list_length (self->priv->gfile_list);
 	if (! self->priv->single_index) {
 		self->priv->n_pages = self->priv->n_images / (self->priv->page_rows * self->priv->page_cols);
 		if (self->priv->n_images % (self->priv->page_rows * self->priv->page_cols) > 0)
@@ -2498,59 +2494,47 @@ gth_web_exporter_exec (GthTask *task)
 	else
 		self->priv->n_pages = 1;
 
-	/*
-	 * check that the style directory is not NULL. A NULL indicates that
-	 * the folder of the selected style has been deleted or renamed
-	 * before the user started the export. It is unlikely.
-	 */
-
-	if (self->priv->style_dir == NULL) { /* FIXME */
-		error = g_error_new_literal (GTHUMB_ERROR, GTH_ERROR_GENERIC, _("Could not find the style folder"));
-		cleanup_and_terminate (self, error);
-		return;
-	}
-
 	/* get index file name and subdirs from gconf (hidden prefs) */
 
-	self->priv->index_file = eel_gconf_get_string (PREF_EXP_WEB_INDEX_FILE, DEFAULT_INDEX_FILE);
-	self->priv->directories.previews = eel_gconf_get_string (PREF_EXP_WEB_DIR_PREVIEWS, DEFAULT_WEB_DIR_PREVIEWS);
-	self->priv->directories.thumbnails = eel_gconf_get_string (PREF_EXP_WEB_DIR_THUMBNAILS, DEFAULT_WEB_DIR_THUMBNAILS);
-	self->priv->directories.images = eel_gconf_get_string (PREF_EXP_WEB_DIR_IMAGES, DEFAULT_WEB_DIR_IMAGES);
-	self->priv->directories.html_images = eel_gconf_get_string (PREF_EXP_WEB_DIR_HTML_IMAGES, DEFAULT_WEB_DIR_HTML_IMAGES);
-	self->priv->directories.html_indexes = eel_gconf_get_string (PREF_EXP_WEB_DIR_HTML_INDEXES, DEFAULT_WEB_DIR_HTML_INDEXES);
-	self->priv->directories.theme_files = eel_gconf_get_string (PREF_EXP_WEB_DIR_THEME_FILES, DEFAULT_WEB_DIR_THEME_FILES);
+	self->priv->index_file = eel_gconf_get_string (PREF_WEBALBUMS_INDEX_FILE, DEFAULT_INDEX_FILE);
+	self->priv->directories.previews = eel_gconf_get_string (PREF_WEBALBUMS_DIR_PREVIEWS, DEFAULT_WEB_DIR_PREVIEWS);
+	self->priv->directories.thumbnails = eel_gconf_get_string (PREF_WEBALBUMS_DIR_THUMBNAILS, DEFAULT_WEB_DIR_THUMBNAILS);
+	self->priv->directories.images = eel_gconf_get_string (PREF_WEBALBUMS_DIR_IMAGES, DEFAULT_WEB_DIR_IMAGES);
+	self->priv->directories.html_images = eel_gconf_get_string (PREF_WEBALBUMS_DIR_HTML_IMAGES, DEFAULT_WEB_DIR_HTML_IMAGES);
+	self->priv->directories.html_indexes = eel_gconf_get_string (PREF_WEBALBUMS_DIR_HTML_INDEXES, DEFAULT_WEB_DIR_HTML_INDEXES);
+	self->priv->directories.theme_files = eel_gconf_get_string (PREF_WEBALBUMS_DIR_THEME_FILES, DEFAULT_WEB_DIR_THEME_FILES);
 
-	/* get tmp dir */
+	/* create a tmp dir */
 
-	self->priv->target_tmp_dir = gfile_get_temp_dir_name (); /* FIXME */
-	if (self->priv->target_tmp_dir == NULL) {
-		error = g_error_new_literal (GTHUMB_ERROR, GTH_ERROR_GENERIC, _("Could not create a temporary folder"));
+	self->priv->tmp_dir = _g_directory_create_tmp ();
+	if (self->priv->tmp_dir == NULL) {
+		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not create a temporary folder"));
 		cleanup_and_terminate (self, error);
 		return;
 	}
 
 	if (self->priv->use_subfolders) {
-		if (! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.previews, &error)) {
+		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.previews, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
-		if (! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.thumbnails, &error)) {
+		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.thumbnails, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
-		if (self->priv->copy_images && ! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.images, &error)) {
+		if (self->priv->copy_images && ! make_album_dir (self->priv->tmp_dir, self->priv->directories.images, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
-		if (! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.html_images, &error)) {
+		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.html_images, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
-		if ((self->priv->n_pages > 1) && ! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.html_indexes, &error)) {
+		if ((self->priv->n_pages > 1) && ! make_album_dir (self->priv->tmp_dir, self->priv->directories.html_indexes, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
-		if (! make_album_dir (self->priv->target_tmp_dir, self->priv->directories.theme_files, &error)) {
+		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.theme_files, &error)) {
 			cleanup_and_terminate (self, error);
 			return;
 		}
@@ -2558,17 +2542,28 @@ gth_web_exporter_exec (GthTask *task)
 
 	parse_theme_files (self);
 
-	/* Load thumbnails. */
+	required_attributes = g_string_new (GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	if (self->priv->image_caption != NULL) {
+		g_string_append (required_attributes, ",");
+		g_string_append (required_attributes, self->priv->image_caption);
+	}
+	if (self->priv->thumbnail_caption != NULL) {
+		g_string_append (required_attributes, ",");
+		g_string_append (required_attributes, self->priv->thumbnail_caption);
+	}
+	if ((self->priv->sort_type != NULL) && (self->priv->sort_type->required_attributes != NULL)) {
+		g_string_append (required_attributes, ",");
+		g_string_append (required_attributes, self->priv->sort_type->required_attributes);
+	}
+	_g_query_all_metadata_async (self->priv->gfile_list,
+				     FALSE,
+				     TRUE,
+				     required_attributes->str,
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     file_list_info_ready_cb,
+				     self);
 
-	self->priv->iloader = gth_image_loader_new (FALSE);
-	g_signal_connect (G_OBJECT (self->priv->iloader),
-			  "ready",
-			  G_CALLBACK (image_loader_ready_cb),
-			  self);
-
-	self->priv->n_images_done = 0;
-	self->priv->current_file = self->priv->file_list;
-	load_current_file (self);
+	g_string_free (required_attributes, TRUE);
 }
 
 
@@ -2584,23 +2579,23 @@ gth_web_exporter_finalize (GObject *object)
 	g_free (self->priv->footer);
 	_g_object_unref (self->priv->style_dir);
 	_g_object_unref (self->priv->target_dir);
-	_g_object_unref (self->priv->target_tmp_dir);
-
+	_g_object_unref (self->priv->tmp_dir);
 	g_free (self->priv->directories.previews);
 	g_free (self->priv->directories.thumbnails);
 	g_free (self->priv->directories.images);
 	g_free (self->priv->directories.html_images);
 	g_free (self->priv->directories.html_indexes);
 	g_free (self->priv->directories.theme_files);
-
 	g_free (self->priv->index_file);
-	g_free (self->priv->info);
+	_g_object_unref (self->priv->iloader);
+	g_free (self->priv->thumbnail_caption);
+	g_free (self->priv->image_caption);
+	free_parsed_docs (self);
 	if (self->priv->file_list != NULL) {
 		g_list_foreach (self->priv->file_list, (GFunc) image_data_free, NULL);
 		g_list_free (self->priv->file_list);
 	}
-	_g_object_unref (self->priv->iloader);
-	free_parsed_docs (self);
+	_g_object_list_unref (self->priv->gfile_list);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -2627,14 +2622,10 @@ static void
 gth_web_exporter_init (GthWebExporter *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_WEB_EXPORTER, GthWebExporterPrivate);
-
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->style_dir = NULL;
-
-	self->priv->base_tmp_dir = NULL;
-	self->priv->target_tmp_dir = NULL;
-
+	self->priv->target_dir = NULL;
 	self->priv->use_subfolders = TRUE;
 	self->priv->directories.previews = NULL;
 	self->priv->directories.thumbnails = NULL;
@@ -2642,28 +2633,34 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->directories.html_images = NULL;
 	self->priv->directories.html_indexes = NULL;
 	self->priv->directories.theme_files = NULL;
-
-	self->priv->index_file = g_strdup (DEFAULT_INDEX_FILE);
-	self->priv->file_list = NULL;
-	self->priv->iloader = NULL;
-
-	self->priv->thumb_width = DEFAULT_THUMB_SIZE;
-	self->priv->thumb_height = DEFAULT_THUMB_SIZE;
-
 	self->priv->copy_images = FALSE;
 	self->priv->resize_images = FALSE;
 	self->priv->resize_max_width = 0;
 	self->priv->resize_max_height = 0;
-
+	self->priv->sort_type = NULL;
+	self->priv->sort_inverse = FALSE;
+	self->priv->page_rows = 0;
+	self->priv->page_cols = 0;
 	self->priv->single_index = FALSE;
-
-	self->priv->preview_min_width = 0;
-	self->priv->preview_min_height = 0;
+	self->priv->thumb_width = DEFAULT_THUMB_SIZE;
+	self->priv->thumb_height = DEFAULT_THUMB_SIZE;
 	self->priv->preview_max_width = 0;
 	self->priv->preview_max_height = 0;
+	self->priv->preview_min_width = 0;
+	self->priv->preview_min_height = 0;
+	self->priv->thumbnail_caption = NULL;
+	self->priv->image_caption = NULL;
+	self->priv->index_file = g_strdup (DEFAULT_INDEX_FILE);
+	self->priv->file_list = NULL;
+	self->priv->tmp_dir = NULL;
 
-	self->priv->index_caption_mask = GTH_CAPTION_IMAGE_DIM | GTH_CAPTION_FILE_SIZE;
-	self->priv->image_caption_mask = GTH_CAPTION_COMMENT | GTH_CAPTION_PLACE | GTH_CAPTION_EXIF_DATE_TIME;
+	self->priv->iloader = gth_image_loader_new (FALSE);
+	g_signal_connect (G_OBJECT (self->priv->iloader),
+			  "ready",
+			  G_CALLBACK (image_loader_ready_cb),
+			  self);
+
+	self->priv->error = NULL;
 }
 
 
@@ -2700,21 +2697,12 @@ gth_web_exporter_new (GthBrowser *browser,
 		      GList      *file_list)
 {
 	GthWebExporter *self;
-	GList          *scan;
-	int             file_idx;
 
-	g_return_val_if_fail (window != NULL, NULL);
+	g_return_val_if_fail (browser != NULL, NULL);
 
 	self = (GthWebExporter *) g_object_new (GTH_TYPE_WEB_EXPORTER, NULL);
-
 	self->priv->browser = browser;
-
-	file_idx = 0;
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file = scan->data;
-		self->priv->file_list = g_list_prepend (self->priv->file_list, image_data_new (file, file_idx++));
-	}
-	self->priv->file_list = g_list_reverse (self->priv->file_list);
+	self->priv->gfile_list = _g_object_list_ref (file_list);
 
 	return (GthTask *) self;
 }
@@ -2725,6 +2713,7 @@ gth_web_exporter_set_header (GthWebExporter *self,
 			     const char     *header)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	g_free (self->priv->header);
 	self->priv->header = g_strdup (header);
 }
@@ -2735,6 +2724,7 @@ gth_web_exporter_set_footer (GthWebExporter *self,
 			     const char     *footer)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	g_free (self->priv->footer);
 	self->priv->footer = g_strdup (footer);
 }
@@ -2742,21 +2732,23 @@ gth_web_exporter_set_footer (GthWebExporter *self,
 
 void
 gth_web_exporter_set_style (GthWebExporter *self,
-			    const char     *style)
+			    const char     *style_name)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-	UNREF (self->priv->style_dir);
-	self->priv->style_dir = gfile_get_style_dir (self, style);
+
+	_g_object_unref (self->priv->style_dir);
+	self->priv->style_dir = get_style_dir (self, style_name);
 }
 
 
 void
-gth_web_exporter_set_location (GthWebExporter *self,
-			       const char     *location)
+gth_web_exporter_set_destination (GthWebExporter *self,
+			          GFile          *destination)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-	UNREF (self->priv->target_dir);
-	self->priv->target_dir = gfile_new (location);
+
+	_g_object_unref (self->priv->target_dir);
+	self->priv->target_dir = _g_object_ref (destination);
 }
 
 
@@ -2765,6 +2757,7 @@ gth_web_exporter_set_use_subfolders (GthWebExporter *self,
 				     gboolean        use_subfolders)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->use_subfolders = use_subfolders;
 }
 
@@ -2774,6 +2767,7 @@ gth_web_exporter_set_copy_images (GthWebExporter *self,
 				  gboolean        copy)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->copy_images = copy;
 }
 
@@ -2785,6 +2779,7 @@ gth_web_exporter_set_resize_images (GthWebExporter *self,
 				    int             max_height)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->resize_images = resize;
 	if (resize) {
 		self->priv->resize_max_width = max_width;
@@ -2798,13 +2793,14 @@ gth_web_exporter_set_resize_images (GthWebExporter *self,
 
 
 void
-gth_web_exporter_set_sorted (GthWebExporter *self,
-			     GthSortMethod   method,
-			     GtkSortType     sort_type)
+gth_web_exporter_set_sort_order (GthWebExporter  *self,
+				 GthFileDataSort *sort_type,
+				 gboolean         sort_inverse)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-	self->priv->sort_method = method;
+
 	self->priv->sort_type = sort_type;
+	self->priv->sort_inverse = sort_inverse;
 }
 
 
@@ -2814,6 +2810,7 @@ gth_web_exporter_set_row_col (GthWebExporter *self,
 			      int             cols)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->page_rows = rows;
 	self->priv->page_cols = cols;
 }
@@ -2824,6 +2821,7 @@ gth_web_exporter_set_single_index (GthWebExporter *self,
 				   gboolean        single)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->single_index = single;
 }
 
@@ -2834,6 +2832,7 @@ gth_web_exporter_set_thumb_size (GthWebExporter *self,
 				 int         	 height)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
 	self->priv->thumb_width = width;
 	self->priv->thumb_height = height;
 }
@@ -2845,17 +2844,6 @@ gth_web_exporter_set_preview_size (GthWebExporter *self,
 				   int             height)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-
-	if (self->priv->copy_images
-	    && self->priv->resize_images
-	    && (self->priv->resize_max_width > 0)
-	    && (self->priv->resize_max_height > 0))
-	{
-		if (width > self->priv->resize_max_width)
-			width = self->priv->resize_max_width;
-		if (height > self->priv->resize_max_height)
-			height = self->priv->resize_max_height;
-	}
 
 	self->priv->preview_max_width = width;
 	self->priv->preview_max_height = height;
@@ -2875,32 +2863,22 @@ gth_web_exporter_set_preview_min_size (GthWebExporter *self,
 
 
 void
-gth_web_exporter_set_image_caption (GthWebExporter   *self,
-				    GthCaptionFields  caption)
+gth_web_exporter_set_image_caption (GthWebExporter *self,
+				    const char     *caption)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-	self->priv->image_caption_mask = caption;
-}
 
-
-guint16
-gth_web_exporter_get_image_caption (GthWebExporter *self)
-{
-	return self->priv->image_caption_mask;
+	g_free (self->priv->image_caption);
+	self->priv->image_caption = g_strdup (caption);
 }
 
 
 void
-gth_web_exporter_set_index_caption (GthWebExporter   *self,
-				    GthCaptionFields  caption)
+gth_web_exporter_set_thumbnail_caption (GthWebExporter *self,
+					const char     *caption)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
-	self->priv->index_caption_mask = caption;
-}
 
-
-guint16
-gth_web_exporter_get_index_caption (GthWebExporter *self)
-{
-	return self->priv->index_caption_mask;
+	g_free (self->priv->thumbnail_caption);
+	self->priv->thumbnail_caption = g_strdup (caption);
 }

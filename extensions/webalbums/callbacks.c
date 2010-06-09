@@ -36,15 +36,20 @@ static const char *ui_info =
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
 "      <placeholder name='Misc_Actions'>"
-"        <menuitem action='File_CreateWebAlbum'/>"
+"        <menuitem action='Tool_CreateWebAlbum'/>"
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
+"  <popup name='ListToolsPopup'>"
+"    <placeholder name='Tools'>"
+"      <menuitem name='CreateWebAlbum' action='Tool_CreateWebAlbum'/>"
+"    </placeholder>"
+"  </popup>"
 "</ui>";
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_CreateWebAlbum", "webalbums",
+	{ "Tool_CreateWebAlbum", "webalbums",
 	  N_("Create a _Web Album..."), NULL,
 	  N_("Create a static web album"),
 	  G_CALLBACK (gth_browser_activate_action_export_webalbum) },

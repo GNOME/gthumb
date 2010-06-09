@@ -28,12 +28,12 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 
-#define GTH_WEB_EXPORTER_TYPE            (gth_web_exporter_get_type ())
-#define GTH_WEB_EXPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_WEB_EXPORTER_TYPE, GthWebExporter))
-#define GTH_WEB_EXPORTER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_WEB_EXPORTER_TYPE, GthWebExporterClass))
-#define GTH_IS_WEB_EXPORTER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_WEB_EXPORTER_TYPE))
-#define GTH_IS_WEB_EXPORTER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_WEB_EXPORTER_TYPE))
-#define GTH_WEB_EXPORTER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_WEB_EXPORTER_TYPE, GthWebExporterClass))
+#define GTH_TYPE_WEB_EXPORTER            (gth_web_exporter_get_type ())
+#define GTH_WEB_EXPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_WEB_EXPORTER, GthWebExporter))
+#define GTH_WEB_EXPORTER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_WEB_EXPORTER, GthWebExporterClass))
+#define GTH_IS_WEB_EXPORTER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_WEB_EXPORTER))
+#define GTH_IS_WEB_EXPORTER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_WEB_EXPORTER))
+#define GTH_WEB_EXPORTER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_WEB_EXPORTER, GthWebExporterClass))
 
 typedef struct _GthWebExporter        GthWebExporter;
 typedef struct _GthWebExporterClass   GthWebExporterClass;
@@ -51,47 +51,43 @@ struct _GthWebExporterClass {
 
 GType      gth_web_exporter_get_type              (void);
 GthTask *  gth_web_exporter_new                   (GthBrowser       *browser,
-						   GList            *file_list);
+						   GList            *file_list); /* GFile list */
 void       gth_web_exporter_set_header            (GthWebExporter   *self,
 						   const char       *header);
 void       gth_web_exporter_set_footer            (GthWebExporter   *self,
 						   const char       *footer);
 void       gth_web_exporter_set_style             (GthWebExporter   *self,
-						   const char       *style);
-void       gth_web_exporter_set_location          (GthWebExporter   *self,
-						   const char       *location);
+						   const char       *style_name);
+void       gth_web_exporter_set_destination       (GthWebExporter   *self,
+						   GFile            *destination);
 void       gth_web_exporter_set_use_subfolders    (GthWebExporter   *self,
 						   gboolean          use_subfolders);
-void       gth_web_exporter_set_row_col           (GthWebExporter   *self,
-						   int               rows,
-						   int               cols);
-void       gth_web_exporter_set_thumb_size        (GthWebExporter   *self,
-						   int               width,
-						   int               height);
-void       gth_web_exporter_set_preview_size      (GthWebExporter   *self,
-						   int               width,
-						   int               height);
 void       gth_web_exporter_set_copy_images       (GthWebExporter   *self,
 						   gboolean          copy);
 void       gth_web_exporter_set_resize_images     (GthWebExporter   *self,
 						   gboolean          resize,
 						   int               max_width,
 						   int               max_height);
-void       gth_web_exporter_set_sorted            (GthWebExporter   *self,
-						   GthSortMethod     method,
-						   GtkSortType       sort_type);
+void       gth_web_exporter_set_sort_order        (GthWebExporter   *self,
+						   GthFileDataSort  *sort_type,
+						   gboolean          sort_inverse);
 void       gth_web_exporter_set_row_col           (GthWebExporter   *self,
 						   int               rows,
 						   int               cols);
 void       gth_web_exporter_set_single_index      (GthWebExporter   *self,
 						   gboolean          copy);
+void       gth_web_exporter_set_thumb_size        (GthWebExporter   *self,
+						   int               width,
+						   int               height);
+void       gth_web_exporter_set_preview_size      (GthWebExporter   *self,
+						   int               width,
+						   int               height);
+void       gth_web_exporter_set_preview_min_size  (GthWebExporter   *self,
+					           int               width,
+					           int               height);
 void       gth_web_exporter_set_image_caption     (GthWebExporter   *self,
-						   GthCaptionFields  caption);
-guint16    gth_web_exporter_get_image_caption     (GthWebExporter   *self);
-void       gth_web_exporter_set_index_caption     (GthWebExporter   *self,
-						   GthCaptionFields  caption);
-guint16    gth_web_exporter_get_index_caption     (GthWebExporter   *self);
-void       gth_web_exporter_export                (GthWebExporter   *self);
-void       gth_web_exporter_interrupt             (GthWebExporter   *self);
+						   const char       *caption);
+void       gth_web_exporter_set_thumbnail_caption (GthWebExporter   *self,
+						   const char       *caption);
 
 #endif /* GTH_WEB_EXPORTER_H */
