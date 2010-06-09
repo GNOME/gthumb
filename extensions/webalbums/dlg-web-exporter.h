@@ -25,6 +25,7 @@
 
 #include <gthumb.h>
 
-void  dlg_web_exporter (GthBrowser *browser);
+void  dlg_web_exporter (GthBrowser *browser,
+			GList      *file_list); /* GFile list */
 
 #endif /* DLG_WEB_EXPORTER_H */

@@ -1,0 +1,304 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/index_file</key>
+	<applyto>/apps/gthumb/ext/webalbums/index_file</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>index.html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/previews</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/previews</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>previews</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/thumbnails</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>thumbnails</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/images</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>images</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/html_images</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/html_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/html_indexes</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/html_indexes</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/directories/theme_files</key>
+	<applyto>/apps/gthumb/ext/webalbums/directories/theme_files</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>theme</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/destination</key>
+	<applyto>/apps/gthumb/ext/webalbums/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/use_subfolders</key>
+	<applyto>/apps/gthumb/ext/webalbums/use_subfolders</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/copy_images</key>
+	<applyto>/apps/gthumb/ext/webalbums/copy_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/resize_images</key>
+	<applyto>/apps/gthumb/ext/webalbums/resize_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/resize_width</key>
+	<applyto>/apps/gthumb/ext/webalbums/resize_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>640</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/resize_height</key>
+	<applyto>/apps/gthumb/ext/webalbums/resize_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>480</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/columns</key>
+	<applyto>/apps/gthumb/ext/webalbums/columns</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/rows</key>
+	<applyto>/apps/gthumb/ext/webalbums/rows</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/ext/webalbums/single_index</key>
+        <applyto>/apps/gthumb/ext/webalbums/single_index</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/sort_type</key>
+	<applyto>/apps/gthumb/ext/webalbums/sort_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>file::mtime</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/sort_inverse</key>
+	<applyto>/apps/gthumb/ext/webalbums/sort_inverse</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/header</key>
+	<applyto>/apps/gthumb/ext/webalbums/header</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/footer</key>
+	<applyto>/apps/gthumb/ext/webalbums/footer</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/theme</key>
+	<applyto>/apps/gthumb/ext/webalbums/theme</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Wiki</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/thumbnail_caption</key>
+	<applyto>/apps/gthumb/ext/webalbums/thumbnail_caption</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/image_caption</key>
+	<applyto>/apps/gthumb/ext/webalbums/image_caption</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>
