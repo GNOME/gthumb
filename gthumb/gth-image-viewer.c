@@ -1638,7 +1638,6 @@ image_loader_ready_cb (GthImageLoader *il,
 
 	if (error != NULL) {
 		g_clear_error (&error);
-
 		gth_image_viewer_set_void (viewer);
 		g_signal_emit (G_OBJECT (viewer),
 			       gth_image_viewer_signals[IMAGE_READY],
