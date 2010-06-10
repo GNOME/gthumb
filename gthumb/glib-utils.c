@@ -534,6 +534,9 @@ _g_time_val_strftime (GTimeVal   *time_,
 	time_t     secs;
 	struct tm *tm;
 
+	if ((format == NULL) || (*format == '\0'))
+		format = "%Y-%m-%d";
+
 	secs = time_->tv_sec;
 	tm = localtime (&secs);
 	return struct_tm_strftime (tm, format);

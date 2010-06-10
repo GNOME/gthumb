@@ -275,9 +275,6 @@ template_eval_cb (const GMatchInfo *info,
 			a = g_regex_split (re, match, 0);
 			if (g_strv_length (a) >= 2)
 				format = g_strstrip (a[1]);
-			if ((format == NULL) || (*format == '\0'))
-				format = "%Y-%m-%d";
-
 			r = _g_time_val_strftime (&timeval, format);
 
 			g_strfreev (a);

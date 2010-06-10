@@ -850,12 +850,59 @@ get_current_language (void)
 
 
 /* FIXME: add support for date formats */
-static char *
-get_header_footer_text (const char *utf8_text)
+
+static gboolean
+header_footer_eval_cb (const GMatchInfo *match_info,
+		       GString          *result,
+		       gpointer          user_data)
 {
-	const char *s;
-	GString    *r;
-	char       *r_str;
+	GthWebExporter *self = user_data;
+	char           *r = NULL;
+	char           *match;
+
+	match = g_match_info_fetch (match_info, 0);
+	if (strcmp (match, "%P") == 0) {
+		r = g_strdup_printf ("%d", self->priv->page + 1);
+	}
+	else if (strcmp (match, "%N") == 0) {
+		r = g_strdup_printf ("%d", self->priv->n_pages);
+	}
+	if (strncmp (match, "%D", 2) == 0) {
+		GTimeVal   timeval;
+		GRegex    *re;
+		char     **a;
+		char      *format = NULL;
+
+		g_get_current_time (&timeval);
+
+		/* Get the date format */
+
+		re = g_regex_new ("%[A-Z]\\{([^}]+)\\}", 0, 0, NULL);
+		a = g_regex_split (re, match, 0);
+		if (g_strv_length (a) >= 2)
+			format = g_strstrip (a[1]);
+		r = _g_time_val_strftime (&timeval, format);
+
+		g_strfreev (a);
+		g_regex_unref (re);
+	}
+
+	if (r != NULL)
+		g_string_append (result, r);
+
+	g_free (r);
+	g_free (match);
+
+	return FALSE;
+}
+
+
+static char *
+get_header_footer_text (GthWebExporter *self,
+			const char     *utf8_text)
+{
+	GRegex *re;
+	char   *new_text;
 
 	if (utf8_text == NULL)
 		return NULL;
@@ -863,41 +910,11 @@ get_header_footer_text (const char *utf8_text)
 	if (g_utf8_strchr (utf8_text,  -1, '%') == NULL)
 		return g_strdup (utf8_text);
 
-	r = g_string_new (NULL);
-	for (s = utf8_text; *s != 0; s = g_utf8_next_char (s)) {
-		gunichar ch = g_utf8_get_char (s);
+	re = g_regex_new ("%[PND](\\{[^}]+\\})?", 0, 0, NULL);
+	new_text = g_regex_replace_eval (re, utf8_text, -1, 0, 0, header_footer_eval_cb, self, NULL);
+	g_regex_unref (re);
 
-		if (ch == '%') {
-			s = g_utf8_next_char (s);
-
-			if (*s == 0) {
-				g_string_append_unichar (r, ch);
-				break;
-			}
-
-			ch = g_utf8_get_char (s);
-			switch (ch) {
-				char *t;
-
-			case '%':
-				g_string_append (r, "%");
-				break;
-
-			case 'd':
-				t = get_current_date ();
-				g_string_append (r, t);
-				g_free (t);
-				break;
-			}
-		}
-		else
-			g_string_append_unichar (r, ch);
-	}
-
-	r_str = r->str;
-	g_string_free (r, FALSE);
-
-	return r_str;
+	return new_text;
 }
 
 
@@ -955,12 +972,12 @@ gth_parsed_doc_print (GList               *document,
 
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
-			line = get_header_footer_text (self->priv->header);
+			line = get_header_footer_text (self, self->priv->header);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_FOOTER:
-			line = get_header_footer_text (self->priv->footer);
+			line = get_header_footer_text (self, self->priv->footer);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
