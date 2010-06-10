@@ -695,18 +695,19 @@ get_html_index_file (GthWebExporter *self,
 		     const int       page,
 		     GFile          *target_dir)
 {
-	GFile *dir, *result;
 	char  *filename;
+	GFile *dir;
+	GFile *result;
 
 	if (page == 0)
 		filename = g_strdup (self->priv->index_file);
 	else
 		filename = g_strdup_printf ("page%03d.htpl", page + 1);
 	dir = get_html_index_dir (self, page, target_dir);
-	result = get_album_file (self, dir, filename, NULL);
+	result = g_file_get_child (dir, filename);
 
-	g_free (filename);
 	g_object_unref (dir);
+	g_free (filename);
 
 	return result;
 }
@@ -1630,7 +1631,10 @@ save_other_files (GthWebExporter *self)
 
 		if ((strcmp (name, "index.gthtml") == 0)
 		    || (strcmp (name, "thumbnail.gthtml") == 0)
-		    || (strcmp (name, "image.gthtml") == 0))
+		    || (strcmp (name, "image.gthtml") == 0)
+		    || (strcmp (name, "Makefile.am") == 0)
+		    || (strcmp (name, "Makefile.in") == 0)
+		    || (strcmp (name, "preview.png") == 0))
 		{
 			g_object_unref (info);
 			continue;
@@ -1645,9 +1649,12 @@ save_other_files (GthWebExporter *self)
 
 	g_object_unref (enumerator);
 
-	if (error == NULL)
+	if (error == NULL) {
+		GFile *theme_dir;
+
+		theme_dir = get_theme_file (self, self->priv->tmp_dir, NULL);
 		_g_copy_files_async (files,
-				     self->priv->tmp_dir,
+				     theme_dir,
 				     FALSE,
 				     G_FILE_COPY_NONE,
 				     G_PRIORITY_DEFAULT,
@@ -1658,6 +1665,9 @@ save_other_files (GthWebExporter *self)
 				     self,
 				     save_other_files_ready_cb,
 				     self);
+
+		g_object_unref (theme_dir);
+	}
 	else
 		cleanup_and_terminate (self, error);
 
@@ -1863,6 +1873,7 @@ static void
 save_html_files (GthWebExporter *self)
 {
 	self->priv->page = 0;
+	self->priv->image = 0;
 	self->priv->saving_timeout = g_idle_add (save_html_index, self);
 }
 
@@ -2515,28 +2526,52 @@ gth_web_exporter_exec (GthTask *task)
 
 	if (self->priv->use_subfolders) {
 		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.previews, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.thumbnails, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 		if (self->priv->copy_images && ! make_album_dir (self->priv->tmp_dir, self->priv->directories.images, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.html_images, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 		if ((self->priv->n_pages > 1) && ! make_album_dir (self->priv->tmp_dir, self->priv->directories.html_indexes, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 		if (! make_album_dir (self->priv->tmp_dir, self->priv->directories.theme_files, &error)) {
-			cleanup_and_terminate (self, error);
-			return;
+			if (! g_error_matches(error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				cleanup_and_terminate (self, error);
+				return;
+			}
+			else
+				g_clear_error (&error);
 		}
 	}
 
