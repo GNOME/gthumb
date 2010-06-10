@@ -328,6 +328,7 @@ dlg_web_exporter (GthBrowser *browser,
 	char       *default_sort_type;
 	GList      *scan;
 	char       *caption;
+	char       *s_value;
 
 	if (gth_browser_get_dialog (browser, "web_exporter") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "web_exporter")));
@@ -408,6 +409,10 @@ dlg_web_exporter (GthBrowser *browser,
 
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
 			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
+
+	s_value = eel_gconf_get_string (PREF_WEBALBUMS_FOOTER, "");
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
+	g_free (s_value);
 
 	caption = eel_gconf_get_string (PREF_WEBALBUMS_THUMBNAIL_CAPTION, "");
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), caption);
