@@ -171,6 +171,32 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/images_per_index</key>
+	<applyto>/apps/gthumb/ext/webalbums/images_per_index</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>16</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/ext/webalbums/single_index</key>
+        <applyto>/apps/gthumb/ext/webalbums/single_index</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/webalbums/columns</key>
 	<applyto>/apps/gthumb/ext/webalbums/columns</applyto>
 	<owner>gthumb</owner>
@@ -184,21 +210,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/webalbums/rows</key>
-	<applyto>/apps/gthumb/ext/webalbums/rows</applyto>
-	<owner>gthumb</owner>
-	<type>int</type>
-	<default>4</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
-        <key>/schemas/apps/gthumb/ext/webalbums/single_index</key>
-        <applyto>/apps/gthumb/ext/webalbums/single_index</applyto>
+        <key>/schemas/apps/gthumb/ext/webalbums/adapt_to_width</key>
+        <applyto>/apps/gthumb/ext/webalbums/adapt_to_width</applyto>
         <owner>gthumb</owner>
         <type>bool</type>
         <default>false</default>

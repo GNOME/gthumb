@@ -155,10 +155,10 @@ void           gth_condition_free          (GthCondition *cond);
 void           gth_condition_add_document  (GthCondition *cond,
 					    GList        *document);
 
-/* GthTag */
+/* GthLoop */
 
 typedef enum {
-	GTH_TAG_HEADER,
+	GTH_TAG_HEADER = 0,
 	GTH_TAG_FOOTER,
 	GTH_TAG_LANGUAGE,
 	GTH_TAG_THEME_LINK,
@@ -167,56 +167,65 @@ typedef enum {
 	GTH_TAG_IMAGE_IDX,
 	GTH_TAG_IMAGE_DIM,
 	GTH_TAG_IMAGES,
-	GTH_TAG_FILENAME,
-	GTH_TAG_FILEPATH,
-	GTH_TAG_FILESIZE,
-	GTH_TAG_COMMENT,
-	GTH_TAG_PLACE,
-	GTH_TAG_DATE_TIME,
+	GTH_TAG_FILE_NAME,
+	GTH_TAG_FILE_PATH,
+	GTH_TAG_FILE_SIZE,
 	GTH_TAG_PAGE_LINK,
 	GTH_TAG_PAGE_IDX,
 	GTH_TAG_PAGE_ROWS,
 	GTH_TAG_PAGE_COLS,
 	GTH_TAG_PAGES,
-	GTH_TAG_TABLE,
-	GTH_TAG_THUMBS,
-	GTH_TAG_DATE,
+	GTH_TAG_THUMBNAILS,
+	GTH_TAG_TIMESTAMP,
 	GTH_TAG_TEXT,
 	GTH_TAG_HTML,
 	GTH_TAG_SET_VAR,
 	GTH_TAG_EVAL,
 	GTH_TAG_IF,
-	GTH_TAG_EXIF_EXPOSURE_TIME,
-	GTH_TAG_EXIF_EXPOSURE_MODE,
-	GTH_TAG_EXIF_FLASH,
-	GTH_TAG_EXIF_SHUTTER_SPEED,
-	GTH_TAG_EXIF_APERTURE_VALUE,
-	GTH_TAG_EXIF_FOCAL_LENGTH,
-	GTH_TAG_EXIF_DATE_TIME,
-	GTH_TAG_EXIF_CAMERA_MODEL
+	GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION,
+	GTH_TAG_ITEM_ATTRIBUTE,
+	GTH_TAG_INVALID
 } GthTagType;
+
+typedef struct {
+	GthTagType  type;
+	GList      *document; /* GthTag list */
+} GthLoop;
+
+GthLoop *   gth_loop_new           (GthTagType  loop_type);
+void        gth_loop_free          (GthLoop    *loop);
+GthTagType  gth_loop_get_type      (GthLoop    *loop);
+void        gth_loop_add_document  (GthLoop    *loop,
+				    GList      *document);
+
+/* GthTag */
 
 typedef struct {
 	GthTagType type;
 	union {
-		GList *arg_list;    /* GthVar list */
-		char  *html;        /* html */
-		GList *cond_list;   /* GthCondition list */
+		GList   *arg_list;    /* GthVar list */
+		char    *html;        /* html */
+		GList   *cond_list;   /* GthCondition list */
+		GthLoop *loop;        /* a loop tag */
 	} value;
 	GList *document; /* GthTag list */
 } GthTag;
 
-GthTag * gth_tag_new                 (GthTagType    type,
-				      GList        *arg_list);
-GthTag * gth_tag_new_html            (const char   *html);
-GthTag * gth_tag_new_condition       (GList        *cond_list);
-void     gth_tag_add_document        (GthTag       *tag,
-				      GList        *document);
-void     gth_tag_free                (GthTag       *tag);
+GthTag *     gth_tag_new                 (GthTagType  type,
+				          GList      *arg_list);
+GthTag *     gth_tag_new_html            (const char *html);
+GthTag *     gth_tag_new_condition       (GList      *cond_list);
+GthTag *     gth_tag_new_loop            (GthLoop    *loop);
+void         gth_tag_add_document        (GthTag     *tag,
+				          GList      *document);
+void         gth_tag_free                (GthTag     *tag);
+GthTagType   gth_tag_get_type_from_name  (const char *tag_name);
+const char * gth_tag_get_name_from_type  (GthTagType  tag_type);
 
 /* Utils */
 
 int      gth_albumtheme_yyparse      (void);
-void     gth_parsed_doc_free         (GList *parsed_doc);
+void     gth_parsed_doc_print_tree   (GList *document);
+void     gth_parsed_doc_free         (GList *document);
 
 #endif /* ALBUMTHEME_PRIVATE_H */

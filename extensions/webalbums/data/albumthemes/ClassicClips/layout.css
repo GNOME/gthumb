@@ -1,4 +1,4 @@
-/* Gthumb "Classic" layout, v. 2005-02-25 */
+/* gthumb "ClassicClips" layout, v. 2010-06-11 */
 
 html, body {
 	height: 100%;
@@ -45,6 +45,7 @@ td.nav_bar {
 
 td.button {
 	width: 60px;
+	min-height: 60px;
 	white-space: nowrap;
 }
 
@@ -56,7 +57,6 @@ td.button a img {
 td.footer {
 	height: 3em;
 }
-
 
 /* image.gthtml */
 
@@ -87,56 +87,79 @@ div.properties table td {
 	padding: 0.2em 1em 0.2em 0em;
 }
 
+/* index */
 
-
-/* index.gthtml */
-
-div.thumbnails table {
-	margin:auto;
+#thumbnail-grid {
+	margin: auto;
 }
 
-td.td_index {
-	width: 215px;
-	padding: 8px 5px 8px 5px;
-	vertical-align: top;
+#thumbnail-grid td.td_index,
+#thumbnail-grid td.td_empty_index {
+	xwidth: 215px;
+	xpadding: 8px 5px 8px 5px;
+	vertical-align: middle;
 }
 
-
-/* thumbnail.gthtml */
-
-table.photo {
-	cursor: pointer;
+#thumbnail-grid td.td_empty_index {
+	height: 150px;
 }
 
-td.photo {
-	background-color: white;
-	width: 162px;
-	height: 122px;
+/* thumbnails */
+
+#thumbnail-list div.thumbnail-caption-container {
+	float: left;
+	margin: 10px;
 }
 
-img.photo_top {
+#thumbnail-list div.thumbnail-container {
+}
+
+#thumbnail-list div.thumbnail-top {
+	background: url(top.png) no-repeat top left;
+	width: 205px;
+	height: 21px;
+}
+
+#thumbnail-list div.thumbnail-bottom {
+	clear: both;
+	background: url(bot.png) no-repeat bottom left;
+	width: 205px;
+	height: 26px;
+}
+
+#thumbnail-list div.thumbnail-center {
+	background: #fff;
+	overflow: hidden;
+	float: left;
+}
+
+#thumbnail-list div.thumbnail-left {
+	background: url(left.png) no-repeat top left;
+	width: 205px;
+	height: 100%;
+}
+
+#thumbnail-list div.thumbnail-right {
+	background: url(right.png) no-repeat top right;
+	width: 205px;
+	height: 100%;
+}
+
+#thumbnail-list div.thumbnail-image-container {
+	width: 205px;
+	height: 100%;
+}
+
+#thumbnail-list a.thumbnail-image img {
+	display: block;
+	margin: 0 auto;
 	border-style: none;
-	vertical-align: bottom;
+	padding: 0;
 }
 
-img.photo_bottom {
-	border-style: none;
-	vertical-align: top;
+#thumbnail-list div.caption-container {
 }
 
-img.photo_left {
-	border-style: none;
-	text-align: right;
-	vertical-align: top;
-}
-
-img.photo_right {
-	border-style: none;
-	text-align: left;
-	vertical-align: top;
-}
-
-img.photo_center {
-	border-style: none;
-	vertical-align: top;
+#thumbnail-list div.property-row {
+	text-align: center;
 }

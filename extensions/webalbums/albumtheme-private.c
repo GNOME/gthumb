@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -586,12 +586,54 @@ gth_condition_free (GthCondition *cond)
 
 
 void
-gth_condition_add_document  (GthCondition *cond,
-			     GList        *document)
+gth_condition_add_document (GthCondition *cond,
+			    GList        *document)
 {
 	if (cond->document != NULL)
 		gth_parsed_doc_free (cond->document);
 	cond->document = document;
+}
+
+
+/* GthLoop */
+
+
+GthLoop *
+gth_loop_new (GthTagType  loop_type)
+{
+	GthLoop *loop;
+
+	loop = g_new0 (GthLoop, 1);
+	loop->type = loop_type;
+
+	return loop;
+}
+
+
+void
+gth_loop_free (GthLoop *loop)
+{
+	if (loop == NULL)
+		return;
+	gth_parsed_doc_free (loop->document);
+	g_free (loop);
+}
+
+
+GthTagType
+gth_loop_get_type (GthLoop *loop)
+{
+	return loop->type;
+}
+
+
+void
+gth_loop_add_document (GthLoop *loop,
+		       GList   *document)
+{
+	if (loop->document != NULL)
+		gth_parsed_doc_free (loop->document);
+	loop->document = document;
 }
 
 
@@ -638,6 +680,19 @@ gth_tag_new_condition (GList *cond_list)
 }
 
 
+GthTag *
+gth_tag_new_loop (GthLoop *loop)
+{
+	GthTag *tag;
+
+	tag = g_new0 (GthTag, 1);
+	tag->type = loop->type;
+	tag->value.loop = loop;
+
+	return tag;
+}
+
+
 void
 gth_tag_add_document (GthTag *tag,
 		      GList  *document)
@@ -651,16 +706,19 @@ gth_tag_add_document (GthTag *tag,
 void
 gth_tag_free (GthTag *tag)
 {
-	if (tag->type == GTH_TAG_HTML)
+	if (tag->type == GTH_TAG_HTML) {
 		g_free (tag->value.html);
-
+	}
 	else if (tag->type == GTH_TAG_IF) {
 		g_list_foreach (tag->value.cond_list,
 				(GFunc) gth_condition_free,
 				NULL);
 		g_list_free (tag->value.cond_list);
-
-	} else {
+	}
+	else if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION) {
+		gth_loop_free (tag->value.loop);
+	}
+	else {
 		g_list_foreach (tag->value.arg_list,
 				(GFunc) gth_var_free,
 				NULL);
@@ -674,11 +732,140 @@ gth_tag_free (GthTag *tag)
 }
 
 
-void
-gth_parsed_doc_free (GList *parsed_doc)
+GthTagType
+gth_tag_get_type_from_name (const char *tag_name)
 {
-	if (parsed_doc != NULL) {
-		g_list_foreach (parsed_doc, (GFunc) gth_tag_free, NULL);
-		g_list_free (parsed_doc);
+	if (tag_name == NULL)
+		return GTH_TAG_INVALID;
+
+	if (g_str_equal (tag_name, "header"))
+		return GTH_TAG_HEADER;
+	else if (g_str_equal (tag_name, "footer"))
+		return GTH_TAG_FOOTER;
+	else if (g_str_equal (tag_name, "language"))
+		return GTH_TAG_LANGUAGE;
+	else if (g_str_equal (tag_name, "theme_link"))
+		return GTH_TAG_THEME_LINK;
+	else if (g_str_equal (tag_name, "image"))
+		return GTH_TAG_IMAGE;
+	else if (g_str_equal (tag_name, "image_link"))
+		return GTH_TAG_IMAGE_LINK;
+	else if (g_str_equal (tag_name, "image_idx"))
+		return GTH_TAG_IMAGE_IDX;
+	else if (g_str_equal (tag_name, "image_dim"))
+		return GTH_TAG_IMAGE_DIM;
+	else if (g_str_equal (tag_name, "images"))
+		return GTH_TAG_IMAGES;
+	else if (g_str_equal (tag_name, "file_name"))
+		return GTH_TAG_FILE_NAME;
+	else if (g_str_equal (tag_name, "file_path"))
+		return GTH_TAG_FILE_PATH;
+	else if (g_str_equal (tag_name, "file_size"))
+		return GTH_TAG_FILE_SIZE;
+	else if (g_str_equal (tag_name, "page_link"))
+		return GTH_TAG_PAGE_LINK;
+	else if (g_str_equal (tag_name, "page_idx"))
+		return GTH_TAG_PAGE_IDX;
+	else if (g_str_equal (tag_name, "page_link"))
+		return GTH_TAG_PAGE_LINK;
+	else if (g_str_equal (tag_name, "page_rows"))
+		return GTH_TAG_PAGE_ROWS;
+	else if (g_str_equal (tag_name, "page_cols"))
+		return GTH_TAG_PAGE_COLS;
+	else if (g_str_equal (tag_name, "pages"))
+		return GTH_TAG_PAGES;
+	else if (g_str_equal (tag_name, "thumbnails"))
+		return GTH_TAG_THUMBNAILS;
+	else if (g_str_equal (tag_name, "timestamp"))
+		return GTH_TAG_TIMESTAMP;
+	else if (g_str_equal (tag_name, "text"))
+		return GTH_TAG_TEXT;
+	else if (g_str_equal (tag_name, "html"))
+		return GTH_TAG_HTML;
+	else if (g_str_equal (tag_name, "set_var"))
+		return GTH_TAG_SET_VAR;
+	else if (g_str_equal (tag_name, "eval"))
+		return GTH_TAG_EVAL;
+	else if (g_str_equal (tag_name, "if"))
+		return GTH_TAG_IF;
+	else if (g_str_equal (tag_name, "for_each_thumbnail_caption"))
+		return GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
+	else if (g_str_equal (tag_name, "item_attribute"))
+		return GTH_TAG_ITEM_ATTRIBUTE;
+
+	return GTH_TAG_INVALID;
+}
+
+
+const char *
+gth_tag_get_name_from_type (GthTagType tag_type)
+{
+	static char *tag_name[] = {
+		"header",
+		"footer",
+		"language",
+		"theme_link",
+		"image",
+		"image_link",
+		"image_idx",
+		"image_dim",
+		"images",
+		"filename",
+		"filepath",
+		"filesize",
+		"page_link",
+		"page_idx",
+		"page_rows",
+		"page_cols",
+		"pages",
+		"thumbnails",
+		"timestamp",
+		"text",
+		"html",
+		"set_var",
+		"eval",
+		"if",
+		"for_each_thumbnail_caption",
+		"item_attribute"
+	};
+
+	return tag_name[tag_type];
+}
+
+
+void
+gth_parsed_doc_print_tree (GList *document)
+{
+	GList *scan;
+
+	for (scan = document; scan; scan = scan->next) {
+		GthTag *tag = scan->data;
+
+		g_print ("<%s>\n", gth_tag_get_name_from_type (tag->type));
+
+		if ((tag->type != GTH_TAG_HTML) && (tag->type != GTH_TAG_IF)) {
+			GList *scan_arg;
+
+			for (scan_arg = tag->value.arg_list; scan_arg; scan_arg = scan_arg->next) {
+				GthVar *var = scan_arg->data;
+
+				g_print ("  %s = ", var->name);
+				if (var->type == GTH_VAR_STRING)
+					g_print ("%s\n", var->value.string);
+				else
+					gth_expr_print (var->value.expr);
+			}
+		}
+	}
+	g_print (".\n\n");
+}
+
+
+void
+gth_parsed_doc_free (GList *document)
+{
+	if (document != NULL) {
+		g_list_foreach (document, (GFunc) gth_tag_free, NULL);
+		g_list_free (document);
 	}
 }

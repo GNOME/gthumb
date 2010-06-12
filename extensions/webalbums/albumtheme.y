@@ -2,7 +2,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,23 +30,25 @@ void  gth_albumtheme_yyerror (char *fmt, ...);
 int   gth_albumtheme_yywrap  (void);
 
 #define YY_NO_UNPUT
+#define YYERROR_VERBOSE 1
 
 %}
 
 %union {
 	char         *text;
 	int           ivalue;
-        GString      *string;
 	GthVar       *var;
 	GthTag       *tag;
 	GthExpr      *expr;
 	GList        *list;
 	GthCondition *cond;
+	GthLoop      *loop;
 }
 
-%nonassoc       IF ELSE ELSE_IF END
-%token          END_TAG
-%token <text>   NAME STRING
+%nonassoc       IF ELSE ELSE_IF END END_TEXT_TAG FOR_EACH_THUMBNAIL_CAPTION SET_VAR 
+%token          BEGIN_TAG END_TAG BEGIN_TEXT_TAG 
+%token <text>   QUOTED_NAME ATTRIBUTE_NAME FUNCTION_NAME
+%token <ivalue> FOR_EACH
 %token <ivalue> NUMBER
 %token <ivalue> HEADER FOOTER
 %token <ivalue> LANGUAGE
@@ -59,26 +61,15 @@ int   gth_albumtheme_yywrap  (void);
 %token <ivalue> FILENAME
 %token <ivalue> FILEPATH
 %token <ivalue> FILESIZE
-%token <ivalue> COMMENT
-%token <ivalue> PLACE
-%token <ivalue> DATE_TIME
 %token <ivalue> PAGE_LINK
 %token <ivalue> PAGE_IDX
 %token <ivalue> PAGE_ROWS
 %token <ivalue> PAGE_COLS
 %token <ivalue> PAGES
-%token <ivalue> TABLE
-%token <ivalue> THUMBS
+%token <ivalue> THUMBNAILS
 %token <ivalue> DATE
 %token <ivalue> TEXT TEXT_END
-%token <ivalue> EXIF_EXPOSURE_TIME
-%token <ivalue> EXIF_EXPOSURE_MODE
-%token <ivalue> EXIF_FLASH
-%token <ivalue> EXIF_SHUTTER_SPEED
-%token <ivalue> EXIF_APERTURE_VALUE
-%token <ivalue> EXIF_FOCAL_LENGTH
-%token <ivalue> EXIF_DATE_TIME
-%token <ivalue> EXIF_CAMERA_MODEL
+%token <text>   ITEM_ATTRIBUTE
 
 %token <ivalue> SET_VAR
 %token <ivalue> EVAL
@@ -88,18 +79,15 @@ int   gth_albumtheme_yywrap  (void);
 %type <list>   document
 %type <tag>    gthumb_tag
 %type <tag>    gthumb_text_tag
+%type <loop>   gthumb_loop
 %type <cond>   gthumb_if
 %type <cond>   gthumb_else_if
 %type <cond>   opt_else
 %type <list>   opt_if_list
-%type <ivalue> tag_name
-%type <list>   arg_list
-%type <var>    arg
+%type <ivalue> tag_type
+%type <list>   attribute_list
+%type <var>    attribute
 %type <expr>   expr
-%type <expr>   quoted_expr
-%type <string> constant_list
-%type <string> constant
-%type <string> constant1
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
@@ -110,7 +98,6 @@ int   gth_albumtheme_yywrap  (void);
 
 all		: document {
 			yy_parsed_doc = $1;
-
 			if (yy_parsed_doc == NULL)
 				YYABORT;
 			else
@@ -127,6 +114,14 @@ document	: HTML document {
 			$$ = g_list_prepend ($2, $1);
 		}
 
+		| gthumb_loop document gthumb_end document {
+			GthTag *tag;
+			
+			gth_loop_add_document ($1, $2);
+			tag = gth_tag_new_loop ($1);
+			$$ = g_list_prepend ($4, $1);
+		}
+
 		| gthumb_if document opt_if_list opt_else gthumb_end document {
 			GList  *cond_list;
 			GthTag *tag;
@@ -140,11 +135,15 @@ document	: HTML document {
 			$$ = g_list_prepend ($6, tag);
 		}
 
-		| gthumb_text_tag HTML TEXT_END document {
-			GthTag *tag = gth_tag_new_html ($2);
-			GList *child_doc = g_list_append (NULL, tag);
+		| gthumb_text_tag HTML END_TEXT_TAG document {
+			GthTag *tag;
+			GList  *child_doc;
+			
+			tag = gth_tag_new_html ($2);
+			child_doc = g_list_append (NULL, tag);
 			gth_tag_add_document ($1, child_doc);
 			$$ = g_list_prepend ($4, $1);
+			
 			g_free ($2);
 		}
 
@@ -159,10 +158,14 @@ document	: HTML document {
 		}
 		;
 
+gthumb_loop     : FOR_EACH END_TAG {
+			$$ = gth_loop_new ($1);
+		};
+
 gthumb_if	: IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
-		| IF '"' quoted_expr '"' END_TAG {
+		| IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
 		;
@@ -180,7 +183,7 @@ opt_if_list     : gthumb_else_if document opt_if_list {
 gthumb_else_if  : ELSE_IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
-		| ELSE_IF '"' quoted_expr '"' END_TAG {
+		| ELSE_IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
 		;
@@ -304,7 +307,7 @@ expr		: '(' expr ')' {
 			$$ = $2;
 		}
 
-		| NAME {
+		| QUOTED_NAME {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			g_free ($1);
@@ -317,105 +320,31 @@ expr		: '(' expr ')' {
 			$$ = e;
 		}
 		;
-quoted_expr     : expr {
-			$$ = $1;
+
+gthumb_text_tag	: BEGIN_TEXT_TAG attribute_list END_TAG {
+			$$ = gth_tag_new (GTH_TAG_TEXT, $2);
 		}
-		| STRING {
-			GthExpr *e = gth_expr_new ();
-			gth_expr_push_var(e, $1);
-			g_free($1);
-			$$ = e;
+		;
+
+gthumb_tag 	: BEGIN_TAG tag_type attribute_list END_TAG {
+			$$ = gth_tag_new ($2, $3);
 		}
-		| constant1 constant constant_list {
-			GthExpr *e = gth_expr_new ();
-			g_string_append($1, $2->str);
-			g_string_free($2, TRUE);
-			if ($3 != NULL)
-			{
-				g_string_append($1, $3->str);
-				g_string_free($3, TRUE);
+		
+		| SET_VAR attribute_list END_TAG {
+			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
+		}
+		;
+
+tag_type	: FUNCTION_NAME {
+			$$ = gth_tag_get_type_from_name ($1);
+			if ($$ == GTH_TAG_INVALID) {
+				yyerror ("Unrecognized function: %s", $1);
+				YYERROR;
 			}
-			gth_expr_push_var(e, $1->str);
-			g_string_free($1, TRUE);
-			$$ = e;
-		}
-		;
-constant1       : NAME {
-			GString* s = g_string_new($1);
-			g_free($1);
-			$$ = s;
-		}
-		;
-constant        : NAME {
-			GString* s = g_string_new($1);
-			g_string_prepend_c(s, ' ');
-			g_free($1);
-			$$ = s;
-		}
-		| NUMBER {
-			GString* s = g_string_new("");
-			g_string_sprintf(s, " %i", $1);
-			$$ = s;
-		}
-		;
-constant_list   : constant constant_list {
-			if ($2 != NULL)
-			{
-				g_string_append($1, $2->str);
-				g_string_free($2, TRUE);
-			}
-			$$ = $1;
-		}
-		| /* empty */ {
-			$$ = NULL;
-		}
-		;
-gthumb_text_tag	: TEXT arg_list END_TAG {
-			$$ = gth_tag_new ($1, $2);
 		}
 		;
 
-gthumb_tag 	: tag_name arg_list END_TAG {
-			$$ = gth_tag_new ($1, $2);
-		}
-		;
-
-tag_name	: HEADER              { $$ = $1; }
-		| FOOTER              { $$ = $1; }
-		| LANGUAGE            { $$ = $1; }
-		| THEME_LINK          { $$ = $1; }
-		| IMAGE               { $$ = $1; }
-		| IMAGE_LINK          { $$ = $1; }
-		| IMAGE_IDX           { $$ = $1; }
-		| IMAGE_DIM           { $$ = $1; }
-		| IMAGES              { $$ = $1; }
-		| FILENAME            { $$ = $1; }
-		| FILEPATH            { $$ = $1; }
-		| FILESIZE            { $$ = $1; }
-		| COMMENT             { $$ = $1; }
-		| PLACE               { $$ = $1; }
-		| DATE_TIME           { $$ = $1; }
-		| PAGE_LINK           { $$ = $1; }
-		| PAGE_IDX            { $$ = $1; }
-		| PAGE_ROWS           { $$ = $1; }
-		| PAGE_COLS           { $$ = $1; }
-		| PAGES               { $$ = $1; }
-		| TABLE               { $$ = $1; }
-		| THUMBS              { $$ = $1; }
-		| DATE                { $$ = $1; }
-		| EXIF_EXPOSURE_TIME  { $$ = $1; }
-		| EXIF_EXPOSURE_MODE  { $$ = $1; }
-		| EXIF_FLASH          { $$ = $1; }
-		| EXIF_SHUTTER_SPEED  { $$ = $1; }
-		| EXIF_APERTURE_VALUE { $$ = $1; }
-		| EXIF_FOCAL_LENGTH   { $$ = $1; }
-		| EXIF_DATE_TIME      { $$ = $1; }
-		| EXIF_CAMERA_MODEL   { $$ = $1; }
-		| SET_VAR             { $$ = $1; }
-		| EVAL                { $$ = $1; }
-		;
-
-arg_list	: arg arg_list {
+attribute_list	: attribute attribute_list {
 			$$ = g_list_prepend ($2, $1);
 		}
 
@@ -424,22 +353,12 @@ arg_list	: arg arg_list {
 		}
 		;
 
-arg		: NAME '=' expr {
-			$$ = gth_var_new_expression ($1, $3);
+attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
+			$$ = gth_var_new_expression ($1, $4);
 			g_free ($1);
 		}
 
-		| NAME '=' '\'' quoted_expr '\'' {
-			$$ = gth_var_new_expression ($1, $4);
-			g_free($1);
-		}
-
-		| NAME '=' '"' quoted_expr '"' {
-			$$ = gth_var_new_expression ($1, $4);
-			g_free($1);
-		}
-
-		| NAME {
+		| ATTRIBUTE_NAME {
 		  	GthExpr *e = gth_expr_new ();
 			gth_expr_push_constant (e, 1);
 			$$ = gth_var_new_expression ($1, e);
@@ -448,8 +367,8 @@ arg		: NAME '=' expr {
 		;
 
 
-
 %%
+
 
 int
 gth_albumtheme_yywrap (void)

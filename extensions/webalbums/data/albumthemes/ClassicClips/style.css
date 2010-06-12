@@ -1,4 +1,4 @@
-/* Gthumb "Classic" style, v. 2005-02-25 */
+/* gthumb "ClassicClips" style, v. 2010-06-11 */
 
 /* Common */
 
@@ -25,9 +25,7 @@ span.copyright {
 	font-size: small;
 }
 
-
 /* image.gthtml */
-
 
 img.preview {
 	border: solid 2px white;
@@ -70,7 +68,6 @@ td.td_index span.image_dim {
 	font-weight: bold;
 }
 
-
 /* links */
 
 a:link { 
@@ -91,3 +88,7 @@ a:hover {
 	color: #FFD700;
 }
 
+.property-name {
+	font-weight: bold;
+	cursor: default;
+}

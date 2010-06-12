@@ -54,7 +54,9 @@ GthTask *  gth_web_exporter_new                   (GthBrowser       *browser,
 						   GList            *file_list); /* GFile list */
 void       gth_web_exporter_set_header            (GthWebExporter   *self,
 						   const char       *header);
-void       gth_web_exporter_set_footer            (GthWebExporter   *self,
+void       gth_web_exporter_set_index_page_footer (GthWebExporter   *self,
+						   const char       *footer);
+void       gth_web_exporter_set_image_page_footer (GthWebExporter   *self,
 						   const char       *footer);
 void       gth_web_exporter_set_style             (GthWebExporter   *self,
 						   const char       *style_name);
@@ -71,11 +73,14 @@ void       gth_web_exporter_set_resize_images     (GthWebExporter   *self,
 void       gth_web_exporter_set_sort_order        (GthWebExporter   *self,
 						   GthFileDataSort  *sort_type,
 						   gboolean          sort_inverse);
-void       gth_web_exporter_set_row_col           (GthWebExporter   *self,
-						   int               rows,
-						   int               cols);
+void       gth_web_exporter_set_images_per_index  (GthWebExporter   *self,
+						   int               value);
 void       gth_web_exporter_set_single_index      (GthWebExporter   *self,
-						   gboolean          copy);
+						   gboolean          single);
+void       gth_web_exporter_set_columns           (GthWebExporter   *self,
+						   int               cols);
+void       gth_web_exporter_set_adapt_to_width    (GthWebExporter   *self,
+						   gboolean          value);
 void       gth_web_exporter_set_thumb_size        (GthWebExporter   *self,
 						   int               width,
 						   int               height);

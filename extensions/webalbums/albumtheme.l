@@ -2,7 +2,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -36,300 +36,141 @@ GFileInputStream *yy_istream;
 %option noinput nounput
 
 number           [0-9]+
-name             [a-zA-Z_][0-9a-zA-Z_:@]*
-string           ([^'\n]|\\')*
+attribute_name   [a-zA-Z_][a-zA-Z_0-9:\.-]*
+name             [a-zA-Z_][^'" \t\n]*
+quote_sign       ['"]
 
-%x TAG STAG STR SSTR
+%x FUNCTION ATTRIBUTES CONDITION QUOTE
 
 %%
 
-"<gthumb:header"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_HEADER;
-					return HEADER;
-				}
-"<gthumb:footer"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_FOOTER;
-					return FOOTER;
-				}
-"<gthumb:language"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_LANGUAGE;
-					return LANGUAGE;
-				}
-"<gthumb:theme_link"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_THEME_LINK;
-					return THEME_LINK;
-				}
-"<gthumb:image"			{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_IMAGE;
-					return IMAGE;
-				}
-"<gthumb:image_link"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_IMAGE_LINK;
-					return IMAGE_LINK;
-				}
-"<gthumb:image_idx"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_IMAGE_IDX;
-					return IMAGE_IDX;
-				}
-"<gthumb:image_dim"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_IMAGE_DIM;
-					return IMAGE_DIM;
-				}
-"<gthumb:images"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_IMAGES;
-					return IMAGES;
-				}
-"<gthumb:file_name"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_FILENAME;
-					return FILENAME;
-				}
-"<gthumb:file_path"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_FILEPATH;
-					return FILEPATH;
-				}
-"<gthumb:file_size"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_FILESIZE;
-					return FILESIZE;
-				}
-"<gthumb:comment"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_COMMENT;
-					return COMMENT;
-				}
-"<gthumb:place"			{
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PLACE;
-					return PLACE;
-				}
-"<gthumb:date_time"			{
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_DATE_TIME;
-					return DATE_TIME;
-				}
-"<gthumb:page_link"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PAGE_LINK;
-					return PAGE_LINK;
-				}
-"<gthumb:page_idx"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PAGE_IDX;
-					return PAGE_IDX;
-				}
-"<gthumb:page_rows"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PAGE_ROWS;
-					return PAGE_ROWS;
-				}
-"<gthumb:page_cols"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PAGE_COLS;
-					return PAGE_COLS;
-				}
-"<gthumb:pages"			{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_PAGES;
-					return PAGES;
-				}
-"<gthumb:table"			{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_TABLE;
-					return TABLE;
-				}
-"<gthumb:thumbs"			{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_THUMBS;
-					return THUMBS;
-				}
-"<gthumb:date"			{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_DATE;
-					return DATE;
-				}
-"<gthumb:text"			{ 
-					BEGIN (STAG);
-					yylval.ivalue = GTH_TAG_TEXT;
-					return TEXT;
-				}
-"</gthumb:text>"		{
-					BEGIN (INITIAL);
-					return TEXT_END;
-				}
-"<gthumb:exif:exposure_time"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_TIME;
-					return EXIF_EXPOSURE_TIME;
-				}
-"<gthumb:exif:exposure_mode"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_MODE;
-					return EXIF_EXPOSURE_MODE;
-				}
-"<gthumb:exif:flash"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_FLASH;
-					return EXIF_FLASH;
-				}
-"<gthumb:exif:shutter_speed"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_SHUTTER_SPEED;
-					return EXIF_SHUTTER_SPEED;
-				}
-"<gthumb:exif:aperture_value"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_APERTURE_VALUE;
-					return EXIF_APERTURE_VALUE;
-				}
-"<gthumb:exif:focal_length"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_FOCAL_LENGTH;
-					return EXIF_FOCAL_LENGTH;
-				}
-"<gthumb:exif:date_time"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_DATE_TIME;
-					return EXIF_DATE_TIME;
-				}
-"<gthumb:exif:camera_model"	{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EXIF_CAMERA_MODEL;
-					return EXIF_CAMERA_MODEL;
-				}
-"<gthumb:set_var"		{ 
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_SET_VAR;
-					return SET_VAR;
-				}
-"<gthumb:eval"			{
-					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_EVAL;
-					return EVAL;
-				}
-"<gthumb:if"			{ 
-					BEGIN (TAG);
+"<% if"                         {
+					BEGIN (CONDITION);
 					return IF;
 				}
-"<gthumb:else"			{ 
-					BEGIN (TAG);
-					return ELSE;
-				}
-"<gthumb:else_if"		{ 
-					BEGIN (TAG);
+"<% elsif"                      {
+					BEGIN (CONDITION);
 					return ELSE_IF;
 				}
-"<gthumb:end"			{ 
-					BEGIN (TAG);
+"<% else"                       {
+					BEGIN (ATTRIBUTES);
+					return ELSE;
+				}
+"<% end"                        {
+					BEGIN (ATTRIBUTES);
 					return END;
 				}
-<TAG>"'"			{
-					BEGIN (STR);
-					return '\'';
+"<% set_var"		 	{
+					BEGIN (ATTRIBUTES);
+					return SET_VAR;
+				}	
+"<% for_each_thumbnail_caption"	{
+					BEGIN (ATTRIBUTES);
+					yylval.ivalue = GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
+					return FOR_EACH;
 				}
-<STAG>"'"			{
-					BEGIN (SSTR);
-					return '\'';
+"<%="                           {
+					BEGIN (FUNCTION);
+					return BEGIN_TAG;
 				}
-<STR,SSTR>{string}		{
+<FUNCTION>{attribute_name}	{
+					BEGIN (ATTRIBUTES);
 					yylval.text = g_strdup (yytext);
-					return STRING;
+					return FUNCTION_NAME;
 				}
-<STR>"'"			{
-					BEGIN (TAG);
-					return '\'';
+"<%text"                        {
+					BEGIN (ATTRIBUTES);
+					return BEGIN_TEXT_TAG;
 				}
-<SSTR>"'"			{
-					BEGIN (STAG);
-					return '\'';
+"<%/text>"		        {
+					BEGIN (INITIAL);
+					return END_TEXT_TAG;
 				}
-<TAG,STAG>{number}		{
+<ATTRIBUTES>{quote_sign} 	{
+					BEGIN (QUOTE);
+					return '"';
+				}
+<QUOTE>{quote_sign}		{
+					BEGIN (ATTRIBUTES);
+					return '"';
+				}
+<ATTRIBUTES,QUOTE,CONDITION>"%>"	{
+					BEGIN (INITIAL);
+					return END_TAG;
+				}
+<ATTRIBUTES>{attribute_name}	{
+					yylval.text = g_strdup (yytext);
+					return ATTRIBUTE_NAME;
+				}
+<ATTRIBUTES>"="			{
+					return '=';
+				}
+<QUOTE,CONDITION>{number}	{
 					yylval.ivalue = atoi (yytext);
 					return NUMBER;
 				}
-<TAG,STAG>{name}		{
+<QUOTE,CONDITION>{name}		{
 					yylval.text = g_strdup (yytext);
-					return NAME;
+					return QUOTED_NAME;
 				}
-<TAG,STAG>"="			{
+<QUOTE,CONDITION>"="		{
 					return '=';
 				}
-<TAG,STAG>"<"			{
+<QUOTE,CONDITION>"<"		{
 					yylval.ivalue = GTH_OP_CMP_LT;
 					return COMPARE;
 				}
-<TAG>">"			{
+<QUOTE,CONDITION>">"		{
 					yylval.ivalue = GTH_OP_CMP_GT;
 					return COMPARE;
 				}
-<STAG>">"		        {
-					BEGIN (INITIAL);
-					return END_TAG;
-				}
-<TAG,STAG>"+"			{
+<QUOTE,CONDITION>"+"		{
 					return '+';
 				}
-<TAG,STAG>"-"			{
+<QUOTE,CONDITION>"-"		{
 					return '-';
 				}
-<TAG,STAG>"*"			{
+<QUOTE,CONDITION>"*"		{
 					return '*';
 				}
-<TAG,STAG>"/"			{
+<QUOTE,CONDITION>"/"		{
 					return '/';
 				}
-<TAG,STAG>"!"			{
+<QUOTE,CONDITION>"!"		{
 					return '!';
 				}
-<TAG,STAG>"("			{
+<QUOTE,CONDITION>"("		{
 					return '(';
 				}
-<TAG,STAG>")"			{
+<QUOTE,CONDITION>")"		{
 					return ')';
 				}
-<TAG,STAG>\"			{
-					return '"';
-				}
-<TAG,STAG>"&&"			{
+<QUOTE,CONDITION>"&&"		{
 					yylval.ivalue = GTH_OP_AND;
 					return BOOL_OP;
 				}
-<TAG,STAG>"||"			{
+<QUOTE,CONDITION>"||"		{
 					yylval.ivalue = GTH_OP_OR;
 					return BOOL_OP;
 				}
-<TAG,STAG>"=="			{
+<QUOTE,CONDITION>"=="		{
 					yylval.ivalue = GTH_OP_CMP_EQ;
 					return COMPARE;
 				}
-<TAG,STAG>"!="			{
+<QUOTE,CONDITION>"!="		{
 					yylval.ivalue = GTH_OP_CMP_NE;
 					return COMPARE;
 				}
-<TAG,STAG>"<="			{
+<QUOTE,CONDITION>"<="		{
 					yylval.ivalue = GTH_OP_CMP_LE;
 					return COMPARE;
 				}
-<TAG,STAG>">="			{
+<QUOTE,CONDITION>">="		{
 					yylval.ivalue = GTH_OP_CMP_GE;
 					return COMPARE;
 				}
-<TAG,STAG>[ \t\n]		{
+<ATTRIBUTES,QUOTE,CONDITION>[ \t\n]	{
 					/* Eat spaces inside tag. */
-				}
-<TAG>"/>"		        {
-					BEGIN (INITIAL);
-					return END_TAG;
 				}
 "<"				{
 					yylval.text = g_strdup (yytext);
@@ -340,7 +181,9 @@ string           ([^'\n]|\\')*
 					return HTML;
 				}
 <<EOF>>				{
-					return 0;
+					YY_FLUSH_BUFFER;
+					BEGIN(INITIAL);
+					yyterminate ();
 				}
 
 %%

@@ -92,8 +92,9 @@ ok_clicked_cb (GtkWidget  *widget,
 	char            *s_value;
 	GFile           *destination;
 	int              i_value;
-	const char      *header;
-	const char      *footer;
+	const char      *index_page_header;
+	const char      *index_page_footer;
+	const char      *image_page_footer;
 	char            *thumbnail_caption;
 	char            *image_caption;
 	GtkTreeIter      iter;
@@ -116,9 +117,10 @@ ok_clicked_cb (GtkWidget  *widget,
 	eel_gconf_set_integer (PREF_WEBALBUMS_RESIZE_WIDTH, resize_size[i_value].width);
 	eel_gconf_set_integer (PREF_WEBALBUMS_RESIZE_HEIGHT, resize_size[i_value].height);
 
-	eel_gconf_set_integer (PREF_WEBALBUMS_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton"))));
-	eel_gconf_set_integer (PREF_WEBALBUMS_ROWS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton"))));
+	eel_gconf_set_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton"))));
 	eel_gconf_set_boolean (PREF_WEBALBUMS_SINGLE_INDEX, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton"))));
+	eel_gconf_set_integer (PREF_WEBALBUMS_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton"))));
+	eel_gconf_set_boolean (PREF_WEBALBUMS_ADAPT_TO_WIDTH, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton"))));
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), &iter)) {
 		GthFileDataSort *sort_type;
@@ -132,11 +134,14 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	eel_gconf_set_boolean (PREF_WEBALBUMS_SORT_INVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton"))));
 
-	header = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry")));
-	eel_gconf_set_string (PREF_WEBALBUMS_HEADER, header);
+	index_page_header = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("index_page_header_entry")));
+	eel_gconf_set_string (PREF_WEBALBUMS_INDEX_PAGE_HEADER, index_page_header);
 
-	footer = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry")));
-	eel_gconf_set_string (PREF_WEBALBUMS_FOOTER, footer);
+	index_page_footer = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("index_page_footer_entry")));
+	eel_gconf_set_string (PREF_WEBALBUMS_INDEX_PAGE_FOOTER, index_page_footer);
+
+	image_page_footer = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("image_page_footer_entry")));
+	eel_gconf_set_string (PREF_WEBALBUMS_IMAGE_PAGE_FOOTER, image_page_footer);
 
 	theme_name = NULL;
 	{
@@ -170,8 +175,9 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	task = gth_web_exporter_new (data->browser, data->file_list);
 
-	gth_web_exporter_set_header (GTH_WEB_EXPORTER (task), header);
-	gth_web_exporter_set_footer (GTH_WEB_EXPORTER (task), footer);
+	gth_web_exporter_set_header (GTH_WEB_EXPORTER (task), index_page_header);
+	gth_web_exporter_set_index_page_footer (GTH_WEB_EXPORTER (task), index_page_footer);
+	gth_web_exporter_set_image_page_footer (GTH_WEB_EXPORTER (task), image_page_footer);
 	gth_web_exporter_set_style (GTH_WEB_EXPORTER (task), theme_name);
 	gth_web_exporter_set_destination (GTH_WEB_EXPORTER (task), destination);
 	gth_web_exporter_set_use_subfolders (GTH_WEB_EXPORTER (task), eel_gconf_get_boolean (PREF_WEBALBUMS_USE_SUBFOLDERS, TRUE));
@@ -188,10 +194,10 @@ ok_clicked_cb (GtkWidget  *widget,
 					 eel_gconf_get_boolean (PREF_WEBALBUMS_SORT_INVERSE, FALSE));
 	g_free (s_value);
 
-	gth_web_exporter_set_row_col (GTH_WEB_EXPORTER (task),
-				      eel_gconf_get_integer (PREF_WEBALBUMS_ROWS, 4),
-				      eel_gconf_get_integer (PREF_WEBALBUMS_COLUMNS, 4));
+	gth_web_exporter_set_images_per_index (GTH_WEB_EXPORTER (task), eel_gconf_get_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, 16));
 	gth_web_exporter_set_single_index (GTH_WEB_EXPORTER (task), eel_gconf_get_boolean (PREF_WEBALBUMS_SINGLE_INDEX, FALSE));
+	gth_web_exporter_set_columns (GTH_WEB_EXPORTER (task), eel_gconf_get_integer (PREF_WEBALBUMS_COLUMNS, 4));
+	gth_web_exporter_set_adapt_to_width (GTH_WEB_EXPORTER (task), eel_gconf_get_boolean (PREF_WEBALBUMS_ADAPT_TO_WIDTH, FALSE));
 	gth_web_exporter_set_thumbnail_caption (GTH_WEB_EXPORTER (task), thumbnail_caption);
 	gth_web_exporter_set_image_caption (GTH_WEB_EXPORTER (task), image_caption);
 
@@ -210,6 +216,8 @@ update_sensitivity (DialogData *data)
 {
 	gtk_widget_set_sensitive (GET_WIDGET ("resize_images_combobox"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton"))));
 	gtk_widget_set_sensitive (GET_WIDGET ("resize_images_hbox"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("copy_images_checkbutton"))));
+	gtk_widget_set_sensitive (GET_WIDGET ("images_per_index_spinbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton"))));
+	gtk_widget_set_sensitive (GET_WIDGET ("cols_spinbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton"))));
 }
 
 
@@ -222,7 +230,11 @@ footer_entry_icon_press_cb (GtkEntry             *entry,
 	DialogData *data = user_data;
 	GtkWidget  *help_box;
 
-	help_box = GET_WIDGET ("template_help_table");
+	if (GTK_WIDGET (entry) == GET_WIDGET ("index_page_footer_entry"))
+		help_box = GET_WIDGET ("page_footer_help_table");
+	else
+		help_box = GET_WIDGET ("image_footer_help_table");
+
 	if (GTK_WIDGET_VISIBLE (help_box))
 		gtk_widget_hide (help_box);
 	else
@@ -359,10 +371,10 @@ dlg_web_exporter (GthBrowser *browser,
 	gtk_widget_set_sensitive (GET_WIDGET ("resize_images_checkbutton"), eel_gconf_get_boolean (PREF_WEBALBUMS_COPY_IMAGES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, FALSE));
 	gtk_widget_set_sensitive (GET_WIDGET ("resize_images_options_hbox"), eel_gconf_get_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, FALSE));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_COLUMNS, 4));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_ROWS, 4));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, 16));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_SINGLE_INDEX, FALSE));
-	gtk_widget_set_sensitive (GET_WIDGET ("columns_rows_table"), ! eel_gconf_get_boolean (PREF_WEBALBUMS_SINGLE_INDEX, FALSE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_COLUMNS, 4));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_ADAPT_TO_WIDTH, FALSE));
 
 	active_index = 0;
 	for (i = 0; i < G_N_ELEMENTS (resize_size); i++) {
@@ -407,11 +419,15 @@ dlg_web_exporter (GthBrowser *browser,
 
 	g_free (default_sort_type);
 
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("index_page_header_entry")),
 			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
 
-	s_value = eel_gconf_get_string (PREF_WEBALBUMS_FOOTER, "");
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
+	s_value = eel_gconf_get_string (PREF_WEBALBUMS_INDEX_PAGE_FOOTER, "");
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("index_page_footer_entry")), s_value);
+	g_free (s_value);
+
+	s_value = eel_gconf_get_string (PREF_WEBALBUMS_IMAGE_PAGE_FOOTER, "");
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("image_page_footer_entry")), s_value);
 	g_free (s_value);
 
 	caption = eel_gconf_get_string (PREF_WEBALBUMS_THUMBNAIL_CAPTION, "");
@@ -462,10 +478,22 @@ dlg_web_exporter (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (update_sensitivity),
 				  data);
-	g_signal_connect (GET_WIDGET ("footer_entry"),
+	g_signal_connect (GET_WIDGET ("index_page_footer_entry"),
 			  "icon-press",
 			  G_CALLBACK (footer_entry_icon_press_cb),
 			  data);
+	g_signal_connect (GET_WIDGET ("image_page_footer_entry"),
+			  "icon-press",
+			  G_CALLBACK (footer_entry_icon_press_cb),
+			  data);
+	g_signal_connect_swapped (GET_WIDGET ("single_index_checkbutton"),
+				  "toggled",
+				  G_CALLBACK (update_sensitivity),
+				  data);
+	g_signal_connect_swapped (GET_WIDGET ("adapt_column_checkbutton"),
+				  "toggled",
+				  G_CALLBACK (update_sensitivity),
+				  data);
 
 	/* Run dialog. */
 
