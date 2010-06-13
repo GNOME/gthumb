@@ -45,9 +45,9 @@ int   gth_albumtheme_yywrap  (void);
 	GthLoop      *loop;
 }
 
-%nonassoc       IF ELSE ELSE_IF END END_TEXT_TAG FOR_EACH_THUMBNAIL_CAPTION SET_VAR 
-%token          BEGIN_TAG END_TAG BEGIN_TEXT_TAG 
-%token <text>   QUOTED_NAME ATTRIBUTE_NAME FUNCTION_NAME
+%nonassoc       IF ELSE ELSE_IF END END_TEXT_TAG FOR_EACH_THUMBNAIL_CAPTION SET_VAR
+%token          BEGIN_TAG END_TAG BEGIN_TEXT_TAG
+%token <text>   QUOTED_NAME ATTRIBUTE_NAME FUNCTION_NAME QUOTED_STRING
 %token <ivalue> FOR_EACH
 %token <ivalue> NUMBER
 %token <ivalue> HEADER FOOTER
@@ -78,7 +78,6 @@ int   gth_albumtheme_yywrap  (void);
 
 %type <list>   document
 %type <tag>    gthumb_tag
-%type <tag>    gthumb_text_tag
 %type <loop>   gthumb_loop
 %type <cond>   gthumb_if
 %type <cond>   gthumb_else_if
@@ -133,18 +132,6 @@ document	: HTML document {
 
 			tag = gth_tag_new_condition (cond_list);
 			$$ = g_list_prepend ($6, tag);
-		}
-
-		| gthumb_text_tag HTML END_TEXT_TAG document {
-			GthTag *tag;
-			GList  *child_doc;
-			
-			tag = gth_tag_new_html ($2);
-			child_doc = g_list_append (NULL, tag);
-			gth_tag_add_document ($1, child_doc);
-			$$ = g_list_prepend ($4, $1);
-			
-			g_free ($2);
 		}
 
 		| /* empty */ {
@@ -321,17 +308,25 @@ expr		: '(' expr ')' {
 		}
 		;
 
-gthumb_text_tag	: BEGIN_TEXT_TAG attribute_list END_TAG {
-			$$ = gth_tag_new (GTH_TAG_TEXT, $2);
-		}
-		;
-
-gthumb_tag 	: BEGIN_TAG tag_type attribute_list END_TAG {
-			$$ = gth_tag_new ($2, $3);
+gthumb_tag 	: SET_VAR attribute_list END_TAG {
+			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
 		}
 		
-		| SET_VAR attribute_list END_TAG {
-			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
+		| BEGIN_TAG FUNCTION_NAME '\'' QUOTED_STRING '\'' END_TAG {
+			if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
+				GList *arg_list;
+				
+				arg_list = g_list_append (NULL, gth_var_new_string ("text", $4));
+				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
+			}
+			else {
+				yyerror ("Wrong function: %s", $2);
+				YYERROR;
+			}
+		}
+		
+		| BEGIN_TAG tag_type attribute_list END_TAG {
+			$$ = gth_tag_new ($2, $3);
 		}
 		;
 

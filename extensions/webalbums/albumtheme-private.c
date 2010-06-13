@@ -283,7 +283,7 @@ gth_expr_pop (GthExpr *e)
 }
 
 
-GthCell*
+GthCell *
 gth_expr_get_pos (GthExpr *e, int pos)
 {
 	if ((pos <= 0) || (pos > e->top))
@@ -292,7 +292,7 @@ gth_expr_get_pos (GthExpr *e, int pos)
 }
 
 
-GthCell*
+GthCell *
 gth_expr_get (GthExpr *e)
 {
 	return gth_expr_get_pos (e, e->top);
@@ -531,7 +531,7 @@ gth_var_new_expression (const char *name,
 
 GthVar*
 gth_var_new_string (const char *name,
-                   const char *string)
+                    const char *string)
 {
 	GthVar *var;
 
@@ -778,8 +778,8 @@ gth_tag_get_type_from_name (const char *tag_name)
 		return GTH_TAG_THUMBNAILS;
 	else if (g_str_equal (tag_name, "timestamp"))
 		return GTH_TAG_TIMESTAMP;
-	else if (g_str_equal (tag_name, "text"))
-		return GTH_TAG_TEXT;
+	else if (g_str_equal (tag_name, "translate"))
+		return GTH_TAG_TRANSLATE;
 	else if (g_str_equal (tag_name, "html"))
 		return GTH_TAG_HTML;
 	else if (g_str_equal (tag_name, "set_var"))

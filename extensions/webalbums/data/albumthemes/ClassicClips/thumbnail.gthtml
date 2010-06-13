@@ -7,7 +7,7 @@
           <div class="thumbnail-left">
             <div class="thumbnail-right">
               <div class="thumbnail-image-container">
-                <a class="thumbnail-image" href="<%= image_link %>" title="Click to view the image"><%= image thumbnail %></a>
+                <a class="thumbnail-image" href="<%= image_link %>" title="<%= translate 'Click to view the image' %>"><%= image thumbnail %></a>
               </div>
             </div>
           </div>

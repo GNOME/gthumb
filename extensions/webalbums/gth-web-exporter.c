@@ -514,10 +514,19 @@ gth_tag_get_str (GthWebExporter *self,
 
 	for (scan = tag->value.arg_list; scan; scan = scan->next) {
 		GthVar *var = scan->data;
+
 		if (strcmp (var->name, var_name) == 0) {
-			GthCell *cell = gth_expr_get(var->value.expr);
-			if (cell->type == GTH_CELL_TYPE_VAR)
-				return cell->value.var;
+			if (var->type == GTH_VAR_EXPR) {
+				GthCell *cell;
+
+				cell = gth_expr_get (var->value.expr);
+				if (cell->type == GTH_CELL_TYPE_VAR)
+					return cell->value.var;
+			}
+			else if (var->type == GTH_VAR_STRING)
+				return var->value.string;
+			else
+				return NULL;
 		}
 	}
 
@@ -1579,15 +1588,9 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			}
 			break;
 
-		case GTH_TAG_TEXT:
-			if ((tag->value.arg_list == NULL) && (tag->document != NULL)) {
-				GthTag *child = tag->document->data;
-
-				if (child->type != GTH_TAG_HTML)
-					break;
-				line = g_strdup (_(child->value.html));
-				write_markup_escape_line (ostream, line, error);
-			}
+		case GTH_TAG_TRANSLATE:
+			line = g_strdup (_(gth_tag_get_str (self, tag, "text")));
+			write_markup_escape_line (ostream, line, error);
 			break;
 
 		default:

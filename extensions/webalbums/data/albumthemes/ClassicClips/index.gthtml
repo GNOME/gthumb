@@ -26,8 +26,8 @@
       <ul class="navigation-bar">
         <% if page_idx < pages %>
         <li class="next-page">
-          <a href="<%= page_link idx_relative="+1" %>" title="View the next page">
-            <span>View the next page</span>
+          <a href="<%= page_link idx_relative="+1" %>" title="<%= translate 'View the next page' %>">
+            <span><%= translate 'View the next page' %></span>
           </a>   
         </li> 
         <% else %>
@@ -39,8 +39,8 @@
         </li>
         <% if page_idx > 1  %>
         <li class="previous-page">          
-          <a href="<%= page_link idx_relative="-1" %>" title="View the previous page">
-            <span>View the previous page</span>
+          <a href="<%= page_link idx_relative="-1" %>" title="<%= translate 'View the previous page' %>">
+            <span><%= translate 'View the previous page' %></span>
           </a>       
         </li>
         <% else %>

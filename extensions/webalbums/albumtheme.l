@@ -38,9 +38,9 @@ GFileInputStream *yy_istream;
 number           [0-9]+
 attribute_name   [a-zA-Z_][a-zA-Z_0-9:\.-]*
 name             [a-zA-Z_][^'" \t\n]*
-quote_sign       ['"]
+string           [^']*
 
-%x FUNCTION ATTRIBUTES CONDITION QUOTE
+%x FUNCTION ATTRIBUTES CONDITION QUOTE STRING
 
 %%
 
@@ -63,7 +63,7 @@ quote_sign       ['"]
 "<% set_var"		 	{
 					BEGIN (ATTRIBUTES);
 					return SET_VAR;
-				}	
+				}
 "<% for_each_thumbnail_caption"	{
 					BEGIN (ATTRIBUTES);
 					yylval.ivalue = GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
@@ -78,19 +78,23 @@ quote_sign       ['"]
 					yylval.text = g_strdup (yytext);
 					return FUNCTION_NAME;
 				}
-"<%text"                        {
+<ATTRIBUTES>"'"			{
+					BEGIN (STRING);
+					return '\'';
+				}
+<STRING>"'"			{
 					BEGIN (ATTRIBUTES);
-					return BEGIN_TEXT_TAG;
+					return '\'';
 				}
-"<%/text>"		        {
-					BEGIN (INITIAL);
-					return END_TEXT_TAG;
+<STRING>{string}		{
+					yylval.text = g_strdup (yytext);
+					return QUOTED_STRING;
 				}
-<ATTRIBUTES>{quote_sign} 	{
+<ATTRIBUTES>"\""		{
 					BEGIN (QUOTE);
 					return '"';
 				}
-<QUOTE>{quote_sign}		{
+<QUOTE>"\""			{
 					BEGIN (ATTRIBUTES);
 					return '"';
 				}

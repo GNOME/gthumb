@@ -24,19 +24,9 @@
 #include <glib/gi18n.h>
 
 static char *text[] = {
-	N_("Previous"),
-	N_("Next"),
-	N_("Index"),
-	N_("Image"),
-	N_("Dimensions"),
-	N_("Bytes"),
-	N_("Date"),
-	N_("Exposure time"),
-	N_("Exposure mode"),
-	N_("Flash"),
-	N_("Shutter speed"),
-	N_("Aperture value"),
-	N_("Focal length"),
-	N_("Camera model")
-	N_("pixels")
+	N_("Go back to the index"),
+	N_("View the next image"),
+	N_("View the previous image"),
+	N_("View the next page"),
+	N_("View the previous page")
 }

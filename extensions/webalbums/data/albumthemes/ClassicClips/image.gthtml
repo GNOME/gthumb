@@ -23,14 +23,14 @@
       
       <ul class="navigation-bar">
         <li class="index">
-          <a href="<%= page_link idx_relative="0" image_idx %>" title="Go back to the index">
-            <span>Go back to the index</span>
+          <a href="<%= page_link idx_relative="0" image_idx %>" title="<%= translate 'Go back to the index' %>"">
+            <span><%= translate 'Go back to the index' %></span>
           </a>
         </li>
         <% if image_idx < images  %>
         <li class="next-image">          
-          <a href="<%= image_link idx_relative="+1" %>" title="View the next image">
-            <span>View the next image</span>
+          <a href="<%= image_link idx_relative="+1" %>" title="<%= translate 'View the next image' %>">
+            <span><%= translate 'View the next image' %></span>
           </a>
         </li>
         <% else %>
@@ -42,8 +42,8 @@
         </li>
         <% if image_idx > 1  %>
         <li class="previous-image">          
-          <a href="<%= image_link idx_relative="-1" %>" title="View the previous image">
-            <span>View the previous image</span>
+          <a href="<%= image_link idx_relative="-1" %>" title="<%= translate 'View the previous image' %>">
+            <span><%= translate 'View the previous image' %></span>
           </a>     
         </li>
         <% else %>
