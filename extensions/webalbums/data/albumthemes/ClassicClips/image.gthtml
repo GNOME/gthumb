@@ -14,99 +14,75 @@
   <link href="<%= theme_link src="style.css" %>" rel="stylesheet" type="text/css" />
 </head>
 <body>
+  <div id="wrapper">
+    <div id="main">
 
-<table class="full_size" summary="page body">
-<tr>
-<td class="title">
+      <h1 class="image-title">
+        <%= header %>
+      </h1>
+      
+      <ul class="navigation-bar">
+        <li class="index">
+          <a href="<%= page_link idx_relative="0" image_idx %>" title="Go back to the index">
+            <span>Go back to the index</span>
+          </a>
+        </li>
+        <% if image_idx < images  %>
+        <li class="next-image">          
+          <a href="<%= image_link idx_relative="+1" %>" title="View the next image">
+            <span>View the next image</span>
+          </a>
+        </li>
+        <% else %>
+        <li class="void">
+        </li>
+        <% end %>
+        <li class="current-image">
+          <span><%= image_idx %> / <%= images %></span>
+        </li>
+        <% if image_idx > 1  %>
+        <li class="previous-image">          
+          <a href="<%= image_link idx_relative="-1" %>" title="View the previous image">
+            <span>View the previous image</span>
+          </a>     
+        </li>
+        <% else %>
+        <li class="void">
+        </li>
+        <% end %>
+        <li class="last">
+        </li>
+      </ul>  
+      
+      <div class="image-preview">
+        <% if copy_originals %>    
+        <a href="<%= file_name with_relative_path %>"><%= image preview class="preview" %></a>
+        <% else %>
+        <%= image preview class="preview" %>
+        <% end %>
+      </div>
+    
+      <% for_each_thumbnail_caption %>
+        <% if first_item %>
+          <dl class="caption-container">
+        <% end %>
+    
+            <dt class="property" title="<%= item_attribute id %>"> <%= item_attribute display_name %> </dt>
+            <dd class="property-value"> <%= item_attribute value %> </dd>
+    
+        <% if last_item %>
+            <dt class="last property"></dt>
+            <dd class="last property-value"></dd>
+          </dl>
+        <% end %>
+      <% end %>
 
-<!-- Title -->
-<table class="title" summary="title bar">
-<tr>
-  <td>
-  <span class="title"><%= header %></span>
-  </td>
-</tr>
-</table>
-
-</td>
-</tr>
-<tr>
-<td class="nav_bar">
-
-<!-- Navigation Bar -->
-<table class="full_size" summary="navigation bar">
-<tr>
-  <td class="button">
-    <a href="<%= page_link idx_relative="0" image_idx %>">
-        <img src="<%= theme_link src="back.png" %>" alt="Back" />
-    </a>
-  </td>
-  <td>
-    &nbsp;
-  </td>
-  <td class="button">
-<% if image_idx == 1  %>
-    <img src="<%= theme_link src="background.gif' %>" alt="void" />
-<% else %>
-    <a href="<%= image_link idx_relative="-1" %>">
-        <img src="<%= theme_link src="prev.png" %>" alt="Previous" />
-    </a>
-<% end %>
-  </td>
-  <td class="button">
-<% if images == 1 %>
-    <img src="<%= theme_link src="background.gif" %>" alt="void" />
-<% else %>
-    <span class="page_index"><%= image_idx %> / <%= images %></span>
-<% end %>
-  </td>
-  <td class="button">
-<% if image_idx == images  %>
-    <img src="<%= theme_link src="background.gif" %>" alt="void" />
-<% else %>
-    <a href="<%= image_link idx_relative="+1" %>">
-        <img src="<%= theme_link src="next.png" %>" alt="Next" />
-    </a>
-<% end %>
-  </td>
-</tr>
-</table>
-
-</td>
-</tr>
-<tr>
-<td>
-
-<!-- Preview -->
-<table class="row" summary="preview">
-<tr>
-  <td>
-    <% if copy_originals %>    
-    <a href="<%= file_name with_relative_path %>"><%= image preview class="preview" %></a>
-    <% else %>
-    <%= image preview class="preview" %>
-    <% end %>
-  </td>
-</tr>
-</table>
-
-</td>
-</tr>
-<tr>
-<td class="footer">
-
-<!-- Footer -->
-<table class="full_size" summary="copyright">
-<tr>
-  <td>
-  <span class="copyright"><%= footer %></span>
-  </td>
-</tr>
-</table>
-
-</td>
-</tr>
-</table>
-
+    </div>    
+  </div>
+  <div id="footer">
+    <div id="footer-2">
+      <%= footer %>
+    </div>
+  </div>
 </body>
 </html>
