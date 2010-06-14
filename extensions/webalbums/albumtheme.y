@@ -25,7 +25,7 @@
 #include <gio/gio.h>
 #include "albumtheme-private.h"
 
-int   gth_albumtheme_yylex ();
+int   gth_albumtheme_yylex   ();
 void  gth_albumtheme_yyerror (char *fmt, ...);
 int   gth_albumtheme_yywrap  (void);
 
@@ -47,7 +47,7 @@ int   gth_albumtheme_yywrap  (void);
 
 %nonassoc       IF ELSE ELSE_IF END END_TEXT_TAG FOR_EACH_THUMBNAIL_CAPTION SET_VAR
 %token          BEGIN_TAG END_TAG BEGIN_TEXT_TAG
-%token <text>   QUOTED_NAME ATTRIBUTE_NAME FUNCTION_NAME QUOTED_STRING
+%token <text>   VARIABLE ATTRIBUTE_NAME FUNCTION_NAME QUOTED_STRING
 %token <ivalue> FOR_EACH
 %token <ivalue> NUMBER
 %token <ivalue> HEADER FOOTER
@@ -74,7 +74,7 @@ int   gth_albumtheme_yywrap  (void);
 %token <ivalue> SET_VAR
 %token <ivalue> EVAL
 
-%token <text> HTML
+%token <text>   HTML
 
 %type <list>   document
 %type <tag>    gthumb_tag
@@ -139,8 +139,8 @@ document	: HTML document {
 		}
 
 		| error document {
-			if ($2 != NULL)
-				gth_parsed_doc_free ($2);
+			/*if ($2 != NULL)
+				gth_parsed_doc_free ($2);*/
 			$$ = NULL;
 		}
 		;
@@ -180,7 +180,7 @@ opt_else        : gthumb_else document {
 			GthCondition *cond;
 
 			else_expr = gth_expr_new ();
-			gth_expr_push_constant (else_expr, 1);
+			gth_expr_push_integer (else_expr, 1);
 			cond = gth_condition_new (else_expr);
 			gth_condition_add_document (cond, $2);
 
@@ -294,7 +294,7 @@ expr		: '(' expr ')' {
 			$$ = $2;
 		}
 
-		| QUOTED_NAME {
+		| VARIABLE {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			g_free ($1);
@@ -303,7 +303,7 @@ expr		: '(' expr ')' {
 
 		| NUMBER {
 			GthExpr *e = gth_expr_new ();
-			gth_expr_push_constant (e, $1);
+			gth_expr_push_integer (e, $1);
 			$$ = e;
 		}
 		;
@@ -320,7 +320,7 @@ gthumb_tag 	: SET_VAR attribute_list END_TAG {
 				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
 			}
 			else {
-				yyerror ("Wrong function: %s", $2);
+				yyerror ("Wrong function: '%s', expected 'translate'", $2);
 				YYERROR;
 			}
 		}
@@ -355,7 +355,7 @@ attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
 
 		| ATTRIBUTE_NAME {
 		  	GthExpr *e = gth_expr_new ();
-			gth_expr_push_constant (e, 1);
+			gth_expr_push_integer (e, 1);
 			$$ = gth_var_new_expression ($1, e);
 			g_free ($1);
 		}

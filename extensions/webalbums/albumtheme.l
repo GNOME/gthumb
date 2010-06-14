@@ -31,6 +31,8 @@ GFileInputStream *yy_istream;
 	result = (n <= 0 ? YY_NULL : n);								\
 }
 
+static int before_string = 0; /* the start condition before entering in STRING */
+
 %}
 
 %option noinput nounput
@@ -69,6 +71,11 @@ string           [^']*
 					yylval.ivalue = GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
 					return FOR_EACH;
 				}
+"<% for_each_image_caption"	{
+					BEGIN (ATTRIBUTES);
+					yylval.ivalue = GTH_TAG_FOR_EACH_IMAGE_CAPTION;
+					return FOR_EACH;
+				}			
 "<%="                           {
 					BEGIN (FUNCTION);
 					return BEGIN_TAG;
@@ -79,11 +86,12 @@ string           [^']*
 					return FUNCTION_NAME;
 				}
 <ATTRIBUTES>"'"			{
+					before_string = YY_START;
 					BEGIN (STRING);
 					return '\'';
 				}
 <STRING>"'"			{
-					BEGIN (ATTRIBUTES);
+					BEGIN (before_string);
 					return '\'';
 				}
 <STRING>{string}		{
@@ -115,7 +123,7 @@ string           [^']*
 				}
 <QUOTE,CONDITION>{name}		{
 					yylval.text = g_strdup (yytext);
-					return QUOTED_NAME;
+					return VARIABLE;
 				}
 <QUOTE,CONDITION>"="		{
 					return '=';

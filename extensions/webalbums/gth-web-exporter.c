@@ -314,7 +314,9 @@ get_style_dir (GthWebExporter *self,
 
 
 static int
-get_var_value (const char *var_name,
+get_var_value (GthExpr    *expr,
+	       int        *index,
+	       const char *var_name,
 	       gpointer    data)
 {
 	GthWebExporter *self = data;
@@ -359,6 +361,19 @@ get_var_value (const char *var_name,
 		return (self->priv->loop_info != NULL) ? self->priv->loop_info->first_item : FALSE;
 	else if (g_str_equal (var_name, "last_item"))
 		return (self->priv->loop_info != NULL) ? self->priv->loop_info->last_item : FALSE;
+
+	else if (g_str_equal (var_name, "image_attribute_available")) {
+		GthCell *cell;
+
+		*index += 1;
+		cell = gth_expr_get_pos (expr, *index);
+		if (cell->type == GTH_CELL_TYPE_STRING) {
+			const char *attribute_id;
+
+			attribute_id = cell->value.string->str;
+			/* TODO */
+		}
+	}
 
 	/* FIXME: use a generic function to get an attribute visibility */
 /*
@@ -637,8 +652,6 @@ write_markup_escape_locale_line (GFileOutputStream  *ostream,
 }
 
 
-/* FIXME */
-G_GNUC_UNUSED
 static char *
 get_image_attribute (GthWebExporter    *self,
 		     GthTag            *tag,
@@ -1177,6 +1190,16 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			write_line (ostream, line, error);
 			break;
 
+		case GTH_TAG_IMAGE_ATTRIBUTE:
+			idx = get_image_idx (tag, self);
+			idata = g_list_nth (self->priv->file_list, idx)->data;
+			id = gth_tag_get_str (self, tag, "id");
+			if (id != NULL) {
+				line = get_image_attribute (self, tag, id);
+				write_line (ostream, line, error);
+			}
+			break;
+
 		case GTH_TAG_IMAGES:
 			line = g_strdup_printf ("%d", self->priv->n_images);
 			write_line (ostream, line, error);
@@ -1530,32 +1553,61 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION:
+		case GTH_TAG_FOR_EACH_IMAGE_CAPTION:
 			/* FIXME */
 			{
 				LoopInfo  *inner_loop_info;
 				char     **attributes;
 				int        i;
+				int        first_non_empty;
+				int        last_non_empty;
 
 				idx = MIN (self->priv->image, self->priv->n_images - 1);
 				idata = g_list_nth (self->priv->file_list, idx)->data;
 				self->priv->eval_image = idata;
 
 				inner_loop_info = loop_info_new ();
-				attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
-				for (i = 0; attributes[i] != NULL; i++) {
-					inner_loop_info->first_item = (i == 0);
-					inner_loop_info->last_item = (attributes[i + 1] == NULL);
-					inner_loop_info->item_index = i;
-					inner_loop_info->item = g_object_ref (idata->file_data);
-					inner_loop_info->attribute = g_strdup (attributes[i]);
+				if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
+					attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
+				else
+					attributes = g_strsplit (self->priv->image_caption, ",", -1);
 
-					gth_parsed_doc_print (self,
-							      tag->value.loop->document,
-							      GTH_TEMPLATE_TYPE_FRAGMENT,
-							      inner_loop_info,
-							      relative_to,
-							      ostream,
-							      error);
+				first_non_empty = -1;
+				last_non_empty = -1;
+				for (i = 0; attributes[i] != NULL; i++) {
+					char *value;
+
+					value = gth_file_data_get_attribute_as_string (idata->file_data, attributes[i]);
+					if ((value != NULL) && ! g_str_equal (value, "")) {
+						if (first_non_empty == -1)
+							first_non_empty = i;
+						last_non_empty = i;
+					}
+
+					g_free (value);
+				}
+
+				for (i = 0; attributes[i] != NULL; i++) {
+					char *value;
+
+					value = gth_file_data_get_attribute_as_string (idata->file_data, attributes[i]);
+					if ((value != NULL) && ! g_str_equal (value, "")) {
+						inner_loop_info->first_item = (i == first_non_empty);
+						inner_loop_info->last_item = (i == last_non_empty);
+						inner_loop_info->item_index = i;
+						inner_loop_info->item = g_object_ref (idata->file_data);
+						inner_loop_info->attribute = g_strdup (attributes[i]);
+
+						gth_parsed_doc_print (self,
+								      tag->value.loop->document,
+								      GTH_TEMPLATE_TYPE_FRAGMENT,
+								      inner_loop_info,
+								      relative_to,
+								      ostream,
+								      error);
+					}
+
+					g_free (value);
 				}
 
 				g_strfreev (attributes);
@@ -2528,12 +2580,12 @@ parse_theme_files (GthWebExporter *self)
 		GthTag  *tag;
 
 		expr = gth_expr_new ();
-		gth_expr_push_constant (expr, 0);
+		gth_expr_push_integer (expr, 0);
 		var = gth_var_new_expression ("idx_relative", expr);
 		vars = g_list_prepend (vars, var);
 
 		expr = gth_expr_new ();
-		gth_expr_push_constant (expr, 1);
+		gth_expr_push_integer (expr, 1);
 		var = gth_var_new_expression ("thumbnail", expr);
 		vars = g_list_prepend (vars, var);
 
@@ -2558,12 +2610,12 @@ parse_theme_files (GthWebExporter *self)
 		GthTag  *tag;
 
 		expr = gth_expr_new ();
-		gth_expr_push_constant (expr, 0);
+		gth_expr_push_integer (expr, 0);
 		var = gth_var_new_expression ("idx_relative", expr);
 		vars = g_list_prepend (vars, var);
 
 		expr = gth_expr_new ();
-		gth_expr_push_constant (expr, 0);
+		gth_expr_push_integer (expr, 0);
 		var = gth_var_new_expression ("thumbnail", expr);
 		vars = g_list_prepend (vars, var);
 

@@ -68,16 +68,18 @@ typedef enum {
 typedef enum {
 	GTH_CELL_TYPE_OP,
 	GTH_CELL_TYPE_VAR,
-	GTH_CELL_TYPE_CONSTANT
+	GTH_CELL_TYPE_STRING,
+	GTH_CELL_TYPE_INTEGER
 } GthCellType;
 
 typedef struct {
 	int         ref;
 	GthCellType type;
 	union {
-		GthOp  op;
-		char  *var;
-		int    constant;
+		GthOp    op;
+		char    *var;
+		GString *string;
+		int      integer;
 	} value;
 } GthCell;
 
@@ -87,15 +89,20 @@ void       gth_cell_unref (GthCell *cell);
 
 /* GthExpr */
 
-typedef int (*GthGetVarValueFunc) (const char *var_name, gpointer data);
+typedef struct _GthExpr GthExpr;
 
-typedef struct {
+typedef int (*GthGetVarValueFunc) (GthExpr    *expr,
+				   int        *index,
+				   const char *var_name,
+				   gpointer    data);
+
+struct _GthExpr {
 	int                  ref;
 	GthCell            **data;
 	int                  top;
 	GthGetVarValueFunc   get_var_value_func;
 	gpointer             get_var_value_data;
-} GthExpr;
+};
 
 GthExpr*  gth_expr_new                    (void);
 GthExpr*  gth_expr_ref                    (GthExpr            *e);
@@ -108,7 +115,9 @@ void      gth_expr_push_op                (GthExpr            *e,
 					   GthOp               op);
 void      gth_expr_push_var               (GthExpr            *e,
 					   const char         *name);
-void      gth_expr_push_constant          (GthExpr            *e,
+void      gth_expr_push_string            (GthExpr            *e,
+					   const char         *value);
+void      gth_expr_push_integer           (GthExpr            *e,
 					   int                 value);
 void      gth_expr_pop                    (GthExpr            *e);
 GthCell*  gth_expr_get_pos                (GthExpr            *e,
@@ -136,7 +145,7 @@ typedef struct {
 	} value;
 } GthVar;
 
-GthVar*  gth_var_new_constant   (int value);
+GthVar*  gth_var_new_integer    (int value);
 GthVar*  gth_var_new_expression (const char *name,
 				 GthExpr    *e);
 GthVar*  gth_var_new_string     (const char *name,
@@ -166,6 +175,7 @@ typedef enum {
 	GTH_TAG_IMAGE_LINK,
 	GTH_TAG_IMAGE_IDX,
 	GTH_TAG_IMAGE_DIM,
+	GTH_TAG_IMAGE_ATTRIBUTE,
 	GTH_TAG_IMAGES,
 	GTH_TAG_FILE_NAME,
 	GTH_TAG_FILE_PATH,
@@ -183,6 +193,7 @@ typedef enum {
 	GTH_TAG_EVAL,
 	GTH_TAG_IF,
 	GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION,
+	GTH_TAG_FOR_EACH_IMAGE_CAPTION,
 	GTH_TAG_ITEM_ATTRIBUTE,
 	GTH_TAG_INVALID
 } GthTagType;

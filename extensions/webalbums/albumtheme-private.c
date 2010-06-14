@@ -140,11 +140,14 @@ gth_cell_unref (GthCell *cell)
 		return;
 
 	cell->ref--;
-	if (cell->ref == 0) {
-		if (cell->type == GTH_CELL_TYPE_VAR)
-			g_free (cell->value.var);
-		g_free (cell);
-	}
+	if (cell->ref > 0)
+		return;
+
+	if (cell->type == GTH_CELL_TYPE_VAR)
+		g_free (cell->value.var);
+	else if (cell->type == GTH_CELL_TYPE_STRING)
+		g_string_free (cell->value.string, TRUE);
+	g_free (cell);
 }
 
 
@@ -152,7 +155,9 @@ gth_cell_unref (GthCell *cell)
 
 
 static int
-default_get_var_value_func (const char *var_name,
+default_get_var_value_func (GthExpr    *expr,
+		   	    int        *index,
+		   	    const char *var_name,
 			    gpointer    data)
 {
 	return 0;
@@ -215,7 +220,8 @@ gth_expr_is_empty (GthExpr *e)
 
 
 void
-gth_expr_push_expr (GthExpr *e, GthExpr *e2)
+gth_expr_push_expr (GthExpr *e,
+		    GthExpr *e2)
 {
 	int i;
 
@@ -228,7 +234,8 @@ gth_expr_push_expr (GthExpr *e, GthExpr *e2)
 
 
 void
-gth_expr_push_op (GthExpr *e, GthOp op)
+gth_expr_push_op (GthExpr *e,
+		  GthOp    op)
 {
 	GthCell *cell;
 
@@ -244,7 +251,8 @@ gth_expr_push_op (GthExpr *e, GthOp op)
 
 
 void
-gth_expr_push_var (GthExpr *e, const char *name)
+gth_expr_push_var (GthExpr    *e,
+		   const char *name)
 {
 	GthCell *cell;
 
@@ -260,15 +268,33 @@ gth_expr_push_var (GthExpr *e, const char *name)
 
 
 void
-gth_expr_push_constant (GthExpr *e, int value)
+gth_expr_push_string (GthExpr    *e,
+		      const char *value)
 {
 	GthCell *cell;
 
 	gth_cell_unref (e->data[e->top]);
 
 	cell = gth_cell_new ();
-	cell->type = GTH_CELL_TYPE_CONSTANT;
-	cell->value.constant = value;
+	cell->type = GTH_CELL_TYPE_STRING;
+	cell->value.string = g_string_new (value);
+	e->data[e->top] = cell;
+
+	e->top++;
+}
+
+
+void
+gth_expr_push_integer (GthExpr *e,
+		       int      value)
+{
+	GthCell *cell;
+
+	gth_cell_unref (e->data[e->top]);
+
+	cell = gth_cell_new ();
+	cell->type = GTH_CELL_TYPE_INTEGER;
+	cell->value.integer = value;
 	e->data[e->top] = cell;
 
 	e->top++;
@@ -346,12 +372,18 @@ gth_expr_print (GthExpr *e)
 		case GTH_CELL_TYPE_VAR:
 			printf ("VAR: %s (%d)\n",
 				cell->value.var,
-				e->get_var_value_func (cell->value.var,
+				e->get_var_value_func (e,
+						       &i,
+						       cell->value.var,
 						       e->get_var_value_data));
 			break;
 
-		case GTH_CELL_TYPE_CONSTANT:
-			printf ("NUM: %d\n", cell->value.constant);
+		case GTH_CELL_TYPE_STRING:
+			g_print ("STRING: %s\n", cell->value.string->str);
+			break;
+
+		case GTH_CELL_TYPE_INTEGER:
+			printf ("NUM: %d\n", cell->value.integer);
 			break;
 
 		case GTH_CELL_TYPE_OP:
@@ -378,12 +410,18 @@ gth_expr_eval (GthExpr *e)
 		switch (cell->type) {
 		case GTH_CELL_TYPE_VAR:
 			gth_mem_push (mem,
-				      e->get_var_value_func (cell->value.var,
+				      e->get_var_value_func (e,
+						      	     &i,
+						      	     cell->value.var,
 							     e->get_var_value_data));
 			break;
 
-		case GTH_CELL_TYPE_CONSTANT:
-			gth_mem_push (mem, cell->value.constant);
+		case GTH_CELL_TYPE_STRING:
+			/* only used as argument for a function */
+			break;
+
+		case GTH_CELL_TYPE_INTEGER:
+			gth_mem_push (mem, cell->value.integer);
 			break;
 
 		case GTH_CELL_TYPE_OP:
@@ -498,7 +536,7 @@ gth_expr_eval (GthExpr *e)
 
 
 GthVar *
-gth_var_new_constant (int value)
+gth_var_new_integer (int value)
 {
 	GthVar *var;
 
@@ -506,7 +544,7 @@ gth_var_new_constant (int value)
 	var->name = NULL;
 	var->type = GTH_VAR_EXPR;
 	var->value.expr = gth_expr_new ();
-	gth_expr_push_constant (var->value.expr, value);
+	gth_expr_push_integer (var->value.expr, value);
 
 	return var;
 }
@@ -715,7 +753,9 @@ gth_tag_free (GthTag *tag)
 				NULL);
 		g_list_free (tag->value.cond_list);
 	}
-	else if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION) {
+	else if ((tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
+		 || (tag->type == GTH_TAG_FOR_EACH_IMAGE_CAPTION))
+	{
 		gth_loop_free (tag->value.loop);
 	}
 	else {
@@ -754,6 +794,8 @@ gth_tag_get_type_from_name (const char *tag_name)
 		return GTH_TAG_IMAGE_IDX;
 	else if (g_str_equal (tag_name, "image_dim"))
 		return GTH_TAG_IMAGE_DIM;
+	else if (g_str_equal (tag_name, "image_attribute"))
+		return GTH_TAG_IMAGE_ATTRIBUTE;
 	else if (g_str_equal (tag_name, "images"))
 		return GTH_TAG_IMAGES;
 	else if (g_str_equal (tag_name, "file_name"))
@@ -790,6 +832,8 @@ gth_tag_get_type_from_name (const char *tag_name)
 		return GTH_TAG_IF;
 	else if (g_str_equal (tag_name, "for_each_thumbnail_caption"))
 		return GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
+	else if (g_str_equal (tag_name, "for_each_image_caption"))
+		return GTH_TAG_FOR_EACH_IMAGE_CAPTION;
 	else if (g_str_equal (tag_name, "item_attribute"))
 		return GTH_TAG_ITEM_ATTRIBUTE;
 

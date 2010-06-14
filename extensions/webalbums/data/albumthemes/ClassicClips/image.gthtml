@@ -62,7 +62,7 @@
         <% end %>
       </div>
     
-      <% for_each_thumbnail_caption %>
+      <% for_each_image_caption %>
         <% if first_item %>
           <dl class="caption-container">
         <% end %>
