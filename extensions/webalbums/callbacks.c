@@ -33,6 +33,7 @@
 
 static const char *ui_info =
 "<ui>"
+/* FIXME
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
 "      <placeholder name='Misc_Actions'>"
@@ -40,6 +41,7 @@ static const char *ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
+*/
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'>"
 "      <menuitem name='CreateWebAlbum' action='Tool_CreateWebAlbum'/>"
