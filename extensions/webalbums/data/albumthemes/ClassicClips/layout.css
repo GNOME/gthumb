@@ -114,17 +114,35 @@ ul.navigation-bar li.last {
 }
 
 div.image-preview {
-	clear: both;
-	margin: 50px auto 0 auto;
+	width: 660px;
+	float: left;
+	margin: 15px 0 0 15px;
 	text-align: center;
 }
 
-dl.caption-container {
+div.image-comment {
+	float: right;
 	display: block;
-	margin: 5px auto 0 auto;
-	text-align: center;
-	width: 500px;
-	font-size: 12px;
+	margin: 15px 15px 0 0;
+	padding: 3px;
+	text-align: center;	
+	font-size: 10px;
+	font-family: sans;
+	overflow: auto;
+	width: 300px;
+	border: 1px solid #aaa;
+}
+
+dl.caption-container {
+	float: right;
+	display: block;
+	margin: 15px 15px 0 0;
+	padding: 3px;
+	text-align: center;	
+	font-size: 10px;
+	font-family: sans;
+	width: 300px;
+	border: 1px solid #aaa;
 }
 
 dl.caption-container dt {
@@ -135,7 +153,7 @@ dl.caption-container dt {
 	margin: 0 5px 0 0;
 	padding: 0;
 	color: #aaa;
-	width: 100px;
+	width: 120px;
 	text-align: right;
 }
 
