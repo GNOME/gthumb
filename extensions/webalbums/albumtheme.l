@@ -78,7 +78,7 @@ string           [^']*
 				}			
 "<%="                           {
 					BEGIN (FUNCTION);
-					return BEGIN_TAG;
+					return PRINT;
 				}
 <FUNCTION>{attribute_name}	{
 					BEGIN (ATTRIBUTES);

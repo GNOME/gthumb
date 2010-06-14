@@ -45,52 +45,29 @@ int   gth_albumtheme_yywrap  (void);
 	GthLoop      *loop;
 }
 
-%nonassoc       IF ELSE ELSE_IF END END_TEXT_TAG FOR_EACH_THUMBNAIL_CAPTION SET_VAR
-%token          BEGIN_TAG END_TAG BEGIN_TEXT_TAG
+%nonassoc       IF ELSE ELSE_IF END SET_VAR PRINT
+%token          END_TAG
 %token <text>   VARIABLE ATTRIBUTE_NAME FUNCTION_NAME QUOTED_STRING
 %token <ivalue> FOR_EACH
 %token <ivalue> NUMBER
-%token <ivalue> HEADER FOOTER
-%token <ivalue> LANGUAGE
-%token <ivalue> THEME_LINK
-%token <ivalue> IMAGE
-%token <ivalue> IMAGE_LINK
-%token <ivalue> IMAGE_IDX
-%token <ivalue> IMAGE_DIM
-%token <ivalue> IMAGES
-%token <ivalue> FILENAME
-%token <ivalue> FILEPATH
-%token <ivalue> FILESIZE
-%token <ivalue> PAGE_LINK
-%token <ivalue> PAGE_IDX
-%token <ivalue> PAGE_ROWS
-%token <ivalue> PAGE_COLS
-%token <ivalue> PAGES
-%token <ivalue> THUMBNAILS
-%token <ivalue> DATE
-%token <ivalue> TEXT TEXT_END
-%token <text>   ITEM_ATTRIBUTE
-
 %token <ivalue> SET_VAR
-%token <ivalue> EVAL
-
 %token <text>   HTML
 
 %type <list>   document
-%type <tag>    gthumb_tag
-%type <loop>   gthumb_loop
-%type <cond>   gthumb_if
-%type <cond>   gthumb_else_if
-%type <cond>   opt_else
-%type <list>   opt_if_list
-%type <ivalue> tag_type
+%type <tag>    tag_command
+%type <tag>    tag_print
+%type <loop>   tag_loop
+%type <cond>   tag_if
+%type <cond>   tag_else_if
+%type <cond>   opt_tag_else
+%type <list>   opt_tag_else_if
 %type <list>   attribute_list
 %type <var>    attribute
 %type <expr>   expr
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
-%left  '+' '-' '*' '/' '!'
+%left  '+' '-' '*' '/' '!' ','
 %right UNARY_OP
 
 %%
@@ -109,19 +86,23 @@ document	: HTML document {
 			g_free ($1);
 		}
 
-		| gthumb_tag document {
+		| tag_command document {
 			$$ = g_list_prepend ($2, $1);
 		}
 
-		| gthumb_loop document gthumb_end document {
+		| tag_print document {
+			$$ = g_list_prepend ($2, $1);
+		}
+
+		| tag_loop document tag_end document {
 			GthTag *tag;
-			
+
 			gth_loop_add_document ($1, $2);
 			tag = gth_tag_new_loop ($1);
 			$$ = g_list_prepend ($4, $1);
 		}
 
-		| gthumb_if document opt_if_list opt_else gthumb_end document {
+		| tag_if document opt_tag_else_if opt_tag_else tag_end document {
 			GList  *cond_list;
 			GthTag *tag;
 
@@ -145,11 +126,11 @@ document	: HTML document {
 		}
 		;
 
-gthumb_loop     : FOR_EACH END_TAG {
+tag_loop	: FOR_EACH END_TAG {
 			$$ = gth_loop_new ($1);
 		};
 
-gthumb_if	: IF expr END_TAG {
+tag_if		: IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
 		| IF '"' expr '"' END_TAG {
@@ -157,7 +138,7 @@ gthumb_if	: IF expr END_TAG {
 		}
 		;
 
-opt_if_list     : gthumb_else_if document opt_if_list {
+opt_tag_else_if	: tag_else_if document opt_tag_else_if {
 			gth_condition_add_document ($1, $2);
 			$$ = g_list_prepend ($3, $1);
 		}
@@ -167,7 +148,7 @@ opt_if_list     : gthumb_else_if document opt_if_list {
 		}
 		;
 
-gthumb_else_if  : ELSE_IF expr END_TAG {
+tag_else_if	: ELSE_IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
 		| ELSE_IF '"' expr '"' END_TAG {
@@ -175,7 +156,7 @@ gthumb_else_if  : ELSE_IF expr END_TAG {
 		}
 		;
 
-opt_else        : gthumb_else document {
+opt_tag_else	: tag_else document {
 			GthExpr      *else_expr;
 			GthCondition *cond;
 
@@ -192,10 +173,59 @@ opt_else        : gthumb_else document {
 		}
 		;
 
-gthumb_else	: ELSE END_TAG
+tag_else	: ELSE END_TAG
 		;
 
-gthumb_end	: END END_TAG
+tag_end		: END END_TAG
+		;
+
+tag_command	: SET_VAR attribute_list END_TAG {
+			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
+		}
+
+tag_print	: PRINT FUNCTION_NAME '\'' QUOTED_STRING '\'' END_TAG {
+			if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
+				GList *arg_list;
+
+				arg_list = g_list_append (NULL, gth_var_new_string ("text", $4));
+				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
+			}
+			else {
+				yyerror ("Wrong function: '%s', expected 'translate'", $2);
+				YYERROR;
+			}
+		}
+
+		| PRINT FUNCTION_NAME attribute_list END_TAG {
+			GthTagType tag_type = gth_tag_get_type_from_name ($2);
+			if (tag_type == GTH_TAG_INVALID) {
+				yyerror ("Unrecognized function: %s", $2);
+				YYERROR;
+			}
+			$$ = gth_tag_new (tag_type, $3);
+		}
+		;
+
+attribute_list	: attribute attribute_list {
+			$$ = g_list_prepend ($2, $1);
+		}
+
+		| /* empty */ {
+			$$ = NULL;
+		}
+		;
+
+attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
+			$$ = gth_var_new_expression ($1, $4);
+			g_free ($1);
+		}
+
+		| ATTRIBUTE_NAME {
+			GthExpr *e = gth_expr_new ();
+			gth_expr_push_integer (e, 1);
+			$$ = gth_var_new_expression ($1, e);
+			g_free ($1);
+		}
 		;
 
 expr		: '(' expr ')' {
@@ -303,7 +333,7 @@ expr		: '(' expr ')' {
 			$$ = e;
                 }
 
-		| VARIABLE '(' expr ')' {
+		| VARIABLE '(' expr ')' %prec UNARY_OP { /* function call */
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			if ($3 != NULL) {
@@ -334,60 +364,6 @@ expr		: '(' expr ')' {
 			$$ = e;
 		}
 		;
-
-gthumb_tag 	: SET_VAR attribute_list END_TAG {
-			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
-		}
-		
-		| BEGIN_TAG FUNCTION_NAME '\'' QUOTED_STRING '\'' END_TAG {
-			if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
-				GList *arg_list;
-				
-				arg_list = g_list_append (NULL, gth_var_new_string ("text", $4));
-				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
-			}
-			else {
-				yyerror ("Wrong function: '%s', expected 'translate'", $2);
-				YYERROR;
-			}
-		}
-		
-		| BEGIN_TAG tag_type attribute_list END_TAG {
-			$$ = gth_tag_new ($2, $3);
-		}
-		;
-
-tag_type	: FUNCTION_NAME {
-			$$ = gth_tag_get_type_from_name ($1);
-			if ($$ == GTH_TAG_INVALID) {
-				yyerror ("Unrecognized function: %s", $1);
-				YYERROR;
-			}
-		}
-		;
-
-attribute_list	: attribute attribute_list {
-			$$ = g_list_prepend ($2, $1);
-		}
-
-		| /* empty */ {
-			$$ = NULL;
-		}
-		;
-
-attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
-			$$ = gth_var_new_expression ($1, $4);
-			g_free ($1);
-		}
-
-		| ATTRIBUTE_NAME {
-		  	GthExpr *e = gth_expr_new ();
-			gth_expr_push_integer (e, 1);
-			$$ = gth_var_new_expression ($1, e);
-			g_free ($1);
-		}
-		;
-
 
 %%
 
