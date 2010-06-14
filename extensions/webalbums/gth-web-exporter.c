@@ -365,14 +365,23 @@ get_var_value (GthExpr    *expr,
 	else if (g_str_equal (var_name, "image_attribute_available")) {
 		GthCell *cell;
 
-		*index += 1;
-		cell = gth_expr_get_pos (expr, *index);
-		if (cell->type == GTH_CELL_TYPE_STRING) {
+		cell = gth_expr_get_pos (expr, (*index) + 1);
+		if ((cell != NULL) && (cell->type == GTH_CELL_TYPE_STRING)) {
 			const char *attribute_id;
+			char       *value;
+			int         result;
 
 			attribute_id = cell->value.string->str;
-			/* TODO */
+			value = gth_file_data_get_attribute_as_string (self->priv->eval_image->file_data, attribute_id);
+			result = (value != NULL);
+			*index += 1;
+
+			g_free (value);
+
+			return result;
 		}
+		else
+			return 0;
 	}
 
 	/* FIXME: use a generic function to get an attribute visibility */
@@ -466,6 +475,15 @@ gth_tag_get_idx (GthTag         *tag,
 {
 	GList *scan;
 	int    retval = default_value;
+
+	if ((tag->type == GTH_TAG_HTML)
+	    || (tag->type == GTH_TAG_IF)
+	    || (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
+	    || (tag->type == GTH_TAG_FOR_EACH_IMAGE_CAPTION)
+	    || (tag->type == GTH_TAG_INVALID))
+	{
+		return 0;
+	}
 
 	for (scan = tag->value.arg_list; scan; scan = scan->next) {
 		GthVar *var = scan->data;
@@ -655,20 +673,15 @@ write_markup_escape_locale_line (GFileOutputStream  *ostream,
 static char *
 get_image_attribute (GthWebExporter    *self,
 		     GthTag            *tag,
-		     const char        *attribute)
+		     const char        *attribute,
+		     ImageData         *image_data)
 {
-	int        image_idx;
-	ImageData *image_data;
-	char      *value;
-	int        max_size;
-	char      *line = NULL;
-
-	image_idx = get_image_idx (tag, self);
-	image_data = g_list_nth (self->priv->file_list, image_idx)->data;
-	self->priv->eval_image = image_data;
+	char *value;
+	int   max_size;
+	char *line = NULL;
 
 	/* FIXME */
-	value = g_file_info_get_attribute_as_string (image_data->file_data->info, attribute);
+	value = gth_file_data_get_attribute_as_string (image_data->file_data, attribute);
 	if (value == NULL)
 		return NULL;
 
@@ -1195,7 +1208,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			idata = g_list_nth (self->priv->file_list, idx)->data;
 			id = gth_tag_get_str (self, tag, "id");
 			if (id != NULL) {
-				line = get_image_attribute (self, tag, id);
+				line = get_image_attribute (self, tag, id, idata);
 				write_line (ostream, line, error);
 			}
 			break;
@@ -1299,26 +1312,22 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 			/* FIXME
 		case GTH_TAG_COMMENT:
-			line = get_image_attribute (self, tag, "general::title");
+			line = get_image_attribute (self, tag, "general::title", image_data);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_PLACE:
-			line = get_image_attribute (self, tag, "general::location");
+			line = get_image_attribute (self, tag, "general::location", image_data);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_DATE_TIME:
-			line = get_image_attribute (self, tag, "general::datetime");
+			line = get_image_attribute (self, tag, "general::datetime", image_data);
 			write_markup_escape_line (ostream, line, error);
 			break;
 			*/
 
 			/* FIXME
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			self->priv->eval_image = idata;
-
 			if (idata->date_time == NULL)
 				break;
 

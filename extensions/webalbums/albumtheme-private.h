@@ -127,6 +127,7 @@ int       gth_expr_get_top                (GthExpr            *e);
 void      gth_expr_set_get_var_value_func (GthExpr            *e,
 					   GthGetVarValueFunc  f,
 					   gpointer            data);
+void      gth_expr_print                  (GthExpr            *e);
 int       gth_expr_eval                   (GthExpr            *e);
 
 /* GthVar */

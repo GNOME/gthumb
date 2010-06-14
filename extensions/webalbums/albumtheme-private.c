@@ -365,29 +365,30 @@ gth_expr_print (GthExpr *e)
 {
 	int i;
 
-	for (i = 0; i < gth_expr_get_top (e); i++) {
-		GthCell *cell = gth_expr_get_pos (e, i + 1);
+	for (i = 1; i <= gth_expr_get_top (e); i++) {
+		GthCell *cell = gth_expr_get_pos (e, i);
 
 		switch (cell->type) {
 		case GTH_CELL_TYPE_VAR:
-			printf ("VAR: %s (%d)\n",
-				cell->value.var,
-				e->get_var_value_func (e,
-						       &i,
-						       cell->value.var,
-						       e->get_var_value_data));
+			/*g_print ("VAR: %s (%d)\n",
+				 cell->value.var,
+				 e->get_var_value_func (e,
+						        &i,
+						        cell->value.var,
+						        e->get_var_value_data));*/
+			g_print ("(%d) VAR: %s\n", i, cell->value.var);
 			break;
 
 		case GTH_CELL_TYPE_STRING:
-			g_print ("STRING: %s\n", cell->value.string->str);
+			g_print ("(%d) STRING: %s\n", i, cell->value.string->str);
 			break;
 
 		case GTH_CELL_TYPE_INTEGER:
-			printf ("NUM: %d\n", cell->value.integer);
+			printf ("(%d) NUM: %d\n", i, cell->value.integer);
 			break;
 
 		case GTH_CELL_TYPE_OP:
-			printf ("OP: %s\n", op_name[cell->value.op]);
+			printf ("(%d) OP: %s\n", i, op_name[cell->value.op]);
 			break;
 		}
 	}
@@ -403,8 +404,8 @@ gth_expr_eval (GthExpr *e)
 
 	mem = gth_mem_new (MEM_SIZE);
 
-	for (i = 0; i < gth_expr_get_top (e); i++) {
-		GthCell *cell = gth_expr_get_pos (e, i + 1);
+	for (i = 1; i <= gth_expr_get_top (e); i++) {
+		GthCell *cell = gth_expr_get_pos (e, i);
 		int      a, b, c;
 
 		switch (cell->type) {

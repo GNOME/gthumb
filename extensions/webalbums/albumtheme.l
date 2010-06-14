@@ -39,7 +39,7 @@ static int before_string = 0; /* the start condition before entering in STRING *
 
 number           [0-9]+
 attribute_name   [a-zA-Z_][a-zA-Z_0-9:\.-]*
-name             [a-zA-Z_][^'" \t\n]*
+name             [a-zA-Z_][a-zA-Z_0-9:\.]*
 string           [^']*
 
 %x FUNCTION ATTRIBUTES CONDITION QUOTE STRING
@@ -85,7 +85,7 @@ string           [^']*
 					yylval.text = g_strdup (yytext);
 					return FUNCTION_NAME;
 				}
-<ATTRIBUTES>"'"			{
+<ATTRIBUTES,QUOTE,CONDITION>"'"	{
 					before_string = YY_START;
 					BEGIN (STRING);
 					return '\'';
@@ -106,7 +106,7 @@ string           [^']*
 					BEGIN (ATTRIBUTES);
 					return '"';
 				}
-<ATTRIBUTES,QUOTE,CONDITION>"%>"	{
+<ATTRIBUTES,CONDITION>"%>"	{
 					BEGIN (INITIAL);
 					return END_TAG;
 				}

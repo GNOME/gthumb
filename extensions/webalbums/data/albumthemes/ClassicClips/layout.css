@@ -125,12 +125,12 @@ div.image-comment {
 	display: block;
 	margin: 15px 15px 0 0;
 	padding: 3px;
-	text-align: center;	
+	text-align: left;
 	font-size: 10px;
 	font-family: sans;
 	overflow: auto;
 	width: 300px;
-	border: 1px solid #aaa;
+	border: 0px solid #aaa;
 }
 
 dl.caption-container {

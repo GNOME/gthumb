@@ -294,10 +294,37 @@ expr		: '(' expr ')' {
 			$$ = $2;
 		}
 
+		| expr ',' expr {
+			GthExpr *e = gth_expr_new ();
+			gth_expr_push_expr (e, $1);
+			gth_expr_push_expr (e, $3);
+			gth_expr_unref ($1);
+			gth_expr_unref ($3);
+			$$ = e;
+                }
+
+		| VARIABLE '(' expr ')' {
+			GthExpr *e = gth_expr_new ();
+			gth_expr_push_var (e, $1);
+			if ($3 != NULL) {
+				gth_expr_push_expr (e, $3);
+				gth_expr_unref ($3);
+			}
+			g_free ($1);
+			$$ = e;
+		}
+
 		| VARIABLE {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			g_free ($1);
+			$$ = e;
+		}
+
+		| '\'' QUOTED_STRING '\'' {
+			GthExpr *e = gth_expr_new ();
+			gth_expr_push_string (e, $2);
+			g_free ($2);
 			$$ = e;
 		}
 

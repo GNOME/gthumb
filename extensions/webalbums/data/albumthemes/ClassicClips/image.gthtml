@@ -77,6 +77,12 @@
         <% end %>
       <% end %>
 
+      <% if image_attribute_available('general::description') %>
+      <div class="image-comment">
+        <%= image_attribute id="general::description" %>
+      </div>
+      <% end %>
+
     </div>    
   </div>
   <div id="footer">
