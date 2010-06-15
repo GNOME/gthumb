@@ -184,11 +184,11 @@ string           [^']*
 <ATTRIBUTES,QUOTE,CONDITION>[ \t\n]	{
 					/* Eat spaces inside tag. */
 				}
-"<"				{
+<INITIAL>"<"			{
 					yylval.text = g_strdup (yytext);
 					return HTML;
 				}
-[^<]{1,100}			{
+<INITIAL>[^<]{1,100}		{
 					yylval.text = g_strdup (yytext);
 					return HTML;
 				}
