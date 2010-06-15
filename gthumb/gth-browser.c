@@ -4363,7 +4363,7 @@ background_task_completed_cb (GthTask  *task,
 	if (error == NULL)
 		return;
 
-	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
+	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
 	else
 		g_error_free (error);

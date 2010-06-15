@@ -2106,7 +2106,7 @@ load_next_file (GthWebExporter *self)
 	if (self->priv->interrupted) {
 		GError *error;
 
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+		error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 		cleanup_and_terminate (self, error);
 		g_error_free (error);
 

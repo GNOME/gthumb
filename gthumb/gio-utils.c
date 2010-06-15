@@ -1221,7 +1221,7 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 	CopyFileData *copy_file_data = user_data;
 
 	if (response_id != GTK_RESPONSE_OK)
-		copy_file_data->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+		copy_file_data->default_response = GTH_OVERWRITE_RESPONSE_CANCEL;
 	else
 		copy_file_data->default_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
 
@@ -1234,9 +1234,16 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 	case GTH_OVERWRITE_RESPONSE_NO:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
 	case GTH_OVERWRITE_RESPONSE_UNSPECIFIED:
-		copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
-		copy_file_data_free (copy_file_data);
-		return;
+	case GTH_OVERWRITE_RESPONSE_CANCEL:
+		{
+			GError *error = NULL;
+
+			if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_CANCEL)
+				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+			copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+			copy_file_data_free (copy_file_data);
+			return;
+		}
 
 	case GTH_OVERWRITE_RESPONSE_YES:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:

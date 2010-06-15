@@ -96,7 +96,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 	GthPixbufListTask *self = user_data;
 
 	if (response_id != GTK_RESPONSE_OK)
-		self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+		self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_CANCEL;
 	else
 		self->priv->overwrite_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
 
@@ -138,6 +138,15 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 
 			g_object_unref (new_destination);
 			g_object_unref (parent);
+		}
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_CANCEL:
+		{
+			GError *error;
+
+			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+			gth_task_completed (GTH_TASK (self), error);
 		}
 		break;
 	}
