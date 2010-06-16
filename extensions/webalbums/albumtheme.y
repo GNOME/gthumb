@@ -220,6 +220,12 @@ attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
 			g_free ($1);
 		}
 
+		| ATTRIBUTE_NAME '=' '\'' QUOTED_STRING '\'' {
+			$$ = gth_var_new_string ($1, $4);
+			g_free ($1);
+			g_free ($4);
+		}
+
 		| ATTRIBUTE_NAME {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_integer (e, 1);

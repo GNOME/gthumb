@@ -275,11 +275,50 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/image_page_header</key>
+	<applyto>/apps/gthumb/ext/webalbums/image_page_header</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/image_page_footer</key>
+	<applyto>/apps/gthumb/ext/webalbums/image_page_footer</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/webalbums/theme</key>
 	<applyto>/apps/gthumb/ext/webalbums/theme</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>Wiki</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/enable_thumbnail_caption</key>
+	<applyto>/apps/gthumb/ext/webalbums/enable_thumbnail_caption</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -301,8 +340,34 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/webalbums/image_caption</key>
-	<applyto>/apps/gthumb/ext/webalbums/image_caption</applyto>
+	<key>/schemas/apps/gthumb/ext/webalbums/enable_image_description</key>
+	<applyto>/apps/gthumb/ext/webalbums/enable_image_description</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/enable_image_attributes</key>
+	<applyto>/apps/gthumb/ext/webalbums/enable_image_attributes</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/webalbums/image_attributes</key>
+	<applyto>/apps/gthumb/ext/webalbums/image_attributes</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>

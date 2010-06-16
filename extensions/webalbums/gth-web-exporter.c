@@ -35,7 +35,7 @@
 #include "albumtheme-private.h"
 #include "preferences.h"
 
-#define DATE_FORMAT ("%x, %X")
+#define DEFAULT_DATE_FORMAT ("%x, %X")
 #define DEFAULT_THUMB_SIZE 100
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
@@ -121,7 +121,8 @@ struct _GthWebExporterPrivate {
 	/* options */
 
 	char              *header;
-	char              *index_page_footer;
+	char              *footer;
+	char              *image_page_header;
 	char              *image_page_footer;
 	GFile             *style_dir;
 	GFile             *target_dir;             /* Save files in this location. */
@@ -145,7 +146,8 @@ struct _GthWebExporterPrivate {
 	int                preview_max_height;
 	int                preview_min_width;
 	int                preview_min_height;
-	char              *image_caption;
+	gboolean           image_description_enabled;
+	char              *image_attributes;
 	char              *thumbnail_caption;
 
 	/* private date */
@@ -213,7 +215,6 @@ image_data_new (GthFileData *file_data,
 
 	idata = g_new0 (ImageData, 1);
 	idata->file_data = g_object_ref (file_data);
-	/* FIXME */
 	idata->dest_filename = g_strdup_printf ("%03d-%s", file_idx, g_file_info_get_name (file_data->info));
 
 	idata->image = NULL;
@@ -302,15 +303,7 @@ get_style_dir (GthWebExporter *self,
 }
 
 
-/* FIXME */
-
-
-#define RETURN_IMAGE_FIELD(image, field) {	\
-	if (image == NULL)			\
-		return 0;			\
-	else					\
-		return image->field;		\
-}
+#define IMAGE_FIELD(image, field) ((image != NULL) ? image->field : 0)
 
 
 static int
@@ -345,17 +338,17 @@ get_var_value (GthExpr    *expr,
 		return GTH_VISIBILITY_ALWAYS;
 
 	else if (strcmp (var_name, "image_width") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, image_width)
+		return IMAGE_FIELD (self->priv->eval_image, image_width);
 	else if (strcmp (var_name, "image_height") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, image_height)
+		return IMAGE_FIELD (self->priv->eval_image, image_height);
 	else if (strcmp (var_name, "preview_width") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, preview_width)
+		return IMAGE_FIELD (self->priv->eval_image, preview_width);
 	else if (strcmp (var_name, "preview_height") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, preview_height)
+		return IMAGE_FIELD (self->priv->eval_image, preview_height);
 	else if (strcmp (var_name, "thumb_width") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, thumb_width)
+		return IMAGE_FIELD (self->priv->eval_image, thumb_width);
 	else if (strcmp (var_name, "thumb_height") == 0)
-		RETURN_IMAGE_FIELD (self->priv->eval_image, thumb_height)
+		return IMAGE_FIELD (self->priv->eval_image, thumb_height);
 
 	else if (g_str_equal (var_name, "first_item"))
 		return (self->priv->loop_info != NULL) ? self->priv->loop_info->first_item : FALSE;
@@ -383,74 +376,31 @@ get_var_value (GthExpr    *expr,
 		else
 			return 0;
 	}
-
-	/* FIXME: use a generic function to get an attribute visibility */
-/*
-	else if (strcmp (var_name, "image_dim_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_IMAGE_DIM;
-	else if (strcmp (var_name, "file_name_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_FILE_NAME;
- 	else if (strcmp (var_name, "file_path_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_FILE_PATH;
-	else if (strcmp (var_name, "file_size_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_FILE_SIZE;
-	else if (strcmp (var_name, "comment_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_COMMENT;
-	else if (strcmp (var_name, "place_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_PLACE;
-	else if (strcmp (var_name, "date_time_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_DATE_TIME;
-	else if (strcmp (var_name, "exif_date_time_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
-	else if (strcmp (var_name, "exif_exposure_time_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_TIME;
-	else if (strcmp (var_name, "exif_exposure_mode_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_MODE;
-	else if (strcmp (var_name, "exif_flash_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_FLASH;
-	else if (strcmp (var_name, "exif_shutter_speed_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_SHUTTER_SPEED;
-	else if (strcmp (var_name, "exif_aperture_value_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_APERTURE_VALUE;
-	else if (strcmp (var_name, "exif_focal_length_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
-	else if (strcmp (var_name, "exif_camera_model_visibility_index") == 0)
-		return self->priv->index_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
-
-	else if (strcmp (var_name, "image_dim_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_IMAGE_DIM;
-	else if (strcmp (var_name, "file_name_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_FILE_NAME;
- 	else if (strcmp (var_name, "file_path_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_FILE_PATH;
-	else if (strcmp (var_name, "file_size_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_FILE_SIZE;
-	else if (strcmp (var_name, "comment_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_COMMENT;
-	else if (strcmp (var_name, "place_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_PLACE;
-	else if (strcmp (var_name, "date_time_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_DATE_TIME;
-	else if (strcmp (var_name, "exif_date_time_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
-	else if (strcmp (var_name, "exif_exposure_time_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_TIME;
-	else if (strcmp (var_name, "exif_exposure_mode_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_MODE;
-	else if (strcmp (var_name, "exif_flash_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_FLASH;
-	else if (strcmp (var_name, "exif_shutter_speed_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_SHUTTER_SPEED;
-	else if (strcmp (var_name, "exif_aperture_value_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_APERTURE_VALUE;
-	else if (strcmp (var_name, "exif_focal_length_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
-	else if (strcmp (var_name, "exif_camera_model_visibility_image") == 0)
-		return self->priv->image_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
-*/
-
-	else if (strcmp (var_name, "copy_originals") == 0)
+	else if (strcmp (var_name, "copy_originals") == 0) {
 		return self->priv->copy_images;
+	}
+	else if (g_str_equal (var_name, "image_description_enabled")) {
+		return self->priv->image_description_enabled;
+	}
+	else if (strcmp (var_name, "image_attributes_enabled") == 0) {
+		return ! g_str_equal (self->priv->image_attributes, "");
+	}
+	else if (g_str_equal (var_name, "image_attribute_enabled")) {
+		GthCell *cell;
+
+		cell = gth_expr_get_pos (expr, (*index) + 1);
+		if ((cell != NULL) && (cell->type == GTH_CELL_TYPE_STRING)) {
+			const char *attribute_id;
+			int         result;
+
+			attribute_id = cell->value.string->str;
+			result = _g_file_attributes_matches_any (attribute_id, self->priv->image_attributes);
+
+			return result;
+		}
+		else
+			return 0;
+	}
 
 	g_warning ("[GetVarValue] Unknown variable name: %s", var_name);
 
@@ -677,19 +627,18 @@ get_image_attribute (GthWebExporter    *self,
 		     ImageData         *image_data)
 {
 	char *value;
-	int   max_size;
+	int   max_length;
 	char *line = NULL;
 
-	/* FIXME */
 	value = gth_file_data_get_attribute_as_string (image_data->file_data, attribute);
 	if (value == NULL)
 		return NULL;
 
-	max_size = gth_tag_get_var (self, tag, "max_size");
-	if (max_size > 0) {
+	max_length = gth_tag_get_var (self, tag, "max_length");
+	if (max_length > 0) {
 		char *truncated;
 
-		truncated = g_strndup (value, max_size);
+		truncated = g_strndup (value, max_length);
 		if (strlen (truncated) < strlen (value))
 			line = g_strconcat (truncated, "...", NULL);
 		else
@@ -886,14 +835,14 @@ get_preview_file (GthWebExporter *self,
 
 
 static char *
-get_current_date (void)
+get_current_date (const char *format)
 {
 	GTimeVal  timeval;
 	char     *s;
 	char     *u;
 
 	g_get_current_time (&timeval);
-	s = _g_time_val_strftime (&timeval, DATE_FORMAT);
+	s = _g_time_val_strftime (&timeval, format);
 	u = g_locale_to_utf8 (s, -1, 0, 0, 0);
 
 	g_free (s);
@@ -1059,7 +1008,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 		int         idx;
 		int         image_width;
 		int         image_height;
-		int         max_size;
+		int         max_length;
 		int         r, c;
 		int         value;
 		const char *src;
@@ -1078,15 +1027,18 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
-			line = get_header_footer_text (self, self->priv->header);
+			if (template_type == GTH_TEMPLATE_TYPE_INDEX)
+				line = get_header_footer_text (self, self->priv->header);
+			else if (template_type == GTH_TEMPLATE_TYPE_IMAGE)
+				line = get_header_footer_text (self, self->priv->image_page_header ? self->priv->image_page_header : self->priv->header);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
 		case GTH_TAG_FOOTER:
 			if (template_type == GTH_TEMPLATE_TYPE_INDEX)
-				line = get_header_footer_text (self, self->priv->index_page_footer);
+				line = get_header_footer_text (self, self->priv->footer);
 			else if (template_type == GTH_TEMPLATE_TYPE_IMAGE)
-				line = get_header_footer_text (self, self->priv->image_page_footer);
+				line = get_header_footer_text (self, self->priv->image_page_footer ? self->priv->image_page_footer : self->priv->footer);
 			if (line != NULL)
 				write_markup_escape_line (ostream, line, error);
 			break;
@@ -1140,17 +1092,18 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			else
 				class_attr = g_strdup ("");
 
-			max_size = gth_tag_get_var (self, tag, "max_size");
-			if (max_size > 0)
+			max_length = gth_tag_get_var (self, tag, "max_length");
+			if (max_length > 0)
 				scale_keeping_ratio (&image_width,
 						     &image_height,
-						     max_size,
-						     max_size,
+						     max_length,
+						     max_length,
 						     FALSE);
 
 			alt = gth_tag_get_str (self, tag, "alt");
-			if (alt != NULL)
+			if (alt != NULL) {
 				alt_attr = g_strdup (alt);
+			}
 			else {
 				char *unescaped_path;
 
@@ -1310,43 +1263,6 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			write_markup_escape_line (ostream, line, error);
 			break;
 
-			/* FIXME
-		case GTH_TAG_COMMENT:
-			line = get_image_attribute (self, tag, "general::title", image_data);
-			write_markup_escape_line (ostream, line, error);
-			break;
-
-		case GTH_TAG_PLACE:
-			line = get_image_attribute (self, tag, "general::location", image_data);
-			write_markup_escape_line (ostream, line, error);
-			break;
-
-		case GTH_TAG_DATE_TIME:
-			line = get_image_attribute (self, tag, "general::datetime", image_data);
-			write_markup_escape_line (ostream, line, error);
-			break;
-			*/
-
-			/* FIXME
-			if (idata->date_time == NULL)
-				break;
-
-			max_size = gth_tag_get_var (self, tag, "max_size");
-			if (max_size <= 0)
-				line = g_strdup (idata->date_time);
-			else {
-				char *date_time = g_strndup (idata->date_time, max_size);
-				if (strlen (date_time) < strlen (idata->date_time))
-					line = g_strconcat (date_time, "...", NULL);
-				else
-					line = g_strdup (date_time);
-				g_free (date_time);
-			}
-
-			write_markup_escape_line (ostream, error, line);
-			break;
-			*/
-
 		case GTH_TAG_PAGE_LINK:
 			if (gth_tag_get_var (self, tag, "image_idx") != 0) {
 				int image_idx;
@@ -1433,103 +1349,21 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			}
 			break;
 
-		case GTH_TAG_TIMESTAMP: /* FIXME: add custom format support */
-			line = get_current_date ();
-			write_markup_escape_line (ostream, line, error);
+		case GTH_TAG_TIMESTAMP:
+			{
+				const char *format;
+
+				format = gth_tag_get_str (self, tag, "format");
+				if (format == NULL)
+					format = DEFAULT_DATE_FORMAT;
+				line = get_current_date (format);
+				write_markup_escape_line (ostream, line, error);
+			}
 			break;
 
 		case GTH_TAG_HTML:
 			write_line (ostream, tag->value.html, error);
 			break;
-
-			/* FIXME: make a generic function to print file attributes */
-#if 0
-		case GTH_TAG_EXIF_EXPOSURE_TIME:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data, TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_EXPOSURE_MODE:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-							    TAG_NAME_SETS[EXPMODE_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_FLASH:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-					     		    TAG_NAME_SETS[FLASH_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_SHUTTER_SPEED:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-							    TAG_NAME_SETS[SHUTTERSPEED_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_APERTURE_VALUE:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-							    TAG_NAME_SETS[APERTURE_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_FOCAL_LENGTH:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-					     		    TAG_NAME_SETS[FOCAL_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_EXIF_DATE_TIME:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			{
-				time_t     t;
-				struct tm *tp;
-				char s[100];
-
-				t = get_exif_time (idata->file_data);
-				if (t != 0) {
-					tp = localtime (&t);
-					strftime (s, 99, DATE_FORMAT, tp);
-					line = g_locale_to_utf8 (s, -1, 0, 0, 0);
-					write_markup_escape_line (ostream, error, line);
-				}
-				else
-					write_line (ostream, error, "-");
-
-			}
-			break;
-
-		case GTH_TAG_EXIF_CAMERA_MODEL:
-			idx = get_image_idx (tag, self);
-			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = get_metadata_tagset_string (idata->file_data,
-							    TAG_NAME_SETS[MAKE_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			g_free (line);
-
-			write_line (ostream, error, " &nbsp; ");
-
-			line = get_metadata_tagset_string (idata->file_data,
-					    		    TAG_NAME_SETS[MODEL_TAG_NAMES]);
-			write_markup_escape_line (ostream, error, line);
-			break;
-
-		case GTH_TAG_SET_VAR:
-			break;
-#endif
 
 		case GTH_TAG_EVAL:
 			idx = get_image_idx (tag, self);
@@ -1551,7 +1385,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				if (expression_value (self, cond->expr) != 0) {
 					gth_parsed_doc_print (self,
 							      cond->document,
-							      GTH_TEMPLATE_TYPE_FRAGMENT,
+							      template_type,
 							      loop_info,
 							      relative_to,
 							      ostream,
@@ -1563,7 +1397,6 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 		case GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION:
 		case GTH_TAG_FOR_EACH_IMAGE_CAPTION:
-			/* FIXME */
 			{
 				LoopInfo  *inner_loop_info;
 				char     **attributes;
@@ -1579,7 +1412,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
 					attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
 				else
-					attributes = g_strsplit (self->priv->image_caption, ",", -1);
+					attributes = g_strsplit (self->priv->image_attributes, ",", -1);
 
 				first_non_empty = -1;
 				last_non_empty = -1;
@@ -2584,11 +2417,6 @@ parse_theme_files (GthWebExporter *self)
 	}
 	g_object_unref (template);
 
-	/*
-	g_print ("\n\nIndex: \n");
-	gth_parsed_doc_print_tree (self->priv->index_template);
-	*/
-
 	/* read and parse thumbnail.gthtml */
 
 	template = g_file_get_child (self->priv->style_dir, "thumbnail.gthtml");
@@ -2614,11 +2442,6 @@ parse_theme_files (GthWebExporter *self)
 	}
 	g_object_unref (template);
 
-	/*
-	g_print ("\n\nThumbnail: \n");
-	gth_parsed_doc_print_tree (self->priv->thumbnail_template);
-	*/
-
 	/* Read and parse image.gthtml */
 
 	template = g_file_get_child (self->priv->style_dir, "image.gthtml");
@@ -2643,11 +2466,6 @@ parse_theme_files (GthWebExporter *self)
 		self->priv->image_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
-
-	/*
-	g_print ("\n\nImage: \n");
-	gth_parsed_doc_print_tree (self->priv->image_template);
-	*/
 
 	/* read index.html and set variables. */
 
@@ -2828,9 +2646,13 @@ gth_web_exporter_exec (GthTask *task)
 	parse_theme_files (self);
 
 	required_attributes = g_string_new (GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
-	if (self->priv->image_caption != NULL) {
+	if (self->priv->image_attributes != NULL) {
 		g_string_append (required_attributes, ",");
-		g_string_append (required_attributes, self->priv->image_caption);
+		g_string_append (required_attributes, self->priv->image_attributes);
+	}
+	if (self->priv->image_description_enabled) {
+		g_string_append (required_attributes, ",general::description");
+		g_string_append (required_attributes, ",general::title");
 	}
 	if (self->priv->thumbnail_caption != NULL) {
 		g_string_append (required_attributes, ",");
@@ -2861,7 +2683,8 @@ gth_web_exporter_finalize (GObject *object)
 
 	self = GTH_WEB_EXPORTER (object);
 	g_free (self->priv->header);
-	g_free (self->priv->index_page_footer);
+	g_free (self->priv->footer);
+	g_free (self->priv->image_page_header);
 	g_free (self->priv->image_page_footer);
 	_g_object_unref (self->priv->style_dir);
 	_g_object_unref (self->priv->target_dir);
@@ -2875,7 +2698,7 @@ gth_web_exporter_finalize (GObject *object)
 	g_free (self->priv->index_file);
 	_g_object_unref (self->priv->iloader);
 	g_free (self->priv->thumbnail_caption);
-	g_free (self->priv->image_caption);
+	g_free (self->priv->image_attributes);
 	free_parsed_docs (self);
 	if (self->priv->file_list != NULL) {
 		g_list_foreach (self->priv->file_list, (GFunc) image_data_free, NULL);
@@ -2909,7 +2732,8 @@ gth_web_exporter_init (GthWebExporter *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_WEB_EXPORTER, GthWebExporterPrivate);
 	self->priv->header = NULL;
-	self->priv->index_page_footer = NULL;
+	self->priv->footer = NULL;
+	self->priv->image_page_header = NULL;
 	self->priv->image_page_footer = NULL;
 	self->priv->style_dir = NULL;
 	self->priv->target_dir = NULL;
@@ -2937,7 +2761,7 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->preview_min_width = 0;
 	self->priv->preview_min_height = 0;
 	self->priv->thumbnail_caption = NULL;
-	self->priv->image_caption = NULL;
+	self->priv->image_attributes = NULL;
 	self->priv->index_file = g_strdup (DEFAULT_INDEX_FILE);
 	self->priv->file_list = NULL;
 	self->priv->tmp_dir = NULL;
@@ -2998,34 +2822,51 @@ gth_web_exporter_new (GthBrowser *browser,
 
 void
 gth_web_exporter_set_header (GthWebExporter *self,
-			     const char     *header)
+			     const char     *value)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
 
 	g_free (self->priv->header);
-	self->priv->header = g_strdup (header);
+	self->priv->header = g_strdup (value);
 }
 
 
 void
-gth_web_exporter_set_index_page_footer (GthWebExporter *self,
-					const char     *footer)
+gth_web_exporter_set_footer (GthWebExporter *self,
+			     const char     *value)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
 
-	g_free (self->priv->index_page_footer);
-	self->priv->index_page_footer = g_strdup (footer);
+	g_free (self->priv->footer);
+	self->priv->footer = g_strdup (value);
+}
+
+
+void
+gth_web_exporter_set_image_page_header (GthWebExporter *self,
+					const char     *value)
+{
+	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
+
+	g_free (self->priv->image_page_header);
+	if ((value != NULL) && (*value != '\0'))
+		self->priv->image_page_header = g_strdup (value);
+	else
+		self->priv->image_page_header = NULL;
 }
 
 
 void
 gth_web_exporter_set_image_page_footer (GthWebExporter *self,
-					const char     *footer)
+					const char     *value)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
 
 	g_free (self->priv->image_page_footer);
-	self->priv->image_page_footer = g_strdup (footer);
+	if ((value != NULL) && (*value != '\0'))
+		self->priv->image_page_footer = g_strdup (value);
+	else
+		self->priv->image_page_footer = NULL;
 }
 
 
@@ -3180,13 +3021,16 @@ gth_web_exporter_set_preview_min_size (GthWebExporter *self,
 
 
 void
-gth_web_exporter_set_image_caption (GthWebExporter *self,
-				    const char     *caption)
+gth_web_exporter_set_image_attributes (GthWebExporter *self,
+				       gboolean        image_description_enabled,
+				       const char     *caption)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
 
-	g_free (self->priv->image_caption);
-	self->priv->image_caption = g_strdup (caption);
+	self->priv->image_description_enabled = image_description_enabled;
+
+	g_free (self->priv->image_attributes);
+	self->priv->image_attributes = g_strdup (caption);
 }
 
 

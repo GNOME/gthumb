@@ -53,11 +53,13 @@ GType      gth_web_exporter_get_type              (void);
 GthTask *  gth_web_exporter_new                   (GthBrowser       *browser,
 						   GList            *file_list); /* GFile list */
 void       gth_web_exporter_set_header            (GthWebExporter   *self,
-						   const char       *header);
-void       gth_web_exporter_set_index_page_footer (GthWebExporter   *self,
-						   const char       *footer);
+						   const char       *value);
+void       gth_web_exporter_set_footer            (GthWebExporter   *self,
+						   const char       *value);
+void       gth_web_exporter_set_image_page_header (GthWebExporter   *self,
+						   const char       *value);
 void       gth_web_exporter_set_image_page_footer (GthWebExporter   *self,
-						   const char       *footer);
+						   const char       *value);
 void       gth_web_exporter_set_style             (GthWebExporter   *self,
 						   const char       *style_name);
 void       gth_web_exporter_set_destination       (GthWebExporter   *self,
@@ -90,7 +92,8 @@ void       gth_web_exporter_set_preview_size      (GthWebExporter   *self,
 void       gth_web_exporter_set_preview_min_size  (GthWebExporter   *self,
 					           int               width,
 					           int               height);
-void       gth_web_exporter_set_image_caption     (GthWebExporter   *self,
+void       gth_web_exporter_set_image_attributes  (GthWebExporter   *self,
+						   gboolean          image_description_enabled,
 						   const char       *caption);
 void       gth_web_exporter_set_thumbnail_caption (GthWebExporter   *self,
 						   const char       *caption);
