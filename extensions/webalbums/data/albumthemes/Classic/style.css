@@ -1,4 +1,4 @@
-/* Gthumb "Classic" style, v. 2005-02-25 */
+/* gthumb "ClassicClips" style, v. 2010-06-11 */
 
 /* Common */
 
@@ -22,18 +22,18 @@ span.file_name {
 	font-family: monospace;
 }
 
-#footer {
-	font-size: 11px;
+span.copyright {
+	font-size: small;
 }
 
 /* image.gthtml */
 
 img.preview {
-	border: solid 2px white;
+	border: 2px solid #fff;
 }
 
 img.thumbnail {
-	border: solid 2px white;
+	border: 2px solid #fff;
 }
 
 div.preview_comment {
@@ -59,6 +59,16 @@ span.property_value {
 	color: white;
 }
 
+/* index.gthtml */
+
+td.td_index {
+	color: #969696;
+}
+
+td.td_index span.image_dim {
+	font-weight: bold;
+}
+
 /* links */
 
 a:link { 
@@ -77,4 +87,9 @@ a:hover {
 	font-weight: bold;
 	text-decoration: none;
 	color: #FFD700;
+}
+
+.property-name {
+	font-weight: bold;
+	cursor: default;
 }

@@ -120,6 +120,12 @@ div.image-preview {
 	text-align: center;
 }
 
+div.image-preview-centered {
+	float: none;
+	margin: 20px auto;
+	text-align: center;
+}
+
 div.image-comment {
 	float: right;
 	display: block;
@@ -196,6 +202,7 @@ dl.caption-container dd.last {
 }
 
 #thumbnail-list div.thumbnail-container {
+	height: 160px;
 }
 
 #thumbnail-list div.thumbnail-top {

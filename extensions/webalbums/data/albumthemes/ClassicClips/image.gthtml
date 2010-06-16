@@ -28,7 +28,7 @@
           </a>
         </li>
         <% if image_idx < images  %>
-        <li class="next-image">          
+        <li class="next-image">
           <a href="<%= image_link idx_relative="+1" %>" title="<%= translate 'View the next image' %>">
             <span><%= translate 'View the next image' %></span>
           </a>
@@ -41,10 +41,10 @@
           <span><%= image_idx %> / <%= images %></span>
         </li>
         <% if image_idx > 1  %>
-        <li class="previous-image">          
+        <li class="previous-image">
           <a href="<%= image_link idx_relative="-1" %>" title="<%= translate 'View the previous image' %>">
             <span><%= translate 'View the previous image' %></span>
-          </a>     
+          </a>
         </li>
         <% else %>
         <li class="void">
@@ -52,10 +52,14 @@
         <% end %>
         <li class="last">
         </li>
-      </ul>  
+      </ul> 
       
+      <% if image_description_enabled || image_attributes_enabled %>
       <div class="image-preview">
-        <% if copy_originals %>    
+      <% else %>      
+      <div class="image-preview image-preview-centered">
+      <% end %>
+        <% if copy_originals %>
         <a href="<%= file_name with_relative_path %>"><%= image preview class="preview" %></a>
         <% else %>
         <%= image preview class="preview" %>
@@ -77,13 +81,13 @@
         <% end %>
       <% end %>
 
-      <% if image_attribute_available('general::description') %>
+      <% if image_description_enabled && image_attribute_available('general::description') %>
       <div class="image-comment">
         <%= image_attribute id="general::description" %>
       </div>
       <% end %>
 
-    </div>    
+    </div>
   </div>
   <div id="footer">
     <div id="footer-2">

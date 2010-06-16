@@ -6,8 +6,6 @@ gthtml_files =			\
 themename  = Classic
 themedir   = $(datadir)/gthumb/albumthemes/$(themename)
 theme_DATA =			\
-	1.gif			\
-	background.gif		\
 	back.png		\
 	bot.png			\
 	left.png		\

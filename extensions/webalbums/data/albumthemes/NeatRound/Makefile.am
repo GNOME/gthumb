@@ -6,8 +6,6 @@ gthtml_files =			\
 themename  = NeatRound
 themedir   = $(datadir)/gthumb/albumthemes/$(themename)
 theme_DATA =			\
-	1.gif			\
-	background.gif		\
 	back.png		\
 	bot.png			\
 	left.png		\
@@ -15,11 +13,12 @@ theme_DATA =			\
 	prev.png		\
 	preview.png		\
 	right.png		\
-	top.png                 \
+	top.png			\
 	layout.css		\
 	style.css		\
 	$(gthtml_files)
 
 EXTRA_DIST = $(theme_DATA) 
+
 
 -include $(top_srcdir)/git.mk

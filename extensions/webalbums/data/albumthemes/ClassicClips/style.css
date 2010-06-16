@@ -29,11 +29,11 @@ span.copyright {
 /* image.gthtml */
 
 img.preview {
-	border: solid 2px white;
+	border: 2px solid #fff;
 }
 
 img.thumbnail {
-	border: solid 2px white;
+	border: 2px solid #fff;
 }
 
 div.preview_comment {

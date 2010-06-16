@@ -1,22 +1,21 @@
-/* Gthumb "NeatRound" style, v. 2005-02-25 */
+/* gthumb "NeatRound" style, v. 2010-06-11 */
 
 /* Common */
 
 body {
-	background-color: white;
-	color: black;
+	background-color: #fff;
+	color: #222;
+	font-size: 12px;
 }
 
 span.title {
 	font-weight: bold;
 	font-size: 150%;
-	color: #555555;
 }
 
 span.page_index {
 	font-weight: bold;
 	font-size: small;
-	color: #969696;
 }
 
 span.file_name {
@@ -25,19 +24,16 @@ span.file_name {
 
 span.copyright {
 	font-size: small;
-	color: #969696;
 }
-
 
 /* image.gthtml */
 
-
 img.preview {
-	border-style: none;
+	border: 2px solid #fff;
 }
 
 img.thumbnail {
-	border-style: none;
+	border: 2px solid #fff;
 }
 
 div.preview_comment {
@@ -60,6 +56,7 @@ span.property {
 
 span.property_value {
 	font-size: small;
+	color: white;
 }
 
 /* index.gthtml */
@@ -72,19 +69,18 @@ td.td_index span.image_dim {
 	font-weight: bold;
 }
 
-
 /* links */
 
 a:link { 
 	font-weight: bold;
 	text-decoration: none;
-	color: black;
+	color: #000;
 }
 
 a:visited { 
 	font-weight: bold;
 	text-decoration: none;
-	color: black;
+	color: #000;
 }
 
 a:hover {
@@ -93,3 +89,7 @@ a:hover {
 	color: #FFD700;
 }
 
+.property-name {
+	font-weight: bold;
+	cursor: default;
+}
