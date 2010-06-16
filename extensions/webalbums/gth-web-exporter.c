@@ -2471,16 +2471,27 @@ image_loader_ready_cb (GthImageLoader *iloader,
 }
 
 
+static int
+image_data_cmp (gconstpointer a,
+		gconstpointer b,
+		gpointer      user_data)
+{
+	GthWebExporter *self = user_data;
+	ImageData      *idata_a = (ImageData *) a;
+	ImageData      *idata_b = (ImageData *) b;
+
+	return self->priv->sort_type->cmp_func (idata_a->file_data, idata_b->file_data);
+}
+
+
 static void
 load_current_file (GthWebExporter *self)
 {
 	GthFileData *file_data;
 
 	if (self->priv->current_file == NULL) {
-		/* FIXME
-		if (self->priv->sort_type != NULL)
-			self->priv->file_list = g_list_sort (self->priv->file_list, (GCompareFunc) self->priv->sort_type->cmp_func);
-		*/
+		if ((self->priv->sort_type != NULL) && (self->priv->sort_type->cmp_func != NULL))
+			self->priv->file_list = g_list_sort_with_data (self->priv->file_list, image_data_cmp, self);
 		if (self->priv->sort_inverse)
 			self->priv->file_list = g_list_reverse (self->priv->file_list);
 		save_html_files (self);
