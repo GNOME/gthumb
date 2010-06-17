@@ -31,6 +31,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/image_rotation/rotation-utils.h>
 #include "gth-web-exporter.h"
 #include "albumtheme-private.h"
 #include "preferences.h"
@@ -2096,6 +2097,21 @@ save_resized_image (gpointer data)
 }
 
 
+static void
+transformation_ready_cb (GError   *error,
+			 gpointer  user_data)
+{
+	GthWebExporter *self = user_data;
+
+	if (error != NULL) {
+		cleanup_and_terminate (self, error);
+		return;
+	}
+
+	self->priv->saving_timeout = g_idle_add (save_image_preview, self);
+}
+
+
 static gboolean
 copy_current_file (GthWebExporter *self)
 {
@@ -2125,32 +2141,39 @@ copy_current_file (GthWebExporter *self)
 			 NULL,
 			 &error))
 	{
-		if (g_content_type_equals (gth_file_data_get_mime_type (image_data->file_data), "image/jpeg")) {
-			/* FIXME
+		gboolean appling_tranformation = FALSE;
 
-			char *uri;
-			uri = gfile_get_uri (dfile);
+		if (gth_main_extension_is_active ("image_rotation")
+		    && g_content_type_equals (gth_file_data_get_mime_type (image_data->file_data), "image/jpeg"))
+		{
+			GthMetadata *metadata;
 
-			GthTransform  transform;
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (image_data->file_data->info, "Embedded::Image::Orientation");
+			if (metadata != NULL) {
+				const char *value;
 
-			FileData *fd;
-			fd = file_data_new (uri);
-			transform = get_orientation_from_fd (fd);
+				value = gth_metadata_get_raw (metadata);
+				if (value != NULL) {
+					int transform;
 
-			if (transform > 1) {
-				apply_transformation_jpeg (fd,
-							   transform,
-							   JPEG_MCU_ACTION_TRIM,
-							   NULL);
+					sscanf (value, "%d", &transform);
+					if (transform != 1) {
+						apply_transformation_async (image_data->file_data,
+									    (GthTransform) transform,
+									    JPEG_MCU_ACTION_TRIM,
+									    gth_task_get_cancellable (GTH_TASK (self)),
+									    transformation_ready_cb,
+									    self);
+						appling_tranformation = TRUE;
+					}
+				}
+
+				g_object_unref (metadata);
 			}
-
-			file_data_unref (fd);
-			g_free (uri);
-
-			*/
 		}
 
-		self->priv->saving_timeout = g_idle_add (save_image_preview, self);
+		if (! appling_tranformation)
+			self->priv->saving_timeout = g_idle_add (save_image_preview, self);
 	}
 	else
 		cleanup_and_terminate (self, error);
@@ -2646,6 +2669,8 @@ gth_web_exporter_exec (GthTask *task)
 	parse_theme_files (self);
 
 	required_attributes = g_string_new (GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	if (gth_main_extension_is_active ("image_rotation"))
+		g_string_append (required_attributes, ",Embedded::Image::Orientation"); /* required to rotate jpeg images */
 	if (self->priv->image_attributes != NULL) {
 		g_string_append (required_attributes, ",");
 		g_string_append (required_attributes, self->priv->image_attributes);
