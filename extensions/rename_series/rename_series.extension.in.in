@@ -3,7 +3,7 @@ _Name=Rename files
 _Description=Rename series of files.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Category=List-Tool
 
 [Loader]

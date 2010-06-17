@@ -3,7 +3,7 @@ _Name=Save images
 _Description=Save images in common file formats such as JPEG, PNG and TIFF
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Category=Browser
 
 [Loader]

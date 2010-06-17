@@ -42,6 +42,7 @@ GNOME_DOC_INIT
 GNOME_MAINTAINER_MODE_DEFINES
 GNOME_COMPILE_WARNINGS([maximum])
 GNOME_CXX_WARNINGS
+GTHUMB_EXTENSION_RULES
 
 GLIB_REQUIRED=2.16.0
 GTK_REQUIRED=2.18.0
@@ -441,6 +442,7 @@ data/icons/hicolor/scalable/actions/Makefile
 data/icons/hicolor/scalable/apps/Makefile
 data/ui/Makefile
 help/Makefile
+m4/Makefile
 extensions/Makefile
 extensions/bookmarks/Makefile
 extensions/bookmarks/data/Makefile

@@ -3,7 +3,7 @@ _Name=Desktop background
 _Description=Set the image as desktop background
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Icon=desktop
 Category=List-Tool
 

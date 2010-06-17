@@ -3,7 +3,7 @@ _Name=Flicker
 _Description=Upload images to Flickr
 Authors=gthumb development team
 Copyright=Copyright © 2010 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Icon=flickr
 Category=Exporter
 

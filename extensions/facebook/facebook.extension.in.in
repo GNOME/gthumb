@@ -3,7 +3,7 @@ _Name=Facebook
 _Description=Upload images to Facebook
 Authors=gthumb development team
 Copyright=Copyright © 2010 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Icon=facebook
 Category=Exporter
 
