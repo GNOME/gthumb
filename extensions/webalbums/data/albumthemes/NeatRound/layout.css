@@ -202,7 +202,7 @@ dl.caption-container dd.last {
 }
 
 #thumbnail-list div.thumbnail-container {
-	height: 125px;
+	height: 130px;
 }
 
 #thumbnail-list div.thumbnail-top {
@@ -253,4 +253,5 @@ dl.caption-container dd.last {
 
 #thumbnail-list div.property-row {
 	text-align: center;
+	margin-top: 2px;
 }

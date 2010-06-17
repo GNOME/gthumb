@@ -1402,8 +1402,10 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				LoopInfo  *inner_loop_info;
 				char     **attributes;
 				int        i;
+				int        n_attributes;
 				int        first_non_empty;
 				int        last_non_empty;
+				int        n;
 
 				idx = MIN (self->priv->image, self->priv->n_images - 1);
 				idata = g_list_nth (self->priv->file_list, idx)->data;
@@ -1415,6 +1417,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				else
 					attributes = g_strsplit (self->priv->image_attributes, ",", -1);
 
+				n_attributes = g_strv_length (attributes);
 				first_non_empty = -1;
 				last_non_empty = -1;
 				for (i = 0; attributes[i] != NULL; i++) {
@@ -1430,14 +1433,16 @@ gth_parsed_doc_print (GthWebExporter      *self,
 					g_free (value);
 				}
 
+				n = 0;
+
 				for (i = 0; attributes[i] != NULL; i++) {
 					char *value;
 
 					value = gth_file_data_get_attribute_as_string (idata->file_data, attributes[i]);
 					if ((value != NULL) && ! g_str_equal (value, "")) {
-						inner_loop_info->first_item = (i == first_non_empty);
-						inner_loop_info->last_item = (i == last_non_empty);
-						inner_loop_info->item_index = i;
+						inner_loop_info->first_item = (n == 0);
+						inner_loop_info->last_item = (n == n_attributes - 1);
+						inner_loop_info->item_index = n;
 						inner_loop_info->item = g_object_ref (idata->file_data);
 						inner_loop_info->attribute = g_strdup (attributes[i]);
 
@@ -1448,9 +1453,29 @@ gth_parsed_doc_print (GthWebExporter      *self,
 								      relative_to,
 								      ostream,
 								      error);
+						n++;
 					}
 
 					g_free (value);
+				}
+
+				for (i = 0; attributes[i] != NULL; i++) {
+					if ((i < first_non_empty) || (i > last_non_empty)) {
+						inner_loop_info->first_item = (n == 0);
+						inner_loop_info->last_item = (n == n_attributes - 1);
+						inner_loop_info->item_index = n;
+						inner_loop_info->item = g_object_ref (idata->file_data);
+						inner_loop_info->attribute = g_strdup (attributes[i]);
+
+						gth_parsed_doc_print (self,
+								      tag->value.loop->document,
+								      GTH_TEMPLATE_TYPE_FRAGMENT,
+								      inner_loop_info,
+								      relative_to,
+								      ostream,
+								      error);
+						n++;
+					}
 				}
 
 				g_strfreev (attributes);
@@ -1478,7 +1503,16 @@ gth_parsed_doc_print (GthWebExporter      *self,
 					}
 				}
 
-				if (line != NULL)
+				if ((line == NULL) || (g_strcmp0 (line, "") == 0)) {
+					/* Always print a non-void value to
+					 * make the caption of the same height
+					 * for all the images, this fixes a
+					 * layout issue when the "adapt columns
+					 * to the window width" option is
+					 * enabled. */
+					_write_line (ostream, "&nbsp;", error);
+				}
+				else
 					write_markup_escape_line (ostream, line, error);
 			}
 			break;

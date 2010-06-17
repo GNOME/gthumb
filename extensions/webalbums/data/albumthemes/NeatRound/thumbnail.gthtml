@@ -30,4 +30,5 @@
         <% end %>
       <% end %>
 
+      <div style="clear: both"></div>
     </div> <!-- thumbnail-caption-container -->
