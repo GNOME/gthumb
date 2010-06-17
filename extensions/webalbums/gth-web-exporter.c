@@ -2700,6 +2700,18 @@ gth_web_exporter_exec (GthTask *task)
 
 
 static void
+gth_web_exporter_cancelled (GthTask *task)
+{
+	GthWebExporter *self;
+
+	g_return_if_fail (GTH_IS_WEB_EXPORTER (task));
+
+	self = GTH_WEB_EXPORTER (task);
+	self->priv->interrupted = TRUE;
+}
+
+
+static void
 gth_web_exporter_finalize (GObject *object)
 {
 	GthWebExporter *self;
@@ -2749,6 +2761,7 @@ gth_web_exporter_class_init (GthWebExporterClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_web_exporter_exec;
+	task_class->cancelled = gth_web_exporter_cancelled;
 }
 
 
@@ -2790,6 +2803,7 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->index_file = g_strdup (DEFAULT_INDEX_FILE);
 	self->priv->file_list = NULL;
 	self->priv->tmp_dir = NULL;
+	self->priv->interrupted = FALSE;
 
 	self->priv->iloader = gth_image_loader_new (FALSE);
 	g_signal_connect (G_OBJECT (self->priv->iloader),
