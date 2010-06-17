@@ -1,4 +1,4 @@
-SUBDIRS = copy-n-paste data po gthumb extensions tests help
+SUBDIRS = m4 copy-n-paste data po gthumb extensions tests help
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST =                    \
@@ -19,25 +19,31 @@ DISTCLEANFILES =                        \
 	intltool-update                 \
 	gnome-doc-utils.make
 
-MAINTAINERCLEANFILES = \
-	$(srcdir)/INSTALL \
-	$(srcdir)/aclocal.m4 \
-	$(srcdir)/autoscan.log \
-	$(srcdir)/compile \
-	$(srcdir)/config.guess \
-	$(srcdir)/config.h.in \
-	$(srcdir)/config.sub \
-	$(srcdir)/configure.scan \
-	$(srcdir)/depcomp \
-	$(srcdir)/install-sh \
-	$(srcdir)/ltmain.sh \
-	$(srcdir)/m4 \
-	$(srcdir)/missing \
-	$(srcdir)/mkinstalldirs \
-	$(srcdir)/omf.make \
-	$(srcdir)/xmldocs.make \
-	$(srcdir)/gtk-doc.make \
-	$(srcdir)/ChangeLog \
+MAINTAINERCLEANFILES = 			\
+	$(srcdir)/INSTALL		\
+	$(srcdir)/aclocal.m4 		\
+	$(srcdir)/autoscan.log 		\
+	$(srcdir)/compile 		\
+	$(srcdir)/config.guess 		\
+	$(srcdir)/config.h.in 		\
+	$(srcdir)/config.sub 		\
+	$(srcdir)/configure.scan 	\
+	$(srcdir)/depcomp 		\
+	$(srcdir)/install-sh 		\
+	$(srcdir)/ltmain.sh 		\
+	$(srcdir)/m4/gnome-doc-utils.m4	\
+	$(srcdir)/m4/intltool.m4	\
+	$(srcdir)/m4/libtool.m4		\
+	$(srcdir)/m4/lt~obsolete.m4	\
+	$(srcdir)/m4/ltoptions.m4	\
+	$(srcdir)/m4/ltsugar.m4		\
+	$(srcdir)/m4/ltversion.m4	\
+	$(srcdir)/missing 		\
+	$(srcdir)/mkinstalldirs 	\
+	$(srcdir)/omf.make 		\
+	$(srcdir)/xmldocs.make 		\
+	$(srcdir)/gtk-doc.make 		\
+	$(srcdir)/ChangeLog 		\
 	`find "$(srcdir)" -type f -name Makefile.in -print`
 
 GITIGNOREFILES = build .cdt* .cproject .project .settings/

@@ -3,7 +3,7 @@ _Name=Red-eye removal
 _Description=Tool to remove the red-eye effect from a photo.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Category=File-Tool
 
 [Loader]

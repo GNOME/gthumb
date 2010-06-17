@@ -3,7 +3,7 @@ _Name=Comments and tags
 _Description=Add comments and tags to any file type.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Category=Metadata
 
 [Loader]

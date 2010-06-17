@@ -3,7 +3,7 @@ _Name=File manager
 _Description=File manager operations.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
-Version=1.0
+Version=%VERSION%
 Icon=system-file-manager
 Category=Browser
 
