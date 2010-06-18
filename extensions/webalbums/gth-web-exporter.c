@@ -109,6 +109,7 @@ typedef struct {
 	int          ref;
 	gboolean     first_item;
 	gboolean     last_item;
+	gboolean     item_is_empty;
 	int          item_index;
 	GthFileData *item;
 	char        *attribute;
@@ -202,7 +203,7 @@ loop_info_unref (LoopInfo *info)
 	info->ref--;
 	if (info->ref > 0)
 		return;
-	g_object_unref (info->item);
+	_g_object_unref (info->item);
 	g_free (info->attribute);
 	g_free (info);
 }
@@ -355,6 +356,8 @@ get_var_value (GthExpr    *expr,
 		return (self->priv->loop_info != NULL) ? self->priv->loop_info->first_item : FALSE;
 	else if (g_str_equal (var_name, "last_item"))
 		return (self->priv->loop_info != NULL) ? self->priv->loop_info->last_item : FALSE;
+	else if (g_str_equal (var_name, "item_is_empty"))
+		return (self->priv->loop_info != NULL) ? self->priv->loop_info->item_is_empty : TRUE;
 
 	else if (g_str_equal (var_name, "image_attribute_available")) {
 		GthCell *cell;
@@ -1414,7 +1417,6 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION:
-		case GTH_TAG_FOR_EACH_IMAGE_CAPTION:
 			{
 				LoopInfo  *inner_loop_info;
 				char     **attributes;
@@ -1428,7 +1430,6 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				idata = g_list_nth (self->priv->file_list, idx)->data;
 				self->priv->eval_image = idata;
 
-				inner_loop_info = loop_info_new ();
 				if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
 					attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
 				else
@@ -1451,6 +1452,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				}
 
 				n = 0;
+				inner_loop_info = loop_info_new ();
 
 				for (i = 0; attributes[i] != NULL; i++) {
 					char *value;
@@ -1462,6 +1464,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 						inner_loop_info->item_index = n;
 						inner_loop_info->item = g_object_ref (idata->file_data);
 						inner_loop_info->attribute = g_strdup (attributes[i]);
+						inner_loop_info->item_is_empty = FALSE;
 
 						gth_parsed_doc_print (self,
 								      tag->value.loop->document,
@@ -1483,6 +1486,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 						inner_loop_info->item_index = n;
 						inner_loop_info->item = g_object_ref (idata->file_data);
 						inner_loop_info->attribute = g_strdup (attributes[i]);
+						inner_loop_info->item_is_empty = TRUE;
 
 						gth_parsed_doc_print (self,
 								      tag->value.loop->document,
@@ -1493,6 +1497,68 @@ gth_parsed_doc_print (GthWebExporter      *self,
 								      error);
 						n++;
 					}
+				}
+
+				g_strfreev (attributes);
+				loop_info_unref (inner_loop_info);
+			}
+			break;
+
+		case GTH_TAG_FOR_EACH_IMAGE_CAPTION:
+			{
+				LoopInfo  *inner_loop_info;
+				char     **attributes;
+				int        i;
+				int        first_non_empty;
+				int        last_non_empty;
+				int        n;
+
+				idx = MIN (self->priv->image, self->priv->n_images - 1);
+				idata = g_list_nth (self->priv->file_list, idx)->data;
+				self->priv->eval_image = idata;
+
+				attributes = g_strsplit (self->priv->image_attributes, ",", -1);
+				first_non_empty = -1;
+				last_non_empty = -1;
+				for (i = 0; attributes[i] != NULL; i++) {
+					char *value;
+
+					value = gth_file_data_get_attribute_as_string (idata->file_data, attributes[i]);
+					if ((value != NULL) && ! g_str_equal (value, "")) {
+						if (first_non_empty == -1)
+							first_non_empty = i;
+						last_non_empty = i;
+					}
+
+					g_free (value);
+				}
+
+				n = 0;
+				inner_loop_info = loop_info_new ();
+
+				for (i = 0; attributes[i] != NULL; i++) {
+					char *value;
+
+					value = gth_file_data_get_attribute_as_string (idata->file_data, attributes[i]);
+					if ((value != NULL) && ! g_str_equal (value, "")) {
+						inner_loop_info->first_item = (i == first_non_empty);
+						inner_loop_info->last_item = (i == last_non_empty);
+						inner_loop_info->item_index = n;
+						inner_loop_info->item = g_object_ref (idata->file_data);
+						inner_loop_info->attribute = g_strdup (attributes[i]);
+						inner_loop_info->item_is_empty = FALSE;
+
+						gth_parsed_doc_print (self,
+								      tag->value.loop->document,
+								      GTH_TEMPLATE_TYPE_FRAGMENT,
+								      inner_loop_info,
+								      relative_to,
+								      ostream,
+								      error);
+						n++;
+					}
+
+					g_free (value);
 				}
 
 				g_strfreev (attributes);
