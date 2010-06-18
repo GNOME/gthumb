@@ -13,7 +13,7 @@
   <link href="<%= theme_link src="layout.css" %>" rel="stylesheet" type="text/css" />
   <link href="<%= theme_link src="style.css" %>" rel="stylesheet" type="text/css" />
 </head>
-<% set_var thumbnail_width="120" thumbnail_height="100" %>
+<% set_var thumbnail_width="159" thumbnail_height="120" %>
 <% set_var preview_width="650" preview_height="600" %>
 <body>
   <div id="wrapper">

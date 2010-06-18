@@ -137,6 +137,7 @@ div.image-comment {
 	overflow: auto;
 	width: 300px;
 	border: 0px solid #aaa;
+	clear: right;
 }
 
 dl.caption-container {
@@ -188,7 +189,7 @@ dl.caption-container dd.last {
 }
 
 #thumbnail-grid tr td.td_empty_index {
-	width: 174px;
+	width: 224px;
 	height: auto;
 }
 
@@ -202,20 +203,20 @@ dl.caption-container dd.last {
 }
 
 #thumbnail-list div.thumbnail-container {
-	height: 130px;
+	height: 150px;
 }
 
 #thumbnail-list div.thumbnail-top {
 	background: url(top.png) no-repeat top left;
-	width: 154px;
+	width: 204px;
 	height: 14px;
 }
 
 #thumbnail-list div.thumbnail-bottom {
 	clear: both;
 	background: url(bot.png) no-repeat bottom left;
-	width: 154px;
-	height: 15px;
+	width: 204px;
+	height: 18px;
 }
 
 #thumbnail-list div.thumbnail-center {
@@ -226,18 +227,18 @@ dl.caption-container dd.last {
 
 #thumbnail-list div.thumbnail-left {
 	background: url(left.png) no-repeat top left;
-	width: 154px;
+	width: 204px;
 	height: 100%;
 }
 
 #thumbnail-list div.thumbnail-right {
 	background: url(right.png) no-repeat top right;
-	width: 154px;
+	width: 204px;
 	height: 100%;
 }
 
 #thumbnail-list div.thumbnail-image-container {
-	width: 151px;
+	width: 201px;
 	height: 100%;
 }
 
