@@ -137,6 +137,7 @@ div.image-comment {
 	overflow: auto;
 	width: 300px;
 	border: 0px solid #aaa;
+	clear: right;
 }
 
 dl.caption-container {

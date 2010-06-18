@@ -71,7 +71,7 @@
           <dl class="caption-container">
         <% end %>
     
-            <dt class="property" title="<%= item_attribute id %>"> <%= item_attribute display_name %> </dt>
+            <dt class="property"> <%= item_attribute display_name %> </dt>
             <dd class="property-value"> <%= item_attribute value %> </dd>
     
         <% if last_item %>
