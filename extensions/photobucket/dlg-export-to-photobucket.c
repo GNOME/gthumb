@@ -126,7 +126,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE);
+					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			}
 
@@ -148,7 +148,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("photobucket-export-completed.ui", "photobucket");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -206,7 +206,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			int          size;
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE);
+			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			_g_clear_object (&data->album);
 			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter)) {
@@ -365,14 +365,14 @@ album_list_ready_cb (GObject      *source_object,
 	data->albums = photobucket_service_get_albums_finish (data->service, res, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
 	update_album_list (data);
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -450,7 +450,7 @@ create_album_ready_cb (GObject      *source_object,
 	data->album = photobucket_service_create_album_finish (data->service, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
 		return;
 	}

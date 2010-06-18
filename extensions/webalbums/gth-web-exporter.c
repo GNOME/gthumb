@@ -1708,10 +1708,11 @@ save_files_progress_cb (GObject    *object,
 
 
 static void
-save_files_dialog_cb (gboolean opened,
-		      gpointer user_data)
+save_files_dialog_cb (gboolean   opened,
+		      GtkWidget *dialog,
+		      gpointer   user_data)
 {
-	gth_task_dialog (GTH_TASK (user_data), opened);
+	gth_task_dialog (GTH_TASK (user_data), opened, dialog);
 }
 
 

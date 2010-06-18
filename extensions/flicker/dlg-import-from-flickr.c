@@ -235,7 +235,7 @@ photoset_list_ready_cb (GObject      *source_object,
 	data->photosets = flickr_service_list_photosets_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -260,7 +260,7 @@ photoset_list_ready_cb (GObject      *source_object,
 		g_free (n_photos);
 	}
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -351,12 +351,13 @@ list_photos_ready_cb (GObject      *source_object,
 	GList      *list;
 	GList      *scan;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+
 	_g_object_list_unref (data->photos);
 	data->photos = flickr_service_list_photos_finish (data->service, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -400,7 +401,7 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 			    PHOTOSET_DATA_COLUMN, &data->photoset,
 			    -1);
 
-	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 	flickr_service_list_photos (data->service,
 				    data->photoset,
 				    "original_format, url_sq, url_t, url_s, url_m, url_o",

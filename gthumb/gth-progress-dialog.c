@@ -384,9 +384,10 @@ _show_dialog_cb (gpointer data)
 
 
 static void
-task_dialog_cb (GthTask  *task,
-		gboolean  opened,
-		gpointer  user_data)
+task_dialog_cb (GthTask   *task,
+		gboolean   opened,
+		GtkWidget *dialog,
+		gpointer   user_data)
 {
 	GthProgressDialog *self = user_data;
 
@@ -398,6 +399,8 @@ task_dialog_cb (GthTask  *task,
 		}
 		gtk_widget_hide (GTK_WIDGET (self));
 		gtk_window_set_transient_for (GTK_WINDOW (self), NULL);
+		if (dialog != NULL)
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), self->priv->parent);
 	}
 	else if (self->priv->show_event == 0)
 		self->priv->show_event = g_timeout_add (SHOW_DELAY, _show_dialog_cb, self);

@@ -23,7 +23,7 @@
 #ifndef TYPEDEFS_H
 #define TYPEDEFS_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -121,6 +121,7 @@ typedef void (*ProgressCallback) (GObject    *object,
 			          double      fraction,
 			   	  gpointer    user_data);
 typedef void (*DialogCallback)   (gboolean    opened,
+				  GtkWidget  *dialog,
 				  gpointer    user_data);
 
 G_END_DECLS

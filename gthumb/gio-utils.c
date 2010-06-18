@@ -1228,7 +1228,7 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
 	if (copy_file_data->dialog_callback != NULL)
-		copy_file_data->dialog_callback (FALSE, copy_file_data->dialog_callback_data);
+		copy_file_data->dialog_callback (FALSE, NULL, copy_file_data->dialog_callback_data);
 
 	switch (copy_file_data->default_response) {
 	case GTH_OVERWRITE_RESPONSE_NO:
@@ -1282,14 +1282,15 @@ copy_file_ready_cb (GObject      *source_object,
 			if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
 				GtkWidget *dialog;
 
-				if (copy_file_data->dialog_callback != NULL)
-					copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
-
 				dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
 								   NULL,
 								   copy_file_data->current_destination,
 								   copy_file_data->default_response,
 								   copy_file_data->tot_files == 1);
+
+				if (copy_file_data->dialog_callback != NULL)
+					copy_file_data->dialog_callback (TRUE, dialog, copy_file_data->dialog_callback_data);
+
 				g_signal_connect (dialog,
 						  "response",
 						  G_CALLBACK (copy_file__overwrite_dialog_response_cb),

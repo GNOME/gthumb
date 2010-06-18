@@ -101,7 +101,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 		self->priv->overwrite_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
-	gth_task_dialog (GTH_TASK (self), FALSE);
+	gth_task_dialog (GTH_TASK (self), FALSE, NULL);
 
 	switch (self->priv->overwrite_response) {
 	case GTH_OVERWRITE_RESPONSE_NO:
@@ -173,14 +173,14 @@ pixbuf_saved_cb (GthFileData *file_data,
 				GthFileData *file_data;
 				GtkWidget   *dialog;
 
-				gth_task_dialog (GTH_TASK (self), TRUE);
-
 				file_data = self->priv->current->data;
 				dialog = gth_overwrite_dialog_new (NULL,
 								   self->priv->new_pixbuf,
 								   file_data->file,
 								   GTH_OVERWRITE_RESPONSE_YES,
 								   (self->priv->n_files == 1));
+				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
+
 				g_signal_connect (dialog,
 						  "response",
 						  G_CALLBACK (overwrite_dialog_response_cb),
@@ -208,11 +208,12 @@ pixbuf_saved_cb (GthFileData *file_data,
 
 
 static void
-pixbuf_task_dialog_cb (GthTask  *task,
-		       gboolean  opened,
-		       gpointer  user_data)
+pixbuf_task_dialog_cb (GthTask   *task,
+		       gboolean   opened,
+		       GtkWidget *dialog,
+		       gpointer   user_data)
 {
-	gth_task_dialog (GTH_TASK (user_data), opened);
+	gth_task_dialog (GTH_TASK (user_data), opened, dialog);
 }
 
 

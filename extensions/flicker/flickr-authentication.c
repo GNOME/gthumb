@@ -213,9 +213,6 @@ show_authentication_error_dialog (FlickrAuthentication  *self,
 		return;
 	}
 
-	if (self->priv->conn != NULL)
-		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-
 	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 			             GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_ERROR,
@@ -224,6 +221,9 @@ show_authentication_error_dialog (FlickrAuthentication  *self,
 				     _("Choose _Account..."), FLICKR_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT,
 				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				     NULL);
+	if (self->priv->conn != NULL)
+		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, dialog);
+
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (authentication_error_dialog_response_cb),
@@ -406,7 +406,7 @@ complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+		gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
 		flickr_connection_get_token (self->priv->conn,
 					     self->priv->cancellable,
 					     connection_token_ready_cb,
@@ -427,7 +427,7 @@ complete_authorization (FlickrAuthentication *self)
 	char       *text;
 	char       *secondary_text;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("flicker-complete-authorization.ui", "flicker");
 	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
@@ -501,7 +501,7 @@ ask_authorization (FlickrAuthentication *self)
 	char       *text;
 	char       *secondary_text;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("flicker-ask-authorization.ui", "flicker");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
@@ -591,7 +591,7 @@ show_choose_account_dialog (FlickrAuthentication *self)
 {
 	GtkWidget *dialog;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 	dialog = flickr_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
 	g_signal_connect (dialog,
 			  "response",
@@ -609,7 +609,7 @@ void
 flickr_authentication_auto_connect (FlickrAuthentication *self)
 {
 	gtk_widget_hide (self->priv->dialog);
-	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
 
 	if (self->priv->accounts != NULL) {
 		if (self->priv->account != NULL) {

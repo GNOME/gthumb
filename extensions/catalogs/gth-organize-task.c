@@ -375,7 +375,7 @@ gth_organize_task_exec (GthTask *base)
 	gtk_window_set_modal (GTK_WINDOW (GET_WIDGET ("organize_files_dialog")), TRUE);
 	gtk_widget_show (GET_WIDGET ("organize_files_dialog"));
 
-	gth_task_dialog (base, TRUE);
+	gth_task_dialog (base, TRUE, GET_WIDGET ("organize_files_dialog"));
 }
 
 
