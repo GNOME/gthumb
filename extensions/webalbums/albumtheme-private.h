@@ -25,9 +25,11 @@
 
 #include <glib.h>
 
+/* A list of GthTag elements that describes a parsed .gthtml file */
+
 extern GList *yy_parsed_doc;
 
-/* GthMem */
+/* GthMem: the memory stack used to evaluate an expression. */
 
 typedef struct {
 	int *data;
@@ -46,7 +48,8 @@ int       gth_mem_get_pos    (GthMem *mem,
 int       gth_mem_get        (GthMem *mem);
 int       gth_mem_get_top    (GthMem *mem);
 
-/* GthCell */
+/* GthCell: contains an element of the expression, therefore a GthExpr is a
+ * series of GthCells. */
 
 typedef enum {
 	GTH_OP_ADD,
@@ -104,54 +107,53 @@ struct _GthExpr {
 	gpointer             get_var_value_data;
 };
 
-GthExpr*  gth_expr_new                    (void);
-GthExpr*  gth_expr_ref                    (GthExpr            *e);
-void      gth_expr_unref                  (GthExpr            *e);
-void      gth_expr_set_empty              (GthExpr            *e);
-gboolean  gth_expr_is_empty               (GthExpr            *e);
-void      gth_expr_push_expr              (GthExpr            *e,
-					   GthExpr            *e2);
-void      gth_expr_push_op                (GthExpr            *e,
-					   GthOp               op);
-void      gth_expr_push_var               (GthExpr            *e,
-					   const char         *name);
-void      gth_expr_push_string            (GthExpr            *e,
-					   const char         *value);
-void      gth_expr_push_integer           (GthExpr            *e,
-					   int                 value);
-void      gth_expr_pop                    (GthExpr            *e);
-GthCell*  gth_expr_get_pos                (GthExpr            *e,
-					   int                 pos);
-GthCell*  gth_expr_get                    (GthExpr            *e);
-int       gth_expr_get_top                (GthExpr            *e);
-void      gth_expr_set_get_var_value_func (GthExpr            *e,
-					   GthGetVarValueFunc  f,
-					   gpointer            data);
-void      gth_expr_print                  (GthExpr            *e);
-int       gth_expr_eval                   (GthExpr            *e);
+GthExpr *  gth_expr_new                    (void);
+GthExpr *  gth_expr_ref                    (GthExpr            *e);
+void       gth_expr_unref                  (GthExpr            *e);
+void       gth_expr_set_empty              (GthExpr            *e);
+gboolean   gth_expr_is_empty               (GthExpr            *e);
+void       gth_expr_push_expr              (GthExpr            *e,
+					    GthExpr            *e2);
+void       gth_expr_push_op                (GthExpr            *e,
+					    GthOp               op);
+void       gth_expr_push_var               (GthExpr            *e,
+					    const char         *name);
+void       gth_expr_push_string            (GthExpr            *e,
+					    const char         *value);
+void       gth_expr_push_integer           (GthExpr            *e,
+					    int                 value);
+void       gth_expr_pop                    (GthExpr            *e);
+GthCell *  gth_expr_get_pos                (GthExpr            *e,
+					    int                 pos);
+GthCell *  gth_expr_get                    (GthExpr            *e);
+int        gth_expr_get_top                (GthExpr            *e);
+void       gth_expr_set_get_var_value_func (GthExpr            *e,
+					    GthGetVarValueFunc  f,
+					    gpointer            data);
+void       gth_expr_print                  (GthExpr            *e);
+int        gth_expr_eval                   (GthExpr            *e);
 
-/* GthVar */
+/* GthAttribute */
 
 typedef enum {
-	GTH_VAR_EXPR,
-	GTH_VAR_STRING
-} GthVarType;
+	GTH_ATTRIBUTE_EXPR,
+	GTH_ATTRIBUTE_STRING
+} GthAttributeType;
 
 typedef struct {
-	char       *name;
-	GthVarType  type;
+	char             *name;
+	GthAttributeType  type;
 	union {
 		GthExpr *expr;
 		char    *string;
 	} value;
-} GthVar;
+} GthAttribute;
 
-GthVar*  gth_var_new_integer    (int value);
-GthVar*  gth_var_new_expression (const char *name,
-				 GthExpr    *e);
-GthVar*  gth_var_new_string     (const char *name,
-				 const char *string);
-void     gth_var_free           (GthVar     *var);
+GthAttribute *  gth_attribute_new_expression  (const char   *name,
+					       GthExpr      *expr);
+GthAttribute *  gth_attribute_new_string      (const char   *name,
+					       const char   *string);
+void            gth_attribute_free            (GthAttribute *attribute);
 
 /* GthCondition */
 
@@ -215,7 +217,7 @@ void        gth_loop_add_document  (GthLoop    *loop,
 typedef struct {
 	GthTagType type;
 	union {
-		GList   *arg_list;    /* GthVar list */
+		GList   *attributes;  /* GthAttribute list */
 		char    *html;        /* html */
 		GList   *cond_list;   /* GthCondition list */
 		GthLoop *loop;        /* a loop tag */
@@ -224,7 +226,7 @@ typedef struct {
 } GthTag;
 
 GthTag *     gth_tag_new                 (GthTagType  type,
-				          GList      *arg_list);
+				          GList      *attributes);
 GthTag *     gth_tag_new_html            (const char *html);
 GthTag *     gth_tag_new_condition       (GList      *cond_list);
 GthTag *     gth_tag_new_loop            (GthLoop    *loop);

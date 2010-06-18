@@ -533,68 +533,57 @@ gth_expr_eval (GthExpr *e)
 }
 
 
-/* GthVar */
+/* GthAttribute */
 
 
-GthVar *
-gth_var_new_integer (int value)
+GthAttribute *
+gth_attribute_new_expression (const char *name,
+			      GthExpr    *expr)
 {
-	GthVar *var;
-
-	var = g_new0 (GthVar, 1);
-	var->name = NULL;
-	var->type = GTH_VAR_EXPR;
-	var->value.expr = gth_expr_new ();
-	gth_expr_push_integer (var->value.expr, value);
-
-	return var;
-}
-
-
-GthVar *
-gth_var_new_expression (const char *name,
-			GthExpr    *e)
-{
-	GthVar *var;
+	GthAttribute *attribute;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	var = g_new0 (GthVar, 1);
-	var->type = GTH_VAR_EXPR;
-	var->name = g_strdup (name);
-	var->value.expr = gth_expr_ref (e);
+	attribute = g_new0 (GthAttribute, 1);
+	attribute->type = GTH_ATTRIBUTE_EXPR;
+	attribute->name = g_strdup (name);
+	attribute->value.expr = gth_expr_ref (expr);
 
-	return var;
+	return attribute;
 }
 
 
-GthVar*
-gth_var_new_string (const char *name,
-                    const char *string)
+GthAttribute*
+gth_attribute_new_string (const char *name,
+			  const char *string)
 {
-	GthVar *var;
+	GthAttribute *attribute;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	var = g_new0 (GthVar, 1);
-	var->type = GTH_VAR_STRING;
-	var->name = g_strdup (name);
+	attribute = g_new0 (GthAttribute, 1);
+	attribute->type = GTH_ATTRIBUTE_STRING;
+	attribute->name = g_strdup (name);
 	if (string != NULL)
-		var->value.string = g_strdup (string);
+		attribute->value.string = g_strdup (string);
 
-	return var;
+	return attribute;
 }
 
 
 void
-gth_var_free (GthVar *var)
+gth_attribute_free (GthAttribute *attribute)
 {
-	g_free (var->name);
-	if (var->type == GTH_VAR_EXPR)
-		gth_expr_unref (var->value.expr);
-	if (var->type == GTH_VAR_STRING)
-		g_free (var->value.string);
-	g_free (var);
+	g_free (attribute->name);
+	switch (attribute->type) {
+	case GTH_ATTRIBUTE_EXPR:
+		gth_expr_unref (attribute->value.expr);
+		break;
+	case GTH_ATTRIBUTE_STRING:
+		g_free (attribute->value.string);
+		break;
+	}
+	g_free (attribute);
 }
 
 
@@ -681,13 +670,13 @@ gth_loop_add_document (GthLoop *loop,
 
 GthTag *
 gth_tag_new (GthTagType  type,
-	     GList      *arg_list)
+	     GList      *attributes)
 {
 	GthTag *tag;
 
 	tag = g_new0 (GthTag, 1);
 	tag->type = type;
-	tag->value.arg_list = arg_list;
+	tag->value.attributes = attributes;
 
 	return tag;
 }
@@ -760,10 +749,10 @@ gth_tag_free (GthTag *tag)
 		gth_loop_free (tag->value.loop);
 	}
 	else {
-		g_list_foreach (tag->value.arg_list,
-				(GFunc) gth_var_free,
+		g_list_foreach (tag->value.attributes,
+				(GFunc) gth_attribute_free,
 				NULL);
-		g_list_free (tag->value.arg_list);
+		g_list_free (tag->value.attributes);
 	}
 
 	if (tag->document != NULL)
@@ -891,14 +880,14 @@ gth_parsed_doc_print_tree (GList *document)
 		if ((tag->type != GTH_TAG_HTML) && (tag->type != GTH_TAG_IF)) {
 			GList *scan_arg;
 
-			for (scan_arg = tag->value.arg_list; scan_arg; scan_arg = scan_arg->next) {
-				GthVar *var = scan_arg->data;
+			for (scan_arg = tag->value.attributes; scan_arg; scan_arg = scan_arg->next) {
+				GthAttribute *attribute = scan_arg->data;
 
-				g_print ("  %s = ", var->name);
-				if (var->type == GTH_VAR_STRING)
-					g_print ("%s\n", var->value.string);
+				g_print ("  %s = ", attribute->name);
+				if (attribute->type == GTH_ATTRIBUTE_STRING)
+					g_print ("%s\n", attribute->value.string);
 				else
-					gth_expr_print (var->value.expr);
+					gth_expr_print (attribute->value.expr);
 			}
 		}
 	}

@@ -37,7 +37,7 @@ int   gth_albumtheme_yywrap  (void);
 %union {
 	char         *text;
 	int           ivalue;
-	GthVar       *var;
+	GthAttribute *attribute;
 	GthTag       *tag;
 	GthExpr      *expr;
 	GList        *list;
@@ -53,17 +53,17 @@ int   gth_albumtheme_yywrap  (void);
 %token <ivalue> SET_VAR
 %token <text>   HTML
 
-%type <list>   document
-%type <tag>    tag_command
-%type <tag>    tag_print
-%type <loop>   tag_loop
-%type <cond>   tag_if
-%type <cond>   tag_else_if
-%type <cond>   opt_tag_else
-%type <list>   opt_tag_else_if
-%type <list>   attribute_list
-%type <var>    attribute
-%type <expr>   expr
+%type <list>      document
+%type <tag>       tag_command
+%type <tag>       tag_print
+%type <loop>      tag_loop
+%type <cond>      tag_if
+%type <cond>      tag_else_if
+%type <cond>      opt_tag_else
+%type <list>      opt_tag_else_if
+%type <list>      attribute_list
+%type <attribute> attribute
+%type <expr>      expr
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
@@ -187,7 +187,7 @@ tag_print	: PRINT FUNCTION_NAME '\'' QUOTED_STRING '\'' END_TAG {
 			if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
 				GList *arg_list;
 
-				arg_list = g_list_append (NULL, gth_var_new_string ("text", $4));
+				arg_list = g_list_append (NULL, gth_attribute_new_string ("text", $4));
 				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
 			}
 			else {
@@ -216,12 +216,12 @@ attribute_list	: attribute attribute_list {
 		;
 
 attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
-			$$ = gth_var_new_expression ($1, $4);
+			$$ = gth_attribute_new_expression ($1, $4);
 			g_free ($1);
 		}
 
 		| ATTRIBUTE_NAME '=' '\'' QUOTED_STRING '\'' {
-			$$ = gth_var_new_string ($1, $4);
+			$$ = gth_attribute_new_string ($1, $4);
 			g_free ($1);
 			g_free ($4);
 		}
@@ -229,7 +229,7 @@ attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
 		| ATTRIBUTE_NAME {
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_integer (e, 1);
-			$$ = gth_var_new_expression ($1, e);
+			$$ = gth_attribute_new_expression ($1, e);
 			g_free ($1);
 		}
 		;

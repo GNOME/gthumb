@@ -436,15 +436,15 @@ gth_tag_get_idx (GthTag         *tag,
 		return 0;
 	}
 
-	for (scan = tag->value.arg_list; scan; scan = scan->next) {
-		GthVar *var = scan->data;
+	for (scan = tag->value.attributes; scan; scan = scan->next) {
+		GthAttribute *attribute = scan->data;
 
-		if (strcmp (var->name, "idx_relative") == 0) {
-			retval = default_value + expression_value (self, var->value.expr);
+		if (strcmp (attribute->name, "idx_relative") == 0) {
+			retval = default_value + expression_value (self, attribute->value.expr);
 			break;
 
-		} else if (strcmp (var->name, "idx") == 0) {
-			retval = expression_value (self, var->value.expr) - 1;
+		} else if (strcmp (attribute->name, "idx") == 0) {
+			retval = expression_value (self, attribute->value.expr) - 1;
 			break;
 		}
 	}
@@ -473,16 +473,33 @@ get_page_idx (GthTag         *tag,
 
 
 static int
-gth_tag_get_var (GthWebExporter *self,
-		 GthTag         *tag,
-		 const char     *var_name)
+gth_tag_has_attribute (GthWebExporter *self,
+		       GthTag         *tag,
+		       const char     *attribute_name)
 {
 	GList *scan;
 
-	for (scan = tag->value.arg_list; scan; scan = scan->next) {
-		GthVar *var = scan->data;
-		if (strcmp (var->name, var_name) == 0)
-			return expression_value (self, var->value.expr);
+	for (scan = tag->value.attributes; scan; scan = scan->next) {
+		GthAttribute *attribute = scan->data;
+		if (strcmp (attribute->name, attribute_name) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static int
+gth_tag_get_attribute_int (GthWebExporter *self,
+			   GthTag         *tag,
+			   const char     *attribute_name)
+{
+	GList *scan;
+
+	for (scan = tag->value.attributes; scan; scan = scan->next) {
+		GthAttribute *attribute = scan->data;
+		if (strcmp (attribute->name, attribute_name) == 0)
+			return expression_value (self, attribute->value.expr);
 	}
 
 	return 0;
@@ -490,25 +507,25 @@ gth_tag_get_var (GthWebExporter *self,
 
 
 static const char *
-gth_tag_get_str (GthWebExporter *self,
-		 GthTag         *tag,
-		 const char     *var_name)
+gth_tag_get_attribute_string (GthWebExporter *self,
+			      GthTag         *tag,
+			      const char     *attribute_name)
 {
 	GList *scan;
 
-	for (scan = tag->value.arg_list; scan; scan = scan->next) {
-		GthVar *var = scan->data;
+	for (scan = tag->value.attributes; scan; scan = scan->next) {
+		GthAttribute *attribute = scan->data;
 
-		if (strcmp (var->name, var_name) == 0) {
-			if (var->type == GTH_VAR_EXPR) {
+		if (strcmp (attribute->name, attribute_name) == 0) {
+			if (attribute->type == GTH_ATTRIBUTE_EXPR) {
 				GthCell *cell;
 
-				cell = gth_expr_get (var->value.expr);
+				cell = gth_expr_get (attribute->value.expr);
 				if (cell->type == GTH_CELL_TYPE_VAR)
 					return cell->value.var;
 			}
-			else if (var->type == GTH_VAR_STRING)
-				return var->value.string;
+			else if (attribute->type == GTH_ATTRIBUTE_STRING)
+				return attribute->value.string;
 			else
 				return NULL;
 		}
@@ -635,7 +652,7 @@ get_image_attribute (GthWebExporter    *self,
 	if (value == NULL)
 		return NULL;
 
-	max_length = gth_tag_get_var (self, tag, "max_length");
+	max_length = gth_tag_get_attribute_int (self, tag, "max_length");
 	if (max_length > 0) {
 		char *truncated;
 
@@ -975,10 +992,10 @@ static GthAttrImageType
 get_attr_image_type_from_tag (GthWebExporter *self,
 			      GthTag         *tag)
 {
-	if (gth_tag_get_var (self, tag, "thumbnail") != 0)
+	if (gth_tag_get_attribute_int (self, tag, "thumbnail") != 0)
 		return GTH_IMAGE_TYPE_THUMBNAIL;
 
-	if (gth_tag_get_var (self, tag, "preview") != 0)
+	if (gth_tag_get_attribute_int (self, tag, "preview") != 0)
 		return GTH_IMAGE_TYPE_PREVIEW;
 
 	return GTH_IMAGE_TYPE_IMAGE;
@@ -1050,7 +1067,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_THEME_LINK:
-			src = gth_tag_get_str (self, tag, "src");
+			src = gth_tag_get_attribute_string (self, tag, "src");
 			if (src == NULL)
 				break;
 			file = get_theme_file (self, self->priv->target_dir, src);
@@ -1087,13 +1104,13 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			image_src = gfile_get_relative_uri (file, relative_to);
 			src_attr = _g_escape_for_html (image_src, -1);
 
-			class = gth_tag_get_str (self, tag, "class");
+			class = gth_tag_get_attribute_string (self, tag, "class");
 			if (class)
 				class_attr = g_strdup_printf (" class=\"%s\"", class);
 			else
 				class_attr = g_strdup ("");
 
-			max_length = gth_tag_get_var (self, tag, "max_length");
+			max_length = gth_tag_get_attribute_int (self, tag, "max_length");
 			if (max_length > 0)
 				scale_keeping_ratio (&image_width,
 						     &image_height,
@@ -1101,7 +1118,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 						     max_length,
 						     FALSE);
 
-			alt = gth_tag_get_str (self, tag, "alt");
+			alt = gth_tag_get_attribute_string (self, tag, "alt");
 			if (alt != NULL) {
 				alt_attr = g_strdup (alt);
 			}
@@ -1113,7 +1130,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				g_free (unescaped_path);
 			}
 
-			id = gth_tag_get_str (self, tag, "id");
+			id = gth_tag_get_attribute_string (self, tag, "id");
 			if (id != NULL)
 				id_attr = g_strdup_printf (" id=\"%s\"", id);
 			else
@@ -1160,7 +1177,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 		case GTH_TAG_IMAGE_ATTRIBUTE:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			id = gth_tag_get_str (self, tag, "id");
+			id = gth_tag_get_attribute_string (self, tag, "id");
 			if (id != NULL) {
 				line = get_image_attribute (self, tag, id, idata);
 				write_line (ostream, line, error);
@@ -1191,14 +1208,14 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				break;
 			}
 
-			relative = (gth_tag_get_var (self, tag, "with_relative_path") != 0);
+			relative = (gth_tag_get_attribute_int (self, tag, "with_relative_path") != 0);
 
 			if (relative)
 				unescaped_path = gfile_get_relative_path (file, relative_to);
 			else
 				unescaped_path = g_file_get_path (file);
 
-			if (relative || (gth_tag_get_var (self, tag, "with_path") != 0)) {
+			if (relative || (gth_tag_get_attribute_int (self, tag, "with_path") != 0)) {
 				line = unescaped_path;
 			}
 			else {
@@ -1206,7 +1223,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				g_free (unescaped_path);
 			}
 
-			if  (gth_tag_get_var (self, tag, "utf8") != 0)
+			if  (gth_tag_get_attribute_int (self, tag, "utf8") != 0)
 				write_markup_escape_locale_line (ostream, line, error);
 			else
 				write_markup_escape_line (ostream, line, error);
@@ -1241,14 +1258,14 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 			dir = g_file_get_parent (file);
 
-			relative = (gth_tag_get_var (self, tag, "relative_path") != 0);
+			relative = (gth_tag_get_attribute_int (self, tag, "relative_path") != 0);
 
 			if (relative)
 				line = gfile_get_relative_path (dir, relative_to);
 			else
 				line = g_file_get_path (dir);
 
-			if  (gth_tag_get_var (self, tag, "utf8") != 0)
+			if  (gth_tag_get_attribute_int (self, tag, "utf8") != 0)
 				write_markup_escape_locale_line (ostream, line, error);
 			else
 				write_markup_escape_line (ostream, line, error);
@@ -1265,7 +1282,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_PAGE_LINK:
-			if (gth_tag_get_var (self, tag, "image_idx") != 0) {
+			if (gth_tag_get_attribute_int (self, tag, "image_idx") != 0) {
 				int image_idx;
 				image_idx = get_image_idx (tag, self);
 				idx = get_page_idx_from_image_idx (self, image_idx);
@@ -1354,7 +1371,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			{
 				const char *format;
 
-				format = gth_tag_get_str (self, tag, "format");
+				format = gth_tag_get_attribute_string (self, tag, "format");
 				if (format == NULL)
 					format = DEFAULT_DATE_FORMAT;
 				line = get_current_date (format);
@@ -1371,7 +1388,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			idata = g_list_nth (self->priv->file_list, idx)->data;
 			self->priv->eval_image = idata;
 
-			value = gth_tag_get_var (self, tag, "expr");
+			value = gth_tag_get_attribute_int (self, tag, "expr");
 			line = g_strdup_printf ("%d", value);
 			write_line (ostream, line, error);
 			break;
@@ -1489,16 +1506,16 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 				metadata_info = gth_main_get_metadata_info (loop_info->attribute);
 				if (metadata_info != NULL) {
-					if (gth_tag_get_var (self, tag, "id") != 0) {
+					if (gth_tag_get_attribute_int (self, tag, "id") != 0) {
 						line = g_strdup (metadata_info->id);
 					}
-					else if (gth_tag_get_var (self, tag, "display_name") != 0) {
+					else if (gth_tag_get_attribute_int (self, tag, "display_name") != 0) {
 						line = g_strdup (metadata_info->display_name);
 					}
-					else if (gth_tag_get_var (self, tag, "value") != 0) {
+					else if (gth_tag_get_attribute_int (self, tag, "value") != 0) {
 						line = gth_file_data_get_attribute_as_string (loop_info->item, loop_info->attribute);
 					}
-					else if (gth_tag_get_var (self, tag, "index") != 0) {
+					else if (gth_tag_get_attribute_int (self, tag, "index") != 0) {
 						line = g_strdup_printf ("%d", loop_info->item_index);
 					}
 				}
@@ -1518,7 +1535,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_TRANSLATE:
-			line = g_strdup (_(gth_tag_get_str (self, tag, "text")));
+			line = g_strdup (_(gth_tag_get_attribute_string (self, tag, "text")));
 			write_markup_escape_line (ostream, line, error);
 			break;
 
@@ -2479,22 +2496,24 @@ parse_theme_files (GthWebExporter *self)
 	template = g_file_get_child (self->priv->style_dir, "thumbnail.gthtml");
 	self->priv->thumbnail_template = parse_template (template);
 	if (self->priv->thumbnail_template == NULL) {
-		GthExpr *expr;
-		GthVar  *var;
-		GList   *vars = NULL;
-		GthTag  *tag;
+		GList        *attributes = NULL;
+		GthExpr      *expr;
+		GthAttribute *attribute;
+		GthTag       *tag;
 
 		expr = gth_expr_new ();
 		gth_expr_push_integer (expr, 0);
-		var = gth_var_new_expression ("idx_relative", expr);
-		vars = g_list_prepend (vars, var);
+		attribute = gth_attribute_new_expression ("idx_relative", expr);
+		attributes = g_list_prepend (attributes, attribute);
+		gth_expr_unref (expr);
 
 		expr = gth_expr_new ();
 		gth_expr_push_integer (expr, 1);
-		var = gth_var_new_expression ("thumbnail", expr);
-		vars = g_list_prepend (vars, var);
+		attribute = gth_attribute_new_expression ("thumbnail", expr);
+		attributes = g_list_prepend (attributes, attribute);
+		gth_expr_unref (expr);
 
-		tag = gth_tag_new (GTH_TAG_IMAGE, vars);
+		tag = gth_tag_new (GTH_TAG_IMAGE, attributes);
 		self->priv->thumbnail_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
@@ -2504,22 +2523,24 @@ parse_theme_files (GthWebExporter *self)
 	template = g_file_get_child (self->priv->style_dir, "image.gthtml");
 	self->priv->image_template = parse_template (template);
 	if (self->priv->image_template == NULL) {
-		GthExpr *expr;
-		GthVar  *var;
-		GList   *vars = NULL;
-		GthTag  *tag;
+		GList        *attributes = NULL;
+		GthExpr      *expr;
+		GthAttribute *attribute;
+		GthTag       *tag;
 
 		expr = gth_expr_new ();
 		gth_expr_push_integer (expr, 0);
-		var = gth_var_new_expression ("idx_relative", expr);
-		vars = g_list_prepend (vars, var);
+		attribute = gth_attribute_new_expression ("idx_relative", expr);
+		attributes = g_list_prepend (attributes, attribute);
+		gth_expr_unref (expr);
 
 		expr = gth_expr_new ();
 		gth_expr_push_integer (expr, 0);
-		var = gth_var_new_expression ("thumbnail", expr);
-		vars = g_list_prepend (vars, var);
+		attribute = gth_attribute_new_expression ("thumbnail", expr);
+		attributes = g_list_prepend (attributes, attribute);
+		gth_expr_unref (expr);
 
-		tag = gth_tag_new (GTH_TAG_IMAGE, vars);
+		tag = gth_tag_new (GTH_TAG_IMAGE, attributes);
 		self->priv->image_template = g_list_prepend (NULL, tag);
 	}
 	g_object_unref (template);
@@ -2533,24 +2554,33 @@ parse_theme_files (GthWebExporter *self)
 			int width;
 			int height;
 
-			width = gth_tag_get_var (self, tag, "thumbnail_width");
-			height = gth_tag_get_var (self, tag, "thumbnail_height");
+			if (gth_tag_has_attribute (self, tag, "if")) {
+				if (! gth_tag_get_attribute_int (self, tag, "if"))
+					continue;
+			}
+			else if (gth_tag_has_attribute (self, tag, "unless")) {
+				if (gth_tag_get_attribute_int (self, tag, "unless"))
+					continue;
+			}
+
+			width = gth_tag_get_attribute_int (self, tag, "thumbnail_width");
+			height = gth_tag_get_attribute_int (self, tag, "thumbnail_height");
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "thumbnail --> %dx%d", width, height);
 				gth_web_exporter_set_thumb_size (self, width, height);
 				continue;
 			}
 
-			width = gth_tag_get_var (self, tag, "preview_width");
-			height = gth_tag_get_var (self, tag, "preview_height");
+			width = gth_tag_get_attribute_int (self, tag, "preview_width");
+			height = gth_tag_get_attribute_int (self, tag, "preview_height");
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "preview --> %dx%d", width, height);
 				gth_web_exporter_set_preview_size (self, width, height);
 				continue;
 			}
 
-			width = gth_tag_get_var (self, tag, "preview_min_width");
-			height = gth_tag_get_var (self, tag, "preview_min_height");
+			width = gth_tag_get_attribute_int (self, tag, "preview_min_width");
+			height = gth_tag_get_attribute_int (self, tag, "preview_min_height");
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "preview min --> %dx%d", width, height);
 				gth_web_exporter_set_preview_min_size (self, width, height);
