@@ -261,7 +261,7 @@ info_ready_cb (GList    *files,
 				if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
 					set_date_metadata (file_data, "general::datetime", date_time, 0);
 				}
-				else if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
+				if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
 					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, 0);
 				}
 			}
