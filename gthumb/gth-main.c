@@ -407,6 +407,9 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 {
 	GthMetadataInfo *info;
 
+	if ((metadata_info->display_name != NULL) && (strstr (metadata_info->display_name, "0x") != NULL))
+		return NULL;
+
 	g_static_mutex_lock (&metadata_info_mutex);
 
 	info = gth_metadata_info_dup (metadata_info);
@@ -427,7 +430,8 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 	g_static_mutex_lock (&metadata_info_mutex);
 
 	for (i = 0; metadata_info[i].id != NULL; i++)
-		g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
+		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL))
+			g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
 
 	g_static_mutex_unlock (&metadata_info_mutex);
 }

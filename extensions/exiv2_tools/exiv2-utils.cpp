@@ -226,10 +226,6 @@ set_file_info (GFileInfo  *info,
 		formatted_value_utf8 = g_locale_to_utf8 (formatted_clean, -1, NULL, NULL, NULL);
 	}
 
-/*
-g_print ("%s (%s): %s (%s)\n", key, description, formatted_value, raw_value);
-*/
-
 	metadata_info = gth_main_get_metadata_info (attribute);
 	if ((metadata_info == NULL) && (category != NULL)) {
 		GthMetadataInfo info;
@@ -243,7 +239,7 @@ g_print ("%s (%s): %s (%s)\n", key, description, formatted_value, raw_value);
 		metadata_info = gth_main_register_metadata_info (&info);
 	}
 
-	if ((metadata_info->display_name == NULL) && (description_utf8 != NULL))
+	if ((metadata_info != NULL) && (metadata_info->display_name == NULL) && (description_utf8 != NULL))
 		metadata_info->display_name = g_strdup (description_utf8);
 
 	metadata = gth_metadata_new ();

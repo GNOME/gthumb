@@ -89,12 +89,13 @@ copy_progress_cb (GObject    *object,
 
 
 static void
-copy_dialog_cb (gboolean  opened,
-		gpointer  user_data)
+copy_dialog_cb (gboolean   opened,
+		GtkWidget *dialog,
+		gpointer   user_data)
 {
 	GthDuplicateTask *self = user_data;
 
-	gth_task_dialog (GTH_TASK (self), opened);
+	gth_task_dialog (GTH_TASK (self), opened, dialog);
 }
 
 

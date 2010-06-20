@@ -513,6 +513,22 @@ extensions/slideshow/main.c
 extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
 [type: gettext/ini]extensions/slideshow/slideshow.extension.in.in
+extensions/webalbums/actions.c
+extensions/webalbums/actions.h
+extensions/webalbums/albumtheme-private.c
+extensions/webalbums/albumtheme-private.h
+extensions/webalbums/callbacks.c
+extensions/webalbums/callbacks.h
+extensions/webalbums/data/albumthemes/text.h
+[type: gettext/glade]extensions/webalbums/data/ui/web-album-exporter.ui
+extensions/webalbums/dlg-web-exporter.c
+extensions/webalbums/dlg-web-exporter.h
+extensions/webalbums/dlg-web-exporter-old.c
+extensions/webalbums/gth-web-exporter.c
+extensions/webalbums/gth-web-exporter.h
+extensions/webalbums/gth-web-exporter-old.c
+extensions/webalbums/main.c
+[type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
 gthumb/dlg-extensions.c
 gthumb/dlg-extensions.h
 gthumb/dlg-personalize-filters.c

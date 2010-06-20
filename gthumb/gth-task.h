@@ -23,8 +23,7 @@
 #ifndef GTH_TASK_H
 #define GTH_TASK_H
 
-#include <glib-object.h>
-#include <gio/gio.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -67,7 +66,8 @@ struct _GthTaskClass
 			       gboolean    pulse,
 			       double      fraction);
 	void  (*dialog)       (GthTask    *task,
-			       gboolean    opened);
+			       gboolean    opened,
+			       GtkWidget  *dialog);
 
 	/*< virtual functions >*/
 
@@ -86,7 +86,8 @@ GCancellable *  gth_task_get_cancellable (GthTask      *task);
 void            gth_task_completed       (GthTask      *task,
 					  GError       *error);
 void            gth_task_dialog          (GthTask      *task,
-					  gboolean      opened);
+					  gboolean      opened,
+					  GtkWidget    *dialog);
 void            gth_task_progress        (GthTask      *task,
 					  const char   *description,
 					  const char   *details,

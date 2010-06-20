@@ -132,7 +132,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE);
+					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			}
 			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
@@ -153,7 +153,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("flicker-export-completed.ui", "flicker");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -293,7 +293,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			GList *file_list;
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE);
+			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			data->photoset = NULL;
 			photoset_title = gtk_combo_box_get_active_text (GTK_COMBO_BOX (GET_WIDGET ("photoset_comboboxentry")));
@@ -386,7 +386,7 @@ photoset_list_ready_cb (GObject      *source_object,
 	data->photosets = flickr_service_list_photosets_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
@@ -413,7 +413,7 @@ photoset_list_ready_cb (GObject      *source_object,
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), TRUE);
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);

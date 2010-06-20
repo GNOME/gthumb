@@ -134,7 +134,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
 				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE);
+					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			}
 			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
@@ -155,7 +155,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("picasa-web-export-completed.ui", "picasaweb");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -180,11 +180,9 @@ post_photos_ready_cb (GObject      *source_object,
 	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
 	GError           *error = NULL;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
-
 	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
 		return;
 	}
@@ -228,7 +226,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 					    -1);
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE);
+			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 			picasa_web_service_post_photos (data->picasaweb,
@@ -324,7 +322,7 @@ show_export_dialog (DialogData *data)
 {
 	update_account_list (data);
 	update_album_list (data);
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -345,7 +343,7 @@ list_albums_ready_cb (GObject      *source_object,
 	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
@@ -403,7 +401,7 @@ connection_ready_cb (GObject      *source_object,
 		}
 		else {
 			if (data->conn != NULL)
-				gth_task_dialog (GTH_TASK (data->conn), TRUE);
+				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		}
@@ -479,7 +477,7 @@ account_properties_dialog (DialogData *data,
 	GtkWidget *dialog;
 
 	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), TRUE);
+		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	dialog = picasa_account_properties_dialog_new (email, NULL, NULL);
 	g_signal_connect (dialog,
@@ -498,11 +496,11 @@ static void
 connect_to_server_step2 (DialogData *data)
 {
 	if (data->password == NULL) {
-		gth_task_dialog (GTH_TASK (data->conn), TRUE);
+		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		account_properties_dialog (data, data->email);
 	}
 	else {
-		gth_task_dialog (GTH_TASK (data->conn), FALSE);
+		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 		google_connection_connect (data->conn,
 					   data->email,
 					   data->password,
@@ -659,7 +657,7 @@ create_album_ready_cb (GObject      *source_object,
 	album = picasa_web_service_create_album_finish (picasaweb, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
 		return;
 	}
@@ -733,7 +731,7 @@ auto_select_account (DialogData *data)
 {
 	gtk_widget_hide (data->dialog);
 	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), FALSE);
+		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 	if (data->accounts != NULL) {
 		if (data->email != NULL) {
@@ -746,7 +744,7 @@ auto_select_account (DialogData *data)
 		else {
 			GtkWidget *dialog;
 
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
 			g_signal_connect (dialog,
 					  "response",
@@ -925,7 +923,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 		GError *error;
 
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);

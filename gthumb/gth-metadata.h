@@ -74,6 +74,7 @@ struct _GthMetadataClass {
 
 GType             gth_metadata_get_type        (void);
 GthMetadata *     gth_metadata_new             (void);
+const char *      gth_metadata_get_id          (GthMetadata     *metadata);
 const char *      gth_metadata_get_raw         (GthMetadata     *metadata);
 const char *      gth_metadata_get_formatted   (GthMetadata     *metadata);
 GthMetadataInfo * gth_metadata_info_dup        (GthMetadataInfo *info);

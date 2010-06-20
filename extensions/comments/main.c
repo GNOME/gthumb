@@ -122,8 +122,8 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
-		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
-			gth_comment_set_note (comment, gth_metadata_get_raw (metadata));
+		if (g_strcmp0 (gth_metadata_get_formatted (metadata), text) != 0) {
+			gth_comment_set_note (comment, gth_metadata_get_formatted (metadata));
 			write_comment = TRUE;
 		}
 	}
@@ -131,8 +131,8 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
-		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
-			gth_comment_set_caption (comment, gth_metadata_get_raw (metadata));
+		if (g_strcmp0 (gth_metadata_get_formatted (metadata), text) != 0) {
+			gth_comment_set_caption (comment, gth_metadata_get_formatted (metadata));
 			write_comment = TRUE;
 		}
 	}
@@ -140,8 +140,8 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
-		if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
-			gth_comment_set_place (comment, gth_metadata_get_raw (metadata));
+		if (g_strcmp0 (gth_metadata_get_formatted (metadata), text) != 0) {
+			gth_comment_set_place (comment, gth_metadata_get_formatted (metadata));
 			write_comment = TRUE;
 		}
 	}

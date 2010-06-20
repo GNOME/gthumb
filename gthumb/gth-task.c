@@ -131,10 +131,11 @@ gth_task_class_init (GthTaskClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTaskClass, dialog),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__BOOLEAN,
+			      gth_marshal_VOID__BOOLEAN_POINTER,
 			      G_TYPE_NONE,
-			      1,
-			      G_TYPE_BOOLEAN);
+			      2,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_POINTER);
 }
 
 
@@ -245,10 +246,11 @@ gth_task_completed (GthTask *task,
 
 
 void
-gth_task_dialog (GthTask  *task,
-		 gboolean  opened)
+gth_task_dialog (GthTask   *task,
+		 gboolean   opened,
+		 GtkWidget *dialog)
 {
-	g_signal_emit (task, gth_task_signals[DIALOG], 0, opened);
+	g_signal_emit (task, gth_task_signals[DIALOG], 0, opened, dialog);
 }
 
 

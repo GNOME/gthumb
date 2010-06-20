@@ -201,6 +201,13 @@ gth_metadata_new (void)
 
 
 const char *
+gth_metadata_get_id (GthMetadata *metadata)
+{
+	return metadata->priv->id;
+}
+
+
+const char *
 gth_metadata_get_raw (GthMetadata *metadata)
 {
 	return metadata->priv->raw;

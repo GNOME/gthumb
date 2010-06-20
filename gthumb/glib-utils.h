@@ -181,6 +181,11 @@ int             _g_strv_find                     (char        **v,
 						  const char   *s);
 char *          _g_str_remove_suffix             (const char   *s,
 						  const char   *suffix);
+void            _g_string_append_for_html        (GString      *str,
+						  const char   *text,
+						  gssize        length);
+char *          _g_escape_for_html               (const char   *text,
+						  gssize        length);
 
 /* Array utils*/
 
@@ -221,6 +226,11 @@ char *          _g_uri_get_parent                (const char *uri);
 char *          _g_uri_remove_extension          (const char *uri);
 char *          _g_build_uri                     (const char *base,
 						  ...);
+char *          _g_uri_get_scheme                (const char *uri);
+const char *    _g_uri_remove_host               (const char *uri);
+char *          _g_uri_get_host                  (const char *uri);
+char *          _g_uri_get_relative_path         (const char *uri,
+						  const char *base);
 
 /* GIO utils */
 

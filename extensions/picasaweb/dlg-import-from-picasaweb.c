@@ -274,7 +274,7 @@ show_import_dialog (DialogData *data)
 {
 	update_account_list (data);
 	update_album_list (data);
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -295,7 +295,7 @@ list_albums_ready_cb (GObject      *source_object,
 	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -312,7 +312,7 @@ get_album_list (DialogData *data)
 {
 	if (data->picasaweb == NULL)
 		data->picasaweb = picasa_web_service_new (data->conn);
-	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 	picasa_web_service_list_albums (data->picasaweb,
 				        "default",
 				        data->cancellable,
@@ -354,7 +354,7 @@ connection_ready_cb (GObject      *source_object,
 		}
 		else {
 			if (data->conn != NULL)
-				gth_task_dialog (GTH_TASK (data->conn), TRUE);
+				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
 			gtk_widget_destroy (data->dialog);
 		}
@@ -430,7 +430,7 @@ account_properties_dialog (DialogData *data,
 	GtkWidget *dialog;
 
 	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), TRUE);
+		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	dialog = picasa_account_properties_dialog_new (email, NULL, NULL);
 	g_signal_connect (dialog,
@@ -449,11 +449,11 @@ static void
 connect_to_server_step2 (DialogData *data)
 {
 	if (data->password == NULL) {
-		gth_task_dialog (GTH_TASK (data->conn), TRUE);
+		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		account_properties_dialog (data, data->email);
 	}
 	else {
-		gth_task_dialog (GTH_TASK (data->conn), FALSE);
+		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 		google_connection_connect (data->conn,
 					   data->email,
 					   data->password,
@@ -750,12 +750,12 @@ list_photos_ready_cb (GObject      *source_object,
 	GList            *list;
 	GList            *scan;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE);
+	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 	_g_object_list_unref (data->photos);
 	data->photos = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE);
+			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -799,7 +799,7 @@ album_combobox_changed_cb (GtkComboBox *widget,
 			    ALBUM_DATA_COLUMN, &data->album,
 			    -1);
 
-	gth_task_dialog (GTH_TASK (data->conn), FALSE);
+	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 	picasa_web_service_list_photos (data->picasaweb,
 					data->album,
 					data->cancellable,

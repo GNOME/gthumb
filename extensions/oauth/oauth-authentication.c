@@ -209,9 +209,6 @@ show_authentication_error_dialog (OAuthAuthentication  *self,
 		return;
 	}
 
-	if (self->priv->conn != NULL)
-		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
-
 	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 					  GTK_DIALOG_MODAL,
 					  GTK_STOCK_DIALOG_ERROR,
@@ -220,6 +217,10 @@ show_authentication_error_dialog (OAuthAuthentication  *self,
 					  _("Choose _Account..."), OAUTH_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT,
 					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					  NULL);
+
+	if (self->priv->conn != NULL)
+		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, dialog);
+
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (authentication_error_dialog_response_cb),
@@ -417,7 +418,7 @@ complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+		gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
 		oauth_connection_get_access_token (self->priv->conn,
 						   self->priv->cancellable,
 						   get_access_token_ready_cb,
@@ -438,7 +439,7 @@ complete_authorization (OAuthAuthentication *self)
 	char       *text;
 	char       *secondary_text;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("oauth-complete-authorization.ui", "oauth");
 	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
@@ -512,7 +513,7 @@ ask_authorization (OAuthAuthentication *self)
 	char       *text;
 	char       *secondary_text;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("oauth-ask-authorization.ui", "oauth");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
@@ -556,7 +557,7 @@ static void
 start_authorization_process (OAuthAuthentication *self)
 {
 	gtk_widget_hide (self->priv->dialog);
-	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
 
 	oauth_connection_get_request_token (self->priv->conn,
 					    self->priv->cancellable,
@@ -604,7 +605,7 @@ show_choose_account_dialog (OAuthAuthentication *self)
 {
 	GtkWidget *dialog;
 
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 	dialog = oauth_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
 	g_signal_connect (dialog,
 			  "response",
@@ -622,7 +623,7 @@ void
 oauth_authentication_auto_connect (OAuthAuthentication *self)
 {
 	gtk_widget_hide (self->priv->dialog);
-	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE);
+	gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
 
 	if (self->priv->accounts != NULL) {
 		if (self->priv->account != NULL) {

@@ -1221,22 +1221,29 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 	CopyFileData *copy_file_data = user_data;
 
 	if (response_id != GTK_RESPONSE_OK)
-		copy_file_data->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+		copy_file_data->default_response = GTH_OVERWRITE_RESPONSE_CANCEL;
 	else
 		copy_file_data->default_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
 	if (copy_file_data->dialog_callback != NULL)
-		copy_file_data->dialog_callback (FALSE, copy_file_data->dialog_callback_data);
+		copy_file_data->dialog_callback (FALSE, NULL, copy_file_data->dialog_callback_data);
 
 	switch (copy_file_data->default_response) {
 	case GTH_OVERWRITE_RESPONSE_NO:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
 	case GTH_OVERWRITE_RESPONSE_UNSPECIFIED:
-		copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
-		copy_file_data_free (copy_file_data);
-		return;
+	case GTH_OVERWRITE_RESPONSE_CANCEL:
+		{
+			GError *error = NULL;
+
+			if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_CANCEL)
+				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+			copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+			copy_file_data_free (copy_file_data);
+			return;
+		}
 
 	case GTH_OVERWRITE_RESPONSE_YES:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:
@@ -1275,14 +1282,15 @@ copy_file_ready_cb (GObject      *source_object,
 			if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
 				GtkWidget *dialog;
 
-				if (copy_file_data->dialog_callback != NULL)
-					copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
-
 				dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
 								   NULL,
 								   copy_file_data->current_destination,
 								   copy_file_data->default_response,
 								   copy_file_data->tot_files == 1);
+
+				if (copy_file_data->dialog_callback != NULL)
+					copy_file_data->dialog_callback (TRUE, dialog, copy_file_data->dialog_callback_data);
+
 				g_signal_connect (dialog,
 						  "response",
 						  G_CALLBACK (copy_file__overwrite_dialog_response_cb),
@@ -2310,6 +2318,39 @@ _g_directory_create_unique (GFile       *parent,
 		g_propagate_error (error, local_error);
 
 	return file;
+}
+
+
+#define MAX_ATTEMPS 10
+
+
+GFile *
+_g_directory_create_tmp (void)
+{
+	GFile *tmp_dir;
+	GFile *dir = NULL;
+	int    n;
+
+	tmp_dir = g_file_new_for_path (g_get_tmp_dir ());
+	if (tmp_dir == NULL)
+		return NULL;
+
+	for (n = 0; n < MAX_ATTEMPS; n++) {
+		char  *name;
+
+		name = _g_rand_string (12);
+		dir = g_file_get_child (tmp_dir, name);
+		g_free (name);
+
+		if (g_file_make_directory (dir, NULL, NULL))
+			break;
+
+		g_object_unref (dir);
+	}
+
+	g_object_unref (tmp_dir);
+
+	return dir;
 }
 
 

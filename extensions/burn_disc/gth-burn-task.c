@@ -250,7 +250,7 @@ burn_content_to_disc (GthBurnTask *task)
 	gtk_widget_show (options);
 	brasero_burn_options_add_options (BRASERO_BURN_OPTIONS (dialog), options);
 
-	gth_task_dialog (GTH_TASK (task), TRUE);
+	gth_task_dialog (GTH_TASK (task), TRUE, dialog);
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
@@ -350,7 +350,7 @@ source_dialog_response_cb (GtkDialog   *dialog,
 			   GthBurnTask *task)
 {
 	gtk_widget_hide (task->priv->dialog);
-	gth_task_dialog (GTH_TASK (task), FALSE);
+	gth_task_dialog (GTH_TASK (task), FALSE, NULL);
 
 	if (response == GTK_RESPONSE_OK) {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton")))) {
@@ -387,8 +387,6 @@ gth_burn_task_exec (GthTask *base)
 {
 	GthBurnTask *task = (GthBurnTask *) base;
 
-	gth_task_dialog (GTH_TASK (task), TRUE);
-
 	task->priv->builder = _gtk_builder_new_from_file ("burn-source-selector.ui", "burn_disc");
 	task->priv->dialog = gtk_dialog_new_with_buttons (_("Write to Disc"),
 							  GTK_WINDOW (task->priv->browser),
@@ -401,6 +399,8 @@ gth_burn_task_exec (GthTask *base)
 		gtk_widget_set_sensitive (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton"), FALSE);
 	else if ((task->priv->selected_files != NULL) && (task->priv->selected_files->next != NULL))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton")), TRUE);
+
+	gth_task_dialog (GTH_TASK (task), TRUE, task->priv->dialog);
 
 	g_signal_connect (task->priv->dialog,
 			  "response",

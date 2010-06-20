@@ -119,9 +119,6 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) != GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW)
 			continue;
 
-		if ((info->display_name == NULL) || (strstr (info->display_name, "0x") != NULL))
-			continue;
-
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
 		if ((value == NULL) || (*value == '\0'))
 			continue;
