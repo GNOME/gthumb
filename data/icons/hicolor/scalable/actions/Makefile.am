@@ -9,8 +9,9 @@ icons_DATA = 			\
 	file-catalog.svg	\
 	file-library.svg	\
 	file-search.svg		\
-	palette.svg
+	palette.svg		\
+	share.svg
 
-EXTRA_DIST = $(icons_DATA)	
+EXTRA_DIST = $(icons_DATA)
 
 -include $(top_srcdir)/git.mk
