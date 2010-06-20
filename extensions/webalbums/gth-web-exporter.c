@@ -113,6 +113,8 @@ typedef struct {
 	int          item_index;
 	GthFileData *item;
 	char        *attribute;
+	char        *iterator;
+	int          iterator_value;
 } LoopInfo;
 
 
@@ -142,6 +144,7 @@ struct _GthWebExporterPrivate {
 	int                columns_per_page;
 	int                rows_per_page;
 	gboolean           adapt_to_width;
+	gboolean           squared_thumbnails;
 	int                thumb_width;
 	int                thumb_height;
 	int                preview_max_width;
@@ -184,6 +187,7 @@ loop_info_new (void)
 	info->last_item = FALSE;
 	info->item = NULL;
 	info->attribute = NULL;
+	info->iterator = NULL;
 
 	return info;
 }
@@ -205,6 +209,7 @@ loop_info_unref (LoopInfo *info)
 		return;
 	_g_object_unref (info->item);
 	g_free (info->attribute);
+	g_free (info->iterator);
 	g_free (info);
 }
 
@@ -399,12 +404,16 @@ get_var_value (GthExpr    *expr,
 
 			attribute_id = cell->value.string->str;
 			result = _g_file_attributes_matches_any (attribute_id, self->priv->image_attributes);
+			*index += 1;
 
 			return result;
 		}
 		else
 			return 0;
 	}
+
+	else if ((self->priv->loop_info != NULL) && g_str_equal (var_name, self->priv->loop_info->iterator))
+		return self->priv->loop_info->iterator_value;
 
 	g_warning ("[GetVarValue] Unknown variable name: %s", var_name);
 
@@ -434,6 +443,7 @@ gth_tag_get_idx (GthTag         *tag,
 	    || (tag->type == GTH_TAG_IF)
 	    || (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
 	    || (tag->type == GTH_TAG_FOR_EACH_IMAGE_CAPTION)
+	    || (tag->type == GTH_TAG_FOR_EACH_IN_RANGE)
 	    || (tag->type == GTH_TAG_INVALID))
 	{
 		return 0;
@@ -535,6 +545,91 @@ gth_tag_get_attribute_string (GthWebExporter *self,
 	}
 
 	return NULL;
+}
+
+
+/* -- gth_tag_translate_get_string -- */
+
+
+typedef struct {
+	GthWebExporter  *self;
+	GthTag          *tag;
+	GList           *attribute_p;
+	GError         **error;
+} TranslateData;
+
+
+static gboolean
+translate_eval_cb (const GMatchInfo *info,
+		   GString          *res,
+		   gpointer          data)
+{
+	TranslateData *translate_data = data;
+	GthAttribute  *attribute;
+	char          *match;
+
+	if (translate_data->attribute_p == NULL) {
+		*translate_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));
+		return TRUE;
+	}
+
+	attribute = translate_data->attribute_p->data;
+	match = g_match_info_fetch (info, 0);
+	if (strcmp (match, "%s") == 0) {
+		if (attribute->type == GTH_ATTRIBUTE_STRING) {
+			g_string_append (res, attribute->value.string);
+			translate_data->attribute_p = translate_data->attribute_p->next;
+		}
+		else
+			*translate_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));
+	}
+	else if (strcmp (match, "%d") == 0) {
+		if (attribute->type == GTH_ATTRIBUTE_EXPR) {
+			g_string_append_printf (res, "%d", expression_value (translate_data->self, attribute->value.expr));
+			translate_data->attribute_p = translate_data->attribute_p->next;
+		}
+		else
+			*translate_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));
+	}
+
+	g_free (match);
+
+	return (*translate_data->error != NULL);
+}
+
+
+static char *
+gth_tag_translate_get_string (GthWebExporter *self,
+			      GthTag         *tag)
+{
+	TranslateData *translate_data;
+	GRegex        *re;
+	GError        *error = NULL;
+	char          *result;
+
+	if (tag->value.attributes == NULL)
+		return NULL;
+
+	if (tag->value.attributes->next == NULL)
+		return g_strdup (_(gth_tag_get_attribute_string (self, tag, "text")));
+
+	translate_data = g_new0 (TranslateData, 1);
+	translate_data->self = self;
+	translate_data->tag = tag;
+	translate_data->attribute_p = tag->value.attributes->next;
+	translate_data->error = &error;
+
+	re = g_regex_new ("%d|%s", 0, 0, NULL);
+	result = g_regex_replace_eval (re, _(gth_tag_get_attribute_string (self, tag, "text")), -1, 0, 0, translate_eval_cb, translate_data, &error);
+	if (error != NULL) {
+		result = g_strdup (error->message);
+		g_clear_error (&error);
+	}
+
+	g_regex_unref (re);
+	g_free (translate_data);
+
+	return result;
 }
 
 
@@ -1113,7 +1208,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			else
 				class_attr = g_strdup ("");
 
-			max_length = gth_tag_get_attribute_int (self, tag, "max_length");
+			max_length = gth_tag_get_attribute_int (self, tag, "max_size");
 			if (max_length > 0)
 				scale_keeping_ratio (&image_width,
 						     &image_height,
@@ -1430,11 +1525,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				idata = g_list_nth (self->priv->file_list, idx)->data;
 				self->priv->eval_image = idata;
 
-				if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION)
-					attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
-				else
-					attributes = g_strsplit (self->priv->image_attributes, ",", -1);
-
+				attributes = g_strsplit (self->priv->thumbnail_caption, ",", -1);
 				n_attributes = g_strv_length (attributes);
 				first_non_empty = -1;
 				last_non_empty = -1;
@@ -1566,6 +1657,35 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			}
 			break;
 
+		case GTH_TAG_FOR_EACH_IN_RANGE:
+			{
+				LoopInfo  *inner_loop_info;
+				int        i;
+				int        first_value;
+				int        last_value;
+
+				first_value = expression_value (self, GTH_RANGE_LOOP (tag)->first_value);
+				last_value = expression_value (self, GTH_RANGE_LOOP (tag)->last_value);
+				inner_loop_info = loop_info_new ();
+				inner_loop_info->iterator = g_strdup (GTH_RANGE_LOOP (tag)->iterator);
+				for (i = first_value; i <= last_value; i++) {
+					inner_loop_info->first_item = (i == first_value);
+					inner_loop_info->last_item = (i == last_value);
+					inner_loop_info->iterator_value = i;
+
+					gth_parsed_doc_print (self,
+							      tag->value.loop->document,
+							      GTH_TEMPLATE_TYPE_FRAGMENT,
+							      inner_loop_info,
+							      relative_to,
+							      ostream,
+							      error);
+				}
+
+				loop_info_unref (inner_loop_info);
+			}
+			break;
+
 		case GTH_TAG_ITEM_ATTRIBUTE:
 			if ((loop_info != NULL) && (loop_info->item != NULL)) {
 				GthMetadataInfo *metadata_info;
@@ -1601,7 +1721,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			break;
 
 		case GTH_TAG_TRANSLATE:
-			line = g_strdup (_(gth_tag_get_attribute_string (self, tag, "text")));
+			line = gth_tag_translate_get_string (self, tag);
 			write_markup_escape_line (ostream, line, error);
 			break;
 
@@ -2337,6 +2457,46 @@ pixbuf_scale (const GdkPixbuf *src,
 }
 
 
+static GdkPixbuf *
+create_squared_thumbnail (GdkPixbuf     *p,
+			  int            size,
+			  GdkInterpType  interp_type)
+{
+	int        w, h, tw, th;
+	GdkPixbuf *p1;
+	int        x, y;
+	GdkPixbuf *p2;
+
+	w = gdk_pixbuf_get_width (p);
+	h = gdk_pixbuf_get_height (p);
+
+	if ((w < size) && (h < size))
+		return gdk_pixbuf_copy (p);
+
+	if (w > h) {
+		th = size;
+		tw = (int) (((double) w / h) * th);
+	}
+	else {
+		tw = size;
+		th = (int) (((double) h / w) * tw);
+	}
+
+	p1 = pixbuf_scale (p, tw, th, interp_type);
+
+	if ((tw == size) && (th == size))
+		return p1;
+
+	x = (tw - size) / 2;
+	y = (th - size) / 2;
+	p2 = gdk_pixbuf_new_subpixbuf (p1, x, y, size, size);
+
+	g_object_unref (p1);
+
+	return p2;
+}
+
+
 static void
 image_loader_ready_cb (GthImageLoader *iloader,
 		       GError         *error,
@@ -2416,16 +2576,48 @@ image_loader_ready_cb (GthImageLoader *iloader,
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
-		if (scale_keeping_ratio (&w, &h,
-					 self->priv->thumb_width,
-					 self->priv->thumb_height,
-					 FALSE))
+		if (self->priv->squared_thumbnails) {
+			GdkPixbuf *squared;
+
+			squared = create_squared_thumbnail (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
+			g_object_unref (idata->thumb);
+			idata->thumb = squared;
+		}
+		else if (scale_keeping_ratio (&w, &h,
+					      self->priv->thumb_width,
+					      self->priv->thumb_height,
+					      FALSE))
 		{
 			GdkPixbuf *scaled;
 
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
 			idata->thumb = scaled;
+
+			if (self->priv->squared_thumbnails) {
+				GdkPixbuf *squared;
+				int        src_x;
+				int        src_y;
+
+				src_x = (self->priv->thumb_width - gdk_pixbuf_get_width (idata->thumb)) / 2;
+				src_y = (self->priv->thumb_height - gdk_pixbuf_get_height (idata->thumb)) / 2;
+
+				g_print ("[%d, %d] => (%d, %d)[%d, %d]",
+						gdk_pixbuf_get_width (idata->thumb),
+						gdk_pixbuf_get_height (idata->thumb),
+						src_x,
+						src_y,
+						self->priv->thumb_width,
+						self->priv->thumb_height);
+
+				squared = gdk_pixbuf_new_subpixbuf (idata->thumb,
+								    src_x,
+								    src_y,
+								    self->priv->thumb_width,
+								    self->priv->thumb_height);
+				g_object_unref (idata->thumb);
+				idata->thumb = squared;
+			}
 		}
 	}
 
@@ -2634,7 +2826,10 @@ parse_theme_files (GthWebExporter *self)
 			height = gth_tag_get_attribute_int (self, tag, "thumbnail_height");
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "thumbnail --> %dx%d", width, height);
-				gth_web_exporter_set_thumb_size (self, width, height);
+				gth_web_exporter_set_thumb_size (self,
+								 gth_tag_get_attribute_int (self, tag, "squared"),
+								 width,
+								 height);
 				continue;
 			}
 
@@ -3156,11 +3351,13 @@ gth_web_exporter_set_adapt_to_width (GthWebExporter *self,
 
 void
 gth_web_exporter_set_thumb_size (GthWebExporter *self,
+				 gboolean        squared,
 				 int             width,
 				 int         	 height)
 {
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (self));
 
+	self->priv->squared_thumbnails = squared;
 	self->priv->thumb_width = width;
 	self->priv->thumb_height = height;
 }

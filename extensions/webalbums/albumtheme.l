@@ -66,22 +66,20 @@ string           [^']*
 					BEGIN (ATTRIBUTES);
 					return SET_VAR;
 				}
-"<% for_each_thumbnail_caption"	{
-					BEGIN (ATTRIBUTES);
-					yylval.ivalue = GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
+"<% for_each"			{
+					BEGIN (CONDITION);
+					yylval.ivalue = GTH_TAG_FOR_EACH_IN_RANGE;
 					return FOR_EACH;
 				}
-"<% for_each_image_caption"	{
-					BEGIN (ATTRIBUTES);
-					yylval.ivalue = GTH_TAG_FOR_EACH_IMAGE_CAPTION;
-					return FOR_EACH;
-				}			
 "<%="                           {
 					BEGIN (FUNCTION);
 					return PRINT;
 				}
 <FUNCTION>{attribute_name}	{
-					BEGIN (ATTRIBUTES);
+					if (g_str_equal (yytext, "eval") || g_str_equal (yytext, "translate")) 
+						BEGIN (CONDITION);
+					else
+						BEGIN (ATTRIBUTES);
 					yylval.text = g_strdup (yytext);
 					return FUNCTION_NAME;
 				}
@@ -117,14 +115,6 @@ string           [^']*
 <ATTRIBUTES>"="			{
 					return '=';
 				}
-<QUOTE,CONDITION>{number}	{
-					yylval.ivalue = atoi (yytext);
-					return NUMBER;
-				}
-<QUOTE,CONDITION>{name}		{
-					yylval.text = g_strdup (yytext);
-					return VARIABLE;
-				}
 <QUOTE,CONDITION>"="		{
 					return '=';
 				}
@@ -157,6 +147,9 @@ string           [^']*
 <QUOTE,CONDITION>")"		{
 					return ')';
 				}
+<QUOTE,CONDITION>","		{
+					return ',';
+				}
 <QUOTE,CONDITION>"&&"		{
 					yylval.ivalue = GTH_OP_AND;
 					return BOOL_OP;
@@ -181,6 +174,20 @@ string           [^']*
 					yylval.ivalue = GTH_OP_CMP_GE;
 					return COMPARE;
 				}
+<QUOTE,CONDITION>".."		{
+					return RANGE;
+				}				
+<QUOTE,CONDITION>"in"		{
+					return IN;
+				}
+<QUOTE,CONDITION>{number}	{
+					yylval.ivalue = atoi (yytext);
+					return NUMBER;
+				}
+<QUOTE,CONDITION>{name}		{
+					yylval.text = g_strdup (yytext);
+					return VARIABLE;
+				}		
 <ATTRIBUTES,QUOTE,CONDITION>[ \t\n]	{
 					/* Eat spaces inside tag. */
 				}

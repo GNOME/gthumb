@@ -16,7 +16,7 @@
         </div>
       </div> <!-- thumbnail-container -->
 
-      <% for_each_thumbnail_caption %>
+      <% for_each thumbnail_caption %>
         <% if first_item %>
           <div class="caption-container">
         <% end %>
@@ -30,5 +30,4 @@
         <% end %>
       <% end %>
 
-      <div style="clear: both"></div>
     </div> <!-- thumbnail-caption-container -->

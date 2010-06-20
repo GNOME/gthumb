@@ -132,6 +132,7 @@ void       gth_expr_set_get_var_value_func (GthExpr            *e,
 					    gpointer            data);
 void       gth_expr_print                  (GthExpr            *e);
 int        gth_expr_eval                   (GthExpr            *e);
+void       gth_expr_list_unref             (GList              *list);
 
 /* GthAttribute */
 
@@ -197,6 +198,7 @@ typedef enum {
 	GTH_TAG_IF,
 	GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION,
 	GTH_TAG_FOR_EACH_IMAGE_CAPTION,
+	GTH_TAG_FOR_EACH_IN_RANGE,
 	GTH_TAG_ITEM_ATTRIBUTE,
 	GTH_TAG_INVALID
 } GthTagType;
@@ -206,11 +208,31 @@ typedef struct {
 	GList      *document; /* GthTag list */
 } GthLoop;
 
+#define GTH_LOOP(x) ((GthLoop *)(x))
+
 GthLoop *   gth_loop_new           (GthTagType  loop_type);
 void        gth_loop_free          (GthLoop    *loop);
 GthTagType  gth_loop_get_type      (GthLoop    *loop);
 void        gth_loop_add_document  (GthLoop    *loop,
 				    GList      *document);
+
+/* GthRangeLopp */
+
+typedef struct {
+	GthLoop  parent;
+	char    *iterator;
+	GthExpr *first_value;
+	GthExpr *last_value;
+} GthRangeLoop;
+
+#define GTH_RANGE_LOOP(x) ((GthRangeLoop *)(x))
+
+GthLoop *  gth_range_loop_new       (void);
+void       gth_range_loop_free      (GthRangeLoop *loop);
+void       gth_range_loop_set_range (GthRangeLoop *loop,
+				     const char   *iterator,
+				     GthExpr      *first_value,
+				     GthExpr      *last_value);
 
 /* GthTag */
 

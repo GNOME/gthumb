@@ -84,6 +84,7 @@ void       gth_web_exporter_set_columns           (GthWebExporter   *self,
 void       gth_web_exporter_set_adapt_to_width    (GthWebExporter   *self,
 						   gboolean          value);
 void       gth_web_exporter_set_thumb_size        (GthWebExporter   *self,
+						   gboolean          squared,
 						   int               width,
 						   int               height);
 void       gth_web_exporter_set_preview_size      (GthWebExporter   *self,

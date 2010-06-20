@@ -533,6 +533,17 @@ gth_expr_eval (GthExpr *e)
 }
 
 
+void
+gth_expr_list_unref (GList *list)
+{
+	GList *scan;
+
+	for (scan = list; scan; scan = scan->next)
+		gth_expr_unref ((GthExpr *) scan->data);
+	g_list_free (list);
+}
+
+
 /* GthAttribute */
 
 
@@ -665,6 +676,43 @@ gth_loop_add_document (GthLoop *loop,
 }
 
 
+/* GthRangeLoop */
+
+
+GthLoop *
+gth_range_loop_new (void)
+{
+	GthLoop *loop;
+
+	loop = (GthLoop *) g_new0 (GthRangeLoop, 1);
+	loop->type = GTH_TAG_FOR_EACH_IN_RANGE;
+
+	return loop;
+}
+
+
+void
+gth_range_loop_free (GthRangeLoop *loop)
+{
+	g_free (loop->iterator);
+	gth_expr_unref (loop->first_value);
+	gth_expr_unref (loop->last_value);
+	gth_loop_free (GTH_LOOP (loop));
+}
+
+
+void
+gth_range_loop_set_range (GthRangeLoop *loop,
+			  const char   *iterator,
+			  GthExpr      *first_value,
+			  GthExpr      *last_value)
+{
+	loop->iterator = g_strdup (iterator);
+	loop->first_value = gth_expr_ref (first_value);
+	loop->last_value = gth_expr_ref (last_value);
+}
+
+
 /* GthTag */
 
 
@@ -748,6 +796,9 @@ gth_tag_free (GthTag *tag)
 	{
 		gth_loop_free (tag->value.loop);
 	}
+	else if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION) {
+		gth_range_loop_free (GTH_RANGE_LOOP (tag->value.loop));
+	}
 	else {
 		g_list_foreach (tag->value.attributes,
 				(GFunc) gth_attribute_free,
@@ -824,6 +875,8 @@ gth_tag_get_type_from_name (const char *tag_name)
 		return GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION;
 	else if (g_str_equal (tag_name, "for_each_image_caption"))
 		return GTH_TAG_FOR_EACH_IMAGE_CAPTION;
+	else if (g_str_equal (tag_name, "for_each_in_range"))
+		return GTH_TAG_FOR_EACH_IN_RANGE;
 	else if (g_str_equal (tag_name, "item_attribute"))
 		return GTH_TAG_ITEM_ATTRIBUTE;
 
@@ -860,6 +913,8 @@ gth_tag_get_name_from_type (GthTagType tag_type)
 		"eval",
 		"if",
 		"for_each_thumbnail_caption",
+		"for_each_image_caption",
+		"for_each_in_range",
 		"item_attribute"
 	};
 

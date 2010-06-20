@@ -53,20 +53,22 @@ int   gth_albumtheme_yywrap  (void);
 %token <ivalue> SET_VAR
 %token <text>   HTML
 
-%type <list>      document
-%type <tag>       tag_command
-%type <tag>       tag_print
-%type <loop>      tag_loop
-%type <cond>      tag_if
-%type <cond>      tag_else_if
-%type <cond>      opt_tag_else
-%type <list>      opt_tag_else_if
-%type <list>      attribute_list
-%type <attribute> attribute
-%type <expr>      expr
+%type <list>       document
+%type <tag>        tag_command
+%type <tag>        tag_print
+%type <loop>       tag_loop
+%type <cond>       tag_if
+%type <cond>       tag_else_if
+%type <cond>       opt_tag_else
+%type <list>       opt_tag_else_if
+%type <list>       attribute_list
+%type <attribute>  attribute
+%type <list>       expr_list
+%type <expr>       expr
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
+%left  RANGE IN
 %left  '+' '-' '*' '/' '!' ','
 %right UNARY_OP
 
@@ -126,13 +128,33 @@ document	: HTML document {
 		}
 		;
 
-tag_loop	: FOR_EACH END_TAG {
-			$$ = gth_loop_new ($1);
-		};
+tag_loop	: FOR_EACH VARIABLE END_TAG {
+			if (g_str_equal ($2, "thumbnail_caption")) {
+				$$ = gth_loop_new (GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION);
+			}
+			else if (g_str_equal ($2, "image_caption")) {
+				$$ = gth_loop_new (GTH_TAG_FOR_EACH_IMAGE_CAPTION);
+			}
+			else {
+				yyerror ("Wrong iterator: '%s', expected 'thumbnail_caption' or 'image_caption'", $2);
+				YYERROR;
+			}			
+		}
+
+		| FOR_EACH VARIABLE IN expr RANGE expr END_TAG {
+			$$ = gth_range_loop_new ();
+			gth_range_loop_set_range (GTH_RANGE_LOOP ($$), $2, $4, $6);
+			
+			g_free ($2);
+			gth_expr_unref ($4);
+			gth_expr_unref ($6);
+		}
+		; 
 
 tag_if		: IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
+		
 		| IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
@@ -151,6 +173,7 @@ opt_tag_else_if	: tag_else_if document opt_tag_else_if {
 tag_else_if	: ELSE_IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
+		
 		| ELSE_IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
@@ -182,16 +205,52 @@ tag_end		: END END_TAG
 tag_command	: SET_VAR attribute_list END_TAG {
 			$$ = gth_tag_new (GTH_TAG_SET_VAR, $2);
 		}
+		;
 
-tag_print	: PRINT FUNCTION_NAME '\'' QUOTED_STRING '\'' END_TAG {
-			if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
-				GList *arg_list;
+tag_print	: PRINT FUNCTION_NAME expr_list END_TAG {
+			if (gth_tag_get_type_from_name ($2) == GTH_TAG_EVAL) {
+				GthExpr *e;
+				GList   *arg_list;
+				
+				if ($3 == NULL) {
+					yyerror ("Missing argument for function 'eval', expected expression");
+					YYERROR;
+				}
+				
+				e = $3->data;
+				arg_list = g_list_append (NULL, gth_attribute_new_expression ("expr", e));
+				$$ = gth_tag_new (GTH_TAG_EVAL, arg_list);
+				
+				gth_expr_list_unref ($3);
+			}
+			else if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
+				GList *arg_list = NULL;
+				GList *scan;
+				
+				for (scan = $3; scan; scan = scan->next) {
+					GthExpr *e = scan->data;
+					
+					if (scan == $3) {
+						GthCell *cell;
 
-				arg_list = g_list_append (NULL, gth_attribute_new_string ("text", $4));
+						cell = gth_expr_get (e);
+						if (cell->type != GTH_CELL_TYPE_STRING) {
+							yyerror ("Wrong argument type: %d, expected string", cell->type);
+							YYERROR;
+						}						
+						arg_list = g_list_append (arg_list, gth_attribute_new_string ("text", cell->value.string->str));
+
+						continue;
+					}
+									
+					arg_list = g_list_append (arg_list, gth_attribute_new_expression ("expr", e));
+				}
 				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
+				
+				gth_expr_list_unref ($3);
 			}
 			else {
-				yyerror ("Wrong function: '%s', expected 'translate'", $2);
+				yyerror ("Wrong function: '%s', expected 'eval' or 'translate'", $2);
 				YYERROR;
 			}
 		}
@@ -231,6 +290,19 @@ attribute	: ATTRIBUTE_NAME '=' '"' expr '"' {
 			gth_expr_push_integer (e, 1);
 			$$ = gth_attribute_new_expression ($1, e);
 			g_free ($1);
+		}
+		;
+
+expr_list	: expr ',' expr_list {
+			$$ = g_list_prepend ($3, $1);
+		}
+
+		| expr {
+			$$ = g_list_prepend (NULL, $1);
+		}
+
+		| /* empty */ {
+			$$ = NULL;
 		}
 		;
 
@@ -330,21 +402,18 @@ expr		: '(' expr ')' {
 			$$ = $2;
 		}
 
-		| expr ',' expr {
-			GthExpr *e = gth_expr_new ();
-			gth_expr_push_expr (e, $1);
-			gth_expr_push_expr (e, $3);
-			gth_expr_unref ($1);
-			gth_expr_unref ($3);
-			$$ = e;
-                }
-
-		| VARIABLE '(' expr ')' %prec UNARY_OP { /* function call */
+		| VARIABLE '(' expr_list ')' %prec UNARY_OP { /* function call */
 			GthExpr *e = gth_expr_new ();
 			gth_expr_push_var (e, $1);
 			if ($3 != NULL) {
-				gth_expr_push_expr (e, $3);
-				gth_expr_unref ($3);
+				GList *scan;
+				
+				for (scan = $3; scan; scan = scan->next) {
+					GthExpr *arg = scan->data;					
+					gth_expr_push_expr (e, arg);
+					gth_expr_unref (arg);
+				}				
+				g_list_free ($3);
 			}
 			g_free ($1);
 			$$ = e;
