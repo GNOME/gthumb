@@ -532,10 +532,8 @@ extensions/slideshow/data/ui/Makefile
 extensions/webalbums/Makefile
 extensions/webalbums/data/Makefile
 extensions/webalbums/data/albumthemes/Makefile
-extensions/webalbums/data/albumthemes/BestFit/Makefile
 extensions/webalbums/data/albumthemes/Classic/Makefile
 extensions/webalbums/data/albumthemes/ClassicClips/Makefile
-extensions/webalbums/data/albumthemes/Flicker/Makefile
 extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
