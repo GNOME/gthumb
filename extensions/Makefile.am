@@ -8,6 +8,7 @@ SUBDIRS = 			\
 	desktop_background	\
 	edit_metadata		\
 	exiv2_tools		\
+	export_tools		\
 	facebook		\
 	file_manager		\
 	file_tools		\

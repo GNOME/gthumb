@@ -42,9 +42,26 @@ static const char *ui_info =
 "    </menu>"
 "  </menubar>"
 */
+"  <menubar name='MenuBar'>"
+"    <menu name='File' action='FileMenu'>"
+"      <menu name='Export' action='ExportMenu'>"
+"        <placeholder name='Web_Services'>"
+"          <menuitem action='Tool_CreateWebAlbum'/>"
+"        </placeholder>"
+"      </menu>"
+"    </menu>"
+"  </menubar>"
+/*
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'>"
 "      <menuitem name='CreateWebAlbum' action='Tool_CreateWebAlbum'/>"
+"    </placeholder>"
+"  </popup>"
+*/
+
+"  <popup name='ExportPopup'>"
+"    <placeholder name='Web_Services'>"
+"      <menuitem action='Tool_CreateWebAlbum'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
@@ -52,7 +69,7 @@ static const char *ui_info =
 
 static GtkActionEntry action_entries[] = {
 	{ "Tool_CreateWebAlbum", "webalbums",
-	  N_("Create a _Web Album..."), NULL,
+	  N_("_Web Album..."), NULL,
 	  N_("Create a static web album"),
 	  G_CALLBACK (gth_browser_activate_action_export_webalbum) },
 };

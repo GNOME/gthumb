@@ -9,4 +9,5 @@ Category=Exporter
 
 [Loader]
 Type=module
+Requires=export_tools
 File=%LIBRARY%

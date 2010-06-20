@@ -10,4 +10,4 @@ Category=Exporter
 [Loader]
 Type=module
 File=%LIBRARY%
-Requires=oauth
+Requires=oauth;export_tools

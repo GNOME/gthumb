@@ -8,5 +8,6 @@ Icon=brasero
 Category=Exporter
 
 [Loader]
+Requires=export_tools
 Type=module
 File=%LIBRARY%

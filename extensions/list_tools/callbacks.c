@@ -200,27 +200,6 @@ scripts_changed_cb (GthScriptFile *script_file,
 }
 
 
-static GtkWidget *
-create_tool_label_widget (void)
-{
-	GtkWidget *box1;
-	GtkWidget *box2;
-	GtkWidget *child;
-
-	box2 = gtk_hbox_new (FALSE, 6);
-	child = gtk_label_new (_("Tools"));
-	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
-	child = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
-
-	box1 = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box1), box2, TRUE, FALSE, 0);
-	gtk_widget_show_all (box1);
-
-	return box1;
-}
-
-
 void
 list_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -248,7 +227,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	/* tools menu button */
 
 	tool_item = gth_toggle_menu_tool_button_new_from_stock (GTK_STOCK_EXECUTE);
-	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (tool_item), create_tool_label_widget ());
+	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (tool_item), _gtk_create_toggle_menu_tool_label (_("Tools")));
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
 					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
@@ -257,7 +236,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), tool_item, -1);
 
 	tool_item = gth_toggle_menu_tool_button_new_from_stock (GTK_STOCK_EXECUTE);
-	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (tool_item), create_tool_label_widget ());
+	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (tool_item), _gtk_create_toggle_menu_tool_label (_("Tools")));
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
 					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));

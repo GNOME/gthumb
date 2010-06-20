@@ -43,6 +43,11 @@ static const char *ui_info =
 "      </menu>"
 "    </menu>"
 "  </menubar>"
+"  <popup name='ExportPopup'>"
+"    <placeholder name='Misc_Actions'>"
+"      <menuitem action='File_Export_BurnDisc'/>"
+"    </placeholder>"
+"  </popup>"
 "</ui>";
 
 

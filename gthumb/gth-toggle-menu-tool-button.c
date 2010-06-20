@@ -398,3 +398,24 @@ gth_toggle_menu_tool_button_get_menu (GthToggleMenuToolButton *button)
 
 	return GTK_WIDGET (button->priv->menu);
 }
+
+
+GtkWidget *
+_gtk_create_toggle_menu_tool_label (const char *label)
+{
+	GtkWidget *box1;
+	GtkWidget *box2;
+	GtkWidget *child;
+
+	box2 = gtk_hbox_new (FALSE, 6);
+	child = gtk_label_new (label);
+	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
+	child = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (box2), child, FALSE, FALSE, 0);
+
+	box1 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box1), box2, TRUE, FALSE, 0);
+	gtk_widget_show_all (box1);
+
+	return box1;
+}

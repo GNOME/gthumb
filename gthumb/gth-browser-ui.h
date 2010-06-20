@@ -112,6 +112,7 @@ static const char *fixed_ui_info =
 "  <toolbar name='ToolBar'>"
 "    <toolitem action='View_Stop'/>"
 "    <separator/>"
+"    <placeholder name='Export_Actions'/>"
 "    <placeholder name='SourceCommands'/>"
 "    <separator/>"
 "    <placeholder name='BrowserCommands'/>"

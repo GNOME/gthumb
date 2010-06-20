@@ -59,6 +59,10 @@ void          gth_toggle_menu_tool_button_set_menu       (GthToggleMenuToolButto
 							  GtkWidget               *menu);
 GtkWidget *   gth_toggle_menu_tool_button_get_menu       (GthToggleMenuToolButton *button);
 
+/* utility */
+
+GtkWidget *   _gtk_create_toggle_menu_tool_label         (const char *label);
+
 G_END_DECLS
 
 #endif /* GTH_TOGGLE_MENU_TOOL_BUTTON_H */
