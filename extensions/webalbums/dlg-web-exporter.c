@@ -29,7 +29,9 @@
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
 #define STRING_IS_VOID(x) (((x) == NULL) || (*(x) == 0))
-#define DEFAULT_ALBUM_THEME "ClassicClips"
+#define DEFAULT_ALBUM_THEME "Wiki"
+#define DEFAULT_WEB_IMAGE_ATTRIBUTES ("gth::file::display-size,standard::fast-content-type,general::dimensions,general::format,general::location,general::datetime,general::rating,Exif::Image::Make,Exif::Image::Model,Exif::Image::Software,Exif::Image::Artist,Exif::Image::Copyright,Exif::Photo::ISOSpeedRatings,Exif::Photo::BrightnessValue,Exif::Photo::FNumber,Exif::Photo::ApertureValue,Exif::Photo::MaxApertureValue,Exif::Photo::ExposureTime,Exif::Photo::ExposureProgram,Exif::Photo::ExposureIndex,Exif::Photo::ExposureBiasValue,Exif::Photo::ExposureMode,Exif::Photo::ShutterSpeedValue,Exif::Photo::MeteringMode,Exif::Photo::LightSource,Exif::Photo::WhiteBalance,Exif::Photo::Flash,Exif::Photo::FocalLength,Exif::Photo::SubjectArea,Exif::Photo::Contrast,Exif::Photo::Saturation,Exif::Photo::Sharpness")
+#define DEFAULT_WEB_THUMBNAIL_CAPTION ("general::datetime,general::dimensions,gth::file::display-size")
 
 enum {
 	THEME_COLUMN_ID,
@@ -384,10 +386,10 @@ dlg_web_exporter (GthBrowser *browser,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_subfolders_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_USE_SUBFOLDERS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("copy_images_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_COPY_IMAGES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, FALSE));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, 16));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, 12));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_SINGLE_INDEX, FALSE));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_COLUMNS, 4));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_ADAPT_TO_WIDTH, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_ADAPT_TO_WIDTH, TRUE));
 
 	active_index = 0;
 	for (i = 0; i < G_N_ELEMENTS (resize_size); i++) {
@@ -447,13 +449,13 @@ dlg_web_exporter (GthBrowser *browser,
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_description_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_ENABLE_IMAGE_DESCRIPTION, TRUE));
 
-	caption = eel_gconf_get_string (PREF_WEBALBUMS_THUMBNAIL_CAPTION, "");
+	caption = eel_gconf_get_string (PREF_WEBALBUMS_THUMBNAIL_CAPTION, DEFAULT_WEB_THUMBNAIL_CAPTION);
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), caption);
 	g_free (caption);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_attributes_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_ENABLE_IMAGE_ATTRIBUTES, TRUE));
 
-	caption = eel_gconf_get_string (PREF_WEBALBUMS_IMAGE_ATTRIBUTES, "");
+	caption = eel_gconf_get_string (PREF_WEBALBUMS_IMAGE_ATTRIBUTES, DEFAULT_WEB_IMAGE_ATTRIBUTES);
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->image_attributes_chooser), caption);
 	g_free (caption);
 

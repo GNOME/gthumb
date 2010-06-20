@@ -175,7 +175,7 @@
 	<applyto>/apps/gthumb/ext/webalbums/images_per_index</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default>16</default>
+	<default>12</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -214,7 +214,7 @@
         <applyto>/apps/gthumb/ext/webalbums/adapt_to_width</applyto>
         <owner>gthumb</owner>
         <type>bool</type>
-        <default>false</default>
+        <default>true</default>
         <locale name="C">
           <short></short>
           <long>
