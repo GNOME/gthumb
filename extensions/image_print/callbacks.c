@@ -41,6 +41,11 @@ static const char *fixed_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
+"  <toolbar name='ToolBar'>"
+"      <placeholder name='Export_Actions'>"
+"        <toolitem action='File_Print'/>"
+"      </placeholder>"
+"  </toolbar>"
 "</ui>";
 
 
