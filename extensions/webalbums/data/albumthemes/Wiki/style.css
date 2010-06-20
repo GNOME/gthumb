@@ -1,79 +1,298 @@
-/* Gthumb "Wiki" style */
+/* gthumb "Wiki" style, v. 2010-06-20 */
 
-  body {
-    background: white;
-  }
+* {
+	margin: 0;
+}
 
-  td.photo {
-    border: 1px solid #ccc;
-  }
+html, body {
+	height: 100%;
+	background: white;
+	font-family: "Trebuchet MS", Arial, sans-serif, Tahoma;
+}
 
-  table.nav_button {
-    border: 0px outset #bbb;
-  }
+#wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+}
 
-  div.copyright {
-    font-size: 8pt;
-    color: #888;
-  }
+#main {
+	overflow: auto;
+	padding-bottom: 4em;	
+}
 
-  img.photo_center {
-    border: 1px solid #ccc;
-  }
+#footer {	
+	position: relative;
+	margin-top: -4em;
+	height: 2em;
+	clear: both;
+	text-align: center;
+	color: #c60;
+	font-weight: normal;
+	font-size: 11px;
+}
 
-  img.preview {
-    border: 1px solid #ccc;
-  }
+#footer-2 {
+	border-top: 1px dotted #aaa;	
+	margin-top: 1em;
+	padding-top: 1em;
+	margin-left: 15px;
+	margin-right: 15px;
+}
 
-  .comment, .property, .property_value {
-    font-size: 9pt;
-  }
+/* image page */
 
-  .property_value file_name {
-    font-family: monospace;
-  }
+h1.image-title,
+h1.index-title {	
+	text-align: center;
+	margin: 20px 15px 10px 15px;
+	border-bottom: 1px dotted #aaa;	
+	font-weight: normal;
+	font-size: 24px;
+	color: #cc6600;
+}
 
-  .property {
-    font-weight: bold;
-  }
+div.image-preview {	
+	float: left;
+	margin: 15px;
+	text-align: center;
+}
 
-  .comment, .property_value {
-    font-size: 9pt;
-  }
-  
-  .comment {
-    font-style: italic;
-  }
+div.image-preview-centered {
+	float: none;
+	margin: 40px auto 0 auto;
+	text-align: center;
+}
 
-  div.title {
-    color: #000;
-  }
+div.image-preview-container {
+	width: 650px;
+}
 
-  span.page_index {
-    color: #000;
-  }
+div.image-preview-centered div.image-preview-container {
+	width: auto;
+}
 
-  /* links */
+div.image-preview-container img {
+	-webkit-box-shadow: 0px 0px 4px #333;
+	-moz-box-shadow: 0px 0px 4px #333;
+	box-shadow: 0px 0px 4px #333;
+	border: 0;
+}
 
-  a:link { 
-    color: #0000FF;
-    text-decoration: none;
-  }
+div.image-comment {
+	float: right;
+	display: block;
+	margin: 15px 15px 0 0;
+	padding: 3px;
+	text-align: left;
+	font-size: 10px;
+	font-family: sans;
+	overflow: auto;
+	width: 300px;
+	border: 0px solid #aaa;
+	clear: right;
+	color: #444;
+}
 
-  a:visited { 
-    color: #0000FF;
-    text-decoration: none;
-  }
+dl.caption-container {
+	float: right;
+	display: block;
+	margin: 15px 15px 0 0;
+	padding: 3px;
+	text-align: center;	
+	font-size: 10px;
+	font-family: sans;
+	width: 300px;
+	border: 1px solid #aaa;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: 1px 1px 1px #ccc;
+	-webkit-box-shadow: 1px 1px 1px #ccc;
+	box-shadow: 1px 1px 1px #ccc;
+}
 
-  a:hover {
-    color: #0000FF;
-    text-decoration: underline;
-  }
+dl.caption-container dt {
+	font-weight: normal;
+	cursor: default;
+	float: left;
+	clear: left;
+	margin: 0 5px 0 0;
+	padding: 0;
+	color: #185390;
+	width: 120px;
+	text-align: right;
+}
 
-  span.nolink {
-    color: #AAA;
-  }
+dl.caption-container dd {	
+	float: left;
+	margin: 0;
+	padding: 0;
+	color: #444;
+}
 
-  span.link {
-    padding: 10px;;
-  }
+dl.caption-container dd.last {
+	clear: both;
+	display: block;
+	float: none;
+}
+
+/* index page */
+
+ul.page-navigation {
+	display: block;
+	list-style-type: none;	
+	margin: 0 0 20px 0;
+	padding: 10px 15px 10px 15px;
+}
+
+ul.page-navigation li {
+	display: block;
+	text-align: center;
+	float: left;
+	font-size: 11px;
+	margin-right: 5px;
+}
+
+ul.page-navigation li.status {
+	padding-top: 4px;
+	color: #cc6600;
+	margin-right: 15px;
+}
+
+ul.page-navigation li.current span,
+ul.page-navigation li.disabled span,
+ul.page-navigation li a  {
+	display: block;
+	height: 1.3em;
+	padding: 3px;
+}
+
+ul.page-navigation li.number span,
+ul.page-navigation li.number a {
+	width: 1.3em;
+}
+
+ul.page-navigation li.current span {
+	border: 1px solid #669517;
+	cursor: default;
+	background: #669517;
+	color: #fff;
+	font-weight: bold;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: 1px 1px 1px #ccc;
+	-webkit-box-shadow: 1px 1px 1px #ccc;
+	box-shadow: 1px 1px 1px #ccc;
+}
+
+ul.page-navigation li.disabled span {
+	border: 1px solid #bbb;
+	cursor: default;
+	color: #bbb;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+ul.page-navigation li.separator {
+	margin-right: 20px;
+}
+
+ul.page-navigation li a {
+	border: 1px solid #669517;
+	color: #669517;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: 1px 1px 1px #ccc;
+	-webkit-box-shadow: 1px 1px 1px #ccc;
+	box-shadow: 1px 1px 1px #ccc;
+}
+
+ul.page-navigation li a:hover {
+	text-decoration: none;
+	background: #669517;
+	color: #fff;
+}
+
+ul.page-navigation li.last {
+	clear: right;
+}
+
+#thumbnail-grid {
+	margin: auto;
+}
+
+#thumbnail-grid td.td_index,
+#thumbnail-grid td.td_empty_index {
+	vertical-align: middle;
+}
+
+#thumbnail-grid tr td.td_empty_index {
+	width: 185px;
+	height: auto;
+}
+
+#thumbnail-grid tr.tr_empty_index td.td_empty_index {
+	height: 0;
+}
+
+#thumbnail-list div.thumbnail-caption-container {
+	float: left;
+	margin: 10px 15px;
+}
+
+#thumbnail-list div.thumbnail-container {
+	border: 1px solid #aaa;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	margin-bottom: 5px;
+}
+
+#thumbnail-list div.thumbnail-image-container {
+	width: 140px;
+	height: 140px;
+	padding: 5px;
+}
+
+#thumbnail-list a.thumbnail-image img {
+	display: block;
+	margin: 0 auto;
+	border-style: none;
+	padding: 0;	
+}
+
+#thumbnail-list a.thumbnail-image:hover img {
+	opacity: 0.75;
+}
+
+#thumbnail-list div.caption-container {
+	font-size: 11px;
+	padding-bottom: 3px;
+	color: #999;
+}
+
+#thumbnail-list div.property-row {
+	text-align: center;
+	margin-top: 2px;
+}
+
+/* links */
+
+a:link { 
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:visited { 
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #0000FF;
+	text-decoration: underline;
+}
