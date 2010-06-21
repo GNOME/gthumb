@@ -1,9 +1,21 @@
+#!/usr/bin/env ruby1.8
+
+strings = []
+Dir.glob("**/*.gthtml") do |filename|
+  File.open("./#{ filename }").each_line do |line|
+    if line =~ /<%=[ \t]+translate[ \t]+'(([^\\']|\\.)*)'/
+      strings << $1
+    end
+  end
+end
+
+puts <<EOF
 /* DO NOT EDIT.  This file is generated automatically. */
 
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) #{ Time::now.year } Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,17 +36,13 @@
 #include <glib/gi18n.h>
 
 static char *text[] = {
-	N_("Click to view the image"),
-	N_("Go back to the index"),
-	N_("Image %d of %d"),
-	N_("Index"),
-	N_("Next"),
-	N_("Page %d of %d"),
-	N_("Previous"),
-	N_("View page %d"),
-	N_("View the next image"),
-	N_("View the next page"),
-	N_("View the previous image"),
-	N_("View the previous page"),
-	NULL
+EOF
+
+strings.uniq.sort.each do |string|
+  puts "\tN_(\"#{ string.gsub('\\', '\\\\').gsub('"', '\\"') }\"),"  
+end
+
+puts <<EOF
+\tNULL
 }
+EOF
