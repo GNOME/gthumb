@@ -122,6 +122,10 @@ extensions/exiv2_tools/gth-edit-exiv2-page.h
 extensions/exiv2_tools/gth-metadata-provider-exiv2.c
 extensions/exiv2_tools/gth-metadata-provider-exiv2.h
 extensions/exiv2_tools/main.c
+extensions/export_tools/callbacks.c
+extensions/export_tools/callbacks.h
+[type: gettext/ini]extensions/export_tools/export_tools.extension.in.in
+extensions/export_tools/main.c
 extensions/facebook/actions.c
 extensions/facebook/actions.h
 extensions/facebook/callbacks.c
@@ -520,14 +524,14 @@ extensions/webalbums/albumtheme-private.h
 extensions/webalbums/callbacks.c
 extensions/webalbums/callbacks.h
 extensions/webalbums/data/albumthemes/text.h
+extensions/webalbums/data/gthumb_webalbums.schemas.in
 [type: gettext/glade]extensions/webalbums/data/ui/web-album-exporter.ui
 extensions/webalbums/dlg-web-exporter.c
 extensions/webalbums/dlg-web-exporter.h
-extensions/webalbums/dlg-web-exporter-old.c
 extensions/webalbums/gth-web-exporter.c
 extensions/webalbums/gth-web-exporter.h
-extensions/webalbums/gth-web-exporter-old.c
 extensions/webalbums/main.c
+extensions/webalbums/preferences.h
 [type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
 gthumb/dlg-extensions.c
 gthumb/dlg-extensions.h
