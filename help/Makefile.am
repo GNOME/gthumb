@@ -11,6 +11,6 @@ DOC_FIGURES = 	figures/comment.png \
 
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
-EXTRA_DIST = theme-xml.txt
+EXTRA_DIST = album-theme-format.txt
 
 -include $(top_srcdir)/git.mk
