@@ -2392,12 +2392,12 @@ copy_current_file (GthWebExporter *self)
 
 				value = gth_metadata_get_raw (metadata);
 				if (value != NULL) {
-					int transform;
+					GthTransform transform;
 
-					sscanf (value, "%d", &transform);
+					transform = (GthTransform) strtol (value, (char **) NULL, 10);
 					if (transform != 1) {
 						apply_transformation_async (image_data->file_data,
-									    (GthTransform) transform,
+									    transform,
 									    JPEG_MCU_ACTION_TRIM,
 									    gth_task_get_cancellable (GTH_TASK (self)),
 									    transformation_ready_cb,
@@ -2405,8 +2405,6 @@ copy_current_file (GthWebExporter *self)
 						appling_tranformation = TRUE;
 					}
 				}
-
-				g_object_unref (metadata);
 			}
 		}
 
