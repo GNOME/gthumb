@@ -310,6 +310,7 @@ file_buffer_ready_cb (void     **buffer,
 	{
 		GInputStream *istream;
 		GdkPixbuf    *original_pixbuf;
+		GdkPixbuf    *tmp;
 		GdkPixbuf    *transformed_pixbuf;
 
 		istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
@@ -319,6 +320,10 @@ file_buffer_ready_cb (void     **buffer,
 			transformation_data_free (tdata);
 			return;
 		}
+
+		tmp = gdk_pixbuf_apply_embedded_orientation (original_pixbuf);
+		g_object_unref (original_pixbuf);
+		original_pixbuf = tmp;
 
 		transformed_pixbuf = _gdk_pixbuf_transform (original_pixbuf, tdata->transform);
 		_gdk_pixbuf_save_async (transformed_pixbuf,
