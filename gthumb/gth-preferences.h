@@ -75,6 +75,7 @@ G_BEGIN_DECLS
 
 #define PREF_MSG_CANNOT_MOVE_TO_TRASH       "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define PREF_MSG_SAVE_MODIFIED_IMAGE        "/apps/gthumb/dialogs/messages/save_modified_image"
+#define PREF_MSG_CONFIRM_DELETION           "/apps/gthumb/dialogs/messages/confirm_deletion"
 
 /* default values */
 
@@ -86,7 +87,7 @@ G_BEGIN_DECLS
 #define DEFAULT_THUMBNAIL_SIZE 128
 #define DEFAULT_CONFIRM_DELETION TRUE
 #define DEFAULT_MSG_SAVE_MODIFIED_IMAGE TRUE
-
+#define DEFAULT_MSG_CONFIRM_DELETION TRUE
 
 void             gth_pref_initialize                   (void);
 void             gth_pref_release                      (void);

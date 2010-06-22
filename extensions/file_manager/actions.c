@@ -415,18 +415,13 @@ delete_permanently_response_cb (GtkDialog *dialog,
 }
 
 
-void
-gth_browser_activate_action_edit_trash (GtkAction  *action,
-					GthBrowser *browser)
+static void
+trash_files (GtkWindow *window,
+	     GList     *file_list)
 {
-	GList    *items;
-	GList    *file_list = NULL;
 	GList    *scan;
-	GError   *error = NULL;
 	gboolean  moved_to_trash = TRUE;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	GError   *error = NULL;
 
 	for (scan = file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
@@ -438,7 +433,7 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 
 				g_clear_error (&error);
 
-				d = _gtk_yesno_dialog_new (GTK_WINDOW (browser),
+				d = _gtk_yesno_dialog_new (window,
 							   GTK_DIALOG_MODAL,
 							   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
 							   GTK_STOCK_CANCEL,
@@ -451,7 +446,7 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 
 				break;
 			}
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the files to the Trash"), &error);
+			_gtk_error_dialog_from_gerror_show (window, _("Could not move the files to the Trash"), &error);
 			break;
 		}
 	}
@@ -460,12 +455,73 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 		GList  *files;
 
 		files = gth_file_data_list_to_file_list (file_list);
-		notify_files_delete (GTK_WINDOW (browser), files);
+		notify_files_delete (window, files);
 
 		_g_object_list_unref (files);
 	}
+}
 
+
+static void
+trash_files_response_cb (GtkDialog *dialog,
+			 int        response_id,
+			 gpointer   user_data)
+{
+	GList *file_list = user_data;
+
+	if (response_id == GTK_RESPONSE_YES)
+		trash_files (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_list);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	_g_object_list_unref (file_list);
+}
+
+
+void
+gth_browser_activate_action_edit_trash (GtkAction  *action,
+					GthBrowser *browser)
+{
+	GList *items;
+	GList *file_list = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	if (eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION)) {
+		int        file_count;
+		char      *prompt;
+		GtkWidget *d;
+
+		file_count = g_list_length (file_list);
+		if (file_count == 1) {
+			GthFileData *file_data = file_list->data;
+			prompt = g_strdup_printf (_("Are you sure you want to move \"%s\" to trash?"), g_file_info_get_display_name (file_data->info));
+		}
+		else
+			prompt = g_strdup_printf (ngettext("Are you sure you want to move to trash "
+							   "the %'d selected file?",
+							   "Are you sure you want to move to trash "
+							   "the %'d selected files?", file_count),
+						  file_count);
+
+		d = _gtk_message_dialog_new (GTK_WINDOW (browser),
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_DIALOG_QUESTION,
+					     prompt,
+					     NULL,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     _("Mo_ve to Trash"), GTK_RESPONSE_YES,
+					     NULL);
+		g_signal_connect (d, "response", G_CALLBACK (trash_files_response_cb), file_list);
+		gtk_widget_show (d);
+
+		g_free (prompt);
+	}
+	else {
+		trash_files (GTK_WINDOW (browser), file_list);
+		_g_object_list_unref (file_list);
+	}
+
 	_gtk_tree_path_list_free (items);
 }
 
@@ -486,7 +542,6 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 	file_count = g_list_length (file_list);
 	if (file_count == 1) {
 		GthFileData *file_data = file_list->data;
-
 		prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
 	}
 	else

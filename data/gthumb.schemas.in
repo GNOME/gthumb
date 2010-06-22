@@ -177,19 +177,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/browser/confirm_deletion</key>
-	<applyto>/apps/gthumb/browser/confirm_deletion</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>true</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
 	<key>/schemas/apps/gthumb/browser/sort_type</key>
 	<applyto>/apps/gthumb/browser/sort_type</applyto>
 	<owner>gthumb</owner>
@@ -502,6 +489,19 @@
 	<locale name="C">
 	  <short></short>
 	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/confirm_deletion</key>
+	<applyto>/apps/gthumb/dialogs/messages/confirm_deletion</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
 	</locale>
       </schema>
 

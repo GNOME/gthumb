@@ -152,6 +152,14 @@ toolbar_style_changed_cb (GtkWidget  *widget,
 
 
 static void
+confirm_deletion_toggled_cb (GtkToggleButton *button,
+			     DialogData      *data)
+{
+	eel_gconf_set_boolean (PREF_MSG_CONFIRM_DELETION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("confirm_deletion_checkbutton"))));
+}
+
+
+static void
 ask_to_save_toggled_cb (GtkToggleButton *button,
 			DialogData      *data)
 {
@@ -267,6 +275,7 @@ dlg_preferences (GthBrowser *browser)
 	g_object_unref (file_source);
 	g_free (startup_location);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("confirm_deletion_checkbutton")), eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_to_save_checkbutton")), eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->toolbar_style_combobox), eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM));
 
@@ -307,6 +316,10 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (GET_WIDGET ("set_to_current_button")),
 			  "clicked",
 			  G_CALLBACK (set_to_current_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("confirm_deletion_checkbutton")),
+			  "toggled",
+			  G_CALLBACK (confirm_deletion_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("ask_to_save_checkbutton")),
 			  "toggled",
