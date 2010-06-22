@@ -273,14 +273,21 @@ file_buffer_ready_cb (void     **buffer,
 
 #ifdef HAVE_LIBJPEG
 	if (g_content_type_equals (gth_file_data_get_mime_type (tdata->file_data), "image/jpeg")) {
-		void  *out_buffer;
-		gsize  out_buffer_size;
+		GthMetadata  *metadata;
+		GthTransform  current_orientation;
+		void         *out_buffer;
+		gsize         out_buffer_size;
+
+		current_orientation = 1;
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Embedded::Image::Orientation");
+		if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
+			current_orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
 
 		if (! jpegtran (*buffer,
 				count,
 				&out_buffer,
 				&out_buffer_size,
-				tdata->transform,
+				get_next_transformation (current_orientation, tdata->transform),
 				tdata->mcu_action,
 				&error))
 		{
