@@ -2044,10 +2044,13 @@ _gth_browser_close (GthWindow *window)
 		return;
 	}
 
-	if (gth_browser_get_file_modified (browser))
+	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	    && gth_browser_get_file_modified (browser))
+	{
 		_gth_browser_ask_whether_to_save (browser,
 						  close__file_saved_cb,
 						  NULL);
+	}
 	else
 		_gth_browser_real_close (browser);
 }
@@ -2153,10 +2156,13 @@ _gth_browser_set_current_page (GthWindow *window,
 {
 	GthBrowser *browser = GTH_BROWSER (window);
 
-	if (gth_browser_get_file_modified (browser))
+	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	    && gth_browser_get_file_modified (browser))
+	{
 		_gth_browser_ask_whether_to_save (browser,
 						  set_current_page__file_saved_cb,
 						  GINT_TO_POINTER (page));
+	}
 	else
 		_gth_browser_real_set_current_page (window, page);
 }
@@ -5012,7 +5018,9 @@ load_file_delayed_cb (gpointer user_data)
 		browser->priv->load_file_timeout = 0;
 	}
 
-	if (gth_browser_get_file_modified (browser)) {
+	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	    && gth_browser_get_file_modified (browser))
+	{
 		load_file_data_ref (data);
 		_gth_browser_ask_whether_to_save (browser,
 						  load_file__previuos_file_saved_cb,
