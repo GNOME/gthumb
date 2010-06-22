@@ -600,373 +600,137 @@
   <sect1 id="gthumb-image-working">
   <title>Working with Images</title>
    <sect2 id="gthumb-alter-images">
-   <title>To Modify an Image</title>
+   <title>To Modify Images</title>
       <para>
-	The current image can be modified in many ways.  The commands
-	used to modify an image are located in the <guimenu>Image</guimenu>
-	menu.
+        &app; provides two sets of editing functions for modifying images:
+	batch tools and single-image tools.
+        <note>
+          <title>NOTE</title>
+          <para>
+          There may be more or fewer tools available than described below, 
+	  depending on what extensions the user has enabled or disabled in 
+	  <menuchoice><guimenu>Edit</guimenu><guimenuitem>Extensions</guimenuitem></menuchoice>.)
+	  </para>
+	</note>
       </para>
-      <informaltable frame="topbot">
-        <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
-                colwidth="30.65*"/>
-        <colspec colname="COLSPEC1" colwidth="69.35*"/>
-        <tbody>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Enhance</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Enhance the image adjusting the color levels.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Resize</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Change the image size performing a zoom in or out.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Crop</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Crop the image.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Transform</guisubmenu>
-		<guimenuitem>Rotate Right</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Rotate the image 90 degrees clockwise.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Transform</guisubmenu>
-		<guimenuitem>Rotate Left</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Rotate the image 90 degrees counter-clockwise.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Transform</guisubmenu>
-		<guimenuitem>Flip</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Create a mirror image by reflecting the image scanlines
-		in the vertical direction.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Transform</guisubmenu>
-		<guimenuitem>Mirror</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Create a mirror image by reflecting the image scanlines
-		in the horizontal direction (as in a mirror).
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Desaturate</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        View the image in black and white.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Negative</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        View the image negative.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Color Balance</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Change the color balancing.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Hue-Saturation</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Change the image hue, lightness and saturation level.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Redeye Removal</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Remove red eyes caused by poor flashes.
-		See <xref linkend="gthumb-redeye"/> for more information.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Brightness-Contrast</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Change the image brightness and contrast.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Posterize</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Reduce the number of colors.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Auto</guisubmenu>
-		<guimenuitem>Equalize Histogram</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Enhance the image equalizing its histogram.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Auto</guisubmenu>
-		<guimenuitem>Normalize</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Automatically normalize the contrast.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guisubmenu>Auto</guisubmenu>
-		<guimenuitem>Stretch Contrast</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        Automatically stretch the contrast.
-	      </para>
-	    </entry>
-	  </row>
-	</tbody>
-      </tgroup>
-      </informaltable>
-      <para>When an image is modified the label "[modified]" is
-      displayed near the image filename.
-      <note>
-        <title>NOTE</title>
-        <para>
-          Please note that this modifications do not change the image file.
-	  If you want to view the original image just click on its
-	  thumbnail again or use the
-	  <menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
-	 </menuchoice> command.
-        </para>
-      </note>
-      </para>
+      <sect3 id="gthumb-batch-tools">
+	<title>Batch Tools</title>
       <para>
-        You can save modified images, see <xref
-        linkend="gthumb-save-images"/> for more information.
+	In the browser view, a <guibutton>Tools</guibutton> button is present
+	in the Toolbar. This provides access to a number of functions that
+	can operate on one or more files at a time. In other words, these are
+	batch tools. These tools includes:
+        <itemizedlist>
+          <listitem>
+  	    <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate Right</guimenuitem></menuchoice>.
+	    Rotates the images 90 degrees clockwise. Lossless rotation is used, if possible.</para>
+          </listitem>
+          <listitem>
+            <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate Left</guimenuitem></menuchoice>.
+            Rotates the images 90 degrees counter-clockwise. Lossless rotation is used, if possible.</para>
+          </listitem>
+          <listitem>
+            <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert Format</guimenuitem></menuchoice>.
+	    Allows images to be converted to different formats (jpeg, png, tiff, etc).</para>
+          </listitem>
+          <listitem>
+            <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Resize Images</guimenuitem></menuchoice>.
+	    Resizes images to a new size specified in pixels or percent.</para>
+          </listitem>
+          <listitem>
+            <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Change Date</guimenuitem></menuchoice>.
+	    Allows the file modification times, the comment dates, or the Exif DateTimeOriginal tags to be
+	    changed.</para>
+          </listitem>
+          <listitem>
+            <para><menuchoice><guimenu>Tools</guimenu><guimenuitem>Personalize</guimenuitem></menuchoice>.
+	    Allows used-defined scripts to be created, which can operate on one or more files.
+	    This helps the user automate common tasks.</para>
+          </listitem>
+        </itemizedlist>
       </para>
-    <sect3 id="gthumb-redeye">
-    <title>Redeye Removal</title>
+      </sect3>
+      <sect3 id="gthumb-single-image-tools">
+      <title>Single-Image Tools</title>
       <para>
-      Many inexpensive cameras have a flash that is too close to the camera lens.
-      As a result, the light from the flash may travel from the camera and be partially
-      reflected by a subject's retina right back into the camera lens. This causes
-      "redeye".
+        If the user opens an image file, additional single-image editing tools
+	become available. These are accessed by clicking the <guibutton>Edit file</guibutton> button
+        in the Toolbar (a paint-palette icon). 
+       </para>
+       <para>This provides access to a number of functions, including:
+        <itemizedlist>
+          <listitem>
+            <para><guimenuitem>Save</guimenuitem>.
+            Saves the current file, with any pending modifications. This will overwrite the existing file,
+	    without prompting for confirmation.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Save As</guimenuitem>.
+            Saves the displayed image, with any pending modifications, to a new file.</para>
+          </listitem>
+	  <listitem>
+            <para><guimenuitem>Undo</guimenuitem>, <guimenuitem>Redo</guimenuitem>.
+	    Allows you to undo or redo any changes made since the last save.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Enhance Colors</guimenuitem>.
+	    Automatically adjusts color levels.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Adjust Colors</guimenuitem>.
+            Manually adjust color balance, hues, brightness, contrast, and saturation.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Equalize</guimenuitem>.
+	    Equalizes the images histogram.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Desaturate</guimenuitem>.
+	    Convert the displayed image to grayscale.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Negative</guimenuitem>.
+	    Replaces the image with its negative.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Mirror</guimenuitem>.
+	    Flips the image horizontally. The left and right sides are swapped.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Flip</guimenuitem>.
+            Flips the image vertically. The top and bottom are swapped.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Rotate Right</guimenuitem>.
+	    Rotates the image 90 degrees clockwise.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Rotate Left</guimenuitem>.
+            Rotates the image 90 degrees counter-clockwise.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Resize</guimenuitem>.
+            Resizes the image.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Crop</guimenuitem>.
+            Crops the image. A cropping grid can be shown, if desired.</para>
+          </listitem>
+          <listitem>
+            <para><guimenuitem>Red Eye Removal</guimenuitem>.
+            If you click on a red eye, &app; will attempt to remove the red region
+	    and replace it with a more natural-looking gray region. If the results
+	    do not look correct, press <keycap>Escape</keycap> and click on
+	    the <guimenuitem>Undo</guimenuitem> item.</para>
+          </listitem>
+        </itemizedlist>
       </para>
-      <para>
-      &app; provides a tool to remove this unwanted redeye. When viewing an image
-      with redeye, select <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye
-      Removal</guimenuitem></menuchoice>. A new window will be launched. Move the mouse
-      pointer over top a redeye region, and click on or near it. This should remove the
-      red region, replacing it with a blacker region. If you are unhappy with the
-      result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes).
-      (Clicking <guibutton>Cancel</guibutton> will abandon all changes and close the window.)
-      Once you are satisfied with the result, you can click on more redeye regions, or
-      click <guibutton>Save</guibutton> or <guibutton>Done</guibutton> to close the window.
-      </para>
-      <para>
-      If you click <guibutton>Done</guibutton>, the image must be re-saved in the usual manner after using
-      <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>.
-      See <xref linkend="gthumb-save-images"/> for more information.
-      </para>
-      <para>
-      <guibutton>Zoom In</guibutton>, <guibutton>Zoom Out</guibutton>, <guibutton>Actual Size</guibutton>,
-      and <guibutton>Zoom to Fit</guibutton> buttons are provided to allow you to zoom to and from
-      regions of interest. The mouse wheel can also be used to zoom in and out.
-      </para>
+    
+      <para>When an image has been modified (but not saved) the label "[modified]" is
+      displayed near the image filename.</para>
     </sect3>
-    <sect3 id="gthumb-crop">
-    <title>Crop tool</title>
-      <para>
-      &app; provides a crop tool, which can be used to discard some parts of the image or to make it fit to
-      a particular aspect ratio.
-      </para>
-      <para>To use the tool, open the picture to be cropped. Then, select <menuchoice><guimenu>Image</guimenu>
-      <guimenuitem>Crop</guimenuitem></menuchoice>. A new window will be launched. You can select the area
-      you want to keep by dragging the mouse, or by typing values in the fields to the right of the picture.
-      Additionally, you can force your selection to keep a given aspect ratio using the <guimenu>Aspect ratio</guimenu> menu.
-      </para>
-      <para>
-      When you have selected the area to crop, press the <guibutton>Crop</guibutton> button to crop the image.
-      <guibutton>Undo</guibutton> button will cancel the last operation, while the <guibutton>Redo</guibutton> button
-      will revert it. Clicking on the <guibutton>Cancel</guibutton> button will abandon all your changes and close the
-      window. When you're happy with the result, click the <guibutton>Save</guibutton> to save your changes to the file
-      and close the window, or click the <guibutton>Done</guibutton> button to apply your changes to the image without
-      saving it (in which case the file can be saved later using
-      <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>).
-      </para>
-      <para>
-      <guibutton>Zoom In</guibutton>, <guibutton>Zoom Out</guibutton>, <guibutton>Actual Size</guibutton>,
-      and <guibutton>Zoom to Fit</guibutton> buttons are provided to allow you to zoom to and from
-      regions of interest. The mouse wheel can also be used to zoom in and out. There is also a button to
-      show or hide the boundaries of the selected region.
-      </para>
-    </sect3>
-    </sect2>
-    <sect2 id="gthumb-save-images">
-    <title>To Save an Image</title>
-      <para>To save an image, perform the following steps:
-      <orderedlist>
-        <listitem>
-           <para>Display the image.</para>
-        </listitem>
-        <listitem>
-           <para>Modify the image (described in <xref
-           linkend="gthumb-alter-images"/>).  Of course this step is
-           optional.</para>
-        </listitem>
-        <listitem>
-            <para>Choose
-            <menuchoice><guimenu>File</guimenu><guimenuitem>Save
-            As</guimenuitem></menuchoice>.</para>
-        </listitem>
-        <listitem>
-            <para>Choose the filename and click on
-            <guibutton>Ok</guibutton>.</para>
-        </listitem>
-        <listitem>
-           <para>&app; displays the image format dialog from which
-           you can choose specific file format options.  Once you are
-           ok with the options click on
-           <guibutton>Ok</guibutton>. &app; saves the image.</para>
-        </listitem>
-      </orderedlist>
-      </para>
-    </sect2>
+  </sect2>
+
 
   <sect2 id="gthumb-image-open">
   <title>To Open a Series of Images with Another Program</title>
