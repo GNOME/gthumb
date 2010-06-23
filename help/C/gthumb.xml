@@ -1082,18 +1082,14 @@
       <listitem>
         <para>Select the images and choose
         <menuchoice><guimenu>Edit</guimenu><guimenuitem>Copy</guimenuitem></menuchoice>
-        to display the <guilabel>Choose the destination
-        folder</guilabel> dialog.</para>
+	or press <keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>.</para>
       </listitem>
       <listitem>
-        <para>Select a folder from the <guilabel>Recents</guilabel>
-        list, or from the <guilabel>Bookmarks</guilabel> list; or type
-        a folder name in the
-        <guilabel>Folder</guilabel> entry.</para>
+        <para>Navigate to the desired destination using the folder tree.</para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &app; copies the
-        images.</para>
+        <para>Use <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice>
+        or press <keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo> to copy the files.</para>
       </listitem>
     </orderedlist>
   </para>
@@ -1109,19 +1105,15 @@
       </listitem>
       <listitem>
         <para>Select the images and choose
-        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move</guimenuitem></menuchoice>
-        to display the <guilabel>Choose the destination
-        folder</guilabel> dialog.</para>
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Cut</guimenuitem></menuchoice>
+        or press <keycombo><keycap>Ctrl</keycap><keycap>X</keycap></keycombo>.</para>
       </listitem>
       <listitem>
-        <para>Select a folder from the <guilabel>Recents</guilabel>
-        list, or from the <guilabel>Bookmarks</guilabel> list; or type
-        a folder name in the
-        <guilabel>Folder</guilabel> entry.</para>
+        <para>Navigate to the desired destination using the folder tree.</para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &app; moves the
-        images.</para>
+        <para>Use <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice>
+        or press <keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo> to move the files.</para>
       </listitem>
     </orderedlist>
   </para>
