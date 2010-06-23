@@ -866,7 +866,7 @@
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%M{ format }</keycap></para></entry>
+              <para><keycap>%M{format}</keycap></para></entry>
             <entry align="left">
               <para>This symbol will be replaced with the file modification date.
               The formatting of this date (and optionally time) can be specified
@@ -876,7 +876,7 @@
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%D{ format }</keycap></para></entry>
+              <para><keycap>%D{format}</keycap></para></entry>
             <entry align="left">
               <para>This symbol will be replaced with the date that the photo was
 	      original taken (normally determined from the EXIF datestamps embedded
@@ -888,7 +888,7 @@
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%A{ identifier }</keycap></para></entry>
+              <para><keycap>%A{identifier}</keycap></para></entry>
             <entry align="left">
               <para>This symbol will be replaced with the data that has been specified
               by the identifier. See <xref linkend="gthumb-attributes"/> for details. For example,
@@ -1057,19 +1057,17 @@
   <sect2 id="gthumb-image-delete">
   <title>To Delete a Series of Images</title>
   <para>
-    To delete a series of images, perform the
-    following steps:
-    <orderedlist>
-      <listitem>
-        <para>Go to the folder or catalog where the images are.</para>
-      </listitem>
-      <listitem>
-        <para>Select the images and choose
-        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move to
-        Trash</guimenuitem></menuchoice>. &app; deletes the images
-        moving them to the system trash.</para>
-      </listitem>
-    </orderedlist>
+    To delete a series of images, select the images and use
+    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move to
+    Trash</guimenuitem></menuchoice> or 
+    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Delete</guimenuitem></menuchoice>.
+  </para>
+  <para><menuchoice><guimenu>Edit</guimenu><guimenuitem>Move to
+     Trash</guimenuitem></menuchoice> moves the files to the system trash
+     folder, where they can be recovered if necessary.
+  </para>
+  <para><menuchoice><guimenu>Edit</guimenu><guimenuitem>Delete</guimenuitem></menuchoice>
+     deletes the files permanently.
   </para>
   </sect2>
 
