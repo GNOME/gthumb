@@ -1,0 +1,41 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize/unit</key>
+	<applyto>/apps/gthumb/ext/resize/unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>percentage</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize/keep_aspect_ratio</key>
+	<applyto>/apps/gthumb/ext/resize/keep_aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize/high_quality</key>
+	<applyto>/apps/gthumb/ext/resize/high_quality</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

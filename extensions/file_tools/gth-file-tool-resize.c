@@ -25,6 +25,7 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "gth-file-tool-resize.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -81,12 +82,6 @@ static void
 cancel_button_clicked_cb (GtkButton         *button,
 			  GthFileToolResize *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
@@ -252,9 +247,9 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	self->priv->new_pixbuf = NULL;
 	self->priv->new_width = self->priv->original_width;
 	self->priv->new_height = self->priv->original_height;
-	self->priv->keep_ratio = TRUE;
-	self->priv->interpolation = HIGH_QUALITY_INTERPOLATION;
-	self->priv->unit = GTH_UNIT_PERCENTAGE;
+	self->priv->keep_ratio = eel_gconf_get_boolean (PREF_RESIZE_KEEP_ASPECT_RATIO, TRUE);
+	self->priv->interpolation = eel_gconf_get_boolean (PREF_RESIZE_HIGH_QUALITY, TRUE) ? HIGH_QUALITY_INTERPOLATION : GDK_INTERP_NEAREST;
+	self->priv->unit = eel_gconf_get_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PERCENTAGE);
 	self->priv->builder = _gtk_builder_new_from_file ("resize-options.ui", "file_tools");
 
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
@@ -313,11 +308,19 @@ static void
 gth_file_tool_resize_destroy_options (GthFileTool *base)
 {
 	GthFileToolResize *self;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	GtkWidget       *viewer;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	GtkWidget         *viewer;
 
 	self = (GthFileToolResize *) base;
+
+	/* save the dialog options */
+
+	eel_gconf_set_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox"))));
+	eel_gconf_set_boolean (PREF_RESIZE_KEEP_ASPECT_RATIO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton"))));
+	eel_gconf_set_boolean (PREF_RESIZE_HIGH_QUALITY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton"))));
+
+	/**/
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
