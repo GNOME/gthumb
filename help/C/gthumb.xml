@@ -1865,9 +1865,48 @@
       </sect2>
     </sect1>
 
+  <!-- ============= Import ================================== -->
+  <sect1 id="gthumb-import">
+  <title>Importing Photos</title>
+
+    <sect2 id="gthumb-import-camera">
+      <title>Importing From a Camera</title>
+      <para>
+	To be documented.
+      </para>
+    </sect2>
+
+    <sect2 id="gthumb-import-online">
+      <title>Importing From Online Services</title>
+      <para>
+        To be documented.
+      </para>
+    </sect2>
+  </sect1>
+
+  <!-- ============= Export ================================== -->
+  <sect1 id="gthumb-export">
+  <title>Exporting Photos</title>
+
+    <sect2 id="gthumb-export-disk">
+      <title>Exporting To CD/DVD</title>
+      <para>
+        To be documented.
+      </para>
+    </sect2>
+
+    <sect2 id="gthumb-export-online">
+      <title>Exporting To Online Services</title>
+      <para>
+        To be documented.
+      </para>
+    </sect2>
+  </sect1>
+
+
   <!-- ============= Tools ================================== -->
   <sect1 id="gthumb-tools">
-  <title>Advanced Tools</title>
+  <title>Other Tools</title>
 
     <sect2 id="gthumb-wallpaper">
       <title>To Set the Desktop Wallpaper</title>
@@ -2789,22 +2828,6 @@
          <application>gThumb</application> for both possibilities, but for maximum compatibility with other
          applications this checkbox should be enabled.
        </para>
-       <sect3 id="gthumb-select-camera">
-	<title>Selecting the Camera Model</title>
-         <para>
-         &app; should auto-detect your camera (if it is connected and turned on) when you
-         launch the <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
-         </guimenuitem></menuchoice> dialog. If it does, a camera icon will be
-         displayed in the dialog box. If not, a camera with an "X" through it
-         will be shown.
-         </para>
-         <para>
-         If the wrong camera has been detected, click the camera icon to select
-         the correct one. A drop-down box listing all auto-detected cameras will
-         be shown. If the <guilabel>Use manual selection instead</guilabel> checkbox
-         is enabled, the user can manually set the camera model and port.
-         </para>
-       </sect3>
     </sect2>
     <sect2 id="gthumb-write-to-cd">
       <title>To Write Images to a CD or DVD</title>
