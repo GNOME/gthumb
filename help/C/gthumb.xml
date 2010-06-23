@@ -842,35 +842,21 @@
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%f</keycap></para></entry>
+              <para><keycap>%F</keycap></para></entry>
             <entry align="left">
-              <para>This symbol will be replaced with the image
-              original name, excluding the extension.</para></entry>
+              <para>This symbol will be replaced with the file's
+              original name, including the extension.</para></entry>
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%e</keycap></para></entry>
+              <para><keycap>%E</keycap></para></entry>
             <entry align="left">
-              <para>This symbol will be replaced with the image
+              <para>This symbol will be replaced with the file's
               original filename extension.</para></entry>
           </row>
           <row valign="top">
             <entry>
-              <para><keycap>%d</keycap></para></entry>
-            <entry align="left">
-              <para>This symbol will be replaced with the image
-              modified date.</para></entry>
-          </row>
-          <row valign="top">
-            <entry>
-              <para><keycap>%s</keycap></para></entry>
-            <entry align="left">
-              <para>This symbol will be replaced with the image
-              dimensions.</para></entry>
-          </row>
-          <row valign="top">
-            <entry>
-              <para><keycap>%n</keycap></para></entry>
+              <para><keycap>%N</keycap></para></entry>
             <entry align="left">
               <para>This symbol will be replaced with original image enumerator.
 	      For instance, if the original filename was IMG_9876.JPG, this
@@ -878,9 +864,43 @@
 	      one group of digits embedded in it (for example, IMG_123_456.JPG)
 	      only the first number will be used ("123" in this example).</para></entry>
           </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%M{ format }</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the file modification date.
+              The formatting of this date (and optionally time) can be specified
+              by adding a standard formatting code in curly braces. For example,
+              "%M{%Y-%m-%d, %T}" would be replaced with a date and time like
+              "2010-04-01, 15:02:01".</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%D{ format }</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the date that the photo was
+	      original taken (normally determined from the EXIF datestamps embedded
+	      inside the photo).
+              The formatting of this date (and optionally time) can be specified
+              by adding a standard formatting code in curly braces. For example,
+              "%M{%Y-%m-%d, %T}" would be replaced with a date and time like
+              "2010-04-01, 15:02:01".</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%A{ identifier }</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the data that has been specified
+              by the identifier. See <xref linkend="gthumb-attributes"/> for details. For example,
+	      "%A{ general::dimensions }" would be replaced with a size like "320 x 240".</para></entry>
+          </row>
         </tbody>
       </tgroup>
     </informaltable>
+    <para>
+      A summary of these special codes may be viewed by clicking on the Help
+      icon inside the template field.
+    </para>
     <para>
       The list at the bottom of the dialog displays how the filenames
       will be renamed.
@@ -894,6 +914,144 @@
       available: overwrite the image; do not overwrite the image;
       always overwrite; never overwrite; specify a new name.
     </para>
+
+  <sect3 id="gthumb-attributes">
+  <title>Attribute Codes</title>
+  <para>
+    &app; stores many different attributes for each file. Extensions to
+    &app; may add more. The list below is a summary of some of the more
+    common attributes:
+    <itemizedlist>
+      <listitem>
+        <para>gth::file::display-size</para>
+      </listitem>
+
+      <listitem>
+        <para>standard::fast-content-type</para>
+      </listitem>
+
+      <listitem>
+        <para>general::dimensions</para>
+      </listitem>
+
+      <listitem>
+        <para>general::format</para>
+      </listitem>
+
+      <listitem>
+        <para>general::location</para>
+      </listitem>
+
+      <listitem>
+        <para>general::datetime</para>
+      </listitem>
+
+      <listitem>
+        <para>general::rating</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Image::Make</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Image::Model</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Image::Software</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Image::Artist</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Image::Copyright</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ISOSpeedRatings</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::BrightnessValue</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::FNumber</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ApertureValue</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::MaxApertureValue</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ExposureTime</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ExposureProgram</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ExposureIndex</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ExposureBiasValue</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ExposureMode</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::ShutterSpeedValue</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::MeteringMode</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::LightSource</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::WhiteBalance</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::Flash</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::FocalLength</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::SubjectArea</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::Contrast</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::Saturation</para>
+      </listitem>
+
+      <listitem>
+        <para>Exif::Photo::Sharpness</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  </sect3>
   </sect2>
 
   <sect2 id="gthumb-image-delete">
