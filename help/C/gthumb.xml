@@ -1984,26 +1984,6 @@
         of pixels) to remove the problem areas.
       </para>
     </sect2>
-    <sect2 id="gthumb-reset-exif">
-      <title>Resetting the Exif Orientation Tag</title>
-      <para>
-        The previous section describes how JPEG images can be rotated using two
-        methods (physical transforms or Exif orientation tag changes). &app; supports
-        both methods properly as of version 2.9.0. Some previous versions
-        of &app; auto-rotated images improperly when importing, by performing
-        a physical transformation without resetting the Exif orientation tag
-        to "top-left". These previous versions ignored the orientation tag when
-        displaying the images, so no problem was apparent (although the problem
-        was visible if other image viewers were used to view the same images).
-        Versions 2.9.0 and later respect this tag, so the incorrect rotation will be visible.
-      </para>
-      <para>
-        The <guilabel>Reset Exif orientation tag</guilabel> tool is provided to fix
-        this problem. Simply select the affected images, and apply the
-        <guilabel>Reset Exif orientation tag</guilabel> tool. This will reset
-        the Exif orientation tag to "top-left".
-      </para>
-    </sect2>
     <sect2 id="gthumb-convert-format">
       <title>To Convert the Image Format</title>
       <para>
