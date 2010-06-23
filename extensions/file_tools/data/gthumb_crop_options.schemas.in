@@ -1,0 +1,65 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/grid_type</key>
+	<applyto>/apps/gthumb/ext/crop/grid_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>thirds</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/aspect_ratio</key>
+	<applyto>/apps/gthumb/ext/crop/aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/aspect_ratio_invert</key>
+	<applyto>/apps/gthumb/ext/crop/aspect_ratio_invert</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/aspect_ratio_width</key>
+	<applyto>/apps/gthumb/ext/crop/aspect_ratio_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/aspect_ratio_height</key>
+	<applyto>/apps/gthumb/ext/crop/aspect_ratio_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

@@ -23,27 +23,12 @@
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "enum-types.h"
 #include "gth-file-tool-crop.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
-
-
-typedef enum {
-	GTH_CROP_RATIO_NONE = 0,
-	GTH_CROP_RATIO_SQUARE,
-	GTH_CROP_RATIO_IMAGE,
-	GTH_CROP_RATIO_DISPLAY,
-	GTH_CROP_RATIO_5_4,
-	GTH_CROP_RATIO_4_3,
-	GTH_CROP_RATIO_7_5,
-	GTH_CROP_RATIO_3_2,
-	GTH_CROP_RATIO_16_10,
-	GTH_CROP_RATIO_16_9,
-	GTH_CROP_RATIO_185_100,
-	GTH_CROP_RATIO_239_100,
-	GTH_CROP_RATIO_CUSTOM
-} GthCropRatio;
 
 
 static gpointer parent_class = NULL;
@@ -120,7 +105,7 @@ crop_button_clicked_cb (GtkButton       *button,
 
 
 static void
-selection_x_value_changed_cb (GtkSpinButton    *spin,
+selection_x_value_changed_cb (GtkSpinButton   *spin,
 			      GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_x (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
@@ -128,7 +113,7 @@ selection_x_value_changed_cb (GtkSpinButton    *spin,
 
 
 static void
-selection_y_value_changed_cb (GtkSpinButton    *spin,
+selection_y_value_changed_cb (GtkSpinButton   *spin,
 			      GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_y (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
@@ -136,7 +121,7 @@ selection_y_value_changed_cb (GtkSpinButton    *spin,
 
 
 static void
-selection_width_value_changed_cb (GtkSpinButton    *spin,
+selection_width_value_changed_cb (GtkSpinButton   *spin,
 				  GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_width (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
@@ -144,7 +129,7 @@ selection_width_value_changed_cb (GtkSpinButton    *spin,
 
 
 static void
-selection_height_value_changed_cb (GtkSpinButton    *spin,
+selection_height_value_changed_cb (GtkSpinButton   *spin,
 				   GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_height (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
@@ -153,10 +138,10 @@ selection_height_value_changed_cb (GtkSpinButton    *spin,
 
 static void
 set_spin_range_value (GthFileToolCrop *self,
-		      GtkWidget        *spin,
-		      int               min,
-		      int               max,
-		      int               x)
+		      GtkWidget       *spin,
+		      int              min,
+		      int              max,
+		      int              x)
 {
 	g_signal_handlers_block_by_data (G_OBJECT (spin), self);
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), min, max);
@@ -167,7 +152,7 @@ set_spin_range_value (GthFileToolCrop *self,
 
 static void
 selector_selection_changed_cb (GthImageSelector *selector,
-			       GthFileToolCrop *self)
+			       GthFileToolCrop  *self)
 {
 	GdkRectangle selection;
 	int          min, max;
@@ -196,8 +181,8 @@ selector_selection_changed_cb (GthImageSelector *selector,
 
 static void
 set_spin_value (GthFileToolCrop *self,
-		GtkWidget        *spin,
-		int               x)
+		GtkWidget       *spin,
+		int              x)
 {
 	g_signal_handlers_block_by_data (G_OBJECT (spin), self);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), x);
@@ -206,7 +191,7 @@ set_spin_value (GthFileToolCrop *self,
 
 
 static void
-ratio_combobox_changed_cb (GtkComboBox      *combobox,
+ratio_combobox_changed_cb (GtkComboBox     *combobox,
 			   GthFileToolCrop *self)
 {
 	GtkWidget *ratio_w_spinbutton;
@@ -219,7 +204,7 @@ ratio_combobox_changed_cb (GtkComboBox      *combobox,
 	ratio_h_spinbutton = GET_WIDGET ("ratio_h_spinbutton");
 	w = h = 1;
 	use_ratio = TRUE;
-	idx = gtk_combo_box_get_active (combobox);
+	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox));
 
 	switch (idx) {
 	case GTH_CROP_RATIO_NONE:
@@ -236,35 +221,35 @@ ratio_combobox_changed_cb (GtkComboBox      *combobox,
 		w = self->priv->screen_width;
 		h = self->priv->screen_height;
 		break;
-	case GTH_CROP_RATIO_5_4:
+	case GTH_CROP_RATIO_5x4:
 		w = 5;
 		h = 4;
 		break;
-	case GTH_CROP_RATIO_4_3:
+	case GTH_CROP_RATIO_4x3:
 		w = 4;
 		h = 3;
 		break;
-	case GTH_CROP_RATIO_7_5:
+	case GTH_CROP_RATIO_7x5:
 		w = 7;
 		h = 5;
 		break;
-	case GTH_CROP_RATIO_3_2:
+	case GTH_CROP_RATIO_3x2:
 		w = 3;
 		h = 2;
 		break;
-	case GTH_CROP_RATIO_16_10:
+	case GTH_CROP_RATIO_16x10:
 		w = 16;
 		h = 10;
 		break;
-	case GTH_CROP_RATIO_16_9:
+	case GTH_CROP_RATIO_16x9:
 		w = 16;
 		h = 9;
 		break;
-	case GTH_CROP_RATIO_185_100:
+	case GTH_CROP_RATIO_185x100:
 		w = 185;
 		h = 100;
 		break;
-	case GTH_CROP_RATIO_239_100:
+	case GTH_CROP_RATIO_239x100:
 		w = 239;
 		h = 100;
 		break;
@@ -287,9 +272,9 @@ ratio_combobox_changed_cb (GtkComboBox      *combobox,
 
 
 static void
-update_ratio (GtkSpinButton    *spin,
+update_ratio (GtkSpinButton   *spin,
 	      GthFileToolCrop *self,
-	      gboolean          swap_x_and_y_to_start)
+	      gboolean         swap_x_and_y_to_start)
 {
 	gboolean use_ratio;
 	int      w, h;
@@ -311,7 +296,7 @@ update_ratio (GtkSpinButton    *spin,
 
 
 static void
-ratio_value_changed_cb (GtkSpinButton    *spin,
+ratio_value_changed_cb (GtkSpinButton   *spin,
 			GthFileToolCrop *self)
 {
 	update_ratio (spin, self, FALSE);
@@ -319,7 +304,7 @@ ratio_value_changed_cb (GtkSpinButton    *spin,
 
 
 static void
-invert_ratio_changed_cb (GtkSpinButton    *spin,
+invert_ratio_changed_cb (GtkSpinButton   *spin,
 			 GthFileToolCrop *self)
 {
 	update_ratio (spin, self, TRUE);
@@ -394,7 +379,13 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
 
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), eel_gconf_get_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_CROP_RATIO, GTH_CROP_RATIO_NONE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")), MAX (eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_WIDTH, 1), 1));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")), MAX (eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, 1), 1));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), eel_gconf_get_boolean (PREF_CROP_ASPECT_RATIO_INVERT, FALSE));
+
 	self->priv->grid_type_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Rule of Thirds"), _("Golden Sections"), NULL);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), eel_gconf_get_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
 	gtk_widget_show (self->priv->grid_type_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("grid_type_combobox_box")), self->priv->grid_type_combobox, FALSE, FALSE, 0);
 
@@ -444,6 +435,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
                           self);
 
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
+	gth_image_selector_set_grid_type (self->priv->selector, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->grid_type_combobox)));
 	g_signal_connect (self->priv->selector,
 			  "selection-changed",
 			  G_CALLBACK (selector_selection_changed_cb),
@@ -453,9 +445,8 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  G_CALLBACK (selector_mask_visibility_changed_cb),
 			  self);*/
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), 0);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), GTH_GRID_THIRDS);
+	ratio_combobox_changed_cb (NULL, self);
 
 	return options;
 }
@@ -470,6 +461,16 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 	GtkWidget       *viewer;
 
 	self = (GthFileToolCrop *) base;
+
+	/* save the dialog options */
+
+	eel_gconf_set_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, gth_image_selector_get_grid_type (self->priv->selector));
+	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
+	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
+	eel_gconf_set_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_CROP_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
+	eel_gconf_set_boolean (PREF_CROP_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
+
+	/**/
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
