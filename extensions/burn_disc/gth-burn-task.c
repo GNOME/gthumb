@@ -349,38 +349,41 @@ source_dialog_response_cb (GtkDialog   *dialog,
 			   int          response,
 			   GthBurnTask *task)
 {
-	gtk_widget_hide (task->priv->dialog);
-	gth_task_dialog (GTH_TASK (task), FALSE, NULL);
+	if (response == GTK_RESPONSE_HELP) {
+		show_help_dialog (GTK_WINDOW (dialog), "gthumb-export-disk");
+	} else {	
+		gtk_widget_hide (task->priv->dialog);
+		gth_task_dialog (GTH_TASK (task), FALSE, NULL);
 
-	if (response == GTK_RESPONSE_OK) {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton")))) {
-			g_hash_table_replace (task->priv->content, g_file_get_uri (task->priv->location), g_list_reverse (task->priv->selected_files));
-			task->priv->selected_files = NULL;
-			burn_content_to_disc (task);
+		if (response == GTK_RESPONSE_OK) {
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton")))) {
+				g_hash_table_replace (task->priv->content, g_file_get_uri (task->priv->location), g_list_reverse (task->priv->selected_files));
+				task->priv->selected_files = NULL;
+				burn_content_to_disc (task);
+			}
+			else {
+				gboolean recursive;
+
+				_g_object_list_unref (task->priv->selected_files);
+				task->priv->selected_files = NULL;
+
+				recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "folder_recursive_radiobutton")));
+				task->priv->test = gth_main_get_general_filter ();
+				task->priv->file_source = gth_main_get_file_source (task->priv->location);
+				gth_file_source_for_each_child (task->priv->file_source,
+								task->priv->location,
+								recursive,
+								eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+								start_dir_func,
+								for_each_file_func,
+								done_func,
+								task);
+			}
 		}
-		else {
-			gboolean recursive;
-
-			_g_object_list_unref (task->priv->selected_files);
-			task->priv->selected_files = NULL;
-
-			recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (task->priv->builder, "folder_recursive_radiobutton")));
-			task->priv->test = gth_main_get_general_filter ();
-			task->priv->file_source = gth_main_get_file_source (task->priv->location);
-			gth_file_source_for_each_child (task->priv->file_source,
-							task->priv->location,
-							recursive,
-							eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-							start_dir_func,
-							for_each_file_func,
-							done_func,
-							task);
-		}
+		else
+			gth_task_completed (GTH_TASK (task), NULL);
 	}
-	else
-		gth_task_completed (GTH_TASK (task), NULL);
 }
-
 
 static void
 gth_burn_task_exec (GthTask *base)
@@ -391,6 +394,7 @@ gth_burn_task_exec (GthTask *base)
 	task->priv->dialog = gtk_dialog_new_with_buttons (_("Write to Disc"),
 							  GTK_WINDOW (task->priv->browser),
 							  GTK_DIALOG_NO_SEPARATOR,
+							  GTK_STOCK_HELP, GTK_RESPONSE_HELP,
 							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							  GTK_STOCK_OK, GTK_RESPONSE_OK,
 							  NULL);

@@ -2039,7 +2039,23 @@
     <sect2 id="gthumb-export-disk">
       <title>Exporting To CD/DVD</title>
       <para>
-        To be documented.
+        To write a series of files to an optical disk (CD or DVD), or to create
+	an ISO disk image file, use the <menuchoice><guimenu>File
+        </guimenu><guimenu>Export To</guimenu><guimenuitem>Optical Disc</guimenuitem></menuchoice>
+	menu item.
+      </para>
+      <para>
+	You will be offered the choice of writing the currently selected files,
+	the entire current folder, or the entire current folder and its 
+	subfolders. Click <guibutton>OK</guibutton> when you have made
+	the appropriate selection.
+      </para>
+      <para>
+	The next dialog will select the destination disk, or the ISO file
+	to save. When you are ready to complete the process, click
+	<guibutton>Create Image</guibutton>. The optical disk writing
+	process will then commence, or the ISO file will be written,
+	completing the process.
       </para>
     </sect2>
 
@@ -2976,40 +2992,6 @@
          <application>gThumb</application> for both possibilities, but for maximum compatibility with other
          applications this checkbox should be enabled.
        </para>
-    </sect2>
-    <sect2 id="gthumb-write-to-cd">
-      <title>To Write Images to a CD or DVD</title>
-       <para>To write a series of images to a CD or DVD, perform the following steps:
-       <orderedlist>
-        <listitem>
-          <para>Select the images you want to write to and choose
-            <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
-            </guimenuitem></menuchoice>, &app; displays the
-            <guilabel>Write to CD</guilabel> dialog.
-          </para>
-        </listitem>
-        <listitem>
-          <para>Click on <guilabel>Current folder</guilabel> if you want to
-            write all of the images in the current folder and its subfolders.
-            Click on <guilabel>Selected images</guilabel> to write the current
-            selection only.
-          </para>
-        </listitem>
-        <listitem>
-          <para>Click on <guibutton>Ok</guibutton>. &app;, after preparing the
-            images for CD/DVD writing, displays the <filename>burn:///</filename>
-            location with <guilabel>Nautilus</guilabel>.
-          </para>
-        </listitem>
-        <listitem>
-          <para>Click on the <guilabel>Write to CD</guilabel> toolbar button or
-            choose
-            <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
-            </guimenuitem></menuchoice>.  Images are written to the CD or DVD.
-          </para>
-        </listitem>
-       </orderedlist>
-      </para>
     </sect2>
   </sect1>
   <sect1 id="scripts">
