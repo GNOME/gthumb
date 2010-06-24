@@ -559,10 +559,6 @@ _gth_file_list_set_type (GthFileList     *file_list,
 		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
 					     -1,
 					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
-	else
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     -1,
-					     -1);
 }
 
 
