@@ -2041,7 +2041,7 @@
       <para>
         To write a series of files to an optical disk (CD or DVD), or to create
 	an ISO disk image file, use the <menuchoice><guimenu>File
-        </guimenu><guimenu>Export To</guimenu><guimenuitem>Optical Disc</guimenuitem></menuchoice>
+        </guimenu><guisubmenu>Export To</guisubmenu><guimenuitem>Optical Disc</guimenuitem></menuchoice>
 	menu item.
       </para>
       <para>
@@ -2075,37 +2075,12 @@
     <sect2 id="gthumb-wallpaper">
       <title>To Set the Desktop Wallpaper</title>
       <para>
-        If you want to set an image as desktop wallpaper, select the
-	image and choose the
-	menu <menuchoice><guimenu>Tools</guimenu><guisubmenu>Set Image
-	as Wallpaper</guisubmenu></menuchoice>.  This menu contains
-	the following items:
-        <itemizedlist>
-	  <listitem>
-	    <para><guilabel>Centered</guilabel>: The image will be centered on
-	      the screen.</para>
-	  </listitem>
-	  <listitem>
-	    <para><guilabel>Tiled</guilabel>: The image will be duplicated on
-	      the screen as tiles on the floor.</para>
-	  </listitem>
-	  <listitem>
-	    <para><guilabel>Scaled</guilabel>: The image will be scaled to fill
-	      the screen maintaining the aspect ratio.</para>
-	  </listitem>
-	  <listitem>
-	    <para><guilabel>Stretched</guilabel>: The image will be scaled to
-	      fill the screen changing proportions if needed.</para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-      <para>
-         If you want to restore the old wallpaper choose
-	 <menuchoice>
-	   <guimenu>Tools</guimenu>
-           <guisubmenu>Set Image as Wallpaper</guisubmenu>
-           <guimenuitem>Restore</guimenuitem>
-         </menuchoice>.
+        If you want to set an image as desktop wallpaper, right-click on
+	the image and select <menuchoice><guimenuitem>Set as Desktop Background</guimenuitem></menuchoice>
+	from the pop-up menu. The desktop background will change, and the 
+	Gnome Appearance Preferences dialog will appear. You can use this
+	dialog to make adjustments to the background settings (positioning,
+	stretching, tiling, et cetera.).
        </para>
     </sect2>
     <sect2 id="gthumb-rotate-jpeg">
