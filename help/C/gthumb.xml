@@ -872,7 +872,7 @@
               The formatting of this date (and optionally time) can be specified
               by adding a standard formatting code in curly braces. For example,
               "%M{%Y-%m-%d, %T}" would be replaced with a date and time like
-              "2010-04-01, 15:02:01".</para></entry>
+              "2010-04-01, 15:02:01". See <xref linkend="gthumb-date-formats"/> for details.</para></entry>
           </row>
           <row valign="top">
             <entry>
@@ -884,7 +884,7 @@
               The formatting of this date (and optionally time) can be specified
               by adding a standard formatting code in curly braces. For example,
               "%M{%Y-%m-%d, %T}" would be replaced with a date and time like
-              "2010-04-01, 15:02:01".</para></entry>
+              "2010-04-01, 15:02:01". See <xref linkend="gthumb-date-formats"/> for details.</para></entry>
           </row>
           <row valign="top">
             <entry>
@@ -914,6 +914,521 @@
       available: overwrite the image; do not overwrite the image;
       always overwrite; never overwrite; specify a new name.
     </para>
+
+
+  <sect3 id="gthumb-date-formats">
+  <title>Date Formats</title>
+  <para>
+    This is a summary of standard date/time codes that may be used in
+    format strings:
+  </para>
+
+    <table id="gthumb-TBL-strftime" frame="topbot">
+    <title>Valid format codes for custom subfolders</title>
+    <tgroup cols="2" colsep="1" rowsep="1">
+      	<colspec colname="COLSPEC0" colwidth="50*"/>
+	<colspec colname="COLSPEC1" colwidth="50*"/>
+	<thead>
+	  <row valign="top">
+	    <entry colname="COLSPEC0">
+              <para>Code</para></entry>
+	    <entry colname="COLSPEC1">
+              <para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%a
+             </para>
+            </entry>
+            <entry>
+	      <para>
+                The abbreviated weekday name according to the current locale.
+	      </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%A
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The full weekday name according to the current locale.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%b
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The abbreviated month name according to the current locale.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%B
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The full month name according to the current locale.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%c
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The preferred date and time representation for the current locale.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%C
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The century number (year/100) as a 2-digit integer.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%d
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The day of the month as a decimal number (range 01 to 31).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%D
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note that in other countries %d/%m/%y is rather common. This means that in international context this format is ambiguous and should not be used.)
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%e
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Like %d, the day of the month as a decimal number, but a leading zero is replaced by a space.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%E
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Modifier: use alternative format, see below.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%F
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%G
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The ISO 8601 year with century as a decimal number. The 4-digit year corresponding to the ISO week number (see %V). This has the same format and value as %y, except that if the ISO week number belongs to the previous or next year, that year is used instead.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%g
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Like %G, but without century, i.e., with a 2-digit year (00-99).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%h
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Equivalent to %b.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%H
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The hour as a decimal number using a 24-hour clock (range 00 to 23).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%I
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The hour as a decimal number using a 12-hour clock (range 01 to 12).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%j
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The day of the year as a decimal number (range 001 to 366).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%k
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The hour (24-hour clock) as a decimal number (range 0 to 23); single digits are preceded by a blank. (See also %H.)
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%l
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The hour (12-hour clock) as a decimal number (range 1 to 12); single digits are preceded by a blank. (See also %I.)
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%m
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The month as a decimal number (range 01 to 12).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%M
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The minute as a decimal number (range 00 to 59).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%O
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Modifier: use alternative format, see below.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%p
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Either 'AM' or 'PM' according to the given time value, or the corresponding strings for the current locale. Noon is treated as 'pm' and midnight as 'am'.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%P
+             </para>
+            </entry>
+            <entry>
+              <para>
+                Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the current locale.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%r
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to '%I:%M:%S %p'.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%R
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The time in 24-hour notation (%H:%M).  For a version including the seconds, see %T below.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%s
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%S
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The second as a decimal number (range 00 to 60). (The range is up to 60 to allow for occasional leap seconds.)
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%T
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The time in 24-hour notation (%H:%M:%S).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%u
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The day of the week as a decimal number, range 1 to 7, Monday being 1. See also %w.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%U
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The week number of the current year as a decimal number, range 00 to 53, starting with the first Sunday as the first day of week 01. See also %V and %W.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%V
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The ISO 8601:1988 week number of the current year as a decimal number, range 01 to 53, where week 1 is the first week that has at least 4 days in the current year, and with Monday as the first day of the week. See also %U and %W.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%w
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%W
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The week number of the current year as a decimal number, range 00 to 53, starting with the first Monday as the first day of week 01.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%x
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The preferred date representation for the current locale without the time.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%X
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The preferred time representation for the current locale without the date.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%y
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The year as a decimal number without a century (range 00 to 99).
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%Y
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The year as a decimal number including the century.
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%z
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The time-zone as hour offset from GMT. Required to emit RFC 822-conformant dates (using "%a, %d %b %Y %H:%M:%S %z").
+              </para>
+            </entry>
+          </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+		%Z
+             </para>
+            </entry>
+            <entry>
+              <para>
+                The time zone or name or abbreviation.
+              </para>
+            </entry>
+          </row>
+	</tbody>
+     </tgroup>
+   </table>
+       <para>
+	Some conversion specifications can be modified by preceding the conversion specifier character by the E or O modifier
+	to indicate that an alternative format should be used. If the alternative format or specification does not exist for
+	the current locale, the behaviour will be as if the unmodified conversion specification were used.  The Single
+	Unix Specification mentions %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow,
+	%OW, %Oy, where the effect of the O modifier is to use alternative numeric symbols (say, roman numerals), and that
+	of the E modifier is to use a locale-dependent alternative representation.
+       </para>
+  </sect3>
 
   <sect3 id="gthumb-attributes">
   <title>Attribute Codes</title>
@@ -2224,511 +2739,6 @@
 	 was taken. This date is read from the Exif data in the photo, if available.
 	 If it is not, the file modification time is used instead. Here is a summary
 	 of valid format codes:
-       </para>
-    <table id="gthumb-TBL-strftime" frame="topbot">
-    <title>Valid format codes for custom subfolders</title>
-    <tgroup cols="2" colsep="1" rowsep="1">
-      	<colspec colname="COLSPEC0" colwidth="50*"/>
-	<colspec colname="COLSPEC1" colwidth="50*"/>
-	<thead>
-	  <row valign="top">
-	    <entry colname="COLSPEC0">
-              <para>Code</para></entry>
-	    <entry colname="COLSPEC1">
-              <para>Description</para></entry>
-	  </row>
-	</thead>
-	<tbody>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%a
-             </para>
-            </entry>
-            <entry>
-	      <para>
-                The abbreviated weekday name according to the current locale.
-	      </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%A
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The full weekday name according to the current locale.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%b
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The abbreviated month name according to the current locale.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%B
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The full month name according to the current locale.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%c
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The preferred date and time representation for the current locale.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%C
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The century number (year/100) as a 2-digit integer.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%d
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The day of the month as a decimal number (range 01 to 31).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%D
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note that in other countries %d/%m/%y is rather common. This means that in international context this format is ambiguous and should not be used.)
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%e
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Like %d, the day of the month as a decimal number, but a leading zero is replaced by a space.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%E
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Modifier: use alternative format, see below.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%F
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%G
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The ISO 8601 year with century as a decimal number. The 4-digit year corresponding to the ISO week number (see %V). This has the same format and value as %y, except that if the ISO week number belongs to the previous or next year, that year is used instead.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%g
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Like %G, but without century, i.e., with a 2-digit year (00-99).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%h
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Equivalent to %b.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%H
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The hour as a decimal number using a 24-hour clock (range 00 to 23).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%I
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The hour as a decimal number using a 12-hour clock (range 01 to 12).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%j
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The day of the year as a decimal number (range 001 to 366).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%k
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The hour (24-hour clock) as a decimal number (range 0 to 23); single digits are preceded by a blank. (See also %H.)
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%l
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The hour (12-hour clock) as a decimal number (range 1 to 12); single digits are preceded by a blank. (See also %I.)
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%m
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The month as a decimal number (range 01 to 12).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%M
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The minute as a decimal number (range 00 to 59).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%O
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Modifier: use alternative format, see below.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%p
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Either 'AM' or 'PM' according to the given time value, or the corresponding strings for the current locale. Noon is treated as 'pm' and midnight as 'am'.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%P
-             </para>
-            </entry>
-            <entry>
-              <para>
-                Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the current locale.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%r
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to '%I:%M:%S %p'.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%R
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The time in 24-hour notation (%H:%M).  For a version including the seconds, see %T below.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%s
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%S
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The second as a decimal number (range 00 to 60). (The range is up to 60 to allow for occasional leap seconds.)
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%T
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The time in 24-hour notation (%H:%M:%S).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%u
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The day of the week as a decimal number, range 1 to 7, Monday being 1. See also %w.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%U
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The week number of the current year as a decimal number, range 00 to 53, starting with the first Sunday as the first day of week 01. See also %V and %W.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%V
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The ISO 8601:1988 week number of the current year as a decimal number, range 01 to 53, where week 1 is the first week that has at least 4 days in the current year, and with Monday as the first day of the week. See also %U and %W.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%w
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%W
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The week number of the current year as a decimal number, range 00 to 53, starting with the first Monday as the first day of week 01.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%x
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The preferred date representation for the current locale without the time.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%X
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The preferred time representation for the current locale without the date.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%y
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The year as a decimal number without a century (range 00 to 99).
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%Y
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The year as a decimal number including the century.
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%z
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The time-zone as hour offset from GMT. Required to emit RFC 822-conformant dates (using "%a, %d %b %Y %H:%M:%S %z").
-              </para>
-            </entry>
-          </row>
-          <row rowsep="0">
-            <entry>
-              <para>
-		%Z
-             </para>
-            </entry>
-            <entry>
-              <para>
-                The time zone or name or abbreviation.
-              </para>
-            </entry>
-          </row>
-	</tbody>
-     </tgroup>
-   </table>
-       <para>
-	Some conversion specifications can be modified by preceding the conversion specifier character by the E or O modifier
-	to indicate that an alternative format should be used. If the alternative format or specification does not exist for
-	the current locale, the behaviour will be as if the unmodified conversion specification were used.  The Single
-	Unix Specification mentions %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow,
-	%OW, %Oy, where the effect of the O modifier is to use alternative numeric symbols (say, roman numerals), and that
-	of the E modifier is to use a locale-dependent alternative representation.
        </para>
        <para>
          <guilabel>Tags</guilabel> can be specified for the imported
