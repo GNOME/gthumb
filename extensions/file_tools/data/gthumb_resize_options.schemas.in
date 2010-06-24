@@ -14,6 +14,30 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/resize/width</key>
+	<applyto>/apps/gthumb/ext/resize/width</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>100.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize/height</key>
+	<applyto>/apps/gthumb/ext/resize/height</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>100.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/resize/aspect_ratio_width</key>
 	<applyto>/apps/gthumb/ext/resize/aspect_ratio_width</applyto>
 	<owner>gthumb</owner>

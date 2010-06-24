@@ -415,8 +415,8 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	else if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 2);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 2);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 100.0);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 100.0);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), eel_gconf_get_float (PREF_RESIZE_WIDTH,100.0));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), eel_gconf_get_float (PREF_RESIZE_HEIGHT, 100.0));
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 
@@ -505,9 +505,16 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 	self = (GthFileToolResize *) base;
 
 	if (self->priv->builder != NULL) {
+		int unit;
+
 		/* save the dialog options */
 
-		eel_gconf_set_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox"))));
+		unit = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")));
+		eel_gconf_set_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, unit);
+		if (unit == GTH_UNIT_PERCENTAGE) {
+			eel_gconf_set_float (PREF_RESIZE_WIDTH, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton"))));
+			eel_gconf_set_float (PREF_RESIZE_HEIGHT, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton"))));
+		}
 		eel_gconf_set_integer (PREF_RESIZE_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
 		eel_gconf_set_integer (PREF_RESIZE_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
 		eel_gconf_set_enum (PREF_RESIZE_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
