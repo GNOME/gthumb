@@ -207,60 +207,60 @@ ratio_combobox_changed_cb (GtkComboBox     *combobox,
 	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox));
 
 	switch (idx) {
-	case GTH_CROP_RATIO_NONE:
+	case GTH_ASPECT_RATIO_NONE:
 		use_ratio = FALSE;
 		break;
-	case GTH_CROP_RATIO_SQUARE:
+	case GTH_ASPECT_RATIO_SQUARE:
 		w = h = 1;
 		break;
-	case GTH_CROP_RATIO_IMAGE:
+	case GTH_ASPECT_RATIO_IMAGE:
 		w = self->priv->pixbuf_width;
 		h = self->priv->pixbuf_height;
 		break;
-	case GTH_CROP_RATIO_DISPLAY:
+	case GTH_ASPECT_RATIO_DISPLAY:
 		w = self->priv->screen_width;
 		h = self->priv->screen_height;
 		break;
-	case GTH_CROP_RATIO_5x4:
+	case GTH_ASPECT_RATIO_5x4:
 		w = 5;
 		h = 4;
 		break;
-	case GTH_CROP_RATIO_4x3:
+	case GTH_ASPECT_RATIO_4x3:
 		w = 4;
 		h = 3;
 		break;
-	case GTH_CROP_RATIO_7x5:
+	case GTH_ASPECT_RATIO_7x5:
 		w = 7;
 		h = 5;
 		break;
-	case GTH_CROP_RATIO_3x2:
+	case GTH_ASPECT_RATIO_3x2:
 		w = 3;
 		h = 2;
 		break;
-	case GTH_CROP_RATIO_16x10:
+	case GTH_ASPECT_RATIO_16x10:
 		w = 16;
 		h = 10;
 		break;
-	case GTH_CROP_RATIO_16x9:
+	case GTH_ASPECT_RATIO_16x9:
 		w = 16;
 		h = 9;
 		break;
-	case GTH_CROP_RATIO_185x100:
+	case GTH_ASPECT_RATIO_185x100:
 		w = 185;
 		h = 100;
 		break;
-	case GTH_CROP_RATIO_239x100:
+	case GTH_ASPECT_RATIO_239x100:
 		w = 239;
 		h = 100;
 		break;
-	case GTH_CROP_RATIO_CUSTOM:
+	case GTH_ASPECT_RATIO_CUSTOM:
 	default:
 		w = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ratio_w_spinbutton));
 		h = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ratio_h_spinbutton));
 		break;
 	}
 
-	gtk_widget_set_sensitive (GET_WIDGET ("custom_ratio_box"), idx == GTH_CROP_RATIO_CUSTOM);
+	gtk_widget_set_sensitive (GET_WIDGET ("custom_ratio_box"), idx == GTH_ASPECT_RATIO_CUSTOM);
 	gtk_widget_set_sensitive (GET_WIDGET ("invert_ratio_checkbutton"), use_ratio);
 	set_spin_value (self, ratio_w_spinbutton, w);
 	set_spin_value (self, ratio_h_spinbutton, h);
@@ -280,7 +280,7 @@ update_ratio (GtkSpinButton   *spin,
 	int      w, h;
 	double   ratio;
 
-	use_ratio = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)) != GTH_CROP_RATIO_NONE;
+	use_ratio = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)) != GTH_ASPECT_RATIO_NONE;
 	w = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")));
 	h = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")));
 
@@ -379,7 +379,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), eel_gconf_get_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_CROP_RATIO, GTH_CROP_RATIO_NONE));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), eel_gconf_get_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, GTH_ASPECT_RATIO_NONE));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")), MAX (eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_WIDTH, 1), 1));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")), MAX (eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, 1), 1));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), eel_gconf_get_boolean (PREF_CROP_ASPECT_RATIO_INVERT, FALSE));
@@ -462,28 +462,29 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 
 	self = (GthFileToolCrop *) base;
 
-	/* save the dialog options */
+	if (self->priv->builder != NULL) {
+		/* save the dialog options */
 
-	eel_gconf_set_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, gth_image_selector_get_grid_type (self->priv->selector));
-	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
-	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
-	eel_gconf_set_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_CROP_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
-	eel_gconf_set_boolean (PREF_CROP_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
+		eel_gconf_set_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, gth_image_selector_get_grid_type (self->priv->selector));
+		eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
+		eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
+		eel_gconf_set_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
+		eel_gconf_set_boolean (PREF_CROP_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
 
-	/**/
+		/* destroy the option data */
+
+		_g_object_unref (self->priv->src_pixbuf);
+		_g_object_unref (self->priv->builder);
+		_g_object_unref (self->priv->selector);
+		self->priv->src_pixbuf = NULL;
+		self->priv->builder = NULL;
+		self->priv->selector = NULL;
+	}
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->builder);
-	_g_object_unref (self->priv->selector);
-
-	self->priv->src_pixbuf = NULL;
-	self->priv->builder = NULL;
-	self->priv->selector = NULL;
 }
 
 

@@ -417,7 +417,6 @@ gth_file_tool_red_eye_destroy_options (GthFileTool *base)
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->selector);
 	g_free (self->priv->is_red);
-
 	self->priv->builder = NULL;
 	self->priv->selector = NULL;
 	self->priv->is_red = NULL;
