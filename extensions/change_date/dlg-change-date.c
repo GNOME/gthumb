@@ -104,7 +104,7 @@ static void
 help_button_cb (GtkWidget  *widget,
 		DialogData *data)
 {
-	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-change-date");
+	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-batch-change-date");
 }
 
 

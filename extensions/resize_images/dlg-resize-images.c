@@ -116,7 +116,7 @@ static void
 help_clicked_cb (GtkWidget  *widget,
 		 DialogData *data)
 {
-	show_help_dialog (GTK_WINDOW (data->dialog), NULL);
+	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-batch-resize");
 }
 
 
