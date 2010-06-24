@@ -152,6 +152,14 @@ toolbar_style_changed_cb (GtkWidget  *widget,
 
 
 static void
+thumbnails_pane_orientation_changed_cb (GtkWidget  *widget,
+					DialogData *data)
+{
+	eel_gconf_set_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnails_pane_orient_combobox"))));
+}
+
+
+static void
 confirm_deletion_toggled_cb (GtkToggleButton *button,
 			     DialogData      *data)
 {
@@ -278,6 +286,7 @@ dlg_preferences (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("confirm_deletion_checkbutton")), eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_to_save_checkbutton")), eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->toolbar_style_combobox), eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnails_pane_orient_combobox")), eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("embed_metadata_checkbutton")), eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE));
 
@@ -308,6 +317,10 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (data->toolbar_style_combobox),
 			  "changed",
 			  G_CALLBACK (toolbar_style_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("thumbnails_pane_orient_combobox"),
+			  "changed",
+			  G_CALLBACK (thumbnails_pane_orientation_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("use_startup_location_radiobutton")),
 			  "toggled",

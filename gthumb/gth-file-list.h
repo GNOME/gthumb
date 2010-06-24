@@ -37,7 +37,8 @@ typedef enum {
 	GTH_FILE_LIST_TYPE_BROWSER,
 	GTH_FILE_LIST_TYPE_SELECTOR,
 	GTH_FILE_LIST_TYPE_NO_SELECTION,
-	GTH_FILE_LIST_TYPE_THUMBNAIL,
+	GTH_FILE_LIST_TYPE_V_SIDEBAR,
+	GTH_FILE_LIST_TYPE_H_SIDEBAR
 } GthFileListType;
 
 #define GTH_TYPE_FILE_LIST            (gth_file_list_get_type ())
@@ -63,6 +64,8 @@ struct _GthFileListClass {
 GType             gth_file_list_get_type         (void);
 GtkWidget *       gth_file_list_new              (GthFileListType       list_type,
 						  gboolean              enable_drag_drop);
+void              gth_file_list_set_type         (GthFileList          *file_list,
+						  GthFileListType       list_type);
 void              gth_file_list_cancel           (GthFileList          *file_list,
 					          DataFunc              done_func,
 					          gpointer              user_data);

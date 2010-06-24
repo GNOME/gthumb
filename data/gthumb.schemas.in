@@ -465,6 +465,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ui/viewer_thumbnails_orientation</key>
+	<applyto>/apps/gthumb/ui/viewer_thumbnails_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>horizontal</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Messages -->
 
       <schema>

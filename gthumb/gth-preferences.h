@@ -69,6 +69,7 @@ G_BEGIN_DECLS
 #define PREF_UI_VIEWER_SIDEBAR_WIDTH        "/apps/gthumb/ui/viewer_sidebar_width"
 #define PREF_UI_PROPERTIES_HEIGHT           "/apps/gthumb/ui/properties_height"
 #define PREF_UI_COMMENT_HEIGHT              "/apps/gthumb/ui/comment_height"
+#define PREF_UI_VIEWER_THUMBNAILS_ORIENT    "/apps/gthumb/ui/viewer_thumbnails_orientation"
 
 #define PREF_ADD_TO_CATALOG_LAST_CATALOG    "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
 #define PREF_ADD_TO_CATALOG_VIEW            "/apps/gthumb/dialogs/add_to_catalog/view"

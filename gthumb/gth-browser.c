@@ -63,7 +63,7 @@
 #define GO_FORWARD_HISTORY_POPUP "/GoForwardHistoryPopup"
 #define GO_PARENT_POPUP "/GoParentPopup"
 #define MAX_HISTORY_LENGTH 15
-#define GCONF_NOTIFICATIONS 12
+#define GCONF_NOTIFICATIONS 13
 #define DEF_SIDEBAR_WIDTH 255
 #define DEF_VIEWER_SIDEBAR_WIDTH 285
 #define DEF_PROPERTIES_HEIGHT 128
@@ -3311,6 +3311,70 @@ pref_ui_toolbar_style_changed (GConfClient *client,
 
 
 static void
+pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
+					  guint        cnxn_id,
+					  GConfEntry  *entry,
+					  gpointer     user_data)
+{
+	GthBrowser     *browser = user_data;
+	GtkOrientation  viewer_thumbnails_orientation;
+	GtkWidget      *viewer_thumbnails_pane;
+	GtkWidget      *child1;
+	GtkWidget      *child2;
+
+	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
+		viewer_thumbnails_pane = gtk_vpaned_new ();
+	else
+		viewer_thumbnails_pane = gtk_hpaned_new ();
+
+	child1 = gtk_paned_get_child1 (GTK_PANED (browser->priv->viewer_thumbnails_pane));
+	child2 = gtk_paned_get_child2 (GTK_PANED (browser->priv->viewer_thumbnails_pane));
+
+	g_object_ref (child1);
+	gtk_widget_unrealize (child1);
+	gtk_container_remove (GTK_CONTAINER (browser->priv->viewer_thumbnails_pane), child1);
+
+	g_object_ref (child2);
+	gtk_widget_unrealize (child2);
+	gtk_container_remove (GTK_CONTAINER (browser->priv->viewer_thumbnails_pane), child2);
+
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) {
+		browser->priv->viewer_sidebar_pane = child2;
+		browser->priv->thumbnail_list = child1;
+		gtk_paned_pack1 (GTK_PANED (viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
+		gtk_paned_pack2 (GTK_PANED (viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
+	}
+	else {
+		browser->priv->viewer_sidebar_pane = child1;
+		browser->priv->thumbnail_list = child2;
+		gtk_paned_pack1 (GTK_PANED (viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
+		gtk_paned_pack2 (GTK_PANED (viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
+	}
+
+	g_object_notify (G_OBJECT (child1), "parent");
+	g_object_unref (child1);
+
+	g_object_notify (G_OBJECT (child2), "parent");
+	g_object_unref (child2);
+
+	gtk_widget_destroy (browser->priv->viewer_thumbnails_pane);
+	browser->priv->viewer_thumbnails_pane = viewer_thumbnails_pane;
+
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
+		gth_file_list_set_type (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_TYPE_H_SIDEBAR);
+	else
+		gth_file_list_set_type (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_TYPE_V_SIDEBAR);
+
+	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
+
+	gtk_widget_show (browser->priv->thumbnail_list);
+	gtk_widget_show (browser->priv->viewer_sidebar_pane);
+	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
+}
+
+
+static void
 _gth_browser_set_toolbar_visibility (GthBrowser *browser,
 				    gboolean    visible)
 {
@@ -3592,6 +3656,7 @@ _gth_browser_construct (GthBrowser *browser)
 	GtkWidget      *vbox;
 	GtkWidget      *scrolled_window;
 	GtkWidget      *menubar;
+	GtkOrientation  viewer_thumbnails_orientation;
 	char           *general_filter;
 	char           *caption;
 	int             i;
@@ -3682,14 +3747,21 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* content */
 
-	browser->priv->viewer_thumbnails_pane = gtk_vpaned_new ();
+	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
+		browser->priv->viewer_thumbnails_pane = gtk_vpaned_new ();
+	else
+		browser->priv->viewer_thumbnails_pane = gtk_hpaned_new ();
 	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
 	browser->priv->viewer_sidebar_pane = gtk_hpaned_new ();
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_pane, -1, MIN_VIEWER_SIZE);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
+		gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
+	else
+		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
 
 	browser->priv->viewer_container = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_widget_set_size_request (browser->priv->viewer_container, MIN_VIEWER_SIZE, -1);
@@ -3700,11 +3772,14 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar, MAX (eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), DEF_VIEWER_SIDEBAR_WIDTH), -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, FALSE);
 
-	browser->priv->thumbnail_list = gth_file_list_new (GTH_FILE_LIST_TYPE_THUMBNAIL, TRUE);
+	browser->priv->thumbnail_list = gth_file_list_new ((viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
+	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
+		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
+	else
+		gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 	_gth_browser_set_thumbnail_list_visibility (browser, eel_gconf_get_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, TRUE));
 
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))),
@@ -4011,6 +4086,10 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_TOOLBAR_STYLE,
 					   pref_ui_toolbar_style_changed,
+					   browser);
+	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_VIEWER_THUMBNAILS_ORIENT,
+					   pref_ui_viewer_thumbnails_orient_changed,
 					   browser);
 	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   "/desktop/gnome/interface/toolbar_style",
