@@ -3368,11 +3368,10 @@ pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
 
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
-	gtk_widget_show (browser->priv->thumbnail_list);
-	gtk_widget_show (browser->priv->viewer_sidebar_pane);
-
 	if (_gth_browser_get_action_active (browser, "View_Thumbnail_List"))
-		gtk_widget_show (browser->priv->viewer_thumbnails_pane);
+		gtk_widget_show (browser->priv->thumbnail_list);
+	gtk_widget_show (browser->priv->viewer_sidebar_pane);
+	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
 }
 
 
