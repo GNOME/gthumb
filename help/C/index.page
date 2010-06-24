@@ -27,8 +27,11 @@
     
     <section id="editing" style="2column">
         <title>Editing Mode</title>
-	<p>Numerous editing tools are provided for touching-up individual photos.
-	Undo and redo functions are provided, up until the photo is saved.</p>
+	<p><media type="image" mime="image/png" src="figures/palette.png"/>
+        Numerous editing tools are provided for touching-up individual photos.
+        Undo and redo functions are provided, up until the photo is saved.
+        To access the editing tools, open an image and then click the <gui>Edit File</gui>
+        toolbar button (the palette icon).</p>
     </section>
 
     <section id="batch" style="2column">

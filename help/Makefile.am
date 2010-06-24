@@ -8,7 +8,8 @@ DOC_FIGURES = \
  	figures/comment.png \
 	figures/main-win.png \
 	figures/nav-button.png \
-	figures/preferences.png
+	figures/preferences.png \
+	figures/palette.png
 
 DOC_PAGES = \
 	index.page \
