@@ -37,6 +37,6 @@ id="gthumb-thumbnails">
   explore these settings with <app>gconf-editor</app>. See the
   /desktop/gnome/thumbnail_cache/maximum_age and
   /desktop/gnome/thumbnail_cache/maximum_size keys in particular.
-  Certain applications (like F-Spot) may automatically increase
+  Certain applications (like <app>F-Spot</app>) may automatically increase
   these settings greatly.</p>
 </page>
