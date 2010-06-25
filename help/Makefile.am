@@ -10,7 +10,9 @@ DOC_FIGURES = \
 	figures/nav-button.png \
 	figures/preferences.png \
 	figures/palette.png \
-	figures/thumbnail-pane.png
+	figures/thumbnail-pane.png \
+	figures/general-filter.png \
+	figures/specific-filter.png
 
 DOC_PAGES = \
 	index.page \
@@ -35,7 +37,8 @@ DOC_PAGES = \
 	gimp.page \
 	viewer.page \
 	fullscreen.page \
-	sorting.page
+	sorting.page \
+	filtering.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
