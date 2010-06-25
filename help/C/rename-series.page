@@ -127,8 +127,7 @@ id="gthumb-rename-series">
   the Help icon inside the template field.</p>
   <p>The list at the bottom of the dialog displays how the
   filenames will be renamed.</p>
-  <p>To rename the images click on 
-  <guibutton>Rename</guibutton>.</p>
+  <p>To rename the images click on <gui>Rename</gui>.</p>
   <p>If the renaming of an image can overwrite an already existing
   image you will be asked how to proceed, five options are
   available: overwrite the image; do not overwrite the image;
