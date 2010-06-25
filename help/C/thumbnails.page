@@ -1,7 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic"
 id="gthumb-thumbnails">
   <info>
-    <link type="guide" xref="index#files" />
+    <link type="guide" xref="index#reference" />
   </info>
   <title>Thumbnail Sources</title>
   <p>The browser window normally shows the thumbnails of the images
