@@ -15,7 +15,7 @@
 		<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude" />
 	</info>
 
-	<title>gThumb Help</title>
+	<title><app>gThumb</app> Help</title>
 
     <section id="welcome" style="2column">
         <title>Welcome</title>

@@ -4,7 +4,7 @@ id="gthumb-attributes">
     <link type="guide" xref="index#reference" />
   </info>
   <title>Attribute Codes</title>
-  <p>gThumb stores many different attributes for each file.
+  <p><app>gThumb</app> stores many different attributes for each file.
   Extensions may add more. The list below is a summary of some of
   the more common attributes:</p>
   <list>

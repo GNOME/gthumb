@@ -25,7 +25,12 @@ DOC_PAGES = \
 	batch-scripts.page \
 	thumbnails.page \
 	thumbnail-pane.page \
-	rename-series.page
+	rename-series.page \
+	edit-save-undo-redo.page \
+	edit-colors.page \
+	edit-rotate.page \
+	edit-resize-crop.page \
+	edit-redeye.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
