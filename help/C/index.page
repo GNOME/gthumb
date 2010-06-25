@@ -40,6 +40,10 @@
 	Changes are written immediately, and are not undoable.</p>
     </section>
 
+    <section id="slideshows" style="2column">
+        <title>Slideshows</title>
+    </section>
+
     <section id="importing" style="2column">
         <title>Importing</title>
     </section>

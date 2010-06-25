@@ -32,7 +32,10 @@ DOC_PAGES = \
 	edit-resize-crop.page \
 	edit-redeye.page \
 	extensions.page \
-	gimp.page
+	gimp.page \
+	viewer.page \
+	fullscreen.page \
+	sorting.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
