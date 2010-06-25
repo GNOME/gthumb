@@ -24,7 +24,8 @@ DOC_PAGES = \
 	batch-change-date.page \
 	batch-scripts.page \
 	thumbnails.page \
-	thumbnail-pane.page
+	thumbnail-pane.page \
+	rename-series.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
