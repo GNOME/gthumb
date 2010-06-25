@@ -38,7 +38,9 @@ DOC_PAGES = \
 	viewer.page \
 	fullscreen.page \
 	sorting.page \
-	filtering.page
+	filtering.page \
+	printing.page \
+	shortcuts.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 

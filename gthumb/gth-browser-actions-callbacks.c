@@ -414,5 +414,5 @@ void
 gth_browser_activate_action_help_shortcuts (GtkAction *action,
 					    gpointer   data)
 {
-	show_help_dialog (GTK_WINDOW (data), "shortcuts");
+	show_help_dialog (GTK_WINDOW (data), "gthumb-shortcuts");
 }
