@@ -4,13 +4,17 @@ id="gthumb-browser-view">
     <link type="guide" xref="index#files" />
   </info>
   <title>Browsing Your Files</title>
+
   <p>When you start <app>gThumb</app> the following window is displayed:</p>
+
   <figure>
     <title>The main window</title>
     <media type="image" mime="image/png"
     src="figures/main-win.png" />
   </figure>
+
   <p>The <app>gThumb</app> browser contains the following elements:</p>
+
   <terms>
     <item>
       <title>Menubar</title>
@@ -80,4 +84,5 @@ id="gthumb-browser-view">
       characteristics.</p>
     </item>
   </terms>
+
 </page>

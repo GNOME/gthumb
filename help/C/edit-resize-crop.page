@@ -4,10 +4,9 @@ id="gthumb-edit-resize-crop">
     <link type="guide" xref="index#editing" />
   </info>
   <title>Resizing and Cropping</title>
-  <p>
-  <media type="image" mime="image/png"
-  src="figures/palette.png" />To access the editing tools, open an
-  image and then click the 
+
+  <p><media type="image" mime="image/png" src="figures/palette.png" />
+  To access the editing tools, open an image and then click the 
   <gui>Edit File</gui> toolbar button (the palette icon).</p>
 
   <p>Two tools are provided to resize and crop images.</p>
@@ -31,4 +30,5 @@ id="gthumb-edit-resize-crop">
 
   <p><app>gThumb</app> also offers a batch-mode tool for resizing multiple
   images simultaneously. See <link xref="gthumb-batch-resize"/>.</p>
+
 </page>

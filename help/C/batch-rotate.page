@@ -4,10 +4,13 @@ id="gthumb-batch-rotate">
     <link type="guide" xref="index#batch" />
   </info>
   <title>Rotating Images Losslessly</title>
+
   <p>To rotate one or more images, select the images in the browser
   view. Then click the <gui>Tools</gui> button on the main toolbar,
   and select either <guiseq><gui>Tools</gui><gui>Rotate Right</gui></guiseq>
   or <guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The 
   images will be rotated.</p>
+
   <p>Lossless rotation is used for jpeg images, when possible.</p>
+
 </page>

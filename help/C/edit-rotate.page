@@ -4,14 +4,14 @@ id="gthumb-edit-rotate">
     <link type="guide" xref="index#editing" />
   </info>
   <title>Rotations and Flips</title>
-  <p>
-  <media type="image" mime="image/png"
-  src="figures/palette.png" />To access the editing tools, open an
-  image and then click the 
+
+  <p><media type="image" mime="image/png" src="figures/palette.png" />
+  To access the editing tools, open an image and then click the 
   <gui>Edit File</gui> toolbar button (the palette icon).</p>
 
   <p>Several tools are provided to manipulate the orientation of
   images.</p>
+
   <terms>
     <item>
       <title><gui>Mirror</gui></title>
@@ -38,4 +38,5 @@ id="gthumb-edit-rotate">
   are not lossless operations - the image will degrade slightly when it
   it is re-encoded and saved. However, <app>gThumb</app> does provide
   lossless rotation tools. See <link xref="gthumb-batch-rotate"/>.</p>
+
 </page>

@@ -4,8 +4,10 @@ id="gthumb-date-formats">
     <link type="guide" xref="index#reference" />
   </info>
   <title>Date/Time Format Codes</title>
+
   <p>This is a summary of standard date/time codes that may be used
   in format strings:</p>
+
   <table id="gthumb-TBL-strftime">
     <title>Valid format codes for custom subfolders</title>
     <tr>
@@ -374,6 +376,7 @@ id="gthumb-date-formats">
       </td>
     </tr>
   </table>
+
   <p>Some conversion specifications can be modified by preceding
   the conversion specifier character by the E or O modifier to
   indicate that an alternative format should be used. If the
@@ -385,4 +388,5 @@ id="gthumb-date-formats">
   modifier is to use alternative numeric symbols (say, roman
   numerals), and that of the E modifier is to use a
   locale-dependent alternative representation.</p>
+
 </page>
