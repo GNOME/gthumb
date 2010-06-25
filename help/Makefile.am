@@ -30,7 +30,8 @@ DOC_PAGES = \
 	edit-colors.page \
 	edit-rotate.page \
 	edit-resize-crop.page \
-	edit-redeye.page
+	edit-redeye.page \
+	extensions.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
