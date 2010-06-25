@@ -3,7 +3,7 @@ id="gthumb-thumbnails">
   <info>
     <link type="guide" xref="index#files" />
   </info>
-  <title>Thumbnails</title>
+  <title>Thumbnail Sources</title>
   <p>The browser window normally shows the thumbnails of the images
   and movies in the selected folder. Generic icons for other files
   (audio files, for instance) may also be shown.</p>

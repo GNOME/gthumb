@@ -9,7 +9,8 @@ DOC_FIGURES = \
 	figures/main-win.png \
 	figures/nav-button.png \
 	figures/preferences.png \
-	figures/palette.png
+	figures/palette.png \
+	figures/thumbnail-pane.png
 
 DOC_PAGES = \
 	index.page \
@@ -22,7 +23,8 @@ DOC_PAGES = \
 	batch-resize.page \
 	batch-change-date.page \
 	batch-scripts.page \
-	thumbnails.page
+	thumbnails.page \
+	thumbnail-pane.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
