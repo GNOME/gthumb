@@ -5,17 +5,17 @@
 # Maren Reinecke <ma-reinecke@web.de>, 2008.
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
 # Mario Blättermann <mariobl@gnome.org>, 2010.
-# Christian Kirbach <christian.kirbach@googlemail.com>, 2008, 2010.
+# Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2008, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-06-21 11:14+0000\n"
-"PO-Revision-Date: 2010-06-21 18:23+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
-"Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2010-06-25 00:52+0000\n"
+"PO-Revision-Date: 2010-06-25 08:32+0200\n"
+"Last-Translator: Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -121,17 +121,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
-"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
-"Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
+"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
+"Miniatur-Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
-"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
+"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -352,7 +352,7 @@ msgstr "Zum letzten _besuchten Ort wechseln"
 msgid "Go to this _folder:"
 msgstr "Zu _folgendem Ordner gehen:"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:232
 msgid "Icons only"
 msgstr "Nur Symbole"
 
@@ -361,8 +361,9 @@ msgid "Keep previous zoom"
 msgstr "Letzte Vergrößerung beibehalten"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
 msgid "None"
@@ -388,41 +389,53 @@ msgid "Set to C_urrent"
 msgstr "Auf _momentan geöffneten setzen"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:232
 msgid "System settings"
 msgstr "Systemeinstellungen"
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:28
+msgid "T_humbnails in viewer:"
+msgstr "_Vorschaubilder im Betrachter:"
+
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:232
 msgid "Text below icons"
 msgstr "Text unter Symbolen"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:232
 msgid "Text beside icons"
 msgstr "Text neben Symbolen"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:31 ../gthumb/dlg-preferences.c:232
 msgid "Text only"
 msgstr "Nur Text"
 
-#: ../data/ui/preferences.ui.h:31
+#: ../data/ui/preferences.ui.h:32
 msgid "Thumbnail _size:"
 msgstr "_Vorschaubildgröße:"
 
-#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:110
+#: ../data/ui/preferences.ui.h:33 ../extensions/image_viewer/preferences.c:110
 msgid "White"
 msgstr "Weiß"
 
-#: ../data/ui/preferences.ui.h:33
+#: ../data/ui/preferences.ui.h:34
 msgid "_Store metadata inside files if possible"
 msgstr "Metadaten in Dateien _speichern, wenn möglich"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:35
 msgid "_Toolbar style:"
 msgstr "_Werkzeugleisten-Stil:"
 
-#: ../data/ui/preferences.ui.h:35
+#: ../data/ui/preferences.ui.h:36
 msgid "gthumb Preferences"
 msgstr "gThumb-Einstellungen"
+
+#: ../data/ui/preferences.ui.h:37
+msgid "on the bottom"
+msgstr "auf der Unterseite"
+
+#: ../data/ui/preferences.ui.h:38
+msgid "on the side"
+msgstr "auf der Seite"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -552,7 +565,7 @@ msgstr "_Gewählte Dateien"
 
 #: ../extensions/burn_disc/gth-burn-task.c:239
 #: ../extensions/burn_disc/gth-burn-task.c:260
-#: ../extensions/burn_disc/gth-burn-task.c:391
+#: ../extensions/burn_disc/gth-burn-task.c:394
 msgid "Write to Disc"
 msgstr "Auf Medium schreiben"
 
@@ -596,9 +609,14 @@ msgstr "Geben Sie einen Namen für die Bibliothek ein: "
 msgid "Could not create the library"
 msgstr "Die Bibliothek konnte nicht angelegt werden"
 
-#: ../extensions/catalogs/actions.c:334
+#: ../extensions/catalogs/actions.c:332
 msgid "Could not remove the catalog"
 msgstr "Der Katalog konnte nicht entfernt werden"
+
+#: ../extensions/catalogs/actions.c:366
+#, c-format
+msgid "Are you sure you want to remove \"%s\"?"
+msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
 #: ../extensions/catalogs/callbacks.c:99
 msgid "_Add to Catalog"
@@ -661,15 +679,15 @@ msgstr "Befehlszeile"
 msgid "(Empty)"
 msgstr "(Leer)"
 
-#: ../extensions/catalogs/callbacks.c:680
+#: ../extensions/catalogs/callbacks.c:684
 msgid "Catalog Properties"
 msgstr "Katalog-Eigenschaften"
 
-#: ../extensions/catalogs/callbacks.c:692
+#: ../extensions/catalogs/callbacks.c:696
 msgid "Organize"
 msgstr "Ordnen"
 
-#: ../extensions/catalogs/callbacks.c:693
+#: ../extensions/catalogs/callbacks.c:697
 msgid "Automatically organize files by date"
 msgstr "Dateien automatisch nach Datum ordnen"
 
@@ -889,11 +907,13 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:48
+#: ../extensions/comments/gth-test-category.c:40
+#: ../gthumb/gth-test-simple.c:48
 msgid "is"
 msgstr "ist"
 
-#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:49
+#: ../extensions/comments/gth-test-category.c:41
+#: ../gthumb/gth-test-simple.c:49
 msgid "is not"
 msgstr "ist nicht"
 
@@ -1405,8 +1425,8 @@ msgid ""
 "authorization."
 msgstr ""
 "Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
-"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
-"zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren "
+"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
 #: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
@@ -1544,11 +1564,11 @@ msgstr ""
 "können Sie sie kopieren."
 
 #: ../extensions/file_manager/actions.c:395
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:382
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:443
+#: ../extensions/file_manager/actions.c:438
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -1556,17 +1576,35 @@ msgstr ""
 "Die Dateien konnten nicht in den Müll verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:454
+#: ../extensions/file_manager/actions.c:449
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Müll verschoben werden"
 
-#: ../extensions/file_manager/actions.c:490
-#: ../extensions/file_manager/actions.c:781
+#: ../extensions/file_manager/actions.c:498
+#, c-format
+msgid "Are you sure you want to move \"%s\" to trash?"
+msgstr "Soll »%s« wirklich in den Müll verschoben werden?"
+
+#: ../extensions/file_manager/actions.c:501
+#, c-format
+msgid "Are you sure you want to move to trash the %'d selected file?"
+msgid_plural "Are you sure you want to move to trash the %'d selected files?"
+msgstr[0] "Soll %'d ausgewählte Datei in den Müll verschoben werden?"
+msgstr[1] "Sollen %'d ausgewählte Dateien in den Müll verschoben werden?"
+
+#: ../extensions/file_manager/actions.c:513
+#: ../extensions/file_manager/callbacks.c:169
+#: ../extensions/file_manager/callbacks.c:201
+msgid "Mo_ve to Trash"
+msgstr "In den _Müll verschieben"
+
+#: ../extensions/file_manager/actions.c:545
+#: ../extensions/file_manager/actions.c:836
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:493
+#: ../extensions/file_manager/actions.c:548
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1574,16 +1612,16 @@ msgid_plural ""
 msgstr[0] "Soll %'d ausgewählte Datei unwiderruflich gelöscht werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:503
-#: ../extensions/file_manager/actions.c:791
+#: ../extensions/file_manager/actions.c:558
+#: ../extensions/file_manager/actions.c:846
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
-#: ../extensions/file_manager/actions.c:533
+#: ../extensions/file_manager/actions.c:588
 msgid "Could not open the location"
 msgstr "Der Ort konnte nicht geöffnet werden"
 
-#: ../extensions/file_manager/actions.c:665
+#: ../extensions/file_manager/actions.c:720
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1591,18 +1629,19 @@ msgstr ""
 "Der Ordner ist nicht leer, sollen der Ordner und die enthaltenen Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:681
+#: ../extensions/file_manager/actions.c:736
 msgid "Could not delete the folder"
 msgstr "Der Ordner konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:740
+#: ../extensions/file_manager/actions.c:795
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it "
+"permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:747
+#: ../extensions/file_manager/actions.c:802
 msgid "Could not move the folder to the Trash"
 msgstr "Der Ordner konnte nicht in den Müll verschoben werden"
 
@@ -1623,11 +1662,6 @@ msgstr "_Duplizieren"
 #: ../extensions/file_manager/callbacks.c:166
 msgid "Duplicate the selected files"
 msgstr "Gewählte Dateien duplizieren"
-
-#: ../extensions/file_manager/callbacks.c:169
-#: ../extensions/file_manager/callbacks.c:201
-msgid "Mo_ve to Trash"
-msgstr "In den _Müll verschieben"
 
 #: ../extensions/file_manager/callbacks.c:170
 msgid "Move the selected files to the Trash"
@@ -1656,8 +1690,8 @@ msgstr "_Umbenennen"
 msgid "_Paste Into Folder"
 msgstr "In Ordner e_infügen"
 
-#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4367
-#: ../gthumb/gth-browser.c:4405
+#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4453
+#: ../gthumb/gth-browser.c:4491
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -1710,6 +1744,7 @@ msgid "_Yellow-Blue:"
 msgstr "_Gelb-Blau:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 msgid "Aspect ratio"
 msgstr "Seitenverhältnis"
 
@@ -1718,11 +1753,12 @@ msgid "C_rop"
 msgstr "_Zuschneiden"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
 msgid "Heigh_t:"
 msgstr "_Höhe:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "Seitenverhältnis _umkehren"
 
@@ -1736,7 +1772,7 @@ msgid "_Grid:"
 msgstr "_Gitterlinien:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:17
 msgid "_Width:"
 msgstr "_Breite:"
@@ -1757,24 +1793,36 @@ msgstr "_Y:"
 msgid "%"
 msgstr "%"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Bildgröße"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 msgid "High _quality"
 msgstr "Hohe _Qualität"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+msgid "Information"
+msgstr "Information"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+msgid "New dimensions:"
+msgstr "Neue Abmessungen:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Options"
 msgstr "Optionen"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
-msgid "_Preserve original aspect ratio"
-msgstr "Ursprüngliches Seitenverhältnis _beibehalten"
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "Original dimensions:"
+msgstr "Die ursprünglichen Abmessungen:"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:12
+msgid "Scale factor:"
+msgstr "Skalierungsfaktor:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "pixels"
 msgstr "Pixel"
@@ -1804,71 +1852,83 @@ msgstr "Farbabgleich"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Helligkeit, Kontrast, Sättigung und Gammawert eines Bildes ändern"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 msgid "Square"
 msgstr "Quadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-crop.c:362
+#: ../extensions/file_tools/gth-file-tool-resize.c:424
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Bild)"
 
 # CHECK
-#: ../extensions/file_tools/gth-file-tool-crop.c:380
+#: ../extensions/file_tools/gth-file-tool-crop.c:365
+#: ../extensions/file_tools/gth-file-tool-resize.c:427
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Bildschirm)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:384
+#: ../extensions/file_tools/gth-file-tool-crop.c:369
+#: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:385
+#: ../extensions/file_tools/gth-file-tool-crop.c:370
+#: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, Buch)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:386
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
+#: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:372
+#: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Postkarte)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:373
+#: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:389
+#: ../extensions/file_tools/gth-file-tool-crop.c:374
+#: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:390
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:391
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-resize.c:438
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:392
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-resize.c:439
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Benutzerdefiniert:"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
 msgid "Rule of Thirds"
 msgstr "Drittel-Regel"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
 msgid "Golden Sections"
 msgstr "Goldener Schnitt"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:500
+#: ../extensions/file_tools/gth-file-tool-crop.c:502
 msgid "Crop..."
 msgstr "Zuschneiden …"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:500
+#: ../extensions/file_tools/gth-file-tool-crop.c:502
 msgid "Crop"
 msgstr "Zuschneiden"
 
@@ -1921,11 +1981,11 @@ msgstr "Negativ"
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:552
 msgid "Resize..."
 msgstr "Bildgröße ändern …"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:552
 msgid "Resize"
 msgstr "Größe ändern"
 
@@ -2272,7 +2332,7 @@ msgid "Loading \"%s\""
 msgstr "»%s« wird geladen"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2669
+#: ../extensions/webalbums/gth-web-exporter.c:2667
 msgid "Loading images"
 msgstr "Bilder werden geladen"
 
@@ -2314,8 +2374,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. For "
-"practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -2326,9 +2386,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
-"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
-"strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
+"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
+"mehr strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
@@ -2344,8 +2404,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
-"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
+"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
@@ -2496,24 +2556,24 @@ msgstr "Jahr"
 msgid "custom format"
 msgstr "Benutzerdefiniertes Format"
 
-#: ../extensions/importer/gth-import-task.c:326
-#: ../extensions/importer/gth-import-task.c:405
+#: ../extensions/importer/gth-import-task.c:324
+#: ../extensions/importer/gth-import-task.c:403
 msgid "Importing files"
 msgstr "Dateien werden importiert"
 
-#: ../extensions/importer/gth-import-task.c:363
+#: ../extensions/importer/gth-import-task.c:361
 msgid "No file imported"
 msgstr "Keine Datei importiert"
 
-#: ../extensions/importer/gth-import-task.c:364
+#: ../extensions/importer/gth-import-task.c:362
 msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
-#: ../extensions/importer/gth-import-task.c:385
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Delete operation not supported."
 msgstr "Löschvorgang wird nicht unterstützt."
 
-#: ../extensions/importer/gth-import-task.c:451
+#: ../extensions/importer/gth-import-task.c:449
 msgid "Last imported"
 msgstr "Zuletzt importiert"
 
@@ -3041,15 +3101,15 @@ msgstr "Das Laden von Bildern im Raw-Format ermöglichen."
 msgid "Raw format support"
 msgstr "Unterstützung für Raw-Format"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Red Eye Removal..."
 msgstr "Rote Augen entfernen …"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Red Eye Removal"
 msgstr "Rote Augen entfernen"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:440
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Den durch Blitzgeräte hervorgerufenen Rote-Augen-Effekt entfernen"
 
@@ -3075,8 +3135,8 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
-"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::size, "
-"file::mtime, exif::photo::datetimeoriginal"
+"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::"
+"size, file::mtime, exif::photo::datetimeoriginal"
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
@@ -3152,27 +3212,27 @@ msgstr "_Vorschau:"
 msgid "_Template:"
 msgstr "_Vorlage:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:368
+#: ../extensions/rename_series/dlg-rename-series.c:376
 msgid "Could not rename the files"
 msgstr "Dateien konnten nicht umbenannt werden"
 
-#: ../extensions/rename_series/dlg-rename-series.c:456
+#: ../extensions/rename_series/dlg-rename-series.c:464
 msgid "Old Name"
 msgstr "Alter Name"
 
-#: ../extensions/rename_series/dlg-rename-series.c:464
+#: ../extensions/rename_series/dlg-rename-series.c:472
 msgid "New Name"
 msgstr "Neuer Name"
 
-#: ../extensions/rename_series/dlg-rename-series.c:539
+#: ../extensions/rename_series/dlg-rename-series.c:547
 msgid "Keep original case"
 msgstr "Groß-/Kleinschreibung beibehalten"
 
-#: ../extensions/rename_series/dlg-rename-series.c:540
+#: ../extensions/rename_series/dlg-rename-series.c:548
 msgid "Convert to lower-case"
 msgstr "In Kleinschreibung umwandeln"
 
-#: ../extensions/rename_series/dlg-rename-series.c:541
+#: ../extensions/rename_series/dlg-rename-series.c:549
 msgid "Convert to upper-case"
 msgstr "In Großschreibung umwandeln"
 
@@ -3580,11 +3640,11 @@ msgstr "Bilder werden gespeichert"
 msgid "Copying original images"
 msgstr "Originalbilder werden kopiert"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2906
+#: ../extensions/webalbums/gth-web-exporter.c:2904
 msgid "Could not find the style folder"
 msgstr "Der Stilvorlagen-Ordner konnte nicht gefunden werden"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2939
+#: ../extensions/webalbums/gth-web-exporter.c:2937
 msgid "Could not create a temporary folder"
 msgstr "Es konnte kein temporärer Ordner angelegt werden"
 
@@ -3873,15 +3933,15 @@ msgstr "In den Vollbildmodus wechseln"
 msgid "Leave Fullscreen"
 msgstr "Vollbild verlassen"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3196
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3202
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3217
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3223
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3238
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3244
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
@@ -3995,8 +4055,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1656
-#: ../gthumb/gth-browser.c:5144 ../gthumb/gth-browser.c:5163
-#: ../gthumb/gth-browser.c:5188
+#: ../gthumb/gth-browser.c:5232 ../gthumb/gth-browser.c:5251
+#: ../gthumb/gth-browser.c:5276
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4021,29 +4081,29 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: ../gthumb/gth-browser.c:2518 ../gthumb/gth-browser.c:2542
+#: ../gthumb/gth-browser.c:2524 ../gthumb/gth-browser.c:2548
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Name konnte nicht geändert werden"
 
-#: ../gthumb/gth-browser.c:2923 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2929 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Geändert"
 
-#: ../gthumb/gth-browser.c:3197 ../gthumb/gth-browser.c:3218
+#: ../gthumb/gth-browser.c:3203 ../gthumb/gth-browser.c:3224
 msgid "View the list of visited locations"
 msgstr "Die Liste besuchter Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:3239
+#: ../gthumb/gth-browser.c:3245
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5145
+#: ../gthumb/gth-browser.c:5233
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5189
+#: ../gthumb/gth-browser.c:5277
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -4358,6 +4418,9 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
+
+#~ msgid "_Preserve original aspect ratio"
+#~ msgstr "Ursprüngliches Seitenverhältnis _beibehalten"
 
 #~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
 #~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
