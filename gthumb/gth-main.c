@@ -172,7 +172,7 @@ gth_main_init (GthMain *main)
 							g_str_equal,
 							NULL,
 							NULL);
-	main->priv->loaders = g_hash_table_new (g_str_hash, g_str_equal);
+	main->priv->loaders = g_hash_table_new (g_str_hash, (GEqualFunc) g_content_type_equals);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_sorted = FALSE;
@@ -712,7 +712,7 @@ gth_main_register_pixbuf_loader (PixbufLoader  loader,
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
   	while (mime_type != NULL) {
-		g_hash_table_insert (Main->priv->loaders, (gpointer) get_static_string (mime_type), loader);
+		g_hash_table_insert (Main->priv->loaders, (gpointer) get_static_string (g_content_type_from_mime_type (mime_type)), loader);
 		mime_type = va_arg (var_args, const char *);
   	}
 	va_end (var_args);
