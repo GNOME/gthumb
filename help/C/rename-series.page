@@ -50,7 +50,7 @@ id="gthumb-rename-series">
       </td>
       <td>
         <p>This symbol will be replaced with the file's original
-        name, including the extension.</p>
+        name, excluding the original extension.</p>
       </td>
     </tr>
     <tr>
