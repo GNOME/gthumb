@@ -303,6 +303,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (self), TRUE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
