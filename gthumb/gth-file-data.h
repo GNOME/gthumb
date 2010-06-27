@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
+#include "gth-string-list.h"
 
 G_BEGIN_DECLS
 
@@ -103,6 +104,15 @@ void          gth_file_data_ready_with_error        (GthFileData    *file_data,
 						     GError         *error);
 char *        gth_file_data_get_attribute_as_string (GthFileData    *file_data,
 				                     const char     *id);
+GFileInfo *   gth_file_data_list_get_common_info    (GList          *file_data_list,
+						     const char     *attribtues);
+gboolean      gth_file_data_attribute_equal         (GthFileData    *file_data,
+						     const char     *attribute,
+						     const char     *value);
+gboolean      gth_file_data_attribute_equal_string_list
+						    (GthFileData    *file_data,
+						     const char     *attribute,
+						     GthStringList  *value);
 
 G_END_DECLS
 

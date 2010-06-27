@@ -225,8 +225,10 @@ gth_file_data_get_mime_type (GthFileData *self)
 	if (content_type == NULL) {
 		char *filename = g_file_get_basename (self->file);
 
-		content_type = g_content_type_guess (filename, NULL, 0, NULL);
-		g_free (filename);
+		if (filename != NULL) {
+			content_type = g_content_type_guess (filename, NULL, 0, NULL);
+			g_free (filename);
+		}
 	}
 
 	return get_static_string (content_type);
@@ -505,8 +507,8 @@ char *
 gth_file_data_get_attribute_as_string (GthFileData *file_data,
 				       const char  *id)
 {
-	char     *value = NULL;
-	GObject  *obj;
+	char    *value = NULL;
+	GObject *obj;
 
 	switch (g_file_info_get_attribute_type (file_data->info, id)) {
 	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
@@ -524,4 +526,74 @@ gth_file_data_get_attribute_as_string (GthFileData *file_data,
 	}
 
 	return value;
+}
+
+
+GFileInfo *
+gth_file_data_list_get_common_info (GList      *file_data_list,
+				    const char *attribtues)
+{
+	GFileInfo  *info;
+	char      **attributes_v;
+	int         i;
+
+	info = g_file_info_new ();
+	g_file_info_copy_into (((GthFileData *) file_data_list->data)->info, info);
+
+	attributes_v = g_strsplit (attribtues, ",", -1);
+	for (i = 0; attributes_v[i] != NULL; i++) {
+		char  *attribute = attributes_v[i];
+		char  *first_value;
+		GList *scan;
+
+		first_value = gth_file_data_get_attribute_as_string ((GthFileData *) file_data_list->data, attribute);
+		for (scan = file_data_list->next; (first_value != NULL) && scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+			char        *value;
+
+			value = gth_file_data_get_attribute_as_string (file_data, attribute);
+			if (g_strcmp0 (first_value, value) != 0) {
+				g_free (first_value);
+				first_value = NULL;
+			}
+
+			g_free (value);
+		}
+
+		if (first_value == NULL)
+			g_file_info_remove_attribute (info, attribute);
+	}
+
+	g_strfreev (attributes_v);
+
+	return info;
+}
+
+
+gboolean
+gth_file_data_attribute_equal (GthFileData *file_data,
+			       const char  *attribute,
+			       const char  *value)
+{
+	char     *v;
+	gboolean  result;
+
+	v = gth_file_data_get_attribute_as_string (file_data, attribute);
+	result = g_strcmp0 (v, value) == 0;
+
+	g_free (v);
+
+	return result;
+}
+
+
+gboolean
+gth_file_data_attribute_equal_string_list (GthFileData    *file_data,
+					   const char     *attribute,
+					   GthStringList  *value)
+{
+	GObject *obj;
+
+	obj = g_file_info_get_attribute_object (file_data->info, attribute);
+	return gth_string_list_equal (GTH_STRING_LIST (obj), value);
 }

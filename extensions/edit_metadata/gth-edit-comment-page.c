@@ -55,8 +55,8 @@ struct _GthEditCommentPagePrivate {
 
 
 void
-gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
-		 		     GthFileData         *file_data)
+gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
+		 			  GList               *file_list)
 {
 	GthEditCommentPage  *self;
 	GtkTextBuffer       *buffer;
@@ -64,15 +64,16 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	GthStringList       *tags;
 	GthMetadataProvider *provider;
 	gboolean             no_provider;
+	GthFileData         *file_data;
+	const char          *mime_type;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
 	_g_object_unref (self->priv->info);
-	self->priv->info = g_file_info_new ();
-	g_file_info_copy_into (file_data->info, self->priv->info);
+	self->priv->info = gth_file_data_list_get_common_info (file_list, "general::description,general::title,general::location,general::datetime,general::tags,general::rating");
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::description");
 	if (metadata != NULL) {
 		GtkTextIter iter;
 
@@ -83,19 +84,19 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	else
 		gtk_text_buffer_set_text (buffer, "", -1);
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::title");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), gth_metadata_get_formatted (metadata));
 	else
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), "");
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::location");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), gth_metadata_get_formatted (metadata));
 	else
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), "");
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
@@ -105,7 +106,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
 	}
 
-	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+	tags = (GthStringList *) g_file_info_get_attribute_object (self->priv->info, "general::tags");
 	if (tags != NULL) {
 		char *value;
 
@@ -117,7 +118,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	else
 		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), "");
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::rating");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::rating");
 	if (metadata != NULL) {
 		int v;
 
@@ -131,32 +132,41 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 
 	no_provider = TRUE;
 
-  	provider = gth_main_get_metadata_writer ("general::description", gth_file_data_get_mime_type (file_data));
+	if (file_list->next == NULL) {
+		GthFileData *first = file_list->data;
+		file_data = gth_file_data_new (first->file, first->info);
+	}
+	else
+		file_data = gth_file_data_new (NULL, ((GthFileData *) file_list->data)->info);
+
+	mime_type = gth_file_data_get_mime_type (file_data);
+
+  	provider = gth_main_get_metadata_writer ("general::description", mime_type);
 	gtk_widget_set_sensitive (GET_WIDGET ("note_text"), provider != NULL);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
 
-	provider = gth_main_get_metadata_writer ("general::location", gth_file_data_get_mime_type (file_data));
+	provider = gth_main_get_metadata_writer ("general::location", mime_type);
 	gtk_widget_set_sensitive (GET_WIDGET ("place_entry"), provider != NULL);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
 
-	provider = gth_main_get_metadata_writer ("general::datetime", gth_file_data_get_mime_type (file_data));
+	provider = gth_main_get_metadata_writer ("general::datetime", mime_type);
 	gtk_widget_set_sensitive (self->priv->date_combobox, provider != NULL);
 	gtk_widget_set_sensitive (self->priv->date_selector, provider != NULL);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
 
-	provider = gth_main_get_metadata_writer ("general::tags", gth_file_data_get_mime_type (file_data));
+	provider = gth_main_get_metadata_writer ("general::tags", mime_type);
 	gtk_widget_set_sensitive (self->priv->tags_entry, provider != NULL);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
 
-	provider = gth_main_get_metadata_writer ("general::rating", gth_file_data_get_mime_type (file_data));
+	provider = gth_main_get_metadata_writer ("general::rating", mime_type);
 	gtk_widget_set_sensitive (GET_WIDGET ("rating_spinbutton"), provider != NULL);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
@@ -166,14 +176,18 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		gtk_widget_hide (GTK_WIDGET (self));
 	else
 		gtk_widget_show (GTK_WIDGET (self));
+
+	g_object_unref (file_data);
 }
 
 
 void
 gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
-					GFileInfo           *info)
+					GFileInfo           *info,
+					gboolean             only_modified_fields)
 {
 	GthEditCommentPage  *self;
+	GthFileData         *file_data;
 	GtkTextBuffer       *buffer;
 	GtkTextIter          start;
 	GtkTextIter          end;
@@ -185,55 +199,66 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	GthStringList       *string_list;
 	GthDateTime         *date_time;
 	char                *exif_date;
+	char                *s;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
+	file_data = gth_file_data_new (NULL, self->priv->info);
+
 	/* caption */
 
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "general::title",
-				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
-				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
-				 NULL);
-	g_file_info_set_attribute_object (info, "general::title", G_OBJECT (metadata));
-	g_object_unref (metadata);
+	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::title", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))))) {
+		metadata = g_object_new (GTH_TYPE_METADATA,
+					 "id", "general::title",
+					 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
+					 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("title_entry"))),
+					 NULL);
+		g_file_info_set_attribute_object (info, "general::title", G_OBJECT (metadata));
+		g_object_unref (metadata);
+	}
 
 	/* comment */
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "general::description",
-				 "raw", text,
-				 "formatted", text,
-				 NULL);
-	g_file_info_set_attribute_object (info, "general::description", G_OBJECT (metadata));
-	g_object_unref (metadata);
+	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::description", text)) {
+		metadata = g_object_new (GTH_TYPE_METADATA,
+					 "id", "general::description",
+					 "raw", text,
+					 "formatted", text,
+					 NULL);
+		g_file_info_set_attribute_object (info, "general::description", G_OBJECT (metadata));
+		g_object_unref (metadata);
+	}
 	g_free (text);
 
 	/* location */
 
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "general::location",
-				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
-				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
-				 NULL);
-	g_file_info_set_attribute_object (info, "general::location", G_OBJECT (metadata));
-	g_object_unref (metadata);
+	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::location", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))))) {
+		metadata = g_object_new (GTH_TYPE_METADATA,
+					 "id", "general::location",
+					 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
+					 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
+					 NULL);
+		g_file_info_set_attribute_object (info, "general::location", G_OBJECT (metadata));
+		g_object_unref (metadata);
+	}
 
 	/* date */
 
 	date_time = gth_datetime_new ();
 	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
 	exif_date = gth_datetime_to_exif_date (date_time);
-	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "general::datetime",
-				 "raw", exif_date,
-				 "formatted", exif_date,
-				 NULL);
-	g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
-	g_object_unref (metadata);
+	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::datetime", exif_date)) {
+		metadata = g_object_new (GTH_TYPE_METADATA,
+					 "id", "general::datetime",
+					 "raw", exif_date,
+					 "formatted", exif_date,
+					 NULL);
+		g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
+		g_object_unref (metadata);
+	}
 	gth_datetime_free (date_time);
 
 	/* tags */
@@ -244,30 +269,32 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
 	string_list = gth_string_list_new (tags);
-	g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
+	if (! only_modified_fields || ! gth_file_data_attribute_equal_string_list (file_data, "general::tags", string_list))
+		g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
 
 	/* rating */
 
-	if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))) > 0) {
-		char *s;
-
-		s = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))));
-		metadata = g_object_new (GTH_TYPE_METADATA,
-					 "id", "general::rating",
-					 "raw", s,
-					 "formatted", s,
-					 NULL);
-		g_file_info_set_attribute_object (info, "general::rating", G_OBJECT (metadata));
-		g_object_unref (metadata);
-		g_free (s);
+	s = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))));
+	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::rating", s)) {
+		if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))) > 0) {
+			metadata = g_object_new (GTH_TYPE_METADATA,
+						 "id", "general::rating",
+						 "raw", s,
+						 "formatted", s,
+						 NULL);
+			g_file_info_set_attribute_object (info, "general::rating", G_OBJECT (metadata));
+			g_object_unref (metadata);
+		}
+		else
+			g_file_info_remove_attribute (info, "general::rating");
 	}
-	else
-		g_file_info_remove_attribute (info, "general::rating");
 
+	g_free (s);
 	g_free (exif_date);
 	g_object_unref (string_list);
 	g_strfreev (tagv);
 	g_list_free (tags);
+	g_object_unref (file_data);
 }
 
 
@@ -419,7 +446,7 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 static void
 gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageIface *iface)
 {
-	iface->set_file = gth_edit_comment_page_real_set_file;
+	iface->set_file_list = gth_edit_comment_page_real_set_file_list;
 	iface->update_info = gth_edit_comment_page_real_update_info;
 	iface->get_name = gth_edit_comment_page_real_get_name;
 }

@@ -58,30 +58,32 @@ typedef struct _GthEditMetadataPageIface GthEditMetadataPageIface;
 
 struct _GthEditMetadataPageIface {
 	GTypeInterface parent_iface;
-	void         (*set_file)    (GthEditMetadataPage *self,
-				     GthFileData         *file_data);
-	void         (*update_info) (GthEditMetadataPage *self,
-				     GFileInfo           *info);
-	const char * (*get_name)    (GthEditMetadataPage *self);
+	void         (*set_file_list) (GthEditMetadataPage *self,
+				       GList               *file_list /* GthFileData list */);
+	void         (*update_info)   (GthEditMetadataPage *self,
+				       GFileInfo           *info,
+				       gboolean             only_modified_fields);
+	const char * (*get_name)      (GthEditMetadataPage *self);
 };
 
 /* GthEditMetadataDialog */
 
-GType          gth_edit_metadata_dialog_get_type    (void);
-GtkWidget *    gth_edit_metadata_dialog_new         (void);
-void           gth_edit_metadata_dialog_set_file    (GthEditMetadataDialog *dialog,
-						     GthFileData           *file);
-void           gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *dialog,
-						     GFileInfo             *info);
+GType          gth_edit_metadata_dialog_get_type       (void);
+GtkWidget *    gth_edit_metadata_dialog_new            (void);
+void           gth_edit_metadata_dialog_set_file_list  (GthEditMetadataDialog *dialog,
+						        GList                 *file_list /* GthFileData list */);
+void           gth_edit_metadata_dialog_update_info    (GthEditMetadataDialog *dialog,
+							GList                 *file_list /* GthFileData list */);
 
 /* GthEditMetadataPage */
 
-GType          gth_edit_metadata_page_get_type      (void);
-void           gth_edit_metadata_page_set_file      (GthEditMetadataPage   *self,
-		 			             GthFileData           *file_data);
-void           gth_edit_metadata_page_update_info   (GthEditMetadataPage   *self,
-						     GFileInfo             *info);
-const char *   gth_edit_metadata_page_get_name      (GthEditMetadataPage   *self);
+GType          gth_edit_metadata_page_get_type         (void);
+void           gth_edit_metadata_page_set_file_list    (GthEditMetadataPage   *self,
+							GList                 *file_list /* GthFileData list */);
+void           gth_edit_metadata_page_update_info      (GthEditMetadataPage   *self,
+						        GFileInfo             *info,
+							gboolean               only_modified_fields);
+const char *   gth_edit_metadata_page_get_name         (GthEditMetadataPage   *self);
 
 G_END_DECLS
 

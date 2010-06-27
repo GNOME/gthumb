@@ -87,8 +87,8 @@ static const char *viewer_ui_info =
 
 static GtkActionEntry edit_metadata_action_entries[] = {
 	{ "Edit_Metadata", GTK_STOCK_EDIT,
-	  N_("Metadata"), "<control>M",
-	  N_("Edit file metadata"),
+	  N_("Comment"), "<control>M",
+	  N_("Edit the comment an other information of the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_metadata) }
 };
 
@@ -199,6 +199,6 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
 	action = gtk_action_group_get_action (data->actions, "Edit_Metadata");
-	sensitive = (n_selected == 1);
+	sensitive = (n_selected > 0);
 	g_object_set (action, "sensitive", sensitive, NULL);
 }
