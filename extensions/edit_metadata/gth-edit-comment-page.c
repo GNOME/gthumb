@@ -268,7 +268,10 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	for (i = 0; tagv[i] != NULL; i++)
 		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
-	string_list = gth_string_list_new (tags);
+	if (tags != NULL)
+		string_list = gth_string_list_new (tags);
+	else
+		string_list = NULL;
 	if (! only_modified_fields || ! gth_file_data_attribute_equal_string_list (file_data, "general::tags", string_list))
 		g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
 
