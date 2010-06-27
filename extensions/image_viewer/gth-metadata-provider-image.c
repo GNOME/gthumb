@@ -35,7 +35,7 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {
-	if (! _g_content_type_is_a (mime_type, "image/*"))
+	if (! _g_mime_type_is_image (mime_type))
 		return FALSE;
 
 	return _g_file_attributes_matches_any_v ("general::format,"
@@ -55,7 +55,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 	char            *filename;
 	int              width, height;
 
-	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
+	if (! _g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
 		return;
 
 	filename = g_file_get_path (file_data->file);
@@ -68,7 +68,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
 		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
-		size = g_strdup_printf ("%d x %d", width, height);
+		size = g_strdup_printf ("%d × %d", width, height);
 		g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
 
 		g_free (size);
