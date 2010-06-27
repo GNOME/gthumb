@@ -255,7 +255,12 @@ template_eval_cb (const GMatchInfo *info,
 		g_free (uri);
 	}
 	else if (strcmp (match, "%F") == 0) {
-		r = g_file_get_basename (template_data->file_data->file);
+		char *basename;
+
+		basename = g_file_get_basename (template_data->file_data->file);
+		r = _g_uri_remove_extension (basename);
+
+		g_free (basename);
 	}
 	else if (strcmp (match, "%N") == 0) {
 		r = get_original_enum (template_data->file_data, match);
