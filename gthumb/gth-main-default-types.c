@@ -46,6 +46,8 @@ gth_main_register_default_file_loader (void)
 		mime_types = gdk_pixbuf_format_get_mime_types (format);
 		for (i = 0; mime_types[i] != NULL; i++)
 			gth_main_register_pixbuf_loader (gth_pixbuf_animation_new_from_file, mime_types[i], NULL);
+
+		g_strfreev (mime_types);
 	}
 }
 
