@@ -939,12 +939,12 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 			set_active_area (self, get_event_area_from_id (self, C_BOTTOM_RIGHT_AREA));
 		}
 		else if (self->priv->type == GTH_SELECTOR_TYPE_POINT) {
-			retval = TRUE;
 			g_signal_emit (G_OBJECT (self),
 				       signals[SELECTED],
 				       0,
 				       new_selection.x,
 				       new_selection.y);
+			return TRUE;
 		}
 	}
 
