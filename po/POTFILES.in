@@ -176,6 +176,8 @@ extensions/file_manager/gth-duplicate-task.h
 extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
+extensions/file_tools/data/gthumb_crop_options.schemas.in
+extensions/file_tools/data/gthumb_resize_options.schemas.in
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
@@ -211,6 +213,7 @@ extensions/file_tools/gth-file-tool-save.h
 extensions/file_tools/gth-file-tool-undo.c
 extensions/file_tools/gth-file-tool-undo.h
 extensions/file_tools/main.c
+extensions/file_tools/preferences.h
 [type: gettext/ini]extensions/file_viewer/file_viewer.extension.in.in
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
