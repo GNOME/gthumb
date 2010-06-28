@@ -20,9 +20,14 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_LIBJPEG
+
 #include <jpeglib.h>
+
 #if JPEG_LIB_VERSION >= 80
 #include "transupp-80.h"
-#else
+#else /* JPEG_LIB_VERSION < 80 */
 #include "transupp-62.h"
-#endif
+#endif /* JPEG_LIB_VERSION < 80 */
+
+#endif /* HAVE_LIBJPEG */

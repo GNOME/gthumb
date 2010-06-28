@@ -25,7 +25,9 @@
 #include <sys/types.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
+#ifdef HAVE_LIBJPEG
 #include <extensions/jpeg_utils/jpegtran.h>
+#endif
 #include "rotation-utils.h"
 
 
@@ -232,6 +234,7 @@ transformation_data_free (TransformatioData *tdata)
 }
 
 
+#ifdef HAVE_LIBJPEG
 static void
 write_file_ready_cb (void     **buffer,
 		     gsize      count,
@@ -243,6 +246,7 @@ write_file_ready_cb (void     **buffer,
 	tdata->ready_func (error, tdata->user_data);
 	transformation_data_free (tdata);
 }
+#endif /* HAVE_LIBJPEG */
 
 
 static void
