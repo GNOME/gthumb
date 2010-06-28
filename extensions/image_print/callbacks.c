@@ -93,6 +93,7 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 		g_warning ("building ui failed: %s", error->message);
 		g_error_free (error);
 	}
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/Export_Actions/File_Print")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
