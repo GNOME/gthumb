@@ -3770,7 +3770,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
-	gtk_widget_set_size_request (browser->priv->viewer_sidebar, MAX (eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH), DEF_VIEWER_SIDEBAR_WIDTH), -1);
+	gtk_widget_set_size_request (browser->priv->viewer_sidebar, DEF_VIEWER_SIDEBAR_WIDTH, -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new ((viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
