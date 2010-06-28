@@ -104,5 +104,9 @@ pw__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_PicasaWeb")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_PicasaWeb")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_PicasaWeb")), TRUE);
+
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
