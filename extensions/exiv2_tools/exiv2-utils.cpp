@@ -629,11 +629,11 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	char **attributes;
 	int    i;
 
-	image->readMetadata();
+	image->clearMetadata();
 
 	// EXIF Data
 
-	Exiv2::ExifData &ed = image->exifData();
+	Exiv2::ExifData ed;
 	attributes = g_file_info_list_attributes (info, "Exif");
 	for (i = 0; attributes[i] != NULL; i++) {
 		GthMetadata *metadatum;
@@ -707,7 +707,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// Update the thumbnail
 
-	Exiv2::ExifThumb thumb(image->exifData());
+	Exiv2::ExifThumb thumb(ed);
 	if ((pixbuf != NULL) && (width > 0) && (height > 0)) {
 		GdkPixbuf *thumb_pixbuf;
 		char      *buffer;
@@ -742,7 +742,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// IPTC Data
 
-	Exiv2::IptcData &id = image->iptcData();
+	Exiv2::IptcData id;
 	attributes = g_file_info_list_attributes (info, "Iptc");
 	for (i = 0; attributes[i] != NULL; i++) {
 		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
@@ -771,7 +771,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// XMP Data
 
-	Exiv2::XmpData &xd = image->xmpData();
+	Exiv2::XmpData xd;
 	attributes = g_file_info_list_attributes (info, "Xmp");
 	for (i = 0; attributes[i] != NULL; i++) {
 		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
@@ -805,7 +805,16 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	}
 	g_strfreev (attributes);
 
-	image->writeMetadata();
+	try {
+		image->setExifData(ed);
+		image->setIptcData(id);
+		image->setXmpData(xd);
+		image->writeMetadata();
+	}
+	catch (Exiv2::AnyError& e) {
+		g_warning ("%s", e.what());
+	}
+
 	Exiv2::BasicIo &io = image->io();
 	io.open();
 
@@ -817,8 +826,11 @@ extern "C"
 gboolean
 exiv2_supports_writes (const char *mime_type)
 {
-	return (_g_content_type_is_a (mime_type, "image/jpeg") ||
-		_g_content_type_is_a (mime_type, "image/png"));
+	return (g_content_type_equals (mime_type, "image/jpeg")
+#if HAVE_EXIV2_020
+		|| g_content_type_equals (mime_type, "image/tiff")
+#endif
+		|| g_content_type_equals (mime_type, "image/png"));
 }
 
 

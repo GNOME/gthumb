@@ -143,6 +143,9 @@ if test x$enable_exiv2 = xyes ; then
 			  exiv2 >= $EXIV2_REQUIRED,
 			  [enable_exiv2=yes],
 			  [enable_exiv2=no])
+	PKG_CHECK_MODULES(EXIV2_020,
+			  exiv2 >= 0.20,
+			  [AC_DEFINE(HAVE_EXIV2_020, 1, [Have exiv2 0.20 or greater])],)
 fi
 AC_SUBST(EXIV2_LIBS)
 AC_SUBST(EXIV2_CFLAGS)
