@@ -42,7 +42,8 @@ DOC_PAGES = \
 	printing.page \
 	shortcuts.page \
 	sharing-disc.page \
-	wallpaper.page
+	wallpaper.page \
+	bookmarks.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
