@@ -514,7 +514,7 @@ gth_file_data_get_attribute_as_string (GthFileData *file_data,
 	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
 		obj = g_file_info_get_attribute_object (file_data->info, id);
 		if (GTH_IS_METADATA (obj))
-			g_object_get (obj, "formatted", &value, NULL);
+			value = g_strdup (gth_metadata_get_formatted (GTH_METADATA (obj)));
 		else if (GTH_IS_STRING_LIST (obj))
 			value = gth_string_list_join (GTH_STRING_LIST (obj), " ");
 		else

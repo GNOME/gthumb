@@ -77,6 +77,7 @@ GthMetadata *     gth_metadata_new             (void);
 const char *      gth_metadata_get_id          (GthMetadata     *metadata);
 const char *      gth_metadata_get_raw         (GthMetadata     *metadata);
 const char *      gth_metadata_get_formatted   (GthMetadata     *metadata);
+const char *      gth_metadata_get_value_type  (GthMetadata     *metadata);
 GthMetadataInfo * gth_metadata_info_dup        (GthMetadataInfo *info);
 void              set_attribute_from_string    (GFileInfo       *info,
 						const char      *key,

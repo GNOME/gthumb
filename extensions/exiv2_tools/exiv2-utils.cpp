@@ -203,8 +203,8 @@ set_file_info (GFileInfo  *info,
 	char            *description_utf8;
 	char            *formatted_value_utf8;
 
-	if (_g_utf8_all_spaces (formatted_value))
-		return;
+	/*if (_g_utf8_all_spaces (formatted_value))
+		return;*/
 
 	attribute = exiv2_key_to_attribute (key);
 	description_utf8 = g_locale_to_utf8 (description, -1, NULL, NULL, NULL);
@@ -239,11 +239,20 @@ set_file_info (GFileInfo  *info,
 		metadata_info = gth_main_register_metadata_info (&info);
 	}
 
+	if ((metadata_info != NULL) && (metadata_info->type == NULL) && (type_name != NULL))
+		metadata_info->type = g_strdup (type_name);
+
 	if ((metadata_info != NULL) && (metadata_info->display_name == NULL) && (description_utf8 != NULL))
 		metadata_info->display_name = g_strdup (description_utf8);
 
 	metadata = gth_metadata_new ();
-	g_object_set (metadata, "id", key, "description", description_utf8, "formatted", formatted_value_utf8, "raw", raw_value, NULL);
+	g_object_set (metadata,
+		      "id", key,
+		      "description", description_utf8,
+		      "formatted", formatted_value_utf8,
+		      "raw", raw_value,
+		      "value-type", type_name,
+		      NULL);
 	g_file_info_set_attribute_object (info, attribute, G_OBJECT (metadata));
 
 	g_object_unref (metadata);
@@ -264,6 +273,7 @@ set_attribute_from_tagset (GFileInfo  *info,
 	char    *description;
 	char    *formatted_value;
 	char    *raw_value;
+	char    *type_name;
 
 	metadata = NULL;
 	for (i = 0; tagset[i] != NULL; i++) {
@@ -280,8 +290,15 @@ set_attribute_from_tagset (GFileInfo  *info,
 		      "description", &description,
 		      "formatted", &formatted_value,
 		      "raw", &raw_value,
+		      "value-type", &type_name,
 		      NULL);
-	set_file_info (info, attribute, description, formatted_value, raw_value, NULL, NULL);
+	set_file_info (info,
+		       attribute,
+		       description,
+		       formatted_value,
+		       raw_value,
+		       NULL,
+		       type_name);
 }
 
 
@@ -360,24 +377,24 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 	if (! exifData.empty()) {
 		Exiv2::ExifData::const_iterator end = exifData.end();
 		for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != end; ++md) {
-			stringstream value;
-			value << *md;
+			stringstream raw_value;
+			raw_value << md->value();
 
-			stringstream short_name;
-			if (md->ifdId () > Exiv2::ifd1Id) {
+			stringstream description;
+			if (! md->tagLabel().empty())
+				description << md->tagLabel();
+			else if (md->ifdId () > Exiv2::ifd1Id)
 				// Must be a MakerNote - include group name
-				short_name << md->groupName() << "." << md->tagName();
-			}
-			else {
+				description << md->groupName() << "." << md->tagName();
+			else
 				// Normal exif tag - just use tag name
-				short_name << md->tagName();
-			}
+				description << md->tagName();
 
 			set_file_info (info,
 				       md->key().c_str(),
-				       short_name.str().c_str(),
-				       value.str().c_str(),
-				       md->toString().c_str(),
+				       description.str().c_str(),
+				       md->print().c_str(),
+				       raw_value.str().c_str(),
 				       get_exif_default_category (*md),
 				       md->typeName());
 		}
@@ -387,17 +404,20 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 	if (! iptcData.empty()) {
 		Exiv2::IptcData::iterator end = iptcData.end();
 		for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
-			stringstream value;
-			value << *md;
+			stringstream raw_value;
+			raw_value << md->value();
 
-			stringstream short_name;
-			short_name << md->tagName();
+			stringstream description;
+			if (! md->tagLabel().empty())
+				description << md->tagLabel();
+			else
+				description << md->tagName();
 
 			set_file_info (info,
 				       md->key().c_str(),
-				       short_name.str().c_str(),
-				       value.str().c_str(),
-				       md->toString().c_str(),
+				       description.str().c_str(),
+				       md->print().c_str(),
+				       raw_value.str().c_str(),
 				       "Iptc",
 				       md->typeName());
 		}
@@ -407,17 +427,20 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 	if (! xmpData.empty()) {
 		Exiv2::XmpData::iterator end = xmpData.end();
 		for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
-			stringstream value;
-			value << *md;
+			stringstream raw_value;
+			raw_value << md->value();
 
-			stringstream short_name;
-			short_name << md->groupName() << "." << md->tagName();
+			stringstream description;
+			if (! md->tagLabel().empty())
+				description << md->tagLabel();
+			else
+				description << md->groupName() << "." << md->tagName();
 
 			set_file_info (info,
 				       md->key().c_str(),
-				       short_name.str().c_str(),
-				       value.str().c_str(),
-				       md->toString().c_str(),
+				       description.str().c_str(),
+				       md->print().c_str(),
+				       raw_value.str().c_str(),
 				       "Xmp::Embedded",
 				       md->typeName());
 		}
@@ -523,17 +546,20 @@ exiv2_read_sidecar (GFile     *file,
 		if (! xmpData.empty()) {
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
-				stringstream value;
-				value << *md;
+				stringstream raw_value;
+				raw_value << md->value();
 
-				stringstream short_name;
-				short_name << md->groupName() << "." << md->tagName();
+				stringstream description;
+				if (! md->tagLabel().empty())
+					description << md->tagLabel();
+				else
+					description << md->groupName() << "." << md->tagName();
 
 				set_file_info (info,
 					       md->key().c_str(),
-					       short_name.str().c_str(),
-					       value.str().c_str(),
-					       md->toString().c_str(),
+					       description.str().c_str(),
+					       md->print().c_str(),
+					       raw_value.str().c_str(),
 					       "Xmp::Sidecar",
 					       md->typeName());
 			}
@@ -573,6 +599,28 @@ mandatory_string (Exiv2::ExifData &checkdata,
 }
 
 
+const char *
+gth_main_get_metadata_type (GthMetadata *metadata,
+			    const char  *key)
+{
+	const char      *value_type;
+	GthMetadataInfo *metadatum_info;
+
+	value_type = gth_metadata_get_value_type (metadata);
+	if (g_strcmp0 (value_type, "Undefined") == 0)
+			value_type = NULL;
+
+	if (value_type != NULL)
+		return value_type;
+
+	metadatum_info = gth_main_get_metadata_info (key);
+	if (metadatum_info != NULL)
+		value_type = metadatum_info->type;
+
+	return value_type;
+}
+
+
 static Exiv2::DataBuf
 exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			      GFileInfo             *info,
@@ -598,21 +646,23 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			/* If the metadatum has no value yet, a new empty value
 			 * is created. The type is taken from Exiv2's tag
 			 * lookup tables. If the tag is not found in the table,
-			 * the type defaults to Ascii.
-			 * We always create the metadatum explicilty if the
+			 * the type defaults to ASCII.
+			 * We always create the metadatum explicitly if the
 			 * type is available to avoid type errors.
 			 * See bug #610389 for more details.  The original
-			 * expanation is here:
+			 * explanation is here:
 			 * http://uk.groups.yahoo.com/group/exiv2/message/1472
 			 */
 
-			GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
-			if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
-				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
+			const char *raw_value = gth_metadata_get_raw (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, key);
+
+			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
+				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				value->read (raw_value);
 				Exiv2::ExifKey exif_key(key);
 				ed.add (exif_key, value.get());
 			}
-			ed[key] = gth_metadata_get_raw (metadatum);
 		}
 		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */
@@ -699,14 +749,16 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		char *key = exiv2_key_from_attribute (attributes[i]);
 
 		try {
-			/* See the exif data code above for an explanation. */
-			GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
-			if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
-				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
+			const char *raw_value = gth_metadata_get_raw (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, key);
+
+			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
+				/* See the exif data code above for an explanation. */
+				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				value->read (raw_value);
 				Exiv2::IptcKey iptc_key(key);
 				id.add (iptc_key, value.get());
 			}
-			id[key] = gth_metadata_get_raw (metadatum);
 		}
 		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */
@@ -733,17 +785,15 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			xd.erase (iter);
 
 		try {
-			const char *value = gth_metadata_get_raw (metadatum);
+			const char *raw_value = gth_metadata_get_raw (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, key);
 
-			if ((value != NULL) && strcmp (value, "") != 0) {
+			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
 				/* See the exif data code above for an explanation. */
-				GthMetadataInfo *metadatum_info = gth_main_get_metadata_info (attributes[i]);
-				if ((metadatum_info != NULL) && (metadatum_info->type != NULL)) {
-					Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (metadatum_info->type));
-					Exiv2::XmpKey xmp_key(key);
-					xd.add (xmp_key, value.get());
-				}
-				xd[key] = gth_metadata_get_raw (metadatum);
+				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
+				value->read (raw_value);
+				Exiv2::XmpKey xmp_key(key);
+				xd.add (xmp_key, value.get());
 			}
 		}
 		catch (Exiv2::AnyError& e) {

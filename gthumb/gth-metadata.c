@@ -30,7 +30,8 @@ enum  {
 	GTH_METADATA_ID,
 	GTH_METADATA_DESCRIPTION,
 	GTH_METADATA_RAW,
-	GTH_METADATA_FORMATTED
+	GTH_METADATA_FORMATTED,
+	GTH_METADATA_VALUE_TYPE
 };
 
 struct _GthMetadataPrivate {
@@ -38,6 +39,7 @@ struct _GthMetadataPrivate {
 	char *description;
 	char *raw;
 	char *formatted;
+	char *value_type;
 };
 
 static gpointer gth_metadata_parent_class = NULL;
@@ -64,6 +66,9 @@ gth_metadata_get_property (GObject    *object,
 		break;
 	case GTH_METADATA_FORMATTED:
 		g_value_set_string (value, self->priv->formatted);
+		break;
+	case GTH_METADATA_VALUE_TYPE:
+		g_value_set_string (value, self->priv->value_type);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -94,6 +99,9 @@ gth_metadata_set_property (GObject      *object,
 	case GTH_METADATA_FORMATTED:
 		_g_strset (&self->priv->formatted, g_value_get_string (value));
 		break;
+	case GTH_METADATA_VALUE_TYPE:
+		_g_strset (&self->priv->value_type, g_value_get_string (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -112,6 +120,7 @@ gth_metadata_finalize (GObject *obj)
 	g_free (self->priv->description);
 	g_free (self->priv->raw);
 	g_free (self->priv->formatted);
+	g_free (self->priv->value_type);
 
 	G_OBJECT_CLASS (gth_metadata_parent_class)->finalize (obj);
 }
@@ -155,6 +164,13 @@ gth_metadata_class_init (GthMetadataClass *klass)
 					 		      "Metadata formatted value",
 					 		      NULL,
 					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass),
+					 GTH_METADATA_VALUE_TYPE,
+					 g_param_spec_string ("value-type",
+					 		      "Type",
+					 		      "Metadata type",
+					 		      NULL,
+					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 }
 
 
@@ -166,6 +182,7 @@ gth_metadata_instance_init (GthMetadata *self)
 	self->priv->description = NULL;
 	self->priv->raw = NULL;
 	self->priv->formatted = NULL;
+	self->priv->value_type = NULL;
 }
 
 
@@ -218,6 +235,13 @@ const char *
 gth_metadata_get_formatted (GthMetadata *metadata)
 {
 	return metadata->priv->formatted;
+}
+
+
+const char *
+gth_metadata_get_value_type (GthMetadata *metadata)
+{
+	return metadata->priv->value_type;
 }
 
 

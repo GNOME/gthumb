@@ -261,8 +261,10 @@ pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
 		file_data = gth_file_data_new (file, ((GthFileData *) self->priv->current->data)->info);
 	else
 		file_data = g_object_ref (self->priv->current->data);
+
 	_g_object_unref (self->priv->new_pixbuf);
 	self->priv->new_pixbuf = g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
+
 	_gdk_pixbuf_save_async (self->priv->new_pixbuf,
 				file_data,
 				gth_file_data_get_mime_type (file_data),
@@ -472,6 +474,7 @@ gth_pixbuf_list_task_init (GthPixbufListTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PIXBUF_LIST_TASK, GthPixbufListTaskPrivate);
 	self->priv->original_pixbuf = NULL;
+	self->priv->new_pixbuf = NULL;
 	self->priv->destination_folder = NULL;
 	self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 	self->priv->mime_type = NULL;

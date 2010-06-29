@@ -408,7 +408,7 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 	GthMetadataInfo *info;
 
 	if ((metadata_info->display_name != NULL) && (strstr (metadata_info->display_name, "0x") != NULL))
-		return NULL;
+		metadata_info->flags = GTH_METADATA_ALLOW_NOWHERE;
 
 	g_static_mutex_lock (&metadata_info_mutex);
 
