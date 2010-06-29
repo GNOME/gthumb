@@ -103,8 +103,7 @@ resize_step (GthPixbufTask *pixbuf_task)
 	}
 
 	if ((new_w > 1) && (new_h > 1)) {
-		if (pixbuf_task->dest != NULL)
-			g_object_unref (pixbuf_task->dest);
+		_g_object_unref (pixbuf_task->dest);
 		pixbuf_task->dest = _gdk_pixbuf_scale_simple_safe (pixbuf_task->src, new_w, new_h, GDK_INTERP_BILINEAR);
 	}
 	else

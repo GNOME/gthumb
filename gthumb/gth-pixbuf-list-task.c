@@ -413,6 +413,7 @@ process_current_file (GthPixbufListTask *self)
 
 	_g_object_unref (self->priv->original_pixbuf);
 	self->priv->original_pixbuf = NULL;
+
 	_g_object_unref (self->priv->new_pixbuf);
 	self->priv->new_pixbuf = NULL;
 

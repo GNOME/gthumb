@@ -163,6 +163,7 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 	GError         *error = NULL;
 	void           *buffer;
 	gsize           buffer_size;
+	GdkPixbuf      *tmp_pixbuf;
 	SavePixbufData *data;
 
 	saver = gth_main_get_pixbuf_saver (mime_type);
@@ -172,20 +173,22 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 		return;
 	}
 
+	tmp_pixbuf = gdk_pixbuf_copy (pixbuf);
 	if (! gth_pixbuf_saver_save_pixbuf (saver,
-					    pixbuf,
+					    tmp_pixbuf,
 					    (char **)&buffer,
 					    &buffer_size,
 					    mime_type,
 					    &error))
 	{
+		g_object_unref (tmp_pixbuf);
 		gth_file_data_ready_with_error (file_data, ready_func, ready_data, error);
 		return;
 	}
 
 	data = g_new0 (SavePixbufData, 1);
 	data->file_data = g_object_ref (file_data);
-	data->pixbuf = g_object_ref (pixbuf);
+	data->pixbuf = tmp_pixbuf;
 	data->mime_type = mime_type;
 	data->replace = replace;
 	data->buffer = buffer;
@@ -204,6 +207,7 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 		data->files = g_list_prepend (data->files, file);
 	}
 	else {
+		save_pixbuf_data_free (data);
 		g_free (buffer);
 		gth_file_data_ready_with_error (file_data, ready_func, ready_data, error);
 		return;
