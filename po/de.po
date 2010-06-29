@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-06-25 00:52+0000\n"
-"PO-Revision-Date: 2010-06-25 08:32+0200\n"
-"Last-Translator: Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2010-06-27 21:28+0000\n"
+"PO-Revision-Date: 2010-06-29 20:42+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,17 +121,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
-"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
-"Miniatur-Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
+"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
+"Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
-"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
+"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -338,7 +338,7 @@ msgstr "Wie Nautilus"
 
 #: ../data/ui/preferences.ui.h:17
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:277
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:307
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:34
 msgid "General"
@@ -374,7 +374,7 @@ msgid "On startup:"
 msgstr "Beim Start:"
 
 #: ../data/ui/preferences.ui.h:24
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:191
 #: ../extensions/gstreamer_tools/main.c:34
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -907,13 +907,11 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40
-#: ../gthumb/gth-test-simple.c:48
+#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:48
 msgid "is"
 msgstr "ist"
 
-#: ../extensions/comments/gth-test-category.c:41
-#: ../gthumb/gth-test-simple.c:49
+#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:49
 msgid "is not"
 msgstr "ist nicht"
 
@@ -924,7 +922,7 @@ msgstr "ist nicht"
 msgid "The test definition is incomplete"
 msgstr "Die Testdefinition ist unvollständig"
 
-#: ../extensions/comments/main.c:35
+#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:90
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -1002,13 +1000,9 @@ msgstr "Das Bild als Arbeitsflächenhintergrund verwenden"
 msgid "Desktop background"
 msgstr "Arbeitsflächenhintergrund"
 
-#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
-msgid "Metadata"
-msgstr "Metadaten"
-
 #: ../extensions/edit_metadata/callbacks.c:91
-msgid "Edit file metadata"
-msgstr "Metadaten der Datei bearbeiten"
+msgid "Edit the comment an other information of the selected files"
+msgstr "Den Kommentar und andere Informationen der gewählten Felder bearbeiten"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
@@ -1032,9 +1026,15 @@ msgstr "Bewe_rtung:"
 msgid "_Title:"
 msgstr "_Titel:"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:56
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:57
 msgid "Could not save the file metadata"
 msgstr "Metadaten der Datei konnten nicht gespeichert werden"
+
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:105
+#: ../extensions/rename_series/actions.c:38
+#: ../gthumb/gth-overwrite-dialog.c:152
+msgid "Cannot read file information"
+msgstr "Dateiinformation konnte nicht gelesen werden"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Allow to edit files metadata."
@@ -1044,40 +1044,52 @@ msgstr "Bearbeitung der Metadaten der Datei ermöglichen."
 msgid "Edit metadata"
 msgstr "Metadaten bearbeiten"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:391
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:421
 msgid "No date"
 msgstr "Kein Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:392
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:422
 msgid "The following date"
 msgstr "Folgendes Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:393
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:423
 #: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "Current date"
 msgstr "Heutiges Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:394
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:424
 msgid "Date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:395
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:425
 msgid "Last modified date"
 msgstr "Letztes Änderungsdatum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:396
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:426
 msgid "File creation date"
 msgstr "Erstellungsdatum der Datei"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:397
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:427
 msgid "Do not modify"
 msgstr "Nicht ändern"
 
-#. Translators: the %s in the string is the file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:148
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:107
+msgid "Save only cha_nged fields"
+msgstr "Nur _veränderte Felder speichern"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:163
 #, c-format
 msgid "%s Metadata"
 msgstr "Metadaten zu %s"
+
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:167
+#: ../extensions/flicker/dlg-import-from-flickr.c:336
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d Datei"
+msgstr[1] "%d Dateien"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1425,8 +1437,8 @@ msgid ""
 "authorization."
 msgstr ""
 "Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
-"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren "
-"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
+"zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
 #: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:601
@@ -1635,8 +1647,7 @@ msgstr "Der Ordner konnte nicht gelöscht werden"
 
 #: ../extensions/file_manager/actions.c:795
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
@@ -2078,13 +2089,6 @@ msgstr "_Sicherheit:"
 msgid "_Import"
 msgstr "_Importieren"
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:336
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d Datei"
-msgstr[1] "%d Dateien"
-
 #: ../extensions/flicker/dlg-import-from-flickr.c:361
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
 msgid "Could not get the photo list"
@@ -2374,8 +2378,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -2386,9 +2390,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
-"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
-"mehr strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
+"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
+"strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
@@ -2404,8 +2408,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
-"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
+"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
@@ -3121,11 +3125,6 @@ msgstr "Rote Augen entfernen"
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Werkzeug zum Entfernen des Rote-Augen-Effekts aus einem Foto."
 
-#: ../extensions/rename_series/actions.c:38
-#: ../gthumb/gth-overwrite-dialog.c:152
-msgid "Cannot read file information"
-msgstr "Dateiinformation konnte nicht gelesen werden"
-
 #: ../extensions/rename_series/callbacks.c:49
 msgid "Rename the selected files"
 msgstr "Gewählte Dateien umbenennen"
@@ -3135,8 +3134,8 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
-"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::"
-"size, file::mtime, exif::photo::datetimeoriginal"
+"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
@@ -3671,6 +3670,10 @@ msgstr "Deaktiviert"
 #: ../gthumb/dlg-extensions.c:59
 msgid "Viewers"
 msgstr "Betrachter"
+
+#: ../gthumb/dlg-extensions.c:60
+msgid "Metadata"
+msgstr "Metadaten"
 
 #: ../gthumb/dlg-extensions.c:61
 msgid "File tools"
@@ -4418,6 +4421,9 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
+
+#~ msgid "Edit file metadata"
+#~ msgstr "Metadaten der Datei bearbeiten"
 
 #~ msgid "_Preserve original aspect ratio"
 #~ msgstr "Ursprüngliches Seitenverhältnis _beibehalten"
