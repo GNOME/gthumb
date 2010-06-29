@@ -140,7 +140,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 static void
 _gth_slideshow_load_next_image (GthSlideshow *self)
 {
-	self->priv->projector->load_next_image (self); /* FIXME */
+	self->priv->projector->load_next_image (self);
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
 
 	if (self->priv->paused)
@@ -154,7 +154,7 @@ _gth_slideshow_load_next_image (GthSlideshow *self)
 static void
 _gth_slideshow_load_prev_image (GthSlideshow *self)
 {
-	self->priv->projector->load_prev_image (self); /* FIXME */
+	self->priv->projector->load_prev_image (self);
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_BACKWARD;
 
 	if (self->priv->paused)
@@ -219,7 +219,7 @@ image_preloader_requested_ready_cb (GthImagePreloader *preloader,
 	}
 
 	self->priv->one_loaded = TRUE;
-	self->priv->projector->image_ready (self, pixbuf); /* FIXME */
+	self->priv->projector->image_ready (self, pixbuf);
 }
 
 
@@ -265,7 +265,7 @@ gth_slideshow_finalize (GObject *object)
 	_g_object_list_unref (self->priv->transitions);
 	g_rand_free (self->priv->rand);
 	g_strfreev (self->priv->audio_files);
-	self->priv->projector->finalize (self); /* FIXME */
+	self->priv->projector->finalize (self);
 
 #if HAVE_GSTREAMER
 	if (self->priv->playbin != NULL) {
@@ -327,7 +327,7 @@ hide_cursor_cb (gpointer data)
 
 	g_source_remove (self->priv->hide_cursor_event);
 	self->priv->hide_cursor_event = 0;
-	self->priv->projector->hide_cursor (self); /* FIXME */
+	self->priv->projector->hide_cursor (self);
 
 	return FALSE;
 }
@@ -338,7 +338,7 @@ _gth_slideshow_toggle_pause (GthSlideshow *self)
 {
 	self->priv->paused = ! self->priv->paused;
 	if (self->priv->paused) {
-		self->priv->projector->paused (self); /* FIXME */
+		self->priv->projector->paused (self);
 #if HAVE_GSTREAMER
 		if (self->priv->playbin != NULL)
 			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
@@ -421,7 +421,7 @@ _gth_slideshow_construct (GthSlideshow *self,
 	self->priv->current = self->priv->file_list;
 	self->priv->one_loaded = FALSE;
 
-	self->priv->projector->construct (self); /* FIXME */
+	self->priv->projector->construct (self);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
 }
@@ -830,6 +830,8 @@ clutter_projector_image_ready (GthSlideshow *self,
 	clutter_timeline_start (self->priv->timeline);
 	if (self->current_image == NULL)
 		clutter_timeline_advance (self->priv->timeline, GTH_TRANSITION_DURATION);
+
+	g_object_unref (image);
 }
 
 
@@ -970,6 +972,8 @@ gth_slideshow_size_allocate_cb (GtkWidget     *widget,
 	self->current_geometry.width = stage_w;
 	self->current_geometry.height = stage_h;
 	_gth_slideshow_reset_textures_position (self);
+
+	g_object_unref (image);
 }
 
 
