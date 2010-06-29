@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-06-28 09:51+0000\n"
-"PO-Revision-Date: 2010-06-29 05:29+0200\n"
+"POT-Creation-Date: 2010-06-29 03:32+0000\n"
+"PO-Revision-Date: 2010-06-29 05:33+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1000,10 +1000,9 @@ msgid "Desktop background"
 msgstr "Fondo de escritorio"
 
 #: ../extensions/edit_metadata/callbacks.c:91
-#, fuzzy
 #| msgid "Go to the folder that contains the selected file"
 msgid "Edit the comment an other information of the selected files"
-msgstr "Ir a la carpeta que contiene el archivo seleccionado"
+msgstr "Editar el comentario y otra información de los archivos seleccionados"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
@@ -1075,10 +1074,9 @@ msgid "Do not modify"
 msgstr "No modificar"
 
 #: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:107
-#, fuzzy
 #| msgid "Save changes to file '%s'?"
 msgid "Save only cha_nged fields"
-msgstr "¿Guardar los cambios al archivo «%s»?"
+msgstr "Guardar sólo ca_mpos alterados"
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:163
