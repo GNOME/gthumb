@@ -40,7 +40,8 @@ DOC_PAGES = \
 	sorting.page \
 	filtering.page \
 	printing.page \
-	shortcuts.page
+	shortcuts.page \
+	sharing-disc.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
