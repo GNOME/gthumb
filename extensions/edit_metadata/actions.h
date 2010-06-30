@@ -28,5 +28,6 @@
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
 DEFINE_ACTION(gth_browser_activate_action_edit_metadata)
+DEFINE_ACTION(gth_browser_activate_action_edit_tag_files)
 
 #endif /* ACTIONS_H */

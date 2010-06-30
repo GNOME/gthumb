@@ -14,6 +14,10 @@ libedit_metadata_la_SOURCES = 		\
 	gth-edit-comment-page.h		\
 	gth-edit-metadata-dialog.c	\
 	gth-edit-metadata-dialog.h	\
+	gth-tag-chooser-dialog.c	\
+	gth-tag-chooser-dialog.h	\
+	gth-tag-task.c			\
+	gth-tag-task.h			\
 	main.c
 
 libedit_metadata_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

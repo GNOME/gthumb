@@ -57,6 +57,8 @@ char *            gth_string_list_join                (GthStringList  *list,
 						       const char     *separator);
 gboolean          gth_string_list_equal               (GthStringList  *list1,
 						       GthStringList  *list2);
+void              gth_string_list_append              (GthStringList  *list1,
+		       	       	       	       	       GthStringList  *list2);
 
 G_END_DECLS
 

@@ -25,8 +25,10 @@
 
 #include <gthumb.h>
 
-void edit_metadata__gth_browser_construct_cb          (GthBrowser *browser);
-void edit_metadata__gth_browser_set_current_page_cb   (GthBrowser *browser);
-void edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser);
+void edit_metadata__gth_browser_construct_cb              (GthBrowser *browser);
+void edit_metadata__gth_browser_set_current_page_cb       (GthBrowser *browser);
+void edit_metadata__gth_browser_update_sensitivity_cb     (GthBrowser *browser);
+void edit_metadata__gth_browser_file_list_popup_before_cb (GthBrowser *browser);
+void edit_metadata__gth_browser_file_popup_before_cb      (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

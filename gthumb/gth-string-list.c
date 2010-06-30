@@ -182,3 +182,15 @@ gth_string_list_equal (GthStringList  *list1,
 
 	return TRUE;
 }
+
+
+void
+gth_string_list_append (GthStringList *list1,
+			GthStringList *list2)
+{
+	GList *scan;
+
+	for (scan = list2->priv->list; scan; scan = scan->next)
+		if (! g_list_find_custom (list1->priv->list, scan->data, (GCompareFunc) strcmp))
+			list1->priv->list = g_list_append (list1->priv->list, g_strdup (scan->data));
+}

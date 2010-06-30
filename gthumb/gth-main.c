@@ -1151,10 +1151,9 @@ gth_main_tags_changed (void)
 	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
 	gth_tags_file_to_file (Main->priv->tags, filename, NULL);
+	gth_monitor_tags_changed (gth_main_get_default_monitor ());
 
 	g_free (filename);
-
-	gth_monitor_tags_changed (gth_main_get_default_monitor ());
 }
 
 

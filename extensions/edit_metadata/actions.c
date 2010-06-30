@@ -24,6 +24,8 @@
 #include <config.h>
 #include <gthumb.h>
 #include "dlg-edit-metadata.h"
+#include "gth-tag-chooser-dialog.h"
+#include "gth-tag-task.h"
 
 
 void
@@ -42,4 +44,64 @@ gth_browser_activate_action_edit_metadata (GtkAction  *action,
 	_g_object_list_unref (file_list);
 	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
+}
+
+
+static void
+tag_chooser_dialog_response_cb (GtkDialog *dialog,
+				int        response_id,
+				gpointer   user_data)
+{
+	GthBrowser *browser = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_HELP:
+		show_help_dialog (GTK_WINDOW (browser), "assign-tags");
+		break;
+
+	case GTK_RESPONSE_OK:
+		{
+			GList    *items;
+			GList    *file_data_list;
+			GList    *file_list;
+			char    **tags;
+			GthTask  *task;
+
+			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+			file_list = gth_file_data_list_to_file_list (file_data_list);
+			tags = gth_tag_chooser_dialog_get_tags (GTH_TAG_CHOOSER_DIALOG (dialog));
+			task = gth_tag_task_new (file_list, tags);
+			gth_browser_exec_task (browser, task, FALSE);
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+
+			g_object_unref (task);
+			g_strfreev (tags);
+			_g_object_list_unref (file_list);
+			_g_object_list_unref (file_data_list);
+			_gtk_tree_path_list_free (items);
+		}
+		break;
+
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CANCEL:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		break;
+	}
+}
+
+
+void
+gth_browser_activate_action_edit_tag_files (GtkAction  *action,
+					    GthBrowser *browser)
+{
+	GtkWidget *dialog;
+
+	dialog = gth_tag_chooser_dialog_new ();
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (tag_chooser_dialog_response_cb),
+			  browser);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (browser));
+	gtk_window_present (GTK_WINDOW (dialog));
 }
