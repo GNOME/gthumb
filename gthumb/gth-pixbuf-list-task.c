@@ -21,10 +21,12 @@
  */
 
 #include <config.h>
+#include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-main.h"
 #include "gth-overwrite-dialog.h"
 #include "gth-pixbuf-list-task.h"
+#include "gtk-utils.h"
 #include "pixbuf-io.h"
 
 
@@ -41,6 +43,7 @@ struct _GthPixbufListTaskPrivate {
 	GdkPixbuf            *original_pixbuf;
 	GdkPixbuf            *new_pixbuf;
 	GFile                *destination_folder;
+	GthFileData          *destination_file_data;
 	GthOverwriteMode      overwrite_mode;
 	GthOverwriteResponse  overwrite_response;
 	char                 *mime_type;
@@ -66,6 +69,7 @@ gth_pixbuf_list_task_finalize (GObject *object)
 	g_signal_handler_disconnect (self->priv->task, self->priv->task_dialog);
 	g_object_unref (self->priv->task);
 	_g_object_list_unref (self->priv->file_list);
+	_g_object_unref (self->priv->destination_file_data);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -94,6 +98,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
                               gpointer   user_data)
 {
 	GthPixbufListTask *self = user_data;
+	gboolean           close_overwrite_dialog = TRUE;
 
 	if (response_id != GTK_RESPONSE_OK)
 		self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_CANCEL;
@@ -121,20 +126,24 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 
 	case GTH_OVERWRITE_RESPONSE_RENAME:
 		{
-			GFile *parent;
-			GFile *new_destination;
+			GFile  *parent;
+			GFile  *new_destination;
+			GError *error = NULL;
 
-			if (self->priv->destination_folder != NULL) {
+			if (self->priv->destination_folder != NULL)
 				parent = g_object_ref (self->priv->destination_folder);
-			}
-			else {
-				GthFileData *file_data;
+			else
+				parent = g_file_get_parent (self->priv->destination_file_data->file);
 
-				file_data = self->priv->current->data;
-				parent = g_file_get_parent (file_data->file);
+			new_destination = g_file_get_child_for_display_name (parent, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), &error);
+			if (new_destination == NULL) {
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (dialog), _("Could not rename the file"), &error);
+				gtk_widget_show (GTK_WIDGET (dialog));
+				gth_task_dialog (GTH_TASK (self), TRUE, GTK_WIDGET (dialog));
+				close_overwrite_dialog = FALSE;
 			}
-			new_destination = g_file_get_child_for_display_name (parent, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), NULL);
-			pixbuf_task_save_current_pixbuf (self, new_destination, FALSE);
+			else
+				pixbuf_task_save_current_pixbuf (self, new_destination, FALSE);
 
 			g_object_unref (new_destination);
 			g_object_unref (parent);
@@ -151,7 +160,8 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 		break;
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	if (close_overwrite_dialog)
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 
@@ -170,13 +180,11 @@ pixbuf_saved_cb (GthFileData *file_data,
 				process_next_file (self);
 			}
 			else  {
-				GthFileData *file_data;
-				GtkWidget   *dialog;
+				GtkWidget *dialog;
 
-				file_data = self->priv->current->data;
 				dialog = gth_overwrite_dialog_new (NULL,
 								   self->priv->new_pixbuf,
-								   file_data->file,
+								   self->priv->destination_file_data->file,
 								   GTH_OVERWRITE_RESPONSE_YES,
 								   (self->priv->n_files == 1));
 				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
@@ -236,10 +244,8 @@ pixbuf_task_progress_cb (GthTask    *task,
 		file_fraction = fraction;
 
 	if (details == NULL) {
-		GthFileData *file_data;
-
-		file_data = self->priv->current->data;
-		details = g_file_info_get_display_name (file_data->info);
+		GthFileData *source_file_data = self->priv->current->data;
+		details = g_file_info_get_display_name (source_file_data->info);
 	}
 
 	gth_task_progress (GTH_TASK (self),
@@ -255,58 +261,55 @@ pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
 				 GFile             *file,
 				 gboolean           replace)
 {
-	GthFileData *file_data;
-
 	if (file != NULL)
-		file_data = gth_file_data_new (file, ((GthFileData *) self->priv->current->data)->info);
-	else
-		file_data = g_object_ref (self->priv->current->data);
+		gth_file_data_set_file (self->priv->destination_file_data, file);
 
 	_g_object_unref (self->priv->new_pixbuf);
 	self->priv->new_pixbuf = g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
 
 	_gdk_pixbuf_save_async (self->priv->new_pixbuf,
-				file_data,
-				gth_file_data_get_mime_type (file_data),
+				self->priv->destination_file_data,
+				gth_file_data_get_mime_type (self->priv->destination_file_data),
 				replace,
 				pixbuf_saved_cb,
 				self);
-
-	g_object_unref (file_data);
 }
 
 
 static void
 set_current_destination_file (GthPixbufListTask *self)
 {
-	GthFileData *file_data;
-	char        *display_name;
-	GFile       *parent;
-	GFile       *destination;
+	char  *display_name;
+	GFile *parent;
+	GFile *destination;
 
-	file_data = self->priv->current->data;
+	_g_object_unref (self->priv->destination_file_data);
+	self->priv->destination_file_data = g_object_ref (self->priv->current->data);
+
 	if (self->priv->mime_type != NULL) {
 		char           *no_ext;
 		GthPixbufSaver *saver;
 
-		no_ext = _g_uri_remove_extension (g_file_info_get_display_name (file_data->info));
+		no_ext = _g_uri_remove_extension (g_file_info_get_display_name (self->priv->destination_file_data->info));
 		saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
 		g_return_if_fail (saver != NULL);
+
 		display_name = g_strconcat (no_ext, ".", gth_pixbuf_saver_get_default_ext (saver), NULL);
-		gth_file_data_set_mime_type (file_data, self->priv->mime_type);
+		gth_file_data_set_mime_type (self->priv->destination_file_data, self->priv->mime_type);
 
 		g_object_unref (saver);
 		g_free (no_ext);
 	}
 	else
-		display_name = g_strdup (g_file_info_get_display_name (file_data->info));
+		display_name = g_strdup (g_file_info_get_display_name (self->priv->destination_file_data->info));
 
 	if (self->priv->destination_folder != NULL)
 		parent = g_object_ref (self->priv->destination_folder);
 	else
-		parent = g_file_get_parent (file_data->file);
+		parent = g_file_get_parent (self->priv->destination_file_data->file);
 	destination = g_file_get_child_for_display_name (parent, display_name, NULL);
-	gth_file_data_set_file (file_data, destination);
+
+	gth_file_data_set_file (self->priv->destination_file_data, destination);
 
 	g_object_unref (destination);
 	g_object_unref (parent);
@@ -332,9 +335,7 @@ pixbuf_task_completed_cb (GthTask  *task,
 	}
 
 	set_current_destination_file (self);
-	pixbuf_task_save_current_pixbuf (self,
-					 NULL,
-					 (self->priv->overwrite_mode == GTH_OVERWRITE_OVERWRITE));
+	pixbuf_task_save_current_pixbuf (self, NULL, (self->priv->overwrite_mode == GTH_OVERWRITE_OVERWRITE));
 }
 
 
@@ -381,18 +382,18 @@ file_info_ready_cb (GList    *files,
 {
 	GthPixbufListTask *self = user_data;
 	GthFileData       *updated_file_data;
-	GthFileData       *file_data;
+	GthFileData       *source_file_data;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	file_data = self->priv->current->data;
+	source_file_data = self->priv->current->data;
 	updated_file_data = (GthFileData*) files->data;
-	g_file_info_copy_into (updated_file_data->info, file_data->info);
+	g_file_info_copy_into (updated_file_data->info, source_file_data->info);
 
-	g_load_file_async (file_data->file,
+	g_load_file_async (source_file_data->file,
 			   G_PRIORITY_DEFAULT,
 			   gth_task_get_cancellable (GTH_TASK (self)),
 			   file_buffer_ready_cb,
@@ -403,8 +404,8 @@ file_info_ready_cb (GList    *files,
 static void
 process_current_file (GthPixbufListTask *self)
 {
-	GthFileData *file_data;
-	GList       *singleton;
+	GthFileData *source_file_data;
+	GList       *source_singleton;
 
 	if (self->priv->current == NULL) {
 		gth_task_completed (GTH_TASK (self), NULL);
@@ -423,9 +424,9 @@ process_current_file (GthPixbufListTask *self)
 			   FALSE,
 			   ((double) self->priv->n_current + 1) / (self->priv->n_files + 1));
 
-	file_data = self->priv->current->data;
-	singleton = g_list_append (NULL, g_object_ref (file_data->file));
-	_g_query_all_metadata_async (singleton,
+	source_file_data = self->priv->current->data;
+	source_singleton = g_list_append (NULL, g_object_ref (source_file_data->file));
+	_g_query_all_metadata_async (source_singleton,
 				     FALSE,
 				     TRUE,
 				     "*",
@@ -433,7 +434,7 @@ process_current_file (GthPixbufListTask *self)
 				     file_info_ready_cb,
 				     self);
 
-	_g_object_list_unref (singleton);
+	_g_object_list_unref (source_singleton);
 }
 
 
