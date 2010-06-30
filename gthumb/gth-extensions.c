@@ -654,6 +654,17 @@ gth_extension_manager_load_extensions (GthExtensionManager *self)
 
 	g_return_if_fail (GTH_IS_EXTENSION_MANAGER (self));
 
+#ifdef G_PLATFORM_WIN32
+	{
+		char *path;
+
+		path = g_getenv ("PATH");
+		path = g_strconcat (path, G_SEARCHPATH_SEPARATOR_S GTHUMB_EXTENSIONS_DIR, NULL);
+		g_setenv ("PATH", path, TRUE);
+		g_free (path);
+	}
+#endif
+
 	extensions_dir = g_file_new_for_path (GTHUMB_EXTENSIONS_DIR);
 	enumerator = g_file_enumerate_children (extensions_dir, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
 	while ((info = g_file_enumerator_next_file (enumerator, NULL, NULL)) != NULL) {

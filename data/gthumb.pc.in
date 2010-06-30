@@ -10,5 +10,5 @@ Name: gthumb
 Description: Image viewer and browser
 Version: @VERSION@
 Requires: gtk+-2.0
-Libs: -L${libdir}
+Libs: -L${libdir} @GTHUMB_IMPLIB@
 Cflags: -I${includedir}

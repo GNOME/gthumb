@@ -47,7 +47,7 @@ libpixbuf_savers_la_SOURCES = 	\
 
 libpixbuf_savers_la_CFLAGS = $(GTHUMB_CFLAGS) $(TIFF_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libpixbuf_savers_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libpixbuf_savers_la_LIBADD = $(GTHUMB_LIBS) $(TIFF_LIBS)
+libpixbuf_savers_la_LIBADD = $(GTHUMB_LIBS) $(TIFF_LIBS) ../jpeg_utils/libjpeg_utils.la
 libpixbuf_savers_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

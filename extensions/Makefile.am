@@ -10,16 +10,16 @@ SUBDIRS = 			\
 	exiv2_tools		\
 	export_tools		\
 	facebook		\
+	image_viewer		\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
-	image_viewer		\
-	importer		\
 	jpeg_utils		\
 	image_rotation		\
+	importer		\
 	list_tools		\
 	oauth			\
 	photo_importer		\

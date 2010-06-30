@@ -239,11 +239,14 @@ AC_MSG_RESULT([$os_win32])
 AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
 
 if test "$platform_win32" = "yes" ; then
-	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version -no-undefined -Wl,$(top_builddir)/src/.libs/gthumb.exe.a'
+	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version -no-undefined -Wl,$(top_builddir)/gthumb/.libs/libgthumb.a'
+	GTHUMB_IMPLIB="-lgthumb"
 else
 	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version -disable-static'
+	GTHUMB_IMPLIB=""
 fi
 AC_SUBST(EXTENSION_LIBTOOL_FLAGS)
+AC_SUBST(GTHUMB_IMPLIB)
 
 dnl ===========================================================================
 

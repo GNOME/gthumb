@@ -236,7 +236,7 @@ gthumb_SOURCES = 					\
 	$(NULL)
 
 if PLATFORM_WIN32
-gthumb_LDFLAGS = -Wl,--export-all-symbols,--out-implib,.libs/gthumb.exe.a
+gthumb_LDFLAGS = -Wl,--export-all-symbols,--out-implib,.libs/libgthumb.a
 endif
 
 gthumb_LDADD =						\
@@ -334,5 +334,10 @@ EXTRA_DIST = 			\
 
 dist-hook:
 	cd $(distdir); rm -f $(CLEANFILES)
+
+if PLATFORM_WIN32
+install-exec-hook:
+	$(INSTALL_DATA) .libs/libgthumb.a $(DESTDIR)$(pkglibdir)/libgthumb.a
+endif
 
 -include $(top_srcdir)/git.mk
