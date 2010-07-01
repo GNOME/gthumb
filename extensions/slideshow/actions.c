@@ -47,28 +47,33 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	else
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
+	location = gth_browser_get_location_data (browser);
+	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize"))
+		transition_id = g_strdup (g_file_info_get_attribute_string (location->info, "slideshow::transition"));
+	else
+		transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+
 	projector = NULL;
+
 #ifdef HAVE_CLUTTER
 	if (ClutterInitResult == CLUTTER_INIT_SUCCESS)
 		projector = &clutter_projector;
 #endif /* HAVE_CLUTTER */
-	if (projector == NULL)
+
+	if ((projector == NULL) || (strcmp (transition_id, "none") == 0))
 		projector = &default_projector;
 
 	slideshow = gth_slideshow_new (projector, browser, file_list);
 
-	location = gth_browser_get_location_data (browser);
 	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize")) {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_int32 (location->info, "slideshow::delay"));
 		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::automatic"));
 		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::wrap-around"));
-		transition_id = g_strdup (g_file_info_get_attribute_string (location->info, "slideshow::transition"));
 	}
 	else {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), (guint) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)));
 		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
 		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
-		transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
 	}
 
 	if (g_file_info_get_attribute_status (location->info, "slideshow::playlist") == G_FILE_ATTRIBUTE_STATUS_SET)
