@@ -586,8 +586,8 @@ default_projector_construct (GthSlideshow *self)
 	self->priv->viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
-	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_CHANGE_FIT_SIZE);
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_TRANSP_TYPE_BLACK);
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_QUALITY_LOW);
 
