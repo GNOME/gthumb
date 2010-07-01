@@ -65,6 +65,7 @@ char *            gth_script_get_command_line          (GthScript  *script,
 						        GtkWindow  *parent,
 						        GList      *file_list /* GthFileData */,
 						        GError    **error);
+guint             gth_script_get_shortcut              (GthScript  *script);
 
 G_END_DECLS
 

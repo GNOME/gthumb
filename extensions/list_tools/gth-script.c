@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include <gdk/gdkkeysyms.h>
 #include "gth-script.h"
 
 
@@ -33,7 +34,8 @@ enum {
         PROP_VISIBLE,
         PROP_SHELL_SCRIPT,
         PROP_FOR_EACH_FILE,
-        PROP_WAIT_COMMAND
+        PROP_WAIT_COMMAND,
+        PROP_SHORTCUT
 };
 
 
@@ -45,6 +47,7 @@ struct _GthScriptPrivate {
 	gboolean  shell_script;
 	gboolean  for_each_file;
 	gboolean  wait_command;
+	guint     shortcut;
 };
 
 
@@ -68,6 +71,7 @@ gth_script_real_create_element (DomDomizable *base,
 					       "shell-script", (self->priv->shell_script ? "true" : "false"),
 					       "for-each-file", (self->priv->for_each_file ? "true" : "false"),
 					       "wait-command", (self->priv->wait_command ? "true" : "false"),
+					       "shortcut", gdk_keyval_name (self->priv->shortcut),
 					       NULL);
 	if (! self->priv->visible)
 		dom_element_set_attribute (element, "display", "none");
@@ -93,6 +97,7 @@ gth_script_real_load_from_element (DomDomizable *base,
 		      "shell-script", (g_strcmp0 (dom_element_get_attribute (element, "shell-script"), "true") == 0),
 		      "for-each-file", (g_strcmp0 (dom_element_get_attribute (element, "for-each-file"), "true") == 0),
 		      "wait-command", (g_strcmp0 (dom_element_get_attribute (element, "wait-command"), "true") == 0),
+		      "shortcut", gdk_keyval_from_name (dom_element_get_attribute (element, "shortcut")),
 		      NULL);
 }
 
@@ -112,6 +117,7 @@ gth_script_real_duplicate (GthDuplicable *duplicable)
 		      "shell-script", script->priv->shell_script,
 		      "for-each-file", script->priv->for_each_file,
 		      "wait-command", script->priv->wait_command,
+		      "shortcut", script->priv->shortcut,
 		      NULL);
 
 	return (GObject *) new_script;
@@ -174,6 +180,9 @@ gth_script_set_property (GObject      *object,
 	case PROP_WAIT_COMMAND:
 		self->priv->wait_command = g_value_get_boolean (value);
 		break;
+	case PROP_SHORTCUT:
+		self->priv->shortcut = g_value_get_uint (value);
+		break;
 	default:
 		break;
 	}
@@ -211,6 +220,9 @@ gth_script_get_property (GObject    *object,
 		break;
 	case PROP_WAIT_COMMAND:
 		g_value_set_boolean (value, self->priv->wait_command);
+		break;
+	case PROP_SHORTCUT:
+		g_value_set_uint (value, self->priv->wait_command);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -283,6 +295,15 @@ gth_script_class_init (GthScriptClass *klass)
 							       "Whether to wait command to finish",
 							       FALSE,
 							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_SHORTCUT,
+					 g_param_spec_uint ("shortcut",
+							    "Shortcut",
+							    "The keyboard shortcut to activate the script",
+							    0,
+							    G_MAXUINT,
+							    GDK_VoidSymbol,
+							    G_PARAM_READWRITE));
 }
 
 
@@ -812,4 +833,11 @@ gth_script_get_command_line (GthScript  *script,
 	g_regex_unref (re);
 
 	return result;
+}
+
+
+guint
+gth_script_get_shortcut (GthScript *script)
+{
+	return script->priv->shortcut;
 }

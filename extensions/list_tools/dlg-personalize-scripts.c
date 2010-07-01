@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "dlg-personalize-scripts.h"
 #include "gth-script.h"
@@ -36,6 +37,7 @@
 enum {
 	COLUMN_SCRIPT,
 	COLUMN_NAME,
+	COLUMN_SHORTCUT,
 	COLUMN_VISIBLE,
 	NUM_COLUMNS
 };
@@ -129,6 +131,22 @@ row_inserted_cb (GtkTreeModel *tree_model,
 }
 
 
+static char *
+get_script_shortcut (GthScript *script)
+{
+	guint        keyval;
+	char        *shortcut;
+
+	keyval = gth_script_get_shortcut (script);
+	if ((keyval >= GDK_KP_0) && (keyval <= GDK_KP_9))
+		shortcut = g_strdup_printf ("%c", '0' + (keyval - GDK_KP_0));
+	else
+		shortcut = g_strdup ("");
+
+	return shortcut;
+}
+
+
 static void
 set_script_list (DialogData *data,
 		 GList      *script_list)
@@ -139,14 +157,20 @@ set_script_list (DialogData *data,
 
 	for (scan = script_list; scan; scan = scan->next) {
 		GthScript   *script = scan->data;
+		char        *shortcut;
 		GtkTreeIter  iter;
+
+		shortcut = get_script_shortcut (script);
 
 		gtk_list_store_append (data->list_store, &iter);
 		gtk_list_store_set (data->list_store, &iter,
 				    COLUMN_SCRIPT, script,
 				    COLUMN_NAME, gth_script_get_display_name (script),
+				    COLUMN_SHORTCUT, shortcut,
 				    COLUMN_VISIBLE, gth_script_is_visible (script),
 				   -1);
+
+		g_free (shortcut);
 	}
 
 	g_signal_handlers_unblock_by_func (data->list_store, row_inserted_cb, data);
@@ -240,6 +264,20 @@ add_columns (GtkTreeView *treeview,
                                              NULL);
 
         gtk_tree_view_column_set_expand (column, TRUE);
+        gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+        /* the shortcut column */
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Shortcut"));
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "xalign", 0.5, NULL);
+        gtk_tree_view_column_pack_start (column, renderer, TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", COLUMN_SHORTCUT,
+                                             NULL);
+
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 
 	/* the checkbox column */
@@ -339,12 +377,19 @@ script_editor_dialog__response_cb (GtkDialog *dialog,
 	else
 		change_list = get_script_iter (data, script, &iter);
 
-	if (change_list)
+	if (change_list) {
+		char *shortcut;
+
+		shortcut = get_script_shortcut (script);
 		gtk_list_store_set (data->list_store, &iter,
 				    COLUMN_SCRIPT, script,
 				    COLUMN_NAME, gth_script_get_display_name (script),
+				    COLUMN_SHORTCUT, shortcut,
 				    COLUMN_VISIBLE, gth_script_is_visible (script),
 				    -1);
+
+		g_free (shortcut);
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
@@ -493,6 +538,7 @@ dlg_personalize_scripts (GthBrowser *browser)
 
 	data->list_store = gtk_list_store_new (NUM_COLUMNS,
 					       G_TYPE_OBJECT,
+					       G_TYPE_STRING,
 					       G_TYPE_STRING,
 					       G_TYPE_BOOLEAN);
 	data->list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (data->list_store));

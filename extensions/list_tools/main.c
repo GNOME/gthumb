@@ -32,6 +32,7 @@ gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (list_tools__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (list_tools__gth_browser_update_sensitivity_cb), NULL);
+	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (list_tools__gth_browser_file_list_key_press_cb), NULL);
 }
 
 

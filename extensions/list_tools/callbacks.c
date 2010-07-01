@@ -84,6 +84,29 @@ browser_data_free (BrowserData *data)
 
 
 static void
+exec_script (GthBrowser *browser,
+	     GthScript  *script)
+{
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	if (file_list != NULL) {
+		GthTask *task;
+
+		task = gth_script_task_new (GTK_WINDOW (browser), script, file_list);
+		gth_browser_exec_task (browser, task, FALSE);
+
+		g_object_unref (task);
+	}
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static void
 activate_script_menu_item (GtkMenuItem *menuitem,
 			   gpointer     user_data)
 {
@@ -91,24 +114,8 @@ activate_script_menu_item (GtkMenuItem *menuitem,
 	GthScript   *script;
 
 	script = gth_script_file_get_script (gth_script_file_get (), g_object_get_data (G_OBJECT (menuitem), "script_id"));
-	if (script != NULL) {
-		GList *items;
-		GList *file_list;
-
-		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
-		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
-		if (file_list != NULL) {
-			GthTask *task;
-
-			task = gth_script_task_new (GTK_WINDOW (data->browser), script, file_list);
-			gth_browser_exec_task (data->browser, task, FALSE);
-
-			g_object_unref (task);
-		}
-
-		_g_object_list_unref (file_list);
-		_gtk_tree_path_list_free (items);
-	}
+	if (script != NULL)
+		exec_script (data->browser, script);
 }
 
 
@@ -301,4 +308,32 @@ list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
 	_update_sensitivity (browser, "/ListToolsPopup");
 	/*_update_sensitivity (browser, "/FileListPopup/Open_Actions/ExecWith");*/
+}
+
+
+gpointer
+list_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+						GdkEventKey *event)
+{
+	gpointer  result = NULL;
+	guint     keyval;
+	GList    *script_list;
+	GList    *scan;
+
+	keyval = gdk_keyval_to_lower (event->keyval);
+
+	script_list = gth_script_file_get_scripts (gth_script_file_get ());
+	for (scan = script_list; scan; scan = scan->next) {
+		GthScript *script = scan->data;
+
+		if (gth_script_get_shortcut (script) == keyval) {
+			exec_script (browser, script);
+			result = GINT_TO_POINTER (1);
+			break;
+		}
+	}
+
+	_g_object_list_unref (script_list);
+
+	return result;
 }
