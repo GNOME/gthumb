@@ -3172,6 +3172,14 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 			result = TRUE;
 			break;
 
+		case GDK_e:
+			if (browser->priv->viewer_page != NULL) {
+				gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+				gth_browser_show_viewer_tools (GTH_BROWSER (browser), TRUE);
+			}
+			result = TRUE;
+			break;
+
 		default:
 			break;
 		}
@@ -4622,6 +4630,10 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 
 	case GDK_End:
 		gth_browser_show_last_image (browser, FALSE, FALSE);
+		return TRUE;
+
+	case GDK_e:
+		gth_browser_show_viewer_tools (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Tools"));
 		return TRUE;
 
 	case GDK_f:
