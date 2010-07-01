@@ -267,6 +267,29 @@ create_colorized_pixbuf (GdkPixbuf *src,
 
 
 static void
+_cairo_draw_rounded_box (cairo_t *cr,
+			 double   x,
+			 double   y,
+			 double   w,
+			 double   h,
+			 double   r)
+{
+	cairo_move_to (cr, x, y + r);
+	if (r > 0)
+		cairo_arc (cr, x + r, y + r, r, 1.0 * M_PI, 1.5 * M_PI);
+	cairo_rel_line_to (cr, w - (r * 2), 0);
+	if (r > 0)
+		cairo_arc (cr, x + w - r, y + r, r, 1.5 * M_PI, 2.0 * M_PI);
+	cairo_rel_line_to (cr, 0, h - (r * 2));
+	if (r > 0)
+		cairo_arc (cr, x + w - r, y + h - r, r, 0.0 * M_PI, 0.5 * M_PI);
+	cairo_rel_line_to (cr, - (w - (r * 2)), 0);
+	if (r > 0)
+		cairo_arc (cr, x + r, y + h - r, r, 0.5 * M_PI, 1.0 * M_PI);
+}
+
+
+static void
 gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 				    GdkWindow            *window,
 				    GtkWidget            *widget,
@@ -284,7 +307,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
 	GdkPixbuf                *colorized = NULL;
-	int                       B;
+	int                       border;
 
 	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
 
@@ -324,21 +347,12 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
 
 	if (self->priv->is_icon || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
-		int R = 7;
-
 		if (state == GTK_STATE_NORMAL)
 			gdk_cairo_set_source_color (cr, &widget->style->bg[state]);
 		else
 			gdk_cairo_set_source_color (cr, &widget->style->base[state]);
 
-		cairo_move_to (cr, thumb_rect.x, thumb_rect.y + R);
-		cairo_arc (cr, thumb_rect.x + R, thumb_rect.y + R, R, 1.0 * M_PI, 1.5 * M_PI);
-		cairo_rel_line_to (cr, thumb_rect.width - (R * 2), 0);
-		cairo_arc (cr, thumb_rect.x + thumb_rect.width - R, thumb_rect.y + R, R, 1.5 * M_PI, 2.0 * M_PI);
-		cairo_rel_line_to (cr, 0, thumb_rect.height - (R * 2));
-		cairo_arc (cr, thumb_rect.x + thumb_rect.width - R, thumb_rect.y + thumb_rect.height - R, R, 0.0 * M_PI, 0.5 * M_PI);
-		cairo_rel_line_to (cr, - (thumb_rect.width - (R * 2)), 0);
-		cairo_arc (cr, thumb_rect.x + R, thumb_rect.y + thumb_rect.height - R, R, 0.5 * M_PI, 1.0 * M_PI);
+		_cairo_draw_rounded_box (cr, thumb_rect.x, thumb_rect.y, thumb_rect.width, thumb_rect.height, 7);
 		cairo_close_path (cr);
 		cairo_fill (cr);
 	}
@@ -350,11 +364,11 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 			state = GTK_STATE_SELECTED;
 
 		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
-			B = 1;
+			border = 1;
 			frame_rect = image_rect;
 		}
 		else {
-			B = 4;
+			border = 4;
 
 			/*frame_rect = thumb_rect;
 			frame_rect.width = self->priv->size;
@@ -365,44 +379,71 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 			frame_rect = image_rect;
 		}
 
+		/*
+		gdk_cairo_set_source_color (cr, &style->dark[state]);
+		_cairo_draw_rounded_box (cr,
+				         frame_rect.x - border + 2.5,
+				         frame_rect.y - border + 2.5,
+				         frame_rect.width + (border * 2) - 1,
+				         frame_rect.height + (border * 2) - 1,
+				         0.0);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+
+		cairo_set_line_width (cr, 0.5);
+		_cairo_draw_rounded_box (cr,
+				         frame_rect.x - border + 0.5,
+				         frame_rect.y - border + 0.5,
+				         frame_rect.width + (border * 2) - 1,
+				         frame_rect.height + (border * 2) - 1,
+				         0.0);
+		cairo_close_path (cr);
+		gdk_cairo_set_source_color (cr, &style->base[state]);
+		cairo_fill_preserve (cr);
+		gdk_cairo_set_source_color (cr, &style->dark[state]);
+		cairo_stroke (cr);
+		*/
+
 	  	gdk_draw_rectangle (GDK_DRAWABLE (window), style->dark_gc[state], FALSE,
-  				    frame_rect.x - B,
-  				    frame_rect.y - B,
-  				    frame_rect.width + (B * 2) - 1,
-				    frame_rect.height + (B * 2) - 1);
+  				    frame_rect.x - border,
+  				    frame_rect.y - border,
+  				    frame_rect.width + (border * 2) - 1,
+				    frame_rect.height + (border * 2) - 1);
 
   		gdk_draw_line (GDK_DRAWABLE (window), style->dark_gc[state],
-  			       frame_rect.x - (B / 2),
-  			       frame_rect.y + frame_rect.height + B,
-  			       frame_rect.x + frame_rect.width + B,
-  			       frame_rect.y + frame_rect.height + B);
+  			       frame_rect.x - (border / 2),
+  			       frame_rect.y + frame_rect.height + border,
+  			       frame_rect.x + frame_rect.width + border,
+  			       frame_rect.y + frame_rect.height + border);
   		gdk_draw_line (GDK_DRAWABLE (window), style->dark_gc[state],
-  			       frame_rect.x + frame_rect.width + B,
-  			       frame_rect.y + frame_rect.height + B,
-  			       frame_rect.x + frame_rect.width + B,
-  			       frame_rect.y - (B / 2));
+  			       frame_rect.x + frame_rect.width + border,
+  			       frame_rect.y + frame_rect.height + border,
+  			       frame_rect.x + frame_rect.width + border,
+  			       frame_rect.y - (border / 2));
 
 		gdk_draw_line (GDK_DRAWABLE (window), style->mid_gc[state],
-  			       frame_rect.x - (B / 2) + 1,
-  			       frame_rect.y + frame_rect.height + B + 1,
-  			       frame_rect.x + frame_rect.width + B + 1,
-  			       frame_rect.y + frame_rect.height + B + 1);
+  			       frame_rect.x - (border / 2) + 1,
+  			       frame_rect.y + frame_rect.height + border + 1,
+  			       frame_rect.x + frame_rect.width + border + 1,
+  			       frame_rect.y + frame_rect.height + border + 1);
   		gdk_draw_line (GDK_DRAWABLE (window), style->mid_gc[state],
-  			       frame_rect.x + frame_rect.width + B + 1,
-  			       frame_rect.y + frame_rect.height + B + 1,
-  			       frame_rect.x + frame_rect.width + B + 1,
-  			       frame_rect.y - (B / 2) + 1);
+  			       frame_rect.x + frame_rect.width + border + 1,
+  			       frame_rect.y + frame_rect.height + border + 1,
+  			       frame_rect.x + frame_rect.width + border + 1,
+  			       frame_rect.y - (border / 2) + 1);
 
-  		/*gdk_draw_rectangle (GDK_DRAWABLE (window), style->light_gc[state], TRUE,
-  				    frame_rect.x - (B - 1),
-  				    frame_rect.y - (B - 1),
-  				    frame_rect.width + ((B - 1) * 2),
-  				    frame_rect.height + ((B - 1) * 2));*/
-  		/*gdk_draw_rectangle (GDK_DRAWABLE (window), style->mid_gc[state], FALSE,
+  		/*
+  		gdk_draw_rectangle (GDK_DRAWABLE (window), style->light_gc[state], TRUE,
+  				    frame_rect.x - (border - 1),
+  				    frame_rect.y - (border - 1),
+  				    frame_rect.width + ((border - 1) * 2),
+  				    frame_rect.height + ((border - 1) * 2));
+  		gdk_draw_rectangle (GDK_DRAWABLE (window), style->mid_gc[state], FALSE,
   				    image_rect.x - 1,
   				    image_rect.y - 1,
   				    image_rect.width + 1,
-  				    image_rect.height + 1);*/
+  				    image_rect.height + 1);
+  		*/
 	}
 
   	if (! self->priv->checked || ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0)) {
