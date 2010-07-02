@@ -51,11 +51,13 @@ add_data_free (AddData *add_data)
 
 
 typedef struct {
-	GthBrowser *browser;
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
-	GtkWidget  *source_tree;
-	AddData    *add_data;
+	GthBrowser    *browser;
+	GtkBuilder    *builder;
+	GtkWidget     *dialog;
+	GtkWidget     *source_tree;
+	AddData       *add_data;
+	GthFileSource *catalog_source;
+	GthFileData   *new_catalog;
 } DialogData;
 
 
@@ -63,6 +65,8 @@ static void
 destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
+	_g_object_unref (data->catalog_source);
+	_g_object_unref (data->new_catalog);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -201,16 +205,61 @@ source_tree_selection_changed_cb (GtkTreeSelection *treeselection,
 
 
 static void
+new_catalog_metadata_ready_cb (GObject  *object,
+			       GError   *error,
+			       gpointer  user_data)
+{
+	DialogData  *data = user_data;
+	GFile       *parent;
+	GList       *file_list;
+	GtkTreePath *tree_path;
+
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the catalog"), &error);
+		return;
+	}
+
+	/* add the new catalog to the tree and select it */
+
+	parent = g_file_get_parent (data->new_catalog->file);
+	file_list = g_list_append (NULL, g_object_ref (data->new_catalog));
+	gth_folder_tree_add_children (GTH_FOLDER_TREE (data->source_tree),
+				      parent,
+				      file_list);
+
+	tree_path = gth_folder_tree_get_path (GTH_FOLDER_TREE (data->source_tree), data->new_catalog->file);
+	if (tree_path != NULL) {
+		gth_folder_tree_select_path (GTH_FOLDER_TREE (data->source_tree), tree_path);
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (data->source_tree), tree_path, NULL, TRUE, 0.5, 0.0);
+		gtk_tree_path_free (tree_path);
+	}
+
+	_g_object_list_unref (file_list);
+
+	/* notify the catalog creation */
+
+	file_list = g_list_prepend (NULL, g_object_ref (data->new_catalog->file));
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    file_list,
+				    GTH_MONITOR_EVENT_CREATED);
+
+	_g_object_list_unref (file_list);
+
+	g_object_unref (parent);
+}
+
+
+static void
 new_catalog_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
-	char          *name;
-	GthFileData   *selected_parent;
-	GFile         *parent;
-	GthFileSource *file_source;
-	GFile         *gio_parent;
-	GError        *error;
-	GFile         *gio_file;
+	char        *name;
+	GthFileData *selected_parent;
+	GFile       *parent;
+	GFile       *gio_parent;
+	GError      *error;
+	GFile       *gio_file;
 
 	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
 				        GTK_DIALOG_MODAL,
@@ -240,21 +289,22 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 	else
 		parent = g_file_new_for_uri ("catalog:///");
 
-	file_source = gth_main_get_file_source (parent);
-	gio_parent = gth_file_source_to_gio_file (file_source, parent);
+	_g_object_unref (data->catalog_source);
+	data->catalog_source = gth_main_get_file_source (parent);
+	gio_parent = gth_file_source_to_gio_file (data->catalog_source, parent);
 	gio_file = _g_file_create_unique (gio_parent, name, ".catalog", &error);
 	if (gio_file != NULL) {
 		GFile *file;
-		GList *list;
 
+		_g_object_unref (data->new_catalog);
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		list = g_list_prepend (NULL, file);
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent,
-					    list,
-					    GTH_MONITOR_EVENT_CREATED);
+		data->new_catalog = gth_file_data_new (file, NULL);
+		gth_file_source_read_metadata (data->catalog_source,
+					       data->new_catalog,
+					       "*",
+					       new_catalog_metadata_ready_cb,
+					       data);
 
-		g_list_free (list);
 		g_object_unref (file);
 	}
 	else
@@ -262,7 +312,6 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 
 	g_object_unref (gio_file);
 	g_object_unref (gio_parent);
-	g_object_unref (file_source);
 }
 
 

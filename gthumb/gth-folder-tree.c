@@ -1474,25 +1474,21 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 {
 	GtkTreeIter        iter;
 	GtkTreePath       *tree_path;
-	char              *path;
 	GtkTreeViewColumn *tree_column;
 
 	if (! gth_folder_tree_get_iter (folder_tree, file, &iter, NULL))
 		return;
 
 	tree_path = gtk_tree_model_get_path (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter);
-	path = gtk_tree_path_to_string (tree_path);
-
-	tree_column = gtk_tree_view_get_column (GTK_TREE_VIEW (folder_tree), 0);
 	gtk_tree_view_expand_to_path (GTK_TREE_VIEW (folder_tree), tree_path);
 	gtk_tree_view_collapse_row (GTK_TREE_VIEW (folder_tree), tree_path);
 	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (folder_tree), tree_path, NULL, TRUE, 0.5, 0.0);
+	tree_column = gtk_tree_view_get_column (GTK_TREE_VIEW (folder_tree), 0);
 	gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree),
 				  tree_path,
 				  tree_column,
 				  TRUE);
 
-	g_free (path);
 	gtk_tree_path_free (tree_path);
 }
 
