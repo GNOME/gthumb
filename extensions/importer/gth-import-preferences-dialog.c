@@ -39,6 +39,7 @@ struct _GthImportPreferencesDialogPrivate {
 	GtkWidget  *subfolder_type_list;
 	GtkWidget  *subfolder_format_list;
 	char       *event;
+	gboolean    help_visible;
 };
 
 
@@ -279,6 +280,23 @@ custom_format_entry_changed_cb (GtkEditable *editable,
 
 
 static void
+custom_format_entry_icon_press_cb (GtkEntry             *entry,
+				   GtkEntryIconPosition  icon_pos,
+				   GdkEvent             *event,
+				   gpointer              user_data)
+{
+	GthImportPreferencesDialog *self = user_data;
+
+	self->priv->help_visible = ! self->priv->help_visible;
+
+	if (self->priv->help_visible)
+		gtk_widget_show (GET_WIDGET ("template_help_alignment"));
+	else
+		gtk_widget_hide (GET_WIDGET ("template_help_alignment"));
+}
+
+
+static void
 dialog_response_cb (GtkDialog *dialog,
                     int        response_id,
                     gpointer   user_data)
@@ -300,6 +318,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_PREFERENCES_DIALOG, GthImportPreferencesDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("import-preferences.ui", "importer");
+	self->priv->help_visible = FALSE;
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
@@ -390,6 +409,10 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	g_signal_connect (GET_WIDGET ("custom_format_entry"),
 			  "changed",
 			  G_CALLBACK (custom_format_entry_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("custom_format_entry"),
+			  "icon-press",
+			  G_CALLBACK (custom_format_entry_icon_press_cb),
 			  self);
 	g_signal_connect (self,
 			  "response",
