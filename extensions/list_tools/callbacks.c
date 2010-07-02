@@ -163,7 +163,7 @@ _update_scripts_menu (BrowserData *data,
 			continue;
 
 		menu_item = gtk_image_menu_item_new_with_label (gth_script_get_display_name (script));
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_stock (GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU));
+		/*gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_stock (GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU));*/
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_insert (GTK_MENU_SHELL (menu), menu_item, pos++);
 
