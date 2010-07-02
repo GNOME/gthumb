@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: gthumb 2.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-06-21 11:14+0000\n"
+"POT-Creation-Date: 2010-07-01 09:46+0000\n"
 "PO-Revision-Date: 2010-05-23 18:04+0200\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -351,7 +351,7 @@ msgstr "Suivre le comportement de Nautilus"
 
 #: ../data/ui/preferences.ui.h:17
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:277
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:307
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:34
 msgid "General"
@@ -365,7 +365,7 @@ msgstr "Aller au dernier emplacement _visité"
 msgid "Go to this _folder:"
 msgstr "Aller dans _ce dossier :"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:232
 msgid "Icons only"
 msgstr "Uniquement les icônes"
 
@@ -374,8 +374,9 @@ msgid "Keep previous zoom"
 msgstr "Garder le zoom précédent"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
 msgid "None"
@@ -386,7 +387,7 @@ msgid "On startup:"
 msgstr "Au démarrage :"
 
 #: ../data/ui/preferences.ui.h:24
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:191
 #: ../extensions/gstreamer_tools/main.c:34
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -401,42 +402,54 @@ msgid "Set to C_urrent"
 msgstr "Sélectionner celui en _cours"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:232
 msgid "System settings"
 msgstr "Paramètres système"
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:28
+msgid "T_humbnails in viewer:"
+msgstr "Vi_gnettes dans le visionneur :"
+
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:232
 msgid "Text below icons"
 msgstr "Texte sous les icônes"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:232
 msgid "Text beside icons"
 msgstr "Texte à côté des icônes"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:216
+#: ../data/ui/preferences.ui.h:31 ../gthumb/dlg-preferences.c:232
 msgid "Text only"
 msgstr "Uniquement le texte"
 
-#: ../data/ui/preferences.ui.h:31
+#: ../data/ui/preferences.ui.h:32
 msgid "Thumbnail _size:"
 msgstr "_Taille des vignettes :"
 
-#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:110
+#: ../data/ui/preferences.ui.h:33 ../extensions/image_viewer/preferences.c:110
 msgid "White"
 msgstr "Blanc"
 
-#: ../data/ui/preferences.ui.h:33
+#: ../data/ui/preferences.ui.h:34
 msgid "_Store metadata inside files if possible"
 msgstr "Enre_gistrer les méta-données à l'intérieur des fichiers si possible"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:35
 msgid "_Toolbar style:"
 msgstr "Style de la barre d'_outils :"
 
 # gthumb is usually written gThumb.
-#: ../data/ui/preferences.ui.h:35
+#: ../data/ui/preferences.ui.h:36
 msgid "gthumb Preferences"
 msgstr "Préférences gThumb"
+
+#: ../data/ui/preferences.ui.h:37
+msgid "on the bottom"
+msgstr "en bas"
+
+#: ../data/ui/preferences.ui.h:38
+msgid "on the side"
+msgstr "à côté"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -566,7 +579,7 @@ msgstr "Fichiers _sélectionnés"
 
 #: ../extensions/burn_disc/gth-burn-task.c:239
 #: ../extensions/burn_disc/gth-burn-task.c:260
-#: ../extensions/burn_disc/gth-burn-task.c:391
+#: ../extensions/burn_disc/gth-burn-task.c:394
 msgid "Write to Disc"
 msgstr "Graver sur le disque"
 
@@ -575,9 +588,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "Impossible de supprimer les fichiers du catalogue"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:448
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:457
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:485
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:471
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:480
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:508
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Format de fichier non valide"
@@ -610,9 +623,14 @@ msgstr "Saisissez le nom de la bibliothèque : "
 msgid "Could not create the library"
 msgstr "Impossible de créer la bibliothèque"
 
-#: ../extensions/catalogs/actions.c:334
+#: ../extensions/catalogs/actions.c:332
 msgid "Could not remove the catalog"
 msgstr "Impossible de supprimer le catalogue"
+
+#: ../extensions/catalogs/actions.c:366
+#, c-format
+msgid "Are you sure you want to remove \"%s\"?"
+msgstr "Voulez-vous vraiment supprimer « %s » ?"
 
 #: ../extensions/catalogs/callbacks.c:99
 msgid "_Add to Catalog"
@@ -627,6 +645,7 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Va au dossier qui contient le fichier sélectionné"
 
 #: ../extensions/catalogs/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:106
 msgid "Other..."
 msgstr "Autre..."
 
@@ -675,15 +694,15 @@ msgstr "Ligne de commande"
 msgid "(Empty)"
 msgstr "(vide)"
 
-#: ../extensions/catalogs/callbacks.c:680
+#: ../extensions/catalogs/callbacks.c:684
 msgid "Catalog Properties"
 msgstr "Propriétés du catalogue"
 
-#: ../extensions/catalogs/callbacks.c:692
+#: ../extensions/catalogs/callbacks.c:696
 msgid "Organize"
 msgstr "Organiser"
 
-#: ../extensions/catalogs/callbacks.c:693
+#: ../extensions/catalogs/callbacks.c:697
 msgid "Automatically organize files by date"
 msgstr "Organise automatiquement les fichiers par date"
 
@@ -700,18 +719,22 @@ msgid "Create file collections."
 msgstr "Crée des collections de fichiers."
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
+msgid "Add to Catalog"
+msgstr "Ajouter au catalogue"
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
 msgid "C_atalogs:"
 msgstr "C_atalogues :"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "New _Library"
 msgstr "Nouvelle _bibliothèque"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "Nouveau _catalogue"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 msgid "_View the destination"
 msgstr "_Afficher la destination"
 
@@ -732,7 +755,7 @@ msgstr "_Date :"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
@@ -921,6 +944,7 @@ msgid "The test definition is incomplete"
 msgstr "La définition du test est incomplète"
 
 #: ../extensions/comments/main.c:35
+#: ../extensions/edit_metadata/callbacks.c:101
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -996,13 +1020,17 @@ msgstr "Définit l'image comme arrière-plan du bureau"
 msgid "Desktop background"
 msgstr "Arrière-plan de bureau"
 
-#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
-msgid "Metadata"
-msgstr "Méta-données"
+#: ../extensions/edit_metadata/callbacks.c:98
+msgid "T_ags"
+msgstr "É_tiquettes"
 
-#: ../extensions/edit_metadata/callbacks.c:91
-msgid "Edit file metadata"
-msgstr "Modifier les méta-données du fichier"
+#: ../extensions/edit_metadata/callbacks.c:102
+msgid "Edit the comment an other information of the selected files"
+msgstr "Modifie le commentaire et d'autres informations des fichiers sélectionnés"
+
+#: ../extensions/edit_metadata/callbacks.c:107
+msgid "Choose another tag"
+msgstr "Choisit une autre étiquette"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
@@ -1026,9 +1054,15 @@ msgstr "_Note :"
 msgid "_Title:"
 msgstr "T_itre :"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:56
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:57
 msgid "Could not save the file metadata"
 msgstr "Impossible d'enregistrer les méta-données du fichier"
+
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:105
+#: ../extensions/rename_series/actions.c:38
+#: ../gthumb/gth-overwrite-dialog.c:152
+msgid "Cannot read file information"
+msgstr "Impossible de lire les informations du fichier"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Allow to edit files metadata."
@@ -1038,40 +1072,52 @@ msgstr "Permettre la modification des méta-données des fichiers."
 msgid "Edit metadata"
 msgstr "Modifier les méta-données"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:391
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:421
 msgid "No date"
 msgstr "Aucune date"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:392
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:422
 msgid "The following date"
 msgstr "La date suivante"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:317
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:423
+#: ../extensions/importer/gth-import-preferences-dialog.c:318
 msgid "Current date"
 msgstr "Date actuelle"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:394
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:424
 msgid "Date photo was taken"
 msgstr "Date de prise de photo"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:395
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:425
 msgid "Last modified date"
 msgstr "Date de dernière modification"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:396
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:426
 msgid "File creation date"
 msgstr "Date de création du fichier"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:397
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:427
 msgid "Do not modify"
 msgstr "Ne pas modifier"
 
-#. Translators: the %s in the string is the file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:148
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:107
+msgid "Save only cha_nged fields"
+msgstr "E_nregistrer que les champs modifiés"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:163
 #, c-format
 msgid "%s Metadata"
 msgstr "Méta-données %s"
+
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:167
+#: ../extensions/flicker/dlg-import-from-flickr.c:336
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d fichier"
+msgstr[1] "%d fichiers"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1557,11 +1603,11 @@ msgstr ""
 "vous pouvez choisir de les copier."
 
 #: ../extensions/file_manager/actions.c:395
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:382
 msgid "Could not delete the files"
 msgstr "Impossible de supprimer les fichiers"
 
-#: ../extensions/file_manager/actions.c:443
+#: ../extensions/file_manager/actions.c:438
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -1569,17 +1615,37 @@ msgstr ""
 "Les fichiers ne peuvent être mis à la corbeille. Voulez-vous les supprimer "
 "définitivement ?"
 
-#: ../extensions/file_manager/actions.c:454
+#: ../extensions/file_manager/actions.c:449
 msgid "Could not move the files to the Trash"
 msgstr "Impossible de déplacer les fichiers dans la corbeille"
 
-#: ../extensions/file_manager/actions.c:490
-#: ../extensions/file_manager/actions.c:781
+#: ../extensions/file_manager/actions.c:498
+#, c-format
+msgid "Are you sure you want to move \"%s\" to trash?"
+msgstr "Voulez-vous vraiment mettre « %s » à la corbeille ?"
+
+#: ../extensions/file_manager/actions.c:501
+#, c-format
+msgid "Are you sure you want to move to trash the %'d selected file?"
+msgid_plural "Are you sure you want to move to trash the %'d selected files?"
+msgstr[0] ""
+"Voulez-vous vraiment mettre à la corbeille le %'d fichier sélectionné ?"
+msgstr[1] ""
+"Voulez-vous vraiment mettre à la corbeille les %'d fichiers sélectionnés ?"
+
+#: ../extensions/file_manager/actions.c:513
+#: ../extensions/file_manager/callbacks.c:169
+#: ../extensions/file_manager/callbacks.c:201
+msgid "Mo_ve to Trash"
+msgstr "Mettre à la cor_beille"
+
+#: ../extensions/file_manager/actions.c:545
+#: ../extensions/file_manager/actions.c:836
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Voulez-vous vraiment supprimer définitivement « %s » ?"
 
-#: ../extensions/file_manager/actions.c:493
+#: ../extensions/file_manager/actions.c:548
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1589,16 +1655,16 @@ msgstr[0] ""
 msgstr[1] ""
 "Voulez-vous vraiment supprimer définitivement les %'d fichiers sélectionnés ?"
 
-#: ../extensions/file_manager/actions.c:503
-#: ../extensions/file_manager/actions.c:791
+#: ../extensions/file_manager/actions.c:558
+#: ../extensions/file_manager/actions.c:846
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si vous supprimez un fichier, il sera définitivement perdu."
 
-#: ../extensions/file_manager/actions.c:533
+#: ../extensions/file_manager/actions.c:588
 msgid "Could not open the location"
 msgstr "Impossible d'ouvrir l'emplacement"
 
-#: ../extensions/file_manager/actions.c:665
+#: ../extensions/file_manager/actions.c:720
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1606,11 +1672,11 @@ msgstr ""
 "Le dossier n'est pas vide, voulez-vous supprimer le dossier et son contenu "
 "définitivement ?"
 
-#: ../extensions/file_manager/actions.c:681
+#: ../extensions/file_manager/actions.c:736
 msgid "Could not delete the folder"
 msgstr "Impossible de supprimer le dossier"
 
-#: ../extensions/file_manager/actions.c:740
+#: ../extensions/file_manager/actions.c:795
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
@@ -1618,7 +1684,7 @@ msgstr ""
 "Le dossier ne peut être mis à la corbeille. Voulez-vous le supprimer "
 "définitivement ?"
 
-#: ../extensions/file_manager/actions.c:747
+#: ../extensions/file_manager/actions.c:802
 msgid "Could not move the folder to the Trash"
 msgstr "Impossible de mettre le dossier à la corbeille"
 
@@ -1639,11 +1705,6 @@ msgstr "D_upliquer"
 #: ../extensions/file_manager/callbacks.c:166
 msgid "Duplicate the selected files"
 msgstr "Duplique les fichiers sélectionnés"
-
-#: ../extensions/file_manager/callbacks.c:169
-#: ../extensions/file_manager/callbacks.c:201
-msgid "Mo_ve to Trash"
-msgstr "Mettre à la cor_beille"
 
 #: ../extensions/file_manager/callbacks.c:170
 msgid "Move the selected files to the Trash"
@@ -1672,8 +1733,8 @@ msgstr "_Renommer"
 msgid "_Paste Into Folder"
 msgstr "C_oller dans le dossier"
 
-#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4367
-#: ../gthumb/gth-browser.c:4405
+#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4453
+#: ../gthumb/gth-browser.c:4491
 msgid "Could not perform the operation"
 msgstr "Impossible d'effectuer cette opération"
 
@@ -1726,6 +1787,7 @@ msgid "_Yellow-Blue:"
 msgstr "_Jaune-Bleu :"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 msgid "Aspect ratio"
 msgstr "Proportions"
 
@@ -1734,11 +1796,12 @@ msgid "C_rop"
 msgstr "Découpe_r"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
 msgid "Heigh_t:"
 msgstr "Hau_teur :"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "I_nverser les proportions"
 
@@ -1752,7 +1815,7 @@ msgid "_Grid:"
 msgstr "_Grille :"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:17
 msgid "_Width:"
 msgstr "_Largeur :"
@@ -1773,24 +1836,36 @@ msgstr "_Y :"
 msgid "%"
 msgstr "%"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Dimensions"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 msgid "High _quality"
 msgstr "Haute _qualité"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+msgid "Information"
+msgstr "Informations"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+msgid "New dimensions:"
+msgstr "Nouvelles dimensions :"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Options"
 msgstr "Options"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
-msgid "_Preserve original aspect ratio"
-msgstr "Conserver les _proportions originales"
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "Original dimensions:"
+msgstr "Dimensions originales :"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:12
+msgid "Scale factor:"
+msgstr "Facteur d'échelle :"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "pixels"
 msgstr "pixels"
@@ -1821,70 +1896,82 @@ msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr ""
 "Modifie les niveaux de luminosité, contraste, saturation et gamma de l'image"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 msgid "Square"
 msgstr "Carré"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-crop.c:362
+#: ../extensions/file_tools/gth-file-tool-resize.c:424
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Image)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:380
+#: ../extensions/file_tools/gth-file-tool-crop.c:365
+#: ../extensions/file_tools/gth-file-tool-resize.c:427
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (écran)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:384
+#: ../extensions/file_tools/gth-file-tool-crop.c:369
+#: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "5:4"
 msgstr "5 x 4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:385
+#: ../extensions/file_tools/gth-file-tool-crop.c:370
+#: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "4:3 (DVD, Book)"
 msgstr "4 x 3 (DVD, livre)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:386
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
+#: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "7:5"
 msgstr "7 x 5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:372
+#: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "3:2 (Postcard)"
 msgstr "3 x 2 (Carte postale)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:373
+#: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:10"
 msgstr "16 x 10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:389
+#: ../extensions/file_tools/gth-file-tool-crop.c:374
+#: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "16:9 (DVD)"
 msgstr "16 x 9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:390
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "1.85:1"
 msgstr "1,85 x 1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:391
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-resize.c:438
 msgid "2.39:1"
 msgstr "2,39 x 1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:392
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-resize.c:439
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
 msgid "Rule of Thirds"
 msgstr "Règle des tiers"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:397
+#: ../extensions/file_tools/gth-file-tool-crop.c:387
 msgid "Golden Sections"
 msgstr "Nombre d'or"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:500
+#: ../extensions/file_tools/gth-file-tool-crop.c:502
 msgid "Crop..."
 msgstr "Découper..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:500
+#: ../extensions/file_tools/gth-file-tool-crop.c:502
 msgid "Crop"
 msgstr "Découper"
 
@@ -1936,11 +2023,11 @@ msgstr "Négatif"
 msgid "Redo"
 msgstr "Rétablir"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:550
 msgid "Resize..."
 msgstr "Redimensionner..."
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:550
 msgid "Resize"
 msgstr "Redimensionner"
 
@@ -2030,13 +2117,6 @@ msgstr "_Sécurité :"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 msgid "_Import"
 msgstr "_Importer"
-
-#: ../extensions/flicker/dlg-import-from-flickr.c:336
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d fichier"
-msgstr[1] "%d fichiers"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:361
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
@@ -2285,7 +2365,7 @@ msgid "Loading \"%s\""
 msgstr "Chargement de « %s »"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2669
+#: ../extensions/webalbums/gth-web-exporter.c:2667
 msgid "Loading images"
 msgstr "Chargement des images"
 
@@ -2313,12 +2393,12 @@ msgstr "Rotation de l'image"
 msgid "Rotate images without data loss."
 msgstr "Pivote les images sans perte de données."
 
-#: ../extensions/image_rotation/rotation-utils.c:117
+#: ../extensions/image_rotation/rotation-utils.c:119
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Un problème est survenu lors de la transformation de l'image : %s"
 
-#: ../extensions/image_rotation/rotation-utils.c:122
+#: ../extensions/image_rotation/rotation-utils.c:124
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -2343,11 +2423,11 @@ msgstr ""
 "transformables des bords. En pratique, cela donne les meilleurs résultats "
 "visuels, mais la transformation n'est alors plus totalement sans perte."
 
-#: ../extensions/image_rotation/rotation-utils.c:128
+#: ../extensions/image_rotation/rotation-utils.c:130
 msgid "_Trim"
 msgstr "_Rogner"
 
-#: ../extensions/image_rotation/rotation-utils.c:130
+#: ../extensions/image_rotation/rotation-utils.c:132
 msgid "_Accept distortion"
 msgstr "_Accepter la distorsion"
 
@@ -2491,46 +2571,46 @@ msgid "example: %s"
 msgstr "exemple : %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:316
+#: ../extensions/importer/gth-import-preferences-dialog.c:317
 msgid "File date"
 msgstr "Date du fichier"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:326
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "year-month-day"
 msgstr "année-mois-jour"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:327
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "year-month"
 msgstr "année-mois"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:328
+#: ../extensions/importer/gth-import-preferences-dialog.c:329
 msgid "year"
 msgstr "année"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:329
+#: ../extensions/importer/gth-import-preferences-dialog.c:330
 msgid "custom format"
 msgstr "format personnalisé"
 
-#: ../extensions/importer/gth-import-task.c:326
-#: ../extensions/importer/gth-import-task.c:405
+#: ../extensions/importer/gth-import-task.c:324
+#: ../extensions/importer/gth-import-task.c:403
 msgid "Importing files"
 msgstr "Importation de fichiers"
 
-#: ../extensions/importer/gth-import-task.c:363
+#: ../extensions/importer/gth-import-task.c:361
 msgid "No file imported"
 msgstr "Aucun fichier importé"
 
-#: ../extensions/importer/gth-import-task.c:364
+#: ../extensions/importer/gth-import-task.c:362
 msgid "The selected files are already present in the destination."
 msgstr "Les fichiers sélectionnés sont déjà présents dans la destination."
 
-#: ../extensions/importer/gth-import-task.c:385
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Delete operation not supported."
 msgstr "Opération de suppression non prise en charge."
 
-#: ../extensions/importer/gth-import-task.c:451
+#: ../extensions/importer/gth-import-task.c:449
 msgid "Last imported"
 msgstr "Dernière importation"
 
@@ -2538,13 +2618,13 @@ msgstr "Dernière importation"
 msgid "Personalize..."
 msgstr "Personnaliser..."
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:237
+#: ../extensions/list_tools/callbacks.c:246
 msgid "Tools"
 msgstr "Outils"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:238
+#: ../extensions/list_tools/callbacks.c:247
 msgid "Batch tools for multiple files"
 msgstr "Outils de traitement par lot pour fichiers multiples"
 
@@ -2630,86 +2710,103 @@ msgid "Quote the text "
 msgstr "Citer le texte "
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:27
+msgid "Sh_ortcut:"
+msgstr "Racc_ourci :"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:23
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "Special code"
 msgstr "Code spécial"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "The file basename"
 msgstr "Le nom de base du fichier"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "The file basename without extension"
 msgstr "Le nom de base du fichier sans extension"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
 msgid "The file extension"
 msgstr "L'extension du fichier"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
 msgid "The file path"
 msgstr "Le chemin du fichier"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
 msgid "The file uri"
 msgstr "L'URI du fichier"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
 msgid "The parent folder path"
 msgstr "Le chemin du dossier parent"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
 msgid "_Command:"
 msgstr "_Commande :"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
 msgid "_Terminal command (shell script)"
 msgstr "Commande du _terminal (script shell)"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
 msgid "_Wait for the command to finish"
 msgstr "_Attendre que la commande soit terminée"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:234
+#: ../extensions/list_tools/dlg-personalize-scripts.c:258
 msgid "Script"
 msgstr "Script"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:248
+#: ../extensions/list_tools/dlg-personalize-scripts.c:272
+msgid "Shortcut"
+msgstr "Raccourci"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:286
 #: ../gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Afficher"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:318
+#: ../extensions/list_tools/dlg-personalize-scripts.c:356
 msgid "Could not save the script"
 msgstr "Impossible d'enregistrer le script"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:361
+#: ../extensions/list_tools/dlg-personalize-scripts.c:406
 msgid "New Command"
 msgstr "Nouvelle commande"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:388
+#: ../extensions/list_tools/dlg-personalize-scripts.c:433
 msgid "Edit Command"
 msgstr "Modifier la commande"
 
-#: ../extensions/list_tools/gth-script.c:608
+#: ../extensions/list_tools/gth-script.c:629
 msgid "Enter a value:"
 msgstr "Saisissez une valeur :"
 
-#: ../extensions/list_tools/gth-script.c:741
+#: ../extensions/list_tools/gth-script.c:762
 #: ../extensions/webalbums/gth-web-exporter.c:572
 #: ../extensions/webalbums/gth-web-exporter.c:584
 #: ../extensions/webalbums/gth-web-exporter.c:592
 msgid "Malformed command"
 msgstr "Commande malformée"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:241
+#: ../extensions/list_tools/gth-script-editor-dialog.c:178
+msgid "none"
+msgstr "aucun"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:184
+#, c-format
+msgid "key %d on the numeric keypad"
+msgstr "touche %d du clavier numérique"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:321
 #: ../gthumb/gth-filter-editor-dialog.c:489
 #, c-format
 msgid "No name specified"
 msgstr "Aucun nom spécifié"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:247
+#: ../extensions/list_tools/gth-script-editor-dialog.c:327
 #, c-format
 msgid "No command specified"
 msgstr "Aucune commande spécifiée"
@@ -3059,15 +3156,15 @@ msgstr "Permet le chargement d'images au format raw."
 msgid "Raw format support"
 msgstr "Prise en charge du format raw"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Red Eye Removal..."
 msgstr "Correction des yeux rouges..."
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Red Eye Removal"
 msgstr "Correction des yeux rouges"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:440
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Corrige l'effet yeux rouges causé par les flash des appareils photo"
 
@@ -3078,11 +3175,6 @@ msgstr "Correction des yeux rouges"
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Outil pour corriger l'effet yeux rouges d'une photo."
-
-#: ../extensions/rename_series/actions.c:38
-#: ../gthumb/gth-overwrite-dialog.c:152
-msgid "Cannot read file information"
-msgstr "Impossible de lire les informations du fichier"
 
 #: ../extensions/rename_series/callbacks.c:49
 msgid "Rename the selected files"
@@ -3171,27 +3263,27 @@ msgstr "_Aperçu :"
 msgid "_Template:"
 msgstr "_Modèle :"
 
-#: ../extensions/rename_series/dlg-rename-series.c:368
+#: ../extensions/rename_series/dlg-rename-series.c:381
 msgid "Could not rename the files"
 msgstr "Impossible de renommer les fichiers"
 
-#: ../extensions/rename_series/dlg-rename-series.c:456
+#: ../extensions/rename_series/dlg-rename-series.c:469
 msgid "Old Name"
 msgstr "Ancien nom"
 
-#: ../extensions/rename_series/dlg-rename-series.c:464
+#: ../extensions/rename_series/dlg-rename-series.c:477
 msgid "New Name"
 msgstr "Nouveau nom"
 
-#: ../extensions/rename_series/dlg-rename-series.c:539
+#: ../extensions/rename_series/dlg-rename-series.c:552
 msgid "Keep original case"
 msgstr "Conserver la casse d'origine"
 
-#: ../extensions/rename_series/dlg-rename-series.c:540
+#: ../extensions/rename_series/dlg-rename-series.c:553
 msgid "Convert to lower-case"
 msgstr "Convertir en minuscules"
 
-#: ../extensions/rename_series/dlg-rename-series.c:541
+#: ../extensions/rename_series/dlg-rename-series.c:554
 msgid "Convert to upper-case"
 msgstr "Convertir en majuscules"
 
@@ -3251,7 +3343,7 @@ msgstr "_Conserver les proportions originales"
 msgid "pixel"
 msgstr "pixel"
 
-#: ../extensions/resize_images/dlg-resize-images.c:143
+#: ../extensions/resize_images/dlg-resize-images.c:142
 msgid "Resizing images"
 msgstr "Redimensionne les images"
 
@@ -3599,11 +3691,11 @@ msgstr "Enregistrement des images"
 msgid "Copying original images"
 msgstr "Copie des images originales"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2906
+#: ../extensions/webalbums/gth-web-exporter.c:2904
 msgid "Could not find the style folder"
 msgstr "Impossible de trouver le dossier de style"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2939
+#: ../extensions/webalbums/gth-web-exporter.c:2937
 msgid "Could not create a temporary folder"
 msgstr "Impossible de créer un dossier temporaire"
 
@@ -3630,6 +3722,10 @@ msgstr "Désactivé"
 #: ../gthumb/dlg-extensions.c:59
 msgid "Viewers"
 msgstr "Visionneurs"
+
+#: ../gthumb/dlg-extensions.c:60
+msgid "Metadata"
+msgstr "Méta-données"
 
 #: ../gthumb/dlg-extensions.c:61
 msgid "File tools"
@@ -3900,15 +3996,15 @@ msgstr "Bascule en mode plein écran"
 msgid "Leave Fullscreen"
 msgstr "Quitte le mode plein écran"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3196
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3202
 msgid "Go to the previous visited location"
 msgstr "Va à l'emplacement visité précédent"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3217
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3223
 msgid "Go to the next visited location"
 msgstr "Va à l'emplacement visité suivant"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3238
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3244
 msgid "Go up one level"
 msgstr "Remonte d'un niveau"
 
@@ -4022,8 +4118,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1656
-#: ../gthumb/gth-browser.c:5144 ../gthumb/gth-browser.c:5163
-#: ../gthumb/gth-browser.c:5188
+#: ../gthumb/gth-browser.c:5232 ../gthumb/gth-browser.c:5251
+#: ../gthumb/gth-browser.c:5276
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Impossible de charger l'emplacement « %s »"
@@ -4048,29 +4144,29 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Ne pas enregistrer"
 
-#: ../gthumb/gth-browser.c:2518 ../gthumb/gth-browser.c:2542
+#: ../gthumb/gth-browser.c:2524 ../gthumb/gth-browser.c:2548
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Impossible de modifier le nom"
 
-#: ../gthumb/gth-browser.c:2923 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2929 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Modifié"
 
-#: ../gthumb/gth-browser.c:3197 ../gthumb/gth-browser.c:3218
+#: ../gthumb/gth-browser.c:3203 ../gthumb/gth-browser.c:3224
 msgid "View the list of visited locations"
 msgstr "Afficher la liste des emplacements visités"
 
-#: ../gthumb/gth-browser.c:3239
+#: ../gthumb/gth-browser.c:3245
 msgid "View the list of upper locations"
 msgstr "Afficher la liste des emplacements visités plus haut"
 
-#: ../gthumb/gth-browser.c:5145
+#: ../gthumb/gth-browser.c:5233
 #, c-format
 msgid "File type not supported"
 msgstr "Type de fichier non pris en charge"
 
-#: ../gthumb/gth-browser.c:5189
+#: ../gthumb/gth-browser.c:5277
 #, c-format
 msgid "No suitable module found"
 msgstr "Aucun module approprié trouvé"
@@ -4080,7 +4176,7 @@ msgstr "Aucun module approprié trouvé"
 msgid "Could not open the module `%s`: %s"
 msgstr "Impossible d'ouvrir le module « %s » : %s"
 
-#: ../gthumb/gth-extensions.c:817
+#: ../gthumb/gth-extensions.c:828
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "L'extension « %s » est requise par l'extension « %s »"
@@ -4228,6 +4324,10 @@ msgstr "Fichiers texte"
 #: ../gthumb/gth-main-default-tests.c:184
 msgid "Filename"
 msgstr "Nom du fichier"
+
+#: ../gthumb/gth-pixbuf-list-task.c:140
+msgid "Could not rename the file"
+msgstr "Impossible de renommer le fichier"
 
 #: ../gthumb/gth-pixbuf-saver.c:35
 msgid "No options available for this file type"
@@ -4379,1616 +4479,11 @@ msgstr "Affiche la version"
 msgid "- Image browser and viewer"
 msgstr "- Visionneur et navigateur d'images"
 
-#: ../gthumb/pixbuf-io.c:170
+#: ../gthumb/pixbuf-io.c:171
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Impossible de trouver un module approprié pour enregistrer l'image comme « %"
 "s »"
 
-#~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
-#~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
 
-#~| msgid "Show/_Hide"
-#~ msgid "Show _grid"
-#~ msgstr "Afficher la _grille"
-
-#~ msgid "Bytes"
-#~ msgstr "Octets"
-
-#~ msgid "Exposure mode"
-#~ msgstr "Mode d'exposition"
-
-#~ msgid "Flash"
-#~ msgstr "Flash"
-
-#~ msgid "Shutter speed"
-#~ msgstr "Vitesse d'obturation"
-
-#~ msgid "Aperture value"
-#~ msgstr "Valeur d'ouverture"
-
-#~ msgid "Focal length"
-#~ msgstr "Longueur de focale"
-
-#~ msgid "Camera model"
-#~ msgstr "Modèle d'appareil photo"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "<b>Categories:</b>"
-#~ msgstr "<b>Catégories :</b>"
-
-#~ msgid "<b>Information on Channel:</b>"
-#~ msgstr "<b>Information sur le canal :</b>"
-
-#~ msgid "Alpha"
-#~ msgstr "Alpha"
-
-#~ msgid "Blue"
-#~ msgstr "Bleu"
-
-#~ msgid "Choose a Catalog"
-#~ msgstr "Choisissez un catalogue"
-
-#~ msgid "Comm_ent"
-#~ msgstr "_Commentaire"
-
-#~ msgid "Green"
-#~ msgstr "Vert"
-
-#~ msgid "Open Images"
-#~ msgstr "Ouvrir les images"
-
-#~ msgid "Overwrite Image"
-#~ msgstr "Écraser l'image"
-
-#~ msgid "Photo _Data (EXIF)"
-#~ msgstr "_Données de la photo (EXIF)"
-
-#~ msgid "R_ecent applications:"
-#~ msgstr "Applications réc_entes :"
-
-#~ msgid "Red"
-#~ msgstr "Rouge"
-
-#~ msgid "Value"
-#~ msgstr "Valeur"
-
-#~ msgid "_Application:"
-#~ msgstr "_Application :"
-
-#~ msgid "_Histogram"
-#~ msgstr "_Histogramme"
-
-#~ msgid "_Next"
-#~ msgstr "_Suivant"
-
-#~ msgid "_Previous"
-#~ msgstr "_Précédent"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Camera Model"
-#~ msgstr "Modèle de l'appareil"
-
-#~ msgid "Delete selected images from the camera"
-#~ msgstr "Supprimer les images sélectionnées de l'appareil"
-
-#~ msgid ""
-#~ "If this checkbox is enabled and the imported photo contains an Exif "
-#~ "orientation tag, the image data will be physically transformed "
-#~ "(losslessly) so that the viewed image looks the same as before but the "
-#~ "orientation tag is reset to \"top left\". If this checkbox is not "
-#~ "enabled, the image data and the orientation tag are both left unchanged. "
-#~ "The image will be displayed identically by gthumb for both possibilities, "
-#~ "but for maximum compatibility with other applications this checkbox "
-#~ "should be enabled."
-#~ msgstr ""
-#~ "Si cette case est cochée et que la photo importée contient une étiquette "
-#~ "d'orientation Exif, les données de l'image seront physiquement "
-#~ "transformées (sans perte) afin que l'image conserve son apparence, mais "
-#~ "l'étiquette d'orientation est réinitialisée à « en haut à gauche ». Si "
-#~ "cette case n'est pas cochée, les données de l'image et l'étiquette "
-#~ "d'orientation ne sont pas touchées. Dans les deux cas, l'image s'affiche "
-#~ "de la même manière dans gThumb, mais pour une compatibilité maximale avec "
-#~ "d'autres applications, cette case devrait être cochée."
-
-#~ msgid "Select a camera model"
-#~ msgstr "Sélectionner un modèle d'appareil"
-
-#~ msgid "Update previews"
-#~ msgstr "Mise à jour des aperçus"
-
-#~ msgid "_Film:"
-#~ msgstr "_Film :"
-
-#~ msgid "A_vailable categories:"
-#~ msgstr "Catégories _disponibles :"
-
-#~ msgid "Categories"
-#~ msgstr "Catégories"
-
-#~ msgid "Create a new category"
-#~ msgstr "Crée une nouvelle catégorie"
-
-#~ msgid "Remove selected category"
-#~ msgstr "Supprime la catégorie sélectionnée"
-
-#~ msgid "_Selected categories:"
-#~ msgstr "Catégories _sélectionnées :"
-
-#~ msgid "<b>Compression</b>"
-#~ msgstr "<b>Compression</b>"
-
-#~ msgid "<b>Image type</b>"
-#~ msgstr "<b>Type d'image</b>"
-
-#~ msgid "JPEG Options"
-#~ msgstr "Options JPEG"
-
-#~ msgid "Overwrite mode:"
-#~ msgstr "Mode d'écrasement :"
-
-#~ msgid "R_emove original"
-#~ msgstr "Su_pprimer l'original"
-
-#~ msgid ""
-#~ "Skip\n"
-#~ "Rename\n"
-#~ "Ask\n"
-#~ "Overwrite"
-#~ msgstr ""
-#~ "Sauter\n"
-#~ "Renommer\n"
-#~ "Demander\n"
-#~ "Écraser"
-
-#~ msgid "TGA Options"
-#~ msgstr "Options TGA"
-
-#~ msgid "TIFF Options"
-#~ msgstr "Options TIFF"
-
-#~ msgid "4 x 3 (Book, DVD)"
-#~ msgstr "4 x 3 (Livret, DVD)"
-
-#~ msgid "5 x 7"
-#~ msgstr "5 x 7"
-
-#~ msgid "8 x 10"
-#~ msgstr "8 x 10"
-
-#~ msgid "<b>Selection</b>"
-#~ msgstr "<b>Sélection</b>"
-
-#~ msgid "_Crop"
-#~ msgstr "_Découper"
-
-#~ msgid "     "
-#~ msgstr "     "
-
-#~ msgid "<b>Original dimensions</b>"
-#~ msgstr "<b>Dimensions originales</b>"
-
-#~ msgid "<b>Scale ratio</b>"
-#~ msgstr "<b>Ratio d'échelle</b>"
-
-#~ msgid "Brightness - Contrast"
-#~ msgstr "Luminosité - Contraste"
-
-#~ msgid "Color Balance"
-#~ msgstr "Balance des couleurs"
-
-#~ msgid "Hue - Saturation"
-#~ msgstr "Teinte - Saturation"
-
-#~ msgid "Posterize"
-#~ msgstr "Postériser"
-
-#~ msgid "Preserve l_uminosity"
-#~ msgstr "_Préserver la luminosité"
-
-#~ msgid "Width:"
-#~ msgstr "Largeur :"
-
-#~ msgid "_Hue:"
-#~ msgstr "_Teinte :"
-
-#~ msgid "_Keep aspect ratio"
-#~ msgstr "_Conserver le ratio d'aspect"
-
-#~ msgid "_Levels:"
-#~ msgstr "_Niveaux :"
-
-#~ msgid "_Lightness:"
-#~ msgstr "_Luminosité :"
-
-#~ msgid "_Scale"
-#~ msgstr "_Redimensionner"
-
-#~ msgid "112"
-#~ msgstr "112"
-
-#~ msgid "128"
-#~ msgstr "128"
-
-#~ msgid "164"
-#~ msgstr "164"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "256"
-#~ msgstr "256"
-
-#~ msgid "48"
-#~ msgstr "48"
-
-#~ msgid "64"
-#~ msgstr "64"
-
-#~ msgid "85"
-#~ msgstr "85"
-
-#~ msgid "95"
-#~ msgstr "95"
-
-#~ msgid "<b>Background style</b>"
-#~ msgstr "<b>Style d'arrière-plan</b>"
-
-#~ msgid "<b>Caption</b>"
-#~ msgstr "<b>Légende</b>"
-
-#~ msgid "<b>Footer</b>"
-#~ msgstr "<b>Pied de page</b>"
-
-#~ msgid "<b>Header and footer</b>"
-#~ msgstr "<b>En-tête et pied de page</b>"
-
-#~ msgid "<b>Header</b>"
-#~ msgstr "<b>En-tête</b>"
-
-#~ msgid "<b>Index images</b>"
-#~ msgstr "<b>Images d'index</b>"
-
-#~ msgid "<b>Page size</b>"
-#~ msgstr "<b>Taille de la page</b>"
-
-#~ msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-#~ msgstr "<small><i><b>Note :</b> # (énumerateur)</i>.</small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-#~ "small>"
-#~ msgstr ""
-#~ "<small><i><b>Note :</b> %p (numéro de page), %n (nombre total de pages)</"
-#~ "i>.</small>"
-
-#~ msgid "Co_mment"
-#~ msgstr "_Commentaire"
-
-#~ msgid "Colo_r:"
-#~ msgstr "_Couleur :"
-
-#~ msgid "Create Index Image"
-#~ msgstr "Création d'une image d'index"
-
-#~ msgid "Create _HTML image map"
-#~ msgstr "Créer une image-carte _HTML"
-
-#~ msgid "F_ooter:"
-#~ msgstr "_Pied de page :"
-
-#~ msgid "Frame co_lor:"
-#~ msgstr "Cou_leur du cadre :"
-
-#~ msgid "H_eader:"
-#~ msgstr "_En-tête :"
-
-#~ msgid "Header/Footer"
-#~ msgstr "En-tête/Pied de page"
-
-#~ msgid "Hei_ght:"
-#~ msgstr "_Hauteur :"
-
-#~ msgid "Image dim_ensions"
-#~ msgstr "_Dimensions de l'image"
-
-#~ msgid "Index Image Style"
-#~ msgstr "Style de l'image d'index"
-
-#~ msgid "Pi_xels"
-#~ msgstr "Pi_xels"
-
-#~ msgid "Rows a_nd columns"
-#~ msgstr "Lignes _et colonnes"
-
-#~ msgid "Select a color"
-#~ msgstr "Sélectionner une couleur"
-
-#~ msgid "Shadow only"
-#~ msgstr "Ombre seule intérieure"
-
-#~ msgid "Shadow out"
-#~ msgstr "Ombre relief extérieur"
-
-#~ msgid "Simple with shadow"
-#~ msgstr "Simple avec ombrage"
-
-#~ msgid "Sor_t:"
-#~ msgstr "_Trier :"
-
-#~ msgid "St_yle"
-#~ msgstr "St_yle"
-
-#~ msgid "Wi_dth:"
-#~ msgstr "_Largeur :"
-
-#~ msgid "_All pages with the same size"
-#~ msgstr "Toutes les pages avec la _même taille"
-
-#~ msgid "_Draw frame"
-#~ msgstr "_Dessiner le cadre"
-
-#~ msgid "_Gradient"
-#~ msgstr "_Dégradé"
-
-#~ msgid "_Image size:"
-#~ msgstr "_Taille de l'image :"
-
-#~ msgid "_Rows:"
-#~ msgstr "_Lignes :"
-
-#~ msgid "_Solid color"
-#~ msgstr "Couleur _unie"
-
-#~ msgid "by name"
-#~ msgstr "par nom"
-
-#~ msgid "jpeg"
-#~ msgstr "jpeg"
-
-#~ msgid "png"
-#~ msgstr "png"
-
-#~ msgid "0:"
-#~ msgstr "0 :"
-
-#~ msgid "112 x 112"
-#~ msgstr "112 x 112"
-
-#~ msgid "128 x 128"
-#~ msgstr "128 x 128"
-
-#~ msgid "164 x 164"
-#~ msgstr "164 x 164"
-
-#~ msgid "1:"
-#~ msgstr "1 :"
-
-#~ msgid "200 x 200"
-#~ msgstr "200 x 200"
-
-#~ msgid "256 x 256"
-#~ msgstr "256 x 256"
-
-#~ msgid "2:"
-#~ msgstr "2 :"
-
-#~ msgid "3:"
-#~ msgstr "3 :"
-
-#~ msgid "48 x 48"
-#~ msgstr "48 x 48"
-
-#~ msgid "4:"
-#~ msgstr "4 :"
-
-#~ msgid "64 x 64"
-#~ msgstr "64 x 64"
-
-#~ msgid "6:"
-#~ msgstr "6 :"
-
-#~ msgid "7:"
-#~ msgstr "7 :"
-
-#~ msgid "85 x 85"
-#~ msgstr "85 x 85"
-
-#~ msgid "8:"
-#~ msgstr "8 :"
-
-#~ msgid "95 x 95"
-#~ msgstr "95 x 95"
-
-#~ msgid "9:"
-#~ msgstr "9 :"
-
-#~ msgid "<b>Direction</b>"
-#~ msgstr "<b>Direction</b>"
-
-#~ msgid "<b>Hide/Show</b>"
-#~ msgstr "<b>Afficher/Masquer</b>"
-
-#~ msgid "<b>Interface</b>"
-#~ msgstr "<b>Interface</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>Autre</b>"
-
-#~ msgid "<b>Slide show</b>"
-#~ msgstr "<b>Diaporama</b>"
-
-#~ msgid "<b>Viewer</b>"
-#~ msgstr "<b>Visionneur</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Special characters:</b>\n"
-#~ "%F = all selected filenames on one line, space delimited\n"
-#~ "%f = a single filename, including path\n"
-#~ "%n = a single filename, including path, with no extension\n"
-#~ "%e = a single extension (starting with a period)\n"
-#~ "%p = the parent folder of the single file</i>\n"
-#~ "Scripts with the %F code will be executed just once, regardless of the "
-#~ "number of files selected. All other scripts will be executed once per "
-#~ "selected file.\n"
-#~ "The default scripts are explained in the Help file.</small>"
-#~ msgstr ""
-#~ "<small><i><b>Caractères spéciaux :</b>\n"
-#~ "%F = tous les noms de fichier sélectionnés sur une ligne, délimités par "
-#~ "un espace\n"
-#~ "%f = un seul nom de fichier, incluant son chemin\n"
-#~ "%n = un seul nom de fichier, incluant son chemin, sans extension\n"
-#~ "%e = une seule extension (commençant par un point)\n"
-#~ "%p = le dossier parent du fichier seul</i>\n"
-#~ "Les scripts avec le code %F ne seront exécutés qu'une seule fois, sans "
-#~ "considération du nombre de fichiers sélectionnés. Tous les autres scripts "
-#~ "seront lancés une fois par fichier sélectionné.\n"
-#~ "Les scripts par défaut sont expliqués dans le ficher d'aide.</small>"
-
-#~ msgid "C_lick policy:"
-#~ msgstr "Comportement du c_lic :"
-
-#~ msgid "D_elay before changing image:"
-#~ msgstr "_Délai avant de changer d'image :"
-
-#~ msgid "For_ward"
-#~ msgstr "En a_vant"
-
-#~ msgid "Go to last _visited folder or catalog"
-#~ msgstr "Aller au _dernier dossier ou catalogue visité"
-
-#~ msgid "Hot Keys"
-#~ msgstr "Raccourcis"
-
-#~ msgid ""
-#~ "Keys 0-9 on the numeric keypad can be used in the browser to open or "
-#~ "modify the selected images with other applications."
-#~ msgstr ""
-#~ "Les touches de 0 à 9 du clavier numérique peuvent être utilisées dans le "
-#~ "navigateur pour ouvrir ou modifier les images sélectionnées avec d'autres "
-#~ "applications."
-
-#~ msgid "Layout:"
-#~ msgstr "Agencement :"
-
-#~ msgid "Re_verse"
-#~ msgstr "En a_rrière"
-
-#~ msgid "Use a _fading effect when changing image"
-#~ msgstr "Utiliser un effet de _fondu au changement d'image"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "150"
-#~ msgstr "150"
-
-#~ msgid "16"
-#~ msgstr "16"
-
-#~ msgid "2"
-#~ msgstr "2"
-
-#~ msgid "300"
-#~ msgstr "300"
-
-#~ msgid "4"
-#~ msgstr "4"
-
-#~ msgid "600"
-#~ msgstr "600"
-
-#~ msgid "72"
-#~ msgstr "72"
-
-#~ msgid "8"
-#~ msgstr "8"
-
-#~ msgid "<b>Image Sizing</b>"
-#~ msgstr "<b>Dimensions de l'image</b>"
-
-#~ msgid "<b>Margins</b>"
-#~ msgstr "<b>Marges</b>"
-
-#~ msgid "<b>Orientation</b>"
-#~ msgstr "<b>Orientation</b>"
-
-#~ msgid "<b>Size</b>"
-#~ msgstr "<b>Taille</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
-#~ "Click on an image to rotate it.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Note :</b> Glissez l'image pour la déplacer dans la page.\n"
-#~ "Cliquez sur une image pour la faire pivoter.</i></small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> High-resolution images will be\n"
-#~ "down-sampled to this resolution. Increase\n"
-#~ "the resolution to get better image quality.\n"
-#~ "Decrease it to get shorter print times.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Note :</b> Les images en haute résolution\n"
-#~ "seront rééchantillonnées à cette résolution.\n"
-#~ "Augmentez la résolution pour une meilleure\n"
-#~ "qualité d'image, et diminuez-la pour accélérer\n"
-#~ "l'impression.</i></small>"
-
-#~ msgid "A4"
-#~ msgstr "A4"
-
-#~ msgid "Center _on Page"
-#~ msgstr "_Centrer sur la page"
-
-#~ msgid "Comment _font:"
-#~ msgstr "_Police du commentaire :"
-
-#~ msgid "Executive"
-#~ msgstr "Executive"
-
-#~ msgid "I_nclude comment"
-#~ msgstr "I_nclure le commentaire"
-
-#~ msgid "Lan_dscape"
-#~ msgstr "Pa_ysage"
-
-#~ msgid "Legal"
-#~ msgstr "Legal"
-
-#~ msgid "Letter"
-#~ msgstr "Letter"
-
-#~ msgid "P_ortrait"
-#~ msgstr "P_ortrait"
-
-#~ msgid "Paper Details"
-#~ msgstr "Détails du papier"
-
-#~ msgid "Postcard"
-#~ msgstr "Carte postale"
-
-#~ msgid "Scale to this size"
-#~ msgstr "Redimensionner à cette taille"
-
-#~ msgid "Tabloid"
-#~ msgstr "Tabloïd"
-
-#~ msgid "_Bottom:"
-#~ msgstr "_Bas :"
-
-#~ msgid "Actual Size"
-#~ msgstr "Taille réelle"
-
-#~ msgid "Zoom In"
-#~ msgstr "Zoom avant"
-
-#~ msgid "Zoom Out"
-#~ msgstr "Zoom arrière"
-
-#~ msgid "Zoom to Fit"
-#~ msgstr "Ajusté à la fenêtre"
-
-#~ msgid "<b>Search criteria</b>"
-#~ msgstr "<b>Critères de recherche</b>"
-
-#~ msgid "<b>Search scope</b>"
-#~ msgstr "<b>Domaine de recherche</b>"
-
-#~ msgid "After"
-#~ msgstr "Après le"
-
-#~ msgid "Any"
-#~ msgstr "Toutes"
-
-#~ msgid "Before"
-#~ msgstr "Avant le"
-
-#~ msgid "Choose categories from the saved list"
-#~ msgstr "Choisir les catégories de la liste enregistrée"
-
-#~ msgid "Equal to"
-#~ msgstr "Égale à"
-
-#~ msgid "Found images:"
-#~ msgstr "Images trouvées :"
-
-#~ msgid "Match a_ll selected categories"
-#~ msgstr "Appartient à _toutes les catégories sélectionnées"
-
-#~ msgid "Match a_ny selected category"
-#~ msgstr "Appartient à au moins _une des catégories sélectionnées"
-
-#~ msgid "New _Search..."
-#~ msgstr "Nouvelle _recherche..."
-
-#~ msgid "Search Progress"
-#~ msgstr "Progression de la recherche"
-
-#~ msgid "_Edit Search"
-#~ msgstr "_Éditer la requête de recherche"
-
-#~ msgid "<b>Change to:</b>"
-#~ msgstr "<b>Remplacer par :</b>"
-
-#~ msgid "<b>Write to CD</b>"
-#~ msgstr "<b>Graver sur un CD</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
-#~ "When viewing images, you can use the [ and ] shortcut\n"
-#~ "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Note</b> : les transformations JPEG sont en principe sans "
-#~ "perte.\n"
-#~ "Lors du visionnement des images, vous pouvez utiliser les raccourcis\n"
-#~ "[ et ] pour effectuer des rotations enregistrées sans perte, sans tenir\n"
-#~ "compte de cette boîte de dialogue.</i></small>"
-
-#~ msgid ""
-#~ "<small><i><b>Special characters:</b> # (enumerator), %f (original "
-#~ "filename), %d (image date), %s (image size), %e (original extension).</"
-#~ "i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Caractères spéciaux :</b> # (énumerateur), %f (nom de "
-#~ "fichier original), %d (date de l'image), %s (taille de l'image), %e "
-#~ "(extension originale).</i></small>"
-
-#~ msgid "A_djust timezone:"
-#~ msgstr "_Choisir le fuseau horaire :"
-
-#~ msgid "Apply physical _transform"
-#~ msgstr "Appliquer les trans_formations physiques"
-
-#~ msgid "Apply to all _images"
-#~ msgstr "Appliquer à _toutes les images"
-
-#~ msgid "C_urrent date"
-#~ msgstr "Date _actuelle"
-
-#~ msgid "Check _All"
-#~ msgstr "Tout _cocher"
-
-#~ msgid "Check _None"
-#~ msgstr "_Décocher tout"
-
-#~ msgid "Checking image:"
-#~ msgstr "Vérification de l'image :"
-
-#~ msgid ""
-#~ "Click OK to reset the Exif orientation tag for the selected images to Top-"
-#~ "Left."
-#~ msgstr ""
-#~ "Cliquez sur OK pour réinitialiser l'étiquette Orientation d'Exif à « en "
-#~ "haut à gauche » pour les images sélectionnées."
-
-#~ msgid "Equal images:"
-#~ msgstr "Images identiques :"
-
-#~ msgid "Found duplicates:"
-#~ msgstr "Doublons trouvés :"
-
-#~ msgid "Mirror image horizontally (left-right)"
-#~ msgstr "Miroir horizontal de l'image (gauche-droite)"
-
-#~ msgid "Mirror image vertically (top-bottom)"
-#~ msgstr "Miroir vertical de l'image (haut-bas)"
-
-#~ msgid "New names _preview:"
-#~ msgstr "_Aperçu des nouveaux noms :"
-
-#~ msgid "P_hoto digitalization date (From EXIF data)"
-#~ msgstr "_Date de numérisation de la photo (d'après les données EXIF)"
-
-#~ msgid "Reset Exif Orientation Tags"
-#~ msgstr "Réinitialisation des étiquettes d'orientation Exif"
-
-#~ msgid "Rotate Images"
-#~ msgstr "Rotation des images"
-
-#~ msgid "Rotate image 90 degrees clockwise"
-#~ msgstr "Rotation de 90 degrés sens horaire"
-
-#~ msgid "Rotate image 90 degrees counter-clockwise"
-#~ msgstr "Rotation de 90 degrés sens anti-horaire"
-
-# #468343
-#~ msgid "Scale Images"
-#~ msgstr "Redimensionnement des images"
-
-#~ msgid "Search for Duplicates"
-#~ msgstr "Recherche de doublons"
-
-#~ msgid "Search terminated, no duplicates found."
-#~ msgstr "Recherche terminée, pas de doublons trouvés."
-
-#~ msgid ""
-#~ "This checkbox governs the rotation method used for JPEG images that "
-#~ "contain Exif orientation tags. If this checkbox is enabled, the rotation "
-#~ "will be performed using a physical transform, and the Exif orientation "
-#~ "tag will be reset to the default \"top left\" value. If it is not "
-#~ "enabled, the rotation will be performed by changing the Exif orientation "
-#~ "tag only. For maximum compatibility with other applications, this "
-#~ "checkbox should be enabled."
-#~ msgstr ""
-#~ "Cette case à cocher contrôle la méthode de rotation utilisée pour les "
-#~ "images JPEG qui contiennent des étiquettes d'orientation Exif. Si la case "
-#~ "est cochée, la rotation est effectuée par transformation physique et "
-#~ "l'étiquette d'orientation Exif est réinitialisée à la valeur par défaut "
-#~ "« en haut à gauche ». Sinon, la rotation s'effectue uniquement en "
-#~ "modifiant l'étiquette d'orientation Exif. Pour une compatibilité maximale "
-#~ "avec d'autres applications, cette case devrait être cochée."
-
-#~ msgid "1024 x 1024"
-#~ msgstr "1024 x 1024"
-
-#~ msgid "1024 x 768"
-#~ msgstr "1024 x 768"
-
-#~ msgid "1280 x 1280"
-#~ msgstr "1280 x 1280"
-
-#~ msgid "1280 x 960"
-#~ msgstr "1280 x 960"
-
-#~ msgid "320 x 200"
-#~ msgstr "320 x 200"
-
-#~ msgid "320 x 320"
-#~ msgstr "320 x 320"
-
-#~ msgid "640 x 640"
-#~ msgstr "640 x 640"
-
-#~ msgid "800 x 600"
-#~ msgstr "800 x 600"
-
-#~ msgid "800 x 800"
-#~ msgstr "800 x 800"
-
-#~ msgid "<b>Album Style</b>"
-#~ msgstr "<b>Style de l'album</b>"
-
-#~ msgid "<b>Basic Information</b>"
-#~ msgstr "<b>Informations de base</b>"
-
-#~ msgid "<b>Camera Data</b>"
-#~ msgstr "<b>Données de l'appareil photo</b>"
-
-#~ msgid "<b>Comments</b>"
-#~ msgstr "<b>Commentaires</b>"
-
-#~ msgid "<b>Index Page Layout</b>"
-#~ msgstr "<b>Agencement de l'index</b>"
-
-#~ msgid "<b>Theme</b>"
-#~ msgstr "<b>Thème</b>"
-
-#~ msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-#~ msgstr "<small><i><b>Note :</b> %d (date actuelle).</i></small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Some themes may auto-adjust the\n"
-#~ "number of rows and columns, but keep the total \n"
-#~ "number of images per page constant.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Note :</b> certains thèmes peuvent ajuster\n"
-#~ "automatiquement le nombre de lignes et de colonnes, tout\n"
-#~ "en conservant le nombre total d'images par page.</i></small>"
-
-#~ msgid "Came_ra Model"
-#~ msgstr "_Modèle de l'appareil"
-
-#~ msgid "Da_te and Time"
-#~ msgstr "_Date et heure"
-
-#~ msgid "Exposure _time"
-#~ msgstr "D_urée d'exposition"
-
-#~ msgid "Focal _length"
-#~ msgstr "_Longueur de focale"
-
-#~ msgid "I_mage Caption..."
-#~ msgstr "Légende de l'_image..."
-
-#~ msgid "Web Album Theme"
-#~ msgstr "Thème d'album Web"
-
-#~ msgid "_Aperture value"
-#~ msgstr "V_aleur d'ouverture"
-
-#~ msgid "_Date and Time"
-#~ msgstr "_Date et heure"
-
-#~ msgid "_Flash"
-#~ msgstr "_Flash"
-
-#~ msgid "_Go to Theme Folder"
-#~ msgstr "A_ller au dossier de thèmes"
-
-#~ msgid "_Install Theme..."
-#~ msgstr "_Installer un thème..."
-
-#~ msgid "_Place"
-#~ msgstr "_Lieu"
-
-#~ msgid "_Shutter speed"
-#~ msgstr "_Vitesse de l'obturateur"
-
-#~ msgid "_Size :"
-#~ msgstr "_Taille :"
-
-# Exemple, 5 colonnes, et 4 lignes par page
-#~ msgid "columns, by"
-#~ msgstr "colonnes, et"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "or _use a single index page"
-#~ msgstr "ou _utiliser une page d'index unique"
-
-#~ msgid "rows per page,"
-#~ msgstr "lignes par page,"
-
-#~ msgid ""
-#~ "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-#~ "(reverse landscape)"
-#~ msgstr ""
-#~ "Les valeurs possibles sont 0 (portrait), 1 (paysage), 2 (portrait "
-#~ "renversé), 3 (paysage renversé)"
-
-#~ msgid "Possible values are: 1, 2, 3, 4."
-#~ msgstr "Les valeurs possibles sont : 1, 2, 3, 4."
-
-#~ msgid "Possible values are: 72, 150, 300, 600."
-#~ msgstr "Les valeurs possibles sont : 72, 150, 300, 600."
-
-#~ msgid "Possible values are: ascending, descending."
-#~ msgstr "Les valeurs possibles sont : ascending, descending."
-
-#~ msgid "Possible values are: forward, backward, random."
-#~ msgstr "Les valeurs possibles sont : forward, backward et random."
-
-#~ msgid "Possible values are: image, data, comment."
-#~ msgstr "Les valeurs possibles sont : image, data et comment."
-
-#~ msgid "Possible values are: jpeg, png, tga, tiff."
-#~ msgstr "Les valeurs possibles sont : jpeg, png, tga et tiff."
-
-#~ msgid "Possible values are: manual, auto."
-#~ msgstr "Les valeurs possibles sont : manual, auto."
-
-#~ msgid "Possible values are: nautilus, single, double."
-#~ msgstr "Les valeurs possibles sont : nautilus, single et double."
-
-#~ msgid ""
-#~ "Possible values are: none, name, path, size, time, exifdate, comment."
-#~ msgstr ""
-#~ "Les valeurs possibles sont : none, name, path, size, time, exifdate et "
-#~ "comment."
-
-#~ msgid ""
-#~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-#~ "shadow_in, shadow_out."
-#~ msgstr ""
-#~ "Les valeurs possibles sont : none, simple, simple_with_shadow, shadow, "
-#~ "slide, shadow_in et shadow_out."
-
-#~ msgid ""
-#~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-#~ "custom."
-#~ msgstr ""
-#~ "Les valeurs possibles sont : none, square, image, display, 4x3, 4x6, 5x7, "
-#~ "8x10 et custom."
-
-#~ msgid "Possible values are: png, jpeg."
-#~ msgstr "Les valeurs possibles sont : png et jpeg."
-
-#~ msgid "Possible values are: skip, rename, ask, overwrite."
-#~ msgstr "Les valeurs possibles sont : skip, rename, ask et overwrite."
-
-#~ msgid "Cannot open catalog \"%s\": %s"
-#~ msgstr "Impossible d'ouvrir le catalogue « %s » : %s"
-
-#~ msgid "Cannot save catalog \"%s\": %s"
-#~ msgstr "Impossible d'enregistrer le catalogue « %s » : %s"
-
-#~ msgid "%d %B %Y, %H:%M"
-#~ msgstr "%d %B %Y, %H:%M"
-
-#~ msgid "Image type:"
-#~ msgstr "Type d'image :"
-
-#~ msgid "Home"
-#~ msgstr "Dossier personnel"
-
-#~ msgid "Library not empty"
-#~ msgstr "Bibliothèque non vide"
-
-#~ msgid "Cannot remove library \"%s\": %s"
-#~ msgstr "Impossible de supprimer la bibliothèque « %s » : %s"
-
-#~ msgid "Cannot remove catalog \"%s\": %s"
-#~ msgstr "Impossible de supprimer le catalogue « %s » : %s"
-
-#~ msgid "No image"
-#~ msgstr "Aucune image"
-
-#~ msgid "Ro_tate Images"
-#~ msgstr "_Pivoter les images"
-
-#~ msgid "Loading image: %s"
-#~ msgstr "Chargement de l'image : %s"
-
-#~ msgid "Deleting all thumbnails, wait please..."
-#~ msgstr "Suppression de toutes les vignettes, veuillez patienter..."
-
-#~ msgid "Deleting old thumbnails, wait please..."
-#~ msgstr "Suppression des anciennes vignettes, veuillez patienter..."
-
-#~ msgid "(Invalid Name)"
-#~ msgstr "(Nom non valide)"
-
-#~ msgid "%d x %d pixels"
-#~ msgstr "%d x %d pixels"
-
-#~ msgid "Creating image: %s.%s"
-#~ msgstr "Création de l'image : %s.%s"
-
-#~ msgid "Move Catalog to..."
-#~ msgstr "Déplacer le catalogue vers..."
-
-#~ msgid "Enter the new category name"
-#~ msgstr "Saisissez le nom de la nouvelle catégorie"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \",\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Le nom « %s » n'est pas valide car il contient le caractère « , ». Veuillez "
-#~ "utiliser un nom différent."
-
-#~ msgid "The category \"%s\" is already present. Please use a different name."
-#~ msgstr ""
-#~ "La catégorie « %s » est déjà présente. Veuillez utiliser un nom différent."
-
-#~ msgid ""
-#~ "An image named \"%s\" is already present. Please specify a different name."
-#~ msgstr ""
-#~ "Une image nommée « %s » est déjà présente. Veuillez spécifier un nom "
-#~ "différent."
-
-#~ msgid ""
-#~ "An image named \"%s\" is already present. Do you want to overwrite it?"
-#~ msgstr "Une image nommée « %s » est déjà présente.  Voulez-vous l'écraser ?"
-
-#~ msgid "Duplicates"
-#~ msgstr "Doublons"
-
-#~ msgid "Duplicates Size"
-#~ msgstr "Taille des doublons"
-
-#~ msgid "Checked images will be moved to the Trash, are you sure?"
-#~ msgstr ""
-#~ "Les images sélectionnées seront mises à la corbeille, êtes-vous sûr ?"
-
-#~ msgid "The destination folder does not exist. Do you want to create it?"
-#~ msgstr "Le dossier de destination n'existe pas. Voulez-vous le créer ?"
-
-#~ msgid "Could not create folder \"%s\": %s."
-#~ msgstr "Impossible de créer le dossier « %s » : %s."
-
-#~ msgid ""
-#~ "You don't have the right permissions to create images in the folder \"%s\""
-#~ msgstr ""
-#~ "Vous n'avez pas les permissions nécessaires pour créer des images dans le "
-#~ "dossier « %s »"
-
-#~ msgid "_Do not display this message again"
-#~ msgstr "_Ne plus afficher ce message"
-
-#~ msgid "_Move"
-#~ msgstr "_Déplacer"
-
-#~ msgid "%d %b %Y, %H:%M"
-#~ msgstr "%d %b %Y, %H:%M"
-
-#~ msgid "You didn't enter the new name"
-#~ msgstr "Vous n'avez pas saisi le nouveau nom"
-
-#~ msgid ""
-#~ "The name \"%s\" is already used in this folder. Please use a different "
-#~ "name."
-#~ msgstr ""
-#~ "Le nom « %s » est déjà utilisé dans ce dossier. Veuillez utiliser un nom "
-#~ "différent."
-
-#~ msgid "Could not rename the following images:"
-#~ msgstr "Impossible de renommer les images suivantes :"
-
-#~ msgid "_Abort"
-#~ msgstr "A_nnuler"
-
-#~ msgid "Collecting images info"
-#~ msgstr "Récupération des informations des images"
-
-#~ msgid "Copying file %ld of %ld"
-#~ msgstr "Copie du fichier %ld sur %ld"
-
-#~ msgid "Information on Channel"
-#~ msgstr "Information sur le canal"
-
-#~ msgid ""
-#~ "Could not move temporary file to remote location. Check remote "
-#~ "permissions."
-#~ msgstr ""
-#~ "Impossible de déplacer le fichier temporaire vers le dossier distant. "
-#~ "Veuillez vérifier les permissions distantes."
-
-#~ msgid "Film"
-#~ msgstr "Film"
-
-#~ msgid "Import errors detected"
-#~ msgstr "Erreurs d'importation détectées"
-
-#~ msgid "The files on the camera will not be deleted"
-#~ msgstr "Les fichiers sur l'appareil photo ne seront pas supprimés"
-
-#~ msgid "Not enough free space left on disk"
-#~ msgstr "Il ne reste pas assez d'espace libre sur le disque"
-
-#~ msgid "Header"
-#~ msgstr "En-tête"
-
-#~ msgid "by path"
-#~ msgstr "par chemin"
-
-#~ msgid "by size"
-#~ msgstr "par taille"
-
-#~ msgid "by comment"
-#~ msgstr "par commentaire"
-
-#~ msgid "manual order"
-#~ msgstr "ordre manuel"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \"/\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Le nom « %s » n'est pas valide car il contient le caractère « / ». Veuillez "
-#~ "utiliser un nom différent."
-
-#~ msgid "Select Album Theme"
-#~ msgstr "Sélectionnez le thème de l'album"
-
-#~ msgid "The image will be moved to the Trash, are you sure?"
-#~ msgstr "L'image sera mise à la corbeille, êtes-vous sûr ?"
-
-#~ msgid "The selected images will be moved to the Trash, are you sure?"
-#~ msgstr ""
-#~ "Les images sélectionnées seront mises à la corbeille, êtes-vous sûr ?"
-
-#~ msgid "Enter the new name: "
-#~ msgstr "Saisissez le nouveau nom : "
-
-#~ msgid "The name \"%s\" is already used. Please use a different name."
-#~ msgstr "Le nom « %s » est déjà utilisé. Veuillez utiliser un nom différent."
-
-#~ msgid "Could not rename the library \"%s\": %s"
-#~ msgstr "Impossible de renommer la bibliothèque « %s » : %s"
-
-#~ msgid "The selected library will be removed, are you sure?"
-#~ msgstr "La bibliothèque sélectionnée sera supprimée, êtes-vous sûr ?"
-
-#~ msgid "The selected catalog will be removed, are you sure?"
-#~ msgstr "Le catalogue sélectionné sera supprimé, êtes-vous sûr ?"
-
-#~ msgid "New Catalog"
-#~ msgstr "Nouveau catalogue"
-
-#~ msgid "New Library"
-#~ msgstr "Nouvelle bibliothèque..."
-
-#~ msgid "Could not rename the folder \"%s\": %s"
-#~ msgstr "Impossible de renommer le dossier « %s » : %s"
-
-#~ msgid "source and destination are the same"
-#~ msgstr "La source et la destination sont les mêmes"
-
-#~ msgid ""
-#~ "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-#~ msgstr ""
-#~ "« %s » ne peut être mise à la corbeille. Voulez-vous la supprimer "
-#~ "définitivement ?"
-
-#~ msgid "The selected folder will be moved to the Trash, are you sure?"
-#~ msgstr "Le dossier sélectionné sera mis à la corbeille, êtes-vous sûr ?"
-
-#~ msgid "source contains destination"
-#~ msgstr "la source contient la destination"
-
-#~ msgid "a folder with that name is already present."
-#~ msgstr "un dossier avec ce nom est déjà présent."
-
-#~ msgid "Open Location"
-#~ msgstr "Ouvrir l'emplacement"
-
-#~ msgid "_Folder"
-#~ msgstr "_Dossier"
-
-#~ msgid "S_ort Images"
-#~ msgstr "_Trier les images"
-
-#~ msgid "_Zoom"
-#~ msgstr "_Zoom"
-
-#~ msgid "_Image"
-#~ msgstr "_Image"
-
-#~ msgid "Set Image as _Wallpaper"
-#~ msgstr "Utiliser l'image comme _papier peint"
-
-#~ msgid "Create a new window"
-#~ msgstr "Crée une nouvelle fenêtre"
-
-#~ msgid "Open the selected image in a new window"
-#~ msgstr "Ouvrir l'image sélectionnée dans une nouvelle fenêtre"
-
-#~ msgid "_Import Photos..."
-#~ msgstr "_Importer des photos..."
-
-#~ msgid "_Write To CD..."
-#~ msgstr "_Graver sur un CD..."
-
-#~ msgid "Write selection to CD"
-#~ msgstr "Grave la sélection sur un CD"
-
-#~ msgid "_Rename..."
-#~ msgstr "_Renommer..."
-
-#~ msgid "Move this image to the Trash"
-#~ msgstr "Met cette image à la corbeille"
-
-#~ msgid "Copy this image to another location"
-#~ msgstr "Copie cette image à un autre emplacement"
-
-#~ msgid "_Move..."
-#~ msgstr "_Déplacer..."
-
-#~ msgid "Move this image to another location"
-#~ msgstr "Déplace cette image à un autre emplacement"
-
-#~ msgid "Copy selected images to another location"
-#~ msgstr "Copie les images sélectionnées à un autre emplacement"
-
-#~ msgid "Move selected images to another location"
-#~ msgstr "Déplace les images sélectionnées à un autre emplacement"
-
-#~ msgid "Select all images"
-#~ msgstr "Sélectionne toutes les images"
-
-#~ msgid "Open the selected catalog"
-#~ msgstr "Ouvre le catalogue sélectionné"
-
-#~ msgid "Open the selected catalog in a new window"
-#~ msgstr "Ouvre le catalogue sélectionné dans une nouvelle fenêtre"
-
-#~ msgid "Rename selected catalog"
-#~ msgstr "Renomme le catalogue sélectionné"
-
-#~ msgid "Rem_ove"
-#~ msgstr "Su_pprimer"
-
-#~ msgid "Remove selected catalog"
-#~ msgstr "Supprime le catalogue sélectionné"
-
-#~ msgid "Move selected catalog to another location"
-#~ msgstr "Déplace le catalogue sélectionné à un autre emplacement"
-
-#~ msgid "_Edit Search..."
-#~ msgstr "_Éditer la requête de recherche..."
-
-#~ msgid "Modify search criteria"
-#~ msgstr "Modifie les critères de recherche"
-
-#~ msgid "Redo _Search"
-#~ msgstr "Relancer la _recherche"
-
-#~ msgid "Redo the search"
-#~ msgstr "Relance la recherche"
-
-#~ msgid "_New Catalog..."
-#~ msgstr "_Nouveau catalogue..."
-
-#~ msgid "New _Library..."
-#~ msgstr "Nouvelle _bibliothèque..."
-
-#~ msgid "Create a new catalog library"
-#~ msgstr "Crée une nouvelle bibliothèque de catalogue"
-
-#~ msgid "Rename current catalog"
-#~ msgstr "Renomme le catalogue actuel"
-
-#~ msgid "Remove current catalog"
-#~ msgstr "Supprime le catalogue actuel"
-
-#~ msgid "Move current catalog to another location"
-#~ msgstr "Déplace le catalogue actuel vers un autre emplacement"
-
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Ouvre le dossier sélectionné dans une nouvelle fenêtre"
-
-#~ msgid "Open the selected folder with the Nautilus file manager"
-#~ msgstr ""
-#~ "Ouvre le dossier sélectionné avec le gestionnaire de fichiers Nautilus"
-
-#~ msgid "Rename selected folder"
-#~ msgstr "Renomme le dossier sélectionné"
-
-#~ msgid "Move the selected folder to the Trash"
-#~ msgstr "Met le dossier sélectionné à la corbeille"
-
-#~ msgid "Copy selected folder"
-#~ msgstr "Copie le dossier sélectionné"
-
-#~ msgid "Move selected folder"
-#~ msgstr "Déplace le dossier sélectionné"
-
-#~ msgid "Ca_tegories..."
-#~ msgstr "Ca_tégories..."
-
-#~ msgid "Assign categories to the selected folder"
-#~ msgstr "Attribue des catégories au dossier sélectionné"
-
-#~ msgid "Open current folder with the Nautilus file manager"
-#~ msgstr "Ouvre le dossier actuel avec le gestionnaire de fichiers Nautilus"
-
-#~ msgid "Rename current folder"
-#~ msgstr "Renomme le dossier actuel"
-
-#~ msgid "Move the current folder to the Trash"
-#~ msgstr "Met le dossier actuel à la corbeille"
-
-#~ msgid "Copy current folder"
-#~ msgstr "Copie le dossier actuel"
-
-#~ msgid "Assign categories to the current folder"
-#~ msgstr "Attribue des catégories au dossier actuel"
-
-#~ msgid "_New Folder..."
-#~ msgstr "Nouveau _dossier..."
-
-#~ msgid "Go to the home folder"
-#~ msgstr "Va au dossier personnel"
-
-#~ msgid "_Go to the Image Folder"
-#~ msgstr "A_ller dans ce dossier d'images"
-
-#~ msgid "Specify a location to visit"
-#~ msgstr "Spécifie un emplacement où aller"
-
-#~ msgid "_Slide Show"
-#~ msgstr "_Diaporama"
-
-#~ msgid "Create _Index Image..."
-#~ msgstr "Créer une _image d'index..."
-
-#~ msgid "Search for _Duplicates..."
-#~ msgstr "Rechercher les _doublons..."
-
-#~ msgid "Scale Images..."
-#~ msgstr "Redimensionner les images..."
-
-#~ msgid "_Image Preview"
-#~ msgstr "_Aperçu de l'image"
-
-#~ msgid "_Reversed Order"
-#~ msgstr "Ordre _inversé"
-
-#~ msgid "Reverse images order"
-#~ msgstr "Inverse l'ordre des images"
-
-#~ msgid "by _Name"
-#~ msgstr "par _nom"
-
-#~ msgid "Sort images by name"
-#~ msgstr "Trie les images par nom"
-
-#~ msgid "by _Path"
-#~ msgstr "par _chemin"
-
-#~ msgid "Sort images by path"
-#~ msgstr "Trie les images par chemin"
-
-#~ msgid "by _Size"
-#~ msgstr "par _taille"
-
-#~ msgid "Sort images by file modification time"
-#~ msgstr "Trie les images par date de modification"
-
-#~ msgid "by _Exif Time"
-#~ msgstr "par date _Exif"
-
-#~ msgid "Sort images by Exif DateTime tag"
-#~ msgstr "Trie les images selon l'étiquette DateTime d'Exif"
-
-#~ msgid "by _Comment"
-#~ msgstr "par _commentaire"
-
-#~ msgid "Sort images by comment"
-#~ msgstr "Trie les images selon les commentaires"
-
-#~ msgid "_Manual Order"
-#~ msgstr "Ordre _manuel"
-
-#~ msgid "Sort images manually"
-#~ msgstr "Trie les images manuellement"
-
-#~ msgid "View As Slides"
-#~ msgstr "Afficher en diapositives"
-
-#~ msgid "View As List"
-#~ msgstr "Afficher en liste"
-
-#~ msgid "_Folders"
-#~ msgstr "_Dossiers"
-
-#~ msgid "_Catalogs"
-#~ msgstr "_Catalogues"
-
-#~ msgid "View the catalogs"
-#~ msgstr "Affiche les catalogues"
-
-#~ msgid "[Press 'c' to add a comment]"
-#~ msgstr "[Pressez « c » pour ajouter un commentaire]"
-
-#~ msgid "1 image (%s)"
-#~ msgstr "1 image (%s)"
-
-#~ msgid "%d selected (%s)"
-#~ msgstr "%d sélectionnés (%s)"
-
-#~ msgid "The current image has been modified, do you want to save it?"
-#~ msgstr "L'image actuelle a été modifiée, voulez-vous l'enregistrer ?"
-
-#~ msgid "Dragged Images"
-#~ msgstr "Images glissées"
-
-#~ msgid "Cannot load folder \"%s\": %s\n"
-#~ msgstr "Impossible de charger le dossier « %s » : %s\n"
-
-#~ msgid "The specified catalog does not exist."
-#~ msgstr "Le catalogue spécifié n'existe pas."
-
-#~ msgid "Wait please..."
-#~ msgstr "Veuillez patienter..."
-
-#~ msgid "Filesystem Data"
-#~ msgstr "Données du système de fichiers"
-
-#~ msgid "GPS Coordinates"
-#~ msgstr "Coordonnées GPS"
-
-#~ msgid "Embedded Thumbnail"
-#~ msgstr "Vignettes intégrées"
-
-#~ msgid "Versions & Interoperability"
-#~ msgstr "Versions et interopérabilité"
-
-#~ msgid "Path"
-#~ msgstr "Chemin"
-
-#~ msgid "is before"
-#~ msgstr "est avant le"
-
-#~ msgid "is after"
-#~ msgstr "est après le"
-
-#~ msgid "KB"
-#~ msgstr "Kio"
-
-#~ msgid "Category"
-#~ msgstr "Catégorie"
-
-#~ msgid "Text contains"
-#~ msgstr "Le texte contient"
-
-#~ msgid "<b>_Folder</b>"
-#~ msgstr "<b>_Dossier</b>"
-
-#~ msgid "_Browse..."
-#~ msgstr "_Parcourir..."
-
-#~ msgid "<b>_Recent folders:</b>"
-#~ msgstr "<b>Dossiers _récents :</b>"
-
-#~ msgid "_Transform"
-#~ msgstr "_Transformer"
-
-#~ msgid "_Single Window"
-#~ msgstr "Fenêtre _seule"
-
-#~ msgid "_None"
-#~ msgstr "_Aucun"
-
-#~ msgid "Open selected images with an application"
-#~ msgstr "Ouvre les images sélectionnées avec une application"
-
-#~ msgid "_Open With..."
-#~ msgstr "_Ouvrir avec..."
-
-#~ msgid "Revert to saved image"
-#~ msgstr "Revenir à l'image enregistrée"
-
-#~ msgid "Print..."
-#~ msgstr "Imprimer..."
-
-#~ msgid "Print the current image"
-#~ msgstr "Imprime l'image actuelle"
-
-#~ msgid "Open this image with an application"
-#~ msgstr "Ouvre cette image avec une application"
-
-#~ msgid "Comm_ent..."
-#~ msgstr "_Commentaire..."
-
-#~ msgid "Add a comment to selected images"
-#~ msgstr "Ajoute un commentaire aux images sélectionnées"
-
-#~ msgid "Rem_ove Comment"
-#~ msgstr "Su_pprimer le commentaire"
-
-#~ msgid "Remove comments of selected images"
-#~ msgstr "Supprime les commentaires des images sélectionnées"
-
-#~ msgid "Assign categories to selected images"
-#~ msgstr "Attribue des catégories aux images sélectionnées"
-
-#~ msgid "Ca_tegories"
-#~ msgstr "Ca_tégories"
-
-#~ msgid "View the image rotated clockwise"
-#~ msgstr "Affiche l'image tournée dans le sens horaire"
-
-#~ msgid "View the image rotated counter-clockwise"
-#~ msgstr "Affiche l'image tournée dans le sens anti-horaire"
-
-#~ msgid "View the image flipped"
-#~ msgstr "Affiche l'image retournée"
-
-#~ msgid "View the image mirrored"
-#~ msgstr "Affiche l'image en miroir"
-
-#~ msgid "View the image in black and white"
-#~ msgstr "Affiche l'image en noir et blanc"
-
-#~ msgid "View the image with negative colors"
-#~ msgstr "Affiche l'image avec les couleurs négatives"
-
-#~ msgid "_Enhance"
-#~ msgstr "_Améliorer"
-
-#~ msgid "Automatically adjust the color levels"
-#~ msgstr "Ajuste automatiquement le niveau des couleurs"
-
-#~ msgid "Reduce the number of colors"
-#~ msgstr "Réduit le nombre de couleurs"
-
-#~ msgid "_Brightness-Contrast..."
-#~ msgstr "_Luminosité-Contraste..."
-
-#~ msgid "Adjust brightness and contrast"
-#~ msgstr "Ajuste la luminosité et le contraste"
-
-#~ msgid "_Hue-Saturation..."
-#~ msgstr "_Teinte-Saturation..."
-
-#~ msgid "Adjust hue and saturation"
-#~ msgstr "Ajuste la teinte et la saturation"
-
-#~ msgid "Redeye Removal Tool"
-#~ msgstr "Outil de correction des yeux rouges"
-
-#~ msgid "_Color Balance..."
-#~ msgstr "Balance des _couleurs..."
-
-#~ msgid "Adjust color balance"
-#~ msgstr "Ajuste la balance des couleurs"
-
-#~ msgid "Crop image"
-#~ msgstr "Découpe l'image"
-
-#~ msgid "Black and White"
-#~ msgstr "Noir et Blanc"
-
-#~ msgid "Web Palette"
-#~ msgstr "Palette Web"
-
-#~ msgid "Step A_nimation"
-#~ msgstr "A_nimation pas à pas"
-
-#~ msgid "View next animation frame"
-#~ msgstr "Voir l'image suivante de l'animation"
-
-#~ msgid "Set the image as desktop background (centered)"
-#~ msgstr "Utilise l'image comme arrière-plan pour le bureau (centré)"
-
-#~ msgid "_Scaled"
-#~ msgstr "_Redimensionné"
-
-#~ msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-#~ msgstr "Utilise l'image comme arrière-plan pour le bureau (redimensionné)"
-
-#~ msgid "Str_etched"
-#~ msgstr "É_tiré"
-
-#~ msgid "Set the image as desktop background (stretched)"
-#~ msgstr "Utilise l'image comme arrière-plan pour le bureau (étiré)"
-
-#~ msgid "Restore the original desktop wallpaper"
-#~ msgstr "Restaure le papier peint original"
-
-#~ msgid "Reset _Exif Orientation"
-#~ msgstr "Réinitialiser l'orientation _Exif"
-
-#~ msgid "Reset Exif orientation to top-left"
-#~ msgstr "Réinitialise l'orientation Exif à « en haut à gauche »"
-
-#~ msgid "Play _Animation"
-#~ msgstr "Jouer l'_animation"
-
-#~ msgid "Start or stop current animation"
-#~ msgstr "Démarre ou arrête l'animation actuelle"
-
-#~ msgid "_High Quality"
-#~ msgstr "_Haute qualité"
-
-#~ msgid "Use high quality zoom"
-#~ msgstr "Utilise un zoom de haute qualité"
-
-#~ msgid "_Low Quality"
-#~ msgstr "_Faible qualité"
-
-#~ msgid "Use low quality zoom"
-#~ msgstr "Utilise un zoom de faible qualité"
-
-#~ msgid "Use the viewer mode to view single images"
-#~ msgstr "Utilise le mode visionneur pour afficher des images uniques"
-
-#~ msgid "Could not create a local temporary copy of the remote file."
-#~ msgstr ""
-#~ "Impossible de créer une copie locale temporaire pour le fichier distant."
-
-#~ msgid ""
-#~ "Could not move temporary file to local destination. Check folder "
-#~ "permissions."
-#~ msgstr ""
-#~ "Impossible de déplacer le fichier temporaire vers la destination locale. "
-#~ "Vérifiez les permissions du dossier."
