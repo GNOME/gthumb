@@ -311,14 +311,17 @@ tag_iterate (const GstTagList *list,
 		attribute = g_strconcat ("audio-video::other::", tag, NULL);
 		metadata_info = gth_main_get_metadata_info (attribute);
 		if (metadata_info == NULL) {
-			GthMetadataInfo info;
+			GthMetadataInfo *info;
 
-			info.id = attribute;
-			info.display_name = gst_tag_get_nick (tag);
-			info.category = "audio-video::other";
-			info.sort_order = 500;
-			info.flags = GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW;
-			metadata_info = gth_main_register_metadata_info (&info);
+			info = g_new0 (GthMetadataInfo, 1);
+			info->id = attribute;
+			info->display_name = gst_tag_get_nick (tag);
+			info->category = "audio-video::other";
+			info->sort_order = 500;
+			info->flags = GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW;
+			metadata_info = gth_main_register_metadata_info (info);
+
+			g_free (info);
 		}
 
 		tag_key = attribute;
