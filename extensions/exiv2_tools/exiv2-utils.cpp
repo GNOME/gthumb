@@ -203,8 +203,8 @@ set_file_info (GFileInfo  *info,
 	char            *description_utf8;
 	char            *formatted_value_utf8;
 
-	/*if (_g_utf8_all_spaces (formatted_value))
-		return;*/
+	if (_g_utf8_all_spaces (formatted_value))
+		return;
 
 	attribute = exiv2_key_to_attribute (key);
 	description_utf8 = g_locale_to_utf8 (description, -1, NULL, NULL, NULL);
