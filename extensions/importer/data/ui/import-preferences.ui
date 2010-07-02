@@ -147,7 +147,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
-                            <property name="width_chars">25</property>
                             <property name="secondary_icon_stock">gtk-help</property>
                             <property name="secondary_icon_activatable">True</property>
                             <property name="secondary_icon_sensitive">True</property>
@@ -193,7 +192,7 @@
         <child>
           <object class="GtkAlignment" id="template_help_alignment">
             <property name="top_padding">6</property>
-            <property name="left_padding">14</property>
+            <property name="left_padding">28</property>
             <child>
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
