@@ -585,8 +585,9 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 
 		pos = gtk_tree_path_get_indices (path)[0];
 
-		if (icon_view->priv->drag_source_enabled &&
-		    ! (event->state & GDK_CONTROL_MASK)
+		if (icon_view->priv->drag_source_enabled
+		    && ! (event->state & GDK_CONTROL_MASK)
+		    && ! (event->state & GDK_SHIFT_MASK)
 		    && gth_file_selection_is_selected (GTH_FILE_SELECTION (icon_view), pos))
 		{
 			icon_view->priv->selection_pending = TRUE;
