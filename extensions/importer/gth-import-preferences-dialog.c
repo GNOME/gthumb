@@ -180,7 +180,7 @@ update_destination (GthImportPreferencesDialog *self)
 	char               *uri;
 	char               *example;
 
-	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
 	if (destination == NULL)
 		return;
 
