@@ -265,6 +265,8 @@ int             _g_file_cmp_modification_time    (GFile      *a,
 goffset         _g_file_get_size                 (GFile      *info);
 GFile *         _g_file_resolve_all_symlinks     (GFile      *file,
 						  GError    **error);
+gboolean        _g_file_has_prefix               (GFile      *file,
+						  GFile      *prefix);
 GFile *         _g_file_append_prefix            (GFile      *file,
 						  const char *prefix);
 GFile *         _g_file_append_path              (GFile      *file,

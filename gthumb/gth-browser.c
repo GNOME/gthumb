@@ -1610,7 +1610,7 @@ get_nearest_entry_point (GFile *file)
 	for (scan = list; scan; scan = scan->next) {
 		GthFileData *entry_point = scan->data;
 
-		if (g_file_equal (file, entry_point->file) || g_file_has_prefix (file, entry_point->file))
+		if (g_file_equal (file, entry_point->file) || _g_file_has_prefix (file, entry_point->file))
 			entries = g_list_prepend (entries, g_file_get_uri (entry_point->file));
 	}
 
@@ -1620,9 +1620,10 @@ get_nearest_entry_point (GFile *file)
 	min_diff = 0;
 	for (scan = entries; scan; scan = scan->next) {
 		char *entry_uri = scan->data;
-		int   entry_len = strlen (entry_uri);
+		int   entry_len;
 		int   diff;
 
+		entry_len = strlen (entry_uri);
 		diff = abs (entry_len - file_uri_len);
 		if ((scan == entries) || (diff < min_diff)) {
 			min_diff = diff;
