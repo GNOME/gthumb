@@ -44,12 +44,15 @@ GthOpData category_op_data[] = {
 
 struct _GthTestCategoryPrivate
 {
-	char      *category;
-	GthTestOp  op;
-	gboolean   negative;
-	gboolean   has_focus;
-	GtkWidget *text_entry;
-	GtkWidget *op_combo_box;
+	char         *category;
+	GthTestOp     op;
+	gboolean      negative;
+	gboolean      has_focus;
+	GtkListStore *tag_store;
+	GtkWidget    *combo_entry;
+	GtkWidget    *text_entry;
+	GtkWidget    *op_combo_box;
+	guint         monitor_events;
 };
 
 
@@ -66,6 +69,10 @@ gth_test_category_finalize (GObject *object)
 	test = GTH_TEST_CATEGORY (object);
 
 	if (test->priv != NULL) {
+		if (test->priv->monitor_events != 0) {
+			g_signal_handler_disconnect (gth_main_get_default_monitor (), test->priv->monitor_events);
+			test->priv->monitor_events = 0;
+		}
 		g_free (test->priv->category);
 		g_free (test->priv);
 		test->priv = NULL;
@@ -96,6 +103,15 @@ text_entry_focus_out_event_cb (GtkEntry        *entry,
 
 
 static void
+combo_entry_changed_cb (GtkComboBox     *widget,
+			GthTestCategory *test)
+{
+	gth_test_update_from_control (GTH_TEST (test), NULL);
+	gth_test_changed (GTH_TEST (test));
+}
+
+
+static void
 text_entry_activate_cb (GtkEntry        *entry,
                         GthTestCategory *test)
 {
@@ -110,6 +126,36 @@ op_combo_box_changed_cb (GtkComboBox     *combo_box,
 {
 	gth_test_update_from_control (GTH_TEST (test), NULL);
 	gth_test_changed (GTH_TEST (test));
+}
+
+
+static void
+update_tag_list (GthTestCategory *test)
+{
+	char **tags;
+	int    i;
+
+	gtk_list_store_clear (GTK_LIST_STORE (test->priv->tag_store));
+
+	tags = g_strdupv (gth_tags_file_get_tags (gth_main_get_default_tag_file ()));
+	for (i = 0; tags[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (GTK_LIST_STORE (test->priv->tag_store), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (test->priv->tag_store), &iter,
+				    0, tags[i],
+				    -1);
+	}
+
+	g_strfreev (tags);
+}
+
+
+static void
+monitor_tags_changed_cb (GthMonitor *monitor,
+		 	 gpointer    user_data)
+{
+	update_tag_list (GTH_TEST_CATEGORY (user_data));
 }
 
 
@@ -144,11 +190,16 @@ gth_test_category_real_create_control (GthTest *base)
 
 	/* text entry */
 
-	test->priv->text_entry = gtk_entry_new ();
+	test->priv->tag_store = gtk_list_store_new (1, G_TYPE_STRING);
+	test->priv->combo_entry = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (test->priv->tag_store), 0);
+	g_object_unref (test->priv->tag_store);
+	update_tag_list (test);
+
+	test->priv->text_entry = gtk_bin_get_child (GTK_BIN (test->priv->combo_entry));
 	/*gtk_entry_set_width_chars (GTK_ENTRY (test->priv->text_entry), 6);*/
 	if (test->priv->category != NULL)
 		gtk_entry_set_text (GTK_ENTRY (test->priv->text_entry), test->priv->category);
-	gtk_widget_show (test->priv->text_entry);
+	gtk_widget_show (test->priv->combo_entry);
 
 	g_signal_connect (G_OBJECT (test->priv->text_entry),
 			  "activate",
@@ -162,11 +213,18 @@ gth_test_category_real_create_control (GthTest *base)
 			  "focus-out-event",
 			  G_CALLBACK (text_entry_focus_out_event_cb),
 			  test);
-
+	g_signal_connect (G_OBJECT (test->priv->combo_entry),
+			  "changed",
+			  G_CALLBACK (combo_entry_changed_cb),
+			  test);
+	test->priv->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
+						       "tags-changed",
+						       G_CALLBACK (monitor_tags_changed_cb),
+						       test);
 	/**/
 
 	gtk_box_pack_start (GTK_BOX (control), test->priv->op_combo_box, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (control), test->priv->text_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (control), test->priv->combo_entry, FALSE, FALSE, 0);
 
 	return control;
 }
@@ -360,6 +418,7 @@ gth_test_category_init (GthTestCategory *test)
 {
 	test->priv = g_new0 (GthTestCategoryPrivate, 1);
 	g_object_set (test, "attributes", "comment::categories", NULL);
+	test->priv->monitor_events = 0;
 }
 
 
