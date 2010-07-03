@@ -2872,6 +2872,8 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 		g_object_unref (new_info);
 		g_object_unref (new_location);
 	}
+	else if ((browser->priv->current_file != NULL) && g_file_equal (rename_data->file, browser->priv->current_file->file))
+		gth_browser_load_file (browser, file_data, FALSE);
 
 	rename_data_free (rename_data);
 }
@@ -2895,7 +2897,7 @@ file_renamed_cb (GthMonitor *monitor,
 	list = g_list_prepend (NULL, new_file);
 	gth_file_source_read_attributes (rename_data->file_source,
 				 	 list,
-				 	 GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				 	 _gth_browser_get_list_attributes (browser, FALSE),
 				 	 renamed_file_attributes_ready_cb,
 				 	 rename_data);
 

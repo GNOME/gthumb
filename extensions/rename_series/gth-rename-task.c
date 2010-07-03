@@ -206,6 +206,8 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 			return;
 		}
 	}
+	else
+		gth_monitor_file_renamed (gth_main_get_default_monitor (), source, destination);
 
 	_gth_rename_task_exec_next_file (self);
 }
