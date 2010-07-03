@@ -49,9 +49,10 @@ GthMetadataInfo comments_metadata_info[] = {
 
 
 static gint64
-get_comment_for_test (GthTest       *test,
-		      GthFileData   *file,
-		      gconstpointer *data)
+get_comment_for_test (GthTest        *test,
+		      GthFileData    *file,
+		      gconstpointer  *data,
+		      GDestroyNotify *data_destroy_func)
 {
 	*data = g_file_info_get_attribute_string (file->info, "comment::note");
 	return 0;
@@ -59,9 +60,10 @@ get_comment_for_test (GthTest       *test,
 
 
 static gint64
-get_place_for_test (GthTest       *test,
-		    GthFileData   *file,
-		    gconstpointer *data)
+get_place_for_test (GthTest        *test,
+		    GthFileData    *file,
+		    gconstpointer  *data,
+		    GDestroyNotify *data_destroy_func)
 {
 	*data = g_file_info_get_attribute_string (file->info, "comment::place");
 	return 0;

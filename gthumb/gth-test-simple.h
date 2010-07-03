@@ -41,7 +41,10 @@ typedef struct _GthTestSimple         GthTestSimple;
 typedef struct _GthTestSimplePrivate  GthTestSimplePrivate;
 typedef struct _GthTestSimpleClass    GthTestSimpleClass;
 
-typedef gint64 (*GthTestGetData) (GthTest *test, GthFileData *file, gconstpointer *data);
+typedef gint64 (*GthTestGetData) (GthTest        *test,
+				  GthFileData    *file,
+				  gpointer       *data,
+				  GDestroyNotify *data_destroy_func);
 
 typedef enum { 
 	GTH_TEST_DATA_TYPE_NONE,

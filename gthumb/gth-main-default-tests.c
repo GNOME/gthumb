@@ -26,68 +26,74 @@
 #include "glib-utils.h"
 #include "gth-main.h"
 #include "gth-test-simple.h"
+#include "gth-time.h"
 
 
 static gint64
-is_file_test (GthTest       *test,
-	      GthFileData   *file,
-	      gconstpointer *data)
+is_file_test (GthTest        *test,
+	      GthFileData    *file_data,
+	      gconstpointer  *data,
+	      GDestroyNotify *data_destroy_func)
 {
 	return TRUE;
 }
 
 
 static gint64
-is_image_test (GthTest       *test,
-	       GthFileData   *file,
-	       gconstpointer *data)
+is_image_test (GthTest        *test,
+	       GthFileData    *file_data,
+	       gconstpointer  *data,
+	       GDestroyNotify *data_destroy_func)
 {
 	gboolean result = FALSE;
 
-	if (file->info != NULL)
-		result = _g_mime_type_is_image (gth_file_data_get_mime_type (file));
+	if (file_data->info != NULL)
+		result = _g_mime_type_is_image (gth_file_data_get_mime_type (file_data));
 
 	return result;
 }
 
 
 static gint64
-is_video_test (GthTest       *test,
-	       GthFileData   *file,
-	       gconstpointer *data)
+is_video_test (GthTest        *test,
+	       GthFileData    *file_data,
+	       gconstpointer  *data,
+	       GDestroyNotify *data_destroy_func)
 {
 	gboolean result = FALSE;
 
-	if (file->info != NULL)
-		result = _g_mime_type_is_video (gth_file_data_get_mime_type (file));
+	if (file_data->info != NULL)
+		result = _g_mime_type_is_video (gth_file_data_get_mime_type (file_data));
 
 	return result;
 }
 
 
 static gint64
-is_audio_test (GthTest       *test,
-	       GthFileData   *file,
-	       gconstpointer *data)
+is_audio_test (GthTest        *test,
+	       GthFileData    *file_data,
+	       gconstpointer  *data,
+	       GDestroyNotify *data_destroy_func)
 {
 	gboolean result = FALSE;
 
-	if (file->info != NULL)
-		result = _g_mime_type_is_audio (gth_file_data_get_mime_type (file));
+	if (file_data->info != NULL)
+		result = _g_mime_type_is_audio (gth_file_data_get_mime_type (file_data));
 
 	return result;
 }
 
 
 static gint64
-is_media_test (GthTest       *test,
-	       GthFileData   *file,
-	       gconstpointer *data)
+is_media_test (GthTest        *test,
+	       GthFileData    *file_data,
+	       gconstpointer  *data,
+	       GDestroyNotify *data_destroy_func)
 {
 	gboolean result = FALSE;
 
-	if (file->info != NULL) {
-		const char *content_type = gth_file_data_get_mime_type (file);
+	if (file_data->info != NULL) {
+		const char *content_type = gth_file_data_get_mime_type (file_data);
 		result = (_g_mime_type_is_image (content_type)
 			  || _g_mime_type_is_video (content_type)
 			  || _g_mime_type_is_audio (content_type));
@@ -98,14 +104,15 @@ is_media_test (GthTest       *test,
 
 
 static gint64
-is_text_test (GthTest       *test,
-	      GthFileData   *file,
-	      gconstpointer *data)
+is_text_test (GthTest        *test,
+	      GthFileData    *file_data,
+	      gconstpointer  *data,
+	      GDestroyNotify *data_destroy_func)
 {
 	gboolean result = FALSE;
 
-	if (file->info != NULL) {
-		const char *content_type = gth_file_data_get_mime_type (file);
+	if (file_data->info != NULL) {
+		const char *content_type = gth_file_data_get_mime_type (file_data);
 		result = g_content_type_is_a (content_type, "text/*");
 	}
 
@@ -114,21 +121,70 @@ is_text_test (GthTest       *test,
 
 
 static gint64
-get_filename_for_test (GthTest       *test,
-		       GthFileData   *file,
-		       gconstpointer *data)
+get_filename_for_test (GthTest        *test,
+		       GthFileData    *file_data,
+		       gconstpointer  *data,
+		       GDestroyNotify *data_destroy_func)
 {
-	*data = g_file_info_get_display_name (file->info);
+	*data = g_file_info_get_display_name (file_data->info);
 	return 0;
 }
 
 
 static gint64
-get_filesize_for_test (GthTest       *test,
-		       GthFileData   *file,
-		       gconstpointer *data)
+get_filesize_for_test (GthTest        *test,
+		       GthFileData    *file_data,
+		       gconstpointer  *data,
+		       GDestroyNotify *data_destroy_func)
 {
-	return g_file_info_get_size (file->info);
+	return g_file_info_get_size (file_data->info);
+}
+
+
+static gint64
+get_modified_date_for_test (GthTest        *test,
+			    GthFileData    *file_data,
+			    gconstpointer  *data,
+			    GDestroyNotify *data_destroy_func)
+{
+	GTimeVal     timeval;
+	GthDateTime *datetime;
+
+	datetime = gth_datetime_new ();
+	g_file_info_get_modification_time (file_data->info, &timeval);
+	gth_datetime_from_timeval (datetime, &timeval);
+
+	*data = g_date_new ();
+	*((GDate *)*data) = *datetime->date;
+	*data_destroy_func = (GDestroyNotify) g_date_free;
+
+	gth_datetime_free (datetime);
+
+	return 0;
+}
+
+
+static gint64
+get_original_date_for_test (GthTest        *test,
+			    GthFileData    *file_data,
+			    gconstpointer  *data,
+			    GDestroyNotify *data_destroy_func)
+{
+	GthDateTime *datetime;
+	GthMetadata *metadata;
+
+	datetime = gth_datetime_new ();
+	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
+	if (metadata != NULL)
+		gth_datetime_from_exif_date (datetime, gth_metadata_get_raw (metadata));
+
+	*data = g_date_new ();
+	*((GDate *)*data) = *datetime->date;
+	*data_destroy_func = (GDestroyNotify) g_date_free;
+
+	gth_datetime_free (datetime);
+
+	return 0;
 }
 
 
@@ -192,5 +248,21 @@ gth_main_register_default_tests (void)
 				  "display-name", _("Size"),
 				  "data-type", GTH_TEST_DATA_TYPE_SIZE,
 				  "get-data-func", get_filesize_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "file::mtime",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "time::modified,time::modified-usec",
+				  "display-name", _("File modified date"),
+				  "data-type", GTH_TEST_DATA_TYPE_DATE,
+				  "get-data-func", get_modified_date_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "Embedded::Photo::DateTimeOriginal",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "Embedded::Photo::DateTimeOriginal",
+				  "display-name", _("Date photo was taken"),
+				  "data-type", GTH_TEST_DATA_TYPE_DATE,
+				  "get-data-func", get_original_date_for_test,
 				  NULL);
 }

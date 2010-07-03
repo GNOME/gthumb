@@ -80,7 +80,7 @@ gth_file_data_cmp_modified_time (GthFileData *a,
 GthFileDataSort default_sort_types[] = {
 	{ "file::name", N_("file name"), "standard::display-name", gth_file_data_cmp_filename },
 	{ "file::size", N_("file size"), "standard::size", gth_file_data_cmp_filesize },
-	{ "file::mtime", N_("file modified date "), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
+	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
 };
 

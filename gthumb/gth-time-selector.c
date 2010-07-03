@@ -220,16 +220,25 @@ update_view_from_data (GthTimeSelector *self)
 		text = gth_datetime_strftime (self->priv->date_time, "%x");
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
 
-		g_signal_handler_block (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
-		gtk_calendar_select_month (GTK_CALENDAR (self->priv->calendar),
-					   g_date_get_month (self->priv->date_time->date) - 1,
-					   g_date_get_year (self->priv->date_time->date));
-		gtk_calendar_select_day (GTK_CALENDAR (self->priv->calendar),
-					 g_date_get_day (self->priv->date_time->date));
-		g_signal_handler_unblock (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
+		if (gth_datetime_valid (self->priv->date_time)) {
+			g_signal_handler_block (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
+			gtk_calendar_select_month (GTK_CALENDAR (self->priv->calendar),
+						   g_date_get_month (self->priv->date_time->date) - 1,
+						   g_date_get_year (self->priv->date_time->date));
+			gtk_calendar_select_day (GTK_CALENDAR (self->priv->calendar),
+						 g_date_get_day (self->priv->date_time->date));
+			g_signal_handler_unblock (GTK_CALENDAR (self->priv->calendar), self->priv->day_selected_event);
+		}
 	}
 	else
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), "");
+}
+
+
+static void
+gth_time_selector_changed (GthTimeSelector *self)
+{
+	g_signal_emit (self, gth_time_selector_signals[CHANGED], 0);
 }
 
 
@@ -244,6 +253,7 @@ today_button_clicked_cb (GtkButton *button,
 	g_get_current_time (&timeval);
 	g_date_set_time_val (self->priv->date_time->date, &timeval);
 	update_view_from_data (self);
+	gth_time_selector_changed (self);
 	hide_calendar_popup (self);
 }
 
@@ -281,6 +291,7 @@ calendar_day_selected_double_click_cb (GtkCalendar *calendar,
 	gtk_calendar_get_date (GTK_CALENDAR (self->priv->calendar), &y, &m, &d);
 	g_date_set_dmy (self->priv->date_time->date, d, m + 1, y);
 	update_view_from_data (self);
+	gth_time_selector_changed (self);
 	hide_calendar_popup (self);
 
 	return FALSE;
@@ -299,6 +310,7 @@ calendar_day_selected_cb (GtkCalendar *calendar,
 	gtk_calendar_get_date (GTK_CALENDAR (self->priv->calendar), &y, &m, &d);
 	g_date_set_dmy (self->priv->date_time->date, d, m + 1, y);
 	update_view_from_data (self);
+	gth_time_selector_changed (self);
 
 	return FALSE;
 }
@@ -354,9 +366,19 @@ calendar_popup_key_press_event_cb (GtkWidget   *widget,
 
 
 static void
-gth_time_selector_changed (GthTimeSelector *self)
+date_entry_activate_cb (GtkEntry        *entry,
+			GthTimeSelector *self)
 {
-	g_signal_emit (self, gth_time_selector_signals[CHANGED], 0);
+	update_date_from_view (self);
+
+	if (gth_datetime_valid (self->priv->date_time)) {
+		gtk_calendar_select_month (GTK_CALENDAR (self->priv->calendar),
+					   g_date_get_month (self->priv->date_time->date) - 1,
+					   g_date_get_year (self->priv->date_time->date));
+		gtk_calendar_select_day (GTK_CALENDAR (self->priv->calendar),
+					 g_date_get_day (self->priv->date_time->date));
+	}
+	gth_time_selector_changed (self);
 }
 
 
@@ -465,10 +487,10 @@ gth_time_selector_construct (GthTimeSelector *self)
 		g_free (text);
 	}
 
-	g_signal_connect_swapped (self->priv->date_entry,
-				  "notify::text",
-				  G_CALLBACK (gth_time_selector_changed),
-				  self);
+	g_signal_connect (self->priv->date_entry,
+			  "activate",
+			  G_CALLBACK (date_entry_activate_cb),
+			  self);
 	g_signal_connect_swapped (self->priv->time_combo_box,
 				  "changed",
 				  G_CALLBACK (gth_time_selector_changed),

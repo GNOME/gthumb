@@ -252,6 +252,18 @@ gth_datetime_from_struct_tm (GthDateTime *dt,
 }
 
 
+void
+gth_datetime_from_gdate (GthDateTime *dt,
+			 GDate       *date)
+{
+	if (date != NULL)
+		*dt->date = *date;
+	else
+		g_date_clear (dt->date, 1);
+	gth_time_clear (dt->time);
+}
+
+
 char *
 gth_datetime_to_exif_date (GthDateTime *dt)
 {
@@ -263,6 +275,11 @@ gth_datetime_to_exif_date (GthDateTime *dt)
 					dt->time->hour,
 					dt->time->min,
 					dt->time->sec);
+	else if (g_date_valid (dt->date))
+		return g_strdup_printf ("%4d:%02d:%02d 00:00:00",
+					g_date_get_year (dt->date),
+					g_date_get_month (dt->date),
+					g_date_get_day (dt->date));
 	else
 		return g_strdup ("");
 }
