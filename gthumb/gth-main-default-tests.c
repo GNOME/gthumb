@@ -174,7 +174,7 @@ get_original_date_for_test (GthTest        *test,
 	GthMetadata *metadata;
 
 	datetime = gth_datetime_new ();
-	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Photo::DateTimeOriginal");
 	if (metadata != NULL)
 		gth_datetime_from_exif_date (datetime, gth_metadata_get_raw (metadata));
 
