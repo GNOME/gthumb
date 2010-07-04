@@ -61,7 +61,6 @@ static const char *fixed_ui_info =
 "      <placeholder name='List_Actions'/>"
 "      <separator/>"
 "      <placeholder name='Folder_Actions'/>"
-"      <separator/>"
 "      <placeholder name='Folder_Actions_2'/>"
 "      <separator/>"
 "      <placeholder name='Edit_Actions'/>"
