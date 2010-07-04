@@ -77,11 +77,35 @@ gth_file_data_cmp_modified_time (GthFileData *a,
 }
 
 
+static int
+gth_general_data_cmp_dimensions (GthFileData *a,
+				 GthFileData *b)
+{
+	int width_a;
+	int height_a;
+	int width_b;
+	int height_b;
+	int result;
+
+	width_a = g_file_info_get_attribute_int32 (a->info, "frame::width");
+	height_a = g_file_info_get_attribute_int32 (a->info, "frame::height");
+	width_b = g_file_info_get_attribute_int32 (b->info, "frame::width");
+	height_b = g_file_info_get_attribute_int32 (b->info, "frame::height");
+
+	result = width_a * height_a - width_b * height_b;
+	if (result == 0)
+		result = gth_file_data_cmp_filename (a, b);
+
+	return result;
+}
+
+
 GthFileDataSort default_sort_types[] = {
 	{ "file::name", N_("file name"), "standard::display-name", gth_file_data_cmp_filename },
 	{ "file::size", N_("file size"), "standard::size", gth_file_data_cmp_filesize },
 	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
+	{ "general::dimensions", N_("dimensions"), "frame::width,frame::height", gth_general_data_cmp_dimensions },
 };
 
 

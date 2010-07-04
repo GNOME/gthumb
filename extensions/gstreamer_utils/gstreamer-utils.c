@@ -375,22 +375,26 @@ extract_metadata (MetadataExtractor *extractor,
                               g_strdup_printf ("%d", (guint) extractor->audio_bitrate),
                               g_strdup_printf ("%d bps", (guint) extractor->audio_bitrate));
 
-        if (extractor->video_height >= 0)
+        if (extractor->video_height >= 0) {
                 add_metadata (info,
                 	      "audio-video::video::height",
                 	      g_strdup_printf ("%d", (guint) extractor->video_height),
                 	      NULL);
+		g_file_info_set_attribute_int32 (info, "frame::height", extractor->video_height);
+        }
 
-        if (extractor->video_width >= 0)
+        if (extractor->video_width >= 0) {
                 add_metadata (info,
                 	      "audio-video::video::width",
                 	      g_strdup_printf ("%d", (guint) extractor->video_width),
                 	      NULL);
+		g_file_info_set_attribute_int32 (info, "frame::width", extractor->video_width);
+        }
 
         if ((extractor->video_height >= 0) && (extractor->video_width >= 0))
                 add_metadata (info,
                 	      "general::dimensions",
-                	      g_strdup_printf ("%d x %d", (guint) extractor->video_width, (guint) extractor->video_height),
+                	      g_strdup_printf ("%d × %d", (guint) extractor->video_width, (guint) extractor->video_height),
                 	      NULL);
 
         if ((extractor->video_fps_n >= 0) && (extractor->video_fps_d >= 0))
