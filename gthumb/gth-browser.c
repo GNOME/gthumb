@@ -2378,7 +2378,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 
 	_g_object_list_unref (file_list);
 	g_strfreev (uris);
-	g_object_unref (destination);
+	_g_object_unref (destination);
 }
 
 

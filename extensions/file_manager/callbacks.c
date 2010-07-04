@@ -682,6 +682,9 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 	GthFileSource *file_source;
 	GthTask       *task;
 
+	if (destination == NULL)
+		return;
+
 	file_source = gth_main_get_file_source (destination->file);
 	if (file_source == NULL)
 		return;
