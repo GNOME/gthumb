@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-06-25 19:24+0000\n"
-"PO-Revision-Date: 2010-06-27 19:34+0100\n"
+"POT-Creation-Date: 2010-07-03 08:33+0000\n"
+"PO-Revision-Date: 2010-07-03 11:30+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "Sledi obnašanju Nautilusa"
 
 #: ../data/ui/preferences.ui.h:17
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:277
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:307
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:34
 msgid "General"
@@ -362,7 +362,7 @@ msgid "On startup:"
 msgstr "Ob zagonu:"
 
 #: ../data/ui/preferences.ui.h:24
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:191
 #: ../extensions/gstreamer_tools/main.c:34
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -439,7 +439,7 @@ msgid "_Inverse order"
 msgstr "_Obratni vrstni red"
 
 #: ../data/ui/sort-order.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:32
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Sort by:"
 msgstr "_Razvrsti po:"
 
@@ -567,39 +567,40 @@ msgid "Could not remove the files from the catalog"
 msgstr "Ni mogoče odstraniti datotek iz kataloga"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:448
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:457
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:485
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:471
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:480
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:508
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Neveljaven zapis datoteke"
 
 #: ../extensions/catalogs/actions.c:190
-#: ../extensions/catalogs/dlg-add-to-catalog.c:217
+#: ../extensions/catalogs/dlg-add-to-catalog.c:266
 msgid "Enter the catalog name: "
 msgstr "Vnos imena kataloga:"
 
 #: ../extensions/catalogs/actions.c:194
 #: ../extensions/catalogs/actions.c:260
-#: ../extensions/catalogs/dlg-add-to-catalog.c:221
-#: ../extensions/catalogs/dlg-add-to-catalog.c:287
+#: ../extensions/catalogs/dlg-add-to-catalog.c:270
+#: ../extensions/catalogs/dlg-add-to-catalog.c:336
 #: ../extensions/file_manager/actions.c:46
 msgid "C_reate"
 msgstr "Ustva_ri"
 
 #: ../extensions/catalogs/actions.c:234
-#: ../extensions/catalogs/dlg-add-to-catalog.c:261
+#: ../extensions/catalogs/dlg-add-to-catalog.c:218
+#: ../extensions/catalogs/dlg-add-to-catalog.c:311
 #: ../extensions/search/gth-search-task.c:295
 msgid "Could not create the catalog"
 msgstr "Kataloga ni mogoče ustvariti"
 
 #: ../extensions/catalogs/actions.c:256
-#: ../extensions/catalogs/dlg-add-to-catalog.c:283
+#: ../extensions/catalogs/dlg-add-to-catalog.c:332
 msgid "Enter the library name: "
 msgstr "Vnos imena knjižnice:"
 
 #: ../extensions/catalogs/actions.c:300
-#: ../extensions/catalogs/dlg-add-to-catalog.c:327
+#: ../extensions/catalogs/dlg-add-to-catalog.c:376
 msgid "Could not create the library"
 msgstr "Knjižnice ni mogoče ustvariti"
 
@@ -625,6 +626,7 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Pojdi v mapo, ki vsebuje izbrano datoteko"
 
 #: ../extensions/catalogs/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:106
 msgid "Other..."
 msgstr "Ostalo ..."
 
@@ -699,18 +701,22 @@ msgid "Create file collections."
 msgstr "Ustvari zbirke datotek."
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
+msgid "Add to Catalog"
+msgstr "Dodaj v katalog"
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
 msgid "C_atalogs:"
 msgstr "_Katalogi:"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "New _Library"
 msgstr "Nova _knjižnica"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "_Nov katalog"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 msgid "_View the destination"
 msgstr "_Ogled cilja"
 
@@ -731,7 +737,7 @@ msgstr "_Datum:"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
@@ -796,8 +802,8 @@ msgstr "Datum zajema fotografije"
 msgid "file modified date"
 msgstr "Datum spremembe datoteke."
 
-#: ../extensions/catalogs/dlg-add-to-catalog.c:102
-#: ../extensions/catalogs/dlg-add-to-catalog.c:133
+#: ../extensions/catalogs/dlg-add-to-catalog.c:106
+#: ../extensions/catalogs/dlg-add-to-catalog.c:137
 msgid "Could not add the files to the catalog"
 msgstr "Datotek ni mogoče dodati v katalog"
 
@@ -892,7 +898,7 @@ msgid "Comments and tags"
 msgstr "Opombe in oznake"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:304
+#: ../extensions/importer/gth-import-preferences-dialog.c:323
 msgid "Preferences"
 msgstr "Možnosti"
 
@@ -910,7 +916,7 @@ msgstr "je"
 msgid "is not"
 msgstr "ni"
 
-#: ../extensions/comments/gth-test-category.c:297
+#: ../extensions/comments/gth-test-category.c:355
 #: ../gthumb/gth-test-simple.c:680
 #: ../gthumb/gth-test-simple.c:706
 #: ../gthumb/gth-test-simple.c:727
@@ -919,12 +925,14 @@ msgid "The test definition is incomplete"
 msgstr "Določitev testa ni končana"
 
 #: ../extensions/comments/main.c:35
+#: ../extensions/edit_metadata/callbacks.c:101
 msgid "Comment"
 msgstr "Opomba"
 
 #: ../extensions/comments/main.c:207
+#: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Description"
@@ -995,14 +1003,17 @@ msgstr "Nastavi sliko kot ozadje namizja"
 msgid "Desktop background"
 msgstr "Ozadje namizja"
 
-#: ../extensions/edit_metadata/callbacks.c:90
-#: ../gthumb/dlg-extensions.c:60
-msgid "Metadata"
-msgstr "Metapodatki"
+#: ../extensions/edit_metadata/callbacks.c:98
+msgid "T_ags"
+msgstr "Ozn_ake"
 
-#: ../extensions/edit_metadata/callbacks.c:91
-msgid "Edit file metadata"
-msgstr "Uredi metapodatke datoteke"
+#: ../extensions/edit_metadata/callbacks.c:102
+msgid "Edit the comment an other information of the selected files"
+msgstr "Uredi opombe in druge podrobnosti izbranih datotek"
+
+#: ../extensions/edit_metadata/callbacks.c:107
+msgid "Choose another tag"
+msgstr "Izberite drugo oznako"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
@@ -1026,9 +1037,15 @@ msgstr "_Ocena:"
 msgid "_Title:"
 msgstr "_Naslov:"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:56
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:57
 msgid "Could not save the file metadata"
 msgstr "Metapodatkov datoteke ni mogoče shraniti"
+
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:105
+#: ../extensions/rename_series/actions.c:38
+#: ../gthumb/gth-overwrite-dialog.c:152
+msgid "Cannot read file information"
+msgstr "Ni mogoče prebrati podatkov o datoteki"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Allow to edit files metadata."
@@ -1038,40 +1055,54 @@ msgstr "Dovoli urejanje metapodatkov datotek."
 msgid "Edit metadata"
 msgstr "Urejanje metapodatkov"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:391
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:421
 msgid "No date"
 msgstr "Brez datuma"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:392
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:422
 msgid "The following date"
 msgstr "Naslednji datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:317
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:423
+#: ../extensions/importer/gth-import-preferences-dialog.c:337
 msgid "Current date"
 msgstr "Trenutni datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:394
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:424
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:395
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:425
 msgid "Last modified date"
 msgstr "Datum zadnje spremembe"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:396
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:426
 msgid "File creation date"
 msgstr "Datum ustvaritve datoteke"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:397
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:427
 msgid "Do not modify"
 msgstr "Ne spreminjaj"
 
-#. Translators: the %s in the string is the file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:148
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:107
+msgid "Save only cha_nged fields"
+msgstr "Shrani samo spre_menjena polja"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:163
 #, c-format
 msgid "%s Metadata"
 msgstr "Metapodatki %s"
+
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:167
+#: ../extensions/flicker/dlg-import-from-flickr.c:336
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d datotek"
+msgstr[1] "%d datoteka"
+msgstr[2] "%d datoteki"
+msgstr[3] "%d datoteke"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1655,7 +1686,7 @@ msgstr "Odpri z _upravljalnikom datotek"
 
 #: ../extensions/file_manager/callbacks.c:185
 #: ../extensions/rename_series/callbacks.c:48
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:31
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "_Rename"
 msgstr "_Preimenuj"
 
@@ -1664,8 +1695,8 @@ msgid "_Paste Into Folder"
 msgstr "_Prilepi v mapo"
 
 #: ../extensions/file_manager/callbacks.c:841
-#: ../gthumb/gth-browser.c:4453
-#: ../gthumb/gth-browser.c:4491
+#: ../gthumb/gth-browser.c:4462
+#: ../gthumb/gth-browser.c:4500
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -1953,11 +1984,11 @@ msgstr "Negativ"
 msgid "Redo"
 msgstr "Ponovno uveljavi"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:552
+#: ../extensions/file_tools/gth-file-tool-resize.c:550
 msgid "Resize..."
 msgstr "Spremeni velikost ..."
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:552
+#: ../extensions/file_tools/gth-file-tool-resize.c:550
 msgid "Resize"
 msgstr "Spremeni velikost"
 
@@ -2049,15 +2080,6 @@ msgstr "_Varnost:"
 msgid "_Import"
 msgstr "_Uvoz "
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:336
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d datotek"
-msgstr[1] "%d datoteka"
-msgstr[2] "%d datoteki"
-msgstr[3] "%d datoteke"
-
 #: ../extensions/flicker/dlg-import-from-flickr.c:361
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
 msgid "Could not get the photo list"
@@ -2085,7 +2107,7 @@ msgstr "Pošiljanje slik na Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1841
+#: ../gthumb/gth-browser.c:1842
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
@@ -2217,11 +2239,11 @@ msgstr "Kanali"
 msgid "Sample rate"
 msgstr "Vzorčna hitrost"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:361
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:364
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:361
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:364
 msgid "Mono"
 msgstr "Mono"
 
@@ -2333,12 +2355,12 @@ msgstr "Vrtenje slik"
 msgid "Rotate images without data loss."
 msgstr "Zavrti slike brez izgube kakovosti."
 
-#: ../extensions/image_rotation/rotation-utils.c:117
+#: ../extensions/image_rotation/rotation-utils.c:119
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Napaka med pretvarjanjem slike: %s"
 
-#: ../extensions/image_rotation/rotation-utils.c:122
+#: ../extensions/image_rotation/rotation-utils.c:124
 msgid ""
 "This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
@@ -2352,11 +2374,11 @@ msgstr ""
 "\n"
 "Moteče robne točke lahko zavržete (ali obrežete). V praksi izbrani način daje najboljše rezultate, toda preoblikovanje ni več strogo brez izgub."
 
-#: ../extensions/image_rotation/rotation-utils.c:128
+#: ../extensions/image_rotation/rotation-utils.c:130
 msgid "_Trim"
 msgstr "_Robljenje"
 
-#: ../extensions/image_rotation/rotation-utils.c:130
+#: ../extensions/image_rotation/rotation-utils.c:132
 msgid "_Accept distortion"
 msgstr "_Sprejmi počpačenje"
 
@@ -2460,55 +2482,90 @@ msgstr "Možne vrednosti so: brez, datum_datoteke, trenutni_datum"
 msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
 msgstr "Možne vrednosti so: yyyymmdd, yyyymm, yyyy"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:1
+#: ../extensions/importer/data/ui/import-preferences.ui.h:2
 msgid "Files"
 msgstr "Datoteke"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:2
+#: ../extensions/importer/data/ui/import-preferences.ui.h:3
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+msgid "Special code"
+msgstr "Posebna koda"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:4
+msgid "The day of the month"
+msgstr "Dan v mesecu"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+msgid "The event description"
+msgstr "Opis dogodka"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+msgid "The hour"
+msgstr "Ura"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:7
+msgid "The minutes"
+msgstr "Minute"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:8
+msgid "The month"
+msgstr "Mesec"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:9
+msgid "The seconds"
+msgstr "Sekunde"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:10
+msgid "The year"
+msgstr "Leto"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:11
 msgid "_Automatic subfolder"
 msgstr "_Samodejna podmapa"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:3
+#: ../extensions/importer/data/ui/import-preferences.ui.h:12
 msgid "_Destination"
 msgstr "_Cilj"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:4
+#: ../extensions/importer/data/ui/import-preferences.ui.h:13
 msgid "_Overwrite existing files"
 msgstr "_Prepiši obstoječe datoteke"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+#: ../extensions/importer/data/ui/import-preferences.ui.h:14
 msgid "_Rotate images physically"
 msgstr "Fizično _zavrti slike"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+#: ../extensions/importer/data/ui/import-preferences.ui.h:15
 msgid "as _single subfolder"
 msgstr "kot _ena podmapa"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:205
+#: ../extensions/importer/gth-import-preferences-dialog.c:206
 #, c-format
 msgid "example: %s"
 msgstr "primer: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:316
+#: ../extensions/importer/gth-import-preferences-dialog.c:336
 msgid "File date"
 msgstr "Datum datoteke"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:326
+#: ../extensions/importer/gth-import-preferences-dialog.c:346
 msgid "year-month-day"
 msgstr "leto-mesec-dan"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:327
+#: ../extensions/importer/gth-import-preferences-dialog.c:347
 msgid "year-month"
 msgstr "leto-mesec"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:328
+#: ../extensions/importer/gth-import-preferences-dialog.c:348
 msgid "year"
 msgstr "leto"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:329
+#: ../extensions/importer/gth-import-preferences-dialog.c:349
 msgid "custom format"
 msgstr "oblika po meri"
 
@@ -2538,13 +2595,13 @@ msgstr "Nazadnje uvožene"
 msgid "Personalize..."
 msgstr "Poosebi ..."
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:237
+#: ../extensions/list_tools/callbacks.c:246
 msgid "Tools"
 msgstr "Orodja"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:238
+#: ../extensions/list_tools/callbacks.c:247
 msgid "Batch tools for multiple files"
 msgstr "Paketna orodja za več datotek"
 
@@ -2566,19 +2623,16 @@ msgid "%B"
 msgstr "%B"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
 #, no-c-format
 msgid "%E"
 msgstr "%E"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:6
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 #, no-c-format
 msgid "%F"
 msgstr "%F"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:8
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 #, no-c-format
 msgid "%N"
 msgstr "%N"
@@ -2613,7 +2667,7 @@ msgid "%quote{ text }"
 msgstr "%quote{ besedilo }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 msgid "A file attribute"
 msgstr "Atribut datoteke"
 
@@ -2630,86 +2684,97 @@ msgid "Quote the text "
 msgstr "Citiraj besedilo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:27
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
-msgid "Special code"
-msgstr "Posebna koda"
+msgid "Sh_ortcut:"
+msgstr "Bl_ižnjica:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "The file basename"
 msgstr "Osnovno ime datoteke"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "The file basename without extension"
 msgstr "Osnovno ime datoteke brez pripone"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
 msgid "The file extension"
 msgstr "Pripona datoteke"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
 msgid "The file path"
 msgstr "Pod datoteke"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
 msgid "The file uri"
 msgstr "Uri datoteke"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
 msgid "The parent folder path"
 msgstr "Pot nadrejene mape"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
 msgid "_Command:"
 msgstr "_Ukaz:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
 msgid "_Terminal command (shell script)"
 msgstr "Ukaz _terminala (skript lupine)"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
 msgid "_Wait for the command to finish"
 msgstr "Po_čakaj na dokončanje ukaza"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:234
+#: ../extensions/list_tools/dlg-personalize-scripts.c:258
 msgid "Script"
 msgstr "Skript"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:248
+#: ../extensions/list_tools/dlg-personalize-scripts.c:272
+msgid "Shortcut"
+msgstr "Bližnjica"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:286
 #: ../gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Pokaži"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:318
+#: ../extensions/list_tools/dlg-personalize-scripts.c:356
 msgid "Could not save the script"
 msgstr "Skripta ni mogoče shraniti"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:361
+#: ../extensions/list_tools/dlg-personalize-scripts.c:406
 msgid "New Command"
 msgstr "Nov ukaz"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:388
+#: ../extensions/list_tools/dlg-personalize-scripts.c:433
 msgid "Edit Command"
 msgstr "Uredi ukaz"
 
-#: ../extensions/list_tools/gth-script.c:608
+#: ../extensions/list_tools/gth-script.c:629
 msgid "Enter a value:"
 msgstr "Vnos vrednosti:"
 
-#: ../extensions/list_tools/gth-script.c:741
+#: ../extensions/list_tools/gth-script.c:762
 #: ../extensions/webalbums/gth-web-exporter.c:572
 #: ../extensions/webalbums/gth-web-exporter.c:584
 #: ../extensions/webalbums/gth-web-exporter.c:592
 msgid "Malformed command"
 msgstr "Slabo oblikovan ukaz"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:241
+#: ../extensions/list_tools/gth-script-editor-dialog.c:178
+msgid "none"
+msgstr "brez"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:184
+#, c-format
+msgid "key %d on the numeric keypad"
+msgstr "tipka %d na numerični tipkovnici"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:321
 #: ../gthumb/gth-filter-editor-dialog.c:489
 #, c-format
 msgid "No name specified"
 msgstr "Ime ni določeno"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:247
+#: ../extensions/list_tools/gth-script-editor-dialog.c:327
 #, c-format
 msgid "No command specified"
 msgstr "Ukaz ni določen"
@@ -2853,7 +2918,7 @@ msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1754
+#: ../gthumb/gth-browser.c:1755
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
@@ -3071,11 +3136,6 @@ msgstr "Odstranjevanje rdečih oči"
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Orodje za odstranjevanje učinka rdečih oči s fotografije."
 
-#: ../extensions/rename_series/actions.c:38
-#: ../gthumb/gth-overwrite-dialog.c:152
-msgid "Cannot read file information"
-msgstr "Ni mogoče prebrati podatkov o datoteki"
-
 #: ../extensions/rename_series/callbacks.c:49
 msgid "Rename the selected files"
 msgstr "Preimenuj izbrane datoteke"
@@ -3102,83 +3162,83 @@ msgid "%D{ format }"
 msgstr "%D{ oblika }"
 
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #, no-c-format
 msgid "%M{ format }"
 msgstr "%M{ oblika }"
 
 #. Translators: this is the text case (upper or lower case).
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
 msgid "Cas_e:"
 msgstr "V_elikost črk:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
 msgid "New enumerator digit"
 msgstr "Novo število števca"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "Re_verse Order"
 msgstr "Obrnjen vrstni red"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "Začni p_ri:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
 msgid "The digitalization date"
 msgstr "Izvoren datum digitalizacije"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
 msgid "The modification date"
 msgstr "Izvoren datum spremembe"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The original enumerator"
 msgstr "Izvorni števec"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
 msgid "The original extension"
 msgstr "Izvorna pripona"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:29
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
 msgid "The original filename"
 msgstr "Izvorno ime datoteke"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:30
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 msgid "_Preview:"
 msgstr "_Predogled:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:33
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "_Template:"
 msgstr "_Predloga:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:376
+#: ../extensions/rename_series/dlg-rename-series.c:381
 msgid "Could not rename the files"
 msgstr "Ni mogoče preimenovati datotek"
 
-#: ../extensions/rename_series/dlg-rename-series.c:464
+#: ../extensions/rename_series/dlg-rename-series.c:469
 msgid "Old Name"
 msgstr "Staro ime"
 
-#: ../extensions/rename_series/dlg-rename-series.c:472
+#: ../extensions/rename_series/dlg-rename-series.c:477
 msgid "New Name"
 msgstr "Novo ime"
 
-#: ../extensions/rename_series/dlg-rename-series.c:547
+#: ../extensions/rename_series/dlg-rename-series.c:552
 msgid "Keep original case"
 msgstr "Ohrani izvorno velikost"
 
-#: ../extensions/rename_series/dlg-rename-series.c:548
+#: ../extensions/rename_series/dlg-rename-series.c:553
 msgid "Convert to lower-case"
 msgstr "Pretvori v male črke"
 
-#: ../extensions/rename_series/dlg-rename-series.c:549
+#: ../extensions/rename_series/dlg-rename-series.c:554
 msgid "Convert to upper-case"
 msgstr "Pretvori v velike črke"
 
@@ -3238,7 +3298,7 @@ msgstr "_Ohrani izvorno razmerje velikosti"
 msgid "pixel"
 msgstr "točka"
 
-#: ../extensions/resize_images/dlg-resize-images.c:143
+#: ../extensions/resize_images/dlg-resize-images.c:142
 msgid "Resizing images"
 msgstr "Spreminjanje v"
 
@@ -3620,6 +3680,10 @@ msgstr "Onemogočeno"
 msgid "Viewers"
 msgstr "Pregledovalniki"
 
+#: ../gthumb/dlg-extensions.c:60
+msgid "Metadata"
+msgstr "Metapodatki"
+
 #: ../gthumb/dlg-extensions.c:61
 msgid "File tools"
 msgstr "Datotečna orodja"
@@ -3753,7 +3817,7 @@ msgstr "Pridobivanje podrobnosti datoteke"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2729
+#: ../gthumb/glib-utils.c:2755
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3765,7 +3829,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2738
+#: ../gthumb/glib-utils.c:2764
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -3874,17 +3938,17 @@ msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#: ../gthumb/gth-browser.c:3202
+#: ../gthumb/gth-browser.c:3211
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:137
-#: ../gthumb/gth-browser.c:3223
+#: ../gthumb/gth-browser.c:3232
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:142
-#: ../gthumb/gth-browser.c:3244
+#: ../gthumb/gth-browser.c:3253
 msgid "Go up one level"
 msgstr "Pojdi raven višje"
 
@@ -4000,60 +4064,60 @@ msgid "gthumb"
 msgstr "gThumb"
 
 #: ../gthumb/gth-browser.c:1120
-#: ../gthumb/gth-browser.c:1656
-#: ../gthumb/gth-browser.c:5232
-#: ../gthumb/gth-browser.c:5251
-#: ../gthumb/gth-browser.c:5276
+#: ../gthumb/gth-browser.c:1657
+#: ../gthumb/gth-browser.c:5245
+#: ../gthumb/gth-browser.c:5264
+#: ../gthumb/gth-browser.c:5289
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nisem mogel naložiti položaja  \"%s\""
 
-#: ../gthumb/gth-browser.c:1738
-#: ../gthumb/gth-browser.c:1765
+#: ../gthumb/gth-browser.c:1739
+#: ../gthumb/gth-browser.c:1766
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Primeren module za %s ni bil najden"
 
-#: ../gthumb/gth-browser.c:1883
+#: ../gthumb/gth-browser.c:1884
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Naj bodo spremembe datoteke '%s' shranjene?"
 
-#: ../gthumb/gth-browser.c:1888
+#: ../gthumb/gth-browser.c:1889
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "V primeru, da sprememb ne shranite, bodo te trajno izgubljene."
 
-#: ../gthumb/gth-browser.c:1889
+#: ../gthumb/gth-browser.c:1890
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2524
-#: ../gthumb/gth-browser.c:2548
+#: ../gthumb/gth-browser.c:2525
+#: ../gthumb/gth-browser.c:2549
 #: ../gthumb/gth-source-tree.c:179
 #: ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:2929
+#: ../gthumb/gth-browser.c:2930
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3203
-#: ../gthumb/gth-browser.c:3224
+#: ../gthumb/gth-browser.c:3212
+#: ../gthumb/gth-browser.c:3233
 msgid "View the list of visited locations"
 msgstr "Ogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3245
+#: ../gthumb/gth-browser.c:3254
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5233
+#: ../gthumb/gth-browser.c:5246
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5277
+#: ../gthumb/gth-browser.c:5290
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -4063,7 +4127,7 @@ msgstr "Ni mogoče najti primernega modula"
 msgid "Could not open the module `%s`: %s"
 msgstr "Ni mogoče odpreti modula `%s`: %s"
 
-#: ../gthumb/gth-extensions.c:817
+#: ../gthumb/gth-extensions.c:828
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Razširitev '%s' je zahtevana za pravilno delovanje razširitve '%s'"
@@ -4216,6 +4280,10 @@ msgstr "Besedilne datoteke"
 msgid "Filename"
 msgstr "Ime datoteke"
 
+#: ../gthumb/gth-pixbuf-list-task.c:140
+msgid "Could not rename the file"
+msgstr "Ni mogoče preimenovati datoteke"
+
 #: ../gthumb/gth-pixbuf-saver.c:35
 msgid "No options available for this file type"
 msgstr "Za to vrsto datotek ni razpoložljivih možnosti"
@@ -4367,11 +4435,13 @@ msgstr "Pokaži različico"
 msgid "- Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
-#: ../gthumb/pixbuf-io.c:170
+#: ../gthumb/pixbuf-io.c:171
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 
+#~ msgid "Edit file metadata"
+#~ msgstr "Uredi metapodatke datoteke"
 #~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
 #~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
 #~ msgid "_Preserve original aspect ratio"
