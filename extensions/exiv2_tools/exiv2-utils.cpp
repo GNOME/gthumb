@@ -23,7 +23,7 @@
 #include <config.h>
 #include <glib.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
-#include <gdk-pixbuf/gdk-pixbuf-io.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <exiv2/basicio.hpp>
 #include <exiv2/error.hpp>
 #include <exiv2/image.hpp>
