@@ -38,11 +38,15 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	if (file_list != NULL) {
 		GthImagePrintJob *print_job;
+		GError           *error = NULL;
 
-		print_job = gth_image_print_job_new (file_list);
-		gth_image_print_job_run (print_job,
-					 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-					 browser);
+		print_job = gth_image_print_job_new (file_list, &error);
+		if (print_job != NULL)
+			gth_image_print_job_run (print_job,
+						 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+						 browser);
+		else
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not print the selected files"), &error);
 	}
 
 	_g_object_list_unref (file_list);

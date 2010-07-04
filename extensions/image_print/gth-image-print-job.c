@@ -1505,7 +1505,8 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 
 
 GthImagePrintJob *
-gth_image_print_job_new (GList *file_data_list)
+gth_image_print_job_new (GList   *file_data_list,
+			 GError **error)
 {
 	GthImagePrintJob *self;
 	GList            *scan;
@@ -1515,11 +1516,23 @@ gth_image_print_job_new (GList *file_data_list)
 
 	self->priv->n_images = g_list_length (file_data_list);
 	self->priv->images = g_new (GthImageInfo *, self->priv->n_images + 1);
-	for (scan = file_data_list, n = 0; scan; scan = scan->next)
-		self->priv->images[n++] = gth_image_info_new ((GthFileData *) scan->data);
+	for (scan = file_data_list, n = 0; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
+			self->priv->images[n++] = gth_image_info_new (file_data);
+	}
 	self->priv->images[n] = NULL;
+	self->priv->n_images = n;
 	self->priv->image_width = 0;
 	self->priv->image_height = 0;
+
+	if (self->priv->n_images == 0) {
+		if (error != NULL)
+			*error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
+		g_object_unref (self);
+		return NULL;
+	}
 
 	self->priv->print_operation = gtk_print_operation_new ();
 	gtk_print_operation_set_allow_async (self->priv->print_operation, TRUE);

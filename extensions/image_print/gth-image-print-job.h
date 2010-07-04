@@ -49,10 +49,11 @@ struct _GthImagePrintJobClass {
 };
 
 GType              gth_image_print_job_get_type (void);
-GthImagePrintJob * gth_image_print_job_new      (GList                   *file_data_list);
-void               gth_image_print_job_run      (GthImagePrintJob        *self,
-						 GtkPrintOperationAction  action,
-						 GthBrowser              *browser);
+GthImagePrintJob * gth_image_print_job_new      (GList                    *file_data_list,
+						 GError                  **error);
+void               gth_image_print_job_run      (GthImagePrintJob         *self,
+						 GtkPrintOperationAction   action,
+						 GthBrowser               *browser);
 
 G_END_DECLS
 
