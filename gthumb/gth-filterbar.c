@@ -403,7 +403,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	gtk_container_add (GTK_CONTAINER (button), image);
 	gtk_widget_show_all (button);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_set_tooltip_text (button, _("Close"));
+	gtk_widget_set_tooltip_text (button, _("Hide the filterbar"));
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
 			  G_CALLBACK (close_button_clicked_cb),
