@@ -435,6 +435,7 @@ dlg_rename_series (GthBrowser *browser,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 	int                i;
+	GList             *sort_types;
 	GList             *scan;
 	int                change_case;
 	int                start_at;
@@ -515,7 +516,8 @@ dlg_rename_series (GthBrowser *browser,
 	sort_by = eel_gconf_get_string (PREF_RENAME_SERIES_SORT_BY, DEFAULT_SORT_BY);
 	found = FALSE;
 
-	for (i = 0, scan = gth_main_get_all_sort_types (); scan; scan = scan->next, i++) {
+	sort_types = gth_main_get_all_sort_types ();
+	for (i = 0, scan = sort_types; scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
 
@@ -530,6 +532,7 @@ dlg_rename_series (GthBrowser *browser,
 			found = TRUE;
 		}
 	}
+	g_list_free (sort_types);
 	g_free (sort_by);
 
 	if (!found)

@@ -638,13 +638,21 @@ collect_sort_types (gpointer key,
 }
 
 
+static gboolean
+campare_sort_types (GthFileDataSort *type1,
+		    GthFileDataSort *type2)
+{
+	return g_utf8_collate (type1->display_name, type2->display_name);
+}
+
+
 GList *
 gth_main_get_all_sort_types (void)
 {
 	GList *sort_types = NULL;
 
 	g_hash_table_foreach (Main->priv->sort_types, collect_sort_types, &sort_types);
-	return g_list_reverse (sort_types);
+	return g_list_sort (sort_types, (GCompareFunc) campare_sort_types);
 }
 
 

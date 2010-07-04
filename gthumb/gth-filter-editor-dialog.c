@@ -167,6 +167,7 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 			            GtkWindow             *parent)
 {
 	GtkWidget       *content;
+	GList           *sort_types;
 	GList           *scan;
 	GtkListStore    *selection_model;
 	GtkCellRenderer *renderer;
@@ -230,7 +231,8 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 					"text", SELECTION_COLUMN_NAME,
 					NULL);
 
-	for (scan = gth_main_get_all_sort_types (); scan; scan = scan->next) {
+	sort_types = gth_main_get_all_sort_types ();
+	for (scan = sort_types; scan; scan = scan->next) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
 
@@ -240,6 +242,8 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 				    SELECTION_COLUMN_NAME, sort_type->display_name,
 				    -1);
 	}
+	g_list_free (sort_types);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->selection_combobox), 0);
 	gtk_widget_show (self->priv->selection_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("selection_combobox_box")),

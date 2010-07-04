@@ -82,6 +82,7 @@ dlg_sort_order (GthBrowser *browser)
 	GtkListStore    *selection_model;
 	GtkCellRenderer *renderer;
 	GthFileData     *file_data;
+	GList           *sort_types;
 	GList           *scan;
 	GthFileDataSort *current_sort_type;
 	gboolean         sort_inverse;
@@ -125,7 +126,8 @@ dlg_sort_order (GthBrowser *browser)
 	else
 		gth_browser_get_sort_order (data->browser, &current_sort_type, &sort_inverse);
 
-	for (i = 0, i_active = 0, scan = gth_main_get_all_sort_types (); scan; scan = scan->next, i++) {
+	sort_types = gth_main_get_all_sort_types ();
+	for (i = 0, i_active = 0, scan = sort_types; scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
 		
@@ -138,6 +140,8 @@ dlg_sort_order (GthBrowser *browser)
 				    SELECTION_COLUMN_NAME, sort_type->display_name,
 				    -1);
 	}
+	g_list_free (sort_types);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_by_combobox), i_active);
 	gtk_widget_show (data->sort_by_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("sort_by_hbox")), data->sort_by_combobox);

@@ -355,6 +355,7 @@ dlg_web_exporter (GthBrowser *browser,
 	int         i;
 	int         active_index;
 	char       *default_sort_type;
+	GList      *sort_types;
 	GList      *scan;
 	char       *caption;
 	char       *s_value;
@@ -416,7 +417,8 @@ dlg_web_exporter (GthBrowser *browser,
 
 	default_sort_type = eel_gconf_get_string (PREF_WEBALBUMS_SORT_TYPE, "file::mtime");
 	active_index = 0;
-	for (i = 0, scan = gth_main_get_all_sort_types (); scan; scan = scan->next, i++) {
+	sort_types = gth_main_get_all_sort_types ();
+	for (i = 0, scan = sort_types; scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
 
@@ -429,6 +431,8 @@ dlg_web_exporter (GthBrowser *browser,
 				    SORT_TYPE_COLUMN_NAME, sort_type->display_name,
 				    -1);
 	}
+	g_list_free (sort_types);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), active_index);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_SORT_INVERSE, FALSE));
 
