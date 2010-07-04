@@ -35,6 +35,8 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 {
 	GList        *items;
 	GList        *file_list;
+	GList        *filtered_list;
+	GList        *scan;
 	GthProjector *projector;
 	GtkWidget    *slideshow;
 	GthFileData  *location;
@@ -46,6 +48,21 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_browser_get_file_store (browser)));
 	else
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	filtered_list = NULL;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
+			filtered_list = g_list_prepend (filtered_list, g_object_ref (file_data));
+	}
+	filtered_list = g_list_reverse (filtered_list);
+
+	if (filtered_list == NULL) {
+		_g_object_list_unref (file_list);
+		_gtk_tree_path_list_free (items);
+		return;
+	}
 
 	location = gth_browser_get_location_data (browser);
 	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize"))
@@ -63,7 +80,7 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	if ((projector == NULL) || (strcmp (transition_id, "none") == 0))
 		projector = &default_projector;
 
-	slideshow = gth_slideshow_new (projector, browser, file_list);
+	slideshow = gth_slideshow_new (projector, browser, filtered_list);
 
 	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize")) {
 		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_int32 (location->info, "slideshow::delay"));
@@ -110,6 +127,7 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 
 	_g_object_list_unref (transitions);
 	g_free (transition_id);
+	_g_object_list_unref (filtered_list);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }

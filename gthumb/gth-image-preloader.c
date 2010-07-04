@@ -106,6 +106,8 @@ image_loader_ready_cb (GthImageLoader *il,
 	preloader->loaded = (error == NULL);
 	preloader->error  = (error != NULL);
 
+	g_object_ref (image_preloader);
+
 	if (preloader == requested_preloader (image_preloader)) {
 		g_signal_emit (G_OBJECT (image_preloader),
 			       gth_image_preloader_signals[REQUESTED_READY],
@@ -116,6 +118,8 @@ image_loader_ready_cb (GthImageLoader *il,
 	}
 
 	image_preloader->priv->load_id = g_idle_add (load_next, image_preloader);
+
+	g_object_unref (image_preloader);
 }
 
 
