@@ -262,7 +262,8 @@ authentication_accounts_changed_cb (FacebookAuthentication *auth,
 
 
 static void
-update_album_list (DialogData *data)
+update_album_list (DialogData    *data,
+		   FacebookAlbum *to_select)
 {
 	GList *scan;
 
@@ -281,6 +282,9 @@ update_album_list (DialogData *data)
 				    ALBUM_TITLE_COLUMN, album->name,
 				    ALBUM_SIZE_COLUMN, size,
 				    -1);
+
+		if ((to_select != NULL) && g_str_equal (to_select->id, album->id))
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter);
 
 		g_free (size);
 	}
@@ -306,7 +310,7 @@ get_albums_ready_cb (GObject      *source_object,
 	}
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), TRUE);
-	update_album_list (data);
+	update_album_list (data, NULL);
 
 	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
@@ -381,7 +385,7 @@ create_album_ready_cb (GObject      *source_object,
 	}
 
 	data->albums = g_list_append (data->albums, album);
-	update_album_list (data);
+	update_album_list (data, album);
 }
 
 

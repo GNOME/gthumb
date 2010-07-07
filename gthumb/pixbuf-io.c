@@ -181,10 +181,13 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 					    mime_type,
 					    &error))
 	{
+		g_object_unref (saver);
 		g_object_unref (tmp_pixbuf);
 		gth_file_data_ready_with_error (file_data, ready_func, ready_data, error);
 		return;
 	}
+
+	g_object_unref (saver);
 
 	data = g_new0 (SavePixbufData, 1);
 	data->file_data = g_object_ref (file_data);
