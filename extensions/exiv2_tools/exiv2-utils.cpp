@@ -393,7 +393,7 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 			set_file_info (info,
 				       md->key().c_str(),
 				       description.str().c_str(),
-				       md->print().c_str(),
+				       md->print(&exifData).c_str(),
 				       raw_value.str().c_str(),
 				       get_exif_default_category (*md),
 				       md->typeName());
