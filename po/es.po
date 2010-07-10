@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-03 08:33+0000\n"
-"PO-Revision-Date: 2010-07-03 13:10+0200\n"
+"POT-Creation-Date: 2010-07-07 15:20+0000\n"
+"PO-Revision-Date: 2010-07-10 10:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -803,6 +803,7 @@ msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+#: ../gthumb/gth-main-default-sort-types.c:106
 msgid "file modified date"
 msgstr "fecha de modificación del archivo"
 
@@ -911,18 +912,18 @@ msgid "_Synchronize with the embedded metadata"
 msgstr "_Sincronizar con los metadatos empotrados"
 
 #: ../extensions/comments/gth-test-category.c:40
-#: ../gthumb/gth-test-simple.c:48
+#: ../gthumb/gth-test-simple.c:50 ../gthumb/gth-test-simple.c:65
 msgid "is"
 msgstr "es"
 
 #: ../extensions/comments/gth-test-category.c:41
-#: ../gthumb/gth-test-simple.c:49
+#: ../gthumb/gth-test-simple.c:51 ../gthumb/gth-test-simple.c:66
 msgid "is not"
 msgstr "no es"
 
 #: ../extensions/comments/gth-test-category.c:355
-#: ../gthumb/gth-test-simple.c:680 ../gthumb/gth-test-simple.c:706
-#: ../gthumb/gth-test-simple.c:727
+#: ../gthumb/gth-test-simple.c:841 ../gthumb/gth-test-simple.c:867
+#: ../gthumb/gth-test-simple.c:888 ../gthumb/gth-test-simple.c:914
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "La prueba de definición está incompleto"
@@ -932,7 +933,7 @@ msgstr "La prueba de definición está incompleto"
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../extensions/comments/main.c:207
+#: ../extensions/comments/main.c:209
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
@@ -941,11 +942,11 @@ msgstr "Comentario"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../extensions/comments/main.c:215 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:51
 msgid "Place"
 msgstr "Lugar"
 
-#: ../extensions/comments/main.c:222
+#: ../extensions/comments/main.c:224
 msgid "Tag"
 msgstr "Etiqueta"
 
@@ -1071,6 +1072,7 @@ msgid "Current date"
 msgstr "Fecha actual"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:424
+#: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "Fecha en que se tomó la foto"
 
@@ -1340,7 +1342,7 @@ msgid "_Open in the Browser"
 msgstr "Abrir en el na_vegador"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:120
-#: ../extensions/facebook/dlg-export-to-facebook.c:303
+#: ../extensions/facebook/dlg-export-to-facebook.c:307
 #: ../extensions/facebook/facebook-authentication.c:220
 #: ../extensions/flicker/dlg-export-to-flickr.c:136
 #: ../extensions/flicker/dlg-export-to-flickr.c:390
@@ -1362,7 +1364,7 @@ msgstr "No se pudo conectar con el servidor"
 msgid "Could not upload the files"
 msgstr "No se pudieron subir los archivos"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:379
+#: ../extensions/facebook/dlg-export-to-facebook.c:383
 #: ../extensions/flicker/dlg-export-to-flickr.c:181
 #: ../extensions/flicker/dlg-export-to-flickr.c:215
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:454
@@ -1370,27 +1372,28 @@ msgstr "No se pudieron subir los archivos"
 msgid "Could not create the album"
 msgstr "No se pudo crear el álbum"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:443
+#: ../extensions/facebook/dlg-export-to-facebook.c:447
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:521
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:722
 msgid "New Album"
 msgstr "Álbum nuevo"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:522
+#: ../extensions/facebook/dlg-export-to-facebook.c:526
 #: ../extensions/flicker/dlg-export-to-flickr.c:516
+#: ../extensions/image_print/gth-image-print-job.c:1532
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:601
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:928
 msgid "No valid file selected."
 msgstr "No se seleccionó ningún un archivo válido."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:523
+#: ../extensions/facebook/dlg-export-to-facebook.c:527
 #: ../extensions/flicker/dlg-export-to-flickr.c:517
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:602
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
 msgid "Could not export the files"
 msgstr "No se pudieron exportar los archivos"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:530
+#: ../extensions/facebook/dlg-export-to-facebook.c:534
 #: ../extensions/flicker/dlg-export-to-flickr.c:524
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:609
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:935
@@ -1402,7 +1405,7 @@ msgid_plural "%d files (%s)"
 msgstr[0] "%d archivo (%s)"
 msgstr[1] "%d archivos (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:551
+#: ../extensions/facebook/dlg-export-to-facebook.c:555
 #: ../extensions/flicker/dlg-export-to-flickr.c:546
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:629
 #, c-format
@@ -1468,9 +1471,9 @@ msgstr "Editar cuentas"
 
 #: ../extensions/facebook/facebook-connection.c:295
 #: ../extensions/facebook/facebook-connection.c:453
-#: ../extensions/facebook/facebook-service.c:188
-#: ../extensions/facebook/facebook-service.c:291
-#: ../extensions/facebook/facebook-service.c:494
+#: ../extensions/facebook/facebook-service.c:189
+#: ../extensions/facebook/facebook-service.c:292
+#: ../extensions/facebook/facebook-service.c:495
 #: ../extensions/flicker/flickr-connection.c:291
 #: ../extensions/flicker/flickr-connection.c:442
 #: ../extensions/flicker/flickr-service.c:221
@@ -1484,8 +1487,8 @@ msgstr "Error desconocido"
 
 #: ../extensions/facebook/facebook-connection.c:330
 #: ../extensions/facebook/facebook-connection.c:479
-#: ../extensions/facebook/facebook-service.c:214
-#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/facebook/facebook-service.c:215
+#: ../extensions/facebook/facebook-service.c:317
 #: ../extensions/flicker/flickr-connection.c:317
 #: ../extensions/flicker/flickr-connection.c:468
 #: ../extensions/flicker/flickr-service.c:245
@@ -1504,8 +1507,8 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Subir imágenes a Facebook"
 
-#: ../extensions/facebook/facebook-service.c:214
-#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/facebook/facebook-service.c:215
+#: ../extensions/facebook/facebook-service.c:317
 #: ../extensions/flicker/flickr-service.c:245
 #: ../extensions/oauth/oauth-connection.c:378
 #: ../extensions/oauth/oauth-connection.c:453
@@ -1513,14 +1516,14 @@ msgstr "Subir imágenes a Facebook"
 msgid "Getting account information"
 msgstr "Obteniendo información de la cuenta"
 
-#: ../extensions/facebook/facebook-service.c:422
+#: ../extensions/facebook/facebook-service.c:423
 #: ../extensions/flicker/flickr-service.c:349
 #: ../extensions/photobucket/photobucket-service.c:236
 #: ../extensions/picasaweb/picasa-web-service.c:238
 msgid "Getting the album list"
 msgstr "Obteniendo la lista de álbumes"
 
-#: ../extensions/facebook/facebook-service.c:551
+#: ../extensions/facebook/facebook-service.c:552
 #: ../extensions/flicker/flickr-service.c:452
 #: ../extensions/flicker/flickr-service.c:572
 #: ../extensions/flicker/flickr-service.c:610
@@ -1529,7 +1532,7 @@ msgstr "Obteniendo la lista de álbumes"
 msgid "Creating the new album"
 msgstr "Creando un álbum nuevo"
 
-#: ../extensions/facebook/facebook-service.c:610
+#: ../extensions/facebook/facebook-service.c:611
 #: ../extensions/flicker/flickr-service.c:660
 #: ../extensions/photobucket/photobucket-service.c:402
 #: ../extensions/picasaweb/picasa-web-service.c:386
@@ -1540,7 +1543,7 @@ msgstr "No se pudo subir «%s»: %s"
 #. Translators: %s is a filename
 #. send the file
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:752
+#: ../extensions/facebook/facebook-service.c:811
 #: ../extensions/flicker/flickr-service.c:838
 #: ../extensions/photobucket/photobucket-service.c:525
 #: ../extensions/picasaweb/picasa-web-service.c:521
@@ -1548,14 +1551,14 @@ msgstr "No se pudo subir «%s»: %s"
 msgid "Uploading '%s'"
 msgstr "Subiendo «%s»"
 
-#: ../extensions/facebook/facebook-service.c:828
+#: ../extensions/facebook/facebook-service.c:887
 #: ../extensions/flicker/flickr-service.c:916
 #: ../extensions/photobucket/photobucket-service.c:606
 #: ../extensions/picasaweb/picasa-web-service.c:595
 msgid "Uploading the files to the server"
 msgstr "Subiendo los archivos al servidor"
 
-#: ../extensions/facebook/facebook-service.c:945
+#: ../extensions/facebook/facebook-service.c:1004
 #: ../extensions/flicker/flickr-service.c:1033
 #: ../extensions/picasaweb/picasa-web-service.c:717
 msgid "Getting the photo list"
@@ -1571,13 +1574,13 @@ msgstr "No se pudo crear la carpeta"
 
 #: ../extensions/file_manager/actions.c:307
 #: ../extensions/file_manager/callbacks.c:299
-#: ../extensions/file_manager/callbacks.c:696
+#: ../extensions/file_manager/callbacks.c:699
 msgid "Could not move the files"
 msgstr "No se pudieron mover los archivos"
 
 #: ../extensions/file_manager/actions.c:308
 #: ../extensions/file_manager/callbacks.c:300
-#: ../extensions/file_manager/callbacks.c:697
+#: ../extensions/file_manager/callbacks.c:700
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1716,8 +1719,8 @@ msgstr "_Renombrar"
 msgid "_Paste Into Folder"
 msgstr "_Pegar en la carpeta"
 
-#: ../extensions/file_manager/callbacks.c:841 ../gthumb/gth-browser.c:4462
-#: ../gthumb/gth-browser.c:4500
+#: ../extensions/file_manager/callbacks.c:844 ../gthumb/gth-browser.c:4464
+#: ../gthumb/gth-browser.c:4502
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2205,12 +2208,12 @@ msgid "Pause"
 msgstr "Pausar"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:155
+#: ../gthumb/gth-main-default-tests.c:211
 msgid "Video"
 msgstr "Vídeo"
 
 #: ../extensions/gstreamer_tools/main.c:33
-#: ../gthumb/gth-main-default-tests.c:162
+#: ../gthumb/gth-main-default-tests.c:218
 msgid "Audio"
 msgstr "Sonido"
 
@@ -2266,6 +2269,10 @@ msgstr "Estéreo"
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:364
 msgid "Mono"
 msgstr "Mono"
+
+#: ../extensions/image_print/actions.c:49
+msgid "Could not print the selected files"
+msgstr "No se pudieron imprimir los archivos seleccionados"
 
 #: ../extensions/image_print/callbacks.c:55
 msgid "Print the selected images"
@@ -2331,12 +2338,12 @@ msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
 #: ../extensions/image_print/gth-image-print-job.c:1490
-#: ../extensions/image_print/gth-image-print-job.c:1570
-#: ../extensions/image_print/gth-image-print-job.c:1591
+#: ../extensions/image_print/gth-image-print-job.c:1583
+#: ../extensions/image_print/gth-image-print-job.c:1604
 msgid "Could not print"
 msgstr "No se pudo imprimir"
 
-#: ../extensions/image_print/gth-image-print-job.c:1526
+#: ../extensions/image_print/gth-image-print-job.c:1539
 msgid "Layout"
 msgstr "Distribución"
 
@@ -2530,43 +2537,31 @@ msgstr "Código especial"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The day of the month"
-msgstr ""
+msgstr "El día del mes"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
-#, fuzzy
-#| msgid "Description"
 msgid "The event description"
-msgstr "Descripción"
+msgstr "La descripción del evento"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
-#, fuzzy
-#| msgid "hours"
 msgid "The hour"
-msgstr "horas"
+msgstr "La hora"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:7
-#, fuzzy
-#| msgid "Theme"
 msgid "The minutes"
-msgstr "Tema"
+msgstr "Los minutos"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:8
-#, fuzzy
-#| msgid "year-month"
 msgid "The month"
-msgstr "año-mes"
+msgstr "El mes"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:9
-#, fuzzy
-#| msgid "seconds"
 msgid "The seconds"
-msgstr "segundos"
+msgstr "Los segundos"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:10
-#, fuzzy
-#| msgid "year"
 msgid "The year"
-msgstr "año"
+msgstr "El año"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:11
 msgid "_Automatic subfolder"
@@ -2815,7 +2810,7 @@ msgid "key %d on the numeric keypad"
 msgstr "tecla %d en el teclado numérico"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:321
-#: ../gthumb/gth-filter-editor-dialog.c:489
+#: ../gthumb/gth-filter-editor-dialog.c:493
 #, c-format
 msgid "No name specified"
 msgstr "No se especificó ningún nombre"
@@ -3276,23 +3271,23 @@ msgstr "Plan_tilla:"
 msgid "Could not rename the files"
 msgstr "No se pudieron renombrar los archivos"
 
-#: ../extensions/rename_series/dlg-rename-series.c:469
+#: ../extensions/rename_series/dlg-rename-series.c:470
 msgid "Old Name"
 msgstr "Nombre antiguo"
 
-#: ../extensions/rename_series/dlg-rename-series.c:477
+#: ../extensions/rename_series/dlg-rename-series.c:478
 msgid "New Name"
 msgstr "Nombre nuevo"
 
-#: ../extensions/rename_series/dlg-rename-series.c:552
+#: ../extensions/rename_series/dlg-rename-series.c:555
 msgid "Keep original case"
 msgstr "Mantener la capitalización original"
 
-#: ../extensions/rename_series/dlg-rename-series.c:553
+#: ../extensions/rename_series/dlg-rename-series.c:556
 msgid "Convert to lower-case"
 msgstr "Convertir a minúsculas"
 
-#: ../extensions/rename_series/dlg-rename-series.c:554
+#: ../extensions/rename_series/dlg-rename-series.c:557
 msgid "Convert to upper-case"
 msgstr "Convertir a mayúsculas"
 
@@ -3392,12 +3387,12 @@ msgid "Search"
 msgstr "Buscar"
 
 #: ../extensions/search/gth-search-editor.c:139
-#: ../gthumb/gth-filter-editor-dialog.c:196
+#: ../gthumb/gth-filter-editor-dialog.c:197
 msgid "all the following rules"
 msgstr "todas las siguientes reglas"
 
 #: ../extensions/search/gth-search-editor.c:140
-#: ../gthumb/gth-filter-editor-dialog.c:197
+#: ../gthumb/gth-filter-editor-dialog.c:198
 msgid "any of the following rules"
 msgstr "cualquiera de las siguientes reglas"
 
@@ -3673,7 +3668,7 @@ msgid "_Resize if larger than:"
 msgstr "Red_imensionar si son más grandes que:"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: ../extensions/webalbums/dlg-web-exporter.c:408
+#: ../extensions/webalbums/dlg-web-exporter.c:409
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3805,7 +3800,7 @@ msgstr "Editar filtro"
 msgid "File _Format: %s"
 msgstr "_Formato del archivo: %s"
 
-#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:141
+#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:197
 msgid "All Files"
 msgstr "Todos los archivos"
 
@@ -3998,15 +3993,15 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3211
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3213
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3232
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3234
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3253
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3255
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
@@ -4120,8 +4115,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1657
-#: ../gthumb/gth-browser.c:5245 ../gthumb/gth-browser.c:5264
-#: ../gthumb/gth-browser.c:5289
+#: ../gthumb/gth-browser.c:5247 ../gthumb/gth-browser.c:5266
+#: ../gthumb/gth-browser.c:5291
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4149,24 +4144,24 @@ msgstr "_No guardar"
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:2930 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2932 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3212 ../gthumb/gth-browser.c:3233
+#: ../gthumb/gth-browser.c:3214 ../gthumb/gth-browser.c:3235
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3254
+#: ../gthumb/gth-browser.c:3256
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5246
+#: ../gthumb/gth-browser.c:5248
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5290
+#: ../gthumb/gth-browser.c:5292
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4190,38 +4185,38 @@ msgid "File System"
 msgstr "Sistema de archivos"
 
 #: ../gthumb/gth-filterbar.c:406
-msgid "Close"
-msgstr "Cerrar"
+msgid "Hide the filterbar"
+msgstr "Ocultar la barra de filtros"
 
-#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:209
-#: ../gthumb/gth-test-simple.c:68
+#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:210
+#: ../gthumb/gth-test-simple.c:76
 msgid "kB"
 msgstr "kB"
 
-#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:210
-#: ../gthumb/gth-test-simple.c:69
+#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:211
+#: ../gthumb/gth-test-simple.c:77
 msgid "MB"
 msgstr "MiB"
 
-#: ../gthumb/gth-filter.c:46 ../gthumb/gth-filter-editor-dialog.c:211
-#: ../gthumb/gth-test-simple.c:70
+#: ../gthumb/gth-filter.c:46 ../gthumb/gth-filter-editor-dialog.c:212
+#: ../gthumb/gth-test-simple.c:78
 msgid "GB"
 msgstr "GiB"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:280 ../gthumb/gth-filter-editor-dialog.c:208
+#: ../gthumb/gth-filter.c:280 ../gthumb/gth-filter-editor-dialog.c:209
 msgid "files"
 msgstr "archivos"
 
-#: ../gthumb/gth-filter-editor-dialog.c:252
+#: ../gthumb/gth-filter-editor-dialog.c:256
 msgid "ascending"
 msgstr "ascendente"
 
-#: ../gthumb/gth-filter-editor-dialog.c:253
+#: ../gthumb/gth-filter-editor-dialog.c:257
 msgid "descending"
 msgstr "descendiente"
 
-#: ../gthumb/gth-filter-editor-dialog.c:543
+#: ../gthumb/gth-filter-editor-dialog.c:547
 #, c-format
 msgid "No limit specified"
 msgstr "No se especificó ningún límite"
@@ -4257,7 +4252,7 @@ msgid "Name"
 msgstr "Nombre"
 
 #: ../gthumb/gth-main-default-metadata.c:41
-#: ../gthumb/gth-main-default-tests.c:192
+#: ../gthumb/gth-main-default-tests.c:248
 msgid "Size"
 msgstr "Tamaño"
 
@@ -4293,37 +4288,41 @@ msgstr "Etiquetas"
 msgid "Rating"
 msgstr "Puntuación"
 
-#: ../gthumb/gth-main-default-sort-types.c:81
+#: ../gthumb/gth-main-default-sort-types.c:104
 msgid "file name"
 msgstr "nombre del archivo"
 
-#: ../gthumb/gth-main-default-sort-types.c:82
+#: ../gthumb/gth-main-default-sort-types.c:105
 msgid "file size"
 msgstr "tamaño del archivo"
 
-#: ../gthumb/gth-main-default-sort-types.c:83
-msgid "file modified date "
-msgstr "fecha de modificación del archivo"
-
-#: ../gthumb/gth-main-default-sort-types.c:84
+#: ../gthumb/gth-main-default-sort-types.c:107
 msgid "no sorting"
 msgstr "sin ordenar"
 
-#: ../gthumb/gth-main-default-tests.c:148
+#: ../gthumb/gth-main-default-sort-types.c:108
+msgid "dimensions"
+msgstr "dimensiones"
+
+#: ../gthumb/gth-main-default-tests.c:204
 msgid "Images"
 msgstr "Imágenes"
 
-#: ../gthumb/gth-main-default-tests.c:169
+#: ../gthumb/gth-main-default-tests.c:225
 msgid "Media"
 msgstr "Soporte"
 
-#: ../gthumb/gth-main-default-tests.c:176
+#: ../gthumb/gth-main-default-tests.c:232
 msgid "Text Files"
 msgstr "Archivos de texto"
 
-#: ../gthumb/gth-main-default-tests.c:184
+#: ../gthumb/gth-main-default-tests.c:240
 msgid "Filename"
 msgstr "Nombre del archivo"
+
+#: ../gthumb/gth-main-default-tests.c:256
+msgid "File modified date"
+msgstr "Fecha de modificación del archivo"
 
 #: ../gthumb/gth-pixbuf-list-task.c:140
 msgid "Could not rename the file"
@@ -4402,43 +4401,51 @@ msgstr "Añadir una nueva regla"
 msgid "Remove this rule"
 msgstr "Quitar esta regla"
 
-#: ../gthumb/gth-test-simple.c:45
+#: ../gthumb/gth-test-simple.c:47
 msgid "contains"
 msgstr "contiene"
 
-#: ../gthumb/gth-test-simple.c:46
+#: ../gthumb/gth-test-simple.c:48
 msgid "starts with"
 msgstr "empieza con"
 
-#: ../gthumb/gth-test-simple.c:47
+#: ../gthumb/gth-test-simple.c:49
 msgid "ends with"
 msgstr "termina con"
 
-#: ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:52
 msgid "does not contain"
 msgstr "no contiene"
 
-#: ../gthumb/gth-test-simple.c:51
+#: ../gthumb/gth-test-simple.c:53
 msgid "matches"
 msgstr "coincidencias"
 
-#: ../gthumb/gth-test-simple.c:55
+#: ../gthumb/gth-test-simple.c:57
 msgid "is lower than"
 msgstr "es menor que"
 
-#: ../gthumb/gth-test-simple.c:56
+#: ../gthumb/gth-test-simple.c:58
 msgid "is greater than"
 msgstr "es mayor que"
 
-#: ../gthumb/gth-test-simple.c:57
+#: ../gthumb/gth-test-simple.c:59
 msgid "is equal to"
 msgstr "es igual a"
 
-#: ../gthumb/gth-time-selector.c:431
+#: ../gthumb/gth-test-simple.c:63
+msgid "is before"
+msgstr "está antes"
+
+#: ../gthumb/gth-test-simple.c:64
+msgid "is after"
+msgstr "está después"
+
+#: ../gthumb/gth-time-selector.c:453
 msgid "Today"
 msgstr "Hoy"
 
-#: ../gthumb/gth-time-selector.c:439
+#: ../gthumb/gth-time-selector.c:461
 msgid "Now"
 msgstr "Ahora"
 
@@ -4484,6 +4491,12 @@ msgstr "- Explorador de imágenes y visor"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "file modified date "
+#~ msgstr "fecha de modificación del archivo"
 
 #~ msgid "Edit file metadata"
 #~ msgstr "Editar los metadatos del archivo"
@@ -6177,12 +6190,6 @@ msgstr ""
 
 #~ msgid "Mounted at"
 #~ msgstr "Montado en"
-
-#~ msgid "is before"
-#~ msgstr "está antes"
-
-#~ msgid "is after"
-#~ msgstr "está después"
 
 #~ msgid "KB"
 #~ msgstr "KiB"
