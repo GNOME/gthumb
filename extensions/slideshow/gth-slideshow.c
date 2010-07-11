@@ -566,13 +566,15 @@ viewer_event_cb (GtkWidget    *widget,
 			_gth_slideshow_toggle_pause (self);
 			break;
 
-		case GDK_Up:
+		case GDK_Down:
 		case GDK_Right:
+		case GDK_Page_Down:
 			_gth_slideshow_load_next_image (self);
 			break;
 
-		case GDK_Down:
+		case GDK_Up:
 		case GDK_Left:
+		case GDK_Page_Up:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}
@@ -894,11 +896,13 @@ stage_input_cb (ClutterStage *stage,
 
 		case CLUTTER_Up:
 		case CLUTTER_Right:
+		case CLUTTER_Page_Up:
 			_gth_slideshow_load_next_image (self);
 			break;
 
 		case CLUTTER_Down:
 		case CLUTTER_Left:
+		case CLUTTER_Page_Down:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}
