@@ -103,6 +103,7 @@ extensions/edit_metadata/actions.h
 extensions/edit_metadata/callbacks.c
 extensions/edit_metadata/callbacks.h
 [type: gettext/glade]extensions/edit_metadata/data/ui/edit-comment-page.ui
+[type: gettext/glade]extensions/edit_metadata/data/ui/tag-chooser.ui
 extensions/edit_metadata/dlg-edit-metadata.c
 extensions/edit_metadata/dlg-edit-metadata.h
 [type: gettext/ini]extensions/edit_metadata/edit_metadata.extension.in.in
@@ -110,6 +111,10 @@ extensions/edit_metadata/gth-edit-comment-page.c
 extensions/edit_metadata/gth-edit-comment-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
 extensions/edit_metadata/gth-edit-metadata-dialog.h
+extensions/edit_metadata/gth-tag-chooser-dialog.c
+extensions/edit_metadata/gth-tag-chooser-dialog.h
+extensions/edit_metadata/gth-tag-task.c
+extensions/edit_metadata/gth-tag-task.h
 extensions/edit_metadata/main.c
 [type: gettext/ini]extensions/example/src/example.extension.in.in
 extensions/example/src/main.c
@@ -176,6 +181,8 @@ extensions/file_manager/gth-duplicate-task.h
 extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
+extensions/file_tools/callbacks.c
+extensions/file_tools/callbacks.h
 extensions/file_tools/data/gthumb_crop_options.schemas.in
 extensions/file_tools/data/gthumb_resize_options.schemas.in
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
