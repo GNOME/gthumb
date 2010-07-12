@@ -26,9 +26,11 @@
 #include <glib-object.h>
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
+#include "gth-file-tool-crop.h"
 #include "gth-file-tool-enhance.h"
 #include "gth-file-tool-flip.h"
 #include "gth-file-tool-mirror.h"
+#include "gth-file-tool-resize.h"
 #include "gth-file-tool-rotate-left.h"
 #include "gth-file-tool-rotate-right.h"
 
@@ -51,6 +53,9 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	sidebar = gth_browser_get_viewer_sidebar (browser);
 	toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (sidebar));
 
+	if (gth_toolbox_tool_is_active (GTH_TOOLBOX (toolbox)))
+		return NULL;
+
 	switch (event->keyval) {
 	case GDK_h:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ENHANCE);
@@ -66,6 +71,14 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		break;
 	case GDK_R:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
+		break;
+	case GDK_C:
+		gth_browser_show_viewer_tools (browser, TRUE);
+		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_CROP);
+		break;
+	case GDK_S:
+		gth_browser_show_viewer_tools (browser, TRUE);
+		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_RESIZE);
 		break;
 	}
 
