@@ -199,6 +199,7 @@ ratio_combobox_changed_cb (GtkComboBox     *combobox,
 	int        idx;
 	int        w, h;
 	gboolean   use_ratio;
+	double     ratio;
 
 	ratio_w_spinbutton = GET_WIDGET ("ratio_w_spinbutton");
 	ratio_h_spinbutton = GET_WIDGET ("ratio_h_spinbutton");
@@ -260,13 +261,18 @@ ratio_combobox_changed_cb (GtkComboBox     *combobox,
 		break;
 	}
 
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))))
+		ratio = (double) h / w;
+	else
+		ratio = (double) w / h;
+
 	gtk_widget_set_sensitive (GET_WIDGET ("custom_ratio_box"), idx == GTH_ASPECT_RATIO_CUSTOM);
 	gtk_widget_set_sensitive (GET_WIDGET ("invert_ratio_checkbutton"), use_ratio);
 	set_spin_value (self, ratio_w_spinbutton, w);
 	set_spin_value (self, ratio_h_spinbutton, h);
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (self->priv->selector),
 				      use_ratio,
-				      (double) w / h,
+				      ratio,
 				      FALSE);
 }
 
