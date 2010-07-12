@@ -516,7 +516,7 @@ gth_image_selector_realize (GthImageViewerTool *base)
 	gdk_gc_copy (self->priv->selection_gc, widget->style->white_gc);
 	gdk_gc_set_line_attributes (self->priv->selection_gc,
 				    1,
-				    GDK_LINE_ON_OFF_DASH /*GDK_LINE_SOLID*/,
+				    GDK_LINE_SOLID,
 				    GDK_CAP_BUTT,
 				    GDK_JOIN_MITER);
 	gdk_gc_set_function (self->priv->selection_gc, GDK_INVERT);
