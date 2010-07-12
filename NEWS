@@ -1,3 +1,55 @@
+version 2.11.5
+--------------
+
+	New features and user visible changes:
+
+	* Added ability to add a tag to the selected files from the context
+	  menu.
+	* Added ability to assign a keyboard shortcut to a script.
+	* Added ability to sort by image/video dimensions (#619299)
+	* Added ability to search/filter by modified/original date (#623159)
+	* Added other keyboard shortcuts.
+	* Slideshow: added PageDown and PageUp as navigation keys (#623599)
+	* Added the list of tags to the tag filter control.
+	* Automatically select the catalog after creating it.
+	* Use the non-clutter projector when no effect is selected.
+	* Other updates to the user's manual.
+
+	Bugs fixed:
+
+	* Accessing exiv2 "pretty print" needs pointer to the metadata
+	  container (grm1209) (#623995)
+	* Facebook plugin issues: automatically select a newly created
+	  catalog; apply embedded orientation before uploading; scale
+	  images to have 720 pixels as max dimension (#623617)
+	* Fixed crash when dropping an image to an empty Library (#619491)
+	* Only include gdk-pixbuf.h as required by the latest gdk-pixbuf
+	  (#623511)
+	* Initialize all the info fields before registering (#620962)
+	* Typing destination folder in preferences does not update it (#620765)
+	* Cygwin support for 2.11 (#608115)
+	* Fixed metadata write. (#623071)
+	* Fixed crash when starting the slideshow with a folder without images.
+	* Fixed crash when trying to print files that aren't images.
+	* Fixed volume scale in the media player: allow to change the volume
+	  from 0 to 200% instead of from 0 to 1000%
+	* Fixed multiple selection with shift + mouse click.
+	* Fixed a memory leak in the slideshow.
+	* Fixed tiff image corruption when saving the metadata.
+
+	New or updated application translations:
+
+	* Czech (Marek Černocký)
+	* Deutsch (Mario Blättermann)
+	* Español (Jorge González)
+	* French (Bruno Brouard)
+	* Lithuanian (Žygimantas Beručka)
+	* Slovenian (Andrej Žnidaršič)
+
+	New or updated manual translations:
+
+	* Español (Jorge González)
+
 version 2.11.4
 --------------
 
