@@ -681,6 +681,14 @@ paint_selection (GthImageSelector *self,
                                grid_x0, grid_y2,
                                grid_x3, grid_y2);
 	}
+
+	gdk_draw_rectangle (GTK_WIDGET (self->priv->viewer)->window,
+			    self->priv->selection_gc,
+			    FALSE,
+			    selection_area.x,
+			    selection_area.y,
+			    selection_area.width,
+			    selection_area.height);
 }
 
 
@@ -714,29 +722,12 @@ gth_image_selector_expose (GthImageViewerTool *base,
 	if (self->priv->pixbuf == NULL)
 		return;
 
-	if (! self->priv->mask_visible) {
+	if (self->priv->mask_visible) {
+		paint_background (self, event_area);
+		paint_selection (self, event_area);
+	}
+	else
 		paint_image (self, event_area);
-		return;
-	}
-
-	paint_background (self, event_area);
-	paint_selection (self, event_area);
-
-	if (GTK_WIDGET_HAS_FOCUS (self->priv->viewer)) {
-		GdkRectangle area;
-
-		area = self->priv->selection_area;
-		area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
-		area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
-
-		gdk_draw_rectangle (GTK_WIDGET (self->priv->viewer)->window,
-				    self->priv->selection_gc,
-				    FALSE,
-				    area.x,
-				    area.y,
-				    area.width,
-				    area.height);
-	}
 }
 
 
