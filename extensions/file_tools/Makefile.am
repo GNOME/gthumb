@@ -48,6 +48,8 @@ enum-types.c: $(HEADER_FILES) enum-types.h
 libfile_tools_la_SOURCES = 		\
 	$(ENUM_TYPES)			\
 	$(HEADER_FILES)			\
+	callbacks.c			\
+	callbacks.h			\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-desaturate.c	\

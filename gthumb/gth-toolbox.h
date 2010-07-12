@@ -53,7 +53,9 @@ GType          gth_toolbox_get_type              (void);
 GtkWidget *    gth_toolbox_new                   (const char  *name);
 void           gth_toolbox_update_sensitivity    (GthToolbox  *toolbox);
 void           gth_toolbox_deactivate_tool       (GthToolbox  *toolbox);
-gboolean       gth_toolbox_is_tool_active        (GthToolbox  *toolbox);
+gboolean       gth_toolbox_tool_is_active        (GthToolbox  *toolbox);
+GtkWidget *    gth_toolbox_get_tool              (GthToolbox  *toolbox,
+						  GType        tool_type);
 
 G_END_DECLS
 

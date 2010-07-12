@@ -4616,32 +4616,38 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 {
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	switch (gdk_keyval_to_lower (event->keyval)) {
-	case GDK_Page_Up:
-	case GDK_BackSpace:
-		gth_browser_show_prev_image (browser, FALSE, FALSE);
-		return TRUE;
+	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
+		switch (event->keyval) {
+		case GDK_Page_Up:
+		case GDK_BackSpace:
+			gth_browser_show_prev_image (browser, FALSE, FALSE);
+			return TRUE;
 
-	case GDK_Page_Down:
-	case GDK_space:
-		gth_browser_show_next_image (browser, FALSE, FALSE);
-		return TRUE;
+		case GDK_Page_Down:
+		case GDK_space:
+			gth_browser_show_next_image (browser, FALSE, FALSE);
+			return TRUE;
 
-	case GDK_Home:
-		gth_browser_show_first_image (browser, FALSE, FALSE);
-		return TRUE;
+		case GDK_Home:
+			gth_browser_show_first_image (browser, FALSE, FALSE);
+			return TRUE;
 
-	case GDK_End:
-		gth_browser_show_last_image (browser, FALSE, FALSE);
-		return TRUE;
+		case GDK_End:
+			gth_browser_show_last_image (browser, FALSE, FALSE);
+			return TRUE;
 
-	case GDK_e:
-		gth_browser_show_viewer_tools (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Tools"));
-		return TRUE;
+		case GDK_e:
+			gth_browser_show_viewer_tools (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Tools"));
+			return TRUE;
 
-	case GDK_f:
-		gth_browser_fullscreen (browser);
-		break;
+		case GDK_i:
+			gth_browser_show_viewer_properties (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Properties"));
+			return TRUE;
+
+		case GDK_f:
+			gth_browser_fullscreen (browser);
+			break;
+		}
 	}
 
 	return gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;

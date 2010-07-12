@@ -260,7 +260,7 @@ child_hide_options_cb (GtkWidget *tool,
 
 
 static void
-_gth_toolbox_add_childs (GthToolbox *toolbox)
+_gth_toolbox_add_children (GthToolbox *toolbox)
 {
 	GArray *children;
 	int     i;
@@ -299,7 +299,7 @@ gth_toolbox_new (const char *name)
 	GtkWidget *toolbox;
 
 	toolbox = g_object_new (GTH_TYPE_TOOLBOX, "name", name, NULL);
-	_gth_toolbox_add_childs (GTH_TOOLBOX (toolbox));
+	_gth_toolbox_add_children (GTH_TOOLBOX (toolbox));
 
 	return toolbox;
 }
@@ -334,7 +334,31 @@ gth_toolbox_deactivate_tool (GthToolbox *toolbox)
 
 
 gboolean
-gth_toolbox_is_tool_active (GthToolbox *toolbox)
+gth_toolbox_tool_is_active (GthToolbox *toolbox)
 {
 	return toolbox->priv->active_tool != NULL;
+}
+
+
+GtkWidget *
+gth_toolbox_get_tool (GthToolbox *toolbox,
+		      GType       tool_type)
+{
+	GtkWidget *tool = NULL;
+	GList     *children;
+	GList     *scan;
+
+	children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->box));
+	for (scan = children; scan; scan = scan->next) {
+		GtkWidget *child = scan->data;
+
+		if (G_OBJECT_TYPE (child) == tool_type) {
+			tool = child;
+			break;
+		}
+	}
+
+	g_list_free (children);
+
+	return tool;
 }

@@ -66,11 +66,12 @@ struct _GthPropertyViewIface {
 
 GType          gth_sidebar_get_type            (void);
 GtkWidget *    gth_sidebar_new                 (const char      *name);
+GtkWidget *    gth_sidebar_get_toolbox         (GthSidebar      *sidebar);
 void           gth_sidebar_set_file            (GthSidebar      *sidebar,
 						GthFileData     *file_data);
 void           gth_sidebar_show_properties     (GthSidebar      *sidebar);
 void           gth_sidebar_show_tools          (GthSidebar      *sidebar);
-gboolean       gth_sidebar_is_tool_active      (GthSidebar      *sidebar);
+gboolean       gth_sidebar_tool_is_active      (GthSidebar      *sidebar);
 void           gth_sidebar_deactivate_tool     (GthSidebar      *sidebar);
 void           gth_sidebar_update_sensitivity  (GthSidebar      *sidebar);
 

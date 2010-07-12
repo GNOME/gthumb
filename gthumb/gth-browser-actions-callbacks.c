@@ -321,7 +321,7 @@ gth_browser_activate_action_browser_mode (GtkAction  *action,
 	GtkWidget *viewer_sidebar;
 
 	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
-	if (gth_sidebar_is_tool_active (GTH_SIDEBAR (viewer_sidebar)))
+	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (viewer_sidebar)))
 		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
 	else
 		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);

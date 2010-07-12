@@ -24,6 +24,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "callbacks.h"
 #include "gth-file-tool-adjust-colors.h"
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-desaturate.h"
@@ -62,6 +63,8 @@ gthumb_extension_activate (void)
 
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_RESIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
+
+	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (file_tools__gth_browser_file_list_key_press_cb), NULL);
 }
 
 

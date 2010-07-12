@@ -139,6 +139,13 @@ gth_sidebar_new (const char *name)
 }
 
 
+GtkWidget *
+gth_sidebar_get_toolbox (GthSidebar *sidebar)
+{
+	return sidebar->priv->toolbox;
+}
+
+
 void
 gth_sidebar_set_file (GthSidebar  *sidebar,
 		      GthFileData *file_data)
@@ -180,9 +187,9 @@ gth_sidebar_show_tools (GthSidebar *sidebar)
 
 
 gboolean
-gth_sidebar_is_tool_active (GthSidebar *sidebar)
+gth_sidebar_tool_is_active (GthSidebar *sidebar)
 {
-	return gth_toolbox_is_tool_active (GTH_TOOLBOX (sidebar->priv->toolbox));
+	return gth_toolbox_tool_is_active (GTH_TOOLBOX (sidebar->priv->toolbox));
 }
 
 
