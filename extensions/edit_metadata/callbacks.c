@@ -24,6 +24,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <glib-object.h>
+#include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "actions.h"
 #include "gth-tag-task.h"
@@ -350,3 +351,24 @@ edit_metadata__gth_browser_file_popup_before_cb (GthBrowser *browser)
 		update_tag_menu (data);
 	}
 }
+
+
+gpointer
+edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+						   GdkEventKey *event)
+{
+	gpointer result = NULL;
+
+	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
+		return NULL;
+
+	switch (gdk_keyval_to_lower (event->keyval)) {
+	case GDK_c:
+		gth_browser_activate_action_edit_metadata (NULL, browser);
+		result = GINT_TO_POINTER (1);
+		break;
+	}
+
+	return result;
+}
+

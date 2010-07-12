@@ -25,10 +25,12 @@
 
 #include <gthumb.h>
 
-void edit_metadata__gth_browser_construct_cb              (GthBrowser *browser);
-void edit_metadata__gth_browser_set_current_page_cb       (GthBrowser *browser);
-void edit_metadata__gth_browser_update_sensitivity_cb     (GthBrowser *browser);
-void edit_metadata__gth_browser_file_list_popup_before_cb (GthBrowser *browser);
-void edit_metadata__gth_browser_file_popup_before_cb      (GthBrowser *browser);
+void      edit_metadata__gth_browser_construct_cb              (GthBrowser  *browser);
+void      edit_metadata__gth_browser_set_current_page_cb       (GthBrowser  *browser);
+void      edit_metadata__gth_browser_update_sensitivity_cb     (GthBrowser  *browser);
+void      edit_metadata__gth_browser_file_list_popup_before_cb (GthBrowser  *browser);
+void      edit_metadata__gth_browser_file_popup_before_cb      (GthBrowser  *browser);
+gpointer  edit_metadata__gth_browser_file_list_key_press_cb    (GthBrowser  *browser,
+						   	        GdkEventKey *event);
 
 #endif /* CALLBACKS_H */
