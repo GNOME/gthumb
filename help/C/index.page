@@ -34,7 +34,8 @@ id="index">
     Numerous editing tools are provided for touching-up individual 
     photos. Undo and redo functions are provided, up until the photo
     is saved. To access the editing tools, open an image and then click the 
-    <gui>Edit File</gui>toolbar button (the palette icon).</p>
+    <gui>Edit File</gui> toolbar button (the palette icon), or
+    press <keyseq><key>e</key></keyseq>.</p>
   </section>
 
   <section id="batch" style="2column">
