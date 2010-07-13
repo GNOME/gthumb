@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-04 18:12+0000\n"
-"PO-Revision-Date: 2010-07-05 01:09+0100\n"
+"POT-Creation-Date: 2010-07-12 09:55+0000\n"
+"PO-Revision-Date: 2010-07-13 23:32+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -632,7 +632,7 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Zum Ordner gehen, der die gewählte Datei enthält"
 
 #: ../extensions/catalogs/callbacks.c:107
-#: ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/edit_metadata/callbacks.c:107
 msgid "Other..."
 msgstr "Andere …"
 
@@ -931,7 +931,7 @@ msgstr "ist nicht"
 msgid "The test definition is incomplete"
 msgstr "Die Testdefinition ist unvollständig"
 
-#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:101
+#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:102
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -1010,15 +1010,15 @@ msgstr "Das Bild als Arbeitsflächenhintergrund verwenden"
 msgid "Desktop background"
 msgstr "Arbeitsflächenhintergrund"
 
-#: ../extensions/edit_metadata/callbacks.c:98
+#: ../extensions/edit_metadata/callbacks.c:99
 msgid "T_ags"
 msgstr "Schl_agwörter"
 
-#: ../extensions/edit_metadata/callbacks.c:102
+#: ../extensions/edit_metadata/callbacks.c:103
 msgid "Edit the comment an other information of the selected files"
 msgstr "Den Kommentar und andere Informationen der gewählten Felder bearbeiten"
 
-#: ../extensions/edit_metadata/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:108
 msgid "Choose another tag"
 msgstr "Wählen Sie ein anderes Schlagwort"
 
@@ -1029,6 +1029,7 @@ msgid "D_escription:"
 msgstr "_Beschreibung:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+#: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "Schl_agwörter:"
 
@@ -1109,6 +1110,27 @@ msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d Datei"
 msgstr[1] "%d Dateien"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:82
+msgid "New tag"
+msgstr "Neues Schlagwort"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:224
+msgid "Assign Tags"
+msgstr "Schlagworte zuweisen"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:114
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Assigning tags to the selected files"
+msgstr "Schlagworte werden gewählten Dateien zugewiesen"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:114
+msgid "Writing files"
+msgstr "Dateien werden geschrieben"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Reading files"
+msgstr "Dateien werden gelesen"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1347,7 +1369,7 @@ msgid "_Open in the Browser"
 msgstr "Im Br_owser öffnen"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:120
-#: ../extensions/facebook/dlg-export-to-facebook.c:303
+#: ../extensions/facebook/dlg-export-to-facebook.c:307
 #: ../extensions/facebook/facebook-authentication.c:220
 #: ../extensions/flicker/dlg-export-to-flickr.c:136
 #: ../extensions/flicker/dlg-export-to-flickr.c:390
@@ -1369,7 +1391,7 @@ msgstr "Verbindung zum Server konnte nicht hergestellt werden"
 msgid "Could not upload the files"
 msgstr "Die Dateien konnten nicht übertragen werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:379
+#: ../extensions/facebook/dlg-export-to-facebook.c:383
 #: ../extensions/flicker/dlg-export-to-flickr.c:181
 #: ../extensions/flicker/dlg-export-to-flickr.c:215
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:454
@@ -1377,13 +1399,13 @@ msgstr "Die Dateien konnten nicht übertragen werden"
 msgid "Could not create the album"
 msgstr "Das Album konnte nicht angelegt werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:443
+#: ../extensions/facebook/dlg-export-to-facebook.c:447
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:521
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:722
 msgid "New Album"
 msgstr "Neues Album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:522
+#: ../extensions/facebook/dlg-export-to-facebook.c:526
 #: ../extensions/flicker/dlg-export-to-flickr.c:516
 #: ../extensions/image_print/gth-image-print-job.c:1532
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:601
@@ -1391,14 +1413,14 @@ msgstr "Neues Album"
 msgid "No valid file selected."
 msgstr "Keine gültige Datei ausgewählt"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:523
+#: ../extensions/facebook/dlg-export-to-facebook.c:527
 #: ../extensions/flicker/dlg-export-to-flickr.c:517
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:602
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
 msgid "Could not export the files"
 msgstr "Die Dateien konnten nicht exportiert werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:530
+#: ../extensions/facebook/dlg-export-to-facebook.c:534
 #: ../extensions/flicker/dlg-export-to-flickr.c:524
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:609
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:935
@@ -1410,7 +1432,7 @@ msgid_plural "%d files (%s)"
 msgstr[0] "%d Datei (%s)"
 msgstr[1] "%d Dateien (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:551
+#: ../extensions/facebook/dlg-export-to-facebook.c:555
 #: ../extensions/flicker/dlg-export-to-flickr.c:546
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:629
 #, c-format
@@ -1478,9 +1500,9 @@ msgstr "Konten bearbeiten"
 
 #: ../extensions/facebook/facebook-connection.c:295
 #: ../extensions/facebook/facebook-connection.c:453
-#: ../extensions/facebook/facebook-service.c:188
-#: ../extensions/facebook/facebook-service.c:291
-#: ../extensions/facebook/facebook-service.c:494
+#: ../extensions/facebook/facebook-service.c:189
+#: ../extensions/facebook/facebook-service.c:292
+#: ../extensions/facebook/facebook-service.c:495
 #: ../extensions/flicker/flickr-connection.c:291
 #: ../extensions/flicker/flickr-connection.c:442
 #: ../extensions/flicker/flickr-service.c:221
@@ -1494,8 +1516,8 @@ msgstr "Unbekannter Fehler"
 
 #: ../extensions/facebook/facebook-connection.c:330
 #: ../extensions/facebook/facebook-connection.c:479
-#: ../extensions/facebook/facebook-service.c:214
-#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/facebook/facebook-service.c:215
+#: ../extensions/facebook/facebook-service.c:317
 #: ../extensions/flicker/flickr-connection.c:317
 #: ../extensions/flicker/flickr-connection.c:468
 #: ../extensions/flicker/flickr-service.c:245
@@ -1514,8 +1536,8 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Bilder zu Facebook übertragen"
 
-#: ../extensions/facebook/facebook-service.c:214
-#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/facebook/facebook-service.c:215
+#: ../extensions/facebook/facebook-service.c:317
 #: ../extensions/flicker/flickr-service.c:245
 #: ../extensions/oauth/oauth-connection.c:378
 #: ../extensions/oauth/oauth-connection.c:453
@@ -1523,14 +1545,14 @@ msgstr "Bilder zu Facebook übertragen"
 msgid "Getting account information"
 msgstr "Kontoinformationen wird ermittelt"
 
-#: ../extensions/facebook/facebook-service.c:422
+#: ../extensions/facebook/facebook-service.c:423
 #: ../extensions/flicker/flickr-service.c:349
 #: ../extensions/photobucket/photobucket-service.c:236
 #: ../extensions/picasaweb/picasa-web-service.c:238
 msgid "Getting the album list"
 msgstr "Albenliste wird geholt"
 
-#: ../extensions/facebook/facebook-service.c:551
+#: ../extensions/facebook/facebook-service.c:552
 #: ../extensions/flicker/flickr-service.c:452
 #: ../extensions/flicker/flickr-service.c:572
 #: ../extensions/flicker/flickr-service.c:610
@@ -1539,7 +1561,7 @@ msgstr "Albenliste wird geholt"
 msgid "Creating the new album"
 msgstr "Neues Album wird angelegt"
 
-#: ../extensions/facebook/facebook-service.c:610
+#: ../extensions/facebook/facebook-service.c:611
 #: ../extensions/flicker/flickr-service.c:660
 #: ../extensions/photobucket/photobucket-service.c:402
 #: ../extensions/picasaweb/picasa-web-service.c:386
@@ -1550,7 +1572,7 @@ msgstr "»%s« konnte nicht übertragen werden: %s"
 #. Translators: %s is a filename
 #. send the file
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:752
+#: ../extensions/facebook/facebook-service.c:811
 #: ../extensions/flicker/flickr-service.c:838
 #: ../extensions/photobucket/photobucket-service.c:525
 #: ../extensions/picasaweb/picasa-web-service.c:521
@@ -1558,14 +1580,14 @@ msgstr "»%s« konnte nicht übertragen werden: %s"
 msgid "Uploading '%s'"
 msgstr "»%s« wird übertragen …"
 
-#: ../extensions/facebook/facebook-service.c:828
+#: ../extensions/facebook/facebook-service.c:887
 #: ../extensions/flicker/flickr-service.c:916
 #: ../extensions/photobucket/photobucket-service.c:606
 #: ../extensions/picasaweb/picasa-web-service.c:595
 msgid "Uploading the files to the server"
 msgstr "Dateien werden zum Server übertragen"
 
-#: ../extensions/facebook/facebook-service.c:945
+#: ../extensions/facebook/facebook-service.c:1004
 #: ../extensions/flicker/flickr-service.c:1033
 #: ../extensions/picasaweb/picasa-web-service.c:717
 msgid "Getting the photo list"
@@ -4125,8 +4147,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1657
-#: ../gthumb/gth-browser.c:5247 ../gthumb/gth-browser.c:5266
-#: ../gthumb/gth-browser.c:5291
+#: ../gthumb/gth-browser.c:5253 ../gthumb/gth-browser.c:5272
+#: ../gthumb/gth-browser.c:5297
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4168,12 +4190,12 @@ msgstr "Die Liste besuchter Orte anzeigen"
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5248
+#: ../gthumb/gth-browser.c:5254
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5292
+#: ../gthumb/gth-browser.c:5298
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
