@@ -5,7 +5,7 @@ SUBDIRS = data
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libexiv2_tools.la
 
-libexiv2_tools_la_SOURCES = 			\
+libexiv2_tools_la_SOURCES = 		\
 	exiv2-utils.h			\
 	exiv2-utils.cpp			\
 	gth-edit-exiv2-page.c		\

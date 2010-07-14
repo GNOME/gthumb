@@ -45,7 +45,10 @@ libimporter_la_SOURCES = 			\
 
 libimporter_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimporter_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libimporter_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../exiv2_tools/libexiv2_tools.la ../image_rotation/libimage_rotation.la
+libimporter_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../image_rotation/libimage_rotation.la
+if ENABLE_EXIV2
+libimporter_la_LIBADD += ../exiv2_tools/libexiv2_tools.la
+endif
 libimporter_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
