@@ -638,6 +638,10 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 		self->priv->playbin = NULL;
 	}
 
+	gtk_ui_manager_remove_action_group (gth_browser_get_ui_manager (self->priv->browser), self->priv->actions);
+	g_object_unref (self->priv->actions);
+	self->priv->actions = NULL;
+
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
 }
 

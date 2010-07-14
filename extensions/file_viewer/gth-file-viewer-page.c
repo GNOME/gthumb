@@ -92,19 +92,12 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 				    GthBrowser    *browser)
 {
 	GthFileViewerPage *self;
-	GError            *error = NULL;
 	GtkWidget         *vbox1;
 	GtkWidget         *vbox2;
 
 	self = (GthFileViewerPage*) base;
 
 	self->priv->browser = browser;
-
-	self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), file_viewer_ui_info, -1, &error);
-	if (self->priv->merge_id == 0) {
-		g_warning ("ui building failed: %s", error->message);
-		g_error_free (error);
-	}
 
 	self->priv->thumb_loader = gth_thumb_loader_new (128);
 	self->priv->thumb_loader_ready_event =
@@ -160,10 +153,6 @@ gth_file_viewer_page_real_deactivate (GthViewerPage *base)
 	g_signal_handler_disconnect (self->priv->thumb_loader, self->priv->thumb_loader_ready_event);
 	self->priv->thumb_loader_ready_event = 0;
 
-	if (self->priv->merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
-		self->priv->merge_id = 0;
-	}
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
 }
 
@@ -171,12 +160,30 @@ gth_file_viewer_page_real_deactivate (GthViewerPage *base)
 static void
 gth_file_viewer_page_real_show (GthViewerPage *base)
 {
+	GthFileViewerPage *self;
+	GError            *error = NULL;
+
+	self = (GthFileViewerPage*) base;
+
+	self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), file_viewer_ui_info, -1, &error);
+	if (self->priv->merge_id == 0) {
+		g_warning ("ui building failed: %s", error->message);
+		g_error_free (error);
+	}
 }
 
 
 static void
 gth_file_viewer_page_real_hide (GthViewerPage *base)
 {
+	GthFileViewerPage *self;
+
+	self = (GthFileViewerPage*) base;
+
+	if (self->priv->merge_id != 0) {
+		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
+		self->priv->merge_id = 0;
+	}
 }
 
 
