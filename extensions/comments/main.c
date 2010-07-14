@@ -27,7 +27,6 @@
 #include "dlg-comments-preferences.h"
 #include "gth-comment.h"
 #include "gth-metadata-provider-comment.h"
-#include "gth-test-category.h"
 #include "preferences.h"
 
 
@@ -221,8 +220,10 @@ gthumb_extension_activate (void)
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "comment::category",
 				  GTH_TYPE_TEST_CATEGORY,
+				  "attributes", "comment::categories",
 				  "display-name", _("Tag"),
 				  NULL);
+
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (comments__add_sidecars_cb), NULL);
 	gth_hook_add_callback ("read-metadata-ready", 10, G_CALLBACK (comments__read_metadata_ready_cb), NULL);
 }

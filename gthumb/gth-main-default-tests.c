@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-main.h"
+#include "gth-test-category.h"
 #include "gth-test-simple.h"
 #include "gth-time.h"
 
@@ -264,5 +265,23 @@ gth_main_register_default_tests (void)
 				  "display-name", _("Date photo was taken"),
 				  "data-type", GTH_TEST_DATA_TYPE_DATE,
 				  "get-data-func", get_original_date_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "general::title",
+				  GTH_TYPE_TEST_CATEGORY,
+				  "attributes", "general::title",
+				  "display-name", _("Title (embedded)"),
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "general::description",
+				  GTH_TYPE_TEST_CATEGORY,
+				  "attributes", "general::description",
+				  "display-name", _("Description (embedded)"),
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "general::tags",
+				  GTH_TYPE_TEST_CATEGORY,
+				  "attributes", "general::tags",
+				  "display-name", _("Tag (embedded)"),
 				  NULL);
 }

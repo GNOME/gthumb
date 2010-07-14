@@ -96,6 +96,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-tags-file.h					\
 	gth-task.h					\
 	gth-test.h					\
+	gth-test-category.h				\
 	gth-test-chain.h				\
 	gth-test-selector.h				\
 	gth-test-simple.h				\
@@ -213,6 +214,7 @@ gthumb_SOURCES = 					\
 	gth-tags-file.c					\
 	gth-task.c					\
 	gth-test.c					\
+	gth-test-category.c				\
 	gth-test-chain.c				\
 	gth-test-selector.c				\
 	gth-test-simple.c				\

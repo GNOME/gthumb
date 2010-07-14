@@ -331,6 +331,7 @@ gth_test_init (GthTest *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TEST, GthTestPrivate);
 	self->priv->id = g_strdup ("");
+	self->priv->attributes = g_strdup ("");
 	self->priv->display_name = g_strdup ("");
 	self->priv->visible = FALSE;
 }

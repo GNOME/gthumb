@@ -26,6 +26,13 @@
 #include <glib/gi18n.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include "dom.h"
+#include "glib-utils.h"
+#include "gth-duplicable.h"
+#include "gth-enum-types.h"
+#include "gth-main.h"
+#include "gth-monitor.h"
+#include "gth-test.h"
 #include "gth-test-category.h"
 
 
@@ -244,7 +251,7 @@ gth_test_category_real_match (GthTest     *test,
 		GList         *list, *scan;
 		char          *test_category_casefolded;
 
-		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, "comment::categories");
+		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category)));
 		if (string_list != NULL)
 			list = gth_string_list_get_list (string_list);
 		else
@@ -368,6 +375,7 @@ gth_test_category_real_duplicate (GthDuplicable *duplicable)
 
 	new_test = g_object_new (GTH_TYPE_TEST_CATEGORY,
 				 "id", gth_test_get_id (GTH_TEST (test)),
+				 "attributes", gth_test_get_attributes (GTH_TEST (test)),
 				 "display-name", gth_test_get_display_name (GTH_TEST (test)),
 				 "visible", gth_test_is_visible (GTH_TEST (test)),
 				 NULL);
@@ -417,7 +425,6 @@ static void
 gth_test_category_init (GthTestCategory *test)
 {
 	test->priv = g_new0 (GthTestCategoryPrivate, 1);
-	g_object_set (test, "attributes", "comment::categories", NULL);
 	test->priv->monitor_events = 0;
 }
 

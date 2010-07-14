@@ -10,8 +10,6 @@ libcomments_la_SOURCES = 			\
 	gth-comment.h				\
 	gth-metadata-provider-comment.c		\
 	gth-metadata-provider-comment.h		\
-	gth-test-category.c			\
-	gth-test-category.h			\
 	main.c					\
 	preferences.h
 

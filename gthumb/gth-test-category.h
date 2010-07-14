@@ -25,7 +25,6 @@
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
-#include <gthumb.h>
 
 #define GTH_TYPE_TEST_CATEGORY         (gth_test_category_get_type ())
 #define GTH_TEST_CATEGORY(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_TEST_CATEGORY, GthTestCategory))
