@@ -118,9 +118,11 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 	case _OPEN_IN_BROWSER_RESPONSE:
 		{
-			char   *url = NULL;
-			GError *error = NULL;
+			GdkScreen *screen;
+			char      *url = NULL;
+			GError    *error = NULL;
 
+			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
 			if (data->album != NULL) {
@@ -132,7 +134,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 			else
 				url = g_strconcat ("http://picasaweb.google.com/", data->user->id, NULL);
 
-			if ((url != NULL) && ! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error)) {
+			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
 				if (data->conn != NULL)
 					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);

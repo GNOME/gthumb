@@ -472,13 +472,15 @@ ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		{
-			char   *url;
-			GError *error = NULL;
+			GdkScreen *screen;
+			char      *url;
+			GError    *error = NULL;
 
+			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
 			url = flickr_connection_get_login_link (self->priv->conn, FLICKR_ACCESS_WRITE);
-			if (gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (dialog)), url, 0, &error))
+			if (gtk_show_uri (screen, url, 0, &error))
 				complete_authorization (self);
 			else
 				show_authentication_error_dialog (self, &error);
