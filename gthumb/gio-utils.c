@@ -582,7 +582,7 @@ g_directory_foreach_child (GFile                *directory,
 						      g_str_equal,
 						      g_free,
 						      NULL);
-	fec->metadata_attributes = ! _g_file_attributes_matches_any (fec->attributes, GIO_ATTRIBUTES);
+	fec->metadata_attributes = ! _g_file_attributes_matches_all (fec->attributes, GIO_ATTRIBUTES);
 
 	g_file_query_info_async (fec->base_directory,
 				 fec->attributes,
