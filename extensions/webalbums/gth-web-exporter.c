@@ -1758,15 +1758,87 @@ save_template (GthWebExporter   *self,
 }
 
 
+enum {
+	_OPEN_IN_BROWSER_RESPONSE = 1,
+	_OPEN_FOLDER_RESPONSE
+};
+
+
+static void
+success_dialog_response_cb (GtkDialog *dialog,
+			    int        response_id,
+			    gpointer   user_data)
+{
+	GthWebExporter *self = user_data;
+	GdkScreen      *screen;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	switch (response_id) {
+	case _OPEN_IN_BROWSER_RESPONSE:
+	case _OPEN_FOLDER_RESPONSE:
+		{
+			GFile  *file;
+			char   *url = NULL;
+			GError *error = NULL;
+
+			if (response_id == _OPEN_FOLDER_RESPONSE)
+				file = g_object_ref (self->priv->target_dir);
+			else if (response_id == _OPEN_IN_BROWSER_RESPONSE)
+				file = get_html_index_file (self, 0, self->priv->target_dir);
+			else
+				break;
+
+			url = g_file_get_uri (file);
+			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
+				gth_task_dialog (GTH_TASK (self), TRUE, NULL);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not show the destination"), &error);
+			}
+
+			g_free (url);
+			g_object_unref (file);
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	gth_task_completed (GTH_TASK (self), self->priv->error);
+}
+
+
 static void
 delete_temp_dir_ready_cb (GError   *error,
 			  gpointer  user_data)
 {
 	GthWebExporter *self = user_data;
+	GtkWidget      *dialog;
 
 	if ((self->priv->error == NULL) && (error != NULL))
 		self->priv->error = g_error_copy (error);
-	gth_task_completed (GTH_TASK (self), self->priv->error);
+
+	if (self->priv->error != NULL) {
+		gth_task_completed (GTH_TASK (self), self->priv->error);
+		return;
+	}
+
+	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
+					  GTK_DIALOG_MODAL,
+					  GTK_MESSAGE_INFO,
+					  _("The album has been created successfully."),
+					  NULL,
+					  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					  _("_Open in the Browser"), _OPEN_IN_BROWSER_RESPONSE,
+					  _("_View the destination"), _OPEN_FOLDER_RESPONSE,
+					  NULL);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (success_dialog_response_cb),
+			  self);
+	gth_task_dialog (GTH_TASK (self), TRUE, dialog);
+	gtk_window_present (GTK_WINDOW (dialog));
 }
 
 
