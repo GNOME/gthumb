@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-12 09:55+0000\n"
-"PO-Revision-Date: 2010-07-13 23:32+0100\n"
+"POT-Creation-Date: 2010-07-14 09:09+0000\n"
+"PO-Revision-Date: 2010-07-14 22:08+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -361,8 +361,8 @@ msgid "Keep previous zoom"
 msgstr "Letzte Vergrößerung beibehalten"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:361
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
@@ -722,6 +722,7 @@ msgid "_New Catalog"
 msgstr "Katalog a_nlegen"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
+#: ../extensions/webalbums/gth-web-exporter.c:1834
 msgid "_View the destination"
 msgstr "Ziel _betrachten"
 
@@ -1365,65 +1366,66 @@ msgstr "Dateien wurden erfolgreich zum Server übertragen."
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
+#: ../extensions/webalbums/gth-web-exporter.c:1833
 msgid "_Open in the Browser"
 msgstr "Im Br_owser öffnen"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:120
-#: ../extensions/facebook/dlg-export-to-facebook.c:307
+#: ../extensions/facebook/dlg-export-to-facebook.c:122
+#: ../extensions/facebook/dlg-export-to-facebook.c:309
 #: ../extensions/facebook/facebook-authentication.c:220
-#: ../extensions/flicker/dlg-export-to-flickr.c:136
-#: ../extensions/flicker/dlg-export-to-flickr.c:390
+#: ../extensions/flicker/dlg-export-to-flickr.c:138
+#: ../extensions/flicker/dlg-export-to-flickr.c:392
 #: ../extensions/flicker/dlg-import-from-flickr.c:239
 #: ../extensions/flicker/flickr-authentication.c:219
 #: ../extensions/oauth/oauth-authentication.c:215
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:130
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:369
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:138
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:405
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:132
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:371
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:140
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:407
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:358
 msgid "Could not connect to the server"
 msgstr "Verbindung zum Server konnte nicht hergestellt werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:167
-#: ../extensions/flicker/dlg-export-to-flickr.c:237
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:176
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:186
+#: ../extensions/facebook/dlg-export-to-facebook.c:169
+#: ../extensions/flicker/dlg-export-to-flickr.c:239
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:178
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:188
 msgid "Could not upload the files"
 msgstr "Die Dateien konnten nicht übertragen werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:383
-#: ../extensions/flicker/dlg-export-to-flickr.c:181
-#: ../extensions/flicker/dlg-export-to-flickr.c:215
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:454
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:661
+#: ../extensions/facebook/dlg-export-to-facebook.c:385
+#: ../extensions/flicker/dlg-export-to-flickr.c:183
+#: ../extensions/flicker/dlg-export-to-flickr.c:217
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:456
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:663
 msgid "Could not create the album"
 msgstr "Das Album konnte nicht angelegt werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:447
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:521
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:722
+#: ../extensions/facebook/dlg-export-to-facebook.c:449
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:523
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:724
 msgid "New Album"
 msgstr "Neues Album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:526
-#: ../extensions/flicker/dlg-export-to-flickr.c:516
+#: ../extensions/facebook/dlg-export-to-facebook.c:528
+#: ../extensions/flicker/dlg-export-to-flickr.c:518
 #: ../extensions/image_print/gth-image-print-job.c:1532
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:601
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:928
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:603
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:930
 msgid "No valid file selected."
 msgstr "Keine gültige Datei ausgewählt"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:527
-#: ../extensions/flicker/dlg-export-to-flickr.c:517
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:602
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
+#: ../extensions/facebook/dlg-export-to-facebook.c:529
+#: ../extensions/flicker/dlg-export-to-flickr.c:519
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:604
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:931
 msgid "Could not export the files"
 msgstr "Die Dateien konnten nicht exportiert werden"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:534
-#: ../extensions/flicker/dlg-export-to-flickr.c:524
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:609
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:935
+#: ../extensions/facebook/dlg-export-to-facebook.c:536
+#: ../extensions/flicker/dlg-export-to-flickr.c:526
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:611
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:937
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
 #: ../gthumb/gth-browser.c:932 ../gthumb/gth-browser.c:933
 #, c-format
@@ -1432,9 +1434,9 @@ msgid_plural "%d files (%s)"
 msgstr[0] "%d Datei (%s)"
 msgstr[1] "%d Dateien (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:555
-#: ../extensions/flicker/dlg-export-to-flickr.c:546
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:629
+#: ../extensions/facebook/dlg-export-to-facebook.c:557
+#: ../extensions/flicker/dlg-export-to-flickr.c:548
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:631
 #, c-format
 msgid "Export to %s"
 msgstr "Exportieren nach %s"
@@ -1461,17 +1463,17 @@ msgstr ""
 "Kehren Sie zu diesem Fenster zurück, sobald der Legitimierungsvorgang auf %s "
 "abgeschlossen ist."
 
-#: ../extensions/facebook/facebook-authentication.c:575
-#: ../extensions/flicker/flickr-authentication.c:508
-#: ../extensions/oauth/oauth-authentication.c:520
+#: ../extensions/facebook/facebook-authentication.c:576
+#: ../extensions/flicker/flickr-authentication.c:510
+#: ../extensions/oauth/oauth-authentication.c:522
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr ""
 "gthumb benötigt Ihre Legitimierung, um Bilder zu %s übertragen zu können."
 
-#: ../extensions/facebook/facebook-authentication.c:576
-#: ../extensions/flicker/flickr-authentication.c:509
-#: ../extensions/oauth/oauth-authentication.c:521
+#: ../extensions/facebook/facebook-authentication.c:577
+#: ../extensions/flicker/flickr-authentication.c:511
+#: ../extensions/oauth/oauth-authentication.c:523
 #, c-format
 msgid ""
 "Click 'Authorize' to open your web browser and authorize gthumb to upload "
@@ -1482,18 +1484,18 @@ msgstr ""
 "legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
 "zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
-#: ../extensions/facebook/facebook-authentication.c:663
-#: ../extensions/flicker/flickr-authentication.c:601
-#: ../extensions/oauth/oauth-authentication.c:615
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:754
+#: ../extensions/facebook/facebook-authentication.c:664
+#: ../extensions/flicker/flickr-authentication.c:603
+#: ../extensions/oauth/oauth-authentication.c:617
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:756
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
 msgstr "Konto wählen"
 
-#: ../extensions/facebook/facebook-authentication.c:768
-#: ../extensions/flicker/flickr-authentication.c:706
-#: ../extensions/oauth/oauth-authentication.c:720
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:811
+#: ../extensions/facebook/facebook-authentication.c:769
+#: ../extensions/flicker/flickr-authentication.c:708
+#: ../extensions/oauth/oauth-authentication.c:722
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:813
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
 msgid "Edit Accounts"
 msgstr "Konten bearbeiten"
@@ -1905,83 +1907,83 @@ msgstr "Farbabgleich"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Helligkeit, Kontrast, Sättigung und Gammawert eines Bildes ändern"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 msgid "Square"
 msgstr "Quadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:362
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #: ../extensions/file_tools/gth-file-tool-resize.c:424
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Bild)"
 
 # CHECK
-#: ../extensions/file_tools/gth-file-tool-crop.c:365
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #: ../extensions/file_tools/gth-file-tool-resize.c:427
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Bildschirm)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:369
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
 #: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:370
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
 #: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, Buch)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:371
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
 #: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:372
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
 #: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Postkarte)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:373
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
 #: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:374
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
 #: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
 #: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
 #: ../extensions/file_tools/gth-file-tool-resize.c:438
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/file_tools/gth-file-tool-resize.c:439
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Benutzerdefiniert:"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 msgid "Rule of Thirds"
 msgstr "Drittel-Regel"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 msgid "Golden Sections"
 msgstr "Goldener Schnitt"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:502
+#: ../extensions/file_tools/gth-file-tool-crop.c:508
 msgid "Crop..."
 msgstr "Zuschneiden …"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:502
+#: ../extensions/file_tools/gth-file-tool-crop.c:508
 msgid "Crop"
 msgstr "Zuschneiden"
 
@@ -2382,7 +2384,7 @@ msgid "Loading \"%s\""
 msgstr "»%s« wird geladen"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2667
+#: ../extensions/webalbums/gth-web-exporter.c:2739
 msgid "Loading images"
 msgstr "Bilder werden geladen"
 
@@ -2873,7 +2875,7 @@ msgid "Upload photos to Photobucket"
 msgstr "Fotos zu Photobucket übertragen"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
 msgid "1 megabyte file size"
 msgstr "Dateigröße 1 Megabyte"
 
@@ -2913,31 +2915,31 @@ msgstr "Dateinamen ver_würfeln"
 msgid "_Container:"
 msgstr "_Container:"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:284
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
 msgid "Tiny ( 100 × 75 )"
 msgstr "Winzig ( 100 x 75 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:285
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
 msgid "Small ( 160 × 120 )"
 msgstr "Klein ( 160 x 120 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
 msgid "Medium ( 320 × 240 )"
 msgstr "Mittel ( 320 x 240 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
 msgid "Large ( 640 × 480 )"
 msgstr "Groß ( 640 x 480 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
 msgid "15ʺ screen ( 800 × 600 )"
 msgstr "15ʺ Bildschirm ( 800 x 600 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
 msgid "17ʺ screen ( 1024 × 768 )"
 msgstr "17ʺ Bildschirm ( 1024 x 768 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:297
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:299
 msgid "2 megabyte file size"
 msgstr "Dateigröße 2 Megabyte"
 
@@ -3056,17 +3058,17 @@ msgstr "_Passwort:"
 msgid "Public"
 msgstr "Öffentlich"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:347
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:349
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:299
 msgid "Could not get the album list"
 msgstr "Die Albenliste konnte nicht geholt werden"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:418
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:420
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:371
 msgid "Picasa Web Album"
 msgstr "Picasa-Webalbum"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:488
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:490
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:441
 msgid "Account"
 msgstr "Konto"
@@ -3706,33 +3708,41 @@ msgstr "Ve_rkleinern, wenn größer als:"
 msgid "%d × %d"
 msgstr "%d × %d"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2024
-#: ../extensions/webalbums/gth-web-exporter.c:2051
+#: ../extensions/webalbums/gth-web-exporter.c:1796
+msgid "Could not show the destination"
+msgstr "Das Ziel konnte nicht angezeigt werden"
+
+#: ../extensions/webalbums/gth-web-exporter.c:1830
+msgid "The album has been created successfully."
+msgstr "Das Album wurde erfolgreich angelegt."
+
+#: ../extensions/webalbums/gth-web-exporter.c:2096
+#: ../extensions/webalbums/gth-web-exporter.c:2123
 msgid "Saving thumbnails"
 msgstr "Miniatur-Vorschaubilder werden gespeichert"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2079
+#: ../extensions/webalbums/gth-web-exporter.c:2151
 msgid "Saving HTML pages: Images"
 msgstr "HTML-Seiten werden gespeichert: Bilder"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2137
+#: ../extensions/webalbums/gth-web-exporter.c:2209
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML-Seiten werden gespeichert: Indizes"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2257
-#: ../extensions/webalbums/gth-web-exporter.c:2314
+#: ../extensions/webalbums/gth-web-exporter.c:2329
+#: ../extensions/webalbums/gth-web-exporter.c:2386
 msgid "Saving images"
 msgstr "Bilder werden gespeichert"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2370
+#: ../extensions/webalbums/gth-web-exporter.c:2442
 msgid "Copying original images"
 msgstr "Originalbilder werden kopiert"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2904
+#: ../extensions/webalbums/gth-web-exporter.c:2976
 msgid "Could not find the style folder"
 msgstr "Der Stilvorlagen-Ordner konnte nicht gefunden werden"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2937
+#: ../extensions/webalbums/gth-web-exporter.c:3009
 msgid "Could not create a temporary folder"
 msgstr "Es konnte kein temporärer Ordner angelegt werden"
 
