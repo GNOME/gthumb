@@ -219,6 +219,8 @@ browser_location_ready_cb (GthBrowser    *browser,
 			   GthSearchTask *task)
 {
 	EmbeddedDialogData *dialog_data;
+	GString            *attributes;
+	const char         *test_attributes;
 
 	g_signal_handler_disconnect (task->priv->browser, task->priv->location_ready_id);
 
@@ -268,14 +270,24 @@ browser_location_ready_cb (GthBrowser    *browser,
 
 	task->priv->file_source = gth_main_get_file_source (gth_search_get_folder (task->priv->search));
 	gth_file_source_set_cancellable (task->priv->file_source, gth_task_get_cancellable (GTH_TASK (task)));
+
+	attributes = g_string_new (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	test_attributes = gth_test_get_attributes (GTH_TEST (task->priv->test));
+	if (test_attributes[0] != '\0') {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, test_attributes);
+	}
+
 	gth_file_source_for_each_child (task->priv->file_source,
 					gth_search_get_folder (task->priv->search),
 					gth_search_is_recursive (task->priv->search),
-					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+					attributes->str,
 					start_dir_func,
 					for_each_file_func,
 					done_func,
 					task);
+
+	g_string_free (attributes, TRUE);
 }
 
 
