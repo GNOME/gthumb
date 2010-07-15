@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009, 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,27 +41,40 @@ typedef struct _GthToggleMenuToolButtonPrivate GthToggleMenuToolButtonPrivate;
 
 struct _GthToggleMenuToolButton
 {
-	GtkToggleToolButton parent;
+	GtkToolItem parent;
 	GthToggleMenuToolButtonPrivate *priv;
 };
 
 struct _GthToggleMenuToolButtonClass
 {
-	GtkToggleToolButtonClass parent_class;
+	GtkToolItemClass parent_class;
+
+	/*< signals >*/
 
 	void (*show_menu) (GthToggleMenuToolButton *button);
 };
 
-GType         gth_toggle_menu_tool_button_get_type       (void) G_GNUC_CONST;
-GtkToolItem * gth_toggle_menu_tool_button_new            (void);
-GtkToolItem * gth_toggle_menu_tool_button_new_from_stock (const char              *stock_id);
-void          gth_toggle_menu_tool_button_set_menu       (GthToggleMenuToolButton *button,
-							  GtkWidget               *menu);
-GtkWidget *   gth_toggle_menu_tool_button_get_menu       (GthToggleMenuToolButton *button);
-
-/* utility */
-
-GtkWidget *   _gtk_create_toggle_menu_tool_label         (const char *label);
+GType                   gth_toggle_menu_tool_button_get_type          (void) G_GNUC_CONST;
+GtkToolItem *           gth_toggle_menu_tool_button_new               (void);
+GtkToolItem *           gth_toggle_menu_tool_button_new_from_stock    (const char              *stock_id);
+void                    gth_toggle_menu_tool_button_set_label         (GthToggleMenuToolButton *button,
+								       const char              *label);
+G_CONST_RETURN char *   gth_toggle_menu_tool_button_get_label         (GthToggleMenuToolButton *button);
+void                    gth_toggle_menu_tool_button_set_use_underline (GthToggleMenuToolButton *button,
+								       gboolean                 use_underline);
+gboolean                gth_toggle_menu_tool_button_get_use_underline (GthToggleMenuToolButton *button);
+void                    gth_toggle_menu_tool_button_set_stock_id      (GthToggleMenuToolButton *button,
+								       const char              *stock_id);
+G_CONST_RETURN char *   gth_toggle_menu_tool_button_get_stock_id      (GthToggleMenuToolButton *button);
+void                    gth_toggle_menu_tool_button_set_icon_name     (GthToggleMenuToolButton *button,
+								       const char              *icon_name);
+G_CONST_RETURN char *   gth_toggle_menu_tool_button_get_icon_name     (GthToggleMenuToolButton *button);
+void                    gth_toggle_menu_tool_button_set_active        (GthToggleMenuToolButton *button,
+								       gboolean                 is_active);
+gboolean                gth_toggle_menu_tool_button_get_active        (GthToggleMenuToolButton *button);
+void                    gth_toggle_menu_tool_button_set_menu          (GthToggleMenuToolButton *button,
+								       GtkWidget               *menu);
+GtkWidget *             gth_toggle_menu_tool_button_get_menu          (GthToggleMenuToolButton *button);
 
 G_END_DECLS
 

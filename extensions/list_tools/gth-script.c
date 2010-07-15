@@ -80,6 +80,16 @@ gth_script_real_create_element (DomDomizable *base,
 }
 
 
+static guint
+_gdk_keyval_from_name (const gchar *keyval_name)
+{
+	if (keyval_name != NULL)
+		return gdk_keyval_from_name (keyval_name);
+	else
+		return GDK_VoidSymbol;
+}
+
+
 static void
 gth_script_real_load_from_element (DomDomizable *base,
 				   DomElement   *element)
@@ -97,7 +107,7 @@ gth_script_real_load_from_element (DomDomizable *base,
 		      "shell-script", (g_strcmp0 (dom_element_get_attribute (element, "shell-script"), "true") == 0),
 		      "for-each-file", (g_strcmp0 (dom_element_get_attribute (element, "for-each-file"), "true") == 0),
 		      "wait-command", (g_strcmp0 (dom_element_get_attribute (element, "wait-command"), "true") == 0),
-		      "shortcut", gdk_keyval_from_name (dom_element_get_attribute (element, "shortcut")),
+		      "shortcut", _gdk_keyval_from_name (dom_element_get_attribute (element, "shortcut")),
 		      NULL);
 }
 

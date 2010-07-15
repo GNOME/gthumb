@@ -55,8 +55,10 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 
 	/* export tools menu button */
 
-	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON, "icon-name", "share", NULL);
-	gtk_tool_button_set_label_widget (GTK_TOOL_BUTTON (tool_item), _gtk_create_toggle_menu_tool_label (_("Share")));
+	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON,
+				  "icon-name", "share",
+				  "label", _("Share"),
+				  NULL);
 	/*gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Export files"));*/
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
 					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup"));
