@@ -190,6 +190,11 @@ gth_string_list_append (GthStringList *list1,
 {
 	GList *scan;
 
+	g_return_if_fail (GTH_IS_STRING_LIST (list1));
+
+	if (list2 == NULL)
+		return;
+
 	for (scan = list2->priv->list; scan; scan = scan->next)
 		if (! g_list_find_custom (list1->priv->list, scan->data, (GCompareFunc) strcmp))
 			list1->priv->list = g_list_append (list1->priv->list, g_strdup (scan->data));
