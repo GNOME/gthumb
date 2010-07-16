@@ -33,11 +33,10 @@ gthumb_extension_activate (void)
 	/**
 	 * Called after successfully rotating a jpeg image
 	 *
-	 * @out_buffer (void **): pointer to file data
-	 * @out_buffer_size (gsize *): pointer to file data size
-	 * @tranform (GthTransform *): the transformation applied to the file
+	 * @info (JpegTranInfo *): the transformation info as described in
+	 * extensions/jpeg_utils/jpegtran.h
 	 **/
-	gth_hook_register ("jpegtran-after", 3);
+	gth_hook_register ("jpegtran-after", 1);
 
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ir__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ir__gth_browser_update_sensitivity_cb), NULL);

@@ -222,20 +222,12 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	/* Initialize destination compression parameters from source values */
 	jpeg_copy_critical_parameters (srcinfo, dstinfo);
 
-
 	/* Do not output a JFIF marker for EXIF thumbnails.
 	 * This is not the optimal way to detect the difference
 	 * between a thumbnail and a normal image, but it works
 	 * well for gThumb. */
 	if (option == JCOPYOPT_NONE)
 		dstinfo->write_JFIF_header = FALSE;
-
-#if JPEG_LIB_VERSION < 80
-	/* Adjust the markers to create a standard EXIF file if an EXIF marker
-	 * is present in the input. By default, libjpeg creates a JFIF file,
-	 * which is incompatible with the EXIF standard. */
-	jcopy_markers_exif (srcinfo, dstinfo, option);
-#endif
 
 	/* Adjust destination parameters if required by transform options;
 	 * also find out which set of coefficient arrays will hold the output.
@@ -336,7 +328,14 @@ jpegtran (void           *in_buffer,
 	jpeg_destroy_decompress (&srcinfo);
 
 	if (success) {
-		gth_hook_invoke ("jpegtran-after", out_buffer, out_buffer_size, &transformation);
+		JpegTranInfo info;
+
+		info.in_buffer = in_buffer;
+		info.in_buffer_size = in_buffer_size;
+		info.out_buffer = out_buffer;
+		info.out_buffer_size = out_buffer_size;
+		info.transformation = transformation;
+		gth_hook_invoke ("jpegtran-after", &info);
 	}
 	else {
 		g_free (*out_buffer);

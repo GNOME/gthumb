@@ -46,6 +46,15 @@ typedef enum {
 } JpegMcuAction;
 
 
+typedef struct {
+	void          *in_buffer;
+	gsize          in_buffer_size;
+	void         **out_buffer;
+	gsize         *out_buffer_size;
+	GthTransform   transformation;
+} JpegTranInfo;
+
+
 gboolean   jpegtran  (void           *in_buffer,
 		      gsize           in_buffer_size,
 		      void          **out_buffer,

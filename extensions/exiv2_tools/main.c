@@ -24,6 +24,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/jpeg_utils/jpegtran.h>
 #include "gth-edit-exiv2-page.h"
 #include "gth-metadata-provider-exiv2.h"
 #include "exiv2-utils.h"
@@ -167,21 +168,19 @@ update_exif_dimensions (GFileInfo    *info,
 
 
 static void
-exiv2_jpeg_tran_cb (void         **out_buffer,
-		    gsize         *out_buffer_size,
-		    GthTransform  *transform)
+exiv2_jpeg_tran_cb (JpegTranInfo *tran_info)
 {
 	GFileInfo *info;
 
 	info = g_file_info_new ();
-	if (exiv2_read_metadata_from_buffer (*out_buffer, *out_buffer_size, info, NULL)) {
+	if (exiv2_read_metadata_from_buffer (tran_info->in_buffer, tran_info->in_buffer_size, info, NULL)) {
 		GthMetadata *metadata;
 
-		update_exif_dimensions (info, *transform);
+		update_exif_dimensions (info, tran_info->transformation);
 
 		metadata = g_object_new (GTH_TYPE_METADATA, "raw", "1", NULL);
 		g_file_info_set_attribute_object (info, "Exif::Image::Orientation", G_OBJECT (metadata));
-		exiv2_write_metadata_to_buffer (out_buffer, out_buffer_size, info, NULL, NULL);
+		exiv2_write_metadata_to_buffer (tran_info->out_buffer, tran_info->out_buffer_size, info, NULL, NULL);
 
 		g_object_unref (metadata);
 	}
