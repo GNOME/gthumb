@@ -32,7 +32,7 @@
 
 #define GTH_MONITOR_N_EVENTS 3
 #define MONITOR_UPDATE_DELAY 500
-#undef DEBUG_MONITOR
+#undef  DEBUG_MONITOR
 
 struct _GthFileSourceVfsPrivate
 {

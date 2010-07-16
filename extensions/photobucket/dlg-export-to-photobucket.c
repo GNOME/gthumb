@@ -625,7 +625,6 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
 
-	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (GET_WIDGET ("album_comboboxentry")))), g_file_info_get_edit_name (data->location->info));
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
 	title = g_strdup_printf (_("Export to %s"), photobucket_consumer.display_name);

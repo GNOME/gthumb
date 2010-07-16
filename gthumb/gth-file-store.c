@@ -26,7 +26,7 @@
 #include "gth-file-store.h"
 
 
-#undef DEBUG_FILE_STORE
+#undef  DEBUG_FILE_STORE
 #define VALID_ITER(iter, store) (((iter) != NULL) && ((iter)->stamp == (store)->priv->stamp) && ((iter)->user_data != NULL))
 #define REALLOC_STEP 32
 

@@ -26,7 +26,7 @@
 #include <gthumb.h>
 #include "google-connection.h"
 
-#undef DEBUG_GOOGLE_CONNECTION
+#undef  DEBUG_GOOGLE_CONNECTION
 #define SOUP_LOG_LEVEL SOUP_LOGGER_LOG_BODY
 #define GTHUMB_SOURCE ("GNOME-" PACKAGE "-" VERSION)
 

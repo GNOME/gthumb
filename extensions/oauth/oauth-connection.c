@@ -27,7 +27,7 @@
 #include "oauth-connection.h"
 
 
-#define DEBUG_OAUTH_CONNECTION 0
+#undef  DEBUG_OAUTH_CONNECTION
 #define OAUTH_VERSION "1.0"
 #define OAUTH_SIGNATURE_METHOD "HMAC-SHA1"
 
