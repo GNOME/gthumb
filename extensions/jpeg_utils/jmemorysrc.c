@@ -29,73 +29,62 @@
 #include <gio/gio.h>
 
 
-#define TMP_BUF_SIZE  4096
 #define JPEG_ERROR(cinfo,code)  \
   ((cinfo)->err->msg_code = (code), \
    (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
 
 
-typedef struct {
-	struct jpeg_source_mgr pub;
-
-	JOCTET  *in_buffer;
-	gsize    in_buffer_size;
-	goffset  bytes_read;
-	JOCTET  *tmp_buffer;
-} mem_source_mgr;
-
-typedef mem_source_mgr * mem_src_ptr;
-
-
 static void
 init_source (j_decompress_ptr cinfo)
 {
-	mem_src_ptr src = (mem_src_ptr) cinfo->src;
-	src->bytes_read = 0;
+	/* void */
 }
 
 
 static gboolean
 fill_input_buffer (j_decompress_ptr cinfo)
 {
-	mem_src_ptr src = (mem_src_ptr) cinfo->src;
-	size_t      nbytes;
+	static JOCTET mybuffer[4];
 
-	if (src->bytes_read + TMP_BUF_SIZE > src->in_buffer_size)
-		nbytes = src->in_buffer_size - src->bytes_read;
-	else
-		nbytes = TMP_BUF_SIZE;
+	/* The whole JPEG data is expected to reside in the supplied memory
+	 * buffer, so any request for more data beyond the given buffer size
+	 * is treated as an error.
+	 */
 
-	if (nbytes <= 0) {
-		if (src->bytes_read == 0)
-			JPEG_ERROR (cinfo, G_IO_ERROR_NOT_FOUND);
+	JPEG_ERROR (cinfo, G_IO_ERROR_NOT_FOUND);
 
-		/* Insert a fake EOI marker */
-		src->tmp_buffer[0] = (JOCTET) 0xFF;
-		src->tmp_buffer[1] = (JOCTET) JPEG_EOI;
-		nbytes = 2;
-	}
-	else
-		memcpy (src->tmp_buffer, src->in_buffer + src->bytes_read, nbytes);
+	/* Insert a fake EOI marker */
+	mybuffer[0] = (JOCTET) 0xFF;
+	mybuffer[1] = (JOCTET) JPEG_EOI;
 
-	src->pub.next_input_byte = src->tmp_buffer;
-	src->pub.bytes_in_buffer = nbytes;
-	src->bytes_read += nbytes;
+	cinfo->src->next_input_byte = mybuffer;
+	cinfo->src->bytes_in_buffer = 2;
 
 	return TRUE;
 }
 
 
-static void
+void
 skip_input_data (j_decompress_ptr cinfo,
 		 long             num_bytes)
 {
-	mem_src_ptr src = (mem_src_ptr) cinfo->src;
+	struct jpeg_source_mgr * src = cinfo->src;
 
-	src->bytes_read += num_bytes;
-	if (src->bytes_read < 0)
-		src->bytes_read = 0;
-	fill_input_buffer (cinfo);
+	/* Just a dumb implementation for now.  Could use fseek() except
+	 * it doesn't work on pipes.  Not clear that being smart is worth
+	 * any trouble anyway --- large skips are infrequent.
+	 */
+	if (num_bytes > 0) {
+		while (num_bytes > (long) src->bytes_in_buffer) {
+			num_bytes -= (long) src->bytes_in_buffer;
+			(void) fill_input_buffer (cinfo);
+			/* note we assume that fill_input_buffer will never return FALSE,
+			 * so suspension need not be handled.
+			 */
+		}
+		src->next_input_byte += (size_t) num_bytes;
+		src->bytes_in_buffer -= (size_t) num_bytes;
+	}
 }
 
 
@@ -111,28 +100,21 @@ _jpeg_memory_src (j_decompress_ptr  cinfo,
 		  void             *in_buffer,
 		  gsize             in_buffer_size)
 {
-	mem_src_ptr src;
+	struct jpeg_source_mgr *src;
 
 	if (cinfo->src == NULL) {
 		cinfo->src = (struct jpeg_source_mgr *)
 			(*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
 						    JPOOL_PERMANENT,
-						    sizeof (mem_source_mgr));
-		src = (mem_src_ptr) cinfo->src;
-		src->tmp_buffer = (JOCTET *)
-			(*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
-						    JPOOL_PERMANENT,
-						    TMP_BUF_SIZE * sizeof(JOCTET));
+						    sizeof (struct jpeg_source_mgr));
 	}
 
-	src = (mem_src_ptr) cinfo->src;
-	src->pub.init_source = init_source;
-	src->pub.fill_input_buffer = fill_input_buffer;
-	src->pub.skip_input_data = skip_input_data;
-	src->pub.resync_to_restart = jpeg_resync_to_restart;
-	src->pub.term_source = term_source;
-	src->in_buffer = (JOCTET *) in_buffer;
-	src->in_buffer_size = in_buffer_size;
-	src->pub.bytes_in_buffer = 0;
-	src->pub.next_input_byte = NULL;
+	src = cinfo->src;
+	src->init_source = init_source;
+	src->fill_input_buffer = fill_input_buffer;
+	src->skip_input_data = skip_input_data;
+	src->resync_to_restart = jpeg_resync_to_restart;
+	src->term_source = term_source;
+	src->bytes_in_buffer = (size_t) in_buffer_size;
+	src->next_input_byte = (JOCTET *) in_buffer;
 }

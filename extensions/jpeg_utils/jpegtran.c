@@ -188,6 +188,9 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	transformoption.transform = transform;
 	transformoption.trim = (mcu_action == JPEG_MCU_ACTION_TRIM);
 	transformoption.force_grayscale = FALSE;
+#if JPEG_LIB_VERSION >= 80
+	transformoption.crop = 0;
+#endif
 
 	/* Enable saving of extra markers that we want to copy */
 	jcopy_markers_setup (srcinfo, option);
