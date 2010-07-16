@@ -139,7 +139,7 @@ gth_pref_get_real_toolbar_style (void)
 {
 	GthToolbarStyle toolbar_style;
 
-	toolbar_style = _g_enum_type_get_value_by_nick (GTH_TYPE_TOOLBAR_STYLE, eel_gconf_get_string (PREF_UI_TOOLBAR_STYLE, "system"))->value;
+	toolbar_style = eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM);
 	if (toolbar_style == GTH_TOOLBAR_STYLE_SYSTEM) {
 		char *system_style;
 
