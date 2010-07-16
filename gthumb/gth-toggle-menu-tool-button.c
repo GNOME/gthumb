@@ -606,6 +606,7 @@ gth_toggle_menu_tool_button_create_menu_proxy (GtkToolItem *item)
 	const char              *stock_id;
 	const char              *label;
 	GtkWidget               *menu_item;
+	GtkWidget               *menu_image;
 
 	button = GTH_TOGGLE_MENU_TOOL_BUTTON (item);
 
@@ -624,9 +625,18 @@ gth_toggle_menu_tool_button_create_menu_proxy (GtkToolItem *item)
 	}
 
 	if (use_mnemonic)
-		menu_item = gtk_menu_item_new_with_mnemonic (label);
+		menu_item = gtk_image_menu_item_new_with_mnemonic (label);
 	else
-		menu_item = gtk_menu_item_new_with_label (label);
+		menu_item = gtk_image_menu_item_new_with_label (label);
+
+	menu_image = NULL;
+	if (button->priv->stock_id)
+		menu_image = gtk_image_new_from_stock (button->priv->stock_id, GTK_ICON_SIZE_MENU);
+	else if (button->priv->icon_name)
+		menu_image = gtk_image_new_from_icon_name (button->priv->icon_name, GTK_ICON_SIZE_MENU);
+
+	if (menu_image != NULL)
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), menu_image);
 
 	g_object_ref (button->priv->menu);
 	if (gtk_menu_get_attach_widget (button->priv->menu) != NULL)
