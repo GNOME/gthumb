@@ -294,13 +294,11 @@ oauth_connection_add_signature (OAuthConnection *self,
 	keys = g_list_sort (keys, (GCompareFunc) strcmp);
 	for (scan = keys; scan; scan = scan->next) {
 		char *key = scan->data;
+		char *value = g_hash_table_lookup (parameters, key);
 
-		g_string_append (param_string, key);
+		g_string_append_uri_escaped (param_string, key, NULL, FALSE);
 		g_string_append (param_string, "=");
-		g_string_append_uri_escaped (param_string,
-					     g_hash_table_lookup (parameters, key),
-					     NULL,
-					     TRUE);
+		g_string_append_uri_escaped (param_string, value, NULL, FALSE);
 		if (scan->next != NULL)
 			g_string_append (param_string, "&");
 	}
@@ -308,19 +306,19 @@ oauth_connection_add_signature (OAuthConnection *self,
 	/* Create the Base String */
 
 	base_string = g_string_new ("");
-	g_string_append_uri_escaped (base_string, method, NULL, TRUE);
+	g_string_append_uri_escaped (base_string, method, NULL, FALSE);
 	g_string_append (base_string, "&");
-	g_string_append_uri_escaped (base_string, url, NULL, TRUE);
+	g_string_append_uri_escaped (base_string, url, NULL, FALSE);
 	g_string_append (base_string, "&");
-	g_string_append_uri_escaped (base_string, param_string->str, NULL, TRUE);
+	g_string_append_uri_escaped (base_string, param_string->str, NULL, FALSE);
 
 	/* Calculate the signature value */
 
 	signature_key = g_string_new ("");
-	g_string_append (signature_key, self->consumer->consumer_secret);
+	g_string_append_uri_escaped (signature_key, self->consumer->consumer_secret, NULL, FALSE);
 	g_string_append (signature_key, "&");
 	if (self->priv->token_secret != NULL)
-		g_string_append (signature_key, self->priv->token_secret);
+		g_string_append_uri_escaped (signature_key, self->priv->token_secret, NULL, FALSE);
 	g_free (self->priv->signature);
 	self->priv->signature = g_compute_signature_for_string (G_CHECKSUM_SHA1,
 								G_SIGNATURE_ENC_BASE64,
