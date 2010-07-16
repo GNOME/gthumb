@@ -750,7 +750,8 @@ list_photos_ready_cb (GObject      *source_object,
 	GList            *list;
 	GList            *scan;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	if (data->conn != NULL)
+		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 	_g_object_list_unref (data->photos);
 	data->photos = picasa_web_service_list_albums_finish (picasaweb, result, &error);
 	if (error != NULL) {
