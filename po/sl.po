@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-10 08:43+0000\n"
-"PO-Revision-Date: 2010-07-10 11:08+0100\n"
+"POT-Creation-Date: 2010-07-14 20:10+0000\n"
+"PO-Revision-Date: 2010-07-17 10:58+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -349,8 +349,8 @@ msgid "Keep previous zoom"
 msgstr "Ohrani nastavljeno približanje"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:361
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
@@ -590,7 +590,7 @@ msgstr "Ustva_ri"
 #: ../extensions/catalogs/actions.c:234
 #: ../extensions/catalogs/dlg-add-to-catalog.c:218
 #: ../extensions/catalogs/dlg-add-to-catalog.c:311
-#: ../extensions/search/gth-search-task.c:295
+#: ../extensions/search/gth-search-task.c:307
 msgid "Could not create the catalog"
 msgstr "Kataloga ni mogoče ustvariti"
 
@@ -626,7 +626,7 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Pojdi v mapo, ki vsebuje izbrano datoteko"
 
 #: ../extensions/catalogs/callbacks.c:107
-#: ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/edit_metadata/callbacks.c:107
 msgid "Other..."
 msgstr "Ostalo ..."
 
@@ -717,6 +717,7 @@ msgid "_New Catalog"
 msgstr "_Nov katalog"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
+#: ../extensions/webalbums/gth-web-exporter.c:1834
 msgid "_View the destination"
 msgstr "_Ogled cilja"
 
@@ -929,7 +930,7 @@ msgid "The test definition is incomplete"
 msgstr "Določitev testa ni končana"
 
 #: ../extensions/comments/main.c:35
-#: ../extensions/edit_metadata/callbacks.c:101
+#: ../extensions/edit_metadata/callbacks.c:102
 msgid "Comment"
 msgstr "Opomba"
 
@@ -1007,15 +1008,15 @@ msgstr "Nastavi sliko kot ozadje namizja"
 msgid "Desktop background"
 msgstr "Ozadje namizja"
 
-#: ../extensions/edit_metadata/callbacks.c:98
+#: ../extensions/edit_metadata/callbacks.c:99
 msgid "T_ags"
 msgstr "Ozn_ake"
 
-#: ../extensions/edit_metadata/callbacks.c:102
+#: ../extensions/edit_metadata/callbacks.c:103
 msgid "Edit the comment an other information of the selected files"
 msgstr "Uredi opombe in druge podrobnosti izbranih datotek"
 
-#: ../extensions/edit_metadata/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:108
 msgid "Choose another tag"
 msgstr "Izberite drugo oznako"
 
@@ -1026,6 +1027,7 @@ msgid "D_escription:"
 msgstr "Op_is:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+#: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "Ozn_ake:"
 
@@ -1108,6 +1110,27 @@ msgstr[0] "%d datotek"
 msgstr[1] "%d datoteka"
 msgstr[2] "%d datoteki"
 msgstr[3] "%d datoteke"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:82
+msgid "New tag"
+msgstr "Nova oznaka"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:224
+msgid "Assign Tags"
+msgstr "Dodeli oznake"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:114
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Assigning tags to the selected files"
+msgstr "Dodeljevanje oznak izbranim datotekam"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:114
+msgid "Writing files"
+msgstr "Zapisovanje datotek"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Reading files"
+msgstr "Branje datotek"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1341,65 +1364,66 @@ msgstr "Datoteke so bile uspešno poslane na strežnik."
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
+#: ../extensions/webalbums/gth-web-exporter.c:1833
 msgid "_Open in the Browser"
 msgstr "_Odpri v brskalniku"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:120
-#: ../extensions/facebook/dlg-export-to-facebook.c:307
+#: ../extensions/facebook/dlg-export-to-facebook.c:122
+#: ../extensions/facebook/dlg-export-to-facebook.c:309
 #: ../extensions/facebook/facebook-authentication.c:220
-#: ../extensions/flicker/dlg-export-to-flickr.c:136
-#: ../extensions/flicker/dlg-export-to-flickr.c:390
+#: ../extensions/flicker/dlg-export-to-flickr.c:138
+#: ../extensions/flicker/dlg-export-to-flickr.c:392
 #: ../extensions/flicker/dlg-import-from-flickr.c:239
 #: ../extensions/flicker/flickr-authentication.c:219
 #: ../extensions/oauth/oauth-authentication.c:215
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:130
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:369
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:138
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:405
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:132
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:371
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:140
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:407
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:358
 msgid "Could not connect to the server"
 msgstr "Ni se mogoče povezati s strežnikom"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:167
-#: ../extensions/flicker/dlg-export-to-flickr.c:237
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:176
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:186
+#: ../extensions/facebook/dlg-export-to-facebook.c:169
+#: ../extensions/flicker/dlg-export-to-flickr.c:239
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:178
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:188
 msgid "Could not upload the files"
 msgstr "Datotek ni mogoče poslati"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:383
-#: ../extensions/flicker/dlg-export-to-flickr.c:181
-#: ../extensions/flicker/dlg-export-to-flickr.c:215
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:454
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:661
+#: ../extensions/facebook/dlg-export-to-facebook.c:385
+#: ../extensions/flicker/dlg-export-to-flickr.c:183
+#: ../extensions/flicker/dlg-export-to-flickr.c:217
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:456
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:663
 msgid "Could not create the album"
 msgstr "Albuma ni mogoče ustvariti"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:447
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:521
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:722
+#: ../extensions/facebook/dlg-export-to-facebook.c:449
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:523
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:724
 msgid "New Album"
 msgstr "Nov album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:526
-#: ../extensions/flicker/dlg-export-to-flickr.c:516
+#: ../extensions/facebook/dlg-export-to-facebook.c:528
+#: ../extensions/flicker/dlg-export-to-flickr.c:518
 #: ../extensions/image_print/gth-image-print-job.c:1532
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:601
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:928
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:603
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:930
 msgid "No valid file selected."
 msgstr "Nobena veljavna datoteka ni izbrana."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:527
-#: ../extensions/flicker/dlg-export-to-flickr.c:517
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:602
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
+#: ../extensions/facebook/dlg-export-to-facebook.c:529
+#: ../extensions/flicker/dlg-export-to-flickr.c:519
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:604
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:931
 msgid "Could not export the files"
 msgstr "Datotek ni mogoče izvoziti"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:534
-#: ../extensions/flicker/dlg-export-to-flickr.c:524
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:609
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:935
+#: ../extensions/facebook/dlg-export-to-facebook.c:536
+#: ../extensions/flicker/dlg-export-to-flickr.c:526
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:611
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:937
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:733
 #: ../gthumb/gth-browser.c:932
 #: ../gthumb/gth-browser.c:933
@@ -1411,9 +1435,9 @@ msgstr[1] "%d datoteka (%s)"
 msgstr[2] "%d datoteki (%s)"
 msgstr[3] "%d datoteke (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:555
-#: ../extensions/flicker/dlg-export-to-flickr.c:546
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:629
+#: ../extensions/facebook/dlg-export-to-facebook.c:557
+#: ../extensions/flicker/dlg-export-to-flickr.c:548
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:631
 #, c-format
 msgid "Export to %s"
 msgstr "Izvozi v %s"
@@ -1437,32 +1461,32 @@ msgstr "Izberi _račun ..."
 msgid "Return to this window when you have finished the authorization process on %s"
 msgstr "Vrnite se v to okno, ko ste končali opravilo pooblastitve na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:575
-#: ../extensions/flicker/flickr-authentication.c:508
-#: ../extensions/oauth/oauth-authentication.c:520
+#: ../extensions/facebook/facebook-authentication.c:576
+#: ../extensions/flicker/flickr-authentication.c:510
+#: ../extensions/oauth/oauth-authentication.c:522
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr "gthumb zahteva vašo pooblastitev za pošiljanje fotografij na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:576
-#: ../extensions/flicker/flickr-authentication.c:509
-#: ../extensions/oauth/oauth-authentication.c:521
+#: ../extensions/facebook/facebook-authentication.c:577
+#: ../extensions/flicker/flickr-authentication.c:511
+#: ../extensions/oauth/oauth-authentication.c:523
 #, c-format
 msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
 msgstr "Kliknite 'Pooblasti' za odprtje spletnega brskalnika in pooblastite gthumb za pošiljanje fotografij na %s. Ko boste končali, se vrnite v to okno za dokončanje pooblastitve."
 
-#: ../extensions/facebook/facebook-authentication.c:663
-#: ../extensions/flicker/flickr-authentication.c:601
-#: ../extensions/oauth/oauth-authentication.c:615
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:754
+#: ../extensions/facebook/facebook-authentication.c:664
+#: ../extensions/flicker/flickr-authentication.c:603
+#: ../extensions/oauth/oauth-authentication.c:617
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:756
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:622
 msgid "Choose Account"
 msgstr "Izbor računa"
 
-#: ../extensions/facebook/facebook-authentication.c:768
-#: ../extensions/flicker/flickr-authentication.c:706
-#: ../extensions/oauth/oauth-authentication.c:720
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:811
+#: ../extensions/facebook/facebook-authentication.c:769
+#: ../extensions/flicker/flickr-authentication.c:708
+#: ../extensions/oauth/oauth-authentication.c:722
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:813
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:679
 msgid "Edit Accounts"
 msgstr "Urejanje računov"
@@ -1701,8 +1725,8 @@ msgid "_Paste Into Folder"
 msgstr "_Prilepi v mapo"
 
 #: ../extensions/file_manager/callbacks.c:844
-#: ../gthumb/gth-browser.c:4464
-#: ../gthumb/gth-browser.c:4502
+#: ../gthumb/gth-browser.c:4492
+#: ../gthumb/gth-browser.c:4530
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -1863,82 +1887,82 @@ msgstr "Prilagajanje barv"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:361
+#: ../extensions/file_tools/gth-file-tool-crop.c:367
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 msgid "Square"
 msgstr "Kvadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:362
+#: ../extensions/file_tools/gth-file-tool-crop.c:368
 #: ../extensions/file_tools/gth-file-tool-resize.c:424
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (slika)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:365
+#: ../extensions/file_tools/gth-file-tool-crop.c:371
 #: ../extensions/file_tools/gth-file-tool-resize.c:427
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (zaslon)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:369
+#: ../extensions/file_tools/gth-file-tool-crop.c:375
 #: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:370
+#: ../extensions/file_tools/gth-file-tool-crop.c:376
 #: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (knjiga, DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:371
+#: ../extensions/file_tools/gth-file-tool-crop.c:377
 #: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:372
+#: ../extensions/file_tools/gth-file-tool-crop.c:378
 #: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Razglednica)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:373
+#: ../extensions/file_tools/gth-file-tool-crop.c:379
 #: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:374
+#: ../extensions/file_tools/gth-file-tool-crop.c:380
 #: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-crop.c:381
 #: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:382
 #: ../extensions/file_tools/gth-file-tool-resize.c:438
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-crop.c:383
 #: ../extensions/file_tools/gth-file-tool-resize.c:439
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 msgid "Rule of Thirds"
 msgstr "Pravilo tretin"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:387
+#: ../extensions/file_tools/gth-file-tool-crop.c:393
 msgid "Golden Sections"
 msgstr "Zlati rezi"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:502
+#: ../extensions/file_tools/gth-file-tool-crop.c:508
 msgid "Crop..."
 msgstr "Obreži ..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:502
+#: ../extensions/file_tools/gth-file-tool-crop.c:508
 msgid "Crop"
 msgstr "Obreži"
 
@@ -2113,7 +2137,7 @@ msgstr "Pošiljanje slik na Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:65
 #: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1842
+#: ../gthumb/gth-browser.c:1870
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
@@ -2337,7 +2361,7 @@ msgid "Loading \"%s\""
 msgstr "Nalaganje \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2667
+#: ../extensions/webalbums/gth-web-exporter.c:2739
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -2811,7 +2835,7 @@ msgid "Upload photos to Photobucket"
 msgstr "Pošiljanje fotografij na Photobucket"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
 msgid "1 megabyte file size"
 msgstr "Velikost datoteke 1 megabajt"
 
@@ -2851,31 +2875,31 @@ msgstr "_Predelaj imena datotek"
 msgid "_Container:"
 msgstr "_Vsebovalnik:"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:284
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
 msgid "Tiny ( 100 × 75 )"
 msgstr "Drobcena ( 100 x 75 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:285
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
 msgid "Small ( 160 × 120 )"
 msgstr "Majhna ( 160 x 120 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
 msgid "Medium ( 320 × 240 )"
 msgstr "Srednja ( 320 x 240 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
 msgid "Large ( 640 × 480 )"
 msgstr "Velika ( 640 x 480 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
 msgid "15ʺ screen ( 800 × 600 )"
 msgstr "15ʺ zaslon ( 800 x 600 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
 msgid "17ʺ screen ( 1024 × 768 )"
 msgstr "17ʺ zaslon ( 1024 x 768 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:297
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:299
 msgid "2 megabyte file size"
 msgstr "Velikost datoteke 2 megabajta"
 
@@ -2928,7 +2952,7 @@ msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1755
+#: ../gthumb/gth-browser.c:1783
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
@@ -2989,17 +3013,17 @@ msgstr "_Geslo:"
 msgid "Public"
 msgstr "Javno"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:347
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:349
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:299
 msgid "Could not get the album list"
 msgstr "Ni mogoče dobiti seznama albumov"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:418
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:420
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:371
 msgid "Picasa Web Album"
 msgstr "Spletni album Picasa"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:488
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:490
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:441
 msgid "Account"
 msgstr "Račun"
@@ -3358,7 +3382,7 @@ msgstr "vsa naslednja pravila"
 msgid "any of the following rules"
 msgstr "katerokoli od naslednjih pravil"
 
-#: ../extensions/search/gth-search-task.c:232
+#: ../extensions/search/gth-search-task.c:234
 msgid "Searching..."
 msgstr "Iskanje ..."
 
@@ -3635,33 +3659,41 @@ msgstr "_Spremeni velikost, če je večja kot:"
 msgid "%d × %d"
 msgstr "%d × %d"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2024
-#: ../extensions/webalbums/gth-web-exporter.c:2051
+#: ../extensions/webalbums/gth-web-exporter.c:1796
+msgid "Could not show the destination"
+msgstr "Ni mogoče pokazati cilja"
+
+#: ../extensions/webalbums/gth-web-exporter.c:1830
+msgid "The album has been created successfully."
+msgstr "Album je bil uspešno ustvarjen."
+
+#: ../extensions/webalbums/gth-web-exporter.c:2096
+#: ../extensions/webalbums/gth-web-exporter.c:2123
 msgid "Saving thumbnails"
 msgstr "Shranjevanje sličic"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2079
+#: ../extensions/webalbums/gth-web-exporter.c:2151
 msgid "Saving HTML pages: Images"
 msgstr "Shranjevanje HTML strani: slike"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2137
+#: ../extensions/webalbums/gth-web-exporter.c:2209
 msgid "Saving HTML pages: Indexes"
 msgstr "Shranjevanje HTML strani: kazala"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2257
-#: ../extensions/webalbums/gth-web-exporter.c:2314
+#: ../extensions/webalbums/gth-web-exporter.c:2329
+#: ../extensions/webalbums/gth-web-exporter.c:2386
 msgid "Saving images"
 msgstr "Shranjevanje slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2370
+#: ../extensions/webalbums/gth-web-exporter.c:2442
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2904
+#: ../extensions/webalbums/gth-web-exporter.c:2976
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2937
+#: ../extensions/webalbums/gth-web-exporter.c:3009
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -3948,17 +3980,17 @@ msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#: ../gthumb/gth-browser.c:3213
+#: ../gthumb/gth-browser.c:3241
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:137
-#: ../gthumb/gth-browser.c:3234
+#: ../gthumb/gth-browser.c:3262
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:142
-#: ../gthumb/gth-browser.c:3255
+#: ../gthumb/gth-browser.c:3283
 msgid "Go up one level"
 msgstr "Pojdi raven višje"
 
@@ -4074,60 +4106,60 @@ msgid "gthumb"
 msgstr "gThumb"
 
 #: ../gthumb/gth-browser.c:1120
-#: ../gthumb/gth-browser.c:1657
-#: ../gthumb/gth-browser.c:5247
-#: ../gthumb/gth-browser.c:5266
-#: ../gthumb/gth-browser.c:5291
+#: ../gthumb/gth-browser.c:1685
+#: ../gthumb/gth-browser.c:5281
+#: ../gthumb/gth-browser.c:5300
+#: ../gthumb/gth-browser.c:5325
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nisem mogel naložiti položaja  \"%s\""
 
-#: ../gthumb/gth-browser.c:1739
-#: ../gthumb/gth-browser.c:1766
+#: ../gthumb/gth-browser.c:1767
+#: ../gthumb/gth-browser.c:1794
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Primeren module za %s ni bil najden"
 
-#: ../gthumb/gth-browser.c:1884
+#: ../gthumb/gth-browser.c:1912
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Naj bodo spremembe datoteke '%s' shranjene?"
 
-#: ../gthumb/gth-browser.c:1889
+#: ../gthumb/gth-browser.c:1917
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "V primeru, da sprememb ne shranite, bodo te trajno izgubljene."
 
-#: ../gthumb/gth-browser.c:1890
+#: ../gthumb/gth-browser.c:1918
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2525
-#: ../gthumb/gth-browser.c:2549
+#: ../gthumb/gth-browser.c:2553
+#: ../gthumb/gth-browser.c:2577
 #: ../gthumb/gth-source-tree.c:179
 #: ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:2932
+#: ../gthumb/gth-browser.c:2960
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3214
-#: ../gthumb/gth-browser.c:3235
+#: ../gthumb/gth-browser.c:3242
+#: ../gthumb/gth-browser.c:3263
 msgid "View the list of visited locations"
 msgstr "Ogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3256
+#: ../gthumb/gth-browser.c:3284
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5248
+#: ../gthumb/gth-browser.c:5282
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5292
+#: ../gthumb/gth-browser.c:5326
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -5274,8 +5306,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Izbrana knjižnica bo odstranjena, ali ste prepričani?"
 #~ msgid "The selected catalog will be removed, are you sure?"
 #~ msgstr "Izbrani katalog bo odstranjen, ali ste prepričani?"
-#~ msgid "New Catalog"
-#~ msgstr "Nov katalog"
 #~ msgid "New Library"
 #~ msgstr "Nova knjižnica"
 #~ msgid "Could not rename the folder \"%s\": %s"
@@ -5374,8 +5404,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "Kopiraj izbrano mapo"
 #~ msgid "Move selected folder"
 #~ msgstr "Premakni izbrano mapo"
-#~ msgid "Assign categories to the selected folder"
-#~ msgstr "Dodeli kategorije izbrani mapi"
 #~ msgid "Open current folder with the Nautilus file manager"
 #~ msgstr "Odpre trenutno mapo z upravljalnikom datotek Nautilus"
 #~ msgid "Rename current folder"
