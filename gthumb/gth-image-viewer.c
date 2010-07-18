@@ -858,7 +858,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			       x2, y2);
 	}
 
-	gth_image_viewer_tool_expose (viewer->priv->tool, &event->area);
+	gth_image_viewer_tool_expose (viewer->priv->tool, event);
 
 	/* Draw the focus. */
 
@@ -965,8 +965,11 @@ expose_area (GthImageViewer *viewer,
 	event.area.y = y;
 	event.area.width = width;
 	event.area.height = height;
+	event.region = gdk_region_rectangle (&event.area);
 
 	gth_image_viewer_expose (GTK_WIDGET (viewer), &event);
+
+	gdk_region_destroy (event.region);
 }
 
 
@@ -2677,6 +2680,39 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 			    dest_x, dest_y,
 			    width, height);
 #endif
+}
+
+
+void
+gth_image_viewer_paint_region (GthImageViewer *viewer,
+			       GdkPixbuf      *pixbuf,
+			       int             src_x,
+			       int             src_y,
+			       GdkRectangle   *pixbuf_area,
+			       GdkRegion      *region,
+			       int             interp_type)
+{
+	GdkRectangle *rects;
+	int           n_rects;
+	int           i;
+
+	gdk_region_get_rectangles (region, &rects, &n_rects);
+	for (i = 0; i < n_rects; i++) {
+		GdkRectangle paint_area;
+
+		if (gdk_rectangle_intersect (pixbuf_area, &rects[i], &paint_area))
+			gth_image_viewer_paint (viewer,
+						pixbuf,
+						src_x + paint_area.x,
+						src_y + paint_area.y,
+						paint_area.x,
+						paint_area.y,
+						paint_area.width,
+						paint_area.height,
+						interp_type);
+	}
+
+	g_free (rects);
 }
 
 

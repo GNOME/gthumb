@@ -586,58 +586,43 @@ gth_image_selector_unmap (GthImageViewerTool *base)
 }
 
 
-G_GNUC_UNUSED
-static void
-print_rectangle (const char   *name,
-		 GdkRectangle *r)
-{
-	g_print ("%s ==> (%d,%d) [%d,%d]\n", name, r->x, r->y, r->width, r->height);
-}
-
-
 static void
 paint_background (GthImageSelector *self,
-		  GdkRectangle     *event_area)
+		  GdkEventExpose   *event)
 {
-	GdkRectangle paint_area;
-
-	if (! gdk_rectangle_intersect (&self->priv->viewer->image_area, event_area, &paint_area))
-		return;
-
-	gth_image_viewer_paint (self->priv->viewer,
-				self->priv->background,
-				self->priv->viewer->x_offset + paint_area.x - self->priv->viewer->image_area.x,
-				self->priv->viewer->y_offset + paint_area.y - self->priv->viewer->image_area.y,
-				paint_area.x,
-				paint_area.y,
-				paint_area.width,
-				paint_area.height,
-				GDK_INTERP_TILES);
+	gth_image_viewer_paint_region (self->priv->viewer,
+				       self->priv->background,
+				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
+				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
+				       &self->priv->viewer->image_area,
+				       event->region,
+				       GDK_INTERP_TILES);
 }
 
 
 static void
 paint_selection (GthImageSelector *self,
-		 GdkRectangle     *event_area)
+		 GdkEventExpose   *event)
 {
-	GdkRectangle selection_area, paint_area;
+	GdkRectangle selection_area;
+	GdkRectangle paint_area;
 
 	selection_area = self->priv->selection_area;
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
 	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
 
-	if (! gdk_rectangle_intersect (&selection_area, event_area, &paint_area))
+	if (! gdk_rectangle_intersect (&selection_area, &event->area, &paint_area))
 		return;
 
-	gth_image_viewer_paint (self->priv->viewer,
-				self->priv->pixbuf,
-				self->priv->viewer->x_offset + paint_area.x - self->priv->viewer->image_area.x,
-				self->priv->viewer->y_offset + paint_area.y - self->priv->viewer->image_area.y,
-				paint_area.x,
-				paint_area.y,
-				paint_area.width,
-				paint_area.height,
-				GDK_INTERP_TILES);
+	gth_image_viewer_paint_region (self->priv->viewer,
+				       self->priv->pixbuf,
+				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
+				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
+				       &selection_area,
+				       event->region,
+				       GDK_INTERP_TILES);
+
+	gdk_gc_set_clip_region (self->priv->selection_gc, event->region);
 
 	if (self->priv->grid_type != GTH_GRID_NONE) {
 		int grid_x0, grid_x1, grid_x2, grid_x3;
@@ -694,28 +679,21 @@ paint_selection (GthImageSelector *self,
 
 static void
 paint_image (GthImageSelector *self,
-	     GdkRectangle     *event_area)
+	     GdkEventExpose   *event)
 {
-	GdkRectangle paint_area;
-
-	if (! gdk_rectangle_intersect (&self->priv->viewer->image_area, event_area, &paint_area))
-		return;
-
-	gth_image_viewer_paint (self->priv->viewer,
-				self->priv->pixbuf,
-				self->priv->viewer->x_offset + paint_area.x - self->priv->viewer->image_area.x,
-				self->priv->viewer->y_offset + paint_area.y - self->priv->viewer->image_area.y,
-				paint_area.x,
-				paint_area.y,
-				paint_area.width,
-				paint_area.height,
-				GDK_INTERP_TILES);
+	gth_image_viewer_paint_region (self->priv->viewer,
+				       self->priv->pixbuf,
+				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
+				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
+				       &self->priv->viewer->image_area,
+				       event->region,
+				       GDK_INTERP_TILES);
 }
 
 
 static void
 gth_image_selector_expose (GthImageViewerTool *base,
-			   GdkRectangle       *event_area)
+			   GdkEventExpose     *event)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -723,11 +701,11 @@ gth_image_selector_expose (GthImageViewerTool *base,
 		return;
 
 	if (self->priv->mask_visible) {
-		paint_background (self, event_area);
-		paint_selection (self, event_area);
+		paint_background (self, event);
+		paint_selection (self, event);
 	}
 	else
-		paint_image (self, event_area);
+		paint_image (self, event);
 }
 
 

@@ -43,15 +43,15 @@ struct _GthImageViewerToolIface {
 	void      (*realize)        (GthImageViewerTool   *self);
 	void      (*unrealize)      (GthImageViewerTool   *self);
 	void      (*size_allocate)  (GthImageViewerTool   *self,
-				     GtkAllocation  *allocation);
+				     GtkAllocation        *allocation);
 	void      (*expose)         (GthImageViewerTool   *self,
-				     GdkRectangle   *paint_area);
+				     GdkEventExpose       *event);
 	gboolean  (*button_press)   (GthImageViewerTool   *self,
-				     GdkEventButton *event);
+				     GdkEventButton       *event);
 	gboolean  (*button_release) (GthImageViewerTool   *self,
-				     GdkEventButton *event);
+				     GdkEventButton       *event);
 	gboolean  (*motion_notify)  (GthImageViewerTool   *self,
-				     GdkEventMotion *event);
+				     GdkEventMotion       *event);
 	void      (*image_changed)  (GthImageViewerTool   *self);
 	void      (*zoom_changed)   (GthImageViewerTool   *self);
 };
@@ -64,7 +64,7 @@ void       gth_image_viewer_tool_unrealize        (GthImageViewerTool *self);
 void       gth_image_viewer_tool_size_allocate    (GthImageViewerTool *self,
 						   GtkAllocation      *allocation);
 void       gth_image_viewer_tool_expose           (GthImageViewerTool *self,
-						   GdkRectangle       *paint_area);
+						   GdkEventExpose     *event);
 gboolean   gth_image_viewer_tool_button_press     (GthImageViewerTool *self,
 						   GdkEventButton     *event);
 gboolean   gth_image_viewer_tool_button_release   (GthImageViewerTool *self,

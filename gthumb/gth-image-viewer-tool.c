@@ -80,7 +80,7 @@ gth_image_viewer_tool_unrealize (GthImageViewerTool *self)
 
 void
 gth_image_viewer_tool_size_allocate (GthImageViewerTool *self,
-			      GtkAllocation      *allocation)
+				     GtkAllocation      *allocation)
 {
 	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->size_allocate (self, allocation);
 }
@@ -88,15 +88,15 @@ gth_image_viewer_tool_size_allocate (GthImageViewerTool *self,
 
 void
 gth_image_viewer_tool_expose (GthImageViewerTool *self,
-		       GdkRectangle       *paint_area)
+			      GdkEventExpose     *event)
 {
-	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->expose (self, paint_area);
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->expose (self, event);
 }
 
 
 gboolean
 gth_image_viewer_tool_button_press (GthImageViewerTool *self,
-			     GdkEventButton     *event)
+				    GdkEventButton     *event)
 {
 	return GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->button_press (self, event);
 }
@@ -104,7 +104,7 @@ gth_image_viewer_tool_button_press (GthImageViewerTool *self,
 
 gboolean
 gth_image_viewer_tool_button_release (GthImageViewerTool *self,
-			       GdkEventButton     *event)
+				      GdkEventButton     *event)
 {
 	return GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->button_release (self, event);
 }
@@ -112,7 +112,7 @@ gth_image_viewer_tool_button_release (GthImageViewerTool *self,
 
 gboolean
 gth_image_viewer_tool_motion_notify (GthImageViewerTool *self,
-			      GdkEventMotion     *event)
+				     GdkEventMotion     *event)
 {
 	return GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->motion_notify (self, event);
 }

@@ -274,6 +274,13 @@ void           gth_image_viewer_paint                    (GthImageViewer     *vi
 							  int                 width,
 							  int                 height,
 							  int                 interp_type);
+void           gth_image_viewer_paint_region             (GthImageViewer     *viewer,
+							  GdkPixbuf          *pixbuf,
+							  int                 src_x,
+							  int                 src_y,
+							  GdkRectangle       *pixbuf_area,
+							  GdkRegion          *region,
+							  int                 interp_type);
 void           gth_image_viewer_crop_area                (GthImageViewer     *viewer,
 							  GdkRectangle       *area);
 

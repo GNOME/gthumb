@@ -128,12 +128,11 @@ gth_image_dragger_unmap (GthImageViewerTool *base)
 
 static void
 gth_image_dragger_expose (GthImageViewerTool *self,
-			  GdkRectangle       *event_area)
+			  GdkEventExpose     *event)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
 	GdkInterpType    interp_type;
-	GdkRectangle     paint_area;
 
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
@@ -149,16 +148,13 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 	if (gth_image_viewer_get_zoom (viewer) == 1.0)
 		interp_type = GDK_INTERP_NEAREST;
 
-	if (gdk_rectangle_intersect (&viewer->image_area, event_area, &paint_area))
-		gth_image_viewer_paint (viewer,
-					gth_image_viewer_get_current_pixbuf (viewer),
-					viewer->x_offset + paint_area.x - viewer->image_area.x,
-					viewer->y_offset + paint_area.y - viewer->image_area.y,
-					paint_area.x,
-					paint_area.y,
-					paint_area.width,
-					paint_area.height,
-					interp_type);
+	gth_image_viewer_paint_region (viewer,
+				       gth_image_viewer_get_current_pixbuf (viewer),
+				       viewer->x_offset - viewer->image_area.x,
+				       viewer->y_offset - viewer->image_area.y,
+				       &viewer->image_area,
+				       event->region,
+				       interp_type);
 }
 
 
