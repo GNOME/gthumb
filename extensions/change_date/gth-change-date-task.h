@@ -63,7 +63,8 @@ struct _GthChangeDateTaskClass {
 };
 
 GType         gth_change_date_task_get_type  (void);
-GthTask *     gth_change_date_task_new       (GList             *files, /* GthFileData */
+GthTask *     gth_change_date_task_new       (GFile             *location,
+					      GList             *files, /* GthFileData */
 					      GthChangeFields    fields,
 					      GthChangeType      change_type,
 					      GthDateTime       *date_time,

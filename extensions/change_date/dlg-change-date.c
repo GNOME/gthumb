@@ -87,7 +87,8 @@ ok_button_clicked (GtkWidget  *button,
 		time_adjustment = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timezone_spinbutton")));
 	}
 
-	task = gth_change_date_task_new (data->file_list,
+	task = gth_change_date_task_new (gth_browser_get_location (data->browser),
+					 data->file_list,
 					 change_fields,
 					 change_type,
 					 date_time,

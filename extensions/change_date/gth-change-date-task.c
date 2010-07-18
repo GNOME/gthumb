@@ -28,6 +28,7 @@
 
 
 struct _GthChangeDateTaskPrivate {
+	GFile           *location;
 	GList           *files; /* GFile */
 	GList           *file_list; /* GthFileData */
 	GthChangeFields  fields;
@@ -50,6 +51,7 @@ gth_change_date_task_finalize (GObject *object)
 
 	self = GTH_CHANGE_DATE_TASK (object);
 
+	_g_object_unref (self->priv->location);
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_list_unref (self->priv->files);
 	gth_datetime_free (self->priv->date_time);
@@ -85,48 +87,56 @@ set_date_time_from_change_type (GthChangeDateTask *self,
 static void
 update_modification_time (GthChangeDateTask *self)
 {
-	GthDateTime *date_time;
-	GList       *scan;
-	GError      *error = NULL;
 
-	if ((self->priv->fields & GTH_CHANGE_LAST_MODIFIED_DATE) == 0) {
-		gth_task_completed (GTH_TASK (self), NULL);
-		return;
-	}
+	GList      *scan;
+	GError     *error = NULL;
+	GthMonitor *monitor;
+	GList      *files;
 
-	date_time = gth_datetime_new ();
-	for (scan = self->priv->file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		GTimeVal     timeval;
+	if ((self->priv->fields & GTH_CHANGE_LAST_MODIFIED_DATE) == GTH_CHANGE_LAST_MODIFIED_DATE) {
+		GthDateTime *date_time;
 
-		gth_datetime_clear (date_time);
-		if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
-			set_date_time_from_change_type (self, date_time, GTH_CHANGE_TO_FILE_MODIFIED_DATE, file_data);
-		else
-			set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
-		if (! gth_datetime_valid (date_time))
-			continue;
+		date_time = gth_datetime_new ();
+		for (scan = self->priv->file_list; scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+			GTimeVal     timeval;
 
-		if (gth_datetime_to_timeval (date_time, &timeval)) {
+			gth_datetime_clear (date_time);
 			if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
-				timeval.tv_sec += HOURS_TO_SECONDS (self->priv->timezone_offset);
-			if (! _g_file_set_modification_time (file_data->file,
-							     &timeval,
-							     gth_task_get_cancellable (GTH_TASK (self)),
-							     &error))
-			{
-				break;
+				set_date_time_from_change_type (self, date_time, GTH_CHANGE_TO_FILE_MODIFIED_DATE, file_data);
+			else
+				set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
+			if (! gth_datetime_valid (date_time))
+				continue;
+
+			if (gth_datetime_to_timeval (date_time, &timeval)) {
+				if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
+					timeval.tv_sec += HOURS_TO_SECONDS (self->priv->timezone_offset);
+				if (! _g_file_set_modification_time (file_data->file,
+								     &timeval,
+								     gth_task_get_cancellable (GTH_TASK (self)),
+								     &error))
+				{
+					break;
+				}
 			}
 		}
+
+		gth_datetime_free (date_time);
 	}
+
+	monitor = gth_main_get_default_monitor ();
+	files = gth_file_data_list_to_file_list (self->priv->file_list);
+	gth_monitor_folder_changed (monitor, self->priv->location, files, GTH_MONITOR_EVENT_CHANGED);
+
 	gth_task_completed (GTH_TASK (self), error);
 
-	gth_datetime_free (date_time);
+	_g_object_list_unref (files);
 }
 
 
 static void
-write_metadata_reasy_cb (GError   *error,
+write_metadata_ready_cb (GError   *error,
 			 gpointer  user_data)
 {
 	GthChangeDateTask *self = user_data;
@@ -363,7 +373,8 @@ gth_change_date_task_get_type (void)
 
 
 GthTask *
-gth_change_date_task_new (GList             *files, /* GthFileData */
+gth_change_date_task_new (GFile             *location,
+			  GList             *files, /* GthFileData */
 			  GthChangeFields    fields,
 			  GthChangeType      change_type,
 			  GthDateTime       *date_time,
@@ -372,6 +383,7 @@ gth_change_date_task_new (GList             *files, /* GthFileData */
 	GthChangeDateTask *self;
 
 	self = GTH_CHANGE_DATE_TASK (g_object_new (GTH_TYPE_CHANGE_DATE_TASK, NULL));
+	self->priv->location = g_file_dup (location);
 	self->priv->files = gth_file_data_list_to_file_list (files);
 	self->priv->fields = fields;
 	self->priv->change_type = change_type;
