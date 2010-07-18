@@ -358,8 +358,10 @@ edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						   GdkEventKey *event)
 {
 	gpointer result = NULL;
+	guint    modifiers;
 
-	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+	if ((event->state & modifiers) != 0)
 		return NULL;
 
 	switch (gdk_keyval_to_lower (event->keyval)) {

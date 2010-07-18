@@ -320,17 +320,14 @@ list_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
 {
 	gpointer  result = NULL;
-	guint     keyval;
 	GList    *script_list;
 	GList    *scan;
-
-	keyval = gdk_keyval_to_lower (event->keyval);
 
 	script_list = gth_script_file_get_scripts (gth_script_file_get ());
 	for (scan = script_list; scan; scan = scan->next) {
 		GthScript *script = scan->data;
 
-		if (gth_script_get_shortcut (script) == keyval) {
+		if (gth_script_get_shortcut (script) == event->keyval) {
 			exec_script (browser, script);
 			result = GINT_TO_POINTER (1);
 			break;

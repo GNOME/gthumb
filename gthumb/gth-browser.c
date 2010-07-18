@@ -3223,9 +3223,12 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 {
 	GthBrowser *browser = user_data;
 	gboolean    result = FALSE;
+	guint       modifiers;
 
-	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
-		switch (gdk_keyval_to_lower (event->keyval)) {
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+
+	if ((event->state & modifiers) == 0) {
+		switch (event->keyval) {
 		case GDK_f:
 			gth_browser_fullscreen (browser);
 			result = TRUE;
@@ -4674,9 +4677,12 @@ gboolean
 gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 				 GdkEventKey *event)
 {
+	guint modifiers;
+
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+	if ((event->state & modifiers) == 0) {
 		switch (event->keyval) {
 		case GDK_Page_Up:
 		case GDK_BackSpace:

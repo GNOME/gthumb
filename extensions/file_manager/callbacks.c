@@ -995,13 +995,16 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 					GdkEventKey *event)
 {
 	gpointer  result = NULL;
+	guint     modifiers;
 	GList    *items;
 	GList    *file_data_list;
 	GList    *file_list;
 
-	switch (gdk_keyval_to_lower (event->keyval)) {
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+
+	switch (event->keyval) {
 	case GDK_g:
-		if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+		if ((event->state & modifiers) == 0) {
 			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 			file_list = gth_file_data_list_to_file_list (file_data_list);
@@ -1015,11 +1018,11 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		break;
 
 	case GDK_Delete:
-		if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_SHIFT_MASK)) {
+		if ((event->state & modifiers) == 0) {
 			gth_browser_activate_action_edit_trash (NULL, browser);
 			result = GINT_TO_POINTER (1);
 		}
-		else if (! (event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
+		else if ((event->state & modifiers) == GDK_SHIFT_MASK) {
 			gth_browser_activate_action_edit_delete (NULL, browser);
 			result = GINT_TO_POINTER (1);
 		}

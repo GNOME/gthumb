@@ -124,22 +124,20 @@ ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 {
 	gpointer result = NULL;
 
-	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
-		switch (gdk_keyval_to_lower (event->keyval)) {
-		case GDK_bracketright:
-			gth_browser_activate_action_tool_rotate_right (NULL, browser);
-			result = GINT_TO_POINTER (1);
-			break;
+	switch (event->keyval) {
+	case GDK_bracketright:
+		gth_browser_activate_action_tool_rotate_right (NULL, browser);
+		result = GINT_TO_POINTER (1);
+		break;
 
-		case GDK_bracketleft:
-			gth_browser_activate_action_tool_rotate_left (NULL, browser);
-			result = GINT_TO_POINTER (1);
-			break;
+	case GDK_bracketleft:
+		gth_browser_activate_action_tool_rotate_left (NULL, browser);
+		result = GINT_TO_POINTER (1);
+		break;
 
-		default:
-			break;
-		}
-        }
+	default:
+		break;
+	}
 
 	return result;
 }

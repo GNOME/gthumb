@@ -40,20 +40,21 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
 {
 	gpointer     result = NULL;
+	guint        modifiers;
 	GtkWidget   *sidebar;
 	GtkWidget   *toolbox;
 	GthFileTool *tool = NULL;
-
-	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
-		return NULL;
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_VIEWER)
 		return NULL;
 
 	sidebar = gth_browser_get_viewer_sidebar (browser);
 	toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (sidebar));
-
 	if (gth_toolbox_tool_is_active (GTH_TOOLBOX (toolbox)))
+		return NULL;
+
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+	if (((event->state & modifiers) != 0) && ((event->state & modifiers) != GDK_SHIFT_MASK))
 		return NULL;
 
 	switch (event->keyval) {
