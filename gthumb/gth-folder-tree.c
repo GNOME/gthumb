@@ -345,12 +345,47 @@ row_expanded_cb (GtkTreeView  *tree_view,
 }
 
 
+static gboolean
+popup_menu_cb (GtkWidget *widget,
+	       gpointer   user_data)
+{
+	GthFolderTree *folder_tree = user_data;
+	GtkTreeStore  *tree_store = folder_tree->priv->tree_store;
+	GthFileData   *file_data = NULL;
+	GtkTreeIter    iter;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree)), NULL, &iter)) {
+		EntryType entry_type;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (tree_store),
+				    &iter,
+				    COLUMN_TYPE, &entry_type,
+				    COLUMN_FILE_DATA, &file_data,
+				    -1);
+		if (entry_type != ENTRY_TYPE_FILE) {
+			_g_object_unref (file_data);
+			return FALSE;
+		}
+	}
+
+	g_signal_emit (folder_tree,
+		       gth_folder_tree_signals[FOLDER_POPUP],
+		       0,
+		       file_data,
+		       gtk_get_current_event_time ());
+
+	_g_object_unref (file_data);
+
+	return TRUE;
+}
+
+
 static int
 button_press_cb (GtkWidget      *widget,
 		 GdkEventButton *event,
-		 gpointer        data)
+		 gpointer        user_data)
 {
-	GthFolderTree     *folder_tree = data;
+	GthFolderTree     *folder_tree = user_data;
 	GtkTreeStore      *tree_store = folder_tree->priv->tree_store;
 	GtkTreePath       *path;
 	GtkTreeIter        iter;
@@ -972,6 +1007,10 @@ gth_folder_tree_construct (GthFolderTree *folder_tree)
 
 	/**/
 
+	g_signal_connect (folder_tree,
+			  "popup-menu",
+			  G_CALLBACK (popup_menu_cb),
+			  folder_tree);
 	g_signal_connect (folder_tree,
 			  "button-press-event",
 			  G_CALLBACK (button_press_cb),

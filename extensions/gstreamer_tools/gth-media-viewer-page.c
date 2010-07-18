@@ -231,6 +231,15 @@ video_area_button_press_cb (GtkWidget          *widget,
 
 
 static gboolean
+video_area_popup_menu_cb (GtkWidget          *widget,
+			  GthMediaViewerPage *self)
+{
+	gth_browser_file_menu_popup (self->priv->browser, NULL);
+	return TRUE;
+}
+
+
+static gboolean
 video_area_scroll_event_cb (GtkWidget 	       *widget,
 			    GdkEventScroll     *event,
 			    GthMediaViewerPage *self)
@@ -579,6 +588,10 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "button_press_event",
 			  G_CALLBACK (video_area_button_press_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->area),
+			  "popup-menu",
+			  G_CALLBACK (video_area_popup_menu_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "scroll_event",

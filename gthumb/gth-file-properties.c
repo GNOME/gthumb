@@ -244,12 +244,11 @@ copy_menu_item_activate_cb (GtkMenuItem *menuitem,
 	if (! gtk_tree_selection_get_selected (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), &model, &iter))
 		return;
 
-	gtk_tree_model_get (model, &iter,
-			    VALUE_COLUMN, &value,
-			    -1);
-	gtk_clipboard_set_text (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (menuitem)), GDK_SELECTION_CLIPBOARD),
-			        value,
-			        -1);
+	gtk_tree_model_get (model, &iter, VALUE_COLUMN, &value, -1);
+	if (value != NULL)
+		gtk_clipboard_set_text (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (menuitem)), GDK_SELECTION_CLIPBOARD),
+					value,
+					-1);
 
 	g_free (value);
 }
@@ -289,6 +288,24 @@ tree_view_button_press_event_cb (GtkWidget      *widget,
 	}
 
 	return FALSE;
+}
+
+
+static gboolean
+tree_view_popup_menu_cb (GtkWidget *widget,
+			 gpointer   user_data)
+{
+	GthFileProperties *self = user_data;
+
+	gtk_menu_popup (GTK_MENU (self->priv->popup_menu),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			0,
+			gtk_get_current_event_time ());
+
+	return TRUE;
 }
 
 
@@ -348,6 +365,10 @@ gth_file_properties_init (GthFileProperties *self)
 	g_signal_connect (self->priv->tree_view,
 			  "button-press-event",
 			  G_CALLBACK (tree_view_button_press_event_cb),
+			  self);
+	g_signal_connect (self->priv->tree_view,
+			  "popup-menu",
+			  G_CALLBACK (tree_view_popup_menu_cb),
 			  self);
 
 	/**/

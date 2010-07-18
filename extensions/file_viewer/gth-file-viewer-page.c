@@ -76,6 +76,15 @@ viewer_button_press_cb (GtkWidget         *widget,
 }
 
 
+static gboolean
+viewer_popup_menu_cb (GtkWidget         *widget,
+		      GthFileViewerPage *self)
+{
+	gth_browser_file_menu_popup (self->priv->browser, NULL);
+	return TRUE;
+}
+
+
 static void
 thumb_loader_ready_cb (GthThumbLoader    *il,
 		       GError            *error,
@@ -133,6 +142,10 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "button_press_event",
 			  G_CALLBACK (viewer_button_press_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "popup-menu",
+			  G_CALLBACK (viewer_popup_menu_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->label),
 			  "key_press_event",

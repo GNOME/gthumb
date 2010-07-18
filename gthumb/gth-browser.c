@@ -3037,6 +3037,34 @@ pref_general_filter_changed (GConfClient *client,
 }
 
 
+static void
+gth_file_list_popup_menu (GthBrowser     *browser,
+			  GdkEventButton *event)
+{
+	int button, event_time;
+
+	gth_hook_invoke ("gth-browser-file-list-popup-before", browser);
+	gtk_ui_manager_ensure_update (browser->priv->ui);
+
+	if (event != NULL) {
+		button = event->button;
+		event_time = event->time;
+	}
+	else {
+		button = 0;
+		event_time = gtk_get_current_event_time ();
+	}
+
+	gtk_menu_popup (GTK_MENU (browser->priv->file_list_popup),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			button,
+			event_time);
+}
+
+
 static gboolean
 gth_file_list_button_press_cb  (GtkWidget      *widget,
 				GdkEventButton *event,
@@ -3054,17 +3082,8 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 			gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
 		}
+		gth_file_list_popup_menu (browser, event);
 
-		gth_hook_invoke ("gth-browser-file-list-popup-before", browser);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
-
-		gtk_menu_popup (GTK_MENU (browser->priv->file_list_popup),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				event->button,
-				event->time);
 		return TRUE;
 	}
 	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 2)) {
@@ -3085,6 +3104,15 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 	}
 
 	return FALSE;
+}
+
+
+static gboolean
+gth_file_list_popup_menu_cb (GtkWidget *widget,
+			     gpointer   user_data)
+{
+	gth_file_list_popup_menu (GTH_BROWSER (user_data), NULL);
+	return TRUE;
 }
 
 
@@ -4022,19 +4050,23 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->file_list, TRUE, TRUE, 0);
 
 	g_signal_connect (G_OBJECT (browser->priv->file_list),
-			  "button_press_event",
+			  "button-press-event",
 			  G_CALLBACK (gth_file_list_button_press_cb),
 			  browser);
+	g_signal_connect (G_OBJECT (browser->priv->file_list),
+			  "popup-menu",
+			  G_CALLBACK (gth_file_list_popup_menu_cb),
+			  browser);
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
-			  "selection_changed",
+			  "selection-changed",
 			  G_CALLBACK (gth_file_view_selection_changed_cb),
 			  browser);
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
-			  "item_activated",
+			  "item-activated",
 			  G_CALLBACK (gth_file_view_item_activated_cb),
 			  browser);
 	g_signal_connect (G_OBJECT (browser->priv->file_list),
-			  "key_press_event",
+			  "key-press-event",
 			  G_CALLBACK (gth_file_list_key_press_cb),
 			  browser);
 
@@ -5553,6 +5585,18 @@ void
 gth_browser_file_menu_popup (GthBrowser     *browser,
 			     GdkEventButton *event)
 {
+	int button;
+	int event_time;
+
+	if (event != NULL) {
+		button = event->button;
+		event_time = event->time;
+	}
+	else {
+		button = 0;
+		event_time = gtk_get_current_event_time ();
+	}
+
 	gth_hook_invoke ("gth-browser-file-popup-before", browser);
 	gtk_ui_manager_ensure_update (browser->priv->ui);
 	gtk_menu_popup (GTK_MENU (browser->priv->file_popup),
@@ -5560,6 +5604,6 @@ gth_browser_file_menu_popup (GthBrowser     *browser,
 			NULL,
 			NULL,
 			NULL,
-			3,
-			event->time);
+			button,
+			event_time);
 }

@@ -239,6 +239,15 @@ viewer_button_press_event_cb (GtkWidget          *widget,
 
 
 static gboolean
+viewer_popup_menu_cb (GtkWidget          *widget,
+		      GthImageViewerPage *self)
+{
+	gth_browser_file_menu_popup (self->priv->browser, NULL);
+	return TRUE;
+}
+
+
+static gboolean
 viewer_scroll_event_cb (GtkWidget 	   *widget,
 		        GdkEventScroll      *event,
 		        GthImageViewerPage  *self)
@@ -429,6 +438,10 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "zoom_changed",
 			  G_CALLBACK (viewer_zoom_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "popup-menu",
+			  G_CALLBACK (viewer_popup_menu_cb),
 			  self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"button_press_event",
