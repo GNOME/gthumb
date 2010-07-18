@@ -113,6 +113,7 @@ info_ready_cb (GList    *files,
 
 	gth_task_progress (GTH_TASK (self), _("Assigning tags to the selected files"), _("Writing files"), TRUE, 0.0);
 	_g_write_metadata_async (self->priv->file_data_list,
+				 GTH_METADATA_WRITE_DEFAULT,
 			         "general::tags",
 			         gth_task_get_cancellable (GTH_TASK (self)),
 			         write_metadata_ready_cb,

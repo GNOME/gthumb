@@ -205,6 +205,7 @@ transformation_ready_cb (GError   *error,
 	g_file_info_set_attribute_object (self->priv->destination_file->info, "comment::categories", G_OBJECT (tag_list));
 	file_list = g_list_prepend (NULL, self->priv->destination_file);
 	_g_write_metadata_async (file_list,
+				 GTH_METADATA_WRITE_DEFAULT,
 				 "comment::categories",
 				 gth_task_get_cancellable (GTH_TASK (self)),
 				 write_metadata_ready_func,

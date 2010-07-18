@@ -56,14 +56,17 @@ gth_metadata_provider_real_read (GthMetadataProvider *self,
 				 GthFileData         *file_data,
 				 const char          *attributes)
 {
+	/* void */
 }
 
 
 static void
-gth_metadata_provider_real_write (GthMetadataProvider *self,
-				  GthFileData         *file_data,
-				  const char          *attributes)
+gth_metadata_provider_real_write (GthMetadataProvider   *self,
+				  GthMetadataWriteFlags  flags,
+				  GthFileData           *file_data,
+				  const char            *attributes)
 {
+	/* void */
 }
 
 
@@ -130,11 +133,12 @@ gth_metadata_provider_read (GthMetadataProvider *self,
 
 
 void
-gth_metadata_provider_write (GthMetadataProvider *self,
-			     GthFileData         *file_data,
-			     const char          *attributes)
+gth_metadata_provider_write (GthMetadataProvider   *self,
+			     GthMetadataWriteFlags  flags,
+			     GthFileData           *file_data,
+			     const char            *attributes)
 {
-	GTH_METADATA_PROVIDER_GET_CLASS (self)->write (self, file_data, attributes);
+	GTH_METADATA_PROVIDER_GET_CLASS (self)->write (self, flags, file_data, attributes);
 }
 
 
@@ -300,12 +304,13 @@ _g_query_metadata_async (GList             *files,       /* GthFileData * list *
 
 
 typedef struct {
-	GList        *files;
-	char         *attributes;
-	char        **attributes_v;
-	GMutex       *mutex;
-	gboolean      thread_done;
-	GError       *error;
+	GList                  *files;
+	GthMetadataWriteFlags   flags;
+	char                   *attributes;
+	char                  **attributes_v;
+	GMutex                 *mutex;
+	gboolean                thread_done;
+	GError                 *error;
 } WriteMetadataThreadData;
 
 
@@ -366,7 +371,7 @@ write_metadata_thread (gpointer data)
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 
 			if (gth_metadata_provider_can_write (metadata_provider, gth_file_data_get_mime_type (file_data), wmtd->attributes_v))
-				gth_metadata_provider_write (metadata_provider, file_data, wmtd->attributes);
+				gth_metadata_provider_write (metadata_provider, wmtd->flags, file_data, wmtd->attributes);
 		}
 	}
 
@@ -404,17 +409,19 @@ check_write_metadata_thread (gpointer data)
 
 
 void
-_g_write_metadata_async (GList         *files, /* GthFileData * list */
-			 const char    *attributes,
-			 GCancellable  *cancellable,
-			 ReadyFunc      ready_func,
-			 gpointer       user_data)
+_g_write_metadata_async (GList                 *files, /* GthFileData * list */
+			 GthMetadataWriteFlags  flags,
+			 const char            *attributes,
+			 GCancellable          *cancellable,
+			 ReadyFunc              ready_func,
+			 gpointer               user_data)
 {
 	WriteMetadataData       *wmd;
 	WriteMetadataThreadData *wmtd;
 
 	wmtd = g_new0 (WriteMetadataThreadData, 1);
 	wmtd->files = _g_object_list_ref (files);
+	wmtd->flags = flags;
 	wmtd->attributes = g_strdup (attributes);
 	wmtd->attributes_v = gth_main_get_metadata_attributes (attributes);
 	wmtd->mutex = g_mutex_new ();

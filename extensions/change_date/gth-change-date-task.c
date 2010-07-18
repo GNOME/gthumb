@@ -278,9 +278,10 @@ info_ready_cb (GList    *files,
 
 		attributes = _g_string_array_join (attribute_v, ",");
 		_g_write_metadata_async (self->priv->file_list,
+					 (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) ? GTH_METADATA_WRITE_FORCE_EMBEDDED : GTH_METADATA_WRITE_DEFAULT,
 					 attributes,
 					 gth_task_get_cancellable (GTH_TASK (self)),
-					 write_metadata_reasy_cb,
+					 write_metadata_ready_cb,
 					 self);
 
 		g_free (attributes);

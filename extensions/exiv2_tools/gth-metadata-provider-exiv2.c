@@ -114,16 +114,17 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
-				   GthFileData         *file_data,
-				   const char          *attributes)
+gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
+				   GthMetadataWriteFlags  flags,
+				   GthFileData           *file_data,
+				   const char            *attributes)
 {
 	void    *buffer = NULL;
 	gsize    size;
 	GError  *error = NULL;
 	GObject *metadata;
 
-	if (! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE))
+	if (((flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) != GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE))
 		return;
 
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))

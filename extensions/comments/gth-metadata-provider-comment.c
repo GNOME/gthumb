@@ -133,9 +133,10 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_comment_write (GthMetadataProvider *self,
-				     GthFileData         *file_data,
-				     const char          *attributes)
+gth_metadata_provider_comment_write (GthMetadataProvider   *self,
+				     GthMetadataWriteFlags  flags,
+				     GthFileData           *file_data,
+				     const char            *attributes)
 {
 	GthComment    *comment;
 	GthMetadata   *metadata;

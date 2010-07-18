@@ -90,7 +90,12 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	}
 
 	gth_edit_metadata_dialog_update_info (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
-	_g_write_metadata_async (data->file_list, "*", NULL, write_metadata_ready_cb, data);
+	_g_write_metadata_async (data->file_list,
+				 GTH_METADATA_WRITE_DEFAULT,
+				 "*",
+				 NULL,
+				 write_metadata_ready_cb,
+				 data);
 }
 
 

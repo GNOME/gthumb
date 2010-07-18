@@ -30,6 +30,11 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_METADATA_WRITE_DEFAULT        = 0,
+	GTH_METADATA_WRITE_FORCE_EMBEDDED = (1 << 0)
+} GthMetadataWriteFlags;
+
 #define GTH_TYPE_METADATA_PROVIDER (gth_metadata_provider_get_type ())
 #define GTH_METADATA_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_METADATA_PROVIDER, GthMetadataProvider))
 #define GTH_METADATA_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_METADATA_PROVIDER, GthMetadataProviderClass))
@@ -46,50 +51,53 @@ struct _GthMetadataProvider {
 
 struct _GthMetadataProviderClass {
 	GObjectClass parent_class;
-	gboolean  (*can_read)  (GthMetadataProvider  *self,
-			        const char           *mime_type,
-			        char                **attribute_v);
-	gboolean  (*can_write) (GthMetadataProvider  *self,
-			        const char           *mime_type,
-			        char                **attribute_v);
-	void      (*read)      (GthMetadataProvider  *self,
-		                GthFileData          *file_data,
-		                const char           *attributes);
-	void      (*write)     (GthMetadataProvider  *self,
-			        GthFileData          *file_data,
-			        const char           *attributes);
+	gboolean  (*can_read)  (GthMetadataProvider    *self,
+			        const char             *mime_type,
+			        char                  **attribute_v);
+	gboolean  (*can_write) (GthMetadataProvider    *self,
+			        const char             *mime_type,
+			        char                  **attribute_v);
+	void      (*read)      (GthMetadataProvider    *self,
+		                GthFileData            *file_data,
+		                const char             *attributes);
+	void      (*write)     (GthMetadataProvider    *self,
+				GthMetadataWriteFlags   flags,
+			        GthFileData            *file_data,
+			        const char             *attributes);
 };
 
 GType      gth_metadata_provider_get_type   (void);
-gboolean   gth_metadata_provider_can_read   (GthMetadataProvider  *self,
-					     const char           *mime_type,
-					     char                **attribute_v);
-gboolean   gth_metadata_provider_can_write  (GthMetadataProvider  *self,
-					     const char           *mime_type,
-					     char                **attribute_v);
-void       gth_metadata_provider_read       (GthMetadataProvider  *self,
-					     GthFileData          *file_data,
-					     const char           *attributes);
-void       gth_metadata_provider_write      (GthMetadataProvider  *self,
-					     GthFileData          *file_data,
-					     const char           *attributes);
-void       _g_query_metadata_async          (GList                *files, /* GthFileData * list */
-					     const char           *attributes,
-					     GCancellable         *cancellable,
-					     InfoReadyCallback     ready_func,
-					     gpointer              user_data);
-void       _g_write_metadata_async          (GList                *files, /* GthFileData * list */
-					     const char           *attributes,
-					     GCancellable         *cancellable,
-					     ReadyFunc             ready_func,
-					     gpointer              user_data);
-void       _g_query_all_metadata_async      (GList                *files, /* GFile * list */
-					     gboolean              recursive,
-					     gboolean              follow_links,
-					     const char           *attributes,
-					     GCancellable         *cancellable,
-					     InfoReadyCallback     ready_func,
-					     gpointer              user_data);
+gboolean   gth_metadata_provider_can_read   (GthMetadataProvider    *self,
+					     const char             *mime_type,
+					     char                  **attribute_v);
+gboolean   gth_metadata_provider_can_write  (GthMetadataProvider    *self,
+					     const char             *mime_type,
+					     char                  **attribute_v);
+void       gth_metadata_provider_read       (GthMetadataProvider    *self,
+					     GthFileData            *file_data,
+					     const char             *attributes);
+void       gth_metadata_provider_write      (GthMetadataProvider    *self,
+					     GthMetadataWriteFlags   flags,
+					     GthFileData            *file_data,
+					     const char             *attributes);
+void       _g_query_metadata_async          (GList                  *files, /* GthFileData * list */
+					     const char             *attributes,
+					     GCancellable           *cancellable,
+					     InfoReadyCallback       ready_func,
+					     gpointer                user_data);
+void       _g_write_metadata_async          (GList                  *files, /* GthFileData * list */
+					     GthMetadataWriteFlags   flags,
+					     const char             *attributes,
+					     GCancellable           *cancellable,
+					     ReadyFunc               ready_func,
+					     gpointer                user_data);
+void       _g_query_all_metadata_async      (GList                  *files, /* GFile * list */
+					     gboolean                recursive,
+					     gboolean                follow_links,
+					     const char             *attributes,
+					     GCancellable           *cancellable,
+					     InfoReadyCallback       ready_func,
+					     gpointer                user_data);
 
 G_END_DECLS
 
