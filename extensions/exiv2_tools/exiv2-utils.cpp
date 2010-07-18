@@ -57,6 +57,14 @@ const char *_DATE_TAG_NAMES[] = {
 	NULL
 };
 
+const char *_LAST_DATE_TAG_NAMES[] = {
+	"Exif::Image::DateTime",
+	"Xmp::exif::DateTime",
+	"Xmp::xmp::ModifyDate",
+	"Xmp::xmp::MetadataDate",
+	NULL
+};
+
 const char *_ORIGINAL_DATE_TAG_NAMES[] = {
 	"Exif::Photo::DateTimeOriginal",
 	"Xmp::exif::DateTimeOriginal",
@@ -336,7 +344,10 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 static void
 set_attributes_from_tagsets (GFileInfo *info)
 {
-	set_attribute_from_tagset (info, "general::datetime", _DATE_TAG_NAMES);
+	set_attribute_from_tagset (info, "general::datetime", _LAST_DATE_TAG_NAMES);
+	if (g_file_info_get_attribute_object (info, "general::datetime") == NULL)
+		set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
+
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
@@ -600,8 +611,7 @@ mandatory_string (Exiv2::ExifData &checkdata,
 
 
 const char *
-gth_main_get_metadata_type (GthMetadata *metadata,
-			    const char  *key)
+gth_main_get_metadata_type (GthMetadata *metadata)
 {
 	const char      *value_type;
 	GthMetadataInfo *metadatum_info;
@@ -613,7 +623,7 @@ gth_main_get_metadata_type (GthMetadata *metadata,
 	if (value_type != NULL)
 		return value_type;
 
-	metadatum_info = gth_main_get_metadata_info (key);
+	metadatum_info = gth_main_get_metadata_info (gth_metadata_get_id (metadata));
 	if (metadatum_info != NULL)
 		value_type = metadatum_info->type;
 
@@ -655,9 +665,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			 */
 
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum, key);
+			const char *value_type = gth_main_get_metadata_type (metadatum);
 
-			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
+			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) && (value_type != NULL)) {
 				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
 				value->read (raw_value);
 				Exiv2::ExifKey exif_key(key);
@@ -750,7 +760,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		try {
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum, key);
+			const char *value_type = gth_main_get_metadata_type (metadatum);
 
 			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
 				/* See the exif data code above for an explanation. */
@@ -786,7 +796,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		try {
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum, key);
+			const char *value_type = gth_main_get_metadata_type (metadatum);
 
 			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
 				/* See the exif data code above for an explanation. */
