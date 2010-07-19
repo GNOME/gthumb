@@ -77,8 +77,6 @@ extensions/comments/gth-comment.c
 extensions/comments/gth-comment.h
 extensions/comments/gth-metadata-provider-comment.c
 extensions/comments/gth-metadata-provider-comment.h
-extensions/comments/gth-test-category.c
-extensions/comments/gth-test-category.h
 extensions/comments/main.c
 extensions/comments/preferences.h
 extensions/convert_format/actions.c
@@ -702,6 +700,7 @@ gthumb/gth-task.h
 gthumb/gth-test.c
 gthumb/gth-test-chain.c
 gthumb/gth-test-chain.h
+gthumb/gth-test-category.c
 gthumb/gth-test.h
 gthumb/gth-test-selector.c
 gthumb/gth-test-selector.h
