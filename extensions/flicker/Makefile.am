@@ -37,7 +37,7 @@ libflicker_la_SOURCES = 			\
 
 libflicker_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libflicker_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libflicker_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(GNOME_KEYRING_LIBS) ../importer/libimporter.la
+libflicker_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(GNOME_KEYRING_LIBS) ../importer/libimporter.la ../export_tools/libexport_tools.la
 libflicker_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

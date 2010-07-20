@@ -16,7 +16,7 @@ libburn_disc_la_SOURCES = 		\
 
 libburn_disc_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBBRASERO_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libburn_disc_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libburn_disc_la_LIBADD = $(GTHUMB_LIBS) $(LIBBRASERO_LIBS)
+libburn_disc_la_LIBADD = $(GTHUMB_LIBS) $(LIBBRASERO_LIBS) ../export_tools/libexport_tools.la
 libburn_disc_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

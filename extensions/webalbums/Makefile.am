@@ -34,7 +34,7 @@ endif
 
 libwebalbums_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb -DWEBALBUM_DATADIR=\"$(webalbum_datadir)\"
 libwebalbums_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libwebalbums_la_LIBADD = $(GTHUMB_LIBS) ../image_rotation/libimage_rotation.la
+libwebalbums_la_LIBADD = $(GTHUMB_LIBS) ../image_rotation/libimage_rotation.la ../export_tools/libexport_tools.la
 libwebalbums_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
