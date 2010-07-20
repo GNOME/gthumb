@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-14 09:09+0000\n"
-"PO-Revision-Date: 2010-07-14 22:08+0100\n"
+"POT-Creation-Date: 2010-07-19 15:18+0000\n"
+"PO-Revision-Date: 2010-07-20 22:12+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -574,9 +574,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "Die gewählten Bilder konnten nicht aus dem Katalog entfernt werden"
 
 #: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:471
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:480
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:508
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:482
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:491
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:519
 #: ../extensions/search/gth-search.c:296
 msgid "Invalid file format"
 msgstr "Ungültiges Dateiformat"
@@ -596,7 +596,7 @@ msgstr "_Erstellen"
 #: ../extensions/catalogs/actions.c:234
 #: ../extensions/catalogs/dlg-add-to-catalog.c:218
 #: ../extensions/catalogs/dlg-add-to-catalog.c:311
-#: ../extensions/search/gth-search-task.c:295
+#: ../extensions/search/gth-search-task.c:307
 msgid "Could not create the catalog"
 msgstr "Der Katalog konnte nicht angelegt werden"
 
@@ -677,7 +677,7 @@ msgstr "Befehlszeile"
 #: ../extensions/catalogs/callbacks.c:487
 #: ../extensions/photo_importer/dlg-photo-importer.c:310
 #: ../extensions/photo_importer/dlg-photo-importer.c:352
-#: ../gthumb/gth-file-list.c:41 ../gthumb/gth-folder-tree.c:840
+#: ../gthumb/gth-file-list.c:41 ../gthumb/gth-folder-tree.c:875
 msgid "(Empty)"
 msgstr "(Leer)"
 
@@ -802,7 +802,7 @@ msgid "_Include sub-folders"
 msgstr "_Unterordner einbeziehen"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-#: ../extensions/exiv2_tools/main.c:217
+#: ../extensions/exiv2_tools/main.c:216
 msgid "date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
@@ -915,28 +915,11 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/gth-test-category.c:40 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:65
-msgid "is"
-msgstr "ist"
-
-#: ../extensions/comments/gth-test-category.c:41 ../gthumb/gth-test-simple.c:51
-#: ../gthumb/gth-test-simple.c:66
-msgid "is not"
-msgstr "ist nicht"
-
-#: ../extensions/comments/gth-test-category.c:355
-#: ../gthumb/gth-test-simple.c:841 ../gthumb/gth-test-simple.c:867
-#: ../gthumb/gth-test-simple.c:888 ../gthumb/gth-test-simple.c:914
-#, c-format
-msgid "The test definition is incomplete"
-msgstr "Die Testdefinition ist unvollständig"
-
-#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:102
+#: ../extensions/comments/main.c:34 ../extensions/edit_metadata/callbacks.c:102
 msgid "Comment"
 msgstr "Kommentar"
 
-#: ../extensions/comments/main.c:209
+#: ../extensions/comments/main.c:208
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
@@ -945,7 +928,7 @@ msgstr "Kommentar"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:216 ../gthumb/gth-main-default-metadata.c:51
 msgid "Place"
 msgstr "Ort"
 
@@ -1050,7 +1033,7 @@ msgstr "_Titel:"
 msgid "Could not save the file metadata"
 msgstr "Metadaten der Datei konnten nicht gespeichert werden"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:105
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:110
 #: ../extensions/rename_series/actions.c:38
 #: ../gthumb/gth-overwrite-dialog.c:152
 msgid "Cannot read file information"
@@ -1078,7 +1061,7 @@ msgid "Current date"
 msgstr "Heutiges Datum"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:424
-#: ../gthumb/gth-main-default-tests.c:264
+#: ../gthumb/gth-main-default-tests.c:265
 msgid "Date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
@@ -1121,7 +1104,7 @@ msgid "Assign Tags"
 msgstr "Schlagworte zuweisen"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:114
-#: ../extensions/edit_metadata/gth-tag-task.c:130
+#: ../extensions/edit_metadata/gth-tag-task.c:131
 msgid "Assigning tags to the selected files"
 msgstr "Schlagworte werden gewählten Dateien zugewiesen"
 
@@ -1129,7 +1112,7 @@ msgstr "Schlagworte werden gewählten Dateien zugewiesen"
 msgid "Writing files"
 msgstr "Dateien werden geschrieben"
 
-#: ../extensions/edit_metadata/gth-tag-task.c:130
+#: ../extensions/edit_metadata/gth-tag-task.c:131
 msgid "Reading files"
 msgstr "Dateien werden gelesen"
 
@@ -1200,52 +1183,52 @@ msgstr "Unterstützung für EXIF, IPTC, XMP"
 msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Lesen und Schreiben von exif-, iptc- und xmp-Metadaten."
 
-#: ../extensions/exiv2_tools/main.c:33
+#: ../extensions/exiv2_tools/main.c:34
 msgid "Exif General"
 msgstr "Exif-Allgemein"
 
-#: ../extensions/exiv2_tools/main.c:34
+#: ../extensions/exiv2_tools/main.c:35
 msgid "Exif Conditions"
 msgstr "Exif-Bedingungen"
 
-#: ../extensions/exiv2_tools/main.c:35
+#: ../extensions/exiv2_tools/main.c:36
 msgid "Exif Structure"
 msgstr "Exif-Struktur"
 
-#: ../extensions/exiv2_tools/main.c:36
+#: ../extensions/exiv2_tools/main.c:37
 msgid "Exif Thumbnail"
 msgstr "Exif-Vorschaubild"
 
-#: ../extensions/exiv2_tools/main.c:37
+#: ../extensions/exiv2_tools/main.c:38
 msgid "Exif GPS"
 msgstr "Exif-GPS"
 
-#: ../extensions/exiv2_tools/main.c:38
+#: ../extensions/exiv2_tools/main.c:39
 msgid "Exif Maker Notes"
 msgstr "Exif-Anmerkungen des Herstellers"
 
-#: ../extensions/exiv2_tools/main.c:39
+#: ../extensions/exiv2_tools/main.c:40
 msgid "Exif Versions"
 msgstr "Exif Versionen"
 
-#: ../extensions/exiv2_tools/main.c:40
+#: ../extensions/exiv2_tools/main.c:41
 msgid "Exif Other"
 msgstr "Exif (weitere)"
 
-#: ../extensions/exiv2_tools/main.c:41
+#: ../extensions/exiv2_tools/main.c:42
 msgid "IPTC"
 msgstr "IPTC"
 
 # CHECK embedded?
-#: ../extensions/exiv2_tools/main.c:42
+#: ../extensions/exiv2_tools/main.c:43
 msgid "XMP Embedded"
 msgstr "Eingebettetes XMP"
 
-#: ../extensions/exiv2_tools/main.c:43
+#: ../extensions/exiv2_tools/main.c:44
 msgid "XMP Attached"
 msgstr "Angehängtes XMP"
 
-#: ../extensions/export_tools/callbacks.c:59
+#: ../extensions/export_tools/callbacks.c:60
 msgid "Share"
 msgstr "Freigeben"
 
@@ -1436,7 +1419,7 @@ msgstr[1] "%d Dateien (%s)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:557
 #: ../extensions/flicker/dlg-export-to-flickr.c:548
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:631
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:630
 #, c-format
 msgid "Export to %s"
 msgstr "Exportieren nach %s"
@@ -1523,9 +1506,9 @@ msgstr "Unbekannter Fehler"
 #: ../extensions/flicker/flickr-connection.c:317
 #: ../extensions/flicker/flickr-connection.c:468
 #: ../extensions/flicker/flickr-service.c:245
-#: ../extensions/oauth/oauth-connection.c:378
-#: ../extensions/oauth/oauth-connection.c:453
-#: ../extensions/oauth/oauth-connection.c:557
+#: ../extensions/oauth/oauth-connection.c:376
+#: ../extensions/oauth/oauth-connection.c:451
+#: ../extensions/oauth/oauth-connection.c:555
 #: ../extensions/picasaweb/google-connection.c:364
 msgid "Connecting to the server"
 msgstr "Verbindung mit Server wird aufgebaut"
@@ -1541,9 +1524,9 @@ msgstr "Bilder zu Facebook übertragen"
 #: ../extensions/facebook/facebook-service.c:215
 #: ../extensions/facebook/facebook-service.c:317
 #: ../extensions/flicker/flickr-service.c:245
-#: ../extensions/oauth/oauth-connection.c:378
-#: ../extensions/oauth/oauth-connection.c:453
-#: ../extensions/oauth/oauth-connection.c:557
+#: ../extensions/oauth/oauth-connection.c:376
+#: ../extensions/oauth/oauth-connection.c:451
+#: ../extensions/oauth/oauth-connection.c:555
 msgid "Getting account information"
 msgstr "Kontoinformationen wird ermittelt"
 
@@ -1620,7 +1603,7 @@ msgstr ""
 "können Sie sie kopieren."
 
 #: ../extensions/file_manager/actions.c:395
-#: ../extensions/importer/gth-import-task.c:382
+#: ../extensions/importer/gth-import-task.c:383
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
@@ -1745,8 +1728,8 @@ msgstr "_Umbenennen"
 msgid "_Paste Into Folder"
 msgstr "In Ordner e_infügen"
 
-#: ../extensions/file_manager/callbacks.c:844 ../gthumb/gth-browser.c:4464
-#: ../gthumb/gth-browser.c:4502
+#: ../extensions/file_manager/callbacks.c:844 ../gthumb/gth-browser.c:4527
+#: ../gthumb/gth-browser.c:4565
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -2134,14 +2117,14 @@ msgid "_Import"
 msgstr "_Importieren"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:361
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:759
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:760
 msgid "Could not get the photo list"
 msgstr "Fotoliste konnten nicht geholt werden"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:394
 #: ../extensions/flicker/dlg-import-from-flickr.c:565
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:792
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:959
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:793
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:960
 msgid "No album selected"
 msgstr "Keine Album ausgewählt"
 
@@ -2159,8 +2142,8 @@ msgid "Upload images to Flickr"
 msgstr "Bilder zu Flickr übertragen"
 
 #: ../extensions/gstreamer_tools/actions.c:65
-#: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1842
+#: ../extensions/image_viewer/gth-image-viewer-page.c:748
+#: ../gthumb/gth-browser.c:1870
 msgid "Could not save the file"
 msgstr "Die Datei konnte nicht gespeichert werden"
 
@@ -2169,7 +2152,7 @@ msgid "Could not take a screenshot"
 msgstr "Bildschirmfoto konnte nicht aufgenommen werden"
 
 #: ../extensions/gstreamer_tools/actions.c:131
-#: ../extensions/image_viewer/gth-image-viewer-page.c:873
+#: ../extensions/image_viewer/gth-image-viewer-page.c:892
 msgid "Save Image"
 msgstr "Bild speichern"
 
@@ -2197,7 +2180,7 @@ msgid "Faster"
 msgstr "Schneller"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:517
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:526
 msgid "Play"
 msgstr "Wiedergabe"
 
@@ -2233,17 +2216,17 @@ msgstr "Bildschirmfoto"
 msgid "Take a screenshot"
 msgstr "Ein Bildschirmfoto aufnehmen"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:509
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:518
 msgid "Pause"
 msgstr "Pause"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:211
+#: ../gthumb/gth-main-default-tests.c:212
 msgid "Video"
 msgstr "Video"
 
 #: ../extensions/gstreamer_tools/main.c:33
-#: ../gthumb/gth-main-default-tests.c:218
+#: ../gthumb/gth-main-default-tests.c:219
 msgid "Audio"
 msgstr "Audio"
 
@@ -2643,24 +2626,24 @@ msgstr "Jahr"
 msgid "custom format"
 msgstr "Benutzerdefiniertes Format"
 
-#: ../extensions/importer/gth-import-task.c:324
-#: ../extensions/importer/gth-import-task.c:403
+#: ../extensions/importer/gth-import-task.c:325
+#: ../extensions/importer/gth-import-task.c:404
 msgid "Importing files"
 msgstr "Dateien werden importiert"
 
-#: ../extensions/importer/gth-import-task.c:361
+#: ../extensions/importer/gth-import-task.c:362
 msgid "No file imported"
 msgstr "Keine Datei importiert"
 
-#: ../extensions/importer/gth-import-task.c:362
+#: ../extensions/importer/gth-import-task.c:363
 msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
-#: ../extensions/importer/gth-import-task.c:383
+#: ../extensions/importer/gth-import-task.c:384
 msgid "Delete operation not supported."
 msgstr "Löschvorgang wird nicht unterstützt."
 
-#: ../extensions/importer/gth-import-task.c:449
+#: ../extensions/importer/gth-import-task.c:450
 msgid "Last imported"
 msgstr "Zuletzt importiert"
 
@@ -2668,13 +2651,13 @@ msgstr "Zuletzt importiert"
 msgid "Personalize..."
 msgstr "_Personalisieren …"
 
-#: ../extensions/list_tools/callbacks.c:237
-#: ../extensions/list_tools/callbacks.c:246
+#: ../extensions/list_tools/callbacks.c:238
+#: ../extensions/list_tools/callbacks.c:249
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: ../extensions/list_tools/callbacks.c:238
-#: ../extensions/list_tools/callbacks.c:247
+#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:251
 msgid "Batch tools for multiple files"
 msgstr "Stapelverarbeitung für mehrere Dateien"
 
@@ -2822,11 +2805,11 @@ msgstr "Neuer Befehl"
 msgid "Edit Command"
 msgstr "Befehl bearbeiten"
 
-#: ../extensions/list_tools/gth-script.c:629
+#: ../extensions/list_tools/gth-script.c:639
 msgid "Enter a value:"
 msgstr "Geben Sie einen Wert ein:"
 
-#: ../extensions/list_tools/gth-script.c:762
+#: ../extensions/list_tools/gth-script.c:772
 #: ../extensions/webalbums/gth-web-exporter.c:572
 #: ../extensions/webalbums/gth-web-exporter.c:584
 #: ../extensions/webalbums/gth-web-exporter.c:592
@@ -2880,11 +2863,11 @@ msgid "1 megabyte file size"
 msgstr "Dateigröße 1 Megabyte"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-msgid "15ʺ screen ( 800 x 600 )"
+msgid "15&#x2BA; screen ( 800 x 600 )"
 msgstr "15ʺ Bildschirm ( 800 x 600 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-msgid "17ʺ screen ( 1024 x 768 )"
+msgid "17&#x2BA; screen ( 1024 x 768 )"
 msgstr "17ʺ Bildschirm ( 1024 x 768 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
@@ -2993,7 +2976,7 @@ msgid "Could not load the folder"
 msgstr "Ordner konnte nicht geladen werden"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1755
+#: ../gthumb/gth-browser.c:1783
 msgid "Getting folder listing..."
 msgstr "Ordnerinhalt wird ermittelt …"
 
@@ -3431,7 +3414,7 @@ msgstr "alle folgenden Regeln"
 msgid "any of the following rules"
 msgstr "eine der folgenden Regeln"
 
-#: ../extensions/search/gth-search-task.c:232
+#: ../extensions/search/gth-search-task.c:234
 msgid "Searching..."
 msgstr "Suche läuft …"
 
@@ -3844,7 +3827,7 @@ msgstr "Filter bearbeiten"
 msgid "File _Format: %s"
 msgstr "Datei_format: %s"
 
-#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:197
+#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:198
 msgid "All Files"
 msgstr "Alle Dateien"
 
@@ -4035,15 +4018,15 @@ msgstr "In den Vollbildmodus wechseln"
 msgid "Leave Fullscreen"
 msgstr "Vollbild verlassen"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3213
+#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:3272
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3234
+#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:3293
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3255
+#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:3314
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
@@ -4156,56 +4139,56 @@ msgstr "[geändert]"
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1657
-#: ../gthumb/gth-browser.c:5253 ../gthumb/gth-browser.c:5272
-#: ../gthumb/gth-browser.c:5297
+#: ../gthumb/gth-browser.c:1120 ../gthumb/gth-browser.c:1685
+#: ../gthumb/gth-browser.c:5319 ../gthumb/gth-browser.c:5338
+#: ../gthumb/gth-browser.c:5363
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
 
-#: ../gthumb/gth-browser.c:1739 ../gthumb/gth-browser.c:1766
+#: ../gthumb/gth-browser.c:1767 ../gthumb/gth-browser.c:1794
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Kein passendes Modul für %s gefunden"
 
-#: ../gthumb/gth-browser.c:1884
+#: ../gthumb/gth-browser.c:1912
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Die Änderungen an Datei »%s« speichern?"
 
-#: ../gthumb/gth-browser.c:1889
+#: ../gthumb/gth-browser.c:1917
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Wenn Sie nicht speichern, gehen die Änderungen an dieser Datei permanent "
 "verloren"
 
-#: ../gthumb/gth-browser.c:1890
+#: ../gthumb/gth-browser.c:1918
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: ../gthumb/gth-browser.c:2525 ../gthumb/gth-browser.c:2549
+#: ../gthumb/gth-browser.c:2553 ../gthumb/gth-browser.c:2577
 #: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
 msgid "Could not change name"
 msgstr "Name konnte nicht geändert werden"
 
-#: ../gthumb/gth-browser.c:2932 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:2960 ../gthumb/gth-main-default-metadata.c:42
 msgid "Modified"
 msgstr "Geändert"
 
-#: ../gthumb/gth-browser.c:3214 ../gthumb/gth-browser.c:3235
+#: ../gthumb/gth-browser.c:3273 ../gthumb/gth-browser.c:3294
 msgid "View the list of visited locations"
 msgstr "Die Liste besuchter Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:3256
+#: ../gthumb/gth-browser.c:3315
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5254
+#: ../gthumb/gth-browser.c:5320
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5298
+#: ../gthumb/gth-browser.c:5364
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -4265,11 +4248,11 @@ msgstr "Absteigend"
 msgid "No limit specified"
 msgstr "Keine Begrenzung angegeben"
 
-#: ../gthumb/gth-folder-tree.c:814
+#: ../gthumb/gth-folder-tree.c:849
 msgid "Loading..."
 msgstr "Ladevorgang …"
 
-#: ../gthumb/gth-folder-tree.c:1081
+#: ../gthumb/gth-folder-tree.c:1120
 msgid "(Open Parent)"
 msgstr "Vorgänger öffnen"
 
@@ -4296,7 +4279,7 @@ msgid "Name"
 msgstr "Name"
 
 #: ../gthumb/gth-main-default-metadata.c:41
-#: ../gthumb/gth-main-default-tests.c:248
+#: ../gthumb/gth-main-default-tests.c:249
 msgid "Size"
 msgstr "Größe"
 
@@ -4348,25 +4331,37 @@ msgstr "Keine Sortierung"
 msgid "dimensions"
 msgstr "Abmessungen"
 
-#: ../gthumb/gth-main-default-tests.c:204
+#: ../gthumb/gth-main-default-tests.c:205
 msgid "Images"
 msgstr "Bilder"
 
-#: ../gthumb/gth-main-default-tests.c:225
+#: ../gthumb/gth-main-default-tests.c:226
 msgid "Media"
 msgstr "Medien"
 
-#: ../gthumb/gth-main-default-tests.c:232
+#: ../gthumb/gth-main-default-tests.c:233
 msgid "Text Files"
 msgstr "Textdateien"
 
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:241
 msgid "Filename"
 msgstr "Dateiname"
 
-#: ../gthumb/gth-main-default-tests.c:256
+#: ../gthumb/gth-main-default-tests.c:257
 msgid "File modified date"
 msgstr "Änderungsdatum der Datei"
+
+#: ../gthumb/gth-main-default-tests.c:273
+msgid "Title (embedded)"
+msgstr "Titel (eingebettet)"
+
+#: ../gthumb/gth-main-default-tests.c:279
+msgid "Description (embedded)"
+msgstr "Beschreibung (eingebettet)"
+
+#: ../gthumb/gth-main-default-tests.c:285
+msgid "Tag (embedded)"
+msgstr "Schlagwort (eingebettet)"
 
 #: ../gthumb/gth-pixbuf-list-task.c:140
 msgid "Could not rename the file"
@@ -4436,6 +4431,23 @@ msgstr "Astronomie"
 #: ../gthumb/gth-tags-file.c:246
 msgid "Family"
 msgstr "Familie"
+
+#: ../gthumb/gth-test-category.c:47 ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:65
+msgid "is"
+msgstr "ist"
+
+#: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:51
+#: ../gthumb/gth-test-simple.c:66
+msgid "is not"
+msgstr "ist nicht"
+
+#: ../gthumb/gth-test-category.c:362 ../gthumb/gth-test-simple.c:841
+#: ../gthumb/gth-test-simple.c:867 ../gthumb/gth-test-simple.c:888
+#: ../gthumb/gth-test-simple.c:914
+#, c-format
+msgid "The test definition is incomplete"
+msgstr "Die Testdefinition ist unvollständig"
 
 #: ../gthumb/gth-test-selector.c:279
 msgid "Add a new rule"
