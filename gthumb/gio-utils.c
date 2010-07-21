@@ -1931,6 +1931,8 @@ g_load_file_in_buffer (GFile   *file,
 			break;
 		}
 
+		/* the '+ 1' here is used to allow to add a NULL character at the
+		 * end of the buffer. */
 		local_buffer = g_realloc (local_buffer, count + n + 1);
 		memcpy (local_buffer + count, tmp_buffer, n);
 		count += n;
