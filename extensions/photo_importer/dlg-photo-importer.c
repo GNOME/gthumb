@@ -29,7 +29,7 @@
 
 
 enum {
-	SOURCE_LIST_COLUMN_VOLUME,
+	SOURCE_LIST_COLUMN_MOUNT,
 	SOURCE_LIST_COLUMN_ICON,
 	SOURCE_LIST_COLUMN_NAME,
 	SOURCE_LIST_COLUMNS
@@ -343,7 +343,6 @@ source_list_changed_cb (GtkWidget  *widget,
 			DialogData *data)
 {
 	GtkTreeIter  iter;
-	GVolume     *volume;
 	GMount      *mount;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->source_list), &iter)) {
@@ -354,22 +353,20 @@ source_list_changed_cb (GtkWidget  *widget,
 	}
 
 	gtk_tree_model_get (GTK_TREE_MODEL (data->source_store), &iter,
-			    SOURCE_LIST_COLUMN_VOLUME, &volume,
+			    SOURCE_LIST_COLUMN_MOUNT, &mount,
 			    -1);
 
-	if (volume == NULL) {
+	if (mount == NULL) {
 		_g_clear_object (&data->source);
 		_g_clear_object (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Empty"));
 		return;
 	}
 
-	mount = g_volume_get_mount (volume);
 	data->source = g_mount_get_root (mount);
 	load_file_list (data);
 
 	g_object_unref (mount);
-	g_object_unref (volume);
 }
 
 
@@ -384,46 +381,53 @@ update_source_list (DialogData *data)
 
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
-		GMount  *mount = scan->data;
-		GVolume *volume;
+		GMount      *mount = scan->data;
+		GtkTreeIter  iter;
+		GFile       *root;
+		GIcon       *icon;
+		char        *name;
+		GDrive      *drive;
 
 		if (g_mount_is_shadowed (mount))
 			continue;
 
-		volume = g_mount_get_volume (mount);
-		if (volume != NULL) {
-			if (g_volume_can_mount (volume)) {
-				GtkTreeIter  iter;
-				GFile       *root;
-				GIcon       *icon;
-				char        *name;
+		gtk_list_store_append (data->source_store, &iter);
 
-				gtk_list_store_append (data->source_store, &iter);
+		root = g_mount_get_root (mount);
+		if (data->source == NULL)
+			data->source = g_file_dup (root);
 
-				root = g_mount_get_root (mount);
-				if (data->source == NULL)
-					data->source = g_file_dup (root);
+		icon = g_mount_get_icon (mount);
+		name = g_mount_get_name (mount);
 
-				icon = g_mount_get_icon (mount);
-				name = g_volume_get_name (volume);
-				gtk_list_store_set (data->source_store, &iter,
-						    SOURCE_LIST_COLUMN_VOLUME, volume,
-						    SOURCE_LIST_COLUMN_ICON, icon,
-						    SOURCE_LIST_COLUMN_NAME, name,
-						    -1);
+		drive = g_mount_get_drive (mount);
+		if (drive != NULL) {
+			char *drive_name;
+			char *tmp;
 
-				if (g_file_equal (data->source, root)) {
-					source_available = TRUE;
-					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->source_list), &iter);
-				}
+			drive_name = g_drive_get_name (drive);
+			tmp = g_strconcat (drive_name, ": ", name, NULL);
+			g_free (name);
+			g_object_unref (drive);
+			name = tmp;
 
-				g_free (name);
-				g_object_unref (icon);
-				g_object_unref (root);
-			}
-
-			g_object_unref (volume);
+			g_free (drive_name);
 		}
+
+		gtk_list_store_set (data->source_store, &iter,
+				    SOURCE_LIST_COLUMN_MOUNT, mount,
+				    SOURCE_LIST_COLUMN_ICON, icon,
+				    SOURCE_LIST_COLUMN_NAME, name,
+				    -1);
+
+		if (g_file_equal (data->source, root)) {
+			source_available = TRUE;
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->source_list), &iter);
+		}
+
+		g_free (name);
+		g_object_unref (icon);
+		g_object_unref (root);
 	}
 
 	if (! source_available) {
