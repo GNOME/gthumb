@@ -93,7 +93,9 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
 		GMount  *mount = scan->data;
-		GVolume *volume;
+		GIcon   *icon;
+		char    *name;
+		GDrive  *drive;
 
 		if (g_mount_is_shadowed (mount))
 			continue;
@@ -101,29 +103,32 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 		file = g_mount_get_root (mount);
 		info = g_file_query_info (file, GFILE_BASIC_ATTRIBUTES ",access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
-		volume = g_mount_get_volume (mount);
-		if (volume != NULL) {
-			char  *name;
-			GIcon *icon;
+		icon = g_mount_get_icon (mount);
+		name = g_mount_get_name (mount);
 
-			name = g_volume_get_name (volume);
-			g_file_info_set_display_name (info, name);
+		drive = g_mount_get_drive (mount);
+		if (drive != NULL) {
+			char *drive_name;
+			char *tmp;
 
-			icon = g_mount_get_icon (mount);
-			g_file_info_set_icon (info, icon);
-
-			g_object_unref (icon);
+			drive_name = g_drive_get_name (drive);
+			tmp = g_strconcat (drive_name, ": ", name, NULL);
 			g_free (name);
-			g_object_unref (volume);
+			g_object_unref (drive);
+			name = tmp;
+
+			g_free (drive_name);
 		}
+
+		g_file_info_set_icon (info, icon);
+		g_file_info_set_display_name (info, name);
 
 		list = g_list_append (list, gth_file_data_new (file, info));
 		g_object_unref (info);
 		g_object_unref (file);
 	}
 
-	g_list_foreach (mounts, (GFunc) g_object_unref, NULL);
-	g_list_free (mounts);
+	_g_object_list_unref (mounts);
 
 	return list;
 }
