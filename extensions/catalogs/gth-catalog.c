@@ -218,7 +218,7 @@ base_write_to_doc (GthCatalog  *catalog,
 			char  *uri;
 
 			uri = g_file_get_uri (file);
-			dom_element_append_child (DOM_ELEMENT (node), dom_document_create_element (doc, "file", "uri", uri, NULL));
+			dom_element_append_child (node, dom_document_create_element (doc, "file", "uri", uri, NULL));
 
 			g_free (uri);
 		}

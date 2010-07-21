@@ -672,10 +672,6 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))
 	    && ! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/library"))
 	{
-		GtkWidget *extra_widget;
-
-		extra_widget = gth_browser_get_list_extra_widget (browser);
-
 		if (data->properties_button == NULL) {
 			data->properties_button = gtk_button_new ();
 			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON));
@@ -683,7 +679,9 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
 			gtk_widget_set_tooltip_text (data->properties_button, _("Catalog Properties"));
 			gtk_widget_show_all (data->properties_button);
-			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (extra_widget), data->properties_button, _RESPONSE_PROPERTIES);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
+							      data->properties_button,
+							      _RESPONSE_PROPERTIES);
 			g_signal_connect (data->properties_button,
 					  "clicked",
 					  G_CALLBACK (properties_button_clicked_cb),
@@ -698,7 +696,9 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 			g_object_add_weak_pointer (G_OBJECT (data->organize_button), (gpointer *)&data->organize_button);
 			gtk_button_set_relief (GTK_BUTTON (data->organize_button), GTK_RELIEF_NONE);
 			gtk_widget_show_all (data->organize_button);
-			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), data->organize_button, _RESPONSE_ORGANIZE);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
+							      data->organize_button,
+							      _RESPONSE_ORGANIZE);
 			g_signal_connect (data->organize_button,
 					  "clicked",
 					  G_CALLBACK (organize_button_clicked_cb),

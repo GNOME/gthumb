@@ -133,8 +133,8 @@ search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 		gtk_widget_set_tooltip_text (data->refresh_button, _("Search again"));
 		gtk_widget_show_all (data->refresh_button);
 		gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
-						      data->refresh_button,
-						      _RESPONSE_REFRESH);
+					              data->refresh_button,
+					              _RESPONSE_REFRESH);
 		g_signal_connect (data->refresh_button,
 				  "clicked",
 				  G_CALLBACK (refresh_button_clicked_cb),
