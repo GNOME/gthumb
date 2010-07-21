@@ -51,13 +51,13 @@ struct _GthEmbeddedDialogClass
 };
 
 GType         gth_embedded_dialog_get_type           (void) G_GNUC_CONST;
-GtkWidget *   gth_embedded_dialog_new                (const char        *icon_stock_id,
-						      const char        *primary_text,
-						      const char        *secondary_text);
+GtkWidget *   gth_embedded_dialog_new                (void);
 void          gth_embedded_dialog_set_icon           (GthEmbeddedDialog *dialog,
-						      const char        *icon_stock_id);
+						      const char        *icon_stock_id,
+						      GtkIconSize        size);
 void          gth_embedded_dialog_set_gicon          (GthEmbeddedDialog *dialog,
-						      GIcon             *icon);
+						      GIcon             *icon,
+						      GtkIconSize        size);
 void          gth_embedded_dialog_set_primary_text   (GthEmbeddedDialog *dialog,
 						      const char        *primary_text);
 void          gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *dialog,

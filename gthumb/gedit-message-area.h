@@ -57,7 +57,7 @@ struct _GeditMessageArea
 {
 	GtkHBox parent;
 
-	/*< private > */
+	/*< private >*/
 	GeditMessageAreaPrivate *priv;
 };
 

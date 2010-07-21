@@ -564,7 +564,7 @@ gth_browser_update_extra_widget (GthBrowser *browser)
 {
 	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (browser->priv->list_extra_widget));
 	if (g_file_info_get_icon (browser->priv->location->info) != NULL)
-		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_icon (browser->priv->location->info));
+		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_icon (browser->priv->location->info), GTK_ICON_SIZE_BUTTON);
 	if (g_file_info_get_display_name (browser->priv->location->info) != NULL)
 		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_display_name (browser->priv->location->info));
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
@@ -1072,17 +1072,13 @@ load_data_done (LoadData *load_data,
 		g_free (uri);
 	}
 
-	browser->priv->activity_ref--;
-	g_signal_emit (G_OBJECT (browser),
-		       gth_browser_signals[LOCATION_READY],
-		       0,
-		       load_data->requested_folder->file,
-		       (error != NULL));
-
 	if (error == NULL) {
 		_g_object_unref (browser->priv->location_source);
 		browser->priv->location_source = g_object_ref (load_data->file_source);
 	}
+
+	/* moving the "gth-browser-load-location-after" after the
+	 * LOCATION_READY signal emition can brake the extensions */
 
 	if ((load_data->action == GTH_ACTION_GO_TO)
 	    || (load_data->action == GTH_ACTION_GO_INTO)
@@ -1094,6 +1090,13 @@ load_data_done (LoadData *load_data,
 		gth_browser_update_extra_widget (browser);
 		gth_hook_invoke ("gth-browser-load-location-after", browser, browser->priv->location, error);
 	}
+
+	browser->priv->activity_ref--;
+	g_signal_emit (G_OBJECT (browser),
+		       gth_browser_signals[LOCATION_READY],
+		       0,
+		       load_data->requested_folder->file,
+		       (error != NULL));
 
 	if (error == NULL)
 		return;
@@ -4051,7 +4054,7 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_show (browser->priv->list_extra_widget_container);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->list_extra_widget_container, FALSE, FALSE, 0);
 
-	browser->priv->list_extra_widget = gth_embedded_dialog_new (NULL, NULL, NULL);
+	browser->priv->list_extra_widget = gth_embedded_dialog_new ();
 	gtk_widget_show (browser->priv->list_extra_widget);
 	gtk_container_add (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
 

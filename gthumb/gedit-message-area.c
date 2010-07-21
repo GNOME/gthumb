@@ -141,48 +141,74 @@ gedit_message_area_close (GeditMessageArea *message_area)
 				     GTK_RESPONSE_CANCEL);
 }
 
+
 /*
-static gboolean
-paint_message_area (GtkWidget      *widget,
-		    GdkEventExpose *event,
-		    gpointer        user_data)
+static void
+gedit_message_area_style_set (GtkWidget *widget,
+			      GtkStyle  *prev_style)
 {
-	guint        border;
-	GdkRectangle area;
-	GdkRectangle paint_area;
+	GeditMessageArea *message_area = GEDIT_MESSAGE_AREA (widget);
+	GtkWidget        *window;
+	GtkStyle         *style;
 
-	border = gtk_container_get_border_width (GTK_CONTAINER (widget));
+	if (message_area->priv->changing_style)
+		return;
 
-	area.x = widget->allocation.x + border;
-	area.y = widget->allocation.y + border;
-	area.width = widget->allocation.width - (border * 2);
-	area.height = widget->allocation.height - (border * 2);
+	// This is a hack needed to use the tooltip background color
+	window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_widget_set_name (window, "gtk-tooltip");
+	gtk_widget_ensure_style (window);
+	style = gtk_widget_get_style (window);
 
-	if (gdk_rectangle_intersect (&event->area, &area, &paint_area))
-		gtk_paint_flat_box (widget->style,
-				    widget->window,
-				    GTK_STATE_NORMAL,
-				    GTK_SHADOW_NONE,
-				    &paint_area,
-				    widget,
-				    "tooltip",
-				    area.x,
-				    area.y,
-				    area.width,
-				    area.height);
+	message_area->priv->changing_style = TRUE;
+	gtk_widget_set_style (GTK_WIDGET (message_area), style);
+	message_area->priv->changing_style = FALSE;
+
+	gtk_widget_destroy (window);
+
+	gtk_widget_queue_draw (GTK_WIDGET (message_area));
+}
+*/
+
+
+static gboolean
+gedit_message_area_expose (GtkWidget      *widget,
+			   GdkEventExpose *event)
+{
+	/*
+	gtk_paint_box (widget->style,
+		       widget->window,
+		       GTK_STATE_NORMAL,
+		       GTK_SHADOW_OUT,
+		       NULL,
+		       widget,
+		       "infobar",
+		       widget->allocation.x,
+		       widget->allocation.y,
+		       widget->allocation.width,
+		       widget->allocation.height);
+	 */
+
+	if (GTK_WIDGET_CLASS (gedit_message_area_parent_class)->expose_event)
+		GTK_WIDGET_CLASS (gedit_message_area_parent_class)->expose_event (widget, event);
 
 	return FALSE;
 }
-*/
+
 
 static void
 gedit_message_area_class_init (GeditMessageAreaClass *klass)
 {
-	GObjectClass *object_class;
-	GtkBindingSet *binding_set;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
+	GtkBindingSet  *binding_set;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gedit_message_area_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	/*widget_class->style_set = gedit_message_area_style_set;*/
+	widget_class->expose_event = gedit_message_area_expose;
 
 	klass->close = gedit_message_area_close;
 
@@ -210,38 +236,13 @@ gedit_message_area_class_init (GeditMessageAreaClass *klass)
 	gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "close", 0);
 }
 
-/*
-static void
-style_set (GtkWidget        *widget,
-	   GtkStyle         *prev_style,
-	   GeditMessageArea *message_area)
-{
-	GtkWidget *window;
-	GtkStyle *style;
-
-	if (message_area->priv->changing_style)
-		return;
-
-	// This is a hack needed to use the tooltip background color
-	window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_widget_set_name (window, "gtk-tooltip");
-	gtk_widget_ensure_style (window);
-	style = gtk_widget_get_style (window);
-
-	message_area->priv->changing_style = TRUE;
-	gtk_widget_set_style (GTK_WIDGET (message_area), style);
-	message_area->priv->changing_style = FALSE;
-
-	gtk_widget_destroy (window);
-
-	gtk_widget_queue_draw (GTK_WIDGET (message_area));
-}
-*/
 
 static void
 gedit_message_area_init (GeditMessageArea *message_area)
 {
 	GtkWidget *vbox;
+
+	gtk_widget_push_composite_child ();
 
 	message_area->priv = GEDIT_MESSAGE_AREA_GET_PRIVATE (message_area);
 
@@ -271,8 +272,10 @@ gedit_message_area_init (GeditMessageArea *message_area)
 			    TRUE,
 			    0);
 
-	/*
 	gtk_widget_set_app_paintable (GTK_WIDGET (message_area), TRUE);
+	gtk_widget_set_redraw_on_allocate (GTK_WIDGET (message_area), TRUE);
+
+	/*
 
 	g_signal_connect (message_area,
 			  "expose-event",
@@ -289,6 +292,8 @@ gedit_message_area_init (GeditMessageArea *message_area)
 			  "style-set",
 			  G_CALLBACK (style_set),
 			  message_area);*/
+
+	gtk_widget_pop_composite_child ();
 }
 
 static gint

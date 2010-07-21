@@ -39,6 +39,7 @@ struct _GthSearchTaskPrivate
 	gulong         location_ready_id;
 	GtkWidget     *dialog;
 	GthFileSource *file_source;
+	gsize          n_files;
 };
 
 
@@ -78,21 +79,14 @@ gth_task_finalize (GObject *object)
 typedef struct {
 	GthBrowser    *browser;
 	GthSearchTask *task;
+	gulong         response_id;
 } EmbeddedDialogData;
 
 
 static void
-embedded_dialog_destroy_cb (GeditMessageArea *message_area,
-			    gpointer          user_data)
-{
-	g_free ((EmbeddedDialogData *) user_data);
-}
-
-
-static void
-embedded_dialog_response_cb (GeditMessageArea *message_area,
-			     int               response_id,
-			     gpointer          user_data)
+embedded_dialog_response_cb (GthEmbeddedDialog *dialog,
+			     int                response_id,
+			     gpointer           user_data)
 {
 	EmbeddedDialogData *data = user_data;
 
@@ -100,9 +94,13 @@ embedded_dialog_response_cb (GeditMessageArea *message_area,
 	case GTK_RESPONSE_CANCEL:
 		gth_task_cancel (GTH_TASK (data->task));
 		break;
+
 	default:
 		break;
 	}
+
+	g_signal_handler_disconnect (dialog, data->response_id);
+	g_free (data);
 }
 
 
@@ -135,6 +133,8 @@ done_func (GObject  *object,
 	char          *data;
 	gsize          size;
 	GFile         *search_result_real_file;
+
+	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), NULL);
 
 	task->priv->error = NULL;
 	if (error != NULL) {
@@ -172,6 +172,18 @@ done_func (GObject  *object,
 
 
 static void
+update_secondary_text (GthSearchTask *task)
+{
+	char *msg;
+
+	msg = g_strdup_printf (_("Files found untill now: %" G_GSIZE_FORMAT), task->priv->n_files);
+	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), msg);
+
+	g_free (msg);
+}
+
+
+static void
 for_each_file_func (GFile     *file,
 		    GFileInfo *info,
 		    gpointer   user_data)
@@ -184,8 +196,11 @@ for_each_file_func (GFile     *file,
 
 	file_data = gth_file_data_new (file, info);
 
-	if (gth_test_match (GTH_TEST (task->priv->test), file_data))
+	if (gth_test_match (GTH_TEST (task->priv->test), file_data)) {
 		gth_catalog_insert_file (GTH_CATALOG (task->priv->search), file_data->file, -1);
+		task->priv->n_files++;
+		update_secondary_text (task);
+	}
 
 	g_object_unref (file_data);
 }
@@ -218,6 +233,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 			   gboolean       error,
 			   GthSearchTask *task)
 {
+	GtkWidget          *button;
 	EmbeddedDialogData *dialog_data;
 	GString            *attributes;
 	const char         *test_attributes;
@@ -229,26 +245,29 @@ browser_location_ready_cb (GthBrowser    *browser,
 		return;
 	}
 
+	task->priv->n_files = 0;
+
 	task->priv->dialog = gth_browser_get_list_extra_widget (browser);
-	gth_embedded_dialog_set_icon (GTH_EMBEDDED_DIALOG (task->priv->dialog), GTK_STOCK_FIND);
+	gth_embedded_dialog_set_icon (GTH_EMBEDDED_DIALOG (task->priv->dialog), GTK_STOCK_FIND, GTK_ICON_SIZE_DIALOG);
 	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), _("Searching..."));
+	update_secondary_text (task);
 	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (task->priv->dialog));
-	gedit_message_area_add_stock_button_with_text (GEDIT_MESSAGE_AREA (task->priv->dialog),
-						       NULL,
-						       GTK_STOCK_CANCEL,
-						       GTK_RESPONSE_CANCEL);
+	button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (button, _("Cancel the operation"));
+	gtk_widget_show_all (button);
+	gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (task->priv->dialog),
+					      button,
+					      GTK_RESPONSE_CANCEL);
 
 	dialog_data = g_new0 (EmbeddedDialogData, 1);
 	dialog_data->browser = task->priv->browser;
 	dialog_data->task = task;
-	g_signal_connect (task->priv->dialog,
-			  "destroy",
-			  G_CALLBACK (embedded_dialog_destroy_cb),
-			  dialog_data);
-	g_signal_connect (task->priv->dialog,
-			  "response",
-			  G_CALLBACK (embedded_dialog_response_cb),
-			  dialog_data);
+	dialog_data->response_id = g_signal_connect (task->priv->dialog,
+						     "response",
+						     G_CALLBACK (embedded_dialog_response_cb),
+						     dialog_data);
 
 	/**/
 
