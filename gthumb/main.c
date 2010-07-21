@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
+#include "main-migrate.h"
 
 
 enum {
@@ -88,6 +89,14 @@ static const GOptionEntry options[] = {
 
 	{ NULL }
 };
+
+
+
+static void
+migrate_data (void)
+{
+	migrate_catalogs_from_2_10 ();
+}
 
 
 static void
@@ -384,7 +393,7 @@ prepare_application (void)
 int
 main (int argc, char *argv[])
 {
-	GOptionContext *context = NULL;
+	GOptionContext *context;
 	GError         *error = NULL;
 
 	if (! g_thread_supported ())
@@ -416,19 +425,20 @@ main (int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-#ifdef HAVE_CLUTTER
-	ClutterInitResult = gtk_clutter_init (NULL, NULL);
-#endif
-
 	if (version) {
 		g_printf ("%s %s, Copyright (C) 2001-2010 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
 		return 0;
 	}
 
+#ifdef HAVE_CLUTTER
+	ClutterInitResult = gtk_clutter_init (NULL, NULL);
+#endif
+
 	/* other initializations */
 
 	gth_session_manager_init ();
 	gth_pref_initialize ();
+	migrate_data ();
 	gth_main_initialize ();
 	prepare_application ();
 

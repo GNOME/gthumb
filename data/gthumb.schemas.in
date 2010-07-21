@@ -69,6 +69,20 @@
 	</locale>
       </schema>
 
+      <!-- Data Migration -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/data_migration/catalogs_2_10</key>
+	<applyto>/apps/gthumb/data_migration/catalogs_2_10</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
       <!-- Browser -->
 
       <schema>
