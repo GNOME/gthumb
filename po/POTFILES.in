@@ -647,6 +647,8 @@ gthumb/gth-image-viewer.c
 gthumb/gth-image-viewer.h
 gthumb/gth-image-viewer-tool.c
 gthumb/gth-image-viewer-tool.h
+gthumb/gth-info-bar.c
+gthumb/gth-info-bar.h
 gthumb/gth-location-chooser.c
 gthumb/gth-location-chooser.h
 gthumb/gth-main.c
@@ -698,9 +700,10 @@ gthumb/gth-tags-file.h
 gthumb/gth-task.c
 gthumb/gth-task.h
 gthumb/gth-test.c
+gthumb/gth-test-category.c
+gthumb/gth-test-category.h
 gthumb/gth-test-chain.c
 gthumb/gth-test-chain.h
-gthumb/gth-test-category.c
 gthumb/gth-test.h
 gthumb/gth-test-selector.c
 gthumb/gth-test-selector.h
@@ -733,6 +736,8 @@ gthumb/gvaluehash.c
 gthumb/gvaluehash.h
 gthumb/main.c
 gthumb/main.h
+gthumb/main-migrate-catalogs.c
+gthumb/main-migrate.h
 gthumb/pixbuf-cache.c
 gthumb/pixbuf-cache.h
 gthumb/pixbuf-io.c

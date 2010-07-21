@@ -42,6 +42,7 @@
 #include "gth-filterbar.h"
 #include "gth-folder-tree.h"
 #include "gth-icon-cache.h"
+#include "gth-info-bar.h"
 #include "gth-image-preloader.h"
 #include "gth-location-chooser.h"
 #include "gth-main.h"
@@ -87,6 +88,7 @@ struct _GthBrowserPrivateData {
 
 	GtkUIManager      *ui;
 	GtkActionGroup    *actions;
+	GtkWidget         *infobar;
 	GtkWidget         *statusbar;
 	GtkWidget         *browser_toolbar;
 	GtkWidget         *browser_container;
@@ -1704,6 +1706,14 @@ mount_volume_ready_cb (GObject      *source_object,
 
 
 static void
+_gth_browser_hide_infobar (GthBrowser *browser)
+{
+	if (gtk_widget_get_visible (browser->priv->infobar))
+		gtk_info_bar_response (GTK_INFO_BAR (browser->priv->infobar), GTK_RESPONSE_CLOSE);
+}
+
+
+static void
 _gth_browser_load (GthBrowser *browser,
 		   GFile      *location,
 		   GFile      *scroll_to_file,
@@ -1712,6 +1722,9 @@ _gth_browser_load (GthBrowser *browser,
 {
 	LoadData *load_data;
 	GFile    *entry_point;
+
+	if (! automatic)
+		_gth_browser_hide_infobar (browser);
 
 	switch (action) {
 	case GTH_ACTION_GO_TO:
@@ -2157,6 +2170,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 		gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
 	else if (page == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
+	_gth_browser_hide_infobar (browser);
 
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 
@@ -3902,6 +3916,11 @@ _gth_browser_construct (GthBrowser *browser)
 	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_toolbar);
 	add_browser_toolbar_menu_buttons (browser);
 
+	/* infobar */
+
+	browser->priv->infobar = gth_info_bar_new (NULL, NULL, NULL);
+	gth_window_attach (GTH_WINDOW (browser), browser->priv->infobar, GTH_WINDOW_INFOBAR);
+
 	/* statusbar */
 
 	browser->priv->statusbar = gth_statusbar_new ();
@@ -4392,6 +4411,13 @@ GtkWidget *
 gth_browser_get_browser_toolbar (GthBrowser *browser)
 {
 	return browser->priv->browser_toolbar;
+}
+
+
+GtkWidget *
+gth_browser_get_infobar (GthBrowser *browser)
+{
+	return browser->priv->infobar;
 }
 
 
@@ -5208,6 +5234,8 @@ gth_browser_load_file (GthBrowser  *browser,
 		       gboolean     view)
 {
 	LoadFileData *data;
+
+	_gth_browser_hide_infobar (browser);
 
 	data = load_file_data_new (browser, file_data, view);
 

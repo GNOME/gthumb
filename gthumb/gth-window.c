@@ -45,6 +45,7 @@ struct _GthWindowPrivate {
 	GtkWidget  *notebook;
 	GtkWidget  *menubar;
 	GtkWidget  *toolbar;
+	GtkWidget  *infobar;
 	GtkWidget  *statusbar;
 	GtkWidget **toolbars;
 	GtkWidget **contents;
@@ -59,7 +60,7 @@ gth_window_set_n_pages (GthWindow *self,
 
 	self->priv->n_pages = n_pages;
 
-	self->priv->table = gtk_table_new (4, 1, FALSE);
+	self->priv->table = gtk_table_new (5, 1, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (self->priv->table), 0);
 	gtk_table_set_col_spacings (GTK_TABLE (self->priv->table), 0);
 	gtk_widget_show (self->priv->table);
@@ -206,6 +207,7 @@ gth_window_init (GthWindow *window)
 	window->priv->current_page = -1;
 	window->priv->menubar = NULL;
 	window->priv->toolbar = NULL;
+	window->priv->infobar = NULL;
 	window->priv->statusbar = NULL;
 
 	window_list = g_list_prepend (window_list, window);
@@ -268,9 +270,13 @@ gth_window_attach (GthWindow     *window,
 		window->priv->toolbar = child;
 		position = 1;
 		break;
+	case GTH_WINDOW_INFOBAR:
+		window->priv->infobar = child;
+		position = 3;
+		break;
 	case GTH_WINDOW_STATUSBAR:
 		window->priv->statusbar = child;
-		position = 3;
+		position = 4;
 		break;
 	default:
 		return;
@@ -382,6 +388,9 @@ gth_window_get_area (GthWindow     *window,
 		break;
 	case GTH_WINDOW_TOOLBAR:
 		return window->priv->toolbar;
+		break;
+	case GTH_WINDOW_INFOBAR:
+		return window->priv->infobar;
 		break;
 	case GTH_WINDOW_STATUSBAR:
 		return window->priv->statusbar;

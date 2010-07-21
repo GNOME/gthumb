@@ -1116,3 +1116,10 @@ _gtk_window_resize_to_fit_screen_height (GtkWidget *window,
 		 * with top and bottom panels */
 		gtk_window_set_default_size (GTK_WINDOW (window), default_width, 670);
 }
+
+
+void
+_gtk_info_bar_clear_action_area (GtkInfoBar *info_bar)
+{
+	_gtk_container_remove_children (GTK_CONTAINER (gtk_info_bar_get_action_area (info_bar)), NULL, NULL);
+}

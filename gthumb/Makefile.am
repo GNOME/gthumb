@@ -73,6 +73,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-selector.h				\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
+	gth-info-bar.h					\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-metadata.h					\
@@ -130,6 +131,7 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-sort-order.h				\
 	gth-window-actions-callbacks.h			\
 	gth-window-actions-entries.h			\
+	main-migrate.h					\
 	$(NULL)
 
 gthumb_SOURCES = 					\
@@ -186,6 +188,7 @@ gthumb_SOURCES = 					\
 	gth-image-selector.c				\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
+	gth-info-bar.c					\
 	gth-location-chooser.c				\
 	gth-main.c					\
 	gth-main-default-hooks.c			\
@@ -231,6 +234,7 @@ gthumb_SOURCES = 					\
 	gtk-utils.c					\
 	gvaluehash.c					\
 	main.c						\
+	main-migrate-catalogs.c				\
 	pixbuf-cache.c					\
 	pixbuf-io.c					\
 	pixbuf-utils.c					\

@@ -102,6 +102,7 @@ GtkWidget *      gth_browser_get_dialog             (GthBrowser       *browser,
 GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
 GthIconCache *   gth_browser_get_menu_icon_cache    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);

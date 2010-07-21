@@ -11,7 +11,7 @@ libdesktop_background_la_SOURCES = 	\
 
 libdesktop_background_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libdesktop_background_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libdesktop_background_la_LIBADD = $(GTHUMB_LIBS) 
+libdesktop_background_la_LIBADD = $(GTHUMB_LIBS)  ../image_viewer/libimage_viewer.la
 libdesktop_background_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

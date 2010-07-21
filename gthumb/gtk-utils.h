@@ -121,8 +121,10 @@ void        _g_launch_command              (GtkWidget        *parent,
 					    const char       *command,
 					    const char       *name,
 					    GList            *files);
-void        _gtk_window_resize_to_fit_screen_height (GtkWidget *window,
-						     int        default_width);
+void        _gtk_window_resize_to_fit_screen_height
+					   (GtkWidget        *window,
+					    int               default_width);
+void        _gtk_info_bar_clear_action_area (GtkInfoBar      *info_bar);
 
 G_END_DECLS
 

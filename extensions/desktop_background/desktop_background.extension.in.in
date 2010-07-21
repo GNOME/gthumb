@@ -10,3 +10,4 @@ Category=List-Tool
 [Loader]
 Type=module
 File=%LIBRARY%
+After=image_viewer
