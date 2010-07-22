@@ -238,8 +238,11 @@ static gboolean
 gth_empty_list_expose_event (GtkWidget      *widget,
 		             GdkEventExpose *event)
 {
-	GthEmptyList    *self = (GthEmptyList*) widget;
-	PangoRectangle   bounds;
+	GthEmptyList   *self = (GthEmptyList*) widget;
+	PangoRectangle  bounds;
+	GtkAllocation   allocation;
+	GtkStyle       *style;
+	cairo_t        *cr;
 	
 	if (event->window != self->priv->bin_window)
 		return FALSE;
@@ -251,23 +254,28 @@ gth_empty_list_expose_event (GtkWidget      *widget,
 	pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
 	pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
 
-	gdk_draw_layout (self->priv->bin_window,
-			 widget->style->text_gc[GTK_WIDGET_STATE (widget)],
-			 0,
-			 (widget->allocation.height - bounds.height) / 2,
-			 self->priv->layout);
+	gtk_widget_get_allocation (widget, &allocation);
+	style = gtk_widget_get_style (widget);
+
+	cr = gdk_cairo_create (self->priv->bin_window);
+	cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
+	pango_cairo_layout_path (cr, self->priv->layout);
+	gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
+	cairo_fill (cr);
 
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
-		gtk_paint_focus (widget->style,
+		gtk_paint_focus (style,
 				 self->priv->bin_window,
-				 GTK_WIDGET_STATE (widget),
+				 gtk_widget_get_state (widget),
 				 &event->area,
 				 widget,
 				 NULL,
 				 1, 1,
-				 widget->allocation.width - 2, 
-				 widget->allocation.height - 2);
+				 allocation.width - 2,
+				 allocation.height - 2);
 	}
+
+	cairo_destroy (cr);
 
 	return FALSE;
 }

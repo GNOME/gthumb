@@ -717,13 +717,24 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			 GdkEventExpose *event)
 {
 	GthImageViewer *viewer;
+	cairo_t        *cr;
+	GtkStyle       *style;
 	int             gdk_width;
 	int             gdk_height;
 
 	viewer = GTH_IMAGE_VIEWER (widget);
 
+	cr = gdk_cairo_create (gtk_widget_get_window (widget));
+
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+
+	gdk_cairo_region (cr, event->region);
+	cairo_clip (cr);
+
 	/* Draw the background. */
 
+	style = gtk_widget_get_style (widget);
 	gdk_width = widget->allocation.width - viewer->priv->frame_border2;
 	gdk_height = widget->allocation.height - viewer->priv->frame_border2;
 
@@ -732,74 +743,62 @@ gth_image_viewer_expose (GtkWidget      *widget,
 	    || (viewer->image_area.width < gdk_width)
 	    || (viewer->image_area.height < gdk_height))
 	{
-		int    rx, ry, rw, rh;
-		GdkGC *gc;
+		int rx, ry, rw, rh;
 
 		if (viewer->priv->black_bg)
-			gc = widget->style->black_gc;
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 		else
-			gc = widget->style->bg_gc[GTK_STATE_NORMAL];
+			gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
 
 		if (gth_image_viewer_get_current_pixbuf (viewer) == NULL) {
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    0, 0,
-					    widget->allocation.width,
-					    widget->allocation.height);
+			cairo_rectangle (cr,
+					 0 + 0.5,
+					 0 + 0.5,
+					 widget->allocation.width + 0.5,
+					 widget->allocation.height + 0.5);
 		}
 		else {
 			/* If an image is present draw in four phases to avoid
 			 * flickering. */
 
 			/* Top rectangle. */
+
 			rx = 0;
 			ry = 0;
 			rw = widget->allocation.width;
 			rh = viewer->image_area.y;
 			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
+				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
 
 			/* Bottom rectangle. */
+
 			rx = 0;
 			ry = viewer->image_area.y + viewer->image_area.height;
 			rw = widget->allocation.width;
 			rh = widget->allocation.height - viewer->image_area.y - viewer->image_area.height;
 			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
+				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
 
 			/* Left rectangle. */
+
 			rx = 0;
 			ry = viewer->image_area.y - 1;
 			rw = viewer->image_area.x;
 			rh = viewer->image_area.height + 2;
 			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
+				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
 
 			/* Right rectangle. */
+
 			rx = viewer->image_area.x + viewer->image_area.width;
 			ry = viewer->image_area.y - 1;
 			rw = widget->allocation.width - viewer->image_area.x - viewer->image_area.width;
 			rh = viewer->image_area.height + 2;
 			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
+				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
 		}
+
+		cairo_fill (cr);
 	}
 
 	/* Draw the frame. */
@@ -807,58 +806,43 @@ gth_image_viewer_expose (GtkWidget      *widget,
 	if ((viewer->priv->frame_border > 0)
 	    && (gth_image_viewer_get_current_pixbuf (viewer) != NULL))
 	{
-		int    x1, y1, x2, y2;
-		GdkGC *gc;
+
+		/* bottom and right side */
 
 		if (viewer->priv->black_bg)
-			gc = widget->style->black_gc;
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 		else
-			gc = widget->style->light_gc[GTK_STATE_NORMAL];
-			/*gc = widget->style->dark_gc[GTK_STATE_NORMAL];*/
+			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
 
-		x1 = viewer->image_area.x + viewer->image_area.width;
-		y1 = viewer->image_area.y - 1;
-		x2 = viewer->image_area.x + viewer->image_area.width;
-		y2 = viewer->image_area.y + viewer->image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
+		cairo_move_to (cr,
+			       viewer->image_area.x + viewer->image_area.width + 0.5,
+			       viewer->image_area.y - 1 + 0.5);
+		cairo_line_to (cr,
+			       viewer->image_area.x + viewer->image_area.width + 0.5,
+			       viewer->image_area.y + viewer->image_area.height + 0.5);
+		cairo_line_to (cr,
+			       viewer->image_area.x - 1 + 0.5,
+			       viewer->image_area.y + viewer->image_area.height + 0.5);
+		cairo_stroke (cr);
 
-		x1 = viewer->image_area.x - 1;
-		y1 = viewer->image_area.y + viewer->image_area.height;
-		x2 = viewer->image_area.x + viewer->image_area.width;
-		y2 = viewer->image_area.y + viewer->image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
+		/* top and left side */
 
-		if (viewer->priv->black_bg)
-			gc = widget->style->black_gc;
-		else
-			gc = widget->style->dark_gc[GTK_STATE_NORMAL];
+		if (! viewer->priv->black_bg)
+			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
 
-		x1 = viewer->image_area.x - 1;
-		y1 = viewer->image_area.y - 1;
-		x2 = viewer->image_area.x - 1;
-		y2 = viewer->image_area.y + viewer->image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
-
-		x1 = viewer->image_area.x - 1;
-		y1 = viewer->image_area.y - 1;
-		x2 = viewer->image_area.x + viewer->image_area.width;
-		y2 = viewer->image_area.y - 1;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
+		cairo_move_to (cr,
+			       viewer->image_area.x - 1 + 0.5,
+			       viewer->image_area.y + viewer->image_area.height + 0.5);
+		cairo_line_to (cr,
+			       viewer->image_area.x - 1 + 0.5,
+			       viewer->image_area.y - 1 + 0.5);
+		cairo_line_to (cr,
+			       viewer->image_area.x + viewer->image_area.width + 0.5,
+			       viewer->image_area.y - 1 + 0.5);
+		cairo_stroke (cr);
 	}
 
-	gth_image_viewer_tool_expose (viewer->priv->tool, event);
+	gth_image_viewer_tool_expose (viewer->priv->tool, event, cr);
 
 	/* Draw the focus. */
 
@@ -881,6 +865,8 @@ gth_image_viewer_expose (GtkWidget      *widget,
 #endif
 
 	queue_frame_change (viewer);
+
+	cairo_destroy (cr);
 
 	return FALSE;
 }
@@ -1028,9 +1014,9 @@ scroll_to (GthImageViewer *viewer,
 	}
 
 	if ((delta_x != 0) || (delta_y != 0)) {
-		GdkGC *gc = GTK_WIDGET (viewer)->style->black_gc;
-		int    src_x, dest_x;
-		int    src_y, dest_y;
+		int      src_x, dest_x;
+		int      src_y, dest_y;
+		cairo_t *cr;
 
 		if (delta_x < 0) {
 			src_x = 0;
@@ -1050,23 +1036,21 @@ scroll_to (GthImageViewer *viewer,
 			dest_y = 0;
 		}
 
-		gc = gdk_gc_new (drawable);
-		gdk_gc_set_exposures (gc, TRUE);
-
 		dest_x += viewer->priv->frame_border;
 		dest_y += viewer->priv->frame_border;
 		src_x += viewer->priv->frame_border;
 		src_y += viewer->priv->frame_border;
 
-		gdk_draw_drawable (drawable,
-				   gc,
-				   drawable,
-				   src_x, src_y,
-				   dest_x, dest_y,
-				   gdk_width - abs (delta_x),
-				   gdk_height - abs (delta_y));
+		cr = gdk_cairo_create (drawable);
+		gdk_cairo_set_source_pixmap (cr, drawable, dest_x - src_x, dest_y - src_y);
+		cairo_rectangle (cr,
+				 dest_x,
+				 dest_y,
+				 gdk_width - abs (delta_x),
+				 gdk_height - abs (delta_y));
+		cairo_fill (cr);
 
-		g_object_unref (gc);
+		cairo_destroy (cr);
 	}
 
 	viewer->x_offset = *x_offset;
@@ -1712,6 +1696,7 @@ gth_image_viewer_instance_init (GthImageViewer *viewer)
 	GTK_WIDGET_SET_FLAGS (viewer, GTK_CAN_FOCUS);
 
 	viewer->priv = GTH_IMAGE_VIEWER_GET_PRIVATE (viewer);
+	gtk_widget_set_double_buffered (GTK_WIDGET (viewer), TRUE);
 
 	/* Initialize data. */
 
@@ -2588,6 +2573,7 @@ gth_image_viewer_is_frame_visible (GthImageViewer *viewer)
 
 void
 gth_image_viewer_paint (GthImageViewer *viewer,
+			cairo_t        *cr,
 			GdkPixbuf      *pixbuf,
 			int             src_x,
 			int             src_y,
@@ -2597,11 +2583,9 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 			int             height,
 			int             interp_type)
 {
-	double         zoom_level;
-	int            bits_per_sample;
-	GdkColorspace  color_space;
-	guchar        *pixels;
-	int            rowstride;
+	double        zoom_level;
+	int           bits_per_sample;
+	GdkColorspace color_space;
 
 	zoom_level = viewer->priv->zoom_level;
 
@@ -2629,62 +2613,42 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 		viewer->priv->paint_bps = bits_per_sample;
 	}
 
-	if ((zoom_level == 1.0) && ! gdk_pixbuf_get_has_alpha (pixbuf) && (bits_per_sample == 8)) {
-		rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-		pixels = gdk_pixbuf_get_pixels (pixbuf) + (src_y * rowstride) + (src_x * gdk_pixbuf_get_n_channels (pixbuf));
-	}
-	else {
-		if (gdk_pixbuf_get_has_alpha (pixbuf))
-			gdk_pixbuf_composite_color (pixbuf,
-						    viewer->priv->paint_pixbuf,
-						    0, 0,
-						    width, height,
-						    (double) -src_x,
-						    (double) -src_y,
-						    zoom_level,
-						    zoom_level,
-						    interp_type,
-						    255,
-						    src_x, src_y,
-						    viewer->priv->check_size,
-						    viewer->priv->check_color1,
-						    viewer->priv->check_color2);
-		else
-			gdk_pixbuf_scale (pixbuf,
-					  viewer->priv->paint_pixbuf,
-					  0, 0,
-					  width, height,
-					  (double) -src_x,
-					  (double) -src_y,
-					  zoom_level,
-					  zoom_level,
-					  interp_type);
+	if (gdk_pixbuf_get_has_alpha (pixbuf))
+		gdk_pixbuf_composite_color (pixbuf,
+					    viewer->priv->paint_pixbuf,
+					    0, 0,
+					    width, height,
+					    (double) -src_x,
+					    (double) -src_y,
+					    zoom_level,
+					    zoom_level,
+					    interp_type,
+					    255,
+					    src_x, src_y,
+					    viewer->priv->check_size,
+					    viewer->priv->check_color1,
+					    viewer->priv->check_color2);
+	else
+		gdk_pixbuf_scale (pixbuf,
+				  viewer->priv->paint_pixbuf,
+				  0, 0,
+				  width, height,
+				  (double) -src_x,
+				  (double) -src_y,
+				  zoom_level,
+				  zoom_level,
+				  interp_type);
 
-		rowstride = gdk_pixbuf_get_rowstride (viewer->priv->paint_pixbuf);
-		pixels = gdk_pixbuf_get_pixels (viewer->priv->paint_pixbuf);
-	}
-
-	gdk_draw_rgb_image_dithalign (GTK_WIDGET (viewer)->window,
-				      GTK_WIDGET (viewer)->style->black_gc,
-				      dest_x, dest_y,
-				      width, height,
-				      GDK_RGB_DITHER_MAX,
-				      pixels,
-				      rowstride,
-				      dest_x, dest_y);
-
-#if 0
-	gdk_draw_rectangle (GTK_WIDGET (viewer)->window,
-			    GTK_WIDGET (viewer)->style->black_gc,
-			    FALSE,
-			    dest_x, dest_y,
-			    width, height);
-#endif
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	gdk_cairo_set_source_pixbuf (cr, viewer->priv->paint_pixbuf, dest_x, dest_y);
+  	cairo_rectangle (cr, dest_x, dest_y, width, height);
+  	cairo_fill (cr);
 }
 
 
 void
 gth_image_viewer_paint_region (GthImageViewer *viewer,
+			       cairo_t        *cr,
 			       GdkPixbuf      *pixbuf,
 			       int             src_x,
 			       int             src_y,
@@ -2696,12 +2660,19 @@ gth_image_viewer_paint_region (GthImageViewer *viewer,
 	int           n_rects;
 	int           i;
 
+	cairo_save (cr);
+	gdk_cairo_region (cr, region);
+	cairo_clip (cr);
+	gdk_cairo_rectangle (cr, pixbuf_area);
+	cairo_clip (cr);
+
 	gdk_region_get_rectangles (region, &rects, &n_rects);
 	for (i = 0; i < n_rects; i++) {
 		GdkRectangle paint_area;
 
 		if (gdk_rectangle_intersect (pixbuf_area, &rects[i], &paint_area))
 			gth_image_viewer_paint (viewer,
+						cr,
 						pixbuf,
 						src_x + paint_area.x,
 						src_y + paint_area.y,
@@ -2711,6 +2682,8 @@ gth_image_viewer_paint_region (GthImageViewer *viewer,
 						paint_area.height,
 						interp_type);
 	}
+
+	cairo_restore (cr);
 
 	g_free (rects);
 }

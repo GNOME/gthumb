@@ -33,7 +33,7 @@
 
 struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
-	GtkWidget         *nav_window;
+	GtkWidget         *image_navigator;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
 	GtkActionGroup    *actions;
@@ -460,10 +460,10 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			  G_CALLBACK (viewer_key_press_cb),
 			  self);
 
-	self->priv->nav_window = gth_nav_window_new (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_widget_show (self->priv->nav_window);
+	self->priv->image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gtk_widget_show (self->priv->image_navigator);
 
-	gth_browser_set_viewer_widget (browser, self->priv->nav_window);
+	gth_browser_set_viewer_widget (browser, self->priv->image_navigator);
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	/* gconf notifications */
@@ -653,11 +653,11 @@ gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 
 	self = (GthImageViewerPage *) base;
 	if (active) {
-		gth_nav_window_set_scrollbars_visible (GTH_NAV_WINDOW (self->priv->nav_window), FALSE);
+		gth_image_navigator_set_scrollbars_visible (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), FALSE);
 		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
 	}
 	else {
-		gth_nav_window_set_scrollbars_visible (GTH_NAV_WINDOW (self->priv->nav_window), TRUE);
+		gth_image_navigator_set_scrollbars_visible (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), TRUE);
 		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 	}
 }

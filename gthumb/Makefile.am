@@ -69,6 +69,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-dragger.h				\
 	gth-image-history.h				\
 	gth-image-loader.h				\
+	gth-image-navigator.h				\
 	gth-image-preloader.h				\
 	gth-image-selector.h				\
 	gth-image-viewer.h				\
@@ -81,7 +82,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-metadata-provider.h				\
 	gth-monitor.h					\
 	gth-multipage.h					\
-	gth-nav-window.h				\
 	gth-overwrite-dialog.h				\
 	gth-pixbuf-task.h				\
 	gth-pixbuf-list-task.h				\
@@ -184,6 +184,7 @@ gthumb_SOURCES = 					\
 	gth-image-dragger.c				\
 	gth-image-history.c				\
 	gth-image-loader.c				\
+	gth-image-navigator.c				\
 	gth-image-preloader.c				\
 	gth-image-selector.c				\
 	gth-image-viewer.c				\
@@ -202,7 +203,6 @@ gthumb_SOURCES = 					\
 	gth-metadata-provider-file.c			\
 	gth-monitor.c					\
 	gth-multipage.c					\
-	gth-nav-window.c				\
 	gth-overwrite-dialog.c				\
 	gth-pixbuf-task.c				\
 	gth-pixbuf-list-task.c				\

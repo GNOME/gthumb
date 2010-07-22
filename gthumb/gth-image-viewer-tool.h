@@ -45,7 +45,8 @@ struct _GthImageViewerToolIface {
 	void      (*size_allocate)  (GthImageViewerTool   *self,
 				     GtkAllocation        *allocation);
 	void      (*expose)         (GthImageViewerTool   *self,
-				     GdkEventExpose       *event);
+				     GdkEventExpose       *event,
+				     cairo_t              *cr);
 	gboolean  (*button_press)   (GthImageViewerTool   *self,
 				     GdkEventButton       *event);
 	gboolean  (*button_release) (GthImageViewerTool   *self,
@@ -64,7 +65,8 @@ void       gth_image_viewer_tool_unrealize        (GthImageViewerTool *self);
 void       gth_image_viewer_tool_size_allocate    (GthImageViewerTool *self,
 						   GtkAllocation      *allocation);
 void       gth_image_viewer_tool_expose           (GthImageViewerTool *self,
-						   GdkEventExpose     *event);
+						   GdkEventExpose     *event,
+						   cairo_t            *cr);
 gboolean   gth_image_viewer_tool_button_press     (GthImageViewerTool *self,
 						   GdkEventButton     *event);
 gboolean   gth_image_viewer_tool_button_release   (GthImageViewerTool *self,

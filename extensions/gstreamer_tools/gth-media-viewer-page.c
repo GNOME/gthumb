@@ -99,18 +99,25 @@ _gth_media_viewer_page_update_caption (GthMediaViewerPage *self)
 		return;
 
 	if (self->priv->file_data != NULL) {
-		const char  *text;
+		GString     *description;
 		GthMetadata *metadata;
 
-		text = NULL;
+		description = g_string_new ("");
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "general::title");
-		if (metadata != NULL)
-			text = gth_metadata_get_formatted (metadata);
+		if (metadata != NULL) {
+			g_string_append (description, gth_metadata_get_formatted (metadata));
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "audio-video::general::artist");
+			if (metadata != NULL) {
+				g_string_append (description, "\n");
+				g_string_append (description, gth_metadata_get_formatted (metadata));
+			}
+		}
 		else
-			text = g_file_info_get_display_name (self->priv->file_data->info);
+			g_string_append (description, g_file_info_get_display_name (self->priv->file_data->info));
 
-		if (text != NULL)
-			pango_layout_set_text (self->priv->caption_layout, text, -1);
+		pango_layout_set_text (self->priv->caption_layout, description->str, -1);
+
+		g_string_free (description, TRUE);
 	}
 	else
 		pango_layout_set_text (self->priv->caption_layout, "", -1);
@@ -126,6 +133,7 @@ video_area_realize_cb (GtkWidget *widget,
 	GthMediaViewerPage *self = user_data;
 
 	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, "");
+	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
 	_gth_media_viewer_page_update_caption (self);
 }
 
@@ -147,12 +155,18 @@ video_area_expose_event_cb (GtkWidget      *widget,
 			    gpointer        user_data)
 {
 	GthMediaViewerPage *self = user_data;
+	GtkAllocation       allocation;
+	GtkStyle           *style;
+	cairo_t            *cr;
 
 	if (event->count > 0)
 		return FALSE;
 
 	if (self->priv->xwin_assigned && self->priv->has_video)
 		return FALSE;
+
+	gtk_widget_get_allocation (widget, &allocation);
+	style = gtk_widget_get_style (widget);
 
 	if (self->priv->icon == NULL) {
 		char  *type;
@@ -165,9 +179,9 @@ video_area_expose_event_cb (GtkWidget      *widget,
 		if (type == NULL)
 			type = g_content_type_from_mime_type ("text/plain");
 		icon = g_content_type_get_icon (type);
-		size = widget->allocation.width;
-		if (size > widget->allocation.height)
-			size = widget->allocation.height;
+		size = allocation.width;
+		if (size > allocation.height)
+			size = allocation.height;
 		size = size / 3;
 		self->priv->icon = _g_icon_get_pixbuf (icon, size, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)));
 
@@ -175,44 +189,49 @@ video_area_expose_event_cb (GtkWidget      *widget,
 		g_free (type);
 	}
 
-	gdk_draw_rectangle (gtk_widget_get_window (widget),
-			    self->priv->has_video ? widget->style->black_gc : widget->style->text_gc[GTK_WIDGET_STATE (widget)],
-			    TRUE,
-			    event->area.x,
-			    event->area.y,
-			    event->area.width,
-			    event->area.height);
+	cr = gdk_cairo_create (gtk_widget_get_window (widget));
+	gdk_cairo_region (cr, event->region);
+	cairo_clip (cr);
+	if (self->priv->has_video)
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	else
+		gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
+	gdk_cairo_region (cr, event->region);
+	cairo_fill (cr);
 
 	if (self->priv->icon != NULL) {
 		int            icon_w, icon_h;
+		int            text_w;
 		int            icon_x, icon_y;
 		PangoRectangle logical_rect;
 		int            x, y;
 
 		icon_w = gdk_pixbuf_get_width (self->priv->icon);
 		icon_h = gdk_pixbuf_get_height (self->priv->icon);
-		pango_layout_set_width (self->priv->caption_layout, PANGO_SCALE * (icon_w * 3 / 2));
+
+		text_w = (icon_w * 3 / 2);
+		pango_layout_set_width (self->priv->caption_layout, PANGO_SCALE * text_w);
 		pango_layout_get_extents (self->priv->caption_layout, NULL, &logical_rect);
-		icon_x = (widget->allocation.width - icon_w) / 2;
-		x = (widget->allocation.width - PANGO_PIXELS (logical_rect.width)) / 2 + PANGO_PIXELS (logical_rect.x);
-		icon_y = (widget->allocation.height - (icon_h + PANGO_PIXELS (logical_rect.height))) / 2;
+
+		icon_x = (allocation.width - icon_w) / 2;
+		x = (allocation.width - text_w) / 2;
+
+		icon_y = (allocation.height - (icon_h + PANGO_PIXELS (logical_rect.height))) / 2;
 		y = icon_y + icon_h;
 
-		gdk_draw_pixbuf (gtk_widget_get_window (widget),
-				 widget->style->base_gc[GTK_WIDGET_STATE (widget)],
-				 self->priv->icon,
-				 0, 0,
-				 icon_x, icon_y,
-				 icon_w, icon_h,
-				 GDK_RGB_DITHER_NORMAL,
-				 0, 0);
-		gdk_draw_layout (gtk_widget_get_window (widget),
-				 widget->style->base_gc[GTK_WIDGET_STATE (widget)],
-				 x, y,
-				 self->priv->caption_layout);
+		gdk_cairo_set_source_pixbuf (cr, self->priv->icon, icon_x, icon_y);
+		cairo_rectangle (cr, icon_x, icon_y, icon_w, icon_h);
+		cairo_fill (cr);
+
+		cairo_move_to (cr, x, y);
+		pango_cairo_layout_path (cr, self->priv->caption_layout);
+		gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
+		cairo_fill (cr);
 	}
 
-	return FALSE;
+	cairo_destroy (cr);
+
+	return TRUE;
 }
 
 

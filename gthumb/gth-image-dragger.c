@@ -128,7 +128,8 @@ gth_image_dragger_unmap (GthImageViewerTool *base)
 
 static void
 gth_image_dragger_expose (GthImageViewerTool *self,
-			  GdkEventExpose     *event)
+			  GdkEventExpose     *event,
+		          cairo_t            *cr)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -149,6 +150,7 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 		interp_type = GDK_INTERP_NEAREST;
 
 	gth_image_viewer_paint_region (viewer,
+				       cr,
 				       gth_image_viewer_get_current_pixbuf (viewer),
 				       viewer->x_offset - viewer->image_area.x,
 				       viewer->y_offset - viewer->image_area.y,

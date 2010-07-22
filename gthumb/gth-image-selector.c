@@ -35,6 +35,7 @@
 #define STEP_INCREMENT 20.0  /* scroll increment. */
 #define SCROLL_TIMEOUT 30    /* autoscroll timeout in milliseconds */
 #define GOLDEN_RATIO   1.6180339887
+#define GOLDER_RATIO_FACTOR (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO))
 
 
 typedef struct {
@@ -206,7 +207,6 @@ struct _GthImageSelectorPrivate {
 	gboolean         active;
 
 	GdkRectangle     drag_start_selection_area;
-	GdkGC           *selection_gc;
 	GdkRectangle     selection_area;
 	GdkRectangle     selection;
 
@@ -512,15 +512,6 @@ gth_image_selector_realize (GthImageViewerTool *base)
 
 	widget = (GtkWidget *) self->priv->viewer;
 
-	self->priv->selection_gc = gdk_gc_new (widget->window);
-	gdk_gc_copy (self->priv->selection_gc, widget->style->white_gc);
-	gdk_gc_set_line_attributes (self->priv->selection_gc,
-				    1,
-				    GDK_LINE_SOLID,
-				    GDK_CAP_BUTT,
-				    GDK_JOIN_MITER);
-	gdk_gc_set_function (self->priv->selection_gc, GDK_INVERT);
-
 	if (self->priv->type == GTH_SELECTOR_TYPE_REGION)
 		self->priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR /*GDK_LEFT_PTR*/);
 	else if (self->priv->type == GTH_SELECTOR_TYPE_POINT)
@@ -550,11 +541,6 @@ gth_image_selector_unrealize (GthImageViewerTool *base)
 	if (self->priv->default_cursor != NULL) {
 		gdk_cursor_unref (self->priv->default_cursor);
 		self->priv->default_cursor = NULL;
-	}
-
-	if (self->priv->selection_gc != NULL) {
-		g_object_unref (self->priv->selection_gc);
-		self->priv->selection_gc = NULL;
 	}
 
 	free_event_area_list (self);
@@ -588,9 +574,11 @@ gth_image_selector_unmap (GthImageViewerTool *base)
 
 static void
 paint_background (GthImageSelector *self,
-		  GdkEventExpose   *event)
+		  GdkEventExpose   *event,
+		  cairo_t          *cr)
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
+				       cr,
 				       self->priv->background,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
@@ -602,19 +590,17 @@ paint_background (GthImageSelector *self,
 
 static void
 paint_selection (GthImageSelector *self,
-		 GdkEventExpose   *event)
+		 GdkEventExpose   *event,
+		 cairo_t          *cr)
 {
 	GdkRectangle selection_area;
-	GdkRectangle paint_area;
 
 	selection_area = self->priv->selection_area;
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
 	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
 
-	if (! gdk_rectangle_intersect (&selection_area, &event->area, &paint_area))
-		return;
-
 	gth_image_viewer_paint_region (self->priv->viewer,
+				       cr,
 				       self->priv->pixbuf,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
@@ -622,26 +608,37 @@ paint_selection (GthImageSelector *self,
 				       event->region,
 				       GDK_INTERP_TILES);
 
-	gdk_gc_set_clip_region (self->priv->selection_gc, event->region);
+	cairo_save (cr);
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
+	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+#else
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+#endif
+
+
+	gdk_cairo_region (cr, event->region);
+	gdk_cairo_rectangle (cr, &selection_area);
+	cairo_clip (cr);
 
 	if (self->priv->grid_type != GTH_GRID_NONE) {
 		int grid_x0, grid_x1, grid_x2, grid_x3;
 	        int grid_y0, grid_y1, grid_y2, grid_y3;
 		int x_delta, y_delta;
 
-		grid_x0 = paint_area.x;
-		grid_x3 = paint_area.x + paint_area.width;
+		grid_x0 = selection_area.x;
+		grid_x3 = selection_area.x + selection_area.width;
 
-                grid_y0 = paint_area.y;
-                grid_y3 = paint_area.y + paint_area.height;
+                grid_y0 = selection_area.y;
+                grid_y3 = selection_area.y + selection_area.height;
 
 		if (self->priv->grid_type == GTH_GRID_THIRDS) {
-			x_delta = paint_area.width / 3;
-			y_delta = paint_area.height /3;
+			x_delta = selection_area.width / 3;
+			y_delta = selection_area.height /3;
 		}
 		else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
-			x_delta = paint_area.width * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
-			y_delta = paint_area.height * (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO));
+			x_delta = selection_area.width * GOLDER_RATIO_FACTOR;
+			y_delta = selection_area.height * GOLDER_RATIO_FACTOR;
 		}
 
 		grid_x1 = grid_x0 + x_delta;
@@ -649,39 +646,37 @@ paint_selection (GthImageSelector *self,
                 grid_y1 = grid_y0 + y_delta;
                 grid_y2 = grid_y3 - y_delta;
 
-		gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-			       self->priv->selection_gc,
-			       grid_x1, grid_y0,
-			       grid_x1, grid_y3);
-	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-       		               self->priv->selection_gc,
- 			       grid_x2, grid_y0,
-			       grid_x2, grid_y3);
-        	gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-       	        	       self->priv->selection_gc,
-                               grid_x0, grid_y1,
-                               grid_x3, grid_y1);
-	        gdk_draw_line (GTK_WIDGET (self->priv->viewer)->window,
-       		               self->priv->selection_gc,
-                               grid_x0, grid_y2,
-                               grid_x3, grid_y2);
+		cairo_move_to (cr, grid_x1 + 0.5, grid_y0 + 0.5);
+		cairo_line_to (cr, grid_x1 + 0.5, grid_y3 + 0.5);
+
+		cairo_move_to (cr, grid_x2 + 0.5, grid_y0 + 0.5);
+		cairo_line_to (cr, grid_x2 + 0.5, grid_y3 + 0.5);
+
+		cairo_move_to (cr, grid_x0 + 0.5, grid_y1 + 0.5);
+		cairo_line_to (cr, grid_x3 + 0.5, grid_y1 + 0.5);
+
+		cairo_move_to (cr, grid_x0 + 0.5, grid_y2 + 0.5);
+		cairo_line_to (cr, grid_x3 + 0.5, grid_y2 + 0.5);
 	}
 
-	gdk_draw_rectangle (GTK_WIDGET (self->priv->viewer)->window,
-			    self->priv->selection_gc,
-			    FALSE,
-			    selection_area.x,
-			    selection_area.y,
-			    selection_area.width,
-			    selection_area.height);
+	cairo_rectangle (cr,
+			 selection_area.x + 0.5,
+			 selection_area.y + 0.5,
+			 selection_area.width,
+			 selection_area.height);
+	cairo_stroke (cr);
+
+	cairo_restore (cr);
 }
 
 
 static void
 paint_image (GthImageSelector *self,
-	     GdkEventExpose   *event)
+	     GdkEventExpose   *event,
+	     cairo_t          *cr)
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
+				       cr,
 				       self->priv->pixbuf,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
@@ -693,7 +688,8 @@ paint_image (GthImageSelector *self,
 
 static void
 gth_image_selector_expose (GthImageViewerTool *base,
-			   GdkEventExpose     *event)
+			   GdkEventExpose     *event,
+			   cairo_t            *cr)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -701,11 +697,11 @@ gth_image_selector_expose (GthImageViewerTool *base,
 		return;
 
 	if (self->priv->mask_visible) {
-		paint_background (self, event);
-		paint_selection (self, event);
+		paint_background (self, event, cr);
+		paint_selection (self, event, cr);
 	}
 	else
-		paint_image (self, event);
+		paint_image (self, event, cr);
 }
 
 

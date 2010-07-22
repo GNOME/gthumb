@@ -639,6 +639,8 @@ gthumb/gth-image-history.c
 gthumb/gth-image-history.h
 gthumb/gth-image-loader.c
 gthumb/gth-image-loader.h
+gthumb/gth-image-navigator.c
+gthumb/gth-image-navigator.h
 gthumb/gth-image-preloader.c
 gthumb/gth-image-preloader.h
 gthumb/gth-image-selector.c
@@ -670,8 +672,6 @@ gthumb/gth-monitor.c
 gthumb/gth-monitor.h
 gthumb/gth-multipage.c
 gthumb/gth-multipage.h
-gthumb/gth-nav-window.c
-gthumb/gth-nav-window.h
 gthumb/gth-overwrite-dialog.c
 gthumb/gth-overwrite-dialog.h
 gthumb/gth-pixbuf-list-task.c

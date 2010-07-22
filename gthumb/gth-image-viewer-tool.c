@@ -88,9 +88,10 @@ gth_image_viewer_tool_size_allocate (GthImageViewerTool *self,
 
 void
 gth_image_viewer_tool_expose (GthImageViewerTool *self,
-			      GdkEventExpose     *event)
+			      GdkEventExpose     *event,
+			      cairo_t            *cr)
 {
-	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->expose (self, event);
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->expose (self, event, cr);
 }
 
 

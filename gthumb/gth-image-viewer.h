@@ -266,6 +266,7 @@ gboolean       gth_image_viewer_is_frame_visible         (GthImageViewer     *vi
 /*< protected, used by the tools >*/
 
 void           gth_image_viewer_paint                    (GthImageViewer     *viewer,
+							  cairo_t            *cr,
 							  GdkPixbuf          *pixbuf,
 							  int                 src_x,
 							  int                 src_y,
@@ -275,6 +276,7 @@ void           gth_image_viewer_paint                    (GthImageViewer     *vi
 							  int                 height,
 							  int                 interp_type);
 void           gth_image_viewer_paint_region             (GthImageViewer     *viewer,
+							  cairo_t            *cr,
 							  GdkPixbuf          *pixbuf,
 							  int                 src_x,
 							  int                 src_y,
