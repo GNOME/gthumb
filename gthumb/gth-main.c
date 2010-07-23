@@ -581,6 +581,9 @@ gth_main_get_metadata_info (const char *id)
 {
 	int i;
 
+	if (id == NULL)
+		return NULL;
+
 	for (i = 0; i < Main->priv->metadata_info->len; i++) {
 		GthMetadataInfo *info;
 

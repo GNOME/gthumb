@@ -611,19 +611,20 @@ mandatory_string (Exiv2::ExifData &checkdata,
 
 
 const char *
-gth_main_get_metadata_type (GthMetadata *metadata)
+gth_main_get_metadata_type (GthMetadata *metadata,
+			    const char  *attribute)
 {
 	const char      *value_type;
 	GthMetadataInfo *metadatum_info;
 
 	value_type = gth_metadata_get_value_type (metadata);
 	if (g_strcmp0 (value_type, "Undefined") == 0)
-			value_type = NULL;
+		value_type = NULL;
 
 	if (value_type != NULL)
 		return value_type;
 
-	metadatum_info = gth_main_get_metadata_info (gth_metadata_get_id (metadata));
+	metadatum_info = gth_main_get_metadata_info (attribute);
 	if (metadatum_info != NULL)
 		value_type = metadatum_info->type;
 
@@ -665,7 +666,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			 */
 
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
 
 			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) && (value_type != NULL)) {
 				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
@@ -760,7 +761,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		try {
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
 
 			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
 				/* See the exif data code above for an explanation. */
@@ -796,7 +797,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		try {
 			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum);
+			const char *value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
 
 			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
 				/* See the exif data code above for an explanation. */
