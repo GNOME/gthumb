@@ -2397,7 +2397,8 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	char          **uris;
 	GList          *file_list;
 
-	suggested_action = gdk_drag_context_get_suggested_action (context);
+	/*suggested_action = gdk_drag_context_get_suggested_action (context);*/
+	suggested_action = context->suggested_action;
 
 	if ((suggested_action == GDK_ACTION_COPY) || (suggested_action == GDK_ACTION_MOVE))
 		success = TRUE;
