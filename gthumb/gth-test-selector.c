@@ -223,7 +223,7 @@ gth_test_selector_construct (GthTestSelector *self,
 	GList           *tests;
 	GList           *scan;
 
-	GTK_BOX (self)->spacing = 6;
+	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
 
 	/* scope combo box */

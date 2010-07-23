@@ -640,7 +640,7 @@ gth_image_viewer_page_real_focus (GthViewerPage *base)
 	GtkWidget *widget;
 
 	widget = GTH_IMAGE_VIEWER_PAGE (base)->priv->viewer;
-	if (GTK_WIDGET_REALIZED (widget) && GTK_WIDGET_MAPPED (widget))
+	if (gtk_widget_get_realized (widget) && gtk_widget_get_mapped (widget))
 		gtk_widget_grab_focus (widget);
 }
 
@@ -1118,7 +1118,7 @@ add_non_content_height (GthImageViewerPage *self,
 {
 	int height = 0;
 
-	if ((non_content != NULL) && GTK_WIDGET_VISIBLE (non_content)) {
+	if ((non_content != NULL) && gtk_widget_get_visible (non_content)) {
 		GtkAllocation allocation;
 		gtk_widget_get_allocation (non_content, &allocation);
 		height = allocation.height;

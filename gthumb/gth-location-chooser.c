@@ -133,7 +133,7 @@ gth_location_chooser_class_init (GthLocationChooserClass *class)
 static void
 gth_location_chooser_init (GthLocationChooser *chooser)
 {
-	GTK_WIDGET_SET_FLAGS (chooser, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (chooser), TRUE);
 	chooser->priv = g_new0 (GthLocationChooserPrivate, 1);
 }
 

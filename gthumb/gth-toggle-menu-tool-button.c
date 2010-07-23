@@ -124,19 +124,19 @@ gth_toggle_menu_tool_button_construct_contents (GtkToolItem *tool_item)
 			      "icon-spacing", &icon_spacing,
 			      NULL);
 
-	if (button->priv->icon_widget && button->priv->icon_widget->parent)
-		gtk_container_remove (GTK_CONTAINER (button->priv->icon_widget->parent),
+	if ((button->priv->icon_widget != NULL) && (gtk_widget_get_parent (button->priv->icon_widget) != NULL))
+		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (button->priv->icon_widget)),
 				      button->priv->icon_widget);
 
-	if (button->priv->label_widget && button->priv->label_widget->parent)
-		gtk_container_remove (GTK_CONTAINER (button->priv->label_widget->parent),
+	if ((button->priv->label_widget != NULL) && (gtk_widget_get_parent (button->priv->label_widget) != NULL))
+		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (button->priv->label_widget)),
 				      button->priv->label_widget);
 
-	if (GTK_BIN (button->priv->toggle_button)->child)
+	if (gtk_bin_get_child (GTK_BIN (button->priv->toggle_button)) != NULL)
 		/* Note: we are not destroying the label_widget or icon_widget
 		 * here because they were removed from their containers above
 		 */
-		gtk_widget_destroy (GTK_BIN (button->priv->toggle_button)->child);
+		gtk_widget_destroy (gtk_bin_get_child (GTK_BIN (button->priv->toggle_button)));
 
 	style = gtk_tool_item_get_toolbar_style (GTK_TOOL_ITEM (button));
 
@@ -339,7 +339,7 @@ gth_toggle_menu_tool_button_state_changed (GtkWidget    *widget,
 {
 	GthToggleMenuToolButton *button = GTH_TOGGLE_MENU_TOOL_BUTTON (widget);
 
-	if (! GTK_WIDGET_IS_SENSITIVE (widget) && (button->priv->menu != NULL))
+	if (! gtk_widget_is_sensitive (widget) && (button->priv->menu != NULL))
 		gtk_menu_shell_deactivate (GTK_MENU_SHELL (button->priv->menu));
 }
 
@@ -350,7 +350,7 @@ gth_toggle_menu_tool_button_update_icon_spacing (GthToggleMenuToolButton *button
 	GtkWidget *box;
 	guint spacing;
 
-	box = GTK_BIN (button->priv->toggle_button)->child;
+	box = gtk_bin_get_child (GTK_BIN (button->priv->toggle_button));
 	if (GTK_IS_BOX (box)) {
 		gtk_widget_style_get (GTK_WIDGET (button),
 				      "icon-spacing", &spacing,
@@ -464,6 +464,7 @@ menu_position_func (GtkMenu                 *menu,
 	GdkRectangle      monitor;
 	int               monitor_num;
 	GdkScreen        *screen;
+	GtkAllocation     allocation;
 
 	gtk_widget_size_request (GTK_WIDGET (button->priv->menu), &menu_req);
 
@@ -471,43 +472,44 @@ menu_position_func (GtkMenu                 *menu,
 	direction = gtk_widget_get_direction (widget);
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, widget->window);
+	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (widget));
 	if (monitor_num < 0)
 		monitor_num = 0;
 	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+	gtk_widget_get_allocation (widget, &allocation);
 
 	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
-		gdk_window_get_origin (widget->window, x, y);
-		*x += widget->allocation.x;
-		*y += widget->allocation.y;
+		gdk_window_get_origin (gtk_widget_get_window (widget), x, y);
+		*x += allocation.x;
+		*y += allocation.y;
 
 		if (direction == GTK_TEXT_DIR_LTR)
-			*x += MAX (widget->allocation.width - menu_req.width, 0);
-		else if (menu_req.width > widget->allocation.width)
-			*x -= menu_req.width - widget->allocation.width;
+			*x += MAX (allocation.width - menu_req.width, 0);
+		else if (menu_req.width > allocation.width)
+			*x -= menu_req.width - allocation.width;
 
-		if ((*y + widget->allocation.height + menu_req.height) <= monitor.y + monitor.height)
-			*y += widget->allocation.height;
+		if ((*y + allocation.height + menu_req.height) <= monitor.y + monitor.height)
+			*y += allocation.height;
 		else if ((*y - menu_req.height) >= monitor.y)
 			*y -= menu_req.height;
-		else if (monitor.y + monitor.height - (*y + widget->allocation.height) > *y)
-			*y += widget->allocation.height;
+		else if (monitor.y + monitor.height - (*y + allocation.height) > *y)
+			*y += allocation.height;
 		else
 			*y -= menu_req.height;
 	}
 	else {
-		gdk_window_get_origin (GTK_BUTTON (widget)->event_window, x, y);
+		gdk_window_get_origin (gtk_button_get_event_window (GTK_BUTTON (widget)), x, y);
 		gtk_widget_size_request (widget, &req);
 
 		if (direction == GTK_TEXT_DIR_LTR)
-			*x += widget->allocation.width;
+			*x += allocation.width;
 		else
 			*x -= menu_req.width;
 
 		if ((*y + menu_req.height > monitor.y + monitor.height) &&
-		    (*y + widget->allocation.height - monitor.y > monitor.y + monitor.height - *y))
+		    (*y + allocation.height - monitor.y > monitor.y + monitor.height - *y))
 		{
-			*y += widget->allocation.height - menu_req.height;
+			*y += allocation.height - menu_req.height;
 		}
 	}
 
@@ -547,7 +549,7 @@ real_button_toggled_cb (GtkToggleButton         *togglebutton,
 		button->priv->active = toggle_active;
 		g_object_notify (G_OBJECT (button), "active");
 
-		if (button->priv->active && ! GTK_WIDGET_VISIBLE (button->priv->menu)) {
+		if (button->priv->active && ! gtk_widget_get_visible (GTK_WIDGET (button->priv->menu))) {
 			/* we get here only when the menu is activated by a key
 			 * press, so that we can select the first menu item */
 			popup_menu_under_button (button, NULL);
@@ -1023,7 +1025,7 @@ gth_toggle_menu_tool_button_set_menu (GthToggleMenuToolButton *button,
 	g_return_if_fail (GTK_IS_MENU (menu) || menu == NULL);
 
 	if (button->priv->menu != GTK_MENU (menu)) {
-		if ((button->priv->menu != NULL) && GTK_WIDGET_VISIBLE (button->priv->menu))
+		if ((button->priv->menu != NULL) && gtk_widget_get_visible (GTK_WIDGET (button->priv->menu)))
 			gtk_menu_shell_deactivate (GTK_MENU_SHELL (button->priv->menu));
 
 		button->priv->menu = GTK_MENU (menu);

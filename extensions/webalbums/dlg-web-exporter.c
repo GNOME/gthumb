@@ -252,7 +252,7 @@ footer_entry_icon_press_cb (GtkEntry             *entry,
 	else
 		help_box = GET_WIDGET ("image_footer_help_table");
 
-	if (GTK_WIDGET_VISIBLE (help_box))
+	if (gtk_widget_get_visible (help_box))
 		gtk_widget_hide (help_box);
 	else
 		gtk_widget_show (help_box);

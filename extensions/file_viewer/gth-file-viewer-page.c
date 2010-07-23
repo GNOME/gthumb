@@ -240,7 +240,7 @@ gth_file_viewer_page_real_focus (GthViewerPage *base)
 	GtkWidget *widget;
 
 	widget = GTH_FILE_VIEWER_PAGE (base)->priv->label;
-	if (GTK_WIDGET_REALIZED (widget) && GTK_WIDGET_MAPPED (widget))
+	if (gtk_widget_get_realized (widget) && gtk_widget_get_mapped (widget))
 		gtk_widget_grab_focus (widget);
 }
 

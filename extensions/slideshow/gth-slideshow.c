@@ -89,7 +89,7 @@ _gth_slideshow_close (GthSlideshow *self)
 	GthBrowser *browser;
 
 	browser = self->priv->browser;
-	close_browser = ! GTK_WIDGET_VISIBLE (browser);
+	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
 	gtk_widget_destroy (GTK_WIDGET (self));
 
 	if (close_browser)

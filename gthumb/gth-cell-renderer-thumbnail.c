@@ -167,10 +167,12 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 				      int             *height)
 {
 	GthCellRendererThumbnail *self;
-	int image_width;
-	int image_height;
-	int calc_width;
-  	int calc_height;
+	int   image_width;
+	int   image_height;
+	int   calc_width;
+  	int   calc_height;
+  	int   xpad;
+  	int   ypad;
 
   	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
 
@@ -183,13 +185,15 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
   		image_height = 0;
   	}
 
+  	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
+
 	if (self->priv->is_icon || self->priv->fixed_size || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
-		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
-		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + self->priv->size;
+		calc_width  = (int) (xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
+		calc_height = (int) (ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + self->priv->size;
 	}
 	else {
-		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + image_width;
-		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + image_height;
+		calc_width  = (int) (xpad * 2) + (THUMBNAIL_X_BORDER * 2) + image_width;
+		calc_height = (int) (ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + image_height;
 	}
 
 	if (width != NULL)
@@ -199,13 +203,18 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 		*height = calc_height;
 
 	if (cell_area != NULL) {
+	  	float xalign;
+	  	float yalign;
+
+		gtk_cell_renderer_get_alignment (cell, &xalign, &yalign);
+
 		if (x_offset != NULL) {
-			*x_offset = cell->xalign * (cell_area->width - calc_width);
+			*x_offset = xalign * (cell_area->width - calc_width);
 			*x_offset = MAX (*x_offset, 0);
 		}
 
 		if (y_offset != NULL) {
-      			*y_offset = cell->yalign * (cell_area->height - calc_height);
+      			*y_offset = yalign * (cell_area->height - calc_height);
       			*y_offset = MAX (*y_offset, 0);
     		}
   	}
@@ -306,6 +315,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	GdkRectangle              image_rect;
 	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
+	int                       xpad;
+	int                       ypad;
 	GdkPixbuf                *colorized = NULL;
 	int                       border;
 
@@ -321,10 +332,12 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	if (pixbuf == NULL)
 		return;
 
-	thumb_rect.x += cell_area->x + cell->xpad;
-  	thumb_rect.y += cell_area->y + cell->ypad;
-  	thumb_rect.width  -= cell->xpad * 2;
-  	thumb_rect.height -= cell->ypad * 2;
+	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
+
+	thumb_rect.x += cell_area->x + xpad;
+  	thumb_rect.y += cell_area->y + ypad;
+  	thumb_rect.width  -= xpad * 2;
+  	thumb_rect.height -= ypad * 2;
 
 	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect)
 	    || ! gdk_rectangle_intersect (expose_area, &thumb_rect, &draw_rect))
@@ -342,19 +355,21 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	style = gtk_widget_get_style (widget);
 
   	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
-  		state = GTK_WIDGET_HAS_FOCUS (widget) ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
+  		state = gtk_widget_has_focus (widget) ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
   	else
   		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
 
 	if (self->priv->is_icon || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
+		GtkStyle *style;
 
 		/* use a gray rounded box for icons or when the original size
 		 * is smaller than the thumbnail size... */
 
+		style = gtk_widget_get_style (widget);
 		if (state == GTK_STATE_NORMAL)
-			gdk_cairo_set_source_color (cr, &widget->style->bg[state]);
+			gdk_cairo_set_source_color (cr, &style->bg[state]);
 		else
-			gdk_cairo_set_source_color (cr, &widget->style->base[state]);
+			gdk_cairo_set_source_color (cr, &style->base[state]);
 
 		_cairo_draw_rounded_box (cr, thumb_rect.x, thumb_rect.y, thumb_rect.width, thumb_rect.height, 7);
 		cairo_close_path (cr);

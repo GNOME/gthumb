@@ -349,7 +349,7 @@ update_event_areas (GthImageSelector *self)
 	EventArea *event_area;
 	int        x, y, width, height;
 
-	if (! GTK_WIDGET_REALIZED (self->priv->viewer))
+	if (! gtk_widget_get_realized (GTK_WIDGET (self->priv->viewer)))
 		return;
 
 	x = self->priv->selection_area.x - 1;
@@ -417,7 +417,7 @@ static void
 queue_draw (GthImageSelector *self,
 	    GdkRectangle      area)
 {
-	if (! GTK_WIDGET_REALIZED (self->priv->viewer))
+	if (! gtk_widget_get_realized (GTK_WIDGET (self->priv->viewer)))
 		return;
 
 	gtk_widget_queue_draw_area (GTK_WIDGET (self->priv->viewer),
@@ -1112,20 +1112,24 @@ static gboolean
 autoscroll_cb (gpointer data)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (data);
-	double            max_value;
 	double            value;
+	double            max_value;
 
 	GDK_THREADS_ENTER ();
 
-	max_value = self->priv->viewer->hadj->upper - self->priv->viewer->hadj->page_size;
-	value = self->priv->viewer->hadj->value + self->priv->x_value_diff;
+	/* drag x */
+
+	value = gtk_adjustment_get_value (self->priv->viewer->hadj) + self->priv->x_value_diff;
+	max_value = gtk_adjustment_get_upper (self->priv->viewer->hadj) - gtk_adjustment_get_page_size (self->priv->viewer->hadj);
 	if (value > max_value)
 		value = max_value;
 	gtk_adjustment_set_value (self->priv->viewer->hadj, value);
 	self->priv->viewer->drag_x = self->priv->viewer->drag_x + self->priv->x_value_diff;
 
-	max_value = self->priv->viewer->vadj->upper - self->priv->viewer->vadj->page_size;
-	value = self->priv->viewer->vadj->value + self->priv->y_value_diff;
+	/* drag y */
+
+	value = gtk_adjustment_get_value (self->priv->viewer->vadj) + self->priv->y_value_diff;
+	max_value = gtk_adjustment_get_upper (self->priv->viewer->vadj) - gtk_adjustment_get_page_size (self->priv->viewer->vadj);
 	if (value > max_value)
 		value = max_value;
 	gtk_adjustment_set_value (self->priv->viewer->vadj, value);
@@ -1147,6 +1151,7 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 	GtkWidget        *widget;
 	int               x, y;
+	GtkAllocation     allocation;
 	int               absolute_x, absolute_y;
 
 	widget = GTK_WIDGET (self->priv->viewer);
@@ -1171,7 +1176,7 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 	{
 		int retval;
 
-		retval = gdk_pointer_grab (widget->window,
+		retval = gdk_pointer_grab (gtk_widget_get_window (widget),
 					   FALSE,
 					   (GDK_POINTER_MOTION_MASK
 					    | GDK_POINTER_MOTION_HINT_MASK
@@ -1197,11 +1202,11 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 	/* If we are out of bounds, schedule a timeout that will do
 	 * the scrolling */
 
+	gtk_widget_get_allocation (widget, &allocation);
 	absolute_x = event->x;
 	absolute_y = event->y;
-
-	if ((absolute_y < 0) || (absolute_y > widget->allocation.height)
-	    || (absolute_x < 0) || (absolute_x > widget->allocation.width))
+	if ((absolute_y < 0) || (absolute_y > allocation.height)
+	    || (absolute_x < 0) || (absolute_x > allocation.width))
 	{
 
 		/* Make the steppings be relative to the mouse
@@ -1211,16 +1216,16 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 		 */
 		if (absolute_x < 0)
 			self->priv->x_value_diff = absolute_x;
-		else if (absolute_x > widget->allocation.width)
-			self->priv->x_value_diff = absolute_x - widget->allocation.width;
+		else if (absolute_x > allocation.width)
+			self->priv->x_value_diff = absolute_x - allocation.width;
 		else
 			self->priv->x_value_diff = 0.0;
 		self->priv->x_value_diff /= 2;
 
 		if (absolute_y < 0)
 			self->priv->y_value_diff = absolute_y;
-		else if (absolute_y > widget->allocation.height)
-			self->priv->y_value_diff = absolute_y - widget->allocation.height;
+		else if (absolute_y > allocation.height)
+			self->priv->y_value_diff = absolute_y -allocation.height;
 		else
 			self->priv->y_value_diff = 0.0;
 		self->priv->y_value_diff /= 2;

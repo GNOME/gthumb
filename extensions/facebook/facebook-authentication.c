@@ -501,7 +501,7 @@ complete_authorization (FacebookAuthentication *self)
 			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
 			  self);
 
-	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+	if (gtk_widget_get_visible (self->priv->dialog))
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 	else
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
@@ -568,7 +568,7 @@ ask_authorization (FacebookAuthentication *self)
 
 	builder = _gtk_builder_new_from_file ("facebook-ask-authorization.ui", "facebook");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
-	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+	if (gtk_widget_get_visible (self->priv->dialog))
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 	else
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));

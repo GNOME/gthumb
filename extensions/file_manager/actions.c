@@ -143,11 +143,16 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 		  gpointer          user_data_or_owner)
 {
 	ClipboardData *clipboard_data = user_data_or_owner;
+	GdkAtom       *targets;
+	int            n_targets;
 
-	if (gtk_targets_include_uri (&selection_data->target, 1)) {
+	if (! gtk_selection_data_get_targets (selection_data, &targets, &n_targets))
+		return;
+
+	if (gtk_targets_include_uri (targets, n_targets)) {
 		gtk_selection_data_set_uris (selection_data, clipboard_data->uris);
 	}
-	else if (gtk_targets_include_text (&selection_data->target, 1)) {
+	else if (gtk_targets_include_text (targets, n_targets)) {
 		char  *str;
 		gsize  len;
 
@@ -155,7 +160,7 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 		gtk_selection_data_set_text (selection_data, str, len);
 		g_free (str);
 	}
-	else if (selection_data->target == GNOME_COPIED_FILES) {
+	else if (gtk_selection_data_get_target (selection_data) == GNOME_COPIED_FILES) {
 		char  *str;
 		gsize  len;
 
@@ -163,6 +168,8 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 		gtk_selection_data_set (selection_data, GNOME_COPIED_FILES, 8, (guchar *) str, len);
 		g_free (str);
 	}
+
+	g_free (targets);
 }
 
 

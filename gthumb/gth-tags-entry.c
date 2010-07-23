@@ -627,7 +627,7 @@ tag_list_unmap_cb (GtkWidget    *widget,
         GdkGeometry  geometry;
 
         toplevel = gtk_widget_get_toplevel (widget);
-        if (! GTK_WIDGET_TOPLEVEL (toplevel))
+        if (! gtk_widget_is_toplevel (toplevel))
         	return;
 
         geometry.max_height = -1;
@@ -672,7 +672,7 @@ gth_tags_entry_instance_init (GthTagsEntry *self)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 
-	GTK_WIDGET_SET_FLAGS (self, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);

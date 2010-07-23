@@ -225,7 +225,7 @@ popup_window_event_cb (GtkWidget *widget,
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		gdk_window_get_pointer (widget->window, &mx, &my, &mask);
+		gdk_window_get_pointer (gtk_widget_get_window (widget), &mx, &my, &mask);
 
 		get_visible_area_origin_as_double (nav_popup, mx, my, &x, &y);
 		nav_popup->visible_area.x = (int) x;
@@ -284,20 +284,20 @@ nav_window_grab_pointer (NavigatorPopup *nav_popup)
 	gtk_grab_add (nav_popup->popup_win);
 
 	cursor = gdk_cursor_new (GDK_FLEUR);
-	gdk_pointer_grab (nav_popup->popup_win->window,
+	gdk_pointer_grab (gtk_widget_get_window (nav_popup->popup_win),
 			  TRUE,
 			  (GDK_BUTTON_RELEASE_MASK
 			   | GDK_POINTER_MOTION_HINT_MASK
 			   | GDK_BUTTON_MOTION_MASK
 			   | GDK_EXTENSION_EVENTS_ALL),
-			  nav_popup->preview->window,
+			   gtk_widget_get_window (nav_popup->preview),
 			  cursor,
 			  0);
 	gdk_cursor_unref (cursor);
 
 	/* Capture keyboard events. */
 
-	gdk_keyboard_grab (nav_popup->popup_win->window, TRUE, GDK_CURRENT_TIME);
+	gdk_keyboard_grab (gtk_widget_get_window (nav_popup->popup_win), TRUE, GDK_CURRENT_TIME);
         gtk_widget_grab_focus (nav_popup->popup_win);
 }
 
@@ -403,6 +403,10 @@ image_viewer_size_changed_cb (GtkWidget         *widget,
 {
 	GtkAdjustment *vadj;
 	GtkAdjustment *hadj;
+	double         h_page_size;
+	double         v_page_size;
+	double         h_upper;
+	double         v_upper;
 	gboolean       hide_vscr;
 	gboolean       hide_hscr;
 
@@ -411,8 +415,12 @@ image_viewer_size_changed_cb (GtkWidget         *widget,
 	g_return_val_if_fail (hadj != NULL, FALSE);
 	g_return_val_if_fail (vadj != NULL, FALSE);
 
-	hide_vscr = (vadj->page_size == 0) || (vadj->upper <= vadj->page_size);
-	hide_hscr = (hadj->page_size == 0) || (hadj->upper <= hadj->page_size);
+	h_page_size = gtk_adjustment_get_page_size (hadj);
+	v_page_size = gtk_adjustment_get_page_size (vadj);
+	h_upper = gtk_adjustment_get_upper (hadj);
+	v_upper = gtk_adjustment_get_upper (vadj);
+	hide_vscr = (v_page_size == 0) || (v_upper <= v_page_size);
+	hide_hscr = (h_page_size == 0) || (h_upper <= h_page_size);
 
 	if (! self->priv->scrollbars_visible || (hide_vscr && hide_hscr)) {
 		gtk_widget_hide (self->priv->viewer_vscr);

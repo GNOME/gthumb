@@ -102,12 +102,21 @@ gth_image_dragger_size_allocate (GthImageViewerTool *base,
 {
 	GthImageDragger *self;
 	GthImageViewer  *viewer;
+	double           h_page_size;
+	double           v_page_size;
+	double           h_upper;
+	double           v_upper;
 
 	self = (GthImageDragger *) base;
 	viewer = (GthImageViewer *) self->priv->viewer;
 
-	self->priv->draggable = (viewer->hadj->page_size > 0) && (viewer->vadj->page_size > 0) && ((viewer->hadj->upper > viewer->hadj->page_size) || (viewer->vadj->upper > viewer->vadj->page_size));
-	if (GTK_WIDGET_REALIZED (viewer))
+	h_page_size = gtk_adjustment_get_page_size (viewer->hadj);
+	v_page_size = gtk_adjustment_get_page_size (viewer->vadj);
+	h_upper = gtk_adjustment_get_upper (viewer->hadj);
+	v_upper = gtk_adjustment_get_upper (viewer->vadj);
+
+	self->priv->draggable = (h_page_size > 0) && (v_page_size > 0) && ((h_upper > h_page_size) || (v_upper > v_page_size));
+	if (gtk_widget_get_realized (GTK_WIDGET (viewer)))
 		_gth_image_dragger_update_cursor (self);
 }
 
@@ -179,8 +188,8 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 		GdkCursor *cursor;
 		int        retval;
 
-		cursor = gth_cursor_get (widget->window, GTH_CURSOR_HAND_CLOSED);
-		retval = gdk_pointer_grab (widget->window,
+		cursor = gth_cursor_get (gtk_widget_get_window (widget), GTH_CURSOR_HAND_CLOSED);
+		retval = gdk_pointer_grab (gtk_widget_get_window (widget),
 					   FALSE,
 					   (GDK_POINTER_MOTION_MASK
 					    | GDK_POINTER_MOTION_HINT_MASK

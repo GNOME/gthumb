@@ -341,7 +341,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	GtkWidget       *button;
 	GtkWidget       *image;
 
-	GTK_BOX (filterbar)->spacing = 6;
+	gtk_box_set_spacing (GTK_BOX (filterbar), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (filterbar), 2);
 
 	/* filter combo box */

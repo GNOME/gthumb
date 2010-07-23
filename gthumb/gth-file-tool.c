@@ -194,7 +194,7 @@ gth_file_tool_get_window (GthFileTool *self)
 {
 	if (self->priv->window == NULL) {
 		self->priv->window = gtk_widget_get_toplevel (GTK_WIDGET (self));
-		if (! GTK_WIDGET_TOPLEVEL (self->priv->window))
+		if (! gtk_widget_is_toplevel (self->priv->window))
 			self->priv->window = NULL;
 	}
 	return self->priv->window;

@@ -100,20 +100,26 @@ static void
 gth_empty_list_realize (GtkWidget *widget)
 {
 	GthEmptyList  *self;
+	GtkAllocation  allocation;
 	GdkWindowAttr  attributes;
 	int            attributes_mask;
+	GdkWindow     *window;
+	GtkStyle      *style;
 
 	g_return_if_fail (GTH_IS_EMPTY_LIST (widget));
+	self = (GthEmptyList*) widget;
 
-	GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+	gtk_widget_set_realized (widget, TRUE);
 
 	/**/
 
+	gtk_widget_get_allocation (widget, &allocation);
+
 	attributes.window_type = GDK_WINDOW_CHILD;
-	attributes.x           = widget->allocation.x;
-	attributes.y           = widget->allocation.y;
-	attributes.width       = widget->allocation.width;
-	attributes.height      = widget->allocation.height;
+	attributes.x           = allocation.x;
+	attributes.y           = allocation.y;
+	attributes.width       = allocation.width;
+	attributes.height      = allocation.height;
 	attributes.wclass      = GDK_INPUT_OUTPUT;
 	attributes.visual      = gtk_widget_get_visual (widget);
 	attributes.colormap    = gtk_widget_get_colormap (widget);
@@ -122,19 +128,18 @@ gth_empty_list_realize (GtkWidget *widget)
 				  | GDK_WA_Y
 				  | GDK_WA_VISUAL
 				  | GDK_WA_COLORMAP);
-	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
-					 &attributes,
-					 attributes_mask);
-	gdk_window_set_user_data (widget->window, widget);
+	window = gdk_window_new (gtk_widget_get_parent_window (widget),
+			         &attributes,
+			         attributes_mask);
+	gtk_widget_set_window (widget, window);
+	gdk_window_set_user_data (window, widget);
 
 	/**/
 
-	self = (GthEmptyList*) widget;
-
 	attributes.x = 0;
 	attributes.y = 0;
-	attributes.width = widget->allocation.width;
-	attributes.height = widget->allocation.height;
+	attributes.width = allocation.width;
+	attributes.height = allocation.height;
 	attributes.event_mask = (GDK_EXPOSURE_MASK
 				 | GDK_SCROLL_MASK
 				 | GDK_POINTER_MOTION_MASK
@@ -144,16 +149,18 @@ gth_empty_list_realize (GtkWidget *widget)
 				 | GDK_BUTTON_RELEASE_MASK
 				 | gtk_widget_get_events (widget));
 
-	self->priv->bin_window = gdk_window_new (widget->window,
+	self->priv->bin_window = gdk_window_new (window,
 						 &attributes,
 						 attributes_mask);
 	gdk_window_set_user_data (self->priv->bin_window, widget);
 
 	/* Style */
 
-	widget->style = gtk_style_attach (widget->style, widget->window);
-	gdk_window_set_background (widget->window, &widget->style->base[widget->state]);
-	gdk_window_set_background (self->priv->bin_window, &widget->style->base[widget->state]);
+	style = gtk_widget_get_style (widget);
+	style = gtk_style_attach (style, window);
+	gtk_widget_set_style (widget, style);
+	gdk_window_set_background (window, &style->base[gtk_widget_get_state (widget)]);
+	gdk_window_set_background (self->priv->bin_window, &style->base[gtk_widget_get_state (widget)]);
 	
 	/* 'No Image' message Layout */
 
@@ -162,7 +169,7 @@ gth_empty_list_realize (GtkWidget *widget)
 
 	self->priv->layout = gtk_widget_create_pango_layout (widget, NULL);
 	pango_layout_set_wrap (self->priv->layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_font_description (self->priv->layout, widget->style->font_desc);
+	pango_layout_set_font_description (self->priv->layout, style->font_desc);
 	pango_layout_set_alignment (self->priv->layout, PANGO_ALIGN_CENTER);
 }
 
@@ -192,24 +199,18 @@ gth_empty_list_unrealize (GtkWidget *widget)
 static void
 gth_empty_list_map (GtkWidget *widget)
 {
-	GthEmptyList *self = (GthEmptyList*) widget;
-
-	GTK_WIDGET_SET_FLAGS (widget, GTK_MAPPED);
-
-	gdk_window_show (self->priv->bin_window);
-	gdk_window_show (widget->window);
+	gtk_widget_set_mapped (widget, TRUE);
+	gdk_window_show (GTH_EMPTY_LIST (widget)->priv->bin_window);
+	gdk_window_show (gtk_widget_get_window (widget));
 }
 
 
 static void
 gth_empty_list_unmap (GtkWidget *widget)
 {
-	GthEmptyList *self = (GthEmptyList*) widget;
-
-	GTK_WIDGET_UNSET_FLAGS (widget, GTK_MAPPED);
-
-	gdk_window_hide (self->priv->bin_window);
-	gdk_window_hide (widget->window);
+	gtk_widget_set_mapped (widget, FALSE);
+	gdk_window_hide (GTH_EMPTY_LIST (widget)->priv->bin_window);
+	gdk_window_hide (gtk_widget_get_window (widget));
 }
 
 
@@ -219,17 +220,15 @@ gth_empty_list_size_allocate (GtkWidget     *widget,
 {
 	GthEmptyList *self = (GthEmptyList*) widget;
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
-	if (GTK_WIDGET_REALIZED (widget)) {
-		gdk_window_move_resize (widget->window,
+	if (gtk_widget_get_realized (widget)) {
+		gdk_window_move_resize (gtk_widget_get_window (widget),
 					allocation->x,
 					allocation->y,
 					allocation->width,
 					allocation->height);
-		gdk_window_invalidate_rect (self->priv->bin_window,
-					    NULL,
-					    FALSE);
+		gdk_window_invalidate_rect (self->priv->bin_window, NULL, FALSE);
 	}
 }
 
@@ -239,8 +238,8 @@ gth_empty_list_expose_event (GtkWidget      *widget,
 		             GdkEventExpose *event)
 {
 	GthEmptyList   *self = (GthEmptyList*) widget;
-	PangoRectangle  bounds;
 	GtkAllocation   allocation;
+	PangoRectangle  bounds;
 	GtkStyle       *style;
 	cairo_t        *cr;
 	
@@ -250,20 +249,19 @@ gth_empty_list_expose_event (GtkWidget      *widget,
 	if (self->priv->text == NULL)
 		return TRUE;
 
-	pango_layout_set_width (self->priv->layout, widget->allocation.width * PANGO_SCALE);
+	gtk_widget_get_allocation (widget, &allocation);
+	pango_layout_set_width (self->priv->layout, allocation.width * PANGO_SCALE);
 	pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
 	pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
-
-	gtk_widget_get_allocation (widget, &allocation);
-	style = gtk_widget_get_style (widget);
 
 	cr = gdk_cairo_create (self->priv->bin_window);
 	cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
 	pango_cairo_layout_path (cr, self->priv->layout);
+	style = gtk_widget_get_style (widget);
 	gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
 	cairo_fill (cr);
 
-	if (GTK_WIDGET_HAS_FOCUS (widget)) {
+	if (gtk_widget_has_focus (widget)) {
 		gtk_paint_focus (style,
 				 self->priv->bin_window,
 				 gtk_widget_get_state (widget),
@@ -288,7 +286,7 @@ gth_empty_list_button_press (GtkWidget      *widget,
 	GthEmptyList *self = (GthEmptyList*) widget;
 
 	if (event->window == self->priv->bin_window)
-		if (! GTK_WIDGET_HAS_FOCUS (widget))
+		if (! gtk_widget_has_focus (widget))
 			gtk_widget_grab_focus (widget);
 	
 	return FALSE;
@@ -332,9 +330,8 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 static void 
 gth_empty_list_instance_init (GthEmptyList *self) 
 {
+	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	self->priv = g_new0 (GthEmptyListPrivate, 1);
-	
-	GTK_WIDGET_SET_FLAGS (self, GTK_CAN_FOCUS);	
 }
 
 

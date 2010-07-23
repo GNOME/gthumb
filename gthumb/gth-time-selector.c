@@ -118,6 +118,7 @@ show_calendar_popup (GthTimeSelector *self)
 	GtkRequisition  popup_req;
 	int             x;
 	int             y;
+	GtkAllocation   allocation;
 	int             selector_height;
 	GdkScreen      *screen;
 	gint            monitor_num;
@@ -128,9 +129,10 @@ show_calendar_popup (GthTimeSelector *self)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), TRUE);
 
 	gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (self)), &x, &y);
-	x += self->priv->date_entry->allocation.x;
-	y += self->priv->date_entry->allocation.y;
-	selector_height = self->priv->date_entry->allocation.height;
+	gtk_widget_get_allocation (self->priv->date_entry, &allocation);
+	x += allocation.x;
+	y += allocation.y;
+	selector_height = allocation.height;
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (self));
 	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self)));

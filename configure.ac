@@ -45,7 +45,7 @@ GNOME_CXX_WARNINGS
 GTHUMB_EXTENSION_RULES
 
 GLIB_REQUIRED=2.16.0
-GTK_REQUIRED=2.18.0
+GTK_REQUIRED=2.21.0
 GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
@@ -83,6 +83,18 @@ AC_ARG_ENABLE(debug,
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
 	CFLAGS+=" -g -O0"
+fi
+
+AC_ARG_ENABLE(gseal,
+	      AS_HELP_STRING([--enable-gseal], [check use of direct access to object fields]),
+	      [case "${enableval}" in
+	      yes) ENABLE_GSEAL=yes ;;
+	      no) ENABLE_GSEAL=no ;;
+	      *) AC_MSG_ERROR([bad value ${enableval} for --enable-gseal]) ;;
+	      esac],
+	      [ENABLE_GSEAL=no])
+if test x$ENABLE_GSEAL = xyes; then
+	CFLAGS+=" -DGSEAL_ENABLE"
 fi
 
 AC_ARG_ENABLE(run_in_place,

@@ -258,8 +258,8 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
-	if ((context->suggested_action == GDK_ACTION_COPY)
-	    || (context->suggested_action == GDK_ACTION_MOVE))
+	if ((gdk_drag_context_get_suggested_action (context) == GDK_ACTION_COPY)
+	    || (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE))
 	{
 		success = TRUE;
 	}
@@ -288,7 +288,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 			gboolean       move;
 
 			file_source = gth_browser_get_location_source (browser);
-			move = context->suggested_action == GDK_ACTION_MOVE;
+			move = gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE;
 			if (move && ! gth_file_source_can_cut (file_source)) {
 				GtkWidget *dialog;
 				int        response;
@@ -393,13 +393,17 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 	}
 
 	if ((gtk_drag_get_source_widget (context) == file_view) && gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+		GtkAllocation allocation;
+
 		gdk_drag_status (context, GDK_ACTION_MOVE, time);
 		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
 
+		gtk_widget_get_allocation (file_view, &allocation);
+
 		if (y < 10)
 			data->scroll_diff = - (10 - y);
-		else if (y > file_view->allocation.height - 10)
-			data->scroll_diff = (10 - (file_view->allocation.height - y));
+		else if (y > allocation.height - 10)
+			data->scroll_diff = (10 - (allocation.height - y));
 		else
 			data->scroll_diff = 0;
 

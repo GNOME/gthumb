@@ -440,7 +440,7 @@ complete_authorization (FlickrAuthentication *self)
 			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
 			  self);
 
-	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+	if (gtk_widget_get_visible (self->priv->dialog))
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 	else
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
@@ -517,7 +517,7 @@ ask_authorization (FlickrAuthentication *self)
 			  self);
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	if (GTK_WIDGET_VISIBLE (self->priv->dialog))
+	if (gtk_widget_get_visible (self->priv->dialog))
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 	else
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));

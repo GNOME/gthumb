@@ -60,7 +60,7 @@ create_button (const char *stock_id,
 	hbox = gtk_hbox_new (FALSE, 2);
 	align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
 
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (button, TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
 
 	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
@@ -1000,15 +1000,15 @@ _gtk_widget_get_screen_size (GtkWidget *widget,
 			     int       *height)
 {
 	GdkScreen    *screen;
-	GdkRectangle  screen_geom;
+	GdkRectangle  geometry;
 
 	screen = gtk_widget_get_screen (widget);
 	gdk_screen_get_monitor_geometry (screen,
-					 gdk_screen_get_monitor_at_window (screen, widget->window),
-					 &screen_geom);
+					 gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (widget)),
+					 &geometry);
 
-	*width = screen_geom.width;
-	*height = screen_geom.height;
+	*width = geometry.width;
+	*height = geometry.height;
 }
 
 
@@ -1028,7 +1028,7 @@ _gtk_paned_get_position2 (GtkPaned *paned)
 	GtkRequisition  requisition;
 	int             size;
 
-	if (! GTK_WIDGET_VISIBLE (paned))
+	if (! gtk_widget_get_visible (GTK_WIDGET (paned)))
 		return 0;
 
 	pos = gtk_paned_get_position (paned);
@@ -1036,7 +1036,7 @@ _gtk_paned_get_position2 (GtkPaned *paned)
 		return 0;
 
 	w = gtk_widget_get_toplevel (GTK_WIDGET (paned));
-	if (! GTK_WIDGET_TOPLEVEL (w))
+	if (! gtk_widget_is_toplevel (w))
 		return 0;
 
 	gtk_window_get_size (GTK_WINDOW (w), &(requisition.width), &(requisition.height));
@@ -1056,17 +1056,19 @@ void
 _gtk_paned_set_position2 (GtkPaned *paned,
 			  int       pos)
 {
-	GtkWidget *top_level;
-	int        size;
+	GtkWidget     *top_level;
+	GtkAllocation  allocation;
+	int            size;
 
 	top_level = gtk_widget_get_toplevel (GTK_WIDGET (paned));
-	if (! GTK_WIDGET_TOPLEVEL (top_level))
+	if (! gtk_widget_is_toplevel (top_level))
 		return;
 
+	gtk_widget_get_allocation (top_level, &allocation);
 	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
-		size = top_level->allocation.width;
+		size = allocation.width;
 	else
-		size = top_level->allocation.height;
+		size = allocation.height;
 
 	if (pos > 0)
 		gtk_paned_set_position (paned, size - pos);

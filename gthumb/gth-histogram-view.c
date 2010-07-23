@@ -123,20 +123,18 @@ gth_histogram_paint_channel (GthHistogramView *self,
 			     int               channel,
 			     gboolean          black_mask)
 {
-	GtkWidget *widget = GTK_WIDGET (self);
-	int        w;
-	int        h;
-	double     max;
-	double     step;
-	int        i;
+	GtkWidget     *widget = GTK_WIDGET (self);
+	GtkAllocation  allocation;
+	double         max;
+	double         step;
+	int            i;
 
 	if (channel > 3)
 		return;
 	if ((self->priv->display_mode == GTH_HISTOGRAM_MODE_ALL_CHANNELS) && (channel == 0))
 		return;
 
-	w = widget->allocation.width;
-	h = widget->allocation.height;
+	gtk_widget_get_allocation (widget, &allocation);
 
 	switch (channel) {
 	case 0:
@@ -172,14 +170,14 @@ gth_histogram_paint_channel (GthHistogramView *self,
 	else
 		max = 1.0;
 
-	step = w / 256.0;
+	step = allocation.width / 256.0;
 	cairo_set_line_width (cr, 0.5);
 	for (i = 0; i < 256; i++) {
 		double value;
 		int    y;
 
 		value = gth_histogram_get_value (self->priv->histogram, channel, i);
-		y = (int) (h * convert_to_scale (self->priv->scale_type, value)) / max;
+		y = (int) (allocation.height * convert_to_scale (self->priv->scale_type, value)) / max;
 
 		/*cairo_new_path (cr);
 		cairo_move_to (cr, i * step + (step / 2) + 0.5, h - y);
@@ -187,9 +185,9 @@ gth_histogram_paint_channel (GthHistogramView *self,
 		cairo_close_path (cr);
 		cairo_stroke (cr);*/
 
-		cairo_rectangle (cr, (i * step) + 0.5, h - y, 1 + step, h);
-		cairo_fill (cr);
+		cairo_rectangle (cr, (i * step) + 0.5, allocation.height - y, 1 + step, allocation.height);
 	}
+	cairo_fill (cr);
 }
 
 
@@ -197,32 +195,32 @@ static void
 gth_histogram_paint_grid (GthHistogramView *self,
 			  cairo_t          *cr)
 {
-	GtkWidget *widget = GTK_WIDGET (self);
-	int        w;
-	int        h;
-	int        i;
-
-	w = widget->allocation.width;
-	h = widget->allocation.height;
+	GtkWidget     *widget = GTK_WIDGET (self);
+	GtkAllocation  allocation;
+	GtkStyle      *style;
+	int            i;
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-	gdk_cairo_set_source_color (cr, &widget->style->dark[GTK_WIDGET_STATE (widget)]);
 
-	cairo_rectangle (cr, 0, 0, w, h);
+	style = gtk_widget_get_style (widget);
+	gdk_cairo_set_source_color (cr, &style->dark[gtk_widget_get_state (widget)]);
+
+	gtk_widget_get_allocation (widget, &allocation);
+	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_stroke (cr);
 
 	cairo_set_line_width (cr, 0.5);
 	for (i = 1; i <= 4; i++) {
 		int x;
 
-		x = (i * 64) * ((float) w / 256);
+		x = (i * 64) * ((float) allocation.width / 256);
 
-		cairo_new_path (cr);
+		/*cairo_new_path (cr);*/
 		cairo_move_to (cr, x + 0.5, 0);
-		cairo_line_to (cr, x + 0.5, h);
-		cairo_close_path (cr);
-		cairo_stroke (cr);
+		cairo_line_to (cr, x + 0.5, allocation.height);
+		/*cairo_close_path (cr);*/
 	}
+	cairo_stroke (cr);
 }
 
 
@@ -231,19 +229,18 @@ gth_histogram_view_expose_event (GtkWidget      *widget,
 				 GdkEventExpose *event)
 {
 	GthHistogramView *self;
-	int               w;
-	int               h;
+	GtkAllocation     allocation;
+	GtkStyle         *style;
 	cairo_t          *cr;
 
 	self = GTH_HISTOGRAM_VIEW (widget);
 
-	w = widget->allocation.width;
-	h = widget->allocation.height;
+	gtk_widget_get_allocation (widget, &allocation);
+	style = gtk_widget_get_style (widget);
 
-	cr = gdk_cairo_create (widget->window);
-
-	gdk_cairo_set_source_color (cr, &widget->style->base[GTK_WIDGET_STATE (widget)]);
-	cairo_rectangle (cr, 0, 0, w, h);
+	cr = gdk_cairo_create (gtk_widget_get_window (widget));
+	gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
+	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 
 	cairo_set_line_width (cr, 2.0);
@@ -254,13 +251,13 @@ gth_histogram_view_expose_event (GtkWidget      *widget,
 		/* draw an x if no histogram is set */
 		cairo_new_path (cr);
 		cairo_move_to (cr, 0, 0);
-		cairo_line_to (cr, w, h);
+		cairo_line_to (cr, allocation.width, allocation.height);
 		cairo_close_path (cr);
 		cairo_stroke (cr);
 
 		cairo_new_path (cr);
-		cairo_move_to (cr, w, 0);
-		cairo_line_to (cr, 0, h);
+		cairo_move_to (cr, allocation.width, 0);
+		cairo_line_to (cr, 0, allocation.height);
 		cairo_close_path (cr);
 		cairo_stroke (cr);
 	}
@@ -293,10 +290,13 @@ gth_histogram_view_expose_event (GtkWidget      *widget,
 static void
 gth_histogram_view_map (GtkWidget *widget)
 {
+	GdkWindow *window;
+
 	if (GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->map != NULL)
 		GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->map (widget);
 
-	gdk_window_set_events (widget->window, GDK_BUTTON_PRESS_MASK | gdk_window_get_events (widget->window));
+	window = gtk_widget_get_window (widget);
+	gdk_window_set_events (window, GDK_BUTTON_PRESS_MASK | gdk_window_get_events (window));
 }
 
 

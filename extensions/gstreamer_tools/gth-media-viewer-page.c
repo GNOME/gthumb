@@ -588,7 +588,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 						  | GDK_POINTER_MOTION_MASK
 						  | GDK_POINTER_MOTION_HINT_MASK
 						  | GDK_BUTTON_MOTION_MASK));
-	GTK_WIDGET_SET_FLAGS (self->priv->area, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (self->priv->area, TRUE);
 	gtk_widget_show (self->priv->area);
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 
@@ -991,7 +991,7 @@ gth_media_viewer_page_real_focus (GthViewerPage *base)
 	GtkWidget *widget;
 
 	widget = GTH_MEDIA_VIEWER_PAGE (base)->priv->area;
-	if (GTK_WIDGET_REALIZED (widget) && GTK_WIDGET_MAPPED (widget))
+	if (gtk_widget_get_realized (widget) && gtk_widget_get_mapped (widget))
 		gtk_widget_grab_focus (widget);
 }
 
@@ -1002,6 +1002,7 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
 	GdkScreen          *screen;
+	GtkAllocation       allocation;
 
 	if (! active) {
 		g_object_ref (self->priv->mediabar);
@@ -1033,7 +1034,8 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 
 	gtk_widget_realize (self->priv->mediabar);
 	gtk_window_set_gravity (GTK_WINDOW (self->priv->fullscreen_toolbar), GDK_GRAVITY_SOUTH_EAST);
-	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar), 0, gdk_screen_get_height (screen) - self->priv->mediabar->allocation.height);
+	gtk_widget_get_allocation (self->priv->mediabar, &allocation);
+	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar), 0, gdk_screen_get_height (screen) - allocation.height);
 
 	gth_browser_register_fullscreen_control (self->priv->browser, self->priv->fullscreen_toolbar);
 }
@@ -1046,10 +1048,10 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
 
 	if (self->priv->fullscreen_toolbar != NULL) {
-		if (show && ! GTK_WIDGET_VISIBLE (self->priv->fullscreen_toolbar)) {
+		if (show && ! gtk_widget_get_visible (self->priv->fullscreen_toolbar)) {
 			gtk_widget_show (self->priv->fullscreen_toolbar);
 		}
-		else if (! show && GTK_WIDGET_VISIBLE (self->priv->fullscreen_toolbar)) {
+		else if (! show && gtk_widget_get_visible (self->priv->fullscreen_toolbar)) {
 			gtk_widget_hide (self->priv->fullscreen_toolbar);
 		}
 	}

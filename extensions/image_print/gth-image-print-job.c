@@ -853,17 +853,19 @@ preview_expose_event_cb (GtkWidget      *widget,
 {
 	GthImagePrintJob *self = user_data;
 	cairo_t          *cr;
+	GtkAllocation     allocation;
 	PangoLayout      *pango_layout;
 
 	g_return_if_fail (GTH_IS_IMAGE_PRINT_JOB (self));
 	g_return_if_fail ((self->priv->page_setup != NULL) && GTK_IS_PAGE_SETUP (self->priv->page_setup));
 
-	cr = gdk_cairo_create (widget->window);
+	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 
 	/* paint the paper */
 
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-	cairo_rectangle (cr, 0, 0, widget->allocation.width - 1, widget->allocation.height - 1);
+	gtk_widget_get_allocation (widget, &allocation);
+	cairo_rectangle (cr, 0, 0, allocation.width - 1, allocation.height - 1);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 	cairo_stroke (cr);

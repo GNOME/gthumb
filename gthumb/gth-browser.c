@@ -1960,7 +1960,7 @@ _gth_browser_close_final_step (gpointer user_data)
 
 	/* Save visualization options only if the window is not maximized. */
 
-	if (GTK_WIDGET_REALIZED (browser)) {
+	if (gtk_widget_get_realized (GTK_WIDGET (browser))) {
 		GdkWindowState state;
 		gboolean       maximized;
 		GtkAllocation  allocation;
@@ -1992,7 +1992,7 @@ _gth_browser_close_final_step (gpointer user_data)
 
 	gth_hook_invoke ("gth-browser-close", browser);
 
-	if (GTK_WIDGET_REALIZED (browser) && last_window) {
+	if (gtk_widget_get_realized (GTK_WIDGET (browser)) && last_window) {
 		if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE)
 		    && (browser->priv->location != NULL))
 		{
@@ -2397,7 +2397,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	char          **uris;
 	GList          *file_list;
 
-	suggested_action = context->suggested_action; /* gdk_drag_context_get_suggested_action (context) */
+	suggested_action = gdk_drag_context_get_suggested_action (context);
 
 	if ((suggested_action == GDK_ACTION_COPY) || (suggested_action == GDK_ACTION_MOVE))
 		success = TRUE;
@@ -5080,13 +5080,16 @@ file_metadata_ready_cb (GList    *files,
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 
-	if (! GTK_WIDGET_VISIBLE (browser->priv->file_properties)) {
-		GtkTreePath *path;
+	if (! gtk_widget_get_visible (browser->priv->file_properties)) {
+		GtkAllocation allocation;
 
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
+		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
 		gtk_widget_show (browser->priv->file_properties);
 
 		if (browser->priv->location != NULL) {
+			GtkTreePath *path;
+
 			path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
 			if (path != NULL) {
 				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);

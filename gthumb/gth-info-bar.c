@@ -101,7 +101,7 @@ gth_info_bar_construct (GthInfoBar *self)
 
 	self->priv->primary_text_label = primary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), primary_label, TRUE, TRUE, 0);
-	GTK_WIDGET_SET_FLAGS (primary_label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (primary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (primary_label), TRUE);
 	gtk_misc_set_padding (GTK_MISC (primary_label), 0, 0);
@@ -111,7 +111,7 @@ gth_info_bar_construct (GthInfoBar *self)
 	
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), secondary_label, TRUE, TRUE, 0);
-	GTK_WIDGET_SET_FLAGS (secondary_label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (secondary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (secondary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (secondary_label), TRUE);
 	gtk_misc_set_padding (GTK_MISC (secondary_label), 0, 0);
