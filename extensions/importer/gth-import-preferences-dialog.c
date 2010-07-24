@@ -376,6 +376,8 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 		g_free (custom_format);
 	}
 
+	gtk_widget_set_sensitive (GET_WIDGET ("adjust_orientation_checkbutton"), gth_main_extension_is_active ("exiv2_tools"));
+
 	update_destination (self);
 
 	g_signal_connect (self->priv->subfolder_type_list,
