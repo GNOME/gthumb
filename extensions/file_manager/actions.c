@@ -143,11 +143,11 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 		  gpointer          user_data_or_owner)
 {
 	ClipboardData *clipboard_data = user_data_or_owner;
-	GdkAtom       *targets;
+	GdkAtom        targets[1];
 	int            n_targets;
 
-	if (! gtk_selection_data_get_targets (selection_data, &targets, &n_targets))
-		return;
+	targets[0] = gtk_selection_data_get_target (selection_data);
+	n_targets = 1;
 
 	if (gtk_targets_include_uri (targets, n_targets)) {
 		gtk_selection_data_set_uris (selection_data, clipboard_data->uris);
@@ -168,8 +168,6 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 		gtk_selection_data_set (selection_data, GNOME_COPIED_FILES, 8, (guchar *) str, len);
 		g_free (str);
 	}
-
-	g_free (targets);
 }
 
 
@@ -285,12 +283,19 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 {
 	PasteData   *paste_data = user_data;
 	GthBrowser  *browser = paste_data->browser;
+	const char  *raw_data;
 	char       **clipboard_data;
 	int          i;
 	GthTask     *task;
 
-	clipboard_data = g_strsplit_set ((const char *) gtk_selection_data_get_data (selection_data), "\n\r", -1);
-	if (clipboard_data[0] == NULL) {
+	raw_data = (const char *) gtk_selection_data_get_data (selection_data);
+	if (raw_data == NULL) {
+		paste_data_free (paste_data);
+		return;
+	}
+
+	clipboard_data = g_strsplit_set (raw_data, "\n\r", -1);
+	if ((clipboard_data == NULL) || (clipboard_data[0] == NULL)) {
 		g_strfreev (clipboard_data);
 		paste_data_free (paste_data);
 		return;
