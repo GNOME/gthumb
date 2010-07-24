@@ -564,6 +564,9 @@ gth_main_get_metadata_category (const char *id)
 {
 	int i;
 
+	if (id == NULL)
+		return NULL;
+
 	for (i = 0; i < Main->priv->metadata_category->len; i++) {
 		GthMetadataCategory *category;
 
