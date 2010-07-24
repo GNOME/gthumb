@@ -27,10 +27,9 @@
 #include "gth-image-viewer.h"
 #include "gtk-utils.h"
 #include "pixbuf-utils.h"
-#include "icons/nav_button.xpm"
 
 
-#define VISIBLE_AREA_BORDER 3.0
+#define VISIBLE_AREA_BORDER 2.0
 #define POPUP_BORDER        4
 #define POPUP_BORDER_2      8
 #define POPUP_MAX_WIDTH     112
@@ -313,18 +312,33 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 		return FALSE;
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
+
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	gdk_cairo_region (cr, event->region);
+	cairo_clip (cr);
 
 	gdk_cairo_set_source_pixbuf (cr, nav_popup->pixbuf, 0, 0);
   	cairo_rectangle (cr, 0, 0, nav_popup->popup_width, nav_popup->popup_height);
   	cairo_fill (cr);
 
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+	cairo_rectangle (cr, 0, 0, nav_popup->popup_width, nav_popup->popup_height);
+	cairo_fill (cr);
+
 	if ((nav_popup->visible_area.width < nav_popup->popup_width)
 	    || (nav_popup->visible_area.height < nav_popup->popup_height))
 	{
+		gdk_cairo_set_source_pixbuf (cr, nav_popup->pixbuf, 0, 0);
+		cairo_rectangle (cr,
+				 nav_popup->visible_area.x,
+				 nav_popup->visible_area.y,
+				 nav_popup->visible_area.width,
+				 nav_popup->visible_area.height);
+	  	cairo_fill (cr);
+
 		cairo_save (cr);
 		cairo_set_line_width (cr, VISIBLE_AREA_BORDER);
-		cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 		cairo_rectangle (cr,
 				 nav_popup->visible_area.x + 1.0,
 				 nav_popup->visible_area.y + 1.0,
@@ -457,7 +471,7 @@ gth_image_navigator_construct (GthImageNavigator *self,
 	self->priv->viewer_vscr = gtk_vscrollbar_new (vadj);
 
 	self->priv->navigator_event_area = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (self->priv->navigator_event_area), _gtk_image_new_from_xpm_data (nav_button_xpm));
+	gtk_container_add (GTK_CONTAINER (self->priv->navigator_event_area), gtk_image_new_from_icon_name ("image-navigator", GTK_ICON_SIZE_MENU));
 
 	g_signal_connect (G_OBJECT (self->priv->navigator_event_area),
 			  "button_press_event",
@@ -480,9 +494,7 @@ gth_image_navigator_construct (GthImageNavigator *self,
 	gtk_table_attach (GTK_TABLE (table), self->priv->navigator_event_area, 1, 2, 1, 2,
 			  (GtkAttachOptions) (GTK_FILL),
 			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-	gtk_widget_show_all (hbox);
-	gtk_widget_show (table);
+	gtk_widget_show_all (table);
 
 	gtk_container_add (GTK_CONTAINER (self), table);
 }

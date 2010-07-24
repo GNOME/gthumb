@@ -12,6 +12,7 @@ icons_DATA = 			\
 	file-search.png		\
 	flickr.png		\
 	histogram.png		\
+	image-navigator.png	\
 	photobucket.png		\
 	picasaweb.png		\
 	tool-adjust-colors.png	\

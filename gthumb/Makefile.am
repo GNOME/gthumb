@@ -1,6 +1,6 @@
-SUBDIRS = cursors icons
+SUBDIRS = cursors
 
-bin_PROGRAMS = gthumb 
+bin_PROGRAMS = gthumb
 
 ENUM_TYPES =						\
 	gth-enum-types.h				\

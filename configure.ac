@@ -558,7 +558,6 @@ extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
-gthumb/icons/Makefile
 po/Makefile.in
 tests/Makefile
 ])
