@@ -36,6 +36,7 @@ struct _GthImportTaskPrivate {
 	GthBrowser          *browser;
 	GList               *files;
 	GFile               *destination;
+	GHashTable          *destinations;
 	GthSubfolderType     subfolder_type;
 	GthSubfolderFormat   subfolder_format;
 	gboolean             single_subfolder;
@@ -72,6 +73,7 @@ gth_import_task_finalize (GObject *object)
 	if (ImportPhotos)
 		gtk_window_present (GTK_WINDOW (self->priv->browser));
 
+	g_object_unref (self->priv->destinations);
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
@@ -317,6 +319,15 @@ file_buffer_ready_cb (void     **buffer,
 	}
 
 	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
+
+	/* avoid to overwrite an already imported file */
+	while (g_hash_table_lookup (self->priv->destinations, destination_file) != NULL) {
+		GFile *tmp = destination_file;
+		destination_file = _g_file_get_duplicated (tmp);
+		g_object_unref (tmp);
+	}
+	g_hash_table_insert (self->priv->destinations, g_object_ref (destination_file), GINT_TO_POINTER (1));
+
 	if (self->priv->overwrite_files || ! g_file_query_exists (destination_file, NULL)) {
 		_g_object_unref (self->priv->destination_file);
 		self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
@@ -493,6 +504,10 @@ gth_import_task_init (GthImportTask *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_TASK, GthImportTaskPrivate);
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	self->priv->delete_not_supported = FALSE;
+	self->priv->destinations = g_hash_table_new_full (g_file_hash,
+							  (GEqualFunc) g_file_equal,
+							  g_object_unref,
+							  NULL);
 }
 
 

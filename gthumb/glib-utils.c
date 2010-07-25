@@ -1618,25 +1618,26 @@ _g_uri_get_basename (const char *uri)
 const char *
 _g_uri_get_file_extension (const char *uri)
 {
-	int         len;
-	int         p;
-	const char *ptr = uri;
+	char *p;
 
 	if (uri == NULL)
 		return NULL;
 
-	len = strlen (uri);
-	if (len <= 1)
+	p = strrchr (uri, '.');
+	if (p == NULL)
 		return NULL;
 
-	p = len - 1;
-	while ((p >= 0) && (ptr[p] != '.'))
-		p--;
+	if (p != uri) {
+		char *p2;
 
-	if (p < 0)
-		return NULL;
+		p2 = p - 1;
+		while ((*p2 != '.') && (p2 != uri))
+			p2--;
+		if (strncmp (p2, ".tar.", 5) == 0)
+			p = p2;
+	}
 
-	return uri + p;
+	return p;
 }
 
 
@@ -1744,25 +1745,16 @@ _g_uri_get_parent (const char *uri)
 char *
 _g_uri_remove_extension (const char *uri)
 {
-	int   len;
-	int   p;
-	char *new_path;
+	const char *ext;
 
 	if (uri == NULL)
 		return NULL;
 
-	len = strlen (uri);
-	if (len == 1)
+	ext = _g_uri_get_file_extension (uri);
+	if (ext == NULL)
 		return g_strdup (uri);
-
-	p = len - 1;
-	while ((p > 0) && (uri[p] != '.'))
-		p--;
-	if (p == 0)
-		p = len;
-	new_path = g_strndup (uri, (guint) p);
-
-	return new_path;
+	else
+		return g_strndup (uri, strlen (uri) - strlen (ext));
 }
 
 
@@ -2041,6 +2033,54 @@ _g_file_get_destination (GFile *source,
 	g_free (source_uri);
 
 	return destination;
+}
+
+
+GFile *
+_g_file_get_duplicated (GFile *file)
+{
+	GString    *new_uri;
+	char       *uri;
+	char       *uri_noext;
+	GRegex     *regex;
+	GMatchInfo *match_info;
+	GFile      *duplicated;
+
+	new_uri = g_string_new ("");
+	uri = g_file_get_uri (file);
+	uri_noext = _g_uri_remove_extension (uri);
+
+	regex = g_regex_new ("^(.*)%20\\(([0-9]+)\\)$", 0, 0, NULL);
+	g_regex_match (regex, uri_noext, 0, &match_info);
+	if (g_match_info_matches (match_info)) {
+		char    *word;
+		guint64  n;
+
+		word = g_match_info_fetch (match_info, 1);
+		g_string_append (new_uri, word);
+		g_free (word);
+
+		word = g_match_info_fetch (match_info, 2);
+		n = g_ascii_strtoull (word, NULL, 10);
+		g_string_append_printf (new_uri, "%%20(%" G_GUINT64_FORMAT ")", n + 1);
+
+		g_free (word);
+	}
+	else {
+		g_string_append (new_uri, uri_noext);
+		g_string_append (new_uri, "%20(2)");
+	}
+
+	g_string_append (new_uri, _g_uri_get_file_extension (uri));
+	duplicated = g_file_new_for_uri (new_uri->str);
+
+	g_match_info_free (match_info);
+	g_regex_unref (regex);
+	g_free (uri_noext);
+	g_free (uri);
+	g_string_free (new_uri, TRUE);
+
+	return duplicated;
 }
 
 

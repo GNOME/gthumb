@@ -25,10 +25,9 @@
 
 
 struct _GthDuplicateTaskPrivate {
-	GList                *file_list;
-	GList                *current;
-	int                   attempt;
-	GthOverwriteResponse  default_response;
+	GList *file_list;
+	GList *current;
+	GFile *destination;
 };
 
 
@@ -43,35 +42,9 @@ gth_duplicate_task_finalize (GObject *object)
 	self = GTH_DUPLICATE_TASK (object);
 
 	_g_object_list_unref (self->priv->file_list);
+	_g_object_unref (self->priv->destination);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static GFile *
-get_destination (GthFileData *file_data,
-	         int          n)
-{
-	char       *uri;
-	char       *uri_no_ext;
-	const char *ext;
-	char       *new_uri;
-	GFile      *new_file;
-
-	uri = g_file_get_uri (file_data->file);
-	uri_no_ext = _g_uri_remove_extension (uri);
-	ext = _g_uri_get_file_extension (uri);
-	new_uri = g_strdup_printf ("%s%%20(%d)%s",
-				   uri_no_ext,
-				   n + 1,
-				   (ext == NULL) ? "" : ext);
-	new_file = g_file_new_for_uri (new_uri);
-
-	g_free (new_uri);
-	g_free (uri_no_ext);
-	g_free (uri);
-
-	return new_file;
 }
 
 
@@ -112,19 +85,15 @@ copy_ready_cb (GthOverwriteResponse  response,
 	if (error != NULL) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			g_clear_error (&error);
-
-			self->priv->attempt++;
 			duplicate_current_file (self);
-			return;
 		}
-
-		gth_task_completed (GTH_TASK (self), error);
+		else
+			gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	self->priv->default_response = response;
 	self->priv->current = self->priv->current->next;
-	self->priv->attempt = 1;
+	_g_clear_object (&self->priv->destination);
 	duplicate_current_file (self);
 }
 
@@ -133,7 +102,6 @@ static void
 duplicate_current_file (GthDuplicateTask *self)
 {
 	GthFileData *file_data;
-	GFile       *destination;
 
 	if (self->priv->current == NULL) {
 		gth_task_completed (GTH_TASK (self), NULL);
@@ -141,13 +109,20 @@ duplicate_current_file (GthDuplicateTask *self)
 	}
 
 	file_data = self->priv->current->data;
-	destination = get_destination (file_data, self->priv->attempt);
+	if (self->priv->destination == NULL) {
+		self->priv->destination = _g_file_get_duplicated (file_data->file);
+	}
+	else {
+		GFile *tmp = self->priv->destination;
+		self->priv->destination = _g_file_get_duplicated (tmp);
+		g_object_unref (tmp);
+	}
 
 	_g_copy_file_async (file_data,
-			    destination,
+			    self->priv->destination,
 			    FALSE,
 			    G_FILE_COPY_ALL_METADATA,
-			    self->priv->default_response,
+			    GTH_OVERWRITE_RESPONSE_ALWAYS_NO,
 			    G_PRIORITY_DEFAULT,
 			    gth_task_get_cancellable (GTH_TASK (self)),
 			    copy_progress_cb,
@@ -156,8 +131,6 @@ duplicate_current_file (GthDuplicateTask *self)
 			    self,
 			    copy_ready_cb,
 			    self);
-
-	g_object_unref (destination);
 }
 
 
@@ -171,7 +144,6 @@ gth_duplicate_task_exec (GthTask *task)
 	self = GTH_DUPLICATE_TASK (task);
 
 	self->priv->current = self->priv->file_list;
-	self->priv->attempt = 1;
 	duplicate_current_file (self);
 }
 
@@ -197,7 +169,7 @@ static void
 gth_duplicate_task_init (GthDuplicateTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DUPLICATE_TASK, GthDuplicateTaskPrivate);
-	self->priv->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+	self->priv->destination = NULL;
 }
 
 

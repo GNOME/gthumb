@@ -1298,7 +1298,7 @@ copy_file_ready_cb (GObject      *source_object,
 				gtk_widget_show (dialog);
 			}
 			else {
-				copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
+				copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 				copy_file_data_free (copy_file_data);
 			}
 			return;
