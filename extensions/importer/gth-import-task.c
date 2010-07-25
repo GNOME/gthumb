@@ -183,6 +183,11 @@ write_metadata_ready_func (GError   *error,
 {
 	GthImportTask *self = user_data;
 
+	if ((error != NULL) && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
 	if (error != NULL)
 		g_clear_error (&error);
 
@@ -197,6 +202,11 @@ transformation_ready_cb (GError   *error,
 	GthImportTask *self = user_data;
 	GthStringList *tag_list;
 	GList         *file_list;
+
+	if ((error != NULL) && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
 
 	if ((self->priv->tags == NULL) || (self->priv->tags[0] == NULL)) {
 		catalog_imported_file (self);
