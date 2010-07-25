@@ -2468,13 +2468,18 @@ copy_current_file (GthWebExporter *self)
 
 					transform = (GthTransform) strtol (value, (char **) NULL, 10);
 					if (transform != 1) {
-						apply_transformation_async (image_data->file_data,
+						GthFileData *file_data;
+
+						file_data = gth_file_data_new (destination, image_data->file_data->info);
+						apply_transformation_async (file_data,
 									    transform,
 									    JPEG_MCU_ACTION_TRIM,
 									    gth_task_get_cancellable (GTH_TASK (self)),
 									    transformation_ready_cb,
 									    self);
 						appling_tranformation = TRUE;
+
+						g_object_unref (file_data);
 					}
 				}
 			}
