@@ -205,6 +205,8 @@ struct _GthImageSelectorPrivate {
 	gboolean         mask_visible;
 	GthGridType      grid_type;
 	gboolean         active;
+	gboolean         bind_dimensions;
+	int              bind_factor;
 
 	GdkRectangle     drag_start_selection_area;
 	GdkRectangle     selection_area;
@@ -841,6 +843,24 @@ get_semiplane_no (int x1,
 }
 
 
+static int
+bind_dimension (int dimension,
+		int factor)
+{
+	int d;
+	int d_next;
+
+	d = (dimension / factor) * factor;
+	d_next = d + factor;
+	if (dimension - d <= d_next - dimension)
+		dimension = d;
+	else
+		dimension = d_next;
+
+	return dimension;
+}
+
+
 static void
 check_and_set_new_selection (GthImageSelector *self,
 			     GdkRectangle      new_selection)
@@ -848,7 +868,13 @@ check_and_set_new_selection (GthImageSelector *self,
 	new_selection.width = MAX (0, new_selection.width);
 	new_selection.height = MAX (0, new_selection.height);
 
-	if (((self->priv->current_area == NULL) || (self->priv->current_area->id != C_SELECTION_AREA))
+	if (self->priv->bind_dimensions && (self->priv->bind_factor > 1)) {
+		new_selection.width = bind_dimension (new_selection.width, self->priv->bind_factor);
+		new_selection.height = bind_dimension (new_selection.height, self->priv->bind_factor);
+	}
+
+	if (((self->priv->current_area == NULL)
+	     || (self->priv->current_area->id != C_SELECTION_AREA))
 	    && self->priv->use_ratio)
 	{
 		if (rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
@@ -1298,6 +1324,8 @@ gth_image_selector_instance_init (GthImageSelector *self)
 	self->priv->ratio = 1.0;
 	self->priv->mask_visible = TRUE;
 	self->priv->grid_type = GTH_GRID_NONE;
+	self->priv->bind_dimensions = FALSE;
+	self->priv->bind_factor = 1;
 }
 
 
@@ -1604,4 +1632,14 @@ GthGridType
 gth_image_selector_get_grid_type (GthImageSelector *self)
 {
         return self->priv->grid_type;
+}
+
+
+void
+gth_image_selector_bind_dimensions (GthImageSelector *self,
+				    gboolean          bind,
+				    int               factor)
+{
+	self->priv->bind_dimensions = bind;
+	self->priv->bind_factor = factor;
 }

@@ -102,6 +102,9 @@ gboolean              gth_image_selector_get_mask_visible     (GthImageSelector 
 void                  gth_image_selector_set_grid_type        (GthImageSelector *selector,
                                                                GthGridType       grid_type);
 GthGridType           gth_image_selector_get_grid_type        (GthImageSelector *selector);
+void                  gth_image_selector_bind_dimensions      (GthImageSelector *selector,
+							       gboolean          bind,
+							       int               factor);
 
 G_END_DECLS
 

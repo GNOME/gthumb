@@ -61,5 +61,29 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/bind_dimensions</key>
+	<applyto>/apps/gthumb/ext/crop/bind_dimensions</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/crop/bind_factor</key>
+	<applyto>/apps/gthumb/ext/crop/bind_factor</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>8</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

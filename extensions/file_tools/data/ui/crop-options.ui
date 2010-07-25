@@ -31,7 +31,7 @@
                         <child>
                           <object class="GtkTable" id="table2">
                             <property name="visible">True</property>
-                            <property name="n_rows">5</property>
+                            <property name="n_rows">3</property>
                             <property name="n_columns">2</property>
                             <property name="column_spacing">6</property>
                             <property name="row_spacing">6</property>
@@ -39,7 +39,7 @@
                               <object class="GtkLabel" id="crop_x_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_X:</property>
+                                <property name="label" translatable="yes">_Position:</property>
                                 <property name="use_underline">True</property>
                                 <property name="mnemonic_widget">crop_x_spinbutton</property>
                               </object>
@@ -49,12 +49,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="crop_y_label">
+                              <object class="GtkLabel" id="crop_width_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_Y:</property>
+                                <property name="label" translatable="yes">Size:</property>
                                 <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">crop_y_spinbutton</property>
+                                <property name="mnemonic_widget">crop_width_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -64,43 +64,15 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="crop_width_label">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_Width:</property>
-                                <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">crop_width_spinbutton</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="crop_height_label">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Heigh_t:</property>
-                                <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">crop_height_spinbutton</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkHBox" id="hbox5">
                                 <property name="visible">True</property>
+                                <property name="spacing">6</property>
                                 <child>
                                   <object class="GtkSpinButton" id="crop_x_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
+                                    <property name="width_chars">5</property>
                                     <property name="adjustment">crop_x_adjustment</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -109,36 +81,34 @@
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options">GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox6">
-                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label1">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">&#xD7;</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                                 <child>
                                   <object class="GtkSpinButton" id="crop_y_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
+                                    <property name="width_chars">5</property>
                                     <property name="adjustment">crop_y_adjustment</property>
                                     <property name="climb_rate">1</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
-                                    <property name="position">0</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
                                 <property name="x_options">GTK_FILL</property>
                                 <property name="y_options">GTK_FILL</property>
                               </packing>
@@ -146,11 +116,13 @@
                             <child>
                               <object class="GtkHBox" id="hbox7">
                                 <property name="visible">True</property>
+                                <property name="spacing">6</property>
                                 <child>
                                   <object class="GtkSpinButton" id="crop_width_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
+                                    <property name="width_chars">5</property>
                                     <property name="adjustment">crop_width_adjustment</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -160,78 +132,65 @@
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options">GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox8">
-                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label2">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes" comments="this is used to separate the dimensions, for example: 120 &#xD7; 250">&#xD7;</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                                 <child>
                                   <object class="GtkSpinButton" id="crop_height_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
+                                    <property name="width_chars">5</property>
                                     <property name="adjustment">crop_height_adjustment</property>
                                     <property name="climb_rate">1</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">0</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
                                 <property name="x_options">GTK_FILL</property>
                                 <property name="y_options">GTK_FILL</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="hbox1">
+                              <object class="GtkHBox" id="grid_type_combobox_box">
                                 <property name="visible">True</property>
                                 <child>
-                                  <object class="GtkHBox" id="grid_type_combobox_box">
-                                    <property name="visible">True</property>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="position">0</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">4</property>
-                                <property name="bottom_attach">5</property>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="crop_grid_label">
+                              <object class="GtkLabel" id="grid_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Grid:</property>
                                 <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">crop_x_spinbutton</property>
                               </object>
                               <packing>
-                                <property name="top_attach">4</property>
-                                <property name="bottom_attach">5</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"></property>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
                               </packing>
                             </child>
                           </object>
@@ -351,6 +310,52 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkHBox" id="hbox1">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkCheckButton" id="bind_dimensions_checkbutton">
+                                <property name="label" translatable="yes" comments="after the colon there is a control to select the size in pixels">M_ultiple of:</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_indicator">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="bind_factor_spinbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">bind_factor_adjustment</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label3">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes" comments="abbreviation of pixel">px</property>
+                              </object>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -453,6 +458,12 @@
   </object>
   <object class="GtkAdjustment" id="ratio_h_adjustment">
     <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="bind_factor_adjustment">
+    <property name="value">1</property>
+    <property name="lower">1</property>
+    <property name="upper">100000</property>
     <property name="step_increment">1</property>
   </object>
 </interface>

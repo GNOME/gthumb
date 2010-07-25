@@ -32,6 +32,8 @@ G_BEGIN_DECLS
 #define PREF_CROP_ASPECT_RATIO_INVERT   "/apps/gthumb/ext/crop/aspect_ratio_invert"
 #define PREF_CROP_ASPECT_RATIO_WIDTH    "/apps/gthumb/ext/crop/aspect_ratio_width"
 #define PREF_CROP_ASPECT_RATIO_HEIGHT   "/apps/gthumb/ext/crop/aspect_ratio_height"
+#define PREF_CROP_BIND_DIMENSIONS       "/apps/gthumb/ext/crop/bind_dimensions"
+#define PREF_CROP_BIND_FACTOR           "/apps/gthumb/ext/crop/bind_factor"
 
 #define PREF_RESIZE_UNIT                "/apps/gthumb/ext/resize/unit"
 #define PREF_RESIZE_WIDTH               "/apps/gthumb/ext/resize/width"

@@ -325,6 +325,39 @@ grid_type_changed_cb (GtkComboBox     *combobox,
 }
 
 
+static void
+update_sensitivity (GthFileToolCrop *self)
+{
+	gtk_widget_set_sensitive (GET_WIDGET ("bind_factor_spinbutton"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET("bind_dimensions_checkbutton"))));
+}
+
+
+static void
+bind_dimensions_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
+					 gpointer         user_data)
+{
+	GthFileToolCrop *self = user_data;
+
+	gth_image_selector_bind_dimensions (self->priv->selector,
+					    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET("bind_dimensions_checkbutton"))),
+					    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton"))));
+	update_sensitivity (self);
+}
+
+
+static void
+bind_factor_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
+					 gpointer       user_data)
+{
+	GthFileToolCrop *self = user_data;
+
+	gth_image_selector_bind_dimensions (self->priv->selector,
+					    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET("bind_dimensions_checkbutton"))),
+					    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton"))));
+	update_sensitivity (self);
+}
+
+
 static GtkWidget *
 gth_file_tool_crop_get_options (GthFileTool *base)
 {
@@ -394,6 +427,9 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), eel_gconf_get_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
 	gtk_widget_show (self->priv->grid_type_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("grid_type_combobox_box")), self->priv->grid_type_combobox, FALSE, FALSE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("grid_label")), self->priv->grid_type_combobox);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("bind_dimensions_checkbutton")), eel_gconf_get_boolean (PREF_CROP_BIND_DIMENSIONS, FALSE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton")), eel_gconf_get_integer (PREF_CROP_BIND_FACTOR, 8));
 
 	g_signal_connect (GET_WIDGET ("crop_button"),
 			  "clicked",
@@ -439,20 +475,28 @@ gth_file_tool_crop_get_options (GthFileTool *base)
                           "changed",
                           G_CALLBACK (grid_type_changed_cb),
                           self);
+	g_signal_connect (GET_WIDGET ("bind_dimensions_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (bind_dimensions_checkbutton_toggled_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("bind_factor_spinbutton"),
+			  "value-changed",
+			  G_CALLBACK (bind_factor_spinbutton_value_changed_cb),
+			  self);
 
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
 	gth_image_selector_set_grid_type (self->priv->selector, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->grid_type_combobox)));
+	gth_image_selector_bind_dimensions (self->priv->selector,
+					    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET("bind_dimensions_checkbutton"))),
+					    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton"))));
 	g_signal_connect (self->priv->selector,
 			  "selection-changed",
 			  G_CALLBACK (selector_selection_changed_cb),
 			  self);
-	/*g_signal_connect (self->priv->selector,
-			  "mask_visibility_changed",
-			  G_CALLBACK (selector_mask_visibility_changed_cb),
-			  self);*/
 
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
 	ratio_combobox_changed_cb (NULL, self);
+	update_sensitivity (self);
 
 	return options;
 }
@@ -476,6 +520,8 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 		eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
 		eel_gconf_set_enum (PREF_CROP_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
 		eel_gconf_set_boolean (PREF_CROP_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
+		eel_gconf_set_boolean (PREF_CROP_BIND_DIMENSIONS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("bind_dimensions_checkbutton"))));
+		eel_gconf_set_integer (PREF_CROP_BIND_FACTOR, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton"))));
 
 		/* destroy the option data */
 
