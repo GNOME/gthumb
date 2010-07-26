@@ -773,10 +773,10 @@ gth_image_viewer_expose (GtkWidget      *widget,
 
 		if (gth_image_viewer_get_current_pixbuf (viewer) == NULL) {
 			cairo_rectangle (cr,
-					 0 + 0.5,
-					 0 + 0.5,
-					 allocation.width + 0.5,
-					 allocation.height + 0.5);
+					 0,
+					 0,
+					 allocation.width,
+					 allocation.height);
 		}
 		else {
 			/* If an image is present draw in four phases to avoid
@@ -789,7 +789,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			rw = allocation.width;
 			rh = viewer->image_area.y;
 			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
+				cairo_rectangle (cr, rx, ry, rw, rh);
 
 			/* Bottom rectangle. */
 
@@ -798,7 +798,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			rw = allocation.width;
 			rh = allocation.height - viewer->image_area.y - viewer->image_area.height;
 			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
+				cairo_rectangle (cr, rx, ry, rw, rh);
 
 			/* Left rectangle. */
 
@@ -807,7 +807,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			rw = viewer->image_area.x;
 			rh = viewer->image_area.height + 2;
 			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
+				cairo_rectangle (cr, rx, ry, rw, rh);
 
 			/* Right rectangle. */
 
@@ -816,7 +816,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			rw = allocation.width - viewer->image_area.x - viewer->image_area.width;
 			rh = viewer->image_area.height + 2;
 			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx + 0.5, ry + 0.5, rw + 0.5, rh + 0.5);
+				cairo_rectangle (cr, rx, ry, rw, rh);
 		}
 
 		cairo_fill (cr);
