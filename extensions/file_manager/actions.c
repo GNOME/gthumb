@@ -349,6 +349,9 @@ gth_browser_activate_action_edit_paste (GtkAction  *action,
 {
 	PasteData *paste_data;
 
+	if (gtk_window_get_focus (GTK_WINDOW (browser)) != gth_browser_get_file_list_view (browser))
+		return;
+
 	paste_data = g_new0 (PasteData, 1);
 	paste_data->browser = g_object_ref (browser);
 	paste_data->destination = g_object_ref (gth_browser_get_location_data (browser));
