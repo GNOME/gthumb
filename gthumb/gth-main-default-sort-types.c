@@ -42,6 +42,34 @@ gth_file_data_cmp_filename (GthFileData *a,
 
 
 static int
+gth_file_data_cmp_uri (GthFileData *a,
+		       GthFileData *b)
+{
+	GFile *parent_a;
+	GFile *parent_b;
+	int    result;
+
+	parent_a = g_file_get_parent (a->file);
+	parent_b = g_file_get_parent (b->file);
+	if (! g_file_equal (parent_a, parent_b)) {
+		char *uri_a;
+		char *uri_b;
+
+		uri_a = g_file_get_uri (a->file);
+		uri_b = g_file_get_uri (b->file);
+		result = strcmp (uri_a, uri_b);
+
+		g_free (uri_b);
+		g_free (uri_a);
+	}
+	else
+		result = gth_file_data_cmp_filename (a, b);
+
+	return result;
+}
+
+
+static int
 gth_file_data_cmp_filesize (GthFileData *a,
 			    GthFileData *b)
 {
@@ -102,6 +130,7 @@ gth_general_data_cmp_dimensions (GthFileData *a,
 
 GthFileDataSort default_sort_types[] = {
 	{ "file::name", N_("file name"), "standard::display-name", gth_file_data_cmp_filename },
+	{ "file::path", N_("file path"), "standard::display-name", gth_file_data_cmp_uri },
 	{ "file::size", N_("file size"), "standard::size", gth_file_data_cmp_filesize },
 	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
