@@ -2456,33 +2456,18 @@ copy_current_file (GthWebExporter *self)
 		if (gth_main_extension_is_active ("image_rotation")
 		    && g_content_type_equals (gth_file_data_get_mime_type (image_data->file_data), "image/jpeg"))
 		{
-			GthMetadata *metadata;
+			GthFileData *file_data;
 
-			metadata = (GthMetadata *) g_file_info_get_attribute_object (image_data->file_data->info, "Embedded::Image::Orientation");
-			if (metadata != NULL) {
-				const char *value;
+			file_data = gth_file_data_new (destination, image_data->file_data->info);
+			apply_transformation_async (file_data,
+						    GTH_TRANSFORM_NONE,
+						    JPEG_MCU_ACTION_TRIM,
+						    gth_task_get_cancellable (GTH_TASK (self)),
+						    transformation_ready_cb,
+						    self);
+			appling_tranformation = TRUE;
 
-				value = gth_metadata_get_raw (metadata);
-				if (value != NULL) {
-					GthTransform transform;
-
-					transform = (GthTransform) strtol (value, (char **) NULL, 10);
-					if (transform != 1) {
-						GthFileData *file_data;
-
-						file_data = gth_file_data_new (destination, image_data->file_data->info);
-						apply_transformation_async (file_data,
-									    transform,
-									    JPEG_MCU_ACTION_TRIM,
-									    gth_task_get_cancellable (GTH_TASK (self)),
-									    transformation_ready_cb,
-									    self);
-						appling_tranformation = TRUE;
-
-						g_object_unref (file_data);
-					}
-				}
-			}
+			g_object_unref (file_data);
 		}
 
 		if (! appling_tranformation)

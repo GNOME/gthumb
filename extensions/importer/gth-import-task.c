@@ -264,28 +264,13 @@ write_buffer_ready_cb (void     **buffer,
 	}
 
 	if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
-		GthMetadata *metadata;
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
-		if (metadata != NULL) {
-			const char *value;
-
-			value = gth_metadata_get_raw (metadata);
-			if (value != NULL) {
-				GthTransform transform;
-
-				transform = (GthTransform) strtol (value, (char **) NULL, 10);
-				if (transform != 1) {
-					apply_transformation_async (self->priv->destination_file,
-								    transform,
-								    JPEG_MCU_ACTION_ABORT,
-								    gth_task_get_cancellable (GTH_TASK (self)),
-								    transformation_ready_cb,
-								    self);
-					appling_tranformation = TRUE;
-				}
-			}
-		}
+		apply_transformation_async (self->priv->destination_file,
+					    GTH_TRANSFORM_NONE,
+					    JPEG_MCU_ACTION_ABORT,
+					    gth_task_get_cancellable (GTH_TASK (self)),
+					    transformation_ready_cb,
+					    self);
+		appling_tranformation = TRUE;
 	}
 
 	if (! appling_tranformation)
