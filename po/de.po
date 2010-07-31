@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-25 16:40+0000\n"
-"PO-Revision-Date: 2010-07-26 20:16+0100\n"
+"POT-Creation-Date: 2010-07-31 17:45+0000\n"
+"PO-Revision-Date: 2010-07-31 23:43+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -808,7 +808,7 @@ msgid "date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-#: ../gthumb/gth-main-default-sort-types.c:106
+#: ../gthumb/gth-main-default-sort-types.c:135
 msgid "file modified date"
 msgstr "Änderungszeitpunkt"
 
@@ -1608,12 +1608,12 @@ msgstr ""
 "Dateien können nicht an den aktuellen Ort verschoben werden, alternativ "
 "können Sie sie kopieren."
 
-#: ../extensions/file_manager/actions.c:407
-#: ../extensions/importer/gth-import-task.c:394
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/importer/gth-import-task.c:389
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:450
+#: ../extensions/file_manager/actions.c:453
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -1621,35 +1621,35 @@ msgstr ""
 "Die Dateien konnten nicht in den Müll verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:461
+#: ../extensions/file_manager/actions.c:464
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Müll verschoben werden"
 
-#: ../extensions/file_manager/actions.c:510
+#: ../extensions/file_manager/actions.c:513
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Soll »%s« wirklich in den Müll verschoben werden?"
 
-#: ../extensions/file_manager/actions.c:513
+#: ../extensions/file_manager/actions.c:516
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 msgstr[0] "Soll %'d ausgewählte Datei in den Müll verschoben werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien in den Müll verschoben werden?"
 
-#: ../extensions/file_manager/actions.c:525
+#: ../extensions/file_manager/actions.c:528
 #: ../extensions/file_manager/callbacks.c:169
 #: ../extensions/file_manager/callbacks.c:201
 msgid "Mo_ve to Trash"
 msgstr "In den _Müll verschieben"
 
-#: ../extensions/file_manager/actions.c:557
-#: ../extensions/file_manager/actions.c:848
+#: ../extensions/file_manager/actions.c:560
+#: ../extensions/file_manager/actions.c:851
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:560
+#: ../extensions/file_manager/actions.c:563
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1657,16 +1657,16 @@ msgid_plural ""
 msgstr[0] "Soll %'d ausgewählte Datei unwiderruflich gelöscht werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:570
-#: ../extensions/file_manager/actions.c:858
+#: ../extensions/file_manager/actions.c:573
+#: ../extensions/file_manager/actions.c:861
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
-#: ../extensions/file_manager/actions.c:600
+#: ../extensions/file_manager/actions.c:603
 msgid "Could not open the location"
 msgstr "Der Ort konnte nicht geöffnet werden"
 
-#: ../extensions/file_manager/actions.c:732
+#: ../extensions/file_manager/actions.c:735
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1674,18 +1674,18 @@ msgstr ""
 "Der Ordner ist nicht leer, sollen der Ordner und die enthaltenen Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:748
+#: ../extensions/file_manager/actions.c:751
 msgid "Could not delete the folder"
 msgstr "Der Ordner konnte nicht gelöscht werden"
 
-#: ../extensions/file_manager/actions.c:807
+#: ../extensions/file_manager/actions.c:810
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:814
+#: ../extensions/file_manager/actions.c:817
 msgid "Could not move the folder to the Trash"
 msgstr "Der Ordner konnte nicht in den Müll verschoben werden"
 
@@ -2380,7 +2380,7 @@ msgid "Loading \"%s\""
 msgstr "»%s« wird geladen"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2744
+#: ../extensions/webalbums/gth-web-exporter.c:2727
 msgid "Loading images"
 msgstr "Bilder werden geladen"
 
@@ -2639,24 +2639,24 @@ msgstr "Jahr"
 msgid "custom format"
 msgstr "Benutzerdefiniertes Format"
 
-#: ../extensions/importer/gth-import-task.c:336
-#: ../extensions/importer/gth-import-task.c:415
+#: ../extensions/importer/gth-import-task.c:331
+#: ../extensions/importer/gth-import-task.c:410
 msgid "Importing files"
 msgstr "Dateien werden importiert"
 
-#: ../extensions/importer/gth-import-task.c:373
+#: ../extensions/importer/gth-import-task.c:368
 msgid "No file imported"
 msgstr "Keine Datei importiert"
 
-#: ../extensions/importer/gth-import-task.c:374
+#: ../extensions/importer/gth-import-task.c:369
 msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
-#: ../extensions/importer/gth-import-task.c:395
+#: ../extensions/importer/gth-import-task.c:390
 msgid "Delete operation not supported."
 msgstr "Löschvorgang wird nicht unterstützt."
 
-#: ../extensions/importer/gth-import-task.c:461
+#: ../extensions/importer/gth-import-task.c:456
 msgid "Last imported"
 msgstr "Zuletzt importiert"
 
@@ -3750,11 +3750,11 @@ msgstr "Bilder werden gespeichert"
 msgid "Copying original images"
 msgstr "Originalbilder werden kopiert"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2981
+#: ../extensions/webalbums/gth-web-exporter.c:2964
 msgid "Could not find the style folder"
 msgstr "Der Stilvorlagen-Ordner konnte nicht gefunden werden"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3014
+#: ../extensions/webalbums/gth-web-exporter.c:2997
 msgid "Could not create a temporary folder"
 msgstr "Es konnte kein temporärer Ordner angelegt werden"
 
@@ -3879,8 +3879,8 @@ msgstr "Erweiterung(en)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
 "Das Programm war nicht in der Lage, das von Ihnen für »%s« zu verwendende "
@@ -4344,19 +4344,23 @@ msgstr "Schlagwörter"
 msgid "Rating"
 msgstr "Bewertung"
 
-#: ../gthumb/gth-main-default-sort-types.c:104
+#: ../gthumb/gth-main-default-sort-types.c:132
 msgid "file name"
 msgstr "Dateiname"
 
-#: ../gthumb/gth-main-default-sort-types.c:105
+#: ../gthumb/gth-main-default-sort-types.c:133
+msgid "file path"
+msgstr "Dateipfad"
+
+#: ../gthumb/gth-main-default-sort-types.c:134
 msgid "file size"
 msgstr "Dateigröße"
 
-#: ../gthumb/gth-main-default-sort-types.c:107
+#: ../gthumb/gth-main-default-sort-types.c:136
 msgid "no sorting"
 msgstr "Keine Sortierung"
 
-#: ../gthumb/gth-main-default-sort-types.c:108
+#: ../gthumb/gth-main-default-sort-types.c:137
 msgid "dimensions"
 msgstr "Abmessungen"
 
