@@ -1,14 +1,16 @@
-# This file is distributed under the same license as the package.
+# Slovenian translations of gthumb.
+# Copyright (C) 2002-2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gthumb package.
 #
 # Matej Urbančič <mateju@svn.gnome.org>, 2007 - 2009.
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb\n"
+"Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-24 07:28+0000\n"
-"PO-Revision-Date: 2010-07-27 21:25+0100\n"
+"POT-Creation-Date: 2010-07-29 07:24+0000\n"
+"PO-Revision-Date: 2010-07-31 17:35+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -226,6 +228,7 @@ msgid "Overwrite the old file with the new one?"
 msgstr "Ali naj bo stara datoteka prepisana z novo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
 msgid "Size:"
 msgstr "Velikost:"
@@ -349,8 +352,8 @@ msgid "Keep previous zoom"
 msgstr "Ohrani predhodno približanje"
 
 #: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:367
-#: ../extensions/file_tools/gth-file-tool-crop.c:393
+#: ../extensions/file_tools/gth-file-tool-crop.c:400
+#: ../extensions/file_tools/gth-file-tool-crop.c:426
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 #: ../extensions/image_viewer/preferences.c:111
 #: ../extensions/slideshow/main.c:279
@@ -1578,37 +1581,37 @@ msgstr "Vnesite ime mape:"
 msgid "Could not create the folder"
 msgstr "Mape ni mogoče ustvariti"
 
-#: ../extensions/file_manager/actions.c:314
+#: ../extensions/file_manager/actions.c:319
 #: ../extensions/file_manager/callbacks.c:308
 #: ../extensions/file_manager/callbacks.c:712
 msgid "Could not move the files"
 msgstr "Datotek ni mogoče premakniti"
 
-#: ../extensions/file_manager/actions.c:315
+#: ../extensions/file_manager/actions.c:320
 #: ../extensions/file_manager/callbacks.c:309
 #: ../extensions/file_manager/callbacks.c:713
 msgid "Files cannot be moved to the current location, as alternative you can choose to copy them."
 msgstr "Datotek ni mogoče premakniti na trenutno mesto, lahko pa jih poskusite kopirati."
 
-#: ../extensions/file_manager/actions.c:402
-#: ../extensions/importer/gth-import-task.c:383
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/importer/gth-import-task.c:404
 msgid "Could not delete the files"
 msgstr "Datotek ni mogoče izbrisati"
 
-#: ../extensions/file_manager/actions.c:445
+#: ../extensions/file_manager/actions.c:453
 msgid "The files cannot be moved to the Trash. Do you want to delete them permanently?"
 msgstr "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
 
-#: ../extensions/file_manager/actions.c:456
+#: ../extensions/file_manager/actions.c:464
 msgid "Could not move the files to the Trash"
 msgstr "Datotek ni mogoče premakniti v smeti"
 
-#: ../extensions/file_manager/actions.c:505
+#: ../extensions/file_manager/actions.c:513
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Ali ste prepričani, da želite premakniti \"%s\" v smeti?"
 
-#: ../extensions/file_manager/actions.c:508
+#: ../extensions/file_manager/actions.c:516
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -1617,19 +1620,19 @@ msgstr[1] "Ali ste prepričani, da želite %'d izbrano datoteko premakniti v sme
 msgstr[2] "Ali ste prepričani, da želite %'d izbrani datoteki premakniti v smeti?"
 msgstr[3] "Ali ste prepričani, da želite %'d izbrane datoteke premakniti v smeti?"
 
-#: ../extensions/file_manager/actions.c:520
+#: ../extensions/file_manager/actions.c:528
 #: ../extensions/file_manager/callbacks.c:169
 #: ../extensions/file_manager/callbacks.c:201
 msgid "Mo_ve to Trash"
 msgstr "Pr_emakni v smeti"
 
-#: ../extensions/file_manager/actions.c:552
-#: ../extensions/file_manager/actions.c:843
+#: ../extensions/file_manager/actions.c:560
+#: ../extensions/file_manager/actions.c:851
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Ali ste prepričani, da želite trajno izbrisati \"%s\"?"
 
-#: ../extensions/file_manager/actions.c:555
+#: ../extensions/file_manager/actions.c:563
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
@@ -1638,28 +1641,28 @@ msgstr[1] "Ali ste prepričani, da želite trajno izbrisati %'d izbrano datoteko
 msgstr[2] "Ali ste prepričani, da želite trajno izbrisati %'d izbrani datoteki?"
 msgstr[3] "Ali ste prepričani, da želite trajno izbrisati %'d izbrane datoteke?"
 
-#: ../extensions/file_manager/actions.c:565
-#: ../extensions/file_manager/actions.c:853
+#: ../extensions/file_manager/actions.c:573
+#: ../extensions/file_manager/actions.c:861
 msgid "If you delete a file, it will be permanently lost."
 msgstr "V primeru da izbrišete datoteko, bo trajno izgubljena."
 
-#: ../extensions/file_manager/actions.c:595
+#: ../extensions/file_manager/actions.c:603
 msgid "Could not open the location"
 msgstr "Mesta ni mogoče odpreti"
 
-#: ../extensions/file_manager/actions.c:727
+#: ../extensions/file_manager/actions.c:735
 msgid "The folder is not empty, do you want to delete the folder and its content permanently?"
 msgstr "Mapa ni prazna, ali želite mapo in njeno vsebino trajno izbrisati?"
 
-#: ../extensions/file_manager/actions.c:743
+#: ../extensions/file_manager/actions.c:751
 msgid "Could not delete the folder"
 msgstr "Mape ni mogoče izbrisati"
 
-#: ../extensions/file_manager/actions.c:802
+#: ../extensions/file_manager/actions.c:810
 msgid "The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "Mape ni mogoče premakniti v smeti. Ali jo želite trajno izbrisati?"
 
-#: ../extensions/file_manager/actions.c:809
+#: ../extensions/file_manager/actions.c:817
 msgid "Could not move the folder to the Trash"
 msgstr "Datoteke ni mogoče premakniti v smeti"
 
@@ -1762,49 +1765,47 @@ msgstr "_Nasičenost:"
 msgid "_Yellow-Blue:"
 msgstr "_Rumeno-Modra:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#. this is used to separate the dimensions, for example: 120 &#xD7; 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+msgid "&#xD7;"
+msgstr "&#xD7;"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 msgid "Aspect ratio"
 msgstr "Razmerje velikosti"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 msgid "C_rop"
 msgstr "_Obreži"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
-msgid "Heigh_t:"
-msgstr "_Višina:"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "_Obrni razmerje velikosti"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#. after the colon there is a control to select the size in pixels
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+msgid "M_ultiple of:"
+msgstr "Ve_čkratnik števila:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Izbira"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 msgid "_Grid:"
 msgstr "_Mreža:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
-msgid "_Width:"
-msgstr "_Širina:"
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
+msgid "_Position:"
+msgstr "_Položaj:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
-msgid "_X:"
-msgstr "_X:"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
-msgid "_Y:"
-msgstr "_Y:"
+#. abbreviation of pixel
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
+msgid "px"
+msgstr "točk"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:2
@@ -1816,6 +1817,10 @@ msgstr "%"
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Mere"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
+msgid "Heigh_t:"
+msgstr "_Višina:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 msgid "High _quality"
@@ -1840,6 +1845,11 @@ msgstr "Izvorne mere:"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
 msgid "Scale factor:"
 msgstr "Faktor merila:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
+msgid "_Width:"
+msgstr "_Širina:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
@@ -1871,82 +1881,82 @@ msgstr "Prilagajanje barv"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:367
+#: ../extensions/file_tools/gth-file-tool-crop.c:400
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 msgid "Square"
 msgstr "Kvadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:368
+#: ../extensions/file_tools/gth-file-tool-crop.c:401
 #: ../extensions/file_tools/gth-file-tool-resize.c:424
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (slika)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:371
+#: ../extensions/file_tools/gth-file-tool-crop.c:404
 #: ../extensions/file_tools/gth-file-tool-resize.c:427
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (zaslon)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:375
+#: ../extensions/file_tools/gth-file-tool-crop.c:408
 #: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:376
+#: ../extensions/file_tools/gth-file-tool-crop.c:409
 #: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (knjiga, DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:377
+#: ../extensions/file_tools/gth-file-tool-crop.c:410
 #: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:378
+#: ../extensions/file_tools/gth-file-tool-crop.c:411
 #: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Razglednica)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:379
+#: ../extensions/file_tools/gth-file-tool-crop.c:412
 #: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:380
+#: ../extensions/file_tools/gth-file-tool-crop.c:413
 #: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:381
+#: ../extensions/file_tools/gth-file-tool-crop.c:414
 #: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:382
+#: ../extensions/file_tools/gth-file-tool-crop.c:415
 #: ../extensions/file_tools/gth-file-tool-resize.c:438
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:383
+#: ../extensions/file_tools/gth-file-tool-crop.c:416
 #: ../extensions/file_tools/gth-file-tool-resize.c:439
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:393
+#: ../extensions/file_tools/gth-file-tool-crop.c:426
 msgid "Rule of Thirds"
 msgstr "Pravilo tretjin"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:393
+#: ../extensions/file_tools/gth-file-tool-crop.c:426
 msgid "Golden Sections"
 msgstr "Zlati rezi"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:508
+#: ../extensions/file_tools/gth-file-tool-crop.c:554
 msgid "Crop..."
 msgstr "Obreži ..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:508
+#: ../extensions/file_tools/gth-file-tool-crop.c:554
 msgid "Crop"
 msgstr "Obreži"
 
@@ -2345,7 +2355,7 @@ msgid "Loading \"%s\""
 msgstr "Nalaganje \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2739
+#: ../extensions/webalbums/gth-web-exporter.c:2744
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -2587,24 +2597,24 @@ msgstr "leto"
 msgid "custom format"
 msgstr "oblika po meri"
 
-#: ../extensions/importer/gth-import-task.c:325
-#: ../extensions/importer/gth-import-task.c:404
+#: ../extensions/importer/gth-import-task.c:346
+#: ../extensions/importer/gth-import-task.c:425
 msgid "Importing files"
 msgstr "Uvažanje datotek"
 
-#: ../extensions/importer/gth-import-task.c:362
+#: ../extensions/importer/gth-import-task.c:383
 msgid "No file imported"
 msgstr "Nobena datoteka ni bila uvožena"
 
-#: ../extensions/importer/gth-import-task.c:363
+#: ../extensions/importer/gth-import-task.c:384
 msgid "The selected files are already present in the destination."
 msgstr "Izbrane datoteke so že prisotne na cilju."
 
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:405
 msgid "Delete operation not supported."
 msgstr "Dejanje izbrisa ni podprto."
 
-#: ../extensions/importer/gth-import-task.c:450
+#: ../extensions/importer/gth-import-task.c:471
 msgid "Last imported"
 msgstr "Zadnjič uvoženo"
 
@@ -3133,6 +3143,14 @@ msgstr "Dovoli nalaganje slik surove vrste."
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Raw format support"
 msgstr "Podpora za surovo vrsto"
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+msgid "_X:"
+msgstr "_X:"
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "_Y:"
+msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Red Eye Removal..."
@@ -3681,11 +3699,11 @@ msgstr "Shranjevanje slik"
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2976
+#: ../extensions/webalbums/gth-web-exporter.c:2981
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3009
+#: ../extensions/webalbums/gth-web-exporter.c:3014
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -3851,7 +3869,7 @@ msgstr "Pridobivanje podrobnosti datoteke"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2755
+#: ../gthumb/glib-utils.c:2795
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3863,7 +3881,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2764
+#: ../gthumb/glib-utils.c:2804
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4575,8 +4593,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 #~ msgstr "85"
 #~ msgid "95"
 #~ msgstr "95"
-#~ msgid "0&#xB0;"
-#~ msgstr "0&#xB0;"
 #~ msgid "1"
 #~ msgstr "1"
 #~ msgid "16"
