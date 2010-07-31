@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-25 16:46+0000\n"
-"PO-Revision-Date: 2010-07-31 19:44+0200\n"
+"POT-Creation-Date: 2010-07-31 17:45+0000\n"
+"PO-Revision-Date: 2010-07-31 19:48+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -805,7 +805,7 @@ msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-#: ../gthumb/gth-main-default-sort-types.c:106
+#: ../gthumb/gth-main-default-sort-types.c:135
 msgid "file modified date"
 msgstr "fecha de modificación del archivo"
 
@@ -1099,6 +1099,7 @@ msgstr[0] "%d archivo"
 msgstr[1] "%d archivos"
 
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:82
+#| msgid "New Catalog"
 msgid "New tag"
 msgstr "Etiqueta nueva"
 
@@ -1108,14 +1109,17 @@ msgstr "Asignar etiquetas"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:114
 #: ../extensions/edit_metadata/gth-tag-task.c:131
+#| msgid "Assign tags to the selected folder"
 msgid "Assigning tags to the selected files"
 msgstr "Asignando etiquetas a los archivos seleccionados"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:114
+#| msgid "Importing files"
 msgid "Writing files"
 msgstr "Escribiendo archivos"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:131
+#| msgid "Renaming files"
 msgid "Reading files"
 msgstr "Leyendo archivos"
 
@@ -1602,12 +1606,12 @@ msgstr ""
 "No se pueden mover los archivos a la ubicación actual, como alternativa "
 "puede elegir copiarlos."
 
-#: ../extensions/file_manager/actions.c:407
-#: ../extensions/importer/gth-import-task.c:404
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/importer/gth-import-task.c:389
 msgid "Could not delete the files"
 msgstr "No se pudieron eliminar los archivos"
 
-#: ../extensions/file_manager/actions.c:450
+#: ../extensions/file_manager/actions.c:453
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -1615,16 +1619,16 @@ msgstr ""
 "No se pueden mover los archivos a la papelera. ¿Quiere eliminarlos "
 "permanentemente?"
 
-#: ../extensions/file_manager/actions.c:461
+#: ../extensions/file_manager/actions.c:464
 msgid "Could not move the files to the Trash"
 msgstr "No se pudieron mover los archivos a la papelera"
 
-#: ../extensions/file_manager/actions.c:510
+#: ../extensions/file_manager/actions.c:513
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "¿Seguro que quiere mover «%s» a la papelera?"
 
-#: ../extensions/file_manager/actions.c:513
+#: ../extensions/file_manager/actions.c:516
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -1632,19 +1636,19 @@ msgstr[0] "¿Seguro que quiere mover a la papelera el archivo seleccionado?"
 msgstr[1] ""
 "¿Seguro que quiere mover a la papelera los %'d archivos seleccionados?"
 
-#: ../extensions/file_manager/actions.c:525
+#: ../extensions/file_manager/actions.c:528
 #: ../extensions/file_manager/callbacks.c:169
 #: ../extensions/file_manager/callbacks.c:201
 msgid "Mo_ve to Trash"
 msgstr "Mo_ver a la papelera"
 
-#: ../extensions/file_manager/actions.c:557
-#: ../extensions/file_manager/actions.c:848
+#: ../extensions/file_manager/actions.c:560
+#: ../extensions/file_manager/actions.c:851
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
-#: ../extensions/file_manager/actions.c:560
+#: ../extensions/file_manager/actions.c:563
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1656,16 +1660,16 @@ msgstr[1] ""
 "¿Está seguro de que quiere eliminar permanentemente los %'d archivos "
 "seleccionados?"
 
-#: ../extensions/file_manager/actions.c:570
-#: ../extensions/file_manager/actions.c:858
+#: ../extensions/file_manager/actions.c:573
+#: ../extensions/file_manager/actions.c:861
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
-#: ../extensions/file_manager/actions.c:600
+#: ../extensions/file_manager/actions.c:603
 msgid "Could not open the location"
 msgstr "No se pudo abrir la ubicación"
 
-#: ../extensions/file_manager/actions.c:732
+#: ../extensions/file_manager/actions.c:735
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1673,18 +1677,18 @@ msgstr ""
 "La carpeta no está vacía. ¿Quiere borrar la carpeta y su contenido "
 "permanentemente?"
 
-#: ../extensions/file_manager/actions.c:748
+#: ../extensions/file_manager/actions.c:751
 msgid "Could not delete the folder"
 msgstr "No se pudo eliminar la carpeta"
 
-#: ../extensions/file_manager/actions.c:807
+#: ../extensions/file_manager/actions.c:810
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
 "No se puede mover la carpeta a la papelera. ¿Quiere borrarla permanentemente?"
 
-#: ../extensions/file_manager/actions.c:814
+#: ../extensions/file_manager/actions.c:817
 msgid "Could not move the folder to the Trash"
 msgstr "No se pudo mover la carpeta a la papelera"
 
@@ -1809,7 +1813,7 @@ msgstr "I_nvertir la proporción de la imagen"
 #. after the colon there is a control to select the size in pixels
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "M_ultiple of:"
-msgstr "_Múltiplo de:"
+msgstr "_Múltiple de:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
@@ -2377,7 +2381,7 @@ msgid "Loading \"%s\""
 msgstr "Cargando «%s»"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2744
+#: ../extensions/webalbums/gth-web-exporter.c:2727
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -2634,24 +2638,24 @@ msgstr "año"
 msgid "custom format"
 msgstr "formato personalizado"
 
-#: ../extensions/importer/gth-import-task.c:346
-#: ../extensions/importer/gth-import-task.c:425
+#: ../extensions/importer/gth-import-task.c:331
+#: ../extensions/importer/gth-import-task.c:410
 msgid "Importing files"
 msgstr "Importando archivos"
 
-#: ../extensions/importer/gth-import-task.c:383
+#: ../extensions/importer/gth-import-task.c:368
 msgid "No file imported"
 msgstr "No se importó ningún archivo"
 
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:369
 msgid "The selected files are already present in the destination."
 msgstr "Los archivos seleccionados ya existen en el destino."
 
-#: ../extensions/importer/gth-import-task.c:405
+#: ../extensions/importer/gth-import-task.c:390
 msgid "Delete operation not supported."
 msgstr "La operación de borrado no está soportada."
 
-#: ../extensions/importer/gth-import-task.c:471
+#: ../extensions/importer/gth-import-task.c:456
 msgid "Last imported"
 msgstr "Último importado"
 
@@ -3440,7 +3444,7 @@ msgstr "Buscando…"
 #: ../extensions/search/gth-search-task.c:258
 #| msgid "Cancel operation"
 msgid "Cancel the operation"
-msgstr "Cancelar la operación"
+msgstr "Cancelar la operación"
 
 #: ../extensions/search/search.extension.in.in.h:1
 msgid "File search tool."
@@ -3722,7 +3726,7 @@ msgstr "No se pudo mostrar el destino"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1830
 msgid "The album has been created successfully."
-msgstr "El álbum se creó correctamente."
+msgstr "El álbum se creó correctamente."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2096
 #: ../extensions/webalbums/gth-web-exporter.c:2123
@@ -3746,11 +3750,11 @@ msgstr "Guardando las imágenes"
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2981
+#: ../extensions/webalbums/gth-web-exporter.c:2964
 msgid "Could not find the style folder"
 msgstr "No se pudo encontrar la carpeta de estilos"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3014
+#: ../extensions/webalbums/gth-web-exporter.c:2997
 msgid "Could not create a temporary folder"
 msgstr "No se pudo crear una carpeta temporal"
 
@@ -4340,19 +4344,24 @@ msgstr "Etiquetas"
 msgid "Rating"
 msgstr "Puntuación"
 
-#: ../gthumb/gth-main-default-sort-types.c:104
+#: ../gthumb/gth-main-default-sort-types.c:132
 msgid "file name"
 msgstr "nombre del archivo"
 
-#: ../gthumb/gth-main-default-sort-types.c:105
+#: ../gthumb/gth-main-default-sort-types.c:133
+#| msgid "The file path"
+msgid "file path"
+msgstr "ruta del archivo"
+
+#: ../gthumb/gth-main-default-sort-types.c:134
 msgid "file size"
 msgstr "tamaño del archivo"
 
-#: ../gthumb/gth-main-default-sort-types.c:107
+#: ../gthumb/gth-main-default-sort-types.c:136
 msgid "no sorting"
 msgstr "sin ordenar"
 
-#: ../gthumb/gth-main-default-sort-types.c:108
+#: ../gthumb/gth-main-default-sort-types.c:137
 msgid "dimensions"
 msgstr "dimensiones"
 
@@ -4378,12 +4387,12 @@ msgstr "Fecha de modificación del archivo"
 
 #: ../gthumb/gth-main-default-tests.c:273
 msgid "Title (embedded)"
-msgstr "Título (empotrado)"
+msgstr "Título (empotrado)"
 
 #: ../gthumb/gth-main-default-tests.c:279
 #| msgid "Description"
 msgid "Description (embedded)"
-msgstr "Descripción (empotrada)"
+msgstr "Descripción (empotrada)"
 
 #: ../gthumb/gth-main-default-tests.c:285
 #| msgid "XMP Embedded"
