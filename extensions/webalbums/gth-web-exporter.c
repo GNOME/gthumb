@@ -2453,9 +2453,7 @@ copy_current_file (GthWebExporter *self)
 	{
 		gboolean appling_tranformation = FALSE;
 
-		if (gth_main_extension_is_active ("image_rotation")
-		    && g_content_type_equals (gth_file_data_get_mime_type (image_data->file_data), "image/jpeg"))
-		{
+		if (gth_main_extension_is_active ("image_rotation")) {
 			GthFileData *file_data;
 
 			file_data = gth_file_data_new (destination, image_data->file_data->info);
