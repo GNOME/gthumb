@@ -1,22 +1,20 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-29 16:49+0000\n"
-"PO-Revision-Date: 2010-07-10 19:39+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2010-07-13 19:49+0000\n"
+"PO-Revision-Date: 2010-07-12 11:13+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/legal.xml:3(p)
@@ -80,7 +78,6 @@ msgid ""
 msgstr ""
 
 #: C/wallpaper.page:6(title)
-#| msgid "To Set the Desktop Wallpaper"
 msgid "Desktop Wallpaper"
 msgstr "Fondo del escritorio"
 
@@ -94,7 +91,6 @@ msgid ""
 msgstr ""
 
 #: C/sharing-disc.page:6(title)
-#| msgid "Exporting To CD/DVD"
 msgid "Creating a CD/DVD/ISO"
 msgstr "Crear un(a) CD/DVD/ISO"
 
@@ -121,7 +117,6 @@ msgid ""
 msgstr ""
 
 #: C/shortcuts.page:7(title)
-#| msgid "Keyboard Shortcut"
 msgid "Keyboard Shortcuts"
 msgstr "Combinaciones de teclas"
 
@@ -198,9 +193,6 @@ msgid "View the last image."
 msgstr "Ver la última imagen."
 
 #: C/shortcuts.page:81(p)
-#| msgid ""
-#| "<keycombo><keycap>+</keycap></keycombo> or <keycombo><keycap>=</keycap></"
-#| "keycombo>"
 msgid "<keyseq><key>Alt</key><key>Home</key></keyseq>or <key>h</key>"
 msgstr "<keyseq><key>Alt</key><key>Inicio</key></keyseq> o <key>h</key>"
 
@@ -344,9 +336,6 @@ msgid "Zoom out."
 msgstr "Alejar."
 
 #: C/shortcuts.page:307(p)
-#| msgid ""
-#| "<keycombo><keycap>x</keycap></keycombo> or <keycombo><keycap>* (numeric "
-#| "keypad)</keycap></keycombo>"
 msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
 msgstr "<key>1</key> o <key>z</key>o <key>/ (teclado numérico)</key>"
 
@@ -355,9 +344,6 @@ msgid "Actual size."
 msgstr "Tamaño actual."
 
 #: C/shortcuts.page:321(p)
-#| msgid ""
-#| "<keycombo><keycap>x</keycap></keycombo> or <keycombo><keycap>* (numeric "
-#| "keypad)</keycap></keycombo>"
 msgid "<key>x</key>or <key>* (numeric keypad)</key>"
 msgstr "<key>x</key> or <key>* (teclado numérico)</key>"
 
@@ -462,7 +448,6 @@ msgid "Scroll the image faster."
 msgstr "Desplazar la imagen más rápidamente."
 
 #: C/shortcuts.page:488(title)
-#| msgid "Other keyboard shortcuts."
 msgid "Other keyboard shortcuts"
 msgstr "Otras combinaciones de teclas"
 
@@ -512,9 +497,6 @@ msgid "Pause/Resume a slideshow."
 msgstr "Pausar/Reanudar una muestra de diapositivas."
 
 #: C/shortcuts.page:577(p)
-#| msgid ""
-#| "<keycombo><keycap>v</keycap></keycombo> or <keycombo><keycap>f</keycap></"
-#| "keycombo> or <keycombo><keycap>F11</keycap></keycombo>"
 msgid ""
 "<key>Escape</key>or <key>f</key>or <key>v</key>or <key>F11</key>or <key>q</"
 "key>"
@@ -527,7 +509,6 @@ msgid "Exit the fullscreen mode."
 msgstr "Salir del modo a pantalla completa."
 
 #: C/printing.page:7(title)
-#| msgid "Finding Images"
 msgid "Printing Images"
 msgstr "Imprimir imágenes"
 
@@ -702,6 +683,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d64"
 msgstr ""
+"@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d64"
 
 #: C/viewer.page:6(title)
 #, fuzzy
@@ -820,8 +802,6 @@ msgstr ""
 #: C/edit-redeye.page:7(None) C/edit-resize-crop.page:8(None)
 #: C/edit-rotate.page:8(None) C/edit-colors.page:8(None)
 #: C/edit-save-undo-redo.page:8(None) C/index.page:33(None)
-#| msgid ""
-#| "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 msgid "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 msgstr "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 
@@ -934,7 +914,6 @@ msgid "Rotate Left"
 msgstr "Rotar a la izquierda"
 
 #: C/edit-rotate.page:32(p)
-#| msgid "Rotate the image counter-clockwise of 90 degrees without saving."
 msgid "This rotates the image counter-clockwise."
 msgstr "Esto rota la imagen 90 grados en sentido antihorario."
 
@@ -969,7 +948,7 @@ msgstr ""
 
 #: C/edit-colors.page:22(gui)
 msgid "Adjust Colors"
-msgstr ""
+msgstr "Ajustar colores"
 
 #: C/edit-colors.page:23(p)
 msgid ""
@@ -1035,7 +1014,7 @@ msgstr ""
 
 #: C/rename-series.page:8(title)
 msgid "Renaming Files"
-msgstr ""
+msgstr "Renombrar archivos"
 
 #: C/rename-series.page:10(p)
 #, fuzzy
@@ -1092,9 +1071,6 @@ msgid "%F"
 msgstr "%F"
 
 #: C/rename-series.page:52(p)
-#| msgid ""
-#| "This symbol will be replaced with the file's original name, including the "
-#| "extension."
 msgid ""
 "This symbol will be replaced with the file's original name, excluding the "
 "original extension."
@@ -1199,7 +1175,6 @@ msgstr ""
 "no sobreescribir nunca; especificar un nombre nuevo."
 
 #: C/thumbnail-pane.page:6(title)
-#| msgid "About Thumbnails"
 msgid "Thumbnail Pane"
 msgstr "Panel de miniaturas"
 
@@ -1281,7 +1256,7 @@ msgstr ""
 
 #: C/batch-scripts.page:6(title)
 msgid "User-Defined Scripts"
-msgstr ""
+msgstr "Scripts definidos por el usuario"
 
 #: C/batch-scripts.page:8(p)
 msgid ""
@@ -1383,13 +1358,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/browser.page:13(None)
-#| msgid ""
-#| "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 msgid "@@image: 'figures/main-win.png'; md5=93cf84bd05a153ab61951ae12bbe3f26"
 msgstr "@@image: 'figures/main-win.png'; md5=93cf84bd05a153ab61951ae12bbe3f26"
 
 #: C/browser.page:6(title)
-#| msgid "Browsing Folders"
 msgid "Browsing Your Files"
 msgstr "Examinar sus archivos"
 
@@ -1550,10 +1522,8 @@ msgstr ""
 "nombre, u otras características."
 
 #: C/introduction.page:6(title)
-#, fuzzy
-#| msgid "About Thumbnails"
 msgid "About gThumb"
-msgstr "Acerca de miniaturas"
+msgstr "Acerca de gThumb"
 
 #: C/introduction.page:8(p)
 #, fuzzy
@@ -2120,131 +2090,131 @@ msgstr ""
 
 #: C/attributes.page:12(p)
 msgid "gth::file::display-size"
-msgstr ""
+msgstr "gth::file::display-size"
 
 #: C/attributes.page:15(p)
 msgid "standard::fast-content-type"
-msgstr ""
+msgstr "standard::fast-content-type"
 
 #: C/attributes.page:18(p)
 msgid "general::dimensions"
-msgstr ""
+msgstr "general::dimensions"
 
 #: C/attributes.page:21(p)
 msgid "general::format"
-msgstr ""
+msgstr "general::format"
 
 #: C/attributes.page:24(p)
 msgid "general::location"
-msgstr ""
+msgstr "general::location"
 
 #: C/attributes.page:27(p)
 msgid "general::datetime"
-msgstr ""
+msgstr "general::datetime"
 
 #: C/attributes.page:30(p)
 msgid "general::rating"
-msgstr ""
+msgstr "general::rating"
 
 #: C/attributes.page:33(p)
 msgid "Exif::Image::Make"
-msgstr ""
+msgstr "Exif::Image::Make"
 
 #: C/attributes.page:36(p)
 msgid "Exif::Image::Model"
-msgstr ""
+msgstr "Exif::Image::Model"
 
 #: C/attributes.page:39(p)
 msgid "Exif::Image::Software"
-msgstr ""
+msgstr "Exif::Image::Software"
 
 #: C/attributes.page:42(p)
 msgid "Exif::Image::Artist"
-msgstr ""
+msgstr "Exif::Image::Artist"
 
 #: C/attributes.page:45(p)
 msgid "Exif::Image::Copyright"
-msgstr ""
+msgstr "Exif::Image::Copyright"
 
 #: C/attributes.page:48(p)
 msgid "Exif::Photo::ISOSpeedRatings"
-msgstr ""
+msgstr "Exif::Photo::ISOSpeedRatings"
 
 #: C/attributes.page:51(p)
 msgid "Exif::Photo::BrightnessValue"
-msgstr ""
+msgstr "Exif::Photo::BrightnessValue"
 
 #: C/attributes.page:54(p)
 msgid "Exif::Photo::FNumber"
-msgstr ""
+msgstr "Exif::Photo::FNumber"
 
 #: C/attributes.page:57(p)
 msgid "Exif::Photo::ApertureValue"
-msgstr ""
+msgstr "Exif::Photo::ApertureValue"
 
 #: C/attributes.page:60(p)
 msgid "Exif::Photo::MaxApertureValue"
-msgstr ""
+msgstr "Exif::Photo::MaxApertureValue"
 
 #: C/attributes.page:63(p)
 msgid "Exif::Photo::ExposureTime"
-msgstr ""
+msgstr "Exif::Photo::ExposureTime"
 
 #: C/attributes.page:66(p)
 msgid "Exif::Photo::ExposureProgram"
-msgstr ""
+msgstr "Exif::Photo::ExposureProgram"
 
 #: C/attributes.page:69(p)
 msgid "Exif::Photo::ExposureIndex"
-msgstr ""
+msgstr "Exif::Photo::ExposureIndex"
 
 #: C/attributes.page:72(p)
 msgid "Exif::Photo::ExposureBiasValue"
-msgstr ""
+msgstr "Exif::Photo::ExposureBiasValue"
 
 #: C/attributes.page:75(p)
 msgid "Exif::Photo::ExposureMode"
-msgstr ""
+msgstr "Exif::Photo::ExposureMode"
 
 #: C/attributes.page:78(p)
 msgid "Exif::Photo::ShutterSpeedValue"
-msgstr ""
+msgstr "Exif::Photo::ShutterSpeedValue"
 
 #: C/attributes.page:81(p)
 msgid "Exif::Photo::MeteringMode"
-msgstr ""
+msgstr "Exif::Photo::MeteringMode"
 
 #: C/attributes.page:84(p)
 msgid "Exif::Photo::LightSource"
-msgstr ""
+msgstr "Exif::Photo::LightSource"
 
 #: C/attributes.page:87(p)
 msgid "Exif::Photo::WhiteBalance"
-msgstr ""
+msgstr "Exif::Photo::WhiteBalance"
 
 #: C/attributes.page:90(p)
 msgid "Exif::Photo::Flash"
-msgstr ""
+msgstr "Exif::Photo::Flash"
 
 #: C/attributes.page:93(p)
 msgid "Exif::Photo::FocalLength"
-msgstr ""
+msgstr "Exif::Photo::FocalLength"
 
 #: C/attributes.page:96(p)
 msgid "Exif::Photo::SubjectArea"
-msgstr ""
+msgstr "Exif::Photo::SubjectArea"
 
 #: C/attributes.page:99(p)
 msgid "Exif::Photo::Contrast"
-msgstr ""
+msgstr "Exif::Photo::Contrast"
 
 #: C/attributes.page:102(p)
 msgid "Exif::Photo::Saturation"
-msgstr ""
+msgstr "Exif::Photo::Saturation"
 
 #: C/attributes.page:105(p)
 msgid "Exif::Photo::Sharpness"
-msgstr ""
+msgstr "Exif::Photo::Sharpness"
 
 #: C/index.page:7(name)
 msgid "Paolo Bacchilega"
@@ -2252,23 +2222,23 @@ msgstr "Paolo Bacchilega"
 
 #: C/index.page:8(email)
 msgid "paobac@src.gnome.org"
-msgstr ""
+msgstr "paobac@src.gnome.org"
 
 #: C/index.page:12(name)
 msgid "Michael J. Chudobiak"
-msgstr ""
+msgstr "Michael J. Chudobiak"
 
 #: C/index.page:13(email)
 msgid "mjc@avtechpulse.com"
-msgstr ""
+msgstr "mjc@avtechpulse.com"
 
 #: C/index.page:20(title)
 msgid "<app>gThumb</app>Help"
-msgstr ""
+msgstr "Ayuda de <app>gThumb</app>"
 
 #: C/index.page:23(title)
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido"
 
 #: C/index.page:27(title)
 #, fuzzy
@@ -2285,53 +2255,51 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
 "Numerous editing tools are provided for touching-up individual photos. Undo "
 "and redo functions are provided, up until the photo is saved. To access the "
-"editing tools, open an image and then click the <gui>Edit File</gui>toolbar "
-"button (the palette icon)."
+"editing tools, open an image and then click the <gui>Edit File</gui> toolbar "
+"button (the palette icon), or press <keyseq><key>e</key></keyseq>."
 msgstr ""
 
-#: C/index.page:41(title)
+#: C/index.page:42(title)
 #, fuzzy
 #| msgid "Advanced Tools"
 msgid "Batch Tools"
 msgstr "Herramientas avanzadas"
 
-#: C/index.page:42(p)
+#: C/index.page:43(p)
 msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
 msgstr ""
 
-#: C/index.page:48(title)
+#: C/index.page:49(title)
 #, fuzzy
 #| msgid "Slide Shows"
 msgid "Slideshows"
 msgstr "Mostrar diapositivas"
 
-#: C/index.page:52(title)
+#: C/index.page:53(title)
 #, fuzzy
 #| msgid "Importing Photos"
 msgid "Importing"
 msgstr "Importar fotos"
 
-#: C/index.page:56(title)
+#: C/index.page:57(title)
 msgid "Sharing"
 msgstr ""
 
-#: C/index.page:60(title)
+#: C/index.page:61(title)
 #, fuzzy
 #| msgid "Organize Button"
 msgid "Organizing"
 msgstr "Botón Organizar"
 
-#: C/index.page:64(title)
+#: C/index.page:65(title)
 msgid "Other Tools"
 msgstr "Otras herramientas"
 
-#: C/index.page:68(title)
-#, fuzzy
-#| msgid "Preferences"
+#: C/index.page:69(title)
 msgid "Reference"
-msgstr "Preferencias"
+msgstr "Referencia"
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
