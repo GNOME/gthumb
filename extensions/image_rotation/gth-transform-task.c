@@ -157,8 +157,7 @@ transform_current_file (GthTransformTask *self)
 	file = self->priv->current->data;
 	singleton = g_list_append (NULL, g_object_ref (file));
 	_g_query_all_metadata_async (singleton,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     file_info_ready_cb,

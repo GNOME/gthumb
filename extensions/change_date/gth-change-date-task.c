@@ -310,8 +310,7 @@ gth_change_date_task_exec (GthTask *task)
 	GthChangeDateTask *self = GTH_CHANGE_DATE_TASK (task);
 
 	_g_query_all_metadata_async (self->priv->files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     gth_task_get_cancellable (task),
 				     info_ready_cb,

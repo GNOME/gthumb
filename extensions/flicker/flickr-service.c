@@ -927,8 +927,7 @@ flickr_service_post_photos (FlickrService       *self,
 	self->priv->post_photos->n_files = 0;
 
 	_g_query_all_metadata_async (file_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     self->priv->post_photos->cancellable,
 				     post_photos_info_ready_cb,

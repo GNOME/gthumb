@@ -317,8 +317,7 @@ list_source_files (gpointer user_data)
 	data->loading_list = TRUE;
 	list = g_list_prepend (NULL, data->source);
 	_g_query_all_metadata_async (list,
-				     TRUE,
-				     TRUE,
+				     GTH_LIST_RECURSIVE | GTH_LIST_NO_HIDDEN_FILES | GTH_LIST_NO_BACKUP_FILES,
 				     DEFINE_STANDARD_ATTRIBUTES (",preview::icon,standard::fast-content-type,gth::file::display-size"),
 				     data->cancellable,
 				     list_ready_cb,
@@ -473,6 +472,7 @@ preferences_button_clicked_cb (GtkWidget  *widget,
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))));
 	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
 }
+
 
 void
 dlg_photo_importer (GthBrowser *browser,

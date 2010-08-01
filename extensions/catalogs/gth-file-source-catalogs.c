@@ -401,8 +401,7 @@ gth_file_source_catalogs_read_metadata (GthFileSource *file_source,
 	gio_file = gth_catalog_file_to_gio_file (file_data->file);
 	files = g_list_prepend (NULL, gio_file);
 	_g_query_all_metadata_async (files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     attributes,
 				     gth_file_source_get_cancellable (file_source),
 				     read_metadata_info_ready_cb,
@@ -796,8 +795,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 	}
 
 	_g_query_info_async (cod->file_list,
-			     FALSE,
-			     TRUE,
+			     GTH_LIST_DEFAULT,
 			     GFILE_NAME_TYPE_ATTRIBUTES,
 			     gth_file_source_get_cancellable (file_source),
 			     copy__file_list_info_ready_cb,

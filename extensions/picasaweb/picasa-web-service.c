@@ -609,8 +609,7 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 	}
 
 	_g_query_all_metadata_async (file_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     self->priv->post_photos->cancellable,
 				     post_photos_info_ready_cb,

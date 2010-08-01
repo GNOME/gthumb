@@ -3072,8 +3072,7 @@ gth_web_exporter_exec (GthTask *task)
 		g_string_append (required_attributes, self->priv->sort_type->required_attributes);
 	}
 	_g_query_all_metadata_async (self->priv->gfile_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     required_attributes->str,
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     file_list_info_ready_cb,

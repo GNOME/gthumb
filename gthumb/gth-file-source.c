@@ -590,8 +590,7 @@ base_read_metadata (GthFileSource *file_source,
 
 	files = g_list_prepend (NULL, file_data->file);
 	_g_query_all_metadata_async (files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     attributes,
 				     file_source->priv->cancellable,
 				     read_metadata_info_ready_cb,
@@ -1076,8 +1075,7 @@ gth_file_source_read_attributes (GthFileSource  *file_source,
 
 	gio_files = gth_file_source_to_gio_file_list (file_source, files);
 	_g_query_all_metadata_async (gio_files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     attributes,
 				     file_source->priv->cancellable,
 				     metadata_ready_cb,

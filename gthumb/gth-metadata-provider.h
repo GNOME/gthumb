@@ -92,8 +92,7 @@ void       _g_write_metadata_async          (GList                  *files, /* G
 					     ReadyFunc               ready_func,
 					     gpointer                user_data);
 void       _g_query_all_metadata_async      (GList                  *files, /* GFile * list */
-					     gboolean                recursive,
-					     gboolean                follow_links,
+					     GthListFlags            flags,
 					     const char             *attributes,
 					     GCancellable           *cancellable,
 					     InfoReadyCallback       ready_func,

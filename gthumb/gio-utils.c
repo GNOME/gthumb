@@ -882,8 +882,7 @@ g_directory_list_async (GFile             *directory,
 
 typedef struct {
 	GList             *file_list;
-	gboolean           recursive;
-	gboolean           follow_links;
+	GthListFlags       flags;
 	char              *attributes;
 	GCancellable      *cancellable;
 	InfoReadyCallback  callback;
@@ -938,8 +937,14 @@ query_data__for_each_file_cb (GFile     *file,
 {
 	QueryInfoData *query_data = user_data;
 
-	if (g_file_info_get_file_type (info) != G_FILE_TYPE_DIRECTORY)
-		query_data->files = g_list_prepend (query_data->files, gth_file_data_new (file, info));
+	if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
+		return;
+	if ((query_data->flags & GTH_LIST_NO_BACKUP_FILES) && g_file_info_get_is_backup (info))
+		return;
+	if ((query_data->flags & GTH_LIST_NO_HIDDEN_FILES) && g_file_info_get_is_hidden (info))
+		return;
+
+	query_data->files = g_list_prepend (query_data->files, gth_file_data_new (file, info));
 }
 
 
@@ -950,6 +955,11 @@ query_data__start_dir_cb (GFile       *directory,
 		          gpointer     user_data)
 {
 	QueryInfoData *query_data = user_data;
+
+	if ((query_data->flags & GTH_LIST_NO_BACKUP_FILES) && g_file_info_get_is_backup (info))
+		return DIR_OP_SKIP;
+	if ((query_data->flags & GTH_LIST_NO_HIDDEN_FILES) && g_file_info_get_is_hidden (info))
+		return DIR_OP_SKIP;
 
 	query_data->files = g_list_prepend (query_data->files, gth_file_data_new (directory, info));
 
@@ -973,10 +983,10 @@ query_data_info_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	if (query_data->recursive && (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)) {
+	if ((query_data->flags & GTH_LIST_RECURSIVE) && (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)) {
 		g_directory_foreach_child ((GFile *) query_data->current->data,
 					   TRUE,
-					   query_data->follow_links,
+					   (query_data->flags & GTH_LIST_NO_FOLLOW_LINKS) == 0,
 					   query_data->attributes,
 					   query_data->cancellable,
 					   query_data__start_dir_cb,
@@ -996,6 +1006,8 @@ query_data_info_ready_cb (GObject      *source_object,
 static void
 query_info__query_current (QueryInfoData *query_data)
 {
+	GFileQueryInfoFlags flags;
+
 	if (query_data->current == NULL) {
 		query_data->files = g_list_reverse (query_data->files);
 		query_data->callback (query_data->files, NULL, query_data->user_data);
@@ -1003,9 +1015,13 @@ query_info__query_current (QueryInfoData *query_data)
 		return;
 	}
 
+	flags = G_FILE_QUERY_INFO_NONE;
+	if (query_data->flags & GTH_LIST_NO_FOLLOW_LINKS)
+		flags |= G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS;
+
 	g_file_query_info_async ((GFile *) query_data->current->data,
 				 query_data->attributes,
-				 (query_data->follow_links ? G_FILE_QUERY_INFO_NONE : G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS),
+				 flags,
 				 G_PRIORITY_DEFAULT,
 				 query_data->cancellable,
 				 query_data_info_ready_cb,
@@ -1015,8 +1031,7 @@ query_info__query_current (QueryInfoData *query_data)
 
 void
 _g_query_info_async (GList             *file_list,
-		     gboolean           recursive,
-		     gboolean           follow_links,
+		     GthListFlags       flags,
 		     const char        *attributes,
 		     GCancellable      *cancellable,
 		     InfoReadyCallback  ready_callback,
@@ -1026,9 +1041,11 @@ _g_query_info_async (GList             *file_list,
 
 	query_data = g_new0 (QueryInfoData, 1);
 	query_data->file_list = _g_object_list_ref (file_list);
-	query_data->recursive = recursive;
-	query_data->follow_links = follow_links;
-	query_data->attributes = g_strconcat (attributes, ",standard::name,standard::type,id::file", NULL);
+	query_data->flags = flags;
+	query_data->attributes = g_strconcat ("standard::name,standard::type,standard::is-hidden,standard::is-backup,id::file",
+					      (((attributes != NULL) && (strcmp (attributes, "") != 0)) ? "," : NULL),
+					      attributes,
+					      NULL);
 	query_data->cancellable = _g_object_ref (cancellable);
 	query_data->callback = ready_callback;
 	query_data->user_data = user_data;
@@ -1723,8 +1740,7 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 					      copy_data->progress_callback_data);
 
 	_g_query_info_async (sources,
-			     TRUE,
-			     TRUE,
+			     GTH_LIST_RECURSIVE,
 			     "standard::name,standard::display-name,standard::type,standard::size",
 			     copy_data->cancellable,
 			     copy_files__sources_info_ready_cb,
@@ -1876,7 +1892,8 @@ _g_delete_files_async (GList        *file_list,
 		       ReadyFunc     callback,
 		       gpointer      user_data)
 {
-	DeleteData *delete_data;
+	DeleteData   *delete_data;
+	GthListFlags  flags;
 
 	delete_data = g_new0 (DeleteData, 1);
 	delete_data->include_metadata = include_metadata;
@@ -1884,9 +1901,12 @@ _g_delete_files_async (GList        *file_list,
 	delete_data->callback = callback;
 	delete_data->user_data = user_data;
 
+	flags = GTH_LIST_NO_FOLLOW_LINKS;
+	if (recursive)
+		flags |= GTH_LIST_RECURSIVE;
+
 	_g_query_info_async (file_list,
-			     recursive,
-			     FALSE,
+			     flags,
 			     GFILE_NAME_TYPE_ATTRIBUTES,
 			     delete_data->cancellable,
 			     delete_files__info_ready_cb,

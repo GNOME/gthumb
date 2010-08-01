@@ -130,8 +130,7 @@ gth_tag_task_exec (GthTask *task)
 
 	gth_task_progress (task, _("Assigning tags to the selected files"), _("Reading files"), TRUE, 0.0);
 	_g_query_all_metadata_async (self->priv->file_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     NULL,
 				     info_ready_cb,

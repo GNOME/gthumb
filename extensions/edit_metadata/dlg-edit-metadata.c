@@ -144,8 +144,7 @@ dlg_edit_metadata (GthBrowser *browser,
 	/* FIXME: progress dialog ? */
 
 	_g_query_all_metadata_async (data->files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     NULL,
 				     info_ready_cb,

@@ -57,7 +57,12 @@ gth_browser_activate_action_edit_rename (GtkAction  *action,
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
 	g_object_ref (browser);
-	_g_query_all_metadata_async (file_list, FALSE, TRUE, "*", NULL, file_list_ready_cb, browser);
+	_g_query_all_metadata_async (file_list,
+				     GTH_LIST_DEFAULT,
+				     "*",
+				     NULL,
+				     file_list_ready_cb,
+				     browser);
 
 	_g_object_list_unref (file_list);
 	_g_object_list_unref (file_data_list);

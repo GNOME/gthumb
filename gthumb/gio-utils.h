@@ -39,6 +39,14 @@ typedef enum { /*< skip >*/
 	DIR_OP_STOP
 } DirOp;
 
+typedef enum {
+	GTH_LIST_DEFAULT = 0,
+	GTH_LIST_RECURSIVE = 1 << 0,
+	GTH_LIST_NO_FOLLOW_LINKS = 1 << 1,
+	GTH_LIST_NO_BACKUP_FILES = 1 << 2,
+	GTH_LIST_NO_HIDDEN_FILES = 1 << 3
+} GthListFlags;
+
 typedef DirOp (*StartDirCallback)    (GFile                *directory,
 				      GFileInfo            *info,
 				      GError              **error,
@@ -86,8 +94,7 @@ void   g_directory_list_async        (GFile                 *directory,
 				      ListReadyCallback      done_func,
 				      gpointer               done_data);
 void   _g_query_info_async           (GList                 *file_list,    /* GFile * list */
-				      gboolean               recursive,
-				      gboolean               follow_links,
+				      GthListFlags           flags,
 				      const char            *attributes,
 				      GCancellable          *cancellable,
 				      InfoReadyCallback      ready_callback,

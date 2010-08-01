@@ -528,8 +528,7 @@ organization_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 
 		file_list = gth_catalog_get_file_list (catalog);
 		_g_query_info_async (file_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 				     NULL,
 				     file_list_info_ready_cb,

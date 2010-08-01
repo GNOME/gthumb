@@ -427,8 +427,7 @@ process_current_file (GthPixbufListTask *self)
 	source_file_data = self->priv->current->data;
 	source_singleton = g_list_append (NULL, g_object_ref (source_file_data->file));
 	_g_query_all_metadata_async (source_singleton,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     file_info_ready_cb,

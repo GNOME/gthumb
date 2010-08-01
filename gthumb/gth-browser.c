@@ -5180,8 +5180,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 	data = load_file_data_new (browser, file_data, view);
 	files = g_list_prepend (NULL, data->file_data->file);
 	_g_query_all_metadata_async (files,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     NULL,
 				     file_metadata_ready_cb,

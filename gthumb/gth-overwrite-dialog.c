@@ -318,7 +318,12 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	if (self->priv->source != NULL)
 		files = g_list_append (files, self->priv->source);
 	files = g_list_append (files, self->priv->destination);
-	_g_query_all_metadata_async (files, FALSE, TRUE, "standard::*,time::modified,time::modified-usec,preview::icon", NULL, info_ready_cb, self);
+	_g_query_all_metadata_async (files,
+				     GTH_LIST_DEFAULT,
+				     "standard::*,time::modified,time::modified-usec,preview::icon",
+				     NULL,
+				     info_ready_cb,
+				     self);
 
 	g_list_free (files);
 }

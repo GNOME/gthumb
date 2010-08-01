@@ -618,8 +618,7 @@ photobucket_service_upload_photos (PhotobucketService  *self,
 	self->priv->post_photos->n_files = 0;
 
 	_g_query_all_metadata_async (file_list,
-				     FALSE,
-				     TRUE,
+				     GTH_LIST_DEFAULT,
 				     "*",
 				     self->priv->post_photos->cancellable,
 				     upload_photos_info_ready_cb,
