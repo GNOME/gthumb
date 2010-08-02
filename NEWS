@@ -1,3 +1,49 @@
+version 2.11.6
+--------------
+
+        New features and user visible changes:
+
+        * Added ability to sort by path (#625610)
+        * Crop tool: allow to force dimesions as multiple of 8 or other sizes
+          (#622385)
+        * Convert the old catalogs to the new format and location (#618302)
+        * Show an information dialog after creating a web album. from the
+          dialog allow the user to open the web album in the browser, or to
+          view the destination folder with the file manager. (#624264)
+        * [desktop_background] added ability to reset or open the preferences
+          After setting a desktop background an info-bar is displayd at the
+          bottom of the window to allow the user to reset the previous
+          background or to open the background preferences.
+
+        Bugs fixed:
+
+        * Ignore hidden files and directories when importing files (#624579)
+        * [importer] do not overwrite files with the same name (#624932)
+        * [webalbums] rotate the destination file instead of the original file
+          (#623906)
+        * Fixed crash on paste. (#625187)
+        * Fixed lossless rotation with libjpeg8. (#612809)
+        * Remove the action group when a page is deactivated (#596906)
+        * Do not link to the exiv2 extension if it's not built  (#624326)
+        * Preserve the exif data after a lossless rotation
+        * Removed use of the gdk_draw_* functions, always use cairo instead.
+
+        New or updated application translations:
+
+        * Deutsch (Mario Blättermann)
+        * Español (Jorge González)
+        * French (Claude Paroz)
+        * Norwegian/Bokmaal (Kjartan Maraas)
+        * Slovenian Translation (Andrej Žnidaršič)
+        * Swedish (Daniel Nylander)
+
+        New or updated manual translations:
+
+        * Español (Daniel Mustieles)
+
+version 2.11.6
+--------------
+
 version 2.11.5
 --------------
 
