@@ -270,6 +270,29 @@ file_view_selection_changed_cb (GtkIconView *iconview,
 
 
 static void
+preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
+					   DialogData                 *data)
+{
+	GFile *destination_example;
+
+	destination_example = gth_import_preferences_dialog_get_destination_example (dialog);
+	if (destination_example != NULL) {
+		char *name;
+
+		name = g_file_get_parse_name (destination_example);
+		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "folder", GTK_ICON_SIZE_MENU);
+		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), name);
+
+		g_free (name);
+	}
+	else {
+		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "dialog-error", GTK_ICON_SIZE_MENU);
+		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), _("Invalid Destination"));
+	}
+}
+
+
+static void
 list_ready_cb (GList    *files,
 	       GError   *error,
 	       gpointer  user_data)
@@ -474,6 +497,15 @@ preferences_button_clicked_cb (GtkWidget  *widget,
 }
 
 
+static void
+event_entry_changed_cb (GtkEditable *editable,
+			DialogData  *data)
+{
+	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))));
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
@@ -615,6 +647,10 @@ dlg_photo_importer (GthBrowser *browser,
 			  "selection_changed",
 			  G_CALLBACK (file_view_selection_changed_cb),
 			  data);
+	g_signal_connect (data->preferences_dialog,
+			  "destination_changed",
+			  G_CALLBACK (preferences_dialog_destination_changed_cb),
+			  data);
 	g_signal_connect (GET_WIDGET ("preferences_button"),
 			  "clicked",
 			  G_CALLBACK (preferences_button_clicked_cb),
@@ -623,12 +659,23 @@ dlg_photo_importer (GthBrowser *browser,
 							  "entry-points-changed",
 							  G_CALLBACK (entry_points_changed_cb),
 							  data);
+	g_signal_connect_after (GET_WIDGET ("event_entry"),
+				"changed",
+				G_CALLBACK (event_entry_changed_cb),
+				data);
+	g_signal_connect (GET_WIDGET ("destination_button"),
+			  "clicked",
+			  G_CALLBACK (preferences_button_clicked_cb),
+			  data);
 
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
+
+	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))));
 
 	update_source_list (data);
 }

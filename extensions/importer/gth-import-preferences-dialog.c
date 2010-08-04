@@ -31,7 +31,15 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+/* Signals */
+enum {
+	DESTINATION_CHANGED,
+	LAST_SIGNAL
+};
+
+
 static gpointer parent_class = NULL;
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 struct _GthImportPreferencesDialogPrivate {
@@ -67,6 +75,18 @@ gth_import_preferences_dialog_class_init (GthImportPreferencesDialogClass *klass
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_import_preferences_dialog_finalize;
+
+	/* signals */
+
+	signals[DESTINATION_CHANGED] =
+		g_signal_new ("destination-changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthImportPreferencesDialogClass, destination_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 }
 
 
@@ -170,54 +190,34 @@ create_example_file_data (void)
 static void
 update_destination (GthImportPreferencesDialog *self)
 {
-	GFile              *destination;
-	GthSubfolderType    subfolder_type;
-	GthSubfolderFormat  subfolder_format;
-	gboolean            single_subfolder;
-	const char         *custom_format;
-	GthFileData        *example_data;
-	GTimeVal            timeval;
 	GFile              *destination_example;
 	char               *uri;
 	char               *example;
+	GthSubfolderType    subfolder_type;
+	GthSubfolderFormat  subfolder_format;
 
-	destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
-	if (destination == NULL)
+	destination_example = gth_import_preferences_dialog_get_destination_example (self);
+	if (destination_example == NULL)
 		return;
-
-	subfolder_type = get_subfolder_type (self);
-	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->subfolder_format_list));
-	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
-	custom_format = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")));
-
-	example_data = create_example_file_data ();
-	g_get_current_time (&timeval);
-
-	destination_example = gth_import_utils_get_file_destination (example_data,
-								     destination,
-								     subfolder_type,
-								     subfolder_format,
-								     single_subfolder,
-								     custom_format,
-								     self->priv->event,
-								     timeval);
 
 	uri = g_file_get_parse_name (destination_example);
 	example = g_strdup_printf (_("example: %s"), uri);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("example_label")), example);
 
+	subfolder_type = get_subfolder_type (self);
 	gtk_widget_set_sensitive (GET_WIDGET ("single_subfolder_checkbutton"), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 	gtk_widget_set_sensitive (self->priv->subfolder_type_list, subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 	gtk_widget_set_sensitive (self->priv->subfolder_format_list, subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 	gtk_widget_set_sensitive (GET_WIDGET ("subfolder_options_notebook"), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 
+	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->subfolder_format_list));
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("subfolder_options_notebook")), (subfolder_format == GTH_SUBFOLDER_FORMAT_CUSTOM) ? 1 : 0);
+
+	g_signal_emit (self, signals[DESTINATION_CHANGED], 0);
 
 	g_free (example);
 	g_free (uri);
 	g_object_unref (destination_example);
-	g_object_unref (example_data);
-	g_object_unref (destination);
 }
 
 
@@ -466,4 +466,46 @@ gth_import_preferences_dialog_set_event (GthImportPreferencesDialog *self,
 {
 	g_free (self->priv->event);
 	self->priv->event = g_strdup (event);
+
+	g_signal_emit (self, signals[DESTINATION_CHANGED], 0);
+}
+
+
+GFile *
+gth_import_preferences_dialog_get_destination_example (GthImportPreferencesDialog *self)
+{
+	GFile              *destination;
+	GthSubfolderType    subfolder_type;
+	GthSubfolderFormat  subfolder_format;
+	gboolean            single_subfolder;
+	const char         *custom_format;
+	GthFileData        *example_data;
+	GTimeVal            timeval;
+	GFile              *destination_example;
+
+	destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	if (destination == NULL)
+		return NULL;
+
+	subfolder_type = get_subfolder_type (self);
+	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->subfolder_format_list));
+	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
+	custom_format = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")));
+
+	example_data = create_example_file_data ();
+	g_get_current_time (&timeval);
+
+	destination_example = gth_import_utils_get_file_destination (example_data,
+								     destination,
+								     subfolder_type,
+								     subfolder_format,
+								     single_subfolder,
+								     custom_format,
+								     self->priv->event,
+								     timeval);
+
+	g_object_unref (example_data);
+	g_object_unref (destination);
+
+	return destination_example;
 }

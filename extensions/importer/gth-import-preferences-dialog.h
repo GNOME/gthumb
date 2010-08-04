@@ -47,12 +47,18 @@ struct _GthImportPreferencesDialog {
 
 struct _GthImportPreferencesDialogClass {
 	GtkDialogClass parent_class;
+
+	/*< signals >*/
+
+	void (*destination_changed) (GthImportPreferencesDialog *self);
 };
 
 GType        gth_import_preferences_dialog_get_type  (void);
 GtkWidget *  gth_import_preferences_dialog_new       (void);
 void         gth_import_preferences_dialog_set_event (GthImportPreferencesDialog *self,
 						      const char                 *event);
+GFile *      gth_import_preferences_dialog_get_destination_example
+						     (GthImportPreferencesDialog *self);
 
 G_END_DECLS
 
