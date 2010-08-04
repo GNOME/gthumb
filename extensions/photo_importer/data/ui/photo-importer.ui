@@ -231,10 +231,33 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="destination_label">
+                          <object class="GtkHBox" id="hbox3">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="ellipsize">start</property>
+                            <child>
+                              <object class="GtkLabel" id="destination_label">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label">/home/user/Images</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="destination_example_label">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label">/garden/2010-06-23</property>
+                                <property name="ellipsize">end</property>
+                                <attributes>
+                                  <attribute name="foreground" value="#b1eb33440710"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </object>
                           <packing>
                             <property name="position">1</property>

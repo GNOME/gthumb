@@ -472,6 +472,13 @@ gth_import_preferences_dialog_set_event (GthImportPreferencesDialog *self,
 
 
 GFile *
+gth_import_preferences_dialog_get_destination (GthImportPreferencesDialog *self)
+{
+	return gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+}
+
+
+GFile *
 gth_import_preferences_dialog_get_destination_example (GthImportPreferencesDialog *self)
 {
 	GFile              *destination;

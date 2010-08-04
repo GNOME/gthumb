@@ -273,15 +273,28 @@ static void
 preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
 					   DialogData                 *data)
 {
+	GFile *destination;
 	GFile *destination_example;
 
+	destination = gth_import_preferences_dialog_get_destination (dialog);
 	destination_example = gth_import_preferences_dialog_get_destination_example (dialog);
-	if (destination_example != NULL) {
+	if ((destination != NULL) && (destination_example != NULL)) {
 		char *name;
 
-		name = g_file_get_parse_name (destination_example);
+		name = g_file_get_parse_name (destination);
 		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "folder", GTK_ICON_SIZE_MENU);
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), name);
+		g_free (name);
+
+		name = g_file_get_relative_path (destination, destination_example);
+		if ((name != NULL) && (strcmp (name, "") != 0)) {
+			char *example_path;
+
+			example_path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
+			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_example_label")), example_path);
+
+			g_free (example_path);
+		}
 
 		g_free (name);
 	}
@@ -289,6 +302,9 @@ preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
 		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "dialog-error", GTK_ICON_SIZE_MENU);
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), _("Invalid Destination"));
 	}
+
+	_g_object_unref (destination_example);
+	_g_object_unref (destination);
 }
 
 
