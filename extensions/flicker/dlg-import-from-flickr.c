@@ -366,9 +366,24 @@ list_photos_ready_cb (GObject      *source_object,
 	list = NULL;
 	for (scan = data->photos; scan; scan = scan->next) {
 		FlickrPhoto *photo = scan->data;
+		const char  *url;
 		GthFileData *file_data;
 
-		file_data = gth_file_data_new_for_uri (photo->url_o, (photo->mime_type != NULL) ? photo->mime_type : "image/jpeg");
+		url = NULL;
+		if (photo->url_s != NULL)
+			url = photo->url_s;
+		else if (photo->url_m != NULL)
+			url = photo->url_m;
+		else if (photo->url_o != NULL)
+			url = photo->url_o;
+
+		if (url == NULL)
+			url = photo->url_sq;
+
+		if (url == NULL)
+			continue;
+
+		file_data = gth_file_data_new_for_uri (url, (photo->mime_type != NULL) ? photo->mime_type : "image/jpeg");
 		g_file_info_set_file_type (file_data->info, G_FILE_TYPE_REGULAR);
 		g_file_info_set_size (file_data->info, FAKE_SIZE); /* set a fake size to make the progress dialog work correctly */
 		g_file_info_set_attribute_object (file_data->info, "flickr::object", G_OBJECT (photo));
