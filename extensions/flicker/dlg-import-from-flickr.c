@@ -416,6 +416,8 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 			    PHOTOSET_DATA_COLUMN, &data->photoset,
 			    -1);
 
+	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog), data->photoset->title);
+
 	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 	flickr_service_list_photos (data->service,
 				    data->photoset,
@@ -588,6 +590,13 @@ dlg_import_from_flickr (FlickrServer *server,
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
 
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("destination_button_box")),
+			    gth_import_destination_button_new (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog)),
+			    TRUE,
+			    TRUE,
+			    0);
+	gtk_widget_show_all (GET_WIDGET ("destination_button_box"));
+
 	title = g_strdup_printf (_("Import from %s"), data->server->name);
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
@@ -626,6 +635,7 @@ dlg_import_from_flickr (FlickrServer *server,
 			  data);
 
 	update_selection_status (data);
+	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog), "");
 
 	data->conn = flickr_connection_new (data->server);
 	data->service = flickr_service_new (data->conn);
