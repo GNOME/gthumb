@@ -69,8 +69,6 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_DESTINATION_BUTTON, GthImportDestinationButtonPrivate);
 
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Click to change the destination or the automatic subfolder"));
-
 	box = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (box);
 	gtk_container_add (GTK_CONTAINER (self), box);
