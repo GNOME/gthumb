@@ -8,6 +8,7 @@ ENUM_TYPES =					\
 	gth-import-enum-types.c
 
 HEADER_FILES = 					\
+	gth-import-destination-button.h		\
 	gth-import-preferences-dialog.h		\
 	gth-import-task.h			\
 	preferences.h				\
@@ -37,6 +38,7 @@ gth-import-enum-types.c: $(HEADER_FILES) gth-import-enum-types.h
 libimporter_la_SOURCES = 			\
 	$(ENUM_TYPES)				\
 	$(HEADER_FILES)				\
+	gth-import-destination-button.c		\
 	gth-import-preferences-dialog.c		\
 	gth-import-task.c			\
 	importer.h				\

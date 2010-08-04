@@ -25,6 +25,7 @@
 #define IMPORTER_H
 
 #include "extensions/importer/gth-import-enum-types.h"
+#include "extensions/importer/gth-import-destination-button.h"
 #include "extensions/importer/gth-import-preferences-dialog.h"
 #include "extensions/importer/gth-import-task.h"
 #include "extensions/importer/preferences.h"

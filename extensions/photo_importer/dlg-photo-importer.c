@@ -270,45 +270,6 @@ file_view_selection_changed_cb (GtkIconView *iconview,
 
 
 static void
-preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
-					   DialogData                 *data)
-{
-	GFile *destination;
-	GFile *destination_example;
-
-	destination = gth_import_preferences_dialog_get_destination (dialog);
-	destination_example = gth_import_preferences_dialog_get_destination_example (dialog);
-	if ((destination != NULL) && (destination_example != NULL)) {
-		char *name;
-
-		name = g_file_get_parse_name (destination);
-		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "folder", GTK_ICON_SIZE_MENU);
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), name);
-		g_free (name);
-
-		name = g_file_get_relative_path (destination, destination_example);
-		if ((name != NULL) && (strcmp (name, "") != 0)) {
-			char *example_path;
-
-			example_path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
-			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_example_label")), example_path);
-
-			g_free (example_path);
-		}
-
-		g_free (name);
-	}
-	else {
-		gtk_image_set_from_icon_name(GTK_IMAGE (GET_WIDGET("destination_icon")), "dialog-error", GTK_ICON_SIZE_MENU);
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("destination_label")), _("Invalid Destination"));
-	}
-
-	_g_object_unref (destination_example);
-	_g_object_unref (destination);
-}
-
-
-static void
 list_ready_cb (GList    *files,
 	       GError   *error,
 	       gpointer  user_data)
@@ -633,6 +594,13 @@ dlg_photo_importer (GthBrowser *browser,
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));
 
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("destination_button_box")),
+			    gth_import_destination_button_new (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog)),
+			    TRUE,
+			    TRUE,
+			    0);
+	gtk_widget_show_all (GET_WIDGET ("destination_button_box"));
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -663,10 +631,6 @@ dlg_photo_importer (GthBrowser *browser,
 			  "selection_changed",
 			  G_CALLBACK (file_view_selection_changed_cb),
 			  data);
-	g_signal_connect (data->preferences_dialog,
-			  "destination_changed",
-			  G_CALLBACK (preferences_dialog_destination_changed_cb),
-			  data);
 	g_signal_connect (GET_WIDGET ("preferences_button"),
 			  "clicked",
 			  G_CALLBACK (preferences_button_clicked_cb),
@@ -679,10 +643,6 @@ dlg_photo_importer (GthBrowser *browser,
 				"changed",
 				G_CALLBACK (event_entry_changed_cb),
 				data);
-	g_signal_connect (GET_WIDGET ("destination_button"),
-			  "clicked",
-			  G_CALLBACK (preferences_button_clicked_cb),
-			  data);
 
 	/* Run dialog. */
 

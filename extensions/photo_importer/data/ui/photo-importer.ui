@@ -204,66 +204,16 @@
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Destination:</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">destination_button</property>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="destination_button">
+                  <object class="GtkHBox" id="destination_button_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Click to change the destination or set an automatic subfolder</property>
                     <child>
-                      <object class="GtkHBox" id="hbox2">
-                        <property name="visible">True</property>
-                        <property name="spacing">6</property>
-                        <child>
-                          <object class="GtkImage" id="destination_icon">
-                            <property name="visible">True</property>
-                            <property name="icon_name">folder</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHBox" id="hbox3">
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkLabel" id="destination_label">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label">/home/user/Images</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="destination_example_label">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label">/garden/2010-06-23</property>
-                                <property name="ellipsize">end</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#b1eb33440710"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
