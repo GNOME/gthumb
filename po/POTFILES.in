@@ -314,6 +314,8 @@ extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
 extensions/importer/data/gthumb-importer.schemas.in
 [type: gettext/glade]extensions/importer/data/ui/import-preferences.ui
+extensions/importer/gth-import-destination-button.c
+extensions/importer/gth-import-destination-button.h
 extensions/importer/gth-import-preferences-dialog.c
 extensions/importer/gth-import-preferences-dialog.h
 extensions/importer/gth-import-task.c
