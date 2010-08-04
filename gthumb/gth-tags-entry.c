@@ -45,6 +45,13 @@ enum {
 };
 
 
+/* Signals */
+enum {
+	LIST_COLLAPSED,
+	LAST_SIGNAL
+};
+
+
 typedef struct {
 	char     *name;
 	gboolean  used;
@@ -74,6 +81,7 @@ struct _GthTagsEntryPrivate {
 
 
 static gpointer parent_class = NULL;
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 static void
@@ -117,6 +125,18 @@ gth_tags_entry_class_init (GthTagsEntryClass *klass)
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->grab_focus = gth_tags_entry_grab_focus;
+
+	/* signals */
+
+	signals[LIST_COLLAPSED] =
+		g_signal_new ("list-collapsed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthTagsEntryClass, list_collapsed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 }
 
 
@@ -623,19 +643,7 @@ static void
 tag_list_unmap_cb (GtkWidget    *widget,
 		   GthTagsEntry *self)
 {
-	GtkWidget   *toplevel;
-        GdkGeometry  geometry;
-
-        toplevel = gtk_widget_get_toplevel (widget);
-        if (! gtk_widget_is_toplevel (toplevel))
-        	return;
-
-        geometry.max_height = -1;
-        geometry.max_width = G_MAXINT;
-        gtk_window_set_geometry_hints (GTK_WINDOW (toplevel),
-				       toplevel,
-                                       &geometry,
-                                       GDK_HINT_MAX_SIZE);
+        g_signal_emit (self, signals[LIST_COLLAPSED], 0);
 }
 
 

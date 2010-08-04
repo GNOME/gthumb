@@ -406,6 +406,24 @@ date_combobox_changed_cb (GtkComboBox *widget,
 
 
 static void
+tags_entry_list_collapsed_cb (GthTagsEntry *widget,
+			      gpointer     user_data)
+{
+	GtkWidget *toplevel;
+	int        width;
+
+	/* collapse the dialog height */
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (widget));
+	if (! gtk_widget_is_toplevel (toplevel))
+		return;
+
+	gtk_window_get_size (GTK_WINDOW (toplevel), &width, NULL);
+	gtk_window_resize (GTK_WINDOW (toplevel), width, 1);
+}
+
+
+static void
 gth_edit_comment_page_init (GthEditCommentPage *self)
 {
 	self->priv = GTH_EDIT_COMMENT_PAGE_GET_PRIVATE (self);
@@ -414,35 +432,40 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
 
 	self->priv->builder = _gtk_builder_new_from_file ("edit-comment-page.ui", "edit_metadata");
-  	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);
 
-  	self->priv->date_combobox = gtk_combo_box_new_text ();
-  	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->date_combobox),
-  				     _("No date"),
-  				     _("The following date"),
-  				     _("Current date"),
-  				     _("Date photo was taken"),
-  				     _("Last modified date"),
-  				     _("File creation date"),
-  				     _("Do not modify"),
-  				     NULL);
-  	gtk_widget_show (self->priv->date_combobox);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_combobox_container")), self->priv->date_combobox, TRUE, TRUE, 0);
+	self->priv->date_combobox = gtk_combo_box_new_text ();
+	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->date_combobox),
+				     _("No date"),
+				     _("The following date"),
+				     _("Current date"),
+				     _("Date photo was taken"),
+				     _("Last modified date"),
+				     _("File creation date"),
+				     _("Do not modify"),
+				     NULL);
+	gtk_widget_show (self->priv->date_combobox);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_combobox_container")), self->priv->date_combobox, TRUE, TRUE, 0);
 
-  	g_signal_connect (self->priv->date_combobox,
+	g_signal_connect (self->priv->date_combobox,
 			  "changed",
 			  G_CALLBACK (date_combobox_changed_cb),
 			  self);
 
-  	self->priv->date_selector = gth_time_selector_new ();
-  	gtk_widget_show (self->priv->date_selector);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_container")), self->priv->date_selector, FALSE, FALSE, 0);
+	self->priv->date_selector = gth_time_selector_new ();
+	gtk_widget_show (self->priv->date_selector);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_container")), self->priv->date_selector, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("date_label")), self->priv->date_combobox);
 
-  	self->priv->tags_entry = gth_tags_entry_new ();
-  	gtk_widget_show (self->priv->tags_entry);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
+	self->priv->tags_entry = gth_tags_entry_new ();
+	gtk_widget_show (self->priv->tags_entry);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), self->priv->tags_entry);
+
+	g_signal_connect (self->priv->tags_entry,
+			  "list-collapsed",
+			  G_CALLBACK (tags_entry_list_collapsed_cb),
+			  self);
 }
 
 

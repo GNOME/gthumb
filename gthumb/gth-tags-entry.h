@@ -45,6 +45,10 @@ struct _GthTagsEntry {
 
 struct _GthTagsEntryClass {
 	GtkVBoxClass parent_class;
+
+	/*< signals >*/
+
+	void (*list_collapsed) (GthTagsEntry *self);
 };
 
 GType        gth_tags_entry_get_type  (void);
