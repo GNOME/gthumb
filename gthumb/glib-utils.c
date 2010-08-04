@@ -535,6 +535,9 @@ _g_time_val_strftime (GTimeVal   *time_,
 	struct tm *tm;
 
 	if ((format == NULL) || (*format == '\0'))
+		format = "%Y-%m-%d--%H.%M.%S";
+
+	if (strcmp (format, "%q") == 0)
 		format = "%Y-%m-%d";
 
 	secs = time_->tv_sec;
