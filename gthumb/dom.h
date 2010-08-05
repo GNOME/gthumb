@@ -128,6 +128,8 @@ struct _DomDomizableIface {
 
 GQuark        dom_error_quark                       (void);
 
+/* DomElement */
+
 GType         dom_element_get_type                  (void);
 void          dom_element_append_child              (DomElement   *self, 
 					             DomElement   *child);
@@ -148,7 +150,11 @@ void          dom_element_set_attribute             (DomElement   *self,
 					             const char   *value);
 const char *  dom_element_get_inner_text            (DomElement   *self);
 
+/* DomTextNode */
+
 GType         dom_text_node_get_type                (void);
+
+/* DomDocument */
 
 GType         dom_document_get_type                 (void);
 DomDocument * dom_document_new                      (void);
@@ -169,6 +175,8 @@ gboolean      dom_document_load                     (DomDocument  *self,
 					             const char   *xml,
 					             gssize        len,
 					             GError      **error);
+
+/* DomDomizable */
 
 GType         dom_domizable_get_type                (void);
 DomElement *  dom_domizable_create_element          (DomDomizable  *self, 
