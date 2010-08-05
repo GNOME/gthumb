@@ -1,20 +1,20 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.userguide.HEAD\n"
+"Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 19:49+0000\n"
-"PO-Revision-Date: 2010-07-12 11:13+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gmail.com>\n"
+"POT-Creation-Date: 2010-08-04 22:12+0000\n"
+"PO-Revision-Date: 2010-08-05 15:07+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: es\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/legal.xml:3(p)
@@ -610,10 +610,8 @@ msgid ""
 msgstr ""
 
 #: C/sorting.page:7(title)
-#, fuzzy
-#| msgid "Browsing Folders"
 msgid "Sorting Files"
-msgstr "Examinar carpetas"
+msgstr "Ordenar archivos"
 
 #: C/sorting.page:9(p)
 msgid ""
@@ -624,10 +622,8 @@ msgid ""
 msgstr ""
 
 #: C/fullscreen.page:8(title)
-#, fuzzy
-#| msgid "Available in Fullscreen Mode"
 msgid "Manual Fullscreen Mode"
-msgstr "Disponible en modo a pantalla completa"
+msgstr "Modo manual a pantalla completa"
 
 #: C/fullscreen.page:10(p)
 msgid ""
@@ -686,10 +682,8 @@ msgstr ""
 "@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d64"
 
 #: C/viewer.page:6(title)
-#, fuzzy
-#| msgid "Opening Images"
 msgid "Opening an Image"
-msgstr "Abrir imágenes"
+msgstr "Abrir una imagen"
 
 #: C/viewer.page:8(p)
 #, fuzzy
@@ -806,8 +800,6 @@ msgid "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 msgstr "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 
 #: C/edit-redeye.page:6(title)
-#, fuzzy
-#| msgid "Redeye Removal"
 msgid "Red Eye Removal"
 msgstr "Eliminación de ojos rojos"
 
@@ -935,10 +927,8 @@ msgid "Several tools are provided to manipulate the colors in images."
 msgstr ""
 
 #: C/edit-colors.page:17(gui)
-#, fuzzy
-#| msgid "Enhance"
 msgid "Enhance Colors"
-msgstr "Realzar"
+msgstr "Realzar colores"
 
 #: C/edit-colors.page:18(p)
 msgid ""
@@ -958,10 +948,8 @@ msgid ""
 msgstr ""
 
 #: C/edit-colors.page:29(gui)
-#, fuzzy
-#| msgid "Equalize Histogram"
 msgid "Equalize"
-msgstr "Ecualizar histograma"
+msgstr "Ecualizar"
 
 #: C/edit-colors.page:30(p)
 msgid ""
@@ -1017,19 +1005,14 @@ msgid "Renaming Files"
 msgstr "Renombrar archivos"
 
 #: C/rename-series.page:10(p)
-#, fuzzy
-#| msgid ""
-#| "To rename one or more images using a name template, choose "
-#| "<menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></"
-#| "menuchoice>."
 msgid ""
 "To rename one or more images using a name template, select the files in the "
 "browser and choose <guiseq><gui>Edit</gui><gui>Rename</gui></guiseq>, or "
 "press <key>F2</key>."
 msgstr ""
-"Para renombrar una o varias imágemes utilizando una plantilla de nombre, "
-"seleccione <menuchoice><guimenu>Editar</guimenu><guimenuitem>Renombrar</"
-"guimenuitem></menuchoice>."
+"Para renombrar una o varias imágenes utilizando una plantilla de nombre, "
+"seleccione los archivos en el navegador y elija <guiseq><gui>Editar</"
+"gui><gui>Renombrar</gui></guiseq>, o pulse <key>F2</key>."
 
 #: C/rename-series.page:15(p)
 msgid ""
@@ -1200,10 +1183,8 @@ msgid "Thumbnail Pane, Along Bottom of Main Image"
 msgstr ""
 
 #: C/thumbnails.page:6(title)
-#, fuzzy
-#| msgid "About Thumbnails"
 msgid "Thumbnail Sources"
-msgstr "Acerca de miniaturas"
+msgstr "Fuente de miniaturas"
 
 #: C/thumbnails.page:8(p)
 msgid ""
@@ -1270,10 +1251,8 @@ msgid "TODO: further documentation is need here."
 msgstr ""
 
 #: C/batch-change-date.page:6(title)
-#, fuzzy
-#| msgid "To Change Images Date"
 msgid "Changing Dates"
-msgstr "Cambiar la fecha de las imágenes"
+msgstr "Cambiar fechas"
 
 #: C/batch-change-date.page:8(p)
 msgid ""
@@ -1290,10 +1269,8 @@ msgid ""
 msgstr ""
 
 #: C/batch-resize.page:6(title)
-#, fuzzy
-#| msgid "Opening Images"
 msgid "Resizing Images"
-msgstr "Abrir imágenes"
+msgstr "Redimensionar imágenes"
 
 #: C/batch-resize.page:8(p)
 msgid ""
@@ -1311,10 +1288,8 @@ msgid ""
 msgstr ""
 
 #: C/batch-convert-format.page:6(title)
-#, fuzzy
-#| msgid "To Convert the Image Format"
 msgid "Converting File Formats"
-msgstr "Convertir el formato de imagen"
+msgstr "Convertir formatos de archivo"
 
 #: C/batch-convert-format.page:8(p)
 #, fuzzy
@@ -1366,12 +1341,8 @@ msgid "Browsing Your Files"
 msgstr "Examinar sus archivos"
 
 #: C/browser.page:8(p)
-#, fuzzy
-#| msgid ""
-#| "You can start <application>gThumb</application> in the following ways:"
 msgid "When you start <app>gThumb</app> the following window is displayed:"
-msgstr ""
-"Puede iniciar <application>gThumb</application> de las siguientes maneras:"
+msgstr "Cuando inicia <app>gThumb</app> se muestra la siguiente ventana:"
 
 #: C/browser.page:11(title)
 msgid "The main window"
@@ -1470,10 +1441,8 @@ msgid "Statusbar"
 msgstr "Barra de estado"
 
 #: C/browser.page:58(p)
-#, fuzzy
-#| msgid "On the statusbar you can read: <placeholder-1/>"
 msgid "On the statusbar you can read:"
-msgstr "En la barra de estado puede leer: <placeholder-1/>"
+msgstr "En la barra de estado puede leer:"
 
 #: C/browser.page:61(p)
 msgid ""
@@ -1526,38 +1495,26 @@ msgid "About gThumb"
 msgstr "Acerca de gThumb"
 
 #: C/introduction.page:8(p)
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> is an image viewer and browser written "
-#| "for the GNOME environment. It lets you browse your hard disk, showing you "
-#| "thumbnails of image files and view single images of many different "
-#| "formats."
 msgid ""
 "<app>gThumb</app> is an image viewer and browser written for the GNOME "
 "environment. It lets you browse your hard disk, showing you thumbnails of "
 "image files and view single images of many different formats."
 msgstr ""
-"<application>gThumb</application> es un visor y explorador de imágenes "
-"escrito para el entorno GNOME. Le permite explorar su disco duro mostrando "
-"miniaturas de los archivos de imagen y ver imágenes sueltas en muchos "
-"formatos diferentes."
+"<app>gThumb</app> es un visor y explorador de imágenes escrito para el "
+"entorno GNOME. Le permite explorar su disco duro mostrando miniaturas de los "
+"archivos de imagen y ver imágenes sueltas en muchos formatos diferentes."
 
 #: C/introduction.page:13(p)
-#, fuzzy
-#| msgid ""
-#| "gThumb supports the most common graphics formats, including JPEG, GIF, "
-#| "TIF, and PNG. gThumb will also display other less common image types if "
-#| "the supporting libraries are installed, including TGA, ICO, BMP, XPM, and "
-#| "others."
 msgid ""
 "<app>gThumb</app> supports the most common graphics formats, including JPEG, "
 "GIF, TIF, and PNG. <app>gThumb</app> will also display other less common "
 "image types if the supporting libraries are installed, including TGA, ICO, "
 "BMP, XPM, and others."
 msgstr ""
-"gThumb soporta los formatos de archivo más comunes, incluyendo JPEG, TIF y "
-"PNG. gThumb también mostrará otros tipos de imágenes menos comunes si las "
-"librerías de soporte están instaladas, incluyendo TGA, ICO, BMP, XPM y otros"
+"<app>gThumb</app> soporta los formatos de archivo más comunes, incluyendo "
+"JPEG, TIF y PNG. <app>gThumb</app> también mostrará otros tipos de imágenes "
+"menos comunes si las librerías de soporte están instaladas, incluyendo TGA, "
+"ICO, BMP, XPM y otros."
 
 #: C/introduction.page:18(p)
 msgid ""
@@ -1568,73 +1525,49 @@ msgstr ""
 "dcraw está instalado en su sistema."
 
 #: C/introduction.page:21(p)
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> not only lets you view image files but "
-#| "has many other features such as adding comments to images, organizing "
-#| "images into catalogs, printing images, slideshows, setting your desktop "
-#| "background, and more."
 msgid ""
 "<app>gThumb</app> not only lets you view image files but has many other "
 "features such as adding comments to images, organizing images into catalogs, "
 "printing images, slideshows, setting your desktop background, and more."
 msgstr ""
-"<application>gThumb</application> no sólo le permite ver archivos de "
-"imágenes, sino que tiene otras muchas características como añadir "
-"comentarios a las imágenes, organizar las imágenes en catálogos, imprimir "
-"imágenes, ver diapositivas, establecer en fondo de escritorio, y mucho más."
+"<app>gThumb</app> no sólo le permite ver archivos de imágenes, sino que "
+"tiene otras muchas características como añadir comentarios a las imágenes, "
+"organizar las imágenes en catálogos, imprimir imágenes, ver diapositivas, "
+"establecer en fondo de escritorio, y mucho más."
 
 #: C/introduction.page:26(p)
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> includes a tool to import photos from "
-#| "attached cameras and memory card readers."
 msgid ""
 "<app>gThumb</app> includes a tool to import photos from attached cameras and "
 "memory card readers."
 msgstr ""
-"<application>gThumb</application> incluye una herramienta para importar "
-"fotos desde cámaras y lectores de tarjetas de memoria."
+"<app>gThumb</app> incluye una herramienta para importar fotos desde cámaras "
+"y lectores de tarjetas de memoria."
 
 #: C/introduction.page:29(p)
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> can read EXIF, XMP, and IPTC metadata "
-#| "that is commonly embedded in files."
 msgid ""
 "<app>gThumb</app> can read EXIF, XMP, and IPTC metadata that is commonly "
 "embedded in files."
 msgstr ""
-"<application>gThumb</application> puede leer los metadatos EXIF, XMP e IPTC "
-"comúnmente incrustados en los archivos."
+"<app>gThumb</app> puede leer los metadatos EXIF, XMP e IPTC comúnmente "
+"incrustados en los archivos."
 
 #: C/introduction.page:32(p)
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> provides a systems of extensions (or "
-#| "plug-ins), to allow users to extend the functionality of "
-#| "<application>gThumb</application>."
 msgid ""
 "<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow "
 "users to extend the functionality of <app>gThumb</app>."
 msgstr ""
-"<application>gThumb</application> proporciona un sistema de extensiones (o "
-"complementos) que permite a los usuarios ampliar su funcionalidad."
+"<app>gThumb</app> proporciona un sistema de extensiones (o complementos) que "
+"permite a los usuarios ampliar la funcionalidad de <app>gThumb</app>."
 
 #: C/introduction.page:34(p)
-#, fuzzy
-#| msgid ""
-#| "More information about these extensions, and about gThumb generally, is "
-#| "available at <ulink url=\"http://live.gnome.org/gthumb\">http://live."
-#| "gnome.org/gthumb</ulink>."
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
 "generally, is available at <link href=\"http://live.gnome.org/gthumb"
 "\">http://live.gnome.org/gthumb</link>."
 msgstr ""
-"Dispone de más información sobre esas extensiones, o sobre gThumb en "
-"general, en <ulink url=\"http://live.gnome.org/gthumb\">http://live.gnome."
-"org/gthumb</ulink>."
+"Dispone de más información sobre esas extensiones, o sobre <app>gThumb</app> "
+"en general, en <link href=\"http://live.gnome.org/gthumb\">http://live.gnome."
+"org/gthumb</link>."
 
 #: C/strftime.page:6(title)
 msgid "Date/Time Format Codes"
@@ -2241,10 +2174,8 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: C/index.page:27(title)
-#, fuzzy
-#| msgid "To View an Image Comment"
 msgid "File Management"
-msgstr "Ver el comentario de una imagen"
+msgstr "Gestión de archivos"
 
 #: C/index.page:31(title)
 msgid "Editing Mode"
@@ -2260,8 +2191,6 @@ msgid ""
 msgstr ""
 
 #: C/index.page:42(title)
-#, fuzzy
-#| msgid "Advanced Tools"
 msgid "Batch Tools"
 msgstr "Herramientas avanzadas"
 
@@ -2272,26 +2201,20 @@ msgid ""
 msgstr ""
 
 #: C/index.page:49(title)
-#, fuzzy
-#| msgid "Slide Shows"
 msgid "Slideshows"
-msgstr "Mostrar diapositivas"
+msgstr "Diapositivas"
 
 #: C/index.page:53(title)
-#, fuzzy
-#| msgid "Importing Photos"
 msgid "Importing"
-msgstr "Importar fotos"
+msgstr "Importar"
 
 #: C/index.page:57(title)
 msgid "Sharing"
 msgstr ""
 
 #: C/index.page:61(title)
-#, fuzzy
-#| msgid "Organize Button"
 msgid "Organizing"
-msgstr "Botón Organizar"
+msgstr "Organizar"
 
 #: C/index.page:65(title)
 msgid "Other Tools"
