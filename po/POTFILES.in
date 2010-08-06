@@ -403,6 +403,7 @@ extensions/photo_importer/actions.h
 extensions/photo_importer/callbacks.c
 extensions/photo_importer/callbacks.h
 extensions/photo_importer/data/gthumb_photo_importer.schemas.in
+[type: gettext/glade]extensions/photo_importer/data/ui/photo-importer-options.ui
 [type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
 extensions/photo_importer/dlg-photo-importer.c
 extensions/photo_importer/dlg-photo-importer.h
