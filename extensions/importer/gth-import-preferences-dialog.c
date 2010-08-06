@@ -108,8 +108,6 @@ save_options (GthImportPreferencesDialog *self)
 	GthSubfolderType    subfolder_type;
 	GthSubfolderFormat  subfolder_format;
 	const char         *custom_format;
-	gboolean            overwrite_files;
-	gboolean            adjust_orientation;
 
 	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
 	if (destination != NULL) {
@@ -132,12 +130,6 @@ save_options (GthImportPreferencesDialog *self)
 
 	custom_format = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")));
 	eel_gconf_set_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, custom_format);
-
-	overwrite_files = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("overwrite_checkbutton")));
-	eel_gconf_set_boolean (PREF_IMPORT_OVERWRITE, overwrite_files);
-
-	adjust_orientation = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")));
-	eel_gconf_set_boolean (PREF_IMPORT_ADJUST_ORIENTATION, adjust_orientation);
 
 	_g_object_unref (destination);
 }
@@ -362,8 +354,6 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
 						  destination,
 						  NULL);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("overwrite_checkbutton")), eel_gconf_get_boolean (PREF_IMPORT_OVERWRITE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_IMPORT_ADJUST_ORIENTATION, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE));
 	subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("autosubfolder_checkbutton")), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
@@ -375,8 +365,6 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")), custom_format);
 		g_free (custom_format);
 	}
-
-	gtk_widget_set_sensitive (GET_WIDGET ("adjust_orientation_checkbutton"), gth_main_extension_is_active ("image_rotation") && gth_main_extension_is_active ("exiv2_tools"));
 
 	update_destination (self);
 

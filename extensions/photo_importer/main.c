@@ -32,6 +32,7 @@ gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("import-photos", 10, G_CALLBACK (pi__import_photos_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (pi__gth_browser_construct_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (pi__dlg_preferences_construct_cb), NULL);
 }
 
 

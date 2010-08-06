@@ -27,6 +27,7 @@
 #include <gthumb.h>
 #include "actions.h"
 #include "dlg-photo-importer.h"
+#include "preferences.h"
 
 
 #define BROWSER_DATA_KEY "photo-importer-browser-data"
@@ -138,4 +139,67 @@ pi__import_photos_cb (GthBrowser *browser,
 			 import_photos_idle_cb,
 			 data,
 			 import_data_unref);
+}
+
+
+/* -- pi__dlg_preferences_construct_cb -- */
+
+
+#define PREFERENCES_DATA_KEY "photo-import-preference-data"
+
+
+typedef struct {
+	GtkBuilder *builder;
+} PreferencesData;
+
+
+static void
+preferences_data_free (PreferencesData *data)
+{
+	g_object_unref (data->builder);
+	g_free (data);
+}
+
+
+static void
+adjust_orientation_checkbutton_toggled_cb (GtkToggleButton *button,
+					   PreferencesData *data)
+{
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, gtk_toggle_button_get_active (button));
+}
+
+
+void
+pi__dlg_preferences_construct_cb (GtkWidget  *dialog,
+				  GthBrowser *browser,
+				  GtkBuilder *dialog_builder)
+{
+	PreferencesData *data;
+	GtkWidget       *general_vbox;
+	GtkWidget       *importer_options;
+	GtkWidget       *widget;
+
+	data = g_new0 (PreferencesData, 1);
+	data->builder = _gtk_builder_new_from_file("photo-importer-options.ui", "photo_importer");
+
+	general_vbox = _gtk_builder_get_widget (dialog_builder, "general_vbox");
+	importer_options = _gtk_builder_get_widget (data->builder, "importer_options");
+	gtk_box_pack_start (GTK_BOX (general_vbox),
+			    importer_options,
+			    FALSE,
+			    FALSE,
+			    0);
+	/* move the options before the 'other' options */
+	gtk_box_reorder_child (GTK_BOX (general_vbox),
+			       importer_options,
+			       _gtk_container_get_n_children (GTK_CONTAINER (general_vbox)) - 2);
+
+	widget = _gtk_builder_get_widget (data->builder, "adjust_orientation_checkbutton");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, FALSE));
+	g_signal_connect (widget,
+			  "toggled",
+			  G_CALLBACK (adjust_orientation_checkbutton_toggled_cb),
+			  data);
+
+	g_object_set_data_full (G_OBJECT (dialog), PREFERENCES_DATA_KEY, data, (GDestroyNotify) preferences_data_free);
 }

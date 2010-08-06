@@ -27,7 +27,8 @@
 
 G_BEGIN_DECLS
 
-#define PREF_PHOTO_IMPORT_DELETE "/apps/gthumb/ext/photo_importer/delete_from_device"
+#define PREF_PHOTO_IMPORT_DELETE               "/apps/gthumb/ext/photo_importer/delete_from_device"
+#define PREF_PHOTO_IMPORT_ADJUST_ORIENTATION   "/apps/gthumb/ext/photo_importer/adjust_orientation"
 
 G_END_DECLS
 
