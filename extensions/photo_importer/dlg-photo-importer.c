@@ -79,8 +79,6 @@ destroy_dialog (gpointer user_data)
 		GthSubfolderType    subfolder_type;
 		GthSubfolderFormat  subfolder_format;
 		char               *custom_format;
-		gboolean            overwrite_files;
-		gboolean            adjust_orientation;
 		GtkWidget          *file_view;
 		GList              *items;
 		GList              *file_list;
@@ -90,8 +88,6 @@ destroy_dialog (gpointer user_data)
 		subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
 		subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
 		custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
-		overwrite_files = eel_gconf_get_boolean (PREF_IMPORT_OVERWRITE, FALSE);
-		adjust_orientation = eel_gconf_get_boolean (PREF_IMPORT_ADJUST_ORIENTATION, FALSE);
 
 		file_view = gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
 		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
@@ -115,8 +111,8 @@ destroy_dialog (gpointer user_data)
 						    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))),
 						    tags,
 						    delete_imported,
-						    overwrite_files,
-						    adjust_orientation);
+						    FALSE,
+						    eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, FALSE));
 			gth_browser_exec_task (data->browser, task, FALSE);
 
 			g_strfreev (tags);
@@ -465,16 +461,6 @@ filter_combobox_changed_cb (GtkComboBox *widget,
 
 
 static void
-preferences_button_clicked_cb (GtkWidget  *widget,
-			       DialogData *data)
-{
-	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
-						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))));
-	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
-}
-
-
-static void
 event_entry_changed_cb (GtkEditable *editable,
 			DialogData  *data)
 {
@@ -630,10 +616,6 @@ dlg_photo_importer (GthBrowser *browser,
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
 			  "selection_changed",
 			  G_CALLBACK (file_view_selection_changed_cb),
-			  data);
-	g_signal_connect (GET_WIDGET ("preferences_button"),
-			  "clicked",
-			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
 	data->entry_points_changed_id = g_signal_connect (gth_main_get_default_monitor (),
 							  "entry-points-changed",

@@ -57,6 +57,9 @@ struct _GthImportTaskPrivate {
 	GFile               *imported_catalog;
 	gboolean             delete_not_supported;
 	int                  n_imported;
+	GthOverwriteResponse default_response;
+	void                *buffer;
+	gsize                buffer_size;
 };
 
 
@@ -73,6 +76,7 @@ gth_import_task_finalize (GObject *object)
 	if (ImportPhotos)
 		gtk_window_present (GTK_WINDOW (self->priv->browser));
 
+	g_free (self->priv->buffer);
 	g_hash_table_unref (self->priv->destinations);
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
@@ -229,21 +233,139 @@ transformation_ready_cb (GError   *error,
 
 
 static void
+write_file_to_destination (GthImportTask *self,
+			   GFile         *destination_file,
+			   void          *buffer,
+			   gsize          count,
+			   gboolean       overwrite);
+
+
+static void
+overwrite_dialog_response_cb (GtkDialog *dialog,
+                              gint       response_id,
+                              gpointer   user_data)
+{
+	GthImportTask *self = user_data;
+
+	if (response_id != GTK_RESPONSE_OK)
+		self->priv->default_response = GTH_OVERWRITE_RESPONSE_CANCEL;
+	else
+		self->priv->default_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
+	gth_task_dialog (GTH_TASK (self), FALSE, NULL);
+
+	switch (self->priv->default_response) {
+	case GTH_OVERWRITE_RESPONSE_NO:
+	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
+	case GTH_OVERWRITE_RESPONSE_UNSPECIFIED:
+		import_next_file (self);
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_YES:
+	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:
+		write_file_to_destination (self,
+					   self->priv->destination,
+					   self->priv->buffer,
+					   self->priv->buffer_size,
+					   TRUE);
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_RENAME:
+		{
+			GthFileData *file_data;
+			GFile       *destination_folder;
+			GFile       *new_destination;
+
+			file_data = self->priv->current->data;
+			destination_folder = gth_import_utils_get_file_destination (file_data,
+										    self->priv->destination,
+										    self->priv->subfolder_type,
+										    self->priv->subfolder_format,
+										    self->priv->single_subfolder,
+										    self->priv->custom_format,
+										    self->priv->event_name,
+										    self->priv->import_start_time);
+			new_destination = g_file_get_child_for_display_name (destination_folder, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), NULL);
+			write_file_to_destination (self,
+						   new_destination,
+						   self->priv->buffer,
+						   self->priv->buffer_size,
+						   FALSE);
+
+			g_object_unref (new_destination);
+			g_object_unref (destination_folder);
+		}
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_CANCEL:
+		{
+			GError *error;
+
+			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+			gth_task_completed (GTH_TASK (self), error);
+		}
+		break;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
 write_buffer_ready_cb (void     **buffer,
 		       gsize      count,
 		       GError    *error,
 		       gpointer   user_data)
 {
 	GthImportTask *self = user_data;
-	GthFileData   *file_data;
 	gboolean       appling_tranformation = FALSE;
+	GthFileData   *file_data;
+
+	file_data = self->priv->current->data;
 
 	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+			if (self->priv->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
+				GInputStream *stream;
+				GdkPixbuf    *pixbuf;
+				GtkWidget    *dialog;
+
+				/* take ownership of the buffer */
+
+				self->priv->buffer = *buffer;
+				self->priv->buffer_size = count;
+				*buffer = NULL;
+
+				/* show the overwrite dialog */
+
+				stream = g_memory_input_stream_new_from_data (self->priv->buffer, self->priv->buffer_size, NULL);
+				pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+				dialog = gth_overwrite_dialog_new (file_data->file,
+								   pixbuf,
+								   self->priv->destination_file->file,
+								   self->priv->default_response,
+								   self->priv->files->next == NULL);
+				g_signal_connect (dialog,
+						  "response",
+						  G_CALLBACK (overwrite_dialog_response_cb),
+						  self);
+				gtk_widget_show (dialog);
+				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
+
+				_g_object_unref (pixbuf);
+				g_object_unref (stream);
+			}
+			else
+				import_next_file (self);
+
+			return;
+		}
+
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	file_data = self->priv->current->data;
 	if (self->priv->delete_imported) {
 		GError *local_error = NULL;
 
@@ -279,6 +401,39 @@ write_buffer_ready_cb (void     **buffer,
 
 
 static void
+write_file_to_destination (GthImportTask  *self,
+			   GFile          *destination_file,
+			   void           *buffer,
+			   gsize           count,
+			   gboolean        replace)
+{
+	GthFileData *file_data;
+
+	file_data = self->priv->current->data;
+
+	_g_object_unref (self->priv->destination_file);
+	self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
+
+	gth_task_progress (GTH_TASK (self),
+			   _("Importing files"),
+			   g_file_info_get_display_name (file_data->info),
+			   FALSE,
+			   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
+
+	g_write_file_async (self->priv->destination_file->file,
+			    buffer,
+			    count,
+			    replace,
+			    G_PRIORITY_DEFAULT,
+			    gth_task_get_cancellable (GTH_TASK (self)),
+			    write_buffer_ready_cb,
+			    self);
+
+	self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
+}
+
+
+static void
 file_buffer_ready_cb (void     **buffer,
 		      gsize      count,
 		      GError    *error,
@@ -295,6 +450,7 @@ file_buffer_ready_cb (void     **buffer,
 	}
 
 	file_data = self->priv->current->data;
+
 	if (gth_main_extension_is_active ("exiv2_tools"))
 		exiv2_read_metadata_from_buffer (*buffer, count, file_data->info, NULL);
 
@@ -313,9 +469,10 @@ file_buffer_ready_cb (void     **buffer,
 		}
 	}
 
-	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
+	/* Get the destination file avoiding to overwrite an already imported
+	 * file. */
 
-	/* avoid to overwrite an already imported file */
+	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
 	while (g_hash_table_lookup (self->priv->destinations, destination_file) != NULL) {
 		GFile *tmp = destination_file;
 		destination_file = _g_file_get_duplicated (tmp);
@@ -323,28 +480,12 @@ file_buffer_ready_cb (void     **buffer,
 	}
 	g_hash_table_insert (self->priv->destinations, g_object_ref (destination_file), GINT_TO_POINTER (1));
 
-	if (self->priv->overwrite_files || ! g_file_query_exists (destination_file, NULL)) {
-		_g_object_unref (self->priv->destination_file);
-		self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
-
-		gth_task_progress (GTH_TASK (self),
-				   _("Importing files"),
-				   g_file_info_get_display_name (file_data->info),
-				   FALSE,
-				   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
-
-		g_write_file_async (self->priv->destination_file->file,
-				    *buffer,
-				    count,
-				    TRUE,
-				    G_PRIORITY_DEFAULT,
-				    gth_task_get_cancellable (GTH_TASK (self)),
-				    write_buffer_ready_cb,
-				    self);
-		*buffer = NULL; /* g_write_file_async takes ownership of the buffer */
-	}
-	else
-		call_when_idle ((DataFunc) import_next_file, self);
+	write_file_to_destination (self,
+				   destination_file,
+				   *buffer,
+				   count,
+				   self->priv->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES);
+	*buffer = NULL; /* g_write_file_async takes ownership of the buffer */
 
 	g_object_unref (destination_file);
 	g_object_unref (destination);
@@ -355,6 +496,9 @@ static void
 import_current_file (GthImportTask *self)
 {
 	GthFileData *file_data;
+
+	g_free (self->priv->buffer);
+	self->priv->buffer = NULL;
 
 	if (self->priv->current == NULL) {
 		save_catalogs (self);
@@ -435,6 +579,7 @@ gth_import_task_exec (GthTask *base)
 	}
 	g_get_current_time (&timeval);
 	self->priv->import_start_time = timeval;
+	self->priv->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 
 	/* create the imported files catalog */
 
@@ -471,6 +616,7 @@ gth_import_task_exec (GthTask *base)
 		gth_datetime_free (date_time);
 	}
 
+	self->priv->buffer = NULL;
 	self->priv->current = self->priv->files;
 	import_current_file (self);
 }
@@ -503,6 +649,7 @@ gth_import_task_init (GthImportTask *self)
 							  (GEqualFunc) g_file_equal,
 							  g_object_unref,
 							  NULL);
+	self->priv->buffer = NULL;
 }
 
 
@@ -565,6 +712,7 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
 	self->priv->overwrite_files = overwrite_files;
+	self->priv->default_response = overwrite_files ? GTH_OVERWRITE_RESPONSE_ALWAYS_YES : GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;

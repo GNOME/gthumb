@@ -151,8 +151,6 @@ import_dialog_response_cb (GtkDialog *dialog,
 				GthSubfolderType     subfolder_type;
 				GthSubfolderFormat   subfolder_format;
 				char                *custom_format;
-				gboolean             overwrite_files;
-				gboolean             adjust_orientation;
 				GthTask             *task;
 
 				destination = gth_import_preferences_get_destination ();
@@ -160,8 +158,6 @@ import_dialog_response_cb (GtkDialog *dialog,
 				subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
 				single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
 				custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
-				overwrite_files = eel_gconf_get_boolean (PREF_IMPORT_OVERWRITE, FALSE);
-				adjust_orientation = eel_gconf_get_boolean (PREF_IMPORT_ADJUST_ORIENTATION, FALSE);
 
 				task = gth_import_task_new (data->browser,
 							    file_list,
@@ -173,8 +169,8 @@ import_dialog_response_cb (GtkDialog *dialog,
 							    (photoset->title != NULL ? photoset->title : ""),
 							    NULL,
 							    FALSE,
-							    overwrite_files,
-							    adjust_orientation);
+							    FALSE,
+							    FALSE);
 				gth_browser_exec_task (data->browser, task, FALSE);
 				gtk_widget_destroy (data->dialog);
 
@@ -517,16 +513,6 @@ file_list_selection_changed_cb (GtkIconView *iconview,
 }
 
 
-static void
-preferences_button_clicked_cb (GtkWidget  *widget,
-			       DialogData *data)
-{
-	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
-						 (data->photoset != NULL) ? data->photoset->title : "");
-	gtk_window_present (GTK_WINDOW (data->preferences_dialog));
-}
-
-
 void
 dlg_import_from_flickr (FlickrServer *server,
 		        GthBrowser   *browser)
@@ -628,10 +614,6 @@ dlg_import_from_flickr (FlickrServer *server,
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
 			  "selection_changed",
 			  G_CALLBACK (file_list_selection_changed_cb),
-			  data);
-	g_signal_connect (GET_WIDGET ("preferences_button"),
-			  "clicked",
-			  G_CALLBACK (preferences_button_clicked_cb),
 			  data);
 
 	update_selection_status (data);

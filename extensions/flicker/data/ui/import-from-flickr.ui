@@ -209,20 +209,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="preferences_button">
-                <property name="label">gtk-preferences</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
@@ -233,7 +219,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -248,7 +234,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -262,7 +248,6 @@
     </child>
     <action-widgets>
       <action-widget response="-11">button1</action-widget>
-      <action-widget response="0">preferences_button</action-widget>
       <action-widget response="-6">close_button</action-widget>
       <action-widget response="-5">download_button</action-widget>
     </action-widgets>
