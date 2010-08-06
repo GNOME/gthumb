@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-31 17:45+0000\n"
-"PO-Revision-Date: 2010-07-31 23:43+0100\n"
+"POT-Creation-Date: 2010-08-04 22:10+0000\n"
+"PO-Revision-Date: 2010-08-06 22:24+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -677,7 +677,7 @@ msgstr "Befehlszeile"
 #: ../extensions/catalogs/callbacks.c:482
 #: ../extensions/catalogs/callbacks.c:487
 #: ../extensions/photo_importer/dlg-photo-importer.c:310
-#: ../extensions/photo_importer/dlg-photo-importer.c:351
+#: ../extensions/photo_importer/dlg-photo-importer.c:350
 #: ../gthumb/gth-file-list.c:41 ../gthumb/gth-folder-tree.c:875
 msgid "(Empty)"
 msgstr "(Leer)"
@@ -825,7 +825,7 @@ msgstr "Der Katalog konnte nicht gespeichert werden"
 msgid "Could not load the catalog"
 msgstr "Der Katalog konnte nicht geladen werden"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:792
+#: ../extensions/catalogs/gth-file-source-catalogs.c:791
 #, c-format
 msgid "Copying files to '%s'"
 msgstr "Dateien werden nach »%s« kopiert"
@@ -1053,33 +1053,33 @@ msgstr "Bearbeitung der Metadaten der Datei ermöglichen."
 msgid "Edit metadata"
 msgstr "Metadaten bearbeiten"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:421
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:439
 msgid "No date"
 msgstr "Kein Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:422
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:440
 msgid "The following date"
 msgstr "Folgendes Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:423
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:441
 #: ../extensions/importer/gth-import-preferences-dialog.c:337
 msgid "Current date"
 msgstr "Heutiges Datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:424
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:442
 #: ../gthumb/gth-main-default-tests.c:265
 msgid "Date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:425
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:443
 msgid "Last modified date"
 msgstr "Letztes Änderungsdatum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:426
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:444
 msgid "File creation date"
 msgstr "Erstellungsdatum der Datei"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:427
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:445
 msgid "Do not modify"
 msgstr "Nicht ändern"
 
@@ -1159,7 +1159,10 @@ msgid "_Code:"
 msgstr "_Code:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
 msgid "_Destination:"
 msgstr "S_peicherort:"
@@ -1173,7 +1176,7 @@ msgid "_Object Name:"
 msgstr "_Objektname:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Quelle:"
 
@@ -1578,9 +1581,9 @@ msgstr "»%s« wird übertragen …"
 msgid "Uploading the files to the server"
 msgstr "Dateien werden zum Server übertragen"
 
-#: ../extensions/facebook/facebook-service.c:1004
-#: ../extensions/flicker/flickr-service.c:1033
-#: ../extensions/picasaweb/picasa-web-service.c:717
+#: ../extensions/facebook/facebook-service.c:1003
+#: ../extensions/flicker/flickr-service.c:1032
+#: ../extensions/picasaweb/picasa-web-service.c:716
 msgid "Getting the photo list"
 msgstr "Bilderliste wird geholt"
 
@@ -2123,9 +2126,9 @@ msgstr "_Privatsphäre:"
 msgid "_Safety:"
 msgstr "_Sicherheit:"
 
-#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:5
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
 msgid "_Import"
 msgstr "_Importieren"
 
@@ -2134,14 +2137,14 @@ msgstr "_Importieren"
 msgid "Could not get the photo list"
 msgstr "Fotoliste konnten nicht geholt werden"
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:394
-#: ../extensions/flicker/dlg-import-from-flickr.c:565
+#: ../extensions/flicker/dlg-import-from-flickr.c:409
+#: ../extensions/flicker/dlg-import-from-flickr.c:582
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:793
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:960
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:962
 msgid "No album selected"
 msgstr "Keine Album ausgewählt"
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:576
+#: ../extensions/flicker/dlg-import-from-flickr.c:600
 #, c-format
 msgid "Import from %s"
 msgstr "Importieren von %s"
@@ -2611,7 +2614,11 @@ msgstr "Bilder tatsächlich _drehen"
 msgid "as _single subfolder"
 msgstr "als einzelner _Unterordner"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:206
+#: ../extensions/importer/gth-import-destination-button.c:164
+msgid "Invalid Destination"
+msgstr "Ungültiges Ziel"
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:204
 #, c-format
 msgid "example: %s"
 msgstr "Beispiel: %s"
@@ -2970,11 +2977,11 @@ msgstr "An_zeigen:"
 msgid "_Delete the imported files from the source"
 msgstr "Aus dieser Quell importierte Bilder dort _löschen"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "_Ereignis:"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:8
 msgid "_Tags:"
 msgstr "_Schlagwörter:"
 
@@ -2993,7 +3000,7 @@ msgstr "Ordner konnte nicht geladen werden"
 msgid "Getting folder listing..."
 msgstr "Ordnerinhalt wird ermittelt …"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:362
+#: ../extensions/photo_importer/dlg-photo-importer.c:361
 msgid "Empty"
 msgstr "Leer"
 
@@ -3893,30 +3900,30 @@ msgid "File format not recognized"
 msgstr "Dateiformat wurde nicht erkannt"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1346
+#: ../gthumb/gio-utils.c:1363
 #, c-format
 msgid "%s of %s"
 msgstr "%s von %s"
 
-#: ../gthumb/gio-utils.c:1381
+#: ../gthumb/gio-utils.c:1398
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "»%s« wird nach »%s« verschoben"
 
-#: ../gthumb/gio-utils.c:1383
+#: ../gthumb/gio-utils.c:1400
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "»%s« wird nach »%s« kopiert"
 
-#: ../gthumb/gio-utils.c:1719
+#: ../gthumb/gio-utils.c:1736
 msgid "Moving files"
 msgstr "Dateien werden verschoben"
 
-#: ../gthumb/gio-utils.c:1719
+#: ../gthumb/gio-utils.c:1736
 msgid "Copying files"
 msgstr "Dateien werden kopiert"
 
-#: ../gthumb/gio-utils.c:1720
+#: ../gthumb/gio-utils.c:1737
 msgid "Getting file information"
 msgstr "Dateiinformationen wird ermittelt"
 
@@ -3926,7 +3933,7 @@ msgstr "Dateiinformationen wird ermittelt"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2795
+#: ../gthumb/glib-utils.c:2798
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3938,7 +3945,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2804
+#: ../gthumb/glib-utils.c:2807
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4169,8 +4176,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1125 ../gthumb/gth-browser.c:1690
-#: ../gthumb/gth-browser.c:5354 ../gthumb/gth-browser.c:5373
-#: ../gthumb/gth-browser.c:5398
+#: ../gthumb/gth-browser.c:5353 ../gthumb/gth-browser.c:5372
+#: ../gthumb/gth-browser.c:5397
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4212,12 +4219,12 @@ msgstr "Die Liste besuchter Orte anzeigen"
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5355
+#: ../gthumb/gth-browser.c:5354
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5399
+#: ../gthumb/gth-browser.c:5398
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -4408,12 +4415,12 @@ msgstr "Für diesen Dateityp sind keine Optionen verfügbar"
 msgid "Cancel operation"
 msgstr "Vorgang abbrechen"
 
-#: ../gthumb/gth-tags-entry.c:359
+#: ../gthumb/gth-tags-entry.c:379
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Schlagwort »%s« anlegen"
 
-#: ../gthumb/gth-tags-entry.c:717
+#: ../gthumb/gth-tags-entry.c:725
 msgid "Show all the tags"
 msgstr "Alle Schlagwörter zeigen"
 
