@@ -1149,6 +1149,23 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 
 
 static int
+add_non_content_width (GthImageViewerPage *self,
+		       GtkWidget          *non_content)
+{
+	int width = 0;
+
+	if ((non_content != NULL) && gtk_widget_get_visible (non_content)) {
+		GtkAllocation allocation;
+
+		gtk_widget_get_allocation (non_content, &allocation);
+		width = allocation.width;
+	}
+
+	return width;
+}
+
+
+static int
 add_non_content_height (GthImageViewerPage *self,
 			GtkWidget          *non_content)
 {
@@ -1156,6 +1173,7 @@ add_non_content_height (GthImageViewerPage *self,
 
 	if ((non_content != NULL) && gtk_widget_get_visible (non_content)) {
 		GtkAllocation allocation;
+
 		gtk_widget_get_allocation (non_content, &allocation);
 		height = allocation.height;
 	}
@@ -1212,12 +1230,17 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_TOOLBAR));
 	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_STATUSBAR));
 	other_height += add_non_content_height (self, gth_browser_get_viewer_toolbar (self->priv->browser));
+	if (eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL) == GTK_ORIENTATION_HORIZONTAL)
+		other_height += add_non_content_height (self, gth_browser_get_thumbnail_list (self->priv->browser));
+	else
+		other_width += add_non_content_width (self, gth_browser_get_thumbnail_list (self->priv->browser));
+	other_width += add_non_content_width (self, gth_browser_get_viewer_sidebar (self->priv->browser));
 	other_width += 2;
 	other_height += 2;
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
-	max_width = gdk_screen_get_width (screen) * 9 / 10;
-	max_height = gdk_screen_get_height (screen) * 8 / 10;
+	max_width = round ((double) gdk_screen_get_width (screen) * 8.5 / 10.0);
+	max_height = round ((double) gdk_screen_get_height (screen) * 7.5 / 10.0);
 
 	if (width + other_width > max_width) {
 		width = max_width;

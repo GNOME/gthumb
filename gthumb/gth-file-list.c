@@ -551,14 +551,20 @@ _gth_file_list_set_type (GthFileList     *file_list,
 		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR),
 		      NULL);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
+		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_VERTICAL);
 		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
 					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2),
-					     -1);
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
+					     0);
+	}
+	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) {
+		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_HORIZONTAL);
 		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     -1,
+					     0,
 					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
+	}
+	else
+		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view), 0, 0);
 }
 
 
@@ -1271,10 +1277,10 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
 		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
 					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2),
-					     -1);
+					     0);
 	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
 		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     -1,
+					     0,
 					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
 }
 

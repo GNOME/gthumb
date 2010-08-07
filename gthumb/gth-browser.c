@@ -4477,6 +4477,13 @@ gth_browser_get_file_list_view (GthBrowser *browser)
 
 
 GtkWidget *
+gth_browser_get_thumbnail_list (GthBrowser *browser)
+{
+	return browser->priv->thumbnail_list;
+}
+
+
+GtkWidget *
 gth_browser_get_thumbnail_list_view (GthBrowser *browser)
 {
 	return gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list));
