@@ -37,6 +37,9 @@ static const char *fixed_ui_info =
 "    <placeholder name='Tools'>"
 "      <menuitem name='RotateRight' action='Tool_RotateRight'/>"
 "      <menuitem name='RotateLeft' action='Tool_RotateLeft'/>"
+"      <menuitem name='ApplyOrientation' action='Tool_ApplyOrientation'/>"
+"      <menuitem name='ResetOrientation' action='Tool_ResetOrientation'/>"
+"      <separator />"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
@@ -52,6 +55,16 @@ static GtkActionEntry action_entries[] = {
 	  N_("Rotate Left"), "<control><alt>L",
 	  N_("Rotate the selected images 90° to the left"),
 	  G_CALLBACK (gth_browser_activate_action_tool_rotate_left) },
+
+	{ "Tool_ApplyOrientation", NULL,
+	  N_("Rotate Physically"), NULL,
+	  N_("Rotate the selected images according to the embedded orientation"),
+	  G_CALLBACK (gth_browser_activate_action_tool_apply_orientation) },
+
+	{ "Tool_ResetOrientation", NULL,
+	  N_("Reset the EXIF Orientation"), NULL,
+	  N_("Reset the embedded orientation without rotating the images"),
+	  G_CALLBACK (gth_browser_activate_action_tool_reset_orientation) }
 };
 
 
@@ -114,6 +127,12 @@ ir__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	g_object_set (action, "sensitive", sensitive, NULL);
 
 	action = gtk_action_group_get_action (data->action_group, "Tool_RotateLeft");
+	g_object_set (action, "sensitive", sensitive, NULL);
+
+	action = gtk_action_group_get_action (data->action_group, "Tool_ApplyOrientation");
+	g_object_set (action, "sensitive", sensitive, NULL);
+
+	action = gtk_action_group_get_action (data->action_group, "Tool_ResetOrientation");
 	g_object_set (action, "sensitive", sensitive, NULL);
 }
 

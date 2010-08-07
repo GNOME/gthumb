@@ -7,6 +7,8 @@ libimage_rotation_la_SOURCES = 		\
 	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
+	gth-reset-orientation-task.c	\
+	gth-reset-orientation-task.h	\
 	gth-transform-task.c		\
 	gth-transform-task.h		\
 	main.c				\

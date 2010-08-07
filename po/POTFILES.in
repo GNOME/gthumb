@@ -296,6 +296,8 @@ extensions/image_rotation/actions.c
 extensions/image_rotation/actions.h
 extensions/image_rotation/callbacks.c
 extensions/image_rotation/callbacks.h
+extensions/image_rotation/gth-reset-orientation-task.c
+extensions/image_rotation/gth-reset-orientation-task.h
 extensions/image_rotation/gth-transform-task.c
 extensions/image_rotation/gth-transform-task.h
 [type: gettext/ini]extensions/image_rotation/image_rotation.extension.in.in

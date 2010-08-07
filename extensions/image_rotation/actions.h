@@ -29,5 +29,7 @@
 
 DEFINE_ACTION(gth_browser_activate_action_tool_rotate_right)
 DEFINE_ACTION(gth_browser_activate_action_tool_rotate_left)
+DEFINE_ACTION(gth_browser_activate_action_tool_apply_orientation)
+DEFINE_ACTION(gth_browser_activate_action_tool_reset_orientation)
 
 #endif /* ACTIONS_H */
