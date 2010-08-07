@@ -1969,10 +1969,22 @@ _gth_browser_close_final_step (gpointer user_data)
 		maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
 		if (! maximized && gtk_widget_get_visible (GTK_WIDGET (browser))) {
 			int width, height;
+			int size_set = FALSE;
 
-			gdk_drawable_get_size (gtk_widget_get_window (GTK_WIDGET (browser)), &width, &height);
-			eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
-			eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+			if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
+				gtk_window_get_size (GTK_WINDOW (browser), &width, &height);
+				size_set = TRUE;
+			}
+			else
+				size_set = gth_window_get_page_size (GTH_WINDOW (browser),
+								     GTH_BROWSER_PAGE_BROWSER,
+								     &width,
+								     &height);
+
+			if (size_set) {
+				eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
+				eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+			}
 		}
 
 		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
@@ -2164,6 +2176,13 @@ _gth_browser_real_set_current_page (GthWindow *window,
 				    int        page)
 {
 	GthBrowser *browser = (GthBrowser *) window;
+	int         prev_page;
+	int         width;
+	int         height;
+
+	prev_page = gth_window_get_current_page (window);
+	if (page == prev_page)
+		return;
 
 	GTH_WINDOW_CLASS (parent_class)->set_current_page (window, page);
 
@@ -2174,6 +2193,12 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	else if (page == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 	_gth_browser_hide_infobar (browser);
+
+	if (prev_page >= 0) {
+		gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+		gth_window_save_page_size (GTH_WINDOW (window), prev_page, width, height);
+	}
+	gth_window_apply_saved_size (GTH_WINDOW (window), page);
 
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 

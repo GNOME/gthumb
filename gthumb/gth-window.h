@@ -34,6 +34,12 @@ typedef enum { /*< skip >*/
 	GTH_WINDOW_STATUSBAR,
 } GthWindowArea;
 
+typedef struct { /*< skip >*/
+	gboolean saved;
+	int      width;
+	int      height;
+} GthWindowSize;
+
 #define GTH_TYPE_WINDOW              (gth_window_get_type ())
 #define GTH_WINDOW(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_WINDOW, GthWindow))
 #define GTH_WINDOW_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_WINDOW, GthWindowClass))
@@ -80,6 +86,16 @@ void           gth_window_show_only_content  (GthWindow     *window,
 					      gboolean       only_content);
 GtkWidget *    gth_window_get_area           (GthWindow     *window,
 					      GthWindowArea  area);
+void           gth_window_save_page_size     (GthWindow     *window,
+					      int            page,
+					      int            width,
+					      int            height);
+void           gth_window_apply_saved_size   (GthWindow     *window,
+					      int            page);
+gboolean       gth_window_get_page_size      (GthWindow     *window,
+		      	      	      	      int            page,
+		      	      	      	      int           *width,
+		      	      	      	      int           *height);
 
 /**/
 

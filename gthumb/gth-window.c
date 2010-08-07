@@ -39,16 +39,17 @@ static GList *window_list = NULL;
 
 
 struct _GthWindowPrivate {
-	int         n_pages;
-	int         current_page;
-	GtkWidget  *table;
-	GtkWidget  *notebook;
-	GtkWidget  *menubar;
-	GtkWidget  *toolbar;
-	GtkWidget  *infobar;
-	GtkWidget  *statusbar;
-	GtkWidget **toolbars;
-	GtkWidget **contents;
+	int             n_pages;
+	int             current_page;
+	GtkWidget      *table;
+	GtkWidget      *notebook;
+	GtkWidget      *menubar;
+	GtkWidget      *toolbar;
+	GtkWidget      *infobar;
+	GtkWidget      *statusbar;
+	GtkWidget     **toolbars;
+	GtkWidget     **contents;
+	GthWindowSize  *window_size;
 };
 
 
@@ -98,6 +99,10 @@ gth_window_set_n_pages (GthWindow *self,
 		gtk_widget_show (self->priv->contents[i]);
 		gtk_box_pack_start (GTK_BOX (page), self->priv->contents[i], TRUE, TRUE, 0);
 	}
+
+	self->priv->window_size = g_new0 (GthWindowSize, n_pages);
+	for (i = 0; i < n_pages; i++)
+		self->priv->window_size[i].saved = FALSE;
 }
 
 
@@ -129,6 +134,7 @@ gth_window_finalize (GObject *object)
 
 	g_free (window->priv->toolbars);
 	g_free (window->priv->contents);
+	g_free (window->priv->window_size);
 
 	window_list = g_list_remove (window_list, window);
 
@@ -159,10 +165,19 @@ static void
 gth_window_real_set_current_page (GthWindow *window,
 				  int        page)
 {
+	int i;
+
 	if (window->priv->current_page == page)
 		return;
+
 	window->priv->current_page = page;
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (window->priv->notebook), page);
+
+	for (i = 0; i < window->priv->n_pages; i++)
+		if (i == page)
+			gtk_widget_show (window->priv->contents[i]);
+		else
+			gtk_widget_hide (window->priv->contents[i]);
 }
 
 
@@ -400,6 +415,61 @@ gth_window_get_area (GthWindow     *window,
 	}
 
 	return NULL;
+}
+
+
+void
+gth_window_save_page_size (GthWindow *window,
+			   int        page,
+			   int        width,
+			   int        height)
+{
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (GTH_IS_WINDOW (window));
+	g_return_if_fail (page >= 0 && page < window->priv->n_pages);
+
+	window->priv->window_size[page].width = width;
+	window->priv->window_size[page].height = height;
+	window->priv->window_size[page].saved = TRUE;
+}
+
+
+void
+gth_window_apply_saved_size (GthWindow *window,
+			     int        page)
+{
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (GTH_IS_WINDOW (window));
+	g_return_if_fail (page >= 0 && page < window->priv->n_pages);
+
+	if (! window->priv->window_size[page].saved)
+		return;
+
+	gtk_window_resize (GTK_WINDOW (window),
+			   window->priv->window_size[page].width,
+			   window->priv->window_size[page].height);
+}
+
+
+gboolean
+gth_window_get_page_size (GthWindow *window,
+			  int        page,
+			  int       *width,
+			  int       *height)
+{
+	g_return_val_if_fail (window != NULL, FALSE);
+	g_return_val_if_fail (GTH_IS_WINDOW (window), FALSE);
+	g_return_val_if_fail (page >= 0 && page < window->priv->n_pages, FALSE);
+
+	if (! window->priv->window_size[page].saved)
+		return FALSE;
+
+	if (width != NULL)
+		*width = window->priv->window_size[page].width;
+	if (height != NULL)
+		*height = window->priv->window_size[page].height;
+
+	return TRUE;
 }
 
 
