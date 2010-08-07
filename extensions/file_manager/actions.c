@@ -225,8 +225,13 @@ void
 gth_browser_activate_action_edit_cut_files (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	GList *items;
-	GList *file_list;
+	GtkWidget *focused_widget;
+	GList     *items;
+	GList     *file_list;
+
+	focused_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+	if ((focused_widget != NULL) && GTK_IS_EDITABLE (focused_widget))
+		return;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -241,8 +246,13 @@ void
 gth_browser_activate_action_edit_copy_files (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	GList *items;
-	GList *file_list;
+	GtkWidget *focused_widget;
+	GList     *items;
+	GList     *file_list;
+
+	focused_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+	if ((focused_widget != NULL) && GTK_IS_EDITABLE (focused_widget))
+		return;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -347,9 +357,11 @@ void
 gth_browser_activate_action_edit_paste (GtkAction  *action,
 					GthBrowser *browser)
 {
+	GtkWidget *focused_widget;
 	PasteData *paste_data;
 
-	if (gtk_window_get_focus (GTK_WINDOW (browser)) != gth_browser_get_file_list_view (browser))
+	focused_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+	if ((focused_widget != NULL) && GTK_IS_EDITABLE (focused_widget))
 		return;
 
 	paste_data = g_new0 (PasteData, 1);
