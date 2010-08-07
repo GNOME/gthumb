@@ -1240,15 +1240,15 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
 	max_width = round ((double) gdk_screen_get_width (screen) * 8.5 / 10.0);
-	max_height = round ((double) gdk_screen_get_height (screen) * 7.5 / 10.0);
+	max_height = round ((double) gdk_screen_get_height (screen) * 8.5 / 10.0);
 
 	if (width + other_width > max_width) {
-		width = max_width;
+		width = max_width - other_width;
 		height = width / ratio;
 	}
 
 	if (height + other_height > max_height) {
-		height = max_height;
+		height = max_height - other_height;
 		width = height * ratio;
 	}
 
@@ -1258,5 +1258,5 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 				   height + other_height);
 	if (gth_window_get_current_page (GTH_WINDOW (self->priv->browser)) == GTH_BROWSER_PAGE_VIEWER)
 		gth_window_apply_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
 }
