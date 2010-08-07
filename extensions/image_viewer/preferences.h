@@ -32,6 +32,7 @@
 #define  PREF_VIEWER_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
 #define  PREF_VIEWER_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
 #define  PREF_VIEWER_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
+#define  PREF_VIEWER_SHRINK_WRAP            "/apps/gthumb/viewer/shrink_wrap"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

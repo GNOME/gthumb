@@ -25,10 +25,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "gth-image-viewer-page.h"
-
+#include "preferences.h"
 
 #define GTH_IMAGE_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate))
-#define GCONF_NOTIFICATIONS 7
+#define GCONF_NOTIFICATIONS 8
 
 
 struct _GthImageViewerPagePrivate {
@@ -152,7 +152,7 @@ static void
 image_viewer_activate_action_view_shrink_wrap (GtkAction          *action,
 					       GthImageViewerPage *self)
 {
-	gth_image_viewer_page_shrink_wrap (self, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	eel_gconf_set_boolean (PREF_VIEWER_SHRINK_WRAP, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 
@@ -404,10 +404,23 @@ pref_reset_scrollbars_changed (GConfClient *client,
 
 
 static void
+pref_viewer_shrink_wrap_changed (GConfClient *client,
+				 guint        cnxn_id,
+				 GConfEntry  *entry,
+				 gpointer     user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	gth_image_viewer_page_shrink_wrap (self, eel_gconf_get_boolean (PREF_VIEWER_SHRINK_WRAP, FALSE));
+}
+
+
+static void
 gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
+	GtkAction          *action;
 	int                 i;
 
 	self = (GthImageViewerPage*) base;
@@ -440,6 +453,11 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_SIZE, GTH_TYPE_CHECK_SIZE, GTH_CHECK_SIZE_MEDIUM));
 	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
+
+	self->priv->shrink_wrap = eel_gconf_get_boolean (PREF_VIEWER_SHRINK_WRAP, FALSE);
+	action = gtk_action_group_get_action (self->priv->actions, "ImageViewer_View_ShrinkWrap");
+	if (action != NULL)
+		g_object_set (action, "active", self->priv->shrink_wrap, NULL);
 
 	gtk_widget_show (self->priv->viewer);
 
@@ -517,6 +535,11 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_RESET_SCROLLBARS,
 					   pref_reset_scrollbars_changed,
+					   self);
+
+	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_VIEWER_SHRINK_WRAP,
+					   pref_viewer_shrink_wrap_changed,
 					   self);
 }
 
