@@ -2194,7 +2194,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 	_gth_browser_hide_infobar (browser);
 
-	if (prev_page >= 0) {
+	if (prev_page == GTH_BROWSER_PAGE_BROWSER) {
 		GdkWindowState state;
 
 		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
