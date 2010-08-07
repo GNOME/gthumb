@@ -57,7 +57,8 @@ void               gth_image_viewer_page_undo             (GthImageViewerPage *p
 void               gth_image_viewer_page_redo             (GthImageViewerPage *page);
 GthImageHistory *  gth_image_viewer_page_get_history      (GthImageViewerPage *self);
 void               gth_image_viewer_page_reset            (GthImageViewerPage *self);
-void               gth_image_viewer_page_shrink_wrap      (GthImageViewerPage *self);
+void               gth_image_viewer_page_shrink_wrap      (GthImageViewerPage *self,
+		   	   	   	   	   	   gboolean            activate);
 
 G_END_DECLS
 
