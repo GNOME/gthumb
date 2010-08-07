@@ -2195,8 +2195,13 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_hide_infobar (browser);
 
 	if (prev_page >= 0) {
-		gtk_window_get_size (GTK_WINDOW (window), &width, &height);
-		gth_window_save_page_size (GTH_WINDOW (window), prev_page, width, height);
+		GdkWindowState state;
+
+		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
+		if ((state & GDK_WINDOW_STATE_MAXIMIZED) == 0) { /* ! maximized */
+			gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+			gth_window_save_page_size (GTH_WINDOW (window), prev_page, width, height);
+		}
 	}
 	gth_window_apply_saved_size (GTH_WINDOW (window), page);
 
