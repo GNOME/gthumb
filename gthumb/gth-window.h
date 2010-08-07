@@ -96,6 +96,8 @@ gboolean       gth_window_get_page_size      (GthWindow     *window,
 		      	      	      	      int            page,
 		      	      	      	      int           *width,
 		      	      	      	      int           *height);
+void           gth_window_clear_saved_size   (GthWindow     *window,
+      	      	      	      	      	      int            page);
 
 /**/
 

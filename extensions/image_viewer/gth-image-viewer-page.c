@@ -1179,8 +1179,24 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 	int        max_height;
 
 	self->priv->shrink_wrap = activate;
-	if (! self->priv->shrink_wrap)
+	if (! self->priv->shrink_wrap) {
+		int width;
+		int height;
+
+		if (gth_window_get_page_size (GTH_WINDOW (self->priv->browser),
+					      GTH_BROWSER_PAGE_BROWSER,
+					      &width,
+					      &height))
+		{
+			gth_window_save_page_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER, width, height);
+			gth_window_apply_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
+		}
+		else
+			gth_window_clear_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
+		gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
+
 		return;
+	}
 
 	pixbuf = gth_image_viewer_page_get_pixbuf (self);
 	if (pixbuf == NULL)
