@@ -2203,7 +2203,9 @@ _gth_browser_real_set_current_page (GthWindow *window,
 			gth_window_save_page_size (GTH_WINDOW (window), prev_page, width, height);
 		}
 	}
-	gth_window_apply_saved_size (GTH_WINDOW (window), page);
+
+	if (page == GTH_BROWSER_PAGE_BROWSER)
+		gth_window_apply_saved_size (GTH_WINDOW (window), page);
 
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 
