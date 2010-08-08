@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-07-29 07:24+0000\n"
-"PO-Revision-Date: 2010-07-31 17:35+0100\n"
+"POT-Creation-Date: 2010-08-06 20:27+0000\n"
+"PO-Revision-Date: 2010-08-07 13:36+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -673,7 +673,7 @@ msgstr "Ukazna vrstica"
 #: ../extensions/catalogs/callbacks.c:482
 #: ../extensions/catalogs/callbacks.c:487
 #: ../extensions/photo_importer/dlg-photo-importer.c:310
-#: ../extensions/photo_importer/dlg-photo-importer.c:351
+#: ../extensions/photo_importer/dlg-photo-importer.c:350
 #: ../gthumb/gth-file-list.c:41
 #: ../gthumb/gth-folder-tree.c:875
 msgid "(Empty)"
@@ -803,7 +803,7 @@ msgid "date photo was taken"
 msgstr "datum zajema fotografije"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-#: ../gthumb/gth-main-default-sort-types.c:106
+#: ../gthumb/gth-main-default-sort-types.c:135
 msgid "file modified date"
 msgstr "datum spremembe datoteke"
 
@@ -820,7 +820,7 @@ msgstr "Kataloga ni mogoče shraniti"
 msgid "Could not load the catalog"
 msgstr "Kataloga ni mogoče naložiti"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:792
+#: ../extensions/catalogs/gth-file-source-catalogs.c:791
 #, c-format
 msgid "Copying files to '%s'"
 msgstr "Kopiranje datotek v '%s'"
@@ -1048,33 +1048,33 @@ msgstr "Dovoli urejanje metapodatkov datotek."
 msgid "Edit metadata"
 msgstr "Urejanje metapodatkov"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:421
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:439
 msgid "No date"
 msgstr "Brez datuma"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:422
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:440
 msgid "The following date"
 msgstr "Naslednji datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:423
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:441
 #: ../extensions/importer/gth-import-preferences-dialog.c:337
 msgid "Current date"
 msgstr "Trenutni datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:424
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:442
 #: ../gthumb/gth-main-default-tests.c:265
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:425
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:443
 msgid "Last modified date"
 msgstr "Datum zadnje spremembe"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:426
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:444
 msgid "File creation date"
 msgstr "Datum ustvaritve datoteke"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:427
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:445
 msgid "Do not modify"
 msgstr "Ne spreminjaj"
 
@@ -1156,7 +1156,10 @@ msgid "_Code:"
 msgstr "Po_štna številka:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
 msgid "_Destination:"
 msgstr "_Cilj:"
@@ -1170,7 +1173,7 @@ msgid "_Object Name:"
 msgstr "Ime _predmeta:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Vir:"
 
@@ -1567,9 +1570,9 @@ msgstr "Pošiljanje '%s'"
 msgid "Uploading the files to the server"
 msgstr "Pošiljanje datotek na strežnik"
 
-#: ../extensions/facebook/facebook-service.c:1004
-#: ../extensions/flicker/flickr-service.c:1033
-#: ../extensions/picasaweb/picasa-web-service.c:717
+#: ../extensions/facebook/facebook-service.c:1003
+#: ../extensions/flicker/flickr-service.c:1032
+#: ../extensions/picasaweb/picasa-web-service.c:716
 msgid "Getting the photo list"
 msgstr "Pridobivanje seznama fotografij"
 
@@ -1594,7 +1597,7 @@ msgid "Files cannot be moved to the current location, as alternative you can cho
 msgstr "Datotek ni mogoče premakniti na trenutno mesto, lahko pa jih poskusite kopirati."
 
 #: ../extensions/file_manager/actions.c:410
-#: ../extensions/importer/gth-import-task.c:404
+#: ../extensions/importer/gth-import-task.c:389
 msgid "Could not delete the files"
 msgstr "Datotek ni mogoče izbrisati"
 
@@ -2098,9 +2101,9 @@ msgstr "_Zasebnost:"
 msgid "_Safety:"
 msgstr "_Varnost:"
 
-#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:5
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
 msgid "_Import"
 msgstr "_Uvoz "
 
@@ -2109,14 +2112,14 @@ msgstr "_Uvoz "
 msgid "Could not get the photo list"
 msgstr "Ni mogoče dobiti seznama fotografij"
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:394
-#: ../extensions/flicker/dlg-import-from-flickr.c:565
+#: ../extensions/flicker/dlg-import-from-flickr.c:409
+#: ../extensions/flicker/dlg-import-from-flickr.c:582
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:793
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:960
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:962
 msgid "No album selected"
 msgstr "Noben album ni izbran"
 
-#: ../extensions/flicker/dlg-import-from-flickr.c:576
+#: ../extensions/flicker/dlg-import-from-flickr.c:600
 #, c-format
 msgid "Import from %s"
 msgstr "Uvozi iz %s"
@@ -2355,7 +2358,7 @@ msgid "Loading \"%s\""
 msgstr "Nalaganje \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:139
-#: ../extensions/webalbums/gth-web-exporter.c:2744
+#: ../extensions/webalbums/gth-web-exporter.c:2727
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -2569,7 +2572,11 @@ msgstr "Fizično _zavrti slike"
 msgid "as _single subfolder"
 msgstr "kot _ena podmapa"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:206
+#: ../extensions/importer/gth-import-destination-button.c:164
+msgid "Invalid Destination"
+msgstr "Neveljaven cilj"
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:204
 #, c-format
 msgid "example: %s"
 msgstr "primer: %s"
@@ -2597,24 +2604,24 @@ msgstr "leto"
 msgid "custom format"
 msgstr "oblika po meri"
 
-#: ../extensions/importer/gth-import-task.c:346
-#: ../extensions/importer/gth-import-task.c:425
+#: ../extensions/importer/gth-import-task.c:331
+#: ../extensions/importer/gth-import-task.c:410
 msgid "Importing files"
 msgstr "Uvažanje datotek"
 
-#: ../extensions/importer/gth-import-task.c:383
+#: ../extensions/importer/gth-import-task.c:368
 msgid "No file imported"
 msgstr "Nobena datoteka ni bila uvožena"
 
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:369
 msgid "The selected files are already present in the destination."
 msgstr "Izbrane datoteke so že prisotne na cilju."
 
-#: ../extensions/importer/gth-import-task.c:405
+#: ../extensions/importer/gth-import-task.c:390
 msgid "Delete operation not supported."
 msgstr "Dejanje izbrisa ni podprto."
 
-#: ../extensions/importer/gth-import-task.c:471
+#: ../extensions/importer/gth-import-task.c:456
 msgid "Last imported"
 msgstr "Zadnjič uvoženo"
 
@@ -2927,11 +2934,11 @@ msgstr "_Pokaži:"
 msgid "_Delete the imported files from the source"
 msgstr "_Izbriši uvožene slike z vira"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "_Dogodek:"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:8
 msgid "_Tags:"
 msgstr "O_znake:"
 
@@ -2950,7 +2957,7 @@ msgstr "Mape ni mogoče naložiti"
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:362
+#: ../extensions/photo_importer/dlg-photo-importer.c:361
 msgid "Empty"
 msgstr "Prazno"
 
@@ -3699,11 +3706,11 @@ msgstr "Shranjevanje slik"
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2981
+#: ../extensions/webalbums/gth-web-exporter.c:2964
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3014
+#: ../extensions/webalbums/gth-web-exporter.c:2997
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -3836,30 +3843,30 @@ msgid "File format not recognized"
 msgstr "Vrsta datoteka ni bila prepoznana"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1346
+#: ../gthumb/gio-utils.c:1363
 #, c-format
 msgid "%s of %s"
 msgstr "%s od %s"
 
-#: ../gthumb/gio-utils.c:1381
+#: ../gthumb/gio-utils.c:1398
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Premikanje \"%s\" v \"%s\""
 
-#: ../gthumb/gio-utils.c:1383
+#: ../gthumb/gio-utils.c:1400
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Kopiranje \"%s\" v \"%s\""
 
-#: ../gthumb/gio-utils.c:1719
+#: ../gthumb/gio-utils.c:1736
 msgid "Moving files"
 msgstr "Premikanje datotek"
 
-#: ../gthumb/gio-utils.c:1719
+#: ../gthumb/gio-utils.c:1736
 msgid "Copying files"
 msgstr "Kopiranje datotek"
 
-#: ../gthumb/gio-utils.c:1720
+#: ../gthumb/gio-utils.c:1737
 msgid "Getting file information"
 msgstr "Pridobivanje podrobnosti datoteke"
 
@@ -3869,7 +3876,7 @@ msgstr "Pridobivanje podrobnosti datoteke"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2795
+#: ../gthumb/glib-utils.c:2798
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3881,7 +3888,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2804
+#: ../gthumb/glib-utils.c:2807
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4117,9 +4124,9 @@ msgstr "gThumb"
 
 #: ../gthumb/gth-browser.c:1125
 #: ../gthumb/gth-browser.c:1690
-#: ../gthumb/gth-browser.c:5354
-#: ../gthumb/gth-browser.c:5373
-#: ../gthumb/gth-browser.c:5398
+#: ../gthumb/gth-browser.c:5353
+#: ../gthumb/gth-browser.c:5372
+#: ../gthumb/gth-browser.c:5397
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ni mogoče naložiti položaja  \"%s\""
@@ -4164,12 +4171,12 @@ msgstr "Ogled seznama obiskanih mest"
 msgid "View the list of upper locations"
 msgstr "Ogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5355
+#: ../gthumb/gth-browser.c:5354
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5399
+#: ../gthumb/gth-browser.c:5398
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -4300,19 +4307,23 @@ msgstr "Oznake"
 msgid "Rating"
 msgstr "Ocena"
 
-#: ../gthumb/gth-main-default-sort-types.c:104
+#: ../gthumb/gth-main-default-sort-types.c:132
 msgid "file name"
 msgstr "ime datoteke"
 
-#: ../gthumb/gth-main-default-sort-types.c:105
+#: ../gthumb/gth-main-default-sort-types.c:133
+msgid "file path"
+msgstr "pot datoteke"
+
+#: ../gthumb/gth-main-default-sort-types.c:134
 msgid "file size"
 msgstr "velikost datoteke"
 
-#: ../gthumb/gth-main-default-sort-types.c:107
+#: ../gthumb/gth-main-default-sort-types.c:136
 msgid "no sorting"
 msgstr "brez razvrščanja"
 
-#: ../gthumb/gth-main-default-sort-types.c:108
+#: ../gthumb/gth-main-default-sort-types.c:137
 msgid "dimensions"
 msgstr "mere"
 
@@ -4360,12 +4371,12 @@ msgstr "Za to vrsto datotek ni razpoložljivih možnosti"
 msgid "Cancel operation"
 msgstr "Prekliči opravilo"
 
-#: ../gthumb/gth-tags-entry.c:359
+#: ../gthumb/gth-tags-entry.c:379
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Ustvari oznako «%s»"
 
-#: ../gthumb/gth-tags-entry.c:717
+#: ../gthumb/gth-tags-entry.c:725
 msgid "Show all the tags"
 msgstr "Pokaži vse oznake"
 
