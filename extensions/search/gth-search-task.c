@@ -278,9 +278,16 @@ browser_location_ready_cb (GthBrowser    *browser,
 
 	if (! gth_test_chain_has_type_test (task->priv->test)) {
 		GthTest *general_filter;
+		GthTest *test_with_general_filter;
 
 		general_filter = gth_main_get_general_filter ();
-		gth_test_chain_add_test (task->priv->test, general_filter);
+		test_with_general_filter = gth_test_chain_new (GTH_MATCH_TYPE_ALL,
+							       general_filter,
+							       task->priv->test,
+							       NULL);
+
+		g_object_unref (task->priv->test);
+		task->priv->test = (GthTestChain *) test_with_general_filter;
 
 		g_object_unref (general_filter);
 	}
