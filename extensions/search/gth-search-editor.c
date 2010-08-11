@@ -271,6 +271,8 @@ gth_search_editor_set_search (GthSearchEditor *self,
 	else
 		_gth_search_editor_add_test (self, -1);
 
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->match_type_combobox), (match_type == GTH_MATCH_TYPE_ANY) ? 1 : 0);
+
 	update_sensitivity (self);
 }
 
