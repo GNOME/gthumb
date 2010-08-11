@@ -64,7 +64,7 @@ void          gth_datetime_from_struct_tm  (GthDateTime *dt,
 void          gth_datetime_from_gdate      (GthDateTime *dt,
 			 	 	    GDate       *date);
 char *        gth_datetime_to_exif_date    (GthDateTime *dt);
-void          gth_datetime_to_struct_tm    (GthDateTime *dt,
+gboolean      gth_datetime_to_struct_tm    (GthDateTime *dt,
 					    struct tm   *tm);
 gboolean      gth_datetime_to_timeval      (GthDateTime *dt,
 					    GTimeVal    *tv);

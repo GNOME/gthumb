@@ -376,20 +376,6 @@ gth_catalog_get_order (GthCatalog *catalog,
 
 
 void
-gth_catalog_set_for_date (GthCatalog  *catalog,
-			  GthDateTime *date_time)
-{
-	GFile *catalog_file;
-
-	gth_catalog_set_date (catalog, date_time);
-	catalog_file = gth_catalog_get_file_for_date (date_time);
-	gth_catalog_set_file (catalog, catalog_file);
-
-	g_object_unref (catalog_file);
-}
-
-
-void
 gth_catalog_load_from_data (GthCatalog  *catalog,
 			    const void  *buffer,
 			    gsize        count,
@@ -1129,24 +1115,38 @@ gth_catalog_load_from_file_async (GFile         *file,
 
 
 GFile *
-gth_catalog_get_file_for_date (GthDateTime *date_time)
+gth_catalog_get_file_for_date (GthDateTime *date_time,
+			       const char  *extension)
 {
 	char  *year;
 	char  *uri;
-	GFile *base;
 	char  *display_name;
 	GFile *catalog_file;
 
 	year = gth_datetime_strftime (date_time, "%Y");
 	uri = g_strconcat ("catalog:///", year, "/", NULL);
-	base = g_file_new_for_uri (uri);
 	display_name = gth_datetime_strftime (date_time, "%Y-%m-%d");
-	catalog_file = _g_file_new_for_display_name (uri, display_name, ".catalog");
+	catalog_file = _g_file_new_for_display_name (uri, display_name, extension);
 
 	g_free (display_name);
-	g_object_unref (base);
 	g_free (uri);
 	g_free (year);
+
+	return catalog_file;
+}
+
+
+GFile *
+gth_catalog_get_file_for_tag (const char *tag,
+			      const char *extension)
+{
+	char  *uri;
+	GFile *catalog_file;
+
+	uri = g_strconcat ("catalog:///", _("Tags"), "/", NULL);
+	catalog_file = _g_file_new_for_display_name (uri, tag, extension);
+
+	g_free (uri);
 
 	return catalog_file;
 }

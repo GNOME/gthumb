@@ -54,6 +54,7 @@ GType         gth_info_bar_get_type           (void) G_GNUC_CONST;
 GtkWidget *   gth_info_bar_new                (const char *icon_stock_id,
 					       const char *primary_text,
 					       const char *secondary_text);
+GtkWidget *   gth_info_bar_get_primary_label  (GthInfoBar *dialog);
 void          gth_info_bar_set_icon           (GthInfoBar *dialog,
 					       const char *icon_stock_id);
 void          gth_info_bar_set_gicon          (GthInfoBar *dialog,

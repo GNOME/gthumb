@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include <extensions/search/gth-search.h>
 #include "gth-catalog.h"
 #include "gth-organize-task.h"
 
@@ -56,6 +57,7 @@ struct _GthOrganizeTaskPrivate
 	GtkWidget      *file_list;
 	int             n_catalogs;
 	int             n_files;
+	GthTest        *filter;
 };
 
 
@@ -75,6 +77,7 @@ gth_organize_task_finalize (GObject *object)
 	g_object_unref (self->priv->builder);
 	g_hash_table_destroy (self->priv->catalogs);
 	g_object_unref (self->priv->icon_pixbuf);
+	g_object_unref (self->priv->filter);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -132,8 +135,8 @@ save_catalogs (GthOrganizeTask *self)
 		}
 		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
 	}
-	g_hash_table_foreach (self->priv->catalogs, save_catalog, NULL);
 
+	g_hash_table_foreach (self->priv->catalogs, save_catalog, NULL);
 	gth_task_completed (GTH_TASK (self), NULL);
 }
 
@@ -209,6 +212,193 @@ done_func (GError   *error,
 }
 
 
+static GthCatalog *
+add_catalog_for_date (GthOrganizeTask *self,
+		      const char      *catalog_key,
+		      GTimeVal        *timeval)
+{
+	GthCatalog  *catalog;
+	GthDateTime *date_time;
+	GFile       *catalog_file;
+	char        *catalog_name;
+	GtkTreeIter  iter;
+
+	catalog = g_hash_table_lookup (self->priv->catalogs, catalog_key);
+	if (catalog != NULL)
+		return catalog;
+
+	date_time = gth_datetime_new ();
+	gth_datetime_from_timeval (date_time, timeval);
+
+	catalog_file = NULL;
+
+	if (gth_main_extension_is_active ("search")) {
+		catalog_file = gth_catalog_get_file_for_date (date_time, ".search");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL) {
+		_g_object_unref (catalog_file);
+		catalog_file = gth_catalog_get_file_for_date (date_time, ".catalog");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL) {
+		if (gth_main_extension_is_active ("search")) {
+			GthTest *date_test;
+			GthTest *test_chain;
+
+			_g_object_unref (catalog_file);
+			catalog_file = gth_catalog_get_file_for_date (date_time, ".search");
+
+			catalog = (GthCatalog *) gth_search_new ();
+			gth_search_set_folder (GTH_SEARCH (catalog), self->priv->folder);
+			gth_search_set_recursive (GTH_SEARCH (catalog), self->priv->recursive);
+
+			date_test = gth_main_get_registered_object (GTH_TYPE_TEST, (self->priv->group_policy == GTH_GROUP_POLICY_MODIFIED_DATE) ? "file::mtime" : "Embedded::Photo::DateTimeOriginal");
+			gth_test_simple_set_data_as_date (GTH_TEST_SIMPLE (date_test), date_time->date);
+			g_object_set (GTH_TEST_SIMPLE (date_test), "op", GTH_TEST_OP_EQUAL, "negative", FALSE, NULL);
+			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, date_test, NULL);
+			gth_search_set_test (GTH_SEARCH (catalog), GTH_TEST_CHAIN (test_chain));
+
+			g_object_unref (test_chain);
+			g_object_unref (date_test);
+		}
+		else
+			catalog = gth_catalog_new ();
+	}
+
+	gth_catalog_set_date (catalog, date_time);
+	gth_catalog_set_file (catalog, catalog_file);
+
+	g_hash_table_insert (self->priv->catalogs, g_strdup (catalog_key), catalog);
+	self->priv->n_catalogs++;
+
+	catalog_name = gth_datetime_strftime (date_time, "%x");
+
+	gtk_list_store_append (self->priv->results_liststore, &iter);
+	gtk_list_store_set (self->priv->results_liststore, &iter,
+			    KEY_COLUMN, catalog_key,
+			    NAME_COLUMN, catalog_name,
+			    CARDINALITY_COLUMN, 0,
+			    CREATE_CATALOG_COLUMN, TRUE,
+			    ICON_COLUMN, self->priv->icon_pixbuf,
+			    -1);
+
+	g_free (catalog_name);
+	g_object_unref (catalog_file);
+	gth_datetime_free (date_time);
+
+	return catalog;
+}
+
+
+static GthCatalog *
+add_catalog_for_tag (GthOrganizeTask *self,
+		     const char      *catalog_key,
+		     const char      *tag)
+{
+	GthCatalog  *catalog;
+	GFile       *catalog_file;
+	GtkTreeIter  iter;
+
+	catalog = g_hash_table_lookup (self->priv->catalogs, catalog_key);
+	if (catalog != NULL)
+		return catalog;
+
+	catalog_file = NULL;
+
+	if (gth_main_extension_is_active ("search")) {
+		catalog_file = gth_catalog_get_file_for_tag (tag, ".search");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL) {
+		_g_object_unref (catalog_file);
+		catalog_file = gth_catalog_get_file_for_tag (tag, ".catalog");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL) {
+		if (gth_main_extension_is_active ("search")) {
+			GthTest *tag_test;
+			GthTest *test_chain;
+
+			_g_object_unref (catalog_file);
+			catalog_file = gth_catalog_get_file_for_tag (tag, ".search");
+
+			catalog = (GthCatalog *) gth_search_new ();
+			gth_search_set_folder (GTH_SEARCH (catalog), self->priv->folder);
+			gth_search_set_recursive (GTH_SEARCH (catalog), self->priv->recursive);
+
+			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (self->priv->group_policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
+			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_EQUAL, FALSE, tag);
+			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, tag_test, NULL);
+			gth_search_set_test (GTH_SEARCH (catalog), GTH_TEST_CHAIN (test_chain));
+
+			g_object_unref (test_chain);
+			g_object_unref (tag_test);
+		}
+		else
+			catalog = gth_catalog_new ();
+	}
+	gth_catalog_set_file (catalog, catalog_file);
+
+	g_hash_table_insert (self->priv->catalogs, g_strdup (catalog_key), catalog);
+	self->priv->n_catalogs++;
+
+	gtk_list_store_append (self->priv->results_liststore, &iter);
+	gtk_list_store_set (self->priv->results_liststore, &iter,
+			    KEY_COLUMN, catalog_key,
+			    NAME_COLUMN, tag,
+			    CARDINALITY_COLUMN, 0,
+			    CREATE_CATALOG_COLUMN, TRUE,
+			    ICON_COLUMN, self->priv->icon_pixbuf,
+			    -1);
+
+	g_object_unref (catalog_file);
+
+	return catalog;
+}
+
+
+static void
+add_file_to_catalog (GthOrganizeTask *self,
+		     GthCatalog      *catalog,
+		     const char      *catalog_key,
+		     GthFileData     *file_data)
+{
+	GtkTreeIter iter;
+	int         n = 0;
+
+	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter)) {
+		do {
+			char *k;
+
+			gtk_tree_model_get (GTK_TREE_MODEL (self->priv->results_liststore),
+					    &iter,
+					    KEY_COLUMN, &k,
+					    CARDINALITY_COLUMN, &n,
+					    -1);
+			if (g_strcmp0 (k, catalog_key) == 0) {
+				gtk_list_store_set (self->priv->results_liststore, &iter,
+						    CARDINALITY_COLUMN, n + 1,
+						    -1);
+				self->priv->n_files++;
+
+				g_free (k);
+				break;
+			}
+
+			g_free (k);
+		}
+		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
+	}
+
+	gth_catalog_insert_file (catalog, file_data->file, -1);
+}
+
+
 static void
 for_each_file_func (GFile     *file,
 		    GFileInfo *info,
@@ -216,103 +406,67 @@ for_each_file_func (GFile     *file,
 {
 	GthOrganizeTask *self = user_data;
 	GthFileData     *file_data;
-	char            *key;
+	char            *catalog_key;
+	GObject         *metadata;
+	GthStringList   *categories;
 	GTimeVal         timeval;
 	GthCatalog      *catalog;
 
 	if (g_file_info_get_file_type (info) != G_FILE_TYPE_REGULAR)
 		return;
 
-	key = NULL;
 	file_data = gth_file_data_new (file, info);
+
+	if (! gth_test_match (self->priv->filter, file_data)) {
+		g_object_unref (file_data);
+		return;
+	}
+
+	catalog_key = NULL;
+
 	switch (self->priv->group_policy) {
 	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
-		{
-			GObject *metadata;
-
-			metadata = g_file_info_get_attribute_object (info, "Embedded::Photo::DateTimeOriginal");
-			if (metadata != NULL) {
-				if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval))
-					key = _g_time_val_strftime (&timeval, KEY_FORMAT);
+		metadata = g_file_info_get_attribute_object (info, "Embedded::Photo::DateTimeOriginal");
+		if (metadata != NULL) {
+			if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval)) {
+				catalog_key = _g_time_val_strftime (&timeval, KEY_FORMAT);
+				catalog = add_catalog_for_date (self, catalog_key, &timeval);
+				add_file_to_catalog (self, catalog, catalog_key, file_data);
 			}
 		}
 		break;
+
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
 		timeval = *gth_file_data_get_modification_time (file_data);
-		key = _g_time_val_strftime (&timeval, KEY_FORMAT);
+		catalog_key = _g_time_val_strftime (&timeval, KEY_FORMAT);
+		catalog = add_catalog_for_date (self, catalog_key, &timeval);
+		add_file_to_catalog (self, catalog, catalog_key, file_data);
+		break;
+
+	case GTH_GROUP_POLICY_TAG:
+	case GTH_GROUP_POLICY_TAG_EMBEDDED:
+		if (self->priv->group_policy == GTH_GROUP_POLICY_TAG)
+			categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+		else
+			categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		if (categories != NULL) {
+			GList *list;
+			GList *scan;
+
+			list = gth_string_list_get_list (categories);
+			for (scan = list; scan; scan = scan->next) {
+				char *tag = (char *) scan->data;
+
+				catalog_key = g_strdup (tag);
+				catalog = add_catalog_for_tag (self, catalog_key, tag);
+				add_file_to_catalog (self, catalog, catalog_key, file_data);
+			}
+		}
 		break;
 	}
 
-	if (key == NULL)
-		return;
-
-	catalog = g_hash_table_lookup (self->priv->catalogs, key);
-	if (catalog == NULL) {
-		GthDateTime *date_time;
-		GFile       *catalog_file;
-		char        *name;
-		GtkTreeIter  iter;
-
-		date_time = gth_datetime_new ();
-		gth_datetime_from_timeval (date_time, &timeval);
-
-		catalog_file = gth_catalog_get_file_for_date (date_time);
-		catalog = gth_catalog_load_from_file (catalog_file);
-		if (catalog == NULL)
-			catalog = gth_catalog_new ();
-		gth_catalog_set_for_date (catalog, date_time);
-
-		g_hash_table_insert (self->priv->catalogs, g_strdup (key), catalog);
-
-		name = gth_datetime_strftime (date_time, "%x");
-		gtk_list_store_append (self->priv->results_liststore, &iter);
-		gtk_list_store_set (self->priv->results_liststore, &iter,
-				    KEY_COLUMN, key,
-				    NAME_COLUMN, name,
-				    CARDINALITY_COLUMN, 0,
-				    CREATE_CATALOG_COLUMN, TRUE,
-				    ICON_COLUMN, self->priv->icon_pixbuf,
-				    -1);
-		self->priv->n_catalogs++;
-
-		g_free (name);
-		g_object_unref (catalog_file);
-		gth_datetime_free (date_time);
-	}
-
-	if (catalog != NULL) {
-		GtkTreeIter iter;
-		int         n = 0;
-
-		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter)) {
-			do {
-				char *k;
-
-				gtk_tree_model_get (GTK_TREE_MODEL (self->priv->results_liststore),
-						    &iter,
-						    KEY_COLUMN, &k,
-						    CARDINALITY_COLUMN, &n,
-						    -1);
-				if (g_strcmp0 (k, key) == 0) {
-					gtk_list_store_set (self->priv->results_liststore, &iter,
-							    CARDINALITY_COLUMN, n + 1,
-							    -1);
-					self->priv->n_files++;
-
-					g_free (k);
-					break;
-				}
-
-				g_free (k);
-			}
-			while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
-		}
-
-		gth_catalog_insert_file (catalog, file_data->file, -1);
-	}
-
+	g_free (catalog_key);
 	g_object_unref (file_data);
-	g_free (key);
 }
 
 
@@ -349,15 +503,22 @@ gth_organize_task_exec (GthTask *base)
 	self->priv->n_catalogs = 0;
 	self->priv->n_files = 0;
 	gtk_list_store_clear (self->priv->results_liststore);
+
 	switch (self->priv->group_policy) {
 	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec,Embedded::Photo::DateTimeOriginal";
 		break;
 	case GTH_GROUP_POLICY_MODIFIED_DATE:
-	default:
 		attributes = "standard::name,standard::type,time::modified,time::modified-usec";
 		break;
+	case GTH_GROUP_POLICY_TAG:
+		attributes = "standard::name,standard::type,time::modified,time::modified-usec,comment::categories";
+		break;
+	case GTH_GROUP_POLICY_TAG_EMBEDDED:
+		attributes = "standard::name,standard::type,time::modified,time::modified-usec,general::tags";
+		break;
 	}
+
 	g_directory_foreach_child (self->priv->folder,
 				   self->priv->recursive,
 				   TRUE,
@@ -382,7 +543,6 @@ gth_organize_task_exec (GthTask *base)
 static void
 gth_organize_task_cancelled (GthTask *base)
 {
-	/* FIXME */
 }
 
 
@@ -584,6 +744,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 	self->priv->builder = _gtk_builder_new_from_file ("organize-files-task.ui", "catalogs");
 	self->priv->results_liststore = (GtkListStore *) gtk_builder_get_object (self->priv->builder, "results_liststore");
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	self->priv->filter = gth_main_get_general_filter ();
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->results_liststore), KEY_COLUMN, GTK_SORT_ASCENDING);
 	g_object_set (GET_WIDGET ("catalog_name_cellrenderertext"), "editable", TRUE, NULL);

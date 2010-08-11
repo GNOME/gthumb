@@ -145,50 +145,6 @@ _gth_test_simple_free_data (GthTestSimple *test)
 
 
 static void
-_gth_test_simple_set_data_as_string (GthTestSimple *test,
-			             const char    *s)
-{
-	_gth_test_simple_free_data (test);
-	test->priv->data_type = GTH_TEST_DATA_TYPE_STRING;
-	test->priv->data.s = g_strdup (s);
-}
-
-
-static void
-_gth_test_simple_set_data_as_int (GthTestSimple *test,
-			          guint64        i)
-{
-	_gth_test_simple_free_data (test);
-	test->priv->data_type = GTH_TEST_DATA_TYPE_INT;
-	test->priv->data.i = i;
-}
-
-
-static void
-_gth_test_simple_set_data_as_size (GthTestSimple *test,
-			           guint64        i)
-{
-	_gth_test_simple_free_data (test);
-	test->priv->data_type = GTH_TEST_DATA_TYPE_SIZE;
-	test->priv->data.i = i;
-}
-
-
-static void
-_gth_test_simple_set_data_as_date (GthTestSimple *test,
-				   GDate         *date)
-{
-	_gth_test_simple_free_data (test);
-	test->priv->data_type = GTH_TEST_DATA_TYPE_DATE;
-	test->priv->data.date = g_date_new ();
-	if (date != NULL)
-		*test->priv->data.date = *date;
-	else
-		g_date_clear (test->priv->data.date, 1);
-}
-
-
-static void
 gth_test_simple_finalize (GObject *object)
 {
 	GthTestSimple *test;
@@ -796,15 +752,15 @@ gth_test_simple_real_load_from_element (DomDomizable *base,
 
 	switch (self->priv->data_type) {
 	case GTH_TEST_DATA_TYPE_INT:
-		_gth_test_simple_set_data_as_int (self, atol (value));
+		gth_test_simple_set_data_as_int (self, atol (value));
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
-		_gth_test_simple_set_data_as_size (self, atol (value));
+		gth_test_simple_set_data_as_size (self, atol (value));
 		break;
 
 	case GTH_TEST_DATA_TYPE_STRING:
-		_gth_test_simple_set_data_as_string (self, value);
+		gth_test_simple_set_data_as_string (self, value);
 		break;
 
 	case GTH_TEST_DATA_TYPE_DATE:
@@ -813,7 +769,7 @@ gth_test_simple_real_load_from_element (DomDomizable *base,
 
 			dt = gth_datetime_new ();
 			gth_datetime_from_exif_date (dt, value);
-			_gth_test_simple_set_data_as_date (self, dt->date);
+			gth_test_simple_set_data_as_date (self, dt->date);
 
 			gth_datetime_free (dt);
 		}
@@ -834,7 +790,7 @@ update_from_control_for_integer (GthTestSimple  *self,
 	op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	_gth_test_simple_set_data_as_int (self, atol (gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry))));
+	gth_test_simple_set_data_as_int (self, atol (gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry))));
 
 	if (self->priv->data.i == 0) {
 		if (error != NULL)
@@ -860,7 +816,7 @@ update_from_control_for_size (GthTestSimple  *self,
 
 	value = atol (gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry)));
 	size = value * size_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->size_combo_box))].size;
-	_gth_test_simple_set_data_as_size (self, size);
+	gth_test_simple_set_data_as_size (self, size);
 
 	if ((self->priv->data.i == 0) && (self->priv->op == GTH_TEST_OP_LOWER)) {
 		if (error != NULL)
@@ -881,7 +837,7 @@ update_from_control_for_string (GthTestSimple  *self,
 	op_data = text_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	_gth_test_simple_set_data_as_string (self, gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry)));
+	gth_test_simple_set_data_as_string (self, gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry)));
 
 	if (g_strcmp0 (self->priv->data.s, "") == 0) {
 		if (error != NULL)
@@ -906,7 +862,7 @@ update_from_control_for_date (GthTestSimple  *self,
 
 	dt = gth_datetime_new ();
 	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->time_selector), dt);
-	_gth_test_simple_set_data_as_date (self, dt->date);
+	gth_test_simple_set_data_as_date (self, dt->date);
 	gth_datetime_free (dt);
 
 	if (! g_date_valid (self->priv->data.date)) {
@@ -973,19 +929,19 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 		break;
 
 	case GTH_TEST_DATA_TYPE_INT:
-		_gth_test_simple_set_data_as_int (new_test, test->priv->data.i);
+		gth_test_simple_set_data_as_int (new_test, test->priv->data.i);
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
-		_gth_test_simple_set_data_as_size (new_test, test->priv->data.i);
+		gth_test_simple_set_data_as_size (new_test, test->priv->data.i);
 		break;
 
 	case GTH_TEST_DATA_TYPE_STRING:
-		_gth_test_simple_set_data_as_string (new_test, test->priv->data.s);
+		gth_test_simple_set_data_as_string (new_test, test->priv->data.s);
 		break;
 
 	case GTH_TEST_DATA_TYPE_DATE:
-		_gth_test_simple_set_data_as_date (new_test, test->priv->data.date);
+		gth_test_simple_set_data_as_date (new_test, test->priv->data.date);
 		break;
 	}
 
@@ -1226,4 +1182,48 @@ gth_test_simple_get_type (void)
 	}
 
         return type;
+}
+
+
+void
+gth_test_simple_set_data_as_string (GthTestSimple *test,
+			            const char    *s)
+{
+	_gth_test_simple_free_data (test);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_STRING;
+	test->priv->data.s = g_strdup (s);
+}
+
+
+void
+gth_test_simple_set_data_as_int (GthTestSimple *test,
+			         guint64        i)
+{
+	_gth_test_simple_free_data (test);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_INT;
+	test->priv->data.i = i;
+}
+
+
+void
+gth_test_simple_set_data_as_size (GthTestSimple *test,
+			          guint64        i)
+{
+	_gth_test_simple_free_data (test);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_SIZE;
+	test->priv->data.i = i;
+}
+
+
+void
+gth_test_simple_set_data_as_date (GthTestSimple *test,
+				  GDate         *date)
+{
+	_gth_test_simple_free_data (test);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_DATE;
+	test->priv->data.date = g_date_new ();
+	if (date != NULL)
+		*test->priv->data.date = *date;
+	else
+		g_date_clear (test->priv->data.date, 1);
 }

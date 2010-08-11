@@ -49,5 +49,9 @@ struct _GthTestCategoryClass
 };
 
 GType  gth_test_category_get_type  (void) G_GNUC_CONST;
+void   gth_test_category_set       (GthTestCategory *self,
+				    GthTestOp        op,
+				    gboolean         negative,
+				    const char      *value);
 
 #endif /* GTH_TEST_CATEGORY_H */

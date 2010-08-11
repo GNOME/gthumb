@@ -101,6 +101,8 @@ dlg_organize_files (GthBrowser *browser,
 		    GFile      *folder)
 {
 	DialogData *data;
+	GtkWidget  *info_bar;
+	GtkWidget  *info_label;
 
 	g_return_if_fail (folder != NULL);
 
@@ -109,6 +111,17 @@ dlg_organize_files (GthBrowser *browser,
 	data->folder = g_file_dup (folder);
 	data->builder = _gtk_builder_new_from_file ("organize-files.ui", "catalogs");
 	data->dialog = GET_WIDGET ("organize_files_dialog");
+
+	info_bar = gth_info_bar_new (NULL, NULL, NULL);
+	gtk_info_bar_set_message_type (GTK_INFO_BAR (info_bar), GTK_MESSAGE_INFO);
+	info_label = gth_info_bar_get_primary_label (GTH_INFO_BAR (info_bar));
+	gtk_label_set_ellipsize (GTK_LABEL (info_label), PANGO_ELLIPSIZE_NONE);
+	gtk_label_set_line_wrap (GTK_LABEL (info_label), TRUE);
+	gtk_label_set_single_line_mode (GTK_LABEL (info_label), FALSE);
+	gtk_label_set_text (GTK_LABEL (info_label), _("Files will be organized in catalogs. No file will be moved on disk."));
+	gtk_widget_show (info_label);
+	gtk_widget_show (info_bar);
+	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("info_alignment")), info_bar);
 
 	/* Set the signals handlers. */
 

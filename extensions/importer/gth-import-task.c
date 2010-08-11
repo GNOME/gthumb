@@ -158,11 +158,12 @@ catalog_imported_file (GthImportTask *self)
 		date_time = gth_datetime_new ();
 		gth_datetime_from_timeval (date_time, &timeval);
 
-		catalog_file = gth_catalog_get_file_for_date (date_time);
+		catalog_file = gth_catalog_get_file_for_date (date_time, ".catalog");
 		catalog = gth_catalog_load_from_file (catalog_file);
 		if (catalog == NULL)
 			catalog = gth_catalog_new ();
-		gth_catalog_set_for_date (catalog, date_time);
+		gth_catalog_set_date (catalog, date_time);
+		gth_catalog_set_file (catalog, catalog_file);
 
 		g_hash_table_insert (self->priv->catalogs, g_strdup (key), catalog);
 

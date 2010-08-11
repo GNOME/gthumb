@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include "glib-utils.h"
 #include "gth-time-selector.h"
 
 
@@ -217,9 +218,11 @@ update_view_from_data (GthTimeSelector *self)
 	}
 
 	if (g_date_valid (self->priv->date_time->date)) {
-		char *text;
+		struct tm  tm;
+		char      *text;
 
-		text = gth_datetime_strftime (self->priv->date_time, "%x");
+		g_date_to_struct_tm (self->priv->date_time->date, &tm);
+		text = struct_tm_strftime (&tm, "%x");
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
 
 		if (gth_datetime_valid (self->priv->date_time)) {

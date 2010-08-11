@@ -285,14 +285,19 @@ gth_datetime_to_exif_date (GthDateTime *dt)
 }
 
 
-void
+gboolean
 gth_datetime_to_struct_tm (GthDateTime *dt,
 		           struct tm   *tm)
 {
+	if (! gth_datetime_valid (dt))
+		return FALSE;
+
 	g_date_to_struct_tm (dt->date, tm);
 	tm->tm_hour = dt->time->hour;
 	tm->tm_min = dt->time->min;
 	tm->tm_sec = dt->time->sec;
+
+	return TRUE;
 }
 
 
@@ -318,6 +323,8 @@ gth_datetime_strftime (GthDateTime *dt,
 {
 	struct  tm tm;
 
-	gth_datetime_to_struct_tm (dt, &tm);
-	return struct_tm_strftime (&tm, format);
+	if (gth_datetime_to_struct_tm (dt, &tm))
+		return struct_tm_strftime (&tm, format);
+	else
+		return g_strdup ("");
 }

@@ -467,3 +467,15 @@ gth_test_category_get_type (void)
 
         return type;
 }
+
+
+void
+gth_test_category_set (GthTestCategory *self,
+		       GthTestOp        op,
+		       gboolean         negative,
+		       const char      *value)
+{
+	self->priv->op = op;
+	self->priv->negative = negative;
+	gth_test_category_set_category (self, value);
+}

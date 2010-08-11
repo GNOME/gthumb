@@ -65,7 +65,15 @@ struct _GthTestSimpleClass
 	GthTestClass __parent_class;
 };
 
-GType  gth_test_simple_get_type  (void) G_GNUC_CONST;
+GType  gth_test_simple_get_type           (void) G_GNUC_CONST;
+void   gth_test_simple_set_data_as_string (GthTestSimple *test,
+					   const char    *s);
+void   gth_test_simple_set_data_as_int    (GthTestSimple *test,
+					   guint64        i);
+void   gth_test_simple_set_data_as_size   (GthTestSimple *test,
+					   guint64        i);
+void   gth_test_simple_set_data_as_date   (GthTestSimple *test,
+				   	   GDate         *date);
 
 G_END_DECLS
 

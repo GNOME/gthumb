@@ -151,6 +151,13 @@ gth_info_bar_new (const char *icon_stock_id,
 }
 
 
+GtkWidget *
+gth_info_bar_get_primary_label (GthInfoBar *dialog)
+{
+	return dialog->priv->primary_text_label;
+}
+
+
 void
 gth_info_bar_set_icon (GthInfoBar *self,
 		       const char *icon_stock_id)
