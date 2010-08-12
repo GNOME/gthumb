@@ -166,6 +166,9 @@ gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
 void             gth_browser_register_fullscreen_control
 						    (GthBrowser       *browser,
 					             GtkWidget        *widget);
+void             gth_browser_unregister_fullscreen_control
+						    (GthBrowser       *browser,
+					             GtkWidget        *widget);
 void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
 void             gth_browser_file_menu_popup        (GthBrowser       *browser,

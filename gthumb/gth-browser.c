@@ -5037,6 +5037,21 @@ load_file_data_unref (LoadFileData *data)
 
 
 static void
+_gth_browser_deactivate_viewer_page (GthBrowser *browser)
+{
+	if (browser->priv->viewer_page != NULL) {
+		if (browser->priv->fullscreen)
+			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
+		gth_viewer_page_deactivate (browser->priv->viewer_page);
+		gtk_ui_manager_ensure_update (browser->priv->ui);
+		gth_browser_set_viewer_widget (browser, NULL);
+		g_object_unref (browser->priv->viewer_page);
+		browser->priv->viewer_page = NULL;
+	}
+}
+
+
+static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 				gboolean       success,
 				gpointer       user_data);
@@ -5046,16 +5061,14 @@ static void
 _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 				      GthViewerPage *registered_viewer_page)
 {
-	if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page))) {
-		gth_viewer_page_deactivate (browser->priv->viewer_page);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
-		gth_browser_set_viewer_widget (browser, NULL);
-		g_object_unref (browser->priv->viewer_page);
-		browser->priv->viewer_page = NULL;
-	}
+	if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page)))
+		_gth_browser_deactivate_viewer_page (browser);
+
 	if (browser->priv->viewer_page == NULL) {
 		browser->priv->viewer_page = g_object_new (G_OBJECT_TYPE (registered_viewer_page), NULL);
 		gth_viewer_page_activate (browser->priv->viewer_page, browser);
+		if (browser->priv->fullscreen)
+			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), FALSE);
 		gtk_ui_manager_ensure_update (browser->priv->ui);
 
 		g_signal_connect (browser->priv->viewer_page,
@@ -5171,19 +5184,6 @@ file_metadata_ready_cb (GList    *files,
 	}
 
 	load_file_data_unref (data);
-}
-
-
-static void
-_gth_browser_deactivate_viewer_page (GthBrowser *browser)
-{
-	if (browser->priv->viewer_page != NULL) {
-		gth_viewer_page_deactivate (browser->priv->viewer_page);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
-		gth_browser_set_viewer_widget (browser, NULL);
-		g_object_unref (browser->priv->viewer_page);
-		browser->priv->viewer_page = NULL;
-	}
 }
 
 
@@ -5485,6 +5485,14 @@ gth_browser_register_fullscreen_control (GthBrowser *browser,
 					 GtkWidget  *widget)
 {
 	browser->priv->fullscreen_controls = g_list_prepend (browser->priv->fullscreen_controls, widget);
+}
+
+
+void
+gth_browser_unregister_fullscreen_control (GthBrowser *browser,
+					   GtkWidget  *widget)
+{
+	browser->priv->fullscreen_controls = g_list_remove (browser->priv->fullscreen_controls, widget);
 }
 
 
