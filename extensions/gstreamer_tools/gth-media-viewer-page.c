@@ -61,6 +61,8 @@ struct _GthMediaViewerPagePrivate {
 	GdkPixbuf      *icon;
 	PangoLayout    *caption_layout;
 	gboolean        block_next_jump;
+	GdkCursor      *cursor;
+	GdkCursor      *cursor_void;
 };
 
 
@@ -131,6 +133,10 @@ video_area_realize_cb (GtkWidget *widget,
 {
 	GthMediaViewerPage *self = user_data;
 
+	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	self->priv->cursor_void = gth_cursor_get (gtk_widget_get_window (self->priv->area), GTH_CURSOR_VOID);
+	gdk_window_set_cursor (gtk_widget_get_window (self->priv->area), self->priv->cursor);
+
 	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, "");
 	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
 	_gth_media_viewer_page_update_caption (self);
@@ -142,6 +148,16 @@ video_area_unrealize_cb (GtkWidget *widget,
 			 gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
+
+	if (self->priv->cursor) {
+		gdk_cursor_unref (self->priv->cursor);
+		self->priv->cursor = NULL;
+	}
+
+	if (self->priv->cursor_void) {
+		gdk_cursor_unref (self->priv->cursor_void);
+		self->priv->cursor_void = NULL;
+	}
 
 	g_object_unref (self->priv->caption_layout);
 	self->priv->caption_layout = NULL;
@@ -1059,11 +1075,13 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
 
 	if (self->priv->fullscreen_toolbar != NULL) {
-		if (show && ! gtk_widget_get_visible (self->priv->fullscreen_toolbar)) {
+		if (show) {
 			gtk_widget_show (self->priv->fullscreen_toolbar);
+			gdk_window_set_cursor (gtk_widget_get_window (self->priv->area), self->priv->cursor);
 		}
-		else if (! show && gtk_widget_get_visible (self->priv->fullscreen_toolbar)) {
+		else {
 			gtk_widget_hide (self->priv->fullscreen_toolbar);
+			gdk_window_set_cursor (gtk_widget_get_window (self->priv->area), self->priv->cursor_void);
 		}
 	}
 }
