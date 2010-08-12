@@ -367,21 +367,22 @@ gth_browser_activate_action_help_about (GtkAction *action,
 	};
 	char       *license_text;
 	const char *license[] = {
-		"gthumb is free software; you can redistribute it and/or modify "
+		N_("gthumb is free software; you can redistribute it and/or modify "
 		"it under the terms of the GNU General Public License as published by "
 		"the Free Software Foundation; either version 2 of the License, or "
-		"(at your option) any later version.",
-		"gthumb is distributed in the hope that it will be useful, "
+		"(at your option) any later version."),
+		N_("gthumb is distributed in the hope that it will be useful, "
 		"but WITHOUT ANY WARRANTY; without even the implied warranty of "
 		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "
-		"GNU General Public License for more details.",
-		"You should have received a copy of the GNU General Public License "
-		"along with gthumb.  If not, see <http://www.gnu.org/licenses/>."
+		"GNU General Public License for more details."),
+		N_("You should have received a copy of the GNU General Public License "
+		"along with gthumb.  If not, see http://www.gnu.org/licenses/.")
 	};
 
-	license_text = g_strconcat (license[0], "\n\n", license[1], "\n\n",
-				    license[2], "\n\n", NULL);
-
+	license_text = g_strconcat (_(license[0]), "\n\n",
+				    _(license[1]), "\n\n",
+				    _(license[2]),
+				    NULL);
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
 			       "version", VERSION,
