@@ -813,7 +813,8 @@ gth_file_source_catalogs_is_reorderable (GthFileSource *file_source)
 typedef struct {
 	GthFileSource *file_source;
 	GthFileData   *destination;
-	GList         *file_list; /* GFile * list */
+	GList         *visible_files; /* GFile list */
+	GList         *files_to_move; /* GFile list */
 	int            dest_pos;
 	ReadyCallback  callback;
 	gpointer       data;
@@ -825,7 +826,8 @@ static void
 reorder_data_free (ReorderData *reorder_data)
 {
 	gth_file_source_set_active (reorder_data->file_source, FALSE);
-	_g_object_list_unref (reorder_data->file_list);
+	_g_object_list_unref (reorder_data->visible_files);
+	_g_object_list_unref (reorder_data->files_to_move);
 	_g_object_unref (reorder_data->destination);
 	_g_object_unref (reorder_data->file_source);
 	g_free (reorder_data->new_order);
@@ -850,36 +852,89 @@ reorder_buffer_ready_cb (void     **buffer,
 }
 
 
+static int
+remove_from_file_list_and_get_position (GList **file_list,
+					GFile  *file)
+{
+	GList *scan;
+	int    i = 0;
+
+	for (scan = *file_list; scan; scan = scan->next, i++)
+		if (g_file_equal ((GFile *) scan->data, file))
+			break;
+
+	if (scan == NULL)
+		return -1;
+
+	*file_list = g_list_remove_link (*file_list, scan);
+
+	return i;
+}
+
+
 static int *
 reorder_catalog_list (GthCatalog *catalog,
-		      GList      *file_list,
+		      GList      *visible_files,
+		      GList      *files_to_move,
 		      int         dest_pos)
 {
 	GHashTable *positions;
-	int        *new_order;
+	GList      *new_visible_files;
 	GList      *scan;
+	int        *new_order;
 	int         pos;
-	GList      *all_files;
+	GList      *new_file_list;
+	GHashTable *visibles;
+
+	/* save the original positions */
 
 	positions = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
-	for (scan = gth_catalog_get_file_list (catalog), pos = 0; scan; scan = scan->next, pos++)
+	for (scan = visible_files, pos = 0; scan; scan = scan->next, pos++)
 		g_hash_table_insert (positions, g_object_ref ((GFile *) scan->data), GINT_TO_POINTER (pos));
 
-	for (scan = file_list; scan; scan = scan->next) {
-		int file_pos = gth_catalog_remove_file (catalog, (GFile *) scan->data);
+	/* create the new visible list */
+
+	new_visible_files = g_list_copy (visible_files);
+
+	for (scan = files_to_move; scan; scan = scan->next) {
+		int file_pos = remove_from_file_list_and_get_position (&new_visible_files, (GFile *) scan->data);
 		if (file_pos < dest_pos)
 			dest_pos--;
 	}
 
-	for (scan = file_list; scan; scan = scan->next)
-		if (gth_catalog_insert_file (catalog, (GFile *) scan->data, dest_pos))
-			dest_pos++;
+	for (scan = files_to_move; scan; scan = scan->next) {
+		new_visible_files = g_list_insert (new_visible_files, (GFile *) scan->data, dest_pos);
+		dest_pos++;
+	}
 
-	all_files = gth_catalog_get_file_list (catalog);
-	new_order = g_new0 (int, g_list_length (all_files));
-	for (scan = all_files, pos = 0; scan; scan = scan->next, pos++)
+	/* compute the new order */
+
+	new_order = g_new0 (int, g_list_length (new_visible_files));
+	for (scan = new_visible_files, pos = 0; scan; scan = scan->next, pos++)
 		new_order[pos] = GPOINTER_TO_INT (g_hash_table_lookup (positions, (GFile *) scan->data));
 
+	/* save the new order in the catalog, appending the hidden files at
+	 * the end. */
+
+	new_file_list = _g_object_list_ref (new_visible_files);
+
+	visibles = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
+	for (scan = new_visible_files; scan; scan = scan->next)
+		g_hash_table_insert (visibles, g_object_ref ((GFile *) scan->data), GINT_TO_POINTER (1));
+
+	new_file_list = g_list_reverse (new_file_list);
+	for (scan = gth_catalog_get_file_list (catalog); scan; scan = scan->next) {
+		GFile *file = scan->data;
+
+		if (g_hash_table_lookup (visibles, file) == NULL)
+			new_file_list = g_list_prepend (new_file_list, g_object_ref (file));
+	}
+	new_file_list = g_list_reverse (new_file_list);
+	gth_catalog_set_file_list (catalog, new_file_list);
+
+	_g_object_list_unref (new_file_list);
+	g_hash_table_destroy (visibles);
+	g_list_free (new_visible_files);
 	g_hash_table_destroy (positions);
 
 	return new_order;
@@ -904,7 +959,10 @@ reorder_catalog_ready_cb (GObject  *object,
 	}
 
 	catalog = (GthCatalog *) object;
-	reorder_data->new_order = reorder_catalog_list (catalog, reorder_data->file_list, reorder_data->dest_pos);
+	reorder_data->new_order = reorder_catalog_list (catalog,
+							reorder_data->visible_files,
+							reorder_data->files_to_move,
+							reorder_data->dest_pos);
 	gth_catalog_set_order (catalog, "general::unsorted", FALSE);
 
 	buffer = gth_catalog_to_data (catalog, &size);
@@ -925,7 +983,8 @@ reorder_catalog_ready_cb (GObject  *object,
 static void
 gth_file_source_catalogs_reorder (GthFileSource *file_source,
 				  GthFileData   *destination,
-				  GList         *file_list, /* GFile * list */
+				  GList         *visible_files, /* GFile list */
+				  GList         *files_to_move, /* GFile list */
 				  int            dest_pos,
 				  ReadyCallback  callback,
 				  gpointer       data)
@@ -940,7 +999,8 @@ gth_file_source_catalogs_reorder (GthFileSource *file_source,
 	reorder_data = g_new0 (ReorderData, 1);
 	reorder_data->file_source = g_object_ref (file_source);
 	reorder_data->destination = g_object_ref (destination);
-	reorder_data->file_list = _g_object_list_ref (file_list);
+	reorder_data->visible_files = _g_object_list_ref (visible_files);
+	reorder_data->files_to_move = _g_object_list_ref (files_to_move);
 	reorder_data->dest_pos = dest_pos;
 	reorder_data->callback = callback;
 	reorder_data->data = data;

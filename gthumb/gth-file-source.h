@@ -115,7 +115,8 @@ struct _GthFileSourceClass
 	gboolean     (*is_reorderable)        (GthFileSource    *file_source);
 	void         (*reorder)               (GthFileSource    *file_source,
 					       GthFileData      *destination,
-					       GList            *file_list, /* GFile * list */
+					       GList            *visible_files, /* GFile list */
+					       GList            *files_to_move, /* GFile list */
 					       int               dest_pos,
 					       ReadyCallback     callback,
 					       gpointer          data);
@@ -191,7 +192,8 @@ void           gth_file_source_monitor_directory     (GthFileSource    *file_sou
 gboolean       gth_file_source_is_reorderable        (GthFileSource    *file_source);
 void           gth_file_source_reorder               (GthFileSource    *file_source,
 						      GthFileData      *destination,
-						      GList            *file_list, /* GFile * list */
+						      GList            *visible_files, /* GFile list */
+						      GList            *files_to_move, /* GFile list */
 						      int               dest_pos,
 						      ReadyCallback     callback,
 						      gpointer          data);

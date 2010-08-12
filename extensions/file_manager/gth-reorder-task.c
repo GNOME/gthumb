@@ -26,7 +26,8 @@
 struct _GthReorderTaskPrivate {
 	GthFileSource *file_source;
 	GthFileData   *destination;
-	GList         *files;
+	GList         *visible_files;
+	GList         *files_to_move;
 	int            new_pos;
 };
 
@@ -41,7 +42,8 @@ gth_reorder_task_finalize (GObject *object)
 
 	self = GTH_REORDER_TASK (object);
 
-	_g_object_list_unref (self->priv->files);
+	_g_object_list_unref (self->priv->visible_files);
+	_g_object_list_unref (self->priv->files_to_move);
 	_g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->file_source);
 
@@ -69,7 +71,8 @@ gth_reorder_task_exec (GthTask *task)
 
 	gth_file_source_reorder (self->priv->file_source,
 				 self->priv->destination,
-			         self->priv->files,
+			         self->priv->visible_files,
+			         self->priv->files_to_move,
 			         self->priv->new_pos,
 			         reorder_done_cb,
 			         self);
@@ -139,7 +142,8 @@ gth_reorder_task_get_type (void)
 GthTask *
 gth_reorder_task_new (GthFileSource *file_source,
 		      GthFileData   *destination,
-		      GList         *file_list,
+		      GList         *visible_files, /* GFile list */
+		      GList         *files_to_move, /* GFile list */
 		      int            new_pos)
 {
 	GthReorderTask *self;
@@ -149,7 +153,8 @@ gth_reorder_task_new (GthFileSource *file_source,
 	self->priv->file_source = g_object_ref (file_source);
 	self->priv->destination = g_object_ref (destination);
 	self->priv->new_pos = new_pos;
-	self->priv->files = _g_object_list_ref (file_list);
+	self->priv->visible_files = _g_object_list_ref (visible_files);
+	self->priv->files_to_move = _g_object_list_ref (files_to_move);
 
 	return (GthTask *) self;
 }

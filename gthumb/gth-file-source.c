@@ -94,7 +94,8 @@ typedef struct {
 
 typedef struct {
 	GthFileData   *destination;
-	GList         *file_list;
+	GList         *visible_files;
+	GList         *files_to_move;
 	int            dest_pos;
 	ReadyCallback  ready_callback;
 	gpointer       data;
@@ -345,7 +346,8 @@ gth_file_source_queue_copy (GthFileSource    *file_source,
 static void
 gth_file_source_queue_reorder (GthFileSource    *file_source,
 			       GthFileData      *destination,
-			       GList            *file_list,
+			       GList            *visible_files, /* GFile list */
+			       GList            *files_to_move, /* GFile list */
 			       int               dest_pos,
 			       ReadyCallback     ready_callback,
 			       gpointer          data)
@@ -356,7 +358,8 @@ gth_file_source_queue_reorder (GthFileSource    *file_source,
 	async_op->file_source = file_source;
 	async_op->op = FILE_SOURCE_OP_REORDER;
 	async_op->data.reorder.destination = gth_file_data_dup (destination);
-	async_op->data.reorder.file_list = _g_file_list_dup (file_list);
+	async_op->data.reorder.visible_files = _g_file_list_dup (visible_files);
+	async_op->data.reorder.files_to_move = _g_file_list_dup (files_to_move);
 	async_op->data.reorder.dest_pos = dest_pos;
 	async_op->data.reorder.ready_callback = ready_callback;
 	async_op->data.reorder.data = data;
@@ -437,7 +440,8 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 	case FILE_SOURCE_OP_REORDER:
 		gth_file_source_reorder (file_source,
 					 async_op->data.reorder.destination,
-					 async_op->data.reorder.file_list,
+					 async_op->data.reorder.visible_files,
+					 async_op->data.reorder.files_to_move,
 					 async_op->data.reorder.dest_pos,
 				         async_op->data.reorder.ready_callback,
 					 async_op->data.reorder.data);
@@ -659,7 +663,8 @@ base_is_reorderable (GthFileSource *file_source)
 static void
 base_reorder (GthFileSource *file_source,
 	      GthFileData   *destination,
-	      GList         *file_list, /* GFile * list */
+	      GList         *visible_files, /* GFile list */
+	      GList         *files_to_move, /* GFile list */
 	      int            dest_pos,
 	      ReadyCallback  callback,
 	      gpointer       data)
@@ -1150,15 +1155,16 @@ gth_file_source_is_reorderable (GthFileSource *file_source)
 void
 gth_file_source_reorder (GthFileSource *file_source,
 			 GthFileData   *destination,
-		         GList         *file_list, /* GFile * list */
+		         GList         *visible_files, /* GFile list */
+		         GList         *files_to_move, /* GFile list */
 		         int            dest_pos,
 		         ReadyCallback  callback,
 		         gpointer       data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_reorder (file_source, destination, file_list, dest_pos, callback, data);
+		gth_file_source_queue_reorder (file_source, destination, visible_files, files_to_move, dest_pos, callback, data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->reorder (file_source, destination, file_list, dest_pos, callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->reorder (file_source, destination, visible_files, files_to_move, dest_pos, callback, data);
 }
 

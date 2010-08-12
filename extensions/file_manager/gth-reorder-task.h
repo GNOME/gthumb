@@ -50,7 +50,8 @@ struct _GthReorderTaskClass {
 GType         gth_reorder_task_get_type  (void);
 GthTask *     gth_reorder_task_new       (GthFileSource *file_source,
 					  GthFileData   *destination,
-					  GList         *file_list,
+					  GList         *visible_files, /* GFile list */
+					  GList         *files_to_move, /* GFile list */
 					  int            new_pos);
 
 G_END_DECLS

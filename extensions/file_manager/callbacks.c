@@ -253,7 +253,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	GthBrowser  *browser = user_data;
 	gboolean     success = FALSE;
 	char       **uris;
-	GList       *file_list;
+	GList       *selected_files;
 
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
@@ -274,20 +274,28 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	gtk_drag_finish (context, success, FALSE, time);
 
 	uris = gtk_selection_data_get_uris (selection_data);
-	file_list = _g_file_list_new_from_uriv (uris);
-	if (file_list != NULL) {
+	selected_files = _g_file_list_new_from_uriv (uris);
+	if (selected_files != NULL) {
 		if (gtk_drag_get_source_widget (context) == file_view) {
+			GList       *file_data_list;
+			GList       *visible_files;
 			BrowserData *data;
 			GthTask     *task;
+
+			file_data_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
+			visible_files = gth_file_data_list_to_file_list (file_data_list);
 
 			data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 			task = gth_reorder_task_new (gth_browser_get_location_source (browser),
 						     gth_browser_get_location_data (browser),
-						     file_list,
+						     visible_files,
+						     selected_files,
 						     data->drop_pos);
 			gth_browser_exec_task (browser, task, FALSE);
 
 			g_object_unref (task);
+			_g_object_list_unref (visible_files);
+			_g_object_list_unref (file_data_list);
 		}
 		else {
 			GthFileSource *file_source;
@@ -324,7 +332,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 				task = gth_copy_task_new (file_source,
 							  gth_browser_get_location_data (browser),
 							  move,
-							  file_list);
+							  selected_files);
 				gth_browser_exec_task (browser, task, FALSE);
 
 				g_object_unref (task);
@@ -332,7 +340,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 		}
 	}
 
-	_g_object_list_unref (file_list);
+	_g_object_list_unref (selected_files);
 	g_strfreev (uris);
 }
 
