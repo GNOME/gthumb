@@ -271,8 +271,12 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		string_list = gth_string_list_new (tags);
 	else
 		string_list = NULL;
-	if (! only_modified_fields || ! gth_file_data_attribute_equal_string_list (file_data, "general::tags", string_list))
-		g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
+	if (! only_modified_fields || ! gth_file_data_attribute_equal_string_list (file_data, "general::tags", string_list)) {
+		if (string_list != NULL)
+			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
+		else
+			g_file_info_remove_attribute (info, "general::tags");
+	}
 
 	/* rating */
 
@@ -293,7 +297,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	g_free (s);
 	g_free (exif_date);
-	g_object_unref (string_list);
+	_g_object_unref (string_list);
 	g_strfreev (tagv);
 	g_list_free (tags);
 	g_object_unref (file_data);
