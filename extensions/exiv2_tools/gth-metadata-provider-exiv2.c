@@ -134,9 +134,26 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::description");
 	if (metadata != NULL) {
+		const char *tags_to_remove[] = {
+			"Exif::Image::ImageDescription",
+			"Xmp::tiff::ImageDescription",
+			"Iptc::Application2::Caption",
+			NULL
+		};
+		int i;
+
+		for (i = 0; tags_to_remove[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, tags_to_remove[i]);
+
 		g_file_info_set_attribute_object (file_data->info, "Exif::Photo::UserComment", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::description", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
+	}
+
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");
+	if (metadata != NULL) {
+		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::title", metadata);
+		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Caption", metadata);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::location");

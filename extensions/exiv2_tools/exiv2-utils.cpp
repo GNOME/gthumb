@@ -144,8 +144,8 @@ const char *_DESCRIPTION_TAG_NAMES[] = {
 	"Exif::Image::ImageDescription",
 	"Xmp::dc::description",
 	"Xmp::tiff::ImageDescription",
-	"Iptc::Application2::Caption",
 	"Iptc::Application2::Headline",
+	"Iptc::Application2::Caption",
 	NULL
 };
 
@@ -271,24 +271,15 @@ set_file_info (GFileInfo  *info,
 
 
 static void
-set_attribute_from_tagset (GFileInfo  *info,
-			   const char *attribute,
-			   const char *tagset[])
+set_attribute_from_metadata (GFileInfo  *info,
+			     const char *attribute,
+			     GObject    *metadata)
 {
-	GObject *metadata;
-	int      i;
-	char    *key;
-	char    *description;
-	char    *formatted_value;
-	char    *raw_value;
-	char    *type_name;
-
-	metadata = NULL;
-	for (i = 0; tagset[i] != NULL; i++) {
-		metadata = g_file_info_get_attribute_object (info, tagset[i]);
-		if (metadata != NULL)
-			break;
-	}
+	char *key;
+	char *description;
+	char *formatted_value;
+	char *raw_value;
+	char *type_name;
 
 	if (metadata == NULL)
 		return;
@@ -300,6 +291,7 @@ set_attribute_from_tagset (GFileInfo  *info,
 		      "raw", &raw_value,
 		      "value-type", &type_name,
 		      NULL);
+
 	set_file_info (info,
 		       attribute,
 		       description,
@@ -307,6 +299,26 @@ set_attribute_from_tagset (GFileInfo  *info,
 		       raw_value,
 		       NULL,
 		       type_name);
+}
+
+
+static void
+set_attribute_from_tagset (GFileInfo  *info,
+			   const char *attribute,
+			   const char *tagset[])
+{
+	GObject *metadata;
+	int      i;
+
+	metadata = NULL;
+	for (i = 0; tagset[i] != NULL; i++) {
+		metadata = g_file_info_get_attribute_object (info, tagset[i]);
+		if (metadata != NULL)
+			break;
+	}
+
+	if (metadata != NULL)
+		set_attribute_from_metadata (info, attribute, metadata);
 }
 
 
@@ -350,6 +362,26 @@ set_attributes_from_tagsets (GFileInfo *info)
 
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
+
+	/* if iptc::caption and iptc::headline are different use iptc::caption
+	 * to set general::title, if not alreay set. */
+
+	if (g_file_info_get_attribute_object (info, "general::title") == NULL) {
+		GObject *iptc_caption;
+		GObject *iptc_headline;
+
+		iptc_caption = g_file_info_get_attribute_object (info, "Iptc::Application2::Caption");
+		iptc_headline = g_file_info_get_attribute_object (info, "Iptc::Application2::Headline");
+
+		if ((iptc_caption != NULL)
+		    && (iptc_headline != NULL)
+		    && (g_strcmp0 (gth_metadata_get_raw (GTH_METADATA (iptc_caption)),
+				   gth_metadata_get_raw (GTH_METADATA (iptc_headline))) != 0))
+		{
+			set_attribute_from_metadata (info, "general::title", iptc_caption);
+		}
+	}
+
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);

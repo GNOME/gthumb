@@ -46,6 +46,10 @@ GthMetadataCategory exiv2_metadata_category[] = {
 
 
 GthMetadataInfo exiv2_metadata_info[] = {
+
+	/* Specify the type of a field to allow to create it if it's not
+	 * already present in the image. */
+
 	{ "Exif::Image::Make", NULL, "Exif::General", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Image::Model", NULL, "Exif::General", 2, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Image::Software", NULL, "Exif::General", 3, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
@@ -141,6 +145,16 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Exif::Photo::RelatedImageLength", NULL, "Exif::Versions", 9, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Exif::Photo::MakerNote", NULL, "Exif::Other", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
+
+	{ "Xmp::dc::description", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Xmp::dc::title", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Xmp::iptc::Location", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Xmp::iptc::Keywords", NULL, "Xmp::Embedded", 0, "XmpBag", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+
+	{ "Iptc::Application2::Headline", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::Caption", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::LocationName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::Keywords", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ NULL, NULL, NULL, 0, NULL, 0 }
 };
