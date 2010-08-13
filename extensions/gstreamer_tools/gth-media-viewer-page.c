@@ -426,9 +426,9 @@ update_playback_info (GthMediaViewerPage *self)
 	char *playback_info;
 
 	if (self->priv->playing)
-		playback_info = g_strdup_printf (">%2.2f", self->priv->rate);
+		playback_info = g_strdup_printf ("@%2.2f", self->priv->rate);
 	else
-		playback_info = g_strdup ("||");
+		playback_info = g_strdup ("");
 	g_file_info_set_attribute_string (gth_browser_get_current_file (self->priv->browser)->info, "gthumb::statusbar-extra-info", playback_info);
 	gth_browser_update_statusbar_file_info (self->priv->browser);
 
