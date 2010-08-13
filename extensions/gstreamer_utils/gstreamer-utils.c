@@ -393,7 +393,7 @@ extract_metadata (MetadataExtractor *extractor,
         if ((extractor->video_height >= 0) && (extractor->video_width >= 0))
                 add_metadata (info,
                 	      "general::dimensions",
-                	      g_strdup_printf ("%d × %d", (guint) extractor->video_width, (guint) extractor->video_height),
+                	      g_strdup_printf (_("%d × %d"), (guint) extractor->video_width, (guint) extractor->video_height),
                 	      NULL);
 
         if ((extractor->video_fps_n >= 0) && (extractor->video_fps_d >= 0))

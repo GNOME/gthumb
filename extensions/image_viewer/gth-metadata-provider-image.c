@@ -71,7 +71,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		g_file_info_set_attribute_int32 (file_data->info, "frame::width", width);
 		g_file_info_set_attribute_int32 (file_data->info, "frame::height", height);
 
-		size = g_strdup_printf ("%d × %d", width, height);
+		size = g_strdup_printf (_("%d × %d"), width, height);
 		g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
 
 		g_free (size);
