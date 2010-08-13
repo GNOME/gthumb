@@ -105,7 +105,7 @@ id="gthumb-rename-series">
         datestamps embedded inside the photo). The formatting of
         this date (and optionally time) can be specified by adding
         a standard formatting code in curly braces. For example,
-        "%M{%Y-%m-%d, %T}" would be replaced with a date and time
+        "%D{%Y-%m-%d, %T}" would be replaced with a date and time
         like "2010-04-01, 15:02:01".</p>
       </td>
     </tr>

@@ -12,7 +12,10 @@ DOC_FIGURES = \
 	figures/palette.png \
 	figures/thumbnail-pane.png \
 	figures/general-filter.png \
-	figures/specific-filter.png
+	figures/specific-filter.png \
+	figures/import.png \
+	figures/import-pref-auto-folder.png \
+        figures/import-pref-custom-format.png
 
 DOC_PAGES = \
 	index.page \
@@ -43,7 +46,8 @@ DOC_PAGES = \
 	shortcuts.page \
 	sharing-disc.page \
 	wallpaper.page \
-	bookmarks.page
+	bookmarks.page \
+	import.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
