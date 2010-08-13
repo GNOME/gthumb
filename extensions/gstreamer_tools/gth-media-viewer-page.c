@@ -67,6 +67,7 @@ struct _GthMediaViewerPagePrivate {
 
 
 static gpointer gth_media_viewer_page_parent_class = NULL;
+static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0, 1.50, 2.0, 3.0, 4.0, 8.0, 16.0, 32.0 };
 
 
 static const char *media_viewer_ui_info =
@@ -360,10 +361,14 @@ position_value_changed_cb (GtkAdjustment *adjustment,
 		return;
 
 	current_value = (gint64) (gtk_adjustment_get_value (adjustment) / 100.0 * self->priv->duration);
-	if (! gst_element_seek_simple (self->priv->playbin,
-				       GST_FORMAT_TIME,
-				       GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
-				       current_value))
+	if (! gst_element_seek (self->priv->playbin,
+				self->priv->rate,
+			        GST_FORMAT_TIME,
+			        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+			        GST_SEEK_TYPE_SET,
+			        current_value,
+			        GST_SEEK_TYPE_NONE,
+			        0.0))
 	{
 		g_warning ("seek failed");
 	}
@@ -416,24 +421,47 @@ hscale_position_button_release_event_cb (GtkWidget      *widget,
 
 
 static void
+update_playback_info (GthMediaViewerPage *self)
+{
+	char *playback_info;
+
+	if (self->priv->playing)
+		playback_info = g_strdup_printf (">%2.2f", self->priv->rate);
+	else
+		playback_info = g_strdup ("||");
+	g_file_info_set_attribute_string (gth_browser_get_current_file (self->priv->browser)->info, "gthumb::statusbar-extra-info", playback_info);
+	gth_browser_update_statusbar_file_info (self->priv->browser);
+
+	g_free (playback_info);
+}
+
+
+static void
 update_player_rate (GthMediaViewerPage *self)
 {
-	self->priv->rate = CLAMP (self->priv->rate, 0.25, 2.0);
+	gint64 current_value;
+
+	self->priv->rate = CLAMP (self->priv->rate,
+				  default_rates[0],
+				  default_rates[G_N_ELEMENTS (default_rates) - 1]);
 
 	if (self->priv->playbin == NULL)
 		return;
 
+	update_playback_info (self);
+
 	if (! self->priv->playing)
 		return;
 
+	current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position"))) / 100.0 * self->priv->duration);
 	if (! gst_element_seek (self->priv->playbin,
 				self->priv->rate,
-				GST_FORMAT_TIME,
-				(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE),
-				GST_SEEK_TYPE_NONE,
-				0.0,
-				GST_SEEK_TYPE_NONE,
-				0.0))
+			        GST_FORMAT_TIME,
+			        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+			        GST_SEEK_TYPE_SET,
+			        current_value,
+			        GST_SEEK_TYPE_NONE,
+			        0.0))
 	{
 		g_warning ("seek failed");
 	}
@@ -478,13 +506,40 @@ togglebutton_volume_toggled_cb (GtkToggleButton *button,
 }
 
 
+static int
+get_nearest_rate (double rate)
+{
+	int    min_idx = -1;
+	double min_delta;
+	int    i;
+
+	for (i = 0; i < G_N_ELEMENTS (default_rates); i++) {
+		double delta;
+
+		delta = fabs (default_rates[i] - rate);
+		if ((i == 0) || (delta < min_delta)) {
+			min_delta = delta;
+			min_idx = i;
+		}
+	}
+
+	return min_idx;
+}
+
+
 static void
 button_play_slower_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
+	int                 i;
 
-	self->priv->rate -= 0.25;
+	i = get_nearest_rate (self->priv->rate);
+	if (i > 0)
+		self->priv->rate = default_rates[i - 1];
+	else
+		self->priv->rate = default_rates[0];
+
 	update_player_rate (self);
 }
 
@@ -494,8 +549,14 @@ button_play_faster_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
+	int                 i;
 
-	self->priv->rate += 0.25;
+	i = get_nearest_rate (self->priv->rate);
+	if (i < G_N_ELEMENTS (default_rates) - 1)
+		self->priv->rate = default_rates[i + 1];
+	else
+		self->priv->rate = default_rates[G_N_ELEMENTS (default_rates) - 1];
+
 	update_player_rate (self);
 }
 
@@ -553,6 +614,8 @@ update_play_button (GthMediaViewerPage *self,
 
 		if (self->priv->update_progress_id == 0)
 			self->priv->update_progress_id = gdk_threads_add_timeout (PROGRESS_DELAY, update_progress_cb, self);
+
+		update_playback_info (self);
 	}
 	else if (self->priv->playing && (new_state != GST_STATE_PLAYING)) {
 		self->priv->playing = FALSE;
@@ -563,6 +626,8 @@ update_play_button (GthMediaViewerPage *self,
 			 g_source_remove (self->priv->update_progress_id);
 			 self->priv->update_progress_id = 0;
 		}
+
+		update_playback_info (self);
 	}
 
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));

@@ -74,6 +74,7 @@
 #define UPDATE_SELECTION_DELAY 200
 #define MIN_SIDEBAR_SIZE 100
 #define MIN_VIEWER_SIZE 256
+#define STATUSBAR_SEPARATOR " · "
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -2982,14 +2983,15 @@ file_renamed_cb (GthMonitor *monitor,
 }
 
 
-static void
-_gth_browser_update_statusbar_file_info (GthBrowser *browser)
+void
+gth_browser_update_statusbar_file_info (GthBrowser *browser)
 {
+	const char  *extra_info;
 	const char  *image_size;
 	const char  *file_date;
 	const char  *file_size;
 	GthMetadata *metadata;
-	char        *text;
+	GString     *status;
 
 	if (browser->priv->current_file == NULL) {
 		gth_statusbar_set_primary_text (GTH_STATUSBAR (browser->priv->statusbar), "");
@@ -2997,6 +2999,7 @@ _gth_browser_update_statusbar_file_info (GthBrowser *browser)
 		return;
 	}
 
+	extra_info = g_file_info_get_attribute_string (browser->priv->current_file->info, "gthumb::statusbar-extra-info");
 	image_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "general::dimensions");
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (browser->priv->current_file->info, "general::datetime");
 	if (metadata != NULL)
@@ -3005,16 +3008,33 @@ _gth_browser_update_statusbar_file_info (GthBrowser *browser)
 		file_date = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-mtime");
 	file_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-size");
 
-	if (gth_browser_get_file_modified (browser))
-		text = g_strdup_printf ("%s - %s", image_size, _("Modified"));
-	else if (image_size != NULL)
-		text = g_strdup_printf ("%s - %s - %s",	image_size, file_size, file_date);
-	else
-		text = g_strdup_printf ("%s - %s", file_size, file_date);
+	status = g_string_new ("");
 
-	gth_statusbar_set_primary_text (GTH_STATUSBAR (browser->priv->statusbar), text);
+	if (extra_info != NULL)
+		g_string_append (status, extra_info);
 
-	g_free (text);
+	if (image_size != NULL) {
+		if (status->len > 0)
+			g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, image_size);
+	}
+
+	if (gth_browser_get_file_modified (browser)) {
+		if (status->len > 0)
+			g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, _("Modified"));
+	}
+	else {
+		if (status->len > 0)
+			g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, file_size);
+		g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, file_date);
+	}
+
+	gth_statusbar_set_primary_text (GTH_STATUSBAR (browser->priv->statusbar), status->str);
+
+	g_string_free (status, TRUE);
 }
 
 
@@ -3037,7 +3057,7 @@ metadata_changed_cb (GthMonitor  *monitor,
 		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
 		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
 
-		_gth_browser_update_statusbar_file_info (browser);
+		gth_browser_update_statusbar_file_info (browser);
 		gth_browser_update_title (browser);
 		gth_browser_update_sensitivity (browser);
 	}
@@ -5102,7 +5122,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
 	gth_browser_update_title (browser);
-	_gth_browser_update_statusbar_file_info (browser);
+	gth_browser_update_statusbar_file_info (browser);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
 	gth_browser_update_sensitivity (browser);
@@ -5202,7 +5222,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 		gtk_widget_hide (browser->priv->file_properties);
 
-		_gth_browser_update_statusbar_file_info (browser);
+		gth_browser_update_statusbar_file_info (browser);
 		gth_browser_update_title (browser);
 		gth_browser_update_sensitivity (browser);
 
