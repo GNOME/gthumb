@@ -34,7 +34,8 @@ gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
 				          const char           *mime_type,
 				          char                **attribute_v)
 {
-	if (! _g_content_type_is_a (mime_type, "audio/*")
+	if (! g_str_equal (mime_type, "*")
+	    && ! _g_content_type_is_a (mime_type, "audio/*")
 	    && ! _g_content_type_is_a (mime_type, "video/*"))
 	{
 		return FALSE;

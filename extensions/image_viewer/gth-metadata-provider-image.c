@@ -34,7 +34,7 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {
-	if (! _g_mime_type_is_image (mime_type))
+	if (! g_str_equal (mime_type, "*") && ! _g_mime_type_is_image (mime_type))
 		return FALSE;
 
 	return _g_file_attributes_matches_any_v ("general::format,"

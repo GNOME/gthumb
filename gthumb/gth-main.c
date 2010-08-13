@@ -1324,8 +1324,11 @@ attribute_list_reload_required (const char *old_attributes,
 		g_object_ref (provider);
 	}
 
-	/*g_print ("attributes to load: %s\n", new_attributes);
-	g_print ("attributes not available: \n");*/
+	/*
+	g_print ("old attributes: %s\n", old_attributes);
+	g_print ("new attributes: %s\n", new_attributes);
+	g_print ("attributes not available: \n");
+	*/
 
 	reload_required = FALSE;
 	for (i = 0; ! reload_required && (i < new_attributes_len); i++)
@@ -1334,8 +1337,10 @@ attribute_list_reload_required (const char *old_attributes,
 		    && (strcmp (new_attributes_v[i], "none") != 0))
 		{
 			reload_required = TRUE;
-			/*g_print ("\t%s\n", new_attributes_v[i]);*/
+			/* g_print ("\t%s\n", new_attributes_v[i]); */
 		}
+
+	/* g_print ("reload required: %d\n", reload_required); */
 
 	g_strfreev (new_attributes_v);
 	g_strfreev (old_attributes_v);

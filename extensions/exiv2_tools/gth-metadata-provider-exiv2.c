@@ -36,7 +36,7 @@ gth_metadata_provider_exiv2_can_read (GthMetadataProvider  *self,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {
-	if (! _g_content_type_is_a (mime_type, "image/*"))
+	if (! g_str_equal (mime_type, "*") && ! _g_content_type_is_a (mime_type, "image/*"))
 		return FALSE;
 
 	return _g_file_attributes_matches_any_v ("Exif::*,"
