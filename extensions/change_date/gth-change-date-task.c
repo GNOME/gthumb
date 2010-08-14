@@ -105,6 +105,22 @@ update_modification_time (GthChangeDateTask *self)
 				set_date_time_from_change_type (self, date_time, GTH_CHANGE_TO_FILE_MODIFIED_DATE, file_data);
 			else
 				set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
+
+			/* Read the time from the attribute if it's not valid in
+			 * date_time. */
+
+			if (! gth_time_valid (date_time->time)) {
+				GTimeVal    *original_modification_time;
+				GthDateTime *original_date_time;
+
+				original_modification_time = gth_file_data_get_modification_time (file_data);
+				original_date_time = gth_datetime_new ();
+				gth_datetime_from_timeval (original_date_time, original_modification_time);
+				*date_time->time = *original_date_time->time;
+
+				gth_datetime_free (original_date_time);
+			}
+
 			if (! gth_datetime_valid (date_time))
 				continue;
 
@@ -160,39 +176,59 @@ set_date_metadata (GthFileData *file_data,
 		   GthDateTime *date_time,
 		   int          timezone_offset)
 {
-	char    *raw;
-	char    *formatted;
-	GObject *metadata;
+	GthDateTime *new_date_time;
+
+	new_date_time = gth_datetime_new ();
+	gth_datetime_copy (date_time, new_date_time);
 
 	if (timezone_offset != 0) {
-		GTimeVal     timeval;
-		GthDateTime *adjusted_date;
+		GTimeVal timeval;
 
-		gth_datetime_to_timeval (date_time, &timeval);
+		gth_datetime_to_timeval (new_date_time, &timeval);
 		timeval.tv_sec += HOURS_TO_SECONDS (timezone_offset);
-		adjusted_date = gth_datetime_new ();
-		gth_datetime_from_timeval (adjusted_date, &timeval);
-		raw = gth_datetime_to_exif_date (adjusted_date);
-		formatted = gth_datetime_strftime (adjusted_date, "%x");
-
-		gth_datetime_free (adjusted_date);
+		gth_datetime_from_timeval (new_date_time, &timeval);
 	}
 	else {
-		raw = gth_datetime_to_exif_date (date_time);
-		formatted = gth_datetime_strftime (date_time, "%x");
+		/* Read the time from the attribute if it's not valid in
+		 * date_time. */
+
+		if (! gth_time_valid (new_date_time->time)) {
+			GthMetadata *original_date;
+
+			original_date = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, attribute);
+			if (original_date != NULL) {
+				GthDateTime *original_date_time;
+
+				original_date_time = gth_datetime_new ();
+				gth_datetime_from_exif_date (original_date_time, gth_metadata_get_raw (original_date));
+				*new_date_time->time = *original_date_time->time;
+
+				gth_datetime_free (original_date_time);
+			}
+		}
 	}
 
-	metadata = (GObject *) gth_metadata_new ();
-	g_object_set (metadata,
-		      "id", attribute,
-		      "raw", raw,
-		      "formatted", formatted,
-		      NULL);
-	g_file_info_set_attribute_object (file_data->info, attribute, metadata);
+	if (gth_datetime_valid (new_date_time)) {
+		char    *raw;
+		char    *formatted;
+		GObject *metadata;
 
-	g_object_unref (metadata);
-	g_free (formatted);
-	g_free (raw);
+		raw = gth_datetime_to_exif_date (new_date_time);
+		formatted = gth_datetime_strftime (new_date_time, "%x");
+		metadata = (GObject *) gth_metadata_new ();
+		g_object_set (metadata,
+			      "id", attribute,
+			      "raw", raw,
+			      "formatted", formatted,
+			      NULL);
+		g_file_info_set_attribute_object (file_data->info, attribute, metadata);
+
+		g_object_unref (metadata);
+		g_free (formatted);
+		g_free (raw);
+	}
+
+	gth_datetime_free (new_date_time);
 }
 
 
@@ -266,7 +302,7 @@ info_ready_cb (GList    *files,
 		else {
 			gth_datetime_clear (date_time);
 			set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
-			if (gth_datetime_valid (date_time)) {
+			if (g_date_valid (date_time->date)) {
 				if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
 					set_date_metadata (file_data, "general::datetime", date_time, 0);
 				}

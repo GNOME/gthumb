@@ -153,6 +153,7 @@ dlg_change_date (GthBrowser *browser,
 
 	data->dialog = GET_WIDGET ("change_date_dialog");
 	data->date_selector = gth_time_selector_new ();
+	gth_time_selector_show_time (GTH_TIME_SELECTOR (data->date_selector), TRUE, TRUE);
 
 	datetime = gth_datetime_new ();
 	g_get_current_time (&timeval);

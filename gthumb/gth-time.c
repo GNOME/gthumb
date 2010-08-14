@@ -109,9 +109,12 @@ void
 gth_datetime_copy (GthDateTime *src,
 		   GthDateTime *dest)
 {
-	if (gth_datetime_valid (src)) {
+	if (g_date_valid (src->date)) {
 		*dest->date = *src->date;
-		*dest->time = *src->time;
+		if (gth_time_valid (src->time))
+			*dest->time = *src->time;
+		else
+			gth_time_clear (dest->time);
 	}
 	else
 		gth_datetime_clear (dest);

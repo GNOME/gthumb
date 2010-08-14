@@ -42,10 +42,12 @@ struct _GthTimeSelectorPrivate
 	GtkWidget   *calendar_button;
 	GtkWidget   *calendar;
 	GtkWidget   *calendar_popup;
+	GtkWidget   *use_time_checkbutton;
 	GtkWidget   *time_combo_box;
 	GtkWidget   *popup_box;
 	GtkWidget   *now_button;
 	gboolean     use_time;
+	gboolean     optional_time;
 	gulong       day_selected_event;
 };
 
@@ -247,6 +249,17 @@ gth_time_selector_changed (GthTimeSelector *self)
 
 
 static void
+use_time_checkbutton_toggled_cb (GtkToggleButton *button,
+				 gpointer         user_data)
+{
+	GthTimeSelector *self = user_data;
+
+	self->priv->use_time = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->use_time_checkbutton));
+	gtk_widget_set_sensitive (self->priv->time_combo_box, self->priv->use_time);
+}
+
+
+static void
 today_button_clicked_cb (GtkButton *button,
 			 gpointer   user_data)
 {
@@ -392,6 +405,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 	GtkWidget   *frame;
 	GtkWidget   *box;
 	GtkWidget   *button_box;
+	GtkWidget   *time_box;
 	GtkWidget   *button;
 	GthDateTime *dt;
 	guint8       h;
@@ -470,10 +484,18 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  G_CALLBACK (now_button_clicked_cb),
 			  self);
 
+	time_box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (time_box);
+	gtk_box_pack_start (GTK_BOX (self), time_box, FALSE, FALSE, 0);
+
+	self->priv->use_time_checkbutton = gtk_check_button_new ();
+	gtk_widget_show (self->priv->use_time_checkbutton);
+	gtk_box_pack_start (GTK_BOX (time_box), self->priv->use_time_checkbutton, FALSE, FALSE, 0);
+
 	self->priv->time_combo_box = gtk_combo_box_entry_new_text ();
 	gtk_entry_set_width_chars (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box))), 10);
 	gtk_widget_show (self->priv->time_combo_box);
-	gtk_box_pack_start (GTK_BOX (self), self->priv->time_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (time_box), self->priv->time_combo_box, FALSE, FALSE, 0);
 
 	dt = gth_datetime_new ();
 	g_date_set_dmy (dt->date, 1, 1, 2000);
@@ -491,6 +513,8 @@ gth_time_selector_construct (GthTimeSelector *self)
 		g_free (text);
 	}
 
+	gth_time_selector_show_time (self, TRUE, FALSE);
+
 	g_signal_connect (self->priv->date_entry,
 			  "activate",
 			  G_CALLBACK (date_entry_activate_cb),
@@ -499,6 +523,10 @@ gth_time_selector_construct (GthTimeSelector *self)
 				  "changed",
 				  G_CALLBACK (gth_time_selector_changed),
 				  self);
+	g_signal_connect (self->priv->use_time_checkbutton,
+			  "toggled",
+			  G_CALLBACK (use_time_checkbutton_toggled_cb),
+			  self);
 
 	gth_datetime_free (dt);
 }
@@ -546,10 +574,13 @@ gth_time_selector_new (void)
 
 void
 gth_time_selector_show_time (GthTimeSelector *self,
-			     gboolean         show)
+			     gboolean         show,
+			     gboolean         optional)
 {
 	self->priv->use_time = show;
-	if (show) {
+	self->priv->optional_time = optional;
+
+	if (show || optional) {
 		gtk_widget_show (self->priv->time_combo_box);
 		gtk_widget_show (self->priv->now_button);
 	}
@@ -558,6 +589,14 @@ gth_time_selector_show_time (GthTimeSelector *self,
 		gtk_widget_hide (self->priv->time_combo_box);
 		gtk_widget_hide (self->priv->now_button);
 	}
+
+	if (self->priv->optional_time)
+		gtk_widget_show (self->priv->use_time_checkbutton);
+	else
+		gtk_widget_hide (self->priv->use_time_checkbutton);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->use_time_checkbutton), self->priv->use_time);
+	gtk_widget_set_sensitive (self->priv->time_combo_box, self->priv->use_time);
 }
 
 
@@ -568,6 +607,8 @@ gth_time_selector_set_value (GthTimeSelector *self,
 	*self->priv->date_time->date = *date_time->date;
 	if (self->priv->use_time)
 		*self->priv->date_time->time = *date_time->time;
+	else
+		gth_time_clear (self->priv->date_time->time);
 	update_view_from_data (self);
 }
 
@@ -595,5 +636,8 @@ gth_time_selector_get_value (GthTimeSelector *self,
 
 	update_date_from_view (self);
 	*date_time->date = *self->priv->date_time->date;
-	*date_time->time = *self->priv->date_time->time;
+	if (self->priv->use_time)
+		*date_time->time = *self->priv->date_time->time;
+	else
+		gth_time_clear (date_time->time);
 }

@@ -214,7 +214,7 @@ dlg_catalog_properties (GthBrowser  *browser,
 	/* Set widgets data. */
 
 	data->time_selector = gth_time_selector_new ();
-	gth_time_selector_show_time (GTH_TIME_SELECTOR (data->time_selector), FALSE);
+	gth_time_selector_show_time (GTH_TIME_SELECTOR (data->time_selector), FALSE, FALSE);
 	gtk_widget_show (data->time_selector);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_container_box")), data->time_selector, TRUE, TRUE, 0);
 

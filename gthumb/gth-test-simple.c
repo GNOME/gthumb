@@ -418,7 +418,7 @@ create_control_for_date (GthTestSimple *test)
 	/* date selector */
 
 	test->priv->time_selector = gth_time_selector_new ();
-	gth_time_selector_show_time (GTH_TIME_SELECTOR (test->priv->time_selector), FALSE);
+	gth_time_selector_show_time (GTH_TIME_SELECTOR (test->priv->time_selector), FALSE, FALSE);
 	gtk_widget_show (test->priv->time_selector);
 
 	if (test->priv->data.date != NULL) {
