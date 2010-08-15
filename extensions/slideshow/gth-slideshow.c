@@ -384,22 +384,23 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 		return;
 
 #if HAVE_GSTREAMER
-	if (gstreamer_init ()) {
-		if ((self->priv->audio_files != NULL) && (self->priv->audio_files[0] != NULL)) {
-			self->priv->current_audio_file = 0;
-			if (self->priv->playbin == NULL) {
-				GstBus *bus;
+	if ((self->priv->audio_files != NULL)
+	    && (self->priv->audio_files[0] != NULL)
+	    && gstreamer_init ())
+	{
+		self->priv->current_audio_file = 0;
+		if (self->priv->playbin == NULL) {
+			GstBus *bus;
 
-				self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
-				bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
-				gst_bus_add_signal_watch (bus);
-				g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
-			}
-			else
-				gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
-			g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
-			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+			self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+			bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
+			gst_bus_add_signal_watch (bus);
+			g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
 		}
+		else
+			gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
 	}
 #endif
 
