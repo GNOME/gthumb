@@ -378,11 +378,18 @@ gth_browser_activate_action_help_about (GtkAction *action,
 		N_("You should have received a copy of the GNU General Public License "
 		"along with gthumb.  If not, see http://www.gnu.org/licenses/.")
 	};
+	GdkPixbuf *logo;
 
 	license_text = g_strconcat (_(license[0]), "\n\n",
 				    _(license[1]), "\n\n",
 				    _(license[2]),
 				    NULL);
+
+	logo = gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (window))),
+					 "gthumb",
+					 128,
+					 0,
+					 NULL);
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
 			       "version", VERSION,
@@ -391,12 +398,13 @@ gth_browser_activate_action_help_about (GtkAction *action,
 			       "authors", authors,
 			       "documenters", documenters,
 			       "translator-credits", _("translator_credits"),
-			       "logo-icon-name", "gthumb",
 			       "license", license_text,
 			       "wrap-license", TRUE,
 			       "website", "http://live.gnome.org/gthumb",
+			       "logo", logo,
 			       NULL);
 
+	_g_object_unref (logo);
 	g_free (license_text);
 }
 
