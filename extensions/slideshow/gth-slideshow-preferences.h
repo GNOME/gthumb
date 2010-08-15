@@ -52,7 +52,8 @@ GType         gth_slideshow_preferences_get_type           (void);
 GtkWidget *   gth_slideshow_preferences_new                (const char               *transition,
 						            gboolean                  automatic,
 						            int                       delay,
-						            gboolean                  wrap_around);
+						            gboolean                  wrap_around,
+							    gboolean                  random_order);
 void          gth_slideshow_preferences_set_audio          (GthSlideshowPreferences  *self,
 							    char                    **files);
 GtkWidget *   gth_slideshow_preferences_get_widget         (GthSlideshowPreferences  *self,
@@ -62,6 +63,7 @@ char *        gth_slideshow_preferences_get_transition_id  (GthSlideshowPreferen
 gboolean      gth_slideshow_preferences_get_automatic      (GthSlideshowPreferences  *self);
 int           gth_slideshow_preferences_get_delay          (GthSlideshowPreferences  *self);
 gboolean      gth_slideshow_preferences_get_wrap_around    (GthSlideshowPreferences  *self);
+gboolean      gth_slideshow_preferences_get_random_order   (GthSlideshowPreferences  *self);
 char **       gth_slideshow_preferences_get_audio_files    (GthSlideshowPreferences  *self);
 
 G_END_DECLS

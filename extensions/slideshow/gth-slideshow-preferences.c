@@ -237,7 +237,8 @@ gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 				     const char              *current_transition,
 				     gboolean                 automatic,
 				     int                      delay,
-				     gboolean                 wrap_around)
+				     gboolean                 wrap_around,
+				     gboolean                 random_order)
 {
 	GtkListStore    *model;
 	GtkCellRenderer *renderer;
@@ -291,6 +292,7 @@ gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "automatic_checkbutton")), automatic);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "change_delay_spinbutton")), ((float) delay) / 1000.0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "wrap_around_checkbutton")), wrap_around);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "random_order_checkbutton")), random_order);
 
 	/* signals */
 
@@ -317,7 +319,8 @@ GtkWidget *
 gth_slideshow_preferences_new (const char *transition,
 			       gboolean    automatic,
 			       int         delay,
-			       gboolean    wrap_around)
+			       gboolean    wrap_around,
+			       gboolean    random_order)
 {
 	GtkWidget *widget;
 
@@ -326,7 +329,8 @@ gth_slideshow_preferences_new (const char *transition,
 					     transition,
 					     automatic,
 					     delay,
-					     wrap_around);
+					     wrap_around,
+					     random_order);
 
 	return widget;
 }
@@ -423,6 +427,13 @@ gboolean
 gth_slideshow_preferences_get_wrap_around (GthSlideshowPreferences *self)
 {
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (self->priv->builder, "wrap_around_checkbutton")));
+}
+
+
+gboolean
+gth_slideshow_preferences_get_random_order (GthSlideshowPreferences *self)
+{
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (self->priv->builder, "random_order_checkbutton")));
 }
 
 

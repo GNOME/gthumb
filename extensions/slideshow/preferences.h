@@ -28,6 +28,7 @@
 #define  PREF_SLIDESHOW_WRAP_AROUND      "/apps/gthumb/ext/slideshow/wrap_around"
 #define  PREF_SLIDESHOW_AUTOMATIC        "/apps/gthumb/ext/slideshow/automatic"
 #define  PREF_SLIDESHOW_TRANSITION       "/apps/gthumb/ext/slideshow/transition"
+#define  PREF_SLIDESHOW_RANDOM_ORDER     "/apps/gthumb/ext/slideshow/random-order"
 
 #define  DEFAULT_TRANSITION "random"
 

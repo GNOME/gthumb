@@ -75,6 +75,7 @@ struct _GthSlideshowPrivate {
 #endif
 	gboolean               paused;
 	gboolean               animating;
+	gboolean               random_order;
 };
 
 
@@ -96,6 +97,28 @@ _gth_slideshow_close (GthSlideshow *self)
 }
 
 
+static int
+shuffle_func (gconstpointer a,
+	      gconstpointer b)
+{
+        return g_random_int_range (-1, 2);
+}
+
+
+
+static void
+_gth_slideshow_reset_current (GthSlideshow *self)
+{
+	if (self->priv->random_order)
+		self->priv->file_list = g_list_sort (self->priv->file_list, shuffle_func);
+
+	if (self->priv->direction == GTH_SLIDESHOW_DIRECTION_FORWARD)
+		self->priv->current = g_list_first (self->priv->file_list);
+	else
+		self->priv->current = g_list_last (self->priv->file_list);
+}
+
+
 static void
 _gth_slideshow_load_current_image (GthSlideshow *self)
 {
@@ -113,11 +136,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 			_gth_slideshow_close (self);
 			return;
 		}
-
-		if (self->priv->direction == GTH_SLIDESHOW_DIRECTION_FORWARD)
-			self->priv->current = g_list_first (self->priv->file_list);
-		else
-			self->priv->current = g_list_last (self->priv->file_list);
+		_gth_slideshow_reset_current (self);
 	}
 
 	requested_file = (GthFileData *) self->priv->current->data;
@@ -239,6 +258,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->paused = FALSE;
 	self->priv->animating = FALSE;
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
+	self->priv->random_order = FALSE;
 
 	self->priv->preloader = gth_image_preloader_new ();
 	g_signal_connect (self->priv->preloader,
@@ -383,6 +403,8 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 	if (! self->priv->first_show)
 		return;
 
+	self->priv->first_show = FALSE;
+
 #if HAVE_GSTREAMER
 	if ((self->priv->audio_files != NULL)
 	    && (self->priv->audio_files[0] != NULL)
@@ -404,8 +426,8 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 	}
 #endif
 
+	_gth_slideshow_reset_current (self);
 	_gth_slideshow_load_current_image (self);
-	self->priv->first_show = FALSE;
 }
 
 
@@ -418,7 +440,6 @@ _gth_slideshow_construct (GthSlideshow *self,
 	self->priv->projector = projector;
 	self->priv->browser = _g_object_ref (browser);
 	self->priv->file_list = _g_object_list_ref (file_list);
-	self->priv->current = self->priv->file_list;
 	self->priv->one_loaded = FALSE;
 
 	self->priv->projector->construct (self);
@@ -483,6 +504,14 @@ gth_slideshow_set_playlist (GthSlideshow  *self,
 {
 	self->priv->audio_files = g_strdupv (files);
 	self->priv->audio_loop = TRUE;
+}
+
+
+void
+gth_slideshow_set_random_order (GthSlideshow *self,
+				gboolean      random)
+{
+	self->priv->random_order = random;
 }
 
 

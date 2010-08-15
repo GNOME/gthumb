@@ -151,6 +151,10 @@ ss__gth_catalog_read_metadata (GthCatalog  *catalog,
 		g_value_hash_set_boolean (catalog->attributes,
 					  "slideshow::wrap-around",
 					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::wrap-around"));
+	if (g_file_info_get_attribute_status (file_data->info, "slideshow::random-order") == G_FILE_ATTRIBUTE_STATUS_SET)
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::random-order",
+					  g_file_info_get_attribute_boolean (file_data->info, "slideshow::random-order"));
 	if (g_file_info_get_attribute_status (file_data->info, "slideshow::delay") == G_FILE_ATTRIBUTE_STATUS_SET)
 		g_value_hash_set_int (catalog->attributes,
 				      "slideshow::delay",
@@ -192,6 +196,14 @@ ss__gth_catalog_write_metadata (GthCatalog  *catalog,
 						   g_value_hash_get_boolean (catalog->attributes, "slideshow::wrap-around"));
 		g_file_info_set_attribute_status (file_data->info,
 						  "slideshow::wrap-around",
+						  G_FILE_ATTRIBUTE_STATUS_SET);
+	}
+	if (g_value_hash_is_set (catalog->attributes, "slideshow::random-order")) {
+		g_file_info_set_attribute_boolean (file_data->info,
+						   "slideshow::random-order",
+						   g_value_hash_get_boolean (catalog->attributes, "slideshow::random-order"));
+		g_file_info_set_attribute_status (file_data->info,
+						  "slideshow::random-order",
 						  G_FILE_ATTRIBUTE_STATUS_SET);
 	}
 	if (g_value_hash_is_set (catalog->attributes, "slideshow::delay")) {
@@ -242,6 +254,9 @@ ss__gth_catalog_read_from_doc (GthCatalog *catalog,
 		g_value_hash_set_boolean (catalog->attributes,
 					  "slideshow::wrap-around",
 					  g_strcmp0 (dom_element_get_attribute (node, "wrap-around"), "true") == 0);
+		g_value_hash_set_boolean (catalog->attributes,
+					  "slideshow::random-order",
+					  g_strcmp0 (dom_element_get_attribute (node, "random-order"), "true") == 0);
 
 		for (child = node->first_child; child; child = child->next_sibling) {
 			if (g_strcmp0 (child->tag_name, "delay") == 0) {
@@ -303,6 +318,7 @@ ss__gth_catalog_write_to_doc (GthCatalog  *catalog,
 						 "personalize", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::personalize", FALSE) ? "true" : "false"),
 						 "automatic", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::automatic", FALSE) ? "true" : "false"),
 						 "wrap-around", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::wrap-around", FALSE) ? "true" : "false"),
+						 "random-order", (g_value_hash_get_boolean_or_default (catalog->attributes, "slideshow::random-order", FALSE) ? "true" : "false"),
 						 NULL);
 	dom_element_append_child (root, slideshow);
 
@@ -358,7 +374,8 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 		slideshow_preferences = gth_slideshow_preferences_new (current_transition,
 								       eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
 								       (int) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)),
-								       eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+								       eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE),
+								       eel_gconf_get_boolean (PREF_SLIDESHOW_RANDOM_ORDER, FALSE));
 		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), FALSE);
 
 		g_free (current_transition);
@@ -367,7 +384,8 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 		slideshow_preferences = gth_slideshow_preferences_new (g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
 								       g_value_hash_get_boolean (catalog->attributes, "slideshow::automatic"),
 								       g_value_hash_get_int (catalog->attributes, "slideshow::delay"),
-								       g_value_hash_get_boolean (catalog->attributes, "slideshow::wrap-around"));
+								       g_value_hash_get_boolean (catalog->attributes, "slideshow::wrap-around"),
+								       g_value_hash_get_boolean (catalog->attributes, "slideshow::random-order"));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_checkbutton")), TRUE);
 		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), TRUE);
 	}
@@ -423,6 +441,9 @@ ss__dlg_catalog_properties_save (GtkBuilder  *builder,
 	g_value_hash_set_boolean (catalog->attributes,
 				  "slideshow::wrap-around",
 				  gth_slideshow_preferences_get_wrap_around (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
+	g_value_hash_set_boolean (catalog->attributes,
+				  "slideshow::random-order",
+				  gth_slideshow_preferences_get_random_order (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences)));
 
 	files = gth_slideshow_preferences_get_audio_files (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences));
 	g_value_hash_set_stringv (catalog->attributes,

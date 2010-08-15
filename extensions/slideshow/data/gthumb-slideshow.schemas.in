@@ -53,5 +53,18 @@
         </locale>
       </schema>
 
+      <schema>
+        <key>/schemas/apps/gthumb/ext/slideshow/random-order</key>
+        <applyto>/apps/gthumb/ext/slideshow/random-order</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

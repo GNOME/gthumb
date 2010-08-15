@@ -73,6 +73,14 @@ wrap_around_checkbutton_toggled_cb (GtkToggleButton *button,
 
 
 static void
+random_order_checkbutton_toggled_cb (GtkToggleButton *button,
+				     BrowserData     *data)
+{
+	eel_gconf_set_boolean (PREF_SLIDESHOW_RANDOM_ORDER, gtk_toggle_button_get_active (button));
+}
+
+
+static void
 change_delay_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 				          BrowserData   *data)
 {
@@ -97,7 +105,8 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data->preferences_page = gth_slideshow_preferences_new (current_transition,
 							        eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
 							        (int) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)),
-							        eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+							        eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE),
+							        eel_gconf_get_boolean (PREF_SLIDESHOW_RANDOM_ORDER, FALSE));
 	gtk_widget_show (data->preferences_page);
 	g_free (current_transition);
 
@@ -116,6 +125,10 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "wrap_around_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (wrap_around_checkbutton_toggled_cb),
+			  data);
+	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "random_order_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (random_order_checkbutton_toggled_cb),
 			  data);
 	g_signal_connect (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (data->preferences_page), "change_delay_spinbutton"),
 			  "value-changed",

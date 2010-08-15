@@ -76,20 +76,22 @@ extern GthProjector default_projector;
 extern GthProjector clutter_projector;
 #endif /* HAVE_CLUTTER */
 
-GType            gth_slideshow_get_type        (void);
-GtkWidget *      gth_slideshow_new             (GthProjector  *projector,
-						GthBrowser    *browser,
-					        GList         *file_list /* GthFileData */);
-void             gth_slideshow_set_delay       (GthSlideshow  *self,
-					        guint          msecs);
-void             gth_slideshow_set_automatic   (GthSlideshow  *self,
-					        gboolean       automatic);
-void             gth_slideshow_set_wrap_around (GthSlideshow  *self,
-					        gboolean       wrap_around);
-void             gth_slideshow_set_transitions (GthSlideshow  *self,
-					        GList         *transitions);
-void             gth_slideshow_set_playlist    (GthSlideshow  *self,
-						char         **files);
+GType            gth_slideshow_get_type         (void);
+GtkWidget *      gth_slideshow_new              (GthProjector   *projector,
+					 	 GthBrowser     *browser,
+					         GList          *file_list /* GthFileData */);
+void             gth_slideshow_set_delay        (GthSlideshow   *self,
+					         guint           msecs);
+void             gth_slideshow_set_automatic    (GthSlideshow   *self,
+					         gboolean        automatic);
+void             gth_slideshow_set_wrap_around  (GthSlideshow   *self,
+					         gboolean        wrap_around);
+void             gth_slideshow_set_transitions  (GthSlideshow   *self,
+					         GList          *transitions);
+void             gth_slideshow_set_playlist     (GthSlideshow   *self,
+						 char          **files);
+void             gth_slideshow_set_random_order (GthSlideshow   *self,
+						 gboolean        random);
 
 G_END_DECLS
 
