@@ -401,7 +401,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 			       "license", license_text,
 			       "wrap-license", TRUE,
 			       "website", "http://live.gnome.org/gthumb",
-			       "logo", logo,
+			       (logo != NULL ? "logo" : NULL), logo,
 			       NULL);
 
 	_g_object_unref (logo);
