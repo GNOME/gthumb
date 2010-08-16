@@ -168,22 +168,6 @@
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
-                              <object class="GtkRadioButton" id="current_location_radiobutton">
-                                <property name="label" translatable="yes">Do _not change folder</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkRadioButton" id="go_to_last_location_radiobutton">
                                 <property name="label" translatable="yes">Go to last _visited location</property>
                                 <property name="visible">True</property>
@@ -191,12 +175,11 @@
                                 <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">current_location_radiobutton</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">1</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -211,7 +194,7 @@
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
-                                    <property name="group">current_location_radiobutton</property>
+                                    <property name="group">go_to_last_location_radiobutton</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -222,8 +205,8 @@
                                 <child>
                                   <object class="GtkFileChooserButton" id="startup_dir_filechooserbutton">
                                     <property name="visible">True</property>
-                                    <property name="action">select-folder</property>
                                     <property name="local_only">False</property>
+                                    <property name="action">select-folder</property>
                                     <property name="title" translatable="yes">Choose startup folder</property>
                                   </object>
                                   <packing>
@@ -234,7 +217,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
@@ -258,7 +241,7 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="position">3</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>

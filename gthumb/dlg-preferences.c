@@ -253,12 +253,10 @@ dlg_preferences (GthBrowser *browser)
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")), TRUE);
-	else if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE))
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton")), TRUE);
 	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("current_location_radiobutton")), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton")), TRUE);
 
-	if (! eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")))) {
 		gtk_widget_set_sensitive (GET_WIDGET ("startup_dir_filechooserbutton"), FALSE);
 		gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), FALSE);
 	}
