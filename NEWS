@@ -1,3 +1,55 @@
+version 2.11.90
+---------------
+
+	New features and user visible changes:
+
+	* Slideshow: added ability to view the images in random order (#621244)
+	* Change date tool: allow to set the date without touching the time 
+	  (#622245)
+	* Video player: display the video speed in the status bar and allow 
+	  to change speed from 0.03 to 36.0 (#624454)
+	* Removed the "do not change folder" option from the preferences dialog
+	  as it was useless.
+	* Added ability to organize files by tag: the organize command can 
+	  organize files by tag, creating a catalog for each tag found in the
+	  scanned images.
+	* The "fit window to image" is now a toggle action. (#617488)
+	* Added two orientation tools: added tool to physically rotate the 
+	  images according to their embedded orientation; and a tool to reset 
+	  the embedded orientation without rotating the images.
+	* Removed the preferences button from the import dialogs: instead of 
+	  the overwrite option just use the overwrite dialog when a file is 
+	  going to be overwritten; the rotate option is used only when 
+	  importing from a device and is set in the general preferences dialog.
+	* New application icon.
+
+	Bugs fixed:
+
+	* Fixed escaping of UTF-chars in ui file (Gabor Kelemen) (#626990)
+	* Fixed comment lost when upgrading from 2.10 to 2.11. (#626893)
+	* Fixed unnecessary reloading when setting a filter (#625937)
+	* Fixed saving of Xmp and Iptc description and title fields (#626284)
+	* Fixed catalog reordering when the catalog is sorted and/or filtered
+	  (#619442)
+	* Fixed crash in fullscreen mode when viewing an image after a video.
+	  (#626686)
+	* Activate the web album extension b default.
+	* Correctly hide and show the mouse pointer in the video player.
+	* Fixed search test when the "match any" option was active.
+	* Flicker importer: fixed crash when the image url is not found
+	
+	New or updated application translations:
+
+	* Czech (Marek Černocký)
+	* Deutsch (Mario Blättermann)
+	* Español (Jorge González)
+	* Slovenian (Andrej Žnidaršič)
+
+	New or updated manual translations:
+
+	* Español (Jorge González)
+	* German (Mario Blättermann)
+
 version 2.11.6
 --------------
 
