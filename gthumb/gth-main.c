@@ -1226,6 +1226,7 @@ gth_main_activate_extensions (void)
 						"resize_images",
 						"search",
 						"slideshow",
+						"webalbums",
 						NULL };
 	int         i;
 	GSList     *active_extensions;
