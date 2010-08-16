@@ -140,12 +140,12 @@ const char *_ORIENTATION_TAG_NAMES[] = {
 };
 
 const char *_DESCRIPTION_TAG_NAMES[] = {
+	"Iptc::Application2::Caption",
+	"Xmp::dc::description",
 	"Exif::Photo::UserComment",
 	"Exif::Image::ImageDescription",
-	"Xmp::dc::description",
 	"Xmp::tiff::ImageDescription",
 	"Iptc::Application2::Headline",
-	"Iptc::Application2::Caption",
 	NULL
 };
 
@@ -363,8 +363,8 @@ set_attributes_from_tagsets (GFileInfo *info)
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
 
-	/* if iptc::caption and iptc::headline are different use iptc::caption
-	 * to set general::title, if not alreay set. */
+	/* if iptc::caption and iptc::headline are different use iptc::headline
+	 * to set general::title, if not already set. */
 
 	if (g_file_info_get_attribute_object (info, "general::title") == NULL) {
 		GObject *iptc_caption;
@@ -378,7 +378,7 @@ set_attributes_from_tagsets (GFileInfo *info)
 		    && (g_strcmp0 (gth_metadata_get_raw (GTH_METADATA (iptc_caption)),
 				   gth_metadata_get_raw (GTH_METADATA (iptc_headline))) != 0))
 		{
-			set_attribute_from_metadata (info, "general::title", iptc_caption);
+			set_attribute_from_metadata (info, "general::title", iptc_headline);
 		}
 	}
 
