@@ -6,9 +6,129 @@ id="gthumb-shortcuts">
 
   <title>Keyboard Shortcuts</title>
 
-  <p>TODO: this list is out of date, and needs to be checked.</p>
-  <p>Some menus will show additional keyboard shortcuts. The
-  tables below are not entirely complete.</p>
+  <section>
+    <title>Viewing and hiding parts of the user interface</title>
+    <table frame="all" rules="all">
+      <tr>
+        <td>
+          <p>Keyboard Shortcut</p>
+        </td>
+        <td>
+          <p>Description</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>F9</key>
+          </p>
+        </td>
+        <td>
+          <p>Show/Hide the sidebar in the browser mode. The sidebar contains the folder tree
+          and the file properties summary (if enabled).</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>i</key>
+          </p>
+        </td>
+        <td>
+          <p>Show the file properties summary.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>F8</key>
+          </p>
+        </td>
+        <td>
+          <p>Shows/hides the thumbnail pane in the viewer mode.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>F11</key>
+          </p>
+        </td>
+        <td>
+          <p>Shows the current image in fullscreen mode.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <keyseq><key>Ctrl</key><key>t</key></keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Shows/hides the thumbnails in the browser mode.</p>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+
+  <section>
+    <title>Editing shortcuts for the browser and viewer</title>
+    <table frame="all" rules="all">
+      <tr>
+        <td>
+          <p>Keyboard Shortcut</p>
+        </td>
+        <td>
+          <p>Description</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>e</key>
+          </p>
+        </td>
+        <td>
+          <p>Edit the image. Opens the viewer and shows the editing tools.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>g</key>
+          </p>
+        </td>
+        <td>
+          <p>Open the image with the GNU Image Manipulation Program (GIMP).</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>F2</key>
+          </p>
+        </td>
+        <td>
+          <p>Rename the image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Add comments or metadata to an image.</p>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <p>TODO: The following sections may be obsolete and require updating:</p>
+  </section>
 
   <section>
     <title>Keyboard shortcuts to navigate folders</title>
@@ -514,19 +634,6 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-            <key>c</key>
-          </p>
-        </td>
-        <td>
-          <p>Add a comment to the selected images.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
             <key>k</key>
           </p>
         </td>
@@ -551,8 +658,9 @@ id="gthumb-shortcuts">
         </td>
       </tr>
     </table>
-    <p>Keyboard shortcuts available exclusively in fullscreen
-    mode</p>
+  </section>
+  <section>
+    <title>Keyboard shortcuts available exclusively in fullscreen mode</title>
     <table frame="all" rules="all">
       <tr>
         <td>
