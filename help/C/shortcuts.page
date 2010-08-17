@@ -51,11 +51,11 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-          <key>F11</key>
+          <key>F11</key> or <key>f</key>
           </p>
         </td>
         <td>
-          <p>Shows the current image in fullscreen mode.</p>
+          <p>Toggles the fullscreen mode.</p>
         </td>
       </tr>
       <tr>
@@ -68,6 +68,17 @@ id="gthumb-shortcuts">
           <p>Shows/hides the thumbnails in the browser mode.</p>
         </td>
       </tr>
+      <tr>
+        <td>
+          <p>
+          <key>Esc</key>
+          </p>
+        </td>
+        <td>
+          <p>Closes the viewer or fullscreen mode.</p>
+        </td>
+      </tr>
+
     </table>
   </section>
 
@@ -121,6 +132,110 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Add comments or metadata to an image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>]</key>
+          </p>
+        </td>
+        <td>
+          <p>Rotate right, losslessly if possible. The file is saved automatically.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>[</key>
+          </p>
+        </td>
+        <td>
+          <p>Rotate left, losslessly if possible. The file is saved automatically.</p>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <title>Editing shortcuts for the viewer mode only</title>
+    <table frame="all" rules="all">
+      <tr>
+        <td>
+          <p>Keyboard Shortcut (Case Sensitive)</p>
+        </td>
+        <td>
+          <p>Description</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>h</key>
+          </p>
+        </td>
+        <td>
+          <p>Enhance colors.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>l</key>
+          </p>
+        </td>
+        <td>
+          <p>Flip image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>m</key>
+          </p>
+        </td>
+        <td>
+          <p>Mirror image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>r</key>
+          </p>
+        </td>
+        <td>
+          <p>Rotate right.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>R</key>
+          </p>
+        </td>
+        <td>
+          <p>Rotate left.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>C</key>
+          </p>
+        </td>
+        <td>
+          <p>Crop image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>S</key>
+          </p>
+        </td>
+        <td>
+          <p>Resize image.</p>
         </td>
       </tr>
     </table>
@@ -295,19 +410,6 @@ id="gthumb-shortcuts">
         <td>
           <p>Change the image properties pane content or display
           the pane if it is not visible.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>t</key>
-          </p>
-        </td>
-        <td>
-          <p>View/Hide the thumbnails.</p>
         </td>
         <td>
           <p>no</p>
@@ -522,34 +624,6 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-            <key>]</key>
-          </p>
-        </td>
-        <td>
-          <p>Rotate and save the image clockwise of 90 degrees. The
-          rotation is lossless for jpeg images.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>[</key>
-          </p>
-        </td>
-        <td>
-          <p>Rotate and save the image counter-clockwise of 90
-          degrees. The rotation is lossless for jpeg images.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
             <key>a</key>
           </p>
         </td>
@@ -605,62 +679,7 @@ id="gthumb-shortcuts">
     </table>
   </section>
   <section>
-    <title>Other keyboard shortcuts</title>
-    <table frame="all" rules="all">
-      <tr>
-        <td>
-          <p>Keyboard Shortcut</p>
-        </td>
-        <td>
-          <p>Description</p>
-        </td>
-        <td>
-          <p>Available in Fullscreen Mode</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>s</key>
-          </p>
-        </td>
-        <td>
-          <p>Start/Stop the slideshow.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>k</key>
-          </p>
-        </td>
-        <td>
-          <p>Assign tags to the selected images.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>i</key>
-          </p>
-        </td>
-        <td>
-          <p>Hide/Show the image comment and properties</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-    </table>
-  </section>
-  <section>
-    <title>Keyboard shortcuts available exclusively in fullscreen mode</title>
+    <title>Slideshow controls</title>
     <table frame="all" rules="all">
       <tr>
         <td>
@@ -670,29 +689,57 @@ id="gthumb-shortcuts">
           <p>Description</p>
         </td>
       </tr>
-      <tr>
+     <tr>
         <td>
           <p>
-            <key>p</key>
+            <key>F5</key>
           </p>
         </td>
         <td>
-          <p>Pause/Resume a slideshow.</p>
+          <p>Start a slideshow.</p>
         </td>
       </tr>
       <tr>
         <td>
           <p>
-          <key>Escape</key>or 
-          <key>f</key>or 
-          <key>v</key>or 
-          <key>F11</key>or 
-          <key>q</key></p>
+            <key>Space</key>
+          </p>
         </td>
         <td>
-          <p>Exit the fullscreen mode.</p>
+          <p>Pause/Unpause the slideshow.</p>
         </td>
       </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Esc</key>
+          </p>
+        </td>
+        <td>
+          <p>Close the slideshow.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>
+          </p>
+        </td>
+        <td>
+          <p>Load the next image.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>
+          </p>
+        </td>
+        <td>
+          <p>Load the previous image.</p>
+        </td>
+      </tr>
+
     </table>
   </section>
 </page>
