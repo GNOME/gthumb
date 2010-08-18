@@ -154,6 +154,27 @@ id="gthumb-shortcuts">
           <p>Rotate left, losslessly if possible. The file is saved automatically.</p>
         </td>
       </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Delete</key>
+          </p>
+        </td>
+        <td>
+          <p>Move the selected files to the Trash.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq><key>Shift</key><key>Delete</key></keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Delete the selected files permanently.</p>
+        </td>
+      </tr>
+
     </table>
   </section>
 
@@ -242,11 +263,7 @@ id="gthumb-shortcuts">
   </section>
 
   <section>
-    <p>TODO: The following sections may be obsolete and require updating:</p>
-  </section>
-
-  <section>
-    <title>Keyboard shortcuts to navigate folders</title>
+    <title>Viewer shortcuts</title>
     <table frame="all" rules="all">
       <tr>
         <td>
@@ -254,9 +271,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Description</p>
-        </td>
-        <td>
-          <p>Available in Fullscreen Mode</p>
         </td>
       </tr>
       <tr>
@@ -268,9 +282,6 @@ id="gthumb-shortcuts">
         <td>
           <p>View the next image.</p>
         </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -280,9 +291,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>View the previous image.</p>
-        </td>
-        <td>
-          <p>yes</p>
         </td>
       </tr>
       <tr>
@@ -294,9 +302,6 @@ id="gthumb-shortcuts">
         <td>
           <p>View the first image.</p>
         </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -306,70 +311,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>View the last image.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-          <keyseq>
-            <key>Alt</key>
-            <key>Home</key>
-          </keyseq>or 
-          <key>h</key></p>
-        </td>
-        <td>
-          <p>Go to your Home folder.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <keyseq>
-              <key>Alt</key>
-              <key>Left</key>
-            </keyseq>
-          </p>
-        </td>
-        <td>
-          <p>Go to the previously visited folder.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-          <keyseq>
-            <key>Alt</key>
-            <key>Up</key>
-          </keyseq>or 
-          <key>u</key></p>
-        </td>
-        <td>
-          <p>Go up one level.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>Esc</key>
-          </p>
-        </td>
-        <td>
-          <p>Interrupt thumbnails creation.</p>
-        </td>
-        <td>
-          <p>no</p>
         </td>
       </tr>
       <tr>
@@ -384,119 +325,6 @@ id="gthumb-shortcuts">
         <td>
           <p>Add the current location to the bookmarks.</p>
         </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>Return</key>
-          </p>
-        </td>
-        <td>
-          <p>View/Hide the browser.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>q</key>
-          </p>
-        </td>
-        <td>
-          <p>Change the image properties pane content or display
-          the pane if it is not visible.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>F2</key>
-          </p>
-        </td>
-        <td>
-          <p>Rename the current image.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>o</key>
-          </p>
-        </td>
-        <td>
-          <p>Open the selected images with an application.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>g</key>
-          </p>
-        </td>
-        <td>
-          <p>Open the selected images with the GIMP, if
-          installed.</p>
-        </td>
-        <td>
-          <p>no</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>Delete</key>
-          </p>
-        </td>
-        <td>
-          <p>Delete the selected images.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-    </table>
-  </section>
-  <section>
-    <title>Keyboard shortcuts to view images</title>
-    <table frame="all" rules="all">
-      <tr>
-        <td>
-          <p>Keyboard Shortcut</p>
-        </td>
-        <td>
-          <p>Description</p>
-        </td>
-        <td>
-          <p>Available in Fullscreen Mode</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-          <key>v</key>or 
-          <key>f</key>or 
-          <key>F11</key></p>
-        </td>
-        <td>
-          <p>Set/Unset the full screen mode.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -507,9 +335,6 @@ id="gthumb-shortcuts">
         <td>
           <p>Zoom in.</p>
         </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -519,9 +344,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Zoom out.</p>
-        </td>
-        <td>
-          <p>yes</p>
         </td>
       </tr>
       <tr>
@@ -534,9 +356,6 @@ id="gthumb-shortcuts">
         <td>
           <p>Actual size.</p>
         </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -546,9 +365,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Zoom to fit (scales down only, does not magnify)</p>
-        </td>
-        <td>
-          <p>yes</p>
         </td>
       </tr>
       <tr>
@@ -563,89 +379,6 @@ id="gthumb-shortcuts">
         <td>
           <p>Zoom to fit (scale down or magnify, as required)</p>
         </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>l</key>
-          </p>
-        </td>
-        <td>
-          <p>Flip the image.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>m</key>
-          </p>
-        </td>
-        <td>
-          <p>Mirror the image.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>r</key>
-          </p>
-        </td>
-        <td>
-          <p>Rotate the image clockwise of 90 degrees without
-          saving.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>e</key>
-          </p>
-        </td>
-        <td>
-          <p>Rotate the image counter-clockwise of 90 degrees
-          without saving.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>a</key>
-          </p>
-        </td>
-        <td>
-          <p>Start/Stop the animation</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <key>j</key>
-          </p>
-        </td>
-        <td>
-          <p>View the next frame of a stopped animation.</p>
-        </td>
-        <td>
-          <p>yes</p>
-        </td>
       </tr>
       <tr>
         <td>
@@ -655,9 +388,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Scroll the image.</p>
-        </td>
-        <td>
-          <p>yes</p>
         </td>
       </tr>
       <tr>
@@ -672,12 +402,91 @@ id="gthumb-shortcuts">
         <td>
           <p>Scroll the image faster.</p>
         </td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <title>Browser Navigation</title>
+    <table frame="all" rules="all">
+
+      <tr>
         <td>
-          <p>yes</p>
+          <p>
+            <key>Home</key>
+          </p>
+        </td>
+        <td>
+          <p>Go to the first file in the browser view.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>End</key>
+          </p>
+
+        </td>
+        <td>
+          <p>Go to the last file in the browser view.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Down Arrow</key> or <key>Page Down</key>
+          </p>
+        </td>
+        <td>
+          <p>Scroll downwards through the thumbnails.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <key>Up Arrow</key> or <key>Page Up</key>
+          </p>
+        </td>
+        <td>  
+          <p>Scroll upwards through the thumbnails.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq><key>Alt</key><key>Left Arrow</key></keyseq>
+          </p>
+        </td>
+        <td>  
+          <p>Go back to the previously viewed folder.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq><key>Alt</key><key>Right Arrow</key></keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Go forward (after going back to a folder).</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <keyseq>
+            <key>Alt</key>
+            <key>Up</key>
+          </keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Go up one level.</p>
         </td>
       </tr>
     </table>
   </section>
+
   <section>
     <title>Slideshow controls</title>
     <table frame="all" rules="all">
