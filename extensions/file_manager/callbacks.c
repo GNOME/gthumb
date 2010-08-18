@@ -932,6 +932,7 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 
 			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, icon);
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
+			gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (menu_item), TRUE);
 
 			g_object_unref (pixbuf);
 		}

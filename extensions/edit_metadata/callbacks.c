@@ -283,7 +283,7 @@ insert_tag_menu_item (BrowserData *data,
 	GtkWidget *image;
 
 	item = gtk_image_menu_item_new_with_label (tag);
-	/*gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (item), TRUE);*/
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (item), TRUE);
 
 	image = gtk_image_new_from_icon_name ("tag", GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
