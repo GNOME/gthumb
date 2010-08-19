@@ -263,6 +263,11 @@ pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
 	if (file != NULL)
 		gth_file_data_set_file (self->priv->destination_file_data, file);
 
+	if (GTH_PIXBUF_TASK (self->priv->task)->dest == NULL) {
+		process_next_file (self);
+		return;
+	}
+
 	_g_object_unref (self->priv->new_pixbuf);
 	self->priv->new_pixbuf = g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
 
