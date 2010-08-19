@@ -117,6 +117,8 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 		for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next)
 			gth_comment_add_category (comment, (char *) scan->data);
 
+	gth_comment_set_rating (comment, g_file_info_get_attribute_int32 (file_data->info, "comment::rating"));
+
 	/* sync embedded data and .comment data if required */
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
