@@ -99,7 +99,7 @@ static GtkActionEntry edit_metadata_action_entries[] = {
 
 	{ "Edit_Metadata", GTK_STOCK_EDIT,
 	  N_("Comment"), "<control>M",
-	  N_("Edit the comment an other information of the selected files"),
+	  N_("Edit the comment and other information of the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_metadata) },
 
         { "Edit_QuickTagOther", NULL,
