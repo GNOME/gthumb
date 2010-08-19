@@ -101,10 +101,9 @@ resize_step (GthPixbufTask *pixbuf_task)
 		new_h = max_h;
 	}
 
-	if ((new_w > 1) && (new_h > 1)) {
-		_g_object_unref (pixbuf_task->dest);
+	_g_object_unref (pixbuf_task->dest);
+	if ((new_w > 1) && (new_h > 1))
 		pixbuf_task->dest = _gdk_pixbuf_scale_simple_safe (pixbuf_task->src, new_w, new_h, GDK_INTERP_BILINEAR);
-	}
 	else
 		pixbuf_task->dest = NULL;
 }
