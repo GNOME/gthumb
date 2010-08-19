@@ -196,14 +196,13 @@ attribute_is_date (const char *key)
 }
 
 
-static void
-set_file_info (GFileInfo  *info,
-	       const char *key,
-	       const char *description,
-	       const char *formatted_value,
-	       const char *raw_value,
-	       const char *category,
-	       const char *type_name)
+static GthMetadata *
+create_metadata (const char *key,
+		 const char *description,
+		 const char *formatted_value,
+		 const char *raw_value,
+		 const char *category,
+		 const char *type_name)
 {
 	char            *attribute;
 	GthMetadataInfo *metadata_info;
@@ -212,7 +211,7 @@ set_file_info (GFileInfo  *info,
 	char            *formatted_value_utf8;
 
 	if (_g_utf8_all_spaces (formatted_value))
-		return;
+		return NULL;
 
 	attribute = exiv2_key_to_attribute (key);
 	description_utf8 = g_locale_to_utf8 (description, -1, NULL, NULL, NULL);
@@ -261,12 +260,106 @@ set_file_info (GFileInfo  *info,
 		      "raw", raw_value,
 		      "value-type", type_name,
 		      NULL);
-	g_file_info_set_attribute_object (info, attribute, G_OBJECT (metadata));
 
-	g_object_unref (metadata);
 	g_free (formatted_value_utf8);
 	g_free (description_utf8);
 	g_free (attribute);
+
+	return metadata;
+}
+
+
+static void
+set_file_info (GFileInfo  *info,
+	       const char *key,
+	       const char *description,
+	       const char *formatted_value,
+	       const char *raw_value,
+	       const char *category,
+	       const char *type_name)
+{
+	char        *attribute;
+	GthMetadata *metadata;
+
+	attribute = exiv2_key_to_attribute (key);
+	metadata = create_metadata (key, description, formatted_value, raw_value, category, type_name);
+	if (metadata != NULL) {
+		g_file_info_set_attribute_object (info, attribute, G_OBJECT (metadata));
+		g_object_unref (metadata);
+	}
+
+	g_free (attribute);
+}
+
+
+GHashTable *
+create_metadata_hash (void)
+{
+	return g_hash_table_new_full (g_str_hash,
+				      g_str_equal,
+				      g_free,
+				      g_object_unref);
+}
+
+
+static void
+add_metadata_to_hash (GHashTable  *table,
+		      GthMetadata *metadata)
+{
+	char     *key;
+	gpointer  object;
+
+	if (metadata == NULL)
+		return;
+
+	key = exiv2_key_to_attribute (gth_metadata_get_id (metadata));
+	object = g_hash_table_lookup (table, key);
+	if (object != NULL) {
+		GthStringList *string_list;
+		GList         *list;
+
+		string_list = NULL;
+		if (GTH_IS_METADATA (object)) {
+			string_list = gth_string_list_new (NULL);
+			list = g_list_append (NULL, g_strdup (gth_metadata_get_raw (GTH_METADATA (object))));
+			gth_string_list_set_list (string_list, list);
+		}
+		else if (GTH_IS_STRING_LIST (object))
+			string_list = GTH_STRING_LIST (g_object_ref (object));
+
+		if (string_list == NULL)
+			return;
+
+		list = gth_string_list_get_list (string_list);
+		list = g_list_append (list, g_strdup (gth_metadata_get_raw (metadata)));
+		gth_string_list_set_list (string_list, list);
+
+		g_hash_table_replace (table,
+				      g_strdup (key),
+				      g_object_ref (string_list));
+
+		g_object_unref (string_list);
+	}
+	else
+		g_hash_table_insert (table,
+				     g_strdup (key),
+				     g_object_ref (metadata));
+
+	g_free (key);
+}
+
+
+static void
+set_file_info_from_hash (GFileInfo  *info,
+			 GHashTable *table)
+{
+	GHashTableIter iter;
+	gpointer       key;
+	gpointer       value;
+
+	g_hash_table_iter_init (&iter, table);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+		g_file_info_set_attribute_object (info, (char *)key, G_OBJECT (value));
 }
 
 
@@ -327,11 +420,8 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 				       const char *attribute,
 				       const char *tagset[])
 {
-	GObject        *metadata;
-	int             i;
-	char           *raw;
-	char          **keywords;
-	GthStringList  *string_list;
+	GObject *metadata;
+	int      i;
 
 	metadata = NULL;
 	for (i = 0; tagset[i] != NULL; i++) {
@@ -343,13 +433,21 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 	if (metadata == NULL)
 		return;
 
-	g_object_get (metadata, "raw", &raw, NULL);
-	keywords = g_strsplit (raw, ", ", -1);
-	string_list = gth_string_list_new_from_strv (keywords);
-	g_file_info_set_attribute_object (info, attribute, G_OBJECT (string_list));
+	if (GTH_IS_METADATA (metadata)) {
+		char           *raw;
+		char          **keywords;
+		GthStringList  *string_list;
 
-	g_strfreev (keywords);
-	g_free (raw);
+		g_object_get (metadata, "raw", &raw, NULL);
+		keywords = g_strsplit (raw, ", ", -1);
+		string_list = gth_string_list_new_from_strv (keywords);
+		g_file_info_set_attribute_object (info, attribute, G_OBJECT (string_list));
+
+		g_strfreev (keywords);
+		g_free (raw);
+	}
+	else if (GTH_IS_STRING_LIST (metadata))
+		g_file_info_set_attribute_object (info, attribute, metadata);
 }
 
 
@@ -445,6 +543,8 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 
 	Exiv2::IptcData &iptcData = image->iptcData();
 	if (! iptcData.empty()) {
+		GHashTable *table = create_metadata_hash ();
+
 		Exiv2::IptcData::iterator end = iptcData.end();
 		for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
 			stringstream raw_value;
@@ -456,18 +556,26 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 			else
 				description << md->tagName();
 
-			set_file_info (info,
-				       md->key().c_str(),
-				       description.str().c_str(),
-				       md->print().c_str(),
-				       raw_value.str().c_str(),
-				       "Iptc",
-				       md->typeName());
+			GthMetadata *metadata;
+			metadata = create_metadata (md->key().c_str(),
+						    description.str().c_str(),
+						    md->print().c_str(),
+						    raw_value.str().c_str(),
+						    "Iptc",
+						    md->typeName());
+
+			add_metadata_to_hash (table, metadata);
+			_g_object_unref (metadata);
 		}
+
+		set_file_info_from_hash (info, table);
+		g_hash_table_unref (table);
 	}
 
 	Exiv2::XmpData &xmpData = image->xmpData();
 	if (! xmpData.empty()) {
+		GHashTable *table = create_metadata_hash ();
+
 		Exiv2::XmpData::iterator end = xmpData.end();
 		for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
 			stringstream raw_value;
@@ -479,14 +587,19 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 			else
 				description << md->groupName() << "." << md->tagName();
 
-			set_file_info (info,
-				       md->key().c_str(),
-				       description.str().c_str(),
-				       md->print().c_str(),
-				       raw_value.str().c_str(),
-				       "Xmp::Embedded",
-				       md->typeName());
+			GthMetadata *metadata;
+			metadata = create_metadata (md->key().c_str(),
+						    description.str().c_str(),
+						    md->print().c_str(),
+						    raw_value.str().c_str(),
+						    "Xmp::Embedded",
+						    md->typeName());
+			add_metadata_to_hash (table, metadata);
+			_g_object_unref (metadata);
 		}
+
+		set_file_info_from_hash (info, table);
+		g_hash_table_unref (table);
 	}
 
 	set_attributes_from_tagsets (info);
@@ -587,6 +700,8 @@ exiv2_read_sidecar (GFile     *file,
 			return FALSE;
 
 		if (! xmpData.empty()) {
+			GHashTable *table = create_metadata_hash ();
+
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
 				stringstream raw_value;
@@ -598,14 +713,19 @@ exiv2_read_sidecar (GFile     *file,
 				else
 					description << md->groupName() << "." << md->tagName();
 
-				set_file_info (info,
-					       md->key().c_str(),
-					       description.str().c_str(),
-					       md->print().c_str(),
-					       raw_value.str().c_str(),
-					       "Xmp::Sidecar",
-					       md->typeName());
+				GthMetadata *metadata;
+				metadata = create_metadata (md->key().c_str(),
+							    description.str().c_str(),
+							    md->print().c_str(),
+							    raw_value.str().c_str(),
+							    "Xmp::Sidecar",
+							    md->typeName());
+				add_metadata_to_hash (table, metadata);
+				_g_object_unref (metadata);
 			}
+
+			set_file_info_from_hash (info, table);
+			g_hash_table_unref (table);
 		}
 		Exiv2::XmpParser::terminate();
 
@@ -643,18 +763,20 @@ mandatory_string (Exiv2::ExifData &checkdata,
 
 
 const char *
-gth_main_get_metadata_type (GthMetadata *metadata,
-			    const char  *attribute)
+gth_main_get_metadata_type (gpointer    metadata,
+			    const char *attribute)
 {
 	const char      *value_type;
 	GthMetadataInfo *metadatum_info;
 
-	value_type = gth_metadata_get_value_type (metadata);
-	if (g_strcmp0 (value_type, "Undefined") == 0)
-		value_type = NULL;
+	if (GTH_IS_METADATA (metadata)) {
+		value_type = gth_metadata_get_value_type (GTH_METADATA (metadata));
+		if (g_strcmp0 (value_type, "Undefined") == 0)
+			value_type = NULL;
 
-	if (value_type != NULL)
-		return value_type;
+		if (value_type != NULL)
+			return value_type;
+	}
 
 	metadatum_info = gth_main_get_metadata_info (attribute);
 	if (metadatum_info != NULL)
@@ -788,19 +910,39 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	Exiv2::IptcData id;
 	attributes = g_file_info_list_attributes (info, "Iptc");
 	for (i = 0; attributes[i] != NULL; i++) {
-		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
-		char *key = exiv2_key_from_attribute (attributes[i]);
+		gpointer  metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char     *key = exiv2_key_from_attribute (attributes[i]);
 
 		try {
-			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
+			const char *value_type;
 
-			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
+			value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
+			if (value_type != NULL) {
 				/* See the exif data code above for an explanation. */
 				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
-				value->read (raw_value);
 				Exiv2::IptcKey iptc_key(key);
-				id.add (iptc_key, value.get());
+
+				if (GTH_IS_STRING_LIST (metadatum)) {
+					GthStringList *string_list;
+					GList         *scan;
+
+					string_list = GTH_STRING_LIST (metadatum);
+					for (scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
+						char *single_value = (char *) scan->data;
+
+						value->read (single_value);
+						id.add (iptc_key, value.get());
+					}
+				}
+				else if (GTH_IS_METADATA (metadatum)) {
+					const char *raw_value;
+
+					raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
+					if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
+						value->read (raw_value);
+						id.add (iptc_key, value.get());
+					}
+				}
 			}
 		}
 		catch (Exiv2::AnyError& e) {
@@ -817,26 +959,46 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	Exiv2::XmpData xd;
 	attributes = g_file_info_list_attributes (info, "Xmp");
 	for (i = 0; attributes[i] != NULL; i++) {
-		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
-		char *key = exiv2_key_from_attribute (attributes[i]);
+		gpointer  metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char     *key = exiv2_key_from_attribute (attributes[i]);
 
 		// Remove existing tags of the same type.
 		// Seems to be needed for storing category keywords.
 		// Not exactly sure why!
-		Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (key));
+		/*Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (key));
 		if (iter != xd.end ())
-			xd.erase (iter);
+			xd.erase (iter);*/
 
 		try {
-			const char *raw_value = gth_metadata_get_raw (metadatum);
-			const char *value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
+			const char *value_type;
 
-			if ((raw_value != NULL) && (strcmp (raw_value, "") != 0) &&  (value_type != NULL)) {
+			value_type = gth_main_get_metadata_type (metadatum, attributes[i]);
+			if (value_type != NULL) {
 				/* See the exif data code above for an explanation. */
 				Exiv2::Value::AutoPtr value = Exiv2::Value::create (Exiv2::TypeInfo::typeId (value_type));
-				value->read (raw_value);
 				Exiv2::XmpKey xmp_key(key);
-				xd.add (xmp_key, value.get());
+
+				if (GTH_IS_STRING_LIST (metadatum)) {
+					GthStringList *string_list;
+					GList         *scan;
+
+					string_list = GTH_STRING_LIST (metadatum);
+					for (scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
+						char *single_value = (char *) scan->data;
+
+						value->read (single_value);
+						xd.add (xmp_key, value.get());
+					}
+				}
+				else if (GTH_IS_METADATA (metadatum)) {
+					const char *raw_value;
+
+					raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
+					if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
+						value->read (raw_value);
+						xd.add (xmp_key, value.get());
+					}
+				}
 			}
 		}
 		catch (Exiv2::AnyError& e) {

@@ -138,6 +138,14 @@ gth_string_list_get_list (GthStringList *list)
 }
 
 
+void
+gth_string_list_set_list (GthStringList *list,
+			  GList         *value)
+{
+	list->priv->list = value;
+}
+
+
 char *
 gth_string_list_join (GthStringList *list,
 		      const char    *separator)

@@ -164,18 +164,8 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (metadata != NULL) {
-		GthMetadata *meta;
-		char        *raw;
-
-		meta = gth_metadata_new ();
-		raw = gth_string_list_join (GTH_STRING_LIST (metadata), ", ");
-		g_object_set (meta, "id", "general::tags", "raw", raw, NULL);
-
-		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", G_OBJECT (meta));
-		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", G_OBJECT (meta));
-
-		g_free (raw);
-		g_object_unref (meta);
+		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", metadata);
+		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", metadata);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");

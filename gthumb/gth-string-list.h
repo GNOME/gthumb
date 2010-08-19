@@ -52,6 +52,8 @@ GthStringList *   gth_string_list_new                 (GList          *list);
 GthStringList *   gth_string_list_new_from_strv       (char          **strv);
 GthStringList *   gth_string_list_new_from_ptr_array  (GPtrArray      *array);
 GList *           gth_string_list_get_list            (GthStringList  *list);
+void              gth_string_list_set_list            (GthStringList  *list,
+						       GList          *value);
 char *            gth_string_list_join                (GthStringList  *list,
 						       const char     *separator);
 gboolean          gth_string_list_equal               (GthStringList  *list1,
