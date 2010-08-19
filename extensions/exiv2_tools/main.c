@@ -156,6 +156,21 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Iptc::Application2::LocationName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Iptc::Application2::Keywords", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
+	/* the editable fields specified in the "Other" tab of the "edit metadata" dialog */
+
+	{ "Iptc::Application2::Copyright", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Credit", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Byline", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::BylineTitle", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::CountryName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::CountryCode", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::City", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Language", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::ObjectName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Source", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Envelope::Destination", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Urgency", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+
 	{ NULL, NULL, NULL, 0, NULL, 0 }
 };
 
