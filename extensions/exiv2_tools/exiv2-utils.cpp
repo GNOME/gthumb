@@ -222,6 +222,8 @@ create_metadata (const char *key,
 			formatted_value_utf8 = _g_time_val_strftime (&time_, "%x %X");
 		else
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
+		if (formatted_value_utf8 == NULL)
+			formatted_value_utf8 = g_strdup (formatted_value);
 	}
 	else {
 		const char *formatted_clean;
@@ -231,6 +233,8 @@ create_metadata (const char *key,
 		else
 			formatted_clean = formatted_value;
 		formatted_value_utf8 = g_locale_to_utf8 (formatted_clean, -1, NULL, NULL, NULL);
+		if (formatted_value_utf8 == NULL)
+			formatted_value_utf8 = g_strdup (formatted_clean);
 	}
 
 	metadata_info = gth_main_get_metadata_info (attribute);
@@ -321,7 +325,7 @@ add_metadata_to_hash (GHashTable  *table,
 		string_list = NULL;
 		if (GTH_IS_METADATA (object)) {
 			string_list = gth_string_list_new (NULL);
-			list = g_list_append (NULL, g_strdup (gth_metadata_get_raw (GTH_METADATA (object))));
+			list = g_list_append (NULL, g_strdup (gth_metadata_get_formatted (GTH_METADATA (object))));
 			gth_string_list_set_list (string_list, list);
 		}
 		else if (GTH_IS_STRING_LIST (object))
@@ -331,7 +335,7 @@ add_metadata_to_hash (GHashTable  *table,
 			return;
 
 		list = gth_string_list_get_list (string_list);
-		list = g_list_append (list, g_strdup (gth_metadata_get_raw (metadata)));
+		list = g_list_append (list, g_strdup (gth_metadata_get_formatted (metadata)));
 		gth_string_list_set_list (string_list, list);
 
 		g_hash_table_replace (table,
@@ -563,7 +567,6 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 						    raw_value.str().c_str(),
 						    "Iptc",
 						    md->typeName());
-
 			add_metadata_to_hash (table, metadata);
 			_g_object_unref (metadata);
 		}
