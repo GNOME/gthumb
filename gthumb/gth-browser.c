@@ -5123,7 +5123,8 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 
 	gth_browser_update_title (browser);
 	gth_browser_update_statusbar_file_info (browser);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
 	gth_browser_update_sensitivity (browser);
 }
@@ -5191,6 +5192,8 @@ file_metadata_ready_cb (GList    *files,
 			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
 		}
 	}
+	else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
+		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
 
 	if (browser->priv->viewer_page != NULL)
 		gth_viewer_page_view (browser->priv->viewer_page, file_data);
