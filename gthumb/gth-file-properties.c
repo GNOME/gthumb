@@ -134,7 +134,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 			g_free (value);
 			value = tmp_value;
 		}
-		tooltip = g_markup_printf_escaped ("%s: %s", info->display_name, value);
+		tooltip = g_markup_printf_escaped ("%s: %s", _(info->display_name), value);
 
 		category = g_hash_table_lookup (category_hash, info->category);
 		if (category == NULL) {
@@ -154,7 +154,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 				    &iter,
 				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    ID_COLUMN, info->id,
-				    DISPLAY_NAME_COLUMN, info->display_name,
+				    DISPLAY_NAME_COLUMN, _(info->display_name),
 				    VALUE_COLUMN, value,
 				    TOOLTIP_COLUMN, tooltip,
 				    POS_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
