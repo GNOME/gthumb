@@ -5181,8 +5181,10 @@ file_metadata_ready_cb (GList    *files,
 		}
 	}
 
-	if (data->view) {
+	if (data->view)
 		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
