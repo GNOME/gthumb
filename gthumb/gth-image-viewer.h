@@ -132,7 +132,6 @@ struct _GthImageViewerClass
 	void (* set_scroll_adjustments) (GtkWidget          *widget,
 					 GtkAdjustment      *hadj,
 					 GtkAdjustment      *vadj);
-	void (* repainted)              (GthImageViewer     *viewer);
 
 	/* -- Key binding signals -- */
 

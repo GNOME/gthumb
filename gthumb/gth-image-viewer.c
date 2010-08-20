@@ -55,7 +55,6 @@ enum {
 	SET_FIT_MODE,
 	ZOOM_CHANGED,
 	SIZE_CHANGED,
-	REPAINTED,
 	SCROLL,
 	LAST_SIGNAL
 };
@@ -116,9 +115,6 @@ struct _GthImageViewerPrivate {
 	gboolean                skip_zoom_change;
 	gboolean                skip_size_change;
 
-	gboolean                next_scroll_repaint; /* used in fullscreen mode to
-					              * delete the comment before
-					              * scrolling. */
 	gboolean                reset_scrollbars;
 };
 
@@ -956,30 +952,6 @@ gth_image_viewer_button_release (GtkWidget      *widget,
 
 
 static void
-expose_area (GthImageViewer *viewer,
-	     int             x,
-	     int             y,
-	     int             width,
-	     int             height)
-{
-	GdkEventExpose event;
-
-	if (width == 0 || height == 0)
-		return;
-
-	event.area.x = x;
-	event.area.y = y;
-	event.area.width = width;
-	event.area.height = height;
-	event.region = gdk_region_rectangle (&event.area);
-
-	gth_image_viewer_expose (GTK_WIDGET (viewer), &event);
-
-	gdk_region_destroy (event.region);
-}
-
-
-static void
 scroll_to (GthImageViewer *viewer,
 	   int            *x_offset,
 	   int            *y_offset)
@@ -1018,75 +990,33 @@ scroll_to (GthImageViewer *viewer,
 	delta_x = *x_offset - viewer->x_offset;
 	delta_y = *y_offset - viewer->y_offset;
 
-	if (viewer->priv->next_scroll_repaint) {
-		viewer->priv->next_scroll_repaint = FALSE;
-
-		viewer->x_offset = *x_offset;
-		viewer->y_offset = *y_offset;
-
-		g_signal_emit (G_OBJECT (viewer),
-			       gth_image_viewer_signals[REPAINTED],
-			       0);
-
-		expose_area (viewer, 0, 0, allocation.width, allocation.height);
-
-		return;
-	}
-
-	if ((delta_x != 0) || (delta_y != 0)) {
-		int      src_x, dest_x;
-		int      src_y, dest_y;
-		cairo_t *cr;
-
-		if (delta_x < 0) {
-			src_x = 0;
-			dest_x = -delta_x;
-		}
-		else {
-			src_x = delta_x;
-			dest_x = 0;
-		}
-
-		if (delta_y < 0) {
-			src_y = 0;
-			dest_y = -delta_y;
-		}
-		else {
-			src_y = delta_y;
-			dest_y = 0;
-		}
-
-		dest_x += viewer->priv->frame_border;
-		dest_y += viewer->priv->frame_border;
-		src_x += viewer->priv->frame_border;
-		src_y += viewer->priv->frame_border;
-
-		cr = gdk_cairo_create (drawable);
-		gdk_cairo_set_source_pixmap (cr, drawable, dest_x - src_x, dest_y - src_y);
-		cairo_rectangle (cr,
-				 dest_x,
-				 dest_y,
-				 gdk_width - abs (delta_x),
-				 gdk_height - abs (delta_y));
-		cairo_fill (cr);
-
-		cairo_destroy (cr);
-	}
-
 	viewer->x_offset = *x_offset;
 	viewer->y_offset = *y_offset;
 
-	expose_area (viewer,
-		     viewer->priv->frame_border,
-		     (delta_y < 0) ? viewer->priv->frame_border : viewer->priv->frame_border + gdk_height - abs (delta_y),
-		     gdk_width,
-		     abs (delta_y));
+	gdk_window_scroll (drawable, -delta_x, -delta_y);
 
-	expose_area (viewer,
-		     (delta_x < 0) ? viewer->priv->frame_border : viewer->priv->frame_border + gdk_width - abs (delta_x),
-		     viewer->priv->frame_border,
-		     abs (delta_x),
-		     gdk_height);
+	{
+		GdkRegion    *region;
+		GdkRectangle  area;
+
+		region = gdk_region_new ();
+
+		area.x = viewer->priv->frame_border;
+		area.y = (delta_y < 0) ? viewer->priv->frame_border : viewer->priv->frame_border + gdk_height - abs (delta_y);
+		area.width = gdk_width;
+		area.height = abs (delta_y);
+		gdk_region_union_with_rect (region, &area);
+
+		area.x = (delta_x < 0) ? viewer->priv->frame_border : viewer->priv->frame_border + gdk_width - abs (delta_x);
+		area.y = viewer->priv->frame_border;
+		area.width = abs (delta_x);
+		area.height = gdk_height;
+		gdk_region_union_with_rect (region, &area);
+
+		gdk_window_invalidate_region (drawable, region, TRUE);
+	}
+
+	gdk_window_process_updates (drawable, TRUE);
 }
 
 
@@ -1419,15 +1349,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	gth_image_viewer_signals[REPAINTED] =
-		g_signal_new ("repainted",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthImageViewerClass, repainted),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
 	class->set_scroll_adjustments = set_scroll_adjustments;
 	widget_class->set_scroll_adjustments_signal =
 		g_signal_new ("set_scroll_adjustments",
@@ -1714,7 +1635,7 @@ static void
 gth_image_viewer_instance_init (GthImageViewer *viewer)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (viewer), TRUE);
-	gtk_widget_set_double_buffered (GTK_WIDGET (viewer), TRUE);
+	gtk_widget_set_double_buffered (GTK_WIDGET (viewer), FALSE);
 
 	/* Initialize data. */
 
@@ -1754,7 +1675,6 @@ gth_image_viewer_instance_init (GthImageViewer *viewer)
 
 	viewer->priv->skip_zoom_change = FALSE;
 	viewer->priv->skip_size_change = FALSE;
-	viewer->priv->next_scroll_repaint = FALSE;
 
 	viewer->priv->is_void = TRUE;
 	viewer->x_offset = 0;
