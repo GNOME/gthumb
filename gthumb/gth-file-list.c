@@ -98,6 +98,7 @@ struct _GthFileListPrivateData
 	GtkWidget       *notebook;
 	GtkWidget       *view;
 	GtkWidget       *message;
+	GtkWidget       *scrolled_window;
 	GthIconCache    *icon_cache;
 	GthFileSource   *file_source;
 	gboolean         load_thumbs;
@@ -260,15 +261,58 @@ gth_file_list_finalize (GObject *object)
 
 
 static void
+gth_file_list_size_request (GtkWidget      *widget,
+			    GtkRequisition *requisition)
+{
+	GthFileList *file_list;
+
+	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+
+	file_list = GTH_FILE_LIST (widget);
+
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
+		int        xthickness;
+		GtkWidget *vscrollbar;
+
+		xthickness = gtk_widget_get_style (file_list->priv->scrolled_window)->xthickness;
+		requisition->width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + xthickness * 2;
+
+		vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
+		if (gtk_widget_get_visible (vscrollbar)) {
+			GtkRequisition vscrollbar_requisition;
+			int            scrollbar_spacing;
+
+			gtk_widget_size_request (vscrollbar, &vscrollbar_requisition);
+			gtk_widget_style_get (file_list->priv->scrolled_window,
+					      "scrollbar-spacing", &scrollbar_spacing,
+					      NULL);
+			requisition->width += vscrollbar_requisition.width + scrollbar_spacing;
+		}
+	}
+	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) {
+		int ythickness;
+
+		ythickness = gtk_widget_get_style (file_list->priv->scrolled_window)->ythickness;
+		requisition->height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + ythickness * 2;
+	}
+}
+
+
+static void
 gth_file_list_class_init (GthFileListClass *class)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_list_finalize;
+
+	widget_class = (GtkWidgetClass*) class;
+	widget_class->size_request = gth_file_list_size_request;
 }
+
 
 static ThumbData *
 thumb_data_new (void)
@@ -530,6 +574,16 @@ checkbox_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 
 static void
+_gth_file_list_update_orientation (GthFileList *file_list)
+{
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
+		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_VERTICAL);
+	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
+		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_HORIZONTAL);
+}
+
+
+static void
 _gth_file_list_set_type (GthFileList     *file_list,
 		 	 GthFileListType  list_type)
 {
@@ -550,20 +604,7 @@ _gth_file_list_set_type (GthFileList     *file_list,
 		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR),
 		      NULL);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
-		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_VERTICAL);
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2),
-					     0);
-	}
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) {
-		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_HORIZONTAL);
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     0,
-					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
-	}
-	else
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view), 0, 0);
+	_gth_file_list_update_orientation (file_list);
 }
 
 
@@ -572,7 +613,6 @@ gth_file_list_construct (GthFileList     *file_list,
 			 GthFileListType  list_type,
 			 gboolean         enable_drag_drop)
 {
-	GtkWidget       *scrolled;
 	GtkWidget       *viewport;
 	GtkCellRenderer *renderer;
 	GthFileStore    *model;
@@ -603,14 +643,14 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* the file view */
 
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+	file_list->priv->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
 					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
 					     GTK_SHADOW_ETCHED_IN);
 
-	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled));
+	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
 	g_signal_connect (G_OBJECT (file_list->priv->vadj),
 			  "changed",
 			  G_CALLBACK (vadj_changed_cb),
@@ -710,10 +750,10 @@ gth_file_list_construct (GthFileList     *file_list,
 	/* pack the widgets together */
 
 	gtk_widget_show (file_list->priv->view);
-	gtk_container_add (GTK_CONTAINER (scrolled), file_list->priv->view);
+	gtk_container_add (GTK_CONTAINER (file_list->priv->scrolled_window), file_list->priv->view);
 
-	gtk_widget_show (scrolled);
-	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), scrolled);
+	gtk_widget_show (file_list->priv->scrolled_window);
+	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), file_list->priv->scrolled_window);
 
 	gtk_widget_show (file_list->priv->message);
 	gtk_container_add (GTK_CONTAINER (viewport), file_list->priv->message);
@@ -1273,14 +1313,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 		      "wrap-width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
 		      NULL);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2),
-					     0);
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
-		gtk_widget_set_size_request (GTK_WIDGET (file_list->priv->view),
-					     0,
-					     file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2));
+	_gth_file_list_update_orientation (file_list);
 }
 
 
