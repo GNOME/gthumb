@@ -47,7 +47,8 @@ DOC_PAGES = \
 	sharing-disc.page \
 	wallpaper.page \
 	bookmarks.page \
-	import.page
+	import.page \
+	slideshow.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
