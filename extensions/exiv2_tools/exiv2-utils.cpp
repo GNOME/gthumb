@@ -39,6 +39,9 @@
 using namespace std;
 
 
+#define INVALID_VALUE "---"
+
+
 /* Some bits of information may be contained in more than one metadata tag.
    The arrays below define the valid tags for a particular piece of
    information, in decreasing order of preference (best one first) */
@@ -223,7 +226,7 @@ create_metadata (const char *key,
 		else
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
 		if (formatted_value_utf8 == NULL)
-			formatted_value_utf8 = g_strdup (formatted_value);
+			formatted_value_utf8 = g_strdup (INVALID_VALUE);
 	}
 	else {
 		const char *formatted_clean;
@@ -234,7 +237,7 @@ create_metadata (const char *key,
 			formatted_clean = formatted_value;
 		formatted_value_utf8 = g_locale_to_utf8 (formatted_clean, -1, NULL, NULL, NULL);
 		if (formatted_value_utf8 == NULL)
-			formatted_value_utf8 = g_strdup (formatted_clean);
+			formatted_value_utf8 = g_strdup (INVALID_VALUE);
 	}
 
 	metadata_info = gth_main_get_metadata_info (attribute);
