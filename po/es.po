@@ -1,4 +1,4 @@
-# translation of gthumb.HEAD.po to Español
+# translation of gthumb.master.po to Español
 # Spanish translation of gthumb
 # Copyright © 2002-2003, 2006, 2007, 2008 the Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
@@ -11,11 +11,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.HEAD\n"
+"Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-08-14 18:07+0000\n"
-"PO-Revision-Date: 2010-08-16 08:42+0200\n"
+"POT-Creation-Date: 2010-08-20 17:45+0000\n"
+"PO-Revision-Date: 2010-08-21 12:52+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -314,27 +314,23 @@ msgstr "Elija la carpeta de inicio"
 msgid "D_etermine image type from content (slower)"
 msgstr "De_terminar el tipo de imagen por su contenido (lento)"
 
-#: ../data/ui/preferences.ui.h:12
-msgid "Do _not change folder"
-msgstr "_No cambiar de carpeta"
-
-#: ../data/ui/preferences.ui.h:13 ../extensions/image_viewer/preferences.c:101
+#: ../data/ui/preferences.ui.h:12 ../extensions/image_viewer/preferences.c:101
 msgid "Fit to width if larger"
 msgstr "Ajustar a la anchura si es mayor"
 
-#: ../data/ui/preferences.ui.h:14 ../extensions/image_viewer/preferences.c:98
+#: ../data/ui/preferences.ui.h:13 ../extensions/image_viewer/preferences.c:98
 msgid "Fit to window"
 msgstr "Ajustar a la ventana"
 
-#: ../data/ui/preferences.ui.h:15 ../extensions/image_viewer/preferences.c:99
+#: ../data/ui/preferences.ui.h:14 ../extensions/image_viewer/preferences.c:99
 msgid "Fit to window if larger"
 msgstr "Ajustar a la ventana si es mayor"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:15
 msgid "Follow Nautilus behaviour"
 msgstr "Seguir el comportamiento de Nautilus"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:310
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
@@ -342,23 +338,23 @@ msgstr "Seguir el comportamiento de Nautilus"
 msgid "General"
 msgstr "General"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Go to last _visited location"
 msgstr "Ir a la última _ubicación visitada"
 
-#: ../data/ui/preferences.ui.h:19
+#: ../data/ui/preferences.ui.h:18
 msgid "Go to this _folder:"
 msgstr "Ir a esta _carpeta:"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:19 ../gthumb/dlg-preferences.c:231
 msgid "Icons only"
 msgstr "Sólo iconos"
 
-#: ../data/ui/preferences.ui.h:21 ../extensions/image_viewer/preferences.c:97
+#: ../data/ui/preferences.ui.h:20 ../extensions/image_viewer/preferences.c:97
 msgid "Keep previous zoom"
 msgstr "Mantener la ampliación anterior"
 
-#: ../data/ui/preferences.ui.h:22
+#: ../data/ui/preferences.ui.h:21
 #: ../extensions/file_tools/gth-file-tool-crop.c:399
 #: ../extensions/file_tools/gth-file-tool-crop.c:425
 #: ../extensions/file_tools/gth-file-tool-resize.c:422
@@ -367,71 +363,71 @@ msgstr "Mantener la ampliación anterior"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../data/ui/preferences.ui.h:23
+#: ../data/ui/preferences.ui.h:22
 msgid "On startup:"
 msgstr "Al iniciar:"
 
-#: ../data/ui/preferences.ui.h:24
+#: ../data/ui/preferences.ui.h:23
 #: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:190
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
 msgstr "Otro"
 
-#: ../data/ui/preferences.ui.h:25
+#: ../data/ui/preferences.ui.h:24
 msgid "Set image to actual size"
 msgstr "Mostrar la imagen con su tamaño normal"
 
-#: ../data/ui/preferences.ui.h:26
+#: ../data/ui/preferences.ui.h:25
 msgid "Set to C_urrent"
 msgstr "Establecer al act_ual"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:26 ../gthumb/dlg-preferences.c:231
 msgid "System settings"
 msgstr "Configuración del sistema"
 
-#: ../data/ui/preferences.ui.h:28
+#: ../data/ui/preferences.ui.h:27
 msgid "T_humbnails in viewer:"
 msgstr "Miniaturas en el visor:"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:231
 msgid "Text below icons"
 msgstr "Texto debajo de los iconos"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:231
 msgid "Text beside icons"
 msgstr "Texto junto a los iconos"
 
-#: ../data/ui/preferences.ui.h:31 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:231
 msgid "Text only"
 msgstr "Sólo texto"
 
-#: ../data/ui/preferences.ui.h:32
+#: ../data/ui/preferences.ui.h:31
 msgid "Thumbnail _size:"
 msgstr "Tamaño de las miniat_uras:"
 
-#: ../data/ui/preferences.ui.h:33 ../extensions/image_viewer/preferences.c:109
+#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:109
 msgid "White"
 msgstr "Blanco"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:33
 msgid "_Store metadata inside files if possible"
 msgstr "Guardas los _metadatos dentro de los archivos si es posible"
 
-#: ../data/ui/preferences.ui.h:35
+#: ../data/ui/preferences.ui.h:34
 msgid "_Toolbar style:"
 msgstr "Es_tilo de la barra de herramientas:"
 
-#: ../data/ui/preferences.ui.h:36
+#: ../data/ui/preferences.ui.h:35
 msgid "gthumb Preferences"
 msgstr "Preferencias de gThumb"
 
-#: ../data/ui/preferences.ui.h:37
+#: ../data/ui/preferences.ui.h:36
 msgid "on the bottom"
 msgstr "abajo"
 
-#: ../data/ui/preferences.ui.h:38
+#: ../data/ui/preferences.ui.h:37
 msgid "on the side"
 msgstr "en el lateral"
 
@@ -572,9 +568,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "No se pudieron quitar los archivos del catálogo"
 
 #: ../extensions/catalogs/actions.c:120
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:514
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:523
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:551
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:633
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:642
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:670
 #: ../extensions/search/gth-search.c:295
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
@@ -796,7 +792,7 @@ msgid "Singles"
 msgstr "Simples"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
-#: ../extensions/comments/main.c:223
+#: ../extensions/comments/main.c:225
 msgid "Tag"
 msgstr "Etiqueta"
 
@@ -815,7 +811,6 @@ msgid "_Include sub-folders"
 msgstr "_Incluir sub-carpetas"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:11
-#| msgid "Tag"
 msgid "tag"
 msgstr "etiqueta"
 
@@ -939,7 +934,7 @@ msgstr "_Sincronizar con los metadatos empotrados"
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../extensions/comments/main.c:207
+#: ../extensions/comments/main.c:209
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
@@ -948,7 +943,7 @@ msgstr "Comentario"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../extensions/comments/main.c:215 ../gthumb/gth-main-default-metadata.c:50
+#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Lugar"
 
@@ -1018,7 +1013,8 @@ msgid "T_ags"
 msgstr "E_tiquetas"
 
 #: ../extensions/edit_metadata/callbacks.c:102
-msgid "Edit the comment an other information of the selected files"
+#| msgid "Edit the comment an other information of the selected files"
+msgid "Edit the comment and other information of the selected files"
 msgstr "Editar el comentario y otra información de los archivos seleccionados"
 
 #: ../extensions/edit_metadata/callbacks.c:107
@@ -1244,7 +1240,7 @@ msgstr "XMP empotrado"
 msgid "XMP Attached"
 msgstr "XMP adjunto"
 
-#: ../extensions/exiv2_tools/main.c:229
+#: ../extensions/exiv2_tools/main.c:244
 msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
@@ -2907,12 +2903,12 @@ msgid "1 megabyte file size"
 msgstr "tamaño de archivo de 1 megabyte"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-msgid "15&#x2BA; screen ( 800 x 600 )"
-msgstr "Pantalla de 15&#x2BA; (800 x 600)"
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr "Pantalla de 15\" (800 x 600)"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-msgid "17&#x2BA; screen ( 1024 x 768 )"
-msgstr "Pantalla de 17&#x2BA; (1024 x 768)"
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr "Pantalla de 17\" (1024 x 768)"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 msgid "Large ( 640 x 480 )"
@@ -3423,7 +3419,7 @@ msgstr "Man_tener la proporción de aspecto original"
 msgid "pixel"
 msgstr "píxel"
 
-#: ../extensions/resize_images/dlg-resize-images.c:141
+#: ../extensions/resize_images/dlg-resize-images.c:140
 msgid "Resizing images"
 msgstr "Redimensionando imágenes"
 
@@ -3492,9 +3488,9 @@ msgstr "Herramienta de búsqueda de archivos."
 msgid "View as a slideshow"
 msgstr "Ver como diapositivas"
 
-#: ../extensions/slideshow/callbacks.c:388
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-#: ../extensions/slideshow/preferences.c:125
+#: ../extensions/slideshow/callbacks.c:406
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+#: ../extensions/slideshow/preferences.c:138
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Mostrar diapositivas"
@@ -3508,27 +3504,31 @@ msgid "Playlist"
 msgstr "Lista de reproducción"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
+msgid "R_andom order"
+msgstr "Orden alea_torio"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
 msgid "Remove the selected files"
 msgstr "Quitar los archivos seleccionados"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Change automatically, every"
 msgstr "_Cambiar automáticamente, cada"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "_Personalize"
 msgstr "_Personalizar"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
 msgid "_Restart when finished"
 msgstr "Reinicia_r al finalizar"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "_Transition effect:"
 msgstr "Efecto de _transición:"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
 msgid "seconds"
 msgstr "segundos"
 
@@ -3540,7 +3540,7 @@ msgstr "Seleccionar los archivos que reproducir"
 msgid "Audio files"
 msgstr "Archivos de sonido"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:284
+#: ../extensions/slideshow/gth-slideshow-preferences.c:285
 msgid "Random"
 msgstr "Aleatorio"
 
@@ -4005,11 +4005,11 @@ msgstr ""
 "Debería haber recibido una copia de la Licencia Pública General GNU junto "
 "con gthumb. Si no la recibió, consulte http://www.gnu.org/licenses/."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:390
+#: ../gthumb/gth-browser-actions-callbacks.c:397
 msgid "An image viewer and browser for GNOME."
 msgstr "Un visor y navegador de imágenes para GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:393
+#: ../gthumb/gth-browser-actions-callbacks.c:400
 msgid "translator_credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010\n"
@@ -4233,8 +4233,8 @@ msgid "gthumb"
 msgstr "gthumb"
 
 #: ../gthumb/gth-browser.c:1125 ../gthumb/gth-browser.c:1690
-#: ../gthumb/gth-browser.c:5411 ../gthumb/gth-browser.c:5430
-#: ../gthumb/gth-browser.c:5455
+#: ../gthumb/gth-browser.c:5416 ../gthumb/gth-browser.c:5435
+#: ../gthumb/gth-browser.c:5460
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4274,12 +4274,12 @@ msgstr "Ver la lista de lugares visitados"
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5412
+#: ../gthumb/gth-browser.c:5417
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5456
+#: ../gthumb/gth-browser.c:5461
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4634,6 +4634,15 @@ msgstr "- Explorador de imágenes y visor"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
+
+#~ msgid "Do _not change folder"
+#~ msgstr "_No cambiar de carpeta"
+
+#~ msgid "15&#x2BA; screen ( 800 x 600 )"
+#~ msgstr "Pantalla de 15&#x2BA; (800 x 600)"
+
+#~ msgid "17&#x2BA; screen ( 1024 x 768 )"
+#~ msgstr "Pantalla de 17&#x2BA; (1024 x 768)"
 
 #~ msgid "Files"
 #~ msgstr "Archivos"
@@ -5934,9 +5943,6 @@ msgstr ""
 
 #~ msgid "by comment"
 #~ msgstr "por comentario"
-
-#~ msgid "manual order"
-#~ msgstr "orden manual"
 
 #~ msgid ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
