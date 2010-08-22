@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-04 22:12+0000\n"
-"PO-Revision-Date: 2010-08-05 15:07+0200\n"
+"POT-Creation-Date: 2010-08-20 19:34+0000\n"
+"PO-Revision-Date: 2010-08-22 13:03+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,22 +33,214 @@ msgid ""
 "modify, and distribute the example code contained in this document under the "
 "terms of your choosing, without restriction."
 msgstr ""
+"Como excepción especial, los poseedores de los derechos de autor le dan "
+"permiso para copiar, modificar y distribuir el código de ejemplo contenido "
+"en este documento bajo los términos que usted elija, sin restricción."
+
+#: C/slideshow.page:7(title)
+#, fuzzy
+#| msgid "Slideshows"
+msgid "Automatic Slideshow"
+msgstr "Diapositivas"
+
+#: C/slideshow.page:9(p)
+msgid ""
+"A slideshow of the currently selected images can be started from the image "
+"browser by pressing <key>F5</key>, by clicking the slideshow toolbar icon, "
+"or by clicking <guiseq><gui>View</gui><gui>Slideshow</gui></guiseq>. If no "
+"images are selected, all images in the folder will be included."
+msgstr ""
+
+#: C/slideshow.page:15(p)
+msgid ""
+"The transition effects and the time each image is shown can be modified from "
+"the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
+"guiseq> dialog."
+msgstr ""
+
+#: C/slideshow.page:19(p)
+msgid ""
+"Some graphics cards and drivers may experience problems (crashes) if "
+"transition effects are enabled. If you experience such difficulties, set the "
+"<gui>Transition effect</gui> preference to <gui>None</gui>."
+msgstr ""
+
+#: C/slideshow.page:23(p)
+#, fuzzy
+#| msgid ""
+#| "You can also advance to the next image by pressing <key>PageDown</key> or "
+#| "<key>Space</key>."
+msgid ""
+"You can advance manually to the next image by pressing <key>Down Arrow</key> "
+"or <key>Right Arrow</key> or <key>Page Down</key>."
+msgstr ""
+"Puede avanzar hasta la siguiente imagen pulsando <keycap>AvPág</keycap> o "
+"<keycap>Espacio</keycap>."
+
+#: C/slideshow.page:26(p)
+#, fuzzy
+#| msgid ""
+#| "You can go back to the previous image by pressing <key>PageUp</key> or "
+#| "<key>Backspace</key>."
+msgid ""
+"You can go back to the previous image by pressing <key>Up Arrow</key> or "
+"<key>Left Arrow</key> or <key>Page Up</key>."
+msgstr ""
+"Puede volver a la imagen anterior pulsando <keycap>RePág</keycap> o "
+"<keycap>Retroceso</keycap>."
+
+#: C/slideshow.page:29(p)
+#, fuzzy
+#| msgid ""
+#| "You can also advance to the next image by pressing <key>PageDown</key> or "
+#| "<key>Space</key>."
+msgid "You can pause the slideshow by pressing <key>Space</key>."
+msgstr ""
+"Puede avanzar hasta la siguiente imagen pulsando <keycap>AvPág</keycap> o "
+"<keycap>Espacio</keycap>."
+
+#: C/slideshow.page:31(p)
+msgid "To exit the slideshow, press <key>Escape</key>."
+msgstr ""
+
+#. When image changes, this message will be marked fuzzy or untranslated for you.
+#. It doesn't matter what you translate it to: it's not used at all.
+#: C/import.page:21(None)
+#| msgid ""
+#| "@@image: 'figures/thumbnail-pane.png'; "
+#| "md5=af28541956094195dac6bc0e11624d64"
+msgid "@@image: 'figures/import.png'; md5=aab2ba4d889d170b219c554294d69b0f"
+msgstr "@@image: 'figures/import.png'; md5=aab2ba4d889d170b219c554294d69b0f"
+
+#. When image changes, this message will be marked fuzzy or untranslated for you.
+#. It doesn't matter what you translate it to: it's not used at all.
+#: C/import.page:43(None)
+msgid ""
+"@@image: 'figures/import-pref-auto-folder.png'; "
+"md5=0a41de83da83b762e37f3962a7e4c042"
+msgstr ""
+"@@image: 'figures/import-pref-auto-folder.png'; "
+"md5=0a41de83da83b762e37f3962a7e4c042"
+
+#. When image changes, this message will be marked fuzzy or untranslated for you.
+#. It doesn't matter what you translate it to: it's not used at all.
+#: C/import.page:75(None)
+msgid ""
+"@@image: 'figures/import-pref-custom-format.png'; "
+"md5=989ca536c873ec926a4a71c876004b9f"
+msgstr ""
+"@@image: 'figures/import-pref-custom-format.png'; "
+"md5=989ca536c873ec926a4a71c876004b9f"
+
+#: C/import.page:8(title)
+msgid "Importing From a Camera"
+msgstr "Importar desde una cámara"
+
+#: C/import.page:10(p)
+msgid ""
+"On most systems, <app>gThumb</app> will automatically launch the import "
+"dialog when a digital camera is connected to the computer, or a memory card "
+"with photos is plugged into a card reader. (It does this because it is "
+"registered as the default handler for x-content/image-dcf and x-content/"
+"image-picturecd mime types.)"
+msgstr ""
+
+#: C/import.page:16(p)
+msgid ""
+"To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import "
+"From</gui><gui>Removable Device</gui></guiseq>."
+msgstr ""
+
+#: C/import.page:20(title)
+#, fuzzy
+#| msgid "Importing"
+msgid "The Import Dialog"
+msgstr "Importar"
+
+#: C/import.page:24(p)
+msgid ""
+"The import dialog shows thumbnails of the photos available on the selected "
+"device. The user can select one of more photos using normal keyboard or "
+"mouse techniques (for example, Ctrl+click to add a photo to the selection, "
+"or click and drag the mouse over the desired photos.) If no photos are "
+"explicitly selected, all will be imported."
+msgstr ""
+
+#: C/import.page:30(p)
+msgid ""
+"Tags may optionally be associated with the imported photos, using the "
+"<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
+"control to see the predefined tags."
+msgstr ""
+
+#: C/import.page:34(p)
+msgid ""
+"An event name may also be optionally associated with the photos. This event "
+"name can be used to generate an automatic subfolder name (possibly "
+"incorporating a date) as described below. For example, if the base "
+"destinator folder is \"/photos\", and you enter \"Wedding-Jennifer\" in the "
+"<gui>Event</gui> field, you can configure generation of automatic subfolders "
+"like \"/photos/2010-07-31, Wedding-Jennifer\"."
+msgstr ""
+
+#: C/import.page:42(title)
+msgid "Standard Date-Based Subfolders"
+msgstr ""
+
+#: C/import.page:46(p)
+msgid ""
+"As mentioned above, subfolders for imported photos can be automatically "
+"generated based on event names and dates. This is enabled or disabled by "
+"clicking on the destination foldername in the import dialog. This opens a "
+"second dialog, where the base folder for imports may be selected (the "
+"<gui>Destination</gui> folder). To generate automatic subfolders, select "
+"<gui>Automatic subfolder</gui>."
+msgstr ""
+
+#: C/import.page:52(p)
+msgid ""
+"You can select either the <gui>File Date</gui> or the <gui>Current Date</"
+"gui> to use as the basis for subfolder naming. (The <gui>File Date</gui> "
+"examines the dates embedded in the file metadata to determine when the photo "
+"was taken.) A variety of standard date formats are available (<gui>year-"
+"month</gui> for example). The <gui>as single subfolder</gui> checkbox "
+"controls whether a \"deep\" or \"shallow\" hierarchy of files is made (for "
+"example, with <gui>year-month</gui>, you can have year subfolders with month "
+"subfolders under them, or all subfolders can be at the same level in the "
+"filesystem, with the year and name both the folder name."
+msgstr ""
+
+#: C/import.page:61(p)
+msgid ""
+"It is not necessary to use the predefined date formats. If you select "
+"<gui>custom format</gui>, standard date codes can be used. Click on the help "
+"icon to the right of the custom format field for a list of format codes. \"%E"
+"\" is a special code that will embed the <gui>Event</gui> name defined in "
+"the main import dialog."
+msgstr ""
+
+#: C/import.page:67(p)
+msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
+msgstr ""
+
+#: C/import.page:69(p)
+msgid ""
+"If you use automatic subfolder naming, the <gui>Destination</gui> field in "
+"the main import dialog will show the automatic portion of the folder in red. "
+"(For date-based formats, dummy data may be shown in the red portion.)"
+msgstr ""
+
+#: C/import.page:74(title)
+#, fuzzy
+#| msgid "Using Bookmarks"
+msgid "Using Custom Formats"
+msgstr "Usar marcadores"
 
 #: C/bookmarks.page:6(title)
 msgid "Using Bookmarks"
 msgstr "Usar marcadores"
 
 #: C/bookmarks.page:8(p)
-#, fuzzy
-#| msgid ""
-#| "Frequently used folders can be added to the bookmark list for rapid "
-#| "access. Just go to the folder you want to add to the bookmarks and press "
-#| "<keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>D</keycap></"
-#| "keycombo> or use the command <menuchoice><guimenu>Bookmarks</"
-#| "guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>. To remove "
-#| "or rearrange bookmarks in a different order use the "
-#| "<menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</"
-#| "guimenuitem></menuchoice> command."
 msgid ""
 "Frequently-used folders can be added to the bookmark list for rapid access. "
 "To add the current folder to the bookmark list, press <keyseq><key>Ctrl</"
@@ -56,13 +248,9 @@ msgid ""
 "gui><gui>Add Bookmark</gui></guiseq>."
 msgstr ""
 "Las carpetas usadas frecuentemente se pueden añadir a la lista de marcadores "
-"para un rápido acceso. Simplemente vaya a la carpeta que quiere añadir a los "
-"marcadores y pulse <keycombo action=\"simul\"><keycap>Ctrl</"
-"keycap><keycap>D</keycap></keycombo> o use el comando "
-"<menuchoice><guimenu>Marcadores</guimenu><guimenuitem>Añadir marcador</"
-"guimenuitem></menuchoice>. Para eliminar o reordenar los marcadores en "
-"distinto orden use el comando <menuchoice><guimenu>Marcadores</"
-"guimenu><guimenuitem>Editar marcadores</guimenuitem></menuchoice>."
+"para un rápido acceso. Para añadir la carpeta actual a los marcadores pulse "
+"<keyseq><key>Ctrl</key><key>D</key></keyseq> o use el comando "
+"<guiseq><gui>Marcadores</gui><gui>Añadir marcador</gui></guiseq>."
 
 #: C/bookmarks.page:13(p)
 msgid ""
@@ -120,393 +308,453 @@ msgstr ""
 msgid "Keyboard Shortcuts"
 msgstr "Combinaciones de teclas"
 
-#: C/shortcuts.page:9(p)
-msgid "TODO: this list is out of date, and needs to be checked."
+#: C/shortcuts.page:10(title)
+msgid "Viewing and hiding parts of the user interface"
 msgstr ""
 
-#: C/shortcuts.page:10(p)
-msgid ""
-"Some menus will show additional keyboard shortcuts. The tables below are not "
-"entirely complete."
-msgstr ""
-
-#: C/shortcuts.page:14(title)
-msgid "Keyboard shortcuts to navigate folders"
-msgstr "Teclas rápidas para navegar por las carpetas"
-
-#: C/shortcuts.page:18(p) C/shortcuts.page:256(p) C/shortcuts.page:492(p)
-#: C/shortcuts.page:559(p)
+#: C/shortcuts.page:14(p) C/shortcuts.page:91(p) C/shortcuts.page:270(p)
+#: C/shortcuts.page:495(p)
 msgid "Keyboard Shortcut"
 msgstr "Tecla rápida"
 
-#: C/shortcuts.page:21(p) C/shortcuts.page:259(p) C/shortcuts.page:495(p)
-#: C/shortcuts.page:562(p) C/rename-series.page:27(p)
+#: C/shortcuts.page:17(p) C/shortcuts.page:94(p) C/shortcuts.page:189(p)
+#: C/shortcuts.page:273(p) C/shortcuts.page:498(p) C/rename-series.page:27(p)
 msgid "Description"
 msgstr "Descripción"
 
-#: C/shortcuts.page:24(p) C/shortcuts.page:262(p) C/shortcuts.page:498(p)
-msgid "Available in Fullscreen Mode"
-msgstr "Disponible en modo a pantalla completa"
+#: C/shortcuts.page:23(key)
+msgid "F9"
+msgstr "F9"
 
-#: C/shortcuts.page:29(p)
-msgid "<key>Space</key>or <key>Page Down</key>"
-msgstr ""
-
-#: C/shortcuts.page:34(p)
-msgid "View the next image."
-msgstr "Ver la siguiente imagen."
-
-#: C/shortcuts.page:37(p) C/shortcuts.page:50(p) C/shortcuts.page:63(p)
-#: C/shortcuts.page:76(p) C/shortcuts.page:246(p) C/shortcuts.page:276(p)
-#: C/shortcuts.page:289(p) C/shortcuts.page:302(p) C/shortcuts.page:316(p)
-#: C/shortcuts.page:329(p) C/shortcuts.page:345(p) C/shortcuts.page:358(p)
-#: C/shortcuts.page:371(p) C/shortcuts.page:385(p) C/shortcuts.page:399(p)
-#: C/shortcuts.page:413(p) C/shortcuts.page:427(p) C/shortcuts.page:440(p)
-#: C/shortcuts.page:453(p) C/shortcuts.page:466(p) C/shortcuts.page:482(p)
-#: C/shortcuts.page:511(p) C/shortcuts.page:524(p) C/shortcuts.page:537(p)
-#: C/shortcuts.page:550(p)
-msgid "yes"
-msgstr "sí"
-
-#: C/shortcuts.page:42(p)
-msgid "<key>Backspace</key>or <key>Page Up</key>"
-msgstr ""
-
-#: C/shortcuts.page:47(p)
-msgid "View the previous image."
-msgstr "Ver la imagen anterior."
-
-#: C/shortcuts.page:56(key)
-msgid "Home"
-msgstr "Inicio"
-
-#: C/shortcuts.page:60(p)
-msgid "View the first image."
-msgstr "Ver la primera imagen."
-
-#: C/shortcuts.page:69(key)
-msgid "End"
-msgstr "Fin"
-
-#: C/shortcuts.page:73(p)
-msgid "View the last image."
-msgstr "Ver la última imagen."
-
-#: C/shortcuts.page:81(p)
-msgid "<keyseq><key>Alt</key><key>Home</key></keyseq>or <key>h</key>"
-msgstr "<keyseq><key>Alt</key><key>Inicio</key></keyseq> o <key>h</key>"
-
-#: C/shortcuts.page:89(p)
-msgid "Go to your Home folder."
-msgstr "Ir a su carpeta personal."
-
-#: C/shortcuts.page:92(p) C/shortcuts.page:108(p) C/shortcuts.page:124(p)
-#: C/shortcuts.page:137(p) C/shortcuts.page:153(p) C/shortcuts.page:166(p)
-#: C/shortcuts.page:180(p) C/shortcuts.page:193(p) C/shortcuts.page:206(p)
-#: C/shortcuts.page:219(p) C/shortcuts.page:233(p)
-msgid "no"
-msgstr "no"
-
-#: C/shortcuts.page:99(key)
-msgid "Alt"
-msgstr "Alt"
-
-#: C/shortcuts.page:100(key)
-msgid "Left"
-msgstr "Izquierda"
-
-#: C/shortcuts.page:105(p)
-msgid "Go to the previously visited folder."
-msgstr "Ir a la carpeta anteriormente visitada."
-
-#: C/shortcuts.page:113(p)
-msgid "<keyseq><key>Alt</key><key>Up</key></keyseq>or <key>u</key>"
-msgstr "<keyseq><key>Alt</key><key>Arriba</key></keyseq> o <key>u</key>"
-
-#: C/shortcuts.page:121(p)
-msgid "Go up one level."
-msgstr "Subir un nivel."
-
-#: C/shortcuts.page:130(key)
-msgid "Esc"
-msgstr "Esc"
-
-#: C/shortcuts.page:134(p)
-msgid "Interrupt thumbnails creation."
-msgstr "Interrumpir la creación de miniaturas."
-
-#: C/shortcuts.page:144(key)
-msgid "Ctrl"
-msgstr "Ctrl"
-
-#: C/shortcuts.page:145(key)
-msgid "D"
-msgstr "D"
-
-#: C/shortcuts.page:150(p)
-msgid "Add the current location to the bookmarks."
-msgstr "Añadir la ubicación actual a los marcadores."
-
-#: C/shortcuts.page:159(key)
-msgid "Return"
-msgstr "Intro"
-
-#: C/shortcuts.page:163(p)
-msgid "View/Hide the browser."
-msgstr "Ver/Ocultar el navegador."
-
-#: C/shortcuts.page:172(key)
-msgid "q"
-msgstr "q"
-
-#: C/shortcuts.page:176(p)
+#: C/shortcuts.page:27(p)
 msgid ""
-"Change the image properties pane content or display the pane if it is not "
-"visible."
+"Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
+"tree and the file properties summary (if enabled)."
 msgstr ""
-"Cambia las propiedades del panel de contenido de la imagen o muestra el "
-"panel si éste no es visible."
 
-#: C/shortcuts.page:186(key)
-msgid "t"
-msgstr "t"
-
-#: C/shortcuts.page:190(p)
-msgid "View/Hide the thumbnails."
-msgstr "Ver/Ocultar las miniaturas."
-
-#: C/shortcuts.page:199(key)
-msgid "F2"
-msgstr "F2"
-
-#: C/shortcuts.page:203(p)
-msgid "Rename the current image."
-msgstr "Renombrar la imagen actual."
-
-#: C/shortcuts.page:212(key)
-msgid "o"
-msgstr "o"
-
-#: C/shortcuts.page:216(p)
-msgid "Open the selected images with an application."
-msgstr "Abrir las imágenes seleccionadas con una aplicación."
-
-#: C/shortcuts.page:225(key)
-msgid "g"
-msgstr "g"
-
-#: C/shortcuts.page:229(p)
-msgid "Open the selected images with the GIMP, if installed."
-msgstr "Abrir las imágenes seleccionadas con el GIMP, si está instalado."
-
-#: C/shortcuts.page:239(key)
-msgid "Delete"
-msgstr "Borrar"
-
-#: C/shortcuts.page:243(p)
-msgid "Delete the selected images."
-msgstr "Borrar las imágenes seleccionadas."
-
-#: C/shortcuts.page:252(title)
-msgid "Keyboard shortcuts to view images"
-msgstr "Atajos de teclado para ver imágenes"
-
-#: C/shortcuts.page:267(p)
-msgid "<key>v</key>or <key>f</key>or <key>F11</key>"
-msgstr "<key>v</key> o <key>f</key> o <key>F11</key>"
-
-#: C/shortcuts.page:273(p)
-msgid "Set/Unset the full screen mode."
-msgstr "Activar/Desactivar el modo a pantalla completa."
-
-#: C/shortcuts.page:281(p)
-msgid "<key>+</key>or <key>=</key>"
-msgstr "<key>+</key> o <key>=</key>"
-
-#: C/shortcuts.page:286(p)
-msgid "Zoom in."
-msgstr "Ampliar."
-
-#: C/shortcuts.page:295(key)
-msgid "-"
-msgstr "-"
-
-#: C/shortcuts.page:299(p)
-msgid "Zoom out."
-msgstr "Alejar."
-
-#: C/shortcuts.page:307(p)
-msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
-msgstr "<key>1</key> o <key>z</key>o <key>/ (teclado numérico)</key>"
-
-#: C/shortcuts.page:313(p)
-msgid "Actual size."
-msgstr "Tamaño actual."
-
-#: C/shortcuts.page:321(p)
-msgid "<key>x</key>or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> or <key>* (teclado numérico)</key>"
-
-#: C/shortcuts.page:326(p)
-msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Ampliar hasta ajustar (solo reducir, no ampliar)"
-
-#: C/shortcuts.page:336(key) C/shortcuts.page:473(key)
-msgid "Shift"
-msgstr "Mayús"
-
-#: C/shortcuts.page:337(key)
-msgid "x"
-msgstr "x"
-
-#: C/shortcuts.page:342(p)
-msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr "Ampliar hasta ajustar (reducir o aumentar, según se requiera)"
-
-#: C/shortcuts.page:351(key)
-msgid "l"
-msgstr "l"
-
-#: C/shortcuts.page:355(p)
-msgid "Flip the image."
-msgstr "Voltear la imagen."
-
-#: C/shortcuts.page:364(key)
-msgid "m"
-msgstr "m"
-
-#: C/shortcuts.page:368(p)
-msgid "Mirror the image."
-msgstr "Reflejar la imagen."
-
-#: C/shortcuts.page:377(key)
-msgid "r"
-msgstr "r"
-
-#: C/shortcuts.page:381(p)
-msgid "Rotate the image clockwise of 90 degrees without saving."
-msgstr "Rotar la imagen 90 grados en sentido horario, sin guardar."
-
-#: C/shortcuts.page:391(key)
-msgid "e"
-msgstr "e"
-
-#: C/shortcuts.page:395(p)
-msgid "Rotate the image counter-clockwise of 90 degrees without saving."
-msgstr "Rotar la imagen 90 grados en sentido antihorario, sin guardar."
-
-#: C/shortcuts.page:405(key)
-msgid "]"
-msgstr "]"
-
-#: C/shortcuts.page:409(p)
-msgid ""
-"Rotate and save the image clockwise of 90 degrees. The rotation is lossless "
-"for jpeg images."
-msgstr ""
-"Rotar la imagen 90 grados en sentido horario y guardarla. La rotación se "
-"realiza sin pérdida para imágenes jpeg."
-
-#: C/shortcuts.page:419(key)
-msgid "["
-msgstr "["
-
-#: C/shortcuts.page:423(p)
-msgid ""
-"Rotate and save the image counter-clockwise of 90 degrees. The rotation is "
-"lossless for jpeg images."
-msgstr ""
-"Rotar la imagen 90 grados en sentido horario y guardarla. La rotación se "
-"realiza sin pérdida para imágenes jpeg."
-
-#: C/shortcuts.page:433(key)
-msgid "a"
-msgstr "a"
-
-#: C/shortcuts.page:437(p)
-msgid "Start/Stop the animation"
-msgstr "Iniciar/Parar la animación"
-
-#: C/shortcuts.page:446(key)
-msgid "j"
-msgstr "j"
-
-#: C/shortcuts.page:450(p)
-msgid "View the next frame of a stopped animation."
-msgstr "Ver el siguiente cuadro de una animación detenida."
-
-#: C/shortcuts.page:459(key) C/shortcuts.page:474(key)
-msgid "Arrows"
-msgstr "Flechas"
-
-#: C/shortcuts.page:463(p)
-msgid "Scroll the image."
-msgstr "Desplazar la imagen."
-
-#: C/shortcuts.page:479(p)
-msgid "Scroll the image faster."
-msgstr "Desplazar la imagen más rápidamente."
-
-#: C/shortcuts.page:488(title)
-msgid "Other keyboard shortcuts"
-msgstr "Otras combinaciones de teclas"
-
-#: C/shortcuts.page:504(key)
-msgid "s"
-msgstr "s"
-
-#: C/shortcuts.page:508(p)
-msgid "Start/Stop the slideshow."
-msgstr "Iniciar/Parar la muestra de diapositivas."
-
-#: C/shortcuts.page:517(key)
-msgid "c"
-msgstr "c"
-
-#: C/shortcuts.page:521(p)
-msgid "Add a comment to the selected images."
-msgstr "Añadir un comentario a las imágenes seleccionadas."
-
-#: C/shortcuts.page:530(key)
-msgid "k"
-msgstr "k"
-
-#: C/shortcuts.page:534(p)
-msgid "Assign tags to the selected images."
-msgstr "Asignar etiquetas a las imágenes seleccionadas."
-
-#: C/shortcuts.page:543(key)
+#: C/shortcuts.page:34(key)
 msgid "i"
 msgstr "i"
 
-#: C/shortcuts.page:547(p)
-msgid "Hide/Show the image comment and properties"
-msgstr "Ocultar/Mostrar el comentario de la imagen y sus propiedades"
-
-#: C/shortcuts.page:554(p)
-msgid "Keyboard shortcuts available exclusively in fullscreen mode"
+#: C/shortcuts.page:38(p)
+msgid "Show the file properties summary."
 msgstr ""
-"Atajos de teclado disponibles exclusivamente en modo de pantalla completa"
 
-#: C/shortcuts.page:568(key)
-msgid "p"
-msgstr "p"
+#: C/shortcuts.page:44(key)
+msgid "F8"
+msgstr "F8"
 
-#: C/shortcuts.page:572(p)
-msgid "Pause/Resume a slideshow."
+#: C/shortcuts.page:48(p)
+msgid "Shows/hides the thumbnail pane in the viewer mode."
+msgstr ""
+
+#: C/shortcuts.page:53(p)
+#| msgid "<key>+</key>or <key>=</key>"
+msgid "<key>F11</key> or <key>f</key>"
+msgstr ""
+
+#: C/shortcuts.page:58(p)
+#| msgid "Exit the fullscreen mode."
+msgid "Toggles the fullscreen mode."
+msgstr "Conmuta el modo a pantalla completa."
+
+#: C/shortcuts.page:64(key) C/shortcuts.page:320(key)
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: C/shortcuts.page:64(key)
+msgid "t"
+msgstr "t"
+
+#: C/shortcuts.page:68(p)
+msgid "Shows/hides the thumbnails in the browser mode."
+msgstr ""
+
+#: C/shortcuts.page:74(key) C/shortcuts.page:524(key)
+msgid "Esc"
+msgstr "Esc"
+
+#: C/shortcuts.page:78(p)
+#, fuzzy
+#| msgid "Exit the fullscreen mode."
+msgid "Closes the viewer or fullscreen mode."
+msgstr "Salir del modo a pantalla completa."
+
+#: C/shortcuts.page:87(title)
+msgid "Editing shortcuts for the browser and viewer"
+msgstr ""
+
+#: C/shortcuts.page:100(key)
+msgid "e"
+msgstr "e"
+
+#: C/shortcuts.page:104(p)
+msgid "Edit the image. Opens the viewer and shows the editing tools."
+msgstr ""
+
+#: C/shortcuts.page:110(key)
+msgid "g"
+msgstr "g"
+
+#: C/shortcuts.page:114(p)
+msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
+msgstr ""
+
+#: C/shortcuts.page:120(key)
+msgid "F2"
+msgstr "F2"
+
+#: C/shortcuts.page:124(p)
+#| msgid "Resize the image."
+msgid "Rename the image."
+msgstr "Renombrar la imagen."
+
+#: C/shortcuts.page:129(p)
+#, fuzzy
+#| msgid "<keyseq><key>Alt</key><key>Up</key></keyseq>or <key>u</key>"
+msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
+msgstr "<keyseq><key>Alt</key><key>Arriba</key></keyseq> o <key>u</key>"
+
+#: C/shortcuts.page:134(p)
+#| msgid "Add a comment to the selected images."
+msgid "Add comments or metadata to an image."
+msgstr "Añadir comentarios o metadatos a una imagen."
+
+#: C/shortcuts.page:140(key)
+msgid "]"
+msgstr "]"
+
+#: C/shortcuts.page:144(p)
+msgid "Rotate right, losslessly if possible. The file is saved automatically."
+msgstr ""
+
+#: C/shortcuts.page:150(key)
+msgid "["
+msgstr "["
+
+#: C/shortcuts.page:154(p)
+msgid "Rotate left, losslessly if possible. The file is saved automatically."
+msgstr ""
+
+#: C/shortcuts.page:160(key) C/shortcuts.page:170(key)
+msgid "Delete"
+msgstr "Borrar"
+
+#: C/shortcuts.page:164(p)
+#, fuzzy
+#| msgid "the number of the selected images and their size."
+msgid "Move the selected files to the Trash."
+msgstr "el número de imágenes seleccionadas y su tamaño."
+
+#: C/shortcuts.page:170(key) C/shortcuts.page:374(key)
+#: C/shortcuts.page:397(key)
+msgid "Shift"
+msgstr "Mayús"
+
+#: C/shortcuts.page:174(p)
+#, fuzzy
+#| msgid "Delete the selected images."
+msgid "Delete the selected files permanently."
+msgstr "Borrar las imágenes seleccionadas."
+
+#: C/shortcuts.page:182(title)
+msgid "Editing shortcuts for the viewer mode only"
+msgstr ""
+
+#: C/shortcuts.page:186(p)
+#, fuzzy
+#| msgid "Keyboard Shortcuts"
+msgid "Keyboard Shortcut (Case Sensitive)"
+msgstr "Combinaciones de teclas"
+
+#: C/shortcuts.page:195(key)
+#, fuzzy
+#| msgid "%h"
+msgid "h"
+msgstr "%h"
+
+#: C/shortcuts.page:199(p)
+#| msgid "Enhance Colors"
+msgid "Enhance colors."
+msgstr "Realzar colores."
+
+#: C/shortcuts.page:205(key)
+msgid "l"
+msgstr "l"
+
+#: C/shortcuts.page:209(p)
+#| msgid "Flip the image."
+msgid "Flip image."
+msgstr "Voltear imagen."
+
+#: C/shortcuts.page:215(key)
+msgid "m"
+msgstr "m"
+
+#: C/shortcuts.page:219(p)
+#| msgid "Mirror the image."
+msgid "Mirror image."
+msgstr "Reflejar imagen."
+
+#: C/shortcuts.page:225(key)
+msgid "r"
+msgstr "r"
+
+#: C/shortcuts.page:229(p)
+#| msgid "Rotate Right"
+msgid "Rotate right."
+msgstr "Rotar a la derecha."
+
+#: C/shortcuts.page:235(key)
+#, fuzzy
+#| msgid "%R"
+msgid "R"
+msgstr "%R"
+
+#: C/shortcuts.page:239(p)
+#| msgid "Rotate Left"
+msgid "Rotate left."
+msgstr "Rotar a la izquierda."
+
+#: C/shortcuts.page:245(key)
+#, fuzzy
+#| msgid "%C"
+msgid "C"
+msgstr "%C"
+
+#: C/shortcuts.page:249(p)
+#| msgid "Crop the image."
+msgid "Crop image."
+msgstr "Recortar imagen."
+
+#: C/shortcuts.page:255(key)
+#, fuzzy
+#| msgid "%S"
+msgid "S"
+msgstr "%S"
+
+#: C/shortcuts.page:259(p)
+#| msgid "Resize the image."
+msgid "Resize image."
+msgstr "Redimensionar imagen."
+
+#: C/shortcuts.page:266(title)
+#| msgid "Other keyboard shortcuts"
+msgid "Viewer shortcuts"
+msgstr "Ver atajos de teclado"
+
+#: C/shortcuts.page:278(p)
+msgid "<key>Space</key>or <key>Page Down</key>"
+msgstr "<key>Retroceso</key> o <key>AvPág</key>"
+
+#: C/shortcuts.page:283(p)
+msgid "View the next image."
+msgstr "Ver la siguiente imagen."
+
+#: C/shortcuts.page:288(p)
+msgid "<key>Backspace</key>or <key>Page Up</key>"
+msgstr "<key>Retroceso</key>o <key>RePág</key>"
+
+#: C/shortcuts.page:293(p)
+msgid "View the previous image."
+msgstr "Ver la imagen anterior."
+
+#: C/shortcuts.page:299(key) C/shortcuts.page:416(key)
+msgid "Home"
+msgstr "Inicio"
+
+#: C/shortcuts.page:303(p)
+msgid "View the first image."
+msgstr "Ver la primera imagen."
+
+#: C/shortcuts.page:309(key) C/shortcuts.page:426(key)
+msgid "End"
+msgstr "Fin"
+
+#: C/shortcuts.page:313(p)
+msgid "View the last image."
+msgstr "Ver la última imagen."
+
+#: C/shortcuts.page:321(key)
+msgid "D"
+msgstr "D"
+
+#: C/shortcuts.page:326(p)
+msgid "Add the current location to the bookmarks."
+msgstr "Añadir la ubicación actual a los marcadores."
+
+#: C/shortcuts.page:331(p)
+msgid "<key>+</key>or <key>=</key>"
+msgstr "<key>+</key> o <key>=</key>"
+
+#: C/shortcuts.page:336(p)
+msgid "Zoom in."
+msgstr "Ampliar."
+
+#: C/shortcuts.page:342(key)
+msgid "-"
+msgstr "-"
+
+#: C/shortcuts.page:346(p)
+msgid "Zoom out."
+msgstr "Alejar."
+
+#: C/shortcuts.page:351(p)
+msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
+msgstr "<key>1</key> o <key>z</key>o <key>/ (teclado numérico)</key>"
+
+#: C/shortcuts.page:357(p)
+msgid "Actual size."
+msgstr "Tamaño actual."
+
+#: C/shortcuts.page:362(p)
+msgid "<key>x</key>or <key>* (numeric keypad)</key>"
+msgstr "<key>x</key> or <key>* (teclado numérico)</key>"
+
+#: C/shortcuts.page:367(p)
+msgid "Zoom to fit (scales down only, does not magnify)"
+msgstr "Ampliar hasta ajustar (solo reducir, no ampliar)"
+
+#: C/shortcuts.page:375(key)
+msgid "x"
+msgstr "x"
+
+#: C/shortcuts.page:380(p)
+msgid "Zoom to fit (scale down or magnify, as required)"
+msgstr "Ampliar hasta ajustar (reducir o aumentar, según se requiera)"
+
+#: C/shortcuts.page:386(key) C/shortcuts.page:398(key)
+msgid "Arrows"
+msgstr "Flechas"
+
+#: C/shortcuts.page:390(p)
+msgid "Scroll the image."
+msgstr "Desplazar la imagen."
+
+#: C/shortcuts.page:403(p)
+msgid "Scroll the image faster."
+msgstr "Desplazar la imagen más rápidamente."
+
+#: C/shortcuts.page:410(title)
+#, fuzzy
+#| msgid "Browser Tab"
+msgid "Browser Navigation"
+msgstr "Solapa Navegador"
+
+#: C/shortcuts.page:420(p)
+msgid "Go to the first file in the browser view."
+msgstr ""
+
+#: C/shortcuts.page:431(p)
+msgid "Go to the last file in the browser view."
+msgstr ""
+
+#: C/shortcuts.page:436(p)
+#| msgid "<key>Space</key>or <key>Page Down</key>"
+msgid "<key>Down Arrow</key> or <key>Page Down</key>"
+msgstr "<key>Flecha abajo</key> o <key>AvPág</key>"
+
+#: C/shortcuts.page:441(p)
+msgid "Scroll downwards through the thumbnails."
+msgstr ""
+
+#: C/shortcuts.page:446(p)
+#| msgid "<key>Backspace</key>or <key>Page Up</key>"
+msgid "<key>Up Arrow</key> or <key>Page Up</key>"
+msgstr "<key>Flecha arriba</key> o <key>RePág</key>"
+
+#: C/shortcuts.page:451(p)
+msgid "Scroll upwards through the thumbnails."
+msgstr ""
+
+#: C/shortcuts.page:457(key) C/shortcuts.page:467(key)
+#: C/shortcuts.page:478(key)
+msgid "Alt"
+msgstr "Alt"
+
+#: C/shortcuts.page:457(key)
+#, fuzzy
+#| msgid "Arrows"
+msgid "Left Arrow"
+msgstr "Flechas"
+
+#: C/shortcuts.page:461(p)
+#, fuzzy
+#| msgid "Go to the previously visited folder."
+msgid "Go back to the previously viewed folder."
+msgstr "Ir a la carpeta anteriormente visitada."
+
+#: C/shortcuts.page:467(key)
+msgid "Right Arrow"
+msgstr "Flecha derecha"
+
+#: C/shortcuts.page:471(p)
+msgid "Go forward (after going back to a folder)."
+msgstr ""
+
+#: C/shortcuts.page:479(key)
+#| msgid "p"
+msgid "Up"
+msgstr "Arriba"
+
+#: C/shortcuts.page:484(p)
+msgid "Go up one level."
+msgstr "Subir un nivel."
+
+#: C/shortcuts.page:491(title)
+#, fuzzy
+#| msgid "Slideshows"
+msgid "Slideshow controls"
+msgstr "Diapositivas"
+
+#: C/shortcuts.page:504(key)
+msgid "F5"
+msgstr "F5"
+
+#: C/shortcuts.page:508(p)
+#| msgid "Start/Stop the slideshow."
+msgid "Start a slideshow."
+msgstr "Iniciar la muestra de diapositivas."
+
+#: C/shortcuts.page:514(key)
+#| msgid "Place"
+msgid "Space"
+msgstr "Espacio"
+
+#: C/shortcuts.page:518(p)
+#, fuzzy
+#| msgid "Pause/Resume a slideshow."
+msgid "Pause/Unpause the slideshow."
 msgstr "Pausar/Reanudar una muestra de diapositivas."
 
-#: C/shortcuts.page:577(p)
-msgid ""
-"<key>Escape</key>or <key>f</key>or <key>v</key>or <key>F11</key>or <key>q</"
-"key>"
-msgstr ""
-"<key>Escape</key> o <key>f</key> o <key>v</key> o <key>F11</key> o <key>q</"
-"key>"
+#: C/shortcuts.page:528(p)
+#| msgid "Start/Stop the slideshow."
+msgid "Close the slideshow."
+msgstr "Cerrar la muestra de diapositivas."
 
-#: C/shortcuts.page:585(p)
-msgid "Exit the fullscreen mode."
-msgstr "Salir del modo a pantalla completa."
+#: C/shortcuts.page:533(p)
+#, fuzzy
+#| msgid "<key>v</key>or <key>f</key>or <key>F11</key>"
+msgid "<key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>"
+msgstr "<key>v</key> o <key>f</key> o <key>F11</key>"
+
+#: C/shortcuts.page:538(p)
+#, fuzzy
+#| msgid "View the next image."
+msgid "Load the next image."
+msgstr "Ver la siguiente imagen."
+
+#: C/shortcuts.page:543(p)
+#, fuzzy
+#| msgid "<key>v</key>or <key>f</key>or <key>F11</key>"
+msgid "<key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>"
+msgstr "<key>v</key> o <key>f</key> o <key>F11</key>"
+
+#: C/shortcuts.page:548(p)
+#, fuzzy
+#| msgid "View the previous image."
+msgid "Load the previous image."
+msgstr "Ver la imagen anterior."
 
 #: C/printing.page:7(title)
 msgid "Printing Images"
@@ -570,7 +818,7 @@ msgstr ""
 
 #: C/filtering.page:7(title)
 msgid "Filtering Files"
-msgstr ""
+msgstr "Filtrar archivos"
 
 #: C/filtering.page:9(p) C/thumbnails.page:12(p)
 msgid ""
@@ -582,7 +830,7 @@ msgstr ""
 
 #: C/filtering.page:15(title)
 msgid "Enabling Filters"
-msgstr ""
+msgstr "Activar filtros"
 
 #: C/filtering.page:20(p)
 msgid ""
@@ -598,10 +846,8 @@ msgid ""
 msgstr ""
 
 #: C/filtering.page:28(title)
-#, fuzzy
-#| msgid "Filter Bar"
 msgid "Browser Filter Bar"
-msgstr "Barra de filtros"
+msgstr "Barra de filtros del navegador"
 
 #: C/filtering.page:33(p)
 msgid ""
@@ -639,31 +885,20 @@ msgid ""
 msgstr ""
 
 #: C/fullscreen.page:18(p)
-#, fuzzy
-#| msgid ""
-#| "You can advance to the next image by clicking the <guibutton>Next</"
-#| "guibutton> button, or by pressing <keycap>Space</keycap> or <keycap>Page "
-#| "Down</keycap>."
 msgid ""
 "You can also advance to the next image by pressing <key>PageDown</key> or "
 "<key>Space</key>."
 msgstr ""
-"Puede avanzar hasta la siguiente imagen pulsando el botón "
-"<guibutton>Siguiente</guibutton>, o pulsando <keycap>Espacio</keycap> o "
-"<keycap>AvPág</keycap>."
+"Puede avanzar hasta la siguiente imagen pulsando <keycap>AvPág</keycap> o "
+"<keycap>Espacio</keycap>."
 
 #: C/fullscreen.page:21(p)
-#, fuzzy
-#| msgid ""
-#| "You can go back to the previous image by clicking the "
-#| "<guibutton>Previous</guibutton> button, or by pressing <keycap>Backspace</"
-#| "keycap> or <keycap>Page Up</keycap>."
 msgid ""
 "You can go back to the previous image by pressing <key>PageUp</key> or "
 "<key>Backspace</key>."
 msgstr ""
-"Puede volver a la imagen anterior pulsando el botón <guibutton>Anterior</"
-"guibutton>, o pulsando <keycap>Retroceso</keycap> o <keycap>RePág</keycap>."
+"Puede volver a la imagen anterior pulsando <keycap>RePág</keycap> o "
+"<keycap>Retroceso</keycap>."
 
 #: C/fullscreen.page:24(p)
 msgid "This can be used to implement a manually-controlled slideshow."
@@ -686,38 +921,25 @@ msgid "Opening an Image"
 msgstr "Abrir una imagen"
 
 #: C/viewer.page:8(p)
-#, fuzzy
-#| msgid ""
-#| "The browser view shows the images in the current folder or catalog. "
-#| "Single-clicking an image will enable the Information Sidebar for that "
-#| "image. Double-clicking an image will open it in the viewer mode. Double-"
-#| "clicking with the middle mouse button will load the image in fullscreen "
-#| "viewer mode."
 msgid ""
 "The browser view shows the images in the current folder or catalog (see "
 "<link xref=\"gthumb-browser-view\"/>). Double-clicking an image (or pressing "
 "<key>Return</key>) in the browser will open it in the viewer mode."
 msgstr ""
-"La vista de navegador muestra las imágenes en la carpeta actual. Una sola "
-"pulsación sobre la imagen activa la barra lateral de información para esa "
-"imagen. Una pulsación doble sobre la imagen la abre en modo visor. Una "
-"pulsación doble con el botón central del ratón cargará la imagen en el visor "
-"a pantalla completa."
+"La vista de navegador muestra las imágenes en la carpeta o el catálogo "
+"actual (vea <link xref=\"gthumb-browser-view\"/>). Una pulsación doble sobre "
+"la imagen ((o pulsar <key>Intro</key>) en el navegador la abrirá en modo "
+"visor."
 
 #: C/viewer.page:13(p)
-#, fuzzy
-#| msgid ""
-#| "Pressing <keycap>Escape</keycap> will exit the viewer mode, and return "
-#| "the user to the browser mode. A toolbar button (<guibutton>View the "
-#| "folders</guibutton>) is also provided for this purpose."
 msgid ""
 "Pressing <key>Escape</key> will exit the viewer mode, and return the user to "
 "the browser mode. A toolbar button (<gui>View the folders</gui>) is also "
 "provided for this purpose."
 msgstr ""
-"Pulsando <keycap>Escape</keycap> el usuario saldrá del modo visor y volverá "
-"al modo navegador. Se proporciona un botón de la barra de herramientas "
-"(<guibutton>Ver las carpetas</guibutton>) para este propósito."
+"Pulsando <key>Escape</key> el usuario saldrá del modo visor y volverá al "
+"modo navegador. Se proporciona un botón de la barra de herramientas "
+"(<gui>Ver las carpetas</gui>) para este propósito."
 
 #: C/viewer.page:17(p)
 msgid ""
@@ -726,10 +948,8 @@ msgid ""
 msgstr ""
 
 #: C/viewer.page:21(title)
-#, fuzzy
-#| msgid "View/Hide the thumbnails."
 msgid "Viewer Mode with Thumbnail Pane"
-msgstr "Ver/Ocultar las miniaturas."
+msgstr "Modo visor con panel de miniaturas"
 
 #: C/viewer.page:26(p)
 msgid ""
@@ -743,7 +963,7 @@ msgstr ""
 
 #: C/gimp.page:6(title)
 msgid "Launching GIMP"
-msgstr ""
+msgstr "Ejecutar GIMP"
 
 #: C/gimp.page:7(p)
 msgid ""
@@ -760,7 +980,7 @@ msgstr ""
 
 #: C/extensions.page:6(title)
 msgid "Extending gThumb"
-msgstr ""
+msgstr "Ampliar gThumb"
 
 #: C/extensions.page:8(p)
 msgid ""
@@ -833,11 +1053,12 @@ msgstr ""
 
 #: C/edit-resize-crop.page:6(title)
 msgid "Resizing and Cropping"
-msgstr ""
+msgstr "Redimensionar y recortar"
 
 #: C/edit-resize-crop.page:12(p)
 msgid "Two tools are provided to resize and crop images."
 msgstr ""
+"Se proporcionan dos herramientas para redimensionar y recortar imágenes."
 
 #: C/edit-resize-crop.page:15(gui)
 msgid "Resize"
@@ -920,7 +1141,7 @@ msgstr ""
 
 #: C/edit-colors.page:6(title)
 msgid "Color Adjustments"
-msgstr ""
+msgstr "Ajustes de color"
 
 #: C/edit-colors.page:12(p)
 msgid "Several tools are provided to manipulate the colors in images."
@@ -977,7 +1198,7 @@ msgstr ""
 
 #: C/edit-save-undo-redo.page:6(title)
 msgid "File Save, Undo, Redo"
-msgstr ""
+msgstr "Guardar archivo, deshacer, rehacer"
 
 #: C/edit-save-undo-redo.page:12(p)
 msgid ""
@@ -1110,7 +1331,7 @@ msgid ""
 "This symbol will be replaced with the date that the photo was original taken "
 "(normally determined from the EXIF datestamps embedded inside the photo). "
 "The formatting of this date (and optionally time) can be specified by adding "
-"a standard formatting code in curly braces. For example, \"%M{%Y-%m-%d, %T}"
+"a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, %T}"
 "\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
 
@@ -1140,10 +1361,8 @@ msgstr ""
 "archivos."
 
 #: C/rename-series.page:133(p)
-#, fuzzy
-#| msgid "To rename the images click on <guibutton>Rename</guibutton>."
 msgid "To rename the images click on <gui>Rename</gui>."
-msgstr "Para renombrar las imágenes, pulse <guibutton>Renombrar</guibutton>."
+msgstr "Para renombrar las imágenes, pulse <gui>Renombrar</gui>."
 
 #: C/rename-series.page:135(p)
 msgid ""
@@ -1292,20 +1511,16 @@ msgid "Converting File Formats"
 msgstr "Convertir formatos de archivo"
 
 #: C/batch-convert-format.page:8(p)
-#, fuzzy
-#| msgid ""
-#| "To convert the image format, select the images you want to convert and "
-#| "choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert Format</"
-#| "guimenuitem></menuchoice>."
 msgid ""
 "To convert one or more images into a new file format, select the images in "
 "the browser view. Then click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Convert Format</gui></"
 "guiseq>."
 msgstr ""
-"Para convertir el formato de la imagen, seleccione las imágenes que quiere "
-"convertir y elija <menuchoice><guimenu>Herramientas</"
-"guimenu><guimenuitem>Convertir formato</guimenuitem></menuchoice>."
+"Para convertir una o más imágenes a un formato nuevo, seleccione las "
+"imágenes que quiere convertir en el navegador y pulse el botón "
+"<gui>Herramientas</gui> en la barra de herramientas principal y elija "
+"<guiseq><gui>Herramientas</gui><gui>Convertir formato</gui></guiseq>."
 
 #: C/batch-convert-format.page:12(p)
 msgid ""
@@ -1315,7 +1530,7 @@ msgstr ""
 
 #: C/batch-rotate.page:6(title)
 msgid "Rotating Images Losslessly"
-msgstr ""
+msgstr "Rotar imágenes sin pérdidas"
 
 #: C/batch-rotate.page:8(p)
 msgid ""
@@ -1357,16 +1572,12 @@ msgid "Menubar"
 msgstr "Barra de menú"
 
 #: C/browser.page:21(p)
-#, fuzzy
-#| msgid ""
-#| "The menus on the menubar contain all of the commands that you can use in "
-#| "<application>gThumb</application>"
 msgid ""
 "The menus on the menubar contain all of the commands that you can use in "
 "<app>gThumb</app>"
 msgstr ""
 "Los menús de la barra de menús contienen todos los comandos que puede usar "
-"en <application>gThumb</application>"
+"en <app>gThumb</app>"
 
 #: C/browser.page:25(title)
 msgid "Toolbar"
@@ -2012,7 +2223,7 @@ msgstr ""
 
 #: C/attributes.page:6(title)
 msgid "Attribute Codes"
-msgstr ""
+msgstr "Códigos de atributos"
 
 #: C/attributes.page:7(p)
 msgid ""
@@ -2179,7 +2390,7 @@ msgstr "Gestión de archivos"
 
 #: C/index.page:31(title)
 msgid "Editing Mode"
-msgstr ""
+msgstr "Modo de edición"
 
 #: C/index.page:32(p)
 msgid ""
@@ -2210,7 +2421,7 @@ msgstr "Importar"
 
 #: C/index.page:57(title)
 msgid "Sharing"
-msgstr ""
+msgstr "Compartir"
 
 #: C/index.page:61(title)
 msgid "Organizing"
@@ -2230,6 +2441,128 @@ msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@ie.edu>, 2008-2010\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
+
+#~ msgid "TODO: this list is out of date, and needs to be checked."
+#~ msgstr "TODO: esta lista está desactualizada y debe revisarse."
+
+#~ msgid "Keyboard shortcuts to navigate folders"
+#~ msgstr "Teclas rápidas para navegar por las carpetas"
+
+#~ msgid "Available in Fullscreen Mode"
+#~ msgstr "Disponible en modo a pantalla completa"
+
+#~ msgid "yes"
+#~ msgstr "sí"
+
+#~ msgid "<keyseq><key>Alt</key><key>Home</key></keyseq>or <key>h</key>"
+#~ msgstr "<keyseq><key>Alt</key><key>Inicio</key></keyseq> o <key>h</key>"
+
+#~ msgid "Go to your Home folder."
+#~ msgstr "Ir a su carpeta personal."
+
+#~ msgid "no"
+#~ msgstr "no"
+
+#~ msgid "Left"
+#~ msgstr "Izquierda"
+
+#~ msgid "Interrupt thumbnails creation."
+#~ msgstr "Interrumpir la creación de miniaturas."
+
+#~ msgid "Return"
+#~ msgstr "Intro"
+
+#~ msgid "View/Hide the browser."
+#~ msgstr "Ver/Ocultar el navegador."
+
+#~ msgid "q"
+#~ msgstr "q"
+
+#~ msgid ""
+#~ "Change the image properties pane content or display the pane if it is not "
+#~ "visible."
+#~ msgstr ""
+#~ "Cambia las propiedades del panel de contenido de la imagen o muestra el "
+#~ "panel si éste no es visible."
+
+#~ msgid "View/Hide the thumbnails."
+#~ msgstr "Ver/Ocultar las miniaturas."
+
+#~ msgid "Rename the current image."
+#~ msgstr "Renombrar la imagen actual."
+
+#~ msgid "o"
+#~ msgstr "o"
+
+#~ msgid "Open the selected images with an application."
+#~ msgstr "Abrir las imágenes seleccionadas con una aplicación."
+
+#~ msgid "Open the selected images with the GIMP, if installed."
+#~ msgstr "Abrir las imágenes seleccionadas con el GIMP, si está instalado."
+
+#~ msgid "Keyboard shortcuts to view images"
+#~ msgstr "Atajos de teclado para ver imágenes"
+
+#~ msgid "Set/Unset the full screen mode."
+#~ msgstr "Activar/Desactivar el modo a pantalla completa."
+
+#~ msgid "Rotate the image clockwise of 90 degrees without saving."
+#~ msgstr "Rotar la imagen 90 grados en sentido horario, sin guardar."
+
+#~ msgid "Rotate the image counter-clockwise of 90 degrees without saving."
+#~ msgstr "Rotar la imagen 90 grados en sentido antihorario, sin guardar."
+
+#~ msgid ""
+#~ "Rotate and save the image clockwise of 90 degrees. The rotation is "
+#~ "lossless for jpeg images."
+#~ msgstr ""
+#~ "Rotar la imagen 90 grados en sentido horario y guardarla. La rotación se "
+#~ "realiza sin pérdida para imágenes jpeg."
+
+#~ msgid ""
+#~ "Rotate and save the image counter-clockwise of 90 degrees. The rotation "
+#~ "is lossless for jpeg images."
+#~ msgstr ""
+#~ "Rotar la imagen 90 grados en sentido horario y guardarla. La rotación se "
+#~ "realiza sin pérdida para imágenes jpeg."
+
+#~ msgid "a"
+#~ msgstr "a"
+
+#~ msgid "Start/Stop the animation"
+#~ msgstr "Iniciar/Parar la animación"
+
+#~ msgid "j"
+#~ msgstr "j"
+
+#~ msgid "View the next frame of a stopped animation."
+#~ msgstr "Ver el siguiente cuadro de una animación detenida."
+
+#~ msgid "s"
+#~ msgstr "s"
+
+#~ msgid "c"
+#~ msgstr "c"
+
+#~ msgid "k"
+#~ msgstr "k"
+
+#~ msgid "Assign tags to the selected images."
+#~ msgstr "Asignar etiquetas a las imágenes seleccionadas."
+
+#~ msgid "Hide/Show the image comment and properties"
+#~ msgstr "Ocultar/Mostrar el comentario de la imagen y sus propiedades"
+
+#~ msgid "Keyboard shortcuts available exclusively in fullscreen mode"
+#~ msgstr ""
+#~ "Atajos de teclado disponibles exclusivamente en modo de pantalla completa"
+
+#~ msgid ""
+#~ "<key>Escape</key>or <key>f</key>or <key>v</key>or <key>F11</key>or "
+#~ "<key>q</key>"
+#~ msgstr ""
+#~ "<key>Escape</key> o <key>f</key> o <key>v</key> o <key>F11</key> o "
+#~ "<key>q</key>"
 
 #~| msgid "<application>gThumb</application> Manual V2.11.2"
 #~ msgid "<application>gThumb</application> Manual V2.11.3"
@@ -3112,9 +3445,6 @@ msgstr ""
 #~ "Mueva una imagen pulsando sobre ella con el botón izquierdo del ratón y "
 #~ "arrastrándola."
 
-#~ msgid "Resize the image."
-#~ msgstr "Redimensionar la imagen."
-
 #~ msgid ""
 #~ "Recenter the image on the page using the <guibutton>Center on Page</"
 #~ "guibutton> button."
@@ -3818,9 +4148,6 @@ msgstr ""
 #~ "<application>gThumb</application> busca imágenes que contengan «vacaciones "
 #~ "en Roma» O «mi cumpleaños» en el comentario."
 
-#~ msgid "Place"
-#~ msgstr "Lugar"
-
 #~ msgid "A list of phrases the place field of the comment must contain."
 #~ msgstr ""
 #~ "Una lista de frases que el campo lugar o el comentario deben contener."
@@ -4064,10 +4391,6 @@ msgstr ""
 #~ "Para detener la presentación, pulse <keycombo action=\"simul\"><keycap>Q</"
 #~ "keycap></keycombo> o <keycombo action=\"simul\"><keycap>Escape</keycap></"
 #~ "keycombo>."
-
-#~| msgid "To Import Photos from a Digital Camera"
-#~ msgid "Importing From a Camera"
-#~ msgstr "Importar desde una cámara"
 
 #~ msgid "Exporting Photos"
 #~ msgstr "Exportar fotos"
@@ -5146,9 +5469,6 @@ msgstr ""
 #~ msgid "Whether to ask to save a modified image."
 #~ msgstr "Si se debe preguntar si guardar una imagen modificada."
 
-#~ msgid "Browser Tab"
-#~ msgstr "Solapa Navegador"
-
 #~ msgid "In this tab, you can configure the following options:"
 #~ msgstr "En esta solapa puede configurar las siguientes opciones:"
 
@@ -5435,9 +5755,6 @@ msgstr ""
 
 #~ msgid "Change the image size performing a zoom in or out."
 #~ msgstr "Cambia el tamaño de la imagen acercando o alejando la ampliación."
-
-#~ msgid "Crop the image."
-#~ msgstr "Recortar la imagen."
 
 #~ msgid "Transform"
 #~ msgstr "Transformar"
