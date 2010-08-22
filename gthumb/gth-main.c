@@ -95,6 +95,7 @@ struct _GthMainPrivate
 	GList               *metadata_provider;
 	GPtrArray           *metadata_category;
 	GPtrArray           *metadata_info;
+	GHashTable          *metadata_info_hash;
 	gboolean             metadata_info_sorted;
 	GHashTable          *sort_types;
 	GHashTable          *loaders;
@@ -120,6 +121,7 @@ gth_main_finalize (GObject *object)
 	if (gth_main->priv != NULL) {
 		_g_object_list_unref (gth_main->priv->file_sources);
 
+		g_hash_table_unref (gth_main->priv->metadata_info_hash);
 		g_ptr_array_free (gth_main->priv->metadata_category, TRUE);
 		g_ptr_array_free (gth_main->priv->metadata_info, TRUE);
 		g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
@@ -174,6 +176,7 @@ gth_main_init (GthMain *main)
 	main->priv->loaders = g_hash_table_new (g_str_hash, (GEqualFunc) g_content_type_equals);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
+	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	main->priv->metadata_info_sorted = FALSE;
 }
 
@@ -413,6 +416,7 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 
 	info = gth_metadata_info_dup (metadata_info);
 	g_ptr_array_add (Main->priv->metadata_info, info);
+	g_hash_table_insert (Main->priv->metadata_info_hash, g_strdup (info->id), info);
 	Main->priv->metadata_info_sorted = FALSE;
 
 	g_static_mutex_unlock (&metadata_info_mutex);
@@ -429,8 +433,10 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 	g_static_mutex_lock (&metadata_info_mutex);
 
 	for (i = 0; metadata_info[i].id != NULL; i++)
-		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL))
+		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL)) {
 			g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
+			g_hash_table_insert (Main->priv->metadata_info_hash, g_strdup ((&metadata_info[i])->id), &metadata_info[i]);
+		}
 
 	g_static_mutex_unlock (&metadata_info_mutex);
 }
@@ -581,20 +587,14 @@ gth_main_get_metadata_category (const char *id)
 GthMetadataInfo *
 gth_main_get_metadata_info (const char *id)
 {
-	int i;
+	GthMetadataInfo *info;
 
 	if (id == NULL)
 		return NULL;
 
-	for (i = 0; i < Main->priv->metadata_info->len; i++) {
-		GthMetadataInfo *info;
+	info = g_hash_table_lookup (Main->priv->metadata_info_hash, id);
 
-		info = g_ptr_array_index (Main->priv->metadata_info, i);
-		if (strcmp (info->id, id) == 0)
-			return info;
-	}
-
-	return NULL;
+	return info;
 }
 
 
