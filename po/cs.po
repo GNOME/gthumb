@@ -11,10 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-04 08:45+0200\n"
-"PO-Revision-Date: 2010-07-12 08:39+0200\n"
+"POT-Creation-Date: 2010-08-23 20:06+0200\n"
+"PO-Revision-Date: 2010-08-04 17:21+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -977,9 +978,8 @@ msgstr "Nelze zobrazit vlastnosti pozadí pracovní plochy"
 
 #: ../extensions/desktop_background/actions.c:204
 #: ../extensions/desktop_background/actions.c:222
-#, fuzzy
 msgid "Could not set the desktop background"
-msgstr "Nelze zobrazit vlastnosti pozadí pracovní plochy"
+msgstr "Nelze nastavit pozadí pracovní plochy"
 
 #: ../extensions/desktop_background/callbacks.c:50
 msgid "Set as Desktop Background"
@@ -1097,29 +1097,25 @@ msgstr[1] "%d soubory"
 msgstr[2] "%d souborů"
 
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:82
-#, fuzzy
 msgid "New tag"
-msgstr "Nový katalog"
+msgstr "Nový štítek"
 
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:224
 msgid "Assign Tags"
-msgstr ""
+msgstr "Přiřadit štítky"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:114
 #: ../extensions/edit_metadata/gth-tag-task.c:131
-#, fuzzy
 msgid "Assigning tags to the selected files"
-msgstr "Přiřadit vybranému adresáři kategorie"
+msgstr "Přiřazují se štítky k vybraným souborům"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:114
-#, fuzzy
 msgid "Writing files"
-msgstr "Importují se soubory"
+msgstr "Zapisují se soubory"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:131
-#, fuzzy
 msgid "Reading files"
-msgstr "Přejmenovávají se soubory"
+msgstr "Čtou se soubory"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1786,7 +1782,7 @@ msgstr "Žl_utá - Modrá:"
 #. this is used to separate the dimensions, for example: 120 &#xD7; 250
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:2
 msgid "&#xD7;"
-msgstr ""
+msgstr "×"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:3
@@ -1805,7 +1801,7 @@ msgstr "Obrátit poměr stra_n"
 #. after the colon there is a control to select the size in pixels
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "M_ultiple of:"
-msgstr ""
+msgstr "Náso_bek:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
@@ -1817,14 +1813,13 @@ msgid "_Grid:"
 msgstr "_Mřížka:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:11
-#, fuzzy
 msgid "_Position:"
-msgstr "Poloha:"
+msgstr "_Poloha:"
 
 #. abbreviation of pixel
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:13
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:2
@@ -1873,7 +1868,7 @@ msgstr "Šíř_ka:"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "pixels"
-msgstr "bodů"
+msgstr "pixelů"
 
 #: ../extensions/file_tools/file_tools.extension.in.in.h:1
 msgid "Basic tools to modify images."
@@ -2172,35 +2167,36 @@ msgstr "Snímek obrazovky"
 msgid "--:--"
 msgstr "--:--"
 
-#. this is the separator between current position and duration of a media file
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-msgid "/"
-msgstr "/"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
 msgid "Change volume level"
 msgstr "Změnit hlasitost"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
 msgid "Faster"
 msgstr "Rychleji"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:545
 msgid "Play"
 msgstr "Přehrát"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Slower"
 msgstr "Pomaleji"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:9
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
 msgid "Time:"
 msgstr "Čas:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
 msgid "Toggle volume"
 msgstr "Změnit hlasitost"
+
+#. this is the separator between current position and duration of a media file
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
+msgctxt "time"
+msgid "/"
+msgstr "/"
 
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
 msgid "Choose a folder"
@@ -2869,14 +2865,12 @@ msgid "1 megabyte file size"
 msgstr "Velikost souboru 1 megabajt"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-#, fuzzy
 msgid "15&#x2BA; screen ( 800 x 600 )"
-msgstr "15ʺ obrazovka (800×600)"
+msgstr "15&#x2BA;  obrazovka (800×600)"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-#, fuzzy
 msgid "17&#x2BA; screen ( 1024 x 768 )"
-msgstr "17ʺ obrazovka (1024 × 768)"
+msgstr "17&#x2BA;  obrazovka (1024 × 768)"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 msgid "Large ( 640 x 480 )"
@@ -3431,14 +3425,13 @@ msgstr "libovolné z následujících pravidel"
 
 #: ../extensions/search/gth-search-task.c:179
 msgid "Files found untill now: %"
-msgstr ""
+msgstr "Doposud nalezené soubory: %"
 
 #: ../extensions/search/gth-search-task.c:252
 msgid "Searching..."
 msgstr "Hledá se…"
 
 #: ../extensions/search/gth-search-task.c:258
-#, fuzzy
 msgid "Cancel the operation"
 msgstr "Zrušit operaci"
 
@@ -3716,13 +3709,12 @@ msgid "%d × %d"
 msgstr "%d × %d"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1796
-#, fuzzy
 msgid "Could not show the destination"
-msgstr "Nelze otevřít umístění"
+msgstr "Nelze zobrazit cíl"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1830
 msgid "The album has been created successfully."
-msgstr ""
+msgstr "Album bylo úspěšně vytvořeno."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2096
 #: ../extensions/webalbums/gth-web-exporter.c:2123
@@ -3874,8 +3866,8 @@ msgstr "Přípona(y)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
 "Program nedokázal najít formát souboru, který chcete použít pro „%s“. "
@@ -4131,9 +4123,8 @@ msgid "View thumbnails"
 msgstr "Zobrazit náhledy"
 
 #: ../gthumb/gth-browser-actions-entries.h:210
-#, fuzzy
 msgid "_Hidden Files"
-msgstr "Zobrazit s_kryté soubory"
+msgstr "S_kryté soubory"
 
 #: ../gthumb/gth-browser-actions-entries.h:211
 msgid "Show hidden files and folders"
@@ -4345,9 +4336,8 @@ msgid "file name"
 msgstr "názvu souboru"
 
 #: ../gthumb/gth-main-default-sort-types.c:133
-#, fuzzy
 msgid "file path"
-msgstr "Cesta k souboru"
+msgstr "cesta k souboru"
 
 #: ../gthumb/gth-main-default-sort-types.c:134
 msgid "file size"
@@ -4383,17 +4373,15 @@ msgstr "Datum změny souboru"
 
 #: ../gthumb/gth-main-default-tests.c:273
 msgid "Title (embedded)"
-msgstr ""
+msgstr "Název (vložený)"
 
 #: ../gthumb/gth-main-default-tests.c:279
-#, fuzzy
 msgid "Description (embedded)"
-msgstr "Popis"
+msgstr "Popis (vložený)"
 
 #: ../gthumb/gth-main-default-tests.c:285
-#, fuzzy
 msgid "Tag (embedded)"
-msgstr "Vložené XMP"
+msgstr "Štítek (vložený)"
 
 #: ../gthumb/gth-pixbuf-list-task.c:140
 msgid "Could not rename the file"
@@ -4578,1732 +4566,3 @@ msgstr "- prohlížeč obrázků"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Nelze najít vhodný modul k uložení obrázku jako „%s“"
-
-#~ msgid "Edit file metadata"
-#~ msgstr "Upravit metadata souboru"
-
-#~ msgid "Close"
-#~ msgstr "Zavřít"
-
-#~ msgid "file modified date "
-#~ msgstr "data změny souboru"
-
-#~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
-#~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
-
-#~ msgid "_Preserve original aspect ratio"
-#~ msgstr "Zachovat _poměr stran"
-
-#~ msgid "4 x 3 (Book, DVD)"
-#~ msgstr "4 × 3 (Kniha, DVD)"
-
-#~ msgid "5 x 7"
-#~ msgstr "5 × 7"
-
-#~ msgid "8 x 10"
-#~ msgstr "8 × 10"
-
-#~ msgid "gtk-close"
-#~ msgstr "gtk-close"
-
-#~ msgid "gtk-edit"
-#~ msgstr "gtk-edit"
-
-#~ msgid "gtk-help"
-#~ msgstr "gtk-help"
-
-#~ msgid "gtk-new"
-#~ msgstr "gtk-new"
-
-#~ msgid "gtk-remove"
-#~ msgstr "gtk-remove"
-
-#~ msgid "gtk-add"
-#~ msgstr "gtk-add"
-
-#~ msgid "gtk-cancel"
-#~ msgstr "gtk-cancel"
-
-#~ msgid "appointment-soon"
-#~ msgstr "appointment-soon"
-
-#~ msgid "camera-photo"
-#~ msgstr "camera-photo"
-
-#~ msgid "Bytes"
-#~ msgstr "Bajtů"
-
-#~ msgid "Exposure mode"
-#~ msgstr "Režim expozice"
-
-#~ msgid "Flash"
-#~ msgstr "Blesk"
-
-#~ msgid "Shutter speed"
-#~ msgstr "Rychlost závěrky"
-
-#~ msgid "Aperture value"
-#~ msgstr "Hodnota clony"
-
-#~ msgid "Focal length"
-#~ msgstr "Ohnisková vzdálenost"
-
-#~ msgid "Camera model"
-#~ msgstr "Model fotoaparátu"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "<b>Categories:</b>"
-#~ msgstr "<b>Kategorie:</b>"
-
-#~ msgid "<b>Information on Channel:</b>"
-#~ msgstr "<b>Informace o kanálu:</b>"
-
-#~ msgid "Alpha"
-#~ msgstr "Alfa"
-
-#~ msgid "Blue"
-#~ msgstr "Modrá"
-
-#~ msgid "Choose a Catalog"
-#~ msgstr "Vyberte katalog"
-
-#~ msgid "Comm_ent"
-#~ msgstr "Komen_tář"
-
-#~ msgid "Green"
-#~ msgstr "Zelená"
-
-#~ msgid "Open Images"
-#~ msgstr "Otevřít obrázky"
-
-#~ msgid "Overwrite Image"
-#~ msgstr "Přepsat obrázek"
-
-#~ msgid "R_ecent applications:"
-#~ msgstr "N_edávné aplikace:"
-
-#~ msgid "Red"
-#~ msgstr "Červená"
-
-#~ msgid "Value"
-#~ msgstr "Hodnota"
-
-#~ msgid "_Application:"
-#~ msgstr "_Aplikace:"
-
-#~ msgid "_Histogram"
-#~ msgstr "_Histogram"
-
-#~ msgid "_Next"
-#~ msgstr "_Následující"
-
-#~ msgid "_Previous"
-#~ msgstr "_Předchozí"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Camera Model"
-#~ msgstr "Model fotoaparátu"
-
-#, fuzzy
-#~ msgid "Custom subfolder:"
-#~ msgstr "Pře_jít do tohoto adresáře:"
-
-#~ msgid "Delete selected images from the camera"
-#~ msgstr "Odstranit vybrané obrázky z fotoaparátu"
-
-#~ msgid ""
-#~ "If this checkbox is enabled and the imported photo contains an Exif "
-#~ "orientation tag, the image data will be physically transformed "
-#~ "(losslessly) so that the viewed image looks the same as before but the "
-#~ "orientation tag is reset to \"top left\". If this checkbox is not "
-#~ "enabled, the image data and the orientation tag are both left unchanged. "
-#~ "The image will be displayed identically by gthumb for both possibilities, "
-#~ "but for maximum compatibility with other applications this checkbox "
-#~ "should be enabled."
-#~ msgstr ""
-#~ "Je-li zaškrtnuto a obsahuje-li importovaná fotografie Exif údaj o "
-#~ "orientaci,budou obrazová data fyzicky transformována (bezztrátově) tak, "
-#~ "aby obrázek při prohlížení vypadal stále stejně, ale údaj o orientaci je "
-#~ "přenastaven na 'vlevo nahoře'. Pokud tato volba zaškrtnuta není, nemění "
-#~ "se ani obrazová data, ani Exif údaj o orientaci. V obou případech gthumb "
-#~ "zobrazí obrázek, stejně, ale zaškrtnutím této volby se zvýší "
-#~ "kompatibilita s dalšími aplikacemi."
-
-#~ msgid "Select a camera model"
-#~ msgstr "Vyberte model fotoaparátu"
-
-#~ msgid "Update previews"
-#~ msgstr "Aktualizovat náhledy"
-
-#~ msgid "A_vailable categories:"
-#~ msgstr "_Dostupné kategorie:"
-
-#~ msgid "Categories"
-#~ msgstr "Kategorie"
-
-#~ msgid "Create a new category"
-#~ msgstr "Vytvořit novou kategorii"
-
-#, fuzzy
-#~ msgid "Date photo taken (from EXIF metadata)"
-#~ msgstr "Datum digitalizace fotografie (z dat EXIF)"
-
-#~ msgid "Remove selected category"
-#~ msgstr "Odstranit vybranou kategorii"
-
-#~ msgid "_Selected categories:"
-#~ msgstr "_Vybrané kategorie:"
-
-#~ msgid "<b>Compression</b>"
-#~ msgstr "<b>Komprimace</b>"
-
-#~ msgid "<b>Image type</b>"
-#~ msgstr "<b>Typ obrázku</b>"
-
-#~ msgid "JPEG Options"
-#~ msgstr "Volby JPEG"
-
-#~ msgid "Overwrite mode:"
-#~ msgstr "Režim přepisu:"
-
-#~ msgid "R_emove original"
-#~ msgstr "_Odstranit originál"
-
-#~ msgid ""
-#~ "Skip\n"
-#~ "Rename\n"
-#~ "Ask\n"
-#~ "Overwrite"
-#~ msgstr ""
-#~ "Přeskočit\n"
-#~ "Přejmenovat\n"
-#~ "Zeptat se\n"
-#~ "Přepsat"
-
-#~ msgid "TGA Options"
-#~ msgstr "Volby TGA"
-
-#~ msgid "TIFF Options"
-#~ msgstr "Volby TIFF"
-
-#, fuzzy
-#~ msgid "<b>Actions</b>"
-#~ msgstr "<b>Výběr</b>"
-
-#, fuzzy
-#~ msgid "<b>Display</b>"
-#~ msgstr "<b>Okraje</b>"
-
-#~ msgid "<b>Selection</b>"
-#~ msgstr "<b>Výběr</b>"
-
-#, fuzzy
-#~ msgid "Cr_op"
-#~ msgstr "Oříznout"
-
-#, fuzzy
-#~ msgid "Zoom to fit"
-#~ msgstr "Přizpůsobit oknu"
-
-#, fuzzy
-#~ msgid "_Done"
-#~ msgstr "_Nic"
-
-#~ msgid "     "
-#~ msgstr "     "
-
-#~ msgid "<b>Scale ratio</b>"
-#~ msgstr "<b>Poměr zvětšení</b>"
-
-#~ msgid "Brightness - Contrast"
-#~ msgstr "Jas - Kontrast"
-
-#~ msgid "Color Balance"
-#~ msgstr "Vyvážení barev"
-
-#~ msgid "Hue - Saturation"
-#~ msgstr "Odstín - Sytost"
-
-#~ msgid "Posterize"
-#~ msgstr "Posterizace"
-
-#~ msgid "Preserve l_uminosity"
-#~ msgstr "Zachovat svět_lost"
-
-#~ msgid "Width:"
-#~ msgstr "Šířka:"
-
-#~ msgid "_Hue:"
-#~ msgstr "_Odstín:"
-
-#~ msgid "_Keep aspect ratio"
-#~ msgstr "_Zachovat poměr stran"
-
-#~ msgid "_Levels:"
-#~ msgstr "Ú_rovně:"
-
-#~ msgid "_Lightness:"
-#~ msgstr "Svět_lost:"
-
-#~ msgid "_Scale"
-#~ msgstr "_Zvětšení"
-
-#~ msgid "112"
-#~ msgstr "112"
-
-#~ msgid "128"
-#~ msgstr "128"
-
-#~ msgid "164"
-#~ msgstr "164"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "256"
-#~ msgstr "256"
-
-#~ msgid "48"
-#~ msgstr "48"
-
-#~ msgid "64"
-#~ msgstr "64"
-
-#~ msgid "85"
-#~ msgstr "85"
-
-#~ msgid "95"
-#~ msgstr "95"
-
-#~ msgid "<b>Background style</b>"
-#~ msgstr "<b>Styl pozadí</b>"
-
-#~ msgid "<b>Caption</b>"
-#~ msgstr "<b>Titulek</b>"
-
-#~ msgid "<b>Footer</b>"
-#~ msgstr "<b>Zápatí</b>"
-
-#~ msgid "<b>Header and footer</b>"
-#~ msgstr "<b>Záhlaví a zápatí</b>"
-
-#~ msgid "<b>Header</b>"
-#~ msgstr "<b>Záhlaví</b>"
-
-#~ msgid "<b>Index images</b>"
-#~ msgstr "<b>Obrázky s indexy</b>"
-
-#~ msgid "<b>Page size</b>"
-#~ msgstr "<b>Velikost stránky</b>"
-
-#~ msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-#~ msgstr "<small><i><b>Poznámka:</b> # (číslo)</i>.</small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-#~ "small>"
-#~ msgstr ""
-#~ "<small><i><b>Poznámka:</b> %p (číslo strany), %n (celkový počet stran)</"
-#~ "i>.</small>"
-
-#~ msgid "Co_mment"
-#~ msgstr "Ko_mentář"
-
-#~ msgid "Colo_r:"
-#~ msgstr "Ba_rva:"
-
-#~ msgid "Create Index Image"
-#~ msgstr "Vytvořit obrázek s indexem"
-
-#~ msgid "Create _HTML image map"
-#~ msgstr "Vytvořit obrázkové mapy v _HTML"
-
-#~ msgid "F_ooter:"
-#~ msgstr "Zá_patí:"
-
-#~ msgid "Frame co_lor:"
-#~ msgstr "_Barva rámu:"
-
-#~ msgid "H_eader:"
-#~ msgstr "Zá_hlaví:"
-
-#~ msgid "Header/Footer"
-#~ msgstr "Záhlaví/zápatí"
-
-#~ msgid "Hei_ght:"
-#~ msgstr "Výš_ka:"
-
-#~ msgid "Image dim_ensions"
-#~ msgstr "Rozměr_y obrázku"
-
-#~ msgid "Index Image Style"
-#~ msgstr "Styl obrázku s indexem"
-
-#~ msgid "Pi_xels"
-#~ msgstr "Pi_xely"
-
-#~ msgid "Rows a_nd columns"
-#~ msgstr "Řádky a s_loupce"
-
-#~ msgid "Select a color"
-#~ msgstr "Vyberte barvu"
-
-#~ msgid "Shadow only"
-#~ msgstr "Pouze stín"
-
-#~ msgid "Shadow out"
-#~ msgstr "Stín ven"
-
-#~ msgid "Simple with shadow"
-#~ msgstr "Jednoduchý se stínem"
-
-#~ msgid "Sor_t:"
-#~ msgstr "_Třídění:"
-
-#~ msgid "St_yle"
-#~ msgstr "St_yl"
-
-#~ msgid "Wi_dth:"
-#~ msgstr "Šíř_ka:"
-
-#~ msgid "_All pages with the same size"
-#~ msgstr "Všechny _stránky stejné velikosti"
-
-#~ msgid "_Draw frame"
-#~ msgstr "K_reslit rám"
-
-#~ msgid "_Gradient"
-#~ msgstr "_Přechod"
-
-#~ msgid "_Image size:"
-#~ msgstr "Vel_ikost obrázku:"
-
-#~ msgid "_Rows:"
-#~ msgstr "Řád_ky:"
-
-#~ msgid "_Solid color"
-#~ msgstr "_Jednolitá barva"
-
-#~ msgid "by name"
-#~ msgstr "podle názvu"
-
-#~ msgid "jpeg"
-#~ msgstr "jpeg"
-
-#~ msgid "png"
-#~ msgstr "png"
-
-#~ msgid "112 x 112"
-#~ msgstr "112 × 112"
-
-#~ msgid "128 x 128"
-#~ msgstr "128 × 128"
-
-#~ msgid "164 x 164"
-#~ msgstr "164 × 164"
-
-#~ msgid "200 x 200"
-#~ msgstr "200 × 200"
-
-#~ msgid "256 x 256"
-#~ msgstr "256 × 256"
-
-#~ msgid "48 x 48"
-#~ msgstr "48 × 48"
-
-#~ msgid "64 x 64"
-#~ msgstr "64 × 64"
-
-#~ msgid "85 x 85"
-#~ msgstr "85 × 85"
-
-#~ msgid "95 x 95"
-#~ msgstr "95 × 95"
-
-#~ msgid "<b>Direction</b>"
-#~ msgstr "<b>Směr</b>"
-
-#~ msgid "<b>Hide/Show</b>"
-#~ msgstr "<b>Skrýt/Zobrazit</b>"
-
-#~ msgid "<b>Interface</b>"
-#~ msgstr "<b>Rozhraní</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>Ostatní</b>"
-
-#, fuzzy
-#~ msgid "<b>Slideshow</b>"
-#~ msgstr "<b>Promítání snímků</b>"
-
-#~ msgid "<b>Viewer</b>"
-#~ msgstr "<b>Prohlížeč</b>"
-
-#~ msgid "C_lick policy:"
-#~ msgstr "P_olitika kliknutí:"
-
-#~ msgid "D_elay before changing image:"
-#~ msgstr "_Prodleva před změnou obrázku:"
-
-#~ msgid "For_ward"
-#~ msgstr "_Vpřed"
-
-#~ msgid "Go to last _visited folder or catalog"
-#~ msgstr "Přejít do posledního na_vštíveného adresáře nebo katalogu"
-
-#~ msgid "Layout:"
-#~ msgstr "Rozvržení:"
-
-#~ msgid "Re_verse"
-#~ msgstr "_Obráceně"
-
-#~ msgid "Use a _fading effect when changing image"
-#~ msgstr "Při změně obrázku použít mizející e_fekt"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "150"
-#~ msgstr "150"
-
-#~ msgid "16"
-#~ msgstr "16"
-
-#~ msgid "2"
-#~ msgstr "2"
-
-#~ msgid "300"
-#~ msgstr "300"
-
-#~ msgid "4"
-#~ msgstr "4"
-
-#~ msgid "600"
-#~ msgstr "600"
-
-#~ msgid "72"
-#~ msgstr "72"
-
-#~ msgid "8"
-#~ msgstr "8"
-
-#~ msgid "<b>Image Sizing</b>"
-#~ msgstr "<b>Velikost obrázku</b>"
-
-#~ msgid "<b>Margins</b>"
-#~ msgstr "<b>Okraje</b>"
-
-#~ msgid "<b>Orientation</b>"
-#~ msgstr "<b>Orientace</b>"
-
-#~ msgid "<b>Size</b>"
-#~ msgstr "<b>Velikost</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
-#~ "Click on an image to rotate it.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Poznámka:</b> Obrázek po straně posouvejte přetažením.\n"
-#~ "Obrázkem otáčejte kliknutím na něj.</i></small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> High-resolution images will be\n"
-#~ "down-sampled to this resolution. Increase\n"
-#~ "the resolution to get better image quality.\n"
-#~ "Decrease it to get shorter print times.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Poznámka:</b> Obrázky ve vysokém rozlišení\n"
-#~ "budou zmenšeny na toto rozlišení. Pro zvýšení kvality rozlišení\n"
-#~ "zvyšte. Pro zrychlení tisku rozlišení snižte.</i></small>"
-
-#~ msgid "A4"
-#~ msgstr "A4"
-
-#~ msgid "Automatic sizing"
-#~ msgstr "Automatická velikost"
-
-#~ msgid "Center _on Page"
-#~ msgstr "Centr_ovat na stránce"
-
-#~ msgid "Comment _font:"
-#~ msgstr "_Písmo komentáře:"
-
-#~ msgid "Executive"
-#~ msgstr "Executive"
-
-#~ msgid "I_nclude comment"
-#~ msgstr "Za_hrnout komentář"
-
-#~ msgid "Lan_dscape"
-#~ msgstr "Na šíř_ku"
-
-#~ msgid "Legal"
-#~ msgstr "Legal"
-
-#~ msgid "Letter"
-#~ msgstr "Letter"
-
-#~ msgid "P_ortrait"
-#~ msgstr "Na _výšku"
-
-#~ msgid "Paper Details"
-#~ msgstr "Detaily papíru"
-
-#~ msgid "Postcard"
-#~ msgstr "Pohlednice"
-
-#~ msgid "Scale to this size"
-#~ msgstr "Škálovat na tuto velikost"
-
-#~ msgid "Tabloid"
-#~ msgstr "Tabloid"
-
-#~ msgid "_Bottom:"
-#~ msgstr "_Dolní:"
-
-#, fuzzy
-#~ msgid "<b>Other Actions</b>"
-#~ msgstr "<b>Ostatní</b>"
-
-#, fuzzy
-#~ msgid "<b>Zoom</b>"
-#~ msgstr "<b>Zápatí</b>"
-
-#~ msgid "<b>Search criteria</b>"
-#~ msgstr "<b>Podmínky hledání</b>"
-
-#~ msgid "<b>Search scope</b>"
-#~ msgstr "<b>Rozsah hledání</b>"
-
-#~ msgid "After"
-#~ msgstr "Po"
-
-#~ msgid "Any"
-#~ msgstr "Jakékoli"
-
-#~ msgid "Before"
-#~ msgstr "Před"
-
-#~ msgid "Choose categories from the saved list"
-#~ msgstr "Vyberte kategorie z uloženého seznamu"
-
-#~ msgid "Equal to"
-#~ msgstr "Rovno"
-
-#~ msgid "Found images:"
-#~ msgstr "Nalezeny obrázky:"
-
-#~ msgid "Match a_ll selected categories"
-#~ msgstr "Hledat _všechny vybrané kategorie"
-
-#~ msgid "Match a_ny selected category"
-#~ msgstr "Hledat _libovolnou vybranou kategorii"
-
-#~ msgid "New _Search..."
-#~ msgstr "Nové _hledání..."
-
-#~ msgid "Search Progress"
-#~ msgstr "Průběh vyhledávání"
-
-#~ msgid "_Edit Search"
-#~ msgstr "Upravit hl_edání"
-
-#~ msgid "<b>Change to:</b>"
-#~ msgstr "<b>Změnit na:</b>"
-
-#~ msgid "<b>Write to CD</b>"
-#~ msgstr "<b>Zapsat na CD</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
-#~ "When viewing images, you can use the [ and ] shortcut\n"
-#~ "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Poznámka</b>: Transformace JPEG obrázků jsou za\n"
-#~ "běžných okolností bezeztrátové. Při prohlížení obrázků můžete použít\n"
-#~ "klávesy [ a ] pro bezeztrátové otočení a uložení obrázku a obejít tak\n"
-#~ "tento dialog.</i></small>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<small><i><b>Special characters:</b> # (new enumerator digit),\n"
-#~ "%f (original filename), %e (original extension),\n"
-#~ "%d (image date), %s (image size), \n"
-#~ "%n (original enumerator).</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Speciální znaky:</b> # (číslo), %f (původní název souboru), %"
-#~ "d (datum obrázku), %s (velikost obrázku), %e (původní přípona).</i></"
-#~ "small>"
-
-#~ msgid "A_djust timezone:"
-#~ msgstr "_Upravit časové pásmo:"
-
-#~ msgid "Apply physical _transform"
-#~ msgstr "Aplikovat fyzickou _transformaci"
-
-#~ msgid "Apply to all _images"
-#~ msgstr "_Aplikovat na všechny obrázky"
-
-#~ msgid "C_urrent date"
-#~ msgstr "_Dnešní datum"
-
-#~ msgid "Check _All"
-#~ msgstr "Vybr_at všechny"
-
-#~ msgid "Check _None"
-#~ msgstr "_Nevybrat žádný"
-
-#~ msgid "Checking image:"
-#~ msgstr "Kontroluji obrázek:"
-
-#~ msgid ""
-#~ "Click OK to reset the Exif orientation tag for the selected images to Top-"
-#~ "Left."
-#~ msgstr ""
-#~ "Klikněte na Budiž pro přenastavení Exif orientace vybraných obrázků na "
-#~ "'vlevo nahoře'."
-
-#, fuzzy
-#~ msgid ""
-#~ "Click inside the name or script fields to edit them.\n"
-#~ "<small><i><b>\n"
-#~ "Special characters:</b>\n"
-#~ "%F = all selected filenames on one line, space delimited\n"
-#~ "%f = a single filename, including path\n"
-#~ "%b = a single filename, excluding path\n"
-#~ "%n = a single filename, including path, with no extension\n"
-#~ "%m = a single filename, excluding path, with no extension\n"
-#~ "%e = a single extension (starting with a period)\n"
-#~ "%p = the parent folder of the single file</i>\n"
-#~ "<i>[text] = a user prompt, refreshed for each iteration</i>\n"
-#~ "<i>[TEXT] = a user prompt, used for all iterations</i>\n"
-#~ "<i>{..code..} = a strftime date format code</i>\n"
-#~ "<i>{TEXT} = a user prompt used for all iterations matching previous date</"
-#~ "i>\n"
-#~ "Scripts with the %F code will be executed just once, regardless of the "
-#~ "number of files selected. All other scripts will be executed once per "
-#~ "selected file.\n"
-#~ "The default scripts are explained in the Help file.</small>"
-#~ msgstr ""
-#~ "<small><i><b>Zvláštní znaky:</b>\n"
-#~ "%F = jména všech vybraných souborů na jednom řádku, oddělená mezerami\n"
-#~ "%f = jedno jméno souboru, včetně cesty\n"
-#~ "%n = jedno jméno souboru, včetně cesty, bez přípony\n"
-#~ "%e = jedna přípona (začínající tečkou)\n"
-#~ "%p = rodičovská složka jednoho souboru</i>\n"
-#~ "Skripty s kódem %F budou vykonány pouze jednou, bez ohledu na počet "
-#~ "vybraných souborů. Všechny ostatní skripty budou vykonány jednou pro "
-#~ "každý vybraný soubor.\n"
-#~ "Výchozí skripty jsou vysvětleny v souboru nápovědy.</small>"
-
-#, fuzzy
-#~ msgid "Date p_hoto taken (from EXIF metadata)"
-#~ msgstr "Datum digitalizace _fotografie (z dat EXIF)"
-
-#~ msgid "Equal images:"
-#~ msgstr "Shodné obrázky:"
-
-#, fuzzy
-#~ msgid "Exif DateTime tag"
-#~ msgstr "podle data a času EXIF"
-
-#, fuzzy
-#~ msgid "Exif DateTimeDigitized tag"
-#~ msgstr "podle data a času EXIF"
-
-#~ msgid "Found duplicates:"
-#~ msgstr "Nalezeny duplikáty:"
-
-#~ msgid "Mirror image horizontally (left-right)"
-#~ msgstr "Zrcadlit obrázek horizontálně (zleva doprava)"
-
-#~ msgid "Mirror image vertically (top-bottom)"
-#~ msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
-
-#~ msgid "New names _preview:"
-#~ msgstr "_Náhled nových názvů:"
-
-#, fuzzy
-#~ msgid "Remove Script"
-#~ msgstr "_Odstranit originál"
-
-#~ msgid "Reset Exif Orientation Tags"
-#~ msgstr "Přenastavit Exif údaj pro orientaci"
-
-#~ msgid "Rotate Images"
-#~ msgstr "Otočit obrázky"
-
-#~ msgid "Rotate image 90 degrees clockwise"
-#~ msgstr "Otočit obrázek o 90° po směru hodinových ručiček"
-
-#~ msgid "Rotate image 90 degrees counter-clockwise"
-#~ msgstr "Otočit obrázek o 90° proti směru hodinových ručiček"
-
-#~ msgid "Search for Duplicates"
-#~ msgstr "Hledat duplikáty"
-
-#~ msgid "Search terminated, no duplicates found."
-#~ msgstr "Hledání ukončeno, nebyly nalezeny žádné duplikáty."
-
-#~ msgid ""
-#~ "This checkbox governs the rotation method used for JPEG images that "
-#~ "contain Exif orientation tags. If this checkbox is enabled, the rotation "
-#~ "will be performed using a physical transform, and the Exif orientation "
-#~ "tag will be reset to the default \"top left\" value. If it is not "
-#~ "enabled, the rotation will be performed by changing the Exif orientation "
-#~ "tag only. For maximum compatibility with other applications, this "
-#~ "checkbox should be enabled."
-#~ msgstr ""
-#~ "Toto výběrové pole nastavuje metodu používanou pro rotaci JPEG obrázků "
-#~ "obsahujících polohovací značky Exif. Pokud je pole aktivní, rotace bude "
-#~ "provedena za použití fyzické transformace a polohovací značky Exif budou "
-#~ "vynulovány do výchozí hodnoty \"vlevo nahoře\". Pokud není aktivní, "
-#~ "rotace bude provedena pouze změnou polohovacích značek Exif. Pro "
-#~ "zachování maximální kompatibility s ostatními aplikacemi by toto pole "
-#~ "mělo být aktivní."
-
-#, fuzzy
-#~ msgid "prompt"
-#~ msgstr "Oříznout"
-
-#, fuzzy
-#~ msgid "title|Scale Images"
-#~ msgstr "Zvětšit obrázky"
-
-#~ msgid "1024 x 1024"
-#~ msgstr "1024 × 1024"
-
-#~ msgid "1024 x 768"
-#~ msgstr "1024 × 768"
-
-#~ msgid "1280 x 1280"
-#~ msgstr "1280 × 1280"
-
-#~ msgid "1280 x 960"
-#~ msgstr "1280 × 960"
-
-#~ msgid "320 x 200"
-#~ msgstr "320 × 200"
-
-#~ msgid "320 x 320"
-#~ msgstr "320 × 320"
-
-#~ msgid "640 x 640"
-#~ msgstr "640 × 640"
-
-#~ msgid "800 x 600"
-#~ msgstr "800 × 600"
-
-#~ msgid "800 x 800"
-#~ msgstr "800 × 800"
-
-#~ msgid "<b>Album Style</b>"
-#~ msgstr "<b>Styl alba</b>"
-
-#~ msgid "<b>Basic Information</b>"
-#~ msgstr "<b>Základní informace</b>"
-
-#~ msgid "<b>Camera Data</b>"
-#~ msgstr "<b>Údaje o fotoaparátu</b>"
-
-#~ msgid "<b>Comments</b>"
-#~ msgstr "<b>Komentáře</b>"
-
-#~ msgid "<b>Index Page Layout</b>"
-#~ msgstr "<b>Rozvržení stránky indexu</b>"
-
-#~ msgid "<b>Theme</b>"
-#~ msgstr "<b>Téma</b>"
-
-#~ msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-#~ msgstr "<small><i><b>Poznámka:</b> %d (aktuální datum).</i></small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Some themes may auto-adjust the\n"
-#~ "number of rows and columns, but keep the total \n"
-#~ "number of images per page constant.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Poznámka:</b> Některé motivy mohou automaticky\n"
-#~ "přizpůsobit počet řádků a sloupců, ale zanechají celkový\n"
-#~ "počet obrázků na stránce konstantní.</i></small>"
-
-#~ msgid "Came_ra Model"
-#~ msgstr "Model _fotoaparátu"
-
-#~ msgid "Da_te and Time"
-#~ msgstr "Da_tum a čas"
-
-#~ msgid "Exposure _time"
-#~ msgstr "_Doba expozice"
-
-#~ msgid "Focal _length"
-#~ msgstr "Ohnisková _vzdálenost"
-
-#~ msgid "I_mage Caption..."
-#~ msgstr "Za_chycení obrázku..."
-
-#~ msgid "Web Album Theme"
-#~ msgstr "Téma WWW alba"
-
-#~ msgid "_Aperture value"
-#~ msgstr "Hodnota _clony"
-
-#~ msgid "_Date and Time"
-#~ msgstr "_Datum a čas"
-
-#~ msgid "_Flash"
-#~ msgstr "_Blesk"
-
-#~ msgid "_Go to Theme Folder"
-#~ msgstr "Pře_jít do adresáře témat"
-
-#~ msgid "_Install Theme..."
-#~ msgstr "Na_instalovat téma..."
-
-#~ msgid "_Place"
-#~ msgstr "_Umístění"
-
-#~ msgid "_Shutter speed"
-#~ msgstr "_Rychlost závěrky"
-
-#~ msgid "_Size :"
-#~ msgstr "_Velikost:"
-
-#~ msgid "columns, by"
-#~ msgstr "sloupce, podle"
-
-#~ msgid "or _use a single index page"
-#~ msgstr "nebo po_užít jednu stránku indexu"
-
-#~ msgid "rows per page,"
-#~ msgstr "řádků na stránku,"
-
-#~ msgid ""
-#~ "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-#~ "(reverse landscape)"
-#~ msgstr ""
-#~ "Možné hodnoty jsou 0 (na výšku), 1 (na šířku), 2 (obráceně na výšku), 3 "
-#~ "(obráceně na šířku)"
-
-#~ msgid "Possible values are: 1, 2, 3, 4."
-#~ msgstr "Možné hodnoty jsou: 1, 2, 3, 4."
-
-#~ msgid "Possible values are: 72, 150, 300, 600."
-#~ msgstr "Možné hodnoty jsou: 72, 150, 300, 600."
-
-#~ msgid "Possible values are: ascending, descending."
-#~ msgstr "Možné hodnoty jsou: ascending, descending."
-
-#~ msgid "Possible values are: forward, backward, random."
-#~ msgstr "Možné hodnoty jsou: forward, backward, random."
-
-#~ msgid "Possible values are: image, data, comment."
-#~ msgstr "Možné hodnoty jsou: image, data, comment."
-
-#~ msgid "Possible values are: jpeg, png, tga, tiff."
-#~ msgstr "Možné hodnoty jsou: jpeg, png, tga, tiff."
-
-#~ msgid "Possible values are: manual, auto."
-#~ msgstr "Možné hodnoty jsou: manual, auto."
-
-#~ msgid "Possible values are: nautilus, single, double."
-#~ msgstr "Možné hodnoty jsou: nautilus, single, double."
-
-#, fuzzy
-#~ msgid "Possible values are: none, day, month, now, custom"
-#~ msgstr "Možné hodnoty jsou: none, deflate, jpeg."
-
-#~ msgid ""
-#~ "Possible values are: none, name, path, size, time, exifdate, comment."
-#~ msgstr ""
-#~ "Možné hodnoty jsou: none, name, path, size, time, exifdate, comment."
-
-#~ msgid ""
-#~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-#~ "shadow_in, shadow_out."
-#~ msgstr ""
-#~ "Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, "
-#~ "shadow_in, shadow_out."
-
-#~ msgid ""
-#~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-#~ "custom."
-#~ msgstr ""
-#~ "Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-#~ "custom."
-
-#~ msgid "Possible values are: png, jpeg."
-#~ msgstr "Možné hodnoty jsou: png, jpeg."
-
-#~ msgid "Possible values are: skip, rename, ask, overwrite."
-#~ msgstr "Možné hodnoty jsou: skip, rename, ask, overwrite."
-
-#~ msgid "Cannot open catalog \"%s\": %s"
-#~ msgstr "Nelze otevřít katalog \"%s\": %s"
-
-#~ msgid "Cannot save catalog \"%s\": %s"
-#~ msgstr "Nelze uložit katalog \"%s\": %s"
-
-#~ msgid "%d %B %Y, %H:%M"
-#~ msgstr "%d. %B %Y, %H:%M"
-
-#~ msgid "Image type:"
-#~ msgstr "Typ obrázku:"
-
-#~ msgid "Home"
-#~ msgstr "Domov"
-
-#~ msgid "Library not empty"
-#~ msgstr "Knihovna není prázdná"
-
-#~ msgid "Cannot remove library \"%s\": %s"
-#~ msgstr "Nelze odstranit knihovnu \"%s\": %s"
-
-#~ msgid "Cannot remove catalog \"%s\": %s"
-#~ msgstr "Nelze odstranit katalog \"%s\": %s"
-
-#~ msgid "No image"
-#~ msgstr "Žádný obrázek"
-
-#~ msgid "Ro_tate Images"
-#~ msgstr "_Otočit obrázky"
-
-#~ msgid "Loading image: %s"
-#~ msgstr "Načítám obrázek: %s"
-
-#~ msgid "(Invalid Name)"
-#~ msgstr "(Neplatný název)"
-
-#~ msgid "%d x %d pixels"
-#~ msgstr "%d × %d bodů"
-
-#~ msgid "Creating image: %s.%s"
-#~ msgstr "Vytvářím obrázek: %s.%s"
-
-#~ msgid "Move Catalog to..."
-#~ msgstr "Přesunout katalog do..."
-
-#~ msgid "Enter the new category name"
-#~ msgstr "Zadejte název nové kategorie"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \",\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Název \"%s\" není platný, protože obsahuje znak \",\". Použijte prosím "
-#~ "jiný název."
-
-#~ msgid "The category \"%s\" is already present. Please use a different name."
-#~ msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
-
-#~ msgid ""
-#~ "An image named \"%s\" is already present. Please specify a different name."
-#~ msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název."
-
-#~ msgid ""
-#~ "An image named \"%s\" is already present. Do you want to overwrite it?"
-#~ msgstr "Obrázek pojmenovaný \"%s\" je již přítomen. Chcete jej přepsat?"
-
-#~ msgid "Duplicates"
-#~ msgstr "Duplikáty"
-
-#~ msgid "Duplicates Size"
-#~ msgstr "Velikost duplikátů"
-
-#~ msgid "Checked images will be moved to the Trash, are you sure?"
-#~ msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
-
-#~ msgid "The destination folder does not exist. Do you want to create it?"
-#~ msgstr "Cílový adresář neexistuje. Chcete jej vytvořit?"
-
-#~ msgid "Could not create folder \"%s\": %s."
-#~ msgstr "Nelze vytvořit adresář \"%s\": %s."
-
-#~ msgid ""
-#~ "You don't have the right permissions to create images in the folder \"%s\""
-#~ msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři \"%s\""
-
-#~ msgid "_Do not display this message again"
-#~ msgstr "_Příště tuto zprávu nezobrazovat"
-
-#~ msgid "_Move"
-#~ msgstr "_Přesunout"
-
-#~ msgid "%d %b %Y, %H:%M"
-#~ msgstr "%d. %b %Y, %H:%M"
-
-#~ msgid "You didn't enter the new name"
-#~ msgstr "Nezadali jste nový název"
-
-#~ msgid ""
-#~ "The name \"%s\" is already used in this folder. Please use a different "
-#~ "name."
-#~ msgstr ""
-#~ "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
-
-#~ msgid "Could not rename the following images:"
-#~ msgstr "Nelze přejmenovat následující obrázky:"
-
-#~ msgid "_Abort"
-#~ msgstr "Přer_ušit"
-
-#~ msgid "Collecting images info"
-#~ msgstr "Zjišťuji informace o obrázcích"
-
-#~ msgid "Copying file %ld of %ld"
-#~ msgstr "Kopíruji %ld. soubor ze %ld"
-
-#~ msgid ""
-#~ "Could not move temporary file to remote location. Check remote "
-#~ "permissions."
-#~ msgstr ""
-#~ "Nelze přesunout dočasný soubor do vzdáleného umístění. Zkontrolujte "
-#~ "vzdálená oprávnění."
-
-#~ msgid "Import errors detected"
-#~ msgstr "Při importu byly detekovány chyby"
-
-#~ msgid "The files on the camera will not be deleted"
-#~ msgstr "Soubory na fotoaparátu nebudou odstraněny"
-
-#, fuzzy
-#~ msgid "Transferring '%s' to its destination folder."
-#~ msgstr "Vyberte cílový adresář"
-
-#~ msgid "Not enough free space left on disk"
-#~ msgstr "Na disku nezbývá dost volného místa"
-
-#~ msgid "Header"
-#~ msgstr "Záhlaví"
-
-#~ msgid "by path"
-#~ msgstr "podle cesty"
-
-#~ msgid "by size"
-#~ msgstr "podle velikosti"
-
-#~ msgid "by Exif DateTime tag"
-#~ msgstr "podle data a času EXIF"
-
-#~ msgid "by comment"
-#~ msgstr "podle komentáře"
-
-#~ msgid "manual order"
-#~ msgstr "ruční pořadí"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \"/\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím "
-#~ "jiný název."
-
-#, fuzzy
-#~ msgid "Copy to \"approved\" folder"
-#~ msgstr "Kopírovat vybraný adresář"
-
-#, fuzzy
-#~ msgid "Script Progress"
-#~ msgstr "Průběh vyhledávání"
-
-#, fuzzy
-#~ msgid "Number"
-#~ msgstr "Název"
-
-#, fuzzy
-#~ msgid "Short Name"
-#~ msgstr "Třídit _obrázky"
-
-#~ msgid "Select Album Theme"
-#~ msgstr "Vyberte téma alba"
-
-#~ msgid "The image will be moved to the Trash, are you sure?"
-#~ msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
-
-#~ msgid "The selected images will be moved to the Trash, are you sure?"
-#~ msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
-
-#~ msgid "Enter the new name: "
-#~ msgstr "Zadejte nový název: "
-
-#~ msgid "The name \"%s\" is already used. Please use a different name."
-#~ msgstr "Název \"%s\" je již použit. Použijte prosím jiný název."
-
-#~ msgid "Could not rename the library \"%s\": %s"
-#~ msgstr "Nelze přejmenovat knihovnu \"%s\": %s"
-
-#~ msgid "The selected library will be removed, are you sure?"
-#~ msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
-
-#~ msgid "The selected catalog will be removed, are you sure?"
-#~ msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
-
-#~ msgid "New Library"
-#~ msgstr "Nová knihovna"
-
-#~ msgid "Could not rename the folder \"%s\": %s"
-#~ msgstr "Nelze přejmenovat adresář \"%s\": %s"
-
-#~ msgid "source and destination are the same"
-#~ msgstr "zdroj a cíl jsou shodné"
-
-#~ msgid ""
-#~ "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-#~ msgstr ""
-#~ "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
-
-#~ msgid "The selected folder will be moved to the Trash, are you sure?"
-#~ msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
-
-#~ msgid "Could not copy the folder \"%s\": %s"
-#~ msgstr "Nelze kopírovat adresář \"%s\": %s"
-
-#~ msgid "source contains destination"
-#~ msgstr "zdroj obsahuje cíl"
-
-#~ msgid "a folder with that name is already present."
-#~ msgstr "adresář s tímto názvem již existuje."
-
-#~ msgid "Open Location"
-#~ msgstr "Otevřít umístění"
-
-#~ msgid "_Folder"
-#~ msgstr "_Adresář"
-
-#~ msgid "Show/_Hide"
-#~ msgstr "Zobrazit/S_krýt"
-
-#~ msgid "S_ort Images"
-#~ msgstr "Třídit _obrázky"
-
-#~ msgid "_Zoom"
-#~ msgstr "_Přiblížení"
-
-#~ msgid "_Image"
-#~ msgstr "_Obrázek"
-
-#~ msgid "Set Image as _Wallpaper"
-#~ msgstr "Nasta_vit obrázek jako pozadí"
-
-#~ msgid "Create a new window"
-#~ msgstr "Vytvořit nové okno"
-
-#~ msgid "Open the selected image in a new window"
-#~ msgstr "Otevřít vybraný obrázek v novém okně"
-
-#~ msgid "_Import Photos..."
-#~ msgstr "_Importovat fotografie..."
-
-#~ msgid "_Write To CD..."
-#~ msgstr "_Zapsat na CD..."
-
-#~ msgid "Write selection to CD"
-#~ msgstr "Zapsat výběr na CD"
-
-#~ msgid "_Rename..."
-#~ msgstr "Pře_jmenovat..."
-
-#~ msgid "Move this image to the Trash"
-#~ msgstr "Přesunout tento obrázek do Koše"
-
-#~ msgid "Copy this image to another location"
-#~ msgstr "Kopírovat tento obrázek na jiné místo"
-
-#~ msgid "_Move..."
-#~ msgstr "_Přesunout..."
-
-#~ msgid "Move this image to another location"
-#~ msgstr "Přesunout tento obrázek na jiné místo"
-
-#~ msgid "Copy selected images to another location"
-#~ msgstr "Kopírovat vybrané obrázky na jiné místo"
-
-#~ msgid "Move selected images to another location"
-#~ msgstr "Přesunout vybrané obrázky na jiné místo"
-
-#~ msgid "Select all images"
-#~ msgstr "Vybrat všechny obrázky"
-
-#~ msgid "Open the selected catalog"
-#~ msgstr "Otevřít vybraný katalog"
-
-#~ msgid "Open the selected catalog in a new window"
-#~ msgstr "Otevřít vybraný katalog v novém okně"
-
-#~ msgid "Rename selected catalog"
-#~ msgstr "Přejmenovat vybraný katalog"
-
-#~ msgid "Rem_ove"
-#~ msgstr "_Odstranit"
-
-#~ msgid "Remove selected catalog"
-#~ msgstr "Odstranit vybraný katalog"
-
-#~ msgid "Move selected catalog to another location"
-#~ msgstr "Přesunout vybraný katalog na jiné místo"
-
-#~ msgid "_Edit Search..."
-#~ msgstr "Upravit hl_edání..."
-
-#~ msgid "Modify search criteria"
-#~ msgstr "Upravit podmínky vyhledávání"
-
-#~ msgid "Redo _Search"
-#~ msgstr "Znovu prové_st hledání"
-
-#~ msgid "_New Catalog..."
-#~ msgstr "_Nový katalog..."
-
-#~ msgid "New _Library..."
-#~ msgstr "Nová _knihovna..."
-
-#~ msgid "Create a new catalog library"
-#~ msgstr "Vytvořit novou knihovnu katalogů"
-
-#~ msgid "Rename current catalog"
-#~ msgstr "Přejmenovat aktuální katalog"
-
-#~ msgid "Remove current catalog"
-#~ msgstr "Odstranit aktuální katalog"
-
-#~ msgid "Move current catalog to another location"
-#~ msgstr "Přesunout aktuální katalog na jiné místo"
-
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Otevřít vybraný adresář v novém okně"
-
-#~ msgid "Open the selected folder with the Nautilus file manager"
-#~ msgstr "Otevřít vybraný adresář správcem souborů Nautilus"
-
-#~ msgid "Rename selected folder"
-#~ msgstr "Přejmenovat vybraný adresář"
-
-#~ msgid "Move the selected folder to the Trash"
-#~ msgstr "Přesunout vybraný adresář do Koše"
-
-#~ msgid "Copy selected folder"
-#~ msgstr "Kopírovat vybraný adresář"
-
-#~ msgid "Move selected folder"
-#~ msgstr "Přesunout vybraný adresář"
-
-#~ msgid "Ca_tegories..."
-#~ msgstr "Ka_tegorie..."
-
-#~ msgid "Open current folder with the Nautilus file manager"
-#~ msgstr "Otevřít aktuální adresář správcem souborů Nautilus"
-
-#~ msgid "Rename current folder"
-#~ msgstr "Přejmenovat aktuální adresář"
-
-#~ msgid "Move the current folder to the Trash"
-#~ msgstr "Přesunout aktuální adresář do Koše"
-
-#~ msgid "Copy current folder"
-#~ msgstr "Kopírovat aktuální adresář"
-
-#~ msgid "Assign categories to the current folder"
-#~ msgstr "Přiřadit k aktuálnímu adresáři kategorie"
-
-#~ msgid "_New Folder..."
-#~ msgstr "_Nový adresář..."
-
-#~ msgid "_Reload"
-#~ msgstr "_Znovu načíst"
-
-#~ msgid "Go to the home folder"
-#~ msgstr "Přejít do domovského adresáře"
-
-#~ msgid "_Go to the Image Folder"
-#~ msgstr "Pře_jít do adresáře obrázku"
-
-#~ msgid "Specify a location to visit"
-#~ msgstr "Které místo chcete navštívit"
-
-#, fuzzy
-#~ msgid "_Slideshow"
-#~ msgstr "Promítání _snímků"
-
-#~ msgid "Create _Index Image..."
-#~ msgstr "Vytvořit obrázek s _indexem..."
-
-#~ msgid "Search for _Duplicates..."
-#~ msgstr "Hledat _duplikáty..."
-
-#~ msgid "Scale Images..."
-#~ msgstr "Škálovat obrázky..."
-
-#~ msgid "Scale Images"
-#~ msgstr "Zvětšit obrázky"
-
-#~ msgid "_Image Preview"
-#~ msgstr "Náhled o_brázku"
-
-#~ msgid "_Reversed Order"
-#~ msgstr "_Obrácené pořadí"
-
-#~ msgid "Reverse images order"
-#~ msgstr "Obrátit pořadí obrázků"
-
-#~ msgid "by _Name"
-#~ msgstr "podle _názvu"
-
-#~ msgid "Sort images by name"
-#~ msgstr "Třídit obrázky podle názvu"
-
-#~ msgid "by _Path"
-#~ msgstr "podle _cesty"
-
-#~ msgid "Sort images by path"
-#~ msgstr "Třídit obrázky podle cesty"
-
-#~ msgid "by _Size"
-#~ msgstr "podle _velikosti"
-
-#~ msgid "Sort images by file modification time"
-#~ msgstr "Třídit obrázky podle času změny souboru"
-
-#~ msgid "by _Exif Time"
-#~ msgstr "podle času v _Exif"
-
-#~ msgid "Sort images by Exif DateTime tag"
-#~ msgstr "Třídit obrázky podle data a času v EXIF"
-
-#~ msgid "by _Comment"
-#~ msgstr "Podle _komentáře"
-
-#~ msgid "Sort images by comment"
-#~ msgstr "Třídit obrázky podle komentáře"
-
-#~ msgid "_Manual Order"
-#~ msgstr "_Ruční pořadí"
-
-#~ msgid "Sort images manually"
-#~ msgstr "Třídit obrázky ručně"
-
-#, fuzzy
-#~ msgid "View As Sli_des"
-#~ msgstr "Zobrazit jako promítání"
-
-#~ msgid "View As Slides"
-#~ msgstr "Zobrazit jako promítání"
-
-#, fuzzy
-#~ msgid "View As _List"
-#~ msgstr "Zobrazit jako seznam"
-
-#~ msgid "View As List"
-#~ msgstr "Zobrazit jako seznam"
-
-#~ msgid "_Folders"
-#~ msgstr "_Adresáře"
-
-#~ msgid "_Catalogs"
-#~ msgstr "Katalo_gy"
-
-#~ msgid "View the catalogs"
-#~ msgstr "Zobrazit katalogy"
-
-#~ msgid "[Press 'c' to add a comment]"
-#~ msgstr "[Pro přidání komentáře stiskněte 'c']"
-
-#~ msgid "1 image (%s)"
-#~ msgstr "1 obrázek (%s)"
-
-#~ msgid "%d selected (%s)"
-#~ msgstr "vybráno: %d (%s)"
-
-#~ msgid "The current image has been modified, do you want to save it?"
-#~ msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
-
-#~ msgid "Dragged Images"
-#~ msgstr "Tažené obrázky"
-
-#~ msgid "Cannot load folder \"%s\": %s\n"
-#~ msgstr "Nelze načíst adresář \"%s\": %s\n"
-
-#~ msgid "The specified catalog does not exist."
-#~ msgstr "Zadaný katalog neexistuje."
-
-#~ msgid "Wait please..."
-#~ msgstr "Prosím počkejte..."
-
-#, fuzzy
-#~ msgid "Filesystem"
-#~ msgstr "Systém souborů"
-
-#~ msgid "Path"
-#~ msgstr "Cesta"
-
-#~ msgid "KB"
-#~ msgstr "KB"
-
-#~ msgid "Category"
-#~ msgstr "Kategorie"
-
-#~ msgid "Text contains"
-#~ msgstr "Text obsahuje"
-
-#~ msgid "<b>_Folder</b>"
-#~ msgstr "<b>_Složka</b>"
-
-#~ msgid "_Browse..."
-#~ msgstr "Pro_bírat..."
-
-#, fuzzy
-#~ msgid "_Go to the destination folder"
-#~ msgstr "Vyberte cílový adresář"
-
-#~ msgid "<b>_Recent folders:</b>"
-#~ msgstr "<b>Ne_dávné složky:</b>"
-
-#~ msgid "_Single Window"
-#~ msgstr "_Jedno okno"
-
-#~ msgid "_None"
-#~ msgstr "_Nic"
-
-#~ msgid "Open selected images with an application"
-#~ msgstr "Otevřít vybrané obrázky pomocí aplikace"
-
-#~ msgid "_Transform"
-#~ msgstr "_Transformovat"
-
-#~ msgid "_Open With..."
-#~ msgstr "_Otevřít pomocí..."
-
-#~ msgid "Revert to saved image"
-#~ msgstr "Návrat k uložené verzi obrázku"
-
-#~ msgid "Print..."
-#~ msgstr "Tisk..."
-
-#~ msgid "Print the current image"
-#~ msgstr "Tisknout aktuální obrázek"
-
-#~ msgid "Open this image with an application"
-#~ msgstr "Otevřít tento obrázek pomocí aplikace"
-
-#~ msgid "Comm_ent..."
-#~ msgstr "Kom_entář..."
-
-#~ msgid "Add a comment to selected images"
-#~ msgstr "Přidat komentář k vybraným obrázkům"
-
-#~ msgid "Rem_ove Comment"
-#~ msgstr "_Odstranit komentář"
-
-#~ msgid "Remove comments of selected images"
-#~ msgstr "Odstranit komentáře vybraných obrázků"
-
-#~ msgid "Assign categories to selected images"
-#~ msgstr "Přiřadit vybraným obrázkům kategorie"
-
-#~ msgid "Ca_tegories"
-#~ msgstr "Ka_tegorie"
-
-#~ msgid "View the image rotated clockwise"
-#~ msgstr "Zobrazit obrázek otočený po směru hodinových ručiček"
-
-#~ msgid "View the image rotated counter-clockwise"
-#~ msgstr "Zobrazit obrázek otočený proti směru hodinových ručiček"
-
-#~ msgid "View the image flipped"
-#~ msgstr "Zobrazit obrázek obráceně"
-
-#~ msgid "View the image mirrored"
-#~ msgstr "Zobrazit obrázek zrcadlený"
-
-#~ msgid "View the image in black and white"
-#~ msgstr "Zobrazit obrázek černobíle"
-
-#~ msgid "View the image with negative colors"
-#~ msgstr "Zobrazit obrázek v barvách negativu"
-
-#~ msgid "_Enhance"
-#~ msgstr "_Vylepšit"
-
-#~ msgid "Automatically adjust the color levels"
-#~ msgstr "Automaticky upravit úrovně barev"
-
-#~ msgid "Reduce the number of colors"
-#~ msgstr "Redukovat počet barev"
-
-#~ msgid "_Brightness-Contrast..."
-#~ msgstr "_Jas - Kontrast..."
-
-#~ msgid "Adjust brightness and contrast"
-#~ msgstr "Upravit jas a kontrast"
-
-#~ msgid "_Hue-Saturation..."
-#~ msgstr "_Odstín - Sytost..."
-
-#~ msgid "Adjust hue and saturation"
-#~ msgstr "Upravit odstín a sytost"
-
-#~ msgid "Redeye Removal Tool"
-#~ msgstr "Nástroj pro odstranění červených očí"
-
-#~ msgid "_Color Balance..."
-#~ msgstr "_Vyvážení barev..."
-
-#~ msgid "Adjust color balance"
-#~ msgstr "Upravit barevné vyvážení"
-
-#~ msgid "Crop image"
-#~ msgstr "Oříznout obrázek"
-
-#~ msgid "Black and White"
-#~ msgstr "Černobílé"
-
-#~ msgid "Web Palette"
-#~ msgstr "WWW paleta"
-
-#~ msgid "Step A_nimation"
-#~ msgstr "Krokovat a_nimaci"
-
-#~ msgid "View next animation frame"
-#~ msgstr "Zobrazit další snímek animace"
-
-#~ msgid "Set the image as desktop background (centered)"
-#~ msgstr "Nastavení obrázku jako pozadí pracovní plochy (na střed)"
-
-#~ msgid "_Scaled"
-#~ msgstr "_Přizpůsobený"
-
-#~ msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-#~ msgstr ""
-#~ "Nastavení obrázku jako pozadí pracovní plochy (zvětšený při zachování "
-#~ "poměru stran)"
-
-#~ msgid "Str_etched"
-#~ msgstr "_Roztažený"
-
-#~ msgid "Set the image as desktop background (stretched)"
-#~ msgstr "Nastavení obrázku jako pozadí pracovní plochy (roztažený)"
-
-#~ msgid "Restore the original desktop wallpaper"
-#~ msgstr "Obnovit původní tapetu pracovní plochy"
-
-#~ msgid "Reset _Exif Orientation"
-#~ msgstr "Resetovat _Exif orientaci"
-
-#~ msgid "Reset Exif orientation to top-left"
-#~ msgstr "Přenastavit Exif orientaci na 'vlevo nahoře'"
-
-#~ msgid "Play _Animation"
-#~ msgstr "Přehrát _animaci"
-
-#~ msgid "Start or stop current animation"
-#~ msgstr "Začít nebo zastavit aktuální animaci"
-
-#~ msgid "Use the viewer mode to view single images"
-#~ msgstr "Použijte mód prohlížení pro zobrazení jednotlivých obrázků"
-
-#~ msgid "Could not create a local temporary copy of the remote file."
-#~ msgstr "Nelze vytvořit dočasnou kopii vzdáleného souboru."
-
-#~ msgid ""
-#~ "Could not move temporary file to local destination. Check folder "
-#~ "permissions."
-#~ msgstr ""
-#~ "Nelze přemístit dočasný soubor do lokálního umístění. Zkontrolujte "
-#~ "oprávnění složky."
-
-#~ msgid "Photo _Data (EXIF)"
-#~ msgstr "_Data fotografie (EXIF)"
-
-#~ msgid "_Film:"
-#~ msgstr "_Film:"
-
-#~ msgid "_Crop"
-#~ msgstr "_Oříznout"
-
-#~ msgid "0:"
-#~ msgstr "0:"
-
-#~ msgid "1:"
-#~ msgstr "1:"
-
-#~ msgid "2:"
-#~ msgstr "2:"
-
-#~ msgid "3:"
-#~ msgstr "3:"
-
-#~ msgid "4:"
-#~ msgstr "4:"
-
-#~ msgid "6:"
-#~ msgstr "6:"
-
-#~ msgid "7:"
-#~ msgstr "7:"
-
-#~ msgid "8:"
-#~ msgstr "8:"
-
-#~ msgid "9:"
-#~ msgstr "9:"
-
-#~ msgid "Hot Keys"
-#~ msgstr "Klávesové zkratky"
-
-#~ msgid ""
-#~ "Keys 0-9 on the numeric keypad can be used in the browser to open or "
-#~ "modify the selected images with other applications."
-#~ msgstr ""
-#~ "Numerické klávesy 0-9 lze v prohlížeči použít pro otevření nebo úpravu "
-#~ "vybraných obrázků v ostatních aplikacích."
-
-#~ msgid "Actual Size"
-#~ msgstr "Skutečná velikost"
-
-#~ msgid "Zoom In"
-#~ msgstr "Přiblížit"
-
-#~ msgid "Zoom Out"
-#~ msgstr "Oddálit"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "Deleting all thumbnails, wait please..."
-#~ msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
-
-#~ msgid "Deleting old thumbnails, wait please..."
-#~ msgstr "Odstraňuji staré miniatury, prosím počkejte..."
-
-#~ msgid "Film"
-#~ msgstr "Film"
-
-#~ msgid "Filesystem Data"
-#~ msgstr "Data souborového systému"
-
-#~ msgid "GPS Coordinates"
-#~ msgstr "GPS souřadnice"
-
-#~ msgid "Embedded Thumbnail"
-#~ msgstr "Vložený náhled"
-
-#~ msgid "Versions & Interoperability"
-#~ msgstr "Verze a interoperabilita"
-
-#~ msgid "_High Quality"
-#~ msgstr "_Vysoká kvalita"
-
-#~ msgid "Use high quality zoom"
-#~ msgstr "Použít vysoce kvalitní přiblížení"
-
-#~ msgid "_Low Quality"
-#~ msgstr "Nízká kva_lita"
-
-#~ msgid "Use low quality zoom"
-#~ msgstr "Použít málo kvalitní přiblížení"
-
-#~ msgid "Value "
-#~ msgstr "Hodnota "
