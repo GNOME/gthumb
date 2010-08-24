@@ -108,6 +108,9 @@ GFileInfo *   gth_file_data_list_get_common_info    (GList          *file_data_l
 gboolean      gth_file_data_attribute_equal         (GthFileData    *file_data,
 						     const char     *attribute,
 						     const char     *value);
+gboolean      gth_file_data_attribute_equal_int     (GthFileData    *file_data,
+				   	   	     const char     *attribute,
+				   	   	     const char     *value);
 gboolean      gth_file_data_attribute_equal_string_list
 						    (GthFileData    *file_data,
 						     const char     *attribute,

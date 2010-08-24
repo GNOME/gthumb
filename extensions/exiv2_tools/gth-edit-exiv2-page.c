@@ -167,7 +167,7 @@ gth_edit_exiv2_page_real_update_info (GthEditMetadataPage *base,
 
 	v = gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("urgency_adjustment")));
 	s = g_strdup_printf ("%1.g", v);
-	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "Iptc::Application2::Urgency", s)) {
+	if (! only_modified_fields || ! gth_file_data_attribute_equal_int (file_data, "Iptc::Application2::Urgency", s)) {
 		GthMetadata *metadata;
 
 		metadata = g_object_new (GTH_TYPE_METADATA,

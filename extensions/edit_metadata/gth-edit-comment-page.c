@@ -281,7 +281,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	/* rating */
 
 	s = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))));
-	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::rating", s)) {
+	if (! only_modified_fields || ! gth_file_data_attribute_equal_int (file_data, "general::rating", s)) {
 		if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton"))) > 0) {
 			metadata = g_object_new (GTH_TYPE_METADATA,
 						 "id", "general::rating",

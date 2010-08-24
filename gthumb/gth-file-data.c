@@ -577,7 +577,44 @@ gth_file_data_attribute_equal (GthFileData *file_data,
 	char     *v;
 	gboolean  result;
 
+	/* a NULL pointer is equal to an empty string. */
+
+	if (g_strcmp0 (value, "") == 0)
+		value = NULL;
+
 	v = gth_file_data_get_attribute_as_string (file_data, attribute);
+	if (g_strcmp0 (v, "") == 0) {
+		g_free (v);
+		v = NULL;
+	}
+
+	result = g_strcmp0 (v, value) == 0;
+
+	g_free (v);
+
+	return result;
+}
+
+
+gboolean
+gth_file_data_attribute_equal_int (GthFileData *file_data,
+				   const char  *attribute,
+				   const char  *value)
+{
+	char     *v;
+	gboolean  result;
+
+	/* a NULL pointer or an empty string is equal to 0. */
+
+	if ((g_strcmp0 (value, "") == 0) || (value == NULL))
+		value = "0";
+
+	v = gth_file_data_get_attribute_as_string (file_data, attribute);
+	if ((g_strcmp0 (v, "") == 0) || (v == NULL)) {
+		g_free (v);
+		v = g_strdup ("0");
+	}
+
 	result = g_strcmp0 (v, value) == 0;
 
 	g_free (v);
