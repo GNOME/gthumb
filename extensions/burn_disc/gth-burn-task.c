@@ -22,13 +22,13 @@
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <brasero/brasero-burn-dialog.h>
-#include <brasero/brasero-burn-lib.h>
-#include <brasero/brasero-burn-options.h>
-#include <brasero/brasero-media.h>
-#include <brasero/brasero-session.h>
-#include <brasero/brasero-session-cfg.h>
-#include <brasero/brasero-track-data-cfg.h>
+#include <brasero-burn-dialog.h>
+#include <brasero-burn-lib.h>
+#include <brasero-burn-options.h>
+#include <brasero-media.h>
+#include <brasero-session.h>
+#include <brasero-session-cfg.h>
+#include <brasero-track-data-cfg.h>
 #include <gthumb.h>
 #include "gth-burn-task.h"
 
