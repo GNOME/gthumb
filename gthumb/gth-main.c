@@ -176,7 +176,7 @@ gth_main_init (GthMain *main)
 	main->priv->loaders = g_hash_table_new (g_str_hash, (GEqualFunc) g_content_type_equals);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
-	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->metadata_info_sorted = FALSE;
 }
 
@@ -416,7 +416,7 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 
 	info = gth_metadata_info_dup (metadata_info);
 	g_ptr_array_add (Main->priv->metadata_info, info);
-	g_hash_table_insert (Main->priv->metadata_info_hash, g_strdup (info->id), info);
+	g_hash_table_insert (Main->priv->metadata_info_hash, (gpointer) info->id, info);
 	Main->priv->metadata_info_sorted = FALSE;
 
 	g_static_mutex_unlock (&metadata_info_mutex);
@@ -435,7 +435,7 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 	for (i = 0; metadata_info[i].id != NULL; i++)
 		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL)) {
 			g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
-			g_hash_table_insert (Main->priv->metadata_info_hash, g_strdup ((&metadata_info[i])->id), &metadata_info[i]);
+			g_hash_table_insert (Main->priv->metadata_info_hash, (gpointer) (&metadata_info[i])->id, &metadata_info[i]);
 		}
 
 	g_static_mutex_unlock (&metadata_info_mutex);
