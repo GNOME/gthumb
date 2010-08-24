@@ -140,14 +140,37 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 			"Iptc::Application2::Headline",
 			NULL
 		};
+		const char *tags_to_update[] = {
+			"Exif::Photo::UserComment",
+			"Xmp::dc::description",
+			"Iptc::Application2::Caption",
+			NULL
+		};
 		int i;
 
 		for (i = 0; tags_to_remove[i] != NULL; i++)
 			g_file_info_remove_attribute (file_data->info, tags_to_remove[i]);
 
-		g_file_info_set_attribute_object (file_data->info, "Exif::Photo::UserComment", metadata);
-		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::description", metadata);
-		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Caption", metadata);
+		/* Remove the value type to use the default type for each field
+		 * as described in exiv2_tools/main.c */
+
+		g_object_set (metadata, "value-type", NULL, NULL);
+
+		for (i = 0; tags_to_update[i] != NULL; i++) {
+			GObject *orig_metadata;
+
+			orig_metadata = g_file_info_get_attribute_object (file_data->info, tags_to_update[i]);
+			if (orig_metadata != NULL) {
+				/* keep the original value type */
+
+				g_object_set (orig_metadata,
+					      "raw", gth_metadata_get_raw (GTH_METADATA (metadata)),
+					      "formatted", gth_metadata_get_formatted (GTH_METADATA (metadata)),
+					      NULL);
+			}
+			else
+				g_file_info_set_attribute_object (file_data->info, tags_to_update[i], metadata);
+		}
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");

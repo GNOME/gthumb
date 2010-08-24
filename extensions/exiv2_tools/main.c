@@ -145,6 +145,7 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Exif::Photo::RelatedImageLength", NULL, "Exif::Versions", 9, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Exif::Photo::MakerNote", NULL, "Exif::Other", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Exif::Photo::UserComment", NULL, "Exif::Other", 1, "Ascii", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Xmp::dc::description", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Xmp::dc::title", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },

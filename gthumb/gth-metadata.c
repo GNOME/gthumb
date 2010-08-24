@@ -244,6 +244,24 @@ gth_metadata_get_value_type (GthMetadata *metadata)
 }
 
 
+GthMetadata *
+gth_metadata_dup (GthMetadata *metadata)
+{
+	GthMetadata *new_metadata;
+
+	new_metadata = gth_metadata_new ();
+	g_object_set (new_metadata,
+		      "id", metadata->priv->id,
+		      "description", metadata->priv->description,
+		      "raw", metadata->priv->raw,
+		      "formatted", metadata->priv->formatted,
+		      "value-type", metadata->priv->value_type,
+		      NULL);
+
+	return new_metadata;
+}
+
+
 GthMetadataInfo *
 gth_metadata_info_dup (GthMetadataInfo *info)
 {
