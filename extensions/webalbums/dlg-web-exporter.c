@@ -427,7 +427,7 @@ dlg_web_exporter (GthBrowser *browser,
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("sort_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("sort_liststore")), &iter,
 				    SORT_TYPE_COLUMN_DATA, sort_type,
-				    SORT_TYPE_COLUMN_NAME, sort_type->display_name,
+				    SORT_TYPE_COLUMN_NAME, _(sort_type->display_name),
 				    -1);
 	}
 	g_list_free (sort_types);
