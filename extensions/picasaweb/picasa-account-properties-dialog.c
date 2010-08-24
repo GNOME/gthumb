@@ -84,6 +84,7 @@ picasa_account_properties_dialog_init (PicasaAccountPropertiesDialog *self)
 
 	gtk_dialog_add_buttons (GTK_DIALOG (self),
 				GTK_STOCK_HELP, GTK_RESPONSE_HELP,
+				_("Other..."), PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
@@ -148,9 +149,9 @@ image_buffer_ready_cb (void     **buffer,
 
 static void
 picasa_account_properties_dialog_construct (PicasaAccountPropertiesDialog *self,
-					    const char                 *email,
-					    const char                 *password,
-					    const char                 *challange_url)
+					    const char                    *email,
+					    const char                    *password,
+					    const char                    *challange_url)
 {
 	if (email != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("email_entry")), email);
@@ -181,6 +182,8 @@ picasa_account_properties_dialog_construct (PicasaAccountPropertiesDialog *self,
 	else
 		gtk_widget_grab_focus (GET_WIDGET ("challenge_entry"));
 
+	gtk_widget_hide (GET_WIDGET ("error_box"));
+	picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (self), FALSE);
 }
 
 
@@ -196,6 +199,35 @@ picasa_account_properties_dialog_new (const char *email,
 
 	return (GtkWidget *) self;
 }
+
+
+void
+picasa_account_properties_dialog_can_choose (PicasaAccountPropertiesDialog *self,
+					     gboolean                       can_choose)
+{
+	GtkWidget *button;
+
+	button = gtk_dialog_get_widget_for_response (GTK_DIALOG (self), PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE);
+	if (can_choose)
+		gtk_widget_show (button);
+	else
+		gtk_widget_hide (button);
+}
+
+
+void
+picasa_account_properties_dialog_set_error (PicasaAccountPropertiesDialog *self,
+					    GError                        *error)
+{
+	if (error == NULL) {
+		gtk_widget_hide (GET_WIDGET ("error_box"));
+		return;
+	}
+
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("error_label")), error->message);
+	gtk_widget_show (GET_WIDGET ("error_box"));
+}
+
 
 
 const char *

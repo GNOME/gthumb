@@ -13,6 +13,38 @@
   <object class="GtkVBox" id="account_properties">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkHBox" id="error_box">
+        <property name="visible">True</property>
+        <property name="border_width">12</property>
+        <property name="spacing">24</property>
+        <child>
+          <object class="GtkImage" id="image1">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="pixel_size">48</property>
+            <property name="icon_name">dialog-warning</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="error_label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
     <child>
       <object class="GtkTable" id="table1">
         <property name="visible">True</property>
@@ -136,7 +168,7 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
-        <property name="position">0</property>
+        <property name="position">1</property>
       </packing>
     </child>
   </object>

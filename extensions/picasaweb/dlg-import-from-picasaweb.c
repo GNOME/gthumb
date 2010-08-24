@@ -327,8 +327,10 @@ store_password_done_cb (GnomeKeyringResult result,
 
 
 static void account_properties_dialog (DialogData *data,
-			               const char *email);
-static void challange_account_dialog  (DialogData *data);
+			               const char *email,
+			               GError     *error);
+static void challange_account_dialog  (DialogData *data,
+	               	       	       GError     *error);
 
 
 static void
@@ -342,10 +344,12 @@ connection_ready_cb (GObject      *source_object,
 
 	if (! google_connection_connect_finish (conn, result, &error)) {
 		if (g_error_matches (error, GOOGLE_CONNECTION_ERROR, GOOGLE_CONNECTION_ERROR_CAPTCHA_REQUIRED)) {
-			challange_account_dialog (data);
+			challange_account_dialog (data, error);
+			g_clear_error (&error);
 		}
 		else if (g_error_matches (error, GOOGLE_CONNECTION_ERROR, GOOGLE_CONNECTION_ERROR_BAD_AUTHENTICATION)) {
-			account_properties_dialog (data, data->email);
+			account_properties_dialog (data, data->email, error);
+			g_clear_error (&error);
 		}
 		else {
 			if (data->conn != NULL)
@@ -381,6 +385,7 @@ connection_ready_cb (GObject      *source_object,
 
 
 static void connect_to_server (DialogData *data);
+static void auto_select_account (DialogData *data);
 
 
 static void
@@ -412,6 +417,13 @@ account_properties_dialog_response_cb (GtkDialog *dialog,
 		connect_to_server (data);
 		break;
 
+	case PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		g_free (data->email);
+		data->email = NULL;
+		auto_select_account (data);
+		break;
+
 	default:
 		break;
 	}
@@ -420,7 +432,8 @@ account_properties_dialog_response_cb (GtkDialog *dialog,
 
 static void
 account_properties_dialog (DialogData *data,
-			   const char *email)
+			   const char *email,
+			   GError     *error)
 {
 	GtkWidget *dialog;
 
@@ -428,6 +441,10 @@ account_properties_dialog (DialogData *data,
 		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 	dialog = picasa_account_properties_dialog_new (email, NULL, NULL);
+	picasa_account_properties_dialog_set_error (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), error);
+	if ((error != NULL) && (data->accounts != NULL) && (data->accounts->next != NULL))
+		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
+
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_properties_dialog_response_cb),
@@ -443,9 +460,9 @@ account_properties_dialog (DialogData *data,
 static void
 connect_to_server_step2 (DialogData *data)
 {
-	if (data->password == NULL) {
+	if ((data->password == NULL) || g_str_equal (data->password, "")) {
 		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		account_properties_dialog (data, data->email);
+		account_properties_dialog (data, data->email, NULL);
 	}
 	else {
 		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
@@ -530,6 +547,13 @@ challange_account_dialog_response_cb (GtkDialog *dialog,
 		connect_to_server (data);
 		break;
 
+	case PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		g_free (data->email);
+		data->email = NULL;
+		auto_select_account (data);
+		break;
+
 	default:
 		break;
 	}
@@ -537,11 +561,16 @@ challange_account_dialog_response_cb (GtkDialog *dialog,
 
 
 static void
-challange_account_dialog (DialogData *data)
+challange_account_dialog (DialogData *data,
+			  GError     *error)
 {
 	GtkWidget *dialog;
 
 	dialog = picasa_account_properties_dialog_new (data->email, data->password, google_connection_get_challange_url (data->conn));
+	picasa_account_properties_dialog_set_error (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), error);
+	if ((error != NULL) && (data->accounts != NULL) && (data->accounts->next != NULL))
+		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
+
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (challange_account_dialog_response_cb),
@@ -583,7 +612,7 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 
 	case PICASA_ACCOUNT_CHOOSER_RESPONSE_NEW:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-		account_properties_dialog (data, NULL);
+		account_properties_dialog (data, NULL, NULL);
 		break;
 
 	default:
@@ -608,6 +637,8 @@ auto_select_account (DialogData *data)
 		else {
 			GtkWidget *dialog;
 
+			if (data->conn != NULL)
+				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
 			g_signal_connect (dialog,
 					  "response",
@@ -621,7 +652,7 @@ auto_select_account (DialogData *data)
 		}
 	}
 	else
-		account_properties_dialog (data, NULL);
+		account_properties_dialog (data, NULL, NULL);
 }
 
 
@@ -696,7 +727,11 @@ account_combobox_changed_cb (GtkComboBox *widget,
 
 	if (g_strcmp0 (email, data->email) != 0) {
 		g_free (data->email);
+		g_free (data->password);
+		g_free (data->challange);
 		data->email = email;
+		data->password = NULL;
+		data->challange = NULL;
 		auto_select_account (data);
 	}
 	else

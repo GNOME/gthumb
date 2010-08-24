@@ -27,6 +27,8 @@
 
 G_BEGIN_DECLS
 
+#define PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE 1
+
 #define PICASA_TYPE_ACCOUNT_PROPERTIES_DIALOG            (picasa_account_properties_dialog_get_type ())
 #define PICASA_ACCOUNT_PROPERTIES_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICASA_TYPE_ACCOUNT_PROPERTIES_DIALOG, PicasaAccountPropertiesDialog))
 #define PICASA_ACCOUNT_PROPERTIES_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), PICASA_TYPE_ACCOUNT_PROPERTIES_DIALOG, PicasaAccountPropertiesDialogClass))
@@ -51,6 +53,10 @@ GType          picasa_account_properties_dialog_get_type      (void);
 GtkWidget *    picasa_account_properties_dialog_new           (const char *email,
 							       const char *password,
 							       const char *challange);
+void           picasa_account_properties_dialog_can_choose    (PicasaAccountPropertiesDialog *self,
+		       	       	       	       	       	       gboolean                       can_choose);
+void           picasa_account_properties_dialog_set_error     (PicasaAccountPropertiesDialog *self,
+							       GError                        *error);
 const char *   picasa_account_properties_dialog_get_email     (PicasaAccountPropertiesDialog *self);
 const char *   picasa_account_properties_dialog_get_password  (PicasaAccountPropertiesDialog *self);
 const char *   picasa_account_properties_dialog_get_challange (PicasaAccountPropertiesDialog *self);
