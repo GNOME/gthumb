@@ -175,25 +175,31 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");
 	if (metadata != NULL) {
+		g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::title", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL) {
+		g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Location", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::LocationName", metadata);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (metadata != NULL) {
+		if (GTH_IS_METADATA (metadata))
+			g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", metadata);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
-	if (metadata != NULL)
+	if (metadata != NULL) {
+		g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
+	}
 
 	if (exiv2_write_metadata_to_buffer (&buffer,
 					    &size,
