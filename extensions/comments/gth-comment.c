@@ -491,8 +491,10 @@ gth_comment_set_time_from_exif_format (GthComment *comment,
 		return;
 	}
 
-	g_date_set_dmy (comment->priv->date, d, m, y);
-	gth_time_set_hms (comment->priv->time_of_day, hh, mm, ss, 0);
+	if (g_date_valid_dmy (d, m, y)) {
+		g_date_set_dmy (comment->priv->date, d, m, y);
+		gth_time_set_hms (comment->priv->time_of_day, hh, mm, ss, 0);
+	}
 }
 
 
