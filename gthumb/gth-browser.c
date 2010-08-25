@@ -2036,11 +2036,20 @@ _gth_browser_close_final_step (gpointer user_data)
 
 
 static void
+_gth_browser_close_step4 (gpointer user_data)
+{
+	GthBrowser *browser = user_data;
+
+	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->thumbnail_list), _gth_browser_close_final_step, browser);
+}
+
+
+static void
 _gth_browser_close_step3 (gpointer user_data)
 {
 	GthBrowser *browser = user_data;
 
-	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->file_list), _gth_browser_close_final_step, browser);
+	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->file_list), _gth_browser_close_step4, browser);
 }
 
 
