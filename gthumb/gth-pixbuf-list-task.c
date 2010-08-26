@@ -268,8 +268,12 @@ pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
 		return;
 	}
 
+	/* add a reference before unref-ing new_pixbuf because dest and
+	 * new_pixbuf can be the same object. */
+
+	g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
 	_g_object_unref (self->priv->new_pixbuf);
-	self->priv->new_pixbuf = g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
+	self->priv->new_pixbuf = GTH_PIXBUF_TASK (self->priv->task)->dest;
 
 	_gdk_pixbuf_save_async (self->priv->new_pixbuf,
 				self->priv->destination_file_data,
