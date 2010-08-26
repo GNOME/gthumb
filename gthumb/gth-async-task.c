@@ -133,6 +133,11 @@ gth_async_task_exec (GthTask *task)
 
 	self = GTH_ASYNC_TASK (task);
 
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->terminated = FALSE;
+	self->priv->cancelled = FALSE;
+	g_mutex_unlock (self->priv->data_mutex);
+
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self);
 	g_thread_create (exec_task, self, FALSE, NULL);
