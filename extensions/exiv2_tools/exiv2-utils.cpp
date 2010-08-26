@@ -164,9 +164,9 @@ const char *_LOCATION_TAG_NAMES[] = {
 };
 
 const char *_KEYWORDS_TAG_NAMES[] = {
-	"Xmp::dc::subject",
-	"Xmp::iptc::Keywords",
 	"Iptc::Application2::Keywords",
+	"Xmp::iptc::Keywords",
+	"Xmp::dc::subject",
 	NULL
 };
 
@@ -446,7 +446,7 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 		GthStringList  *string_list;
 
 		g_object_get (metadata, "raw", &raw, NULL);
-		keywords = g_strsplit (raw, ", ", -1);
+		keywords = g_strsplit (raw, ",", -1);
 		string_list = gth_string_list_new_from_strv (keywords);
 		g_file_info_set_attribute_object (info, attribute, G_OBJECT (string_list));
 

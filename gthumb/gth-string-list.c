@@ -102,7 +102,7 @@ gth_string_list_new_from_strv (char **strv)
 	string_list = g_object_new (GTH_TYPE_STRING_LIST, NULL);
 	if (strv != NULL) {
 		for (i = 0; strv[i] != NULL; i++)
-			string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (strv[i]));
+			string_list->priv->list = g_list_prepend (string_list->priv->list, g_strdup (g_strstrip (strv[i])));
 		string_list->priv->list = g_list_reverse (string_list->priv->list);
 	}
 	else

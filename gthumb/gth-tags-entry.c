@@ -849,7 +849,7 @@ gth_tags_entry_get_tags (GthTagsEntry *self,
 	for (i = 0, j = 0; all_tags[i] != NULL; i++) {
 		all_tags[i] = g_strstrip (all_tags[i]);
 		if (all_tags[i][0] != '\0') {
-			tags[j] = g_strdup (all_tags[i]);
+			tags[j] = g_strdup (g_strstrip (all_tags[i]));
 			if (update_globals)
 				gth_tags_file_add (tags_file, tags[j]);
 			j++;
