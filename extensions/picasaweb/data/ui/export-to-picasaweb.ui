@@ -36,14 +36,17 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox7">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkVBox" id="hbox1">
+          <object class="GtkVPaned" id="vpaned1">
             <property name="visible">True</property>
-            <property name="border_width">5</property>
-            <property name="spacing">12</property>
+            <property name="can_focus">True</property>
+            <property name="border_width">6</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkVBox" id="images_box">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">3</property>
                 <child>
                   <object class="GtkLabel" id="images_info_label">
@@ -57,12 +60,14 @@
                 </child>
               </object>
               <packing>
-                <property name="position">0</property>
+                <property name="resize">True</property>
+                <property name="shrink">False</property>
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkTable" id="table1">
@@ -91,6 +96,7 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">3</property>
                         <child>
                           <object class="GtkHBox" id="hbox4">
@@ -123,7 +129,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="tooltip_text" translatable="yes">Edit accounts</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
                                     <property name="visible">True</property>
@@ -189,8 +194,9 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="vbox2">
+                  <object class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkLabel" id="label4">
@@ -228,6 +234,7 @@
                                   <object class="GtkTreeViewColumn" id="name_treeviewcolumn">
                                     <property name="title">Name</property>
                                     <property name="expand">True</property>
+                                    <property name="clickable">True</property>
                                     <property name="sort_column_id">1</property>
                                   </object>
                                 </child>
@@ -261,15 +268,15 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkVBox" id="vbox3">
+                          <object class="GtkVBox" id="vbox5">
                             <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkButton" id="add_album_button">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="tooltip_text" translatable="yes">Add a new album</property>
                                 <child>
                                   <object class="GtkImage" id="image1">
                                     <property name="visible">True</property>
@@ -300,8 +307,8 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="position">1</property>
+                <property name="resize">False</property>
+                <property name="shrink">False</property>
               </packing>
             </child>
           </object>
