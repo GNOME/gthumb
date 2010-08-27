@@ -238,7 +238,7 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 		gtk_list_store_append (selection_model, &iter);
 		gtk_list_store_set (selection_model, &iter,
 				    SELECTION_COLUMN_DATA, sort_type,
-				    SELECTION_COLUMN_NAME, sort_type->display_name,
+				    SELECTION_COLUMN_NAME, _(sort_type->display_name),
 				    -1);
 	}
 	g_list_free (sort_types);
