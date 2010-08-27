@@ -1273,13 +1273,13 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 				     inverse);
 	gth_browser_update_title (browser);
 
-	if (! browser->priv->constructed)
+	if (! browser->priv->constructed || (browser->priv->location == NULL))
 		return;
 
 	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", (sort_type != NULL) ? sort_type->name : "general::unsorted");
 	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", (sort_type != NULL) ? inverse : FALSE);
 
-	if (! save)
+	if (! save || (browser->priv->location_source == NULL))
 		return;
 
 	gth_file_source_write_metadata (browser->priv->location_source,
