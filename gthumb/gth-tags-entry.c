@@ -148,7 +148,6 @@ get_tag_limits (GthTagsEntry  *self,
 	const char *cursor_start;
 	const char *tag_start;
 	const char *tag_end;
-	const char *tmp_tag_end;
 
 	text = gtk_entry_get_text (GTK_ENTRY (self->priv->entry));
 	cursor_start = g_utf8_offset_to_pointer (text, gtk_editable_get_position (GTK_EDITABLE (self->priv->entry)));
@@ -173,10 +172,6 @@ get_tag_limits (GthTagsEntry  *self,
 
 	while ((tag_start != tag_end) && g_unichar_isspace (g_utf8_get_char (tag_start)))
 		tag_start = g_utf8_next_char (tag_start);
-
-	tmp_tag_end = g_utf8_strrchr (tag_start, tag_end - tag_start, ' ');
-	if (tmp_tag_end != NULL)
-		tag_end = tmp_tag_end;
 
 	*tag_start_p = tag_start;
 	*tag_end_p = tag_end;
