@@ -81,6 +81,28 @@ metadata_ready_cb (GList    *files,
 
 
 static void
+continue_loading_image (GthLoadImageInfoTask *self)
+{
+	if (strcmp (self->priv->attributes, "") != 0) {
+		GthImageInfo *image_info;
+		GList        *files;
+
+		image_info = self->priv->images[self->priv->current];
+		files = g_list_prepend (NULL, image_info->file_data);
+		_g_query_metadata_async (files,
+					 self->priv->attributes,
+					 gth_task_get_cancellable (GTH_TASK (self)),
+					 metadata_ready_cb,
+					 self);
+
+		g_list_free (files);
+	}
+	else
+		load_next_image (self);
+}
+
+
+static void
 image_loader_ready_cb (GthImageLoader *loader,
 		       GError         *error,
 		       gpointer        user_data)
@@ -102,20 +124,7 @@ image_loader_ready_cb (GthImageLoader *loader,
 	if (pixbuf != NULL)
 		gth_image_info_set_pixbuf (image_info, pixbuf);
 
-	if (strcmp (self->priv->attributes, "") != 0) {
-		GList *files;
-
-		files = g_list_prepend (NULL, image_info->file_data);
-		_g_query_metadata_async (files,
-					 self->priv->attributes,
-					 gth_task_get_cancellable (GTH_TASK (self)),
-					 metadata_ready_cb,
-					 self);
-
-		g_list_free (files);
-	}
-	else
-		load_next_image (self);
+	continue_loading_image (self);
 }
 
 
@@ -140,8 +149,12 @@ load_current_image (GthLoadImageInfoTask *self)
 			   FALSE,
 			   ((double) self->priv->current + 0.5) / self->priv->n_images);
 
-	gth_image_loader_set_file_data (self->priv->loader, image_info->file_data);
-	gth_image_loader_load (self->priv->loader);
+	if (image_info->pixbuf == NULL) {
+		gth_image_loader_set_file_data (self->priv->loader, image_info->file_data);
+		gth_image_loader_load (self->priv->loader);
+	}
+	else
+		call_when_idle ((DataFunc) continue_loading_image, self);
 
 	g_free (details);
 }

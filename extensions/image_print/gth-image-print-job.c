@@ -1506,8 +1506,10 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 
 
 GthImagePrintJob *
-gth_image_print_job_new (GList   *file_data_list,
-			 GError **error)
+gth_image_print_job_new (GList        *file_data_list,
+			 GthFileData  *current,
+			 GdkPixbuf    *current_image,
+			 GError      **error)
 {
 	GthImagePrintJob *self;
 	GList            *scan;
@@ -1520,8 +1522,15 @@ gth_image_print_job_new (GList   *file_data_list,
 	for (scan = file_data_list, n = 0; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
-			self->priv->images[n++] = gth_image_info_new (file_data);
+		if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data))) {
+			GthImageInfo *image_info;
+
+			image_info = gth_image_info_new (file_data);
+			if ((current_image != NULL) && g_file_equal (file_data->file, current->file))
+				gth_image_info_set_pixbuf (image_info, current_image);
+
+			self->priv->images[n++] = image_info;
+		}
 	}
 	self->priv->images[n] = NULL;
 	self->priv->n_images = n;
