@@ -2247,6 +2247,9 @@ _gth_browser_set_current_page (GthWindow *window,
 {
 	GthBrowser *browser = GTH_BROWSER (window);
 
+	if (page == gth_window_get_current_page (window))
+		return;
+
 	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
