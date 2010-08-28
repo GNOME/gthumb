@@ -20,6 +20,7 @@
  */
 
 #include <glib.h>
+#include "glib-utils.h"
 #include "gth-async-task.h"
 #include "typedefs.h"
 
@@ -70,6 +71,14 @@ gth_async_task_finalize (GObject *object)
 }
 
 
+static void
+task_completed (GError  *error,
+		gpointer user_data)
+{
+	gth_task_completed (GTH_TASK (user_data), error);
+}
+
+
 static gboolean
 update_progress (gpointer data)
 {
@@ -95,7 +104,8 @@ update_progress (gpointer data)
 
 		if (self->priv->after_func != NULL)
 			self->priv->after_func (error, self);
-		gth_task_completed (GTH_TASK (self), error);
+
+		ready_with_error (task_completed, self, error);
 
 		return FALSE;
 	}
@@ -141,7 +151,9 @@ gth_async_task_exec (GthTask *task)
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self);
 	g_thread_create (exec_task, self, FALSE, NULL);
-	self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
+
+	if (self->priv->progress_event == 0)
+		self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
 }
 
 
