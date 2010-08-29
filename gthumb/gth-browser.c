@@ -4131,7 +4131,7 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, TRUE);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
-				    FALSE);
+				    eel_gconf_get_boolean (PREF_SORT_INVERSE, FALSE));
 	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
 	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
