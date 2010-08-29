@@ -136,6 +136,13 @@ gth_datetime_valid (GthDateTime *dt)
 }
 
 
+gboolean
+gth_datetime_valid_date (GthDateTime *dt)
+{
+	return g_date_valid (dt->date);
+}
+
+
 void
 gth_datetime_from_timeval (GthDateTime *dt,
 			   GTimeVal    *tv)

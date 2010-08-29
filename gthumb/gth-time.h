@@ -54,6 +54,7 @@ void          gth_datetime_clear           (GthDateTime *dt);
 void          gth_datetime_copy            (GthDateTime *src,
 					    GthDateTime *dest);
 gboolean      gth_datetime_valid           (GthDateTime *dt);
+gboolean      gth_datetime_valid_date      (GthDateTime *dt);
 void          gth_datetime_from_timeval    (GthDateTime *dt,
 					    GTimeVal    *tv);
 gboolean      gth_datetime_from_exif_date  (GthDateTime *dt,

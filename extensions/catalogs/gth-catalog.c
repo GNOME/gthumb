@@ -191,7 +191,7 @@ base_write_to_doc (GthCatalog  *catalog,
 	if (catalog->priv->name != NULL)
 		dom_element_append_child (root, dom_document_create_element_with_text (doc, catalog->priv->name, "name", NULL));
 
-	if (gth_datetime_valid (catalog->priv->date_time)) {
+	if (gth_datetime_valid_date (catalog->priv->date_time)) {
 		char *s;
 
 		s = gth_datetime_to_exif_date (catalog->priv->date_time);
@@ -333,7 +333,7 @@ void
 gth_catalog_set_date (GthCatalog  *catalog,
 		      GthDateTime *date_time)
 {
-	if (gth_datetime_valid (date_time))
+	if (g_date_valid (date_time->date))
 		g_date_set_dmy (catalog->priv->date_time->date,
 				g_date_get_day (date_time->date),
 				g_date_get_month (date_time->date),
@@ -641,7 +641,7 @@ get_display_name (GFile       *file,
 		 g_string_append (display_name, _("Catalogs"));
 	}
 	else {
-		if ((name == NULL) && ! gth_datetime_valid (date_time)) {
+		if ((name == NULL) && ! gth_datetime_valid_date (date_time)) {
 			char *name;
 			char *utf8_name;
 
@@ -656,7 +656,7 @@ get_display_name (GFile       *file,
 			if (name != NULL)
 				g_string_append (display_name, name);
 
-			if (gth_datetime_valid (date_time)) {
+			if (gth_datetime_valid_date (date_time)) {
 				char *formatted;
 
 				formatted = gth_datetime_strftime (date_time, "%x");
@@ -718,7 +718,7 @@ update_standard_attributes (GFile       *file,
 	char *display_name;
 	char *edit_name;
 
-	if (gth_datetime_valid (date_time)) {
+	if (gth_datetime_valid_date (date_time)) {
 		char *sort_order_s;
 		int   sort_order;
 
@@ -764,7 +764,7 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 
 	/* general::event-date */
 
-	if (gth_datetime_valid (catalog->priv->date_time)) {
+	if (gth_datetime_valid_date (catalog->priv->date_time)) {
 		GObject *metadata;
 		char    *raw;
 		char    *formatted;
