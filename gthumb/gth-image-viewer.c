@@ -1635,7 +1635,7 @@ static void
 gth_image_viewer_instance_init (GthImageViewer *viewer)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (viewer), TRUE);
-	gtk_widget_set_double_buffered (GTK_WIDGET (viewer), FALSE);
+	gtk_widget_set_double_buffered (GTK_WIDGET (viewer), TRUE);
 
 	/* Initialize data. */
 
