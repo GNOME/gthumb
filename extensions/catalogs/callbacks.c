@@ -595,7 +595,7 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		g_object_set (action, "sensitive", sensitive, NULL);
 
 		action = gtk_action_group_get_action (data->actions, "Catalog_Rename");
-		sensitive = (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME);
+		sensitive = (folder != NULL) && _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/library") && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME);
 		g_object_set (action, "sensitive", sensitive, NULL);
 
 		action = gtk_action_group_get_action (data->actions, "Catalog_Properties");
