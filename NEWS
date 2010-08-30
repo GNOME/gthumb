@@ -1,3 +1,52 @@
+version 2.11.91
+---------------
+
+        Bugs fixed:
+
+        * Remember the inverse sorting option. (#628205)
+        * Allow to print a modified image. (#595654)
+        * Translate the selection type in the filter editor. (#627532)
+        * Allow to create tags with spaces. (#628081)
+        * Hide and disable some browser related commands in viewer mode.
+          (#627534)
+        * Fixed crash when changing the sorting order very fast. (#628071)
+        * Fixed a crash when resizing many images. (#627688)
+        * Fixed crash when saving comments. (#627929)
+        * Fixed crash when closing the window. (#627535)
+        * Export to PicasaWeb: show an error message if the authentication
+          fails; allow to select another account if more then one is
+          present. (#627531)
+        * Allow to compile with libbrasero 3. (#627646)
+        * Fixed the "save only modified fields" option in the comment dialog
+          (#627439)
+        * Fixed strings marked as translatable but not translated. (#627532)
+        * Translate the property names in the property view.
+        * Fixed the size of the vertical thumbnail pane: make the thumbnail
+          pane big enough to avoid to scroll horizontally when its orientation
+          is vertical
+        * Fixed image viewer scrolling. (#627466)
+        * Fixed saving of IPTC keyworks. Added support for multiple Xpm and
+          Iptc metadata with the same key. (#627096)
+        * Fixed saving of the 'Other' tab fields in the metadata dialog.
+          Specify the type of the fields to allow to create them if they are
+          not already present in the image. (#627231)
+        * Allow to select non-local folders in the resize and convert tools
+          (#627122)
+	* More user's manual updates.
+
+        New or updated application translations:
+
+        * Chinese (simplified) (lainme)
+        * Czech (Marek Černocký)
+        * Danish (Joe Hansen)
+        * Deutsch (Mario Blättermann)
+        * Español (Jorge González)
+        * Slovenian (Andrej Žnidaršič)
+
+        New or updated manual translations:
+
+        * Español (Jorge González)
+
 version 2.11.90
 ---------------
 

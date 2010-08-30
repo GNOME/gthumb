@@ -1,5 +1,5 @@
 AC_PREREQ(2.63)
-AC_INIT([gthumb],[2.11.90],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb],[2.11.91],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 AM_INIT_AUTOMAKE([1.9 foreign])
 
 AC_CONFIG_HEADERS([config.h])
