@@ -146,6 +146,7 @@ migration_for_each_file (GFile     *file,
 			char *line = lines[n_line];
 			char *filename;
 			char  unquoted [MAX_LINE_LENGTH];
+			char *uri;
 
 			if (! file_list && (strncmp (line, "# Search", 8) == 0)) {
 				DomElement *node;
@@ -374,8 +375,15 @@ migration_for_each_file (GFile     *file,
 				dom_element_append_child (root_node, files_node);
 			}
 
-			dom_element_append_child (files_node, dom_document_create_element (document, "file", "uri", filename, NULL));
+			if (filename[0] == '/')
+				uri = g_filename_to_uri (filename, NULL, NULL);
+			else
+				uri = g_strdup (filename);
 
+			if (uri != NULL)
+				dom_element_append_child (files_node, dom_document_create_element (document, "file", "uri", uri, NULL));
+
+			g_free (uri);
 			g_free (filename);
 		}
 
