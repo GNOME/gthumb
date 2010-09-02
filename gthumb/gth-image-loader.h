@@ -26,6 +26,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
 #include "gth-file-data.h"
+#include "gth-main.h"
 
 G_BEGIN_DECLS
 
@@ -56,12 +57,10 @@ struct _GthImageLoaderClass
 			GError         *error);
 };
 
-typedef GdkPixbufAnimation * (*LoaderFunc) (GthFileData *file, GError **error, gpointer data);
-
 GType                gth_image_loader_get_type                (void);
 GthImageLoader *     gth_image_loader_new                     (gboolean           as_animation);
 void                 gth_image_loader_set_loader              (GthImageLoader    *iloader,
-						               LoaderFunc         loader,
+							       PixbufLoader       loader,
 						               gpointer           data);
 void                 gth_image_loader_set_file_data           (GthImageLoader    *iloader,
 						               GthFileData       *file);
@@ -73,8 +72,13 @@ void                 gth_image_loader_set_pixbuf              (GthImageLoader   
 						               GdkPixbuf         *pixbuf);
 GdkPixbuf *          gth_image_loader_get_pixbuf              (GthImageLoader    *iloader);
 GdkPixbufAnimation * gth_image_loader_get_animation           (GthImageLoader    *iloader);
+void                 gth_image_loader_get_original_size       (GthImageLoader    *iloader,
+							       int               *width,
+							       int               *height);
 gboolean             gth_image_loader_is_ready                (GthImageLoader    *iloader);
 void                 gth_image_loader_load                    (GthImageLoader    *iloader);
+void                 gth_image_loader_load_at_size            (GthImageLoader    *iloader,
+							       int                requested_size);
 void                 gth_image_loader_cancel                  (GthImageLoader    *iloader,
 						               DataFunc           done_func,
 						               gpointer           done_func_data);

@@ -39,6 +39,7 @@ struct _GthFileViewerPagePrivate {
 	GtkWidget      *viewer;
 	GtkWidget      *icon;
 	GtkWidget      *label;
+	GthFileData    *file_data;
 	guint           merge_id;
 	GthThumbLoader *thumb_loader;
 	gulong          thumb_loader_ready_event;
@@ -91,7 +92,7 @@ thumb_loader_ready_cb (GthThumbLoader    *il,
 {
 	if (error == NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
-	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), TRUE);
+	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
 }
 
 
@@ -227,6 +228,9 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 	if (icon != NULL)
 		gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon), icon, GTK_ICON_SIZE_DIALOG);
 
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = g_object_ref (file_data);
+
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 	gth_thumb_loader_set_file (self->priv->thumb_loader, file_data);
 	gth_thumb_loader_load (self->priv->thumb_loader);
@@ -280,6 +284,7 @@ gth_file_viewer_page_finalize (GObject *obj)
 
 	self = GTH_FILE_VIEWER_PAGE (obj);
 
+	_g_object_unref (self->priv->file_data);
 	_g_object_unref (self->priv->thumb_loader);
 
 	G_OBJECT_CLASS (gth_file_viewer_page_parent_class)->finalize (obj);
@@ -318,6 +323,7 @@ gth_file_viewer_page_instance_init (GthFileViewerPage *self)
 {
 	self->priv = GTH_FILE_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->thumb_loader = NULL;
+	self->priv->file_data = NULL;
 }
 
 

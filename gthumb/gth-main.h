@@ -51,6 +51,9 @@ typedef struct _GthMainClass    GthMainClass;
 
 typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData  *file_data,
 					     int           requested_size,
+					     int          *original_width,
+					     int          *original_height,
+					     gpointer      user_data,
 				   	     GError      **error);
 
 struct _GthMain {

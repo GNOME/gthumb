@@ -30,6 +30,7 @@
 #include "gth-main.h"
 #include "gth-pixbuf-saver.h"
 #include "pixbuf-io.h"
+#include "pixbuf-utils.h"
 
 
 char *
@@ -219,38 +220,59 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 }
 
 
-GdkPixbuf*
+GdkPixbuf *
 gth_pixbuf_new_from_file (GthFileData  *file_data,
 			  int           requested_size,
+			  int          *original_width,
+			  int          *original_height,
+			  gboolean      scale_to_original,
 			  GError      **error)
 {
 	GdkPixbuf *pixbuf = NULL;
 	char      *path;
 	gboolean   scale_pixbuf;
+	int        original_w;
+	int        original_h;
+
+	if (original_width != NULL)
+		*original_width = -1;
+
+	if (original_height != NULL)
+		*original_height = -1;
 
 	if (file_data == NULL)
 		return NULL;
 
 	path = g_file_get_path (file_data->file);
+	if (path == NULL)
+		return NULL;
 
 	scale_pixbuf = FALSE;
+	original_w = -1;
+	original_h = -1;
 	if (requested_size > 0) {
-		int w, h;
-
-		if (gdk_pixbuf_get_file_info (path, &w, &h) == NULL) {
-			w = -1;
-			h = -1;
+		if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
+			original_w = -1;
+			original_h = -1;
 		}
-		if ((w > requested_size) || (h > requested_size))
+		if ((original_w > requested_size) || (original_h > requested_size))
 			scale_pixbuf = TRUE;
 	}
 
-	if (scale_pixbuf)
+	if (scale_pixbuf) {
 		pixbuf = gdk_pixbuf_new_from_file_at_scale (path,
 							    requested_size,
 							    requested_size,
 							    TRUE,
 							    error);
+		if (scale_to_original) {
+			GdkPixbuf *tmp;
+
+			tmp = _gdk_pixbuf_scale_simple_safe (pixbuf, original_w, original_h, GDK_INTERP_NEAREST);
+			g_object_unref (pixbuf);
+			pixbuf = tmp;
+		}
+	}
 	else
 		pixbuf = gdk_pixbuf_new_from_file (path, error);
 
@@ -264,15 +286,24 @@ gth_pixbuf_new_from_file (GthFileData  *file_data,
 		}
 	}
 
+	if (original_width != NULL)
+		*original_width = original_w;
+
+	if (original_height != NULL)
+		*original_height = original_h;
+
 	g_free (path);
 
 	return pixbuf;
 }
 
 
-GdkPixbufAnimation*
+GdkPixbufAnimation *
 gth_pixbuf_animation_new_from_file (GthFileData  *file_data,
 				    int           requested_size,
+				    int          *original_width,
+				    int          *original_height,
+				    gpointer      user_data,
 				    GError      **error)
 {
 	GdkPixbufAnimation *animation = NULL;
@@ -297,6 +328,9 @@ gth_pixbuf_animation_new_from_file (GthFileData  *file_data,
 
 		pixbuf = gth_pixbuf_new_from_file (file_data,
 						   requested_size,
+						   original_width,
+						   original_height,
+						   FALSE,
 						   error);
 
 		if (pixbuf != NULL) {

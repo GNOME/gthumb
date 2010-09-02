@@ -19,6 +19,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2263,7 +2264,26 @@ int
 _g_file_cmp_uris (GFile *a,
 		  GFile *b)
 {
-	return g_file_equal (a, b) ? 0 : 1;
+	char *uri_a;
+	char *uri_b;
+	int   result;
+
+	uri_a = g_file_get_uri (a);
+	uri_b = g_file_get_uri (b);
+	result = g_strcmp0 (uri_a, uri_b);
+
+	g_free (uri_b);
+	g_free (uri_a);
+
+	return result;
+}
+
+
+gboolean
+_g_file_equal_uris (GFile *a,
+		    GFile *b)
+{
+	return _g_file_cmp_uris (a, b) == 0;
 }
 
 

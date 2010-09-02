@@ -125,6 +125,9 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	GthFileData *requested_file;
 	GthFileData *next_file;
 	GthFileData *prev_file;
+	int          screen_width;
+	int          screen_height;
+	GdkScreen   *screen;
 
 	if (self->priv->next_event != 0) {
 		g_source_remove (self->priv->next_event);
@@ -148,10 +151,21 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 		prev_file = (GthFileData *) self->priv->current->prev->data;
 	else
 		prev_file = NULL;
+
+	screen_width = -1;
+	screen_height = -1;
+	screen = gtk_widget_get_screen (GTK_WIDGET (self));
+	if (screen != NULL) {
+		screen_width = gdk_screen_get_width (screen);
+		screen_height = gdk_screen_get_height (screen);
+	}
+
 	gth_image_preloader_load (self->priv->preloader,
 				  requested_file,
+				  MAX (screen_width, screen_height),
 				  next_file,
-				  prev_file);
+				  prev_file,
+				  NULL);
 }
 
 
@@ -211,21 +225,16 @@ view_next_image_automatically (GthSlideshow *self)
 
 static void
 image_preloader_requested_ready_cb (GthImagePreloader *preloader,
+				    GthFileData       *requested,
+				    GthImageLoader    *image_loader,
 				    GError            *error,
 				    gpointer           user_data)
 {
 	GthSlideshow   *self = user_data;
-	GthImageLoader *image_loader;
 	GdkPixbuf      *pixbuf;
 
 	if (error != NULL) {
 		g_clear_error (&error);
-		_gth_slideshow_load_next_image (self);
-		return;
-	}
-
-	image_loader = gth_image_preloader_get_loader (self->priv->preloader, (GthFileData *) self->priv->current->data);
-	if (image_loader == NULL) {
 		_gth_slideshow_load_next_image (self);
 		return;
 	}
@@ -260,7 +269,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
 	self->priv->random_order = FALSE;
 
-	self->priv->preloader = gth_image_preloader_new ();
+	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
 	g_signal_connect (self->priv->preloader,
 			  "requested_ready",
 			  G_CALLBACK (image_preloader_requested_ready_cb),

@@ -427,12 +427,14 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 
 static GdkPixbufAnimation *
 flickr_thumbnail_loader (GthFileData  *file_data,
-		         GError      **error,
-		         gpointer      data)
+			 int           requested_size,
+			 int          *original_width,
+			 int          *original_height,
+			 gpointer      user_data,
+		         GError      **error)
 {
 	GdkPixbufAnimation *animation = NULL;
-	GthThumbLoader     *thumb_loader = data;
-	int                 requested_size;
+	GthThumbLoader     *thumb_loader = user_data;
 	FlickrPhoto        *photo;
 	const char         *uri = NULL;
 

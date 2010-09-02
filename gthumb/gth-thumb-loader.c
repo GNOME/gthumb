@@ -476,14 +476,23 @@ image_loader_ready_cb (GthImageLoader *iloader,
 }
 
 
-static GdkPixbufAnimation*
+static GdkPixbufAnimation *
 thumb_loader (GthFileData  *file_data,
-	      GError      **error,
-	      gpointer      data)
+	      int           requested_size,
+	      int          *original_width,
+	      int          *original_height,
+	      gpointer      data,
+	      GError      **error)
 {
 	GthThumbLoader     *self = data;
 	GdkPixbuf          *pixbuf = NULL;
 	GdkPixbufAnimation *animation;
+
+	if (original_width != NULL)
+		*original_width = -1;
+
+	if (original_height != NULL)
+		*original_height = -1;
 
 	animation = NULL;
 	if (! self->priv->loading_from_cache) {
@@ -498,13 +507,23 @@ thumb_loader (GthFileData  *file_data,
 
 			thumbnailer = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file_data));
 			if (thumbnailer != NULL)
-				animation = thumbnailer (file_data, self->priv->cache_max_size, error);
+				animation = thumbnailer (file_data,
+							 self->priv->cache_max_size,
+							 original_width,
+							 original_height,
+							 NULL,
+							 error);
 		}
 
 		g_free (uri);
 	}
 	else
-		pixbuf = gth_pixbuf_new_from_file (file_data, -1, error);
+		pixbuf = gth_pixbuf_new_from_file (file_data,
+						   -1,
+						   original_width,
+						   original_height,
+						   FALSE,
+						   error);
 
 	if (pixbuf != NULL) {
 		g_clear_error (error);
@@ -548,7 +567,7 @@ gth_thumb_loader_new (int size)
 
 void
 gth_thumb_loader_set_loader (GthThumbLoader *self,
-			     LoaderFunc      loader)
+			     PixbufLoader    loader)
 {
 	if (loader != NULL)
 		gth_image_loader_set_loader (self->priv->iloader, loader, self);

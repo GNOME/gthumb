@@ -60,7 +60,7 @@ struct _GthThumbLoaderClass
 GType            gth_thumb_loader_get_type           (void);
 GthThumbLoader * gth_thumb_loader_new                (int             size);
 void             gth_thumb_loader_set_loader         (GthThumbLoader *self,
-						      LoaderFunc      loader);
+						      PixbufLoader    loader);
 void             gth_thumb_loader_set_requested_size (GthThumbLoader *self,
 					              int             size);
 int              gth_thumb_loader_get_requested_size (GthThumbLoader *self);
