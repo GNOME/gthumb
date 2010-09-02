@@ -45,7 +45,6 @@ typedef struct _GthBrowserPrivateData GthBrowserPrivateData;
 typedef enum { /*< skip >*/
 	GTH_BROWSER_PAGE_BROWSER = 0,
 	GTH_BROWSER_PAGE_VIEWER,
-	GTH_BROWSER_PAGE_EDITOR,
 	GTH_BROWSER_N_PAGES
 } GthBrowserPage;
 
