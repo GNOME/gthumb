@@ -233,8 +233,7 @@ get_zoomed_size (GthImageViewer *viewer,
 	else {
 		int w, h;
 
-		w = gth_image_viewer_get_image_width (viewer);
-		h = gth_image_viewer_get_image_height (viewer);
+		gth_image_viewer_get_original_size (viewer, &w, &h);
 
 		*width  = (int) floor ((double) w * zoom_level);
 		*height = (int) floor ((double) h * zoom_level);
@@ -450,6 +449,8 @@ zoom_to_fit (GthImageViewer *viewer)
 	GtkAllocation  allocation;
 	int            gdk_width;
 	int            gdk_height;
+	int            original_width;
+	int            original_height;
 	double         x_level;
 	double         y_level;
 	double         new_zoom_level;
@@ -459,8 +460,11 @@ zoom_to_fit (GthImageViewer *viewer)
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	gdk_width = allocation.width - viewer->priv->frame_border2;
 	gdk_height = allocation.height - viewer->priv->frame_border2;
-	x_level = (double) gdk_width / gdk_pixbuf_get_width (pixbuf);
-	y_level = (double) gdk_height / gdk_pixbuf_get_height (pixbuf);
+
+	gth_image_viewer_get_original_size (viewer, &original_width, &original_height);
+
+	x_level = (double) gdk_width / original_width;
+	y_level = (double) gdk_height / original_height;
 
 	new_zoom_level = (x_level < y_level) ? x_level : y_level;
 	if (new_zoom_level > 0.0) {
@@ -477,12 +481,16 @@ zoom_to_fit_width (GthImageViewer *viewer)
 	GdkPixbuf     *pixbuf;
 	GtkAllocation  allocation;
 	int            gdk_width;
+	int            original_width;
 	double         new_zoom_level;
 
 	pixbuf = gth_image_viewer_get_current_pixbuf (viewer);
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	gdk_width = allocation.width - viewer->priv->frame_border2;
-	new_zoom_level = (double) gdk_width / gdk_pixbuf_get_width (pixbuf);
+
+	gth_image_viewer_get_original_size (viewer, &original_width, NULL);
+
+	new_zoom_level = (double) gdk_width / original_width;
 
 	if (new_zoom_level > 0.0) {
 		viewer->priv->doing_zoom_fit = TRUE;
@@ -497,7 +505,10 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 				GtkAllocation   *allocation)
 {
 	GthImageViewer *viewer;
-	int             gdk_width, gdk_height;
+	int             gdk_width;
+	int             gdk_height;
+	int             original_width;
+	int             original_height;
 	GdkPixbuf      *current_pixbuf;
 
 	viewer = GTH_IMAGE_VIEWER (widget);
@@ -512,6 +523,8 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 
 	current_pixbuf = gth_image_viewer_get_current_pixbuf (viewer);
 
+	gth_image_viewer_get_original_size (viewer, &original_width, &original_height);
+
 	/* If a fit type is active update the zoom level. */
 
 	if (! viewer->priv->is_void && (current_pixbuf != NULL)) {
@@ -521,9 +534,7 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 			break;
 
 		case GTH_FIT_SIZE_IF_LARGER:
-			if ((gdk_width < gdk_pixbuf_get_width (current_pixbuf))
-				|| (gdk_height < gdk_pixbuf_get_height (current_pixbuf)))
-		    	{
+			if ((gdk_width < original_width) || (gdk_height < original_height)) {
 				zoom_to_fit (viewer);
 		    	}
 		    	else {
@@ -538,7 +549,7 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 			break;
 
 		case GTH_FIT_WIDTH_IF_LARGER:
-			if (gdk_width < gdk_pixbuf_get_width (current_pixbuf)) {
+			if (gdk_width < original_width) {
 				zoom_to_fit_width (viewer);
 			}
 			else {
@@ -1994,6 +2005,26 @@ gth_image_viewer_get_image_height (GthImageViewer *viewer)
 }
 
 
+void
+gth_image_viewer_get_original_size (GthImageViewer *viewer,
+				    int            *width,
+				    int            *height)
+{
+	if (width != NULL)
+		*width = -1;
+	if (height != NULL)
+		*height = -1;
+
+	if (viewer->priv->loader != NULL)
+		gth_image_loader_get_original_size (viewer->priv->loader, width, height);
+
+	if ((width != NULL) && (*width == -1))
+		*width = gth_image_viewer_get_image_width (viewer);
+	if ((height != NULL) && (*height == -1))
+		*height = gth_image_viewer_get_image_height (viewer);
+}
+
+
 int
 gth_image_viewer_get_image_bps (GthImageViewer *viewer)
 {
@@ -2530,11 +2561,13 @@ gth_image_viewer_paint (GthImageViewer *viewer,
 			int             height,
 			int             interp_type)
 {
+	int           original_width;
 	double        zoom_level;
 	int           bits_per_sample;
 	GdkColorspace color_space;
 
-	zoom_level = viewer->priv->zoom_level;
+	gth_image_viewer_get_original_size (viewer, &original_width, NULL);
+	zoom_level = viewer->priv->zoom_level * ((double) original_width / gdk_pixbuf_get_width (pixbuf));
 
 	color_space = gdk_pixbuf_get_colorspace (pixbuf);
 	bits_per_sample = gdk_pixbuf_get_bits_per_sample (pixbuf);

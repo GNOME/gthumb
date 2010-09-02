@@ -841,8 +841,10 @@ gth_image_loader_get_original_size (GthImageLoader *iloader,
 				    int            *height)
 {
 	g_mutex_lock (iloader->priv->data_mutex);
-	*width = iloader->priv->original_width;
-	*height = iloader->priv->original_height;
+	if (width != NULL)
+		*width = iloader->priv->original_width;
+	if (height != NULL)
+		*height = iloader->priv->original_height;
 	g_mutex_unlock (iloader->priv->data_mutex);
 }
 
@@ -918,6 +920,9 @@ gth_image_loader_load_from_image_loader (GthImageLoader *to,
 
 	if ((to->priv->pixbuf == NULL) && (to->priv->animation == NULL))
 		error = g_error_new_literal (GTH_ERROR, 0, "No image available");
+
+	to->priv->original_width = from->priv->original_width;
+	to->priv->original_height = from->priv->original_height;
 
 	g_mutex_unlock (to->priv->data_mutex);
 	g_mutex_unlock (from->priv->data_mutex);

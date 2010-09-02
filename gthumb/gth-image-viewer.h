@@ -174,6 +174,9 @@ int            gth_image_viewer_get_image_height         (GthImageViewer     *vi
 int            gth_image_viewer_get_image_bps            (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer     *viewer);
 GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer     *viewer);
+void           gth_image_viewer_get_original_size        (GthImageViewer     *viewer,
+				    	    	    	  int                *width,
+				    	    	    	  int                *height);
 
 /* animation. */
 

@@ -644,7 +644,6 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthFileData        *next_file_data = NULL;
 	GthFileData        *next2_file_data = NULL;
 	GthFileData        *prev_file_data = NULL;
-	GtkAllocation       allocation;
 	int                 window_width;
 	int                 window_height;
 
@@ -685,21 +684,9 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 			prev_file_data = gth_file_store_get_file (file_store, &iter2);
 	}
 
-	window_width = -1;
-	window_height = -1;
-
-	gtk_widget_get_allocation (self->priv->viewer, &allocation);
-	if ((allocation.width > 1) && (allocation.height > 1)) {
-		window_width = allocation.width;
-		window_height = allocation.height;
-	}
-	else {
-		GtkWidget *toplevel;
-
-		toplevel = gtk_widget_get_toplevel (self->priv->viewer);
-		if (gtk_widget_is_toplevel (toplevel))
-			gtk_window_get_size (GTK_WINDOW (toplevel), &window_width, &window_height);
-	}
+	gtk_window_get_size (GTK_WINDOW (self->priv->browser),
+			     &window_width,
+			     &window_height);
 
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
@@ -1230,15 +1217,15 @@ void
 gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 				   gboolean            activate)
 {
-	GdkPixbuf *pixbuf;
-	int        width;
-	int        height;
-	double     ratio;
-	int        other_width;
-	int        other_height;
-	GdkScreen *screen;
-	int        max_width;
-	int        max_height;
+	GthFileData *file_data;
+	int          width;
+	int          height;
+	double       ratio;
+	int          other_width;
+	int          other_height;
+	GdkScreen   *screen;
+	int          max_width;
+	int          max_height;
 
 	self->priv->shrink_wrap = activate;
 	if (! self->priv->shrink_wrap) {
@@ -1260,12 +1247,14 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 		return;
 	}
 
-	pixbuf = gth_image_viewer_page_get_pixbuf (self);
-	if (pixbuf == NULL)
+	file_data = gth_browser_get_current_file (self->priv->browser);
+	if (file_data == NULL)
 		return;
 
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
+	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer), &width, &height);
+	if ((width <= 0) || (height <= 0))
+		return;
+
 	ratio = (double) width / height;
 
 	other_width = 0;
