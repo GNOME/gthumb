@@ -265,7 +265,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 	case GTH_OVERWRITE_RESPONSE_YES:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:
 		write_file_to_destination (self,
-					   self->priv->destination,
+					   self->priv->destination_file->file,
 					   self->priv->buffer,
 					   self->priv->buffer_size,
 					   TRUE);
@@ -313,14 +313,13 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 
 
 static void
-write_buffer_ready_cb (void     **buffer,
-		       gsize      count,
-		       GError    *error,
-		       gpointer   user_data)
+after_saving_to_destination (GthImportTask  *self,
+			     void          **buffer,
+			     gsize           count,
+			     GError         *error)
 {
-	GthImportTask *self = user_data;
-	gboolean       appling_tranformation = FALSE;
-	GthFileData   *file_data;
+	GthFileData *file_data;
+	gboolean     appling_tranformation = FALSE;
 
 	file_data = self->priv->current->data;
 
@@ -333,14 +332,27 @@ write_buffer_ready_cb (void     **buffer,
 
 				/* take ownership of the buffer */
 
-				self->priv->buffer = *buffer;
-				self->priv->buffer_size = count;
-				*buffer = NULL;
+				if (buffer != NULL) {
+					self->priv->buffer = *buffer;
+					self->priv->buffer_size = count;
+					*buffer = NULL;
+				}
+				else {
+					self->priv->buffer = NULL;
+					self->priv->buffer_size = 0;
+				}
 
 				/* show the overwrite dialog */
 
-				stream = g_memory_input_stream_new_from_data (self->priv->buffer, self->priv->buffer_size, NULL);
-				pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+				if (self->priv->buffer != NULL) {
+					stream = g_memory_input_stream_new_from_data (self->priv->buffer, self->priv->buffer_size, NULL);
+					pixbuf = gdk_pixbuf_new_from_stream_at_scale (stream, 128, 128, TRUE, NULL, NULL);
+				}
+				else {
+					stream = NULL;
+					pixbuf = NULL;
+				}
+
 				dialog = gth_overwrite_dialog_new (file_data->file,
 								   pixbuf,
 								   self->priv->destination_file->file,
@@ -354,7 +366,7 @@ write_buffer_ready_cb (void     **buffer,
 				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
 
 				_g_object_unref (pixbuf);
-				g_object_unref (stream);
+				_g_object_unref (stream);
 			}
 			else
 				import_next_file (self);
@@ -401,58 +413,99 @@ write_buffer_ready_cb (void     **buffer,
 
 
 static void
-write_file_to_destination (GthImportTask  *self,
-			   GFile          *destination_file,
-			   void           *buffer,
-			   gsize           count,
-			   gboolean        replace)
+copy_non_image_ready_cb (GObject      *source_object,
+			 GAsyncResult *res,
+			 gpointer      user_data)
 {
-	GthFileData *file_data;
+	GError *error = NULL;
+
+	g_file_copy_finish (G_FILE (source_object), res, &error);
+	after_saving_to_destination (GTH_IMPORT_TASK (user_data), NULL, 0, error);
+}
+
+
+static void
+copy_non_image_progress_cb (goffset  current_num_bytes,
+			    goffset  total_num_bytes,
+			    gpointer user_data)
+{
+	GthImportTask *self = user_data;
+	GthFileData   *file_data;
 
 	file_data = self->priv->current->data;
-
-	_g_object_unref (self->priv->destination_file);
-	self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
 
 	gth_task_progress (GTH_TASK (self),
 			   _("Importing files"),
 			   g_file_info_get_display_name (file_data->info),
 			   FALSE,
-			   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
-
-	g_write_file_async (self->priv->destination_file->file,
-			    buffer,
-			    count,
-			    replace,
-			    G_PRIORITY_DEFAULT,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    write_buffer_ready_cb,
-			    self);
-
-	self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
+			   (double) (self->priv->copied_size + current_num_bytes) / self->priv->tot_size);
 }
 
 
 static void
-file_buffer_ready_cb (void     **buffer,
-		      gsize      count,
-		      GError    *error,
-		      gpointer   user_data)
+write_buffer_ready_cb (void     **buffer,
+		       gsize      count,
+		       GError    *error,
+		       gpointer   user_data)
 {
-	GthImportTask *self = user_data;
-	GthFileData   *file_data;
-	GFile         *destination;
-	GFile         *destination_file;
+	after_saving_to_destination (GTH_IMPORT_TASK (user_data), buffer, count, error);
+}
 
-	if (error != NULL) {
-		gth_task_completed (GTH_TASK (self), error);
-		return;
-	}
+
+static void
+write_file_to_destination (GthImportTask *self,
+			   GFile         *destination_file,
+			   void          *buffer,
+			   gsize          count,
+			   gboolean       replace)
+{
+	GthFileData *file_data;
 
 	file_data = self->priv->current->data;
 
-	if (gth_main_extension_is_active ("exiv2_tools"))
-		exiv2_read_metadata_from_buffer (*buffer, count, file_data->info, NULL);
+	if ((self->priv->destination_file == NULL) || (destination_file != self->priv->destination_file->file)) {
+		_g_object_unref (self->priv->destination_file);
+		self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
+	}
+
+	if (buffer != NULL) {
+		gth_task_progress (GTH_TASK (self),
+				   _("Importing files"),
+				   g_file_info_get_display_name (file_data->info),
+				   FALSE,
+				   (double) (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
+
+		g_write_file_async (self->priv->destination_file->file,
+				    buffer,
+				    count,
+				    replace,
+				    G_PRIORITY_DEFAULT,
+				    gth_task_get_cancellable (GTH_TASK (self)),
+				    write_buffer_ready_cb,
+				    self);
+
+		self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
+	}
+	else
+		g_file_copy_async (file_data->file,
+				   self->priv->destination_file->file,
+				   (replace ? G_FILE_COPY_OVERWRITE : G_FILE_COPY_NONE),
+				   G_PRIORITY_DEFAULT,
+				   gth_task_get_cancellable (GTH_TASK (self)),
+				   copy_non_image_progress_cb,
+				   self,
+				   copy_non_image_ready_cb,
+				   self);
+}
+
+
+static GFile *
+get_destination_file (GthImportTask *self,
+		      GthFileData   *file_data)
+{
+	GError *error = NULL;
+	GFile  *destination;
+	GFile  *destination_file;
 
 	destination = gth_import_utils_get_file_destination (file_data,
 							     self->priv->destination,
@@ -465,7 +518,7 @@ file_buffer_ready_cb (void     **buffer,
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);
-			return;
+			return NULL;
 		}
 	}
 
@@ -480,6 +533,36 @@ file_buffer_ready_cb (void     **buffer,
 	}
 	g_hash_table_insert (self->priv->destinations, g_object_ref (destination_file), GINT_TO_POINTER (1));
 
+	g_object_unref (destination);
+
+	return destination_file;
+}
+
+
+static void
+file_buffer_ready_cb (void     **buffer,
+		      gsize      count,
+		      GError    *error,
+		      gpointer   user_data)
+{
+	GthImportTask *self = user_data;
+	GthFileData   *file_data;
+	GFile         *destination_file;
+
+	if (error != NULL) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	file_data = self->priv->current->data;
+
+	if (gth_main_extension_is_active ("exiv2_tools"))
+		exiv2_read_metadata_from_buffer (*buffer, count, file_data->info, NULL);
+
+	destination_file = get_destination_file (self, file_data);
+	if (destination_file == NULL)
+		return;
+
 	write_file_to_destination (self,
 				   destination_file,
 				   *buffer,
@@ -488,7 +571,6 @@ file_buffer_ready_cb (void     **buffer,
 	*buffer = NULL; /* g_write_file_async takes ownership of the buffer */
 
 	g_object_unref (destination_file);
-	g_object_unref (destination);
 }
 
 
@@ -550,17 +632,34 @@ import_current_file (GthImportTask *self)
 	file_data = self->priv->current->data;
 	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
-	gth_task_progress (GTH_TASK (self),
-			   _("Importing files"),
-			   g_file_info_get_display_name (file_data->info),
-			   FALSE,
-			   (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0)) / self->priv->tot_size);
+	if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data))
+	    && (self->priv->subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE))
+	{
+		gth_task_progress (GTH_TASK (self),
+				   _("Importing files"),
+				   g_file_info_get_display_name (file_data->info),
+				   FALSE,
+				   (double) (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0)) / self->priv->tot_size);
 
-	g_load_file_async (file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   gth_task_get_cancellable (GTH_TASK (self)),
-			   file_buffer_ready_cb,
-			   self);
+		g_load_file_async (file_data->file,
+				   G_PRIORITY_DEFAULT,
+				   gth_task_get_cancellable (GTH_TASK (self)),
+				   file_buffer_ready_cb,
+				   self);
+	}
+	else {
+		GFile *destination_file;
+
+		destination_file = get_destination_file (self, file_data);
+		if (destination_file != NULL) {
+			write_file_to_destination (self,
+						   destination_file,
+						   NULL,
+						   0,
+						   self->priv->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES);
+			g_object_unref (destination_file);
+		}
+	}
 }
 
 
