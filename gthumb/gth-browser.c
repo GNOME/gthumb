@@ -4930,6 +4930,8 @@ gth_browser_show_next_image (GthBrowser *browser,
 			gth_browser_load_file (browser, file_data, TRUE);
 		}
 	}
+	else
+		gdk_beep ();
 
 	return (pos >= 0);
 }
@@ -4968,6 +4970,8 @@ gth_browser_show_prev_image (GthBrowser *browser,
 			gth_browser_load_file (browser, file_data, TRUE);
 		}
 	}
+	else
+		gdk_beep ();
 
 	return (pos >= 0);
 }
