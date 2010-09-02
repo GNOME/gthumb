@@ -5271,6 +5271,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		int file_pos;
 
+		gth_viewer_page_show (browser->priv->viewer_page);
+
 		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
 		if (file_pos >= 0) {
 			GtkWidget *view;
