@@ -426,12 +426,13 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 
 
 static GdkPixbufAnimation *
-flickr_thumbnail_loader (GthFileData  *file_data,
-			 int           requested_size,
-			 int          *original_width,
-			 int          *original_height,
-			 gpointer      user_data,
-		         GError      **error)
+flickr_thumbnail_loader (GthFileData   *file_data,
+			 int            requested_size,
+			 int           *original_width,
+			 int           *original_height,
+			 gpointer       user_data,
+			 GCancellable  *cancellable,
+		         GError       **error)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GthThumbLoader     *thumb_loader = user_data;
@@ -463,7 +464,7 @@ flickr_thumbnail_loader (GthFileData  *file_data,
 			GdkPixbuf    *pixbuf;
 
 			stream = g_memory_input_stream_new_from_data (buffer, size, g_free);
-			pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
+			pixbuf = gdk_pixbuf_new_from_stream (stream, cancellable, error);
 			if (pixbuf != NULL) {
 				GdkPixbuf *rotated;
 

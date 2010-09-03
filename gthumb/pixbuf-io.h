@@ -61,13 +61,15 @@ GdkPixbuf * gth_pixbuf_new_from_file           (GthFileData      *file,
 						int              *original_width,
 						int              *original_height,
 						gboolean          scale_to_original,
+						GCancellable     *cancellable,
 						GError          **error);
-GdkPixbufAnimation*
+GdkPixbufAnimation *
 	    gth_pixbuf_animation_new_from_file (GthFileData      *file_data,
 						int               requested_size,
 						int              *original_width,
 						int              *original_height,
 						gpointer          user_data,
+						GCancellable     *cancellable,
 						GError          **error);
 
 G_END_DECLS

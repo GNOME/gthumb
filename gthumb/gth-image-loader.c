@@ -79,6 +79,7 @@ struct _GthImageLoaderPrivate {
 
 	PixbufLoader        loader;
 	gpointer            loader_data;
+	GCancellable       *cancellable;
 };
 
 
@@ -95,48 +96,50 @@ static guint gth_image_loader_signals[LAST_SIGNAL] = { 0 };
 static void
 gth_image_loader_finalize__step2 (GObject *object)
 {
-	GthImageLoader *iloader;
+	GthImageLoader *self;
 
-	iloader = GTH_IMAGE_LOADER (object);
+	self = GTH_IMAGE_LOADER (object);
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	if (iloader->priv->file != NULL) {
-		g_object_unref (iloader->priv->file);
-		iloader->priv->file = NULL;
+	g_mutex_lock (self->priv->data_mutex);
+	if (self->priv->file != NULL) {
+		g_object_unref (self->priv->file);
+		self->priv->file = NULL;
 	}
-	if (iloader->priv->pixbuf != NULL) {
-		g_object_unref (G_OBJECT (iloader->priv->pixbuf));
-		iloader->priv->pixbuf = NULL;
+	if (self->priv->pixbuf != NULL) {
+		g_object_unref (G_OBJECT (self->priv->pixbuf));
+		self->priv->pixbuf = NULL;
 	}
 
-	if (iloader->priv->animation != NULL) {
-		g_object_unref (G_OBJECT (iloader->priv->animation));
-		iloader->priv->animation = NULL;
+	if (self->priv->animation != NULL) {
+		g_object_unref (G_OBJECT (self->priv->animation));
+		self->priv->animation = NULL;
 	}
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
-	g_mutex_lock (iloader->priv->exit_thread_mutex);
-	iloader->priv->exit_thread = TRUE;
-	g_mutex_unlock (iloader->priv->exit_thread_mutex);
+	g_mutex_lock (self->priv->exit_thread_mutex);
+	self->priv->exit_thread = TRUE;
+	g_mutex_unlock (self->priv->exit_thread_mutex);
 
-	g_mutex_lock (iloader->priv->start_loading_mutex);
-	iloader->priv->start_loading = TRUE;
-	g_cond_signal (iloader->priv->start_loading_cond);
-	g_mutex_unlock (iloader->priv->start_loading_mutex);
+	g_mutex_lock (self->priv->start_loading_mutex);
+	self->priv->start_loading = TRUE;
+	g_cond_signal (self->priv->start_loading_cond);
+	g_mutex_unlock (self->priv->start_loading_mutex);
 
-	g_thread_join (iloader->priv->thread);
+	g_thread_join (self->priv->thread);
 
-	g_cond_free  (iloader->priv->start_loading_cond);
-	g_mutex_free (iloader->priv->data_mutex);
-	g_mutex_free (iloader->priv->start_loading_mutex);
-	g_mutex_free (iloader->priv->exit_thread_mutex);
+	g_cond_free  (self->priv->start_loading_cond);
+	g_mutex_free (self->priv->data_mutex);
+	g_mutex_free (self->priv->start_loading_mutex);
+	g_mutex_free (self->priv->exit_thread_mutex);
+
+	g_object_unref (self->priv->cancellable);
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
-static void _gth_image_loader_stop (GthImageLoader *iloader,
+static void _gth_image_loader_stop (GthImageLoader *self,
 				    DataFunc        done_func,
 				    gpointer        done_func_data,
 				    gboolean        emit_sig,
@@ -146,24 +149,24 @@ static void _gth_image_loader_stop (GthImageLoader *iloader,
 static void
 gth_image_loader_finalize (GObject *object)
 {
-	GthImageLoader *iloader;
+	GthImageLoader *self;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE_LOADER (object));
 
-	iloader = GTH_IMAGE_LOADER (object);
+	self = GTH_IMAGE_LOADER (object);
 
-	if (iloader->priv->idle_id != 0) {
-		g_source_remove (iloader->priv->idle_id);
-		iloader->priv->idle_id = 0;
+	if (self->priv->idle_id != 0) {
+		g_source_remove (self->priv->idle_id);
+		self->priv->idle_id = 0;
 	}
 
-	if (iloader->priv->check_id != 0) {
-		g_source_remove (iloader->priv->check_id);
-		iloader->priv->check_id = 0;
+	if (self->priv->check_id != 0) {
+		g_source_remove (self->priv->check_id);
+		self->priv->check_id = 0;
 	}
 
-	_gth_image_loader_stop (iloader,
+	_gth_image_loader_stop (self,
 				(DataFunc) gth_image_loader_finalize__step2,
 				object,
 				FALSE,
@@ -197,7 +200,7 @@ gth_image_loader_class_init (GthImageLoaderClass *class)
 static void *
 load_image_thread (void *thread_data)
 {
-	GthImageLoader     *iloader = thread_data;
+	GthImageLoader     *self = thread_data;
 	GdkPixbufAnimation *animation;
 	GError             *error;
 
@@ -208,21 +211,21 @@ load_image_thread (void *thread_data)
 		int          original_width;
 		int          original_height;
 
-		g_mutex_lock (iloader->priv->start_loading_mutex);
-		while (! iloader->priv->start_loading)
-			g_cond_wait (iloader->priv->start_loading_cond, iloader->priv->start_loading_mutex);
-		iloader->priv->start_loading = FALSE;
-		g_mutex_unlock (iloader->priv->start_loading_mutex);
+		g_mutex_lock (self->priv->start_loading_mutex);
+		while (! self->priv->start_loading)
+			g_cond_wait (self->priv->start_loading_cond, self->priv->start_loading_mutex);
+		self->priv->start_loading = FALSE;
+		g_mutex_unlock (self->priv->start_loading_mutex);
 
-		g_mutex_lock (iloader->priv->exit_thread_mutex);
-		exit_thread = iloader->priv->exit_thread;
-		requested_size = iloader->priv->requested_size;
-		g_mutex_unlock (iloader->priv->exit_thread_mutex);
+		g_mutex_lock (self->priv->exit_thread_mutex);
+		exit_thread = self->priv->exit_thread;
+		requested_size = self->priv->requested_size;
+		g_mutex_unlock (self->priv->exit_thread_mutex);
 
 		if (exit_thread)
 			break;
 
-		file = gth_image_loader_get_file (iloader);
+		file = gth_image_loader_get_file (self);
 
 		G_LOCK (pixbuf_loader_lock);
 
@@ -231,12 +234,13 @@ load_image_thread (void *thread_data)
 		animation = NULL;
 		if (file != NULL) {
 			error = NULL;
-			if (iloader->priv->loader != NULL) {
-				animation = (*iloader->priv->loader) (file,
+			if (self->priv->loader != NULL) {
+				animation = (*self->priv->loader) (file,
 								      requested_size,
 								      &original_width,
 								      &original_height,
-								      iloader->priv->loader_data,
+								      self->priv->loader_data,
+								      self->priv->cancellable,
 								      &error);
 			}
 			else  {
@@ -249,6 +253,7 @@ load_image_thread (void *thread_data)
 							    &original_width,
 							    &original_height,
 							    NULL,
+							    self->priv->cancellable,
 							    &error);
 				else
 					error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
@@ -257,25 +262,25 @@ load_image_thread (void *thread_data)
 
 		G_UNLOCK (pixbuf_loader_lock);
 
-		g_mutex_lock (iloader->priv->data_mutex);
+		g_mutex_lock (self->priv->data_mutex);
 
-		iloader->priv->loader_ready = TRUE;
-		if (iloader->priv->animation != NULL)
-			g_object_unref (iloader->priv->animation);
-		iloader->priv->animation = animation;
-		iloader->priv->original_width = original_width;
-		iloader->priv->original_height = original_height;
+		self->priv->loader_ready = TRUE;
+		if (self->priv->animation != NULL)
+			g_object_unref (self->priv->animation);
+		self->priv->animation = animation;
+		self->priv->original_width = original_width;
+		self->priv->original_height = original_height;
 
 		if ((animation == NULL) || (error != NULL)) {
-			iloader->priv->error = error;
-			iloader->priv->ready = FALSE;
+			self->priv->error = error;
+			self->priv->ready = FALSE;
 		}
-		else if (requested_size == iloader->priv->requested_size) {
-			iloader->priv->error = NULL;
-			iloader->priv->ready = TRUE;
+		else if (requested_size == self->priv->requested_size) {
+			self->priv->error = NULL;
+			self->priv->ready = TRUE;
 		}
 
-		g_mutex_unlock (iloader->priv->data_mutex);
+		g_mutex_unlock (self->priv->data_mutex);
 
 		g_object_unref (file);
 	}
@@ -285,39 +290,41 @@ load_image_thread (void *thread_data)
 
 
 static void
-gth_image_loader_init (GthImageLoader *iloader)
+gth_image_loader_init (GthImageLoader *self)
 {
-	iloader->priv = GTH_IMAGE_LOADER_GET_PRIVATE (iloader);
+	self->priv = GTH_IMAGE_LOADER_GET_PRIVATE (self);
 
-	iloader->priv->pixbuf = NULL;
-	iloader->priv->animation = NULL;
-	iloader->priv->file = NULL;
-	iloader->priv->requested_size = -1;
+	self->priv->pixbuf = NULL;
+	self->priv->animation = NULL;
+	self->priv->file = NULL;
+	self->priv->requested_size = -1;
 
-	iloader->priv->ready = FALSE;
-	iloader->priv->error = NULL;
-	iloader->priv->loader_ready = FALSE;
-	iloader->priv->cancelled = FALSE;
+	self->priv->ready = FALSE;
+	self->priv->error = NULL;
+	self->priv->loader_ready = FALSE;
+	self->priv->cancelled = FALSE;
 
-	iloader->priv->done_func = NULL;
-	iloader->priv->done_func_data = NULL;
+	self->priv->done_func = NULL;
+	self->priv->done_func_data = NULL;
 
-	iloader->priv->check_id = 0;
-	iloader->priv->idle_id = 0;
+	self->priv->check_id = 0;
+	self->priv->idle_id = 0;
 
-	iloader->priv->data_mutex = g_mutex_new ();
+	self->priv->data_mutex = g_mutex_new ();
 
-	iloader->priv->exit_thread = FALSE;
-	iloader->priv->exit_thread_mutex = g_mutex_new ();
+	self->priv->exit_thread = FALSE;
+	self->priv->exit_thread_mutex = g_mutex_new ();
 
-	iloader->priv->start_loading = FALSE;
-	iloader->priv->start_loading_mutex = g_mutex_new ();
-	iloader->priv->start_loading_cond = g_cond_new ();
+	self->priv->start_loading = FALSE;
+	self->priv->start_loading_mutex = g_mutex_new ();
+	self->priv->start_loading_cond = g_cond_new ();
 
-	iloader->priv->loader = NULL;
-	iloader->priv->loader_data = NULL;
+	self->priv->loader = NULL;
+	self->priv->loader_data = NULL;
 
-	/*iloader->priv->thread = g_thread_create (load_image_thread, iloader, TRUE, NULL);*/
+	self->priv->cancellable = g_cancellable_new ();
+
+	/*self->priv->thread = g_thread_create (load_image_thread, self, TRUE, NULL);*/
 
 	/* The g_thread_create function assigns a very large default stacksize for each
 	   thread (10 MB on FC6), which is probably excessive. 16k seems to be
@@ -328,8 +335,8 @@ gth_image_loader_init (GthImageLoader *iloader)
 
 	/* Update: 32k caused crashes with svg images. Boosting to 512k. Bug 410827. */
 
-	iloader->priv->thread = g_thread_create_full (load_image_thread,
-						      iloader,
+	self->priv->thread = g_thread_create_full (load_image_thread,
+						      self,
 						      (512 * 1024),
 						      TRUE,
 						      TRUE,
@@ -369,46 +376,46 @@ gth_image_loader_get_type (void)
 GthImageLoader *
 gth_image_loader_new (gboolean as_animation)
 {
-	GthImageLoader *iloader;
+	GthImageLoader *self;
 
-	iloader = g_object_new (GTH_TYPE_IMAGE_LOADER, NULL);
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->as_animation = as_animation;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	self = g_object_new (GTH_TYPE_IMAGE_LOADER, NULL);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->as_animation = as_animation;
+	g_mutex_unlock (self->priv->data_mutex);
 
-	return iloader;
+	return self;
 }
 
 
 void
-gth_image_loader_set_loader (GthImageLoader *iloader,
+gth_image_loader_set_loader (GthImageLoader *self,
 			     PixbufLoader    loader,
 			     gpointer        loader_data)
 {
-	g_return_if_fail (iloader != NULL);
+	g_return_if_fail (self != NULL);
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->loader = loader;
-	iloader->priv->loader_data = loader_data;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->loader = loader;
+	self->priv->loader_data = loader_data;
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 void
-gth_image_loader_set_file_data (GthImageLoader *iloader,
+gth_image_loader_set_file_data (GthImageLoader *self,
 				GthFileData    *file)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
-	_g_object_unref (iloader->priv->file);
-	iloader->priv->file = NULL;
+	g_mutex_lock (self->priv->data_mutex);
+	_g_object_unref (self->priv->file);
+	self->priv->file = NULL;
 	if (file != NULL)
-		iloader->priv->file = gth_file_data_dup (file);
-	g_mutex_unlock (iloader->priv->data_mutex);
+		self->priv->file = gth_file_data_dup (file);
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 void
-gth_image_loader_set_file (GthImageLoader *iloader,
+gth_image_loader_set_file (GthImageLoader *self,
 			   GFile          *file,
 			   const char     *mime_type)
 {
@@ -420,297 +427,298 @@ gth_image_loader_set_file (GthImageLoader *iloader,
 	else
 		gth_file_data_update_mime_type (file_data, TRUE); /* FIXME: always fast mime type is not good */
 
-	gth_image_loader_set_file_data (iloader, file_data);
+	gth_image_loader_set_file_data (self, file_data);
 
 	g_object_unref (file_data);
 }
 
 
 GthFileData *
-gth_image_loader_get_file (GthImageLoader *iloader)
+gth_image_loader_get_file (GthImageLoader *self)
 {
 	GthFileData *file = NULL;
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	if (iloader->priv->file != NULL)
-		file = gth_file_data_dup (iloader->priv->file);
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	if (self->priv->file != NULL)
+		file = gth_file_data_dup (self->priv->file);
+	g_mutex_unlock (self->priv->data_mutex);
 
 	return file;
 }
 
 
 void
-gth_image_loader_set_pixbuf (GthImageLoader *iloader,
+gth_image_loader_set_pixbuf (GthImageLoader *self,
 			     GdkPixbuf      *pixbuf)
 {
-	g_return_if_fail (iloader != NULL);
+	g_return_if_fail (self != NULL);
 
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	if (iloader->priv->animation != NULL) {
-		g_object_unref (iloader->priv->animation);
-		iloader->priv->animation = NULL;
+	if (self->priv->animation != NULL) {
+		g_object_unref (self->priv->animation);
+		self->priv->animation = NULL;
 	}
 
-	if (iloader->priv->pixbuf != NULL) {
-		g_object_unref (iloader->priv->pixbuf);
-		iloader->priv->pixbuf = NULL;
+	if (self->priv->pixbuf != NULL) {
+		g_object_unref (self->priv->pixbuf);
+		self->priv->pixbuf = NULL;
 	}
 
-	iloader->priv->pixbuf = pixbuf;
+	self->priv->pixbuf = pixbuf;
 	if (pixbuf != NULL)
 		g_object_ref (pixbuf);
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 static void
-_gth_image_loader_sync_pixbuf (GthImageLoader *iloader)
+_gth_image_loader_sync_pixbuf (GthImageLoader *self)
 {
 	GdkPixbuf *pixbuf;
 
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	if (iloader->priv->animation == NULL) {
-		if (iloader->priv->pixbuf != NULL)
-			g_object_unref (iloader->priv->pixbuf);
-		iloader->priv->pixbuf = NULL;
-		g_mutex_unlock (iloader->priv->data_mutex);
+	if (self->priv->animation == NULL) {
+		if (self->priv->pixbuf != NULL)
+			g_object_unref (self->priv->pixbuf);
+		self->priv->pixbuf = NULL;
+		g_mutex_unlock (self->priv->data_mutex);
 		return;
 	}
 
-	pixbuf = gdk_pixbuf_animation_get_static_image (iloader->priv->animation);
+	pixbuf = gdk_pixbuf_animation_get_static_image (self->priv->animation);
 	g_object_ref (pixbuf);
 
-	if (iloader->priv->pixbuf == pixbuf) {
+	if (self->priv->pixbuf == pixbuf) {
 		g_object_unref (pixbuf);
-		g_mutex_unlock (iloader->priv->data_mutex);
+		g_mutex_unlock (self->priv->data_mutex);
 		return;
 	}
 
-	if (iloader->priv->pixbuf != NULL) {
-		g_object_unref (iloader->priv->pixbuf);
-		iloader->priv->pixbuf = NULL;
+	if (self->priv->pixbuf != NULL) {
+		g_object_unref (self->priv->pixbuf);
+		self->priv->pixbuf = NULL;
 	}
 
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
-		iloader->priv->pixbuf = pixbuf;
+		self->priv->pixbuf = pixbuf;
 	}
 
 	g_object_unref (pixbuf);
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 static void
-_gth_image_loader_sync_from_loader (GthImageLoader  *iloader,
+_gth_image_loader_sync_from_loader (GthImageLoader  *self,
 				    GdkPixbufLoader *pbloader)
 {
 	GdkPixbuf *pixbuf;
 
-	g_return_if_fail (iloader != NULL);
+	g_return_if_fail (self != NULL);
 
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	if (iloader->priv->as_animation) {
-		if (iloader->priv->animation != NULL)
-			g_object_unref (iloader->priv->animation);
-		iloader->priv->animation = gdk_pixbuf_loader_get_animation (pbloader);
+	if (self->priv->as_animation) {
+		if (self->priv->animation != NULL)
+			g_object_unref (self->priv->animation);
+		self->priv->animation = gdk_pixbuf_loader_get_animation (pbloader);
 
-		if ((iloader->priv->animation != NULL)
-		    && ! gdk_pixbuf_animation_is_static_image (iloader->priv->animation))
+		if ((self->priv->animation != NULL)
+		    && ! gdk_pixbuf_animation_is_static_image (self->priv->animation))
 		{
-			g_object_ref (iloader->priv->animation);
-			g_mutex_unlock (iloader->priv->data_mutex);
+			g_object_ref (self->priv->animation);
+			g_mutex_unlock (self->priv->data_mutex);
 			return;
 		}
 		else
-			iloader->priv->animation = NULL;
+			self->priv->animation = NULL;
 	}
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (pbloader);
 	g_object_ref (pixbuf);
 
-	if (iloader->priv->pixbuf == pixbuf) {
-		g_object_unref (iloader->priv->pixbuf);
-		g_mutex_unlock (iloader->priv->data_mutex);
+	if (self->priv->pixbuf == pixbuf) {
+		g_object_unref (self->priv->pixbuf);
+		g_mutex_unlock (self->priv->data_mutex);
 		return;
 	}
 
-	if (iloader->priv->pixbuf != NULL) {
-		g_object_unref (iloader->priv->pixbuf);
-		iloader->priv->pixbuf = NULL;
+	if (self->priv->pixbuf != NULL) {
+		g_object_unref (self->priv->pixbuf);
+		self->priv->pixbuf = NULL;
 	}
 
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
-		iloader->priv->pixbuf = pixbuf;
+		self->priv->pixbuf = pixbuf;
 		/*priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
 	}
 
 	g_object_unref (pixbuf);
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 static void
-_gth_image_loader_cancelled (GthImageLoader *iloader)
+_gth_image_loader_cancelled (GthImageLoader *self)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+	g_mutex_unlock (self->priv->data_mutex);
 
-	_gth_image_loader_stop (iloader,
-				iloader->priv->done_func,
-				iloader->priv->done_func_data,
+	_gth_image_loader_stop (self,
+				self->priv->done_func,
+				self->priv->done_func_data,
 				TRUE,
 				TRUE);
 }
 
 
 static void
-_gth_image_loader_ready (GthImageLoader *iloader)
+_gth_image_loader_ready (GthImageLoader *self)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->error = NULL;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->error = NULL;
+	g_mutex_unlock (self->priv->data_mutex);
 
-	_gth_image_loader_stop (iloader, NULL, NULL, TRUE, TRUE);
+	_gth_image_loader_stop (self, NULL, NULL, TRUE, TRUE);
 }
 
 
 static void
-_gth_image_loader_error (GthImageLoader *iloader,
+_gth_image_loader_error (GthImageLoader *self,
 			 GError         *error)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	if (iloader->priv->error != error) {
-		if (iloader->priv->error != NULL) {
-			g_error_free (iloader->priv->error);
-			iloader->priv->error = NULL;
+	if (self->priv->error != error) {
+		if (self->priv->error != NULL) {
+			g_error_free (self->priv->error);
+			self->priv->error = NULL;
 		}
-		iloader->priv->error = error;
+		self->priv->error = error;
 	}
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
-	_gth_image_loader_stop (iloader, NULL, NULL, TRUE, TRUE);
+	_gth_image_loader_stop (self, NULL, NULL, TRUE, TRUE);
 }
 
 
 static gboolean
 check_thread (gpointer data)
 {
-	GthImageLoader *iloader = data;
+	GthImageLoader *self = data;
 	gboolean        ready, loader_done;
 	GError         *error = NULL;
 
 	/* Remove check. */
 
-	g_source_remove (iloader->priv->check_id);
-	iloader->priv->check_id = 0;
+	g_source_remove (self->priv->check_id);
+	self->priv->check_id = 0;
 
 	/**/
 
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	ready = iloader->priv->ready;
-	if (iloader->priv->error != NULL)
-		error = g_error_copy (iloader->priv->error);
-	loader_done = iloader->priv->loader_ready;
+	ready = self->priv->ready;
+	if (self->priv->error != NULL)
+		error = g_error_copy (self->priv->error);
+	loader_done = self->priv->loader_ready;
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
 	/**/
 
-	if (loader_done && iloader->priv->cancelled)
-		_gth_image_loader_cancelled (iloader);
+	if (loader_done && self->priv->cancelled)
+		_gth_image_loader_cancelled (self);
 
 	else if (loader_done && ready)
-		_gth_image_loader_ready (iloader);
+		_gth_image_loader_ready (self);
 
 	else if (loader_done && (error != NULL))
-		_gth_image_loader_error (iloader, error);
+		_gth_image_loader_error (self, error);
 
 	else	/* Add the check again. */
-		iloader->priv->check_id = g_timeout_add (REFRESH_RATE,
+		self->priv->check_id = g_timeout_add (REFRESH_RATE,
 							 check_thread,
-							 iloader);
+							 self);
 
 	return FALSE;
 }
 
 
 static void
-_gth_image_loader_load__step2 (GthImageLoader *iloader)
+_gth_image_loader_load__step2 (GthImageLoader *self)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 
-	iloader->priv->ready = FALSE;
-	iloader->priv->error = NULL;
-	iloader->priv->loader_ready = FALSE;
-	iloader->priv->loading = TRUE;
-	if (iloader->priv->pixbuf != NULL) {
-		g_object_unref (iloader->priv->pixbuf);
-		iloader->priv->pixbuf = NULL;
+	self->priv->ready = FALSE;
+	self->priv->error = NULL;
+	self->priv->loader_ready = FALSE;
+	self->priv->loading = TRUE;
+	if (self->priv->pixbuf != NULL) {
+		g_object_unref (self->priv->pixbuf);
+		self->priv->pixbuf = NULL;
 	}
-	if (iloader->priv->animation != NULL) {
-		g_object_unref (iloader->priv->animation);
-		iloader->priv->animation = NULL;
+	if (self->priv->animation != NULL) {
+		g_object_unref (self->priv->animation);
+		self->priv->animation = NULL;
 	}
+	g_cancellable_reset (self->priv->cancellable);
 
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
 	/**/
 
-	g_mutex_lock (iloader->priv->start_loading_mutex);
+	g_mutex_lock (self->priv->start_loading_mutex);
 
-	iloader->priv->start_loading = TRUE;
-	g_cond_signal (iloader->priv->start_loading_cond);
+	self->priv->start_loading = TRUE;
+	g_cond_signal (self->priv->start_loading_cond);
 
-	g_mutex_unlock (iloader->priv->start_loading_mutex);
+	g_mutex_unlock (self->priv->start_loading_mutex);
 
 	/**/
 
-	iloader->priv->check_id = g_timeout_add (REFRESH_RATE,
+	self->priv->check_id = g_timeout_add (REFRESH_RATE,
 						 check_thread,
-						 iloader);
+						 self);
 }
 
 
 void
-gth_image_loader_load (GthImageLoader *iloader)
+gth_image_loader_load (GthImageLoader *self)
 {
-	gth_image_loader_load_at_size (iloader, -1);
+	gth_image_loader_load_at_size (self, -1);
 }
 
 
 void
-gth_image_loader_load_at_size (GthImageLoader *iloader,
+gth_image_loader_load_at_size (GthImageLoader *self,
 			       int             requested_size)
 {
 	gboolean no_file = FALSE;
 
-	g_return_if_fail (iloader != NULL);
+	g_return_if_fail (self != NULL);
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	if (iloader->priv->file == NULL)
+	g_mutex_lock (self->priv->data_mutex);
+	if (self->priv->file == NULL)
 		no_file = TRUE;
-	iloader->priv->requested_size = requested_size;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	self->priv->requested_size = requested_size;
+	g_mutex_unlock (self->priv->data_mutex);
 
 	if (no_file)
 		return;
 
-	_gth_image_loader_stop (iloader,
+	_gth_image_loader_stop (self,
 				(DataFunc) _gth_image_loader_load__step2,
-				iloader,
+				self,
 				FALSE,
 				TRUE);
 }
@@ -721,40 +729,40 @@ gth_image_loader_load_at_size (GthImageLoader *iloader,
 
 
 static void
-_gth_image_loader_stop__step2 (GthImageLoader *iloader,
+_gth_image_loader_stop__step2 (GthImageLoader *self,
 			       gboolean        use_idle_cb)
 {
 	DataFunc  done_func;
 	GError   *error;
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	error = iloader->priv->error;
-	iloader->priv->error = NULL;
-	iloader->priv->ready = TRUE;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	error = self->priv->error;
+	self->priv->error = NULL;
+	self->priv->ready = TRUE;
+	g_mutex_unlock (self->priv->data_mutex);
 
-	if ((error == NULL) && ! iloader->priv->cancelled && iloader->priv->loading)
-		_gth_image_loader_sync_pixbuf (iloader);
-	iloader->priv->loading = FALSE;
+	if ((error == NULL) && ! self->priv->cancelled && self->priv->loading)
+		_gth_image_loader_sync_pixbuf (self);
+	self->priv->loading = FALSE;
 
-	done_func = iloader->priv->done_func;
-	iloader->priv->done_func = NULL;
+	done_func = self->priv->done_func;
+	self->priv->done_func = NULL;
 	if (done_func != NULL) {
 		IdleCall *call;
 
-		call = idle_call_new (done_func, iloader->priv->done_func_data);
-		if (iloader->priv->idle_id != 0)
-			g_source_remove (iloader->priv->idle_id);
-		iloader->priv->idle_id = idle_call_exec (call, use_idle_cb);
+		call = idle_call_new (done_func, self->priv->done_func_data);
+		if (self->priv->idle_id != 0)
+			g_source_remove (self->priv->idle_id);
+		self->priv->idle_id = idle_call_exec (call, use_idle_cb);
 	}
 
-	if (! iloader->priv->emit_signal || iloader->priv->cancelled) {
-		iloader->priv->cancelled = FALSE;
+	if (! self->priv->emit_signal || self->priv->cancelled) {
+		self->priv->cancelled = FALSE;
 		return;
 	}
-	iloader->priv->cancelled = FALSE;
+	self->priv->cancelled = FALSE;
 
-	g_signal_emit (G_OBJECT (iloader),
+	g_signal_emit (G_OBJECT (self),
 		       gth_image_loader_signals[READY],
 		       0,
 		       error);
@@ -762,37 +770,38 @@ _gth_image_loader_stop__step2 (GthImageLoader *iloader,
 
 
 static void
-_gth_image_loader_stop (GthImageLoader *iloader,
+_gth_image_loader_stop (GthImageLoader *self,
 			DataFunc        done_func,
 			gpointer        done_func_data,
 			gboolean        emit_signal,
 			gboolean        use_idle_cb)
 {
-	iloader->priv->done_func = done_func;
-	iloader->priv->done_func_data = done_func_data;
-	iloader->priv->emit_signal = emit_signal;
+	self->priv->done_func = done_func;
+	self->priv->done_func_data = done_func_data;
+	self->priv->emit_signal = emit_signal;
 
-	_gth_image_loader_stop__step2 (iloader, use_idle_cb);
+	_gth_image_loader_stop__step2 (self, use_idle_cb);
 }
 
 
 void
-gth_image_loader_cancel (GthImageLoader *iloader,
+gth_image_loader_cancel (GthImageLoader *self,
 			 DataFunc        done_func,
 			 gpointer        done_func_data)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->error = FALSE;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->error = FALSE;
+	g_mutex_unlock (self->priv->data_mutex);
 
-	if (iloader->priv->loading) {
-		iloader->priv->emit_signal = TRUE;
-		iloader->priv->cancelled = TRUE;
-		iloader->priv->done_func = done_func;
-		iloader->priv->done_func_data = done_func_data;
+	if (self->priv->loading) {
+		self->priv->emit_signal = TRUE;
+		self->priv->cancelled = TRUE;
+		self->priv->done_func = done_func;
+		self->priv->done_func_data = done_func_data;
+		g_cancellable_cancel (self->priv->cancellable);
 	}
 	else
-		_gth_image_loader_stop (iloader,
+		_gth_image_loader_stop (self,
 					done_func,
 					done_func_data,
 					FALSE,
@@ -801,81 +810,81 @@ gth_image_loader_cancel (GthImageLoader *iloader,
 
 
 void
-gth_image_loader_cancel_with_error (GthImageLoader *iloader,
+gth_image_loader_cancel_with_error (GthImageLoader *self,
 				    DataFunc        done_func,
 				    gpointer        done_func_data)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->error = g_error_new_literal (GTH_ERROR, 0, "cancelled");
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->error = g_error_new_literal (GTH_ERROR, 0, "cancelled");
+	g_mutex_unlock (self->priv->data_mutex);
 
-	_gth_image_loader_stop (iloader, done_func, done_func_data, TRUE, TRUE);
+	_gth_image_loader_stop (self, done_func, done_func_data, TRUE, TRUE);
 }
 
 
 GdkPixbuf *
-gth_image_loader_get_pixbuf (GthImageLoader *iloader)
+gth_image_loader_get_pixbuf (GthImageLoader *self)
 {
-	return iloader->priv->pixbuf;
+	return self->priv->pixbuf;
 }
 
 
 GdkPixbufAnimation *
-gth_image_loader_get_animation (GthImageLoader *iloader)
+gth_image_loader_get_animation (GthImageLoader *self)
 {
 	GdkPixbufAnimation *animation;
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	animation = iloader->priv->animation;
+	g_mutex_lock (self->priv->data_mutex);
+	animation = self->priv->animation;
 	if (animation != NULL)
 		g_object_ref (animation);
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
 	return animation;
 }
 
 
 void
-gth_image_loader_get_original_size (GthImageLoader *iloader,
+gth_image_loader_get_original_size (GthImageLoader *self,
 				    int            *width,
 				    int            *height)
 {
-	g_mutex_lock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
 	if (width != NULL)
-		*width = iloader->priv->original_width;
+		*width = self->priv->original_width;
 	if (height != NULL)
-		*height = iloader->priv->original_height;
-	g_mutex_unlock (iloader->priv->data_mutex);
+		*height = self->priv->original_height;
+	g_mutex_unlock (self->priv->data_mutex);
 }
 
 
 gboolean
-gth_image_loader_is_ready (GthImageLoader *iloader)
+gth_image_loader_is_ready (GthImageLoader *self)
 {
 	gboolean is_ready;
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	is_ready = iloader->priv->ready && iloader->priv->loader_ready;
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_lock (self->priv->data_mutex);
+	is_ready = self->priv->ready && self->priv->loader_ready;
+	g_mutex_unlock (self->priv->data_mutex);
 
 	return is_ready;
 }
 
 
 void
-gth_image_loader_load_from_pixbuf_loader (GthImageLoader  *iloader,
+gth_image_loader_load_from_pixbuf_loader (GthImageLoader  *self,
 					  GdkPixbufLoader *pixbuf_loader)
 {
 	GError *error = NULL;
 
-	_gth_image_loader_sync_from_loader (iloader, pixbuf_loader);
+	_gth_image_loader_sync_from_loader (self, pixbuf_loader);
 
-	g_mutex_lock (iloader->priv->data_mutex);
-	if ((iloader->priv->pixbuf == NULL) && (iloader->priv->animation == NULL))
+	g_mutex_lock (self->priv->data_mutex);
+	if ((self->priv->pixbuf == NULL) && (self->priv->animation == NULL))
 		error = g_error_new_literal (GTH_ERROR, 0, "No image available");
-	g_mutex_unlock (iloader->priv->data_mutex);
+	g_mutex_unlock (self->priv->data_mutex);
 
-	g_signal_emit (G_OBJECT (iloader), gth_image_loader_signals[READY], 0, error);
+	g_signal_emit (G_OBJECT (self), gth_image_loader_signals[READY], 0, error);
 }
 
 

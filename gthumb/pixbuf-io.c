@@ -221,18 +221,19 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 
 
 GdkPixbuf *
-gth_pixbuf_new_from_file (GthFileData  *file_data,
-			  int           requested_size,
-			  int          *original_width,
-			  int          *original_height,
-			  gboolean      scale_to_original,
-			  GError      **error)
+gth_pixbuf_new_from_file (GthFileData   *file_data,
+			  int            requested_size,
+			  int           *original_width,
+			  int           *original_height,
+			  gboolean       scale_to_original,
+			  GCancellable  *cancellable,
+			  GError       **error)
 {
-	GdkPixbuf *pixbuf = NULL;
-	char      *path;
-	gboolean   scale_pixbuf;
-	int        original_w;
-	int        original_h;
+	GdkPixbuf    *pixbuf = NULL;
+	gboolean      scale_pixbuf;
+	int           original_w;
+	int           original_h;
+	GInputStream *stream;
 
 	if (original_width != NULL)
 		*original_width = -1;
@@ -243,29 +244,38 @@ gth_pixbuf_new_from_file (GthFileData  *file_data,
 	if (file_data == NULL)
 		return NULL;
 
-	path = g_file_get_path (file_data->file);
-	if (path == NULL)
-		return NULL;
-
 	scale_pixbuf = FALSE;
 	original_w = -1;
 	original_h = -1;
+
 	if (requested_size > 0) {
-		if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
-			original_w = -1;
-			original_h = -1;
+		char *path;
+
+		path = g_file_get_path (file_data->file);
+		if (path != NULL) {
+			if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
+				original_w = -1;
+				original_h = -1;
+			}
+			if ((original_w > requested_size) || (original_h > requested_size))
+				scale_pixbuf = TRUE;
 		}
-		if ((original_w > requested_size) || (original_h > requested_size))
-			scale_pixbuf = TRUE;
+
+		g_free (path);
 	}
 
+	stream = (GInputStream *) g_file_read (file_data->file, cancellable, error);
+	if (stream == NULL)
+		return NULL;
+
 	if (scale_pixbuf) {
-		pixbuf = gdk_pixbuf_new_from_file_at_scale (path,
-							    requested_size,
-							    requested_size,
-							    TRUE,
-							    error);
-		if (scale_to_original) {
+		pixbuf = gdk_pixbuf_new_from_stream_at_scale (stream,
+							      requested_size,
+							      requested_size,
+							      TRUE,
+							      cancellable,
+							      error);
+		if ((pixbuf != NULL) && scale_to_original) {
 			GdkPixbuf *tmp;
 
 			tmp = _gdk_pixbuf_scale_simple_safe (pixbuf, original_w, original_h, GDK_INTERP_NEAREST);
@@ -274,7 +284,7 @@ gth_pixbuf_new_from_file (GthFileData  *file_data,
 		}
 	}
 	else
-		pixbuf = gdk_pixbuf_new_from_file (path, error);
+		pixbuf = gdk_pixbuf_new_from_stream (stream, cancellable, error);
 
 	if (pixbuf != NULL) {
 		GdkPixbuf *rotated;
@@ -292,19 +302,20 @@ gth_pixbuf_new_from_file (GthFileData  *file_data,
 	if (original_height != NULL)
 		*original_height = original_h;
 
-	g_free (path);
+	g_object_unref (stream);
 
 	return pixbuf;
 }
 
 
 GdkPixbufAnimation *
-gth_pixbuf_animation_new_from_file (GthFileData  *file_data,
-				    int           requested_size,
-				    int          *original_width,
-				    int          *original_height,
-				    gpointer      user_data,
-				    GError      **error)
+gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
+				    int            requested_size,
+				    int           *original_width,
+				    int           *original_height,
+				    gpointer       user_data,
+				    GCancellable  *cancellable,
+				    GError       **error)
 {
 	GdkPixbufAnimation *animation = NULL;
 	const char         *mime_type;
@@ -331,6 +342,7 @@ gth_pixbuf_animation_new_from_file (GthFileData  *file_data,
 						   original_width,
 						   original_height,
 						   FALSE,
+						   cancellable,
 						   error);
 
 		if (pixbuf != NULL) {

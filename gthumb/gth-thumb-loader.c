@@ -477,12 +477,13 @@ image_loader_ready_cb (GthImageLoader *iloader,
 
 
 static GdkPixbufAnimation *
-thumb_loader (GthFileData  *file_data,
-	      int           requested_size,
-	      int          *original_width,
-	      int          *original_height,
-	      gpointer      data,
-	      GError      **error)
+thumb_loader (GthFileData   *file_data,
+	      int            requested_size,
+	      int           *original_width,
+	      int           *original_height,
+	      gpointer       data,
+	      GCancellable  *cancellable,
+	      GError       **error)
 {
 	GthThumbLoader     *self = data;
 	GdkPixbuf          *pixbuf = NULL;
@@ -512,6 +513,7 @@ thumb_loader (GthFileData  *file_data,
 							 original_width,
 							 original_height,
 							 NULL,
+							 cancellable,
 							 error);
 		}
 
@@ -523,6 +525,7 @@ thumb_loader (GthFileData  *file_data,
 						   original_width,
 						   original_height,
 						   FALSE,
+						   cancellable,
 						   error);
 
 	if (pixbuf != NULL) {
