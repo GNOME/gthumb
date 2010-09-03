@@ -104,15 +104,18 @@ load_next (gpointer data)
 static gboolean
 preloader_need_second_step (Preloader *preloader)
 {
-	int original_width;
-	int original_height;
+	int                 original_width;
+	int                 original_height;
+	GdkPixbufAnimation *animation;
 
 	gth_image_loader_get_original_size (preloader->loader, &original_width, &original_height);
+	animation = gth_image_loader_get_animation (preloader->loader);
 
 	return (! preloader->error
 		&& (preloader->requested_size != -1)
 		&& ((original_width > preloader->requested_size) || (original_height > preloader->requested_size))
-		&& gdk_pixbuf_animation_is_static_image (gth_image_loader_get_animation (preloader->loader)));
+		&& (animation != NULL)
+		&& gdk_pixbuf_animation_is_static_image (animation));
 }
 
 

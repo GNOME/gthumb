@@ -265,20 +265,25 @@ load_image_thread (void *thread_data)
 		g_mutex_lock (self->priv->data_mutex);
 
 		self->priv->loader_ready = TRUE;
-		if (self->priv->animation != NULL)
-			g_object_unref (self->priv->animation);
-		self->priv->animation = animation;
-		self->priv->original_width = original_width;
-		self->priv->original_height = original_height;
 
 		if ((animation == NULL) || (error != NULL)) {
 			self->priv->error = error;
 			self->priv->ready = FALSE;
 		}
-		else if (requested_size == self->priv->requested_size) {
+		else if ((self->priv->file != NULL)
+			 && _g_file_equal_uris (file->file, self->priv->file->file)
+			 && (requested_size == self->priv->requested_size))
+		{
+			_g_object_unref (self->priv->animation);
+			self->priv->animation = g_object_ref (animation);
+			self->priv->original_width = original_width;
+			self->priv->original_height = original_height;
+
 			self->priv->error = NULL;
 			self->priv->ready = TRUE;
 		}
+
+		_g_object_unref (animation);
 
 		g_mutex_unlock (self->priv->data_mutex);
 
@@ -646,9 +651,7 @@ check_thread (gpointer data)
 		_gth_image_loader_error (self, error);
 
 	else	/* Add the check again. */
-		self->priv->check_id = g_timeout_add (REFRESH_RATE,
-							 check_thread,
-							 self);
+		self->priv->check_id = g_timeout_add (REFRESH_RATE, check_thread, self);
 
 	return FALSE;
 }
