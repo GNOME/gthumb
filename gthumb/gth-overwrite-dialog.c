@@ -29,7 +29,8 @@
 #include "gtk-utils.h"
 
 
-#define PREVIEW_SIZE 128
+#define ICON_SIZE 128
+#define PREVIEW_SIZE 256
 
 
 static gpointer gth_overwrite_dialog_parent_class = NULL;
@@ -171,7 +172,7 @@ info_ready_cb (GList    *files,
 		icon = (GIcon*) g_file_info_get_attribute_object (self->priv->source_data->info, "preview::icon");
 		if (icon == NULL)
 			icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->source_data->info));
-		pixbuf = _g_icon_get_pixbuf (icon, PREVIEW_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
+		pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
 		if (pixbuf != NULL) {
 			gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), pixbuf, -1, -1);
 			g_object_unref (pixbuf);
@@ -213,7 +214,7 @@ info_ready_cb (GList    *files,
 	icon = (GIcon*) g_file_info_get_attribute_object (self->priv->destination_data->info, "preview::icon");
 	if (icon == NULL)
 		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->destination_data->info));
-	pixbuf = _g_icon_get_pixbuf (icon, PREVIEW_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
+	pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
 	if (pixbuf != NULL) {
 		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), pixbuf, -1, -1);
 		g_object_unref (pixbuf);
@@ -287,6 +288,9 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	gtk_widget_set_sensitive (_gtk_builder_get_widget (self->priv->builder, "overwrite_rename_entry"), default_response == GTH_OVERWRITE_RESPONSE_RENAME);
 	if (default_response == GTH_OVERWRITE_RESPONSE_RENAME)
 		gtk_widget_grab_focus (_gtk_builder_get_widget (self->priv->builder, "overwrite_rename_entry"));
+
+	gtk_widget_set_size_request (_gtk_builder_get_widget (self->priv->builder, "old_image_frame"), PREVIEW_SIZE, PREVIEW_SIZE);
+	gtk_widget_set_size_request (_gtk_builder_get_widget (self->priv->builder, "new_image_frame"), PREVIEW_SIZE, PREVIEW_SIZE);
 
 	self->priv->old_image_viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), GTH_TRANSP_TYPE_NONE);
