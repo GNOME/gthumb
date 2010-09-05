@@ -706,33 +706,3 @@ gth_image_preloader_stop (GthImagePreloader *self,
 	self->priv->current = -1;
 	gth_image_loader_cancel (preloader->loader, done_func, done_func_data);
 }
-
-
-void
-gth_image_preloader_set (GthImagePreloader *dest,
-			 GthImagePreloader *src)
-{
-	int i;
-
-	if (src == NULL)
-		return;
-
-	g_return_if_fail (src->priv->n_preloaders == dest->priv->n_preloaders);
-
-	for (i = 0; i < src->priv->n_preloaders; i++) {
-		Preloader *src_loader = src->priv->loader[i];
-		Preloader *dest_loader = dest->priv->loader[i];
-
-		if ((src_loader->file_data != NULL) && src_loader->loaded && ! src_loader->error) {
-		    	g_object_unref (dest_loader->file_data);
-		    	dest_loader->file_data = g_object_ref (src_loader->file_data);
-
-		    	g_signal_handlers_block_by_data (dest_loader->loader, dest_loader);
-			gth_image_loader_load_from_image_loader (dest_loader->loader, src_loader->loader);
-			g_signal_handlers_unblock_by_data (dest_loader->loader, dest_loader);
-
-			dest_loader->loaded = TRUE;
-			dest_loader->error = FALSE;
-		}
-	}
-}

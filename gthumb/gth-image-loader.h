@@ -75,7 +75,6 @@ GdkPixbufAnimation * gth_image_loader_get_animation           (GthImageLoader   
 void                 gth_image_loader_get_original_size       (GthImageLoader    *iloader,
 							       int               *width,
 							       int               *height);
-gboolean             gth_image_loader_is_ready                (GthImageLoader    *iloader);
 void                 gth_image_loader_load                    (GthImageLoader    *iloader);
 void                 gth_image_loader_load_at_size            (GthImageLoader    *iloader,
 							       int                requested_size);
@@ -85,10 +84,6 @@ void                 gth_image_loader_cancel                  (GthImageLoader   
 void                 gth_image_loader_cancel_with_error       (GthImageLoader    *iloader,
 						               DataFunc           done_func,
 						               gpointer           done_func_data);
-void                 gth_image_loader_load_from_pixbuf_loader (GthImageLoader    *iloader,
-				                               GdkPixbufLoader   *pixbuf_loader);						               
-void                 gth_image_loader_load_from_image_loader  (GthImageLoader    *to,
-							       GthImageLoader    *from);
 
 G_END_DECLS
 

@@ -76,7 +76,5 @@ void                gth_image_preloader_stop             (GthImagePreloader  *se
 GthImageLoader *    gth_image_preloader_get_loader       (GthImagePreloader  *self,
 						          GthFileData        *file_data);
 GthFileData *       gth_image_preloader_get_requested    (GthImagePreloader  *self);
-void                gth_image_preloader_set              (GthImagePreloader  *dest,
-						       	  GthImagePreloader  *src);
 
 #endif /* GTH_IMAGE_PRELOADER_H */
