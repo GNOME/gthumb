@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-15 13:46+0200\n"
-"PO-Revision-Date: 2010-03-15 13:47+0200\n"
+"POT-Creation-Date: 2010-09-05 20:44+0300\n"
+"PO-Revision-Date: 2010-09-01 10:15+0300\n"
 "Last-Translator: Miika Laaksonen <miika@jeele.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -20,37 +20,37 @@ msgstr ""
 "X-Rosetta-Export-Date: 2007-03-13 09:08+0000\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../copy-n-paste/eggdesktopfile.c:165
+#: ../copy-n-paste/eggdesktopfile.c:164
 #, c-format
 msgid "File is not a valid .desktop file"
 msgstr ""
 
-#: ../copy-n-paste/eggdesktopfile.c:188
+#: ../copy-n-paste/eggdesktopfile.c:187
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
 msgstr ""
 
-#: ../copy-n-paste/eggdesktopfile.c:958
-#, fuzzy, c-format
+#: ../copy-n-paste/eggdesktopfile.c:957
+#, c-format
 msgid "Starting %s"
-msgstr "Tulosta %s"
+msgstr "Käynnistetään %s"
 
-#: ../copy-n-paste/eggdesktopfile.c:1100
+#: ../copy-n-paste/eggdesktopfile.c:1099
 #, c-format
 msgid "Application does not accept documents on command line"
 msgstr ""
 
-#: ../copy-n-paste/eggdesktopfile.c:1168
+#: ../copy-n-paste/eggdesktopfile.c:1167
 #, c-format
 msgid "Unrecognized launch option: %d"
 msgstr ""
 
-#: ../copy-n-paste/eggdesktopfile.c:1373
+#: ../copy-n-paste/eggdesktopfile.c:1372
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr ""
 
-#: ../copy-n-paste/eggdesktopfile.c:1392
+#: ../copy-n-paste/eggdesktopfile.c:1391
 #, c-format
 msgid "Not a launchable item"
 msgstr ""
@@ -145,20 +145,13 @@ msgstr ""
 "Sallittuja arvoja ovat: \"list\" (lista), \"thumbnails\" (pienoiskuvat)."
 
 #: ../data/gthumb.schemas.in.h:6
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-#, fuzzy
-msgid "Possible values are: none, file_date, current_date"
-msgstr ""
-"Sallittuja arvoja ovat: \"none\" (ei mitään), \"deflate\" (pura), \"jpeg\"."
-
-#: ../data/gthumb.schemas.in.h:7
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
 msgid "Possible values are: small, medium, large."
 msgstr ""
 "Sallittuja arvoja ovat: \"small\" (pieni), \"medium\" (keskikokoinen), "
 "\"large\" (suuri)."
 
-#: ../data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:7
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
@@ -166,25 +159,19 @@ msgstr ""
 "\" (teksti alla), \"text_beside\" (teksti vieressä), \"text_only\" (vain "
 "teksti), \"icons_only\" (vain kuvakkeet)."
 
-#: ../data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
 msgid "Possible values are: white, black, checked, none."
 msgstr ""
 "Sallittuja arvoja ovat: \"white\" (valkoinen), \"black\" (musta), \"checked"
 "\" (ruudut), \"none\" (ei mitään)."
 
-#: ../data/gthumb.schemas.in.h:10
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
-#, fuzzy
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr "Sallittuja arvoja ovat: \"mm\" (millimetrit), \"in\" (tuumat)."
-
-#: ../data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:9
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:6
 msgid "Whether to always use a black background."
 msgstr "Käytetäänkö aina mustaa taustaa."
 
-#: ../data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:10
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:7
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Nollataanko vierityspalkkien paikat kuvan vaihtamisen jälkeen"
@@ -198,9 +185,8 @@ msgid "More extensions..."
 msgstr "Lisää laajennuksia..."
 
 #: ../data/ui/extensions.ui.h:3
-#, fuzzy
 msgid "_Categories:"
-msgstr "Luo_kat:"
+msgstr "_Luokat:"
 
 #: ../data/ui/extensions.ui.h:4
 msgid "gthumb Extensions"
@@ -211,8 +197,8 @@ msgid "Filter _Name:"
 msgstr "Suodattimen _nimi:"
 
 #. limit label
-#: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:259
-#: ../gthumb/gth-filter.c:331
+#: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:258
+#: ../gthumb/gth-filter.c:330
 msgid "_Limit to"
 msgstr "_Rajoita"
 
@@ -258,6 +244,7 @@ msgid "Overwrite the old file with the new one?"
 msgstr "Korvataanko vanha tiedosto uudella?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
 msgid "Size:"
 msgstr "Koko:"
@@ -282,27 +269,6 @@ msgstr "_Käytettävä suodatus:"
 msgid "_Other filters:"
 msgstr "_Valittavissa olevat suodattimet:"
 
-#: ../data/ui/personalize-filters.ui.h:4
-msgid "gtk-close"
-msgstr "gtk-close"
-
-#: ../data/ui/personalize-filters.ui.h:5
-msgid "gtk-edit"
-msgstr "gtk-edit"
-
-#: ../data/ui/personalize-filters.ui.h:6
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:7
-msgid "gtk-help"
-msgstr "gtk-help"
-
-#: ../data/ui/personalize-filters.ui.h:7
-msgid "gtk-new"
-msgstr "gtk-new"
-
-#: ../data/ui/personalize-filters.ui.h:8
-msgid "gtk-remove"
-msgstr "gtk-remove"
-
 #: ../data/ui/preferences.ui.h:1
 msgid "Activate items with a double click"
 msgstr "Aktivoi kaksoisnapsautuksella"
@@ -323,12 +289,12 @@ msgstr "Kysy _vahvistusta ennen kuin poistetaan kuvia tai luetteloita"
 msgid "Ask whether to save _modified files"
 msgstr "Kysy tallennetaanko _muokatut tiedostot"
 
-#: ../data/ui/preferences.ui.h:6 ../extensions/image_viewer/preferences.c:112
+#: ../data/ui/preferences.ui.h:6 ../extensions/image_viewer/preferences.c:111
 msgid "Black"
 msgstr "Musta"
 
-#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:58
-#: ../gthumb/gth-browser-actions-entries.h:156
+#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:69
+#: ../gthumb/gth-browser-actions-entries.h:155
 msgid "Browser"
 msgstr "Selain"
 
@@ -337,7 +303,7 @@ msgstr "Selain"
 msgid "Caption"
 msgstr "Kuvateksti"
 
-#: ../data/ui/preferences.ui.h:9 ../extensions/image_viewer/preferences.c:113
+#: ../data/ui/preferences.ui.h:9 ../extensions/image_viewer/preferences.c:112
 msgid "Checked"
 msgstr "Ruudut"
 
@@ -349,89 +315,93 @@ msgstr "Valitse käynnistyskansio"
 msgid "D_etermine image type from content (slower)"
 msgstr "S_elvitä kuvan muoto sisällöstä (hitaampaa)"
 
-#: ../data/ui/preferences.ui.h:12
-msgid "Do _not change folder"
-msgstr "Älä _siirry kansiosta"
-
-#: ../data/ui/preferences.ui.h:13 ../extensions/image_viewer/preferences.c:102
+#: ../data/ui/preferences.ui.h:12 ../extensions/image_viewer/preferences.c:101
 msgid "Fit to width if larger"
 msgstr "Sovita leveyteen jos suurempi"
 
-#: ../data/ui/preferences.ui.h:14 ../extensions/image_viewer/preferences.c:99
+#: ../data/ui/preferences.ui.h:13 ../extensions/image_viewer/preferences.c:98
 msgid "Fit to window"
 msgstr "Sovita ikkunaan"
 
-#: ../data/ui/preferences.ui.h:15 ../extensions/image_viewer/preferences.c:100
+#: ../data/ui/preferences.ui.h:14 ../extensions/image_viewer/preferences.c:99
 msgid "Fit to window if larger"
 msgstr "Sovita ikkunaan jos suurempi"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:15
 msgid "Follow Nautilus behaviour"
 msgstr "Noudata Nautiluksen käytäntöä"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:277
-#: ../gthumb/gth-main-default-metadata.c:34
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:310
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+#: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "Yleiset"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Go to last _visited location"
 msgstr "Palaa edelliseen sijaintiin"
 
-#: ../data/ui/preferences.ui.h:19
+#: ../data/ui/preferences.ui.h:18
 msgid "Go to this _folder:"
 msgstr "Siirry tä_hän kansioon:"
 
-#: ../data/ui/preferences.ui.h:20 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:19 ../gthumb/dlg-preferences.c:231
 msgid "Icons only"
 msgstr "Vain kuvakkeet"
 
-#: ../data/ui/preferences.ui.h:21 ../extensions/image_viewer/preferences.c:98
+#: ../data/ui/preferences.ui.h:20 ../extensions/image_viewer/preferences.c:97
 msgid "Keep previous zoom"
 msgstr "Säilytä viimeisin suurennos"
 
-#: ../data/ui/preferences.ui.h:22
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
-#: ../extensions/image_viewer/preferences.c:111
-#: ../extensions/slideshow/main.c:265
+#: ../data/ui/preferences.ui.h:21
+#: ../extensions/file_tools/gth-file-tool-crop.c:399
+#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-resize.c:422
+#: ../extensions/image_viewer/preferences.c:110
+#: ../extensions/slideshow/main.c:278
 msgid "None"
 msgstr "Ei mitään"
 
-#: ../data/ui/preferences.ui.h:23
+#: ../data/ui/preferences.ui.h:22
 msgid "On startup:"
 msgstr "Käynnistettäessä:"
 
-#: ../data/ui/preferences.ui.h:24
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:165
-#: ../extensions/gstreamer_tools/main.c:34
+#: ../data/ui/preferences.ui.h:23
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:190
+#: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
 msgstr "Muut"
 
-#: ../data/ui/preferences.ui.h:25
+#: ../data/ui/preferences.ui.h:24
 msgid "Set image to actual size"
 msgstr "Näytä todellisessa koossa"
 
-#: ../data/ui/preferences.ui.h:26
+#: ../data/ui/preferences.ui.h:25
 msgid "Set to C_urrent"
 msgstr "Aseta nykyiseen"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:27 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:26 ../gthumb/dlg-preferences.c:231
 msgid "System settings"
 msgstr "Järjestelmän asetukset"
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:27
+#, fuzzy
+msgid "T_humbnails in viewer:"
+msgstr "_Esikatselukuvien koko:"
+
+#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:231
 msgid "Text below icons"
 msgstr "Teksti kuvakkeiden alla"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:231
 msgid "Text beside icons"
 msgstr "Teksti kuvakkeiden vierellä"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:215
+#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:231
 msgid "Text only"
 msgstr "Vain teksti"
 
@@ -439,17 +409,29 @@ msgstr "Vain teksti"
 msgid "Thumbnail _size:"
 msgstr "_Esikatselukuvien koko:"
 
-#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:110
+#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:109
 msgid "White"
 msgstr "Valkoinen"
 
 #: ../data/ui/preferences.ui.h:33
+msgid "_Store metadata inside files if possible"
+msgstr "_Tallenna metatiedot tiedostojen sisään, jos mahdollista"
+
+#: ../data/ui/preferences.ui.h:34
 msgid "_Toolbar style:"
 msgstr "Työkalu_palkin muoto:"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:35
 msgid "gthumb Preferences"
 msgstr "gThumbin asetukset"
+
+#: ../data/ui/preferences.ui.h:36
+msgid "on the bottom"
+msgstr "alhaalla"
+
+#: ../data/ui/preferences.ui.h:37
+msgid "on the side"
+msgstr "sivulla"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -460,13 +442,13 @@ msgid "_Inverse order"
 msgstr "Kään_teinen järjestys"
 
 #: ../data/ui/sort-order.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:32
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Sort by:"
 msgstr "_Järjestä:"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
 msgid "Add bookmarks support."
-msgstr "Lisää kirjanmerkkien tuen"
+msgstr "Lue kansioille kirjanmerkkejä"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
@@ -474,57 +456,6 @@ msgid "Bookmarks"
 msgstr "Kirjanmerkit"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
-msgid "Paolo Bacchilega <paobac@src.gnome.org>"
-msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
-
-#: ../extensions/bookmarks/callbacks.c:53
-msgid "_Bookmarks"
-msgstr "_Kirjanmerkit"
-
-#: ../extensions/bookmarks/callbacks.c:54
-msgid "_System Bookmarks"
-msgstr "_Järjestelmän kirjanmerkit"
-
-#: ../extensions/bookmarks/callbacks.c:57
-msgid "_Add Bookmark"
-msgstr "_Lisää kirjanmerkki"
-
-#: ../extensions/bookmarks/callbacks.c:58
-msgid "Add current location to bookmarks"
-msgstr "Lisää kirjanmerkki avattuun sijaintiin"
-
-#: ../extensions/bookmarks/callbacks.c:62
-msgid "_Edit Bookmarks..."
-msgstr "_Muokkaa kirjanmerkkejä..."
-
-#: ../extensions/bookmarks/callbacks.c:63
-msgid "Edit bookmarks"
-msgstr "Muokkaa kirjanmerkkejä"
-
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
-msgid "_Bookmarks:"
-msgstr "_Kirjanmerkit:"
-
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-msgid "_Location"
-msgstr "_Sijainti"
-
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
-msgid "_Name"
-msgstr "_Nimi"
-
-#: ../extensions/bookmarks/dlg-bookmarks.c:71
-msgid "Could not remove the bookmark"
-msgstr "Kirjanmerkkiä ei voitu poistaa"
-
-#: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
-msgid "Burn CD/DVD"
-msgstr "Kirjoita CD/DVD"
-
-#: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
-msgid "Save files to an optical disc."
-msgstr "Tallenna tiedostot optiselle levylle."
-
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
 #: ../extensions/change_date/change_date.extension.in.in.h:3
@@ -548,14 +479,63 @@ msgstr "Tallenna tiedostot optiselle levylle."
 #: ../extensions/resize_images/resize_images.extension.in.in.h:3
 #: ../extensions/search/search.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
+#: ../extensions/webalbums/webalbums.extension.in.in.h:3
 msgid "gthumb development team"
 msgstr "gthumbin kehitysryhmä"
 
-#: ../extensions/burn_disc/callbacks.c:51
-msgid "_Optical Disc..."
-msgstr "_Optiselle levylle..."
+#: ../extensions/bookmarks/callbacks.c:52
+msgid "_Bookmarks"
+msgstr "_Kirjanmerkit"
 
-#: ../extensions/burn_disc/callbacks.c:52
+#: ../extensions/bookmarks/callbacks.c:53
+msgid "_System Bookmarks"
+msgstr "_Järjestelmän kirjanmerkit"
+
+#: ../extensions/bookmarks/callbacks.c:56
+msgid "_Add Bookmark"
+msgstr "_Lisää kirjanmerkki"
+
+#: ../extensions/bookmarks/callbacks.c:57
+msgid "Add current location to bookmarks"
+msgstr "Lisää kirjanmerkki avattuun sijaintiin"
+
+#: ../extensions/bookmarks/callbacks.c:61
+msgid "_Edit Bookmarks..."
+msgstr "_Muokkaa kirjanmerkkejä..."
+
+#: ../extensions/bookmarks/callbacks.c:62
+msgid "Edit bookmarks"
+msgstr "Muokkaa kirjanmerkkejä"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
+msgid "_Bookmarks:"
+msgstr "_Kirjanmerkit:"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
+msgid "_Location"
+msgstr "_Sijainti"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+msgid "_Name"
+msgstr "_Nimi"
+
+#: ../extensions/bookmarks/dlg-bookmarks.c:70
+msgid "Could not remove the bookmark"
+msgstr "Kirjanmerkkiä ei voitu poistaa"
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
+msgid "Burn CD/DVD"
+msgstr "Kirjoita CD/DVD"
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
+msgid "Save files to an optical disc."
+msgstr "Tallenna tiedostot optiselle levylle."
+
+#: ../extensions/burn_disc/callbacks.c:55
+msgid "_Optical Disc..."
+msgstr "_Optinen levy..."
+
+#: ../extensions/burn_disc/callbacks.c:56
 msgid "Write files to an optical disc"
 msgstr "Kirjoita tiedostot optiselle levylle"
 
@@ -579,171 +559,176 @@ msgstr "Lähde"
 msgid "_Selected files"
 msgstr "_Valitut tiedostot"
 
-#: ../extensions/burn_disc/gth-burn-task.c:239
-#: ../extensions/burn_disc/gth-burn-task.c:260
+#: ../extensions/burn_disc/gth-burn-task.c:238
+#: ../extensions/burn_disc/gth-burn-task.c:259
 #: ../extensions/burn_disc/gth-burn-task.c:393
 msgid "Write to Disc"
 msgstr "Kirjoita levylle"
 
-#: ../extensions/catalogs/actions.c:63
+#: ../extensions/catalogs/actions.c:62
 msgid "Could not remove the files from the catalog"
 msgstr "Tiedostoja ei voitu poistaa luettelosta"
 
-#: ../extensions/catalogs/actions.c:121
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:450
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:459
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:487
-#: ../extensions/search/gth-search.c:296
+#: ../extensions/catalogs/actions.c:120
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:633
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:642
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:670
+#: ../extensions/search/gth-search.c:295
 msgid "Invalid file format"
 msgstr "Viallinen tiedostotyyppi"
 
-#: ../extensions/catalogs/actions.c:190
-#: ../extensions/catalogs/dlg-add-to-catalog.c:217
+#: ../extensions/catalogs/actions.c:189
+#: ../extensions/catalogs/dlg-add-to-catalog.c:265
 msgid "Enter the catalog name: "
 msgstr "Anna luettelon nimi: "
 
-#: ../extensions/catalogs/actions.c:194 ../extensions/catalogs/actions.c:260
-#: ../extensions/catalogs/dlg-add-to-catalog.c:221
-#: ../extensions/catalogs/dlg-add-to-catalog.c:287
-#: ../extensions/file_manager/actions.c:47
+#: ../extensions/catalogs/actions.c:193 ../extensions/catalogs/actions.c:259
+#: ../extensions/catalogs/dlg-add-to-catalog.c:269
+#: ../extensions/catalogs/dlg-add-to-catalog.c:335
+#: ../extensions/file_manager/actions.c:45
 msgid "C_reate"
 msgstr "_Luo"
 
-#: ../extensions/catalogs/actions.c:234
-#: ../extensions/catalogs/dlg-add-to-catalog.c:261
-#: ../extensions/search/gth-search-task.c:288
+#: ../extensions/catalogs/actions.c:233
+#: ../extensions/catalogs/dlg-add-to-catalog.c:217
+#: ../extensions/catalogs/dlg-add-to-catalog.c:310
+#: ../extensions/search/gth-search-task.c:332
 msgid "Could not create the catalog"
 msgstr "Luettelon luonti ei onnistunut"
 
-#: ../extensions/catalogs/actions.c:256
-#: ../extensions/catalogs/dlg-add-to-catalog.c:283
+#: ../extensions/catalogs/actions.c:255
+#: ../extensions/catalogs/dlg-add-to-catalog.c:331
 msgid "Enter the library name: "
 msgstr "Anna kirjaston nimi: "
 
-#: ../extensions/catalogs/actions.c:300
-#: ../extensions/catalogs/dlg-add-to-catalog.c:327
+#: ../extensions/catalogs/actions.c:299
+#: ../extensions/catalogs/dlg-add-to-catalog.c:375
 msgid "Could not create the library"
 msgstr "Kirjaston luonti ei onnistunut"
 
-#: ../extensions/catalogs/actions.c:336
+#: ../extensions/catalogs/actions.c:331
 msgid "Could not remove the catalog"
 msgstr "Luettelon poisto ei onnistunut"
 
-#: ../extensions/catalogs/callbacks.c:99
+#: ../extensions/catalogs/actions.c:365
+#, c-format
+msgid "Are you sure you want to remove \"%s\"?"
+msgstr "Haluatko varmasti poistaa tiedoston \"%s\"?"
+
+#: ../extensions/catalogs/callbacks.c:98
 msgid "_Add to Catalog"
 msgstr "_Lisää Luetteloon"
 
-#: ../extensions/catalogs/callbacks.c:102
+#: ../extensions/catalogs/callbacks.c:101
 msgid "Open _Folder"
 msgstr "Avaa _kansio"
 
-#: ../extensions/catalogs/callbacks.c:103
+#: ../extensions/catalogs/callbacks.c:102
 msgid "Go to the folder that contains the selected file"
 msgstr "Siirry kansioon, jossa valittu tiedosto sijaitsee"
 
-#: ../extensions/catalogs/callbacks.c:107
+#: ../extensions/catalogs/callbacks.c:106
+#: ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/picasaweb/picasa-account-properties-dialog.c:87
 msgid "Other..."
 msgstr "Muu..."
 
-#: ../extensions/catalogs/callbacks.c:108
+#: ../extensions/catalogs/callbacks.c:107
 msgid "Choose another catalog"
 msgstr "Valitse toinen luettelo"
 
-#: ../extensions/catalogs/callbacks.c:112
+#: ../extensions/catalogs/callbacks.c:111
 msgid "_Add to Catalog..."
 msgstr "_Lisää Luetteloon..."
 
-#: ../extensions/catalogs/callbacks.c:113
+#: ../extensions/catalogs/callbacks.c:112
 msgid "Add selected images to a catalog"
 msgstr "Lisää valitut kuvat albumiin"
 
-#: ../extensions/catalogs/callbacks.c:117
+#: ../extensions/catalogs/callbacks.c:116
 msgid "Remo_ve from Catalog"
 msgstr "_Poista albumista"
 
-#: ../extensions/catalogs/callbacks.c:118
+#: ../extensions/catalogs/callbacks.c:117
 msgid "Remove selected images from the catalog"
 msgstr "Poista valitut kuvat albumista"
 
-#: ../extensions/catalogs/callbacks.c:122
+#: ../extensions/catalogs/callbacks.c:121
 msgid "Create _Catalog"
 msgstr "Luo _Luettelo"
 
-#: ../extensions/catalogs/callbacks.c:127
+#: ../extensions/catalogs/callbacks.c:126
 msgid "Create _Library"
 msgstr "Luo _Kirjasto"
 
-#: ../extensions/catalogs/callbacks.c:137
+#: ../extensions/catalogs/callbacks.c:136
 msgid "Rena_me"
 msgstr "Nimeä uudelleen"
 
-#: ../extensions/catalogs/callbacks.c:264
-#: ../extensions/catalogs/callbacks.c:267
+#: ../extensions/catalogs/callbacks.c:263
+#: ../extensions/catalogs/callbacks.c:266
 msgid "Command Line"
 msgstr "Komentorivi"
 
-#: ../extensions/catalogs/callbacks.c:482
-#: ../extensions/catalogs/callbacks.c:487
-#: ../extensions/photo_importer/dlg-photo-importer.c:310
-#: ../extensions/photo_importer/dlg-photo-importer.c:352
-#: ../gthumb/gth-file-list.c:42 ../gthumb/gth-folder-tree.c:668
+#: ../extensions/catalogs/callbacks.c:481
+#: ../extensions/catalogs/callbacks.c:486
+#: ../extensions/photo_importer/dlg-photo-importer.c:313
+#: ../extensions/photo_importer/dlg-photo-importer.c:353
+#: ../gthumb/gth-file-list.c:40 ../gthumb/gth-folder-tree.c:874
 msgid "(Empty)"
 msgstr "(Tyhjä)"
 
-#: ../extensions/catalogs/callbacks.c:680
+#: ../extensions/catalogs/callbacks.c:679
 msgid "Catalog Properties"
 msgstr "Luettelon ominaisuudet"
 
-#: ../extensions/catalogs/callbacks.c:692
+#: ../extensions/catalogs/callbacks.c:693
 msgid "Organize"
 msgstr "Järjestele"
 
-#: ../extensions/catalogs/callbacks.c:693
+#: ../extensions/catalogs/callbacks.c:694
 msgid "Automatically organize files by date"
 msgstr "Järjestele tiedostot automaattisesti päivän mukaan"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
-#: ../extensions/catalogs/gth-catalog.c:656
-#: ../extensions/catalogs/gth-catalog.c:705
-#: ../extensions/catalogs/gth-catalog.c:1051
-#: ../extensions/catalogs/gth-catalog.c:1052
+#: ../extensions/catalogs/gth-catalog.c:641
+#: ../extensions/catalogs/gth-catalog.c:690
+#: ../extensions/catalogs/gth-catalog.c:1047
+#: ../extensions/catalogs/gth-catalog.c:1048
 msgid "Catalogs"
 msgstr "Luettelot"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:2
 msgid "Create file collections."
-msgstr "Luo tiedostoille luetteloita."
+msgstr "Luo tiedostoista luetteloita."
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
+msgid "Add to Catalog"
+msgstr "Lisää Luetteloon"
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
 msgid "C_atalogs:"
 msgstr "_Luettelot:"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "New _Library"
 msgstr "Uusi _kirjasto"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "_Uusi Luettelo"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
+#: ../extensions/webalbums/gth-web-exporter.c:1833
 msgid "_View the destination"
 msgstr "_Näytä kohde"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-msgid "gtk-add"
-msgstr "gtk-add"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 msgid "Catalog"
 msgstr "Luettelo"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
-#: ../gthumb/gth-file-properties.c:202
+#: ../gthumb/gth-file-properties.c:199
 msgid "Properties"
 msgstr "Ominaisuudet"
 
@@ -753,8 +738,10 @@ msgid "_Date:"
 msgstr "_Päivämäärä:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
 msgstr "_Nimi:"
@@ -768,7 +755,7 @@ msgid "Organization:"
 msgstr "Järjestely:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:3
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Organize Files"
 msgstr "Järjestele tiedostoja"
 
@@ -785,77 +772,90 @@ msgid "Select None"
 msgstr "Poista valinnat"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:445
+#: ../gthumb/gth-main-default-tests.c:264
+msgid "Date photo was taken"
+msgstr "Kuvanottohetki"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:2
+#: ../gthumb/gth-main-default-tests.c:256
+msgid "File modified date"
+msgstr "Viimeisin muokkauspäivä"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:3
+msgid "Ignore catalogs with a single file"
+msgstr "Älä huomio luetteloita, jossa on vain yksi tiedosto"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
+msgid "Put single files in the catalog:"
+msgstr "Järjestä yksittäiset tiedostot luetteloon:"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
+msgid "Singles"
+msgstr "Yksittäiset"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
+#: ../extensions/comments/main.c:225
+msgid "Tag"
+msgstr "Tunniste"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
+#: ../gthumb/gth-main-default-tests.c:284
+msgid "Tag (embedded)"
+msgstr "Tunniste (upotettu)"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+msgid "_Group files by:"
+msgstr "_Ryhmittelyn peruste:"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
+#: ../extensions/search/data/ui/search-editor.ui.h:2
+msgid "_Include sub-folders"
+msgstr "_Hae alikansioista"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:11
+msgid "tag"
+msgstr "tunniste"
+
+#: ../extensions/catalogs/dlg-add-to-catalog.c:105
+#: ../extensions/catalogs/dlg-add-to-catalog.c:136
+msgid "Could not add the files to the catalog"
+msgstr "Tiedostoja ei voitu lisätä luetteloon"
+
+#: ../extensions/catalogs/dlg-catalog-properties.c:80
+msgid "Could not save the catalog"
+msgstr "Luetteloa ei voitu tallentaa"
+
+#: ../extensions/catalogs/dlg-catalog-properties.c:166
+msgid "Could not load the catalog"
+msgstr "Luetteloa ei voitu avata"
+
+#: ../extensions/catalogs/dlg-organize-files.c:120
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
 "Tiedostot ryhmitellään automaattiset luetteloihin. Tiedostoja ei siirretä "
 "levyllä."
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-msgid "Ignore catalogs with a single file"
-msgstr "Älä huomio luetteloita, jossa on vain yksi tiedosto"
+#: ../extensions/catalogs/gth-catalog.c:1145
+#: ../gthumb/gth-main-default-metadata.c:53
+msgid "Tags"
+msgstr "Tunnisteet"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
-msgid "Put single files in the catalog:"
-msgstr "Järjestä yksittäiset tiedostot luetteloon:"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-msgid "Singles"
-msgstr "Yksittäiset"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
-msgid "_Group files by:"
-msgstr "_Lajittele tiedostot"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
-#: ../extensions/search/data/ui/search-editor.ui.h:2
-msgid "_Include sub-folders"
-msgstr "_Hae alikansioista"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
-msgid "appointment-soon"
-msgstr "appointment-soon"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
-msgid "camera-photo"
-msgstr "camera-photo"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
-#: ../extensions/exiv2_tools/main.c:214
-msgid "date photo was taken"
-msgstr "Kuvaottohetken mukaan"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:11
-msgid "file modified date"
-msgstr "tiedoston muokkausajan mukaan"
-
-#: ../extensions/catalogs/dlg-add-to-catalog.c:102
-#: ../extensions/catalogs/dlg-add-to-catalog.c:133
-msgid "Could not add the files to the catalog"
-msgstr "Tiedostoja ei voitu lisätä luetteloon"
-
-#: ../extensions/catalogs/dlg-catalog-properties.c:81
-msgid "Could not save the catalog"
-msgstr "Luetteloa ei voitu tallentaa"
-
-#: ../extensions/catalogs/dlg-catalog-properties.c:167
-msgid "Could not load the catalog"
-msgstr "Luetteloa ei voitu avata"
-
-#: ../extensions/catalogs/gth-file-source-catalogs.c:792
+#: ../extensions/catalogs/gth-file-source-catalogs.c:790
 #, c-format
 msgid "Copying files to '%s'"
 msgstr "Kopioidaan tiedostoja kansioon '%s'"
 
-#: ../extensions/catalogs/gth-organize-task.c:201
+#: ../extensions/catalogs/gth-organize-task.c:203
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Järjestely suoritettu. Luettelot: %d Kuvat: %d"
 
-#: ../extensions/change_date/callbacks.c:45
+#: ../extensions/change_date/callbacks.c:44
 msgid "Change _Date..."
 msgstr "Muuta _päivämäärää..."
 
-#: ../extensions/change_date/callbacks.c:46
+#: ../extensions/change_date/callbacks.c:45
 msgid "Change images last modified date"
 msgstr "Muuta kuvan viimeistä muokkauspäivää"
 
@@ -924,7 +924,7 @@ msgid "Comments and tags"
 msgstr "Kommentit ja luokitukset"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:304
+#: ../extensions/importer/gth-import-preferences-dialog.c:314
 msgid "Preferences"
 msgstr "Asetukset"
 
@@ -932,47 +932,29 @@ msgstr "Asetukset"
 msgid "_Synchronize with the embedded metadata"
 msgstr "_Päivitä tiedostojen upotettu metadata samaksi"
 
-#: ../extensions/comments/gth-test-category.c:40
-#: ../gthumb/gth-test-simple.c:48
-msgid "is"
-msgstr "on"
-
-#: ../extensions/comments/gth-test-category.c:41
-#: ../gthumb/gth-test-simple.c:49
-msgid "is not"
-msgstr "ei ole"
-
-#: ../extensions/comments/gth-test-category.c:297
-#: ../gthumb/gth-test-simple.c:680 ../gthumb/gth-test-simple.c:706
-#: ../gthumb/gth-test-simple.c:727
-#, c-format
-msgid "The test definition is incomplete"
-msgstr ""
-
-#: ../extensions/comments/main.c:35
+#: ../extensions/comments/main.c:33
+#: ../extensions/edit_metadata/callbacks.c:101
 msgid "Comment"
 msgstr "Kommentti"
 
-#: ../extensions/comments/main.c:195
+#: ../extensions/comments/main.c:209
+#: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
-#: ../gthumb/gth-main-default-metadata.c:53
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+#: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "Kuvaus"
 
-#: ../extensions/comments/main.c:203 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Paikka"
 
-#: ../extensions/comments/main.c:210
-msgid "Tag"
-msgstr "Luokka"
-
-#: ../extensions/convert_format/callbacks.c:46
+#: ../extensions/convert_format/callbacks.c:45
 msgid "Convert Format..."
 msgstr "Muunna tiedostotyyppi..."
 
-#: ../extensions/convert_format/callbacks.c:47
+#: ../extensions/convert_format/callbacks.c:46
 msgid "Convert image format"
 msgstr "Vaihda kuvan tyyppiä"
 
@@ -986,6 +968,7 @@ msgstr "Tallenna kuvat toisessa tiedostomuodossa"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Choose destination folder"
 msgstr "Valitse kohdekansio"
 
@@ -1002,19 +985,24 @@ msgstr "Kohde"
 msgid "New format"
 msgstr "Uusi tyyppi"
 
-#: ../extensions/convert_format/dlg-convert-format.c:92
+#: ../extensions/convert_format/dlg-convert-format.c:91
 msgid "Converting images"
 msgstr "Muunnetaan kuvia"
 
-#: ../extensions/desktop_background/actions.c:54
+#: ../extensions/desktop_background/actions.c:139
 msgid "Could not show the desktop background properties"
 msgstr "Työpöydän taustakuvan ominaisuuksia ei voitu näyttää"
 
-#: ../extensions/desktop_background/callbacks.c:45
+#: ../extensions/desktop_background/actions.c:203
+#: ../extensions/desktop_background/actions.c:221
+msgid "Could not set the desktop background"
+msgstr "Työpöydän taustakuvaa ei voitu asettaa"
+
+#: ../extensions/desktop_background/callbacks.c:49
 msgid "Set as Desktop Background"
 msgstr "Aseta työpöydän taustakuvaksi"
 
-#: ../extensions/desktop_background/callbacks.c:46
+#: ../extensions/desktop_background/callbacks.c:50
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
 msgid "Set the image as desktop background"
 msgstr "Aseta kuva työpöydän taustakuvaksi"
@@ -1023,20 +1011,27 @@ msgstr "Aseta kuva työpöydän taustakuvaksi"
 msgid "Desktop background"
 msgstr "Työpöydän taustakuva"
 
-#: ../extensions/edit_metadata/callbacks.c:90 ../gthumb/dlg-extensions.c:60
-msgid "Metadata"
-msgstr "Metatiedot"
+#: ../extensions/edit_metadata/callbacks.c:98
+msgid "T_ags"
+msgstr "_Tunnisteet"
 
-#: ../extensions/edit_metadata/callbacks.c:91
-msgid "Edit file metadata"
-msgstr "muokkaa metatietoja"
+#: ../extensions/edit_metadata/callbacks.c:102
+#, fuzzy
+msgid "Edit the comment and other information of the selected files"
+msgstr "Muokkaa valittujen tiedostojen kommentteja ja muita tietoja"
+
+#: ../extensions/edit_metadata/callbacks.c:107
+msgid "Choose another tag"
+msgstr "Valitse toinen tunniste"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "D_escription:"
 msgstr "_Kuvaus:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+#: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "_Tunnisteet:"
 
@@ -1056,6 +1051,12 @@ msgstr "_Otsikko:"
 msgid "Could not save the file metadata"
 msgstr "Metatietoja ei voitu tallentaa"
 
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:109
+#: ../extensions/rename_series/actions.c:37
+#: ../gthumb/gth-overwrite-dialog.c:151
+msgid "Cannot read file information"
+msgstr "Tietoja ei voitu lukea"
+
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Allow to edit files metadata."
 msgstr "Mahdollistaa metatietojen muokkauksen."
@@ -1064,40 +1065,69 @@ msgstr "Mahdollistaa metatietojen muokkauksen."
 msgid "Edit metadata"
 msgstr "Muokkaa metatietoja"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:391
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:442
 msgid "No date"
 msgstr "Ei päivämäärää"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:392
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:443
 msgid "The following date"
 msgstr "Aseta käsin"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/importer/gth-import-preferences-dialog.c:317
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:444
+#: ../extensions/importer/gth-import-preferences-dialog.c:328
 msgid "Current date"
 msgstr "Nykyhetki"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:394
-msgid "Date photo was taken"
-msgstr "Kuvanottohetki"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:395
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:446
 msgid "Last modified date"
 msgstr "Viimeisin muokkausaika"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:396
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:447
 msgid "File creation date"
 msgstr "Kuvan luontiaika"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:397
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:448
 msgid "Do not modify"
 msgstr "Älä muuta"
 
-#. Translators: the %s in the string is the file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:148
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:106
+msgid "Save only cha_nged fields"
+msgstr "Tallenna vain muuttuneet kentät"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:162
 #, c-format
 msgid "%s Metadata"
 msgstr "%s:n Metatiedot"
+
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:166
+#: ../extensions/flicker/dlg-import-from-flickr.c:331
+#, fuzzy, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "Muokkaa tiedostoa"
+msgstr[1] "Muokkaa tiedostoa"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:81
+msgid "New tag"
+msgstr "Uusi tunniste"
+
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:223
+msgid "Assign Tags"
+msgstr "Nimeä tunnisteet"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:113
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Assigning tags to the selected files"
+msgstr "Nimeä tunnisteet valitulle tiedostoille"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:113
+msgid "Writing files"
+msgstr "Kirjoitetaan tiedostoja"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:130
+msgid "Reading files"
+msgstr "Luetaan tiedostoja"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1136,7 +1166,11 @@ msgid "_Code:"
 msgstr "Maa_tunnus:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
 msgid "_Destination:"
 msgstr "Ko_hdekansio:"
 
@@ -1149,7 +1183,7 @@ msgid "_Object Name:"
 msgstr "Kohteen _nimi:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Lähde:"
 
@@ -1163,7 +1197,7 @@ msgstr "EXIF, IPTC ja XMP tietojen tuki"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
-msgstr "Näytä and muokkaa exif, iptc and xmp metatietoja."
+msgstr "Näytä ja muokkaa exif-, iptc- ja xmp-metatietoja."
 
 #: ../extensions/exiv2_tools/main.c:33
 msgid "Exif General"
@@ -1209,48 +1243,416 @@ msgstr "XMP - upotettu "
 msgid "XMP Attached"
 msgstr "XMP - liitetty"
 
-#: ../extensions/file_manager/actions.c:43
-msgid "Enter the folder name: "
-msgstr "Kirjoita kansion nimi: "
+#: ../extensions/exiv2_tools/main.c:245
+msgid "date photo was taken"
+msgstr "Kuvaottohetken mukaan"
 
-#: ../extensions/file_manager/actions.c:65
+#: ../extensions/export_tools/callbacks.c:59
+msgid "Share"
+msgstr "Jakaminen"
+
+#: ../extensions/facebook/callbacks.c:54
+msgid "Face_book..."
+msgstr "Face_book..."
+
+#: ../extensions/facebook/callbacks.c:55
+msgid "Upload photos to Facebook"
+msgstr "Lähetä kuvat Facebookiin"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
+msgid "A_lbum:"
+msgstr "A_lbumi:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
+msgid "Add a new album"
+msgstr "Lisää uusi albumi"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "Edit accounts"
+msgstr "Muokkaa käyttäjätunnuksia"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
+msgid "Export to Flickr"
+msgstr "Vie Flickiin"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
+msgid "_Account:"
+msgstr "_Tunnus:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "_Upload"
+msgstr "_Lähetä"
+
+#: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
+#: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
+msgid "A_ccount:"
+msgstr "_Tunnus:"
+
+#: ../extensions/facebook/data/ui/facebook-account-manager.ui.h:1
+#: ../extensions/flicker/data/ui/flicker-account-manager.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "_Käyttäjätunnukset:"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
+msgid "Private"
+msgstr "Yksityinen"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
+msgid "Private photos, visible to friends"
+msgstr "Yksityisiä kuvia, näytetään kavereille"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+msgid "Public photos"
+msgstr "Julkisia kuvia"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
+msgid "_Location:"
+msgstr "_Sijainti:"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
+msgid "_Visibility:"
+msgstr "_Näkyvyys:"
+
+#: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
+#: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
+msgid "_Authorize..."
+msgstr "_Valtuuta..."
+
+#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
+#: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "J_atka"
+
+#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
+#: ../extensions/facebook/facebook-authentication.c:495
+#: ../extensions/flicker/flickr-authentication.c:434
+#: ../extensions/oauth/oauth-authentication.c:446
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "Paina alla olevaa 'Jatka'-painiketta, kun olet valmis."
+
+#: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:1
+msgid "Files successfully uploaded to the server."
+msgstr "Kuvat lähetetty onnistuneesti palvelimelle."
+
+#: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:2
+#: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
+#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
+#: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
+#: ../extensions/webalbums/gth-web-exporter.c:1832
+msgid "_Open in the Browser"
+msgstr "_Avaa selaimessa"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:121
+#: ../extensions/facebook/dlg-export-to-facebook.c:308
+#: ../extensions/facebook/facebook-authentication.c:219
+#: ../extensions/flicker/dlg-export-to-flickr.c:137
+#: ../extensions/flicker/dlg-export-to-flickr.c:391
+#: ../extensions/flicker/dlg-import-from-flickr.c:234
+#: ../extensions/flicker/flickr-authentication.c:218
+#: ../extensions/oauth/oauth-authentication.c:214
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:131
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:370
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:139
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:410
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:357
+msgid "Could not connect to the server"
+msgstr "Palvelimeen ei saatu yhteyttä"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:168
+#: ../extensions/flicker/dlg-export-to-flickr.c:238
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:177
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:187
+msgid "Could not upload the files"
+msgstr "Tiedostoja ei voitu lähettää"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:384
+#: ../extensions/flicker/dlg-export-to-flickr.c:182
+#: ../extensions/flicker/dlg-export-to-flickr.c:216
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:455
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:694
+msgid "Could not create the album"
+msgstr "Albumin luominen ei onnistunut"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:448
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:522
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:755
+msgid "New Album"
+msgstr "Uusi albumi"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:527
+#: ../extensions/flicker/dlg-export-to-flickr.c:517
+#: ../extensions/image_print/gth-image-print-job.c:1542
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:602
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:966
+msgid "No valid file selected."
+msgstr "Yhtään sopivaa tiedostoa ei ole valittu"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:528
+#: ../extensions/flicker/dlg-export-to-flickr.c:518
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:603
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:967
+msgid "Could not export the files"
+msgstr "Tiedostojen vienti ei onistunut"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:535
+#: ../extensions/flicker/dlg-export-to-flickr.c:525
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:610
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:973
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:763
+#: ../gthumb/gth-browser.c:938 ../gthumb/gth-browser.c:939
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d tiedosto (%s)"
+msgstr[1] "%d tiedostoa (%s)"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:556
+#: ../extensions/flicker/dlg-export-to-flickr.c:547
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:629
+#, fuzzy, c-format
+msgid "Export to %s"
+msgstr "_Vie"
+
+#: ../extensions/facebook/facebook-account-chooser-dialog.c:230
+#: ../extensions/flicker/flickr-account-chooser-dialog.c:230
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:230
+msgid "New authentication..."
+msgstr "Uusi valtuutus..."
+
+#: ../extensions/facebook/facebook-authentication.c:221
+#: ../extensions/flicker/flickr-authentication.c:220
+#: ../extensions/oauth/oauth-authentication.c:216
+msgid "Choose _Account..."
+msgstr "Valitse _käyttäjätunnus..."
+
+#: ../extensions/facebook/facebook-authentication.c:494
+#: ../extensions/flicker/flickr-authentication.c:433
+#: ../extensions/oauth/oauth-authentication.c:445
+#, c-format
+msgid ""
+"Return to this window when you have finished the authorization process on %s"
+msgstr ""
+
+#: ../extensions/facebook/facebook-authentication.c:575
+#: ../extensions/flicker/flickr-authentication.c:509
+#: ../extensions/oauth/oauth-authentication.c:521
+#, c-format
+msgid "gthumb requires your authorization to upload the photos to %s"
+msgstr ""
+
+#: ../extensions/facebook/facebook-authentication.c:576
+#: ../extensions/flicker/flickr-authentication.c:510
+#: ../extensions/oauth/oauth-authentication.c:522
+#, c-format
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to %s. When you're finished, return to this window to complete the "
+"authorization."
+msgstr ""
+
+#: ../extensions/facebook/facebook-authentication.c:663
+#: ../extensions/flicker/flickr-authentication.c:602
+#: ../extensions/oauth/oauth-authentication.c:616
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:788
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:648
+msgid "Choose Account"
+msgstr "Valitse käyttäjätunnus"
+
+#: ../extensions/facebook/facebook-authentication.c:768
+#: ../extensions/flicker/flickr-authentication.c:707
+#: ../extensions/oauth/oauth-authentication.c:721
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:845
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:705
+msgid "Edit Accounts"
+msgstr "Muokkaa käyttäjätunnuksia"
+
+#: ../extensions/facebook/facebook-connection.c:294
+#: ../extensions/facebook/facebook-connection.c:452
+#: ../extensions/facebook/facebook-service.c:188
+#: ../extensions/facebook/facebook-service.c:291
+#: ../extensions/facebook/facebook-service.c:494
+#: ../extensions/flicker/flickr-connection.c:290
+#: ../extensions/flicker/flickr-connection.c:441
+#: ../extensions/flicker/flickr-service.c:220
+#: ../extensions/flicker/flickr-service.c:423
+#: ../extensions/photobucket/photobucket-consumer.c:74
+#: ../extensions/photobucket/photobucket-consumer.c:79
+#: ../extensions/photobucket/photobucket-consumer.c:115
+#: ../extensions/photobucket/photobucket-consumer.c:170
+msgid "Unknown error"
+msgstr "Tuntematon virhe"
+
+#: ../extensions/facebook/facebook-connection.c:329
+#: ../extensions/facebook/facebook-connection.c:478
+#: ../extensions/facebook/facebook-service.c:214
+#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/flicker/flickr-connection.c:316
+#: ../extensions/flicker/flickr-connection.c:467
+#: ../extensions/flicker/flickr-service.c:244
+#: ../extensions/oauth/oauth-connection.c:375
+#: ../extensions/oauth/oauth-connection.c:450
+#: ../extensions/oauth/oauth-connection.c:554
+#: ../extensions/picasaweb/google-connection.c:363
+msgid "Connecting to the server"
+msgstr "Yhdistetään palvelimeen"
+
+#: ../extensions/facebook/facebook.extension.in.in.h:1
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../extensions/facebook/facebook.extension.in.in.h:2
+msgid "Upload images to Facebook"
+msgstr "Lähetä kuvia Facebookiin"
+
+#: ../extensions/facebook/facebook-service.c:214
+#: ../extensions/facebook/facebook-service.c:316
+#: ../extensions/flicker/flickr-service.c:244
+#: ../extensions/oauth/oauth-connection.c:375
+#: ../extensions/oauth/oauth-connection.c:450
+#: ../extensions/oauth/oauth-connection.c:554
+msgid "Getting account information"
+msgstr "Haetaan käyttäjätietoja"
+
+#: ../extensions/facebook/facebook-service.c:422
+#: ../extensions/flicker/flickr-service.c:348
+#: ../extensions/photobucket/photobucket-service.c:235
+#: ../extensions/picasaweb/picasa-web-service.c:237
+msgid "Getting the album list"
+msgstr "Haetaan albumilistaa"
+
+#: ../extensions/facebook/facebook-service.c:551
+#: ../extensions/flicker/flickr-service.c:451
+#: ../extensions/flicker/flickr-service.c:571
+#: ../extensions/flicker/flickr-service.c:609
+#: ../extensions/photobucket/photobucket-service.c:344
+#: ../extensions/picasaweb/picasa-web-service.c:328
+msgid "Creating the new album"
+msgstr "Luodaan uutta albumia"
+
+#: ../extensions/facebook/facebook-service.c:610
+#: ../extensions/flicker/flickr-service.c:659
+#: ../extensions/photobucket/photobucket-service.c:401
+#: ../extensions/picasaweb/picasa-web-service.c:385
+#, fuzzy, c-format
+msgid "Could not upload '%s': %s"
+msgstr "Objektien siirto ei onnistunut:"
+
+#. Translators: %s is a filename
+#. send the file
+#. Translators: %s is a filename
+#: ../extensions/facebook/facebook-service.c:810
+#: ../extensions/flicker/flickr-service.c:837
+#: ../extensions/photobucket/photobucket-service.c:524
+#: ../extensions/picasaweb/picasa-web-service.c:520
+#, c-format
+msgid "Uploading '%s'"
+msgstr "Lähetetään '%s'"
+
+#: ../extensions/facebook/facebook-service.c:886
+#: ../extensions/flicker/flickr-service.c:915
+#: ../extensions/photobucket/photobucket-service.c:605
+#: ../extensions/picasaweb/picasa-web-service.c:594
+msgid "Uploading the files to the server"
+msgstr "Lähetetään tiedostoja palvelimelle"
+
+#: ../extensions/facebook/facebook-service.c:1002
+#: ../extensions/flicker/flickr-service.c:1031
+#: ../extensions/picasaweb/picasa-web-service.c:715
+msgid "Getting the photo list"
+msgstr "Haetaan listaa kuvista"
+
+#: ../extensions/file_manager/actions.c:41
+msgid "Enter the folder name: "
+msgstr "Syätä kansion nimi: "
+
+#: ../extensions/file_manager/actions.c:69
 msgid "Could not create the folder"
 msgstr "Kansion luonti ei onnistunut"
 
-#: ../extensions/file_manager/actions.c:302
-#: ../extensions/file_manager/callbacks.c:299
+#: ../extensions/file_manager/actions.c:328
+#: ../extensions/file_manager/callbacks.c:315
+#: ../extensions/file_manager/callbacks.c:719
 msgid "Could not move the files"
-msgstr "Objektien siirto ei onnistunut"
+msgstr "Tiedostojen siirto ei onnistunut"
 
-#: ../extensions/file_manager/actions.c:303
-#: ../extensions/file_manager/callbacks.c:300
+#: ../extensions/file_manager/actions.c:329
+#: ../extensions/file_manager/callbacks.c:316
+#: ../extensions/file_manager/callbacks.c:720
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
+"Tiedostojen siirto tähän sijaintiin ei onnistunut. Voit kokeilla tiedostojen "
+"kopioimista siirtämisen sijaan."
 
-#: ../extensions/file_manager/actions.c:390
-#: ../extensions/importer/gth-import-task.c:383
+#: ../extensions/file_manager/actions.c:421
+#: ../extensions/importer/gth-import-task.c:533
 msgid "Could not delete the files"
 msgstr "Tiedostoja ei voitu poistaa"
 
-#: ../extensions/file_manager/actions.c:438
+#: ../extensions/file_manager/actions.c:464
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Tiedostoja ei voida siirtää roskakoriin. Poistetaanko ne pysyvästi?"
 
-#: ../extensions/file_manager/actions.c:449
+#: ../extensions/file_manager/actions.c:475
 msgid "Could not move the files to the Trash"
 msgstr "Tiedostoja ei voitu siirtää roskakoriin."
 
-#: ../extensions/file_manager/actions.c:485
-#: ../extensions/file_manager/actions.c:778
+#: ../extensions/file_manager/actions.c:524
+#, c-format
+msgid "Are you sure you want to move \"%s\" to trash?"
+msgstr "Haluatko varmasti siirtää tiedoston \"%s\" roskakoriin?"
+
+#: ../extensions/file_manager/actions.c:527
+#, fuzzy, c-format
+msgid "Are you sure you want to move to trash the %'d selected file?"
+msgid_plural "Are you sure you want to move to trash the %'d selected files?"
+msgstr[0] "Haluatko varmasti poistaa %'d valittun tiedoston?"
+msgstr[1] "Haluatko varmasti poistaa %'d valittua tiedostoa?"
+
+#: ../extensions/file_manager/actions.c:539
+#: ../extensions/file_manager/callbacks.c:168
+#: ../extensions/file_manager/callbacks.c:200
+msgid "Mo_ve to Trash"
+msgstr "Siirrä _roskakoriin"
+
+#: ../extensions/file_manager/actions.c:571
+#: ../extensions/file_manager/actions.c:862
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Haluatko varmasti poistaa tiedoston \"%s\"?"
 
-#: ../extensions/file_manager/actions.c:488
+#: ../extensions/file_manager/actions.c:574
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -1258,87 +1660,82 @@ msgid_plural ""
 msgstr[0] "Haluatko varmasti poistaa %'d valittun tiedoston?"
 msgstr[1] "Haluatko varmasti poistaa %'d valittua tiedostoa?"
 
-#: ../extensions/file_manager/actions.c:498
-#: ../extensions/file_manager/actions.c:788
+#: ../extensions/file_manager/actions.c:584
+#: ../extensions/file_manager/actions.c:872
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Jos poistat tiedoston, se katoaa pysyvästi."
 
-#: ../extensions/file_manager/actions.c:528
+#: ../extensions/file_manager/actions.c:614
 msgid "Could not open the location"
 msgstr "Sijaintia ei voitu avata"
 
-#: ../extensions/file_manager/actions.c:662
+#: ../extensions/file_manager/actions.c:746
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr "Kansio ei ole tyhjä. Poistetaanko ja sen sisältö pysyvästi?"
 
-#: ../extensions/file_manager/actions.c:678
+#: ../extensions/file_manager/actions.c:762
 msgid "Could not delete the folder"
 msgstr "Kansion poistaminen ei onnistunut"
 
-#: ../extensions/file_manager/actions.c:737
+#: ../extensions/file_manager/actions.c:821
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr "Kansiota ei voida siirtää roskakoriin. Poistetaanko se pysyvästi?"
 
-#: ../extensions/file_manager/actions.c:744
+#: ../extensions/file_manager/actions.c:828
 msgid "Could not move the folder to the Trash"
 msgstr "Kansion siirtäminen roskakoriin ei onnistunut"
 
-#: ../extensions/file_manager/callbacks.c:149
-#: ../extensions/file_manager/callbacks.c:181
+#: ../extensions/file_manager/callbacks.c:148
+#: ../extensions/file_manager/callbacks.c:180
 msgid "Create _Folder"
 msgstr "Luo _kansio"
 
-#: ../extensions/file_manager/callbacks.c:150
-#: ../extensions/file_manager/callbacks.c:182
+#: ../extensions/file_manager/callbacks.c:149
+#: ../extensions/file_manager/callbacks.c:181
 msgid "Create a new empty folder inside this folder"
 msgstr "Luo uusi uusi kansio tämän kansion sisään"
 
-#: ../extensions/file_manager/callbacks.c:165
+#: ../extensions/file_manager/callbacks.c:164
 msgid "D_uplicate"
 msgstr "_Monista"
 
-#: ../extensions/file_manager/callbacks.c:166
+#: ../extensions/file_manager/callbacks.c:165
 msgid "Duplicate the selected files"
 msgstr "Monista valitut kuvat"
 
 #: ../extensions/file_manager/callbacks.c:169
-#: ../extensions/file_manager/callbacks.c:201
-msgid "Mo_ve to Trash"
-msgstr "Siirrä _roskakoriin"
-
-#: ../extensions/file_manager/callbacks.c:170
 msgid "Move the selected files to the Trash"
 msgstr "Siirrä valitut kuvat roskakoriin"
 
-#: ../extensions/file_manager/callbacks.c:173
-#: ../extensions/file_manager/callbacks.c:205
+#: ../extensions/file_manager/callbacks.c:172
+#: ../extensions/file_manager/callbacks.c:204
 msgid "_Delete"
 msgstr "_Poista"
 
-#: ../extensions/file_manager/callbacks.c:174
+#: ../extensions/file_manager/callbacks.c:173
 msgid "Delete the selected files"
 msgstr "Poista valitut tiedostot"
 
-#: ../extensions/file_manager/callbacks.c:177
+#: ../extensions/file_manager/callbacks.c:176
 msgid "Open with the _File Manager"
 msgstr "Avaa _tiedostonhallinnassa"
 
-#: ../extensions/file_manager/callbacks.c:185
-#: ../extensions/rename_series/callbacks.c:48
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:31
+#: ../extensions/file_manager/callbacks.c:184
+#: ../extensions/rename_series/callbacks.c:47
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "_Rename"
 msgstr "_Nimeä uudelleen"
 
-#: ../extensions/file_manager/callbacks.c:197
+#: ../extensions/file_manager/callbacks.c:196
 msgid "_Paste Into Folder"
 msgstr "L_iitä tiedostoja kansioon"
 
-#: ../extensions/file_manager/callbacks.c:796 ../gthumb/gth-browser.c:3924
-#: ../gthumb/gth-browser.c:3962
+#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4631
+#: ../gthumb/gth-browser.c:4669
 msgid "Could not perform the operation"
 msgstr "Toimintoa ei voitu suorittaa"
 
@@ -1350,7 +1747,7 @@ msgstr "Tiedostohallinta"
 msgid "File manager operations."
 msgstr "Tiedostohallinnan työkalut"
 
-#: ../extensions/file_manager/gth-delete-task.c:63
+#: ../extensions/file_manager/gth-delete-task.c:62
 msgid "Deleting files"
 msgstr "Poistetaan tiedost"
 
@@ -1390,43 +1787,47 @@ msgstr "_Kylläisyys:"
 msgid "_Yellow-Blue:"
 msgstr "_Keltainen-Sininen:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#. this is used to separate the dimensions, for example: 120 &#xD7; 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+msgid "&#xD7;"
+msgstr "&#xD7;"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 msgid "Aspect ratio"
 msgstr "Kuvasuhde"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 msgid "C_rop"
 msgstr "_Rajaa"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
-msgid "Heigh_t:"
-msgstr "_Korkeus:"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "_Käännä sivusuhde"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#. after the colon there is a control to select the size in pixels
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+msgid "M_ultiple of:"
+msgstr "Moninkerta:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Valinta"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
-msgid "_Width:"
-msgstr "_Leveys:"
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+msgid "_Grid:"
+msgstr "_Apuviivat:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
-msgid "_X:"
-msgstr "_X:"
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
+msgid "_Position:"
+msgstr "_Sijainti:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
-msgid "_Y:"
-msgstr "_Y:"
+#. abbreviation of pixel
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
+msgid "px"
+msgstr "pistettä"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:2
@@ -1434,24 +1835,45 @@ msgstr "_Y:"
 msgid "%"
 msgstr "%"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
-#: ../gthumb/gth-main-default-metadata.c:48
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:4
+#: ../gthumb/gth-main-default-metadata.c:47
 msgid "Dimensions"
 msgstr "Mitat"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:5
+msgid "Heigh_t:"
+msgstr "_Korkeus:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 msgid "High _quality"
 msgstr "Korkea_laatuinen"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+msgid "Information"
+msgstr "Tiedot"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+msgid "New dimensions:"
+msgstr "Uudet mitat:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Options"
 msgstr "Asetukset"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
-msgid "_Preserve original aspect ratio"
-msgstr "_Säilytä alkuperäinen kuvasuhde"
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "Original dimensions:"
+msgstr "Alkuperäiset mitat:"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:12
+msgid "Scale factor:"
+msgstr "_Skaalaus:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
+msgid "_Width:"
+msgstr "_Leveys:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "pixels"
 msgstr "kuvapistettä"
@@ -1464,160 +1886,290 @@ msgstr "Perustyökalut kuvien muokkaukseen"
 msgid "Image tools"
 msgstr "Kuvatyökalut"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:311
-#: ../extensions/file_tools/gth-file-tool-negative.c:84
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:310
+#: ../extensions/file_tools/gth-file-tool-negative.c:83
 msgid "Applying changes"
 msgstr "Toteutetaan muutokset"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:521
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
 msgid "Adjust Colors..."
 msgstr "Säädä värejä..."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:521
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
 msgid "Adjust Colors"
 msgstr "Säädä värejä"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:522
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:521
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Säädä kirkkaus-, kontrasti-, kylläisyys- ja gammatasoja"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:347
+#: ../extensions/file_tools/gth-file-tool-crop.c:399
+#: ../extensions/file_tools/gth-file-tool-resize.c:422
 msgid "Square"
 msgstr "Neliö"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:348
+#: ../extensions/file_tools/gth-file-tool-crop.c:400
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Kuva)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:351
+#: ../extensions/file_tools/gth-file-tool-crop.c:403
+#: ../extensions/file_tools/gth-file-tool-resize.c:426
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (näyttö)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:355
-msgid "4 x 3 (Book, DVD)"
-msgstr "4 × 3 (Kirjat, DVD)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:407
+#: ../extensions/file_tools/gth-file-tool-resize.c:430
+msgid "5:4"
+msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:356
-msgid "4 x 6 (Postcard)"
-msgstr "4 × 6 (Postikortti)"
+#: ../extensions/file_tools/gth-file-tool-crop.c:408
+#: ../extensions/file_tools/gth-file-tool-resize.c:431
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, Kirja)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:357
-msgid "5 x 7"
-msgstr "5 × 7"
+#: ../extensions/file_tools/gth-file-tool-crop.c:409
+#: ../extensions/file_tools/gth-file-tool-resize.c:432
+msgid "7:5"
+msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:358
-msgid "8 x 10"
-msgstr "8 × 10"
+#: ../extensions/file_tools/gth-file-tool-crop.c:410
+#: ../extensions/file_tools/gth-file-tool-resize.c:433
+msgid "3:2 (Postcard)"
+msgstr "3:2 (Postikortti)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:359
+#: ../extensions/file_tools/gth-file-tool-crop.c:411
+#: ../extensions/file_tools/gth-file-tool-resize.c:434
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:412
+#: ../extensions/file_tools/gth-file-tool-resize.c:435
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:413
+#: ../extensions/file_tools/gth-file-tool-resize.c:436
+msgid "1.85:1"
+msgstr "1.85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:414
+#: ../extensions/file_tools/gth-file-tool-resize.c:437
+msgid "2.39:1"
+msgstr "2.39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:415
+#: ../extensions/file_tools/gth-file-tool-resize.c:438
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 msgid "Custom"
-msgstr "Oma"
+msgstr "Mukautettu"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:425
+msgid "Rule of Thirds"
+msgstr "Kolmannesten sääntö"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:425
+msgid "Golden Sections"
+msgstr "Kultainen leikkaus"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:553
 msgid "Crop..."
 msgstr "Rajaa..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-crop.c:553
 msgid "Crop"
 msgstr "Rajaa"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:101
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:100
 msgid "Desaturating image"
 msgstr "Poistetaan kylläisyyttä"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:119
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:118
 msgid "Desaturate"
 msgstr "Poista kylläisyys"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:249
+#: ../extensions/file_tools/gth-file-tool-enhance.c:248
 msgid "White balance correction"
 msgstr "Valkotasapainon korjaus"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:281
+#: ../extensions/file_tools/gth-file-tool-enhance.c:280
 msgid "Enhance Colors"
 msgstr "Paranna värejä"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:282
+#: ../extensions/file_tools/gth-file-tool-enhance.c:281
 msgid "Automatic white balance correction"
 msgstr "Automaattinen valkotasapainon säätö"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:169
+#: ../extensions/file_tools/gth-file-tool-equalize.c:168
 msgid "Equalizing image histogram"
 msgstr "Ekvalisoidaan kuvan histogrammi"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:201
+#: ../extensions/file_tools/gth-file-tool-equalize.c:200
 msgid "Equalize"
 msgstr "Ekvalisoi"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:202
+#: ../extensions/file_tools/gth-file-tool-equalize.c:201
 msgid "Equalize image histogram"
 msgstr "Ekvalisoi kuvan histogrammi"
 
-#: ../extensions/file_tools/gth-file-tool-flip.c:74
+#: ../extensions/file_tools/gth-file-tool-flip.c:73
 msgid "Flip"
 msgstr "Pyöräytä"
 
-#: ../extensions/file_tools/gth-file-tool-mirror.c:74
+#: ../extensions/file_tools/gth-file-tool-mirror.c:73
 msgid "Mirror"
 msgstr "Peilaa"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:101
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
 msgid "Negative"
 msgstr "Negatiivi"
 
-#: ../extensions/file_tools/gth-file-tool-redo.c:63
+#: ../extensions/file_tools/gth-file-tool-redo.c:62
 msgid "Redo"
 msgstr "Tee uudestaan"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:549
 msgid "Resize..."
 msgstr "Muuta kokoa..."
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:348
+#: ../extensions/file_tools/gth-file-tool-resize.c:549
 msgid "Resize"
 msgstr "Muuta kokoa"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-left.c:74
-#: ../extensions/image_rotation/callbacks.c:52
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:73
+#: ../extensions/image_rotation/callbacks.c:54
 msgid "Rotate Left"
 msgstr "Kierrä vasemmalle"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-right.c:74
-#: ../extensions/image_rotation/callbacks.c:47
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:73
+#: ../extensions/image_rotation/callbacks.c:49
 msgid "Rotate Right"
 msgstr "Kierrä oikealle"
 
-#: ../extensions/file_tools/gth-file-tool-save-as.c:57
+#: ../extensions/file_tools/gth-file-tool-save-as.c:56
 msgid "Save As"
 msgstr "Tallenna nimellä..."
 
-#: ../extensions/file_tools/gth-file-tool-save.c:53
+#: ../extensions/file_tools/gth-file-tool-save.c:52
 msgid "Save"
 msgstr "Tallenna"
 
-#: ../extensions/file_tools/gth-file-tool-undo.c:62
+#: ../extensions/file_tools/gth-file-tool-undo.c:61
 msgid "Undo"
 msgstr "Peru"
 
-#: ../extensions/gstreamer_tools/actions.c:65
-#: ../extensions/image_viewer/gth-image-viewer-page.c:729
-#: ../gthumb/gth-browser.c:1748
+#: ../extensions/flicker/callbacks.c:59 ../extensions/flicker/callbacks.c:63
+msgid "_Flickr..."
+msgstr "_Flickr..."
+
+#: ../extensions/flicker/callbacks.c:60
+msgid "Download photos from Flickr"
+msgstr "Lataa kuvia Flickeristä"
+
+#: ../extensions/flicker/callbacks.c:64
+msgid "Upload photos to Flickr"
+msgstr "Lataa kuvia Flickeriin"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+msgid "Free space:"
+msgstr "Vapa tila:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:3
+msgid "Hi_de from public searches"
+msgstr "_Piilota julkisista hakutuloksista"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+msgid "Moderate content"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:3
+msgid "Ph_otoset:"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+msgid "Private photos"
+msgstr "Yksityisiä kuvia"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
+msgid "Private photos, visible to family"
+msgstr "Yksityisiä kuvia, näytetään perheelle"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:8
+msgid "Private photos, visible to family and friends"
+msgstr "Yksityisiä kuvia, näytetään perheelle ja kavereille"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+msgid "Restricted content"
+msgstr ""
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
+#, fuzzy
+msgid "Safe content"
+msgstr "Kuvan kommentti"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
+msgid "_Privacy:"
+msgstr "_Yksityisyys:"
+
+#: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
+#, fuzzy
+msgid "_Safety:"
+msgstr "_Koko:"
+
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:5
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+msgid "_Import"
+msgstr "_Tuo"
+
+#: ../extensions/flicker/dlg-import-from-flickr.c:356
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:790
+#, fuzzy
+msgid "Could not get the photo list"
+msgstr "Valokuvien tuonti ei onnistunut"
+
+#: ../extensions/flicker/dlg-import-from-flickr.c:404
+#: ../extensions/flicker/dlg-import-from-flickr.c:567
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:823
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:982
+msgid "No album selected"
+msgstr "Ei albumia valittuna"
+
+#: ../extensions/flicker/dlg-import-from-flickr.c:585
+#, c-format
+msgid "Import from %s"
+msgstr "_Tuo sijainnista %s"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+#, fuzzy
+msgid "Flicker"
+msgstr "Suodatin"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+msgid "Upload images to Flickr"
+msgstr "Lataa kuvia Flickeriin"
+
+#: ../extensions/gstreamer_tools/actions.c:64
+#: ../extensions/image_viewer/gth-image-viewer-page.c:782
+#: ../gthumb/gth-browser.c:1890
 msgid "Could not save the file"
 msgstr "Kuvaa ei voitu tallentaa"
 
-#: ../extensions/gstreamer_tools/actions.c:125
+#: ../extensions/gstreamer_tools/actions.c:124
 msgid "Could not take a screenshot"
 msgstr "Kuvakaappausta ei voitu ottaa"
 
-#: ../extensions/gstreamer_tools/actions.c:131
-#: ../extensions/image_viewer/gth-image-viewer-page.c:873
+#: ../extensions/gstreamer_tools/actions.c:130
+#: ../extensions/image_viewer/gth-image-viewer-page.c:926
 msgid "Save Image"
 msgstr "Tallenna kuva"
 
-#: ../extensions/gstreamer_tools/actions.c:151
+#: ../extensions/gstreamer_tools/actions.c:150
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Kuvakaappaus"
@@ -1641,7 +2193,7 @@ msgid "Faster"
 msgstr "Nopeuta"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:517
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:623
 msgid "Play"
 msgstr "Toista"
 
@@ -1669,81 +2221,95 @@ msgstr "Ääni- ja videotiedostojen tuki"
 msgid "Play audio and video files."
 msgstr "Soita ääni- ja videotiedostoja"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:89
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:91
 msgid "Screenshot"
 msgstr "Kuvakaappaus"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:90
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:92
 msgid "Take a screenshot"
 msgstr "Ota kuvakaappaus"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:509
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:613
 msgid "Pause"
 msgstr "Pysäytä"
 
-#: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:155
+#: ../extensions/gstreamer_tools/main.c:31
+#: ../gthumb/gth-main-default-tests.c:211
 msgid "Video"
 msgstr "Video"
 
-#: ../extensions/gstreamer_tools/main.c:33
-#: ../gthumb/gth-main-default-tests.c:162
+#: ../extensions/gstreamer_tools/main.c:32
+#: ../gthumb/gth-main-default-tests.c:218
 msgid "Audio"
 msgstr "Ääni"
 
-#: ../extensions/gstreamer_tools/main.c:40
+#: ../extensions/gstreamer_tools/main.c:39
 msgid "Artist"
 msgstr "Esittäjä"
 
-#: ../extensions/gstreamer_tools/main.c:41
+#: ../extensions/gstreamer_tools/main.c:40
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 msgid "Album"
 msgstr "Albumi"
 
-#: ../extensions/gstreamer_tools/main.c:42
+#: ../extensions/gstreamer_tools/main.c:41
 msgid "Bitrate"
 msgstr "Bittinopeus"
 
-#: ../extensions/gstreamer_tools/main.c:43
+#: ../extensions/gstreamer_tools/main.c:42
 msgid "Encoder"
 msgstr "Enkooderi"
 
-#: ../extensions/gstreamer_tools/main.c:45
-#: ../extensions/gstreamer_tools/main.c:50
+#: ../extensions/gstreamer_tools/main.c:44
+#: ../extensions/gstreamer_tools/main.c:49
 msgid "Codec"
 msgstr "Koodekki"
 
-#: ../extensions/gstreamer_tools/main.c:46
+#: ../extensions/gstreamer_tools/main.c:45
 msgid "Framerate"
 msgstr "Kuvanopeus"
 
-#: ../extensions/gstreamer_tools/main.c:47
+#: ../extensions/gstreamer_tools/main.c:46
 #: ../extensions/image_print/data/ui/print-layout.ui.h:15
 #: ../extensions/image_viewer/gth-image-viewer-page.c:190
 msgid "Width"
 msgstr "Leveys"
 
-#: ../extensions/gstreamer_tools/main.c:48
+#: ../extensions/gstreamer_tools/main.c:47
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
 msgid "Height"
 msgstr "Korkeus"
 
-#: ../extensions/gstreamer_tools/main.c:51
+#: ../extensions/gstreamer_tools/main.c:50
 msgid "Channels"
 msgstr "Kanavat"
 
-#: ../extensions/gstreamer_tools/main.c:52
+#: ../extensions/gstreamer_tools/main.c:51
 msgid "Sample rate"
 msgstr "näytteenottotaajuus"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:361
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:363
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:361
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:363
 msgid "Mono"
 msgstr "Mono"
 
-#: ../extensions/image_print/callbacks.c:50
+#. Translators: this is an image size, such as 1024 × 768
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:396
+#: ../extensions/image_viewer/gth-image-viewer-page.c:978
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:74
+#: ../extensions/webalbums/dlg-web-exporter.c:408
+#, c-format
+msgid "%d × %d"
+msgstr "%d × %d"
+
+#: ../extensions/image_print/actions.c:67
+msgid "Could not print the selected files"
+msgstr "Valittuja kuvia ei voitu tulostaa"
+
+#: ../extensions/image_print/callbacks.c:54
 msgid "Print the selected images"
 msgstr "Tulosta valitut kuvat"
 
@@ -1756,6 +2322,7 @@ msgid "Image"
 msgstr "Kuva"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
 msgid "Images per page:"
 msgstr "Kuvia sivulla:"
 
@@ -1799,28 +2366,30 @@ msgstr "tuumaa"
 msgid "millimeters"
 msgstr "millimetriä"
 
-#: ../extensions/image_print/gth-image-print-job.c:815
+#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Sivu %d / %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1490
-#: ../extensions/image_print/gth-image-print-job.c:1570
-#: ../extensions/image_print/gth-image-print-job.c:1591
+#: ../extensions/image_print/gth-image-print-job.c:1491
+#: ../extensions/image_print/gth-image-print-job.c:1593
+#: ../extensions/image_print/gth-image-print-job.c:1614
 msgid "Could not print"
 msgstr "Valokuvien tulostus ei onnistunut"
 
-#: ../extensions/image_print/gth-image-print-job.c:1526
+#: ../extensions/image_print/gth-image-print-job.c:1549
 msgid "Layout"
 msgstr "Asettelu"
 
 #. translators: %s is a filename
-#: ../extensions/image_print/gth-load-image-info-task.c:137
+#: ../extensions/image_print/gth-load-image-info-task.c:145
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Ladataan \"%s\""
 
-#: ../extensions/image_print/gth-load-image-info-task.c:139
+#: ../extensions/image_print/gth-load-image-info-task.c:147
+#: ../extensions/webalbums/gth-web-exporter.c:2726
 msgid "Loading images"
 msgstr "Ladataan kuvia"
 
@@ -1832,13 +2401,29 @@ msgstr "Monipuolinen kuvien tulostus halutulla sivuasettelulla."
 msgid "Image print"
 msgstr "Kuvan tulostus"
 
-#: ../extensions/image_rotation/callbacks.c:48
+#: ../extensions/image_rotation/callbacks.c:50
 msgid "Rotate the selected images 90° to the right"
 msgstr "Käännä valittuja kuvia 90° oikealle"
 
-#: ../extensions/image_rotation/callbacks.c:53
+#: ../extensions/image_rotation/callbacks.c:55
 msgid "Rotate the selected images 90° to the left"
 msgstr "Käännä valittuja kuvia 90° vasemmalle"
+
+#: ../extensions/image_rotation/callbacks.c:59
+msgid "Rotate Physically"
+msgstr "Kierrä fyysisesti"
+
+#: ../extensions/image_rotation/callbacks.c:60
+msgid "Rotate the selected images according to the embedded orientation"
+msgstr ""
+
+#: ../extensions/image_rotation/callbacks.c:64
+msgid "Reset the EXIF Orientation"
+msgstr "Palauta EXIF-asento"
+
+#: ../extensions/image_rotation/callbacks.c:65
+msgid "Reset the embedded orientation without rotating the images"
+msgstr ""
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
 msgid "Image rotation"
@@ -1848,12 +2433,12 @@ msgstr "Kuvan kääntö"
 msgid "Rotate images without data loss."
 msgstr "Kierrä kuvia kuvanlaatua heikentämättä"
 
-#: ../extensions/image_rotation/rotation-utils.c:117
+#: ../extensions/image_rotation/rotation-utils.c:118
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Ongelma muunnettaessa kuvaa: %s"
 
-#: ../extensions/image_rotation/rotation-utils.c:122
+#: ../extensions/image_rotation/rotation-utils.c:123
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -1877,22 +2462,25 @@ msgstr ""
 "Käytännön työssä tämä tapa antaa parhaimman näköiset tulokset, mutta muunnos "
 "ei ole enää täysin häviötön."
 
-#: ../extensions/image_rotation/rotation-utils.c:128
+#: ../extensions/image_rotation/rotation-utils.c:129
 msgid "_Trim"
 msgstr "_Rajaa"
 
-#: ../extensions/image_rotation/rotation-utils.c:130
+#: ../extensions/image_rotation/rotation-utils.c:131
 msgid "_Accept distortion"
-msgstr ""
+msgstr "_Salli vääristymät"
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
-#, fuzzy
 msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Mahdollisia arvoja ovat: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
+"Mahdollisia arvoja ovat: actual-size, keep-prev, fit-size, fit-size-if-"
+"larger, fit-width, fit-width-if-larger."
+
+#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
+msgid "Whether to resize the window to fit the size of the image"
+msgstr "Muuttaa ikkunan kokoa kuvalle sopivaksi"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "After loading an image:"
@@ -1903,9 +2491,8 @@ msgid "High"
 msgstr "Korkea"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-#, fuzzy
 msgid "Low"
-msgstr "_Heikko"
+msgstr "Heikko"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Reset scrollbar positions"
@@ -1916,9 +2503,8 @@ msgid "Transparency _type:"
 msgstr "Läpinäkyvä _alue:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
-#, fuzzy
 msgid "_Zoom quality:"
-msgstr "Suurennoksen laatu"
+msgstr "_Suurennoksen laatu"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:170
 msgid "In"
@@ -1956,11 +2542,11 @@ msgstr "Sovitettu ikkunaan"
 msgid "Zoom to fit width"
 msgstr "Sovita ikkunan leveyteen"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:195
+#: ../extensions/image_viewer/gth-image-viewer-page.c:198
 msgid "_Fit Window to Image"
 msgstr "_Sovita ikkuna kuvan kokoiseksi"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:196
+#: ../extensions/image_viewer/gth-image-viewer-page.c:199
 msgid "Resize the window to the size of the image"
 msgstr "Muuttaa ikkunan koon kuvalle sopivaksi"
 
@@ -1972,102 +2558,146 @@ msgstr "Kuvienkatselu"
 msgid "Image viewer"
 msgstr "Kuvakatselin"
 
-#: ../extensions/image_viewer/preferences.c:97
+#: ../extensions/image_viewer/preferences.c:96
 msgid "Set to actual size"
 msgstr "Näytä todellisessa koossa"
 
-#: ../extensions/image_viewer/preferences.c:101
+#: ../extensions/image_viewer/preferences.c:100
 msgid "Fit to width"
 msgstr "Sovita leveyteen"
 
-#: ../extensions/image_viewer/preferences.c:138
+#: ../extensions/image_viewer/preferences.c:137
 msgid "Viewer"
 msgstr "Kuvakatselin"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:1
-msgid "Files"
-msgstr "Tiedostot"
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
+#, fuzzy
+msgid "Possible values are: none, file_date, current_date"
+msgstr ""
+"Sallittuja arvoja ovat: \"none\" (ei mitään), \"deflate\" (pura), \"jpeg\"."
+
+#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
+#, fuzzy
+msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+msgstr "Sallittuja arvoja ovat: \"mm\" (millimetrit), \"in\" (tuumat)."
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+msgid "Special code"
+msgstr "Erikoismerkit"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:3
+msgid "The day of the month"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:4
+#, fuzzy
+msgid "The event description"
+msgstr "Kuvaus"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+#, fuzzy
+msgid "The hour"
+msgstr "tunnilla"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+msgid "The minutes"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:7
+#, fuzzy
+msgid "The month"
+msgstr "vuosi-kuukausi"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:8
+#, fuzzy
+msgid "The seconds"
+msgstr "sekunti"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:9
+#, fuzzy
+msgid "The year"
+msgstr "vuosi"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:10
 msgid "_Automatic subfolder"
 msgstr "Luo alikansiot automaattisesti"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:3
+#: ../extensions/importer/data/ui/import-preferences.ui.h:11
 msgid "_Destination"
 msgstr "Ko_hdekansio"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:4
-msgid "_Overwrite existing files"
-msgstr "Korvaa kohdekansion kuvat tuoduilla"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:5
-msgid "_Rotate images physically"
-msgstr "Kierrä kuvia fyysisesti"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+#: ../extensions/importer/data/ui/import-preferences.ui.h:12
 msgid "as _single subfolder"
 msgstr "vain yhteen alikansioon"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:205
+#: ../extensions/importer/gth-import-destination-button.c:212
+#, fuzzy
+msgid "Invalid Destination"
+msgstr "Kohde"
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:195
 #, c-format
 msgid "example: %s"
 msgstr "esimerkki: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:316
+#: ../extensions/importer/gth-import-preferences-dialog.c:327
 msgid "File date"
 msgstr "Alkuperäinen päivämäärä"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:326
+#: ../extensions/importer/gth-import-preferences-dialog.c:337
 msgid "year-month-day"
 msgstr "vuosi-kuukausi-päivä"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:327
+#: ../extensions/importer/gth-import-preferences-dialog.c:338
 msgid "year-month"
 msgstr "vuosi-kuukausi"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:328
+#: ../extensions/importer/gth-import-preferences-dialog.c:339
 msgid "year"
 msgstr "vuosi"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:329
+#: ../extensions/importer/gth-import-preferences-dialog.c:340
 msgid "custom format"
 msgstr "muu"
 
-#: ../extensions/importer/gth-import-task.c:325
-#: ../extensions/importer/gth-import-task.c:404
+#: ../extensions/importer/gth-import-task.c:418
+#: ../extensions/importer/gth-import-task.c:554
 msgid "Importing files"
 msgstr "Tuotaan tiedostoja"
 
-#: ../extensions/importer/gth-import-task.c:362
+#: ../extensions/importer/gth-import-task.c:512
 msgid "No file imported"
 msgstr "Yhtään kuvaa ei tuotu"
 
-#: ../extensions/importer/gth-import-task.c:363
+#: ../extensions/importer/gth-import-task.c:513
 msgid "The selected files are already present in the destination."
 msgstr "Valitut kuvat ovat jo kohdekansiossa"
 
-#: ../extensions/importer/gth-import-task.c:384
+#: ../extensions/importer/gth-import-task.c:534
 msgid "Delete operation not supported."
 msgstr "Laite ei tue tiedostojen poistoa tuonnin jälkeen"
 
-#: ../extensions/importer/gth-import-task.c:450
+#: ../extensions/importer/gth-import-task.c:601
 msgid "Last imported"
 msgstr "Viimeisin tuotu"
 
-#: ../extensions/list_tools/callbacks.c:65 ../gthumb/gth-filterbar.c:304
+#: ../extensions/list_tools/callbacks.c:64 ../gthumb/gth-filterbar.c:303
 msgid "Personalize..."
 msgstr "Muokkaa..."
 
-#: ../extensions/list_tools/callbacks.c:230
-#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:237
+#: ../extensions/list_tools/callbacks.c:248
 msgid "Tools"
 msgstr "Työkalut"
 
-#: ../extensions/list_tools/callbacks.c:231
-#: ../extensions/list_tools/callbacks.c:240
+#: ../extensions/list_tools/callbacks.c:239
+#: ../extensions/list_tools/callbacks.c:250
 msgid "Batch tools for multiple files"
 msgstr "Työkalut useiden tiedostojen käsittelyyn"
 
@@ -2089,24 +2719,22 @@ msgid "%B"
 msgstr "%B"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
 #, no-c-format
 msgid "%E"
 msgstr "%E"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:6
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 #, no-c-format
 msgid "%F"
 msgstr "%F"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:8
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 #, no-c-format
 msgid "%N"
 msgstr "%N"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 #, no-c-format
 msgid "%P"
 msgstr "%P"
@@ -2135,7 +2763,7 @@ msgid "%quote{ text }"
 msgstr "%quote{ teksti }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 msgid "A file attribute"
 msgstr "Tiedoston attribuutti"
 
@@ -2152,87 +2780,103 @@ msgid "Quote the text "
 msgstr "Lainaa tekstiä"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:27
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
-msgid "Special code"
-msgstr "Erikoismerkit"
+msgid "Sh_ortcut:"
+msgstr "_Pikanäppäin:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "The file basename"
 msgstr "Tiedostonimi"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "The file basename without extension"
 msgstr "Tiedostonimi ilman tiedostopäätettä"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
 msgid "The file extension"
 msgstr "Tiedoston tiedostopääte"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
 msgid "The file path"
 msgstr "Tiedostopolku"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
 msgid "The file uri"
 msgstr "Tiedoston nimi ja polku (URI)"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
 msgid "The parent folder path"
 msgstr "Yläkansion polku"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
 msgid "_Command:"
 msgstr "Ko_mento:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
 msgid "_Terminal command (shell script)"
 msgstr "_Komentoriviohjelma"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
 msgid "_Wait for the command to finish"
 msgstr "_Odota komennon loppumista"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:234
+#: ../extensions/list_tools/dlg-personalize-scripts.c:257
 msgid "Script"
 msgstr "Skripti"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:248
-#: ../gthumb/dlg-personalize-filters.c:252
+#: ../extensions/list_tools/dlg-personalize-scripts.c:271
+msgid "Shortcut"
+msgstr "Pikanäppäin"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:285
+#: ../gthumb/dlg-personalize-filters.c:251
 msgid "Show"
 msgstr "Näytä"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:318
+#: ../extensions/list_tools/dlg-personalize-scripts.c:355
 msgid "Could not save the script"
 msgstr "Skriptiä ei voitu tallentaa"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:361
+#: ../extensions/list_tools/dlg-personalize-scripts.c:405
 msgid "New Command"
 msgstr "Uusi komento"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:388
+#: ../extensions/list_tools/dlg-personalize-scripts.c:432
 msgid "Edit Command"
 msgstr "Muokkaa komentoa"
 
-#: ../extensions/list_tools/gth-script.c:608
+#: ../extensions/list_tools/gth-script.c:638
 msgid "Enter a value:"
 msgstr "Syötä arvo"
 
-#: ../extensions/list_tools/gth-script.c:741
+#: ../extensions/list_tools/gth-script.c:771
+#: ../extensions/webalbums/gth-web-exporter.c:571
+#: ../extensions/webalbums/gth-web-exporter.c:583
+#: ../extensions/webalbums/gth-web-exporter.c:591
 msgid "Malformed command"
 msgstr "Väärin muotoiltu komento"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:241
-#: ../gthumb/gth-filter-editor-dialog.c:489
+#: ../extensions/list_tools/gth-script-editor-dialog.c:177
+#, fuzzy
+msgid "none"
+msgstr "Ei mitään"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:183
+#, c-format
+msgid "key %d on the numeric keypad"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:320
+#: ../gthumb/gth-filter-editor-dialog.c:492
 #, c-format
 msgid "No name specified"
 msgstr "Nimeä ei ole määritelty"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:247
+#: ../extensions/list_tools/gth-script-editor-dialog.c:326
 #, c-format
 msgid "No command specified"
 msgstr "Komentoa ei ole määritelty"
 
-#: ../extensions/list_tools/gth-script-task.c:85
+#: ../extensions/list_tools/gth-script-task.c:84
 #, c-format
 msgid "Command exited abnormally with status %d"
 msgstr "Komento keskeytyi virheeseen  %d"
@@ -2245,13 +2889,114 @@ msgstr "Tiedostojen joukkokäsittely"
 msgid "Scripting and batch manipulation of files."
 msgstr "Työkalut tiedostojen joukkokäsittelyyn"
 
+#: ../extensions/photobucket/callbacks.c:54
+msgid "Photobucket..."
+msgstr ""
+
+#: ../extensions/photobucket/callbacks.c:55
+msgid "Upload photos to Photobucket"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
+#, fuzzy
+msgid "1 megabyte file size"
+msgstr "Järjestä kuvat tiedostokoon mukaan"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+#, fuzzy
+msgid "Large ( 640 x 480 )"
+msgstr "640 × 480"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+msgid "Medium ( 320 x 240 )"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+msgid "Small ( 160 x 120 )"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+msgid "Tiny ( 100 x 75 )"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+#, fuzzy
+msgid "_Resize to:"
+msgstr "_Palauta"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+#, fuzzy
+msgid "_Scramble filenames"
+msgstr "_Tiedostonimet"
+
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#, fuzzy
+msgid "_Container:"
+msgstr "_Jatka"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:285
+msgid "Tiny ( 100 × 75 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
+msgid "Small ( 160 × 120 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
+msgid "Medium ( 320 × 240 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+msgid "Large ( 640 × 480 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+msgid "15ʺ screen ( 800 × 600 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+msgid "17ʺ screen ( 1024 × 768 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:298
+#, fuzzy
+msgid "2 megabyte file size"
+msgstr "Järjestä kuvat tiedostokoon mukaan"
+
+#: ../extensions/photobucket/photobucket.extension.in.in.h:1
+msgid "PhotoBucket"
+msgstr ""
+
+#: ../extensions/photobucket/photobucket.extension.in.in.h:2
+#, fuzzy
+msgid "Upload images to PhotoBucket"
+msgstr "Lataa kuvia Picasa-verkkoalbumiin"
+
 #: ../extensions/photo_importer/callbacks.c:51
 msgid "_Removable Device..."
-msgstr "_Liitetystä laiteesta..."
+msgstr "_Liitetty laite..."
 
 #: ../extensions/photo_importer/callbacks.c:52
 msgid "Import photos and other files from a removable device"
 msgstr "Tuo kuvia ja muita tiedostoja liitetystä laitteesta"
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
+msgid "After importing from a device:"
+msgstr "Kuvien tuonnin tuonnin jälkeen laitteesta:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+#, fuzzy
+msgid "_Rotate the images physically"
+msgstr "Kierrä kuvia fyysisesti"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 msgid "Import from Removable Device"
@@ -2259,7 +3004,7 @@ msgstr "Tuo liitetystä laitteesta"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
-#: ../gthumb/gth-filterbar.c:414
+#: ../gthumb/gth-filterbar.c:413
 msgid "S_how:"
 msgstr "_Näytä:"
 
@@ -2267,36 +3012,31 @@ msgstr "_Näytä:"
 msgid "_Delete the imported files from the source"
 msgstr "_Poista tuodut kuvat laitteelta siirron jälkeen"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "Ta_pahtuma:"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-msgid "_Import"
-msgstr "_Tuo"
-
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:8
 msgid "_Tags:"
 msgstr "_Tunnisteet:"
 
 #. translators: %d is the number of files, %s the total size
-#: ../extensions/photo_importer/dlg-photo-importer.c:245
+#: ../extensions/photo_importer/dlg-photo-importer.c:248
 #, c-format
 msgid "Files to import: %d (%s)"
 msgstr ""
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:285
+#: ../extensions/photo_importer/dlg-photo-importer.c:288
 #, fuzzy
 msgid "Could not load the folder"
 msgstr "Kansion \"%s\" siirtäminen ei onnistunut: %s"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:315
-#: ../gthumb/gth-browser.c:1661
+#: ../extensions/photo_importer/dlg-photo-importer.c:318
+#: ../gthumb/gth-browser.c:1803
 msgid "Getting folder listing..."
 msgstr "Haetaan kansiolistausta..."
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:363
+#: ../extensions/photo_importer/dlg-photo-importer.c:364
 msgid "Empty"
 msgstr "Tyhjä"
 
@@ -2308,50 +3048,26 @@ msgstr "Tuo valokuvat"
 msgid "Import photos from removable devices."
 msgstr "Tuo valokuvia liitetystä laitteesta"
 
-#: ../extensions/picasaweb/callbacks.c:55
 #: ../extensions/picasaweb/callbacks.c:59
+#: ../extensions/picasaweb/callbacks.c:63
 msgid "_Picasa Web Album..."
 msgstr "Picasa-verkkoalbumi..."
 
-#: ../extensions/picasaweb/callbacks.c:56
+#: ../extensions/picasaweb/callbacks.c:60
 msgid "Download photos from Picasa Web Album"
 msgstr ""
 
-#: ../extensions/picasaweb/callbacks.c:60
+#: ../extensions/picasaweb/callbacks.c:64
 msgid "Upload photos to Picasa Web Album"
 msgstr ""
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "_Tunnus:"
-
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
-msgid "Add a new album"
-msgstr "Lisää uusi albumi"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Muokkaa käyttäjätunnuksia"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Export to Picasa Web Albums"
-msgstr "Vie Picasa-verkkoalbumiin"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "Free space:"
-msgstr "Vapaata tilaa:"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
-msgid "_Albums:"
 msgstr ""
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
-#, fuzzy
-msgid "_Upload"
-msgstr "Päi_vitä"
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+msgid "_Albums:"
+msgstr ""
 
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Import from Picasa Web Album"
@@ -2360,10 +3076,6 @@ msgstr "Tuo Picasa-verkkoalbumeista"
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 msgid "_Album:"
 msgstr "_Albumi:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "_Käyttäjätunnukset:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
 msgid ""
@@ -2379,95 +3091,24 @@ msgstr "Sähkö_posti:"
 msgid "_Password:"
 msgstr "_Salasana:"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
-msgid "Private"
-msgstr "Yksityinen"
-
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
 msgid "Public"
 msgstr "Julkinen"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
-msgid "_Visibility:"
-msgstr "_Näkyvyys"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:115
-#, fuzzy
-msgid "Could not upload the files"
-msgstr "Objektien siirto ei onnistunut:"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:274
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:297
-#, fuzzy
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:348
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:294
 msgid "Could not get the album list"
-msgstr "Objektien siirto ei onnistunut:"
+msgstr ""
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:330
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:354
-#, fuzzy
-msgid "Could not connect to the server"
-msgstr "Kuvaa ei voitu siirtää:"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:343
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:367
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:423
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:370
 msgid "Picasa Web Album"
 msgstr "Picasa-verkkoalbumi"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:413
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:437
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:506
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:453
 msgid "Account"
 msgstr "Käyttäjätunnus"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:584
-#, fuzzy
-msgid "Could not create the album"
-msgstr "Nimen muuttaminen ei onnistunut kuvalle:"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:645
-msgid "New Album"
-msgstr "Uusi albumi"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:676
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:618
-msgid "Choose Account"
-msgstr "VAlitse käyttäjätunnus"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:733
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:675
-msgid "Edit Accounts"
-msgstr "Muokkaa käyttäjätunnuksia"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:849
-msgid "No valid file selected."
-msgstr ""
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:850
-#, fuzzy
-msgid "Could not export the files"
-msgstr "Objektien siirto ei onnistunut:"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:856
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:729
-#: ../gthumb/gth-browser.c:854 ../gthumb/gth-browser.c:855
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d tiedosto (%s)"
-msgstr[1] "%d tiedostoa (%s)"
-
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:753
-#, fuzzy
-msgid "Could not get the photo list"
-msgstr "Valokuvien tuonti ei onnistunut"
-
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:786
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:943
-msgid "No album selected"
-msgstr "Ei albumia valittuna"
-
-#: ../extensions/picasaweb/google-connection.c:364
-msgid "Connecting to the server"
-msgstr ""
 
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 #, fuzzy
@@ -2481,29 +3122,6 @@ msgstr "Picasa-verkkoalbumit"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Lataa kuvia Picasa-verkkoalbumiin"
-
-#: ../extensions/picasaweb/picasa-web-service.c:238
-msgid "Getting the album list"
-msgstr "Haetaan albumilistaa"
-
-#: ../extensions/picasaweb/picasa-web-service.c:329
-msgid "Creating the new album"
-msgstr "Luodaan uutta albumia"
-
-#. send the file
-#. Translators: %s is a filename
-#: ../extensions/picasaweb/picasa-web-service.c:510
-#, c-format
-msgid "Uploading '%s'"
-msgstr "Ladataan '%s'"
-
-#: ../extensions/picasaweb/picasa-web-service.c:584
-msgid "Uploading the files to the server"
-msgstr ""
-
-#: ../extensions/picasaweb/picasa-web-service.c:706
-msgid "Getting the photo list"
-msgstr "Haetaan listaa kuvista"
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
 msgid "Possible values are: none, deflate, jpeg."
@@ -2570,27 +3188,27 @@ msgstr "_Pystytaso:"
 msgid "dpi"
 msgstr "dpi"
 
-#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:479
+#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:478
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/pixbuf_savers/gth-png-saver.c:146
+#: ../extensions/pixbuf_savers/gth-png-saver.c:145
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "PNG"
 msgstr "PNG"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:292
-#: ../gthumb/gth-buffer-data.c:85
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:291
+#: ../gthumb/gth-buffer-data.c:84
 msgid "Insufficient memory"
 msgstr "Liian vähän muistia"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:379
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:378
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:13
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/pixbuf_savers/gth-tiff-saver.c:498
+#: ../extensions/pixbuf_savers/gth-tiff-saver.c:497
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:14
 msgid "TIFF"
 msgstr "TIFF"
@@ -2603,7 +3221,8 @@ msgstr "Tallenna kuvat"
 msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr "Tallenna kuvat yleisimmissä tiedostomuodoissa kuten JPEG, PNG ja TIFF"
 
-#: ../extensions/pixbuf_savers/preferences.c:135
+#: ../extensions/pixbuf_savers/preferences.c:134
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
 msgid "Saving"
 msgstr "Tallennus"
 
@@ -2615,15 +3234,23 @@ msgstr "Mahdollistaa RAW-kuvien näyttämisen."
 msgid "Raw format support"
 msgstr "RAW-tiedoston tuki"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+msgid "_X:"
+msgstr "_X:"
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:437
 msgid "Red Eye Removal..."
 msgstr "Punasilmäisyyden poisto..."
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:439
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:437
 msgid "Red Eye Removal"
 msgstr "Punasilmäisyyden poisto"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:440
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Poista kameran salaman aiheuttamat punaiset silmät"
 
@@ -2635,15 +3262,20 @@ msgstr "Punasilmäisyyden poisto"
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Poista punasilmäisyyttä valokuvista"
 
-#: ../extensions/rename_series/actions.c:38
-#: ../gthumb/gth-overwrite-dialog.c:119
-#, fuzzy
-msgid "Cannot read file information"
-msgstr "Yleisiä tietoja"
-
-#: ../extensions/rename_series/callbacks.c:49
+#: ../extensions/rename_series/callbacks.c:48
 msgid "Rename the selected files"
 msgstr "Nimeä uudelleen valitut tiedostot"
+
+#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:1
+msgid ""
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
+msgstr ""
+
+#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
+#, fuzzy
+msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
+msgstr "Sallittuja arvoja ovat: original, lower, upper."
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
@@ -2653,93 +3285,93 @@ msgstr "%A{ tuniste }"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ muoto }"
 
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #, no-c-format
 msgid "%M{ format }"
 msgstr "%M{ muoto }"
 
 #. Translators: this is the text case (upper or lower case).
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
 msgid "Cas_e:"
 msgstr "_Isot/pienet kirjaimet:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
 msgid "New enumerator digit"
 msgstr "Uusi numerointi"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "Re_verse Order"
 msgstr "Kään_teinen järjestys"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "A_loita numerointi:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
 msgid "The digitalization date"
 msgstr "Luontipäivä"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
 msgid "The modification date"
 msgstr "Muokkauspäivä"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The original enumerator"
 msgstr "Alkuperäinen numerointi"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
 msgid "The original extension"
 msgstr "Alkuperäinen tiedostopääte"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:29
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
 msgid "The original filename"
 msgstr "Alkuperäinen tiedostonimi"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:30
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 msgid "_Preview:"
 msgstr "_Esikatselu:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:33
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "_Template:"
 msgstr "_Tiedostonimipohja:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:341
+#: ../extensions/rename_series/dlg-rename-series.c:380
 msgid "Could not rename the files"
 msgstr "Nimen muuttaminen ei onnistunut kuville"
 
-#: ../extensions/rename_series/dlg-rename-series.c:425
+#: ../extensions/rename_series/dlg-rename-series.c:469
 msgid "Old Name"
 msgstr "Vanha nimi"
 
-#: ../extensions/rename_series/dlg-rename-series.c:433
+#: ../extensions/rename_series/dlg-rename-series.c:477
 msgid "New Name"
 msgstr "Uusi nimi"
 
-#. change case
-#: ../extensions/rename_series/dlg-rename-series.c:485
+#: ../extensions/rename_series/dlg-rename-series.c:554
 msgid "Keep original case"
 msgstr "Säilytä isot ja pienet kirjaimet"
 
-#: ../extensions/rename_series/dlg-rename-series.c:486
+#: ../extensions/rename_series/dlg-rename-series.c:555
 msgid "Convert to lower-case"
 msgstr "Muunna kaikki pieniksi kirjaimiksi"
 
-#: ../extensions/rename_series/dlg-rename-series.c:487
+#: ../extensions/rename_series/dlg-rename-series.c:556
 msgid "Convert to upper-case"
 msgstr "Muunna kaikki isoiksi kirjaimiksi"
 
-#: ../extensions/rename_series/gth-rename-task.c:158
+#: ../extensions/rename_series/gth-rename-task.c:166
 msgid "Renaming files"
 msgstr "Nimentään uudelleen tiedostoja"
 
@@ -2751,11 +3383,11 @@ msgstr "Nimeä uudelleen tiedostoja"
 msgid "Rename series of files."
 msgstr "Useiden tiedostojen uudelleennimeäminen sarjaksi"
 
-#: ../extensions/resize_images/callbacks.c:46
+#: ../extensions/resize_images/callbacks.c:45
 msgid "Resize Images..."
 msgstr "Muuta kuvien kokoa..."
 
-#: ../extensions/resize_images/callbacks.c:47
+#: ../extensions/resize_images/callbacks.c:46
 msgid "Resize the selected images"
 msgstr "Muuta valittujen kuvien kokoa"
 
@@ -2797,7 +3429,7 @@ msgstr "Säilytä alkuperäinen _kuvasuhde"
 msgid "pixel"
 msgstr "kuvapistettä"
 
-#: ../extensions/resize_images/dlg-resize-images.c:143
+#: ../extensions/resize_images/dlg-resize-images.c:140
 msgid "Resizing images"
 msgstr "Muutetaan kuvien kokoa"
 
@@ -2809,58 +3441,70 @@ msgstr "Muuta kuvien kokoa"
 msgid "Resize series of images."
 msgstr "Muuta usean kuvan kokoa kerralla"
 
-#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:117
-#: ../extensions/search/actions.c:123
+#: ../extensions/search/actions.c:49 ../extensions/search/actions.c:116
+#: ../extensions/search/actions.c:122
 msgid "Could not perform the search"
 msgstr "Hakua ei voitu suorittaa"
 
-#: ../extensions/search/actions.c:54
+#: ../extensions/search/actions.c:53
 msgid "Search Result"
 msgstr "Hakutulokset"
 
-#: ../extensions/search/actions.c:76
+#: ../extensions/search/actions.c:75
 msgid "Find"
 msgstr "Etsi"
 
-#: ../extensions/search/callbacks.c:59
+#: ../extensions/search/callbacks.c:58
 msgid "Find files"
 msgstr "Etsi tiedostoja"
 
-#: ../extensions/search/callbacks.c:133
+#: ../extensions/search/callbacks.c:132
 msgid "Search again"
 msgstr "Hae uudelleen"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: ../extensions/search/callbacks.c:175
+#: ../extensions/search/callbacks.c:174
 #: ../extensions/search/search.extension.in.in.h:2
 msgid "Search"
 msgstr "Haku"
 
-#: ../extensions/search/gth-search-editor.c:139
+#: ../extensions/search/gth-search-editor.c:138
 #: ../gthumb/gth-filter-editor-dialog.c:196
 msgid "all the following rules"
 msgstr "jos kaikki ehdot täytetään"
 
-#: ../extensions/search/gth-search-editor.c:140
+#: ../extensions/search/gth-search-editor.c:139
 #: ../gthumb/gth-filter-editor-dialog.c:197
 msgid "any of the following rules"
 msgstr "jos joku ehdoista täyttyy"
 
-#: ../extensions/search/gth-search-task.c:229
+#: ../extensions/search/gth-search-task.c:178
+msgid "Files found untill now: %"
+msgstr ""
+
+#: ../extensions/search/gth-search-task.c:251
 msgid "Searching..."
 msgstr "Etsitään..."
+
+#: ../extensions/search/gth-search-task.c:257
+msgid "Cancel the operation"
+msgstr "Peru toiminto"
 
 #: ../extensions/search/search.extension.in.in.h:1
 msgid "File search tool."
 msgstr "Etsintätyökalu"
 
-#: ../extensions/slideshow/callbacks.c:58
+#: ../extensions/slideshow/callbacks.c:56
+msgid "_Slideshow"
+msgstr "_Diaesitys"
+
+#: ../extensions/slideshow/callbacks.c:57
 msgid "View as a slideshow"
 msgstr "Näytä diaesityksenä"
 
-#: ../extensions/slideshow/callbacks.c:385
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-#: ../extensions/slideshow/preferences.c:122
+#: ../extensions/slideshow/callbacks.c:406
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+#: ../extensions/slideshow/preferences.c:138
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Diaesitys"
@@ -2874,35 +3518,39 @@ msgid "Playlist"
 msgstr "Taustamusiikin soittolista"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
+msgid "R_andom order"
+msgstr "_Satunnainen järjestys"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
 msgid "Remove the selected files"
 msgstr "Poista valitut tiedostot"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Change automatically, every"
 msgstr "_Vaihda kuvaa automaattisesti joka"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "_Personalize"
 msgstr "_Vaihda oletuksesta"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
 msgid "_Restart when finished"
 msgstr "_Aloita alusta kun on päästy loppuun"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "_Transition effect:"
 msgstr "_Siirtymän tyyli:"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
 msgid "seconds"
 msgstr "sekunti"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:215
+#: ../extensions/slideshow/gth-slideshow-preferences.c:214
 msgid "Choose the files to play"
 msgstr "Valitse soitettavat tiedostot"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:224
+#: ../extensions/slideshow/gth-slideshow-preferences.c:223
 msgid "Audio files"
 msgstr "Äänitiedostot"
 
@@ -2910,35 +3558,35 @@ msgstr "Äänitiedostot"
 msgid "Random"
 msgstr "Satunnainen"
 
-#: ../extensions/slideshow/main.c:271
+#: ../extensions/slideshow/main.c:284
 msgid "Push from right"
 msgstr "Vieritä vasempaan"
 
-#: ../extensions/slideshow/main.c:277
+#: ../extensions/slideshow/main.c:290
 msgid "Push from bottom"
 msgstr "Vieritä alas"
 
-#: ../extensions/slideshow/main.c:283
+#: ../extensions/slideshow/main.c:296
 msgid "Slide from right"
 msgstr "Liuta oikealta"
 
-#: ../extensions/slideshow/main.c:289
+#: ../extensions/slideshow/main.c:302
 msgid "Slide from bottom"
 msgstr "Liuta alhaalta"
 
-#: ../extensions/slideshow/main.c:295
+#: ../extensions/slideshow/main.c:308
 msgid "Fade in"
 msgstr "Varjo sisäänpäin"
 
-#: ../extensions/slideshow/main.c:301
+#: ../extensions/slideshow/main.c:314
 msgid "Flip page"
 msgstr "Pyöräytä kuva"
 
-#: ../extensions/slideshow/main.c:307
+#: ../extensions/slideshow/main.c:320
 msgid "Cube from right"
 msgstr "Kuution kierto vasemmalle"
 
-#: ../extensions/slideshow/main.c:313
+#: ../extensions/slideshow/main.c:326
 msgid "Cube from bottom"
 msgstr "Kuution kierto ylös"
 
@@ -2946,88 +3594,304 @@ msgstr "Kuution kierto ylös"
 msgid "View images as a slideshow."
 msgstr "Näytä kuvat diaesityksenä"
 
-#: ../gthumb/dlg-extensions.c:54 ../gthumb/gth-filterbar.c:270
+#: ../extensions/webalbums/callbacks.c:71
+msgid "_Web Album..."
+msgstr "_Verkkoalbumi..."
+
+#: ../extensions/webalbums/callbacks.c:72
+msgid "Create a static web album"
+msgstr "Luo itsenäinen verkkoalbumi"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:26
+msgid "Click to view the image"
+msgstr "Näytä kuva"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:27
+msgid "Go back to the index"
+msgstr "Takaisin luettelosivulle"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:28
+#, c-format
+msgid "Image %d of %d"
+msgstr "Kuva %d / %d"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:29
+msgid "Index"
+msgstr "Kuvaluettelo"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:30
+#: ../gthumb/gth-browser-actions-entries.h:115
+msgid "Next"
+msgstr "Seuraava"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:32
+#: ../gthumb/gth-browser-actions-entries.h:110
+msgid "Previous"
+msgstr "Edellinen"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:33
+#, c-format
+msgid "View page %d"
+msgstr "Näytä sivu %d"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:34
+msgid "View the next image"
+msgstr "Näytä seuraava kuva"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:35
+msgid "View the next page"
+msgstr "Näytä seuraava sivu"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:36
+msgid "View the previous image"
+msgstr "Näytä edellinen kuva"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:37
+msgid "View the previous page"
+msgstr "Näytä edellinen sivu"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#, no-c-format
+msgid "%I"
+msgstr "%I"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
+#, no-c-format
+msgid "%i"
+msgstr "%i"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
+#, no-c-format
+msgid "%p"
+msgstr "%p"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+msgid "Adapts to the window width"
+msgstr "Mukauta ikkunan leveyteen"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+msgid "All images on  a single image"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
+msgid "All images on a single page"
+msgstr "kaikki kuvat yhdellä sivulla"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+msgid "Columns:"
+msgstr "Sarakkeet:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
+msgid "Image Attributes"
+msgstr "Kuvan tiedot"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+msgid "Image Page"
+msgstr "Kuvasivu"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+msgid "Index Page"
+msgstr "Luettelosivu"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+msgid "Re_verse order"
+msgstr "Kään_teinen järjestys"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+msgid "S_ort:"
+msgstr "_Järjestä:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+msgid "Show the description, if available"
+msgstr "Näytä mahdollinen kuvaus"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+msgid "Show the following attributes:"
+msgstr "Näytä seuraavat tiedot:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+msgid "The current date"
+msgstr "Nykyhetki"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+msgid "The current image number"
+msgstr "Kuvan järjestysnumero"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+msgid "The current page number"
+msgstr " Sivunumero"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+msgid "The total number of images"
+msgstr "Kuvien kokonaismäärä"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+msgid "The total number of pages"
+msgstr "Sivujen kokonaismäärä"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+msgid "Theme"
+msgstr "Teema"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+msgid "Thumbnail Caption"
+msgstr "Pienoiskuvan Kuvaus"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+msgid "Use subfolders to organize files"
+msgstr "Järjestele tiedostot alikansioihin"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+msgid "Web Album"
+msgstr "Verkkoalbumi"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+msgid "_Adapt to the window width "
+msgstr "_Mukauta ikkunan leveyteen"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:40
+msgid "_Copy originals to destination"
+msgstr "_Luo kopiot alkuperäisistä kuvista kohdekansioon"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
+msgid "_Footer:"
+msgstr "_Alatunniste:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
+msgid "_Header:"
+msgstr "_Ylätunniste:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:44
+msgid "_Resize if larger than:"
+msgstr "_Muuta kokoa, jos suurempi kuin:"
+
+#: ../extensions/webalbums/gth-web-exporter.c:1795
+msgid "Could not show the destination"
+msgstr "Kohdesijaintia ei voitu näyttää"
+
+#: ../extensions/webalbums/gth-web-exporter.c:1829
+msgid "The album has been created successfully."
+msgstr "Uusi albumi on luotu onnistuneesti."
+
+#: ../extensions/webalbums/gth-web-exporter.c:2095
+#: ../extensions/webalbums/gth-web-exporter.c:2122
+msgid "Saving thumbnails"
+msgstr "Tallennetaan pienoiskuvia"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2150
+msgid "Saving HTML pages: Images"
+msgstr "Tallennetaan HTML-sivuja: Kuvia"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2208
+msgid "Saving HTML pages: Indexes"
+msgstr "Tallennetaan HTML-sivuja: kuvaluettelot"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2328
+#: ../extensions/webalbums/gth-web-exporter.c:2385
+msgid "Saving images"
+msgstr "Tallennetaan kuvia"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2441
+msgid "Copying original images"
+msgstr "Kopioidaan alkuperäisiä kuvia"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2963
+msgid "Could not find the style folder"
+msgstr "Tyylikansiota ei löytynyt"
+
+#: ../extensions/webalbums/gth-web-exporter.c:2996
+msgid "Could not create a temporary folder"
+msgstr "Väliaikaiskansion luonti ei onnistunut"
+
+#: ../extensions/webalbums/webalbums.extension.in.in.h:1
+msgid "Create static web albums."
+msgstr "Luo itsenäinen verkkoalbumi"
+
+#: ../extensions/webalbums/webalbums.extension.in.in.h:2
+msgid "Web Albums"
+msgstr "Verkkoverkkoalbumit"
+
+#: ../gthumb/dlg-extensions.c:65 ../gthumb/gth-filterbar.c:269
 msgid "All"
 msgstr "Kaikki"
 
-#: ../gthumb/dlg-extensions.c:55
+#: ../gthumb/dlg-extensions.c:66
 msgid "Enabled"
-msgstr ""
+msgstr "Käytössä"
 
-#: ../gthumb/dlg-extensions.c:56
+#: ../gthumb/dlg-extensions.c:67
 msgid "Disabled"
-msgstr ""
+msgstr "Ei käytössä"
 
-#: ../gthumb/dlg-extensions.c:59
-#, fuzzy
+#: ../gthumb/dlg-extensions.c:70
 msgid "Viewers"
-msgstr "Kuvakatselin"
+msgstr "Katselu"
 
-#: ../gthumb/dlg-extensions.c:61
-#, fuzzy
+#: ../gthumb/dlg-extensions.c:71
+msgid "Metadata"
+msgstr "Metatiedot"
+
+#: ../gthumb/dlg-extensions.c:72
 msgid "File tools"
-msgstr "Tiedostojen joukkokäsittely"
+msgstr "Työkalut"
 
-#: ../gthumb/dlg-extensions.c:62
-#, fuzzy
+#: ../gthumb/dlg-extensions.c:73
 msgid "List tools"
-msgstr "Tiedostojen joukkokäsittely"
+msgstr "Joukkokäsittely"
 
-#: ../gthumb/dlg-extensions.c:63
-#, fuzzy
+#: ../gthumb/dlg-extensions.c:74
 msgid "Importers"
-msgstr "_Tuo"
+msgstr "Tuonti"
 
-#: ../gthumb/dlg-extensions.c:64
-#, fuzzy
+#: ../gthumb/dlg-extensions.c:75
 msgid "Exporters"
-msgstr "Valotusaika"
+msgstr "Vienti"
 
-#: ../gthumb/dlg-extensions.c:140
+#: ../gthumb/dlg-extensions.c:151
 msgid "Restart required"
 msgstr "Uudelleenkäynnistystä tarvitaan"
 
-#: ../gthumb/dlg-extensions.c:141
+#: ../gthumb/dlg-extensions.c:152
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Gthumb täytyy käynnistää uudelleen, jotta muutokset tulevat voimaan"
 
-#: ../gthumb/dlg-extensions.c:142
+#: ../gthumb/dlg-extensions.c:153
 msgid "_Continue"
 msgstr "_Jatka"
 
-#: ../gthumb/dlg-extensions.c:143
+#: ../gthumb/dlg-extensions.c:154
 msgid "_Restart"
 msgstr "_käynnistä uudelleen"
 
-#: ../gthumb/dlg-extensions.c:244
+#: ../gthumb/dlg-extensions.c:255
 msgid "Could not activate the extension"
 msgstr "Laajennusta ei voitu ottaa käyttöön"
 
-#: ../gthumb/dlg-extensions.c:250
+#: ../gthumb/dlg-extensions.c:261
 msgid "Could not deactivate the extension"
 msgstr "Laajennusta ei voitu ottaa pois päältä"
 
-#: ../gthumb/dlg-extensions.c:272
+#: ../gthumb/dlg-extensions.c:283
 msgid "Use"
 msgstr "Käytössä"
 
-#: ../gthumb/dlg-extensions.c:288
+#: ../gthumb/dlg-extensions.c:299
 msgid "Extension"
 msgstr "Laajennus"
 
-#: ../gthumb/dlg-personalize-filters.c:237
+#: ../gthumb/dlg-personalize-filters.c:236
 msgid "Filter"
 msgstr "Suodatin"
 
-#: ../gthumb/dlg-personalize-filters.c:315
+#: ../gthumb/dlg-personalize-filters.c:314
 msgid "Could not save the filter"
 msgstr "Suodatinta ei voitu tallentaa"
 
-#: ../gthumb/dlg-personalize-filters.c:357
+#: ../gthumb/dlg-personalize-filters.c:356
 msgid "New Filter"
 msgstr "Uusi suodatin"
 
-#: ../gthumb/dlg-personalize-filters.c:386
+#: ../gthumb/dlg-personalize-filters.c:385
 msgid "Edit Filter"
 msgstr "Muokkaa suodatinta"
 
@@ -3036,7 +3900,7 @@ msgstr "Muokkaa suodatinta"
 msgid "File _Format: %s"
 msgstr "_Tiedostotyyppi : %s"
 
-#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:141
+#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:197
 msgid "All Files"
 msgstr "Kaikki tiedostot"
 
@@ -3069,30 +3933,30 @@ msgid "File format not recognized"
 msgstr "Tiedostotyyppiä ei tunnistettu"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1333
+#: ../gthumb/gio-utils.c:1362
 #, c-format
 msgid "%s of %s"
 msgstr ""
 
-#: ../gthumb/gio-utils.c:1365
+#: ../gthumb/gio-utils.c:1397
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr ""
 
-#: ../gthumb/gio-utils.c:1367
-#, fuzzy, c-format
+#: ../gthumb/gio-utils.c:1399
+#, c-format
 msgid "Copying \"%s\" to \"%s\""
-msgstr "Kopioidaan tiedostoa %d / %d"
+msgstr ""
 
-#: ../gthumb/gio-utils.c:1695
+#: ../gthumb/gio-utils.c:1735
 msgid "Moving files"
 msgstr "Siirretään tiedostoja"
 
-#: ../gthumb/gio-utils.c:1695
+#: ../gthumb/gio-utils.c:1735
 msgid "Copying files"
 msgstr "Kopioidaan tiedostoja"
 
-#: ../gthumb/gio-utils.c:1696
+#: ../gthumb/gio-utils.c:1736
 #, fuzzy
 msgid "Getting file information"
 msgstr "Yleisiä tietoja"
@@ -3103,7 +3967,7 @@ msgstr "Yleisiä tietoja"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2499
+#: ../gthumb/glib-utils.c:2797
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3115,17 +3979,39 @@ msgstr ""
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2508
+#: ../gthumb/glib-utils.c:2806
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr ""
 
-#: ../gthumb/gth-browser-actions-callbacks.c:387
+#: ../gthumb/gth-browser-actions-callbacks.c:370
+msgid ""
+"gthumb is free software; you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version."
+msgstr ""
+
+#: ../gthumb/gth-browser-actions-callbacks.c:374
+msgid ""
+"gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
+"details."
+msgstr ""
+
+#: ../gthumb/gth-browser-actions-callbacks.c:378
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"gthumb.  If not, see http://www.gnu.org/licenses/."
+msgstr ""
+
+#: ../gthumb/gth-browser-actions-callbacks.c:397
 msgid "An image viewer and browser for GNOME."
 msgstr "Kuvien katselu- ja selausohjelma Gnome-ympäristöön."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:390
+#: ../gthumb/gth-browser-actions-callbacks.c:400
 msgid "translator_credits"
 msgstr ""
 "Miika Laaksonen, 2010\n"
@@ -3136,261 +4022,277 @@ msgstr ""
 "\n"
 "http://gnome.fi/"
 
-#: ../gthumb/gth-browser-actions-entries.h:31
+#: ../gthumb/gth-browser-actions-entries.h:30
 msgid "_File"
 msgstr "_Tiedosto"
 
-#: ../gthumb/gth-browser-actions-entries.h:32
+#: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_Edit"
 msgstr "_Muokkaa"
 
-#: ../gthumb/gth-browser-actions-entries.h:33
+#: ../gthumb/gth-browser-actions-entries.h:32
 msgid "_View"
 msgstr "_Näytä"
 
-#: ../gthumb/gth-browser-actions-entries.h:34
+#: ../gthumb/gth-browser-actions-entries.h:33
 msgid "_Go"
 msgstr "_Siirry"
 
-#: ../gthumb/gth-browser-actions-entries.h:35
+#: ../gthumb/gth-browser-actions-entries.h:34
 msgid "_Help"
 msgstr "_Ohje"
 
-#: ../gthumb/gth-browser-actions-entries.h:36
+#: ../gthumb/gth-browser-actions-entries.h:35
 msgid "Open _With"
 msgstr "_Avaa ohjelmalla"
 
-#: ../gthumb/gth-browser-actions-entries.h:37
+#: ../gthumb/gth-browser-actions-entries.h:36
 msgid "I_mport From"
 msgstr "_Tuo"
 
-#: ../gthumb/gth-browser-actions-entries.h:38
+#: ../gthumb/gth-browser-actions-entries.h:37
 msgid "E_xport To"
 msgstr "_Vie"
 
-#: ../gthumb/gth-browser-actions-entries.h:41
+#: ../gthumb/gth-browser-actions-entries.h:40
 msgid "New _Window"
 msgstr "Uusi _ikkuna"
 
-#: ../gthumb/gth-browser-actions-entries.h:42
+#: ../gthumb/gth-browser-actions-entries.h:41
 msgid "Open another window"
 msgstr "Avaa uusi ikkuna"
 
-#: ../gthumb/gth-browser-actions-entries.h:66
+#: ../gthumb/gth-browser-actions-entries.h:65
 msgid "Open"
 msgstr "Avaa"
 
-#: ../gthumb/gth-browser-actions-entries.h:71
+#: ../gthumb/gth-browser-actions-entries.h:70
 msgid "Open in New Window"
 msgstr "Avaa uu_dessa ikkunassa"
 
-#: ../gthumb/gth-browser-actions-entries.h:77
+#: ../gthumb/gth-browser-actions-entries.h:76
 msgid "Edit various preferences"
 msgstr "Muokkaa eri asetuksia"
 
-#: ../gthumb/gth-browser-actions-entries.h:81
+#: ../gthumb/gth-browser-actions-entries.h:80
 msgid "Extensions"
 msgstr "Laajennukset"
 
-#: ../gthumb/gth-browser-actions-entries.h:82
+#: ../gthumb/gth-browser-actions-entries.h:81
 msgid "Activate, deactivate and configure the gthumb extensions"
 msgstr "Ota käyttöön ja hallitse gthumbin laajennuksia"
 
-#: ../gthumb/gth-browser-actions-entries.h:91
+#: ../gthumb/gth-browser-actions-entries.h:90
 msgid "_Sort By..."
 msgstr "_Järjestä..."
 
-#: ../gthumb/gth-browser-actions-entries.h:96
+#: ../gthumb/gth-browser-actions-entries.h:95
 msgid "_Filter..."
 msgstr "_Suodata..."
 
-#: ../gthumb/gth-browser-actions-entries.h:111
-msgid "Previous"
-msgstr "Edellinen"
+#: ../gthumb/gth-browser-actions-entries.h:101
+msgid "Stop loading the current location"
+msgstr "Lopeta nykyisen sijainnin lataaminen"
 
-#: ../gthumb/gth-browser-actions-entries.h:112
+#: ../gthumb/gth-browser-actions-entries.h:106
+msgid "Reload the current location"
+msgstr "Päivitä sijainnin sisältö"
+
+#: ../gthumb/gth-browser-actions-entries.h:111
 msgid "View previous image"
 msgstr "Näytä edellinen kuva"
 
 #: ../gthumb/gth-browser-actions-entries.h:116
-msgid "Next"
-msgstr "Seuraava"
-
-#: ../gthumb/gth-browser-actions-entries.h:117
 msgid "View next image"
 msgstr "Näytä seuraava kuva"
 
-#: ../gthumb/gth-browser-actions-entries.h:132 ../gthumb/gth-browser.c:2925
+#: ../gthumb/gth-browser-actions-entries.h:121
+msgid "Switch to fullscreen"
+msgstr "Siirry kokoruututilaan"
+
+#: ../gthumb/gth-browser-actions-entries.h:126
+msgid "Leave Fullscreen"
+msgstr "Poistu kokoruututilasta"
+
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3357
 msgid "Go to the previous visited location"
 msgstr "Siirry edelliseen jo avattuun sijaintiin"
 
-#: ../gthumb/gth-browser-actions-entries.h:137 ../gthumb/gth-browser.c:2946
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3378
 msgid "Go to the next visited location"
 msgstr "Siirry seuraavaan jo avattuun sijaintiin"
 
-#: ../gthumb/gth-browser-actions-entries.h:142 ../gthumb/gth-browser.c:2967
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3399
 msgid "Go up one level"
 msgstr "Avaa yläkansio"
 
-#: ../gthumb/gth-browser-actions-entries.h:151 ../gthumb/gth-browser.c:618
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:652
 msgid "_Delete History"
 msgstr "_Tyhjennä historia"
 
-#: ../gthumb/gth-browser-actions-entries.h:152
+#: ../gthumb/gth-browser-actions-entries.h:151
 msgid "Delete the list of visited locations"
 msgstr "Tyhjennä luettelo käydyistä sijainneista"
 
-#: ../gthumb/gth-browser-actions-entries.h:157
+#: ../gthumb/gth-browser-actions-entries.h:156
 msgid "View the folders"
 msgstr "Näytä kansiot"
 
-#: ../gthumb/gth-browser-actions-entries.h:162
+#: ../gthumb/gth-browser-actions-entries.h:161
 msgid "Show information about gthumb"
 msgstr "Näytä tietoja gthumbista"
 
-#: ../gthumb/gth-browser-actions-entries.h:166
+#: ../gthumb/gth-browser-actions-entries.h:165
 msgid "Contents"
 msgstr "Sisältö"
 
-#: ../gthumb/gth-browser-actions-entries.h:167
+#: ../gthumb/gth-browser-actions-entries.h:166
 msgid "Display the gthumb Manual"
 msgstr "Näytä gthumbin manuaali"
 
-#: ../gthumb/gth-browser-actions-entries.h:171
+#: ../gthumb/gth-browser-actions-entries.h:170
 msgid "_Keyboard Shortcuts"
 msgstr "_Pikanäppäimet"
 
-#: ../gthumb/gth-browser-actions-entries.h:180
+#: ../gthumb/gth-browser-actions-entries.h:179
 msgid "_Toolbar"
 msgstr "Ty_ökalupalkki"
 
-#: ../gthumb/gth-browser-actions-entries.h:181
+#: ../gthumb/gth-browser-actions-entries.h:180
 msgid "View or hide the toolbar of this window"
 msgstr "Näytä tai piilota tämän ikkunan työkalupalkki"
 
-#: ../gthumb/gth-browser-actions-entries.h:185
+#: ../gthumb/gth-browser-actions-entries.h:184
 msgid "_Statusbar"
 msgstr "_Tilarivi"
 
-#: ../gthumb/gth-browser-actions-entries.h:186
+#: ../gthumb/gth-browser-actions-entries.h:185
 msgid "View or hide the statusbar of this window"
 msgstr "Näytä tai piilota tämän ikkunan tilarivi"
 
-#: ../gthumb/gth-browser-actions-entries.h:190
+#: ../gthumb/gth-browser-actions-entries.h:189
 msgid "_Filterbar"
 msgstr "_Suodatinpaneeli"
 
-#: ../gthumb/gth-browser-actions-entries.h:191
+#: ../gthumb/gth-browser-actions-entries.h:190
 msgid "View or hide the filterbar of this window"
 msgstr "Näytä tai piilota tämän ikkunan suodinvalinnat"
 
-#: ../gthumb/gth-browser-actions-entries.h:195
+#: ../gthumb/gth-browser-actions-entries.h:194
 msgid "_Sidebar"
 msgstr "_sivupaneeli"
 
-#: ../gthumb/gth-browser-actions-entries.h:196
+#: ../gthumb/gth-browser-actions-entries.h:195
 msgid "View or hide the sidebar of this window"
 msgstr "Näytä tai piilota tämän ikkunan sivupaneeli"
 
+#: ../gthumb/gth-browser-actions-entries.h:199
+msgid "_Thumbnail Pane"
+msgstr "_Pienoiskuvapaneeli"
+
 #: ../gthumb/gth-browser-actions-entries.h:200
+msgid "View or hide the thumbnail pane in viewer mode"
+msgstr "Näytä tai piilota paneeli katselutilassa"
+
+#: ../gthumb/gth-browser-actions-entries.h:204
 msgid "_Thumbnails"
 msgstr "_Pienoiskuvat"
 
-#: ../gthumb/gth-browser-actions-entries.h:201
+#: ../gthumb/gth-browser-actions-entries.h:205
 msgid "View thumbnails"
 msgstr "Näytä pienoiskuvat"
 
-#: ../gthumb/gth-browser-actions-entries.h:205
-msgid "Show _Hidden Files"
-msgstr "Näytä _piilotiedostot"
+#: ../gthumb/gth-browser-actions-entries.h:209
+msgid "_Hidden Files"
+msgstr "_Piilotiedostot"
 
-#: ../gthumb/gth-browser-actions-entries.h:206
+#: ../gthumb/gth-browser-actions-entries.h:210
 msgid "Show hidden files and folders"
 msgstr "Näytä piilotiedostot ja -kansiot"
 
-#: ../gthumb/gth-browser-actions-entries.h:211
+#: ../gthumb/gth-browser-actions-entries.h:215
 msgid "View file properties"
 msgstr "Näytä kuvan ominaisuudet"
 
-#: ../gthumb/gth-browser-actions-entries.h:215
+#: ../gthumb/gth-browser-actions-entries.h:219
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ../gthumb/gth-browser-actions-entries.h:216
+#: ../gthumb/gth-browser-actions-entries.h:220
 msgid "Edit file"
 msgstr "Muokkaa tiedostoa"
 
-#: ../gthumb/gth-browser.c:325
+#: ../gthumb/gth-browser.c:354
 #, c-format
 msgid "Open %s"
 msgstr "Avaa %s"
 
-#: ../gthumb/gth-browser.c:464
+#: ../gthumb/gth-browser.c:493
 msgid "[modified]"
 msgstr "[muokattu]"
 
-#: ../gthumb/gth-browser.c:468 ../gthumb/gth-main.c:257
+#: ../gthumb/gth-browser.c:497 ../gthumb/gth-main.c:259
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1042 ../gthumb/gth-browser.c:1563
-#: ../gthumb/gth-browser.c:4733 ../gthumb/gth-browser.c:4752
-#: ../gthumb/gth-browser.c:4777
+#: ../gthumb/gth-browser.c:1129 ../gthumb/gth-browser.c:1694
+#: ../gthumb/gth-browser.c:5432 ../gthumb/gth-browser.c:5451
+#: ../gthumb/gth-browser.c:5476
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ei voitu näyttää sijaintia \"%s\""
 
-#: ../gthumb/gth-browser.c:1645 ../gthumb/gth-browser.c:1672
+#: ../gthumb/gth-browser.c:1787 ../gthumb/gth-browser.c:1814
 #, c-format
 msgid "No suitable module found for %s"
 msgstr ""
 
-#: ../gthumb/gth-browser.c:1790
+#: ../gthumb/gth-browser.c:1932
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Tallennetaanko muutokset tiedostoon '%s'?"
 
-#: ../gthumb/gth-browser.c:1795
+#: ../gthumb/gth-browser.c:1937
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Tallentamattomat muutokset katoavat pysyvästi"
 
-#: ../gthumb/gth-browser.c:1796
+#: ../gthumb/gth-browser.c:1938
 msgid "Do _Not Save"
 msgstr "_Älä tallenna"
 
-#: ../gthumb/gth-browser.c:2301 ../gthumb/gth-browser.c:2325
-#: ../gthumb/gth-source-tree.c:179 ../gthumb/gth-source-tree.c:201
+#: ../gthumb/gth-browser.c:2619 ../gthumb/gth-browser.c:2643
+#: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "Nimeä ei voitu muuttaa"
 
-#: ../gthumb/gth-browser.c:2699 ../gthumb/gth-main-default-metadata.c:42
+#: ../gthumb/gth-browser.c:3041 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Muokattu"
 
-#: ../gthumb/gth-browser.c:2926 ../gthumb/gth-browser.c:2947
+#: ../gthumb/gth-browser.c:3358 ../gthumb/gth-browser.c:3379
 msgid "View the list of visited locations"
 msgstr "Näytä luettelo käydyistä sijainneista"
 
-#: ../gthumb/gth-browser.c:2968
+#: ../gthumb/gth-browser.c:3400
 msgid "View the list of upper locations"
 msgstr "Näytä luettelo yläkansioista"
 
-#: ../gthumb/gth-browser.c:4734
+#: ../gthumb/gth-browser.c:5433
 #, c-format
 msgid "File type not supported"
 msgstr "Kuvatyyppi ei ole tuettu"
 
-#: ../gthumb/gth-browser.c:4778
+#: ../gthumb/gth-browser.c:5477
 #, c-format
 msgid "No suitable module found"
 msgstr "Tarvittavaa moduulia ei löytynyt"
 
-#: ../gthumb/gth-extensions.c:229
+#: ../gthumb/gth-extensions.c:228
 #, c-format
 msgid "Could not open the module `%s`: %s"
 msgstr "Moduulin `%s`: %s avaaminen epäonnistui"
 
-#: ../gthumb/gth-extensions.c:817
+#: ../gthumb/gth-extensions.c:827
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
 msgstr "Laajennusta '%s' tarvitaan laajennukseen '%s'"
@@ -3403,289 +4305,330 @@ msgstr "Kotikansio"
 msgid "File System"
 msgstr "Tiedostojärjestelmä"
 
-#: ../gthumb/gth-filterbar.c:406
-msgid "Close"
-msgstr "Sulje"
+#: ../gthumb/gth-filterbar.c:405
+msgid "Hide the filterbar"
+msgstr "Piilota suodatuspalkki"
 
-#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:209
-#: ../gthumb/gth-test-simple.c:68
+#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:209
+#: ../gthumb/gth-test-simple.c:75
 msgid "kB"
 msgstr "kt"
 
-#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:210
-#: ../gthumb/gth-test-simple.c:69
+#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:210
+#: ../gthumb/gth-test-simple.c:76
 msgid "MB"
 msgstr "Mt"
 
-#: ../gthumb/gth-filter.c:46 ../gthumb/gth-filter-editor-dialog.c:211
-#: ../gthumb/gth-test-simple.c:70
+#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:211
+#: ../gthumb/gth-test-simple.c:77
 msgid "GB"
 msgstr "Gt"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:280 ../gthumb/gth-filter-editor-dialog.c:208
+#: ../gthumb/gth-filter.c:279 ../gthumb/gth-filter-editor-dialog.c:208
 msgid "files"
 msgstr "tiedostoon"
 
-#: ../gthumb/gth-filter-editor-dialog.c:252
+#: ../gthumb/gth-filter-editor-dialog.c:255
 msgid "ascending"
 msgstr "nouseva järjestys"
 
-#: ../gthumb/gth-filter-editor-dialog.c:253
+#: ../gthumb/gth-filter-editor-dialog.c:256
 msgid "descending"
 msgstr "laskeva järjestys"
 
-#: ../gthumb/gth-filter-editor-dialog.c:543
+#: ../gthumb/gth-filter-editor-dialog.c:546
 #, c-format
 msgid "No limit specified"
 msgstr ""
 
-#: ../gthumb/gth-folder-tree.c:643
+#: ../gthumb/gth-folder-tree.c:848
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: ../gthumb/gth-folder-tree.c:890
+#: ../gthumb/gth-folder-tree.c:1119
 msgid "(Open Parent)"
 msgstr "(Avaa yläkansio)"
 
-#: ../gthumb/gth-image-loader.c:236
+#: ../gthumb/gth-image-loader.c:235
 msgid "No suitable loader available for this file type"
 msgstr ""
 
-#: ../gthumb/gth-main.c:220
+#: ../gthumb/gth-main.c:222
 #, c-format
 msgid "Unable to show '%s'"
 msgstr "Ei voitu näyttää kohdetta '%s'"
 
-#: ../gthumb/gth-main.c:240
+#: ../gthumb/gth-main.c:242
 #, c-format
 msgid "Unable to open '%s'"
 msgstr ""
 
-#: ../gthumb/gth-main-default-metadata.c:33
+#: ../gthumb/gth-main-default-metadata.c:32
 msgid "File"
 msgstr "Tiedosto"
 
-#: ../gthumb/gth-main-default-metadata.c:40
+#: ../gthumb/gth-main-default-metadata.c:39
 msgid "Name"
 msgstr "Nimi"
 
-#: ../gthumb/gth-main-default-metadata.c:41
-#: ../gthumb/gth-main-default-tests.c:192
+#: ../gthumb/gth-main-default-metadata.c:40
+#: ../gthumb/gth-main-default-tests.c:248
 msgid "Size"
 msgstr "Koko"
 
-#: ../gthumb/gth-main-default-metadata.c:43
+#: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
 msgstr "Tyyppi"
 
-#: ../gthumb/gth-main-default-metadata.c:45
+#: ../gthumb/gth-main-default-metadata.c:44
 msgid "Full Name"
 msgstr "Koko nimi"
 
-#: ../gthumb/gth-main-default-metadata.c:47
+#: ../gthumb/gth-main-default-metadata.c:46
 msgid "Title"
 msgstr "Otsikko"
 
-#: ../gthumb/gth-main-default-metadata.c:49
+#: ../gthumb/gth-main-default-metadata.c:48
 msgid "Duration"
 msgstr "Kesto"
 
-#: ../gthumb/gth-main-default-metadata.c:50
+#: ../gthumb/gth-main-default-metadata.c:49
 msgid "Format"
 msgstr "Muoto"
 
-#: ../gthumb/gth-main-default-metadata.c:52
+#: ../gthumb/gth-main-default-metadata.c:51
 msgid "Date"
 msgstr "Päivämäärä"
 
 #: ../gthumb/gth-main-default-metadata.c:54
-msgid "Tags"
-msgstr "Tunnisteet"
-
-#: ../gthumb/gth-main-default-metadata.c:55
 msgid "Rating"
 msgstr "Arviointi"
 
-#: ../gthumb/gth-main-default-sort-types.c:81
+#: ../gthumb/gth-main-default-sort-types.c:131
 msgid "file name"
 msgstr "Tiedostonimi"
 
-#: ../gthumb/gth-main-default-sort-types.c:82
+#: ../gthumb/gth-main-default-sort-types.c:132
+msgid "file path"
+msgstr "Tiedostopolku"
+
+#: ../gthumb/gth-main-default-sort-types.c:133
 msgid "file size"
 msgstr "Tiedostokoko"
 
-#: ../gthumb/gth-main-default-sort-types.c:83
-msgid "file modified date "
-msgstr "tiedoston muokkausaika"
+#: ../gthumb/gth-main-default-sort-types.c:134
+msgid "file modified date"
+msgstr "tiedoston muokkausajan mukaan"
 
-#: ../gthumb/gth-main-default-sort-types.c:84
+#: ../gthumb/gth-main-default-sort-types.c:135
 msgid "no sorting"
 msgstr "ei lajittelua"
 
-#: ../gthumb/gth-main-default-tests.c:148
+#: ../gthumb/gth-main-default-sort-types.c:136
+msgid "dimensions"
+msgstr "Mitat"
+
+#: ../gthumb/gth-main-default-tests.c:204
 msgid "Images"
 msgstr "Kuvat"
 
-#: ../gthumb/gth-main-default-tests.c:169
+#: ../gthumb/gth-main-default-tests.c:225
 msgid "Media"
 msgstr "Media"
 
-#: ../gthumb/gth-main-default-tests.c:176
+#: ../gthumb/gth-main-default-tests.c:232
 msgid "Text Files"
 msgstr "Tekstitiedostot"
 
-#: ../gthumb/gth-main-default-tests.c:184
+#: ../gthumb/gth-main-default-tests.c:240
 msgid "Filename"
 msgstr "Tiedostonimi"
 
-#: ../gthumb/gth-pixbuf-saver.c:35
+#: ../gthumb/gth-main-default-tests.c:272
+msgid "Title (embedded)"
+msgstr "Aihe (Upotettu)"
+
+#: ../gthumb/gth-main-default-tests.c:278
+msgid "Description (embedded)"
+msgstr "Kuvaus (upotettu)"
+
+#: ../gthumb/gth-pixbuf-list-task.c:139
+msgid "Could not rename the file"
+msgstr "Tiedostoa ei voitu uudelleen nimetä"
+
+#: ../gthumb/gth-pixbuf-saver.c:34
 msgid "No options available for this file type"
 msgstr "Tälle tiedostotyypille ei ole valintoja"
 
-#: ../gthumb/gth-progress-dialog.c:137
+#: ../gthumb/gth-progress-dialog.c:136
 msgid "Cancel operation"
 msgstr "Peru toiminto"
 
-#: ../gthumb/gth-tags-entry.c:359
+#: ../gthumb/gth-tags-entry.c:373
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Tuo tunniste «%s»"
 
-#: ../gthumb/gth-tags-entry.c:717
+#: ../gthumb/gth-tags-entry.c:719
 msgid "Show all the tags"
 msgstr "Näytä kaikki tunnisteet"
 
-#: ../gthumb/gth-tags-file.c:235
+#: ../gthumb/gth-tags-file.c:234
 msgid "Holidays"
 msgstr "Lomat"
 
-#: ../gthumb/gth-tags-file.c:236
+#: ../gthumb/gth-tags-file.c:235
 msgid "Temporary"
 msgstr "Väliaikainen"
 
-#: ../gthumb/gth-tags-file.c:237
+#: ../gthumb/gth-tags-file.c:236
 msgid "Screenshots"
 msgstr "Kuvakaappaus"
 
-#: ../gthumb/gth-tags-file.c:238
+#: ../gthumb/gth-tags-file.c:237
 msgid "Science"
 msgstr "Tiede"
 
-#: ../gthumb/gth-tags-file.c:239
+#: ../gthumb/gth-tags-file.c:238
 msgid "Favorite"
 msgstr "Suosikki"
 
-#: ../gthumb/gth-tags-file.c:240
+#: ../gthumb/gth-tags-file.c:239
 msgid "Important"
 msgstr "Tärkeä"
 
-#: ../gthumb/gth-tags-file.c:241
+#: ../gthumb/gth-tags-file.c:240
 msgid "GNOME"
 msgstr "Gnome"
 
-#: ../gthumb/gth-tags-file.c:242
+#: ../gthumb/gth-tags-file.c:241
 msgid "Games"
 msgstr "Pelit"
 
-#: ../gthumb/gth-tags-file.c:243
+#: ../gthumb/gth-tags-file.c:242
 msgid "Party"
 msgstr "Juhla"
 
-#: ../gthumb/gth-tags-file.c:244
+#: ../gthumb/gth-tags-file.c:243
 msgid "Birthday"
 msgstr "Syntymäpäivä"
 
-#: ../gthumb/gth-tags-file.c:245
+#: ../gthumb/gth-tags-file.c:244
 msgid "Astronomy"
 msgstr "Astronomia"
 
-#: ../gthumb/gth-tags-file.c:246
+#: ../gthumb/gth-tags-file.c:245
 msgid "Family"
 msgstr "Perhe"
 
-#: ../gthumb/gth-test-selector.c:279
+#: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
+#: ../gthumb/gth-test-simple.c:64
+msgid "is"
+msgstr "on"
+
+#: ../gthumb/gth-test-category.c:47 ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:65
+msgid "is not"
+msgstr "ei ole"
+
+#: ../gthumb/gth-test-category.c:361 ../gthumb/gth-test-simple.c:796
+#: ../gthumb/gth-test-simple.c:822 ../gthumb/gth-test-simple.c:843
+#: ../gthumb/gth-test-simple.c:869
+#, c-format
+msgid "The test definition is incomplete"
+msgstr ""
+
+#: ../gthumb/gth-test-selector.c:278
 msgid "Add a new rule"
 msgstr "Lisää uusi sääntö"
 
-#: ../gthumb/gth-test-selector.c:290
+#: ../gthumb/gth-test-selector.c:289
 msgid "Remove this rule"
 msgstr "Poista tämä sääntö"
 
-#: ../gthumb/gth-test-simple.c:45
+#: ../gthumb/gth-test-simple.c:46
 msgid "contains"
 msgstr "sisältää"
 
-#: ../gthumb/gth-test-simple.c:46
+#: ../gthumb/gth-test-simple.c:47
 msgid "starts with"
 msgstr "alkaa merkeillä"
 
-#: ../gthumb/gth-test-simple.c:47
+#: ../gthumb/gth-test-simple.c:48
 msgid "ends with"
 msgstr "päättyy merkkeihin"
 
-#: ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:51
 msgid "does not contain"
 msgstr "ei sisällä"
 
-#: ../gthumb/gth-test-simple.c:51
+#: ../gthumb/gth-test-simple.c:52
 msgid "matches"
 msgstr "on täsmälleen"
 
-#: ../gthumb/gth-test-simple.c:55
+#: ../gthumb/gth-test-simple.c:56
 msgid "is lower than"
 msgstr "on pienempi kuin"
 
-#: ../gthumb/gth-test-simple.c:56
+#: ../gthumb/gth-test-simple.c:57
 msgid "is greater than"
 msgstr "on suurempi kuin"
 
-#: ../gthumb/gth-test-simple.c:57
+#: ../gthumb/gth-test-simple.c:58
 msgid "is equal to"
 msgstr "on yhtä suuri kuin"
 
-#: ../gthumb/gth-time-selector.c:431
+#: ../gthumb/gth-test-simple.c:62
+msgid "is before"
+msgstr "on ennen"
+
+#: ../gthumb/gth-test-simple.c:63
+msgid "is after"
+msgstr "on jälkeen"
+
+#: ../gthumb/gth-time-selector.c:471
 msgid "Today"
 msgstr "Tänään"
 
-#: ../gthumb/gth-time-selector.c:439
+#: ../gthumb/gth-time-selector.c:479
 msgid "Now"
 msgstr "Nyt"
 
-#: ../gthumb/gth-window-actions-entries.h:33
+#: ../gthumb/gth-window-actions-entries.h:32
 msgid "Close this window"
 msgstr "Sulje tämä ikkuna"
 
-#: ../gthumb/gtk-utils.c:801
+#: ../gthumb/gtk-utils.c:802
 msgid "Could not display help"
 msgstr "Ohjetta ei voitu näyttää"
 
-#: ../gthumb/gtk-utils.c:1073 ../gthumb/gtk-utils.c:1081
+#: ../gthumb/gtk-utils.c:1089 ../gthumb/gtk-utils.c:1097
 msgid "Could not launch the application"
 msgstr "Ohjelmaa ei voitu käynnistää"
 
-#: ../gthumb/main.c:64
+#: ../gthumb/main.c:67
 msgid "Open a new window"
 msgstr "Avaa uusi ikkuna"
 
-#: ../gthumb/main.c:68
+#: ../gthumb/main.c:71
 msgid "Start in fullscreen mode"
 msgstr "Aloita kokoruututilassa"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:75
 msgid "Automatically start a slideshow"
 msgstr "Käynnistä diaesitys automaattisesti"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:79
 msgid "Automatically import digital camera photos"
 msgstr "Tuo valokuvat digitaalikamerasta automaattisesti"
 
-#: ../gthumb/main.c:80
+#: ../gthumb/main.c:83
 msgid "Show version"
 msgstr "Näytä versio"
 
 #. command line options
-#: ../gthumb/main.c:400
+#: ../gthumb/main.c:411
 msgid "- Image browser and viewer"
 msgstr "- Kuvien katselu- ja selausohjelma"
 
@@ -3694,11 +4637,68 @@ msgstr "- Kuvien katselu- ja selausohjelma"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
+#~ msgid "gtk-close"
+#~ msgstr "gtk-close"
+
+#~ msgid "gtk-edit"
+#~ msgstr "gtk-edit"
+
+#~ msgid "gtk-help"
+#~ msgstr "gtk-help"
+
+#~ msgid "gtk-new"
+#~ msgstr "gtk-new"
+
+#~ msgid "gtk-remove"
+#~ msgstr "gtk-remove"
+
+#~ msgid "Do _not change folder"
+#~ msgstr "Älä _siirry kansiosta"
+
+#~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
+#~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
+
+#~ msgid "gtk-add"
+#~ msgstr "gtk-add"
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "appointment-soon"
+#~ msgstr "appointment-soon"
+
+#~ msgid "camera-photo"
+#~ msgstr "camera-photo"
+
+#~ msgid "Edit file metadata"
+#~ msgstr "muokkaa metatietoja"
+
+#~ msgid "_Preserve original aspect ratio"
+#~ msgstr "_Säilytä alkuperäinen kuvasuhde"
+
+#~ msgid "4 x 3 (Book, DVD)"
+#~ msgstr "4 × 3 (Kirjat, DVD)"
+
+#~ msgid "5 x 7"
+#~ msgstr "5 × 7"
+
+#~ msgid "8 x 10"
+#~ msgstr "8 × 10"
+
+#~ msgid "Files"
+#~ msgstr "Tiedostot"
+
+#~ msgid "_Overwrite existing files"
+#~ msgstr "Korvaa kohdekansion kuvat tuoduilla"
+
+#~ msgid "Close"
+#~ msgstr "Sulje"
+
+#~ msgid "file modified date "
+#~ msgstr "tiedoston muokkausaika"
+
 #~ msgid "H_igh"
 #~ msgstr "_Korkea"
-
-#~ msgid "Index"
-#~ msgstr "Kuvaluettelo"
 
 #~ msgid "Bytes"
 #~ msgstr "Tavua"
@@ -3867,9 +4867,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "     "
 #~ msgstr "     "
 
-#~ msgid "<b>Original dimensions</b>"
-#~ msgstr "<b>Alkuperäiset ulottuvuudet</b>"
-
 #~ msgid "<b>Scale ratio</b>"
 #~ msgstr "<b>Suurennuskerroin</b>"
 
@@ -3927,9 +4924,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "64"
 #~ msgstr "64"
 
-#~ msgid "75"
-#~ msgstr "75"
-
 #~ msgid "85"
 #~ msgstr "85"
 
@@ -3969,9 +4963,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "Co_mment"
 #~ msgstr "Ko_mmentti"
-
-#~ msgid "Col_umns:"
-#~ msgstr "_Saraketta:"
 
 #~ msgid "Colo_r:"
 #~ msgstr "Vä_ri:"
@@ -4093,9 +5084,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "4:"
 #~ msgstr "4:"
 
-#~ msgid "5:"
-#~ msgstr "5:"
-
 #~ msgid "64 x 64"
 #~ msgstr "64 × 64"
 
@@ -4191,9 +5179,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "Use a _fading effect when changing image"
 #~ msgstr "Käytä _häivytysefektiä vaihdettaessa kuvaa"
-
-#~ msgid "_Filenames"
-#~ msgstr "_Tiedostonimet"
 
 #~ msgid "1"
 #~ msgstr "1"
@@ -4293,9 +5278,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "_Bottom:"
 #~ msgstr "_Ala:"
-
-#~ msgid "_Scale:"
-#~ msgstr "_Koko:"
 
 #~ msgid "Actual Size"
 #~ msgstr "Oikea koko"
@@ -4490,9 +5472,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "320 x 320"
 #~ msgstr "320 × 320"
 
-#~ msgid "640 x 480"
-#~ msgstr "640 × 480"
-
 #~ msgid "640 x 640"
 #~ msgstr "640 × 640"
 
@@ -4550,20 +5529,11 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "I_mage Caption..."
 #~ msgstr "Kuvan ku_vateksti..."
 
-#~ msgid "S_ort:"
-#~ msgstr "_Järjestä:"
-
-#~ msgid "Use subfolders to organize files"
-#~ msgstr "Järjestele tiedostot alikansioihin"
-
 #~ msgid "Web Album Theme"
 #~ msgstr "Verkkoalbumin teema"
 
 #~ msgid "_Aperture value"
 #~ msgstr "_Aukon koko"
-
-#~ msgid "_Copy originals to destination"
-#~ msgstr "_Kopioi alkuperäiset kuvat kohteeseen"
 
 #~ msgid "_Date and Time"
 #~ msgstr "_Päivämäärä ja aika"
@@ -4571,23 +5541,14 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "_Flash"
 #~ msgstr "_Salama"
 
-#~ msgid "_Footer:"
-#~ msgstr "_Alatunniste:"
-
 #~ msgid "_Go to Theme Folder"
 #~ msgstr "_Siirry teema-kansioon"
-
-#~ msgid "_Header:"
-#~ msgstr "_Ylätunniste:"
 
 #~ msgid "_Install Theme..."
 #~ msgstr "_Asenna teema..."
 
 #~ msgid "_Place"
 #~ msgstr "_Sijainti"
-
-#~ msgid "_Resize if larger than:"
-#~ msgstr "_Muuta kokoa, jos suurempi kuin:"
 
 #~ msgid "_Select"
 #~ msgstr "_Valitse"
@@ -4597,9 +5558,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "_Size :"
 #~ msgstr "_Koko:"
-
-#~ msgid "_Thumbnail Caption..."
-#~ msgstr "_Pienoiskuvan kuvateksti..."
 
 #~ msgid "columns, by"
 #~ msgstr "saraketta sivulla"
@@ -4670,9 +5628,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ "\" (kuva), \"display\" (näyttö), \"4x3\", \"4x6\", \"5x7\", \"8x10\", "
 #~ "\"custom\" (oma)."
 
-#~ msgid "Possible values are: original, lower, upper."
-#~ msgstr "Sallittuja arvoja ovat: original, lower, upper."
-
 #~ msgid "Possible values are: png, jpeg."
 #~ msgstr "Sallittuja arvoja ovat: \"png\", \"jpeg\"."
 
@@ -4686,9 +5641,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "Cannot save catalog \"%s\": %s"
 #~ msgstr "Albumia \"%s\" ei voida tallentaa: %s"
-
-#~ msgid "%d %B %Y"
-#~ msgstr "%x"
 
 #~ msgid "%d %B %Y, %H:%M"
 #~ msgstr "%x, %H:%M"
@@ -4729,26 +5681,8 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "%d x %d pixels"
 #~ msgstr "%d × %d kuvapistettä"
 
-#~ msgid "Saving images"
-#~ msgstr "Tallennetaan kuvia"
-
 #~ msgid "Creating image: %s.%s"
 #~ msgstr "Luodaan kuvaa: %s.%s"
-
-#~ msgid "Saving thumbnails"
-#~ msgstr "Tallennetaan pienoiskuvia"
-
-#~ msgid "Saving HTML pages: Images"
-#~ msgstr "Tallennetaan HTML-sivuja: Kuvia"
-
-#~ msgid "Saving HTML pages: Indexes"
-#~ msgstr "Tallennetaan HTML-sivuja: kuvaluettelot"
-
-#~ msgid "Copying original images"
-#~ msgstr "Kopioidaan alkuperäisiä kuvia"
-
-#~ msgid "Could not create a temporary folder"
-#~ msgstr "Väliaikaiskansion luonti ei onnistunut"
 
 #~ msgid "Move Catalog to..."
 #~ msgstr "Siirrä albumi..."
@@ -4838,9 +5772,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Copying file %ld of %ld"
 #~ msgstr "Kopioidaan tiedostoa %ld / %ld"
 
-#~ msgid "Information on Channel"
-#~ msgstr "Tiedot kanavasta"
-
 #~ msgid "Film"
 #~ msgstr "Filmi"
 
@@ -4865,9 +5796,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "by comment"
 #~ msgstr "kommentin mukaan"
 
-#~ msgid "manual order"
-#~ msgstr "käsin järjestetty"
-
 #~ msgid ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
@@ -4879,9 +5807,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "The image will be moved to the Trash, are you sure?"
 #~ msgstr "Siirretäänkö kuva varmasti roskakoriin?"
-
-#~ msgid "Continue"
-#~ msgstr "Jatka"
 
 #~ msgid "The selected images will be moved to the Trash, are you sure?"
 #~ msgstr "Siirretäänkö valitut kuvat varmasti roskakoriin?"
@@ -4900,9 +5825,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "The selected catalog will be removed, are you sure?"
 #~ msgstr "Poistetaanko valittu albumi varmasti?"
-
-#~ msgid "New Catalog"
-#~ msgstr "Uusi albumi"
 
 #~ msgid "New Library"
 #~ msgstr "Uusi kirjasto"
@@ -5016,9 +5938,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Redo _Search"
 #~ msgstr "Uusi _haku"
 
-#~ msgid "Redo the search"
-#~ msgstr "Tee sama haku uudestaan"
-
 #~ msgid "_New Catalog..."
 #~ msgstr "_Uusi albumi..."
 
@@ -5055,12 +5974,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Move selected folder"
 #~ msgstr "Siirrä valittu kansio"
 
-#~ msgid "Ca_tegories..."
-#~ msgstr "Luo_kat..."
-
-#~ msgid "Assign categories to the selected folder"
-#~ msgstr "Määrää luokkia valitulle kansiolle"
-
 #~ msgid "Open current folder with the Nautilus file manager"
 #~ msgstr "Avaa avoin kansio Nautilus-tiedostonhallintaohjelmalla"
 
@@ -5078,12 +5991,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "_New Folder..."
 #~ msgstr "_Uusi kansio..."
-
-#~ msgid "Reload the current location"
-#~ msgstr "Päivitä sijainnin sisältö"
-
-#~ msgid "Stop loading current location"
-#~ msgstr "Lopeta sijainnin lataaminen"
 
 #~ msgid "Go to the home folder"
 #~ msgstr "Siirry kotikansioon"
@@ -5112,9 +6019,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "_Image Preview"
 #~ msgstr "_Kuvan esikatselu"
 
-#~ msgid "View the image"
-#~ msgstr "Näytä kuva"
-
 #~ msgid "_Reversed Order"
 #~ msgstr "_Käänteinen järjestys"
 
@@ -5135,9 +6039,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "by _Size"
 #~ msgstr "_Koon mukaan"
-
-#~ msgid "Sort images by file size"
-#~ msgstr "Järjestä kuvat tiedostokoon mukaan"
 
 #~ msgid "by Modification _Time"
 #~ msgstr "muokkaus_ajan mukaan"
@@ -5202,12 +6103,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Cannot load folder \"%s\": %s\n"
 #~ msgstr "Kansion %s\" lataus ei onnistunut: %s\n"
 
-#~ msgid "Image comment"
-#~ msgstr "Kuvan kommentti"
-
-#~ msgid "Image data"
-#~ msgstr "Tietoja kuvasta"
-
 #~ msgid "The specified catalog does not exist."
 #~ msgstr "Annettua albumia ei löydy."
 
@@ -5228,12 +6123,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "Path"
 #~ msgstr "Polku"
-
-#~ msgid "is before"
-#~ msgstr "on ennen"
-
-#~ msgid "is after"
-#~ msgstr "on jälkeen"
 
 #~ msgid "KB"
 #~ msgstr "kB"
@@ -5267,9 +6156,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "_Open With..."
 #~ msgstr "_Avaa ohjelmalla..."
-
-#~ msgid "Save current image"
-#~ msgstr "Tallenna avoin kuva"
 
 #~ msgid "Revert to saved image"
 #~ msgstr "Palauta tallennettu kuva"
@@ -5617,9 +6503,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Sort images by modification time"
 #~ msgstr "Järjestä kuvat muokkauspäivän mukaan"
 
-#~ msgid "Reset Exif Orientation"
-#~ msgstr "Nollaa Exif-suunta"
-
 #~ msgid "_Auto Detect"
 #~ msgstr "Tunnista _automaattisesti"
 
@@ -5666,9 +6549,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 #~ msgid "Restore Normal View"
 #~ msgstr "Palaa normaalinäkymään"
 
-#~ msgid "_Full Screen"
-#~ msgstr "Koko_ruutu"
-
 #~ msgid "View image in fullscreen mode"
 #~ msgstr "Näytä kuva kokoruututilassa"
 
@@ -5704,9 +6584,6 @@ msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
 
 #~ msgid "_New"
 #~ msgstr "_Uusi"
-
-#~ msgid "Switch to _full screen"
-#~ msgstr "Siirry koko_ruututilaan"
 
 #~ msgid "C_ustom:"
 #~ msgstr "_Oma:"
