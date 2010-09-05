@@ -723,12 +723,17 @@ gth_thumb_loader_load__step2 (GthThumbLoader *self)
 	}
 
 	if (cache_path != NULL) {
-		GFile *file;
+		GFile       *file;
+		GthFileData *file_data;
 
 		self->priv->loading_from_cache = TRUE;
-		file = g_file_new_for_path (cache_path);
-		gth_image_loader_set_file (self->priv->iloader, file, "image/png");
 
+		file = g_file_new_for_path (cache_path);
+		file_data = gth_file_data_new (file, NULL);
+		gth_file_data_set_mime_type (file_data, "image/png");
+		gth_image_loader_set_file_data (self->priv->iloader, file_data);
+
+		g_object_unref (file_data);
 		g_object_unref (file);
 		g_free (cache_path);
 	}

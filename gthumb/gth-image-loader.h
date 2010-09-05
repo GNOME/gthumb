@@ -64,9 +64,6 @@ void                 gth_image_loader_set_loader              (GthImageLoader   
 						               gpointer           data);
 void                 gth_image_loader_set_file_data           (GthImageLoader    *iloader,
 						               GthFileData       *file);
-void                 gth_image_loader_set_file                (GthImageLoader    *iloader,
-							       GFile             *file,
-							       const char        *mime_type);               
 GthFileData *        gth_image_loader_get_file                (GthImageLoader    *iloader);
 void                 gth_image_loader_set_pixbuf              (GthImageLoader    *iloader,
 						               GdkPixbuf         *pixbuf);
@@ -79,9 +76,6 @@ void                 gth_image_loader_load                    (GthImageLoader   
 void                 gth_image_loader_load_at_size            (GthImageLoader    *iloader,
 							       int                requested_size);
 void                 gth_image_loader_cancel                  (GthImageLoader    *iloader,
-						               DataFunc           done_func,
-						               gpointer           done_func_data);
-void                 gth_image_loader_cancel_with_error       (GthImageLoader    *iloader,
 						               DataFunc           done_func,
 						               gpointer           done_func_data);
 

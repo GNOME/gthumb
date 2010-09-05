@@ -419,25 +419,6 @@ gth_image_loader_set_file_data (GthImageLoader *self,
 }
 
 
-void
-gth_image_loader_set_file (GthImageLoader *self,
-			   GFile          *file,
-			   const char     *mime_type)
-{
-	GthFileData *file_data;
-
-	file_data = gth_file_data_new (file, NULL);
-	if (mime_type != NULL)
-		gth_file_data_set_mime_type (file_data, mime_type);
-	else
-		gth_file_data_update_mime_type (file_data, TRUE); /* FIXME: always fast mime type is not good */
-
-	gth_image_loader_set_file_data (self, file_data);
-
-	g_object_unref (file_data);
-}
-
-
 GthFileData *
 gth_image_loader_get_file (GthImageLoader *self)
 {
@@ -757,19 +738,6 @@ gth_image_loader_cancel (GthImageLoader *self,
 					done_func_data,
 					FALSE,
 					TRUE);
-}
-
-
-void
-gth_image_loader_cancel_with_error (GthImageLoader *self,
-				    DataFunc        done_func,
-				    gpointer        done_func_data)
-{
-	g_mutex_lock (self->priv->data_mutex);
-	self->priv->error = g_error_new_literal (GTH_ERROR, 0, "cancelled");
-	g_mutex_unlock (self->priv->data_mutex);
-
-	_gth_image_loader_stop (self, done_func, done_func_data, TRUE, TRUE);
 }
 
 
