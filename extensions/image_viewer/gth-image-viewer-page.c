@@ -219,21 +219,6 @@ gth_image_viewer_page_file_loaded (GthImageViewerPage *self,
 }
 
 
-static void
-viewer_image_ready_cb (GtkWidget          *widget,
-		       GthImageViewerPage *self)
-{
-	if (self->priv->shrink_wrap)
-		gth_image_viewer_page_shrink_wrap (self, TRUE);
-
-	gth_image_history_clear (self->priv->history);
-	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
-				     FALSE);
-	gth_image_viewer_page_file_loaded (self, TRUE);
-}
-
-
 static gboolean
 viewer_zoom_changed_cb (GtkWidget          *widget,
 			GthImageViewerPage *self)
@@ -324,6 +309,15 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 					gth_image_loader_get_animation (image_loader),
 					original_width,
 					original_height);
+
+	if (self->priv->shrink_wrap)
+		gth_image_viewer_page_shrink_wrap (self, TRUE);
+
+	gth_image_history_clear (self->priv->history);
+	gth_image_history_add_image (self->priv->history,
+				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     FALSE);
+	gth_image_viewer_page_file_loaded (self, TRUE);
 }
 
 
@@ -481,10 +475,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	gtk_widget_show (self->priv->viewer);
 
-	g_signal_connect (G_OBJECT (self->priv->viewer),
-			  "image_ready",
-			  G_CALLBACK (viewer_image_ready_cb),
-			  self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "zoom_changed",
 			  G_CALLBACK (viewer_zoom_changed_cb),

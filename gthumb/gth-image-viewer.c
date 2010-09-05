@@ -48,7 +48,6 @@
 
 enum {
 	CLICKED,
-	IMAGE_READY,
 	ZOOM_IN,
 	ZOOM_OUT,
 	SET_ZOOM,
@@ -1257,15 +1256,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	gth_image_viewer_signals[IMAGE_READY] =
-		g_signal_new ("image_ready",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthImageViewerClass, image_ready),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
 	gth_image_viewer_signals[ZOOM_IN] =
 		g_signal_new ("zoom_in",
 			      G_TYPE_FROM_CLASS (class),
@@ -1366,7 +1356,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	widget_class->style_set    = gth_image_viewer_style_set;
 
 	class->clicked      = NULL;
-	class->image_ready  = NULL;
 	class->zoom_changed = NULL;
 	class->scroll       = scroll_signal;
 	class->zoom_in      = gth_image_viewer_zoom_in;
@@ -1665,8 +1654,6 @@ _gth_image_viewer_content_changed (GthImageViewer *self)
 		queue_animation_frame_change (self);
 		break;
 	}
-
-	g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_READY], 0);
 }
 
 

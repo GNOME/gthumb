@@ -117,31 +117,6 @@ gth_overwrite_dialog_get_type (void)
 
 
 static void
-image_viewer_image_ready_cb (GthImageViewer *viewer,
-			     gpointer        user_data)
-{
-	GthOverwriteDialog *self = user_data;
-	GIcon              *icon;
-	GdkPixbuf          *pixbuf;
-
-	if (! gth_image_viewer_is_void (viewer))
-		return;
-
-	if (viewer == (GthImageViewer *) self->priv->old_image_viewer)
-		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->source_data->info));
-
-	else
-		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->destination_data->info));
-
-	pixbuf = _g_icon_get_pixbuf (icon, PREVIEW_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
-	if (pixbuf != NULL) {
-		gth_image_viewer_set_pixbuf (viewer, pixbuf, -1, -1);
-		g_object_unref (pixbuf);
-	}
-}
-
-
-static void
 image_loader_ready_cb (GthImageLoader *image_loader,
 		       GError         *error,
 		       gpointer        user_data)
@@ -319,10 +294,6 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->old_image_viewer));
 	gtk_widget_show (self->priv->old_image_viewer);
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "old_image_frame")), self->priv->old_image_viewer);
-	g_signal_connect (self->priv->old_image_viewer,
-			  "image_ready",
-			  G_CALLBACK (image_viewer_image_ready_cb),
-			  self);
 
 	self->priv->new_image_viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), GTH_TRANSP_TYPE_NONE);
@@ -330,10 +301,6 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->new_image_viewer));
 	gtk_widget_show (self->priv->new_image_viewer);
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "new_image_frame")), self->priv->new_image_viewer);
-	g_signal_connect (self->priv->new_image_viewer,
-			  "image_ready",
-			  G_CALLBACK (image_viewer_image_ready_cb),
-			  self);
 
 	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "overwrite_rename_radiobutton"),
 			  "toggled",

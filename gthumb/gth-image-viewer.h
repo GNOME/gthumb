@@ -124,7 +124,6 @@ struct _GthImageViewerClass
 	/* -- Signals -- */
 
 	void (* clicked)                (GthImageViewer     *viewer);
-	void (* image_ready)            (GthImageViewer     *viewer);
 	void (* zoom_changed)           (GthImageViewer     *viewer);
 	void (* size_changed)           (GthImageViewer     *viewer);
 	void (* set_scroll_adjustments) (GtkWidget          *widget,
