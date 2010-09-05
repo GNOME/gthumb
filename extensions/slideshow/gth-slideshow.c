@@ -545,7 +545,7 @@ static void
 default_projector_image_ready (GthSlideshow *self,
 			       GdkPixbuf    *pixbuf)
 {
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf);
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
 	view_next_image_automatically (self);
 }
 

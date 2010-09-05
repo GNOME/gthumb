@@ -306,6 +306,9 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
+	int original_width;
+	int original_height;
+
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -315,7 +318,12 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	}
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-	gth_image_viewer_load_from_image_loader (GTH_IMAGE_VIEWER (self->priv->viewer), image_loader);
+
+	gth_image_loader_get_original_size (image_loader, &original_width, &original_height);
+	gth_image_viewer_set_animation (GTH_IMAGE_VIEWER (self->priv->viewer),
+					gth_image_loader_get_animation (image_loader),
+					original_width,
+					original_height);
 }
 
 
@@ -994,7 +1002,7 @@ _gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 	int          height;
 	char        *size;
 
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf);
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
 
