@@ -287,13 +287,12 @@ viewer_key_press_cb (GtkWidget          *widget,
 static void
 image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GthFileData        *requested,
-				    GthImageLoader     *image_loader,
+				    GdkPixbufAnimation *animation,
+				    int                 original_width,
+				    int                 original_height,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
-	int original_width;
-	int original_height;
-
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -304,9 +303,8 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
-	gth_image_loader_get_original_size (image_loader, &original_width, &original_height);
 	gth_image_viewer_set_animation (GTH_IMAGE_VIEWER (self->priv->viewer),
-					gth_image_loader_get_animation (image_loader),
+					animation,
 					original_width,
 					original_height);
 

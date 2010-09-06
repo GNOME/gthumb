@@ -103,13 +103,23 @@ continue_loading_image (GthLoadImageInfoTask *self)
 
 
 static void
-image_loader_ready_cb (GthImageLoader *loader,
-		       GError         *error,
-		       gpointer        user_data)
+image_loader_ready_cb (GObject      *source_object,
+                       GAsyncResult *result,
+                       gpointer      user_data)
 {
 	GthLoadImageInfoTask *self = user_data;
 	GthImageInfo         *image_info;
 	GdkPixbuf            *pixbuf;
+	GError               *error = NULL;
+
+	gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
+					    result,
+					    NULL,
+					    NULL,
+					    &pixbuf,
+					    NULL,
+					    NULL,
+					    &error);
 
 	if (error == NULL)
 		g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error);
@@ -120,9 +130,10 @@ image_loader_ready_cb (GthImageLoader *loader,
 	}
 
 	image_info = self->priv->images[self->priv->current];
-	pixbuf = gth_image_loader_get_pixbuf (loader);
-	if (pixbuf != NULL)
+	if (pixbuf != NULL) {
 		gth_image_info_set_pixbuf (image_info, pixbuf);
+		g_object_unref (pixbuf);
+	}
 
 	continue_loading_image (self);
 }
@@ -149,10 +160,13 @@ load_current_image (GthLoadImageInfoTask *self)
 			   FALSE,
 			   ((double) self->priv->current + 0.5) / self->priv->n_images);
 
-	if (image_info->pixbuf == NULL) {
-		gth_image_loader_set_file_data (self->priv->loader, image_info->file_data);
-		gth_image_loader_load (self->priv->loader);
-	}
+	if (image_info->pixbuf == NULL)
+		gth_image_loader_load (self->priv->loader,
+				       image_info->file_data,
+				       -1,
+				       gth_task_get_cancellable (GTH_TASK (self)),
+				       image_loader_ready_cb,
+				       self);
 	else
 		call_when_idle ((DataFunc) continue_loading_image, self);
 
@@ -202,11 +216,7 @@ static void
 gth_load_image_info_task_init (GthLoadImageInfoTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOAD_IMAGE_INFO_TASK, GthLoadImageInfoTaskPrivate);
-	self->priv->loader = gth_image_loader_new (FALSE);
-	g_signal_connect (self->priv->loader,
-			  "ready",
-			  G_CALLBACK (image_loader_ready_cb),
-			  self);
+	self->priv->loader = gth_image_loader_new (NULL, NULL);
 }
 
 

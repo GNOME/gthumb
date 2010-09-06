@@ -54,25 +54,24 @@ struct _GthImagePreloaderClass {
 
 	/*< signals >*/
 
-	void      (* requested_ready)  (GthImagePreloader *preloader,
-					GthFileData       *requested,
-					GthImageLoader    *image_loader,
-					GError            *error);
+	void      (* requested_ready)  (GthImagePreloader  *preloader,
+					GthFileData        *requested,
+					GdkPixbufAnimation *animation,
+					int                 original_width,
+					int                 original_height,
+					GError             *error);
 };
 
 
 GType               gth_image_preloader_get_type         (void) G_GNUC_CONST;
 GthImagePreloader * gth_image_preloader_new              (GthLoadPolicy       load_policy,
 							  int                 max_preloaders);
+void                gth_image_prelaoder_set_load_policy  (GthImagePreloader  *self,
+						          GthLoadPolicy       policy);
 void                gth_image_preloader_load             (GthImagePreloader  *self,
 						          GthFileData        *requested,
 						          int                 requested_size,
 						          ...);
-void                gth_image_prelaoder_set_load_policy  (GthImagePreloader  *self,
-						          GthLoadPolicy       policy);
-void                gth_image_preloader_stop             (GthImagePreloader  *self,
-						          DataFunc            done_func,
-						          gpointer            done_func_data);
 GthImageLoader *    gth_image_preloader_get_loader       (GthImagePreloader  *self,
 						          GthFileData        *file_data);
 GthFileData *       gth_image_preloader_get_requested    (GthImagePreloader  *self);

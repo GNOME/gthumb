@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2008 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2010 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,43 +41,43 @@ typedef struct _GthImageLoader        GthImageLoader;
 typedef struct _GthImageLoaderClass   GthImageLoaderClass;
 typedef struct _GthImageLoaderPrivate GthImageLoaderPrivate;
 
-struct _GthImageLoader
-{
+struct _GthImageLoader {
 	GObject __parent;
 	GthImageLoaderPrivate *priv;
 };
 
-struct _GthImageLoaderClass
-{
+struct _GthImageLoaderClass {
 	GObjectClass __parent_class;
-
-	/* -- Signals -- */
-
-	void (* ready) (GthImageLoader *iloader,
-			GError         *error);
 };
 
-GType                gth_image_loader_get_type                (void);
-GthImageLoader *     gth_image_loader_new                     (gboolean           as_animation);
-void                 gth_image_loader_set_loader              (GthImageLoader    *iloader,
-							       PixbufLoader       loader,
-						               gpointer           data);
-void                 gth_image_loader_set_file_data           (GthImageLoader    *iloader,
-						               GthFileData       *file);
-GthFileData *        gth_image_loader_get_file                (GthImageLoader    *iloader);
-void                 gth_image_loader_set_pixbuf              (GthImageLoader    *iloader,
-						               GdkPixbuf         *pixbuf);
-GdkPixbuf *          gth_image_loader_get_pixbuf              (GthImageLoader    *iloader);
-GdkPixbufAnimation * gth_image_loader_get_animation           (GthImageLoader    *iloader);
-void                 gth_image_loader_get_original_size       (GthImageLoader    *iloader,
-							       int               *width,
-							       int               *height);
-void                 gth_image_loader_load                    (GthImageLoader    *iloader);
-void                 gth_image_loader_load_at_size            (GthImageLoader    *iloader,
-							       int                requested_size);
-void                 gth_image_loader_cancel                  (GthImageLoader    *iloader,
-						               DataFunc           done_func,
-						               gpointer           done_func_data);
+GType             gth_image_loader_get_type               (void);
+GthImageLoader *  gth_image_loader_new                    (PixbufLoader          loader_func,
+							   gpointer              loader_data);
+void              gth_image_loader_set_loader_func        (GthImageLoader       *loader,
+							   PixbufLoader          loader_func,
+						           gpointer              loader_data);
+void              gth_image_loader_load                   (GthImageLoader       *loader,
+							   GthFileData          *file_data,
+							   int                   requested_size,
+							   GCancellable         *cancellable,
+							   GAsyncReadyCallback   callback,
+							   gpointer              user_data);
+gboolean          gth_image_loader_load_animation_finish  (GthImageLoader       *loader,
+							   GAsyncResult         *res,
+							   GthFileData         **file_data,
+							   int                  *requested_size,
+							   GdkPixbufAnimation  **animation,
+							   int                  *original_width,
+							   int                  *original_height,
+							   GError              **error);
+gboolean          gth_image_loader_load_image_finish      (GthImageLoader       *loader,
+						  	   GAsyncResult         *res,
+							   GthFileData         **file_data,
+							   int                  *requested_size,
+							   GdkPixbuf           **pixbuf,
+							   int                  *original_width,
+							   int                  *original_height,
+							   GError              **error);
 
 G_END_DECLS
 

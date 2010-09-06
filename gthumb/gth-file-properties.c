@@ -92,8 +92,8 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 {
 	GthFileProperties *self;
 	GHashTable        *category_hash;
-	GPtrArray         *metadata_info;
-	int                i;
+	GList             *metadata_info;
+	GList             *scan;
 	GtkTextBuffer     *text_buffer;
 	char              *comment;
 
@@ -107,14 +107,13 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
-	for (i = 0; i < metadata_info->len; i++) {
-		GthMetadataInfo     *info;
+	for (scan = metadata_info; scan; scan = scan->next) {
+		GthMetadataInfo     *info = scan->data;
 		char                *value;
 		char                *tooltip;
 		GthMetadataCategory *category;
 		GtkTreeIter          iter;
 
-		info = g_ptr_array_index (metadata_info, i);
 		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) != GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW)
 			continue;
 
@@ -163,6 +162,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		g_free (tooltip);
 		g_free (value);
 	}
+	g_list_free (metadata_info);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (self->priv->tree_view));

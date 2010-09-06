@@ -975,8 +975,8 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 
 	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	thumb_loader = gth_file_list_get_thumb_loader (GTH_FILE_LIST (data->file_list));
-	gth_thumb_loader_use_cache (thumb_loader, FALSE);
-	gth_thumb_loader_set_loader (thumb_loader, picasa_web_thumbnail_loader);
+	gth_thumb_loader_set_use_cache (thumb_loader, FALSE);
+	gth_thumb_loader_set_loader_func (thumb_loader, picasa_web_thumbnail_loader);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), PICASA_WEB_THUMB_SIZE_SMALL);
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))), 0);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);

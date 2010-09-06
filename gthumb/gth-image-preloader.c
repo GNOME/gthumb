@@ -41,12 +41,16 @@ enum {
 
 
 typedef struct {
+	GthImagePreloader  *self;
 	GthFileData        *file_data;
 	int                 requested_size;
-	GthImageLoader     *loader;
 	gboolean            loaded;
 	gboolean            error;
-	GthImagePreloader  *self;
+	GthImageLoader     *loader;
+	GdkPixbufAnimation *animation;
+	int                 original_width;
+	int                 original_height;
+	guint               token;
 } Preloader;
 
 
@@ -67,10 +71,11 @@ struct _GthImagePreloaderPrivate {
 					        * any signal. */
 	GFile        *requested_file;
 	int           requested_size;
-	GthFileData **files;
 	int           current;                 /* This is the loader that has
 					        * a loading underway. */
 	guint         load_id;
+	GCancellable *cancellable;
+	guint         token;
 };
 
 
@@ -80,89 +85,6 @@ static guint gth_image_preloader_signals[LAST_SIGNAL] = { 0 };
 
 /* -- Preloader -- */
 
-static void        start_next_loader   (GthImagePreloader *self);
-static Preloader * current_preloader   (GthImagePreloader *self);
-static Preloader * requested_preloader (GthImagePreloader *self);
-
-
-static gboolean
-load_next (gpointer data)
-{
-	GthImagePreloader *self = data;
-
-	if (self->priv->load_id != 0) {
-		g_source_remove (self->priv->load_id);
-		self->priv->load_id = 0;
-	}
-
-	start_next_loader (self);
-
-	return FALSE;
-}
-
-
-static gboolean
-preloader_need_second_step (Preloader *preloader)
-{
-	int                 original_width;
-	int                 original_height;
-	GdkPixbufAnimation *animation;
-
-	gth_image_loader_get_original_size (preloader->loader, &original_width, &original_height);
-	animation = gth_image_loader_get_animation (preloader->loader);
-
-	return (! preloader->error
-		&& (preloader->requested_size != -1)
-		&& ((original_width > preloader->requested_size) || (original_height > preloader->requested_size))
-		&& (animation != NULL)
-		&& gdk_pixbuf_animation_is_static_image (animation));
-}
-
-
-static void
-image_loader_ready_cb (GthImageLoader *iloader,
-		       GError         *error,
-		       Preloader      *preloader)
-{
-	GthImagePreloader *self = preloader->self;
-	int                interval = NEXT_LOAD_SMALL_TIMEOUT;
-
-	preloader->loaded = (error == NULL);
-	preloader->error  = (error != NULL);
-
-	g_object_ref (self);
-
-	if (_g_file_equal (preloader->file_data->file, self->priv->requested_file)) {
-#if DEBUG_PRELOADER
-		debug (DEBUG_INFO, "[requested] %s => %s [size: %d]", (error == NULL) ? "ready" : "error", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
-#endif
-
-		g_signal_emit (G_OBJECT (self),
-			       gth_image_preloader_signals[REQUESTED_READY],
-			       0,
-			       preloader->file_data,
-			       preloader->loader,
-			       error);
-
-		/* Reload only if the original size is bigger then the
-		 * requested size, and if the image is not an animation. */
-
-		if ((self->priv->load_policy == GTH_LOAD_POLICY_TWO_STEPS)
-		    && preloader_need_second_step (preloader))
-		{
-			/* Reload the image at the original size */
-			preloader->loaded = FALSE;
-			preloader->requested_size = -1;
-		}
-
-		interval = NEXT_LOAD_BIG_TIMEOUT;
-	}
-
-	self->priv->load_id = g_timeout_add (interval, load_next, self);
-
-	g_object_unref (self);
-}
-
 
 static Preloader *
 preloader_new (GthImagePreloader *self)
@@ -170,16 +92,14 @@ preloader_new (GthImagePreloader *self)
 	Preloader *preloader;
 
 	preloader = g_new0 (Preloader, 1);
+	preloader->self = self;
 	preloader->file_data = NULL;
 	preloader->loaded = FALSE;
 	preloader->error = FALSE;
-	preloader->loader = GTH_IMAGE_LOADER (gth_image_loader_new (TRUE));
-	preloader->self = self;
-
-	g_signal_connect (G_OBJECT (preloader->loader),
-			  "ready",
-			  G_CALLBACK (image_loader_ready_cb),
-			  preloader);
+	preloader->loader = gth_image_loader_new (NULL, NULL);
+	preloader->animation = NULL;
+	preloader->original_width = -1;
+	preloader->original_height = -1;
 
 	return preloader;
 }
@@ -190,6 +110,7 @@ preloader_free (Preloader *preloader)
 {
 	if (preloader == NULL)
 		return;
+	_g_object_unref (preloader->animation);
 	_g_object_unref (preloader->loader);
 	_g_object_unref (preloader->file_data);
 	g_free (preloader);
@@ -207,13 +128,50 @@ preloader_set_file_data (Preloader    *preloader,
 		preloader->file_data = NULL;
 	}
 
-	if (file_data != NULL) {
+	if (file_data != NULL)
 		preloader->file_data = g_object_ref (file_data);
-		gth_image_loader_set_file_data (preloader->loader, preloader->file_data);
-	}
 
 	preloader->loaded = FALSE;
 	preloader->error = FALSE;
+}
+
+
+static gboolean
+preloader_has_valid_content_for_file (Preloader   *preloader,
+				      GthFileData *file_data)
+{
+	return ((preloader->file_data != NULL)
+		&& preloader->loaded
+		&& ! preloader->error
+		&& (preloader->animation != NULL)
+	        && g_file_equal (preloader->file_data->file, file_data->file)
+	        && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
+	        		     gth_file_data_get_modification_time (preloader->file_data)) == 0));
+}
+
+
+static gboolean
+preloader_needs_to_load (Preloader *preloader)
+{
+	return ((preloader->token == preloader->self->priv->token)
+		 && (preloader->file_data != NULL)
+		 && ! preloader->error
+		 && ! preloader->loaded);
+}
+
+
+static gboolean
+preloader_needs_second_step (Preloader *preloader)
+{
+	if (preloader->self->priv->load_policy != GTH_LOAD_POLICY_TWO_STEPS)
+		return FALSE;
+
+	return ((preloader->token == preloader->self->priv->token)
+		&& ! preloader->error
+		&& (preloader->requested_size != -1)
+		&& ((preloader->original_width > preloader->requested_size) || (preloader->original_height > preloader->requested_size))
+		&& (preloader->animation != NULL)
+		&& gdk_pixbuf_animation_is_static_image (preloader->animation));
 }
 
 
@@ -241,18 +199,9 @@ gth_image_preloader_finalize (GObject *object)
 		self->priv->loader[i] = NULL;
 	}
 	g_free (self->priv->loader);
-	self->priv->loader = NULL;
-
 	_g_object_unref (self->priv->requested_file);
+	g_object_unref (self->priv->cancellable);
 
-	for (i = 0; i < self->priv->n_preloaders; i++) {
-		_g_object_unref (self->priv->files[i]);
-		self->priv->files[i] = NULL;
-	}
-	g_free (self->priv->files);
-	self->priv->files = NULL;
-
-	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -271,11 +220,13 @@ gth_image_preloader_class_init (GthImagePreloaderClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImagePreloaderClass, requested_ready),
 			      NULL, NULL,
-			      gth_marshal_VOID__OBJECT_OBJECT_POINTER,
+			      gth_marshal_VOID__OBJECT_OBJECT_INT_INT_POINTER,
 			      G_TYPE_NONE,
-			      3,
+			      5,
 			      G_TYPE_OBJECT,
 			      G_TYPE_OBJECT,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
 			      G_TYPE_POINTER);
 
 	object_class = G_OBJECT_CLASS (class);
@@ -291,8 +242,9 @@ gth_image_preloader_init (GthImagePreloader *self)
 	self->priv->requested = -1;
 	self->priv->requested_file = NULL;
 	self->priv->current = -1;
-	self->priv->files = NULL;
 	self->priv->load_policy = GTH_LOAD_POLICY_ONE_STEP;
+	self->priv->cancellable = g_cancellable_new ();
+	self->priv->token = 0;
 }
 
 
@@ -340,82 +292,248 @@ gth_image_preloader_new (GthLoadPolicy load_policy,
 	self->priv->loader = g_new0 (Preloader *, self->priv->n_preloaders);
 	for (i = 0; i < self->priv->n_preloaders; i++)
 		self->priv->loader[i] = preloader_new (self);
-	self->priv->files = g_new0 (GthFileData *, self->priv->n_preloaders);
 
 	return self;
 }
 
 
-static Preloader *
-current_preloader (GthImagePreloader *self)
+void
+gth_image_prelaoder_set_load_policy (GthImagePreloader *self,
+				     GthLoadPolicy      policy)
 {
-	if (self->priv->current == -1)
-		return NULL;
-	else
-		return self->priv->loader[self->priv->current];
-}
-
-
-static Preloader *
-requested_preloader (GthImagePreloader *self)
-{
-	if (self->priv->requested == -1)
-		return NULL;
-	else
-		return self->priv->loader[self->priv->requested];
+	self->priv->load_policy = policy;
 }
 
 
 /* -- gth_image_preloader_load -- */
 
 
+static void start_next_loader (GthImagePreloader *self);
+
+
+static gboolean
+load_next (gpointer data)
+{
+	GthImagePreloader *self = data;
+
+	if (self->priv->load_id != 0) {
+		g_source_remove (self->priv->load_id);
+		self->priv->load_id = 0;
+	}
+	start_next_loader (self);
+
+	return FALSE;
+}
+
+
+static void
+image_loader_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	Preloader          *preloader = user_data;
+	GthImagePreloader  *self = preloader->self;
+	GthFileData        *file_data;
+	int                 requested_size;
+	GdkPixbufAnimation *animation;
+	int                 original_width;
+	int                 original_height;
+	GError             *error = NULL;
+	gboolean            success;
+	int                 interval;
+
+	success = gth_image_loader_load_animation_finish  (GTH_IMAGE_LOADER (source_object),
+							   result,
+							   &file_data,
+							   &requested_size,
+							   &animation,
+							   &original_width,
+							   &original_height,
+							   &error);
+
+	if (! g_file_equal (file_data->file, preloader->file_data->file)
+	    || (preloader->token != self->priv->token))
+	{
+		g_object_unref (file_data);
+		g_object_unref (animation);
+		if (error != NULL)
+			g_error_free (error);
+		return;
+	}
+
+	interval = NEXT_LOAD_SMALL_TIMEOUT;
+
+	_g_object_unref (preloader->animation);
+	preloader->animation = g_object_ref (animation);
+	preloader->original_width = original_width;
+	preloader->original_height = original_height;
+	preloader->loaded = success;
+	preloader->error  = ! success;
+	preloader->requested_size = requested_size;
+
+	if (_g_file_equal (file_data->file, self->priv->requested_file)) {
+#if DEBUG_PRELOADER
+		debug (DEBUG_INFO, "[requested] %s => %s [size: %d]", (error == NULL) ? "ready" : "error", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
+#endif
+
+		g_signal_emit (G_OBJECT (self),
+			       gth_image_preloader_signals[REQUESTED_READY],
+			       0,
+			       preloader->file_data,
+			       preloader->animation,
+			       preloader->original_width,
+			       preloader->original_height,
+			       error);
+
+		/* Reload only if the original size is bigger then the
+		 * requested size, and if the image is not an animation. */
+
+		if (preloader_needs_second_step (preloader)) {
+			/* Reload the image at the original size */
+			preloader->loaded = FALSE;
+			preloader->requested_size = -1;
+		}
+
+		interval = NEXT_LOAD_BIG_TIMEOUT;
+	}
+
+	if (self->priv->load_id == 0)
+		self->priv->load_id = g_timeout_add (interval, load_next, self);
+
+	g_object_unref (file_data);
+	g_object_unref (animation);
+}
+
+
+static Preloader *
+current_preloader (GthImagePreloader *self)
+{
+	return (self->priv->current == -1) ? NULL : self->priv->loader[self->priv->current];
+}
+
+
+static Preloader *
+requested_preloader (GthImagePreloader *self)
+{
+	return (self->priv->requested == -1) ? NULL : self->priv->loader[self->priv->requested];
+}
+
+
+static void
+start_next_loader (GthImagePreloader *self)
+{
+	int        i;
+	Preloader *preloader;
+
+	i = -1;
+
+	if (preloader_needs_to_load (requested_preloader (self))) {
+		i = self->priv->requested;
+	}
+	else {
+		int n = 0;
+
+		if  (self->priv->current == -1)
+			i = 0;
+		else
+			i = (self->priv->current + 1) % self->priv->n_preloaders;
+
+		for (i = 0; n < self->priv->n_preloaders; i = (i + 1) % self->priv->n_preloaders) {
+			if (preloader_needs_to_load (self->priv->loader[i]))
+				break;
+			n++;
+		}
+
+		if (n >= self->priv->n_preloaders)
+			i = -1;
+	}
+
+	self->priv->current = i;
+	preloader = current_preloader (self);
+
+	if (preloader != NULL) {
+#if DEBUG_PRELOADER
+		{
+			char *uri;
+
+			uri = g_file_get_uri (preloader->file_data->file);
+			debug (DEBUG_INFO, "load %s [size: %d]", uri, preloader->requested_size);
+			g_free (uri);
+		}
+#endif
+
+		_g_object_unref (preloader->animation);
+		preloader->animation = NULL;
+
+		g_cancellable_reset (preloader->self->priv->cancellable);
+		gth_image_loader_load (preloader->loader,
+				       preloader->file_data,
+				       preloader->requested_size,
+				       preloader->self->priv->cancellable,
+				       image_loader_ready_cb,
+				       preloader);
+	}
+#if DEBUG_PRELOADER
+	else
+		debug (DEBUG_INFO, "done");
+#endif
+}
+
+
 typedef struct {
-	GthImagePreloader *self;
-	GthFileData       *requested;
-	int                requested_size;
+	GthImagePreloader  *self;
+	GthFileData        *requested;
+	int                 requested_size;
+	GthFileData       **files;
+	int                 n_files;
+	guint               token;
 } LoadData;
 
 
 static void
 load_data_free (LoadData *load_data)
 {
+	int i;
+
 	if (load_data == NULL)
 		return;
 
-	_g_object_unref (load_data->requested);
+	for (i = 0; i < load_data->n_files; i++)
+		g_object_unref (load_data->files[i]);
+	g_free (load_data->files);
 	g_free (load_data);
 }
 
 
-void
-gth_image_preloader_load__step2 (LoadData *load_data)
+static void
+assign_loaders (LoadData *load_data)
 {
 	GthImagePreloader *self = load_data->self;
 	gboolean          *file_assigned;
 	gboolean          *loader_assigned;
-	GthFileData       *requested;
 	int                i, j;
 
-	if (! _g_file_equal (load_data->requested->file, self->priv->requested_file)
-	    || (load_data->requested_size != self->priv->requested_size))
-	{
+	if (load_data->token != self->priv->token) {
 		load_data_free (load_data);
 		return;
 	}
 
-	requested = load_data->requested;
-
 	file_assigned = g_new (gboolean, self->priv->n_preloaders);
 	loader_assigned = g_new (gboolean, self->priv->n_preloaders);
 	for (i = 0; i < self->priv->n_preloaders; i++) {
+		Preloader *preloader = self->priv->loader[i];
+
 		loader_assigned[i] = FALSE;
 		file_assigned[i] = FALSE;
+
+		if (preloader->loaded && ! preloader->error)
+			preloader->token = load_data->token;
 	}
 
 	self->priv->requested = -1;
 
-	for (j = 0; j < self->priv->n_preloaders; j++) {
-		GthFileData *file_data = self->priv->files[j];
+	for (j = 0; j < load_data->n_files; j++) {
+		GthFileData *file_data = load_data->files[j];
 
 		if (file_data == NULL)
 			continue;
@@ -425,29 +543,27 @@ gth_image_preloader_load__step2 (LoadData *load_data)
 		for (i = 0; i < self->priv->n_preloaders; i++) {
 			Preloader *preloader = self->priv->loader[i];
 
-			if ((preloader->file_data != NULL)
-			    && g_file_equal (preloader->file_data->file, file_data->file)
-			    && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
-			    			 gth_file_data_get_modification_time (preloader->file_data)) == 0)
-			    && preloader->loaded)
-			{
+			if (preloader_has_valid_content_for_file (preloader, file_data)) {
 				loader_assigned[i] = TRUE;
 				file_assigned[j] = TRUE;
-				if ((requested != NULL) && g_file_equal (file_data->file, requested->file)) {
+
+				if (file_data == load_data->requested) {
 					self->priv->requested = i;
+
 					g_signal_emit (G_OBJECT (self),
 							gth_image_preloader_signals[REQUESTED_READY],
 							0,
 							preloader->file_data,
-							preloader->loader,
+							preloader->animation,
+							preloader->original_width,
+							preloader->original_height,
 							NULL);
+
 #if DEBUG_PRELOADER
 					debug (DEBUG_INFO, "[requested] preloaded");
 #endif
 
-					if ((self->priv->load_policy == GTH_LOAD_POLICY_TWO_STEPS)
-					    && preloader_need_second_step (preloader))
-					{
+					if (preloader_needs_second_step (preloader)) {
 						/* Reload the image at the original size */
 						preloader->loaded = FALSE;
 						preloader->requested_size = -1;
@@ -469,10 +585,10 @@ gth_image_preloader_load__step2 (LoadData *load_data)
 		}
 	}
 
-	/* assign remaining files */
+	/* assign the remaining files */
 
-	for (j = 0; j < self->priv->n_preloaders; j++) {
-		GthFileData *file_data = self->priv->files[j];
+	for (j = 0; j < load_data->n_files; j++) {
+		GthFileData *file_data = load_data->files[j];
 		Preloader   *preloader;
 		int          k;
 
@@ -488,13 +604,16 @@ gth_image_preloader_load__step2 (LoadData *load_data)
 
 		g_return_if_fail (k < self->priv->n_preloaders);
 
-		preloader = self->priv->loader[k];
 		loader_assigned[k] = TRUE;
+
+		preloader = self->priv->loader[k];
 		preloader_set_file_data (preloader, file_data);
 		preloader->requested_size = load_data->requested_size;
+		preloader->token = load_data->token;
 
-		if ((requested != NULL) && g_file_equal (file_data->file, requested->file)) {
+		if (file_data == load_data->requested) {
 			self->priv->requested = k;
+
 #if DEBUG_PRELOADER
 			{
 				char *uri;
@@ -507,17 +626,18 @@ gth_image_preloader_load__step2 (LoadData *load_data)
 		}
 
 #if DEBUG_PRELOADER
-		uri = g_file_get_uri (file_data->file);
-		debug (DEBUG_INFO, "[+] [%d] <- %s", k, uri);
-		g_free (uri);
+		{
+			char *uri;
+
+			uri = g_file_get_uri (file_data->file);
+			debug (DEBUG_INFO, "[+] [%d] <- %s", k, uri);
+			g_free (uri);
+		}
 #endif
 	}
 
-	load_data_free (load_data);
 	g_free (loader_assigned);
 	g_free (file_assigned);
-
-	start_next_loader (self);
 }
 
 
@@ -543,43 +663,38 @@ gth_image_preloader_load (GthImagePreloader *self,
 			  int                requested_size,
 			  ...)
 {
-	int          i;
+	LoadData    *load_data;
 	int          n;
 	va_list      args;
 	GthFileData *file_data;
-	LoadData    *load_data;
+
+	self->priv->token++;
 
 	_g_object_unref (self->priv->requested_file);
-	self->priv->requested_file = g_object_ref (requested->file);
-	self->priv->requested_size = requested_size;
-	self->priv->requested = -1;
-
-	for (i = 0; i < self->priv->n_preloaders; i++) {
-		_g_object_unref (self->priv->files[i]);
-		self->priv->files[i] = NULL;
-	}
-
-	self->priv->files[0] = gth_file_data_dup (requested);
-	n = 1;
-	va_start (args, requested_size);
-	while ((n < self->priv->n_preloaders) && (file_data = va_arg (args, GthFileData *)) != NULL)
-		self->priv->files[n++] = check_file (file_data);
-	va_end (args);
+	self->priv->requested_file = g_file_dup (requested->file);
 
 	load_data = g_new0 (LoadData, 1);
 	load_data->self = self;
+	load_data->token = self->priv->token;
 	load_data->requested = gth_file_data_dup (requested);
 	load_data->requested_size = requested_size;
+	load_data->files = g_new0 (GthFileData *, self->priv->n_preloaders);
 
-	gth_image_preloader_stop (self, (DataFunc) gth_image_preloader_load__step2, load_data);
-}
+	n = 0;
+	load_data->files[n++] = load_data->requested;
+	va_start (args, requested_size);
+	while ((n < self->priv->n_preloaders) && (file_data = va_arg (args, GthFileData *)) != NULL) {
+		GthFileData *checked_file_data = check_file (file_data);
+		if (checked_file_data != NULL)
+			load_data->files[n++] = checked_file_data;
+	}
+	va_end (args);
+	load_data->n_files = n;
 
+	assign_loaders (load_data);
+	start_next_loader (self);
 
-void
-gth_image_prelaoder_set_load_policy (GthImagePreloader *self,
-				     GthLoadPolicy      policy)
-{
-	self->priv->load_policy = policy;
+	load_data_free (load_data);
 }
 
 
@@ -597,14 +712,8 @@ gth_image_preloader_get_loader (GthImagePreloader *self,
 	for (i = 0; i < self->priv->n_preloaders; i++) {
 		Preloader *preloader = self->priv->loader[i];
 
-		if ((preloader->file_data != NULL)
-		    && g_file_equal (preloader->file_data->file, file_data->file)
-		    && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
-			    		 gth_file_data_get_modification_time (preloader->file_data)) == 0)
-		    && preloader->loaded)
-		{
+		if (preloader_has_valid_content_for_file (preloader, file_data))
 			return preloader->loader;
-		}
 	}
 
 	return NULL;
@@ -617,92 +726,5 @@ gth_image_preloader_get_requested (GthImagePreloader *self)
 	Preloader *preloader;
 
 	preloader = requested_preloader (self);
-	if (preloader == NULL)
-		return NULL;
-	else
-		return preloader->file_data;
-}
-
-
-static void
-start_next_loader (GthImagePreloader *self)
-{
-	Preloader *preloader;
-	int        i;
-
-	preloader = requested_preloader (self);
-	if ((preloader != NULL)
-	    && (preloader->file_data != NULL)
-	    && ! preloader->error
-	    && ! preloader->loaded)
-	{
-		i = self->priv->requested;
-	}
-	else {
-		int n = 0;
-
-		if  (self->priv->current == -1)
-			i = 0;
-		else
-			i = (self->priv->current + 1) % self->priv->n_preloaders;
-
-		for (i = 0; n < self->priv->n_preloaders; i = (i + 1) % self->priv->n_preloaders) {
-			preloader = self->priv->loader[i];
-
-			if ((preloader != NULL)
-			    && (preloader->file_data != NULL)
-			    && ! preloader->error
-			    && ! preloader->loaded)
-			{
-				break;
-			}
-
-			n++;
-		}
-
-		if (n >= self->priv->n_preloaders) {
-			self->priv->current = -1;
-#if DEBUG_PRELOADER
-			debug (DEBUG_INFO, "done");
-#endif
-			return;
-		}
-	}
-
-	self->priv->current = i;
-	preloader = current_preloader (self);
-
-#if DEBUG_PRELOADER
-	{
-		char *uri;
-
-		uri = g_file_get_uri (preloader->file_data->file);
-		debug (DEBUG_INFO, "load %s [size: %d]", uri, preloader->requested_size);
-		g_free (uri);
-	}
-#endif
-
-	gth_image_loader_load_at_size (preloader->loader, preloader->requested_size);
-}
-
-
-void
-gth_image_preloader_stop (GthImagePreloader *self,
-			  DataFunc           done_func,
-			  gpointer           done_func_data)
-{
-	Preloader *preloader;
-
-	preloader = current_preloader (self);
-
-	if (preloader == NULL) {
-#if DEBUG_PRELOADER
-		debug (DEBUG_INFO, "stopped");
-#endif
-		call_when_idle (done_func, done_func_data);
-		return;
-	}
-
-	self->priv->current = -1;
-	gth_image_loader_cancel (preloader->loader, done_func, done_func_data);
+	return (preloader != NULL) ? preloader->file_data : NULL;
 }

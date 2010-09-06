@@ -590,20 +590,25 @@ get_parent_func (GthFileData *file_data)
 
 
 static void
-thumb_loader_ready_cb (GthThumbLoader *thumb_loader,
-		       GError         *error,
-		       gpointer        user_data)
+thumb_loader_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
 {
 	GtkBuilder *builder = user_data;
 	GdkPixbuf  *pixbuf;
 
-	pixbuf = gth_thumb_loader_get_pixbuf (thumb_loader);
-	if (pixbuf != NULL) {
-		GtkWidget *image;
+	if (! gth_thumb_loader_load_finish (GTH_THUMB_LOADER (source_object),
+		  	 	 	    result,
+		  	 	 	    NULL,
+		  	 	 	    &pixbuf,
+		  	 	 	    NULL))
+	{
+		return;
+	}
 
-		image = _gtk_builder_get_widget (builder, "request_image");
-		if (image != NULL)
-			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
+	if (pixbuf != NULL) {
+		gtk_image_set_from_pixbuf (GTK_IMAGE (_gtk_builder_get_widget (builder, "request_image")), pixbuf);
+		g_object_unref (pixbuf);
 	}
 
 	g_object_unref (builder);
@@ -650,14 +655,16 @@ ask_value (ReplaceData  *replace_data,
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), replace_data->parent);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	if (! gth_script_for_each_file(replace_data->script))
+	if (! gth_script_for_each_file (replace_data->script))
 		gtk_widget_hide (_gtk_builder_get_widget (builder, "skip_button"));
 
 	g_object_ref (builder);
 	thumb_loader = gth_thumb_loader_new (128);
-	g_signal_connect (thumb_loader, "ready", G_CALLBACK (thumb_loader_ready_cb), builder);
-	gth_thumb_loader_set_file (thumb_loader, file_data);
-	gth_thumb_loader_load (thumb_loader);
+	gth_thumb_loader_load (thumb_loader,
+			       file_data,
+			       NULL,
+			       thumb_loader_ready_cb,
+			       builder);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (result == 2) {

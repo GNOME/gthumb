@@ -2554,16 +2554,37 @@ create_squared_thumbnail (GdkPixbuf     *p,
 }
 
 
-static void
-image_loader_ready_cb (GthImageLoader *iloader,
-		       GError         *error,
-		       gpointer        data)
+static int
+image_data_cmp (gconstpointer a,
+		gconstpointer b,
+		gpointer      user_data)
 {
-	GthWebExporter *self = data;
+	GthWebExporter *self = user_data;
+	ImageData      *idata_a = (ImageData *) a;
+	ImageData      *idata_b = (ImageData *) b;
+
+	return self->priv->sort_type->cmp_func (idata_a->file_data, idata_b->file_data);
+}
+
+
+static void
+image_loader_ready_cb (GObject      *source_object,
+                       GAsyncResult *result,
+                       gpointer      user_data)
+{
+	GthWebExporter *self = user_data;
 	ImageData      *idata;
 	GdkPixbuf      *pixbuf;
 
-	if (error != NULL) {
+	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
+						  result,
+						  NULL,
+						  NULL,
+						  &pixbuf,
+						  NULL,
+						  NULL,
+						  NULL))
+	{
 		load_next_file (self);
 		return;
 	}
@@ -2572,7 +2593,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 
 	/* image */
 
-	idata->image = pixbuf = g_object_ref (gth_image_loader_get_pixbuf (iloader));
+	idata->image = g_object_ref (pixbuf);
 	if (self->priv->copy_images && self->priv->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
@@ -2594,7 +2615,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 
 	/* preview */
 
-	idata->preview = pixbuf = g_object_ref (gth_image_loader_get_pixbuf (iloader));
+	idata->preview = g_object_ref (pixbuf);
 	if ((self->priv->preview_max_width > 0) && (self->priv->preview_max_height > 0)) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
@@ -2626,7 +2647,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 
 	/* thumbnail. */
 
-	idata->thumb = pixbuf = gth_image_loader_get_pixbuf (iloader);
+	idata->thumb = g_object_ref (pixbuf);
 	g_object_ref (idata->thumb);
 
 	if ((self->priv->thumb_width > 0) && (self->priv->thumb_height > 0)) {
@@ -2691,19 +2712,8 @@ image_loader_ready_cb (GthImageLoader *iloader,
 	}
 	else
 		self->priv->saving_timeout = g_idle_add (save_image_preview, self);
-}
 
-
-static int
-image_data_cmp (gconstpointer a,
-		gconstpointer b,
-		gpointer      user_data)
-{
-	GthWebExporter *self = user_data;
-	ImageData      *idata_a = (ImageData *) a;
-	ImageData      *idata_b = (ImageData *) b;
-
-	return self->priv->sort_type->cmp_func (idata_a->file_data, idata_b->file_data);
+	g_object_unref (pixbuf);
 }
 
 
@@ -2727,8 +2737,13 @@ load_current_file (GthWebExporter *self)
 			   g_file_info_get_display_name (file_data->info),
 			   FALSE,
 			   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
-	gth_image_loader_set_file_data (self->priv->iloader, file_data);
-	gth_image_loader_load (self->priv->iloader);
+
+	gth_image_loader_load (self->priv->iloader,
+			       file_data,
+			       -1,
+			       gth_task_get_cancellable (GTH_TASK (self)),
+			       image_loader_ready_cb,
+			       self);
 }
 
 
@@ -3186,13 +3201,7 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->file_list = NULL;
 	self->priv->tmp_dir = NULL;
 	self->priv->interrupted = FALSE;
-
-	self->priv->iloader = gth_image_loader_new (FALSE);
-	g_signal_connect (G_OBJECT (self->priv->iloader),
-			  "ready",
-			  G_CALLBACK (image_loader_ready_cb),
-			  self);
-
+	self->priv->iloader = gth_image_loader_new (NULL, NULL);
 	self->priv->error = NULL;
 }
 
