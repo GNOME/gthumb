@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-20 19:34+0000\n"
-"PO-Revision-Date: 2010-08-22 13:03+0200\n"
+"POT-Creation-Date: 2010-08-22 11:04+0000\n"
+"PO-Revision-Date: 2010-09-06 21:36+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,10 +38,8 @@ msgstr ""
 "en este documento bajo los términos que usted elija, sin restricción."
 
 #: C/slideshow.page:7(title)
-#, fuzzy
-#| msgid "Slideshows"
 msgid "Automatic Slideshow"
-msgstr "Diapositivas"
+msgstr "Muestra automática de diapositivas"
 
 #: C/slideshow.page:9(p)
 msgid ""
@@ -66,38 +64,24 @@ msgid ""
 msgstr ""
 
 #: C/slideshow.page:23(p)
-#, fuzzy
-#| msgid ""
-#| "You can also advance to the next image by pressing <key>PageDown</key> or "
-#| "<key>Space</key>."
 msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</key> "
 "or <key>Right Arrow</key> or <key>Page Down</key>."
 msgstr ""
-"Puede avanzar hasta la siguiente imagen pulsando <keycap>AvPág</keycap> o "
-"<keycap>Espacio</keycap>."
+"Puede avanzar manualmente hasta la siguiente imagen pulsando <key>Flecha "
+"abajo</key> o <key>Flecha derecha</key> o <key>AvPág</key>."
 
 #: C/slideshow.page:26(p)
-#, fuzzy
-#| msgid ""
-#| "You can go back to the previous image by pressing <key>PageUp</key> or "
-#| "<key>Backspace</key>."
 msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key> or "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
-"Puede volver a la imagen anterior pulsando <keycap>RePág</keycap> o "
-"<keycap>Retroceso</keycap>."
+"Puede volver a la imagen anterior pulsando <key>Flecha arriba</key> o "
+"<key>Flecha izquierda</key> o <key>RePág</key>."
 
 #: C/slideshow.page:29(p)
-#, fuzzy
-#| msgid ""
-#| "You can also advance to the next image by pressing <key>PageDown</key> or "
-#| "<key>Space</key>."
 msgid "You can pause the slideshow by pressing <key>Space</key>."
-msgstr ""
-"Puede avanzar hasta la siguiente imagen pulsando <keycap>AvPág</keycap> o "
-"<keycap>Espacio</keycap>."
+msgstr "Puede pausar la muestra de diapositivas pulsando <key>Espacio</key>."
 
 #: C/slideshow.page:31(p)
 msgid "To exit the slideshow, press <key>Escape</key>."
@@ -106,9 +90,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/import.page:21(None)
-#| msgid ""
-#| "@@image: 'figures/thumbnail-pane.png'; "
-#| "md5=af28541956094195dac6bc0e11624d64"
 msgid "@@image: 'figures/import.png'; md5=aab2ba4d889d170b219c554294d69b0f"
 msgstr "@@image: 'figures/import.png'; md5=aab2ba4d889d170b219c554294d69b0f"
 
@@ -152,10 +133,8 @@ msgid ""
 msgstr ""
 
 #: C/import.page:20(title)
-#, fuzzy
-#| msgid "Importing"
 msgid "The Import Dialog"
-msgstr "Importar"
+msgstr "El diálogo Importar"
 
 #: C/import.page:24(p)
 msgid ""
@@ -231,10 +210,8 @@ msgid ""
 msgstr ""
 
 #: C/import.page:74(title)
-#, fuzzy
-#| msgid "Using Bookmarks"
 msgid "Using Custom Formats"
-msgstr "Usar marcadores"
+msgstr "Usar formatos personalizados"
 
 #: C/bookmarks.page:6(title)
 msgid "Using Bookmarks"
@@ -349,12 +326,10 @@ msgid "Shows/hides the thumbnail pane in the viewer mode."
 msgstr ""
 
 #: C/shortcuts.page:53(p)
-#| msgid "<key>+</key>or <key>=</key>"
 msgid "<key>F11</key> or <key>f</key>"
 msgstr ""
 
 #: C/shortcuts.page:58(p)
-#| msgid "Exit the fullscreen mode."
 msgid "Toggles the fullscreen mode."
 msgstr "Conmuta el modo a pantalla completa."
 
@@ -375,10 +350,8 @@ msgid "Esc"
 msgstr "Esc"
 
 #: C/shortcuts.page:78(p)
-#, fuzzy
-#| msgid "Exit the fullscreen mode."
 msgid "Closes the viewer or fullscreen mode."
-msgstr "Salir del modo a pantalla completa."
+msgstr "Cierra el visor o el modo a pantalla completa."
 
 #: C/shortcuts.page:87(title)
 msgid "Editing shortcuts for the browser and viewer"
@@ -405,18 +378,14 @@ msgid "F2"
 msgstr "F2"
 
 #: C/shortcuts.page:124(p)
-#| msgid "Resize the image."
 msgid "Rename the image."
 msgstr "Renombrar la imagen."
 
 #: C/shortcuts.page:129(p)
-#, fuzzy
-#| msgid "<keyseq><key>Alt</key><key>Up</key></keyseq>or <key>u</key>"
 msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Arriba</key></keyseq> o <key>u</key>"
+msgstr "<key>c</key> o <keyseq><key>Ctrl</key><key>m</key></keyseq>"
 
 #: C/shortcuts.page:134(p)
-#| msgid "Add a comment to the selected images."
 msgid "Add comments or metadata to an image."
 msgstr "Añadir comentarios o metadatos a una imagen."
 
@@ -441,10 +410,8 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: C/shortcuts.page:164(p)
-#, fuzzy
-#| msgid "the number of the selected images and their size."
 msgid "Move the selected files to the Trash."
-msgstr "el número de imágenes seleccionadas y su tamaño."
+msgstr "Mover los archivos seleccionados a la papelera."
 
 #: C/shortcuts.page:170(key) C/shortcuts.page:374(key)
 #: C/shortcuts.page:397(key)
@@ -452,29 +419,22 @@ msgid "Shift"
 msgstr "Mayús"
 
 #: C/shortcuts.page:174(p)
-#, fuzzy
-#| msgid "Delete the selected images."
 msgid "Delete the selected files permanently."
-msgstr "Borrar las imágenes seleccionadas."
+msgstr "Eliminar permanentemente los archivos seleccionados."
 
 #: C/shortcuts.page:182(title)
 msgid "Editing shortcuts for the viewer mode only"
 msgstr ""
 
 #: C/shortcuts.page:186(p)
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Combinaciones de teclas"
+msgstr "Atajos de teclado (sensible a capitalización)"
 
 #: C/shortcuts.page:195(key)
-#, fuzzy
-#| msgid "%h"
 msgid "h"
-msgstr "%h"
+msgstr "h"
 
 #: C/shortcuts.page:199(p)
-#| msgid "Enhance Colors"
 msgid "Enhance colors."
 msgstr "Realzar colores."
 
@@ -483,7 +443,6 @@ msgid "l"
 msgstr "l"
 
 #: C/shortcuts.page:209(p)
-#| msgid "Flip the image."
 msgid "Flip image."
 msgstr "Voltear imagen."
 
@@ -492,7 +451,6 @@ msgid "m"
 msgstr "m"
 
 #: C/shortcuts.page:219(p)
-#| msgid "Mirror the image."
 msgid "Mirror image."
 msgstr "Reflejar imagen."
 
@@ -501,45 +459,34 @@ msgid "r"
 msgstr "r"
 
 #: C/shortcuts.page:229(p)
-#| msgid "Rotate Right"
 msgid "Rotate right."
 msgstr "Rotar a la derecha."
 
 #: C/shortcuts.page:235(key)
-#, fuzzy
-#| msgid "%R"
 msgid "R"
-msgstr "%R"
+msgstr "R"
 
 #: C/shortcuts.page:239(p)
-#| msgid "Rotate Left"
 msgid "Rotate left."
 msgstr "Rotar a la izquierda."
 
 #: C/shortcuts.page:245(key)
-#, fuzzy
-#| msgid "%C"
 msgid "C"
-msgstr "%C"
+msgstr "C"
 
 #: C/shortcuts.page:249(p)
-#| msgid "Crop the image."
 msgid "Crop image."
 msgstr "Recortar imagen."
 
 #: C/shortcuts.page:255(key)
-#, fuzzy
-#| msgid "%S"
 msgid "S"
-msgstr "%S"
+msgstr "S"
 
 #: C/shortcuts.page:259(p)
-#| msgid "Resize the image."
 msgid "Resize image."
 msgstr "Redimensionar imagen."
 
 #: C/shortcuts.page:266(title)
-#| msgid "Other keyboard shortcuts"
 msgid "Viewer shortcuts"
 msgstr "Ver atajos de teclado"
 
@@ -639,7 +586,7 @@ msgstr "Desplazar la imagen más rápidamente."
 #, fuzzy
 #| msgid "Browser Tab"
 msgid "Browser Navigation"
-msgstr "Solapa Navegador"
+msgstr "Navegación con explorador"
 
 #: C/shortcuts.page:420(p)
 msgid "Go to the first file in the browser view."
@@ -650,7 +597,6 @@ msgid "Go to the last file in the browser view."
 msgstr ""
 
 #: C/shortcuts.page:436(p)
-#| msgid "<key>Space</key>or <key>Page Down</key>"
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Flecha abajo</key> o <key>AvPág</key>"
 
@@ -659,7 +605,6 @@ msgid "Scroll downwards through the thumbnails."
 msgstr ""
 
 #: C/shortcuts.page:446(p)
-#| msgid "<key>Backspace</key>or <key>Page Up</key>"
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Flecha arriba</key> o <key>RePág</key>"
 
@@ -673,14 +618,10 @@ msgid "Alt"
 msgstr "Alt"
 
 #: C/shortcuts.page:457(key)
-#, fuzzy
-#| msgid "Arrows"
 msgid "Left Arrow"
-msgstr "Flechas"
+msgstr "Flecha izquierda"
 
 #: C/shortcuts.page:461(p)
-#, fuzzy
-#| msgid "Go to the previously visited folder."
 msgid "Go back to the previously viewed folder."
 msgstr "Ir a la carpeta anteriormente visitada."
 
@@ -693,7 +634,6 @@ msgid "Go forward (after going back to a folder)."
 msgstr ""
 
 #: C/shortcuts.page:479(key)
-#| msgid "p"
 msgid "Up"
 msgstr "Arriba"
 
@@ -702,59 +642,45 @@ msgid "Go up one level."
 msgstr "Subir un nivel."
 
 #: C/shortcuts.page:491(title)
-#, fuzzy
-#| msgid "Slideshows"
 msgid "Slideshow controls"
-msgstr "Diapositivas"
+msgstr "Controles de las diapositivas"
 
 #: C/shortcuts.page:504(key)
 msgid "F5"
 msgstr "F5"
 
 #: C/shortcuts.page:508(p)
-#| msgid "Start/Stop the slideshow."
 msgid "Start a slideshow."
 msgstr "Iniciar la muestra de diapositivas."
 
 #: C/shortcuts.page:514(key)
-#| msgid "Place"
 msgid "Space"
 msgstr "Espacio"
 
 #: C/shortcuts.page:518(p)
-#, fuzzy
-#| msgid "Pause/Resume a slideshow."
 msgid "Pause/Unpause the slideshow."
-msgstr "Pausar/Reanudar una muestra de diapositivas."
+msgstr "Pausar/Reanudar la muestra de diapositivas."
 
 #: C/shortcuts.page:528(p)
-#| msgid "Start/Stop the slideshow."
 msgid "Close the slideshow."
 msgstr "Cerrar la muestra de diapositivas."
 
 #: C/shortcuts.page:533(p)
-#, fuzzy
-#| msgid "<key>v</key>or <key>f</key>or <key>F11</key>"
 msgid "<key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>"
-msgstr "<key>v</key> o <key>f</key> o <key>F11</key>"
+msgstr "<key>Flecha abajo</key> o <key>Flecha derecha</key> o <key>AvPág</key>"
 
 #: C/shortcuts.page:538(p)
-#, fuzzy
-#| msgid "View the next image."
 msgid "Load the next image."
-msgstr "Ver la siguiente imagen."
+msgstr "Cargar la siguiente imagen."
 
 #: C/shortcuts.page:543(p)
-#, fuzzy
-#| msgid "<key>v</key>or <key>f</key>or <key>F11</key>"
 msgid "<key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>"
-msgstr "<key>v</key> o <key>f</key> o <key>F11</key>"
+msgstr ""
+"<key>Flecha arriba</key> o <key>Flecha izquierda</key> o <key>RePág</key>"
 
 #: C/shortcuts.page:548(p)
-#, fuzzy
-#| msgid "View the previous image."
 msgid "Load the previous image."
-msgstr "Ver la imagen anterior."
+msgstr "Cargar la imagen anterior."
 
 #: C/printing.page:7(title)
 msgid "Printing Images"
