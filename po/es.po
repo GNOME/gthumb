@@ -6,21 +6,21 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-08-20 17:45+0000\n"
-"PO-Revision-Date: 2010-08-21 12:52+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2010-09-05 17:48+0000\n"
+"PO-Revision-Date: 2010-09-06 12:01+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: es\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -627,6 +627,7 @@ msgstr "Ir a la carpeta que contiene el archivo seleccionado"
 
 #: ../extensions/catalogs/callbacks.c:106
 #: ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/picasaweb/picasa-account-properties-dialog.c:87
 msgid "Other..."
 msgstr "Otro…"
 
@@ -1013,7 +1014,6 @@ msgid "T_ags"
 msgstr "E_tiquetas"
 
 #: ../extensions/edit_metadata/callbacks.c:102
-#| msgid "Edit the comment an other information of the selected files"
 msgid "Edit the comment and other information of the selected files"
 msgstr "Editar el comentario y otra información de los archivos seleccionados"
 
@@ -1240,7 +1240,7 @@ msgstr "XMP empotrado"
 msgid "XMP Attached"
 msgstr "XMP adjunto"
 
-#: ../extensions/exiv2_tools/main.c:244
+#: ../extensions/exiv2_tools/main.c:245
 msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
@@ -1263,7 +1263,6 @@ msgstr "Á_lbum:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Add a new album"
 msgstr "Añadir un álbum nuevo"
 
@@ -1271,7 +1270,6 @@ msgstr "Añadir un álbum nuevo"
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "Edit accounts"
 msgstr "Editar cuentas"
@@ -1290,7 +1288,7 @@ msgstr "C_uenta:"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:16
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Upload"
 msgstr "Su_bir"
 
@@ -1380,8 +1378,8 @@ msgstr "Abrir en el na_vegador"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:370
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:139
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:406
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:353
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:410
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:357
 msgid "Could not connect to the server"
 msgstr "No se pudo conectar con el servidor"
 
@@ -1396,37 +1394,37 @@ msgstr "No se pudieron subir los archivos"
 #: ../extensions/flicker/dlg-export-to-flickr.c:182
 #: ../extensions/flicker/dlg-export-to-flickr.c:216
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:455
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:662
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:694
 msgid "Could not create the album"
 msgstr "No se pudo crear el álbum"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:448
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:522
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:723
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:755
 msgid "New Album"
 msgstr "Álbum nuevo"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:527
 #: ../extensions/flicker/dlg-export-to-flickr.c:517
-#: ../extensions/image_print/gth-image-print-job.c:1533
+#: ../extensions/image_print/gth-image-print-job.c:1542
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:602
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:929
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:966
 msgid "No valid file selected."
 msgstr "No se seleccionó ningún un archivo válido."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:528
 #: ../extensions/flicker/dlg-export-to-flickr.c:518
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:603
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:930
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:967
 msgid "Could not export the files"
 msgstr "No se pudieron exportar los archivos"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:535
 #: ../extensions/flicker/dlg-export-to-flickr.c:525
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:610
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:936
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:728
-#: ../gthumb/gth-browser.c:934 ../gthumb/gth-browser.c:935
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:973
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:763
+#: ../gthumb/gth-browser.c:938 ../gthumb/gth-browser.c:939
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1484,16 +1482,16 @@ msgstr ""
 #: ../extensions/facebook/facebook-authentication.c:663
 #: ../extensions/flicker/flickr-authentication.c:602
 #: ../extensions/oauth/oauth-authentication.c:616
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:755
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:617
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:788
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:648
 msgid "Choose Account"
 msgstr "Seleccionar cuenta"
 
 #: ../extensions/facebook/facebook-authentication.c:768
 #: ../extensions/flicker/flickr-authentication.c:707
 #: ../extensions/oauth/oauth-authentication.c:721
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:812
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:674
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:845
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:705
 msgid "Edit Accounts"
 msgstr "Editar cuentas"
 
@@ -1747,8 +1745,8 @@ msgstr "_Renombrar"
 msgid "_Paste Into Folder"
 msgstr "_Pegar en la carpeta"
 
-#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4615
-#: ../gthumb/gth-browser.c:4653
+#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4631
+#: ../gthumb/gth-browser.c:4669
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2087,7 +2085,7 @@ msgstr "Subir fotos a Flickr"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 msgid "Free space:"
 msgstr "Espacio libre:"
 
@@ -2139,14 +2137,14 @@ msgid "_Import"
 msgstr "_Importar"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:356
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:755
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:790
 msgid "Could not get the photo list"
 msgstr "No se pudo obtener la lista de fotos"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:404
 #: ../extensions/flicker/dlg-import-from-flickr.c:567
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:788
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:947
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:823
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:982
 msgid "No album selected"
 msgstr "No se seleccionó ningún álbum"
 
@@ -2165,7 +2163,7 @@ msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
 #: ../extensions/image_viewer/gth-image-viewer-page.c:782
-#: ../gthumb/gth-browser.c:1886
+#: ../gthumb/gth-browser.c:1890
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2188,35 +2186,36 @@ msgstr "Captura de pantalla"
 msgid "--:--"
 msgstr "--:--"
 
-#. this is the separator between current position and duration of a media file
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-msgid "/"
-msgstr "/"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
 msgid "Change volume level"
 msgstr "Cambiar el nivel del volumen"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
 msgid "Faster"
 msgstr "Más rápido"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:623
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Slower"
 msgstr "Más lento"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:9
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
 msgid "Time:"
 msgstr "Hora:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
 msgid "Toggle volume"
 msgstr "Modificar volumen"
+
+#. this is the separator between current position and duration of a media file
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
+msgctxt "time"
+msgid "/"
+msgstr "/"
 
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
 msgid "Choose a folder"
@@ -2314,7 +2313,7 @@ msgstr "Mono"
 msgid "%d × %d"
 msgstr "%d × %d"
 
-#: ../extensions/image_print/actions.c:48
+#: ../extensions/image_print/actions.c:67
 msgid "Could not print the selected files"
 msgstr "No se pudieron imprimir los archivos seleccionados"
 
@@ -2382,22 +2381,22 @@ msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
 #: ../extensions/image_print/gth-image-print-job.c:1491
-#: ../extensions/image_print/gth-image-print-job.c:1584
-#: ../extensions/image_print/gth-image-print-job.c:1605
+#: ../extensions/image_print/gth-image-print-job.c:1593
+#: ../extensions/image_print/gth-image-print-job.c:1614
 msgid "Could not print"
 msgstr "No se pudo imprimir"
 
-#: ../extensions/image_print/gth-image-print-job.c:1540
+#: ../extensions/image_print/gth-image-print-job.c:1549
 msgid "Layout"
 msgstr "Distribución"
 
 #. translators: %s is a filename
-#: ../extensions/image_print/gth-load-image-info-task.c:136
+#: ../extensions/image_print/gth-load-image-info-task.c:145
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Cargando «%s»"
 
-#: ../extensions/image_print/gth-load-image-info-task.c:138
+#: ../extensions/image_print/gth-load-image-info-task.c:147
 #: ../extensions/webalbums/gth-web-exporter.c:2726
 msgid "Loading images"
 msgstr "Cargando las imágenes"
@@ -3023,7 +3022,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1799
+#: ../gthumb/gth-browser.c:1803
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -3052,11 +3051,11 @@ msgstr "Descargar fotos de un álbum web de Picasa"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Subir fotos a álbum web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Export to Picasa Web Albums"
 msgstr "Exportar a álbumes web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "_Albums:"
 msgstr "Álbu_mes"
 
@@ -3093,17 +3092,17 @@ msgstr "Público"
 msgid "Could not get the album list"
 msgstr "No se pudo obtener la lista de álbumes"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:419
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:366
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:423
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:370
 msgid "Picasa Web Album"
 msgstr "Álbum web de Picasa"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:489
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:436
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:506
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:453
 msgid "Account"
 msgstr "Cuenta"
 
-#: ../extensions/picasaweb/picasa-account-properties-dialog.c:133
+#: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 msgid "Could not load the file"
 msgstr "No se pudo cargar el archivo"
 
@@ -3483,6 +3482,10 @@ msgstr "Cancelar la operación"
 #: ../extensions/search/search.extension.in.in.h:1
 msgid "File search tool."
 msgstr "Herramienta de búsqueda de archivos."
+
+#: ../extensions/slideshow/callbacks.c:56
+msgid "_Slideshow"
+msgstr "Mo_strar diapositivas"
 
 #: ../extensions/slideshow/callbacks.c:57
 msgid "View as a slideshow"
@@ -4111,19 +4114,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3341
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3357
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3362
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3378
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3383
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3399
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:648
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:652
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -4228,58 +4231,58 @@ msgstr "Abrir %s"
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../gthumb/gth-browser.c:497 ../gthumb/gth-main.c:256
+#: ../gthumb/gth-browser.c:497 ../gthumb/gth-main.c:259
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1125 ../gthumb/gth-browser.c:1690
-#: ../gthumb/gth-browser.c:5416 ../gthumb/gth-browser.c:5435
-#: ../gthumb/gth-browser.c:5460
+#: ../gthumb/gth-browser.c:1129 ../gthumb/gth-browser.c:1694
+#: ../gthumb/gth-browser.c:5432 ../gthumb/gth-browser.c:5451
+#: ../gthumb/gth-browser.c:5476
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1783 ../gthumb/gth-browser.c:1810
+#: ../gthumb/gth-browser.c:1787 ../gthumb/gth-browser.c:1814
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1928
+#: ../gthumb/gth-browser.c:1932
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1933
+#: ../gthumb/gth-browser.c:1937
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1934
+#: ../gthumb/gth-browser.c:1938
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2603 ../gthumb/gth-browser.c:2627
+#: ../gthumb/gth-browser.c:2619 ../gthumb/gth-browser.c:2643
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3025 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3041 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3342 ../gthumb/gth-browser.c:3363
+#: ../gthumb/gth-browser.c:3358 ../gthumb/gth-browser.c:3379
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3384
+#: ../gthumb/gth-browser.c:3400
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5417
+#: ../gthumb/gth-browser.c:5433
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5461
+#: ../gthumb/gth-browser.c:5477
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4351,12 +4354,12 @@ msgstr "(Abrir padre)"
 msgid "No suitable loader available for this file type"
 msgstr "No hay disponible ningún cargador para este tipo de archivo"
 
-#: ../gthumb/gth-main.c:219
+#: ../gthumb/gth-main.c:222
 #, c-format
 msgid "Unable to show '%s'"
 msgstr "No se pudo mostrar «%s»"
 
-#: ../gthumb/gth-main.c:239
+#: ../gthumb/gth-main.c:242
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "No se pudo abrir «%s»"
@@ -4462,12 +4465,12 @@ msgstr "No hay opciones disponibles para este tipo de archivo"
 msgid "Cancel operation"
 msgstr "Cancelar operación"
 
-#: ../gthumb/gth-tags-entry.c:378
+#: ../gthumb/gth-tags-entry.c:373
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Crear etiqueta «%s»"
 
-#: ../gthumb/gth-tags-entry.c:724
+#: ../gthumb/gth-tags-entry.c:719
 msgid "Show all the tags"
 msgstr "Mostrar todas las etiquetas"
 
@@ -6213,9 +6216,6 @@ msgstr ""
 
 #~ msgid "Specify a location to visit"
 #~ msgstr "Especificar una ubicación para visitar"
-
-#~ msgid "_Slideshow"
-#~ msgstr "Mo_strar diapositivas"
 
 #~ msgid "Create _Index Image..."
 #~ msgstr "Crear índice de _imágenes..."
