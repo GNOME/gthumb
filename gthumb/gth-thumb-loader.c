@@ -254,8 +254,8 @@ gth_thumb_loader_get_requested_size (GthThumbLoader *self)
 
 
 void
-gth_thumb_loader_use_cache (GthThumbLoader *self,
-			    gboolean        use)
+gth_thumb_loader_set_use_cache (GthThumbLoader *self,
+			        gboolean        use)
 {
 	g_return_if_fail (self != NULL);
 	self->priv->use_cache = use;
@@ -263,8 +263,8 @@ gth_thumb_loader_use_cache (GthThumbLoader *self,
 
 
 void
-gth_thumb_loader_save_thumbnails (GthThumbLoader *self,
-				  gboolean        save)
+gth_thumb_loader_set_save_thumbnails (GthThumbLoader *self,
+				      gboolean        save)
 {
 	g_return_if_fail (self != NULL);
 	self->priv->save_thumbnails = save;
