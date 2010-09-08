@@ -72,7 +72,6 @@ void              gth_thumb_loader_load                 (GthThumbLoader       *s
 						         gpointer              user_data);
 gboolean          gth_thumb_loader_load_finish          (GthThumbLoader       *self,
 						  	 GAsyncResult         *res,
-							 GthFileData         **file_data,
 							 GdkPixbuf           **pixbuf,
 							 GError              **error);
 

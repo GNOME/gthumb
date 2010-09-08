@@ -35,6 +35,7 @@
 #include "gth-pixbuf-saver.h"
 #include "gth-tags-file.h"
 #include "gth-test.h"
+#include "pixbuf-io.h"
 
 G_BEGIN_DECLS
 
@@ -48,14 +49,6 @@ G_BEGIN_DECLS
 typedef struct _GthMain         GthMain;
 typedef struct _GthMainPrivate  GthMainPrivate;
 typedef struct _GthMainClass    GthMainClass;
-
-typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData   *file_data,
-					     int            requested_size,
-					     int           *original_width,
-					     int           *original_height,
-					     gpointer       user_data,
-					     GCancellable  *cancellable,
-				   	     GError       **error);
 
 struct _GthMain {
 	GObject __parent;

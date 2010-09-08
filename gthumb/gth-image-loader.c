@@ -152,8 +152,6 @@ load_data_unref (LoadData *load_data)
 
 
 typedef struct {
-	GthFileData        *file_data;
-	int                 requested_size;
 	GdkPixbufAnimation *animation;
 	int                 original_width;
 	int                 original_height;
@@ -163,7 +161,6 @@ typedef struct {
 static void
 load_result_unref (LoadResult *load_result)
 {
-	g_object_unref (load_result->file_data);
 	if (load_result->animation != NULL)
 		g_object_unref (load_result->animation);
 	g_free (load_result);
@@ -214,8 +211,6 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 	}
 
 	load_result = g_new0 (LoadResult, 1);
-	load_result->file_data = g_object_ref (load_data->file_data);
-	load_result->requested_size = load_data->requested_size;
 	load_result->animation = animation;
 	load_result->original_width = original_width;
 	load_result->original_height = original_height;
@@ -254,8 +249,6 @@ gth_image_loader_load (GthImageLoader      *loader,
 gboolean
 gth_image_loader_load_animation_finish (GthImageLoader      *loader,
 					GAsyncResult        *result,
-					GthFileData        **file_data,
-					int                 *requested_size,
 					GdkPixbufAnimation **animation,
 					int                 *original_width,
 					int                 *original_height,
@@ -272,10 +265,6 @@ gth_image_loader_load_animation_finish (GthImageLoader      *loader,
 		  return FALSE;
 
 	  load_result = g_simple_async_result_get_op_res_gpointer (simple);
-	  if (file_data != NULL)
-		  *file_data = g_object_ref (load_result->file_data);
-	  if (requested_size != NULL)
-	  	  *requested_size = load_result->requested_size;
 	  if (animation != NULL)
 		  *animation = g_object_ref (load_result->animation);
 	  if (original_width != NULL)
@@ -290,19 +279,16 @@ gth_image_loader_load_animation_finish (GthImageLoader      *loader,
 gboolean
 gth_image_loader_load_image_finish (GthImageLoader  *loader,
 				    GAsyncResult    *res,
-				    GthFileData    **file_data,
-				    int             *requested_size,
 				    GdkPixbuf      **pixbuf,
 				    int             *original_width,
 				    int             *original_height,
 				    GError         **error)
 {
 	GdkPixbufAnimation *animation;
+	GdkPixbuf          *static_image;
 
 	if (! gth_image_loader_load_animation_finish (loader,
 						      res,
-						      file_data,
-						      requested_size,
 						      &animation,
 						      original_width,
 						      original_height,
@@ -311,7 +297,17 @@ gth_image_loader_load_image_finish (GthImageLoader  *loader,
 		return FALSE;
 	}
 
-	*pixbuf = gdk_pixbuf_animation_get_static_image (animation);
+	static_image = gdk_pixbuf_animation_get_static_image (animation);
+	if (static_image != NULL) {
+		*pixbuf = gdk_pixbuf_copy (static_image);
+	}
+	else {
+		*pixbuf = NULL;
+		if (error != NULL)
+			*error = g_error_new_literal (GDK_PIXBUF_ERROR, GDK_PIXBUF_ERROR_FAILED, "No image");
+	}
+
+	g_object_unref (animation);
 
 	return TRUE;
 }

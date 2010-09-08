@@ -30,6 +30,13 @@
 
 G_BEGIN_DECLS
 
+typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData   *file_data,
+					     int            requested_size,
+					     int           *original_width,
+					     int           *original_height,
+					     gpointer       user_data,
+					     GCancellable  *cancellable,
+				   	     GError       **error);
 
 typedef struct {
 	GFile *file;

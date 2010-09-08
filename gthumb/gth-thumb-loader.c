@@ -44,6 +44,7 @@
 #define THUMBNAIL_NORMAL_SIZE	  128
 #define THUMBNAIL_DIR_PERMISSIONS 0700
 #define MAX_THUMBNAILER_LIFETIME  2000   /* kill the thumbnailer after this amount of time*/
+#define CHECK_CANCELLABLE_DELAY   200
 
 struct _GthThumbLoaderPrivate
 {
@@ -289,6 +290,7 @@ typedef struct {
 	GPid                thumbnailer_pid;
 	guint               thumbnailer_watch;
 	guint               thumbnailer_timeout;
+	guint               cancellable_watch;
 } LoadData;
 
 
@@ -352,8 +354,6 @@ cache_image_ready_cb (GObject      *source_object,
 
 	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
 						  res,
-						  NULL,
-						  NULL,
 						  &pixbuf,
 						  NULL,
 						  NULL,
@@ -374,6 +374,8 @@ cache_image_ready_cb (GObject      *source_object,
 
 	/* Thumbnail correctly loaded from the cache. Scale if the user wants
 	 * a different size. */
+
+	g_return_if_fail (pixbuf != NULL);
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
@@ -494,13 +496,16 @@ original_image_loaded_correctly (GthThumbLoader *self,
 				 LoadData        *load_data,
 				 GdkPixbuf       *pixbuf)
 {
+	GdkPixbuf  *local_pixbuf;
 	int         width;
 	int         height;
 	gboolean    modified;
 	LoadResult *load_result;
 
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
+	local_pixbuf = g_object_ref (pixbuf);
+
+	width = gdk_pixbuf_get_width (local_pixbuf);
+	height = gdk_pixbuf_get_height (local_pixbuf);
 
 	if (self->priv->save_thumbnails) {
 		gboolean modified;
@@ -515,12 +520,12 @@ original_image_loaded_correctly (GthThumbLoader *self,
 						self->priv->cache_max_size,
 						FALSE);
 		if (modified) {
-			GdkPixbuf *tmp = pixbuf;
-			pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
+			GdkPixbuf *tmp = local_pixbuf;
+			local_pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
 			g_object_unref (tmp);
 		}
 
-		_gth_thumb_loader_save_to_cache (self, load_data->file_data, pixbuf);
+		_gth_thumb_loader_save_to_cache (self, load_data->file_data, local_pixbuf);
 	}
 
 	/* Scale if the user wants a different size. */
@@ -530,16 +535,18 @@ original_image_loaded_correctly (GthThumbLoader *self,
 				    self->priv->requested_size,
 				    self->priv->cache_max_size);
 	if (modified) {
-		GdkPixbuf *tmp = pixbuf;
-		pixbuf = gdk_pixbuf_scale_simple (tmp, width, height, GDK_INTERP_BILINEAR);
+		GdkPixbuf *tmp = local_pixbuf;
+		local_pixbuf = gdk_pixbuf_scale_simple (tmp, width, height, GDK_INTERP_BILINEAR);
 		g_object_unref (tmp);
 	}
 
 	load_result = g_new0 (LoadResult, 1);
 	load_result->file_data = g_object_ref (load_data->file_data);
-	load_result->pixbuf = g_object_ref (pixbuf);
+	load_result->pixbuf = g_object_ref (local_pixbuf);
 	g_simple_async_result_set_op_res_gpointer (load_data->simple, load_result, (GDestroyNotify) load_result_unref);
 	g_simple_async_result_complete_in_idle (load_data->simple);
+
+	g_object_unref (local_pixbuf);
 }
 
 
@@ -548,7 +555,7 @@ failed_to_load_original_image (GthThumbLoader *self,
 			       LoadData       *load_data)
 {
 	char   *uri;
-	GError *error = NULL;
+	GError *error;
 
 	uri = g_file_get_uri (load_data->file_data->file);
 	gnome_desktop_thumbnail_factory_create_failed_thumbnail (self->priv->thumb_factory,
@@ -574,10 +581,29 @@ kill_thumbnailer_cb (gpointer user_data)
 		load_data->thumbnailer_timeout = 0;
 	}
 
+	if (load_data->cancellable_watch != 0) {
+		g_source_remove (load_data->cancellable_watch);
+		load_data->cancellable_watch = 0;
+	}
+
 	if (load_data->thumbnailer_pid != 0)
 		kill (load_data->thumbnailer_pid, SIGTERM);
 
 	return FALSE;
+}
+
+
+static gboolean
+check_cancellable_cb (gpointer user_data)
+{
+	LoadData *load_data = user_data;
+
+	if (g_cancellable_is_cancelled (load_data->cancellable)) {
+		kill_thumbnailer_cb (user_data);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 
@@ -593,6 +619,11 @@ watch_thumbnailer_cb (GPid     pid,
 	if (load_data->thumbnailer_timeout != 0) {
 		g_source_remove (load_data->thumbnailer_timeout);
 		load_data->thumbnailer_timeout = 0;
+	}
+
+	if (load_data->cancellable_watch != 0) {
+		g_source_remove (load_data->cancellable_watch);
+		load_data->cancellable_watch = 0;
 	}
 
 	g_spawn_close_pid (pid);
@@ -620,13 +651,11 @@ original_image_ready_cb (GObject      *source_object,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
-	GdkPixbuf      *pixbuf;
+	GdkPixbuf      *pixbuf = NULL;
 	GError         *error = NULL;
 
 	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
 						  res,
-						  NULL,
-						  NULL,
 						  &pixbuf,
 						  NULL,
 						  NULL,
@@ -636,6 +665,12 @@ original_image_ready_cb (GObject      *source_object,
 		 * thumbnailer */
 
 		char *uri;
+
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_simple_async_result_set_from_error (load_data->simple, error);
+				g_simple_async_result_complete_in_idle (load_data->simple);
+			return;
+		}
 
 		g_clear_error (&error);
 
@@ -653,6 +688,9 @@ original_image_ready_cb (GObject      *source_object,
 			load_data->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
 									kill_thumbnailer_cb,
 									load_data);
+			load_data->cancellable_watch = g_timeout_add (CHECK_CANCELLABLE_DELAY,
+								      check_cancellable_cb,
+								      load_data);
 		}
 		else
 			failed_to_load_original_image (self, load_data);
@@ -663,7 +701,6 @@ original_image_ready_cb (GObject      *source_object,
 	}
 
 	original_image_loaded_correctly (self, load_data, pixbuf);
-
 	g_object_unref (pixbuf);
 }
 
@@ -691,12 +728,11 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 
 		uri = g_file_get_uri (file_data->file);
 		mtime = gth_file_data_get_mtime (file_data);
-		cache_path = gnome_desktop_thumbnail_factory_lookup (self->priv->thumb_factory, uri, mtime);
 
-		if ((cache_path == NULL) && gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (self->priv->thumb_factory, uri, mtime)) {
+		if (gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (self->priv->thumb_factory, uri, mtime)) {
 			GError *error;
 
-			error = g_error_new_literal (GTH_ERROR, 0, "failed thumbnail");
+			error = g_error_new_literal (GTH_ERROR, 0, "found a failed thumbnail");
 			g_simple_async_result_set_from_error (simple, error);
 			g_simple_async_result_complete_in_idle (simple);
 
@@ -705,6 +741,8 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 
 			return;
 		}
+
+		cache_path = gnome_desktop_thumbnail_factory_lookup (self->priv->thumb_factory, uri, mtime);
 
 		g_free (uri);
 	}
@@ -724,7 +762,7 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		gth_image_loader_load (self->priv->iloader,
 				       cache_file_data,
 				       -1,
-				       cancellable,
+				       load_data->cancellable,
 				       cache_image_ready_cb,
 				       load_data);
 
@@ -747,7 +785,7 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		gth_image_loader_load (self->priv->tloader,
 				       file_data,
 				       self->priv->requested_size,
-				       cancellable,
+				       load_data->cancellable,
 				       original_image_ready_cb,
 				       load_data);
 }
@@ -756,25 +794,22 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 gboolean
 gth_thumb_loader_load_finish (GthThumbLoader  *self,
 			      GAsyncResult    *result,
-			      GthFileData    **file_data,
 			      GdkPixbuf      **pixbuf,
 			      GError         **error)
 {
-	  GSimpleAsyncResult *simple;
-	  LoadResult         *load_result;
+	GSimpleAsyncResult *simple;
+	LoadResult         *load_result;
 
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_thumb_loader_load), FALSE);
+	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_thumb_loader_load), FALSE);
 
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
 
-	  if (g_simple_async_result_propagate_error (simple, error))
-		  return FALSE;
+	if (g_simple_async_result_propagate_error (simple, error))
+		return FALSE;
 
-	  load_result = g_simple_async_result_get_op_res_gpointer (simple);
-	  if (file_data != NULL)
-  		  *file_data = g_object_ref (load_result->file_data);
-	  if (pixbuf != NULL)
-		  *pixbuf = g_object_ref (load_result->pixbuf);
+	load_result = g_simple_async_result_get_op_res_gpointer (simple);
+	if (pixbuf != NULL)
+		*pixbuf = _g_object_ref (load_result->pixbuf);
 
-	  return TRUE;
+	return TRUE;
 }

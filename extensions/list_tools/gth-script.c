@@ -599,7 +599,6 @@ thumb_loader_ready_cb (GObject      *source_object,
 
 	if (! gth_thumb_loader_load_finish (GTH_THUMB_LOADER (source_object),
 		  	 	 	    result,
-		  	 	 	    NULL,
 		  	 	 	    &pixbuf,
 		  	 	 	    NULL))
 	{

@@ -114,8 +114,6 @@ image_loader_ready_cb (GObject      *source_object,
 
 	gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
 					    result,
-					    NULL,
-					    NULL,
 					    &pixbuf,
 					    NULL,
 					    NULL,

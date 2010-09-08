@@ -24,9 +24,8 @@
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "typedefs.h"
 #include "gth-file-data.h"
-#include "gth-main.h"
+#include "pixbuf-io.h"
 
 G_BEGIN_DECLS
 
@@ -64,16 +63,12 @@ void              gth_image_loader_load                   (GthImageLoader       
 							   gpointer              user_data);
 gboolean          gth_image_loader_load_animation_finish  (GthImageLoader       *loader,
 							   GAsyncResult         *res,
-							   GthFileData         **file_data,
-							   int                  *requested_size,
 							   GdkPixbufAnimation  **animation,
 							   int                  *original_width,
 							   int                  *original_height,
 							   GError              **error);
 gboolean          gth_image_loader_load_image_finish      (GthImageLoader       *loader,
 						  	   GAsyncResult         *res,
-							   GthFileData         **file_data,
-							   int                  *requested_size,
 							   GdkPixbuf           **pixbuf,
 							   int                  *original_width,
 							   int                  *original_height,

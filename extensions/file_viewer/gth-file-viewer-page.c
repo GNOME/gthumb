@@ -191,31 +191,46 @@ gth_file_viewer_page_real_can_view (GthViewerPage *base,
 }
 
 
+typedef struct {
+	GthFileViewerPage *self;
+	GthFileData       *file_data;
+} ViewData;
+
+
+static void
+view_data_free (ViewData *view_data)
+{
+	g_object_unref (view_data->file_data);
+	g_object_unref (view_data->self);
+	g_free (view_data);
+}
+
+
 static void
 thumb_loader_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
 		       gpointer      user_data)
 {
-	GthFileViewerPage *self = user_data;
-	GthFileData       *file_data;
+	ViewData          *view_data = user_data;
+	GthFileViewerPage *self = view_data->self;
 	GdkPixbuf         *pixbuf;
 
 	if (! gth_thumb_loader_load_finish (GTH_THUMB_LOADER (source_object),
 					    result,
-					    &file_data,
 					    &pixbuf,
 					    NULL))
 	{
+		view_data_free (view_data);
 		return;
 	}
 
-	if (g_file_equal (self->priv->file_data->file, file_data->file)) {
+	if (g_file_equal (self->priv->file_data->file, view_data->file_data->file)) {
 		gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), pixbuf);
 		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
 	}
 
 	g_object_unref (pixbuf);
-	g_object_unref (file_data);
+	view_data_free (view_data);
 }
 
 
@@ -225,6 +240,7 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 {
 	GthFileViewerPage *self;
 	GIcon             *icon;
+	ViewData          *view_data;
 
 	self = (GthFileViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -239,11 +255,14 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
+	view_data = g_new0 (ViewData, 1);
+	view_data->self = g_object_ref (self);
+	view_data->file_data = g_object_ref (file_data);
 	gth_thumb_loader_load (self->priv->thumb_loader,
-			       self->priv->file_data,
+			       view_data->file_data,
 			       NULL,
 			       thumb_loader_ready_cb,
-			       self);
+			       view_data);
 }
 
 
