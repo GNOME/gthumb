@@ -234,6 +234,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    gpointer            user_data)
 {
 	GthSlideshow *self = user_data;
+	GdkPixbuf    *static_image;
 
 	if (error != NULL) {
 		g_clear_error (&error);
@@ -242,7 +243,13 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	}
 
 	_g_object_unref (self->priv->current_pixbuf);
-	self->priv->current_pixbuf = gdk_pixbuf_animation_get_static_image (animation);
+
+	static_image = gdk_pixbuf_animation_get_static_image (animation);
+	if (static_image != NULL)
+		self->priv->current_pixbuf = gdk_pixbuf_copy (static_image);
+	else
+		self->priv->current_pixbuf = NULL;
+
 	if (self->priv->current_pixbuf == NULL) {
 		_gth_slideshow_load_next_image (self);
 		return;
