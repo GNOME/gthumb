@@ -488,6 +488,7 @@ start_next_loader (GthImagePreloader *self)
 		gth_image_loader_load (preloader->loader,
 				       preloader->file_data,
 				       preloader->requested_size,
+				       G_PRIORITY_DEFAULT,
 				       preloader->self->priv->cancellable,
 				       image_loader_ready_cb,
 				       load_request);

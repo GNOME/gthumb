@@ -228,6 +228,7 @@ void
 gth_image_loader_load (GthImageLoader      *loader,
 		       GthFileData         *file_data,
 		       int                  requested_size,
+		       int                  io_priority,
 		       GCancellable        *cancellable,
 		       GAsyncReadyCallback  callback,
 		       gpointer             user_data)
@@ -240,7 +241,7 @@ gth_image_loader_load (GthImageLoader      *loader,
 						   (GDestroyNotify) load_data_unref);
 	g_simple_async_result_run_in_thread (result,
 					     load_pixbuf_thread,
-					     G_PRIORITY_DEFAULT,
+					     io_priority,
 					     cancellable);
 	g_object_unref (result);
 }

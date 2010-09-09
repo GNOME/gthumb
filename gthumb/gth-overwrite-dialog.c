@@ -195,6 +195,7 @@ info_ready_cb (GList    *files,
 		gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->new_image_loader),
 				       self->priv->source_data,
 				       PREVIEW_SIZE,
+				       G_PRIORITY_DEFAULT,
 				       NULL, /* FIXME: make this cancellable */
 				       image_loader_ready_cb,
 				       self);
@@ -238,6 +239,7 @@ info_ready_cb (GList    *files,
 	gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->old_image_loader),
 			       self->priv->destination_data,
 			       PREVIEW_SIZE,
+			       G_PRIORITY_DEFAULT,
 			       NULL, /* FIXME: make this cancellable */
 			       image_loader_ready_cb,
 			       self);

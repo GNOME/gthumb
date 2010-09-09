@@ -58,6 +58,7 @@ void              gth_image_loader_set_loader_func        (GthImageLoader       
 void              gth_image_loader_load                   (GthImageLoader       *loader,
 							   GthFileData          *file_data,
 							   int                   requested_size,
+							   int                   io_priority,
 							   GCancellable         *cancellable,
 							   GAsyncReadyCallback   callback,
 							   gpointer              user_data);

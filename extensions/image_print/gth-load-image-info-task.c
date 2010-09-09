@@ -162,6 +162,7 @@ load_current_image (GthLoadImageInfoTask *self)
 		gth_image_loader_load (self->priv->loader,
 				       image_info->file_data,
 				       -1,
+				       G_PRIORITY_DEFAULT,
 				       gth_task_get_cancellable (GTH_TASK (self)),
 				       image_loader_ready_cb,
 				       self);
