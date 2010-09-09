@@ -1235,6 +1235,14 @@ gth_file_list_enable_thumbs (GthFileList *file_list,
 
 
 void
+gth_file_list_set_ignore_hidden (GthFileList *file_list,
+				 gboolean      value)
+{
+	file_list->priv->ignore_hidden_thumbs = value;
+}
+
+
+void
 gth_file_list_set_thumb_size (GthFileList *file_list,
 			      int          size)
 {

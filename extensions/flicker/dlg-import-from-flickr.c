@@ -565,6 +565,7 @@ dlg_import_from_flickr (FlickrServer *server,
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), FLICKR_SIZE_THUMBNAIL);
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))), 0);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
+	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (data->file_list), TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (data->file_list), "none");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), flickr_photo_position_func, FALSE);
 	gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("No album selected"));

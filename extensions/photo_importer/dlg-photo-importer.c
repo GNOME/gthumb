@@ -535,6 +535,7 @@ dlg_photo_importer (GthBrowser *browser,
 	sort_type = gth_main_get_sort_type ("file::mtime");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), sort_type->cmp_func, FALSE);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
+	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (data->file_list), TRUE);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), 128);
 	gth_file_list_set_caption (GTH_FILE_LIST (data->file_list), "standard::display-name,gth::file::display-size");
 

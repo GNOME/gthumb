@@ -545,6 +545,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->list_view))), 0);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
+	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (data->list_view), TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (data->list_view), "none");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
 	gtk_widget_show (data->list_view);
