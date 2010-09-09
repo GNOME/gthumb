@@ -147,6 +147,12 @@ AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
 dnl ===========================================================================
 
+AC_CHECK_LIB(m, floor,, AC_MSG_ERROR([math library not found]))
+M_LIBS="-lm"
+AC_SUBST(M_LIBS)
+
+dnl ===========================================================================
+
 AC_ARG_ENABLE([exiv2],
 	      [AS_HELP_STRING([--disable-exiv2],[do not compile code that uses the exiv2 library])],,
 	      [enable_exiv2=yes])

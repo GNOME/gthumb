@@ -248,6 +248,7 @@ endif
 gthumb_LDADD =						\
 	$(top_builddir)/copy-n-paste/libeggsmclient.la	\
 	$(GTHUMB_LIBS)					\
+	$(M_LIBS)					\
 	$(EXIV2_LIBS)					\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
