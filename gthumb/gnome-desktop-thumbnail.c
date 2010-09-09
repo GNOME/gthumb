@@ -820,8 +820,17 @@ gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFacto
 
 	expanded_script = expand_thumbnailing_script (script, size, uri, *tmpname);
 	if (g_shell_parse_argv (expanded_script, &argc, &argv, error))
-		if (g_spawn_async (NULL, argv, NULL, G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, pid, error))
+		if (g_spawn_async (g_get_tmp_dir (),
+				   argv,
+				   NULL,
+				   G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
+				   NULL,
+				   NULL,
+				   pid,
+				   error))
+		{
 			retval = TRUE;
+		}
 
 	g_free (expanded_script);
 	g_free (script);

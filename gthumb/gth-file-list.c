@@ -737,7 +737,8 @@ thumbnail_job_free (ThumbnailJob *job)
 static void
 thumbnail_job_cancel (ThumbnailJob *job)
 {
-	g_cancellable_cancel (job->cancellable);
+	if (! g_cancellable_is_cancelled (job->cancellable))
+		g_cancellable_cancel (job->cancellable);
 }
 
 
@@ -1591,8 +1592,8 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 	}
 
 	for (scan = file_list->priv->jobs; scan; scan = scan->next) {
-		ThumbnailJob *job = scan->data;
-		thumbnail_job_cancel (job);
+		ThumbnailJob *other_job = scan->data;
+		thumbnail_job_cancel (other_job);
 	}
 	file_list->priv->jobs = g_list_prepend (file_list->priv->jobs, job);
 

@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <glib/gstdio.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -43,7 +44,7 @@
 #define THUMBNAIL_LARGE_SIZE	  256
 #define THUMBNAIL_NORMAL_SIZE	  128
 #define THUMBNAIL_DIR_PERMISSIONS 0700
-#define MAX_THUMBNAILER_LIFETIME  2000   /* kill the thumbnailer after this amount of time*/
+#define MAX_THUMBNAILER_LIFETIME  4000   /* kill the thumbnailer after this amount of time*/
 #define CHECK_CANCELLABLE_DELAY   200
 
 struct _GthThumbLoaderPrivate
@@ -291,6 +292,7 @@ typedef struct {
 	guint               thumbnailer_watch;
 	guint               thumbnailer_timeout;
 	guint               cancellable_watch;
+	gboolean            script_cancelled;
 } LoadData;
 
 
@@ -600,6 +602,7 @@ check_cancellable_cb (gpointer user_data)
 	LoadData *load_data = user_data;
 
 	if (g_cancellable_is_cancelled (load_data->cancellable)) {
+		load_data->script_cancelled = TRUE;
 		kill_thumbnailer_cb (user_data);
 		return FALSE;
 	}
@@ -630,6 +633,24 @@ watch_thumbnailer_cb (GPid     pid,
 	g_spawn_close_pid (pid);
 	load_data->thumbnailer_pid = 0;
 	load_data->thumbnailer_watch = 0;
+
+	if (load_data->script_cancelled) {
+		GError *error;
+
+		if (load_data->thumbnailer_tmpfile != NULL) {
+			g_unlink (load_data->thumbnailer_tmpfile);
+			g_free (load_data->thumbnailer_tmpfile);
+			load_data->thumbnailer_tmpfile = NULL;
+		}
+
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "script cancelled");
+		g_simple_async_result_set_from_error (load_data->simple, error);
+		g_simple_async_result_complete_in_idle (load_data->simple);
+
+		g_error_free (error);
+
+		return;
+	}
 
 	pixbuf = NULL;
 	if (status == 0)
@@ -669,7 +690,7 @@ original_image_ready_cb (GObject      *source_object,
 
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_simple_async_result_set_from_error (load_data->simple, error);
-				g_simple_async_result_complete_in_idle (load_data->simple);
+			g_simple_async_result_complete_in_idle (load_data->simple);
 			return;
 		}
 
@@ -694,6 +715,7 @@ original_image_ready_cb (GObject      *source_object,
 								      load_data);
 		}
 		else {
+			g_clear_error (&error);
 			failed_to_load_original_image (self, load_data);
 			load_data_unref (load_data);
 		}
