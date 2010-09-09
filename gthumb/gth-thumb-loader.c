@@ -339,6 +339,40 @@ original_image_ready_cb (GObject      *source_object,
 		         gpointer      user_data);
 
 
+static int
+normalize_thumb (int *width,
+		 int *height,
+		 int  max_size,
+		 int  cache_max_size)
+{
+	gboolean modified;
+	float    max_w = max_size;
+	float    max_h = max_size;
+	float    w = *width;
+	float    h = *height;
+	float    factor;
+	int      new_width, new_height;
+
+	if (max_size > cache_max_size) {
+		if ((*width < cache_max_size - 1) && (*height < cache_max_size - 1))
+			return FALSE;
+	}
+	else if ((*width < max_size - 1) && (*height < max_size - 1))
+		return FALSE;
+
+	factor = MIN (max_w / w, max_h / h);
+	new_width  = MAX ((int) (w * factor), 1);
+	new_height = MAX ((int) (h * factor), 1);
+
+	modified = (new_width != *width) || (new_height != *height);
+
+	*width = new_width;
+	*height = new_height;
+
+	return modified;
+}
+
+
 static void
 cache_image_ready_cb (GObject      *source_object,
 		      GAsyncResult *res,
@@ -379,11 +413,10 @@ cache_image_ready_cb (GObject      *source_object,
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
-	modified = scale_keeping_ratio (&width,
-					&height,
-					self->priv->requested_size,
-					self->priv->requested_size,
-					FALSE);
+	modified = normalize_thumb (&width,
+				    &height,
+				    self->priv->requested_size,
+				    self->priv->cache_max_size);
 	if (modified) {
 		GdkPixbuf *tmp = pixbuf;
 		pixbuf = gdk_pixbuf_scale_simple (tmp, width, height, GDK_INTERP_BILINEAR);
@@ -454,40 +487,6 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader *self,
 	g_free (uri);
 
 	return TRUE;
-}
-
-
-static int
-normalize_thumb (int *width,
-		 int *height,
-		 int  max_size,
-		 int  cache_max_size)
-{
-	gboolean modified;
-	float    max_w = max_size;
-	float    max_h = max_size;
-	float    w = *width;
-	float    h = *height;
-	float    factor;
-	int      new_width, new_height;
-
-	if (max_size > cache_max_size) {
-		if ((*width < cache_max_size - 1) && (*height < cache_max_size - 1))
-			return FALSE;
-	}
-	else if ((*width < max_size - 1) && (*height < max_size - 1))
-		return FALSE;
-
-	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor), 1);
-	new_height = MAX ((int) (h * factor), 1);
-
-	modified = (new_width != *width) || (new_height != *height);
-
-	*width = new_width;
-	*height = new_height;
-
-	return modified;
 }
 
 
