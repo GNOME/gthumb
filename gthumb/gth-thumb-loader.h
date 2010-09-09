@@ -74,6 +74,10 @@ gboolean          gth_thumb_loader_load_finish          (GthThumbLoader       *s
 						  	 GAsyncResult         *res,
 							 GdkPixbuf           **pixbuf,
 							 GError              **error);
+gboolean          gth_thumb_loader_has_valid_thumbnail  (GthThumbLoader       *self,
+				      	      	         GthFileData          *file_data);
+gboolean          gth_thumb_loader_has_failed_thumbnail (GthThumbLoader       *self,
+				      	      	         GthFileData          *file_data);
 
 G_END_DECLS
 

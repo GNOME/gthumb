@@ -428,6 +428,8 @@ cache_image_ready_cb (GObject      *source_object,
 	load_result->pixbuf = pixbuf;
 	g_simple_async_result_set_op_res_gpointer (load_data->simple, load_result, (GDestroyNotify) load_result_unref);
 	g_simple_async_result_complete_in_idle (load_data->simple);
+
+	load_data_unref (load_data);
 }
 
 
@@ -691,8 +693,10 @@ original_image_ready_cb (GObject      *source_object,
 								      check_cancellable_cb,
 								      load_data);
 		}
-		else
+		else {
 			failed_to_load_original_image (self, load_data);
+			load_data_unref (load_data);
+		}
 
 		g_free (uri);
 
@@ -700,7 +704,9 @@ original_image_ready_cb (GObject      *source_object,
 	}
 
 	original_image_loaded_correctly (self, load_data, pixbuf);
+
 	g_object_unref (pixbuf);
+	load_data_unref (load_data);
 }
 
 
@@ -746,6 +752,21 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		g_free (uri);
 	}
 
+	if ((cache_path == NULL)
+	    && (self->priv->max_file_size > 0)
+	    && (g_file_info_get_size (file_data->info) > self->priv->max_file_size))
+	{
+		GError *error;
+
+		error = g_error_new_literal (GTH_ERROR, 0, "file too big to generate the thumbnail");
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete_in_idle (simple);
+
+		g_error_free (error);
+
+		return;
+	}
+
 	load_data = load_data_new (file_data, self->priv->requested_size);
 	load_data->thumb_loader = g_object_ref (self);
 	load_data->cancellable = _g_object_ref (cancellable);
@@ -768,17 +789,6 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		g_object_unref (cache_file_data);
 		g_object_unref (cache_file);
 		g_free (cache_path);
-	}
-	else if ((self->priv->max_file_size > 0) && (g_file_info_get_size (file_data->info) > self->priv->max_file_size)) {
-		GError *error;
-
-		load_data_unref (load_data);
-
-		error = g_error_new_literal (GTH_ERROR, 0, "file too big to generate the thumbnail");
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete_in_idle (simple);
-
-		g_error_free (error);
 	}
 	else
 		gth_image_loader_load (self->priv->tloader,
@@ -811,4 +821,45 @@ gth_thumb_loader_load_finish (GthThumbLoader  *self,
 		*pixbuf = _g_object_ref (load_result->pixbuf);
 
 	return TRUE;
+}
+
+
+gboolean
+gth_thumb_loader_has_valid_thumbnail (GthThumbLoader *self,
+				      GthFileData    *file_data)
+{
+	gboolean  valid_thumbnail = FALSE;
+	char     *uri;
+	time_t    mtime;
+	char     *thumbnail_path;
+
+	uri = g_file_get_uri (file_data->file);
+	mtime = gth_file_data_get_mtime (file_data);
+	thumbnail_path = gnome_desktop_thumbnail_factory_lookup (self->priv->thumb_factory, uri, mtime);
+	if (thumbnail_path != NULL) {
+		valid_thumbnail = TRUE;
+		g_free (thumbnail_path);
+	}
+
+	g_free (uri);
+
+	return valid_thumbnail;
+}
+
+
+gboolean
+gth_thumb_loader_has_failed_thumbnail (GthThumbLoader *self,
+				       GthFileData    *file_data)
+{
+	char     *uri;
+	time_t    mtime;
+	gboolean  valid_thumbnail;
+
+	uri = g_file_get_uri (file_data->file);
+	mtime = gth_file_data_get_mtime (file_data);
+	valid_thumbnail = gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (self->priv->thumb_factory, uri, mtime);
+
+	g_free (uri);
+
+	return valid_thumbnail;
 }

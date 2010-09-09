@@ -108,7 +108,7 @@ void                   gnome_desktop_thumbnail_factory_create_failed_thumbnail (
 										time_t                 mtime);
 
 /* Thumbnailing utils: */
-gboolean   gnome_desktop_thumbnail_is_valid          (GdkPixbuf          *pixbuf,
+gboolean   gnome_desktop_thumbnail_is_valid          (const char         *thumbnail_filename,
 						      const char         *uri,
 						      time_t              mtime);
 char *     gnome_desktop_thumbnail_md5               (const char         *uri);

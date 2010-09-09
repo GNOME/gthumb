@@ -55,6 +55,7 @@
 #include <string.h>
 #include <glib.h>
 #include <stdio.h>
+#include <png.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gconf/gconf.h>
@@ -524,50 +525,38 @@ gnome_desktop_thumbnail_factory_new (GnomeDesktopThumbnailSize size)
  **/
 char *
 gnome_desktop_thumbnail_factory_lookup (GnomeDesktopThumbnailFactory *factory,
-					const char            *uri,
-					time_t                 mtime)
+					const char                   *uri,
+					time_t                        mtime)
 {
-  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
-  char *path, *file;
-  GChecksum *checksum;
-  guint8 digest[16];
-  gsize digest_len = sizeof (digest);
-  GdkPixbuf *pixbuf;
-  gboolean res;
+	GChecksum *checksum;
+	guint8     digest[16];
+	gsize      digest_len = sizeof (digest);
+	char      *file;
+	char      *path;
 
-  g_return_val_if_fail (uri != NULL, NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
 
-  res = FALSE;
+	checksum = g_checksum_new (G_CHECKSUM_MD5);
+	g_checksum_update (checksum, (const guchar *) uri, strlen (uri));
+	g_checksum_get_digest (checksum, digest, &digest_len);
+	g_assert (digest_len == 16);
 
-  checksum = g_checksum_new (G_CHECKSUM_MD5);
-  g_checksum_update (checksum, (const guchar *) uri, strlen (uri));
+	file = g_strconcat (g_checksum_get_string (checksum), ".png", NULL);
+	path = g_build_filename (g_get_home_dir (),
+				 ".thumbnails",
+				 (factory->priv->size == GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL)?"normal":"large",
+				 file,
+				 NULL);
 
-  g_checksum_get_digest (checksum, digest, &digest_len);
-  g_assert (digest_len == 16);
+	if (! gnome_desktop_thumbnail_is_valid (path, uri, mtime)) {
+		g_free (path);
+		path = NULL;
+	}
 
-  file = g_strconcat (g_checksum_get_string (checksum), ".png", NULL);
+	g_free (file);
+	g_checksum_free (checksum);
 
-  path = g_build_filename (g_get_home_dir (),
-			   ".thumbnails",
-			   (priv->size == GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL)?"normal":"large",
-			   file,
-			   NULL);
-  g_free (file);
-
-  pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-  if (pixbuf != NULL)
-    {
-      res = gnome_desktop_thumbnail_is_valid (pixbuf, uri, mtime);
-      g_object_unref (pixbuf);
-    }
-
-  g_checksum_free (checksum);
-
-  if (res)
-    return path;
-
-  g_free (path);
-  return FALSE;
+	return path;
 }
 
 /**
@@ -588,45 +577,34 @@ gnome_desktop_thumbnail_factory_lookup (GnomeDesktopThumbnailFactory *factory,
  **/
 gboolean
 gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (GnomeDesktopThumbnailFactory *factory,
-							    const char            *uri,
-							    time_t                 mtime)
+							    const char                   *uri,
+							    time_t                        mtime)
 {
-  char *path, *file;
-  GdkPixbuf *pixbuf;
-  gboolean res;
-  GChecksum *checksum;
-  guint8 digest[16];
-  gsize digest_len = sizeof (digest);
+	GChecksum *checksum;
+	guint8     digest[16];
+	gsize      digest_len = sizeof (digest);
+	char      *path;
+	char      *file;
+	gboolean   res;
 
-  checksum = g_checksum_new (G_CHECKSUM_MD5);
-  g_checksum_update (checksum, (const guchar *) uri, strlen (uri));
+	checksum = g_checksum_new (G_CHECKSUM_MD5);
+	g_checksum_update (checksum, (const guchar *) uri, strlen (uri));
+	g_checksum_get_digest (checksum, digest, &digest_len);
+	g_assert (digest_len == 16);
 
-  g_checksum_get_digest (checksum, digest, &digest_len);
-  g_assert (digest_len == 16);
+	file = g_strconcat (g_checksum_get_string (checksum), ".png", NULL);
+	path = g_build_filename (g_get_home_dir (),
+				 ".thumbnails/fail",
+				 appname,
+				 file,
+				 NULL);
+	res = gnome_desktop_thumbnail_is_valid (path, uri, mtime);
 
-  res = FALSE;
+	g_free (path);
+	g_free (file);
+	g_checksum_free (checksum);
 
-  file = g_strconcat (g_checksum_get_string (checksum), ".png", NULL);
-
-  path = g_build_filename (g_get_home_dir (),
-			   ".thumbnails/fail",
-			   appname,
-			   file,
-			   NULL);
-  g_free (file);
-
-  pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-  g_free (path);
-
-  if (pixbuf)
-    {
-      res = gnome_desktop_thumbnail_is_valid (pixbuf, uri, mtime);
-      g_object_unref (pixbuf);
-    }
-
-  g_checksum_free (checksum);
-
-  return res;
+	return res;
 }
 
 static char *
@@ -1200,9 +1178,104 @@ gnome_desktop_thumbnail_path_for_uri (const char         *uri,
 }
 
 
+/* This function taken from gdk-pixbuf:
+ *
+ * Copyright (C) 1999 Mark Crichton
+ * Copyright (C) 1999 The Free Software Foundation
+ *
+ * Authors: Mark Crichton <crichton@gimp.org>
+ *          Federico Mena-Quintero <federico@gimp.org>
+ *
+ * Released under the LGPL version 2 of the License,
+ * or (at your option) any later version.
+ *
+ **/
+static gboolean
+png_text_to_pixbuf_option (png_text   text_ptr,
+                           gchar    **key,
+                           gchar    **value)
+{
+        gboolean is_ascii = TRUE;
+        int i;
+
+        /* Avoid loading iconv if the text is plain ASCII */
+        for (i = 0; i < text_ptr.text_length; i++)
+                if (text_ptr.text[i] & 0x80) {
+                        is_ascii = FALSE;
+                        break;
+                }
+
+        if (is_ascii) {
+                *value = g_strdup (text_ptr.text);
+        } else {
+                *value = g_convert (text_ptr.text, -1,
+                                     "UTF-8", "ISO-8859-1",
+                                     NULL, NULL, NULL);
+        }
+
+        if (*value) {
+                *key = g_strconcat ("tEXt::", text_ptr.key, NULL);
+                return TRUE;
+        } else {
+                g_warning ("Couldn't convert text chunk value to UTF-8.");
+                *key = NULL;
+                return FALSE;
+        }
+}
+
+
+static GHashTable *
+read_png_options (const char *thumbnail_filename)
+{
+	GHashTable  *options;
+	png_structp  png_ptr;
+        png_infop    info_ptr;
+        FILE        *f;
+        png_textp    text_ptr;
+	int          num_texts;
+
+	options = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (png_ptr == NULL)
+		return options;
+
+	info_ptr = png_create_info_struct (png_ptr);
+	if (info_ptr == NULL) {
+		png_destroy_read_struct (&png_ptr, NULL, NULL);
+		return options;
+	}
+
+	f = fopen (thumbnail_filename, "r");
+	if (f == NULL) {
+		png_destroy_read_struct (&png_ptr, NULL, NULL);
+		return options;
+	}
+
+	png_init_io (png_ptr, f);
+	png_read_info (png_ptr, info_ptr);
+
+	if (png_get_text (png_ptr, info_ptr, &text_ptr, &num_texts)) {
+		int i;
+		for (i = 0; i < num_texts; i++) {
+			char *key;
+			char *value;
+
+			if (png_text_to_pixbuf_option (text_ptr[i], &key, &value))
+				g_hash_table_insert (options, key, value);
+		}
+	}
+
+	png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
+	fclose (f);
+
+	return options;
+}
+
+
 /**
  * gnome_desktop_thumbnail_is_valid:
- * @pixbuf: an loaded thumbnail #GdkPixbuf
+ * @thumbnail_filename: the png file that contains the thumbnail
  * @uri: a uri
  * @mtime: the mtime
  *
@@ -1214,25 +1287,25 @@ gnome_desktop_thumbnail_path_for_uri (const char         *uri,
  * Since: 2.2
  **/
 gboolean
-gnome_desktop_thumbnail_is_valid (GdkPixbuf          *pixbuf,
-				  const char         *uri,
-				  time_t              mtime)
+gnome_desktop_thumbnail_is_valid (const char *thumbnail_filename,
+				  const char *uri,
+				  time_t      mtime)
 {
-  const char *thumb_uri, *thumb_mtime_str;
-  time_t thumb_mtime;
+	gboolean    is_valid = FALSE;
+	GHashTable *png_options;
+	const char *thumb_uri;
 
-  thumb_uri = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::URI");
-  if (!thumb_uri)
-    return FALSE;
-  if (strcmp (uri, thumb_uri) != 0)
-    return FALSE;
+	png_options = read_png_options (thumbnail_filename);
+	thumb_uri = g_hash_table_lookup (png_options, "tEXt::Thumb::URI");
+	if (g_strcmp0 (uri, thumb_uri) == 0) {
+		const char *thumb_mtime_str;
 
-  thumb_mtime_str = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::MTime");
-  if (!thumb_mtime_str)
-    return FALSE;
-  thumb_mtime = atol (thumb_mtime_str);
-  if (mtime != thumb_mtime)
-    return FALSE;
+		thumb_mtime_str = g_hash_table_lookup (png_options, "tEXt::Thumb::MTime");
+		if ((thumb_mtime_str != NULL) && (mtime == atol (thumb_mtime_str)))
+			is_valid = TRUE;
+	}
 
-  return TRUE;
+	g_hash_table_unref (png_options);
+
+	return is_valid;
 }
