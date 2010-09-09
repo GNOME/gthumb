@@ -36,14 +36,14 @@
 
 
 #define DEFAULT_THUMBNAIL_SIZE 112
-#define FLASH_THUMBNAIL_QUEUE_TIMEOUT 100
-#define UPDATE_THUMBNAILS_AFTER_SCROLL_TIMEOUT 100
+#define FLASH_THUMBNAIL_QUEUE_TIMEOUT 200
+#define UPDATE_THUMBNAILS_AFTER_SCROLL_TIMEOUT 200
 #define RESTART_LOADING_THUMBS_DELAY 1500
 #define N_VIEWAHEAD 50
-#define N_CREATEAHEAD 50
+#define N_CREATEAHEAD 50000
 #define EMPTY (N_("(Empty)"))
 #define THUMBNAIL_BORDER (8 * 2)
-#define CHECK_JOBS_INTERVAL 100
+#define CHECK_JOBS_INTERVAL 50
 
 
 typedef enum {
@@ -365,13 +365,13 @@ restart_thumb_update_cb (gpointer data)
 {
 	GthFileList *file_list = data;
 
-	g_source_remove (file_list->priv->restart_thumb_update);
-	file_list->priv->restart_thumb_update = 0;
-
-	if (file_list->priv->queue == NULL) {
-		file_list->priv->loading_thumbs = TRUE;
-		_gth_file_list_update_next_thumb (file_list);
+	if (file_list->priv->restart_thumb_update != 0) {
+		g_source_remove (file_list->priv->restart_thumb_update);
+		file_list->priv->restart_thumb_update = 0;
 	}
+
+	file_list->priv->loading_thumbs = TRUE;
+	_gth_file_list_update_next_thumb (file_list);
 
 	return FALSE;
 }
@@ -723,7 +723,8 @@ static void
 thumbnail_job_free (ThumbnailJob *job)
 {
 	job->file_list->priv->jobs = g_list_remove (job->file_list->priv->jobs, job);
-	job->file_list->priv->loading_thumbs = (job->file_list->priv->jobs != NULL);
+	if (job->file_list->priv->jobs == NULL)
+		_gth_file_list_done (job->file_list);
 
 	_g_object_unref (job->file_data);
 	_g_object_unref (job->cancellable);
@@ -1583,8 +1584,10 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 			job = NULL;
 		}
 
-		if (job == NULL)
+		if (job == NULL) {
+			g_idle_add (restart_thumb_update_cb, file_list);
 			return;
+		}
 	}
 
 	for (scan = file_list->priv->jobs; scan; scan = scan->next) {
@@ -1704,9 +1707,17 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		if (new_pos == -1) {
 			pos = last_pos + 1;
 			for (scan = g_list_nth (list, pos); scan && (pos <= last_pos + N_CREATEAHEAD); scan = scan->next) {
+				gboolean requested_action_performed;
+
 				file_data = scan->data;
 				thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
-				if (! thumb_data->thumb_created && can_create_file_thumbnail (file_data, thumb_data, &current_time, &young_file_found)) {
+
+				if (pos <= last_pos + N_VIEWAHEAD)
+					requested_action_performed = thumb_data->thumb_loaded;
+				else
+					requested_action_performed = thumb_data->thumb_created;
+
+				if (! requested_action_performed && can_create_file_thumbnail (file_data, thumb_data, &current_time, &young_file_found)) {
 					new_pos = pos;
 					break;
 				}
@@ -1715,23 +1726,29 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 
 		/* ...continue from the one before the first visible upward to
-		 * the first one.
-		 *
-		 * Don't do this to avoid thumbnail jumps (see bug #603642)
-		 *
+		 * the first one. */
+
 		if (new_pos == -1) {
 			pos = first_pos - 1;
 			for (scan = g_list_nth (list, pos); scan && (pos >= first_pos - N_CREATEAHEAD); scan = scan->prev) {
+				gboolean requested_action_performed;
+
 				file_data = scan->data;
 				thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
-				if (! thumb_data->thumb_created && can_create_file_thumbnail (file_data, thumb_data, &current_time, &young_file_found)) {
+
+				/* disabled to avoid thumbnail jumps (bug #603642)
+				if (pos >= first_pos - N_VIEWAHEAD)
+					requested_action_performed = thumb_data->thumb_loaded;
+				else*/
+					requested_action_performed = thumb_data->thumb_created;
+
+				if (! requested_action_performed && can_create_file_thumbnail (file_data, thumb_data, &current_time, &young_file_found)) {
 					new_pos = pos;
 					break;
 				}
 				pos--;
 			}
 		}
-		*/
 	}
 
 	if (new_pos != -1)
