@@ -22,6 +22,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
+#include "gth-image-loader.h"
 #include "gth-image-viewer.h"
 #include "gth-metadata-provider.h"
 #include "gth-overwrite-dialog.h"
@@ -29,20 +30,23 @@
 
 
 #define ICON_SIZE 128
+#define PREVIEW_SIZE 256
 
 
 static gpointer gth_overwrite_dialog_parent_class = NULL;
 
 
 struct _GthOverwriteDialogPrivate {
-	GtkBuilder  *builder;
-	GFile       *source;
-	GdkPixbuf   *source_pixbuf;
-	GFile       *destination;
-	GtkWidget   *old_image_viewer;
-	GtkWidget   *new_image_viewer;
-	GthFileData *source_data;
-	GthFileData *destination_data;
+	GtkBuilder     *builder;
+	GFile          *source;
+	GdkPixbuf      *source_pixbuf;
+	GFile          *destination;
+	GtkWidget      *old_image_viewer;
+	GtkWidget      *new_image_viewer;
+	GthFileData    *source_data;
+	GthFileData    *destination_data;
+	GthImageLoader *old_image_loader;
+	GthImageLoader *new_image_loader;
 };
 
 
@@ -59,6 +63,8 @@ gth_overwrite_dialog_finalize (GObject *object)
 	_g_object_unref (dialog->priv->source);
 	_g_object_unref (dialog->priv->source_pixbuf);
 	g_object_unref (dialog->priv->destination);
+	_g_object_unref (dialog->priv->old_image_loader);
+	_g_object_unref (dialog->priv->new_image_loader);
 
 	G_OBJECT_CLASS (gth_overwrite_dialog_parent_class)->finalize (object);
 }
@@ -112,27 +118,32 @@ gth_overwrite_dialog_get_type (void)
 
 
 static void
-image_viewer_image_ready_cb (GthImageViewer *viewer,
-			     gpointer        user_data)
+image_loader_ready_cb (GObject      *source_object,
+                       GAsyncResult *result,
+                       gpointer      user_data)
 {
 	GthOverwriteDialog *self = user_data;
-	GIcon              *icon;
+	GError             *error;
 	GdkPixbuf          *pixbuf;
+	GtkWidget          *viewer;
 
-	if (! gth_image_viewer_is_void (viewer))
+	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
+						  result,
+						  &pixbuf,
+						  NULL,
+						  NULL,
+						  &error))
+	{
 		return;
-
-	if (viewer == (GthImageViewer *) self->priv->old_image_viewer)
-		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->source_data->info));
-
-	else
-		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->destination_data->info));
-
-	pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
-	if (pixbuf != NULL) {
-		gth_image_viewer_set_pixbuf (viewer, pixbuf);
-		g_object_unref (pixbuf);
 	}
+
+	if (GTH_IMAGE_LOADER (source_object) == self->priv->old_image_loader)
+		viewer = self->priv->old_image_viewer;
+	else
+		viewer = self->priv->new_image_viewer;
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (viewer), pixbuf, -1, -1);
+
+	g_object_unref (pixbuf);
 }
 
 
@@ -173,20 +184,26 @@ info_ready_cb (GList    *files,
 			icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->source_data->info));
 		pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
 		if (pixbuf != NULL) {
-			gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), pixbuf);
+			gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), pixbuf, -1, -1);
 			g_object_unref (pixbuf);
 		}
 
 		gtk_widget_show (_gtk_builder_get_widget (self->priv->builder, "new_filename_label"));
 		gtk_widget_show (_gtk_builder_get_widget (self->priv->builder, "new_size_label"));
 		gtk_widget_show (_gtk_builder_get_widget (self->priv->builder, "new_modified_label"));
-		gth_image_viewer_load (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), self->priv->source_data);
+
+		gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->new_image_loader),
+				       self->priv->source_data,
+				       PREVIEW_SIZE,
+				       NULL, /* FIXME: make this cancellable */
+				       image_loader_ready_cb,
+				       self);
 	}
 	else if (self->priv->source_pixbuf != NULL) {
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_filename_label"));
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_size_label"));
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_modified_label"));
-		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), self->priv->source_pixbuf);
+		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), self->priv->source_pixbuf, -1, -1);
 	}
 
 	/* old image  */
@@ -214,10 +231,16 @@ info_ready_cb (GList    *files,
 		icon = g_content_type_get_icon (g_file_info_get_content_type (self->priv->destination_data->info));
 	pixbuf = _g_icon_get_pixbuf (icon, ICON_SIZE, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
 	if (pixbuf != NULL) {
-		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), pixbuf);
+		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), pixbuf, -1, -1);
 		g_object_unref (pixbuf);
 	}
-	gth_image_viewer_load (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), self->priv->destination_data);
+
+	gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->old_image_loader),
+			       self->priv->destination_data,
+			       PREVIEW_SIZE,
+			       NULL, /* FIXME: make this cancellable */
+			       image_loader_ready_cb,
+			       self);
 }
 
 
@@ -286,16 +309,15 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	if (default_response == GTH_OVERWRITE_RESPONSE_RENAME)
 		gtk_widget_grab_focus (_gtk_builder_get_widget (self->priv->builder, "overwrite_rename_entry"));
 
+	gtk_widget_set_size_request (_gtk_builder_get_widget (self->priv->builder, "old_image_frame"), PREVIEW_SIZE, PREVIEW_SIZE);
+	gtk_widget_set_size_request (_gtk_builder_get_widget (self->priv->builder, "new_image_frame"), PREVIEW_SIZE, PREVIEW_SIZE);
+
 	self->priv->old_image_viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), GTH_TRANSP_TYPE_NONE);
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), GTH_FIT_SIZE_IF_LARGER);
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->old_image_viewer));
 	gtk_widget_show (self->priv->old_image_viewer);
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "old_image_frame")), self->priv->old_image_viewer);
-	g_signal_connect (self->priv->old_image_viewer,
-			  "image_ready",
-			  G_CALLBACK (image_viewer_image_ready_cb),
-			  self);
 
 	self->priv->new_image_viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), GTH_TRANSP_TYPE_NONE);
@@ -303,15 +325,14 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->new_image_viewer));
 	gtk_widget_show (self->priv->new_image_viewer);
 	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "new_image_frame")), self->priv->new_image_viewer);
-	g_signal_connect (self->priv->new_image_viewer,
-			  "image_ready",
-			  G_CALLBACK (image_viewer_image_ready_cb),
-			  self);
 
 	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "overwrite_rename_radiobutton"),
 			  "toggled",
 			  G_CALLBACK (overwrite_rename_radiobutton_toggled_cb),
 			  self);
+
+	self->priv->old_image_loader = gth_image_loader_new (NULL, NULL);
+	self->priv->new_image_loader = gth_image_loader_new (NULL, NULL);
 
 	files = NULL;
 	if (self->priv->source != NULL)

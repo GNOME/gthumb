@@ -35,6 +35,7 @@
 #include "gth-pixbuf-saver.h"
 #include "gth-tags-file.h"
 #include "gth-test.h"
+#include "pixbuf-io.h"
 
 G_BEGIN_DECLS
 
@@ -48,10 +49,6 @@ G_BEGIN_DECLS
 typedef struct _GthMain         GthMain;
 typedef struct _GthMainPrivate  GthMainPrivate;
 typedef struct _GthMainClass    GthMainClass;
-
-typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData  *file_data,
-					     int           requested_size,
-				   	     GError      **error);
 
 struct _GthMain {
 	GObject __parent;
@@ -84,7 +81,7 @@ GthMetadataProvider *  gth_main_get_metadata_writer           (const char       
 							       const char           *mime_type);
 GthMetadataCategory *  gth_main_get_metadata_category         (const char           *id);
 GthMetadataInfo *      gth_main_get_metadata_info             (const char           *id);
-GPtrArray *            gth_main_get_all_metadata_info         (void);
+GList *                gth_main_get_all_metadata_info         (void);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);

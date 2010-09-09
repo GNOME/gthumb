@@ -30,6 +30,13 @@
 
 G_BEGIN_DECLS
 
+typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData   *file_data,
+					     int            requested_size,
+					     int           *original_width,
+					     int           *original_height,
+					     gpointer       user_data,
+					     GCancellable  *cancellable,
+				   	     GError       **error);
 
 typedef struct {
 	GFile *file;
@@ -58,10 +65,18 @@ void        _gdk_pixbuf_save_async             (GdkPixbuf        *pixbuf,
 						gpointer          data);
 GdkPixbuf * gth_pixbuf_new_from_file           (GthFileData      *file,
 						int               requested_size,
+						int              *original_width,
+						int              *original_height,
+						gboolean          scale_to_original,
+						GCancellable     *cancellable,
 						GError          **error);
-GdkPixbufAnimation*
+GdkPixbufAnimation *
 	    gth_pixbuf_animation_new_from_file (GthFileData      *file_data,
 						int               requested_size,
+						int              *original_width,
+						int              *original_height,
+						gpointer          user_data,
+						GCancellable     *cancellable,
 						GError          **error);
 
 G_END_DECLS

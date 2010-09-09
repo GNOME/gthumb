@@ -37,49 +37,43 @@ G_BEGIN_DECLS
 #define GTH_IS_THUMB_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_THUMB_LOADER))
 #define GTH_THUMB_LOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_THUMB_LOADER, GthThumbLoaderClass))
 
-typedef struct _GthThumbLoader            GthThumbLoader;
-typedef struct _GthThumbLoaderClass       GthThumbLoaderClass;
-typedef struct _GthThumbLoaderPrivateData GthThumbLoaderPrivateData;
+typedef struct _GthThumbLoader        GthThumbLoader;
+typedef struct _GthThumbLoaderClass   GthThumbLoaderClass;
+typedef struct _GthThumbLoaderPrivate GthThumbLoaderPrivate;
 
 struct _GthThumbLoader
 {
 	GObject  __parent;
-	GthThumbLoaderPrivateData *priv;
+	GthThumbLoaderPrivate *priv;
 };
 
 struct _GthThumbLoaderClass
 {
 	GObjectClass __parent_class;
-
-	/*< signals >*/
-
-	void (* ready) (GthThumbLoader *tl,
-			GError         *error);
 };
 
-GType            gth_thumb_loader_get_type           (void);
-GthThumbLoader * gth_thumb_loader_new                (int             size);
-void             gth_thumb_loader_set_loader         (GthThumbLoader *self,
-						      LoaderFunc      loader);
-void             gth_thumb_loader_set_requested_size (GthThumbLoader *self,
-					              int             size);
-int              gth_thumb_loader_get_requested_size (GthThumbLoader *self);
-void             gth_thumb_loader_use_cache          (GthThumbLoader *self,
-					              gboolean        use);
-void             gth_thumb_loader_save_thumbnails    (GthThumbLoader *self,
-					              gboolean        save);
-void             gth_thumb_loader_set_max_file_size  (GthThumbLoader *self,
-					              goffset         size);
-void             gth_thumb_loader_set_file           (GthThumbLoader *self,
-					              GthFileData    *file_data);
-void             gth_thumb_loader_set_uri            (GthThumbLoader *self,
-					              const char     *uri,
-					              const char     *mime_type);
-GdkPixbuf *      gth_thumb_loader_get_pixbuf         (GthThumbLoader *self);
-void             gth_thumb_loader_load               (GthThumbLoader *self);
-void             gth_thumb_loader_cancel             (GthThumbLoader *self,
-					              DataFunc        func,
-					              gpointer        data);
+GType             gth_thumb_loader_get_type             (void);
+GthThumbLoader *  gth_thumb_loader_new                  (int                   requested_size);
+void              gth_thumb_loader_set_loader_func      (GthThumbLoader       *self,
+						         PixbufLoader          loader_func);
+void              gth_thumb_loader_set_requested_size   (GthThumbLoader       *self,
+					                 int                   size);
+int               gth_thumb_loader_get_requested_size   (GthThumbLoader       *self);
+void              gth_thumb_loader_set_use_cache        (GthThumbLoader       *self,
+					                 gboolean              use);
+void              gth_thumb_loader_set_save_thumbnails  (GthThumbLoader       *self,
+					                 gboolean              save);
+void              gth_thumb_loader_set_max_file_size    (GthThumbLoader       *self,
+					                 goffset               size);
+void              gth_thumb_loader_load                 (GthThumbLoader       *self,
+						         GthFileData          *file_data,
+						         GCancellable         *cancellable,
+						         GAsyncReadyCallback   callback,
+						         gpointer              user_data);
+gboolean          gth_thumb_loader_load_finish          (GthThumbLoader       *self,
+						  	 GAsyncResult         *res,
+							 GdkPixbuf           **pixbuf,
+							 GError              **error);
 
 G_END_DECLS
 

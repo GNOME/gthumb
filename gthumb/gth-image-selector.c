@@ -612,7 +612,7 @@ paint_selection (GthImageSelector *self,
 	cairo_save (cr);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
 	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
-	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 #else
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 #endif

@@ -2044,7 +2044,9 @@ _gth_browser_close_step4 (gpointer user_data)
 {
 	GthBrowser *browser = user_data;
 
-	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->thumbnail_list), _gth_browser_close_final_step, browser);
+	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->thumbnail_list),
+			      _gth_browser_close_final_step,
+			      browser);
 }
 
 
@@ -2053,7 +2055,9 @@ _gth_browser_close_step3 (gpointer user_data)
 {
 	GthBrowser *browser = user_data;
 
-	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->file_list), _gth_browser_close_step4, browser);
+	gth_file_list_cancel (GTH_FILE_LIST (browser->priv->file_list),
+			      _gth_browser_close_step4,
+			      browser);
 }
 
 
@@ -4189,7 +4193,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the image preloader */
 
-	browser->priv->image_preloader = gth_image_preloader_new ();
+	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_TWO_STEPS, 4);
 
 	/**/
 
@@ -4930,6 +4934,8 @@ gth_browser_show_next_image (GthBrowser *browser,
 			gth_browser_load_file (browser, file_data, TRUE);
 		}
 	}
+	else
+		gdk_beep ();
 
 	return (pos >= 0);
 }
@@ -4968,6 +4974,8 @@ gth_browser_show_prev_image (GthBrowser *browser,
 			gth_browser_load_file (browser, file_data, TRUE);
 		}
 	}
+	else
+		gdk_beep ();
 
 	return (pos >= 0);
 }
@@ -5064,7 +5072,7 @@ load_file_data_ref (LoadFileData *data)
 static void
 load_file_data_unref (LoadFileData *data)
 {
-	if (--data->ref > 0)
+	if (--data->ref != 0)
 		return;
 	_g_object_unref (data->file_data);
 	_g_object_unref (data->browser);
@@ -5089,6 +5097,7 @@ _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
+				GthFileData   *file_data,
 				gboolean       success,
 				gpointer       user_data);
 
@@ -5116,37 +5125,6 @@ _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 
 
 static void
-gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
-				gboolean       success,
-				gpointer       user_data)
-{
-	GthBrowser *browser = user_data;
-
-	if (! success) {
-		GthViewerPage *basic_viewer_page;
-
-		/* Use the basic viewer if the default viewer failed.  The
-		 * basic viewer is registered before any other viewer, so it's
-		 * the last one in the viewer_pages list. */
-
-		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
-		_gth_browser_set_current_viewer_page (browser, basic_viewer_page);
-		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
-		return;
-	}
-
-	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
-
-	gth_browser_update_title (browser);
-	gth_browser_update_statusbar_file_info (browser);
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
-		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
-	gth_browser_update_sensitivity (browser);
-}
-
-
-static void
 file_metadata_ready_cb (GList    *files,
 			GError   *error,
 			gpointer  user_data)
@@ -5154,7 +5132,6 @@ file_metadata_ready_cb (GList    *files,
 	LoadFileData *data = user_data;
 	GthBrowser   *browser = data->browser;
 	GthFileData  *file_data;
-	GList        *scan;
 
 	if ((error != NULL) || (files == NULL)) {
 		load_file_data_unref (data);
@@ -5162,12 +5139,13 @@ file_metadata_ready_cb (GList    *files,
 	}
 
 	file_data = files->data;
-	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file)) {
+	if ((browser->priv->current_file == NULL) || ! _g_file_equal (file_data->file, browser->priv->current_file->file)) {
 		load_file_data_unref (data);
 		return;
 	}
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
+	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
 	if (! gtk_widget_get_visible (browser->priv->file_properties)) {
 		GtkAllocation allocation;
@@ -5187,34 +5165,20 @@ file_metadata_ready_cb (GList    *files,
 		}
 	}
 
-	if (browser->priv->viewer_pages == NULL)
-		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
-	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
-		GthViewerPage *registered_viewer_page = scan->data;
-
-		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
-			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
-			break;
-		}
-	}
-
-	if (data->view)
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
-
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
-		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
 		}
 	}
-	else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
-		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
 
-	if (browser->priv->viewer_page != NULL)
-		gth_viewer_page_view (browser->priv->viewer_page, file_data);
-	else
-		gth_viewer_page_file_loaded_cb (NULL, FALSE, browser);
+	gth_browser_update_title (browser);
+	gth_browser_update_statusbar_file_info (browser);
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+		_gth_browser_make_file_visible (browser, browser->priv->current_file);
+	gth_browser_update_sensitivity (browser);
 
 	if (browser->priv->location == NULL) {
 		GFile *parent;
@@ -5229,12 +5193,52 @@ file_metadata_ready_cb (GList    *files,
 
 
 static void
+gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
+				GthFileData   *file_data,
+				gboolean       success,
+				gpointer       user_data)
+{
+	GthBrowser   *browser = user_data;
+	LoadFileData *data;
+	GList        *files;
+
+	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file))
+		return;
+
+	if (! success) {
+		GthViewerPage *basic_viewer_page;
+
+		/* Use the basic viewer if the default viewer failed.  The
+		 * basic viewer is registered before any other viewer, so it's
+		 * the last one in the viewer_pages list. */
+
+		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
+		_gth_browser_set_current_viewer_page (browser, basic_viewer_page);
+		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+		return;
+	}
+
+	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
+
+	data = load_file_data_new (browser, browser->priv->current_file, TRUE);
+	files = g_list_prepend (NULL, browser->priv->current_file->file);
+	_g_query_all_metadata_async (files,
+				     GTH_LIST_DEFAULT,
+				     "*",
+				     NULL,
+				     file_metadata_ready_cb,
+				     data);
+
+	g_list_free (files);
+}
+
+
+static void
 _gth_browser_load_file (GthBrowser  *browser,
 			GthFileData *file_data,
 			gboolean     view)
 {
-	LoadFileData *data;
-	GList        *files;
+	GList *scan;
 
 	if (file_data == NULL) {
 		_gth_browser_deactivate_viewer_page (browser);
@@ -5253,19 +5257,41 @@ _gth_browser_load_file (GthBrowser  *browser,
 	_g_object_unref (browser->priv->current_file);
 	browser->priv->current_file = gth_file_data_dup (file_data);
 
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
-		_gth_browser_make_file_visible (browser, browser->priv->current_file);
+	if (browser->priv->viewer_pages == NULL)
+		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
 
-	data = load_file_data_new (browser, file_data, view);
-	files = g_list_prepend (NULL, data->file_data->file);
-	_g_query_all_metadata_async (files,
-				     GTH_LIST_DEFAULT,
-				     "*",
-				     NULL,
-				     file_metadata_ready_cb,
-				     data);
+	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
+		GthViewerPage *registered_viewer_page = scan->data;
 
-	g_list_free (files);
+		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
+			_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
+			break;
+		}
+	}
+
+	if (view)
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
+		int file_pos;
+
+		gth_viewer_page_show (browser->priv->viewer_page);
+
+		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
+		if (file_pos >= 0) {
+			GtkWidget *view;
+
+			view = gth_browser_get_file_list_view (browser);
+			g_signal_handlers_block_by_func (view, gth_file_view_selection_changed_cb, browser);
+			gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
+			g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
+		}
+	}
+
+	if (browser->priv->viewer_page != NULL)
+		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+	else
+		gth_viewer_page_file_loaded_cb (NULL, browser->priv->current_file, FALSE, browser);
 }
 
 
@@ -5324,22 +5350,24 @@ gth_browser_load_file (GthBrowser  *browser,
 
 	data = load_file_data_new (browser, file_data, view);
 
-	if (browser->priv->load_file_timeout != 0) {
-		if (view) {
+	if (view) {
+		if (browser->priv->load_file_timeout != 0) {
 			g_source_remove (browser->priv->load_file_timeout);
 			browser->priv->load_file_timeout = 0;
-			load_file_delayed_cb (data);
 		}
+		load_file_delayed_cb (data);
 		load_file_data_unref (data);
-		return;
 	}
-
-	browser->priv->load_file_timeout =
-			g_timeout_add_full (G_PRIORITY_DEFAULT,
-					    LOAD_FILE_DELAY,
-					    load_file_delayed_cb,
-					    data,
-					    (GDestroyNotify) load_file_data_unref);
+	else {
+		if (browser->priv->load_file_timeout != 0)
+			g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout =
+				g_timeout_add_full (G_PRIORITY_DEFAULT,
+						    LOAD_FILE_DELAY,
+						    load_file_delayed_cb,
+						    data,
+						    (GDestroyNotify) load_file_data_unref);
+	}
 }
 
 

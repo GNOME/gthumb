@@ -24,9 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "gth-image-loader.h"
 #include "gth-image-viewer-tool.h"
-#include "gth-file-data.h"
 
 G_BEGIN_DECLS
 
@@ -126,7 +124,6 @@ struct _GthImageViewerClass
 	/* -- Signals -- */
 
 	void (* clicked)                (GthImageViewer     *viewer);
-	void (* image_ready)            (GthImageViewer     *viewer);
 	void (* zoom_changed)           (GthImageViewer     *viewer);
 	void (* size_changed)           (GthImageViewer     *viewer);
 	void (* set_scroll_adjustments) (GtkWidget          *widget,
@@ -152,28 +149,28 @@ GtkWidget*     gth_image_viewer_new                      (void);
 
 /* viewer content. */
 
-void           gth_image_viewer_load                     (GthImageViewer     *viewer,
-			 				  GthFileData        *file);
-void           gth_image_viewer_load_from_file           (GthImageViewer     *viewer,
-							  GFile              *file);
-void           gth_image_viewer_load_from_pixbuf_loader  (GthImageViewer     *viewer,
-							  GdkPixbufLoader    *loader);
-void           gth_image_viewer_load_from_image_loader   (GthImageViewer     *viewer,
-							  GthImageLoader     *loader);
+void           gth_image_viewer_set_animation            (GthImageViewer     *viewer,
+							  GdkPixbufAnimation *animation,
+							  int                 original_width,
+							  int                 original_height);
 void           gth_image_viewer_set_pixbuf               (GthImageViewer     *viewer,
-							  GdkPixbuf          *pixbuf);
+							  GdkPixbuf          *pixbuf,
+							  int                 original_width,
+							  int                 original_height);
 void           gth_image_viewer_set_void                 (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_is_void                  (GthImageViewer     *viewer);
 void           gth_image_viewer_update_view              (GthImageViewer     *viewer);
 
 /* image info. */
 
-GthFileData *  gth_image_viewer_get_file                 (GthImageViewer     *viewer);
 int            gth_image_viewer_get_image_width          (GthImageViewer     *viewer);
 int            gth_image_viewer_get_image_height         (GthImageViewer     *viewer);
 int            gth_image_viewer_get_image_bps            (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer     *viewer);
 GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer     *viewer);
+void           gth_image_viewer_get_original_size        (GthImageViewer     *viewer,
+				    	    	    	  int                *width,
+				    	    	    	  int                *height);
 
 /* animation. */
 

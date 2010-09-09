@@ -494,6 +494,8 @@ gth_main_get_metadata_attributes (const char *mask)
 	GList                  *scan;
 	char                  **values;
 
+	g_static_mutex_lock (&metadata_info_mutex);
+
 	if (! Main->priv->metadata_info_sorted) {
 		g_ptr_array_sort (Main->priv->metadata_info, metadata_info_sort_func);
 		Main->priv->metadata_info_sorted = TRUE;
@@ -509,6 +511,8 @@ gth_main_get_metadata_attributes (const char *mask)
 		}
 	}
 	list = g_list_reverse (list);
+
+	g_static_mutex_unlock (&metadata_info_mutex);
 
 	values = g_new (char *, n + 1);
 	for (i = 0, scan = list; scan; i++, scan = scan->next)
@@ -598,10 +602,24 @@ gth_main_get_metadata_info (const char *id)
 }
 
 
-GPtrArray *
+GList *
 gth_main_get_all_metadata_info (void)
 {
-	return Main->priv->metadata_info;
+	GList *list = NULL;
+	int    i;
+
+	g_static_mutex_lock (&metadata_info_mutex);
+
+	for (i = 0; i < Main->priv->metadata_info->len; i++) {
+		GthMetadataInfo *metadata_info = g_ptr_array_index (Main->priv->metadata_info, i);
+
+		list = g_list_prepend (list, metadata_info);
+	}
+	list = g_list_reverse (list);
+
+	g_static_mutex_unlock (&metadata_info_mutex);
+
+	return list;
 }
 
 

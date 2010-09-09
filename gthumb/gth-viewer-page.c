@@ -20,7 +20,9 @@
  */
 
 #include <config.h>
+#include "gth-marshal.h"
 #include "gth-viewer-page.h"
+
 
 enum {
     FILE_LOADED,
@@ -44,9 +46,10 @@ gth_viewer_page_base_init (gpointer g_iface)
 	                          G_SIGNAL_RUN_LAST,
 	                          G_STRUCT_OFFSET (GthViewerPageIface, file_loaded),
 	                          NULL, NULL,
-	                          g_cclosure_marshal_VOID__BOOLEAN,
+	                          gth_marshal_VOID__OBJECT_BOOLEAN,
 	                          G_TYPE_NONE,
-	                          1,
+	                          2,
+	                          G_TYPE_OBJECT,
 	                          G_TYPE_BOOLEAN);
 
 	initialized = TRUE;
@@ -191,7 +194,8 @@ gth_viewer_page_revert (GthViewerPage *self)
 
 void
 gth_viewer_page_file_loaded (GthViewerPage *self,
+			     GthFileData   *file_data,
 			     gboolean       success)
 {
-	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, success);
+	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, file_data, success);
 }

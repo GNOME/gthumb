@@ -60,6 +60,7 @@ struct _GthSlideshowPrivate {
 	ClutterActor          *image1;
 	ClutterActor          *image2;
 #endif
+	GdkPixbuf             *current_pixbuf;
 	GtkWidget             *viewer;
 	guint                  next_event;
 	guint                  delay;
@@ -125,6 +126,9 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	GthFileData *requested_file;
 	GthFileData *next_file;
 	GthFileData *prev_file;
+	int          screen_width;
+	int          screen_height;
+	GdkScreen   *screen;
 
 	if (self->priv->next_event != 0) {
 		g_source_remove (self->priv->next_event);
@@ -148,10 +152,21 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 		prev_file = (GthFileData *) self->priv->current->prev->data;
 	else
 		prev_file = NULL;
+
+	screen_width = -1;
+	screen_height = -1;
+	screen = gtk_widget_get_screen (GTK_WIDGET (self));
+	if (screen != NULL) {
+		screen_width = gdk_screen_get_width (screen);
+		screen_height = gdk_screen_get_height (screen);
+	}
+
 	gth_image_preloader_load (self->priv->preloader,
 				  requested_file,
+				  MAX (screen_width, screen_height),
 				  next_file,
-				  prev_file);
+				  prev_file,
+				  NULL);
 }
 
 
@@ -210,13 +225,16 @@ view_next_image_automatically (GthSlideshow *self)
 
 
 static void
-image_preloader_requested_ready_cb (GthImagePreloader *preloader,
-				    GError            *error,
-				    gpointer           user_data)
+image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
+				    GthFileData        *requested,
+				    GdkPixbufAnimation *animation,
+				    int                 original_width,
+				    int                 original_height,
+				    GError             *error,
+				    gpointer            user_data)
 {
-	GthSlideshow   *self = user_data;
-	GthImageLoader *image_loader;
-	GdkPixbuf      *pixbuf;
+	GthSlideshow *self = user_data;
+	GdkPixbuf    *static_image;
 
 	if (error != NULL) {
 		g_clear_error (&error);
@@ -224,20 +242,21 @@ image_preloader_requested_ready_cb (GthImagePreloader *preloader,
 		return;
 	}
 
-	image_loader = gth_image_preloader_get_loader (self->priv->preloader, (GthFileData *) self->priv->current->data);
-	if (image_loader == NULL) {
-		_gth_slideshow_load_next_image (self);
-		return;
-	}
+	_g_object_unref (self->priv->current_pixbuf);
 
-	pixbuf = gth_image_loader_get_pixbuf (image_loader);
-	if (pixbuf == NULL) {
+	static_image = gdk_pixbuf_animation_get_static_image (animation);
+	if (static_image != NULL)
+		self->priv->current_pixbuf = gdk_pixbuf_copy (static_image);
+	else
+		self->priv->current_pixbuf = NULL;
+
+	if (self->priv->current_pixbuf == NULL) {
 		_gth_slideshow_load_next_image (self);
 		return;
 	}
 
 	self->priv->one_loaded = TRUE;
-	self->priv->projector->image_ready (self, pixbuf);
+	self->priv->projector->image_ready (self, self->priv->current_pixbuf);
 }
 
 
@@ -259,8 +278,9 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->animating = FALSE;
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
 	self->priv->random_order = FALSE;
+	self->priv->current_pixbuf = NULL;
 
-	self->priv->preloader = gth_image_preloader_new ();
+	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
 	g_signal_connect (self->priv->preloader,
 			  "requested_ready",
 			  G_CALLBACK (image_preloader_requested_ready_cb),
@@ -278,6 +298,7 @@ gth_slideshow_finalize (GObject *object)
 	if (self->priv->hide_cursor_event != 0)
 		g_source_remove (self->priv->hide_cursor_event);
 
+	_g_object_unref (self->priv->current_pixbuf);
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->browser);
 	_g_object_unref (self->priv->preloader);
@@ -536,7 +557,7 @@ static void
 default_projector_image_ready (GthSlideshow *self,
 			       GdkPixbuf    *pixbuf)
 {
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf);
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
 	view_next_image_automatically (self);
 }
 
@@ -946,8 +967,6 @@ gth_slideshow_size_allocate_cb (GtkWidget     *widget,
 {
 	GthSlideshow   *self = user_data;
 	gfloat          stage_w, stage_h;
-	GthImageLoader *image_loader;
-	GdkPixbuf      *pixbuf;
 	GdkPixbuf      *image;
 	int             pixbuf_w, pixbuf_h;
 	int             pixbuf_x, pixbuf_y;
@@ -960,28 +979,23 @@ gth_slideshow_size_allocate_cb (GtkWidget     *widget,
 	if ((stage_w == 0) || (stage_h == 0))
 		return;
 
-	image_loader = gth_image_preloader_get_loader (self->priv->preloader, (GthFileData *) self->priv->current->data);
-	if (image_loader == NULL)
+	if (self->priv->current_pixbuf == NULL)
 		return;
 
-	pixbuf = gth_image_loader_get_pixbuf (image_loader);
-	if (pixbuf == NULL)
-		return;
-
-	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
+	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (self->priv->current_pixbuf),
 				FALSE,
-				gdk_pixbuf_get_bits_per_sample (pixbuf),
+				gdk_pixbuf_get_bits_per_sample (self->priv->current_pixbuf),
 				stage_w,
 				stage_h);
 	gdk_pixbuf_fill (image, 0x000000ff);
 
-	pixbuf_w = gdk_pixbuf_get_width (pixbuf);
-	pixbuf_h = gdk_pixbuf_get_height (pixbuf);
+	pixbuf_w = gdk_pixbuf_get_width (self->priv->current_pixbuf);
+	pixbuf_h = gdk_pixbuf_get_height (self->priv->current_pixbuf);
 	scale_keeping_ratio (&pixbuf_w, &pixbuf_h, (int) stage_w, (int) stage_h, TRUE);
 	pixbuf_x = (stage_w - pixbuf_w) / 2;
 	pixbuf_y = (stage_h - pixbuf_h) / 2;
 
-	gdk_pixbuf_composite (pixbuf,
+	gdk_pixbuf_composite (self->priv->current_pixbuf,
 			      image,
 			      pixbuf_x,
 			      pixbuf_y,
@@ -989,8 +1003,8 @@ gth_slideshow_size_allocate_cb (GtkWidget     *widget,
 			      pixbuf_h,
 			      pixbuf_x,
 			      pixbuf_y,
-			      (double) pixbuf_w / gdk_pixbuf_get_width (pixbuf),
-			      (double) pixbuf_h / gdk_pixbuf_get_height (pixbuf),
+			      (double) pixbuf_w / gdk_pixbuf_get_width (self->priv->current_pixbuf),
+			      (double) pixbuf_h / gdk_pixbuf_get_height (self->priv->current_pixbuf),
 			      GDK_INTERP_BILINEAR,
 			      255);
 

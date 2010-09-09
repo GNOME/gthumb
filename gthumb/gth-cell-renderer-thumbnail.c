@@ -399,6 +399,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 			frame_rect = image_rect;
 		}
 
+		cairo_translate (cr, 0.5, 0.5);
 		cairo_set_line_width (cr, 0.5);
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 		gdk_cairo_set_source_color (cr, &style->dark[state]);
@@ -406,34 +407,34 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		/* the outer frame */
 
 		cairo_rectangle (cr,
-				 frame_rect.x - border + 0.5,
-				 frame_rect.y - border + 0.5,
+				 frame_rect.x - border,
+				 frame_rect.y - border,
 				 frame_rect.width + (border * 2) - 1,
 				 frame_rect.height + (border * 2) - 1);
 
 		/* the drop shadow */
 
 		cairo_move_to (cr,
-			       frame_rect.x - (border / 2) + 0.5,
-			       frame_rect.y + frame_rect.height + border + 0.5);
+			       frame_rect.x - (border / 2),
+			       frame_rect.y + frame_rect.height + border);
 		cairo_line_to (cr,
-			       frame_rect.x + frame_rect.width + border + 0.5,
-			       frame_rect.y + frame_rect.height + border + 0.5);
+			       frame_rect.x + frame_rect.width + border,
+			       frame_rect.y + frame_rect.height + border);
 		cairo_line_to (cr,
-			       frame_rect.x + frame_rect.width + border + 0.5,
-			       frame_rect.y - (border / 2) + 0.5);
-
+			       frame_rect.x + frame_rect.width + border,
+			       frame_rect.y - (border / 2));
 		cairo_move_to (cr,
-			       frame_rect.x - (border / 2) + 0.5,
-			       frame_rect.y + frame_rect.height + border + 1.5);
+			       frame_rect.x - (border / 2),
+			       frame_rect.y + frame_rect.height + border + 1.0);
 		cairo_line_to (cr,
-			       frame_rect.x + frame_rect.width + border + 1.5,
-			       frame_rect.y + frame_rect.height + border + 1.5);
+			       frame_rect.x + frame_rect.width + border + 1.0,
+			       frame_rect.y + frame_rect.height + border + 1.0);
 		cairo_line_to (cr,
-			       frame_rect.x + frame_rect.width + border + 1.5,
-			       frame_rect.y - (border / 2) + 0.5);
-
+			       frame_rect.x + frame_rect.width + border + 1.0,
+			       frame_rect.y - (border / 2));
 		cairo_stroke (cr);
+
+		cairo_identity_matrix (cr);
 	}
 
   	if (! self->priv->checked || ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0)) {

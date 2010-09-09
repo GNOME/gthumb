@@ -260,6 +260,8 @@ void            _g_file_get_modification_time    (GFile      *file,
 time_t          _g_file_get_mtime                (GFile      *file);
 int             _g_file_cmp_uris                 (GFile      *a,
 						  GFile      *b);
+gboolean        _g_file_equal_uris               (GFile      *a,
+		  	  	  	  	  GFile      *b);
 int             _g_file_cmp_modification_time    (GFile      *a,
 						  GFile      *b);
 goffset         _g_file_get_size                 (GFile      *info);

@@ -426,13 +426,16 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 
 
 static GdkPixbufAnimation *
-flickr_thumbnail_loader (GthFileData  *file_data,
-		         GError      **error,
-		         gpointer      data)
+flickr_thumbnail_loader (GthFileData   *file_data,
+			 int            requested_size,
+			 int           *original_width,
+			 int           *original_height,
+			 gpointer       user_data,
+			 GCancellable  *cancellable,
+		         GError       **error)
 {
 	GdkPixbufAnimation *animation = NULL;
-	GthThumbLoader     *thumb_loader = data;
-	int                 requested_size;
+	GthThumbLoader     *thumb_loader = user_data;
 	FlickrPhoto        *photo;
 	const char         *uri = NULL;
 
@@ -461,7 +464,7 @@ flickr_thumbnail_loader (GthFileData  *file_data,
 			GdkPixbuf    *pixbuf;
 
 			stream = g_memory_input_stream_new_from_data (buffer, size, g_free);
-			pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
+			pixbuf = gdk_pixbuf_new_from_stream (stream, cancellable, error);
 			if (pixbuf != NULL) {
 				GdkPixbuf *rotated;
 
@@ -557,8 +560,8 @@ dlg_import_from_flickr (FlickrServer *server,
 
 	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	thumb_loader = gth_file_list_get_thumb_loader (GTH_FILE_LIST (data->file_list));
-	gth_thumb_loader_use_cache (thumb_loader, FALSE);
-	gth_thumb_loader_set_loader (thumb_loader, flickr_thumbnail_loader);
+	gth_thumb_loader_set_use_cache (thumb_loader, FALSE);
+	gth_thumb_loader_set_loader_func (thumb_loader, flickr_thumbnail_loader);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), FLICKR_SIZE_THUMBNAIL);
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))), 0);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);

@@ -50,6 +50,7 @@ typedef struct {
 typedef struct {
 	GHookList *list;
 	int        n_args;
+	GMutex    *mutex;
 } GthHook;
 
 
@@ -58,6 +59,7 @@ gth_hook_free (GthHook *hook)
 {
 	g_hook_list_clear (hook->list);
 	g_free (hook->list);
+	g_mutex_free (hook->mutex);
 	g_free (hook);
 }
 
@@ -95,6 +97,7 @@ gth_hook_register (const char *name,
 	hook->list = g_new (GHookList, 1);
 	g_hook_list_init (hook->list, sizeof (GthHookCallback));
 	hook->n_args = n_args;
+	hook->mutex = g_mutex_new ();
 
 	g_hash_table_insert (hooks, g_strdup (name), hook);
 }
@@ -261,8 +264,10 @@ gth_hook_invoke (const char *name,
 		break;
 	}
 
+	g_mutex_lock (hook->mutex);
 	if (invoke_marshaller != NULL)
 		g_hook_list_marshal (hook->list, TRUE, invoke_marshaller, marshal_data);
+	g_mutex_unlock (hook->mutex);
 
 	g_free (marshal_data);
 }
@@ -373,8 +378,10 @@ gth_hook_invoke_get (const char *name,
 		break;
 	}
 
+	g_mutex_lock (hook->mutex);
 	if (invoke_marshaller != NULL)
 		g_hook_list_marshal (hook->list, TRUE, invoke_marshaller, marshal_data);
+	g_mutex_unlock (hook->mutex);
 
 	value = marshal_data[hook->n_args];
 

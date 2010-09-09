@@ -269,9 +269,13 @@ get_file_mtime (const char *path)
 
 
 static GdkPixbufAnimation *
-openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
-					int           requested_size,
-					GError      **error)
+openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
+					int            requested_size,
+					int           *original_width,
+					int           *original_height,
+					gpointer       user_data,
+					GCancellable  *cancellable,
+					GError       **error)
 {
 	GdkPixbufAnimation *animation;
 	GdkPixbuf          *pixbuf;

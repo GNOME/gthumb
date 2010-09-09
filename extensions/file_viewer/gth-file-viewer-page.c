@@ -39,9 +39,9 @@ struct _GthFileViewerPagePrivate {
 	GtkWidget      *viewer;
 	GtkWidget      *icon;
 	GtkWidget      *label;
+	GthFileData    *file_data;
 	guint           merge_id;
 	GthThumbLoader *thumb_loader;
-	gulong          thumb_loader_ready_event;
 };
 
 
@@ -85,17 +85,6 @@ viewer_popup_menu_cb (GtkWidget         *widget,
 
 
 static void
-thumb_loader_ready_cb (GthThumbLoader    *il,
-		       GError            *error,
-		       GthFileViewerPage *self)
-{
-	if (error == NULL)
-		gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
-	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), TRUE);
-}
-
-
-static void
 gth_file_viewer_page_real_activate (GthViewerPage *base,
 				    GthBrowser    *browser)
 {
@@ -106,13 +95,7 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	self = (GthFileViewerPage*) base;
 
 	self->priv->browser = browser;
-
 	self->priv->thumb_loader = gth_thumb_loader_new (128);
-	self->priv->thumb_loader_ready_event =
-			g_signal_connect (G_OBJECT (self->priv->thumb_loader),
-					  "ready",
-					  G_CALLBACK (thumb_loader_ready_cb),
-					  self);
 
 	self->priv->viewer = gtk_event_box_new ();
 	gtk_widget_show (self->priv->viewer);
@@ -161,10 +144,6 @@ gth_file_viewer_page_real_deactivate (GthViewerPage *base)
 	GthFileViewerPage *self;
 
 	self = (GthFileViewerPage*) base;
-
-	g_signal_handler_disconnect (self->priv->thumb_loader, self->priv->thumb_loader_ready_event);
-	self->priv->thumb_loader_ready_event = 0;
-
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
 }
 
@@ -212,12 +191,56 @@ gth_file_viewer_page_real_can_view (GthViewerPage *base,
 }
 
 
+typedef struct {
+	GthFileViewerPage *self;
+	GthFileData       *file_data;
+} ViewData;
+
+
+static void
+view_data_free (ViewData *view_data)
+{
+	g_object_unref (view_data->file_data);
+	g_object_unref (view_data->self);
+	g_free (view_data);
+}
+
+
+static void
+thumb_loader_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	ViewData          *view_data = user_data;
+	GthFileViewerPage *self = view_data->self;
+	GdkPixbuf         *pixbuf;
+
+	if (! gth_thumb_loader_load_finish (GTH_THUMB_LOADER (source_object),
+					    result,
+					    &pixbuf,
+					    NULL))
+	{
+		view_data_free (view_data);
+		return;
+	}
+
+	if (g_file_equal (self->priv->file_data->file, view_data->file_data->file)) {
+		gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), pixbuf);
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
+	}
+
+	g_object_unref (pixbuf);
+	view_data_free (view_data);
+}
+
+
 static void
 gth_file_viewer_page_real_view (GthViewerPage *base,
 				GthFileData   *file_data)
 {
 	GthFileViewerPage *self;
 	GIcon             *icon;
+	ViewData          *view_data;
 
 	self = (GthFileViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -227,9 +250,19 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 	if (icon != NULL)
 		gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon), icon, GTK_ICON_SIZE_DIALOG);
 
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = g_object_ref (file_data);
+
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-	gth_thumb_loader_set_file (self->priv->thumb_loader, file_data);
-	gth_thumb_loader_load (self->priv->thumb_loader);
+
+	view_data = g_new0 (ViewData, 1);
+	view_data->self = g_object_ref (self);
+	view_data->file_data = g_object_ref (file_data);
+	gth_thumb_loader_load (self->priv->thumb_loader,
+			       view_data->file_data,
+			       NULL,
+			       thumb_loader_ready_cb,
+			       view_data);
 }
 
 
@@ -280,6 +313,7 @@ gth_file_viewer_page_finalize (GObject *obj)
 
 	self = GTH_FILE_VIEWER_PAGE (obj);
 
+	_g_object_unref (self->priv->file_data);
 	_g_object_unref (self->priv->thumb_loader);
 
 	G_OBJECT_CLASS (gth_file_viewer_page_parent_class)->finalize (obj);
@@ -318,6 +352,7 @@ gth_file_viewer_page_instance_init (GthFileViewerPage *self)
 {
 	self->priv = GTH_FILE_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->thumb_loader = NULL;
+	self->priv->file_data = NULL;
 }
 
 

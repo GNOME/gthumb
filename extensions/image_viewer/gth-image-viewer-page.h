@@ -46,18 +46,18 @@ struct _GthImageViewerPageClass {
 	GObjectClass parent_class;
 };
 
-GType              gth_image_viewer_page_get_type         (void);
-GtkWidget *        gth_image_viewer_page_get_image_viewer (GthImageViewerPage *page);
-GdkPixbuf *        gth_image_viewer_page_get_pixbuf       (GthImageViewerPage *page);
-void               gth_image_viewer_page_set_pixbuf       (GthImageViewerPage *page,
-							   GdkPixbuf          *pixbuf,
-							   gboolean            add_to_history);
-void               gth_image_viewer_page_undo             (GthImageViewerPage *page);
-void               gth_image_viewer_page_redo             (GthImageViewerPage *page);
-GthImageHistory *  gth_image_viewer_page_get_history      (GthImageViewerPage *self);
-void               gth_image_viewer_page_reset            (GthImageViewerPage *self);
-void               gth_image_viewer_page_shrink_wrap      (GthImageViewerPage *self,
-		   	   	   	   	   	   gboolean            activate);
+GType              gth_image_viewer_page_get_type          (void);
+GtkWidget *        gth_image_viewer_page_get_image_viewer  (GthImageViewerPage *page);
+GdkPixbuf *        gth_image_viewer_page_get_pixbuf        (GthImageViewerPage *page);
+void               gth_image_viewer_page_set_pixbuf        (GthImageViewerPage *page,
+							    GdkPixbuf          *pixbuf,
+							    gboolean            add_to_history);
+void               gth_image_viewer_page_undo              (GthImageViewerPage *page);
+void               gth_image_viewer_page_redo              (GthImageViewerPage *page);
+GthImageHistory *  gth_image_viewer_page_get_history       (GthImageViewerPage *self);
+void               gth_image_viewer_page_reset             (GthImageViewerPage *self);
+void               gth_image_viewer_page_shrink_wrap       (GthImageViewerPage *self,
+		   	   	   	   	   	    gboolean            activate);
 
 G_END_DECLS
 
