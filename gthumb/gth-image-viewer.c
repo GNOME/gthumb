@@ -933,6 +933,7 @@ scroll_to (GthImageViewer *self,
 {
 	GdkDrawable   *drawable;
 	GtkAllocation  allocation;
+	int            width, height;
 	int            delta_x, delta_y;
 	int            gdk_width, gdk_height;
 
@@ -941,18 +942,20 @@ scroll_to (GthImageViewer *self,
 	if (gth_image_viewer_get_current_pixbuf (self) == NULL)
 		return;
 
+	_gth_image_viewer_get_zoomed_size (self, &width, &height);
+
 	drawable = gtk_widget_get_window (GTK_WIDGET (self));
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	gdk_width = allocation.width - self->priv->frame_border2;
 	gdk_height = allocation.height - self->priv->frame_border2;
 
-	if (self->priv->original_width > gdk_width)
-		*x_offset = CLAMP (*x_offset, 0, self->priv->original_width - gdk_width);
+	if (width > gdk_width)
+		*x_offset = CLAMP (*x_offset, 0, width - gdk_width);
 	else
 		*x_offset = self->x_offset;
 
-	if (self->priv->original_height > gdk_height)
-		*y_offset = CLAMP (*y_offset, 0, self->priv->original_height - gdk_height);
+	if (height > gdk_height)
+		*y_offset = CLAMP (*y_offset, 0, height - gdk_height);
 	else
 		*y_offset = self->y_offset;
 
@@ -1184,19 +1187,19 @@ set_scroll_adjustments (GtkWidget     *widget,
 
 	self = GTH_IMAGE_VIEWER (widget);
 
-	if (hadj)
+	if (hadj != NULL)
 		g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
 	else
 		hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
-	if (vadj)
+	if (vadj != NULL)
 		g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
 	else
 		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
-	if (self->hadj && self->hadj != hadj) {
+	if ((self->hadj != NULL) && (self->hadj != hadj)) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj),
 						      self);
 		g_object_unref (self->hadj);
@@ -1204,7 +1207,7 @@ set_scroll_adjustments (GtkWidget     *widget,
 		self->hadj = NULL;
 	}
 
-	if (self->vadj && self->vadj != vadj) {
+	if ((self->vadj != NULL) && (self->vadj != vadj)) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
 		g_object_unref (self->vadj);
 		self->vadj = NULL;
