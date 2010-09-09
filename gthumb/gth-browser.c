@@ -2066,6 +2066,9 @@ _gth_browser_real_close (GthBrowser *browser)
 {
 	int i;
 
+	if (browser->priv->closing)
+		return;
+
 	/* remove gconf notifications */
 
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
