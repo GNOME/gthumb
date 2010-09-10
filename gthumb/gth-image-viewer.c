@@ -1616,16 +1616,20 @@ _gth_image_viewer_set_original_size (GthImageViewer *self,
 
 
 static void
-_gth_image_viewer_content_changed (GthImageViewer *self)
+_gth_image_viewer_content_changed (GthImageViewer *self,
+				   gboolean        better_quality)
 {
 	halt_animation (self);
 
-	if (self->priv->reset_scrollbars) {
+	if (! better_quality && self->priv->reset_scrollbars) {
 		self->x_offset = 0;
 		self->y_offset = 0;
 	}
 
 	gth_image_viewer_tool_image_changed (self->priv->tool);
+
+	if (better_quality)
+		return;
 
 	switch (self->priv->zoom_change) {
 	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
@@ -1660,11 +1664,12 @@ _gth_image_viewer_content_changed (GthImageViewer *self)
 }
 
 
-void
-gth_image_viewer_set_animation (GthImageViewer     *self,
-				GdkPixbufAnimation *animation,
-				int                 original_width,
-				int                 original_height)
+static void
+_set_animation (GthImageViewer     *self,
+		GdkPixbufAnimation *animation,
+		int                 original_width,
+		int                 original_height,
+		gboolean            better_quality)
 {
 	g_return_if_fail (self != NULL);
 
@@ -1681,7 +1686,27 @@ gth_image_viewer_set_animation (GthImageViewer     *self,
 	}
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
 
-	_gth_image_viewer_content_changed (self);
+	_gth_image_viewer_content_changed (self, better_quality);
+}
+
+
+void
+gth_image_viewer_set_animation (GthImageViewer     *self,
+				GdkPixbufAnimation *animation,
+				int                 original_width,
+				int                 original_height)
+{
+	_set_animation (self, animation, original_width, original_height, FALSE);
+}
+
+
+void
+gth_image_viewer_set_better_quality (GthImageViewer     *self,
+				     GdkPixbufAnimation *animation,
+				     int                 original_width,
+				     int                 original_height)
+{
+	_set_animation (self, animation, original_width, original_height, TRUE);
 }
 
 
@@ -1702,7 +1727,7 @@ gth_image_viewer_set_pixbuf (GthImageViewer *self,
 	self->priv->is_animation = FALSE;
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
 
-	_gth_image_viewer_content_changed (self);
+	_gth_image_viewer_content_changed (self, FALSE);
 }
 
 
@@ -1718,7 +1743,7 @@ gth_image_viewer_set_void (GthImageViewer *self)
 	self->priv->is_void = TRUE;
 	self->priv->is_animation = FALSE;
 
-	_gth_image_viewer_content_changed (self);
+	_gth_image_viewer_content_changed (self, FALSE);
 }
 
 

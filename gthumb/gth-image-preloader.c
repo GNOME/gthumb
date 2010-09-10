@@ -36,6 +36,7 @@
 
 enum {
 	REQUESTED_READY,
+	ORIGINAL_SIZE_READY,
 	LAST_SIGNAL
 };
 
@@ -175,6 +176,30 @@ preloader_needs_second_step (Preloader *preloader)
 }
 
 
+static int
+preloader_signal_to_emit (Preloader *preloader)
+{
+	int signal = -1;
+
+	switch (preloader->self->priv->load_policy) {
+	case GTH_LOAD_POLICY_ONE_STEP:
+		signal = REQUESTED_READY;
+		break;
+
+	case GTH_LOAD_POLICY_TWO_STEPS:
+		if (preloader->self->priv->requested_size == -1)
+			signal = ORIGINAL_SIZE_READY;
+		else
+			signal = REQUESTED_READY;
+		break;
+	}
+
+	g_assert (signal != -1);
+
+	return signal;
+}
+
+
 /* -- GthImagePreloader -- */
 
 
@@ -219,6 +244,20 @@ gth_image_preloader_class_init (GthImagePreloaderClass *class)
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImagePreloaderClass, requested_ready),
+			      NULL, NULL,
+			      gth_marshal_VOID__OBJECT_OBJECT_INT_INT_POINTER,
+			      G_TYPE_NONE,
+			      5,
+			      G_TYPE_OBJECT,
+			      G_TYPE_OBJECT,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER);
+	gth_image_preloader_signals[ORIGINAL_SIZE_READY] =
+		g_signal_new ("original_size_ready",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthImagePreloaderClass, original_size_ready),
 			      NULL, NULL,
 			      gth_marshal_VOID__OBJECT_OBJECT_INT_INT_POINTER,
 			      G_TYPE_NONE,
@@ -389,7 +428,7 @@ image_loader_ready_cb (GObject      *source_object,
 #endif
 
 		g_signal_emit (G_OBJECT (self),
-			       gth_image_preloader_signals[REQUESTED_READY],
+			       gth_image_preloader_signals[preloader_signal_to_emit (preloader)],
 			       0,
 			       preloader->file_data,
 			       preloader->animation,
@@ -571,7 +610,7 @@ assign_loaders (LoadData *load_data)
 					self->priv->requested = i;
 
 					g_signal_emit (G_OBJECT (self),
-							gth_image_preloader_signals[REQUESTED_READY],
+							gth_image_preloader_signals[preloader_signal_to_emit (preloader)],
 							0,
 							preloader->file_data,
 							preloader->animation,

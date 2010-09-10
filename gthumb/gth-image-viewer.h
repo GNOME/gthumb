@@ -157,6 +157,10 @@ void           gth_image_viewer_set_pixbuf               (GthImageViewer     *vi
 							  GdkPixbuf          *pixbuf,
 							  int                 original_width,
 							  int                 original_height);
+void           gth_image_viewer_set_better_quality       (GthImageViewer     *viewer,
+							  GdkPixbufAnimation *animation,
+							  int                 original_width,
+							  int                 original_height);
 void           gth_image_viewer_set_void                 (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_is_void                  (GthImageViewer     *viewer);
 void           gth_image_viewer_update_view              (GthImageViewer     *viewer);
