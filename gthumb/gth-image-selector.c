@@ -196,7 +196,6 @@ struct _GthImageSelectorPrivate {
 	GthSelectorType  type;
 
 	GdkPixbuf       *pixbuf;
-	GdkPixbuf       *background;
 	GdkRectangle     pixbuf_area;
 
 	gboolean         use_ratio;
@@ -580,12 +579,37 @@ paint_background (GthImageSelector *self,
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
 				       cr,
-				       self->priv->background,
+				       self->priv->pixbuf,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
 				       GDK_INTERP_TILES);
+
+	/* make the background darker */
+	{
+		GdkRectangle *rects;
+		int           n_rects;
+		int           i;
+
+		cairo_save (cr);
+		gdk_cairo_region (cr, event->region);
+		cairo_clip (cr);
+		gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
+		cairo_clip (cr);
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		gdk_region_get_rectangles (event->region, &rects, &n_rects);
+		for (i = 0; i < n_rects; i++) {
+			GdkRectangle paint_area;
+
+			if (gdk_rectangle_intersect (&self->priv->viewer->image_area, &rects[i], &paint_area))
+				cairo_rectangle (cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
+		}
+		cairo_fill (cr);
+		cairo_restore (cr);
+
+		g_free (rects);
+	}
 }
 
 
@@ -1277,9 +1301,6 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 	_g_object_unref (self->priv->pixbuf);
 	self->priv->pixbuf = gth_image_viewer_get_current_pixbuf (self->priv->viewer);
 
-	_g_object_unref (self->priv->background);
-	self->priv->background = NULL;
-
 	if (self->priv->pixbuf == NULL) {
 		self->priv->pixbuf_area.width = 0;
 		self->priv->pixbuf_area.height = 0;
@@ -1290,15 +1311,6 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 	self->priv->pixbuf_area.width = gdk_pixbuf_get_width (self->priv->pixbuf);
 	self->priv->pixbuf_area.height = gdk_pixbuf_get_height (self->priv->pixbuf);
 
-	self->priv->background = gdk_pixbuf_composite_color_simple (
-					self->priv->pixbuf,
-					gdk_pixbuf_get_width (self->priv->pixbuf),
-					gdk_pixbuf_get_height (self->priv->pixbuf),
-					GDK_INTERP_TILES,
-					128,
-					10,
-					0x00000000,
-					0x00000000);
 	init_selection (self);
 }
 
@@ -1337,9 +1349,7 @@ gth_image_selector_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_IMAGE_SELECTOR (object));
 
 	self = (GthImageSelector *) object;
-
 	_g_object_unref (self->priv->pixbuf);
-	_g_object_unref (self->priv->background);
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
