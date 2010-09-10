@@ -968,7 +968,23 @@ scroll_to (GthImageViewer *self,
 	self->x_offset = *x_offset;
 	self->y_offset = *y_offset;
 
-	gdk_window_scroll (drawable, -delta_x, -delta_y);
+	/* move without invalidating the frame */
+
+	{
+		GdkRectangle  area;
+		GdkRegion    *region;
+
+		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + delta_x;
+		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + delta_y;
+		area.width = gdk_width - abs (delta_x);
+		area.height = gdk_height - abs (delta_y);
+		region = gdk_region_rectangle (&area);
+		gdk_window_move_region (drawable, region, -delta_x, -delta_y);
+
+		gdk_region_destroy (region);
+	}
+
+	/* invalidate the exposed areas */
 
 	{
 		GdkRegion    *region;
@@ -977,18 +993,20 @@ scroll_to (GthImageViewer *self,
 		region = gdk_region_new ();
 
 		area.x = self->priv->frame_border;
-		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_height - abs (delta_y);
+		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_height - delta_y;
 		area.width = gdk_width;
 		area.height = abs (delta_y);
 		gdk_region_union_with_rect (region, &area);
 
-		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_width - abs (delta_x);
+		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_width - delta_x;
 		area.y = self->priv->frame_border;
 		area.width = abs (delta_x);
 		area.height = gdk_height;
 		gdk_region_union_with_rect (region, &area);
 
 		gdk_window_invalidate_region (drawable, region, TRUE);
+
+		gdk_region_destroy (region);
 	}
 
 	gdk_window_process_updates (drawable, TRUE);
@@ -2358,10 +2376,10 @@ gth_image_viewer_paint (GthImageViewer *self,
 		if (self->priv->paint_pixbuf != NULL)
 			g_object_unref (self->priv->paint_pixbuf);
 		self->priv->paint_pixbuf = gdk_pixbuf_new (color_space,
-							     FALSE,
-							     bits_per_sample,
-							     width,
-							     height);
+							   FALSE,
+							   bits_per_sample,
+							   width,
+							   height);
 		g_return_if_fail (self->priv->paint_pixbuf != NULL);
 
 		self->priv->paint_max_width = width;
