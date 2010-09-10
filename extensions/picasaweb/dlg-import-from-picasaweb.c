@@ -136,7 +136,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		picasa_web_accounts_save_to_file (data->accounts, data->email);
-		gtk_widget_destroy (data->dialog);
+		gth_file_list_cancel (GTH_FILE_LIST (data->file_list), (DataFunc) gtk_widget_destroy, data->dialog);
 		break;
 
 	case GTK_RESPONSE_OK:
