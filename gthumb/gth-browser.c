@@ -5141,6 +5141,8 @@ file_metadata_ready_cb (GList    *files,
 			if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
 				if (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (basic_viewer_page)) {
 					_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
+					if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+						gth_viewer_page_show (browser->priv->viewer_page);
 					gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
 					load_file_data_unref (data);
 					return;
@@ -5168,7 +5170,6 @@ file_metadata_ready_cb (GList    *files,
 	}
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
-		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
@@ -5217,8 +5218,8 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 
 		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
 		_gth_browser_set_current_viewer_page (browser, basic_viewer_page);
-		/*if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
-			gth_viewer_page_show (browser->priv->viewer_page); FIXME */
+		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+			gth_viewer_page_show (browser->priv->viewer_page);
 		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
 		return;
 	}
@@ -5280,7 +5281,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		int file_pos;
 
-		/* gth_viewer_page_show (browser->priv->viewer_page); FIXME */
+		gth_viewer_page_show (browser->priv->viewer_page);
 
 		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
 		if (file_pos >= 0) {
