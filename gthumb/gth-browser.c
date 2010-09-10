@@ -5106,10 +5106,9 @@ file_metadata_ready_cb (GList    *files,
 			GError   *error,
 			gpointer  user_data)
 {
-	LoadFileData  *data = user_data;
-	GthBrowser    *browser = data->browser;
-	GthFileData   *file_data;
-	GthViewerPage *basic_viewer_page;
+	LoadFileData *data = user_data;
+	GthBrowser   *browser = data->browser;
+	GthFileData  *file_data;
 
 	if ((error != NULL) || (files == NULL)) {
 		load_file_data_unref (data);
@@ -5124,32 +5123,6 @@ file_metadata_ready_cb (GList    *files,
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
-
-	/* The basic viewer is registered before any other viewer, so it's
-	 * the last one in the viewer_pages list. */
-
-	basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
-
-	/* the mime type is now get from the file content, check again if
-	 * there is a viewer better than the generic one. */
-	if (G_OBJECT_TYPE (browser->priv->viewer_page) == G_OBJECT_TYPE (basic_viewer_page)) {
-		GList *scan;
-
-		for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
-			GthViewerPage *registered_viewer_page = scan->data;
-
-			if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
-				if (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (basic_viewer_page)) {
-					_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
-					if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
-						gth_viewer_page_show (browser->priv->viewer_page);
-					gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
-					load_file_data_unref (data);
-					return;
-				}
-			}
-		}
-	}
 
 	if (! gtk_widget_get_visible (browser->priv->file_properties)) {
 		GtkAllocation allocation;
