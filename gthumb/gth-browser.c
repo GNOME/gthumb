@@ -151,6 +151,7 @@ struct _GthBrowserPrivateData {
 	gulong             task_progress;
 	GList             *background_tasks;
 	GList             *load_data_queue;
+	GList             *load_file_data_queue;
 	guint              load_file_timeout;
 	char              *list_attributes;
 	gboolean           constructed;
@@ -1031,15 +1032,6 @@ load_data_free (LoadData *data)
 }
 
 
-static void
-load_data_cancel (LoadData *data)
-{
-	if (data->file_source != NULL)
-		gth_file_source_cancel (data->file_source);
-	g_cancellable_cancel (data->cancellable);
-}
-
-
 static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *scroll_to_file, GthAction action, gboolean automatic);
 
 
@@ -1618,18 +1610,6 @@ _gth_browser_print_history (GthBrowser *browser)
 #endif
 
 
-static void
-_gth_browser_cancel (GthBrowser *browser)
-{
-	if (browser->priv->load_file_timeout != 0) {
-		g_source_remove (browser->priv->load_file_timeout);
-		browser->priv->load_file_timeout = 0;
-	}
-
-	g_list_foreach (browser->priv->load_data_queue, (GFunc) load_data_cancel, NULL);
-}
-
-
 static GFile *
 get_nearest_entry_point (GFile *file)
 {
@@ -2061,6 +2041,11 @@ _gth_browser_close_step3 (gpointer user_data)
 }
 
 
+static void _gth_browser_cancel (GthBrowser *browser,
+				 DataFunc    done_func,
+				 gpointer    user_data);
+
+
 static void
 _gth_browser_real_close (GthBrowser *browser)
 {
@@ -2068,6 +2053,8 @@ _gth_browser_real_close (GthBrowser *browser)
 
 	if (browser->priv->closing)
 		return;
+
+	browser->priv->closing = TRUE;
 
 	/* remove gconf notifications */
 
@@ -2090,14 +2077,7 @@ _gth_browser_real_close (GthBrowser *browser)
 
 	/* cancel async operations */
 
-	browser->priv->closing = TRUE;
-
-	_gth_browser_cancel (browser);
-
-	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task))
-		gth_task_cancel (browser->priv->task);
-	else
-		_gth_browser_close_step3 (browser);
+	_gth_browser_cancel (browser, _gth_browser_close_step3, browser);
 }
 
 
@@ -4585,12 +4565,7 @@ gth_browser_stop (GthBrowser *browser)
 {
 	if (browser->priv->fullscreen)
 		gth_browser_unfullscreen (browser);
-
-	_gth_browser_cancel (browser);
-	gth_browser_update_sensitivity (browser);
-
-	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task))
-		gth_task_cancel (browser->priv->task);
+	_gth_browser_cancel (browser, NULL, NULL);
 }
 
 
@@ -4627,9 +4602,6 @@ background_task_completed_cb (GthTask  *task,
 
 	browser->priv->background_tasks = g_list_remove (browser->priv->background_tasks, task_data);
 	task_data_free (task_data);
-
-	if (browser->priv->closing)
-		return;
 
 	if (error == NULL)
 		return;
@@ -4668,22 +4640,17 @@ foreground_task_completed_cb (GthTask    *task,
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_completed);
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_progress);
 
-	if (! browser->priv->closing) {
-		gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
-		gth_browser_update_sensitivity (browser);
-		if (error != NULL) {
-			if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
-				_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
-			else
-				g_error_free (error);
-		}
+	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
+	gth_browser_update_sensitivity (browser);
+	if (error != NULL) {
+		if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
+		else
+			g_error_free (error);
 	}
 
 	g_object_unref (browser->priv->task);
 	browser->priv->task = NULL;
-
-	if (browser->priv->closing)
-		_gth_browser_close_step3 (browser);
 }
 
 
@@ -5040,10 +5007,11 @@ gth_browser_show_last_image (GthBrowser *browser,
 
 
 typedef struct {
-	int          ref;
-	GthBrowser  *browser;
-	GthFileData *file_data;
-	gboolean     view;
+	int           ref;
+	GthBrowser   *browser;
+	GthFileData  *file_data;
+	gboolean      view;
+	GCancellable *cancellable;
 } LoadFileData;
 
 
@@ -5060,6 +5028,9 @@ load_file_data_new (GthBrowser  *browser,
 	if (file_data != NULL)
 		data->file_data = g_object_ref (file_data);
 	data->view = view;
+	data->cancellable = g_cancellable_new ();
+
+	browser->priv->load_file_data_queue = g_list_prepend (browser->priv->load_file_data_queue, data);
 
 	return data;
 }
@@ -5077,8 +5048,11 @@ load_file_data_unref (LoadFileData *data)
 {
 	if (--data->ref != 0)
 		return;
+
+	data->browser->priv->load_file_data_queue = g_list_remove (data->browser->priv->load_file_data_queue, data);
 	_g_object_unref (data->file_data);
 	_g_object_unref (data->browser);
+	_g_object_unref (data->cancellable);
 	g_free (data);
 }
 
@@ -5132,9 +5106,10 @@ file_metadata_ready_cb (GList    *files,
 			GError   *error,
 			gpointer  user_data)
 {
-	LoadFileData *data = user_data;
-	GthBrowser   *browser = data->browser;
-	GthFileData  *file_data;
+	LoadFileData  *data = user_data;
+	GthBrowser    *browser = data->browser;
+	GthFileData   *file_data;
+	GthViewerPage *basic_viewer_page;
 
 	if ((error != NULL) || (files == NULL)) {
 		load_file_data_unref (data);
@@ -5149,6 +5124,30 @@ file_metadata_ready_cb (GList    *files,
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
+
+	/* The basic viewer is registered before any other viewer, so it's
+	 * the last one in the viewer_pages list. */
+
+	basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
+
+	/* the mime type is now get from the file content, check again if
+	 * there is a viewer better than the generic one. */
+	if (G_OBJECT_TYPE (browser->priv->viewer_page) == G_OBJECT_TYPE (basic_viewer_page)) {
+		GList *scan;
+
+		for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
+			GthViewerPage *registered_viewer_page = scan->data;
+
+			if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
+				if (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (basic_viewer_page)) {
+					_gth_browser_set_current_viewer_page (browser, registered_viewer_page);
+					gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+					load_file_data_unref (data);
+					return;
+				}
+			}
+		}
+	}
 
 	if (! gtk_widget_get_visible (browser->priv->file_properties)) {
 		GtkAllocation allocation;
@@ -5169,6 +5168,7 @@ file_metadata_ready_cb (GList    *files,
 	}
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
+		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
@@ -5217,6 +5217,8 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 
 		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
 		_gth_browser_set_current_viewer_page (browser, basic_viewer_page);
+		/*if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+			gth_viewer_page_show (browser->priv->viewer_page); FIXME */
 		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
 		return;
 	}
@@ -5228,7 +5230,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 	_g_query_all_metadata_async (files,
 				     GTH_LIST_DEFAULT,
 				     "*",
-				     NULL,
+				     data->cancellable,
 				     file_metadata_ready_cb,
 				     data);
 
@@ -5278,7 +5280,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		int file_pos;
 
-		gth_viewer_page_show (browser->priv->viewer_page);
+		/* gth_viewer_page_show (browser->priv->viewer_page); FIXME */
 
 		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
 		if (file_pos >= 0) {
@@ -5519,6 +5521,99 @@ gth_browser_load_location (GthBrowser *browser,
 					 data);
 
 	_g_object_list_unref (list);
+}
+
+
+/* -- _gth_browser_cancel -- */
+
+
+#define CHECK_CANCELLABLE_INTERVAL 100
+
+
+typedef struct {
+	GthBrowser *browser;
+	DataFunc    done_func;
+	gpointer    user_data;
+	gulong      check_id;
+} CancelData;
+
+
+static void
+cancel_data_unref (CancelData *cancel_data)
+{
+	g_object_unref (cancel_data->browser);
+	g_free (cancel_data);
+}
+
+
+static gboolean
+check_cancellable_cb (gpointer user_data)
+{
+	CancelData *cancel_data = user_data;
+	GthBrowser *browser = cancel_data->browser;
+
+	if ((browser->priv->load_data_queue == NULL)
+	    && (browser->priv->load_file_data_queue == NULL)
+	    && (browser->priv->task == NULL)
+	    && (browser->priv->background_tasks == NULL))
+	{
+		g_source_remove (cancel_data->check_id);
+		cancel_data->check_id = 0;
+
+		if (cancel_data->done_func != NULL)
+			cancel_data->done_func (cancel_data->user_data);
+		cancel_data_unref (cancel_data);
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+static void
+_gth_browser_cancel (GthBrowser *browser,
+		     DataFunc    done_func,
+		     gpointer    user_data)
+{
+	CancelData *cancel_data;
+	GList      *scan;
+
+	cancel_data = g_new0 (CancelData, 1);
+	cancel_data->browser = g_object_ref (browser);
+	cancel_data->done_func = done_func;
+	cancel_data->user_data = user_data;
+
+	if (browser->priv->load_file_timeout != 0) {
+		g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout = 0;
+	}
+
+	for (scan = browser->priv->load_data_queue; scan; scan = scan->next) {
+		LoadData *data = scan->data;
+
+		if (data->file_source != NULL)
+			gth_file_source_cancel (data->file_source);
+		g_cancellable_cancel (data->cancellable);
+	}
+
+	for (scan = browser->priv->load_file_data_queue; scan; scan = scan->next) {
+		LoadFileData *data = scan->data;
+		g_cancellable_cancel (data->cancellable);
+	}
+
+	for (scan = browser->priv->background_tasks; scan; scan = scan->next) {
+		TaskData *data = scan->data;
+		if (gth_task_is_running (data->task))
+			gth_task_cancel (data->task);
+	}
+
+	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task))
+		gth_task_cancel (browser->priv->task);
+
+	cancel_data->check_id = g_timeout_add (CHECK_CANCELLABLE_INTERVAL,
+					       check_cancellable_cb,
+					       cancel_data);
 }
 
 
