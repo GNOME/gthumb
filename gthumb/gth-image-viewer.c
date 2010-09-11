@@ -340,7 +340,10 @@ gth_image_viewer_realize (GtkWidget *widget)
 
 	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	self->priv->cursor_void = gth_cursor_get (window, GTH_CURSOR_VOID);
-	gdk_window_set_cursor (window, self->priv->cursor);
+	if (self->priv->cursor_visible)
+		gdk_window_set_cursor (window, self->priv->cursor);
+	else
+		gdk_window_set_cursor (window, self->priv->cursor_void);
 
 	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
 		GdkColor color;
@@ -2269,7 +2272,8 @@ gth_image_viewer_show_cursor (GthImageViewer *self)
 		return;
 
 	self->priv->cursor_visible = TRUE;
-	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (self)), self->priv->cursor);
+	if (self->priv->cursor != NULL)
+		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (self)), self->priv->cursor);
 }
 
 
@@ -2280,7 +2284,8 @@ gth_image_viewer_hide_cursor (GthImageViewer *self)
 		return;
 
 	self->priv->cursor_visible = FALSE;
-	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (self)), self->priv->cursor_void);
+	if (self->priv->cursor_void != NULL)
+		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (self)), self->priv->cursor_void);
 }
 
 
