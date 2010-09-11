@@ -622,7 +622,10 @@ viewer_event_cb (GtkWidget    *widget,
 		case GDK_Down:
 		case GDK_Right:
 		case GDK_Page_Down:
-			_gth_slideshow_load_next_image (self);
+			if (self->priv->paused)
+				_gth_slideshow_toggle_pause (self);
+			else
+				_gth_slideshow_load_next_image (self);
 			break;
 
 		case GDK_BackSpace:
@@ -950,11 +953,14 @@ stage_input_cb (ClutterStage *stage,
 			_gth_slideshow_toggle_pause (self);
 			break;
 
-		case GDK_space:
+		case CLUTTER_space:
 		case CLUTTER_Down:
 		case CLUTTER_Right:
 		case CLUTTER_Page_Down:
-			_gth_slideshow_load_next_image (self);
+			if (self->priv->paused)
+				_gth_slideshow_toggle_pause (self);
+			else
+				_gth_slideshow_load_next_image (self);
 			break;
 
 		case CLUTTER_BackSpace:
