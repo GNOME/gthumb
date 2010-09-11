@@ -5142,13 +5142,6 @@ file_metadata_ready_cb (GList    *files,
 		}
 	}
 
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
-		if (browser->priv->fullscreen) {
-			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
-			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
-		}
-	}
-
 	gth_browser_update_title (browser);
 	gth_browser_update_statusbar_file_info (browser);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
@@ -5255,6 +5248,10 @@ _gth_browser_load_file (GthBrowser  *browser,
 		int file_pos;
 
 		gth_viewer_page_show (browser->priv->viewer_page);
+		if (browser->priv->fullscreen) {
+			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
+			gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
+		}
 
 		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
 		if (file_pos >= 0) {
