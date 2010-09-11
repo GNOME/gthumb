@@ -733,10 +733,12 @@ remove_fullscreen_toolbar (GthMediaViewerPage *self)
 	if (self->priv->fullscreen_toolbar == NULL)
 		return;
 
-	g_object_ref (self->priv->mediabar);
-	gtk_container_remove (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
-	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
-	g_object_unref (self->priv->mediabar);
+	if (self->priv->mediabar->parent == self->priv->fullscreen_toolbar) {
+		g_object_ref (self->priv->mediabar);
+		gtk_container_remove (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
+		gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
+		g_object_unref (self->priv->mediabar);
+	}
 
 	gth_browser_unregister_fullscreen_control (self->priv->browser, self->priv->fullscreen_toolbar);
 	gtk_widget_destroy (self->priv->fullscreen_toolbar);
@@ -1119,10 +1121,12 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 		gtk_container_set_border_width (GTK_CONTAINER (self->priv->fullscreen_toolbar), 0);
 	}
 
-	g_object_ref (self->priv->mediabar);
-	gtk_container_remove (GTK_CONTAINER (self->priv->area_box), self->priv->mediabar);
-	gtk_container_add (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
-	g_object_unref (self->priv->mediabar);
+	if (self->priv->mediabar->parent == self->priv->area_box) {
+		g_object_ref (self->priv->mediabar);
+		gtk_container_remove (GTK_CONTAINER (self->priv->area_box), self->priv->mediabar);
+		gtk_container_add (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
+		g_object_unref (self->priv->mediabar);
+	}
 
 	gtk_widget_realize (self->priv->mediabar);
 	gtk_window_set_gravity (GTK_WINDOW (self->priv->fullscreen_toolbar), GDK_GRAVITY_SOUTH_EAST);
