@@ -607,7 +607,7 @@ viewer_event_cb (GtkWidget    *widget,
 			break;
 		}
 	}
-	else if (event->type == GDK_KEY_RELEASE) {
+	else if (event->type == GDK_KEY_PRESS) {
 		switch (((GdkEventKey *) event)->keyval) {
 		case GDK_Escape:
 		case GDK_F5:
@@ -653,7 +653,7 @@ default_projector_construct (GthSlideshow *self)
 
 	g_signal_connect (self->priv->viewer, "button-press-event", G_CALLBACK (viewer_event_cb), self);
 	g_signal_connect (self->priv->viewer, "motion-notify-event", G_CALLBACK (viewer_event_cb), self);
-	g_signal_connect (self->priv->viewer, "key-release-event", G_CALLBACK (viewer_event_cb), self);
+	g_signal_connect (self->priv->viewer, "key-press-event", G_CALLBACK (viewer_event_cb), self);
 
 	gtk_widget_show (self->priv->viewer);
 	gtk_container_add (GTK_CONTAINER (self), self->priv->viewer);
@@ -963,7 +963,7 @@ stage_input_cb (ClutterStage *stage,
 			break;
 		}
 	}
-	else if (event->type == CLUTTER_KEY_RELEASE) {
+	else if (event->type == CLUTTER_KEY_PRESS) {
 		switch (clutter_event_get_key_symbol (event)) {
 		case CLUTTER_Escape:
 		case CLUTTER_F5:
@@ -1072,10 +1072,7 @@ clutter_projector_construct (GthSlideshow *self)
 	clutter_stage_set_color (CLUTTER_STAGE (self->stage), &background_color);
 	g_signal_connect (self->stage, "button-press-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "motion-event", G_CALLBACK (stage_input_cb), self);
-	g_signal_connect (self->stage, "key-release-event", G_CALLBACK (stage_input_cb), self);
-
-	gtk_widget_show (embed);
-	gtk_container_add (GTK_CONTAINER (self), embed);
+	g_signal_connect (self->stage, "key-press-event", G_CALLBACK (stage_input_cb), self);
 
 	self->priv->image1 = clutter_texture_new ();
 	clutter_actor_hide (self->priv->image1);
