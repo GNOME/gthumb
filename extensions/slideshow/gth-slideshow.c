@@ -997,11 +997,8 @@ stage_input_cb (ClutterStage *stage,
 
 
 static void
-gth_slideshow_size_allocate_cb (GtkWidget     *widget,
-				GtkAllocation *allocation,
-				gpointer       user_data)
+adapt_image_size_to_stage_size (GthSlideshow *self)
 {
-	GthSlideshow   *self = user_data;
 	gfloat          stage_w, stage_h;
 	GdkPixbuf      *image;
 	int             pixbuf_w, pixbuf_h;
@@ -1061,6 +1058,15 @@ gth_slideshow_size_allocate_cb (GtkWidget     *widget,
 
 
 static void
+gth_slideshow_size_allocate_cb (GtkWidget     *widget,
+				GtkAllocation *allocation,
+				gpointer       user_data)
+{
+	adapt_image_size_to_stage_size (GTH_SLIDESHOW (user_data));
+}
+
+
+static void
 clutter_projector_construct (GthSlideshow *self)
 {
 	GtkWidget    *embed;
@@ -1097,6 +1103,9 @@ clutter_projector_construct (GthSlideshow *self)
 	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->paused_actor);
 
 	g_signal_connect (self, "size-allocate", G_CALLBACK (gth_slideshow_size_allocate_cb), self);
+
+	gtk_widget_show (embed);
+	gtk_container_add (GTK_CONTAINER (self), embed);
 }
 
 

@@ -41,6 +41,7 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	GthFileData  *location;
 	char         *transition_id;
 	GList        *transitions = NULL;
+	GdkScreen    *screen;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if ((items == NULL) || (items->next == NULL))
@@ -122,8 +123,9 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	}
 	gth_slideshow_set_transitions (GTH_SLIDESHOW (slideshow), transitions);
 
+	screen = gtk_widget_get_screen (slideshow);
+	gtk_window_set_default_size (GTK_WINDOW (slideshow), gdk_screen_get_width (screen), gdk_screen_get_height (screen));
 	gtk_window_fullscreen (GTK_WINDOW (slideshow));
-	/*gtk_window_set_default_size (GTK_WINDOW (slideshow), 700, 700);*/
 	gtk_window_present (GTK_WINDOW (slideshow));
 
 	_g_object_list_unref (transitions);
