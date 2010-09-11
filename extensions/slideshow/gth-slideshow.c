@@ -926,7 +926,7 @@ clutter_projector_paused (GthSlideshow *self)
 	clutter_actor_get_size (self->stage, &actor_w, &actor_h);
 	clutter_actor_set_position (self->priv->paused_actor, stage_w / 2.0, stage_h / 2.0);
 	clutter_actor_set_anchor_point_from_gravity (self->priv->paused_actor, CLUTTER_GRAVITY_CENTER);
-	clutter_actor_set_scale (self->priv->paused_actor, 5.0, 5.0);
+	clutter_actor_set_scale (self->priv->paused_actor, 1.0, 1.0);
 	clutter_actor_set_opacity (self->priv->paused_actor, 255);
 	clutter_actor_raise_top (self->priv->paused_actor);
 	clutter_actor_show (self->priv->paused_actor);
@@ -934,8 +934,8 @@ clutter_projector_paused (GthSlideshow *self)
 	clutter_actor_animate (self->priv->paused_actor,
 			       CLUTTER_LINEAR, 500,
 	                       "opacity", 0,
-	                       "scale-x", 15.0,
-	                       "scale-y", 15.0,
+	                       "scale-x", 3.0,
+	                       "scale-y", 3.0,
 	                       NULL);
 }
 
@@ -1071,6 +1071,7 @@ clutter_projector_construct (GthSlideshow *self)
 {
 	GtkWidget    *embed;
 	ClutterColor  background_color = { 0x0, 0x0, 0x0, 0xff };
+	GdkPixbuf    *icon_pixbuf;
 
 	embed = gtk_clutter_embed_new ();
 	self->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
@@ -1096,9 +1097,19 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->priv->timeline, "new-frame", G_CALLBACK (animation_frame_cb), self);
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
 
-	self->priv->paused_actor = gtk_clutter_texture_new_from_stock (GTK_WIDGET (self),
-                        	            	    	    	       GTK_STOCK_MEDIA_PAUSE,
-                        	            	    	    	       GTK_ICON_SIZE_DIALOG);
+	icon_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+						"slideshow-pause",
+						100,
+						0,
+						NULL);
+	if (icon_pixbuf != NULL) {
+		self->priv->paused_actor = gtk_clutter_texture_new_from_pixbuf (icon_pixbuf);
+		g_object_unref (icon_pixbuf);
+	}
+	else
+		self->priv->paused_actor = gtk_clutter_texture_new_from_stock (GTK_WIDGET (self),
+									       GTK_STOCK_MEDIA_PAUSE,
+									       GTK_ICON_SIZE_DIALOG);
 	clutter_actor_hide (self->priv->paused_actor);
 	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->paused_actor);
 
