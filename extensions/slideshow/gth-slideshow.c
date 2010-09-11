@@ -609,19 +609,23 @@ viewer_event_cb (GtkWidget    *widget,
 	else if (event->type == GDK_KEY_RELEASE) {
 		switch (((GdkEventKey *) event)->keyval) {
 		case GDK_Escape:
+		case GDK_F5:
+		case GDK_q:
 			_gth_slideshow_close (self);
 			break;
 
-		case GDK_space:
+		case GDK_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
 
+		case GDK_space:
 		case GDK_Down:
 		case GDK_Right:
 		case GDK_Page_Down:
 			_gth_slideshow_load_next_image (self);
 			break;
 
+		case GDK_BackSpace:
 		case GDK_Up:
 		case GDK_Left:
 		case GDK_Page_Up:
@@ -937,22 +941,26 @@ stage_input_cb (ClutterStage *stage,
 	else if (event->type == CLUTTER_KEY_RELEASE) {
 		switch (clutter_event_get_key_symbol (event)) {
 		case CLUTTER_Escape:
+		case CLUTTER_F5:
+		case CLUTTER_q:
 			_gth_slideshow_close (self);
 			break;
 
-		case CLUTTER_space:
+		case CLUTTER_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
 
-		case CLUTTER_Up:
+		case GDK_space:
+		case CLUTTER_Down:
 		case CLUTTER_Right:
-		case CLUTTER_Page_Up:
+		case CLUTTER_Page_Down:
 			_gth_slideshow_load_next_image (self);
 			break;
 
-		case CLUTTER_Down:
+		case CLUTTER_BackSpace:
+		case CLUTTER_Up:
 		case CLUTTER_Left:
-		case CLUTTER_Page_Down:
+		case CLUTTER_Page_Up:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}
