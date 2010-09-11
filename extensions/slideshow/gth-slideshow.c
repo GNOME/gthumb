@@ -59,6 +59,7 @@ struct _GthSlideshowPrivate {
 	ClutterTimeline       *timeline;
 	ClutterActor          *image1;
 	ClutterActor          *image2;
+	ClutterActor          *paused_actor;
 #endif
 	GdkPixbuf             *current_pixbuf;
 	GtkWidget             *viewer;
@@ -911,10 +912,31 @@ clutter_projector_hide_cursor (GthSlideshow *self)
 static void
 clutter_projector_paused (GthSlideshow *self)
 {
+	float stage_w;
+	float stage_h;
+	float actor_w;
+	float actor_h;
+
 	if (self->priv->animating) {
 		clutter_timeline_pause (self->priv->timeline);
 		_gth_slideshow_animation_completed (self);
 	}
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+	clutter_actor_get_size (self->stage, &actor_w, &actor_h);
+	clutter_actor_set_position (self->priv->paused_actor, stage_w / 2.0, stage_h / 2.0);
+	clutter_actor_set_anchor_point_from_gravity (self->priv->paused_actor, CLUTTER_GRAVITY_CENTER);
+	clutter_actor_set_scale (self->priv->paused_actor, 5.0, 5.0);
+	clutter_actor_set_opacity (self->priv->paused_actor, 255);
+	clutter_actor_raise_top (self->priv->paused_actor);
+	clutter_actor_show (self->priv->paused_actor);
+
+	clutter_actor_animate (self->priv->paused_actor,
+			       CLUTTER_LINEAR, 500,
+	                       "opacity", 0,
+	                       "scale-x", 15.0,
+	                       "scale-y", 15.0,
+	                       NULL);
 }
 
 
@@ -1070,6 +1092,12 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->priv->timeline, "completed", G_CALLBACK (animation_completed_cb), self);
 	g_signal_connect (self->priv->timeline, "new-frame", G_CALLBACK (animation_frame_cb), self);
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
+
+	self->priv->paused_actor = gtk_clutter_texture_new_from_stock (GTK_WIDGET (self),
+                        	            	    	    	       GTK_STOCK_MEDIA_PAUSE,
+                        	            	    	    	       GTK_ICON_SIZE_DIALOG);
+	clutter_actor_hide (self->priv->paused_actor);
+	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->paused_actor);
 
 	g_signal_connect (self, "size-allocate", G_CALLBACK (gth_slideshow_size_allocate_cb), self);
 }
