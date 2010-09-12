@@ -165,6 +165,8 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 				       &viewer->image_area,
 				       event->region,
 				       interp_type);
+
+	gth_image_viewer_apply_painters (viewer, event, cr);
 }
 
 

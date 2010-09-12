@@ -42,6 +42,10 @@ typedef struct _GthImageViewerPrivate  GthImageViewerPrivate;
 #define GTH_IMAGE_VIEWER_FRAME_BORDER    1
 #define GTH_IMAGE_VIEWER_FRAME_BORDER2   (GTH_IMAGE_VIEWER_FRAME_BORDER * 2)
 
+typedef void (*GthImageViewerPaintFunc) (GthImageViewer *image_viewer,
+					 GdkEventExpose *event,
+					 cairo_t        *cr,
+					 gpointer        user_data);
 
 typedef enum {
 	GTH_ZOOM_QUALITY_HIGH = 0,
@@ -164,6 +168,10 @@ void           gth_image_viewer_set_better_quality       (GthImageViewer     *vi
 void           gth_image_viewer_set_void                 (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_is_void                  (GthImageViewer     *viewer);
 void           gth_image_viewer_update_view              (GthImageViewer     *viewer);
+void           gth_image_viewer_add_painter              (GthImageViewer     *viewer,
+							  GthImageViewerPaintFunc
+							  	  	      func,
+							  gpointer            user_data);
 
 /* image info. */
 
@@ -282,6 +290,9 @@ void           gth_image_viewer_paint_region             (GthImageViewer     *vi
 							  GdkRectangle       *pixbuf_area,
 							  GdkRegion          *region,
 							  int                 interp_type);
+void           gth_image_viewer_apply_painters           (GthImageViewer     *image_viewer,
+							  GdkEventExpose     *event,
+							  cairo_t            *cr);
 void           gth_image_viewer_crop_area                (GthImageViewer     *viewer,
 							  GdkRectangle       *area);
 

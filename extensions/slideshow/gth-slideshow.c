@@ -75,6 +75,7 @@ struct _GthSlideshowPrivate {
 	int                    current_audio_file;
 	GstElement            *playbin;
 #endif
+	GdkPixbuf             *pause_pixbuf;
 	gboolean               paused;
 	gboolean               animating;
 	gboolean               random_order;
@@ -299,6 +300,7 @@ gth_slideshow_finalize (GObject *object)
 	if (self->priv->hide_cursor_event != 0)
 		g_source_remove (self->priv->hide_cursor_event);
 
+	_g_object_unref (self->priv->pause_pixbuf);
 	_g_object_unref (self->priv->current_pixbuf);
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->browser);
@@ -463,7 +465,11 @@ _gth_slideshow_construct (GthSlideshow *self,
 	self->priv->browser = _g_object_ref (browser);
 	self->priv->file_list = _g_object_list_ref (file_list);
 	self->priv->one_loaded = FALSE;
-
+	self->priv->pause_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+							     "slideshow-pause",
+							     100,
+							     0,
+							     NULL);
 	self->priv->projector->construct (self);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
@@ -580,7 +586,7 @@ default_projector_hide_cursor (GthSlideshow *self)
 static void
 default_projector_paused (GthSlideshow *self)
 {
-	/* void */
+	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
@@ -641,6 +647,32 @@ viewer_event_cb (GtkWidget    *widget,
 
 
 static void
+default_projector_pause_painter (GthImageViewer *image_viewer,
+				 GdkEventExpose *event,
+				 cairo_t        *cr,
+				 gpointer        user_data)
+{
+	GthSlideshow *self = user_data;
+	GdkScreen    *screen;
+	double        dest_x;
+	double        dest_y;
+
+	if (! self->priv->paused)
+		return;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (image_viewer));
+	if (screen == NULL)
+		return;
+
+	dest_x = gdk_screen_get_width (screen) - gdk_pixbuf_get_width (self->priv->pause_pixbuf) - 10.0;
+	dest_y = gdk_screen_get_height (screen) - gdk_pixbuf_get_height (self->priv->pause_pixbuf) - 10.0;
+	gdk_cairo_set_source_pixbuf (cr, self->priv->pause_pixbuf, dest_x, dest_y);
+	cairo_rectangle (cr, dest_x, dest_y, gdk_pixbuf_get_width (self->priv->pause_pixbuf), gdk_pixbuf_get_height (self->priv->pause_pixbuf));
+	cairo_fill (cr);
+}
+
+
+static void
 default_projector_construct (GthSlideshow *self)
 {
 	self->priv->viewer = gth_image_viewer_new ();
@@ -650,6 +682,7 @@ default_projector_construct (GthSlideshow *self)
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_CHANGE_FIT_SIZE);
 	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_TRANSP_TYPE_BLACK);
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_QUALITY_LOW);
+	gth_image_viewer_add_painter (GTH_IMAGE_VIEWER (self->priv->viewer), default_projector_pause_painter, self);
 
 	g_signal_connect (self->priv->viewer, "button-press-event", G_CALLBACK (viewer_event_cb), self);
 	g_signal_connect (self->priv->viewer, "motion-notify-event", G_CALLBACK (viewer_event_cb), self);
@@ -914,8 +947,6 @@ clutter_projector_paused (GthSlideshow *self)
 {
 	float stage_w;
 	float stage_h;
-	float actor_w;
-	float actor_h;
 
 	if (self->priv->animating) {
 		clutter_timeline_pause (self->priv->timeline);
@@ -923,7 +954,6 @@ clutter_projector_paused (GthSlideshow *self)
 	}
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
-	clutter_actor_get_size (self->stage, &actor_w, &actor_h);
 	clutter_actor_set_position (self->priv->paused_actor, stage_w / 2.0, stage_h / 2.0);
 	clutter_actor_set_anchor_point_from_gravity (self->priv->paused_actor, CLUTTER_GRAVITY_CENTER);
 	clutter_actor_set_scale (self->priv->paused_actor, 1.0, 1.0);
@@ -1071,7 +1101,6 @@ clutter_projector_construct (GthSlideshow *self)
 {
 	GtkWidget    *embed;
 	ClutterColor  background_color = { 0x0, 0x0, 0x0, 0xff };
-	GdkPixbuf    *icon_pixbuf;
 
 	embed = gtk_clutter_embed_new ();
 	self->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
@@ -1097,15 +1126,8 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->priv->timeline, "new-frame", G_CALLBACK (animation_frame_cb), self);
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
 
-	icon_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
-						"slideshow-pause",
-						100,
-						0,
-						NULL);
-	if (icon_pixbuf != NULL) {
-		self->priv->paused_actor = gtk_clutter_texture_new_from_pixbuf (icon_pixbuf);
-		g_object_unref (icon_pixbuf);
-	}
+	if (self->priv->pause_pixbuf != NULL)
+		self->priv->paused_actor = gtk_clutter_texture_new_from_pixbuf (self->priv->pause_pixbuf);
 	else
 		self->priv->paused_actor = gtk_clutter_texture_new_from_stock (GTK_WIDGET (self),
 									       GTK_STOCK_MEDIA_PAUSE,

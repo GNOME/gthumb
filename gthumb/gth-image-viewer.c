@@ -114,11 +114,26 @@ struct _GthImageViewerPrivate {
 	gboolean                skip_size_change;
 
 	gboolean                reset_scrollbars;
+
+	GList                  *painters;
 };
 
 
 static gpointer parent_class = NULL;
 static guint gth_image_viewer_signals[LAST_SIGNAL] = { 0 };
+
+
+typedef struct {
+	GthImageViewerPaintFunc func;
+	gpointer                user_data;
+} PainterData;
+
+
+static void
+painter_data_free (PainterData *painter_data)
+{
+	g_free (painter_data);
+}
 
 
 static void
@@ -148,6 +163,8 @@ gth_image_viewer_finalize (GObject *object)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
 		g_object_unref (self->vadj);
 	}
+
+	g_list_foreach (self->priv->painters, (GFunc) painter_data_free, NULL);
 
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
@@ -1787,6 +1804,22 @@ gth_image_viewer_update_view (GthImageViewer *self)
 }
 
 
+void
+gth_image_viewer_add_painter (GthImageViewer          *self,
+			      GthImageViewerPaintFunc  func,
+			      gpointer                 user_data)
+{
+	PainterData *painter_data;
+
+	g_return_if_fail (self != NULL);
+
+	painter_data = g_new0 (PainterData, 1);
+	painter_data->func = func;
+	painter_data->user_data = user_data;
+	self->priv->painters = g_list_append (self->priv->painters, painter_data);
+}
+
+
 int
 gth_image_viewer_get_image_width (GthImageViewer *self)
 {
@@ -2466,6 +2499,20 @@ gth_image_viewer_paint_region (GthImageViewer *self,
 	cairo_restore (cr);
 
 	g_free (rects);
+}
+
+
+void
+gth_image_viewer_apply_painters (GthImageViewer *self,
+				 GdkEventExpose *event,
+				 cairo_t        *cr)
+{
+	GList *scan;
+
+	for (scan = self->priv->painters; scan; scan = scan->next) {
+		PainterData *painter_data = scan->data;
+		painter_data->func (self, event, cr, painter_data->user_data);
+	}
 }
 
 
