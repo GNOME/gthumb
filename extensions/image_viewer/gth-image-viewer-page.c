@@ -716,7 +716,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
-				  MAX (window_width, window_height),
+				  (gth_image_prelaoder_get_load_policy (self->priv->preloader) == GTH_LOAD_POLICY_TWO_STEPS) ? MAX (window_width, window_height) : -1,
 				  next_file_data,
 				  next2_file_data,
 				  prev_file_data,

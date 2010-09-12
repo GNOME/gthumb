@@ -74,6 +74,7 @@ GthImagePreloader * gth_image_preloader_new              (GthLoadPolicy       lo
 							  int                 max_preloaders);
 void                gth_image_prelaoder_set_load_policy  (GthImagePreloader  *self,
 						          GthLoadPolicy       policy);
+GthLoadPolicy       gth_image_prelaoder_get_load_policy  (GthImagePreloader  *self);
 void                gth_image_preloader_load             (GthImagePreloader  *self,
 						          GthFileData        *requested,
 						          int                 requested_size,

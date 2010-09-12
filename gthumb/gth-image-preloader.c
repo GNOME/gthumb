@@ -31,7 +31,7 @@
 #undef DEBUG_PRELOADER
 #define GTH_IMAGE_PRELOADER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderPrivate))
 #define NEXT_LOAD_SMALL_TIMEOUT 100
-#define NEXT_LOAD_BIG_TIMEOUT 200
+#define NEXT_LOAD_BIG_TIMEOUT 400
 
 
 enum {
@@ -344,6 +344,13 @@ gth_image_prelaoder_set_load_policy (GthImagePreloader *self,
 }
 
 
+GthLoadPolicy
+gth_image_prelaoder_get_load_policy  (GthImagePreloader *self)
+{
+	return self->priv->load_policy;
+}
+
+
 /* -- gth_image_preloader_load -- */
 
 
@@ -527,7 +534,7 @@ start_next_loader (GthImagePreloader *self)
 		gth_image_loader_load (preloader->loader,
 				       preloader->file_data,
 				       preloader->requested_size,
-				       G_PRIORITY_DEFAULT,
+				       (i == self->priv->requested) ? G_PRIORITY_HIGH : G_PRIORITY_DEFAULT,
 				       preloader->self->priv->cancellable,
 				       image_loader_ready_cb,
 				       load_request);
