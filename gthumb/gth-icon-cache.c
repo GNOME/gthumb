@@ -129,8 +129,6 @@ gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 	if (key == NULL)
 		key = VOID_PIXBUF_KEY;
 
-	performance (DEBUG_INFO, "get pixbuf for %s", key);
-
 	pixbuf = g_hash_table_lookup (icon_cache->cache, key);
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
@@ -150,8 +148,6 @@ gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 	}
 
 	g_hash_table_insert (icon_cache->cache, (gpointer) key, g_object_ref (pixbuf));
-
-	performance (DEBUG_INFO, "done (not cached)");
 
 	return pixbuf;
 }
