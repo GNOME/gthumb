@@ -220,6 +220,101 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 }
 
 
+#define LOAD_BUFFER_SIZE (64*1024)
+
+
+typedef struct {
+	int requested_size;
+	int original_width;
+	int original_height;
+	int loader_width;
+	int loader_height;
+} ScaleData;
+
+
+static GdkPixbuf *
+load_from_stream (GdkPixbufLoader  *loader,
+                  GInputStream     *stream,
+                  GCancellable     *cancellable,
+                  GError          **error)
+{
+        GdkPixbuf *pixbuf;
+        gssize n_read;
+        guchar buffer[LOAD_BUFFER_SIZE];
+        gboolean res;
+
+        res = TRUE;
+        while (1) {
+                n_read = g_input_stream_read (stream,
+                                              buffer,
+                                              sizeof (buffer),
+                                              cancellable,
+                                              error);
+
+                if (n_read < 0) {
+                        res = FALSE;
+                        error = NULL; /* Ignore further errors */
+                        break;
+                }
+
+                if (n_read == 0)
+                        break;
+
+                if (!gdk_pixbuf_loader_write (loader,
+                                              buffer,
+                                              n_read,
+                                              error)) {
+                        res = FALSE;
+                        error = NULL;
+                        break;
+                }
+        }
+
+        if (!gdk_pixbuf_loader_close (loader, error)) {
+                res = FALSE;
+                error = NULL;
+        }
+
+        pixbuf = NULL;
+        if (res) {
+                pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+                if (pixbuf)
+                        g_object_ref (pixbuf);
+        }
+
+        return pixbuf;
+}
+
+
+static void
+pixbuf_loader_size_prepared_cb (GdkPixbufLoader *loader,
+				int              width,
+				int              height,
+				gpointer         user_data)
+{
+	ScaleData *scale_data = user_data;
+
+	scale_data->original_width = width;
+	scale_data->original_height = height;
+	scale_data->loader_width = width;
+	scale_data->loader_height = height;
+
+	if (scale_data->requested_size == -1)
+		return;
+
+	if (scale_keeping_ratio (&scale_data->loader_width,
+				 &scale_data->loader_height,
+				 scale_data->requested_size,
+				 scale_data->requested_size,
+				 FALSE))
+	{
+		gdk_pixbuf_loader_set_size (loader,
+					    scale_data->loader_width,
+					    scale_data->loader_height);
+	}
+}
+
+
 GdkPixbuf *
 gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  int            requested_size,
@@ -229,11 +324,12 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  GCancellable  *cancellable,
 			  GError       **error)
 {
-	GdkPixbuf    *pixbuf = NULL;
-	gboolean      scale_pixbuf;
-	int           original_w;
-	int           original_h;
-	GInputStream *stream;
+#if 0
+	GdkPixbuf *pixbuf = NULL;
+	char      *path;
+	gboolean   scale_pixbuf;
+	int        original_w;
+	int        original_h;
 
 	if (original_width != NULL)
 		*original_width = -1;
@@ -244,47 +340,29 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 	if (file_data == NULL)
 		return NULL;
 
+	path = g_file_get_path (file_data->file);
+
 	scale_pixbuf = FALSE;
 	original_w = -1;
 	original_h = -1;
 
 	if (requested_size > 0) {
-		char *path;
-
-		path = g_file_get_path (file_data->file);
-		if (path != NULL) {
-			if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
-				original_w = -1;
-				original_h = -1;
-			}
-			if ((original_w > requested_size) || (original_h > requested_size))
-				scale_pixbuf = TRUE;
+		if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
+			original_w = -1;
+			original_h = -1;
 		}
-
-		g_free (path);
+		if ((original_w > requested_size) || (original_h > requested_size))
+			scale_pixbuf = TRUE;
 	}
 
-	stream = (GInputStream *) g_file_read (file_data->file, cancellable, error);
-	if (stream == NULL)
-		return NULL;
-
-	if (scale_pixbuf) {
-		pixbuf = gdk_pixbuf_new_from_stream_at_scale (stream,
-							      requested_size,
-							      requested_size,
-							      TRUE,
-							      cancellable,
-							      error);
-		if ((pixbuf != NULL) && scale_to_original) {
-			GdkPixbuf *tmp;
-
-			tmp = _gdk_pixbuf_scale_simple_safe (pixbuf, original_w, original_h, GDK_INTERP_NEAREST);
-			g_object_unref (pixbuf);
-			pixbuf = tmp;
-		}
-	}
+	if (scale_pixbuf)
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (path,
+							    requested_size,
+							    requested_size,
+							    TRUE,
+							    error);
 	else
-		pixbuf = gdk_pixbuf_new_from_stream (stream, cancellable, error);
+		pixbuf = gdk_pixbuf_new_from_file (path, error);
 
 	if (pixbuf != NULL) {
 		GdkPixbuf *rotated;
@@ -298,11 +376,77 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 	if (original_width != NULL)
 		*original_width = original_w;
-
 	if (original_height != NULL)
 		*original_height = original_h;
 
+	g_free (path);
+
+	return pixbuf;
+#endif
+
+	GdkPixbuf       *pixbuf = NULL;
+	ScaleData        scale_data;
+	GInputStream    *stream;
+	GdkPixbufLoader *pixbuf_loader;
+
+	if (original_width != NULL)
+		*original_width = -1;
+	if (original_height != NULL)
+		*original_height = -1;
+
+	if (file_data == NULL)
+		return NULL;
+
+	stream = (GInputStream *) g_file_read (file_data->file, cancellable, error);
+	if (stream == NULL)
+		return NULL;
+
+	scale_data.requested_size = requested_size;
+	scale_data.original_width = -1;
+	scale_data.original_height = -1;
+	scale_data.loader_width = -1;
+	scale_data.loader_height = -1;
+
+	pixbuf_loader = gdk_pixbuf_loader_new ();
+	g_signal_connect (pixbuf_loader,
+			  "size-prepared",
+			  G_CALLBACK (pixbuf_loader_size_prepared_cb),
+			  &scale_data);
+
+	pixbuf = load_from_stream (pixbuf_loader, stream, cancellable, error);
+
+	g_object_unref (pixbuf_loader);
 	g_object_unref (stream);
+
+	if ((pixbuf != NULL) && scale_to_original) {
+		GdkPixbuf *tmp;
+
+		tmp = gdk_pixbuf_scale_simple (pixbuf, scale_data.original_width, scale_data.original_height, GDK_INTERP_NEAREST);
+		g_object_unref (pixbuf);
+		pixbuf = tmp;
+	}
+
+	if (pixbuf != NULL) {
+		GdkPixbuf *rotated;
+
+		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+		if (rotated != NULL) {
+			if (rotated != pixbuf) {
+				int tmp;
+
+				tmp = scale_data.original_width;
+				scale_data.original_width = scale_data.original_height;
+				scale_data.original_height = tmp;
+			}
+			g_object_unref (pixbuf);
+			pixbuf = rotated;
+		}
+	}
+
+	if (original_width != NULL)
+		*original_width = scale_data.original_width;
+	if (original_height != NULL)
+		*original_height = scale_data.original_height;
 
 	return pixbuf;
 }
@@ -328,7 +472,8 @@ gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 		char *path;
 
 		path = g_file_get_path (file_data->file);
-		animation = gdk_pixbuf_animation_new_from_file (path, error);
+		if (path != NULL)
+			animation = gdk_pixbuf_animation_new_from_file (path, error);
 
 		g_free (path);
 
