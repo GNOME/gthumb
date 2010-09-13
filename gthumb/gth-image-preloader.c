@@ -30,8 +30,9 @@
 
 #undef DEBUG_PRELOADER
 #define GTH_IMAGE_PRELOADER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderPrivate))
-#define NEXT_LOAD_SMALL_TIMEOUT 100
-#define NEXT_LOAD_BIG_TIMEOUT 400
+#define REQUESTED_INTERVAL 100
+#define SECOND_STEP_INTERVAL 100
+#define NOT_REQUESTED_INTERVAL 400
 
 
 enum {
@@ -419,7 +420,7 @@ image_loader_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	interval = NEXT_LOAD_SMALL_TIMEOUT;
+	interval = NOT_REQUESTED_INTERVAL;
 
 	_g_object_unref (preloader->animation);
 	preloader->animation = _g_object_ref (animation);
@@ -450,9 +451,10 @@ image_loader_ready_cb (GObject      *source_object,
 			/* Reload the image at the original size */
 			preloader->loaded = FALSE;
 			preloader->requested_size = -1;
+			interval = SECOND_STEP_INTERVAL;
 		}
-
-		interval = NEXT_LOAD_BIG_TIMEOUT;
+		else
+			interval = REQUESTED_INTERVAL;
 	}
 
 	if (self->priv->load_id == 0)
