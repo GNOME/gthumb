@@ -768,6 +768,10 @@ gth_organize_task_init (GthOrganizeTask *self)
 			  G_CALLBACK (create_cellrenderertoggle_toggled_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("organize_files_dialog"),
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (GET_WIDGET ("organize_files_dialog"),
 			  "response",
 			  G_CALLBACK (organize_files_dialog_response_cb),
 			  self);

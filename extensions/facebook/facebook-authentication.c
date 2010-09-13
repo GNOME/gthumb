@@ -225,6 +225,10 @@ show_authentication_error_dialog (FacebookAuthentication  *self,
 		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, dialog);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (authentication_error_dialog_response_cb),
 			  self);
@@ -496,6 +500,10 @@ complete_authorization (FacebookAuthentication *self)
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
 			  self);
@@ -577,6 +585,10 @@ ask_authorization (FacebookAuthentication *self)
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (ask_authorization_messagedialog_response_cb),
 			  self);
@@ -655,6 +667,10 @@ show_choose_account_dialog (FacebookAuthentication *self)
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 	dialog = facebook_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_chooser_dialog_response_cb),
@@ -760,6 +776,10 @@ facebook_authentication_edit_accounts (FacebookAuthentication *self,
 	GtkWidget  *dialog;
 
 	dialog = facebook_account_manager_dialog_new (self->priv->accounts);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_manager_dialog_response_cb),

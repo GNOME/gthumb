@@ -162,6 +162,10 @@ export_completed_with_success (DialogData *data)
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (completed_messagedialog_response_cb),
 			  data);
@@ -506,6 +510,10 @@ account_properties_dialog (DialogData *data,
 		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_properties_dialog_response_cb),
 			  data);
@@ -635,6 +643,10 @@ challange_account_dialog (DialogData *data,
 		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (challange_account_dialog_response_cb),
 			  data);
@@ -755,6 +767,10 @@ add_album_button_clicked_cb (GtkButton *button,
 						     NULL,
 						     PICASA_WEB_ACCESS_PUBLIC);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (new_album_dialog_response_cb),
 			  data);
@@ -787,6 +803,10 @@ auto_select_account (DialogData *data)
 			if (data->conn != NULL)
 				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
+			g_signal_connect (dialog,
+					  "delete-event",
+					  G_CALLBACK (gtk_true),
+					  NULL);
 			g_signal_connect (dialog,
 					  "response",
 					  G_CALLBACK (account_chooser_dialog_response_cb),
@@ -844,6 +864,10 @@ edit_accounts_button_clicked_cb (GtkButton *button,
 	GtkWidget  *dialog;
 
 	dialog = picasa_account_manager_dialog_new (data->accounts);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_manager_dialog_response_cb),
@@ -1003,7 +1027,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	g_signal_connect (data->dialog,
 			  "delete-event",
-			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  G_CALLBACK (gtk_true),
 			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",

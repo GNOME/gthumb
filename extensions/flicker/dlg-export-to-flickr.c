@@ -160,6 +160,10 @@ export_completed_with_success (DialogData *data)
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (completed_messagedialog_response_cb),
 			  data);
@@ -553,7 +557,7 @@ dlg_export_to_flickr (FlickrServer *server,
 
 	g_signal_connect (data->dialog,
 			  "delete-event",
-			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  G_CALLBACK (gtk_true),
 			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",

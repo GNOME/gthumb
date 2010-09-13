@@ -452,6 +452,10 @@ account_properties_dialog (DialogData *data,
 		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_properties_dialog_response_cb),
 			  data);
@@ -578,6 +582,10 @@ challange_account_dialog (DialogData *data,
 		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (challange_account_dialog_response_cb),
 			  data);
@@ -647,6 +655,10 @@ auto_select_account (DialogData *data)
 				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
 			g_signal_connect (dialog,
+					  "delete-event",
+					  G_CALLBACK (gtk_true),
+					  NULL);
+			g_signal_connect (dialog,
 					  "response",
 					  G_CALLBACK (account_chooser_dialog_response_cb),
 					  data);
@@ -703,6 +715,10 @@ edit_accounts_button_clicked_cb (GtkButton *button,
 	GtkWidget  *dialog;
 
 	dialog = picasa_account_manager_dialog_new (data->accounts);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_manager_dialog_response_cb),
@@ -1013,6 +1029,10 @@ dlg_import_from_picasaweb (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (import_dialog_destroy_cb),
 			  data);
+	g_signal_connect (data->dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (import_dialog_response_cb),

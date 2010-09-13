@@ -224,6 +224,10 @@ add_file_button_clicked_cb (GtkButton *button,
 	gtk_file_filter_add_mime_type (filter, "audio/*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (file_chooser_dialog_response_cb),
 			  self);

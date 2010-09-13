@@ -98,6 +98,10 @@ gth_browser_activate_action_edit_tag_files (GtkAction  *action,
 
 	dialog = gth_tag_chooser_dialog_new ();
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (tag_chooser_dialog_response_cb),
 			  browser);

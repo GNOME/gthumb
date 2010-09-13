@@ -221,6 +221,10 @@ show_authentication_error_dialog (OAuthAuthentication  *self,
 		gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, dialog);
 
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (authentication_error_dialog_response_cb),
 			  self);
@@ -447,6 +451,10 @@ complete_authorization (OAuthAuthentication *self)
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
 			  self);
@@ -522,6 +530,10 @@ ask_authorization (OAuthAuthentication *self)
 	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->conn->consumer->display_name);
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (ask_authorization_messagedialog_response_cb),
@@ -608,6 +620,10 @@ show_choose_account_dialog (OAuthAuthentication *self)
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 	dialog = oauth_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_chooser_dialog_response_cb),
@@ -713,6 +729,10 @@ oauth_authentication_edit_accounts (OAuthAuthentication *self,
 	GtkWidget *dialog;
 
 	dialog = oauth_account_manager_dialog_new (self->priv->accounts);
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (account_manager_dialog_response_cb),

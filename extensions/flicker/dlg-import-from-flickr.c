@@ -594,10 +594,14 @@ dlg_import_from_flickr (FlickrServer *server,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
+	g_signal_connect (data->dialog,
 			  "destroy",
 			  G_CALLBACK (import_dialog_destroy_cb),
 			  data);
+	g_signal_connect (data->dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (import_dialog_response_cb),
