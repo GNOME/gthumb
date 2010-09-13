@@ -123,6 +123,7 @@ struct _GthFileListPrivateData
 	GtkCellRenderer *text_renderer;
 	GtkCellRenderer *checkbox_renderer;
 	char           **caption_attributes_v;
+	gboolean         cancelled;
 };
 
 
@@ -227,7 +228,7 @@ _gth_file_list_queue_op (GthFileList   *file_list,
 	if (op->type == GTH_FILE_LIST_OP_TYPE_SET_FILTER)
 		_gth_file_list_remove_op (file_list, GTH_FILE_LIST_OP_TYPE_SET_FILTER);
 	file_list->priv->queue = g_list_append (file_list->priv->queue, op);
-
+	file_list->priv->cancelled = FALSE;
 	if (! file_list->priv->loading_thumbs)
 		_gth_file_list_exec_next_op (file_list);
 }
@@ -354,6 +355,7 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->ignore_hidden_thumbs = FALSE;
 	file_list->priv->load_thumbs = TRUE;
 	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
+	file_list->priv->cancelled = FALSE;
 }
 
 
@@ -814,6 +816,7 @@ gth_file_list_cancel (GthFileList    *file_list,
 		      DataFunc        done_func,
 		      gpointer        user_data)
 {
+	file_list->priv->cancelled = TRUE;
 	_gth_file_list_clear_queue (file_list);
 	_gth_file_list_cancel_jobs (file_list, done_func, user_data);
 }
@@ -1795,7 +1798,7 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 	GthFileListOp *op;
 	gboolean       exec_next_op = TRUE;
 
-	if (file_list->priv->queue == NULL) {
+	if ((file_list->priv->queue == NULL) && ! file_list->priv->cancelled) {
 		start_update_next_thumb (file_list);
 		return;
 	}
