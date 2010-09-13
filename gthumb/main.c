@@ -192,17 +192,19 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 	UniqueResponse  res;
 	char           *uri;
 	GFile          *location = NULL;
-	GtkWidget      *window;
+	GtkWidget      *window = NULL;
 
 	res = UNIQUE_RESPONSE_OK;
 
 	switch (command) {
 	case UNIQUE_OPEN:
 	case UNIQUE_NEW:
-		if (command == UNIQUE_NEW)
-			window = gth_browser_new (NULL);
-		else
+		if (command == UNIQUE_OPEN)
 			window = gth_window_get_current_window ();
+
+		if (window == NULL)
+			window = gth_browser_new (NULL);
+
 		show_window (GTK_WINDOW (window),
 			     unique_message_data_get_startup_id (message),
 			     unique_message_data_get_screen (message));
