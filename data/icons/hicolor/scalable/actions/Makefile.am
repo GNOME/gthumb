@@ -10,7 +10,9 @@ icons_DATA = 			\
 	file-library.svg	\
 	file-search.svg		\
 	palette.svg		\
-	share.svg
+	share.svg		\
+	slideshow-pause.svg	\
+	tag.svg
 
 EXTRA_DIST = $(icons_DATA)
 
