@@ -23,9 +23,14 @@
 #include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
+#include "glib-utils.h"
 #include "gth-file-data.h"
 #include "gth-image-loader.h"
 #include "gth-main.h"
+
+
+#undef USE_G_IO_SCHEDULER
+#define THREAD_STACK_SIZE (512*1024)
 
 
 struct _GthImageLoaderPrivate {
@@ -124,20 +129,23 @@ gth_image_loader_set_loader_func (GthImageLoader *self,
 
 
 typedef struct {
-	GthFileData *file_data;
-	int          requested_size;
+	GthFileData  *file_data;
+	int           requested_size;
+	GCancellable *cancellable;
 } LoadData;
 
 
 static LoadData *
-load_data_new (GthFileData *file_data,
-	       int          requested_size)
+load_data_new (GthFileData  *file_data,
+	       int           requested_size,
+	       GCancellable *cancellable)
 {
 	LoadData *load_data;
 
 	load_data = g_new0 (LoadData, 1);
 	load_data->file_data = g_object_ref (file_data);
 	load_data->requested_size = requested_size;
+	load_data->cancellable = _g_object_ref (cancellable);
 
 	return load_data;
 }
@@ -147,6 +155,7 @@ static void
 load_data_unref (LoadData *load_data)
 {
 	g_object_unref (load_data->file_data);
+	_g_object_unref (load_data->cancellable);
 	g_free (load_data);
 }
 
@@ -165,6 +174,9 @@ load_result_unref (LoadResult *load_result)
 		g_object_unref (load_result->animation);
 	g_free (load_result);
 }
+
+
+#ifdef USE_G_IO_SCHEDULER
 
 
 static void
@@ -224,6 +236,86 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 }
 
 
+#else
+
+
+static gpointer
+load_image_thread (gpointer user_data)
+{
+	GSimpleAsyncResult *result = user_data;
+	LoadData           *load_data;
+	GthImageLoader     *self;
+	GdkPixbufAnimation *animation;
+	int                 original_width;
+	int                 original_height;
+	GError             *error = NULL;
+	LoadResult         *load_result;
+
+	load_data = g_simple_async_result_get_op_res_gpointer (result);
+
+	if (g_cancellable_is_cancelled (load_data->cancellable)) {
+		g_simple_async_result_set_error (result,
+						 G_IO_ERROR,
+						 G_IO_ERROR_CANCELLED,
+						 "%s",
+						 "");
+		g_simple_async_result_complete_in_idle (result);
+		g_object_unref (result);
+		return NULL;
+	}
+
+	self = (GthImageLoader *) g_async_result_get_source_object (G_ASYNC_RESULT (result));
+	animation = NULL;
+	original_width = -1;
+	original_height = -1;
+
+	if (self->priv->loader_func != NULL) {
+		animation = (*self->priv->loader_func) (load_data->file_data,
+						        load_data->requested_size,
+						        &original_width,
+						        &original_height,
+						        self->priv->loader_data,
+						        load_data->cancellable,
+						        &error);
+	}
+	else  {
+		PixbufLoader loader_func;
+
+		loader_func = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (load_data->file_data));
+		if (loader_func != NULL)
+			animation = loader_func (load_data->file_data,
+						 load_data->requested_size,
+						 &original_width,
+						 &original_height,
+						 NULL,
+						 load_data->cancellable,
+						 &error);
+		else
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
+	}
+
+	load_result = g_new0 (LoadResult, 1);
+	load_result->animation = animation;
+	load_result->original_width = original_width;
+	load_result->original_height = original_height;
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (result, error);
+		g_error_free (error);
+	}
+	else
+		g_simple_async_result_set_op_res_gpointer (result, load_result, (GDestroyNotify) load_result_unref);
+
+	g_simple_async_result_complete_in_idle (result);
+	g_object_unref (result);
+
+	return NULL;
+}
+
+
+#endif
+
+
 void
 gth_image_loader_load (GthImageLoader      *loader,
 		       GthFileData         *file_data,
@@ -234,16 +326,51 @@ gth_image_loader_load (GthImageLoader      *loader,
 		       gpointer             user_data)
 {
 	GSimpleAsyncResult *result;
+	GError             *error = NULL;
 
-	result = g_simple_async_result_new (G_OBJECT (loader), callback, user_data, gth_image_loader_load);
+	result = g_simple_async_result_new (G_OBJECT (loader),
+					    callback,
+					    user_data,
+					    gth_image_loader_load);
 	g_simple_async_result_set_op_res_gpointer (result,
-						   load_data_new (file_data, requested_size),
+						   load_data_new (file_data,
+								  requested_size,
+								  cancellable),
 						   (GDestroyNotify) load_data_unref);
+
+#ifdef USE_G_IO_SCHEDULER
+
 	g_simple_async_result_run_in_thread (result,
 					     load_pixbuf_thread,
 					     io_priority,
 					     cancellable);
 	g_object_unref (result);
+
+#else
+
+	/* The g_thread_create function assigns a very large default stacksize for each
+	   thread (10 MB on FC6), which is probably excessive. 16k seems to be
+	   sufficient. To be conversative, we'll try 32k. Use g_thread_create_full to
+	   manually specify a small stack size. See Bug 310749 - Memory usage.
+	   This reduces the virtual memory requirements, and the "writeable/private"
+	   figure reported by "pmap -d". */
+
+	/* Update: 32k caused crashes with svg images. Boosting to 512k. Bug 410827. */
+
+	if (! g_thread_create_full (load_image_thread,
+				    result,
+				    THREAD_STACK_SIZE,
+				    FALSE,
+				    TRUE,
+				    G_THREAD_PRIORITY_HIGH,
+				    &error))
+	{
+		g_simple_async_result_set_from_error (result, error);
+		g_simple_async_result_complete_in_idle (result);
+		g_error_free (error);
+	}
+
+#endif
 }
 
 
