@@ -4176,7 +4176,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the image preloader */
 
-	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_TWO_STEPS, 4);
+	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 4);
 
 	/**/
 
