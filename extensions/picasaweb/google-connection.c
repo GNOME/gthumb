@@ -398,3 +398,21 @@ google_connection_get_challange_url (GoogleConnection *self)
 {
 	return self->priv->challange_url;
 }
+
+
+char *
+google_utils_get_user_id_from_email (const char *email)
+{
+	char *user_id = NULL;
+
+	if (email != NULL) {
+		char *at_sign = strchr (email, '@');
+		if (at_sign != NULL)
+			user_id = g_strndup (email, at_sign - email);
+	}
+
+	if (user_id == NULL)
+		user_id = g_strdup ("default");
+
+	return user_id;
+}

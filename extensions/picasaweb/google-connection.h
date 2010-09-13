@@ -92,5 +92,6 @@ gboolean             google_connection_connect_finish    (GoogleConnection     *
 						          GAsyncResult         *result,
 						          GError              **error);
 const char *         google_connection_get_challange_url (GoogleConnection     *self);
+char *               google_utils_get_user_id_from_email (const char           *email);
 
 #endif /* GOOGLE_CONNECTION_H */

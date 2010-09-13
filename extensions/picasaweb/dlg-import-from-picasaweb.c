@@ -305,14 +305,20 @@ list_albums_ready_cb (GObject      *source_object,
 static void
 get_album_list (DialogData *data)
 {
+	char *user_id;
+
+	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+
 	if (data->picasaweb == NULL)
 		data->picasaweb = picasa_web_service_new (data->conn);
-	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+	user_id = google_utils_get_user_id_from_email (data->email);
 	picasa_web_service_list_albums (data->picasaweb,
-				        "default",
+					user_id,
 				        data->cancellable,
 				        list_albums_ready_cb,
 				        data);
+
+	g_free (user_id);
 }
 
 
