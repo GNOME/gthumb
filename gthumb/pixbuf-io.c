@@ -33,6 +33,9 @@
 #include "pixbuf-utils.h"
 
 
+#undef USE_PIXBUF_LOADER
+
+
 char *
 get_pixbuf_type_from_mime_type (const char *mime_type)
 {
@@ -220,6 +223,9 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 }
 
 
+#ifdef USE_PIXBUF_LOADER
+
+
 #define LOAD_BUFFER_SIZE (64*1024)
 
 
@@ -234,55 +240,65 @@ typedef struct {
 
 static GdkPixbuf *
 load_from_stream (GdkPixbufLoader  *loader,
-                  GInputStream     *stream,
-                  GCancellable     *cancellable,
-                  GError          **error)
+		  GInputStream     *stream,
+		  int               requested_size,
+		  GCancellable     *cancellable,
+		  GError          **error)
 {
-        GdkPixbuf *pixbuf;
-        gssize n_read;
-        guchar buffer[LOAD_BUFFER_SIZE];
-        gboolean res;
+	GdkPixbuf *pixbuf;
+	gssize     n_read;
+	guchar     buffer[LOAD_BUFFER_SIZE];
+	gboolean   res;
 
-        res = TRUE;
-        while (1) {
-                n_read = g_input_stream_read (stream,
-                                              buffer,
-                                              sizeof (buffer),
-                                              cancellable,
-                                              error);
+	res = TRUE;
+	while (1) {
+		if (requested_size > 0) {
+			if (gdk_pixbuf_loader_get_pixbuf (loader) != NULL) {
+				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+				g_object_ref (pixbuf);
+				gdk_pixbuf_loader_close (loader, NULL);
+				return pixbuf;
+			}
+		}
 
-                if (n_read < 0) {
-                        res = FALSE;
-                        error = NULL; /* Ignore further errors */
-                        break;
-                }
+		n_read = g_input_stream_read (stream,
+					      buffer,
+					      sizeof (buffer),
+					      cancellable,
+					      error);
 
-                if (n_read == 0)
-                        break;
+		if (n_read < 0) {
+			res = FALSE;
+			error = NULL; /* Ignore further errors */
+			break;
+		}
 
-                if (!gdk_pixbuf_loader_write (loader,
-                                              buffer,
-                                              n_read,
-                                              error)) {
-                        res = FALSE;
-                        error = NULL;
-                        break;
-                }
-        }
+		if (n_read == 0)
+			break;
 
-        if (!gdk_pixbuf_loader_close (loader, error)) {
-                res = FALSE;
-                error = NULL;
-        }
+		if (!gdk_pixbuf_loader_write (loader,
+					      buffer,
+					      n_read,
+					      error)) {
+			res = FALSE;
+			error = NULL;
+			break;
+		}
+	}
 
-        pixbuf = NULL;
-        if (res) {
-                pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-                if (pixbuf)
-                        g_object_ref (pixbuf);
-        }
+	if (!gdk_pixbuf_loader_close (loader, error)) {
+		res = FALSE;
+		error = NULL;
+	}
 
-        return pixbuf;
+	pixbuf = NULL;
+	if (res) {
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		if (pixbuf)
+			g_object_ref (pixbuf);
+	}
+
+	return pixbuf;
 }
 
 
@@ -315,6 +331,9 @@ pixbuf_loader_size_prepared_cb (GdkPixbufLoader *loader,
 }
 
 
+#endif
+
+
 GdkPixbuf *
 gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  int            requested_size,
@@ -324,7 +343,7 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  GCancellable  *cancellable,
 			  GError       **error)
 {
-#if 0
+#ifndef USE_PIXBUF_LOADER
 	GdkPixbuf *pixbuf = NULL;
 	char      *path;
 	gboolean   scale_pixbuf;
@@ -369,6 +388,8 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
 		if (rotated != NULL) {
+			original_w = gdk_pixbuf_get_width (rotated);
+			original_h = gdk_pixbuf_get_height (rotated);
 			g_object_unref (pixbuf);
 			pixbuf = rotated;
 		}
@@ -382,7 +403,8 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 	g_free (path);
 
 	return pixbuf;
-#endif
+
+#else
 
 	GdkPixbuf       *pixbuf = NULL;
 	ScaleData        scale_data;
@@ -413,7 +435,7 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  G_CALLBACK (pixbuf_loader_size_prepared_cb),
 			  &scale_data);
 
-	pixbuf = load_from_stream (pixbuf_loader, stream, cancellable, error);
+	pixbuf = load_from_stream (pixbuf_loader, stream, requested_size, cancellable, error);
 
 	g_object_unref (pixbuf_loader);
 	g_object_unref (stream);
@@ -431,13 +453,8 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
 		if (rotated != NULL) {
-			if (rotated != pixbuf) {
-				int tmp;
-
-				tmp = scale_data.original_width;
-				scale_data.original_width = scale_data.original_height;
-				scale_data.original_height = tmp;
-			}
+			scale_data.original_width = gdk_pixbuf_get_width (rotated);
+			scale_data.original_height = gdk_pixbuf_get_height (rotated);
 			g_object_unref (pixbuf);
 			pixbuf = rotated;
 		}
@@ -449,6 +466,8 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 		*original_height = scale_data.original_height;
 
 	return pixbuf;
+
+#endif
 }
 
 
@@ -479,8 +498,8 @@ gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 
 		return animation;
 	}
- 	else {
- 		GdkPixbuf *pixbuf;
+	else {
+		GdkPixbuf *pixbuf;
 
 		pixbuf = gth_pixbuf_new_from_file (file_data,
 						   requested_size,
@@ -494,7 +513,7 @@ gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 			animation = gdk_pixbuf_non_anim_new (pixbuf);
 			g_object_unref (pixbuf);
 		}
- 	}
+	}
 
 	return animation;
 }
