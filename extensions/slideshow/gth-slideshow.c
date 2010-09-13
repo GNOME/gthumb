@@ -615,12 +615,17 @@ viewer_event_cb (GtkWidget    *widget,
 	}
 	else if (event->type == GDK_KEY_PRESS) {
 		switch (((GdkEventKey *) event)->keyval) {
-		case GDK_Escape:
 		case GDK_F5:
+			_gth_slideshow_close (self);
+			break;
+		}
+	}
+	else if (event->type == GDK_KEY_RELEASE) {
+		switch (((GdkEventKey *) event)->keyval) {
+		case GDK_Escape:
 		case GDK_q:
 			_gth_slideshow_close (self);
 			break;
-
 		case GDK_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
@@ -687,6 +692,7 @@ default_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->priv->viewer, "button-press-event", G_CALLBACK (viewer_event_cb), self);
 	g_signal_connect (self->priv->viewer, "motion-notify-event", G_CALLBACK (viewer_event_cb), self);
 	g_signal_connect (self->priv->viewer, "key-press-event", G_CALLBACK (viewer_event_cb), self);
+	g_signal_connect (self->priv->viewer, "key-release-event", G_CALLBACK (viewer_event_cb), self);
 
 	gtk_widget_show (self->priv->viewer);
 	gtk_container_add (GTK_CONTAINER (self), self->priv->viewer);
@@ -995,12 +1001,17 @@ stage_input_cb (ClutterStage *stage,
 	}
 	else if (event->type == CLUTTER_KEY_PRESS) {
 		switch (clutter_event_get_key_symbol (event)) {
-		case CLUTTER_Escape:
 		case CLUTTER_F5:
+			_gth_slideshow_close (self);
+			break;
+		}
+	}
+	else if (event->type == CLUTTER_KEY_RELEASE) {
+		switch (clutter_event_get_key_symbol (event)) {
+		case CLUTTER_Escape:
 		case CLUTTER_q:
 			_gth_slideshow_close (self);
 			break;
-
 		case CLUTTER_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
@@ -1109,6 +1120,7 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->stage, "button-press-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "motion-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "key-press-event", G_CALLBACK (stage_input_cb), self);
+	g_signal_connect (self->stage, "key-release-event", G_CALLBACK (stage_input_cb), self);
 
 	self->priv->image1 = clutter_texture_new ();
 	clutter_actor_hide (self->priv->image1);
