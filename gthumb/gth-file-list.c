@@ -382,6 +382,9 @@ restart_thumb_update_cb (gpointer data)
 static void
 start_update_next_thumb (GthFileList *file_list)
 {
+	if (file_list->priv->cancelled)
+		return;
+
 	if (file_list->priv->loading_thumbs)
 		return;
 
@@ -1798,7 +1801,7 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 	GthFileListOp *op;
 	gboolean       exec_next_op = TRUE;
 
-	if ((file_list->priv->queue == NULL) && ! file_list->priv->cancelled) {
+	if (file_list->priv->queue == NULL) {
 		start_update_next_thumb (file_list);
 		return;
 	}
