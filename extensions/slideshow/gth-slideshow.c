@@ -657,7 +657,7 @@ default_projector_pause_painter (GthImageViewer *image_viewer,
 	double        dest_x;
 	double        dest_y;
 
-	if (! self->priv->paused)
+	if (! self->priv->paused || (self->priv->pause_pixbuf == NULL))
 		return;
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (image_viewer));
