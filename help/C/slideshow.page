@@ -21,13 +21,14 @@ id="gthumb-slideshow">
   set the <gui>Transition effect</gui> preference to <gui>None</gui>.</p>
 
   <p>You can advance manually to the next image by pressing 
-  <key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>.</p>
+  <key>Down Arrow</key>, <key>Right Arrow</key>, <key>Page Down</key>
+  or <key>Space</key>.</p>
 
   <p>You can go back to the previous image by pressing
-  <key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>.</p>
+  <key>Up Arrow</key>, <key>Left Arrow</key> or <key>Page Up</key>.</p>
 
-  <p>You can pause the slideshow by pressing <key>Space</key>.</p>
+  <p>You can pause or un-pause the slideshow by pressing <key>p</key>.</p>
 
-  <p>To exit the slideshow, press <key>Escape</key>.</p>
+  <p>To exit the slideshow, press <key>Escape</key> or <key>F5</key>.</p>
 
 </page>
