@@ -228,11 +228,13 @@ popup_window_event_cb (GtkWidget *widget,
 		get_visible_area_origin_as_double (nav_popup, mx, my, &x, &y);
 		nav_popup->visible_area.x = (int) x;
 		nav_popup->visible_area.y = (int) y;
-		gtk_widget_queue_draw (widget);
 
 		mx = (int) (x / nav_popup->zoom_factor);
 		my = (int) (y / nav_popup->zoom_factor);
 		gth_image_viewer_scroll_to (viewer, mx, my);
+
+		gtk_widget_queue_draw (widget);
+		gdk_window_process_updates (gtk_widget_get_window (widget), TRUE);
 
 		return TRUE;
 
