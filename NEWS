@@ -1,3 +1,42 @@
+version 2.11.92
+---------------
+
+	New features and user visible changes:
+
+	* Slideshow: use the same keyword shortcuts used in fullscreen mode:
+	  space to load the next image; backspace to load the previous image;
+	  F5 and q to exit the slideshow; p to pause the slideshow.
+	* Display a pause symbol when the slideshow is paused (#627529)
+	* Emit a beep when there is no next or previous file.
+	* Do not load non-visible thumbnails for web albums to save bandwidth.
+
+	Bugs fixed:
+
+	* Fixed 2.10 catalogs migration.
+	* Improved image loading speed by loading the file before loading the
+	  metadata.
+	* Importer: fixed big memory consumption when importing videos.
+	* Fixed some loading errors when quickly changing images.
+	* Fixed grid not visible in crop tool when using cairo >= 1.9.2
+	* Fixed generation of thumbnails when an external script is used.
+	* Fixed crash when closing the main window and a directory loading is
+	  underway.
+	* Fixed visual glitches when scrolling an image.
+	* Fixed crash when changing video in fullscreen mode.
+
+	New or updated application translations:
+
+	* Czech (Marek Černocký)
+	* Español (Daniel Mustieles)
+	* Finnish (Miika Laaksonen)
+	* French (Bruno Brouard)
+	* Italian (Paolo Benvenuto)
+	* Slovenian Translation (Andrej Žnidaršič)
+
+	New or updated manual translations:
+
+	* Español (Jorge González)
+
 version 2.11.91
 ---------------
 
