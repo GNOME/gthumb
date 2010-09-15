@@ -179,6 +179,11 @@ load_thumbnail (GthFileData   *file_data,
 	}
 
 	if (pixbuf != NULL) {
+		if (original_width != NULL)
+			*original_width = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-width"));
+		if (original_height != NULL)
+			*original_height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-height"));
+
 		g_clear_error (error);
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
 		g_object_unref (pixbuf);

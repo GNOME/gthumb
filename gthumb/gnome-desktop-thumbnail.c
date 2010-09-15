@@ -765,11 +765,13 @@ gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory
     {
       g_snprintf (dimension, sizeof (dimension), "%i", original_width);
       gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", dimension);
+      g_object_set_data (G_OBJECT (pixbuf), "gnome-original-width", GINT_TO_POINTER (original_width));
     }
   if (original_height > 0)
     {
       g_snprintf (dimension, sizeof (dimension), "%i", original_height);
       gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", dimension);
+      g_object_set_data (G_OBJECT (pixbuf), "gnome-original-height", GINT_TO_POINTER (original_height));
     }
 
   return pixbuf;
