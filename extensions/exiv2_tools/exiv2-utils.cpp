@@ -1120,63 +1120,81 @@ exiv2_generate_thumbnail (const char *uri,
 		char *path;
 
 		path = g_filename_from_uri (uri, NULL, NULL);
-		if (path != NULL) {
-			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open (path);
-			image->readMetadata ();
-			Exiv2::ExifThumbC exifThumb (image->exifData ());
-			Exiv2::DataBuf thumb = exifThumb.copy ();
+		if (path == NULL)
+			return NULL;
 
-			if (thumb.pData_ != NULL) {
-				Exiv2::ExifData &ed = image->exifData();
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open (path);
+		image->readMetadata ();
+		Exiv2::ExifThumbC exifThumb (image->exifData ());
+		Exiv2::DataBuf thumb = exifThumb.copy ();
 
-				long orientation = ed["Exif.Image.Orientation"].toLong();
-				long image_width = ed["Exif.Photo.PixelXDimension"].toLong();
-				long image_height = ed["Exif.Photo.PixelYDimension"].toLong();
+		g_free (path);
 
-				if ((orientation == 1) && (image_width > 0) && (image_height > 0)) {
-					GInputStream *stream = g_memory_input_stream_new_from_data (thumb.pData_, thumb.size_, NULL);
-					pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+		if (thumb.pData_ == NULL)
+			return NULL;
 
-					if (pixbuf != NULL) {
-						/* Heuristic to find out-of-date thumbnails: the thumbnail and image aspect ratios must be equal */
+		Exiv2::ExifData &ed = image->exifData();
 
-						double image_ratio = (((double) image_width) / image_height);
-						double thumbnail_ratio = (((double) gdk_pixbuf_get_width (pixbuf)) / gdk_pixbuf_get_height (pixbuf));
-						double ratio_delta = (image_ratio > thumbnail_ratio) ? (image_ratio - thumbnail_ratio) : (thumbnail_ratio - image_ratio);
+		long orientation = ed["Exif.Image.Orientation"].toLong();
+		long image_width = ed["Exif.Photo.PixelXDimension"].toLong();
+		long image_height = ed["Exif.Photo.PixelYDimension"].toLong();
 
-						if (ratio_delta > MAX_RATIO_ERROR_TOLERANCE) {
-							g_object_unref (pixbuf);
-							pixbuf = NULL;
-						}
-						else {
-							/* Save the original image size in the pixbuf options */
+		if ((orientation != 1) || (image_width <= 0) || (image_height <= 0))
+			return NULL;
 
-							char *s = g_strdup_printf ("%ld", image_width);
-							gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", s);
-							g_object_set_data (G_OBJECT (pixbuf), "gnome-original-width", GINT_TO_POINTER ((int) image_width));
-							g_free (s);
+		GInputStream *stream = g_memory_input_stream_new_from_data (thumb.pData_, thumb.size_, NULL);
+		pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, NULL);
+		g_object_unref (stream);
 
-							s = g_strdup_printf ("%ld", image_height);
-							gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", s);
-							g_object_set_data (G_OBJECT (pixbuf), "gnome-original-height", GINT_TO_POINTER ((int) image_height));
-							g_free (s);
+		if (pixbuf == NULL)
+			return NULL;
 
-							/* Set the orientation option to correctly rotate the thumbnail
-							 * in gnome_desktop_thumbnail_factory_generate_thumbnail() */
+		/* Heuristic to find out-of-date thumbnails: the thumbnail and image aspect ratios must be equal */
 
-							long  orientation = ed["Exif.Image.Orientation"].toLong();
-							char *orientation_s = g_strdup_printf ("%ld", orientation);
-							gdk_pixbuf_set_option (pixbuf, "orientation", orientation_s);
-							g_free (orientation_s);
-						}
-					}
+		int    pixbuf_width = gdk_pixbuf_get_width (pixbuf);
+		int    pixbuf_height = gdk_pixbuf_get_height (pixbuf);
+		double image_ratio = (((double) image_width) / image_height);
+		double thumbnail_ratio = (((double) pixbuf_width) / pixbuf_height);
+		double ratio_delta = (image_ratio > thumbnail_ratio) ? (image_ratio - thumbnail_ratio) : (thumbnail_ratio - image_ratio);
 
-					g_object_unref (stream);
-				}
-			}
-
-			g_free (path);
+		if ((ratio_delta > MAX_RATIO_ERROR_TOLERANCE) /* the tolerance is used because the reduced image can have a slightly different ratio due to rounding errors */
+		    || (MAX (pixbuf_width, pixbuf_height) < (requested_size / 2))) /* if the embedded image is too small compared to the requested size */
+		{
+			g_object_unref (pixbuf);
+			return NULL;
 		}
+
+		/* Scale the pixbuf to perfectly fit the requested size */
+
+		if (scale_keeping_ratio (&pixbuf_width,
+					 &pixbuf_height,
+					 requested_size,
+					 requested_size,
+					 TRUE))
+		{
+			GdkPixbuf *tmp = pixbuf;
+			pixbuf = gdk_pixbuf_scale_simple (tmp, pixbuf_width, pixbuf_height, GDK_INTERP_BILINEAR);
+			g_object_unref (tmp);
+		}
+
+		/* Save the original image size in the pixbuf options */
+
+		char *s = g_strdup_printf ("%ld", image_width);
+		gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", s);
+		g_object_set_data (G_OBJECT (pixbuf), "gnome-original-width", GINT_TO_POINTER ((int) image_width));
+		g_free (s);
+
+		s = g_strdup_printf ("%ld", image_height);
+		gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", s);
+		g_object_set_data (G_OBJECT (pixbuf), "gnome-original-height", GINT_TO_POINTER ((int) image_height));
+		g_free (s);
+
+		/* Set the orientation option to correctly rotate the thumbnail
+		 * in gnome_desktop_thumbnail_factory_generate_thumbnail() */
+
+		char *orientation_s = g_strdup_printf ("%ld", orientation);
+		gdk_pixbuf_set_option (pixbuf, "orientation", orientation_s);
+		g_free (orientation_s);
 	}
 	catch (Exiv2::AnyError& e) {
 	}
