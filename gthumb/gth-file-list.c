@@ -124,6 +124,7 @@ struct _GthFileListPrivateData
 	GtkCellRenderer *checkbox_renderer;
 	char           **caption_attributes_v;
 	gboolean         cancelled;
+	guint            update_event;
 };
 
 
@@ -181,6 +182,12 @@ _gth_file_list_clear_queue (GthFileList *file_list)
 {
 	if (file_list->priv->dirty_event != 0) {
 		g_source_remove (file_list->priv->dirty_event);
+		file_list->priv->dirty_event = 0;
+		file_list->priv->dirty = FALSE;
+	}
+
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
 		file_list->priv->dirty = FALSE;
 	}
 
@@ -356,6 +363,7 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->load_thumbs = TRUE;
 	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
 	file_list->priv->cancelled = FALSE;
+	file_list->priv->update_event = 0;
 }
 
 
@@ -721,6 +729,7 @@ typedef struct {
 	GthFileData    *file_data;
 	gboolean        update_in_view;
 	int             pos;
+	gboolean        started;
 } ThumbnailJob;
 
 
@@ -742,8 +751,10 @@ thumbnail_job_free (ThumbnailJob *job)
 static void
 thumbnail_job_cancel (ThumbnailJob *job)
 {
-	if (! g_cancellable_is_cancelled (job->cancellable))
+	if (job->started && ! g_cancellable_is_cancelled (job->cancellable))
 		g_cancellable_cancel (job->cancellable);
+	else
+		thumbnail_job_free (job);
 }
 
 
@@ -1482,8 +1493,11 @@ thumbnail_job_ready_cb (GObject      *source_object,
 						result,
 						&pixbuf,
 						&error);
+	job->started = FALSE;
 
-	if (! success && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if ((! success && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	    || file_list->priv->cancelled)
+	{
 		thumbnail_job_free (job);
 		return;
 	}
@@ -1562,6 +1576,7 @@ start_thumbnail_job (gpointer user_data)
 			       job->cancellable,
 			       thumbnail_job_ready_cb,
 			       job);
+	job->started = TRUE;
 
 	return FALSE;
 }
@@ -1572,6 +1587,11 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 			     ThumbnailJob *job)
 {
 	GList *scan;
+
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
+	}
 
 	if (! job->update_in_view) {
 		ThumbData *thumb_data;
@@ -1592,7 +1612,7 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 		}
 
 		if (job == NULL) {
-			g_idle_add (restart_thumb_update_cb, file_list);
+			file_list->priv->update_event = g_idle_add (restart_thumb_update_cb, file_list);
 			return;
 		}
 	}
@@ -1605,7 +1625,7 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 
 	if (job->update_in_view)
 		set_loading_icon (job->file_list, job->file_data, job->pos);
-	g_idle_add (start_thumbnail_job, job);
+	file_list->priv->update_event = g_idle_add (start_thumbnail_job, job);
 }
 
 
@@ -1666,9 +1686,14 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	ThumbnailJob  *job;
 
 	if (file_list->priv->queue != NULL) {
-		g_idle_add (update_thumbs_stopped, file_list);
+		if (file_list->priv->update_event != 0)
+			g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = g_idle_add (update_thumbs_stopped, file_list);
 		return;
 	}
+
+	if (file_list->priv->cancelled)
+		return;
 
 	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
