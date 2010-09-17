@@ -751,7 +751,7 @@ thumbnail_job_free (ThumbnailJob *job)
 static void
 thumbnail_job_cancel (ThumbnailJob *job)
 {
-	if (job->started && ! g_cancellable_is_cancelled (job->cancellable))
+	if (job->started)
 		g_cancellable_cancel (job->cancellable);
 	else
 		thumbnail_job_free (job);
@@ -802,6 +802,7 @@ _gth_file_list_cancel_jobs (GthFileList *file_list,
 			    gpointer     user_data)
 {
 	CancelData *cancel_data;
+	GList      *list;
 	GList      *scan;
 
 	cancel_data = g_new0 (CancelData, 1);
@@ -814,10 +815,12 @@ _gth_file_list_cancel_jobs (GthFileList *file_list,
 		return;
 	}
 
-	for (scan = file_list->priv->jobs; scan; scan = scan->next) {
+	list = g_list_copy (file_list->priv->jobs);
+	for (scan = list; scan; scan = scan->next) {
 		ThumbnailJob *job = scan->data;
 		thumbnail_job_cancel (job);
 	}
+	g_free (list);
 
 	cancel_data->check_id = g_timeout_add (CHECK_JOBS_INTERVAL,
 					       wait_for_jobs_to_finish,
@@ -1571,12 +1574,12 @@ start_thumbnail_job (gpointer user_data)
 {
 	ThumbnailJob *job = user_data;
 
+	job->started = TRUE;
 	gth_thumb_loader_load (job->loader,
 			       job->file_data,
 			       job->cancellable,
 			       thumbnail_job_ready_cb,
 			       job);
-	job->started = TRUE;
 
 	return FALSE;
 }
@@ -1586,6 +1589,7 @@ static void
 _gth_file_list_update_thumb (GthFileList  *file_list,
 			     ThumbnailJob *job)
 {
+	GList *list;
 	GList *scan;
 
 	if (file_list->priv->update_event != 0) {
@@ -1617,10 +1621,13 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 		}
 	}
 
-	for (scan = file_list->priv->jobs; scan; scan = scan->next) {
+	list = g_list_copy (file_list->priv->jobs);
+	for (scan = list; scan; scan = scan->next) {
 		ThumbnailJob *other_job = scan->data;
 		thumbnail_job_cancel (other_job);
 	}
+	g_list_free (list);
+
 	file_list->priv->jobs = g_list_prepend (file_list->priv->jobs, job);
 
 	if (job->update_in_view)
