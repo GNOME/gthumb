@@ -165,6 +165,14 @@ load_thumbnail (GthFileData   *file_data,
 								     uri,
 								     gth_file_data_get_mime_type (file_data),
 								     cancellable);
+
+	if (g_cancellable_is_cancelled (cancellable)) {
+		_g_object_unref (pixbuf);
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+		return NULL;
+	}
+
 	if (pixbuf == NULL) {
 		PixbufLoader thumbnailer;
 
@@ -185,13 +193,15 @@ load_thumbnail (GthFileData   *file_data,
 		if (original_height != NULL)
 			*original_height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-height"));
 
-		g_clear_error (error);
+		if (error != NULL)
+			g_clear_error (error);
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
 		g_object_unref (pixbuf);
 	}
 
 	if (animation == NULL)
-		*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail");
+		if (error != NULL)
+			*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail");
 
 	g_free (uri);
 
