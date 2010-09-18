@@ -326,6 +326,7 @@ gth_image_loader_load (GthImageLoader      *loader,
 		       gpointer             user_data)
 {
 	GSimpleAsyncResult *result;
+	GThreadPriority     thread_priority;
 	GError             *error = NULL;
 
 	result = g_simple_async_result_new (G_OBJECT (loader),
@@ -357,12 +358,24 @@ gth_image_loader_load (GthImageLoader      *loader,
 
 	/* Update: 32k caused crashes with svg images. Boosting to 512k. Bug 410827. */
 
+	switch (io_priority) {
+	case G_PRIORITY_HIGH:
+		thread_priority = G_THREAD_PRIORITY_HIGH;
+		break;
+	case G_PRIORITY_LOW:
+		thread_priority = G_THREAD_PRIORITY_LOW;
+		break;
+	default:
+		thread_priority = G_THREAD_PRIORITY_NORMAL;
+		break;
+	}
+
 	if (! g_thread_create_full (load_image_thread,
 				    result,
 				    THREAD_STACK_SIZE,
 				    FALSE,
 				    TRUE,
-				    G_THREAD_PRIORITY_HIGH,
+				    thread_priority,
 				    &error))
 	{
 		g_simple_async_result_set_from_error (result, error);
