@@ -89,8 +89,9 @@ gboolean               gnome_desktop_thumbnail_factory_has_valid_failed_thumbnai
 										   const char            *uri,
 										   time_t                 mtime);
 GdkPixbuf *            gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory *factory,
-									   const char            *uri,
-									   const char            *mime_type);
+									   const char                   *uri,
+									   const char                   *mime_type,
+									   GCancellable                 *cancellable);
 gboolean               gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFactory  *factory,
 									     const char                    *uri,
 									     const char                    *mime_type,

@@ -147,11 +147,12 @@ size_prepared_cb (GdkPixbufLoader *loader,
 }
 
 static GdkPixbuf *
-_gdk_pixbuf_new_from_uri_at_scale (const char *uri,
-				   gint        width,
-				   gint        height,
-				   gboolean    preserve_aspect_ratio,
-				   gboolean    load_from_preview_icon)
+_gdk_pixbuf_new_from_uri_at_scale (const char   *uri,
+				   gint          width,
+				   gint          height,
+				   gboolean      preserve_aspect_ratio,
+				   gboolean      load_from_preview_icon,
+				   GCancellable *cancellable)
 {
 	gboolean                result;
 	char                    buffer[LOAD_BUFFER_SIZE];
@@ -177,7 +178,7 @@ _gdk_pixbuf_new_from_uri_at_scale (const char *uri,
 		file_info = g_file_query_info (file,
 					       G_FILE_ATTRIBUTE_PREVIEW_ICON,
 					       G_FILE_QUERY_INFO_NONE,
-					       NULL,  /* GCancellable */
+					       cancellable,  /* GCancellable */
 					       NULL); /* return location for GError */
 
 		if (file_info != NULL) {
@@ -188,7 +189,7 @@ _gdk_pixbuf_new_from_uri_at_scale (const char *uri,
 				input_stream = g_loadable_icon_load (G_LOADABLE_ICON (object),
 								     0,     /* size */
 								     NULL,  /* return location for type */
-								     NULL,  /* GCancellable */
+								     cancellable,  /* GCancellable */
 								     NULL); /* return location for GError */
 
 			g_object_unref (file_info);
@@ -218,7 +219,7 @@ _gdk_pixbuf_new_from_uri_at_scale (const char *uri,
 		bytes_read = g_input_stream_read (input_stream,
 						  buffer,
 						  sizeof (buffer),
-						  NULL,
+						  cancellable,
 						  NULL);
 		if (bytes_read == -1)
 			break;
@@ -679,8 +680,9 @@ expand_thumbnailing_script (const char *script,
 
 GdkPixbuf *
 gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory *factory,
-						    const char            *uri,
-						    const char            *mime_type)
+						    const char                   *uri,
+						    const char                   *mime_type,
+						    GCancellable                 *cancellable)
 {
   GdkPixbuf *pixbuf, *scaled, *tmp_pixbuf;
   int width, height, size;
@@ -699,7 +701,7 @@ gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory
     size = 256;
 
   /* Check for preview::icon first */
-  pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE, TRUE);
+  pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE, TRUE, cancellable);
 
   /* ...then use a registered thumbnail generator (the exiv2 extension tries
    * to read the embedded thumbnail) */
@@ -708,7 +710,7 @@ gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory
 
   /* ...lastly try the whole file */
   if (pixbuf == NULL)
-    pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE, FALSE);
+    pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE, FALSE, cancellable);
 
   if (pixbuf == NULL)
     return NULL;
