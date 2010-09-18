@@ -87,6 +87,17 @@ typedef struct {
 } ThumbData;
 
 
+typedef struct {
+	GthFileList    *file_list;
+	GthThumbLoader *loader;
+	GCancellable   *cancellable;
+	GthFileData    *file_data;
+	gboolean        update_in_view;
+	int             pos;
+	gboolean        started;
+} ThumbnailJob;
+
+
 enum {
 	FILE_POPUP,
 	LAST_SIGNAL
@@ -326,6 +337,9 @@ gth_file_list_class_init (GthFileListClass *class)
 }
 
 
+/* -- ThumbData -- */
+
+
 static ThumbData *
 thumb_data_new (void)
 {
@@ -355,6 +369,9 @@ thumb_data_unref (ThumbData *data)
 	_g_object_unref (data->pixbuf);
 	g_free (data);
 }
+
+
+/* --- */
 
 
 static void
@@ -412,10 +429,66 @@ start_update_next_thumb (GthFileList *file_list)
 
 
 static void
+_gth_file_list_done (GthFileList *file_list)
+{
+	file_list->priv->loading_thumbs = FALSE;
+}
+
+
+/* ThumbnailJob */
+
+
+static void
+thumbnail_job_free (ThumbnailJob *job)
+{
+	job->file_list->priv->jobs = g_list_remove (job->file_list->priv->jobs, job);
+	if (job->file_list->priv->jobs == NULL)
+		_gth_file_list_done (job->file_list);
+
+	_g_object_unref (job->file_data);
+	_g_object_unref (job->cancellable);
+	_g_object_unref (job->loader);
+	_g_object_unref (job->file_list);
+	g_free (job);
+}
+
+
+static void
+thumbnail_job_cancel (ThumbnailJob *job)
+{
+	if (job->started)
+		g_cancellable_cancel (job->cancellable);
+	else
+		thumbnail_job_free (job);
+}
+
+
+/* --- */
+
+
+static void
 vadj_changed_cb (GtkAdjustment *adjustment,
 		 gpointer       user_data)
 {
-	start_update_next_thumb (GTH_FILE_LIST (user_data));
+	GthFileList  *file_list = user_data;
+	GthFileStore *file_store;
+	GList        *list;
+	GList        *scan;
+
+	/* cancel the jobs relative to non-visible thumbnails */
+
+	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	list = g_list_copy (file_list->priv->jobs);
+	for (scan = list; scan; scan = scan->next) {
+		ThumbnailJob *job = scan->data;
+
+		if (! gth_file_store_find_visible (file_store, job->file_data->file, NULL))
+			thumbnail_job_cancel (job);
+	}
+	g_list_free (list);
+
+	if (file_list->priv->jobs == NULL)
+		start_update_next_thumb (GTH_FILE_LIST (user_data));
 }
 
 
@@ -716,49 +789,6 @@ gth_file_list_set_type (GthFileList     *file_list,
 			GthFileListType  list_type)
 {
 	_gth_file_list_set_type (file_list, list_type);
-}
-
-
-static void
-_gth_file_list_done (GthFileList *file_list)
-{
-	file_list->priv->loading_thumbs = FALSE;
-}
-
-
-typedef struct {
-	GthFileList    *file_list;
-	GthThumbLoader *loader;
-	GCancellable   *cancellable;
-	GthFileData    *file_data;
-	gboolean        update_in_view;
-	int             pos;
-	gboolean        started;
-} ThumbnailJob;
-
-
-static void
-thumbnail_job_free (ThumbnailJob *job)
-{
-	job->file_list->priv->jobs = g_list_remove (job->file_list->priv->jobs, job);
-	if (job->file_list->priv->jobs == NULL)
-		_gth_file_list_done (job->file_list);
-
-	_g_object_unref (job->file_data);
-	_g_object_unref (job->cancellable);
-	_g_object_unref (job->loader);
-	_g_object_unref (job->file_list);
-	g_free (job);
-}
-
-
-static void
-thumbnail_job_cancel (ThumbnailJob *job)
-{
-	if (job->started)
-		g_cancellable_cancel (job->cancellable);
-	else
-		thumbnail_job_free (job);
 }
 
 
