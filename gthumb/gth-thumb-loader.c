@@ -245,21 +245,23 @@ void
 gth_thumb_loader_set_requested_size (GthThumbLoader *self,
 				     int             size)
 {
-	if (self->priv->thumb_factory != NULL) {
-		g_object_unref (self->priv->thumb_factory);
-		self->priv->thumb_factory = NULL;
-	}
+	GnomeDesktopThumbnailSize thumb_size;
 
 	self->priv->requested_size = size;
 	if (self->priv->requested_size <= THUMBNAIL_NORMAL_SIZE) {
 		self->priv->cache_max_size = THUMBNAIL_NORMAL_SIZE;
-		self->priv->thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
+		thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
 	}
 	else {
 		self->priv->cache_max_size = THUMBNAIL_LARGE_SIZE;
-		self->priv->thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE;
+		thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE;
 	}
-	self->priv->thumb_factory = gnome_desktop_thumbnail_factory_new (self->priv->thumb_size);
+
+	if ((self->priv->thumb_size != thumb_size) || (self->priv->thumb_factory == NULL)) {
+		self->priv->thumb_size = thumb_size;
+		_g_object_unref (self->priv->thumb_factory);
+		self->priv->thumb_factory = gnome_desktop_thumbnail_factory_new (self->priv->thumb_size);
+	}
 }
 
 
