@@ -326,8 +326,10 @@ gth_image_loader_load (GthImageLoader      *loader,
 		       gpointer             user_data)
 {
 	GSimpleAsyncResult *result;
+#ifndef USE_G_IO_SCHEDULER
 	GThreadPriority     thread_priority;
 	GError             *error = NULL;
+#endif
 
 	result = g_simple_async_result_new (G_OBJECT (loader),
 					    callback,
