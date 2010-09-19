@@ -50,6 +50,7 @@ struct _GthEditCommentPagePrivate {
 	GtkWidget  *date_combobox;
 	GtkWidget  *date_selector;
 	GtkWidget  *tags_entry;
+	GTimeVal    current_date;
 };
 
 
@@ -98,10 +99,12 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
+		gtk_widget_set_sensitive (self->priv->date_combobox, TRUE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
 	}
 	else {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
+		gtk_widget_set_sensitive (self->priv->date_combobox, FALSE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
 	}
 
@@ -154,7 +157,8 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 
 	provider = gth_main_get_metadata_writer ("general::datetime", mime_type);
 	gtk_widget_set_sensitive (self->priv->date_combobox, provider != NULL);
-	gtk_widget_set_sensitive (self->priv->date_selector, provider != NULL);
+	if (provider == NULL)
+		gtk_widget_set_sensitive (self->priv->date_selector, FALSE);
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
@@ -180,6 +184,67 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 }
 
 
+static char *
+get_date_from_option (GthEditCommentPage *self,
+		      DateOption          option,
+		      GFileInfo          *info)
+{
+	GTimeVal     timeval;
+	GthDateTime *date_time;
+	char        *exif_date;
+	GthMetadata *metadata;
+
+	_g_time_val_reset (&timeval);
+
+	switch (option) {
+	case NO_DATE:
+		return g_strdup ("");
+
+	case FOLLOWING_DATE:
+		date_time = gth_datetime_new ();
+		gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
+		exif_date = gth_datetime_to_exif_date (date_time);
+		_g_time_val_from_exif_date (exif_date, &timeval);
+		g_free (exif_date);
+		gth_datetime_free (date_time);
+		break;
+
+	case CURRENT_DATE:
+		g_get_current_time (&self->priv->current_date);
+		timeval = self->priv->current_date;
+		break;
+
+	case PHOTO_DATE:
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "Embedded::Photo::DateTimeOriginal");
+		if (metadata != NULL)
+			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
+		else
+			return g_strdup ("");
+		break;
+
+	case LAST_MODIFIED_DATE:
+		timeval.tv_sec = g_file_info_get_attribute_uint64 (info, "time::modified");
+		timeval.tv_usec = g_file_info_get_attribute_uint32 (info, "time::modified-usec");
+		break;
+
+	case CREATION_DATE:
+		timeval.tv_sec = g_file_info_get_attribute_uint64 (info, "time::created");
+		timeval.tv_usec = g_file_info_get_attribute_uint32 (info, "time::created-usec");
+		break;
+
+	case NO_CHANGE:
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "general::datetime");
+		if (metadata != NULL)
+			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
+		else
+			return g_strdup ("");
+		break;
+	}
+
+	return _g_time_val_to_exif_date (&timeval);
+}
+
+
 void
 gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 					GFileInfo           *info,
@@ -196,7 +261,6 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	char               **tagv;
 	GList               *tags;
 	GthStringList       *string_list;
-	GthDateTime         *date_time;
 	char                *exif_date;
 	char                *s;
 
@@ -246,9 +310,10 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	/* date */
 
-	date_time = gth_datetime_new ();
-	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
-	exif_date = gth_datetime_to_exif_date (date_time);
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)) == CURRENT_DATE)
+		exif_date = _g_time_val_to_exif_date (&self->priv->current_date);
+	else
+		exif_date = get_date_from_option (self, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)), info);
 	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::datetime", exif_date)) {
 		metadata = g_object_new (GTH_TYPE_METADATA,
 					 "id", "general::datetime",
@@ -258,7 +323,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
 		g_object_unref (metadata);
 	}
-	gth_datetime_free (date_time);
+	g_free (exif_date);
 
 	/* tags */
 
@@ -296,7 +361,6 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	}
 
 	g_free (s);
-	g_free (exif_date);
 	_g_object_unref (string_list);
 	g_strfreev (tagv);
 	g_list_free (tags);
@@ -335,65 +399,6 @@ gth_edit_comment_page_class_init (GthEditCommentPageClass *klass)
 }
 
 
-static char *
-get_date_from_option (GthEditCommentPage *self,
-		      DateOption          option)
-{
-	GTimeVal     timeval;
-	GthDateTime *date_time;
-	char        *exif_date;
-	GthMetadata *metadata;
-
-	_g_time_val_reset (&timeval);
-
-	switch (option) {
-	case NO_DATE:
-		return g_strdup ("");
-
-	case FOLLOWING_DATE:
-		date_time = gth_datetime_new ();
-		gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
-		exif_date = gth_datetime_to_exif_date (date_time);
-		_g_time_val_from_exif_date (exif_date, &timeval);
-		g_free (exif_date);
-		gth_datetime_free (date_time);
-		break;
-
-	case CURRENT_DATE:
-		g_get_current_time (&timeval);
-		break;
-
-	case PHOTO_DATE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "Embedded::Photo::DateTimeOriginal");
-		if (metadata != NULL)
-			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
-		else
-			return g_strdup ("");
-		break;
-
-	case LAST_MODIFIED_DATE:
-		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::modified");
-		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::modified-usec");
-		break;
-
-	case CREATION_DATE:
-		timeval.tv_sec = g_file_info_get_attribute_uint64 (self->priv->info, "time::created");
-		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->info, "time::created-usec");
-		break;
-
-	case NO_CHANGE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
-		if (metadata != NULL)
-			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
-		else
-			return g_strdup ("");
-		break;
-	}
-
-	return _g_time_val_to_exif_date (&timeval);
-}
-
-
 static void
 date_combobox_changed_cb (GtkComboBox *widget,
 			  gpointer     user_data)
@@ -401,8 +406,9 @@ date_combobox_changed_cb (GtkComboBox *widget,
 	GthEditCommentPage *self = user_data;
 	char               *value;
 
-	value = get_date_from_option (self, gtk_combo_box_get_active (widget));
+	value = get_date_from_option (self, gtk_combo_box_get_active (widget), self->priv->info);
 	gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), value);
+	gtk_widget_set_sensitive (self->priv->date_selector, ! g_str_equal (value, ""));
 
 	g_free (value);
 }
