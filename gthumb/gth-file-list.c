@@ -568,8 +568,11 @@ _gth_file_list_set_type (GthFileList     *file_list,
 		      "visible", ((file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER) || (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)),
 		      NULL);
 
+	/* use the fixed size for horizontal sidebars to view a single row at
+	 * a time. */
+
 	g_object_set (file_list->priv->thumbnail_renderer,
-		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR),
+		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR),
 		      NULL);
 
 	_gth_file_list_update_orientation (file_list);
