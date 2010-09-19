@@ -295,7 +295,7 @@ gth_file_store_get_iter (GtkTreeModel *tree_model,
 
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	indices = gtk_tree_path_get_indices (path);
 	n = indices[0];
@@ -324,7 +324,7 @@ gth_file_store_get_path (GtkTreeModel *tree_model,
 	g_return_val_if_fail (iter != NULL, NULL);
 	g_return_val_if_fail (iter->user_data != NULL, NULL);
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), NULL);
 
@@ -348,7 +348,7 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 
 	g_return_if_fail ((column >= 0) && (column < GTH_FILE_STORE_N_COLUMNS));
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	g_return_if_fail (VALID_ITER (iter, file_store));
 
@@ -393,7 +393,7 @@ gth_file_store_iter_next (GtkTreeModel  *tree_model,
 	if ((iter == NULL) || (iter->user_data == NULL))
 		return FALSE;
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
 
@@ -420,7 +420,7 @@ gth_file_store_iter_children (GtkTreeModel *tree_model,
 
 	g_return_val_if_fail (parent->user_data != NULL, FALSE);
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	if (file_store->priv->num_rows == 0)
 		return FALSE;
@@ -446,7 +446,7 @@ gth_file_store_iter_n_children (GtkTreeModel *tree_model,
 {
 	GthFileStore *file_store;
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	if (iter == NULL)
 		return file_store->priv->num_rows;
@@ -465,7 +465,7 @@ gth_file_store_iter_nth_child (GtkTreeModel *tree_model,
 {
 	GthFileStore *file_store;
 
-  	file_store = GTH_FILE_STORE (tree_model);
+  	file_store = (GthFileStore *) tree_model;
 
 	if (parent != NULL) {
 		g_return_val_if_fail (VALID_ITER (parent, file_store), FALSE);
@@ -491,7 +491,7 @@ gth_file_store_iter_parent (GtkTreeModel *tree_model,
 
 	g_return_val_if_fail (child == NULL, FALSE);
 
-	file_store = GTH_FILE_STORE (tree_model);
+	file_store = (GthFileStore *) tree_model;
 
 	g_return_val_if_fail (VALID_ITER (child, file_store), FALSE);
 
@@ -519,7 +519,7 @@ gth_file_store_drag_data_get (GtkTreeDragSource *drag_source,
 
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	file_store = GTH_FILE_STORE (drag_source);
+	file_store = (GthFileStore *) drag_source;
 
 	indices = gtk_tree_path_get_indices (path);
 	n = indices[0];
@@ -563,7 +563,7 @@ gth_file_store_drag_data_delete (GtkTreeDragSource *drag_source,
 
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	file_store = GTH_FILE_STORE (drag_source);
+	file_store = (GthFileStore *) drag_source;
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, path))
 		return FALSE;
 	gth_file_store_remove (file_store, &iter);

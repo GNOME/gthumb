@@ -86,7 +86,7 @@ gth_cell_renderer_thumbnail_get_property (GObject    *object,
 {
 	GthCellRendererThumbnail *self;
 
-	self = GTH_CELL_RENDERER_THUMBNAIL (object);
+	self = (GthCellRendererThumbnail *) object;
 
 	switch (param_id) {
 	case PROP_SIZE:
@@ -125,7 +125,7 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 {
 	GthCellRendererThumbnail *self;
 
-	self = GTH_CELL_RENDERER_THUMBNAIL (object);
+	self = (GthCellRendererThumbnail *) object;
 
 	switch (param_id) {
 	case PROP_SIZE:
@@ -173,7 +173,7 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
   	int   xpad;
   	int   ypad;
 
-  	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
+  	self = (GthCellRendererThumbnail *) cell;
 
   	if (self->priv->thumbnail != NULL) {
   		image_width = gdk_pixbuf_get_width (self->priv->thumbnail);
@@ -319,7 +319,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	GdkPixbuf                *colorized = NULL;
 	int                       border;
 
-	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
+	self = (GthCellRendererThumbnail *) cell;
 
  	gth_cell_renderer_thumbnail_get_size (cell, widget, cell_area,
  					      &thumb_rect.x,
