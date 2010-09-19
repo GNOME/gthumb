@@ -140,13 +140,13 @@ gth_thumb_loader_get_type (void)
 
 
 static GdkPixbufAnimation *
-load_thumbnail (GthFileData   *file_data,
-	        int            requested_size,
-	        int           *original_width,
-	        int           *original_height,
-	        gpointer       user_data,
-	        GCancellable  *cancellable,
-	        GError       **error)
+generate_thumbnail (GthFileData   *file_data,
+		    int            requested_size,
+		    int           *original_width,
+		    int           *original_height,
+		    gpointer       user_data,
+		    GCancellable  *cancellable,
+		    GError       **error)
 {
 	GthThumbLoader     *self = user_data;
 	GdkPixbuf          *pixbuf = NULL;
@@ -209,13 +209,39 @@ load_thumbnail (GthFileData   *file_data,
 }
 
 
+static GdkPixbufAnimation *
+load_cached_thumbnail (GthFileData   *file_data,
+		       int            requested_size,
+		       int           *original_width,
+		       int           *original_height,
+		       gpointer       user_data,
+		       GCancellable  *cancellable,
+		       GError       **error)
+{
+	GdkPixbufAnimation *animation = NULL;
+	char               *filename;
+	GdkPixbuf          *pixbuf;
+
+	filename = g_file_get_path (file_data->file);
+	pixbuf = gdk_pixbuf_new_from_file (filename, error);
+	if (pixbuf != NULL) {
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		g_object_unref (pixbuf);
+	}
+
+	g_free (filename);
+
+	return animation;
+}
+
+
 static void
 gth_thumb_loader_construct (GthThumbLoader *self,
 			    int             requested_size)
 {
 	gth_thumb_loader_set_requested_size (self, requested_size);
-	self->priv->tloader = gth_image_loader_new (load_thumbnail, self);
-	self->priv->iloader = gth_image_loader_new (NULL, NULL);
+	self->priv->tloader = gth_image_loader_new (generate_thumbnail, self);
+	self->priv->iloader = gth_image_loader_new (load_cached_thumbnail, NULL);
 }
 
 
@@ -235,8 +261,8 @@ void
 gth_thumb_loader_set_loader_func (GthThumbLoader *self,
 			          PixbufLoader    loader_func)
 {
-	gth_image_loader_set_loader_func (self->priv->iloader,
-					  (loader_func != NULL) ? loader_func : load_thumbnail,
+	gth_image_loader_set_loader_func (self->priv->tloader,
+					  (loader_func != NULL) ? loader_func : generate_thumbnail,
 					  self);
 }
 
