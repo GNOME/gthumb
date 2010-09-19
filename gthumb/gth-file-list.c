@@ -243,16 +243,12 @@ static void
 _gth_file_list_queue_op (GthFileList   *file_list,
 			 GthFileListOp *op)
 {
-	if (file_list->priv->cancelling) {
-		gth_file_list_op_free (op);
-		return;
-	}
-
 	if ((op->type == GTH_FILE_LIST_OP_TYPE_SET_FILES) || (op->type == GTH_FILE_LIST_OP_TYPE_CLEAR_FILES))
 		_gth_file_list_clear_queue (file_list);
 	if (op->type == GTH_FILE_LIST_OP_TYPE_SET_FILTER)
 		_gth_file_list_remove_op (file_list, GTH_FILE_LIST_OP_TYPE_SET_FILTER);
 	file_list->priv->queue = g_list_append (file_list->priv->queue, op);
+
 	if (! file_list->priv->loading_thumbs)
 		_gth_file_list_exec_next_op (file_list);
 }
