@@ -476,26 +476,6 @@ static void
 vadj_changed_cb (GtkAdjustment *adjustment,
 		 gpointer       user_data)
 {
-	GthFileList *file_list = user_data;
-	GList       *list;
-	GList       *scan;
-
-	/* cancel the jobs relative to non-visible thumbnails */
-
-	if (file_list->priv->update_event != 0) {
-		g_source_remove (file_list->priv->update_event);
-		file_list->priv->update_event = 0;
-	}
-
-	list = g_list_copy (file_list->priv->jobs);
-	for (scan = list; scan; scan = scan->next) {
-		ThumbnailJob *job = scan->data;
-
-		if (gth_file_view_get_visibility (GTH_FILE_VIEW (file_list->priv->view), job->pos) == GTH_VISIBILITY_NONE)
-			thumbnail_job_cancel (job);
-	}
-	g_list_free (list);
-
 	start_update_next_thumb (GTH_FILE_LIST (user_data));
 }
 
