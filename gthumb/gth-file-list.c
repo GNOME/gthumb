@@ -136,6 +136,8 @@ struct _GthFileListPrivateData
 	char           **caption_attributes_v;
 	gboolean         cancelling;
 	guint            update_event;
+	gboolean         visibility_changed;
+	GList           *visibles;
 };
 
 
@@ -270,6 +272,8 @@ gth_file_list_finalize (GObject *object)
 	file_list = GTH_FILE_LIST (object);
 
 	if (file_list->priv != NULL) {
+		_g_object_unref (file_list->priv->thumb_loader);
+		_g_object_list_unref (file_list->priv->visibles);
 		g_hash_table_unref (file_list->priv->thumb_data);
 		if (file_list->priv->icon_cache != NULL)
 			gth_icon_cache_free (file_list->priv->icon_cache);
@@ -385,6 +389,8 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
 	file_list->priv->cancelling = FALSE;
 	file_list->priv->update_event = 0;
+	file_list->priv->visibles = NULL;
+	file_list->priv->visibility_changed = FALSE;
 }
 
 
@@ -470,25 +476,27 @@ static void
 vadj_changed_cb (GtkAdjustment *adjustment,
 		 gpointer       user_data)
 {
-	GthFileList  *file_list = user_data;
-	GthFileStore *file_store;
-	GList        *list;
-	GList        *scan;
+	GthFileList *file_list = user_data;
+	GList       *list;
+	GList       *scan;
 
 	/* cancel the jobs relative to non-visible thumbnails */
 
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
+	}
+
 	list = g_list_copy (file_list->priv->jobs);
 	for (scan = list; scan; scan = scan->next) {
 		ThumbnailJob *job = scan->data;
 
-		if (! gth_file_store_find_visible (file_store, job->file_data->file, NULL))
+		if (gth_file_view_get_visibility (GTH_FILE_VIEW (file_list->priv->view), job->pos) == GTH_VISIBILITY_NONE)
 			thumbnail_job_cancel (job);
 	}
 	g_list_free (list);
 
-	if (file_list->priv->jobs == NULL)
-		start_update_next_thumb (GTH_FILE_LIST (user_data));
+	start_update_next_thumb (GTH_FILE_LIST (user_data));
 }
 
 
@@ -593,6 +601,14 @@ _gth_file_list_set_type (GthFileList     *file_list,
 
 
 static void
+file_store_visibility_changed_cb (GthFileStore *file_store,
+				  GthFileList  *file_list)
+{
+	file_list->priv->visibility_changed = TRUE;
+}
+
+
+static void
 gth_file_list_construct (GthFileList     *file_list,
 			 GthFileListType  list_type,
 			 gboolean         enable_drag_drop)
@@ -638,6 +654,11 @@ gth_file_list_construct (GthFileList     *file_list,
 	model = gth_file_store_new ();
 	file_list->priv->view = gth_icon_view_new_with_model (GTK_TREE_MODEL (model));
 	g_object_unref (model);
+
+	g_signal_connect (model,
+			  "visibility-changed",
+			  G_CALLBACK (file_store_visibility_changed_cb),
+			  file_list);
 
 	if (enable_drag_drop) {
 		GtkTargetList  *target_list;
@@ -1712,6 +1733,19 @@ can_create_file_thumbnail (GthFileData *file_data,
 }
 
 
+static GList *
+_gth_file_list_get_visibles (GthFileList *file_list)
+{
+	if (file_list->priv->visibility_changed) {
+		_g_object_list_unref (file_list->priv->visibles);
+		file_list->priv->visibles = gth_file_store_get_visibles ((GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
+		file_list->priv->visibility_changed = FALSE;
+	}
+
+	return file_list->priv->visibles;
+}
+
+
 static void
 _gth_file_list_update_next_thumb (GthFileList *file_list)
 {
@@ -1741,7 +1775,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	/* Find first visible undone. */
 
-	list = gth_file_store_get_visibles (file_store);
+	list = _gth_file_list_get_visibles (file_list);
 	first_pos = gth_file_view_get_first_visible (GTH_FILE_VIEW (file_list->priv->view));
 	last_pos = gth_file_view_get_last_visible (GTH_FILE_VIEW (file_list->priv->view));
 
@@ -1750,7 +1784,6 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (pos >= 0)
 		scan = g_list_nth (list, pos);
 	if (scan == NULL) {
-		_g_object_list_unref (list);
 		_gth_file_list_thumbs_completed (file_list);
 		return;
 	}
@@ -1828,8 +1861,6 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (new_pos != -1)
 		file_data = g_object_ref (file_data);
 
-	_g_object_list_unref (list);
-
 	if (new_pos == -1) {
 		_gth_file_list_thumbs_completed (file_list);
 		if (young_file_found && (file_list->priv->restart_thumb_update == 0))
@@ -1839,7 +1870,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	job = g_new0 (ThumbnailJob, 1);
 	job->file_list = g_object_ref (file_list);
-	job->loader = gth_thumb_loader_new (file_list->priv->thumb_size);
+	job->loader = g_object_ref (file_list->priv->thumb_loader);
 	job->cancellable = g_cancellable_new ();
 	job->file_data = file_data; /* already ref-ed above */
 	job->pos = new_pos;
@@ -1925,13 +1956,11 @@ gth_file_list_first_file (GthFileList *file_list,
 			  gboolean     skip_broken,
 			  gboolean     only_selected)
 {
-	GthFileView *view;
-	GList       *files;
-	GList       *scan;
-	int          pos;
+	GList *files;
+	GList *scan;
+	int    pos;
 
-	view = GTH_FILE_VIEW (file_list->priv->view);
-	files = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (view)));
+	files = _gth_file_list_get_visibles (file_list);
 
 	pos = 0;
 	for (scan = files; scan; scan = scan->next, pos++) {
@@ -1941,7 +1970,7 @@ gth_file_list_first_file (GthFileList *file_list,
 		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
 		if (skip_broken && thumb_data->error)
 			continue;
-		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (view), pos))
+		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
 			continue;
 
 		return pos;
@@ -1956,13 +1985,11 @@ gth_file_list_last_file (GthFileList *file_list,
 			 gboolean     skip_broken,
 			 gboolean     only_selected)
 {
-	GthFileView *view;
-	GList       *files;
-	GList       *scan;
-	int          pos;
+	GList *files;
+	GList *scan;
+	int    pos;
 
-	view = GTH_FILE_VIEW (file_list->priv->view);
-	files = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (view)));
+	files = _gth_file_list_get_visibles (file_list);
 
 	pos = g_list_length (files) - 1;
 	if (pos < 0)
@@ -1975,7 +2002,7 @@ gth_file_list_last_file (GthFileList *file_list,
 		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
 		if (skip_broken && thumb_data->error)
 			continue;
-		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (view), pos))
+		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
 			continue;
 
 		return pos;
@@ -1992,12 +2019,10 @@ gth_file_list_next_file (GthFileList *file_list,
 			 gboolean     only_selected,
 			 gboolean     wrap)
 {
-	GthFileView *view;
-	GList       *files;
-	GList       *scan;
+	GList *files;
+	GList *scan;
 
-	view = GTH_FILE_VIEW (file_list->priv->view);
-	files = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (view)));
+	files = _gth_file_list_get_visibles (file_list);
 
 	pos++;
 	if (pos >= 0)
@@ -2014,13 +2039,11 @@ gth_file_list_next_file (GthFileList *file_list,
 		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
 		if (skip_broken && thumb_data->error)
 			continue;
-		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (view), pos))
+		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
 			continue;
 
 		break;
 	}
-
-	_g_object_list_unref (files);
 
 	return (scan != NULL) ? pos : -1;
 }
@@ -2033,12 +2056,10 @@ gth_file_list_prev_file (GthFileList *file_list,
 			 gboolean     only_selected,
 			 gboolean     wrap)
 {
-	GthFileView *view;
-	GList       *files;
-	GList       *scan;
+	GList *files;
+	GList *scan;
 
-	view = GTH_FILE_VIEW (file_list->priv->view);
-	files = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (view)));
+	files = _gth_file_list_get_visibles (file_list);
 
 	pos--;
 	if (pos >= 0)
@@ -2057,13 +2078,11 @@ gth_file_list_prev_file (GthFileList *file_list,
 		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
 		if (skip_broken && thumb_data->error)
 			continue;
-		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (view), pos))
+		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
 			continue;
 
 		break;
 	}
-
-	_g_object_list_unref (files);
 
 	return (scan != NULL) ? pos : -1;
 }
