@@ -876,7 +876,7 @@ _gth_file_list_cancel_jobs (GthFileList *file_list,
 		ThumbnailJob *job = scan->data;
 		thumbnail_job_cancel (job);
 	}
-	g_free (list);
+	g_list_free (list);
 
 	cancel_data->check_id = g_timeout_add (CHECK_JOBS_INTERVAL,
 					       wait_for_jobs_to_finish,
