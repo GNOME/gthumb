@@ -186,7 +186,11 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 
   	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
 
-	if (self->priv->is_icon || self->priv->fixed_size || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
+	if (self->priv->is_icon
+	    || self->priv->fixed_size
+	    || (self->priv->thumbnail == NULL)
+	    || ((image_width < self->priv->size) && (image_height < self->priv->size)))
+	{
 		calc_width  = (int) (xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
 		calc_height = (int) (ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + self->priv->size;
 	}
@@ -383,21 +387,12 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		if (state == GTK_STATE_ACTIVE)
 			state = GTK_STATE_SELECTED;
 
-		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
+		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file)))
 			border = 1;
-			frame_rect = image_rect;
-		}
-		else {
+		else
 			border = 4;
 
-			/*frame_rect = thumb_rect;
-			frame_rect.width = self->priv->size;
-			frame_rect.height = self->priv->size;
-			frame_rect.x = thumb_rect.x + (thumb_rect.width - frame_rect.width) * .5;
-			frame_rect.y = thumb_rect.y + (thumb_rect.height - frame_rect.height) * .5;*/
-
-			frame_rect = image_rect;
-		}
+		frame_rect = image_rect;
 
 		cairo_translate (cr, 0.5, 0.5);
 		cairo_set_line_width (cr, 0.5);
