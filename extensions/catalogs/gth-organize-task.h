@@ -24,6 +24,7 @@
 
 #include <glib-object.h>
 #include <gthumb.h>
+#include "gth-catalog.h"
 
 typedef enum {
 	GTH_GROUP_POLICY_DIGITALIZED_DATE,
@@ -54,15 +55,28 @@ struct _GthOrganizeTaskClass
 	GthTaskClass __parent_class;
 };
 
-GType       gth_organize_task_get_type                 (void) G_GNUC_CONST;
-GthTask *   gth_organize_task_new                      (GthBrowser      *browser,
-						        GFile           *folder,
-						        GthGroupPolicy   group_policy);
-void        gth_organize_task_set_recursive            (GthOrganizeTask *self,
-							gboolean         recursive);
-void        gth_organize_task_set_create_singletons    (GthOrganizeTask *self,
-						        gboolean         create);
-void        gth_organize_task_set_singletons_catalog   (GthOrganizeTask *self,
-							const char      *catalog_name);
+/* GthGroupPolicyData: data used by the "gth-organize-task-create-catalog" hook */
+
+typedef struct {
+	GthOrganizeTask *task;         /* in */
+	GthDateTime     *date_time;    /* in (optional) */
+	const char      *tag;          /* in (optional) */
+	GFile           *catalog_file; /* out */
+	GthCatalog      *catalog;      /* out */
+} GthGroupPolicyData;
+
+GType           gth_organize_task_get_type                 (void) G_GNUC_CONST;
+GthTask *       gth_organize_task_new                      (GthBrowser      *browser,
+							    GFile           *folder,
+							    GthGroupPolicy   group_policy);
+void            gth_organize_task_set_recursive            (GthOrganizeTask *self,
+							    gboolean         recursive);
+void            gth_organize_task_set_create_singletons    (GthOrganizeTask *self,
+						            gboolean         create);
+void            gth_organize_task_set_singletons_catalog   (GthOrganizeTask *self,
+							    const char      *catalog_name);
+GFile *         gth_organize_task_get_folder               (GthOrganizeTask *self);
+GthGroupPolicy  gth_organize_task_get_group_policy         (GthOrganizeTask *self);
+gboolean        gth_organize_task_get_recursive            (GthOrganizeTask *self);
 
 #endif /* GTH_ORGANIZE_TASK_H */

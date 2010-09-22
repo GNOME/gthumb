@@ -24,19 +24,21 @@
 
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
+#include <extensions/catalogs/gth-organize-task.h>
 
-void         search__gth_browser_construct_cb            (GthBrowser  *browser);
-void         search__gth_browser_update_sensitivity_cb   (GthBrowser  *browser);
-void         search__gth_browser_update_extra_widget_cb  (GthBrowser  *browser);
-GthCatalog * search__gth_catalog_load_from_data_cb       (const void  *buffer);
-void         search__dlg_catalog_properties              (GthBrowser  *browser,
-							  GtkBuilder  *builder,
-							  GthFileData *file_data);
-void         search__dlg_catalog_properties_save         (GtkBuilder  *builder,
-							  GthFileData *file_data,
-							  GthCatalog  *catalog);
-void         search__dlg_catalog_properties_saved        (GthBrowser  *browser,
-							  GthFileData *file_data,
-							  GthCatalog  *catalog);
+void         search__gth_browser_construct_cb            (GthBrowser         *browser);
+void         search__gth_browser_update_sensitivity_cb   (GthBrowser         *browser);
+void         search__gth_browser_update_extra_widget_cb  (GthBrowser         *browser);
+GthCatalog * search__gth_catalog_load_from_data_cb       (const void         *buffer);
+void         search__dlg_catalog_properties              (GtkBuilder         *builder,
+							  GthFileData        *file_data,
+							  GthCatalog         *catalog);
+void         search__dlg_catalog_properties_save         (GtkBuilder         *builder,
+							  GthFileData        *file_data,
+							  GthCatalog         *catalog);
+void         search__dlg_catalog_properties_saved        (GthBrowser         *browser,
+							  GthFileData        *file_data,
+							  GthCatalog         *catalog);
+void         search__gth_organize_task_create_catalog    (GthGroupPolicyData *data);
 
 #endif /* CALLBACKS_H */

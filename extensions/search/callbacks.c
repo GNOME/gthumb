@@ -26,6 +26,7 @@
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
 #include "actions.h"
+#include "callbacks.h"
 #include "gth-search.h"
 #include "gth-search-editor.h"
 #include "gth-search-task.h"
@@ -232,4 +233,118 @@ search__dlg_catalog_properties_saved (GthBrowser  *browser,
 	gth_browser_exec_task (browser, task, TRUE);
 
 	g_object_unref (task);
+}
+
+
+void
+search__gth_organize_task_create_catalog (GthGroupPolicyData *data)
+{
+	GthGroupPolicy policy;
+
+	policy = gth_organize_task_get_group_policy (data->task);
+	switch (policy) {
+	case GTH_GROUP_POLICY_DIGITALIZED_DATE:
+	case GTH_GROUP_POLICY_MODIFIED_DATE:
+
+		/* delete the .catalog file to avoid to have two catalogs with
+		 * the same name, which can be confusing for the user. */
+
+		{
+			GFile *catalog_file;
+			GFile *gio_file;
+
+			catalog_file = gth_catalog_get_file_for_date (data->date_time, ".catalog");
+			gio_file = gth_catalog_file_to_gio_file (catalog_file);
+			if (g_file_delete (gio_file, NULL, NULL)) {
+				GFile *parent;
+				GList *files;
+
+				parent = g_file_get_parent (catalog_file);
+				files = g_list_prepend (NULL, g_object_ref (catalog_file));
+				gth_monitor_folder_changed (gth_main_get_default_monitor (),
+							    parent,
+							    files,
+							    GTH_MONITOR_EVENT_DELETED);
+
+				_g_object_list_unref (files);
+				_g_object_unref (parent);
+			}
+
+			g_object_unref (gio_file);
+			g_object_unref (catalog_file);
+		}
+
+		data->catalog_file = gth_catalog_get_file_for_date (data->date_time, ".search");
+		data->catalog = gth_catalog_load_from_file (data->catalog_file);
+		if (data->catalog == NULL) {
+			GthTest *date_test;
+			GthTest *test_chain;
+
+			data->catalog = (GthCatalog *) gth_search_new ();
+			gth_search_set_folder (GTH_SEARCH (data->catalog), gth_organize_task_get_folder (data->task));
+			gth_search_set_recursive (GTH_SEARCH (data->catalog), gth_organize_task_get_recursive (data->task));
+
+			date_test = gth_main_get_registered_object (GTH_TYPE_TEST, (policy == GTH_GROUP_POLICY_MODIFIED_DATE) ? "file::mtime" : "Embedded::Photo::DateTimeOriginal");
+			gth_test_simple_set_data_as_date (GTH_TEST_SIMPLE (date_test), data->date_time->date);
+			g_object_set (GTH_TEST_SIMPLE (date_test), "op", GTH_TEST_OP_EQUAL, "negative", FALSE, NULL);
+			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, date_test, NULL);
+			gth_search_set_test (GTH_SEARCH (data->catalog), GTH_TEST_CHAIN (test_chain));
+
+			g_object_unref (test_chain);
+			g_object_unref (date_test);
+		}
+		break;
+
+	case GTH_GROUP_POLICY_TAG:
+	case GTH_GROUP_POLICY_TAG_EMBEDDED:
+
+		/* delete the .catalog file to avoid to have two catalogs with
+		 * the same name, which can be confusing for the user. */
+
+		{
+			GFile *catalog_file;
+			GFile *gio_file;
+
+			catalog_file = gth_catalog_get_file_for_tag (data->tag, ".catalog");
+			gio_file = gth_catalog_file_to_gio_file (catalog_file);
+			if (g_file_delete (gio_file, NULL, NULL)) {
+				GFile *parent;
+				GList *files;
+
+				parent = g_file_get_parent (catalog_file);
+				files = g_list_prepend (NULL, g_object_ref (catalog_file));
+				gth_monitor_folder_changed (gth_main_get_default_monitor (),
+							    parent,
+							    files,
+							    GTH_MONITOR_EVENT_DELETED);
+
+				_g_object_list_unref (files);
+				_g_object_unref (parent);
+			}
+
+			g_object_unref (gio_file);
+			g_object_unref (catalog_file);
+		}
+
+		data->catalog_file = gth_catalog_get_file_for_tag (data->tag, ".search");
+		data->catalog = gth_catalog_load_from_file (data->catalog_file);
+		if (data->catalog == NULL) {
+			GthTest *tag_test;
+			GthTest *test_chain;
+
+			data->catalog = (GthCatalog *) gth_search_new ();
+			gth_search_set_folder (GTH_SEARCH (data->catalog), gth_organize_task_get_folder (data->task));
+			gth_search_set_recursive (GTH_SEARCH (data->catalog), gth_organize_task_get_recursive (data->task));
+
+			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
+			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_EQUAL, FALSE, data->tag);
+			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, tag_test, NULL);
+			gth_search_set_test (GTH_SEARCH (data->catalog), GTH_TEST_CHAIN (test_chain));
+
+			g_object_unref (test_chain);
+			g_object_unref (tag_test);
+		}
+
+		break;
+	}
 }

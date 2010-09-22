@@ -23,7 +23,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include <extensions/search/gth-search.h>
 #include "gth-catalog.h"
 #include "gth-organize-task.h"
 
@@ -216,16 +215,40 @@ add_catalog_for_date (GthOrganizeTask *self,
 		      const char      *catalog_key,
 		      GTimeVal        *timeval)
 {
-	GthCatalog  *catalog;
-	GthDateTime *date_time;
-	GFile       *catalog_file;
-	char        *catalog_name;
-	GtkTreeIter  iter;
+	GthCatalog         *catalog;
+	GthDateTime        *date_time;
+	GFile              *catalog_file;
+	char               *catalog_name;
+	GtkTreeIter         iter;
+	GthGroupPolicyData  policy_data;
 
 	catalog = g_hash_table_lookup (self->priv->catalogs, catalog_key);
 	if (catalog != NULL)
 		return catalog;
 
+	date_time = gth_datetime_new ();
+	gth_datetime_from_timeval (date_time, timeval);
+
+	policy_data.task = self;
+	policy_data.date_time = date_time;
+	policy_data.tag = NULL;
+	policy_data.catalog = NULL;
+	policy_data.catalog_file = NULL;
+	gth_hook_invoke ("gth-organize-task-create-catalog", &policy_data);
+
+	catalog = policy_data.catalog;
+	catalog_file = policy_data.catalog_file;
+
+	if (catalog == NULL) {
+		_g_object_unref (catalog_file);
+		catalog_file = gth_catalog_get_file_for_date (date_time, ".catalog");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL)
+		catalog = gth_catalog_new ();
+
+#if 0
 	date_time = gth_datetime_new ();
 	gth_datetime_from_timeval (date_time, timeval);
 
@@ -266,6 +289,7 @@ add_catalog_for_date (GthOrganizeTask *self,
 		else
 			catalog = gth_catalog_new ();
 	}
+#endif
 
 	gth_catalog_set_date (catalog, date_time);
 	gth_catalog_set_file (catalog, catalog_file);
@@ -297,14 +321,35 @@ add_catalog_for_tag (GthOrganizeTask *self,
 		     const char      *catalog_key,
 		     const char      *tag)
 {
-	GthCatalog  *catalog;
-	GFile       *catalog_file;
-	GtkTreeIter  iter;
+	GthCatalog         *catalog;
+	GFile              *catalog_file;
+	GtkTreeIter         iter;
+	GthGroupPolicyData  policy_data;
 
 	catalog = g_hash_table_lookup (self->priv->catalogs, catalog_key);
 	if (catalog != NULL)
 		return catalog;
 
+	policy_data.task = self;
+	policy_data.date_time = NULL;
+	policy_data.tag = tag;
+	policy_data.catalog = NULL;
+	policy_data.catalog_file = NULL;
+	gth_hook_invoke ("gth-organize-task-create-catalog", &policy_data);
+
+	catalog = policy_data.catalog;
+	catalog_file = policy_data.catalog_file;
+
+	if (catalog == NULL) {
+		_g_object_unref (catalog_file);
+		catalog_file = gth_catalog_get_file_for_tag (tag, ".catalog");
+		catalog = gth_catalog_load_from_file (catalog_file);
+	}
+
+	if (catalog == NULL)
+		catalog = gth_catalog_new ();
+
+#if 0
 	catalog_file = NULL;
 
 	if (gth_main_extension_is_active ("search")) {
@@ -341,6 +386,8 @@ add_catalog_for_tag (GthOrganizeTask *self,
 		else
 			catalog = gth_catalog_new ();
 	}
+#endif
+
 	gth_catalog_set_file (catalog, catalog_file);
 
 	g_hash_table_insert (self->priv->catalogs, g_strdup (catalog_key), catalog);
@@ -867,4 +914,25 @@ gth_organize_task_set_singletons_catalog (GthOrganizeTask *self,
 	gth_catalog_set_name (self->priv->singletons_catalog, catalog_name);
 
 	g_object_unref (file);
+}
+
+
+GFile *
+gth_organize_task_get_folder (GthOrganizeTask *self)
+{
+	return self->priv->folder;
+}
+
+
+GthGroupPolicy
+gth_organize_task_get_group_policy (GthOrganizeTask *self)
+{
+	return self->priv->group_policy;
+}
+
+
+gboolean
+gth_organize_task_get_recursive (GthOrganizeTask *self)
+{
+	return self->priv->recursive;
 }

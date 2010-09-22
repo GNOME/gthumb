@@ -35,6 +35,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("dlg-catalog-properties", 10, G_CALLBACK (search__dlg_catalog_properties), NULL);
 	gth_hook_add_callback ("dlg-catalog-properties-save", 10, G_CALLBACK (search__dlg_catalog_properties_save), NULL);
 	gth_hook_add_callback ("dlg-catalog-properties-saved", 10, G_CALLBACK (search__dlg_catalog_properties_saved), NULL);
+	gth_hook_add_callback ("gth-organize-task-create-catalog", 10, G_CALLBACK (search__gth_organize_task_create_catalog), NULL);
 }
 
 

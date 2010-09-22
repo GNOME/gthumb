@@ -99,6 +99,14 @@ gthumb_extension_activate (void)
 	 **/
 	gth_hook_register ("dlg-catalog-properties-saved", 3);
 
+	/**
+	 * Called to create a catalog when organizing files in catalogs.
+	 *
+	 * @data (GthGroupPolicyData *): a structure that contains in and out
+	 * parameters, as described in gth-organize-task.h
+	 **/
+	gth_hook_register ("gth-organize-task-create-catalog", 1);
+
 	gth_hook_add_callback ("command-line-files", 10, G_CALLBACK (catalogs__command_line_files_cb), NULL);
 	gth_hook_add_callback ("gth-catalog-load-from-data", 10, G_CALLBACK (catalogs__gth_catalog_load_from_data_cb), NULL);
 
