@@ -1246,9 +1246,10 @@ gth_main_activate_extensions (void)
 						"slideshow",
 						"webalbums",
 						NULL };
-	int         i;
-	GSList     *active_extensions;
-	GSList     *scan;
+	int                  i;
+	GSList              *active_extensions;
+	GthExtensionManager *manager;
+	GSList              *scan;
 
 	if (Main->priv->extension_manager == NULL)
 		Main->priv->extension_manager = gth_extension_manager_new ();
@@ -1266,11 +1267,18 @@ gth_main_activate_extensions (void)
 	if (active_extensions == NULL)
 		for (i = 0; default_extensions[i] != NULL; i++)
 			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
-
 	active_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
+
+	manager = gth_main_get_default_extension_manager ();
+
 	for (scan = active_extensions; scan; scan = scan->next) {
-		char   *name = scan->data;
-		GError *error = NULL;
+		char                    *name = scan->data;
+		GthExtensionDescription *description;
+		GError                  *error = NULL;
+
+		description = gth_extension_manager_get_description (manager, name);
+		if ((description != NULL) && (description->hidden || description->mandatory))
+			continue;
 
 		if (! gth_extension_manager_activate (Main->priv->extension_manager, name, &error)) {
 			g_warning ("Could not load the '%s' extension: %s", name, error->message);
