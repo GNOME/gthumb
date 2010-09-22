@@ -135,6 +135,9 @@ destroy_cb (GtkWidget  *widget,
 		GthExtensionDescription *description;
 
 		description = gth_extension_manager_get_description (manager, name);
+		if ((description == NULL) || description->mandatory || description->hidden)
+			continue;
+
 		if (gth_extension_description_is_active (description))
 			active_extensions = g_slist_prepend (active_extensions, g_strdup (name));
 	}
@@ -516,6 +519,8 @@ dlg_extensions (GthBrowser *browser)
 	GthExtensionManager *manager;
 	GList               *extensions;
 	GList               *scan;
+	GSList              *all_active_extensions;
+	GSList              *s_scan;
 	GtkTreePath         *first;
 	int                  i;
 
@@ -524,10 +529,27 @@ dlg_extensions (GthBrowser *browser)
 		return;
 	}
 
+	manager = gth_main_get_default_extension_manager ();
+
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("extensions.ui", NULL);
-	data->active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
+
+	data->active_extensions = NULL;
+	all_active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
+	for (s_scan = all_active_extensions; s_scan; s_scan = s_scan->next) {
+		char                    *name = s_scan->data;
+		GthExtensionDescription *description;
+
+		description = gth_extension_manager_get_description (manager, name);
+		if ((description == NULL) || description->mandatory || description->hidden)
+			continue;
+
+		data->active_extensions = g_slist_prepend (data->active_extensions, g_strdup (name));
+	}
+	data->active_extensions = g_slist_reverse (data->active_extensions);
+	g_slist_foreach (all_active_extensions, (GFunc) g_free, NULL);
+	g_slist_free (all_active_extensions);
 
 	/* Get the widgets. */
 
