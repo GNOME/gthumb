@@ -307,7 +307,7 @@ if test "x$enable_jpeg" = "xyes"; then
 		JPEG_LIBS='-ljpeg -lm -lz'
 	fi
 	CFLAGS="$SAVE_CFLAGS"
-	usnet SAVE_CFLAGS
+	unset SAVE_CFLAGS
 fi
 AC_SUBST(JPEG_LIBS)
 AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
