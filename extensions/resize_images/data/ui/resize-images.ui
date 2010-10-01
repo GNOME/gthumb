@@ -16,26 +16,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="overwrite_model">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Skip</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Rename</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Ask</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Overwrite</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkDialog" id="resize_images_dialog">
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Resize Images</property>
@@ -45,18 +25,15 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox8">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="vbox61">
             <property name="visible">True</property>
             <property name="border_width">6</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkVBox" id="vbox63">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label106">
@@ -80,7 +57,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox62">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkTable" id="table8">
@@ -219,7 +195,6 @@
             <child>
               <object class="GtkVBox" id="saving_box">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label1">
@@ -243,8 +218,8 @@
                     <child>
                       <object class="GtkFileChooserButton" id="destination_filechooserbutton">
                         <property name="visible">True</property>
-                        <property name="create_folders">False</property>
                         <property name="local_only">False</property>
+                        <property name="create_folders">False</property>
                         <property name="action">select-folder</property>
                         <property name="title" translatable="yes">Choose destination folder</property>
                       </object>
@@ -346,26 +321,6 @@
       </row>
       <row>
         <col id="0" translatable="yes">%</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="type_model">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">JPEG</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">PNG</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">TIFF</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">TGA</col>
       </row>
     </data>
   </object>
