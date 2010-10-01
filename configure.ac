@@ -66,8 +66,8 @@ AC_ARG_ENABLE(deprecated,
 	      disable_deprecated=yes,
 	      disable_deprecated=no)
 if test x$disable_deprecated = xyes; then
-	CFLAGS+=" -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
-	CFLAGS+=" -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
+	CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
 fi
 
 dnl ===========================================================================
@@ -82,7 +82,7 @@ AC_ARG_ENABLE(debug,
 	      [ENABLE_DEBUG=no])
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
-	CFLAGS+=" -g -O0 -DDEBUG"
+	CFLAGS="$CFLAGS -g -O0 -DDEBUG"
 fi
 
 AC_ARG_ENABLE(gseal,
@@ -94,7 +94,7 @@ AC_ARG_ENABLE(gseal,
 	      esac],
 	      [ENABLE_GSEAL=no])
 if test x$ENABLE_GSEAL = xyes; then
-	CFLAGS+=" -DGSEAL_ENABLE"
+	CFLAGS="$CFLAGS -DGSEAL_ENABLE"
 fi
 
 AC_ARG_ENABLE(run_in_place,
@@ -289,7 +289,7 @@ for option in $WARN_CFLAGS; do
 	unset SAVE_CFLAGS
 done
 unset option
-CFLAGS+="$WARNINGS "
+CFLAGS="$CFLAGS $WARNINGS"
 
 dnl ===========================================================================
 
