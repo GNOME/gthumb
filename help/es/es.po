@@ -8,34 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-22 11:04+0000\n"
-"PO-Revision-Date: 2010-09-06 21:36+0200\n"
+"POT-Creation-Date: 2010-09-26 16:07+0000\n"
+"PO-Revision-Date: 2010-10-01 17:04+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: C/legal.xml:3(p)
-msgid ""
-"This work is licensed under a <link href=\"http://creativecommons.org/"
-"licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 Unported "
-"License</link>."
-msgstr ""
-"Este trabajo está licenciado bajo una <link href=\"http://creativecommons."
-"org/licenses/by-sa/3.0/us/\">Licencia Creative Commons atribución - "
-"compartir igual 3.0 sin soporte</link>."
-
-#: C/legal.xml:6(p)
-msgid ""
-"As a special exception, the copyright holders give you permission to copy, "
-"modify, and distribute the example code contained in this document under the "
-"terms of your choosing, without restriction."
-msgstr ""
-"Como excepción especial, los poseedores de los derechos de autor le dan "
-"permiso para copiar, modificar y distribuir el código de ejemplo contenido "
-"en este documento bajo los términos que usted elija, sin restricción."
 
 #: C/slideshow.page:7(title)
 msgid "Automatic Slideshow"
@@ -64,28 +44,40 @@ msgid ""
 msgstr ""
 
 #: C/slideshow.page:23(p)
+#| msgid ""
+#| "You can advance manually to the next image by pressing <key>Down Arrow</"
+#| "key> or <key>Right Arrow</key> or <key>Page Down</key>."
 msgid ""
-"You can advance manually to the next image by pressing <key>Down Arrow</key> "
-"or <key>Right Arrow</key> or <key>Page Down</key>."
+"You can advance manually to the next image by pressing <key>Down Arrow</"
+"key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
 "Puede avanzar manualmente hasta la siguiente imagen pulsando <key>Flecha "
-"abajo</key> o <key>Flecha derecha</key> o <key>AvPág</key>."
+"abajo</key> o <key>Flecha derecha</key> o <key>Av Pág</key> o <key>Espacio</"
+"key>."
 
-#: C/slideshow.page:26(p)
+#: C/slideshow.page:27(p)
+#| msgid ""
+#| "You can go back to the previous image by pressing <key>Up Arrow</key> or "
+#| "<key>Left Arrow</key> or <key>Page Up</key>."
 msgid ""
-"You can go back to the previous image by pressing <key>Up Arrow</key> or "
+"You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
 "Puede volver a la imagen anterior pulsando <key>Flecha arriba</key> o "
-"<key>Flecha izquierda</key> o <key>RePág</key>."
+"<key>Flecha izquierda</key> o <key>Re Pág</key>."
 
-#: C/slideshow.page:29(p)
-msgid "You can pause the slideshow by pressing <key>Space</key>."
-msgstr "Puede pausar la muestra de diapositivas pulsando <key>Espacio</key>."
-
-#: C/slideshow.page:31(p)
-msgid "To exit the slideshow, press <key>Escape</key>."
+#: C/slideshow.page:30(p)
+#| msgid "You can pause the slideshow by pressing <key>Space</key>."
+msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
 msgstr ""
+"Puede pausar o reanudar la muestra de diapositivas pulsando <key>p</key>."
+
+#: C/slideshow.page:32(p)
+#| msgid "To exit the slideshow, press <key>Escape</key>."
+msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
+msgstr ""
+"Para salir de la muestra de diapositivas, pulse <key>Escape</key> o <key>F5</"
+"key>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -201,6 +193,8 @@ msgstr ""
 #: C/import.page:67(p)
 msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
 msgstr ""
+"Para ver más códigos de formato de fechas vea <link xref=\"gthumb-date-"
+"formats\"/>."
 
 #: C/import.page:69(p)
 msgid ""
@@ -265,6 +259,10 @@ msgid ""
 "ISO disk image file, use the <guiseq><gui>File </gui><gui>Export To</"
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
+"Para escribir una serie de archivos en un disco óptico (CD o DVD), o para "
+"crear un archivo de imagen ISO, use el elemento de menú "
+"<guiseq><gui>Archivo</gui><gui>Exportar a</gui><gui>Disco óptico</gui></"
+"guiseq>."
 
 #: C/sharing-disc.page:13(p)
 msgid ""
@@ -287,7 +285,7 @@ msgstr "Combinaciones de teclas"
 
 #: C/shortcuts.page:10(title)
 msgid "Viewing and hiding parts of the user interface"
-msgstr ""
+msgstr "Ver y ocultar partes del interfaz de usuario"
 
 #: C/shortcuts.page:14(p) C/shortcuts.page:91(p) C/shortcuts.page:270(p)
 #: C/shortcuts.page:495(p)
@@ -315,7 +313,7 @@ msgstr "i"
 
 #: C/shortcuts.page:38(p)
 msgid "Show the file properties summary."
-msgstr ""
+msgstr "Mostrar el resumen de propiedades del archivo"
 
 #: C/shortcuts.page:44(key)
 msgid "F8"
@@ -327,7 +325,7 @@ msgstr ""
 
 #: C/shortcuts.page:53(p)
 msgid "<key>F11</key> or <key>f</key>"
-msgstr ""
+msgstr "<key>F11</key> o <key>f</key>"
 
 #: C/shortcuts.page:58(p)
 msgid "Toggles the fullscreen mode."
@@ -583,18 +581,16 @@ msgid "Scroll the image faster."
 msgstr "Desplazar la imagen más rápidamente."
 
 #: C/shortcuts.page:410(title)
-#, fuzzy
-#| msgid "Browser Tab"
 msgid "Browser Navigation"
 msgstr "Navegación con explorador"
 
 #: C/shortcuts.page:420(p)
 msgid "Go to the first file in the browser view."
-msgstr ""
+msgstr "Ir al primer archivo en la vista de navegador."
 
 #: C/shortcuts.page:431(p)
 msgid "Go to the last file in the browser view."
-msgstr ""
+msgstr "Ir al último archivo en la vista de navegador."
 
 #: C/shortcuts.page:436(p)
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
@@ -1017,7 +1013,7 @@ msgstr ""
 
 #: C/edit-rotate.page:6(title)
 msgid "Rotations and Flips"
-msgstr ""
+msgstr "Rotaciones y volteos"
 
 #: C/edit-rotate.page:12(p)
 msgid "Several tools are provided to manipulate the orientation of images."
@@ -1093,6 +1089,9 @@ msgid ""
 "brightness, contrast, saturation, and the cyan/red, magenta/green, and "
 "yellow/blue color balances may be made."
 msgstr ""
+"Esta herramienta proporciona ajustes manuales del color. Se pueden hacer "
+"ajustes de gamma, brillo, contraste, saturación y balances de color cuán/"
+"rojo, magenta/verde y amarillo/azul."
 
 #: C/edit-colors.page:29(gui)
 msgid "Equalize"
@@ -1379,6 +1378,14 @@ msgid ""
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
+"<app>gThumb</app> guardará las miniaturas en la caché del sistema, para "
+"compartirlas con otras aplicaciones. De manera predeterminada, los sistemas "
+"GNOME cortan las miniaturas cacheadas cuando sobrepasan los 180 días, o "
+"cuando la caché de miniaturas supera los 512 MB. Los usuarios técnicos puede "
+"explorar esta configuración con <app>gconf-editor</app>. En particular, vea "
+"las claves «desktop/gnome/thumbnail_cache/maximum_age» y «/desktop/gnome/"
+"thumbnail_cache/maximum_size». Ciertas aplicaciones (como <app>F-Spot</app>) "
+"pueden incrementar automáticamente estos valores extensamente."
 
 #: C/batch-scripts.page:6(title)
 msgid "User-Defined Scripts"
@@ -1390,6 +1397,10 @@ msgid ""
 "execute on your files), click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
 msgstr ""
+"Para definir un script (una secuencia de línea de comandos que <app>gThumb</"
+"app> ejecutará en sus archivos), pulse el botón <gui>Herramientas</gui> de "
+"la barra de herramientas principal, y seleccione <guiseq><gui>Herramientas</"
+"gui><gui>Personalizar</gui></guiseq>."
 
 #: C/batch-scripts.page:12(p)
 msgid "TODO: further documentation is need here."
@@ -1466,10 +1477,15 @@ msgid ""
 "<guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The images will be "
 "rotated."
 msgstr ""
+"Para rotar una o más imágenes, seleccione las imágenes en la vista de "
+"navegador. Pulse el botón <gui>Herramientas</gui> en la barra de "
+"herramientas principal, y seleccione <guiseq><gui>Herramientas</"
+"gui><gui>Rotar a la derecha</gui></guiseq> o <guiseq><gui>Herramientas</"
+"gui><gui>Rotar a la izquierda</gui></guiseq>."
 
 #: C/batch-rotate.page:14(p)
 msgid "Lossless rotation is used for jpeg images, when possible."
-msgstr ""
+msgstr "La rotación sin pérdidas se usa en imágenes jpeg, cuando es posible."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -1708,7 +1724,7 @@ msgstr ""
 
 #: C/strftime.page:6(title)
 msgid "Date/Time Format Codes"
-msgstr ""
+msgstr "Códigos de formato de fecha/hora"
 
 #: C/strftime.page:8(p)
 msgid ""
@@ -2367,6 +2383,25 @@ msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@ie.edu>, 2008-2010\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
+
+#~ msgid ""
+#~ "This work is licensed under a <link href=\"http://creativecommons.org/"
+#~ "licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 "
+#~ "Unported License</link>."
+#~ msgstr ""
+#~ "Este trabajo está licenciado bajo una <link href=\"http://creativecommons."
+#~ "org/licenses/by-sa/3.0/us/\">Licencia Creative Commons atribución - "
+#~ "compartir igual 3.0 sin soporte</link>."
+
+#~ msgid ""
+#~ "As a special exception, the copyright holders give you permission to "
+#~ "copy, modify, and distribute the example code contained in this document "
+#~ "under the terms of your choosing, without restriction."
+#~ msgstr ""
+#~ "Como excepción especial, los poseedores de los derechos de autor le dan "
+#~ "permiso para copiar, modificar y distribuir el código de ejemplo "
+#~ "contenido en este documento bajo los términos que usted elija, sin "
+#~ "restricción."
 
 #~ msgid "TODO: this list is out of date, and needs to be checked."
 #~ msgstr "TODO: esta lista está desactualizada y debe revisarse."
