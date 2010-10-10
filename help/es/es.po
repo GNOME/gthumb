@@ -1,20 +1,20 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-26 16:07+0000\n"
-"PO-Revision-Date: 2010-10-01 17:04+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2010-10-01 15:05+0000\n"
+"PO-Revision-Date: 2010-10-01 17:46+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/slideshow.page:7(title)
@@ -35,6 +35,9 @@ msgid ""
 "the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
 "guiseq> dialog."
 msgstr ""
+"Los efectos de transición y la hora en que se muestra cada imagen se pueden "
+"modificar desde el diálogo <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Diapositivas</gui></guiseq>."
 
 #: C/slideshow.page:19(p)
 msgid ""
@@ -44,9 +47,6 @@ msgid ""
 msgstr ""
 
 #: C/slideshow.page:23(p)
-#| msgid ""
-#| "You can advance manually to the next image by pressing <key>Down Arrow</"
-#| "key> or <key>Right Arrow</key> or <key>Page Down</key>."
 msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</"
 "key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
@@ -56,9 +56,6 @@ msgstr ""
 "key>."
 
 #: C/slideshow.page:27(p)
-#| msgid ""
-#| "You can go back to the previous image by pressing <key>Up Arrow</key> or "
-#| "<key>Left Arrow</key> or <key>Page Up</key>."
 msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
@@ -67,13 +64,11 @@ msgstr ""
 "<key>Flecha izquierda</key> o <key>Re Pág</key>."
 
 #: C/slideshow.page:30(p)
-#| msgid "You can pause the slideshow by pressing <key>Space</key>."
 msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
 msgstr ""
 "Puede pausar o reanudar la muestra de diapositivas pulsando <key>p</key>."
 
 #: C/slideshow.page:32(p)
-#| msgid "To exit the slideshow, press <key>Escape</key>."
 msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
 msgstr ""
 "Para salir de la muestra de diapositivas, pulse <key>Escape</key> o <key>F5</"
@@ -117,6 +112,11 @@ msgid ""
 "registered as the default handler for x-content/image-dcf and x-content/"
 "image-picturecd mime types.)"
 msgstr ""
+"En la mayoría de los sistemas, <app>gThumb</app> lanzará automáticamente el "
+"diálogo de importación cuando se conecta una cámara digital al equipo, o "
+"cuando se inserta una tarjeta de memoria con fotos en el lector de tarjetas. "
+"(Esto lo hace porque está registrado como el manejador predeterminado de los "
+"tipos mime x-content/image-dcf and x-content/image-picturecd.)"
 
 #: C/import.page:16(p)
 msgid ""
@@ -143,6 +143,9 @@ msgid ""
 "<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
 "control to see the predefined tags."
 msgstr ""
+"Las etiquetas puede estar asociadas opcionalmente con las fotos importadas, "
+"usando el control <gui>Etiquetas</gui> debajo de la ventana de la miniatura. "
+"Pulse el control desplegable para ver las etiquetas predefinidas."
 
 #: C/import.page:34(p)
 msgid ""
@@ -228,6 +231,8 @@ msgid ""
 "To remove or rearrange bookmarks in a different order use the "
 "<guiseq><gui>Bookmarks</gui><gui>Edit Bookmarks</gui></guiseq> command."
 msgstr ""
+"Para quitar o reordenar marcadores de forma diferente use el comando "
+"<guiseq><gui>Marcadores</gui><gui>Editar marcadores</gui></guiseq>."
 
 #: C/bookmarks.page:16(p)
 msgid ""
@@ -270,6 +275,9 @@ msgid ""
 "entire current folder, or the entire current folder and its subfolders. "
 "Click <gui>OK</gui> when you have made the appropriate selection."
 msgstr ""
+"Se le ofrecerá escribir los archivos actualmente seleccionados, la carpeta "
+"actual entera o la carpeta actual entera y su subcarpetas. Pulse <gui>OK</"
+"gui> cuando haya hecho la selección apropiada."
 
 #: C/sharing-disc.page:19(p)
 msgid ""
@@ -353,7 +361,7 @@ msgstr "Cierra el visor o el modo a pantalla completa."
 
 #: C/shortcuts.page:87(title)
 msgid "Editing shortcuts for the browser and viewer"
-msgstr ""
+msgstr "Editar atajos para el explorador y el visor"
 
 #: C/shortcuts.page:100(key)
 msgid "e"
@@ -370,6 +378,7 @@ msgstr "g"
 #: C/shortcuts.page:114(p)
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
 msgstr ""
+"Abrir la imagen con el programa de manipulación de imágenes de GNU (GIMP)"
 
 #: C/shortcuts.page:120(key)
 msgid "F2"
@@ -394,6 +403,8 @@ msgstr "]"
 #: C/shortcuts.page:144(p)
 msgid "Rotate right, losslessly if possible. The file is saved automatically."
 msgstr ""
+"Rotar a la derecha, sin pérdidas si es posible. El archivo se guarda "
+"automáticamente."
 
 #: C/shortcuts.page:150(key)
 msgid "["
@@ -402,6 +413,8 @@ msgstr "["
 #: C/shortcuts.page:154(p)
 msgid "Rotate left, losslessly if possible. The file is saved automatically."
 msgstr ""
+"Rotar a la izquierda, sin pérdidas si es posible. El archivo se guarda "
+"automáticamente."
 
 #: C/shortcuts.page:160(key) C/shortcuts.page:170(key)
 msgid "Delete"
@@ -701,6 +714,8 @@ msgid ""
 "The printer to use can be selected from the <gui>General</gui> tab of the "
 "print dialog."
 msgstr ""
+"La impresora que usar se puede seleccionar en la solapa <gui>General</gui> "
+"del diálogo de impresión."
 
 #: C/printing.page:21(p)
 msgid ""
@@ -899,6 +914,8 @@ msgid ""
 "<app>GIMP</app> provides a more sophisticated set of editing tools than that "
 "provided with <app>gThumb</app>."
 msgstr ""
+"<app>GIMP</app> proporciona un conjunto de herramientas de edición más "
+"sofisticado que el de <app>gThumb</app>."
 
 #: C/extensions.page:6(title)
 msgid "Extending gThumb"
@@ -953,6 +970,10 @@ msgid ""
 "access the editing tools, open an image and then click the <gui>Edit File</"
 "gui> toolbar button (the palette icon)."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Para "
+"acceder a las herramientas de edición, abra una imagen y pulse en el botón "
+"<gui>Editar archivo</gui> de la barra de herramientas (el icono de la "
+"paleta)."
 
 #: C/edit-redeye.page:11(p)
 msgid ""
@@ -1042,7 +1063,7 @@ msgstr "Rotar a la derecha"
 
 #: C/edit-rotate.page:28(p)
 msgid "This rotates the image clockwise."
-msgstr ""
+msgstr "Esto rota la imagen en sentido horario."
 
 #: C/edit-rotate.page:31(gui)
 msgid "Rotate Left"
@@ -1078,6 +1099,8 @@ msgid ""
 "This tool provides automatic white balance correction. No user adjustments "
 "are required."
 msgstr ""
+"Esta herramienta proporciona corrección automática del balance de blancos. "
+"No se necesita ningún ajuste de usuario."
 
 #: C/edit-colors.page:22(gui)
 msgid "Adjust Colors"
@@ -1102,6 +1125,8 @@ msgid ""
 "This tool provides automatic histogram equalization. No user adjustments are "
 "required."
 msgstr ""
+"Esta herramienta proporciona ecualización automática del histograma. No se "
+"necesita ningún ajuste de usuario."
 
 #: C/edit-colors.page:34(gui)
 msgid "Desaturate"
