@@ -1,20 +1,20 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-01 15:05+0000\n"
-"PO-Revision-Date: 2010-10-01 17:46+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gmail.com>\n"
+"PO-Revision-Date: 2010-10-10 14:54+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: es\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/slideshow.page:7(title)
@@ -143,7 +143,7 @@ msgid ""
 "<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
 "control to see the predefined tags."
 msgstr ""
-"Las etiquetas puede estar asociadas opcionalmente con las fotos importadas, "
+"Las etiquetas pueden estar asociadas opcionalmente con las fotos importadas, "
 "usando el control <gui>Etiquetas</gui> debajo de la ventana de la miniatura. "
 "Pulse el control desplegable para ver las etiquetas predefinidas."
 
@@ -276,8 +276,8 @@ msgid ""
 "Click <gui>OK</gui> when you have made the appropriate selection."
 msgstr ""
 "Se le ofrecerá escribir los archivos actualmente seleccionados, la carpeta "
-"actual entera o la carpeta actual entera y su subcarpetas. Pulse <gui>OK</"
-"gui> cuando haya hecho la selección apropiada."
+"actual entera o la carpeta actual entera y su subcarpetas. Pulse "
+"<gui>Aceptar</gui> cuando haya hecho la selección apropiada."
 
 #: C/sharing-disc.page:19(p)
 msgid ""
@@ -378,7 +378,7 @@ msgstr "g"
 #: C/shortcuts.page:114(p)
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
 msgstr ""
-"Abrir la imagen con el programa de manipulación de imágenes de GNU (GIMP)"
+"Abrir la imagen con el programa de manipulación de imágenes de GNU (GIMP)."
 
 #: C/shortcuts.page:120(key)
 msgid "F2"
