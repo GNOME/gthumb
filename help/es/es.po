@@ -1,20 +1,20 @@
 # translation of gthumb.userguide.HEAD.po to Español
 # Spanish translation for gthumb manual
 #
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-01 15:05+0000\n"
-"PO-Revision-Date: 2010-10-10 14:54+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2010-10-10 12:57+0000\n"
+"PO-Revision-Date: 2010-10-11 12:31+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/slideshow.page:7(title)
@@ -123,6 +123,8 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import "
 "From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
+"Para lanzar manualmente el diálogo de importación, use <guiseq><gui>Archivo</"
+"gui><gui>Importar desde</gui><gui>Dispositivo extraíble</gui></guiseq>."
 
 #: C/import.page:20(title)
 msgid "The Import Dialog"
@@ -159,7 +161,7 @@ msgstr ""
 
 #: C/import.page:42(title)
 msgid "Standard Date-Based Subfolders"
-msgstr ""
+msgstr "Subcarpetas estándar basadas en la fecha"
 
 #: C/import.page:46(p)
 msgid ""
@@ -240,6 +242,10 @@ msgid ""
 "access to the system bookmarks that have been defined in <app>Nautilus</app> "
 "or the file-chooser dialog used in most Gnome applications."
 msgstr ""
+"<guiseq><gui>Marcadores</gui><gui>Marcadores del sistema</gui></guiseq> "
+"proporciona acceso a los marcadores del sistema que se han definido en "
+"<app>Nautilus</app> o en el diálogo de selección de archivos en la mayoría "
+"de aplicaciones de GNOME."
 
 #: C/wallpaper.page:6(title)
 msgid "Desktop Wallpaper"
@@ -253,6 +259,12 @@ msgid ""
 "Preferences dialog will appear. You can use this dialog to make adjustments "
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
+"Para establecer una imagen como fondo del escritorio del sistema, pulse con "
+"el botón derecho sobre la imagen y seleccione <guiseq><gui>Establecer como "
+"fondo de escritorio</gui></guiseq> en el menú emergente. El fondo del "
+"escritorio cambiará, y aparecerá el diálogo de Preferencias de apariencia de "
+"GNOME. Puede usar este diálogo para hacer ajustes en la configuración del "
+"fondo de escritorio (posición, estirar, mosaico, etc.)."
 
 #: C/sharing-disc.page:6(title)
 msgid "Creating a CD/DVD/ISO"
@@ -276,7 +288,7 @@ msgid ""
 "Click <gui>OK</gui> when you have made the appropriate selection."
 msgstr ""
 "Se le ofrecerá escribir los archivos actualmente seleccionados, la carpeta "
-"actual entera o la carpeta actual entera y su subcarpetas. Pulse "
+"actual entera o la carpeta actual entera y sus subcarpetas. Pulse "
 "<gui>Aceptar</gui> cuando haya hecho la selección apropiada."
 
 #: C/sharing-disc.page:19(p)
@@ -369,7 +381,7 @@ msgstr "e"
 
 #: C/shortcuts.page:104(p)
 msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr ""
+msgstr "Editar la imagen. Abre el visor y muestra las herramientas de edición."
 
 #: C/shortcuts.page:110(key)
 msgid "g"
@@ -708,6 +720,9 @@ msgid ""
 "and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
+"Para imprimir una o más imágenes desde el modo navegador, seleccione las "
+"imágenes y use <guiseq><gui>Archivo</gui><gui>Imprimir</gui></guiseq> o "
+"<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
 #: C/printing.page:18(p)
 msgid ""
@@ -764,6 +779,11 @@ msgid ""
 "show all media files (images, movies, audio), but this can be made more or "
 "less restrictive."
 msgstr ""
+"Puede seleccionar qué tipos de archivos se mostrarán en la vista de "
+"navegador usando el diálogo <guiseq><gui>Ver</gui><gui>Filtro</gui></"
+"guiseq>. El predeterminado es mostrar todos los archivos de medios "
+"(imágenes, películas, sonido), pero esto se puede hacer más o menos "
+"restrictivo."
 
 #: C/filtering.page:15(title)
 msgid "Enabling Filters"
@@ -814,6 +834,9 @@ msgid ""
 "current image in fullscreen mode. (In the browser mode, you can also double-"
 "click with the middle mouse button.)"
 msgstr ""
+"Al pulsar <key>f</key> en el modo navegador o visor se mostrará la imagen "
+"actual a pantalla completa. (En modo navegador, también puede pulsar dos "
+"veces con el botón de en medio del ratón.)"
 
 #: C/fullscreen.page:14(p)
 msgid ""
@@ -1284,6 +1307,12 @@ msgid ""
 "a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, %T}"
 "\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Este símbolo se reemplazará con la fecha original en que se tomó la foto "
+"(normalmente determinada por las marcas de tiempo EXIF empotradas en la "
+"foto). El formato de esta fecha (y, opcionalmente, de la hora) se puede "
+"especificar añadiendo un código estándar de formateo entre corchetes. Por "
+"ejemplo, «%D{%Y-%m-%d, %T}» se reemplazará con una fecha y una hora similares "
+"a «2010-04-01, 15:02:01»."
 
 #: C/rename-series.page:115(key)
 msgid "%A{identifier}"
@@ -1489,6 +1518,8 @@ msgid ""
 "Select the desired output format and destination folder. Click <gui>Execute</"
 "gui> to complete the process."
 msgstr ""
+"Seleccione el formato de salida deseado y la carpeta de destino. Pulse  "
+"<gui>Ejecutar</gui> para completar el proceso."
 
 #: C/batch-rotate.page:6(title)
 msgid "Rotating Images Losslessly"
@@ -2198,6 +2229,9 @@ msgid ""
 "may add more. The list below is a summary of some of the more common "
 "attributes:"
 msgstr ""
+"<app>gThumb</app> almacena diferentes atributos para cada archivo. Las "
+"extensiones pueden añadir más. La siguiente lista es un resumen de algunos "
+"de los atributos más comunes:"
 
 #: C/attributes.page:12(p)
 msgid "gth::file::display-size"
