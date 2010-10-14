@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-10 12:57+0000\n"
-"PO-Revision-Date: 2010-10-11 12:31+0200\n"
+"POT-Creation-Date: 2010-10-13 11:38+0000\n"
+"PO-Revision-Date: 2010-10-13 17:19+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,6 +45,10 @@ msgid ""
 "transition effects are enabled. If you experience such difficulties, set the "
 "<gui>Transition effect</gui> preference to <gui>None</gui>."
 msgstr ""
+"Algunas tarjetas gráficas y controladores puede experimentar problemas "
+"(errores) si se activan los efectos de transición. Si tiene estos problemas, "
+"configure la preferencia <gui>Efecto de transición</gui> a <gui>Ninguno</"
+"gui>."
 
 #: C/slideshow.page:23(p)
 msgid ""
@@ -252,6 +256,7 @@ msgid "Desktop Wallpaper"
 msgstr "Fondo del escritorio"
 
 #: C/wallpaper.page:7(p)
+#, fuzzy
 msgid ""
 "To set an image as the system desktop wallpaper, right-click on the image "
 "and select <guiseq><gui>Set as Desktop Background</gui></guiseq> from the "
@@ -298,6 +303,10 @@ msgid ""
 "The optical disk writing process will then commence, or the ISO file will be "
 "written, completing the process."
 msgstr ""
+"El siguiente diálogo seleccionará el disco de destino, o el archivo ISO que "
+"salvar. Cuando esté listo para completar el proceso, pulse en <gui>Crear "
+"imagen</gui>. El proceso de escritura del disco óptico comenzará, o se "
+"escribirá el archivo ISO, completando el proceso"
 
 #: C/shortcuts.page:7(title)
 msgid "Keyboard Shortcuts"
@@ -326,6 +335,9 @@ msgid ""
 "Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
 "tree and the file properties summary (if enabled)."
 msgstr ""
+"Mostrar/ocultar la barra lateral en el modo navegador. La barra lateral "
+"contiene el árbol de carpetas y el resumen de las propiedades del archivo "
+"(si está activado)."
 
 #: C/shortcuts.page:34(key)
 msgid "i"
@@ -341,7 +353,7 @@ msgstr "F8"
 
 #: C/shortcuts.page:48(p)
 msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr ""
+msgstr "Muestra/oculta el panel de miniaturas en el modo visor."
 
 #: C/shortcuts.page:53(p)
 msgid "<key>F11</key> or <key>f</key>"
@@ -361,7 +373,7 @@ msgstr "t"
 
 #: C/shortcuts.page:68(p)
 msgid "Shows/hides the thumbnails in the browser mode."
-msgstr ""
+msgstr "Muestra/oculta las miniaturas en el modo navegador."
 
 #: C/shortcuts.page:74(key) C/shortcuts.page:524(key)
 msgid "Esc"
@@ -447,7 +459,7 @@ msgstr "Eliminar permanentemente los archivos seleccionados."
 
 #: C/shortcuts.page:182(title)
 msgid "Editing shortcuts for the viewer mode only"
-msgstr ""
+msgstr "Editar atajos para el modo visor solamente"
 
 #: C/shortcuts.page:186(p)
 msgid "Keyboard Shortcut (Case Sensitive)"
@@ -713,6 +725,9 @@ msgid ""
 "gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></"
 "keyseq>."
 msgstr ""
+"Para imprimir la imagen actual en el modo visor, use <guiseq><gui>Archivo</"
+"gui><gui>Imprimir</gui></guiseq> o <keyseq><key>Ctrl</key><key>p</key></"
+"keyseq>."
 
 #: C/printing.page:13(p)
 msgid ""
@@ -736,6 +751,8 @@ msgstr ""
 msgid ""
 "The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
 msgstr ""
+"Se puede seleccionar el tipo de papel que usar en la solapa "
+"<gui>Configuración de página</gui>."
 
 #: C/printing.page:24(p)
 msgid ""
@@ -843,6 +860,9 @@ msgid ""
 "Moving the mouse will activate a popup control panel briefly. This can be "
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
+"Al mover el ratón se activará brevemente un panel de control emergente. Se "
+"puede usar para navegar a la siguiente imagen o a la anterior, o para "
+"cambiar los niveles de ampliación."
 
 #: C/fullscreen.page:18(p)
 msgid ""
@@ -906,6 +926,8 @@ msgid ""
 "A <link xref=\"gthumb-thumbnail-pane\"/> may be displayed in the viewer "
 "mode, if desired."
 msgstr ""
+"Si quiere, se puede mostrar un <link xref=\"gthumb-thumbnail-pane\"/> en el "
+"modo visor."
 
 #: C/viewer.page:21(title)
 msgid "Viewer Mode with Thumbnail Pane"
@@ -957,6 +979,9 @@ msgid ""
 "gui><gui>Extensions</gui></guiseq>. Some extensions will have "
 "<gui>Preferences</gui> that can be modified from this dialog."
 msgstr ""
+"Puede activar o desactivar extensiones usando <guiseq><gui>Editar</"
+"gui><gui>Extensiones</gui></guiseq>. Algunas extensiones tendrán "
+"<gui>Preferencias</gui> que se pueden modificar desde este diálogo."
 
 #: C/extensions.page:16(p)
 msgid ""
@@ -964,6 +989,9 @@ msgid ""
 "enabled. If you seem to be missing a feature, check to see which extensions "
 "are actually enabled."
 msgstr ""
+"Este manual está escrito asumiendo que las extensiones estándar están "
+"activadas. Si cree que le falta una funcionalidad, compruebe qué extensiones "
+"están activadas actualmente."
 
 #: C/extensions.page:20(p)
 msgid ""
@@ -1079,6 +1107,8 @@ msgstr "Voltear"
 #: C/edit-rotate.page:23(p)
 msgid "This flips the image vertically. The top and bottom are swapped."
 msgstr ""
+"Esto voltea la imagen verticalmente. La parte superior y la inferior se "
+"intercambian."
 
 #: C/edit-rotate.page:27(gui)
 msgid "Rotate Right"
@@ -1179,6 +1209,9 @@ msgid ""
 "and <gui>Redo</gui> buttons are provided, and may be used up until the file "
 "is saved."
 msgstr ""
+"Se pueden hacer múltiples cambios en una imagen antes de guardarla. Se "
+"proporcionan los botones <gui>Deshacer</gui> y <gui>Rehacer</gui>, y se "
+"pueden usar hasta que se guarda el archivo."
 
 #: C/edit-save-undo-redo.page:16(p)
 msgid ""
@@ -1390,6 +1423,9 @@ msgid ""
 "the selected folder. Generic icons for other files (audio files, for "
 "instance) may also be shown."
 msgstr ""
+"La ventana del navegador normalmente muestra las miniaturas de las imágenes "
+"y las películas de la carpeta seleccionada. También se pueden mostrar iconos "
+"genéricos para otros archivos (archivos de audio, por ejemplo)."
 
 #: C/thumbnails.page:18(p)
 msgid ""
@@ -1397,6 +1433,8 @@ msgid ""
 "<app>gThumb</app> will first check for existing thumbnails in the system "
 "cache."
 msgstr ""
+"Las miniaturas se pueden generar de diferentes maneras. <app>gThumb</app> "
+"comprobará primero las miniaturas existentes en la caché del sistema."
 
 #: C/thumbnails.page:22(p)
 msgid ""
@@ -1412,6 +1450,8 @@ msgid ""
 "If that doesn't work, <app>gThumb</app> will attempt to load the entire file "
 "and generate a scaled-down thumbnail."
 msgstr ""
+"Si eso no funciona, <app>gThumb</app> intentará cargar el archivo completo y "
+"generar una miniatura a escala reducida."
 
 #: C/thumbnails.page:32(p)
 msgid ""
@@ -1787,6 +1827,8 @@ msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
 msgstr ""
+"Esto es un resumen de los códigos de fecha y hora que se pueden usar en "
+"cadenas de formato:"
 
 #: C/strftime.page:12(title)
 msgid "Valid format codes for custom subfolders"
@@ -2401,6 +2443,12 @@ msgid ""
 "editing tools, open an image and then click the <gui>Edit File</gui> toolbar "
 "button (the palette icon), or press <keyseq><key>e</key></keyseq>."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Se "
+"proporcionan numerosas herramientas de edición para retocar fotos "
+"individuales. Se proporcionan las funcionas Deshacer y Rehacer, hasta que se "
+"guarda la foto. Para acceder a las herramientas de edición, abra una imagen "
+"y pulse en el botón de la barra de herramientas <gui>Editar archivo</gui> "
+"(el icono de la paleta), o pulse <keyseq><key>e</key></keyseq>."
 
 #: C/index.page:42(title)
 msgid "Batch Tools"
