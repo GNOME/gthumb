@@ -6,21 +6,21 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-09-29 19:54+0000\n"
-"PO-Revision-Date: 2010-09-30 11:22+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gmail.com>\n"
+"POT-Creation-Date: 2010-10-02 12:11+0000\n"
+"PO-Revision-Date: 2010-10-18 12:15+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: es\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
-"«fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», "
+"«fit_if_larger», «fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
-"«icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», "
+"«text_only», «icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -965,7 +965,7 @@ msgid "Save images in a different format"
 msgstr "Guardar las imágenes en un formato diferente"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Choose destination folder"
 msgstr "seleccionar la carpeta de destino"
@@ -975,7 +975,7 @@ msgid "Convert Format"
 msgstr "Convertir formato"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
 msgid "Destination"
 msgstr "Destino"
 
@@ -1880,7 +1880,7 @@ msgid "Scale factor:"
 msgstr "Factor de escala:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "_Width:"
 msgstr "A_ncho:"
 
@@ -2484,8 +2484,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
-"larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
+"if-larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3180,12 +3180,10 @@ msgid "dpi"
 msgstr "dpi"
 
 #: ../extensions/pixbuf_savers/gth-jpeg-saver.c:478
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "JPEG"
 msgstr "JPEG"
 
 #: ../extensions/pixbuf_savers/gth-png-saver.c:145
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "PNG"
 msgstr "PNG"
 
@@ -3195,12 +3193,10 @@ msgid "Insufficient memory"
 msgstr "Memoria insuficiente"
 
 #: ../extensions/pixbuf_savers/gth-tga-saver.c:378
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:13
 msgid "TGA"
 msgstr "TGA"
 
 #: ../extensions/pixbuf_savers/gth-tiff-saver.c:497
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:14
 msgid "TIFF"
 msgstr "TIFF"
 
@@ -3302,7 +3298,6 @@ msgid "Re_verse Order"
 msgstr "Orden in_verso"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:16
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "Rename"
 msgstr "Renombrar"
 
@@ -3387,35 +3382,23 @@ msgstr "Redimensionar las imágenes seleccionadas"
 msgid "Possible values: pixels, percentage"
 msgstr "Valores posibles: «pixels», «percentage»."
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-msgid "Ask"
-msgstr "Preguntar"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
 msgid "New dimensions"
 msgstr "Dimensiones nuevas"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-msgid "Overwrite"
-msgstr "Sobreescribir"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "Resize Images"
 msgstr "Redimensionar imágenes"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
-msgid "Skip"
-msgstr "Saltar"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:15
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 msgid "_Height:"
 msgstr "A_ltura:"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:16
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "_Preserve original aspect ratios"
 msgstr "Man_tener la proporción de aspecto original"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:18
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "pixel"
 msgstr "píxel"
 
@@ -3913,12 +3896,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
-"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para "
+"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4296,7 +4279,7 @@ msgstr "No se pudo abrir el módulo «%s»: %s"
 #: ../gthumb/gth-extensions.c:827
 #, c-format
 msgid "The extension '%s' is required by the extension '%s'"
-msgstr "La extensión «%s» es requerida por la extensión «%s»"
+msgstr "La extensión «%2$s» requiere la extensión «%1$s»"
 
 #: ../gthumb/gth-file-source-vfs.c:80
 msgid "Home Folder"
@@ -4639,6 +4622,15 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
 
+#~ msgid "Ask"
+#~ msgstr "Preguntar"
+
+#~ msgid "Overwrite"
+#~ msgstr "Sobreescribir"
+
+#~ msgid "Skip"
+#~ msgstr "Saltar"
+
 #~ msgid "Do _not change folder"
 #~ msgstr "_No cambiar de carpeta"
 
@@ -4865,8 +4857,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
-#~ "small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
+#~ "</small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -5574,8 +5566,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts 0-"
-#~ "9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts "
+#~ "0-9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -5766,8 +5758,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
-#~ "«comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
+#~ "«exifdate», «comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -5780,8 +5772,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
-#~ "«5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
+#~ "«4x6», «5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: png, jpeg."
 #~ msgstr "Los valores posibles son: «png», «jpeg»."
@@ -5952,8 +5944,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
+#~ "nombre diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -5995,8 +5987,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
+#~ "nombre diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
