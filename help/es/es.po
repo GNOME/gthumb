@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-13 11:38+0000\n"
-"PO-Revision-Date: 2010-10-14 21:57+0200\n"
+"POT-Creation-Date: 2010-10-14 19:58+0000\n"
+"PO-Revision-Date: 2010-10-21 16:21+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -634,7 +634,7 @@ msgstr "<key>Flecha abajo</key> o <key>AvPág</key>"
 
 #: C/shortcuts.page:441(p)
 msgid "Scroll downwards through the thumbnails."
-msgstr ""
+msgstr "Desplazarse hacia abajo a través de las miniaturas."
 
 #: C/shortcuts.page:446(p)
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
@@ -642,7 +642,7 @@ msgstr "<key>Flecha arriba</key> o <key>RePág</key>"
 
 #: C/shortcuts.page:451(p)
 msgid "Scroll upwards through the thumbnails."
-msgstr ""
+msgstr "Desplazarse hacia arriba a través de las miniaturas."
 
 #: C/shortcuts.page:457(key) C/shortcuts.page:467(key)
 #: C/shortcuts.page:478(key)
@@ -663,7 +663,7 @@ msgstr "Flecha derecha"
 
 #: C/shortcuts.page:471(p)
 msgid "Go forward (after going back to a folder)."
-msgstr ""
+msgstr "Ir hacia adelante (después de retroceder hasta una carpeta)."
 
 #: C/shortcuts.page:479(key)
 msgid "Up"
@@ -839,6 +839,10 @@ msgid ""
 "the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
+"Use el menú <guiseq><gui>Ver</gui><gui>Ordenar por</gui></guiseq> para "
+"seleccionar el método de ordenación para el modo navegador. Los archivos se "
+"pueden ordenar basándose en su nombre, el tamaño del archivo, su fecha de "
+"modificación o la fecha en que se tomó la foto."
 
 #: C/fullscreen.page:8(title)
 msgid "Manual Fullscreen Mode"
@@ -882,10 +886,14 @@ msgstr ""
 #: C/fullscreen.page:24(p)
 msgid "This can be used to implement a manually-controlled slideshow."
 msgstr ""
+"Esto se puede usar para implementar una presentación de diapositivas "
+"controlada manualmente."
 
 #: C/fullscreen.page:27(p)
 msgid "To exit the fullscreen mode, press <key>f</key> or <key>Escape</key>."
 msgstr ""
+"Para salir del modo a pantalla completa, pulse <key>f</key> o <key>Escape</"
+"key>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -941,6 +949,11 @@ msgid ""
 "can go also click on thumbnails in the thumbnail pane to open a different "
 "image."
 msgstr ""
+"En el modo visor, puede avanzar hasta la siguiente imagen pulsando el botón "
+"<gui>Siguiente</gui> o pulsando <key>Espacio</key> o <key>AvPág</key>. Puede "
+"volver a la imagen anterior pulsando el botón <gui>Anterior</gui> o pulsando "
+"<key>Retroceso</key> o <key>RePág</key>. También puede pulsar sobre las "
+"miniaturas en el panel de miniaturas para abrir una imagen diferente."
 
 #: C/gimp.page:6(title)
 msgid "Launching GIMP"
@@ -971,6 +984,10 @@ msgid ""
 "features are implemented as extensions and are supplied with the standard "
 "distribution. Users may write (and share) additional extensions."
 msgstr ""
+"<app>gThumb</app> tiene un sistema de complementos para las extensiones. "
+"Algunas características estándar se implementan como extensiones y se "
+"proporcionan con la distribución estándar. Los usuarios deben escribir (y "
+"compartir) extensiones adicionales."
 
 #: C/extensions.page:12(p)
 msgid ""
@@ -1033,6 +1050,12 @@ msgid ""
 "a more natural-looking gray region. If the results do not look correct, "
 "press <key>Escape</key> and click on the <gui>Undo</gui> item."
 msgstr ""
+"<app>gThumb</app> proporciona la herramienta <gui>Eliminar ojos rojos</gui>. "
+"Para eliminar los ojos rojos, sitúe el ratón encima del ojo rojo y pulse "
+"sobre él. <app>gThumb</app> intentará eliminar la región roja, "
+"reemplazándola con una región de color gris más natural. Si el resultado no "
+"se ve bien, presione <key>Escape</key> y pulse sobre el elemento "
+"<gui>Deshacer</gui>."
 
 #: C/edit-redeye.page:18(p)
 msgid ""
@@ -1443,6 +1466,12 @@ msgid ""
 "that the aspect ratio of the thumbnail is similar to that of the main image, "
 "and ignore thumbnails that do not appear to match the main image."
 msgstr ""
+"Si no se encuentra ninguna miniatura en la caché, y un archivo de imagen "
+"contiene una miniatura empotrada (los archivos jpeg generados por cámaras "
+"digitales generalmente lo tienen), <app>gThumb</app> intentará usarla. "
+"<app>gThumb</app> confirmará que la relación de aspecto de la miniatura es "
+"similar a la de la imagen principal, e ignorará las miniaturas que no "
+"coinciden con la imagen principal."
 
 #: C/thumbnails.page:29(p)
 msgid ""
@@ -1497,7 +1526,7 @@ msgstr ""
 
 #: C/batch-scripts.page:12(p)
 msgid "TODO: further documentation is need here."
-msgstr ""
+msgstr "TODO: aquí se necesita documentación adicional."
 
 #: C/batch-change-date.page:6(title)
 msgid "Changing Dates"
@@ -1528,6 +1557,10 @@ msgid ""
 "button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Resize "
 "Images</gui></guiseq>."
 msgstr ""
+"Para redimensionar una o más imágenes usando las mismas dimensiones o lo "
+"mismos factores de escalado, seleccione las imágenes en la vista de "
+"navegador. Pulse en el botón <gui>Herramientas</gui> y elija "
+"<guiseq><gui>Herramientas</gui><gui>Redimensionar imágenes</gui></guiseq>."
 
 #: C/batch-resize.page:12(p)
 msgid ""
@@ -1535,6 +1568,8 @@ msgid ""
 "scaling, and the destination folder. Click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Seleccione las dimensiones máximas de salida, o el porcentaje de escalado, y "
+"la carpeta de destino. Pulse <gui>Ejecutar</gui> para completar el proceso."
 
 #: C/batch-convert-format.page:6(title)
 msgid "Converting File Formats"
@@ -1602,7 +1637,7 @@ msgstr "La ventana principal"
 
 #: C/browser.page:16(p)
 msgid "The <app>gThumb</app> browser contains the following elements:"
-msgstr ""
+msgstr "El navegador <app>gThumb</app> contiene los siguientes elementos:"
 
 #: C/browser.page:20(title)
 msgid "Menubar"
@@ -2458,6 +2493,9 @@ msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
 msgstr ""
+"Las herramientas de proceso por lotes se proporcionan para modificar "
+"múltiples imágenes simultáneamente. Los cambios se escriben inmediatamente, "
+"y no se pueden deshacer."
 
 #: C/index.page:49(title)
 msgid "Slideshows"
