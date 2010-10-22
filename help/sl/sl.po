@@ -699,7 +699,7 @@ msgstr "Vrstica filtra brskalnika"
 
 #: C/filtering.page:33(p)
 msgid "In the above figure, the filename filter has been configured to show only files with \"gen\" in the filename. The matching is case-insensitive."
-msgstr "Na zgornji sliki je bil filter imen datotek nastavljen le za prikaz datotek z \"gen\"\ v imenu datoteke. Ujemanje ni občutljivo na velikost črk."
+msgstr "Na zgornji sliki je bil filter imen datotek nastavljen le za prikaz datotek z \"gen\" v imenu datoteke. Ujemanje ni občutljivo na velikost črk."
 
 #: C/sorting.page:7(title)
 #| msgid "Browsing Folders"
@@ -1928,28 +1928,20 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 
 #~ msgid "<application>gThumb</application> Manual V2.11.2"
 #~ msgstr "<application>gThumb</application> priročnik različica .11.2"
-
 #~ msgid "2001"
 #~ msgstr "2001"
-
 #~ msgid "2002"
 #~ msgstr "2002"
-
 #~ msgid "2003"
 #~ msgstr "2003"
-
 #~ msgid "2004"
 #~ msgstr "2004"
-
 #~ msgid "2006"
 #~ msgstr "2006"
-
 #~ msgid "2010"
 #~ msgstr "2010"
-
 #~ msgid "GNOME Documentation Project"
 #~ msgstr "Projekt dokumentacije GNOME"
-
 #~ msgid ""
 #~ "Permission is granted to copy, distribute and/or modify this document "
 #~ "under the terms of the GNU Free Documentation License (GFDL), Version 1.1 "
@@ -1964,7 +1956,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "Foundation brez stalnih odsekov, besedila naslovnice in zadnje strani. "
 #~ "Kopijo GFDL lahko najdete na tej <ulink type=\"help\" url=\"ghelp:fdl"
 #~ "\">povezavi</ulink> ali v COPYING-DOCS distribuiranim s tem priročnikom."
-
 #~ msgid ""
 #~ "This manual is part of a collection of GNOME manuals distributed under "
 #~ "the GFDL. If you want to distribute this manual separately from the "
@@ -1975,7 +1966,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "primeru da želite ta priročnik distribuirati ločeno od zbirke, lahko to "
 #~ "storite z dodajanjem kopije licence priročnika, kot je opisano v odseku 6 "
 #~ "licence."
-
 #~ msgid ""
 #~ "Many of the names used by companies to distinguish their products and "
 #~ "services are claimed as trademarks. Where those names appear in any GNOME "
@@ -1988,7 +1978,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "pojavijo v katerikoli dokumentaciji GNOME in člani dokumentacijskega "
 #~ "projekta GNOME vedo za njih, so imena v velikih črkah ali pa se začnejo z "
 #~ "velikimi črkami."
-
 #~ msgid ""
 #~ "DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT ARE PROVIDED UNDER THE "
 #~ "TERMS OF THE GNU FREE DOCUMENTATION LICENSE WITH THE FURTHER "
@@ -1997,118 +1986,86 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "DOKUMENT IN SPREMENJENE RAZLIČICE DOKUMENTA SO ZAGOTOVLJENE POD POGOJI "
 #~ "GNU FREE DOCUMENTATION LICENSE Z NADALJNJIM RAZUMEVANJEM DA: <placeholder-"
 #~ "1/>"
-
 #~ msgid "Paolo"
 #~ msgstr "Paolo"
-
 #~ msgid "Bacchilega"
 #~ msgstr "Bacchilega"
-
 #~ msgid "paolo.bacchilega@libero.it"
 #~ msgstr "paolo.bacchilega@libero.it"
-
 #~ msgid "Alexander"
 #~ msgstr "Alexander"
-
 #~ msgid "Kirillov"
 #~ msgstr "Kirillov"
-
 #~ msgid "kirillov@math.sunysb.edu"
 #~ msgstr "kirillov@math.sunysb.edu"
-
 #~ msgid "2.11.2"
 #~ msgstr "2.11.2"
-
 #~ msgid "February 2010"
 #~ msgstr "Februar 2010"
-
 #~ msgid "This is manual describes version 2.11.2 of gThumb"
 #~ msgstr "Ta priročnik opisuje gThumb različico 2.11.2"
-
 #~ msgid ""
 #~ "<application>gThumb</application> is an image viewer and browser for the "
 #~ "GNOME environment"
 #~ msgstr ""
 #~ "<application>gThumb</application> je pregledovalnik in brskalnik slik za "
 #~ "okolje GNOME"
-
 #~ msgid "image viewer"
 #~ msgstr "pregledovalnik slik"
-
 #~ msgid "viewer"
 #~ msgstr "pregledovalnik"
-
 #~ msgid "Introduction"
 #~ msgstr "Uvod"
-
 #~ msgid "Getting Started"
 #~ msgstr "Prvi koraki"
-
 #~ msgid ""
 #~ "This section provides information on how to start <application>gThumb</"
 #~ "application>, and describes the main window interface."
 #~ msgstr ""
 #~ "Ta odsek vsebuje podatke o zagonu <application>gThumb-a</application> in "
 #~ "opisuje vmesnik glavnega okna."
-
 #~ msgid "To Start <application>gThumb</application>"
 #~ msgstr "Za zagon <application>gThumb</application>"
-
 #~ msgid "<guimenu>Applications</guimenu> menu"
 #~ msgstr "meni <guimenu>Programi</guimenu>"
-
 #~ msgid ""
 #~ "Choose <menuchoice><guisubmenu>Graphics</guisubmenu><guimenuitem>gThumb</"
 #~ "guimenuitem></menuchoice>."
 #~ msgstr ""
 #~ "Izberite <menuchoice><guisubmenu>Grafika</guisubmenu><guimenuitem>gThumb</"
 #~ "guimenuitem></menuchoice>."
-
 #~ msgid "Command line"
 #~ msgstr "Ukazna vrstica"
-
 #~ msgid "Type <command>gthumb</command>, then press <keycap>Return</keycap>."
 #~ msgstr ""
 #~ "Vtipkajte <command>gthumb</command> in pritisnite <keycap>Vnosno tipko</"
 #~ "keycap>."
-
 #~ msgid ""
 #~ "If you start <application>gThumb</application> from the command line you "
 #~ "can specify the following options:"
 #~ msgstr ""
 #~ "V primeru, da <application>gThumb</application> zaženete iz ukazne "
 #~ "vrstice lahko navedete naslednje možnosti:"
-
 #~ msgid "Command"
 #~ msgstr "Ukaz"
-
 #~ msgid "Explanation"
 #~ msgstr "Pojasnilo"
-
 #~ msgid "folder"
 #~ msgstr "mapa"
-
 #~ msgid "gthumb <placeholder-1/>"
 #~ msgstr "gthumb <placeholder-1/>"
-
 #~ msgid "Start <application>gThumb</application> in the specified folder"
 #~ msgstr "Zagon <application>gThumb-a</application> v določeni mapi"
-
 #~ msgid "name.jpg"
 #~ msgstr "ime.jpg"
-
 #~ msgid "View the image <filename>name.jpg</filename>."
 #~ msgstr "Ogled slike <filename>ime.jpg</filename>."
-
 #~ msgid "*.jpg"
 #~ msgstr "*.jpg"
-
 #~ msgid "View all the images with a <filename>.jpg</filename> extension."
 #~ msgstr "Ogled vseh slik s pripono <filename>.jpg</filename>."
-
 #~ msgid "When You Start <application>gThumb</application>"
 #~ msgstr "Ko začnete <application>gThumb</application>"
-
 #~ msgid ""
 #~ "When you start <application>gThumb</application> the following window is "
 #~ "displayed: <placeholder-1/> The <application>gThumb</"
@@ -2118,24 +2075,20 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "Ob zagonu <application>gThumb</application> je prikazano naslednje okno: "
 #~ "<placeholder-1/> </uilabel>Okno</guilabel> <application>gThumb</"
 #~ "application> vsebuje naslednje sestavne dele: <placeholder-2/>"
-
 #~ msgid ""
 #~ "Browser options can be found in the <xref linkend=\"preferences-browser\"/"
 #~ "> of the <guilabel>Preferences</guilabel> dialog."
 #~ msgstr ""
 #~ "Možnosti brskalnika je mogoče najti v <xref linkend=\"preferences-browser"
 #~ "\"/> ali pogovornemu oknu <guilabel>Možnosti</guilabel>."
-
 #~ msgid ""
 #~ "Keyboard shortcuts to browse folders are described in <xref linkend="
 #~ "\"gthumb-TBL-keyword-shortcuts-browser\"/>."
 #~ msgstr ""
 #~ "Tipkovne bližnjice za brskanje map so opisane v <xref linkend=\"gthumb-"
 #~ "TBL-keyword-shortcuts-browser\"/>."
-
 #~ msgid "To Change Folders"
 #~ msgstr "Za spremembo map"
-
 #~ msgid ""
 #~ "The folder tree is the main method of navigating the filesystem. Single-"
 #~ "clicking on a folder will load its images in the browser view. Double-"
@@ -2145,7 +2098,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "Drevo map je glaven način krmarjenja po datotečnemu sistemu. Klik na mapo "
 #~ "bo naložil vsebujoče slike v pogledu brskalnika. Dvoklik na mapo ali klik "
 #~ "na razširitveno puščico bo v drevesu naštel tudi podmape. "
-
 #~ msgid ""
 #~ "The drop-down box above the folder-tree provides quick access to the "
 #~ "folders above the current folder, up to the root folder. It also provides "
@@ -2158,7 +2110,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "ključnih mest, vključno z domačo mapo, korensko mapo datotečnega sistema "
 #~ "in katerimikoli priklopljenimi odstranljivimi napravami (kot so spominske "
 #~ "kartice in fotoaparati)."
-
 #~ msgid ""
 #~ "Other navigation commands are located in the <menuchoice><guimenu>Go</"
 #~ "guimenu></menuchoice> menu. This menu also provides a history of recent "
@@ -2166,10 +2117,8 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ msgstr ""
 #~ "Drugi ukazi krmarjenja so v meniju <menuchoice><guimenu>Pojdi</guimenu></"
 #~ "menuchoice>. Ta meni vsebuje tudi zgodovino nedavnih map. "
-
 #~ msgid "To Sort Images"
 #~ msgstr "Za razvrstitev slik"
-
 #~ msgid ""
 #~ "To sort images in a different order use the <menuchoice><guimenu>View</"
 #~ "guimenu><guimenuitem>Sort By</guimenuitem></menuchoice> menu item."
@@ -2177,14 +2126,12 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "Za razvrstitev slik v drugemu vrstnemu redu uporabite predmet menija "
 #~ "<menuchoice><guimenu>Pogled</guimenu><guimenuitem>Razvrsti po</"
 #~ "guimenuitem></menuchoice>."
-
 #~ msgid ""
 #~ "To reload the current folder or catalog, use <keycombo action=\"simul"
 #~ "\"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>."
 #~ msgstr ""
 #~ "Za ponovno nalaganje trenutne mape ali kataloga uporabite <keycombo "
 #~ "action=\"simul\"><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>."
-
 #~ msgid ""
 #~ "To disable or re-enable the thumbnails in the browser view, use <keycombo "
 #~ "action=\"simul\"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo>."
@@ -2192,16 +2139,12 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "Za onemogočenje ali ponovno omogočitev sličic v pogledu brskalnika "
 #~ "uporabite <keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>T</"
 #~ "keycap></keycombo>."
-
 #~ msgid "To Add a Folder to the Bookmarks"
 #~ msgstr "Za dodajanje mape med zaznamke"
-
 #~ msgid "Working with Folders"
 #~ msgstr "Delo z mapami"
-
 #~ msgid "WARNING"
 #~ msgstr "OPOZORILO"
-
 #~ msgid ""
 #~ "It's highly suggested to move and copy image folders with "
 #~ "<application>gThumb</application>. This is because if you move or copy "
@@ -2214,7 +2157,6 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "map z <application>gThumb</application> opombe slik ostanejo pripete k "
 #~ "slikam. V primeru premika ali kopiranja map z upravljalnikom datotek ali "
 #~ "drugimi programi boste izgubili svoje opombe."
-
 #~ msgid ""
 #~ "<application>gThumb</application> allows you to manipulate folders using "
 #~ "the folder tree. See <xref linkend=\"gthumb-change-folder\"/> to learn "
@@ -2223,73 +2165,55 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "<application>gThumb</application> vam omogoča upravljanje z mapami z "
 #~ "uporabo drevesa map. Oglejte si <xref linkend=\"gthumb-change-folder\"/> "
 #~ "za podatke o osnovni uporabi drevesa map. <placeholder-1/>"
-
 #~ msgid "To Create a Folder"
 #~ msgstr "Za ustvarjanje mape"
-
 #~ msgid "Using the folder tree, navigate to the parent folder."
 #~ msgstr "Z uporabo drevesa map krmarite do nadrejene mape."
-
 #~ msgid "Right-click the parent folder in the folder tree."
 #~ msgstr "Desno kliknite nadrejeno mapo v drevesu map."
-
 #~ msgid ""
 #~ "Select <guimenuitem>Create Folder</guimenuitem> from the pop-up menu."
 #~ msgstr "V pojavnem meniju izberite <guimenuitem>Ustvari mapo</guimenuitem>."
-
 #~ msgid "Enter the new folder name."
 #~ msgstr "Vnesite ime nove mape."
-
 #~ msgid ""
 #~ "Click on <guibutton>Create</guibutton>. <application>gThumb</application> "
 #~ "creates a new folder."
 #~ msgstr ""
 #~ "Kliknite na <guibutton>Ustvari</guibutton>. <application>gThumb</"
 #~ "application> ustvari novo mapo."
-
 #~ msgid ""
 #~ "To create a new folder, perform the following steps: <placeholder-1/>"
 #~ msgstr ""
 #~ "Za ustvarjanje nove mape izvedite naslednje korake: <placeholder-1/>"
-
 #~ msgid "To Open a Folder"
 #~ msgstr "Za odpiranje mape"
-
 #~ msgid "Using the folder tree, navigate to the folder."
 #~ msgstr "Z uporabo drevesa map krmarite do mape."
-
 #~ msgid "Right-click the folder in the folder tree."
 #~ msgstr "Desno kliknite mapo v drevesu map."
-
 #~ msgid ""
 #~ "Select <guimenuitem>Open with the File Manager</guimenuitem> from the pop-"
 #~ "up menu."
 #~ msgstr ""
 #~ "V pojavnem meniju izberite <guimenuitem>Odpri z upravljalnikom datotek</"
 #~ "guimenuitem>."
-
 #~ msgid ""
 #~ "To open a folder with the file manager, perform the following steps: "
 #~ "<placeholder-1/>"
 #~ msgstr ""
 #~ "Za odpiranje mape z upravljalnikom datotek izvedite naslednje korake: "
 #~ "<placeholder-1/>"
-
 #~ msgid "To Rename a Folder"
 #~ msgstr "Za preimenovanje mape"
-
 #~ msgid "Select <guimenuitem>Rename</guimenuitem> from the pop-up menu."
 #~ msgstr "V pojavnem meniju izberite <guimenuitem>Preimenuj</guimenuitem>."
-
 #~ msgid "Enter the new folder name in area provided in the folder tree."
 #~ msgstr "Vnesite novo ime mape v področje v drevesu map."
-
 #~ msgid "To rename a folder, perform the following steps: <placeholder-1/>"
 #~ msgstr "Za preimenovanje mape izvedite naslednje korake: <placeholder-1/>"
-
 #~ msgid "To Delete a Folder"
 #~ msgstr "Za izbris mape"
-
 #~ msgid ""
 #~ "Select either <guimenuitem>Move to Trash</guimenuitem> or "
 #~ "<guimenuitem>Delete</guimenuitem> from the pop-up menu. Files can be "
@@ -2301,88 +2225,69 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "ali <guimenuitem>Izbriši</guimenuitem>. Datoteke lahko obnovite iz smeti, "
 #~ "če uporabite <guimenuitem>Premakni v smeti</guimenuitem>. Datotek ni "
 #~ "mogoče obnoviti, če uporabite <guimenuitem>Izbriši</guimenuitem>."
-
 #~ msgid "To delete a folder, perform the following steps: <placeholder-1/>"
 #~ msgstr "Za izbris mape izvedite naslednje korake: <placeholder-1/>"
-
 #~ msgid "To Copy a Folder"
 #~ msgstr "Za kopiranje mape"
-
 #~ msgid "Using the folder tree, navigate to the folder you wish to copy."
 #~ msgstr "Z uporabo drevesa map krmarite do mape, ki jo želite kopirati."
-
 #~ msgid "Select <guimenuitem>Copy</guimenuitem> from the pop-up menu."
 #~ msgstr "V pojavnem meniju izberite <guimenuitem>Kopiraj</guimenuitem>."
-
 #~ msgid "Using the folder tree, navigate to the destination parent folder."
 #~ msgstr "Z uporabo drevesa map krmarite v ciljno nadrejeno mapo."
-
 #~ msgid "Right-click the destination parent folder in the folder tree."
 #~ msgstr "Desno kliknite v ciljno nadrejeno mapo v drevesu map."
-
 #~ msgid ""
 #~ "Select <guimenuitem>Paste into Folder</guimenuitem> from the pop-up menu."
 #~ msgstr ""
 #~ "V pojavnem meniju izberite <guimenuitem>Prilepi v mapo</guimenuitem>."
-
 #~ msgid ""
 #~ "To copy a folder to a different location, perform the following steps: "
 #~ "<placeholder-1/>"
 #~ msgstr ""
 #~ "Za kopiranje mape na drugo mesto izvedite naslednje korake: <placeholder-"
 #~ "1/>"
-
 #~ msgid "To Move a Folder"
 #~ msgstr "Za premik mape"
-
 #~ msgid "Select <guimenuitem>Cut</guimenuitem> from the pop-up menu."
 #~ msgstr "V pojavnem meniju izberite <guimenuitem>Izreži</guimenuitem>."
-
 #~ msgid ""
 #~ "To move a folder to a different location, perform the following steps: "
 #~ "<placeholder-1/>"
 #~ msgstr ""
 #~ "Za premik mape na drugo mesto izvedite naslednje korake: <placeholder-1/>"
-
 #~ msgid ""
 #~ "Keyboard shortcuts to view images are described in <xref linkend=\"gthumb-"
 #~ "TBL-keyword-shortcuts-viewer\"/>."
 #~ msgstr ""
 #~ "Tipkovne bližnjice za ogled slik so opisane v <xref linkend=\"gthumb-TBL-"
 #~ "keyword-shortcuts-viewer\"/>."
-
 #~ msgid "To Open an Image"
 #~ msgstr "Za odpiranje slike"
-
 #~ msgid ""
 #~ "The browser view shows the images in the current folder or catalog (see "
 #~ "<xref linkend=\"gthumb-main-window\"/>)."
 #~ msgstr ""
 #~ "Pogled brskalnika pokaže slike v trenutni mapi ali katalogu (oglejte si "
 #~ "see <xref linkend=\"gthumb-main-window\"/>)."
-
 #~ msgid ""
 #~ "Single-clicking an image will enable the Information Sidebar for that "
 #~ "image."
 #~ msgstr "Klik na sliko bo omogočil stransko vrstico podrobnosti za to sliko."
-
 #~ msgid ""
 #~ "Double-clicking an image (or pressing <keycap>Return</keycap>) will open "
 #~ "it in the viewer mode."
 #~ msgstr ""
 #~ "Dvoklik na sliko (ali pritisk <keycap>Vnosne tipke</keycap>) jo bo odprl "
 #~ "v načinu pregledovalnika."
-
 #~ msgid ""
 #~ "Double-clicking with the middle mouse button (or pressing <keycap>f</"
 #~ "keycap>) will load the image in fullscreen viewer mode."
 #~ msgstr ""
 #~ "Dvoklik s srednjim miškinim gumbom (ali pritisk na <keycap>f</keycap>) bo "
 #~ "naložil sliko v načinu celozaslonskega pregledovalnika. "
-
 #~ msgid "Opening a Different Image"
 #~ msgstr "Odpiranje druge slike"
-
 #~ msgid ""
 #~ "Once in image has been opened in viewer mode, the image is displayed in "
 #~ "the main body of the window. A thumbnail pane may be optionally displayed "
@@ -2393,36 +2298,29 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "telesu okna. Pladenj sličic je mogoče izbirno prikazati poleg dna okna "
 #~ "(<menuchoice><guisubmenu>Pogled</guisubmenu><guimenuitem>Pladenj sličic</"
 #~ "guimenuitem></menuchoice>)."
-
 #~ msgid ""
 #~ "You can go also click on thumbnails in the thumbnail pane to open a "
 #~ "different image."
 #~ msgstr ""
 #~ "Za odpiranje druge slike lahko tudi kliknete na sličice v pladnju sličic."
-
 #~ msgid "Working with Images"
 #~ msgstr "Delo s slikami"
-
 #~ msgid "To Modify an Image"
 #~ msgstr "Za spremembo slike"
-
 #~ msgid ""
 #~ "The current image can be modified in many ways. The commands used to "
 #~ "modify an image are located in the <guimenu>Image</guimenu> menu."
 #~ msgstr ""
 #~ "Trenutno sliko je mogoče spremeniti na veliko načinov. Ukazi za spremembo "
 #~ "slike so v meniju <guimenu>Slika</guimenu>."
-
 #~ msgid "Enhance the image adjusting the color levels."
 #~ msgstr "Izboljša sliko s prilagoditvijo barvnih ravni."
-
 #~ msgid "Change the image size performing a zoom in or out."
 #~ msgstr "Spremeni velikost slike s približevanjem ali oddaljevanjem."
-
 #~ msgid "Transform"
 #~ msgstr "Preoblikovanje"
-
 #~ msgid ""
 #~ "Create a mirror image by reflecting the image scanlines in the vertical "
 #~ "direction."
 #~ msgstr "Ustvari zrcalno sliko z odbojem vrstic točk slike v navpični smeri."
+
