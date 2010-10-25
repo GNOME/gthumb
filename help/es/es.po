@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-14 19:58+0000\n"
-"PO-Revision-Date: 2010-10-21 16:21+0200\n"
+"POT-Creation-Date: 2010-10-22 17:47+0000\n"
+"PO-Revision-Date: 2010-10-25 16:44+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,11 @@ msgid ""
 "or by clicking <guiseq><gui>View</gui><gui>Slideshow</gui></guiseq>. If no "
 "images are selected, all images in the folder will be included."
 msgstr ""
+"Se puede iniciar una presentación de las imágenes seleccionadas desde la "
+"imagen del navegador pulsando <key>F5</key>, el icono de presentación de la "
+"barra de herramientas o pulsando <guiseq><gui>Ver</gui><gui>Mostrar "
+"diapositivas</gui></guiseq>. Si no hay imágenes seleccionadas, se incluirán "
+"todas las imágenes de la carpeta."
 
 #: C/slideshow.page:15(p)
 msgid ""
@@ -142,6 +147,12 @@ msgid ""
 "or click and drag the mouse over the desired photos.) If no photos are "
 "explicitly selected, all will be imported."
 msgstr ""
+"El diálogo de importación muestra miniaturas de las fotos disponibles en el "
+"dispositivo seleccionado. El usuario puede seleccionar una o más fotos "
+"usando los métodos habituales del teclado o el ratón (por ejemplo, Ctrl"
+"+pulsación para añadir una foto a la selección, o pulsar y arrastrar el "
+"ratón sobre las fotos que quiera). Si no hay fotos seleccionadas "
+"explícitamente, se importarán todas."
 
 #: C/import.page:30(p)
 msgid ""
@@ -198,6 +209,12 @@ msgid ""
 "\" is a special code that will embed the <gui>Event</gui> name defined in "
 "the main import dialog."
 msgstr ""
+"No es necesario usar formatos de fecha predefinidos. Si selecciona "
+"<gui>formato personalizado</gui>, se pueden usar códigos de fecha estándar. "
+"Pulse en el icono de ayuda a la derecha del campo de formato personalizado "
+"para obtener una lista de códigos de formato. «%E» es un código especial que "
+"empotrará el nombre del <gui>Evento</gui> definido en el diálogo de "
+"importación principal."
 
 #: C/import.page:67(p)
 msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
@@ -766,7 +783,7 @@ msgstr ""
 
 #: C/printing.page:34(p)
 msgid "When you are ready to print, press the <gui>Print</gui> button."
-msgstr ""
+msgstr "Pulse el botón <gui>Imprimir</gui> cuando esté listo para imprimir."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -810,6 +827,8 @@ msgid ""
 "The figure above shows how to configure <app>gThumb</app> to display media "
 "files only, by setting the <gui>General Filter</gui>."
 msgstr ""
+"La siguiente figura muestra cómo configurar <app>gThumb</app> para mostrar "
+"sólo archivos de medios, configurando el <gui>Filtro general</gui>."
 
 #: C/filtering.page:23(p)
 msgid ""
@@ -965,6 +984,9 @@ msgid ""
 "you can open them in the <app>GNU Image Manipulation Program (GIMP)</app> by "
 "pressing <key>g</key>."
 msgstr ""
+"Si tiene archivos seleccionados en el navegador, o una imagen abierta en el "
+"visor, puede abrirlas en el <app>Programa de manipulación de imágenes de GNU "
+"(GIMP)</app> pulsando <key>g</key>."
 
 #: C/gimp.page:10(p)
 msgid ""
@@ -1086,6 +1108,10 @@ msgid ""
 "physical size, or to a certain percentage of the original size. The aspect "
 "ratio may be locked to a specific value, or freely adjusted."
 msgstr ""
+"Esto le permite redimensionar la imagen. La imagen se puede escalar a un "
+"tamaño físico determinado, o a un porcentaje determinado del tamaño "
+"original. La relación de aspecto se puede bloquear a un valor específico, o "
+"ajustarla libremente."
 
 #: C/edit-resize-crop.page:22(gui)
 msgid "Crop"
@@ -1104,6 +1130,9 @@ msgid ""
 "<app>gThumb</app> also offers a batch-mode tool for resizing multiple images "
 "simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
+"<app>gThumb</app> también ofrece una herramienta de proceso por lotes para "
+"redimensionar varias imágenes a la vez. Consulte la sección <link xref="
+"\"gthumb-batch-resize\"/>."
 
 #: C/edit-rotate.page:6(title)
 msgid "Rotations and Flips"
@@ -1112,6 +1141,8 @@ msgstr "Rotaciones y volteos"
 #: C/edit-rotate.page:12(p)
 msgid "Several tools are provided to manipulate the orientation of images."
 msgstr ""
+"Se proporcionan varias herramientas para manipular la orientación de las "
+"imágenes."
 
 #: C/edit-rotate.page:17(gui)
 msgid "Mirror"
@@ -1121,6 +1152,8 @@ msgstr "Espejo"
 msgid ""
 "This flips the image horizontally. The left and right sides are swapped."
 msgstr ""
+"Esto voltea imágenes horizontalmente. Se intercambian los lados izquierdo y "
+"derecho."
 
 #: C/edit-rotate.page:22(gui)
 msgid "Flip"
@@ -1156,6 +1189,12 @@ msgid ""
 "encoded and saved. However, <app>gThumb</app> does provide lossless rotation "
 "tools. See <link xref=\"gthumb-batch-rotate\"/>."
 msgstr ""
+"Las rotaciones ofrecidas en el modo edición actúan sobre la imagen en "
+"memoria. No son operaciones directas sobre el archivo. Para imágenes jpeg, "
+"esto significa que no son operaciones sin pérdidas; la imagen se degradará "
+"levemente cuando se recodifica y se guarda. Sin embargo, <app>gThumb</app> "
+"proporciona herramientas de rotación sin pérdidas. Consulte la <link xref="
+"\"gthumb-batch-rotate\"/>."
 
 #: C/edit-colors.page:6(title)
 msgid "Color Adjustments"
@@ -1164,6 +1203,8 @@ msgstr "Ajustes de color"
 #: C/edit-colors.page:12(p)
 msgid "Several tools are provided to manipulate the colors in images."
 msgstr ""
+"Se proporcionan varias herramientas para manipular los colores en las "
+"imágenes."
 
 #: C/edit-colors.page:17(gui)
 msgid "Enhance Colors"
@@ -1212,6 +1253,8 @@ msgid ""
 "This tool converts the image colors into shades of grey. (This does not "
 "change this image storage format.)"
 msgstr ""
+"Esta herramienta convierte los colores de la imagen en escala de grises. "
+"(Esto no cambia el formato de almacenamiento de la imagen.)"
 
 #: C/edit-colors.page:39(gui)
 msgid "Negative"
@@ -1220,6 +1263,8 @@ msgstr "Negativo"
 #: C/edit-colors.page:40(p)
 msgid "This tool inverts the color levels, providing an image negative."
 msgstr ""
+"Esta herramienta invierte los niveles de color, proporcionando un negativo "
+"de la imagen."
 
 #: C/edit-save-undo-redo.page:6(title)
 msgid "File Save, Undo, Redo"
@@ -1241,6 +1286,9 @@ msgid ""
 "modified image to a new location instead, leaving the original image "
 "unchanged, use <gui>Save As</gui>."
 msgstr ""
+"Se puede guardar una imagen modificada pulsando <gui>Guardar</gui>. Para "
+"guardar la imagen modificada en una ubicación diferente, dejando la imagen "
+"original sin cambios, use <gui>Guardar como</gui>."
 
 #: C/edit-save-undo-redo.page:20(p)
 msgid ""
@@ -1248,6 +1296,9 @@ msgid ""
 "Folders</gui> toolbar button), or navigate away from the current image, you "
 "will be prompted to save or discard your changes."
 msgstr ""
+"Si sale del modo edición (pulsando <key>Esc</key> o el botón de la barra "
+"herramientas <gui>Ver las carpetas</gui>), o deja de navegar por la imagen "
+"actual, se le preguntará si quiere guardar o descartar sus cambios."
 
 #: C/rename-series.page:8(title)
 msgid "Renaming Files"
@@ -1349,6 +1400,11 @@ msgid ""
 "formatting code in curly braces. For example, \"%M{%Y-%m-%d, %T}\" would be "
 "replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Este símbolo se reemplazará con la fecha de modificación del archivo. El "
+"formato de esta fecha (y opcionalmente de la hora) se puede especificar "
+"añadiendo un código estándar de formato entre corchetes. Por ejemplo, «%M{%Y-"
+"%m-%d, %T}» se reemplazará con una fecha y una hora similar a «2010-04-01, "
+"15:02:01»."
 
 #: C/rename-series.page:99(key)
 msgid "%D{format}"
@@ -1430,6 +1486,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Browser</gui><gui>Thumbnails in Viewer</gui></"
 "guiseq>."
 msgstr ""
+"El panel de miniaturas se puede posicionar a lo largo de la parte inferior "
+"de la imagen principal, o a lo largo del lateral. Esto se controla con las "
+"preferencias en <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Navegador</gui><gui>Miniaturas en el visor</gui></guiseq>."
 
 #: C/thumbnail-pane.page:19(title)
 msgid "Thumbnail Pane, Along Bottom of Main Image"
@@ -1539,12 +1599,19 @@ msgid ""
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select "
 "<guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
 msgstr ""
+"Para cambiar las horas de modificación del archivo, las fechas de los "
+"comentarios, o las etiquetas Exif DateTimeOriginal de varios archivos, "
+"seleccione los archivos en la vista de navegador. Entonces pulse el botón "
+"<gui>Herramientas</gui> de la barra de herramientas principal, y elija "
+"<guiseq><gui>Herramientas</gui><gui>Cambiar fecha</gui></guiseq>."
 
 #: C/batch-change-date.page:13(p)
 msgid ""
 "Select the desired date options, and click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Seleccione las opciones de la fecha, y pulse <gui>Ejecutar</gui> para "
+"completar el proceso."
 
 #: C/batch-resize.page:6(title)
 msgid "Resizing Images"
