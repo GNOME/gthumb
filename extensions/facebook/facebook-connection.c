@@ -364,11 +364,13 @@ get_access_type_name (FacebookAccessType access_type)
 
 	switch (access_type) {
 	case FACEBOOK_ACCESS_READ:
-		name = "read_stream,offline_access";
+		/*name = "read_stream,offline_access";*/
+		name = "user_photos,offline_access";
 		break;
 
 	case FACEBOOK_ACCESS_WRITE:
-		name = "photo_upload,offline_access";
+		/*name = "photo_upload,offline_access";*/
+		name = "user_photos,offline_access,publish_stream";
 		break;
 	}
 
