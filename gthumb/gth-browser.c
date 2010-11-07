@@ -4736,6 +4736,9 @@ gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 {
 	g_return_val_if_fail (event != NULL, FALSE);
 
+	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->viewer_sidebar)))
+		return FALSE;
+
 	if (event->state & GDK_SHIFT_MASK)
 		return FALSE;
 
