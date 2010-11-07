@@ -87,6 +87,9 @@ char *       eel_gconf_get_locale_string     (const char             *key,
 void         eel_gconf_set_locale_string     (const char             *key,
 					      const char             *value);
 GSList *     eel_gconf_get_string_list       (const char             *key);
+GSList *     eel_gconf_get_string_list_with_error
+					     (const char             *key,
+					      GError                **error);
 void         eel_gconf_set_string_list       (const char             *key,
 					      const GSList           *string_list_value);
 GSList *     eel_gconf_get_path_list         (const char             *key);

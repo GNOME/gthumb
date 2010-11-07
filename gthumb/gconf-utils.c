@@ -439,6 +439,33 @@ eel_gconf_get_string_list (const char *key)
 
 
 GSList *
+eel_gconf_get_string_list_with_error (const char  *key,
+				      GError     **error)
+{
+	GSList      *slist;
+	GConfClient *client;
+
+	g_return_val_if_fail (key != NULL, NULL);
+
+	client = eel_gconf_client_get_global ();
+	if (client == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (GCONF_ERROR, GCONF_ERROR_NO_SERVER, "");
+		return NULL;
+	}
+
+	if (error)
+		*error = NULL;
+	slist = gconf_client_get_list (client, key, GCONF_VALUE_STRING, error);
+
+	if (*error != NULL)
+		slist = NULL;
+
+	return  slist;
+}
+
+
+GSList *
 eel_gconf_get_path_list (const char *key)
 {
 	GSList *str_slist, *slist, *scan;

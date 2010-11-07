@@ -1247,6 +1247,7 @@ gth_main_activate_extensions (void)
 						"webalbums",
 						NULL };
 	int                  i;
+	GError              *error = NULL;
 	GSList              *active_extensions;
 	GthExtensionManager *manager;
 	GSList              *scan;
@@ -1255,18 +1256,18 @@ gth_main_activate_extensions (void)
 		Main->priv->extension_manager = gth_extension_manager_new ();
 
 	for (i = 0; mandatory_extensions[i] != NULL; i++) {
-		GError *error = NULL;
-
 		if (! gth_extension_manager_activate (Main->priv->extension_manager, mandatory_extensions[i], &error)) {
 			g_warning ("Could not load the '%s' extension: %s", mandatory_extensions[i], error->message);
 			g_clear_error (&error);
 		}
 	}
 
-	active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
-	if (active_extensions == NULL)
+	active_extensions = eel_gconf_get_string_list_with_error (PREF_ACTIVE_EXTENSIONS, &error);
+	if (error != NULL) {
+		g_clear_error (&error);
 		for (i = 0; default_extensions[i] != NULL; i++)
 			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
+	}
 	active_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
 
 	manager = gth_main_get_default_extension_manager ();
