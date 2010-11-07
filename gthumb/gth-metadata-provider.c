@@ -179,7 +179,7 @@ query_metadata_done (QueryMetadataData *rmd)
 	_g_object_list_unref (rmtd->files);
 	g_free (rmtd);
 	if (rmd->cancel_signal != 0)
-		g_signal_handler_disconnect (rmd->cancellable, rmd->cancel_signal);
+		g_cancellable_disconnect (rmd->cancellable, rmd->cancel_signal);
 	_g_object_unref (rmd->cancellable);
 	g_free (rmd);
 }
@@ -289,7 +289,10 @@ _g_query_metadata_async (GList             *files,       /* GthFileData * list *
 	rmd = g_new0 (QueryMetadataData, 1);
 	rmd->cancellable = _g_object_ref (cancellable);
 	if (rmd->cancellable != NULL)
-		rmd->cancel_signal = g_signal_connect (rmd->cancellable, "cancelled", G_CALLBACK (query_metadata_cancelled_cb), rmd);
+		rmd->cancel_signal = g_cancellable_connect (rmd->cancellable,
+							    G_CALLBACK (query_metadata_cancelled_cb),
+							    rmd,
+							    NULL);
 
 	rmd->ready_func = ready_func;
 	rmd->user_data = user_data;

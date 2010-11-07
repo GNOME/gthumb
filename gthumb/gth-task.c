@@ -61,7 +61,7 @@ gth_task_finalize (GObject *object)
 	task = GTH_TASK (object);
 
 	if (task->priv->cancellable != NULL) {
-		g_signal_handler_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
+		g_cancellable_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
 		g_object_unref (task->priv->cancellable);
 	}
 
@@ -194,7 +194,7 @@ gth_task_exec (GthTask      *task,
 		return;
 
 	if (task->priv->cancellable != NULL) {
-		g_signal_handler_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
+		g_cancellable_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
 		g_object_unref (task->priv->cancellable);
 	}
 
@@ -202,10 +202,10 @@ gth_task_exec (GthTask      *task,
 		task->priv->cancellable = _g_object_ref (cancellable);
 	else
 		task->priv->cancellable = g_cancellable_new ();
-	task->priv->cancellable_cancelled = g_signal_connect (task->priv->cancellable,
-							      "cancelled",
-							      G_CALLBACK (cancellable_cancelled_cb),
-							      task);
+	task->priv->cancellable_cancelled = g_cancellable_connect (task->priv->cancellable,
+								   G_CALLBACK (cancellable_cancelled_cb),
+							           task,
+							           NULL);
 	task->priv->running = TRUE;
 	GTH_TASK_GET_CLASS (task)->exec (task);
 }
