@@ -2946,7 +2946,7 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 		GFileInfo   *new_info;
 
 		new_location = gth_file_data_new (rename_data->new_file, browser->priv->location->info);
-		new_info = gth_file_source_get_file_info (browser->priv->location_source, new_location->file, GFILE_DISPLAY_ATTRIBUTES);
+		new_info = gth_file_source_get_file_info (rename_data->file_source, new_location->file, GFILE_DISPLAY_ATTRIBUTES);
 		g_file_info_copy_into (new_info, new_location->info);
 		_gth_browser_set_location (browser, new_location);
 
