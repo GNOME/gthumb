@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-cell-renderer-thumbnail.h"
 #include "gth-dumb-notebook.h"
@@ -31,11 +32,11 @@
 #include "gth-file-store.h"
 #include "gth-icon-cache.h"
 #include "gth-icon-view.h"
+#include "gth-preferences.h"
 #include "gth-thumb-loader.h"
 #include "gtk-utils.h"
 
 
-#define DEFAULT_THUMBNAIL_SIZE 112
 #define FLASH_THUMBNAIL_QUEUE_TIMEOUT 75
 #define UPDATE_THUMBNAILS_AFTER_SCROLL_TIMEOUT 125
 #define RESTART_LOADING_THUMBS_DELAY 1500
@@ -1149,6 +1150,8 @@ static void
 gfl_set_files (GthFileList *file_list,
 	       GList       *files)
 {
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
 	gth_file_store_clear ((GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
@@ -1263,6 +1266,9 @@ gfl_enable_thumbs (GthFileList *file_list,
 	GthFileStore *file_store;
 	GtkTreeIter   iter;
 
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
+
 	file_list->priv->load_thumbs = enable;
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
@@ -1323,7 +1329,10 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 			      int          size)
 {
 	file_list->priv->thumb_size = size;
+
 	gth_thumb_loader_set_requested_size (file_list->priv->thumb_loader, size);
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);

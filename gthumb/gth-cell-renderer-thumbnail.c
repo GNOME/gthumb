@@ -26,7 +26,7 @@
 #include "gth-cell-renderer-thumbnail.h"
 
 
-#define DEFAULT_THUMBNAIL_SIZE 112
+#define DEFAULT_THUMBNAIL_SIZE 128
 #define MAX_THUMBNAIL_SIZE 320
 #define THUMBNAIL_X_BORDER 8
 #define THUMBNAIL_Y_BORDER 8
