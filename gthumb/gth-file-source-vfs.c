@@ -41,10 +41,12 @@ struct _GthFileSourceVfsPrivate
 	ForEachChildCallback  for_each_file_func;
 	ReadyCallback         ready_func;
 	gpointer              user_data;
+	GHashTable           *hidden_files;
 	GHashTable           *monitors;
 	GList                *monitor_queue[GTH_MONITOR_N_EVENTS];
 	guint                 monitor_update_id;
 	GVolumeMonitor       *mount_monitor;
+	gboolean              check_hidden_files;
 };
 
 
@@ -191,6 +193,9 @@ fec__for_each_file_func (GFile       *file,
 		         gpointer     user_data)
 {
 	GthFileSourceVfs *file_source_vfs = user_data;
+
+	if (g_hash_table_lookup (file_source_vfs->priv->hidden_files, g_file_info_get_name (info)) != NULL)
+		g_file_info_set_is_hidden (info, TRUE);
 	file_source_vfs->priv->for_each_file_func (file, info, file_source_vfs->priv->user_data);
 }
 
@@ -202,8 +207,33 @@ fec__start_dir_func (GFile       *directory,
 		     gpointer     user_data)
 {
 	GthFileSourceVfs *file_source_vfs = user_data;
+	DirOp             op;
 
-	return file_source_vfs->priv->start_dir_func (directory, info, error, file_source_vfs->priv->user_data);
+	op = file_source_vfs->priv->start_dir_func (directory, info, error, file_source_vfs->priv->user_data);
+	if ((op == DIR_OP_CONTINUE) && file_source_vfs->priv->check_hidden_files) {
+		GFile            *dot_hidden_file;
+		GFileInputStream *input_stream;
+		g_hash_table_remove_all (file_source_vfs->priv->hidden_files);
+
+		dot_hidden_file = g_file_get_child (directory, ".hidden");
+		input_stream = g_file_read (dot_hidden_file, NULL, NULL);
+		if (input_stream != NULL) {
+			GDataInputStream *data_stream;
+			char             *line;
+
+			data_stream = g_data_input_stream_new (G_INPUT_STREAM (input_stream));
+			while ((line = g_data_input_stream_read_line (data_stream, NULL, NULL, NULL)) != NULL)
+				g_hash_table_insert (file_source_vfs->priv->hidden_files,
+						     line,
+						     GINT_TO_POINTER (1));
+
+			g_object_unref (input_stream);
+		}
+
+		g_object_unref (dot_hidden_file);
+	}
+
+	return op;
 }
 
 
@@ -222,11 +252,13 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 
 	gth_file_source_set_active (file_source, TRUE);
 	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
+	g_hash_table_remove_all (file_source_vfs->priv->hidden_files);
 
 	file_source_vfs->priv->start_dir_func = start_dir_func;
 	file_source_vfs->priv->for_each_file_func = for_each_file_func;
 	file_source_vfs->priv->ready_func = ready_func;
 	file_source_vfs->priv->user_data = user_data;
+	file_source_vfs->priv->check_hidden_files = _g_file_attributes_matches_any (attributes, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN);
 
 	gio_folder = gth_file_source_to_gio_file (file_source, parent);
 	g_directory_foreach_child (gio_folder,
@@ -556,6 +588,7 @@ gth_file_source_vfs_finalize (GObject *object)
 			file_source_vfs->priv->monitor_update_id = 0;
 		}
 
+		g_hash_table_destroy (file_source_vfs->priv->hidden_files);
 		g_hash_table_destroy (file_source_vfs->priv->monitors);
 
 		for (i = 0; i < GTH_MONITOR_N_EVENTS; i++) {
@@ -601,6 +634,7 @@ gth_file_source_vfs_init (GthFileSourceVfs *file_source)
 
 	file_source->priv = g_new0 (GthFileSourceVfsPrivate, 1);
 	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "vfs+");
+	file_source->priv->hidden_files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	file_source->priv->monitors = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, g_object_unref);
 	for (i = 0; i < GTH_MONITOR_N_EVENTS; i++)
 		file_source->priv->monitor_queue[i] = NULL;
