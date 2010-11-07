@@ -980,7 +980,10 @@ for (i = 0; i < old_rows_n; i++)
 g_print ("\n");
 #endif
 
-			gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store), NULL, NULL, new_order);
+			gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store),
+						       NULL,
+						       NULL,
+						       new_order);
 		}
 
 		g_free (new_order);
@@ -1089,8 +1092,12 @@ _gth_file_store_reorder (GthFileStore *file_store)
 		}
 		row->abs_pos = i;
 	}
-	if (new_order != NULL)
-		gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store), NULL, NULL, new_order);
+	if (new_order != NULL) {
+		gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store),
+					       NULL,
+					       NULL,
+					       new_order);
+	}
 	g_free (new_order);
 }
 

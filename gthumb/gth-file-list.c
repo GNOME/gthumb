@@ -589,6 +589,18 @@ file_store_visibility_changed_cb (GthFileStore *file_store,
 
 
 static void
+file_store_rows_reordered_cb (GtkTreeModel *tree_model,
+			      GtkTreePath  *path,
+			      GtkTreeIter  *iter,
+			      gpointer      new_order,
+			      gpointer      user_data)
+{
+	GthFileList *file_list = user_data;
+	file_list->priv->visibility_changed = TRUE;
+}
+
+
+static void
 gth_file_list_construct (GthFileList     *file_list,
 			 GthFileListType  list_type,
 			 gboolean         enable_drag_drop)
@@ -638,6 +650,10 @@ gth_file_list_construct (GthFileList     *file_list,
 	g_signal_connect (model,
 			  "visibility-changed",
 			  G_CALLBACK (file_store_visibility_changed_cb),
+			  file_list);
+	g_signal_connect (model,
+			  "rows-reordered",
+			  G_CALLBACK (file_store_rows_reordered_cb),
 			  file_list);
 
 	if (enable_drag_drop) {
