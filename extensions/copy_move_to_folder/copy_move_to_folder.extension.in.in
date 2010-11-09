@@ -1,0 +1,13 @@
+[Extension]
+_Name=Copy/Move to Folder
+_Description=Adds a bulk copy/move tool for files, in addition to the normal cut and paste functions.
+Authors= Michael Chudobiak, marlodavampire
+Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Version=%VERSION%
+Category=Browser
+Icon=edit-copy
+
+[Loader]
+Type=module
+File=%LIBRARY%
+Requires=file_manager

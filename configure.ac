@@ -579,6 +579,7 @@ extensions/webalbums/data/albumthemes/ClassicClips/Makefile
 extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
+extensions/copy_move_to_folder/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
 po/Makefile.in
