@@ -11,6 +11,8 @@ libcopy_move_to_folder_la_SOURCES = \
 	preferences.h \
 	dlg-copy-complete.c \
 	dlg-copy-complete.h \
+	dlg-copy-move-to-folder-preferences.c \
+	dlg-copy-move-to-folder-preferences.h \
 	main.c
 
 libcopy_move_to_folder_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
