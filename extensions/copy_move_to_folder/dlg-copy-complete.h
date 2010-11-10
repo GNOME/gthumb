@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2010 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef DLG_COPY_COMPLETE_H
+#define DLG_COPY_COMPLETE_H
 
-G_BEGIN_DECLS
+#include <gthumb.h>
 
-#define  PREF_COPY_MOVE_TO_FOLDER_COPY_URI      "/apps/gthumb/ext/copy_move_to_folder/copy_uri"
-#define  PREF_COPY_MOVE_TO_FOLDER_MOVE_URI      "/apps/gthumb/ext/copy_move_to_folder/move_uri"
-#define  PREF_COPY_MOVE_TO_FOLDER_SHOW_DIALOG   "/apps/gthumb/ext/copy_move_to_folder/show_dialog"
-#define  PREF_COPY_MOVE_TO_FOLDER_ALWAYS_OPEN   "/apps/gthumb/ext/copy_move_to_folder/always_open"
+void dlg_copy_complete (GthBrowser *browser,
+			gboolean move,
+			GFile *location);
 
-G_END_DECLS
-
-#endif /* PREFERENCES_H */
+#endif /* DLG_COPY_COMPLETE_H */

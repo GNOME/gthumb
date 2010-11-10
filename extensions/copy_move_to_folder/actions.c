@@ -24,10 +24,12 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "preferences.h"
+#include "dlg-copy-complete.h"
 #include <extensions/file_manager/gth-copy-task.h>
 
 struct _CopyMoveToFolderPrivate{
-	GthFileData   *destination;
+	GFile   *destination;
+	gboolean move;
 	GthBrowser   *browser;
 };
 
@@ -61,18 +63,13 @@ copy_complete_cb(GthTask    *task,
 	/* TODO */
 	/* what should we do on error here? */
 
-	GthBrowser *browser;
-	GthFileData *destination;
 	CopyMoveToFolderPrivate *priv;
-
 	priv = data;
-	browser = priv->browser;
-	destination = priv->destination;
 
-	gth_browser_load_location(browser, destination->file);
+	dlg_copy_complete(priv->browser, priv->move, priv->destination);
 
-	g_object_unref(browser);
-	g_object_unref(destination);
+	g_object_unref(priv->browser);
+	g_object_unref(priv->destination);
 	g_free(priv);
 
 }
@@ -119,10 +116,10 @@ copy_move_to_folder_copy_files(GthBrowser *browser,
 	// setup copy completed signal
 	CopyMoveToFolderPrivate *data;
 	data = g_new0(CopyMoveToFolderPrivate, 1);
-	data->destination = destination_path_fd;
+	data->destination = g_file_dup(destination_path_fd->file);
 	data->browser = browser;
+	data->move = move;
 	g_object_ref(browser);
-	g_object_ref(destination_path_fd);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (copy_complete_cb),
@@ -130,7 +127,6 @@ copy_move_to_folder_copy_files(GthBrowser *browser,
 	gth_browser_exec_task (browser, task, FALSE);
 
 	//free data
-	g_object_unref(destination_path_fd);
 	g_object_unref(file_source);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);

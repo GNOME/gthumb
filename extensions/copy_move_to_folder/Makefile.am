@@ -1,3 +1,5 @@
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcopy_move_to_folder.la
 
@@ -7,6 +9,8 @@ libcopy_move_to_folder_la_SOURCES = \
 	callbacks.c \
 	callbacks.h \
 	preferences.h \
+	dlg-copy-complete.c \
+	dlg-copy-complete.h \
 	main.c
 
 libcopy_move_to_folder_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
