@@ -26,6 +26,13 @@
 #include "preferences.h"
 #include <extensions/file_manager/gth-copy-task.h>
 
+struct _CopyMoveToFolderPrivate{
+	GthFileData   *destination;
+	GthBrowser   *browser;
+};
+
+typedef struct _CopyMoveToFolderPrivate CopyMoveToFolderPrivate;
+
 /* get the previous dir stored in gconf
  default to the home dir if no previous */
 static char*
@@ -45,6 +52,30 @@ copy_move_to_folder_get_start_uri(gboolean move) {
 	return start_uri;
 }
 
+/* ask the user if they wish to move to the destination folder */
+void
+copy_complete_cb(GthTask    *task,
+				GError     *error,
+				gpointer   data)
+{
+	/* TODO */
+	/* what should we do on error here? */
+
+	GthBrowser *browser;
+	GthFileData *destination;
+	CopyMoveToFolderPrivate *priv;
+
+	priv = data;
+	browser = priv->browser;
+	destination = priv->destination;
+
+	gth_browser_load_location(browser, destination->file);
+
+	g_object_unref(browser);
+	g_object_unref(destination);
+	g_free(priv);
+
+}
 
 /* get the list of files and create and execute the task */
 static void
@@ -84,6 +115,18 @@ copy_move_to_folder_copy_files(GthBrowser *browser,
 
 	// create and execute the task
 	task = gth_copy_task_new (file_source, destination_path_fd, move, files);
+
+	// setup copy completed signal
+	CopyMoveToFolderPrivate *data;
+	data = g_new0(CopyMoveToFolderPrivate, 1);
+	data->destination = destination_path_fd;
+	data->browser = browser;
+	g_object_ref(browser);
+	g_object_ref(destination_path_fd);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (copy_complete_cb),
+			  (gpointer)data);
 	gth_browser_exec_task (browser, task, FALSE);
 
 	//free data
