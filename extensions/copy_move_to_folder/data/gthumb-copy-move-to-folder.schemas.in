@@ -1,0 +1,53 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/copy_move_to_folder/copy_uri</key>
+	<applyto>/apps/gthumb/ext/copy_move_to_folder/copy_uri</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/copy_move_to_folder/move_uri</key>
+	<applyto>/apps/gthumb/ext/copy_move_to_folder/move_uri</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/copy_move_to_folder/show_dialog</key>
+	<applyto>/apps/gthumb/ext/copy_move_to_folder/show_dialog</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/copy_move_to_folder/always_open</key>
+	<applyto>/apps/gthumb/ext/copy_move_to_folder/always_open</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>
