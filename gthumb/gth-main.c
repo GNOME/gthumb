@@ -1218,6 +1218,7 @@ gth_main_activate_extensions (void)
 						"change_date",
 						"comments",
 						"convert_format",
+						"copy_move_to_folder",
 						"desktop_background",
 						"edit_metadata",
 						"exiv2_tools",
