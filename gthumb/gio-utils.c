@@ -1256,6 +1256,8 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 
 			if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_CANCEL)
 				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+			else
+				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_EXISTS, "");
 			copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 			copy_file_data_free (copy_file_data);
 			return;
@@ -1518,6 +1520,7 @@ typedef struct {
 
 	GList                *files;  /* GthFileData list */
 	GList                *current;
+	GList                *copied_files; /* GFile list */
 	GFile                *source_base;
 	GFile                *current_destination;
 
@@ -1529,7 +1532,6 @@ typedef struct {
 	goffset               tot_size;
 	goffset               copied_size;
 	gsize                 tot_files;
-	gsize                 copied_files;
 
 	char                 *message;
 	GthOverwriteResponse  default_response;
@@ -1554,6 +1556,7 @@ copy_data_free (CopyData *copy_data)
 	_g_object_list_unref (copy_data->destination_sidecars);
 	_g_object_list_unref (copy_data->source_sidecars);
 	_g_object_unref (copy_data->current_destination);
+	_g_object_list_unref (copy_data->copied_files);
 	_g_object_list_unref (copy_data->files);
 	_g_object_unref (copy_data->source_base);
 	g_hash_table_destroy (copy_data->source_hash);
@@ -1575,11 +1578,10 @@ copy_data__delete_source (CopyData *copy_data)
 		return;
 	}
 
-	copy_data->files = g_list_reverse (copy_data->files);
-	for (scan = copy_data->files; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
+	for (scan = copy_data->copied_files; scan; scan = scan->next) {
+		GFile *file = scan->data;
 
-		if (! g_file_delete (file_data->file, copy_data->cancellable, &error))
+		if (! g_file_delete (file, copy_data->cancellable, &error))
 			break;
 	}
 
@@ -1609,7 +1611,11 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 {
 	CopyData *copy_data = user_data;
 
-	if (error != NULL) {
+	if (error == NULL) {
+		GthFileData *source = (GthFileData *) copy_data->current->data;
+		copy_data->copied_files = g_list_prepend (copy_data->copied_files, g_file_dup (source->file));
+	}
+	else if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 		copy_data->done_callback (error, copy_data->user_data);
 		copy_data_free (copy_data);
 		return;
@@ -1689,7 +1695,6 @@ copy_files__sources_info_ready_cb (GList    *files,
 	}
 
 	copy_data->copied_size = 0;
-	copy_data->copied_files = 0;
 	copy_data->current = copy_data->files;
 	copy_data__copy_current_file (copy_data);
 }
