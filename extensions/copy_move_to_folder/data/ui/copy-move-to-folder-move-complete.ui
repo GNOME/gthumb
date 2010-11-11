@@ -8,7 +8,7 @@
     <property name="modal">True</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="text" translatable="yes">File(s) successfully copied.</property>
+    <property name="text" translatable="yes">File(s) successfully moved.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
