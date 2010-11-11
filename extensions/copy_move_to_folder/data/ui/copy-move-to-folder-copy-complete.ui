@@ -8,7 +8,7 @@
     <property name="modal">True</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="text" translatable="yes">File(s) successfully copied.</property>
+    <property name="text" translatable="yes">Go to destination folder?</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -30,13 +30,12 @@
             <property name="visible">True</property>
             <property name="layout_style">center</property>
             <child>
-              <object class="GtkButton" id="open_button">
-                <property name="label" translatable="yes">_Open in the Browser</property>
+              <object class="GtkButton" id="close_button">
+                <property name="label">gtk-no</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">icon_image</property>
-                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -45,8 +44,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="close_button">
-                <property name="label">gtk-close</property>
+              <object class="GtkButton" id="open_button">
+                <property name="label">gtk-yes</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -68,13 +67,8 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="1">open_button</action-widget>
-      <action-widget response="-7">close_button</action-widget>
+      <action-widget response="0">close_button</action-widget>
+      <action-widget response="0">open_button</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkImage" id="icon_image">
-    <property name="visible">True</property>
-    <property name="yalign">0</property>
-    <property name="stock">gtk-jump-to</property>
   </object>
 </interface>
