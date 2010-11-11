@@ -8,17 +8,18 @@
     <property name="modal">True</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="text" translatable="yes">File(s) successfully copied.</property>
+    <property name="text" translatable="yes">Operation complete.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkCheckButton" id="always_button">
-            <property name="label" translatable="yes">Always preform this action</property>
+            <property name="label" translatable="yes">Do not show this prompt again</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">This prompt can be re-enabled in the extension preferences dialog.</property>
             <property name="draw_indicator">True</property>
           </object>
           <packing>
@@ -31,7 +32,7 @@
             <property name="layout_style">center</property>
             <child>
               <object class="GtkButton" id="open_button">
-                <property name="label" translatable="yes">_Open in the Browser</property>
+                <property name="label" translatable="yes">_Go To Destination</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -49,6 +50,8 @@
                 <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
