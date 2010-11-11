@@ -87,10 +87,7 @@ dlg_copy_complete (GthBrowser *browser,
 		data->location = g_file_dup(location);
 		data->browser = browser;
 		g_object_ref(browser);
-		if(move)
-			data->builder = _gtk_builder_new_from_file ("copy-move-to-folder-move-complete.ui", "copy_move_to_folder_move_complete");
-		else
-			data->builder = _gtk_builder_new_from_file ("copy-move-to-folder-copy-complete.ui", "copy_move_to_folder_copy_complete");
+		data->builder = _gtk_builder_new_from_file ("copy-move-to-folder-copy-complete.ui", "copy_move_to_folder_copy_complete");
 		data->dialog = GET_WIDGET ("completed_messagedialog");
 
 		g_signal_connect (G_OBJECT (data->dialog),
