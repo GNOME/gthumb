@@ -121,4 +121,7 @@ db__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	action = gtk_action_group_get_action (data->action_group, "Tool_MoveToFolder");
 	g_object_set (action, "sensitive", sensitive, NULL);
+
+	action = gtk_action_group_get_action (data->action_group, "Tool_CopyToFolder");
+	g_object_set (action, "sensitive", sensitive, NULL);
 }
