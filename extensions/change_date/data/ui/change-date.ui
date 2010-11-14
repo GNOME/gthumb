@@ -13,7 +13,6 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="time_h_adjustment">
-    <property name="lower">-999999</property>
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
@@ -248,6 +247,7 @@
                                     <child>
                                       <object class="GtkAlignment" id="alignment4">
                                         <property name="visible">True</property>
+                                        <property name="top_padding">4</property>
                                         <child>
                                           <object class="GtkRadioButton" id="adjust_time_radiobutton">
                                             <property name="label" translatable="yes">A_djust by</property>
@@ -277,7 +277,7 @@
                                   <object class="GtkTable" id="time_box">
                                     <property name="visible">True</property>
                                     <property name="n_rows">3</property>
-                                    <property name="n_columns">2</property>
+                                    <property name="n_columns">3</property>
                                     <property name="column_spacing">6</property>
                                     <property name="row_spacing">6</property>
                                     <child>
@@ -292,6 +292,8 @@
                                         <property name="numeric">True</property>
                                       </object>
                                       <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
                                         <property name="x_options"></property>
                                       </packing>
                                     </child>
@@ -307,6 +309,8 @@
                                         <property name="numeric">True</property>
                                       </object>
                                       <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
                                         <property name="top_attach">1</property>
                                         <property name="bottom_attach">2</property>
                                         <property name="x_options"></property>
@@ -324,6 +328,8 @@
                                         <property name="numeric">True</property>
                                       </object>
                                       <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
                                         <property name="top_attach">2</property>
                                         <property name="bottom_attach">3</property>
                                         <property name="x_options"></property>
@@ -336,8 +342,8 @@
                                         <property name="label" translatable="yes">hours</property>
                                       </object>
                                       <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
+                                        <property name="left_attach">2</property>
+                                        <property name="right_attach">3</property>
                                         <property name="x_options">GTK_FILL</property>
                                       </packing>
                                     </child>
@@ -348,8 +354,8 @@
                                         <property name="label" translatable="yes">minutes</property>
                                       </object>
                                       <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
+                                        <property name="left_attach">2</property>
+                                        <property name="right_attach">3</property>
                                         <property name="top_attach">1</property>
                                         <property name="bottom_attach">2</property>
                                         <property name="x_options">GTK_FILL</property>
@@ -362,12 +368,31 @@
                                         <property name="label" translatable="yes">seconds</property>
                                       </object>
                                       <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
+                                        <property name="left_attach">2</property>
+                                        <property name="right_attach">3</property>
                                         <property name="top_attach">2</property>
                                         <property name="bottom_attach">3</property>
                                         <property name="x_options">GTK_FILL</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBox" id="adjust_sign_combobox">
+                                        <property name="visible">True</property>
+                                        <property name="model">adjust_sign_liststore</property>
+                                        <property name="active">0</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
                                     </child>
                                   </object>
                                   <packing>
@@ -465,5 +490,19 @@
       <action-widget response="0">close_button</action-widget>
       <action-widget response="0">ok_button</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="adjust_sign_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">+</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">-</col>
+      </row>
+    </data>
   </object>
 </interface>
