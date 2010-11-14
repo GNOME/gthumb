@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -13,7 +13,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">128</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
         <property name="activates_default">True</property>
       </object>
       <packing>
@@ -58,7 +58,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">64</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
           </object>
           <packing>
             <property name="position">0</property>
@@ -80,7 +80,7 @@
           <object class="GtkEntry" id="country_code_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
             <property name="width_chars">5</property>
           </object>
           <packing>
@@ -102,7 +102,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">32</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -131,7 +131,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">1024</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -160,7 +160,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">1024</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -191,7 +191,7 @@
           <object class="GtkSpinButton" id="urgency_spinbutton">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
             <property name="adjustment">urgency_adjustment</property>
           </object>
           <packing>
@@ -241,7 +241,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">1024</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -260,7 +260,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">32</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
             <property name="activates_default">True</property>
           </object>
           <packing>
@@ -285,7 +285,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">32</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
             <property name="activates_default">True</property>
             <property name="width_chars">16</property>
           </object>
@@ -322,14 +322,14 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">32</property>
-        <property name="invisible_char">●</property>
+        <property name="invisible_char">&#x25CF;</property>
         <property name="activates_default">True</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
         <property name="right_attach">2</property>
-        <property name="top_attach">4</property>
-        <property name="bottom_attach">5</property>
+        <property name="top_attach">5</property>
+        <property name="bottom_attach">6</property>
         <property name="y_options"></property>
       </packing>
     </child>
@@ -342,8 +342,8 @@
         <property name="mnemonic_widget">byline_entry</property>
       </object>
       <packing>
-        <property name="top_attach">4</property>
-        <property name="bottom_attach">5</property>
+        <property name="top_attach">5</property>
+        <property name="bottom_attach">6</property>
         <property name="x_options">GTK_FILL</property>
         <property name="y_options">GTK_FILL</property>
       </packing>
@@ -370,7 +370,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
-            <property name="invisible_char">●</property>
+            <property name="invisible_char">&#x25CF;</property>
             <property name="width_chars">3</property>
           </object>
           <packing>
@@ -391,13 +391,13 @@
       <object class="GtkEntry" id="state_name_entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">•</property>
+        <property name="invisible_char">&#x2022;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
         <property name="right_attach">2</property>
-        <property name="top_attach">5</property>
-        <property name="bottom_attach">6</property>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
       </packing>
     </child>
     <child>
@@ -407,8 +407,8 @@
         <property name="label" translatable="yes">State/Provence:</property>
       </object>
       <packing>
-        <property name="top_attach">5</property>
-        <property name="bottom_attach">6</property>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
       </packing>
     </child>
   </object>
