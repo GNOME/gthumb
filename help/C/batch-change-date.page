@@ -5,7 +5,7 @@ id="gthumb-batch-change-date">
   </info>
   <title>Changing Dates</title>
 
-  <p>To change the the file modification times, the comment dates, or the 
+  <p>To change the file modification times, the comment dates, or the 
   Exif DateTimeOriginal tags of multiple files, select the files in the 
   browser view. Then click the <gui>Tools</gui> button on the main toolbar, 
   and select <guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>.</p>

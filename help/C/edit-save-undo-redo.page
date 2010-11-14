@@ -17,7 +17,7 @@ id="gthumb-edit-save-undo-redo">
   To save the modified image to a new location instead, leaving
   the original image unchanged, use <gui>Save As</gui>.</p>
 
-  <p>If you exit the editing mode (by pressing <key>Esc</key>or the 
+  <p>If you exit the editing mode (by pressing <key>Esc</key> or the 
   <gui>View the Folders</gui> toolbar button), or navigate away from
   the current image, you will be prompted to save or discard your
   changes.</p>

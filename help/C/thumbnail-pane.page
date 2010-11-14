@@ -13,7 +13,7 @@ id="gthumb-thumbnail-pane">
 
   <p>The thumbnail pane may be positioned along the bottom of the
   main image, or along the side. This is controlled by the settings
-  in <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Browser</gui><gui>Thumbnails in Viewer</gui></guiseq>.</p>
+  in <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></guiseq>.</p>
 
   <figure>
     <title>Thumbnail Pane, Along Bottom of Main Image</title>

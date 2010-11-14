@@ -10,7 +10,7 @@ id="gthumb-printing">
   <guiseq><gui>File</gui><gui>Print</gui></guiseq> or
   <keyseq><key>Ctrl</key><key>p</key></keyseq>.</p>
 
-  <p>To print on or more images from the browser mode,
+  <p>To print one or more images from the browser mode,
   select the desired images and then use
   <guiseq><gui>File</gui><gui>Print</gui></guiseq> or
   <keyseq><key>Ctrl</key><key>p</key></keyseq>.</p>
