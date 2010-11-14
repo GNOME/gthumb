@@ -6,8 +6,8 @@ id="gthumb-export-disk">
   <title>Creating a CD/DVD/ISO</title>
   <p>
     To write a series of files to an optical disk (CD or DVD), or to create
-    an ISO disk image file, use the <guiseq><gui>File
-    </gui><gui>Export To</gui><gui>Optical Disc</gui></guiseq>
+    an ISO disk image file, use the <guiseq><gui>File</gui>
+    <gui>Export To</gui><gui>Optical Disc</gui></guiseq>
     menu item.
   </p>
   <p>
