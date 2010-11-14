@@ -147,11 +147,11 @@ copy_move_to_folder(GthBrowser *browser,
 	// create the select folder dialog
 	start_uri = copy_move_to_folder_get_start_uri(move);
 
-	dialog = gtk_file_chooser_dialog_new (N_("Select Folder"),
+	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
 		NULL,
 		GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+		(move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
 		NULL);
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
