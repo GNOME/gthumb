@@ -54,7 +54,7 @@ dlg_copy_move_to_folder_preferences (GtkWindow *parent)
 	DialogData *data;
 
 	data = g_new0 (DialogData, 1);
-	data->builder = _gtk_builder_new_from_file ("copy-move-to-folder-preferences.ui", "copy-move-to-folder");
+	data->builder = _gtk_builder_new_from_file ("copy-move-to-folder-preferences.ui", "copy_move_to_folder");
 
 	/* Get the widgets. */
 
