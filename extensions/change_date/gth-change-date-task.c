@@ -23,9 +23,6 @@
 #include "gth-change-date-task.h"
 
 
-#define HOURS_TO_SECONDS(h) ((h) * 3600)
-
-
 struct _GthChangeDateTaskPrivate {
 	GFile           *location;
 	GList           *files; /* GFile */
@@ -33,7 +30,7 @@ struct _GthChangeDateTaskPrivate {
 	GthChangeFields  fields;
 	GthChangeType    change_type;
 	GthDateTime     *date_time;
-	int              timezone_offset;
+	int              time_offset;
 	int              n_files;
 	int              n_current;
 	GList           *current;
@@ -101,7 +98,7 @@ update_modification_time (GthChangeDateTask *self)
 			GTimeVal     timeval;
 
 			gth_datetime_clear (date_time);
-			if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
+			if (self->priv->change_type == GTH_CHANGE_ADJUST_TIME)
 				set_date_time_from_change_type (self, date_time, GTH_CHANGE_TO_FILE_MODIFIED_DATE, file_data);
 			else
 				set_date_time_from_change_type (self, date_time, self->priv->change_type, file_data);
@@ -125,8 +122,8 @@ update_modification_time (GthChangeDateTask *self)
 				continue;
 
 			if (gth_datetime_to_timeval (date_time, &timeval)) {
-				if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE)
-					timeval.tv_sec += HOURS_TO_SECONDS (self->priv->timezone_offset);
+				if (self->priv->change_type == GTH_CHANGE_ADJUST_TIME)
+					timeval.tv_sec += self->priv->time_offset;
 				if (! _g_file_set_modification_time (file_data->file,
 								     &timeval,
 								     gth_task_get_cancellable (GTH_TASK (self)),
@@ -174,18 +171,18 @@ static void
 set_date_metadata (GthFileData *file_data,
 		   const char  *attribute,
 		   GthDateTime *date_time,
-		   int          timezone_offset)
+		   int          time_offset)
 {
 	GthDateTime *new_date_time;
 
 	new_date_time = gth_datetime_new ();
 	gth_datetime_copy (date_time, new_date_time);
 
-	if (timezone_offset != 0) {
+	if (time_offset != 0) {
 		GTimeVal timeval;
 
 		gth_datetime_to_timeval (new_date_time, &timeval);
-		timeval.tv_sec += HOURS_TO_SECONDS (timezone_offset);
+		timeval.tv_sec += time_offset;
 		gth_datetime_from_timeval (new_date_time, &timeval);
 	}
 	else {
@@ -285,18 +282,18 @@ info_ready_cb (GList    *files,
 	for (scan = self->priv->file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (self->priv->change_type == GTH_CHANGE_ADJUST_TIMEZONE) {
+		if (self->priv->change_type == GTH_CHANGE_ADJUST_TIME) {
 			if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
 				gth_datetime_clear (date_time);
 				set_date_time_from_field (self, date_time, GTH_CHANGE_COMMENT_DATE, file_data);
 				if (gth_datetime_valid (date_time))
-					set_date_metadata (file_data, "general::datetime", date_time, self->priv->timezone_offset);
+					set_date_metadata (file_data, "general::datetime", date_time, self->priv->time_offset);
 			}
 			if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
 				gth_datetime_clear (date_time);
 				set_date_time_from_field (self, date_time, GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG, file_data);
 				if (gth_datetime_valid (date_time))
-					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, self->priv->timezone_offset);
+					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, self->priv->time_offset);
 			}
 		}
 		else {
@@ -412,7 +409,7 @@ gth_change_date_task_new (GFile             *location,
 			  GthChangeFields    fields,
 			  GthChangeType      change_type,
 			  GthDateTime       *date_time,
-			  int                timezone_offset)
+			  int                time_offset)
 {
 	GthChangeDateTask *self;
 
@@ -423,7 +420,7 @@ gth_change_date_task_new (GFile             *location,
 	self->priv->change_type = change_type;
 	if (date_time != NULL)
 		gth_datetime_copy (date_time, self->priv->date_time);
-	self->priv->timezone_offset = timezone_offset;
+	self->priv->time_offset = time_offset;
 
 	return (GthTask *) self;
 }

@@ -38,7 +38,7 @@ typedef enum {
 	GTH_CHANGE_TO_FILE_MODIFIED_DATE,
 	GTH_CHANGE_TO_FILE_CREATION_DATE,
 	GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE,
-	GTH_CHANGE_ADJUST_TIMEZONE
+	GTH_CHANGE_ADJUST_TIME
 } GthChangeType;
 
 #define GTH_TYPE_CHANGE_DATE_TASK            (gth_change_date_task_get_type ())
@@ -67,7 +67,7 @@ GthTask *     gth_change_date_task_new       (GFile             *location,
 					      GthChangeFields    fields,
 					      GthChangeType      change_type,
 					      GthDateTime       *date_time,
-					      int                timezone_offset);
+					      int                time_offset);
 
 G_END_DECLS
 
