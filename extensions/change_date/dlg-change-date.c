@@ -83,13 +83,15 @@ ok_button_clicked (GtkWidget  *button,
 		change_type = GTH_CHANGE_TO_FILE_CREATION_DATE;
 	else if (IS_ACTIVE (GET_WIDGET ("to_photo_original_date_radiobutton")))
 		change_type = GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE;
-	else if (IS_ACTIVE (GET_WIDGET ("adjust_timezone_radiobutton"))) {
+	else if (IS_ACTIVE (GET_WIDGET ("adjust_time_radiobutton"))) {
 		change_type = GTH_CHANGE_ADJUST_TIME;
-		time_adjustment = HOURS_TO_SECONDS(gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timezone_spinbutton"))));}
-	else if (IS_ACTIVE (GET_WIDGET ("adjust_timehms_radiobutton"))) {
-		change_type = GTH_CHANGE_ADJUST_TIME;
-		time_adjustment = HOURS_TO_SECONDS(gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timeh_spinbutton")))) + MINS_TO_SECONDS(gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timem_spinbutton")))) + gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_times_spinbutton")));
-   if (IS_ACTIVE (GET_WIDGET ("negative_offset"))) { time_adjustment =-time_adjustment;}}
+		time_adjustment = (HOURS_TO_SECONDS (ABS (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_time_h_spinbutton")))))
+				   + MINS_TO_SECONDS (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timem_spinbutton"))))
+				   + gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_times_spinbutton"))));
+		if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_time_h_spinbutton"))) < 0)
+			time_adjustment = -time_adjustment;
+	}
+
 	task = gth_change_date_task_new (gth_browser_get_location (data->browser),
 					 data->file_list,
 					 change_fields,
@@ -120,8 +122,7 @@ update_sensitivity (DialogData *data)
 				   || IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton"))
 				   || IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton"))));
 	gtk_widget_set_sensitive (data->date_selector, IS_ACTIVE (GET_WIDGET ("to_following_date_radiobutton")));
-	gtk_widget_set_sensitive (GET_WIDGET ("timezone_box"), IS_ACTIVE (GET_WIDGET ("adjust_timezone_radiobutton")));
-	gtk_widget_set_sensitive (GET_WIDGET ("timehms_box"), IS_ACTIVE (GET_WIDGET ("adjust_timehms_radiobutton")));
+	gtk_widget_set_sensitive (GET_WIDGET ("time_box"), IS_ACTIVE (GET_WIDGET ("adjust_time_radiobutton")));
 
 	if (IS_ACTIVE (GET_WIDGET ("change_last_modified_checkbutton"))) {
 		gtk_widget_set_sensitive (GET_WIDGET ("to_last_modified_date_radiobutton"), FALSE);
@@ -219,11 +220,7 @@ dlg_change_date (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);
-	g_signal_connect (GET_WIDGET ("adjust_timezone_radiobutton"),
-			  "clicked",
-			  G_CALLBACK (radio_button_clicked),
-			  data);
-	g_signal_connect (GET_WIDGET ("adjust_timehms_radiobutton"),
+	g_signal_connect (GET_WIDGET ("adjust_time_radiobutton"),
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);
