@@ -54,16 +54,14 @@ static const char *fixed_ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "Tool_CopyToFolder", "edit-copy",
-	  N_("Copy to Folder"), NULL,
-	  N_("Copy the selected image(s) to a folder"),
-	  G_CALLBACK (gth_browser_activate_action_tool_copy_to_folder)
-	},
-	{ "Tool_MoveToFolder", "edit-cut",
-	  N_("Move to Folder"), NULL,
-	  N_("Move the selected image(s) to a folder"),
-	  G_CALLBACK (gth_browser_activate_action_tool_move_to_folder)
-	},
+	{ "Tool_CopyToFolder", NULL,
+	  N_("Copy to..."), NULL,
+	  N_("Copy the selected files to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_tool_copy_to_folder) },
+	{ "Tool_MoveToFolder", NULL,
+	  N_("Move to..."), NULL,
+	  N_("Move the selected files to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_tool_move_to_folder) }
 };
 
 
