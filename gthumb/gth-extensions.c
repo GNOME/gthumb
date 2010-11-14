@@ -824,7 +824,7 @@ gth_extension_manager_deactivate (GthExtensionManager  *manager,
 		GthExtensionDescription *child_description = scan->data;
 
 		if (gth_extension_description_is_active (child_description)) {
-			*error = g_error_new (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%s' is required by the extension '%s'"), description->name, child_description->name);
+			*error = g_error_new (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%1$s' is required by the extension '%2$s'"), description->name, child_description->name);
 			break;
 		}
 	}
