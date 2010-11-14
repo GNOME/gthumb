@@ -79,7 +79,7 @@ gth_edit_exiv2_page_real_set_file_list (GthEditMetadataPage *base,
 	}
 
 	_g_object_unref (self->priv->info);
-	self->priv->info = gth_file_data_list_get_common_info (file_data_list, "Iptc::Application2::Copyright,Iptc::Application2::Credit,Iptc::Application2::Byline,Iptc::Application2::BylineTitle,Iptc::Application2::CountryName,Iptc::Application2::CountryCode,Iptc::Application2::City,Iptc::Application2::Language,Iptc::Application2::ObjectName,Iptc::Application2::Source,Iptc::Envelope::Destination,Iptc::Application2::Urgency");
+	self->priv->info = gth_file_data_list_get_common_info (file_data_list, "Iptc::Application2::Copyright,Iptc::Application2::Credit,Iptc::Application2::Byline,Iptc::Application2::BylineTitle,Iptc::Application2::CountryName,Iptc::Application2::CountryCode,Iptc::Application2::City,Iptc::Application2::Language,Iptc::Application2::ObjectName,Iptc::Application2::Source,Iptc::Envelope::Destination,Iptc::Application2::Urgency,Iptc::Application2:ProvinceState");
 
 	set_entry_value (self, self->priv->info, "Iptc::Application2::Copyright", "copyright_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::Credit", "credit_entry");
@@ -87,6 +87,7 @@ gth_edit_exiv2_page_real_set_file_list (GthEditMetadataPage *base,
 	set_entry_value (self, self->priv->info, "Iptc::Application2::BylineTitle", "byline_title_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::CountryName", "country_name_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::CountryCode", "country_code_entry");
+	set_entry_value (self, self->priv->info, "Iptc::Application2::ProvinceState", "state_name_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::City", "city_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::Language", "language_entry");
 	set_entry_value (self, self->priv->info, "Iptc::Application2::ObjectName", "object_name_entry");
@@ -162,6 +163,7 @@ gth_edit_exiv2_page_real_update_info (GthEditMetadataPage *base,
 	set_attribute_from_entry (self, info, file_data, only_modified_fields, "Iptc::Application2::ObjectName", "object_name_entry");
 	set_attribute_from_entry (self, info, file_data, only_modified_fields, "Iptc::Application2::Source", "source_entry");
 	set_attribute_from_entry (self, info, file_data, only_modified_fields, "Iptc::Envelope::Destination", "destination_entry");
+	set_attribute_from_entry (self, info, file_data, only_modified_fields, "Iptc::Application2::ProvinceState", "state_name_entry");
 
 	/* urgency */
 
