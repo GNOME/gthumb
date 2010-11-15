@@ -515,6 +515,7 @@ extensions/facebook/Makefile
 extensions/facebook/data/Makefile
 extensions/facebook/data/ui/Makefile
 extensions/file_manager/Makefile
+extensions/file_manager/data/Makefile
 extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
@@ -579,9 +580,6 @@ extensions/webalbums/data/albumthemes/ClassicClips/Makefile
 extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
-extensions/copy_move_to_folder/Makefile
-extensions/copy_move_to_folder/data/Makefile
-extensions/copy_move_to_folder/data/ui/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
 po/Makefile.in

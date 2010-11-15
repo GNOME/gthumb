@@ -33,8 +33,7 @@ SUBDIRS = 			\
 	webalbums		\
 	flicker			\
 	burn_disc		\
-	desktop_background	\
-	copy_move_to_folder
+	desktop_background
 
 EXTRA_DIST = example
 

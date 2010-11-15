@@ -1,3 +1,5 @@
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libfile_manager.la
 
@@ -14,7 +16,8 @@ libfile_manager_la_SOURCES = 		\
 	gth-duplicate-task.h		\
 	gth-reorder-task.c		\
 	gth-reorder-task.h		\
-	main.c
+	main.c				\
+	preferences.h
 
 libfile_manager_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libfile_manager_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
