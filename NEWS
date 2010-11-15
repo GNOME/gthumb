@@ -1,3 +1,34 @@
+version 2.12.1
+--------------
+
+        Bugs fixed:
+
+        * When moving files do not delete the source if an error occurs.
+          (#634615)
+        * Thumbnails not shown when changing file sorting. (#631816)
+        * Don't change image on mouse-wheel when editing an image. (#631205)
+        * Respect the PREF_SAVE_THUMBNAILS and PREF_THUMBNAIL_LIMIT
+          preference settings. (#631997)
+        * Fixed crash when a file is renamed. (#634050)
+        * PicasaWeb importer/exporter: let it work with non google email
+          addresses as well. (#634052)
+        * Facebook uploader: allow to upload to existing albums as well.
+          (#632498)
+        * Fixed build on BSD systems. (#630837, #630836)
+
+        New or updated application translations:
+
+        * Catalan (Sílvia Miranda)
+        * Español (Jorge González)
+        * Greek (Kostas Papadimas)
+        * Italian (Milo Casagrande)
+
+        New or updated manual translations:
+
+        * Español (Jorge González)
+        * French (Bruno Brouard)
+        * Slovenian (Matej Urbančič)
+
 version 2.12.0
 --------------
 
