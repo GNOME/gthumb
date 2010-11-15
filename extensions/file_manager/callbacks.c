@@ -40,8 +40,6 @@ static const char *fixed_ui_info =
 "  <menubar name='MenuBar'>"
 "    <menu name='Edit' action='EditMenu'>"
 "      <placeholder name='Folder_Actions_2'>"
-"        <menuitem action='Tool_CopyToFolder'/>"
-"        <menuitem action='Tool_MoveToFolder'/>"
 "        <menuitem action='Edit_Trash'/>"
 "        <menuitem action='Edit_Delete'/>"
 "      </placeholder>"
