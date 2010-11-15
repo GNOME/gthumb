@@ -18,7 +18,7 @@
 	<applyto>/apps/gthumb/ext/file_manager/copy_move/view_destination</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>false</default>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>

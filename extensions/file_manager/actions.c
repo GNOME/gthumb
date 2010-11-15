@@ -983,7 +983,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 
 	view_destination_button = gtk_check_button_new_with_mnemonic (_("_View the destination"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view_destination_button),
-				      eel_gconf_get_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, FALSE));
+				      eel_gconf_get_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, TRUE));
 	gtk_widget_show (view_destination_button);
 	gtk_box_pack_start (GTK_BOX (box), view_destination_button, FALSE, FALSE, 0);
 
