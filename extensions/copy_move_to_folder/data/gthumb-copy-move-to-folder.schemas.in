@@ -49,5 +49,17 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/file_manager/copy_move/view_destination</key>
+	<applyto>/apps/gthumb/ext/file_manager/copy_move/view_destination</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

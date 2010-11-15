@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,168 +23,151 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "preferences.h"
-#include "dlg-copy-complete.h"
 #include <extensions/file_manager/gth-copy-task.h>
+#include "preferences.h"
 
-struct _CopyMoveToFolderPrivate{
-	GFile   *destination;
-	gboolean move;
-	GthBrowser   *browser;
-};
 
-typedef struct _CopyMoveToFolderPrivate CopyMoveToFolderPrivate;
+typedef struct {
+	GthBrowser *browser;
+	gboolean    move;
+	GFile      *destination;
+	gboolean    view_destination;
+} CopyToFolderData;
 
-/* get the previous dir stored in gconf
- default to the home dir if no previous */
-static char*
-copy_move_to_folder_get_start_uri(gboolean move) {
-	GFile		*home_dir_gfile;
-	char		*default_uri;
-	char		*start_uri;
 
-	home_dir_gfile = g_file_new_for_path(g_get_home_dir());
-	default_uri = g_file_get_uri(home_dir_gfile);
-	if(move)
-		start_uri = eel_gconf_get_string (PREF_COPY_MOVE_TO_FOLDER_MOVE_URI, default_uri);
-	else
-		start_uri = eel_gconf_get_string (PREF_COPY_MOVE_TO_FOLDER_COPY_URI, default_uri);
-	g_object_unref(home_dir_gfile);
-	g_free(default_uri);
-	return start_uri;
-}
-
-/* ask the user if they wish to move to the destination folder */
-void
-copy_complete_cb(GthTask    *task,
-				GError     *error,
-				gpointer   data)
-{
-	/* TODO */
-	/* what should we do on error here? */
-
-	CopyMoveToFolderPrivate *priv;
-	priv = data;
-
-	dlg_copy_complete(priv->browser, priv->move, priv->destination);
-
-	g_object_unref(priv->browser);
-	g_object_unref(priv->destination);
-	g_free(priv);
-
-}
-
-/* get the list of files and create and execute the task */
 static void
-copy_move_to_folder_copy_files(GthBrowser *browser,
-					gboolean move,
-					char *selected_folder_uri)
+copy_to_folder_data_free (CopyToFolderData *data)
 {
-	GList		*items;
-	GList		*file_list;
-	GthTask 	*task;
-	GthFileData	*destination_path_fd;
-	GthFileSource	*file_source;
-	GList		*files;
-	GList 		*scan;
-	GthFileData 	*fd;
+	g_object_unref (data->destination);
+	g_object_unref (data->browser);
+	g_free (data);
+}
 
-	//get the selected folder as a GFile
-	GFile *destination_path;
-	destination_path = g_file_new_for_uri(selected_folder_uri);
 
-	//create a file data object for the destination GFile
-	destination_path_fd = gth_file_data_new(destination_path, NULL);
-	g_object_unref(destination_path);
-	file_source = gth_main_get_file_source (destination_path_fd->file);
+void
+copy_complete_cb (GthTask  *task,
+		  GError   *error,
+		  gpointer  user_data)
+{
+	CopyToFolderData *data = user_data;
 
-	//create the GList of GFiles to copied
+	if ((error == NULL) && (data->view_destination))
+		gth_browser_load_location (data->browser, data->destination);
+
+	g_object_unref (task);
+	copy_to_folder_data_free (data);
+}
+
+
+static void
+copy_files_to_folder (GthBrowser *browser,
+		      gboolean    move,
+		      char       *destination_uri,
+		      gboolean    view_destination)
+{
+	GthFileData      *destination_data;
+	GthFileSource    *file_source;
+	GList            *items;
+	GList            *file_list;
+	GList            *files;
+	CopyToFolderData *data;
+	GthTask          *task;
+
+	destination_data = gth_file_data_new_for_uri (destination_uri, NULL);
+	file_source = gth_main_get_file_source (destination_data->file);
+
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	files = gth_file_data_list_to_file_list (file_list);
 
-	files = NULL;
-
-	for (scan = file_list; scan; scan = scan->next)
-	{
-		fd = (GthFileData*) scan->data;
-		files = g_list_prepend(files, g_file_dup(fd->file));
-	}
-
-	// create and execute the task
-	task = gth_copy_task_new (file_source, destination_path_fd, move, files);
-
-	// setup copy completed signal
-	CopyMoveToFolderPrivate *data;
-	data = g_new0(CopyMoveToFolderPrivate, 1);
-	data->destination = g_file_dup(destination_path_fd->file);
-	data->browser = browser;
+	data = g_new0 (CopyToFolderData, 1);
+	data->browser = g_object_ref (browser);
 	data->move = move;
-	g_object_ref(browser);
+	data->destination = g_file_dup (destination_data->file);
+	data->view_destination = view_destination;
+
+	task = gth_copy_task_new (file_source, destination_data, move, files);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (copy_complete_cb),
-			  (gpointer)data);
+			  data);
 	gth_browser_exec_task (browser, task, FALSE);
 
-	//free data
-	g_object_unref(file_source);
+	_g_object_list_unref (files);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
-	_g_object_list_unref (files);
-
+	g_object_unref (file_source);
 }
 
-/* show the dialog and execute the copy/move */
+
 static void
-copy_move_to_folder(GthBrowser *browser,
-				gboolean move)
+copy_to_folder_dialog (GthBrowser *browser,
+		       gboolean    move)
 {
-
-	char		*start_uri;
-	GtkWidget 	*dialog;
-	char 		*selected_folder_uri;
-
-	// create the select folder dialog
-	start_uri = copy_move_to_folder_get_start_uri(move);
+	GtkWidget *dialog;
+	char      *start_uri;
+	GtkWidget *view_destination_button;
 
 	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
-		NULL,
-		GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		(move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
-		NULL);
+					      NULL,
+					      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
+					      NULL);
+
+	start_uri = eel_gconf_get_string (move ? PREF_COPY_MOVE_TO_FOLDER_MOVE_URI : PREF_COPY_MOVE_TO_FOLDER_COPY_URI, get_home_uri ());
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-	{
-		selected_folder_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
-		copy_move_to_folder_copy_files(browser, move, selected_folder_uri);
+	view_destination_button = gtk_check_button_new_with_mnemonic (_("_View the destination"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view_destination_button),
+				      eel_gconf_get_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, FALSE));
+	gtk_widget_show (view_destination_button);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
+			    view_destination_button,
+			    FALSE,
+			    FALSE,
+			    0);
 
-		//store the current uri in gconf
-		if(move)
-			eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_MOVE_URI, selected_folder_uri);
-		else
-			eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_COPY_URI, selected_folder_uri);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		char *destination_uri;
 
-		g_free (selected_folder_uri);
+		destination_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		if (destination_uri != NULL) {
+			gboolean view_destination;
+
+			/* save the options */
+
+			view_destination = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view_destination_button));
+			eel_gconf_set_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, view_destination);
+			if (move)
+				eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_MOVE_URI, destination_uri);
+			else
+				eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_COPY_URI, destination_uri);
+
+			/* copy / move the files */
+
+			copy_files_to_folder (browser, move, destination_uri, view_destination);
+		}
+
+		g_free (destination_uri);
 	}
+
 	gtk_widget_destroy (dialog);
 }
 
-/* copy to folder action */
+
 void
 gth_browser_activate_action_tool_copy_to_folder (GtkAction  *action,
-						GthBrowser *browser)
+						 GthBrowser *browser)
 {
-	copy_move_to_folder(browser, FALSE);
-
+	copy_to_folder_dialog (browser, FALSE);
 }
 
-/* move to folder action */
+
 void
 gth_browser_activate_action_tool_move_to_folder (GtkAction  *action,
-						GthBrowser *browser)
+						 GthBrowser *browser)
 {
-	copy_move_to_folder(browser, TRUE);
+	copy_to_folder_dialog (browser, TRUE);
 }

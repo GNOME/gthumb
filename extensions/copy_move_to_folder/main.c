@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
-#include "dlg-copy-move-to-folder-preferences.h"
 
 
 G_MODULE_EXPORT void
@@ -44,12 +43,11 @@ gthumb_extension_deactivate (void)
 G_MODULE_EXPORT gboolean
 gthumb_extension_is_configurable (void)
 {
-	return TRUE;
+	return FALSE;
 }
 
 
 G_MODULE_EXPORT void
 gthumb_extension_configure (GtkWindow *parent)
 {
-	dlg_copy_move_to_folder_preferences (parent);
 }
