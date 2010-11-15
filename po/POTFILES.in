@@ -169,6 +169,7 @@ extensions/file_manager/actions.c
 extensions/file_manager/actions.h
 extensions/file_manager/callbacks.c
 extensions/file_manager/callbacks.h
+extensions/file_manager/data/gthumb-file-manager.schemas.in
 [type: gettext/ini]extensions/file_manager/file_manager.extension.in.in
 extensions/file_manager/gth-copy-task.c
 extensions/file_manager/gth-copy-task.h
@@ -179,6 +180,7 @@ extensions/file_manager/gth-duplicate-task.h
 extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
+extensions/file_manager/preferences.h
 extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 extensions/file_tools/data/gthumb_crop_options.schemas.in
@@ -532,6 +534,8 @@ extensions/slideshow/preferences.h
 [type: gettext/ini]extensions/slideshow/slideshow.extension.in.in
 extensions/webalbums/actions.c
 extensions/webalbums/actions.h
+extensions/webalbums/albumtheme.c
+extensions/webalbums/albumtheme-lex.c
 extensions/webalbums/albumtheme-private.c
 extensions/webalbums/albumtheme-private.h
 extensions/webalbums/callbacks.c
