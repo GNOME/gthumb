@@ -24,10 +24,7 @@
 
 G_BEGIN_DECLS
 
-#define  PREF_COPY_MOVE_TO_FOLDER_COPY_URI      "/apps/gthumb/ext/copy_move_to_folder/copy_uri"
-#define  PREF_COPY_MOVE_TO_FOLDER_MOVE_URI      "/apps/gthumb/ext/copy_move_to_folder/move_uri"
-#define  PREF_COPY_MOVE_TO_FOLDER_SHOW_DIALOG   "/apps/gthumb/ext/copy_move_to_folder/show_dialog"
-#define  PREF_COPY_MOVE_TO_FOLDER_ALWAYS_OPEN   "/apps/gthumb/ext/copy_move_to_folder/always_open"
+#define  PREF_FILE_MANAGER_COPY_LAST_FOLDER      "/apps/gthumb/ext/file_manager/copy_move/last_folder"
 #define  PREF_FILE_MANAGER_COPY_VIEW_DESTINATION "/apps/gthumb/ext/file_manager/copy_move/view_destination"
 
 G_END_DECLS

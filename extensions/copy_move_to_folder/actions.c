@@ -106,6 +106,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 {
 	GtkWidget *dialog;
 	char      *start_uri;
+	GtkWidget *box;
 	GtkWidget *view_destination_button;
 
 	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
@@ -115,19 +116,21 @@ copy_to_folder_dialog (GthBrowser *browser,
 					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
 					      NULL);
 
-	start_uri = eel_gconf_get_string (move ? PREF_COPY_MOVE_TO_FOLDER_MOVE_URI : PREF_COPY_MOVE_TO_FOLDER_COPY_URI, get_home_uri ());
+	start_uri = eel_gconf_get_string (PREF_FILE_MANAGER_COPY_LAST_FOLDER, get_home_uri ());
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
+
+	box = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
+	gtk_widget_show (box);
 
 	view_destination_button = gtk_check_button_new_with_mnemonic (_("_View the destination"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view_destination_button),
 				      eel_gconf_get_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, FALSE));
 	gtk_widget_show (view_destination_button);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
-			    view_destination_button,
-			    FALSE,
-			    FALSE,
-			    0);
+	gtk_box_pack_start (GTK_BOX (box), view_destination_button, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), box, FALSE, FALSE, 0);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		char *destination_uri;
@@ -140,10 +143,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 
 			view_destination = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view_destination_button));
 			eel_gconf_set_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, view_destination);
-			if (move)
-				eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_MOVE_URI, destination_uri);
-			else
-				eel_gconf_set_string (PREF_COPY_MOVE_TO_FOLDER_COPY_URI, destination_uri);
+			eel_gconf_set_string (PREF_FILE_MANAGER_COPY_LAST_FOLDER, destination_uri);
 
 			/* copy / move the files */
 
