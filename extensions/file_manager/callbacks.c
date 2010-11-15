@@ -40,6 +40,8 @@ static const char *fixed_ui_info =
 "  <menubar name='MenuBar'>"
 "    <menu name='Edit' action='EditMenu'>"
 "      <placeholder name='Folder_Actions_2'>"
+"        <menuitem action='Tool_CopyToFolder'/>"
+"        <menuitem action='Tool_MoveToFolder'/>"
 "        <menuitem action='Edit_Trash'/>"
 "        <menuitem action='Edit_Delete'/>"
 "      </placeholder>"
@@ -51,6 +53,10 @@ static const char *fixed_ui_info =
 "      <menuitem action='Edit_CopyFiles'/>"
 "      <menuitem action='Edit_PasteInFolder'/>"
 "    </placeholder>"
+"    <placeholder name='Folder_Actions'>"
+"      <menuitem action='Tool_CopyToFolder'/>"
+"      <menuitem action='Tool_MoveToFolder'/>"
+"    </placeholder>"
 "  </popup>"
 "  <popup name='FilePopup'>"
 "    <placeholder name='File_Actions'>"
@@ -59,6 +65,8 @@ static const char *fixed_ui_info =
 "      <menuitem action='Edit_PasteInFolder'/>"
 "    </placeholder>"
 "    <placeholder name='Folder_Actions'>"
+"      <menuitem action='Tool_CopyToFolder'/>"
+"      <menuitem action='Tool_MoveToFolder'/>"
 "      <menuitem action='Edit_Trash'/>"
 "      <menuitem action='Edit_Delete'/>"
 "    </placeholder>"
@@ -204,6 +212,14 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Delete"), NULL,
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_folder_delete) },
+	{ "Tool_CopyToFolder", NULL,
+	  N_("Copy to..."), NULL,
+	  N_("Copy the selected files to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_tool_copy_to_folder) },
+	{ "Tool_MoveToFolder", NULL,
+	  N_("Move to..."), NULL,
+	  N_("Move the selected files to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_tool_move_to_folder) }
 };
 
 
@@ -812,6 +828,8 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_Trash", sensitive);
 	set_action_sensitive (data, "Edit_Delete", sensitive);
 	set_action_sensitive (data, "Edit_Duplicate", sensitive);
+	set_action_sensitive (data, "Tool_MoveToFolder", sensitive);
+	set_action_sensitive (data, "Tool_CopyToFolder", sensitive);
 
 	folder = gth_browser_get_folder_popup_file_data (browser);
 	set_action_sensitive (data, "Folder_Create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));

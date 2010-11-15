@@ -1,0 +1,29 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/file_manager/copy_move/last_folder</key>
+	<applyto>/apps/gthumb/ext/file_manager/copy_move/last_folder</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/file_manager/copy_move/view_destination</key>
+	<applyto>/apps/gthumb/ext/file_manager/copy_move/view_destination</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

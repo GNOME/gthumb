@@ -515,6 +515,7 @@ extensions/facebook/Makefile
 extensions/facebook/data/Makefile
 extensions/facebook/data/ui/Makefile
 extensions/file_manager/Makefile
+extensions/file_manager/data/Makefile
 extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
