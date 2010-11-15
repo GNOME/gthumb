@@ -41,6 +41,10 @@ extensioninidir = $(extensiondir)
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 DISTCLEANFILES = $(extensionini_DATA)
 
+BUILT_SOURCES = 		\
+	albumtheme-lex.c	\
+	albumtheme.c
+
 endif
 
 extensionini_in_files = webalbums.extension.in.in
