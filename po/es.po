@@ -6,17 +6,17 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-10-02 12:11+0000\n"
-"PO-Revision-Date: 2010-10-18 12:15+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"POT-Creation-Date: 2010-11-14 17:14+0000\n"
+"PO-Revision-Date: 2010-11-16 10:00+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», "
-"«fit_if_larger», «fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
+"«fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», "
-"«text_only», «icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
+"«icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -368,7 +368,7 @@ msgid "On startup:"
 msgstr "Al iniciar:"
 
 #: ../data/ui/preferences.ui.h:23
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:190
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:192
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -672,7 +672,7 @@ msgstr "Línea de comandos"
 #: ../extensions/catalogs/callbacks.c:486
 #: ../extensions/photo_importer/dlg-photo-importer.c:313
 #: ../extensions/photo_importer/dlg-photo-importer.c:353
-#: ../gthumb/gth-file-list.c:44 ../gthumb/gth-folder-tree.c:874
+#: ../gthumb/gth-file-list.c:45 ../gthumb/gth-folder-tree.c:874
 msgid "(Empty)"
 msgstr "(Vacío)"
 
@@ -866,52 +866,69 @@ msgid "Change the files date"
 msgstr "Cambiar la fecha de los archivos"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
+msgid "+"
+msgstr "+"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:2
+msgid "-"
+msgstr "-"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:3
 msgid "A_djust by"
 msgstr "Aju_star por"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:2
+#: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change Date"
 msgstr "Cambiar fecha"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:3
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
 msgid "Change the following values:"
 msgstr "Cambiar los siguientes siguientes:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:4
+#: ../extensions/change_date/data/ui/change-date.ui.h:6
 msgid "Change to:"
 msgstr "Cambiar a:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#: ../extensions/change_date/data/ui/change-date.ui.h:7
 msgid "Co_mment date"
 msgstr "Fecha del co_mentario"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:6
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
 msgid "Date p_hoto was taken"
 msgstr "Fecha en que se _tomó la foto"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:7
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
 msgid "Exif DateTimeOriginal tag"
 msgstr "Etiqueta EXIF de fecha y hora originales"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:8
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
 msgid "File _modified date"
 msgstr "Fecha de _modificación del archivo"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:9
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
 msgid "File c_reation date"
 msgstr "Fecha de c_reación del archivo"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:10
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "The _following date:"
 msgstr "La s_iguiente fecha:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:11
+#: ../extensions/change_date/data/ui/change-date.ui.h:13
 msgid "_Last modified date"
 msgstr "_Última fecha de modificación"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:12
+#: ../extensions/change_date/data/ui/change-date.ui.h:14
 msgid "hours"
 msgstr "horas"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:15
+msgid "minutes"
+msgstr "minutos"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:16
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "seconds"
+msgstr "segundos"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Add comments and tags to any file type."
@@ -1151,18 +1168,22 @@ msgid "Cr_edit:"
 msgstr "Crédi_tos:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+msgid "State/Provence:"
+msgstr "Estado/Provincia:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 msgid "_Byline:"
 msgstr "_Firmante:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_City:"
 msgstr "_Ciudad:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
 msgid "_Code:"
 msgstr "_Codi_go:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
@@ -1171,20 +1192,20 @@ msgstr "_Codi_go:"
 msgid "_Destination:"
 msgstr "_Destino:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Language:"
 msgstr "_Idioma:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
 msgid "_Object Name:"
 msgstr "N_ombre del objeto:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Origen:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
 msgid "_Urgency:"
 msgstr "_Urgencia:"
 
@@ -1424,7 +1445,7 @@ msgstr "No se pudieron exportar los archivos"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:618
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1004
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:785
-#: ../gthumb/gth-browser.c:939 ../gthumb/gth-browser.c:940
+#: ../gthumb/gth-browser.c:936
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1496,7 +1517,7 @@ msgid "Edit Accounts"
 msgstr "Editar cuentas"
 
 #: ../extensions/facebook/facebook-connection.c:294
-#: ../extensions/facebook/facebook-connection.c:452
+#: ../extensions/facebook/facebook-connection.c:454
 #: ../extensions/facebook/facebook-service.c:188
 #: ../extensions/facebook/facebook-service.c:291
 #: ../extensions/facebook/facebook-service.c:494
@@ -1512,7 +1533,7 @@ msgid "Unknown error"
 msgstr "Error desconocido"
 
 #: ../extensions/facebook/facebook-connection.c:329
-#: ../extensions/facebook/facebook-connection.c:478
+#: ../extensions/facebook/facebook-connection.c:480
 #: ../extensions/facebook/facebook-service.c:214
 #: ../extensions/facebook/facebook-service.c:316
 #: ../extensions/flicker/flickr-connection.c:316
@@ -1745,8 +1766,8 @@ msgstr "_Renombrar"
 msgid "_Paste Into Folder"
 msgstr "_Pegar en la carpeta"
 
-#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4610
-#: ../gthumb/gth-browser.c:4647
+#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4607
+#: ../gthumb/gth-browser.c:4644
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2163,7 +2184,7 @@ msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
 #: ../extensions/image_viewer/gth-image-viewer-page.c:838
-#: ../gthumb/gth-browser.c:1870
+#: ../gthumb/gth-browser.c:1867
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2484,8 +2505,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
-"if-larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
+"larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3023,7 +3044,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1783
+#: ../gthumb/gth-browser.c:1780
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -3515,10 +3536,6 @@ msgstr "Reinicia_r al finalizar"
 msgid "_Transition effect:"
 msgstr "Efecto de _transición:"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
-msgid "seconds"
-msgstr "segundos"
-
 #: ../extensions/slideshow/gth-slideshow-preferences.c:214
 msgid "Choose the files to play"
 msgstr "Seleccionar los archivos que reproducir"
@@ -3896,12 +3913,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para "
-"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
+"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -3909,30 +3926,30 @@ msgid "File format not recognized"
 msgstr "No se reconoció el formato de archivo"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1362
+#: ../gthumb/gio-utils.c:1364
 #, c-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: ../gthumb/gio-utils.c:1397
+#: ../gthumb/gio-utils.c:1399
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Moviendo «%s» a «%s»"
 
-#: ../gthumb/gio-utils.c:1399
+#: ../gthumb/gio-utils.c:1401
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Copiando «%s» a «%s»"
 
-#: ../gthumb/gio-utils.c:1735
+#: ../gthumb/gio-utils.c:1740
 msgid "Moving files"
 msgstr "Moviendo archivos"
 
-#: ../gthumb/gio-utils.c:1735
+#: ../gthumb/gio-utils.c:1740
 msgid "Copying files"
 msgstr "Copiando archivos"
 
-#: ../gthumb/gio-utils.c:1736
+#: ../gthumb/gio-utils.c:1741
 msgid "Getting file information"
 msgstr "Obteniendo información del archivo"
 
@@ -4098,19 +4115,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3344
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3341
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3365
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3362
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3386
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3383
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:653
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:650
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -4219,45 +4236,52 @@ msgstr "[modificada]"
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1121 ../gthumb/gth-browser.c:1674
+#: ../gthumb/gth-browser.c:937
+#, c-format
+msgid "%d file selected (%s)"
+msgid_plural "%d files selected (%s)"
+msgstr[0] "%d archivo seleccionado (%s)"
+msgstr[1] "%d archivos seleccionados (%s)"
+
+#: ../gthumb/gth-browser.c:1118 ../gthumb/gth-browser.c:1671
 #: ../gthumb/gth-browser.c:5436 ../gthumb/gth-browser.c:5455
 #: ../gthumb/gth-browser.c:5480
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1767 ../gthumb/gth-browser.c:1794
+#: ../gthumb/gth-browser.c:1764 ../gthumb/gth-browser.c:1791
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1912
+#: ../gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1917
+#: ../gthumb/gth-browser.c:1914
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1918
+#: ../gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2606 ../gthumb/gth-browser.c:2630
+#: ../gthumb/gth-browser.c:2603 ../gthumb/gth-browser.c:2627
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3028 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3025 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3345 ../gthumb/gth-browser.c:3366
+#: ../gthumb/gth-browser.c:3342 ../gthumb/gth-browser.c:3363
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3387
+#: ../gthumb/gth-browser.c:3384
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
@@ -4278,14 +4302,14 @@ msgstr "No se pudo abrir el módulo «%s»: %s"
 
 #: ../gthumb/gth-extensions.c:827
 #, c-format
-msgid "The extension '%s' is required by the extension '%s'"
+msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "La extensión «%2$s» requiere la extensión «%1$s»"
 
-#: ../gthumb/gth-file-source-vfs.c:80
+#: ../gthumb/gth-file-source-vfs.c:82
 msgid "Home Folder"
 msgstr "Carpeta personal"
 
-#: ../gthumb/gth-file-source-vfs.c:87
+#: ../gthumb/gth-file-source-vfs.c:89
 msgid "File System"
 msgstr "Sistema de archivos"
 
@@ -4857,8 +4881,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
-#~ "</small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+#~ "small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -5566,8 +5590,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts "
-#~ "0-9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts 0-"
+#~ "9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -5758,8 +5782,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
-#~ "«exifdate», «comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
+#~ "«comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -5772,8 +5796,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
-#~ "«4x6», «5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
+#~ "«5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: png, jpeg."
 #~ msgstr "Los valores posibles son: «png», «jpeg»."
@@ -5944,8 +5968,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
+#~ "diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -5987,8 +6011,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
+#~ "diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
@@ -6299,9 +6323,6 @@ msgstr ""
 
 #~ msgid "1 image (%s)"
 #~ msgstr "1 imagen (%s)"
-
-#~ msgid "%d selected (%s)"
-#~ msgstr "%d imágenes seleccionadas (%s)"
 
 #~ msgid "The current image has been modified, do you want to save it?"
 #~ msgstr "La imagen actual ha sido modificada, ¿quiere guardarla?"

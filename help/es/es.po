@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-25 14:44+0000\n"
-"PO-Revision-Date: 2010-10-26 20:07+0200\n"
+"POT-Creation-Date: 2010-11-15 19:25+0000\n"
+"PO-Revision-Date: 2010-11-20 14:33+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgstr "Crear un(a) CD/DVD/ISO"
 #: C/sharing-disc.page:7(p)
 msgid ""
 "To write a series of files to an optical disk (CD or DVD), or to create an "
-"ISO disk image file, use the <guiseq><gui>File </gui><gui>Export To</"
+"ISO disk image file, use the <guiseq><gui>File</gui><gui>Export To</"
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
 "Para escribir una serie de archivos en un disco óptico (CD o DVD), o para "
@@ -569,16 +569,16 @@ msgid "Viewer shortcuts"
 msgstr "Ver atajos de teclado"
 
 #: C/shortcuts.page:278(p)
-msgid "<key>Space</key>or <key>Page Down</key>"
-msgstr "<key>Retroceso</key> o <key>AvPág</key>"
+msgid "<key>Space</key> or <key>Page Down</key>"
+msgstr "<key>Espacio</key> o <key>AvPág</key>"
 
 #: C/shortcuts.page:283(p)
 msgid "View the next image."
 msgstr "Ver la siguiente imagen."
 
 #: C/shortcuts.page:288(p)
-msgid "<key>Backspace</key>or <key>Page Up</key>"
-msgstr "<key>Retroceso</key>o <key>RePág</key>"
+msgid "<key>Backspace</key> or <key>Page Up</key>"
+msgstr "<key>Retroceso</key> o <key>RePág</key>"
 
 #: C/shortcuts.page:293(p)
 msgid "View the previous image."
@@ -609,7 +609,7 @@ msgid "Add the current location to the bookmarks."
 msgstr "Añadir la ubicación actual a los marcadores."
 
 #: C/shortcuts.page:331(p)
-msgid "<key>+</key>or <key>=</key>"
+msgid "<key>+</key> or <key>=</key>"
 msgstr "<key>+</key> o <key>=</key>"
 
 #: C/shortcuts.page:336(p)
@@ -625,16 +625,16 @@ msgid "Zoom out."
 msgstr "Alejar."
 
 #: C/shortcuts.page:351(p)
-msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
-msgstr "<key>1</key> o <key>z</key>o <key>/ (teclado numérico)</key>"
+msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
+msgstr "<key>1</key> o <key>z</key> o <key>/ (teclado numérico)</key>"
 
 #: C/shortcuts.page:357(p)
 msgid "Actual size."
 msgstr "Tamaño actual."
 
 #: C/shortcuts.page:362(p)
-msgid "<key>x</key>or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> or <key>* (teclado numérico)</key>"
+msgid "<key>x</key> or <key>* (numeric keypad)</key>"
+msgstr "<key>x</key> o <key>* (teclado numérico)</key>"
 
 #: C/shortcuts.page:367(p)
 msgid "Zoom to fit (scales down only, does not magnify)"
@@ -774,7 +774,7 @@ msgstr ""
 
 #: C/printing.page:13(p)
 msgid ""
-"To print on or more images from the browser mode, select the desired images "
+"To print one or more images from the browser mode, select the desired images "
 "and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
@@ -894,7 +894,7 @@ msgstr "Ordenar archivos"
 #: C/sorting.page:9(p)
 msgid ""
 "Use the <guiseq><gui>View</gui><gui>Sort By</gui></guiseq> menu to select "
-"the desird file-sorting method for the browser view. Files can be sorted on "
+"the desired file-sorting method for the browser view. Files can be sorted on "
 "the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
@@ -1348,9 +1348,9 @@ msgstr ""
 
 #: C/edit-save-undo-redo.page:20(p)
 msgid ""
-"If you exit the editing mode (by pressing <key>Esc</key>or the <gui>View the "
-"Folders</gui> toolbar button), or navigate away from the current image, you "
-"will be prompted to save or discard your changes."
+"If you exit the editing mode (by pressing <key>Esc</key> or the <gui>View "
+"the Folders</gui> toolbar button), or navigate away from the current image, "
+"you will be prompted to save or discard your changes."
 msgstr ""
 "Si sale del modo edición (pulsando <key>Esc</key> o el botón de la barra "
 "herramientas <gui>Ver las carpetas</gui>), o deja de navegar por la imagen "
@@ -1549,13 +1549,13 @@ msgstr ""
 msgid ""
 "The thumbnail pane may be positioned along the bottom of the main image, or "
 "along the side. This is controlled by the settings in <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Browser</gui><gui>Thumbnails in Viewer</gui></"
+"gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></"
 "guiseq>."
 msgstr ""
 "El panel de miniaturas se puede posicionar a lo largo de la parte inferior "
 "de la imagen principal, o a lo largo del lateral. Esto se controla con las "
 "preferencias en <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Navegador</gui><gui>Miniaturas en el visor</gui></guiseq>."
+"gui><gui>General</gui><gui>Miniaturas en el visor</gui></guiseq>."
 
 #: C/thumbnail-pane.page:19(title)
 msgid "Thumbnail Pane, Along Bottom of Main Image"
@@ -1665,7 +1665,7 @@ msgstr "Cambiar fechas"
 
 #: C/batch-change-date.page:8(p)
 msgid ""
-"To change the the file modification times, the comment dates, or the Exif "
+"To change the file modification times, the comment dates, or the Exif "
 "DateTimeOriginal tags of multiple files, select the files in the browser "
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select "
 "<guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
