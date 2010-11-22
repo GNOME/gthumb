@@ -1135,9 +1135,9 @@ exiv2_generate_thumbnail (const char *uri,
 
 		Exiv2::ExifData &ed = image->exifData();
 
-		long orientation = ed["Exif.Image.Orientation"].toLong();
-		long image_width = ed["Exif.Photo.PixelXDimension"].toLong();
-		long image_height = ed["Exif.Photo.PixelYDimension"].toLong();
+		long orientation = (ed["Exif.Image.Orientation"].count() > 0) ? ed["Exif.Image.Orientation"].toLong() : 1;
+		long image_width = (ed["Exif.Photo.PixelXDimension"].count() > 0) ? ed["Exif.Photo.PixelXDimension"].toLong() : -1;
+		long image_height = (ed["Exif.Photo.PixelYDimension"].count() > 0) ? ed["Exif.Photo.PixelYDimension"].toLong() : -1;
 
 		if ((orientation != 1) || (image_width <= 0) || (image_height <= 0))
 			return NULL;
