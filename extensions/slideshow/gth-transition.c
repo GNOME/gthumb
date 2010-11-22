@@ -155,7 +155,7 @@ gth_transition_class_init (GthTransitionClass *klass)
 					 PROP_FRAME_FUNC,
 					 g_param_spec_pointer ("frame-func",
 							       "Frame Function",
-							       "The fuction used to set the current frame",
+							       "The function used to set the current frame",
 							       G_PARAM_READWRITE));
 }
 
