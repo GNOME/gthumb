@@ -1,5 +1,7 @@
 SUBDIRS = m4 copy-n-paste data po gthumb extensions tests help
+
 ACLOCAL_AMFLAGS = -I m4
+AMCFLAGS = -fPIC -DPIC
 
 EXTRA_DIST =                    \
 	AUTHORS                 \
