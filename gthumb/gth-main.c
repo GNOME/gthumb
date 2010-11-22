@@ -1264,10 +1264,20 @@ gth_main_activate_extensions (void)
 	}
 
 	active_extensions = eel_gconf_get_string_list_with_error (PREF_ACTIVE_EXTENSIONS, &error);
-	if (error != NULL) {
+	if ((error != NULL)
+	    || ((active_extensions != NULL)
+	        && (active_extensions->next == NULL)
+	        && (g_strcmp0 (active_extensions->data, "default") == 0)))
+	{
 		g_clear_error (&error);
+		g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
+		g_slist_free (active_extensions);
+
+		active_extensions = NULL;
 		for (i = 0; default_extensions[i] != NULL; i++)
 			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
+
+		eel_gconf_set_string_list (PREF_ACTIVE_EXTENSIONS, active_extensions);
 	}
 	active_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
 

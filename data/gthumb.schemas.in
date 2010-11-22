@@ -48,7 +48,7 @@
 	<owner>gthumb</owner>
 	<type>list</type>
 	<list_type>string</list_type>
-	<default>[]</default>
+	<default>[default]</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
