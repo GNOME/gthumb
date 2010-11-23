@@ -262,6 +262,8 @@ dlg_preferences (GthBrowser *browser)
 	}
 
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
+	if (startup_location == NULL)
+		startup_location = g_strdup (get_home_uri ());
 	file_source = gth_main_get_file_source_for_uri (startup_location);
 	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
 		GFile *location;
