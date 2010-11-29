@@ -1,5 +1,5 @@
 if BUILD_TEST_SUITE
-bin_PROGRAMS = dom-test glib-utils-test gsignature-test oauth-test
+noinst_PROGRAMS = dom-test glib-utils-test gsignature-test oauth-test
 endif
 
 dom_test_SOURCES = dom-test.c $(top_srcdir)/gthumb/dom.c
