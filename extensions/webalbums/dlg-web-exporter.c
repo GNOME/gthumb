@@ -264,7 +264,6 @@ add_themes_from_dir (DialogData *data,
 {
 	GFileEnumerator *enumerator;
 	GFileInfo       *file_info;
-	char            *default_theme;
 
 	enumerator = g_file_enumerate_children (dir,
 						(G_FILE_ATTRIBUTE_STANDARD_NAME ","
@@ -275,8 +274,6 @@ add_themes_from_dir (DialogData *data,
 						NULL);
 	if (enumerator == NULL)
 		return;
-
-	default_theme = eel_gconf_get_string (PREF_WEBALBUMS_THEME, DEFAULT_ALBUM_THEME);
 
 	while ((file_info = g_file_enumerator_next_file (enumerator, NULL, NULL)) != NULL) {
 		GFile     *file;
@@ -300,14 +297,6 @@ add_themes_from_dir (DialogData *data,
 					    THEME_COLUMN_NAME, g_file_info_get_display_name (file_info),
 					    THEME_COLUMN_PREVIEW, preview,
 					    -1);
-
-			if (g_str_equal (default_theme, g_file_info_get_name (file_info))) {
-				GtkTreePath *path;
-
-				path = gtk_tree_model_get_path (GTK_TREE_MODEL (GET_WIDGET ("theme_liststore")), &iter);
-				gtk_icon_view_select_path (GTK_ICON_VIEW (GET_WIDGET ("theme_iconview")), path);
-				gtk_tree_path_free (path);
-			}
 		}
 
 		g_object_unref (preview);
@@ -316,7 +305,6 @@ add_themes_from_dir (DialogData *data,
 		g_object_unref (file_info);
 	}
 
-	g_free (default_theme);
 	g_object_unref (enumerator);
 }
 
@@ -324,9 +312,12 @@ add_themes_from_dir (DialogData *data,
 static void
 load_themes (DialogData *data)
 {
-	char  *style_path;
-	GFile *style_dir;
-	GFile *data_dir;
+	char         *style_path;
+	GFile        *style_dir;
+	GFile        *data_dir;
+	char         *default_theme;
+	GtkTreeModel *model;
+	GtkTreeIter   iter;
 
 	/* local themes */
 
@@ -343,6 +334,39 @@ load_themes (DialogData *data)
 	add_themes_from_dir (data, style_dir);
 	g_object_unref (style_dir);
 	g_object_unref (data_dir);
+
+	/**/
+
+	gtk_widget_set_size_request (GET_WIDGET ("theme_iconview"), (150 * 3), 140);
+	gtk_widget_realize (GET_WIDGET ("theme_iconview"));
+
+	default_theme = eel_gconf_get_string (PREF_WEBALBUMS_THEME, DEFAULT_ALBUM_THEME);
+
+	model = GTK_TREE_MODEL (GET_WIDGET ("theme_liststore"));
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			char *name;
+
+			gtk_tree_model_get(model, &iter, THEME_COLUMN_ID, &name, -1);
+
+			if (g_strcmp0 (name, default_theme) == 0) {
+				GtkTreePath *path;
+
+				path = gtk_tree_model_get_path (model, &iter);
+				gtk_icon_view_select_path (GTK_ICON_VIEW (GET_WIDGET ("theme_iconview")), path);
+				gtk_icon_view_scroll_to_path (GTK_ICON_VIEW (GET_WIDGET ("theme_iconview")), path, TRUE, 0.5, 0.5);
+
+				gtk_tree_path_free (path);
+				g_free (name);
+				break;
+			}
+
+			g_free (name);
+		}
+		while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	g_free (default_theme);
 }
 
 
