@@ -174,7 +174,7 @@ void           gth_file_source_read_attributes       (GthFileSource    *file_sou
 void           gth_file_source_rename                (GthFileSource    *file_source,
 						      GFile            *file,
 						      GFile            *new_file,
-						      ReadyCallback     ready_cb,
+						      ReadyCallback     ready_callback,
 						      gpointer          data);
 void           gth_file_source_copy                  (GthFileSource    *file_source,
 						      GthFileData      *destination,

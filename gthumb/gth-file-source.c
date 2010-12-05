@@ -1093,14 +1093,14 @@ void
 gth_file_source_rename (GthFileSource  *file_source,
 			GFile          *file,
 			GFile          *new_file,
-			ReadyCallback   callback,
+			ReadyCallback   ready_callback,
 			gpointer        data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_rename (file_source, file, new_file, callback, data);
+		gth_file_source_queue_rename (file_source, file, new_file, ready_callback, data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, new_file, callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, new_file, ready_callback, data);
 }
 
 

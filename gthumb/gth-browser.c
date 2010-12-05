@@ -2966,13 +2966,15 @@ file_renamed_cb (GthMonitor *monitor,
 	RenameData *rename_data;
 	GList      *list;
 
+	gth_hook_invoke ("gth-browser-file-renamed", browser, file, new_file);
+
 	rename_data = g_new0 (RenameData, 1);
 	rename_data->browser = browser;
 	rename_data->file_source = gth_main_get_file_source (new_file);
 	rename_data->file = g_file_dup (file);
 	rename_data->new_file = g_file_dup (new_file);
 
-	list = g_list_prepend (NULL, new_file);
+	list = g_list_prepend (NULL, rename_data->new_file);
 	gth_file_source_read_attributes (rename_data->file_source,
 				 	 list,
 				 	 _gth_browser_get_list_attributes (browser, FALSE),

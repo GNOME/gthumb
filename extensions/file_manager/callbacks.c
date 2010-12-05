@@ -487,7 +487,7 @@ void
 fm__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GError      *error;
+	GError      *error = NULL;
 	GtkWidget   *file_view;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));

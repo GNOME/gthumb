@@ -180,6 +180,15 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-update-extra-widget", 1);
 
 	/**
+	 * Called when a file-renamed signal is received by a browser window.
+	 *
+	 * @browser (GthBrowser*): the window that received the signal.
+	 * @file (GFile *): the file that was renamed.
+	 * @new_file (GFile *): the new file.
+	 */
+	gth_hook_register ("gth-browser-file-renamed", 3);
+
+	/**
 	 * Called in _gdk_pixbuf_save_async
 	 *
 	 * @data (SavePixbufData*):

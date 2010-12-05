@@ -30,7 +30,7 @@
 #define BROWSER_DATA_KEY "rename-series-browser-data"
 
 
-static const char *vfs_ui_info =
+static const char *fixed_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='Edit' action='EditMenu'>"
@@ -52,7 +52,7 @@ static GtkActionEntry action_entries[] = {
 
 typedef struct {
 	GtkActionGroup *action_group;
-	guint           vfs_merge_id;
+	guint           fixed_merge_id;
 } BrowserData;
 
 
@@ -79,6 +79,7 @@ void
 rs__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
+	GError      *error = NULL;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -92,54 +93,13 @@ rs__gth_browser_construct_cb (GthBrowser *browser)
 				      browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
+	data->fixed_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error);
+	if (data->fixed_merge_id == 0) {
+		g_warning ("building ui failed: %s", error->message);
+		g_error_free (error);
+	}
+
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
-}
-
-
-static void
-file_manager_update_ui (BrowserData *data,
-			GthBrowser  *browser)
-{
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))) {
-		if (data->vfs_merge_id == 0) {
-			GError *local_error = NULL;
-
-			data->vfs_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), vfs_ui_info, -1, &local_error);
-			if (data->vfs_merge_id == 0) {
-				g_warning ("building ui failed: %s", local_error->message);
-				g_error_free (local_error);
-			}
-		}
-	}
-	else if (data->vfs_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
-			data->vfs_merge_id = 0;
-	}
-}
-
-
-void
-rs__gth_browser_set_current_page_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	file_manager_update_ui (data, browser);
-}
-
-
-void
-rs__gth_browser_load_location_after_cb (GthBrowser   *browser,
-					GthFileData  *location_data,
-					const GError *error)
-{
-	BrowserData *data;
-
-	if ((location_data == NULL) || (error != NULL))
-		return;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	file_manager_update_ui (data, browser);
 }
 
 

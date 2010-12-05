@@ -34,6 +34,7 @@
 #define BROWSER_DATA_KEY "catalogs-browser-data"
 #define _RESPONSE_PROPERTIES 1
 #define _RESPONSE_ORGANIZE 2
+#define UPDATE_RENAMED_FILES_DELAY 500
 
 
 static const char *fixed_ui_info =
@@ -154,7 +155,12 @@ typedef struct {
 	guint           monitor_events;
 	GtkWidget      *properties_button;
 	GtkWidget      *organize_button;
+	guint           update_renamed_files_id;
+	GList          *rename_data_list;
 } BrowserData;
+
+
+static void rename_data_list_free (BrowserData *data);
 
 
 static void
@@ -164,6 +170,12 @@ browser_data_free (BrowserData *data)
 		g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_events);
 		data->monitor_events = 0;
 	}
+	if (data->update_renamed_files_id != 0) {
+		g_source_remove (data->update_renamed_files_id);
+		data->update_renamed_files_id = 0;
+	}
+	rename_data_list_free (data);
+
 	g_free (data);
 }
 
@@ -704,4 +716,152 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 					  browser);
 		}
 	}
+}
+
+
+/* -- catalogs__gth_browser_file_renamed_cb -- */
+
+
+typedef struct {
+	GFile *location;
+	GList *files;
+	GList *new_files;
+} RenameData;
+
+
+static RenameData *
+rename_data_new (GFile *location)
+{
+	RenameData *rename_data;
+
+	rename_data = g_new0 (RenameData, 1);
+	rename_data->location = g_file_dup (location);
+
+	return rename_data;
+}
+
+
+static void
+rename_data_free (RenameData *rename_data)
+{
+	_g_object_list_unref (rename_data->files);
+	_g_object_list_unref (rename_data->new_files);
+	g_object_unref (rename_data->location);
+	g_free (rename_data);
+}
+
+
+static void
+rename_data_list_free (BrowserData *data)
+{
+	g_list_foreach (data->rename_data_list, (GFunc) rename_data_free, NULL);
+	g_list_free (data->rename_data_list);
+	data->rename_data_list = NULL;
+}
+
+
+static gboolean
+process_rename_data_list (gpointer user_data)
+{
+	BrowserData *data = user_data;
+	GList       *scan;
+
+	g_source_remove (data->update_renamed_files_id);
+	data->update_renamed_files_id = 0;
+
+	for (scan = data->rename_data_list; scan; scan = scan->next) {
+		RenameData *rename_data = scan->data;
+		GthCatalog *catalog;
+		GList      *scan_files;
+		GList      *scan_new_files;
+		GFile      *gio_file;
+		char       *catalog_data;
+		gsize       catalog_data_size;
+		GError     *error = NULL;
+
+		catalog = gth_catalog_load_from_file (rename_data->location);
+
+		for (scan_files = rename_data->files, scan_new_files = rename_data->new_files;
+		     scan_files && scan_new_files;
+		     scan_files = scan_files->next, scan_new_files = scan_new_files->next)
+		{
+			GFile *file = scan_files->data;
+			GFile *new_file = scan_new_files->data;
+			int    pos;
+
+			pos = gth_catalog_remove_file (catalog, file);
+			gth_catalog_insert_file (catalog, new_file, pos);
+		}
+
+		gio_file = gth_catalog_file_to_gio_file (rename_data->location);
+		catalog_data = gth_catalog_to_data (catalog, &catalog_data_size);
+		if (! g_write_file (gio_file,
+				    FALSE,
+				    G_FILE_CREATE_NONE,
+				    catalog_data,
+				    catalog_data_size,
+				    NULL,
+				    &error))
+		{
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+		}
+
+		g_free (catalog_data);
+		g_object_unref (gio_file);
+		g_object_unref (catalog);
+	}
+
+	rename_data_list_free (data);
+
+	return FALSE;
+}
+
+
+void
+catalogs__gth_browser_file_renamed_cb (GthBrowser *browser,
+				       GFile      *file,
+				       GFile      *new_file)
+{
+	GthFileStore *file_store;
+	BrowserData  *data;
+	GFile        *location;
+	GList        *scan;
+	RenameData   *rename_data;
+
+	if (! GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser)))
+		return;
+
+	file_store = gth_browser_get_file_store (browser);
+	if (! gth_file_store_find (file_store, file, NULL))
+		return;
+
+	location = gth_browser_get_location (browser);
+	if (location == NULL)
+		return;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	rename_data = NULL;
+	for (scan = data->rename_data_list; scan; scan = scan->next) {
+		RenameData *rename_data_scan = scan->data;
+		if (g_file_equal (rename_data_scan->location, location)) {
+			rename_data = rename_data_scan;
+			break;
+		}
+	}
+
+	if (rename_data == NULL) {
+		rename_data = rename_data_new (location);
+		data->rename_data_list = g_list_prepend (data->rename_data_list, rename_data);
+	}
+
+	rename_data->files = g_list_prepend (rename_data->files, g_file_dup (file));
+	rename_data->new_files = g_list_prepend (rename_data->new_files, g_file_dup (new_file));
+
+	if (data->update_renamed_files_id != 0)
+		g_source_remove (data->update_renamed_files_id);
+	data->update_renamed_files_id = g_timeout_add (UPDATE_RENAMED_FILES_DELAY,
+						       process_rename_data_list,
+						       data);
 }

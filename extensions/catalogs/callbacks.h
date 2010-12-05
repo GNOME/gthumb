@@ -39,5 +39,8 @@ void         catalogs__gth_browser_load_location_after_cb (GthBrowser    *browse
 					                   GFile         *location,
 					                   const GError  *error);
 void         catalogs__gth_browser_update_extra_widget_cb (GthBrowser    *browser);
+void         catalogs__gth_browser_file_renamed_cb        (GthBrowser    *browser,
+							   GFile         *file,
+							   GFile         *new_file);
 
 #endif /* CALLBACKS_H */

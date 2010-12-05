@@ -24,11 +24,7 @@
 
 #include <gthumb.h>
 
-void rs__gth_browser_construct_cb                (GthBrowser    *browser);
-void rs__gth_browser_set_current_page_cb         (GthBrowser    *browser);
-void rs__gth_browser_load_location_after_cb      (GthBrowser    *browser,
-					          GFile         *location,
-					          GError        *error);
-void rs__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
+void rs__gth_browser_construct_cb          (GthBrowser *browser);
+void rs__gth_browser_update_sensitivity_cb (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */
