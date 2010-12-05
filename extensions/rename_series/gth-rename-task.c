@@ -91,6 +91,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 		self->priv->default_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
+	gth_task_dialog (GTH_TASK (self), FALSE, NULL);
 
 	switch (self->priv->default_response) {
 	case GTH_OVERWRITE_RESPONSE_NO:
@@ -196,6 +197,8 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 						  G_CALLBACK (overwrite_dialog_response_cb),
 						  self);
 				gtk_widget_show (dialog);
+
+				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
 
 				return;
 			}
