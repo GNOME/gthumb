@@ -258,7 +258,7 @@ gthumb_LDADD =						\
 	$(LIBBRASERO_LIBS)				\
 	$(LIBOPENRAW_LIBS)				\
 	$(LIBSOUP_LIBS)					\
-	$(NULL)	
+	$(NULL)
 
 if RUN_IN_PLACE
 ui_dir = $(abs_top_srcdir)/data/ui
@@ -274,7 +274,15 @@ endif
 
 gthumb_CFLAGS =							\
 	$(GTHUMB_CFLAGS)					\
+	$(EXIV2_CFLAGS)						\
+	$(JPEG_CFLAGS)						\
+	$(TIFF_CFLAGS)						\
 	$(CLUTTER_CFLAGS)					\
+	$(GNOME_KEYRING_CFLAGS)					\
+	$(GSTREAMER_CFLAGS)					\
+	$(LIBBRASERO_CFLAGS)					\
+	$(LIBOPENRAW_CFLAGS)					\
+	$(LIBSOUP_CFLAGS)					\
 	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\
