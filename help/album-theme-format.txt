@@ -6,7 +6,7 @@ Functions
 
 Functions are used to print values.  Two functions have a special format, they 
 are "eval" and "translate", all other functions have a standard format similar 
-to that of HTLM tags.
+to that of HTML tags.
 
 eval
 ----
@@ -41,7 +41,7 @@ All other functions have the following format:
 
 <%= function attribute="value" attribute="value" %>
 
-they all print a value, that can be customized specifing addition attributes.
+they all print a value, that can be customized specifing additional attributes.
 
 The following is the list of all avaiable functions with the relative 
 attributes:
