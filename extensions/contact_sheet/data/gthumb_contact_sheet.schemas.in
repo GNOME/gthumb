@@ -1,0 +1,200 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/header</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/header</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/footer</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/footer</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/destination</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/template</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>###</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/extension</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/extension</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/html_image_map</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/html_image_map</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/theme</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/theme</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>default</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/images_per_page</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/images_per_page</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>25</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/single_page</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/single_page</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/columns</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/columns</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>5</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/sort_type</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/sort_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>general::unsorted</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/sort_inverse</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/sort_inverse</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/same_size</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/same_size</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/thumbnail_size</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/thumbnail_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>128</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/thumbnail_caption</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/thumbnail_caption</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>      
+
+    </schemalist>
+</gconfschemafile>

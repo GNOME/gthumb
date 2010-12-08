@@ -33,7 +33,9 @@ SUBDIRS = 			\
 	webalbums		\
 	flicker			\
 	burn_disc		\
-	desktop_background
+	desktop_background	\
+	contact_sheet		\
+	$(NULL)
 
 EXTRA_DIST = example
 

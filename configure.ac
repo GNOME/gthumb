@@ -500,6 +500,10 @@ extensions/change_date/data/ui/Makefile
 extensions/comments/Makefile
 extensions/comments/data/Makefile
 extensions/comments/data/ui/Makefile
+extensions/contact_sheet/Makefile
+extensions/contact_sheet/data/Makefile
+extensions/contact_sheet/data/contact_sheet_themes/Makefile
+extensions/contact_sheet/data/ui/Makefile
 extensions/convert_format/Makefile
 extensions/convert_format/data/Makefile
 extensions/convert_format/data/ui/Makefile
