@@ -811,7 +811,7 @@ gfile_get_relative_path (GFile *file,
 /* construct a GFile for a GthWebExporter */
 
 
-GFile *
+static GFile *
 get_album_file (GthWebExporter *self,
 		GFile          *target_dir,
 		const char     *subdir,
@@ -824,7 +824,7 @@ get_album_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_html_index_dir (GthWebExporter *self,
 		    const int       page,
 		    GFile          *target_dir)
@@ -836,7 +836,7 @@ get_html_index_dir (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_html_image_dir (GthWebExporter *self,
 		    GFile          *target_dir)
 {
@@ -844,7 +844,7 @@ get_html_image_dir (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_theme_file (GthWebExporter *self,
 		GFile          *target_dir,
 		const char     *filename)
@@ -853,7 +853,7 @@ get_theme_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_html_index_file (GthWebExporter *self,
 		     const int       page,
 		     GFile          *target_dir)
@@ -876,7 +876,7 @@ get_html_index_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_html_image_file (GthWebExporter *self,
 		     ImageData      *image_data,
 		     GFile          *target_dir)
@@ -893,7 +893,7 @@ get_html_image_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_thumbnail_file (GthWebExporter *self,
 		    ImageData      *image_data,
 		    GFile          *target_dir)
@@ -910,7 +910,7 @@ get_thumbnail_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_image_file (GthWebExporter *self,
 		ImageData      *image_data,
 		GFile          *target_dir)
@@ -926,7 +926,7 @@ get_image_file (GthWebExporter *self,
 }
 
 
-GFile *
+static GFile *
 get_preview_file (GthWebExporter *self,
 		  ImageData      *image_data,
 		  GFile          *target_dir)
