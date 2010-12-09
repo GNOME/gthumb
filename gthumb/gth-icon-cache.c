@@ -106,9 +106,8 @@ _gth_icon_cache_get_icon_key (GIcon *icon)
 			key = get_static_string (filename);
 
 			g_free (filename);
+			g_object_unref (file);
 		}
-
-		g_object_unref (file);
 	}
 
 	return key;
