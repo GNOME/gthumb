@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-11-14 17:14+0000\n"
-"PO-Revision-Date: 2010-12-11 01:40+0100\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2010-12-11 09:59+0000\n"
+"PO-Revision-Date: 2010-12-20 12:58+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,17 +122,17 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
-"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
-"Miniatur-Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
+"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
+"Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
-"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
+"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:3
@@ -372,7 +372,7 @@ msgid "On startup:"
 msgstr "Beim Start:"
 
 #: ../data/ui/preferences.ui.h:23
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:192
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:190
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -870,69 +870,52 @@ msgid "Change the files date"
 msgstr "Das Datum der gewählten Dateien ändern"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-msgid "+"
-msgstr "+"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:2
-msgid "-"
-msgstr "-"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:3
 msgid "A_djust by"
 msgstr "A_bgleichen nach"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:4
+#: ../extensions/change_date/data/ui/change-date.ui.h:2
 msgid "Change Date"
 msgstr "Datum ändern"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#: ../extensions/change_date/data/ui/change-date.ui.h:3
 msgid "Change the following values:"
 msgstr "Folgende Werte ändern:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:6
+#: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change to:"
 msgstr "Ändern in:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:7
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
 msgid "Co_mment date"
 msgstr "Datum des Ko_mmentars"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:8
+#: ../extensions/change_date/data/ui/change-date.ui.h:6
 msgid "Date p_hoto was taken"
 msgstr "Zeitpunkt der Aufna_hme"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:9
+#: ../extensions/change_date/data/ui/change-date.ui.h:7
 msgid "Exif DateTimeOriginal tag"
 msgstr "Exif-Originalzeitpunkteintrag"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:10
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
 msgid "File _modified date"
 msgstr "_Änderungsdatum"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:11
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
 msgid "File c_reation date"
 msgstr "_Erstellungsdatum der Datei"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:12
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
 msgid "The _following date:"
 msgstr "_Folgendes Datum:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:13
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
 msgid "_Last modified date"
 msgstr "_Letztes Änderungsdatum"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:14
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "hours"
 msgstr "Stunden"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:15
-msgid "minutes"
-msgstr "Minuten"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:16
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
-msgid "seconds"
-msgstr "Sekunden"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Add comments and tags to any file type."
@@ -951,8 +934,7 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/main.c:33
-#: ../extensions/edit_metadata/callbacks.c:101
+#: ../extensions/comments/main.c:33 ../extensions/edit_metadata/callbacks.c:101
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -1174,22 +1156,18 @@ msgid "Cr_edit:"
 msgstr "Ermöglicht _durch:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-msgid "State/Provence:"
-msgstr "Staat/Bundesland:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 msgid "_Byline:"
 msgstr "_Verfasserzeile:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 msgid "_City:"
 msgstr "S_tadt:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_Code:"
 msgstr "_Code:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
@@ -1198,20 +1176,20 @@ msgstr "_Code:"
 msgid "_Destination:"
 msgstr "S_peicherort:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 msgid "_Language:"
 msgstr "_Sprache:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Object Name:"
 msgstr "_Objektname:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Quelle:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
 msgid "_Urgency:"
 msgstr "_Dringlichkeit:"
 
@@ -1452,7 +1430,7 @@ msgstr "Die Dateien konnten nicht exportiert werden"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:618
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1004
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:785
-#: ../gthumb/gth-browser.c:936
+#: ../gthumb/gth-browser.c:936 ../gthumb/gth-browser.c:937
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1506,8 +1484,8 @@ msgid ""
 "authorization."
 msgstr ""
 "Klicken Sie auf »Legitimieren«, um Ihren Webbrowser zu öffnen und gthumb zu "
-"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren "
-"Sie zu diesem Fenster zurück, um die Legitimierung abzuschließen."
+"legitimieren, Fotos zu %s zu übertragen. Sobald dies erledigt ist, kehren Sie "
+"zu diesem Fenster zurück, um die Legitimierung abzuschließen."
 
 #: ../extensions/facebook/facebook-authentication.c:679
 #: ../extensions/flicker/flickr-authentication.c:618
@@ -1716,8 +1694,7 @@ msgstr "Der Ordner konnte nicht gelöscht werden"
 
 #: ../extensions/file_manager/actions.c:821
 msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
+"The folder cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "Der Ordner konnte nicht in den Müll verschoben werden. Soll er Dateien "
 "dauerhaft gelöscht werden?"
@@ -2487,8 +2464,8 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
@@ -2499,9 +2476,9 @@ msgstr ""
 "ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
-"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
-"mehr strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
+"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
+"strikt verlustfrei."
 
 #: ../extensions/image_rotation/rotation-utils.c:129
 msgid "_Trim"
@@ -2517,8 +2494,8 @@ msgid ""
 "fit-width, fit-width-if-larger."
 msgstr ""
 "Zulässige Werte: actual_size (tatsächliche Größe), keep_prev (vorherige "
-"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, "
-"wenn größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
+"beibehalten), fit-size (Größe einpassen), fit_size_if_larger (einpassen, wenn "
+"größer), fit_width (Breite anpassen), fit_width_if_larger (an Breite "
 "anpassen, wenn größer)"
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
@@ -3296,8 +3273,8 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
-"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::"
-"size, file::mtime, exif::photo::datetimeoriginal"
+"Mögliche Werte sind unter anderen: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
@@ -3552,6 +3529,10 @@ msgstr "Nach Ende der Vorführung _neu beginnen"
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "_Transition effect:"
 msgstr "Überblendungseffek_t:"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "seconds"
+msgstr "Sekunden"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:214
 msgid "Choose the files to play"
@@ -3931,8 +3912,8 @@ msgstr "Erweiterung(en)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
 "Das Programm war nicht in der Lage, das von Ihnen für »%s« zu verwendende "
@@ -4005,21 +3986,19 @@ msgid ""
 msgstr ""
 "gthumb ist freie Software, Sie können sie weitergeben und/oder verändern, "
 "solange Sie sich an die Regeln der GNU General Public License halten, so wie "
-"sie von der Free Software Foundation festgelegt wurden; entweder in Version "
-"2 der Lizenz oder (nach Ihrem Ermessen) in jeder folgenden Version."
+"sie von der Free Software Foundation festgelegt wurden; entweder in Version 2 "
+"der Lizenz oder (nach Ihrem Ermessen) in jeder folgenden Version."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:374
 msgid ""
 "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details."
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR "
+"A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
 msgstr ""
-"gthumb wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden, "
-"jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie der "
-"VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK. Schauen Sie "
-"für weitere Informationen bitte in der GNU General Public License (GNU GPL) "
-"nach."
+"gthumb wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden, jedoch "
+"OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie der VERKAUFBARKEIT "
+"oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK. Schauen Sie für weitere "
+"Informationen bitte in der GNU General Public License (GNU GPL) nach."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:378
 msgid ""
@@ -4255,13 +4234,6 @@ msgstr "[geändert]"
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:937
-#, c-format
-msgid "%d file selected (%s)"
-msgid_plural "%d files selected (%s)"
-msgstr[0] "%d Datei ausgewählt (%s)"
-msgstr[1] "%d Dateien ausgewählt (%s)"
-
 #: ../gthumb/gth-browser.c:1118 ../gthumb/gth-browser.c:1671
 #: ../gthumb/gth-browser.c:5436 ../gthumb/gth-browser.c:5455
 #: ../gthumb/gth-browser.c:5480
@@ -4323,8 +4295,8 @@ msgstr "Modul »%s« konnte nicht geöffnet werden: %s"
 
 #: ../gthumb/gth-extensions.c:827
 #, c-format
-msgid "The extension '%1$s' is required by the extension '%2$s'"
-msgstr "Die Erweiterung »%1$s« wird von der Erweiterung »%2$s« benötigt"
+msgid "The extension '%s' is required by the extension '%s'"
+msgstr "Die Erweiterung »%s« wird von der Erweiterung »%s« benötigt"
 
 #: ../gthumb/gth-file-source-vfs.c:82
 msgid "Home Folder"
@@ -4667,6 +4639,23 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
+
+#~ msgid "+"
+#~ msgstr "+"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#~ msgid "minutes"
+#~ msgstr "Minuten"
+
+#~ msgid "State/Provence:"
+#~ msgstr "Staat/Bundesland:"
+
+#~ msgid "%d file selected (%s)"
+#~ msgid_plural "%d files selected (%s)"
+#~ msgstr[0] "%d Datei ausgewählt (%s)"
+#~ msgstr[1] "%d Dateien ausgewählt (%s)"
 
 #~ msgid "Ask"
 #~ msgstr "Fragen"
