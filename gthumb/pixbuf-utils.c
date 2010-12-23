@@ -27,6 +27,144 @@
 #include "pixbuf-utils.h"
 
 
+GdkPixbuf*
+_gdk_pixbuf_new_void (int width,
+		      int height)
+{
+	GdkPixbuf *p;
+
+	p = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+			    TRUE,
+			    8,
+			    width,
+			    height);
+	gdk_pixbuf_fill (p, 0xFFFFFF00);
+
+	return p;
+}
+
+
+/* Taken from http://www.gtkforums.com/about5204.html
+ * Author: tadeboro */
+GdkPixbuf *
+_gdk_pixbuf_new_from_cairo_surface (cairo_t *cr)
+{
+	cairo_surface_t *surface;
+	int              width;
+	int              height;
+	int              s_stride;
+	unsigned char   *s_pixels;
+	GdkPixbuf       *pixbuf;
+	int              p_stride;
+	guchar          *p_pixels;
+	int              p_n_channels;
+
+	surface = cairo_get_target (cr);
+	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
+		return NULL;
+
+	width = cairo_image_surface_get_width (surface);
+	height = cairo_image_surface_get_height (surface);
+	s_stride = cairo_image_surface_get_stride (surface);
+	s_pixels = cairo_image_surface_get_data (surface);
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+	p_stride = gdk_pixbuf_get_rowstride (pixbuf);
+	p_pixels = gdk_pixbuf_get_pixels (pixbuf);
+	p_n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+
+	while (height--) {
+		guchar *s_iter = s_pixels;
+	        guchar *p_iter = p_pixels;
+	        int     i;
+
+	        for (i = 0; i < width; i++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+	        	/* Pixbuf:  RGB(A)
+	        	 * Surface: BGRA */
+	        	gdouble alpha_factor = (gdouble)0xff / s_iter[3];
+
+	        	p_iter[0] = (guchar) (s_iter[2] * alpha_factor + .5);
+	        	p_iter[1] = (guchar) (s_iter[1] * alpha_factor + .5);
+	        	p_iter[2] = (guchar) (s_iter[0] * alpha_factor + .5);
+	        	if (p_n_channels == 4)
+	        		p_iter[3] = s_iter[3];
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
+	        	/* Pixbuf:  RGB(A)
+	        	 * Surface: ARGB */
+	        	gdouble alpha_factor = (gdouble)0xff / s_iter[0];
+
+	        	p_iter[0] = (guchar) (s_iter[1] * alpha_factor + .5);
+	        	p_iter[1] = (guchar) (s_iter[2] * alpha_factor + .5);
+	        	p_iter[2] = (guchar) (s_iter[3] * alpha_factor + .5);
+	        	if (p_n_channels == 4)
+	        		p_iter[3] = s_iter[0];
+#else /* PDP endianness */
+	        	/* Pixbuf:  RGB(A)
+	        	 * Surface: RABG */
+	        	gdouble alpha_factor = (gdouble)0xff / s_iter[1];
+
+	        	p_iter[0] = (guchar) (s_iter[0] * alpha_factor + .5);
+	        	p_iter[1] = (guchar) (s_iter[3] * alpha_factor + .5);
+	        	p_iter[2] = (guchar) (s_iter[2] * alpha_factor + .5);
+	        	if (p_n_channels == 4)
+	        		p_iter[3] = s_iter[1];
+#endif
+
+	        	s_iter += 4;
+	        	p_iter += p_n_channels;
+		}
+
+		s_pixels += s_stride;
+		p_pixels += p_stride;
+	}
+
+	return pixbuf;
+}
+
+
+/* The gdk_pixbuf scaling routines do not handle large-ratio downscaling
+   very well. Memory usage explodes and the application may freeze or crash.
+   For scale-down ratios in excess of 100, do the scale in two steps.
+   It is faster and safer that way. See bug 80925 for background info. */
+GdkPixbuf*
+_gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
+			       int              dest_width,
+			       int              dest_height,
+			       GdkInterpType    interp_type)
+{
+	GdkPixbuf* temp_pixbuf1;
+	GdkPixbuf* temp_pixbuf2;
+	int        x_ratio, y_ratio;
+	int        temp_width = dest_width, temp_height = dest_height;
+
+	g_assert (dest_width >= 1);
+	g_assert (dest_height >= 1);
+
+	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
+	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
+
+
+
+	if (x_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_width = 10 * dest_width;
+
+	if (y_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_height = 10 * dest_height;
+
+	if ( (temp_width != dest_width) || (temp_height != dest_height)) {
+		temp_pixbuf1 = gdk_pixbuf_scale_simple (src, temp_width, temp_height, interp_type);
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (temp_pixbuf1, dest_width, dest_height, interp_type);
+		g_object_unref (temp_pixbuf1);
+	} else
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
+
+	return temp_pixbuf2;
+}
+
+
 /*
  * Returns a transformed image.
  */
@@ -122,16 +260,57 @@ _gdk_pixbuf_colorshift (GdkPixbuf *dest,
 }
 
 
-void
-pixmap_from_xpm (const char **data,
-		 GdkPixmap **pixmap,
-		 GdkBitmap **mask)
+/* From gtkcellrendererpixbuf.c
+ * Copyright (C) 2000  Red Hat, Inc.,  Jonathan Blandford <jrb@redhat.com>
+ *
+ * modified for gthumb */
+GdkPixbuf *
+_gdk_pixbuf_colorize (GdkPixbuf *src,
+		      GdkColor  *new_color,
+		      gdouble    alpha)
 {
-	GdkPixbuf *pixbuf;
+	gint i, j;
+	gint width, height, has_alpha, src_row_stride, dst_row_stride;
+	gint red_value, green_value, blue_value;
+	guchar *target_pixels;
+	guchar *original_pixels;
+	guchar *pixsrc;
+	guchar *pixdest;
+	GdkPixbuf *dest;
 
-	pixbuf = gdk_pixbuf_new_from_xpm_data (data);
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, mask, 127);
-	g_object_unref (pixbuf);
+	red_value = new_color->red / 255.0;
+	green_value = new_color->green / 255.0;
+	blue_value = new_color->blue / 255.0;
+
+	dest = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
+			       TRUE /*gdk_pixbuf_get_has_alpha (src)*/,
+			       gdk_pixbuf_get_bits_per_sample (src),
+			       gdk_pixbuf_get_width (src),
+			       gdk_pixbuf_get_height (src));
+
+	has_alpha = gdk_pixbuf_get_has_alpha (src);
+	width = gdk_pixbuf_get_width (src);
+	height = gdk_pixbuf_get_height (src);
+	src_row_stride = gdk_pixbuf_get_rowstride (src);
+	dst_row_stride = gdk_pixbuf_get_rowstride (dest);
+	target_pixels = gdk_pixbuf_get_pixels (dest);
+	original_pixels = gdk_pixbuf_get_pixels (src);
+
+	for (i = 0; i < height; i++) {
+		pixdest = target_pixels + i*dst_row_stride;
+		pixsrc = original_pixels + i*src_row_stride;
+		for (j = 0; j < width; j++) {
+			*pixdest++ = (*pixsrc++ * red_value) >> 8;
+			*pixdest++ = (*pixsrc++ * green_value) >> 8;
+			*pixdest++ = (*pixsrc++ * blue_value) >> 8;
+			if (has_alpha)
+				*pixdest++ = (*pixsrc++ * alpha);
+			else
+				*pixdest++ = (255 * alpha);
+		}
+	}
+
+	return dest;
 }
 
 
@@ -417,47 +596,6 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 }
 
 
-GdkPixbuf*
-_gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
-			       int              dest_width,
-			       int              dest_height,
-			       GdkInterpType    interp_type)
-{
-	GdkPixbuf* temp_pixbuf1;
-	GdkPixbuf* temp_pixbuf2;
-	int        x_ratio, y_ratio;
-	int        temp_width = dest_width, temp_height = dest_height;
-
-	g_assert (dest_width >= 1);
-	g_assert (dest_height >= 1);
-
-	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
-	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
-
-	/* The gdk_pixbuf scaling routines do not handle large-ratio downscaling
-	   very well. Memory usage explodes and the application may freeze or crash.
-	   For scale-down ratios in excess of 100, do the scale in two steps.
-	   It is faster and safer that way. See bug 80925 for background info. */
-
-	if (x_ratio > 100)
-		/* Scale down to 10x the requested size first. */
-		temp_width = 10 * dest_width;
-
-	if (y_ratio > 100)
-		/* Scale down to 10x the requested size first. */
-		temp_height = 10 * dest_height;
-
-	if ( (temp_width != dest_width) || (temp_height != dest_height)) {
-		temp_pixbuf1 = gdk_pixbuf_scale_simple (src, temp_width, temp_height, interp_type);
-		temp_pixbuf2 = gdk_pixbuf_scale_simple (temp_pixbuf1, dest_width, dest_height, interp_type);
-		g_object_unref (temp_pixbuf1);
-	} else
-		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
-
-	return temp_pixbuf2;
-}
-
-
 gboolean
 scale_keeping_ratio_min (int      *width,
 			 int      *height,
@@ -510,23 +648,6 @@ scale_keeping_ratio (int      *width,
 					max_width,
 					max_height,
 					allow_upscaling);
-}
-
-
-GdkPixbuf*
-create_void_pixbuf (int width,
-		    int height)
-{
-	GdkPixbuf *p;
-
-	p = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-			    TRUE,
-			    8,
-			    width,
-			    height);
-	gdk_pixbuf_fill (p, 0xFFFFFF00);
-
-	return p;
 }
 
 

@@ -1,0 +1,28 @@
+[Theme]
+Name=Default
+Authors=gthumb development team
+Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Version=1.0
+
+[Background]
+Type=full
+Color1=#e0d3c0
+Color2=#b1c3ad
+Color3=#e8e8ea
+Color4=#bad8d8
+
+[Frame]
+Style=slide
+Color=#f43421
+
+[Header]
+Font=Arial 22
+Color=#D5504A
+
+[Footer]
+Font=Arial Bold Italic 12
+Color=#394083
+
+[Caption]
+Font=Arial 10
+Color=#414141
