@@ -4,7 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="contact_sheet_dialog">
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Web Album</property>
+    <property name="title" translatable="yes">Contact Sheet</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -15,6 +15,7 @@
           <object class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="border_width">6</property>
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
@@ -61,7 +62,7 @@
                                   <object class="GtkLabel" id="label8">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">%P</property>
+                                    <property name="label" translatable="yes">%n</property>
                                     <attributes>
                                       <attribute name="size" value="8000"/>
                                     </attributes>
@@ -498,7 +499,7 @@
                                         <property name="follow_state">True</property>
                                       </object>
                                       <attributes>
-                                        <attribute name="pixbuf">2</attribute>
+                                        <attribute name="pixbuf">3</attribute>
                                       </attributes>
                                     </child>
                                     <child>
@@ -507,7 +508,7 @@
                                         <property name="ellipsize">end</property>
                                       </object>
                                       <attributes>
-                                        <attribute name="text">1</attribute>
+                                        <attribute name="text">2</attribute>
                                       </attributes>
                                     </child>
                                   </object>
@@ -858,6 +859,7 @@
                                 <child>
                                   <object class="GtkHBox" id="hbox2">
                                     <property name="visible">True</property>
+                                    <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkComboBox" id="thumbnail_size_combobox">
                                         <property name="visible">True</property>
@@ -872,6 +874,20 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="squared_thumbnail_checkbutton">
+                                        <property name="label" translatable="yes">Sq_uared</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -1060,22 +1076,24 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="theme_liststore">
-    <columns>
-      <!-- column-name id -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name preview -->
-      <column type="GdkPixbuf"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="thumbnail_size_liststore">
     <columns>
       <!-- column-name size -->
       <column type="gint"/>
       <!-- column-name name -->
       <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="theme_liststore">
+    <columns>
+      <!-- column-name index -->
+      <column type="gint"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name display_name -->
+      <column type="gchararray"/>
+      <!-- column-name preview -->
+      <column type="GdkPixbuf"/>
     </columns>
   </object>
 </interface>

@@ -30,14 +30,16 @@
 #define STRING_IS_VOID(x) (((x) == NULL) || (*(x) == 0))
 #define DEFAULT_CONTACT_SHEET_THEME "default"
 #define DEFAULT_CONTACT_SHEET_THUMBNAIL_CAPTION ("general::datetime,general::dimensions,gth::file::display-size")
+#define PREVIEW_SIZE 112
 
 enum {
 	FILETYPE_COLUMN_NAME
 };
 
 enum {
-	THEME_COLUMN_ID,
+	THEME_COLUMN_IDX,
 	THEME_COLUMN_NAME,
+	THEME_COLUMN_DISPLAY_NAME,
 	THEME_COLUMN_PREVIEW
 };
 
@@ -57,6 +59,8 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 	GtkWidget  *thumbnail_caption_chooser;
+	GList      *themes;
+	int         n_themes;
 } DialogData;
 
 
@@ -81,6 +85,8 @@ destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	gth_browser_set_dialog (data->browser, "contact_sheet", NULL);
+	g_list_foreach (data->themes, (GFunc) gth_contact_sheet_theme_unref, NULL);
+	g_list_free (data->themes);
 	_g_object_list_unref (data->file_list);
 	g_object_unref (data->builder);
 	g_free (data);
@@ -107,6 +113,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	char            *extension;
 	gboolean         create_image_map;
 	char            *theme_name;
+	int              theme_idx;
 	int              images_per_index;
 	int              single_page;
 	int              columns;
@@ -114,6 +121,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gboolean         sort_inverse;
 	gboolean         same_size;
 	int              thumbnail_size;
+	gboolean         squared_thumbnail;
 	char            *thumbnail_caption;
 	GtkTreeIter      iter;
 	GthTask         *task;
@@ -136,7 +144,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	extension = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), &iter)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("filetype_combobox")),
+		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("filetype_liststore")),
 				    &iter,
 				    FILETYPE_COLUMN_NAME, &extension,
 				    -1);
@@ -147,6 +155,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	eel_gconf_set_boolean (PREF_CONTACT_SHEET_HTML_IMAGE_MAP, create_image_map);
 
 	theme_name = NULL;
+	theme_idx = -1;
 	{
 		GList *list;
 
@@ -159,6 +168,7 @@ ok_clicked_cb (GtkWidget  *widget,
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (GET_WIDGET ("theme_liststore")), &iter, path);
 			gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("theme_liststore")), &iter,
 					    THEME_COLUMN_NAME, &theme_name,
+					    THEME_COLUMN_IDX, &theme_idx,
 					    -1);
 		}
 
@@ -210,13 +220,14 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_contact_sheet_creator_set_filename_template (GTH_CONTACT_SHEET_CREATOR (task), template);
 	gth_contact_sheet_creator_set_filetype (GTH_CONTACT_SHEET_CREATOR (task), extension);
 	gth_contact_sheet_creator_set_write_image_map (GTH_CONTACT_SHEET_CREATOR (task), create_image_map);
-	gth_contact_sheet_creator_set_theme (GTH_CONTACT_SHEET_CREATOR (task), theme_name);
+	if (theme_idx >= 0)
+		gth_contact_sheet_creator_set_theme (GTH_CONTACT_SHEET_CREATOR (task), g_list_nth_data (data->themes, theme_idx));
 	gth_contact_sheet_creator_set_images_per_index (GTH_CONTACT_SHEET_CREATOR (task), images_per_index);
 	gth_contact_sheet_creator_set_single_index (GTH_CONTACT_SHEET_CREATOR (task), single_page);
 	gth_contact_sheet_creator_set_columns (GTH_CONTACT_SHEET_CREATOR (task), columns);
 	gth_contact_sheet_creator_set_sort_order (GTH_CONTACT_SHEET_CREATOR (task), sort_type, sort_inverse);
 	gth_contact_sheet_creator_set_same_size (GTH_CONTACT_SHEET_CREATOR (task), same_size);
-	gth_contact_sheet_creator_set_thumb_size (GTH_CONTACT_SHEET_CREATOR (task), FALSE, thumbnail_size, thumbnail_size);
+	gth_contact_sheet_creator_set_thumb_size (GTH_CONTACT_SHEET_CREATOR (task), squared_thumbnail, thumbnail_size, thumbnail_size);
 	gth_contact_sheet_creator_set_thumbnail_caption (GTH_CONTACT_SHEET_CREATOR (task), thumbnail_caption);
 
 	gth_browser_exec_task (data->browser, task, FALSE);
@@ -275,31 +286,61 @@ add_themes_from_dir (DialogData *data,
 		return;
 
 	while ((file_info = g_file_enumerator_next_file (enumerator, NULL, NULL)) != NULL) {
-		GFile     *file;
-		char      *filename;
-		GdkPixbuf *preview;
+		GthContactSheetTheme *theme;
+		GFile                *file;
+		char                 *buffer;
+		gsize                 size;
+		GKeyFile             *key_file;
+		GtkTreeIter           iter;
+		GdkPixbuf            *preview;
 
-		if (g_file_info_get_file_type (file_info) != G_FILE_TYPE_DIRECTORY) {
+		if (g_file_info_get_file_type (file_info) != G_FILE_TYPE_REGULAR) {
 			g_object_unref (file_info);
 			continue;
 		}
 
-		file = _g_file_get_child (dir, g_file_info_get_name (file_info), "preview.png", NULL);
-		filename = g_file_get_path (file);
-		preview = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
-		if (preview != NULL) {
-			GtkTreeIter iter;
-
-			gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("theme_liststore")), &iter);
-			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("theme_liststore")), &iter,
-					    THEME_COLUMN_ID, g_file_info_get_name (file_info),
-					    THEME_COLUMN_NAME, g_file_info_get_display_name (file_info),
-					    THEME_COLUMN_PREVIEW, preview,
-					    -1);
+		if (g_strcmp0 (_g_uri_get_file_extension (g_file_info_get_name (file_info)), ".cst") != 0) {
+			g_object_unref (file_info);
+			continue;
 		}
 
+		file = g_file_get_child (dir, g_file_info_get_name (file_info));
+		if (! g_load_file_in_buffer (file,
+					     (void **) &buffer,
+					     &size,
+					     NULL))
+		{
+			g_object_unref (file);
+			g_object_unref (file_info);
+			continue;
+		}
+
+		key_file = g_key_file_new ();
+		if (! g_key_file_load_from_data (key_file, buffer, size, G_KEY_FILE_NONE, NULL)) {
+			g_key_file_free (key_file);
+			g_free (buffer);
+			g_object_unref (file);
+			g_object_unref (file_info);
+		}
+
+		theme = gth_contact_sheet_theme_new_from_key_file (key_file);
+		theme->name = _g_uri_remove_extension (g_file_info_get_name (file_info));
+		data->themes = g_list_prepend (data->themes, theme);
+
+		preview = gth_contact_sheet_theme_create_preview (theme, PREVIEW_SIZE);
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("theme_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("theme_liststore")), &iter,
+				    THEME_COLUMN_IDX, data->n_themes,
+				    THEME_COLUMN_NAME, theme->name,
+				    THEME_COLUMN_DISPLAY_NAME, theme->display_name,
+				    THEME_COLUMN_PREVIEW, preview,
+				    -1);
+
+		data->n_themes++;
+
 		g_object_unref (preview);
-		g_free (filename);
+		g_key_file_free (key_file);
+		g_free (buffer);
 		g_object_unref (file);
 		g_object_unref (file_info);
 	}
@@ -313,6 +354,7 @@ load_themes (DialogData *data)
 {
 	char         *style_path;
 	GFile        *style_dir;
+	int           col_spacing;
 	GFile        *data_dir;
 	char         *default_theme;
 	GtkTreeModel *model;
@@ -336,7 +378,10 @@ load_themes (DialogData *data)
 
 	/**/
 
-	/* gtk_widget_set_size_request (GET_WIDGET ("theme_iconview"), (150 * 3), 140); FIXME */
+	data->themes = g_list_reverse (data->themes);
+
+	col_spacing = gtk_icon_view_get_column_spacing (GTK_ICON_VIEW (GET_WIDGET ("theme_iconview")));
+	gtk_widget_set_size_request (GET_WIDGET ("theme_iconview"), (col_spacing + (PREVIEW_SIZE + col_spacing) * 3), (PREVIEW_SIZE + col_spacing * 2));
 	gtk_widget_realize (GET_WIDGET ("theme_iconview"));
 
 	default_theme = eel_gconf_get_string (PREF_CONTACT_SHEET_THEME, DEFAULT_CONTACT_SHEET_THEME);
@@ -346,7 +391,7 @@ load_themes (DialogData *data)
 		do {
 			char *name;
 
-			gtk_tree_model_get(model, &iter, THEME_COLUMN_ID, &name, -1);
+			gtk_tree_model_get (model, &iter, THEME_COLUMN_NAME, &name, -1);
 
 			if (g_strcmp0 (name, default_theme) == 0) {
 				GtkTreePath *path;
@@ -357,6 +402,7 @@ load_themes (DialogData *data)
 
 				gtk_tree_path_free (path);
 				g_free (name);
+
 				break;
 			}
 
@@ -399,6 +445,9 @@ dlg_contact_sheet (GthBrowser *browser,
 	data->thumbnail_caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_FILE_LIST);
 	gtk_widget_show (data->thumbnail_caption_chooser);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("thumbnail_caption_scrolledwindow")), data->thumbnail_caption_chooser);
+
+	data->n_themes = 0;
+	data->themes = NULL;
 
 	/* Set widgets data. */
 
