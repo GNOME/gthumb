@@ -1,6 +1,6 @@
 themedir   = $(pkgdatadir)/contactsheetthemes
 theme_DATA =		\
-	default.ini	\
+	default.cst	\
 	$(NULL)
 
 EXTRA_DIST = $(theme_DATA) 

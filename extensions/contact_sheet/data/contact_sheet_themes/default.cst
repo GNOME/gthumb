@@ -13,14 +13,14 @@ Color4=#bad8d8
 
 [Frame]
 Style=slide
-Color=#f43421
+Color=#94d6Cd
 
 [Header]
 Font=Arial 22
 Color=#D5504A
 
 [Footer]
-Font=Arial Bold Italic 12
+Font=Arial Bold 12
 Color=#394083
 
 [Caption]
