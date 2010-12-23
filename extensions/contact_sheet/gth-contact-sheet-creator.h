@@ -26,6 +26,7 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "gth-contact-sheet-theme.h"
 
 #define GTH_TYPE_CONTACT_SHEET_CREATOR            (gth_contact_sheet_creator_get_type ())
 #define GTH_CONTACT_SHEET_CREATOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_CONTACT_SHEET_CREATOR, GthContactSheetCreator))
@@ -64,7 +65,7 @@ void       gth_contact_sheet_creator_set_filetype          (GthContactSheetCreat
 void       gth_contact_sheet_creator_set_write_image_map   (GthContactSheetCreator   *self,
 							    gboolean                  value);
 void       gth_contact_sheet_creator_set_theme             (GthContactSheetCreator   *self,
-						   	    const char               *theme_name);
+							    GthContactSheetTheme     *theme);
 void       gth_contact_sheet_creator_set_images_per_index  (GthContactSheetCreator   *self,
 							    int                       value);
 void       gth_contact_sheet_creator_set_single_index      (GthContactSheetCreator   *self,

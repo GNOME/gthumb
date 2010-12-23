@@ -28,36 +28,1027 @@
 #include "preferences.h"
 
 #define DEFAULT_THUMB_SIZE 128
+#define DEFAULT_FONT "Sans 12"
 
 static GObjectClass *parent_class = NULL;
 
 
+typedef struct {
+	GthFileData *file_data;
+	GdkPixbuf   *thumbnail;
+	int          original_width;
+	int          original_height;
+} ItemData;
+
+
+static ItemData *
+item_data_new (GthFileData *file_data)
+{
+	ItemData *item_data;
+
+	item_data = g_new0 (ItemData, 1);
+	item_data->file_data = g_object_ref (file_data);
+	item_data->thumbnail = NULL;
+	item_data->original_width = 0;
+	item_data->original_height = 0;
+
+	return item_data;
+}
+
+
+static void
+item_data_free (ItemData *item_data)
+{
+	_g_object_unref (item_data->thumbnail);
+	_g_object_unref (item_data->file_data);
+	g_free (item_data);
+}
+
+
 struct _GthContactSheetCreatorPrivate {
-	GthBrowser        *browser;
-	GList             *gfile_list;             /* GFile list */
+	GthBrowser           *browser;
+	GList                *gfile_list;             /* GFile list */
 
 	/* options */
 
-	char              *header;
-	char              *footer;
-	GFile             *destination;            /* Save files in this location. */
-	GthFileDataSort   *sort_type;
-	gboolean           sort_inverse;
-	int                images_per_index;
-	gboolean           single_index;
-	int                columns_per_page;
-	int                rows_per_page;
-	gboolean           squared_thumbnails;
-	int                thumb_width;
-	int                thumb_height;
-	char              *thumbnail_caption;
+	char                 *header;
+	char                 *footer;
+	GFile                *destination;
+	char                 *template;
+	char                 *filetype;
+	gboolean              write_image_map;
+	GthContactSheetTheme *theme;
+	int                   images_per_index;
+	gboolean              single_index;
+	int                   columns_per_page;
+	int                   rows_per_page;
+	GthFileDataSort      *sort_type;
+	gboolean              sort_inverse;
+	gboolean              same_size;
+	gboolean              squared_thumbnails;
+	int                   thumb_width;
+	int                   thumb_height;
+	char                 *thumbnail_caption;
+
+	/* private data */
+
+	cairo_t              *cr;
+	PangoContext         *pango_context;
+	PangoLayout          *pango_layout;
+
+	GthImageLoader       *image_loader;
+	GList                *files;                /* ItemData list */
+	GList                *current_file;         /* Next file to be loaded. */
+	gint                  n_files;              /* Used for the progress signal. */
+	gint                  n_loaded_files;
+	GList                *created_files;
+	GFile                *imagemap_file;
+	GDataOutputStream    *imagemap_stream;
+
+	int                   page_width;
+	int                   page_height;
+	int                  *pages_height;
+	int                   n_pages;
+	char                **thumbnail_caption_v;
+	char                **template_v;
 };
+
+
+static int
+get_text_height (GthContactSheetCreator *self,
+		 const char             *text,
+		 const char             *font_name,
+		 int                     width)
+{
+	PangoFontDescription *font_desc;
+	PangoRectangle        bounds;
+
+	if (text == NULL)
+		return 0;
+
+	if (font_name != NULL)
+		font_desc = pango_font_description_from_string (font_name);
+	else
+		font_desc = pango_font_description_from_string (DEFAULT_FONT);
+	pango_layout_set_font_description (self->priv->pango_layout, font_desc);
+	pango_layout_set_width (self->priv->pango_layout, width * PANGO_SCALE);
+	pango_layout_set_wrap (self->priv->pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_text (self->priv->pango_layout, text, -1);
+
+	pango_layout_get_pixel_extents (self->priv->pango_layout, NULL, &bounds);
+
+	if (font_desc != NULL)
+		pango_font_description_free (font_desc);
+
+	return bounds.height;
+}
+
+
+static int
+get_header_height (GthContactSheetCreator *self,
+		   int                     with_spacing)
+{
+	int h;
+
+	if ((self->priv->header == NULL) || (strcmp (self->priv->header, "") == 0))
+		return 0;
+
+	h = get_text_height (self,
+			     self->priv->header,
+			     self->priv->theme->header_font_name,
+			     self->priv->page_width);
+	if (with_spacing)
+		h += (self->priv->theme->row_spacing * 2);
+
+	return h;
+}
+
+
+static int
+get_footer_height (GthContactSheetCreator *self,
+		   int                     with_spacing)
+{
+	int h;
+
+	if ((self->priv->footer == NULL) || (strcmp (self->priv->footer, "") == 0))
+		return 0;
+
+	h = get_text_height (self,
+			     self->priv->footer,
+			     self->priv->theme->footer_font_name,
+			     self->priv->page_width);
+	if (with_spacing)
+		h += (self->priv->theme->row_spacing * 2);
+
+	return h;
+}
+
+
+static int
+get_max_text_height (GthContactSheetCreator *self,
+		     GList                  *first_item,
+		     GList                  *last_item)
+{
+	int    max_height = 0;
+	GList *scan;
+
+	for (scan = first_item; scan != last_item; scan = scan->next) {
+		ItemData *item_data = scan->data;
+		int       text_height;
+		int       i;
+
+		text_height = 0;
+		for (i = 0; self->priv->thumbnail_caption_v[i] != NULL; i++) {
+			char *value;
+
+			value = gth_file_data_get_attribute_as_string (item_data->file_data, self->priv->thumbnail_caption_v[i]);
+			if (value != NULL) {
+				text_height += get_text_height (self, value, self->priv->theme->caption_font_name, self->priv->thumb_width);
+				text_height += self->priv->theme->caption_spacing;
+			}
+
+			g_free (value);
+		}
+
+		max_height = MAX (max_height, text_height);
+	}
+
+	return max_height;
+}
+
+
+static int
+get_page_height (GthContactSheetCreator *self,
+		 int                     page_n)
+{
+	return self->priv->same_size ? self->priv->page_height : self->priv->pages_height[page_n - 1];
+}
+
+
+static void
+begin_page (GthContactSheetCreator *self,
+	    int                     page_n)
+{
+	char            *name;
+	char            *display_name;
+	int              width;
+	int              height;
+	cairo_surface_t *surface;
+
+	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
+	display_name = g_strdup_printf ("%s.%s", name, self->priv->filetype);
+	gth_task_progress (GTH_TASK (self),
+			   _("Creating images"),
+			   display_name,
+			   FALSE,
+			   (double) page_n / self->priv->n_pages);
+	g_free (display_name);
+
+	width = self->priv->page_width;
+	height = get_page_height (self, page_n);
+
+	if (self->priv->cr != NULL)
+		cairo_destroy (self->priv->cr);
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	self->priv->cr = cairo_create (surface);
+	cairo_surface_destroy (surface);
+
+	gth_contact_sheet_theme_paint_background (self->priv->theme, self->priv->cr);
+
+	/* image map file. */
+
+	if (self->priv->write_image_map) {
+		char   *display_name;
+		GError *error = NULL;
+		char   *uri;
+		char   *line;
+
+		_g_object_unref (self->priv->imagemap_file);
+		display_name = g_strdup_printf ("%s.html", name);
+		self->priv->imagemap_file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
+		g_free (display_name);
+
+		_g_object_unref (self->priv->imagemap_stream);
+		self->priv->imagemap_stream = g_data_output_stream_new (G_OUTPUT_STREAM (g_file_open_readwrite (self->priv->imagemap_file, gth_task_get_cancellable (GTH_TASK (self)), NULL)));
+
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+"\
+<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
+  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
+<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
+<head>\n\
+  <title></title>\n\
+  <style type=\"text/css\">\n\
+    html { margin: 0px; border: 0px; padding: 0px; }\n\
+    body { margin: 0px; }\n\
+    img  { border: 0px; }\n\
+  </style>\n\
+</head>\n\
+<body>\n\
+  <div>\n\
+",
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+
+		uri = g_file_get_uri (self->priv->imagemap_file);
+		line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n",
+					uri,
+					width,
+					height,
+					uri);
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 line,
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 "<map name=\"map\" id=\"map\">\n",
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+
+		g_free (line);
+		g_free (uri);
+	}
+
+	g_free (name);
+}
+
+
+static void
+end_page (GthContactSheetCreator *self,
+	  int                     page_n)
+{
+	GdkPixbuf *pixbuf;
+	char      *buffer;
+	gsize      size;
+	GError    *error = NULL;
+	char      *name;
+	char      *display_name;
+	GFile     *file;
+
+	pixbuf = _gdk_pixbuf_new_from_cairo_surface (self->priv->cr);
+	if (! gdk_pixbuf_save_to_buffer (pixbuf,
+					 &buffer,
+					 &size,
+					 self->priv->filetype,
+					 &error,
+					 (g_str_equal(self->priv->filetype, "jpeg") ? "quality" : NULL),
+					 "90",
+					 NULL))
+	{
+		/* TODO */
+	}
+
+	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
+	display_name = g_strdup_printf ("%s.%s", name, self->priv->filetype);
+	file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
+
+	if (! g_write_file (file,
+			    FALSE,
+			    G_FILE_CREATE_REPLACE_DESTINATION,
+			    buffer,
+			    size,
+			    gth_task_get_cancellable (GTH_TASK (self)),
+			    &error))
+	{
+		/* TODO */
+	}
+
+	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (file));
+
+	g_object_unref (file);
+	g_free (display_name);
+	g_free (name);
+	g_object_unref (pixbuf);
+
+	/* image map file. */
+
+	if (self->priv->imagemap_stream != NULL) {
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 "</map>\n",
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 "\
+  </div>\n\
+</body>\n\
+</html>\n\
+",
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+
+		g_output_stream_close (G_OUTPUT_STREAM (self->priv->imagemap_stream),
+				       gth_task_get_cancellable (GTH_TASK (self)),
+				       &error);
+
+		self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->imagemap_file));
+	}
+}
+
+
+/* -- get_text -- */
+
+
+typedef struct {
+	GthContactSheetCreator *self;
+	int                     page_n;
+} TemplateData;
+
+
+static gboolean
+text_eval_cb (const GMatchInfo *info,
+	      GString          *res,
+	      gpointer          data)
+{
+	TemplateData *template_data = data;
+	char         *r = NULL;
+	char         *match;
+
+	match = g_match_info_fetch (info, 0);
+
+	if (strncmp (match, "%p", 1) == 0) {
+		r = g_strdup_printf ("%d", template_data->page_n);
+	}
+	else if (strncmp (match, "%n", 1) == 0) {
+		r = g_strdup_printf ("%d", template_data->self->priv->n_pages);
+	}
+
+	if (r != NULL)
+		g_string_append (res, r);
+
+	g_free (r);
+	g_free (match);
+
+	return FALSE;
+}
+
+
+static char *
+get_text (GthContactSheetCreator *self,
+	  const char             *text,
+	  int                     page_n)
+{
+	GRegex       *re;
+	TemplateData  template_data;
+	char         *new_text;
+
+	re = g_regex_new ("%[pn]", 0, 0, NULL);
+	template_data.self = self;
+	template_data.page_n = page_n;
+	new_text = g_regex_replace_eval (re, text, -1, 0, 0, text_eval_cb, &template_data, NULL);
+
+	g_regex_unref (re);
+
+	return new_text;
+}
+
+
+static void
+paint_text (GthContactSheetCreator *self,
+	    const char             *font_name,
+	    GdkColor               *color,
+	    int                     x,
+	    int                     y,
+	    int                     width,
+	    const char             *text,
+	    int                    *height)
+{
+	PangoFontDescription *font_desc;
+	PangoRectangle        bounds;
+
+	if (font_name != NULL)
+		font_desc = pango_font_description_from_string (font_name);
+	else
+		font_desc = pango_font_description_from_string (DEFAULT_FONT);
+	pango_layout_set_font_description (self->priv->pango_layout, font_desc);
+	pango_layout_set_width (self->priv->pango_layout, width * PANGO_SCALE);
+	pango_layout_set_wrap (self->priv->pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_text (self->priv->pango_layout, text, -1);
+	pango_layout_get_pixel_extents (self->priv->pango_layout, NULL, &bounds);
+
+	x += self->priv->theme->frame_border;
+
+	cairo_save (self->priv->cr);
+	gdk_cairo_set_source_color (self->priv->cr, color);
+	pango_cairo_update_layout (self->priv->cr, self->priv->pango_layout);
+	cairo_move_to (self->priv->cr, x, y);
+	pango_cairo_show_layout (self->priv->cr, self->priv->pango_layout);
+	cairo_restore (self->priv->cr);
+
+#if 0
+	cairo_set_source_rgb (self->priv->cr, 1.0, 0.0, 0.0);
+	cairo_rectangle (self->priv->cr, x, y, width, bounds.height);
+	cairo_stroke (self->priv->cr);
+#endif
+
+	if (font_desc != NULL)
+		pango_font_description_free (font_desc);
+
+	if (height != NULL)
+		*height = bounds.height;
+}
+
+
+static void
+paint_footer (GthContactSheetCreator *self,
+	      int                     page_n)
+{
+	char *text;
+
+	if (self->priv->footer == NULL)
+		return;
+
+	text = get_text (self, self->priv->footer, page_n);
+	paint_text (self,
+		    self->priv->theme->footer_font_name,
+		    &self->priv->theme->footer_color,
+		    0,
+		    get_page_height (self, page_n) - get_footer_height (self, FALSE) - self->priv->theme->row_spacing / 2,
+		    self->priv->page_width,
+		    text,
+		    NULL);
+
+	g_free (text);
+}
+
+
+static void
+paint_frame (GthContactSheetCreator *self,
+	     GdkRectangle           *frame_rect,
+	     GdkRectangle           *image_rect,
+	     GthFileData            *file_data)
+{
+	gth_contact_sheet_theme_paint_frame (self->priv->theme, self->priv->cr, frame_rect, image_rect);
+
+#if 0
+	switch (self->priv->theme->frame_style) {
+	case GTH_CONTACT_SHEET_FRAME_STYLE_NONE:
+		break;
+
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SLIDE:
+		gthumb_draw_slide_with_colors (self->priv->pixmap,
+					       frame_rect->x,
+					       frame_rect->y,
+					       frame_rect->width,
+					       frame_rect->height,
+					       image_rect->width,
+					       image_rect->height,
+					       &self->priv->theme->frame_color,
+					       &self->priv->black,
+					       &self->priv->dark_gray,
+					       &self->priv->gray,
+					       &self->priv->white);
+		break;
+
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE:
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW:
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE_WITH_SHADOW:
+		if (self->priv->theme->frame_style == GTH_FRAME_STYLE_SHADOW)
+			gthumb_draw_image_shadow (self->priv->pixmap,
+						  image_rect->x,
+						  image_rect->y,
+						  image_rect->width,
+						  image_rect->height);
+
+		if (self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)
+			gthumb_draw_frame_shadow (self->priv->pixmap,
+						  image_rect->x,
+						  image_rect->y,
+						  image_rect->width,
+						  image_rect->height);
+
+		if ((self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE)
+		    || (self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW))
+		{
+			gthumb_draw_frame (self->priv->pixmap,
+					   image_rect->x,
+					   image_rect->y,
+					   image_rect->width,
+					   image_rect->height,
+					   &self->priv->theme->frame_color);
+		}
+		break;
+
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_IN:
+		gthumb_draw_image_shadow_in (self->priv->pixmap,
+					     image_rect->x,
+					     image_rect->y,
+					     image_rect->width,
+					     image_rect->height);
+		break;
+
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_OUT:
+		gthumb_draw_image_shadow_out (self->priv->pixmap,
+					      image_rect->x,
+					      image_rect->y,
+					      image_rect->width,
+					      image_rect->height);
+		break;
+	}
+#endif
+
+	if (self->priv->imagemap_stream != NULL) {
+		char   *file;
+		char   *destination;
+		char   *relative_uri;
+		char   *relative_path;
+		char   *alt_attribute;
+		char   *line;
+		GError *error = NULL;
+
+		file = g_file_get_uri (file_data->file);
+		destination = g_file_get_uri (self->priv->destination);
+		relative_uri = _g_uri_get_relative_path (file, destination);
+		relative_path = g_uri_unescape_string (relative_uri, "");
+		alt_attribute = _g_escape_for_html (relative_path, -1);
+
+		line = g_strdup_printf ("<area shape=\"rect\" coords=\"%d,%d,%d,%d\" href=\"%s\" alt=\"%s\" />\n",
+					frame_rect->x,
+					frame_rect->y,
+					frame_rect->x + frame_rect->width,
+					frame_rect->y + frame_rect->height,
+					relative_path,
+					alt_attribute);
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 line,
+						 gth_task_get_cancellable (GTH_TASK (self)),
+						 &error);
+
+		g_free (line);
+		g_free (alt_attribute);
+		g_free (relative_path);
+		g_free (relative_uri);
+		g_free (destination);
+		g_free (file);
+	}
+}
+
+
+static void
+paint_image (GthContactSheetCreator *self,
+	     GdkRectangle           *image_rect,
+	     GdkPixbuf              *image)
+{
+	cairo_save (self->priv->cr);
+	gdk_cairo_set_source_pixbuf (self->priv->cr, image, image_rect->x, image_rect->y);
+  	cairo_rectangle (self->priv->cr, image_rect->x, image_rect->y, image_rect->width, image_rect->height);
+  	cairo_fill (self->priv->cr);
+  	cairo_restore (self->priv->cr);
+}
+
+
+static void
+export (GthContactSheetCreator *self)
+{
+	int        columns;
+	gboolean   first_row;
+	int        page_n = 0;
+	int        page_height;
+	int        header_height;
+	int        footer_height;
+	int        x, y;
+	GList     *scan;
+	ItemData  *item_data;
+
+	columns = ((self->priv->page_width - self->priv->theme->col_spacing) / (self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing));
+	first_row = TRUE;
+	begin_page (self, ++page_n);
+	page_height = get_page_height (self, page_n);
+	header_height = get_header_height (self, TRUE);
+	footer_height = get_footer_height (self, TRUE);
+	y = self->priv->theme->col_spacing;
+	scan = self->priv->files;
+	item_data = (ItemData*) scan->data;
+	do {
+		GList *first_item, *last_item;
+		int    i;
+		int    row_height;
+		GList *scan_row;
+
+		/* FIXME
+		if (ce->interrupted) {
+			if (ce->file_list != NULL) {
+				g_list_foreach (ce->file_list, (GFunc) image_data_free, NULL);
+				g_list_free (ce->file_list);
+				ce->file_list = NULL;
+			}
+			goto export_end;
+		}
+		*/
+
+		/* get items to paint. */
+
+		first_item = scan;
+		last_item = NULL;
+		for (i = 0; i < columns; i++) {
+			if (scan == NULL) {
+				columns = i;
+				break;
+			}
+
+			last_item = scan = scan->next;
+			if (scan != NULL)
+				item_data = (ItemData *) scan->data;
+		}
+
+		if (columns == 0) {
+			paint_footer (self, page_n);
+			end_page (self, page_n);
+			goto export_end;
+		}
+
+		/* check whether the row fit the current page. */
+
+		row_height = (self->priv->thumb_height
+			      + (self->priv->theme->frame_vpadding * 2)
+			      + get_max_text_height (self, first_item, last_item)
+			      + self->priv->theme->row_spacing);
+
+		g_print ("%d <=> %d\n",
+				y + row_height,
+				self->priv->page_height - (first_row ? header_height : 0) - footer_height);
+
+		while (y + row_height > (self->priv->page_height
+					 - (first_row ? header_height : 0)
+					 - footer_height))
+		{
+			if (first_row) {
+				/* this row has an height greater than the
+				 * page height, close and exit. */
+				goto export_end;
+			}
+
+			/* the row does not fit this page, create a new
+			 * page. */
+
+			if (page_n > 0) {
+				paint_footer (self, page_n);
+				end_page (self, page_n);
+			}
+
+			first_row = TRUE;
+			begin_page (self, ++page_n);
+			page_height = get_page_height (self, page_n);
+			header_height = get_header_height (self, TRUE);
+			footer_height = get_footer_height (self, TRUE);
+			y = self->priv->theme->row_spacing;
+		}
+
+		/* paint the header. */
+
+		if (first_row && (g_strcmp0 (self->priv->header, "") != 0)) {
+			char *text;
+
+			text = get_text (self, self->priv->header, page_n);
+			paint_text (self,
+				    self->priv->theme->header_font_name,
+				    &self->priv->theme->header_color,
+				    0,
+				    y,
+				    self->priv->page_width,
+				    text,
+				    NULL);
+			g_free (text);
+
+			y += header_height;
+		}
+
+		/* paint a row. */
+
+		x = self->priv->theme->col_spacing;
+		for (scan_row = first_item; scan_row != last_item; scan_row = scan_row->next) {
+			ItemData     *row_item = scan_row->data;
+			int           frame_width;
+			int           frame_height;
+			GdkRectangle  frame_rect;
+			int           text_y;
+			int           i;
+
+			frame_width = self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2);
+			frame_height = self->priv->thumb_height + (self->priv->theme->frame_vpadding * 2);
+			frame_rect.x = x;
+			frame_rect.y = y;
+			frame_rect.width = frame_width;
+			frame_rect.height = frame_height;
+
+			/* paint the thumbnail */
+
+			if (row_item->thumbnail != NULL) {
+				int          thumbnail_width;
+				int          thumbnail_height;
+				GdkRectangle image_rect;
+
+				thumbnail_width = gdk_pixbuf_get_width (row_item->thumbnail);
+				thumbnail_height = gdk_pixbuf_get_height (row_item->thumbnail);
+
+				image_rect.x = x + (frame_width - thumbnail_width) / 2 + 1;
+				image_rect.y = y + (frame_height - thumbnail_height) / 2 + 1;
+				image_rect.width = thumbnail_width;
+				image_rect.height = thumbnail_height;
+
+				paint_frame (self, &frame_rect, &image_rect, row_item->file_data);
+				paint_image (self, &image_rect, row_item->thumbnail);
+			}
+
+			/* paint the caption */
+
+			text_y = y + frame_height + self->priv->theme->caption_spacing;
+
+			for (i = 0; self->priv->thumbnail_caption_v[i] != NULL; i++) {
+				char *text;
+				int   h;
+
+				text = gth_file_data_get_attribute_as_string (row_item->file_data, self->priv->thumbnail_caption_v[i]);
+				if (text == NULL)
+					continue;
+
+				paint_text (self,
+					    self->priv->theme->caption_font_name,
+					    &self->priv->theme->caption_color,
+					    x + self->priv->theme->frame_hpadding,
+					    text_y,
+					    self->priv->thumb_width,
+					    text,
+					    &h);
+				text_y += h + self->priv->theme->caption_spacing;
+
+				g_free (text);
+			}
+
+			x += self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing;
+		}
+
+		y += row_height;
+		first_row = FALSE;
+	}
+	while (TRUE);
+
+ export_end:
+
+	if (self->priv->created_files != NULL) {
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    self->priv->destination,
+					    self->priv->created_files,
+					    GTH_MONITOR_EVENT_CREATED);
+		_g_object_list_unref (self->priv->created_files);
+		self->priv->created_files = NULL;
+	}
+
+	gth_task_completed (GTH_TASK (self), NULL);
+}
+
+
+static void
+compute_pages_size (GthContactSheetCreator *self)
+{
+	int    n_pages;
+	int    columns;
+	GList *scan;
+
+	self->priv->page_width = self->priv->theme->col_spacing + self->priv->columns_per_page * (self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing);
+	self->priv->page_height = 0;
+
+	n_pages = self->priv->n_files / (self->priv->columns_per_page * self->priv->rows_per_page) + 1;
+	self->priv->pages_height = g_new (int, n_pages);
+	self->priv->n_pages = 0;
+	columns = self->priv->columns_per_page;
+	for (scan = self->priv->files; scan != NULL; /* void */) {
+		ItemData *idata = (ItemData *) scan->data;
+		int       page_height;
+		int       r;
+
+		page_height = self->priv->theme->row_spacing;
+
+		/* header */
+
+		page_height += get_header_height (self, TRUE);
+
+		/* images */
+
+		g_print ("rows per page: %d\n", self->priv->rows_per_page);
+
+		for (r = 0; r < self->priv->rows_per_page; r++) {
+			GList *first_item;
+			GList *last_item;
+			int    c;
+			int    row_height;
+
+			/* get row items. */
+
+			first_item = scan;
+			last_item = NULL;
+			for (c = 0; c < columns; c++) {
+				if (scan == NULL) {
+					columns = c;
+					break;
+				}
+
+				last_item = scan = scan->next;
+				if (scan != NULL)
+					idata = (ItemData*) scan->data;
+			}
+
+			if (columns == 0)
+				break;
+
+			row_height = (self->priv->thumb_height
+				      + (self->priv->theme->frame_hpadding * 2)
+				      + get_max_text_height (self, first_item, last_item)
+				      + self->priv->theme->row_spacing);
+			page_height += row_height;
+		}
+
+		/* footer */
+
+		page_height += get_footer_height (self, TRUE);
+
+		/**/
+
+		self->priv->pages_height[self->priv->n_pages] = page_height;
+		self->priv->page_height = MAX (self->priv->page_height, page_height);
+		self->priv->n_pages++;
+	}
+}
+
+
+static int
+item_data_compare_func (gconstpointer a,
+			gconstpointer b,
+			gpointer      user_data)
+{
+	GthContactSheetCreator *self = user_data;
+	ItemData               *item_data_a = (ItemData *) a;
+	ItemData               *item_data_b = (ItemData *) b;
+	int                     result;
+
+	result = self->priv->sort_type->cmp_func (item_data_a->file_data, item_data_b->file_data);
+	if (self->priv->sort_inverse)
+		result = result * -1;
+
+	return result;
+}
+
+
+static void image_loader_ready_cb (GObject      *source_object,
+				   GAsyncResult *result,
+				   gpointer      user_data);
+
+
+static void
+load_current_image (GthContactSheetCreator *self)
+{
+	ItemData *item_data;
+
+	if (self->priv->current_file == NULL) {
+		if (self->priv->sort_type->cmp_func != 0)
+			self->priv->files = g_list_sort_with_data (self->priv->files, item_data_compare_func, self);
+		compute_pages_size (self);
+		export (self);
+		return;
+	}
+
+	item_data = self->priv->current_file->data;
+
+	gth_task_progress (GTH_TASK (self),
+			   _("Generating thumbnails"),
+			   g_file_info_get_display_name (item_data->file_data->info),
+			   FALSE,
+			   ((double) ++self->priv->n_loaded_files) / (self->priv->n_files + 1));
+
+	gth_image_loader_load (self->priv->image_loader,
+			       item_data->file_data,
+			       MIN (self->priv->thumb_height, self->priv->thumb_width),
+			       G_PRIORITY_DEFAULT,
+			       gth_task_get_cancellable (GTH_TASK (self)),
+			       image_loader_ready_cb,
+			       self);
+}
+
+
+static void
+image_loader_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	GthContactSheetCreator *self = user_data;
+	GdkPixbuf              *pixbuf;
+	int                     original_width;
+	int                     original_height;
+	GError                 *error = NULL;
+	ItemData               *item_data;
+
+	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
+						  result,
+						  &pixbuf,
+						  &original_width,
+						  &original_height,
+						  &error))
+	{
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	item_data = self->priv->current_file->data;
+	item_data->thumbnail = pixbuf;
+	item_data->original_width = original_width;
+	item_data->original_height = original_height;
+
+	self->priv->current_file = self->priv->current_file->next;
+	load_current_image (self);
+}
+
+
+static void
+file_list_info_ready_cb (GList    *files,
+			 GError   *error,
+			 gpointer  user_data)
+{
+	GthContactSheetCreator *self = user_data;
+	GList                  *scan;
+
+	if (error != NULL) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	self->priv->files = NULL;
+	for (scan = files; scan; scan = scan->next)
+		self->priv->files = g_list_prepend (self->priv->files, item_data_new ((GthFileData *) scan->data));
+	self->priv->files = g_list_reverse (self->priv->files);
+
+	if (self->priv->image_loader == NULL)
+		self->priv->image_loader = gth_image_loader_new (NULL, NULL);
+
+	self->priv->current_file = self->priv->files;
+	load_current_image (self);
+}
 
 
 static void
 gth_contact_sheet_creator_exec (GthTask *task)
 {
-	/* TODO */
+	GthContactSheetCreator *self = GTH_CONTACT_SHEET_CREATOR (task);
+	int                     n_files;
+
+	self->priv->n_files = g_list_length (self->priv->gfile_list);
+	self->priv->n_loaded_files = 0;
+
+	n_files = self->priv->single_index ? self->priv->n_files : self->priv->images_per_index;
+	self->priv->rows_per_page = n_files / self->priv->columns_per_page;
+	if (n_files % self->priv->columns_per_page > 0)
+		self->priv->rows_per_page += 1;
+
+	self->priv->pango_context = gdk_pango_context_get ();
+	pango_context_set_language (self->priv->pango_context, gtk_get_default_language ());
+	self->priv->pango_layout = pango_layout_new (self->priv->pango_context);
+	pango_layout_set_alignment (self->priv->pango_layout, PANGO_ALIGN_CENTER);
+
+	_g_query_all_metadata_async (self->priv->gfile_list,
+				     GTH_LIST_DEFAULT,
+				     self->priv->thumbnail_caption,
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     file_list_info_ready_cb,
+				     self);
 }
 
 
@@ -76,9 +1067,26 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_CONTACT_SHEET_CREATOR (object));
 
 	self = GTH_CONTACT_SHEET_CREATOR (object);
-	g_free (self->priv->header);
-	g_free (self->priv->footer);
+	g_strfreev (self->priv->thumbnail_caption_v);
+	g_strfreev (self->priv->template_v);
+	g_free (self->priv->pages_height);
+	_g_object_unref (self->priv->imagemap_stream);
+	_g_object_unref (self->priv->imagemap_file);
+	_g_object_list_unref (self->priv->created_files);
+	g_list_foreach (self->priv->files, (GFunc) item_data_free, NULL);
+	g_list_free (self->priv->files);
+	_g_object_unref (self->priv->image_loader);
+	_g_object_unref (self->priv->pango_layout);
+	_g_object_unref (self->priv->pango_context);
+	if (self->priv->cr != NULL)
+		cairo_destroy (self->priv->cr);
 	g_free (self->priv->thumbnail_caption);
+	gth_contact_sheet_theme_ref (self->priv->theme);
+	g_free (self->priv->filetype);
+	g_free (self->priv->template);
+	_g_object_unref (self->priv->destination);
+	g_free (self->priv->footer);
+	g_free (self->priv->header);
 	_g_object_list_unref (self->priv->gfile_list);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -109,12 +1117,18 @@ gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CONTACT_SHEET_CREATOR, GthContactSheetCreatorPrivate);
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
-	self->priv->sort_type = NULL;
-	self->priv->sort_inverse = FALSE;
+	self->priv->destination = NULL;
+	self->priv->template = NULL;
+	self->priv->filetype = NULL;
+	self->priv->write_image_map = FALSE;
 	self->priv->images_per_index = 0;
+	self->priv->single_index = FALSE;
 	self->priv->columns_per_page = 0;
 	self->priv->rows_per_page = 0;
-	self->priv->single_index = FALSE;
+	self->priv->sort_type = NULL;
+	self->priv->sort_inverse = FALSE;
+	self->priv->same_size = FALSE;
+	self->priv->squared_thumbnails = FALSE;
 	self->priv->thumb_width = DEFAULT_THUMB_SIZE;
 	self->priv->thumb_height = DEFAULT_THUMB_SIZE;
 	self->priv->thumbnail_caption = NULL;
@@ -169,7 +1183,7 @@ void
 gth_contact_sheet_creator_set_header (GthContactSheetCreator *self,
 				      const char             *value)
 {
-
+	_g_strset (&self->priv->header, value);
 }
 
 
@@ -177,7 +1191,7 @@ void
 gth_contact_sheet_creator_set_footer (GthContactSheetCreator *self,
 				      const char             *value)
 {
-
+	_g_strset (&self->priv->footer, value);
 }
 
 
@@ -185,7 +1199,8 @@ void
 gth_contact_sheet_creator_set_destination (GthContactSheetCreator *self,
 					   GFile                  *destination)
 {
-
+	_g_clear_object (&self->priv->destination);
+	self->priv->destination = _g_object_ref (destination);
 }
 
 
@@ -193,7 +1208,10 @@ void
 gth_contact_sheet_creator_set_filename_template (GthContactSheetCreator *self,
 						 const char             *filename_template)
 {
-
+	_g_strset (&self->priv->template, filename_template);
+	if (self->priv->template_v != NULL)
+		g_strfreev (self->priv->template_v);
+	self->priv->template_v = _g_get_template_from_text (self->priv->template);
 }
 
 
@@ -201,7 +1219,7 @@ void
 gth_contact_sheet_creator_set_filetype (GthContactSheetCreator *self,
 					const char             *filetype)
 {
-
+	_g_strset (&self->priv->filetype, filetype);
 }
 
 
@@ -209,15 +1227,21 @@ void
 gth_contact_sheet_creator_set_write_image_map (GthContactSheetCreator *self,
 					       gboolean                value)
 {
-
+	self->priv->write_image_map = value;
 }
 
 
 void
 gth_contact_sheet_creator_set_theme (GthContactSheetCreator *self,
-				     const char             *theme_name)
+				     GthContactSheetTheme   *theme)
 {
+	if (self->priv->theme != NULL) {
+		gth_contact_sheet_theme_unref (self->priv->theme);
+		self->priv->theme = NULL;
+	}
 
+	if (theme != NULL)
+		self->priv->theme = gth_contact_sheet_theme_ref (theme);
 }
 
 
@@ -225,7 +1249,7 @@ void
 gth_contact_sheet_creator_set_images_per_index (GthContactSheetCreator *self,
 					        int                     value)
 {
-
+	self->priv->images_per_index = value;
 }
 
 
@@ -233,7 +1257,7 @@ void
 gth_contact_sheet_creator_set_single_index (GthContactSheetCreator *self,
 					    gboolean                value)
 {
-
+	self->priv->single_index = value;
 }
 
 
@@ -241,7 +1265,7 @@ void
 gth_contact_sheet_creator_set_columns (GthContactSheetCreator *self,
 			   	       int                     columns)
 {
-
+	self->priv->columns_per_page = columns;
 }
 
 
@@ -250,7 +1274,8 @@ gth_contact_sheet_creator_set_sort_order (GthContactSheetCreator *self,
 					  GthFileDataSort        *sort_type,
 					  gboolean                sort_inverse)
 {
-
+	self->priv->sort_type = sort_type;
+	self->priv->sort_inverse = sort_inverse;
 }
 
 
@@ -258,7 +1283,7 @@ void
 gth_contact_sheet_creator_set_same_size (GthContactSheetCreator *self,
 					 gboolean                value)
 {
-
+	self->priv->same_size = value;
 }
 
 
@@ -268,7 +1293,9 @@ gth_contact_sheet_creator_set_thumb_size (GthContactSheetCreator *self,
 					  int                     width,
 					  int                     height)
 {
-
+	self->priv->squared_thumbnails = squared;
+	self->priv->thumb_width = width;
+	self->priv->thumb_height = height;
 }
 
 
@@ -276,5 +1303,6 @@ void
 gth_contact_sheet_creator_set_thumbnail_caption (GthContactSheetCreator *self,
 						 const char             *caption)
 {
-
+	_g_strset (&self->priv->thumbnail_caption, caption);
+	self->priv->thumbnail_caption_v = g_strsplit (self->priv->thumbnail_caption, ",", -1);
 }
