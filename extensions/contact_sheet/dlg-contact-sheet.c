@@ -194,6 +194,9 @@ ok_clicked_cb (GtkWidget  *widget,
 	thumbnail_size = thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")))];
 	eel_gconf_set_integer (PREF_CONTACT_SHEET_THUMBNAIL_SIZE, thumbnail_size);
 
+	squared_thumbnail = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("squared_thumbnail_checkbutton")));
+	eel_gconf_set_boolean (PREF_CONTACT_SHEET_SQUARED_THUMBNAIL, squared_thumbnail);
+
 	thumbnail_caption = gth_metadata_chooser_get_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser));
 	eel_gconf_set_string (PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, thumbnail_caption);
 

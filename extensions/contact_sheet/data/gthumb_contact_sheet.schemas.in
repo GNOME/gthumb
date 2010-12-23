@@ -184,6 +184,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/squared_thumbnail</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/squared_thumbnail</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/contact_sheet/thumbnail_caption</key>
 	<applyto>/apps/gthumb/ext/contact_sheet/thumbnail_caption</applyto>
 	<owner>gthumb</owner>

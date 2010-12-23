@@ -40,6 +40,7 @@ G_BEGIN_DECLS
 #define PREF_CONTACT_SHEET_SORT_INVERSE             "/apps/gthumb/ext/contact_sheet/sort_inverse"
 #define PREF_CONTACT_SHEET_SAME_SIZE                "/apps/gthumb/ext/contact_sheet/same_size"
 #define PREF_CONTACT_SHEET_THUMBNAIL_SIZE           "/apps/gthumb/ext/contact_sheet/thumbnail_size"
+#define PREF_CONTACT_SHEET_SQUARED_THUMBNAIL        "/apps/gthumb/ext/contact_sheet/squared_thumbnail"
 #define PREF_CONTACT_SHEET_THUMBNAIL_CAPTION        "/apps/gthumb/ext/contact_sheet/thumbnail_caption"
 
 G_END_DECLS
