@@ -372,7 +372,8 @@ end_page (GthContactSheetCreator *self,
 			    gth_task_get_cancellable (GTH_TASK (self)),
 			    &error))
 	{
-		/* TODO */
+		gth_task_completed (GTH_TASK (self), error);
+		return;
 	}
 
 	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->destination_file));
@@ -685,17 +686,6 @@ export (GthContactSheetCreator *self)
 		int    i;
 		int    row_height;
 		GList *scan_row;
-
-		/* FIXME
-		if (ce->interrupted) {
-			if (ce->file_list != NULL) {
-				g_list_foreach (ce->file_list, (GFunc) image_data_free, NULL);
-				g_list_free (ce->file_list);
-				ce->file_list = NULL;
-			}
-			goto export_end;
-		}
-		*/
 
 		/* get items to paint. */
 
@@ -1057,6 +1047,7 @@ gth_contact_sheet_creator_exec (GthTask *task)
 {
 	GthContactSheetCreator *self = GTH_CONTACT_SHEET_CREATOR (task);
 	int                     n_files;
+	char                   *required_metadata;
 
 	self->priv->n_files = g_list_length (self->priv->gfile_list);
 	self->priv->n_loaded_files = 0;
@@ -1071,19 +1062,15 @@ gth_contact_sheet_creator_exec (GthTask *task)
 	self->priv->pango_layout = pango_layout_new (self->priv->pango_context);
 	pango_layout_set_alignment (self->priv->pango_layout, PANGO_ALIGN_CENTER);
 
+	required_metadata = g_strconcat (GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE, ",", self->priv->thumbnail_caption, NULL);
 	_g_query_all_metadata_async (self->priv->gfile_list,
 				     GTH_LIST_DEFAULT,
-				     self->priv->thumbnail_caption,
+				     required_metadata,
 				     gth_task_get_cancellable (GTH_TASK (self)),
 				     file_list_info_ready_cb,
 				     self);
-}
 
-
-static void
-gth_contact_sheet_creator_cancelled (GthTask *task)
-{
-	/* TODO */
+	g_free (required_metadata);
 }
 
 
@@ -1138,7 +1125,6 @@ gth_contact_sheet_creator_class_init (GthContactSheetCreatorClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_contact_sheet_creator_exec;
-	task_class->cancelled = gth_contact_sheet_creator_cancelled;
 }
 
 
