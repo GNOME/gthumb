@@ -74,6 +74,7 @@ struct _GthContactSheetCreatorPrivate {
 	char                 *header;
 	char                 *footer;
 	GFile                *destination;
+	GFile                *destination_file;
 	char                 *template;
 	char                 *mime_type;
 	char                 *file_extension;
@@ -239,6 +240,9 @@ begin_page (GthContactSheetCreator *self,
 
 	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
 	display_name = g_strdup_printf ("%s.%s", name, self->priv->file_extension);
+	_g_object_unref (self->priv->destination_file);
+	self->priv->destination_file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
+
 	gth_task_progress (GTH_TASK (self),
 			   _("Creating images"),
 			   display_name,
@@ -260,27 +264,45 @@ begin_page (GthContactSheetCreator *self,
 	/* image map file. */
 
 	if (self->priv->write_image_map) {
-		char   *display_name;
-		GError *error = NULL;
-		char   *uri;
-		char   *line;
+		char              *display_name;
+		GError            *error = NULL;
+		GFileOutputStream *io_stream;
+		char              *uri;
+		char              *line;
 
 		_g_object_unref (self->priv->imagemap_file);
 		display_name = g_strdup_printf ("%s.html", name);
-		self->priv->imagemap_file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
+		self->priv->imagemap_file = g_file_get_child_for_display_name (self->priv->destination, display_name, &error);
 		g_free (display_name);
 
-		_g_object_unref (self->priv->imagemap_stream);
-		self->priv->imagemap_stream = g_data_output_stream_new (G_OUTPUT_STREAM (g_file_open_readwrite (self->priv->imagemap_file, gth_task_get_cancellable (GTH_TASK (self)), NULL)));
+		if (error != NULL) {
+			g_warning ("%s\n", error->message);
+			g_clear_error (&error);
+			return;
+		}
 
-		g_data_output_stream_put_string (self->priv->imagemap_stream,
-"\
+		io_stream = g_file_replace (self->priv->imagemap_file,
+					    NULL,
+					    FALSE,
+					    G_FILE_CREATE_NONE,
+					    gth_task_get_cancellable (GTH_TASK (self)),
+					    &error);
+		if (io_stream == NULL) {
+			g_warning ("%s\n", error->message);
+			g_clear_error (&error);
+			return;
+		}
+
+		_g_object_unref (self->priv->imagemap_stream);
+		self->priv->imagemap_stream = g_data_output_stream_new (G_OUTPUT_STREAM (io_stream));
+
+		line = g_strdup_printf ("\
 <?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
   \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
 <html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
 <head>\n\
-  <title></title>\n\
+  <title>%s</title>\n\
   <style type=\"text/css\">\n\
     html { margin: 0px; border: 0px; padding: 0px; }\n\
     body { margin: 0px; }\n\
@@ -290,10 +312,14 @@ begin_page (GthContactSheetCreator *self,
 <body>\n\
   <div>\n\
 ",
+					self->priv->header);
+		g_data_output_stream_put_string (self->priv->imagemap_stream,
+						 line,
 						 gth_task_get_cancellable (GTH_TASK (self)),
 						 &error);
+		g_free (line);
 
-		uri = g_file_get_uri (self->priv->imagemap_file);
+		uri = g_file_get_uri (self->priv->destination_file);
 		line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n",
 					uri,
 					width,
@@ -303,12 +329,13 @@ begin_page (GthContactSheetCreator *self,
 						 line,
 						 gth_task_get_cancellable (GTH_TASK (self)),
 						 &error);
+		g_free (line);
+
 		g_data_output_stream_put_string (self->priv->imagemap_stream,
 						 "<map name=\"map\" id=\"map\">\n",
 						 gth_task_get_cancellable (GTH_TASK (self)),
 						 &error);
 
-		g_free (line);
 		g_free (uri);
 	}
 
@@ -324,9 +351,6 @@ end_page (GthContactSheetCreator *self,
 	char      *buffer;
 	gsize      size;
 	GError    *error = NULL;
-	char      *name;
-	char      *display_name;
-	GFile     *file;
 
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (self->priv->cr);
 	if (! gth_pixbuf_saver_save_pixbuf (self->priv->pixbuf_saver,
@@ -340,11 +364,7 @@ end_page (GthContactSheetCreator *self,
 		return;
 	}
 
-	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
-	display_name = g_strdup_printf ("%s.%s", name, self->priv->file_extension);
-	file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
-
-	if (! g_write_file (file,
+	if (! g_write_file (self->priv->destination_file,
 			    FALSE,
 			    G_FILE_CREATE_REPLACE_DESTINATION,
 			    buffer,
@@ -355,11 +375,8 @@ end_page (GthContactSheetCreator *self,
 		/* TODO */
 	}
 
-	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (file));
+	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->destination_file));
 
-	g_object_unref (file);
-	g_free (display_name);
-	g_free (name);
 	g_object_unref (pixbuf);
 
 	/* image map file. */
@@ -407,10 +424,10 @@ text_eval_cb (const GMatchInfo *info,
 
 	match = g_match_info_fetch (info, 0);
 
-	if (strncmp (match, "%p", 1) == 0) {
+	if (strcmp (match, "%p") == 0) {
 		r = g_strdup_printf ("%d", template_data->page_n);
 	}
-	else if (strncmp (match, "%n", 1) == 0) {
+	else if (strcmp (match, "%n") == 0) {
 		r = g_strdup_printf ("%d", template_data->self->priv->n_pages);
 	}
 
@@ -1097,6 +1114,7 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	g_free (self->priv->mime_type);
 	g_free (self->priv->file_extension);
 	g_free (self->priv->template);
+	_g_object_unref (self->priv->destination_file);
 	_g_object_unref (self->priv->destination);
 	g_free (self->priv->footer);
 	g_free (self->priv->header);
