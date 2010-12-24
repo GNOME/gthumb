@@ -320,7 +320,7 @@ begin_page (GthContactSheetCreator *self,
 		g_free (line);
 
 		uri = g_file_get_uri (self->priv->destination_file);
-		line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n",
+		line = g_strdup_printf ("    <img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n",
 					uri,
 					width,
 					height,
@@ -332,7 +332,7 @@ begin_page (GthContactSheetCreator *self,
 		g_free (line);
 
 		g_data_output_stream_put_string (self->priv->imagemap_stream,
-						 "<map name=\"map\" id=\"map\">\n",
+						 "    <map name=\"map\" id=\"map\">\n",
 						 gth_task_get_cancellable (GTH_TASK (self)),
 						 &error);
 
@@ -384,7 +384,7 @@ end_page (GthContactSheetCreator *self,
 
 	if (self->priv->imagemap_stream != NULL) {
 		g_data_output_stream_put_string (self->priv->imagemap_stream,
-						 "</map>\n",
+						 "    </map>\n",
 						 gth_task_get_cancellable (GTH_TASK (self)),
 						 &error);
 		g_data_output_stream_put_string (self->priv->imagemap_stream,
@@ -621,7 +621,7 @@ paint_frame (GthContactSheetCreator *self,
 		relative_path = g_uri_unescape_string (relative_uri, "");
 		alt_attribute = _g_escape_for_html (relative_path, -1);
 
-		line = g_strdup_printf ("<area shape=\"rect\" coords=\"%d,%d,%d,%d\" href=\"%s\" alt=\"%s\" />\n",
+		line = g_strdup_printf ("      <area shape=\"rect\" coords=\"%d,%d,%d,%d\" href=\"%s\" alt=\"%s\" />\n",
 					frame_rect->x,
 					frame_rect->y,
 					frame_rect->x + frame_rect->width,
