@@ -60,8 +60,9 @@ void       gth_contact_sheet_creator_set_destination       (GthContactSheetCreat
 						   	    GFile                    *destination);
 void       gth_contact_sheet_creator_set_filename_template (GthContactSheetCreator   *self,
 						   	    const char               *filename_template);
-void       gth_contact_sheet_creator_set_filetype          (GthContactSheetCreator   *self,
-							    const char               *filetype);
+void       gth_contact_sheet_creator_set_mime_type         (GthContactSheetCreator   *self,
+							    const char               *mime_type,
+							    const char               *file_extension);
 void       gth_contact_sheet_creator_set_write_image_map   (GthContactSheetCreator   *self,
 							    gboolean                  value);
 void       gth_contact_sheet_creator_set_theme             (GthContactSheetCreator   *self,

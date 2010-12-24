@@ -75,7 +75,8 @@ struct _GthContactSheetCreatorPrivate {
 	char                 *footer;
 	GFile                *destination;
 	char                 *template;
-	char                 *filetype;
+	char                 *mime_type;
+	char                 *file_extension;
 	gboolean              write_image_map;
 	GthContactSheetTheme *theme;
 	int                   images_per_index;
@@ -97,6 +98,7 @@ struct _GthContactSheetCreatorPrivate {
 	PangoLayout          *pango_layout;
 
 	GthImageLoader       *image_loader;
+	GthPixbufSaver       *pixbuf_saver;
 	GList                *files;                /* ItemData list */
 	GList                *current_file;         /* Next file to be loaded. */
 	gint                  n_files;              /* Used for the progress signal. */
@@ -236,7 +238,7 @@ begin_page (GthContactSheetCreator *self,
 	cairo_surface_t *surface;
 
 	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
-	display_name = g_strdup_printf ("%s.%s", name, self->priv->filetype);
+	display_name = g_strdup_printf ("%s.%s", name, self->priv->file_extension);
 	gth_task_progress (GTH_TASK (self),
 			   _("Creating images"),
 			   display_name,
@@ -327,20 +329,19 @@ end_page (GthContactSheetCreator *self,
 	GFile     *file;
 
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (self->priv->cr);
-	if (! gdk_pixbuf_save_to_buffer (pixbuf,
-					 &buffer,
-					 &size,
-					 self->priv->filetype,
-					 &error,
-					 (g_str_equal(self->priv->filetype, "jpeg") ? "quality" : NULL),
-					 "90",
-					 NULL))
+	if (! gth_pixbuf_saver_save_pixbuf (self->priv->pixbuf_saver,
+					    pixbuf,
+					    &buffer,
+					    &size,
+					    self->priv->mime_type,
+					    &error))
 	{
-		/* TODO */
+		gth_task_completed (GTH_TASK (self), error);
+		return;
 	}
 
 	name = _g_get_name_from_template (self->priv->template_v, page_n - 1);
-	display_name = g_strdup_printf ("%s.%s", name, self->priv->filetype);
+	display_name = g_strdup_printf ("%s.%s", name, self->priv->file_extension);
 	file = g_file_get_child_for_display_name (self->priv->destination, display_name, NULL);
 
 	if (! g_write_file (file,
@@ -649,6 +650,9 @@ export (GthContactSheetCreator *self)
 	int        x, y;
 	GList     *scan;
 	ItemData  *item_data;
+
+	if (self->priv->pixbuf_saver == NULL)
+		self->priv->pixbuf_saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
 
 	columns = ((self->priv->page_width - self->priv->theme->col_spacing) / (self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing));
 	first_row = TRUE;
@@ -1075,6 +1079,7 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	_g_object_list_unref (self->priv->created_files);
 	g_list_foreach (self->priv->files, (GFunc) item_data_free, NULL);
 	g_list_free (self->priv->files);
+	_g_object_unref (self->priv->pixbuf_saver);
 	_g_object_unref (self->priv->image_loader);
 	_g_object_unref (self->priv->pango_layout);
 	_g_object_unref (self->priv->pango_context);
@@ -1082,7 +1087,8 @@ gth_contact_sheet_creator_finalize (GObject *object)
 		cairo_destroy (self->priv->cr);
 	g_free (self->priv->thumbnail_caption);
 	gth_contact_sheet_theme_ref (self->priv->theme);
-	g_free (self->priv->filetype);
+	g_free (self->priv->mime_type);
+	g_free (self->priv->file_extension);
 	g_free (self->priv->template);
 	_g_object_unref (self->priv->destination);
 	g_free (self->priv->footer);
@@ -1119,7 +1125,8 @@ gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 	self->priv->footer = NULL;
 	self->priv->destination = NULL;
 	self->priv->template = NULL;
-	self->priv->filetype = NULL;
+	self->priv->mime_type = NULL;
+	self->priv->file_extension = NULL;
 	self->priv->write_image_map = FALSE;
 	self->priv->images_per_index = 0;
 	self->priv->single_index = FALSE;
@@ -1216,10 +1223,12 @@ gth_contact_sheet_creator_set_filename_template (GthContactSheetCreator *self,
 
 
 void
-gth_contact_sheet_creator_set_filetype (GthContactSheetCreator *self,
-					const char             *filetype)
+gth_contact_sheet_creator_set_mime_type (GthContactSheetCreator *self,
+					 const char             *mime_type,
+					 const char             *file_extension)
 {
-	_g_strset (&self->priv->filetype, filetype);
+	_g_strset (&self->priv->mime_type, mime_type);
+	_g_strset (&self->priv->file_extension, file_extension);
 }
 
 

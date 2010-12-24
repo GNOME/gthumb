@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 #define PREF_CONTACT_SHEET_FOOTER                   "/apps/gthumb/ext/contact_sheet/footer"
 #define PREF_CONTACT_SHEET_DESTINATION              "/apps/gthumb/ext/contact_sheet/destination"
 #define PREF_CONTACT_SHEET_TEMPLATE                 "/apps/gthumb/ext/contact_sheet/template"
-#define PREF_CONTACT_SHEET_EXTENSION                "/apps/gthumb/ext/contact_sheet/extension"
+#define PREF_CONTACT_SHEET_MIME_TYPE                "/apps/gthumb/ext/contact_sheet/mime_type"
 #define PREF_CONTACT_SHEET_HTML_IMAGE_MAP           "/apps/gthumb/ext/contact_sheet/html_image_map"
 #define PREF_CONTACT_SHEET_THEME                    "/apps/gthumb/ext/contact_sheet/theme"
 #define PREF_CONTACT_SHEET_IMAGES_PER_PAGE          "/apps/gthumb/ext/contact_sheet/images_per_page"

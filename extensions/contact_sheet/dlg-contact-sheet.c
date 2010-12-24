@@ -33,10 +33,6 @@
 #define PREVIEW_SIZE 112
 
 enum {
-	FILETYPE_COLUMN_NAME
-};
-
-enum {
 	THEME_COLUMN_IDX,
 	THEME_COLUMN_NAME,
 	THEME_COLUMN_DISPLAY_NAME,
@@ -51,6 +47,11 @@ enum {
 enum {
 	THUMBNAIL_SIZE_TYPE_COLUMN_SIZE,
 	THUMBNAIL_SIZE_TYPE_COLUMN_NAME
+};
+
+enum {
+	FILE_TYPE_COLUMN_DEFAULT_EXTENSION,
+	FILE_TYPE_COLUMN_MIME_TYPE
 };
 
 typedef struct {
@@ -110,7 +111,8 @@ ok_clicked_cb (GtkWidget  *widget,
 	char            *s_value;
 	GFile           *destination;
 	const char      *template;
-	char            *extension;
+	char            *mime_type;
+	char            *file_extension;
 	gboolean         create_image_map;
 	char            *theme_name;
 	int              theme_idx;
@@ -142,13 +144,14 @@ ok_clicked_cb (GtkWidget  *widget,
 	template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
 	eel_gconf_set_string (PREF_CONTACT_SHEET_TEMPLATE, template);
 
-	extension = NULL;
+	mime_type = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("filetype_liststore")),
 				    &iter,
-				    FILETYPE_COLUMN_NAME, &extension,
+				    FILE_TYPE_COLUMN_MIME_TYPE, &mime_type,
+				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, &file_extension,
 				    -1);
-		eel_gconf_set_string (PREF_CONTACT_SHEET_EXTENSION, extension);
+		eel_gconf_set_string (PREF_CONTACT_SHEET_MIME_TYPE, mime_type);
 	}
 
 	create_image_map = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_map_checkbutton")));
@@ -218,7 +221,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_contact_sheet_creator_set_footer (GTH_CONTACT_SHEET_CREATOR (task), footer);
 	gth_contact_sheet_creator_set_destination (GTH_CONTACT_SHEET_CREATOR (task), destination);
 	gth_contact_sheet_creator_set_filename_template (GTH_CONTACT_SHEET_CREATOR (task), template);
-	gth_contact_sheet_creator_set_filetype (GTH_CONTACT_SHEET_CREATOR (task), extension);
+	gth_contact_sheet_creator_set_mime_type (GTH_CONTACT_SHEET_CREATOR (task), mime_type, file_extension);
 	gth_contact_sheet_creator_set_write_image_map (GTH_CONTACT_SHEET_CREATOR (task), create_image_map);
 	if (theme_idx >= 0)
 		gth_contact_sheet_creator_set_theme (GTH_CONTACT_SHEET_CREATOR (task), g_list_nth_data (data->themes, theme_idx));
@@ -235,7 +238,8 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	g_free (thumbnail_caption);
 	g_free (theme_name);
-	g_free (extension);
+	g_free (file_extension);
+	g_free (mime_type);
 	g_object_unref (destination);
 }
 
@@ -427,6 +431,9 @@ dlg_contact_sheet (GthBrowser *browser,
 	GList      *scan;
 	char       *caption;
 	char       *s_value;
+	GFile      *file;
+	char       *default_mime_type;
+	GArray     *savers;
 
 	if (gth_browser_get_dialog (browser, "contact_sheet") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "contact_sheet")));
@@ -451,9 +458,65 @@ dlg_contact_sheet (GthBrowser *browser,
 
 	/* Set widgets data. */
 
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
+			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
+
+	s_value = eel_gconf_get_string (PREF_CONTACT_SHEET_FOOTER, "");
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
+	g_free (s_value);
+
+	s_value = eel_gconf_get_path (PREF_CONTACT_SHEET_DESTINATION, NULL);
+	if (s_value == NULL) {
+		GFile *location = gth_browser_get_location (data->browser);
+		if (location != NULL)
+			s_value = g_file_get_uri (location);
+		else
+			s_value = g_strdup (get_home_uri ());
+	}
+	file = g_file_new_for_uri (s_value);
+	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), file, NULL);
+	g_object_unref (file);
+	g_free (s_value);
+
+	s_value = eel_gconf_get_path (PREF_CONTACT_SHEET_TEMPLATE, NULL);
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), s_value);
+	g_free (s_value);
+
+	default_mime_type = eel_gconf_get_string (PREF_CONTACT_SHEET_MIME_TYPE, "image/jpeg");
+	active_index = 0;
+	savers = gth_main_get_type_set ("pixbuf-saver");
+	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
+		GthPixbufSaver *saver;
+		GtkTreeIter     iter;
+
+		saver = g_object_new (g_array_index (savers, GType, i), NULL);
+
+		if (g_str_equal (default_mime_type, gth_pixbuf_saver_get_mime_type (saver)))
+			active_index = i;
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("filetype_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("filetype_liststore")), &iter,
+				    FILE_TYPE_COLUMN_MIME_TYPE, gth_pixbuf_saver_get_mime_type (saver),
+				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, gth_pixbuf_saver_get_default_ext (saver),
+				    -1);
+
+		g_object_unref (saver);
+	}
+	g_free (default_mime_type);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), active_index);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(GET_WIDGET("image_map_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_HTML_IMAGE_MAP, FALSE));
+
+	load_themes (data);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("theme_liststore")),
+					      THEME_COLUMN_NAME,
+					      GTK_SORT_ASCENDING);
+
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_CONTACT_SHEET_IMAGES_PER_PAGE, 25));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SINGLE_PAGE, FALSE));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_CONTACT_SHEET_COLUMNS, 5));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("same_size_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SAME_SIZE, FALSE));
 
 	default_sort_type = eel_gconf_get_string (PREF_CONTACT_SHEET_SORT_TYPE, "general::unsorted");
 	active_index = 0;
@@ -472,26 +535,10 @@ dlg_contact_sheet (GthBrowser *browser,
 				    -1);
 	}
 	g_list_free (sort_types);
+	g_free (default_sort_type);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), active_index);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SORT_INVERSE, FALSE));
-
-	g_free (default_sort_type);
-
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
-			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
-
-	s_value = eel_gconf_get_string (PREF_CONTACT_SHEET_FOOTER, "");
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
-	g_free (s_value);
-
-	caption = eel_gconf_get_string (PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, DEFAULT_CONTACT_SHEET_THUMBNAIL_CAPTION);
-	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), caption);
-	g_free (caption);
-
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("theme_liststore")),
-					      THEME_COLUMN_NAME,
-					      GTK_SORT_ASCENDING);
 
 	for (i = 0; i < thumb_sizes; i++) {
 		char        *name;
@@ -508,20 +555,13 @@ dlg_contact_sheet (GthBrowser *browser,
 		g_free (name);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")), get_idx_from_size (eel_gconf_get_integer (PREF_CONTACT_SHEET_THUMBNAIL_SIZE, 128)));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("squared_thumbnail_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SQUARED_THUMBNAIL, FALSE));
 
-	load_themes (data);
+	caption = eel_gconf_get_string (PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, DEFAULT_CONTACT_SHEET_THUMBNAIL_CAPTION);
+	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), caption);
+	g_free (caption);
+
 	update_sensitivity (data);
-
-	{
-		char *destination;
-
-		destination = eel_gconf_get_path (PREF_CONTACT_SHEET_DESTINATION, NULL);
-		if (destination == NULL)
-			destination = g_strdup (get_home_uri ());
-		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), destination);
-
-		g_free (destination);
-	}
 
 	/* Set the signals handlers. */
 

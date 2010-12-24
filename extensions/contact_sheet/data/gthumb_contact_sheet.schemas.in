@@ -54,11 +54,11 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/contact_sheet/extension</key>
-	<applyto>/apps/gthumb/ext/contact_sheet/extension</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/mime_type</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/mime_type</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>jpeg</default>
+	<default>image/jpeg</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
