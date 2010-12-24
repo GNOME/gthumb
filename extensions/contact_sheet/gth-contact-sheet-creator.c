@@ -708,10 +708,6 @@ export (GthContactSheetCreator *self)
 			      + get_max_text_height (self, first_item, last_item)
 			      + self->priv->theme->row_spacing);
 
-		g_print ("%d <=> %d\n",
-				y + row_height,
-				self->priv->page_height - (first_row ? header_height : 0) - footer_height);
-
 		while (y + row_height > (self->priv->page_height
 					 - (first_row ? header_height : 0)
 					 - footer_height))
@@ -868,8 +864,6 @@ compute_pages_size (GthContactSheetCreator *self)
 		page_height += get_header_height (self, TRUE);
 
 		/* images */
-
-		g_print ("rows per page: %d\n", self->priv->rows_per_page);
 
 		for (r = 0; r < self->priv->rows_per_page; r++) {
 			GList *first_item;
