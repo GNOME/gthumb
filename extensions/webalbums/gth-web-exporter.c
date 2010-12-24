@@ -2479,81 +2479,6 @@ copy_current_file (GthWebExporter *self)
 }
 
 
-static GdkPixbuf *
-pixbuf_scale (const GdkPixbuf *src,
-	      int              dest_width,
-	      int              dest_height,
-	      GdkInterpType    interp_type)
-{
-	GdkPixbuf *dest;
-
-	if (! gdk_pixbuf_get_has_alpha (src))
-		return gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
-
-	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (dest_width > 0, NULL);
-	g_return_val_if_fail (dest_height > 0, NULL);
-
-	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, gdk_pixbuf_get_has_alpha (src), 8, dest_width, dest_height);
-	if (dest == NULL)
-		return NULL;
-
-	gdk_pixbuf_composite_color (src,
-				    dest,
-				    0, 0, dest_width, dest_height, 0, 0,
-				    (double) dest_width / gdk_pixbuf_get_width (src),
-				    (double) dest_height / gdk_pixbuf_get_height (src),
-				    interp_type,
-				    255,
-				    0, 0,
-				    200,
-				    0xFFFFFF,
-				    0xFFFFFF);
-
-	return dest;
-}
-
-
-static GdkPixbuf *
-create_squared_thumbnail (GdkPixbuf     *p,
-			  int            size,
-			  GdkInterpType  interp_type)
-{
-	int        w, h, tw, th;
-	GdkPixbuf *p1;
-	int        x, y;
-	GdkPixbuf *p2;
-
-	w = gdk_pixbuf_get_width (p);
-	h = gdk_pixbuf_get_height (p);
-
-	if ((w < size) && (h < size))
-		return gdk_pixbuf_copy (p);
-
-	if (w > h) {
-		th = size;
-		tw = (int) (((double) w / h) * th);
-	}
-	else {
-		tw = size;
-		th = (int) (((double) h / w) * tw);
-	}
-
-	p1 = pixbuf_scale (p, tw, th, interp_type);
-
-	if ((tw == size) && (th == size))
-		return p1;
-
-	x = (tw - size) / 2;
-	y = (th - size) / 2;
-	p2 = gdk_pixbuf_new_subpixbuf (p1, x, y, size, size);
-
-	g_object_unref (p1);
-
-	return p2;
-}
-
-
 static int
 image_data_cmp (gconstpointer a,
 		gconstpointer b,
@@ -2602,7 +2527,7 @@ image_loader_ready_cb (GObject      *source_object,
 		{
 			GdkPixbuf *scaled;
 
-			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->image);
 			idata->image = scaled;
 		}
@@ -2626,7 +2551,7 @@ image_loader_ready_cb (GObject      *source_object,
 					     FALSE))
 		{
 			GdkPixbuf *scaled;
-			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
 			idata->preview = scaled;
 		}
@@ -2655,7 +2580,7 @@ image_loader_ready_cb (GObject      *source_object,
 		if (self->priv->squared_thumbnails) {
 			GdkPixbuf *squared;
 
-			squared = create_squared_thumbnail (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
+			squared = _gdk_pixbuf_scale_squared (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
 			idata->thumb = squared;
 		}
@@ -2666,34 +2591,9 @@ image_loader_ready_cb (GObject      *source_object,
 		{
 			GdkPixbuf *scaled;
 
-			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
 			idata->thumb = scaled;
-
-			if (self->priv->squared_thumbnails) {
-				GdkPixbuf *squared;
-				int        src_x;
-				int        src_y;
-
-				src_x = (self->priv->thumb_width - gdk_pixbuf_get_width (idata->thumb)) / 2;
-				src_y = (self->priv->thumb_height - gdk_pixbuf_get_height (idata->thumb)) / 2;
-
-				g_print ("[%d, %d] => (%d, %d)[%d, %d]",
-						gdk_pixbuf_get_width (idata->thumb),
-						gdk_pixbuf_get_height (idata->thumb),
-						src_x,
-						src_y,
-						self->priv->thumb_width,
-						self->priv->thumb_height);
-
-				squared = gdk_pixbuf_new_subpixbuf (idata->thumb,
-								    src_x,
-								    src_y,
-								    self->priv->thumb_width,
-								    self->priv->thumb_height);
-				g_object_unref (idata->thumb);
-				idata->thumb = squared;
-			}
 		}
 	}
 

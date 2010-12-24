@@ -37,6 +37,13 @@ GdkPixbuf * _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
 					        int              dest_width,
 					        int              dest_height,
 					        GdkInterpType    interp_type);
+GdkPixbuf * _gdk_pixbuf_scale_composite        (const GdkPixbuf *src,
+			     	     	        int              dest_width,
+			     	     	        int              dest_height,
+			     	     	        GdkInterpType    interp_type);
+GdkPixbuf * _gdk_pixbuf_scale_squared          (GdkPixbuf       *src,
+		  	  	  	  	int              size,
+		  	  	  	  	GdkInterpType    interp_type);
 GdkPixbuf * _gdk_pixbuf_transform              (GdkPixbuf       *src,
 					        GthTransform     transform);
 void        _gdk_pixbuf_colorshift             (GdkPixbuf       *dest,

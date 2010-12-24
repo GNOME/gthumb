@@ -936,6 +936,7 @@ static void
 load_current_image (GthContactSheetCreator *self)
 {
 	ItemData *item_data;
+	int       requested_size;
 
 	if (self->priv->current_file == NULL) {
 		if (self->priv->sort_type->cmp_func != 0)
@@ -953,9 +954,16 @@ load_current_image (GthContactSheetCreator *self)
 			   FALSE,
 			   ((double) ++self->priv->n_loaded_files) / (self->priv->n_files + 1));
 
+	if (self->priv->squared_thumbnails)
+		/* the squared thumbnail requires the original size to avoid
+		 * a thumbnail upscaling that degrades the image quality. */
+		requested_size = -1;
+	else
+		requested_size = MAX (self->priv->thumb_height, self->priv->thumb_width);
+
 	gth_image_loader_load (self->priv->image_loader,
 			       item_data->file_data,
-			       MIN (self->priv->thumb_height, self->priv->thumb_width),
+			       requested_size,
 			       G_PRIORITY_DEFAULT,
 			       gth_task_get_cancellable (GTH_TASK (self)),
 			       image_loader_ready_cb,
@@ -987,9 +995,14 @@ image_loader_ready_cb (GObject      *source_object,
 	}
 
 	item_data = self->priv->current_file->data;
-	item_data->thumbnail = pixbuf;
+	if (self->priv->squared_thumbnails)
+		item_data->thumbnail = _gdk_pixbuf_scale_squared (pixbuf, MIN (self->priv->thumb_height, self->priv->thumb_width), GDK_INTERP_BILINEAR);
+	else
+		item_data->thumbnail = g_object_ref (pixbuf);
 	item_data->original_width = original_width;
 	item_data->original_height = original_height;
+
+	g_object_unref (pixbuf);
 
 	self->priv->current_file = self->priv->current_file->next;
 	load_current_image (self);

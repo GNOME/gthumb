@@ -144,8 +144,6 @@ _gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
 	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
 	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
 
-
-
 	if (x_ratio > 100)
 		/* Scale down to 10x the requested size first. */
 		temp_width = 10 * dest_width;
@@ -162,6 +160,84 @@ _gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
 		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
 
 	return temp_pixbuf2;
+}
+
+
+GdkPixbuf *
+_gdk_pixbuf_scale_composite (const GdkPixbuf *src,
+			     int              dest_width,
+			     int              dest_height,
+			     GdkInterpType    interp_type)
+{
+	GdkPixbuf *dest;
+
+	if (! gdk_pixbuf_get_has_alpha (src))
+		return _gdk_pixbuf_scale_simple_safe (src, dest_width, dest_height, interp_type);
+
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (dest_width > 0, NULL);
+	g_return_val_if_fail (dest_height > 0, NULL);
+
+	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, gdk_pixbuf_get_has_alpha (src), 8, dest_width, dest_height);
+	if (dest == NULL)
+		return NULL;
+
+	gdk_pixbuf_composite_color (src,
+				    dest,
+				    0, 0, dest_width, dest_height, 0, 0,
+				    (double) dest_width / gdk_pixbuf_get_width (src),
+				    (double) dest_height / gdk_pixbuf_get_height (src),
+				    interp_type,
+				    255,
+				    0, 0,
+				    200,
+				    0xFFFFFF,
+				    0xFFFFFF);
+
+	return dest;
+}
+
+
+GdkPixbuf *
+_gdk_pixbuf_scale_squared (GdkPixbuf     *p,
+			   int            size,
+			   GdkInterpType  interp_type)
+{
+	int        w, h, tw, th;
+	GdkPixbuf *p1;
+	int        x, y;
+	GdkPixbuf *p2;
+
+	w = gdk_pixbuf_get_width (p);
+	h = gdk_pixbuf_get_height (p);
+
+	if ((w < size) && (h < size))
+		return gdk_pixbuf_copy (p);
+
+	if (w > h) {
+		th = size;
+		tw = (int) (((double) w / h) * th);
+	}
+	else {
+		tw = size;
+		th = (int) (((double) h / w) * tw);
+	}
+
+	if ((tw > size) || (th > size))
+		p1 = _gdk_pixbuf_scale_composite (p, tw, th, interp_type);
+	else
+		p1 = g_object_ref (p);
+
+	if ((tw == size) && (th == size))
+		return p1;
+
+	x = (tw - size) / 2;
+	y = (th - size) / 2;
+	p2 = gdk_pixbuf_new_subpixbuf (p1, x, y, size, size);
+
+	g_object_unref (p1);
+
+	return p2;
 }
 
 
