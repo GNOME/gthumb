@@ -46,11 +46,8 @@ typedef enum {
 
 typedef struct {
 	int                            ref;
-	char                          *name;
+	GFile                         *file;
 	char                          *display_name;
-	char                          *authors;
-	char                          *copyright;
-	char                          *version;
 
 	GthContactSheetBackgroundType  background_type;
 	GdkColor                       background_color1;
@@ -76,18 +73,25 @@ typedef struct {
 
 	int                            row_spacing;
 	int                            col_spacing;
+
+	gboolean                       editable;
 } GthContactSheetTheme;
 
-GthContactSheetTheme * gth_contact_sheet_theme_new_from_key_file (GKeyFile             *key_file);
-GthContactSheetTheme * gth_contact_sheet_theme_ref               (GthContactSheetTheme *theme);
-void                   gth_contact_sheet_theme_unref             (GthContactSheetTheme *theme);
-void                   gth_contact_sheet_theme_paint_background  (GthContactSheetTheme *theme,
-								  cairo_t              *cr);
-void                   gth_contact_sheet_theme_paint_frame       (GthContactSheetTheme *theme,
-								  cairo_t              *cr,
-								  GdkRectangle         *frame_rect,
-								  GdkRectangle         *image_rect);
-GdkPixbuf *            gth_contact_sheet_theme_create_preview    (GthContactSheetTheme *theme,
-								  int                   preview_size);
+GthContactSheetTheme * gth_contact_sheet_theme_new               (void);
+GthContactSheetTheme * gth_contact_sheet_theme_new_from_key_file (GKeyFile              *key_file);
+gboolean               gth_contact_sheet_theme_to_data           (GthContactSheetTheme  *theme,
+								  void                 **buffer,
+								  gsize                 *count,
+								  GError               **error);
+GthContactSheetTheme * gth_contact_sheet_theme_ref               (GthContactSheetTheme  *theme);
+void                   gth_contact_sheet_theme_unref             (GthContactSheetTheme  *theme);
+void                   gth_contact_sheet_theme_paint_background  (GthContactSheetTheme  *theme,
+								  cairo_t               *cr);
+void                   gth_contact_sheet_theme_paint_frame       (GthContactSheetTheme  *theme,
+								  cairo_t               *cr,
+								  GdkRectangle          *frame_rect,
+								  GdkRectangle          *image_rect);
+GdkPixbuf *            gth_contact_sheet_theme_create_preview    (GthContactSheetTheme  *theme,
+								  int                    preview_size);
 
 #endif /* GTH_CONTACT_SHEET_THEME_H */

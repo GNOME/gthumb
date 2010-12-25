@@ -2258,7 +2258,6 @@ _g_file_create_unique (GFile       *parent,
 	int                n;
 	GFileOutputStream *stream = NULL;
 
-	file = g_file_get_child_for_display_name (parent, display_name, &local_error);
 	n = 0;
 	do {
 		char *new_display_name;
@@ -2284,6 +2283,8 @@ _g_file_create_unique (GFile       *parent,
 	while ((stream == NULL) && (local_error == NULL));
 
 	if (stream == NULL) {
+		if (error != NULL)
+			*error = local_error;
 		g_object_unref (file);
 		file = NULL;
 	}

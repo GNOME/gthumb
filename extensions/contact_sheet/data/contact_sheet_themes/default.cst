@@ -1,8 +1,5 @@
 [Theme]
 Name=Default
-Authors=gthumb development team
-Copyright=Copyright © 2010 The Free Software Foundation, Inc.
-Version=1.0
 
 [Background]
 Type=full
@@ -12,7 +9,7 @@ Color3=#e8e8ea
 Color4=#bad8d8
 
 [Frame]
-Style=slide
+Style=simple-with-shadow
 Color=#94d6Cd
 
 [Header]

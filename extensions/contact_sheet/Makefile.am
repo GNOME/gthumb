@@ -7,13 +7,14 @@ ENUM_TYPES =		\
 	enum-types.h	\
 	enum-types.c
 	
-HEADER_FILES = 				\
-	actions.h			\
-	callbacks.h			\
-	dlg-contact-sheet.h		\
-	gth-contact-sheet-creator.h	\
-	gth-contact-sheet-theme.h	\
-	preferences.h			\
+HEADER_FILES = 					\
+	actions.h				\
+	callbacks.h				\
+	dlg-contact-sheet.h			\
+	gth-contact-sheet-creator.h		\
+	gth-contact-sheet-theme.h		\
+	gth-contact-sheet-theme-dialog.h	\
+	preferences.h				\
 	$(NULL)
 
 enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
@@ -37,15 +38,16 @@ enum-types.c: $(HEADER_FILES) enum-types.h
 	&& (cmp -s xgen-$(@F) enum-types.c || cp xgen-$(@F) enum-types.c ) \
 	&& rm -f xgen-$(@F) )
 
-libcontact_sheet_la_SOURCES = 		\
-	$(ENUM_TYPES)			\
-	$(HEADER_FILES)			\
-	actions.c			\
-	callbacks.c			\
-	dlg-contact-sheet.c		\
-	gth-contact-sheet-creator.c	\
-	gth-contact-sheet-theme.c	\
-	main.c				\
+libcontact_sheet_la_SOURCES = 			\
+	$(ENUM_TYPES)				\
+	$(HEADER_FILES)				\
+	actions.c				\
+	callbacks.c				\
+	dlg-contact-sheet.c			\
+	gth-contact-sheet-creator.c		\
+	gth-contact-sheet-theme.c		\
+	gth-contact-sheet-theme-dialog.c	\
+	main.c					\
 	$(NULL)
 
 if RUN_IN_PLACE

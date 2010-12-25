@@ -44,19 +44,49 @@ _g_key_file_get_color (GKeyFile  *key_file,
 }
 
 
+static void
+_g_key_file_set_color (GKeyFile *key_file,
+		       char     *group_name,
+		       char     *key,
+		       GdkColor *color)
+{
+	char *color_value;
+
+	color_value = gdk_color_to_string (color);
+	g_key_file_set_string (key_file, group_name, key, color_value);
+
+	g_free (color_value);
+}
+
+
+GthContactSheetTheme *
+gth_contact_sheet_theme_new (void)
+{
+	GthContactSheetTheme *theme;
+
+	theme = g_new0 (GthContactSheetTheme, 1);
+	theme->ref = 1;
+	theme->frame_hpadding = 8;
+	theme->frame_vpadding = 8;
+	theme->caption_spacing = 3;
+	theme->row_spacing = 15;
+	theme->col_spacing = 15;
+	theme->frame_border = 0;
+	theme->editable = TRUE;
+
+	return theme;
+}
+
+
 GthContactSheetTheme *
 gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 {
 	GthContactSheetTheme *theme;
 	char                 *nick;
 
-	theme = g_new0 (GthContactSheetTheme, 1);
-	theme->ref = 1;
+	theme = gth_contact_sheet_theme_new ();
 
 	theme->display_name = g_key_file_get_string (key_file, "Theme", "Name", NULL);
-	theme->authors = g_key_file_get_string (key_file, "Theme", "Authors", NULL);
-	theme->copyright = g_key_file_get_string (key_file, "Theme", "Copyright", NULL);
-	theme->version = g_key_file_get_string (key_file, "Theme", "Version", NULL);
 
 	nick = g_key_file_get_string (key_file, "Background", "Type", NULL);
 	theme->background_type = _g_enum_type_get_value_by_nick (GTH_TYPE_CONTACT_SHEET_BACKGROUND_TYPE, nick)->value;
@@ -72,8 +102,8 @@ gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 	g_free (nick);
 
 	_g_key_file_get_color (key_file, "Frame", "Color", &theme->frame_color, NULL);
-	theme->frame_hpadding = 8 /*g_key_file_get_integer (key_file, "Frame", "HPadding", NULL)*/;
-	theme->frame_vpadding = 8 /*g_key_file_get_integer (key_file, "Frame", "VPadding", NULL)*/;
+	/*theme->frame_hpadding = g_key_file_get_integer (key_file, "Frame", "HPadding", NULL);*/
+	/*theme->frame_vpadding = g_key_file_get_integer (key_file, "Frame", "VPadding", NULL);*/
 
 	theme->header_font_name = g_key_file_get_string (key_file, "Header", "Font", NULL);
 	_g_key_file_get_color (key_file, "Header", "Color", &theme->header_color, NULL);
@@ -83,13 +113,49 @@ gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 
 	theme->caption_font_name = g_key_file_get_string (key_file, "Caption", "Font", NULL);
 	_g_key_file_get_color (key_file, "Caption", "Color", &theme->caption_color, NULL);
-	theme->caption_spacing = 3; /* g_key_file_get_integer (key_file, "Caption", "Spacing", NULL); */
-
-	theme->row_spacing = 15;
-	theme->col_spacing = 15;
-	theme->frame_border = 0;
 
 	return theme;
+}
+
+
+gboolean
+gth_contact_sheet_theme_to_data (GthContactSheetTheme  *theme,
+				 void                 **buffer,
+				 gsize                 *count,
+				 GError               **error)
+{
+	GKeyFile *key_file;
+
+	key_file = g_key_file_new ();
+	g_key_file_set_string (key_file, "Theme", "Name", theme->display_name);
+
+	g_key_file_set_string (key_file, "Background", "Type", _g_enum_type_get_value (GTH_TYPE_CONTACT_SHEET_BACKGROUND_TYPE, theme->background_type)->value_nick);
+	_g_key_file_set_color (key_file, "Background", "Color1", &theme->background_color1);
+	if (theme->background_type != GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID) {
+		_g_key_file_set_color (key_file, "Background", "Color2", &theme->background_color2);
+		if (theme->background_type == GTH_CONTACT_SHEET_BACKGROUND_TYPE_FULL) {
+			_g_key_file_set_color (key_file, "Background", "Color3", &theme->background_color3);
+			_g_key_file_set_color (key_file, "Background", "Color4", &theme->background_color4);
+		}
+	}
+
+	g_key_file_set_string (key_file, "Frame", "Style", _g_enum_type_get_value (GTH_TYPE_CONTACT_SHEET_FRAME_STYLE, theme->frame_style)->value_nick);
+	_g_key_file_set_color (key_file, "Frame", "Color", &theme->frame_color);
+
+	g_key_file_set_string (key_file, "Header", "Font", theme->header_font_name);
+	_g_key_file_set_color (key_file, "Header", "Color", &theme->header_color);
+
+	g_key_file_set_string (key_file, "Footer", "Font", theme->footer_font_name);
+	_g_key_file_set_color (key_file, "Footer", "Color", &theme->footer_color);
+
+	g_key_file_set_string (key_file, "Caption", "Font", theme->caption_font_name);
+	_g_key_file_set_color (key_file, "Caption", "Color", &theme->caption_color);
+
+	*buffer = g_key_file_to_data (key_file, count, error);
+
+	g_key_file_free (key_file);
+
+	return *error == NULL;
 }
 
 
@@ -108,10 +174,8 @@ gth_contact_sheet_theme_unref (GthContactSheetTheme *theme)
 	if (theme->ref > 0)
 		return;
 
+	_g_object_unref (theme->file);
 	g_free (theme->display_name);
-	g_free (theme->authors);
-	g_free (theme->copyright);
-	g_free (theme->version);
 	g_free (theme->header_font_name);
 	g_free (theme->footer_font_name);
 	g_free (theme->caption_font_name);

@@ -84,7 +84,7 @@
 	<applyto>/apps/gthumb/ext/contact_sheet/theme</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>default</default>
+	<default>default.cst</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
