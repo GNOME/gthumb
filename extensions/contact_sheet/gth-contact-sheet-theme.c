@@ -29,6 +29,9 @@
 
 #define DEFAULT_FONT "Sans 12"
 #define FRAME_BORDER 5
+#define HEADER_TEXT _("Header")
+#define FOOTER_TEXT _("Footer")
+#define CAPTION_TEXT _("Caption")
 
 
 static void
@@ -492,7 +495,7 @@ paint_thumbnail (GthContactSheetTheme  *theme,
 		    frame_rect.width,
 		    FALSE,
 		    font_scale,
-		    _("Caption"));
+		    CAPTION_TEXT);
 }
 
 
@@ -538,19 +541,19 @@ gth_contact_sheet_theme_paint_preview (GthContactSheetTheme  *theme,
 				 theme->header_font_name,
 				 width,
 				 font_scale,
-				 _("Header"),
+				 HEADER_TEXT,
 				 &header_rect);
 		get_text_bounds (theme,
 				 theme->footer_font_name,
 				 width,
 				 font_scale,
-				 _("Footer"),
+				 FOOTER_TEXT,
 				 &footer_rect);
 		get_text_bounds (theme,
 				 theme->caption_font_name,
 				 size,
 				 font_scale,
-				 _("Caption"),
+				 CAPTION_TEXT,
 				 &caption_rect);
 
 		n_columns = ((width- (theme->col_spacing * 2)) / (size + (FRAME_BORDER * 2) + theme->col_spacing));
@@ -582,7 +585,7 @@ gth_contact_sheet_theme_paint_preview (GthContactSheetTheme  *theme,
 		    width,
 		    FALSE,
 		    font_scale,
-		    _("Header"));
+		    HEADER_TEXT);
 
 	/* footer */
 
@@ -595,7 +598,7 @@ gth_contact_sheet_theme_paint_preview (GthContactSheetTheme  *theme,
 		    width,
 		    TRUE,
 		    font_scale,
-		    _("Footer"));
+		    FOOTER_TEXT);
 }
 
 
