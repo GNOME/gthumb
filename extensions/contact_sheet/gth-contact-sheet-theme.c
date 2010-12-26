@@ -474,11 +474,11 @@ paint_thumbnail (GthContactSheetTheme  *theme,
 
 	cairo_set_source_rgb (cr, 0.66, 0.66, 0.66);
 	cairo_set_line_width (cr, 1.0);
-	cairo_rectangle (cr, image_rect->x + 0.5, image_rect->y + 0.5, image_rect->width, image_rect->height);
+	cairo_rectangle (cr, image_rect->x + 0.5, image_rect->y + 0.5, image_rect->width - 1, image_rect->height - 1);
 	cairo_move_to (cr, image_rect->x, image_rect->y);
-	cairo_line_to (cr, image_rect->x + image_rect->width, image_rect->y + image_rect->height);
-	cairo_move_to (cr, image_rect->x + image_rect->width, image_rect->y);
-	cairo_line_to (cr, image_rect->x, image_rect->y + image_rect->height);
+	cairo_line_to (cr, image_rect->x + image_rect->width - 1, image_rect->y + image_rect->height - 1);
+	cairo_move_to (cr, image_rect->x + image_rect->width - 1, image_rect->y);
+	cairo_line_to (cr, image_rect->x, image_rect->y + image_rect->height - 1);
 	cairo_stroke (cr);
 
 	/* caption */
