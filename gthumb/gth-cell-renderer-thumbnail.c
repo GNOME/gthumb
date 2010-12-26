@@ -20,11 +20,11 @@
  */
 
 #include <config.h>
-#include <math.h>
+#include "cairo-utils.h"
 #include "gth-file-data.h"
 #include "glib-utils.h"
 #include "gth-cell-renderer-thumbnail.h"
-
+#include "pixbuf-utils.h"
 
 #define DEFAULT_THUMBNAIL_SIZE 128
 #define MAX_THUMBNAIL_SIZE 320
@@ -224,83 +224,6 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 }
 
 
-/* From gtkcellrendererpixbuf.c
- * Copyright (C) 2000  Red Hat, Inc.,  Jonathan Blandford <jrb@redhat.com>
- *
- * modified for gthumb */
-static GdkPixbuf *
-create_colorized_pixbuf (GdkPixbuf *src,
-			 GdkColor  *new_color,
-			 gdouble    alpha)
-{
-	gint i, j;
-	gint width, height, has_alpha, src_row_stride, dst_row_stride;
-	gint red_value, green_value, blue_value;
-	guchar *target_pixels;
-	guchar *original_pixels;
-	guchar *pixsrc;
-	guchar *pixdest;
-	GdkPixbuf *dest;
-
-	red_value = new_color->red / 255.0;
-	green_value = new_color->green / 255.0;
-	blue_value = new_color->blue / 255.0;
-
-	dest = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
-			       TRUE /*gdk_pixbuf_get_has_alpha (src)*/,
-			       gdk_pixbuf_get_bits_per_sample (src),
-			       gdk_pixbuf_get_width (src),
-			       gdk_pixbuf_get_height (src));
-
-	has_alpha = gdk_pixbuf_get_has_alpha (src);
-	width = gdk_pixbuf_get_width (src);
-	height = gdk_pixbuf_get_height (src);
-	src_row_stride = gdk_pixbuf_get_rowstride (src);
-	dst_row_stride = gdk_pixbuf_get_rowstride (dest);
-	target_pixels = gdk_pixbuf_get_pixels (dest);
-	original_pixels = gdk_pixbuf_get_pixels (src);
-
-	for (i = 0; i < height; i++) {
-		pixdest = target_pixels + i*dst_row_stride;
-		pixsrc = original_pixels + i*src_row_stride;
-		for (j = 0; j < width; j++) {
-			*pixdest++ = (*pixsrc++ * red_value) >> 8;
-			*pixdest++ = (*pixsrc++ * green_value) >> 8;
-			*pixdest++ = (*pixsrc++ * blue_value) >> 8;
-			if (has_alpha)
-				*pixdest++ = (*pixsrc++ * alpha);
-			else
-				*pixdest++ = (255 * alpha);
-		}
-	}
-
-	return dest;
-}
-
-
-static void
-_cairo_draw_rounded_box (cairo_t *cr,
-			 double   x,
-			 double   y,
-			 double   w,
-			 double   h,
-			 double   r)
-{
-	cairo_move_to (cr, x, y + r);
-	if (r > 0)
-		cairo_arc (cr, x + r, y + r, r, 1.0 * M_PI, 1.5 * M_PI);
-	cairo_rel_line_to (cr, w - (r * 2), 0);
-	if (r > 0)
-		cairo_arc (cr, x + w - r, y + r, r, 1.5 * M_PI, 2.0 * M_PI);
-	cairo_rel_line_to (cr, 0, h - (r * 2));
-	if (r > 0)
-		cairo_arc (cr, x + w - r, y + h - r, r, 0.0 * M_PI, 0.5 * M_PI);
-	cairo_rel_line_to (cr, - (w - (r * 2)), 0);
-	if (r > 0)
-		cairo_arc (cr, x + r, y + h - r, r, 0.5 * M_PI, 1.0 * M_PI);
-}
-
-
 static void
 gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 				    GdkWindow            *window,
@@ -433,7 +356,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	}
 
   	if (! self->priv->checked || ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0)) {
-		colorized = create_colorized_pixbuf (pixbuf, &style->base[state], self->priv->checked ? 1.0 : 0.33);
+		colorized = _gdk_pixbuf_colorize (pixbuf, &style->base[state], self->priv->checked ? 1.0 : 0.33);
 		pixbuf = colorized;
 	}
 

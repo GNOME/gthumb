@@ -1217,6 +1217,7 @@ gth_main_activate_extensions (void)
 						"catalogs",
 						"change_date",
 						"comments",
+						"contact_sheet",
 						"convert_format",
 						"copy_move_to_folder",
 						"desktop_background",

@@ -49,7 +49,7 @@ gth_icon_cache_new (GtkIconTheme *icon_theme,
 	icon_cache->icon_size = icon_size;
 	icon_cache->cache = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 
-	g_hash_table_insert (icon_cache->cache, VOID_PIXBUF_KEY, create_void_pixbuf (icon_cache->icon_size, icon_cache->icon_size));
+	g_hash_table_insert (icon_cache->cache, VOID_PIXBUF_KEY, _gdk_pixbuf_new_void (icon_cache->icon_size, icon_cache->icon_size));
 
 	return icon_cache;
 }
