@@ -335,7 +335,7 @@ _gth_contact_sheet_theme_new_default (void)
 	gdk_color_parse ("#fff", &theme->background_color3);
 	gdk_color_parse ("#fff", &theme->background_color4);
 
-	theme->background_type = GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE_WITH_SHADOW;
+	theme->frame_style = GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE_WITH_SHADOW;
 	gdk_color_parse ("#000", &theme->frame_color);
 
 	theme->header_font_name = g_strdup ("Sans 22");
@@ -355,10 +355,9 @@ static void
 update_controls_from_theme (GthContactSheetThemeDialog *self,
 			    GthContactSheetTheme       *theme)
 {
-	if (theme != NULL)
-		self->priv->theme = gth_contact_sheet_theme_dup (theme);
-	else
-		self->priv->theme = _gth_contact_sheet_theme_new_default ();
+	if (theme == NULL)
+		theme = _gth_contact_sheet_theme_new_default ();
+	self->priv->theme = gth_contact_sheet_theme_dup (theme);
 
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), theme->display_name);
 
@@ -409,8 +408,7 @@ static void
 gth_contact_sheet_theme_dialog_construct (GthContactSheetThemeDialog *self,
 					  GthContactSheetTheme       *theme)
 {
-	if (theme != NULL)
-		update_controls_from_theme (self, theme);
+	update_controls_from_theme (self, theme);
 	gtk_widget_queue_draw (GET_WIDGET ("preview_area"));
 }
 
