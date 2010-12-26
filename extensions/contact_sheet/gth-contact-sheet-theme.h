@@ -79,6 +79,7 @@ typedef struct {
 
 GthContactSheetTheme * gth_contact_sheet_theme_new               (void);
 GthContactSheetTheme * gth_contact_sheet_theme_new_from_key_file (GKeyFile              *key_file);
+GthContactSheetTheme * gth_contact_sheet_theme_dup               (GthContactSheetTheme  *theme);
 gboolean               gth_contact_sheet_theme_to_data           (GthContactSheetTheme  *theme,
 								  void                 **buffer,
 								  gsize                 *count,
@@ -86,11 +87,17 @@ gboolean               gth_contact_sheet_theme_to_data           (GthContactShee
 GthContactSheetTheme * gth_contact_sheet_theme_ref               (GthContactSheetTheme  *theme);
 void                   gth_contact_sheet_theme_unref             (GthContactSheetTheme  *theme);
 void                   gth_contact_sheet_theme_paint_background  (GthContactSheetTheme  *theme,
-								  cairo_t               *cr);
+								  cairo_t               *cr,
+								  int                    width,
+								  int                    height);
 void                   gth_contact_sheet_theme_paint_frame       (GthContactSheetTheme  *theme,
 								  cairo_t               *cr,
 								  GdkRectangle          *frame_rect,
 								  GdkRectangle          *image_rect);
+void                   gth_contact_sheet_theme_paint_preview     (GthContactSheetTheme  *theme,
+								  cairo_t               *cr,
+								  int                    width,
+								  int                    height);
 GdkPixbuf *            gth_contact_sheet_theme_create_preview    (GthContactSheetTheme  *theme,
 								  int                    preview_size);
 

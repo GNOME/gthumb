@@ -350,7 +350,7 @@ add_themes_from_dir (DialogData *data,
 				    THEME_COLUMN_PREVIEW, preview,
 				    -1);
 
-		g_object_unref (preview);
+		_g_object_unref (preview);
 		g_key_file_free (key_file);
 		g_free (buffer);
 		g_object_unref (file);

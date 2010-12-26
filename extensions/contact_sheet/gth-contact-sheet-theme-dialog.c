@@ -30,8 +30,8 @@ static gpointer parent_class = NULL;
 
 
 struct _GthContactSheetThemeDialogPrivate {
-	GtkBuilder *builder;
-	GFile      *file;
+	GtkBuilder           *builder;
+	GthContactSheetTheme *theme;
 };
 
 
@@ -43,7 +43,7 @@ gth_contact_sheet_theme_dialog_finalize (GObject *object)
 	self = GTH_CONTACT_SHEET_THEME_DIALOG (object);
 
 	_g_object_unref (self->priv->builder);
-	_g_object_unref (self->priv->file);
+	gth_contact_sheet_theme_unref (self->priv->theme);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -62,6 +62,124 @@ gth_contact_sheet_theme_dialog_class_init (GthContactSheetThemeDialogClass *klas
 }
 
 
+static gboolean
+preview_area_expose_event_cb (GtkWidget      *widget,
+			      GdkEventExpose *event,
+			      gpointer        user_data)
+{
+	GthContactSheetThemeDialog *self = user_data;
+	cairo_t                    *cr;
+	int                         width;
+	int                         height;
+
+	cr = gdk_cairo_create (gtk_widget_get_window (widget));
+	gdk_drawable_get_size (gtk_widget_get_window (widget), &width, &height);
+	gth_contact_sheet_theme_paint_preview (self->priv->theme, cr, width, height);
+	cairo_destroy (cr);
+
+	return TRUE;
+}
+
+
+static void
+update_theme_from_controls (GthContactSheetThemeDialog *self)
+{
+	self->priv->theme->display_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
+
+	/* background */
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("solid_color_radiobutton")))) {
+		self->priv->theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID;
+		gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("solid_color_colorpicker")), &self->priv->theme->background_color1);
+	}
+	else {
+		gboolean h_gradient_active = FALSE;
+		gboolean v_gradient_active = FALSE;
+
+		h_gradient_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("h_gradient_checkbutton")));
+		v_gradient_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("v_gradient_checkbutton")));
+
+		if (h_gradient_active && v_gradient_active) {
+			self->priv->theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_FULL;
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &self->priv->theme->background_color1);
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &self->priv->theme->background_color2);
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &self->priv->theme->background_color3);
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &self->priv->theme->background_color4);
+		}
+		else if (h_gradient_active) {
+			self->priv->theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_HORIZONTAL;
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &self->priv->theme->background_color1);
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &self->priv->theme->background_color2);
+		}
+		else if (v_gradient_active) {
+			self->priv->theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_VERTICAL;
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &self->priv->theme->background_color1);
+			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &self->priv->theme->background_color2);
+		}
+	}
+
+	/* frame */
+
+	self->priv->theme->frame_style = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("frame_style_combobox")));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("frame_colorpicker")), &self->priv->theme->frame_color);
+
+	/* header */
+
+	self->priv->theme->header_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontpicker"))));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("header_colorpicker")), &self->priv->theme->header_color);
+
+	/* footer */
+
+	self->priv->theme->footer_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontpicker"))));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("footer_colorpicker")), &self->priv->theme->footer_color);
+
+	/* caption */
+
+	self->priv->theme->caption_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontpicker"))));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("caption_colorpicker")), &self->priv->theme->caption_color);
+}
+
+
+static void
+update_preview (GthContactSheetThemeDialog *self)
+{
+	update_theme_from_controls (self);
+	gtk_widget_queue_draw (GET_WIDGET ("preview_area"));
+}
+
+
+static void
+h_gradient_swap_button_clicked_cb (GtkButton *button,
+				   gpointer   user_data)
+{
+	GthContactSheetThemeDialog *self = user_data;
+	GdkColor                    color1;
+	GdkColor                    color2;
+
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &color1);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &color2);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &color1);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &color2);
+	update_preview (self);
+}
+
+
+static void
+v_gradient_swap_button_clicked_cb (GtkButton *button,
+				   gpointer   user_data)
+{
+	GthContactSheetThemeDialog *self = user_data;
+	GdkColor                    color1;
+	GdkColor                    color2;
+
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &color1);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &color2);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &color1);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &color2);
+	update_preview (self);
+}
+
+
 static void
 gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 {
@@ -69,10 +187,10 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CONTACT_SHEET_THEME_DIALOG, GthContactSheetThemeDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("contact-sheet-theme-properties.ui", "contact_sheet");
-	self->priv->file = NULL;
+	self->priv->theme = NULL;
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Theme Properties"));
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
@@ -91,6 +209,87 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 			       GTK_STOCK_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+
+	g_signal_connect (GET_WIDGET ("preview_area"),
+			  "expose_event",
+			  G_CALLBACK (preview_area_expose_event_cb),
+			  self);
+	g_signal_connect_swapped (GET_WIDGET ("solid_color_radiobutton"),
+			  	  "toggled",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("gradient_radiobutton"),
+			  	  "toggled",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("h_gradient_checkbutton"),
+			  	  "toggled",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("v_gradient_checkbutton"),
+			  	  "toggled",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("solid_color_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("h_gradient_1_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("h_gradient_2_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("v_gradient_1_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("v_gradient_2_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("frame_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("header_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("footer_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("caption_colorpicker"),
+			  	  "color-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("frame_style_combobox"),
+			  	  "changed",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("header_fontpicker"),
+			  	  "font-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("footer_fontpicker"),
+			  	  "font-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect_swapped (GET_WIDGET ("caption_fontpicker"),
+			  	  "font-set",
+			  	  G_CALLBACK (update_preview),
+			  	  self);
+	g_signal_connect (GET_WIDGET ("h_gradient_swap_button"),
+			  "clicked",
+			  G_CALLBACK (h_gradient_swap_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("v_gradient_swap_button"),
+			  "clicked",
+			  G_CALLBACK (v_gradient_swap_button_clicked_cb),
+			  self);
 }
 
 
@@ -122,12 +321,44 @@ gth_contact_sheet_theme_dialog_get_type (void)
 }
 
 
+GthContactSheetTheme *
+_gth_contact_sheet_theme_new_default (void)
+{
+	GthContactSheetTheme *theme;
+
+	theme = gth_contact_sheet_theme_new ();
+	theme->display_name = g_strdup (_("New theme"));
+
+	theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID;
+	gdk_color_parse ("#fff", &theme->background_color1);
+	gdk_color_parse ("#fff", &theme->background_color2);
+	gdk_color_parse ("#fff", &theme->background_color3);
+	gdk_color_parse ("#fff", &theme->background_color4);
+
+	theme->background_type = GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE_WITH_SHADOW;
+	gdk_color_parse ("#000", &theme->frame_color);
+
+	theme->header_font_name = g_strdup ("Sans 22");
+	gdk_color_parse ("#000", &theme->frame_color);
+
+	theme->footer_font_name = g_strdup ("Sans Bold 12");
+	gdk_color_parse ("#000", &theme->footer_color);
+
+	theme->caption_font_name = g_strdup ("Sans 8");
+	gdk_color_parse ("#000", &theme->caption_color);
+
+	return theme;
+}
+
+
 static void
 update_controls_from_theme (GthContactSheetThemeDialog *self,
 			    GthContactSheetTheme       *theme)
 {
-	_g_object_unref (self->priv->file);
-	self->priv->file = _g_object_ref (theme->file);
+	if (theme != NULL)
+		self->priv->theme = gth_contact_sheet_theme_dup (theme);
+	else
+		self->priv->theme = _gth_contact_sheet_theme_new_default ();
 
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), theme->display_name);
 
@@ -170,13 +401,7 @@ update_controls_from_theme (GthContactSheetThemeDialog *self,
 	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontpicker")), theme->caption_font_name);
 	gtk_color_button_set_color (GTK_COLOR_BUTTON (GET_WIDGET ("caption_colorpicker")), &theme->caption_color);
 
-}
-
-
-static void
-update_theme_preview (GthContactSheetThemeDialog *self)
-{
-
+	update_preview (self);
 }
 
 
@@ -186,7 +411,7 @@ gth_contact_sheet_theme_dialog_construct (GthContactSheetThemeDialog *self,
 {
 	if (theme != NULL)
 		update_controls_from_theme (self, theme);
-	update_theme_preview (self);
+	gtk_widget_queue_draw (GET_WIDGET ("preview_area"));
 }
 
 
@@ -205,63 +430,6 @@ gth_contact_sheet_theme_dialog_new (GthContactSheetTheme *theme)
 GthContactSheetTheme *
 gth_contact_sheet_theme_dialog_get_theme (GthContactSheetThemeDialog *self)
 {
-	GthContactSheetTheme *theme;
-
-	theme = gth_contact_sheet_theme_new ();
-	theme->file = _g_object_ref (self->priv->file);
-	theme->display_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
-
-	/* background */
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("solid_color_radiobutton")))) {
-		theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID;
-		gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("solid_color_colorpicker")), &theme->background_color1);
-	}
-	else {
-		gboolean h_gradient_active = FALSE;
-		gboolean v_gradient_active = FALSE;
-
-		h_gradient_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("h_gradient_checkbutton")));
-		v_gradient_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("v_gradient_checkbutton")));
-
-		if (h_gradient_active && v_gradient_active) {
-			theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_FULL;
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &theme->background_color1);
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &theme->background_color2);
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &theme->background_color3);
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &theme->background_color4);
-		}
-		else if (h_gradient_active) {
-			theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_HORIZONTAL;
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_1_colorpicker")), &theme->background_color1);
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("h_gradient_2_colorpicker")), &theme->background_color2);
-		}
-		else if (v_gradient_active) {
-			theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_VERTICAL;
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_1_colorpicker")), &theme->background_color1);
-			gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("v_gradient_2_colorpicker")), &theme->background_color2);
-		}
-	}
-
-	/* frame */
-
-	theme->frame_style = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("frame_style_combobox")));
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("frame_colorpicker")), &theme->frame_color);
-
-	/* header */
-
-	theme->header_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontpicker"))));
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("header_colorpicker")), &theme->header_color);
-
-	/* footer */
-
-	theme->footer_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontpicker"))));
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("footer_colorpicker")), &theme->footer_color);
-
-	/* caption */
-
-	theme->caption_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontpicker"))));
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (GET_WIDGET ("caption_colorpicker")), &theme->caption_color);
-
-	return theme;
+	update_theme_from_controls (self);
+	return gth_contact_sheet_theme_dup (self->priv->theme);
 }

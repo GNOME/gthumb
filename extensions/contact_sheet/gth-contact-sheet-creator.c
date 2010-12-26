@@ -259,7 +259,7 @@ begin_page (GthContactSheetCreator *self,
 	self->priv->cr = cairo_create (surface);
 	cairo_surface_destroy (surface);
 
-	gth_contact_sheet_theme_paint_background (self->priv->theme, self->priv->cr);
+	gth_contact_sheet_theme_paint_background (self->priv->theme, self->priv->cr, width, height);
 
 	/* image map file. */
 

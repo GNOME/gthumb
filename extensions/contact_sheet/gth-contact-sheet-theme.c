@@ -27,6 +27,10 @@
 #include "gth-contact-sheet-theme.h"
 
 
+#define DEFAULT_FONT "Sans 12"
+#define FRAME_BORDER 5
+
+
 static void
 _g_key_file_get_color (GKeyFile  *key_file,
 		       char      *group_name,
@@ -118,6 +122,30 @@ gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 }
 
 
+GthContactSheetTheme *
+gth_contact_sheet_theme_dup (GthContactSheetTheme  *theme)
+{
+	GthContactSheetTheme *new_theme = NULL;
+	void                 *data;
+	gsize                 length;
+	GKeyFile             *key_file;
+
+	gth_contact_sheet_theme_to_data (theme, &data, &length, NULL);
+	key_file = g_key_file_new ();
+	if (g_key_file_load_from_data (key_file, data, length, G_KEY_FILE_NONE, NULL))
+		new_theme = gth_contact_sheet_theme_new_from_key_file (key_file);
+
+	g_key_file_free (key_file);
+
+	if (new_theme != NULL) {
+		_g_object_unref (new_theme->file);
+		new_theme->file = _g_object_ref (theme->file);
+	}
+
+	return new_theme;
+}
+
+
 gboolean
 gth_contact_sheet_theme_to_data (GthContactSheetTheme  *theme,
 				 void                 **buffer,
@@ -155,7 +183,7 @@ gth_contact_sheet_theme_to_data (GthContactSheetTheme  *theme,
 
 	g_key_file_free (key_file);
 
-	return *error == NULL;
+	return *buffer != NULL;
 }
 
 
@@ -170,6 +198,9 @@ gth_contact_sheet_theme_ref (GthContactSheetTheme *theme)
 void
 gth_contact_sheet_theme_unref (GthContactSheetTheme *theme)
 {
+	if (theme == NULL)
+		return;
+
 	theme->ref--;
 	if (theme->ref > 0)
 		return;
@@ -185,20 +216,13 @@ gth_contact_sheet_theme_unref (GthContactSheetTheme *theme)
 
 void
 gth_contact_sheet_theme_paint_background (GthContactSheetTheme *theme,
-					  cairo_t              *cr)
+					  cairo_t              *cr,
+					  int                   width,
+					  int                   height)
 {
 	cairo_surface_t *surface;
-	int              width;
-	int              height;
 	cairo_pattern_t *pattern;
 	cairo_color_t    color;
-
-	surface = cairo_get_target (cr);
-	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
-		return;
-
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
 
 	switch (theme->background_type) {
 	case GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID:
@@ -313,62 +337,18 @@ gth_contact_sheet_theme_paint_frame (GthContactSheetTheme *theme,
 }
 
 
-GdkPixbuf *
-gth_contact_sheet_theme_create_preview (GthContactSheetTheme *theme,
-					int                   preview_size)
+static void
+get_text_bounds (GthContactSheetTheme  *theme,
+		 const char            *font_name,
+		 int                    width,
+		 double                 font_scale,
+		 const char            *text,
+		 PangoRectangle        *bounds)
 {
-	const int        preview_frame_border = 5;
-	cairo_surface_t *surface;
-	cairo_t         *cr;
-	GdkRectangle     frame_rect;
-	GdkRectangle     image_rect;
-	GdkRectangle     text_rect;
-	/*
-	PangoContext    *pango_context;
-	PangoLayout     *pango_layout;
-	*/
-	GdkPixbuf       *pixbuf;
+	PangoContext         *pango_context;
+	PangoLayout          *pango_layout;
+	PangoFontDescription *font_desc;
 
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, preview_size, preview_size);
-	cr = cairo_create (surface);
-	cairo_surface_destroy (surface);
-
-	gth_contact_sheet_theme_paint_background (theme, cr);
-	image_rect.width = preview_size / 2;
-	image_rect.height = preview_size / 2;
-	image_rect.x = (preview_size - image_rect.width) / 2;
-	image_rect.y = (preview_size - image_rect.height) / 2;
-	frame_rect.x = image_rect.x - preview_frame_border;
-	frame_rect.y = image_rect.y - preview_frame_border;
-	frame_rect.width = image_rect.width + (preview_frame_border * 2);
-	frame_rect.height = image_rect.height + (preview_frame_border * 2);
-	gth_contact_sheet_theme_paint_frame (theme, cr, &frame_rect, &image_rect);
-
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-	cairo_rectangle (cr, image_rect.x, image_rect.y, image_rect.width, image_rect.height);
-	cairo_fill (cr);
-
-	/* header */
-
-	gdk_cairo_set_source_color (cr, &theme->header_color);
-	text_rect.width = preview_size / 3;
-	text_rect.height = 6;
-	text_rect.x = (preview_size - text_rect.width) / 2;
-	text_rect.y = 4;
-	cairo_rectangle (cr, text_rect.x, text_rect.y, text_rect.width, text_rect.height);
-	cairo_fill (cr);
-
-	/* footer */
-
-	gdk_cairo_set_source_color (cr, &theme->footer_color);
-	text_rect.width = preview_size / 5;
-	text_rect.height = 4;
-	text_rect.x = (preview_size - text_rect.width) / 2;
-	text_rect.y = preview_size - text_rect.height - 4;
-	cairo_rectangle (cr, text_rect.x, text_rect.y, text_rect.width, text_rect.height);
-	cairo_fill (cr);
-
-	/*
 	pango_context = gdk_pango_context_get ();
 	pango_context_set_language (pango_context, gtk_get_default_language ());
 	pango_layout = pango_layout_new (pango_context);
@@ -378,12 +358,259 @@ gth_contact_sheet_theme_create_preview (GthContactSheetTheme *theme,
 		font_desc = pango_font_description_from_string (font_name);
 	else
 		font_desc = pango_font_description_from_string (DEFAULT_FONT);
-	pango_layout_set_font_description (pango_layout, font_desc);
-	pango_layout_set_text (pango_layout, text, -1);
-	pango_layout_set_width (pango_layout, width * PANGO_SCALE);
-	pango_layout_get_pixel_extents (pango_layout, NULL, &bounds);
-	*/
 
+	if (font_scale != 1.0) {
+		double                size_in_points;
+		cairo_font_options_t *options;
+
+		size_in_points = (double) pango_font_description_get_size (font_desc) * font_scale;
+		pango_font_description_set_absolute_size (font_desc, size_in_points);
+		pango_layout_set_font_description (pango_layout, font_desc);
+
+		options = cairo_font_options_create ();
+		cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
+		pango_cairo_context_set_font_options (pango_context, options);
+		cairo_font_options_destroy (options);
+	}
+
+	pango_layout_set_font_description (pango_layout, font_desc);
+	pango_layout_set_width (pango_layout, width * PANGO_SCALE);
+	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_text (pango_layout, text, -1);
+	pango_layout_get_pixel_extents (pango_layout, NULL, bounds);
+}
+
+
+static void
+paint_text (GthContactSheetTheme  *theme,
+	    cairo_t               *cr,
+	    const char            *font_name,
+	    GdkColor              *color,
+	    int                    x,
+	    int                    y,
+	    int                    width,
+	    gboolean               footer,
+	    double                 font_scale,
+	    const char            *text)
+{
+	PangoContext         *pango_context;
+	PangoLayout          *pango_layout;
+	PangoFontDescription *font_desc;
+	PangoRectangle        bounds;
+
+	pango_context = gdk_pango_context_get ();
+	pango_context_set_language (pango_context, gtk_get_default_language ());
+	pango_layout = pango_layout_new (pango_context);
+	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
+
+	if (font_name != NULL)
+		font_desc = pango_font_description_from_string (font_name);
+	else
+		font_desc = pango_font_description_from_string (DEFAULT_FONT);
+
+	if (font_scale != 1.0) {
+		double                size_in_points;
+		cairo_font_options_t *options;
+
+		size_in_points = (double) pango_font_description_get_size (font_desc) * font_scale;
+		pango_font_description_set_absolute_size (font_desc, size_in_points);
+		pango_layout_set_font_description (pango_layout, font_desc);
+
+		options = cairo_font_options_create ();
+		cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
+		pango_cairo_context_set_font_options (pango_context, options);
+		cairo_font_options_destroy (options);
+	}
+
+	pango_layout_set_font_description (pango_layout, font_desc);
+	pango_layout_set_width (pango_layout, width * PANGO_SCALE);
+	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_text (pango_layout, text, -1);
+	pango_layout_get_pixel_extents (pango_layout, NULL, &bounds);
+
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, color);
+	pango_cairo_update_layout (cr, pango_layout);
+	if (footer)
+		cairo_move_to (cr, x, y - bounds.height - 2);
+	else
+		cairo_move_to (cr, x, y);
+	pango_cairo_show_layout (cr, pango_layout);
+	cairo_restore (cr);
+
+#if 0
+	cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+	cairo_rectangle (cr, x, y, width, bounds.height);
+	cairo_stroke (cr);
+#endif
+
+	pango_font_description_free (font_desc);
+	g_object_unref (pango_layout);
+	g_object_unref (pango_context);
+}
+
+
+static void
+paint_thumbnail (GthContactSheetTheme  *theme,
+		 cairo_t               *cr,
+		 GdkRectangle          *image_rect,
+		 double                 font_scale)
+{
+	GdkRectangle frame_rect;
+
+	/* frame */
+
+	frame_rect.x = image_rect->x - FRAME_BORDER;
+	frame_rect.y = image_rect->y - FRAME_BORDER;
+	frame_rect.width = image_rect->width + (FRAME_BORDER * 2);
+	frame_rect.height = image_rect->height + (FRAME_BORDER * 2);
+	gth_contact_sheet_theme_paint_frame (theme, cr, &frame_rect, image_rect);
+
+	/* pseduo-image */
+
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	cairo_rectangle (cr, image_rect->x, image_rect->y, image_rect->width, image_rect->height);
+	cairo_fill (cr);
+
+	cairo_set_source_rgb (cr, 0.66, 0.66, 0.66);
+	cairo_set_line_width (cr, 1.0);
+	cairo_rectangle (cr, image_rect->x + 0.5, image_rect->y + 0.5, image_rect->width, image_rect->height);
+	cairo_move_to (cr, image_rect->x, image_rect->y);
+	cairo_line_to (cr, image_rect->x + image_rect->width, image_rect->y + image_rect->height);
+	cairo_move_to (cr, image_rect->x + image_rect->width, image_rect->y);
+	cairo_line_to (cr, image_rect->x, image_rect->y + image_rect->height);
+	cairo_stroke (cr);
+
+	/* caption */
+
+	paint_text (theme,
+		    cr,
+		    theme->caption_font_name,
+		    &theme->caption_color,
+		    frame_rect.x,
+		    frame_rect.y + frame_rect.height + 2,
+		    frame_rect.width,
+		    FALSE,
+		    font_scale,
+		    _("Caption"));
+}
+
+
+void
+gth_contact_sheet_theme_paint_preview (GthContactSheetTheme  *theme,
+				       cairo_t               *cr,
+				       int                    width,
+				       int                    height)
+{
+	double       font_scale;
+	GdkRectangle image_rect;
+
+	if (height < 200)
+		font_scale = height / 200.0;
+	else
+		font_scale = 1.0;
+
+	gth_contact_sheet_theme_paint_background (theme, cr, width, height);
+
+	/* thumbnail */
+
+	if (height < 200) {
+		image_rect.width = width / 2;
+		image_rect.height = image_rect.width;
+		image_rect.x = (width - image_rect.width) / 2;
+		image_rect.y = (height - image_rect.height) / 2 - 3;
+		paint_thumbnail (theme, cr, &image_rect, font_scale);
+	}
+	else {
+		PangoRectangle header_rect;
+		PangoRectangle footer_rect;
+		PangoRectangle caption_rect;
+		int            n_columns;
+		int            n_rows;
+		int            size;
+		int            x_offset;
+		int            y_offset;
+		int            c, r;
+
+		size = 80;
+
+		get_text_bounds (theme,
+				 theme->header_font_name,
+				 width,
+				 font_scale,
+				 _("Header"),
+				 &header_rect);
+		get_text_bounds (theme,
+				 theme->footer_font_name,
+				 width,
+				 font_scale,
+				 _("Footer"),
+				 &footer_rect);
+		get_text_bounds (theme,
+				 theme->caption_font_name,
+				 size,
+				 font_scale,
+				 _("Caption"),
+				 &caption_rect);
+
+		n_columns = ((width- (theme->col_spacing * 2)) / (size + (FRAME_BORDER * 2) + theme->col_spacing));
+		n_rows = ((height - header_rect.height - (theme->row_spacing * 2) - footer_rect.height) / (size + theme->col_spacing + caption_rect.height));
+		x_offset = (width - (n_columns * (size + theme->col_spacing))) / 2;
+		y_offset = header_rect.height + theme->row_spacing;
+		for (r = 0; r < n_rows; r++) {
+			int y;
+
+			y = y_offset + r * (size + caption_rect.height + theme->row_spacing);
+			for (c = 0; c < n_columns; c++) {
+				image_rect.width = size;
+				image_rect.height = size;
+				image_rect.x = x_offset + c * (size + theme->col_spacing);
+				image_rect.y = y;
+				paint_thumbnail (theme, cr, &image_rect, font_scale);
+			}
+		}
+	}
+
+	/* header */
+
+	paint_text (theme,
+		    cr,
+		    theme->header_font_name,
+		    &theme->header_color,
+		    0,
+		    0,
+		    width,
+		    FALSE,
+		    font_scale,
+		    _("Header"));
+
+	/* footer */
+
+	paint_text (theme,
+		    cr,
+		    theme->footer_font_name,
+		    &theme->footer_color,
+		    0,
+		    height,
+		    width,
+		    TRUE,
+		    font_scale,
+		    _("Footer"));
+}
+
+
+GdkPixbuf *
+gth_contact_sheet_theme_create_preview (GthContactSheetTheme *theme,
+					int                   preview_size)
+{
+	cairo_surface_t *surface;
+	cairo_t         *cr;
+	GdkPixbuf       *pixbuf;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, preview_size, preview_size);
+	cr = cairo_create (surface);
+	cairo_surface_destroy (surface);
+	gth_contact_sheet_theme_paint_preview (theme, cr, preview_size, preview_size);
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (cr);
 
 	cairo_destroy (cr);
