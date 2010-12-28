@@ -270,8 +270,6 @@ dlg_resize_images (GthBrowser *browser,
 
         if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
         	gtk_widget_hide (GET_WIDGET ("use_destination_checkbutton"));
-        else
-        	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_destination_checkbutton")), TRUE);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
