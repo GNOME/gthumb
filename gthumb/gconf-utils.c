@@ -400,14 +400,13 @@ eel_gconf_set_string_list (const char *key,
 			   const GSList *slist)
 {
 	GConfClient *client;
-	GError *error;
+	GError      *error = NULL;
 
 	g_return_if_fail (key != NULL);
 
 	client = eel_gconf_client_get_global ();
 	g_return_if_fail (client != NULL);
 
-	error = NULL;
 	gconf_client_set_list (client, key, GCONF_VALUE_STRING,
 			       /* Need cast cause of GConf api bug */
 			       (GSList *) slist,
@@ -419,16 +418,15 @@ eel_gconf_set_string_list (const char *key,
 GSList *
 eel_gconf_get_string_list (const char *key)
 {
-	GSList *slist;
+	GSList      *slist;
 	GConfClient *client;
-	GError *error;
+	GError      *error = NULL;
 	
 	g_return_val_if_fail (key != NULL, NULL);
 	
 	client = eel_gconf_client_get_global ();
 	g_return_val_if_fail (client != NULL, NULL);
 	
-	error = NULL;
 	slist = gconf_client_get_list (client, key, GCONF_VALUE_STRING, &error);
 	if (eel_gconf_handle_error (&error)) {
 		slist = NULL;

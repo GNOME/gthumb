@@ -123,7 +123,7 @@ image_loader_ready_cb (GObject      *source_object,
                        gpointer      user_data)
 {
 	GthOverwriteDialog *self = user_data;
-	GError             *error;
+	GError             *error = NULL;
 	GdkPixbuf          *pixbuf;
 	GtkWidget          *viewer;
 

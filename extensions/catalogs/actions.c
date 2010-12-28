@@ -181,7 +181,7 @@ gth_browser_activate_action_catalog_new (GtkAction  *action,
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
-	GError        *error;
+	GError        *error = NULL;
 	GFile         *gio_file;
 
 	name = _gtk_request_dialog_run (GTK_WINDOW (browser),
