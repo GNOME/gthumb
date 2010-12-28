@@ -112,13 +112,13 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 	if (tags != NULL) {
 		char *value;
 
-		value = gth_string_list_join (tags, ", ");
+		value = gth_string_list_join (tags, ",");
 		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), value);
 
 		g_free (value);
 	}
 	else
-		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), "");
+		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), NULL);
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::rating");
 	if (metadata != NULL) {
