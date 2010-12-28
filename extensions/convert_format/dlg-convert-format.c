@@ -117,12 +117,24 @@ ok_button_clicked_cb (GtkWidget  *widget,
 }
 
 
+static void
+use_destination_checkbutton_toggled_cb (GtkToggleButton *button,
+					gpointer         user_data)
+{
+	DialogData *data = user_data;
+
+	data->use_destination = ! gtk_toggle_button_get_active (button);
+	gtk_widget_set_sensitive (GET_WIDGET ("destination_filechooserbutton"), data->use_destination);
+}
+
+
 void
 dlg_convert_format (GthBrowser *browser,
 		    GList      *file_list)
 {
-	DialogData *data;
-	GArray     *savers;
+	DialogData  *data;
+	GArray      *savers;
+	GthFileData *first_file_data;
 
 	if (gth_browser_get_dialog (browser, "convert_format") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "convert_format")));
@@ -133,7 +145,7 @@ dlg_convert_format (GthBrowser *browser,
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("convert-format.ui", "convert_format");
 	data->file_list = gth_file_data_list_dup (file_list);
-	data->use_destination = GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser));
+	data->use_destination = TRUE;
 
 	/* Get the widgets. */
 
@@ -182,12 +194,10 @@ dlg_convert_format (GthBrowser *browser,
 		g_free (default_mime_type);
 	}
 
-	if (data->use_destination) {
-		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), gth_browser_get_location (browser), NULL);
-		gtk_widget_show (GET_WIDGET ("saving_box"));
-	}
-	else
-		gtk_widget_hide (GET_WIDGET ("saving_box"));
+	first_file_data = (GthFileData *) data->file_list->data;
+	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
+				   first_file_data->file,
+				   NULL);
 
 	/* Set the signals handlers. */
 
@@ -207,8 +217,17 @@ dlg_convert_format (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
+        g_signal_connect (GET_WIDGET ("use_destination_checkbutton"),
+                          "toggled",
+                          G_CALLBACK (use_destination_checkbutton_toggled_cb),
+                          data);
 
 	/* Run dialog. */
+
+        if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+        	gtk_widget_hide (GET_WIDGET ("use_destination_checkbutton"));
+        else
+        	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_destination_checkbutton")), TRUE);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
