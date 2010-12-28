@@ -257,7 +257,7 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 	GthFileData *selected_parent;
 	GFile       *parent;
 	GFile       *gio_parent;
-	GError      *error;
+	GError      *error = NULL;
 	GFile       *gio_file;
 
 	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
