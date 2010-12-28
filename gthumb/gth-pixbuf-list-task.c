@@ -416,6 +416,8 @@ process_current_file (GthPixbufListTask *self)
 	GList       *source_singleton;
 
 	if (self->priv->current == NULL) {
+		if (self->priv->destination_folder != NULL)
+			gth_browser_go_to (self->priv->browser, self->priv->destination_folder, NULL);
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
