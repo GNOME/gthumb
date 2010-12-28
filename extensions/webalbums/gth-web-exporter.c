@@ -2365,6 +2365,31 @@ save_resized_image_ready_cd (GthFileData *file_data,
 }
 
 
+static const char *
+get_format_description (const char *mime_type)
+{
+	const char *description = NULL;
+	GSList     *formats;
+	GSList     *scan;
+
+	formats = gdk_pixbuf_get_formats ();
+	for (scan = formats; ! description && scan; scan = scan->next) {
+		GdkPixbufFormat  *format = scan->data;
+		char            **mime_types;
+		int               i;
+
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; ! description && mime_types[i] != NULL; i++)
+			if (g_strcmp0 (mime_types[i], mime_type) == 0)
+				description = gdk_pixbuf_format_get_description (format);
+	}
+
+	g_slist_free (formats);
+
+	return description;
+}
+
+
 static gboolean
 save_resized_image (gpointer data)
 {
@@ -2378,6 +2403,8 @@ save_resized_image (gpointer data)
 
 	image_data = self->priv->current_file->data;
 	if (self->priv->copy_images && (image_data->image != NULL)) {
+		char        *filename_no_ext;
+		char        *size;
 		GFile       *destination;
 		GthFileData *file_data;
 
@@ -2386,6 +2413,29 @@ save_resized_image (gpointer data)
 				   g_file_info_get_display_name (image_data->file_data->info),
 				   FALSE,
 				   (double) (self->priv->image + 1) / (self->priv->n_images + 1));
+
+		/* change the file extension to jpeg */
+
+		filename_no_ext = _g_uri_remove_extension (image_data->dest_filename);
+		g_free (image_data->dest_filename);
+		image_data->dest_filename = g_strconcat(filename_no_ext, ".jpeg", NULL);
+		g_free (filename_no_ext);
+
+		/* change the file type */
+
+		gth_file_data_set_mime_type (image_data->file_data, "image/jpeg");
+		g_file_info_set_attribute_string (image_data->file_data->info, "general::format", get_format_description ("image/jpeg"));
+
+		/* change the image dimensions info */
+
+		g_file_info_set_attribute_int32 (image_data->file_data->info, "image::width", image_data->image_width);
+		g_file_info_set_attribute_int32 (image_data->file_data->info, "image::height", image_data->image_height);
+		g_file_info_set_attribute_int32 (image_data->file_data->info, "frame::width", image_data->image_width);
+		g_file_info_set_attribute_int32 (image_data->file_data->info, "frame::height", image_data->image_height);
+		size = g_strdup_printf (_("%d × %d"), image_data->image_width, image_data->image_height);
+		g_file_info_set_attribute_string (image_data->file_data->info, "general::dimensions", size);
+
+		/* save the pixbuf */
 
 		destination = get_image_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);

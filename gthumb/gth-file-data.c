@@ -205,8 +205,11 @@ void
 gth_file_data_set_mime_type (GthFileData *self,
 			     const char  *mime_type)
 {
-	if (mime_type != NULL)
+	if (mime_type != NULL) {
 		g_file_info_set_content_type (self->info, get_static_string (mime_type));
+		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, get_static_string (mime_type));
+		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE, get_static_string (mime_type));
+	}
 }
 
 
