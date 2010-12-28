@@ -60,6 +60,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		return;
 
 	filename = g_file_get_path (file_data->file);
+	if (filename == NULL)
+		return;
+
 	format = gdk_pixbuf_get_file_info (filename, &width, &height);
 	if (format != NULL) {
 		char *size;
