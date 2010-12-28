@@ -150,47 +150,39 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 
 	/* caption */
 
+	text = NULL;
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
-	if (metadata == NULL)
-		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
-	else
+	if (metadata != NULL)
 		text = gth_metadata_get_raw (metadata);
 	gth_comment_set_caption (comment, text);
 
 	/* comment */
 
+	text = NULL;
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
-	if (metadata == NULL)
-		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
-	else
+	if (metadata != NULL)
 		text = gth_metadata_get_raw (metadata);
 	gth_comment_set_note (comment, text);
 
 	/* location */
 
+	text = NULL;
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
-	if (metadata == NULL)
-		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
-	else
+	if (metadata != NULL)
 		text = gth_metadata_get_raw (metadata);
 	gth_comment_set_place (comment, text);
 
 	/* time */
 
+	text = NULL;
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
-	if (metadata == NULL)
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
 	if (metadata != NULL)
 		text = gth_metadata_get_raw (metadata);
-	else
-		text = NULL;
 	gth_comment_set_time_from_exif_format (comment, text);
 
 	/* keywords */
 
 	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
-	if (categories == NULL)
-		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
 	if (categories != NULL) {
 		GList *list;
 		GList *scan;
