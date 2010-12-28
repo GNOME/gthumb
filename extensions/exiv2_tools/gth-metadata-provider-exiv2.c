@@ -172,6 +172,21 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 				g_file_info_set_attribute_object (file_data->info, tags_to_update[i], metadata);
 		}
 	}
+	else {
+		const char *tags_to_remove[] = {
+			"Exif::Image::ImageDescription",
+			"Xmp::tiff::ImageDescription",
+			"Iptc::Application2::Headline",
+			"Exif::Photo::UserComment",
+			"Xmp::dc::description",
+			"Iptc::Application2::Caption",
+			NULL
+		};
+		int i;
+
+		for (i = 0; tags_to_remove[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, tags_to_remove[i]);
+	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");
 	if (metadata != NULL) {
@@ -179,12 +194,20 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::title", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
 	}
+	else {
+		g_file_info_remove_attribute (file_data->info, "Xmp::dc::title");
+		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::Headline");
+	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL) {
 		g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Location", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::LocationName", metadata);
+	}
+	else {
+		g_file_info_remove_attribute (file_data->info, "Xmp::iptc::Location");
+		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::LocationName");
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
@@ -194,12 +217,18 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", metadata);
 		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", metadata);
 	}
+	else {
+		g_file_info_remove_attribute (file_data->info, "Xmp::iptc::Keywords");
+		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::Keywords");
+	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
 		g_object_set (metadata, "value-type", NULL, NULL);
 		g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
 	}
+	else
+		g_file_info_remove_attribute (file_data->info, "Exif::Image::DateTime");
 
 	if (exiv2_write_metadata_to_buffer (&buffer,
 					    &size,
