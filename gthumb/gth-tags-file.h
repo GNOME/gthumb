@@ -47,9 +47,9 @@ gboolean       gth_tags_file_to_file          (GthTagsFile  *tags,
 char **        gth_tags_file_get_tags         (GthTagsFile  *tags);
 gboolean       gth_tags_file_has_tag          (GthTagsFile  *tags,
 					       const char   *tag);
-void           gth_tags_file_add              (GthTagsFile  *tags,
+gboolean       gth_tags_file_add              (GthTagsFile  *tags,
 					       const char   *tag);
-void           gth_tags_file_remove           (GthTagsFile  *tags,
+gboolean       gth_tags_file_remove           (GthTagsFile  *tags,
 					       const char   *tag);
 void           gth_tags_file_clear            (GthTagsFile  *tags);
 

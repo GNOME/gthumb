@@ -866,14 +866,24 @@ void
 gth_tags_entry_set_tags (GthTagsEntry  *self,
 			 char         **tags)
 {
-	char *s;
+	GthTagsFile *tags_file;
+	int          i;
+	gboolean     global_tags_changed = FALSE;
+	char        *s;
 
 	if ((tags == NULL) || (tags[0] == NULL)) {
 		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), "");
 		return;
 	}
 
-	s = g_strjoinv(", ", tags);
+	tags_file = gth_main_get_default_tag_file ();
+	for (i = 0; tags[i] != NULL; i++)
+		if (gth_tags_file_add (tags_file, tags[i]))
+			global_tags_changed = TRUE;
+	if (global_tags_changed)
+		gth_main_tags_changed ();
+
+	s = g_strjoinv (", ", tags);
 	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), s);
 	g_free (s);
 }
@@ -883,5 +893,15 @@ void
 gth_tags_entry_set_text (GthTagsEntry *self,
 			 const char   *text)
 {
-	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), text);
+	char **tags;
+
+	if ((text == NULL) || (strcmp (text, "") == 0)) {
+		gth_tags_entry_set_tags (self, NULL);
+		return;
+	}
+
+	tags = g_strsplit (text, ",", -1);
+	gth_tags_entry_set_tags (self, tags);
+
+	g_strfreev (tags);
 }

@@ -269,19 +269,23 @@ gth_tags_file_has_tag (GthTagsFile *tags,
 }
 
 
-void
+gboolean
 gth_tags_file_add (GthTagsFile *tags,
 		   const char  *tag)
 {
 	GList *link;
 
 	link = g_list_find_custom (tags->items, tag, (GCompareFunc) strcmp);
-	if (link == NULL)
+	if (link == NULL) {
 		tags->items = g_list_append (tags->items, g_strdup (tag));
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 
-void
+gboolean
 gth_tags_file_remove (GthTagsFile *tags,
 		      const char  *tag)
 {
@@ -289,9 +293,12 @@ gth_tags_file_remove (GthTagsFile *tags,
 
 	link = g_list_find_custom (tags->items, tag, (GCompareFunc) strcmp);
 	if (link == NULL)
-		return;
+		return FALSE;
+
 	tags->items = g_list_remove_link (tags->items, link);
 	_g_string_list_free (link);
+
+	return TRUE;
 }
 
 
