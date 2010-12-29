@@ -35,7 +35,7 @@ static const char *ui_info =
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
 "      <menu name='Export' action='ExportMenu'>"
-"        <placeholder name='Web_Services'>"
+"        <placeholder name='Misc_Actions'>"
 "          <menuitem action='Tool_CreateContactSheet'/>"
 "        </placeholder>"
 "      </menu>"
