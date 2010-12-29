@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-12-11 10:28+0000\n"
-"PO-Revision-Date: 2010-12-16 17:12+0100\n"
+"POT-Creation-Date: 2010-12-28 17:23+0000\n"
+"PO-Revision-Date: 2010-12-28 21:20+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
-"«fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», "
+"«fit_if_larger», «fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
-"«icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», "
+"«text_only», «icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -568,9 +568,9 @@ msgid "Could not remove the files from the catalog"
 msgstr "No se pudieron quitar los archivos del catálogo"
 
 #: ../extensions/catalogs/actions.c:120
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:633
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:642
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:670
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:637
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:646
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/search/gth-search.c:295
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
@@ -1000,6 +1000,12 @@ msgstr "Destino"
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:4
 msgid "New format"
 msgstr "Formato nuevo"
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+#| msgid "Restore the original desktop wallpaper"
+msgid "_Use the original image folder"
+msgstr "_Usar la carpeta de imágenes original"
 
 #: ../extensions/convert_format/dlg-convert-format.c:91
 msgid "Converting images"
@@ -1934,7 +1940,7 @@ msgid "Scale factor:"
 msgstr "Factor de escala:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "_Width:"
 msgstr "A_ncho:"
 
@@ -2361,8 +2367,9 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1034
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:74
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:77
 #: ../extensions/webalbums/dlg-web-exporter.c:432
+#: ../extensions/webalbums/gth-web-exporter.c:2435
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -2451,7 +2458,7 @@ msgid "Loading \"%s\""
 msgstr "Cargando «%s»"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:156
-#: ../extensions/webalbums/gth-web-exporter.c:2734
+#: ../extensions/webalbums/gth-web-exporter.c:2684
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -2538,8 +2545,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
-"larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
+"if-larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3452,7 +3459,7 @@ msgstr "A_ltura:"
 msgid "_Preserve original aspect ratios"
 msgstr "Man_tener la proporción de aspecto original"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "pixel"
 msgstr "píxel"
 
@@ -3810,19 +3817,19 @@ msgid "Saving HTML pages: Indexes"
 msgstr "Guardando las páginas HTML: Índices"
 
 #: ../extensions/webalbums/gth-web-exporter.c:2328
-#: ../extensions/webalbums/gth-web-exporter.c:2385
+#: ../extensions/webalbums/gth-web-exporter.c:2412
 msgid "Saving images"
 msgstr "Guardando las imágenes"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2441
+#: ../extensions/webalbums/gth-web-exporter.c:2491
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2977
+#: ../extensions/webalbums/gth-web-exporter.c:2927
 msgid "Could not find the style folder"
 msgstr "No se pudo encontrar la carpeta de estilos"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3010
+#: ../extensions/webalbums/gth-web-exporter.c:2960
 msgid "Could not create a temporary folder"
 msgstr "No se pudo crear una carpeta temporal"
 
@@ -3946,12 +3953,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
-"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para "
+"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4914,8 +4921,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
-#~ "small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
+#~ "</small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -5623,8 +5630,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts 0-"
-#~ "9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts "
+#~ "0-9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -5815,8 +5822,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
-#~ "«comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
+#~ "«exifdate», «comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -5829,8 +5836,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
-#~ "«5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
+#~ "«4x6», «5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: png, jpeg."
 #~ msgstr "Los valores posibles son: «png», «jpeg»."
@@ -5998,8 +6005,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
+#~ "nombre diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6041,8 +6048,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
+#~ "nombre diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
@@ -6520,9 +6527,6 @@ msgstr ""
 
 #~ msgid "Set the image as desktop background (stretched)"
 #~ msgstr "Utilizar esta imagen como fondo del escritorio (estirado)"
-
-#~ msgid "Restore the original desktop wallpaper"
-#~ msgstr "Restaurar el fondo de pantalla original del escritorio"
 
 #~ msgid "Reset Exif orientation to top-left"
 #~ msgstr "Restaurar orientación EXIF a superior-izquierda"
