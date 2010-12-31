@@ -282,6 +282,8 @@ gth_contact_sheet_theme_paint_frame (GthContactSheetTheme *theme,
 				     GdkRectangle         *frame_rect,
 				     GdkRectangle         *image_rect)
 {
+	int width;
+
 	switch (theme->frame_style) {
 	case GTH_CONTACT_SHEET_FRAME_STYLE_NONE:
 		break;
@@ -334,7 +336,38 @@ gth_contact_sheet_theme_paint_frame (GthContactSheetTheme *theme,
 				   TRUE);
 		break;
 
-	default:
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_IN:
+		width = 3;
+		cairo_save (cr);
+		cairo_set_line_width (cr, width);
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		cairo_move_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_stroke (cr);
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.5);
+		cairo_move_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_stroke (cr);
+		cairo_restore (cr);
+		break;
+
+	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_OUT:
+		width = 3;
+		cairo_save (cr);
+		cairo_set_line_width (cr, width);
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.5);
+		cairo_move_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_stroke (cr);
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		cairo_move_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y - (width / 2));
+		cairo_line_to (cr, image_rect->x + image_rect->width + (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_line_to (cr, image_rect->x - (width / 2), image_rect->y + image_rect->height + (width / 2));
+		cairo_stroke (cr);
+		cairo_restore (cr);
 		break;
 	}
 }
@@ -478,10 +511,10 @@ paint_thumbnail (GthContactSheetTheme  *theme,
 	cairo_set_source_rgb (cr, 0.66, 0.66, 0.66);
 	cairo_set_line_width (cr, 1.0);
 	cairo_rectangle (cr, image_rect->x + 0.5, image_rect->y + 0.5, image_rect->width - 1, image_rect->height - 1);
-	cairo_move_to (cr, image_rect->x, image_rect->y);
-	cairo_line_to (cr, image_rect->x + image_rect->width - 1, image_rect->y + image_rect->height - 1);
-	cairo_move_to (cr, image_rect->x + image_rect->width - 1, image_rect->y);
-	cairo_line_to (cr, image_rect->x, image_rect->y + image_rect->height - 1);
+	cairo_move_to (cr, image_rect->x + 0.5, image_rect->y + 0.5);
+	cairo_line_to (cr, image_rect->x + image_rect->width - 1, image_rect->y + 0.5 + image_rect->height - 1);
+	cairo_move_to (cr, image_rect->x + image_rect->width - 1, image_rect->y + 0.5);
+	cairo_line_to (cr, image_rect->x + 0.5, image_rect->y + 0.5 + image_rect->height - 1);
 	cairo_stroke (cr);
 
 	/* caption */
