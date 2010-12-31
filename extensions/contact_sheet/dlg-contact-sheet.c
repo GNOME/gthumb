@@ -643,7 +643,6 @@ dlg_contact_sheet (GthBrowser *browser,
 	GList      *scan;
 	char       *caption;
 	char       *s_value;
-	GFile      *file;
 	char       *default_mime_type;
 	GArray     *savers;
 
@@ -682,9 +681,7 @@ dlg_contact_sheet (GthBrowser *browser,
 		else
 			s_value = g_strdup (get_home_uri ());
 	}
-	file = g_file_new_for_uri (s_value);
-	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), file, NULL);
-	g_object_unref (file);
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
 	g_free (s_value);
 
 	s_value = eel_gconf_get_path (PREF_CONTACT_SHEET_TEMPLATE, NULL);
