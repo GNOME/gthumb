@@ -660,7 +660,7 @@ dlg_contact_sheet (GthBrowser *browser,
 	gth_browser_set_dialog (browser, "contact_sheet", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
-	data->thumbnail_caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_FILE_LIST);
+	data->thumbnail_caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT);
 	gtk_widget_show (data->thumbnail_caption_chooser);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("thumbnail_caption_scrolledwindow")), data->thumbnail_caption_chooser);
 
