@@ -259,8 +259,8 @@ _cairo_draw_slide (cairo_t  *cr,
 			cairo_stroke (cr);
 
 			cairo_set_source_rgb (cr, mid_gray, mid_gray, mid_gray);
-			cairo_move_to (cr, image_x2 - 1, image_y);
-			cairo_line_to (cr, image_x2 - 1, image_y2);
+			cairo_move_to (cr, image_x2 - 1, image_y - 1);
+			cairo_line_to (cr, image_x2 - 1, image_y2 - 1);
 			cairo_move_to (cr, image_x, image_y2 - 1);
 			cairo_line_to (cr, image_x2, image_y2 - 1);
 			cairo_stroke (cr);
