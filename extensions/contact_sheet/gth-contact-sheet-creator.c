@@ -343,14 +343,14 @@ begin_page (GthContactSheetCreator *self,
 }
 
 
-static void
-end_page (GthContactSheetCreator *self,
-	  int                     page_n)
+static gboolean
+end_page (GthContactSheetCreator  *self,
+	  int                      page_n,
+	  GError                 **error)
 {
 	GdkPixbuf *pixbuf;
 	char      *buffer;
 	gsize      size;
-	GError    *error = NULL;
 
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (self->priv->cr);
 	if (! gth_pixbuf_saver_save_pixbuf (self->priv->pixbuf_saver,
@@ -358,10 +358,10 @@ end_page (GthContactSheetCreator *self,
 					    &buffer,
 					    &size,
 					    self->priv->mime_type,
-					    &error))
+					    error))
 	{
-		gth_task_completed (GTH_TASK (self), error);
-		return;
+		g_object_unref (pixbuf);
+		return FALSE;
 	}
 
 	if (! g_write_file (self->priv->destination_file,
@@ -370,10 +370,10 @@ end_page (GthContactSheetCreator *self,
 			    buffer,
 			    size,
 			    gth_task_get_cancellable (GTH_TASK (self)),
-			    &error))
+			    error))
 	{
-		gth_task_completed (GTH_TASK (self), error);
-		return;
+		g_object_unref (pixbuf);
+		return FALSE;
 	}
 
 	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->destination_file));
@@ -383,25 +383,36 @@ end_page (GthContactSheetCreator *self,
 	/* image map file. */
 
 	if (self->priv->imagemap_stream != NULL) {
-		g_data_output_stream_put_string (self->priv->imagemap_stream,
-						 "    </map>\n",
-						 gth_task_get_cancellable (GTH_TASK (self)),
-						 &error);
-		g_data_output_stream_put_string (self->priv->imagemap_stream,
-						 "\
+		if (! g_data_output_stream_put_string (self->priv->imagemap_stream,
+						       "    </map>\n",
+						       gth_task_get_cancellable (GTH_TASK (self)),
+						       error))
+		{
+			return FALSE;
+		}
+
+		if (! g_data_output_stream_put_string (self->priv->imagemap_stream,
+						       "\
   </div>\n\
 </body>\n\
 </html>\n\
 ",
-						 gth_task_get_cancellable (GTH_TASK (self)),
-						 &error);
+						       gth_task_get_cancellable (GTH_TASK (self)),
+						       error))
+		{
+			return FALSE;
+	       	}
 
-		g_output_stream_close (G_OUTPUT_STREAM (self->priv->imagemap_stream),
-				       gth_task_get_cancellable (GTH_TASK (self)),
-				       &error);
-
+		if (! g_output_stream_close (G_OUTPUT_STREAM (self->priv->imagemap_stream),
+					     gth_task_get_cancellable (GTH_TASK (self)),
+					     error))
+		{
+			return FALSE;
+		}
 		self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->imagemap_file));
 	}
+
+	return TRUE;
 }
 
 
@@ -668,6 +679,7 @@ export (GthContactSheetCreator *self)
 	int        x, y;
 	GList     *scan;
 	ItemData  *item_data;
+	GError    *error = NULL;
 
 	if (self->priv->pixbuf_saver == NULL)
 		self->priv->pixbuf_saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
@@ -704,7 +716,7 @@ export (GthContactSheetCreator *self)
 
 		if (columns == 0) {
 			paint_footer (self, page_n);
-			end_page (self, page_n);
+			end_page (self, page_n, &error);
 			goto export_end;
 		}
 
@@ -730,7 +742,8 @@ export (GthContactSheetCreator *self)
 
 			if (page_n > 0) {
 				paint_footer (self, page_n);
-				end_page (self, page_n);
+				if (! end_page (self, page_n, &error))
+					goto export_end;
 			}
 
 			first_row = TRUE;
@@ -841,7 +854,7 @@ export (GthContactSheetCreator *self)
 		self->priv->created_files = NULL;
 	}
 
-	gth_task_completed (GTH_TASK (self), NULL);
+	gth_task_completed (GTH_TASK (self), error);
 }
 
 
@@ -1097,7 +1110,7 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	if (self->priv->cr != NULL)
 		cairo_destroy (self->priv->cr);
 	g_free (self->priv->thumbnail_caption);
-	gth_contact_sheet_theme_ref (self->priv->theme);
+	gth_contact_sheet_theme_unref (self->priv->theme);
 	g_free (self->priv->mime_type);
 	g_free (self->priv->file_extension);
 	g_free (self->priv->template);
@@ -1135,9 +1148,22 @@ gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->destination = NULL;
+	self->priv->destination_file = NULL;
 	self->priv->template = NULL;
 	self->priv->mime_type = NULL;
 	self->priv->file_extension = NULL;
+	self->priv->theme = NULL;
+	self->priv->pango_context = NULL;
+	self->priv->pango_layout = NULL;
+	self->priv->image_loader = NULL;
+	self->priv->pixbuf_saver = NULL;
+	self->priv->files = NULL;
+	self->priv->created_files = NULL;
+	self->priv->imagemap_file = NULL;
+	self->priv->imagemap_stream = NULL;
+	self->priv->pages_height = NULL;
+	self->priv->template_v = NULL;
+	self->priv->thumbnail_caption_v = NULL;
 	self->priv->write_image_map = FALSE;
 	self->priv->images_per_index = 0;
 	self->priv->single_index = FALSE;
