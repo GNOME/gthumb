@@ -223,7 +223,7 @@ _gdk_pixbuf_scale_squared (GdkPixbuf     *p,
 		th = (int) (((double) h / w) * tw);
 	}
 
-	if ((tw > size) || (th > size))
+	if ((tw < w) || (th < h))
 		p1 = _gdk_pixbuf_scale_composite (p, tw, th, interp_type);
 	else
 		p1 = g_object_ref (p);
