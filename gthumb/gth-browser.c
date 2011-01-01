@@ -659,6 +659,26 @@ _gth_browser_add_clear_history_menu_item (GthBrowser *browser,
 }
 
 
+#if 0
+static void
+_gth_browser_print_history (GthBrowser *browser)
+{
+	GList *scan;
+
+	g_print ("history:\n");
+	for (scan = browser->priv->history; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		char  *uri;
+
+		uri = g_file_get_uri (file);
+		g_print (" %s%s\n", (browser->priv->history_current == scan) ? "*" : " ", uri);
+
+		g_free (uri);
+	}
+}
+#endif
+
+
 static void
 _gth_browser_update_history_list (GthBrowser *browser)
 {
@@ -1585,26 +1605,6 @@ _gth_browser_load_ready_cb (GthFileSource *file_source,
 {
 	load_data_ready ((LoadData *) user_data, files, error);
 }
-
-
-#if 0
-static void
-_gth_browser_print_history (GthBrowser *browser)
-{
-	GList *scan;
-
-	g_print ("history:\n");
-	for (scan = browser->priv->history; scan; scan = scan->next) {
-		GFile *file = scan->data;
-		char  *uri;
-
-		uri = g_file_get_uri (file);
-		g_print (" %s%s\n", (browser->priv->history_current == scan) ? "*" : " ", uri);
-
-		g_free (uri);
-	}
-}
-#endif
 
 
 static GFile *
