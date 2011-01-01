@@ -49,7 +49,8 @@ struct _GthContactSheetThemeDialogClass {
 };
 
 GType                   gth_contact_sheet_theme_dialog_get_type    (void);
-GtkWidget *             gth_contact_sheet_theme_dialog_new         (GthContactSheetTheme       *theme);
+GtkWidget *             gth_contact_sheet_theme_dialog_new         (GthContactSheetTheme       *theme,
+								    GList                      *all_themes);
 GthContactSheetTheme *  gth_contact_sheet_theme_dialog_get_theme   (GthContactSheetThemeDialog *self);
 
 G_END_DECLS

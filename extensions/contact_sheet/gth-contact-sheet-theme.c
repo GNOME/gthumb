@@ -653,3 +653,23 @@ gth_contact_sheet_theme_create_preview (GthContactSheetTheme *theme,
 
 	return pixbuf;
 }
+
+
+GList *
+gth_contact_sheet_theme_list_copy (GList *list)
+{
+	GList *new_list;
+
+	new_list = g_list_copy (list);
+	g_list_foreach (new_list, (GFunc) gth_contact_sheet_theme_ref, NULL);
+
+	return new_list;
+}
+
+
+void
+gth_contact_sheet_theme_list_free (GList *list)
+{
+	g_list_foreach (list, (GFunc) gth_contact_sheet_theme_unref, NULL);
+	g_list_free (list);
+}

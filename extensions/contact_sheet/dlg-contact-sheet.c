@@ -546,25 +546,54 @@ theme_dialog_response_cb (GtkDialog *dialog,
 }
 
 
+static GList *
+get_all_themes (DialogData *data)
+{
+	GList        *list = NULL;
+	GtkTreeModel *model;
+	GtkTreeIter   iter;
+
+	model = GTK_TREE_MODEL (GET_WIDGET ("theme_liststore"));
+	if (gtk_tree_model_get_iter_first (model, &iter))
+		do {
+			GthContactSheetTheme *theme;
+
+			gtk_tree_model_get (model, &iter,
+					    THEME_COLUMN_THEME, &theme,
+					    -1);
+			if (theme != NULL)
+				list = g_list_prepend (list, gth_contact_sheet_theme_ref (theme));
+		}
+		while (gtk_tree_model_iter_next (model, &iter));
+
+	return g_list_reverse (list);
+}
+
+
 static void
 edit_theme_button_clicked_cb (GtkButton *button,
 			      gpointer   user_data)
 {
 	DialogData           *data = user_data;
 	GthContactSheetTheme *theme;
+	GList                *all_themes;
 	GtkWidget            *theme_dialog;
 
 	theme = get_selected_theme (data);
 	if ((theme == NULL) || ! theme->editable)
 		return;
 
-	theme_dialog = gth_contact_sheet_theme_dialog_new (theme);
+	all_themes = get_all_themes (data);
+	theme_dialog = gth_contact_sheet_theme_dialog_new (theme, all_themes);
 	g_signal_connect (theme_dialog,
 			  "response",
 			  G_CALLBACK (theme_dialog_response_cb),
 			  data);
 	gtk_window_set_transient_for (GTK_WINDOW (theme_dialog), GTK_WINDOW (data->dialog));
+	gtk_window_set_modal (GTK_WINDOW (theme_dialog), TRUE);
 	gtk_widget_show (theme_dialog);
+
+	gth_contact_sheet_theme_list_free (all_themes);
 }
 
 
@@ -573,15 +602,20 @@ add_theme_button_clicked_cb (GtkButton *button,
 			     gpointer   user_data)
 {
 	DialogData *data = user_data;
+	GList      *all_themes;
 	GtkWidget  *theme_dialog;
 
-	theme_dialog = gth_contact_sheet_theme_dialog_new (NULL);
+	all_themes = get_all_themes (data);
+	theme_dialog = gth_contact_sheet_theme_dialog_new (NULL, all_themes);
 	g_signal_connect (theme_dialog,
 			  "response",
 			  G_CALLBACK (theme_dialog_response_cb),
 			  data);
 	gtk_window_set_transient_for (GTK_WINDOW (theme_dialog), GTK_WINDOW (data->dialog));
+	gtk_window_set_modal (GTK_WINDOW (theme_dialog), TRUE);
 	gtk_widget_show (theme_dialog);
+
+	gth_contact_sheet_theme_list_free (all_themes);
 }
 
 

@@ -31,7 +31,10 @@ static gpointer parent_class = NULL;
 
 struct _GthContactSheetThemeDialogPrivate {
 	GtkBuilder           *builder;
+	GtkWidget            *copy_from_button;
+	GtkWidget            *copy_from_menu;
 	GthContactSheetTheme *theme;
+	GList                *all_themes;
 };
 
 
@@ -44,6 +47,7 @@ gth_contact_sheet_theme_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 	gth_contact_sheet_theme_unref (self->priv->theme);
+	gth_contact_sheet_theme_list_free (self->priv->all_themes);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -188,6 +192,7 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CONTACT_SHEET_THEME_DIALOG, GthContactSheetThemeDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("contact-sheet-theme-properties.ui", "contact_sheet");
 	self->priv->theme = NULL;
+	self->priv->all_themes = NULL;
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Theme Properties"));
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
@@ -202,11 +207,25 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
+	/* "Copy from" button */
+
+	self->priv->copy_from_button = gth_menu_button_new ();
+	gth_menu_button_set_label (GTH_MENU_BUTTON (self->priv->copy_from_button), _("Copy _From"));
+	gth_menu_button_set_use_underline (GTH_MENU_BUTTON (self->priv->copy_from_button), TRUE);
+	gtk_widget_show (self->priv->copy_from_button);
+
+	self->priv->copy_from_menu = gtk_menu_new ();
+	gth_menu_button_set_menu (GTH_MENU_BUTTON (self->priv->copy_from_button), self->priv->copy_from_menu);
+
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (self))), self->priv->copy_from_button, FALSE, FALSE, 0);
+
+	/* other buttons */
+
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_OK,
+			       GTK_STOCK_SAVE,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
@@ -405,20 +424,70 @@ update_controls_from_theme (GthContactSheetThemeDialog *self,
 
 
 static void
+copy_from_menu_item_activate_cb (GtkMenuItem *menu_item,
+         			 gpointer     user_data)
+{
+	GthContactSheetThemeDialog *self = user_data;
+	char                       *display_name;
+	GFile                      *file;
+	GthContactSheetTheme       *theme;
+
+	if ((self->priv->theme != NULL) && (self->priv->theme->file != NULL))
+		file = g_file_dup (self->priv->theme->file);
+	else
+		file = NULL;
+	display_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
+
+	theme = g_object_get_data (G_OBJECT (menu_item), "theme");
+	if (theme != NULL)
+		update_controls_from_theme (self, theme);
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), display_name);
+
+	_g_object_unref (self->priv->theme->file);
+	self->priv->theme->file = _g_object_ref (file);
+
+	g_free (display_name);
+	_g_object_unref (file);
+}
+
+
+static void
 gth_contact_sheet_theme_dialog_construct (GthContactSheetThemeDialog *self,
 					  GthContactSheetTheme       *theme)
 {
+	GList *scan;
+
+	for (scan = self->priv->all_themes; scan; scan = scan->next) {
+		GthContactSheetTheme *other_theme = scan->data;
+		GtkWidget            *menu_item;
+
+		if ((theme != NULL) && g_file_equal (theme->file, other_theme->file))
+			continue;
+
+		menu_item = gtk_menu_item_new_with_label (other_theme->display_name);
+		g_object_set_data (G_OBJECT (menu_item), "theme", other_theme);
+		gtk_widget_show (menu_item);
+		g_signal_connect (menu_item,
+				  "activate",
+				  G_CALLBACK (copy_from_menu_item_activate_cb),
+				  self);
+
+		gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->copy_from_menu), menu_item);
+	}
+
 	update_controls_from_theme (self, theme);
 	gtk_widget_queue_draw (GET_WIDGET ("preview_area"));
 }
 
 
 GtkWidget *
-gth_contact_sheet_theme_dialog_new (GthContactSheetTheme *theme)
+gth_contact_sheet_theme_dialog_new (GthContactSheetTheme *theme,
+				    GList                *all_themes)
 {
 	GthContactSheetThemeDialog *self;
 
 	self = g_object_new (GTH_TYPE_CONTACT_SHEET_THEME_DIALOG, NULL);
+	self->priv->all_themes = gth_contact_sheet_theme_list_copy (all_themes);
 	gth_contact_sheet_theme_dialog_construct (self, theme);
 
 	return (GtkWidget *) self;

@@ -78,6 +78,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-info-bar.h					\
 	gth-location-chooser.h				\
 	gth-main.h					\
+	gth-menu-button.h				\
 	gth-metadata.h					\
 	gth-metadata-chooser.h				\
 	gth-metadata-provider.h				\
@@ -199,6 +200,7 @@ gthumb_SOURCES = 					\
 	gth-main-default-sort-types.c			\
 	gth-main-default-tests.c			\
 	gth-main-default-types.c			\
+	gth-menu-button.c				\
 	gth-metadata.c					\
 	gth-metadata-chooser.c				\
 	gth-metadata-provider.c				\

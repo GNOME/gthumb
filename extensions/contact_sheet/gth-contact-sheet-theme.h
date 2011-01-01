@@ -101,4 +101,7 @@ void                   gth_contact_sheet_theme_paint_preview     (GthContactShee
 GdkPixbuf *            gth_contact_sheet_theme_create_preview    (GthContactSheetTheme  *theme,
 								  int                    preview_size);
 
+GList *                gth_contact_sheet_theme_list_copy         (GList *list);
+void                   gth_contact_sheet_theme_list_free         (GList *list);
+
 #endif /* GTH_CONTACT_SHEET_THEME_H */
