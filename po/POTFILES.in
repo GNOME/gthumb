@@ -79,6 +79,27 @@ extensions/comments/gth-metadata-provider-comment.c
 extensions/comments/gth-metadata-provider-comment.h
 extensions/comments/main.c
 extensions/comments/preferences.h
+extensions/contact_sheet/actions.c
+extensions/contact_sheet/actions.h
+extensions/contact_sheet/callbacks.c
+extensions/contact_sheet/callbacks.h
+[type: gettext/ini]extensions/contact_sheet/contact_sheet.extension.in.in
+extensions/contact_sheet/data/gthumb_contact_sheet.schemas.in
+[type: gettext/glade]extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui
+[type: gettext/glade]extensions/contact_sheet/data/ui/contact-sheet.ui
+[type: gettext/glade]extensions/contact_sheet/data/ui/image-wall.ui
+extensions/contact_sheet/dlg-contact-sheet.c
+extensions/contact_sheet/dlg-contact-sheet.h
+extensions/contact_sheet/dlg-image-wall.c
+extensions/contact_sheet/dlg-image-wall.h
+extensions/contact_sheet/gth-contact-sheet-creator.c
+extensions/contact_sheet/gth-contact-sheet-creator.h
+extensions/contact_sheet/gth-contact-sheet-theme.c
+extensions/contact_sheet/gth-contact-sheet-theme-dialog.c
+extensions/contact_sheet/gth-contact-sheet-theme-dialog.h
+extensions/contact_sheet/gth-contact-sheet-theme.h
+extensions/contact_sheet/main.c
+extensions/contact_sheet/preferences.h
 extensions/convert_format/actions.c
 extensions/convert_format/actions.h
 extensions/convert_format/callbacks.c
@@ -548,6 +569,8 @@ extensions/webalbums/gth-web-exporter.h
 extensions/webalbums/main.c
 extensions/webalbums/preferences.h
 [type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
+gthumb/cairo-utils.c
+gthumb/cairo-utils.h
 gthumb/dlg-extensions.c
 gthumb/dlg-extensions.h
 gthumb/dlg-personalize-filters.c
@@ -667,6 +690,8 @@ gthumb/gth-main-default-sort-types.c
 gthumb/gth-main-default-tests.c
 gthumb/gth-main-default-types.c
 gthumb/gth-main.h
+gthumb/gth-menu-button.c
+gthumb/gth-menu-button.h
 gthumb/gth-metadata.c
 gthumb/gth-metadata-chooser.c
 gthumb/gth-metadata-chooser.h
