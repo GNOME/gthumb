@@ -36,24 +36,35 @@ static const char *ui_info =
 "    <menu name='File' action='FileMenu'>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Misc_Actions'>"
-"          <menuitem action='Tool_CreateContactSheet'/>"
+"          <menu name='ContactSheet' action='ContactSheetMenu'>"
+"            <menuitem action='Tool_CreateContactSheet'/>"
+"            <menuitem action='Tool_CreateImageWall'/>"
+"          </menu>"
 "        </placeholder>"
 "      </menu>"
 "    </menu>"
 "  </menubar>"
 "  <popup name='ExportPopup'>"
 "    <placeholder name='Misc_Actions'>"
-"      <menuitem action='Tool_CreateContactSheet'/>"
+"      <menu name='ContactSheet' action='ContactSheetMenu'>"
+"        <menuitem action='Tool_CreateContactSheet'/>"
+"        <menuitem action='Tool_CreateImageWall'/>"
+"      </menu>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
 
 
 static GtkActionEntry action_entries[] = {
+	{ "ContactSheetMenu", NULL, N_("Contact _Sheet") },
 	{ "Tool_CreateContactSheet", "contact-sheet",
 	  N_("Contact _Sheet..."), NULL,
 	  N_("Create a contact sheet"),
 	  G_CALLBACK (gth_browser_activate_action_create_contact_sheet) },
+	{ "Tool_CreateImageWall", "image-wall",
+	  N_("Image _Wall..."), NULL,
+	  N_("Create an image-wall"),
+	  G_CALLBACK (gth_browser_activate_action_create_image_wall) },
 };
 
 

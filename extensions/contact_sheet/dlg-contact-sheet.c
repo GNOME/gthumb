@@ -688,7 +688,7 @@ dlg_contact_sheet (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->file_list = _g_object_list_ref (file_list);
-	data->builder = _gtk_builder_new_from_file ("contact-sheet-creator.ui", "contact_sheet");
+	data->builder = _gtk_builder_new_from_file ("contact-sheet.ui", "contact_sheet");
 
 	data->dialog = _gtk_builder_get_widget (data->builder, "contact_sheet_dialog");
 	gth_browser_set_dialog (browser, "contact_sheet", data->dialog);

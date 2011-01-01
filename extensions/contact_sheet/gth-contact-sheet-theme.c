@@ -109,8 +109,6 @@ gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 	g_free (nick);
 
 	_g_key_file_get_color (key_file, "Frame", "Color", &theme->frame_color, NULL);
-	/*theme->frame_hpadding = g_key_file_get_integer (key_file, "Frame", "HPadding", NULL);*/
-	/*theme->frame_vpadding = g_key_file_get_integer (key_file, "Frame", "VPadding", NULL);*/
 
 	theme->header_font_name = g_key_file_get_string (key_file, "Header", "Font", NULL);
 	_g_key_file_get_color (key_file, "Header", "Color", &theme->header_color, NULL);

@@ -550,73 +550,6 @@ paint_frame (GthContactSheetCreator *self,
 {
 	gth_contact_sheet_theme_paint_frame (self->priv->theme, self->priv->cr, frame_rect, image_rect);
 
-#if 0
-	switch (self->priv->theme->frame_style) {
-	case GTH_CONTACT_SHEET_FRAME_STYLE_NONE:
-		break;
-
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SLIDE:
-		gthumb_draw_slide_with_colors (self->priv->pixmap,
-					       frame_rect->x,
-					       frame_rect->y,
-					       frame_rect->width,
-					       frame_rect->height,
-					       image_rect->width,
-					       image_rect->height,
-					       &self->priv->theme->frame_color,
-					       &self->priv->black,
-					       &self->priv->dark_gray,
-					       &self->priv->gray,
-					       &self->priv->white);
-		break;
-
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE:
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW:
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE_WITH_SHADOW:
-		if (self->priv->theme->frame_style == GTH_FRAME_STYLE_SHADOW)
-			gthumb_draw_image_shadow (self->priv->pixmap,
-						  image_rect->x,
-						  image_rect->y,
-						  image_rect->width,
-						  image_rect->height);
-
-		if (self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)
-			gthumb_draw_frame_shadow (self->priv->pixmap,
-						  image_rect->x,
-						  image_rect->y,
-						  image_rect->width,
-						  image_rect->height);
-
-		if ((self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE)
-		    || (self->priv->theme->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW))
-		{
-			gthumb_draw_frame (self->priv->pixmap,
-					   image_rect->x,
-					   image_rect->y,
-					   image_rect->width,
-					   image_rect->height,
-					   &self->priv->theme->frame_color);
-		}
-		break;
-
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_IN:
-		gthumb_draw_image_shadow_in (self->priv->pixmap,
-					     image_rect->x,
-					     image_rect->y,
-					     image_rect->width,
-					     image_rect->height);
-		break;
-
-	case GTH_CONTACT_SHEET_FRAME_STYLE_SHADOW_OUT:
-		gthumb_draw_image_shadow_out (self->priv->pixmap,
-					      image_rect->x,
-					      image_rect->y,
-					      image_rect->width,
-					      image_rect->height);
-		break;
-	}
-#endif
-
 	if (self->priv->imagemap_stream != NULL) {
 		char   *file;
 		char   *destination;
@@ -801,8 +734,8 @@ export (GthContactSheetCreator *self)
 				thumbnail_width = gdk_pixbuf_get_width (row_item->thumbnail);
 				thumbnail_height = gdk_pixbuf_get_height (row_item->thumbnail);
 
-				image_rect.x = x + (frame_width - thumbnail_width) / 2 + 1;
-				image_rect.y = y + (frame_height - thumbnail_height) / 2 + 1;
+				image_rect.x = x + (frame_width - thumbnail_width) / 2;
+				image_rect.y = y + (frame_height - thumbnail_height) / 2;
 				image_rect.width = thumbnail_width;
 				image_rect.height = thumbnail_height;
 

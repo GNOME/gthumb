@@ -230,8 +230,8 @@ _cairo_draw_slide (cairo_t  *cr,
 	if ((image_width > 0) && (image_height > 0)) {
 		double image_x, image_y;
 
-		image_x = frame_x + (frame_width - image_width) / 2 + 0.5;
-		image_y = frame_y + (frame_height - image_height) / 2 + 0.5;
+		image_x = frame_x + (frame_width - image_width) / 2 - 0.5;
+		image_y = frame_y + (frame_height - image_height) / 2 - 0.5;
 
 		/* inner border. */
 

@@ -43,6 +43,16 @@ G_BEGIN_DECLS
 #define PREF_CONTACT_SHEET_SQUARED_THUMBNAIL        "/apps/gthumb/ext/contact_sheet/squared_thumbnail"
 #define PREF_CONTACT_SHEET_THUMBNAIL_CAPTION        "/apps/gthumb/ext/contact_sheet/thumbnail_caption"
 
+#define PREF_IMAGE_WALL_DESTINATION                 "/apps/gthumb/ext/image_wall/destination"
+#define PREF_IMAGE_WALL_TEMPLATE                    "/apps/gthumb/ext/image_wall/template"
+#define PREF_IMAGE_WALL_MIME_TYPE                   "/apps/gthumb/ext/image_wall/mime_type"
+#define PREF_IMAGE_WALL_IMAGES_PER_PAGE             "/apps/gthumb/ext/image_wall/images_per_page"
+#define PREF_IMAGE_WALL_SINGLE_PAGE                 "/apps/gthumb/ext/image_wall/single_page"
+#define PREF_IMAGE_WALL_COLUMNS                     "/apps/gthumb/ext/image_wall/columns"
+#define PREF_IMAGE_WALL_SORT_TYPE                   "/apps/gthumb/ext/image_wall/sort_type"
+#define PREF_IMAGE_WALL_SORT_INVERSE                "/apps/gthumb/ext/image_wall/sort_inverse"
+#define PREF_IMAGE_WALL_THUMBNAIL_SIZE              "/apps/gthumb/ext/image_wall/thumbnail_size"
+
 G_END_DECLS
 
 #endif /* PREFERENCES_H */

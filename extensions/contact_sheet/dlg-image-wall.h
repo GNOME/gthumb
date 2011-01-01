@@ -19,14 +19,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef DLG_CONTACT_SHEET_H
+#define DLG_CONTACT_SHEET_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+void  dlg_contact_sheet (GthBrowser *browser,
+			 GList      *file_list); /* GFile list */
 
-DEFINE_ACTION(gth_browser_activate_action_create_contact_sheet)
-DEFINE_ACTION(gth_browser_activate_action_create_image_wall)
-
-#endif /* ACTIONS_H */
+#endif /* DLG_CONTACT_SHEET_H */

@@ -11,6 +11,7 @@ HEADER_FILES = 					\
 	actions.h				\
 	callbacks.h				\
 	dlg-contact-sheet.h			\
+	dlg-image-wall.h			\
 	gth-contact-sheet-creator.h		\
 	gth-contact-sheet-theme.h		\
 	gth-contact-sheet-theme-dialog.h	\
@@ -44,6 +45,7 @@ libcontact_sheet_la_SOURCES = 			\
 	actions.c				\
 	callbacks.c				\
 	dlg-contact-sheet.c			\
+	dlg-image-wall.c			\
 	gth-contact-sheet-creator.c		\
 	gth-contact-sheet-theme.c		\
 	gth-contact-sheet-theme-dialog.c	\
