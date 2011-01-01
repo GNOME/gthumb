@@ -850,6 +850,9 @@ export (GthContactSheetCreator *self)
 					    self->priv->destination,
 					    self->priv->created_files,
 					    GTH_MONITOR_EVENT_CREATED);
+		if (error == NULL)
+			gth_browser_go_to (self->priv->browser, self->priv->destination, (GFile *) self->priv->created_files->data);
+
 		_g_object_list_unref (self->priv->created_files);
 		self->priv->created_files = NULL;
 	}
