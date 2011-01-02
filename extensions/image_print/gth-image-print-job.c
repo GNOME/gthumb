@@ -34,17 +34,6 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-enum {
-	IMAGES_PER_PAGE_1,
-	IMAGES_PER_PAGE_2,
-	IMAGES_PER_PAGE_4,
-	IMAGES_PER_PAGE_8,
-	IMAGES_PER_PAGE_16,
-	IMAGES_PER_PAGE_32,
-	N_IMAGES_PER_PAGE
-};
-static int n_rows_for_ipp[N_IMAGES_PER_PAGE] = { 1, 2, 2, 4, 4, 8 };
-static int n_cols_for_ipp[N_IMAGES_PER_PAGE] = { 1, 1, 2, 2, 4, 4 };
 static gpointer parent_class = NULL;
 
 
@@ -69,7 +58,8 @@ struct _GthImagePrintJobPrivate {
 
 	GthImageInfo      **images;
 	int                 n_images;
-	int                 requested_images_per_page;
+	int                 n_rows;
+	int                 n_columns;
 	int                 image_width;
 	int                 image_height;
 	GtkPageSetup       *page_setup;
@@ -81,7 +71,6 @@ struct _GthImagePrintJobPrivate {
 	/* layout info */
 
 	GthTask            *task;
-	int                 real_images_per_page;
 	double              max_image_width;
 	double		    max_image_height;
 	double              x_padding;
@@ -137,7 +126,8 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
 	self->priv->font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_FONT_NAME);
 	self->priv->selected = NULL;
-	self->priv->requested_images_per_page = eel_gconf_get_integer (PREF_IMAGE_PRINT_IMAGES_PER_PAGE, 1);
+	self->priv->n_rows = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_ROWS, 1);
+	self->priv->n_columns = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_COLUMNS, 1);
 	self->priv->unit = eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS);
 }
 
@@ -170,82 +160,60 @@ gth_image_print_job_get_type (void)
 }
 
 
-static double
-_log2 (double x)
-{
-	return log (x) / log (2);
-}
-
-
-static int
-get_combo_box_index_from_ipp (int value)
-{
-	return (int) floor (_log2 (value) + 0.5);
-}
-
-
-static int
-get_ipp_from_combo_box_index (int idx)
-{
-	return (int) pow (2, idx);
-}
-
-
 static void
 gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 				        gdouble             page_width,
 				        gdouble             page_height,
 				        GtkPageOrientation  orientation)
 {
-	int idx;
 	int rows;
-	int cols;
+	int columns;
 	int current_page;
 	int current_row;
-	int current_col;
+	int current_column;
 	int i;
 
-	self->priv->real_images_per_page = self->priv->requested_images_per_page;
 	self->priv->x_padding = page_width / 40.0;
 	self->priv->y_padding = page_height / 40.0;
 
-	idx = get_combo_box_index_from_ipp (self->priv->real_images_per_page);
-	rows = n_rows_for_ipp[idx];
-	cols = n_cols_for_ipp[idx];
+	rows = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")));
+	columns = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("columns_spinbutton")));
 	if ((orientation == GTK_PAGE_ORIENTATION_LANDSCAPE)
 	    || (orientation == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
 	{
 		int tmp = rows;
-		rows = cols;
-		cols = tmp;
+		rows = columns;
+		columns = tmp;
 	}
 
-	self->priv->max_image_width = (page_width - ((cols - 1) * self->priv->x_padding)) / cols;
+	self->priv->n_rows = rows;
+	self->priv->n_columns = columns;
+	self->priv->max_image_width = (page_width - ((columns - 1) * self->priv->x_padding)) / columns;
 	self->priv->max_image_height = (page_height - ((rows - 1) * self->priv->y_padding)) / rows;
 
-	self->priv->n_pages = MAX ((int) ceil ((double) self->priv->n_images / self->priv->real_images_per_page), 1);
+	self->priv->n_pages = MAX ((int) ceil ((double) self->priv->n_images / (self->priv->n_rows * self->priv->n_columns)), 1);
 	if (self->priv->current_page >= self->priv->n_pages)
 		self->priv->current_page = self->priv->n_pages - 1;
 
 	current_page = 0;
 	current_row = 1;
-	current_col = 1;
+	current_column = 1;
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
 
 		image_info->page = current_page;
-		image_info->col = current_col;
+		image_info->col = current_column;
 		image_info->row = current_row;
 
-		current_col++;
-		if (current_col > cols) {
+		current_column++;
+		if (current_column > columns) {
 			current_row++;
-			current_col = 1;
+			current_column = 1;
 		}
 
 		if (current_row > rows) {
 			current_page++;
-			current_col = 1;
+			current_column = 1;
 			current_row = 1;
 		}
 	}
@@ -988,13 +956,27 @@ preview_button_press_event_cb (GtkWidget      *widget,
 
 
 static void
-ipp_combobox_changed_cb (GtkComboBox *widget,
-			 gpointer     user_data)
+rows_spinbutton_changed_cb (GtkSpinButton *widget,
+			    gpointer       user_data)
 {
 	GthImagePrintJob *self = user_data;
 	int               i;
 
-	self->priv->requested_images_per_page = get_ipp_from_combo_box_index (gtk_combo_box_get_active (widget));
+	self->priv->n_rows = gtk_spin_button_get_value_as_int (widget);
+	for (i = 0; i < self->priv->n_images; i++)
+		gth_image_info_reset (self->priv->images[i]);
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
+columns_spinbutton_changed_cb (GtkSpinButton *widget,
+			       gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+	int               i;
+
+	self->priv->n_columns = gtk_spin_button_get_value_as_int (widget);
 	for (i = 0; i < self->priv->n_images; i++)
 		gth_image_info_reset (self->priv->images[i]);
 	gth_image_print_job_update_preview (self);
@@ -1277,7 +1259,9 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton")), self->priv->font_name);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("ipp_combobox")), get_combo_box_index_from_ipp (self->priv->requested_images_per_page));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")), self->priv->n_rows);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("columns_spinbutton")), self->priv->n_columns);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS));
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
@@ -1296,9 +1280,13 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			  "button-press-event",
 			  G_CALLBACK (preview_button_press_event_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("ipp_combobox"),
-			  "changed",
-	                  G_CALLBACK (ipp_combobox_changed_cb),
+	g_signal_connect (GET_WIDGET ("rows_spinbutton"),
+			  "value-changed",
+	                  G_CALLBACK (rows_spinbutton_changed_cb),
+	                  self);
+	g_signal_connect (GET_WIDGET ("columns_spinbutton"),
+			  "value-changed",
+	                  G_CALLBACK (columns_spinbutton_changed_cb),
 	                  self);
 	g_signal_connect (GET_WIDGET ("next_page_button"),
 			  "clicked",
@@ -1410,7 +1398,8 @@ operation_custom_widget_apply_cb (GtkPrintOperation *operation,
 {
 	GthImagePrintJob *self = user_data;
 
-	eel_gconf_set_integer (PREF_IMAGE_PRINT_IMAGES_PER_PAGE, self->priv->requested_images_per_page);
+	eel_gconf_set_integer (PREF_IMAGE_PRINT_N_ROWS, self->priv->n_rows);
+	eel_gconf_set_integer (PREF_IMAGE_PRINT_N_COLUMNS, self->priv->n_columns);
 	eel_gconf_set_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox"))));
 }
 

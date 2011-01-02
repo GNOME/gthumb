@@ -26,10 +26,11 @@
 
 G_BEGIN_DECLS
 
-#define PREF_IMAGE_PRINT_CAPTION            "/apps/gthumb/ext/image_print/caption"
-#define PREF_IMAGE_PRINT_FONT_NAME          "/apps/gthumb/ext/image_print/font_name"
-#define PREF_IMAGE_PRINT_IMAGES_PER_PAGE    "/apps/gthumb/ext/image_print/images_per_page"
-#define PREF_IMAGE_PRINT_UNIT               "/apps/gthumb/ext/image_print/unit"
+#define PREF_IMAGE_PRINT_CAPTION      "/apps/gthumb/ext/image_print/caption"
+#define PREF_IMAGE_PRINT_FONT_NAME    "/apps/gthumb/ext/image_print/font_name"
+#define PREF_IMAGE_PRINT_N_ROWS       "/apps/gthumb/ext/image_print/n_rows"
+#define PREF_IMAGE_PRINT_N_COLUMNS    "/apps/gthumb/ext/image_print/n_columns"
+#define PREF_IMAGE_PRINT_UNIT         "/apps/gthumb/ext/image_print/unit"
 
 G_END_DECLS
 

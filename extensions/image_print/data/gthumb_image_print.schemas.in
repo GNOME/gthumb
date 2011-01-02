@@ -28,8 +28,21 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_print/images_per_page</key>
-	<applyto>/apps/gthumb/ext/image_print/images_per_page</applyto>
+	<key>/schemas/apps/gthumb/ext/image_print/n_rows</key>
+	<applyto>/apps/gthumb/ext/image_print/n_rows</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/n_columns</key>
+	<applyto>/apps/gthumb/ext/image_print/n_columns</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
 	<default>1</default>
