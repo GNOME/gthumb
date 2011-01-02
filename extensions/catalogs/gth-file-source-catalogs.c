@@ -416,7 +416,7 @@ gth_file_source_catalogs_read_metadata (GthFileSource *file_source,
 typedef struct {
 	GthFileSource         *file_source;
 	gboolean               recursive;
-	const char            *attributes;
+	char                  *attributes;
 	StartDirCallback       start_dir_func;
 	ForEachChildCallback   for_each_file_func;
 	ReadyCallback          ready_func;
@@ -431,6 +431,7 @@ for_each_child_data_free (ForEachChildData *data)
 {
 	_g_object_list_unref (data->to_visit);
 	g_object_ref (data->catalog);
+	g_free (data->attributes);
 	g_object_ref (data->file_source);
 }
 
@@ -630,7 +631,7 @@ gth_file_source_catalogs_for_each_child (GthFileSource        *file_source,
 	data = g_new0 (ForEachChildData, 1);
 	data->file_source = g_object_ref (file_source);
 	data->recursive = recursive;
-	data->attributes = attributes;
+	data->attributes = g_strdup (attributes);
 	data->start_dir_func = start_dir_func;
 	data->for_each_file_func = for_each_file_func;
 	data->ready_func = ready_func;
