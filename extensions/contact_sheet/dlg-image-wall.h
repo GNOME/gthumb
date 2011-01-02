@@ -19,12 +19,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DLG_CONTACT_SHEET_H
-#define DLG_CONTACT_SHEET_H
+#ifndef DLG_IMAGE_WALL_H
+#define DLG_IMAGE_WALL_H
 
 #include <gthumb.h>
 
-void  dlg_contact_sheet (GthBrowser *browser,
-			 GList      *file_list); /* GFile list */
+void  dlg_image_wall (GthBrowser *browser,
+		      GList      *file_list); /* GFile list */
 
-#endif /* DLG_CONTACT_SHEET_H */
+#endif /* DLG_IMAGE_WALL_H */
