@@ -1,3 +1,28 @@
+version 2.12.2
+--------------
+
+        Bugs fixed:
+
+        * Correctly activate the default extensions when started the first
+          time. (#635475)
+        * Enable building with exiv2-0.21 (Alexandre Rostovtsev) (#349150)
+	* Launch a single instance of Gimp when opening many files at once. (#637234)
+        * Fixed folder renaming. (#635417)
+        * Fixed search in catalogs not ginving any result. (#638009)
+        * Fixed crash on thumbnail generation.
+        * Web Albums: update the file info when scaling the original image. (#637920)
+
+        New or updated application translations:
+
+        * Basque (Iñaki Larrañaga Murgoitio)
+        * Deutsch (Mario Blättermann)
+        * Japanese (Takeshi AIHANA)
+        * Russian (Yuri Myasoedov)
+
+        New or updated manual translations:
+
+        * German (Mario Blättermann)
+
 version 2.12.1
 --------------
 
