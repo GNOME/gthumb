@@ -2614,14 +2614,12 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 {
 	GFile  *parent;
 	char   *uri;
-	char   *new_basename;
 	GFile  *new_file;
 	GError *error = NULL;
 
 	parent = g_file_get_parent (file);
 	uri = g_file_get_uri (file);
-	new_basename = g_strconcat (new_name, _g_uri_get_file_extension (uri), NULL);
-	new_file = g_file_get_child_for_display_name (parent, new_basename, &error);
+	new_file = g_file_get_child_for_display_name (parent, new_name, &error);
 
 	if (new_file == NULL)
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), &error);
@@ -2633,7 +2631,6 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 	}
 
 	g_object_unref (new_file);
-	g_free (new_basename);
 	g_free (uri);
 	g_object_unref (parent);
 }
