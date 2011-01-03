@@ -77,6 +77,8 @@ struct _GthSlideshowPrivate {
 #endif
 	GdkPixbuf             *pause_pixbuf;
 	gboolean               paused;
+	gboolean               paint_paused;
+	guint                  hide_paused_sign;
 	gboolean               animating;
 	gboolean               random_order;
 };
@@ -572,7 +574,10 @@ default_projector_image_ready (GthSlideshow *self,
 static void
 default_projector_finalize (GthSlideshow *self)
 {
-	/* void */
+	if (self->priv->hide_paused_sign != 0) {
+		g_source_remove (self->priv->hide_paused_sign);
+		self->priv->hide_paused_sign = 0;
+	}
 }
 
 
@@ -586,6 +591,11 @@ default_projector_hide_cursor (GthSlideshow *self)
 static void
 default_projector_paused (GthSlideshow *self)
 {
+	if (self->priv->hide_paused_sign != 0) {
+		g_source_remove (self->priv->hide_paused_sign);
+		self->priv->hide_paused_sign = 0;
+	}
+	self->priv->paint_paused = TRUE;
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
@@ -651,6 +661,21 @@ viewer_event_cb (GtkWidget    *widget,
 }
 
 
+static gboolean
+hide_paused_sign_cb (gpointer user_data)
+{
+	GthSlideshow *self = user_data;
+
+	g_source_remove (self->priv->hide_paused_sign);
+	self->priv->hide_paused_sign = 0;
+
+	self->priv->paint_paused = FALSE;
+	gtk_widget_queue_draw (self->priv->viewer);
+
+	return FALSE;
+}
+
+
 static void
 default_projector_pause_painter (GthImageViewer *image_viewer,
 				 GdkEventExpose *event,
@@ -662,24 +687,31 @@ default_projector_pause_painter (GthImageViewer *image_viewer,
 	double        dest_x;
 	double        dest_y;
 
-	if (! self->priv->paused || (self->priv->pause_pixbuf == NULL))
+	if (! self->priv->paused || ! self->priv->paint_paused || (self->priv->pause_pixbuf == NULL))
 		return;
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (image_viewer));
 	if (screen == NULL)
 		return;
 
-	dest_x = gdk_screen_get_width (screen) - gdk_pixbuf_get_width (self->priv->pause_pixbuf) - 10.0;
-	dest_y = gdk_screen_get_height (screen) - gdk_pixbuf_get_height (self->priv->pause_pixbuf) - 10.0;
+	dest_x = (gdk_screen_get_width (screen) - gdk_pixbuf_get_width (self->priv->pause_pixbuf)) / 2.0;
+	dest_y = (gdk_screen_get_height (screen) - gdk_pixbuf_get_height (self->priv->pause_pixbuf)) / 2.0;
 	gdk_cairo_set_source_pixbuf (cr, self->priv->pause_pixbuf, dest_x, dest_y);
 	cairo_rectangle (cr, dest_x, dest_y, gdk_pixbuf_get_width (self->priv->pause_pixbuf), gdk_pixbuf_get_height (self->priv->pause_pixbuf));
 	cairo_fill (cr);
+
+	if (self->priv->hide_paused_sign != 0)
+		g_source_remove (self->priv->hide_paused_sign);
+	self->priv->hide_paused_sign = g_timeout_add_seconds (1, hide_paused_sign_cb, self);
 }
 
 
 static void
 default_projector_construct (GthSlideshow *self)
 {
+	self->priv->hide_paused_sign = 0;
+	self->priv->paint_paused = FALSE;
+
 	self->priv->viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
 	gth_image_viewer_hide_frame (GTH_IMAGE_VIEWER (self->priv->viewer));
