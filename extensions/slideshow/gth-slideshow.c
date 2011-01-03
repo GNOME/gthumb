@@ -33,7 +33,8 @@
 #include "gth-slideshow.h"
 #include "gth-transition.h"
 
-#define HIDE_CURSOR_DELAY 1000
+#define HIDE_CURSOR_DELAY 1
+#define HIDE_PAUSED_SIGN_DELAY 1
 #define DEFAULT_DELAY 2000
 
 
@@ -609,7 +610,7 @@ viewer_event_cb (GtkWidget    *widget,
 		gth_image_viewer_show_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
 		if (self->priv->hide_cursor_event != 0)
 			g_source_remove (self->priv->hide_cursor_event);
-		self->priv->hide_cursor_event = g_timeout_add (HIDE_CURSOR_DELAY, hide_cursor_cb, self);
+		self->priv->hide_cursor_event = g_timeout_add_seconds (HIDE_CURSOR_DELAY, hide_cursor_cb, self);
 	}
 	else if (event->type == GDK_BUTTON_PRESS) {
 		switch (((GdkEventButton *) event)->button) {
@@ -702,7 +703,7 @@ default_projector_pause_painter (GthImageViewer *image_viewer,
 
 	if (self->priv->hide_paused_sign != 0)
 		g_source_remove (self->priv->hide_paused_sign);
-	self->priv->hide_paused_sign = g_timeout_add_seconds (1, hide_paused_sign_cb, self);
+	self->priv->hide_paused_sign = g_timeout_add_seconds (HIDE_PAUSED_SIGN_DELAY, hide_paused_sign_cb, self);
 }
 
 
