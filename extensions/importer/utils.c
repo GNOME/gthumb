@@ -32,14 +32,8 @@ gth_import_preferences_get_destination (void)
 	GFile *folder;
 
 	last_destination = eel_gconf_get_string (PREF_IMPORT_DESTINATION, NULL);
-	if ((last_destination == NULL) || (*last_destination == 0)) {
-		char *default_path;
-
-		default_path = xdg_user_dir_lookup ("PICTURES");
-		folder = g_file_new_for_path (default_path);
-
-		g_free (default_path);
-	}
+	if ((last_destination == NULL) || (*last_destination == 0))
+		folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_PICTURES));
 	else
 		folder = g_file_new_for_uri (last_destination);
 
