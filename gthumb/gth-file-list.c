@@ -736,6 +736,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
 					renderer,
 					"text", GTH_FILE_STORE_METADATA_COLUMN,
+					"visible", GTH_FILE_STORE_METADATA_VISIBLE_COLUMN,
 					NULL);
 
 	_gth_file_list_set_type (file_list, list_type);
