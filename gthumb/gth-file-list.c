@@ -724,6 +724,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	file_list->priv->text_renderer = renderer = gtk_cell_renderer_text_new ();
 	g_object_set (G_OBJECT (renderer),
+		      "yalign", 0.0,
 		      /*"ellipsize", PANGO_ELLIPSIZE_NONE,*/
 		      "alignment", PANGO_ALIGN_CENTER,
 		      "width", file_list->priv->thumb_size + THUMBNAIL_BORDER,
