@@ -24,10 +24,10 @@
         <col id="0" translatable="yes">Slide</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Shadow in</col>
+        <col id="0" translatable="yes">Inward Shadow</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Shadow out</col>
+        <col id="0" translatable="yes">Outward Shadow</col>
       </row>
     </data>
   </object>
