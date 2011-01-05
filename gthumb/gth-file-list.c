@@ -944,6 +944,9 @@ _gth_file_list_update_pane (GthFileList *file_list)
 }
 
 
+#define MAX_TEXT_LENGTH 70
+
+
 static GString *
 _gth_file_list_get_metadata (GthFileList *file_list,
 			     GthFileData *file_data)
@@ -951,16 +954,26 @@ _gth_file_list_get_metadata (GthFileList *file_list,
 	GString *metadata;
 	int      i;
 
-	metadata = g_string_new ("");
+	metadata = g_string_new (NULL);
 	for (i = 0; file_list->priv->caption_attributes_v[i] != NULL; i++) {
 		char *value;
 
 		value = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attributes_v[i]);
-		if (value == NULL)
-			value = g_strdup ("-");
-		if (metadata->len > 0)
-			g_string_append (metadata, "\n");
-		g_string_append (metadata, value);
+		if (value != NULL) {
+			if (metadata->len > 0)
+				g_string_append (metadata, "\n");
+			if (g_utf8_strlen (value, -1) > MAX_TEXT_LENGTH) {
+				char *tmp;
+
+				tmp = g_strdup (value);
+				g_utf8_strncpy (tmp, value, MAX_TEXT_LENGTH);
+				g_free (value);
+				value = g_strdup_printf ("%s […]", tmp);
+
+				g_free (tmp);
+			}
+			g_string_append (metadata, value);
+		}
 
 		g_free (value);
 	}
