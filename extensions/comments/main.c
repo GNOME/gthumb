@@ -36,12 +36,12 @@ GthMetadataCategory comments_metadata_category[] = {
 
 
 GthMetadataInfo comments_metadata_info[] = {
-	{ "comment::caption", "", "comment", 1, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::note", "", "comment", 2, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::place", "", "comment", 3, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::time", "", "comment", 4, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::categories", "", "comment", 5, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "comment::rating", "", "comment", 6, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "comment::caption", N_("Title"), "comment", 1, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::note", N_("Description"), "comment", 2, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::place", N_("Place"), "comment", 3, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::time", N_("Date"), "comment", 4, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::categories", N_("Tags"), "comment", 5, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::rating", N_("Rating"), "comment", 6, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ NULL, NULL, NULL, 0, 0 }
 };
 
