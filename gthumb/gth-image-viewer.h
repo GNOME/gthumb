@@ -172,6 +172,10 @@ void           gth_image_viewer_add_painter              (GthImageViewer     *vi
 							  GthImageViewerPaintFunc
 							  	  	      func,
 							  gpointer            user_data);
+void           gth_image_viewer_remove_painter           (GthImageViewer     *viewer,
+							  GthImageViewerPaintFunc
+							  	  	      func,
+							  gpointer            user_data);
 
 /* image info. */
 

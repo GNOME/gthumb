@@ -452,6 +452,153 @@ pref_viewer_shrink_wrap_changed (GConfClient *client,
 
 
 static void
+paint_comment_over_image_func (GthImageViewer *image_viewer,
+			       GdkEventExpose *event,
+			       cairo_t        *cr,
+			       gpointer        user_data)
+{
+	GthImageViewerPage *self = user_data;
+	GthFileData        *file_data = self->priv->file_data;
+	GString            *file_info;
+	char               *comment;
+	const char         *file_date;
+	const char         *file_size;
+	int                 current_position;
+	int                 n_visibles;
+	int                 width;
+	int                 height;
+	GthMetadata        *metadata;
+	PangoLayout        *layout;
+	PangoAttrList      *attr_list = NULL;
+	GError             *error = NULL;
+	char               *text;
+	static GdkPixbuf   *icon = NULL;
+	int                 icon_width;
+	int                 icon_height;
+	int                 image_width;
+	int                 image_height;
+	const int           x_padding = 10;
+	const int           y_padding = 10;
+	int                 max_text_width;
+	PangoRectangle      bounds;
+	int                 text_x;
+	int                 text_y;
+	int                 icon_x;
+	int                 icon_y;
+
+	file_info = g_string_new ("");
+
+	comment = gth_file_data_get_attribute_as_string (file_data, "general::description");
+	if (comment != NULL) {
+		g_string_append_printf (file_info, "<b>%s</b>\n\n", comment);
+		g_free (comment);
+	}
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
+	if (metadata != NULL)
+		file_date = gth_metadata_get_formatted (metadata);
+	else
+		file_date = g_file_info_get_attribute_string (file_data->info, "gth::file::display-mtime");
+	file_size = g_file_info_get_attribute_string (file_data->info, "gth::file::display-size");
+
+	gth_browser_get_file_list_info (self->priv->browser, &current_position, &n_visibles);
+	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer), &width, &height);
+
+	g_string_append_printf (file_info,
+			        "<small><i>%s - %dx%d (%d%%) - %s</i>\n<tt>%d/%d - %s</tt></small>",
+			        file_date,
+			        width,
+			        height,
+			        (int) (gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer)) * 100),
+			        file_size,
+			        current_position + 1,
+			        n_visibles,
+				g_file_info_get_attribute_string (file_data->info, "standard::display-name"));
+
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->viewer), NULL);
+	pango_layout_set_wrap (layout, PANGO_WRAP_WORD);
+	pango_layout_set_font_description (layout, GTK_WIDGET (self->priv->viewer)->style->font_desc);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+
+	if (! pango_parse_markup (file_info->str,
+			          -1,
+				  0,
+				  &attr_list,
+				  &text,
+				  NULL,
+				  &error))
+	{
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, file_info->str);
+		g_error_free (error);
+		g_object_unref (layout);
+		g_string_free (file_info, TRUE);
+		return;
+	}
+
+	pango_layout_set_attributes (layout, attr_list);
+        pango_layout_set_text (layout, text, strlen (text));
+
+        if (icon == NULL) {
+        	GIcon *gicon;
+
+        	gicon = g_themed_icon_new (GTK_STOCK_PROPERTIES);
+        	icon = _g_icon_get_pixbuf (gicon, 24, NULL);
+
+        	g_object_unref (gicon);
+        }
+	icon_width = gdk_pixbuf_get_width (icon);
+	icon_height = gdk_pixbuf_get_height (icon);
+
+	gdk_drawable_get_size (gtk_widget_get_window (self->priv->viewer), &image_width, &image_height);
+	max_text_width = ((image_width * 3 / 4) - icon_width - (x_padding * 3) - (x_padding * 2));
+
+	pango_layout_set_width (layout, max_text_width * PANGO_SCALE);
+	pango_layout_get_pixel_extents (layout, NULL, &bounds);
+
+	bounds.width += (2 * x_padding) + (icon_width + x_padding);
+	bounds.height = MIN (image_height - icon_height - (y_padding * 2), bounds.height + (2 * y_padding));
+	bounds.x = MAX ((image_width - bounds.width) / 2, 0);
+	bounds.y = MAX (image_height - bounds.height - (y_padding * 3), 0);
+
+	text_x = bounds.x + x_padding + icon_width + x_padding;
+	text_y = bounds.y + y_padding;
+	icon_x = bounds.x + x_padding;
+	icon_y = bounds.y + (bounds.height - icon_height) / 2;
+
+	cairo_save (cr);
+
+	/* background */
+
+	_cairo_draw_rounded_box (cr, bounds.x, bounds.y, bounds.width, bounds.height, 8.0);
+	cairo_set_source_rgba (cr, 0.94, 0.94, 0.94, 0.81);
+	cairo_fill (cr);
+	cairo_set_line_width (cr, 1.0);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	/* icon */
+
+	gdk_cairo_set_source_pixbuf (cr, icon, icon_x, icon_y);
+	cairo_rectangle (cr, icon_x, icon_y, icon_width, icon_height);
+	cairo_fill (cr);
+
+	/* text */
+
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	pango_cairo_update_layout (cr, layout);
+	cairo_move_to (cr, text_x, text_y);
+	pango_cairo_show_layout (cr, layout);
+
+	cairo_restore (cr);
+
+        g_free (text);
+        pango_attr_list_unref (attr_list);
+	g_object_unref (layout);
+	g_string_free (file_info, TRUE);
+}
+
+
+static void
 gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
@@ -742,6 +889,7 @@ gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 	GthImageViewerPage *self;
 
 	self = (GthImageViewerPage *) base;
+
 	if (active) {
 		gth_image_navigator_set_scrollbars_visible (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), FALSE);
 		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
@@ -1055,6 +1203,40 @@ gth_image_viewer_page_real_revert (GthViewerPage *base)
 
 
 static void
+gth_image_viewer_page_real_update_info (GthViewerPage *base,
+					GthFileData   *file_data)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+
+	if (! _g_file_equal (self->priv->file_data->file, file_data->file))
+		return;
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = gth_file_data_dup (file_data);
+
+	if (self->priv->viewer == NULL)
+		return;
+
+	gth_image_viewer_update_view (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+static void
+gth_image_viewer_page_real_show_properties (GthViewerPage *base,
+					    gboolean       show)
+{
+	GthImageViewerPage *self;
+
+	self = GTH_IMAGE_VIEWER_PAGE (base);
+
+	if (show)
+		gth_image_viewer_add_painter (GTH_IMAGE_VIEWER (self->priv->viewer), paint_comment_over_image_func, self);
+	else
+		gth_image_viewer_remove_painter (GTH_IMAGE_VIEWER (self->priv->viewer), paint_comment_over_image_func, self);
+	gth_image_viewer_update_view (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
 	GthImageViewerPage *self;
@@ -1096,6 +1278,8 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->save = gth_image_viewer_page_real_save;
 	iface->save_as = gth_image_viewer_page_real_save_as;
 	iface->revert = gth_image_viewer_page_real_revert;
+	iface->update_info = gth_image_viewer_page_real_update_info;
+	iface->show_properties = gth_image_viewer_page_real_show_properties;
 }
 
 

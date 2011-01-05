@@ -70,6 +70,10 @@ struct _GthViewerPageIface {
 					  FileSavedFunc  func,
 					  gpointer       data);
 	void      (*revert)              (GthViewerPage *self);
+	void      (*update_info)         (GthViewerPage *self,
+					  GthFileData   *file_data);
+	void      (*show_properties)     (GthViewerPage *self,
+					  gboolean       show);
 
 	/*< signals >*/
 
@@ -103,6 +107,10 @@ void         gth_viewer_page_save_as             (GthViewerPage  *self,
 						  FileSavedFunc   func,
 						  gpointer        data);
 void         gth_viewer_page_revert              (GthViewerPage  *self);
+void         gth_viewer_page_update_info         (GthViewerPage  *self,
+		  	  	  	  	  GthFileData    *file_data);
+void         gth_viewer_page_show_properties     (GthViewerPage  *self,
+						  gboolean        show);
 void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  GthFileData    *file_data,
 						  gboolean        success);

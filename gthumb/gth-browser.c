@@ -110,6 +110,7 @@ struct _GthBrowserPrivateData {
 	GList             *viewer_pages;
 	GtkWidget         *viewer_thumbnails_pane;
 	GtkWidget         *viewer_sidebar_pane;
+	GtkWidget         *viewer_sidebar_alignment;
 	GtkWidget         *viewer_sidebar;
 	GtkWidget         *viewer_container;
 	GtkWidget         *viewer_toolbar;
@@ -135,6 +136,8 @@ struct _GthBrowserPrivateData {
 	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
+	int                n_visibles;
+	int                current_file_position;
 	GFile             *monitor_location;
 	gboolean           activity_ref;
 	GthIconCache      *menu_icon_cache;
@@ -157,6 +160,7 @@ struct _GthBrowserPrivateData {
 	gboolean           constructed;
 	guint              selection_changed_event;
 	GthFileData       *folder_popup_file_data;
+	gboolean           properties_on_screen;
 
 	/* fulscreen */
 
@@ -477,8 +481,9 @@ _gth_browser_update_parent_list (GthBrowser *browser)
 void
 gth_browser_update_title (GthBrowser *browser)
 {
-	GString    *title;
-	const char *name = NULL;
+	GString      *title;
+	const char   *name = NULL;
+	GthFileStore *file_store;
 
 	title = g_string_new (NULL);
 
@@ -497,14 +502,18 @@ gth_browser_update_title (GthBrowser *browser)
 	else
 		g_string_append (title, _("gthumb"));
 
-	if (browser->priv->current_file != NULL) {
-		GthFileStore *file_store;
-		int           pos;
+	file_store = gth_browser_get_file_store (browser);
+	browser->priv->n_visibles = gth_file_store_n_visibles (file_store);
+	browser->priv->current_file_position = -1;
 
-		file_store = gth_browser_get_file_store (browser);
+	if (browser->priv->current_file != NULL) {
+		int pos;
+
 		pos = gth_file_store_get_pos (file_store, browser->priv->current_file->file);
-		if (pos >= 0)
-			g_string_append_printf (title, " (%d/%d)", pos + 1, gth_file_store_n_visibles (file_store));
+		if (pos >= 0) {
+			browser->priv->current_file_position = pos;
+			g_string_append_printf (title, " (%d/%d)", browser->priv->current_file_position + 1, browser->priv->n_visibles);
+		}
 	}
 
 	gtk_window_set_title (GTK_WINDOW (browser), title->str);
@@ -3907,9 +3916,12 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_show (browser->priv->viewer_container);
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
+	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar, DEF_VIEWER_SIDEBAR_WIDTH, -1);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar, FALSE, FALSE);
+	gtk_widget_show (browser->priv->viewer_sidebar);
+	gtk_container_add (GTK_CONTAINER (browser->priv->viewer_sidebar_alignment), browser->priv->viewer_sidebar);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new ((viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
@@ -4557,6 +4569,18 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 
 
 void
+gth_browser_get_file_list_info (GthBrowser *browser,
+				int        *current_position,
+				int        *n_visibles)
+{
+	if (current_position != NULL)
+		*current_position = browser->priv->current_file_position;
+	if (n_visibles != NULL)
+		*n_visibles = browser->priv->n_visibles;
+}
+
+
+void
 gth_browser_stop (GthBrowser *browser)
 {
 	if (browser->priv->fullscreen)
@@ -4750,6 +4774,21 @@ gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 }
 
 
+static void
+gth_browser_toggle_properties_on_screen (GthBrowser *browser)
+{
+	gboolean on_screen;
+
+	on_screen = browser->priv->fullscreen && (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL);
+	if (on_screen) {
+		browser->priv->properties_on_screen = ! browser->priv->properties_on_screen;
+		gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
+	}
+	else
+		gth_browser_show_viewer_properties (browser, ! _gth_browser_get_action_active (browser, "Viewer_Properties"));
+}
+
+
 gboolean
 gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 				 GdkEventKey *event)
@@ -4784,7 +4823,7 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 			return TRUE;
 
 		case GDK_i:
-			gth_browser_show_viewer_properties (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Properties"));
+			gth_browser_toggle_properties_on_screen (GTH_BROWSER (browser));
 			return TRUE;
 
 		case GDK_f:
@@ -5148,6 +5187,8 @@ file_metadata_ready_cb (GList    *files,
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 	gth_browser_update_sensitivity (browser);
+	if (browser->priv->viewer_page != NULL)
+		gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
 
 	if (browser->priv->location == NULL) {
 		GFile *parent;
@@ -5354,13 +5395,12 @@ gth_browser_show_viewer_properties (GthBrowser *browser,
 
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
-		gtk_widget_show (browser->priv->viewer_sidebar);
+		gtk_widget_show (browser->priv->viewer_sidebar_alignment);
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	}
 	else
-		gtk_widget_hide (browser->priv->viewer_sidebar);
+		gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
 }
-
 
 void
 gth_browser_show_viewer_tools (GthBrowser *browser,
@@ -5370,11 +5410,11 @@ gth_browser_show_viewer_tools (GthBrowser *browser,
 
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
-		gtk_widget_show (browser->priv->viewer_sidebar);
+		gtk_widget_show (browser->priv->viewer_sidebar_alignment);
 		gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	}
 	else
-		gtk_widget_hide (browser->priv->viewer_sidebar);
+		gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
 }
 
 
@@ -5701,12 +5741,16 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 	{
 		if (! gtk_widget_get_visible (browser->priv->fullscreen_toolbar)) {
 			GList *scan;
+			int    fullscreen_toolbar_height;
 
 			for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next)
 				gtk_widget_show ((GtkWidget *) scan->data);
 
 			if (browser->priv->viewer_page != NULL)
 				gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
+
+			gtk_window_get_size (GTK_WINDOW (browser->priv->fullscreen_toolbar), NULL, &fullscreen_toolbar_height);
+			gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->viewer_sidebar_alignment), fullscreen_toolbar_height + 6, 0, 0, 0);
 		}
 	}
 
@@ -5799,6 +5843,8 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	}
 	g_list_free (browser->priv->fullscreen_controls);
 	browser->priv->fullscreen_controls = NULL;
+
+	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->viewer_sidebar_alignment), 0, 0, 0, 0);
 
 	gth_browser_update_sensitivity (browser);
 }

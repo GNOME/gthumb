@@ -115,6 +115,9 @@ void             gth_browser_get_sort_order         (GthBrowser       *browser,
 void             gth_browser_set_sort_order         (GthBrowser       *browser,
 						     GthFileDataSort  *sort_type,
 						     gboolean          inverse);
+void             gth_browser_get_file_list_info     (GthBrowser       *browser,
+						     int              *current_position,
+						     int              *n_visibles);
 void             gth_browser_stop                   (GthBrowser       *browser);
 void             gth_browser_reload                 (GthBrowser       *browser);
 void             gth_browser_exec_task              (GthBrowser       *browser,

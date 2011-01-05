@@ -304,6 +304,19 @@ gth_file_viewer_page_real_can_save (GthViewerPage *base)
 
 
 static void
+gth_file_viewer_page_real_update_info (GthViewerPage *base,
+				       GthFileData   *file_data)
+{
+	GthFileViewerPage *self = GTH_FILE_VIEWER_PAGE (base);
+
+	if (! _g_file_equal (self->priv->file_data->file, file_data->file))
+		return;
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = gth_file_data_dup (file_data);
+}
+
+
+static void
 gth_file_viewer_page_finalize (GObject *obj)
 {
 	GthFileViewerPage *self;
@@ -341,6 +354,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->show_pointer = gth_file_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_file_viewer_page_real_can_save;
+	iface->update_info = gth_file_viewer_page_real_update_info;
 }
 
 

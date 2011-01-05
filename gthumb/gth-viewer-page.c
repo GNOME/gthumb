@@ -193,6 +193,23 @@ gth_viewer_page_revert (GthViewerPage *self)
 
 
 void
+gth_viewer_page_update_info (GthViewerPage *self,
+		  	     GthFileData   *file_data)
+{
+	GTH_VIEWER_PAGE_GET_INTERFACE (self)->update_info (self, file_data);
+}
+
+
+void
+gth_viewer_page_show_properties (GthViewerPage *self,
+				 gboolean       show)
+{
+	if (GTH_VIEWER_PAGE_GET_INTERFACE (self)->show_properties != NULL)
+		GTH_VIEWER_PAGE_GET_INTERFACE (self)->show_properties (self, show);
+}
+
+
+void
 gth_viewer_page_file_loaded (GthViewerPage *self,
 			     GthFileData   *file_data,
 			     gboolean       success)

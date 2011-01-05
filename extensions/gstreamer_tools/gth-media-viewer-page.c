@@ -1220,6 +1220,19 @@ gth_media_viewer_page_real_revert (GthViewerPage *base)
 
 
 static void
+gth_media_viewer_page_real_update_info (GthViewerPage *base,
+				        GthFileData   *file_data)
+{
+	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
+
+	if (! _g_file_equal (self->priv->file_data->file, file_data->file))
+		return;
+	_g_object_unref (self->priv->file_data);
+	self->priv->file_data = gth_file_data_dup (file_data);
+}
+
+
+static void
 gth_media_viewer_page_finalize (GObject *obj)
 {
 	GthMediaViewerPage *self;
@@ -1270,6 +1283,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->save = gth_media_viewer_page_real_save;
 	iface->save_as = gth_media_viewer_page_real_save_as;
 	iface->revert = gth_media_viewer_page_real_revert;
+	iface->update_info = gth_media_viewer_page_real_update_info;
 }
 
 

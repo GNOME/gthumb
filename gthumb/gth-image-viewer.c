@@ -988,6 +988,19 @@ scroll_to (GthImageViewer *self,
 	self->x_offset = *x_offset;
 	self->y_offset = *y_offset;
 
+	if (self->priv->painters != NULL) {
+		GdkRectangle  area;
+
+		area.x = 0;
+		area.y = 0;
+		area.width = allocation.width;
+		area.height = allocation.height;
+		gdk_window_invalidate_rect (drawable, &area, TRUE);
+		gdk_window_process_updates (drawable, TRUE);
+
+		return;
+	}
+
 	/* move without invalidating the frame */
 
 	{
@@ -1809,14 +1822,54 @@ gth_image_viewer_add_painter (GthImageViewer          *self,
 			      GthImageViewerPaintFunc  func,
 			      gpointer                 user_data)
 {
+	GList       *link;
+	GList       *scan;
 	PainterData *painter_data;
 
 	g_return_if_fail (self != NULL);
+
+	link = NULL;
+	for (scan = self->priv->painters; scan; scan = scan->next) {
+		PainterData *painter_data = scan->data;
+		if ((painter_data->func == func) && (painter_data->user_data == user_data)) {
+			link = scan;
+			break;
+		}
+	}
+
+	if (link != NULL)
+		return;
 
 	painter_data = g_new0 (PainterData, 1);
 	painter_data->func = func;
 	painter_data->user_data = user_data;
 	self->priv->painters = g_list_append (self->priv->painters, painter_data);
+}
+
+
+void
+gth_image_viewer_remove_painter (GthImageViewer          *self,
+				 GthImageViewerPaintFunc  func,
+				 gpointer                 user_data)
+{
+	GList *link;
+	GList *scan;
+
+	link = NULL;
+	for (scan = self->priv->painters; scan; scan = scan->next) {
+		PainterData *painter_data = scan->data;
+		if ((painter_data->func == func) && (painter_data->user_data == user_data)) {
+			link = scan;
+			break;
+		}
+	}
+
+	if (link == NULL)
+		return;
+
+	self->priv->painters = g_list_remove_link (self->priv->painters, link);
+	painter_data_free (link->data);
+	g_list_free (link);
 }
 
 
