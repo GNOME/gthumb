@@ -65,15 +65,17 @@ libcontact_sheet_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
-DISTCLEANFILES = $(extensionini_DATA)
-
 extensionini_in_files = contact_sheet.extension.in.in
 
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
 EXTRA_DIST = $(extensionini_in_files)
-
+DISTCLEANFILES = $(extensionini_DATA)
+BUILT_SOURCES = $(ENUM_TYPES)
 CLEANFILES = $(BUILT_SOURCES) 
+
+dist-hook:
+	cd $(distdir); rm -f $(CLEANFILES)
 
 -include $(top_srcdir)/git.mk
