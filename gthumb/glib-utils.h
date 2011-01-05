@@ -204,8 +204,6 @@ void            free_regexps                     (GRegex     **regexps);
 /* URI utils */
 
 const char *    get_home_uri                     (void);
-const char *    get_desktop_uri                  (void);
-char *          xdg_user_dir_lookup              (const char *type);
 int             uricmp                           (const char *uri1,
 						  const char *uri2);
 gboolean        same_uri                         (const char *uri1,
