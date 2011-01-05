@@ -182,7 +182,7 @@
 	<applyto>/apps/gthumb/browser/thumbnail_caption</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>standard::display-name</default>
+	<default>comment::note,comment::time</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

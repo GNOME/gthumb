@@ -83,7 +83,7 @@ G_BEGIN_DECLS
 /* default values */
 
 #define DEFAULT_GENERAL_FILTER "file::type::is_media"
-#define DEFAULT_THUMBNAIL_CAPTION "standard::display-name,gth::file::display-size"
+#define DEFAULT_THUMBNAIL_CAPTION "comment::note,comment::time"
 #define DEFAULT_UI_WINDOW_WIDTH 690
 #define DEFAULT_UI_WINDOW_HEIGHT 460
 #define DEFAULT_FAST_FILE_TYPE TRUE
