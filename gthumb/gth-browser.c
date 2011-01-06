@@ -76,7 +76,6 @@
 #define MIN_VIEWER_SIZE 256
 #define STATUSBAR_SEPARATOR " · "
 
-typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
 enum {
 	LOCATION_READY,
@@ -1840,7 +1839,7 @@ _gth_browser_load (GthBrowser *browser,
 }
 
 
-/* -- _gth_browser_ask_whether_to_save -- */
+/* -- gth_browser_ask_whether_to_save -- */
 
 
 typedef struct {
@@ -1901,10 +1900,10 @@ ask_whether_to_save__response_cb (GtkWidget   *dialog,
 }
 
 
-static void
-_gth_browser_ask_whether_to_save (GthBrowser         *browser,
-				  GthBrowserCallback  callback,
-				  gpointer            user_data)
+void
+gth_browser_ask_whether_to_save (GthBrowser         *browser,
+				 GthBrowserCallback  callback,
+				 gpointer            user_data)
 {
 	AskSaveData *data;
 	char        *title;
@@ -1914,6 +1913,8 @@ _gth_browser_ask_whether_to_save (GthBrowser         *browser,
 	data->browser = browser;
 	data->callback = callback;
 	data->user_data = user_data;
+
+	gtk_window_present (GTK_WINDOW (browser));
 
 	title = g_strdup_printf (_("Save changes to file '%s'?"), g_file_info_get_display_name (browser->priv->current_file->info));
 	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
@@ -2110,9 +2111,9 @@ _gth_browser_close (GthWindow *window)
 	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
-		_gth_browser_ask_whether_to_save (browser,
-						  close__file_saved_cb,
-						  NULL);
+		gth_browser_ask_whether_to_save (browser,
+						 close__file_saved_cb,
+						 NULL);
 	}
 	else
 		_gth_browser_real_close (browser);
@@ -2246,9 +2247,9 @@ _gth_browser_set_current_page (GthWindow *window,
 	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
-		_gth_browser_ask_whether_to_save (browser,
-						  set_current_page__file_saved_cb,
-						  GINT_TO_POINTER (page));
+		gth_browser_ask_whether_to_save (browser,
+						 set_current_page__file_saved_cb,
+						 GINT_TO_POINTER (page));
 	}
 	else
 		_gth_browser_real_set_current_page (window, page);
@@ -5342,9 +5343,9 @@ load_file_delayed_cb (gpointer user_data)
 	    && gth_browser_get_file_modified (browser))
 	{
 		load_file_data_ref (data);
-		_gth_browser_ask_whether_to_save (browser,
-						  load_file__previuos_file_saved_cb,
-						  data);
+		gth_browser_ask_whether_to_save (browser,
+						 load_file__previuos_file_saved_cb,
+						 data);
 	}
 	else
 		_gth_browser_load_file (data->browser, data->file_data, data->view);

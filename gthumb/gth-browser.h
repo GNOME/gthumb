@@ -42,6 +42,8 @@ typedef struct _GthBrowser            GthBrowser;
 typedef struct _GthBrowserClass       GthBrowserClass;
 typedef struct _GthBrowserPrivateData GthBrowserPrivateData;
 
+typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
+
 typedef enum { /*< skip >*/
 	GTH_BROWSER_PAGE_BROWSER = 0,
 	GTH_BROWSER_PAGE_VIEWER,
@@ -177,7 +179,11 @@ void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
 void             gth_browser_file_menu_popup        (GthBrowser       *browser,
 						     GdkEventButton   *event);
-GthFileData *    gth_browser_get_folder_popup_file_data (GthBrowser *browser);
+GthFileData *    gth_browser_get_folder_popup_file_data (GthBrowser   *browser);
+void             gth_browser_ask_whether_to_save    (GthBrowser       *browser,
+				 	 	     GthBrowserCallback
+				 	 	     	     	       callback,
+				 	 	     gpointer          user_data);
 
 /* protected methods */
 
