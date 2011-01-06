@@ -257,6 +257,7 @@ gthumb_LDADD =						\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
+	$(SMCLIENT_LIBS)				\
 	$(GNOME_KEYRING_LIBS)				\
 	$(GSTREAMER_LIBS)				\
 	$(LIBBRASERO_LIBS)				\
@@ -287,6 +288,7 @@ gthumb_CFLAGS =							\
 	$(LIBBRASERO_CFLAGS)					\
 	$(LIBOPENRAW_CFLAGS)					\
 	$(LIBSOUP_CFLAGS)					\
+	$(SMCLIENT_CFLAGS)					\
 	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\

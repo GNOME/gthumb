@@ -113,16 +113,22 @@ gth_save_state (EggSMClient *client,
 
 	i = 0;
 	for (scan = gth_window_get_window_list (); scan; scan = scan->next) {
-		GtkWidget *window = scan->data;
-		GFile     *location;
-		char      *key;
-		char      *uri;
+		GtkWidget   *window = scan->data;
+		GFile       *location;
+		char        *key;
+		char        *uri;
+		GthFileData *focused_file = NULL;
 
-		location = gth_browser_get_location (GTH_BROWSER (window));
+		focused_file = gth_browser_get_current_file (GTH_BROWSER (window));
+		if (focused_file == NULL)
+			location = gth_browser_get_location (GTH_BROWSER (window));
+		else
+			location = focused_file->file;
+
 		if (location == NULL)
 			continue;
 
-		key = g_strdup_printf ("location%d", i++);
+		key = g_strdup_printf ("location%d", ++i);
 		uri = g_file_get_uri (location);
 		g_key_file_set_string (state, "Session", key, uri);
 
@@ -136,12 +142,76 @@ gth_save_state (EggSMClient *client,
 
 
 static void
+dialog_response (GtkDialog *dialog, int response, gpointer user_data)
+{
+	EggSMClient *client = user_data;
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	egg_sm_client_will_quit (client, (response != GTK_RESPONSE_NO));
+}
+
+
+/* quit_requested handler for the master client */
+static void
+client_quit_requested_cb (EggSMClient *client, gpointer data)
+{
+	GList      *scan;
+	gboolean    modified_file;
+	for (scan = gth_window_get_window_list (); scan; scan = scan->next) {
+		GtkWidget *window = scan->data;
+
+		g_assert (GTH_IS_BROWSER (window));
+		modified_file = gth_browser_get_file_modified (GTH_BROWSER (window));
+
+		if (modified_file) {
+			GtkWidget *dialog;
+
+			dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+							 GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_QUESTION,
+							 GTK_BUTTONS_YES_NO,
+							 N_("There are unsaved changes, you want to log out?"));
+			g_signal_connect (dialog,
+					  "response",
+					  G_CALLBACK (dialog_response),
+					  client);
+			gtk_widget_show (GTK_WIDGET (dialog));
+			return;
+		}
+	}
+
+	egg_sm_client_will_quit (client, TRUE);
+}
+
+
+/* quit handler for the master client */
+static void
+client_quit_cb (EggSMClient *client, gpointer data)
+{
+	gtk_main_quit ();
+}
+
+
+static void
 gth_session_manager_init (void)
 {
 	EggSMClient *client = NULL;
-
 	client = egg_sm_client_get ();
-	g_signal_connect (client, "save-state", G_CALLBACK (gth_save_state), NULL);
+
+	g_signal_connect (client,
+			  "save_state",
+			  G_CALLBACK (gth_save_state),
+			  NULL);
+
+	g_signal_connect (client,
+			  "quit_requested",
+			  G_CALLBACK (client_quit_requested_cb),
+			  NULL);
+
+	g_signal_connect (client,
+			  "quit",
+			  G_CALLBACK (client_quit_cb),
+			  NULL);	
 }
 
 
@@ -154,18 +224,26 @@ gth_restore_session (EggSMClient *client)
 	state = egg_sm_client_get_state_file (client);
 
 	i = g_key_file_get_integer (state, "Session", "locations", NULL);
+	g_assert (i > 0);
 	for (; i > 0; i--) {
 		GtkWidget *window;
 		char      *key;
 		char      *location;
+		GFile     *file;
 
 		key = g_strdup_printf ("location%d", i);
 		location = g_key_file_get_string (state, "Session", key, NULL);
 		g_free (key);
 
-		window = gth_browser_new (location);
+		g_assert (location != NULL);
+
+		window = gth_browser_new (NULL);
 		gtk_widget_show (window);
 
+		file = g_file_new_for_uri (location);
+		gth_browser_load_location(GTH_BROWSER (window), file);
+
+		g_object_unref (file);
 		g_free (location);
 	}
 }

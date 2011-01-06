@@ -458,6 +458,40 @@ AM_CONDITIONAL(ENABLE_WEB_ALBUMS, test "x$enable_web_albums" = xyes)
 
 dnl ===========================================================================
 
+GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
+
+AC_MSG_CHECKING([which smclient backend to use])
+AC_ARG_WITH([smclient],
+  [AS_HELP_STRING([--with-smclient-backend=no|xsmp|win32],
+		  [Setting smclient backend (default:auto)])],
+  [],
+  [case "$GDK_TARGET" in
+    x11) with_smclient=xsmp ;;
+    win32) with_smclient=$GDK_TARGET ;;
+    *) with_smclient=no ;;
+   esac])
+   
+AC_MSG_RESULT([$with_smclient])
+
+if test "$with_smclient" != "no"; then
+  AC_DEFINE([WITH_SMCLIENT],[1],[Define if smclient is enabled])
+
+  case "$with_smclient" in
+    xsmp) SMCLIENT_PKGS="sm >= 1.0.0" ;;
+    *) SMCLIENT_PKGS="" ;;
+  esac
+
+  PKG_CHECK_MODULES([SMCLIENT],[$SMCLIENT_PKGS])
+  AC_SUBST([SMCLIENT_CFLAGS])
+  AC_SUBST([SMCLIENT_LIBS])
+fi
+
+AM_CONDITIONAL([WITH_SMCLIENT],[test "$with_smclient" != "no"])
+AM_CONDITIONAL([WITH_SMCLIENT_XSMP],[test "$with_smclient" = "xsmp"])
+AM_CONDITIONAL([WITH_SMCLIENT_WIN32],[test "$with_smclient" = "win32"])
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile
@@ -612,4 +646,5 @@ Configuration:
 	Use GNOME Keyring    : ${enable_gnome_keyring}
 	Burn disc support    : ${enable_libbrasero}
 	Web albums           : ${enable_web_albums}
+	SM client support    : ${with_smclient}
 "

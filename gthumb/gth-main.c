@@ -37,6 +37,12 @@
 #include "pixbuf-io.h"
 #include "typedefs.h"
 
+#ifdef GDK_WINDOWING_X11
+#include <gdk/gdkx.h>
+#endif
+
+#include "eggsmclient.h"
+#include "eggdesktopfile.h"
 
 static GStaticMutex register_mutex = G_STATIC_MUTEX_INIT;
 
@@ -256,8 +262,14 @@ gth_main_initialize (void)
 		return;
 	Main = (GthMain*) g_object_new (GTH_TYPE_MAIN, NULL);
 
+#ifdef GDK_WINDOWING_X11
+	egg_set_desktop_file (GTHUMB_DATADIR "/applications/gthumb.desktop");
+#else
+	/* manually set name and icon */
 	g_set_application_name (_("gthumb"));
 	gtk_window_set_default_icon_name ("gthumb");
+#endif
+
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_ICON_DIR);
 	gtk_about_dialog_set_url_hook (about_dialog_activate_link_cb, NULL, NULL);
 	gtk_about_dialog_set_email_hook (about_dialog_activate_email_cb, NULL, NULL);
