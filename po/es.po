@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2011-01-02 14:39+0000\n"
-"PO-Revision-Date: 2011-01-03 14:00+0100\n"
+"POT-Creation-Date: 2011-01-05 19:30+0000\n"
+"PO-Revision-Date: 2011-01-07 09:42+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -357,7 +357,7 @@ msgid "Keep previous zoom"
 msgstr "Mantener la ampliación anterior"
 
 #: ../data/ui/preferences.ui.h:21
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 #: ../extensions/file_tools/gth-file-tool-crop.c:399
 #: ../extensions/file_tools/gth-file-tool-crop.c:425
 #: ../extensions/file_tools/gth-file-tool-resize.c:422
@@ -840,7 +840,7 @@ msgstr ""
 "Los archivos se organizarán en catálogos. No se moverá ningún archivo del "
 "disco."
 
-#: ../extensions/catalogs/gth-catalog.c:1145
+#: ../extensions/catalogs/gth-catalog.c:1145 ../extensions/comments/main.c:43
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
 msgstr "Etiquetas"
@@ -958,7 +958,11 @@ msgstr "_Sincronizar con los metadatos empotrados"
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../extensions/comments/main.c:209
+#: ../extensions/comments/main.c:39 ../gthumb/gth-main-default-metadata.c:46
+msgid "Title"
+msgstr "Título"
+
+#: ../extensions/comments/main.c:40 ../extensions/comments/main.c:209
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
@@ -969,9 +973,18 @@ msgstr "Comentario"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:50
+#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:217
+#: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Lugar"
+
+#: ../extensions/comments/main.c:42 ../gthumb/gth-main-default-metadata.c:51
+msgid "Date"
+msgstr "Fecha"
+
+#: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:54
+msgid "Rating"
+msgstr "Puntuación"
 
 #: ../extensions/contact_sheet/callbacks.c:59
 msgid "Contact _Sheet"
@@ -982,17 +995,14 @@ msgid "Contact _Sheet..."
 msgstr "_Hoja de contacto…"
 
 #: ../extensions/contact_sheet/callbacks.c:62
-#| msgid "Create a new category"
 msgid "Create a contact sheet"
 msgstr "Crear una hoja de contacto"
 
 #: ../extensions/contact_sheet/callbacks.c:65
-#| msgid "I_mage Caption..."
 msgid "Image _Wall..."
 msgstr "_Mural de fotos…"
 
 #: ../extensions/contact_sheet/callbacks.c:66
-#| msgid "Create Index Image"
 msgid "Create an image-wall"
 msgstr "Crear un mural de fotos"
 
@@ -1003,7 +1013,6 @@ msgid "Contact Sheet"
 msgstr "Hoja de contacto"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
-#| msgid "Edit the comment and other information of the selected files"
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr ""
 "Crear una imagen indexada que muestra las miniaturas de los archivos "
@@ -1014,51 +1023,43 @@ msgid "     "
 msgstr "     "
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
-#| msgid "Desktop background"
 msgid "Background"
 msgstr "Fondo"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
-#| msgid "Colo_r:"
 msgid "C_olor:"
 msgstr "C_olor:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
-#| msgid "Caption"
 msgid "Caption:"
 msgstr "Descripción:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
-#| msgid "Framerate"
 msgid "Frame"
 msgstr "Marco"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+msgid "Inward Shadow"
+msgstr "Sombra hacia adentro"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+msgid "Outward Shadow"
+msgstr "Sombra hacia afuera"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
 msgid "Select a color"
 msgstr "Seleccionar un color"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
-#| msgid "Select None"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
 msgid "Select a font"
 msgstr "Seleccionar una tipografía"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
-#, fuzzy
-#| msgid "Shadow only"
-msgid "Shadow in"
-msgstr "Sólo sombra"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
 msgid "Shadow only"
 msgstr "Sólo sombra"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
-msgid "Shadow out"
-msgstr "Sombra saliente"
-
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
-#| msgid "Singles"
 msgid "Simple"
 msgstr "Simple"
 
@@ -1067,12 +1068,10 @@ msgid "Simple with shadow"
 msgstr "Simple con sombra"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
-#| msgid "Slideshow"
 msgid "Slide"
 msgstr "Diapositiva"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
-#| msgid "Next"
 msgid "Text"
 msgstr "Texto"
 
@@ -1102,7 +1101,6 @@ msgid "_Solid color"
 msgstr "Color _sólido"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#| msgid "St_yle"
 msgid "_Style:"
 msgstr "E_stilo:"
 
@@ -1131,7 +1129,6 @@ msgstr "%D{ formato }"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
 #, no-c-format
-#| msgid "%"
 msgid "%n"
 msgstr "%n"
 
@@ -1167,23 +1164,19 @@ msgid "Create _HTML image map"
 msgstr "Crear un mapa de imagen para un _HTML"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
-#| msgid "Create a new category"
 msgid "Create a new theme"
 msgstr "Crear un tema nuevo"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
-#| msgid "Delete the selected files"
 msgid "Delete the selected theme"
 msgstr "Eliminar el tema seleccionado"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#| msgid "Print the selected images"
 msgid "Edit the selected theme"
 msgstr "Editar el tema seleccionado"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#| msgid "Filename:"
 msgid "File_name:"
 msgstr "_Nombre del archivo:"
 
@@ -1235,7 +1228,6 @@ msgid "Special code"
 msgstr "Código especial"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
-#| msgid "Square"
 msgid "Sq_uared"
 msgstr "C_uadrado"
 
@@ -1261,7 +1253,6 @@ msgstr "Tema"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
-#| msgid "_Thumbnails"
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
@@ -1282,29 +1273,24 @@ msgstr "_Destino:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:39
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
-#| msgid "_Size :"
 msgid "_Size:"
 msgstr "_Tamaño:"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:482
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:493
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:506
-#| msgid "Could not save the filter"
 msgid "Could not save the theme"
 msgstr "No se pudo guardar el tema"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:649
-#| msgid "Could not delete the files"
 msgid "Could not delete the theme"
 msgstr "No se pudo eliminar el tema"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
-#| msgid "Creating image: %s.%s"
 msgid "Creating images"
 msgstr "Crear imágenes"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:908
-#| msgid "Saving thumbnails"
 msgid "Generating thumbnails"
 msgstr "Generando miniaturas"
 
@@ -1313,22 +1299,18 @@ msgid "Header"
 msgstr "Cabecera"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:33
-#| msgid "_Footer:"
 msgid "Footer"
 msgstr "Pie"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:197
-#| msgid "Properties"
 msgid "Theme Properties"
 msgstr "Propiedades del tema"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:213
-#| msgid "Copy To"
 msgid "Copy _From"
 msgstr "Copiar _desde"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:349
-#| msgid "New Name"
 msgid "New theme"
 msgstr "Tema nuevo"
 
@@ -1802,7 +1784,7 @@ msgstr "No se pudieron exportar los archivos"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:618
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1004
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:785
-#: ../gthumb/gth-browser.c:956
+#: ../gthumb/gth-browser.c:965
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2155,8 +2137,8 @@ msgstr "Mover a…"
 msgid "Move the selected files to another folder"
 msgstr "Mover los archivos seleccionados a otra carpeta"
 
-#: ../extensions/file_manager/callbacks.c:880 ../gthumb/gth-browser.c:4606
-#: ../gthumb/gth-browser.c:4643
+#: ../extensions/file_manager/callbacks.c:880 ../gthumb/gth-browser.c:4630
+#: ../gthumb/gth-browser.c:4667
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2572,8 +2554,8 @@ msgid "Upload images to Flickr"
 msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
-#: ../extensions/image_viewer/gth-image-viewer-page.c:838
-#: ../gthumb/gth-browser.c:1867
+#: ../extensions/image_viewer/gth-image-viewer-page.c:986
+#: ../gthumb/gth-browser.c:1876
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2582,7 +2564,7 @@ msgid "Could not take a screenshot"
 msgstr "No se pudo hacer la captura de pantalla"
 
 #: ../extensions/gstreamer_tools/actions.c:130
-#: ../extensions/image_viewer/gth-image-viewer-page.c:982
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1130
 msgid "Save Image"
 msgstr "Guardar imagen"
 
@@ -2716,7 +2698,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1034
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1182
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:77
 #: ../extensions/webalbums/dlg-web-exporter.c:432
 #: ../extensions/webalbums/gth-web-exporter.c:2435
@@ -3422,7 +3404,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1780
+#: ../gthumb/gth-browser.c:1789
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -4268,7 +4250,7 @@ msgstr "Obteniendo información del archivo"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2817
+#: ../gthumb/glib-utils.c:2678
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4280,7 +4262,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2826
+#: ../gthumb/glib-utils.c:2687
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4424,19 +4406,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3340
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3349
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3361
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3370
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3382
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3391
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:650
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:659
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -4532,74 +4514,74 @@ msgstr "Editar"
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: ../gthumb/gth-browser.c:355
+#: ../gthumb/gth-browser.c:359
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../gthumb/gth-browser.c:494
+#: ../gthumb/gth-browser.c:499
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../gthumb/gth-browser.c:498 ../gthumb/gth-main.c:259
+#: ../gthumb/gth-browser.c:503 ../gthumb/gth-main.c:259
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:957
+#: ../gthumb/gth-browser.c:966
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
-#: ../gthumb/gth-browser.c:1138 ../gthumb/gth-browser.c:1671
-#: ../gthumb/gth-browser.c:5435 ../gthumb/gth-browser.c:5454
-#: ../gthumb/gth-browser.c:5479
+#: ../gthumb/gth-browser.c:1147 ../gthumb/gth-browser.c:1680
+#: ../gthumb/gth-browser.c:5475 ../gthumb/gth-browser.c:5494
+#: ../gthumb/gth-browser.c:5519
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1764 ../gthumb/gth-browser.c:1791
+#: ../gthumb/gth-browser.c:1773 ../gthumb/gth-browser.c:1800
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1909
+#: ../gthumb/gth-browser.c:1918
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1914
+#: ../gthumb/gth-browser.c:1923
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1915
+#: ../gthumb/gth-browser.c:1924
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2603 ../gthumb/gth-browser.c:2625
+#: ../gthumb/gth-browser.c:2612 ../gthumb/gth-browser.c:2634
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3024 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3033 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3341 ../gthumb/gth-browser.c:3362
+#: ../gthumb/gth-browser.c:3350 ../gthumb/gth-browser.c:3371
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3383
+#: ../gthumb/gth-browser.c:3392
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5436
+#: ../gthumb/gth-browser.c:5476
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5480
+#: ../gthumb/gth-browser.c:5520
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4702,10 +4684,6 @@ msgstr "Tipo"
 msgid "Full Name"
 msgstr "Nombre completo"
 
-#: ../gthumb/gth-main-default-metadata.c:46
-msgid "Title"
-msgstr "Título"
-
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Duration"
 msgstr "Duración"
@@ -4713,14 +4691,6 @@ msgstr "Duración"
 #: ../gthumb/gth-main-default-metadata.c:49
 msgid "Format"
 msgstr "Formato"
-
-#: ../gthumb/gth-main-default-metadata.c:51
-msgid "Date"
-msgstr "Fecha"
-
-#: ../gthumb/gth-main-default-metadata.c:54
-msgid "Rating"
-msgstr "Puntuación"
 
 #: ../gthumb/gth-main-default-sort-types.c:131
 msgid "file name"
@@ -4954,6 +4924,14 @@ msgstr "- Explorador de imágenes y visor"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
+
+#, fuzzy
+#~| msgid "Shadow only"
+#~ msgid "Shadow in"
+#~ msgstr "Sólo sombra"
+
+#~ msgid "Shadow out"
+#~ msgstr "Sombra saliente"
 
 #~ msgid "Ask"
 #~ msgstr "Preguntar"
