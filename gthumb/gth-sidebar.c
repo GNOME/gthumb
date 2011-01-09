@@ -152,7 +152,7 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 	GList *children;
 	GList *scan;
 
-	if (! g_file_info_get_attribute_boolean (file_data->info, "gth::file::is-modified"))
+	if ((file_data == NULL) || ! g_file_info_get_attribute_boolean (file_data->info, "gth::file::is-modified"))
 		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 
 	children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
