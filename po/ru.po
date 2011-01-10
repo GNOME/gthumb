@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: gthumb trunk\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
 "POT-Creation-Date: 2011-01-09 15:51+0000\n"
-"PO-Revision-Date: 2011-01-10 16:45+0300\n"
+"PO-Revision-Date: 2011-01-10 18:17+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1672,7 +1672,7 @@ msgstr "_Изменить учётные записи"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 msgid "Export to Flickr"
-msgstr "Экспортировать на _Flickr"
+msgstr "Экспортировать на Flickr"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
@@ -3054,7 +3054,7 @@ msgstr "другой формат"
 #: ../extensions/importer/gth-import-task.c:473
 #: ../extensions/importer/gth-import-task.c:639
 msgid "Importing files"
-msgstr "Импортировани файлов"
+msgstr "Импортирование файлов"
 
 #: ../extensions/importer/gth-import-task.c:594
 msgid "No file imported"
@@ -3377,7 +3377,7 @@ msgstr "_Повернуть изображения физически"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 msgid "Import from Removable Device"
-msgstr "Импортировать с подключемого устройства"
+msgstr "Импортировать с подключаемого устройства"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
