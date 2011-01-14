@@ -80,6 +80,18 @@ gth_image_dragger_unrealize (GthImageViewerTool *base)
 
 
 static void
+_gth_image_dragger_update_cursor (GthImageDragger *self)
+{
+	GdkCursor *cursor;
+
+	cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+
+	gdk_cursor_unref (cursor);
+}
+
+
+static void
 gth_image_dragger_size_allocate (GthImageViewerTool *base,
 				 GtkAllocation      *allocation)
 {
@@ -99,6 +111,8 @@ gth_image_dragger_size_allocate (GthImageViewerTool *base,
 	v_upper = gtk_adjustment_get_upper (viewer->vadj);
 
 	self->priv->draggable = (h_page_size > 0) && (v_page_size > 0) && ((h_upper > h_page_size) || (v_upper > v_page_size));
+	if (gtk_widget_get_realized (GTK_WIDGET (viewer)))
+		_gth_image_dragger_update_cursor (self);
 }
 
 
