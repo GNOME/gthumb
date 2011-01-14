@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "glib-utils.h"
-#include "gth-cursors.h"
 #include "gth-image-selector.h"
 #include "gth-marshal.h"
 

@@ -609,8 +609,6 @@ gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
 gthumb/gth-cell-renderer-thumbnail.c
 gthumb/gth-cell-renderer-thumbnail.h
-gthumb/gth-cursors.c
-gthumb/gth-cursors.h
 gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c

@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include "gth-cursors.h"
 #include "gth-enum-types.h"
 #include "gth-image-dragger.h"
 #include "gth-image-viewer.h"
@@ -356,7 +355,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 	gtk_widget_set_style (widget, style);
 
 	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	self->priv->cursor_void = gth_cursor_get (window, GTH_CURSOR_VOID);
+	self->priv->cursor_void = gdk_cursor_new_for_display (gtk_widget_get_display (widget), GDK_BLANK_CURSOR);
 	if (self->priv->cursor_visible)
 		gdk_window_set_cursor (window, self->priv->cursor);
 	else

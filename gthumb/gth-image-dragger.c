@@ -22,7 +22,6 @@
 #include <config.h>
 #include <math.h>
 #include "glib-utils.h"
-#include "gth-cursors.h"
 #include "gth-image-dragger.h"
 
 
@@ -67,21 +66,6 @@ gth_image_dragger_instance_init (GthImageDragger *dragger)
 
 
 static void
-_gth_image_dragger_update_cursor (GthImageDragger *self)
-{
-	GdkCursor *cursor;
-
-	if (self->priv->draggable)
-		cursor = gth_cursor_get (gtk_widget_get_window (GTK_WIDGET (self->priv->viewer)), GTH_CURSOR_HAND_OPEN);
-	else
-		cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
-
-	gdk_cursor_unref (cursor);
-}
-
-
-static void
 gth_image_dragger_realize (GthImageViewerTool *base)
 {
 	/* void */
@@ -115,8 +99,6 @@ gth_image_dragger_size_allocate (GthImageViewerTool *base,
 	v_upper = gtk_adjustment_get_upper (viewer->vadj);
 
 	self->priv->draggable = (h_page_size > 0) && (v_page_size > 0) && ((h_upper > h_page_size) || (v_upper > v_page_size));
-	if (gtk_widget_get_realized (GTK_WIDGET (viewer)))
-		_gth_image_dragger_update_cursor (self);
 }
 
 
@@ -189,7 +171,7 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 		GdkCursor *cursor;
 		int        retval;
 
-		cursor = gth_cursor_get (gtk_widget_get_window (widget), GTH_CURSOR_HAND_CLOSED);
+		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (widget), "grabbing");
 		retval = gdk_pointer_grab (gtk_widget_get_window (widget),
 					   FALSE,
 					   (GDK_POINTER_MOTION_MASK
@@ -198,7 +180,9 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 					   NULL,
 					   cursor,
 					   event->time);
-		gdk_cursor_unref (cursor);
+
+		if (cursor != NULL)
+			gdk_cursor_unref (cursor);
 
 		if (retval != 0)
 			return FALSE;

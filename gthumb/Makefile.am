@@ -1,5 +1,3 @@
-SUBDIRS = cursors
-
 bin_PROGRAMS = gthumb
 
 ENUM_TYPES =						\
@@ -40,7 +38,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-buffer-data.h				\
 	gth-browser.h					\
 	gth-cell-renderer-thumbnail.h			\
-	gth-cursors.h					\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
 	gth-embedded-dialog.h				\
@@ -157,7 +154,6 @@ gthumb_SOURCES = 					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
 	gth-cell-renderer-thumbnail.c			\
-	gth-cursors.c					\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
 	gth-embedded-dialog.c				\

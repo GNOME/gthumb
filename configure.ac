@@ -619,7 +619,6 @@ extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
 gthumb/Makefile
-gthumb/cursors/Makefile
 po/Makefile.in
 tests/Makefile
 ])
