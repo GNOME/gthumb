@@ -45,6 +45,7 @@ DOC_PAGES = \
 	printing.page \
 	shortcuts.page \
 	sharing-disc.page \
+	sharing-social.page \
 	wallpaper.page \
 	bookmarks.page \
 	import.page \

@@ -205,7 +205,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	switch (response_id) {
 	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (data->browser), "export-to-picasaweb");
+		show_help_dialog (GTK_WINDOW (data->browser), "gthumb-export-social");
 		break;
 
 	case GTK_RESPONSE_DELETE_EVENT:
