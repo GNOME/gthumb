@@ -583,13 +583,17 @@ paint_background (GthImageSelector *self,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
-				       GDK_INTERP_NEAREST);
+				       GDK_INTERP_TILES);
 
-	if (! self->priv->viewer->dragging) { /* make the background darker */
+	/* make the background darker */
+	{
 		GdkRectangle *rects;
 		int           n_rects;
 		int           i;
 
+		cairo_save (cr);
+		gdk_cairo_region (cr, event->region);
+		cairo_clip (cr);
 		gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
 		cairo_clip (cr);
 		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
@@ -601,6 +605,7 @@ paint_background (GthImageSelector *self,
 				cairo_rectangle (cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
 		}
 		cairo_fill (cr);
+		cairo_restore (cr);
 
 		g_free (rects);
 	}
@@ -625,10 +630,9 @@ paint_selection (GthImageSelector *self,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &selection_area,
 				       event->region,
-				       GDK_INTERP_NEAREST);
+				       GDK_INTERP_TILES);
 
 	cairo_save (cr);
-
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
 	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
@@ -636,6 +640,8 @@ paint_selection (GthImageSelector *self,
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 #endif
 
+
+	gdk_cairo_region (cr, event->region);
 	gdk_cairo_rectangle (cr, &selection_area);
 	cairo_clip (cr);
 
@@ -680,8 +686,8 @@ paint_selection (GthImageSelector *self,
 	cairo_rectangle (cr,
 			 selection_area.x + 0.5,
 			 selection_area.y + 0.5,
-			 selection_area.width - 1,
-			 selection_area.height - 1);
+			 selection_area.width,
+			 selection_area.height);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -787,7 +793,6 @@ gth_image_selector_button_release (GthImageViewerTool *base,
 	update_cursor (self,
 		       event->x + self->priv->viewer->x_offset,
 		       event->y + self->priv->viewer->y_offset);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	return FALSE;
 }
@@ -960,7 +965,6 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 		self->priv->viewer->pressed = TRUE;
 		self->priv->viewer->dragging = TRUE;
 		self->priv->drag_start_selection_area = self->priv->selection_area;
-		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		retval = TRUE;
 	}
 
