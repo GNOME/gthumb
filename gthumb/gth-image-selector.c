@@ -592,9 +592,6 @@ paint_background (GthImageSelector *self,
 		int           n_rects;
 		int           i;
 
-		cairo_save (cr);
-		gdk_cairo_region (cr, event->region);
-		cairo_clip (cr);
 		gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
 		cairo_clip (cr);
 		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
@@ -606,7 +603,6 @@ paint_background (GthImageSelector *self,
 				cairo_rectangle (cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
 		}
 		cairo_fill (cr);
-		cairo_restore (cr);
 
 		g_free (rects);
 	}
@@ -641,8 +637,6 @@ paint_selection (GthImageSelector *self,
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 #endif
 
-
-	gdk_cairo_region (cr, event->region);
 	gdk_cairo_rectangle (cr, &selection_area);
 	cairo_clip (cr);
 

@@ -2498,8 +2498,7 @@ gth_image_viewer_paint_region (GthImageViewer *self,
 	int           i;
 
 	cairo_save (cr);
-	gdk_cairo_region (cr, region);
-	cairo_clip (cr);
+
 	gdk_cairo_rectangle (cr, pixbuf_area);
 	cairo_clip (cr);
 
@@ -2535,7 +2534,10 @@ gth_image_viewer_apply_painters (GthImageViewer *self,
 
 	for (scan = self->priv->painters; scan; scan = scan->next) {
 		PainterData *painter_data = scan->data;
+
+		cairo_save (cr);
 		painter_data->func (self, event, cr, painter_data->user_data);
+		cairo_restore (cr);
 	}
 }
 
