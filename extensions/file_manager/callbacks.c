@@ -838,13 +838,14 @@ static void
 activate_open_with_application_item (GtkMenuItem *menuitem,
 				     gpointer     data)
 {
-	GthBrowser *browser = data;
-	GList      *items;
-	GList      *file_list;
-	GList      *uris;
-	GList      *scan;
-	GAppInfo   *appinfo;
-	GError     *error = NULL;
+	GthBrowser          *browser = data;
+	GList               *items;
+	GList               *file_list;
+	GList               *uris;
+	GList               *scan;
+	GAppInfo            *appinfo;
+	GdkAppLaunchContext *context;
+	GError              *error = NULL;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -859,11 +860,16 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
 	g_return_if_fail (G_IS_APP_INFO (appinfo));
 
-	if (! g_app_info_launch_uris (appinfo, uris, NULL, &error))
+	context = gdk_app_launch_context_new ();
+	gdk_app_launch_context_set_screen (context, gtk_widget_get_screen (GTK_WIDGET (browser)));
+	gdk_app_launch_context_set_timestamp (context, 0);
+	gdk_app_launch_context_set_icon (context, g_app_info_get_icon (appinfo));
+	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error))
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
 						    _("Could not perform the operation"),
 						    &error);
 
+	g_object_unref (context);
 	g_list_free (uris);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
