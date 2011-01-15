@@ -570,15 +570,15 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 
 		if (width > gdk_width)
 			self->x_offset = CLAMP (self->x_offset,
-						  0,
-						  width - gdk_width);
+						0,
+						width - gdk_width);
 		else
 			self->x_offset = 0;
 
 		if (height > gdk_height)
 			self->y_offset = CLAMP (self->y_offset,
-						  0,
-						  height - gdk_height);
+						0,
+						height - gdk_height);
 		else
 			self->y_offset = 0;
 
@@ -589,40 +589,48 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 
 		/* Change adjustment values. */
 
-		gtk_adjustment_set_lower (self->hadj, 0.0);
-		gtk_adjustment_set_upper (self->hadj, width);
-		gtk_adjustment_set_value (self->hadj, self->x_offset);
-		gtk_adjustment_set_step_increment (self->hadj, STEP_INCREMENT);
-		gtk_adjustment_set_page_increment (self->hadj, gdk_width / 2);
-		gtk_adjustment_set_page_size (self->hadj, gdk_width);
-
-		gtk_adjustment_set_lower (self->vadj, 0.0);
-		gtk_adjustment_set_upper (self->vadj, height);
-		gtk_adjustment_set_value (self->vadj, self->y_offset);
-		gtk_adjustment_set_step_increment (self->vadj, STEP_INCREMENT);
-		gtk_adjustment_set_page_increment (self->vadj, gdk_height / 2);
-		gtk_adjustment_set_page_size (self->vadj, gdk_height);
+		gtk_adjustment_configure (self->hadj,
+					  self->x_offset,
+					  0.0,
+					  width,
+					  STEP_INCREMENT,
+					  gdk_width / 2,
+					  gdk_width);
+		gtk_adjustment_configure (self->vadj,
+					  self->y_offset,
+					  0.0,
+					  height,
+					  STEP_INCREMENT,
+					  gdk_height / 2,
+					  gdk_height);
 	}
 	else {
-		gtk_adjustment_set_lower (self->hadj, 0.0);
-		gtk_adjustment_set_upper (self->hadj, 1.0);
-		gtk_adjustment_set_value (self->hadj, 0.0);
-		gtk_adjustment_set_page_size (self->hadj, 1.0);
-
-		gtk_adjustment_set_lower (self->vadj, 0.0);
-		gtk_adjustment_set_upper (self->vadj, 1.0);
-		gtk_adjustment_set_value (self->vadj, 0.0);
-		gtk_adjustment_set_page_size (self->vadj, 1.0);
+		gtk_adjustment_configure (self->hadj,
+					  0.0,
+					  0.0,
+					  1.0,
+					  0.1,
+					  1.0,
+					  1.0);
+		gtk_adjustment_configure (self->vadj,
+					  0.0,
+					  0.0,
+					  1.0,
+					  0.1,
+					  1.0,
+					  1.0);
 	}
 
 	_gth_image_viewer_update_image_area (self);
 
+	/* FIXME
 	g_signal_handlers_block_by_data (G_OBJECT (self->hadj), self);
 	g_signal_handlers_block_by_data (G_OBJECT (self->vadj), self);
 	gtk_adjustment_changed (self->hadj);
 	gtk_adjustment_changed (self->vadj);
 	g_signal_handlers_unblock_by_data (G_OBJECT (self->hadj), self);
 	g_signal_handlers_unblock_by_data (G_OBJECT (self->vadj), self);
+	*/
 
 	/**/
 
@@ -740,7 +748,6 @@ gth_image_viewer_expose (GtkWidget      *widget,
 	self = GTH_IMAGE_VIEWER (widget);
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 
@@ -2550,8 +2557,7 @@ gth_image_viewer_paint_region (GthImageViewer *self,
 	int           i;
 
 	cairo_save (cr);
-	gdk_cairo_region (cr, region);
-	cairo_clip (cr);
+
 	gdk_cairo_rectangle (cr, pixbuf_area);
 	cairo_clip (cr);
 
@@ -2587,7 +2593,10 @@ gth_image_viewer_apply_painters (GthImageViewer *self,
 
 	for (scan = self->priv->painters; scan; scan = scan->next) {
 		PainterData *painter_data = scan->data;
+
+		cairo_save (cr);
 		painter_data->func (self, event, cr, painter_data->user_data);
+		cairo_restore (cr);
 	}
 }
 
