@@ -680,8 +680,8 @@ paint_selection (GthImageSelector *self,
 	cairo_rectangle (cr,
 			 selection_area.x + 0.5,
 			 selection_area.y + 0.5,
-			 selection_area.width,
-			 selection_area.height);
+			 selection_area.width - 1,
+			 selection_area.height - 1);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -787,6 +787,7 @@ gth_image_selector_button_release (GthImageViewerTool *base,
 	update_cursor (self,
 		       event->x + self->priv->viewer->x_offset,
 		       event->y + self->priv->viewer->y_offset);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	return FALSE;
 }
@@ -959,6 +960,7 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 		self->priv->viewer->pressed = TRUE;
 		self->priv->viewer->dragging = TRUE;
 		self->priv->drag_start_selection_area = self->priv->selection_area;
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		retval = TRUE;
 	}
 
