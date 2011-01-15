@@ -3,28 +3,66 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="tiff_hdpi_adjustment">
+    <property name="value">72</property>
     <property name="lower">1</property>
     <property name="upper">10000</property>
-    <property name="value">72</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="tiff_vdpi_adjustment">
+    <property name="value">72</property>
     <property name="lower">1</property>
     <property name="upper">10000</property>
-    <property name="value">72</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkVBox" id="tiff_options">
     <property name="visible">True</property>
     <property name="border_width">6</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
+    <child>
+      <object class="GtkHBox" id="hbox1">
+        <property name="visible">True</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Default extension:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">tiff_default_extension_combobox</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="tiff_default_extension_combobox">
+            <property name="visible">True</property>
+            <property name="model">tiff_default_ext_liststore</property>
+            <property name="active">0</property>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext1"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
     <child>
       <object class="GtkVBox" id="vbox43">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label128">
@@ -48,7 +86,6 @@
             <child>
               <object class="GtkVBox" id="vbox44">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkRadioButton" id="tiff_comp_none_radiobutton">
@@ -108,13 +145,12 @@
       </object>
       <packing>
         <property name="expand">False</property>
-        <property name="position">0</property>
+        <property name="position">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkVBox" id="vbox48">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label132">
@@ -251,8 +287,14 @@
       </object>
       <packing>
         <property name="expand">False</property>
-        <property name="position">1</property>
+        <property name="position">2</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkListStore" id="tiff_default_ext_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>

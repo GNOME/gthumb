@@ -4,6 +4,19 @@
       <!-- JPEG Options -->
 
       <schema>
+	<key>/schemas/apps/gthumb/save_options/jpeg/default_ext</key>
+	<applyto>/apps/gthumb/save_options/jpeg/default_ext</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: jpeg, jpg.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/save_options/jpeg/quality</key>
 	<applyto>/apps/gthumb/save_options/jpeg/quality</applyto>
 	<owner>gthumb</owner>
@@ -86,6 +99,19 @@
       </schema>
 
       <!-- TIFF Options -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/save_options/tiff/default_ext</key>
+	<applyto>/apps/gthumb/save_options/tiff/default_ext</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>tiff</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: tiff, tif.
+	  </long>
+	</locale>
+      </schema>
 
       <schema>
 	<key>/schemas/apps/gthumb/save_options/tiff/compression</key>

@@ -32,12 +32,14 @@ typedef enum {
 } GthTiffCompression;
 
 
+#define  PREF_JPEG_DEFAULT_EXT          "/apps/gthumb/save_options/jpeg/default_ext"
 #define  PREF_JPEG_QUALITY              "/apps/gthumb/save_options/jpeg/quality"
 #define  PREF_JPEG_SMOOTHING            "/apps/gthumb/save_options/jpeg/smoothing"
 #define  PREF_JPEG_OPTIMIZE             "/apps/gthumb/save_options/jpeg/optimize"
 #define  PREF_JPEG_PROGRESSIVE          "/apps/gthumb/save_options/jpeg/progressive"
 #define  PREF_PNG_COMPRESSION_LEVEL     "/apps/gthumb/save_options/png/compression_level"
 #define  PREF_TGA_RLE_COMPRESSION       "/apps/gthumb/save_options/tga/rle_compression"
+#define  PREF_TIFF_DEFAULT_EXT          "/apps/gthumb/save_options/tiff/default_ext"
 #define  PREF_TIFF_COMPRESSION          "/apps/gthumb/save_options/tiff/compression"
 #define  PREF_TIFF_HORIZONTAL_RES       "/apps/gthumb/save_options/tiff/horizontal_resolution"
 #define  PREF_TIFF_VERTICAL_RES         "/apps/gthumb/save_options/tiff/vertical_resolution"

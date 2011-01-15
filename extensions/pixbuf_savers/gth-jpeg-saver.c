@@ -37,6 +37,7 @@
 
 struct _GthJpegSaverPrivate {
 	GtkBuilder *builder;
+	char       *default_ext;
 };
 
 
@@ -47,6 +48,8 @@ static void
 gth_jpeg_saver_init (GthJpegSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_JPEG_SAVER, GthJpegSaverPrivate);
+	self->priv->builder = NULL;
+	self->priv->default_ext = NULL;
 }
 
 
@@ -56,17 +59,50 @@ gth_jpeg_saver_finalize (GObject *object)
 	GthJpegSaver *self = GTH_JPEG_SAVER (object);
 
 	_g_object_unref (self->priv->builder);
+	g_free (self->priv->default_ext);
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static const char *
+gth_jpeg_saver_get_default_ext (GthPixbufSaver *base)
+{
+	GthJpegSaver *self = GTH_JPEG_SAVER (base);
+
+	if (self->priv->default_ext == NULL)
+		self->priv->default_ext = eel_gconf_get_string (PREF_JPEG_DEFAULT_EXT, "jpeg");
+
+	return self->priv->default_ext;
 }
 
 
 static GtkWidget *
 gth_jpeg_saver_get_control (GthPixbufSaver *base)
 {
-	GthJpegSaver *self = GTH_JPEG_SAVER (base);
+	GthJpegSaver  *self = GTH_JPEG_SAVER (base);
+	char         **extensions;
+	int            i;
+	int            active_idx;
 
 	if (self->priv->builder == NULL)
 		self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "pixbuf_savers");
+
+	active_idx = 0;
+	extensions = g_strsplit (gth_pixbuf_saver_get_extensions (base), " ", -1);
+	for (i = 0; extensions[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (GTK_LIST_STORE (gtk_builder_get_object (self->priv->builder, "jpeg_default_ext_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (gtk_builder_get_object (self->priv->builder, "jpeg_default_ext_liststore")),
+				    &iter,
+				    0, extensions[i],
+				    -1);
+		if (g_str_equal (extensions[i], gth_pixbuf_saver_get_default_ext (base)))
+			active_idx = i;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "jpeg_default_extension_combobox")), active_idx);
+	g_strfreev (extensions);
 
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_quality_adjustment")),
 				  eel_gconf_get_integer (PREF_JPEG_QUALITY, 85));
@@ -85,7 +121,16 @@ static void
 gth_jpeg_saver_save_options (GthPixbufSaver *base)
 {
 	GthJpegSaver *self = GTH_JPEG_SAVER (base);
+	GtkTreeIter   iter;
 
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "jpeg_default_extension_combobox")), &iter)) {
+		g_free (self->priv->default_ext);
+		gtk_tree_model_get (GTK_TREE_MODEL (gtk_builder_get_object (self->priv->builder, "jpeg_default_ext_liststore")),
+				    &iter,
+				    0, &self->priv->default_ext,
+				    -1);
+		eel_gconf_set_string (PREF_JPEG_DEFAULT_EXT, self->priv->default_ext);
+	}
 	eel_gconf_set_integer (PREF_JPEG_QUALITY, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_quality_adjustment"))));
 	eel_gconf_set_integer (PREF_JPEG_SMOOTHING, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_smooth_adjustment"))));
 	eel_gconf_set_boolean (PREF_JPEG_OPTIMIZE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_optimize_checkbutton"))));
@@ -478,7 +523,7 @@ gth_jpeg_saver_class_init (GthJpegSaverClass *klass)
 	pixbuf_saver_class->display_name = _("JPEG");
 	pixbuf_saver_class->mime_type = "image/jpeg";
 	pixbuf_saver_class->extensions = "jpeg jpg";
-	pixbuf_saver_class->default_ext = "jpeg";
+	pixbuf_saver_class->get_default_ext = gth_jpeg_saver_get_default_ext;
 	pixbuf_saver_class->get_control = gth_jpeg_saver_get_control;
 	pixbuf_saver_class->save_options = gth_jpeg_saver_save_options;
 	pixbuf_saver_class->can_save = gth_jpeg_saver_can_save;

@@ -13,107 +13,162 @@
     <property name="step_increment">0.5</property>
     <property name="page_increment">1</property>
   </object>
-  <object class="GtkTable" id="jpeg_options">
+  <object class="GtkListStore" id="jpeg_default_ext_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkVBox" id="jpeg_options">
     <property name="visible">True</property>
     <property name="border_width">6</property>
-    <property name="n_rows">4</property>
-    <property name="n_columns">2</property>
-    <property name="column_spacing">12</property>
-    <property name="row_spacing">6</property>
+    <property name="spacing">12</property>
     <child>
-      <object class="GtkCheckButton" id="jpeg_optimize_checkbutton">
-        <property name="label" translatable="yes">Opti_mize</property>
+      <object class="GtkHBox" id="hbox2">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <property name="draw_indicator">True</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Default extension:</property>
+            <property name="use_underline">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="jpeg_default_extension_combobox">
+            <property name="visible">True</property>
+            <property name="model">jpeg_default_ext_liststore</property>
+            <property name="active">0</property>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext1"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
       <packing>
-        <property name="right_attach">2</property>
-        <property name="top_attach">2</property>
-        <property name="bottom_attach">3</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"></property>
+        <property name="expand">False</property>
+        <property name="position">0</property>
       </packing>
     </child>
     <child>
-      <object class="GtkCheckButton" id="jpeg_progressive_checkbutton">
-        <property name="label" translatable="yes">_Progressive</property>
+      <object class="GtkTable" id="table1">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="use_underline">True</property>
-        <property name="draw_indicator">True</property>
+        <property name="n_rows">4</property>
+        <property name="n_columns">2</property>
+        <property name="column_spacing">12</property>
+        <property name="row_spacing">6</property>
+        <child>
+          <object class="GtkCheckButton" id="jpeg_optimize_checkbutton">
+            <property name="label" translatable="yes">Opti_mize</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="right_attach">2</property>
+            <property name="top_attach">2</property>
+            <property name="bottom_attach">3</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="jpeg_progressive_checkbutton">
+            <property name="label" translatable="yes">_Progressive</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="right_attach">2</property>
+            <property name="top_attach">3</property>
+            <property name="bottom_attach">4</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label127">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Quality:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">jpeg_quality_hscale</property>
+          </object>
+          <packing>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHScale" id="jpeg_quality_hscale">
+            <property name="width_request">150</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="adjustment">jpeg_quality_adjustment</property>
+            <property name="digits">0</property>
+            <property name="value_pos">left</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHScale" id="jpeg_smooth_hscale">
+            <property name="width_request">150</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="adjustment">jpeg_smooth_adjustment</property>
+            <property name="digits">0</property>
+            <property name="value_pos">left</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label130">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Smoothing:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">jpeg_smooth_hscale</property>
+          </object>
+          <packing>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
       </object>
       <packing>
-        <property name="right_attach">2</property>
-        <property name="top_attach">3</property>
-        <property name="bottom_attach">4</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options"></property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="label127">
-        <property name="visible">True</property>
-        <property name="xalign">0</property>
-        <property name="label" translatable="yes">_Quality:</property>
-        <property name="use_underline">True</property>
-        <property name="mnemonic_widget">jpeg_quality_hscale</property>
-      </object>
-      <packing>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options">GTK_FILL</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkHScale" id="jpeg_quality_hscale">
-        <property name="width_request">150</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="adjustment">jpeg_quality_adjustment</property>
-        <property name="digits">0</property>
-        <property name="value_pos">left</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="right_attach">2</property>
-        <property name="y_options">GTK_FILL</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkHScale" id="jpeg_smooth_hscale">
-        <property name="width_request">150</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="adjustment">jpeg_smooth_adjustment</property>
-        <property name="digits">0</property>
-        <property name="value_pos">left</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="right_attach">2</property>
-        <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options">GTK_FILL</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="label130">
-        <property name="visible">True</property>
-        <property name="xalign">0</property>
-        <property name="label" translatable="yes">_Smoothing:</property>
-        <property name="use_underline">True</property>
-        <property name="mnemonic_widget">jpeg_smooth_hscale</property>
-      </object>
-      <packing>
-        <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
-        <property name="x_options">GTK_FILL</property>
-        <property name="y_options">GTK_FILL</property>
+        <property name="position">1</property>
       </packing>
     </child>
   </object>

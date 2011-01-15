@@ -53,20 +53,20 @@ struct _GthPixbufSaverClass
 	const char *display_name;
 	const char *mime_type;
 	const char *extensions;
-	const char *default_ext;
 
 	/*< virtual functions >*/
 
-	GtkWidget *  (*get_control)   (GthPixbufSaver   *self);
-	void         (*save_options)  (GthPixbufSaver   *self);
-	gboolean     (*can_save)      (GthPixbufSaver   *self,
-				       const char       *mime_type);
-	gboolean     (*save_pixbuf)   (GthPixbufSaver   *self,
-				       GdkPixbuf        *pixbuf,
-				       char            **buffer,
-				       gsize            *buffer_size,
-				       const char       *mime_type,
-				       GError          **error);
+	const char * (*get_default_ext) (GthPixbufSaver   *self);
+	GtkWidget *  (*get_control)     (GthPixbufSaver   *self);
+	void         (*save_options)    (GthPixbufSaver   *self);
+	gboolean     (*can_save)        (GthPixbufSaver   *self,
+				         const char       *mime_type);
+	gboolean     (*save_pixbuf)     (GthPixbufSaver   *self,
+				         GdkPixbuf        *pixbuf,
+				         char            **buffer,
+				         gsize            *buffer_size,
+				         const char       *mime_type,
+				         GError          **error);
 };
 
 GType         gth_pixbuf_saver_get_type          (void);

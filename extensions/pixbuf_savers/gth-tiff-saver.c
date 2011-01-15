@@ -32,6 +32,7 @@
 
 struct _GthTiffSaverPrivate {
 	GtkBuilder *builder;
+	char       *default_ext;
 };
 
 
@@ -42,6 +43,8 @@ static void
 gth_tiff_saver_init (GthTiffSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIFF_SAVER, GthTiffSaverPrivate);
+	self->priv->builder = NULL;
+	self->priv->default_ext = NULL;
 }
 
 
@@ -51,9 +54,22 @@ gth_tiff_saver_finalize (GObject *object)
 	GthTiffSaver *self = GTH_TIFF_SAVER (object);
 
 	_g_object_unref (self->priv->builder);
+	g_free (self->priv->default_ext);
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+
+static const char *
+gth_tiff_saver_get_default_ext (GthPixbufSaver *base)
+{
+	GthTiffSaver *self = GTH_TIFF_SAVER (base);
+
+	if (self->priv->default_ext == NULL)
+		self->priv->default_ext = eel_gconf_get_string (PREF_TIFF_DEFAULT_EXT, "tiff");
+
+	return self->priv->default_ext;
+}
 
 static GtkWidget *
 gth_tiff_saver_get_control (GthPixbufSaver *base)
@@ -61,10 +77,29 @@ gth_tiff_saver_get_control (GthPixbufSaver *base)
 #ifdef HAVE_LIBTIFF
 
 	GthTiffSaver       *self = GTH_TIFF_SAVER (base);
+	char              **extensions;
+	int                 i;
+	int                 active_idx;
 	GthTiffCompression  compression_type;
 
 	if (self->priv->builder == NULL)
 		self->priv->builder = _gtk_builder_new_from_file ("tiff-options.ui", "pixbuf_savers");
+
+	active_idx = 0;
+	extensions = g_strsplit (gth_pixbuf_saver_get_extensions (base), " ", -1);
+	for (i = 0; extensions[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (GTK_LIST_STORE (gtk_builder_get_object (self->priv->builder, "tiff_default_ext_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (gtk_builder_get_object (self->priv->builder, "tiff_default_ext_liststore")),
+				    &iter,
+				    0, extensions[i],
+				    -1);
+		if (g_str_equal (extensions[i], gth_pixbuf_saver_get_default_ext (base)))
+			active_idx = i;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "tiff_default_extension_combobox")), active_idx);
+	g_strfreev (extensions);
 
 	compression_type = eel_gconf_get_enum (PREF_TIFF_COMPRESSION, GTH_TYPE_TIFF_COMPRESSION, GTH_TIFF_COMPRESSION_DEFLATE);
 	switch (compression_type) {
@@ -97,8 +132,18 @@ gth_tiff_saver_save_options (GthPixbufSaver *base)
 {
 #ifdef HAVE_LIBTIFF
 
-	GthTiffSaver     *self = GTH_TIFF_SAVER (base);
+	GthTiffSaver       *self = GTH_TIFF_SAVER (base);
+	GtkTreeIter         iter;
 	GthTiffCompression  compression_type;
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "tiff_default_extension_combobox")), &iter)) {
+		g_free (self->priv->default_ext);
+		gtk_tree_model_get (GTK_TREE_MODEL (gtk_builder_get_object (self->priv->builder, "tiff_default_ext_liststore")),
+				    &iter,
+				    0, &self->priv->default_ext,
+				    -1);
+		eel_gconf_set_string (PREF_TIFF_DEFAULT_EXT, self->priv->default_ext);
+	}
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_comp_none_radiobutton"))))
 		compression_type = GTH_TIFF_COMPRESSION_NONE;
@@ -497,7 +542,7 @@ gth_tiff_saver_class_init (GthTiffSaverClass *klass)
 	pixbuf_saver_class->display_name = _("TIFF");
 	pixbuf_saver_class->mime_type = "image/tiff";
 	pixbuf_saver_class->extensions = "tiff tif";
-	pixbuf_saver_class->default_ext = "tiff";
+	pixbuf_saver_class->get_default_ext = gth_tiff_saver_get_default_ext;
 	pixbuf_saver_class->get_control = gth_tiff_saver_get_control;
 	pixbuf_saver_class->save_options = gth_tiff_saver_save_options;
 	pixbuf_saver_class->can_save = gth_tiff_saver_can_save;
