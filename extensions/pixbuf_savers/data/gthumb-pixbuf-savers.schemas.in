@@ -43,8 +43,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/save_options/jpeg/pregressive</key>
-	<applyto>/apps/gthumb/save_options/jpeg/pregressive</applyto>
+	<key>/schemas/apps/gthumb/save_options/jpeg/progressive</key>
+	<applyto>/apps/gthumb/save_options/jpeg/progressive</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
