@@ -45,6 +45,7 @@
 			       * delay use this delay instead. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
 
+
 enum {
 	CLICKED,
 	ZOOM_IN,
@@ -113,6 +114,7 @@ struct _GthImageViewerPrivate {
 	gboolean                skip_size_change;
 
 	gboolean                reset_scrollbars;
+	guint                   update_adjustment_values;
 
 	GList                  *painters;
 };
@@ -395,6 +397,11 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 	if (self->priv->cursor_void) {
 		gdk_cursor_unref (self->priv->cursor_void);
 		self->priv->cursor_void = NULL;
+	}
+
+	if (self->priv->update_adjustment_values != 0) {
+		g_source_remove (self->priv->update_adjustment_values);
+		self->priv->update_adjustment_values = 0;
 	}
 
 	gth_image_viewer_tool_unrealize (self->priv->tool);
@@ -1585,13 +1592,14 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 	self->priv->cursor_void = NULL;
 
 	self->priv->reset_scrollbars = TRUE;
+	self->priv->update_adjustment_values = 0;
 
 	self->priv->tool = gth_image_dragger_new (self);
 
 	/* Create the widget. */
 
-	self->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 1.0, 1.0, 1.0));
-	self->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 1.0, 1.0, 1.0));
+	self->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 0.1, 1.0, 1.0));
+	self->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 0.1, 1.0, 1.0));
 
 	g_object_ref (self->hadj);
 	g_object_ref_sink (self->hadj);
@@ -2264,6 +2272,25 @@ gth_image_viewer_set_tool (GthImageViewer     *self,
 }
 
 
+static gboolean
+update_adjustment_values_cb (gpointer user_data)
+{
+	GthImageViewer *self = user_data;
+
+	g_source_remove (self->priv->update_adjustment_values);
+	self->priv->update_adjustment_values = 0;
+
+	g_signal_handlers_block_by_data (G_OBJECT (self->hadj), self);
+	g_signal_handlers_block_by_data (G_OBJECT (self->vadj), self);
+	gtk_adjustment_set_value (self->hadj, self->x_offset);
+	gtk_adjustment_set_value (self->vadj, self->y_offset);
+	g_signal_handlers_unblock_by_data (G_OBJECT (self->hadj), self);
+	g_signal_handlers_unblock_by_data (G_OBJECT (self->vadj), self);
+
+	return FALSE;
+}
+
+
 void
 gth_image_viewer_scroll_to (GthImageViewer *self,
 			    int             x_offset,
@@ -2276,12 +2303,9 @@ gth_image_viewer_scroll_to (GthImageViewer *self,
 
 	scroll_to (self, &x_offset, &y_offset);
 
-	g_signal_handlers_block_by_data (G_OBJECT (self->hadj), self);
-	g_signal_handlers_block_by_data (G_OBJECT (self->vadj), self);
-	gtk_adjustment_set_value (self->hadj, self->x_offset);
-	gtk_adjustment_set_value (self->vadj, self->y_offset);
-	g_signal_handlers_unblock_by_data (G_OBJECT (self->hadj), self);
-	g_signal_handlers_unblock_by_data (G_OBJECT (self->vadj), self);
+	if (self->priv->update_adjustment_values != 0)
+		g_source_remove (self->priv->update_adjustment_values);
+	self->priv->update_adjustment_values = g_timeout_add (10, update_adjustment_values_cb, self);
 }
 
 
