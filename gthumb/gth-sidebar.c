@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "glib-utils.h"
 #include "gth-main.h"
 #include "gth-multipage.h"
 #include "gth-sidebar.h"
@@ -41,16 +42,70 @@ static gpointer parent_class = NULL;
 
 
 struct _GthSidebarPrivate {
-	GtkWidget *properties;
-	GtkWidget *toolbox;
+	GtkWidget   *properties;
+	GtkWidget   *toolbox;
+	gboolean    *dirty;
+	GthFileData *file_data;
 };
+
+
+static void
+gth_sidebar_finalize (GObject *object)
+{
+	GthSidebar *sidebar = GTH_SIDEBAR (object);
+
+	g_free (sidebar->priv->dirty);
+	_g_object_unref (sidebar->priv->file_data);
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static gboolean
+_gth_sidebar_properties_visible (GthSidebar *sidebar)
+{
+	return (gtk_widget_get_mapped (GTK_WIDGET (sidebar->priv->properties))
+		&& (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_PROPERTIES));
+}
+
+
+static void
+_gth_sidebar_update_current_child (GthSidebar *sidebar)
+{
+	int current;
+
+	if (! _gth_sidebar_properties_visible (sidebar))
+		return;
+
+	current = gth_multipage_get_current (GTH_MULTIPAGE (sidebar->priv->properties));
+	if (sidebar->priv->dirty == NULL)
+		return;
+
+	if (sidebar->priv->dirty[current]) {
+		GList     *children;
+		GtkWidget *current_child;
+
+		children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
+		current_child = g_list_nth_data (children, current);
+
+		sidebar->priv->dirty[current] = FALSE;
+		gth_property_view_set_file (GTH_PROPERTY_VIEW (current_child), sidebar->priv->file_data);
+
+		g_list_free (children);
+	}
+}
 
 
 static void
 gth_sidebar_class_init (GthSidebarClass *klass)
 {
+	GObjectClass *object_class;
+
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthSidebarPrivate));
+
+	object_class = (GObjectClass *) klass;
+	object_class->finalize = gth_sidebar_finalize;
 }
 
 
@@ -58,6 +113,8 @@ static void
 gth_sidebar_init (GthSidebar *sidebar)
 {
 	sidebar->priv = GTH_SIDEBAR_GET_PRIVATE (sidebar);
+	sidebar->priv->dirty = NULL;
+	sidebar->priv->file_data = NULL;
 
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (sidebar), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (sidebar), FALSE);
@@ -119,6 +176,15 @@ _gth_sidebar_construct (GthSidebar *sidebar,
 	gtk_widget_show (sidebar->priv->properties);
 	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->properties, NULL);
 
+	g_signal_connect_swapped (sidebar->priv->properties,
+			  	  "map",
+			  	  G_CALLBACK (_gth_sidebar_update_current_child),
+			  	  sidebar);
+	g_signal_connect_swapped (sidebar->priv->properties,
+			  	  "changed",
+			  	  G_CALLBACK (_gth_sidebar_update_current_child),
+			  	  sidebar);
+
 	sidebar->priv->toolbox = gth_toolbox_new (name);
 	gtk_widget_show (sidebar->priv->toolbox);
 	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->toolbox, NULL);
@@ -150,19 +216,37 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 		      GthFileData *file_data)
 {
 	GList *children;
+	int    current;
 	GList *scan;
+	int    i;
 
 	if ((file_data == NULL) || ! g_file_info_get_attribute_boolean (file_data->info, "gth::file::is-modified"))
 		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 
 	children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
-	for (scan = children; scan; scan = scan->next) {
+	current = gth_multipage_get_current (GTH_MULTIPAGE (sidebar->priv->properties));
+
+	_g_object_unref (sidebar->priv->file_data);
+	sidebar->priv->file_data = gth_file_data_dup (file_data);
+
+	g_free (sidebar->priv->dirty);
+	sidebar->priv->dirty = g_new0 (gboolean, g_list_length (children));
+
+	for (scan = children, i = 0; scan; scan = scan->next, i++) {
 		GtkWidget *child = scan->data;
 
-		if (! GTH_IS_PROPERTY_VIEW (child))
+		if (! GTH_IS_PROPERTY_VIEW (child)) {
+			sidebar->priv->dirty[i] = FALSE;
 			continue;
+		}
 
-		gth_property_view_set_file (GTH_PROPERTY_VIEW (child), file_data);
+		if (! _gth_sidebar_properties_visible (sidebar) || (i != current)) {
+			sidebar->priv->dirty[i] = TRUE;
+			continue;
+		}
+
+		sidebar->priv->dirty[i] = FALSE;
+		gth_property_view_set_file (GTH_PROPERTY_VIEW (child), sidebar->priv->file_data);
 	}
 
 	g_list_free (children);
@@ -172,8 +256,6 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 void
 gth_sidebar_show_properties (GthSidebar *sidebar)
 {
-	/*if (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_TOOLS)
-		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox)); FIXME */
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
 }
 

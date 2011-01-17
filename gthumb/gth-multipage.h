@@ -51,6 +51,8 @@ struct _GthMultipage
 struct _GthMultipageClass
 {
 	GtkVBoxClass __parent_class;
+
+	void  (*changed) (GthMultipage *self);
 };
 
 typedef struct _GthMultipageChild GthMultipageChild;

@@ -27,6 +27,11 @@
 
 #define GTH_MULTIPAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MULTIPAGE, GthMultipagePrivate))
 
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
 
 enum {
 	ICON_COLUMN,
@@ -36,6 +41,7 @@ enum {
 
 
 static gpointer parent_class = NULL;
+static guint gth_multipage_signals[LAST_SIGNAL] = { 0 };
 
 
 struct _GthMultipagePrivate {
@@ -50,6 +56,18 @@ gth_multipage_class_init (GthMultipageClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMultipagePrivate));
+
+	/* signals */
+
+	gth_multipage_signals[CHANGED] =
+		g_signal_new ("changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthMultipageClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 }
 
 
@@ -60,6 +78,7 @@ combobox_changed_cb (GtkComboBox *widget,
 	GthMultipage *multipage = user_data;
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (multipage->priv->notebook), gtk_combo_box_get_active (GTK_COMBO_BOX (multipage->priv->combobox)));
+	g_signal_emit (G_OBJECT (multipage), gth_multipage_signals[CHANGED], 0);
 }
 
 
