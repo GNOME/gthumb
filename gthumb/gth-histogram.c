@@ -24,9 +24,6 @@
 #include "gth-histogram.h"
 
 
-#define MAX_N_CHANNELS 4
-
-
 /* Signals */
 enum {
         CHANGED,
@@ -49,9 +46,12 @@ static void
 gth_histogram_finalize (GObject *object)
 {
 	GthHistogram *self;
+	int           i;
 
 	self = GTH_HISTOGRAM (object);
 
+	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
+		g_free (self->priv->values[i]);
 	g_free (self->priv->values);
 	g_free (self->priv->values_max);
 
@@ -90,10 +90,10 @@ gth_histogram_init (GthHistogram *self)
 	int i;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_HISTOGRAM, GthHistogramPrivate);
-	self->priv->values = g_new0 (int *, MAX_N_CHANNELS + 1);
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+	self->priv->values = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS + 1);
+	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		self->priv->values[i] = g_new0 (int, 256);
-	self->priv->values_max = g_new0 (int, MAX_N_CHANNELS + 1);
+	self->priv->values_max = g_new0 (int, GTH_HISTOGRAM_N_CHANNELS + 1);
 }
 
 
@@ -136,7 +136,7 @@ histogram_reset_values (GthHistogram *self)
 {
 	int i;
 
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++) {
+	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++) {
 		memset (self->priv->values[i], 0, sizeof (int) * 256);
 		self->priv->values_max[i] = 0;
 	}
@@ -234,9 +234,9 @@ gth_histogram_get_count (GthHistogram *self,
 
 
 double
-gth_histogram_get_value (GthHistogram *self,
-			 int           channel,
-			 int           bin)
+gth_histogram_get_value (GthHistogram        *self,
+			 GthHistogramChannel  channel,
+			 int                  bin)
 {
 	g_return_val_if_fail (self != NULL, 0.0);
 
@@ -248,9 +248,9 @@ gth_histogram_get_value (GthHistogram *self,
 
 
 double
-gth_histogram_get_channel (GthHistogram *self,
-			   int           channel,
-			   int           bin)
+gth_histogram_get_channel (GthHistogram        *self,
+			   GthHistogramChannel  channel,
+			   int                  bin)
 {
 	g_return_val_if_fail (self != NULL, 0.0);
 
@@ -262,8 +262,8 @@ gth_histogram_get_channel (GthHistogram *self,
 
 
 double
-gth_histogram_get_channel_max (GthHistogram *self,
-			       int           channel)
+gth_histogram_get_channel_max (GthHistogram        *self,
+			       GthHistogramChannel  channel)
 {
 	g_return_val_if_fail (self != NULL, 0.0);
 

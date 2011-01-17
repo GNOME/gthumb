@@ -84,8 +84,8 @@ equalize_init (GthPixbufTask *pixop)
 	data->histogram = gth_histogram_new ();
 	gth_histogram_calculate (data->histogram, pixop->src);
 
-	data->part = g_new0 (int *, MAX_N_CHANNELS + 1);
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+	data->part = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS + 1);
+	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		data->part[i] = g_new0 (int, 257);
 	equalize_histogram_setup (data->histogram, data->part);
 }
@@ -126,7 +126,7 @@ equalize_release (GthPixbufTask *pixop,
 	if (error == NULL)
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		g_free (data->part[i]);
 	g_free (data->part);
 	g_object_unref (data->histogram);

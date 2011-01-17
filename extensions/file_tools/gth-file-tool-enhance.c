@@ -119,7 +119,7 @@ adjust_levels_init (GthPixbufTask *pixop)
 
 	data->levels = g_new0 (Levels, 1);
 
-	for (channel = 0; channel < MAX_N_CHANNELS + 1; channel++) {
+	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS + 1; channel++) {
 		data->levels->gamma[channel]       = 1.0;
 		data->levels->low_input[channel]   = 0;
 		data->levels->high_input[channel]  = 255;
@@ -127,7 +127,7 @@ adjust_levels_init (GthPixbufTask *pixop)
 		data->levels->high_output[channel] = 255;
 	}
 
-	for (channel = 1; channel < MAX_N_CHANNELS; channel++)
+	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS; channel++)
 		levels_channel_auto (data->levels, data->hist, channel);
 }
 
@@ -209,7 +209,9 @@ adjust_levels_release (GthPixbufTask *pixop,
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
 	g_object_unref (data->hist);
+	data->hist = NULL;
 	g_free (data->levels);
+	data->levels = NULL;
 }
 
 
