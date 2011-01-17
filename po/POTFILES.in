@@ -329,6 +329,8 @@ extensions/image_rotation/rotation-utils.c
 extensions/image_rotation/rotation-utils.h
 extensions/image_viewer/data/gthumb-image-viewer.schemas.in
 [type: gettext/glade]extensions/image_viewer/data/ui/image-viewer-preferences.ui
+extensions/image_viewer/gth-image-histogram.c
+extensions/image_viewer/gth-image-histogram.h
 extensions/image_viewer/gth-image-viewer-page.c
 extensions/image_viewer/gth-image-viewer-page.h
 extensions/image_viewer/gth-metadata-provider-image.c
