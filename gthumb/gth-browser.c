@@ -5854,6 +5854,9 @@ gth_browser_fullscreen (GthBrowser *browser)
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 
+	browser->priv->properties_on_screen = FALSE;
+	gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
+
 	gtk_window_fullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_show (browser->priv->viewer_page);
@@ -5886,6 +5889,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
 	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->before_fullscreen.page);
 	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->before_fullscreen.thumbnail_list);
+
 	if (browser->priv->before_fullscreen.viewer_properties)
 		gth_browser_show_viewer_properties (browser, TRUE);
 	else if (browser->priv->before_fullscreen.viewer_tools)
@@ -5894,6 +5898,10 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		gth_browser_show_viewer_properties (browser, FALSE);
 		gth_browser_show_viewer_tools (browser, FALSE);
 	}
+
+	browser->priv->properties_on_screen = FALSE;
+	if (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL)
+		gth_viewer_page_show_properties (browser->priv->viewer_page, FALSE);
 
 	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
