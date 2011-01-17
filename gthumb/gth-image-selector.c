@@ -652,11 +652,15 @@ paint_selection (GthImageSelector *self,
 
 		if (self->priv->grid_type == GTH_GRID_THIRDS) {
 			x_delta = selection_area.width / 3;
-			y_delta = selection_area.height /3;
+			y_delta = selection_area.height / 3;
 		}
 		else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
 			x_delta = selection_area.width * GOLDER_RATIO_FACTOR;
 			y_delta = selection_area.height * GOLDER_RATIO_FACTOR;
+		}
+		else if (self->priv->grid_type == GTH_GRID_CENTER) {
+			x_delta = selection_area.width / 2;
+			y_delta = selection_area.height / 2;
 		}
 
 		grid_x1 = grid_x0 + x_delta;
@@ -667,14 +671,18 @@ paint_selection (GthImageSelector *self,
 		cairo_move_to (cr, grid_x1 + 0.5, grid_y0 + 0.5);
 		cairo_line_to (cr, grid_x1 + 0.5, grid_y3 + 0.5);
 
-		cairo_move_to (cr, grid_x2 + 0.5, grid_y0 + 0.5);
-		cairo_line_to (cr, grid_x2 + 0.5, grid_y3 + 0.5);
+		if (x_delta < selection_area.width / 2) {
+			cairo_move_to (cr, grid_x2 + 0.5, grid_y0 + 0.5);
+			cairo_line_to (cr, grid_x2 + 0.5, grid_y3 + 0.5);
+		}
 
 		cairo_move_to (cr, grid_x0 + 0.5, grid_y1 + 0.5);
 		cairo_line_to (cr, grid_x3 + 0.5, grid_y1 + 0.5);
 
-		cairo_move_to (cr, grid_x0 + 0.5, grid_y2 + 0.5);
-		cairo_line_to (cr, grid_x3 + 0.5, grid_y2 + 0.5);
+		if (y_delta < selection_area.height / 2) {
+			cairo_move_to (cr, grid_x0 + 0.5, grid_y2 + 0.5);
+			cairo_line_to (cr, grid_x3 + 0.5, grid_y2 + 0.5);
+		}
 	}
 
 	cairo_rectangle (cr,

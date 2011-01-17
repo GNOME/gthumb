@@ -48,7 +48,8 @@ typedef enum {
 typedef enum {
 	GTH_GRID_NONE = 0,
 	GTH_GRID_THIRDS,
-	GTH_GRID_GOLDEN
+	GTH_GRID_GOLDEN,
+	GTH_GRID_CENTER
 } GthGridType;
 
 struct _GthImageSelector

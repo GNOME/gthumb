@@ -422,7 +422,11 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")), MAX (eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, 1), 1));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), eel_gconf_get_boolean (PREF_CROP_ASPECT_RATIO_INVERT, FALSE));
 
-	self->priv->grid_type_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Rule of Thirds"), _("Golden Sections"), NULL);
+	self->priv->grid_type_combobox = _gtk_combo_box_new_with_texts (_("None"),
+									_("Rule of Thirds"),
+									_("Golden Sections"),
+									_("Center Lines"),
+									NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), eel_gconf_get_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
 	gtk_widget_show (self->priv->grid_type_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("grid_type_combobox_box")), self->priv->grid_type_combobox, FALSE, FALSE, 0);
