@@ -50,31 +50,31 @@ typedef enum {
 } GthHistogramScale;
 
 struct _GthHistogramView {
-	GtkDrawingArea parent_instance;
+	GtkVBox parent_instance;
 	GthHistogramViewPrivate *priv;
 };
 
 struct _GthHistogramViewClass {
-	GtkDrawingAreaClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 GType              gth_histogram_view_get_type              (void);
-GtkWidget *        gth_histogram_view_new                   (GthHistogram     *histogram);
-void               gth_histogram_view_set_histogram         (GthHistogramView *self,
-							     GthHistogram     *histogram);
-GthHistogram *     gth_histogram_view_get_histogram         (GthHistogramView *self);
-void               gth_histogram_view_set_current_channel   (GthHistogramView *self,
-							     int               n_channel);
-int                gth_histogram_view_get_current_channel   (GthHistogramView *self);
-void               gth_histogram_view_set_display_mode      (GthHistogramView *self,
-							     GthHistogramMode  mode);
-GthHistogramMode   gth_histogram_view_get_display_mode      (GthHistogramView *self);
-void               gth_histogram_view_set_scale_type        (GthHistogramView *self,
-							    GthHistogramScale scale);
-GthHistogramScale  gth_histogram_view_get_scale_type        (GthHistogramView *self);
-void               gth_histogram_view_set_selection         (GthHistogramView *self,
-							     guchar            start,
-							     guchar            end);
+GtkWidget *        gth_histogram_view_new                   (GthHistogram      *histogram);
+void               gth_histogram_view_set_histogram         (GthHistogramView  *self,
+							     GthHistogram      *histogram);
+GthHistogram *     gth_histogram_view_get_histogram         (GthHistogramView  *self);
+void               gth_histogram_view_set_current_channel   (GthHistogramView  *self,
+							     int                n_channel);
+int                gth_histogram_view_get_current_channel   (GthHistogramView  *self);
+void               gth_histogram_view_set_display_mode      (GthHistogramView  *self,
+							     GthHistogramMode   mode);
+GthHistogramMode   gth_histogram_view_get_display_mode      (GthHistogramView  *self);
+void               gth_histogram_view_set_scale_type        (GthHistogramView  *self,
+							     GthHistogramScale  scale);
+GthHistogramScale  gth_histogram_view_get_scale_type        (GthHistogramView  *self);
+void               gth_histogram_view_set_selection         (GthHistogramView  *self,
+							     guchar             start,
+							     guchar             end);
 
 G_END_DECLS
 
