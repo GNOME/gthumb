@@ -8,16 +8,14 @@
     <child>
       <object class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
             <property name="border_width">12</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkHBox" id="histogram_hbox">
-                <property name="height_request">60</property>
+                <property name="height_request">160</property>
                 <property name="visible">True</property>
                 <child>
                   <placeholder/>
