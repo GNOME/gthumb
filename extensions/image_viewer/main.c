@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "gth-image-histogram.h"
 #include "gth-image-viewer-page.h"
 #include "gth-metadata-provider-image.h"
 #include "preferences.h"
@@ -33,6 +34,7 @@ gthumb_extension_activate (void)
 {
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_IMAGE);
 	gth_main_register_object (GTH_TYPE_VIEWER_PAGE, NULL, GTH_TYPE_IMAGE_VIEWER_PAGE, NULL);
+	gth_main_register_type ("file-properties", GTH_TYPE_IMAGE_HISTOGRAM);
 	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (image_viewer__dlg_preferences_construct_cb), NULL);
 }
 
