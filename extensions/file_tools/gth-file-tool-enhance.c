@@ -27,17 +27,17 @@
 
 
 typedef struct {
-	double gamma[5];
-	double low_input[5];
-	double high_input[5];
-	double low_output[5];
-	double high_output[5];
+	double gamma[GTH_HISTOGRAM_N_CHANNELS];
+	double low_input[GTH_HISTOGRAM_N_CHANNELS];
+	double high_input[GTH_HISTOGRAM_N_CHANNELS];
+	double low_output[GTH_HISTOGRAM_N_CHANNELS];
+	double high_output[GTH_HISTOGRAM_N_CHANNELS];
 } Levels;
 
 
 typedef struct {
 	GtkWidget    *viewer_page;
-	GthHistogram *hist;
+	GthHistogram *histogram;
 	Levels       *levels;
 } EnhanceData;
 
@@ -114,12 +114,12 @@ adjust_levels_init (GthPixbufTask *pixop)
 	int          channel;
 
 	copy_source_to_destination (pixop);
-	data->hist = gth_histogram_new ();
-	gth_histogram_calculate (data->hist, pixop->src);
+	data->histogram = gth_histogram_new ();
+	gth_histogram_calculate (data->histogram, pixop->src);
 
 	data->levels = g_new0 (Levels, 1);
 
-	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS + 1; channel++) {
+	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS; channel++) {
 		data->levels->gamma[channel]       = 1.0;
 		data->levels->low_input[channel]   = 0;
 		data->levels->high_input[channel]  = 255;
@@ -127,8 +127,8 @@ adjust_levels_init (GthPixbufTask *pixop)
 		data->levels->high_output[channel] = 255;
 	}
 
-	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS; channel++)
-		levels_channel_auto (data->levels, data->hist, channel);
+	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS - 1; channel++)
+		levels_channel_auto (data->levels, data->histogram, channel);
 }
 
 
@@ -208,8 +208,8 @@ adjust_levels_release (GthPixbufTask *pixop,
 	if (error == NULL)
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
-	g_object_unref (data->hist);
-	data->hist = NULL;
+	g_object_unref (data->histogram);
+	data->histogram = NULL;
 	g_free (data->levels);
 	data->levels = NULL;
 }
@@ -247,6 +247,8 @@ gth_file_tool_enhance_activate (GthFileTool *base)
 
 	data = g_new0 (EnhanceData, 1);
 	data->viewer_page = g_object_ref (viewer_page);
+	data->histogram = NULL;
+	data->levels = NULL;
 	task = gth_pixbuf_task_new (_("White balance correction"),
 				    FALSE,
 				    adjust_levels_init,
