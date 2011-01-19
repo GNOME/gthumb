@@ -432,24 +432,23 @@ histogram_view_expose_event_cb (GtkWidget      *widget,
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 
-	if ((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
-		gth_histogram_paint_selection (self, cr, &allocation);
-
 	if ((self->priv->histogram == NULL)
-	    || ((self->priv->display_mode == GTH_HISTOGRAM_MODE_ONE_CHANNEL)
-		&& (self->priv->current_channel > gth_histogram_get_nchannels (self->priv->histogram))))
+	    || ((int) self->priv->current_channel > gth_histogram_get_nchannels (self->priv->histogram)))
 	{
 		/* draw an x if the current channel is not available */
 
-		cairo_set_line_width (cr, 2.0);
+		gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
+		cairo_set_line_width (cr, 1.0);
 		cairo_move_to (cr, 0, 0);
-		cairo_line_to (cr, allocation.width, allocation.height);
-		cairo_move_to (cr, allocation.width, 0);
-		cairo_line_to (cr, 0, allocation.height);
-		cairo_close_path (cr);
+		cairo_line_to (cr, allocation.width + 1, allocation.height + 1);
+		cairo_move_to (cr, allocation.width + 1, 0);
+		cairo_line_to (cr, 0, allocation.height + 1);
 		cairo_stroke (cr);
 	}
 	else {
+		if ((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
+			gth_histogram_paint_selection (self, cr, &allocation);
+
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 		gth_histogram_paint_grid (self, cr, &allocation);
 		if (self->priv->display_mode == GTH_HISTOGRAM_MODE_ALL_CHANNELS)
