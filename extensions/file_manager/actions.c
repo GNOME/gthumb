@@ -319,7 +319,7 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 	paste_data->files = g_list_reverse (paste_data->files);
 	paste_data->file_source = gth_main_get_file_source (paste_data->destination->file);
 
-	if (paste_data->cut && ! gth_file_source_can_cut (paste_data->file_source)) {
+	if (paste_data->cut && ! gth_file_source_can_cut (paste_data->file_source, paste_data->files->data)) {
 		GtkWidget *dialog;
 		int        response;
 

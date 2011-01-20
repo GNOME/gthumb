@@ -331,7 +331,8 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 
 
 static gboolean
-gth_file_source_vfs_can_cut (GthFileSource *file_source)
+gth_file_source_vfs_can_cut (GthFileSource *file_source,
+			     GFile         *file)
 {
 	return TRUE;
 }

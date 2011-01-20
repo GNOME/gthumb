@@ -2529,25 +2529,33 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 static void
 folder_tree_drag_data_get_cb (GtkWidget        *widget,
 			      GdkDragContext   *drag_context,
-			      GtkSelectionData *data,
+			      GtkSelectionData *selection_data,
 			      guint             info,
 			      guint             time,
 			      gpointer          user_data)
 {
-	GthBrowser   *browser = user_data;
-	GthFileData  *file_data;
-	char        **uris;
+	GthBrowser     *browser = user_data;
+	GthFileData    *file_data;
+	GthFileSource  *file_source;
+	char          **uris;
 
 	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (browser->priv->folder_tree));
 	if (file_data == NULL)
 		return;
 
+	file_source = gth_main_get_file_source (file_data->file);
+	if (file_source == NULL)
+		return;
+
+	drag_context->suggested_action = gth_file_source_can_cut (file_source, file_data->file) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
+
 	uris = g_new (char *, 2);
 	uris[0] = g_file_get_uri (file_data->file);
 	uris[1] = NULL;
-	gtk_selection_data_set_uris (data, uris);
+	gtk_selection_data_set_uris (selection_data, uris);
 
 	g_strfreev (uris);
+	g_object_unref (file_source);
 	g_object_unref (file_data);
 }
 

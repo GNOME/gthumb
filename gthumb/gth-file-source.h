@@ -107,7 +107,8 @@ struct _GthFileSourceClass
 					       DialogCallback    dialog_callback,
 					       ReadyCallback     callback,
 					       gpointer          data);
-	gboolean     (*can_cut)               (GthFileSource    *file_source);
+	gboolean     (*can_cut)               (GthFileSource    *file_source,
+					       GFile            *file);
 	void         (*monitor_entry_points)  (GthFileSource    *file_source);
 	void         (*monitor_directory)     (GthFileSource    *file_source,
 					       GFile            *file,
@@ -184,7 +185,8 @@ void           gth_file_source_copy                  (GthFileSource    *file_sou
 						      DialogCallback    dialog_callback,
 						      ReadyCallback     ready_callback,
 						      gpointer          data);
-gboolean       gth_file_source_can_cut               (GthFileSource    *file_source);
+gboolean       gth_file_source_can_cut               (GthFileSource    *file_source,
+						      GFile            *file);
 void           gth_file_source_monitor_entry_points  (GthFileSource    *file_source);
 void           gth_file_source_monitor_directory     (GthFileSource    *file_source,
 						      GFile            *file,

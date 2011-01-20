@@ -272,15 +272,15 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
 	/*
-	if ((gdk_drag_context_get_suggested_action (context) == GDK_ACTION_COPY)
-	    || (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE))
+	if ((gdk_drag_context_get_action (context) == GDK_ACTION_COPY)
+	    || (gdk_drag_context_get_action (context) == GDK_ACTION_MOVE))
 	{
 		success = TRUE;
 	}
 	*/
 
-	if ((context->suggested_action == GDK_ACTION_COPY)
-	    || (context->suggested_action == GDK_ACTION_MOVE))
+	if ((context->action == GDK_ACTION_COPY)
+	    || (context->action == GDK_ACTION_MOVE))
 	{
 		success = TRUE;
 	}
@@ -317,9 +317,9 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 			gboolean       move;
 
 			file_source = gth_browser_get_location_source (browser);
-			/*move = gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE;*/
-			move = context->suggested_action == GDK_ACTION_MOVE;
-			if (move && ! gth_file_source_can_cut (file_source)) {
+			/*move = gdk_drag_context_get_action (context) == GDK_ACTION_MOVE;*/
+			move = context->action == GDK_ACTION_MOVE;
+			if (move && ! gth_file_source_can_cut (file_source, (GFile *) selected_files->data)) {
 				GtkWidget *dialog;
 				int        response;
 
@@ -723,7 +723,7 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 	if (file_source == NULL)
 		return;
 
-	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source)) {
+	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source, (GFile *) file_list->data)) {
 		GtkWidget *dialog;
 		int        response;
 
@@ -809,6 +809,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	BrowserData   *data;
 	GthFileSource *file_source;
 	int            n_selected;
+	GthFileData   *location_data;
 	gboolean       sensitive;
 	GthFileData   *folder;
 
@@ -818,7 +819,8 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	file_source = gth_browser_get_location_source (browser);
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
-	sensitive = (n_selected > 0) && (file_source != NULL) && gth_file_source_can_cut (file_source);
+	location_data = gth_browser_get_location_data (browser);
+	sensitive = (n_selected > 0) && (file_source != NULL) && (location_data != NULL) && gth_file_source_can_cut (file_source, location_data->file);
 	set_action_sensitive (data, "Edit_CutFiles", sensitive);
 
 	sensitive = (n_selected > 0) && (file_source != NULL);
