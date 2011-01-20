@@ -764,6 +764,178 @@ copy__file_list_info_ready_cb (GList    *files,
 }
 
 
+/* -- _gth_file_source_catalogs_copy_catalog -- */
+
+
+typedef struct {
+	GthFileSource    *file_source;
+	gboolean          move;
+	ProgressCallback  progress_callback;
+	DialogCallback    dialog_callback;
+	ReadyCallback     ready_callback;
+	gpointer          user_data;
+	GthFileData      *destination;
+	GList            *file_list;
+} CopyCatalogData;
+
+
+static void
+copy_catalog_data_free (CopyCatalogData *ccd)
+{
+	_g_object_list_unref (ccd->file_list);
+	_g_object_unref (ccd->destination);
+	_g_object_unref (ccd->file_source);
+	g_free (ccd);
+}
+
+
+static void
+_gth_file_source_catalogs_copy_catalog (CopyCatalogData      *ccd,
+					GthOverwriteResponse  default_response);
+
+
+static void
+copy_catalog_overwrite_dialog_response_cb (GtkDialog *dialog,
+					   int        response,
+					   gpointer   user_data)
+{
+	CopyCatalogData *ccd = user_data;
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	if (response == GTK_RESPONSE_OK) {
+		_gth_file_source_catalogs_copy_catalog (ccd, GTH_OVERWRITE_RESPONSE_ALWAYS_YES);
+		return;
+	}
+
+	ccd->ready_callback (G_OBJECT (ccd->file_source), NULL, ccd->user_data);
+
+	copy_catalog_data_free (ccd);
+}
+
+
+static void
+copy_catalog_ready_cb (GError   *error,
+		       gpointer  user_data)
+{
+	CopyCatalogData *ccd = user_data;
+	GFile           *first_file;
+	GFile           *parent;
+	GList           *new_file_list;
+	GList           *scan;
+
+	first_file = ccd->file_list->data;
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		char       *uri;
+		const char *extension;
+		char       *msg;
+		GtkWidget  *d;
+
+		uri = g_file_get_uri (first_file);
+		extension = _g_uri_get_file_extension (uri);
+		if ((g_strcmp0 (extension, ".catalog") == 0) || (g_strcmp0 (extension, ".search") == 0))
+			msg = g_strdup_printf (_("The catalog '%s' already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
+		else
+			msg = g_strdup_printf (_("The library '%s' already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
+
+		d = _gtk_message_dialog_new (NULL,
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_DIALOG_QUESTION,
+					     msg,
+					     NULL,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     _("Over_write"), GTK_RESPONSE_OK,
+					     NULL);
+		g_signal_connect (d,
+				  "response",
+				  G_CALLBACK (copy_catalog_overwrite_dialog_response_cb),
+				  ccd);
+		ccd->dialog_callback (TRUE, d, ccd->user_data);
+		gtk_widget_show (d);
+
+		g_free (msg);
+		g_free (uri);
+
+		return;
+	}
+
+	parent = g_file_get_parent (first_file);
+	if (parent != NULL) {
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    ccd->file_list,
+					    GTH_MONITOR_EVENT_DELETED);
+		g_object_unref (parent);
+	}
+
+	new_file_list = NULL;
+	for (scan = ccd->file_list; scan; scan = scan->next) {
+		GFile *old_file = scan->data;
+		char  *basename;
+		GFile *new_file;
+
+		basename = g_file_get_basename (old_file);
+		new_file = g_file_get_child (ccd->destination->file, basename);
+		new_file_list = g_list_prepend (new_file_list, new_file);
+		g_free (basename);
+	}
+	new_file_list = g_list_reverse (new_file_list);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+			            ccd->destination->file,
+			            new_file_list,
+			            GTH_MONITOR_EVENT_CREATED);
+
+	ccd->ready_callback (G_OBJECT (ccd->file_source), error, ccd->user_data);
+
+	_g_object_list_unref (new_file_list);
+	copy_catalog_data_free (ccd);
+}
+
+
+static void
+_gth_file_source_catalogs_copy_catalog (CopyCatalogData      *ccd,
+					GthOverwriteResponse  default_response)
+{
+	GList *gio_list;
+	GFile *gio_destination;
+
+	gio_list = gth_file_source_to_gio_file_list (ccd->file_source, ccd->file_list);
+	gio_destination = gth_file_source_to_gio_file (ccd->file_source, ccd->destination->file);
+
+	_g_copy_files_async (gio_list,
+			     gio_destination,
+			     ccd->move,
+			     G_FILE_COPY_NONE,
+			     default_response,
+			     G_PRIORITY_DEFAULT,
+			     gth_file_source_get_cancellable (ccd->file_source),
+			     ccd->progress_callback,
+			     ccd->user_data,
+			     ccd->dialog_callback,
+			     ccd->user_data,
+			     copy_catalog_ready_cb,
+			     ccd);
+
+	g_object_unref (gio_destination);
+	_g_object_list_unref (gio_list);
+}
+
+
+static void
+copy_catalog_error_dialog_response_cb (GtkDialog *dialog,
+				       int        response,
+				       gpointer   user_data)
+{
+	CopyCatalogData *ccd = user_data;
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	ccd->dialog_callback (FALSE, NULL, ccd->user_data);
+	ccd->ready_callback (G_OBJECT (ccd->file_source), NULL, ccd->user_data);
+	copy_catalog_data_free (ccd);
+}
+
+
 static void
 gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			       GthFileData      *destination,
@@ -774,32 +946,96 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			       ReadyCallback     ready_callback,
 			       gpointer          data)
 {
-	CopyOpData *cod;
+	GFile *first_file;
 
-	cod = g_new0 (CopyOpData, 1);
-	cod->file_source = g_object_ref (file_source);
-	cod->destination = g_object_ref (destination);
-	cod->file_list = _g_object_list_ref (file_list);
-	cod->progress_callback = progress_callback;
-	cod->dialog_callback = dialog_callback;
-	cod->ready_callback = ready_callback;
-	cod->user_data = data;
+	first_file = file_list->data;
+	if (g_file_has_uri_scheme (first_file, "catalog")) {
+		if (g_strcmp0 (g_file_info_get_content_type (destination->info), "gthumb/catalog") == 0) {
+			CopyCatalogData *ccd;
+			const char      *msg;
+			GtkWidget       *d;
 
-	if (cod->progress_callback != NULL) {
-		char *message;
+			ccd = g_new0 (CopyCatalogData, 1);
+			ccd->file_source = g_object_ref (file_source);
+			ccd->dialog_callback = dialog_callback;
+			ccd->ready_callback = ready_callback;
+			ccd->user_data = data;
 
-		message = g_strdup_printf (_("Copying files to '%s'"), g_file_info_get_display_name (destination->info));
-		(cod->progress_callback) (G_OBJECT (file_source), message, NULL, TRUE, 0.0, cod->user_data);
+			if (move)
+				msg = _("Cannot move the files");
+			else
+				msg = _("Cannot copy the files");
+			d = _gtk_message_dialog_new (NULL,
+						     GTK_DIALOG_MODAL,
+						     GTK_STOCK_DIALOG_ERROR,
+						     msg,
+						     _("Invalid destination."),
+						     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+						     NULL);
+			g_signal_connect (d,
+					  "response",
+					  G_CALLBACK (copy_catalog_error_dialog_response_cb),
+					  ccd);
+			dialog_callback (TRUE, d, data);
+			gtk_widget_show (d);
 
-		g_free (message);
+			return;
+		}
+		else {
+			/* copy / move a catalog or library into another library */
+
+			CopyCatalogData *ccd;
+
+			ccd = g_new0 (CopyCatalogData, 1);
+			ccd->file_source = g_object_ref (file_source);
+			ccd->destination = gth_file_data_dup (destination);
+			ccd->file_list = _g_object_list_ref (file_list);
+			ccd->move = move;
+			ccd->progress_callback = progress_callback;
+			ccd->dialog_callback = dialog_callback;
+			ccd->ready_callback = ready_callback;
+			ccd->user_data = data;
+			_gth_file_source_catalogs_copy_catalog (ccd, GTH_OVERWRITE_RESPONSE_ALWAYS_NO);
+		}
 	}
+	else {
+		/* copy / move files to a catalog */
 
-	_g_query_info_async (cod->file_list,
-			     GTH_LIST_DEFAULT,
-			     GFILE_NAME_TYPE_ATTRIBUTES,
-			     gth_file_source_get_cancellable (file_source),
-			     copy__file_list_info_ready_cb,
-			     cod);
+		CopyOpData *cod;
+
+		cod = g_new0 (CopyOpData, 1);
+		cod->file_source = g_object_ref (file_source);
+		cod->destination = g_object_ref (destination);
+		cod->file_list = _g_object_list_ref (file_list);
+		cod->progress_callback = progress_callback;
+		cod->dialog_callback = dialog_callback;
+		cod->ready_callback = ready_callback;
+		cod->user_data = data;
+
+		if (cod->progress_callback != NULL) {
+			char *message;
+
+			message = g_strdup_printf (_("Copying files to '%s'"), g_file_info_get_display_name (destination->info));
+			(cod->progress_callback) (G_OBJECT (file_source), message, NULL, TRUE, 0.0, cod->user_data);
+
+			g_free (message);
+		}
+
+		_g_query_info_async (cod->file_list,
+				     GTH_LIST_DEFAULT,
+				     GFILE_NAME_TYPE_ATTRIBUTES,
+				     gth_file_source_get_cancellable (file_source),
+				     copy__file_list_info_ready_cb,
+				     cod);
+	}
+}
+
+
+static gboolean
+gth_file_source_catalogs_can_cut (GthFileSource *file_source,
+				  GFile         *file)
+{
+	return g_file_has_uri_scheme (file, "catalog");
 }
 
 
@@ -1054,6 +1290,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->read_metadata = gth_file_source_catalogs_read_metadata;
 	file_source_class->for_each_child = gth_file_source_catalogs_for_each_child;
 	file_source_class->copy = gth_file_source_catalogs_copy;
+	file_source_class->can_cut = gth_file_source_catalogs_can_cut;
 	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;
 	file_source_class->reorder = gth_file_source_catalogs_reorder;
 

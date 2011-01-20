@@ -1615,7 +1615,7 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 		GthFileData *source = (GthFileData *) copy_data->current->data;
 		copy_data->copied_files = g_list_prepend (copy_data->copied_files, g_file_dup (source->file));
 	}
-	else if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+	else if ((response == GTH_OVERWRITE_RESPONSE_ALWAYS_NO) || ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 		copy_data->done_callback (error, copy_data->user_data);
 		copy_data_free (copy_data);
 		return;
@@ -1644,6 +1644,12 @@ copy_data__copy_current_file (CopyData *copy_data)
 		copy_data->source_base = g_file_get_parent (source->file);
 	}
 	destination = _g_file_get_destination (source->file, copy_data->source_base, copy_data->destination);
+
+	if (g_file_equal (source->file, destination)) {
+		g_object_unref (destination);
+		call_when_idle ((DataFunc) copy_data__copy_next_file, copy_data);
+		return;
+	}
 
 	flags = copy_data->flags;
 	if ((flags & G_FILE_COPY_ALL_METADATA) && (g_hash_table_lookup (copy_data->source_hash, source->file) == NULL))
@@ -1701,18 +1707,19 @@ copy_files__sources_info_ready_cb (GList    *files,
 
 
 void
-_g_copy_files_async (GList            *sources, /* GFile list */
-		     GFile            *destination,
-		     gboolean          move,
-		     GFileCopyFlags    flags,
-		     int               io_priority,
-		     GCancellable     *cancellable,
-		     ProgressCallback  progress_callback,
-		     gpointer          progress_callback_data,
-		     DialogCallback    dialog_callback,
-		     gpointer          dialog_callback_data,
-		     ReadyFunc         done_callback,
-		     gpointer          user_data)
+_g_copy_files_async (GList                *sources, /* GFile list */
+		     GFile                *destination,
+		     gboolean              move,
+		     GFileCopyFlags        flags,
+		     GthOverwriteResponse  default_response,
+		     int                   io_priority,
+		     GCancellable         *cancellable,
+		     ProgressCallback      progress_callback,
+		     gpointer              progress_callback_data,
+		     DialogCallback        dialog_callback,
+		     gpointer              dialog_callback_data,
+		     ReadyFunc             done_callback,
+		     gpointer              user_data)
 {
 	CopyData *copy_data;
 	GList    *scan;
@@ -1729,7 +1736,7 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 	copy_data->dialog_callback_data = dialog_callback_data;
 	copy_data->done_callback = done_callback;
 	copy_data->user_data = user_data;
-	copy_data->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+	copy_data->default_response = default_response;
 
 	copy_data->source_hash = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
 	for (scan = sources; scan; scan = scan->next)
