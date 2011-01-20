@@ -2851,10 +2851,8 @@ folder_changed_cb (GthMonitor      *monitor,
 	if (browser->priv->location == NULL)
 		return;
 
-	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
+	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL))
 		_gth_browser_load (browser, parent, NULL, GTH_ACTION_GO_TO, TRUE);
-		return;
-	}
 
 	if ((event == GTH_MONITOR_EVENT_CHANGED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
 		_gth_browser_load (browser, browser->priv->location->file, NULL, GTH_ACTION_GO_TO, TRUE);
