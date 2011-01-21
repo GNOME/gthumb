@@ -573,7 +573,7 @@ _gth_file_list_set_type (GthFileList     *file_list,
 	 * a time. */
 
 	g_object_set (file_list->priv->thumbnail_renderer,
-		      "fixed_size", (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR),
+		      "fixed_size", TRUE /* (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) */,
 		      NULL);
 
 	_gth_file_list_update_orientation (file_list);
@@ -1862,10 +1862,9 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 				file_data = scan->data;
 				thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
 
-				/* disabled to avoid thumbnail jumps (bug #603642)
 				if (pos >= first_pos - N_VIEWAHEAD)
 					requested_action_performed = thumb_data->thumb_loaded;
-				else*/
+				else
 					requested_action_performed = thumb_data->thumb_created;
 
 				if (! requested_action_performed && can_create_file_thumbnail (file_data, thumb_data, &current_time, &young_file_found)) {
@@ -1893,11 +1892,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	job->cancellable = g_cancellable_new ();
 	job->file_data = file_data; /* already ref-ed above */
 	job->pos = new_pos;
-
-	/* disabled to avoid thumbnail jumps (bug #603642)
-	 job->update_in_view = (new_pos >= (first_pos - N_VIEWAHEAD)) && (new_pos <= (last_pos + N_VIEWAHEAD)); */
-
-	job->update_in_view = (new_pos >= first_pos) && (job->pos <= last_pos + N_VIEWAHEAD);
+	job->update_in_view = (new_pos >= (first_pos - N_VIEWAHEAD)) && (new_pos <= (last_pos + N_VIEWAHEAD));
 
 #if 0
 	g_print ("%d in [%d, %d] => %d\n",

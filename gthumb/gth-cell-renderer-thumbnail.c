@@ -273,7 +273,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 	cr = gdk_cairo_create (window);
 
-    	image_rect.width = gdk_pixbuf_get_width (pixbuf);
+	image_rect.width = gdk_pixbuf_get_width (pixbuf);
 	image_rect.height = gdk_pixbuf_get_height (pixbuf);
 	image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) * .5;
 	image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) * .5;
@@ -310,12 +310,17 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		if (state == GTK_STATE_ACTIVE)
 			state = GTK_STATE_SELECTED;
 
-		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file)))
-			border = 1;
-		else
+		if (self->priv->fixed_size && _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
+			frame_rect.width = self->priv->size;
+			frame_rect.height = self->priv->size;
+			frame_rect.x = thumb_rect.x + (thumb_rect.width - frame_rect.width) * .5;
+			frame_rect.y = thumb_rect.y + (thumb_rect.height - frame_rect.height) * .5;
 			border = 4;
-
-		frame_rect = image_rect;
+		}
+		else {
+			frame_rect = image_rect;
+			border = 1;
+		}
 
 		cairo_translate (cr, 0.5, 0.5);
 		cairo_set_line_width (cr, 0.5);
