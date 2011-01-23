@@ -341,15 +341,18 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 			}
 
 			if (! cancel) {
-				GthTask *task;
+				GthFileSource *location_source;
+				GthTask       *task;
 
-				task = gth_copy_task_new (file_source,
+				location_source = gth_main_get_file_source (gth_browser_get_location (browser));
+				task = gth_copy_task_new (location_source,
 							  gth_browser_get_location_data (browser),
 							  move,
 							  selected_files);
 				gth_browser_exec_task (browser, task, FALSE);
 
 				g_object_unref (task);
+				g_object_unref (location_source);
 			}
 		}
 	}
