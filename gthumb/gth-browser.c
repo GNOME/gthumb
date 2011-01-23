@@ -2512,16 +2512,18 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 		success = FALSE;
 	}
 
-	gtk_drag_finish (context, success, FALSE, time);
-
-	if (! success)
+	if (! success) {
+		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
+	}
 
 	destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
 		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, suggested_action);
+
+	gtk_drag_finish (context, TRUE, FALSE, time);
 
 	_g_object_list_unref (file_list);
 	g_strfreev (uris);
@@ -2550,7 +2552,8 @@ folder_tree_drag_data_get_cb (GtkWidget        *widget,
 	if (file_source == NULL)
 		return;
 
-	drag_context->suggested_action = gth_file_source_can_cut (file_source, file_data->file) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
+	if (drag_context->actions && GDK_ACTION_MOVE)
+		drag_context->suggested_action = gth_file_source_can_cut (file_source, file_data->file) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
 
 	uris = g_new (char *, 2);
 	uris[0] = g_file_get_uri (file_data->file);

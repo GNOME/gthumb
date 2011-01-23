@@ -125,6 +125,10 @@ void        _gtk_window_resize_to_fit_screen_height
 					    int               default_width);
 void        _gtk_info_bar_clear_action_area (GtkInfoBar      *info_bar);
 
+GdkDragAction _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
+					      GdkDragAction  actions,
+					      guint32        activate_time);
+
 G_END_DECLS
 
 #endif

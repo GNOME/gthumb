@@ -666,10 +666,10 @@ gth_file_list_construct (GthFileList     *file_list,
 		gtk_target_list_add_text_targets (target_list, 0);
 		targets = gtk_target_table_new_from_list (target_list, &n_targets);
 		gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
-						  GDK_BUTTON1_MASK,
+						  GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
 						  targets,
 						  n_targets,
-						  GDK_ACTION_MOVE | GDK_ACTION_COPY);
+						  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
 		gtk_target_list_unref (target_list);
 		gtk_target_table_free (targets, n_targets);

@@ -44,6 +44,7 @@ struct _GthIconViewPrivate {
 	GdkDragAction    drag_actions;
 
 	gboolean         dragging : 1;        /* Whether the user is dragging items. */
+	int              drag_button;
 	gboolean         drag_started : 1;    /* Whether the drag has started. */
 	int              drag_start_x;        /* The position where the drag started. */
 	int              drag_start_y;
@@ -556,6 +557,20 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 		return TRUE;
 	}
 
+	if ((event->button == 2) && (event->type == GDK_BUTTON_PRESS)) {
+		/* This can be the start of a dragging action. */
+
+		if (! (event->state & GDK_CONTROL_MASK)
+		    && ! (event->state & GDK_SHIFT_MASK)
+		    && icon_view->priv->drag_source_enabled)
+		{
+			icon_view->priv->dragging = TRUE;
+			icon_view->priv->drag_button = 2;
+			icon_view->priv->drag_start_x = event->x;
+			icon_view->priv->drag_start_y = event->y;
+		}
+	}
+
 	if ((event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
 		GtkTreePath *path;
 		int          pos;
@@ -576,6 +591,7 @@ icon_view_button_press_event_cb (GtkWidget      *widget,
 		    && icon_view->priv->drag_source_enabled)
 		{
 			icon_view->priv->dragging = TRUE;
+			icon_view->priv->drag_button = 1;
 			icon_view->priv->drag_start_x = event->x;
 			icon_view->priv->drag_start_y = event->y;
 		}
@@ -686,8 +702,10 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 			context = gtk_drag_begin (widget,
 						  icon_view->priv->drag_target_list,
 						  icon_view->priv->drag_actions,
-						  1,
+						  icon_view->priv->drag_button,
 						  (GdkEvent *) event);
+			if (icon_view->priv->drag_button == 2)
+				context->suggested_action = GDK_ACTION_ASK;
 
 			dnd_icon = gtk_icon_view_create_drag_icon (GTK_ICON_VIEW (icon_view), path);
 			gdk_drawable_get_size (dnd_icon, &width, &height);

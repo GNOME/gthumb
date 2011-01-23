@@ -272,20 +272,28 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
 	/*
-	if ((gdk_drag_context_get_action (context) == GDK_ACTION_COPY)
-	    || (gdk_drag_context_get_action (context) == GDK_ACTION_MOVE))
+	if ((gdk_drag_context_get_suggested_action (context) == GDK_ACTION_COPY)
+	    || (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE))
 	{
 		success = TRUE;
 	}
 	*/
 
-	if ((context->action == GDK_ACTION_COPY)
-	    || (context->action == GDK_ACTION_MOVE))
+	if ((context->suggested_action == GDK_ACTION_COPY)
+	    || (context->suggested_action == GDK_ACTION_MOVE)
+	    || (context->suggested_action == GDK_ACTION_ASK))
 	{
 		success = TRUE;
 	}
 
+	if (context->suggested_action == GDK_ACTION_ASK) {
+		context->action = _gtk_menu_ask_drag_drop_action (file_view, context->actions, time);
+		success = context->action != 0;
+	}
+
 	gtk_drag_finish (context, success, FALSE, time);
+	if (! success)
+		return;
 
 	uris = gtk_selection_data_get_uris (selection_data);
 	selected_files = _g_file_list_new_from_uriv (uris);
@@ -449,6 +457,8 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 			data->scroll_event = 0;
 		}
 	}
+	else if (context->suggested_action == GDK_ACTION_ASK)
+		gdk_drag_status (context, GDK_ACTION_ASK, time);
 	else
 		gdk_drag_status (context, GDK_ACTION_COPY, time);
 

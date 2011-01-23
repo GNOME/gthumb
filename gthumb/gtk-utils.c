@@ -1124,3 +1124,119 @@ _gtk_info_bar_clear_action_area (GtkInfoBar *info_bar)
 {
 	_gtk_container_remove_children (GTK_CONTAINER (gtk_info_bar_get_action_area (info_bar)), NULL, NULL);
 }
+
+
+/* -- _gtk_menu_ask_drag_drop_action -- */
+
+
+typedef struct {
+	GMainLoop     *loop;
+	GdkDragAction  action;
+} DropActionData;
+
+
+static void
+ask_drag_drop_action_menu_deactivate_cb (GtkMenuShell *menushell,
+					 gpointer      user_data)
+{
+	DropActionData *drop_data = user_data;
+
+	if (g_main_loop_is_running (drop_data->loop))
+		g_main_loop_quit (drop_data->loop);
+}
+
+
+static void
+ask_drag_drop_action_item_activate_cb (GtkMenuItem *menuitem,
+                		       gpointer     user_data)
+{
+	DropActionData *drop_data = user_data;
+
+	drop_data->action = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menuitem), "drop-action"));
+	if (g_main_loop_is_running (drop_data->loop))
+		g_main_loop_quit (drop_data->loop);
+}
+
+
+static void
+_gtk_menu_ask_drag_drop_action_append_item (GtkWidget      *menu,
+					    const char     *label,
+					    GdkDragAction   actions,
+					    GdkDragAction   action,
+					    DropActionData *drop_data)
+{
+	GtkWidget *item;
+
+	item = gtk_menu_item_new_with_mnemonic (label);
+	g_object_set_data (G_OBJECT (item), "drop-action", GINT_TO_POINTER (action));
+	gtk_widget_set_sensitive (item, ((actions & action) != 0));
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	g_signal_connect (item,
+			  "activate",
+			  G_CALLBACK (ask_drag_drop_action_item_activate_cb),
+			  drop_data);
+}
+
+
+GdkDragAction
+_gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
+				GdkDragAction  actions,
+				guint32        activate_time)
+{
+	DropActionData  drop_data;
+	GtkWidget      *menu;
+	GtkWidget      *item;
+
+	drop_data.action = 0;
+	drop_data.loop = g_main_loop_new (NULL, FALSE);
+
+	menu = gtk_menu_new ();
+	gtk_menu_set_screen (GTK_MENU (menu), gtk_widget_get_screen (widget));
+
+	_gtk_menu_ask_drag_drop_action_append_item (menu,
+						    _("_Copy Here"),
+						    actions,
+						    GDK_ACTION_COPY,
+						    &drop_data);
+	_gtk_menu_ask_drag_drop_action_append_item (menu,
+						    _("_Move Here"),
+						    actions,
+						    GDK_ACTION_MOVE,
+						    &drop_data);
+	_gtk_menu_ask_drag_drop_action_append_item (menu,
+						    _("_Link Here"),
+						    actions,
+						    GDK_ACTION_LINK,
+						    &drop_data);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (_("Cancel"));
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	g_signal_connect (menu,
+        		  "deactivate",
+                          G_CALLBACK (ask_drag_drop_action_menu_deactivate_cb),
+                          &drop_data);
+
+	gtk_menu_popup (GTK_MENU (menu),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			0,
+			activate_time);
+	gtk_grab_add (menu);
+	g_main_loop_run (drop_data.loop);
+
+	gtk_grab_remove (menu);
+	gtk_widget_destroy (menu);
+	g_main_loop_unref (drop_data.loop);
+
+	return drop_data.action;
+}
