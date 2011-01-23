@@ -274,7 +274,7 @@ gth_progress_dialog_finalize (GObject *base)
 		self->priv->show_event = 0;
 	}
 
-	G_OBJECT_CLASS (gth_task_progress_parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_progress_dialog_parent_class)->finalize (base);
 }
 
 
