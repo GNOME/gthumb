@@ -377,6 +377,8 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 	if (file_source->priv->queue == NULL)
 		return;
 
+	g_cancellable_reset (file_source->priv->cancellable);
+
 	head = file_source->priv->queue;
 	file_source->priv->queue = g_list_remove_link (file_source->priv->queue, head);
 
@@ -890,6 +892,7 @@ gth_file_source_write_metadata (GthFileSource *file_source,
 		gth_file_source_queue_write_metadata (file_source, file_data, attributes, callback, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->write_metadata (file_source, file_data, attributes, callback, data);
 }
 
@@ -905,6 +908,7 @@ gth_file_source_read_metadata (GthFileSource *file_source,
 		gth_file_source_queue_read_metadata (file_source, file_data, attributes, callback, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->read_metadata (file_source, file_data, attributes, callback, data);
 }
 
@@ -977,6 +981,8 @@ gth_file_source_list (GthFileSource *file_source,
 		return;
 	}
 
+	g_cancellable_reset (file_source->priv->cancellable);
+
 	data = g_new0 (ListOpData, 1);
 	data->file_source = g_object_ref (file_source);
 	data->ready_func = func;
@@ -1007,6 +1013,7 @@ gth_file_source_for_each_child (GthFileSource        *file_source,
 		gth_file_source_queue_for_each_child (file_source, parent, recursive, attributes, dir_func, child_func, ready_func, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->for_each_child (file_source, parent, recursive, attributes, dir_func, child_func, ready_func, data);
 }
 
@@ -1073,6 +1080,8 @@ gth_file_source_read_attributes (GthFileSource  *file_source,
 		return;
 	}
 
+	g_cancellable_reset (file_source->priv->cancellable);
+
 	data = g_new0 (ReadAttributesOpData, 1);
 	data->file_source = g_object_ref (file_source);
 	data->ready_func = func;
@@ -1101,6 +1110,7 @@ gth_file_source_rename (GthFileSource  *file_source,
 		gth_file_source_queue_rename (file_source, file, new_file, ready_callback, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, new_file, ready_callback, data);
 }
 
@@ -1119,6 +1129,7 @@ gth_file_source_copy (GthFileSource    *file_source,
 		gth_file_source_queue_copy (file_source, destination, file_list, move, progress_callback, dialog_callback, ready_callback, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, move, progress_callback, dialog_callback, ready_callback, data);
 }
 
@@ -1167,6 +1178,7 @@ gth_file_source_reorder (GthFileSource *file_source,
 		gth_file_source_queue_reorder (file_source, destination, visible_files, files_to_move, dest_pos, callback, data);
 		return;
 	}
+	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->reorder (file_source, destination, visible_files, files_to_move, dest_pos, callback, data);
 }
 
