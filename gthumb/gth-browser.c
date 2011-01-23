@@ -2015,6 +2015,11 @@ _gth_browser_close_final_step (gpointer user_data)
 		gth_hook_invoke ("gth-browser-close-last-window", browser);
 	}
 
+	if (browser->priv->progress_dialog != NULL) {
+		g_object_remove_weak_pointer (G_OBJECT (browser->priv->progress_dialog), (gpointer*) &(browser->priv->progress_dialog));
+		gtk_widget_destroy (browser->priv->progress_dialog);
+	}
+
 	if (browser->priv->folder_popup != NULL)
 		gtk_widget_destroy (browser->priv->folder_popup);
 	if (browser->priv->file_list_popup != NULL)
@@ -2337,8 +2342,6 @@ gth_browser_finalize (GObject *object)
 			g_source_remove (browser->priv->selection_changed_event);
 			browser->priv->selection_changed_event = 0;
 		}
-		if (browser->priv->progress_dialog != NULL)
-			gtk_widget_destroy (browser->priv->progress_dialog);
 		_g_object_unref (browser->priv->location_source);
 		_g_object_unref (browser->priv->monitor_location);
 		_g_object_unref (browser->priv->location);
