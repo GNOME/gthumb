@@ -68,10 +68,12 @@ gth_task_progress_finalize (GObject *base)
 
 	if (self->pulse_event != 0)
 		g_source_remove (self->pulse_event);
-	g_signal_handler_disconnect (self->task, self->task_progress);
-	g_signal_handler_disconnect (self->task, self->task_completed);
-	gth_task_cancel (self->task);
-	g_object_unref (self->task);
+	if (self->task_progress != 0)
+		g_signal_handler_disconnect (self->task, self->task_progress);
+	if (self->task_completed != 0)
+		g_signal_handler_disconnect (self->task, self->task_completed);
+	if (self->task != NULL)
+		g_object_unref (self->task);
 
 	G_OBJECT_CLASS (gth_task_progress_parent_class)->finalize (base);
 }
@@ -101,6 +103,8 @@ gth_task_progress_init (GthTaskProgress *self)
 	GtkWidget     *image;
 
 	self->task = NULL;
+	self->task_progress = 0;
+	self->task_completed = 0;
 	self->pulse_event = 0;
 
 	vbox = gtk_vbox_new (FALSE, 3);
@@ -221,12 +225,16 @@ task_completed_cb (GthTask  *task,
 		   gpointer  user_data)
 {
 	GthTaskProgress *self = user_data;
+	GtkWidget       *toplevel;
 
 	if (self->pulse_event != 0) {
 		g_source_remove (self->pulse_event);
 		self->pulse_event = 0;
 	}
-	gth_progress_dialog_remove_child (GTH_PROGRESS_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (self))), GTK_WIDGET (self));
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+	if (gtk_widget_is_toplevel (toplevel))
+		gth_progress_dialog_remove_child (GTH_PROGRESS_DIALOG (toplevel), GTK_WIDGET (self));
 }
 
 
@@ -431,7 +439,8 @@ static void
 gth_progress_dialog_remove_child (GthProgressDialog *self,
 				  GtkWidget         *child)
 {
-	gtk_container_remove (GTK_CONTAINER (self->priv->task_box), child);
+	gtk_widget_destroy (child);
+
 	if (_gtk_container_get_n_children (GTK_CONTAINER (self->priv->task_box)) == 0) {
 		if (self->priv->show_event != 0) {
 			g_source_remove (self->priv->show_event);
