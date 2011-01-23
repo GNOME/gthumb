@@ -558,6 +558,9 @@ extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
+extensions/find_duplicates/Makefile
+extensions/find_duplicates/data/Makefile
+extensions/find_duplicates/data/ui/Makefile
 extensions/flicker/Makefile
 extensions/flicker/data/Makefile
 extensions/flicker/data/ui/Makefile

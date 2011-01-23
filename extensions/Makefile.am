@@ -1,3 +1,27 @@
+EXPORTERS = 			\
+	burn_disc		\
+	contact_sheet		\
+	facebook		\
+	flicker			\
+	photobucket		\
+	picasaweb		\
+	webalbums		\
+	$(NULL)
+	
+IMPORTERS = 			\
+	photo_importer		\
+	$(NULL)
+
+IMAGE_VIEWER_TOOLS = 		\
+	desktop_background	\
+	file_tools		\
+	red_eye_removal		\
+	$(NULL)
+
+JPEG_TOOLS = 			\
+	image_rotation		\
+	$(NULL)
+
 SUBDIRS = 			\
 	bookmarks		\
 	catalogs		\
@@ -7,34 +31,28 @@ SUBDIRS = 			\
 	edit_metadata		\
 	exiv2_tools		\
 	export_tools		\
-	facebook		\
-	image_viewer		\
+	find_duplicates		\
 	file_manager		\
-	file_tools		\
 	file_viewer		\
+	find_duplicates		\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
-	jpeg_utils		\
-	image_rotation		\
+	image_viewer		\
 	importer		\
+	jpeg_utils		\
+	$(JPEG_TOOLS)		\
 	list_tools		\
 	oauth			\
-	photo_importer		\
-	photobucket		\
-	picasaweb		\
 	pixbuf_savers		\
 	raw_files		\
-	red_eye_removal		\
 	rename_series 		\
 	resize_images		\
 	search			\
 	slideshow		\
-	webalbums		\
-	flicker			\
-	burn_disc		\
-	desktop_background	\
-	contact_sheet		\
+	$(EXPORTERS)		\
+	$(IMAGE_VIEWER_TOOLS)	\
+	$(IMPORTERS)		\
 	$(NULL)
 
 EXTRA_DIST = example
