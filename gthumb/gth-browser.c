@@ -2498,11 +2498,15 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	char          **uris;
 	GList          *file_list;
 
-	/*suggested_action = gdk_drag_context_get_action (context);*/
-	suggested_action = context->action;
+	/*suggested_action = gdk_drag_context_get_suggested_action (context);*/
+	suggested_action = context->suggested_action;
 
-	if ((suggested_action == GDK_ACTION_COPY) || (suggested_action == GDK_ACTION_MOVE))
+	if ((suggested_action == GDK_ACTION_COPY)
+	    || (suggested_action == GDK_ACTION_MOVE)
+	    || (suggested_action == GDK_ACTION_ASK))
+	{
 		success = TRUE;
+	}
 
 	if (! gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (browser->priv->folder_tree),
 						 x, y,
@@ -2510,6 +2514,11 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 						 NULL))
 	{
 		success = FALSE;
+	}
+
+	if (success && (context->suggested_action == GDK_ACTION_ASK)) {
+		context->action = _gtk_menu_ask_drag_drop_action (tree_view, context->actions, time);
+		success = context->action != 0;
 	}
 
 	if (! success) {
@@ -2521,7 +2530,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
-		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, suggested_action);
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->action);
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
@@ -4119,7 +4128,7 @@ _gth_browser_construct (GthBrowser *browser)
 		gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (browser->priv->folder_tree),
 						      targets,
 						      n_targets,
-						      GDK_ACTION_MOVE | GDK_ACTION_COPY);
+						      GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
 		gth_folder_tree_enable_drag_source (GTH_FOLDER_TREE (browser->priv->folder_tree),
 						    GDK_BUTTON1_MASK,
 						    targets,
