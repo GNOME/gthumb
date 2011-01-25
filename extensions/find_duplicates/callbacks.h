@@ -24,7 +24,6 @@
 
 #include <gthumb.h>
 
-void  find_dup__gth_browser_construct_cb            (GthBrowser *browser);
-void  find_dup__gth_browser_update_extra_widget_cb  (GthBrowser *browser);
+void  find_dup__gth_browser_construct_cb  (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

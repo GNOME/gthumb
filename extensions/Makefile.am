@@ -31,6 +31,7 @@ SUBDIRS = 			\
 	edit_metadata		\
 	exiv2_tools		\
 	export_tools		\
+	$(EXPORTERS)		\
 	find_duplicates		\
 	file_manager		\
 	file_viewer		\
@@ -39,7 +40,7 @@ SUBDIRS = 			\
 	gstreamer_tools		\
 	image_print		\
 	image_viewer		\
-	importer		\
+	importer		\	
 	jpeg_utils		\
 	$(JPEG_TOOLS)		\
 	list_tools		\
@@ -50,7 +51,6 @@ SUBDIRS = 			\
 	resize_images		\
 	search			\
 	slideshow		\
-	$(EXPORTERS)		\
 	$(IMAGE_VIEWER_TOOLS)	\
 	$(IMPORTERS)		\
 	$(NULL)

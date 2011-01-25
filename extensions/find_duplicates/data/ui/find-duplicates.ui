@@ -18,23 +18,47 @@
             <property name="border_width">6</property>
             <property name="spacing">6</property>
             <child>
-              <object class="GtkHBox" id="location_box">
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="start_at_label">
+                  <object class="GtkHBox" id="location_box">
                     <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Start _at:</property>
-                    <property name="use_underline">True</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="start_at_label">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Start _at:</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkCheckButton" id="include_subfolder_checkbutton">
+                    <property name="label" translatable="yes">_Include sub-folders</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -42,14 +66,38 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="include_subfolder_checkbutton">
-                <property name="label" translatable="yes">_Include sub-folders</property>
+              <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
-                <property name="active">True</property>
-                <property name="draw_indicator">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">_Filter:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">file_type_combobox</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="file_type_combobox">
+                    <property name="visible">True</property>
+                    <property name="model">file_type_liststore</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -122,5 +170,17 @@
       <action-widget response="0">cancel_button</action-widget>
       <action-widget response="0">ok_button</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <widgets>
+      <widget name="start_at_label"/>
+      <widget name="label1"/>
+    </widgets>
+  </object>
+  <object class="GtkListStore" id="file_type_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>

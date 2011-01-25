@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-find-duplicates.h"
+#include "gth-find-duplicates-task.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
@@ -33,6 +34,7 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 	GtkWidget  *location_chooser;
+	GList      *general_tests;
 } DialogData;
 
 
@@ -42,6 +44,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "find_duplicates", NULL);
 
+	_g_string_list_free (data->general_tests);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -59,7 +62,15 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
-	/* FIXME */
+	GthTask *task;
+
+	task = gth_find_duplicates_task_new (data->browser,
+					     gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->location_chooser)),
+					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),
+					     g_list_nth_data (data->general_tests, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")))));
+	gth_browser_exec_task (data->browser, task, FALSE);
+
+	g_object_unref (task);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -68,6 +79,12 @@ void
 dlg_find_duplicates (GthBrowser *browser)
 {
 	DialogData *data;
+	GList      *tests;
+	char       *general_filter;
+	int         active_filter;
+	int         i;
+	int         i_general;
+	GList      *scan;
 
 	if (gth_browser_get_dialog (browser, "find_duplicates") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "find_duplicates")));
@@ -92,6 +109,39 @@ dlg_find_duplicates (GthBrowser *browser)
 	/* Set widgets data. */
 
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->location_chooser), gth_browser_get_location (browser));
+
+	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
+	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
+	active_filter = 0;
+	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
+		const char  *registered_test_id = scan->data;
+		GthTest     *test;
+		GtkTreeIter  iter;
+
+		if (strncmp (registered_test_id, "file::type::", 12) != 0)
+			continue;
+
+		i_general += 1;
+
+		if (strcmp (registered_test_id, general_filter) == 0)
+			active_filter = i_general;
+
+		test = gth_main_get_registered_object (GTH_TYPE_TEST, registered_test_id);
+		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("file_type_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("file_type_liststore")), &iter,
+				    0, gth_test_get_display_name (test),
+				    -1);
+
+		g_object_unref (test);
+	}
+	data->general_tests = g_list_reverse (data->general_tests);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")), active_filter);
+
+	g_free (general_filter);
+	_g_string_list_free (tests);
 
 	/* Set the signals handlers. */
 

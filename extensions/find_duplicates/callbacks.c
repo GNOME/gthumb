@@ -92,35 +92,3 @@ find_dup__gth_browser_construct_cb (GthBrowser *browser)
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
-
-
-void
-find_dup__gth_browser_update_extra_widget_cb (GthBrowser *browser)
-{
-	/* FIXME
-	GthFileData *location_data;
-	BrowserData *data;
-
-	location_data = gth_browser_get_location_data (browser);
-	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/search"))
-		return;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-
-	if (data->refresh_button == NULL) {
-		data->refresh_button = gtk_button_new ();
-		gtk_container_add (GTK_CONTAINER (data->refresh_button), gtk_image_new_from_stock (GTK_STOCK_REFRESH, GTK_ICON_SIZE_BUTTON));
-		g_object_add_weak_pointer (G_OBJECT (data->refresh_button), (gpointer *)&data->refresh_button);
-		gtk_button_set_relief (GTK_BUTTON (data->refresh_button), GTK_RELIEF_NONE);
-		gtk_widget_set_tooltip_text (data->refresh_button, _("Search again"));
-		gtk_widget_show_all (data->refresh_button);
-		gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
-					              data->refresh_button,
-					              _RESPONSE_REFRESH);
-		g_signal_connect (data->refresh_button,
-				  "clicked",
-				  G_CALLBACK (refresh_button_clicked_cb),
-				  browser);
-	}
-	*/
-}
