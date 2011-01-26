@@ -194,11 +194,11 @@ search_next_directory (GthFindDuplicates *self)
 	GList *first;
 
 	if (self->priv->directories == NULL) {
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 1.0);
 		gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), FALSE);
-		/* FIXME */
 		return;
 	}
 
@@ -235,10 +235,6 @@ file_input_stream_read_ready_cb (GObject      *source,
 
 		g_object_unref (self->priv->file_stream);
 		self->priv->file_stream = NULL;
-
-		g_print ("MD5 %s: %s\n",
-			 g_file_get_uri (self->priv->current_file->file),
-			 g_checksum_get_string (self->priv->checksum));
 
 		checksum = g_checksum_get_string (self->priv->checksum);
 		g_file_info_set_attribute_string (self->priv->current_file->info,
