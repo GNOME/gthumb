@@ -45,4 +45,7 @@ DEFINE_ACTION(gth_browser_activate_action_folder_delete)
 DEFINE_ACTION(gth_browser_activate_action_tool_copy_to_folder)
 DEFINE_ACTION(gth_browser_activate_action_tool_move_to_folder)
 
+void   gth_file_mananger_delete_files (GtkWindow *window,
+				       GList     *file_list /* GthFileData list */);
+
 #endif /* ACTIONS_H */

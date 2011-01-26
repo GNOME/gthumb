@@ -16,7 +16,7 @@ libfind_duplicates_la_SOURCES = 	\
 
 libfind_duplicates_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libfind_duplicates_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libfind_duplicates_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la
+libfind_duplicates_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../file_manager/libfile_manager.la
 libfind_duplicates_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

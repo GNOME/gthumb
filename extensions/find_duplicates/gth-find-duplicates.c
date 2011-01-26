@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
+#include <extensions/file_manager/actions.h>
 #include "gth-find-duplicates.h"
 
 
@@ -599,7 +600,7 @@ get_selected_files (GthFindDuplicates *self)
 				    1, &active,
 				    -1);
 		if (active)
-			list = g_list_prepend (list, g_object_ref (file_data->file));
+			list = g_list_prepend (list, g_object_ref (file_data));
 	}
 	while (gtk_tree_model_iter_next (model, &iter));
 
@@ -612,24 +613,42 @@ view_button_clicked_cb (GtkWidget *button,
 			gpointer   user_data)
 {
 	GthFindDuplicates *self = user_data;
-	GList             *files;
+	GList             *file_data_list;
+	GList             *file_list;
 	GthCatalog        *catalog;
 	GFile             *catalog_file;
 
-	files = get_selected_files (self);
-	if (files == NULL)
+	file_data_list = get_selected_files (self);
+	if (file_data_list == NULL)
 		return;
 
+	file_list = gth_file_data_list_to_file_list (file_data_list);
 	catalog = gth_catalog_new ();
 	catalog_file = gth_catalog_file_from_relative_path (_("Duplicates"), ".catalog");
 	gth_catalog_set_file (catalog, catalog_file);
-	gth_catalog_set_file_list (catalog, files);
+	gth_catalog_set_file_list (catalog, file_data_list);
 	gth_catalog_save (catalog);
 	gth_browser_go_to (self->priv->browser, catalog_file, NULL);
 
 	g_object_unref (catalog_file);
 	g_object_unref (catalog);
-	_g_object_list_unref (files);
+	_g_object_list_unref (file_list);
+	_g_object_list_unref (file_data_list);
+}
+
+
+static void
+delete_button_clicked_cb (GtkWidget *button,
+			  gpointer   user_data)
+{
+	GthFindDuplicates *self = user_data;
+	GList             *file_data_list;
+
+	file_data_list = get_selected_files (self);
+	if (file_data_list != NULL)
+		gth_file_mananger_delete_files (GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")), file_data_list);
+
+	_g_object_list_unref (file_data_list);
 }
 
 
@@ -727,6 +746,10 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	g_signal_connect (GET_WIDGET ("view_button"),
 			  "clicked",
 			  G_CALLBACK (view_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("delete_button"),
+			  "clicked",
+			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("select_all_button"),
 			  "clicked",

@@ -554,18 +554,14 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_edit_delete (GtkAction  *action,
-					 GthBrowser *browser)
+gth_file_mananger_delete_files (GtkWindow *window,
+				GList     *file_list /* GthFileData list */)
 {
-	GList     *items;
-	GList     *file_list;
 	int        file_count;
 	char      *prompt;
 	GtkWidget *d;
 
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-
+	file_list = _g_object_list_ref (file_list);
 	file_count = g_list_length (file_list);
 	if (file_count == 1) {
 		GthFileData *file_data = file_list->data;
@@ -578,7 +574,7 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 					  	   "the %'d selected files?", file_count),
 					  file_count);
 
-	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
+	d = _gtk_message_dialog_new (window,
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_QUESTION,
 				     prompt,
@@ -590,6 +586,22 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 	gtk_widget_show (d);
 
 	g_free (prompt);
+}
+
+
+void
+gth_browser_activate_action_edit_delete (GtkAction  *action,
+					 GthBrowser *browser)
+{
+	GList *items;
+	GList *file_list;
+
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	gth_file_mananger_delete_files (GTK_WINDOW (browser), file_list);
+
+	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
 
