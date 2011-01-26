@@ -24,14 +24,14 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
-#include "gth-find-duplicates-task.h"
+#include "gth-find-duplicates.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define BUFFER_SIZE 4096
 
 
-struct _GthFindDuplicatesTaskPrivate
+struct _GthFindDuplicatesPrivate
 {
 	GthBrowser    *browser;
 	GFile         *location;
@@ -40,6 +40,7 @@ struct _GthFindDuplicatesTaskPrivate
 	GtkBuilder    *builder;
 	GtkWidget     *duplicates_list;
 	GString       *attributes;
+	GCancellable  *cancellable;
 	gboolean       io_operation;
 	GthFileSource *file_source;
 	int            n_duplicates;
@@ -90,17 +91,18 @@ duplicated_data_free (DuplicatedData *d_data)
 
 
 static void
-gth_task_finalize (GObject *object)
+gth_find_duplicates_finalize (GObject *object)
 {
-	GthFindDuplicatesTask *self;
+	GthFindDuplicates *self;
 
-	self = GTH_FIND_DUPLICATES_TASK (object);
+	self = GTH_FIND_DUPLICATES (object);
 
 	g_object_unref (self->priv->location);
 	_g_object_unref (self->priv->test);
 	_g_object_unref (self->priv->builder);
 	if (self->priv->attributes != NULL)
 		g_string_free (self->priv->attributes, TRUE);
+	g_object_unref (self->priv->cancellable);
 	_g_object_unref (self->priv->file_source);
 	_g_object_list_unref (self->priv->files);
 	_g_object_list_unref (self->priv->directories);
@@ -115,12 +117,78 @@ gth_task_finalize (GObject *object)
 }
 
 
-static void search_directory (GthFindDuplicatesTask *self,
+static void
+gth_find_duplicates_class_init (GthFindDuplicatesClass *klass)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthFindDuplicatesPrivate));
+
+	object_class = (GObjectClass*) klass;
+	object_class->finalize = gth_find_duplicates_finalize;
+}
+
+
+static void
+gth_find_duplicates_init (GthFindDuplicates *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FIND_DUPLICATES, GthFindDuplicatesPrivate);
+	self->priv->test = NULL;
+	self->priv->builder = NULL;
+	self->priv->attributes = NULL;
+	self->priv->io_operation = FALSE;
+	self->priv->n_duplicates = 0;
+	self->priv->duplicates_size = 0;
+	self->priv->file_source = NULL;
+	self->priv->files = NULL;
+	self->priv->directories = NULL;
+	self->priv->current_directory = NULL;
+	self->priv->current_file = NULL;
+	self->priv->checksum = NULL;
+	self->priv->file_stream = NULL;
+	self->priv->duplicated = g_hash_table_new_full (g_str_hash,
+							g_str_equal,
+							g_free,
+							(GDestroyNotify) duplicated_data_free);
+	self->priv->cancellable = g_cancellable_new ();
+}
+
+
+GType
+gth_find_duplicates_get_type (void)
+{
+	static GType type = 0;
+
+	if (! type) {
+		GTypeInfo type_info = {
+			sizeof (GthFindDuplicatesClass),
+			NULL,
+			NULL,
+			(GClassInitFunc) gth_find_duplicates_class_init,
+			NULL,
+			NULL,
+			sizeof (GthFindDuplicates),
+			0,
+			(GInstanceInitFunc) gth_find_duplicates_init
+		};
+
+		type = g_type_register_static (G_TYPE_OBJECT,
+					       "GthFindDuplicates",
+					       &type_info,
+					       0);
+	}
+
+	return type;
+}
+
+
+static void search_directory (GthFindDuplicates *self,
 			      GFile                 *directory);
 
 
 static void
-search_next_directory (GthFindDuplicatesTask *self)
+search_next_directory (GthFindDuplicates *self)
 {
 	GList *first;
 
@@ -141,7 +209,7 @@ search_next_directory (GthFindDuplicatesTask *self)
 }
 
 
-static void start_next_checksum (GthFindDuplicatesTask *self);
+static void start_next_checksum (GthFindDuplicates *self);
 
 
 static void
@@ -149,13 +217,13 @@ file_input_stream_read_ready_cb (GObject      *source,
 		    	    	 GAsyncResult *result,
 		    	    	 gpointer      user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	GError                *error = NULL;
-	gssize                 buffer_size;
+	GthFindDuplicates *self = user_data;
+	GError            *error = NULL;
+	gssize             buffer_size;
 
 	buffer_size = g_input_stream_read_finish (G_INPUT_STREAM (source), result, &error);
 	if (buffer_size < 0) {
-		gth_task_completed (GTH_TASK (self), error);
+		start_next_checksum (self);
 		return;
 	}
 	else if (buffer_size == 0) {
@@ -230,7 +298,7 @@ file_input_stream_read_ready_cb (GObject      *source,
 				   self->priv->buffer,
 				   BUFFER_SIZE,
 				   G_PRIORITY_DEFAULT,
-				   gth_task_get_cancellable (GTH_TASK (self)),
+				   self->priv->cancellable,
 				   file_input_stream_read_ready_cb,
 				   self);
 }
@@ -241,8 +309,8 @@ read_current_file_ready_cb (GObject      *source,
 			    GAsyncResult *result,
 			    gpointer      user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	GError                *error = NULL;
+	GthFindDuplicates *self = user_data;
+	GError            *error = NULL;
 
 	if (self->priv->file_stream != NULL)
 		g_object_unref (self->priv->file_stream);
@@ -256,14 +324,14 @@ read_current_file_ready_cb (GObject      *source,
 				   self->priv->buffer,
 				   BUFFER_SIZE,
 				   G_PRIORITY_DEFAULT,
-				   gth_task_get_cancellable (GTH_TASK (self)),
+				   self->priv->cancellable,
 				   file_input_stream_read_ready_cb,
 				   self);
 }
 
 
 static void
-start_next_checksum (GthFindDuplicatesTask *self)
+start_next_checksum (GthFindDuplicates *self)
 {
 	GList *link;
 	char  *text;
@@ -293,7 +361,7 @@ start_next_checksum (GthFindDuplicatesTask *self)
 
 	g_file_read_async (self->priv->current_file->file,
 			   G_PRIORITY_DEFAULT,
-			   gth_task_get_cancellable (GTH_TASK (self)),
+			   self->priv->cancellable,
 			   read_current_file_ready_cb,
 			   self);
 }
@@ -304,12 +372,13 @@ done_func (GObject  *object,
 	   GError   *error,
 	   gpointer  user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
+	GthFindDuplicates *self = user_data;
 
 	self->priv->io_operation = FALSE;
 
-	if (error != NULL) {
-		gth_task_completed (GTH_TASK (self), error);
+	if ((error != NULL) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not perform the operation"), &error);
+		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
 		return;
 	}
 
@@ -329,7 +398,7 @@ for_each_file_func (GFile     *file,
 		    GFileInfo *info,
 		    gpointer   user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
+	GthFindDuplicates *self = user_data;
 	GthFileData           *file_data;
 
 	if (g_file_info_get_file_type (info) != G_FILE_TYPE_REGULAR)
@@ -349,7 +418,7 @@ start_dir_func (GFile      *directory,
 		GError    **error,
 		gpointer    user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
+	GthFindDuplicates *self = user_data;
 
 	if (g_file_equal (directory, self->priv->current_directory))
 		return DIR_OP_CONTINUE;
@@ -361,8 +430,8 @@ start_dir_func (GFile      *directory,
 
 
 static void
-search_directory (GthFindDuplicatesTask *self,
-		  GFile                 *directory)
+search_directory (GthFindDuplicates *self,
+		  GFile             *directory)
 {
 	char *uri;
 	char *text;
@@ -397,13 +466,12 @@ static void
 find_duplicates_dialog_destroy_cb (GtkWidget *dialog,
 				   gpointer   user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	gth_task_completed (GTH_TASK (self), NULL);
+	g_object_unref (GTH_FIND_DUPLICATES (user_data));
 }
 
 
 static void
-update_file_list_sensitivity (GthFindDuplicatesTask *self)
+update_file_list_sensitivity (GthFindDuplicates *self)
 {
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
@@ -432,9 +500,9 @@ static void
 duplicates_list_view_selection_changed_cb (GtkIconView *iconview,
 					   gpointer     user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	GtkWidget             *duplicates_view;
-	int                    n_selected;
+	GthFindDuplicates *self = user_data;
+	GtkWidget         *duplicates_view;
+	int                n_selected;
 
 	duplicates_view = gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list));
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (duplicates_view));
@@ -488,11 +556,11 @@ file_cellrenderertoggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
                 		    char                  *path,
                 		    gpointer               user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	GtkTreeModel          *model;
-	GtkTreePath           *tree_path;
-	GtkTreeIter            iter;
-	gboolean               active;
+	GthFindDuplicates *self = user_data;
+	GtkTreeModel      *model;
+	GtkTreePath       *tree_path;
+	GtkTreeIter        iter;
+	gboolean           active;
 
 	model = GTK_TREE_MODEL (GET_WIDGET ("files_liststore"));
 	tree_path = gtk_tree_path_new_from_string (path);
@@ -511,7 +579,7 @@ file_cellrenderertoggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 
 static GList *
-get_selected_files (GthFindDuplicatesTask *self)
+get_selected_files (GthFindDuplicates *self)
 {
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
@@ -543,10 +611,10 @@ static void
 view_button_clicked_cb (GtkWidget *button,
 			gpointer   user_data)
 {
-	GthFindDuplicatesTask *self = user_data;
-	GList                 *files;
-	GthCatalog            *catalog;
-	GFile                 *catalog_file;
+	GthFindDuplicates *self = user_data;
+	GList             *files;
+	GthCatalog        *catalog;
+	GFile             *catalog_file;
 
 	files = get_selected_files (self);
 	if (files == NULL)
@@ -566,8 +634,8 @@ view_button_clicked_cb (GtkWidget *button,
 
 
 static void
-select_all_files (GthFindDuplicatesTask *self,
-		  gboolean               active)
+select_all_files (GthFindDuplicates *self,
+		  gboolean           active)
 {
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
@@ -588,7 +656,7 @@ static void
 select_all_button_clicked_cb (GtkWidget *button,
 			      gpointer   user_data)
 {
-	select_all_files (GTH_FIND_DUPLICATES_TASK (user_data), TRUE);
+	select_all_files (GTH_FIND_DUPLICATES (user_data), TRUE);
 }
 
 
@@ -596,18 +664,29 @@ static void
 unselect_all_button_clicked_cb (GtkWidget *button,
 			        gpointer   user_data)
 {
-	select_all_files (GTH_FIND_DUPLICATES_TASK (user_data), FALSE);
+	select_all_files (GTH_FIND_DUPLICATES (user_data), FALSE);
 }
 
 
-static void
-gth_find_duplicates_task_exec (GthTask *base)
+void
+gth_find_duplicates_exec (GthBrowser *browser,
+		     	  GFile      *location,
+		     	  gboolean    recursive,
+		     	  const char *filter)
 {
-	GthFindDuplicatesTask *self = (GthFindDuplicatesTask *) base;
-	const char            *test_attributes;
+	GthFindDuplicates *self;
+	const char        *test_attributes;
+
+	self = (GthFindDuplicates *) g_object_new (GTH_TYPE_FIND_DUPLICATES, NULL);
+
+	self->priv->browser = browser;
+	self->priv->location = g_object_ref (location);
+	self->priv->recursive = recursive;
+	if (filter != NULL)
+		self->priv->test = gth_main_get_registered_object (GTH_TYPE_TEST, filter);
 
 	self->priv->file_source = gth_main_get_file_source (self->priv->location);
-	gth_file_source_set_cancellable (self->priv->file_source, gth_task_get_cancellable (GTH_TASK (self)));
+	gth_file_source_set_cancellable (self->priv->file_source, self->priv->cancellable);
 
 	self->priv->attributes = g_string_new (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
 	g_string_append (self->priv->attributes, ",gth::file::display-size");
@@ -635,8 +714,8 @@ gth_find_duplicates_task_exec (GthTask *base)
 				  GET_WIDGET ("find_duplicates_dialog"));
 	g_signal_connect_swapped (GET_WIDGET ("stop_button"),
 				  "clicked",
-				  G_CALLBACK (gth_task_cancel),
-				  self);
+				  G_CALLBACK (g_cancellable_cancel),
+				  self->priv->cancellable);
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list))),
 			  "selection_changed",
 			  G_CALLBACK (duplicates_list_view_selection_changed_cb),
@@ -659,106 +738,7 @@ gth_find_duplicates_task_exec (GthTask *base)
 			  self);
 
 	gtk_widget_show (GET_WIDGET ("find_duplicates_dialog"));
-	gth_task_dialog (GTH_TASK (self), TRUE, GET_WIDGET ("find_duplicates_dialog"));
+	gtk_window_set_transient_for (GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")), GTK_WINDOW (self->priv->browser));
 
 	search_directory (self, self->priv->location);
-}
-
-
-static void
-gth_find_duplicates_task_cancelled (GthTask *self)
-{
-	/* FIXME
-	if (! GTH_FIND_DUPLICATES_TASK (self)->priv->io_operation)
-		gth_task_completed (self, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
-	*/
-}
-
-
-static void
-gth_find_duplicates_task_class_init (GthFindDuplicatesTaskClass *class)
-{
-	GObjectClass *object_class;
-	GthTaskClass *task_class;
-
-	parent_class = g_type_class_peek_parent (class);
-
-	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_task_finalize;
-
-	task_class = (GthTaskClass*) class;
-	task_class->exec = gth_find_duplicates_task_exec;
-	task_class->cancelled = gth_find_duplicates_task_cancelled;
-}
-
-
-static void
-gth_find_duplicates_task_init (GthFindDuplicatesTask *self)
-{
-	self->priv = g_new0 (GthFindDuplicatesTaskPrivate, 1);
-	self->priv->test = NULL;
-	self->priv->builder = NULL;
-	self->priv->attributes = NULL;
-	self->priv->io_operation = FALSE;
-	self->priv->n_duplicates = 0;
-	self->priv->duplicates_size = 0;
-	self->priv->file_source = NULL;
-	self->priv->files = NULL;
-	self->priv->directories = NULL;
-	self->priv->current_directory = NULL;
-	self->priv->current_file = NULL;
-	self->priv->checksum = NULL;
-	self->priv->file_stream = NULL;
-	self->priv->duplicated = g_hash_table_new_full (g_str_hash,
-							g_str_equal,
-							g_free,
-							(GDestroyNotify) duplicated_data_free);
-}
-
-
-GType
-gth_find_duplicates_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFindDuplicatesTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_find_duplicates_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFindDuplicatesTask),
-			0,
-			(GInstanceInitFunc) gth_find_duplicates_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthFindDuplicatesTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
-}
-
-
-GthTask *
-gth_find_duplicates_task_new (GthBrowser *browser,
-			      GFile      *location,
-			      gboolean    recursive,
-			      const char *filter)
-{
-	GthFindDuplicatesTask *self;
-
-	self = (GthFindDuplicatesTask *) g_object_new (GTH_TYPE_FIND_DUPLICATES_TASK, NULL);
-
-	self->priv->browser = browser;
-	self->priv->location = g_object_ref (location);
-	self->priv->recursive = recursive;
-	if (filter != NULL)
-		self->priv->test = gth_main_get_registered_object (GTH_TYPE_TEST, filter);
-
-	return (GthTask*) self;
 }

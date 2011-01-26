@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-find-duplicates.h"
-#include "gth-find-duplicates-task.h"
+#include "gth-find-duplicates.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
@@ -62,15 +62,11 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
-	GthTask *task;
+	gth_find_duplicates_exec (data->browser,
+				  gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->location_chooser)),
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),
+				  g_list_nth_data (data->general_tests, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")))));
 
-	task = gth_find_duplicates_task_new (data->browser,
-					     gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->location_chooser)),
-					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),
-					     g_list_nth_data (data->general_tests, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")))));
-	gth_browser_exec_task (data->browser, task, FALSE);
-
-	g_object_unref (task);
 	gtk_widget_destroy (data->dialog);
 }
 
