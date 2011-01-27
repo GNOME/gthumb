@@ -65,12 +65,14 @@ load_next_image (GthLoadImageInfoTask *self)
 
 
 static void
-metadata_ready_cb (GList    *files,
-		   GError   *error,
-		   gpointer  user_data)
+metadata_ready_cb (GObject      *source_object,
+                   GAsyncResult *result,
+                   gpointer      user_data)
 {
 	GthLoadImageInfoTask *self = user_data;
+	GError               *error = NULL;
 
+	_g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;

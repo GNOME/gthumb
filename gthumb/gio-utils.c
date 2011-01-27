@@ -374,13 +374,16 @@ for_each_child_compute_child (ForEachChildData *fec,
 
 
 static void
-for_each_child_metadata_ready_func (GList    *files,
-				    GError   *error,
-				    gpointer  user_data)
+for_each_child_metadata_ready_func (GObject      *source_object,
+                		    GAsyncResult *result,
+                		    gpointer      user_data)
 {
 	ForEachChildData *fec = user_data;
+	GList            *files;
+	GError           *error = NULL;
 
-	if (error == NULL) {
+	files = _g_query_metadata_finish (result, &error);
+	if (files != NULL) {
 		GthFileData *child_data = files->data;
 		for_each_child_compute_child (fec, child_data->file, child_data->info);
 	}

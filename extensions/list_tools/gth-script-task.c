@@ -196,12 +196,14 @@ _gth_script_task_exec (GthScriptTask *self)
 
 
 static void
-file_info_ready_cb (GList    *files,
-		    GError   *error,
-		    gpointer  user_data)
+file_info_ready_cb (GObject      *source_object,
+                    GAsyncResult *result,
+                    gpointer      user_data)
 {
 	GthScriptTask *self = user_data;
+	GError        *error = NULL;
 
+	_g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;

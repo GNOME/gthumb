@@ -79,11 +79,13 @@ void       gth_metadata_provider_write      (GthMetadataProvider    *self,
 					     GthMetadataWriteFlags   flags,
 					     GthFileData            *file_data,
 					     const char             *attributes);
-void       _g_query_metadata_async          (GList                  *files, /* GthFileData * list */
+void       _g_query_metadata_async          (GList                  *files,       /* GthFileData * list */
 					     const char             *attributes,
 					     GCancellable           *cancellable,
-					     InfoReadyCallback       ready_func,
+					     GAsyncReadyCallback     callback,
 					     gpointer                user_data);
+GList *    _g_query_metadata_finish         (GAsyncResult           *result,
+		  	  	  	     GError                **error);
 void       _g_write_metadata_async          (GList                  *files, /* GthFileData * list */
 					     GthMetadataWriteFlags   flags,
 					     const char             *attributes,
