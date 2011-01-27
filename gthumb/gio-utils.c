@@ -238,22 +238,10 @@ for_each_child_done (ForEachChildData *fec)
 static void for_each_child_start_current (ForEachChildData *fec);
 
 
-static gboolean
-for_each_child_start_cb (gpointer user_data)
-{
-	ForEachChildData *fec = user_data;
-
-	g_source_remove (fec->source_id);
-	for_each_child_start_current (fec);
-
-	return FALSE;
-}
-
-
 static void
 for_each_child_start (ForEachChildData *fec)
 {
-	fec->source_id = g_idle_add (for_each_child_start_cb, fec);
+	for_each_child_start_current (fec);
 }
 
 
