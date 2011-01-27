@@ -246,6 +246,9 @@
                                                 <property name="resizable">True</property>
                                                 <property name="sizing">autosize</property>
                                                 <property name="title">File</property>
+                                                <property name="reorderable">True</property>
+                                                <property name="sort_indicator">True</property>
+                                                <property name="sort_column_id">2</property>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext1"/>
                                                   <attributes>
@@ -259,6 +262,9 @@
                                                 <property name="resizable">True</property>
                                                 <property name="sizing">autosize</property>
                                                 <property name="title">Last modified</property>
+                                                <property name="reorderable">True</property>
+                                                <property name="sort_indicator">True</property>
+                                                <property name="sort_column_id">4</property>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext2"/>
                                                   <attributes>
@@ -271,6 +277,9 @@
                                               <object class="GtkTreeViewColumn" id="treeviewcolumn3">
                                                 <property name="resizable">True</property>
                                                 <property name="title">Position</property>
+                                                <property name="reorderable">True</property>
+                                                <property name="sort_indicator">True</property>
+                                                <property name="sort_column_id">3</property>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext3"/>
                                                   <attributes>
