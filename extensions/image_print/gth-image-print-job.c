@@ -1008,12 +1008,14 @@ prev_page_button_clicked_cb (GtkWidget *widget,
 
 
 static void
-metadata_ready_cb (GList    *files,
-		   GError   *error,
-		   gpointer  user_data)
+metadata_ready_cb (GObject      *source_object,
+                   GAsyncResult *result,
+                   gpointer      user_data)
 {
 	GthImagePrintJob *self = user_data;
+	GError           *error;
 
+	_g_query_metadata_finish (result, &error);
 	gth_image_print_job_update_preview (self);
 }
 

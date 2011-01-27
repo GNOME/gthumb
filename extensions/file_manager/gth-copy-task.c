@@ -92,6 +92,7 @@ gth_copy_task_exec (GthTask *task)
 
 	self = GTH_COPY_TASK (task);
 
+	gth_file_source_set_cancellable (self->priv->file_source, gth_task_get_cancellable (task));
 	gth_file_source_copy (self->priv->file_source,
 			      self->priv->destination,
 			      self->priv->files,
@@ -100,13 +101,6 @@ gth_copy_task_exec (GthTask *task)
 			      copy_dialog_cb,
 			      copy_done_cb,
 			      self);
-}
-
-
-static void
-gth_copy_task_cancelled (GthTask *task)
-{
-	gth_file_source_cancel (GTH_COPY_TASK (task)->priv->file_source);
 }
 
 
@@ -124,7 +118,6 @@ gth_copy_task_class_init (GthCopyTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_copy_task_exec;
-	task_class->cancelled = gth_copy_task_cancelled;
 }
 
 

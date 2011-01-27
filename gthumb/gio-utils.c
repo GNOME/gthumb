@@ -238,22 +238,10 @@ for_each_child_done (ForEachChildData *fec)
 static void for_each_child_start_current (ForEachChildData *fec);
 
 
-static gboolean
-for_each_child_start_cb (gpointer user_data)
-{
-	ForEachChildData *fec = user_data;
-
-	g_source_remove (fec->source_id);
-	for_each_child_start_current (fec);
-
-	return FALSE;
-}
-
-
 static void
 for_each_child_start (ForEachChildData *fec)
 {
-	fec->source_id = g_idle_add (for_each_child_start_cb, fec);
+	for_each_child_start_current (fec);
 }
 
 
@@ -374,13 +362,16 @@ for_each_child_compute_child (ForEachChildData *fec,
 
 
 static void
-for_each_child_metadata_ready_func (GList    *files,
-				    GError   *error,
-				    gpointer  user_data)
+for_each_child_metadata_ready_func (GObject      *source_object,
+                		    GAsyncResult *result,
+                		    gpointer      user_data)
 {
 	ForEachChildData *fec = user_data;
+	GList            *files;
+	GError           *error = NULL;
 
-	if (error == NULL) {
+	files = _g_query_metadata_finish (result, &error);
+	if (files != NULL) {
 		GthFileData *child_data = files->data;
 		for_each_child_compute_child (fec, child_data->file, child_data->info);
 	}

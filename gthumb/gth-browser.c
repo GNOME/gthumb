@@ -1566,12 +1566,15 @@ load_data_continue (LoadData *load_data,
 
 
 static void
-metadata_ready_cb (GList    *files,
-		   GError   *error,
-		   gpointer  user_data)
+metadata_ready_cb (GObject      *source_object,
+                   GAsyncResult *result,
+                   gpointer      user_data)
 {
 	LoadData *load_data = user_data;
+	GList    *files;
+	GError   *error = NULL;
 
+	files = _g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		load_data_error (load_data, error);
 		load_data_free (load_data);
