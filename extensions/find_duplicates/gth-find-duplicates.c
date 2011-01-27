@@ -184,32 +184,6 @@ gth_find_duplicates_get_type (void)
 }
 
 
-static void search_directory (GthFindDuplicates *self,
-			      GFile                 *directory);
-
-
-static void
-search_next_directory (GthFindDuplicates *self)
-{
-	GList *first;
-
-	if (self->priv->directories == NULL) {
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 1.0);
-		gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), FALSE);
-		return;
-	}
-
-	first = self->priv->directories;
-	self->priv->directories = g_list_remove_link (self->priv->directories, first);
-	search_directory (self, (GFile *) first->data);
-
-	_g_object_list_unref (first);
-}
-
-
 static void start_next_checksum (GthFindDuplicates *self);
 
 
@@ -332,10 +306,15 @@ start_next_checksum (GthFindDuplicates *self)
 {
 	GList *link;
 	char  *text;
+	int    n_remaining;
 
 	link = self->priv->files;
 	if (link == NULL) {
-		search_next_directory (self);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
+		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
+		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 1.0);
+		gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), FALSE);
 		return;
 	}
 
@@ -344,7 +323,10 @@ start_next_checksum (GthFindDuplicates *self)
 	self->priv->current_file = (GthFileData *) link->data;
 	g_list_free (link);
 
-	text = g_strdup_printf (_("Checking file %s"), g_file_info_get_display_name (self->priv->current_file->info));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Searching for duplicates"));
+
+	n_remaining = self->priv->n_files - self->priv->n_file;
+	text = g_strdup_printf (g_dngettext (NULL, "%d file remaining", "%d files remaining", n_remaining), n_remaining);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), text);
 	g_free (text);
 
@@ -380,13 +362,9 @@ done_func (GObject  *object,
 	}
 
 	self->priv->files = g_list_reverse (self->priv->files);
-	if (self->priv->files != NULL) {
-		self->priv->n_files = g_list_length (self->priv->files);
-		self->priv->n_file = 0;
-		start_next_checksum (self);
-	}
-	else
-		search_next_directory (self);
+	self->priv->n_files = g_list_length (self->priv->files);
+	self->priv->n_file = 0;
+	start_next_checksum (self);
 }
 
 
@@ -396,7 +374,7 @@ for_each_file_func (GFile     *file,
 		    gpointer   user_data)
 {
 	GthFindDuplicates *self = user_data;
-	GthFileData           *file_data;
+	GthFileData       *file_data;
 
 	if (g_file_info_get_file_type (info) != G_FILE_TYPE_REGULAR)
 		return;
@@ -417,12 +395,10 @@ start_dir_func (GFile      *directory,
 {
 	GthFindDuplicates *self = user_data;
 
-	if (g_file_equal (directory, self->priv->current_directory))
-		return DIR_OP_CONTINUE;
+	_g_object_unref (self->priv->current_directory);
+	self->priv->current_directory = g_object_ref (directory);
 
-	self->priv->directories = g_list_prepend (self->priv->directories, g_object_ref (directory));
-
-	return DIR_OP_SKIP;
+	return DIR_OP_CONTINUE;
 }
 
 
@@ -430,32 +406,21 @@ static void
 search_directory (GthFindDuplicates *self,
 		  GFile             *directory)
 {
-	char *uri;
-	char *text;
-
 	gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), TRUE);
 	self->priv->io_operation = TRUE;
 
-	_g_object_unref (self->priv->current_directory);
-	self->priv->current_directory = g_object_ref (directory);
-
-	uri = g_file_get_parse_name (self->priv->current_directory);
-	text = g_strdup_printf ("Searching in %s", uri);
-	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), text);
-	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), _("Getting the file list"));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Getting the file list"));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 0.0);
 
 	gth_file_source_for_each_child (self->priv->file_source,
-					self->priv->current_directory,
+					directory,
 					self->priv->recursive,
 					self->priv->attributes->str,
 					start_dir_func,
 					for_each_file_func,
 					done_func,
 					self);
-
-	g_free (text);
-	g_free (uri);
 }
 
 
@@ -622,7 +587,7 @@ view_button_clicked_cb (GtkWidget *button,
 	catalog = gth_catalog_new ();
 	catalog_file = gth_catalog_file_from_relative_path (_("Duplicates"), ".catalog");
 	gth_catalog_set_file (catalog, catalog_file);
-	gth_catalog_set_file_list (catalog, file_data_list);
+	gth_catalog_set_file_list (catalog, file_list);
 	gth_catalog_save (catalog);
 	gth_browser_go_to (self->priv->browser, catalog_file, NULL);
 
