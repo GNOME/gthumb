@@ -210,9 +210,11 @@ fec__start_dir_func (GFile       *directory,
 	DirOp             op;
 
 	op = file_source_vfs->priv->start_dir_func (directory, info, error, file_source_vfs->priv->user_data);
+
 	if ((op == DIR_OP_CONTINUE) && file_source_vfs->priv->check_hidden_files) {
 		GFile            *dot_hidden_file;
 		GFileInputStream *input_stream;
+
 		g_hash_table_remove_all (file_source_vfs->priv->hidden_files);
 
 		dot_hidden_file = g_file_get_child (directory, ".hidden");
