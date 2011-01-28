@@ -347,10 +347,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 			/* the outer frame */
 
-			if (state == GTK_STATE_NORMAL)
-				gdk_cairo_set_source_color (cr, &style->bg[state]);
-			else
-				gdk_cairo_set_source_color (cr, &style->base[state]);
+			gdk_cairo_set_source_color (cr, &style->bg[state]);
 			_cairo_draw_rounded_box (cr,
 						 frame_rect.x - border,
 						 frame_rect.y - border,
@@ -359,12 +356,15 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 						 1);
 			cairo_fill_preserve (cr);
 
-			gdk_cairo_set_source_color (cr, &style->mid[state]);
+			if (state == GTK_STATE_SELECTED)
+				gdk_cairo_set_source_color (cr, &style->dark[state]);
+			else
+				gdk_cairo_set_source_color (cr, &style->mid[state]);
+
 			cairo_stroke (cr);
 
 			/* the inner frame */
 
-			gdk_cairo_set_source_color (cr, &style->mid[state]);
 			cairo_rectangle (cr,
 					 image_rect.x - 1,
 					 image_rect.y - 1,
