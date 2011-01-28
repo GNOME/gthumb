@@ -100,12 +100,12 @@ _gth_icon_cache_get_icon_key (GIcon *icon)
 
 		file = g_file_icon_get_file (G_FILE_ICON (icon));
 		if (file != NULL) {
-			char *filename;
+			char *uri;
 
-			filename = g_file_get_path (file);
-			key = get_static_string (filename);
+			uri = g_file_get_uri (file);
+			key = get_static_string (uri);
 
-			g_free (filename);
+			g_free (uri);
 			g_object_unref (file);
 		}
 	}
