@@ -49,7 +49,8 @@ DOC_PAGES = \
 	wallpaper.page \
 	bookmarks.page \
 	import.page \
-	slideshow.page
+	slideshow.page \
+	file-copy-move.page
 	
 DOC_LINGUAS = de el es fr oc sl sv zh_CN
 
