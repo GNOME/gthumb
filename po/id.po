@@ -2,15 +2,14 @@
 # Copyright (C) 2004 THE gthumb'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 # Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.
-# Andika Triwidada <andika@gmail.com>, 2010.
+# Andika Triwidada <andika@gmail.com>, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-09-22 16:11+0000\n"
-"PO-Revision-Date: 2010-09-23 19:13+0700\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
+"POT-Creation-Date: 2011-01-28 00:53+0000\n"
+"PO-Revision-Date: 2011-01-28 23:06+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +90,8 @@ msgstr "Penampil Gambar"
 msgid "View and organize your images"
 msgstr "Tampilkan dan atur gambar-gambar Anda"
 
-#: ../data/gthumb.desktop.in.in.h:3 ../data/gthumb-import.desktop.in.in.h:3
+#: ../data/gthumb.desktop.in.in.h:3
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -112,51 +112,36 @@ msgid "gThumb Photo Import Tool"
 msgstr "Alat Impor Foto gThumb"
 
 #: ../data/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"Gambar melebihi ukuran ini (dalam byte) tidak akan disketsakan. Gunakan 0 "
-"jika anda ingin menghasilkan sketsa untuk seluruh gambar"
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "Gambar melebihi ukuran ini (dalam byte) tidak akan disketsakan. Gunakan 0 jika anda ingin menghasilkan sketsa untuk seluruh gambar"
 
 #: ../data/gthumb.schemas.in.h:2
-msgid ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
-msgstr ""
-"Nilai yang mungkin: actual_size (ukuran sebenarnya), fit (pas), keep_prev "
-"(pertahankan sebelumnya), fit_if_larger (paskan bila lebih besar), "
-"fit_width_if_larger (paskan lebar bila lebih besar)."
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
+msgstr "Nilai yang mungkin: actual_size (ukuran sebenarnya), fit (pas), keep_prev (pertahankan sebelumnya), fit_if_larger (paskan bila lebih besar), fit_width_if_larger (paskan lebar bila lebih besar)."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
 msgid "Possible values are: high, low."
-msgstr "Nilai yang mungkin adalah: high (tinggi), low (rendah)."
+msgstr "Nilai yang mungkin: high (tinggi), low (rendah)."
 
 #: ../data/gthumb.schemas.in.h:4
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:3
-#, fuzzy
 msgid "Possible values are: light, midtone, dark."
-msgstr "Nilai yang mungkin: terang, sedang, gelap."
+msgstr "Nilai yang mungkin: light (terang), midtone (sedang), dark (gelap)."
 
 #: ../data/gthumb.schemas.in.h:5
-#, fuzzy
 msgid "Possible values are: list, thumbnails."
-msgstr "Nilai yang mungkin: daftar, sketsa."
+msgstr "Nilai yang mungkin: list (daftar), thumbnails (gambar kecil)."
 
 #: ../data/gthumb.schemas.in.h:6
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
-#, fuzzy
 msgid "Possible values are: small, medium, large."
-msgstr "Nilai yang mungkin: kecil, sedang, besar."
+msgstr "Nilai yang mungkin: small (kecil), medium (sedang), large (besar)."
 
 #: ../data/gthumb.schemas.in.h:7
 #, fuzzy
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Nilai yang memungkinkan: sistem, teks_di bawah, teks_di_samping, teks_saja, "
-"ikon_saja."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Nilai yang memungkinkan: sistem, teks_di bawah, teks_di_samping, teks_saja, ikon_saja."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -195,7 +180,8 @@ msgid "Filter _Name:"
 msgstr "_Nama Tapis:"
 
 #. limit label
-#: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:258
+#: ../data/ui/filter-editor.ui.h:2
+#: ../gthumb/gth-filter.c:258
 #: ../gthumb/gth-filter.c:330
 msgid "_Limit to"
 msgstr "_Batasi sampai"
@@ -243,7 +229,7 @@ msgstr "Timpa berkas lama dengan yang baru?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:9
-#: ../extensions/image_print/data/ui/print-layout.ui.h:12
+#: ../extensions/image_print/data/ui/print-layout.ui.h:13
 msgid "Size:"
 msgstr "Ukuran:"
 
@@ -287,21 +273,25 @@ msgstr "_Konfirmasikan sebelum menghapus berkas atau katalog"
 msgid "Ask whether to save _modified files"
 msgstr "Tanyakan apakah _menyimpan berkas yang diubah"
 
-#: ../data/ui/preferences.ui.h:6 ../extensions/image_viewer/preferences.c:111
+#: ../data/ui/preferences.ui.h:6
+#: ../extensions/image_viewer/preferences.c:111
 msgid "Black"
 msgstr "Hitam"
 
-#: ../data/ui/preferences.ui.h:7 ../gthumb/dlg-extensions.c:69
+#: ../data/ui/preferences.ui.h:7
+#: ../gthumb/dlg-extensions.c:69
 #: ../gthumb/gth-browser-actions-entries.h:155
 msgid "Browser"
 msgstr "Peramban"
 
 #: ../data/ui/preferences.ui.h:8
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Caption"
 msgstr "Judul"
 
-#: ../data/ui/preferences.ui.h:9 ../extensions/image_viewer/preferences.c:112
+#: ../data/ui/preferences.ui.h:9
+#: ../extensions/image_viewer/preferences.c:112
 msgid "Checked"
 msgstr "Diperiksa"
 
@@ -313,15 +303,18 @@ msgstr "Pilih folder awal mula"
 msgid "D_etermine image type from content (slower)"
 msgstr "T_entukan jenis gambar dari isinya (lebih lambat)"
 
-#: ../data/ui/preferences.ui.h:12 ../extensions/image_viewer/preferences.c:101
+#: ../data/ui/preferences.ui.h:12
+#: ../extensions/image_viewer/preferences.c:101
 msgid "Fit to width if larger"
 msgstr "Paskan lebarnya jika lebih besar"
 
-#: ../data/ui/preferences.ui.h:13 ../extensions/image_viewer/preferences.c:98
+#: ../data/ui/preferences.ui.h:13
+#: ../extensions/image_viewer/preferences.c:98
 msgid "Fit to window"
 msgstr "Paskan ke jendela"
 
-#: ../data/ui/preferences.ui.h:14 ../extensions/image_viewer/preferences.c:99
+#: ../data/ui/preferences.ui.h:14
+#: ../extensions/image_viewer/preferences.c:99
 msgid "Fit to window if larger"
 msgstr "Paskan ke jendela jika lebih besar"
 
@@ -331,6 +324,7 @@ msgstr "Ikuti kelakuan Nautilus"
 
 #: ../data/ui/preferences.ui.h:16
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:374
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 #: ../gthumb/gth-main-default-metadata.c:33
@@ -345,15 +339,18 @@ msgstr "Pergi ke lokasi yang terakhir _dikunjungi"
 msgid "Go to this _folder:"
 msgstr "Menuju _folder ini:"
 
-#: ../data/ui/preferences.ui.h:19 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:19
+#: ../gthumb/dlg-preferences.c:231
 msgid "Icons only"
 msgstr "Hanya ikon"
 
-#: ../data/ui/preferences.ui.h:20 ../extensions/image_viewer/preferences.c:97
+#: ../data/ui/preferences.ui.h:20
+#: ../extensions/image_viewer/preferences.c:97
 msgid "Keep previous zoom"
 msgstr "Pertahankan zum"
 
 #: ../data/ui/preferences.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 #: ../extensions/file_tools/gth-file-tool-crop.c:399
 #: ../extensions/file_tools/gth-file-tool-crop.c:425
 #: ../extensions/file_tools/gth-file-tool-resize.c:422
@@ -367,7 +364,7 @@ msgid "On startup:"
 msgstr "Saat awal mula:"
 
 #: ../data/ui/preferences.ui.h:23
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:190
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:192
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Other"
@@ -382,7 +379,8 @@ msgid "Set to C_urrent"
 msgstr "Set ke _Kini"
 
 #. Set widgets data.
-#: ../data/ui/preferences.ui.h:26 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:26
+#: ../gthumb/dlg-preferences.c:231
 msgid "System settings"
 msgstr "Tatanan sistem"
 
@@ -390,23 +388,28 @@ msgstr "Tatanan sistem"
 msgid "T_humbnails in viewer:"
 msgstr ""
 
-#: ../data/ui/preferences.ui.h:28 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:28
+#: ../gthumb/dlg-preferences.c:231
 msgid "Text below icons"
 msgstr "Teks di bawah ikon"
 
-#: ../data/ui/preferences.ui.h:29 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:29
+#: ../gthumb/dlg-preferences.c:231
 msgid "Text beside icons"
 msgstr "Teks di samping ikon"
 
-#: ../data/ui/preferences.ui.h:30 ../gthumb/dlg-preferences.c:231
+#: ../data/ui/preferences.ui.h:30
+#: ../gthumb/dlg-preferences.c:231
 msgid "Text only"
 msgstr "Hanya teks"
 
 #: ../data/ui/preferences.ui.h:31
+#, fuzzy
 msgid "Thumbnail _size:"
-msgstr ""
+msgstr "Ukuran fonta"
 
-#: ../data/ui/preferences.ui.h:32 ../extensions/image_viewer/preferences.c:109
+#: ../data/ui/preferences.ui.h:32
+#: ../extensions/image_viewer/preferences.c:109
 msgid "White"
 msgstr "Putih"
 
@@ -444,20 +447,22 @@ msgid "_Sort by:"
 msgstr "Urut berda_sarkan:"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
+#, fuzzy
 msgid "Add bookmarks support."
-msgstr ""
+msgstr "T_ambah dalam Penanda Tautan"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 #, fuzzy
 msgid "Bookmarks"
-msgstr "Catatan Alamat"
+msgstr "Bookmark"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
 #: ../extensions/change_date/change_date.extension.in.in.h:3
 #: ../extensions/comments/comments.extension.in.in.h:3
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:3
 #: ../extensions/convert_format/convert_format.extension.in.in.h:3
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
@@ -484,11 +489,12 @@ msgstr "tim pengembang gthumb"
 #: ../extensions/bookmarks/callbacks.c:52
 #, fuzzy
 msgid "_Bookmarks"
-msgstr "Pem_batas"
+msgstr "_Penanda Alamat"
 
 #: ../extensions/bookmarks/callbacks.c:53
+#, fuzzy
 msgid "_System Bookmarks"
-msgstr ""
+msgstr "Sunting P_enanda..."
 
 #: ../extensions/bookmarks/callbacks.c:56
 msgid "_Add Bookmark"
@@ -501,7 +507,7 @@ msgstr "Tambah lokasi sekarang ke TandaBatas"
 #: ../extensions/bookmarks/callbacks.c:61
 #, fuzzy
 msgid "_Edit Bookmarks..."
-msgstr "_Ubah Pembatas..."
+msgstr "Sunting P_enanda..."
 
 #: ../extensions/bookmarks/callbacks.c:62
 #, fuzzy
@@ -511,7 +517,7 @@ msgstr "Edit tandabatas"
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
 #, fuzzy
 msgid "_Bookmarks:"
-msgstr "Pem_batas:"
+msgstr "_TandaBatas:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
 msgid "_Location"
@@ -524,11 +530,12 @@ msgstr "_Nama"
 #: ../extensions/bookmarks/dlg-bookmarks.c:70
 #, fuzzy
 msgid "Could not remove the bookmark"
-msgstr "Tidak dapat menghapus buku alamat"
+msgstr "Tidak dapat menghapus penanda alamat"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
+#, fuzzy
 msgid "Burn CD/DVD"
-msgstr ""
+msgstr "Salin CD/DVD"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
 msgid "Save files to an optical disc."
@@ -540,13 +547,14 @@ msgid "_Optical Disc..."
 msgstr "Diska Optik"
 
 #: ../extensions/burn_disc/callbacks.c:56
+#, fuzzy
 msgid "Write files to an optical disc"
-msgstr ""
+msgstr "Seret berkas untuk ditulis ke cakram ke sini"
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
 #, fuzzy
 msgid "Disc Name"
-msgstr "Disc nama"
+msgstr "Nama Diska:"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
 #, fuzzy
@@ -564,14 +572,14 @@ msgstr "Sumber"
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
 #, fuzzy
 msgid "_Selected files"
-msgstr "_Berkas yang dipilih"
+msgstr "Berka_s yang dipilih"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
 #: ../extensions/burn_disc/gth-burn-task.c:393
 #, fuzzy
 msgid "Write to Disc"
-msgstr "Tulis ke disk"
+msgstr "Tulis ke Diska"
 
 #: ../extensions/catalogs/actions.c:62
 #, fuzzy
@@ -579,22 +587,24 @@ msgid "Could not remove the files from the catalog"
 msgstr "Buang gambar terpilih dari katalog"
 
 #: ../extensions/catalogs/actions.c:120
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:633
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:642
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:670
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:637
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:646
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/search/gth-search.c:295
+#, fuzzy
 msgid "Invalid file format"
-msgstr ""
+msgstr "Bentuk info berkas tak valid"
 
 #: ../extensions/catalogs/actions.c:189
 #: ../extensions/catalogs/dlg-add-to-catalog.c:265
 msgid "Enter the catalog name: "
 msgstr "Masukkan nama katalog: "
 
-#: ../extensions/catalogs/actions.c:193 ../extensions/catalogs/actions.c:259
+#: ../extensions/catalogs/actions.c:193
+#: ../extensions/catalogs/actions.c:259
 #: ../extensions/catalogs/dlg-add-to-catalog.c:269
 #: ../extensions/catalogs/dlg-add-to-catalog.c:335
-#: ../extensions/file_manager/actions.c:45
+#: ../extensions/file_manager/actions.c:46
 msgid "C_reate"
 msgstr "B_uat"
 
@@ -622,81 +632,83 @@ msgstr "Tidak dapat menghapus katalog"
 #: ../extensions/catalogs/actions.c:365
 #, fuzzy, c-format
 msgid "Are you sure you want to remove \"%s\"?"
-msgstr "Apakah anda yakin ingin menghilangkan %s?"
+msgstr "Anda yakin ingin menghapus paket \"%s\"?"
 
-#: ../extensions/catalogs/callbacks.c:98
+#: ../extensions/catalogs/callbacks.c:99
 msgid "_Add to Catalog"
 msgstr "T_ambah ke Katalog"
 
-#: ../extensions/catalogs/callbacks.c:101
+#: ../extensions/catalogs/callbacks.c:102
 msgid "Open _Folder"
 msgstr "Buka _Folder"
 
-#: ../extensions/catalogs/callbacks.c:102
+#: ../extensions/catalogs/callbacks.c:103
 #, fuzzy
 msgid "Go to the folder that contains the selected file"
 msgstr "Pergi ke folder yang mengandung gambar terpilih"
 
-#: ../extensions/catalogs/callbacks.c:106
+#: ../extensions/catalogs/callbacks.c:107
 #: ../extensions/edit_metadata/callbacks.c:106
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:87
 msgid "Other..."
 msgstr "Lainnya..."
 
-#: ../extensions/catalogs/callbacks.c:107
+#: ../extensions/catalogs/callbacks.c:108
 msgid "Choose another catalog"
 msgstr "Pilih katalog lain"
 
-#: ../extensions/catalogs/callbacks.c:111
+#: ../extensions/catalogs/callbacks.c:112
 msgid "_Add to Catalog..."
 msgstr "T_ambah ke Katalog..."
 
-#: ../extensions/catalogs/callbacks.c:112
+#: ../extensions/catalogs/callbacks.c:113
 msgid "Add selected images to a catalog"
 msgstr "Tambahkan gambar terpilih ke sebuah katalog"
 
-#: ../extensions/catalogs/callbacks.c:116
+#: ../extensions/catalogs/callbacks.c:117
 msgid "Remo_ve from Catalog"
 msgstr "Buan_g dari Katalog"
 
-#: ../extensions/catalogs/callbacks.c:117
+#: ../extensions/catalogs/callbacks.c:118
 msgid "Remove selected images from the catalog"
 msgstr "Buang gambar terpilih dari katalog"
 
-#: ../extensions/catalogs/callbacks.c:121
+#: ../extensions/catalogs/callbacks.c:122
 msgid "Create _Catalog"
 msgstr "Buat _Katalog"
 
-#: ../extensions/catalogs/callbacks.c:126
+#: ../extensions/catalogs/callbacks.c:127
 msgid "Create _Library"
 msgstr "Buat _Pustaka"
 
-#: ../extensions/catalogs/callbacks.c:136
+#: ../extensions/catalogs/callbacks.c:137
 msgid "Rena_me"
 msgstr "Ganti na_ma"
 
-#: ../extensions/catalogs/callbacks.c:263
-#: ../extensions/catalogs/callbacks.c:266
+#: ../extensions/catalogs/callbacks.c:275
+#: ../extensions/catalogs/callbacks.c:278
 msgid "Command Line"
 msgstr "Baris Perintah"
 
-#: ../extensions/catalogs/callbacks.c:481
-#: ../extensions/catalogs/callbacks.c:486
+#: ../extensions/catalogs/callbacks.c:493
+#: ../extensions/catalogs/callbacks.c:498
 #: ../extensions/photo_importer/dlg-photo-importer.c:313
 #: ../extensions/photo_importer/dlg-photo-importer.c:353
-#: ../gthumb/gth-file-list.c:44 ../gthumb/gth-folder-tree.c:874
+#: ../gthumb/gth-file-list.c:45
+#: ../gthumb/gth-folder-tree.c:874
 msgid "(Empty)"
 msgstr "(Kosong)"
 
-#: ../extensions/catalogs/callbacks.c:679
+#: ../extensions/catalogs/callbacks.c:691
 msgid "Catalog Properties"
 msgstr "Properti Katalog"
 
-#: ../extensions/catalogs/callbacks.c:693
+#: ../extensions/catalogs/callbacks.c:705
+#, fuzzy
 msgid "Organize"
-msgstr ""
+msgstr "Atur Tanda Tempat"
 
-#: ../extensions/catalogs/callbacks.c:694
+#: ../extensions/catalogs/callbacks.c:706
 msgid "Automatically organize files by date"
 msgstr ""
 
@@ -709,8 +721,9 @@ msgid "Catalogs"
 msgstr "Katalog"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:2
+#, fuzzy
 msgid "Create file collections."
-msgstr ""
+msgstr "Buat Berkas/Projek"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
 msgid "Add to Catalog"
@@ -729,10 +742,11 @@ msgid "_New Catalog"
 msgstr "Ka_talog Baru"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
+#: ../extensions/file_manager/actions.c:996
 #: ../extensions/webalbums/gth-web-exporter.c:1833
 #, fuzzy
 msgid "_View the destination"
-msgstr "Tujuan output"
+msgstr "_Lihat folder tujuan"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 msgid "Catalog"
@@ -749,6 +763,7 @@ msgid "_Date:"
 msgstr "Tan_ggal:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:36
@@ -760,7 +775,7 @@ msgstr "_Nama:"
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
 #, fuzzy
 msgid "Catalog _Preview:"
-msgstr "Gaya Tampilan"
+msgstr "Pratilik Thread"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organization:"
@@ -768,12 +783,14 @@ msgstr "Organisasi:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+#, fuzzy
 msgid "Organize Files"
-msgstr ""
+msgstr "Berkas Teks"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
+#, fuzzy
 msgid "Organizing files"
-msgstr ""
+msgstr "Berkas Teks"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
 msgid "Select All"
@@ -793,7 +810,7 @@ msgstr ""
 #: ../gthumb/gth-main-default-tests.c:256
 #, fuzzy
 msgid "File modified date"
-msgstr "tanggal Pengubahan terakhir"
+msgstr "Tanggal berkas terakhir diubah."
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
 msgid "Ignore catalogs with a single file"
@@ -815,12 +832,14 @@ msgstr "Tag"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:8
 #: ../gthumb/gth-main-default-tests.c:284
+#, fuzzy
 msgid "Tag (embedded)"
-msgstr ""
+msgstr "komponen tercangkok"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+#, fuzzy
 msgid "_Group files by:"
-msgstr ""
+msgstr "_Kelompokkan Oleh Topik"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:10
 #: ../extensions/search/data/ui/search-editor.ui.h:2
@@ -835,31 +854,62 @@ msgstr "tag"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:136
 #, fuzzy
 msgid "Could not add the files to the catalog"
-msgstr "Tidak dapat menghapus gambar:"
+msgstr "Tidak dapat menambahkan berkas ke dalam arsip"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:80
 #, fuzzy
 msgid "Could not save the catalog"
-msgstr "Tidak dapat ganti nama katalog \"%s\": %s"
+msgstr "Tidak dapat memroses katalog"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:166
 #, fuzzy
 msgid "Could not load the catalog"
-msgstr "Tidak dapat ganti nama katalog \"%s\": %s"
+msgstr "Tidak dapat memroses katalog"
 
 #: ../extensions/catalogs/dlg-organize-files.c:120
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
 
 #: ../extensions/catalogs/gth-catalog.c:1145
+#: ../extensions/comments/main.c:43
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
 msgstr "Tag"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:790
+#: ../extensions/catalogs/gth-file-source-catalogs.c:838
+#, fuzzy, c-format
+msgid "The catalog '%s' already exists, do you want to overwrite it?"
+msgstr "Berkas \"%s\" sudah ada. Apakah Anda ingin menimpanya?"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:840
+#, fuzzy, c-format
+msgid "The library '%s' already exists, do you want to overwrite it?"
+msgstr "Berkas \"%s\" sudah ada. Apakah Anda ingin menimpanya?"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:848
+#, fuzzy
+msgid "Over_write"
+msgstr "\"%s\" tidak dapat menulis."
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:965
+#, fuzzy
+msgid "Cannot move the files"
+msgstr "Tidak dapat memindahkan kontak."
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:967
+#, fuzzy
+msgid "Cannot copy the files"
+msgstr "Salin berkas/folder"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:972
+#, fuzzy
+msgid "Invalid destination."
+msgstr "Pilih tujuan"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1018
 #, fuzzy, c-format
 msgid "Copying files to '%s'"
-msgstr "Menyalin file %d dari %d"
+msgstr "Berkas untuk dipasang"
 
 #: ../extensions/catalogs/gth-organize-task.c:202
 #, c-format
@@ -881,61 +931,82 @@ msgstr "Ubah tanggal"
 #: ../extensions/change_date/change_date.extension.in.in.h:2
 #, fuzzy
 msgid "Change the files date"
-msgstr "Ganti tanggal terakhir perubahan gambar"
+msgstr "Tanggal dan waktu perubahan"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-msgid "A_djust by"
-msgstr ""
+#, fuzzy
+msgid "+"
+msgstr "+"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:2
-msgid "Change Date"
-msgstr "Ubah Tanggal"
+#, fuzzy
+msgid "-"
+msgstr "-"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:3
 #, fuzzy
-msgid "Change the following values:"
-msgstr "<b>Kategori:</b>"
+msgid "A_djust by"
+msgstr "Dipakai oleh %s"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:4
+msgid "Change Date"
+msgstr "Ubah Tanggal"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#, fuzzy
+msgid "Change the following values:"
+msgstr "Ubah nilai wajib GConf"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:6
 #, fuzzy
 msgid "Change to:"
 msgstr "Ubah _ke:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#: ../extensions/change_date/data/ui/change-date.ui.h:7
 #, fuzzy
 msgid "Co_mment date"
-msgstr "tan_ggal Sekarang"
+msgstr "Ubah Ko_mentar..."
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:6
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
 msgid "Date p_hoto was taken"
 msgstr ""
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:7
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
 msgid "Exif DateTimeOriginal tag"
 msgstr ""
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:8
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
 #, fuzzy
 msgid "File _modified date"
-msgstr "tanggal Pengubahan terakhir"
+msgstr "Tanggal berkas terakhir diubah."
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:9
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
 #, fuzzy
 msgid "File c_reation date"
 msgstr "tanggal pembuatan Gambar"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:10
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "The _following date:"
 msgstr "tanggal _berikut:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:11
+#: ../extensions/change_date/data/ui/change-date.ui.h:13
 #, fuzzy
 msgid "_Last modified date"
 msgstr "tanggal Pengubahan terakhir"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:12
+#: ../extensions/change_date/data/ui/change-date.ui.h:14
 msgid "hours"
 msgstr "jam"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:15
+#, fuzzy
+msgid "minutes"
+msgstr "menit"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:16
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "seconds"
+msgstr "detik"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Add comments and tags to any file type."
@@ -944,7 +1015,7 @@ msgstr ""
 #: ../extensions/comments/comments.extension.in.in.h:2
 #, fuzzy
 msgid "Comments and tags"
-msgstr "tan_ggal Sekarang"
+msgstr "Kategoi dan Tag"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:314
@@ -960,7 +1031,15 @@ msgstr ""
 msgid "Comment"
 msgstr "Komentar"
 
+#: ../extensions/comments/main.c:39
+#: ../gthumb/gth-main-default-metadata.c:46
+msgid "Title"
+msgstr "Judul"
+
+#: ../extensions/comments/main.c:40
 #: ../extensions/comments/main.c:209
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
@@ -969,53 +1048,441 @@ msgstr "Komentar"
 msgid "Description"
 msgstr "Deskripsi"
 
-#: ../extensions/comments/main.c:217 ../gthumb/gth-main-default-metadata.c:50
+#: ../extensions/comments/main.c:41
+#: ../extensions/comments/main.c:217
+#: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Tempat"
+
+#: ../extensions/comments/main.c:42
+#: ../gthumb/gth-main-default-metadata.c:51
+msgid "Date"
+msgstr "Tanggal"
+
+#: ../extensions/comments/main.c:44
+#: ../gthumb/gth-main-default-metadata.c:54
+#, fuzzy
+msgid "Rating"
+msgstr "Rating"
+
+#: ../extensions/contact_sheet/callbacks.c:59
+#, fuzzy
+msgid "Contact _Sheet"
+msgstr "Nama Lembaran:"
+
+#: ../extensions/contact_sheet/callbacks.c:61
+#, fuzzy
+msgid "Contact _Sheet..."
+msgstr "Nama Lembaran:"
+
+#: ../extensions/contact_sheet/callbacks.c:62
+#, fuzzy
+msgid "Create a contact sheet"
+msgstr "Membuat kontak baru"
+
+#: ../extensions/contact_sheet/callbacks.c:65
+#, fuzzy
+msgid "Image _Wall..."
+msgstr "Render citra"
+
+#: ../extensions/contact_sheet/callbacks.c:66
+#, fuzzy
+msgid "Create an image-wall"
+msgstr "Buat Index Gambar"
+
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#, fuzzy
+msgid "Contact Sheet"
+msgstr "Nama Lembaran:"
+
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
+msgid "Create an index image displaying the thumbnails of the selected files."
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
+#, fuzzy
+msgid "     "
+msgstr "     "
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
+#, fuzzy
+msgid "Background"
+msgstr "Latar"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+#, fuzzy
+msgid "C_olor:"
+msgstr "_Warna:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#, fuzzy
+msgid "Caption:"
+msgstr "<b>Kapsi:</b>"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
+#, fuzzy
+msgid "Frame"
+msgstr "Bingkai"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+#, fuzzy
+msgid "Inward Shadow"
+msgstr "Bayangan jatuh"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#, fuzzy
+msgid "Outward Shadow"
+msgstr "Bayangan jatuh"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
+#, fuzzy
+msgid "Select a color"
+msgstr "Pilih sebuah warna"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+#, fuzzy
+msgid "Select a font"
+msgstr "Pilih Fonta"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
+#, fuzzy
+msgid "Shadow only"
+msgstr "hanya Bayangan"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
+#, fuzzy
+msgid "Simple"
+msgstr "Sederhana"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+#, fuzzy
+msgid "Simple with shadow"
+msgstr "Sederhana dengan bayangan"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
+#, fuzzy
+msgid "Slide"
+msgstr "Slide"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#, fuzzy
+msgid "Text"
+msgstr "Teks"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:37
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
+#, fuzzy
+msgid "_Footer:"
+msgstr "_Kaki:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#, fuzzy
+msgid "_Gradient"
+msgstr "_Gradient"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:38
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
+#, fuzzy
+msgid "_Header:"
+msgstr "_Header:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
+msgid "_Horizontal:"
+msgstr "_Horizontal:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#, fuzzy
+msgid "_Solid color"
+msgstr "_Warna padat"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
+#, fuzzy
+msgid "_Style:"
+msgstr "_Gaya:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:23
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
+msgid "_Vertical:"
+msgstr "_Vertikal:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
+#, fuzzy
+msgid "#"
+msgstr "#"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
+msgid "###"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+#, fuzzy, no-c-format
+msgid "%D{ format }"
+msgstr "Format:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
+#, fuzzy, no-c-format
+msgid "%n"
+msgstr "%"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
+#, no-c-format
+msgid "%p"
+msgstr "%p"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
+msgid "All images on a single page"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+msgid "Choose destination folder"
+msgstr "Pilih folder tujuan"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/image_print/data/ui/print-layout.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+msgid "Columns:"
+msgstr "Kolom:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#, fuzzy
+msgid "Create _HTML image map"
+msgstr "Buat peta gambar _HTML"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+#, fuzzy
+msgid "Create a new theme"
+msgstr "Nama tema baru"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#, fuzzy
+msgid "Delete the selected theme"
+msgstr "Menghapus kontak yang dipilih"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#, fuzzy
+msgid "Edit the selected theme"
+msgstr "Menyunting kunci yang dipilih"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#, fuzzy
+msgid "File_name:"
+msgstr "Nama File"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+msgid "Images per page:"
+msgstr "Gambar per halaman:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/image_print/gth-image-print-job.c:1540
+msgid "Layout"
+msgstr "Tampilan"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
+msgid "New enumerator digit"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+msgid "Re_verse order"
+msgstr "urutkan Ter_balik"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+#, fuzzy
+msgid "S_ort:"
+msgstr "P_ort:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/pixbuf_savers/preferences.c:134
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+msgid "Saving"
+msgstr "Menyimpan"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
+#: ../extensions/importer/data/ui/import-preferences.ui.h:2
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+#, fuzzy
+msgid "Special code"
+msgstr "Snippet Kode"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#, fuzzy
+msgid "Sq_uared"
+msgstr "Kwadrat"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+#, fuzzy
+msgid "The current date"
+msgstr "Tanggal kini:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+#, fuzzy
+msgid "The current page number"
+msgstr "Simpan halaman ini"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+#, fuzzy
+msgid "The total number of pages"
+msgstr "Cacah halaman yang dipakai:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+msgid "Theme"
+msgstr "Tema"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+#, fuzzy
+msgid "Thumbnails"
+msgstr "Miniatur"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:35
+#, fuzzy
+msgid "_All pages with the same size"
+msgstr "Seluruh h_alaman dengan ukuran sama"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:36
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:17
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
+#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
+msgid "_Destination:"
+msgstr "_Tujuan:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:39
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
+#, fuzzy
+msgid "_Size:"
+msgstr "_Ukuran:"
+
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:482
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:493
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:506
+#, fuzzy
+msgid "Could not save the theme"
+msgstr "Tak bisa memuat tema"
+
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:649
+#, fuzzy
+msgid "Could not delete the theme"
+msgstr "Tak bisa memuat tema"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
+#, fuzzy
+msgid "Creating images"
+msgstr "Citra GIF"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:908
+#, fuzzy
+msgid "Generating thumbnails"
+msgstr "Menyimpan sketsa"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:32
+#, fuzzy
+msgid "Header"
+msgstr "Tajuk"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:33
+#, fuzzy
+msgid "Footer"
+msgstr "Kaki"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:197
+#, fuzzy
+msgid "Theme Properties"
+msgstr "Properti breakpoint"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:213
+#, fuzzy
+msgid "Copy _From"
+msgstr "Salin dari Kotak Masuk"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:349
+#, fuzzy
+msgid "New theme"
+msgstr "Nama tema baru"
 
 #: ../extensions/convert_format/callbacks.c:45
 #, fuzzy
 msgid "Convert Format..."
-msgstr "Ubah Format..."
+msgstr "Ubah Format"
 
 #: ../extensions/convert_format/callbacks.c:46
 #, fuzzy
 msgid "Convert image format"
-msgstr "Ubah format gambar"
+msgstr "Format gambar tidak dikenal"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:1
 #, fuzzy
 msgid "Convert format"
-msgstr "Ubah format"
+msgstr "Ubah Format"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:2
 msgid "Save images in a different format"
 msgstr ""
-
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
-msgid "Choose destination folder"
-msgstr "Pilih folder tujuan"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:2
 msgid "Convert Format"
 msgstr "Ubah Format"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
 msgid "Destination"
 msgstr "Tujuan"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:4
 #, fuzzy
 msgid "New format"
-msgstr "Gambar Baru:"
+msgstr "Format video:"
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+#, fuzzy
+msgid "_Use the original image folder"
+msgstr "Pertahan_kan nama asli file"
 
 #: ../extensions/convert_format/dlg-convert-format.c:91
 #, fuzzy
 msgid "Converting images"
-msgstr "Mengkonversi gambar: %s"
+msgstr "Citra GIF"
 
 #: ../extensions/desktop_background/actions.c:139
 #, fuzzy
@@ -1026,22 +1493,23 @@ msgstr "Simpan gambar sebagai latar belakang dekstop (tiled)"
 #: ../extensions/desktop_background/actions.c:221
 #, fuzzy
 msgid "Could not set the desktop background"
-msgstr "Simpan gambar sebagai latar belakang dekstop (tiled)"
+msgstr "Tidak dapat dijadikan sebagai latar belakang"
 
 #: ../extensions/desktop_background/callbacks.c:49
 #, fuzzy
 msgid "Set as Desktop Background"
-msgstr "Jadikan Latar _Desktop"
+msgstr "Jadikan Latar Belakang _Desktop"
 
 #: ../extensions/desktop_background/callbacks.c:50
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
 #, fuzzy
 msgid "Set the image as desktop background"
-msgstr "Simpan gambar sebagai latar belakang dekstop (tiled)"
+msgstr "Menjadikan gambar yang dipilih sebagai latar belakang desktop"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
+#, fuzzy
 msgid "Desktop background"
-msgstr ""
+msgstr "latar belakang desktop"
 
 #: ../extensions/edit_metadata/callbacks.c:98
 msgid "T_ags"
@@ -1054,7 +1522,7 @@ msgstr ""
 #: ../extensions/edit_metadata/callbacks.c:107
 #, fuzzy
 msgid "Choose another tag"
-msgstr "Buang Da_ri Katalog"
+msgstr "Pilih katalog lain"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
@@ -1075,7 +1543,7 @@ msgstr "Tem_pat"
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
 #, fuzzy
 msgid "_Rating:"
-msgstr "Nilai"
+msgstr "_Rating:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:6
 msgid "_Title:"
@@ -1084,22 +1552,23 @@ msgstr "_Judul:"
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:56
 #, fuzzy
 msgid "Could not save the file metadata"
-msgstr "Tidak dapat memindahkan gambar:"
+msgstr "Tidak dapat menyimpan file tanda tangan."
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:109
 #: ../extensions/rename_series/actions.c:37
 #: ../gthumb/gth-overwrite-dialog.c:162
 #, fuzzy
 msgid "Cannot read file information"
-msgstr "Informasi Umum"
+msgstr "Berkas tidak dapat dibaca"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Allow to edit files metadata."
 msgstr ""
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
+#, fuzzy
 msgid "Edit metadata"
-msgstr ""
+msgstr "Ubah Metadata"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:448
 msgid "No date"
@@ -1146,11 +1615,12 @@ msgstr[0] "%d berkas"
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:81
 #, fuzzy
 msgid "New tag"
-msgstr "Katalog Baru"
+msgstr "Buat Tag Baru..."
 
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:223
+#, fuzzy
 msgid "Assign Tags"
-msgstr ""
+msgstr "Hapus Tag"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:113
 #: ../extensions/edit_metadata/gth-tag-task.c:130
@@ -1159,25 +1629,28 @@ msgid "Assigning tags to the selected files"
 msgstr "Berikan kategori ke folder terpilih"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:113
+#, fuzzy
 msgid "Writing files"
-msgstr ""
+msgstr "Saat penulisan berkas"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:130
 #, fuzzy
 msgid "Reading files"
-msgstr "Meload gambar"
+msgstr "Berkas Teks"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
 msgstr "Contoh"
 
 #: ../extensions/example/src/example.extension.in.in.h:2
+#, fuzzy
 msgid "Extension example."
-msgstr ""
+msgstr "<b>Contoh:</b> NamaLayarSaya"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
+#, fuzzy
 msgid "Byline _Title:"
-msgstr ""
+msgstr "Judul Plugin:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
@@ -1188,47 +1661,44 @@ msgid "Co_untry:"
 msgstr "_Negara:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
+#, fuzzy
 msgid "Cr_edit:"
-msgstr ""
+msgstr "Sunting P_enanda..."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#, fuzzy
+msgid "State/Provence:"
+msgstr "Jungkitkan keadaan"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 #, fuzzy
 msgid "_Byline:"
 msgstr "_Kecermerlangan:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_City:"
 msgstr "_Kota:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
 #, fuzzy
 msgid "_Code:"
-msgstr "(Kode %s)"
+msgstr "Snippet Kode"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
-#: ../extensions/flicker/data/ui/import-from-flickr.ui.h:4
-#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
-msgid "_Destination:"
-msgstr "_Tujuan:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Language:"
 msgstr "_Bahasa:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
 #, fuzzy
 msgid "_Object Name:"
 msgstr "Nama objek"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Source:"
 msgstr "_Sumber:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
 msgid "_Urgency:"
 msgstr ""
 
@@ -1243,26 +1713,27 @@ msgstr ""
 #: ../extensions/exiv2_tools/main.c:33
 #, fuzzy
 msgid "Exif General"
-msgstr "Umum"
+msgstr "Peralatan Umum"
 
 #: ../extensions/exiv2_tools/main.c:34
 #, fuzzy
 msgid "Exif Conditions"
-msgstr "Kondisi Pengambilan Gambar"
+msgstr "Kondisi Sekarang"
 
 #: ../extensions/exiv2_tools/main.c:35
 #, fuzzy
 msgid "Exif Structure"
-msgstr "struktur @A icount: %m\n"
+msgstr "Exif XMP"
 
 #: ../extensions/exiv2_tools/main.c:36
 #, fuzzy
 msgid "Exif Thumbnail"
-msgstr "Ske_tsa"
+msgstr "Tampilan Thumbnail"
 
 #: ../extensions/exiv2_tools/main.c:37
+#, fuzzy
 msgid "Exif GPS"
-msgstr ""
+msgstr "Perangkat GPS: %s"
 
 #: ../extensions/exiv2_tools/main.c:38
 #, fuzzy
@@ -1272,24 +1743,27 @@ msgstr "&Cari Catatan"
 #: ../extensions/exiv2_tools/main.c:39
 #, fuzzy
 msgid "Exif Versions"
-msgstr "Dimensi"
+msgstr "Versi Yang Tersedia:"
 
 #: ../extensions/exiv2_tools/main.c:40
 #, fuzzy
 msgid "Exif Other"
-msgstr "Lainnya"
+msgstr "Tutup Lainnya"
 
 #: ../extensions/exiv2_tools/main.c:41
+#, fuzzy
 msgid "IPTC"
-msgstr ""
+msgstr "XMP IPTC"
 
 #: ../extensions/exiv2_tools/main.c:42
+#, fuzzy
 msgid "XMP Embedded"
-msgstr ""
+msgstr "komponen tercangkok"
 
 #: ../extensions/exiv2_tools/main.c:43
+#, fuzzy
 msgid "XMP Attached"
-msgstr ""
+msgstr "Berkas terlampir."
 
 #: ../extensions/exiv2_tools/main.c:245
 msgid "date photo was taken"
@@ -1301,8 +1775,9 @@ msgid "Share"
 msgstr "Bagi-Pakai"
 
 #: ../extensions/facebook/callbacks.c:54
+#, fuzzy
 msgid "Face_book..."
-msgstr ""
+msgstr "Rak Buku"
 
 #: ../extensions/facebook/callbacks.c:55
 msgid "Upload photos to Facebook"
@@ -1312,12 +1787,13 @@ msgstr ""
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
 #, fuzzy
 msgid "A_lbum:"
-msgstr "Album Web"
+msgstr "A_lbum"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
+#, fuzzy
 msgid "Add a new album"
-msgstr ""
+msgstr "Buat suatu album baru"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:1
@@ -1326,12 +1802,13 @@ msgstr ""
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 #, fuzzy
 msgid "Edit accounts"
-msgstr "Sunting-> Akun"
+msgstr "Sunting->Akun"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
+#, fuzzy
 msgid "Export to Flickr"
-msgstr ""
+msgstr "Unggah ke Flickr"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:13
@@ -1346,7 +1823,7 @@ msgstr "_Akun:"
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 #, fuzzy
 msgid "_Upload"
-msgstr "_Load-ulang"
+msgstr "Pengunggahan Selesai"
 
 #: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-account-chooser.ui.h:1
@@ -1371,7 +1848,7 @@ msgstr "_Font:"
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
 #, fuzzy
 msgid "Private"
-msgstr "Pribadi"
+msgstr "Privat"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:9
@@ -1380,8 +1857,9 @@ msgstr ""
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:10
+#, fuzzy
 msgid "Public photos"
-msgstr ""
+msgstr "Jumlah foto:"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
 msgid "_Location:"
@@ -1391,21 +1869,21 @@ msgstr "_Lokasi:"
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
 #, fuzzy
 msgid "_Visibility:"
-msgstr "Jarak pandang:"
+msgstr "Visibilitas:"
 
 #: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-ask-authorization.ui.h:1
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
 #, fuzzy
 msgid "_Authorize..."
-msgstr "Otoris_asikan"
+msgstr "Otorisasikan"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
 #: ../extensions/flicker/data/ui/flicker-complete-authorization.ui.h:1
 #: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
 #, fuzzy
 msgid "C_ontinue"
-msgstr "L_anjutkan"
+msgstr "_Lanjut"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
 #: ../extensions/facebook/facebook-authentication.c:499
@@ -1428,7 +1906,7 @@ msgstr ""
 #: ../extensions/webalbums/gth-web-exporter.c:1832
 #, fuzzy
 msgid "_Open in the Browser"
-msgstr "Buka di Window Baru"
+msgstr "Buka Link dalam Br_owser"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:121
 #: ../extensions/facebook/dlg-export-to-facebook.c:312
@@ -1445,7 +1923,7 @@ msgstr "Buka di Window Baru"
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:363
 #, fuzzy
 msgid "Could not connect to the server"
-msgstr "Server tidak dapat dihubungi"
+msgstr "Tidak dapat terhubung pada server {0}."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:172
 #: ../extensions/flicker/dlg-export-to-flickr.c:242
@@ -1453,7 +1931,7 @@ msgstr "Server tidak dapat dihubungi"
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:191
 #, fuzzy
 msgid "Could not upload the files"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat mengganti nama berkas"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:388
 #: ../extensions/flicker/dlg-export-to-flickr.c:186
@@ -1462,22 +1940,23 @@ msgstr "Tidak dapat memindahkan item:"
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:713
 #, fuzzy
 msgid "Could not create the album"
-msgstr "Tidak dapat mengganti nama gambar:"
+msgstr "Tidak dapat membuat pesan."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:456
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:530
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:778
 #, fuzzy
 msgid "New Album"
-msgstr "Album Web"
+msgstr "Buat suatu album baru"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:535
 #: ../extensions/flicker/dlg-export-to-flickr.c:521
-#: ../extensions/image_print/gth-image-print-job.c:1542
+#: ../extensions/image_print/gth-image-print-job.c:1533
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:610
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:997
+#, fuzzy
 msgid "No valid file selected."
-msgstr ""
+msgstr "Tidak ada berkas yang didukung (%i berkas dipilih)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:536
 #: ../extensions/flicker/dlg-export-to-flickr.c:522
@@ -1485,18 +1964,18 @@ msgstr ""
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:998
 #, fuzzy
 msgid "Could not export the files"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat mengganti nama berkas"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:543
 #: ../extensions/flicker/dlg-export-to-flickr.c:529
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:618
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1004
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:785
-#: ../gthumb/gth-browser.c:939 ../gthumb/gth-browser.c:940
+#: ../gthumb/gth-browser.c:964
 #, fuzzy, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
-msgstr[0] "_Berkas:"
+msgstr[0] "_Berkas"
 msgstr[1] "%d gambar (%s)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:565
@@ -1504,27 +1983,27 @@ msgstr[1] "%d gambar (%s)"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:638
 #, fuzzy, c-format
 msgid "Export to %s"
-msgstr "_Ekspor ke"
+msgstr "Ekspor ke"
 
 #: ../extensions/facebook/facebook-account-chooser-dialog.c:230
 #: ../extensions/flicker/flickr-account-chooser-dialog.c:230
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:230
 #, fuzzy
 msgid "New authentication..."
-msgstr "Tujuan output"
+msgstr "Otentikasi dibatalkan"
 
 #: ../extensions/facebook/facebook-authentication.c:221
 #: ../extensions/flicker/flickr-authentication.c:220
 #: ../extensions/oauth/oauth-authentication.c:216
+#, fuzzy
 msgid "Choose _Account..."
-msgstr ""
+msgstr "Memilih akun lainnya"
 
 #: ../extensions/facebook/facebook-authentication.c:498
 #: ../extensions/flicker/flickr-authentication.c:437
 #: ../extensions/oauth/oauth-authentication.c:449
 #, c-format
-msgid ""
-"Return to this window when you have finished the authorization process on %s"
+msgid "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:583
@@ -1538,10 +2017,7 @@ msgstr ""
 #: ../extensions/flicker/flickr-authentication.c:518
 #: ../extensions/oauth/oauth-authentication.c:530
 #, c-format
-msgid ""
-"Click 'Authorize' to open your web browser and authorize gthumb to upload "
-"photos to %s. When you're finished, return to this window to complete the "
-"authorization."
+msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
 msgstr ""
 
 #: ../extensions/facebook/facebook-authentication.c:679
@@ -1549,8 +2025,9 @@ msgstr ""
 #: ../extensions/oauth/oauth-authentication.c:632
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:815
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:666
+#, fuzzy
 msgid "Choose Account"
-msgstr ""
+msgstr "Memilih akun lainnya"
 
 #: ../extensions/facebook/facebook-authentication.c:788
 #: ../extensions/flicker/flickr-authentication.c:727
@@ -1561,7 +2038,7 @@ msgid "Edit Accounts"
 msgstr "Sunting Akun"
 
 #: ../extensions/facebook/facebook-connection.c:294
-#: ../extensions/facebook/facebook-connection.c:452
+#: ../extensions/facebook/facebook-connection.c:454
 #: ../extensions/facebook/facebook-service.c:188
 #: ../extensions/facebook/facebook-service.c:291
 #: ../extensions/facebook/facebook-service.c:494
@@ -1575,10 +2052,10 @@ msgstr "Sunting Akun"
 #: ../extensions/photobucket/photobucket-consumer.c:170
 #, fuzzy
 msgid "Unknown error"
-msgstr "Kesalahan tak dikenal"
+msgstr "Kesalahan tidak dikenal"
 
 #: ../extensions/facebook/facebook-connection.c:329
-#: ../extensions/facebook/facebook-connection.c:478
+#: ../extensions/facebook/facebook-connection.c:480
 #: ../extensions/facebook/facebook-service.c:214
 #: ../extensions/facebook/facebook-service.c:316
 #: ../extensions/flicker/flickr-connection.c:316
@@ -1590,11 +2067,12 @@ msgstr "Kesalahan tak dikenal"
 #: ../extensions/picasaweb/google-connection.c:363
 #, fuzzy
 msgid "Connecting to the server"
-msgstr "Menyambung ke server..."
+msgstr "Menghubungi server..."
 
 #: ../extensions/facebook/facebook.extension.in.in.h:1
+#, fuzzy
 msgid "Facebook"
-msgstr ""
+msgstr "Obrolan Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
 msgid "Upload images to Facebook"
@@ -1608,14 +2086,15 @@ msgstr ""
 #: ../extensions/oauth/oauth-connection.c:554
 #, fuzzy
 msgid "Getting account information"
-msgstr "Informasi Umum"
+msgstr "Mengambil informasi tentang %s pada \"%s\""
 
 #: ../extensions/facebook/facebook-service.c:422
 #: ../extensions/flicker/flickr-service.c:348
 #: ../extensions/photobucket/photobucket-service.c:235
 #: ../extensions/picasaweb/picasa-web-service.c:237
+#, fuzzy
 msgid "Getting the album list"
-msgstr ""
+msgstr "Memperoleh daftar berkas"
 
 #: ../extensions/facebook/facebook-service.c:551
 #: ../extensions/flicker/flickr-service.c:451
@@ -1625,7 +2104,7 @@ msgstr ""
 #: ../extensions/picasaweb/picasa-web-service.c:328
 #, fuzzy
 msgid "Creating the new album"
-msgstr "Buat sebuah katalog baru"
+msgstr "Pembuatan suatu album baru gagal"
 
 #: ../extensions/facebook/facebook-service.c:610
 #: ../extensions/flicker/flickr-service.c:659
@@ -1633,7 +2112,7 @@ msgstr "Buat sebuah katalog baru"
 #: ../extensions/picasaweb/picasa-web-service.c:385
 #, fuzzy, c-format
 msgid "Could not upload '%s': %s"
-msgstr "Tidak dapat menyalin folder \"%s\": %s"
+msgstr "Tak bisa menyimpan '%s'"
 
 #. Translators: %s is a filename
 #. send the file
@@ -1650,181 +2129,210 @@ msgstr "Mengunggah '%s'"
 #: ../extensions/flicker/flickr-service.c:915
 #: ../extensions/photobucket/photobucket-service.c:605
 #: ../extensions/picasaweb/picasa-web-service.c:594
+#, fuzzy
 msgid "Uploading the files to the server"
-msgstr ""
+msgstr "Mengunggah catatan ke server..."
 
 #: ../extensions/facebook/facebook-service.c:1002
 #: ../extensions/flicker/flickr-service.c:1031
 #: ../extensions/picasaweb/picasa-web-service.c:715
+#, fuzzy
 msgid "Getting the photo list"
-msgstr ""
+msgstr "Memperoleh daftar berkas"
 
-#: ../extensions/file_manager/actions.c:41
+#: ../extensions/file_manager/actions.c:42
 msgid "Enter the folder name: "
 msgstr "Masukkan nama folder: "
 
-#: ../extensions/file_manager/actions.c:69
+#: ../extensions/file_manager/actions.c:70
 #, fuzzy
 msgid "Could not create the folder"
-msgstr "Tidak dapat membuat folder."
-
-#: ../extensions/file_manager/actions.c:328
-#: ../extensions/file_manager/callbacks.c:315
-#: ../extensions/file_manager/callbacks.c:719
-#, fuzzy
-msgid "Could not move the files"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat membuat folder '%s': %s"
 
 #: ../extensions/file_manager/actions.c:329
-#: ../extensions/file_manager/callbacks.c:316
-#: ../extensions/file_manager/callbacks.c:720
-msgid ""
-"Files cannot be moved to the current location, as alternative you can choose "
-"to copy them."
+#: ../extensions/file_manager/callbacks.c:337
+#: ../extensions/file_manager/callbacks.c:746
+#, fuzzy
+msgid "Could not move the files"
+msgstr "Tidak dapat mengganti nama berkas"
+
+#: ../extensions/file_manager/actions.c:330
+#: ../extensions/file_manager/callbacks.c:338
+#: ../extensions/file_manager/callbacks.c:747
+msgid "Files cannot be moved to the current location, as alternative you can choose to copy them."
 msgstr ""
 
-#: ../extensions/file_manager/actions.c:421
+#: ../extensions/file_manager/actions.c:422
 #: ../extensions/importer/gth-import-task.c:615
 #, fuzzy
 msgid "Could not delete the files"
-msgstr "Tidak dapat menghapus gambar:"
+msgstr "Tidak dapat mengganti nama berkas"
 
-#: ../extensions/file_manager/actions.c:464
+#: ../extensions/file_manager/actions.c:465
 #, fuzzy
-msgid ""
-"The files cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
-msgstr ""
-"Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin "
-"menghapusnya secara permanen?"
+msgid "The files cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin menghapusnya secara permanen?"
 
-#: ../extensions/file_manager/actions.c:475
+#: ../extensions/file_manager/actions.c:476
 #, fuzzy
 msgid "Could not move the files to the Trash"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tak bisa membuang berkas ke Tong Sampah"
 
-#: ../extensions/file_manager/actions.c:524
+#: ../extensions/file_manager/actions.c:525
 #, fuzzy, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr ""
-"Apakah benar ingin memindahkan\n"
-"\"%s\" ke tong sampah?"
+msgstr "Pindahkan \"%s\" ke tempat sampah?"
 
-#: ../extensions/file_manager/actions.c:527
-#, c-format
+#: ../extensions/file_manager/actions.c:528
+#, fuzzy, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 msgstr[0] ""
+"Pindahkan %d gambar yang dipilih\n"
+"ke tempat sampah?"
 msgstr[1] ""
 
-#: ../extensions/file_manager/actions.c:539
-#: ../extensions/file_manager/callbacks.c:168
-#: ../extensions/file_manager/callbacks.c:200
+#: ../extensions/file_manager/actions.c:540
+#: ../extensions/file_manager/callbacks.c:174
+#: ../extensions/file_manager/callbacks.c:206
 msgid "Mo_ve to Trash"
 msgstr "Pindahkan ke Tong _Sampah"
 
-#: ../extensions/file_manager/actions.c:571
-#: ../extensions/file_manager/actions.c:862
+#: ../extensions/file_manager/actions.c:568
+#: ../extensions/file_manager/actions.c:875
 #, fuzzy, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "Apa anda yakin ingin menghapus \"%s\" secara permanen?"
+msgstr "Yakin akan menghapus permanen \"%s\"?"
 
-#: ../extensions/file_manager/actions.c:574
-#, c-format
+#: ../extensions/file_manager/actions.c:571
+#, fuzzy, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
-msgid_plural ""
-"Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] ""
+msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
+msgstr[0] "Yakin akan menghapus permanen %'d objek yang dipilih?"
 msgstr[1] ""
 
-#: ../extensions/file_manager/actions.c:584
-#: ../extensions/file_manager/actions.c:872
+#: ../extensions/file_manager/actions.c:581
+#: ../extensions/file_manager/actions.c:885
+#, fuzzy
 msgid "If you delete a file, it will be permanently lost."
-msgstr ""
+msgstr "Apabila Anda menghapus sebuah objek, maka akan dihapus permanen."
 
-#: ../extensions/file_manager/actions.c:614
+#: ../extensions/file_manager/actions.c:627
 #, fuzzy
 msgid "Could not open the location"
 msgstr "Tidak dapat membuka lokasi '%s'"
 
-#: ../extensions/file_manager/actions.c:746
+#: ../extensions/file_manager/actions.c:759
 #, fuzzy
-msgid ""
-"The folder is not empty, do you want to delete the folder and its content "
-"permanently?"
-msgstr ""
-"Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin "
-"menghapusnya secara permanen?"
+msgid "The folder is not empty, do you want to delete the folder and its content permanently?"
+msgstr "Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin menghapusnya secara permanen?"
 
-#: ../extensions/file_manager/actions.c:762
+#: ../extensions/file_manager/actions.c:775
 #, fuzzy
 msgid "Could not delete the folder"
 msgstr "Tidak dapat menghapus folder '%s': %s"
 
-#: ../extensions/file_manager/actions.c:821
+#: ../extensions/file_manager/actions.c:834
 #, fuzzy
-msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
-msgstr ""
-"Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin "
-"menghapusnya secara permanen?"
+msgid "The folder cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "Gambar tidak dapat dipindahkan ke Tempat sampah. Apakah anda ingin menghapusnya secara permanen?"
 
-#: ../extensions/file_manager/actions.c:828
+#: ../extensions/file_manager/actions.c:841
 #, fuzzy
 msgid "Could not move the folder to the Trash"
-msgstr "Tidak dapat memindahkan folder \"%s\": %s"
+msgstr "Tak bisa membuang berkas ke Tong Sampah"
 
-#: ../extensions/file_manager/callbacks.c:148
-#: ../extensions/file_manager/callbacks.c:180
+#: ../extensions/file_manager/actions.c:981
+#, fuzzy
+msgid "Move To"
+msgstr "Pindah ke"
+
+#: ../extensions/file_manager/actions.c:981
+#, fuzzy
+msgid "Copy To"
+msgstr "Menyalin %1 pada %2"
+
+#: ../extensions/file_manager/actions.c:985
+#, fuzzy
+msgid "Move"
+msgstr "Pindah"
+
+#: ../extensions/file_manager/actions.c:985
+#, fuzzy
+msgid "Copy"
+msgstr "Salin"
+
+#: ../extensions/file_manager/callbacks.c:154
+#: ../extensions/file_manager/callbacks.c:186
 msgid "Create _Folder"
 msgstr "Buat _Folder"
 
-#: ../extensions/file_manager/callbacks.c:149
-#: ../extensions/file_manager/callbacks.c:181
+#: ../extensions/file_manager/callbacks.c:155
+#: ../extensions/file_manager/callbacks.c:187
 #, fuzzy
 msgid "Create a new empty folder inside this folder"
-msgstr "Ciptakan folder kosong baru dalam folder ini"
+msgstr "Membuat satu folder kosong"
 
-#: ../extensions/file_manager/callbacks.c:164
+#: ../extensions/file_manager/callbacks.c:170
 msgid "D_uplicate"
 msgstr "D_uplikasikan"
 
-#: ../extensions/file_manager/callbacks.c:165
+#: ../extensions/file_manager/callbacks.c:171
 #, fuzzy
 msgid "Duplicate the selected files"
-msgstr "Duplikatkan template pilihan"
+msgstr "Membuka berkas yang dipilih"
 
-#: ../extensions/file_manager/callbacks.c:169
+#: ../extensions/file_manager/callbacks.c:175
 #, fuzzy
 msgid "Move the selected files to the Trash"
 msgstr "Pindahkan gambar terpilih ke Tempat sampah"
 
-#: ../extensions/file_manager/callbacks.c:172
-#: ../extensions/file_manager/callbacks.c:204
+#: ../extensions/file_manager/callbacks.c:178
+#: ../extensions/file_manager/callbacks.c:210
 msgid "_Delete"
 msgstr "_Hapus"
 
-#: ../extensions/file_manager/callbacks.c:173
+#: ../extensions/file_manager/callbacks.c:179
 msgid "Delete the selected files"
 msgstr "Hapus berkas yang dipilih"
 
-#: ../extensions/file_manager/callbacks.c:176
+#: ../extensions/file_manager/callbacks.c:182
 msgid "Open with the _File Manager"
 msgstr "Buka dengan manajer _File"
 
-#: ../extensions/file_manager/callbacks.c:184
+#: ../extensions/file_manager/callbacks.c:190
 #: ../extensions/rename_series/callbacks.c:47
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "_Rename"
 msgstr "_Ganti nama"
 
-#: ../extensions/file_manager/callbacks.c:196
+#: ../extensions/file_manager/callbacks.c:202
 msgid "_Paste Into Folder"
 msgstr "Tem_pel Ke Folder"
 
-#: ../extensions/file_manager/callbacks.c:864 ../gthumb/gth-browser.c:4610
-#: ../gthumb/gth-browser.c:4647
+#: ../extensions/file_manager/callbacks.c:214
+#, fuzzy
+msgid "Copy to..."
+msgstr "Menyalin %1 pada %2"
+
+#: ../extensions/file_manager/callbacks.c:215
+#, fuzzy
+msgid "Copy the selected files to another folder"
+msgstr "Menyalin pesan yang dipilih ke folder yang lain"
+
+#: ../extensions/file_manager/callbacks.c:218
+#, fuzzy
+msgid "Move to..."
+msgstr "Pindah ke"
+
+#: ../extensions/file_manager/callbacks.c:219
+#, fuzzy
+msgid "Move the selected files to another folder"
+msgstr "Memindahkan pesan yang dipilih ke folder yang lain"
+
+#: ../extensions/file_manager/callbacks.c:900
+#: ../gthumb/gth-browser.c:4707
+#: ../gthumb/gth-browser.c:4744
 msgid "Could not perform the operation"
 msgstr "Operasi tidak dapat dilakukan"
 
@@ -1833,8 +2341,9 @@ msgid "File manager"
 msgstr "Manajer berkas"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
+#, fuzzy
 msgid "File manager operations."
-msgstr ""
+msgstr "Operasi berkas penyunting"
 
 #: ../extensions/file_manager/gth-delete-task.c:62
 msgid "Deleting files"
@@ -1887,7 +2396,7 @@ msgstr "&#xD7;"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 #, fuzzy
 msgid "Aspect ratio"
-msgstr "Aspek rasio:"
+msgstr "Rasio aspek"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #, fuzzy
@@ -1898,7 +2407,7 @@ msgstr "PotongPendek"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #, fuzzy
 msgid "I_nvert aspect ratio"
-msgstr "Aspek rasio (4:3, 16:9)."
+msgstr "Jaga rasio aspek"
 
 #. after the colon there is a control to select the size in pixels
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
@@ -1914,7 +2423,7 @@ msgstr "Pilihan"
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 #, fuzzy
 msgid "_Grid:"
-msgstr "_Lebar:"
+msgstr "Grid"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:11
 #, fuzzy
@@ -1968,15 +2477,15 @@ msgstr "<b>dimensi Asli</b>"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
 #, fuzzy
 msgid "Scale factor:"
-msgstr "_Skala:"
+msgstr "Faktor koreksi"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:17
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "_Width:"
 msgstr "_Lebar:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:14
-#: ../extensions/image_print/data/ui/print-layout.ui.h:19
+#: ../extensions/image_print/data/ui/print-layout.ui.h:21
 msgid "pixels"
 msgstr "piksel"
 
@@ -1987,12 +2496,13 @@ msgstr ""
 #: ../extensions/file_tools/file_tools.extension.in.in.h:2
 #, fuzzy
 msgid "Image tools"
-msgstr "Gambar"
+msgstr "Perkakas Administrasi"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:310
 #: ../extensions/file_tools/gth-file-tool-negative.c:83
+#, fuzzy
 msgid "Applying changes"
-msgstr ""
+msgstr "Menerapkan perubahan"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
 msgid "Adjust Colors..."
@@ -2021,7 +2531,7 @@ msgstr "%d x %d (Gambar)"
 #: ../extensions/file_tools/gth-file-tool-resize.c:426
 #, fuzzy, c-format
 msgid "%d x %d (Screen)"
-msgstr "LAYAR"
+msgstr "Layar"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:407
 #: ../extensions/file_tools/gth-file-tool-resize.c:430
@@ -2030,8 +2540,9 @@ msgstr "5:4"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:408
 #: ../extensions/file_tools/gth-file-tool-resize.c:431
+#, fuzzy
 msgid "4:3 (DVD, Book)"
-msgstr ""
+msgstr "4 x 3 (Buku, DVD)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:409
 #: ../extensions/file_tools/gth-file-tool-resize.c:432
@@ -2065,47 +2576,54 @@ msgstr "2.39:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:415
 #: ../extensions/file_tools/gth-file-tool-resize.c:438
-#: ../extensions/image_print/data/ui/print-layout.ui.h:3
+#: ../extensions/image_print/data/ui/print-layout.ui.h:4
 msgid "Custom"
 msgstr "Ubahan"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-crop.c:426
+#, fuzzy
 msgid "Rule of Thirds"
-msgstr ""
+msgstr "Aturan generik"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-crop.c:427
+#, fuzzy
 msgid "Golden Sections"
-msgstr ""
+msgstr "Golden Rock"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:553
+#: ../extensions/file_tools/gth-file-tool-crop.c:428
+#, fuzzy
+msgid "Center Lines"
+msgstr "Garis Grid"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:557
 #, fuzzy
 msgid "Crop..."
 msgstr "Potong"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:553
+#: ../extensions/file_tools/gth-file-tool-crop.c:557
 msgid "Crop"
 msgstr "PotongPendek"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:100
 #, fuzzy
 msgid "Desaturating image"
-msgstr "_Desaturasi"
+msgstr "Render citra"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:118
 #, fuzzy
 msgid "Desaturate"
 msgstr "_Desaturasi"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:248
+#: ../extensions/file_tools/gth-file-tool-enhance.c:252
 msgid "White balance correction"
 msgstr ""
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:280
+#: ../extensions/file_tools/gth-file-tool-enhance.c:284
 #, fuzzy
 msgid "Enhance Colors"
-msgstr "Kurangi nomor dari warna"
+msgstr "Warna pesan"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:281
+#: ../extensions/file_tools/gth-file-tool-enhance.c:285
 msgid "Automatic white balance correction"
 msgstr ""
 
@@ -2142,17 +2660,17 @@ msgstr "_Negatif"
 #: ../extensions/file_tools/gth-file-tool-redo.c:62
 #, fuzzy
 msgid "Redo"
-msgstr "Ulang"
+msgstr "Jadi lagi"
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:549
 #, fuzzy
 msgid "Resize..."
-msgstr "Ganti·Uku_ran"
+msgstr "Ubah Uku_ran"
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:549
 #, fuzzy
 msgid "Resize"
-msgstr "Ganti ukuran"
+msgstr "Ubah Ukuran"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:73
 #: ../extensions/image_rotation/callbacks.c:54
@@ -2175,9 +2693,10 @@ msgstr "Simpan"
 #: ../extensions/file_tools/gth-file-tool-undo.c:61
 #, fuzzy
 msgid "Undo"
-msgstr "Batal"
+msgstr "Tak Jadi"
 
-#: ../extensions/flicker/callbacks.c:59 ../extensions/flicker/callbacks.c:63
+#: ../extensions/flicker/callbacks.c:59
+#: ../extensions/flicker/callbacks.c:63
 msgid "_Flickr..."
 msgstr "_Flickr..."
 
@@ -2186,8 +2705,9 @@ msgid "Download photos from Flickr"
 msgstr ""
 
 #: ../extensions/flicker/callbacks.c:64
+#, fuzzy
 msgid "Upload photos to Flickr"
-msgstr ""
+msgstr "Unggah citra Anda ke Flickr"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
@@ -2200,8 +2720,9 @@ msgid "Hi_de from public searches"
 msgstr ""
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:4
+#, fuzzy
 msgid "Moderate content"
-msgstr ""
+msgstr "Isi Snippet"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:5
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:3
@@ -2209,8 +2730,9 @@ msgid "Ph_otoset:"
 msgstr ""
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:6
+#, fuzzy
 msgid "Private photos"
-msgstr ""
+msgstr "Jumlah foto:"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:7
 msgid "Private photos, visible to family"
@@ -2221,13 +2743,14 @@ msgid "Private photos, visible to family and friends"
 msgstr ""
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:11
+#, fuzzy
 msgid "Restricted content"
-msgstr ""
+msgstr "Isi Snippet"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:12
 #, fuzzy
 msgid "Safe content"
-msgstr "komentar Gambar"
+msgstr "Isi Snippet"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:14
 #, fuzzy
@@ -2237,7 +2760,7 @@ msgstr "Pribadi"
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:15
 #, fuzzy
 msgid "_Safety:"
-msgstr "_Skala:"
+msgstr "Batas keselamatan"
 
 #: ../extensions/flicker/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
@@ -2249,7 +2772,7 @@ msgstr "_Impor"
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:812
 #, fuzzy
 msgid "Could not get the photo list"
-msgstr "Tidak dapat impor foto"
+msgstr "Tidak dapat memperoleh daftar blog."
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:404
 #: ../extensions/flicker/dlg-import-from-flickr.c:571
@@ -2257,7 +2780,7 @@ msgstr "Tidak dapat impor foto"
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1008
 #, fuzzy
 msgid "No album selected"
-msgstr "Tidak ada kamera yang terdeteksi"
+msgstr "Tak ada grup yang dipilih"
 
 #: ../extensions/flicker/dlg-import-from-flickr.c:589
 #, fuzzy, c-format
@@ -2269,12 +2792,13 @@ msgid "Flicker"
 msgstr "Flicker"
 
 #: ../extensions/flicker/flicker.extension.in.in.h:2
+#, fuzzy
 msgid "Upload images to Flickr"
-msgstr ""
+msgstr "Unggah citra Anda ke Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
-#: ../extensions/image_viewer/gth-image-viewer-page.c:838
-#: ../gthumb/gth-browser.c:1870
+#: ../extensions/image_viewer/gth-image-viewer-page.c:986
+#: ../gthumb/gth-browser.c:1878
 #, fuzzy
 msgid "Could not save the file"
 msgstr "Berkas %s tidak dapat disimpan."
@@ -2282,10 +2806,10 @@ msgstr "Berkas %s tidak dapat disimpan."
 #: ../extensions/gstreamer_tools/actions.c:124
 #, fuzzy
 msgid "Could not take a screenshot"
-msgstr "Tidak dapat impor foto"
+msgstr "Tidak bisa mendapatkan screenshot dari koneksi."
 
 #: ../extensions/gstreamer_tools/actions.c:130
-#: ../extensions/image_viewer/gth-image-viewer-page.c:982
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1130
 msgid "Save Image"
 msgstr "Simpan Gambar"
 
@@ -2310,7 +2834,7 @@ msgid "Faster"
 msgstr "Lebih cepat"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:627
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:624
 msgid "Play"
 msgstr "Mainkan"
 
@@ -2323,8 +2847,9 @@ msgid "Time:"
 msgstr "Waktu:"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
+#, fuzzy
 msgid "Toggle volume"
-msgstr ""
+msgstr "Tombol Volume"
 
 #. this is the separator between current position and duration of a media file
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
@@ -2338,8 +2863,9 @@ msgid "Choose a folder"
 msgstr "Pilih folder"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
+#, fuzzy
 msgid "Audio/Video support"
-msgstr ""
+msgstr "Video atau Audio"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:2
 msgid "Play audio and video files."
@@ -2355,10 +2881,10 @@ msgstr "Screenshot dari %s"
 msgid "Take a screenshot"
 msgstr "Ambil gambar layar"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:617
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:614
 #, fuzzy
 msgid "Pause"
-msgstr "Pause"
+msgstr "Jeda"
 
 #: ../extensions/gstreamer_tools/main.c:31
 #: ../gthumb/gth-main-default-tests.c:211
@@ -2382,7 +2908,7 @@ msgstr "Album"
 #: ../extensions/gstreamer_tools/main.c:41
 #, fuzzy
 msgid "Bitrate"
-msgstr "Bitrate:"
+msgstr "Laju bit:"
 
 #: ../extensions/gstreamer_tools/main.c:42
 msgid "Encoder"
@@ -2398,13 +2924,13 @@ msgid "Framerate"
 msgstr "Laju frame:"
 
 #: ../extensions/gstreamer_tools/main.c:46
-#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+#: ../extensions/image_print/data/ui/print-layout.ui.h:16
 #: ../extensions/image_viewer/gth-image-viewer-page.c:192
 msgid "Width"
 msgstr "Lebar"
 
 #: ../extensions/gstreamer_tools/main.c:47
-#: ../extensions/image_print/data/ui/print-layout.ui.h:4
+#: ../extensions/image_print/data/ui/print-layout.ui.h:5
 msgid "Height"
 msgstr "Tinggi"
 
@@ -2427,9 +2953,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1034
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:74
-#: ../extensions/webalbums/dlg-web-exporter.c:408
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1182
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:77
+#: ../extensions/webalbums/dlg-web-exporter.c:432
+#: ../extensions/webalbums/gth-web-exporter.c:2437
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -2442,90 +2969,86 @@ msgstr "Buka folder yang dipilih"
 #: ../extensions/image_print/callbacks.c:54
 #, fuzzy
 msgid "Print the selected images"
-msgstr "Ganti nama direktori yang terpilih"
+msgstr "Mencetak gambar yang dipilih"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #, fuzzy
 msgid "Centered"
 msgstr "Tengah"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/image_print/data/ui/print-layout.ui.h:6
 msgid "Image"
 msgstr "Gambar"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
-msgid "Images per page:"
-msgstr "Gambar per halaman:"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/image_print/data/ui/print-layout.ui.h:8
 msgid "Left"
 msgstr "Kiri"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:8
+#: ../extensions/image_print/data/ui/print-layout.ui.h:9
 msgid "Position:"
 msgstr "Posisi:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:10
 msgid "Preview"
 msgstr "Pratilik"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:10
+#: ../extensions/image_print/data/ui/print-layout.ui.h:11
 msgid "Rotation:"
 msgstr "Rotasi:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:11
+#: ../extensions/image_print/data/ui/print-layout.ui.h:12
 #, fuzzy
 msgid "Select Caption Font"
-msgstr "Pilih Jenis Huruf"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:13
-#, fuzzy
-msgid "Top"
-msgstr "Atas"
+msgstr "Pilih Fonta Dasher"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
 #, fuzzy
-msgid "Unit:"
-msgstr "Unit"
+msgid "Top"
+msgstr "Puncak"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+#, fuzzy
+msgid "Unit:"
+msgstr "Unit:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:17
 msgid "_Font:"
 msgstr "_Font:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:17
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+#, fuzzy
+msgid "_Rows:"
+msgstr "Ba_ris:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:19
 msgid "inches"
 msgstr "inci"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+#: ../extensions/image_print/data/ui/print-layout.ui.h:20
 msgid "millimeters"
 msgstr "milimeter"
 
-#: ../extensions/image_print/gth-image-print-job.c:814
+#: ../extensions/image_print/gth-image-print-job.c:782
 #: ../extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Halaman %d dari %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1491
-#: ../extensions/image_print/gth-image-print-job.c:1593
-#: ../extensions/image_print/gth-image-print-job.c:1614
+#: ../extensions/image_print/gth-image-print-job.c:1482
+#: ../extensions/image_print/gth-image-print-job.c:1584
+#: ../extensions/image_print/gth-image-print-job.c:1605
 #, fuzzy
 msgid "Could not print"
-msgstr "Tidak dapat impor foto"
-
-#: ../extensions/image_print/gth-image-print-job.c:1549
-msgid "Layout"
-msgstr "Tampilan"
+msgstr "Tak bisa menyimpan '%s'"
 
 #. translators: %s is a filename
-#: ../extensions/image_print/gth-load-image-info-task.c:154
+#: ../extensions/image_print/gth-load-image-info-task.c:156
 #, fuzzy, c-format
 msgid "Loading \"%s\""
-msgstr "Sedang membuka..."
+msgstr "Memuat..."
 
-#: ../extensions/image_print/gth-load-image-info-task.c:156
-#: ../extensions/webalbums/gth-web-exporter.c:2734
+#: ../extensions/image_print/gth-load-image-info-task.c:158
+#: ../extensions/webalbums/gth-web-exporter.c:2686
 msgid "Loading images"
 msgstr "Meload gambar"
 
@@ -2536,7 +3059,7 @@ msgstr ""
 #: ../extensions/image_print/image_print.extension.in.in.h:2
 #, fuzzy
 msgid "Image print"
-msgstr "Judul Gambar"
+msgstr "Mencetak gambar yang dipilih"
 
 #: ../extensions/image_rotation/callbacks.c:50
 #, fuzzy
@@ -2551,7 +3074,7 @@ msgstr "Pindahkan gambar terpilih ke Tempat sampah"
 #: ../extensions/image_rotation/callbacks.c:59
 #, fuzzy
 msgid "Rotate Physically"
-msgstr "Membuka dan memutar gambar"
+msgstr "Puta_r Searah Jarum Jam"
 
 #: ../extensions/image_rotation/callbacks.c:60
 #, fuzzy
@@ -2570,7 +3093,7 @@ msgstr ""
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
 #, fuzzy
 msgid "Image rotation"
-msgstr "Judul Gambar"
+msgstr "Putaran Jarum Jam"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
 #, fuzzy
@@ -2584,36 +3107,27 @@ msgstr "Tidak dapat ganti nama gambar \"%s\": %s"
 
 #: ../extensions/image_rotation/rotation-utils.c:123
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
 
 #: ../extensions/image_rotation/rotation-utils.c:129
 #, fuzzy
 msgid "_Trim"
-msgstr "Gabung"
+msgstr "Potong:"
 
 #: ../extensions/image_rotation/rotation-utils.c:131
+#, fuzzy
 msgid "_Accept distortion"
-msgstr ""
+msgstr "Cookie diterima"
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
 #, fuzzy
-msgid ""
-"Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
-"fit-width, fit-width-if-larger."
-msgstr ""
-"Nilai yang mungkin: actual_size (ukuran sebenarnya), fit (pas), keep_prev "
-"(pertahankan sebelumnya), fit_if_larger (paskan bila lebih besar), "
-"fit_width_if_larger (paskan lebar bila lebih besar)."
+msgid "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, fit-width, fit-width-if-larger."
+msgstr "Nilai yang mungkin: actual_size (ukuran sebenarnya), fit (pas), keep_prev (pertahankan sebelumnya), fit_if_larger (paskan bila lebih besar), fit_width_if_larger (paskan lebar bila lebih besar)."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -2644,6 +3158,11 @@ msgstr "_tipe Transparansi:"
 #, fuzzy
 msgid "_Zoom quality:"
 msgstr "<b>kualitas Zoom</b>"
+
+#: ../extensions/image_viewer/gth-image-histogram.c:75
+#, fuzzy
+msgid "Histogram"
+msgstr "Histogram"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:172
 msgid "In"
@@ -2680,12 +3199,12 @@ msgstr "Zoom sesuaikan dengan jendela"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:193
 #, fuzzy
 msgid "Zoom to fit width"
-msgstr "Zoom sesuaikan dengan jendela"
+msgstr "Zum agar pas lebar citra"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:200
 #, fuzzy
 msgid "_Fit Window to Image"
-msgstr "Paskan gambar ke jendela"
+msgstr "Menyesuaikan gambar dengan jendela aplikasi"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:201
 msgid "Resize the window to the size of the image"
@@ -2698,7 +3217,7 @@ msgstr ""
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
 #, fuzzy
 msgid "Image viewer"
-msgstr "Penampil Citra"
+msgstr "Penampil Gambar"
 
 #: ../extensions/image_viewer/preferences.c:96
 msgid "Set to actual size"
@@ -2721,16 +3240,10 @@ msgstr "Nilai yang mungkin: tidak_samasekali, turunkan, jpeg."
 msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
 msgstr "Nilai yang mungkin: yyyymmdd, yyyymm, yyyy"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
-msgid "Special code"
-msgstr ""
-
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
+#, fuzzy
 msgid "The day of the month"
-msgstr ""
+msgstr "Hari/Bulan/Tahun"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The event description"
@@ -2757,8 +3270,9 @@ msgid "The year"
 msgstr "Tahun"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:10
+#, fuzzy
 msgid "_Automatic subfolder"
-msgstr ""
+msgstr "Log Masuk Otomatis:"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:11
 msgid "_Destination"
@@ -2772,28 +3286,30 @@ msgstr "_Sertakan sub folder"
 #: ../extensions/importer/gth-import-destination-button.c:212
 #, fuzzy
 msgid "Invalid Destination"
-msgstr "_Tujuan:"
+msgstr "Pilih tujuan"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:195
 #, fuzzy, c-format
 msgid "example: %s"
-msgstr "Contoh:"
+msgstr "Contoh"
 
 #. subfolder type
 #: ../extensions/importer/gth-import-preferences-dialog.c:327
 #, fuzzy
 msgid "File date"
-msgstr "_nama File"
+msgstr "Tanggal pembuatan gambar"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
 #: ../extensions/importer/gth-import-preferences-dialog.c:337
+#, fuzzy
 msgid "year-month-day"
-msgstr ""
+msgstr "Hari/Bulan/Tahun"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:338
+#, fuzzy
 msgid "year-month"
-msgstr ""
+msgstr "Hari/Bulan/Tahun"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:339
 msgid "year"
@@ -2802,7 +3318,7 @@ msgstr "tahun"
 #: ../extensions/importer/gth-import-preferences-dialog.c:340
 #, fuzzy
 msgid "custom format"
-msgstr "Bentuk bebas"
+msgstr "Format ubahan"
 
 #: ../extensions/importer/gth-import-task.c:438
 #: ../extensions/importer/gth-import-task.c:473
@@ -2811,8 +3327,9 @@ msgid "Importing files"
 msgstr "Mengimpor berkas"
 
 #: ../extensions/importer/gth-import-task.c:594
+#, fuzzy
 msgid "No file imported"
-msgstr ""
+msgstr "Tidak ada berkas yang dipilih"
 
 #: ../extensions/importer/gth-import-task.c:595
 msgid "The selected files are already present in the destination."
@@ -2821,14 +3338,15 @@ msgstr ""
 #: ../extensions/importer/gth-import-task.c:616
 #, fuzzy
 msgid "Delete operation not supported."
-msgstr "tipe Gambar tidak didukung: %s"
+msgstr "Operasi tidak didukung"
 
 #: ../extensions/importer/gth-import-task.c:700
 #, fuzzy
 msgid "Last imported"
-msgstr "perubahan Terakhir"
+msgstr "Sertifikat Yang Diimpor"
 
-#: ../extensions/list_tools/callbacks.c:64 ../gthumb/gth-filterbar.c:303
+#: ../extensions/list_tools/callbacks.c:64
+#: ../gthumb/gth-filterbar.c:303
 #, fuzzy
 msgid "Personalize..."
 msgstr "Personalisasi"
@@ -2846,7 +3364,7 @@ msgstr ""
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
 #, fuzzy
 msgid "_Skip"
-msgstr "Lewati"
+msgstr "_Lewati"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
 msgid "Co_mmands:"
@@ -2895,20 +3413,21 @@ msgstr ""
 
 #. Translate only 'attribute name'
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:18
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "%attr{ attribute name }"
-msgstr ""
+msgstr "Nama atribut tambahan yang tak valid"
 
 #. Translate only 'text'.
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "%quote{ text }"
-msgstr ""
+msgstr "Berkas Teks"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
+#, fuzzy
 msgid "A file attribute"
-msgstr ""
+msgstr "Data atribut"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:23
 msgid "Ask an input value"
@@ -2919,18 +3438,19 @@ msgid "E_xecute command once for every file"
 msgstr ""
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:26
+#, fuzzy
 msgid "Quote the text "
-msgstr ""
+msgstr "Berkas Teks"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:27
 #, fuzzy
 msgid "Sh_ortcut:"
-msgstr "_Urutkan..."
+msgstr "Berb_agi"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 #, fuzzy
 msgid "The file basename"
-msgstr "&Filter nama berkas..."
+msgstr "Berkas terlampir."
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "The file basename without extension"
@@ -2943,16 +3463,17 @@ msgstr "Ekstensi berkas"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:32
 #, fuzzy
 msgid "The file path"
-msgstr "pa_th File"
+msgstr "Spesifikasi Lokasi Berkas"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#, fuzzy
 msgid "The file uri"
-msgstr ""
+msgstr "URI berkas audio"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:34
 #, fuzzy
 msgid "The parent folder path"
-msgstr "Pindahkan folder yang aktif sekarang"
+msgstr "Lokasi _Folder (tidak wajib):"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:35
 msgid "_Command:"
@@ -2999,8 +3520,9 @@ msgstr "Masukkan nilai:"
 #: ../extensions/webalbums/gth-web-exporter.c:571
 #: ../extensions/webalbums/gth-web-exporter.c:583
 #: ../extensions/webalbums/gth-web-exporter.c:591
+#, fuzzy
 msgid "Malformed command"
-msgstr ""
+msgstr "_Batalkan perintah"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:177
 msgid "none"
@@ -3028,8 +3550,9 @@ msgid "Command exited abnormally with status %d"
 msgstr ""
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:1
+#, fuzzy
 msgid "File list tools"
-msgstr ""
+msgstr "Memperoleh daftar berkas"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
@@ -3047,7 +3570,7 @@ msgstr ""
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:295
 #, fuzzy
 msgid "1 megabyte file size"
-msgstr "Urutkan berdasarkan ukuran file"
+msgstr "Tampilkan Ukuran Berkas"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
 msgid "15ʺ screen ( 800 x 600 )"
@@ -3076,12 +3599,12 @@ msgstr ""
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
 #, fuzzy
 msgid "_Resize to:"
-msgstr "_Set-ulang"
+msgstr "Balas ke %s"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
 #, fuzzy
 msgid "_Scramble filenames"
-msgstr "&Filter nama berkas..."
+msgstr "Tempel Nama _Berkas"
 
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #, fuzzy
@@ -3101,8 +3624,9 @@ msgid "Medium ( 320 × 240 )"
 msgstr ""
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:292
+#, fuzzy
 msgid "Large ( 640 × 480 )"
-msgstr ""
+msgstr "Besar ( 640 x 480 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:293
 msgid "15ʺ screen ( 800 × 600 )"
@@ -3115,7 +3639,7 @@ msgstr ""
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:302
 #, fuzzy
 msgid "2 megabyte file size"
-msgstr "Urutkan berdasarkan ukuran file"
+msgstr "Tampilkan Ukuran Berkas"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:1
 msgid "PhotoBucket"
@@ -3126,8 +3650,9 @@ msgid "Upload images to PhotoBucket"
 msgstr ""
 
 #: ../extensions/photo_importer/callbacks.c:51
+#, fuzzy
 msgid "_Removable Device..."
-msgstr ""
+msgstr "LOKASI PERANGKAT"
 
 #: ../extensions/photo_importer/callbacks.c:52
 msgid "Import photos and other files from a removable device"
@@ -3140,7 +3665,7 @@ msgstr ""
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 #, fuzzy
 msgid "_Rotate the images physically"
-msgstr "Membuka dan memutar gambar"
+msgstr "Menampilkan dan memutar gambar"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 msgid "Import from Removable Device"
@@ -3151,7 +3676,7 @@ msgstr ""
 #: ../gthumb/gth-filterbar.c:413
 #, fuzzy
 msgid "S_how:"
-msgstr "&Tampilkan:"
+msgstr "_Tampilkan Pencarian"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #, fuzzy
@@ -3169,17 +3694,17 @@ msgstr "_Tag:"
 
 #. translators: %d is the number of files, %s the total size
 #: ../extensions/photo_importer/dlg-photo-importer.c:248
-#, c-format
+#, fuzzy, c-format
 msgid "Files to import: %d (%s)"
-msgstr ""
+msgstr "Baris yang akan diimpor"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:288
 #, fuzzy
 msgid "Could not load the folder"
-msgstr "Tidak dapat memindahkan folder \"%s\": %s"
+msgstr "Tidak dapat menghapus folder '%s': %s"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1783
+#: ../gthumb/gth-browser.c:1791
 #, fuzzy
 msgid "Getting folder listing..."
 msgstr "Mengambil daftar kotak surat..."
@@ -3201,7 +3726,7 @@ msgstr "Impor foto dari kamera digital"
 #: ../extensions/picasaweb/callbacks.c:63
 #, fuzzy
 msgid "_Picasa Web Album..."
-msgstr "Theme Album Web"
+msgstr "Album Web Picasa"
 
 #: ../extensions/picasaweb/callbacks.c:60
 msgid "Download photos from Picasa Web Album"
@@ -3228,9 +3753,7 @@ msgid "_Album:"
 msgstr "_Album:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
-msgid ""
-"Type the characters you see in the picture below. Letters are not case-"
-"sensitive."
+msgid "Type the characters you see in the picture below. Letters are not case-sensitive."
 msgstr ""
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
@@ -3249,7 +3772,7 @@ msgstr "Publik"
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:294
 #, fuzzy
 msgid "Could not get the album list"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat memperoleh daftar blog."
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:434
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:376
@@ -3264,34 +3787,50 @@ msgstr "Akun"
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:134
 #, fuzzy
 msgid "Could not load the file"
-msgstr "Tidak dapat memindahkan gambar:"
+msgstr "Tidak bisa memuat berkas: %s"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
 #, fuzzy
 msgid "Picasa Web Albums"
-msgstr "Album Web"
+msgstr "Album Web Picasa"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr ""
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
+#, fuzzy
+msgid "Possible values are: jpeg, jpg."
+msgstr "Nilai yang mungkin: png, jpeg."
+
+#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:2
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Nilai yang mungkin: tidak_samasekali, turunkan, jpeg."
+
+#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:3
+#, fuzzy
+msgid "Possible values are: tiff, tif."
+msgstr "Nilai yang mungkin adalah: high (tinggi), low (rendah)."
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:1
 msgid "Opti_mize"
 msgstr "Opti_masi"
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+#, fuzzy
+msgid "_Default extension:"
+msgstr "Ubah _Ekstensi"
+
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
 msgid "_Progressive"
 msgstr "_Progresif"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
 msgid "_Quality:"
 msgstr "_Kualitas:"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:5
 msgid "_Smoothing:"
 msgstr "Halu_skan:"
 
@@ -3300,8 +3839,9 @@ msgid "Compression _level:"
 msgstr "_level Kompresi"
 
 #: ../extensions/pixbuf_savers/data/ui/save-options-preferences.ui.h:1
+#, fuzzy
 msgid "Default options:"
-msgstr ""
+msgstr "Pilihan penerimaan"
 
 #: ../extensions/pixbuf_savers/data/ui/tga-options.ui.h:1
 msgid "_RLE compression"
@@ -3319,33 +3859,23 @@ msgstr "No_rmal (Menurun)"
 msgid "Resolution"
 msgstr "Resolusi"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
-msgid "_Horizontal:"
-msgstr "_Horizontal:"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
 msgid "_Loss compression (JPEG)"
 msgstr "Kompresi Hi_lang (JPEG)"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
 msgid "_No compression"
 msgstr "_Tidak kompresi"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
-msgid "_Vertical:"
-msgstr "_Vertikal:"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
 msgid "dpi"
 msgstr "dpi"
 
-#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:478
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:523
 msgid "JPEG"
 msgstr "JPEG"
 
 #: ../extensions/pixbuf_savers/gth-png-saver.c:145
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "PNG"
 msgstr "PNG"
 
@@ -3355,12 +3885,10 @@ msgid "Insufficient memory"
 msgstr "Memori tidak cukup"
 
 #: ../extensions/pixbuf_savers/gth-tga-saver.c:378
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:13
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/pixbuf_savers/gth-tiff-saver.c:497
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:14
+#: ../extensions/pixbuf_savers/gth-tiff-saver.c:542
 msgid "TIFF"
 msgstr "TIFF"
 
@@ -3371,11 +3899,6 @@ msgstr "Simpan gambar"
 #: ../extensions/pixbuf_savers/pixbuf_savers.extension.in.in.h:2
 msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr ""
-
-#: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
-msgid "Saving"
-msgstr "Menyimpan"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
 msgid "Allow to load raw format images."
@@ -3419,12 +3942,10 @@ msgstr ""
 #: ../extensions/rename_series/callbacks.c:48
 #, fuzzy
 msgid "Rename the selected files"
-msgstr "Ganti nama direktori yang terpilih"
+msgstr "Membuka berkas yang dipilih"
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:1
-msgid ""
-"Possible values include: general::unsorted, file::name, file::size, file::"
-"mtime, exif::photo::datetimeoriginal"
+msgid "Possible values include: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal"
 msgstr ""
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
@@ -3436,20 +3957,13 @@ msgstr "Nilai yang mungkin: tidak_samasekali, turunkan, jpeg."
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #, fuzzy, no-c-format
 msgid "%A{ identifier }"
-msgstr "<b>Identifier:</b>"
-
-#. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
-#, fuzzy, no-c-format
-msgid "%D{ format }"
-msgstr "_Format"
+msgstr "Identifair"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #, fuzzy, no-c-format
 msgid "%M{ format }"
-msgstr "_Format"
+msgstr "Format:"
 
 #. Translators: this is the text case (upper or lower case).
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:12
@@ -3457,16 +3971,11 @@ msgstr "_Format"
 msgid "Cas_e:"
 msgstr "Cyan _Merah:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
-msgid "New enumerator digit"
-msgstr ""
-
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "Re_verse Order"
 msgstr "Urut Ter_balik"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:16
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "Rename"
 msgstr "Ganti nama"
 
@@ -3486,7 +3995,7 @@ msgstr "Tanggal modifikasi"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 #, fuzzy
 msgid "The original enumerator"
-msgstr "Pertahan_kan nama asli file"
+msgstr "String asli"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:22
 msgid "The original extension"
@@ -3519,7 +4028,7 @@ msgstr "Nama Baru"
 #: ../extensions/rename_series/dlg-rename-series.c:554
 #, fuzzy
 msgid "Keep original case"
-msgstr "Pertahan_kan nama asli file"
+msgstr "Pertahankan item asli?"
 
 #: ../extensions/rename_series/dlg-rename-series.c:555
 #, fuzzy
@@ -3531,7 +4040,7 @@ msgstr "Ubah Format"
 msgid "Convert to upper-case"
 msgstr "Ubah Format"
 
-#: ../extensions/rename_series/gth-rename-task.c:166
+#: ../extensions/rename_series/gth-rename-task.c:167
 msgid "Renaming files"
 msgstr "Mengganti nama berkas"
 
@@ -3542,78 +4051,67 @@ msgstr "Mengganti nama berkas"
 #: ../extensions/rename_series/rename_series.extension.in.in.h:2
 #, fuzzy
 msgid "Rename series of files."
-msgstr "Ganti nama direktori yang terpilih"
+msgstr "Tidak dapat mengganti nama berkas"
 
 #: ../extensions/resize_images/callbacks.c:45
 #, fuzzy
 msgid "Resize Images..."
-msgstr "GantiUkuran gambar"
+msgstr "Citra GIF"
 
 #: ../extensions/resize_images/callbacks.c:46
 #, fuzzy
 msgid "Resize the selected images"
-msgstr "Ganti nama direktori yang terpilih"
+msgstr "Buang komentar dari gambar terpilih"
 
 #: ../extensions/resize_images/data/gthumb_resize_images.schemas.in.h:1
 #, fuzzy
 msgid "Possible values: pixels, percentage"
 msgstr "Nilai yang mungkin: piksel, persentase."
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-msgid "Ask"
-msgstr "Tanya"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
 #, fuzzy
 msgid "New dimensions"
 msgstr "<b>dimensi Baru</b>"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-msgid "Overwrite"
-msgstr "Timpa"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 #, fuzzy
 msgid "Resize Images"
-msgstr "GantiUkuran gambar"
+msgstr "Citra GIF"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
-msgid "Skip"
-msgstr "Biarkan"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:15
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 msgid "_Height:"
 msgstr "_Tinggi:"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:16
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 #, fuzzy
 msgid "_Preserve original aspect ratios"
 msgstr "Aspek rasio (4:3, 16:9)."
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:18
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "pixel"
 msgstr "piksel"
 
 #: ../extensions/resize_images/dlg-resize-images.c:140
 #, fuzzy
 msgid "Resizing images"
-msgstr "GantiUkuran gambar"
+msgstr "Citra GIF"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:1
 #, fuzzy
 msgid "Resize images"
-msgstr "GantiUkuran gambar"
+msgstr "Citra GIF"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:2
 #, fuzzy
 msgid "Resize series of images."
 msgstr "GantiUkuran gambar"
 
-#: ../extensions/search/actions.c:49 ../extensions/search/actions.c:116
+#: ../extensions/search/actions.c:49
+#: ../extensions/search/actions.c:116
 #: ../extensions/search/actions.c:122
 #, fuzzy
 msgid "Could not perform the search"
-msgstr "Tidak dapat mengganti nama gambar:"
+msgstr "Operasi tidak dapat dilakukan"
 
 #: ../extensions/search/actions.c:53
 msgid "Search Result"
@@ -3622,12 +4120,12 @@ msgstr "Hasil Cari"
 #: ../extensions/search/actions.c:75
 #, fuzzy
 msgid "Find"
-msgstr "Temukan"
+msgstr "Cari"
 
 #: ../extensions/search/callbacks.c:59
 #, fuzzy
 msgid "Find files"
-msgstr "Inde_ks file:"
+msgstr "Temukan di Berkas"
 
 #: ../extensions/search/callbacks.c:133
 msgid "Search again"
@@ -3652,7 +4150,7 @@ msgid "any of the following rules"
 msgstr "<b>Kategori:</b>"
 
 #: ../extensions/search/gth-search-task.c:178
-msgid "Files found untill now: %"
+msgid "Files found until now: %"
 msgstr ""
 
 #: ../extensions/search/gth-search-task.c:251
@@ -3660,12 +4158,14 @@ msgid "Searching..."
 msgstr "Mencari..."
 
 #: ../extensions/search/gth-search-task.c:257
+#, fuzzy
 msgid "Cancel the operation"
-msgstr ""
+msgstr "Batalkan Operasi"
 
 #: ../extensions/search/search.extension.in.in.h:1
+#, fuzzy
 msgid "File search tool."
-msgstr ""
+msgstr "Manual Alat Pencarian"
 
 #: ../extensions/slideshow/callbacks.c:56
 #, fuzzy
@@ -3675,7 +4175,7 @@ msgstr "_Deretan Gambar"
 #: ../extensions/slideshow/callbacks.c:57
 #, fuzzy
 msgid "View as a slideshow"
-msgstr "Tampilkan sebagai slide show"
+msgstr "Tampilkan sebagai F_older"
 
 #: ../extensions/slideshow/callbacks.c:406
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
@@ -3685,8 +4185,9 @@ msgid "Slideshow"
 msgstr "Pertunjukan Slide"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
+#, fuzzy
 msgid "Add files to the playlist"
-msgstr ""
+msgstr "Menambahkan video ke daftar main"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #, fuzzy
@@ -3700,12 +4201,13 @@ msgstr "Urutan _acak"
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
 #, fuzzy
 msgid "Remove the selected files"
-msgstr "Buka folder yang dipilih"
+msgstr "Membuka berkas yang dipilih"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
+#, fuzzy
 msgid "_Change automatically, every"
-msgstr ""
+msgstr "Pemb_aharuan otomatis setiap:"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 #, fuzzy
@@ -3715,20 +4217,17 @@ msgstr "Personalisasi"
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
 #, fuzzy
 msgid "_Restart when finished"
-msgstr "Resta_rt jika selesai"
+msgstr "Ulangi pemutaran bila selesai"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
+#, fuzzy
 msgid "_Transition effect:"
-msgstr ""
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
-msgid "seconds"
-msgstr "detik"
+msgstr "Tanpa Efek"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:214
 #, fuzzy
 msgid "Choose the files to play"
-msgstr "Pilih folder tujuan"
+msgstr "Pilih berkas untuk dikirim"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:223
 msgid "Audio files"
@@ -3757,11 +4256,12 @@ msgstr ""
 #: ../extensions/slideshow/main.c:308
 #, fuzzy
 msgid "Fade in"
-msgstr "Bayangan dalam"
+msgstr "Fade In:"
 
 #: ../extensions/slideshow/main.c:314
+#, fuzzy
 msgid "Flip page"
-msgstr ""
+msgstr "halaman tab"
 
 #: ../extensions/slideshow/main.c:320
 msgid "Cube from right"
@@ -3774,7 +4274,7 @@ msgstr ""
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
 #, fuzzy
 msgid "View images as a slideshow."
-msgstr "Tampilkan sebagai slide show"
+msgstr "Memulai deretan gambar"
 
 #: ../extensions/webalbums/callbacks.c:71
 #, fuzzy
@@ -3789,7 +4289,7 @@ msgstr "Theme Album Web"
 #: ../extensions/webalbums/data/albumthemes/text.h:26
 #, fuzzy
 msgid "Click to view the image"
-msgstr "Tidak dapat memindahkan gambar:"
+msgstr "Klik untuk melihat kalender bulanan"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:27
 msgid "Go back to the index"
@@ -3827,7 +4327,7 @@ msgstr "Tampilan gambar selanjutnya"
 #: ../extensions/webalbums/data/albumthemes/text.h:35
 #, fuzzy
 msgid "View the next page"
-msgstr "Tampilan gambar selanjutnya"
+msgstr "Tampilkan halaman selanjutnya"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:36
 #, fuzzy
@@ -3837,7 +4337,7 @@ msgstr "Tampilkan gambar sebelumnya"
 #: ../extensions/webalbums/data/albumthemes/text.h:37
 #, fuzzy
 msgid "View the previous page"
-msgstr "Tampilkan gambar sebelumnya"
+msgstr "Tampilkan halaman sebelumnya"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
@@ -3849,26 +4349,14 @@ msgstr "%I"
 msgid "%i"
 msgstr "%i"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
-#, no-c-format
-msgid "%p"
-msgstr "%p"
-
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+#, fuzzy
 msgid "Adapts to the window width"
-msgstr ""
+msgstr "Mengubah lebar jendela sesuai LEBAR"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "All images on  a single image"
 msgstr ""
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-msgid "All images on a single page"
-msgstr ""
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
-msgid "Columns:"
-msgstr "Kolom:"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Image Attributes"
@@ -3882,15 +4370,6 @@ msgstr "Halaman Gambar"
 msgid "Index Page"
 msgstr "Halaman Indeks"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
-msgid "Re_verse order"
-msgstr "urutkan Ter_balik"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
-#, fuzzy
-msgid "S_ort:"
-msgstr "P_ort:"
-
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 #, fuzzy
 msgid "Show the description, if available"
@@ -3901,32 +4380,15 @@ msgstr "Pilih folder tujuan"
 msgid "Show the following attributes:"
 msgstr "tanggal _berikut:"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-#, fuzzy
-msgid "The current date"
-msgstr "Tanggal kini:"
-
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 #, fuzzy
 msgid "The current image number"
-msgstr "Simpan gambar yang aktif sekarang"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-#, fuzzy
-msgid "The current page number"
-msgstr "Simpan gambar yang aktif sekarang"
+msgstr "Memuat ulang gambar yang sedang dibuka"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+#, fuzzy
 msgid "The total number of images"
-msgstr ""
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-msgid "The total number of pages"
-msgstr ""
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
-msgid "Theme"
-msgstr "Tema"
+msgstr "Total jumlah URI"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 #, fuzzy
@@ -3942,22 +4404,13 @@ msgid "Web Album"
 msgstr "Album Web"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#, fuzzy
 msgid "_Adapt to the window width "
-msgstr ""
+msgstr "Mengubah lebar jendela sesuai LEBAR"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:40
 msgid "_Copy originals to destination"
 msgstr "_Salin yang asli ke tujuan"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
-#, fuzzy
-msgid "_Footer:"
-msgstr "Kaki:"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
-#, fuzzy
-msgid "_Header:"
-msgstr "Header"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:44
 #, fuzzy
@@ -3967,41 +4420,42 @@ msgstr "Ukur _ulang jika lebih besar dari:"
 #: ../extensions/webalbums/gth-web-exporter.c:1795
 #, fuzzy
 msgid "Could not show the destination"
-msgstr "Pilih folder tujuan"
+msgstr "Tidak dapat membuka tujuan"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1829
+#, fuzzy
 msgid "The album has been created successfully."
-msgstr ""
+msgstr "Projek baru telah sukses dibuat."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2095
-#: ../extensions/webalbums/gth-web-exporter.c:2122
+#: ../extensions/webalbums/gth-web-exporter.c:2097
+#: ../extensions/webalbums/gth-web-exporter.c:2124
 msgid "Saving thumbnails"
 msgstr "Menyimpan sketsa"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2150
+#: ../extensions/webalbums/gth-web-exporter.c:2152
 msgid "Saving HTML pages: Images"
 msgstr "Menyimpan halaman HTML: Gambar"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2208
+#: ../extensions/webalbums/gth-web-exporter.c:2210
 msgid "Saving HTML pages: Indexes"
 msgstr "Simpan halaman HTML: Indeks"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2328
-#: ../extensions/webalbums/gth-web-exporter.c:2385
+#: ../extensions/webalbums/gth-web-exporter.c:2330
+#: ../extensions/webalbums/gth-web-exporter.c:2414
 msgid "Saving images"
 msgstr "Menyimpan gambar"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2441
+#: ../extensions/webalbums/gth-web-exporter.c:2493
 #, fuzzy
 msgid "Copying original images"
 msgstr "Pertahan_kan nama asli file"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2977
+#: ../extensions/webalbums/gth-web-exporter.c:2929
 #, fuzzy
 msgid "Could not find the style folder"
 msgstr "Tidak dapat menghapus folder \"%s\": %s"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3010
+#: ../extensions/webalbums/gth-web-exporter.c:2962
 msgid "Could not create a temporary folder"
 msgstr "Tidak dapat membuat folder sementara"
 
@@ -4014,7 +4468,8 @@ msgstr "Theme Album Web"
 msgid "Web Albums"
 msgstr "Album Web"
 
-#: ../gthumb/dlg-extensions.c:65 ../gthumb/gth-filterbar.c:269
+#: ../gthumb/dlg-extensions.c:65
+#: ../gthumb/gth-filterbar.c:269
 msgid "All"
 msgstr "Semua"
 
@@ -4041,8 +4496,9 @@ msgid "File tools"
 msgstr "Perkakas Berkas"
 
 #: ../gthumb/dlg-extensions.c:73
+#, fuzzy
 msgid "List tools"
-msgstr ""
+msgstr "Perkakas Administrasi"
 
 #: ../gthumb/dlg-extensions.c:74
 msgid "Importers"
@@ -4071,12 +4527,12 @@ msgstr "_Restart"
 #: ../gthumb/dlg-extensions.c:258
 #, fuzzy
 msgid "Could not activate the extension"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat mengaktifkan swap"
 
 #: ../gthumb/dlg-extensions.c:264
 #, fuzzy
 msgid "Could not deactivate the extension"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tidak dapat menonaktifkan swap"
 
 #: ../gthumb/dlg-extensions.c:286
 msgid "Use"
@@ -4093,7 +4549,7 @@ msgstr "Tapis"
 #: ../gthumb/dlg-personalize-filters.c:314
 #, fuzzy
 msgid "Could not save the filter"
-msgstr "Tidak dapat memindahkan item:"
+msgstr "Tak bisa menyimpan lampiran"
 
 #: ../gthumb/dlg-personalize-filters.c:356
 msgid "New Filter"
@@ -4108,7 +4564,8 @@ msgstr "Sunting Tapis"
 msgid "File _Format: %s"
 msgstr "_Format Berkas: %s"
 
-#: ../gthumb/eggfileformatchooser.c:397 ../gthumb/gth-main-default-tests.c:197
+#: ../gthumb/eggfileformatchooser.c:397
+#: ../gthumb/gth-main-default-tests.c:197
 msgid "All Files"
 msgstr "Semua Berkas"
 
@@ -4130,47 +4587,41 @@ msgstr "Ekstensi"
 
 #: ../gthumb/eggfileformatchooser.c:681
 #, fuzzy, c-format
-msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
-"choose a file format from the list below."
-msgstr ""
-"Program tak bisa menemukan format berkas yang ingin Anda pakai bagi '%s'. "
-"Silakan pastikan untuk memakai ekstensi yang dikenal bagi berkas tersebut "
-"atau pilih secara manual suatu format berkas dari daftar di bawah."
+msgid "The program was not able to find out the file format you want to use for `%s'. Please make sure to use a known extension for that file or manually choose a file format from the list below."
+msgstr "Program tidak dapat menentukan format berkas yang ingin Anda pakai untuk `%s'. Pastikan untuk memakai ekstensi yang dikenali untuk berkas tersebut atau pilih sendiri format berkasnya dari daftar berikut."
 
 #: ../gthumb/eggfileformatchooser.c:688
 msgid "File format not recognized"
 msgstr "Format berkas tak dikenal"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1362
+#: ../gthumb/gio-utils.c:1355
 #, c-format
 msgid "%s of %s"
 msgstr "%s dari %s"
 
-#: ../gthumb/gio-utils.c:1397
+#: ../gthumb/gio-utils.c:1390
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Memindahkan \"%s\" ke \"%s\""
 
-#: ../gthumb/gio-utils.c:1399
+#: ../gthumb/gio-utils.c:1392
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Menyalin \"%s\" ke \"%s\""
 
-#: ../gthumb/gio-utils.c:1735
+#: ../gthumb/gio-utils.c:1738
 msgid "Moving files"
 msgstr "Memindah berkas"
 
-#: ../gthumb/gio-utils.c:1735
+#: ../gthumb/gio-utils.c:1738
 msgid "Copying files"
 msgstr "Menyalin berkas"
 
-#: ../gthumb/gio-utils.c:1736
+#: ../gthumb/gio-utils.c:1739
 #, fuzzy
 msgid "Getting file information"
-msgstr "Informasi Umum"
+msgstr "Mengambil informasi tentang %s pada \"%s\""
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9:05:02" for 9
@@ -4178,7 +4629,7 @@ msgstr "Informasi Umum"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2817
+#: ../gthumb/glib-utils.c:2678
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4190,33 +4641,26 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2826
+#: ../gthumb/glib-utils.c:2687
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
 #: ../gthumb/gth-browser-actions-callbacks.c:370
-msgid ""
-"gthumb is free software; you can redistribute it and/or modify it under the "
-"terms of the GNU General Public License as published by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
-"version."
-msgstr ""
+#, fuzzy
+msgid "gthumb is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version."
+msgstr "Almanah adalah perangkat lunak bebas, Anda dapat menyebarkan dan/atau mengubahnya di bawah syarat GNU General Public License sebagaimana dipublikasikan oleh Free Software Foundation, apakah Lisensi versi 3 atau (sesuai pilihan Anda) versi selanjutnya."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:374
-msgid ""
-"gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details."
-msgstr ""
+#, fuzzy
+msgid "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
+msgstr "Almanah ini didistribusikan dengan harapan bahwa program ini akan berguna,tetapi TANPA GARANSI; tanpa garansi yang termasuk dari DAGANGAN atau KECOCOKAN UNTUK TUJUAN TERTENTU sekalipun. Lihat GNU General Public License untuk rincian lebih lanjut."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:378
-msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"gthumb.  If not, see http://www.gnu.org/licenses/."
-msgstr ""
+#, fuzzy
+msgid "You should have received a copy of the GNU General Public License along with gthumb.  If not, see http://www.gnu.org/licenses/."
+msgstr "Anda mestinya menerima salinan GNU General Public License bersamaan dengan Almanah. Jika tidak, lihat <http://www.gnu.org/licenses/>."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:397
 msgid "An image viewer and browser for GNOME."
@@ -4226,7 +4670,7 @@ msgstr "Sebuah penampil dan browser gambar untuk GNOME"
 msgid "translator_credits"
 msgstr ""
 "Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.\n"
-"Andika Triwidada <andika@gmail.com>, 2010."
+"Andika Triwidada <andika@gmail.com>, 2010, 2011."
 
 #: ../gthumb/gth-browser-actions-entries.h:30
 msgid "_File"
@@ -4257,8 +4701,9 @@ msgid "I_mport From"
 msgstr "I_mpor Dari"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
+#, fuzzy
 msgid "E_xport To"
-msgstr ""
+msgstr "Balas ke %s"
 
 #: ../gthumb/gth-browser-actions-entries.h:40
 msgid "New _Window"
@@ -4289,19 +4734,16 @@ msgid "Activate, deactivate and configure the gthumb extensions"
 msgstr ""
 
 #: ../gthumb/gth-browser-actions-entries.h:90
-#, fuzzy
 msgid "_Sort By..."
-msgstr "Urutkan"
+msgstr "Urut Berda_sar..."
 
 #: ../gthumb/gth-browser-actions-entries.h:95
-#, fuzzy
 msgid "_Filter..."
-msgstr "Penyaringan"
+msgstr "_Tapis..."
 
 #: ../gthumb/gth-browser-actions-entries.h:101
-#, fuzzy
 msgid "Stop loading the current location"
-msgstr "Hentikan memuat lokasi saat ini"
+msgstr "Berhenti memuat lokasi yang sekarang"
 
 #: ../gthumb/gth-browser-actions-entries.h:106
 msgid "Reload the current location"
@@ -4316,28 +4758,30 @@ msgid "View next image"
 msgstr "Tampilan gambar selanjutnya"
 
 #: ../gthumb/gth-browser-actions-entries.h:121
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Pilih ke layar penuh"
+msgstr "Pindah ke layar penuh"
 
 #: ../gthumb/gth-browser-actions-entries.h:126
-#, fuzzy
 msgid "Leave Fullscreen"
-msgstr "Keluar dari Layar Penuh"
+msgstr "Tinggalkan Layar Penuh"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3344
+#: ../gthumb/gth-browser-actions-entries.h:131
+#: ../gthumb/gth-browser.c:3429
 msgid "Go to the previous visited location"
 msgstr "Pergi ke lokasi sebelumnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3365
+#: ../gthumb/gth-browser-actions-entries.h:136
+#: ../gthumb/gth-browser.c:3450
 msgid "Go to the next visited location"
 msgstr "Pergi ke lokasi selanjutnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3386
+#: ../gthumb/gth-browser-actions-entries.h:141
+#: ../gthumb/gth-browser.c:3471
 msgid "Go up one level"
 msgstr "Pergi ke atas satu tingkat"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:653
+#: ../gthumb/gth-browser-actions-entries.h:150
+#: ../gthumb/gth-browser.c:658
 msgid "_Delete History"
 msgstr "Hap_us History"
 
@@ -4350,18 +4794,16 @@ msgid "View the folders"
 msgstr "Tampilkan folder"
 
 #: ../gthumb/gth-browser-actions-entries.h:161
-#, fuzzy
 msgid "Show information about gthumb"
-msgstr "Tampilkan informasi tentang gThumb"
+msgstr "Tampilkan informasi tentang gthumb"
 
 #: ../gthumb/gth-browser-actions-entries.h:165
 msgid "Contents"
 msgstr "Isi"
 
 #: ../gthumb/gth-browser-actions-entries.h:166
-#, fuzzy
 msgid "Display the gthumb Manual"
-msgstr "Tampilkan Manual File Roller"
+msgstr "Tampilkan Manual gthumb"
 
 #: ../gthumb/gth-browser-actions-entries.h:170
 msgid "_Keyboard Shortcuts"
@@ -4384,34 +4826,28 @@ msgid "View or hide the statusbar of this window"
 msgstr "Tampil atau sembunyikan statusbar dari window ini"
 
 #: ../gthumb/gth-browser-actions-entries.h:189
-#, fuzzy
 msgid "_Filterbar"
-msgstr "Penyaring"
+msgstr "Bilah _Tapis"
 
 #: ../gthumb/gth-browser-actions-entries.h:190
-#, fuzzy
 msgid "View or hide the filterbar of this window"
-msgstr "Tampil atau sembunyikan statusbar dari window ini"
+msgstr "Tampikan atau sembunyikan bilah tapis dari jendela ini"
 
 #: ../gthumb/gth-browser-actions-entries.h:194
-#, fuzzy
 msgid "_Sidebar"
-msgstr "Panel _samping"
+msgstr "Bilah _Sisi"
 
 #: ../gthumb/gth-browser-actions-entries.h:195
-#, fuzzy
 msgid "View or hide the sidebar of this window"
-msgstr "Tampil atau sembunyikan statusbar dari window ini"
+msgstr "Tampikan atau sembunyikan bilah sisi dari jendela ini"
 
 #: ../gthumb/gth-browser-actions-entries.h:199
-#, fuzzy
 msgid "_Thumbnail Pane"
-msgstr "Ske_tsa"
+msgstr "Panel Gambar _Kecil"
 
 #: ../gthumb/gth-browser-actions-entries.h:200
-#, fuzzy
 msgid "View or hide the thumbnail pane in viewer mode"
-msgstr "Tampil atau sembunyikan statusbar dari window ini"
+msgstr "Tampil atau sembunyikan panel gambar kecil dalam moda penilik"
 
 #: ../gthumb/gth-browser-actions-entries.h:204
 msgid "_Thumbnails"
@@ -4422,19 +4858,16 @@ msgid "View thumbnails"
 msgstr "Tampilkan sketsa"
 
 #: ../gthumb/gth-browser-actions-entries.h:209
-#, fuzzy
 msgid "_Hidden Files"
-msgstr "Tampilkan Berkas _Tersembunyi"
+msgstr "Berkas _Tersembunyi"
 
 #: ../gthumb/gth-browser-actions-entries.h:210
-#, fuzzy
 msgid "Show hidden files and folders"
 msgstr "Tampilkan berkas dan folder tersembunyi"
 
 #: ../gthumb/gth-browser-actions-entries.h:215
-#, fuzzy
 msgid "View file properties"
-msgstr "Tampilkan properti gambar"
+msgstr "Tilik properti berkas"
 
 #: ../gthumb/gth-browser-actions-entries.h:219
 msgid "Edit"
@@ -4444,115 +4877,130 @@ msgstr "Sunting"
 msgid "Edit file"
 msgstr "Sunting berkas"
 
-#: ../gthumb/gth-browser.c:355
+#: ../gthumb/gth-browser.c:357
 #, c-format
 msgid "Open %s"
 msgstr "Buka %s"
 
-#: ../gthumb/gth-browser.c:494
+#: ../gthumb/gth-browser.c:497
 msgid "[modified]"
 msgstr "[diubah]"
 
-#: ../gthumb/gth-browser.c:498 ../gthumb/gth-main.c:259
+#. manually set name and icon
+#: ../gthumb/gth-browser.c:501
+#: ../gthumb/gth-main.c:269
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1121 ../gthumb/gth-browser.c:1674
-#: ../gthumb/gth-browser.c:5436 ../gthumb/gth-browser.c:5455
-#: ../gthumb/gth-browser.c:5480
-#, fuzzy, c-format
-msgid "Could not load the position \"%s\""
-msgstr "Tidak dapat memindahkan folder \"%s\": %s"
+#: ../gthumb/gth-browser.c:965
+#, c-format
+msgid "%d file selected (%s)"
+msgid_plural "%d files selected (%s)"
+msgstr[0] "%d berkas dipilih (%s)"
 
-#: ../gthumb/gth-browser.c:1767 ../gthumb/gth-browser.c:1794
+#: ../gthumb/gth-browser.c:1146
+#: ../gthumb/gth-browser.c:1682
+#: ../gthumb/gth-browser.c:5558
+#: ../gthumb/gth-browser.c:5577
+#: ../gthumb/gth-browser.c:5602
+#, c-format
+msgid "Could not load the position \"%s\""
+msgstr "Tidak dapat memuat posisi \"%s\""
+
+#: ../gthumb/gth-browser.c:1775
+#: ../gthumb/gth-browser.c:1802
 #, c-format
 msgid "No suitable module found for %s"
-msgstr ""
+msgstr "Tak ditemukan modul yang cocok bagi %s"
 
-#: ../gthumb/gth-browser.c:1912
-#, fuzzy, c-format
+#: ../gthumb/gth-browser.c:1922
+#, c-format
 msgid "Save changes to file '%s'?"
-msgstr "Simpa_n hanya bagian yang berubah"
+msgstr "Simpan perubahan ke berkas '%s'?"
 
-#: ../gthumb/gth-browser.c:1917
+#: ../gthumb/gth-browser.c:1927
 msgid "If you don't save, changes to the file will be permanently lost."
-msgstr ""
+msgstr "Bila Anda tidak menyimpan, perubahan ke berkas akan hilang selamanya."
 
-#: ../gthumb/gth-browser.c:1918
-#, fuzzy
+#: ../gthumb/gth-browser.c:1928
 msgid "Do _Not Save"
-msgstr "Jangan _disimpan"
+msgstr "Janga_n Simpan"
 
-#: ../gthumb/gth-browser.c:2606 ../gthumb/gth-browser.c:2630
-#: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
-#, fuzzy
+#: ../gthumb/gth-browser.c:2695
+#: ../gthumb/gth-browser.c:2717
+#: ../gthumb/gth-source-tree.c:178
+#: ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
-msgstr "Tidak dapat menyalin gambar:"
+msgstr "Tidak dapat mengubah nama"
 
-#: ../gthumb/gth-browser.c:3028 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3114
+#: ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Diubah"
 
-#: ../gthumb/gth-browser.c:3345 ../gthumb/gth-browser.c:3366
-#, fuzzy
+#: ../gthumb/gth-browser.c:3430
+#: ../gthumb/gth-browser.c:3451
 msgid "View the list of visited locations"
-msgstr "Hapus daftar lokasi yang telah dikunjungi"
+msgstr "Lihat daftar lokasi yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:3387
+#: ../gthumb/gth-browser.c:3472
 #, fuzzy
 msgid "View the list of upper locations"
-msgstr "Hapus daftar lokasi yang telah dikunjungi"
+msgstr "Lihat daftar lokasi upper"
 
-#: ../gthumb/gth-browser.c:5437
-#, fuzzy, c-format
+#: ../gthumb/gth-browser.c:5559
+#, c-format
 msgid "File type not supported"
-msgstr "tipe Gambar tidak didukung: %s"
+msgstr "Jenis berkas tidak didukung"
 
-#: ../gthumb/gth-browser.c:5481
-#, fuzzy, c-format
+#: ../gthumb/gth-browser.c:5603
+#, c-format
 msgid "No suitable module found"
-msgstr "Tidak ditemukan gambar"
+msgstr "Tak ditemukan modul yang cocok"
 
 #: ../gthumb/gth-extensions.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the module `%s`: %s"
-msgstr "Tidak dapat memindahkan folder \"%s\": %s"
+msgstr "Tidak dapat membuka modul '%s': %s"
 
 #: ../gthumb/gth-extensions.c:827
 #, c-format
-msgid "The extension '%s' is required by the extension '%s'"
-msgstr ""
+msgid "The extension '%1$s' is required by the extension '%2$s'"
+msgstr "Ekstensi '%1$s' diperlukan oleh ekstensi '%2$s'"
 
-#: ../gthumb/gth-file-source-vfs.c:80
+#: ../gthumb/gth-file-source-vfs.c:82
 msgid "Home Folder"
 msgstr "Folder Rumah"
 
-#: ../gthumb/gth-file-source-vfs.c:87
+#: ../gthumb/gth-file-source-vfs.c:89
 msgid "File System"
 msgstr "Sistem Berkas"
 
 #: ../gthumb/gth-filterbar.c:405
-#, fuzzy
 msgid "Hide the filterbar"
-msgstr "Tampilkan folder"
+msgstr "sembunyikan bilah tapis"
 
-#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:209
+#: ../gthumb/gth-filter.c:43
+#: ../gthumb/gth-filter-editor-dialog.c:209
 #: ../gthumb/gth-test-simple.c:75
 msgid "kB"
 msgstr "kB"
 
-#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:210
+#: ../gthumb/gth-filter.c:44
+#: ../gthumb/gth-filter-editor-dialog.c:210
 #: ../gthumb/gth-test-simple.c:76
 msgid "MB"
 msgstr "MB"
 
-#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:211
+#: ../gthumb/gth-filter.c:45
+#: ../gthumb/gth-filter-editor-dialog.c:211
 #: ../gthumb/gth-test-simple.c:77
 msgid "GB"
 msgstr "GB"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:279 ../gthumb/gth-filter-editor-dialog.c:208
+#: ../gthumb/gth-filter.c:279
+#: ../gthumb/gth-filter-editor-dialog.c:208
 msgid "files"
 msgstr "berkas"
 
@@ -4567,7 +5015,7 @@ msgstr "turun"
 #: ../gthumb/gth-filter-editor-dialog.c:546
 #, c-format
 msgid "No limit specified"
-msgstr ""
+msgstr "Batas tak dinyatakan"
 
 #: ../gthumb/gth-folder-tree.c:848
 msgid "Loading..."
@@ -4577,16 +5025,53 @@ msgstr "Sedang membuka..."
 msgid "(Open Parent)"
 msgstr "(Buka Induk)"
 
-#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:294
-msgid "No suitable loader available for this file type"
-msgstr ""
+#: ../gthumb/gth-histogram-view.c:610
+msgid "Linear scale"
+msgstr "Skala liniear"
 
-#: ../gthumb/gth-main.c:222
+#: ../gthumb/gth-histogram-view.c:622
+msgid "Logarithmic scale"
+msgstr "Skala logaritmik"
+
+#: ../gthumb/gth-histogram-view.c:642
+msgid "Channel:"
+msgstr "Kanal:"
+
+#: ../gthumb/gth-histogram-view.c:674
+msgid "Value"
+msgstr "Nilai"
+
+#: ../gthumb/gth-histogram-view.c:680
+msgid "Red"
+msgstr "Merah"
+
+#: ../gthumb/gth-histogram-view.c:686
+msgid "Green"
+msgstr "Hijau"
+
+#: ../gthumb/gth-histogram-view.c:692
+msgid "Blue"
+msgstr "Biru"
+
+#: ../gthumb/gth-histogram-view.c:698
+msgid "Alpha"
+msgstr "Alfa"
+
+#: ../gthumb/gth-histogram-view.c:704
+msgid "RGB"
+msgstr "RGB"
+
+#: ../gthumb/gth-image-loader.c:222
+#: ../gthumb/gth-image-loader.c:294
+msgid "No suitable loader available for this file type"
+msgstr "Tak ada pemuat yang cocok bagi berkas jenis ini"
+
+#: ../gthumb/gth-main.c:228
 #, c-format
 msgid "Unable to show '%s'"
 msgstr "Tak bisa menampilkan '%s'"
 
-#: ../gthumb/gth-main.c:242
+#: ../gthumb/gth-main.c:248
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Tak bisa membuka '%s'"
@@ -4612,10 +5097,6 @@ msgstr "Tipe"
 msgid "Full Name"
 msgstr "Nama Lengkap"
 
-#: ../gthumb/gth-main-default-metadata.c:46
-msgid "Title"
-msgstr "Judul"
-
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Duration"
 msgstr "Durasi"
@@ -4624,38 +5105,25 @@ msgstr "Durasi"
 msgid "Format"
 msgstr "Format"
 
-#: ../gthumb/gth-main-default-metadata.c:51
-msgid "Date"
-msgstr "Tanggal"
-
-#: ../gthumb/gth-main-default-metadata.c:54
-#, fuzzy
-msgid "Rating"
-msgstr "Nilai"
-
 #: ../gthumb/gth-main-default-sort-types.c:131
-#, fuzzy
 msgid "file name"
-msgstr "Nama file:"
+msgstr "nama berkas"
 
 #: ../gthumb/gth-main-default-sort-types.c:132
-#, fuzzy
 msgid "file path"
-msgstr "pa_th File"
+msgstr "path berkas"
 
 #: ../gthumb/gth-main-default-sort-types.c:133
-#, fuzzy
 msgid "file size"
-msgstr "Ukuran berkas."
+msgstr "ukuran berkas"
 
 #: ../gthumb/gth-main-default-sort-types.c:134
-#, fuzzy
 msgid "file modified date"
-msgstr "berdasarkan tanggal perubahan"
+msgstr "tanggal berkas terakhir diubah"
 
 #: ../gthumb/gth-main-default-sort-types.c:135
 msgid "no sorting"
-msgstr ""
+msgstr "tanpa pengurutan"
 
 #: ../gthumb/gth-main-default-sort-types.c:136
 msgid "dimensions"
@@ -4679,11 +5147,11 @@ msgstr "nama File"
 
 #: ../gthumb/gth-main-default-tests.c:272
 msgid "Title (embedded)"
-msgstr ""
+msgstr "Judul (tertempel)"
 
 #: ../gthumb/gth-main-default-tests.c:278
 msgid "Description (embedded)"
-msgstr ""
+msgstr "Keterangan (tertempel)"
 
 #: ../gthumb/gth-pixbuf-list-task.c:139
 msgid "Could not rename the file"
@@ -4691,20 +5159,20 @@ msgstr "Tak dapat mengubah nama berkas"
 
 #: ../gthumb/gth-pixbuf-saver.c:34
 msgid "No options available for this file type"
-msgstr ""
+msgstr "Tak tersedia opsi bagi berkas jenis ini"
 
-#: ../gthumb/gth-progress-dialog.c:136
+#: ../gthumb/gth-progress-dialog.c:140
 msgid "Cancel operation"
 msgstr "Batalkan operasi"
 
 #: ../gthumb/gth-tags-entry.c:373
 #, c-format
 msgid "Create tag «%s»"
-msgstr ""
+msgstr "Buat tag «%s»"
 
 #: ../gthumb/gth-tags-entry.c:719
 msgid "Show all the tags"
-msgstr ""
+msgstr "Tampilkan semua tag"
 
 #: ../gthumb/gth-tags-file.c:234
 msgid "Holidays"
@@ -4754,26 +5222,30 @@ msgstr "Astronomi"
 msgid "Family"
 msgstr "Keluarga"
 
-#: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
+#: ../gthumb/gth-test-category.c:46
+#: ../gthumb/gth-test-simple.c:49
 #: ../gthumb/gth-test-simple.c:64
 msgid "is"
 msgstr "adalah"
 
-#: ../gthumb/gth-test-category.c:47 ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-category.c:47
+#: ../gthumb/gth-test-simple.c:50
 #: ../gthumb/gth-test-simple.c:65
 msgid "is not"
 msgstr "bukan"
 
-#: ../gthumb/gth-test-category.c:361 ../gthumb/gth-test-simple.c:796
-#: ../gthumb/gth-test-simple.c:822 ../gthumb/gth-test-simple.c:843
+#: ../gthumb/gth-test-category.c:361
+#: ../gthumb/gth-test-simple.c:796
+#: ../gthumb/gth-test-simple.c:822
+#: ../gthumb/gth-test-simple.c:843
 #: ../gthumb/gth-test-simple.c:869
 #, c-format
 msgid "The test definition is incomplete"
-msgstr ""
+msgstr "Definisi tes tak lengkap"
 
 #: ../gthumb/gth-test-selector.c:278
 msgid "Add a new rule"
-msgstr ""
+msgstr "Tambahkan aturan baru"
 
 #: ../gthumb/gth-test-selector.c:289
 msgid "Remove this rule"
@@ -4796,9 +5268,8 @@ msgid "does not contain"
 msgstr "tidak berisi"
 
 #: ../gthumb/gth-test-simple.c:52
-#, fuzzy
 msgid "matches"
-msgstr "Jumlah Kecocokan: %d"
+msgstr "kecocokan"
 
 #: ../gthumb/gth-test-simple.c:56
 msgid "is lower than"
@@ -4836,9 +5307,26 @@ msgstr "Tutup window ini"
 msgid "Could not display help"
 msgstr "Tidak dapat menampilkan bantuan"
 
-#: ../gthumb/gtk-utils.c:1089 ../gthumb/gtk-utils.c:1097
+#: ../gthumb/gtk-utils.c:1089
+#: ../gthumb/gtk-utils.c:1097
 msgid "Could not launch the application"
 msgstr "Tidak dapat menjalankan aplikasi"
+
+#: ../gthumb/gtk-utils.c:1199
+msgid "_Copy Here"
+msgstr "_Salin ke Sini"
+
+#: ../gthumb/gtk-utils.c:1204
+msgid "_Move Here"
+msgstr "_Pindahkan ke Sini"
+
+#: ../gthumb/gtk-utils.c:1209
+msgid "_Link Here"
+msgstr "_Tautkan ke Sini"
+
+#: ../gthumb/gtk-utils.c:1218
+msgid "Cancel"
+msgstr "Batal"
 
 #: ../gthumb/main.c:67
 msgid "Open a new window"
@@ -4861,12 +5349,12 @@ msgid "Show version"
 msgstr "Tampilkan versi"
 
 #. command line options
-#: ../gthumb/main.c:413
-#, fuzzy
+#: ../gthumb/main.c:501
 msgid "- Image browser and viewer"
-msgstr "tampilkan Gambar"
+msgstr "- Peramban dan penilik gambar"
 
 #: ../gthumb/pixbuf-io.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
-msgstr "Tidak dapat menduplikasi gambar \"%s\": %s"
+msgstr "Tidak dapat menemukan modul yang cocok untuk menyimpan gambar sebagai \"%s\""
+
