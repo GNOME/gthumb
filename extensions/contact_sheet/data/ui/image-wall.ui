@@ -4,7 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="image_wall_dialog">
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Contact Sheet</property>
+    <property name="title" translatable="yes">Image Wall</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
