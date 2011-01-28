@@ -33,7 +33,6 @@ typedef struct {
 	GthBrowser *browser;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
-	GtkWidget  *location_chooser;
 	GList      *general_tests;
 } DialogData;
 
@@ -62,11 +61,15 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
+	GFile *folder;
+
+	folder = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER ( _gtk_builder_get_widget (data->builder, "location_filechooserbutton")));
 	gth_find_duplicates_exec (data->browser,
-				  gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->location_chooser)),
+				  folder,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),
 				  g_list_nth_data (data->general_tests, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")))));
 
+	g_object_unref (folder);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -75,6 +78,7 @@ void
 dlg_find_duplicates (GthBrowser *browser)
 {
 	DialogData *data;
+	GtkWidget  *file_chooser;
 	GList      *tests;
 	char       *general_filter;
 	int         active_filter;
@@ -97,14 +101,13 @@ dlg_find_duplicates (GthBrowser *browser)
 	gth_browser_set_dialog (browser, "find_duplicates", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
-	data->location_chooser = gth_location_chooser_new ();
-	gtk_widget_show (data->location_chooser);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("location_box")), data->location_chooser, TRUE, TRUE, 0);
-  	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("start_at_label")), data->location_chooser);
-
 	/* Set widgets data. */
 
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->location_chooser), gth_browser_get_location (browser));
+	file_chooser = _gtk_builder_get_widget (data->builder, "location_filechooserbutton");
+	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_chooser), gth_browser_get_location (browser), NULL);
+	else
+		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_chooser), get_home_uri ());
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
