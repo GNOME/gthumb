@@ -1,4 +1,5 @@
 EXPORTERS = 			\
+	export_tools		\
 	burn_disc		\
 	contact_sheet		\
 	facebook		\
@@ -12,14 +13,16 @@ IMPORTERS = 			\
 	photo_importer		\
 	$(NULL)
 
-IMAGE_VIEWER_TOOLS = 		\
-	desktop_background	\
-	file_tools		\
-	red_eye_removal		\
-	$(NULL)
-
 JPEG_TOOLS = 			\
 	image_rotation		\
+	importer		\
+	$(NULL)
+
+OTHER_TOOLS = 			\
+	desktop_background	\
+	file_tools		\
+	find_duplicates		\
+	red_eye_removal		\
 	$(NULL)
 
 SUBDIRS = 			\
@@ -30,17 +33,12 @@ SUBDIRS = 			\
 	convert_format		\
 	edit_metadata		\
 	exiv2_tools		\
-	export_tools		\
-	$(EXPORTERS)		\
-	find_duplicates		\
 	file_manager		\
 	file_viewer		\
-	find_duplicates		\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
 	image_viewer		\
-	importer		\	
 	jpeg_utils		\
 	$(JPEG_TOOLS)		\
 	list_tools		\
@@ -51,8 +49,9 @@ SUBDIRS = 			\
 	resize_images		\
 	search			\
 	slideshow		\
-	$(IMAGE_VIEWER_TOOLS)	\
+	$(EXPORTERS)		\
 	$(IMPORTERS)		\
+	$(OTHER_TOOLS)		\
 	$(NULL)
 
 EXTRA_DIST = example
