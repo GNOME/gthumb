@@ -215,10 +215,6 @@ file_input_stream_read_ready_cb (GObject      *source,
 						  "find-duplicates::checksum",
 						  checksum);
 
-		g_file_info_set_attribute_object (self->priv->current_file->info,
-						  "find-duplicates::directory",
-						  G_OBJECT (self->priv->current_directory));
-
 		d_data = g_hash_table_lookup (self->priv->duplicated, checksum);
 		if (d_data == NULL) {
 			d_data = duplicated_data_new ();
@@ -489,20 +485,26 @@ duplicates_list_view_selection_changed_cb (GtkIconView *iconview,
 
 		for (scan = d_data->files; scan; scan = scan->next) {
 			GthFileData *file_data = scan->data;
-			char        *directory_name;
+			GFile       *parent;
+			char        *parent_name;
 			GtkTreeIter  iter;
 
-			directory_name = g_file_get_parse_name (G_FILE (g_file_info_get_attribute_object (file_data->info, "find-duplicates::directory")));
+			parent = g_file_get_parent (file_data->file);
+			if (parent != NULL)
+				parent_name = g_file_get_parse_name (parent);
+			else
+				parent_name = NULL;
 			gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("files_liststore")), &iter);
 			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("files_liststore")), &iter,
 					    0, file_data,
 					    1, TRUE,
 					    2, g_file_info_get_display_name (file_data->info),
-					    3, directory_name,
+					    3, parent_name,
 					    4, g_file_info_get_attribute_string (file_data->info, "gth::file::display-mtime"),
 					    -1);
 
-			g_free (directory_name);
+			g_free (parent_name);
+			g_object_unref (parent);
 		}
 
 		update_file_list_sensitivity (self);
