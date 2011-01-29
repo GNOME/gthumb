@@ -173,11 +173,14 @@ done_func (GObject  *object,
 static void
 update_secondary_text (GthSearchTask *task)
 {
+	char *format_str;
 	char *msg;
 
-	msg = g_strdup_printf (_("Files found until now: %" G_GSIZE_FORMAT), task->priv->n_files);
+	format_str = g_strdup_printf ("%"G_GSIZE_FORMAT, task->priv->n_files);
+	msg = g_strdup_printf (_("Files found until now: %s"), format_str);
 	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), msg);
 
+	g_free (format_str);
 	g_free (msg);
 }
 
