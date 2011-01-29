@@ -246,6 +246,19 @@ extensions/file_tools/preferences.h
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
+extensions/find_duplicates/actions.c
+extensions/find_duplicates/actions.h
+extensions/find_duplicates/callbacks.c
+extensions/find_duplicates/callbacks.h
+[type: gettext/glade]extensions/find_duplicates/data/ui/find-duplicates-dialog.ui
+[type: gettext/glade]extensions/find_duplicates/data/ui/find-duplicates.ui
+extensions/find_duplicates/dlg-find-duplicates.c
+extensions/find_duplicates/dlg-find-duplicates.h
+[type: gettext/ini]extensions/find_duplicates/find_duplicates.extension.in.in
+extensions/find_duplicates/gth-find-duplicates.c
+extensions/find_duplicates/gth-find-duplicates.h
+extensions/find_duplicates/.#gth-find-duplicates-task.c
+extensions/find_duplicates/main.c
 extensions/flicker/actions.c
 extensions/flicker/actions.h
 extensions/flicker/callbacks.c
