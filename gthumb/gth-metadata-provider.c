@@ -184,7 +184,7 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 		GthFileData *file_data = scan->data;
 		GList       *scan_providers;
 
-		if (g_cancellable_is_cancelled (cancellable)) {
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 			break;
 		}
@@ -216,7 +216,10 @@ _g_query_metadata_async (GList               *files,       /* GthFileData * list
 	GSimpleAsyncResult *result;
 	QueryMetadataData  *qmd;
 
-	result = g_simple_async_result_new (NULL, callback, user_data, _g_query_metadata_async);
+	result = g_simple_async_result_new (NULL,
+					    callback,
+					    user_data,
+					    _g_query_metadata_async);
 
 	qmd = g_new0 (QueryMetadataData, 1);
 	qmd->files = _g_object_list_ref (files);
@@ -236,19 +239,22 @@ GList *
 _g_query_metadata_finish (GAsyncResult  *result,
 			  GError       **error)
 {
-	  GSimpleAsyncResult *simple;
-	  QueryMetadataData  *qmd;
+	GSimpleAsyncResult *simple;
+	QueryMetadataData  *qmd;
 
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _g_query_metadata_async), NULL);
+	/* GLib 2.24 gives a wrong warning here */
+#if GLIB_CHECK_VERSION(2, 26, 0)
+	g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _g_query_metadata_async), NULL);
+#endif
 
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
 
-	  if (g_simple_async_result_propagate_error (simple, error))
-		  return NULL;
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
 
-	  qmd = g_simple_async_result_get_op_res_gpointer (simple);
+	qmd = g_simple_async_result_get_op_res_gpointer (simple);
 
-	  return qmd->files;
+	return qmd->files;
 }
 
 
@@ -260,131 +266,111 @@ typedef struct {
 	GthMetadataWriteFlags   flags;
 	char                   *attributes;
 	char                  **attributes_v;
-	GMutex                 *mutex;
-	gboolean                thread_done;
-	GError                 *error;
-} WriteMetadataThreadData;
-
-
-typedef struct {
-	GCancellable            *cancellable;
-	ReadyFunc                ready_func;
-	gpointer                 user_data;
-	guint                    check_id;
-	GThread                 *thread;
-	WriteMetadataThreadData *wmtd;
 } WriteMetadataData;
 
 
 static void
-write_metadata_done (WriteMetadataData *wmd)
+write_metadata_data_free (gpointer user_data)
 {
-	WriteMetadataThreadData *wmtd = wmd->wmtd;
+	WriteMetadataData *wmd = user_data;
 
-	g_thread_join (wmd->thread);
-
-	if (wmd->ready_func != NULL)
-		(*wmd->ready_func) (wmtd->error, wmd->user_data);
-
-	g_mutex_free (wmtd->mutex);
-	g_strfreev (wmtd->attributes_v);
-	g_free (wmtd->attributes);
-	_g_object_list_unref (wmtd->files);
-	g_free (wmtd);
+	g_strfreev (wmd->attributes_v);
+	g_free (wmd->attributes);
+	_g_object_list_unref (wmd->files);
 	g_free (wmd);
 }
 
 
-static gpointer
-write_metadata_thread (gpointer data)
+static void
+_g_write_metadata_async_thread (GSimpleAsyncResult *result,
+				GObject            *object,
+				GCancellable       *cancellable)
 {
-	WriteMetadataThreadData *wmtd = data;
-	GList                   *providers;
-	GList                   *scan;
-	gboolean                 cancelled = FALSE;
+	WriteMetadataData  *wmd;
+	GList              *providers;
+	GList              *scan;
+	GError             *error = NULL;
+
+	wmd = g_simple_async_result_get_op_res_gpointer (result);
 
 	providers = NULL;
 	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next)
 		providers = g_list_prepend (providers, g_object_new (G_OBJECT_TYPE (scan->data), NULL));
 	providers = g_list_reverse (providers);
 
-	for (scan = wmtd->files; scan; scan = scan->next) {
+	for (scan = wmd->files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 		GList       *scan_providers;
 
-		g_mutex_lock (wmtd->mutex);
-		cancelled = wmtd->thread_done;
-		g_mutex_unlock (wmtd->mutex);
-
-		if (cancelled)
+		if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 			break;
+		}
 
 		for (scan_providers = providers; scan_providers; scan_providers = scan_providers->next) {
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 
-			if (gth_metadata_provider_can_write (metadata_provider, gth_file_data_get_mime_type (file_data), wmtd->attributes_v))
-				gth_metadata_provider_write (metadata_provider, wmtd->flags, file_data, wmtd->attributes);
+			if (gth_metadata_provider_can_write (metadata_provider, gth_file_data_get_mime_type (file_data), wmd->attributes_v))
+				gth_metadata_provider_write (metadata_provider, wmd->flags, file_data, wmd->attributes);
 		}
 	}
 
 	_g_object_list_unref (providers);
 
-	g_mutex_lock (wmtd->mutex);
-	wmtd->thread_done = TRUE;
-	g_mutex_unlock (wmtd->mutex);
-
-	return wmtd;
-}
-
-
-static gboolean
-check_write_metadata_thread (gpointer data)
-{
-	WriteMetadataData       *wmd = data;
-	WriteMetadataThreadData *wmtd = wmd->wmtd;
-	gboolean                 thread_done;
-
-	g_source_remove (wmd->check_id);
-	wmd->check_id = 0;
-
-	g_mutex_lock (wmtd->mutex);
-	thread_done = wmtd->thread_done;
-	g_mutex_unlock (wmtd->mutex);
-
-	if (thread_done)
-		write_metadata_done (wmd);
-	else
-		wmd->check_id = g_timeout_add (CHECK_THREAD_RATE, check_write_metadata_thread, wmd);
-
-	return FALSE;
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (result, error);
+		g_error_free (error);
+	}
 }
 
 
 void
-_g_write_metadata_async (GList                 *files, /* GthFileData * list */
-			 GthMetadataWriteFlags  flags,
-			 const char            *attributes,
-			 GCancellable          *cancellable,
-			 ReadyFunc              ready_func,
-			 gpointer               user_data)
+_g_write_metadata_async (GList                  *files, /* GthFileData * list */
+			 GthMetadataWriteFlags   flags,
+			 const char             *attributes,
+			 GCancellable           *cancellable,
+			 GAsyncReadyCallback     callback,
+			 gpointer                user_data)
 {
-	WriteMetadataData       *wmd;
-	WriteMetadataThreadData *wmtd;
+	GSimpleAsyncResult *result;
+	WriteMetadataData  *wmd;
 
-	wmtd = g_new0 (WriteMetadataThreadData, 1);
-	wmtd->files = _g_object_list_ref (files);
-	wmtd->flags = flags;
-	wmtd->attributes = g_strdup (attributes);
-	wmtd->attributes_v = gth_main_get_metadata_attributes (attributes);
-	wmtd->mutex = g_mutex_new ();
+	result = g_simple_async_result_new (NULL,
+					    callback,
+					    user_data,
+					    _g_write_metadata_async);
 
 	wmd = g_new0 (WriteMetadataData, 1);
-	wmd->cancellable = cancellable;
-	wmd->ready_func = ready_func;
-	wmd->user_data = user_data;
-	wmd->wmtd = wmtd;
-	wmd->thread = g_thread_create (write_metadata_thread, wmtd, TRUE, NULL);
-	wmd->check_id = g_timeout_add (CHECK_THREAD_RATE, check_write_metadata_thread, wmd);
+	wmd->files = _g_object_list_ref (files);
+	wmd->attributes = g_strdup (attributes);
+	wmd->attributes_v = gth_main_get_metadata_attributes (attributes);
+	g_simple_async_result_set_op_res_gpointer (result, wmd, write_metadata_data_free);
+	g_simple_async_result_run_in_thread (result,
+					     _g_write_metadata_async_thread,
+					     G_PRIORITY_DEFAULT,
+					     cancellable);
+
+	g_object_unref (result);
+}
+
+
+gboolean
+_g_write_metadata_finish (GAsyncResult  *result,
+			  GError       **error)
+{
+	  GSimpleAsyncResult *simple;
+
+	  /* GLib 2.24 gives a wrong warning here */
+#if GLIB_CHECK_VERSION(2, 26, 0)
+	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _g_write_metadata_async), FALSE);
+#endif
+
+	  simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	  if (g_simple_async_result_propagate_error (simple, error))
+		  return FALSE;
+
+	  return TRUE;
 }
 
 

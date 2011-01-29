@@ -90,8 +90,10 @@ void       _g_write_metadata_async          (GList                  *files, /* G
 					     GthMetadataWriteFlags   flags,
 					     const char             *attributes,
 					     GCancellable           *cancellable,
-					     ReadyFunc               ready_func,
+					     GAsyncReadyCallback     callback,
 					     gpointer                user_data);
+gboolean   _g_write_metadata_finish         (GAsyncResult           *result,
+					     GError                **error);
 void       _g_query_all_metadata_async      (GList                  *files, /* GFile * list */
 					     GthListFlags            flags,
 					     const char             *attributes,

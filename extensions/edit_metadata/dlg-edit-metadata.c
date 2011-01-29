@@ -45,14 +45,16 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-write_metadata_ready_cb (GError   *error,
-			 gpointer  user_data)
+write_metadata_ready_cb (GObject      *source_object,
+			 GAsyncResult *result,
+			 gpointer      user_data)
 {
 	DialogData *data = user_data;
 	GthMonitor *monitor;
 	GList      *scan;
+	GError     *error = NULL;
 
-	if (error != NULL) {
+	if (! _g_write_metadata_finish (result, &error)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the file metadata"), &error);
 		return;
 	}

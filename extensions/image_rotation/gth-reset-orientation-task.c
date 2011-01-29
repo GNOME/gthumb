@@ -60,14 +60,16 @@ transform_next_file (GthResetOrientationTask *self)
 
 
 static void
-write_metadata_ready_cb (GError   *error,
-			 gpointer  user_data)
+write_metadata_ready_cb (GObject      *source_object,
+	 	 	 GAsyncResult *result,
+	 	 	 gpointer      user_data)
 {
 	GthResetOrientationTask *self = user_data;
-	GFile               *parent;
-	GList               *file_list;
+	GFile                   *parent;
+	GList                   *file_list;
+	GError                  *error = NULL;
 
-	if (error != NULL) {
+	if (! _g_write_metadata_finish (result, &error)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}

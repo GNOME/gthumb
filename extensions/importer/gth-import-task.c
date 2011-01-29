@@ -182,12 +182,16 @@ catalog_imported_file (GthImportTask *self)
 
 
 static void
-write_metadata_ready_func (GError   *error,
-			   gpointer  user_data)
+write_metadata_ready_func (GObject      *source_object,
+	 	 	   GAsyncResult *result,
+	 	 	   gpointer      user_data)
 {
 	GthImportTask *self = user_data;
+	GError        *error = NULL;
 
-	if ((error != NULL) && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (! _g_write_metadata_finish (result, &error)
+	    && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	{
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
