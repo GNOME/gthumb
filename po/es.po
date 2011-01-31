@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2011-01-28 00:53+0000\n"
-"PO-Revision-Date: 2011-01-29 17:58+0100\n"
+"POT-Creation-Date: 2011-01-29 11:38+0000\n"
+"PO-Revision-Date: 2011-01-31 12:19+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», "
-"«fit_if_larger», «fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
+"«fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», "
-"«text_only», «icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
+"«icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -594,7 +594,7 @@ msgstr "C_rear"
 #: ../extensions/catalogs/actions.c:233
 #: ../extensions/catalogs/dlg-add-to-catalog.c:217
 #: ../extensions/catalogs/dlg-add-to-catalog.c:310
-#: ../extensions/search/gth-search-task.c:332
+#: ../extensions/search/gth-search-task.c:335
 msgid "Could not create the catalog"
 msgstr "No se pudo crear el catálogo"
 
@@ -990,7 +990,7 @@ msgstr "Título"
 
 #: ../extensions/comments/main.c:40 ../extensions/comments/main.c:209
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
@@ -1034,7 +1034,6 @@ msgstr "Crear un mural de fotos"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
 msgid "Contact Sheet"
 msgstr "Hoja de contacto"
 
@@ -1202,7 +1201,7 @@ msgid "Edit the selected theme"
 msgstr "Editar el tema seleccionado"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 msgid "File_name:"
 msgstr "_Nombre del archivo:"
 
@@ -1301,6 +1300,11 @@ msgstr "_Destino:"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
 msgid "_Size:"
 msgstr "_Tamaño:"
+
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#| msgid "Image _Wall..."
+msgid "Image Wall"
+msgstr "Mural de fotos"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:482
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:493
@@ -2902,8 +2906,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
-"if-larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
+"larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3855,16 +3859,17 @@ msgstr "todas las siguientes reglas"
 msgid "any of the following rules"
 msgstr "cualquiera de las siguientes reglas"
 
-#: ../extensions/search/gth-search-task.c:178
-#| msgid "Files found untill now: %"
-msgid "Files found until now: %"
-msgstr "Archivos encontrados hasta ahora: %"
+#: ../extensions/search/gth-search-task.c:180
+#, c-format
+#| msgid "Files found until now: %"
+msgid "Files found until now: %s"
+msgstr "Archivos encontrados hasta ahora: %s"
 
-#: ../extensions/search/gth-search-task.c:251
+#: ../extensions/search/gth-search-task.c:254
 msgid "Searching..."
 msgstr "Buscando…"
 
-#: ../extensions/search/gth-search-task.c:257
+#: ../extensions/search/gth-search-task.c:260
 msgid "Cancel the operation"
 msgstr "Cancelar la operación"
 
@@ -4252,12 +4257,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para "
-"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
+"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -5251,8 +5256,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
-#~ "</small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+#~ "small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -5921,8 +5926,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts "
-#~ "0-9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts 0-"
+#~ "9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -6107,8 +6112,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
-#~ "«exifdate», «comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
+#~ "«comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -6121,8 +6126,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
-#~ "«4x6», «5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
+#~ "«5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: skip, rename, ask, overwrite."
 #~ msgstr "Los valores posibles son: «skip», «rename», «ask», «overwrite»."
@@ -6277,8 +6282,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
+#~ "diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6320,8 +6325,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
+#~ "diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
