@@ -25,9 +25,12 @@ id="gthumb-file-copy-move">
     <item>
       <title>Drag and Drop</title>
       <p>To copy a file to another folder, simply drag the file
-      (with a sustained mouse click) to the destination folder visible in 
+      (with a sustained left-mouse click) to the destination folder visible in 
       the folder tree. To move a file, hold down the <key>Shift</key> key while
       dragging.</p>
+      <p>You can also use the middle mouse button to drag files. In this case,
+      <app>gThumb</app> will ask you if you wish to copy the files, move the files, or
+      cancel the operation.</p>
     </item>
 
     <item>
