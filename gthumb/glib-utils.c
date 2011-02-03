@@ -103,6 +103,26 @@ g_object_list_get_type (void)
 }
 
 
+#if NEED_G_TYPE_ERROR
+
+
+GType
+g_error_get_type (void)
+{
+	static GType type = 0;
+
+	if (type == 0)
+		type = g_boxed_type_register_static ("GError",
+						     (GBoxedCopyFunc) g_error_copy,
+						     (GBoxedFreeFunc) g_error_free);
+
+	return type;
+}
+
+
+#endif
+
+
 GEnumValue *
 _g_enum_type_get_value (GType enum_type,
 			int   value)

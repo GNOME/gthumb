@@ -60,6 +60,10 @@ G_BEGIN_DECLS
 #define ID_LENGTH 8
 #define G_TYPE_OBJECT_LIST (g_object_list_get_type ())
 #define G_TYPE_STRING_LIST (g_string_list_get_type ())
+#ifndef G_TYPE_ERROR
+#define NEED_G_TYPE_ERROR 1
+#define G_TYPE_ERROR (g_error_get_type ())
+#endif
 
 /* signals */
 
@@ -81,6 +85,7 @@ void          _g_clear_object                (gpointer     object_p);
 GList *       _g_object_list_ref             (GList       *list);
 void          _g_object_list_unref           (GList       *list);
 GType         g_object_list_get_type         (void);
+GType         g_error_get_type               (void);
 GEnumValue *  _g_enum_type_get_value         (GType        enum_type,
 					      int          value);
 GEnumValue *  _g_enum_type_get_value_by_nick (GType        enum_type,

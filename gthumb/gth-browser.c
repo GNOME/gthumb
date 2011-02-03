@@ -4740,10 +4740,10 @@ foreground_task_completed_cb (GthTask    *task,
 	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
 	gth_browser_update_sensitivity (browser);
 	if (error != NULL) {
-		if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
-		else
-			g_error_free (error);
+		if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED)) {
+			GError *local_error = g_error_copy (error);
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &local_error);
+		}
 	}
 
 	g_object_unref (browser->priv->task);

@@ -105,10 +105,10 @@ gth_task_class_init (GthTaskClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTaskClass, completed),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
+			      g_cclosure_marshal_VOID__BOXED,
 			      G_TYPE_NONE,
 			      1,
-			      G_TYPE_POINTER);
+			      G_TYPE_ERROR);
 
 	gth_task_signals[PROGRESS] =
 		g_signal_new ("progress",
