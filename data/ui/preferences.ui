@@ -10,7 +10,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
           <object class="GtkNotebook" id="notebook">
@@ -21,12 +20,10 @@
               <object class="GtkVBox" id="general_vbox">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkVBox" id="vbox25">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox66">
@@ -56,64 +53,73 @@
                         <property name="visible">True</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkTable" id="table1">
+                          <object class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
-                            <property name="n_rows">2</property>
-                            <property name="n_columns">2</property>
-                            <property name="column_spacing">6</property>
-                            <property name="row_spacing">6</property>
                             <child>
-                              <object class="GtkLabel" id="label6">
+                              <object class="GtkTable" id="table1">
                                 <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">_Toolbar style:</property>
-                                <property name="use_underline">True</property>
-                              </object>
-                              <packing>
-                                <property name="x_options">GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="toolbar_style_combobox_box">
-                                <property name="visible">True</property>
+                                <property name="n_rows">2</property>
+                                <property name="n_columns">2</property>
+                                <property name="column_spacing">6</property>
+                                <property name="row_spacing">6</property>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkLabel" id="label6">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">_Toolbar style:</property>
+                                    <property name="use_underline">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="toolbar_style_combobox_box">
+                                    <property name="visible">True</property>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label1">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">T_humbnails in viewer:</property>
+                                    <property name="use_underline">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBox" id="thumbnails_pane_orient_combobox">
+                                    <property name="visible">True</property>
+                                    <property name="model">thumbnails_pane_orient_liststore</property>
+                                    <child>
+                                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                      <attributes>
+                                        <attribute name="text">1</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
                                 </child>
                               </object>
                               <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label1">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">T_humbnails in viewer:</property>
-                                <property name="use_underline">True</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkComboBox" id="thumbnails_pane_orient_combobox">
-                                <property name="visible">True</property>
-                                <property name="model">thumbnails_pane_orient_liststore</property>
-                                <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                                  <attributes>
-                                    <attribute name="text">1</attribute>
-                                  </attributes>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
+                                <property name="expand">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                           </object>
@@ -132,7 +138,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox26">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox34">
@@ -163,38 +168,21 @@
                         <property name="visible">True</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkVBox" id="vbox8">
+                          <object class="GtkHBox" id="hbox5">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">6</property>
                             <child>
-                              <object class="GtkRadioButton" id="go_to_last_location_radiobutton">
-                                <property name="label" translatable="yes">Go to last _visited location</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox10">
+                              <object class="GtkVBox" id="vbox8">
                                 <property name="visible">True</property>
                                 <property name="spacing">6</property>
                                 <child>
-                                  <object class="GtkRadioButton" id="use_startup_location_radiobutton">
-                                    <property name="label" translatable="yes">Go to this _folder:</property>
+                                  <object class="GtkRadioButton" id="go_to_last_location_radiobutton">
+                                    <property name="label" translatable="yes">Go to last _visited location</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
-                                    <property name="group">go_to_last_location_radiobutton</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -203,45 +191,70 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkFileChooserButton" id="startup_dir_filechooserbutton">
+                                  <object class="GtkHBox" id="hbox10">
                                     <property name="visible">True</property>
-                                    <property name="local_only">False</property>
-                                    <property name="action">select-folder</property>
-                                    <property name="title" translatable="yes">Choose startup folder</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkRadioButton" id="use_startup_location_radiobutton">
+                                        <property name="label" translatable="yes">Go to this _folder:</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">go_to_last_location_radiobutton</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFileChooserButton" id="startup_dir_filechooserbutton">
+                                        <property name="visible">True</property>
+                                        <property name="local_only">False</property>
+                                        <property name="action">select-folder</property>
+                                        <property name="title" translatable="yes">Choose startup folder</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox11">
-                                <property name="visible">True</property>
-                                <property name="spacing">6</property>
                                 <child>
-                                  <object class="GtkButton" id="set_to_current_button">
-                                    <property name="label" translatable="yes">Set to C_urrent</property>
+                                  <object class="GtkHBox" id="hbox11">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="use_underline">True</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkButton" id="set_to_current_button">
+                                        <property name="label" translatable="yes">Set to C_urrent</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="use_underline">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">0</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
-                                <property name="position">2</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                           </object>
@@ -260,7 +273,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox57">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox110">
@@ -294,7 +306,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox10">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkCheckButton" id="confirm_deletion_checkbutton">
@@ -368,12 +379,10 @@
               <object class="GtkVBox" id="browser_vbox">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox2">
@@ -430,7 +439,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox1">
@@ -464,7 +472,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox1">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkHBox" id="hbox3">

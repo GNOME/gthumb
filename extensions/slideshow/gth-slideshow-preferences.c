@@ -291,7 +291,7 @@ gth_slideshow_preferences_construct (GthSlideshowPreferences *self,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->transition_combobox), i_active);
 	gtk_widget_show (self->priv->transition_combobox);
-	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (self->priv->builder, "transition_box")), self->priv->transition_combobox);
+	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (self->priv->builder, "transition_box")), self->priv->transition_combobox, FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "automatic_checkbutton")), automatic);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "change_delay_spinbutton")), ((float) delay) / 1000.0);

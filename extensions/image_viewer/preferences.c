@@ -102,7 +102,7 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 								    NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->change_zoom_combobox), eel_gconf_get_enum (PREF_ZOOM_CHANGE, GTH_TYPE_ZOOM_CHANGE, GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER));
 	gtk_widget_show (data->change_zoom_combobox);
-	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (data->builder, "zoom_change_box")), data->change_zoom_combobox);
+	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (data->builder, "zoom_change_box")), data->change_zoom_combobox, FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (data->builder, "toggle_reset_scrollbars")), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
@@ -113,7 +113,7 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 								    NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->transp_type_combobox), eel_gconf_get_enum (PREF_TRANSP_TYPE, GTH_TYPE_TRANSP_TYPE, GTH_TRANSP_TYPE_NONE));
 	gtk_widget_show (data->transp_type_combobox);
-	gtk_container_add (GTK_CONTAINER (_gtk_builder_get_widget (data->builder, "transp_type_box")), data->transp_type_combobox);
+	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (data->builder, "transp_type_box")), data->transp_type_combobox, FALSE, FALSE, 0);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (data->builder, "zoom_quality_combobox")), eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_LOW));
 
