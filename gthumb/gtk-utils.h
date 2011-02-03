@@ -76,6 +76,10 @@ _gtk_error_dialog_from_gerror_show         (GtkWindow        *parent,
 void        _gtk_error_dialog_run          (GtkWindow        *parent,
 					    const gchar      *format,
 					    ...) G_GNUC_PRINTF (2, 3);
+void        _gtk_error_dialog_show         (GtkWindow        *parent,
+					    const char       *title,
+					    const char       *format,
+					    ...) G_GNUC_PRINTF (3, 4);
 void        _gtk_info_dialog_run           (GtkWindow        *parent,
 					    const gchar      *format,
 					    ...) G_GNUC_PRINTF (2, 3);

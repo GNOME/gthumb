@@ -635,6 +635,35 @@ _gtk_error_dialog_run (GtkWindow        *parent,
 
 
 void
+_gtk_error_dialog_show (GtkWindow  *parent,
+			const char *title,
+			const char *format,
+			...)
+{
+	va_list    args;
+	char      *message;
+	GtkWidget *d;
+
+	va_start (args, format);
+	message = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	d = _gtk_message_dialog_new (parent,
+				     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_STOCK_DIALOG_ERROR,
+				     title,
+				     message,
+				     GTK_STOCK_OK, GTK_RESPONSE_OK,
+				     NULL);
+	g_signal_connect (d, "response", G_CALLBACK (error_dialog_response_cb), NULL);
+
+	gtk_window_present (GTK_WINDOW (d));
+
+	g_free (message);
+}
+
+
+void
 _gtk_info_dialog_run (GtkWindow        *parent,
 		      const gchar      *format,
 		      ...)
