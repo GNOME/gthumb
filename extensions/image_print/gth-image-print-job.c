@@ -1575,15 +1575,52 @@ load_image_info_task_completed_cb (GthTask  *task,
 				   GError   *error,
 				   gpointer  user_data)
 {
-	GthImagePrintJob        *self = user_data;
-	GtkPrintOperationResult  result;
-	char                    *filename;
-	GtkPrintSettings        *settings;
+	GthImagePrintJob         *self = user_data;
+	int                       n_loaded_images;
+	GthImageInfo            **loaded_images;
+	int                       i, j;
+	GtkPrintOperationResult   result;
+	char                     *filename;
+	GtkPrintSettings         *settings;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
+		g_object_unref (self);
 		return;
 	}
+
+	n_loaded_images = 0;
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo *image_info = self->priv->images[i];
+
+		if (image_info->thumbnail == NULL) {
+			gth_image_info_unref (self->priv->images[i]);
+			self->priv->images[i] = NULL;
+		}
+		else
+			n_loaded_images += 1;
+	}
+
+	if (n_loaded_images == 0) {
+		_gtk_error_dialog_show (GTK_WINDOW (self->priv->browser),
+					_("Could not print"),
+					"%s",
+					_("No suitable loader available for this file type"));
+		g_object_unref (self);
+		return;
+	}
+
+	loaded_images = g_new (GthImageInfo *, n_loaded_images + 1);
+	for (i = 0, j = 0; i < self->priv->n_images; i++) {
+		if (self->priv->images[i] != NULL) {
+			loaded_images[j] = self->priv->images[i];
+			j += 1;
+		}
+	}
+	loaded_images[j] = NULL;
+
+	g_free (self->priv->images);
+	self->priv->images = loaded_images;
+	self->priv->n_images = n_loaded_images;
 
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "print_settings", NULL);
 	settings = gtk_print_settings_new_from_file (filename, NULL);

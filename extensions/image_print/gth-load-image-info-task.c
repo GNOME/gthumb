@@ -124,16 +124,19 @@ image_loader_ready_cb (GObject      *source_object,
 	if (error == NULL)
 		g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error);
 
-	if (error != NULL) {
+	if (error == NULL) {
+		image_info = self->priv->images[self->priv->current];
+		if (pixbuf != NULL) {
+			gth_image_info_set_pixbuf (image_info, pixbuf);
+			g_object_unref (pixbuf);
+		}
+	}
+	else if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
-
-	image_info = self->priv->images[self->priv->current];
-	if (pixbuf != NULL) {
-		gth_image_info_set_pixbuf (image_info, pixbuf);
-		g_object_unref (pixbuf);
-	}
+	else
+		g_clear_error (&error);
 
 	continue_loading_image (self);
 }
