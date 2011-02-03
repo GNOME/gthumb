@@ -64,7 +64,7 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 						 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
 						 browser);
 		else
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not print the selected files"), &error);
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not print the selected files"), &error);
 	}
 
 	_g_object_list_unref (file_list);

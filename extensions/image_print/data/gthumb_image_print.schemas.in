@@ -19,7 +19,33 @@
 	<applyto>/apps/gthumb/ext/image_print/font_name</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>sans normal 10</default>
+	<default>sans normal 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/header_font_name</key>
+	<applyto>/apps/gthumb/ext/image_print/header_font_name</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>sans bold 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/footer_font_name</key>
+	<applyto>/apps/gthumb/ext/image_print/footer_font_name</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>sans normal 8</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

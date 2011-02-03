@@ -14,6 +14,7 @@ libimage_print_la_SOURCES = 		\
 	gth-image-print-job.h		\
 	gth-load-image-info-task.c	\
 	gth-load-image-info-task.h	\
+	preferences.c			\
 	preferences.h			\
 	main.c
 

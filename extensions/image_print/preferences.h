@@ -26,11 +26,24 @@
 
 G_BEGIN_DECLS
 
-#define PREF_IMAGE_PRINT_CAPTION      "/apps/gthumb/ext/image_print/caption"
-#define PREF_IMAGE_PRINT_FONT_NAME    "/apps/gthumb/ext/image_print/font_name"
-#define PREF_IMAGE_PRINT_N_ROWS       "/apps/gthumb/ext/image_print/n_rows"
-#define PREF_IMAGE_PRINT_N_COLUMNS    "/apps/gthumb/ext/image_print/n_columns"
-#define PREF_IMAGE_PRINT_UNIT         "/apps/gthumb/ext/image_print/unit"
+#define PREF_IMAGE_PRINT_CAPTION           "/apps/gthumb/ext/image_print/caption"
+#define PREF_IMAGE_PRINT_FONT_NAME         "/apps/gthumb/ext/image_print/font_name"
+#define PREF_IMAGE_PRINT_HEADER_FONT_NAME  "/apps/gthumb/ext/image_print/header_font_name"
+#define PREF_IMAGE_PRINT_FOOTER_FONT_NAME  "/apps/gthumb/ext/image_print/footer_font_name"
+#define PREF_IMAGE_PRINT_N_ROWS            "/apps/gthumb/ext/image_print/n_rows"
+#define PREF_IMAGE_PRINT_N_COLUMNS         "/apps/gthumb/ext/image_print/n_columns"
+#define PREF_IMAGE_PRINT_UNIT              "/apps/gthumb/ext/image_print/unit"
+
+#define DEFAULT_CAPTION_FONT_NAME "sans normal 10"
+#define DEFAULT_HEADER_FONT_NAME  "sans bold 12"
+#define DEFAULT_FOOTER_FONT_NAME  "sans normal 8"
+
+void ip__dlg_preferences_construct_cb (GtkWidget  *dialog,
+				       GthBrowser *browser,
+				       GtkBuilder *builder);
+void ip__dlg_preferences_apply_cb     (GtkWidget  *dialog,
+				       GthBrowser *browser,
+				       GtkBuilder *builder);
 
 G_END_DECLS
 

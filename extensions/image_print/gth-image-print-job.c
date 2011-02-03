@@ -30,7 +30,6 @@
 #include "preferences.h"
 
 
-#define DEFAULT_FONT_NAME "sans normal 10"
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
@@ -64,9 +63,13 @@ struct _GthImagePrintJobPrivate {
 	int                 image_height;
 	GtkPageSetup       *page_setup;
 	char               *caption_attributes;
-	char               *font_name;
+	char               *caption_font_name;
+	char               *header_font_name;
+	char               *footer_font_name;
 	double              scale_factor;
 	int                 dpi;
+	char               *header;
+	char               *footer;
 
 	/* layout info */
 
@@ -75,6 +78,8 @@ struct _GthImagePrintJobPrivate {
 	double		    max_image_height;
 	double              x_padding;
 	double              y_padding;
+	GthRectangle        header_rectangle;
+	GthRectangle        footer_rectangle;
 	int                 n_pages;
 	int                 current_page;
 };
@@ -96,7 +101,7 @@ gth_image_print_job_finalize (GObject *base)
 	g_free (self->priv->images);
 	_g_object_unref (self->priv->page_setup);
 	g_free (self->priv->caption_attributes);
-	g_free (self->priv->font_name);
+	g_free (self->priv->caption_font_name);
 
 	G_OBJECT_CLASS (parent_class)->finalize (base);
 }
@@ -124,11 +129,15 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->page_setup = NULL;
 	self->priv->current_page = 0;
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
-	self->priv->font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_FONT_NAME);
+	self->priv->caption_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_CAPTION_FONT_NAME);
+	self->priv->header_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_HEADER_FONT_NAME, DEFAULT_HEADER_FONT_NAME);
+	self->priv->footer_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FOOTER_FONT_NAME, DEFAULT_FOOTER_FONT_NAME);
 	self->priv->selected = NULL;
 	self->priv->n_rows = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_ROWS, 1);
 	self->priv->n_columns = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_COLUMNS, 1);
 	self->priv->unit = eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS);
+	self->priv->header_rectangle.height = 0;
+	self->priv->footer_rectangle.height = 0;
 }
 
 
@@ -160,21 +169,102 @@ gth_image_print_job_get_type (void)
 }
 
 
+static double
+get_text_height (GthImagePrintJob *self,
+		 PangoLayout      *pango_layout,
+		 const char       *text,
+		 int               width)
+{
+	PangoRectangle logical_rect;
+
+	if (text == NULL)
+		return 0.0;
+
+	pango_layout_set_text (pango_layout, text, -1);
+	pango_layout_set_width (pango_layout, width * self->priv->scale_factor * PANGO_SCALE);
+	pango_layout_get_pixel_extents (pango_layout, NULL, &logical_rect);
+
+	return logical_rect.height / self->priv->scale_factor;
+}
+
+
+static void
+gth_image_print_job_set_font_options (GthImagePrintJob *self,
+				      PangoLayout      *pango_layout,
+				      const char       *font_name,
+				      gboolean          preview)
+{
+	PangoFontDescription *font_desc;
+	double                size_in_points;
+	cairo_font_options_t *options;
+	PangoContext         *pango_context;
+
+	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_justify (pango_layout, FALSE);
+	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
+
+	font_desc = pango_font_description_from_string (font_name);
+	if (preview)
+		self->priv->scale_factor = 2.83;
+	else
+		self->priv->scale_factor = 1.0;
+
+	size_in_points = (double) pango_font_description_get_size (font_desc) / PANGO_SCALE;
+	pango_font_description_set_absolute_size (font_desc, size_in_points * PANGO_SCALE);
+	pango_layout_set_font_description (pango_layout, font_desc);
+
+	options = cairo_font_options_create ();
+	cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
+	pango_context = pango_layout_get_context (pango_layout);
+	pango_cairo_context_set_font_options (pango_context, options);
+
+	cairo_font_options_destroy (options);
+	pango_font_description_free (font_desc);
+}
+
+
 static void
 gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 				        gdouble             page_width,
 				        gdouble             page_height,
-				        GtkPageOrientation  orientation)
+				        GtkPageOrientation  orientation,
+				        PangoLayout        *pango_layout,
+				        gboolean            preview)
 {
-	int rows;
-	int columns;
-	int current_page;
-	int current_row;
-	int current_column;
-	int i;
+	gboolean height_changed = FALSE;
+	int      height;
+	int      rows;
+	int      columns;
+	int      current_page;
+	int      current_row;
+	int      current_column;
+	int      i;
 
 	self->priv->x_padding = page_width / 40.0;
 	self->priv->y_padding = page_height / 40.0;
+
+	gth_image_print_job_set_font_options (self, pango_layout, self->priv->header_font_name, preview);
+	height = get_text_height (self, pango_layout, self->priv->header, page_width);
+	if (height != self->priv->header_rectangle.height)
+		height_changed = TRUE;
+	self->priv->header_rectangle.height = height;
+	self->priv->header_rectangle.y = 0.0;
+	self->priv->header_rectangle.x = 0.0;
+	self->priv->header_rectangle.width = page_width;
+
+	gth_image_print_job_set_font_options (self, pango_layout, self->priv->header_font_name, preview);
+	height = get_text_height (self, pango_layout, self->priv->footer, page_width);
+	if (height != self->priv->footer_rectangle.height)
+		height_changed = TRUE;
+	self->priv->footer_rectangle.height = height;
+	self->priv->footer_rectangle.y = page_height - self->priv->footer_rectangle.height;
+	self->priv->footer_rectangle.x = 0.0;
+	self->priv->footer_rectangle.width = page_width;
+
+	if (height_changed) {
+		for (i = 0; i < self->priv->n_images; i++)
+			gth_image_info_reset (self->priv->images[i]);
+	}
 
 	rows = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")));
 	columns = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("columns_spinbutton")));
@@ -185,6 +275,11 @@ gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 		rows = columns;
 		columns = tmp;
 	}
+
+	if (self->priv->header_rectangle.height > 0)
+		page_height -= self->priv->header_rectangle.height + self->priv->y_padding;
+	if (self->priv->footer_rectangle.height > 0)
+		page_height -= self->priv->footer_rectangle.height + self->priv->y_padding;
 
 	self->priv->n_rows = rows;
 	self->priv->n_columns = columns;
@@ -239,6 +334,8 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 
 	image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
 	image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
+	if (self->priv->header_rectangle.height > 0)
+		image_info->boundary.y += self->priv->header_rectangle.height + self->priv->y_padding;
 	image_info->boundary.width = self->priv->max_image_width;
 	image_info->boundary.height = self->priv->max_image_height;
 
@@ -337,65 +434,19 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 
 
 static void
-gth_image_print_job_set_font_options (GthImagePrintJob *self,
-				      PangoLayout      *pango_layout,
-				      gboolean          preview)
-{
-	PangoFontDescription *font_desc;
-	double                size_in_points;
-	cairo_font_options_t *options;
-	PangoContext         *pango_context;
-
-	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_justify (pango_layout, FALSE);
-	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
-
-	font_desc = pango_font_description_from_string (self->priv->font_name);
-	if (preview)
-		self->priv->scale_factor = 2.83;
-	else
-		self->priv->scale_factor = 1.0;
-
-	size_in_points = (double) pango_font_description_get_size (font_desc) / PANGO_SCALE;
-	pango_font_description_set_absolute_size (font_desc, size_in_points * PANGO_SCALE);
-	pango_layout_set_font_description (pango_layout, font_desc);
-
-	options = cairo_font_options_create ();
-	cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
-	pango_context = pango_layout_get_context (pango_layout);
-	pango_cairo_context_set_font_options (pango_context, options);
-
-	cairo_font_options_destroy (options);
-	pango_font_description_free (font_desc);
-}
-
-
-static PangoLayout *
-gth_image_print_job_create_pango_layout (GthImagePrintJob *self,
-					 gboolean          preview)
-{
-	PangoLayout *pango_layout;
-
-	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
-	gth_image_print_job_set_font_options (self, pango_layout, preview);
-
-	return pango_layout;
-}
-
-
-static void
 gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 					int                 page,
 					gdouble             page_width,
 					gdouble             page_height,
 					GtkPageOrientation  orientation,
+					PangoLayout        *pango_layout,
 					gboolean            preview)
 {
-	PangoLayout  *pango_layout;
-	char        **attributes_v;
-	int           i;
+	char **attributes_v;
+	int    i;
 
-	pango_layout = gth_image_print_job_create_pango_layout (self, preview);
+	gth_image_print_job_set_font_options (self, pango_layout, self->priv->caption_font_name, preview);
+
 	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
@@ -414,7 +465,6 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 	}
 
 	g_strfreev (attributes_v);
-	g_object_unref (pango_layout);
 }
 
 
@@ -424,8 +474,24 @@ gth_image_print_job_update_layout (GthImagePrintJob   *self,
 			  	   gdouble             page_height,
 			  	   GtkPageOrientation  orientation)
 {
-	gth_image_print_job_update_layout_info (self, page_width, page_height, orientation);
-	gth_image_print_job_update_page_layout (self, self->priv->current_page, page_width, page_height, orientation, TRUE);
+	PangoLayout *pango_layout;
+
+	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
+	gth_image_print_job_update_layout_info (self,
+						page_width,
+						page_height,
+						orientation,
+						pango_layout,
+						TRUE);
+	gth_image_print_job_update_page_layout (self,
+						self->priv->current_page,
+						page_width,
+						page_height,
+						orientation,
+						pango_layout,
+						TRUE);
+
+	g_object_unref (pango_layout);
 }
 
 
@@ -540,7 +606,46 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 {
 	int i;
 
-	gth_image_print_job_set_font_options (self, pango_layout, preview);
+	if (self->priv->header != NULL) {
+		gth_image_print_job_set_font_options (self, pango_layout, self->priv->header_font_name, preview);
+
+		cairo_save (cr);
+
+		pango_layout_set_width (pango_layout, self->priv->header_rectangle.width * self->priv->scale_factor * PANGO_SCALE);
+		pango_layout_set_text (pango_layout, self->priv->header, -1);
+
+		cairo_move_to (cr, x_offset + self->priv->header_rectangle.x, y_offset + self->priv->header_rectangle.y);
+		if (preview)
+			cairo_scale (cr, 1.0 / self->priv->scale_factor, 1.0 / self->priv->scale_factor);
+
+		pango_cairo_layout_path (cr, pango_layout);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		cairo_fill (cr);
+
+		cairo_restore (cr);
+	}
+
+	if (self->priv->footer != NULL) {
+		gth_image_print_job_set_font_options (self, pango_layout, self->priv->footer_font_name, preview);
+
+		cairo_save (cr);
+
+		pango_layout_set_width (pango_layout, self->priv->footer_rectangle.width * self->priv->scale_factor * PANGO_SCALE);
+		pango_layout_set_text (pango_layout, self->priv->footer, -1);
+
+		cairo_move_to (cr, x_offset + self->priv->footer_rectangle.x, y_offset + self->priv->footer_rectangle.y);
+		if (preview)
+			cairo_scale (cr, 1.0 / self->priv->scale_factor, 1.0 / self->priv->scale_factor);
+
+		pango_cairo_layout_path (cr, pango_layout);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		cairo_fill (cr);
+
+		cairo_restore (cr);
+	}
+
+	gth_image_print_job_set_font_options (self, pango_layout, self->priv->caption_font_name, preview);
+
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
 		GdkPixbuf    *fullsize_pixbuf;
@@ -795,7 +900,8 @@ gth_image_print_job_update_image_preview (GthImagePrintJob *self,
 	PangoLayout  *pango_layout;
 	char        **attributes_v;
 
-	pango_layout = gth_image_print_job_create_pango_layout (self, TRUE);
+	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
+
 	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	gth_image_print_job_update_image_layout (self,
 						 image_info,
@@ -1093,14 +1199,32 @@ unit_combobox_changed_cb (GtkComboBox *combo_box,
 
 
 static void
-caption_fontbutton_font_set_cb (GtkFontButton *font_button,
-				gpointer       user_data)
+header_entry_changed_cb (GtkEditable *editable,
+			 gpointer     user_data)
 {
 	GthImagePrintJob *self = user_data;
 
-	g_free (self->priv->font_name);
-	self->priv->font_name = g_strdup (gtk_font_button_get_font_name (font_button));
-	eel_gconf_set_string (PREF_IMAGE_PRINT_FONT_NAME, self->priv->font_name);
+	_g_strset (&self->priv->header, gtk_entry_get_text (GTK_ENTRY (editable)));
+	if (g_strcmp0 (self->priv->header, "") == 0) {
+		g_free (self->priv->header);
+		self->priv->header = NULL;
+	}
+
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
+footer_entry_changed_cb (GtkEditable *editable,
+			 gpointer     user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	_g_strset (&self->priv->footer, gtk_entry_get_text (GTK_ENTRY (editable)));
+	if (g_strcmp0 (self->priv->footer, "") == 0) {
+		g_free (self->priv->footer);
+		self->priv->footer = NULL;
+	}
 
 	gth_image_print_job_update_preview (self);
 }
@@ -1259,7 +1383,6 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (self->priv->caption_chooser), self->priv->caption_attributes);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
-	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton")), self->priv->font_name);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")), self->priv->n_rows);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("columns_spinbutton")), self->priv->n_columns);
@@ -1306,10 +1429,14 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			  "changed",
 	                  G_CALLBACK (unit_combobox_changed_cb),
 	                  self);
-	g_signal_connect (GET_WIDGET ("caption_fontbutton"),
-			  "font-set",
-			  G_CALLBACK (caption_fontbutton_font_set_cb),
-			  self);
+	g_signal_connect (GET_WIDGET ("header_entry"),
+			  "changed",
+	                  G_CALLBACK (header_entry_changed_cb),
+	                  self);
+	g_signal_connect (GET_WIDGET ("footer_entry"),
+			  "changed",
+	                  G_CALLBACK (footer_entry_changed_cb),
+	                  self);
 
 	self->priv->rotation_combobox_changed_event =
 			g_signal_connect (GET_WIDGET ("rotation_combobox"),
@@ -1414,6 +1541,7 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 	GthImagePrintJob *self = user_data;
 	GtkPrintSettings *settings;
 	char             *filename;
+	PangoLayout      *pango_layout;
 
 	_g_object_unref (self->priv->page_setup);
 	self->priv->page_setup = gtk_page_setup_copy (gtk_print_context_get_page_setup (context));
@@ -1427,11 +1555,16 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 	gtk_page_setup_to_file (self->priv->page_setup, filename, NULL);
 	g_free (filename);
 
+	pango_layout = gtk_print_context_create_pango_layout (context);
 	gth_image_print_job_update_layout_info (self,
 						gtk_print_context_get_width (context),
 						gtk_print_context_get_height (context),
-						gtk_page_setup_get_orientation (self->priv->page_setup));
+						gtk_page_setup_get_orientation (self->priv->page_setup),
+						pango_layout,
+						FALSE);
 	gtk_print_operation_set_n_pages (operation, self->priv->n_pages);
+
+	g_object_unref (pango_layout);
 }
 
 
@@ -1442,20 +1575,21 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 			      gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
-	GtkPageSetup     *setup;
 	cairo_t          *cr;
 	PangoLayout      *pango_layout;
+	GtkPageSetup     *setup;
 
+	cr = gtk_print_context_get_cairo_context (context);
+	pango_layout = gtk_print_context_create_pango_layout (context);
 	setup = gtk_print_context_get_page_setup (context);
+
 	gth_image_print_job_update_page_layout (self,
 						page_nr,
 						gtk_print_context_get_width (context),
 						gtk_print_context_get_height (context),
 						gtk_page_setup_get_orientation (setup),
+						pango_layout,
 						FALSE);
-
-	cr = gtk_print_context_get_cairo_context (context);
-	pango_layout = gtk_print_context_create_pango_layout (context);
 	gth_image_print_job_paint (self,
 				   cr,
 				   pango_layout,
@@ -1537,7 +1671,7 @@ gth_image_print_job_new (GList        *file_data_list,
 
 	self->priv->print_operation = gtk_print_operation_new ();
 	gtk_print_operation_set_allow_async (self->priv->print_operation, TRUE);
-	gtk_print_operation_set_custom_tab_label (self->priv->print_operation, _("Layout"));
+	gtk_print_operation_set_custom_tab_label (self->priv->print_operation, _("Images"));
 	gtk_print_operation_set_embed_page_setup (self->priv->print_operation, TRUE);
 	gtk_print_operation_set_show_progress (self->priv->print_operation, TRUE);
 

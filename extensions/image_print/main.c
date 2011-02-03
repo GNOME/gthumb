@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
+#include "preferences.h"
 
 
 G_MODULE_EXPORT void
@@ -31,6 +32,8 @@ gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ip__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ip__gth_browser_update_sensitivity_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-construct", 40, G_CALLBACK (ip__dlg_preferences_construct_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-apply", 10, G_CALLBACK (ip__dlg_preferences_apply_cb), NULL);
 }
 
 

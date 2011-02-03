@@ -77,6 +77,9 @@ gth_image_info_ref (GthImageInfo *image_info)
 void
 gth_image_info_unref (GthImageInfo *image_info)
 {
+	if (image_info == NULL)
+		return;
+
 	image_info->ref_count--;
 	if (image_info->ref_count > 0)
 		return;
