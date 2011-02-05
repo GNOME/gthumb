@@ -222,6 +222,10 @@
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x25CF;</property>
                                 <property name="activates_default">True</property>
+                                <property name="secondary_icon_stock">gtk-help</property>
+                                <property name="secondary_icon_activatable">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
+                                <property name="secondary_icon_tooltip_text">Help</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -949,6 +953,10 @@
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
                                     <property name="activates_default">True</property>
+                                    <property name="secondary_icon_stock">gtk-help</property>
+                                    <property name="secondary_icon_activatable">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_tooltip_text">Help</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>

@@ -246,7 +246,7 @@ footer_entry_icon_press_cb (GtkEntry             *entry,
 	DialogData *data = user_data;
 	GtkWidget  *help_box;
 
-	if (GTK_WIDGET (entry) == GET_WIDGET ("footer_entry"))
+	if ((GTK_WIDGET (entry) == GET_WIDGET ("header_entry")) || (GTK_WIDGET (entry) == GET_WIDGET ("footer_entry")))
 		help_box = GET_WIDGET ("page_footer_help_table");
 	else
 		help_box = GET_WIDGET ("image_footer_help_table");
@@ -530,7 +530,15 @@ dlg_web_exporter (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (update_sensitivity),
 				  data);
+	g_signal_connect (GET_WIDGET ("header_entry"),
+			  "icon-press",
+			  G_CALLBACK (footer_entry_icon_press_cb),
+			  data);
 	g_signal_connect (GET_WIDGET ("footer_entry"),
+			  "icon-press",
+			  G_CALLBACK (footer_entry_icon_press_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("image_page_header_entry"),
 			  "icon-press",
 			  G_CALLBACK (footer_entry_icon_press_cb),
 			  data);
