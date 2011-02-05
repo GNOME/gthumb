@@ -68,7 +68,6 @@ struct _GthFileStorePrivate
 	gboolean             load_thumbs;
 	GthTest             *filter;
 	GList               *queue;
-	int                  queue_size;
 	GthFileDataCompFunc  cmp_func;
 	gboolean             inverse_sort;
 	gboolean             update_filter;
@@ -164,7 +163,6 @@ _gth_file_store_clear_queue (GthFileStore *file_store)
 {
 	g_list_free (file_store->priv->queue);
 	file_store->priv->queue = NULL;
-	file_store->priv->queue_size = 0;
 }
 
 
@@ -1424,6 +1422,7 @@ gth_file_store_queue_add (GthFileStore *file_store,
 	_gth_file_row_set_metadata (row, metadata);
 	row->is_icon = is_icon;
 	row->checked = checked;
+
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, row);
 }
 

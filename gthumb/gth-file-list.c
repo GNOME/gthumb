@@ -990,11 +990,15 @@ gfl_add_files (GthFileList *file_list,
 {
 	GthFileStore *file_store;
 	GList        *scan;
+	char         *cache_base_uri;
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
+	cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
+		char        *uri;
+		ThumbData   *thumb_data;
 		GIcon       *icon;
 		GdkPixbuf   *pixbuf = NULL;
 		GString     *metadata;
@@ -1005,9 +1009,16 @@ gfl_add_files (GthFileList *file_list,
 		if (g_hash_table_lookup (file_list->priv->thumb_data, file_data->file) != NULL)
 			continue;
 
+		uri = g_file_get_uri (file_data->file);
+
+		thumb_data = thumb_data_new ();
+		/* files in the .thumbnails directory are already thumbnails,
+		 * set them as created. */
+		thumb_data->thumb_created = _g_uri_parent_of_uri (cache_base_uri, uri);
+
 		g_hash_table_insert (file_list->priv->thumb_data,
 				     g_object_ref (file_data->file),
-				     thumb_data_new ());
+				     thumb_data);
 
 		icon = g_file_info_get_icon (file_data->info);
 		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
@@ -1022,7 +1033,10 @@ gfl_add_files (GthFileList *file_list,
 		g_string_free (metadata, TRUE);
 		if (pixbuf != NULL)
 			g_object_unref (pixbuf);
+
+		g_free (uri);
 	}
+	g_free (cache_base_uri);
 
 	gth_file_store_exec_add (file_store);
 	_gth_file_list_update_pane (file_list);
@@ -1049,6 +1063,7 @@ gfl_delete_files (GthFileList *file_list,
 	GList        *scan;
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+
 	for (scan = files; scan; scan = scan->next) {
 		GFile       *file = scan->data;
 		GtkTreeIter  iter;

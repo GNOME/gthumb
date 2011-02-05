@@ -481,6 +481,21 @@ cache_image_ready_cb (GObject      *source_object,
 
 
 static gboolean
+is_a_cache_file (const char *uri)
+{
+	char     *cache_base_uri;
+	gboolean  result;
+
+	cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
+	result = _g_uri_parent_of_uri (cache_base_uri, uri);
+
+	g_free (cache_base_uri);
+
+	return result;
+}
+
+
+static gboolean
 _gth_thumb_loader_save_to_cache (GthThumbLoader *self,
 				 GthFileData    *file_data,
 				 GdkPixbuf      *pixbuf)
@@ -496,18 +511,14 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader *self,
 	uri = g_file_get_uri (file_data->file);
 
 	if (g_file_is_native (file_data->file)) {
-		char *cache_base_uri;
 
 		/* Do not save thumbnails from the user's thumbnail directory,
 		   or an endless loop of thumbnailing may be triggered. */
 
-		cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
-		if (_g_uri_parent_of_uri (cache_base_uri, uri)) {
-			g_free (cache_base_uri);
+		if (is_a_cache_file (uri)) {
 			g_free (uri);
 			return FALSE;
 		}
-		g_free (cache_base_uri);
 	}
 
 	cache_path = gnome_desktop_thumbnail_path_for_uri (uri, self->priv->thumb_size);
@@ -786,6 +797,7 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 {
 	GSimpleAsyncResult *simple;
 	char               *cache_path;
+	char               *uri;
 	LoadData           *load_data;
 
 	simple = g_simple_async_result_new (G_OBJECT (self),
@@ -794,11 +806,15 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 					    gth_thumb_loader_load);
 
 	cache_path = NULL;
-	if (self->priv->use_cache) {
-		char   *uri;
-		time_t  mtime;
 
-		uri = g_file_get_uri (file_data->file);
+	uri = g_file_get_uri (file_data->file);
+
+	if (is_a_cache_file (uri)) {
+		cache_path = g_file_get_path (file_data->file);
+	}
+	else if (self->priv->use_cache) {
+		time_t mtime;
+
 		mtime = gth_file_data_get_mtime (file_data);
 
 		if (gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (self->priv->thumb_factory, uri, mtime)) {
@@ -815,9 +831,9 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		}
 
 		cache_path = gnome_desktop_thumbnail_factory_lookup (self->priv->thumb_factory, uri, mtime);
-
-		g_free (uri);
 	}
+
+	g_free (uri);
 
 	if ((cache_path == NULL)
 	    && (self->priv->max_file_size > 0)
