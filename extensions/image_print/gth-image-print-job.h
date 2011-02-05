@@ -51,6 +51,7 @@ GType              gth_image_print_job_get_type (void);
 GthImagePrintJob * gth_image_print_job_new      (GList                    *file_data_list,
 						 GthFileData              *current,
 						 GdkPixbuf                *current_image,
+						 const char               *event_name,
 						 GError                  **error);
 void               gth_image_print_job_run      (GthImagePrintJob         *self,
 						 GtkPrintOperationAction   action,

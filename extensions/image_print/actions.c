@@ -58,6 +58,7 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 		print_job = gth_image_print_job_new (file_list,
 						     gth_browser_get_current_file (browser),
 						     current_image,
+						     g_file_info_get_display_name (gth_browser_get_location_data (browser)->info),
 						     &error);
 		if (print_job != NULL)
 			gth_image_print_job_run (print_job,
