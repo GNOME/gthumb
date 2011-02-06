@@ -43,8 +43,9 @@ typedef struct {
 
 
 GthOpData category_op_data[] = {
-	{ N_("is"), GTH_TEST_OP_EQUAL, FALSE },
-	{ N_("is not"), GTH_TEST_OP_EQUAL, TRUE }
+	{ N_("is"), GTH_TEST_OP_CONTAINS, FALSE },
+	{ N_("is only"), GTH_TEST_OP_CONTAINS_ONLY, FALSE },
+	{ N_("is not"), GTH_TEST_OP_CONTAINS, TRUE }
 };
 
 
@@ -256,6 +257,11 @@ gth_test_category_real_match (GthTest     *test,
 		else
 			list = NULL;
 
+		if (test_category->priv->op == GTH_TEST_OP_CONTAINS_ONLY) {
+			if ((list == NULL) || (list->next != NULL))
+				return test_category->priv->negative ? GTH_MATCH_YES : GTH_MATCH_NO;
+		}
+
 		test_category_casefolded = g_utf8_casefold (test_category->priv->category, -1);
 		for (scan = list; ! result && scan; scan = scan->next) {
 			char *category;
@@ -330,8 +336,13 @@ gth_test_category_real_load_from_element (DomDomizable *base,
 	g_object_set (self, "visible", (g_strcmp0 (dom_element_get_attribute (element, "display"), "none") != 0), NULL);
 
 	value = dom_element_get_attribute (element, "op");
-	if (value != NULL)
+	if (value != NULL) {
 		self->priv->op = _g_enum_type_get_value_by_nick (GTH_TYPE_TEST_OP, value)->value;
+
+		/* convert EQUAL to CONTAINS for backward compatibility */
+		if (self->priv->op == GTH_TEST_OP_EQUAL)
+			self->priv->op = GTH_TEST_OP_CONTAINS;
+	}
 
 	self->priv->negative = g_strcmp0 (dom_element_get_attribute (element, "negative"), "true") == 0;
 

@@ -337,7 +337,7 @@ search__gth_organize_task_create_catalog (GthGroupPolicyData *data)
 			gth_search_set_recursive (GTH_SEARCH (data->catalog), gth_organize_task_get_recursive (data->task));
 
 			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
-			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_EQUAL, FALSE, data->tag);
+			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_CONTAINS, FALSE, data->tag);
 			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, tag_test, NULL);
 			gth_search_set_test (GTH_SEARCH (data->catalog), GTH_TEST_CHAIN (test_chain));
 

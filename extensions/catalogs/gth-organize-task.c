@@ -376,7 +376,7 @@ add_catalog_for_tag (GthOrganizeTask *self,
 			gth_search_set_recursive (GTH_SEARCH (catalog), self->priv->recursive);
 
 			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (self->priv->group_policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
-			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_EQUAL, FALSE, tag);
+			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_CONTAINS, FALSE, tag);
 			test_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, tag_test, NULL);
 			gth_search_set_test (GTH_SEARCH (catalog), GTH_TEST_CHAIN (test_chain));
 
