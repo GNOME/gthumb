@@ -199,6 +199,13 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 
 	_g_object_list_unref (providers);
 
+	if (error == NULL) {
+		for (scan = qmd->files; scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+			gth_hook_invoke ("read-metadata-ready", file_data, qmd->attributes);
+		}
+	}
+
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (result, error);
 		g_error_free (error);
