@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "gth-file-data.h"
+#include "gth-file-view.h"
 #include "gth-file-source.h"
 #include "gth-file-store.h"
 #include "gth-test.h"
@@ -61,7 +62,8 @@ struct _GthFileListClass {
 };
 
 GType             gth_file_list_get_type          (void);
-GtkWidget *       gth_file_list_new               (GthFileListType       list_type,
+GtkWidget *       gth_file_list_new               (GtkWidget            *file_view,
+						   GthFileListType       list_type,
 						   gboolean              enable_drag_drop);
 void              gth_file_list_set_type          (GthFileList          *file_list,
 						   GthFileListType       list_type);

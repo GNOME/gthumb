@@ -455,7 +455,7 @@ update_file_list_sensitivity (GthFindDuplicates *self)
 
 
 static void
-duplicates_list_view_selection_changed_cb (GtkIconView *iconview,
+duplicates_list_view_selection_changed_cb (GthFileView *fileview,
 					   gpointer     user_data)
 {
 	GthFindDuplicates *self = user_data;
@@ -679,7 +679,7 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	}
 
 	self->priv->builder = _gtk_builder_new_from_file ("find-duplicates-dialog.ui", "find_duplicates");
-	self->priv->duplicates_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
+	self->priv->duplicates_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->duplicates_list), "find-duplicates::n-duplicates,gth::file::display-size");
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (self->priv->duplicates_list), 112);
 	gtk_widget_set_size_request (self->priv->duplicates_list, -1, 200);
@@ -698,8 +698,8 @@ gth_find_duplicates_exec (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (g_cancellable_cancel),
 				  self->priv->cancellable);
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list))),
-			  "selection_changed",
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list)),
+			  "file-selection-changed",
 			  G_CALLBACK (duplicates_list_view_selection_changed_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("file_cellrenderertoggle"),

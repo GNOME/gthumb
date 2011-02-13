@@ -22,6 +22,63 @@
 #include "gth-file-view.h"
 
 
+enum {
+	FILE_ACTIVATED,
+	LAST_SIGNAL
+};
+
+
+static guint gth_file_view_signals[LAST_SIGNAL] = { 0 };
+
+
+static void
+gth_file_view_base_init (gpointer g_class)
+{
+	static gboolean initialized = FALSE;
+
+	if (! initialized) {
+		gth_file_view_signals[FILE_ACTIVATED] =
+			g_signal_new ("file-activated",
+				      GTH_TYPE_FILE_VIEW,
+				      G_SIGNAL_RUN_LAST,
+				      G_STRUCT_OFFSET (GthFileViewIface, file_activated),
+				      NULL, NULL,
+				      g_cclosure_marshal_VOID__BOXED,
+				      G_TYPE_NONE, 1,
+				      GTK_TYPE_TREE_PATH);
+		initialized = TRUE;
+	}
+}
+
+
+GType
+gth_file_view_get_type (void)
+{
+	static GType type = 0;
+
+	if (type == 0) {
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthFileViewIface),
+			(GBaseInitFunc) gth_file_view_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) NULL,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			0,
+			0,
+			(GInstanceInitFunc) NULL,
+			NULL
+		};
+		type = g_type_register_static (G_TYPE_INTERFACE,
+					       "GthFileView",
+					       &g_define_type_info,
+					       0);
+	}
+
+	return type;
+}
+
+
 void
 gth_file_view_set_model (GthFileView  *self,
 		         GtkTreeModel *model)
@@ -155,29 +212,36 @@ gth_file_view_set_drag_dest_pos (GthFileView    *self,
 }
 
 
-GType
-gth_file_view_get_type (void)
+GtkCellLayout *
+gth_file_view_add_renderer (GthFileView             *self,
+			    GthFileViewRendererType  renderer_type,
+			    GtkCellRenderer         *renderer)
 {
-	static GType type = 0;
+	return GTH_FILE_VIEW_GET_INTERFACE (self)->add_renderer (self, renderer_type, renderer);
+}
 
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileViewIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (G_TYPE_INTERFACE,
-					       "GthFileView",
-					       &g_define_type_info,
-					       0);
-	}
 
-	return type;
+void
+gth_file_view_update_attributes (GthFileView     *self,
+				 GtkCellRenderer *checkbox_renderer,
+				 GtkCellRenderer *thumbnail_renderer,
+				 GtkCellRenderer *text_renderer,
+				 int              thumb_size)
+{
+	GTH_FILE_VIEW_GET_INTERFACE (self)->update_attributes (self, checkbox_renderer, thumbnail_renderer, text_renderer, thumb_size);
+}
+
+
+gboolean
+gth_file_view_truncate_metadata (GthFileView *self)
+{
+	return GTH_FILE_VIEW_GET_INTERFACE (self)->truncate_metadata (self);
+}
+
+
+void
+gth_file_view_activate_file (GthFileView *self,
+			     GtkTreePath *path)
+{
+	g_signal_emit (self, gth_file_view_signals[FILE_ACTIVATED], 0, path);
 }

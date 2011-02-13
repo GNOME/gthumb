@@ -73,6 +73,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
 	gth-info-bar.h					\
+	gth-list-view.h					\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-menu-button.h				\
@@ -189,6 +190,7 @@ gthumb_SOURCES = 					\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
 	gth-info-bar.c					\
+	gth-list-view.c					\
 	gth-location-chooser.c				\
 	gth-main.c					\
 	gth-main-default-hooks.c			\

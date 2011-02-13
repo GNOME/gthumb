@@ -22,6 +22,61 @@
 #include "gth-file-selection.h"
 
 
+enum {
+	FILE_SELECTION_CHANGED,
+	LAST_SIGNAL
+};
+
+
+static guint gth_file_selection_signals[LAST_SIGNAL] = { 0 };
+
+
+static void
+gth_file_selection_base_init (gpointer g_class)
+{
+	static gboolean initialized = FALSE;
+
+	if (! initialized) {
+		gth_file_selection_signals[FILE_SELECTION_CHANGED] =
+			g_signal_new ("file-selection-changed",
+				      GTH_TYPE_FILE_SELECTION,
+				      G_SIGNAL_RUN_LAST,
+				      G_STRUCT_OFFSET (GthFileSelectionIface, file_selection_changed),
+				      NULL, NULL,
+				      g_cclosure_marshal_VOID__VOID,
+				      G_TYPE_NONE, 0);
+		initialized = TRUE;
+	}
+}
+
+
+GType
+gth_file_selection_get_type (void)
+{
+	static GType type = 0;
+
+	if (type == 0) {
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthFileSelectionIface),
+			(GBaseInitFunc) gth_file_selection_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) NULL,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			0,
+			0,
+			(GInstanceInitFunc) NULL,
+			NULL
+		};
+		type = g_type_register_static (G_TYPE_INTERFACE,
+					       "GthFileSelection",
+					       &g_define_type_info,
+					       0);
+	}
+
+	return type;
+}
+
 
 void
 gth_file_selection_set_selection_mode (GthFileSelection *self,
@@ -102,28 +157,8 @@ gth_file_selection_get_n_selected (GthFileSelection *self)
 }
 
 
-GType
-gth_file_selection_get_type (void)
+void
+gth_file_selection_changed (GthFileSelection *self)
 {
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileSelectionIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (G_TYPE_INTERFACE,
-					       "GthFileSelection",
-					       &g_define_type_info,
-					       0);
-	}
-	return type;
+	g_signal_emit (self, gth_file_selection_signals[FILE_SELECTION_CHANGED], 0);
 }

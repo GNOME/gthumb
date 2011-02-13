@@ -41,8 +41,10 @@
 #include "gth-filterbar.h"
 #include "gth-folder-tree.h"
 #include "gth-icon-cache.h"
+#include "gth-icon-view.h"
 #include "gth-info-bar.h"
 #include "gth-image-preloader.h"
+#include "gth-list-view.h"
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
@@ -3354,7 +3356,7 @@ gth_thumbnail_view_selection_changed_cb (GtkIconView *iconview,
 
 
 static void
-gth_file_view_item_activated_cb (GtkIconView *iconview,
+gth_file_view_file_activated_cb (GthFileView *file_view,
 				 GtkTreePath *path,
 				 gpointer     user_data)
 {
@@ -4000,7 +4002,7 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_alignment, DEF_VIEWER_SIDEBAR_WIDTH, -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
-	browser->priv->thumbnail_list = gth_file_list_new ((viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
+	browser->priv->thumbnail_list = gth_file_list_new (gth_icon_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
@@ -4010,8 +4012,8 @@ _gth_browser_construct (GthBrowser *browser)
 		gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 	_gth_browser_set_thumbnail_list_visibility (browser, eel_gconf_get_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, TRUE));
 
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))),
-			  "selection_changed",
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list)),
+			  "file-selection-changed",
 			  G_CALLBACK (gth_thumbnail_view_selection_changed_cb),
 			  browser);
 
@@ -4200,7 +4202,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the file list */
 
-	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, TRUE);
+	browser->priv->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
 				    eel_gconf_get_boolean (PREF_SORT_INVERSE, FALSE));
@@ -4214,23 +4216,23 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_show (browser->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->file_list, TRUE, TRUE, 0);
 
-	g_signal_connect (G_OBJECT (browser->priv->file_list),
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list)),
 			  "button-press-event",
 			  G_CALLBACK (gth_file_list_button_press_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (browser->priv->file_list),
+	g_signal_connect (browser->priv->file_list,
 			  "popup-menu",
 			  G_CALLBACK (gth_file_list_popup_menu_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
-			  "selection-changed",
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list)),
+			  "file-selection-changed",
 			  G_CALLBACK (gth_file_view_selection_changed_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
-			  "item-activated",
-			  G_CALLBACK (gth_file_view_item_activated_cb),
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list)),
+			  "file-activated",
+			  G_CALLBACK (gth_file_view_file_activated_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (browser->priv->file_list),
+	g_signal_connect (browser->priv->file_list,
 			  "key-press-event",
 			  G_CALLBACK (gth_file_list_key_press_cb),
 			  browser);

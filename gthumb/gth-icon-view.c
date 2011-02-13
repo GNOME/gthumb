@@ -306,6 +306,45 @@ gth_icon_view_set_drag_dest_pos (GthFileView    *self,
 }
 
 
+static GtkCellLayout *
+gth_icon_view_add_renderer (GthFileView             *self,
+			    GthFileViewRendererType  renderer_type,
+			    GtkCellRenderer         *renderer)
+{
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self), renderer, FALSE);
+
+	return GTK_CELL_LAYOUT (self);
+}
+
+
+static void
+gth_icon_view_update_attributes (GthFileView     *self,
+				 GtkCellRenderer *checkbox_renderer,
+				 GtkCellRenderer *thumbnail_renderer,
+				 GtkCellRenderer *text_renderer,
+				 int              thumb_size)
+{
+	g_object_set (thumbnail_renderer,
+		      "size", thumb_size,
+		      "yalign", 1.0,
+		      NULL);
+	g_object_set (text_renderer,
+		      "yalign", 0.0,
+		      "alignment", PANGO_ALIGN_CENTER,
+		      "width", thumb_size + THUMBNAIL_BORDER,
+		      "wrap-mode", PANGO_WRAP_WORD_CHAR,
+		      "wrap-width", thumb_size + THUMBNAIL_BORDER,
+		      NULL);
+}
+
+
+static gboolean
+gth_icon_view_truncate_metadata (GthFileView *base)
+{
+	return TRUE;
+}
+
+
 static void
 gth_icon_view_real_set_selection_mode (GthFileSelection *base,
 				       GtkSelectionMode  mode)
@@ -784,8 +823,19 @@ icon_view_selection_changed_cb (GtkIconView *widget,
 		icon_view->priv->selection_range_start = gtk_tree_path_get_indices (path)[0];
 	}
 
+	gth_file_selection_changed (GTH_FILE_SELECTION (icon_view));
+
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
+}
+
+
+static void
+icon_view_item_activated_cb (GtkIconView *icon_view,
+			     GtkTreePath *path,
+			     gpointer     user_data)
+{
+	gth_file_view_activate_file (GTH_FILE_VIEW (icon_view), path);
 }
 
 
@@ -820,6 +870,10 @@ gth_icon_view_init (GthIconView *icon_view)
 			  "selection-changed",
 			  G_CALLBACK (icon_view_selection_changed_cb),
 			  icon_view);
+	g_signal_connect (icon_view,
+			  "item-activated",
+			  G_CALLBACK (icon_view_item_activated_cb),
+			  icon_view);
 }
 
 
@@ -843,6 +897,9 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	iface->enable_drag_dest = gth_icon_view_enable_drag_dest;
 	iface->unset_drag_dest = gth_icon_view_unset_drag_dest;
 	iface->set_drag_dest_pos = gth_icon_view_set_drag_dest_pos;
+	iface->add_renderer = gth_icon_view_add_renderer;
+	iface->update_attributes = gth_icon_view_update_attributes;
+	iface->truncate_metadata = gth_icon_view_truncate_metadata;
 }
 
 

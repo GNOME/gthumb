@@ -266,7 +266,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	thumb_rect.height -= ypad * 2;
 
 	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect)
-	|| ! gdk_rectangle_intersect (expose_area, &thumb_rect, &draw_rect))
+	    || ! gdk_rectangle_intersect (expose_area, &thumb_rect, &draw_rect))
 	{
 		return;
 	}
@@ -317,8 +317,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		if (self->priv->fixed_size && _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
 			frame_rect.width = self->priv->size; /*image_rect.width*/
 			frame_rect.height = self->priv->size; /*image_rect.height*/
-			frame_rect.x = cell_area->x + xpad + THUMBNAIL_BORDER - 1;
-			frame_rect.y = cell_area->y + ypad + THUMBNAIL_BORDER - 1;
+			frame_rect.x = thumb_rect.x + (thumb_rect.width - frame_rect.width) * .5; /*cell_area->x + xpad + THUMBNAIL_BORDER - 1;*/
+			frame_rect.y = thumb_rect.y + (thumb_rect.height - frame_rect.height) * .5; /*cell_area->y + ypad + THUMBNAIL_BORDER - 1;*/
 
 			border = 6;
 		}

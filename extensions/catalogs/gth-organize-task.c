@@ -801,7 +801,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 						      gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GET_WIDGET ("organization_treeview"))));
 	g_object_unref (icon);
 
-	self->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
+	self->priv->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->file_list), "standard::display-name");
 	gtk_widget_show (self->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_box")), self->priv->file_list, TRUE, TRUE, 0);

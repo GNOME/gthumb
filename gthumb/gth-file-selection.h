@@ -39,22 +39,26 @@ typedef struct _GthFileSelectionIface GthFileSelectionIface;
 struct _GthFileSelectionIface {
 	GTypeInterface parent_iface;
 
+	/*< signals >*/
+
+	void          (*file_selection_changed)  (GthFileSelection *self);
+
 	/*< virtual functions >*/
 
-	void          (*set_selection_mode) (GthFileSelection *self,
-					     GtkSelectionMode  mode);
-	GList *       (*get_selected)       (GthFileSelection *self);
-	void          (*select)             (GthFileSelection *self,
-					     int               pos);
-	void          (*unselect)           (GthFileSelection *self,
-					     int               pos);
-	void          (*select_all)         (GthFileSelection *self);
-	void          (*unselect_all)       (GthFileSelection *self);
-	gboolean      (*is_selected)        (GthFileSelection *self,
-					     int               pos);
-	GtkTreePath * (*get_first_selected) (GthFileSelection *self);
-	GtkTreePath * (*get_last_selected)  (GthFileSelection *self);
-	guint         (*get_n_selected)     (GthFileSelection *self);
+	void          (*set_selection_mode)      (GthFileSelection *self,
+					          GtkSelectionMode  mode);
+	GList *       (*get_selected)            (GthFileSelection *self);
+	void          (*select)                  (GthFileSelection *self,
+					          int               pos);
+	void          (*unselect)                (GthFileSelection *self,
+					          int               pos);
+	void          (*select_all)              (GthFileSelection *self);
+	void          (*unselect_all)            (GthFileSelection *self);
+	gboolean      (*is_selected)             (GthFileSelection *self,
+					          int               pos);
+	GtkTreePath * (*get_first_selected)      (GthFileSelection *self);
+	GtkTreePath * (*get_last_selected)       (GthFileSelection *self);
+	guint         (*get_n_selected)          (GthFileSelection *self);
 };
 
 GType         gth_file_selection_get_type           (void);
@@ -72,6 +76,7 @@ gboolean      gth_file_selection_is_selected        (GthFileSelection *self,
 GtkTreePath * gth_file_selection_get_first_selected (GthFileSelection *self);
 GtkTreePath * gth_file_selection_get_last_selected  (GthFileSelection *self);
 guint         gth_file_selection_get_n_selected     (GthFileSelection *self);
+void          gth_file_selection_changed            (GthFileSelection *self);
 
 G_END_DECLS
 

@@ -508,7 +508,7 @@ flickr_photo_position_func (GthFileData *a,
 
 
 static void
-file_list_selection_changed_cb (GtkIconView *iconview,
+file_list_selection_changed_cb (GthFileView *file_view,
 				gpointer     user_data)
 {
 	update_selection_status ((DialogData *) user_data);
@@ -558,7 +558,7 @@ dlg_import_from_flickr (FlickrServer *server,
 
 	/* Set the widget data */
 
-	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL, FALSE);
+	data->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	thumb_loader = gth_file_list_get_thumb_loader (GTH_FILE_LIST (data->file_list));
 	gth_thumb_loader_set_use_cache (thumb_loader, FALSE);
 	gth_thumb_loader_set_loader_func (thumb_loader, flickr_thumbnail_loader);
@@ -618,8 +618,8 @@ dlg_import_from_flickr (FlickrServer *server,
 			  "changed",
 			  G_CALLBACK (photoset_combobox_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
-			  "selection_changed",
+	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (data->file_list)),
+			  "file-selection-changed",
 			  G_CALLBACK (file_list_selection_changed_cb),
 			  data);
 
