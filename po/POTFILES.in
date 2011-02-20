@@ -257,7 +257,6 @@ extensions/find_duplicates/dlg-find-duplicates.h
 [type: gettext/ini]extensions/find_duplicates/find_duplicates.extension.in.in
 extensions/find_duplicates/gth-find-duplicates.c
 extensions/find_duplicates/gth-find-duplicates.h
-extensions/find_duplicates/.#gth-find-duplicates-task.c
 extensions/find_duplicates/main.c
 extensions/flicker/actions.c
 extensions/flicker/actions.h
@@ -319,6 +318,7 @@ extensions/image_print/callbacks.c
 extensions/image_print/callbacks.h
 extensions/image_print/data/gthumb_image_print.schemas.in
 [type: gettext/glade]extensions/image_print/data/ui/print-layout.ui
+[type: gettext/glade]extensions/image_print/data/ui/print-preferences.ui
 extensions/image_print/gth-image-info.c
 extensions/image_print/gth-image-info.h
 extensions/image_print/gth-image-print-job.c
@@ -327,6 +327,7 @@ extensions/image_print/gth-load-image-info-task.c
 extensions/image_print/gth-load-image-info-task.h
 [type: gettext/ini]extensions/image_print/image_print.extension.in.in
 extensions/image_print/main.c
+extensions/image_print/preferences.c
 extensions/image_print/preferences.h
 extensions/image_rotation/actions.c
 extensions/image_rotation/actions.h
@@ -694,6 +695,8 @@ gthumb/gth-image-viewer-tool.c
 gthumb/gth-image-viewer-tool.h
 gthumb/gth-info-bar.c
 gthumb/gth-info-bar.h
+gthumb/gth-list-view.c
+gthumb/gth-list-view.h
 gthumb/gth-location-chooser.c
 gthumb/gth-location-chooser.h
 gthumb/gth-main.c
