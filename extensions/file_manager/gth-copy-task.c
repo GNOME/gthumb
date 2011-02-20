@@ -54,6 +54,12 @@ copy_done_cb (GObject    *object,
 	      GError     *error,
 	      gpointer    user_data)
 {
+	/* Errors with code G_IO_ERROR_EXISTS are generated when the user
+	 * chooses to not overwrite the files.  There is no need to show an
+	 * error dialog for this type of errors.  To do this the code is set to
+	 * G_IO_ERROR_CANCELLED, which is always ignored by GthBrowser. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+		error->code = G_IO_ERROR_CANCELLED;
 	gth_task_completed (GTH_TASK (user_data), error);
 }
 
