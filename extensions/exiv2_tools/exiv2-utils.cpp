@@ -170,6 +170,16 @@ const char *_KEYWORDS_TAG_NAMES[] = {
 	NULL
 };
 
+/* Some evil camera fill in the ImageDescription or UserComment fields
+   with useless fluff. Try to filter these out, so they do not show up
+   as comments */
+const char *stupid_comment_filter[] = {
+	"OLYMPUS DIGITAL CAMERA",
+	"SONY DSC",
+	"KONICA MINOLTA DIGITAL CAMERA",
+	"MINOLTA DIGITAL CAMERA",
+	NULL };
+
 
 inline static char *
 exiv2_key_from_attribute (const char *attribute)
@@ -459,8 +469,37 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 
 
 static void
+clear_studip_comments_from_tagset (GFileInfo  *info,
+				   const char *tagset[])
+{
+	int i;
+
+	for (i = 0; tagset[i] != NULL; i++) {
+		GObject    *metadata;
+		const char *value;
+		int         j;
+
+		metadata = g_file_info_get_attribute_object (info, tagset[i]);
+		if ((metadata == NULL) || ! GTH_IS_METADATA (metadata))
+			continue;
+
+		value = gth_metadata_get_formatted (GTH_METADATA (metadata));
+		for (j = 0; stupid_comment_filter[j] != NULL; j++) {
+			if (strstr (value, stupid_comment_filter[j]) == value) {
+				g_file_info_remove_attribute (info, tagset[i]);
+				break;
+			}
+		}
+	}
+}
+
+
+static void
 set_attributes_from_tagsets (GFileInfo *info)
 {
+	clear_studip_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
+	clear_studip_comments_from_tagset (info, _TITLE_TAG_NAMES);
+
 	set_attribute_from_tagset (info, "general::datetime", _LAST_DATE_TAG_NAMES);
 	if (g_file_info_get_attribute_object (info, "general::datetime") == NULL)
 		set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
