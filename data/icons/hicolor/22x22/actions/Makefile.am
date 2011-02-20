@@ -12,6 +12,7 @@ icons_DATA = 			\
 	histogram.png		\
 	palette.png		\
 	share.png		\
+	tag.png			\
 	tool-adjust-colors.png	\
 	tool-crop.png		\
 	tool-desaturate.png	\

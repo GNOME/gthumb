@@ -12,6 +12,7 @@ icons_DATA = 				\
 	file-search.png			\
 	flickr.png			\
 	histogram.png			\
+	histogram-linear.png		\
 	histogram-logarithmic.png	\
 	image-navigator.png		\
 	photobucket.png			\
