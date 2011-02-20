@@ -603,7 +603,6 @@ _gtk_error_dialog_from_gerror_show (GtkWindow   *parent,
 }
 
 
-
 void
 _gtk_error_dialog_run (GtkWindow        *parent,
 		       const gchar      *format,
