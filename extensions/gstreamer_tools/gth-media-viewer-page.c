@@ -365,17 +365,14 @@ position_value_changed_cb (GtkAdjustment *adjustment,
 		return;
 
 	current_value = (gint64) (gtk_adjustment_get_value (adjustment) / 100.0 * self->priv->duration);
-	if (! gst_element_seek (self->priv->playbin,
-				self->priv->rate,
-			        GST_FORMAT_TIME,
-			        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
-			        GST_SEEK_TYPE_SET,
-			        current_value,
-			        GST_SEEK_TYPE_NONE,
-			        0.0))
-	{
-		g_warning ("seek failed");
-	}
+	gst_element_seek (self->priv->playbin,
+			  self->priv->rate,
+			  GST_FORMAT_TIME,
+			  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+			  GST_SEEK_TYPE_SET,
+			  current_value,
+			  GST_SEEK_TYPE_NONE,
+			  0.0);
 
 	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
@@ -480,7 +477,27 @@ button_play_clicked_cb (GtkButton *button,
 	if (! self->priv->playing) {
 		if (! self->priv->paused) {
 			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
-			gst_element_seek_simple (self->priv->playbin, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, 0);
+			gst_element_seek (self->priv->playbin,
+					  self->priv->rate,
+					  GST_FORMAT_TIME,
+					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+					  GST_SEEK_TYPE_SET,
+					  0.0,
+					  GST_SEEK_TYPE_NONE,
+					  0.0);
+		}
+		else {
+			gint64 current_value;
+
+			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position"))) / 100.0 * self->priv->duration);
+			gst_element_seek (self->priv->playbin,
+					  self->priv->rate,
+					  GST_FORMAT_TIME,
+					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+					  GST_SEEK_TYPE_SET,
+					  current_value,
+					  GST_SEEK_TYPE_NONE,
+					  0.0);
 		}
 		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
 	}
