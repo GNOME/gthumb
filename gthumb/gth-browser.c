@@ -4220,6 +4220,10 @@ _gth_browser_construct (GthBrowser *browser)
 			  "button-press-event",
 			  G_CALLBACK (gth_file_list_button_press_cb),
 			  browser);
+	g_signal_connect (gth_file_list_get_empty_view (GTH_FILE_LIST (browser->priv->file_list)),
+			  "button-press-event",
+			  G_CALLBACK (gth_file_list_button_press_cb),
+			  browser);
 	g_signal_connect (browser->priv->file_list,
 			  "popup-menu",
 			  G_CALLBACK (gth_file_list_popup_menu_cb),
