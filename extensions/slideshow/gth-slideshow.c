@@ -473,6 +473,13 @@ _gth_slideshow_construct (GthSlideshow *self,
 							     100,
 							     0,
 							     NULL);
+	if (self->priv->pause_pixbuf == NULL)
+		self->priv->pause_pixbuf = gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+								     GTK_STOCK_MEDIA_PAUSE,
+								     100,
+								     0,
+								     NULL);
+
 	self->priv->projector->construct (self);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
