@@ -1,3 +1,74 @@
+version 2.13.1
+--------------
+
+        New features and user visible changes:
+
+        * New tools: contact sheet creator, find duplicates.
+        * Print: allow to specify the number of rows and columns; allow to
+          specify the header and the footer of the pages.
+        * Added "Copy to" and "Move to" commands to copy or move files to
+          another directory.  You can still accomplish the some task using the
+          Copy/Cut/Paste commands.
+        * Re-added the 2.10 semi-trasparent property box in fullscreen mode.
+          The 'i' key shows/hides the property box.
+        * Re-added ability to view file comments in the file list.
+        * Preferences dialog: added option to specify the file extension to
+          use when creating jpeg and tiff files.
+        * Added an histogram view to the sidebar.
+        * Added ability to drag files with the middle mouse button to allow
+        * Allow to rename the files in a catalog.
+          the user to choose the action to perform.
+        * Added ability to move catalogs with drag&drop.
+        * Change date tool: added the ability to shift dates by any offset.
+          (Thomas Bouffon) (#632298)
+        * Edit metadata dialog: added 'Iptc.Application2.ProvinceState' field
+          to the 'Other' tab (Matthew Geier) (#630279)
+        * Convert and resize: allow to specify a destination folder even when
+          the images are from a catalog.
+        * Video player: allow to change playback speed when paused.
+        * Slideshow: show the paused sign centered on the screen and hide it
+          after a second.
+        * Crop tool: added a new grid mode to view the center lines of the
+          current selection.
+        * Added ability to search and filter files with a single tag. (#633884)
+        * Always use the same height for the thumbnails.  This allows to avoid
+          scroll jumps when loading the thumbnails listed before the currently
+          visible ones.
+        * Changed the thumbnail style: use rounded corners.
+        * Added a comment filter that ignores automatic camera comments such as
+          "SONY DSC", "OLYMPUS DIGITAL CAMERA", etc.
+
+        Bugs fixed:
+
+        * Do not check if there is a thumbnail for thumbnail files. (#635948)
+        * Correctly activate the default extensions when started the first
+          time. (#635475)
+        * Lack of the "selected" word in status bar. (#628098)
+        * Compile with -fPIC -DPIC.  Re-applied patch from bug #572685.
+        * Repaired sm-client support. (Josef Schmeisser)
+        * Added focus stealing prevention code when launching an application.
+        * Make PgUp/PgDown navigation work when started in fullscreen mode. 
+          (#642848)
+        * Do not add a entry point if already present. (#627153)
+        * The same bugfixes of the 2.12 series.
+
+        New or updated application translations:
+
+        * Chinese (Hong Kong) (Chao-Hsiung Liao)
+        * Chinese (simplified) (lainme)
+        * Chinese/Traditional (Chao-Hsiung Liao)
+        * Danish (Joe Hansen)
+        * Deutsch (Mario Blättermann)
+        * Español (Daniel Mustieles)
+        * Estonian (Rene Pärts)
+        * Indonesian Translation (Andika Triwidada)
+        * Russian (Yuri Myasoedov)
+
+        New or updated manual translations:
+
+        * Español (Daniel Mustieles)
+        * German (Mario Blättermann)
+
 version 2.12.0
 --------------
 
@@ -108,22 +179,22 @@ version 2.11.90
 	New features and user visible changes:
 
 	* Slideshow: added ability to view the images in random order (#621244)
-	* Change date tool: allow to set the date without touching the time 
+	* Change date tool: allow to set the date without touching the time
 	  (#622245)
-	* Video player: display the video speed in the status bar and allow 
+	* Video player: display the video speed in the status bar and allow
 	  to change speed from 0.03 to 36.0 (#624454)
 	* Removed the "do not change folder" option from the preferences dialog
 	  as it was useless.
-	* Added ability to organize files by tag: the organize command can 
+	* Added ability to organize files by tag: the organize command can
 	  organize files by tag, creating a catalog for each tag found in the
 	  scanned images.
 	* The "fit window to image" is now a toggle action. (#617488)
-	* Added two orientation tools: added tool to physically rotate the 
-	  images according to their embedded orientation; and a tool to reset 
+	* Added two orientation tools: added tool to physically rotate the
+	  images according to their embedded orientation; and a tool to reset
 	  the embedded orientation without rotating the images.
-	* Removed the preferences button from the import dialogs: instead of 
-	  the overwrite option just use the overwrite dialog when a file is 
-	  going to be overwritten; the rotate option is used only when 
+	* Removed the preferences button from the import dialogs: instead of
+	  the overwrite option just use the overwrite dialog when a file is
+	  going to be overwritten; the rotate option is used only when
 	  importing from a device and is set in the general preferences dialog.
 	* New application icon.
 
@@ -141,7 +212,7 @@ version 2.11.90
 	* Correctly hide and show the mouse pointer in the video player.
 	* Fixed search test when the "match any" option was active.
 	* Flicker importer: fixed crash when the image url is not found
-	
+
 	New or updated application translations:
 
 	* Czech (Marek Černocký)

@@ -1,5 +1,5 @@
 AC_PREREQ(2.63)
-AC_INIT([gthumb],[2.12.0],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb],[2.13.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 AM_INIT_AUTOMAKE([1.9 foreign])
 
 AC_CONFIG_HEADERS([config.h])
@@ -470,7 +470,7 @@ AC_ARG_WITH([smclient],
     win32) with_smclient=$GDK_TARGET ;;
     *) with_smclient=no ;;
    esac])
-   
+
 AC_MSG_RESULT([$with_smclient])
 
 if test "$with_smclient" != "no"; then
