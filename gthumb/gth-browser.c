@@ -1439,6 +1439,10 @@ _gth_browser_get_visible_folders (GthBrowser *browser,
 }
 
 
+static void _gth_browser_make_file_visible (GthBrowser  *browser,
+					    GthFileData *file_data);
+
+
 static void
 load_data_continue (LoadData *load_data,
 		    GList    *loaded_files)
@@ -1549,6 +1553,18 @@ load_data_continue (LoadData *load_data,
 	gth_file_source_monitor_directory (browser->priv->location_source,
 					   browser->priv->monitor_location,
 					   TRUE);
+
+	if (browser->priv->current_file != NULL) {
+		gth_browser_update_title (browser);
+		gth_browser_update_statusbar_file_info (browser);
+		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
+			_gth_browser_make_file_visible (browser, browser->priv->current_file);
+			if (browser->priv->viewer_page != NULL) {
+				gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
+				gth_viewer_page_focus (browser->priv->viewer_page);
+			}
+		}
+	}
 
 	if (StartSlideshow) {
 		StartSlideshow = FALSE;
@@ -2193,10 +2209,6 @@ _gth_browser_show_properties_in_browser_mode (GthBrowser *browser)
 	gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
 	gtk_widget_show (browser->priv->file_properties);
 }
-
-
-static void _gth_browser_make_file_visible (GthBrowser  *browser,
-					    GthFileData *file_data);
 
 
 static void
