@@ -2267,12 +2267,16 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	/* save the browser window size */
 
 	if (prev_page == GTH_BROWSER_PAGE_BROWSER) {
-		GdkWindowState state;
+		GdkWindow *gdk_win;
 
-		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
-		if ((state & GDK_WINDOW_STATE_MAXIMIZED) == 0) { /* ! maximized */
-			gtk_window_get_size (GTK_WINDOW (window), &width, &height);
-			gth_window_save_page_size (GTH_WINDOW (window), prev_page, width, height);
+		gdk_win = gtk_widget_get_window (GTK_WIDGET (browser));
+		if (gdk_win != NULL) {
+			GdkWindowState state = gdk_window_get_state (gdk_win);
+
+			if ((state & GDK_WINDOW_STATE_MAXIMIZED) == 0) { /* ! maximized */
+				gtk_window_get_size (GTK_WINDOW (browser), &width, &height);
+				gth_window_save_page_size (GTH_WINDOW (browser), prev_page, width, height);
+			}
 		}
 	}
 
