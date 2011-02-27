@@ -394,13 +394,16 @@ gth_histogram_paint_selection (GthHistogramView *self,
 			       cairo_t          *cr,
 			       GtkAllocation    *allocation)
 {
-	double step;
-
-	step = (double) allocation->width / 255.0;
+	GtkStyle *style;
+	double    step;
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	cairo_set_line_width (cr, 0.5);
-	cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+
+	style = gtk_widget_get_style (GTK_WIDGET (self));
+	gdk_cairo_set_source_color (cr, &style->base[GTK_STATE_SELECTED]);
+
+	step = (double) allocation->width / 255.0;
 	cairo_rectangle (cr,
 			 self->priv->selection_start * step,
 			 0,
