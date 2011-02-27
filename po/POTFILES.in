@@ -12,6 +12,7 @@ data/gthumb-import.desktop.in.in
 data/gthumb.schemas.in
 [type: gettext/glade]data/ui/extensions.ui
 [type: gettext/glade]data/ui/filter-editor.ui
+[type: gettext/glade]data/ui/histogram-info.ui
 [type: gettext/glade]data/ui/overwrite-dialog.ui
 [type: gettext/glade]data/ui/personalize-filters.ui
 [type: gettext/glade]data/ui/preferences.ui

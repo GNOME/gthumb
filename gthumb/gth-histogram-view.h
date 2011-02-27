@@ -75,6 +75,8 @@ GthHistogramScale  gth_histogram_view_get_scale_type        (GthHistogramView  *
 void               gth_histogram_view_set_selection         (GthHistogramView  *self,
 							     guchar             start,
 							     guchar             end);
+void               gth_histogram_view_show_info             (GthHistogramView  *self,
+							     gboolean           show_info);
 
 G_END_DECLS
 

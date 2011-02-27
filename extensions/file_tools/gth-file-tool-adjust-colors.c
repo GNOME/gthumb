@@ -28,7 +28,6 @@
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define APPLY_DELAY 150
-#define SQR(x) ((x) * (x))
 
 
 static gpointer parent_class = NULL;
@@ -417,7 +416,7 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	self->priv->brightness_adj    = gimp_scale_entry_new (GET_WIDGET ("brightness_hbox"),
 							      GTK_LABEL (GET_WIDGET ("brightness_label")),
 							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->contrast_adj      = gimp_scale_entry_new (GET_WIDGET ("contrast_hbox"), 
+	self->priv->contrast_adj      = gimp_scale_entry_new (GET_WIDGET ("contrast_hbox"),
 							      GTK_LABEL (GET_WIDGET ("contrast_label")),
 							      0.0, -100.0, 100.0, 1.0, 10.0, 0);
 	self->priv->gamma_adj         = gimp_scale_entry_new (GET_WIDGET ("gamma_hbox"),

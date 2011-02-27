@@ -20,13 +20,14 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "gth-image-histogram.h"
 #include "gth-image-viewer-page.h"
 
 #define GTH_IMAGE_HISTOGRAM_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate))
-#define MIN_HISTOGRAM_HEIGHT 200
+#define MIN_HISTOGRAM_HEIGHT 250
 
 
 static gpointer parent_class = NULL;
@@ -113,6 +114,7 @@ gth_image_histogram_init (GthImageHistogram *self)
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
 
 	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
+	gth_histogram_view_show_info (GTH_HISTOGRAM_VIEW (self->priv->histogram_view), TRUE);
 	gtk_widget_set_size_request (self->priv->histogram_view, -1, MIN_HISTOGRAM_HEIGHT);
 	gtk_widget_show (self->priv->histogram_view);
 	gtk_box_pack_start (GTK_BOX (self), self->priv->histogram_view, FALSE, FALSE, 0);

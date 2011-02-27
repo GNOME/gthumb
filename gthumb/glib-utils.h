@@ -29,6 +29,8 @@
 
 G_BEGIN_DECLS
 
+#define SQR(x) ((x) * (x))
+
 #define GFILE_NAME_TYPE_ATTRIBUTES "standard::name,standard::type"
 #define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon"
 #define GFILE_BASIC_ATTRIBUTES GFILE_DISPLAY_ATTRIBUTES ",standard::name,standard::type"
