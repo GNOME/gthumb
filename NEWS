@@ -16,8 +16,8 @@ version 2.13.1
           use when creating jpeg and tiff files.
         * Added an histogram view to the sidebar.
         * Added ability to drag files with the middle mouse button to allow
-        * Allow to rename the files in a catalog.
           the user to choose the action to perform.
+        * Allow to rename the files in a catalog.
         * Added ability to move catalogs with drag&drop.
         * Change date tool: added the ability to shift dates by any offset.
           (Thomas Bouffon) (#632298)
@@ -47,7 +47,7 @@ version 2.13.1
         * Compile with -fPIC -DPIC.  Re-applied patch from bug #572685.
         * Repaired sm-client support. (Josef Schmeisser)
         * Added focus stealing prevention code when launching an application.
-        * Make PgUp/PgDown navigation work when started in fullscreen mode. 
+        * Make PgUp/PgDown navigation work when started in fullscreen mode.
           (#642848)
         * Do not add a entry point if already present. (#627153)
         * The same bugfixes of the 2.12 series.
