@@ -60,7 +60,7 @@ LIBBRASERO_REQUIRED=2.28
 dnl ===========================================================================
 
 CFLAGS=${CFLAGS-:""}
-CFLAGS="$CFLAGS -Wl,--as-needed"
+CFLAGS="$CFLAGS -fPIC -DPIC -Wl,--as-needed"
 
 AC_ARG_ENABLE(deprecated,
 	      AS_HELP_STRING([--disable-deprecated], [do not use deprecated API]),
