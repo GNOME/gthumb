@@ -257,16 +257,16 @@ gth_histogram_paint_channel (GthHistogramView *self,
 	else
 		max = 1.0;
 
-	step = (double) allocation->width / 255.0;
+	step = (double) (allocation->width - 1) / 256.0;
 	cairo_set_line_width (cr, 0.5);
-	for (i = 0; i < 255; i++) {
+	for (i = 0; i <= 255; i++) {
 		double value;
 		int    y;
 
 		value = gth_histogram_get_value (self->priv->histogram, channel, i);
-		y = (int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max;
+		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
 
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y, step, allocation->height);
+		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
 	}
 	cairo_fill (cr);
 }
@@ -289,9 +289,9 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 	else
 		max = 1.0;
 
-	step = (double) allocation->width / 255.0;
+	step = (double) (allocation->width - 1) / 256.0;
 	cairo_set_line_width (cr, 0.5);
-	for (i = 0; i < 255; i++) {
+	for (i = 0; i <= 255; i++) {
 		double value_r;
 		double value_g;
 		double value_b;
@@ -339,8 +339,8 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 		_cairo_set_source_color_from_channel (cr, max_c);
 		value = gth_histogram_get_value (self->priv->histogram, max_c, i);
-		y = (int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y, step, allocation->height);
+		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
+		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
 		cairo_fill (cr);
 
 		/* use the ADD operator for the middle value */
@@ -348,8 +348,8 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		cairo_set_operator (cr, CAIRO_OPERATOR_ADD);
 		_cairo_set_source_color_from_channel (cr, mid_c);
 		value = gth_histogram_get_value (self->priv->histogram, mid_c, i);
-		y = (int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y, step, allocation->height);
+		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
+		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
 		cairo_fill (cr);
 
 		/* the minimum value is shared by all the channels and is
@@ -358,8 +358,8 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 		gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (GTK_WIDGET (self))]);
 		value = gth_histogram_get_value (self->priv->histogram, min_c, i);
-		y = (int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y, step, allocation->height);
+		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
+		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
 		cairo_fill (cr);
 	}
 }
@@ -383,11 +383,11 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	cairo_rectangle (cr, 0.5, 0.5, allocation->width, allocation->height);
 	cairo_stroke (cr);
 
-	grid_step = 255.0 / 5;
+	grid_step = 256.0 / 5;
 	for (i = 1; i < 5; i++) {
 		int x;
 
-		x = (i * grid_step) * ((double) allocation->width / 255.0);
+		x = (i * grid_step) * ((double) allocation->width / 256.0);
 
 		cairo_move_to (cr, x + 0.5, 0);
 		cairo_line_to (cr, x + 0.5, allocation->height);
@@ -410,7 +410,7 @@ gth_histogram_paint_selection (GthHistogramView *self,
 	style = gtk_widget_get_style (GTK_WIDGET (self));
 	gdk_cairo_set_source_color (cr, &style->base[GTK_STATE_SELECTED]);
 
-	step = (double) allocation->width / 255.0;
+	step = (double) allocation->width / 256.0;
 	cairo_rectangle (cr,
 			 self->priv->selection_start * step,
 			 0,
