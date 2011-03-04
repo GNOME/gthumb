@@ -46,7 +46,7 @@
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="xalign">1</property>
-            <property name="label" translatable="yes" comments="Short for &quot;Standard deviation&quot;">Std dev:</property>
+            <property name="label" translatable="yes" comments="Short for &quot;Standard deviation&quot;.  Try to keep it short in the translation.">Std dev:</property>
             <attributes>
               <attribute name="weight" value="bold"/>
               <attribute name="absolute-size" value="10000"/>
@@ -126,7 +126,7 @@
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
             <property name="xalign">1</property>
-            <property name="label" translatable="yes">Pixels:</property>
+            <property name="label" translatable="yes" comments="After the colon there is the total number of pixels">Pixels:</property>
             <attributes>
               <attribute name="weight" value="bold"/>
               <attribute name="absolute-size" value="10000"/>
@@ -155,7 +155,7 @@
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
             <property name="xalign">1</property>
-            <property name="label" translatable="yes">Max:</property>
+            <property name="label" translatable="yes" context="Pixels" comments="After the colon there is a percentile.">Max:</property>
             <attributes>
               <attribute name="weight" value="bold"/>
               <attribute name="absolute-size" value="10000"/>
@@ -188,7 +188,7 @@
           <object class="GtkLabel" id="label7">
             <property name="visible">True</property>
             <property name="xalign">1</property>
-            <property name="label" translatable="yes">Selected:</property>
+            <property name="label" translatable="yes" context="Pixels" comments="After the colon there is the percentile of selected pixels.">Selected:</property>
             <attributes>
               <attribute name="weight" value="bold"/>
               <attribute name="absolute-size" value="10000"/>
