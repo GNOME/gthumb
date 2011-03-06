@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2011-02-20 19:07+0000\n"
-"PO-Revision-Date: 2011-02-22 13:32+0100\n"
+"POT-Creation-Date: 2011-03-04 17:37+0000\n"
+"PO-Revision-Date: 2011-03-06 17:47+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
-"«fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», "
+"«fit_if_larger», «fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
-"«icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», "
+"«text_only», «icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -209,6 +209,40 @@ msgstr "C_oincide"
 #: ../data/ui/filter-editor.ui.h:4
 msgid "selected by"
 msgstr "seleccionados por"
+
+#: ../data/ui/histogram-info.ui.h:1
+#| msgid "Media"
+msgid "Mean:"
+msgstr "Media:"
+
+#: ../data/ui/histogram-info.ui.h:2
+#| msgid "Media"
+msgid "Median:"
+msgstr "Mediana:"
+
+#. After the colon there is a percentile.
+#: ../data/ui/histogram-info.ui.h:4
+msgctxt "Pixels"
+msgid "Max:"
+msgstr "Máx:"
+
+#. After the colon there is the percentile of selected pixels.
+#: ../data/ui/histogram-info.ui.h:6
+#| msgid "_Selected tags:"
+msgctxt "Pixels"
+msgid "Selected:"
+msgstr "Seleccionados:"
+
+#. After the colon there is the total number of pixels
+#: ../data/ui/histogram-info.ui.h:8
+#| msgid "Pi_xels"
+msgid "Pixels:"
+msgstr "Píxeles:"
+
+#. Short for "Standard deviation".  Try to keep it short in the translation.
+#: ../data/ui/histogram-info.ui.h:10
+msgid "Std dev:"
+msgstr "Desv. Est.:"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
 msgid "Do not overwrite _the old file"
@@ -2181,7 +2215,7 @@ msgstr "Mover los archivos seleccionados a otra carpeta"
 
 #: ../extensions/file_manager/callbacks.c:900
 #: ../extensions/find_duplicates/gth-find-duplicates.c:355
-#: ../gthumb/gth-browser.c:4714 ../gthumb/gth-browser.c:4751
+#: ../gthumb/gth-browser.c:4730 ../gthumb/gth-browser.c:4767
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2332,20 +2366,20 @@ msgstr "Herramientas básicas para modificar imágenes."
 msgid "Image tools"
 msgstr "Herramientas de imagen"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:310
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:309
 #: ../extensions/file_tools/gth-file-tool-negative.c:83
 msgid "Applying changes"
 msgstr "Aplicando cambios"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:519
 msgid "Adjust Colors..."
 msgstr "Ajustar colores…"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:519
 msgid "Adjust Colors"
 msgstr "Ajustar colores"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:521
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
@@ -2511,27 +2545,22 @@ msgid "Undo"
 msgstr "Deshacer"
 
 #: ../extensions/find_duplicates/callbacks.c:48
-#| msgid "Found duplicates:"
 msgid "Find _Duplicates..."
 msgstr "Buscar _duplicados…"
 
 #: ../extensions/find_duplicates/callbacks.c:49
-#| msgid "Stop loading the current location"
 msgid "Find duplicated files in the current location"
 msgstr "Buscar duplicados en la ubicación actual"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
-#| msgid "Duplicates"
 msgid "Duplicates:"
 msgstr "Duplicados:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-#| msgid "Files"
 msgid "Files:"
 msgstr "Archivos:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
-#| msgid "Found duplicates:"
 msgid "No duplicates found."
 msgstr "No se encontraron duplicados."
 
@@ -2540,12 +2569,10 @@ msgid "Search for Duplicates"
 msgstr "Buscar duplicados"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
-#| msgid "Select All"
 msgid "Select _All"
 msgstr "Seleccionar _todo"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
-#| msgid "Select All"
 msgid "_Unselect All"
 msgstr "_Deseleccionar todo"
 
@@ -2556,7 +2583,6 @@ msgstr "_Ver"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
-#| msgid "Found duplicates:"
 msgid "Find Duplicates"
 msgstr "Buscar duplicados"
 
@@ -2567,30 +2593,25 @@ msgid "Start _at:"
 msgstr "Iniciar _en:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
-#| msgid "Filter"
 msgid "_Filter:"
 msgstr "_Filtro:"
 
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:2
-#| msgid "Found duplicates:"
 msgid "Find duplicated files."
 msgstr "Buscar archivos duplicados."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:233
 #, c-format
-#| msgid "Found duplicates:"
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d duplicado"
 msgstr[1] "%d duplicados"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:310
-#| msgid "Search for Duplicates"
 msgid "Search completed"
 msgstr "Búsqueda completada"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:322
-#| msgid "Search for Duplicates"
 msgid "Searching for duplicates"
 msgstr "Buscando duplicados"
 
@@ -2602,7 +2623,6 @@ msgstr[0] "%d archivo restante"
 msgstr[1] "%d archivos restantes"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:408
-#| msgid "Getting the album list"
 msgid "Getting the file list"
 msgstr "Obteniendo la lista de archivos"
 
@@ -2702,7 +2722,7 @@ msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
 #: ../extensions/image_viewer/gth-image-viewer-page.c:986
-#: ../gthumb/gth-browser.c:1880
+#: ../gthumb/gth-browser.c:1896
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2891,7 +2911,6 @@ msgid "The event description"
 msgstr "La descripción del evento"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:21
-#| msgid "The total number of images"
 msgid "The total number of files"
 msgstr "El número total de archivos"
 
@@ -2916,7 +2935,6 @@ msgid "millimeters"
 msgstr "milímetros"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
-#| msgid "_Font:"
 msgid "Fonts"
 msgstr "Tipografías"
 
@@ -2925,12 +2943,10 @@ msgid "Select Caption Font"
 msgstr "Seleccionar la tipografía del título"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-#| msgid "Select a font"
 msgid "Select Footer Font"
 msgstr "Seleccionar la tipografía del pie"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#| msgid "Select a font"
 msgid "Select Header Font"
 msgstr "Seleccionar la tipografía de la cabecera"
 
@@ -2976,7 +2992,6 @@ msgid "Image print"
 msgstr "Impresión de la imagen"
 
 #: ../extensions/image_print/preferences.c:76
-#| msgid "Print..."
 msgid "Print"
 msgstr "Imprimir"
 
@@ -3055,8 +3070,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
-"larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
+"if-larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3086,7 +3101,7 @@ msgstr "Tipo de _transparencia:"
 msgid "_Zoom quality:"
 msgstr "Calidad de la _ampliación:"
 
-#: ../extensions/image_viewer/gth-image-histogram.c:75
+#: ../extensions/image_viewer/gth-image-histogram.c:76
 msgid "Histogram"
 msgstr "Histograma"
 
@@ -3587,7 +3602,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1793
+#: ../gthumb/gth-browser.c:1809
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -4396,12 +4411,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `%"
-"s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `"
+"%s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
-"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para "
+"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4594,15 +4609,15 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3431
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3447
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3452
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3468
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3473
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3489
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
@@ -4723,54 +4738,54 @@ msgid_plural "%d files selected (%s)"
 msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
-#: ../gthumb/gth-browser.c:1148 ../gthumb/gth-browser.c:1684
-#: ../gthumb/gth-browser.c:5564 ../gthumb/gth-browser.c:5583
-#: ../gthumb/gth-browser.c:5608
+#: ../gthumb/gth-browser.c:1148 ../gthumb/gth-browser.c:1700
+#: ../gthumb/gth-browser.c:5580 ../gthumb/gth-browser.c:5599
+#: ../gthumb/gth-browser.c:5624
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
+#: ../gthumb/gth-browser.c:1793 ../gthumb/gth-browser.c:1820
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1924
+#: ../gthumb/gth-browser.c:1940
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1929
+#: ../gthumb/gth-browser.c:1945
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1930
+#: ../gthumb/gth-browser.c:1946
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2697 ../gthumb/gth-browser.c:2719
+#: ../gthumb/gth-browser.c:2713 ../gthumb/gth-browser.c:2735
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3116 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3132 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3432 ../gthumb/gth-browser.c:3453
+#: ../gthumb/gth-browser.c:3448 ../gthumb/gth-browser.c:3469
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3474
+#: ../gthumb/gth-browser.c:3490
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5565
+#: ../gthumb/gth-browser.c:5581
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5609
+#: ../gthumb/gth-browser.c:5625
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4838,39 +4853,39 @@ msgstr "Cargando…"
 msgid "(Open Parent)"
 msgstr "(Abrir padre)"
 
-#: ../gthumb/gth-histogram-view.c:610
+#: ../gthumb/gth-histogram-view.c:800
 msgid "Linear scale"
 msgstr "Escala lineal"
 
-#: ../gthumb/gth-histogram-view.c:622
+#: ../gthumb/gth-histogram-view.c:812
 msgid "Logarithmic scale"
 msgstr "Escala logarítmica"
 
-#: ../gthumb/gth-histogram-view.c:642
+#: ../gthumb/gth-histogram-view.c:832
 msgid "Channel:"
 msgstr "Canal:"
 
-#: ../gthumb/gth-histogram-view.c:674
+#: ../gthumb/gth-histogram-view.c:864
 msgid "Value"
 msgstr "Valor"
 
-#: ../gthumb/gth-histogram-view.c:680
+#: ../gthumb/gth-histogram-view.c:870
 msgid "Red"
 msgstr "Rojo"
 
-#: ../gthumb/gth-histogram-view.c:686
+#: ../gthumb/gth-histogram-view.c:876
 msgid "Green"
 msgstr "Verde"
 
-#: ../gthumb/gth-histogram-view.c:692
+#: ../gthumb/gth-histogram-view.c:882
 msgid "Blue"
 msgstr "Azul"
 
-#: ../gthumb/gth-histogram-view.c:698
+#: ../gthumb/gth-histogram-view.c:888
 msgid "Alpha"
 msgstr "Alfa"
 
-#: ../gthumb/gth-histogram-view.c:704
+#: ../gthumb/gth-histogram-view.c:895
 msgid "RGB"
 msgstr "RGB"
 
@@ -5032,7 +5047,6 @@ msgid "is"
 msgstr "es"
 
 #: ../gthumb/gth-test-category.c:47
-#| msgid "Icons only"
 msgid "is only"
 msgstr "es sólo"
 
@@ -5385,8 +5399,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
-#~ "small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
+#~ "</small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -5413,9 +5427,6 @@ msgstr ""
 
 #~ msgid "Remove selected tag"
 #~ msgstr "Eliminar la etiqueta seleccionada"
-
-#~ msgid "_Selected tags:"
-#~ msgstr "Etiquetas _seleccionadas:"
 
 #~ msgid "<b>Image type</b>"
 #~ msgstr "<b>Tipo de imagen</b>"
@@ -5578,9 +5589,6 @@ msgstr ""
 
 #~ msgid "Index Image Style"
 #~ msgstr "Estilo del índice de imágenes"
-
-#~ msgid "Pi_xels"
-#~ msgstr "Pí_xeles"
 
 #~ msgid "Rows a_nd columns"
 #~ msgstr "Filas y colum_nas"
@@ -6049,8 +6057,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts 0-"
-#~ "9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts "
+#~ "0-9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -6235,8 +6243,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
-#~ "«comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
+#~ "«exifdate», «comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -6249,8 +6257,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
-#~ "«5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
+#~ "«4x6», «5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: skip, rename, ask, overwrite."
 #~ msgstr "Los valores posibles son: «skip», «rename», «ask», «overwrite»."
@@ -6402,8 +6410,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
+#~ "nombre diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6445,8 +6453,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
-#~ "diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
+#~ "nombre diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
