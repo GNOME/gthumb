@@ -1962,6 +1962,21 @@ gth_browser_ask_whether_to_save (GthBrowser         *browser,
 
 
 static void
+_gth_browser_deactivate_viewer_page (GthBrowser *browser)
+{
+	if (browser->priv->viewer_page != NULL) {
+		if (browser->priv->fullscreen)
+			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
+		gth_viewer_page_deactivate (browser->priv->viewer_page);
+		gtk_ui_manager_ensure_update (browser->priv->ui);
+		gth_browser_set_viewer_widget (browser, NULL);
+		g_object_unref (browser->priv->viewer_page);
+		browser->priv->viewer_page = NULL;
+	}
+}
+
+
+static void
 _gth_browser_close_final_step (gpointer user_data)
 {
 	GthBrowser *browser = user_data;
@@ -2013,6 +2028,8 @@ _gth_browser_close_final_step (gpointer user_data)
 	}
 
 	/**/
+
+	_gth_browser_deactivate_viewer_page (browser);
 
 	gth_hook_invoke ("gth-browser-close", browser);
 
@@ -5196,21 +5213,6 @@ load_file_data_unref (LoadFileData *data)
 	_g_object_unref (data->browser);
 	_g_object_unref (data->cancellable);
 	g_free (data);
-}
-
-
-static void
-_gth_browser_deactivate_viewer_page (GthBrowser *browser)
-{
-	if (browser->priv->viewer_page != NULL) {
-		if (browser->priv->fullscreen)
-			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
-		gth_viewer_page_deactivate (browser->priv->viewer_page);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
-		gth_browser_set_viewer_widget (browser, NULL);
-		g_object_unref (browser->priv->viewer_page);
-		browser->priv->viewer_page = NULL;
-	}
 }
 
 
