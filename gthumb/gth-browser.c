@@ -94,6 +94,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget         *browser_toolbar;
 	GtkWidget         *browser_container;
 	GtkWidget         *browser_sidebar;
+	GtkWidget         *location_chooser_container;
 	GtkWidget         *location_chooser;
 	GtkWidget         *folder_tree;
 	GtkWidget         *history_list_popup_menu;
@@ -4124,15 +4125,20 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the box that contains the location and the folder list.  */
 
-	vbox = gtk_vbox_new (FALSE, 4);
+	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (vbox);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, TRUE);
 
 	/* the location combobox */
 
+	browser->priv->location_chooser_container = gtk_alignment_new (0, 0.5, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->location_chooser_container), 0, 4, 0, 0);
+	gtk_widget_show (browser->priv->location_chooser_container);
+	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->location_chooser_container, FALSE, FALSE, 0);
+
 	browser->priv->location_chooser = gth_location_chooser_new ();
 	gtk_widget_show (browser->priv->location_chooser);
-	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->location_chooser, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (browser->priv->location_chooser_container), browser->priv->location_chooser);
 
 	g_signal_connect (browser->priv->location_chooser,
 			  "changed",
@@ -4226,7 +4232,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the list extra widget container */
 
-	browser->priv->list_extra_widget_container = gtk_alignment_new (0, 0, 1.0, 1.0);
+	browser->priv->list_extra_widget_container = gtk_alignment_new (0, 0.5, 1.0, 1.0);
 	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->list_extra_widget_container), 0, 0, 0, 0);
 	gtk_widget_show (browser->priv->list_extra_widget_container);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->list_extra_widget_container, FALSE, FALSE, 0);
