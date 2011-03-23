@@ -40,6 +40,8 @@ static const char *fixed_ui_info =
 "        <separator/>"
 "        <menu name='SystemBookmarks' action='SystemBookmarksMenu'>"
 "        </menu>"
+"        <separator name='EntryPointListSeparator'/>"
+"        <placeholder name='EntryPointList'/>"
 "        <separator name='BookmarkListSeparator'/>"
 "        <placeholder name='BookmarkList'/>"
 "      </menu>"
@@ -69,6 +71,7 @@ typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *actions;
 	guint           bookmarks_changed_id;
+	guint           entry_points_changed_id;
 } BrowserData;
 
 
@@ -79,6 +82,11 @@ browser_data_free (BrowserData *data)
 		g_signal_handler_disconnect (gth_main_get_default_monitor (),
 					     data->bookmarks_changed_id);
 		data->bookmarks_changed_id = 0;
+	}
+	if (data->entry_points_changed_id != 0) {
+		g_signal_handler_disconnect (gth_main_get_default_monitor (),
+					     data->entry_points_changed_id);
+		data->entry_points_changed_id = 0;
 	}
 	g_free (data);
 }
@@ -285,6 +293,51 @@ bookmarks_changed_cb (GthMonitor *monitor,
 }
 
 
+static void
+_gth_browser_update_entry_point_list (GthBrowser *browser)
+{
+	GtkUIManager *ui;
+	GtkWidget    *separator1;
+	GtkWidget    *separator2;
+	GtkWidget    *menu;
+	GList        *entry_points;
+	GList        *scan;
+	int           position;
+
+	ui = gth_browser_get_ui_manager (browser);
+	separator1 = gtk_ui_manager_get_widget (ui, "/MenuBar/OtherMenus/Bookmarks/EntryPointListSeparator");
+	separator2 = gtk_ui_manager_get_widget (ui, "/MenuBar/OtherMenus/Bookmarks/BookmarkListSeparator");
+	menu = gtk_widget_get_parent (separator1);
+	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
+
+	position = 6;
+	entry_points = gth_main_get_all_entry_points ();
+	for (scan = entry_points; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		_gth_browser_add_file_menu_item_full (browser,
+						      menu,
+						      file_data->file,
+						      g_file_info_get_icon (file_data->info),
+						      g_file_info_get_display_name (file_data->info),
+						      GTH_ACTION_GO_TO,
+						      0,
+						      position++);
+	}
+
+	_g_object_list_unref (entry_points);
+}
+
+
+static void
+entry_points_changed_cb (GthMonitor *monitor,
+			 gpointer    user_data)
+{
+	BrowserData *data = user_data;
+	call_when_idle ((DataFunc) _gth_browser_update_entry_point_list, data->browser);
+}
+
+
 void
 bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -313,6 +366,12 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 						       "bookmarks-changed",
 						       G_CALLBACK (bookmarks_changed_cb),
 						       data);
+	data->entry_points_changed_id = g_signal_connect (gth_main_get_default_monitor (),
+							  "entry-points-changed",
+							  G_CALLBACK (entry_points_changed_cb),
+							  data);
+
+	_gth_browser_update_entry_point_list (browser);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
