@@ -763,7 +763,7 @@ gth_tag_new_loop (GthLoop *loop)
 	tag = g_new0 (GthTag, 1);
 	tag->type = loop->type;
 	if (loop->type == GTH_TAG_FOR_EACH_IN_RANGE)
-		tag->value.range_loop = loop;
+		tag->value.range_loop = (GthRangeLoop *) loop;
 	else
 		tag->value.loop = loop;
 
