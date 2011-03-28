@@ -741,8 +741,6 @@ get_file_icon_pixbuf (GFileIcon *icon,
 		g_free (filename);
 	}
 
-	g_object_unref (file);
-
 	return pixbuf;
 }
 
