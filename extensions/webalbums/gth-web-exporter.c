@@ -1804,6 +1804,7 @@ success_dialog_response_cb (GtkDialog *dialog,
 		break;
 	}
 
+	gth_task_dialog (GTH_TASK (self), FALSE, NULL);
 	gth_task_completed (GTH_TASK (self), self->priv->error);
 }
 
