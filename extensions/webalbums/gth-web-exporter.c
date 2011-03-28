@@ -1658,15 +1658,15 @@ gth_parsed_doc_print (GthWebExporter      *self,
 
 		case GTH_TAG_FOR_EACH_IN_RANGE:
 			{
-				LoopInfo  *inner_loop_info;
-				int        i;
-				int        first_value;
-				int        last_value;
+				LoopInfo *inner_loop_info;
+				int       i;
+				int       first_value;
+				int       last_value;
 
-				first_value = expression_value (self, GTH_RANGE_LOOP (tag)->first_value);
-				last_value = expression_value (self, GTH_RANGE_LOOP (tag)->last_value);
+				first_value = expression_value (self, tag->value.range_loop->first_value);
+				last_value = expression_value (self, tag->value.range_loop->last_value);
 				inner_loop_info = loop_info_new ();
-				inner_loop_info->iterator = g_strdup (GTH_RANGE_LOOP (tag)->iterator);
+				inner_loop_info->iterator = g_strdup (tag->value.range_loop->iterator);
 				for (i = first_value; i <= last_value; i++) {
 					inner_loop_info->first_item = (i == first_value);
 					inner_loop_info->last_item = (i == last_value);

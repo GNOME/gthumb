@@ -101,7 +101,7 @@ document	: HTML document {
 
 			gth_loop_add_document ($1, $2);
 			tag = gth_tag_new_loop ($1);
-			$$ = g_list_prepend ($4, $1);
+			$$ = g_list_prepend ($4, tag);
 		}
 
 		| tag_if document opt_tag_else_if opt_tag_else tag_end document {
@@ -138,23 +138,23 @@ tag_loop	: FOR_EACH VARIABLE END_TAG {
 			else {
 				yyerror ("Wrong iterator: '%s', expected 'thumbnail_caption' or 'image_caption'", $2);
 				YYERROR;
-			}			
+			}
 		}
 
 		| FOR_EACH VARIABLE IN expr RANGE expr END_TAG {
 			$$ = gth_range_loop_new ();
 			gth_range_loop_set_range (GTH_RANGE_LOOP ($$), $2, $4, $6);
-			
+
 			g_free ($2);
 			gth_expr_unref ($4);
 			gth_expr_unref ($6);
 		}
-		; 
+		;
 
 tag_if		: IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
-		
+
 		| IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
@@ -173,7 +173,7 @@ opt_tag_else_if	: tag_else_if document opt_tag_else_if {
 tag_else_if	: ELSE_IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
-		
+
 		| ELSE_IF '"' expr '"' END_TAG {
 			$$ = gth_condition_new ($3);
 		}
@@ -211,25 +211,25 @@ tag_print	: PRINT FUNCTION_NAME expr_list END_TAG {
 			if (gth_tag_get_type_from_name ($2) == GTH_TAG_EVAL) {
 				GthExpr *e;
 				GList   *arg_list;
-				
+
 				if ($3 == NULL) {
 					yyerror ("Missing argument for function 'eval', expected expression");
 					YYERROR;
 				}
-				
+
 				e = $3->data;
 				arg_list = g_list_append (NULL, gth_attribute_new_expression ("expr", e));
 				$$ = gth_tag_new (GTH_TAG_EVAL, arg_list);
-				
+
 				gth_expr_list_unref ($3);
 			}
 			else if (gth_tag_get_type_from_name ($2) == GTH_TAG_TRANSLATE) {
 				GList *arg_list = NULL;
 				GList *scan;
-				
+
 				for (scan = $3; scan; scan = scan->next) {
 					GthExpr *e = scan->data;
-					
+
 					if (scan == $3) {
 						GthCell *cell;
 
@@ -237,16 +237,16 @@ tag_print	: PRINT FUNCTION_NAME expr_list END_TAG {
 						if (cell->type != GTH_CELL_TYPE_STRING) {
 							yyerror ("Wrong argument type: %d, expected string", cell->type);
 							YYERROR;
-						}						
+						}
 						arg_list = g_list_append (arg_list, gth_attribute_new_string ("text", cell->value.string->str));
 
 						continue;
 					}
-									
+
 					arg_list = g_list_append (arg_list, gth_attribute_new_expression ("expr", e));
 				}
 				$$ = gth_tag_new (GTH_TAG_TRANSLATE, arg_list);
-				
+
 				gth_expr_list_unref ($3);
 			}
 			else {
@@ -407,12 +407,12 @@ expr		: '(' expr ')' {
 			gth_expr_push_var (e, $1);
 			if ($3 != NULL) {
 				GList *scan;
-				
+
 				for (scan = $3; scan; scan = scan->next) {
-					GthExpr *arg = scan->data;					
+					GthExpr *arg = scan->data;
 					gth_expr_push_expr (e, arg);
 					gth_expr_unref (arg);
-				}				
+				}
 				g_list_free ($3);
 			}
 			g_free ($1);
