@@ -1489,8 +1489,9 @@ load_data_continue (LoadData *load_data,
 	case GTH_ACTION_VIEW:
 	case GTH_ACTION_LIST_CHILDREN:
 		if (path != NULL) {
-			GList *entry_points;
-			GList *scan;
+			GList    *entry_points;
+			GList    *scan;
+			gboolean  is_entry_point = FALSE;
 
 			/* expand the path if it's an entry point */
 
@@ -1500,12 +1501,18 @@ load_data_continue (LoadData *load_data,
 
 				if (g_file_equal (file_data->file, load_data->requested_folder->file)) {
 					gtk_tree_view_expand_row (GTK_TREE_VIEW (browser->priv->folder_tree), path, FALSE);
+					is_entry_point = TRUE;
 					break;
 				}
 			}
 
 			if (load_data->action != GTH_ACTION_LIST_CHILDREN) {
-				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, FALSE, 0.0, 0.0);
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree),
+							      path,
+							      NULL,
+							      is_entry_point,
+							      0.0,
+							      0.0);
 				gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
 			}
 
