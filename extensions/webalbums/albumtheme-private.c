@@ -762,7 +762,10 @@ gth_tag_new_loop (GthLoop *loop)
 
 	tag = g_new0 (GthTag, 1);
 	tag->type = loop->type;
-	tag->value.loop = loop;
+	if (loop->type == GTH_TAG_FOR_EACH_IN_RANGE)
+		tag->value.range_loop = loop;
+	else
+		tag->value.loop = loop;
 
 	return tag;
 }
@@ -795,8 +798,8 @@ gth_tag_free (GthTag *tag)
 	{
 		gth_loop_free (tag->value.loop);
 	}
-	else if (tag->type == GTH_TAG_FOR_EACH_THUMBNAIL_CAPTION) {
-		gth_range_loop_free (GTH_RANGE_LOOP (tag->value.loop));
+	else if (tag->type == GTH_TAG_FOR_EACH_IN_RANGE) {
+		gth_range_loop_free (GTH_RANGE_LOOP (tag->value.range_loop));
 	}
 	else {
 		g_list_foreach (tag->value.attributes,

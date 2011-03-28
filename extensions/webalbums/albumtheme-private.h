@@ -238,10 +238,11 @@ void       gth_range_loop_set_range (GthRangeLoop *loop,
 typedef struct {
 	GthTagType type;
 	union {
-		GList   *attributes;  /* GthAttribute list */
-		char    *html;        /* html */
-		GList   *cond_list;   /* GthCondition list */
-		GthLoop *loop;        /* a loop tag */
+		GList        *attributes;  /* GthAttribute list */
+		char         *html;        /* html */
+		GList        *cond_list;   /* GthCondition list */
+		GthLoop      *loop;        /* a loop tag */
+		GthRangeLoop *range_loop;
 	} value;
 	GList *document; /* GthTag list */
 } GthTag;
