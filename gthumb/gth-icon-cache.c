@@ -103,7 +103,7 @@ _gth_icon_cache_get_icon_key (GIcon *icon)
 			char *uri;
 
 			uri = g_file_get_uri (file);
-			key = get_static_string (filename);
+			key = get_static_string (uri);
 
 			g_free (uri);
 		}
