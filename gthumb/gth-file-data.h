@@ -29,6 +29,8 @@
 
 G_BEGIN_DECLS
 
+extern const char *FileDataDigitalizationTags[];
+
 #define GTH_TYPE_FILE_DATA (gth_file_data_get_type ())
 #define GTH_FILE_DATA(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_DATA, GthFileData))
 #define GTH_FILE_DATA_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_FILE_DATA, GthFileDataClass))

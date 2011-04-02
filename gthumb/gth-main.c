@@ -1339,6 +1339,9 @@ attribute_list_reload_required (const char *old_attributes,
 	int        i;
 	gboolean   reload_required;
 
+	if (old_attributes == NULL)
+		return TRUE;
+
 	old_attributes_v = g_strsplit (old_attributes, ",", -1);
 	new_attributes_v = g_strsplit (new_attributes, ",", -1);
 	new_attributes_len = g_strv_length (new_attributes_v);

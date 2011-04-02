@@ -58,9 +58,11 @@ enum {
 typedef struct {
 	GthBrowser    *browser;
 	GList         *file_list;
+	GList         *file_data_list;
 	GList         *new_file_list;
 	GList         *new_names_list;
 	gboolean       single_file;
+	gboolean       first_update;
 	GtkBuilder    *builder;
 	GtkWidget     *dialog;
 	GtkWidget     *list_view;
@@ -69,6 +71,7 @@ typedef struct {
 	GtkListStore  *list_store;
 	GtkListStore  *sort_model;
 	gboolean       help_visible;
+	char          *required_attributes;
 } DialogData;
 
 
@@ -78,7 +81,9 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "rename_series", NULL);
 
+	g_free (data->required_attributes);
 	g_object_unref (data->builder);
+	_g_object_list_unref (data->file_data_list);
 	_g_object_list_unref (data->file_list);
 	_g_string_list_free (data->new_names_list);
 	g_list_free (data->new_file_list);
@@ -304,9 +309,101 @@ template_eval_cb (const GMatchInfo *info,
 }
 
 
+static char *
+get_required_attributes (DialogData *data)
+{
+	GtkTreeIter  iter;
+	GString     *required_attributes;
+	const char  *template;
+
+	required_attributes = g_string_new (GFILE_STANDARD_ATTRIBUTES);
+
+	/* attributes required for sorting */
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_combobox), &iter)) {
+		GthFileDataSort *sort_type;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (data->sort_model),
+				    &iter,
+				    SORT_DATA_COLUMN, &sort_type,
+				    -1);
+
+		g_string_append (required_attributes, ",");
+		g_string_append (required_attributes, sort_type->required_attributes);
+	}
+
+	/* attributes required for renaming */
+
+	template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
+
+	if (g_strstr_len (template, -1, "%A") != NULL) {
+		GRegex  *re;
+		char   **a;
+		int      i;
+
+		re = g_regex_new ("%A\\{([^}]+)\\}", 0, 0, NULL);
+		a = g_regex_split (re, template, 0);
+		for (i = 1; i < g_strv_length (a); i += 2) {
+			g_string_append (required_attributes, ",");
+			g_string_append (required_attributes, a[i]);
+		}
+
+		g_strfreev (a);
+		g_regex_unref (re);
+	}
+
+	if (g_strstr_len (template, -1, "%D") != NULL) {
+		int i;
+
+		for (i = 0; FileDataDigitalizationTags[i] != NULL; i++) {
+			g_string_append (required_attributes, ",");
+			g_string_append (required_attributes, FileDataDigitalizationTags[i]);
+		}
+	}
+
+	if (g_strstr_len (template, -1, "%M") != NULL) {
+		g_string_append (required_attributes, ",");
+		g_string_append (required_attributes, G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC);
+	}
+
+
+	return g_string_free (required_attributes, FALSE);
+}
+
+
+static void dlg_rename_series_update_preview (DialogData *data);
+
+
+static void
+load_file_data_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
+{
+	DialogData *data = user_data;
+
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error);
+		gtk_widget_destroy (data->dialog);
+		return;
+	}
+
+	_g_object_list_unref (data->file_data_list);
+	data->file_data_list = _g_object_list_ref (gth_load_file_data_task_get_result (GTH_LOAD_FILE_DATA_TASK (task)));
+
+	gtk_widget_set_sensitive (data->dialog, TRUE);
+	gtk_window_present (GTK_WINDOW (data->dialog));
+	gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
+	dlg_rename_series_update_preview (data);
+
+	g_object_unref (task);
+}
+
+
 static void
 dlg_rename_series_update_preview (DialogData *data)
 {
+	char         *required_attributes;
+	gboolean      reload_required;
 	GtkTreeIter   iter;
 	int           change_case;
 	TemplateData *template_data;
@@ -314,6 +411,32 @@ dlg_rename_series_update_preview (DialogData *data)
 	GList        *scan;
 	GError       *error = NULL;
 	GList        *scan1, *scan2;
+
+	required_attributes = get_required_attributes (data);
+	reload_required = attribute_list_reload_required (data->required_attributes, required_attributes);
+	g_free (data->required_attributes);
+	data->required_attributes = required_attributes;
+
+	if (reload_required) {
+		GthTask *task;
+
+		gtk_widget_set_sensitive (data->dialog, FALSE);
+
+		task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
+		g_signal_connect (task,
+				  "completed",
+				  G_CALLBACK (load_file_data_task_completed_cb),
+				  data);
+		gth_browser_exec_task (data->browser, task, FALSE);
+
+		return;
+	}
+
+	if ((data->first_update) && (data->file_data_list->next == NULL)) {
+		GthFileData *file_data = data->file_data_list->data;
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
+		data->first_update = FALSE;
+	}
 
 	if (data->new_names_list != NULL) {
 		_g_string_list_free (data->new_names_list);
@@ -325,7 +448,7 @@ dlg_rename_series_update_preview (DialogData *data)
 		data->new_file_list = NULL;
 	}
 
-	data->new_file_list = g_list_copy (data->file_list);
+	data->new_file_list = g_list_copy (data->file_data_list);
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_combobox), &iter)) {
 		GthFileDataSort *sort_type;
 
@@ -449,7 +572,8 @@ dlg_rename_series (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("rename-series.ui", "rename_series");
-	data->file_list = gth_file_data_list_dup (file_list);
+	data->file_list = _g_file_list_dup (file_list);
+	data->first_update = TRUE;
 
 	/* Get the widgets. */
 
@@ -486,11 +610,7 @@ dlg_rename_series (GthBrowser *browser,
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), data->list_view);
 
-	if (data->file_list->next == NULL) {
-		GthFileData *file_data = data->file_list->data;
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
-	}
-	else
+	if (data->file_list->next != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, DEFAULT_TEMPLATE));
 
 	start_at = eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, DEFAULT_START_AT);
@@ -538,7 +658,7 @@ dlg_rename_series (GthBrowser *browser,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_combobox), 0);
 
 	gtk_widget_show (data->sort_combobox);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("sort_by_box")), data->sort_combobox);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("sort_by_box")), data->sort_combobox, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("sort_by_label")), data->sort_combobox);
 
 	/* reverse order */
@@ -557,7 +677,7 @@ dlg_rename_series (GthBrowser *browser,
 								    NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->change_case_combobox), change_case);
 	gtk_widget_show (data->change_case_combobox);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("change_case_box")), data->change_case_combobox);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("change_case_box")), data->change_case_combobox, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("change_case_label")), data->change_case_combobox);
 
 	dlg_rename_series_update_preview (data);

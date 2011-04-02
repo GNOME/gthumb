@@ -30,6 +30,20 @@
 
 #define GTH_FILE_DATA_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_DATA, GthFileDataPrivate))
 
+
+const char *FileDataDigitalizationTags[] = {
+	"Exif::Photo::DateTimeOriginal",
+	"Xmp::exif::DateTimeOriginal",
+	"Exif::Photo::DateTimeDigitized",
+	"Xmp::exif::DateTimeDigitized",
+	"Xmp::xmp::CreateDate",
+	"Xmp::photoshop::DateCreated",
+	"Xmp::xmp::ModifyDate",
+	"Xmp::xmp::MetadataDate",
+	NULL
+};
+
+
 struct _GthFileDataPrivate {
 	GTimeVal  ctime;   /* creation time */
 	GTimeVal  mtime;   /* modification time */
@@ -275,19 +289,6 @@ gth_file_data_get_creation_time (GthFileData *self)
 }
 
 
-static const char *try_digitalization_tag[] = {
-	"Exif::Photo::DateTimeOriginal",
-	"Xmp::exif::DateTimeOriginal",
-	"Exif::Photo::DateTimeDigitized",
-	"Xmp::exif::DateTimeDigitized",
-	"Xmp::xmp::CreateDate",
-	"Xmp::photoshop::DateCreated",
-	"Xmp::xmp::ModifyDate",
-	"Xmp::xmp::MetadataDate",
-	NULL
-};
-
-
 gboolean
 gth_file_data_get_digitalization_time (GthFileData *self,
 				       GTimeVal    *_time)
@@ -299,10 +300,10 @@ gth_file_data_get_digitalization_time (GthFileData *self,
 		return TRUE;
 	}
 
-	for (i = 0; try_digitalization_tag[i] != NULL; i++) {
+	for (i = 0; FileDataDigitalizationTags[i] != NULL; i++) {
 		GthMetadata *m;
 
-		m = (GthMetadata *) g_file_info_get_attribute_object (self->info, try_digitalization_tag[i]);
+		m = (GthMetadata *) g_file_info_get_attribute_object (self->info, FileDataDigitalizationTags[i]);
 		if (m == NULL)
 			continue;
 
