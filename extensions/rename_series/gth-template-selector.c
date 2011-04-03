@@ -375,6 +375,42 @@ get_format_from_value (const char *value)
 }
 
 
+static gboolean
+_gtk_tree_model_get_iter_from_attribute_id (GtkTreeModel *tree_model,
+					    GtkTreeIter  *root,
+					    const char   *attribute_id,
+					    GtkTreeIter  *result)
+{
+	GtkTreeIter  iter;
+	char        *iter_id;
+
+	if (root != NULL) {
+		gtk_tree_model_get (tree_model,
+				    root,
+				    ATTRIBUTE_ID_COLUMN, &iter_id,
+				    -1);
+		if (g_strcmp0 (attribute_id, iter_id) == 0) {
+			g_free (iter_id);
+			*result = *root;
+			return TRUE;
+		}
+
+		g_free (iter_id);
+	}
+
+	if (! gtk_tree_model_iter_children (tree_model, &iter, root))
+		return FALSE;
+
+	do {
+		if (_gtk_tree_model_get_iter_from_attribute_id (tree_model, &iter, attribute_id, result))
+			return TRUE;
+	}
+	while (gtk_tree_model_iter_next (tree_model, &iter));
+
+	return FALSE;
+}
+
+
 void
 gth_template_selector_set_value (GthTemplateSelector *self,
 				 const char          *value)
@@ -463,25 +499,8 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 			GtkTreeIter   iter;
 
 			tree_model = (GtkTreeModel *) GET_WIDGET ("attribute_treestore");
-			if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
-				do {
-					char *iter_id;
-
-					gtk_tree_model_get (tree_model,
-							    &iter,
-							    ATTRIBUTE_ID_COLUMN, &iter_id,
-							    -1);
-
-					if (g_strcmp0 (attribute_id, iter_id) == 0) {
-						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("attribute_combobox")), &iter);
-						g_free (iter_id);
-						break;
-					}
-
-					g_free (iter_id);
-				}
-				while (gtk_tree_model_iter_next (tree_model, &iter));
-			}
+			if (_gtk_tree_model_get_iter_from_attribute_id (tree_model, NULL, attribute_id, &iter))
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("attribute_combobox")), &iter);
 		}
 		g_free (attribute_id);
 		break;
