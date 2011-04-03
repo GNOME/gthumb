@@ -349,8 +349,10 @@ get_required_attributes (DialogData *data)
 				    SORT_DATA_COLUMN, &sort_type,
 				    -1);
 
-		g_string_append (required_attributes, ",");
-		g_string_append (required_attributes, sort_type->required_attributes);
+		if ((sort_type->required_attributes != NULL) && ! g_str_equal (sort_type->required_attributes, "")) {
+			g_string_append (required_attributes, ",");
+			g_string_append (required_attributes, sort_type->required_attributes);
+		}
 	}
 
 	/* attributes required for renaming */
@@ -365,8 +367,13 @@ get_required_attributes (DialogData *data)
 		re = g_regex_new ("%A\\{([^}]+)\\}", 0, 0, NULL);
 		a = g_regex_split (re, template, 0);
 		for (i = 1; i < g_strv_length (a); i += 2) {
+			char *id;
+
+			id = g_strstrip (g_strdup (a[i]));
 			g_string_append (required_attributes, ",");
-			g_string_append (required_attributes, a[i]);
+			g_string_append (required_attributes, id);
+
+			g_free (id);
 		}
 
 		g_strfreev (a);
