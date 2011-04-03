@@ -160,7 +160,7 @@
         <child>
           <object class="GtkComboBox" id="attribute_combobox">
             <property name="visible">True</property>
-            <property name="model">attribute_liststore</property>
+            <property name="model">attribute_treestore</property>
             <child>
               <object class="GtkCellRendererText" id="cellrenderertext3"/>
               <attributes>
@@ -254,12 +254,14 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="attribute_liststore">
+  <object class="GtkTreeStore" id="attribute_treestore">
     <columns>
       <!-- column-name id -->
       <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
+      <!-- column-name sort_order -->
+      <column type="gint"/>
     </columns>
   </object>
 </interface>
