@@ -123,7 +123,7 @@ update_sensitivity (GthFilterEditorDialog *self)
 {
 	gboolean  active;
 	GList    *test_selectors;
-	int       more_selectors;
+	int       many_selectors;
 	GList    *scan;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("limit_to_checkbutton")));
@@ -135,9 +135,9 @@ update_sensitivity (GthFilterEditorDialog *self)
 	gtk_widget_set_sensitive (GET_WIDGET ("tests_box"), active);
 
 	test_selectors = gtk_container_get_children (GTK_CONTAINER (GET_WIDGET ("tests_box")));
-	more_selectors = (test_selectors != NULL) && (test_selectors->next != NULL);
+	many_selectors = (test_selectors != NULL) && (test_selectors->next != NULL);
 	for (scan = test_selectors; scan; scan = scan->next)
-		gth_test_selector_can_remove (GTH_TEST_SELECTOR (scan->data), more_selectors);
+		gth_test_selector_can_remove (GTH_TEST_SELECTOR (scan->data), many_selectors);
 	g_list_free (test_selectors);
 }
 
@@ -359,7 +359,7 @@ _gth_filter_editor_dialog_set_new_filter (GthFilterEditorDialog *self)
 }
 
 
-gboolean
+static gboolean
 get_iter_for_sort_type (GthFilterEditorDialog *self,
 			const char            *sort_type_name,
 			GtkTreeIter           *iter)
