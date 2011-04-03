@@ -56,6 +56,7 @@ enum {
 #define DEFAULT_SORT_BY        "general::unsorted"
 #define DEFAULT_REVERSE_ORDER  FALSE
 #define DEFAULT_CHANGE_CASE    GTH_CHANGE_CASE_NONE
+#define UPDATE_DELAY           500
 
 
 static GthTemplateCode Rename_Special_Codes[] = {
@@ -87,6 +88,7 @@ typedef struct {
 	GtkListStore  *sort_model;
 	gboolean       help_visible;
 	char          *required_attributes;
+	guint          update_id;
 } DialogData;
 
 
@@ -96,6 +98,10 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "rename_series", NULL);
 
+	if (data->update_id != 0) {
+		g_source_remove (data->update_id);
+		data->update_id = 0;
+	}
 	g_free (data->required_attributes);
 	g_object_unref (data->builder);
 	_g_object_list_unref (data->file_data_list);
@@ -556,11 +562,29 @@ template_entry_icon_press_cb (GtkEntry             *entry,
 }
 
 
+static gboolean
+update_preview_after_delay_cb (gpointer user_data)
+{
+	DialogData *data = user_data;
+
+	if (data->update_id != 0) {
+		g_source_remove (data->update_id);
+		data->update_id = 0;
+	}
+
+	dlg_rename_series_update_preview (data);
+
+	return FALSE;
+}
+
+
 static void
 update_preview_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
-	dlg_rename_series_update_preview (data);
+	if (data->update_id != 0)
+		g_source_remove (data->update_id);
+	data->update_id = g_timeout_add (UPDATE_DELAY, update_preview_after_delay_cb, data);
 }
 
 
