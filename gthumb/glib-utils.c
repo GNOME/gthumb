@@ -555,7 +555,7 @@ _g_time_val_strftime (GTimeVal   *time_,
 	struct tm *tm;
 
 	if ((format == NULL) || (*format == '\0'))
-		format = "%Y-%m-%d--%H.%M.%S";
+		format = DEFAULT_STRFTIME_FORMAT;
 
 	if (strcmp (format, "%q") == 0)
 		format = "%Y-%m-%d";

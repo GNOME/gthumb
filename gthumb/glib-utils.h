@@ -67,6 +67,8 @@ G_BEGIN_DECLS
 #define G_TYPE_ERROR (g_error_get_type ())
 #endif
 
+#define DEFAULT_STRFTIME_FORMAT "%Y-%m-%d--%H.%M.%S"
+
 /* signals */
 
 #define g_signal_handlers_disconnect_by_data(instance, data) \

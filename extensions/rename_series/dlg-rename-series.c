@@ -20,9 +20,12 @@
  */
 
 #include <config.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-rename-series.h"
+#include "gth-template-editor-dialog.h"
+#include "gth-template-selector.h"
 #include "gth-rename-task.h"
 #include "preferences.h"
 
@@ -53,6 +56,18 @@ enum {
 #define DEFAULT_SORT_BY        "general::unsorted"
 #define DEFAULT_REVERSE_ORDER  FALSE
 #define DEFAULT_CHANGE_CASE    GTH_CHANGE_CASE_NONE
+
+
+static GthTemplateCode Rename_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_TEXT, N_("Text"), 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_ENUMERATOR, N_("Enumerator"), '#' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original filename"), 'F' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original extension"), 'E' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original enumerator"), 'N' },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Modification date"), 'M' },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Digitalization date"), 'D' },
+	{ GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE, N_("File attribute"), 'A' }
+};
 
 
 typedef struct {
@@ -549,6 +564,51 @@ update_preview_cb (GtkWidget  *widget,
 }
 
 
+static void
+template_editor_dialog_response_cb (GtkDialog *dialog,
+				    int        response_id,
+				    gpointer   user_data)
+{
+	DialogData *data = user_data;
+	char       *template;
+	GError     *error = NULL;
+
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		return;
+	}
+
+	template = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog), &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the template"), &error);
+		return;
+	}
+
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), template);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	g_free (template);
+}
+
+
+static void
+edit_template_button_clicked_cb (GtkWidget  *widget,
+				 DialogData *data)
+{
+	GtkWidget *dialog;
+
+	dialog = gth_template_editor_dialog_new (Rename_Special_Codes, 8, _("Edit Template"), GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (template_editor_dialog_response_cb),
+			  data);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
 void
 dlg_rename_series (GthBrowser *browser,
 		   GList      *file_list)
@@ -731,6 +791,10 @@ dlg_rename_series (GthBrowser *browser,
 			  "toggled",
 			  G_CALLBACK (update_preview_cb),
 			  data);
+        g_signal_connect (GET_WIDGET ("edit_template_button"),
+                          "clicked",
+                          G_CALLBACK (edit_template_button_clicked_cb),
+                          data);
 
 	/* Run dialog. */
 

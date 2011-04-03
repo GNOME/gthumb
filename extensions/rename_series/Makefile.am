@@ -12,6 +12,10 @@ librename_series_la_SOURCES = 		\
 	dlg-rename-series.h		\
 	gth-rename-task.c		\
 	gth-rename-task.h		\
+	gth-template-editor-dialog.c	\
+	gth-template-editor-dialog.h	\
+	gth-template-selector.c		\
+	gth-template-selector.h		\
 	main.c				\
 	preferences.h
 
