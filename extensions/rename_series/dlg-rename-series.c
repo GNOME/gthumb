@@ -89,6 +89,9 @@ typedef struct {
 	gboolean       help_visible;
 	char          *required_attributes;
 	guint          update_id;
+	GthTask       *task;
+	gulong         task_completed_id;
+	gboolean       template_changed;
 } DialogData;
 
 
@@ -101,6 +104,12 @@ destroy_cb (GtkWidget  *widget,
 	if (data->update_id != 0) {
 		g_source_remove (data->update_id);
 		data->update_id = 0;
+	}
+	if (data->task_completed_id != 0)
+		g_signal_handler_disconnect (data->task, data->task_completed_id);
+	if (data->task != NULL) {
+		gth_task_cancel (data->task);
+		_g_object_unref (data->task);
 	}
 	g_free (data->required_attributes);
 	g_object_unref (data->builder);
@@ -411,6 +420,9 @@ load_file_data_task_completed_cb (GthTask  *task,
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error);
+		_g_object_unref (data->task);
+		data->task = NULL;
+		data->task_completed_id = 0;
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -418,12 +430,15 @@ load_file_data_task_completed_cb (GthTask  *task,
 	_g_object_list_unref (data->file_data_list);
 	data->file_data_list = _g_object_list_ref (gth_load_file_data_task_get_result (GTH_LOAD_FILE_DATA_TASK (task)));
 
+	g_object_unref (data->task);
+	data->task = NULL;
+	data->task_completed_id = 0;
+	data->template_changed = FALSE;
+
 	gtk_widget_set_sensitive (data->dialog, TRUE);
 	gtk_window_present (GTK_WINDOW (data->dialog));
 	gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
 	dlg_rename_series_update_preview (data);
-
-	g_object_unref (task);
 }
 
 
@@ -440,24 +455,27 @@ dlg_rename_series_update_preview (DialogData *data)
 	GError       *error = NULL;
 	GList        *scan1, *scan2;
 
-	required_attributes = get_required_attributes (data);
-	reload_required = attribute_list_reload_required (data->required_attributes, required_attributes);
-	g_free (data->required_attributes);
-	data->required_attributes = required_attributes;
-
-	if (reload_required) {
-		GthTask *task;
-
-		gtk_widget_set_sensitive (data->dialog, FALSE);
-
-		task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
-		g_signal_connect (task,
-				  "completed",
-				  G_CALLBACK (load_file_data_task_completed_cb),
-				  data);
-		gth_browser_exec_task (data->browser, task, FALSE);
-
+	if (data->task != NULL)
 		return;
+
+	if (data->template_changed) {
+		required_attributes = get_required_attributes (data);
+		reload_required = attribute_list_reload_required (data->required_attributes, required_attributes);
+		g_free (data->required_attributes);
+		data->required_attributes = required_attributes;
+
+		if (reload_required) {
+			gtk_widget_set_sensitive (data->dialog, FALSE);
+
+			data->task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
+			data->task_completed_id = g_signal_connect (data->task,
+								    "completed",
+								    G_CALLBACK (load_file_data_task_completed_cb),
+								    data);
+			gth_browser_exec_task (data->browser, data->task, FALSE);
+
+			return;
+		}
 	}
 
 	if ((data->first_update) && (data->file_data_list->next == NULL)) {
@@ -589,6 +607,7 @@ static void
 update_preview_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
+	data->template_changed = TRUE;
 	if (data->update_id != 0)
 		g_source_remove (data->update_id);
 	data->update_id = g_timeout_add (UPDATE_DELAY, update_preview_after_delay_cb, data);
@@ -665,6 +684,7 @@ dlg_rename_series (GthBrowser *browser,
 	data->builder = _gtk_builder_new_from_file ("rename-series.ui", "rename_series");
 	data->file_list = _g_file_list_dup (file_list);
 	data->first_update = TRUE;
+	data->template_changed = TRUE;
 
 	/* Get the widgets. */
 
