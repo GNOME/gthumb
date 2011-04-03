@@ -114,6 +114,7 @@ gth_task_progress_init (GthTaskProgress *self)
 
 	self->description_label = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (self->description_label), 0.0, 0.5);
+	gtk_label_set_ellipsize (GTK_LABEL (self->description_label), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (self->description_label);
 	gtk_box_pack_start (GTK_BOX (vbox), self->description_label, FALSE, FALSE, 0);
 
@@ -127,6 +128,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	pango_attr_list_insert (attr_list, pango_attr_size_new (8500));
 	g_object_set (self->details_label, "attributes", attr_list, NULL);
 	gtk_misc_set_alignment (GTK_MISC (self->details_label), 0.0, 0.5);
+	gtk_label_set_ellipsize (GTK_LABEL (self->details_label), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (self->details_label);
 	gtk_box_pack_start (GTK_BOX (vbox), self->details_label, FALSE, FALSE, 0);
 
@@ -216,7 +218,7 @@ task_progress_cb (GthTask    *task,
 }
 
 
-static void gth_progress_dialog_remove_child (GthProgressDialog *dialog, GtkWidget *child);
+static void gth_progress_dialog_child_removed (GthProgressDialog *dialog);
 
 
 static void
@@ -233,8 +235,11 @@ task_completed_cb (GthTask  *task,
 	}
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
-	if (gtk_widget_is_toplevel (toplevel))
-		gth_progress_dialog_remove_child (GTH_PROGRESS_DIALOG (toplevel), GTK_WIDGET (self));
+
+	gtk_widget_destroy (GTK_WIDGET (self));
+
+	if (gtk_widget_is_toplevel (toplevel) && GTH_IS_PROGRESS_DIALOG (toplevel))
+		gth_progress_dialog_child_removed (GTH_PROGRESS_DIALOG (toplevel));
 }
 
 
@@ -436,11 +441,8 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 
 
 static void
-gth_progress_dialog_remove_child (GthProgressDialog *self,
-				  GtkWidget         *child)
+gth_progress_dialog_child_removed (GthProgressDialog *self)
 {
-	gtk_widget_destroy (child);
-
 	if (_gtk_container_get_n_children (GTK_CONTAINER (self->priv->task_box)) == 0) {
 		if (self->priv->show_event != 0) {
 			g_source_remove (self->priv->show_event);

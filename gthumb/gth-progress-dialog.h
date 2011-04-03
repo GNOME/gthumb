@@ -52,6 +52,8 @@ GtkWidget *    gth_progress_dialog_new         (GtkWindow         *parent);
 void           gth_progress_dialog_add_task    (GthProgressDialog *dialog,
 						GthTask           *task);
 
+GtkWidget *    gth_task_progress_new           (GthTask           *task);
+
 G_END_DECLS
 
 #endif /* GTH_PROGRESS_DIALOG_H */

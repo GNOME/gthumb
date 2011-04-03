@@ -105,12 +105,14 @@ destroy_cb (GtkWidget  *widget,
 		g_source_remove (data->update_id);
 		data->update_id = 0;
 	}
+
 	if (data->task_completed_id != 0)
 		g_signal_handler_disconnect (data->task, data->task_completed_id);
 	if (data->task != NULL) {
 		gth_task_cancel (data->task);
 		_g_object_unref (data->task);
 	}
+
 	g_free (data->required_attributes);
 	g_object_unref (data->builder);
 	_g_object_list_unref (data->file_data_list);
@@ -418,9 +420,11 @@ load_file_data_task_completed_cb (GthTask  *task,
 {
 	DialogData *data = user_data;
 
+	gtk_widget_hide (GET_WIDGET ("task_box"));
+
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error);
-		_g_object_unref (data->task);
+		/* FIXME _gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error); */
+		g_object_unref (data->task);
 		data->task = NULL;
 		data->task_completed_id = 0;
 		gtk_widget_destroy (data->dialog);
@@ -465,14 +469,22 @@ dlg_rename_series_update_preview (DialogData *data)
 		data->required_attributes = required_attributes;
 
 		if (reload_required) {
-			gtk_widget_set_sensitive (data->dialog, FALSE);
+			GtkWidget *child;
+
+			/* FIXME gtk_widget_set_sensitive (data->dialog, FALSE); */
+
+			gtk_widget_show (GET_WIDGET ("task_box"));
 
 			data->task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
 			data->task_completed_id = g_signal_connect (data->task,
 								    "completed",
 								    G_CALLBACK (load_file_data_task_completed_cb),
 								    data);
-			gth_browser_exec_task (data->browser, data->task, FALSE);
+
+			child = gth_task_progress_new (data->task);
+			gtk_widget_show (child);
+			gtk_box_pack_start (GTK_BOX (GET_WIDGET ("task_box")), child, TRUE, TRUE, 0);
+			gth_task_exec (data->task, NULL);
 
 			return;
 		}

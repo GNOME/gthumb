@@ -517,6 +517,17 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkVBox" id="task_box">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="position">1</property>
