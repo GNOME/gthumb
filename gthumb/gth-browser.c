@@ -888,15 +888,32 @@ _gth_browser_get_fast_file_type (GthBrowser *browser,
 
 	fast_file_type = browser->priv->fast_file_type;
 
-	/* Force the value to FALSE when browsing a cache.  This is mainly used
-	 * to browse the Firefox cache without changing the general preference
-	 * each time, but can be usefull for other caches as well. */
+	/* Force the value to FALSE when browsing a cache or a temporary files
+	 * directory.
+	 * This is mainly used to browse the Firefox cache without changing the
+	 * general preference each time, but can be useful for other caches
+	 * as well. */
 	if (g_file_has_uri_scheme (file, "file")) {
 		char  *uri;
+		char  *tmp_uri;
 		char **uri_v;
 		int    i;
 
 		uri = g_file_get_uri (file);
+
+		tmp_uri = g_filename_to_uri (g_get_tmp_dir (), NULL, NULL);
+		if (tmp_uri != NULL) {
+			gboolean is_tmp_dir;
+
+			is_tmp_dir = (strcmp (uri, tmp_uri) == 0);
+			g_free (tmp_uri);
+
+			if (is_tmp_dir) {
+				g_free (uri);
+				return FALSE;
+			}
+		}
+
 		uri_v = g_strsplit (uri, "/", -1);
 		for (i = 0; uri_v[i] != NULL; i++)
 			if (strstr (uri_v[i], "cache")
