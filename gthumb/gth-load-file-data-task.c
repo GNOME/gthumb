@@ -90,6 +90,7 @@ static void
 load_current_file (GthLoadFileDataTask *self)
 {
 	GFile *file;
+	int    n_remaining;
 	char  *details;
 	GList *files;
 
@@ -101,8 +102,8 @@ load_current_file (GthLoadFileDataTask *self)
 
 	file = self->priv->current->data;
 
-	/* For translators: This is a progress indicator, both numbers refer to files. For example: 12 of 154 */
-	details = g_strdup_printf (_("%1$d of %2$d"), self->priv->n_files - self->priv->n_current, self->priv->n_files);
+	n_remaining = self->priv->n_files - self->priv->n_current;
+	details = g_strdup_printf (g_dngettext (NULL, "%d file remaining", "%d files remaining", n_remaining), n_remaining);
 	gth_task_progress (GTH_TASK (self),
 			   _("Reading file information"),
 			   details,
