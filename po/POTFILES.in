@@ -520,11 +520,16 @@ extensions/rename_series/actions.h
 extensions/rename_series/callbacks.c
 extensions/rename_series/callbacks.h
 extensions/rename_series/data/gthumb_rename_series.schemas.in
+[type: gettext/glade]extensions/rename_series/data/ui/code-selector.ui
 [type: gettext/glade]extensions/rename_series/data/ui/rename-series.ui
 extensions/rename_series/dlg-rename-series.c
 extensions/rename_series/dlg-rename-series.h
 extensions/rename_series/gth-rename-task.c
 extensions/rename_series/gth-rename-task.h
+extensions/rename_series/gth-template-editor-dialog.c
+extensions/rename_series/gth-template-editor-dialog.h
+extensions/rename_series/gth-template-selector.c
+extensions/rename_series/gth-template-selector.h
 extensions/rename_series/main.c
 extensions/rename_series/preferences.h
 [type: gettext/ini]extensions/rename_series/rename_series.extension.in.in
@@ -698,6 +703,8 @@ gthumb/gth-info-bar.c
 gthumb/gth-info-bar.h
 gthumb/gth-list-view.c
 gthumb/gth-list-view.h
+gthumb/gth-load-file-data-task.c
+gthumb/gth-load-file-data-task.h
 gthumb/gth-location-chooser.c
 gthumb/gth-location-chooser.h
 gthumb/gth-main.c
