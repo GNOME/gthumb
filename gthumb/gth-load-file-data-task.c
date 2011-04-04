@@ -101,8 +101,8 @@ load_current_file (GthLoadFileDataTask *self)
 
 	file = self->priv->current->data;
 
-	/* translators: %s is a filename */
-	details = g_strdup_printf (_("Loading \"%s\""), g_file_get_parse_name (file));
+	/* For translators: This is a progress indicator, both numbers refer to files. For example: 12 of 154 */
+	details = g_strdup_printf (_("%1$d of %2$d"), self->priv->n_files - self->priv->n_current, self->priv->n_files);
 	gth_task_progress (GTH_TASK (self),
 			   _("Reading file information"),
 			   details,
