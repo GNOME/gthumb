@@ -593,9 +593,9 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">cancel_button</action-widget>
-      <action-widget response="0">ok_button</action-widget>
-      <action-widget response="0">help_button</action-widget>
+      <action-widget response="-6">cancel_button</action-widget>
+      <action-widget response="-5">ok_button</action-widget>
+      <action-widget response="-11">help_button</action-widget>
     </action-widgets>
   </object>
   <object class="GtkImage" id="image1">
@@ -605,8 +605,8 @@
   <object class="GtkSizeGroup" id="sizegroup1">
     <property name="mode">vertical</property>
     <widgets>
-      <widget name="template_label_box"/>
       <widget name="template_entry"/>
+      <widget name="template_label_box"/>
     </widgets>
   </object>
   <object class="GtkAdjustment" id="start_at_adjustment">

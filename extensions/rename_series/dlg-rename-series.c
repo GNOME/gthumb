@@ -96,9 +96,11 @@ typedef struct {
 
 
 static void
-destroy_cb (GtkWidget  *widget,
-	    DialogData *data)
+destroy_dialog (DialogData *data)
 {
+	if (data->dialog != NULL)
+		gtk_widget_destroy (data->dialog);
+	data->dialog = NULL;
 	gth_browser_set_dialog (data->browser, "rename_series", NULL);
 
 	if (data->update_id != 0) {
@@ -124,8 +126,7 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-ok_clicked_cb (GtkWidget  *widget,
-	       DialogData *data)
+ok_button_clicked (DialogData *data)
 {
 	GtkTreeIter   iter;
 	GList        *old_files;
@@ -183,15 +184,37 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_browser_exec_task (data->browser, task, FALSE);
 
 	g_object_unref (task);
-	gtk_widget_destroy (data->dialog);
+	destroy_dialog (data);
 }
 
 
 static void
-help_clicked_cb (GtkWidget  *widget,
-                 DialogData *data)
+dialog_response_cb (GtkDialog *dialog,
+		    int        response_id,
+		    gpointer   user_data)
 {
-        show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-rename-series");
+	DialogData *data = user_data;
+
+	switch (response_id) {
+	case GTK_RESPONSE_DELETE_EVENT:
+	case GTK_RESPONSE_CANCEL:
+		if ((data->task != NULL) && gth_task_is_running (data->task))
+			gth_task_cancel (data->task);
+		else
+			destroy_dialog (data);
+		break;
+
+	case GTK_RESPONSE_HELP:
+		show_help_dialog (GTK_WINDOW (dialog), "gthumb-rename-series");
+		break;
+
+	case GTK_RESPONSE_OK:
+		ok_button_clicked (data);
+		break;
+
+	default:
+		break;
+	}
 }
 
 
@@ -428,7 +451,7 @@ load_file_data_task_completed_cb (GthTask  *task,
 		g_object_unref (data->task);
 		data->task = NULL;
 		data->task_completed_id = 0;
-		gtk_widget_destroy (data->dialog);
+		destroy_dialog (data);
 		return;
 	}
 
@@ -814,22 +837,14 @@ dlg_rename_series (GthBrowser *browser,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (destroy_cb),
+	g_signal_connect (data->dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (data->dialog,
+			  "response",
+			  G_CALLBACK (dialog_response_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("ok_button"),
-			  "clicked",
-			  G_CALLBACK (ok_clicked_cb),
-			  data);
-        g_signal_connect (GET_WIDGET ("help_button"),
-                          "clicked",
-                          G_CALLBACK (help_clicked_cb),
-                          data);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
 	g_signal_connect (GET_WIDGET ("template_entry"),
   			  "icon-press",
   			  G_CALLBACK (template_entry_icon_press_cb),
