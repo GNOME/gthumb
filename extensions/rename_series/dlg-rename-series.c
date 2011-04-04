@@ -436,6 +436,18 @@ static void dlg_rename_series_update_preview (DialogData *data);
 
 
 static void
+error_dialog_response_cb (GtkDialog *dialog,
+			  int        response,
+			  gpointer   user_data)
+{
+	DialogData *data = user_data;
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	destroy_dialog (data);
+}
+
+
+static void
 load_file_data_task_completed_cb (GthTask  *task,
 				  GError   *error,
 				  gpointer  user_data)
@@ -447,11 +459,22 @@ load_file_data_task_completed_cb (GthTask  *task,
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), TRUE);
 
 	if (error != NULL) {
-		/* FIXME _gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error); */
+		GtkWidget *d;
+
 		g_object_unref (data->task);
 		data->task = NULL;
 		data->task_completed_id = 0;
-		destroy_dialog (data);
+
+		d = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+					     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					     GTK_STOCK_DIALOG_ERROR,
+					     _("Cannot read file information"),
+					     error->message,
+					     GTK_STOCK_OK, GTK_RESPONSE_OK,
+					     NULL);
+		g_signal_connect (d, "response", G_CALLBACK (error_dialog_response_cb), data);
+		gtk_window_present (GTK_WINDOW (d));
+
 		return;
 	}
 
