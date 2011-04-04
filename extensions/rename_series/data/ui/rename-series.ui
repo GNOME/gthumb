@@ -17,7 +17,7 @@
             <property name="border_width">6</property>
             <property name="spacing">12</property>
             <child>
-              <object class="GtkTable" id="table1">
+              <object class="GtkTable" id="options_table">
                 <property name="visible">True</property>
                 <property name="n_rows">4</property>
                 <property name="n_columns">2</property>
@@ -605,8 +605,8 @@
   <object class="GtkSizeGroup" id="sizegroup1">
     <property name="mode">vertical</property>
     <widgets>
-      <widget name="template_entry"/>
       <widget name="template_label_box"/>
+      <widget name="template_entry"/>
     </widgets>
   </object>
   <object class="GtkAdjustment" id="start_at_adjustment">

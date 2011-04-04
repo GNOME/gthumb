@@ -405,7 +405,6 @@ get_required_attributes (DialogData *data)
 		g_string_append (required_attributes, G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC);
 	}
 
-
 	return g_string_free (required_attributes, FALSE);
 }
 
@@ -421,6 +420,8 @@ load_file_data_task_completed_cb (GthTask  *task,
 	DialogData *data = user_data;
 
 	gtk_widget_hide (GET_WIDGET ("task_box"));
+	gtk_widget_set_sensitive (GET_WIDGET ("options_table"), TRUE);
+	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), TRUE);
 
 	if (error != NULL) {
 		/* FIXME _gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error); */
@@ -439,7 +440,6 @@ load_file_data_task_completed_cb (GthTask  *task,
 	data->task_completed_id = 0;
 	data->template_changed = FALSE;
 
-	gtk_widget_set_sensitive (data->dialog, TRUE);
 	gtk_window_present (GTK_WINDOW (data->dialog));
 	gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
 	dlg_rename_series_update_preview (data);
@@ -471,8 +471,8 @@ dlg_rename_series_update_preview (DialogData *data)
 		if (reload_required) {
 			GtkWidget *child;
 
-			/* FIXME gtk_widget_set_sensitive (data->dialog, FALSE); */
-
+			gtk_widget_set_sensitive (GET_WIDGET ("options_table"), FALSE);
+			gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), FALSE);
 			gtk_widget_show (GET_WIDGET ("task_box"));
 
 			data->task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
