@@ -3176,11 +3176,16 @@ gth_browser_update_statusbar_file_info (GthBrowser *browser)
 		g_string_append (status, _("Modified"));
 	}
 	else {
-		if (status->len > 0)
-			g_string_append (status, STATUSBAR_SEPARATOR);
-		g_string_append (status, file_size);
-		g_string_append (status, STATUSBAR_SEPARATOR);
-		g_string_append (status, file_date);
+		if (file_size != NULL) {
+			if (status->len > 0)
+				g_string_append (status, STATUSBAR_SEPARATOR);
+			g_string_append (status, file_size);
+		}
+		if (file_date != NULL) {
+			if (status->len > 0)
+				g_string_append (status, STATUSBAR_SEPARATOR);
+			g_string_append (status, file_date);
+		}
 	}
 
 	gth_statusbar_set_primary_text (GTH_STATUSBAR (browser->priv->statusbar), status->str);
