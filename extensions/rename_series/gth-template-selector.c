@@ -58,7 +58,7 @@ struct _GthTemplateSelectorPrivate {
 	GtkBuilder *builder;
 };
 
-static char * Date_Formats[] = { "%x %X", "%Y-%m-%d--%H.%M.%S", "%q", NULL };
+static char * Date_Formats[] = { "%Y-%m-%d--%H.%M.%S", "%Y-%m-%d", "%x %X", "%x", NULL };
 
 static gpointer parent_class = NULL;
 static guint gth_template_selector_signals[LAST_SIGNAL] = { 0 };
