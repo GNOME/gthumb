@@ -908,7 +908,7 @@ bind_dimension (int dimension,
 }
 
 
-static void
+static gboolean
 check_and_set_new_selection (GthImageSelector *self,
 			     GdkRectangle      new_selection)
 {
@@ -924,9 +924,11 @@ check_and_set_new_selection (GthImageSelector *self,
 	     || (self->priv->current_area->id != C_SELECTION_AREA))
 	    && self->priv->use_ratio)
 	{
-		if (rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
-			set_selection (self, new_selection, FALSE);
-		return;
+		if (! rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
+			return FALSE;
+
+		set_selection (self, new_selection, FALSE);
+		return TRUE;
 	}
 
 	/* self->priv->current_area->id == C_SELECTION_AREA */
@@ -946,6 +948,8 @@ check_and_set_new_selection (GthImageSelector *self,
 		new_selection.y = self->priv->pixbuf_area.height - new_selection.height;
 
 	set_selection (self, new_selection, FALSE);
+
+	return TRUE;
 }
 
 
@@ -1678,7 +1682,7 @@ gth_image_selector_new (GthImageViewer  *viewer,
 }
 
 
-void
+gboolean
 gth_image_selector_set_selection_x (GthImageSelector *self,
 				    int               x)
 {
@@ -1686,11 +1690,11 @@ gth_image_selector_set_selection_x (GthImageSelector *self,
 
 	new_selection = self->priv->selection;
 	new_selection.x = x;
-	check_and_set_new_selection (self, new_selection);
+	return check_and_set_new_selection (self, new_selection);
 }
 
 
-void
+gboolean
 gth_image_selector_set_selection_y (GthImageSelector *self,
 				    int               y)
 {
@@ -1698,11 +1702,25 @@ gth_image_selector_set_selection_y (GthImageSelector *self,
 
 	new_selection = self->priv->selection;
 	new_selection.y = y;
-	check_and_set_new_selection (self, new_selection);
+	return check_and_set_new_selection (self, new_selection);
 }
 
 
-void
+gboolean
+gth_image_selector_set_selection_pos (GthImageSelector *self,
+				      int               x,
+				      int               y)
+{
+	GdkRectangle new_selection;
+
+	new_selection = self->priv->selection;
+	new_selection.x = x;
+	new_selection.y = y;
+	return check_and_set_new_selection (self, new_selection);
+}
+
+
+gboolean
 gth_image_selector_set_selection_width (GthImageSelector *self,
 					int               width)
 {
@@ -1712,11 +1730,11 @@ gth_image_selector_set_selection_width (GthImageSelector *self,
 	new_selection.width = width;
 	if (self->priv->use_ratio)
 		new_selection.height = IROUND (width / self->priv->ratio);
-	check_and_set_new_selection (self, new_selection);
+	return check_and_set_new_selection (self, new_selection);
 }
 
 
-void
+gboolean
 gth_image_selector_set_selection_height (GthImageSelector *self,
 					 int               height)
 {
@@ -1726,7 +1744,7 @@ gth_image_selector_set_selection_height (GthImageSelector *self,
 	new_selection.height = height;
 	if (self->priv->use_ratio)
 		new_selection.width = IROUND (height * self->priv->ratio);
-	check_and_set_new_selection (self, new_selection);
+	return check_and_set_new_selection (self, new_selection);
 }
 
 
@@ -1850,4 +1868,16 @@ gth_image_selector_bind_dimensions (GthImageSelector *self,
 {
 	self->priv->bind_dimensions = bind;
 	self->priv->bind_factor = factor;
+}
+
+
+void
+gth_image_selector_center (GthImageSelector *self)
+{
+	GdkRectangle new_selection;
+
+	new_selection = self->priv->selection;
+	new_selection.x = (self->priv->pixbuf_area.width - new_selection.width) / 2;
+	new_selection.y = (self->priv->pixbuf_area.height - new_selection.height) / 2;
+	check_and_set_new_selection (self, new_selection);
 }

@@ -78,13 +78,16 @@ struct _GthImageSelectorClass
 GType                 gth_image_selector_get_type             (void);
 GthImageViewerTool *  gth_image_selector_new                  (GthImageViewer   *viewer,
 							       GthSelectorType   type);
-void                  gth_image_selector_set_selection_x      (GthImageSelector *selector,
+gboolean              gth_image_selector_set_selection_x      (GthImageSelector *selector,
 							       int               x);
-void                  gth_image_selector_set_selection_y      (GthImageSelector *selector,
+gboolean              gth_image_selector_set_selection_y      (GthImageSelector *selector,
 							       int               y);
-void                  gth_image_selector_set_selection_width  (GthImageSelector *selector,
+gboolean              gth_image_selector_set_selection_pos    (GthImageSelector *selector,
+							       int               x,
+							       int               y);
+gboolean              gth_image_selector_set_selection_width  (GthImageSelector *selector,
 							       int               width);
-void                  gth_image_selector_set_selection_height (GthImageSelector *selector,
+gboolean              gth_image_selector_set_selection_height (GthImageSelector *selector,
 							       int               height);
 void                  gth_image_selector_set_selection        (GthImageSelector *selector,
 							       GdkRectangle      selection);
@@ -105,6 +108,7 @@ GthGridType           gth_image_selector_get_grid_type        (GthImageSelector 
 void                  gth_image_selector_bind_dimensions      (GthImageSelector *selector,
 							       gboolean          bind,
 							       int               factor);
+void                  gth_image_selector_center               (GthImageSelector *selector);
 
 G_END_DECLS
 

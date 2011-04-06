@@ -357,6 +357,29 @@ bind_factor_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 }
 
 
+static void
+maximize_button_clicked_cb (GtkButton *button,
+			    gpointer   user_data)
+{
+	GthFileToolCrop *self = user_data;
+
+	gth_image_selector_set_selection_pos (self->priv->selector, 0, 0);
+	if (! gth_image_selector_set_selection_width (self->priv->selector, self->priv->pixbuf_width) || ! gth_image_selector_get_use_ratio (self->priv->selector))
+		gth_image_selector_set_selection_height (self->priv->selector, self->priv->pixbuf_height);
+	gth_image_selector_center (self->priv->selector);
+}
+
+
+static void
+center_button_clicked_cb (GtkButton *button,
+			  gpointer   user_data)
+{
+	GthFileToolCrop *self = user_data;
+
+	gth_image_selector_center (self->priv->selector);
+}
+
+
 static GtkWidget *
 gth_file_tool_crop_get_options (GthFileTool *base)
 {
@@ -485,6 +508,14 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("bind_factor_spinbutton"),
 			  "value-changed",
 			  G_CALLBACK (bind_factor_spinbutton_value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("maximize_button"),
+			  "clicked",
+			  G_CALLBACK (maximize_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("center_button"),
+			  "clicked",
+			  G_CALLBACK (center_button_clicked_cb),
 			  self);
 
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
