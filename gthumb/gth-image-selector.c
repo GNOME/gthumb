@@ -1154,6 +1154,180 @@ update_mouse_selection (GthImageSelector *self)
 		break;
 	}
 
+	/* if the user is changing selection size and the selection has a fixed
+	 * ratio and it goes out of the image bounds, resize the selection in
+	 * order to stay inside the image bounds. */
+
+	if ((area_type != C_SELECTION_AREA)
+	    && self->priv->use_ratio
+	    && ! rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
+	{
+		switch (area_type) {
+		case C_TOP_AREA:
+			if (new_selection.y < self->priv->pixbuf_area.y) {
+				dy = new_selection.y + new_selection.height;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_RIGHT_AREA:
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
+				dy = self->priv->pixbuf_area.height - new_selection.y;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_TOP_RIGHT_AREA:
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y < self->priv->pixbuf_area.y) {
+				dy = new_selection.y + new_selection.height;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_TOP_LEFT_AREA:
+			if (new_selection.x < self->priv->pixbuf_area.y) {
+				dx = new_selection.x + new_selection.width;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y < self->priv->pixbuf_area.y) {
+				dy = new_selection.y + new_selection.height;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x < self->priv->pixbuf_area.y) {
+				dx = new_selection.x + new_selection.width;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.y = new_selection.y + new_selection.height - dy;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_BOTTOM_RIGHT_AREA:
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
+				dy = self->priv->pixbuf_area.height - new_selection.y;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_BOTTOM_AREA:
+			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
+				dy = self->priv->pixbuf_area.height - new_selection.y;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
+				dx = self->priv->pixbuf_area.width - new_selection.x;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_LEFT_AREA:
+			if (new_selection.x < self->priv->pixbuf_area.y) {
+				dx = new_selection.x + new_selection.width;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
+				dy = self->priv->pixbuf_area.height - new_selection.y;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		case C_BOTTOM_LEFT_AREA:
+			if (new_selection.x < self->priv->pixbuf_area.y) {
+				dx = new_selection.x + new_selection.width;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
+				dy = self->priv->pixbuf_area.height - new_selection.y;
+				dx = IROUND (dy * self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			if (new_selection.x < self->priv->pixbuf_area.y) {
+				dx = new_selection.x + new_selection.width;
+				dy = IROUND (dx / self->priv->ratio);
+				new_selection.x = new_selection.x + new_selection.width - dx;
+				new_selection.width = dx;
+				new_selection.height = dy;
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
 	check_and_set_new_selection (self, new_selection);
 }
 
