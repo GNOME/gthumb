@@ -977,9 +977,7 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 
 
 static void
-update_mouse_selection (GthImageSelector *self,
-			int               new_x,
-			int               new_y)
+update_mouse_selection (GthImageSelector *self)
 {
 	gboolean          check = ! self->priv->use_ratio;
 	int               dx, dy;
@@ -1187,7 +1185,7 @@ autoscroll_cb (gpointer data)
 	gtk_adjustment_set_value (self->priv->viewer->vadj, value);
 	self->priv->viewer->drag_y = self->priv->viewer->drag_y + self->priv->y_value_diff;
 
-	update_mouse_selection (self, self->priv->viewer->drag_x, self->priv->viewer->drag_y);
+	update_mouse_selection (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	GDK_THREADS_LEAVE();
@@ -1249,7 +1247,7 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 
 	/* dragging == TRUE */
 
-	update_mouse_selection (self, x, y);
+	update_mouse_selection (self);
 
 	/* If we are out of bounds, schedule a timeout that will do
 	 * the scrolling */
