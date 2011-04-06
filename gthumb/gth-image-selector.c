@@ -619,14 +619,15 @@ paint_selection (GthImageSelector *self,
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
 	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
 
-	gth_image_viewer_paint_region (self->priv->viewer,
-				       cr,
-				       self->priv->pixbuf,
-				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
-				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
-				       &selection_area,
-				       event->region,
-				       GDK_INTERP_TILES);
+	if (! self->priv->viewer->dragging)
+		gth_image_viewer_paint_region (self->priv->viewer,
+					       cr,
+					       self->priv->pixbuf,
+					       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
+					       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
+					       &selection_area,
+					       event->region,
+					       GDK_INTERP_TILES);
 
 	cairo_save (cr);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
@@ -723,7 +724,10 @@ gth_image_selector_expose (GthImageViewerTool *base,
 		return;
 
 	if (self->priv->mask_visible) {
-		paint_background (self, event, cr);
+		if (self->priv->viewer->dragging)
+			paint_image (self, event, cr);
+		else
+			paint_background (self, event, cr);
 		paint_selection (self, event, cr);
 	}
 	else
