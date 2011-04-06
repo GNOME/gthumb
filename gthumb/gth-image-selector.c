@@ -1053,10 +1053,10 @@ update_mouse_selection (GthImageSelector *self)
 	case C_BOTTOM_AREA:
 		grow_downward (&self->priv->pixbuf_area, &new_selection, dy, check);
 		if (self->priv->use_ratio)
-			grow_leftward (&self->priv->pixbuf_area,
-				       &new_selection,
-				       IROUND (-dy * self->priv->ratio),
-				       check);
+			grow_rightward (&self->priv->pixbuf_area,
+				        &new_selection,
+				        IROUND (dy * self->priv->ratio),
+				        check);
 		break;
 
 	case C_LEFT_AREA:
@@ -1071,10 +1071,10 @@ update_mouse_selection (GthImageSelector *self)
 	case C_RIGHT_AREA:
 		grow_rightward (&self->priv->pixbuf_area, &new_selection, dx, check);
 		if (self->priv->use_ratio)
-			grow_upward (&self->priv->pixbuf_area,
-				     &new_selection,
-				     IROUND (-dx / self->priv->ratio),
-				     check);
+			grow_downward (&self->priv->pixbuf_area,
+				       &new_selection,
+				       IROUND (dx / self->priv->ratio),
+				       check);
 		break;
 
 	case C_TOP_LEFT_AREA:
