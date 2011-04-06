@@ -27,8 +27,8 @@
 #include "gth-marshal.h"
 
 
-#define BORDER         3
-#define BORDER2        (BORDER * 2)
+#define DEFAULT_BORDER 40
+#define MIN_BORDER 3
 #define DRAG_THRESHOLD 1
 #define STEP_INCREMENT 20.0  /* scroll increment. */
 #define SCROLL_TIMEOUT 30    /* autoscroll timeout in milliseconds */
@@ -347,9 +347,21 @@ update_event_areas (GthImageSelector *self)
 {
 	EventArea *event_area;
 	int        x, y, width, height;
+	int        border;
+	int        border2;
 
 	if (! gtk_widget_get_realized (GTK_WIDGET (self->priv->viewer)))
 		return;
+
+	border = DEFAULT_BORDER;
+	if (self->priv->selection_area.width < DEFAULT_BORDER * 3)
+		border = self->priv->selection_area.width / 3;
+	if (self->priv->selection_area.height < DEFAULT_BORDER * 3)
+		border = self->priv->selection_area.height / 3;
+	if (border < MIN_BORDER)
+		border = MIN_BORDER;
+
+	border2 = border * 2;
 
 	x = self->priv->selection_area.x - 1;
 	y = self->priv->selection_area.y - 1;
@@ -357,58 +369,58 @@ update_event_areas (GthImageSelector *self)
 	height = self->priv->selection_area.height + 1;
 
 	event_area = get_event_area_from_id (self, C_SELECTION_AREA);
-	event_area->area.x = x + BORDER;
-	event_area->area.y = y + BORDER;
-	event_area->area.width = width - BORDER2;
-	event_area->area.height = height - BORDER2;
+	event_area->area.x = x;
+	event_area->area.y = y;
+	event_area->area.width = width;
+	event_area->area.height = height;
 
 	event_area = get_event_area_from_id (self, C_TOP_AREA);
-	event_area->area.x = x + BORDER;
-	event_area->area.y = y - BORDER;
-	event_area->area.width = width - BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x + border;
+	event_area->area.y = y;
+	event_area->area.width = width - border2;
+	event_area->area.height = border;
 
 	event_area = get_event_area_from_id (self, C_BOTTOM_AREA);
-	event_area->area.x = x + BORDER;
-	event_area->area.y = y + height - BORDER;
-	event_area->area.width = width - BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x + border;
+	event_area->area.y = y + height - border;
+	event_area->area.width = width - border2;
+	event_area->area.height = border;
 
 	event_area = get_event_area_from_id (self, C_LEFT_AREA);
-	event_area->area.x = x - BORDER;
-	event_area->area.y = y + BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = height - BORDER2;
+	event_area->area.x = x;
+	event_area->area.y = y + border;
+	event_area->area.width = border;
+	event_area->area.height = height - border2;
 
 	event_area = get_event_area_from_id (self, C_RIGHT_AREA);
-	event_area->area.x = x + width - BORDER;
-	event_area->area.y = y + BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = height - BORDER2;
+	event_area->area.x = x + width - border;
+	event_area->area.y = y + border;
+	event_area->area.width = border;
+	event_area->area.height = height - border2;
 
 	event_area = get_event_area_from_id (self, C_TOP_LEFT_AREA);
-	event_area->area.x = x - BORDER;
-	event_area->area.y = y - BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x;
+	event_area->area.y = y;
+	event_area->area.width = border;
+	event_area->area.height = border;
 
 	event_area = get_event_area_from_id (self, C_TOP_RIGHT_AREA);
-	event_area->area.x = x + width - BORDER;
-	event_area->area.y = y - BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x + width - border;
+	event_area->area.y = y;
+	event_area->area.width = border;
+	event_area->area.height = border;
 
 	event_area = get_event_area_from_id (self, C_BOTTOM_LEFT_AREA);
-	event_area->area.x = x - BORDER;
-	event_area->area.y = y + height - BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x;
+	event_area->area.y = y + height - border;
+	event_area->area.width = border;
+	event_area->area.height = border;
 
 	event_area = get_event_area_from_id (self, C_BOTTOM_RIGHT_AREA);
-	event_area->area.x = x + width - BORDER;
-	event_area->area.y = y + height - BORDER;
-	event_area->area.width = BORDER2;
-	event_area->area.height = BORDER2;
+	event_area->area.x = x + width - border;
+	event_area->area.y = y + height - border;
+	event_area->area.width = border;
+	event_area->area.height = border;
 }
 
 
@@ -420,10 +432,10 @@ queue_draw (GthImageSelector *self,
 		return;
 
 	gtk_widget_queue_draw_area (GTK_WIDGET (self->priv->viewer),
-				    self->priv->viewer->image_area.x + area.x - self->priv->viewer->x_offset - BORDER,
-				    self->priv->viewer->image_area.y + area.y - self->priv->viewer->y_offset - BORDER,
-				    area.width + BORDER2,
-				    area.height + BORDER2);
+				    self->priv->viewer->image_area.x + area.x - self->priv->viewer->x_offset,
+				    self->priv->viewer->image_area.y + area.y - self->priv->viewer->y_offset,
+				    area.width,
+				    area.height);
 }
 
 
