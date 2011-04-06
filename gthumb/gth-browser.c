@@ -3030,8 +3030,26 @@ folder_changed_cb (GthMonitor      *monitor,
 
 			if (current_file_deleted) {
 				g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
-				gth_browser_load_file (browser, new_file, FALSE);
-				_g_object_unref (new_file);
+
+				if (new_file != NULL) {
+					if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+						gth_browser_load_file (browser, new_file, FALSE);
+					else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
+						int file_pos;
+
+						file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), new_file->file);
+						if (file_pos >= 0) {
+							GtkWidget *view;
+
+							view = gth_browser_get_file_list_view (browser);
+							gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
+							gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
+						}
+					}
+					_g_object_unref (new_file);
+				}
+				else
+					gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
 			}
 
 			_gth_browser_update_statusbar_list_info (browser);
