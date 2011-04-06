@@ -703,6 +703,12 @@ paint_selection (GthImageSelector *self,
 			 selection_area.y + 0.5,
 			 selection_area.width - 1,
 			 selection_area.height - 1);
+	if ((self->priv->current_area != NULL) && (self->priv->current_area->id != C_SELECTION_AREA))
+		cairo_rectangle (cr,
+				 self->priv->current_area->area.x + self->priv->viewer->image_area.x + 0.5,
+				 self->priv->current_area->area.y + self->priv->viewer->image_area.y + 0.5,
+				 self->priv->current_area->area.width - 1,
+				 self->priv->current_area->area.height - 1);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -771,10 +777,8 @@ static void
 set_active_area (GthImageSelector *self,
 		 EventArea        *event_area)
 {
-	if (self->priv->active != (event_area != NULL)) {
+	if (self->priv->active != (event_area != NULL))
 		self->priv->active = ! self->priv->active;
-		/* queue_draw (self, self->priv->selection_area); FIXME */
-	}
 
 	if (self->priv->current_area != event_area)
 		self->priv->current_area = event_area;
@@ -783,6 +787,8 @@ set_active_area (GthImageSelector *self,
 		gth_image_viewer_set_cursor (self->priv->viewer, self->priv->default_cursor);
 	else
 		gth_image_viewer_set_cursor (self->priv->viewer, self->priv->current_area->cursor);
+
+	queue_draw (self, self->priv->selection_area);
 }
 
 
@@ -922,6 +928,8 @@ check_and_set_new_selection (GthImageSelector *self,
 			set_selection (self, new_selection, FALSE);
 		return;
 	}
+
+	/* self->priv->current_area->id == C_SELECTION_AREA */
 
 	if (new_selection.x < 0)
 		new_selection.x = 0;
