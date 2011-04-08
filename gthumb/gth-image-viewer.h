@@ -212,6 +212,8 @@ void           gth_image_viewer_zoom_out                 (GthImageViewer     *vi
 void           gth_image_viewer_set_fit_mode             (GthImageViewer     *viewer,
 							  GthFit              fit_mode);
 GthFit         gth_image_viewer_get_fit_mode             (GthImageViewer     *viewer);
+void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer     *viewer,
+							  gboolean            value);
 
 /* visualization options. */
 

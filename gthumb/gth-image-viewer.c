@@ -88,6 +88,7 @@ struct _GthImageViewerPrivate {
 	GdkCursor              *cursor;
 	GdkCursor              *cursor_void;
 
+	gboolean                enable_zoom_with_keys;
 	double                  zoom_level;
 	guint                   zoom_quality : 1;   /* A ZoomQualityType value. */
 	guint                   zoom_change : 3;    /* A ZoomChangeType value. */
@@ -1302,6 +1303,39 @@ set_scroll_adjustments (GtkWidget     *widget,
 
 
 static void
+gth_image_viewer_zoom_in__key_binding (GthImageViewer *self)
+{
+	if (self->priv->enable_zoom_with_keys)
+		gth_image_viewer_zoom_in (self);
+}
+
+
+static void
+gth_image_viewer_zoom_out__key_binding (GthImageViewer *self)
+{
+	if (self->priv->enable_zoom_with_keys)
+		gth_image_viewer_zoom_out (self);
+}
+
+static void
+gth_image_viewer_set_fit_mode__key_binding (GthImageViewer *self,
+					    GthFit          fit_mode)
+{
+	if (self->priv->enable_zoom_with_keys)
+		gth_image_viewer_set_fit_mode (self, fit_mode);
+}
+
+
+static void
+gth_image_viewer_set_zoom__key_binding (GthImageViewer *self,
+					gdouble         zoom_level)
+{
+	if (self->priv->enable_zoom_with_keys)
+		gth_image_viewer_set_zoom (self, zoom_level);
+}
+
+
+static void
 gth_image_viewer_class_init (GthImageViewerClass *class)
 {
 	GObjectClass   *gobject_class;
@@ -1425,10 +1459,10 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	class->clicked      = NULL;
 	class->zoom_changed = NULL;
 	class->scroll       = scroll_signal;
-	class->zoom_in      = gth_image_viewer_zoom_in;
-	class->zoom_out     = gth_image_viewer_zoom_out;
-	class->set_zoom     = gth_image_viewer_set_zoom;
-	class->set_fit_mode = gth_image_viewer_set_fit_mode;
+	class->zoom_in      = gth_image_viewer_zoom_in__key_binding;
+	class->zoom_out     = gth_image_viewer_zoom_out__key_binding;
+	class->set_zoom     = gth_image_viewer_set_zoom__key_binding;
+	class->set_fit_mode = gth_image_viewer_set_fit_mode__key_binding;
 
 	/* Add key bindings */
 
@@ -1571,6 +1605,7 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 	self->priv->anim_id = 0;
 	self->priv->iter = NULL;
 
+	self->priv->enable_zoom_with_keys = TRUE;
 	self->priv->zoom_level = 1.0;
 	self->priv->zoom_quality = GTH_ZOOM_QUALITY_HIGH;
 	self->priv->zoom_change = GTH_ZOOM_CHANGE_KEEP_PREV;
@@ -2115,6 +2150,14 @@ GthFit
 gth_image_viewer_get_fit_mode (GthImageViewer *self)
 {
 	return self->priv->fit;
+}
+
+
+void
+gth_image_viewer_enable_zoom_with_keys (GthImageViewer *self,
+					gboolean        value)
+{
+	self->priv->enable_zoom_with_keys = value;
 }
 
 

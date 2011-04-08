@@ -30,7 +30,7 @@
 #define APPLY_DELAY 150
 #define DEFAULT_RADIUS 2.0
 #define DEFAULT_AMOUNT 50.0
-#define DEFAULT_THRESHOLD 1.0
+#define DEFAULT_THRESHOLD 0.0
 
 
 static gpointer parent_class = NULL;
@@ -43,6 +43,7 @@ struct _GthFileToolSharpenPrivate {
 	GtkAdjustment *radius_adj;
 	GtkAdjustment *amount_adj;
 	GtkAdjustment *threshold_adj;
+	GtkWidget     *preview;
 	GthTask       *pixbuf_task;
 	guint          apply_event;
 };
@@ -170,6 +171,43 @@ reset_button_clicked_cb (GtkButton          *button,
 }
 
 
+static gboolean
+apply_cb (gpointer user_data)
+{
+	GthFileToolSharpen *self = user_data;
+	GthImageViewer     *preview;
+	SharpenData        *sharpen_data;
+	GdkPixbuf          *preview_subpixbuf;
+	int                 x, y, w ,h;
+
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	preview = GTH_IMAGE_VIEWER (self->priv->preview);
+	sharpen_data = sharpen_data_new (self);
+	x = gtk_adjustment_get_value (preview->hadj);
+	y = gtk_adjustment_get_value (preview->vadj);
+	w = gtk_adjustment_get_page_size (preview->hadj);
+	h = gtk_adjustment_get_page_size (preview->vadj);
+
+	_g_object_unref (self->priv->dest_pixbuf);
+	self->priv->dest_pixbuf = gdk_pixbuf_copy (self->priv->src_pixbuf);
+	preview_subpixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf, x, y, w, h);
+	_gdk_pixbuf_sharpen (preview_subpixbuf,
+			     sharpen_data->radius,
+			     sharpen_data->amount,
+			     sharpen_data->threshold);
+	gth_image_viewer_set_pixbuf (preview, self->priv->dest_pixbuf, -1, -1);
+
+	g_object_unref (preview_subpixbuf);
+	g_free (sharpen_data);
+
+	return FALSE;
+}
+
+
 static void
 value_changed_cb (GtkAdjustment      *adj,
 		  GthFileToolSharpen *self)
@@ -178,9 +216,7 @@ value_changed_cb (GtkAdjustment      *adj,
 		g_source_remove (self->priv->apply_event);
 		self->priv->apply_event = 0;
 	}
-	/* FIXME
 	self->priv->apply_event = g_timeout_add (APPLY_DELAY, apply_cb, self);
-	*/
 }
 
 
@@ -192,6 +228,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	GtkWidget          *viewer_page;
 	GtkWidget          *viewer;
 	GtkWidget          *options;
+	GtkWidget          *image_navigator;
 
 	self = (GthFileToolSharpen *) base;
 
@@ -215,21 +252,27 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 
-	/* FIXME: add a preview here
-	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
-	gtk_widget_show (self->priv->histogram_view);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("histogram_hbox")), self->priv->histogram_view, TRUE, TRUE, 0);
-	*/
+	self->priv->preview = gth_image_viewer_new ();
+	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->preview), GTH_FIT_NONE);
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->preview), GTH_ZOOM_CHANGE_KEEP_PREV);
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->preview), 1.0);
+	gth_image_viewer_enable_zoom_with_keys (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->src_pixbuf, -1, -1);
+	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
+	gtk_widget_show_all (image_navigator);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), self->priv->preview);
 
-	self->priv->radius_adj = gimp_scale_entry_new (GET_WIDGET ("radius_hbox"),
-						       GTK_LABEL (GET_WIDGET ("radius_label")),
-						       DEFAULT_RADIUS, 0.0, 10.0, 0.1, 1.0, 1);
 	self->priv->amount_adj = gimp_scale_entry_new (GET_WIDGET ("amount_hbox"),
 						       GTK_LABEL (GET_WIDGET ("amount_label")),
-						       DEFAULT_AMOUNT, 0.0, 200.0, 1.0, 10.0, 0);
+						       DEFAULT_AMOUNT, 0.0, 500.0, 1.0, 10.0, 0);
+	self->priv->radius_adj = gimp_scale_entry_new (GET_WIDGET ("radius_hbox"),
+						       GTK_LABEL (GET_WIDGET ("radius_label")),
+						       DEFAULT_RADIUS, 0.0, 10.0, 1.0, 1.0, 0);
 	self->priv->threshold_adj = gimp_scale_entry_new (GET_WIDGET ("threshold_hbox"),
 							  GTK_LABEL (GET_WIDGET ("threshold_label")),
-							  DEFAULT_THRESHOLD, 1.0, 255.0, 1.0, 10.0, 0);
+							  DEFAULT_THRESHOLD, 0.0, 255.0, 1.0, 10.0, 0);
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
@@ -252,6 +295,14 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  G_CALLBACK (value_changed_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->threshold_adj),
+			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (GTH_IMAGE_VIEWER (self->priv->preview)->hadj,
+			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (GTH_IMAGE_VIEWER (self->priv->preview)->vadj,
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
