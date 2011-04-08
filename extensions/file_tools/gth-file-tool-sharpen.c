@@ -284,7 +284,7 @@ gth_file_tool_sharpen_instance_init (GthFileToolSharpen *self)
 	self->priv->dest_pixbuf = NULL;
 	self->priv->builder = NULL;
 
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Sharpen..."), _("Sharpen"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Enhance Focus..."), _("Enhance Focus"), FALSE);
 }
 
 
