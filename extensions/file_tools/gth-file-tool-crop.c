@@ -529,6 +529,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  self);
 
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
 	ratio_combobox_changed_cb (NULL, self);
 
 	if (! gth_image_selector_set_selection_width (self->priv->selector, self->priv->pixbuf_width * 2 / 3) || ! gth_image_selector_get_use_ratio (self->priv->selector))

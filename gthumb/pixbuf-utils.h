@@ -32,6 +32,7 @@ G_BEGIN_DECLS
 
 GdkPixbuf * _gdk_pixbuf_new_void               (int              width,
 					        int              height);
+GdkPixbuf *  _gdk_pixbuf_new_compatible        (GdkPixbuf       *src);
 GdkPixbuf * _gdk_pixbuf_new_from_cairo_surface (cairo_t         *cr);
 GdkPixbuf * _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
 					        int              dest_width,

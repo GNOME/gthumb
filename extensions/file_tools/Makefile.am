@@ -8,8 +8,10 @@ ENUM_TYPES =		\
 	enum-types.c
 
 HEADER_FILES = 				\
+	gdk-pixbuf-blur.h		\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-crop.h		\
+	gth-file-tool-desaturate.h	\
 	gth-file-tool-enhance.h		\
 	gth-file-tool-equalize.h	\
 	gth-file-tool-flip.h		\
@@ -21,6 +23,7 @@ HEADER_FILES = 				\
 	gth-file-tool-rotate-right.h	\
 	gth-file-tool-save.h		\
 	gth-file-tool-save-as.h		\
+	gth-file-tool-sharpen.h		\
 	gth-file-tool-undo.h		\
 	preferences.h
 
@@ -50,10 +53,10 @@ libfile_tools_la_SOURCES = 		\
 	$(HEADER_FILES)			\
 	callbacks.c			\
 	callbacks.h			\
+	gdk-pixbuf-blur.c		\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-desaturate.c	\
-	gth-file-tool-desaturate.h	\
 	gth-file-tool-enhance.c		\
 	gth-file-tool-equalize.c	\
 	gth-file-tool-flip.c		\
@@ -65,6 +68,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-rotate-right.c	\
 	gth-file-tool-save.c		\
 	gth-file-tool-save-as.c		\
+	gth-file-tool-sharpen.c		\
 	gth-file-tool-undo.c		\
 	main.c
 

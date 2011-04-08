@@ -44,6 +44,20 @@ _gdk_pixbuf_new_void (int width,
 }
 
 
+GdkPixbuf *
+_gdk_pixbuf_new_compatible (GdkPixbuf *src)
+{
+	if (src == NULL)
+		return NULL;
+
+	return gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
+			       gdk_pixbuf_get_has_alpha (src),
+			       gdk_pixbuf_get_bits_per_sample (src),
+			       gdk_pixbuf_get_width (src),
+			       gdk_pixbuf_get_height (src));
+}
+
+
 /* Taken from http://www.gtkforums.com/about5204.html
  * Author: tadeboro */
 GdkPixbuf *

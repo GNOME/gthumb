@@ -38,6 +38,7 @@
 #include "gth-file-tool-rotate-right.h"
 #include "gth-file-tool-save.h"
 #include "gth-file-tool-save-as.h"
+#include "gth-file-tool-sharpen.h"
 #include "gth-file-tool-undo.h"
 
 
@@ -51,6 +52,7 @@ gthumb_extension_activate (void)
 
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ENHANCE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ADJUST_COLORS);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SHARPEN);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EQUALIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_DESATURATE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_NEGATIVE);
