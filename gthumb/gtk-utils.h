@@ -132,6 +132,14 @@ void        _gtk_info_bar_clear_action_area (GtkInfoBar      *info_bar);
 GdkDragAction _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
 					      GdkDragAction  actions,
 					      guint32        activate_time);
+GtkAdjustment * gimp_scale_entry_new         (GtkWidget *parent_box,
+		      	      	      	      GtkLabel  *label,
+		      	      	      	      float      value,
+		      	      	      	      float      lower,
+		      	      	      	      float      upper,
+		      	      	      	      float      step_increment,
+		      	      	      	      float      page_increment,
+		      	      	      	      int        digits);
 
 G_END_DECLS
 

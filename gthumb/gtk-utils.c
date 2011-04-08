@@ -1266,3 +1266,43 @@ _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
 
 	return drop_data.action;
 }
+
+
+GtkAdjustment *
+gimp_scale_entry_new (GtkWidget *parent_box,
+		      GtkLabel  *label,
+		      float      value,
+		      float      lower,
+		      float      upper,
+		      float      step_increment,
+		      float      page_increment,
+		      int        digits)
+{
+	GtkWidget *hbox;
+	GtkWidget *scale;
+	GtkWidget *spinbutton;
+	GtkObject *adj;
+
+	adj = gtk_adjustment_new (value, lower, upper,
+				  step_increment, page_increment,
+				  0.0);
+
+	spinbutton = gtk_spin_button_new  (GTK_ADJUSTMENT (adj), 1.0, 0);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spinbutton), digits);
+	gtk_entry_set_width_chars (GTK_ENTRY (spinbutton), 4);
+
+	scale = gtk_hscale_new (GTK_ADJUSTMENT (adj));
+	gtk_scale_set_draw_value (GTK_SCALE (scale), FALSE);
+	gtk_scale_set_digits (GTK_SCALE (scale), digits);
+
+	hbox = gtk_hbox_new (FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (hbox), scale, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), spinbutton, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (parent_box), hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all (hbox);
+
+	gtk_label_set_mnemonic_widget (label, scale);
+
+	return (GtkAdjustment *) adj;
+}
