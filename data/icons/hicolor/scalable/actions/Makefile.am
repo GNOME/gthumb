@@ -12,7 +12,8 @@ icons_DATA = 			\
 	palette.svg		\
 	share.svg		\
 	slideshow-pause.svg	\
-	tag.svg
+	tag.svg			\
+	tool-sharpen.svg
 
 EXTRA_DIST = $(icons_DATA)
 
