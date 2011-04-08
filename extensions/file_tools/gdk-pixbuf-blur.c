@@ -27,11 +27,11 @@
 
 
 
-static GdkPixbuf *
+static void
 _gdk_pixbuf_gaussian_blur (GdkPixbuf *src,
 		           int        radius)
 {
-	return NULL;
+	/* FIXME: to do */
 }
 
 
@@ -41,7 +41,7 @@ box_blur (GdkPixbuf *src,
 	  int        radius,
 	  guchar    *div_kernel_size)
 {
-	int     width, height, rowstride, n_channels;
+	int     width, height, src_rowstride, dest_rowstride, n_channels;
 	guchar *p_src, *p_dest, *c1, *c2;
 	int     x, y, i, i1, i2, width_minus_1, height_minus_1, radius_plus_1;
 	int     r, g, b, a;
@@ -49,7 +49,6 @@ box_blur (GdkPixbuf *src,
 
 	width = gdk_pixbuf_get_width (src);
 	height = gdk_pixbuf_get_height (src);
-	rowstride = gdk_pixbuf_get_rowstride (src);
 	n_channels = gdk_pixbuf_get_n_channels (src);
 	radius_plus_1 = radius + 1;
 
@@ -57,6 +56,8 @@ box_blur (GdkPixbuf *src,
 
 	p_src = gdk_pixbuf_get_pixels (src);
 	p_dest = gdk_pixbuf_get_pixels (dest);
+	src_rowstride = gdk_pixbuf_get_rowstride (src);
+	dest_rowstride = gdk_pixbuf_get_rowstride (dest);
 	width_minus_1 = width - 1;
 	for (y = 0; y < height; y++) {
 
@@ -107,14 +108,16 @@ box_blur (GdkPixbuf *src,
 				a += c1[ALPHA_PIX] - c2[ALPHA_PIX];*/
 		}
 
-		p_src += rowstride;
-		p_dest += rowstride;
+		p_src += src_rowstride;
+		p_dest += dest_rowstride;
 	}
 
 	/* vertical blur */
 
 	p_src = gdk_pixbuf_get_pixels (dest);
 	p_dest = gdk_pixbuf_get_pixels (src);
+	src_rowstride = gdk_pixbuf_get_rowstride (dest);
+	dest_rowstride = gdk_pixbuf_get_rowstride (src);
 	height_minus_1 = height - 1;
 	for (x = 0; x < width; x++) {
 
@@ -123,7 +126,7 @@ box_blur (GdkPixbuf *src,
 		r = g = b = a = 0;
 
 		for (i = -radius; i <= radius; i++) {
-			c1 = p_src + (CLAMP (i, 0, height_minus_1) * rowstride);
+			c1 = p_src + (CLAMP (i, 0, height_minus_1) * src_rowstride);
 			r += c1[RED_PIX];
 			g += c1[GREEN_PIX];
 			b += c1[BLUE_PIX];
@@ -140,21 +143,21 @@ box_blur (GdkPixbuf *src,
 			p_dest_col[BLUE_PIX] = div_kernel_size[b];
 			/*if (n_channels == 4)
 				p_dest_row[ALPHA_PIX] = div_kernel_size[a];*/
-			p_dest_col += rowstride;
+			p_dest_col += dest_rowstride;
 
 			/* the pixel to add to the kernel */
 
 			i1 = y + radius_plus_1;
 			if (i1 > height_minus_1)
 				i1 = height_minus_1;
-			c1 = p_src + (i1 * rowstride);
+			c1 = p_src + (i1 * src_rowstride);
 
 			/* the pixel to remove from the kernel */
 
 			i2 = y - radius;
 			if (i2 < 0)
 				i2 = 0;
-			c2 = p_src + (i2 * rowstride);
+			c2 = p_src + (i2 * src_rowstride);
 
 			/* calc the new sums of the kernel */
 
@@ -171,18 +174,16 @@ box_blur (GdkPixbuf *src,
 }
 
 
-static GdkPixbuf *
+static void
 _gdk_pixbuf_box_blur (GdkPixbuf *src,
 		      int        radius,
 		      int        iterations)
 {
-	GdkPixbuf *dest;
 	GdkPixbuf *tmp;
 	gint64     kernel_size;
 	guchar    *div_kernel_size;
 	int        i;
 
-	dest = gdk_pixbuf_copy (src);
 	tmp = _gdk_pixbuf_new_compatible (src);
 
 	kernel_size = 2 * radius + 1;
@@ -191,67 +192,63 @@ _gdk_pixbuf_box_blur (GdkPixbuf *src,
 		div_kernel_size[i] = (guchar) (i / kernel_size);
 
 	while (iterations-- > 0)
-		box_blur (dest, tmp, radius, div_kernel_size);
+		box_blur (src, tmp, radius, div_kernel_size);
 
 	g_object_unref (tmp);
-
-	return dest;
 }
 
 
-GdkPixbuf *
+void
 _gdk_pixbuf_blur (GdkPixbuf *src,
 		  int        radius)
 {
 	if (radius <= 10)
-		return _gdk_pixbuf_box_blur (src, radius, 3);
+		_gdk_pixbuf_box_blur (src, radius, 3);
 	else
-		return _gdk_pixbuf_gaussian_blur (src, radius);
+		_gdk_pixbuf_gaussian_blur (src, radius);
 }
 
 
 #define interpolate_value(original, reference, distance) (CLAMP (((distance) * (reference)) + ((1.0 - (distance)) * (original)), 0, 255))
 
 
-GdkPixbuf *
+void
 _gdk_pixbuf_sharpen (GdkPixbuf *src,
 	             int        radius,
 	             double     amount,
 	             guchar     threshold)
 {
-	GdkPixbuf *dest;
+	GdkPixbuf *blurred;
 	int        width, height, rowstride, n_channels;
 	int        x, y;
-	guchar    *p_src, *p_dest;
-	guchar    *p_src_row, *p_dest_row;
+	guchar    *p_src, *p_blurred;
+	guchar    *p_src_row, *p_blurred_row;
 	guchar     r1, g1, b1;
 	guchar     r2, g2, b2;
 
-	dest = _gdk_pixbuf_blur (src, radius);
+	blurred = gdk_pixbuf_copy (src);
+	_gdk_pixbuf_blur (blurred, radius);
+
 	width = gdk_pixbuf_get_width (src);
 	height = gdk_pixbuf_get_height (src);
 	rowstride = gdk_pixbuf_get_rowstride (src);
 	n_channels = gdk_pixbuf_get_n_channels (src);
 
 	p_src = gdk_pixbuf_get_pixels (src);
-	p_dest = gdk_pixbuf_get_pixels (dest);
+	p_blurred = gdk_pixbuf_get_pixels (blurred);
 
 	for (y = 0; y < height; y++) {
 		p_src_row = p_src;
-		p_dest_row = p_dest;
+		p_blurred_row = p_blurred;
 
 		for (x = 0; x < width; x++) {
 			r1 = p_src_row[RED_PIX];
 			g1 = p_src_row[GREEN_PIX];
 			b1 = p_src_row[BLUE_PIX];
-			/* if (n_channels == 4)
-				a1 = p_src_row[ALPHA_PIX]; */
 
-			r2 = p_dest_row[RED_PIX];
-			g2 = p_dest_row[GREEN_PIX];
-			b2 = p_dest_row[BLUE_PIX];
-			/* if (n_channels == 4)
-				a2 = p_dest_row[ALPHA_PIX]; */
+			r2 = p_blurred_row[RED_PIX];
+			g2 = p_blurred_row[GREEN_PIX];
+			b2 = p_blurred_row[BLUE_PIX];
 
 			if (ABS (r1 - r2) >= threshold)
 				r1 = interpolate_value (r1, r2, amount);
@@ -260,19 +257,17 @@ _gdk_pixbuf_sharpen (GdkPixbuf *src,
 			if (ABS (b1 - b2) >= threshold)
 				b1 = interpolate_value (b1, b2, amount);
 
-			p_dest_row[RED_PIX] = r1;
-			p_dest_row[GREEN_PIX] = g1;
-			p_dest_row[BLUE_PIX] = b1;
-			/* if (n_channels == 4)
-				p_dest_row[ALPHA_PIX] = p_src_row[ALPHA_PIX]; */
+			p_src_row[RED_PIX] = r1;
+			p_src_row[GREEN_PIX] = g1;
+			p_src_row[BLUE_PIX] = b1;
 
 			p_src_row += n_channels;
-			p_dest_row += n_channels;
+			p_blurred_row += n_channels;
 		}
 
 		p_src += rowstride;
-		p_dest += rowstride;
+		p_blurred += rowstride;
 	}
 
-	return dest;
+	g_object_unref (blurred);
 }

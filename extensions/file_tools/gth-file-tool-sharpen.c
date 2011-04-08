@@ -88,15 +88,30 @@ typedef struct {
 } SharpenData;
 
 
+static SharpenData *
+sharpen_data_new (GthFileToolSharpen *self)
+{
+	SharpenData *sharpen_data;
+
+	sharpen_data = g_new (SharpenData, 1);
+	sharpen_data->radius = gtk_adjustment_get_value (self->priv->radius_adj);
+	sharpen_data->amount = - gtk_adjustment_get_value (self->priv->amount_adj) / 100.0;
+	sharpen_data->threshold = gtk_adjustment_get_value (self->priv->threshold_adj);
+
+	return sharpen_data;
+}
+
+
 static void
 sharpen_step (GthPixbufTask *pixbuf_task)
 {
 	SharpenData *sharpen_data = pixbuf_task->data;
 
-	pixbuf_task->dest = _gdk_pixbuf_sharpen (pixbuf_task->src,
-						 sharpen_data->radius,
-						 sharpen_data->amount,
-						 sharpen_data->threshold);
+	pixbuf_task->dest = gdk_pixbuf_copy (pixbuf_task->src);
+	_gdk_pixbuf_sharpen (pixbuf_task->dest,
+			     sharpen_data->radius,
+			     sharpen_data->amount,
+			     sharpen_data->threshold);
 }
 
 
@@ -107,10 +122,7 @@ ok_button_clicked_cb (GtkButton          *button,
 	SharpenData *sharpen_data;
 	GthTask     *task;
 
-	sharpen_data = g_new (SharpenData, 1);
-	sharpen_data->radius = gtk_adjustment_get_value (self->priv->radius_adj);
-	sharpen_data->amount = - gtk_adjustment_get_value (self->priv->amount_adj) / 100.0;
-	sharpen_data->threshold = gtk_adjustment_get_value (self->priv->threshold_adj);
+	sharpen_data = sharpen_data_new (self);
 	task = gth_pixbuf_task_new (_("Sharpening image"),
 				    TRUE,
 				    NULL,

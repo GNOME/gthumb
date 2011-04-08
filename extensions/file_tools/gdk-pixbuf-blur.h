@@ -28,12 +28,12 @@
 
 G_BEGIN_DECLS
 
-GdkPixbuf * _gdk_pixbuf_blur    (GdkPixbuf *src,
-			         int        radius);
-GdkPixbuf * _gdk_pixbuf_sharpen (GdkPixbuf *src,
-	         	 	 int        radius,
-	         	 	 double     amount,
-	         	 	 guchar     threshold);
+void _gdk_pixbuf_blur    (GdkPixbuf *src,
+	 	          int        radius);
+void _gdk_pixbuf_sharpen (GdkPixbuf *src,
+			  int        radius,
+			  double     amount,
+			  guchar     threshold);
 
 G_END_DECLS
 
