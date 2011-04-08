@@ -2239,6 +2239,10 @@ gth_image_viewer_set_black_background (GthImageViewer *self,
 				       gboolean        set_black)
 {
 	self->priv->black_bg = set_black;
+	if (set_black)
+		gth_image_viewer_hide_frame (self);
+	else
+		gth_image_viewer_show_frame (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
