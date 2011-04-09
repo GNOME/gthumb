@@ -188,7 +188,7 @@ extension_description_data_func_cb (GtkTreeViewColumn *tree_column,
 
 	gtk_tree_model_get (tree_model, iter, 0, &description, -1);
 
-	text = g_markup_printf_escaped ("<b>%s</b>\n%s", description->name, description->description);
+	text = g_markup_printf_escaped ("<b>%s</b>\n<small>%s</small>", description->name, description->description);
 	g_object_set (G_OBJECT (cell), "markup", text, NULL);
 	g_object_set (G_OBJECT (cell), "sensitive", gth_extension_description_is_active (description), NULL);
 
