@@ -31,6 +31,13 @@
 #define DEFAULT_HEIGHT 480
 
 
+enum {
+	MIME_TYPE_COLUMN_ICON = 0,
+	MIME_TYPE_COLUMN_TYPE,
+	MIME_TYPE_COLUMN_DESCRIPTION
+};
+
+
 GthUnit units[] = { GTH_UNIT_PIXELS, GTH_UNIT_PERCENTAGE };
 
 
@@ -121,9 +128,11 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
-	ResizeData *resize_data;
-	GthTask    *resize_task;
-	GthTask    *list_task;
+	ResizeData  *resize_data;
+	GtkTreeIter  iter;
+	char        *mime_type;
+	GthTask     *resize_task;
+	GthTask     *list_task;
 
 	resize_data = g_new0 (ResizeData, 1);
 	resize_data->width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")));
@@ -132,10 +141,16 @@ ok_clicked_cb (GtkWidget  *widget,
 	resize_data->keep_aspect_ratio = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")));
 	resize_data->allow_swap = FALSE;
 
+	gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("mime_type_combobox")), &iter);
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("mime_type_liststore")), &iter,
+			    MIME_TYPE_COLUMN_TYPE, &mime_type,
+			    -1);
+
 	eel_gconf_set_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, resize_data->width);
 	eel_gconf_set_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, resize_data->height);
 	eel_gconf_set_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, resize_data->unit);
 	eel_gconf_set_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, resize_data->keep_aspect_ratio);
+	eel_gconf_set_string (PREF_RESIZE_IMAGES_MIME_TYPE, mime_type ? mime_type : "");
 
 	resize_task = gth_pixbuf_task_new (_("Resizing images"),
 					   TRUE,
@@ -148,6 +163,7 @@ ok_clicked_cb (GtkWidget  *widget,
 					      data->file_list,
 					      GTH_PIXBUF_TASK (resize_task));
 	gth_pixbuf_list_task_set_overwrite_mode (GTH_PIXBUF_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
+	gth_pixbuf_list_task_set_output_mime_type (GTH_PIXBUF_LIST_TASK (list_task), mime_type);
 	if (data->use_destination) {
 		GFile *destination;
 
@@ -160,6 +176,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	g_object_unref (list_task);
 	g_object_unref (resize_task);
+	g_free (mime_type);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -207,6 +224,7 @@ dlg_resize_images (GthBrowser *browser,
 		   GList      *file_list)
 {
 	DialogData  *data;
+	GArray      *savers;
 	GthFileData *first_file_data;
 
 	if (gth_browser_get_dialog (browser, "resize_images") != NULL) {
@@ -233,6 +251,54 @@ dlg_resize_images (GthBrowser *browser,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
 	update_sensitivity (data);
+
+	savers = gth_main_get_type_set ("pixbuf-saver");
+	if (savers != NULL) {
+		GtkListStore *list_store;
+		GtkTreeIter   iter;
+		char         *default_mime_type;
+		GthIconCache *icon_cache;
+		int           i;
+
+		list_store = (GtkListStore *) GET_WIDGET ("mime_type_liststore");
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    MIME_TYPE_COLUMN_ICON, NULL,
+				    MIME_TYPE_COLUMN_TYPE, NULL,
+				    MIME_TYPE_COLUMN_DESCRIPTION, _("Keep the original format"),
+				    -1);
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("mime_type_combobox")), &iter);
+
+		default_mime_type = eel_gconf_get_string (PREF_RESIZE_IMAGES_MIME_TYPE, "");
+		icon_cache = gth_icon_cache_new_for_widget (data->dialog, GTK_ICON_SIZE_MENU);
+
+		for (i = 0; i < savers->len; i++) {
+			GType           saver_type;
+			GthPixbufSaver *saver;
+			const char     *mime_type;
+			GdkPixbuf      *pixbuf;
+
+			saver_type = g_array_index (savers, GType, i);
+			saver = g_object_new (saver_type, NULL);
+			mime_type = gth_pixbuf_saver_get_mime_type (saver);
+			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, g_content_type_get_icon (mime_type));
+			gtk_list_store_append (list_store, &iter);
+			gtk_list_store_set (list_store, &iter,
+					    MIME_TYPE_COLUMN_ICON, pixbuf,
+					    MIME_TYPE_COLUMN_TYPE, mime_type,
+					    MIME_TYPE_COLUMN_DESCRIPTION, g_content_type_get_description (mime_type),
+					    -1);
+
+			if (strcmp (default_mime_type, mime_type) == 0)
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("mime_type_combobox")), &iter);
+
+			g_object_unref (pixbuf);
+			g_object_unref (saver);
+		}
+
+		gth_icon_cache_free (icon_cache);
+		g_free (default_mime_type);
+	}
 
 	first_file_data = (GthFileData *) data->file_list->data;
 	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),

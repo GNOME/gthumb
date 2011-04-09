@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 #define  PREF_RESIZE_IMAGES_SERIES_HEIGHT  "/apps/gthumb/ext/resize_images/height"
 #define  PREF_RESIZE_IMAGES_UNIT           "/apps/gthumb/ext/resize_images/unit"
 #define  PREF_RESIZE_IMAGES_KEEP_RATIO     "/apps/gthumb/ext/resize_images/keep_aspect_ratio"
+#define  PREF_RESIZE_IMAGES_MIME_TYPE      "/apps/gthumb/ext/resize_images/mime_type"
 
 G_END_DECLS
 
