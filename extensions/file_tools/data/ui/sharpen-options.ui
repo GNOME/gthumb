@@ -21,11 +21,14 @@
                   <object class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkLabel" id="preview_label">
-                        <property name="visible">True</property>
-                        <property name="xalign">0</property>
+                      <object class="GtkCheckButton" id="preview_checkbutton">
                         <property name="label" translatable="yes">_Preview:</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
                       </object>
                       <packing>
                         <property name="position">0</property>

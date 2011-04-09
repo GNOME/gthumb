@@ -46,6 +46,7 @@ struct _GthFileToolSharpenPrivate {
 	GtkWidget     *preview;
 	GthTask       *pixbuf_task;
 	guint          apply_event;
+	gboolean       show_preview;
 };
 
 
@@ -176,9 +177,6 @@ apply_cb (gpointer user_data)
 {
 	GthFileToolSharpen *self = user_data;
 	GthImageViewer     *preview;
-	SharpenData        *sharpen_data;
-	GdkPixbuf          *preview_subpixbuf;
-	int                 x, y, w ,h;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -186,23 +184,31 @@ apply_cb (gpointer user_data)
 	}
 
 	preview = GTH_IMAGE_VIEWER (self->priv->preview);
-	sharpen_data = sharpen_data_new (self);
-	x = gtk_adjustment_get_value (preview->hadj);
-	y = gtk_adjustment_get_value (preview->vadj);
-	w = gtk_adjustment_get_page_size (preview->hadj);
-	h = gtk_adjustment_get_page_size (preview->vadj);
+	if (self->priv->show_preview) {
+		SharpenData *sharpen_data;
+		GdkPixbuf   *preview_subpixbuf;
+		int          x, y, w ,h;
 
-	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = gdk_pixbuf_copy (self->priv->src_pixbuf);
-	preview_subpixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf, x, y, w, h);
-	_gdk_pixbuf_sharpen (preview_subpixbuf,
-			     sharpen_data->radius,
-			     sharpen_data->amount,
-			     sharpen_data->threshold);
-	gth_image_viewer_set_pixbuf (preview, self->priv->dest_pixbuf, -1, -1);
+		sharpen_data = sharpen_data_new (self);
+		x = gtk_adjustment_get_value (preview->hadj);
+		y = gtk_adjustment_get_value (preview->vadj);
+		w = gtk_adjustment_get_page_size (preview->hadj);
+		h = gtk_adjustment_get_page_size (preview->vadj);
 
-	g_object_unref (preview_subpixbuf);
-	g_free (sharpen_data);
+		_g_object_unref (self->priv->dest_pixbuf);
+		self->priv->dest_pixbuf = gdk_pixbuf_copy (self->priv->src_pixbuf);
+		preview_subpixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf, x, y, w, h);
+		_gdk_pixbuf_sharpen (preview_subpixbuf,
+				     sharpen_data->radius,
+				     sharpen_data->amount,
+				     sharpen_data->threshold);
+		gth_image_viewer_set_pixbuf (preview, self->priv->dest_pixbuf, -1, -1);
+
+		g_object_unref (preview_subpixbuf);
+		g_free (sharpen_data);
+	}
+	else
+		gth_image_viewer_set_pixbuf (preview, self->priv->src_pixbuf, -1, -1);
 
 	return FALSE;
 }
@@ -217,6 +223,19 @@ value_changed_cb (GtkAdjustment      *adj,
 		self->priv->apply_event = 0;
 	}
 	self->priv->apply_event = g_timeout_add (APPLY_DELAY, apply_cb, self);
+}
+
+
+static void
+preview_checkbutton_toggled_cb (GtkToggleButton    *toggle_button,
+				GthFileToolSharpen *self)
+{
+	self->priv->show_preview = gtk_toggle_button_get_active (toggle_button);
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+	apply_cb (self);
 }
 
 
@@ -262,7 +281,6 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
 	gtk_widget_show_all (image_navigator);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), self->priv->preview);
 
 	self->priv->amount_adj = gimp_scale_entry_new (GET_WIDGET ("amount_hbox"),
 						       GTK_LABEL (GET_WIDGET ("amount_label")),
@@ -306,6 +324,10 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
+			  "clicked",
+			  G_CALLBACK (preview_checkbutton_toggled_cb),
+			  self);
 
 	return options;
 }
@@ -346,6 +368,7 @@ gth_file_tool_sharpen_instance_init (GthFileToolSharpen *self)
 	self->priv->src_pixbuf = NULL;
 	self->priv->dest_pixbuf = NULL;
 	self->priv->builder = NULL;
+	self->priv->show_preview = TRUE;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Enhance Focus..."), _("Enhance Focus"), FALSE);
 }
