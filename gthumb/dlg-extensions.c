@@ -574,9 +574,6 @@ dlg_extensions (GthBrowser *browser)
 	gtk_widget_show (data->list_view);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("extensions_scrolledwindow")), data->list_view);
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("extensions_label")), data->list_view);
-	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("extensions_label")), TRUE);
-
 	manager = gth_main_get_default_extension_manager ();
 	extensions = gth_extension_manager_get_extensions (manager);
 	for (scan = extensions; scan; scan = scan->next) {
