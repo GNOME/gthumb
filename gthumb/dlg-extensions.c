@@ -386,22 +386,22 @@ reset_original_extension_status (DialogData *data)
 
 
 static void
-category_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
-					gpointer          user_data)
+category_combobox_changed_cb (GtkComboBox *combo_box,
+			      gpointer     user_data)
 {
-	DialogData   *data = user_data;
-	GtkTreeModel *model;
-	GtkTreeIter   iter;
+	DialogData  *data = user_data;
+	GtkTreeIter  iter;
 
-	model = GTK_TREE_MODEL (data->model_filter);
-	if (! gtk_tree_selection_get_selected (treeselection, &model, &iter))
+	if (! gtk_combo_box_get_active_iter (combo_box, &iter))
 		return;
 
 	reset_original_extension_status (data);
 
 	g_free (data->current_category);
-	gtk_tree_model_get (model, &iter, CATEGORY_ID_COLUMN, &data->current_category, -1);
-
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("category_liststore")),
+			    &iter,
+			    CATEGORY_ID_COLUMN, &data->current_category,
+			    -1);
 	gtk_tree_model_filter_refilter (GTK_TREE_MODEL_FILTER (data->model_filter));
 }
 
@@ -596,10 +596,9 @@ dlg_extensions (GthBrowser *browser)
 	}
 	g_list_free (extensions);
 
-	/* the category list */
+	/* the category combobox */
 
 	data->current_category = g_strdup (EXTENSION_CATEGORY_ALL);
-	gtk_tree_selection_set_mode (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("category_treeview")))), GTK_SELECTION_BROWSE);
 	for (i = 0; extension_category[i].id != NULL; i++) {
 		GtkTreeIter iter;
 
@@ -618,14 +617,16 @@ dlg_extensions (GthBrowser *browser)
 					    CATEGORY_SEPARATOR_COLUMN, FALSE,
 					    -1);
 	}
-	gtk_tree_view_set_row_separator_func (GTK_TREE_VIEW (GET_WIDGET ("category_treeview")),
-					      category_view_separator_func,
-					      data,
-					      NULL);
 	gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (data->model_filter),
 						category_model_visible_func,
 						data,
 						NULL);
+	gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (GET_WIDGET ("category_combobox")),
+					      category_view_separator_func,
+					      data,
+					      NULL);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("category_combobox")), 0);
+
 
 	/* Set the signals handlers. */
 
@@ -649,9 +650,9 @@ dlg_extensions (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (list_view_selection_changed_cb),
 			  data);
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("category_treeview"))),
+	g_signal_connect (GET_WIDGET ("category_combobox"),
 			  "changed",
-			  G_CALLBACK (category_treeview_selection_changed_cb),
+			  G_CALLBACK (category_combobox_changed_cb),
 			  data);
 
 	first = gtk_tree_path_new_first ();
