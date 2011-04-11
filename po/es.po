@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gthumb&component=general\n"
-"POT-Creation-Date: 2011-03-04 17:37+0000\n"
-"PO-Revision-Date: 2011-03-06 17:47+0100\n"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-04-09 18:27+0000\n"
+"PO-Revision-Date: 2011-04-11 20:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,8 +129,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «fit», «keep_prev», "
-"«fit_if_larger», «fit_width_if_larger»."
+"Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
+"«fit_width_if_larger»."
 
 #: ../data/gthumb.schemas.in.h:3
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
@@ -155,8 +155,8 @@ msgstr "Los valores posibles son: «small», «medium», «large»."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Los valores posibles son: «system», «text_below», «text_beside», "
-"«text_only», «icons_only»."
+"Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
+"«icons_only»."
 
 #: ../data/gthumb.schemas.in.h:8
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
@@ -176,18 +176,15 @@ msgstr ""
 "tras cambiar la imagen"
 
 #: ../data/ui/extensions.ui.h:1
-msgid "Available _extensions:"
-msgstr "E_xtensiones disponibles:"
-
-#: ../data/ui/extensions.ui.h:2
 msgid "More extensions..."
 msgstr "Más extensiones…"
 
-#: ../data/ui/extensions.ui.h:3
-msgid "_Categories:"
-msgstr "Ca_tegorías:"
+#: ../data/ui/extensions.ui.h:2
+#| msgid "Extensions"
+msgid "_Extensions:"
+msgstr "_Extensiones:"
 
-#: ../data/ui/extensions.ui.h:4
+#: ../data/ui/extensions.ui.h:3
 msgid "gthumb Extensions"
 msgstr "Extensiones de gthumb"
 
@@ -211,12 +208,10 @@ msgid "selected by"
 msgstr "seleccionados por"
 
 #: ../data/ui/histogram-info.ui.h:1
-#| msgid "Media"
 msgid "Mean:"
 msgstr "Media:"
 
 #: ../data/ui/histogram-info.ui.h:2
-#| msgid "Media"
 msgid "Median:"
 msgstr "Mediana:"
 
@@ -228,14 +223,12 @@ msgstr "Máx:"
 
 #. After the colon there is the percentile of selected pixels.
 #: ../data/ui/histogram-info.ui.h:6
-#| msgid "_Selected tags:"
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Seleccionados:"
 
 #. After the colon there is the total number of pixels
 #: ../data/ui/histogram-info.ui.h:8
-#| msgid "Pi_xels"
 msgid "Pixels:"
 msgstr "Píxeles:"
 
@@ -277,7 +270,7 @@ msgid "Overwrite the old file with the new one?"
 msgstr "¿Sobreescribir el archivo anterior con el nuevo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
 #: ../extensions/image_print/data/ui/print-layout.ui.h:16
 msgid "Size:"
 msgstr "Tamaño:"
@@ -392,8 +385,8 @@ msgstr "Mantener la ampliación anterior"
 
 #: ../data/ui/preferences.ui.h:21
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
-#: ../extensions/file_tools/gth-file-tool-crop.c:399
-#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-crop.c:422
+#: ../extensions/file_tools/gth-file-tool-crop.c:448
 #: ../extensions/file_tools/gth-file-tool-resize.c:422
 #: ../extensions/image_viewer/preferences.c:110
 #: ../extensions/slideshow/main.c:278
@@ -477,7 +470,7 @@ msgid "_Inverse order"
 msgstr "Orden in_verso"
 
 #: ../data/ui/sort-order.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "_Sort by:"
 msgstr "Or_denar por:"
 
@@ -520,27 +513,27 @@ msgstr "Marcadores"
 msgid "gthumb development team"
 msgstr "equipo de desarrollo de gthumb"
 
-#: ../extensions/bookmarks/callbacks.c:52
+#: ../extensions/bookmarks/callbacks.c:54
 msgid "_Bookmarks"
 msgstr "_Marcadores"
 
-#: ../extensions/bookmarks/callbacks.c:53
+#: ../extensions/bookmarks/callbacks.c:55
 msgid "_System Bookmarks"
 msgstr "Marcadores del _sistema"
 
-#: ../extensions/bookmarks/callbacks.c:56
+#: ../extensions/bookmarks/callbacks.c:58
 msgid "_Add Bookmark"
 msgstr "_Añadir marcador"
 
-#: ../extensions/bookmarks/callbacks.c:57
+#: ../extensions/bookmarks/callbacks.c:59
 msgid "Add current location to bookmarks"
 msgstr "Añadir la ubicación actual a los marcadores"
 
-#: ../extensions/bookmarks/callbacks.c:61
+#: ../extensions/bookmarks/callbacks.c:63
 msgid "_Edit Bookmarks..."
 msgstr "_Editar marcadores…"
 
-#: ../extensions/bookmarks/callbacks.c:62
+#: ../extensions/bookmarks/callbacks.c:64
 msgid "Edit bookmarks"
 msgstr "Editar los marcadores"
 
@@ -757,7 +750,7 @@ msgstr "Catálogo _nuevo"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 #: ../extensions/file_manager/actions.c:996
-#: ../extensions/webalbums/gth-web-exporter.c:1833
+#: ../extensions/webalbums/gth-web-exporter.c:1834
 msgid "_View the destination"
 msgstr "_Ver el destino"
 
@@ -1135,6 +1128,7 @@ msgid "Slide"
 msgstr "Diapositiva"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Text"
 msgstr "Texto"
 
@@ -1262,7 +1256,7 @@ msgstr "Distribución"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "New enumerator digit"
 msgstr "Nuevo dígito enumerador"
 
@@ -1290,7 +1284,7 @@ msgstr "Guardando"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:17
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:28
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "Special code"
 msgstr "Código especial"
@@ -1419,7 +1413,7 @@ msgid "New format"
 msgstr "Formato nuevo"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "_Use the original image folder"
 msgstr "_Usar la carpeta de imágenes original"
 
@@ -1489,7 +1483,7 @@ msgid "Could not save the file metadata"
 msgstr "No se pudieron guardar los metadatos del archivo"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:111
-#: ../extensions/rename_series/actions.c:37
+#: ../extensions/rename_series/dlg-rename-series.c:471
 #: ../gthumb/gth-overwrite-dialog.c:162
 msgid "Cannot read file information"
 msgstr "No se puede leer la información del archivo"
@@ -1798,7 +1792,7 @@ msgstr "Archivo subido satisfactoriamente al servidor."
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1832
+#: ../extensions/webalbums/gth-web-exporter.c:1833
 msgid "_Open in the Browser"
 msgstr "Abrir en el na_vegador"
 
@@ -1860,7 +1854,7 @@ msgstr "No se pudieron exportar los archivos"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:618
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1004
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:785
-#: ../gthumb/gth-browser.c:966
+#: ../gthumb/gth-browser.c:984
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2189,7 +2183,7 @@ msgstr "A_brir con el gestor de archivos"
 
 #: ../extensions/file_manager/callbacks.c:190
 #: ../extensions/rename_series/callbacks.c:47
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Rename"
 msgstr "_Renombrar"
 
@@ -2215,7 +2209,7 @@ msgstr "Mover los archivos seleccionados a otra carpeta"
 
 #: ../extensions/file_manager/callbacks.c:900
 #: ../extensions/find_duplicates/gth-find-duplicates.c:355
-#: ../gthumb/gth-browser.c:4730 ../gthumb/gth-browser.c:4767
+#: ../gthumb/gth-browser.c:4802 ../gthumb/gth-browser.c:4839
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2282,30 +2276,39 @@ msgid "C_rop"
 msgstr "Recor_tar"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#| msgid "Centered"
+msgid "Center"
+msgstr "Centrar"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "I_nvertir la proporción de la imagen"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 msgid "M_ultiple of:"
 msgstr "_Múltiple de:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+msgid "Maximize"
+msgstr "Maximizar"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Selección"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
 msgid "_Grid:"
 msgstr "_Rejilla:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
 msgid "_Position:"
 msgstr "_Posición:"
 
 #. abbreviation of pixel
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
 msgid "px"
 msgstr "px"
 
@@ -2349,7 +2352,7 @@ msgid "Scale factor:"
 msgstr "Factor de escala:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 msgid "_Width:"
 msgstr "A_ncho:"
 
@@ -2371,98 +2374,99 @@ msgstr "Herramientas de imagen"
 msgid "Applying changes"
 msgstr "Aplicando cambios"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:519
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:479
 msgid "Adjust Colors..."
 msgstr "Ajustar colores…"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:519
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:479
 msgid "Adjust Colors"
 msgstr "Ajustar colores"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:520
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:480
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:399
+#: ../extensions/file_tools/gth-file-tool-crop.c:422
 #: ../extensions/file_tools/gth-file-tool-resize.c:422
 msgid "Square"
 msgstr "Cuadrado"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:400
+#: ../extensions/file_tools/gth-file-tool-crop.c:423
 #: ../extensions/file_tools/gth-file-tool-resize.c:423
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Imagen)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:403
+#: ../extensions/file_tools/gth-file-tool-crop.c:426
 #: ../extensions/file_tools/gth-file-tool-resize.c:426
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Pantalla)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:407
+#: ../extensions/file_tools/gth-file-tool-crop.c:430
 #: ../extensions/file_tools/gth-file-tool-resize.c:430
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:408
+#: ../extensions/file_tools/gth-file-tool-crop.c:431
 #: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, libro)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:409
+#: ../extensions/file_tools/gth-file-tool-crop.c:432
 #: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:410
+#: ../extensions/file_tools/gth-file-tool-crop.c:433
 #: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Postal)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:411
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
 #: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:412
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
 #: ../extensions/file_tools/gth-file-tool-resize.c:435
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:413
+#: ../extensions/file_tools/gth-file-tool-crop.c:436
 #: ../extensions/file_tools/gth-file-tool-resize.c:436
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:414
+#: ../extensions/file_tools/gth-file-tool-crop.c:437
 #: ../extensions/file_tools/gth-file-tool-resize.c:437
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:415
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
 #: ../extensions/file_tools/gth-file-tool-resize.c:438
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/rename_series/gth-template-selector.c:260
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:426
+#: ../extensions/file_tools/gth-file-tool-crop.c:449
 msgid "Rule of Thirds"
 msgstr "Regla de los tercios"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:427
+#: ../extensions/file_tools/gth-file-tool-crop.c:450
 msgid "Golden Sections"
 msgstr "Secciones doradas"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:428
+#: ../extensions/file_tools/gth-file-tool-crop.c:451
 msgid "Center Lines"
 msgstr "Centrar líneas"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:557
+#: ../extensions/file_tools/gth-file-tool-crop.c:594
 msgid "Crop..."
 msgstr "Recortar…"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:557
+#: ../extensions/file_tools/gth-file-tool-crop.c:594
 msgid "Crop"
 msgstr "Recortar"
 
@@ -2587,7 +2591,7 @@ msgid "Find Duplicates"
 msgstr "Buscar duplicados"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "Iniciar _en:"
@@ -2616,6 +2620,7 @@ msgid "Searching for duplicates"
 msgstr "Buscando duplicados"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:325
+#: ../gthumb/gth-load-file-data-task.c:106
 #, c-format
 msgid "%d file remaining"
 msgid_plural "%d files remaining"
@@ -2626,7 +2631,7 @@ msgstr[1] "%d archivos restantes"
 msgid "Getting the file list"
 msgstr "Obteniendo la lista de archivos"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:590
+#: ../extensions/find_duplicates/gth-find-duplicates.c:600
 msgid "Duplicates"
 msgstr "Duplicados"
 
@@ -2722,7 +2727,7 @@ msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
 #: ../extensions/image_viewer/gth-image-viewer-page.c:986
-#: ../gthumb/gth-browser.c:1896
+#: ../gthumb/gth-browser.c:1923
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2868,7 +2873,7 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1182
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:77
 #: ../extensions/webalbums/dlg-web-exporter.c:432
-#: ../extensions/webalbums/gth-web-exporter.c:2437
+#: ../extensions/webalbums/gth-web-exporter.c:2438
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -2979,7 +2984,7 @@ msgid "Loading \"%s\""
 msgstr "Cargando «%s»"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:161
-#: ../extensions/webalbums/gth-web-exporter.c:2686
+#: ../extensions/webalbums/gth-web-exporter.c:2687
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -3070,8 +3075,8 @@ msgid ""
 "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 msgstr ""
-"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
-"if-larger», «fit-width», «fit-width-if-larger»."
+"Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-if-"
+"larger», «fit-width», «fit-width-if-larger»."
 
 #: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
 msgid "Whether to resize the window to fit the size of the image"
@@ -3602,7 +3607,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:1836
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -3844,6 +3849,26 @@ msgstr ""
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
 msgstr "Los valores posibles son: 0 (ninguno), 1 (inferior), 2 (superior)"
 
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:1
+#| msgid "gtk-add"
+msgid "add"
+msgstr "añadir"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
+#| msgid "Edit"
+msgid "digits"
+msgstr "dígitos"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
+#| msgid "Format"
+msgid "format:"
+msgstr "formato:"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+#| msgid "Rem_ove"
+msgid "remove"
+msgstr "quitar"
+
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #, no-c-format
@@ -3861,63 +3886,113 @@ msgstr "%M{ formato }"
 msgid "Cas_e:"
 msgstr "Capi_talización:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
+#| msgid "Edit Filter"
+msgid "Edit template"
+msgstr "Editar plantilla"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 msgid "Re_verse Order"
 msgstr "Orden in_verso"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
 msgid "Rename"
 msgstr "Renombrar"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
 msgid "The digitalization date"
 msgstr "La fecha de la digitalización"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The modification date"
 msgstr "La fecha de modificación"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
 msgid "The original enumerator"
 msgstr "El enumerador original"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
 msgid "The original extension"
 msgstr "La extensión original"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 msgid "The original filename"
 msgstr "El nombre original del archivo"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "_Preview:"
 msgstr "_Vista previa:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
 msgid "_Template:"
 msgstr "Plan_tilla:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:380
+#: ../extensions/rename_series/dlg-rename-series.c:64
+#| msgid "New enumerator digit"
+msgid "Enumerator"
+msgstr "Enumerador"
+
+#: ../extensions/rename_series/dlg-rename-series.c:65
+#| msgid "The original filename"
+msgid "Original filename"
+msgstr "Nombre original del archivo"
+
+#: ../extensions/rename_series/dlg-rename-series.c:66
+#| msgid "The original extension"
+msgid "Original extension"
+msgstr "Extensión original"
+
+#: ../extensions/rename_series/dlg-rename-series.c:67
+#| msgid "The original enumerator"
+msgid "Original enumerator"
+msgstr "Enumerador original"
+
+#: ../extensions/rename_series/dlg-rename-series.c:68
+#| msgid "The modification date"
+msgid "Modification date"
+msgstr "Fecha de modificación"
+
+#: ../extensions/rename_series/dlg-rename-series.c:69
+#| msgid "The digitalization date"
+msgid "Digitalization date"
+msgstr "Fecha de la digitalización"
+
+#: ../extensions/rename_series/dlg-rename-series.c:70
+#| msgid "A file attribute"
+msgid "File attribute"
+msgstr "Atributo del archivo"
+
+#: ../extensions/rename_series/dlg-rename-series.c:607
 msgid "Could not rename the files"
 msgstr "No se pudieron renombrar los archivos"
 
-#: ../extensions/rename_series/dlg-rename-series.c:469
+#: ../extensions/rename_series/dlg-rename-series.c:691
+#| msgid "Could not save the theme"
+msgid "Could not save the template"
+msgstr "No se pudo guardar la plantilla"
+
+#: ../extensions/rename_series/dlg-rename-series.c:708
+#| msgid "_Template:"
+msgid "Edit Template"
+msgstr "Editar plantilla"
+
+#: ../extensions/rename_series/dlg-rename-series.c:764
 msgid "Old Name"
 msgstr "Nombre antiguo"
 
-#: ../extensions/rename_series/dlg-rename-series.c:477
+#: ../extensions/rename_series/dlg-rename-series.c:775
 msgid "New Name"
 msgstr "Nombre nuevo"
 
-#: ../extensions/rename_series/dlg-rename-series.c:554
+#: ../extensions/rename_series/dlg-rename-series.c:850
 msgid "Keep original case"
 msgstr "Mantener la capitalización original"
 
-#: ../extensions/rename_series/dlg-rename-series.c:555
+#: ../extensions/rename_series/dlg-rename-series.c:851
 msgid "Convert to lower-case"
 msgstr "Convertir a minúsculas"
 
-#: ../extensions/rename_series/dlg-rename-series.c:556
+#: ../extensions/rename_series/dlg-rename-series.c:852
 msgid "Convert to upper-case"
 msgstr "Convertir a mayúsculas"
 
@@ -3946,28 +4021,38 @@ msgid "Possible values: pixels, percentage"
 msgstr "Valores posibles: «pixels», «percentage»."
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+#: ../gthumb/gth-main-default-metadata.c:49
+msgid "Format"
+msgstr "Formato"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "New dimensions"
 msgstr "Dimensiones nuevas"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 msgid "Resize Images"
 msgstr "Redimensionar imágenes"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "_Height:"
 msgstr "A_ltura:"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 msgid "_Preserve original aspect ratios"
 msgstr "Man_tener la proporción de aspecto original"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
 msgid "pixel"
 msgstr "píxel"
 
-#: ../extensions/resize_images/dlg-resize-images.c:140
+#: ../extensions/resize_images/dlg-resize-images.c:155
 msgid "Resizing images"
 msgstr "Redimensionando imágenes"
+
+#: ../extensions/resize_images/dlg-resize-images.c:268
+#| msgid "Keep original case"
+msgid "Keep the original format"
+msgstr "Mantener el formato original"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:1
 msgid "Resize images"
@@ -4257,37 +4342,37 @@ msgstr "Red_imensionar si son más grandes que:"
 msgid "Could not show the destination"
 msgstr "No se pudo mostrar el destino"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1829
+#: ../extensions/webalbums/gth-web-exporter.c:1830
 msgid "The album has been created successfully."
 msgstr "El álbum se creó correctamente."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2097
-#: ../extensions/webalbums/gth-web-exporter.c:2124
+#: ../extensions/webalbums/gth-web-exporter.c:2098
+#: ../extensions/webalbums/gth-web-exporter.c:2125
 msgid "Saving thumbnails"
 msgstr "Guardando las miniaturas"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2152
+#: ../extensions/webalbums/gth-web-exporter.c:2153
 msgid "Saving HTML pages: Images"
 msgstr "Guardando las páginas HTML: Imágenes"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2210
+#: ../extensions/webalbums/gth-web-exporter.c:2211
 msgid "Saving HTML pages: Indexes"
 msgstr "Guardando las páginas HTML: Índices"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2330
-#: ../extensions/webalbums/gth-web-exporter.c:2414
+#: ../extensions/webalbums/gth-web-exporter.c:2331
+#: ../extensions/webalbums/gth-web-exporter.c:2415
 msgid "Saving images"
 msgstr "Guardando las imágenes"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2493
+#: ../extensions/webalbums/gth-web-exporter.c:2494
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2929
+#: ../extensions/webalbums/gth-web-exporter.c:2930
 msgid "Could not find the style folder"
 msgstr "No se pudo encontrar la carpeta de estilos"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2962
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not create a temporary folder"
 msgstr "No se pudo crear una carpeta temporal"
 
@@ -4411,12 +4496,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para "
-"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
+"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4609,19 +4694,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3447
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3514
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3468
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3535
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3489
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3556
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:660
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:661
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -4717,75 +4802,75 @@ msgstr "Editar"
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: ../gthumb/gth-browser.c:359
+#: ../gthumb/gth-browser.c:360
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../gthumb/gth-browser.c:499
+#: ../gthumb/gth-browser.c:500
 msgid "[modified]"
 msgstr "[modificada]"
 
 #. manually set name and icon
-#: ../gthumb/gth-browser.c:503 ../gthumb/gth-main.c:269
+#: ../gthumb/gth-browser.c:504 ../gthumb/gth-main.c:269
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:967
+#: ../gthumb/gth-browser.c:985
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
-#: ../gthumb/gth-browser.c:1148 ../gthumb/gth-browser.c:1700
-#: ../gthumb/gth-browser.c:5580 ../gthumb/gth-browser.c:5599
-#: ../gthumb/gth-browser.c:5624
+#: ../gthumb/gth-browser.c:1166 ../gthumb/gth-browser.c:1725
+#: ../gthumb/gth-browser.c:5637 ../gthumb/gth-browser.c:5656
+#: ../gthumb/gth-browser.c:5681
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1793 ../gthumb/gth-browser.c:1820
+#: ../gthumb/gth-browser.c:1820 ../gthumb/gth-browser.c:1847
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1940
+#: ../gthumb/gth-browser.c:1967
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1945
+#: ../gthumb/gth-browser.c:1972
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1946
+#: ../gthumb/gth-browser.c:1973
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2713 ../gthumb/gth-browser.c:2735
+#: ../gthumb/gth-browser.c:2757 ../gthumb/gth-browser.c:2779
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3132 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3194 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3448 ../gthumb/gth-browser.c:3469
+#: ../gthumb/gth-browser.c:3515 ../gthumb/gth-browser.c:3536
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3490
+#: ../gthumb/gth-browser.c:3557
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5581
+#: ../gthumb/gth-browser.c:5638
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5625
+#: ../gthumb/gth-browser.c:5682
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4800,11 +4885,11 @@ msgstr "No se pudo abrir el módulo «%s»: %s"
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "La extensión «%2$s» requiere la extensión «%1$s»"
 
-#: ../gthumb/gth-file-source-vfs.c:82
+#: ../gthumb/gth-file-source-vfs.c:73
 msgid "Home Folder"
 msgstr "Carpeta personal"
 
-#: ../gthumb/gth-file-source-vfs.c:89
+#: ../gthumb/gth-file-source-vfs.c:113
 msgid "File System"
 msgstr "Sistema de archivos"
 
@@ -4889,6 +4974,11 @@ msgstr "Alfa"
 msgid "RGB"
 msgstr "RGB"
 
+#: ../gthumb/gth-load-file-data-task.c:108
+#| msgid "Getting file information"
+msgid "Reading file information"
+msgstr "Leyendo la información del archivo"
+
 #: ../gthumb/gth-main.c:228
 #, c-format
 msgid "Unable to show '%s'"
@@ -4923,10 +5013,6 @@ msgstr "Nombre completo"
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Duration"
 msgstr "Duración"
-
-#: ../gthumb/gth-main-default-metadata.c:49
-msgid "Format"
-msgstr "Formato"
 
 #: ../gthumb/gth-main-default-sort-types.c:131
 msgid "file name"
@@ -4980,7 +5066,7 @@ msgstr "No se pudo renombrar el archivo"
 msgid "No options available for this file type"
 msgstr "No hay opciones disponibles para este tipo de archivo"
 
-#: ../gthumb/gth-progress-dialog.c:140
+#: ../gthumb/gth-progress-dialog.c:142
 msgid "Cancel operation"
 msgstr "Cancelar operación"
 
@@ -5122,27 +5208,27 @@ msgstr "Ahora"
 msgid "Close this window"
 msgstr "Cerrar esta ventana"
 
-#: ../gthumb/gtk-utils.c:830
+#: ../gthumb/gtk-utils.c:828
 msgid "Could not display help"
 msgstr "No se pudo mostrar la ayuda"
 
-#: ../gthumb/gtk-utils.c:1117 ../gthumb/gtk-utils.c:1125
+#: ../gthumb/gtk-utils.c:1115 ../gthumb/gtk-utils.c:1123
 msgid "Could not launch the application"
 msgstr "No se pudo lanzar la aplicación"
 
-#: ../gthumb/gtk-utils.c:1227
+#: ../gthumb/gtk-utils.c:1225
 msgid "_Copy Here"
 msgstr "_Copiar aquí"
 
-#: ../gthumb/gtk-utils.c:1232
+#: ../gthumb/gtk-utils.c:1230
 msgid "_Move Here"
 msgstr "_Mover aquí"
 
-#: ../gthumb/gtk-utils.c:1237
+#: ../gthumb/gtk-utils.c:1235
 msgid "_Link Here"
 msgstr "En_lazar aquí"
 
-#: ../gthumb/gtk-utils.c:1246
+#: ../gthumb/gtk-utils.c:1244
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -5176,6 +5262,12 @@ msgstr "- Explorador de imágenes y visor"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
+
+#~ msgid "Available _extensions:"
+#~ msgstr "E_xtensiones disponibles:"
+
+#~ msgid "_Categories:"
+#~ msgstr "Ca_tegorías:"
 
 #, fuzzy
 #~| msgid "Shadow only"
@@ -5241,9 +5333,6 @@ msgstr ""
 
 #~ msgid "gtk-remove"
 #~ msgstr "gtk-remove"
-
-#~ msgid "gtk-add"
-#~ msgstr "gtk-add"
 
 #~ msgid "gtk-cancel"
 #~ msgstr "gtk-cancel"
@@ -5399,8 +5488,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
-#~ "</small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+#~ "small>"
 
 #~ msgid "Delete selected images from the camera"
 #~ msgstr "Borrar las imágenes seleccionadas de la cámara"
@@ -6057,8 +6146,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts "
-#~ "0-9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts 0-"
+#~ "9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -6243,8 +6332,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
-#~ "«exifdate», «comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
+#~ "«comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -6257,8 +6346,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
-#~ "«4x6», «5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
+#~ "«5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: skip, rename, ask, overwrite."
 #~ msgstr "Los valores posibles son: «skip», «rename», «ask», «overwrite»."
@@ -6410,8 +6499,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
+#~ "diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6453,8 +6542,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
+#~ "diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
@@ -6587,9 +6676,6 @@ msgstr ""
 
 #~ msgid "Rename selected catalog"
 #~ msgstr "Renombrar el catálogo seleccionado"
-
-#~ msgid "Rem_ove"
-#~ msgstr "Elim_inar"
 
 #~ msgid "Remove selected catalog"
 #~ msgstr "Eliminar el catálogo seleccionado"
