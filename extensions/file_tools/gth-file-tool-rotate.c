@@ -108,12 +108,51 @@ ok_button_clicked_cb (GtkButton *button,
 
 
 static void
+rotator_center_changed_cb (GObject  *gobject,
+			   gpointer  user_data)
+{
+	GthFileToolRotate *self = user_data;
+	int                x, y;
+	double             dx, dy;
+
+	g_signal_handlers_block_by_data (GET_WIDGET ("center_x_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("center_y_spinbutton"), self);
+
+	gth_image_rotator_get_center (self->priv->rotator, &x, &y);
+	if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
+		dx = ((double) x / self->priv->pixbuf_width) * 100.0;
+		dy = ((double) y / self->priv->pixbuf_height) * 100.0;
+	}
+	else {
+		dx = x;
+		dy = y;
+	}
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")), dx);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")), dy);
+
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("center_x_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("center_y_spinbutton"), self);
+}
+
+
+static void
 center_position_changed_cb (GtkSpinButton *spinbutton,
 			    gpointer       user_data)
 {
-	/*GthFileToolRotate *self = user_data;
+	GthFileToolRotate *self = user_data;
+	double             x, y;
 
-	FIXME */
+	g_signal_handlers_block_by_data (self->priv->rotator, user_data);
+
+	x = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")));
+	y = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")));
+	if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
+		x = round ((double) self->priv->pixbuf_width * (x / 100.0));
+		y = round ((double) self->priv->pixbuf_height * (y / 100.0));
+	}
+	gth_image_rotator_set_center (self->priv->rotator, x, y);
+
+	g_signal_handlers_unblock_by_data (self->priv->rotator, user_data);
 }
 
 
@@ -121,35 +160,41 @@ static void
 unit_combobox_changed_cb (GtkComboBox *combobox,
 			  gpointer     user_data)
 {
-	/* FIXME GthFileToolRotate *self = user_data;
+	GthFileToolRotate *self = user_data;
 
-	g_signal_handlers_block_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
-	g_signal_handlers_block_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("center_x_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("center_y_spinbutton"), self);
 
 	self->priv->unit = gtk_combo_box_get_active (combobox);
 	if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
 		double p;
 
-		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 2);
-		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 2);
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")), 2);
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")), 2);
 
-		p = ((double) self->priv->new_width) / self->priv->pixbuf_width * 100.0;
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), p);
-		p = ((double) self->priv->new_height) / self->priv->pixbuf_height * 100.0;
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), p);
+		p = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton"))) / self->priv->pixbuf_width * 100.0;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")), p);
+
+		p = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton"))) / self->priv->pixbuf_height * 100.0;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")), p);
 	}
 	else if (self->priv->unit == GTH_UNIT_PIXELS) {
-		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 0);
-		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 0);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), self->priv->new_width);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), self->priv->new_height);
+		double p;
+
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")), 0);
+		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")), 0);
+
+		p = round (self->priv->pixbuf_width * (gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton"))) / 100.0));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_x_spinbutton")), p);
+
+		p = round (self->priv->pixbuf_height * (gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton"))) / 100.0));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("center_y_spinbutton")), p);
 	}
 
-	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
-	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("center_x_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("center_y_spinbutton"), self);
 
-	selection_width_value_changed_cb (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), self);
-	*/
+	center_position_changed_cb (NULL, self);
 }
 
 
@@ -293,6 +338,18 @@ background_colorbutton_notify_color_cb (GObject    *gobject,
 }
 
 
+static void
+center_button_clicked_cb (GtkButton *button,
+			  gpointer    user_data)
+{
+	GthFileToolRotate *self = user_data;
+
+	gth_image_rotator_set_center (self->priv->rotator,
+				      self->priv->pixbuf_width * 0.5,
+				      self->priv->pixbuf_height * 0.5);
+}
+
+
 static GtkWidget *
 gth_file_tool_rotate_get_options (GthFileTool *base)
 {
@@ -355,13 +412,13 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	self->priv->angle_adj = gimp_scale_entry_new (GET_WIDGET ("angle_box"),
 						      NULL,
-						      0.0, -180.0, 180.0, 5.0, 10.0, 0);
+						      0.0, -180.0, 180.0, 1.0, 10.0, 2);
 	self->priv->small_angle_adj = gimp_scale_entry_new (GET_WIDGET ("small_angle_box"),
 							    NULL,
 							    0.0, -5.0, 5.0, 0.01, 0.1, 2);
 	self->priv->grid_adj = gimp_scale_entry_new (GET_WIDGET ("grid_box"),
 						     NULL,
-						     DEFAULT_GRID, 1.0, 50.0, 1.0, 10.0, 0);
+						     DEFAULT_GRID, 2.0, 50.0, 1.0, 10.0, 0);
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
@@ -411,17 +468,22 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "notify::color",
 			  G_CALLBACK (background_colorbutton_notify_color_cb),
 			  self);
-
+	g_signal_connect (GET_WIDGET ("center_button"),
+			  "clicked",
+			  G_CALLBACK (center_button_clicked_cb),
+			  self);
 
 	self->priv->rotator = (GthImageRotator *) gth_image_rotator_new (GTH_IMAGE_VIEWER (viewer));
 	gth_image_rotator_set_grid (self->priv->rotator, FALSE, DEFAULT_GRID);
 	_gth_file_tool_rotate (self, 0.0);
+	gth_image_rotator_set_center (self->priv->rotator,
+				      self->priv->pixbuf_width * 0.5,
+				      self->priv->pixbuf_height * 0.5);
 
-	/*g_signal_connect (self->priv->rotator,
-			  "changed",
-			  G_CALLBACK (rotator_changed_cb),
+	g_signal_connect (self->priv->rotator,
+			  "center-changed",
+			  G_CALLBACK (rotator_center_changed_cb),
 			  self);
-	 */
 
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->rotator);
 
@@ -479,7 +541,7 @@ gth_file_tool_rotate_instance_init (GthFileToolRotate *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
 	self->priv->tmp_pixbuf = NULL;
-	self->priv->step = 5.0;
+	self->priv->step = 0.0; /* FIXME */
 	self->priv->use_grid = TRUE;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
 }

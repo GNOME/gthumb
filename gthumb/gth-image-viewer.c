@@ -916,14 +916,14 @@ gth_image_viewer_button_press (GtkWidget      *widget,
 	    || (event->type == GDK_3BUTTON_PRESS))
 	{
 		self->priv->double_click = TRUE;
-		return FALSE;
+		/*return FALSE;*/
 	}
 	else
 		self->priv->double_click = FALSE;
 
 	retval = gth_image_viewer_tool_button_press (self->priv->tool, event);
 
-	if (self->pressed) {
+	if (self->pressed && ! self->priv->double_click) {
 		self->event_x_start = self->event_x_prev = event->x;
 		self->event_y_start = self->event_y_prev = event->y;
 		self->drag_x = self->drag_x_start = self->drag_x_prev = event->x + self->x_offset;

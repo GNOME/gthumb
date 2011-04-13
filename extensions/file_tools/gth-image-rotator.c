@@ -27,6 +27,7 @@
 
 enum {
 	CHANGED,
+	CENTER_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -51,10 +52,11 @@ struct _GthImageRotatorPrivate {
 
 	int                 original_width;
 	int                 original_height;
-	cairo_surface_t    *image;
-	GdkRectangle        image_area;
+	double              preview_zoom;
+	cairo_surface_t    *preview_image;
+	GdkRectangle        preview_image_area;
+	GdkPoint            preview_center;
 	GdkRectangle        clip_area;
-	gboolean            paint_image;
 	cairo_matrix_t      matrix;
 };
 
@@ -79,8 +81,11 @@ _gth_image_rotator_update_tranformation_matrix (GthImageRotator *self)
 	int    tx, ty;
 	double zoom;
 
-	tx = self->priv->image_area.x + self->priv->center.x;
-	ty = self->priv->image_area.y + self->priv->center.y;
+	self->priv->preview_center.x = self->priv->center.x * self->priv->preview_zoom;
+	self->priv->preview_center.y = self->priv->center.y * self->priv->preview_zoom;
+
+	tx = self->priv->preview_image_area.x + self->priv->preview_center.x;
+	ty = self->priv->preview_image_area.y + self->priv->preview_center.y;
 	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
 
 	cairo_matrix_init_identity (&self->priv->matrix);
@@ -90,7 +95,7 @@ _gth_image_rotator_update_tranformation_matrix (GthImageRotator *self)
 
 	gth_transform_resize (&self->priv->matrix,
 			      self->priv->resize,
-			      &self->priv->image_area,
+			      &self->priv->preview_image_area,
 			      &self->priv->clip_area);
 }
 
@@ -103,19 +108,16 @@ update_image_surface (GthImageRotator *self)
 	int            max_size;
 	int            width;
 	int            height;
-	double         zoom;
 	GdkPixbuf     *tmp_pixbuf;
 
-	if (self->priv->image != NULL) {
-		cairo_surface_destroy (self->priv->image);
-		self->priv->image = NULL;
+	if (self->priv->preview_image != NULL) {
+		cairo_surface_destroy (self->priv->preview_image);
+		self->priv->preview_image = NULL;
 	}
 
 	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
 	if (src_pixbuf == NULL)
 		return;
-
-	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
 
 	self->priv->original_width = gdk_pixbuf_get_width (src_pixbuf);
 	self->priv->original_height = gdk_pixbuf_get_height (src_pixbuf);
@@ -127,14 +129,14 @@ update_image_surface (GthImageRotator *self)
 		tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (src_pixbuf, width, height, GDK_INTERP_BILINEAR);
 	else
 		tmp_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	self->priv->image = _cairo_image_surface_create_from_pixbuf (tmp_pixbuf);
-	self->priv->image_area.width = width;
-	self->priv->image_area.height = height;
-	self->priv->image_area.x = MAX ((allocation.width - self->priv->image_area.width) / 2, 0);
-	self->priv->image_area.y = MAX ((allocation.height - self->priv->image_area.height) / 2, 0);
 
-	self->priv->center.x = self->priv->image_area.width * 0.5;
-	self->priv->center.y = self->priv->image_area.height * 0.5;
+	self->priv->preview_zoom = (double) width / self->priv->original_width;
+
+	self->priv->preview_image = _cairo_image_surface_create_from_pixbuf (tmp_pixbuf);
+	self->priv->preview_image_area.width = width;
+	self->priv->preview_image_area.height = height;
+	self->priv->preview_image_area.x = MAX ((allocation.width - self->priv->preview_image_area.width) / 2, 0);
+	self->priv->preview_image_area.y = MAX ((allocation.height - self->priv->preview_image_area.height) / 2, 0);
 
 	_gth_image_rotator_update_tranformation_matrix (self);
 
@@ -166,21 +168,21 @@ gth_image_rotator_unmap (GthImageViewerTool *base)
 
 static void
 paint_image (GthImageRotator *self,
-	     GdkEventExpose  *event,
 	     cairo_t         *cr)
 {
 	cairo_save (cr);
 
+	cairo_set_matrix (cr, &self->priv->matrix);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-	cairo_set_source_surface (cr, self->priv->image,
-				  self->priv->image_area.x,
-				  self->priv->image_area.y);
+	cairo_set_source_surface (cr, self->priv->preview_image,
+				  self->priv->preview_image_area.x,
+				  self->priv->preview_image_area.y);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
   	cairo_rectangle (cr,
-  			 self->priv->image_area.x,
-  			 self->priv->image_area.y,
-  			 self->priv->image_area.width,
-  			 self->priv->image_area.height);
+  			 self->priv->preview_image_area.x,
+  			 self->priv->preview_image_area.y,
+  			 self->priv->preview_image_area.width,
+  			 self->priv->preview_image_area.height);
   	cairo_fill (cr);
 
   	cairo_restore (cr);
@@ -256,8 +258,8 @@ paint_center (GthImageRotator *self,
   	/* rotation center */
 
 	cairo_translate (cr,
-			 self->priv->image_area.x + self->priv->center.x + 0.5,
-			 self->priv->image_area.y + self->priv->center.y + 0.5);
+			 self->priv->preview_image_area.x + self->priv->preview_center.x + 0.5,
+			 self->priv->preview_image_area.y + self->priv->preview_center.y + 0.5);
 	cairo_arc (cr, 0.0, 0.0, 10.0, 0.0, 2 * M_PI);
 
 	cairo_move_to (cr, 0.0, - 10.0);
@@ -278,9 +280,8 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
 	GtkStyle        *style;
 	GtkAllocation    allocation;
-	cairo_matrix_t   matrix;
 
-	if (self->priv->image == NULL)
+	if (self->priv->preview_image == NULL)
 		return;
 
 	cairo_save (cr);
@@ -317,21 +318,13 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 
   	/* image */
 
-  	matrix = self->priv->matrix;
-	cairo_set_matrix (cr, &matrix);
-
-	if (self->priv->paint_image)
-		paint_image (self, event, cr);
+	paint_image (self, cr);
 
 	/* grid */
 
-	cairo_matrix_init_identity (&matrix);
-	cairo_set_matrix (cr, &matrix);
-
 	if (self->priv->paint_grid)
 		paint_grid (self, event, cr);
-
-	/* paint_center (self, event, cr); FIXME */
+	paint_center (self, event, cr);
 
 	cairo_restore (cr);
 }
@@ -351,7 +344,15 @@ static gboolean
 gth_image_rotator_button_press (GthImageViewerTool *base,
 				GdkEventButton     *event)
 {
-	/* FIXME */
+	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+
+	if (event->type == GDK_2BUTTON_PRESS) {
+		double x, y;
+
+		x = (event->x - self->priv->preview_image_area.x) / self->priv->preview_zoom;
+		y = (event->y - self->priv->preview_image_area.y) / self->priv->preview_zoom;
+		gth_image_rotator_set_center (self, (int) x, (int) y);
+	}
 
 	return FALSE;
 }
@@ -385,8 +386,7 @@ static void
 gth_image_rotator_instance_init (GthImageRotator *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_ROTATOR, GthImageRotatorPrivate);
-	self->priv->image = NULL;
-	self->priv->paint_image = TRUE;
+	self->priv->preview_image = NULL;
 	self->priv->paint_grid = FALSE;
 	self->priv->grid_lines = 0;
 	self->priv->resize = GTH_TRANSFORM_RESIZE_CLIP;
@@ -406,8 +406,8 @@ gth_image_rotator_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_IMAGE_ROTATOR (object));
 
 	self = (GthImageRotator *) object;
-	if (self->priv->image != NULL)
-		cairo_surface_destroy (self->priv->image);
+	if (self->priv->preview_image != NULL)
+		cairo_surface_destroy (self->priv->preview_image);
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -433,6 +433,14 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 					 g_cclosure_marshal_VOID__VOID,
 					 G_TYPE_NONE,
 					 0);
+	signals[CENTER_CHANGED] = g_signal_new ("center-changed",
+					 	G_TYPE_FROM_CLASS (class),
+					 	G_SIGNAL_RUN_LAST,
+					 	G_STRUCT_OFFSET (GthImageRotatorClass, center_changed),
+					 	NULL, NULL,
+					 	g_cclosure_marshal_VOID__VOID,
+					 	G_TYPE_NONE,
+					 	0);
 }
 
 
@@ -510,7 +518,17 @@ gth_image_rotator_set_center (GthImageRotator *self,
 	_gth_image_rotator_update_tranformation_matrix (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
-	g_signal_emit (self, signals[CHANGED], 0);
+	g_signal_emit (self, signals[CENTER_CHANGED], 0);
+}
+
+
+void
+gth_image_rotator_get_center (GthImageRotator *self,
+			      int             *x,
+			      int             *y)
+{
+	*x = self->priv->center.x;
+	*y = self->priv->center.y;
 }
 
 
@@ -583,8 +601,8 @@ gth_image_rotator_get_result (GthImageRotator *self)
 
 	/* compute the transformation matrix and the clip area */
 
-	tx = self->priv->original_width * 0.5;
-	ty = self->priv->original_height * 0.5;
+	tx = self->priv->center.x;
+	ty = self->priv->center.y;
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_translate (&matrix, tx, ty);
 	cairo_matrix_rotate (&matrix, self->priv->angle);
