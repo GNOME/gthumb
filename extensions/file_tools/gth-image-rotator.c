@@ -551,5 +551,63 @@ gth_image_rotator_set_resize (GthImageRotator    *self,
 GdkPixbuf *
 gth_image_rotator_get_result (GthImageRotator *self)
 {
-	return NULL;
+	cairo_surface_t *input;
+	double           tx, ty;
+	cairo_matrix_t   matrix;
+	GdkRectangle     image_area;
+	GdkRectangle     clip_area;
+	cairo_surface_t *output;
+	cairo_t         *cr;
+	GdkPixbuf       *pixbuf;
+
+	input = _cairo_image_surface_create_from_pixbuf (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)));
+
+	/* compute the transformation matrix and the clip area */
+
+	tx = self->priv->original_width / 2.0; /* FIXME */
+	ty = self->priv->original_height / 2.0;
+	cairo_matrix_init_identity (&matrix);
+	cairo_matrix_translate (&matrix, tx, ty);
+	cairo_matrix_rotate (&matrix, self->priv->angle);
+	cairo_matrix_translate (&matrix, -tx, -ty);
+
+	image_area.x = 0.0;
+	image_area.y = 0.0;
+	image_area.width = self->priv->original_width;
+	image_area.height = self->priv->original_height;
+
+	gth_transform_resize (&matrix,
+			      self->priv->resize,
+			      &image_area,
+			      &clip_area);
+
+	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, clip_area.width, clip_area.height);
+
+	/* set the device offset to make the clip area start from the top left
+	 * corner of the output image */
+
+	cairo_surface_set_device_offset (output, -clip_area.x, -clip_area.y);
+	cr = cairo_create (output);
+
+	/* paint the background */
+
+  	cairo_rectangle (cr, clip_area.x, clip_area.y, clip_area.width, clip_area.height);
+  	cairo_clip_preserve (cr);
+  	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0); /* FIXME: use the background color */
+  	cairo_fill (cr);
+
+  	/* paint the rotated image */
+
+	cairo_set_matrix (cr, &matrix);
+	cairo_set_source_surface (cr, input, image_area.x, image_area.y);
+  	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
+  	cairo_fill (cr);
+
+	pixbuf = _gdk_pixbuf_new_from_cairo_surface (cr);
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (output);
+	cairo_surface_destroy (input);
+
+	return pixbuf;
 }
