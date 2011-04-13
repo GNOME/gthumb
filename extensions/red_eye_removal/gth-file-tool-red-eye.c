@@ -39,6 +39,8 @@ struct _GthFileToolRedEyePrivate {
 	GdkPixbuf        *src_pixbuf;
 	GtkBuilder       *builder;
 	GthImageSelector *selector;
+	GthZoomChange     original_zoom_change;
+	GdkPixbuf        *new_pixbuf;
 	char             *is_red;
 };
 
@@ -59,9 +61,40 @@ gth_file_tool_red_eye_update_sensitivity (GthFileTool *base)
 
 
 static void
+ok_button_clicked_cb (GtkButton         *button,
+		      GthFileToolRedEye *self)
+{
+	GtkWidget *window;
+	GtkWidget *viewer_page;
+	GtkWidget *viewer;
+
+	if (self->priv->new_pixbuf == NULL)
+		return;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (viewer), self->priv->original_zoom_change);
+	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_pixbuf, TRUE);
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+}
+
+
+static void
 cancel_button_clicked_cb (GtkButton         *button,
 			  GthFileToolRedEye *self)
 {
+	GtkWidget *window;
+	GtkWidget *viewer_page;
+	GtkWidget *viewer;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (viewer), self->priv->original_zoom_change);
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
@@ -328,21 +361,15 @@ selector_selected_cb (GthImageSelector  *selector,
 {
 	GtkWidget *window;
 	GtkWidget *viewer_page;
-	GdkPixbuf *old_pixbuf;
-	GdkPixbuf *new_pixbuf;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
-	old_pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	new_pixbuf = gdk_pixbuf_copy (old_pixbuf);
-	init_is_red (self, new_pixbuf);
-	if (fix_redeye (new_pixbuf, self->priv->is_red, x, y)) {
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);
-		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-	}
-
-	g_object_unref (new_pixbuf);
+	_g_object_unref (self->priv->new_pixbuf);
+	self->priv->new_pixbuf = gdk_pixbuf_copy (gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+	init_is_red (self, self->priv->new_pixbuf);
+	if (fix_redeye (self->priv->new_pixbuf, self->priv->is_red, x, y))
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_pixbuf, FALSE);
 }
 
 
@@ -380,8 +407,13 @@ gth_file_tool_red_eye_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
 			  self);
-
+	g_signal_connect (GET_WIDGET ("ok_button"),
+			  "clicked",
+			  G_CALLBACK (ok_button_clicked_cb),
+			  self);
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	self->priv->original_zoom_change = gth_image_viewer_get_zoom_change (GTH_IMAGE_VIEWER (viewer));
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_CHANGE_KEEP_PREV);
 	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_POINT);
 	gth_image_selector_set_mask_visible (self->priv->selector, FALSE);
 	g_signal_connect (self->priv->selector,
@@ -433,6 +465,7 @@ static void
 gth_file_tool_red_eye_instance_init (GthFileToolRedEye *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RED_EYE, GthFileToolRedEyePrivate);
+	self->priv->new_pixbuf = NULL;
 	self->priv->is_red = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-red-eye", _("Red Eye Removal..."), _("Red Eye Removal"), FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Remove the red eye effect caused by camera flashes"));
@@ -449,6 +482,7 @@ gth_file_tool_red_eye_finalize (GObject *object)
 
 	self = (GthFileToolRedEye *) object;
 
+	_g_object_unref (self->priv->new_pixbuf);
 	g_free (self->priv->is_red);
 	_g_object_unref (self->priv->selector);
 	_g_object_unref (self->priv->builder);
