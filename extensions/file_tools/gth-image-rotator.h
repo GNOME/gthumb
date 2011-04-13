@@ -55,19 +55,21 @@ struct _GthImageRotatorClass
 	void (* changed) (GthImageRotator *rotator);
 };
 
-GType                 gth_image_rotator_get_type    (void);
-GthImageViewerTool *  gth_image_rotator_new         (GthImageViewer     *viewer);
-void                  gth_image_rotator_set_center  (GthImageRotator    *rotator,
-						     int                 x,
-						     int                 y);
-void                  gth_image_rotator_set_angle   (GthImageRotator    *rotator,
-						     double              angle);
-void                  gth_image_rotator_set_grid    (GthImageRotator    *self,
-						     gboolean            use_grid,
-						     int                 lines);
-void                  gth_image_rotator_set_resize  (GthImageRotator    *self,
-						     GthTransformResize  resize);
-GdkPixbuf *           gth_image_rotator_get_result  (GthImageRotator    *self);
+GType                 gth_image_rotator_get_type        (void);
+GthImageViewerTool *  gth_image_rotator_new             (GthImageViewer     *viewer);
+void                  gth_image_rotator_set_center      (GthImageRotator    *rotator,
+						         int                 x,
+						         int                 y);
+void                  gth_image_rotator_set_angle       (GthImageRotator    *rotator,
+						         double              angle);
+void                  gth_image_rotator_set_grid        (GthImageRotator    *self,
+						         gboolean            use_grid,
+						         int                 lines);
+void                  gth_image_rotator_set_resize      (GthImageRotator    *self,
+						         GthTransformResize  resize);
+void                  gth_image_rotator_set_background  (GthImageRotator    *self,
+							 cairo_color_t      *color);
+GdkPixbuf *           gth_image_rotator_get_result      (GthImageRotator    *self);
 
 G_END_DECLS
 

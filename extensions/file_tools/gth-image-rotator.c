@@ -37,18 +37,24 @@ static gpointer parent_class = NULL;
 
 struct _GthImageRotatorPrivate {
 	GthImageViewer     *viewer;
+
+	/* options */
+
+	GdkPoint            center;
+	double              angle;
+	gboolean            paint_grid;
+	int                 grid_lines;
+	GthTransformResize  resize;
+	cairo_color_t       background_color;
+
+	/* utility variables */
+
 	int                 original_width;
 	int                 original_height;
 	cairo_surface_t    *image;
 	GdkRectangle        image_area;
 	GdkRectangle        clip_area;
-	GdkRectangle        inner_area;
-	GdkPoint            center;
-	double              angle;
 	gboolean            paint_image;
-	gboolean            paint_grid;
-	int                 grid_lines;
-	GthTransformResize  resize;
 	cairo_matrix_t      matrix;
 };
 
@@ -56,16 +62,14 @@ struct _GthImageRotatorPrivate {
 static void
 gth_image_rotator_realize (GthImageViewerTool *base)
 {
-	/* GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
-	FIXME */
+	/* void */
 }
 
 
 static void
 gth_image_rotator_unrealize (GthImageViewerTool *base)
 {
-	/* GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
-	FIXME */
+	/* void */
 }
 
 
@@ -293,11 +297,7 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 	style = gtk_widget_get_style (GTK_WIDGET (self->priv->viewer));
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
-	cairo_rectangle (cr,
-			 0,
-			 0,
-			 allocation.width,
-			 allocation.height);
+	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 
 	/* clip box */
@@ -308,7 +308,11 @@ gth_image_rotator_expose (GthImageViewerTool *base,
   			 self->priv->clip_area.width,
   			 self->priv->clip_area.height);
   	cairo_clip_preserve (cr);
-  	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+  	cairo_set_source_rgba (cr,
+  			       self->priv->background_color.r,
+  			       self->priv->background_color.g,
+  			       self->priv->background_color.b,
+  			       self->priv->background_color.a);
   	cairo_fill (cr);
 
   	/* image */
@@ -327,7 +331,7 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 	if (self->priv->paint_grid)
 		paint_grid (self, event, cr);
 
-	paint_center (self, event, cr);
+	/* paint_center (self, event, cr); FIXME */
 
 	cairo_restore (cr);
 }
@@ -386,6 +390,10 @@ gth_image_rotator_instance_init (GthImageRotator *self)
 	self->priv->paint_grid = FALSE;
 	self->priv->grid_lines = 0;
 	self->priv->resize = GTH_TRANSFORM_RESIZE_CLIP;
+	self->priv->background_color.r = 0.0;
+	self->priv->background_color.g = 0.0;
+	self->priv->background_color.b = 0.0;
+	self->priv->background_color.a = 1.0;
 }
 
 
@@ -548,6 +556,17 @@ gth_image_rotator_set_resize (GthImageRotator    *self,
 }
 
 
+void
+gth_image_rotator_set_background (GthImageRotator *self,
+			          cairo_color_t   *color)
+{
+	self->priv->background_color = *color;
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	g_signal_emit (self, signals[CHANGED], 0);
+}
+
+
 GdkPixbuf *
 gth_image_rotator_get_result (GthImageRotator *self)
 {
@@ -564,8 +583,8 @@ gth_image_rotator_get_result (GthImageRotator *self)
 
 	/* compute the transformation matrix and the clip area */
 
-	tx = self->priv->original_width / 2.0; /* FIXME */
-	ty = self->priv->original_height / 2.0;
+	tx = self->priv->original_width * 0.5;
+	ty = self->priv->original_height * 0.5;
 	cairo_matrix_init_identity (&matrix);
 	cairo_matrix_translate (&matrix, tx, ty);
 	cairo_matrix_rotate (&matrix, self->priv->angle);
@@ -593,7 +612,11 @@ gth_image_rotator_get_result (GthImageRotator *self)
 
   	cairo_rectangle (cr, clip_area.x, clip_area.y, clip_area.width, clip_area.height);
   	cairo_clip_preserve (cr);
-  	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0); /* FIXME: use the background color */
+  	cairo_set_source_rgba (cr,
+  			       self->priv->background_color.r,
+  			       self->priv->background_color.g,
+  			       self->priv->background_color.b,
+  			       self->priv->background_color.a);
   	cairo_fill (cr);
 
   	/* paint the rotated image */

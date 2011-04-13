@@ -277,6 +277,22 @@ size_combobox_changed_cb (GtkComboBox *combo_box,
 }
 
 
+static void
+background_colorbutton_notify_color_cb (GObject    *gobject,
+					GParamSpec *pspec,
+					gpointer    user_data)
+{
+	GthFileToolRotate *self = user_data;
+	GdkColor           gdk_color;
+	cairo_color_t      color;
+
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (gobject), &gdk_color);
+	_gdk_color_to_cairo_color (&gdk_color, &color);
+	color.a = (double) gtk_color_button_get_alpha (GTK_COLOR_BUTTON (gobject)) / 255.0;
+	gth_image_rotator_set_background (self->priv->rotator, &color);
+}
+
+
 static GtkWidget *
 gth_file_tool_rotate_get_options (GthFileTool *base)
 {
@@ -375,10 +391,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (small_angle_value_changed_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("step_checkbutton"),
+	/*g_signal_connect (GET_WIDGET ("step_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (step_checkbutton_toggled_cb),
-			  self);
+			  self);*/
 	g_signal_connect (G_OBJECT (self->priv->grid_adj),
 			  "value-changed",
 			  G_CALLBACK (grid_value_changed_cb),
@@ -391,6 +407,11 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "changed",
 			  G_CALLBACK (size_combobox_changed_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("background_colorbutton"),
+			  "notify::color",
+			  G_CALLBACK (background_colorbutton_notify_color_cb),
+			  self);
+
 
 	self->priv->rotator = (GthImageRotator *) gth_image_rotator_new (GTH_IMAGE_VIEWER (viewer));
 	gth_image_rotator_set_grid (self->priv->rotator, FALSE, DEFAULT_GRID);
