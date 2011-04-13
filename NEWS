@@ -1,3 +1,21 @@
+version 2.12.3
+--------------
+
+        Bugs fixed:
+
+	* Fixed crash when closing a window while the video viewer is active.
+	* Prevent focus stealing when launching an application.
+        * Make PgUp/PgDown navigation work when started in fullscreen mode. (#642848)
+        * Image scrolling is now faster.
+	* Web albums: fixed progress dialog not showing again after exporting
+	  the first time.
+	* Fixed other bugs that caused crashes in some cases.
+
+        New or updated application translations:
+
+        * Danish (Joe Hansen)
+        * Swedish (Daniel Nylander)
+
 version 2.12.2
 --------------
 
@@ -164,22 +182,22 @@ version 2.11.90
 	New features and user visible changes:
 
 	* Slideshow: added ability to view the images in random order (#621244)
-	* Change date tool: allow to set the date without touching the time 
+	* Change date tool: allow to set the date without touching the time
 	  (#622245)
-	* Video player: display the video speed in the status bar and allow 
+	* Video player: display the video speed in the status bar and allow
 	  to change speed from 0.03 to 36.0 (#624454)
 	* Removed the "do not change folder" option from the preferences dialog
 	  as it was useless.
-	* Added ability to organize files by tag: the organize command can 
+	* Added ability to organize files by tag: the organize command can
 	  organize files by tag, creating a catalog for each tag found in the
 	  scanned images.
 	* The "fit window to image" is now a toggle action. (#617488)
-	* Added two orientation tools: added tool to physically rotate the 
-	  images according to their embedded orientation; and a tool to reset 
+	* Added two orientation tools: added tool to physically rotate the
+	  images according to their embedded orientation; and a tool to reset
 	  the embedded orientation without rotating the images.
-	* Removed the preferences button from the import dialogs: instead of 
-	  the overwrite option just use the overwrite dialog when a file is 
-	  going to be overwritten; the rotate option is used only when 
+	* Removed the preferences button from the import dialogs: instead of
+	  the overwrite option just use the overwrite dialog when a file is
+	  going to be overwritten; the rotate option is used only when
 	  importing from a device and is set in the general preferences dialog.
 	* New application icon.
 
@@ -197,7 +215,7 @@ version 2.11.90
 	* Correctly hide and show the mouse pointer in the video player.
 	* Fixed search test when the "match any" option was active.
 	* Flicker importer: fixed crash when the image url is not found
-	
+
 	New or updated application translations:
 
 	* Czech (Marek Černocký)
