@@ -1,0 +1,479 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkAlignment" id="options">
+    <property name="visible">True</property>
+    <property name="top_padding">6</property>
+    <child>
+      <object class="GtkVBox" id="vbox2">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkVBox" id="vbox1">
+            <property name="visible">True</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkFrame" id="frame2">
+                <property name="visible">True</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment2">
+                    <property name="visible">True</property>
+                    <property name="top_padding">6</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox4">
+                        <property name="visible">True</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkLabel" id="angle_label">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label">45&#xB0;</property>
+                            <attributes>
+                              <attribute name="size" value="24000"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="angle_box">
+                            <property name="visible">True</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="step_checkbutton">
+                            <property name="label" translatable="yes">5 degrees</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="small_angle_box">
+                            <property name="visible">True</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Angle</property>
+                    <property name="use_markup">True</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame4">
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment4">
+                    <property name="visible">True</property>
+                    <property name="top_padding">6</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkTable" id="table3">
+                        <property name="visible">True</property>
+                        <property name="n_rows">2</property>
+                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox4">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkSpinButton" id="center_x_spinbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="width_chars">6</property>
+                                <property name="adjustment">center_x_adjustment</property>
+                                <property name="climb_rate">1</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkComboBox" id="unit_combobox">
+                                <property name="visible">True</property>
+                                <property name="model">unit_liststore</property>
+                                <property name="active">0</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext3"/>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="x_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="hbox5">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkSpinButton" id="center_y_spinbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="width_chars">6</property>
+                                <property name="adjustment">center_y_adjustment</property>
+                                <property name="climb_rate">1</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="x_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label7">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Center</property>
+                    <property name="use_markup">True</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame1">
+                <property name="visible">True</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment1">
+                    <property name="visible">True</property>
+                    <property name="top_padding">6</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkComboBox" id="size_combobox">
+                        <property name="visible">True</property>
+                        <property name="model">size_liststore</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Size</property>
+                    <property name="use_markup">True</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame3">
+                <property name="visible">True</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment3">
+                    <property name="visible">True</property>
+                    <property name="top_padding">6</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox3">
+                        <property name="visible">True</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkTable" id="table2">
+                            <property name="visible">True</property>
+                            <property name="n_rows">2</property>
+                            <property name="n_columns">2</property>
+                            <property name="column_spacing">6</property>
+                            <property name="row_spacing">6</property>
+                            <child>
+                              <object class="GtkLabel" id="label4">
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">_Background:</property>
+                                <property name="use_underline">True</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                                <property name="x_options">GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="grid_box">
+                                <property name="visible">True</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="grid_checkbutton">
+                                <property name="label" translatable="yes">_Grid:</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_indicator">True</property>
+                              </object>
+                              <packing>
+                                <property name="x_options">GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox3">
+                                <child>
+                                  <object class="GtkColorButton" id="background_colorbutton">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="color">#000000000000</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="label2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Options</property>
+                    <property name="use_markup">True</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator1">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">6</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHButtonBox" id="hbuttonbox1">
+            <property name="visible">True</property>
+            <property name="spacing">12</property>
+            <property name="layout_style">center</property>
+            <child>
+              <object class="GtkButton" id="ok_button">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="cancel_button">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="padding">6</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="unit_liststore">
+    <columns>
+      <!-- column-name type -->
+      <column type="gint"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1" translatable="yes">pixels</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1" translatable="yes">%</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkAdjustment" id="center_x_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="center_y_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkListStore" id="grid_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Number of lines</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Space between lines</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="size_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Original size</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Bounding box</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Crop corners</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Crop corners keeping ratio</col>
+      </row>
+    </data>
+  </object>
+</interface>

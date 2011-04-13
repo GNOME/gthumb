@@ -1302,7 +1302,8 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 	gtk_box_pack_start (GTK_BOX (parent_box), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (hbox);
 
-	gtk_label_set_mnemonic_widget (label, scale);
+	if (label != NULL)
+		gtk_label_set_mnemonic_widget (label, scale);
 
 	return (GtkAdjustment *) adj;
 }

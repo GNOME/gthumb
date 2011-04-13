@@ -46,6 +46,27 @@ _gdk_color_to_cairo_color_255 (GdkColor          *g_color,
 }
 
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
+#define SET_PIXEL(red, green, blue, alpha)			\
+			s_iter[0] = blue;			\
+			s_iter[1] = green;			\
+			s_iter[2] = red;			\
+			s_iter[3] = alpha;
+#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
+#define SET_PIXEL(red, green, blue, alpha)			\
+			s_iter[0] = alpha;			\
+			s_iter[1] = red;			\
+			s_iter[2] = green;			\
+			s_iter[3] = blue;
+#else /* PDP endianness: RABG */
+#define SET_PIXEL(red, green, blue, alpha)			\
+			s_iter[0] = red;			\
+			s_iter[1] = alpha;			\
+			s_iter[2] = blue;			\
+			s_iter[3] = green;
+#endif
+
+
 void
 _cairo_paint_full_gradient (cairo_surface_t *surface,
 			    GdkColor        *h_color1,
@@ -85,8 +106,7 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 	        x = (double) (height - h) / height;
 
 	        for (w = 0; w < width; w++) {
-	        	y = (double) (width - w) / width;
-
+	        	y        = (double) (width - w) / width;
 			x_y      = x * y;
 			x_1_y    = x * (1.0 - y);
 			y_1_x    = y * (1.0 - x);
@@ -96,31 +116,87 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 			green = hcolor1.g * x_y + hcolor2.g * x_1_y + vcolor1.g * y_1_x + vcolor2.g * _1_x_1_y;
 			blue  = hcolor1.b * x_y + hcolor2.b * x_1_y + vcolor1.b * y_1_x + vcolor2.b * _1_x_1_y;
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-	        	/* BGRA */
-			s_iter[0] = blue;
-			s_iter[1] = green;
-			s_iter[2] = red;
-			s_iter[3] = 0xff;
-#elif G_BYTE_ORDER == G_BIG_ENDIAN
-			/* ARGB */
-			s_iter[0] = 0xff;
-			s_iter[1] = red;
-			s_iter[2] = green;
-			s_iter[3] = blue;
-#else /* PDP endianness */
-			/* RABG */
-			s_iter[0] = red;
-			s_iter[1] = 0xff;
-			s_iter[2] = blue;
-			s_iter[3] = green;
-#endif
+			SET_PIXEL (red, green, blue, 0xff);
 
 			s_iter += 4;
 		}
 
 		s_pixels += s_stride;
 	}
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
+{
+	cairo_surface_t *surface;
+	int              width;
+	int              height;
+	int              p_stride;
+	int              p_n_channels;
+	guchar          *p_pixels;
+	int              s_stride;
+	unsigned char   *s_pixels;
+	int              h, w;
+
+	g_object_get (G_OBJECT (pixbuf),
+		      "width", &width,
+		      "height", &height,
+		      "rowstride", &p_stride,
+		      "n-channels", &p_n_channels,
+		      "pixels", &p_pixels,
+		      NULL );
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	s_stride = cairo_image_surface_get_stride (surface);
+	s_pixels = cairo_image_surface_get_data (surface);
+
+	if (p_n_channels == 4) {
+		guchar *s_iter;
+		guchar *p_iter;
+		double  alpha_factor;
+		guchar  red, green, blue, alpha;
+
+		for (h = 0; h < height; h++) {
+			s_iter = s_pixels;
+			p_iter = p_pixels;
+
+			for (w = 0; w < width; w++) {
+				alpha = p_iter[3];
+				alpha_factor = (double) alpha / 255.0;
+				red   = (guchar) (alpha_factor * p_iter[0]) ;
+				green = (guchar) (alpha_factor * p_iter[1]);
+				blue  = (guchar) (alpha_factor * p_iter[2]);
+
+				SET_PIXEL (red, green, blue, alpha);
+
+				s_iter += 4;
+				p_iter += p_n_channels;
+			}
+
+			s_pixels += s_stride;
+			p_pixels += p_stride;
+		}
+	}
+	else {
+		guchar *s_iter;
+		guchar *p_iter;
+
+		for (h = 0; h < height; h++) {
+			s_iter = s_pixels;
+			p_iter = p_pixels;
+
+			for (w = 0; w < width; w++) {
+				SET_PIXEL (p_iter[0], p_iter[1], p_iter[2], 0xff);
+				s_iter += 4;
+				p_iter += p_n_channels;
+			}
+
+			s_pixels += s_stride;
+			p_pixels += p_stride;
+		}
+	}
+
+	return surface;
 }
 
 

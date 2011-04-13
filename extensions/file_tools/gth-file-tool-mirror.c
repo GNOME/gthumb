@@ -70,7 +70,7 @@ gth_file_tool_mirror_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_mirror_instance_init (GthFileToolMirror *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-mirror", _("Mirror"), NULL, TRUE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-mirror", _("Mirror"), NULL, FALSE);
 	/*gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));*/
 }
 

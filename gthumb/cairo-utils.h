@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <cairo.h>
 
 typedef struct {
@@ -49,6 +50,9 @@ void         _cairo_paint_full_gradient         (cairo_surface_t   *surface,
 				 	 	 GdkColor          *h_color2,
 				 	 	 GdkColor          *v_color1,
 				 	 	 GdkColor          *v_color2);
+cairo_surface_t *
+	     _cairo_image_surface_create_from_pixbuf
+	     	     	     	     	        (GdkPixbuf         *pixbuf);
 void         _cairo_draw_rounded_box            (cairo_t           *cr,
 			 	 	 	 double             x,
 			 	 	 	 double             y,

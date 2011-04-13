@@ -19,6 +19,7 @@ icons_DATA = 			\
 	tool-enhance.png	\
 	tool-red-eye.png	\
 	tool-resize.png		\
+	tool-rotate.png		\
 	tool-sharpen.png	\
 	zoom-fit-width.png
 
