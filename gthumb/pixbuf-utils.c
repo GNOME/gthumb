@@ -58,22 +58,27 @@ _gdk_pixbuf_new_compatible (GdkPixbuf *src)
 }
 
 
+GdkPixbuf *
+_gdk_pixbuf_new_from_cairo_context (cairo_t *cr)
+{
+	return _gdk_pixbuf_new_from_cairo_surface (cairo_get_target (cr));
+}
+
+
 /* Taken from http://www.gtkforums.com/about5204.html
  * Author: tadeboro */
 GdkPixbuf *
-_gdk_pixbuf_new_from_cairo_surface (cairo_t *cr)
+_gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface)
 {
-	cairo_surface_t *surface;
-	int              width;
-	int              height;
-	int              s_stride;
-	unsigned char   *s_pixels;
-	GdkPixbuf       *pixbuf;
-	int              p_stride;
-	guchar          *p_pixels;
-	int              p_n_channels;
+	int            width;
+	int            height;
+	int            s_stride;
+	unsigned char *s_pixels;
+	GdkPixbuf     *pixbuf;
+	int            p_stride;
+	guchar        *p_pixels;
+	int            p_n_channels;
 
-	surface = cairo_get_target (cr);
 	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
 		return NULL;
 

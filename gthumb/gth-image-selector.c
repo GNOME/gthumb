@@ -194,8 +194,8 @@ struct _GthImageSelectorPrivate {
 	GthImageViewer  *viewer;
 	GthSelectorType  type;
 
-	GdkPixbuf       *pixbuf;
-	GdkRectangle     pixbuf_area;
+	cairo_surface_t *surface;
+	GdkRectangle     surface_area;
 
 	gboolean         use_ratio;
 	double           ratio;
@@ -490,21 +490,21 @@ init_selection (GthImageSelector *self)
 
 	/*
 	if (! self->priv->use_ratio) {
-		area.width = IROUND (self->priv->pixbuf_area.width * 0.5);
-		area.height = IROUND (self->priv->pixbuf_area.height * 0.5);
+		area.width = IROUND (self->priv->surface_area.width * 0.5);
+		area.height = IROUND (self->priv->surface_area.height * 0.5);
 	}
 	else {
 		if (self->priv->ratio > 1.0) {
-			area.width = IROUND (self->priv->pixbuf_area.width * 0.5);
+			area.width = IROUND (self->priv->surface_area.width * 0.5);
 			area.height = IROUND (area.width / self->priv->ratio);
 		}
 		else {
-			area.height = IROUND (self->priv->pixbuf_area.height * 0.5);
+			area.height = IROUND (self->priv->surface_area.height * 0.5);
 			area.width = IROUND (area.height * self->priv->ratio);
 		}
 	}
-	area.x = IROUND ((self->priv->pixbuf_area.width - area.width) / 2.0);
-	area.y = IROUND ((self->priv->pixbuf_area.height - area.height) / 2.0);
+	area.x = IROUND ((self->priv->surface_area.width - area.width) / 2.0);
+	area.y = IROUND ((self->priv->surface_area.height - area.height) / 2.0);
 	*/
 
 	area.x = 0;
@@ -564,7 +564,7 @@ gth_image_selector_size_allocate (GthImageViewerTool *base,
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
-	if (self->priv->pixbuf != NULL)
+	if (self->priv->surface != NULL)
 		selection_changed (self);
 }
 
@@ -590,12 +590,12 @@ paint_background (GthImageSelector *self,
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
 				       cr,
-				       self->priv->pixbuf,
+				       self->priv->surface,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
-				       GDK_INTERP_TILES);
+				       CAIRO_FILTER_GOOD);
 
 	/* make the background darker */
 	{
@@ -634,12 +634,12 @@ paint_selection (GthImageSelector *self,
 	if (! self->priv->viewer->dragging)
 		gth_image_viewer_paint_region (self->priv->viewer,
 					       cr,
-					       self->priv->pixbuf,
+					       self->priv->surface,
 					       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 					       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 					       &selection_area,
 					       event->region,
-					       GDK_INTERP_TILES);
+					       CAIRO_FILTER_GOOD);
 
 	cairo_save (cr);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
@@ -722,12 +722,12 @@ paint_image (GthImageSelector *self,
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
 				       cr,
-				       self->priv->pixbuf,
+				       self->priv->surface,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
-				       GDK_INTERP_TILES);
+				       CAIRO_FILTER_GOOD);
 }
 
 
@@ -924,7 +924,7 @@ check_and_set_new_selection (GthImageSelector *self,
 	     || (self->priv->current_area->id != C_SELECTION_AREA))
 	    && self->priv->use_ratio)
 	{
-		if (! rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
+		if (! rectangle_in_rectangle (new_selection, self->priv->surface_area))
 			return FALSE;
 
 		set_selection (self, new_selection, FALSE);
@@ -937,15 +937,15 @@ check_and_set_new_selection (GthImageSelector *self,
 		new_selection.x = 0;
 	if (new_selection.y < 0)
 		new_selection.y = 0;
-	if (new_selection.width > self->priv->pixbuf_area.width)
-		new_selection.width = self->priv->pixbuf_area.width;
-	if (new_selection.height > self->priv->pixbuf_area.height)
-		new_selection.height = self->priv->pixbuf_area.height;
+	if (new_selection.width > self->priv->surface_area.width)
+		new_selection.width = self->priv->surface_area.width;
+	if (new_selection.height > self->priv->surface_area.height)
+		new_selection.height = self->priv->surface_area.height;
 
-	if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width)
-		new_selection.x = self->priv->pixbuf_area.width - new_selection.width;
-	if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height)
-		new_selection.y = self->priv->pixbuf_area.height - new_selection.height;
+	if (new_selection.x + new_selection.width > self->priv->surface_area.width)
+		new_selection.x = self->priv->surface_area.width - new_selection.width;
+	if (new_selection.y + new_selection.height > self->priv->surface_area.height)
+		new_selection.y = self->priv->surface_area.height - new_selection.height;
 
 	set_selection (self, new_selection, FALSE);
 
@@ -1070,36 +1070,36 @@ update_mouse_selection (GthImageSelector *self)
 		break;
 
 	case C_TOP_AREA:
-		grow_upward (&self->priv->pixbuf_area, &new_selection, dy, check);
+		grow_upward (&self->priv->surface_area, &new_selection, dy, check);
 		if (self->priv->use_ratio)
-			grow_rightward (&self->priv->pixbuf_area,
+			grow_rightward (&self->priv->surface_area,
 					&new_selection,
 					IROUND (-dy * self->priv->ratio),
 					check);
 		break;
 
 	case C_BOTTOM_AREA:
-		grow_downward (&self->priv->pixbuf_area, &new_selection, dy, check);
+		grow_downward (&self->priv->surface_area, &new_selection, dy, check);
 		if (self->priv->use_ratio)
-			grow_rightward (&self->priv->pixbuf_area,
+			grow_rightward (&self->priv->surface_area,
 				        &new_selection,
 				        IROUND (dy * self->priv->ratio),
 				        check);
 		break;
 
 	case C_LEFT_AREA:
-		grow_leftward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_leftward (&self->priv->surface_area, &new_selection, dx, check);
 		if (self->priv->use_ratio)
-			grow_downward (&self->priv->pixbuf_area,
+			grow_downward (&self->priv->surface_area,
 				       &new_selection,
 				       IROUND (-dx / self->priv->ratio),
 				       check);
 		break;
 
 	case C_RIGHT_AREA:
-		grow_rightward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_rightward (&self->priv->surface_area, &new_selection, dx, check);
 		if (self->priv->use_ratio)
-			grow_downward (&self->priv->pixbuf_area,
+			grow_downward (&self->priv->surface_area,
 				       &new_selection,
 				       IROUND (dx / self->priv->ratio),
 				       check);
@@ -1119,8 +1119,8 @@ update_mouse_selection (GthImageSelector *self)
 			else
 				dx = IROUND (dy * self->priv->ratio);
 		}
-		grow_upward (&self->priv->pixbuf_area, &new_selection, dy, check);
-		grow_leftward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_upward (&self->priv->surface_area, &new_selection, dy, check);
+		grow_leftward (&self->priv->surface_area, &new_selection, dx, check);
 		break;
 
 	case C_TOP_RIGHT_AREA:
@@ -1137,8 +1137,8 @@ update_mouse_selection (GthImageSelector *self)
 			else
 				dy = IROUND (-dx / self->priv->ratio);
 		}
-		grow_upward (&self->priv->pixbuf_area, &new_selection, dy, check);
-		grow_rightward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_upward (&self->priv->surface_area, &new_selection, dy, check);
+		grow_rightward (&self->priv->surface_area, &new_selection, dx, check);
 		break;
 
 	case C_BOTTOM_LEFT_AREA:
@@ -1155,8 +1155,8 @@ update_mouse_selection (GthImageSelector *self)
 			else
 				dy = IROUND (-dx / self->priv->ratio);
 		}
-		grow_downward (&self->priv->pixbuf_area, &new_selection, dy, check);
-		grow_leftward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_downward (&self->priv->surface_area, &new_selection, dy, check);
+		grow_leftward (&self->priv->surface_area, &new_selection, dx, check);
 		break;
 
 	case C_BOTTOM_RIGHT_AREA:
@@ -1174,8 +1174,8 @@ update_mouse_selection (GthImageSelector *self)
 			else
 				dx = IROUND (dy * self->priv->ratio);
 		}
-		grow_downward (&self->priv->pixbuf_area, &new_selection, dy, check);
-		grow_rightward (&self->priv->pixbuf_area, &new_selection, dx, check);
+		grow_downward (&self->priv->surface_area, &new_selection, dy, check);
+		grow_rightward (&self->priv->surface_area, &new_selection, dx, check);
 		break;
 
 	default:
@@ -1188,19 +1188,19 @@ update_mouse_selection (GthImageSelector *self)
 
 	if ((area_type != C_SELECTION_AREA)
 	    && self->priv->use_ratio
-	    && ! rectangle_in_rectangle (new_selection, self->priv->pixbuf_area))
+	    && ! rectangle_in_rectangle (new_selection, self->priv->surface_area))
 	{
 		switch (area_type) {
 		case C_TOP_AREA:
-			if (new_selection.y < self->priv->pixbuf_area.y) {
+			if (new_selection.y < self->priv->surface_area.y) {
 				dy = new_selection.y + new_selection.height;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.y = new_selection.y + new_selection.height - dy;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.y = new_selection.y + new_selection.height - dy;
 				new_selection.width = dx;
@@ -1209,14 +1209,14 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_RIGHT_AREA:
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
-				dy = self->priv->pixbuf_area.height - new_selection.y;
+			if (new_selection.y + new_selection.height > self->priv->surface_area.height) {
+				dy = self->priv->surface_area.height - new_selection.y;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
@@ -1224,22 +1224,22 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_TOP_RIGHT_AREA:
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.y = new_selection.y + new_selection.height - dy;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y < self->priv->pixbuf_area.y) {
+			if (new_selection.y < self->priv->surface_area.y) {
 				dy = new_selection.y + new_selection.height;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.y = new_selection.y + new_selection.height - dy;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.y = new_selection.y + new_selection.height - dy;
 				new_selection.width = dx;
@@ -1248,7 +1248,7 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_TOP_LEFT_AREA:
-			if (new_selection.x < self->priv->pixbuf_area.y) {
+			if (new_selection.x < self->priv->surface_area.y) {
 				dx = new_selection.x + new_selection.width;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
@@ -1256,7 +1256,7 @@ update_mouse_selection (GthImageSelector *self)
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y < self->priv->pixbuf_area.y) {
+			if (new_selection.y < self->priv->surface_area.y) {
 				dy = new_selection.y + new_selection.height;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
@@ -1264,7 +1264,7 @@ update_mouse_selection (GthImageSelector *self)
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x < self->priv->pixbuf_area.y) {
+			if (new_selection.x < self->priv->surface_area.y) {
 				dx = new_selection.x + new_selection.width;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
@@ -1275,20 +1275,20 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_BOTTOM_RIGHT_AREA:
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
-				dy = self->priv->pixbuf_area.height - new_selection.y;
+			if (new_selection.y + new_selection.height > self->priv->surface_area.height) {
+				dy = self->priv->surface_area.height - new_selection.y;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
@@ -1296,14 +1296,14 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_BOTTOM_AREA:
-			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
-				dy = self->priv->pixbuf_area.height - new_selection.y;
+			if (new_selection.y + new_selection.height > self->priv->surface_area.height) {
+				dy = self->priv->surface_area.height - new_selection.y;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x + new_selection.width > self->priv->pixbuf_area.width) {
-				dx = self->priv->pixbuf_area.width - new_selection.x;
+			if (new_selection.x + new_selection.width > self->priv->surface_area.width) {
+				dx = self->priv->surface_area.width - new_selection.x;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.width = dx;
 				new_selection.height = dy;
@@ -1311,15 +1311,15 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_LEFT_AREA:
-			if (new_selection.x < self->priv->pixbuf_area.y) {
+			if (new_selection.x < self->priv->surface_area.y) {
 				dx = new_selection.x + new_selection.width;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
-				dy = self->priv->pixbuf_area.height - new_selection.y;
+			if (new_selection.y + new_selection.height > self->priv->surface_area.height) {
+				dy = self->priv->surface_area.height - new_selection.y;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
 				new_selection.width = dx;
@@ -1328,21 +1328,21 @@ update_mouse_selection (GthImageSelector *self)
 			break;
 
 		case C_BOTTOM_LEFT_AREA:
-			if (new_selection.x < self->priv->pixbuf_area.y) {
+			if (new_selection.x < self->priv->surface_area.y) {
 				dx = new_selection.x + new_selection.width;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.y + new_selection.height > self->priv->pixbuf_area.height) {
-				dy = self->priv->pixbuf_area.height - new_selection.y;
+			if (new_selection.y + new_selection.height > self->priv->surface_area.height) {
+				dy = self->priv->surface_area.height - new_selection.y;
 				dx = IROUND (dy * self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
 				new_selection.width = dx;
 				new_selection.height = dy;
 			}
-			if (new_selection.x < self->priv->pixbuf_area.y) {
+			if (new_selection.x < self->priv->surface_area.y) {
 				dx = new_selection.x + new_selection.width;
 				dy = IROUND (dx / self->priv->ratio);
 				new_selection.x = new_selection.x + new_selection.width - dx;
@@ -1413,7 +1413,7 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 	if (self->priv->type == GTH_SELECTOR_TYPE_POINT) {
 		x = selector_to_real (self, x - self->priv->viewer->image_area.x);
 		y = selector_to_real (self, y - self->priv->viewer->image_area.y);
-		if (point_in_rectangle (x, y, self->priv->pixbuf_area))
+		if (point_in_rectangle (x, y, self->priv->surface_area))
 			g_signal_emit (G_OBJECT (self), signals[MOTION_NOTIFY], 0, x, y);
 		return TRUE;
 	}
@@ -1501,18 +1501,18 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
-	_g_object_unref (self->priv->pixbuf);
-	self->priv->pixbuf = gth_image_viewer_get_current_pixbuf (self->priv->viewer);
+	_g_object_unref (self->priv->surface);
+	self->priv->surface = gth_image_viewer_get_current_image (self->priv->viewer);
 
-	if (self->priv->pixbuf == NULL) {
-		self->priv->pixbuf_area.width = 0;
-		self->priv->pixbuf_area.height = 0;
+	if (self->priv->surface == NULL) {
+		self->priv->surface_area.width = 0;
+		self->priv->surface_area.height = 0;
 		return;
 	}
 
-	self->priv->pixbuf = g_object_ref (self->priv->pixbuf);
-	self->priv->pixbuf_area.width = gdk_pixbuf_get_width (self->priv->pixbuf);
-	self->priv->pixbuf_area.height = gdk_pixbuf_get_height (self->priv->pixbuf);
+	self->priv->surface = cairo_surface_reference (self->priv->surface);
+	self->priv->surface_area.width = cairo_image_surface_get_width (self->priv->surface);
+	self->priv->surface_area.height = cairo_image_surface_get_height (self->priv->surface);
 
 	init_selection (self);
 }
@@ -1552,7 +1552,7 @@ gth_image_selector_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_IMAGE_SELECTOR (object));
 
 	self = (GthImageSelector *) object;
-	_g_object_unref (self->priv->pixbuf);
+	cairo_surface_destroy (self->priv->surface);
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -1762,8 +1762,8 @@ gth_image_selector_get_selection (GthImageSelector *self,
 {
 	selection->x = MAX (self->priv->selection.x, 0);
 	selection->y = MAX (self->priv->selection.y, 0);
-	selection->width = MIN (self->priv->selection.width, self->priv->pixbuf_area.width - self->priv->selection.x);
-	selection->height = MIN (self->priv->selection.height, self->priv->pixbuf_area.height - self->priv->selection.y);
+	selection->width = MIN (self->priv->selection.width, self->priv->surface_area.width - self->priv->selection.x);
+	selection->height = MIN (self->priv->selection.height, self->priv->surface_area.height - self->priv->selection.y);
 }
 
 
@@ -1877,7 +1877,7 @@ gth_image_selector_center (GthImageSelector *self)
 	GdkRectangle new_selection;
 
 	new_selection = self->priv->selection;
-	new_selection.x = (self->priv->pixbuf_area.width - new_selection.width) / 2;
-	new_selection.y = (self->priv->pixbuf_area.height - new_selection.height) / 2;
+	new_selection.x = (self->priv->surface_area.width - new_selection.width) / 2;
+	new_selection.y = (self->priv->surface_area.height - new_selection.height) / 2;
 	check_and_set_new_selection (self, new_selection);
 }

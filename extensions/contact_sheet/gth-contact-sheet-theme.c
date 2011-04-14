@@ -645,7 +645,7 @@ gth_contact_sheet_theme_create_preview (GthContactSheetTheme *theme,
 	cr = cairo_create (surface);
 	cairo_surface_destroy (surface);
 	gth_contact_sheet_theme_paint_preview (theme, cr, preview_size, preview_size);
-	pixbuf = _gdk_pixbuf_new_from_cairo_surface (cr);
+	pixbuf = _gdk_pixbuf_new_from_cairo_context (cr);
 
 	cairo_destroy (cr);
 

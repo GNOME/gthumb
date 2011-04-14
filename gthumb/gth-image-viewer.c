@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2011 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,11 +25,13 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include "cairo-utils.h"
 #include "gth-enum-types.h"
 #include "gth-image-dragger.h"
 #include "gth-image-viewer.h"
 #include "gth-marshal.h"
 #include "glib-utils.h"
+#include "pixbuf-utils.h"
 
 #define COLOR_GRAY_00   0x00000000
 #define COLOR_GRAY_33   0x00333333
@@ -60,7 +62,7 @@ enum {
 
 
 struct _GthImageViewerPrivate {
-	GdkPixbuf              *pixbuf;
+	cairo_surface_t        *surface;
 	GdkPixbufAnimation     *animation;
 	int                     original_width;
 	int                     original_height;
@@ -68,6 +70,8 @@ struct _GthImageViewerPrivate {
 	GdkPixbufAnimationIter *iter;
 	GTimeVal                time;               /* Timer used to get the current frame. */
 	guint                   anim_id;
+	cairo_surface_t        *iter_surface;
+	GdkPixbufAnimationIter *last_iter;
 
 	gboolean                is_animation;
 	gboolean                play_animation;
@@ -102,12 +106,6 @@ struct _GthImageViewerPrivate {
 
 	gboolean                double_click;
 	gboolean                just_focused;
-
-	GdkPixbuf              *paint_pixbuf;
-	int                     paint_max_width;
-	int                     paint_max_height;
-	int                     paint_bps;
-	GdkColorspace           paint_color_space;
 
 	gboolean                black_bg;
 
@@ -170,8 +168,8 @@ gth_image_viewer_finalize (GObject *object)
 
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
-	_g_clear_object (&self->priv->pixbuf);
-	_g_clear_object (&self->priv->paint_pixbuf);
+	_cairo_clear_surface (&self->priv->iter_surface);
+	_cairo_clear_surface (&self->priv->surface);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -218,7 +216,7 @@ _gth_image_viewer_get_zoomed_size (GthImageViewer *self,
 		 	 	   int            *width,
 		 	 	   int            *height)
 {
-	if (gth_image_viewer_get_current_pixbuf (self) == NULL) {
+	if (gth_image_viewer_get_current_image (self) == NULL) {
 		*width = 0;
 		*height = 0;
 	}
@@ -442,17 +440,14 @@ gth_image_viewer_unmap (GtkWidget *widget)
 static void
 zoom_to_fit (GthImageViewer *self)
 {
-	GdkPixbuf     *pixbuf;
-	GtkAllocation  allocation;
-	int            gdk_width;
-	int            gdk_height;
-	int            original_width;
-	int            original_height;
-	double         x_level;
-	double         y_level;
-	double         new_zoom_level;
-
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
+	GtkAllocation allocation;
+	int           gdk_width;
+	int           gdk_height;
+	int           original_width;
+	int           original_height;
+	double        x_level;
+	double        y_level;
+	double        new_zoom_level;
 
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	gdk_width = allocation.width - self->priv->frame_border2;
@@ -475,13 +470,11 @@ zoom_to_fit (GthImageViewer *self)
 static void
 zoom_to_fit_width (GthImageViewer *self)
 {
-	GdkPixbuf     *pixbuf;
-	GtkAllocation  allocation;
-	int            gdk_width;
-	int            original_width;
-	double         new_zoom_level;
+	GtkAllocation allocation;
+	int           gdk_width;
+	int           original_width;
+	double        new_zoom_level;
 
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	gdk_width = allocation.width - self->priv->frame_border2;
 
@@ -501,12 +494,12 @@ static void
 gth_image_viewer_size_allocate (GtkWidget     *widget,
 				GtkAllocation *allocation)
 {
-	GthImageViewer *self;
-	int             gdk_width;
-	int             gdk_height;
-	int             original_width;
-	int             original_height;
-	GdkPixbuf      *current_pixbuf;
+	GthImageViewer  *self;
+	int              gdk_width;
+	int              gdk_height;
+	int              original_width;
+	int              original_height;
+	cairo_surface_t *current_image;
 
 	self = GTH_IMAGE_VIEWER (widget);
 
@@ -518,13 +511,13 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 	if ((gdk_width < 0) || (gdk_height < 0))
 		return;
 
-	current_pixbuf = gth_image_viewer_get_current_pixbuf (self);
+	current_image = gth_image_viewer_get_current_image (self);
 
 	gth_image_viewer_get_original_size (self, &original_width, &original_height);
 
 	/* If a fit type is active update the zoom level. */
 
-	if (! self->priv->is_void && (current_pixbuf != NULL)) {
+	if (! self->priv->is_void && (current_image != NULL)) {
 		switch (self->priv->fit) {
 		case GTH_FIT_SIZE:
 			zoom_to_fit (self);
@@ -563,7 +556,7 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 
 	/* Check whether the offset is still valid. */
 
-	if (current_pixbuf != NULL) {
+	if (current_image != NULL) {
 		int width;
 		int height;
 
@@ -973,7 +966,7 @@ scroll_to (GthImageViewer *self,
 
 	g_return_if_fail (self != NULL);
 
-	if (gth_image_viewer_get_current_pixbuf (self) == NULL)
+	if (gth_image_viewer_get_current_image (self) == NULL)
 		return;
 
 	_gth_image_viewer_get_zoomed_size (self, &width, &height);
@@ -1604,6 +1597,8 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 
 	self->priv->anim_id = 0;
 	self->priv->iter = NULL;
+	self->priv->last_iter = NULL;
+	self->priv->iter_surface = NULL;
 
 	self->priv->enable_zoom_with_keys = TRUE;
 	self->priv->zoom_level = 1.0;
@@ -1623,12 +1618,6 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 	self->priv->just_focused = FALSE;
 
 	self->priv->black_bg = FALSE;
-
-	self->priv->paint_pixbuf = NULL;
-	self->priv->paint_max_width = 0;
-	self->priv->paint_max_height = 0;
-	self->priv->paint_bps = 0;
-	self->priv->paint_color_space = GDK_COLORSPACE_RGB;
 
 	self->priv->cursor = NULL;
 	self->priv->cursor_void = NULL;
@@ -1699,19 +1688,19 @@ _gth_image_viewer_set_original_size (GthImageViewer *self,
 				     int             original_width,
 				     int             original_height)
 {
-	GdkPixbuf *pixbuf;
+	cairo_surface_t *image;
 
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
+	image = gth_image_viewer_get_current_image (self);
 
 	if (original_width > 0)
 		self->priv->original_width = original_width;
 	else
-		self->priv->original_width = (pixbuf != NULL) ? gdk_pixbuf_get_width (pixbuf) : 0;
+		self->priv->original_width = (image != NULL) ? cairo_image_surface_get_width (image) : 0;
 
 	if (original_height > 0)
 		self->priv->original_height = original_height;
 	else
-		self->priv->original_height = (pixbuf != NULL) ? gdk_pixbuf_get_height (pixbuf) : 0;
+		self->priv->original_height = (image != NULL) ? cairo_image_surface_get_height (image) : 0;
 }
 
 
@@ -1773,7 +1762,7 @@ _set_animation (GthImageViewer     *self,
 {
 	g_return_if_fail (self != NULL);
 
-	_g_clear_object (&self->priv->pixbuf);
+	_cairo_clear_surface (&self->priv->surface);
 
 	_g_object_unref (self->priv->animation);
 	self->priv->animation = _g_object_ref (animation);
@@ -1816,14 +1805,31 @@ gth_image_viewer_set_pixbuf (GthImageViewer *self,
 			     int             original_width,
 			     int             original_height)
 {
+	cairo_surface_t *surface;
+
+	g_return_if_fail (self != NULL);
+
+	surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
+	gth_image_viewer_set_surface (self, surface, original_width, original_height);
+
+	cairo_surface_destroy (surface);
+}
+
+
+void
+gth_image_viewer_set_surface (GthImageViewer  *self,
+			      cairo_surface_t *surface,
+			      int              original_width,
+			      int              original_height)
+{
 	g_return_if_fail (self != NULL);
 
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
-	_g_object_unref (self->priv->pixbuf);
-	self->priv->pixbuf = _g_object_ref (pixbuf);
-	self->priv->is_void = (self->priv->pixbuf == NULL);
+	cairo_surface_destroy (self->priv->surface);
+	self->priv->surface = cairo_surface_reference (surface);
+	self->priv->is_void = (self->priv->surface == NULL);
 	self->priv->is_animation = FALSE;
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
 
@@ -1836,7 +1842,7 @@ gth_image_viewer_set_void (GthImageViewer *self)
 {
 	g_return_if_fail (self != NULL);
 
-	_g_clear_object (&self->priv->pixbuf);
+	_cairo_clear_surface (&self->priv->surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
@@ -1925,13 +1931,13 @@ gth_image_viewer_remove_painter (GthImageViewer          *self,
 int
 gth_image_viewer_get_image_width (GthImageViewer *self)
 {
-	GdkPixbuf *pixbuf;
+	cairo_surface_t *image;
 
 	g_return_val_if_fail (self != NULL, 0);
 
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
-	if (pixbuf != NULL)
-		return gdk_pixbuf_get_width (pixbuf);
+	image = gth_image_viewer_get_current_image (self);
+	if (image != NULL)
+		return cairo_image_surface_get_width (image);
 
 	return 0;
 }
@@ -1940,13 +1946,13 @@ gth_image_viewer_get_image_width (GthImageViewer *self)
 int
 gth_image_viewer_get_image_height (GthImageViewer *self)
 {
-	GdkPixbuf *pixbuf;
+	cairo_surface_t *image;
 
 	g_return_val_if_fail (self != NULL, 0);
 
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
-	if (pixbuf != NULL)
-		return gdk_pixbuf_get_height (pixbuf);
+	image = gth_image_viewer_get_current_image (self);
+	if (image != NULL)
+		return cairo_image_surface_get_height (image);
 
 	return 0;
 }
@@ -1963,21 +1969,6 @@ gth_image_viewer_get_original_size (GthImageViewer *self,
 		*width = self->priv->original_width;
 	if (height != NULL)
 		*height = self->priv->original_height;
-}
-
-
-int
-gth_image_viewer_get_image_bps (GthImageViewer *self)
-{
-	GdkPixbuf *pixbuf;
-
-	g_return_val_if_fail (self != NULL, 0);
-
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
-	if (pixbuf != NULL)
-		return gdk_pixbuf_get_bits_per_sample (pixbuf);
-
-	return 0;
 }
 
 
@@ -2004,11 +1995,35 @@ gth_image_viewer_get_current_pixbuf (GthImageViewer *self)
 	if (self->priv->is_void)
 		return NULL;
 
-	if (self->priv->pixbuf != NULL)
-		return self->priv->pixbuf;
+	if (self->priv->surface != NULL)
+		return _gdk_pixbuf_new_from_cairo_surface (self->priv->surface);
 
 	if (self->priv->iter != NULL)
 		return gdk_pixbuf_animation_iter_get_pixbuf (self->priv->iter);
+
+	return NULL;
+}
+
+
+cairo_surface_t *
+gth_image_viewer_get_current_image (GthImageViewer *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+
+	if (self->priv->is_void)
+		return NULL;
+
+	if (self->priv->surface != NULL)
+		return self->priv->surface;
+
+	if (self->priv->iter != NULL) {
+		if ((self->priv->iter_surface == NULL) || (self->priv->iter != self->priv->last_iter)) {
+			self->priv->last_iter = self->priv->iter;
+			_cairo_clear_surface (&self->priv->iter_surface);
+			self->priv->iter_surface = _cairo_image_surface_create_from_pixbuf (gdk_pixbuf_animation_iter_get_pixbuf (self->priv->iter));
+		}
+		return self->priv->iter_surface;
+	}
 
 	return NULL;
 }
@@ -2120,7 +2135,7 @@ gth_image_viewer_get_zoom_change (GthImageViewer *self)
 void
 gth_image_viewer_zoom_in (GthImageViewer *self)
 {
-	if (gth_image_viewer_get_current_pixbuf (self) == NULL)
+	if (gth_image_viewer_get_current_image (self) == NULL)
 		return;
 	gth_image_viewer_set_zoom (self, get_next_zoom (self->priv->zoom_level));
 }
@@ -2129,7 +2144,7 @@ gth_image_viewer_zoom_in (GthImageViewer *self)
 void
 gth_image_viewer_zoom_out (GthImageViewer *self)
 {
-	if (gth_image_viewer_get_current_pixbuf (self) == NULL)
+	if (gth_image_viewer_get_current_image (self) == NULL)
 		return;
 	gth_image_viewer_set_zoom (self, get_prev_zoom (self->priv->zoom_level));
 }
@@ -2352,7 +2367,7 @@ gth_image_viewer_scroll_to (GthImageViewer *self,
 {
 	g_return_if_fail (self != NULL);
 
-	if (gth_image_viewer_get_current_pixbuf (self) == NULL)
+	if (gth_image_viewer_get_current_image (self) == NULL)
 		return;
 
 	scroll_to (self, &x_offset, &y_offset);
@@ -2513,91 +2528,62 @@ gth_image_viewer_is_frame_visible (GthImageViewer *self)
 
 
 void
-gth_image_viewer_paint (GthImageViewer *self,
-			cairo_t        *cr,
-			GdkPixbuf      *pixbuf,
-			int             src_x,
-			int             src_y,
-			int             dest_x,
-			int             dest_y,
-			int             width,
-			int             height,
-			int             interp_type)
+gth_image_viewer_paint (GthImageViewer  *self,
+			cairo_t         *cr,
+			cairo_surface_t *surface,
+			int              src_x,
+			int              src_y,
+			int              dest_x,
+			int              dest_y,
+			int              width,
+			int              height,
+			cairo_filter_t   filter)
 {
-	int           original_width;
-	double        zoom_level;
-	int           bits_per_sample;
-	GdkColorspace color_space;
+	int    original_width;
+	double zoom_level;
+	double src_dx;
+	double src_dy;
+	double dest_dx;
+	double dest_dy;
+	double dwidth;
+	double dheight;
+
+	cairo_save (cr);
 
 	gth_image_viewer_get_original_size (self, &original_width, NULL);
-	zoom_level = self->priv->zoom_level * ((double) original_width / gdk_pixbuf_get_width (pixbuf));
+	zoom_level = self->priv->zoom_level * ((double) original_width / cairo_image_surface_get_width (surface));
+	src_dx = (double) src_x / zoom_level;
+	src_dy = (double) src_y / zoom_level;
+	dest_dx = (double) dest_x / zoom_level;
+	dest_dy = (double) dest_y / zoom_level;
+	dwidth = (double) width / zoom_level;
+	dheight = (double) height / zoom_level;
 
-	color_space = gdk_pixbuf_get_colorspace (pixbuf);
-	bits_per_sample = gdk_pixbuf_get_bits_per_sample (pixbuf);
+	cairo_scale (cr, zoom_level, zoom_level);
 
-	if ((self->priv->paint_pixbuf == NULL)
-	    || (self->priv->paint_max_width < width)
-	    || (self->priv->paint_max_height < height)
-	    || (self->priv->paint_bps != bits_per_sample)
-	    || (self->priv->paint_color_space != color_space))
-	{
-		if (self->priv->paint_pixbuf != NULL)
-			g_object_unref (self->priv->paint_pixbuf);
-		self->priv->paint_pixbuf = gdk_pixbuf_new (color_space,
-							   FALSE,
-							   bits_per_sample,
-							   width,
-							   height);
-		g_return_if_fail (self->priv->paint_pixbuf != NULL);
+	/* FIXME: paint the background for images with a transparency */
 
-		self->priv->paint_max_width = width;
-		self->priv->paint_max_height = height;
-		self->priv->paint_color_space = color_space;
-		self->priv->paint_bps = bits_per_sample;
-	}
+	/* g_print ("src: (%d, %d) -- dest: (%d, %d) [%d, %d]\n", src_x, src_y, dest_x, dest_y, width, height); */
 
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		gdk_pixbuf_composite_color (pixbuf,
-					    self->priv->paint_pixbuf,
-					    0, 0,
-					    width, height,
-					    (double) -src_x,
-					    (double) -src_y,
-					    zoom_level,
-					    zoom_level,
-					    interp_type,
-					    255,
-					    src_x, src_y,
-					    self->priv->check_size,
-					    self->priv->check_color1,
-					    self->priv->check_color2);
-	else
-		gdk_pixbuf_scale (pixbuf,
-				  self->priv->paint_pixbuf,
-				  0, 0,
-				  width, height,
-				  (double) -src_x,
-				  (double) -src_y,
-				  zoom_level,
-				  zoom_level,
-				  interp_type);
-
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-	gdk_cairo_set_source_pixbuf (cr, self->priv->paint_pixbuf, dest_x, dest_y);
-  	cairo_rectangle (cr, dest_x, dest_y, width, height);
+	cairo_set_source_surface (cr, surface, dest_dx - src_dx, dest_dy - src_dy);
+	cairo_pattern_set_filter (cairo_get_source (cr), filter);
+	cairo_rectangle (cr, dest_dx, dest_dy, dwidth, dheight);
+  	cairo_clip_preserve (cr);
   	cairo_fill (cr);
+
+  	cairo_restore (cr);
 }
 
 
 void
-gth_image_viewer_paint_region (GthImageViewer *self,
-			       cairo_t        *cr,
-			       GdkPixbuf      *pixbuf,
-			       int             src_x,
-			       int             src_y,
-			       GdkRectangle   *pixbuf_area,
-			       GdkRegion      *region,
-			       int             interp_type)
+gth_image_viewer_paint_region (GthImageViewer  *self,
+			       cairo_t         *cr,
+			       cairo_surface_t *surface,
+			       int              src_x,
+			       int              src_y,
+			       GdkRectangle    *pixbuf_area,
+			       GdkRegion       *region,
+			       cairo_filter_t   filter)
 {
 	GdkRectangle *rects;
 	int           n_rects;
@@ -2615,14 +2601,14 @@ gth_image_viewer_paint_region (GthImageViewer *self,
 		if (gdk_rectangle_intersect (pixbuf_area, &rects[i], &paint_area))
 			gth_image_viewer_paint (self,
 						cr,
-						pixbuf,
+						surface,
 						src_x + paint_area.x,
 						src_y + paint_area.y,
 						paint_area.x,
 						paint_area.y,
 						paint_area.width,
 						paint_area.height,
-						interp_type);
+						filter);
 	}
 
 	cairo_restore (cr);

@@ -281,9 +281,6 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 	GtkStyle        *style;
 	GtkAllocation    allocation;
 
-	if (self->priv->preview_image == NULL)
-		return;
-
 	cairo_save (cr);
 
   	cairo_rectangle (cr,
@@ -300,6 +297,9 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 	gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
+
+	if (self->priv->preview_image == NULL)
+		return;
 
 	/* clip box */
 
@@ -644,7 +644,7 @@ gth_image_rotator_get_result (GthImageRotator *self)
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
 
-	pixbuf = _gdk_pixbuf_new_from_cairo_surface (cr);
+	pixbuf = _gdk_pixbuf_new_from_cairo_context (cr);
 
 	cairo_destroy (cr);
 	cairo_surface_destroy (output);

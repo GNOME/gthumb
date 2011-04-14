@@ -161,6 +161,10 @@ void           gth_image_viewer_set_pixbuf               (GthImageViewer     *vi
 							  GdkPixbuf          *pixbuf,
 							  int                 original_width,
 							  int                 original_height);
+void           gth_image_viewer_set_surface              (GthImageViewer     *viewer,
+							  cairo_surface_t    *image,
+							  int                 original_width,
+							  int                 original_height);
 void           gth_image_viewer_set_better_quality       (GthImageViewer     *viewer,
 							  GdkPixbufAnimation *animation,
 							  int                 original_width,
@@ -181,9 +185,10 @@ void           gth_image_viewer_remove_painter           (GthImageViewer     *vi
 
 int            gth_image_viewer_get_image_width          (GthImageViewer     *viewer);
 int            gth_image_viewer_get_image_height         (GthImageViewer     *viewer);
-int            gth_image_viewer_get_image_bps            (GthImageViewer     *viewer);
 gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer     *viewer);
 GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer     *viewer);
+cairo_surface_t *
+	       gth_image_viewer_get_current_image      (GthImageViewer     *viewer);
 void           gth_image_viewer_get_original_size        (GthImageViewer     *viewer,
 				    	    	    	  int                *width,
 				    	    	    	  int                *height);

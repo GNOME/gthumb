@@ -126,6 +126,14 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 }
 
 
+void
+_cairo_clear_surface (cairo_surface_t  **surface)
+{
+	cairo_surface_destroy (*surface);
+	*surface = NULL;
+}
+
+
 cairo_surface_t *
 _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 {
@@ -138,6 +146,9 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	int              s_stride;
 	unsigned char   *s_pixels;
 	int              h, w;
+
+	if (pixbuf == NULL)
+		return NULL;
 
 	g_object_get (G_OBJECT (pixbuf),
 		      "width", &width,
