@@ -588,7 +588,6 @@ gth_image_rotator_set_background (GthImageRotator *self,
 GdkPixbuf *
 gth_image_rotator_get_result (GthImageRotator *self)
 {
-	cairo_surface_t *input;
 	double           tx, ty;
 	cairo_matrix_t   matrix;
 	GdkRectangle     image_area;
@@ -596,8 +595,6 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	cairo_surface_t *output;
 	cairo_t         *cr;
 	GdkPixbuf       *pixbuf;
-
-	input = _cairo_image_surface_create_from_pixbuf (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)));
 
 	/* compute the transformation matrix and the clip area */
 
@@ -640,7 +637,7 @@ gth_image_rotator_get_result (GthImageRotator *self)
   	/* paint the rotated image */
 
 	cairo_set_matrix (cr, &matrix);
-	cairo_set_source_surface (cr, input, image_area.x, image_area.y);
+	cairo_set_source_surface (cr, gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)), image_area.x, image_area.y);
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
 
@@ -648,7 +645,6 @@ gth_image_rotator_get_result (GthImageRotator *self)
 
 	cairo_destroy (cr);
 	cairo_surface_destroy (output);
-	cairo_surface_destroy (input);
 
 	return pixbuf;
 }
