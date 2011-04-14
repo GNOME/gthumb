@@ -732,43 +732,26 @@ static int
 gth_image_viewer_expose (GtkWidget      *widget,
 			 GdkEventExpose *event)
 {
-	GthImageViewer *self;
+	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
 	cairo_t        *cr;
 
-	self = GTH_IMAGE_VIEWER (widget);
+	/* create the cairo context and set some default values */
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	/*cairo_set_line_width (cr, 0.5);
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);*/
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+
+	/* clip to the exposed area */
 
 	gdk_cairo_region (cr, event->region);
 	cairo_clip (cr);
 
+	/* delegate the rest to the tool  */
+
 	gth_image_viewer_tool_expose (self->priv->tool, event, cr);
-
-#if 0
-	/* Draw the focus. */
-
-	if (GTK_WIDGET_HAS_FOCUS (widget)) {
-		GdkRectangle r;
-
-		r.x = 0;
-		r.y = 0;
-		r.width = gdk_width + 2;
-		r.height = gdk_height + 2;
-
-		gtk_paint_focus (widget->style,
-				 widget->window,
-				 widget->state,
-				 &r,
-				 widget, NULL,
-				 0, 0, gdk_width + 2, gdk_height + 2);
-	}
-#endif
+	cairo_destroy (cr);
 
 	queue_animation_frame_change (self);
-
-	cairo_destroy (cr);
 
 	return FALSE;
 }
@@ -1689,22 +1672,22 @@ gth_image_viewer_set_pixbuf (GthImageViewer *self,
 			     int             original_width,
 			     int             original_height)
 {
-	cairo_surface_t *surface;
+	cairo_surface_t *image;
 
 	g_return_if_fail (self != NULL);
 
-	surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
-	gth_image_viewer_set_surface (self, surface, original_width, original_height);
+	image = _cairo_image_surface_create_from_pixbuf (pixbuf);
+	gth_image_viewer_set_image (self, image, original_width, original_height);
 
-	cairo_surface_destroy (surface);
+	cairo_surface_destroy (image);
 }
 
 
 void
-gth_image_viewer_set_surface (GthImageViewer  *self,
-			      cairo_surface_t *surface,
-			      int              original_width,
-			      int              original_height)
+gth_image_viewer_set_image (GthImageViewer  *self,
+			    cairo_surface_t *image,
+			    int              original_width,
+			    int              original_height)
 {
 	g_return_if_fail (self != NULL);
 
@@ -1712,7 +1695,7 @@ gth_image_viewer_set_surface (GthImageViewer  *self,
 	_g_clear_object (&self->priv->iter);
 
 	cairo_surface_destroy (self->priv->surface);
-	self->priv->surface = cairo_surface_reference (surface);
+	self->priv->surface = cairo_surface_reference (image);
 	self->priv->is_void = (self->priv->surface == NULL);
 	self->priv->is_animation = FALSE;
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
@@ -1863,6 +1846,7 @@ gth_image_viewer_get_has_alpha (GthImageViewer *self)
 
 	g_return_val_if_fail (self != NULL, FALSE);
 
+	/* FIXME */
 	pixbuf = gth_image_viewer_get_current_pixbuf (self);
 	if (pixbuf != NULL)
 		return gdk_pixbuf_get_has_alpha (pixbuf);

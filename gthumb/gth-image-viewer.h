@@ -161,7 +161,7 @@ void           gth_image_viewer_set_pixbuf               (GthImageViewer     *vi
 							  GdkPixbuf          *pixbuf,
 							  int                 original_width,
 							  int                 original_height);
-void           gth_image_viewer_set_surface              (GthImageViewer     *viewer,
+void           gth_image_viewer_set_image                (GthImageViewer     *viewer,
 							  cairo_surface_t    *image,
 							  int                 original_width,
 							  int                 original_height);
@@ -188,7 +188,7 @@ int            gth_image_viewer_get_image_height         (GthImageViewer     *vi
 gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer     *viewer);
 GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer     *viewer);
 cairo_surface_t *
-	       gth_image_viewer_get_current_image      (GthImageViewer     *viewer);
+	       gth_image_viewer_get_current_image      (GthImageViewer       *viewer);
 void           gth_image_viewer_get_original_size        (GthImageViewer     *viewer,
 				    	    	    	  int                *width,
 				    	    	    	  int                *height);
