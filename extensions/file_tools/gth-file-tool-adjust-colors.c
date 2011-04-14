@@ -362,7 +362,6 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	if (self->priv->src_pixbuf == NULL)
 		return NULL;
 
-	self->priv->src_pixbuf = g_object_ref (self->priv->src_pixbuf);
 	self->priv->dest_pixbuf = NULL;
 
 	self->priv->builder = _gtk_builder_new_from_file ("adjust-colors-options.ui", "file_tools");

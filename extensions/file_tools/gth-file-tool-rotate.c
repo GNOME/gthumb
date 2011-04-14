@@ -383,10 +383,15 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->pixbuf_height = gdk_pixbuf_get_height (src_pixbuf);
 	width = self->priv->pixbuf_width;
 	height = self->priv->pixbuf_height;
-	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
+	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE)) {
 		self->priv->tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (src_pixbuf, width, height, GDK_INTERP_BILINEAR);
-	else
-		self->priv->tmp_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	}
+	else {
+		self->priv->tmp_pixbuf = src_pixbuf;
+		src_pixbuf = NULL;
+	}
+
+	_g_object_unref (src_pixbuf);
 
 	self->priv->unit = eel_gconf_get_enum (PREF_ROTATE_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PERCENTAGE);
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");

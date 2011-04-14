@@ -125,10 +125,15 @@ update_image_surface (GthImageRotator *self)
 	height = self->priv->original_height;
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	max_size = MIN (allocation.width, allocation.height) / 1.2;
-	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
+	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE)) {
 		tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (src_pixbuf, width, height, GDK_INTERP_BILINEAR);
-	else
-		tmp_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	}
+	else {
+		tmp_pixbuf = src_pixbuf;
+		src_pixbuf = NULL;
+	}
+
+	_g_object_unref (src_pixbuf);
 
 	self->priv->preview_zoom = (double) width / self->priv->original_width;
 

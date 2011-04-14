@@ -294,6 +294,8 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
+	GdkPixbuf *pixbuf;
+
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -310,10 +312,11 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	if (self->priv->shrink_wrap)
 		gth_image_viewer_page_shrink_wrap (self, TRUE);
 	gth_image_history_clear (self->priv->history);
-	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
-				     FALSE);
+	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gth_image_history_add_image (self->priv->history, pixbuf, FALSE);
 	gth_image_viewer_page_file_loaded (self, TRUE);
+
+	_g_object_unref (pixbuf);
 }
 
 
@@ -326,6 +329,8 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 				        GError             *error,
 				        GthImageViewerPage *self)
 {
+	GdkPixbuf *pixbuf;
+
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -337,9 +342,10 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 					     original_width,
 					     original_height);
 	gth_image_history_clear (self->priv->history);
-	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
-				     FALSE);
+	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gth_image_history_add_image (self->priv->history, pixbuf, FALSE);
+
+	_g_object_unref (pixbuf);
 }
 
 
@@ -1015,6 +1021,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	GthImageViewerPage *self;
 	SaveData           *data;
 	GthFileData        *current_file;
+	GdkPixbuf          *pixbuf;
 
 	self = (GthImageViewerPage *) base;
 
@@ -1032,12 +1039,15 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 		gth_file_data_set_file (current_file, file);
 	g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
 
-	_gdk_pixbuf_save_async (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
+	_gdk_pixbuf_save_async (pixbuf,
 			        current_file,
 			        mime_type,
 			        TRUE,
 				image_saved_cb,
 				data);
+
+	_g_object_unref (pixbuf);
 }
 
 

@@ -1845,16 +1845,7 @@ gth_image_viewer_get_original_size (GthImageViewer *self,
 gboolean
 gth_image_viewer_get_has_alpha (GthImageViewer *self)
 {
-	GdkPixbuf *pixbuf;
-
-	g_return_val_if_fail (self != NULL, FALSE);
-
-	/* FIXME */
-	pixbuf = gth_image_viewer_get_current_pixbuf (self);
-	if (pixbuf != NULL)
-		return gdk_pixbuf_get_has_alpha (pixbuf);
-
-	return FALSE;
+	return TRUE; /* FIXME */
 }
 
 
@@ -1870,7 +1861,7 @@ gth_image_viewer_get_current_pixbuf (GthImageViewer *self)
 		return _gdk_pixbuf_new_from_cairo_surface (self->priv->surface);
 
 	if (self->priv->iter != NULL)
-		return gdk_pixbuf_animation_iter_get_pixbuf (self->priv->iter);
+		return gdk_pixbuf_copy (gdk_pixbuf_animation_iter_get_pixbuf (self->priv->iter));
 
 	return NULL;
 }
@@ -2428,10 +2419,6 @@ gth_image_viewer_paint (GthImageViewer  *self,
 	dheight = (double) height / zoom_level;
 
 	cairo_scale (cr, zoom_level, zoom_level);
-
-	/* FIXME: paint the background for images with a transparency */
-
-	/* g_print ("src: (%d, %d) -- dest: (%d, %d) [%d, %d]\n", src_x, src_y, dest_x, dest_y, width, height); */
 
 	cairo_set_source_surface (cr, surface, dest_dx - src_dx, dest_dy - src_dy);
 	cairo_pattern_set_filter (cairo_get_source (cr), filter);

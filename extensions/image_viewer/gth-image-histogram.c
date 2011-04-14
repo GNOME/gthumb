@@ -65,8 +65,10 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 		return;
 	}
 
-	pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page)); /* FIXME: use the cairo_surface here */
 	gth_histogram_calculate (self->priv->histogram, pixbuf);
+
+	g_object_unref (pixbuf);
 }
 
 
