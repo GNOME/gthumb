@@ -2603,6 +2603,36 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 			       self->image_area.y - 1 + 0.5);
 		cairo_stroke (cr);
 	}
+
+	if (TRUE /* FIXME gth_image_viewer_get_has_alpha (self) */) {
+
+		/* Draw the background for the transparency */
+
+		switch (self->priv->transp_type) {
+		case GTH_TRANSP_TYPE_BLACK:
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+			cairo_rectangle (cr,
+					 self->image_area.x + 0.5,
+					 self->image_area.y + 0.5,
+					 self->image_area.width,
+					 self->image_area.height);
+			cairo_fill (cr);
+			break;
+
+		case GTH_TRANSP_TYPE_WHITE:
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+			cairo_rectangle (cr,
+					 self->image_area.x + 0.5,
+					 self->image_area.y + 0.5,
+					 self->image_area.width,
+					 self->image_area.height);
+			cairo_fill (cr);
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 
