@@ -71,7 +71,6 @@ struct _GthImageViewerPrivate {
 	GTimeVal                time;               /* Timer used to get the current frame. */
 	guint                   anim_id;
 	cairo_surface_t        *iter_surface;
-	GdkPixbufAnimationIter *last_iter;
 
 	gboolean                is_animation;
 	gboolean                play_animation;
@@ -704,6 +703,7 @@ change_animation_frame (gpointer data)
 	g_time_val_add (&self->priv->time, (glong) gdk_pixbuf_animation_iter_get_delay_time (self->priv->iter) * 1000);
 	gdk_pixbuf_animation_iter_advance (self->priv->iter, &self->priv->time);
 
+	_cairo_clear_surface (&self->priv->iter_surface);
 	self->priv->skip_zoom_change = TRUE;
 	self->priv->skip_size_change = TRUE;
 	gth_image_viewer_update_view (self);
@@ -1464,7 +1464,6 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 
 	self->priv->anim_id = 0;
 	self->priv->iter = NULL;
-	self->priv->last_iter = NULL;
 	self->priv->iter_surface = NULL;
 
 	self->priv->enable_zoom_with_keys = TRUE;
@@ -1630,8 +1629,10 @@ _set_animation (GthImageViewer     *self,
 	g_return_if_fail (self != NULL);
 
 	_cairo_clear_surface (&self->priv->surface);
+	_cairo_clear_surface (&self->priv->iter_surface);
+	_g_clear_object (&self->priv->animation);
+	_g_clear_object (&self->priv->iter);
 
-	_g_object_unref (self->priv->animation);
 	self->priv->animation = _g_object_ref (animation);
 	self->priv->is_void = (self->priv->animation == NULL);
 	self->priv->is_animation = (self->priv->animation != NULL) ? ! gdk_pixbuf_animation_is_static_image (self->priv->animation) : FALSE;
@@ -1691,10 +1692,11 @@ gth_image_viewer_set_image (GthImageViewer  *self,
 {
 	g_return_if_fail (self != NULL);
 
+	_cairo_clear_surface (&self->priv->surface);
+	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
-	cairo_surface_destroy (self->priv->surface);
 	self->priv->surface = cairo_surface_reference (image);
 	self->priv->is_void = (self->priv->surface == NULL);
 	self->priv->is_animation = FALSE;
@@ -1710,6 +1712,7 @@ gth_image_viewer_set_void (GthImageViewer *self)
 	g_return_if_fail (self != NULL);
 
 	_cairo_clear_surface (&self->priv->surface);
+	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
@@ -1885,11 +1888,8 @@ gth_image_viewer_get_current_image (GthImageViewer *self)
 		return self->priv->surface;
 
 	if (self->priv->iter != NULL) {
-		if ((self->priv->iter_surface == NULL) || (self->priv->iter != self->priv->last_iter)) {
-			self->priv->last_iter = self->priv->iter;
-			_cairo_clear_surface (&self->priv->iter_surface);
+		if (self->priv->iter_surface == NULL)
 			self->priv->iter_surface = _cairo_image_surface_create_from_pixbuf (gdk_pixbuf_animation_iter_get_pixbuf (self->priv->iter));
-		}
 		return self->priv->iter_surface;
 	}
 
