@@ -886,8 +886,8 @@ scroll_to (GthImageViewer *self,
 		area.y = 0;
 		area.width = allocation.width;
 		area.height = allocation.height;
-		gdk_window_invalidate_rect (drawable, &area, TRUE);
-		gdk_window_process_updates (drawable, TRUE);
+		gdk_window_invalidate_rect (drawable, &area, FALSE);
+		gdk_window_process_updates (drawable, FALSE);
 
 		return;
 	}
@@ -928,7 +928,7 @@ scroll_to (GthImageViewer *self,
 		area.height = gdk_height;
 		gdk_region_union_with_rect (region, &area);
 
-		gdk_window_invalidate_region (drawable, region, TRUE);
+		gdk_window_invalidate_region (drawable, region, FALSE);
 
 		gdk_region_destroy (region);
 	}
