@@ -285,22 +285,24 @@ gboolean       gth_image_viewer_is_frame_visible         (GthImageViewer     *vi
 
 void           gth_image_viewer_paint                    (GthImageViewer     *viewer,
 							  cairo_t            *cr,
-							  GdkPixbuf          *pixbuf,
+							  cairo_surface_t    *surface,
 							  int                 src_x,
 							  int                 src_y,
 							  int                 dest_x,
 							  int                 dest_y,
 							  int                 width,
 							  int                 height,
-							  int                 interp_type);
+							  cairo_filter_t      filter);
 void           gth_image_viewer_paint_region             (GthImageViewer     *viewer,
 							  cairo_t            *cr,
-							  GdkPixbuf          *pixbuf,
+							  cairo_surface_t    *surface,
 							  int                 src_x,
 							  int                 src_y,
 							  GdkRectangle       *pixbuf_area,
 							  GdkRegion          *region,
-							  int                 interp_type);
+							  cairo_filter_t      filter);
+void           gth_image_viewer_paint_background         (GthImageViewer     *self,
+				   	   	          cairo_t            *cr);
 void           gth_image_viewer_apply_painters           (GthImageViewer     *image_viewer,
 							  GdkEventExpose     *event,
 							  cairo_t            *cr);

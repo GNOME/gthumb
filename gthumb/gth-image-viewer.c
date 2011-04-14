@@ -734,137 +734,21 @@ gth_image_viewer_expose (GtkWidget      *widget,
 {
 	GthImageViewer *self;
 	cairo_t        *cr;
-	GtkAllocation   allocation;
-	int             gdk_width;
-	int             gdk_height;
-	GtkStyle       *style;
 
 	self = GTH_IMAGE_VIEWER (widget);
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	cairo_set_line_width (cr, 0.5);
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	/*cairo_set_line_width (cr, 0.5);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);*/
 
 	gdk_cairo_region (cr, event->region);
 	cairo_clip (cr);
 
-	/* Draw the background. */
-
-	gtk_widget_get_allocation (widget, &allocation);
-	gdk_width = allocation.width - self->priv->frame_border2;
-	gdk_height = allocation.height - self->priv->frame_border2;
-
-	style = gtk_widget_get_style (widget);
-
-	if ((self->image_area.x > self->priv->frame_border)
-	    || (self->image_area.y > self->priv->frame_border)
-	    || (self->image_area.width < gdk_width)
-	    || (self->image_area.height < gdk_height))
-	{
-		int rx, ry, rw, rh;
-
-		if (self->priv->black_bg)
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-		else
-			gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
-
-		if (gth_image_viewer_get_current_pixbuf (self) == NULL) {
-			cairo_rectangle (cr,
-					 0,
-					 0,
-					 allocation.width,
-					 allocation.height);
-		}
-		else {
-			/* If an image is present draw in four phases to avoid
-			 * flickering. */
-
-			/* Top rectangle. */
-
-			rx = 0;
-			ry = 0;
-			rw = allocation.width;
-			rh = self->image_area.y;
-			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx, ry, rw, rh);
-
-			/* Bottom rectangle. */
-
-			rx = 0;
-			ry = self->image_area.y + self->image_area.height;
-			rw = allocation.width;
-			rh = allocation.height - self->image_area.y - self->image_area.height;
-			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx, ry, rw, rh);
-
-			/* Left rectangle. */
-
-			rx = 0;
-			ry = self->image_area.y - 1;
-			rw = self->image_area.x;
-			rh = self->image_area.height + 2;
-			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx, ry, rw, rh);
-
-			/* Right rectangle. */
-
-			rx = self->image_area.x + self->image_area.width;
-			ry = self->image_area.y - 1;
-			rw = allocation.width - self->image_area.x - self->image_area.width;
-			rh = self->image_area.height + 2;
-			if ((rw > 0) && (rh > 0))
-				cairo_rectangle (cr, rx, ry, rw, rh);
-		}
-
-		cairo_fill (cr);
-	}
-
-	/* Draw the frame. */
-
-	if ((self->priv->frame_border > 0)
-	    && (gth_image_viewer_get_current_pixbuf (self) != NULL))
-	{
-
-		/* bottom and right side */
-
-		if (self->priv->black_bg)
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-		else
-			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
-
-		cairo_move_to (cr,
-			       self->image_area.x + self->image_area.width + 0.5,
-			       self->image_area.y - 1 + 0.5);
-		cairo_line_to (cr,
-			       self->image_area.x + self->image_area.width + 0.5,
-			       self->image_area.y + self->image_area.height + 0.5);
-		cairo_line_to (cr,
-			       self->image_area.x - 1 + 0.5,
-			       self->image_area.y + self->image_area.height + 0.5);
-		cairo_stroke (cr);
-
-		/* top and left side */
-
-		if (! self->priv->black_bg)
-			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
-
-		cairo_move_to (cr,
-			       self->image_area.x - 1 + 0.5,
-			       self->image_area.y + self->image_area.height + 0.5);
-		cairo_line_to (cr,
-			       self->image_area.x - 1 + 0.5,
-			       self->image_area.y - 1 + 0.5);
-		cairo_line_to (cr,
-			       self->image_area.x + self->image_area.width + 0.5,
-			       self->image_area.y - 1 + 0.5);
-		cairo_stroke (cr);
-	}
-
 	gth_image_viewer_tool_expose (self->priv->tool, event, cr);
 
+#if 0
 	/* Draw the focus. */
 
-#if 0
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		GdkRectangle r;
 
@@ -2614,6 +2498,127 @@ gth_image_viewer_paint_region (GthImageViewer  *self,
 	cairo_restore (cr);
 
 	g_free (rects);
+}
+
+
+void
+gth_image_viewer_paint_background (GthImageViewer *self,
+				   cairo_t        *cr)
+{
+	GtkAllocation   allocation;
+	int             gdk_width;
+	int             gdk_height;
+	GtkStyle       *style;
+
+	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+	gdk_width = allocation.width - self->priv->frame_border2;
+	gdk_height = allocation.height - self->priv->frame_border2;
+
+	style = gtk_widget_get_style (GTK_WIDGET (self));
+
+	if ((self->image_area.x > self->priv->frame_border)
+	    || (self->image_area.y > self->priv->frame_border)
+	    || (self->image_area.width < gdk_width)
+	    || (self->image_area.height < gdk_height))
+	{
+		int rx, ry, rw, rh;
+
+		if (self->priv->black_bg)
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		else
+			gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+
+		if (gth_image_viewer_get_current_image (self) == NULL) {
+			cairo_rectangle (cr,
+					 0,
+					 0,
+					 allocation.width,
+					 allocation.height);
+		}
+		else {
+			/* If an image is present draw in four phases to avoid
+			 * flickering. */
+
+			/* Top rectangle. */
+
+			rx = 0;
+			ry = 0;
+			rw = allocation.width;
+			rh = self->image_area.y;
+			if ((rw > 0) && (rh > 0))
+				cairo_rectangle (cr, rx, ry, rw, rh);
+
+			/* Bottom rectangle. */
+
+			rx = 0;
+			ry = self->image_area.y + self->image_area.height;
+			rw = allocation.width;
+			rh = allocation.height - self->image_area.y - self->image_area.height;
+			if ((rw > 0) && (rh > 0))
+				cairo_rectangle (cr, rx, ry, rw, rh);
+
+			/* Left rectangle. */
+
+			rx = 0;
+			ry = self->image_area.y - 1;
+			rw = self->image_area.x;
+			rh = self->image_area.height + 2;
+			if ((rw > 0) && (rh > 0))
+				cairo_rectangle (cr, rx, ry, rw, rh);
+
+			/* Right rectangle. */
+
+			rx = self->image_area.x + self->image_area.width;
+			ry = self->image_area.y - 1;
+			rw = allocation.width - self->image_area.x - self->image_area.width;
+			rh = self->image_area.height + 2;
+			if ((rw > 0) && (rh > 0))
+				cairo_rectangle (cr, rx, ry, rw, rh);
+		}
+
+		cairo_fill (cr);
+	}
+
+	/* Draw the frame. */
+
+	if ((self->priv->frame_border > 0)
+	    && (gth_image_viewer_get_current_image (self) != NULL))
+	{
+
+		/* bottom and right side */
+
+		if (self->priv->black_bg)
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		else
+			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+
+		cairo_move_to (cr,
+			       self->image_area.x + self->image_area.width + 0.5,
+			       self->image_area.y - 1 + 0.5);
+		cairo_line_to (cr,
+			       self->image_area.x + self->image_area.width + 0.5,
+			       self->image_area.y + self->image_area.height + 0.5);
+		cairo_line_to (cr,
+			       self->image_area.x - 1 + 0.5,
+			       self->image_area.y + self->image_area.height + 0.5);
+		cairo_stroke (cr);
+
+		/* top and left side */
+
+		if (! self->priv->black_bg)
+			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+
+		cairo_move_to (cr,
+			       self->image_area.x - 1 + 0.5,
+			       self->image_area.y + self->image_area.height + 0.5);
+		cairo_line_to (cr,
+			       self->image_area.x - 1 + 0.5,
+			       self->image_area.y - 1 + 0.5);
+		cairo_line_to (cr,
+			       self->image_area.x + self->image_area.width + 0.5,
+			       self->image_area.y - 1 + 0.5);
+		cairo_stroke (cr);
+	}
 }
 
 

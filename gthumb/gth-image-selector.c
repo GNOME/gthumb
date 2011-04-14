@@ -738,7 +738,9 @@ gth_image_selector_expose (GthImageViewerTool *base,
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
-	if (self->priv->pixbuf == NULL)
+	gth_image_viewer_paint_background (self->priv->viewer, cr);
+
+	if (self->priv->surface == NULL)
 		return;
 
 	if (self->priv->mask_visible) {

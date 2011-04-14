@@ -142,7 +142,9 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
 
-	if (gth_image_viewer_get_current_pixbuf (viewer) == NULL)
+	gth_image_viewer_paint_background (viewer, cr);
+
+	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
 	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
