@@ -49,7 +49,7 @@ struct _GthFileToolRotatePrivate {
 	int              new_height;
 	GthUnit          unit;
 	guint            apply_event;
-	double           step;
+	double           angle_step;
 	gboolean         use_grid;
 	GtkAdjustment   *grid_adj;
 };
@@ -250,14 +250,14 @@ angle_value_changed_cb (GtkAdjustment *adj,
 		self->priv->apply_event = 0;
 	}
 
-	if (self->priv->step != 0) {
+	if (self->priv->angle_step != 0.0) {
 		double angle;
 		double rounded_angle;
 
-		angle = gtk_adjustment_get_value (self->priv->angle_adj) / self->priv->step;
+		angle = gtk_adjustment_get_value (self->priv->angle_adj) / self->priv->angle_step;
 		rounded_angle = round (angle);
 		if (angle != rounded_angle) {
-			angle = rounded_angle * self->priv->step;
+			angle = rounded_angle * self->priv->angle_step;
 			gtk_adjustment_set_value (self->priv->angle_adj, angle);
 			return;
 		}
@@ -523,8 +523,8 @@ gth_file_tool_rotate_instance_init (GthFileToolRotate *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
 	self->priv->tmp_pixbuf = NULL;
-	self->priv->step = 0.0; /* FIXME */
-	self->priv->use_grid = TRUE;
+	self->priv->angle_step = 0.0;
+	self->priv->use_grid = FALSE;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
 }
 
