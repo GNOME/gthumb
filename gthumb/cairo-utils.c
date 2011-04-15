@@ -24,6 +24,22 @@
 #include "cairo-utils.h"
 
 
+typedef struct {
+	gboolean has_alpha;
+} cairo_surface_metadata_t;
+
+
+static cairo_user_data_key_t surface_metadata_key;
+
+
+static void
+surface_metadata_free (void *data)
+{
+	cairo_surface_metadata_t *metadata = data;
+	g_free (metadata);
+}
+
+
 void
 _gdk_color_to_cairo_color (GdkColor      *g_color,
 			   cairo_color_t *c_color)
@@ -113,18 +129,35 @@ _cairo_clear_surface (cairo_surface_t  **surface)
 }
 
 
+gboolean
+_cairo_image_surface_has_alpha (cairo_surface_t *surface)
+{
+	cairo_surface_metadata_t *metadata;
+
+	if (surface == NULL)
+		return FALSE;
+
+	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
+	if (metadata != NULL)
+		return metadata->has_alpha;
+
+	return cairo_image_surface_get_format (surface) == CAIRO_FORMAT_ARGB32;
+}
+
+
 cairo_surface_t *
 _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 {
-	cairo_surface_t *surface;
-	int              width;
-	int              height;
-	int              p_stride;
-	int              p_n_channels;
-	guchar          *p_pixels;
-	int              s_stride;
-	unsigned char   *s_pixels;
-	int              h, w;
+	cairo_surface_t          *surface;
+	cairo_surface_metadata_t *metadata;
+	int                      width;
+	int                      height;
+	int                      p_stride;
+	int                      p_n_channels;
+	guchar                  *p_pixels;
+	int                      s_stride;
+	unsigned char           *s_pixels;
+	int                      h, w;
 
 	if (pixbuf == NULL)
 		return NULL;
@@ -139,6 +172,10 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	s_stride = cairo_image_surface_get_stride (surface);
 	s_pixels = cairo_image_surface_get_data (surface);
+
+	metadata = g_new0 (cairo_surface_metadata_t, 1);
+	metadata->has_alpha = (p_n_channels == 4);
+	cairo_surface_set_user_data (surface, &surface_metadata_key, metadata, surface_metadata_free);
 
 	if (p_n_channels == 4) {
 		guchar *s_iter;

@@ -1845,7 +1845,7 @@ gth_image_viewer_get_original_size (GthImageViewer *self,
 gboolean
 gth_image_viewer_get_has_alpha (GthImageViewer *self)
 {
-	return TRUE; /* FIXME */
+	return _cairo_image_surface_has_alpha (self->priv->surface);
 }
 
 
@@ -2591,7 +2591,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		cairo_stroke (cr);
 	}
 
-	if (TRUE /* FIXME gth_image_viewer_get_has_alpha (self) */) {
+	if (gth_image_viewer_get_has_alpha (self)) {
 
 		/* Draw the background for the transparency */
 

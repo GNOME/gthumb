@@ -87,6 +87,7 @@ void         _cairo_paint_full_gradient         (cairo_surface_t   *surface,
 				 	 	 GdkColor          *v_color1,
 				 	 	 GdkColor          *v_color2);
 void         _cairo_clear_surface               (cairo_surface_t  **surface);
+gboolean     _cairo_image_surface_has_alpha     (cairo_surface_t   *surface);
 cairo_surface_t *
 	     _cairo_image_surface_create_from_pixbuf
 	     	     	     	     	        (GdkPixbuf         *pixbuf);
