@@ -135,8 +135,8 @@ update_image_surface (GthImageRotator *self)
 	self->priv->preview_image = _cairo_image_surface_create_from_pixbuf (tmp_pixbuf);
 	self->priv->preview_image_area.width = width;
 	self->priv->preview_image_area.height = height;
-	self->priv->preview_image_area.x = MAX ((allocation.width - self->priv->preview_image_area.width) / 2, 0);
-	self->priv->preview_image_area.y = MAX ((allocation.height - self->priv->preview_image_area.height) / 2, 0);
+	self->priv->preview_image_area.x = MAX ((allocation.width - self->priv->preview_image_area.width) / 2 - 0.5, 0);
+	self->priv->preview_image_area.y = MAX ((allocation.height - self->priv->preview_image_area.height) / 2 - 0.5, 0);
 
 	_gth_image_rotator_update_tranformation_matrix (self);
 
