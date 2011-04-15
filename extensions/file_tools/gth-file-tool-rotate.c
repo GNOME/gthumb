@@ -90,19 +90,19 @@ ok_button_clicked_cb (GtkButton *button,
 		      gpointer   user_data)
 {
 	GthFileToolRotate *self = user_data;
-	GdkPixbuf         *new_pixbuf;
+	cairo_surface_t   *new_image;
 
-	new_pixbuf = gth_image_rotator_get_result (self->priv->rotator);
-	if (new_pixbuf != NULL) {
+	new_image = gth_image_rotator_get_result (self->priv->rotator);
+	if (new_image != NULL) {
 		GtkWidget *window;
 		GtkWidget *viewer_page;
 
 		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_image, TRUE);
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 
-		g_object_unref (new_pixbuf);
+		cairo_surface_destroy (new_image);
 	}
 }
 

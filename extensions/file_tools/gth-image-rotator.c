@@ -103,49 +103,41 @@ _gth_image_rotator_update_tranformation_matrix (GthImageRotator *self)
 static void
 update_image_surface (GthImageRotator *self)
 {
-	GtkAllocation  allocation;
-	GdkPixbuf     *src_pixbuf;
-	int            max_size;
-	int            width;
-	int            height;
-	GdkPixbuf     *tmp_pixbuf;
+	GtkAllocation    allocation;
+	cairo_surface_t *image;
+	int              max_size;
+	int              width;
+	int              height;
+	cairo_surface_t *preview_image;
 
 	if (self->priv->preview_image != NULL) {
 		cairo_surface_destroy (self->priv->preview_image);
 		self->priv->preview_image = NULL;
 	}
 
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
-	if (src_pixbuf == NULL)
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if (image == NULL)
 		return;
 
-	self->priv->original_width = gdk_pixbuf_get_width (src_pixbuf);
-	self->priv->original_height = gdk_pixbuf_get_height (src_pixbuf);
+	self->priv->original_width = cairo_image_surface_get_width (image);
+	self->priv->original_height = cairo_image_surface_get_height (image);
 	width = self->priv->original_width;
 	height = self->priv->original_height;
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	max_size = MIN (allocation.width, allocation.height) / 1.2;
-	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE)) {
-		tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (src_pixbuf, width, height, GDK_INTERP_BILINEAR);
-	}
-	else {
-		tmp_pixbuf = src_pixbuf;
-		src_pixbuf = NULL;
-	}
-
-	_g_object_unref (src_pixbuf);
+	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
+		preview_image = _cairo_image_surface_scale_to (image, width, height, CAIRO_FILTER_BILINEAR);
+	else
+		preview_image = cairo_surface_reference (image);
 
 	self->priv->preview_zoom = (double) width / self->priv->original_width;
-
-	self->priv->preview_image = _cairo_image_surface_create_from_pixbuf (tmp_pixbuf);
+	self->priv->preview_image = preview_image;
 	self->priv->preview_image_area.width = width;
 	self->priv->preview_image_area.height = height;
 	self->priv->preview_image_area.x = MAX ((allocation.width - self->priv->preview_image_area.width) / 2, 0);
 	self->priv->preview_image_area.y = MAX ((allocation.height - self->priv->preview_image_area.height) / 2, 0);
 
 	_gth_image_rotator_update_tranformation_matrix (self);
-
-	g_object_unref (tmp_pixbuf);
 }
 
 
@@ -590,7 +582,7 @@ gth_image_rotator_set_background (GthImageRotator *self,
 }
 
 
-GdkPixbuf *
+cairo_surface_t *
 gth_image_rotator_get_result (GthImageRotator *self)
 {
 	double           tx, ty;
@@ -599,7 +591,6 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	GdkRectangle     clip_area;
 	cairo_surface_t *output;
 	cairo_t         *cr;
-	GdkPixbuf       *pixbuf;
 
 	/* compute the transformation matrix and the clip area */
 
@@ -645,11 +636,9 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	cairo_set_source_surface (cr, gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)), image_area.x, image_area.y);
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
-
-	pixbuf = _gdk_pixbuf_new_from_cairo_context (cr);
+  	cairo_surface_set_device_offset (output, 0.0, 0.0);
 
 	cairo_destroy (cr);
-	cairo_surface_destroy (output);
 
-	return pixbuf;
+	return output;
 }
