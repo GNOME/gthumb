@@ -46,27 +46,6 @@ _gdk_color_to_cairo_color_255 (GdkColor          *g_color,
 }
 
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
-#define SET_PIXEL(red, green, blue, alpha)			\
-			s_iter[0] = blue;			\
-			s_iter[1] = green;			\
-			s_iter[2] = red;			\
-			s_iter[3] = alpha;
-#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
-#define SET_PIXEL(red, green, blue, alpha)			\
-			s_iter[0] = alpha;			\
-			s_iter[1] = red;			\
-			s_iter[2] = green;			\
-			s_iter[3] = blue;
-#else /* PDP endianness: RABG */
-#define SET_PIXEL(red, green, blue, alpha)			\
-			s_iter[0] = red;			\
-			s_iter[1] = alpha;			\
-			s_iter[2] = blue;			\
-			s_iter[3] = green;
-#endif
-
-
 void
 _cairo_paint_full_gradient (cairo_surface_t *surface,
 			    GdkColor        *h_color1,
@@ -116,7 +95,7 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 			green = hcolor1.g * x_y + hcolor2.g * x_1_y + vcolor1.g * y_1_x + vcolor2.g * _1_x_1_y;
 			blue  = hcolor1.b * x_y + hcolor2.b * x_1_y + vcolor1.b * y_1_x + vcolor2.b * _1_x_1_y;
 
-			SET_PIXEL (red, green, blue, 0xff);
+			CAIRO_SET_RGBA (s_iter, red, green, blue, 0xff);
 
 			s_iter += 4;
 		}
@@ -178,7 +157,7 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 				green = (guchar) (alpha_factor * p_iter[1]);
 				blue  = (guchar) (alpha_factor * p_iter[2]);
 
-				SET_PIXEL (red, green, blue, alpha);
+				CAIRO_SET_RGBA (s_iter, red, green, blue, alpha);
 
 				s_iter += 4;
 				p_iter += p_n_channels;
@@ -197,7 +176,7 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				SET_PIXEL (p_iter[0], p_iter[1], p_iter[2], 0xff);
+				CAIRO_SET_RGBA (s_iter, p_iter[0], p_iter[1], p_iter[2], 0xff);
 				s_iter += 4;
 				p_iter += p_n_channels;
 			}

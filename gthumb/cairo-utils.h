@@ -27,6 +27,42 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <cairo.h>
 
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
+
+#define CAIRO_RED   2
+#define CAIRO_GREEN 1
+#define CAIRO_BLUE  0
+#define CAIRO_ALPHA 3
+
+#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
+
+#define CAIRO_RED   1
+#define CAIRO_GREEN 2
+#define CAIRO_BLUE  3
+#define CAIRO_ALPHA 0
+
+#else /* PDP endianness: RABG */
+
+#define CAIRO_RED   0
+#define CAIRO_GREEN 3
+#define CAIRO_BLUE  2
+#define CAIRO_ALPHA 1
+
+#endif
+
+#define CAIRO_SET_RGB(s_iter, red, green, blue)			\
+		s_iter[CAIRO_RED] = (red);			\
+		s_iter[CAIRO_GREEN] = (green);			\
+		s_iter[CAIRO_BLUE] = (blue);
+
+#define CAIRO_SET_RGBA(s_iter, red, green, blue, alpha)		\
+		s_iter[CAIRO_RED] = (red);			\
+		s_iter[CAIRO_GREEN] = (green);			\
+		s_iter[CAIRO_BLUE] = (blue);			\
+		s_iter[CAIRO_ALPHA] = (alpha);
+
+
 typedef struct {
 	double r;
 	double g;
