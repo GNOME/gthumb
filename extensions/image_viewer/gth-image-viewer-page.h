@@ -52,6 +52,10 @@ GdkPixbuf *        gth_image_viewer_page_get_pixbuf        (GthImageViewerPage *
 void               gth_image_viewer_page_set_pixbuf        (GthImageViewerPage *page,
 							    GdkPixbuf          *pixbuf,
 							    gboolean            add_to_history);
+cairo_surface_t *  gth_image_viewer_page_get_image         (GthImageViewerPage *page);
+void               gth_image_viewer_page_set_image         (GthImageViewerPage *page,
+							    cairo_surface_t    *image,
+							    gboolean            add_to_history);
 void               gth_image_viewer_page_undo              (GthImageViewerPage *page);
 void               gth_image_viewer_page_redo              (GthImageViewerPage *page);
 GthImageHistory *  gth_image_viewer_page_get_history       (GthImageViewerPage *self);

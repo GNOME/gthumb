@@ -294,8 +294,6 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
-	GdkPixbuf *pixbuf;
-
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -312,11 +310,10 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	if (self->priv->shrink_wrap)
 		gth_image_viewer_page_shrink_wrap (self, TRUE);
 	gth_image_history_clear (self->priv->history);
-	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gth_image_history_add_image (self->priv->history, pixbuf, FALSE);
+	gth_image_history_add_image (self->priv->history,
+				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     FALSE);
 	gth_image_viewer_page_file_loaded (self, TRUE);
-
-	_g_object_unref (pixbuf);
 }
 
 
@@ -329,8 +326,6 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 				        GError             *error,
 				        GthImageViewerPage *self)
 {
-	GdkPixbuf *pixbuf;
-
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -342,10 +337,9 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 					     original_width,
 					     original_height);
 	gth_image_history_clear (self->priv->history);
-	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gth_image_history_add_image (self->priv->history, pixbuf, FALSE);
-
-	_g_object_unref (pixbuf);
+	gth_image_history_add_image (self->priv->history,
+				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     FALSE);
 }
 
 
@@ -1169,23 +1163,23 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 
 static void
-_gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
-				   GdkPixbuf          *pixbuf,
-				   gboolean            modified)
+_gth_image_viewer_page_set_image (GthImageViewerPage *self,
+				  cairo_surface_t    *image,
+				  gboolean            modified)
 {
 	GthFileData *file_data;
 	int          width;
 	int          height;
 	char        *size;
 
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
 
 	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
 
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
+	width = cairo_image_surface_get_width (image);
+	height = cairo_image_surface_get_height (image);
 	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
 	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
@@ -1206,7 +1200,7 @@ gth_image_viewer_page_real_revert (GthViewerPage *base)
 
 	idata = gth_image_history_revert (self->priv->history);
 	if (idata != NULL) {
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 		gth_image_data_unref (idata);
 	}
 }
@@ -1350,9 +1344,30 @@ gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 				  GdkPixbuf          *pixbuf,
 				  gboolean            add_to_history)
 {
+	cairo_surface_t *image;
+
+	image = _cairo_image_surface_create_from_pixbuf (pixbuf);
+	gth_image_viewer_page_set_image (self, image, add_to_history);
+
+	cairo_surface_destroy (image);
+}
+
+
+cairo_surface_t *
+gth_image_viewer_page_get_image (GthImageViewerPage *self)
+{
+	return gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+void
+gth_image_viewer_page_set_image (GthImageViewerPage *self,
+			 	 cairo_surface_t    *image,
+			 	 gboolean            add_to_history)
+{
 	if (add_to_history)
-		gth_image_history_add_image (self->priv->history, pixbuf, TRUE);
-	_gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
+		gth_image_history_add_image (self->priv->history, image, TRUE);
+	_gth_image_viewer_page_set_image (self, image, TRUE);
 	self->priv->pixbuf_changed = TRUE;
 }
 
@@ -1364,7 +1379,7 @@ gth_image_viewer_page_undo (GthImageViewerPage *self)
 
 	idata = gth_image_history_undo (self->priv->history);
 	if (idata != NULL)
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 }
 
 
@@ -1375,7 +1390,7 @@ gth_image_viewer_page_redo (GthImageViewerPage *self)
 
 	idata = gth_image_history_redo (self->priv->history);
 	if (idata != NULL)
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 }
 
 
@@ -1395,7 +1410,7 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 	if (last_image == NULL)
 		return;
 
-	_gth_image_viewer_page_set_pixbuf (self, last_image->image, last_image->unsaved);
+	_gth_image_viewer_page_set_image (self, last_image->image, last_image->unsaved);
 }
 
 

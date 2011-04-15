@@ -30,8 +30,8 @@
 
 
 GthImageData *
-gth_image_data_new (GdkPixbuf *image,
-		    gboolean   unsaved)
+gth_image_data_new (cairo_surface_t *image,
+		    gboolean         unsaved)
 {
 	GthImageData *idata;
 
@@ -40,7 +40,7 @@ gth_image_data_new (GdkPixbuf *image,
 	idata = g_new0 (GthImageData, 1);
 
 	idata->ref = 1;
-	idata->image = g_object_ref (image);
+	idata->image = cairo_surface_reference (image);
 	idata->unsaved = unsaved;
 
 	return idata;
@@ -63,7 +63,7 @@ gth_image_data_unref (GthImageData *idata)
 
 	idata->ref--;
 	if (idata->ref == 0) {
-		g_object_unref (idata->image);
+		cairo_surface_destroy (idata->image);
 		g_free (idata);
 	}
 }
@@ -198,9 +198,9 @@ remove_first_image (GList **list)
 
 
 static GList*
-add_image_to_list (GList      *list,
-		   GdkPixbuf  *pixbuf,
-		   gboolean    unsaved)
+add_image_to_list (GList           *list,
+		   cairo_surface_t *image,
+		   gboolean         unsaved)
 {
 	if (g_list_length (list) > MAX_UNDO_HISTORY_LEN) {
 		GList *last;
@@ -212,38 +212,38 @@ add_image_to_list (GList      *list,
 		}
 	}
 
-	if (pixbuf == NULL)
+	if (image == NULL)
 		return list;
 
-	return g_list_prepend (list, gth_image_data_new (pixbuf, unsaved));
+	return g_list_prepend (list, gth_image_data_new (image, unsaved));
 }
 
 
 static void
 add_image_to_undo_history (GthImageHistory *history,
-		   	   GdkPixbuf       *pixbuf,
+			   cairo_surface_t *image,
 		   	   gboolean         unsaved)
 {
 	history->priv->undo_history = add_image_to_list (history->priv->undo_history,
-							 pixbuf,
+							 image,
 							 unsaved);
 }
 
 
 static void
 add_image_to_redo_history (GthImageHistory *history,
-	   		   GdkPixbuf       *pixbuf,
+			   cairo_surface_t *image,
 	   		   gboolean         unsaved)
 {
 	history->priv->redo_history = add_image_to_list (history->priv->redo_history,
-							 pixbuf,
+							 image,
 							 unsaved);
 }
 
 
 void
 gth_image_history_add_image (GthImageHistory *history,
-			     GdkPixbuf       *image,
+			     cairo_surface_t *image,
 			     gboolean         unsaved)
 {
 	add_image_to_undo_history (history, image, unsaved);
