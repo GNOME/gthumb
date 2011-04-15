@@ -643,6 +643,7 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	cairo_set_source_surface (cr, input, image_area.x, image_area.y);
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
+	cairo_surface_set_device_offset (output, clip_area.x, clip_area.y);
 
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (cr);
 
