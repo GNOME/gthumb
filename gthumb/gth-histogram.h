@@ -23,6 +23,7 @@
 #define GTH_HISTOGRAM_H
 
 #include <glib-object.h>
+#include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
@@ -61,23 +62,25 @@ struct _GthHistogramClass {
 	void  (*changed)  (GthHistogram *self);
 };
 
-GType          gth_histogram_get_type            (void) G_GNUC_CONST;
-GthHistogram * gth_histogram_new                 (void);
-void           gth_histogram_calculate           (GthHistogram        *self,
-						  const GdkPixbuf     *pixbuf);
-double         gth_histogram_get_count           (GthHistogram        *self,
-						  int                  start,
-						  int                  end);
-double         gth_histogram_get_value           (GthHistogram        *self,
-						  GthHistogramChannel  channel,
-						  int                  bin);
-double         gth_histogram_get_channel         (GthHistogram        *self,
-						  GthHistogramChannel  channel,
-						  int                  bin);
-double         gth_histogram_get_channel_max     (GthHistogram        *self,
-						  GthHistogramChannel  channel);
-double         gth_histogram_get_max             (GthHistogram        *self);
-int            gth_histogram_get_nchannels       (GthHistogram        *self);
+GType          gth_histogram_get_type             (void) G_GNUC_CONST;
+GthHistogram * gth_histogram_new                  (void);
+void           gth_histogram_calculate_for_image  (GthHistogram        *self,
+						   cairo_surface_t     *image);
+void           gth_histogram_calculate_for_pixbuf (GthHistogram        *self,
+						   const GdkPixbuf     *pixbuf);
+double         gth_histogram_get_count            (GthHistogram        *self,
+						   int                  start,
+						   int                  end);
+double         gth_histogram_get_value            (GthHistogram        *self,
+						   GthHistogramChannel  channel,
+						   int                  bin);
+double         gth_histogram_get_channel          (GthHistogram        *self,
+						   GthHistogramChannel  channel,
+						   int                  bin);
+double         gth_histogram_get_channel_max      (GthHistogram        *self,
+						   GthHistogramChannel  channel);
+double         gth_histogram_get_max              (GthHistogram        *self);
+int            gth_histogram_get_nchannels        (GthHistogram        *self);
 
 G_END_DECLS
 

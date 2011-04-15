@@ -384,8 +384,6 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	if (self->priv->src_pixbuf == NULL)
 		return NULL;
 
-	g_object_ref (self->priv->src_pixbuf);
-
 	self->priv->pixbuf_width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
 	self->priv->pixbuf_height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
@@ -546,7 +544,7 @@ static void
 gth_file_tool_resize_instance_init (GthFileToolResize *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RESIZE, GthFileToolResizePrivate);
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), TRUE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), FALSE);
 }
 
 

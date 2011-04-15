@@ -43,6 +43,9 @@ G_BEGIN_DECLS
 #define PREF_RESIZE_ASPECT_RATIO_INVERT "/apps/gthumb/ext/resize/aspect_ratio_invert"
 #define PREF_RESIZE_HIGH_QUALITY        "/apps/gthumb/ext/resize/high_quality"
 
+#define PREF_ROTATE_UNIT                "/apps/gthumb/ext/rotate/unit"
+#define PREF_ROTATE_GRID_SIZE           "/apps/gthumb/ext/rotate/grid_size"
+
 G_END_DECLS
 
 #endif /* PREFERENCES_H */

@@ -49,6 +49,7 @@ gth_file_tool_rotate_right_activate (GthFileTool *base)
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), dest_pixbuf, TRUE);
 
 	g_object_unref (dest_pixbuf);
+	g_object_unref (src_pixbuf);
 }
 
 
@@ -70,7 +71,7 @@ gth_file_tool_rotate_right_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_rotate_right_instance_init (GthFileToolRotateRight *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate-90", _("Rotate Right"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate-90", _("Rotate Right"), NULL, TRUE);
 	/*gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));*/
 }
 

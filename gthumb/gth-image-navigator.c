@@ -99,16 +99,16 @@ gth_image_navigator_get_type (void)
 
 
 typedef struct {
-	GthImageViewer *viewer;
-	int             x_root, y_root;
-	GtkWidget      *popup_win;
-	GtkWidget      *preview;
-	GdkPixbuf      *pixbuf;
-	int             image_width, image_height;
-	int             window_max_width, window_max_height;
-	int             popup_x, popup_y, popup_width, popup_height;
-	GdkRectangle    visible_area;
-	double          zoom_factor;
+	GthImageViewer  *viewer;
+	int              x_root, y_root;
+	GtkWidget       *popup_win;
+	GtkWidget       *preview;
+	cairo_surface_t *image;
+	int              image_width, image_height;
+	int              window_max_width, window_max_height;
+	int              popup_x, popup_y, popup_width, popup_height;
+	GdkRectangle     visible_area;
+	double           zoom_factor;
 } NavigatorPopup;
 
 
@@ -142,12 +142,11 @@ get_visible_area_origin_as_double (NavigatorPopup *nav_popup,
 static void
 update_popup_geometry (NavigatorPopup *nav_popup)
 {
-	int            zoomed_width;
-	int            zoomed_height;
-	GdkPixbuf     *image_pixbuf;
-	GtkAllocation  allocation;
-	int            scroll_offset_x;
-	int            scroll_offset_y;
+	int           zoomed_width;
+	int           zoomed_height;
+	GtkAllocation allocation;
+	int           scroll_offset_x;
+	int           scroll_offset_y;
 
 	zoomed_width = nav_popup->image_width * gth_image_viewer_get_zoom (nav_popup->viewer);
 	zoomed_height = nav_popup->image_height * gth_image_viewer_get_zoom (nav_popup->viewer);
@@ -163,15 +162,8 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	nav_popup->popup_width  = MAX ((int) floor (nav_popup->zoom_factor * zoomed_width + 0.5), 1);
 	nav_popup->popup_height = MAX ((int) floor (nav_popup->zoom_factor * zoomed_height + 0.5), 1);
 
-	image_pixbuf = gth_image_viewer_get_current_pixbuf (nav_popup->viewer);
-	g_return_if_fail (image_pixbuf != NULL);
-
-	if (nav_popup->pixbuf != NULL)
-		g_object_unref (nav_popup->pixbuf);
-	nav_popup->pixbuf = _gdk_pixbuf_scale_simple_safe (image_pixbuf,
-							 nav_popup->popup_width,
-							 nav_popup->popup_height,
-							 GDK_INTERP_TILES);
+	cairo_surface_destroy (nav_popup->image);
+	nav_popup->image = cairo_surface_reference (gth_image_viewer_get_current_image (nav_popup->viewer));
 
 	/* visible area size */
 
@@ -217,7 +209,7 @@ popup_window_event_cb (GtkWidget *widget,
 		gtk_grab_remove (nav_popup->popup_win);
 
 		gtk_widget_destroy (nav_popup->popup_win);
-		g_object_unref (nav_popup->pixbuf);
+		cairo_surface_destroy (nav_popup->image);
 		g_free (nav_popup);
 
 		return TRUE;
@@ -308,8 +300,9 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 				 NavigatorPopup *nav_popup)
 {
 	cairo_t *cr;
+	double   zoom;
 
-	if (nav_popup->pixbuf == NULL)
+	if (nav_popup->image == NULL)
 		return FALSE;
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
@@ -318,9 +311,15 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 	gdk_cairo_region (cr, event->region);
 	cairo_clip (cr);
 
-	gdk_cairo_set_source_pixbuf (cr, nav_popup->pixbuf, 0, 0);
-  	cairo_rectangle (cr, 0, 0, nav_popup->popup_width, nav_popup->popup_height);
+	zoom = (double) nav_popup->popup_width / nav_popup->image_width;
+
+	cairo_save (cr);
+	cairo_scale (cr, zoom, zoom);
+	cairo_set_source_surface (cr, nav_popup->image, 0, 0);
+	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
+  	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_width);
   	cairo_fill (cr);
+  	cairo_restore (cr);
 
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 	cairo_rectangle (cr, 0, 0, nav_popup->popup_width, nav_popup->popup_height);
@@ -329,13 +328,19 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 	if ((nav_popup->visible_area.width < nav_popup->popup_width)
 	    || (nav_popup->visible_area.height < nav_popup->popup_height))
 	{
-		gdk_cairo_set_source_pixbuf (cr, nav_popup->pixbuf, 0, 0);
+		cairo_save (cr);
 		cairo_rectangle (cr,
 				 nav_popup->visible_area.x,
 				 nav_popup->visible_area.y,
 				 nav_popup->visible_area.width,
 				 nav_popup->visible_area.height);
+		cairo_clip (cr);
+		cairo_scale (cr, zoom, zoom);
+		cairo_set_source_surface (cr, nav_popup->image, 0, 0);
+		cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
+	  	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_width);
 	  	cairo_fill (cr);
+	  	cairo_restore (cr);
 
 		cairo_save (cr);
 		cairo_set_line_width (cr, VISIBLE_AREA_BORDER);

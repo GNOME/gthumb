@@ -44,7 +44,7 @@ struct _GthImageViewerPagePrivate {
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
-	gboolean           pixbuf_changed;
+	gboolean           image_changed;
 	gboolean           shrink_wrap;
 	GFile             *last_loaded;
 };
@@ -311,7 +311,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 		gth_image_viewer_page_shrink_wrap (self, TRUE);
 	gth_image_history_clear (self->priv->history);
 	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
 	gth_image_viewer_page_file_loaded (self, TRUE);
 }
@@ -338,7 +338,7 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 					     original_height);
 	gth_image_history_clear (self->priv->history);
 	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
 }
 
@@ -830,7 +830,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	if ((self->priv->file_data != NULL)
 	    && g_file_equal (file_data->file, self->priv->file_data->file)
 	    && (gth_file_data_get_mtime (file_data) == gth_file_data_get_mtime (self->priv->file_data))
-	    && ! self->priv->pixbuf_changed)
+	    && ! self->priv->image_changed)
 	{
 		gth_image_viewer_page_file_loaded (self, TRUE);
 		return;
@@ -838,6 +838,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);
+	self->priv->image_changed = FALSE;
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
@@ -1015,6 +1016,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	GthImageViewerPage *self;
 	SaveData           *data;
 	GthFileData        *current_file;
+	GdkPixbuf          *pixbuf;
 
 	self = (GthImageViewerPage *) base;
 
@@ -1032,12 +1034,15 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 		gth_file_data_set_file (current_file, file);
 	g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
 
-	_gdk_pixbuf_save_async (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
+	_gdk_pixbuf_save_async (pixbuf,
 			        current_file,
 			        mime_type,
 			        TRUE,
 				image_saved_cb,
 				data);
+
+	_g_object_unref (pixbuf);
 }
 
 
@@ -1159,23 +1164,23 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 
 static void
-_gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
-				   GdkPixbuf          *pixbuf,
-				   gboolean            modified)
+_gth_image_viewer_page_set_image (GthImageViewerPage *self,
+				  cairo_surface_t    *image,
+				  gboolean            modified)
 {
 	GthFileData *file_data;
 	int          width;
 	int          height;
 	char        *size;
 
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
 
 	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
 
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
+	width = cairo_image_surface_get_width (image);
+	height = cairo_image_surface_get_height (image);
 	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
 	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
@@ -1196,7 +1201,7 @@ gth_image_viewer_page_real_revert (GthViewerPage *base)
 
 	idata = gth_image_history_revert (self->priv->history);
 	if (idata != NULL) {
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 		gth_image_data_unref (idata);
 	}
 }
@@ -1290,6 +1295,7 @@ gth_image_viewer_page_instance_init (GthImageViewerPage *self)
 	self->priv->history = gth_image_history_new ();
 	self->priv->shrink_wrap = FALSE;
 	self->priv->last_loaded = NULL;
+	self->priv->image_changed = FALSE;
 }
 
 
@@ -1340,10 +1346,31 @@ gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 				  GdkPixbuf          *pixbuf,
 				  gboolean            add_to_history)
 {
+	cairo_surface_t *image;
+
+	image = _cairo_image_surface_create_from_pixbuf (pixbuf);
+	gth_image_viewer_page_set_image (self, image, add_to_history);
+
+	cairo_surface_destroy (image);
+}
+
+
+cairo_surface_t *
+gth_image_viewer_page_get_image (GthImageViewerPage *self)
+{
+	return gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+void
+gth_image_viewer_page_set_image (GthImageViewerPage *self,
+			 	 cairo_surface_t    *image,
+			 	 gboolean            add_to_history)
+{
 	if (add_to_history)
-		gth_image_history_add_image (self->priv->history, pixbuf, TRUE);
-	_gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
-	self->priv->pixbuf_changed = TRUE;
+		gth_image_history_add_image (self->priv->history, image, TRUE);
+	_gth_image_viewer_page_set_image (self, image, TRUE);
+	self->priv->image_changed = TRUE;
 }
 
 
@@ -1354,7 +1381,7 @@ gth_image_viewer_page_undo (GthImageViewerPage *self)
 
 	idata = gth_image_history_undo (self->priv->history);
 	if (idata != NULL)
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 }
 
 
@@ -1365,7 +1392,7 @@ gth_image_viewer_page_redo (GthImageViewerPage *self)
 
 	idata = gth_image_history_redo (self->priv->history);
 	if (idata != NULL)
-		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		_gth_image_viewer_page_set_image (self, idata->image, idata->unsaved);
 }
 
 
@@ -1385,7 +1412,7 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 	if (last_image == NULL)
 		return;
 
-	_gth_image_viewer_page_set_pixbuf (self, last_image->image, last_image->unsaved);
+	_gth_image_viewer_page_set_image (self, last_image->image, last_image->unsaved);
 }
 
 

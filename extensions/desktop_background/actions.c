@@ -246,7 +246,7 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 		if (viewer_page != NULL) {
 			GdkPixbuf *pixbuf;
 
-			pixbuf = g_object_ref (gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+			pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 			file_data = gth_file_data_new (wdata->new_file, NULL);
 			_gdk_pixbuf_save_async (pixbuf,
 						file_data,

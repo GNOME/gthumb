@@ -366,10 +366,10 @@ selector_selected_cb (GthImageSelector  *selector,
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
 	_g_object_unref (self->priv->new_pixbuf);
-	self->priv->new_pixbuf = gdk_pixbuf_copy (gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
-	init_is_red (self, self->priv->new_pixbuf);
-	if (fix_redeye (self->priv->new_pixbuf, self->priv->is_red, x, y))
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_pixbuf, FALSE);
+	self->priv->new_pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	init_is_red (self, new_pixbuf);
+	if (fix_redeye (new_pixbuf, self->priv->is_red, x, y))
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);
 }
 
 

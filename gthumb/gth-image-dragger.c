@@ -137,30 +137,32 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
-	GdkInterpType    interp_type;
+	cairo_filter_t   filter;
 
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
 
-	if (gth_image_viewer_get_current_pixbuf (viewer) == NULL)
+	gth_image_viewer_paint_background (viewer, cr);
+
+	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
 	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
-		interp_type = GDK_INTERP_TILES;
+		filter = CAIRO_FILTER_FAST;
 	else
-		interp_type = GDK_INTERP_BILINEAR;
+		filter = CAIRO_FILTER_GOOD;
 
 	if (gth_image_viewer_get_zoom (viewer) == 1.0)
-		interp_type = GDK_INTERP_NEAREST;
+		filter = CAIRO_FILTER_FAST;
 
 	gth_image_viewer_paint_region (viewer,
 				       cr,
-				       gth_image_viewer_get_current_pixbuf (viewer),
+				       gth_image_viewer_get_current_image (viewer),
 				       viewer->x_offset - viewer->image_area.x,
 				       viewer->y_offset - viewer->image_area.y,
 				       &viewer->image_area,
 				       event->region,
-				       interp_type);
+				       filter);
 
 	gth_image_viewer_apply_painters (viewer, event, cr);
 }

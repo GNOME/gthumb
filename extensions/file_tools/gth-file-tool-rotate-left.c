@@ -49,6 +49,7 @@ gth_file_tool_rotate_left_activate (GthFileTool *base)
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), dest_pixbuf, TRUE);
 
 	g_object_unref (dest_pixbuf);
+	g_object_unref (src_pixbuf);
 }
 
 

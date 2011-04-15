@@ -352,7 +352,7 @@ end_page (GthContactSheetCreator  *self,
 	char      *buffer;
 	gsize      size;
 
-	pixbuf = _gdk_pixbuf_new_from_cairo_surface (self->priv->cr);
+	pixbuf = _gdk_pixbuf_new_from_cairo_context (self->priv->cr);
 	if (! gth_pixbuf_saver_save_pixbuf (self->priv->pixbuf_saver,
 					    pixbuf,
 					    &buffer,

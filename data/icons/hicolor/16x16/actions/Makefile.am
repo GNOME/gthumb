@@ -26,6 +26,7 @@ icons_DATA = 				\
 	tool-mirror.png			\
 	tool-red-eye.png		\
 	tool-resize.png			\
+	tool-rotate.png			\
 	tool-rotate-270.png		\
 	tool-rotate-90.png		\
 	tool-sharpen.png
