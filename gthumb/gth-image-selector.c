@@ -1503,7 +1503,7 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
-	_g_object_unref (self->priv->surface);
+	cairo_surface_destroy (self->priv->surface);
 	self->priv->surface = gth_image_viewer_get_current_image (self->priv->viewer);
 
 	if (self->priv->surface == NULL) {
