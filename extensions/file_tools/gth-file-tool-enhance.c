@@ -115,7 +115,7 @@ adjust_levels_init (GthPixbufTask *pixop)
 
 	copy_source_to_destination (pixop);
 	data->histogram = gth_histogram_new ();
-	gth_histogram_calculate (data->histogram, pixop->src);
+	gth_histogram_calculate_for_pixbuf (data->histogram, pixop->src);
 
 	data->levels = g_new0 (Levels, 1);
 

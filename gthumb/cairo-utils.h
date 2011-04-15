@@ -51,17 +51,38 @@
 
 #endif
 
-#define CAIRO_SET_RGB(s_iter, red, green, blue)			\
-		s_iter[CAIRO_RED] = (red);			\
-		s_iter[CAIRO_GREEN] = (green);			\
-		s_iter[CAIRO_BLUE] = (blue);
+#define CAIRO_SET_RGB(pixel, red, green, blue)					\
+	do {									\
+		pixel[CAIRO_RED] = (red);					\
+		pixel[CAIRO_GREEN] = (green);					\
+		pixel[CAIRO_BLUE] = (blue);					\
+	} while (0)
 
-#define CAIRO_SET_RGBA(s_iter, red, green, blue, alpha)		\
-		s_iter[CAIRO_RED] = (red);			\
-		s_iter[CAIRO_GREEN] = (green);			\
-		s_iter[CAIRO_BLUE] = (blue);			\
-		s_iter[CAIRO_ALPHA] = (alpha);
+#define CAIRO_SET_RGBA(pixel, red, green, blue, alpha)				\
+	do {									\
+		pixel[CAIRO_RED] = (red);					\
+		pixel[CAIRO_GREEN] = (green);					\
+		pixel[CAIRO_BLUE] = (blue);					\
+		pixel[CAIRO_ALPHA] = (alpha);					\
+	} while (0)
 
+#define CAIRO_GET_RGB(pixel, red, green, blue)					\
+	do {									\
+		red = pixel[CAIRO_RED];						\
+		green = pixel[CAIRO_GREEN];					\
+		blue = pixel[CAIRO_BLUE];					\
+	} while (0)
+
+#define CAIRO_GET_RGBA(pixel, red, green, blue, alpha)				\
+	do {									\
+		gdouble alpha_factor;						\
+										\
+		alpha = pixel[CAIRO_ALPHA];					\
+		alpha_factor = (gdouble) 0xff / alpha;		 		\
+		red = (guchar) (pixel[CAIRO_RED] * alpha_factor + .5);		\
+		green = (guchar) (pixel[CAIRO_GREEN] * alpha_factor + .5);	\
+		blue = (guchar) (pixel[CAIRO_BLUE] * alpha_factor + .5);	\
+	} while (0)
 
 typedef struct {
 	double r;
@@ -87,7 +108,7 @@ void         _cairo_paint_full_gradient         (cairo_surface_t   *surface,
 				 	 	 GdkColor          *v_color1,
 				 	 	 GdkColor          *v_color2);
 void         _cairo_clear_surface               (cairo_surface_t  **surface);
-gboolean     _cairo_image_surface_has_alpha     (cairo_surface_t   *surface);
+gboolean     _cairo_image_surface_get_has_alpha (cairo_surface_t   *surface);
 cairo_surface_t *
 	     _cairo_image_surface_create_from_pixbuf
 	     	     	     	     	        (GdkPixbuf         *pixbuf);

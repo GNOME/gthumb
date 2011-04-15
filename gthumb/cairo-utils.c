@@ -130,7 +130,7 @@ _cairo_clear_surface (cairo_surface_t  **surface)
 
 
 gboolean
-_cairo_image_surface_has_alpha (cairo_surface_t *surface)
+_cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 {
 	cairo_surface_metadata_t *metadata;
 

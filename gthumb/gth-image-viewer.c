@@ -1845,7 +1845,7 @@ gth_image_viewer_get_original_size (GthImageViewer *self,
 gboolean
 gth_image_viewer_get_has_alpha (GthImageViewer *self)
 {
-	return _cairo_image_surface_has_alpha (self->priv->surface);
+	return _cairo_image_surface_get_has_alpha (self->priv->surface);
 }
 
 

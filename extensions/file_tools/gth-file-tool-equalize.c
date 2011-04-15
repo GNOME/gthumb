@@ -82,7 +82,7 @@ equalize_init (GthPixbufTask *pixop)
 
 	copy_source_to_destination (pixop);
 	data->histogram = gth_histogram_new ();
-	gth_histogram_calculate (data->histogram, pixop->src);
+	gth_histogram_calculate_for_pixbuf (data->histogram, pixop->src);
 
 	data->part = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS);
 	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS; i++)

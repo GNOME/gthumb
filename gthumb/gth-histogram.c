@@ -21,6 +21,7 @@
 
 
 #include <string.h>
+#include "cairo-utils.h"
 #include "gth-histogram.h"
 
 
@@ -151,8 +152,8 @@ gth_histogram_changed (GthHistogram *self)
 
 
 void
-gth_histogram_calculate (GthHistogram    *self,
-			 const GdkPixbuf *pixbuf)
+gth_histogram_calculate_for_pixbuf (GthHistogram    *self,
+				    const GdkPixbuf *pixbuf)
 {
 	int    **values;
 	int     *values_max;
@@ -185,16 +186,15 @@ gth_histogram_calculate (GthHistogram    *self,
 
 	for (i = 0; i < height; i++) {
 		pixel = line;
-		line += rowstride;
 
 		for (j = 0; j < width; j++) {
-			/* count values for each RGB channel */		
+			/* count values for each RGB channel */
 			values[1][pixel[0]] += 1;
 			values[2][pixel[1]] += 1;
 			values[3][pixel[2]] += 1;
 			if (n_channels > 3)
 				values[4][ pixel[3] ] += 1;
-				
+
 			/* count value for Value channel */
 			max = MAX (pixel[0], pixel[1]);
 			max = MAX (pixel[2], max);
@@ -210,6 +210,79 @@ gth_histogram_calculate (GthHistogram    *self,
 
 			pixel += n_channels;
 		}
+
+		line += rowstride;
+	}
+
+	gth_histogram_changed (self);
+}
+
+
+void
+gth_histogram_calculate_for_image (GthHistogram    *self,
+				   cairo_surface_t *image)
+{
+	int    **values;
+	int     *values_max;
+	int      width, height, has_alpha;
+	int      rowstride;
+	guchar  *line, *pixel;
+	int      i, j, max;
+	guchar   red, green, blue, alpha;
+
+	g_return_if_fail (GTH_IS_HISTOGRAM (self));
+
+	values = self->priv->values;
+	values_max = self->priv->values_max;
+
+	if (image == NULL) {
+		self->priv->n_channels = 0;
+		histogram_reset_values (self);
+		gth_histogram_changed (self);
+		return;
+	}
+
+	has_alpha  = _cairo_image_surface_get_has_alpha (image);
+	rowstride  = cairo_image_surface_get_stride (image);
+	line       = cairo_image_surface_get_data (image);
+	width      = cairo_image_surface_get_width (image);
+	height     = cairo_image_surface_get_height (image);
+
+	self->priv->n_channels = (has_alpha ? 4 : 3) + 1;
+	histogram_reset_values (self);
+
+	for (i = 0; i < height; i++) {
+		pixel = line;
+
+		for (j = 0; j < width; j++) {
+			if (has_alpha)
+				CAIRO_GET_RGBA(pixel, red, green, blue, alpha);
+			else
+				CAIRO_GET_RGB(pixel, red, green, blue);
+
+			/* count values for each RGB channel */
+			values[1][red] += 1;
+			values[2][green] += 1;
+			values[3][blue] += 1;
+			if (has_alpha)
+				values[4][alpha] += 1;
+
+			/* count value for Value channel */
+			max = MAX (MAX (red, green), blue);
+			values[0][max] += 1;
+
+			/* track max value for each channel */
+			values_max[0] = MAX (values_max[0], values[0][max]);
+			values_max[1] = MAX (values_max[1], values[1][red]);
+			values_max[2] = MAX (values_max[2], values[2][green]);
+			values_max[3] = MAX (values_max[3], values[3][blue]);
+			if (has_alpha)
+				values_max[4] = MAX (values_max[4], values[4][alpha]);
+
+			pixel += 4;
+		}
+
+		line += rowstride;
 	}
 
 	gth_histogram_changed (self);
@@ -228,7 +301,7 @@ gth_histogram_get_count (GthHistogram *self,
 
 	for (i = start; i <= end; i++)
 		count += self->priv->values[0][i];
-	
+
 	return count;
 }
 
