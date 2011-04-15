@@ -271,7 +271,7 @@ task_completed_cb (GthTask                 *task,
 		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
-		gth_histogram_calculate (self->priv->histogram, self->priv->dest_pixbuf);
+		gth_histogram_calculate_for_pixbuf (self->priv->histogram, self->priv->dest_pixbuf);
 	}
 
 	g_object_unref (task);
@@ -362,7 +362,6 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	if (self->priv->src_pixbuf == NULL)
 		return NULL;
 
-	self->priv->src_pixbuf = g_object_ref (self->priv->src_pixbuf);
 	self->priv->dest_pixbuf = NULL;
 
 	self->priv->builder = _gtk_builder_new_from_file ("adjust-colors-options.ui", "file_tools");
@@ -436,7 +435,7 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 			  G_CALLBACK (value_changed_cb),
 			  self);
 
-	gth_histogram_calculate (self->priv->histogram, self->priv->src_pixbuf);
+	gth_histogram_calculate_for_pixbuf (self->priv->histogram, self->priv->src_pixbuf);
 
 	return options;
 }

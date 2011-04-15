@@ -73,7 +73,7 @@ void                  gth_image_rotator_set_resize      (GthImageRotator    *sel
 						         GthTransformResize  resize);
 void                  gth_image_rotator_set_background  (GthImageRotator    *self,
 							 cairo_color_t      *color);
-GdkPixbuf *           gth_image_rotator_get_result      (GthImageRotator    *self);
+cairo_surface_t *     gth_image_rotator_get_result      (GthImageRotator    *self);
 
 G_END_DECLS
 

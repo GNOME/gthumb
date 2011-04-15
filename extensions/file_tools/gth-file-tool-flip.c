@@ -41,7 +41,7 @@ gth_file_tool_flip_activate (GthFileTool *base)
 		return;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
+	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer)); /* FIXME: use the cairo_surface directly */
 	if (src_pixbuf == NULL)
 		return;
 
@@ -49,6 +49,7 @@ gth_file_tool_flip_activate (GthFileTool *base)
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), dest_pixbuf, TRUE);
 
 	g_object_unref (dest_pixbuf);
+	g_object_unref (src_pixbuf);
 }
 
 

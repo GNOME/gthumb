@@ -404,8 +404,6 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	if (self->priv->src_pixbuf == NULL)
 		return NULL;
 
-	g_object_ref (self->priv->src_pixbuf);
-
 	self->priv->pixbuf_width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
 	self->priv->pixbuf_height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);

@@ -328,14 +328,12 @@ selector_selected_cb (GthImageSelector  *selector,
 {
 	GtkWidget *window;
 	GtkWidget *viewer_page;
-	GdkPixbuf *old_pixbuf;
 	GdkPixbuf *new_pixbuf;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
-	old_pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	new_pixbuf = gdk_pixbuf_copy (old_pixbuf);
+	new_pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	init_is_red (self, new_pixbuf);
 	if (fix_redeye (new_pixbuf, self->priv->is_red, x, y)) {
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);

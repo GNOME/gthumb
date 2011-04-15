@@ -43,7 +43,6 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 		GError           *error = NULL;
 
 		current_image = NULL;
-
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if ((gth_main_extension_is_active ("image_viewer"))
 		    && (viewer_page != NULL)
@@ -54,12 +53,13 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 			viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 			current_image = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
 		}
-
 		print_job = gth_image_print_job_new (file_list,
 						     gth_browser_get_current_file (browser),
 						     current_image,
 						     g_file_info_get_display_name (gth_browser_get_location_data (browser)->info),
 						     &error);
+		_g_object_unref (current_image);
+
 		if (print_job != NULL)
 			gth_image_print_job_run (print_job,
 						 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,

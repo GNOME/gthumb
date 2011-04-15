@@ -44,29 +44,27 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
 	GthImageHistogram *self = GTH_IMAGE_HISTOGRAM (base);
-	GdkPixbuf         *pixbuf;
 	GthBrowser        *browser;
 	GtkWidget         *viewer_page;
 
 	if (file_data == NULL) {
-		gth_histogram_calculate (self->priv->histogram, NULL);
+		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
 		return;
 	}
 
 	browser = (GthBrowser *) gtk_widget_get_toplevel (GTK_WIDGET (base));
 	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser))) {
-		gth_histogram_calculate (self->priv->histogram, NULL);
+		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
 		return;
 	}
 
 	viewer_page = gth_browser_get_viewer_page (browser);
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)) {
-		gth_histogram_calculate (self->priv->histogram, NULL);
+		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
 		return;
 	}
 
-	pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_histogram_calculate (self->priv->histogram, pixbuf);
+	gth_histogram_calculate_for_image (self->priv->histogram, gth_image_viewer_page_get_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
 }
 
 

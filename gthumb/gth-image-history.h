@@ -23,7 +23,8 @@
 #define GTH_IMAGE_HISTORY_H
 
 #include <glib.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <glib-object.h>
+#include <cairo.h>
 
 G_BEGIN_DECLS
 
@@ -39,9 +40,9 @@ typedef struct _GthImageHistoryPrivate GthImageHistoryPrivate;
 typedef struct _GthImageHistoryClass   GthImageHistoryClass;
 
 typedef struct {
-	int        ref;
-	GdkPixbuf *image;
-	gboolean   unsaved;
+	int              ref;
+	cairo_surface_t *image;
+	gboolean         unsaved;
 } GthImageData;
 
 struct _GthImageHistory {
@@ -57,7 +58,7 @@ struct _GthImageHistoryClass {
 	void (*changed) (GthImageHistory *image_history);
 };
 
-GthImageData *    gth_image_data_new           (GdkPixbuf       *image,
+GthImageData *    gth_image_data_new           (cairo_surface_t *image,
 						gboolean         unsaved);
 GthImageData *    gth_image_data_ref           (GthImageData    *idata);
 void              gth_image_data_unref         (GthImageData    *idata);
@@ -66,7 +67,7 @@ void              gth_image_data_list_free     (GList           *list);
 GType             gth_image_history_get_type   (void);
 GthImageHistory * gth_image_history_new        (void);
 void              gth_image_history_add_image  (GthImageHistory *history,
-						GdkPixbuf       *image,
+						cairo_surface_t *image,
 						gboolean         unsaved);
 GthImageData *    gth_image_history_undo       (GthImageHistory *history);
 GthImageData *    gth_image_history_redo       (GthImageHistory *history);
