@@ -44,7 +44,6 @@ struct _GthFileToolRotatePrivate {
 	GthImageRotator *rotator;
 	int              pixbuf_width;
 	int              pixbuf_height;
-	GdkPixbuf       *tmp_pixbuf;
 	int              new_width;
 	int              new_height;
 	GthUnit          unit;
@@ -357,11 +356,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
-	GdkPixbuf         *src_pixbuf;
-	GtkAllocation      allocation;
-	int                max_size;
-	int                width;
-	int                height;
+	cairo_surface_t   *image;
 	GtkWidget         *options;
 
 	self = (GthFileToolRotate *) base;
@@ -372,27 +367,12 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 		return NULL;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (src_pixbuf == NULL)
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (image == NULL)
 		return NULL;
 
-	gtk_widget_get_allocation (viewer, &allocation);
-	max_size = MIN (allocation.width, allocation.height);
-
-	self->priv->pixbuf_width = gdk_pixbuf_get_width (src_pixbuf);
-	self->priv->pixbuf_height = gdk_pixbuf_get_height (src_pixbuf);
-	width = self->priv->pixbuf_width;
-	height = self->priv->pixbuf_height;
-	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE)) {
-		self->priv->tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (src_pixbuf, width, height, GDK_INTERP_BILINEAR);
-	}
-	else {
-		self->priv->tmp_pixbuf = src_pixbuf;
-		src_pixbuf = NULL;
-	}
-
-	_g_object_unref (src_pixbuf);
-
+	self->priv->pixbuf_width = cairo_image_surface_get_width (image);
+	self->priv->pixbuf_height = cairo_image_surface_get_height (image);
 	self->priv->unit = eel_gconf_get_enum (PREF_ROTATE_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PERCENTAGE);
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
 
@@ -521,10 +501,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 		/* destroy the options data */
 
-		_g_object_unref (self->priv->tmp_pixbuf);
-		_g_object_unref (self->priv->builder);
-		self->priv->tmp_pixbuf = NULL;
-		self->priv->builder = NULL;
+		_g_clear_object (&self->priv->builder);
 	}
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
@@ -545,7 +522,6 @@ static void
 gth_file_tool_rotate_instance_init (GthFileToolRotate *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
-	self->priv->tmp_pixbuf = NULL;
 	self->priv->step = 0.0; /* FIXME */
 	self->priv->use_grid = TRUE;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
@@ -561,8 +537,6 @@ gth_file_tool_rotate_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_FILE_TOOL_ROTATE (object));
 
 	self = (GthFileToolRotate *) object;
-
-	_g_object_unref (self->priv->tmp_pixbuf);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
