@@ -161,6 +161,88 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 }
 
 
+cairo_surface_t *
+_cairo_image_surface_scale_to (cairo_surface_t *surface,
+			       int              width,
+			       int              height,
+			       cairo_filter_t   filter)
+{
+	cairo_surface_t *scaled;
+	cairo_t         *cr;
+
+	scaled = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	cr = cairo_create (scaled);
+	cairo_scale (cr, (double) width / cairo_image_surface_get_width (surface), (double) height / cairo_image_surface_get_height (surface));
+	cairo_set_source_surface (cr, surface, 0, 0);
+	cairo_pattern_set_filter (cairo_get_source (cr), filter);
+	cairo_rectangle (cr, 0, 0, cairo_image_surface_get_width (surface), cairo_image_surface_get_height (surface));
+	cairo_fill (cr);
+
+	cairo_destroy (cr);
+
+	return scaled;
+}
+
+
+void
+_cairo_paint_full_gradient (cairo_surface_t *surface,
+			    GdkColor        *h_color1,
+			    GdkColor        *h_color2,
+			    GdkColor        *v_color1,
+			    GdkColor        *v_color2)
+{
+	cairo_color_255_t  hcolor1;
+	cairo_color_255_t  hcolor2;
+	cairo_color_255_t  vcolor1;
+	cairo_color_255_t  vcolor2;
+	int                width;
+	int                height;
+	int                s_stride;
+	unsigned char     *s_pixels;
+	int                h, w;
+	double             x, y;
+	double             x_y, x_1_y, y_1_x, _1_x_1_y;
+	guchar             red, green, blue;
+
+	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
+		return;
+
+	_gdk_color_to_cairo_color_255 (h_color1, &hcolor1);
+	_gdk_color_to_cairo_color_255 (h_color2, &hcolor2);
+	_gdk_color_to_cairo_color_255 (v_color1, &vcolor1);
+	_gdk_color_to_cairo_color_255 (v_color2, &vcolor2);
+
+	width = cairo_image_surface_get_width (surface);
+	height = cairo_image_surface_get_height (surface);
+	s_stride = cairo_image_surface_get_stride (surface);
+	s_pixels = cairo_image_surface_get_data (surface);
+
+	for (h = 0; h < height; h++) {
+		guchar *s_iter = s_pixels;
+
+	        x = (double) (height - h) / height;
+
+	        for (w = 0; w < width; w++) {
+	        	y        = (double) (width - w) / width;
+			x_y      = x * y;
+			x_1_y    = x * (1.0 - y);
+			y_1_x    = y * (1.0 - x);
+			_1_x_1_y = (1.0 - x) * (1.0 - y);
+
+			red   = hcolor1.r * x_y + hcolor2.r * x_1_y + vcolor1.r * y_1_x + vcolor2.r * _1_x_1_y;
+			green = hcolor1.g * x_y + hcolor2.g * x_1_y + vcolor1.g * y_1_x + vcolor2.g * _1_x_1_y;
+			blue  = hcolor1.b * x_y + hcolor2.b * x_1_y + vcolor1.b * y_1_x + vcolor2.b * _1_x_1_y;
+
+			CAIRO_SET_RGB (s_iter, red, green, blue);
+
+			s_iter += 4;
+		}
+
+		s_pixels += s_stride;
+	}
+}
+
+
 void
 _cairo_draw_rounded_box (cairo_t *cr,
 			 double   x,
