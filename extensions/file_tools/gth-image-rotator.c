@@ -637,6 +637,7 @@ gth_image_rotator_get_result (GthImageRotator *self)
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
   	cairo_surface_set_device_offset (output, 0.0, 0.0);
+  	cairo_surface_flush (output);
 
 	cairo_destroy (cr);
 
