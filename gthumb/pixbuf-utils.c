@@ -101,9 +101,9 @@ _gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface)
 	        for (i = 0; i < width; i++) {
 	        	gdouble alpha_factor = (gdouble) 0xff / s_iter[CAIRO_ALPHA];
 
-	        	p_iter[0] = (guchar) (s_iter[CAIRO_RED] * alpha_factor + .5);
-	        	p_iter[1] = (guchar) (s_iter[CAIRO_GREEN] * alpha_factor + .5);
-	        	p_iter[2] = (guchar) (s_iter[CAIRO_BLUE] * alpha_factor + .5);
+	        	p_iter[0] = (guchar) (alpha_factor * s_iter[CAIRO_RED]  + .5);
+	        	p_iter[1] = (guchar) (alpha_factor * s_iter[CAIRO_GREEN] + .5);
+	        	p_iter[2] = (guchar) (alpha_factor * s_iter[CAIRO_BLUE] + .5);
 	        	if (p_n_channels == 4)
 	        		p_iter[3] = s_iter[CAIRO_ALPHA];
 

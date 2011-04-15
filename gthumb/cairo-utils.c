@@ -63,65 +63,6 @@ _gdk_color_to_cairo_color_255 (GdkColor          *g_color,
 
 
 void
-_cairo_paint_full_gradient (cairo_surface_t *surface,
-			    GdkColor        *h_color1,
-			    GdkColor        *h_color2,
-			    GdkColor        *v_color1,
-			    GdkColor        *v_color2)
-{
-	cairo_color_255_t  hcolor1;
-	cairo_color_255_t  hcolor2;
-	cairo_color_255_t  vcolor1;
-	cairo_color_255_t  vcolor2;
-	int                width;
-	int                height;
-	int                s_stride;
-	unsigned char     *s_pixels;
-	int                h, w;
-	double             x, y;
-	double             x_y, x_1_y, y_1_x, _1_x_1_y;
-	guchar             red, green, blue;
-
-	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
-		return;
-
-	_gdk_color_to_cairo_color_255 (h_color1, &hcolor1);
-	_gdk_color_to_cairo_color_255 (h_color2, &hcolor2);
-	_gdk_color_to_cairo_color_255 (v_color1, &vcolor1);
-	_gdk_color_to_cairo_color_255 (v_color2, &vcolor2);
-
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
-	s_stride = cairo_image_surface_get_stride (surface);
-	s_pixels = cairo_image_surface_get_data (surface);
-
-	for (h = 0; h < height; h++) {
-		guchar *s_iter = s_pixels;
-
-	        x = (double) (height - h) / height;
-
-	        for (w = 0; w < width; w++) {
-	        	y        = (double) (width - w) / width;
-			x_y      = x * y;
-			x_1_y    = x * (1.0 - y);
-			y_1_x    = y * (1.0 - x);
-			_1_x_1_y = (1.0 - x) * (1.0 - y);
-
-			red   = hcolor1.r * x_y + hcolor2.r * x_1_y + vcolor1.r * y_1_x + vcolor2.r * _1_x_1_y;
-			green = hcolor1.g * x_y + hcolor2.g * x_1_y + vcolor1.g * y_1_x + vcolor2.g * _1_x_1_y;
-			blue  = hcolor1.b * x_y + hcolor2.b * x_1_y + vcolor1.b * y_1_x + vcolor2.b * _1_x_1_y;
-
-			CAIRO_SET_RGBA (s_iter, red, green, blue, 0xff);
-
-			s_iter += 4;
-		}
-
-		s_pixels += s_stride;
-	}
-}
-
-
-void
 _cairo_clear_surface (cairo_surface_t  **surface)
 {
 	cairo_surface_destroy (*surface);
@@ -180,21 +121,13 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	if (p_n_channels == 4) {
 		guchar *s_iter;
 		guchar *p_iter;
-		double  alpha_factor;
-		guchar  red, green, blue, alpha;
 
 		for (h = 0; h < height; h++) {
 			s_iter = s_pixels;
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				alpha = p_iter[3];
-				alpha_factor = (double) alpha / 255.0;
-				red   = (guchar) (alpha_factor * p_iter[0]) ;
-				green = (guchar) (alpha_factor * p_iter[1]);
-				blue  = (guchar) (alpha_factor * p_iter[2]);
-
-				CAIRO_SET_RGBA (s_iter, red, green, blue, alpha);
+				CAIRO_SET_RGBA (s_iter, p_iter[0], p_iter[1], p_iter[2], p_iter[3]);
 
 				s_iter += 4;
 				p_iter += p_n_channels;
@@ -213,7 +146,8 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				CAIRO_SET_RGBA (s_iter, p_iter[0], p_iter[1], p_iter[2], 0xff);
+				CAIRO_SET_RGB (s_iter, p_iter[0], p_iter[1], p_iter[2]);
+
 				s_iter += 4;
 				p_iter += p_n_channels;
 			}

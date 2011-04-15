@@ -256,11 +256,12 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 
 		for (j = 0; j < width; j++) {
 			if (has_alpha)
-				CAIRO_GET_RGBA(pixel, red, green, blue, alpha);
+				CAIRO_GET_RGBA (pixel, red, green, blue, alpha);
 			else
-				CAIRO_GET_RGB(pixel, red, green, blue);
+				CAIRO_GET_RGB (pixel, red, green, blue);
 
 			/* count values for each RGB channel */
+
 			values[1][red] += 1;
 			values[2][green] += 1;
 			values[3][blue] += 1;
@@ -268,10 +269,12 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 				values[4][alpha] += 1;
 
 			/* count value for Value channel */
+
 			max = MAX (MAX (red, green), blue);
 			values[0][max] += 1;
 
 			/* track max value for each channel */
+
 			values_max[0] = MAX (values_max[0], values[0][max]);
 			values_max[1] = MAX (values_max[1], values[1][red]);
 			values_max[2] = MAX (values_max[2], values[2][green]);
