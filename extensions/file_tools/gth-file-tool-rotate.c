@@ -273,21 +273,6 @@ angle_value_changed_cb (GtkAdjustment *adj,
 
 
 static void
-step_checkbutton_toggled_cb (GtkToggleButton *button,
-			     gpointer         user_data)
-{
-	GthFileToolRotate *self = user_data;
-
-	if (gtk_toggle_button_get_active (button))
-		self->priv->step = 5.0;
-	else
-		self->priv->step = 0.1;
-	gtk_adjustment_set_step_increment (self->priv->angle_adj, self->priv->step);
-	angle_value_changed_cb (NULL, user_data);
-}
-
-
-static void
 grid_value_changed_cb (GtkAdjustment *adj,
 		       gpointer       user_data)
 {
@@ -418,7 +403,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 							    0.0, -5.0, 5.0, 0.01, 0.1, 2);
 	self->priv->grid_adj = gimp_scale_entry_new (GET_WIDGET ("grid_box"),
 						     NULL,
-						     DEFAULT_GRID, 2.0, 50.0, 1.0, 10.0, 0);
+						     eel_gconf_get_integer (PREF_ROTATE_GRID_SIZE, DEFAULT_GRID), 2.0, 50.0, 1.0, 10.0, 0);
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
@@ -448,10 +433,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (small_angle_value_changed_cb),
 			  self);
-	/*g_signal_connect (GET_WIDGET ("step_checkbutton"),
-			  "toggled",
-			  G_CALLBACK (step_checkbutton_toggled_cb),
-			  self);*/
 	g_signal_connect (G_OBJECT (self->priv->grid_adj),
 			  "value-changed",
 			  G_CALLBACK (grid_value_changed_cb),
@@ -474,7 +455,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  self);
 
 	self->priv->rotator = (GthImageRotator *) gth_image_rotator_new (GTH_IMAGE_VIEWER (viewer));
-	gth_image_rotator_set_grid (self->priv->rotator, FALSE, DEFAULT_GRID);
+	gth_image_rotator_set_grid (self->priv->rotator, FALSE, eel_gconf_get_integer (PREF_ROTATE_GRID_SIZE, DEFAULT_GRID));
 	_gth_file_tool_rotate (self, 0.0);
 	gth_image_rotator_set_center (self->priv->rotator,
 				      self->priv->pixbuf_width * 0.5,
@@ -513,6 +494,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 		unit = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")));
 		eel_gconf_set_enum (PREF_ROTATE_UNIT, GTH_TYPE_UNIT, unit);
+		eel_gconf_set_integer (PREF_ROTATE_GRID_SIZE, (int) gtk_adjustment_get_value (self->priv->grid_adj));
 
 		/* destroy the options data */
 
