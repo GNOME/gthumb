@@ -34,7 +34,6 @@ static gpointer parent_class = NULL;
 
 
 struct _GthFileToolCropPrivate {
-	GdkPixbuf        *src_pixbuf;
 	GtkBuilder       *builder;
 	int               pixbuf_width;
 	int               pixbuf_height;
@@ -77,28 +76,32 @@ static void
 crop_button_clicked_cb (GtkButton       *button,
 			GthFileToolCrop *self)
 {
-	GdkRectangle  selection;
-	GdkPixbuf    *new_pixbuf;
+	GdkRectangle     selection;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
+	cairo_surface_t *old_image;
+	cairo_surface_t *new_image;
 
 	gth_image_selector_get_selection (self->priv->selector, &selection);
 	if ((selection.width == 0) || (selection.height == 0))
 		return;
 
-	new_pixbuf = gdk_pixbuf_new_subpixbuf (self->priv->src_pixbuf,
-					       selection.x,
-					       selection.y,
-					       selection.width,
-					       selection.height);
-	if (new_pixbuf != NULL) {
-		GtkWidget *window;
-		GtkWidget *viewer_page;
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	old_image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
 
-		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);
+	new_image = _cairo_image_surface_copy_subsurface (old_image,
+					       	          selection.x,
+					       	          selection.y,
+					       	          selection.width,
+					       	          selection.height);
+	if (new_image != NULL) {
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_image, TRUE);
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 
-		g_object_unref (new_pixbuf);
+		cairo_surface_destroy (new_image);
 	}
 }
 
@@ -387,6 +390,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 	GtkWidget       *viewer;
+	cairo_surface_t *image;
 	GtkWidget       *options;
 	char            *text;
 
@@ -397,15 +401,13 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	_g_object_unref (self->priv->src_pixbuf);
-
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (self->priv->src_pixbuf == NULL)
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (image == NULL)
 		return NULL;
 
-	self->priv->pixbuf_width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
-	self->priv->pixbuf_height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
+	self->priv->pixbuf_width = cairo_image_surface_get_width (image);
+	self->priv->pixbuf_height = cairo_image_surface_get_height (image);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
 
 	self->priv->builder = _gtk_builder_new_from_file ("crop-options.ui", "file_tools");
@@ -563,10 +565,8 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 
 		/* destroy the option data */
 
-		_g_object_unref (self->priv->src_pixbuf);
 		_g_object_unref (self->priv->builder);
 		_g_object_unref (self->priv->selector);
-		self->priv->src_pixbuf = NULL;
 		self->priv->builder = NULL;
 		self->priv->selector = NULL;
 	}
@@ -603,7 +603,6 @@ gth_file_tool_crop_finalize (GObject *object)
 
 	self = (GthFileToolCrop *) object;
 
-	_g_object_unref (self->priv->src_pixbuf);
 	_g_object_unref (self->priv->selector);
 	_g_object_unref (self->priv->builder);
 
