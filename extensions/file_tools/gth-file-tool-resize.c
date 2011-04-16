@@ -28,27 +28,26 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
-#define HIGH_QUALITY_INTERPOLATION GDK_INTERP_HYPER
 
 
 static gpointer parent_class = NULL;
 
 
 struct _GthFileToolResizePrivate {
-	GdkPixbuf     *src_pixbuf;
-	GdkPixbuf     *new_pixbuf;
-	GtkBuilder    *builder;
-	GtkWidget     *ratio_combobox;
-	int            pixbuf_width;
-	int            pixbuf_height;
-	int            screen_width;
-	int            screen_height;
-	gboolean       fixed_aspect_ratio;
-	double         aspect_ratio;
-	int            new_width;
-	int            new_height;
-	GdkInterpType  interpolation;
-	GthUnit        unit;
+	cairo_surface_t *original_image;
+	cairo_surface_t *new_image;
+	GtkBuilder      *builder;
+	GtkWidget       *ratio_combobox;
+	int              original_width;
+	int              original_height;
+	int              screen_width;
+	int              screen_height;
+	gboolean         fixed_aspect_ratio;
+	double           aspect_ratio;
+	int              new_width;
+	int              new_height;
+	cairo_filter_t   filter;
+	GthUnit          unit;
 };
 
 
@@ -88,12 +87,12 @@ resize_button_clicked_cb (GtkButton       *button,
 	GtkWidget *window;
 	GtkWidget *viewer_page;
 
-	if (self->priv->new_pixbuf == NULL)
+	if (self->priv->new_image == NULL)
 		return;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_pixbuf, TRUE);
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, TRUE);
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
@@ -123,14 +122,14 @@ update_pixbuf_size (GthFileToolResize *self)
 	GtkWidget *window;
 	GtkWidget *viewer_page;
 
-	_g_object_unref (self->priv->new_pixbuf);
-	self->priv->new_pixbuf = gdk_pixbuf_scale_simple (self->priv->src_pixbuf,
-							  self->priv->new_width,
-							  self->priv->new_height,
-							  self->priv->interpolation);
+	cairo_surface_destroy (self->priv->new_image);
+	self->priv->new_image = _cairo_image_surface_scale_to (self->priv->original_image,
+							       self->priv->new_width,
+							       self->priv->new_height,
+							       self->priv->filter);
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_pixbuf, FALSE);
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, FALSE);
 
 	update_dimensione_info_label (self,
 				      "new_dimensions_label",
@@ -139,8 +138,8 @@ update_pixbuf_size (GthFileToolResize *self)
 				      TRUE);
 	update_dimensione_info_label (self,
 				      "scale_factor_label",
-				      (double) self->priv->new_width / self->priv->pixbuf_width,
-				      (double) self->priv->new_height / self->priv->pixbuf_height,
+				      (double) self->priv->new_width / self->priv->original_width,
+				      (double) self->priv->new_height / self->priv->original_height,
 				      FALSE);
 }
 
@@ -152,7 +151,7 @@ selection_width_value_changed_cb (GtkSpinButton     *spin,
 	if (self->priv->unit == GTH_UNIT_PIXELS)
 		self->priv->new_width = MAX (gtk_spin_button_get_value_as_int (spin), 1);
 	else if (self->priv->unit == GTH_UNIT_PERCENTAGE)
-		self->priv->new_width = MAX ((int) round ((gtk_spin_button_get_value (spin) / 100.0) * self->priv->pixbuf_width), 1);
+		self->priv->new_width = MAX ((int) round ((gtk_spin_button_get_value (spin) / 100.0) * self->priv->original_width), 1);
 
 	if (self->priv->fixed_aspect_ratio) {
 		g_signal_handlers_block_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
@@ -160,7 +159,7 @@ selection_width_value_changed_cb (GtkSpinButton     *spin,
 		if (self->priv->unit == GTH_UNIT_PIXELS)
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), self->priv->new_height);
 		else if (self->priv->unit == GTH_UNIT_PERCENTAGE)
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), ((double) self->priv->new_height) / self->priv->pixbuf_height * 100.0);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), ((double) self->priv->new_height) / self->priv->original_height * 100.0);
 		g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
 	}
 
@@ -175,7 +174,7 @@ selection_height_value_changed_cb (GtkSpinButton     *spin,
 	if (self->priv->unit == GTH_UNIT_PIXELS)
 		self->priv->new_height = MAX (gtk_spin_button_get_value_as_int (spin), 1);
 	else if (self->priv->unit == GTH_UNIT_PERCENTAGE)
-		self->priv->new_height = MAX ((int) round ((gtk_spin_button_get_value (spin) / 100.0) * self->priv->pixbuf_height), 1);
+		self->priv->new_height = MAX ((int) round ((gtk_spin_button_get_value (spin) / 100.0) * self->priv->original_height), 1);
 
 	if (self->priv->fixed_aspect_ratio) {
 		g_signal_handlers_block_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
@@ -183,7 +182,7 @@ selection_height_value_changed_cb (GtkSpinButton     *spin,
 		if (self->priv->unit == GTH_UNIT_PIXELS)
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), self->priv->new_width);
 		else if (self->priv->unit == GTH_UNIT_PERCENTAGE)
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), ((double) self->priv->new_width) / self->priv->pixbuf_width * 100.0);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), ((double) self->priv->new_width) / self->priv->original_width * 100.0);
 		g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
 	}
 
@@ -195,7 +194,7 @@ static void
 high_quality_checkbutton_toggled_cb (GtkToggleButton   *button,
 				     GthFileToolResize *self)
 {
-	self->priv->interpolation = gtk_toggle_button_get_active (button) ? HIGH_QUALITY_INTERPOLATION : GDK_INTERP_NEAREST;
+	self->priv->filter = gtk_toggle_button_get_active (button) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
 	update_pixbuf_size (self);
 }
 
@@ -214,9 +213,9 @@ unit_combobox_changed_cb (GtkComboBox       *combobox,
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 2);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 2);
 
-		p = ((double) self->priv->new_width) / self->priv->pixbuf_width * 100.0;
+		p = ((double) self->priv->new_width) / self->priv->original_width * 100.0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), p);
-		p = ((double) self->priv->new_height) / self->priv->pixbuf_height * 100.0;
+		p = ((double) self->priv->new_height) / self->priv->original_height * 100.0;
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), p);
 	}
 	else if (self->priv->unit == GTH_UNIT_PIXELS) {
@@ -268,8 +267,8 @@ ratio_combobox_changed_cb (GtkComboBox       *combobox,
 		w = h = 1;
 		break;
 	case GTH_ASPECT_RATIO_IMAGE:
-		w = self->priv->pixbuf_width;
-		h = self->priv->pixbuf_height;
+		w = self->priv->original_width;
+		h = self->priv->original_height;
 		break;
 	case GTH_ASPECT_RATIO_DISPLAY:
 		w = self->priv->screen_width;
@@ -377,27 +376,27 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	_g_object_unref (self->priv->src_pixbuf);
+	cairo_surface_destroy (self->priv->original_image);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (self->priv->src_pixbuf == NULL)
+	self->priv->original_image = cairo_surface_reference (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)));
+	if (self->priv->original_image == NULL)
 		return NULL;
 
-	self->priv->pixbuf_width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
-	self->priv->pixbuf_height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
+	self->priv->original_width = cairo_image_surface_get_width (self->priv->original_image);
+	self->priv->original_height = cairo_image_surface_get_height (self->priv->original_image);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
-	self->priv->new_pixbuf = NULL;
-	self->priv->new_width = self->priv->pixbuf_width;
-	self->priv->new_height = self->priv->pixbuf_height;
-	self->priv->interpolation = eel_gconf_get_boolean (PREF_RESIZE_HIGH_QUALITY, TRUE) ? HIGH_QUALITY_INTERPOLATION : GDK_INTERP_NEAREST;
+	self->priv->new_image = NULL;
+	self->priv->new_width = self->priv->original_width;
+	self->priv->new_height = self->priv->original_height;
+	self->priv->filter = eel_gconf_get_boolean (PREF_RESIZE_HIGH_QUALITY, TRUE) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
 	self->priv->unit = eel_gconf_get_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PERCENTAGE);
 	self->priv->builder = _gtk_builder_new_from_file ("resize-options.ui", "file_tools");
 
 	update_dimensione_info_label (self,
 				      "original_dimensions_label",
-				      self->priv->pixbuf_width,
-				      self->priv->pixbuf_height,
+				      self->priv->original_width,
+				      self->priv->original_height,
 				      TRUE);
 
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
@@ -406,8 +405,8 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	if (self->priv->unit == GTH_UNIT_PIXELS) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 0);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 0);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), eel_gconf_get_float (PREF_RESIZE_WIDTH, self->priv->pixbuf_width));
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), eel_gconf_get_float (PREF_RESIZE_HEIGHT, self->priv->pixbuf_height));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), eel_gconf_get_float (PREF_RESIZE_WIDTH, self->priv->original_width));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), eel_gconf_get_float (PREF_RESIZE_HEIGHT, self->priv->original_height));
 	}
 	else if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 2);
@@ -418,7 +417,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 
 	self->priv->ratio_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Square"), NULL);
-	text = g_strdup_printf (_("%d x %d (Image)"), self->priv->pixbuf_width, self->priv->pixbuf_height);
+	text = g_strdup_printf (_("%d x %d (Image)"), self->priv->original_width, self->priv->original_height);
 	gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->ratio_combobox), text);
 	g_free (text);
 	text = g_strdup_printf (_("%d x %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
@@ -438,7 +437,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")), self->priv->interpolation != GDK_INTERP_NEAREST);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")), self->priv->filter != CAIRO_FILTER_NEAREST);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_ASPECT_RATIO_INVERT, FALSE));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")), MAX (eel_gconf_get_integer (PREF_RESIZE_ASPECT_RATIO_WIDTH, 1), 1));
@@ -518,11 +517,11 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 
 		/* destroy the options data */
 
-		_g_object_unref (self->priv->new_pixbuf);
-		_g_object_unref (self->priv->src_pixbuf);
+		cairo_surface_destroy (self->priv->new_image);
+		cairo_surface_destroy (self->priv->original_image);
 		_g_object_unref (self->priv->builder);
-		self->priv->new_pixbuf = NULL;
-		self->priv->src_pixbuf = NULL;
+		self->priv->new_image = NULL;
+		self->priv->original_image = NULL;
 		self->priv->builder = NULL;
 	}
 
@@ -558,8 +557,8 @@ gth_file_tool_resize_finalize (GObject *object)
 
 	self = (GthFileToolResize *) object;
 
-	_g_object_unref (self->priv->new_pixbuf);
-	_g_object_unref (self->priv->src_pixbuf);
+	cairo_surface_destroy (self->priv->new_image);
+	cairo_surface_destroy (self->priv->original_image);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
