@@ -26,6 +26,7 @@
 #include <gdk/gdk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <cairo.h>
+#include "typedefs.h"
 
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
@@ -114,11 +115,19 @@ void               _gdk_color_to_cairo_color_255            (GdkColor          *
 
 void               _cairo_clear_surface                     (cairo_surface_t  **surface);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t   *surface);
+cairo_surface_t *  _cairo_image_surface_copy                (cairo_surface_t   *surface);
+cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t   *surface,
+				      	      	      	     int                src_x,
+				      	      	      	     int                src_y,
+				      	      	      	     int                width,
+				      	      	      	     int                height);
 cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf         *pixbuf);
 cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t   *surface,
 							     int                width,
 							     int                height,
 							     cairo_filter_t     filter);
+cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t   *surface,
+							     GthTransform       transform);
 
 /* paint / draw */
 

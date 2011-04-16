@@ -29,11 +29,11 @@
 static void
 gth_file_tool_flip_activate (GthFileTool *base)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
+	cairo_surface_t *old_image;
+	cairo_surface_t *new_image;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -41,15 +41,14 @@ gth_file_tool_flip_activate (GthFileTool *base)
 		return;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer)); /* FIXME: use the cairo_surface directly */
-	if (src_pixbuf == NULL)
+	old_image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (old_image == NULL)
 		return;
 
-	dest_pixbuf = _gdk_pixbuf_transform (src_pixbuf, GTH_TRANSFORM_FLIP_V);
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), dest_pixbuf, TRUE);
+	new_image = _cairo_image_surface_transform (old_image, GTH_TRANSFORM_FLIP_V);
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_image, TRUE);
 
-	g_object_unref (dest_pixbuf);
-	g_object_unref (src_pixbuf);
+	cairo_surface_destroy (new_image);
 }
 
 

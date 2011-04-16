@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <math.h>
+#include <string.h>
 #include "cairo-utils.h"
 
 
@@ -30,6 +31,7 @@ typedef struct {
 
 
 static cairo_user_data_key_t surface_metadata_key;
+static cairo_user_data_key_t surface_pixels_key;
 
 
 static void
@@ -37,6 +39,13 @@ surface_metadata_free (void *data)
 {
 	cairo_surface_metadata_t *metadata = data;
 	g_free (metadata);
+}
+
+
+static void
+surface_pixels_free (void *data)
+{
+	g_free (data);
 }
 
 
@@ -83,6 +92,90 @@ _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 		return metadata->has_alpha;
 
 	return cairo_image_surface_get_format (surface) == CAIRO_FORMAT_ARGB32;
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_copy (cairo_surface_t *surface)
+{
+	cairo_surface_t *result;
+	cairo_format_t   format;
+	int              width;
+	int              height;
+	int              stride;
+	unsigned char   *pixels;
+	cairo_status_t   status;
+
+	if (surface == NULL)
+		return NULL;
+
+	format = cairo_image_surface_get_format (surface);
+	width = cairo_image_surface_get_width (surface);
+	height = cairo_image_surface_get_height (surface);
+	stride = cairo_format_stride_for_width (format, width);
+	pixels = g_try_malloc (stride * height);
+        if (pixels == NULL)
+                return NULL;
+
+	result = cairo_image_surface_create_for_data (pixels, format, width, height, stride);
+	status = cairo_surface_status (result);
+	if (status != CAIRO_STATUS_SUCCESS) {
+		g_warning ("_cairo_image_surface_copy: could not create the surface: %s", cairo_status_to_string (status));
+		cairo_surface_destroy (result);
+		return NULL;
+	}
+
+	status = cairo_surface_set_user_data (result, &surface_pixels_key, pixels, surface_pixels_free);
+	if (status != CAIRO_STATUS_SUCCESS) {
+		g_warning ("_cairo_image_surface_copy: could not set the user data: %s", cairo_status_to_string (status));
+		cairo_surface_destroy (result);
+		return NULL;
+	}
+
+	return result;
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_copy_subsurface (cairo_surface_t *source,
+				      int              src_x,
+				      int              src_y,
+				      int              width,
+				      int              height)
+{
+	cairo_surface_t *destination;
+	cairo_status_t   status;
+	int              source_stride;
+	int              destination_stride;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	int              row_size;
+
+	g_return_val_if_fail (source != NULL, NULL);
+	g_return_val_if_fail (src_x + width <= cairo_image_surface_get_width (source), NULL);
+	g_return_val_if_fail (src_y + height <= cairo_image_surface_get_height (source), NULL);
+
+	destination = cairo_image_surface_create (cairo_image_surface_get_format (source), width, height);
+	status = cairo_surface_status (destination);
+	if (status != CAIRO_STATUS_SUCCESS) {
+		g_warning ("_cairo_image_surface_copy_subsurface: could not create the surface: %s", cairo_status_to_string (status));
+		cairo_surface_destroy (destination);
+		return NULL;
+	}
+
+	source_stride = cairo_image_surface_get_stride (source);
+	destination_stride = cairo_image_surface_get_stride (destination);
+	p_source = cairo_image_surface_get_data (source) + (src_y * source_stride) + (src_x * 4);
+	p_destination = cairo_image_surface_get_data (destination);
+	row_size = width * 4;
+	while (height-- > 0) {
+		memcpy (p_destination, p_source, row_size);
+
+		p_source += source_stride;
+		p_destination += destination_stride;
+	}
+
+	return destination;
 }
 
 
@@ -181,6 +274,165 @@ _cairo_image_surface_scale_to (cairo_surface_t *surface,
 	cairo_destroy (cr);
 
 	return scaled;
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_transform (cairo_surface_t *source,
+				GthTransform     transform)
+{
+	cairo_surface_t *destination = NULL;
+	cairo_format_t   format;
+	int              width;
+	int              height;
+	int              source_stride;
+	int              destination_stride;
+	unsigned char   *p_source_line;
+	unsigned char   *p_destination_line;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	int              x;
+
+	if (source == NULL)
+		return NULL;
+
+	format = cairo_image_surface_get_format (source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
+	source_stride = cairo_image_surface_get_stride (source);
+
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+		destination = _cairo_image_surface_copy (source);
+		break;
+
+	case GTH_TRANSFORM_FLIP_H:
+		destination = cairo_image_surface_create (format, width, height);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * 4);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination -= 4;
+			}
+			p_source_line += source_stride;
+			p_destination_line += destination_stride;
+		}
+		break;
+
+	case GTH_TRANSFORM_ROTATE_180:
+		destination = cairo_image_surface_create (format, width, height);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * destination_stride) + ((width - 1) * 4);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination -= 4;
+			}
+			p_source_line += source_stride;
+			p_destination_line -= destination_stride;
+		}
+		break;
+
+	case GTH_TRANSFORM_FLIP_V:
+		destination = cairo_image_surface_create (format, width, height);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		g_return_val_if_fail (source_stride == destination_stride, NULL);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * destination_stride);
+		while (height-- > 0) {
+			memcpy (p_destination_line, p_source_line, source_stride);
+			p_source_line += source_stride;
+			p_destination_line -= destination_stride;
+		}
+		break;
+
+	case GTH_TRANSFORM_TRANSPOSE:
+		destination = cairo_image_surface_create (format, height, width);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination += destination_stride;
+			}
+			p_source_line += source_stride;
+			p_destination_line += 4;
+		}
+		break;
+
+	case GTH_TRANSFORM_ROTATE_90:
+		destination = cairo_image_surface_create (format, height, width);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * 4);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination += destination_stride;
+			}
+			p_source_line += source_stride;
+			p_destination_line -= 4;
+		}
+		break;
+
+	case GTH_TRANSFORM_TRANSVERSE:
+		destination = cairo_image_surface_create (format, height, width);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * destination_stride) + ((height - 1) * 4);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination -= destination_stride;
+			}
+			p_source_line += source_stride;
+			p_destination_line -= 4;
+		}
+		break;
+
+	case GTH_TRANSFORM_ROTATE_270:
+		destination = cairo_image_surface_create (format, height, width);
+		destination_stride = cairo_image_surface_get_stride (destination);
+		p_source_line = cairo_image_surface_get_data (source);
+		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * destination_stride);
+		while (height-- > 0) {
+			p_source = p_source_line;
+			p_destination = p_destination_line;
+			for (x = 0; x < width; x++) {
+				memcpy (p_destination, p_source, 4);
+				p_source += 4;
+				p_destination -= destination_stride;
+			}
+			p_source_line += source_stride;
+			p_destination_line += 4;
+		}
+		break;
+
+	default:
+		g_warning ("_cairo_image_surface_transform: unknown transformation value %d", transform);
+		break;
+	}
+
+	return destination;
 }
 
 
