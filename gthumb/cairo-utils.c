@@ -192,7 +192,6 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	int                      s_stride;
 	unsigned char           *s_pixels;
 	int                      h, w;
-	unsigned int             t;
 
 	if (pixbuf == NULL)
 		return NULL;
@@ -221,7 +220,7 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				CAIRO_SET_RGBA_FAST (s_iter, p_iter[0], p_iter[1], p_iter[2], p_iter[3], t);
+				CAIRO_SET_RGBA (s_iter, p_iter[0], p_iter[1], p_iter[2], p_iter[3]);
 
 				s_iter += 4;
 				p_iter += p_n_channels;

@@ -62,25 +62,10 @@
 
 #define CAIRO_SET_RGBA(pixel, red, green, blue, alpha)				\
 	G_STMT_START {								\
-		gdouble factor = (gdouble) (alpha) / 0xff;			\
-		pixel[CAIRO_RED] = (guchar) (factor * (red) + .5);		\
-		pixel[CAIRO_GREEN] = (guchar) (factor * (green) + .5);		\
-		pixel[CAIRO_BLUE] = (guchar) (factor * (blue) + .5);		\
-		pixel[CAIRO_ALPHA] = alpha;					\
-	} G_STMT_END
-
-#define CAIRO_MULT(dest, src, alpha, temp)					\
-	G_STMT_START {								\
-		temp = src * alpha; 						\
-		/* approximation of division by 255 */				\
-		dest = ((temp >> 8) + temp) >> 8; 				\
-	} G_STMT_END
-
-#define CAIRO_SET_RGBA_FAST(pixel, red, green, blue, alpha, temp)		\
-	G_STMT_START {								\
-		CAIRO_MULT (pixel[CAIRO_RED], red, alpha, temp);		\
-		CAIRO_MULT (pixel[CAIRO_GREEN], green, alpha, temp);		\
-		CAIRO_MULT (pixel[CAIRO_BLUE], blue, alpha, temp);		\
+		double factor = (gdouble) (alpha) / 0xff;			\
+		pixel[CAIRO_RED] = factor * (red);				\
+		pixel[CAIRO_GREEN] = factor * (green);				\
+		pixel[CAIRO_BLUE] = factor * (blue);				\
 		pixel[CAIRO_ALPHA] = alpha;					\
 	} G_STMT_END
 
@@ -100,10 +85,10 @@
 			blue = pixel[CAIRO_BLUE];				\
 		}								\
 		else {								\
-			gdouble factor = (gdouble) 0xff / alpha;		\
-			red = (guchar) (factor * pixel[CAIRO_RED] + .5);	\
-			green = (guchar) (factor * pixel[CAIRO_GREEN] + .5);	\
-			blue = (guchar) (factor * pixel[CAIRO_BLUE] + .5);	\
+			double factor = (double) 0xff / alpha;			\
+			red = factor * pixel[CAIRO_RED];			\
+			green = factor * pixel[CAIRO_GREEN];			\
+			blue = factor * pixel[CAIRO_BLUE];			\
 		}								\
 	} G_STMT_END
 
