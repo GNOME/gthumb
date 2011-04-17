@@ -25,6 +25,13 @@
 #include "gth-file-tool-negative.h"
 
 
+typedef struct {
+	GtkWidget       *viewer_page;
+	cairo_surface_t *source;
+	cairo_surface_t *destination;
+} NegativeData;
+
+
 static void
 gth_file_tool_negative_update_sensitivity (GthFileTool *base)
 {
@@ -41,34 +48,108 @@ gth_file_tool_negative_update_sensitivity (GthFileTool *base)
 
 
 static void
-negative_step (GthPixbufTask *pixop)
+negative_data_free (gpointer user_data)
 {
-	pixop->dest_pixel[RED_PIX]   = 255 - pixop->dest_pixel[RED_PIX];
-	pixop->dest_pixel[GREEN_PIX] = 255 - pixop->dest_pixel[GREEN_PIX];
-	pixop->dest_pixel[BLUE_PIX]  = 255 - pixop->dest_pixel[BLUE_PIX];
+	NegativeData *negative_data = user_data;
 
-	if (pixop->has_alpha)
-		pixop->dest_pixel[ALPHA_PIX] = pixop->src_pixel[ALPHA_PIX];
+	cairo_surface_destroy (negative_data->destination);
+	cairo_surface_destroy (negative_data->source);
+	g_free (negative_data);
 }
 
 
 static void
-negative_release (GthPixbufTask *pixop,
-		    GError        *error)
+negative_init (GthAsyncTask *task,
+	       gpointer      user_data)
 {
+	gth_task_progress (GTH_TASK (task), _("Applying changes"), NULL, TRUE, 0.0);
+}
+
+
+static gpointer
+negative_exec (GthAsyncTask *task,
+	       gpointer      user_data)
+{
+	NegativeData    *negative_data = user_data;
+	cairo_format_t   format;
+	int              width;
+	int              height;
+	int              source_stride;
+	int              destination_stride;
+	unsigned char   *p_source_line;
+	unsigned char   *p_destination_line;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	gboolean         cancelled;
+	double           progress;
+	gboolean         terminated;
+	int              x, y;
+	unsigned char    red, green, blue, alpha;
+
+	format = cairo_image_surface_get_format (negative_data->source);
+	width = cairo_image_surface_get_width (negative_data->source);
+	height = cairo_image_surface_get_height (negative_data->source);
+	source_stride = cairo_image_surface_get_stride (negative_data->source);
+
+	negative_data->destination = cairo_image_surface_create (format, width, height);
+	destination_stride = cairo_image_surface_get_stride (negative_data->destination);
+	p_source_line = cairo_image_surface_get_data (negative_data->source);
+	p_destination_line = cairo_image_surface_get_data (negative_data->destination);
+	for (y = 0; y < height; y++) {
+		gth_async_task_get_data (task, NULL, &cancelled, NULL);
+		if (cancelled)
+			return NULL;
+
+		progress = (double) y / height;
+		gth_async_task_set_data (task, NULL, NULL, &progress);
+
+		p_source = p_source_line;
+		p_destination = p_destination_line;
+		for (x = 0; x < width; x++) {
+			CAIRO_GET_RGBA (p_source, red, green, blue, alpha);
+			CAIRO_SET_RGBA (p_destination,
+					255 - red,
+					255 - green,
+					255 - blue,
+					alpha);
+
+			p_source += 4;
+			p_destination += 4;
+		}
+		p_source_line += source_stride;
+		p_destination_line += destination_stride;
+	}
+
+	terminated = TRUE;
+	gth_async_task_set_data (task, &terminated, NULL, NULL);
+
+	return NULL;
+}
+
+
+static void
+negative_after (GthAsyncTask *task,
+		GError       *error,
+	        gpointer      user_data)
+{
+	NegativeData *negative_data = user_data;
+
 	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (pixop->data), pixop->dest, TRUE);
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (negative_data->viewer_page),
+					         negative_data->destination,
+					         TRUE);
 }
 
 
 static void
 gth_file_tool_negative_activate (GthFileTool *base)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-	GdkPixbuf *src_pixbuf;
-	GthTask   *task;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
+	cairo_surface_t *image;
+	NegativeData    *negative_data;
+	GthTask         *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -76,22 +157,21 @@ gth_file_tool_negative_activate (GthFileTool *base)
 		return;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (src_pixbuf == NULL)
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (image == NULL)
 		return;
 
-	task = gth_pixbuf_task_new (_("Applying changes"),
-				    FALSE,
-				    copy_source_to_destination,
-				    negative_step,
-				    negative_release,
-				    viewer_page,
-				    NULL);
-	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
+	negative_data = g_new0 (NegativeData, 1);
+	negative_data->viewer_page = viewer_page;
+	negative_data->source = cairo_surface_reference (image);
+	task = gth_async_task_new (negative_init,
+				   negative_exec,
+				   negative_after,
+				   negative_data,
+				   negative_data_free);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (src_pixbuf);
 }
 
 
