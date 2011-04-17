@@ -62,11 +62,18 @@
 
 #define CAIRO_SET_RGBA(pixel, red, green, blue, alpha)				\
 	G_STMT_START {								\
-		double factor = (gdouble) (alpha) / 0xff;			\
-		pixel[CAIRO_RED] = factor * (red);				\
-		pixel[CAIRO_GREEN] = factor * (green);				\
-		pixel[CAIRO_BLUE] = factor * (blue);				\
-		pixel[CAIRO_ALPHA] = alpha;					\
+		pixel[CAIRO_ALPHA] = (alpha);					\
+		if (pixel[CAIRO_ALPHA] == 0xff) {				\
+			pixel[CAIRO_RED] = (red);				\
+			pixel[CAIRO_GREEN] = (green);				\
+			pixel[CAIRO_BLUE] = (blue);				\
+		}								\
+		else {								\
+			double factor = (double) pixel[CAIRO_ALPHA] / 0xff;	\
+			pixel[CAIRO_RED] = factor * (red);			\
+			pixel[CAIRO_GREEN] = factor * (green);			\
+			pixel[CAIRO_BLUE] = factor * (blue);			\
+		}								\
 	} G_STMT_END
 
 #define CAIRO_GET_RGB(pixel, red, green, blue)					\
