@@ -337,11 +337,11 @@ gth_async_task_get_type (void)
 
 
 GthTask *
-gth_async_task_new_full (DataFunc        before_func,
-			 GThreadFunc     exec_func,
-			 ReadyFunc       after_func,
-			 gpointer        user_data,
-			 GDestroyNotify  user_data_destroy_func)
+gth_async_task_new (GthAsyncInitFunc    before_func,
+		    GthAsyncThreadFunc  exec_func,
+		    GthAsyncReadyFunc   after_func,
+		    gpointer            user_data,
+		    GDestroyNotify      user_data_destroy_func)
 {
 	return (GthTask *) g_object_new (GTH_TYPE_ASYNC_TASK,
 				         "before-thread", before_func,
