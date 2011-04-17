@@ -47,15 +47,28 @@ struct _GthAsyncTaskClass {
 	GthTaskClass __parent;
 };
 
+typedef void     (*GthAsyncInitFunc)   (GthAsyncTask *task,
+				        gpointer      user_data);
+typedef gpointer (*GthAsyncThreadFunc) (GthAsyncTask *task,
+				        gpointer      user_data);
+typedef void     (*GthAsyncReadyFunc)  (GthAsyncTask *task,
+				        GError       *error,
+				        gpointer      user_data);
+
 GType         gth_async_task_get_type    (void);
-void          gth_async_task_set_data    (GthAsyncTask *self,
-					  gboolean     *terminated,
-					  gboolean     *cancelled,
-					  double       *progress);
-void          gth_async_task_get_data    (GthAsyncTask *self,
-					  gboolean     *terminated,
-					  gboolean     *cancelled,
-					  double       *progress);
+GthTask *     gth_async_task_new         (GthAsyncInitFunc    before_func,
+					  GthAsyncThreadFunc  exec_func,
+					  GthAsyncReadyFunc   after_func,
+					  gpointer            user_data,
+					  GDestroyNotify      user_data_destroy_func);
+void          gth_async_task_set_data    (GthAsyncTask       *self,
+					  gboolean           *terminated,
+					  gboolean           *cancelled,
+					  double             *progress);
+void          gth_async_task_get_data    (GthAsyncTask       *self,
+					  gboolean           *terminated,
+					  gboolean           *cancelled,
+					  double             *progress);
 
 G_END_DECLS
 

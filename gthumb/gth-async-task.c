@@ -33,19 +33,23 @@ enum {
         PROP_0,
         PROP_BEFORE_THREAD,
         PROP_THREAD_FUNC,
-        PROP_AFTER_THREAD
+        PROP_AFTER_THREAD,
+        PROP_USER_DATA,
+        PROP_USER_DATA_DESTROY_FUNC,
 };
 
 
 struct _GthAsyncTaskPrivate {
-	DataFunc     before_func;
-	GThreadFunc  exec_func;
-	ReadyFunc    after_func;
-	GMutex      *data_mutex;
-	guint        progress_event;
-	gboolean     cancelled;
-	gboolean     terminated;
-	double       progress;
+	GthAsyncInitFunc    before_func;
+	GthAsyncThreadFunc  exec_func;
+	GthAsyncReadyFunc   after_func;
+	gpointer            user_data;
+	GDestroyNotify      user_data_destroy_func;
+	GMutex             *data_mutex;
+	guint               progress_event;
+	gboolean            cancelled;
+	gboolean            terminated;
+	double              progress;
 };
 
 
@@ -64,6 +68,9 @@ gth_async_task_finalize (GObject *object)
 		g_source_remove (self->priv->progress_event);
 		self->priv->progress_event = 0;
 	}
+
+	if ((self->priv->user_data != NULL) && (self->priv->user_data_destroy_func))
+		(*self->priv->user_data_destroy_func) (self->priv->user_data);
 
 	g_mutex_free (self->priv->data_mutex);
 
@@ -103,7 +110,7 @@ update_progress (gpointer data)
 			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 
 		if (self->priv->after_func != NULL)
-			self->priv->after_func (error, self);
+			self->priv->after_func (self, error, self->priv->user_data);
 
 		ready_with_error (task_completed, self, error);
 
@@ -126,7 +133,7 @@ exec_task (gpointer user_data)
 	GthAsyncTask *self = user_data;
 	gpointer      result;
 
-	result = self->priv->exec_func (self);
+	result = self->priv->exec_func (self, self->priv->user_data);
 
 	g_mutex_lock (self->priv->data_mutex);
 	self->priv->terminated = TRUE;
@@ -149,7 +156,7 @@ gth_async_task_exec (GthTask *task)
 	g_mutex_unlock (self->priv->data_mutex);
 
 	if (self->priv->before_func != NULL)
-		self->priv->before_func (self);
+		self->priv->before_func (self, self->priv->user_data);
 	g_thread_create (exec_task, self, FALSE, NULL);
 
 	if (self->priv->progress_event == 0)
@@ -192,6 +199,12 @@ gth_async_task_set_property (GObject      *object,
 	case PROP_AFTER_THREAD:
 		self->priv->after_func = g_value_get_pointer (value);
 		break;
+	case PROP_USER_DATA:
+		self->priv->user_data = g_value_get_pointer (value);
+		break;
+	case PROP_USER_DATA_DESTROY_FUNC:
+		self->priv->user_data_destroy_func = g_value_get_pointer (value);
+		break;
 	default:
 		break;
 	}
@@ -217,6 +230,12 @@ gth_async_task_get_property (GObject    *object,
 		break;
 	case PROP_AFTER_THREAD:
 		g_value_set_pointer (value, self->priv->after_func);
+		break;
+	case PROP_USER_DATA:
+		g_value_set_pointer (value, self->priv->user_data);
+		break;
+	case PROP_USER_DATA_DESTROY_FUNC:
+		g_value_set_pointer (value, self->priv->user_data_destroy_func);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -261,6 +280,18 @@ gth_async_task_class_init (GthAsyncTaskClass *class)
 							       "After",
 							       "The function to execute after the thread",
 							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_USER_DATA,
+					 g_param_spec_pointer ("user-data",
+							       "User Data",
+							       "The extra data to pass to the functions",
+							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_USER_DATA_DESTROY_FUNC,
+					 g_param_spec_pointer ("user-data-destroy-func",
+							       "User data destroy function",
+							       "The optional function to free the user data when no longer needed",
+							       G_PARAM_READWRITE));
 }
 
 
@@ -272,6 +303,8 @@ gth_async_task_init (GthAsyncTask *self)
 	self->priv->terminated = FALSE;
 	self->priv->progress_event = 0;
 	self->priv->data_mutex = g_mutex_new ();
+	self->priv->user_data = NULL;
+	self->priv->user_data_destroy_func = NULL;
 }
 
 
@@ -300,6 +333,23 @@ gth_async_task_get_type (void)
 	}
 
 	return type;
+}
+
+
+GthTask *
+gth_async_task_new_full (DataFunc        before_func,
+			 GThreadFunc     exec_func,
+			 ReadyFunc       after_func,
+			 gpointer        user_data,
+			 GDestroyNotify  user_data_destroy_func)
+{
+	return (GthTask *) g_object_new (GTH_TYPE_ASYNC_TASK,
+				         "before-thread", before_func,
+				         "thread-func", exec_func,
+				         "after-thread", after_func,
+				         "user-data", user_data,
+				         "user-data-destroy-func", user_data_destroy_func,
+				         NULL);
 }
 
 

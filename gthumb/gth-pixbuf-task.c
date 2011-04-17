@@ -69,9 +69,10 @@ gth_pixbuf_task_finalize (GObject *object)
 
 
 static void
-before_execute_pixbuf_task (gpointer user_data)
+before_execute_pixbuf_task (GthAsyncTask *base,
+			    gpointer      user_data)
 {
-	GthPixbufTask *self = user_data;
+	GthPixbufTask *self = GTH_PIXBUF_TASK (base);
 
 	gth_task_progress (GTH_TASK (self),
 			   self->priv->description,
@@ -133,9 +134,10 @@ execute_step (GthPixbufTask *self)
 
 
 static gpointer
-execute_pixbuf_task (gpointer user_data)
+execute_pixbuf_task (GthAsyncTask *base,
+		     gpointer      user_data)
 {
-	GthPixbufTask *self = user_data;
+	GthPixbufTask *self = GTH_PIXBUF_TASK (base);
 
 	self->line = 0;
 	if (self->priv->init_func != NULL)
@@ -162,10 +164,11 @@ execute_pixbuf_task (gpointer user_data)
 
 
 static void
-after_execute_pixbuf_task (GError   *error,
-			   gpointer  user_data)
+after_execute_pixbuf_task (GthAsyncTask *base,
+			   GError       *error,
+			   gpointer      user_data)
 {
-	GthPixbufTask *self = user_data;
+	GthPixbufTask *self = GTH_PIXBUF_TASK (base);
 
 	if (self->priv->release_func != NULL)
 		(*self->priv->release_func) (self, error);
