@@ -115,6 +115,10 @@ typedef struct {
 	guchar a;
 } cairo_color_255_t;
 
+
+extern const unsigned char cairo_channel[4];
+
+
 /* colors */
 
 void               _gdk_color_to_cairo_color                (GdkColor          *g_color,

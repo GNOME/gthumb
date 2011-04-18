@@ -25,6 +25,9 @@
 #include "cairo-utils.h"
 
 
+const unsigned char cairo_channel[4] = { CAIRO_RED, CAIRO_GREEN, CAIRO_BLUE, CAIRO_ALPHA };
+
+
 typedef struct {
 	gboolean has_alpha;
 } cairo_surface_metadata_t;

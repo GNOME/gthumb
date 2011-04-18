@@ -255,10 +255,7 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 		pixel = line;
 
 		for (j = 0; j < width; j++) {
-			if (has_alpha)
-				CAIRO_GET_RGBA (pixel, red, green, blue, alpha);
-			else
-				CAIRO_GET_RGB (pixel, red, green, blue);
+			CAIRO_GET_RGBA (pixel, red, green, blue, alpha);
 
 			/* count values for each RGB channel */
 
