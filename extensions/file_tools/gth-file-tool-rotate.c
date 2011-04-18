@@ -183,7 +183,9 @@ static void
 gth_file_tool_rotate_instance_init (GthFileToolRotate *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
+
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), FALSE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Freely rotate the image"));
 }
 
 
