@@ -36,9 +36,11 @@ typedef struct {
 
 
 typedef struct {
-	GtkWidget    *viewer_page;
-	GthHistogram *histogram;
-	Levels       *levels;
+	GtkWidget       *viewer_page;
+	cairo_surface_t *source;
+	cairo_surface_t *destination;
+	GthHistogram    *histogram;
+	Levels          *levels;
 } EnhanceData;
 
 
@@ -108,27 +110,29 @@ levels_channel_auto (Levels       *levels,
 
 
 static void
-adjust_levels_init (GthPixbufTask *pixop)
+enhance_before (GthAsyncTask *task,
+	        gpointer      user_data)
 {
-	EnhanceData *data = pixop->data;
+	EnhanceData *enhance_data = user_data;
 	int          channel;
 
-	copy_source_to_destination (pixop);
-	data->histogram = gth_histogram_new ();
-	gth_histogram_calculate_for_pixbuf (data->histogram, pixop->src);
+	gth_task_progress (GTH_TASK (task), _("White balance correction"), NULL, TRUE, 0.0);
 
-	data->levels = g_new0 (Levels, 1);
+	enhance_data->histogram = gth_histogram_new ();
+	gth_histogram_calculate_for_image (enhance_data->histogram, enhance_data->source);
+
+	enhance_data->levels = g_new0 (Levels, 1);
 
 	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS; channel++) {
-		data->levels->gamma[channel]       = 1.0;
-		data->levels->low_input[channel]   = 0;
-		data->levels->high_input[channel]  = 255;
-		data->levels->low_output[channel]  = 0;
-		data->levels->high_output[channel] = 255;
+		enhance_data->levels->gamma[channel]       = 1.0;
+		enhance_data->levels->low_input[channel]   = 0;
+		enhance_data->levels->high_input[channel]  = 255;
+		enhance_data->levels->low_output[channel]  = 0;
+		enhance_data->levels->high_output[channel] = 255;
 	}
 
 	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS - 1; channel++)
-		levels_channel_auto (data->levels, data->histogram, channel);
+		levels_channel_auto (enhance_data->levels, enhance_data->histogram, channel);
 }
 
 
@@ -185,55 +189,104 @@ levels_func (guchar  value,
 }
 
 
-static void
-adjust_levels_step (GthPixbufTask *pixop)
+static gpointer
+enhance_exec (GthAsyncTask *task,
+	      gpointer      user_data)
 {
-	EnhanceData *data = pixop->data;
+	EnhanceData     *enhance_data = user_data;
+	cairo_format_t   format;
+	int              width;
+	int              height;
+	int              source_stride;
+	int              destination_stride;
+	unsigned char   *p_source_line;
+	unsigned char   *p_destination_line;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	gboolean         cancelled;
+	double           progress;
+	gboolean         terminated;
+	int              x, y;
+	unsigned char    red, green, blue, alpha;
 
-	pixop->dest_pixel[RED_PIX]   = levels_func (pixop->src_pixel[RED_PIX], data->levels, RED_PIX);
-	pixop->dest_pixel[GREEN_PIX] = levels_func (pixop->src_pixel[GREEN_PIX], data->levels, GREEN_PIX);
-	pixop->dest_pixel[BLUE_PIX]  = levels_func (pixop->src_pixel[BLUE_PIX], data->levels, BLUE_PIX);
+	format = cairo_image_surface_get_format (enhance_data->source);
+	width = cairo_image_surface_get_width (enhance_data->source);
+	height = cairo_image_surface_get_height (enhance_data->source);
+	source_stride = cairo_image_surface_get_stride (enhance_data->source);
 
-	if (pixop->has_alpha)
-		pixop->dest_pixel[ALPHA_PIX] = pixop->src_pixel[ALPHA_PIX];
+	enhance_data->destination = cairo_image_surface_create (format, width, height);
+	destination_stride = cairo_image_surface_get_stride (enhance_data->destination);
+	p_source_line = cairo_image_surface_get_data (enhance_data->source);
+	p_destination_line = cairo_image_surface_get_data (enhance_data->destination);
+	for (y = 0; y < height; y++) {
+		gth_async_task_get_data (task, NULL, &cancelled, NULL);
+		if (cancelled)
+			return NULL;
+
+		progress = (double) y / height;
+		gth_async_task_set_data (task, NULL, NULL, &progress);
+
+		p_source = p_source_line;
+		p_destination = p_destination_line;
+		for (x = 0; x < width; x++) {
+			CAIRO_GET_RGBA (p_source, red, green, blue, alpha);
+			red   = levels_func (red, enhance_data->levels, RED_PIX);
+			green = levels_func (green, enhance_data->levels, GREEN_PIX);
+			blue  = levels_func (blue, enhance_data->levels, BLUE_PIX);
+			CAIRO_SET_RGBA (p_destination, red, green, blue, alpha);
+
+			p_source += 4;
+			p_destination += 4;
+		}
+		p_source_line += source_stride;
+		p_destination_line += destination_stride;
+	}
+
+	terminated = TRUE;
+	gth_async_task_set_data (task, &terminated, NULL, NULL);
+
+	return NULL;
 }
 
 
 static void
-adjust_levels_release (GthPixbufTask *pixop,
-		       GError        *error)
+enhance_after (GthAsyncTask *task,
+	       GError       *error,
+	       gpointer      user_data)
 {
-	EnhanceData *data = pixop->data;
+	EnhanceData *enhance_data = user_data;
 
 	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (enhance_data->viewer_page), enhance_data->destination, TRUE);
 
-	g_object_unref (data->histogram);
-	data->histogram = NULL;
-	g_free (data->levels);
-	data->levels = NULL;
+	g_object_unref (enhance_data->histogram);
+	enhance_data->histogram = NULL;
+	g_free (enhance_data->levels);
+	enhance_data->levels = NULL;
 }
 
 
 static void
-adjust_levels_destroy_data (gpointer user_data)
+enhance_data_free (gpointer user_data)
 {
-	EnhanceData *data = user_data;
+	EnhanceData *enhance_data = user_data;
 
-	g_object_unref (data->viewer_page);
-	g_free (data);
+	g_object_unref (enhance_data->viewer_page);
+	cairo_surface_destroy (enhance_data->destination);
+	cairo_surface_destroy (enhance_data->source);
+	g_free (enhance_data);
 }
 
 
 static void
 gth_file_tool_enhance_activate (GthFileTool *base)
 {
-	GtkWidget   *window;
-	GtkWidget   *viewer_page;
-	GtkWidget   *viewer;
-	GdkPixbuf   *src_pixbuf;
-	EnhanceData *data;
-	GthTask     *task;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
+	cairo_surface_t *image;
+	EnhanceData     *enhance_data;
+	GthTask         *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -241,26 +294,23 @@ gth_file_tool_enhance_activate (GthFileTool *base)
 		return;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (src_pixbuf == NULL)
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (image == NULL)
 		return;
 
-	data = g_new0 (EnhanceData, 1);
-	data->viewer_page = g_object_ref (viewer_page);
-	data->histogram = NULL;
-	data->levels = NULL;
-	task = gth_pixbuf_task_new (_("White balance correction"),
-				    FALSE,
-				    adjust_levels_init,
-				    adjust_levels_step,
-				    adjust_levels_release,
-				    data,
-				    adjust_levels_destroy_data);
-	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
+	enhance_data = g_new0 (EnhanceData, 1);
+	enhance_data->viewer_page = g_object_ref (viewer_page);
+	enhance_data->source = cairo_surface_reference (image);
+	enhance_data->histogram = NULL;
+	enhance_data->levels = NULL;
+	task = gth_async_task_new (enhance_before,
+				   enhance_exec,
+				   enhance_after,
+				   enhance_data,
+				   enhance_data_free);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (src_pixbuf);
 }
 
 
