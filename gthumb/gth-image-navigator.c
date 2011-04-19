@@ -317,7 +317,7 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 	cairo_scale (cr, zoom, zoom);
 	cairo_set_source_surface (cr, nav_popup->image, 0, 0);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-  	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_width);
+	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_height);
   	cairo_fill (cr);
   	cairo_restore (cr);
 
