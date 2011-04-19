@@ -519,9 +519,6 @@ static void
 gth_image_selector_realize (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
-	GtkWidget        *widget;
-
-	widget = (GtkWidget *) self->priv->viewer;
 
 	if (self->priv->type == GTH_SELECTOR_TYPE_REGION)
 		self->priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR /*GDK_LEFT_PTR*/);

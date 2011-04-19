@@ -471,11 +471,8 @@ gth_list_view_real_get_last_selected (GthFileSelection *base)
 static guint
 gth_list_view_real_get_n_selected (GthFileSelection *base)
 {
-	GthListView *self;
-	GList       *selected;
-	guint          n_selected;
-
-	self = GTH_LIST_VIEW (base);
+	GList *selected;
+	guint  n_selected;
 
 	selected = gtk_tree_selection_get_selected_rows (gtk_tree_view_get_selection (GTK_TREE_VIEW (base)), NULL);
 	n_selected = (guint) g_list_length (selected);
