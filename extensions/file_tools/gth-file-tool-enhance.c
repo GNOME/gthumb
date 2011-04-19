@@ -113,26 +113,7 @@ static void
 enhance_before (GthAsyncTask *task,
 	        gpointer      user_data)
 {
-	EnhanceData *enhance_data = user_data;
-	int          channel;
-
 	gth_task_progress (GTH_TASK (task), _("White balance correction"), NULL, TRUE, 0.0);
-
-	enhance_data->histogram = gth_histogram_new ();
-	gth_histogram_calculate_for_image (enhance_data->histogram, enhance_data->source);
-
-	enhance_data->levels = g_new0 (Levels, 1);
-
-	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS; channel++) {
-		enhance_data->levels->gamma[channel]       = 1.0;
-		enhance_data->levels->low_input[channel]   = 0;
-		enhance_data->levels->high_input[channel]  = 255;
-		enhance_data->levels->low_output[channel]  = 0;
-		enhance_data->levels->high_output[channel] = 255;
-	}
-
-	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS - 1; channel++)
-		levels_channel_auto (enhance_data->levels, enhance_data->histogram, channel);
 }
 
 
@@ -194,6 +175,7 @@ enhance_exec (GthAsyncTask *task,
 	      gpointer      user_data)
 {
 	EnhanceData     *enhance_data = user_data;
+	int              channel;
 	cairo_format_t   format;
 	int              width;
 	int              height;
@@ -208,6 +190,25 @@ enhance_exec (GthAsyncTask *task,
 	gboolean         terminated;
 	int              x, y;
 	unsigned char    red, green, blue, alpha;
+
+	/* initialize some extra data */
+
+	enhance_data->histogram = gth_histogram_new ();
+	gth_histogram_calculate_for_image (enhance_data->histogram, enhance_data->source);
+
+	enhance_data->levels = g_new0 (Levels, 1);
+	for (channel = 0; channel < GTH_HISTOGRAM_N_CHANNELS; channel++) {
+		enhance_data->levels->gamma[channel]       = 1.0;
+		enhance_data->levels->low_input[channel]   = 0;
+		enhance_data->levels->high_input[channel]  = 255;
+		enhance_data->levels->low_output[channel]  = 0;
+		enhance_data->levels->high_output[channel] = 255;
+	}
+
+	for (channel = 1; channel < GTH_HISTOGRAM_N_CHANNELS - 1; channel++)
+		levels_channel_auto (enhance_data->levels, enhance_data->histogram, channel);
+
+	/* convert the image */
 
 	format = cairo_image_surface_get_format (enhance_data->source);
 	width = cairo_image_surface_get_width (enhance_data->source);
@@ -261,6 +262,7 @@ enhance_after (GthAsyncTask *task,
 
 	g_object_unref (enhance_data->histogram);
 	enhance_data->histogram = NULL;
+
 	g_free (enhance_data->levels);
 	enhance_data->levels = NULL;
 }
