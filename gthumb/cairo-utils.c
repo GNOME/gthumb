@@ -99,7 +99,7 @@ _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 
 
 cairo_surface_t *
-_cairo_image_surface_copy (cairo_surface_t *surface)
+_cairo_image_surface_copy (cairo_surface_t *source)
 {
 	cairo_surface_t *result;
 	cairo_format_t   format;
@@ -108,13 +108,18 @@ _cairo_image_surface_copy (cairo_surface_t *surface)
 	int              stride;
 	unsigned char   *pixels;
 	cairo_status_t   status;
+	int              source_stride;
+	int              destination_stride;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	int              row_size;
 
-	if (surface == NULL)
+	if (source == NULL)
 		return NULL;
 
-	format = cairo_image_surface_get_format (surface);
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
+	format = cairo_image_surface_get_format (source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
 	stride = cairo_format_stride_for_width (format, width);
 	pixels = g_try_malloc (stride * height);
         if (pixels == NULL)
@@ -133,6 +138,18 @@ _cairo_image_surface_copy (cairo_surface_t *surface)
 		g_warning ("_cairo_image_surface_copy: could not set the user data: %s", cairo_status_to_string (status));
 		cairo_surface_destroy (result);
 		return NULL;
+	}
+
+	source_stride = cairo_image_surface_get_stride (source);
+	destination_stride = cairo_image_surface_get_stride (result);
+	p_source = cairo_image_surface_get_data (source);
+	p_destination = cairo_image_surface_get_data (result);
+	row_size = width * 4;
+	while (height-- > 0) {
+		memcpy (p_destination, p_source, row_size);
+
+		p_source += source_stride;
+		p_destination += destination_stride;
 	}
 
 	return result;
@@ -254,6 +271,15 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	}
 
 	return surface;
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_create_compatible (cairo_surface_t *surface)
+{
+	return cairo_image_surface_create (cairo_image_surface_get_format (surface),
+					   cairo_image_surface_get_width (surface),
+					   cairo_image_surface_get_height (surface));
 }
 
 

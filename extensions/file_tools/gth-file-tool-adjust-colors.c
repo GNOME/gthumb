@@ -80,15 +80,6 @@ adjust_colors_before (GthAsyncTask *task,
 
 
 static guchar
-interpolate_value (guchar original,
-		   guchar reference,
-		   double distance)
-{
-	return CLAMP ((distance * reference) + ((1.0 - distance) * original), 0, 255);
-}
-
-
-static guchar
 gamma_correction (guchar original,
 		  double gamma)
 {

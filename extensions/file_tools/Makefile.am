@@ -8,7 +8,7 @@ ENUM_TYPES =		\
 	enum-types.c
 
 HEADER_FILES = 				\
-	gdk-pixbuf-blur.h		\
+	cairo-blur.h			\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-crop.h		\
 	gth-file-tool-desaturate.h	\
@@ -56,7 +56,7 @@ libfile_tools_la_SOURCES = 		\
 	$(HEADER_FILES)			\
 	callbacks.c			\
 	callbacks.h			\
-	gdk-pixbuf-blur.c		\
+	cairo-blur.c			\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-desaturate.c	\

@@ -23,17 +23,16 @@
 #define GDK_PIXBUF_BLUR_H
 
 #include <glib.h>
-#include <gdk/gdk.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <cairo.h>
 
 G_BEGIN_DECLS
 
-void _gdk_pixbuf_blur    (GdkPixbuf *src,
-	 	          int        radius);
-void _gdk_pixbuf_sharpen (GdkPixbuf *src,
-			  int        radius,
-			  double     amount,
-			  guchar     threshold);
+void _cairo_image_surface_blur     (cairo_surface_t *source,
+	 	                    int              radius);
+void _cairo_image_surface_sharpen  (cairo_surface_t *source,
+				    int              radius,
+				    double           amount,
+				    guchar           threshold);
 
 G_END_DECLS
 

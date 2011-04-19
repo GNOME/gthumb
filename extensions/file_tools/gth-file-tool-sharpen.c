@@ -23,7 +23,7 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "gth-file-tool-sharpen.h"
-#include "gdk-pixbuf-blur.h"
+#include "cairo-blur.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -37,16 +37,16 @@ static gpointer parent_class = NULL;
 
 
 struct _GthFileToolSharpenPrivate {
-	GdkPixbuf     *src_pixbuf;
-	GdkPixbuf     *dest_pixbuf;
-	GtkBuilder    *builder;
-	GtkAdjustment *radius_adj;
-	GtkAdjustment *amount_adj;
-	GtkAdjustment *threshold_adj;
-	GtkWidget     *preview;
-	GthTask       *pixbuf_task;
-	guint          apply_event;
-	gboolean       show_preview;
+	cairo_surface_t *source;
+	cairo_surface_t *destination;
+	GtkBuilder      *builder;
+	GtkAdjustment   *radius_adj;
+	GtkAdjustment   *amount_adj;
+	GtkAdjustment   *threshold_adj;
+	GtkWidget       *preview;
+	GthTask         *pixbuf_task;
+	guint            apply_event;
+	gboolean         show_preview;
 };
 
 
@@ -65,28 +65,14 @@ gth_file_tool_sharpen_update_sensitivity (GthFileTool *base)
 }
 
 
-static void
-task_completed_cb (GthTask  *task,
-		   GError   *error,
-		   gpointer  user_data)
-{
-	GthFileTool *base = user_data;
-
-	if (error == NULL) {
-		GthPixbufTask *pixbuf_task;
-		GtkWidget     *viewer_page;
-
-		pixbuf_task = GTH_PIXBUF_TASK (task);
-		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (gth_file_tool_get_window (base)));
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), pixbuf_task->dest, TRUE);
-	}
-}
-
-
 typedef struct {
-	int    radius;
-	double amount;
-	int    threshold;
+	GthFileToolSharpen *self;
+	cairo_surface_t    *source;
+	cairo_surface_t    *destination;
+	GtkWidget          *viewer_page;
+	int                 radius;
+	double              amount;
+	int                 threshold;
 } SharpenData;
 
 
@@ -95,7 +81,10 @@ sharpen_data_new (GthFileToolSharpen *self)
 {
 	SharpenData *sharpen_data;
 
-	sharpen_data = g_new (SharpenData, 1);
+	sharpen_data = g_new0 (SharpenData, 1);
+	sharpen_data->source = NULL;
+	sharpen_data->destination = NULL;
+	sharpen_data->viewer_page = NULL;
 	sharpen_data->radius = gtk_adjustment_get_value (self->priv->radius_adj);
 	sharpen_data->amount = - gtk_adjustment_get_value (self->priv->amount_adj) / 100.0;
 	sharpen_data->threshold = gtk_adjustment_get_value (self->priv->threshold_adj);
@@ -105,15 +94,53 @@ sharpen_data_new (GthFileToolSharpen *self)
 
 
 static void
-sharpen_step (GthPixbufTask *pixbuf_task)
+sharpen_before (GthAsyncTask *task,
+	        gpointer      user_data)
 {
-	SharpenData *sharpen_data = pixbuf_task->data;
+	gth_task_progress (GTH_TASK (task), _("Sharpening image"), NULL, TRUE, 0.0);
+}
 
-	pixbuf_task->dest = gdk_pixbuf_copy (pixbuf_task->src);
-	_gdk_pixbuf_sharpen (pixbuf_task->dest,
-			     sharpen_data->radius,
-			     sharpen_data->amount,
-			     sharpen_data->threshold);
+
+static gpointer
+sharpen_exec (GthAsyncTask *task,
+	      gpointer      user_data)
+{
+	SharpenData *sharpen_data = user_data;
+
+	sharpen_data->destination = _cairo_image_surface_copy (sharpen_data->source);
+
+	/* FIXME: set progress info and allow cancellation */
+
+	_cairo_image_surface_sharpen (sharpen_data->destination,
+				      sharpen_data->radius,
+				      sharpen_data->amount,
+				      sharpen_data->threshold);
+
+	return NULL;
+}
+
+
+static void
+sharpen_after (GthAsyncTask *task,
+	       GError       *error,
+	       gpointer      user_data)
+{
+	SharpenData *sharpen_data = user_data;
+
+	if (error == NULL)
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (sharpen_data->viewer_page), sharpen_data->destination, TRUE);
+}
+
+
+static void
+sharpen_data_free (gpointer user_data)
+{
+	SharpenData *sharpen_data = user_data;
+
+	_g_object_unref (sharpen_data->viewer_page);
+	cairo_surface_destroy (sharpen_data->destination);
+	cairo_surface_destroy (sharpen_data->source);
+	g_free (sharpen_data);
 }
 
 
@@ -121,19 +148,29 @@ static void
 ok_button_clicked_cb (GtkButton          *button,
 		      GthFileToolSharpen *self)
 {
+	GtkWidget   *window;
+	GtkWidget   *viewer_page;
 	SharpenData *sharpen_data;
 	GthTask     *task;
 
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return;
+
 	sharpen_data = sharpen_data_new (self);
-	task = gth_pixbuf_task_new (_("Sharpening image"),
-				    TRUE,
-				    NULL,
-				    sharpen_step,
-				    NULL,
-				    sharpen_data,
-				    g_free);
-	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), self->priv->src_pixbuf);
-	g_signal_connect (task, "completed", G_CALLBACK (task_completed_cb), self);
+	sharpen_data->viewer_page = g_object_ref (viewer_page);
+	sharpen_data->source = cairo_surface_reference (self->priv->source);
+	task = gth_async_task_new (sharpen_before,
+				   sharpen_exec,
+				   sharpen_after,
+				   sharpen_data,
+				   sharpen_data_free);
 	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
 
 	g_object_unref (task);
@@ -185,9 +222,10 @@ apply_cb (gpointer user_data)
 
 	preview = GTH_IMAGE_VIEWER (self->priv->preview);
 	if (self->priv->show_preview) {
-		SharpenData *sharpen_data;
-		GdkPixbuf   *preview_subpixbuf;
-		int          x, y, w ,h;
+		SharpenData     *sharpen_data;
+		int              x, y, w ,h;
+		cairo_surface_t *preview_surface;
+		cairo_t         *cr;
 
 		sharpen_data = sharpen_data_new (self);
 		x = gtk_adjustment_get_value (preview->hadj);
@@ -195,20 +233,30 @@ apply_cb (gpointer user_data)
 		w = gtk_adjustment_get_page_size (preview->hadj);
 		h = gtk_adjustment_get_page_size (preview->vadj);
 
-		_g_object_unref (self->priv->dest_pixbuf);
-		self->priv->dest_pixbuf = gdk_pixbuf_copy (self->priv->src_pixbuf);
-		preview_subpixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf, x, y, w, h);
-		_gdk_pixbuf_sharpen (preview_subpixbuf,
-				     sharpen_data->radius,
-				     sharpen_data->amount,
-				     sharpen_data->threshold);
-		gth_image_viewer_set_pixbuf (preview, self->priv->dest_pixbuf, -1, -1);
+		cairo_surface_destroy (self->priv->destination);
+		self->priv->destination = _cairo_image_surface_copy (self->priv->source);
 
-		g_object_unref (preview_subpixbuf);
-		g_free (sharpen_data);
+		/* FIXME: use a cairo sub-surface when cairo 1.10 will be requiered */
+
+		preview_surface = _cairo_image_surface_copy_subsurface (self->priv->destination, x, y, w, h);
+		_cairo_image_surface_sharpen (preview_surface,
+					      sharpen_data->radius,
+					      sharpen_data->amount,
+					      sharpen_data->threshold);
+
+		cr = cairo_create (self->priv->destination);
+		cairo_set_source_surface (cr, preview_surface, x, y);
+		cairo_rectangle (cr, x, y, w, h);
+		cairo_fill (cr);
+		cairo_destroy (cr);
+
+		gth_image_viewer_set_image (preview, self->priv->destination, -1, -1);
+
+		cairo_surface_destroy (preview_surface);
+		sharpen_data_free (sharpen_data);
 	}
 	else
-		gth_image_viewer_set_pixbuf (preview, self->priv->src_pixbuf, -1, -1);
+		gth_image_viewer_set_image (preview, self->priv->source, -1, -1);
 
 	return FALSE;
 }
@@ -256,15 +304,15 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->dest_pixbuf);
+	cairo_surface_destroy (self->priv->source);
+	cairo_surface_destroy (self->priv->destination);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (self->priv->src_pixbuf == NULL)
+	self->priv->source = cairo_surface_reference (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)));
+	if (self->priv->source == NULL)
 		return NULL;
 
-	self->priv->dest_pixbuf = NULL;
+	self->priv->destination = NULL;
 
 	self->priv->builder = _gtk_builder_new_from_file ("sharpen-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
@@ -276,7 +324,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->preview), GTH_ZOOM_CHANGE_KEEP_PREV);
 	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->preview), 1.0);
 	gth_image_viewer_enable_zoom_with_keys (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->src_pixbuf, -1, -1);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->source, -1, -1);
 	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
 	gtk_widget_show_all (image_navigator);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);
@@ -344,11 +392,11 @@ gth_file_tool_sharpen_destroy_options (GthFileTool *base)
 		self->priv->apply_event = 0;
 	}
 
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->dest_pixbuf);
+	cairo_surface_destroy (self->priv->source);
+	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
-	self->priv->src_pixbuf = NULL;
-	self->priv->dest_pixbuf = NULL;
+	self->priv->source = NULL;
+	self->priv->destination = NULL;
 	self->priv->builder = NULL;
 }
 
@@ -364,8 +412,8 @@ static void
 gth_file_tool_sharpen_instance_init (GthFileToolSharpen *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_SHARPEN, GthFileToolSharpenPrivate);
-	self->priv->src_pixbuf = NULL;
-	self->priv->dest_pixbuf = NULL;
+	self->priv->source = NULL;
+	self->priv->destination = NULL;
 	self->priv->builder = NULL;
 	self->priv->show_preview = TRUE;
 
@@ -383,8 +431,8 @@ gth_file_tool_sharpen_finalize (GObject *object)
 
 	self = (GthFileToolSharpen *) object;
 
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->dest_pixbuf);
+	cairo_surface_destroy (self->priv->source);
+	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */

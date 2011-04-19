@@ -99,6 +99,10 @@
 		}								\
 	} G_STMT_END
 
+
+#define interpolate_value(original, reference, distance) (CLAMP (((distance) * (reference)) + ((1.0 - (distance)) * (original)), 0, 255))
+
+
 /* types */
 
 typedef struct {
@@ -138,6 +142,7 @@ cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t   *
 				      	      	      	     int                width,
 				      	      	      	     int                height);
 cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf         *pixbuf);
+cairo_surface_t *  _cairo_image_surface_create_compatible   (cairo_surface_t   *surface);
 cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t   *surface,
 							     int                width,
 							     int                height,
