@@ -42,7 +42,7 @@ struct _GthFileToolRotatePrivate {
 	int               pixbuf_height;
 	int               screen_width;
 	int               screen_height;
-	GtkAdjustment    *rotation_angle_adj;
+	GtkWidget        *rotation_angle;
 	GtkWidget        *auto_crop;
 	guint             apply_event;
 };
@@ -119,7 +119,7 @@ apply_cb (gpointer user_data)
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
-	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
+	rotation_angle = gtk_range_get_value (GTK_RANGE (self->priv->rotation_angle));
 	
 	if (rotation_angle != 0.0) {
 		center_x = self->priv->pixbuf_width / 2;
@@ -127,7 +127,7 @@ apply_cb (gpointer user_data)
 		auto_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->auto_crop));
 		
 		_g_object_unref (self->priv->dest_pixbuf);
-		self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, center_x, center_y, auto_crop);
+		self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, center_x, center_y, rotation_angle, auto_crop);
 
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
 	}
@@ -183,7 +183,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
-	self->priv->rotation_angle_adj = (GtkAdjustment *) gtk_builder_get_object (self->priv->builder, "rotation_angle_adjustment");
+	self->priv->rotation_angle = _gtk_builder_get_widget (self->priv->builder, "rotation_angle");
 	self->priv->auto_crop = _gtk_builder_get_widget (self->priv->builder, "auto_crop");
 
 	g_signal_connect (GET_WIDGET ("apply_button"),
@@ -194,7 +194,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->rotation_angle_adj),
+	g_signal_connect (G_OBJECT (self->priv->rotation_angle),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
