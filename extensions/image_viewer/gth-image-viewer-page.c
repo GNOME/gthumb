@@ -933,6 +933,7 @@ static void
 gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
+	gboolean            zoom_enabled;
 	double              zoom;
 	GthFit              fit_mode;
 
@@ -941,14 +942,16 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	_set_action_sensitive (self, "ImageViewer_Edit_Undo", gth_image_history_can_undo (self->priv->history));
 	_set_action_sensitive (self, "ImageViewer_Edit_Redo", gth_image_history_can_redo (self->priv->history));
 
+	zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->viewer));
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
-	_set_action_sensitive (self, "ImageViewer_View_Zoom100", ! FLOAT_EQUAL (zoom, 1.0));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomOut", zoom > 0.05);
-	_set_action_sensitive (self, "ImageViewer_View_ZoomIn", zoom < 100.0);
+
+	_set_action_sensitive (self, "ImageViewer_View_Zoom100", zoom_enabled && ! FLOAT_EQUAL (zoom, 1.0));
+	_set_action_sensitive (self, "ImageViewer_View_ZoomOut", zoom_enabled && (zoom > 0.05));
+	_set_action_sensitive (self, "ImageViewer_View_ZoomIn", zoom_enabled && (zoom < 100.0));
 
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomFit", fit_mode != GTH_FIT_SIZE);
-	_set_action_sensitive (self, "ImageViewer_View_ZoomFitWidth", fit_mode != GTH_FIT_WIDTH);
+	_set_action_sensitive (self, "ImageViewer_View_ZoomFit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
+	_set_action_sensitive (self, "ImageViewer_View_ZoomFitWidth", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
 }
 
 

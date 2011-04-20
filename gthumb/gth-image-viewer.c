@@ -91,6 +91,7 @@ struct _GthImageViewerPrivate {
 	GdkCursor              *cursor;
 	GdkCursor              *cursor_void;
 
+	gboolean                zoom_enabled;
 	gboolean                enable_zoom_with_keys;
 	double                  zoom_level;
 	guint                   zoom_quality : 1;   /* A ZoomQualityType value. */
@@ -1466,6 +1467,7 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 	self->priv->iter = NULL;
 	self->priv->iter_surface = NULL;
 
+	self->priv->zoom_enabled = TRUE;
 	self->priv->enable_zoom_with_keys = TRUE;
 	self->priv->zoom_level = 1.0;
 	self->priv->zoom_quality = GTH_ZOOM_QUALITY_HIGH;
@@ -1946,6 +1948,9 @@ gth_image_viewer_set_zoom (GthImageViewer *self,
 {
 	GtkAllocation allocation;
 
+	if (! self->priv->zoom_enabled)
+		return;
+
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	set_zoom (self,
 		  zoom_level,
@@ -2013,6 +2018,9 @@ void
 gth_image_viewer_set_fit_mode (GthImageViewer *self,
 			       GthFit          fit_mode)
 {
+	if (! self->priv->zoom_enabled)
+		return;
+
 	self->priv->fit = fit_mode;
 	if (self->priv->is_void)
 		return;
@@ -2024,6 +2032,21 @@ GthFit
 gth_image_viewer_get_fit_mode (GthImageViewer *self)
 {
 	return self->priv->fit;
+}
+
+
+void
+gth_image_viewer_set_zoom_enabled (GthImageViewer *self,
+				   gboolean        value)
+{
+	self->priv->zoom_enabled = value;
+}
+
+
+gboolean
+gth_image_viewer_get_zoom_enabled (GthImageViewer *self)
+{
+	return self->priv->zoom_enabled;
 }
 
 
