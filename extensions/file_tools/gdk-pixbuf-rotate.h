@@ -28,8 +28,8 @@
 
 G_BEGIN_DECLS
 
-void _gdk_pixbuf_rotate (GdkPixbuf *src,
-			 double     angle);
+GdkPixbuf* _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
+			       double     angle);
 
 G_END_DECLS
 

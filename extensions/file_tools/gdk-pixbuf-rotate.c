@@ -19,13 +19,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gthumb.h>
 #include "gdk-pixbuf-rotate.h"
 
 
-
-void
-_gdk_pixbuf_rotate (GdkPixbuf *src,
+GdkPixbuf*
+_gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		    double     angle)
 {
-	// TODO: implemement all
+	GdkPixbuf *new_pixbuf;
+	
+	if (angle > 45.0) {
+		new_pixbuf = _gdk_pixbuf_transform (src_pixbuf, GTH_TRANSFORM_ROTATE_90);
+	}
+	else if (angle < -45.0) {
+		new_pixbuf = _gdk_pixbuf_transform (src_pixbuf, GTH_TRANSFORM_ROTATE_270);
+	}
+	else {
+		new_pixbuf = src_pixbuf;
+		g_object_ref (new_pixbuf);
+	}
+	
+	return new_pixbuf;
 }
