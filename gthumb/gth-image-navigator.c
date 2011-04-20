@@ -22,6 +22,7 @@
 #include <config.h>
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
+#include "cairo-utils.h"
 #include "gth-image-navigator.h"
 #include "gth-image-viewer.h"
 #include "gtk-utils.h"
@@ -163,7 +164,10 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	nav_popup->popup_height = MAX ((int) floor (nav_popup->zoom_factor * zoomed_height + 0.5), 1);
 
 	cairo_surface_destroy (nav_popup->image);
-	nav_popup->image = cairo_surface_reference (gth_image_viewer_get_current_image (nav_popup->viewer));
+	nav_popup->image = _cairo_image_surface_scale_to (gth_image_viewer_get_current_image (nav_popup->viewer),
+							  nav_popup->popup_width,
+							  nav_popup->popup_height,
+							  CAIRO_FILTER_GOOD);
 
 	/* visible area size */
 
@@ -300,7 +304,6 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 				 NavigatorPopup *nav_popup)
 {
 	cairo_t *cr;
-	double   zoom;
 
 	if (nav_popup->image == NULL)
 		return FALSE;
@@ -311,10 +314,8 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 	gdk_cairo_region (cr, event->region);
 	cairo_clip (cr);
 
-	zoom = (double) nav_popup->popup_width / nav_popup->image_width;
 
 	cairo_save (cr);
-	cairo_scale (cr, zoom, zoom);
 	cairo_set_source_surface (cr, nav_popup->image, 0, 0);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
 	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_height);
@@ -335,7 +336,6 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 				 nav_popup->visible_area.width,
 				 nav_popup->visible_area.height);
 		cairo_clip (cr);
-		cairo_scale (cr, zoom, zoom);
 		cairo_set_source_surface (cr, nav_popup->image, 0, 0);
 		cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
 	  	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_width);
