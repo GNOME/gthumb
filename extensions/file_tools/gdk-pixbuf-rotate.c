@@ -25,7 +25,8 @@
 
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
-		    double     angle)
+		    double     angle,
+		    gint       auto_crop)
 {
 	GdkPixbuf *new_pixbuf;
 	
