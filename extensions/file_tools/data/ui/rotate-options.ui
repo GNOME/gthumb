@@ -80,8 +80,8 @@
             <property name="spacing">12</property>
             <property name="layout_style">center</property>
             <child>
-              <object class="GtkButton" id="rotate_button">
-                <property name="label">gtk-ok</property>
+              <object class="GtkButton" id="apply_button">
+                <property name="label">gtk-apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -121,8 +121,8 @@
     </child>
   </object>
   <object class="GtkAdjustment" id="rotation_angle_adjustment">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
+    <property name="lower">-90</property>
+    <property name="upper">91</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">1</property>
     <property name="page_size">1</property>
