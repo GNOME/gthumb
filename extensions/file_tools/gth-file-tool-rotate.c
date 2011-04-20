@@ -23,10 +23,12 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "enum-types.h"
+#include "gdk-pixbuf-rotate.h"
 #include "gth-file-tool-rotate.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+#define APPLY_DELAY 150
 
 
 static gpointer parent_class = NULL;
@@ -40,8 +42,7 @@ struct _GthFileToolRotatePrivate {
 	int               pixbuf_height;
 	int               screen_width;
 	int               screen_height;
-	GtkWidget        *rotation_angle;
-	GthTask          *pixbuf_task;
+	GtkAdjustment    *rotation_angle_adj;
 	guint             apply_event;
 };
 
@@ -98,6 +99,44 @@ cancel_button_clicked_cb (GtkButton         *button,
 }
 
 
+static gboolean
+apply_cb (gpointer user_data)
+{
+	GthFileToolRotate *self = user_data;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	double             rotation_angle;
+
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+
+	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
+
+	self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle);
+
+	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
+
+	return FALSE;
+}
+
+
+static void
+value_changed_cb (GtkAdjustment     *adj,
+		  GthFileToolRotate *self)
+{
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+	self->priv->apply_event = g_timeout_add (APPLY_DELAY, apply_cb, self);
+}
+
+
 static GtkWidget *
 gth_file_tool_rotate_get_options (GthFileTool *base)
 {
@@ -133,7 +172,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
-	self->priv->rotation_angle = _gtk_builder_get_widget (self->priv->builder, "rotation_angle");
+	self->priv->rotation_angle_adj = (GtkAdjustment *) gtk_builder_get_object (self->priv->builder, "rotation_angle_adjustment");
 
 	g_signal_connect (GET_WIDGET ("apply_button"),
 			  "clicked",
@@ -142,6 +181,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("cancel_button"),
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->rotation_angle_adj),
+			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
 			  self);
 
 	return options;
