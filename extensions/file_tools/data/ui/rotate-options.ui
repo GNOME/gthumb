@@ -58,7 +58,7 @@
                               <object class="GtkLabel" id="label6">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes" comments="plus-minus five degrees">&#xB1;5&#xB0;:</property>
+                                <property name="label" translatable="yes" comments="plus-minus five degrees">&#xB1; 5&#xB0;:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
