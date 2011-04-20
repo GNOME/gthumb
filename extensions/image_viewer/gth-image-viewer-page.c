@@ -40,7 +40,6 @@ struct _GthImageViewerPagePrivate {
 	GthImageHistory   *history;
 	GthFileData       *file_data;
 	gulong             requested_ready_id;
-	gulong             original_size_ready_id;
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
@@ -314,32 +313,6 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
 	gth_image_viewer_page_file_loaded (self, TRUE);
-}
-
-
-static void
-image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
-				        GthFileData        *requested,
-				        GdkPixbufAnimation *animation,
-				        int                 original_width,
-				        int                 original_height,
-				        GError             *error,
-				        GthImageViewerPage *self)
-{
-	if (! _g_file_equal (requested->file, self->priv->file_data->file))
-		return;
-
-	if (error != NULL)
-		return;
-
-	gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
-					     animation,
-					     original_width,
-					     original_height);
-	gth_image_history_clear (self->priv->history);
-	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
-				     FALSE);
 }
 
 
@@ -627,10 +600,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   "requested_ready",
 							   G_CALLBACK (image_preloader_requested_ready_cb),
 							   self);
-	self->priv->original_size_ready_id = g_signal_connect (G_OBJECT (self->priv->preloader),
-							       "original_size_ready",
-							       G_CALLBACK (image_preloader_original_size_ready_cb),
-							       self);
 
 	self->priv->viewer = gth_image_viewer_new ();
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_HIGH));
@@ -748,9 +717,7 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 	self->priv->actions = NULL;
 
 	g_signal_handler_disconnect (self->priv->preloader, self->priv->requested_ready_id);
-	g_signal_handler_disconnect (self->priv->preloader, self->priv->original_size_ready_id);
 	self->priv->requested_ready_id = 0;
-	self->priv->original_size_ready_id = 0;
 
 	g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
