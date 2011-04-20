@@ -74,19 +74,11 @@ cancel_button_clicked_cb (GtkButton *button,
 			  gpointer   user_data)
 {
 	GthFileToolRotate *self = user_data;
-	GtkWidget         *window;
-	GtkWidget         *viewer_page;
-	GtkWidget         *image_viewer;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
 		self->priv->apply_event = 0;
 	}
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	image_viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (image_viewer), TRUE);
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
@@ -97,15 +89,7 @@ ok_button_clicked_cb (GtkButton *button,
 		      gpointer   user_data)
 {
 	GthFileToolRotate *self = user_data;
-	GtkWidget         *window;
-	GtkWidget         *viewer_page;
-	GtkWidget         *image_viewer;
 	cairo_surface_t   *new_image;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	image_viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (image_viewer), TRUE);
 
 	new_image = gth_image_rotator_get_result (self->priv->rotator);
 	if (new_image != NULL) {
@@ -509,6 +493,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), TRUE);
 }
 
 
