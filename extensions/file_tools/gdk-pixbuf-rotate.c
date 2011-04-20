@@ -24,22 +24,50 @@
 
 
 GdkPixbuf*
+_gdk_pixbuf_rotate_crop (GdkPixbuf *src_pixbuf,
+			 int        center_x,
+			 int        center_y,
+			 double     angle)
+{
+	// TODO: implement the algorithm
+	
+	g_object_ref (src_pixbuf);
+	return src_pixbuf;
+}
+
+
+GdkPixbuf*
+_gdk_pixbuf_rotate_no_crop (GdkPixbuf *src_pixbuf,
+			    int        center_x,
+			    int        center_y,
+			    double     angle)
+{
+	// TODO: implement the algorithm
+	
+	g_object_ref (src_pixbuf);
+	return src_pixbuf;
+}
+
+
+GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
+		    int        center_x,
+		    int        center_y,
 		    double     angle,
 		    gint       auto_crop)
 {
 	GdkPixbuf *new_pixbuf;
 	
-	if (angle > 45.0) {
-		new_pixbuf = _gdk_pixbuf_transform (src_pixbuf, GTH_TRANSFORM_ROTATE_90);
-	}
-	else if (angle < -45.0) {
-		new_pixbuf = _gdk_pixbuf_transform (src_pixbuf, GTH_TRANSFORM_ROTATE_270);
-	}
-	else {
+	if (angle == 0.0) {
 		new_pixbuf = src_pixbuf;
 		g_object_ref (new_pixbuf);
 	}
-	
+	else if (auto_crop) {
+		new_pixbuf = _gdk_pixbuf_rotate_crop (src_pixbuf, center_x, center_y, angle);
+	}
+	else {
+		new_pixbuf = _gdk_pixbuf_rotate_no_crop (src_pixbuf, center_x, center_y, angle);
+	}
+
 	return new_pixbuf;
 }
