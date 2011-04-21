@@ -29,8 +29,8 @@
 G_BEGIN_DECLS
 
 GdkPixbuf* _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
-			       int        center_x,
-			       int        center_y,
+			       double     center_x,
+			       double     center_y,
 			       double     angle,
 			       gint       auto_crop);
 
