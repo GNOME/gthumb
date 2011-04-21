@@ -397,7 +397,7 @@ image_loader_ready_cb (GObject      *source_object,
 	LoadRequest        *load_request = user_data;
 	Preloader          *preloader = load_request->preloader;
 	GthImagePreloader  *self = preloader->self;
-	GthImage           *image;
+	GthImage           *image = NULL;
 	int                 original_width;
 	int                 original_height;
 	GError             *error = NULL;
@@ -415,16 +415,16 @@ image_loader_ready_cb (GObject      *source_object,
 	    || (preloader->token != self->priv->token))
 	{
 		load_request_free (load_request);
-		g_object_unref (image);
 		if (error != NULL)
 			g_error_free (error);
+		_g_object_unref (image);
 		return;
 	}
 
 	interval = NOT_REQUESTED_INTERVAL;
 
 	_g_object_unref (preloader->image);
-	preloader->image = g_object_ref (image);
+	preloader->image = _g_object_ref (image);
 	preloader->original_width = original_width;
 	preloader->original_height = original_height;
 	preloader->loaded = success;
@@ -462,7 +462,7 @@ image_loader_ready_cb (GObject      *source_object,
 		self->priv->load_id = g_timeout_add (interval, load_next, self);
 
 	load_request_free (load_request);
-	g_object_unref (image);
+	_g_object_unref (image);
 }
 
 

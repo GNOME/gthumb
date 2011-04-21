@@ -428,7 +428,7 @@ cache_image_ready_cb (GObject      *source_object,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
-	GthImage       *image;
+	GthImage       *image = NULL;
 	GdkPixbuf      *pixbuf;
 	int             width;
 	int             height;
@@ -735,7 +735,7 @@ original_image_ready_cb (GObject      *source_object,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
-	GthImage       *image;
+	GthImage       *image = NULL;
 	GdkPixbuf      *pixbuf = NULL;
 	GError         *error = NULL;
 

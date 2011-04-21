@@ -111,7 +111,7 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthLoadImageInfoTask *self = user_data;
 	GthImageInfo         *image_info;
-	GthImage             *image;
+	GthImage             *image = NULL;
 	GError               *error = NULL;
 
 	gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
@@ -142,7 +142,7 @@ image_loader_ready_cb (GObject      *source_object,
 	else
 		g_clear_error (&error);
 
-	g_object_unref (image);
+	_g_object_unref (image);
 	continue_loading_image (self);
 }
 

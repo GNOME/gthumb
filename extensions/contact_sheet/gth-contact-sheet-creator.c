@@ -933,7 +933,7 @@ image_loader_ready_cb (GObject      *source_object,
 		       gpointer      user_data)
 {
 	GthContactSheetCreator *self = user_data;
-	GthImage               *image;
+	GthImage               *image = NULL;
 	GdkPixbuf              *pixbuf;
 	int                     original_width;
 	int                     original_height;

@@ -2552,7 +2552,7 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthWebExporter *self = user_data;
 	ImageData      *idata;
-	GthImage       *image;
+	GthImage       *image = NULL;
 	GdkPixbuf      *pixbuf;
 
 	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
