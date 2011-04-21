@@ -195,8 +195,7 @@ openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 		pixbuf = openraw_get_pixbuf_from_file (file_data, error);
 
 	if (pixbuf != NULL) {
-		image = gth_image_new ();
-		gth_image_set_pixbuf (image, pixbuf);
+		image = gth_image_new_for_pixbuf (pixbuf);
 		g_object_unref (pixbuf);
 	}
 
@@ -423,8 +422,7 @@ openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 	}
 
 	if (pixbuf != NULL) {
-		image = gth_image_new ();
-		gth_image_set_pixbuf (image, pixbuf);
+		image = gth_image_new_for_pixbuf (pixbuf);
 		g_object_unref (pixbuf);
 	}
 

@@ -137,6 +137,18 @@ gth_image_new (void)
 }
 
 
+GthImage *
+gth_image_new_for_pixbuf (GdkPixbuf *value)
+{
+	GthImage *image;
+
+	image = gth_image_new ();
+	gth_image_set_pixbuf (image, value);
+
+	return image;
+}
+
+
 void
 gth_image_set_cairo_surface (GthImage        *image,
 			     cairo_surface_t *value)

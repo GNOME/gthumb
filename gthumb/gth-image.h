@@ -70,6 +70,7 @@ typedef GthImage * (*GthImageLoaderFunc) (GthFileData   *file_data,
 
 GType                 gth_image_get_type              (void);
 GthImage *            gth_image_new                   (void);
+GthImage *            gth_image_new_for_pixbuf        (GdkPixbuf          *value);
 void                  gth_image_set_cairo_surface     (GthImage           *image,
 						       cairo_surface_t    *value);
 cairo_surface_t *     gth_image_get_cairo_surface     (GthImage           *image);

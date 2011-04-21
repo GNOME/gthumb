@@ -401,12 +401,10 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 	if (original_height != NULL)
 		*original_height = original_h;
 
-	g_free (path);
-
-	image = gth_image_new ();
-	gth_image_set_pixbuf (image, pixbuf);
+	image = gth_image_new_for_pixbuf (pixbuf);
 
 	g_object_unref (pixbuf);
+	g_free (path);
 
 	return image;
 

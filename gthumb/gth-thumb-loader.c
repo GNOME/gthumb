@@ -196,8 +196,7 @@ generate_thumbnail (GthFileData   *file_data,
 		if (error != NULL)
 			g_clear_error (error);
 
-		image = gth_image_new ();
-		gth_image_set_pixbuf (image, pixbuf);
+		image = gth_image_new_for_pixbuf (pixbuf);
 
 		g_object_unref (pixbuf);
 	}
@@ -228,8 +227,7 @@ load_cached_thumbnail (GthFileData   *file_data,
 	filename = g_file_get_path (file_data->file);
 	pixbuf = gdk_pixbuf_new_from_file (filename, error);
 	if (pixbuf != NULL) {
-		image = gth_image_new ();
-		gth_image_set_pixbuf (image, pixbuf);
+		image = gth_image_new_for_pixbuf (pixbuf);
 		g_object_unref (pixbuf);
 	}
 
