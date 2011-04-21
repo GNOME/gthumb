@@ -107,8 +107,6 @@ apply_cb (gpointer user_data)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	double             rotation_angle;
-	double             center_x;
-	double             center_y;
 	gint               auto_crop;
 
 	if (self->priv->apply_event != 0) {
@@ -120,12 +118,10 @@ apply_cb (gpointer user_data)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
 	rotation_angle = gtk_range_get_value (GTK_RANGE (self->priv->rotation_angle));
-	center_x = (self->priv->pixbuf_width - 1) / 2.0;
-	center_y = (self->priv->pixbuf_height - 1) / 2.0;
 	auto_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->auto_crop));
 	
 	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, center_x, center_y, rotation_angle, auto_crop);
+	self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, auto_crop);
 
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
 	

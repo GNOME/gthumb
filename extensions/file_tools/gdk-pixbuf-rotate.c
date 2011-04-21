@@ -26,8 +26,6 @@
 
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
-	double     center_x,
-	double     center_y,
 	double     angle,
 	gint       auto_crop)
 {
@@ -35,7 +33,6 @@ rotate (GdkPixbuf *src_pixbuf,
 
 	double     angle_rad;
 	double     cos_angle, sin_angle;
-	double     center_dx, center_dy;
 	int        src_width, src_height;
 	int        new_width, new_height;
 	int        src_rowstride, new_rowstride;
@@ -45,15 +42,12 @@ rotate (GdkPixbuf *src_pixbuf,
 	double     x2, y2;
 	int        x2i, y2i;
 	guchar    *p_src, *p_new;
-	guchar    *p_src2, *p_new_row;
+	guchar    *p_src2, *p_new2;
 	
 	angle_rad = angle / 180.0 * 3.1415926535;
 	
 	cos_angle = cos (angle_rad);
 	sin_angle = sin (angle_rad);
-	
-	center_dx =      cos_angle  * center_x + fabs(sin_angle) * center_y;
-	center_dy = fabs(sin_angle) * center_x +      cos_angle  * center_y;
 
 	src_width  = gdk_pixbuf_get_width  (src_pixbuf);
 	src_height = gdk_pixbuf_get_height (src_pixbuf);
@@ -77,15 +71,15 @@ rotate (GdkPixbuf *src_pixbuf,
 	
 	for (yi = 0; yi < new_height; yi++) {
 	
-		p_new_row = p_new;
+		p_new2 = p_new;
 		
 		for (xi = 0; xi < new_width; xi++) {
 		
-			x = xi - center_dx;
-			y = yi - center_dy;
+			x = xi - (new_width - 1) / 2.0;
+			y = yi - (new_height - 1) / 2.0;
 			
-			x2 = cos_angle * x - sin_angle * y + center_x;
-			y2 = sin_angle * x + cos_angle * y + center_y;
+			x2 = cos_angle * x - sin_angle * y + (src_width - 1) / 2.0;
+			y2 = sin_angle * x + cos_angle * y + (src_height - 1) / 2.0;
 			
 			// TODO: interpolate
 			x2i = (int) floor(x2 + 0.5);
@@ -95,17 +89,17 @@ rotate (GdkPixbuf *src_pixbuf,
 			
 				p_src2 = p_src + src_rowstride * y2i + n_channels * x2i;
 			
-				p_new_row[RED_PIX]   = p_src2[RED_PIX];
-				p_new_row[GREEN_PIX] = p_src2[GREEN_PIX];
-				p_new_row[BLUE_PIX]  = p_src2[BLUE_PIX];
+				p_new2[RED_PIX]   = p_src2[RED_PIX];
+				p_new2[GREEN_PIX] = p_src2[GREEN_PIX];
+				p_new2[BLUE_PIX]  = p_src2[BLUE_PIX];
 			}
 			else {
-				p_new_row[RED_PIX]   = 0;
-				p_new_row[GREEN_PIX] = 0;
-				p_new_row[BLUE_PIX]  = 0;
+				p_new2[RED_PIX]   = 0;
+				p_new2[GREEN_PIX] = 0;
+				p_new2[BLUE_PIX]  = 0;
 			}
 			
-			p_new_row += n_channels;
+			p_new2 += n_channels;
 		}
 		
 		p_new += new_rowstride;
@@ -117,8 +111,6 @@ rotate (GdkPixbuf *src_pixbuf,
 
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
-		    double     center_x,
-		    double     center_y,
 		    double     angle,
 		    gint       auto_crop)
 {
@@ -135,7 +127,7 @@ _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		new_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	}
 	else {
-		new_pixbuf = rotate (src_pixbuf, center_x, center_y, -angle, auto_crop);
+		new_pixbuf = rotate (src_pixbuf, -angle, auto_crop);
 	}
 
 	return new_pixbuf;
