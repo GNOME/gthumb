@@ -19,8 +19,100 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <math.h>
 #include <gthumb.h>
 #include "gdk-pixbuf-rotate.h"
+
+
+static GdkPixbuf*
+rotate (GdkPixbuf *src_pixbuf,
+	double     center_x,
+	double     center_y,
+	double     angle,
+	gint       auto_crop)
+{
+	GdkPixbuf *new_pixbuf;
+
+	double     angle_rad;
+	double     cos_angle, sin_angle;
+	double     center_dx, center_dy;
+	int        src_width, src_height;
+	int        new_width, new_height;
+	int        src_rowstride, new_rowstride;
+	int        n_channels;
+	double     x, y;
+	int        xi, yi;
+	double     x2, y2;
+	int        x2i, y2i;
+	guchar    *p_src, *p_new;
+	guchar    *p_src2, *p_new_row;
+	
+	angle_rad = angle / 180.0 * 3.1415926535;
+	
+	cos_angle = cos (angle_rad);
+	sin_angle = sin (angle_rad);
+	
+	center_dx =      cos_angle  * center_x + fabs(sin_angle) * center_y;
+	center_dy = fabs(sin_angle) * center_x +      cos_angle  * center_y;
+
+	src_width  = gdk_pixbuf_get_width  (src_pixbuf);
+	src_height = gdk_pixbuf_get_height (src_pixbuf);
+
+	new_width  = (int) floor (      cos_angle  * src_width + fabs(sin_angle) * src_height + 0.5);
+	new_height = (int) floor (fabs (sin_angle) * src_width +      cos_angle  * src_height + 0.5);
+	
+	new_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src_pixbuf),
+				     gdk_pixbuf_get_has_alpha (src_pixbuf),
+				     gdk_pixbuf_get_bits_per_sample (src_pixbuf),
+				     new_width,
+				     new_height);
+
+	p_src = gdk_pixbuf_get_pixels (src_pixbuf);
+	p_new = gdk_pixbuf_get_pixels (new_pixbuf);
+
+	src_rowstride = gdk_pixbuf_get_rowstride (src_pixbuf);
+	new_rowstride = gdk_pixbuf_get_rowstride (new_pixbuf);
+
+	n_channels = gdk_pixbuf_get_n_channels (src_pixbuf);
+	
+	for (yi = 0; yi < new_height; yi++) {
+	
+		p_new_row = p_new;
+		
+		for (xi = 0; xi < new_width; xi++) {
+		
+			x = xi - center_dx;
+			y = yi - center_dy;
+			
+			x2 = cos_angle * x - sin_angle * y + center_x;
+			y2 = sin_angle * x + cos_angle * y + center_y;
+			
+			// TODO: interpolate
+			x2i = (int) floor(x2 + 0.5);
+			y2i = (int) floor(y2 + 0.5);
+			
+			if (x2i >= 0 && x2i < src_width && y2i >= 0 && y2i < src_height) {
+			
+				p_src2 = p_src + src_rowstride * y2i + n_channels * x2i;
+			
+				p_new_row[RED_PIX]   = p_src2[RED_PIX];
+				p_new_row[GREEN_PIX] = p_src2[GREEN_PIX];
+				p_new_row[BLUE_PIX]  = p_src2[BLUE_PIX];
+			}
+			else {
+				p_new_row[RED_PIX]   = 0;
+				p_new_row[GREEN_PIX] = 0;
+				p_new_row[BLUE_PIX]  = 0;
+			}
+			
+			p_new_row += n_channels;
+		}
+		
+		p_new += new_rowstride;
+	}
+	
+	return new_pixbuf;
+}
 
 
 GdkPixbuf*
@@ -43,10 +135,7 @@ _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		new_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	}
 	else {
-		// TODO: implement the rotation here
-		
-		new_pixbuf = src_pixbuf;
-		g_object_ref (new_pixbuf);
+		new_pixbuf = rotate (src_pixbuf, center_x, center_y, -angle, auto_crop);
 	}
 
 	return new_pixbuf;
