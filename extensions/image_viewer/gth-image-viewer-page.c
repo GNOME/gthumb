@@ -287,12 +287,14 @@ viewer_key_press_cb (GtkWidget          *widget,
 static void
 image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GthFileData        *requested,
-				    GdkPixbufAnimation *animation,
+				    GthImage           *image,
 				    int                 original_width,
 				    int                 original_height,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
+	cairo_surface_t *surface;
+
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -302,10 +304,14 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	}
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-	gth_image_viewer_set_animation (GTH_IMAGE_VIEWER (self->priv->viewer),
-					animation,
-					original_width,
-					original_height);
+
+	surface = gth_image_get_cairo_surface (image);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer),
+				    surface,
+				    original_width,
+				    original_height);
+	cairo_surface_destroy (surface);
+
 	if (self->priv->shrink_wrap)
 		gth_image_viewer_page_shrink_wrap (self, TRUE);
 	gth_image_history_clear (self->priv->history);
@@ -784,8 +790,6 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthFileData        *next_file_data = NULL;
 	GthFileData        *next2_file_data = NULL;
 	GthFileData        *prev_file_data = NULL;
-	int                 window_width;
-	int                 window_height;
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -825,13 +829,9 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 			prev_file_data = gth_file_store_get_file (file_store, &iter2);
 	}
 
-	gtk_window_get_size (GTK_WINDOW (self->priv->browser),
-			     &window_width,
-			     &window_height);
-
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
-				  (gth_image_prelaoder_get_load_policy (self->priv->preloader) == GTH_LOAD_POLICY_TWO_STEPS) ? MAX (window_width, window_height) : -1,
+				  -1,
 				  next_file_data,
 				  next2_file_data,
 				  prev_file_data,

@@ -56,13 +56,13 @@ struct _GthImagePreloaderClass {
 
 	void  (* requested_ready)      (GthImagePreloader  *preloader,
 					GthFileData        *requested,
-					GdkPixbufAnimation *animation,
+					GthImage           *image,
 					int                 original_width,
 					int                 original_height,
 					GError             *error);
 	void  (* original_size_ready)  (GthImagePreloader  *preloader,
 					GthFileData        *requested,
-					GdkPixbufAnimation *animation,
+					GthImage           *image,
 					int                 original_width,
 					int                 original_height,
 					GError             *error);

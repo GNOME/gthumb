@@ -334,7 +334,7 @@ pixbuf_loader_size_prepared_cb (GdkPixbufLoader *loader,
 #endif
 
 
-GdkPixbuf *
+GthImage *
 gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  int            requested_size,
 			  int           *original_width,
@@ -344,6 +344,7 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  GError       **error)
 {
 #ifndef USE_PIXBUF_LOADER
+	GthImage  *image;
 	GdkPixbuf *pixbuf = NULL;
 	char      *path;
 	gboolean   scale_pixbuf;
@@ -402,7 +403,12 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 	g_free (path);
 
-	return pixbuf;
+	image = gth_image_new ();
+	gth_image_set_pixbuf (image, pixbuf);
+
+	g_object_unref (pixbuf);
+
+	return image;
 
 #else
 
@@ -471,7 +477,7 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 }
 
 
-GdkPixbufAnimation *
+GthImage *
 gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 				    int            requested_size,
 				    int           *original_width,
@@ -480,40 +486,35 @@ gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 				    GCancellable  *cancellable,
 				    GError       **error)
 {
-	GdkPixbufAnimation *animation = NULL;
-	const char         *mime_type;
+	GthImage   *image = NULL;
+	const char *mime_type;
 
 	mime_type = gth_file_data_get_mime_type (file_data);
 	if (mime_type == NULL)
 		return NULL;
 
 	if (g_content_type_equals (mime_type, "image/gif")) {
-		char *path;
+		GdkPixbufAnimation *animation;
+		char               *path;
 
 		path = g_file_get_path (file_data->file);
 		if (path != NULL)
 			animation = gdk_pixbuf_animation_new_from_file (path, error);
 
+		image = gth_image_new ();
+		gth_image_set_pixbuf_animation (image, animation);
+
+		g_object_unref (animation);
 		g_free (path);
-
-		return animation;
 	}
-	else {
-		GdkPixbuf *pixbuf;
+	else
+		image = gth_pixbuf_new_from_file (file_data,
+						  requested_size,
+						  original_width,
+						  original_height,
+						  FALSE,
+						  cancellable,
+						  error);
 
-		pixbuf = gth_pixbuf_new_from_file (file_data,
-						   requested_size,
-						   original_width,
-						   original_height,
-						   FALSE,
-						   cancellable,
-						   error);
-
-		if (pixbuf != NULL) {
-			animation = gdk_pixbuf_non_anim_new (pixbuf);
-			g_object_unref (pixbuf);
-		}
-	}
-
-	return animation;
+	return image;
 }

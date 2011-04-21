@@ -34,10 +34,11 @@
 
 
 struct _GthImageLoaderPrivate {
-	gboolean     as_animation;  /* Whether to load the image in a
-				     * GdkPixbufAnimation structure. */
-	PixbufLoader loader_func;
-	gpointer     loader_data;
+	gboolean           as_animation;  /* Whether to load the image in a
+				           * GdkPixbufAnimation structure. */
+	GthImageFormat     preferred_format;
+	GthImageLoaderFunc loader_func;
+	gpointer           loader_data;
 };
 
 
@@ -72,6 +73,7 @@ gth_image_loader_init (GthImageLoader *self)
 	self->priv->as_animation = FALSE;
 	self->priv->loader_func = NULL;
 	self->priv->loader_data = NULL;
+	self->priv->preferred_format = GTH_IMAGE_FORMAT_GDK_PIXBUF;
 }
 
 
@@ -104,8 +106,8 @@ gth_image_loader_get_type (void)
 
 
 GthImageLoader *
-gth_image_loader_new (PixbufLoader loader_func,
-		      gpointer     loader_data)
+gth_image_loader_new (GthImageLoaderFunc loader_func,
+		      gpointer           loader_data)
 {
 	GthImageLoader *self;
 
@@ -117,14 +119,23 @@ gth_image_loader_new (PixbufLoader loader_func,
 
 
 void
-gth_image_loader_set_loader_func (GthImageLoader *self,
-				  PixbufLoader    loader_func,
-				  gpointer        loader_data)
+gth_image_loader_set_loader_func (GthImageLoader     *self,
+				  GthImageLoaderFunc  loader_func,
+				  gpointer            loader_data)
 {
 	g_return_if_fail (self != NULL);
 
 	self->priv->loader_func = loader_func;
 	self->priv->loader_data = loader_data;
+}
+
+
+void
+gth_image_loader_set_preferred_format (GthImageLoader *self,
+				       GthImageFormat  preferred_format)
+{
+	g_return_if_fail (self != NULL);
+	self->priv->preferred_format = preferred_format;
 }
 
 
@@ -161,17 +172,17 @@ load_data_unref (LoadData *load_data)
 
 
 typedef struct {
-	GdkPixbufAnimation *animation;
-	int                 original_width;
-	int                 original_height;
+	GthImage *image;
+	int       original_width;
+	int       original_height;
 } LoadResult;
 
 
 static void
 load_result_unref (LoadResult *load_result)
 {
-	if (load_result->animation != NULL)
-		g_object_unref (load_result->animation);
+	if (load_result->image != NULL)
+		g_object_unref (load_result->image);
 	g_free (load_result);
 }
 
@@ -245,7 +256,7 @@ load_image_thread (gpointer user_data)
 	GSimpleAsyncResult *result = user_data;
 	LoadData           *load_data;
 	GthImageLoader     *self;
-	GdkPixbufAnimation *animation;
+	GthImage           *image;
 	int                 original_width;
 	int                 original_height;
 	GError             *error = NULL;
@@ -265,37 +276,38 @@ load_image_thread (gpointer user_data)
 	}
 
 	self = (GthImageLoader *) g_async_result_get_source_object (G_ASYNC_RESULT (result));
-	animation = NULL;
+	image = NULL;
 	original_width = -1;
 	original_height = -1;
 
 	if (self->priv->loader_func != NULL) {
-		animation = (*self->priv->loader_func) (load_data->file_data,
-						        load_data->requested_size,
-						        &original_width,
-						        &original_height,
-						        self->priv->loader_data,
-						        load_data->cancellable,
-						        &error);
+		image = (*self->priv->loader_func) (load_data->file_data,
+						    load_data->requested_size,
+						    &original_width,
+						    &original_height,
+						    self->priv->loader_data,
+						    load_data->cancellable,
+						    &error);
 	}
 	else  {
-		PixbufLoader loader_func;
+		GthImageLoaderFunc loader_func;
 
-		loader_func = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (load_data->file_data));
+		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type (load_data->file_data),
+							      self->priv->preferred_format);
 		if (loader_func != NULL)
-			animation = loader_func (load_data->file_data,
-						 load_data->requested_size,
-						 &original_width,
-						 &original_height,
-						 NULL,
-						 load_data->cancellable,
-						 &error);
+			image = loader_func (load_data->file_data,
+					     load_data->requested_size,
+					     &original_width,
+					     &original_height,
+					     NULL,
+					     load_data->cancellable,
+					     &error);
 		else
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
 
 	load_result = g_new0 (LoadResult, 1);
-	load_result->animation = animation;
+	load_result->image = image;
 	load_result->original_width = original_width;
 	load_result->original_height = original_height;
 
@@ -390,12 +402,12 @@ gth_image_loader_load (GthImageLoader      *loader,
 
 
 gboolean
-gth_image_loader_load_animation_finish (GthImageLoader      *loader,
-					GAsyncResult        *result,
-					GdkPixbufAnimation **animation,
-					int                 *original_width,
-					int                 *original_height,
-					GError             **error)
+gth_image_loader_load_finish (GthImageLoader   *loader,
+			      GAsyncResult     *result,
+			      GthImage        **image,
+			      int              *original_width,
+			      int              *original_height,
+			      GError         **error)
 {
 	  GSimpleAsyncResult *simple;
 	  LoadResult         *load_result;
@@ -408,49 +420,12 @@ gth_image_loader_load_animation_finish (GthImageLoader      *loader,
 		  return FALSE;
 
 	  load_result = g_simple_async_result_get_op_res_gpointer (simple);
-	  if (animation != NULL)
-		  *animation = g_object_ref (load_result->animation);
+	  if (image != NULL)
+		  *image = g_object_ref (load_result->image);
 	  if (original_width != NULL)
 	  	  *original_width = load_result->original_width;
 	  if (original_height != NULL)
 	  	  *original_height = load_result->original_height;
 
 	  return TRUE;
-}
-
-
-gboolean
-gth_image_loader_load_image_finish (GthImageLoader  *loader,
-				    GAsyncResult    *res,
-				    GdkPixbuf      **pixbuf,
-				    int             *original_width,
-				    int             *original_height,
-				    GError         **error)
-{
-	GdkPixbufAnimation *animation;
-	GdkPixbuf          *static_image;
-
-	if (! gth_image_loader_load_animation_finish (loader,
-						      res,
-						      &animation,
-						      original_width,
-						      original_height,
-						      error))
-	{
-		return FALSE;
-	}
-
-	static_image = gdk_pixbuf_animation_get_static_image (animation);
-	if (static_image != NULL) {
-		*pixbuf = gdk_pixbuf_copy (static_image);
-	}
-	else {
-		*pixbuf = NULL;
-		if (error != NULL)
-			*error = g_error_new_literal (GDK_PIXBUF_ERROR, GDK_PIXBUF_ERROR_FAILED, "No image");
-	}
-
-	g_object_unref (animation);
-
-	return TRUE;
 }

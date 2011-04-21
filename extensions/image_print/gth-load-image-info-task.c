@@ -111,33 +111,38 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthLoadImageInfoTask *self = user_data;
 	GthImageInfo         *image_info;
-	GdkPixbuf            *pixbuf;
+	GthImage             *image;
 	GError               *error = NULL;
 
-	gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-					    result,
-					    &pixbuf,
-					    NULL,
-					    NULL,
-					    &error);
+	gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+				      result,
+				      &image,
+				      NULL,
+				      NULL,
+				      &error);
 
 	if (error == NULL)
 		g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error);
 
 	if (error == NULL) {
+		GdkPixbuf *pixbuf;
+
 		image_info = self->priv->images[self->priv->current];
+		pixbuf = gth_image_get_pixbuf (image);
 		if (pixbuf != NULL) {
 			gth_image_info_set_pixbuf (image_info, pixbuf);
 			g_object_unref (pixbuf);
 		}
 	}
-	else if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_object_unref (image);
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 	else
 		g_clear_error (&error);
 
+	g_object_unref (image);
 	continue_loading_image (self);
 }
 

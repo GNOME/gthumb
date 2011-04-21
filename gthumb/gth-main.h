@@ -30,6 +30,7 @@
 #include "gth-file-source.h"
 #include "gth-filter-file.h"
 #include "gth-hook.h"
+#include "gth-image.h"
 #include "gth-metadata-provider.h"
 #include "gth-monitor.h"
 #include "gth-pixbuf-saver.h"
@@ -85,10 +86,12 @@ GList *                gth_main_get_all_metadata_info         (void);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);
-void                   gth_main_register_pixbuf_loader        (PixbufLoader          loader,
+void                   gth_main_register_image_loader_func    (GthImageLoaderFunc    loader,
+							       GthImageFormat        native_format,
 						               const char           *first_mime_type,
 						               ...);
-PixbufLoader           gth_main_get_pixbuf_loader             (const char           *mime_type);
+GthImageLoaderFunc     gth_main_get_image_loader_func         (const char           *mime_type,
+							       GthImageFormat        preferred_format);
 GthPixbufSaver *       gth_main_get_pixbuf_saver              (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);

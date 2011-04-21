@@ -124,18 +124,21 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthOverwriteDialog *self = user_data;
 	GError             *error = NULL;
+	GthImage           *image;
 	GdkPixbuf          *pixbuf;
 	GtkWidget          *viewer;
 
-	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-						  result,
-						  &pixbuf,
-						  NULL,
-						  NULL,
-						  &error))
+	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+					    result,
+					    &image,
+					    NULL,
+					    NULL,
+					    &error))
 	{
 		return;
 	}
+
+	pixbuf = gth_image_get_pixbuf (image);
 
 	if (GTH_IMAGE_LOADER (source_object) == self->priv->old_image_loader)
 		viewer = self->priv->old_image_viewer;
@@ -144,6 +147,7 @@ image_loader_ready_cb (GObject      *source_object,
 	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (viewer), pixbuf, -1, -1);
 
 	g_object_unref (pixbuf);
+	g_object_unref (image);
 }
 
 

@@ -63,15 +63,14 @@ void        _gdk_pixbuf_save_async             (GdkPixbuf        *pixbuf,
 						gboolean          replace,
 						GthFileDataFunc   ready_func,
 						gpointer          data);
-GdkPixbuf * gth_pixbuf_new_from_file           (GthFileData      *file,
+GthImage  * gth_pixbuf_new_from_file           (GthFileData      *file,
 						int               requested_size,
 						int              *original_width,
 						int              *original_height,
 						gboolean          scale_to_original,
 						GCancellable     *cancellable,
 						GError          **error);
-GdkPixbufAnimation *
-	    gth_pixbuf_animation_new_from_file (GthFileData      *file_data,
+GthImage *  gth_pixbuf_animation_new_from_file (GthFileData      *file_data,
 						int               requested_size,
 						int              *original_width,
 						int              *original_height,

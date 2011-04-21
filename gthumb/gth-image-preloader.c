@@ -49,7 +49,7 @@ typedef struct {
 	gboolean            loaded;
 	gboolean            error;
 	GthImageLoader     *loader;
-	GdkPixbufAnimation *animation;
+	GthImage           *image;
 	int                 original_width;
 	int                 original_height;
 	guint               token;
@@ -99,7 +99,8 @@ preloader_new (GthImagePreloader *self)
 	preloader->loaded = FALSE;
 	preloader->error = FALSE;
 	preloader->loader = gth_image_loader_new (NULL, NULL);
-	preloader->animation = NULL;
+	gth_image_loader_set_preferred_format (preloader->loader, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
+	preloader->image = NULL;
 	preloader->original_width = -1;
 	preloader->original_height = -1;
 
@@ -112,7 +113,7 @@ preloader_free (Preloader *preloader)
 {
 	if (preloader == NULL)
 		return;
-	_g_object_unref (preloader->animation);
+	_g_object_unref (preloader->image);
 	_g_object_unref (preloader->loader);
 	_g_object_unref (preloader->file_data);
 	g_free (preloader);
@@ -145,7 +146,7 @@ preloader_has_valid_content_for_file (Preloader   *preloader,
 	return ((preloader->file_data != NULL)
 		&& preloader->loaded
 		&& ! preloader->error
-		&& (preloader->animation != NULL)
+		&& (preloader->image != NULL)
 	        && g_file_equal (preloader->file_data->file, file_data->file)
 	        && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
 	        		     gth_file_data_get_modification_time (preloader->file_data)) == 0));
@@ -172,8 +173,8 @@ preloader_needs_second_step (Preloader *preloader)
 		&& ! preloader->error
 		&& (preloader->requested_size != -1)
 		&& ((preloader->original_width > preloader->requested_size) || (preloader->original_height > preloader->requested_size))
-		&& (preloader->animation != NULL)
-		&& gdk_pixbuf_animation_is_static_image (preloader->animation));
+		&& (preloader->image != NULL)
+		&& ! gth_image_is_animation (preloader->image));
 }
 
 
@@ -396,25 +397,25 @@ image_loader_ready_cb (GObject      *source_object,
 	LoadRequest        *load_request = user_data;
 	Preloader          *preloader = load_request->preloader;
 	GthImagePreloader  *self = preloader->self;
-	GdkPixbufAnimation *animation = NULL;
+	GthImage           *image;
 	int                 original_width;
 	int                 original_height;
 	GError             *error = NULL;
 	gboolean            success;
 	int                 interval;
 
-	success = gth_image_loader_load_animation_finish  (GTH_IMAGE_LOADER (source_object),
-							   result,
-							   &animation,
-							   &original_width,
-							   &original_height,
-							   &error);
+	success = gth_image_loader_load_finish  (GTH_IMAGE_LOADER (source_object),
+						 result,
+						 &image,
+						 &original_width,
+						 &original_height,
+						 &error);
 
 	if (! g_file_equal (load_request->file_data->file, preloader->file_data->file)
 	    || (preloader->token != self->priv->token))
 	{
 		load_request_free (load_request);
-		_g_object_unref (animation);
+		g_object_unref (image);
 		if (error != NULL)
 			g_error_free (error);
 		return;
@@ -422,8 +423,8 @@ image_loader_ready_cb (GObject      *source_object,
 
 	interval = NOT_REQUESTED_INTERVAL;
 
-	_g_object_unref (preloader->animation);
-	preloader->animation = _g_object_ref (animation);
+	_g_object_unref (preloader->image);
+	preloader->image = g_object_ref (image);
 	preloader->original_width = original_width;
 	preloader->original_height = original_height;
 	preloader->loaded = success;
@@ -439,7 +440,7 @@ image_loader_ready_cb (GObject      *source_object,
 			       gth_image_preloader_signals[preloader_signal_to_emit (preloader)],
 			       0,
 			       preloader->file_data,
-			       preloader->animation,
+			       preloader->image,
 			       preloader->original_width,
 			       preloader->original_height,
 			       error);
@@ -461,7 +462,7 @@ image_loader_ready_cb (GObject      *source_object,
 		self->priv->load_id = g_timeout_add (interval, load_next, self);
 
 	load_request_free (load_request);
-	_g_object_unref (animation);
+	g_object_unref (image);
 }
 
 
@@ -524,8 +525,8 @@ start_next_loader (GthImagePreloader *self)
 		}
 #endif
 
-		_g_object_unref (preloader->animation);
-		preloader->animation = NULL;
+		_g_object_unref (preloader->image);
+		preloader->image = NULL;
 
 		load_request = g_new0 (LoadRequest, 1);
 		load_request->preloader = preloader;
@@ -622,7 +623,7 @@ assign_loaders (LoadData *load_data)
 							gth_image_preloader_signals[preloader_signal_to_emit (preloader)],
 							0,
 							preloader->file_data,
-							preloader->animation,
+							preloader->image,
 							preloader->original_width,
 							preloader->original_height,
 							NULL);

@@ -2552,14 +2552,15 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthWebExporter *self = user_data;
 	ImageData      *idata;
+	GthImage       *image;
 	GdkPixbuf      *pixbuf;
 
-	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-						  result,
-						  &pixbuf,
-						  NULL,
-						  NULL,
-						  NULL))
+	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+					    result,
+					    &image,
+					    NULL,
+					    NULL,
+					    NULL))
 	{
 		load_next_file (self);
 		return;
@@ -2569,6 +2570,7 @@ image_loader_ready_cb (GObject      *source_object,
 
 	/* image */
 
+	pixbuf = gth_image_get_pixbuf (image);
 	idata->image = g_object_ref (pixbuf);
 	if (self->priv->copy_images && self->priv->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
@@ -2665,6 +2667,7 @@ image_loader_ready_cb (GObject      *source_object,
 		self->priv->saving_timeout = g_idle_add (save_image_preview, self);
 
 	g_object_unref (pixbuf);
+	g_object_unref (image);
 }
 
 

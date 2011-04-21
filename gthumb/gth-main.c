@@ -104,7 +104,7 @@ struct _GthMainPrivate
 	GHashTable          *metadata_info_hash;
 	gboolean             metadata_info_sorted;
 	GHashTable          *sort_types;
-	GHashTable          *loaders;
+	GHashTable          *image_loaders;
 	GHashTable          *types;
 	GHashTable          *classes;
 	GHashTable          *objects_order;
@@ -135,8 +135,8 @@ gth_main_finalize (GObject *object)
 
 		if (gth_main->priv->sort_types != NULL)
 			g_hash_table_unref (gth_main->priv->sort_types);
-		if (gth_main->priv->loaders != NULL)
-			g_hash_table_unref (gth_main->priv->loaders);
+		if (gth_main->priv->image_loaders != NULL)
+			g_hash_table_unref (gth_main->priv->image_loaders);
 		if (gth_main->priv->types != NULL)
 			g_hash_table_unref (gth_main->priv->types);
 		if (gth_main->priv->classes != NULL)
@@ -175,11 +175,11 @@ static void
 gth_main_init (GthMain *main)
 {
 	main->priv = g_new0 (GthMainPrivate, 1);
-	main->priv->sort_types = g_hash_table_new_full (g_str_hash,
-							g_str_equal,
-							NULL,
-							NULL);
-	main->priv->loaders = g_hash_table_new (g_str_hash, (GEqualFunc) g_content_type_equals);
+	main->priv->sort_types = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+	main->priv->image_loaders = g_hash_table_new_full (g_str_hash,
+						           (GEqualFunc) g_content_type_equals,
+						           g_free,
+						           NULL);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
@@ -743,9 +743,10 @@ _gth_main_create_type_spec (GType       object_type,
 
 
 void
-gth_main_register_pixbuf_loader (PixbufLoader  loader,
-			         const char   *first_mime_type,
-			         ...)
+gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
+				     GthImageFormat      native_format,
+				     const char         *first_mime_type,
+				     ...)
 {
 	va_list     var_args;
 	const char *mime_type;
@@ -755,7 +756,11 @@ gth_main_register_pixbuf_loader (PixbufLoader  loader,
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
   	while (mime_type != NULL) {
-		g_hash_table_insert (Main->priv->loaders, (gpointer) get_static_string (g_content_type_from_mime_type (mime_type)), loader);
+  		char *key;
+
+  		key = g_strdup_printf ("%s-%d", mime_type, native_format);
+		g_hash_table_insert (Main->priv->image_loaders, (gpointer) key, loader);
+
 		mime_type = va_arg (var_args, const char *);
   	}
 	va_end (var_args);
@@ -764,13 +769,31 @@ gth_main_register_pixbuf_loader (PixbufLoader  loader,
 }
 
 
-PixbufLoader
-gth_main_get_pixbuf_loader (const char *mime_type)
+GthImageLoaderFunc
+gth_main_get_image_loader_func (const char     *mime_type,
+				GthImageFormat  preferred_format)
 {
-	if (mime_type != NULL)
-		return (PixbufLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
-	else
-		return NULL;
+	GthImageLoaderFunc  loader;
+	char               *key;
+	int                 format;
+
+	/* give priority to the preferred format */
+
+	key = g_strdup_printf ("%s-%d", mime_type, preferred_format);
+	loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+
+	/* if the preferred format is not available, search another
+	 * format. */
+
+	for (format = 0; (loader == NULL) && (format < GTH_IMAGE_N_FORMATS); format++) {
+		g_free (key);
+		key = g_strdup_printf ("%s-%d", mime_type, format);
+		loader = g_hash_table_lookup (Main->priv->image_loaders, key);
+	}
+
+	g_free (key);
+
+	return loader;
 }
 
 

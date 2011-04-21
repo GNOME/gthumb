@@ -232,14 +232,13 @@ view_next_image_automatically (GthSlideshow *self)
 static void
 image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GthFileData        *requested,
-				    GdkPixbufAnimation *animation,
+				    GthImage           *image,
 				    int                 original_width,
 				    int                 original_height,
 				    GError             *error,
 				    gpointer            user_data)
 {
 	GthSlideshow *self = user_data;
-	GdkPixbuf    *static_image;
 
 	if (error != NULL) {
 		g_clear_error (&error);
@@ -248,12 +247,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	}
 
 	_g_object_unref (self->priv->current_pixbuf);
-
-	static_image = gdk_pixbuf_animation_get_static_image (animation);
-	if (static_image != NULL)
-		self->priv->current_pixbuf = gdk_pixbuf_copy (static_image);
-	else
-		self->priv->current_pixbuf = NULL;
+	self->priv->current_pixbuf = gth_image_get_pixbuf (image);
 
 	if (self->priv->current_pixbuf == NULL) {
 		_gth_slideshow_load_next_image (self);

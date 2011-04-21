@@ -44,7 +44,10 @@ gth_main_register_default_file_loader (void)
 
 		mime_types = gdk_pixbuf_format_get_mime_types (format);
 		for (i = 0; mime_types[i] != NULL; i++)
-			gth_main_register_pixbuf_loader (gth_pixbuf_animation_new_from_file, mime_types[i], NULL);
+			gth_main_register_image_loader_func (gth_pixbuf_animation_new_from_file,
+							     (g_content_type_is_a (mime_types[i], "image/gif") ? GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION : GTH_IMAGE_FORMAT_GDK_PIXBUF),
+							     mime_types[i],
+							     NULL);
 
 		g_strfreev (mime_types);
 	}

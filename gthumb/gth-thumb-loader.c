@@ -139,7 +139,7 @@ gth_thumb_loader_get_type (void)
 }
 
 
-static GdkPixbufAnimation *
+static GthImage *
 generate_thumbnail (GthFileData   *file_data,
 		    int            requested_size,
 		    int           *original_width,
@@ -148,10 +148,10 @@ generate_thumbnail (GthFileData   *file_data,
 		    GCancellable  *cancellable,
 		    GError       **error)
 {
-	GthThumbLoader     *self = user_data;
-	GdkPixbuf          *pixbuf = NULL;
-	GdkPixbufAnimation *animation;
-	char               *uri;
+	GthThumbLoader *self = user_data;
+	GdkPixbuf      *pixbuf = NULL;
+	GthImage       *image;
+	char           *uri;
 
 	if (original_width != NULL)
 		*original_width = -1;
@@ -159,7 +159,7 @@ generate_thumbnail (GthFileData   *file_data,
 	if (original_height != NULL)
 		*original_height = -1;
 
-	animation = NULL;
+	image = NULL;
 	uri = g_file_get_uri (file_data->file);
 	pixbuf = gnome_desktop_thumbnail_factory_generate_no_script (self->priv->thumb_factory,
 								     uri,
@@ -174,17 +174,17 @@ generate_thumbnail (GthFileData   *file_data,
 	}
 
 	if (pixbuf == NULL) {
-		PixbufLoader thumbnailer;
+		GthImageLoaderFunc thumbnailer;
 
-		thumbnailer = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file_data));
+		thumbnailer = gth_main_get_image_loader_func (gth_file_data_get_mime_type (file_data), GTH_IMAGE_FORMAT_GDK_PIXBUF);
 		if (thumbnailer != NULL)
-			animation = thumbnailer (file_data,
-						 self->priv->cache_max_size,
-						 original_width,
-						 original_height,
-						 NULL,
-						 cancellable,
-						 error);
+			image = thumbnailer (file_data,
+					     self->priv->cache_max_size,
+					     original_width,
+					     original_height,
+					     NULL,
+					     cancellable,
+					     error);
 	}
 
 	if (pixbuf != NULL) {
@@ -195,21 +195,24 @@ generate_thumbnail (GthFileData   *file_data,
 
 		if (error != NULL)
 			g_clear_error (error);
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
+
+		image = gth_image_new ();
+		gth_image_set_pixbuf (image, pixbuf);
+
 		g_object_unref (pixbuf);
 	}
 
-	if (animation == NULL)
+	if (image == NULL)
 		if (error != NULL)
 			*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail");
 
 	g_free (uri);
 
-	return animation;
+	return image;
 }
 
 
-static GdkPixbufAnimation *
+static GthImage *
 load_cached_thumbnail (GthFileData   *file_data,
 		       int            requested_size,
 		       int           *original_width,
@@ -218,20 +221,21 @@ load_cached_thumbnail (GthFileData   *file_data,
 		       GCancellable  *cancellable,
 		       GError       **error)
 {
-	GdkPixbufAnimation *animation = NULL;
-	char               *filename;
-	GdkPixbuf          *pixbuf;
+	GthImage  *image = NULL;
+	char      *filename;
+	GdkPixbuf *pixbuf;
 
 	filename = g_file_get_path (file_data->file);
 	pixbuf = gdk_pixbuf_new_from_file (filename, error);
 	if (pixbuf != NULL) {
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		image = gth_image_new ();
+		gth_image_set_pixbuf (image, pixbuf);
 		g_object_unref (pixbuf);
 	}
 
 	g_free (filename);
 
-	return animation;
+	return image;
 }
 
 
@@ -258,8 +262,8 @@ gth_thumb_loader_new (int requested_size)
 
 
 void
-gth_thumb_loader_set_loader_func (GthThumbLoader *self,
-			          PixbufLoader    loader_func)
+gth_thumb_loader_set_loader_func (GthThumbLoader     *self,
+				  GthImageLoaderFunc  loader_func)
 {
 	gth_image_loader_set_loader_func (self->priv->tloader,
 					  (loader_func != NULL) ? loader_func : generate_thumbnail,
@@ -426,18 +430,19 @@ cache_image_ready_cb (GObject      *source_object,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
+	GthImage       *image;
 	GdkPixbuf      *pixbuf;
 	int             width;
 	int             height;
 	gboolean        modified;
 	LoadResult     *load_result;
 
-	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-						  res,
-						  &pixbuf,
-						  NULL,
-						  NULL,
-						  NULL))
+	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+					    res,
+					    &image,
+					    NULL,
+					    NULL,
+					    NULL))
 	{
 		/* error loading the thumbnail from the cache, try to generate
 		 * the thumbnail loading the original image. */
@@ -455,6 +460,8 @@ cache_image_ready_cb (GObject      *source_object,
 
 	/* Thumbnail correctly loaded from the cache. Scale if the user wants
 	 * a different size. */
+
+	pixbuf = gth_image_get_pixbuf (image);
 
 	g_return_if_fail (pixbuf != NULL);
 
@@ -477,6 +484,7 @@ cache_image_ready_cb (GObject      *source_object,
 	g_simple_async_result_complete_in_idle (load_data->simple);
 
 	load_data_unref (load_data);
+	g_object_unref (image);
 }
 
 
@@ -729,15 +737,16 @@ original_image_ready_cb (GObject      *source_object,
 {
 	LoadData       *load_data = user_data;
 	GthThumbLoader *self = load_data->thumb_loader;
+	GthImage       *image;
 	GdkPixbuf      *pixbuf = NULL;
 	GError         *error = NULL;
 
-	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-						  res,
-						  &pixbuf,
-						  NULL,
-						  NULL,
-						  &error))
+	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+					    res,
+					    &image,
+					    NULL,
+					    NULL,
+					    &error))
 	{
 		/* error loading the original image, try with the system
 		 * thumbnailer */
@@ -781,9 +790,11 @@ original_image_ready_cb (GObject      *source_object,
 		return;
 	}
 
+	pixbuf = gth_image_get_pixbuf (image);
 	original_image_loaded_correctly (self, load_data, pixbuf);
 
 	g_object_unref (pixbuf);
+	g_object_unref (image);
 	load_data_unref (load_data);
 }
 

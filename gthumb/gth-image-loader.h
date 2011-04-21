@@ -25,7 +25,7 @@
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gth-file-data.h"
-#include "pixbuf-io.h"
+#include "gth-image.h"
 
 G_BEGIN_DECLS
 
@@ -50,11 +50,13 @@ struct _GthImageLoaderClass {
 };
 
 GType             gth_image_loader_get_type               (void);
-GthImageLoader *  gth_image_loader_new                    (PixbufLoader          loader_func,
+GthImageLoader *  gth_image_loader_new                    (GthImageLoaderFunc    loader_func,
 							   gpointer              loader_data);
 void              gth_image_loader_set_loader_func        (GthImageLoader       *loader,
-							   PixbufLoader          loader_func,
+							   GthImageLoaderFunc    loader_func,
 						           gpointer              loader_data);
+void              gth_image_loader_set_preferred_format   (GthImageLoader       *loader,
+							   GthImageFormat        preferred_format);
 void              gth_image_loader_load                   (GthImageLoader       *loader,
 							   GthFileData          *file_data,
 							   int                   requested_size,
@@ -62,15 +64,9 @@ void              gth_image_loader_load                   (GthImageLoader       
 							   GCancellable         *cancellable,
 							   GAsyncReadyCallback   callback,
 							   gpointer              user_data);
-gboolean          gth_image_loader_load_animation_finish  (GthImageLoader       *loader,
+gboolean          gth_image_loader_load_finish            (GthImageLoader       *loader,
 							   GAsyncResult         *res,
-							   GdkPixbufAnimation  **animation,
-							   int                  *original_width,
-							   int                  *original_height,
-							   GError              **error);
-gboolean          gth_image_loader_load_image_finish      (GthImageLoader       *loader,
-						  	   GAsyncResult         *res,
-							   GdkPixbuf           **pixbuf,
+							   GthImage            **image,
 							   int                  *original_width,
 							   int                  *original_height,
 							   GError              **error);

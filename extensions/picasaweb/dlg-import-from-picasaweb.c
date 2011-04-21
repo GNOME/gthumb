@@ -863,7 +863,7 @@ album_combobox_changed_cb (GtkComboBox *widget,
 }
 
 
-GdkPixbufAnimation *
+GthImage *
 picasa_web_thumbnail_loader (GthFileData   *file_data,
 			     int            requested_size,
 			     int           *original_width,
@@ -872,10 +872,10 @@ picasa_web_thumbnail_loader (GthFileData   *file_data,
 			     GCancellable  *cancellable,
 			     GError       **error)
 {
-	GdkPixbufAnimation *animation = NULL;
-	GthThumbLoader     *thumb_loader = user_data;
-	PicasaWebPhoto     *photo;
-	const char         *uri;
+	GthImage       *image = NULL;
+	GthThumbLoader *thumb_loader = user_data;
+	PicasaWebPhoto *photo;
+	const char     *uri;
 
 	photo = (PicasaWebPhoto *) g_file_info_get_attribute_object (file_data->info, "gphoto::object");
 	requested_size = gth_thumb_loader_get_requested_size (thumb_loader);
@@ -910,7 +910,8 @@ picasa_web_thumbnail_loader (GthFileData   *file_data,
 				g_object_unref (pixbuf);
 				pixbuf = rotated;
 
-				animation = gdk_pixbuf_non_anim_new (pixbuf);
+				image = gth_image_new ();
+				gth_image_set_pixbuf (image, pixbuf);
 			}
 
 			g_object_unref (pixbuf);
@@ -922,7 +923,7 @@ picasa_web_thumbnail_loader (GthFileData   *file_data,
 	else
 		*error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
 
-	return animation;
+	return image;
 }
 
 

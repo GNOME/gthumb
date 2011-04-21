@@ -64,6 +64,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-hook.h					\
 	gth-icon-cache.h				\
 	gth-icon-view.h					\
+	gth-image.h					\
 	gth-image-dragger.h				\
 	gth-image-history.h				\
 	gth-image-loader.h				\
@@ -182,6 +183,7 @@ gthumb_SOURCES = 					\
 	gth-hook.c					\
 	gth-icon-cache.c				\
 	gth-icon-view.c					\
+	gth-image.c					\
 	gth-image-dragger.c				\
 	gth-image-history.c				\
 	gth-image-loader.c				\

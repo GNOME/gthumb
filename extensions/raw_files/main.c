@@ -181,13 +181,13 @@ openraw_get_pixbuf_from_file (GthFileData  *file_data,
 }
 
 
-static GdkPixbufAnimation *
+static GthImage *
 openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 					int           requested_size,
 					GError      **error)
 {
-	GdkPixbufAnimation *animation;
-	GdkPixbuf          *pixbuf;
+	GthImage  *image = NULL;
+	GdkPixbuf *pixbuf;
 
 	if (requested_size == 0)
 		pixbuf = openraw_extract_thumbnail_from_file (file_data, requested_size, error);
@@ -195,13 +195,12 @@ openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
 		pixbuf = openraw_get_pixbuf_from_file (file_data, error);
 
 	if (pixbuf != NULL) {
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		image = gth_image_new ();
+		gth_image_set_pixbuf (image, pixbuf);
 		g_object_unref (pixbuf);
 	}
-	else
-		animation = NULL;
 
-	return animation;
+	return image;
 }
 
 
@@ -268,7 +267,7 @@ get_file_mtime (const char *path)
 }
 
 
-static GdkPixbufAnimation *
+static GthImage *
 openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 					int            requested_size,
 					int           *original_width,
@@ -277,17 +276,17 @@ openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 					GCancellable  *cancellable,
 					GError       **error)
 {
-	GdkPixbufAnimation *animation;
-	GdkPixbuf          *pixbuf;
-	gboolean            is_thumbnail;
-	gboolean            is_raw;
-	gboolean            is_hdr;
-	char               *local_file;
-	char               *local_file_md5;
-	char	           *cache_file;
-	char	           *cache_file_esc;
-	char	           *local_file_esc;
-	char	           *command = NULL;
+	GthImage  *image = NULL;
+	GdkPixbuf *pixbuf;
+	gboolean   is_thumbnail;
+	gboolean   is_raw;
+	gboolean   is_hdr;
+	char      *local_file;
+	char      *local_file_md5;
+	char	  *cache_file;
+	char	  *cache_file_esc;
+	char	  *local_file_esc;
+	char	  *command = NULL;
 
 	is_thumbnail = requested_size > 0;
 	is_raw = _g_mime_type_is_raw (gth_file_data_get_mime_type (file_data));
@@ -424,19 +423,17 @@ openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 	}
 
 	if (pixbuf != NULL) {
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		image = gth_image_new ();
+		gth_image_set_pixbuf (image, pixbuf);
 		g_object_unref (pixbuf);
 	}
-	else
-		animation = NULL;
-
 
 	g_free (cache_file_esc);
 	g_free (local_file_esc);
 	g_free (cache_file);
 	g_free (local_file);
 
-	return animation;
+	return image;
 }
 
 
@@ -446,17 +443,18 @@ openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_pixbuf_loader (openraw_pixbuf_animation_new_from_file,
-					 "image/x-adobe-dng",
-					 "image/x-canon-cr2",
-					 "image/x-canon-crw",
-					 "image/x-epson-erf",
-					 "image/x-minolta-mrw",
-					 "image/x-nikon-nef",
-					 "image/x-olympus-orf",
-					 "image/x-pentax-pef",
-					 "image/x-sony-arw",
-					 NULL);
+	gth_main_register_image_loader_func (openraw_pixbuf_animation_new_from_file,
+					     GTH_IMAGE_FORMAT_GDK_PIXBUF,
+					     "image/x-adobe-dng",
+					     "image/x-canon-cr2",
+					     "image/x-canon-crw",
+					     "image/x-epson-erf",
+					     "image/x-minolta-mrw",
+					     "image/x-nikon-nef",
+					     "image/x-olympus-orf",
+					     "image/x-pentax-pef",
+					     "image/x-sony-arw",
+					     NULL);
 }
 
 

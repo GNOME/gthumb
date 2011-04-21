@@ -933,22 +933,25 @@ image_loader_ready_cb (GObject      *source_object,
 		       gpointer      user_data)
 {
 	GthContactSheetCreator *self = user_data;
+	GthImage               *image;
 	GdkPixbuf              *pixbuf;
 	int                     original_width;
 	int                     original_height;
 	GError                 *error = NULL;
 	ItemData               *item_data;
 
-	if (! gth_image_loader_load_image_finish (GTH_IMAGE_LOADER (source_object),
-						  result,
-						  &pixbuf,
-						  &original_width,
-						  &original_height,
-						  &error))
+	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
+					    result,
+					    &image,
+					    &original_width,
+					    &original_height,
+					    &error))
 	{
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
+
+	pixbuf = gth_image_get_pixbuf (image);
 
 	item_data = self->priv->current_file->data;
 	if (self->priv->squared_thumbnails)
@@ -959,6 +962,7 @@ image_loader_ready_cb (GObject      *source_object,
 	item_data->original_height = original_height;
 
 	g_object_unref (pixbuf);
+	g_object_unref (image);
 
 	self->priv->current_file = self->priv->current_file->next;
 	load_current_image (self);
