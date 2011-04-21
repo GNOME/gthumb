@@ -293,8 +293,6 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
-	cairo_surface_t *surface;
-
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
@@ -305,12 +303,10 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
-	surface = gth_image_get_cairo_surface (image);
 	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer),
-				    surface,
+				    image,
 				    original_width,
 				    original_height);
-	cairo_surface_destroy (surface);
 
 	if (self->priv->shrink_wrap)
 		gth_image_viewer_page_shrink_wrap (self, TRUE);
@@ -1143,7 +1139,7 @@ _gth_image_viewer_page_set_image (GthImageViewerPage *self,
 	int          height;
 	char        *size;
 
-	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
+	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
 

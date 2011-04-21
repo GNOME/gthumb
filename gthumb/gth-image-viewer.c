@@ -1680,17 +1680,17 @@ gth_image_viewer_set_pixbuf (GthImageViewer *self,
 	g_return_if_fail (self != NULL);
 
 	image = _cairo_image_surface_create_from_pixbuf (pixbuf);
-	gth_image_viewer_set_image (self, image, original_width, original_height);
+	gth_image_viewer_set_surface (self, image, original_width, original_height);
 
 	cairo_surface_destroy (image);
 }
 
 
 void
-gth_image_viewer_set_image (GthImageViewer  *self,
-			    cairo_surface_t *image,
-			    int              original_width,
-			    int              original_height)
+gth_image_viewer_set_surface (GthImageViewer  *self,
+			      cairo_surface_t *surface,
+			      int              original_width,
+			      int              original_height)
 {
 	g_return_if_fail (self != NULL);
 
@@ -1699,12 +1699,37 @@ gth_image_viewer_set_image (GthImageViewer  *self,
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
-	self->priv->surface = cairo_surface_reference (image);
+	self->priv->surface = cairo_surface_reference (surface);
 	self->priv->is_void = (self->priv->surface == NULL);
 	self->priv->is_animation = FALSE;
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
 
 	_gth_image_viewer_content_changed (self, FALSE);
+}
+
+
+void
+gth_image_viewer_set_image (GthImageViewer *viewer,
+			    GthImage       *image,
+			    int             original_width,
+			    int             original_height)
+{
+	if (gth_image_is_animation (image)) {
+		GdkPixbufAnimation *animation;
+
+		animation = gth_image_get_pixbuf_animation (image);
+		gth_image_viewer_set_animation (viewer,	animation, original_width, original_height);
+
+		g_object_unref (animation);
+	}
+	else {
+		cairo_surface_t *surface;
+
+		surface = gth_image_get_cairo_surface (image);
+		gth_image_viewer_set_surface (viewer, surface, original_width, original_height);
+
+		cairo_surface_destroy (surface);
+	}
 }
 
 

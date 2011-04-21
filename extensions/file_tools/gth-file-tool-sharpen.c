@@ -250,13 +250,13 @@ apply_cb (gpointer user_data)
 		cairo_fill (cr);
 		cairo_destroy (cr);
 
-		gth_image_viewer_set_image (preview, self->priv->destination, -1, -1);
+		gth_image_viewer_set_surface (preview, self->priv->destination, -1, -1);
 
 		cairo_surface_destroy (preview_surface);
 		sharpen_data_free (sharpen_data);
 	}
 	else
-		gth_image_viewer_set_image (preview, self->priv->source, -1, -1);
+		gth_image_viewer_set_surface (preview, self->priv->source, -1, -1);
 
 	return FALSE;
 }
@@ -324,7 +324,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->preview), GTH_ZOOM_CHANGE_KEEP_PREV);
 	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->preview), 1.0);
 	gth_image_viewer_enable_zoom_with_keys (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
-	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->source, -1, -1);
+	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->preview), self->priv->source, -1, -1);
 	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
 	gtk_widget_show_all (image_navigator);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);

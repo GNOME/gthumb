@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gth-image.h"
 #include "gth-image-viewer-tool.h"
 
 G_BEGIN_DECLS
@@ -161,8 +162,12 @@ void           gth_image_viewer_set_pixbuf               (GthImageViewer     *vi
 							  GdkPixbuf          *pixbuf,
 							  int                 original_width,
 							  int                 original_height);
+void           gth_image_viewer_set_surface              (GthImageViewer     *viewer,
+							  cairo_surface_t    *surface,
+							  int                 original_width,
+							  int                 original_height);
 void           gth_image_viewer_set_image                (GthImageViewer     *viewer,
-							  cairo_surface_t    *image,
+							  GthImage           *image,
 							  int                 original_width,
 							  int                 original_height);
 void           gth_image_viewer_set_better_quality       (GthImageViewer     *viewer,
