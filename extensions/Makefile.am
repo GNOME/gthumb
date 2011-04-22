@@ -14,6 +14,7 @@ IMPORTERS = 			\
 	$(NULL)
 
 JPEG_TOOLS = 			\
+	cairo_io		\
 	image_rotation		\
 	importer		\
 	$(NULL)

@@ -526,6 +526,7 @@ extensions/bookmarks/data/ui/Makefile
 extensions/burn_disc/Makefile
 extensions/burn_disc/data/Makefile
 extensions/burn_disc/data/ui/Makefile
+extensions/cairo_io/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile

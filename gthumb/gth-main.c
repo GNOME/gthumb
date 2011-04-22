@@ -1246,6 +1246,7 @@ void
 gth_main_activate_extensions (void)
 {
 	const char *mandatory_extensions[] = {	"file_viewer",
+						"cairo_io",
 						NULL };
 	const char *default_extensions[] = {	"bookmarks",
 						"burn_disc",

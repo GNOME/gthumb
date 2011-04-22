@@ -909,7 +909,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 
 	_set_action_sensitive (self, "ImageViewer_View_Zoom100", zoom_enabled && ! FLOAT_EQUAL (zoom, 1.0));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomOut", zoom_enabled && (zoom > 0.05));
+	_set_action_sensitive (self, "ImageViewer_View_ZoomOut", zoom_enabled && (zoom > 0.01));
 	_set_action_sensitive (self, "ImageViewer_View_ZoomIn", zoom_enabled && (zoom < 100.0));
 
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
