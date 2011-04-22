@@ -24,10 +24,12 @@
 #include "gdk-pixbuf-rotate.h"
 
 
+#define ROUND(x) (int) floor ((x) + 0.5)
+
+
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
-	double     angle,
-	gint       auto_crop)
+	double     angle)
 {
 	GdkPixbuf *new_pixbuf;
 
@@ -52,8 +54,8 @@ rotate (GdkPixbuf *src_pixbuf,
 	src_width  = gdk_pixbuf_get_width  (src_pixbuf);
 	src_height = gdk_pixbuf_get_height (src_pixbuf);
 
-	new_width  = (int) floor (      cos_angle  * src_width + fabs(sin_angle) * src_height + 0.5);
-	new_height = (int) floor (fabs (sin_angle) * src_width +      cos_angle  * src_height + 0.5);
+	new_width  = ROUND (      cos_angle  * src_width + fabs(sin_angle) * src_height);
+	new_height = ROUND (fabs (sin_angle) * src_width +      cos_angle  * src_height);
 	
 	new_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src_pixbuf),
 				     gdk_pixbuf_get_has_alpha (src_pixbuf),
@@ -75,15 +77,15 @@ rotate (GdkPixbuf *src_pixbuf,
 		
 		for (xi = 0; xi < new_width; xi++) {
 		
-			x = xi - (new_width - 1) / 2.0;
+			x = xi - (new_width  - 1) / 2.0;
 			y = yi - (new_height - 1) / 2.0;
 			
-			x2 = cos_angle * x - sin_angle * y + (src_width - 1) / 2.0;
+			x2 = cos_angle * x - sin_angle * y + (src_width  - 1) / 2.0;
 			y2 = sin_angle * x + cos_angle * y + (src_height - 1) / 2.0;
 			
 			// TODO: interpolate
-			x2i = (int) floor(x2 + 0.5);
-			y2i = (int) floor(y2 + 0.5);
+			x2i = ROUND (x2);
+			y2i = ROUND (y2);
 			
 			if (x2i >= 0 && x2i < src_width && y2i >= 0 && y2i < src_height) {
 			
@@ -111,8 +113,7 @@ rotate (GdkPixbuf *src_pixbuf,
 
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
-		    double     angle,
-		    gint       auto_crop)
+		    double     angle)
 {
 	GdkPixbuf *new_pixbuf;
 	
@@ -127,7 +128,7 @@ _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		new_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	}
 	else {
-		new_pixbuf = rotate (src_pixbuf, -angle, auto_crop);
+		new_pixbuf = rotate (src_pixbuf, -angle);
 	}
 
 	return new_pixbuf;
