@@ -24,13 +24,33 @@
 #include "gdk-pixbuf-rotate.h"
 
 
-#define ROUND(x) (int) floor ((x) + 0.5)
+#define ROUND(x) ((int) floor ((x) + 0.5))
+
+#define INTERPOLATE(v00, v10, v01, v11, fx, fy) ((v00) + ((v10) - (v00)) * (fx) + ((v01) - (v00)) * (fy) + ((v00) - (v10) - (v01) + (v11)) * (fx) * (fy))
+
+#define GET_VALUES(r, g, b, x, y) \
+			if (x >= 0 && x < src_width && y >= 0 && y < src_height) { \
+				p_src2 = p_src + src_rowstride * y + n_channels * x; \
+				r = p_src2[RED_PIX]; \
+				g = p_src2[GREEN_PIX]; \
+				b = p_src2[BLUE_PIX]; \
+			} \
+			else { \
+				r = R0; \
+				g = G0; \
+				b = B0; \
+			}
 
 
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
-	double     angle)
+	double     angle,
+	gint       high_quality)
 {
+	const guchar R0 = 0;
+	const guchar G0 = 0;
+	const guchar B0 = 0;
+	
 	GdkPixbuf *new_pixbuf;
 
 	double     angle_rad;
@@ -39,13 +59,19 @@ rotate (GdkPixbuf *src_pixbuf,
 	int        new_width, new_height;
 	int        src_rowstride, new_rowstride;
 	int        n_channels;
-	double     x, y;
 	int        xi, yi;
+	double     x, y;
 	double     x2, y2;
-	int        x2i, y2i;
+	int        x2min, y2min;
+	int        x2max, y2max;
+	double     fx, fy;
 	guchar    *p_src, *p_new;
 	guchar    *p_src2, *p_new2;
 	
+	guchar     r00, r01, r10, r11;
+	guchar     g00, g01, g10, g11;
+	guchar     b00, b01, b10, b11;
+
 	angle_rad = angle / 180.0 * 3.1415926535;
 	
 	cos_angle = cos (angle_rad);
@@ -75,30 +101,41 @@ rotate (GdkPixbuf *src_pixbuf,
 	
 		p_new2 = p_new;
 		
+		y = yi - (new_height - 1) / 2.0;
+		
 		for (xi = 0; xi < new_width; xi++) {
 		
 			x = xi - (new_width  - 1) / 2.0;
-			y = yi - (new_height - 1) / 2.0;
 			
 			x2 = cos_angle * x - sin_angle * y + (src_width  - 1) / 2.0;
 			y2 = sin_angle * x + cos_angle * y + (src_height - 1) / 2.0;
 			
-			// TODO: interpolate
-			x2i = ROUND (x2);
-			y2i = ROUND (y2);
+			if (high_quality) {
 			
-			if (x2i >= 0 && x2i < src_width && y2i >= 0 && y2i < src_height) {
+				// Bilinear interpolation
 			
-				p_src2 = p_src + src_rowstride * y2i + n_channels * x2i;
+				x2min = (int) floor (x2);
+				y2min = (int) floor (y2);
 			
-				p_new2[RED_PIX]   = p_src2[RED_PIX];
-				p_new2[GREEN_PIX] = p_src2[GREEN_PIX];
-				p_new2[BLUE_PIX]  = p_src2[BLUE_PIX];
+				x2max = (int) ceil (x2);
+				y2max = (int) ceil (y2);
+			
+				fx = x2 - x2min;
+				fy = y2 - y2min;
+			
+				GET_VALUES (r00, g00, b00, x2min, y2min);
+				GET_VALUES (r01, g01, b01, x2max, y2min);
+				GET_VALUES (r10, g10, b10, x2min, y2max);
+				GET_VALUES (r11, g11, b11, x2max, y2max);
+			
+				p_new2[RED_PIX]   = CLAMP (INTERPOLATE (r00, r01, r10, r11, fx, fy), 0, 255);
+				p_new2[GREEN_PIX] = CLAMP (INTERPOLATE (g00, g01, g10, g11, fx, fy), 0, 255);
+				p_new2[BLUE_PIX]  = CLAMP (INTERPOLATE (b00, b01, b10, b11, fx, fy), 0, 255);
 			}
 			else {
-				p_new2[RED_PIX]   = 0;
-				p_new2[GREEN_PIX] = 0;
-				p_new2[BLUE_PIX]  = 0;
+				// Nearest neighbor
+			
+				GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], ROUND (x2), ROUND (y2));
 			}
 			
 			p_new2 += n_channels;
@@ -113,7 +150,8 @@ rotate (GdkPixbuf *src_pixbuf,
 
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
-		    double     angle)
+		    double     angle,
+		    gint       high_quality)
 {
 	GdkPixbuf *new_pixbuf;
 	
@@ -128,7 +166,7 @@ _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		new_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	}
 	else {
-		new_pixbuf = rotate (src_pixbuf, -angle);
+		new_pixbuf = rotate (src_pixbuf, -angle, high_quality);
 	}
 
 	return new_pixbuf;

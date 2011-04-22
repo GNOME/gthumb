@@ -73,18 +73,32 @@
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="auto_crop">
-                            <property name="label" translatable="yes">A_uto-crop</property>
+                          <object class="GtkCheckButton" id="high_quality">
+                            <property name="label" translatable="yes">_High quality</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="tooltip_text" translatable="yes">Whether to crop automatically the image to avoid black areas after rotation</property>
+                            <property name="tooltip_text" translatable="yes">Slower but produces better results</property>
                             <property name="use_underline">True</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
                             <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="auto_crop">
+                            <property name="label" translatable="yes">A_uto-crop</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                       </object>

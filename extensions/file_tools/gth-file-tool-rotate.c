@@ -43,6 +43,7 @@ struct _GthFileToolRotatePrivate {
 	int               screen_width;
 	int               screen_height;
 	GtkWidget        *rotation_angle;
+	GtkWidget        *high_quality;
 	GtkWidget        *auto_crop;
 	guint             apply_event;
 };
@@ -107,6 +108,7 @@ apply_cb (gpointer user_data)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	double             rotation_angle;
+	gint               high_quality;
 	gint               auto_crop;
 
 	if (self->priv->apply_event != 0) {
@@ -118,10 +120,11 @@ apply_cb (gpointer user_data)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
 	rotation_angle = gtk_range_get_value (GTK_RANGE (self->priv->rotation_angle));
+	high_quality = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->high_quality));
 	auto_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->auto_crop));
 	
 	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle);
+	self->priv->dest_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, high_quality);
 
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
 	
@@ -177,6 +180,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 	self->priv->rotation_angle = _gtk_builder_get_widget (self->priv->builder, "rotation_angle");
+	self->priv->high_quality = _gtk_builder_get_widget (self->priv->builder, "high_quality");
 	self->priv->auto_crop = _gtk_builder_get_widget (self->priv->builder, "auto_crop");
 
 	g_signal_connect (GET_WIDGET ("apply_button"),
@@ -189,6 +193,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->rotation_angle),
 			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->high_quality),
+			  "toggled",
 			  G_CALLBACK (value_changed_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->auto_crop),
