@@ -195,46 +195,46 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 		    GObject            *object,
 		    GCancellable       *cancellable)
 {
-	GthImageLoader     *self = GTH_IMAGE_LOADER (object);
-	LoadData           *load_data;
-	GdkPixbufAnimation *animation;
-	int                 original_width;
-	int                 original_height;
-	GError             *error = NULL;
-	LoadResult         *load_result;
+	GthImageLoader *self = GTH_IMAGE_LOADER (object);
+	LoadData       *load_data;
+	GthImage       *image = NULL;
+	int             original_width;
+	int             original_height;
+	GError         *error = NULL;
+	LoadResult     *load_result;
 
 	load_data = g_simple_async_result_get_op_res_gpointer (result);
-	animation = NULL;
 	original_width = -1;
 	original_height = -1;
 
 	if (self->priv->loader_func != NULL) {
-		animation = (*self->priv->loader_func) (load_data->file_data,
-						        load_data->requested_size,
-						        &original_width,
-						        &original_height,
-						        self->priv->loader_data,
-						        cancellable,
-						        &error);
+		image = (*self->priv->loader_func) (load_data->file_data,
+						    load_data->requested_size,
+						    &original_width,
+						    &original_height,
+						    self->priv->loader_data,
+						    cancellable,
+						    &error);
 	}
 	else  {
-		PixbufLoader loader_func;
+		GthImageLoaderFunc loader_func;
 
-		loader_func = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (load_data->file_data));
+		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type (load_data->file_data),
+							      self->priv->preferred_format);
 		if (loader_func != NULL)
-			animation = loader_func (load_data->file_data,
-				        	 load_data->requested_size,
-				        	 &original_width,
-				        	 &original_height,
-				        	 NULL,
-				        	 cancellable,
-				        	 &error);
+			image = loader_func (load_data->file_data,
+				             load_data->requested_size,
+				             &original_width,
+				             &original_height,
+				             NULL,
+				             cancellable,
+				             &error);
 		else
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
 
 	load_result = g_new0 (LoadResult, 1);
-	load_result->animation = animation;
+	load_result->image = image;
 	load_result->original_width = original_width;
 	load_result->original_height = original_height;
 
