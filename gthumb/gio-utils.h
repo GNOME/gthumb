@@ -151,6 +151,7 @@ void     _g_delete_files_async       (GList                  *file_list,
 gboolean g_load_file_in_buffer       (GFile                 *file,
 				      void                 **buffer,
 				      gsize                 *size,
+				      GCancellable          *cancellable,
 				      GError               **error);
 void     g_load_file_async           (GFile                 *file,
 				      int                    io_priority,

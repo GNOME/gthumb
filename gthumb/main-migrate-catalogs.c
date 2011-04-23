@@ -83,6 +83,7 @@ migration_for_each_file (GFile     *file,
 	if (! g_load_file_in_buffer (file,
 				     (void **) &buffer,
 				     &buffer_size,
+				     NULL,
 				     &error))
 	{
 		g_warning ("%s", error->message);

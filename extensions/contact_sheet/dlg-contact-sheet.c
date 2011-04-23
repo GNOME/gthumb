@@ -323,6 +323,7 @@ add_themes_from_dir (DialogData *data,
 		if (! g_load_file_in_buffer (file,
 					     (void **) &buffer,
 					     &size,
+					     NULL,
 					     NULL))
 		{
 			g_object_unref (file);

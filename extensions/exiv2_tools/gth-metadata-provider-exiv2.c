@@ -129,7 +129,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
 		return;
 
-	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))
+	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, NULL, &error))
 		return;
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::description");

@@ -1160,7 +1160,7 @@ gth_catalog_load_from_file (GFile *file)
 	gsize       buffer_size;
 
 	gio_file = gth_catalog_file_to_gio_file (file);
-	if (! g_load_file_in_buffer (gio_file, &buffer, &buffer_size, NULL))
+	if (! g_load_file_in_buffer (gio_file, &buffer, &buffer_size, NULL, NULL))
 		return NULL;
 
 	catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);

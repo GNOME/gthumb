@@ -897,7 +897,7 @@ picasa_web_thumbnail_loader (GthFileData   *file_data,
 		gsize  size;
 
 		file = g_file_new_for_uri (uri);
-		if (g_load_file_in_buffer (file, &buffer, &size, error)) {
+		if (g_load_file_in_buffer (file, &buffer, &size, cancellable, error)) {
 			GInputStream *stream;
 			GdkPixbuf    *pixbuf;
 

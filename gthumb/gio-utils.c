@@ -1920,10 +1920,11 @@ _g_delete_files_async (GList        *file_list,
 
 
 gboolean
-g_load_file_in_buffer (GFile   *file,
-		       void   **buffer,
-		       gsize   *size,
-		       GError **error)
+g_load_file_in_buffer (GFile         *file,
+		       void         **buffer,
+		       gsize         *size,
+		       GCancellable  *cancellable,
+		       GError       **error)
 {
 	GFileInputStream *istream;
 	gboolean          retval;
@@ -1932,7 +1933,7 @@ g_load_file_in_buffer (GFile   *file,
 	gssize            n;
 	char              tmp_buffer[BUFFER_SIZE];
 
-	istream = g_file_read (file, NULL, error);
+	istream = g_file_read (file, cancellable, error);
 	if (istream == NULL)
 		return FALSE;
 
@@ -1940,7 +1941,11 @@ g_load_file_in_buffer (GFile   *file,
 	local_buffer = NULL;
 	count = 0;
 	for (;;) {
-		n = g_input_stream_read (G_INPUT_STREAM (istream), tmp_buffer, BUFFER_SIZE, NULL, error);
+		n = g_input_stream_read (G_INPUT_STREAM (istream),
+					 tmp_buffer,
+					 BUFFER_SIZE,
+					 cancellable,
+					 error);
 		if (n < 0) {
 			g_free (local_buffer);
 			retval = FALSE;

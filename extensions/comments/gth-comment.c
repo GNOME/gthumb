@@ -317,7 +317,7 @@ gth_comment_new_for_file (GFile   *file,
 	if (comment_file == NULL)
 		return NULL;
 
-	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, error)) {
+	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, NULL, error)) {
 		g_object_unref (comment_file);
 		return NULL;
 	}
