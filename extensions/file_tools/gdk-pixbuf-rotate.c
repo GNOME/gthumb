@@ -42,6 +42,20 @@
 			}
 
 
+void
+_gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
+					double     angle,
+					double     alpha,
+					double     beta,
+					int       *x1,
+					int       *x2,
+					int       *y1,
+					int       *y2)
+{
+
+}
+
+
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
 	double     angle,
@@ -55,7 +69,7 @@ rotate (GdkPixbuf *src_pixbuf,
 
 	double     angle_rad;
 	double     cos_angle, sin_angle;
-	int        src_width, src_height;
+	double     src_width, src_height;
 	int        new_width, new_height;
 	int        src_rowstride, new_rowstride;
 	int        n_channels;
@@ -77,8 +91,8 @@ rotate (GdkPixbuf *src_pixbuf,
 	cos_angle = cos (angle_rad);
 	sin_angle = sin (angle_rad);
 
-	src_width  = gdk_pixbuf_get_width  (src_pixbuf);
-	src_height = gdk_pixbuf_get_height (src_pixbuf);
+	src_width  = gdk_pixbuf_get_width  (src_pixbuf) - 1;
+	src_height = gdk_pixbuf_get_height (src_pixbuf) - 1;
 
 	new_width  = ROUND (      cos_angle  * src_width + fabs(sin_angle) * src_height);
 	new_height = ROUND (fabs (sin_angle) * src_width +      cos_angle  * src_height);
@@ -101,14 +115,14 @@ rotate (GdkPixbuf *src_pixbuf,
 	
 		p_new2 = p_new;
 		
-		y = yi - (new_height - 1) / 2.0;
+		y = yi - new_height / 2.0;
 		
 		for (xi = 0; xi < new_width; xi++) {
 		
-			x = xi - (new_width  - 1) / 2.0;
+			x = xi - new_width / 2.0;
 			
-			x2 = cos_angle * x - sin_angle * y + (src_width  - 1) / 2.0;
-			y2 = sin_angle * x + cos_angle * y + (src_height - 1) / 2.0;
+			x2 = cos_angle * x - sin_angle * y + src_width  / 2.0;
+			y2 = sin_angle * x + cos_angle * y + src_height / 2.0;
 			
 			if (high_quality) {
 			
@@ -117,8 +131,8 @@ rotate (GdkPixbuf *src_pixbuf,
 				x2min = (int) floor (x2);
 				y2min = (int) floor (y2);
 			
-				x2max = (int) ceil (x2);
-				y2max = (int) ceil (y2);
+				x2max = x2min + 1;
+				y2max = y2min + 1;
 			
 				fx = x2 - x2min;
 				fy = y2 - y2min;
@@ -135,7 +149,10 @@ rotate (GdkPixbuf *src_pixbuf,
 			else {
 				// Nearest neighbor
 			
-				GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], ROUND (x2), ROUND (y2));
+				x2min = ROUND (x2);
+				y2min = ROUND (y2);
+				
+				GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], x2min, y2min);
 			}
 			
 			p_new2 += n_channels;
