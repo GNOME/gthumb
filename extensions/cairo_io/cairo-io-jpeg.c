@@ -57,7 +57,7 @@ fatal_error_handler (j_common_ptr cinfo)
                 g_set_error (errmgr->error,
                              GDK_PIXBUF_ERROR,
                              GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
-			     "Error interpreting JPEG image file (%s)",
+			     _("Error interpreting JPEG image file: %s"),
                              buffer);
         }
 
@@ -72,6 +72,63 @@ output_message_handler (j_common_ptr cinfo)
 {
 	/* This method keeps libjpeg from dumping crap to stderr */
 	/* do nothing */
+}
+
+
+/* tables with pre-multiplied values */
+
+
+static unsigned char *CMYK_Tab = NULL;
+static int           *YCbCr_R_Cr_Tab = NULL;
+static int           *YCbCr_G_Cb_Tab = NULL;
+static int           *YCbCr_G_Cr_Tab = NULL;
+static int           *YCbCr_B_Cb_Tab = NULL;
+
+
+#define SCALE_FACTOR   16
+#define SCALE_UP(x)    ((gint32) ((x) * (1L << SCALE_FACTOR) + 0.5))
+#define SCALE_DOWN(x)  ((x) >> SCALE_FACTOR)
+#define ONE_HALF       ((gint32) (1 << (SCALE_FACTOR - 1)))
+
+
+static void
+CMYK_table_init (void)
+{
+	if (CMYK_Tab == NULL) {
+		int    v, k, i;
+		double k1;
+
+		/* tab[k * 256 + v] = v * k / 255.0 */
+
+		CMYK_Tab = g_new (unsigned char, 256 * 256);
+		i = 0;
+		for (k = 0; k <= 255; k++) {
+			k1 = (double) k / 255.0;
+			for (v = 0; v <= 255; v++)
+				CMYK_Tab[i++] = (double) v * k1;
+		}
+	}
+}
+
+
+static void
+YCbCr_tables_init (void)
+{
+	if (YCbCr_R_Cr_Tab == NULL) {
+		int i, v;
+
+		YCbCr_R_Cr_Tab = g_new (int, 256);
+		YCbCr_G_Cb_Tab = g_new (int, 256);
+		YCbCr_G_Cr_Tab = g_new (int, 256);
+		YCbCr_B_Cb_Tab = g_new (int, 256);
+
+		for (i = 0, v = -128; i <= 255; i++, v++) {
+			YCbCr_R_Cr_Tab[i] = SCALE_DOWN (SCALE_UP(1.402) * v + ONE_HALF);
+			YCbCr_G_Cb_Tab[i] = - SCALE_UP (0.34414) * v;
+			YCbCr_G_Cr_Tab[i] = - SCALE_UP (0.71414) * v + ONE_HALF;
+			YCbCr_B_Cb_Tab[i] = SCALE_DOWN (SCALE_UP(1.77200) * v + ONE_HALF);
+		}
+	}
 }
 
 
@@ -135,6 +192,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	if (original_height != NULL)
 		*original_height = srcinfo.image_height;
 
+	srcinfo.out_color_space = srcinfo.jpeg_color_space; /* make all the color space conversions manually */
+
 	/* FIXME
 	if (requested_size > 0) {
 		for (srcinfo.scale_denom = 16; srcinfo.scale_denom >= 1; srcinfo.scale_denom--) {
@@ -162,8 +221,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	switch (srcinfo.out_color_space) {
 	case JCS_CMYK:
 		{
-			static unsigned char *tab = NULL; /* table with pre-multiplied values */
-			int                   ki;
+			register unsigned char *cmyk_tab;
+			int c, m, y, k, ki;
+
+			CMYK_table_init ();
+			cmyk_tab = CMYK_Tab;
 
 			while (srcinfo.output_scanline < srcinfo.output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
@@ -171,31 +233,29 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
 
-				if (tab == NULL) {
-					int    v, k, i;
-					double k1;
-
-					/* tab[k * 256 + v] = v * k / 255.0 */
-
-					tab = g_new (unsigned char, 256 * 256);
-					i = 0;
-					for (k = 0; k <= 255; k++) {
-						k1 = (double) k / 255.0;
-						for (v = 0; v <= 255; v++)
-							tab[i++] = (double) v * k1;
-					}
-				}
-
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
 					p_surface = surface_row;
 					p_buffer = buffer_row[l];
 
 					for (x = 0; x < srcinfo.output_width; x++) {
-						ki = p_buffer[3] << 8; /* ki = k * 256 */
-						p_surface[CAIRO_RED]   = tab[ki + p_buffer[0]];
-						p_surface[CAIRO_GREEN] = tab[ki + p_buffer[1]];
-						p_surface[CAIRO_BLUE]  = tab[ki + p_buffer[2]];
+						if (srcinfo.saw_Adobe_marker) {
+							c = p_buffer[0];
+							m = p_buffer[1];
+							y = p_buffer[2];
+							k = p_buffer[3];
+						}
+						else {
+							c = 255 - p_buffer[0];
+							m = 255 - p_buffer[1];
+							y = 255 - p_buffer[2];
+							k = 255 - p_buffer[3];
+						}
+
+						ki = k << 8; /* ki = k * 256 */
+						p_surface[CAIRO_RED]   = cmyk_tab[ki + c];
+						p_surface[CAIRO_GREEN] = cmyk_tab[ki + m];
+						p_surface[CAIRO_BLUE]  = cmyk_tab[ki + y];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
 						p_surface += 4;
@@ -271,7 +331,18 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	case JCS_YCbCr:
 		{
-			double Y, Cb, Cr;
+			register JSAMPLE *range_limit = srcinfo.sample_range_limit;
+			register int     *r_cr_tab;
+			register int     *g_cb_tab;
+			register int     *g_cr_tab;
+			register int     *b_cb_tab;
+			int               Y, Cb, Cr;
+
+			YCbCr_tables_init ();
+			r_cr_tab = YCbCr_R_Cr_Tab;
+			g_cb_tab = YCbCr_G_Cb_Tab;
+			g_cr_tab = YCbCr_G_Cr_Tab;
+			b_cb_tab = YCbCr_B_Cb_Tab;
 
 			while (srcinfo.output_scanline < srcinfo.output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
@@ -285,13 +356,13 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 					p_buffer = buffer_row[l];
 
 					for (x = 0; x < srcinfo.output_width; x++) {
-						Y = (double) p_buffer[0];
-						Cb = (double) p_buffer[1];
-						Cr = (double) p_buffer[2];
+						Y = p_buffer[0];
+						Cb = p_buffer[1];
+						Cr = p_buffer[2];
 
-						p_surface[CAIRO_RED]   = Y + 1.402 * (Cr - 128);
-						p_surface[CAIRO_GREEN] = Y - 0.34414 * (Cb - 128) - 0.71414 * (Cr - 128);
-						p_surface[CAIRO_BLUE]  = Y + 1.772 * (Cb - 128);
+						p_surface[CAIRO_RED]   = range_limit[Y + r_cr_tab[Cr]];
+						p_surface[CAIRO_GREEN] = range_limit[Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr])];
+						p_surface[CAIRO_BLUE]  = range_limit[Y + b_cb_tab[Cb]];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
 						p_surface += 4;
@@ -306,9 +377,69 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 		break;
 
 	case JCS_YCCK:
+		{
+			register JSAMPLE *range_limit = srcinfo.sample_range_limit;
+			register int     *r_cr_tab;
+			register int     *g_cb_tab;
+			register int     *g_cr_tab;
+			register int     *b_cb_tab;
+			register guchar  *cmyk_tab;
+			int               Y, Cb, Cr, K, Ki, c, m , y;
+
+			YCbCr_tables_init ();
+			r_cr_tab = YCbCr_R_Cr_Tab;
+			g_cb_tab = YCbCr_G_Cb_Tab;
+			g_cr_tab = YCbCr_G_Cr_Tab;
+			b_cb_tab = YCbCr_B_Cb_Tab;
+
+			CMYK_table_init ();
+			cmyk_tab = CMYK_Tab;
+
+			while (srcinfo.output_scanline < srcinfo.output_height) {
+				if (g_cancellable_is_cancelled (cancellable))
+					break;
+
+				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+
+				buffer_row = buffer;
+				for (l = 0; l < n_lines; l++) {
+					p_surface = surface_row;
+					p_buffer = buffer_row[l];
+
+					for (x = 0; x < srcinfo.output_width; x++) {
+						Y = p_buffer[0];
+						Cb = p_buffer[1];
+						Cr = p_buffer[2];
+						K = p_buffer[3];
+
+						c = range_limit[255 - (Y + r_cr_tab[Cr])];
+						m = range_limit[255 - (Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr]))];
+						y = range_limit[255 - (Y + b_cb_tab[Cb])];
+
+						Ki = K << 8; /* ki = K * 256 */
+						p_surface[CAIRO_RED]   = cmyk_tab[Ki + c];
+						p_surface[CAIRO_GREEN] = cmyk_tab[Ki + m];
+						p_surface[CAIRO_BLUE]  = cmyk_tab[Ki + y];
+						p_surface[CAIRO_ALPHA] = 0xff;
+
+						p_surface += 4;
+						p_buffer += 4 /*srcinfo.output_components*/;
+					}
+
+					surface_row += surface_stride;
+					buffer_row += buffer_stride;
+				}
+			}
+		}
+		break;
+
 	case JCS_UNKNOWN:
 	default:
-		/* FIXME: ? */
+		g_set_error (error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_UNKNOWN_TYPE,
+                             _("Unknown JPEG color space (%d)"),
+                             srcinfo.out_color_space);
 		break;
 	}
 
@@ -328,3 +459,9 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	return image;
 }
+
+
+#undef SCALE_FACTOR
+#undef SCALE_UP
+#undef SCALE_DOWN
+#undef ONE_HALF
