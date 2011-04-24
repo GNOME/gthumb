@@ -70,7 +70,7 @@ _gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
 	pz = - sin_angle * src_width + cos_angle * src_height;
 
 	*alpha_plus_beta  = 1.0 + (px * src_height) / (py * src_width);
-	*gamma_plus_delta = 1.0 + (pz * src_width)  / (px * src_height);
+	*gamma_plus_delta = *alpha_plus_beta; // 1.0 + (pz * src_width)  / (px * src_height);
 }
 
 
@@ -89,6 +89,7 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 	double angle_rad;
 	double cos_angle, sin_angle;
 	double src_width, src_height;
+	double new_width;
 
 	double xx1, yy1, xx2, yy2;
 	
@@ -107,6 +108,7 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 	src_height = gdk_pixbuf_get_height (src_pixbuf) - 1;
 
 	if (src_width > src_height) {
+	
 		xx1 = alpha * src_width * cos_angle + src_height * sin_angle;
 		yy1 = alpha * src_width * sin_angle;
 	
@@ -121,6 +123,14 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 		yy2 = delta       * src_height * cos_angle + src_width * sin_angle;
 	}
 	
+	if (angle < 0) {
+
+		new_width  = cos_angle * src_width + sin_angle * src_height;
+
+		xx1 = new_width - xx1;
+		xx2 = new_width - xx2;
+	}
+
 	*x1 = ROUND (MIN (xx1, xx2));
 	*y1 = ROUND (MIN (yy1, yy2));
 	

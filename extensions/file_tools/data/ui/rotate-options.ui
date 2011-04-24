@@ -221,8 +221,8 @@
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="auto_crop">
-                            <property name="label" translatable="yes">A_uto-crop</property>
+                          <object class="GtkCheckButton" id="enable_guided_crop">
+                            <property name="label" translatable="yes">Enable _guided crop</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -275,9 +275,9 @@
                   </object>
                 </child>
                 <child type="label">
-                  <object class="GtkLabel" id="assisted_crop_label">
+                  <object class="GtkLabel" id="guided_crop_label">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Assisted crop</property>
+                    <property name="label" translatable="yes">Guided crop</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>

@@ -44,7 +44,7 @@ struct _GthFileToolRotatePrivate {
 	int               screen_height;
 	GtkAdjustment    *rotation_angle_adj;
 	GtkWidget        *high_quality;
-	GtkWidget        *auto_crop;
+	GtkWidget        *enable_guided_crop;
 	GtkWidget        *keep_aspect_ratio;
 	GtkAdjustment    *crop_p1_adj;
 	GtkAdjustment    *crop_p2_adj;
@@ -167,7 +167,7 @@ update_crop_region (gpointer user_data)
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
 	double             rotation_angle;
-	gboolean           auto_crop;
+	gboolean           enable_guided_crop;
 	gboolean           keep_aspect_ratio;
 	double             crop_alpha, crop_beta, crop_alpha_plus_beta;
 	double             crop_gamma, crop_delta, crop_gamma_plus_delta;
@@ -178,9 +178,9 @@ update_crop_region (gpointer user_data)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 
-	auto_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->auto_crop));
+	enable_guided_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->enable_guided_crop));
 	
-	if (auto_crop) {
+	if (enable_guided_crop) {
 
 		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), TRUE);
 		
@@ -361,15 +361,15 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 							       0.0, -90.0, 90.0, 0.1, 1.0, 1);
 	
 	self->priv->high_quality = _gtk_builder_get_widget (self->priv->builder, "high_quality");
-	self->priv->auto_crop = _gtk_builder_get_widget (self->priv->builder, "auto_crop");
+	self->priv->enable_guided_crop = _gtk_builder_get_widget (self->priv->builder, "enable_guided_crop");
 	self->priv->keep_aspect_ratio = _gtk_builder_get_widget (self->priv->builder, "keep_aspect_ratio");
 
 	self->priv->crop_p1_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p1_hbox"),
-							GTK_LABEL (GET_WIDGET ("assisted_crop_label")),
+							GTK_LABEL (GET_WIDGET ("guided_crop_label")),
 							1.0, 0.0, 1.0, 0.01, 0.1, 2);
 
 	self->priv->crop_p2_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p2_hbox"),
-							GTK_LABEL (GET_WIDGET ("assisted_crop_label")),
+							GTK_LABEL (GET_WIDGET ("guided_crop_label")),
 							1.0, 0.0, 1.0, 0.01, 0.1, 2);
 
 	self->priv->selector_crop = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
@@ -419,7 +419,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "toggled",
 			  G_CALLBACK (value_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->auto_crop),
+	g_signal_connect (G_OBJECT (self->priv->enable_guided_crop),
 			  "toggled",
 			  G_CALLBACK (value_changed_cb),
 			  self);
