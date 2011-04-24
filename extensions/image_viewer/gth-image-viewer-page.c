@@ -322,6 +322,8 @@ _set_action_sensitive (GthImageViewerPage *self,
 {
 	GtkAction *action;
 
+	if (self->priv->actions == NULL)
+		return;
 	action = gtk_action_group_get_action (self->priv->actions, action_name);
 	g_object_set (action, "sensitive", sensitive, NULL);
 }
