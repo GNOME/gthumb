@@ -24,6 +24,8 @@
 #include "gdk-pixbuf-rotate.h"
 
 
+#define PI 3.1415926535
+
 #define ROUND(x) ((int) floor ((x) + 0.5))
 
 #define INTERPOLATE(v00, v10, v01, v11, fx, fy) ((v00) + ((v10) - (v00)) * (fx) + ((v01) - (v00)) * (fy) + ((v00) - (v10) - (v01) + (v11)) * (fx) * (fy))
@@ -43,23 +45,94 @@
 
 
 void
+_gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
+					    double     angle,
+					    double    *alpha_plus_beta,
+					    double    *gamma_plus_delta)
+{
+	double angle_rad;
+	double cos_angle, sin_angle;
+	double src_width, src_height;
+	double px, py, pz;
+
+	angle = CLAMP (angle, -90.0, 90.0);
+
+	angle_rad = fabs (angle) / 180.0 * PI;
+	
+	cos_angle = cos (angle_rad);
+	sin_angle = sin (angle_rad);
+
+	src_width  = gdk_pixbuf_get_width  (src_pixbuf) - 1;
+	src_height = gdk_pixbuf_get_height (src_pixbuf) - 1;
+
+	px =   cos_angle * src_width - sin_angle * src_height;
+	py =   sin_angle * src_width + cos_angle * src_height;
+	pz = - sin_angle * src_width + cos_angle * src_height;
+
+	*alpha_plus_beta  = 1.0 + (px * src_height) / (py * src_width);
+	*gamma_plus_delta = 1.0 + (pz * src_width)  / (px * src_height);
+}
+
+
+void
 _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 					double     angle,
 					double     alpha,
 					double     beta,
+					double     gamma,
+					double     delta,
 					int       *x1,
-					int       *x2,
 					int       *y1,
+					int       *x2,
 					int       *y2)
 {
+	double angle_rad;
+	double cos_angle, sin_angle;
+	double src_width, src_height;
 
+	double xx1, yy1, xx2, yy2;
+	
+	angle = CLAMP (angle, -90.0, 90.0);
+	alpha = CLAMP (alpha,   0.0,  1.0);
+	beta  = CLAMP (beta,    0.0,  1.0);
+	gamma = CLAMP (gamma,   0.0,  1.0);
+	delta = CLAMP (delta,   0.0,  1.0);
+
+	angle_rad = fabs (angle) / 180.0 * PI;
+	
+	cos_angle = cos (angle_rad);
+	sin_angle = sin (angle_rad);
+
+	src_width  = gdk_pixbuf_get_width  (src_pixbuf) - 1;
+	src_height = gdk_pixbuf_get_height (src_pixbuf) - 1;
+
+	if (src_width > src_height) {
+		xx1 = alpha * src_width * cos_angle + src_height * sin_angle;
+		yy1 = alpha * src_width * sin_angle;
+	
+		xx2 = (1 - beta) * src_width * cos_angle;
+		yy2 = (1 - beta) * src_width * sin_angle + src_height * cos_angle;
+	}
+	else {
+		xx1 = gamma       * src_height * sin_angle;
+		yy1 = (1 - gamma) * src_height * cos_angle;
+	
+		xx2 = (1 - delta) * src_height * sin_angle + src_width * cos_angle;
+		yy2 = delta       * src_height * cos_angle + src_width * sin_angle;
+	}
+	
+	*x1 = ROUND (MIN (xx1, xx2));
+	*y1 = ROUND (MIN (yy1, yy2));
+	
+	*x2 = ROUND (MAX (xx1, xx2));
+	*y2 = ROUND (MAX (yy1, yy2));
 }
 
 
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
 	double     angle,
-	gint       high_quality)
+	gboolean   high_quality)
 {
 	const guchar R0 = 0;
 	const guchar G0 = 0;
@@ -86,7 +159,9 @@ rotate (GdkPixbuf *src_pixbuf,
 	guchar     g00, g01, g10, g11;
 	guchar     b00, b01, b10, b11;
 
-	angle_rad = angle / 180.0 * 3.1415926535;
+	angle = CLAMP (angle, -90.0, 90.0);
+
+	angle_rad = angle / 180.0 * PI;
 	
 	cos_angle = cos (angle_rad);
 	sin_angle = sin (angle_rad);
@@ -168,7 +243,7 @@ rotate (GdkPixbuf *src_pixbuf,
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		    double     angle,
-		    gint       high_quality)
+		    gboolean   high_quality)
 {
 	GdkPixbuf *new_pixbuf;
 	
