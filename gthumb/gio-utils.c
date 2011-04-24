@@ -1916,7 +1916,7 @@ _g_delete_files_async (GList        *file_list,
 }
 
 
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE (64 * 1024)
 
 
 gboolean
