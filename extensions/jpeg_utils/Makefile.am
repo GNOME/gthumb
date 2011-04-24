@@ -7,6 +7,8 @@ libjpeg_utils_la_SOURCES = 		\
 	jmemorydest.h			\
 	jmemorysrc.c			\
 	jmemorysrc.h			\
+	jpeg-exif-orientation.c		\
+	jpeg-exif-orientation.h		\
 	jpegtran.c			\
 	jpegtran.h			\
 	transupp.h			\
