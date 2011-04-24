@@ -306,6 +306,112 @@ _cairo_image_surface_scale_to (cairo_surface_t *surface,
 }
 
 
+void
+_cairo_image_surface_transform_get_steps (cairo_format_t  format,
+					  int             width,
+					  int             height,
+					  GthTransform    transform,
+					  int            *destination_width_p,
+					  int            *destination_height_p,
+					  int            *line_start_p,
+					  int            *line_step_p,
+					  int            *pixel_step_p)
+{
+	int destination_stride;
+	int destination_width = 0;
+	int destination_height = 0;
+	int line_start = 0;
+	int line_step = 0;
+	int pixel_step = 0;
+
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+	default:
+		destination_width = width;
+		destination_height = height;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = 0;
+		line_step = destination_stride;
+		pixel_step = 4;
+		break;
+
+	case GTH_TRANSFORM_FLIP_H:
+		destination_width = width;
+		destination_height = height;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = (destination_width - 1) * 4;
+		line_step = destination_stride;
+		pixel_step = -4;
+		break;
+
+	case GTH_TRANSFORM_ROTATE_180:
+		destination_width = width;
+		destination_height = height;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = ((destination_height - 1) * destination_stride) + ((destination_width - 1) * 4);
+		line_step = -destination_stride;
+		pixel_step = -4;
+		break;
+
+	case GTH_TRANSFORM_FLIP_V:
+		destination_width = width;
+		destination_height = height;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = (destination_height - 1) * destination_stride;
+		line_step = -destination_stride;
+		pixel_step = 4;
+		break;
+
+	case GTH_TRANSFORM_TRANSPOSE:
+		destination_width = height;
+		destination_height = width;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = 0;
+		line_step = 4;
+		pixel_step = destination_stride;
+		break;
+
+	case GTH_TRANSFORM_ROTATE_90:
+		destination_width = height;
+		destination_height = width;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = (destination_width - 1) * 4;
+		line_step = -4;
+		pixel_step = destination_stride;
+		break;
+
+	case GTH_TRANSFORM_TRANSVERSE:
+		destination_width = height;
+		destination_height = width;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = ((destination_height - 1) * destination_stride) + ((destination_width - 1) * 4);
+		line_step = -4;
+		pixel_step = -destination_stride;
+		break;
+
+	case GTH_TRANSFORM_ROTATE_270:
+		destination_width = height;
+		destination_height = width;
+		destination_stride = cairo_format_stride_for_width (format, destination_width);
+		line_start = (destination_height - 1) * destination_stride;
+		line_step = 4;
+		pixel_step = -destination_stride;
+		break;
+	}
+
+	if (destination_width_p != NULL)
+		*destination_width_p = destination_width;
+	if (destination_height_p != NULL)
+		*destination_height_p = destination_height;
+	if (line_start_p != NULL)
+		*line_start_p = line_start;
+	if (line_step_p != NULL)
+		*line_step_p = line_step;
+	if (pixel_step_p != NULL)
+		*pixel_step_p = pixel_step;
+}
+
+
 cairo_surface_t *
 _cairo_image_surface_transform (cairo_surface_t *source,
 				GthTransform     transform)
@@ -315,6 +421,11 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 	int              width;
 	int              height;
 	int              source_stride;
+	int              destination_width;
+	int              destination_height;
+	int              line_start;
+	int              line_step;
+	int              pixel_step;
 	int              destination_stride;
 	unsigned char   *p_source_line;
 	unsigned char   *p_destination_line;
@@ -330,135 +441,30 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 	height = cairo_image_surface_get_height (source);
 	source_stride = cairo_image_surface_get_stride (source);
 
-	switch (transform) {
-	case GTH_TRANSFORM_NONE:
-		destination = _cairo_image_surface_copy (source);
-		break;
+	_cairo_image_surface_transform_get_steps (format,
+						  width,
+						  height,
+						  transform,
+						  &destination_width,
+						  &destination_height,
+						  &line_start,
+						  &line_step,
+						  &pixel_step);
 
-	case GTH_TRANSFORM_FLIP_H:
-		destination = cairo_image_surface_create (format, width, height);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * 4);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination -= 4;
-			}
-			p_source_line += source_stride;
-			p_destination_line += destination_stride;
+	destination = cairo_image_surface_create (format, destination_width, destination_height);
+	destination_stride = cairo_image_surface_get_stride (destination);
+	p_source_line = cairo_image_surface_get_data (source);
+	p_destination_line = cairo_image_surface_get_data (destination) + line_start;
+	while (height-- > 0) {
+		p_source = p_source_line;
+		p_destination = p_destination_line;
+		for (x = 0; x < width; x++) {
+			memcpy (p_destination, p_source, 4);
+			p_source += 4;
+			p_destination += pixel_step;
 		}
-		break;
-
-	case GTH_TRANSFORM_ROTATE_180:
-		destination = cairo_image_surface_create (format, width, height);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * destination_stride) + ((width - 1) * 4);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination -= 4;
-			}
-			p_source_line += source_stride;
-			p_destination_line -= destination_stride;
-		}
-		break;
-
-	case GTH_TRANSFORM_FLIP_V:
-		destination = cairo_image_surface_create (format, width, height);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		g_return_val_if_fail (source_stride == destination_stride, NULL);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * destination_stride);
-		while (height-- > 0) {
-			memcpy (p_destination_line, p_source_line, source_stride);
-			p_source_line += source_stride;
-			p_destination_line -= destination_stride;
-		}
-		break;
-
-	case GTH_TRANSFORM_TRANSPOSE:
-		destination = cairo_image_surface_create (format, height, width);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination += destination_stride;
-			}
-			p_source_line += source_stride;
-			p_destination_line += 4;
-		}
-		break;
-
-	case GTH_TRANSFORM_ROTATE_90:
-		destination = cairo_image_surface_create (format, height, width);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((height - 1) * 4);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination += destination_stride;
-			}
-			p_source_line += source_stride;
-			p_destination_line -= 4;
-		}
-		break;
-
-	case GTH_TRANSFORM_TRANSVERSE:
-		destination = cairo_image_surface_create (format, height, width);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * destination_stride) + ((height - 1) * 4);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination -= destination_stride;
-			}
-			p_source_line += source_stride;
-			p_destination_line -= 4;
-		}
-		break;
-
-	case GTH_TRANSFORM_ROTATE_270:
-		destination = cairo_image_surface_create (format, height, width);
-		destination_stride = cairo_image_surface_get_stride (destination);
-		p_source_line = cairo_image_surface_get_data (source);
-		p_destination_line = cairo_image_surface_get_data (destination) + ((width - 1) * destination_stride);
-		while (height-- > 0) {
-			p_source = p_source_line;
-			p_destination = p_destination_line;
-			for (x = 0; x < width; x++) {
-				memcpy (p_destination, p_source, 4);
-				p_source += 4;
-				p_destination -= destination_stride;
-			}
-			p_source_line += source_stride;
-			p_destination_line += 4;
-		}
-		break;
-
-	default:
-		g_warning ("_cairo_image_surface_transform: unknown transformation value %d", transform);
-		break;
+		p_source_line += source_stride;
+		p_destination_line += line_step;
 	}
 
 	return destination;

@@ -147,6 +147,15 @@ cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t   *
 							     int                width,
 							     int                height,
 							     cairo_filter_t     filter);
+void               _cairo_image_surface_transform_get_steps (cairo_format_t     format,
+							     int                width,
+							     int                height,
+							     GthTransform       transform,
+							     int               *destination_width_p,
+							     int               *destination_height_p,
+							     int               *line_start_p,
+							     int               *line_step_p,
+							     int               *pixel_step_p);
 cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t   *surface,
 							     GthTransform       transform);
 
