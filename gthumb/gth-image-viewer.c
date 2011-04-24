@@ -1659,13 +1659,49 @@ gth_image_viewer_set_animation (GthImageViewer     *self,
 }
 
 
-void
-gth_image_viewer_set_better_quality (GthImageViewer     *self,
-				     GdkPixbufAnimation *animation,
-				     int                 original_width,
-				     int                 original_height)
+static void
+_set_surface (GthImageViewer  *self,
+	      cairo_surface_t *surface,
+	      int              original_width,
+	      int              original_height,
+	      gboolean         better_quality)
 {
-	_set_animation (self, animation, original_width, original_height, TRUE);
+	_cairo_clear_surface (&self->priv->surface);
+	_cairo_clear_surface (&self->priv->iter_surface);
+	_g_clear_object (&self->priv->animation);
+	_g_clear_object (&self->priv->iter);
+
+	self->priv->surface = cairo_surface_reference (surface);
+	self->priv->is_void = (self->priv->surface == NULL);
+	self->priv->is_animation = FALSE;
+	_gth_image_viewer_set_original_size (self, original_width, original_height);
+
+	_gth_image_viewer_content_changed (self, better_quality);
+}
+
+
+void
+gth_image_viewer_set_better_quality (GthImageViewer *self,
+				     GthImage       *image,
+				     int             original_width,
+				     int             original_height)
+{
+	if (gth_image_is_animation (image)) {
+		GdkPixbufAnimation *animation;
+
+		animation = gth_image_get_pixbuf_animation (image);
+		_set_animation (self, animation, original_width, original_height, TRUE);
+
+		g_object_unref (animation);
+	}
+	else {
+		cairo_surface_t *surface;
+
+		surface = gth_image_get_cairo_surface (image);
+		_set_surface (self, surface, original_width, original_height, TRUE);
+
+		cairo_surface_destroy (surface);
+	}
 }
 
 
@@ -1692,19 +1728,7 @@ gth_image_viewer_set_surface (GthImageViewer  *self,
 			      int              original_width,
 			      int              original_height)
 {
-	g_return_if_fail (self != NULL);
-
-	_cairo_clear_surface (&self->priv->surface);
-	_cairo_clear_surface (&self->priv->iter_surface);
-	_g_clear_object (&self->priv->animation);
-	_g_clear_object (&self->priv->iter);
-
-	self->priv->surface = cairo_surface_reference (surface);
-	self->priv->is_void = (self->priv->surface == NULL);
-	self->priv->is_animation = FALSE;
-	_gth_image_viewer_set_original_size (self, original_width, original_height);
-
-	_gth_image_viewer_content_changed (self, FALSE);
+	_set_surface (self, surface, original_width, original_height, FALSE);
 }
 
 

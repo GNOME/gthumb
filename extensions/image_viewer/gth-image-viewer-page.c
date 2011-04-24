@@ -322,7 +322,7 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 static void
 image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 				        GthFileData        *requested,
-				        GdkPixbufAnimation *animation,
+				        GthImage           *image,
 				        int                 original_width,
 				        int                 original_height,
 				        GError             *error,
@@ -335,7 +335,7 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 		return;
 
 	gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
-					     animation,
+					     image,
 					     original_width,
 					     original_height);
 	gth_image_history_clear (self->priv->history);
@@ -819,6 +819,8 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthFileData        *next_file_data = NULL;
 	GthFileData        *next2_file_data = NULL;
 	GthFileData        *prev_file_data = NULL;
+	int                 window_width;
+	int                 window_height;
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -858,9 +860,13 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 			prev_file_data = gth_file_store_get_file (file_store, &iter2);
 	}
 
+	gtk_window_get_size (GTK_WINDOW (self->priv->browser),
+			     &window_width,
+			     &window_height);
+
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
-				  -1,
+				  (gth_image_prelaoder_get_load_policy (self->priv->preloader) == GTH_LOAD_POLICY_TWO_STEPS) ? MAX (window_width, window_height) : -1,
 				  next_file_data,
 				  next2_file_data,
 				  prev_file_data,

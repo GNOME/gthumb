@@ -171,7 +171,7 @@ void           gth_image_viewer_set_image                (GthImageViewer     *vi
 							  int                 original_width,
 							  int                 original_height);
 void           gth_image_viewer_set_better_quality       (GthImageViewer     *viewer,
-							  GdkPixbufAnimation *animation,
+						          GthImage           *image,
 							  int                 original_width,
 							  int                 original_height);
 void           gth_image_viewer_set_void                 (GthImageViewer     *viewer);

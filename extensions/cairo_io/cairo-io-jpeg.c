@@ -144,6 +144,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 				       GError       **error)
 {
 	GthImage                      *image;
+	gboolean                       load_scaled;
 	GthTransform                   orientation;
 	int                            destination_width;
 	int                            destination_height;
@@ -194,8 +195,9 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	srcinfo.out_color_space = srcinfo.jpeg_color_space; /* make all the color space conversions manually */
 
-	if (requested_size > 0) {
-		for (srcinfo.scale_denom = 16; srcinfo.scale_denom >= 1; srcinfo.scale_denom--) {
+	load_scaled = (requested_size > 0) && (requested_size < srcinfo.image_width) && (requested_size < srcinfo.image_height);
+	if (load_scaled) {
+		for (srcinfo.scale_denom = 1; srcinfo.scale_denom <= 16; srcinfo.scale_denom++) {
 			jpeg_calc_output_dimensions (&srcinfo);
 			if ((srcinfo.output_width < requested_size) || (srcinfo.output_height < requested_size)) {
 				srcinfo.scale_denom += 1;
@@ -205,6 +207,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 		if (srcinfo.scale_denom == 0)
 			srcinfo.scale_denom = srcinfo.scale_num;
+
+		jpeg_calc_output_dimensions (&srcinfo);
 	}
 
 	jpeg_start_decompress (&srcinfo);
@@ -219,6 +223,15 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						  &line_start,
 						  &line_step,
 						  &pixel_step);
+
+#if 0
+	g_print ("requested: %d, original [%d, %d] ==> load at [%d, %d]\n",
+			requested_size,
+			srcinfo.image_width,
+			srcinfo.image_height,
+			destination_width,
+			destination_height);
+#endif
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
 	surface_row = cairo_image_surface_get_data (surface) + line_start;
@@ -454,7 +467,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	if (! g_cancellable_is_cancelled (cancellable)) {
 		/* Scale to the requested size */
 
-		if (requested_size > 0) {
+		if (load_scaled) {
 			cairo_surface_t *scaled;
 			int              width;
 			int              height;
