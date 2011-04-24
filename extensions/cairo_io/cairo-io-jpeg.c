@@ -27,10 +27,12 @@
 #include <jpeglib.h>
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jmemorysrc.h>
+#include <extensions/jpeg_utils/jpeg-exif-orientation.h>
 #include "cairo-io-jpeg.h"
 
 
 /* error handler data */
+
 
 struct error_handler_data {
 	struct jpeg_error_mgr   pub;
@@ -142,12 +144,17 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 				       GError       **error)
 {
 	GthImage                      *image;
+	GthTransform                   orientation;
+	int                            destination_width;
+	int                            destination_height;
+	int                            line_start;
+	int                            line_step;
+	int                            pixel_step;
 	void                          *in_buffer;
 	gsize                          in_buffer_size;
 	struct error_handler_data      jsrcerr;
 	struct jpeg_decompress_struct  srcinfo;
 	cairo_surface_t               *surface;
-	int                            surface_stride;
 	unsigned char                 *surface_row;
 	JSAMPARRAY                     buffer;
 	int                            buffer_stride;
@@ -185,16 +192,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	jpeg_read_header (&srcinfo, TRUE);
 
-	/* FIXME: read the orientation flag and rotate the image */
-
-	if (original_width != NULL)
-		*original_width = srcinfo.image_width;
-	if (original_height != NULL)
-		*original_height = srcinfo.image_height;
-
 	srcinfo.out_color_space = srcinfo.jpeg_color_space; /* make all the color space conversions manually */
 
-	/* FIXME
 	if (requested_size > 0) {
 		for (srcinfo.scale_denom = 16; srcinfo.scale_denom >= 1; srcinfo.scale_denom--) {
 			jpeg_calc_output_dimensions (&srcinfo);
@@ -207,13 +206,22 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 		if (srcinfo.scale_denom == 0)
 			srcinfo.scale_denom = srcinfo.scale_num;
 	}
-	*/
 
 	jpeg_start_decompress (&srcinfo);
 
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, srcinfo.output_width, srcinfo.output_height);
-	surface_stride = cairo_image_surface_get_stride (surface);
-	surface_row = cairo_image_surface_get_data (surface);
+	orientation = _jpeg_exif_orientation (in_buffer, in_buffer_size);
+	_cairo_image_surface_transform_get_steps (CAIRO_FORMAT_ARGB32,
+						  srcinfo.output_width,
+						  srcinfo.output_height,
+						  orientation,
+						  &destination_width,
+						  &destination_height,
+						  &line_start,
+						  &line_step,
+						  &pixel_step);
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
+	surface_row = cairo_image_surface_get_data (surface) + line_start;
 
 	buffer_stride = srcinfo.output_width * srcinfo.output_components;
 	buffer = (*srcinfo.mem->alloc_sarray) ((j_common_ptr) &srcinfo, JPOOL_IMAGE, buffer_stride, srcinfo.rec_outbuf_height);
@@ -258,11 +266,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						p_surface[CAIRO_BLUE]  = cmyk_tab[ki + y];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
-						p_surface += 4;
+						p_surface += pixel_step;
 						p_buffer += 4 /*srcinfo.output_components*/;
 					}
 
-					surface_row += surface_stride;
+					surface_row += line_step;
 					buffer_row += buffer_stride;
 				}
 			}
@@ -288,11 +296,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						p_surface[CAIRO_BLUE]  = p_buffer[0];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
-						p_surface += 4;
+						p_surface += pixel_step;
 						p_buffer += 1 /*srcinfo.output_components*/;
 					}
 
-					surface_row += surface_stride;
+					surface_row += line_step;
 					buffer_row += buffer_stride;
 				}
 			}
@@ -318,11 +326,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						p_surface[CAIRO_BLUE]  = p_buffer[2];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
-						p_surface += 4;
+						p_surface += pixel_step;
 						p_buffer += 3 /*srcinfo.output_components*/;
 					}
 
-					surface_row += surface_stride;
+					surface_row += line_step;
 					buffer_row += buffer_stride;
 				}
 			}
@@ -365,11 +373,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						p_surface[CAIRO_BLUE]  = range_limit[Y + b_cb_tab[Cb]];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
-						p_surface += 4;
+						p_surface += pixel_step;
 						p_buffer += 3 /*srcinfo.output_components*/;
 					}
 
-					surface_row += surface_stride;
+					surface_row += line_step;
 					buffer_row += buffer_stride;
 				}
 			}
@@ -422,11 +430,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						p_surface[CAIRO_BLUE]  = cmyk_tab[Ki + y];
 						p_surface[CAIRO_ALPHA] = 0xff;
 
-						p_surface += 4;
+						p_surface += pixel_step;
 						p_buffer += 4 /*srcinfo.output_components*/;
 					}
 
-					surface_row += surface_stride;
+					surface_row += line_step;
 					buffer_row += buffer_stride;
 				}
 			}
@@ -444,12 +452,49 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	}
 
 	if (! g_cancellable_is_cancelled (cancellable)) {
-		jpeg_finish_decompress (&srcinfo);
-		jpeg_destroy_decompress (&srcinfo);
+		/* Scale to the requested size */
 
-		/* FIXME: scale to the requested size */
+		if (requested_size > 0) {
+			cairo_surface_t *scaled;
+			int              width;
+			int              height;
+
+			width = destination_width;
+			height = destination_height;
+			scale_keeping_ratio (&width, &height, requested_size, requested_size, TRUE);
+			scaled = _cairo_image_surface_scale_to (surface, width, height, CAIRO_FILTER_BILINEAR);
+
+			cairo_surface_destroy (surface);
+			surface = scaled;
+		}
+
+		/* Set the original dimensions */
+
+		if ((orientation == GTH_TRANSFORM_ROTATE_90)
+		     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
+		     ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
+		     ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
+		{
+			if (original_width != NULL)
+				*original_width = srcinfo.image_height;
+			if (original_height != NULL)
+				*original_height = srcinfo.image_width;
+		}
+		else {
+			if (original_width != NULL)
+				*original_width = srcinfo.image_width;
+			if (original_height != NULL)
+				*original_height = srcinfo.image_height;
+		}
+
+		/*_cairo_image_surface_set_attribute_int (surface, "Image::Rotation", rotation); FIXME*/
+
+		/* FIXME _cairo_image_surface_set_attribute (surface, "Jpeg::ColorSpace", jpeg_color_space_name (srcinfo.jpeg_color_space)); */
 
 		gth_image_set_cairo_surface (image, surface);
+
+		jpeg_finish_decompress (&srcinfo);
+		jpeg_destroy_decompress (&srcinfo);
 	}
 	else
 		jpeg_destroy ((j_common_ptr) &srcinfo);
