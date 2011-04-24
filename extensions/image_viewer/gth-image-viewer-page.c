@@ -47,6 +47,7 @@ struct _GthImageViewerPagePrivate {
 	gboolean           image_changed;
 	gboolean           shrink_wrap;
 	GFile             *last_loaded;
+	gboolean           can_paste;
 };
 
 static gpointer gth_image_viewer_page_parent_class = NULL;
@@ -58,6 +59,9 @@ static const char *image_viewer_ui_info =
 "      <placeholder name='File_Actions_1'>"
 "        <menuitem action='ImageViewer_Edit_Undo'/>"
 "        <menuitem action='ImageViewer_Edit_Redo'/>"
+"        <separator />"
+"        <menuitem action='ImageViewer_Edit_Copy_Image'/>"
+"        <menuitem action='ImageViewer_Edit_Paste_Image'/>"
 "      </placeholder>"
 "    </menu>"
 "    <menu name='View' action='ViewMenu'>"
@@ -150,6 +154,22 @@ image_viewer_activate_action_edit_redo (GtkAction          *action,
 
 
 static void
+image_viewer_activate_action_edit_copy_image (GtkAction          *action,
+					      GthImageViewerPage *self)
+{
+	gth_image_viewer_page_copy_image (self);
+}
+
+
+static void
+image_viewer_activate_action_edit_paste_image (GtkAction          *action,
+					       GthImageViewerPage *self)
+{
+	gth_image_viewer_page_paste_image (self);
+}
+
+
+static void
 image_viewer_activate_action_view_shrink_wrap (GtkAction          *action,
 					       GthImageViewerPage *self)
 {
@@ -167,6 +187,16 @@ static GtkActionEntry image_viewer_action_entries[] = {
 	  NULL, "<shift><control>z",
 	  NULL,
 	  G_CALLBACK (image_viewer_activate_action_edit_redo) },
+
+	{ "ImageViewer_Edit_Copy_Image", GTK_STOCK_COPY,
+	  N_("Copy Image"), "<control>c",
+	  N_("Copy the image to the clipboard"),
+	  G_CALLBACK (image_viewer_activate_action_edit_copy_image) },
+
+	{ "ImageViewer_Edit_Paste_Image", GTK_STOCK_PASTE,
+	  N_("Paste Image"), "<control>p",
+	  N_("Paste the image from the clipboard"),
+	  G_CALLBACK (image_viewer_activate_action_edit_paste_image) },
 
 	{ "ImageViewer_View_ZoomIn", GTK_STOCK_ZOOM_IN,
 	  N_("In"), "<control>plus",
@@ -282,6 +312,91 @@ viewer_key_press_cb (GtkWidget          *widget,
 		     GthImageViewerPage *self)
 {
 	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
+}
+
+
+static void
+_set_action_sensitive (GthImageViewerPage *self,
+		       const char         *action_name,
+		       gboolean            sensitive)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (self->priv->actions, action_name);
+	g_object_set (action, "sensitive", sensitive, NULL);
+}
+
+
+static void
+clipboard_targets_received_cb (GtkClipboard *clipboard,
+			       GdkAtom      *atoms,
+                               int           n_atoms,
+                               gpointer      user_data)
+{
+	GthImageViewerPage *self = user_data;
+	int                 i;
+
+	self->priv->can_paste = FALSE;
+	for (i = 0; ! self->priv->can_paste && (i < n_atoms); i++)
+		if (atoms[i] == gdk_atom_intern_static_string ("image/png"))
+			self->priv->can_paste = TRUE;
+
+	_set_action_sensitive (self, "ImageViewer_Edit_Paste_Image", self->priv->can_paste);
+
+	g_object_unref (self);
+}
+
+
+static void
+_gth_image_viewer_page_update_paste_command_sensitivity (GthImageViewerPage *self,
+							 GtkClipboard       *clipboard)
+{
+	self->priv->can_paste = FALSE;
+        _set_action_sensitive (self, "ImageViewer_Edit_Paste_Image", FALSE);
+
+	if (clipboard == NULL)
+		clipboard = gtk_widget_get_clipboard (GTK_WIDGET (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_request_targets (clipboard,
+				       clipboard_targets_received_cb,
+				       g_object_ref (self));
+}
+
+
+static void
+clipboard_owner_change_cb (GtkClipboard *clipboard,
+                           GdkEvent     *event,
+                           gpointer      user_data)
+{
+	_gth_image_viewer_page_update_paste_command_sensitivity ((GthImageViewerPage *) user_data, clipboard);
+}
+
+
+static void
+viewer_realize_cb (GtkWidget *widget,
+                   gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+	GtkClipboard       *clipboard;
+
+	clipboard = gtk_widget_get_clipboard (self->priv->viewer, GDK_SELECTION_CLIPBOARD);
+	g_signal_connect (clipboard,
+	                  "owner_change",
+	                  G_CALLBACK (clipboard_owner_change_cb),
+	                  self);
+}
+
+
+static void
+viewer_unrealize_cb (GtkWidget *widget,
+		     gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+	GtkClipboard       *clipboard;
+
+	clipboard = gtk_widget_get_clipboard (self->priv->viewer, GDK_SELECTION_CLIPBOARD);
+	g_signal_handlers_disconnect_by_func (clipboard,
+	                                      G_CALLBACK (clipboard_owner_change_cb),
+	                                      self);
 }
 
 
@@ -674,6 +789,14 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			  "key_press_event",
 			  G_CALLBACK (viewer_key_press_cb),
 			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "realize",
+			  G_CALLBACK (viewer_realize_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "unrealize",
+			  G_CALLBACK (viewer_unrealize_cb),
+			  self);
 
 	self->priv->image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_show (self->priv->image_navigator);
@@ -920,18 +1043,6 @@ gth_image_viewer_page_real_show_pointer (GthViewerPage *base,
 
 
 static void
-_set_action_sensitive (GthImageViewerPage *self,
-		       const char         *action_name,
-		       gboolean            sensitive)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (self->priv->actions, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
-}
-
-
-static void
 gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
@@ -954,6 +1065,8 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
 	_set_action_sensitive (self, "ImageViewer_View_ZoomFit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
 	_set_action_sensitive (self, "ImageViewer_View_ZoomFitWidth", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
+
+	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
 }
 
 
@@ -1301,6 +1414,7 @@ gth_image_viewer_page_instance_init (GthImageViewerPage *self)
 	self->priv->shrink_wrap = FALSE;
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;
+	self->priv->can_paste = FALSE;
 }
 
 
@@ -1534,4 +1648,48 @@ gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
 	if (gth_window_get_current_page (GTH_WINDOW (self->priv->browser)) == GTH_BROWSER_PAGE_VIEWER)
 		gth_window_apply_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
+}
+
+
+void
+gth_image_viewer_page_copy_image (GthImageViewerPage *self)
+{
+	cairo_surface_t *image;
+	GtkClipboard    *clipboard;
+	GdkPixbuf       *pixbuf;
+
+	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if (image == NULL)
+		return;
+
+	clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
+	pixbuf = _gdk_pixbuf_new_from_cairo_surface (image);
+	gtk_clipboard_set_image (clipboard, pixbuf);
+
+	g_object_unref (pixbuf);
+}
+
+
+static void
+clipboard_image_received_cb (GtkClipboard *clipboard,
+			     GdkPixbuf    *pixbuf,
+			     gpointer      user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (pixbuf != NULL)
+		gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
+	g_object_unref (self);
+}
+
+
+void
+gth_image_viewer_page_paste_image (GthImageViewerPage *self)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_request_image (clipboard,
+				     clipboard_image_received_cb,
+				     g_object_ref (self));
 }
