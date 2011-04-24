@@ -28,10 +28,12 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+#ifdef HAVE_LIBJPEG
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_jpeg,
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/jpeg",
 					     NULL);
+#endif
 }
 
 

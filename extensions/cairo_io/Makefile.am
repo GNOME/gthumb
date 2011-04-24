@@ -2,13 +2,21 @@ extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcairo_io.la
 
 libcairo_io_la_SOURCES = 	\
-	cairo-io-jpeg.c		\
-	cairo-io-jpeg.h		\
 	main.c
 
-libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+if ENABLE_JPEG_TOOLS
+libcairo_io_la_SOURCES +=	\
+	cairo-io-jpeg.c		\
+	cairo-io-jpeg.h
+endif
+
+libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
 libcairo_io_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libcairo_io_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) ../jpeg_utils/libjpeg_utils.la
+libcairo_io_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS)
+if ENABLE_JPEG_TOOLS
+libcairo_io_la_LIBADD += ../jpeg_utils/libjpeg_utils.la
+endif
+
 libcairo_io_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
