@@ -52,10 +52,7 @@ struct _GthFileToolRotatePrivate {
 	GthImageSelector *selector_align;
 	guint             selector_align_point;
 	guint             apply_event;
-	int               crop_x;
-	int               crop_y;
-	int               crop_width;
-	int               crop_height;
+	GdkRectangle      crop_region;
 };
 
 
@@ -136,10 +133,10 @@ crop_button_clicked_cb (GtkButton         *button,
 	GdkPixbuf *temp_pixbuf;
 	
 	temp_pixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf,
-						self->priv->crop_x,
-						self->priv->crop_y,
-						self->priv->crop_width,
-						self->priv->crop_height);
+						self->priv->crop_region.x,
+						self->priv->crop_region.y,
+						self->priv->crop_region.width,
+						self->priv->crop_region.height);
 	
 	_g_object_unref (self->priv->dest_pixbuf);
 	self->priv->dest_pixbuf = temp_pixbuf;
@@ -219,7 +216,7 @@ update_crop_region (gpointer user_data)
 	enable_guided_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->enable_guided_crop));
 
 	if (enable_guided_crop) {
-
+		
 		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), TRUE);
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_button"), TRUE);
 		
@@ -251,19 +248,11 @@ update_crop_region (gpointer user_data)
 		
 		_gdk_pixbuf_rotate_get_cropping_region (self->priv->src_pixbuf, rotation_angle,
 							crop_alpha, crop_beta, crop_gamma, crop_delta,
-							&self->priv->crop_x,
-							&self->priv->crop_y,
-							&self->priv->crop_width,
-							&self->priv->crop_height);
+							&self->priv->crop_region);
 
 		gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_crop);
 
-		gth_image_selector_set_selection_pos (self->priv->selector_crop,
-						      self->priv->crop_x,
-						      self->priv->crop_y);
-						      
-		gth_image_selector_set_selection_width  (self->priv->selector_crop, self->priv->crop_width);
-		gth_image_selector_set_selection_height (self->priv->selector_crop, self->priv->crop_height);
+		gth_image_selector_set_selection (self->priv->selector_crop, self->priv->crop_region);
 	}
 	else {
 		gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);

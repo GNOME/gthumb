@@ -78,15 +78,12 @@ _gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
 
 void
 _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
-					double     angle,
-					double     alpha,
-					double     beta,
-					double     gamma,
-					double     delta,
-					int       *x,
-					int       *y,
-					int       *width,
-					int       *height)
+					double        angle,
+					double        alpha,
+					double        beta,
+					double        gamma,
+					double        delta,
+					GdkRectangle *region)
 {
 	double angle_rad;
 	double cos_angle, sin_angle;
@@ -133,11 +130,11 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 		xx2 = new_width - xx2;
 	}
 
-	*x = ROUND (MIN (xx1, xx2));
-	*y = ROUND (MIN (yy1, yy2));
+	region->x = ROUND (MIN (xx1, xx2));
+	region->y = ROUND (MIN (yy1, yy2));
 	
-	*width  = ROUND (MAX (xx1, xx2)) - *x;
-	*height = ROUND (MAX (yy1, yy2)) - *y;
+	region->width  = ROUND (MAX (xx1, xx2)) - region->x + 1;
+	region->height = ROUND (MAX (yy1, yy2)) - region->y + 1;
 }
 
 
