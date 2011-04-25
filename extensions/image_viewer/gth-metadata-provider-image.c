@@ -25,7 +25,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gthumb.h>
 #if HAVE_LIBJPEG
-#include <extensions/jpeg_utils/jmemorysrc.h>
 #include <extensions/jpeg_utils/jpeg-info.h>
 #endif /* HAVE_LIBJPEG */
 #include "gth-metadata-provider-image.h"
