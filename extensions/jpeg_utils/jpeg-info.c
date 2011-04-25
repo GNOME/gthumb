@@ -290,7 +290,7 @@ _jpeg_get_image_info (GInputStream  *stream,
 	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
 		gboolean segment_data_consumed = FALSE;
 
-		if ((marker_id == 0xc0) || (marker_id == 0xc2)) { /* SOF */
+		if ((marker_id == 0xc0) || (marker_id == 0xc2)) { /* SOF0 or SOF1 */
 			guint h, l;
 			guint size;
 
