@@ -1803,6 +1803,11 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (file_list->priv->cancelling)
 		return;
 
+	if (! file_list->priv->load_thumbs) {
+		_gth_file_list_thumbs_completed (file_list);
+		return;
+	}
+
 	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
 	/* Find first visible undone. */
