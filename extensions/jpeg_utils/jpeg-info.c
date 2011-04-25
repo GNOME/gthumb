@@ -29,11 +29,7 @@ _g_input_stream_read_byte (GInputStream  *stream,
 			   GError       **error)
 {
 	guchar v;
-
-	if (g_input_stream_read (stream, &v, 1, cancellable, error) > 0)
-		return v;
-	else
-		return 0;
+	return (g_input_stream_read (stream, &v, 1, cancellable, error) > 0) ? v : 0;
 }
 
 
@@ -273,19 +269,12 @@ _jpeg_get_image_info (GInputStream  *stream,
 		      GError       **error)
 {
 	gboolean size_read;
-	gboolean orientation_read;
-	int      n_marker = 0;
 	guchar   marker_id;
 
 	size_read = FALSE;
 
-	if (orientation != NULL) {
+	if (orientation != NULL)
 		*orientation = GTH_TRANSFORM_NONE;
-		orientation_read = FALSE;
-	}
-	else
-		/* no need to search for the orientation flag if orientation is NULL */
-		orientation_read = TRUE;
 
 	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
 		gboolean segment_data_consumed = FALSE;
@@ -320,13 +309,14 @@ _jpeg_get_image_info (GInputStream  *stream,
 
 			size_read = TRUE;
 
-			/* skip to the end of the segment */
+			/* Skip to the end of the segment. In general this is
+			 * needed but in this case we exit after reading the
+			 * size. */
+			/* g_input_stream_skip (stream, size - 7, cancellable, error); */
 
-			g_input_stream_skip (stream, size - 7, cancellable, error);
 			segment_data_consumed = TRUE;
 		}
-
-		if ((n_marker == 1) && (marker_id == 0xe1)) { /* APP1 */
+		else if (marker_id == 0xe1) { /* APP1 */
 			guint   h, l;
 			gsize   size;
 			guchar *app1_segment;
@@ -341,13 +331,13 @@ _jpeg_get_image_info (GInputStream  *stream,
 			if (g_input_stream_read (stream, app1_segment, size, cancellable, error) > 0)
 				*orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, size);
 
-			orientation_read = TRUE;
 			segment_data_consumed = TRUE;
 
 			g_free (app1_segment);
 		}
 
-		n_marker++;
+		/* If we have read the size we are done because the APP1
+		 * segment, if present, is always the first.  */
 
 		if (size_read)
 			break;
