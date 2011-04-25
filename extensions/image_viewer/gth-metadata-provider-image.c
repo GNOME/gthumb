@@ -20,9 +20,14 @@
  */
 
 #include <config.h>
+#include <setjmp.h>
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gthumb.h>
+#if HAVE_LIBJPEG
+#include <extensions/jpeg_utils/jmemorysrc.h>
+#include <extensions/jpeg_utils/jpeg-info.h>
+#endif /* HAVE_LIBJPEG */
 #include "gth-metadata-provider-image.h"
 
 
@@ -47,27 +52,104 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 }
 
 
+#define BUFFER_SIZE 32
+
+
 static void
 gth_metadata_provider_image_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	GdkPixbufFormat *format;
-	char            *filename;
-	int              width, height;
+	gboolean          format_recognized;
+	GFileInputStream *stream;
+	char             *description;
+	int               width;
+	int               height;
 
 	if (! _g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
 		return;
 
-	filename = g_file_get_path (file_data->file);
-	if (filename == NULL)
-		return;
+	format_recognized = FALSE;
 
-	format = gdk_pixbuf_get_file_info (filename, &width, &height);
-	if (format != NULL) {
+	stream = g_file_read (file_data->file, NULL, NULL);
+	if (stream != NULL) {
+		int     buffer_size;
+		guchar *buffer;
+		gssize  size;
+
+		buffer_size = BUFFER_SIZE;
+		buffer = g_new (guchar, buffer_size);
+		size = g_input_stream_read (G_INPUT_STREAM (stream),
+					    buffer,
+					    buffer_size,
+					    NULL,
+					    NULL);
+		if (size >= 0) {
+#if HAVE_LIBJPEG
+			if ((size >= 4)
+			    && (buffer[0] == 0xff)
+			    && (buffer[1] == 0xd8)
+			    && (buffer[2] == 0xff))
+			{
+				GthTransform orientation;
+
+				if (g_seekable_can_seek (G_SEEKABLE (stream))) {
+					g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
+				}
+				else {
+					g_object_unref (stream);
+					stream = g_file_read (file_data->file, NULL, NULL);
+				}
+
+				if (_jpeg_get_image_info (G_INPUT_STREAM (stream),
+							  &width,
+							  &height,
+							  &orientation,
+							  NULL,
+							  NULL))
+				{
+					format_recognized = TRUE;
+					description = "JPEG";
+
+					if ((orientation == GTH_TRANSFORM_ROTATE_90)
+					     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
+					     ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
+					     ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
+					{
+						int tmp = width;
+						width = height;
+						height = tmp;
+					}
+				}
+			}
+#endif /* HAVE_LIBJPEG */
+		}
+
+		g_free (buffer);
+		g_object_unref (stream);
+	}
+
+	if (! format_recognized) { /* use gdk_pixbuf_get_file_info */
+		char *filename;
+
+		filename = g_file_get_path (file_data->file);
+		if (filename != NULL) {
+			GdkPixbufFormat  *format;
+
+			format = gdk_pixbuf_get_file_info (filename, &width, &height);
+			if (format != NULL) {
+				format_recognized = TRUE;
+				description = gdk_pixbuf_format_get_description (format);
+			}
+
+			g_free (filename);
+		}
+	}
+
+	if (format_recognized) {
 		char *size;
 
-		g_file_info_set_attribute_string (file_data->info, "general::format", gdk_pixbuf_format_get_description (format));
+		g_file_info_set_attribute_string (file_data->info, "general::format", description);
 
 		g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
 		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
@@ -79,8 +161,6 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 		g_free (size);
 	}
-
-	g_free (filename);
 }
 
 
