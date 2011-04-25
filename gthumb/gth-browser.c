@@ -2881,6 +2881,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 	}
 
 	_gth_browser_update_statusbar_list_info (browser);
+	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
 
 	_g_object_list_unref (visible_folders);
