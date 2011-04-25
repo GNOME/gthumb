@@ -677,7 +677,7 @@ assign_loaders (LoadData *load_data)
 
 		preloader = self->priv->loader[k];
 		preloader_set_file_data (preloader, file_data);
-		preloader->requested_size = load_data->requested_size;
+		preloader->requested_size = (file_data == load_data->requested) ? load_data->requested_size  : -1;
 		preloader->token = load_data->token;
 
 		if (file_data == load_data->requested) {
