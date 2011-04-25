@@ -23,15 +23,31 @@
 #include <config.h>
 #include "jpeg-info.h"
 
+static guchar
+_g_input_stream_read_byte (GInputStream  *stream,
+			   GCancellable  *cancellable,
+			   GError       **error)
+{
+	guchar v;
+
+	if (g_input_stream_read (stream, &v, 1, cancellable, error) > 0)
+		return v;
+	else
+		return 0;
+}
+
 
 static guchar
-_jpeg_read_segment_marker (GDataInputStream  *data_stream,
-			   GCancellable      *cancellable,
-			   GError           **error)
+_jpeg_read_segment_marker (GInputStream  *stream,
+			   GCancellable  *cancellable,
+			   GError       **error)
 {
 	guchar marker_id;
 
-	while ((marker_id = g_data_input_stream_read_byte (data_stream, cancellable, error)) == 0xff)
+	if (_g_input_stream_read_byte (stream, cancellable, error) != 0xff)
+		return 0x00;
+
+	while ((marker_id = _g_input_stream_read_byte (stream, cancellable, error)) == 0xff)
 		/* skip padding */;
 
 	return marker_id;
@@ -39,10 +55,10 @@ _jpeg_read_segment_marker (GDataInputStream  *data_stream,
 
 
 static gboolean
-_jpeg_skip_segment_data (GDataInputStream  *data_stream,
-			 guchar             marker_id,
-			 GCancellable      *cancellable,
-			 GError           **error)
+_jpeg_skip_segment_data (GInputStream  *stream,
+			 guchar         marker_id,
+			 GCancellable  *cancellable,
+			 GError       **error)
 {
 	if (marker_id == 0xd9)  /* EOI => end of image */
 		return FALSE;
@@ -65,17 +81,12 @@ _jpeg_skip_segment_data (GDataInputStream  *data_stream,
 
 		/* skip to the next segment */
 
-		h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-		l = g_data_input_stream_read_byte (data_stream, cancellable, error);
+		h = _g_input_stream_read_byte (stream, cancellable, error);
+		l = _g_input_stream_read_byte (stream, cancellable, error);
 		segment_size = (h << 8) + l;
 
-		if (g_input_stream_skip (G_INPUT_STREAM (data_stream),
-					 segment_size - 2,
-					 cancellable,
-					 error) < 0)
-		{
+		if (g_input_stream_skip (stream, segment_size - 2, cancellable, error) < 0)
 			return FALSE;
-		}
 	}
 
 	return TRUE;
@@ -83,17 +94,17 @@ _jpeg_skip_segment_data (GDataInputStream  *data_stream,
 
 
 static gboolean
-_jpeg_skip_to_segment (GDataInputStream  *data_stream,
-		       guchar             segment_id,
-		       GCancellable      *cancellable,
-		       GError           **error)
+_jpeg_skip_to_segment (GInputStream  *stream,
+		       guchar         segment_id,
+		       GCancellable  *cancellable,
+		       GError       **error)
 {
 	guchar marker_id = 0x00;
 
-	while ((marker_id = _jpeg_read_segment_marker (data_stream, cancellable, error)) != 0x00) {
+	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
 		if (marker_id == segment_id)
 			return TRUE;
-		if (! _jpeg_skip_segment_data (data_stream, marker_id, cancellable, error))
+		if (! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
 			return FALSE;
 	}
 
@@ -116,7 +127,7 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 	/* Following Exif data length must be at least 6 */
 
 	length = app1_segment_size;
-	if (length < 8)
+	if (length < 6)
 		return 0;
 
 	pos = 0;
@@ -261,10 +272,10 @@ _jpeg_get_image_info (GInputStream  *stream,
 		      GCancellable  *cancellable,
 		      GError       **error)
 {
-	gboolean          size_read;
-	gboolean          orientation_read;
-	GDataInputStream *data_stream;
-	guchar            marker_id;
+	gboolean size_read;
+	gboolean orientation_read;
+	int      n_marker = 0;
+	guchar   marker_id;
 
 	size_read = FALSE;
 
@@ -276,35 +287,34 @@ _jpeg_get_image_info (GInputStream  *stream,
 		/* no need to search for the orientation flag if orientation is NULL */
 		orientation_read = TRUE;
 
-	data_stream = g_data_input_stream_new (stream);
-	g_filter_input_stream_set_close_base_stream (G_FILTER_INPUT_STREAM (data_stream), FALSE);
+	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
+		gboolean segment_data_consumed = FALSE;
 
-	while ((marker_id = _jpeg_read_segment_marker (data_stream, cancellable, error)) != 0x00) {
-		if (marker_id == 0xc0) { /* SOF0 */
+		if ((marker_id == 0xc0) || (marker_id == 0xc2)) { /* SOF */
 			guint h, l;
 			guint size;
 
 			/* size */
 
-			h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			l = g_data_input_stream_read_byte (data_stream, cancellable, error);
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
 			size = (h << 8) + l;
 
 			/* data precision */
 
-			(void) g_data_input_stream_read_byte (data_stream, cancellable, error);
+			(void) _g_input_stream_read_byte (stream, cancellable, error);
 
 			/* height */
 
-			h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			l = g_data_input_stream_read_byte (data_stream, cancellable, error);
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
 			if (height != NULL)
 				*height = (h << 8) + l;
 
 			/* width */
 
-			h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			l = g_data_input_stream_read_byte (data_stream, cancellable, error);
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
 			if (width != NULL)
 				*width = (h << 8) + l;
 
@@ -312,38 +322,39 @@ _jpeg_get_image_info (GInputStream  *stream,
 
 			/* skip to the end of the segment */
 
-			if (! orientation_read)
-				g_input_stream_skip (G_INPUT_STREAM (data_stream), size - 7, cancellable, error);
+			g_input_stream_skip (stream, size - 7, cancellable, error);
+			segment_data_consumed = TRUE;
 		}
 
-		if (! orientation_read && (marker_id == 0xe1)) { /* APP1 */
+		if ((n_marker == 1) && (marker_id == 0xe1)) { /* APP1 */
 			guint   h, l;
 			gsize   size;
 			guchar *app1_segment;
 
 			/* size */
 
-			h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			l = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			size = (h << 8) + l;
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
+			size = (h << 8) + l - 2;
 
 			app1_segment = g_new (guchar, size);
 			if (g_input_stream_read (stream, app1_segment, size, cancellable, error) > 0)
 				*orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, size);
 
 			orientation_read = TRUE;
+			segment_data_consumed = TRUE;
 
 			g_free (app1_segment);
 		}
 
-		if (size_read && orientation_read)
+		n_marker++;
+
+		if (size_read)
 			break;
 
-		if (! _jpeg_skip_segment_data (data_stream, marker_id, cancellable, error))
+		if (! segment_data_consumed && ! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
 			break;
 	}
-
-	g_object_unref (data_stream);
 
 	return size_read;
 }
@@ -370,22 +381,19 @@ _jpeg_exif_orientation_from_stream (GInputStream  *stream,
 				    GCancellable  *cancellable,
 				    GError       **error)
 {
-	GthTransform      orientation;
-	GDataInputStream *data_stream;
+	GthTransform   orientation;
 
 	orientation = GTH_TRANSFORM_NONE;
-	data_stream = g_data_input_stream_new (stream);
-	g_filter_input_stream_set_close_base_stream (G_FILTER_INPUT_STREAM (data_stream), FALSE);
 
-	if (_jpeg_read_segment_marker (data_stream, cancellable, error) == 0xd8) {
-		if (_jpeg_skip_to_segment (data_stream, 0xe1, cancellable, error)) {
+	if (_jpeg_read_segment_marker (stream, cancellable, error) == 0xd8) {
+		if (_jpeg_skip_to_segment (stream, 0xe1, cancellable, error)) {
 			guint   h, l;
 			guint   app1_segment_size;
 			guchar *app1_segment;
 
-			h = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			l = g_data_input_stream_read_byte (data_stream, cancellable, error);
-			app1_segment_size = (h << 8) + l;
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
+			app1_segment_size = (h << 8) + l - 2;
 
 			app1_segment = g_new (guchar, app1_segment_size);
 			if (g_input_stream_read (stream,
@@ -400,8 +408,6 @@ _jpeg_exif_orientation_from_stream (GInputStream  *stream,
 			g_free (app1_segment);
 		}
 	}
-
-	g_object_unref (data_stream);
 
 	return orientation;
 }
