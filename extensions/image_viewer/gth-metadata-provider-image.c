@@ -84,12 +84,43 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 					    NULL,
 					    NULL);
 		if (size >= 0) {
-#if HAVE_LIBJPEG
-			if ((size >= 4)
-			    && (buffer[0] == 0xff)
-			    && (buffer[1] == 0xd8)
-			    && (buffer[2] == 0xff))
+			if ((size >= 24)
+
+			    /* PNG signature */
+
+			    && (buffer[0] == 0x89)
+			    && (buffer[1] == 0x50)
+			    && (buffer[2] == 0x4E)
+			    && (buffer[3] == 0x47)
+			    && (buffer[4] == 0x0D)
+			    && (buffer[5] == 0x0A)
+			    && (buffer[6] == 0x1A)
+			    && (buffer[7] == 0x0A)
+
+			    /* IHDR Image header */
+
+			    && (buffer[12] == 0x49)
+    			    && (buffer[13] == 0x48)
+    			    && (buffer[14] == 0x44)
+    			    && (buffer[15] == 0x52))
 			{
+				/* PNG */
+
+				width  = (buffer[16] << 24) + (buffer[17] << 16) + (buffer[18] << 8) + buffer[19];
+				height = (buffer[20] << 24) + (buffer[21] << 16) + (buffer[22] << 8) + buffer[23];
+
+				format_recognized = TRUE;
+				description = "PNG";
+			}
+
+#if HAVE_LIBJPEG
+			else if ((size >= 4)
+				 && (buffer[0] == 0xff)
+				 && (buffer[1] == 0xd8)
+				 && (buffer[2] == 0xff))
+			{
+				/* JPEG */
+
 				GthTransform orientation;
 
 				if (g_seekable_can_seek (G_SEEKABLE (stream))) {
