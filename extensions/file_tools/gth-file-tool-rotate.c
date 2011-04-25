@@ -409,7 +409,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->selector_align = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_POINT);
 
 	gth_image_selector_set_mask_visible (self->priv->selector_crop, TRUE);
+	gth_image_selector_set_grid_type (self->priv->selector_crop, GTH_GRID_UNIFORM);
+	
 	gth_image_selector_set_mask_visible (self->priv->selector_align, TRUE);
+
 	self->priv->selector_align_point = 0;
 	
 	g_signal_connect (GET_WIDGET ("apply_button"),
