@@ -150,7 +150,7 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
 		filter = CAIRO_FILTER_FAST;
 	else
-		filter = CAIRO_FILTER_GOOD;
+		filter = CAIRO_FILTER_BEST;
 
 	if (gth_image_viewer_get_zoom (viewer) == 1.0)
 		filter = CAIRO_FILTER_FAST;
