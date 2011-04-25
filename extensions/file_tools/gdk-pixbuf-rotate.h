@@ -41,6 +41,10 @@ void _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf    *src_pixbuf,
 					     double        delta,
 					     GdkRectangle *region);
 
+double _gdk_pixbuf_rotate_get_align_angle (gboolean vertical,
+					   GdkPoint p1,
+					   GdkPoint p2);
+
 GdkPixbuf* _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 			       double     angle,
 			       gboolean   high_quality);

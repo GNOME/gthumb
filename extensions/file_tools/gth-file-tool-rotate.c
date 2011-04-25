@@ -19,6 +19,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <math.h>
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
@@ -39,6 +40,7 @@ struct _GthFileToolRotatePrivate {
 	GdkPixbuf        *dest_pixbuf;
 	GdkPixbuf        *crop_pixbuf;
 	GtkBuilder       *builder;
+	GtkWidget        *options;
 	GtkAdjustment    *rotation_angle_adj;
 	GtkWidget        *high_quality;
 	GtkWidget        *show_grid;
@@ -47,11 +49,13 @@ struct _GthFileToolRotatePrivate {
 	GtkAdjustment    *crop_p1_adj;
 	GtkAdjustment    *crop_p2_adj;
 	GtkWidget        *crop_grid;
+	GdkRectangle      crop_region;
 	GthImageSelector *selector_crop;
 	GthImageSelector *selector_align;
+	guint             selector_align_direction;
 	guint             selector_align_point;
+	GdkPoint          align_points[2];
 	guint             apply_event;
-	GdkRectangle      crop_region;
 };
 
 
@@ -146,6 +150,62 @@ update_crop_grid (gpointer user_data)
 }
 
 
+static void
+align_begin (GthFileToolRotate *self)
+{
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	GtkWidget         *viewer;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+
+	self->priv->selector_align_point = 0;
+	
+	gtk_widget_set_sensitive (self->priv->options, FALSE);
+	
+	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->src_pixbuf, FALSE);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_align);
+}
+
+
+static void
+align_end (GthFileToolRotate *self)
+{
+	GtkWidget *window;
+	GtkWidget *viewer_page;
+	GtkWidget *viewer;
+	double     angle;
+	
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	
+	angle = _gdk_pixbuf_rotate_get_align_angle (self->priv->selector_align_direction == 1,
+						    self->priv->align_points[0],
+						    self->priv->align_points[1]),
+	
+	self->priv->selector_align_direction = 0;
+	self->priv->selector_align_point = 0;
+
+	gtk_widget_set_sensitive (self->priv->options, TRUE);
+
+	if (angle == gtk_adjustment_get_value (self->priv->rotation_angle_adj)) {
+	
+		// We already have the pixmap ready
+		
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
+		
+		update_crop_region (self);
+	}
+	else
+	{
+		gtk_adjustment_set_value (self->priv->rotation_angle_adj, angle);
+	}
+}
+
+
 static gboolean
 apply_cb (gpointer user_data)
 {
@@ -193,46 +253,12 @@ gth_file_tool_rotate_update_sensitivity (GthFileTool *base)
 
 
 static void
-get_1_button_clicked_cb (GtkButton         *button,
-			 GthFileToolRotate *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-
-	self->priv->selector_align_point = 1;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_align);
-}
-
-
-static void
-get_2_button_clicked_cb (GtkButton         *button,
-			 GthFileToolRotate *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-
-	self->priv->selector_align_point = 2;
-	
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_align);
-}
-
-
-static void
 align_h_button_clicked_cb (GtkButton         *button,
 			   GthFileToolRotate *self)
 {
-
+	self->priv->selector_align_direction = 0;
+	
+	align_begin (self);
 }
 
 
@@ -240,7 +266,9 @@ static void
 align_v_button_clicked_cb (GtkButton         *button,
 			   GthFileToolRotate *self)
 {
-
+	self->priv->selector_align_direction = 1;
+	
+	align_begin (self);
 }
 
 
@@ -380,34 +408,13 @@ selector_selected_cb (GthImageSelector  *selector,
 		      int                y,
 		      GthFileToolRotate *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-
-	self->priv->selector_align_point = 0;
+	guint i = self->priv->selector_align_point++;
 	
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-}
-
-
-static void
-selector_motion_notify_cb (GthImageSelector  *selector,
-		           int                x,
-		           int                y,
-		           GthFileToolRotate *self)
-{
-	if (self->priv->selector_align_point == 1) {
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("p1_x_spinbutton")), (double) x);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("p1_y_spinbutton")), (double) y);
-	}
-	else if (self->priv->selector_align_point == 2) {
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("p2_x_spinbutton")), (double) x);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("p2_y_spinbutton")), (double) y);
-	}
+	self->priv->align_points[i].x = x;
+	self->priv->align_points[i].y = y;
+	
+	if (self->priv->selector_align_point == 2)
+		align_end (self);
 }
 
 
@@ -418,7 +425,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
-	GtkWidget         *options;
 
 	self = (GthFileToolRotate *) base;
 
@@ -440,8 +446,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
 
-	options = _gtk_builder_get_widget (self->priv->builder, "options");
-	gtk_widget_show (options);
+	self->priv->options = _gtk_builder_get_widget (self->priv->builder, "options");
+	gtk_widget_show (self->priv->options);
 	
 	self->priv->rotation_angle_adj = gimp_scale_entry_new (GET_WIDGET ("rotation_angle_hbox"),
 							       GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
@@ -478,6 +484,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	gth_image_selector_set_mask_visible (self->priv->selector_crop, TRUE);
 	gth_image_selector_set_mask_visible (self->priv->selector_align, TRUE);
 
+	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
 	
 	self->priv->crop_region.x = 0;
@@ -492,14 +499,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("cancel_button"),
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("get_1_button"),
-			  "clicked",
-			  G_CALLBACK (get_1_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("get_2_button"),
-			  "clicked",
-			  G_CALLBACK (get_2_button_clicked_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("align_h_button"),
 			  "clicked",
@@ -549,15 +548,11 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "selected",
 			  G_CALLBACK (selector_selected_cb),
 			  self);
-	g_signal_connect (self->priv->selector_align,
-			  "motion_notify",
-			  G_CALLBACK (selector_motion_notify_cb),
-			  self);
 
 	update_crop_region (self);
 	update_crop_grid (self);
 	
-	return options;
+	return self->priv->options;
 }
 
 
@@ -593,6 +588,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	self->priv->builder = NULL;
 	self->priv->selector_crop = NULL;
 	self->priv->selector_align = NULL;
+	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
 }
 
