@@ -27,7 +27,7 @@
 #include <jpeglib.h>
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jmemorysrc.h>
-#include <extensions/jpeg_utils/jpeg-exif-orientation.h>
+#include <extensions/jpeg_utils/jpeg-info.h>
 #include "cairo-io-jpeg.h"
 
 
@@ -185,6 +185,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	jpeg_create_decompress (&srcinfo);
 
 	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
+		g_free (in_buffer);
 		jpeg_destroy_decompress (&srcinfo);
 		return image;
 	}
