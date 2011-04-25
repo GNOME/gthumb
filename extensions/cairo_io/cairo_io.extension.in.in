@@ -4,4 +4,4 @@ Hidden=true
 [Loader]
 Type=module
 File=%LIBRARY%
-Requires=jpeg_utils
+After=jpeg_utils

@@ -17,6 +17,9 @@ libimage_viewer_la_SOURCES = 		\
 libimage_viewer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimage_viewer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libimage_viewer_la_LIBADD = $(GTHUMB_LIBS)
+if ENABLE_JPEG_TOOLS
+libimage_viewer_la_LIBADD += ../jpeg_utils/libjpeg_utils.la
+endif
 libimage_viewer_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

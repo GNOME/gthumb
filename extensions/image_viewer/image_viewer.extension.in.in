@@ -8,6 +8,6 @@ Icon=image-x-generic
 Category=Viewer
 
 [Loader]
-After=file_viewer
+After=file_viewer;jpeg_utils
 Type=module
 File=%LIBRARY%
