@@ -23,11 +23,33 @@
                     <property name="top_padding">6</property>
                     <property name="left_padding">12</property>
                     <child>
-                      <object class="GtkHBox" id="rotation_angle_hbox">
+                      <object class="GtkVBox" id="vbox6">
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <placeholder/>
+                          <object class="GtkHBox" id="rotation_angle_hbox">
+                            <property name="visible">True</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="high_quality">
+                            <property name="label" translatable="yes">High _quality</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
                         </child>
                       </object>
                     </child>
@@ -70,10 +92,18 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkButton" id="get_1_button">
-                                <property name="label" translatable="yes">Get</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label1">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Get</property>
+                                    <attributes>
+                                      <attribute name="size" value="8000"/>
+                                    </attributes>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="position">0</property>
@@ -119,10 +149,18 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkButton" id="get_2_button">
-                                <property name="label" translatable="yes">Get</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label5">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Get</property>
+                                    <attributes>
+                                      <attribute name="size" value="8000"/>
+                                    </attributes>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="position">0</property>
@@ -163,27 +201,53 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="align_h_button">
-                            <property name="label" translatable="yes">Align _horizontally</property>
+                          <object class="GtkVButtonBox" id="vbuttonbox1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="use_underline">True</property>
+                            <property name="spacing">6</property>
+                            <property name="layout_style">spread</property>
+                            <child>
+                              <object class="GtkButton" id="align_h_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_underline">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label6">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Align the points horizontally</property>
+                                    <attributes>
+                                      <attribute name="size" value="8000"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="align_v_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_underline">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label7">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Align the points vertically</property>
+                                    <attributes>
+                                      <attribute name="size" value="8000"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </object>
                           <packing>
                             <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="align_v_button">
-                            <property name="label" translatable="yes">Align _vertically</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="use_underline">True</property>
-                          </object>
-                          <packing>
-                            <property name="position">3</property>
                           </packing>
                         </child>
                       </object>
@@ -270,6 +334,36 @@
                             <property name="position">3</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkHButtonBox" id="hbuttonbox2">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkButton" id="crop_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label4">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Crop</property>
+                                    <attributes>
+                                      <attribute name="size" value="8000"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -288,55 +382,6 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame1">
-                <property name="visible">True</property>
-                <property name="label_xalign">0</property>
-                <property name="shadow_type">none</property>
-                <child>
-                  <object class="GtkAlignment" id="alignment1">
-                    <property name="visible">True</property>
-                    <property name="top_padding">6</property>
-                    <property name="left_padding">12</property>
-                    <child>
-                      <object class="GtkVBox" id="vbox3">
-                        <property name="visible">True</property>
-                        <property name="spacing">6</property>
-                        <child>
-                          <object class="GtkCheckButton" id="high_quality">
-                            <property name="label" translatable="yes">High _quality</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="tooltip_text" translatable="yes">Slower but produces better results</property>
-                            <property name="use_underline">True</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                          </object>
-                          <packing>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label">
-                  <object class="GtkLabel" id="label1">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Settings</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">3</property>
               </packing>
             </child>
           </object>

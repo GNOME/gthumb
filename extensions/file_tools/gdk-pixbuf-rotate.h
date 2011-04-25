@@ -39,10 +39,10 @@ void _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 					     double     beta,
 					     double     gamma,
 					     double     delta,
-					     int       *x1,
-					     int       *y1,
-					     int       *x2,
-					     int       *y2);
+					     int       *x,
+					     int       *y,
+					     int       *width,
+					     int       *height);
 
 GdkPixbuf* _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 			       double     angle,
