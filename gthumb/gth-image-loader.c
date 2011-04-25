@@ -29,7 +29,7 @@
 #include "gth-main.h"
 
 
-#undef USE_G_IO_SCHEDULER
+#define USE_G_IO_SCHEDULER
 #define THREAD_STACK_SIZE (512*1024)
 
 
