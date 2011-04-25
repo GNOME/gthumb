@@ -5385,6 +5385,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 			gth_viewer_page_show (browser->priv->viewer_page);
 		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+
 		return;
 	}
 
