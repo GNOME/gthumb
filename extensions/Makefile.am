@@ -16,6 +16,7 @@ IMPORTERS = 			\
 JPEG_TOOLS = 			\
 	cairo_io		\
 	image_rotation		\
+	image_viewer		\
 	importer		\
 	$(NULL)
 
@@ -39,7 +40,6 @@ SUBDIRS = 			\
 	gstreamer_utils		\
 	gstreamer_tools		\
 	image_print		\
-	image_viewer		\
 	jpeg_utils		\
 	$(JPEG_TOOLS)		\
 	list_tools		\
