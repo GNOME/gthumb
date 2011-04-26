@@ -228,10 +228,10 @@ apply_cb (gpointer user_data)
 		cairo_t         *cr;
 
 		sharpen_data = sharpen_data_new (self);
-		x = gtk_adjustment_get_value (preview->hadj);
-		y = gtk_adjustment_get_value (preview->vadj);
-		w = gtk_adjustment_get_page_size (preview->hadj);
-		h = gtk_adjustment_get_page_size (preview->vadj);
+		x = MAX (gtk_adjustment_get_value (preview->hadj), 0);
+		y = MAX (gtk_adjustment_get_value (preview->vadj), 0);
+		w = MIN (gtk_adjustment_get_page_size (preview->hadj), cairo_image_surface_get_width (self->priv->source));
+		h = MIN (gtk_adjustment_get_page_size (preview->vadj), cairo_image_surface_get_height (self->priv->source));
 
 		cairo_surface_destroy (self->priv->destination);
 		self->priv->destination = _cairo_image_surface_copy (self->priv->source);
