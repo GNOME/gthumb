@@ -47,13 +47,12 @@
 void
 _gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
 					    double     angle,
-					    double    *alpha_plus_beta,
-					    double    *gamma_plus_delta)
+					    double    *p1_plus_p2)
 {
 	double angle_rad;
 	double cos_angle, sin_angle;
 	double src_width, src_height;
-	double p1, p2, p3, p4;
+	double t1, t2;
 
 	angle = CLAMP (angle, -90.0, 90.0);
 
@@ -65,24 +64,26 @@ _gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
 	src_width  = gdk_pixbuf_get_width  (src_pixbuf) - 1;
 	src_height = gdk_pixbuf_get_height (src_pixbuf) - 1;
 
-	p1 =   cos_angle * src_width - sin_angle * src_height;
-	p2 =   sin_angle * src_width + cos_angle * src_height;
+	if (src_width > src_height) {
+		t1 = cos_angle * src_width - sin_angle * src_height;
+		t2 = sin_angle * src_width + cos_angle * src_height;
 
-	p3 =   cos_angle * src_height - sin_angle * src_width;
-	p4 =   sin_angle * src_height + cos_angle * src_width;
+		*p1_plus_p2  = 1.0 + (t1 * src_height) / (t2 * src_width);
+	}
+	else {
+		t1 = cos_angle * src_height - sin_angle * src_width;
+		t2 = sin_angle * src_height + cos_angle * src_width;
 
-	*alpha_plus_beta  = 1.0 + (p1 * src_height) / (p2 * src_width);
-	*gamma_plus_delta = 1.0 + (p3 * src_width)  / (p4 * src_height);
+		*p1_plus_p2 = 1.0 + (t1 * src_width)  / (t2 * src_height);
+	}
 }
 
 
 void
 _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 					double        angle,
-					double        alpha,
-					double        beta,
-					double        gamma,
-					double        delta,
+					double        p1,
+					double        p2,
 					GdkRectangle *region)
 {
 	double angle_rad;
@@ -93,10 +94,8 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 	double xx1, yy1, xx2, yy2;
 	
 	angle = CLAMP (angle, -90.0, 90.0);
-	alpha = CLAMP (alpha,   0.0,  1.0);
-	beta  = CLAMP (beta,    0.0,  1.0);
-	gamma = CLAMP (gamma,   0.0,  1.0);
-	delta = CLAMP (delta,   0.0,  1.0);
+	p1    = CLAMP (p1,      0.0,  1.0);
+	p2    = CLAMP (p2,      0.0,  1.0);
 
 	angle_rad = fabs (angle) / 180.0 * PI;
 	
@@ -108,18 +107,18 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 
 	if (src_width > src_height) {
 	
-		xx1 = alpha * src_width * cos_angle + src_height * sin_angle;
-		yy1 = alpha * src_width * sin_angle;
+		xx1 = p1 * src_width * cos_angle + src_height * sin_angle;
+		yy1 = p1 * src_width * sin_angle;
 	
-		xx2 = (1 - beta) * src_width * cos_angle;
-		yy2 = (1 - beta) * src_width * sin_angle + src_height * cos_angle;
+		xx2 = (1 - p2) * src_width * cos_angle;
+		yy2 = (1 - p2) * src_width * sin_angle + src_height * cos_angle;
 	}
 	else {
-		xx1 = gamma       * src_height * sin_angle;
-		yy1 = (1 - gamma) * src_height * cos_angle;
+		xx1 = p1       * src_height * sin_angle;
+		yy1 = (1 - p1) * src_height * cos_angle;
 	
-		xx2 = (1 - delta) * src_height * sin_angle + src_width * cos_angle;
-		yy2 = delta       * src_height * cos_angle + src_width * sin_angle;
+		xx2 = (1 - p2) * src_height * sin_angle + src_width * cos_angle;
+		yy2 = p2       * src_height * cos_angle + src_width * sin_angle;
 	}
 	
 	if (angle < 0) {

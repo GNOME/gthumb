@@ -30,15 +30,12 @@ G_BEGIN_DECLS
 
 void _gdk_pixbuf_rotate_get_cropping_parameters (GdkPixbuf *src_pixbuf,
 					         double     angle,
-					         double    *alpha_plus_beta,
-					         double    *gamma_plus_delta);
+					         double    *p1_plus_p2);
 
 void _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf    *src_pixbuf,
 					     double        angle,
-					     double        alpha,
-					     double        beta,
-					     double        gamma,
-					     double        delta,
+					     double        p1,
+					     double        p2,
 					     GdkRectangle *region);
 
 double _gdk_pixbuf_rotate_get_align_angle (gboolean vertical,
