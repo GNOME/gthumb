@@ -1287,7 +1287,7 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 				  step_increment, page_increment,
 				  0.0);
 
-	spinbutton = gtk_spin_button_new  (GTK_ADJUSTMENT (adj), 1.0, 0);
+	spinbutton = gtk_spin_button_new  (GTK_ADJUSTMENT (adj), page_increment, 0);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spinbutton), digits);
 	gtk_entry_set_width_chars (GTK_ENTRY (spinbutton), 4);
 
