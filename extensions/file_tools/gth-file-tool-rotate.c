@@ -283,6 +283,14 @@ gth_file_tool_rotate_update_sensitivity (GthFileTool *base)
 
 
 static void
+reset_button_clicked_cb (GtkButton         *button,
+			 GthFileToolRotate *self)
+{
+	gtk_adjustment_set_value (self->priv->rotation_angle_adj, 0.0);
+}
+
+
+static void
 align_h_button_clicked_cb (GtkButton         *button,
 			   GthFileToolRotate *self)
 {
@@ -553,6 +561,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("cancel_button"),
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("reset_button"),
+			  "clicked",
+			  G_CALLBACK (reset_button_clicked_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("align_h_button"),
 			  "clicked",
