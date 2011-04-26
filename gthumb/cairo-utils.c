@@ -140,6 +140,8 @@ _cairo_image_surface_copy (cairo_surface_t *source)
 		return NULL;
 	}
 
+	cairo_surface_flush (result);
+
 	source_stride = cairo_image_surface_get_stride (source);
 	destination_stride = cairo_image_surface_get_stride (result);
 	p_source = cairo_image_surface_get_data (source);
@@ -151,6 +153,8 @@ _cairo_image_surface_copy (cairo_surface_t *source)
 		p_source += source_stride;
 		p_destination += destination_stride;
 	}
+
+	cairo_surface_mark_dirty (result);
 
 	return result;
 }
@@ -183,6 +187,8 @@ _cairo_image_surface_copy_subsurface (cairo_surface_t *source,
 		return NULL;
 	}
 
+	cairo_surface_flush (destination);
+
 	source_stride = cairo_image_surface_get_stride (source);
 	destination_stride = cairo_image_surface_get_stride (destination);
 	p_source = cairo_image_surface_get_data (source) + (src_y * source_stride) + (src_x * 4);
@@ -194,6 +200,8 @@ _cairo_image_surface_copy_subsurface (cairo_surface_t *source,
 		p_source += source_stride;
 		p_destination += destination_stride;
 	}
+
+	cairo_surface_mark_dirty (destination);
 
 	return destination;
 }
@@ -224,6 +232,7 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 		      "pixels", &p_pixels,
 		      NULL );
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	cairo_surface_flush (surface);
 	s_stride = cairo_image_surface_get_stride (surface);
 	s_pixels = cairo_image_surface_get_data (surface);
 
@@ -269,6 +278,8 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_pixels += p_stride;
 		}
 	}
+
+	cairo_surface_mark_dirty (surface);
 
 	return surface;
 }
@@ -452,6 +463,7 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 						  &pixel_step);
 
 	destination = cairo_image_surface_create (format, destination_width, destination_height);
+	cairo_surface_flush (destination);
 	destination_stride = cairo_image_surface_get_stride (destination);
 	p_source_line = cairo_image_surface_get_data (source);
 	p_destination_line = cairo_image_surface_get_data (destination) + line_start;
@@ -466,6 +478,8 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 		p_source_line += source_stride;
 		p_destination_line += line_step;
 	}
+
+	cairo_surface_mark_dirty (destination);
 
 	return destination;
 }
@@ -493,6 +507,8 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 
 	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
 		return;
+
+	cairo_surface_flush (surface);
 
 	_gdk_color_to_cairo_color_255 (h_color1, &hcolor1);
 	_gdk_color_to_cairo_color_255 (h_color2, &hcolor2);
@@ -527,6 +543,8 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 
 		s_pixels += s_stride;
 	}
+
+	cairo_surface_mark_dirty (surface);
 }
 
 

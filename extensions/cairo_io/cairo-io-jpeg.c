@@ -235,6 +235,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 #endif
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
+	cairo_surface_flush (surface);
 	surface_row = cairo_image_surface_get_data (surface) + line_start;
 
 	buffer_stride = srcinfo.output_width * srcinfo.output_components;
@@ -466,6 +467,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	}
 
 	if (! g_cancellable_is_cancelled (cancellable)) {
+		cairo_surface_mark_dirty (surface);
+
 		/* Scale to the requested size */
 
 		if (load_scaled) {
