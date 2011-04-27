@@ -449,6 +449,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 									_("Rule of Thirds"),
 									_("Golden Sections"),
 									_("Center Lines"),
+									_("Uniform"),
 									NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->grid_type_combobox), eel_gconf_get_enum (PREF_CROP_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
 	gtk_widget_show (self->priv->grid_type_combobox);

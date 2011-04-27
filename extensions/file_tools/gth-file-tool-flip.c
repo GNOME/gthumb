@@ -71,7 +71,7 @@ static void
 gth_file_tool_flip_instance_init (GthFileToolFlip *self)
 {
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-flip", _("Flip"), NULL, FALSE);
-	/*gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));*/
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Flip the image vertically"));
 }
 
 

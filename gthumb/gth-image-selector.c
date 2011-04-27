@@ -34,6 +34,9 @@
 #define SCROLL_TIMEOUT 30    /* autoscroll timeout in milliseconds */
 #define GOLDEN_RATIO   1.6180339887
 #define GOLDER_RATIO_FACTOR (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO))
+#define GRID_STEP_1    10
+#define GRID_STEP_2    (GRID_STEP_1 * 5)
+#define GRID_STEP_3    (GRID_STEP_2 * 2)
 
 
 typedef struct {
@@ -639,17 +642,51 @@ paint_selection (GthImageSelector *self,
 					       CAIRO_FILTER_GOOD);
 
 	cairo_save (cr);
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-#else
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-#endif
+
+// #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
+//	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
+// #endif
 
 	gdk_cairo_rectangle (cr, &selection_area);
 	cairo_clip (cr);
 
-	if (self->priv->grid_type != GTH_GRID_NONE) {
+	if (self->priv->grid_type == GTH_GRID_THIRDS) {
+
+		int i;
+		
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+
+		for (i = 1; i < 3; i++) {
+		
+			cairo_move_to (cr, selection_area.x + selection_area.width * i / 3 + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width * i / 3 + 0.5, selection_area.y + selection_area.height - 0.5);
+
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + selection_area.height * i / 3 + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + selection_area.height * i / 3 + 0.5);
+		}
+
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+
+		for (i = 1; i < 9; i++) {
+		
+			if (i % 3 == 0)
+				continue;
+
+			cairo_move_to (cr, selection_area.x + selection_area.width * i / 9 + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width * i / 9 + 0.5, selection_area.y + selection_area.height - 0.5);
+
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + selection_area.height * i / 9 + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + selection_area.height * i / 9 + 0.5);
+		}
+
+		cairo_stroke (cr);
+	}
+	else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+
 		int grid_x0, grid_x1, grid_x2, grid_x3;
 	        int grid_y0, grid_y1, grid_y2, grid_y3;
 		int x_delta, y_delta;
@@ -660,18 +697,8 @@ paint_selection (GthImageSelector *self,
                 grid_y0 = selection_area.y;
                 grid_y3 = selection_area.y + selection_area.height;
 
-		if (self->priv->grid_type == GTH_GRID_THIRDS) {
-			x_delta = selection_area.width / 3;
-			y_delta = selection_area.height / 3;
-		}
-		else if (self->priv->grid_type == GTH_GRID_GOLDEN) {
-			x_delta = selection_area.width * GOLDER_RATIO_FACTOR;
-			y_delta = selection_area.height * GOLDER_RATIO_FACTOR;
-		}
-		else if (self->priv->grid_type == GTH_GRID_CENTER) {
-			x_delta = selection_area.width / 2;
-			y_delta = selection_area.height / 2;
-		}
+		x_delta = selection_area.width * GOLDER_RATIO_FACTOR;
+		y_delta = selection_area.height * GOLDER_RATIO_FACTOR;
 
 		grid_x1 = grid_x0 + x_delta;
 		grid_x2 = grid_x3 - x_delta;
@@ -693,7 +720,106 @@ paint_selection (GthImageSelector *self,
 			cairo_move_to (cr, grid_x0 + 0.5, grid_y2 + 0.5);
 			cairo_line_to (cr, grid_x3 + 0.5, grid_y2 + 0.5);
 		}
+
+		cairo_stroke (cr);
 	}
+	else if (self->priv->grid_type == GTH_GRID_CENTER) {
+
+		int i;
+		
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+
+		cairo_move_to (cr, selection_area.x + selection_area.width / 2 + 0.5, selection_area.y + 1.5);
+		cairo_line_to (cr, selection_area.x + selection_area.width / 2 + 0.5, selection_area.y + selection_area.height - 0.5);
+
+		cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + selection_area.height / 2 + 0.5);
+		cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + selection_area.height / 2 + 0.5);
+
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+
+		for (i = 1; i < 4; i++) {
+		
+			if (i == 2)
+				continue;
+				
+			cairo_move_to (cr, selection_area.x + selection_area.width * i / 4 + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width * i / 4 + 0.5, selection_area.y + selection_area.height - 0.5);
+
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + selection_area.height * i / 4 + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + selection_area.height * i / 4 + 0.5);
+		}
+
+		cairo_stroke (cr);
+	}
+	else if (self->priv->grid_type == GTH_GRID_UNIFORM) {
+
+		int x;
+		int y;
+		
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.40);
+
+		for (x = GRID_STEP_3; x < selection_area.width; x += GRID_STEP_3) {
+		
+			cairo_move_to (cr, selection_area.x + x + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + x + 0.5, selection_area.y + selection_area.height - 0.5);
+		}
+
+		for (y = GRID_STEP_3; y < selection_area.height; y += GRID_STEP_3) {
+		
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + y + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + y + 0.5);
+		}
+
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.20);
+
+		for (x = GRID_STEP_2; x < selection_area.width; x += GRID_STEP_2) {
+		
+			if (x % GRID_STEP_3 == 0)
+				continue;
+
+			cairo_move_to (cr, selection_area.x + x + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + x + 0.5, selection_area.y + selection_area.height - 0.5);
+		}
+
+		for (y = GRID_STEP_2; y < selection_area.height; y += GRID_STEP_2) {
+		
+			if (y % GRID_STEP_3 == 0)
+				continue;
+
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + y + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + y + 0.5);
+		}
+
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+
+		for (x = GRID_STEP_1; x < selection_area.width; x += GRID_STEP_1) {
+		
+			if (x % GRID_STEP_2 == 0)
+				continue;
+				
+			cairo_move_to (cr, selection_area.x + x + 0.5, selection_area.y + 1.5);
+			cairo_line_to (cr, selection_area.x + x + 0.5, selection_area.y + selection_area.height - 0.5);
+		}
+
+		for (y = GRID_STEP_1; y < selection_area.height; y += GRID_STEP_1) {
+		
+			if (y % GRID_STEP_2 == 0)
+				continue;
+				
+			cairo_move_to (cr, selection_area.x + 1.5, selection_area.y + y + 0.5);
+			cairo_line_to (cr, selection_area.x + selection_area.width - 0.5, selection_area.y + y + 0.5);
+		}
+
+		cairo_stroke (cr);
+	}
+
+	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
 
 	cairo_rectangle (cr,
 			 selection_area.x + 0.5,
@@ -706,6 +832,7 @@ paint_selection (GthImageSelector *self,
 				 self->priv->current_area->area.y + self->priv->viewer->image_area.y + 0.5,
 				 self->priv->current_area->area.width - 1,
 				 self->priv->current_area->area.height - 1);
+	
 	cairo_stroke (cr);
 
 	cairo_restore (cr);

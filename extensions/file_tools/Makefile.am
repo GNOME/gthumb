@@ -9,6 +9,7 @@ ENUM_TYPES =		\
 
 HEADER_FILES = 				\
 	cairo-blur.h			\
+	gdk-pixbuf-rotate.h		\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-crop.h		\
 	gth-file-tool-desaturate.h	\
@@ -22,6 +23,7 @@ HEADER_FILES = 				\
 	gth-file-tool-rotate.h		\
 	gth-file-tool-rotate-left.h	\
 	gth-file-tool-rotate-right.h	\
+	gth-file-tool-rotate.h		\
 	gth-file-tool-save.h		\
 	gth-file-tool-save-as.h		\
 	gth-file-tool-sharpen.h		\
@@ -57,6 +59,7 @@ libfile_tools_la_SOURCES = 		\
 	callbacks.c			\
 	callbacks.h			\
 	cairo-blur.c			\
+	gdk-pixbuf-rotate.c		\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-desaturate.c	\
@@ -70,6 +73,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-rotate.c		\
 	gth-file-tool-rotate-left.c	\
 	gth-file-tool-rotate-right.c	\
+	gth-file-tool-rotate.c		\
 	gth-file-tool-save.c		\
 	gth-file-tool-save-as.c		\
 	gth-file-tool-sharpen.c		\

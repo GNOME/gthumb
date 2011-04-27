@@ -62,6 +62,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_MIRROR);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_FLIP);
+
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_RESIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
