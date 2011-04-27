@@ -29,6 +29,8 @@
 #include "typedefs.h"
 
 
+#define CAIRO_MAX_IMAGE_SIZE 32767
+
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
 
 #define CAIRO_RED   2

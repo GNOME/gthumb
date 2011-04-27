@@ -216,8 +216,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	orientation = _jpeg_exif_orientation (in_buffer, in_buffer_size);
 	_cairo_image_surface_transform_get_steps (CAIRO_FORMAT_ARGB32,
-						  srcinfo.output_width,
-						  srcinfo.output_height,
+						  MIN (srcinfo.output_width, CAIRO_MAX_IMAGE_SIZE),
+						  MIN (srcinfo.output_height, CAIRO_MAX_IMAGE_SIZE),
 						  orientation,
 						  &destination_width,
 						  &destination_height,
@@ -235,6 +235,15 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 #endif
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
+	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS) {
+		/* g_warning ("%s", cairo_status_to_string (cairo_surface_status (surface))); */
+
+		jpeg_destroy ((j_common_ptr) &srcinfo);
+		cairo_surface_destroy (surface);
+		g_free (in_buffer);
+
+		return image;
+	}
 	cairo_surface_flush (surface);
 	surface_row = cairo_image_surface_get_data (surface) + line_start;
 
