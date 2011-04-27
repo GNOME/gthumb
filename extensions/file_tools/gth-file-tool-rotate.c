@@ -37,15 +37,14 @@ static gpointer parent_class = NULL;
 
 struct _GthFileToolRotatePrivate {
 	GdkPixbuf        *src_pixbuf;
-	GdkPixbuf        *dest_pixbuf;
 	GdkPixbuf        *rotate_pixbuf;
-	GdkPixbuf        *crop_pixbuf;
 	GtkBuilder       *builder;
 	GtkWidget        *options;
 	GtkAdjustment    *rotation_angle_adj;
 	GtkWidget        *high_quality;
 	GtkWidget        *show_grid;
 	GtkWidget        *enable_guided_crop;
+	gboolean          crop_enabled;
 	GtkWidget        *keep_aspect_ratio;
 	GtkAdjustment    *crop_p1_adj;
 	GtkAdjustment    *crop_p2_adj;
@@ -69,7 +68,6 @@ update_crop_parameters (gpointer user_data)
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
 	double             rotation_angle;
-	gboolean           enable_guided_crop;
 	gboolean           keep_aspect_ratio;
 	double             crop_p1;
 
@@ -78,24 +76,20 @@ update_crop_parameters (gpointer user_data)
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (self->priv->enable_guided_crop), TRUE);
-	gtk_widget_set_sensitive (GET_WIDGET ("undo_button"), FALSE);
 
-	enable_guided_crop = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->enable_guided_crop));
+	self->priv->crop_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->enable_guided_crop));
 
-	if (enable_guided_crop) {
-
+	if (self->priv->crop_enabled) {
 		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), TRUE);
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_label"), TRUE);
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_hbox"), TRUE);
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_grid_label"), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->crop_grid), TRUE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_button"), TRUE);
 
 		rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
 		keep_aspect_ratio = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio));
 
 		if (keep_aspect_ratio) {
-
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), FALSE);
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
 
@@ -130,7 +124,6 @@ update_crop_parameters (gpointer user_data)
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_grid_label"), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->crop_grid), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_button"),  FALSE);
 	}
 }
 
@@ -190,7 +183,9 @@ align_begin (GthFileToolRotate *self)
 	gtk_widget_set_sensitive (self->priv->options, FALSE);
 
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->src_pixbuf, FALSE);
-	self->priv->dest_pixbuf = _g_object_ref (self->priv->src_pixbuf);
+
+	_g_object_unref (self->priv->rotate_pixbuf);
+	self->priv->rotate_pixbuf = g_object_ref (self->priv->src_pixbuf);
 
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_align);
 }
@@ -219,19 +214,15 @@ align_end (GthFileToolRotate *self)
 
 	if (angle == gtk_adjustment_get_value (self->priv->rotation_angle_adj)) {
 
-		// We already have the pixmap ready
+		/* We already have the pixmap ready */
 
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
-		_g_object_unref (self->priv->dest_pixbuf);
-		self->priv->dest_pixbuf = _g_object_ref (self->priv->rotate_pixbuf);
 
 		update_crop_parameters (self);
 		update_crop_region (self);
 	}
 	else
-	{
 		gtk_adjustment_set_value (self->priv->rotation_angle_adj, angle);
-	}
 }
 
 
@@ -257,11 +248,7 @@ apply_cb (gpointer user_data)
 
 	_g_object_unref (self->priv->rotate_pixbuf);
 	self->priv->rotate_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, high_quality);
-
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
-
-	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = _g_object_ref (self->priv->rotate_pixbuf);
 
 	update_crop_parameters (user_data);
 	update_crop_region (user_data);
@@ -314,84 +301,35 @@ align_v_button_clicked_cb (GtkButton         *button,
 
 
 static void
-crop_button_clicked_cb (GtkButton         *button,
-			GthFileToolRotate *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-
-	_g_object_unref (self->priv->crop_pixbuf);
-	self->priv->crop_pixbuf = NULL;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	if (self->priv->crop_region.x != 0 ||
-	    self->priv->crop_region.y != 0 ||
-	    self->priv->crop_region.width != gdk_pixbuf_get_width (self->priv->src_pixbuf) ||
-	    self->priv->crop_region.height != gdk_pixbuf_get_height (self->priv->src_pixbuf)) {
-
-		self->priv->crop_pixbuf = gdk_pixbuf_new_subpixbuf (self->priv->dest_pixbuf,
-								    self->priv->crop_region.x,
-								    self->priv->crop_region.y,
-								    self->priv->crop_region.width,
-								    self->priv->crop_region.height);
-	}
-	else
-		self->priv->crop_pixbuf = g_object_ref (self->priv->src_pixbuf);
-
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->crop_pixbuf, FALSE);
-	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = _g_object_ref (self->priv->crop_pixbuf);
-
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (self->priv->enable_guided_crop), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_label"), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_hbox"), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_grid_label"), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (self->priv->crop_grid), FALSE);
-
-	gtk_widget_set_sensitive (GET_WIDGET ("crop_button"), FALSE);
-	gtk_widget_set_sensitive (GET_WIDGET ("undo_button"), TRUE);
-}
-
-
-static void
-undo_button_clicked_cb (GtkButton         *button,
-			GthFileToolRotate *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
-	_g_object_unref (self->priv->dest_pixbuf);
-	self->priv->dest_pixbuf = _g_object_ref (self->priv->rotate_pixbuf);
-
-	update_crop_parameters (self);
-	update_crop_region (self);
-}
-
-
-static void
 apply_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
-	if (self->priv->dest_pixbuf != self->priv->src_pixbuf) {
+	if (self->priv->rotate_pixbuf != self->priv->src_pixbuf) {
 		GtkWidget *window;
 		GtkWidget *viewer_page;
+		GdkPixbuf *result;
 
 		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, TRUE);
+
+		if (self->priv->crop_enabled
+		    && ((self->priv->crop_region.x != 0)
+		        || (self->priv->crop_region.y != 0)
+		        || (self->priv->crop_region.width != gdk_pixbuf_get_width (self->priv->src_pixbuf))
+		        || (self->priv->crop_region.height != gdk_pixbuf_get_height (self->priv->src_pixbuf))))
+		{
+			result = gdk_pixbuf_new_subpixbuf (self->priv->rotate_pixbuf,
+							   self->priv->crop_region.x,
+							   self->priv->crop_region.y,
+							   self->priv->crop_region.width,
+							   self->priv->crop_region.height);
+		}
+		else
+			result = g_object_ref (self->priv->rotate_pixbuf);
+
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), result, TRUE);
+
+		g_object_unref (result);
 	}
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
@@ -420,7 +358,7 @@ cancel_button_clicked_cb (GtkButton         *button,
 
 static void
 crop_settings_changed_cb (GtkAdjustment     *adj,
-		            GthFileToolRotate *self)
+		          GthFileToolRotate *self)
 {
 	update_crop_parameters (self);
 	update_crop_region (self);
@@ -431,15 +369,11 @@ static void
 crop_parameters_changed_cb (GtkAdjustment     *adj,
 		            GthFileToolRotate *self)
 {
-	if (adj == self->priv->crop_p1_adj &&
-	    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio))) {
-
+	if ((adj == self->priv->crop_p1_adj) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio)))
 		gtk_adjustment_set_value (self->priv->crop_p2_adj,
 					  self->priv->crop_p1_plus_p2 - gtk_adjustment_get_value (adj));
-	}
-	else {
+	else
 		update_crop_region (self);
-	}
 }
 
 
@@ -497,19 +431,15 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	_g_object_unref (self->priv->src_pixbuf);
-	self->priv->src_pixbuf = NULL;
-	_g_object_unref (self->priv->rotate_pixbuf);
-	self->priv->rotate_pixbuf = NULL;
-	_g_object_unref (self->priv->crop_pixbuf);
-	self->priv->crop_pixbuf = NULL;
+	_g_clear_object (&self->priv->src_pixbuf);
+	_g_clear_object (&self->priv->rotate_pixbuf);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
 	if (self->priv->src_pixbuf == NULL)
 		return NULL;
 
-	self->priv->dest_pixbuf = g_object_ref (self->priv->src_pixbuf);
+	self->priv->rotate_pixbuf = g_object_ref (self->priv->src_pixbuf);
 
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
 
@@ -554,6 +484,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
 
+	self->priv->crop_enabled = TRUE;
 	self->priv->crop_region.x = 0;
 	self->priv->crop_region.y = 0;
 	self->priv->crop_region.width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
@@ -578,14 +509,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("align_v_button"),
 			  "clicked",
 			  G_CALLBACK (align_v_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("crop_button"),
-			  "clicked",
-			  G_CALLBACK (crop_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("undo_button"),
-			  "clicked",
-  			  G_CALLBACK (undo_button_clicked_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->rotation_angle_adj),
 			  "value-changed",
@@ -648,19 +571,11 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
 
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->rotate_pixbuf);
-	_g_object_unref (self->priv->crop_pixbuf);
-	_g_object_unref (self->priv->builder);
-	_g_object_unref (self->priv->selector_crop);
-	_g_object_unref (self->priv->selector_align);
-	self->priv->src_pixbuf = NULL;
-	self->priv->dest_pixbuf = NULL;
-	self->priv->rotate_pixbuf = NULL;
-	self->priv->crop_pixbuf = NULL;
-	self->priv->builder = NULL;
-	self->priv->selector_crop = NULL;
-	self->priv->selector_align = NULL;
+	_g_clear_object (&self->priv->src_pixbuf);
+	_g_clear_object (&self->priv->rotate_pixbuf);
+	_g_clear_object (&self->priv->builder);
+	_g_clear_object (&self->priv->selector_crop);
+	_g_clear_object (&self->priv->selector_align);
 	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
 }
@@ -695,7 +610,6 @@ gth_file_tool_rotate_finalize (GObject *object)
 
 	_g_object_unref (self->priv->src_pixbuf);
 	_g_object_unref (self->priv->rotate_pixbuf);
-	_g_object_unref (self->priv->crop_pixbuf);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
