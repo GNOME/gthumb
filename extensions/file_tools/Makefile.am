@@ -73,7 +73,6 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-rotate.c		\
 	gth-file-tool-rotate-left.c	\
 	gth-file-tool-rotate-right.c	\
-	gth-file-tool-rotate.c		\
 	gth-file-tool-save.c		\
 	gth-file-tool-save-as.c		\
 	gth-file-tool-sharpen.c		\
