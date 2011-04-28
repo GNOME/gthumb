@@ -101,8 +101,11 @@
 		}								\
 	} G_STMT_END
 
+#define CAIRO_RGBA_TO_UINT32(red, green, blue, alpha) 				\
+	(((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
 
-#define interpolate_value(original, reference, distance) (CLAMP (((distance) * (reference)) + ((1.0 - (distance)) * (original)), 0, 255))
+#define interpolate_value(original, reference, distance) 			\
+	(CLAMP (((distance) * (reference)) + ((1.0 - (distance)) * (original)), 0, 255))
 
 
 /* types */
@@ -124,6 +127,10 @@ typedef struct {
 
 extern const unsigned char cairo_channel[4];
 
+/* math */
+
+int                _cairo_multiply                          (int                color,
+							     int                alpha);
 
 /* colors */
 

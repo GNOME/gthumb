@@ -52,6 +52,15 @@ surface_pixels_free (void *data)
 }
 
 
+inline int
+_cairo_multiply (int color,
+		 int alpha)
+{
+	int temp = (alpha * color) + 0x80;
+	return ((temp + (temp >> 8)) >> 8);
+}
+
+
 void
 _gdk_color_to_cairo_color (GdkColor      *g_color,
 			   cairo_color_t *c_color)
@@ -220,6 +229,8 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	int                      s_stride;
 	unsigned char           *s_pixels;
 	int                      h, w;
+	guint32                  pixel;
+	guchar                   r, g, b, a;
 
 	if (pixbuf == NULL)
 		return NULL;
@@ -249,7 +260,20 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				CAIRO_SET_RGBA (s_iter, p_iter[0], p_iter[1], p_iter[2], p_iter[3]);
+				a = p_iter[3];
+				if (a == 0xff) {
+					pixel = CAIRO_RGBA_TO_UINT32 (p_iter[0], p_iter[1], p_iter[2], 0xff);
+				}
+				else if (a == 0) {
+					pixel = 0;
+				}
+				else {
+					r = _cairo_multiply (p_iter[0], a);
+					g = _cairo_multiply (p_iter[1], a);
+					b = _cairo_multiply (p_iter[2], a);
+					pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
+				}
+				memcpy (s_iter, &pixel, sizeof (guint32));
 
 				s_iter += 4;
 				p_iter += p_n_channels;
@@ -268,7 +292,8 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 			p_iter = p_pixels;
 
 			for (w = 0; w < width; w++) {
-				CAIRO_SET_RGB (s_iter, p_iter[0], p_iter[1], p_iter[2]);
+				pixel = CAIRO_RGBA_TO_UINT32 (p_iter[0], p_iter[1], p_iter[2], 0xff);
+				memcpy (s_iter, &pixel, sizeof (guint32));
 
 				s_iter += 4;
 				p_iter += p_n_channels;
