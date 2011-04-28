@@ -129,7 +129,7 @@ extern const unsigned char cairo_channel[4];
 
 /* math */
 
-int                _cairo_multiply                          (int                color,
+int                _cairo_multiply_alpha                    (int                color,
 							     int                alpha);
 
 /* colors */

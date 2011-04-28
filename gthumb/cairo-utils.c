@@ -53,8 +53,8 @@ surface_pixels_free (void *data)
 
 
 inline int
-_cairo_multiply (int color,
-		 int alpha)
+_cairo_multiply_alpha (int color,
+		       int alpha)
 {
 	int temp = (alpha * color) + 0x80;
 	return ((temp + (temp >> 8)) >> 8);
@@ -268,9 +268,9 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 					pixel = 0;
 				}
 				else {
-					r = _cairo_multiply (p_iter[0], a);
-					g = _cairo_multiply (p_iter[1], a);
-					b = _cairo_multiply (p_iter[2], a);
+					r = _cairo_multiply_alpha (p_iter[0], a);
+					g = _cairo_multiply_alpha (p_iter[1], a);
+					b = _cairo_multiply_alpha (p_iter[2], a);
 					pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
 				}
 				memcpy (s_iter, &pixel, sizeof (guint32));
