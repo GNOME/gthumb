@@ -163,6 +163,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	JSAMPARRAY                     buffer_row;
 	int                            l;
 	unsigned char                 *p_surface;
+	guchar                         r, g, b;
+	guint32                        pixel;
 	unsigned char                 *p_buffer;
 	int                            x;
 
@@ -285,10 +287,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						}
 
 						ki = k << 8; /* ki = k * 256 */
-						p_surface[CAIRO_RED]   = cmyk_tab[ki + c];
-						p_surface[CAIRO_GREEN] = cmyk_tab[ki + m];
-						p_surface[CAIRO_BLUE]  = cmyk_tab[ki + y];
-						p_surface[CAIRO_ALPHA] = 0xff;
+						r = cmyk_tab[ki + c];
+						g = cmyk_tab[ki + m];
+						b = cmyk_tab[ki + y];
+						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
 						p_buffer += 4 /*srcinfo.output_components*/;
@@ -315,10 +318,9 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 					p_buffer = buffer_row[l];
 
 					for (x = 0; x < srcinfo.output_width; x++) {
-						p_surface[CAIRO_RED]   = p_buffer[0];
-						p_surface[CAIRO_GREEN] = p_buffer[0];
-						p_surface[CAIRO_BLUE]  = p_buffer[0];
-						p_surface[CAIRO_ALPHA] = 0xff;
+						r = g = b = p_buffer[0];
+						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
 						p_buffer += 1 /*srcinfo.output_components*/;
@@ -345,10 +347,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 					p_buffer = buffer_row[l];
 
 					for (x = 0; x < srcinfo.output_width; x++) {
-						p_surface[CAIRO_RED]   = p_buffer[0];
-						p_surface[CAIRO_GREEN] = p_buffer[1];
-						p_surface[CAIRO_BLUE]  = p_buffer[2];
-						p_surface[CAIRO_ALPHA] = 0xff;
+						r = p_buffer[0];
+						g = p_buffer[1];
+						b = p_buffer[2];
+						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
 						p_buffer += 3 /*srcinfo.output_components*/;
@@ -392,10 +395,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						Cb = p_buffer[1];
 						Cr = p_buffer[2];
 
-						p_surface[CAIRO_RED]   = range_limit[Y + r_cr_tab[Cr]];
-						p_surface[CAIRO_GREEN] = range_limit[Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr])];
-						p_surface[CAIRO_BLUE]  = range_limit[Y + b_cb_tab[Cb]];
-						p_surface[CAIRO_ALPHA] = 0xff;
+						r = range_limit[Y + r_cr_tab[Cr]];
+						g = range_limit[Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr])];
+						b = range_limit[Y + b_cb_tab[Cb]];
+						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
 						p_buffer += 3 /*srcinfo.output_components*/;
@@ -449,10 +453,12 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						y = range_limit[255 - (Y + b_cb_tab[Cb])];
 
 						Ki = K << 8; /* ki = K * 256 */
-						p_surface[CAIRO_RED]   = cmyk_tab[Ki + c];
-						p_surface[CAIRO_GREEN] = cmyk_tab[Ki + m];
-						p_surface[CAIRO_BLUE]  = cmyk_tab[Ki + y];
-						p_surface[CAIRO_ALPHA] = 0xff;
+
+						r = cmyk_tab[Ki + c];
+						g = cmyk_tab[Ki + m];
+						b = cmyk_tab[Ki + y];
+						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
 						p_buffer += 4 /*srcinfo.output_components*/;
