@@ -19,43 +19,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef CAIRO_IO_PNG_H
+#define CAIRO_IO_PNG_H
 
-#include <config.h>
+#include <gtk/gtk.h>
 #include <gthumb.h>
-#include "cairo-io-jpeg.h"
-#include "cairo-io-png.h"
 
+G_BEGIN_DECLS
 
-G_MODULE_EXPORT void
-gthumb_extension_activate (void)
-{
-#ifdef HAVE_LIBJPEG
-	gth_main_register_image_loader_func (_cairo_image_surface_create_from_jpeg,
-					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
-					     "image/jpeg",
-					     NULL);
-#endif
-	gth_main_register_image_loader_func (_cairo_image_surface_create_from_png,
-					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
-					     "image/png",
-					     NULL);
-}
+GthImage *  _cairo_image_surface_create_from_png (GthFileData   *file_data,
+						  int            requested_size,
+						  int           *original_width,
+						  int           *original_height,
+						  gpointer       user_data,
+						  GCancellable  *cancellable,
+						  GError       **error);
 
+G_END_DECLS
 
-G_MODULE_EXPORT void
-gthumb_extension_deactivate (void)
-{
-}
-
-
-G_MODULE_EXPORT gboolean
-gthumb_extension_is_configurable (void)
-{
-	return FALSE;
-}
-
-
-G_MODULE_EXPORT void
-gthumb_extension_configure (GtkWindow *parent)
-{
-}
+#endif /* CAIRO_IO_PNG_H */

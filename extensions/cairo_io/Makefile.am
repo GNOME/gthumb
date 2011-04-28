@@ -7,7 +7,9 @@ libcairo_io_la_SOURCES = 	\
 if ENABLE_JPEG_TOOLS
 libcairo_io_la_SOURCES +=	\
 	cairo-io-jpeg.c		\
-	cairo-io-jpeg.h
+	cairo-io-jpeg.h		\
+	cairo-io-png.c		\
+	cairo-io-png.h
 endif
 
 libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
