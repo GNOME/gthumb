@@ -404,6 +404,8 @@ image_loader_ready_cb (GObject      *source_object,
 	gboolean            success;
 	int                 interval;
 
+	self->priv->current = -1;
+
 	success = gth_image_loader_load_finish  (GTH_IMAGE_LOADER (source_object),
 						 result,
 						 &image,
@@ -759,6 +761,14 @@ gth_image_preloader_load (GthImagePreloader *self,
 	}
 	va_end (args);
 	load_data->n_files = n;
+
+	if (self->priv->current != -1) {
+		Preloader *preloader;
+
+		preloader = current_preloader (self);
+		if (preloader != NULL)
+			g_cancellable_cancel (preloader->self->priv->cancellable);
+	}
 
 	assign_loaders (load_data);
 	start_next_loader (self);
