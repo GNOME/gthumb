@@ -290,7 +290,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						r = cmyk_tab[ki + c];
 						g = cmyk_tab[ki + m];
 						b = cmyk_tab[ki + y];
-						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
@@ -319,7 +319,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 					for (x = 0; x < srcinfo.output_width; x++) {
 						r = g = b = p_buffer[0];
-						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
@@ -350,7 +350,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						r = p_buffer[0];
 						g = p_buffer[1];
 						b = p_buffer[2];
-						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
@@ -398,7 +398,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						r = range_limit[Y + r_cr_tab[Cr]];
 						g = range_limit[Y + SCALE_DOWN (g_cb_tab[Cb] + g_cr_tab[Cr])];
 						b = range_limit[Y + b_cb_tab[Cb]];
-						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
@@ -457,7 +457,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 						r = cmyk_tab[Ki + c];
 						g = cmyk_tab[Ki + m];
 						b = cmyk_tab[Ki + y];
-						pixel = (0xff << 24) | (r << 16) | (g << 8) | b;
+						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
 
 						p_surface += pixel_step;
