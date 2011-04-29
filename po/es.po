@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-09 18:27+0000\n"
-"PO-Revision-Date: 2011-04-11 20:01+0200\n"
+"POT-Creation-Date: 2011-04-27 20:50+0000\n"
+"PO-Revision-Date: 2011-04-29 17:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -180,7 +180,6 @@ msgid "More extensions..."
 msgstr "Más extensiones…"
 
 #: ../data/ui/extensions.ui.h:2
-#| msgid "Extensions"
 msgid "_Extensions:"
 msgstr "_Extensiones:"
 
@@ -387,7 +386,7 @@ msgstr "Mantener la ampliación anterior"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 #: ../extensions/file_tools/gth-file-tool-crop.c:422
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
-#: ../extensions/file_tools/gth-file-tool-resize.c:422
+#: ../extensions/file_tools/gth-file-tool-resize.c:419
 #: ../extensions/image_viewer/preferences.c:110
 #: ../extensions/slideshow/main.c:278
 msgid "None"
@@ -1345,13 +1344,13 @@ msgstr "_Tamaño:"
 msgid "Image Wall"
 msgstr "Mural de fotos"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:482
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:493
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:506
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:483
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:494
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:507
 msgid "Could not save the theme"
 msgstr "No se pudo guardar el tema"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:649
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:650
 msgid "Could not delete the theme"
 msgstr "No se pudo eliminar el tema"
 
@@ -1484,7 +1483,7 @@ msgstr "No se pudieron guardar los metadatos del archivo"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:111
 #: ../extensions/rename_series/dlg-rename-series.c:471
-#: ../gthumb/gth-overwrite-dialog.c:162
+#: ../gthumb/gth-overwrite-dialog.c:166
 msgid "Cannot read file information"
 msgstr "No se puede leer la información del archivo"
 
@@ -2209,7 +2208,7 @@ msgstr "Mover los archivos seleccionados a otra carpeta"
 
 #: ../extensions/file_manager/callbacks.c:900
 #: ../extensions/find_duplicates/gth-find-duplicates.c:355
-#: ../gthumb/gth-browser.c:4802 ../gthumb/gth-browser.c:4839
+#: ../gthumb/gth-browser.c:4803 ../gthumb/gth-browser.c:4840
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2276,7 +2275,6 @@ msgid "C_rop"
 msgstr "Recor_tar"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:5
-#| msgid "Centered"
 msgid "Center"
 msgstr "Centrar"
 
@@ -2369,82 +2367,77 @@ msgstr "Herramientas básicas para modificar imágenes."
 msgid "Image tools"
 msgstr "Herramientas de imagen"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:309
-#: ../extensions/file_tools/gth-file-tool-negative.c:83
-msgid "Applying changes"
-msgstr "Aplicando cambios"
-
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:479
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:505
 msgid "Adjust Colors..."
 msgstr "Ajustar colores…"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:479
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:505
 msgid "Adjust Colors"
 msgstr "Ajustar colores"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:480
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:506
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:422
-#: ../extensions/file_tools/gth-file-tool-resize.c:422
+#: ../extensions/file_tools/gth-file-tool-resize.c:419
 msgid "Square"
 msgstr "Cuadrado"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:423
-#: ../extensions/file_tools/gth-file-tool-resize.c:423
+#: ../extensions/file_tools/gth-file-tool-resize.c:420
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Imagen)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:426
-#: ../extensions/file_tools/gth-file-tool-resize.c:426
+#: ../extensions/file_tools/gth-file-tool-resize.c:423
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Pantalla)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:430
-#: ../extensions/file_tools/gth-file-tool-resize.c:430
+#: ../extensions/file_tools/gth-file-tool-resize.c:427
 msgid "5:4"
 msgstr "5:4"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:431
-#: ../extensions/file_tools/gth-file-tool-resize.c:431
+#: ../extensions/file_tools/gth-file-tool-resize.c:428
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, libro)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:432
-#: ../extensions/file_tools/gth-file-tool-resize.c:432
+#: ../extensions/file_tools/gth-file-tool-resize.c:429
 msgid "7:5"
 msgstr "7:5"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:433
-#: ../extensions/file_tools/gth-file-tool-resize.c:433
+#: ../extensions/file_tools/gth-file-tool-resize.c:430
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Postal)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
-#: ../extensions/file_tools/gth-file-tool-resize.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:431
 msgid "16:10"
 msgstr "16:10"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:435
-#: ../extensions/file_tools/gth-file-tool-resize.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:432
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:436
-#: ../extensions/file_tools/gth-file-tool-resize.c:436
+#: ../extensions/file_tools/gth-file-tool-resize.c:433
 msgid "1.85:1"
 msgstr "1.85:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:437
-#: ../extensions/file_tools/gth-file-tool-resize.c:437
+#: ../extensions/file_tools/gth-file-tool-resize.c:434
 msgid "2.39:1"
 msgstr "2.39:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:438
-#: ../extensions/file_tools/gth-file-tool-resize.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:435
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
 #: ../extensions/rename_series/gth-template-selector.c:260
 msgid "Custom"
@@ -2462,43 +2455,48 @@ msgstr "Secciones doradas"
 msgid "Center Lines"
 msgstr "Centrar líneas"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:594
+#: ../extensions/file_tools/gth-file-tool-crop.c:452
+msgid "Uniform"
+msgstr "Uniformar"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:593
 msgid "Crop..."
 msgstr "Recortar…"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:594
+#: ../extensions/file_tools/gth-file-tool-crop.c:593
 msgid "Crop"
 msgstr "Recortar"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:100
-msgid "Desaturating image"
-msgstr "Desaturar imagen"
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:65
+#: ../extensions/file_tools/gth-file-tool-negative.c:65
+msgid "Applying changes"
+msgstr "Aplicando cambios"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:118
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:189
 msgid "Desaturate"
 msgstr "Desaturar"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:252
+#: ../extensions/file_tools/gth-file-tool-enhance.c:116
 msgid "White balance correction"
 msgstr "Corrección del balance de blancos"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:284
+#: ../extensions/file_tools/gth-file-tool-enhance.c:339
 msgid "Enhance Colors"
 msgstr "Realzar colores"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:285
+#: ../extensions/file_tools/gth-file-tool-enhance.c:340
 msgid "Automatic white balance correction"
 msgstr "Corrección automática del balance de blancos"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:168
+#: ../extensions/file_tools/gth-file-tool-equalize.c:83
 msgid "Equalizing image histogram"
 msgstr "Ecualizando el histograma de la imagen"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:200
+#: ../extensions/file_tools/gth-file-tool-equalize.c:261
 msgid "Equalize"
 msgstr "Ecualizar"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:201
+#: ../extensions/file_tools/gth-file-tool-equalize.c:262
 msgid "Equalize image histogram"
 msgstr "Ecualizar el histograma de la imagen"
 
@@ -2506,11 +2504,21 @@ msgstr "Ecualizar el histograma de la imagen"
 msgid "Flip"
 msgstr "Voltear"
 
+#: ../extensions/file_tools/gth-file-tool-flip.c:74
+#| msgid "_Rotate the images physically"
+msgid "Flip the image vertically"
+msgstr "Voltea la imagen verticalmente"
+
 #: ../extensions/file_tools/gth-file-tool-mirror.c:73
 msgid "Mirror"
 msgstr "Reflejar"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:100
+#: ../extensions/file_tools/gth-file-tool-mirror.c:74
+#| msgid "Mirror image horizontally (left-right)"
+msgid "Mirror the image horizontally"
+msgstr "Espejar la imagen horizontalmente"
+
+#: ../extensions/file_tools/gth-file-tool-negative.c:183
 msgid "Negative"
 msgstr "Negativo"
 
@@ -2518,11 +2526,11 @@ msgstr "Negativo"
 msgid "Redo"
 msgstr "Rehacer"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:549
+#: ../extensions/file_tools/gth-file-tool-resize.c:546
 msgid "Resize..."
 msgstr "Redimensionar…"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:549
+#: ../extensions/file_tools/gth-file-tool-resize.c:546
 msgid "Resize"
 msgstr "Redimensionar"
 
@@ -2531,10 +2539,20 @@ msgstr "Redimensionar"
 msgid "Rotate Left"
 msgstr "Rotar a la izquierda"
 
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:74
+#| msgid "Rotate image 90 degrees counter-clockwise"
+msgid "Rotate the image by 90 degrees counterclockwise"
+msgstr "Rotar la imagen 90 grados en sentido antihorario"
+
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:73
 #: ../extensions/image_rotation/callbacks.c:49
 msgid "Rotate Right"
 msgstr "Rotar a la derecha"
+
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:74
+#| msgid "Rotate image 90 degrees clockwise"
+msgid "Rotate the image by 90 degrees clockwise"
+msgstr "Rotar la imagen 90 grados en sentido horario"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:56
 msgid "Save As"
@@ -2726,7 +2744,7 @@ msgid "Upload images to Flickr"
 msgstr "Subir imágenes a Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
-#: ../extensions/image_viewer/gth-image-viewer-page.c:986
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1107
 #: ../gthumb/gth-browser.c:1923
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
@@ -2736,7 +2754,7 @@ msgid "Could not take a screenshot"
 msgstr "No se pudo hacer la captura de pantalla"
 
 #: ../extensions/gstreamer_tools/actions.c:130
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1130
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1255
 msgid "Save Image"
 msgstr "Guardar imagen"
 
@@ -2843,7 +2861,7 @@ msgstr "Tasa de fotogramas:"
 
 #: ../extensions/gstreamer_tools/main.c:46
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
-#: ../extensions/image_viewer/gth-image-viewer-page.c:192
+#: ../extensions/image_viewer/gth-image-viewer-page.c:222
 msgid "Width"
 msgstr "Anchura"
 
@@ -2870,8 +2888,8 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1182
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:77
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1307
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:189
 #: ../extensions/webalbums/dlg-web-exporter.c:432
 #: ../extensions/webalbums/gth-web-exporter.c:2438
 #, c-format
@@ -2973,18 +2991,18 @@ msgid "Images"
 msgstr "Imágenes"
 
 #: ../extensions/image_print/gth-image-print-job.c:1895
-#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:294
+#: ../gthumb/gth-image-loader.c:233 ../gthumb/gth-image-loader.c:306
 msgid "No suitable loader available for this file type"
 msgstr "No hay disponible ningún cargador para este tipo de archivo"
 
 #. translators: %s is a filename
-#: ../extensions/image_print/gth-load-image-info-task.c:159
+#: ../extensions/image_print/gth-load-image-info-task.c:164
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Cargando «%s»"
 
-#: ../extensions/image_print/gth-load-image-info-task.c:161
-#: ../extensions/webalbums/gth-web-exporter.c:2687
+#: ../extensions/image_print/gth-load-image-info-task.c:166
+#: ../extensions/webalbums/gth-web-exporter.c:2690
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -3106,51 +3124,71 @@ msgstr "Tipo de _transparencia:"
 msgid "_Zoom quality:"
 msgstr "Calidad de la _ampliación:"
 
-#: ../extensions/image_viewer/gth-image-histogram.c:76
+#: ../extensions/image_viewer/gth-image-histogram.c:74
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:172
+#: ../extensions/image_viewer/gth-image-viewer-page.c:192
+#| msgid "Crop image"
+msgid "Copy Image"
+msgstr "Copiar imagen"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:193
+#| msgid "Copy this image to another location"
+msgid "Copy the image to the clipboard"
+msgstr "Copiar la imagen al portapapeles"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:197
+#| msgid "Save Image"
+msgid "Paste Image"
+msgstr "Pegar imagen"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:198
+#| msgid "Delete selected images from the camera"
+msgid "Paste the image from the clipboard"
+msgstr "Pega la imagen desde el portapapeles"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:202
 msgid "In"
 msgstr "Ampliar"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:173
+#: ../extensions/image_viewer/gth-image-viewer-page.c:203
 msgid "Zoom in"
 msgstr "Ampliar"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:177
+#: ../extensions/image_viewer/gth-image-viewer-page.c:207
 msgid "Out"
 msgstr "Reducir"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:178
+#: ../extensions/image_viewer/gth-image-viewer-page.c:208
 msgid "Zoom out"
 msgstr "Reducir"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:182
+#: ../extensions/image_viewer/gth-image-viewer-page.c:212
 msgid "1:1"
 msgstr "1:1"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:183
+#: ../extensions/image_viewer/gth-image-viewer-page.c:213
 msgid "Actual size"
 msgstr "Tamaño actual"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:187
+#: ../extensions/image_viewer/gth-image-viewer-page.c:217
 msgid "Fit"
 msgstr "Ajustar"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:188
+#: ../extensions/image_viewer/gth-image-viewer-page.c:218
 msgid "Zoom to fit window"
 msgstr "Ampliar hasta ajustarse a la ventana"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:193
+#: ../extensions/image_viewer/gth-image-viewer-page.c:223
 msgid "Zoom to fit width"
 msgstr "Ampliar hasta ajustarse a la anchura"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:200
+#: ../extensions/image_viewer/gth-image-viewer-page.c:230
 msgid "_Fit Window to Image"
 msgstr "_Ajustar ventana a la imagen"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:201
+#: ../extensions/image_viewer/gth-image-viewer-page.c:231
 msgid "Resize the window to the size of the image"
 msgstr "Redimensionar la ventana al tamaño de la imagen"
 
@@ -3813,15 +3851,15 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:437
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal..."
 msgstr "Quitar ojos rojos…"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:437
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
 msgstr "Quitar ojos rojos"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:438
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Quitar el efecto «ojos rojos» producido por el flash de las cámaras"
 
@@ -3850,22 +3888,18 @@ msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
 msgstr "Los valores posibles son: 0 (ninguno), 1 (inferior), 2 (superior)"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
-#| msgid "gtk-add"
 msgid "add"
 msgstr "añadir"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:2
-#| msgid "Edit"
 msgid "digits"
 msgstr "dígitos"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:3
-#| msgid "Format"
 msgid "format:"
 msgstr "formato:"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:4
-#| msgid "Rem_ove"
 msgid "remove"
 msgstr "quitar"
 
@@ -3887,7 +3921,6 @@ msgid "Cas_e:"
 msgstr "Capi_talización:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:14
-#| msgid "Edit Filter"
 msgid "Edit template"
 msgstr "Editar plantilla"
 
@@ -3928,37 +3961,30 @@ msgid "_Template:"
 msgstr "Plan_tilla:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:64
-#| msgid "New enumerator digit"
 msgid "Enumerator"
 msgstr "Enumerador"
 
 #: ../extensions/rename_series/dlg-rename-series.c:65
-#| msgid "The original filename"
 msgid "Original filename"
 msgstr "Nombre original del archivo"
 
 #: ../extensions/rename_series/dlg-rename-series.c:66
-#| msgid "The original extension"
 msgid "Original extension"
 msgstr "Extensión original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:67
-#| msgid "The original enumerator"
 msgid "Original enumerator"
 msgstr "Enumerador original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:68
-#| msgid "The modification date"
 msgid "Modification date"
 msgstr "Fecha de modificación"
 
 #: ../extensions/rename_series/dlg-rename-series.c:69
-#| msgid "The digitalization date"
 msgid "Digitalization date"
 msgstr "Fecha de la digitalización"
 
 #: ../extensions/rename_series/dlg-rename-series.c:70
-#| msgid "A file attribute"
 msgid "File attribute"
 msgstr "Atributo del archivo"
 
@@ -3967,12 +3993,10 @@ msgid "Could not rename the files"
 msgstr "No se pudieron renombrar los archivos"
 
 #: ../extensions/rename_series/dlg-rename-series.c:691
-#| msgid "Could not save the theme"
 msgid "Could not save the template"
 msgstr "No se pudo guardar la plantilla"
 
 #: ../extensions/rename_series/dlg-rename-series.c:708
-#| msgid "_Template:"
 msgid "Edit Template"
 msgstr "Editar plantilla"
 
@@ -4050,7 +4074,6 @@ msgid "Resizing images"
 msgstr "Redimensionando imágenes"
 
 #: ../extensions/resize_images/dlg-resize-images.c:268
-#| msgid "Keep original case"
 msgid "Keep the original format"
 msgstr "Mantener el formato original"
 
@@ -4368,11 +4391,11 @@ msgstr "Guardando las imágenes"
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2930
+#: ../extensions/webalbums/gth-web-exporter.c:2933
 msgid "Could not find the style folder"
 msgstr "No se pudo encontrar la carpeta de estilos"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2963
+#: ../extensions/webalbums/gth-web-exporter.c:2966
 msgid "Could not create a temporary folder"
 msgstr "No se pudo crear una carpeta temporal"
 
@@ -4694,15 +4717,15 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3514
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3515
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3535
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3536
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3556
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3557
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
@@ -4824,8 +4847,8 @@ msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
 #: ../gthumb/gth-browser.c:1166 ../gthumb/gth-browser.c:1725
-#: ../gthumb/gth-browser.c:5637 ../gthumb/gth-browser.c:5656
-#: ../gthumb/gth-browser.c:5681
+#: ../gthumb/gth-browser.c:5639 ../gthumb/gth-browser.c:5658
+#: ../gthumb/gth-browser.c:5683
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4853,24 +4876,24 @@ msgstr "_No guardar"
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3194 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3195 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3515 ../gthumb/gth-browser.c:3536
+#: ../gthumb/gth-browser.c:3516 ../gthumb/gth-browser.c:3537
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3557
+#: ../gthumb/gth-browser.c:3558
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5638
+#: ../gthumb/gth-browser.c:5640
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5682
+#: ../gthumb/gth-browser.c:5684
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4975,7 +4998,6 @@ msgid "RGB"
 msgstr "RGB"
 
 #: ../gthumb/gth-load-file-data-task.c:108
-#| msgid "Getting file information"
 msgid "Reading file information"
 msgstr "Leyendo la información del archivo"
 
@@ -5263,6 +5285,9 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
 "No se pudo encontrar un módulo adecuado para guardar la imagen como «%s»"
 
+#~ msgid "Desaturating image"
+#~ msgstr "Desaturar imagen"
+
 #~ msgid "Available _extensions:"
 #~ msgstr "E_xtensiones disponibles:"
 
@@ -5490,9 +5515,6 @@ msgstr ""
 #~ msgstr ""
 #~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
 #~ "small>"
-
-#~ msgid "Delete selected images from the camera"
-#~ msgstr "Borrar las imágenes seleccionadas de la cámara"
 
 #~ msgid ""
 #~ "If valuable photos have been deleted accidently, download the excellent "
@@ -6115,9 +6137,6 @@ msgstr ""
 #~ msgid "Image c_reation date"
 #~ msgstr "Fecha de c_reación de la imagen"
 
-#~ msgid "Mirror image horizontally (left-right)"
-#~ msgstr "Reflejar imagen horizontalmente (izquierda-derecha)"
-
 #~ msgid "Mirror image vertically (top-bottom)"
 #~ msgstr "Reflejar imagen verticalmente (arriba-abajo)"
 
@@ -6132,12 +6151,6 @@ msgstr ""
 
 #~ msgid "Rotate Images"
 #~ msgstr "Rotar imágenes"
-
-#~ msgid "Rotate image 90 degrees clockwise"
-#~ msgstr "Rotar la imagen 90 grados en sentido horario"
-
-#~ msgid "Rotate image 90 degrees counter-clockwise"
-#~ msgstr "Rotar la imagen 90 grados en sentido antihorario"
 
 #~ msgid "Search terminated, no duplicates found."
 #~ msgstr "Búsqueda finalizada, no se encontraron duplicados."
@@ -6653,9 +6666,6 @@ msgstr ""
 #~ msgid "Move this image to the Trash"
 #~ msgstr "Mover esta imagen hacia la papelera"
 
-#~ msgid "Copy this image to another location"
-#~ msgstr "Copia esta imagen en otro lugar"
-
 #~ msgid "Move this image to another location"
 #~ msgstr "Mover esta imagen a otro lugar"
 
@@ -6983,9 +6993,6 @@ msgstr ""
 
 #~ msgid "Adjust color balance"
 #~ msgstr "Ajustar el balance de colores"
-
-#~ msgid "Crop image"
-#~ msgstr "Recortar la imagen"
 
 #~ msgid "Black and White"
 #~ msgstr "Blanco y negro"
