@@ -80,6 +80,9 @@ _gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface)
 	guchar        *p_pixels;
 	int            p_n_channels;
 
+	if (surface == NULL)
+		return NULL;
+
 	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS)
 		return NULL;
 
