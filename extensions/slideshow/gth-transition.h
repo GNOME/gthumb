@@ -40,7 +40,7 @@ typedef struct _GthTransition         GthTransition;
 typedef struct _GthTransitionClass    GthTransitionClass;
 typedef struct _GthTransitionPrivate  GthTransitionPrivate;
 
-typedef void (*FrameFunc) (GthSlideshow *slideshow, int msecs);
+typedef void (*FrameFunc) (GthSlideshow *slideshow, double progress);
 
 struct _GthTransition
 {
@@ -58,7 +58,7 @@ const char *      gth_transition_get_id           (GthTransition *self);
 const char *      gth_transition_get_display_name (GthTransition *self);
 void              gth_transition_frame            (GthTransition *self,
 						   GthSlideshow  *slideshow,
-						   int            msecs);
+						   double         progress);
 
 G_END_DECLS
 

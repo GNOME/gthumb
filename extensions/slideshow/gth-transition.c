@@ -205,8 +205,8 @@ gth_transition_get_display_name (GthTransition *self)
 void
 gth_transition_frame (GthTransition *self,
 		      GthSlideshow  *slideshow,
-		      int            msecs)
+		      double         progress)
 {
 	if (self->priv->frame_func != NULL)
-		self->priv->frame_func (slideshow, msecs);
+		self->priv->frame_func (slideshow, progress);
 }

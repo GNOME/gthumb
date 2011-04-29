@@ -30,12 +30,12 @@
 
 #ifdef HAVE_CLUTTER
 
-#define VALUE_AT_MSECS(v, t)(((double) (v) * ((double) (t) / GTH_TRANSITION_DURATION)))
+#define VALUE_AT_PROGRESS(v, t)((double) (v) * (double) (t))
 
 
 static void
 no_transition (GthSlideshow *self,
-	       int           msecs)
+	       double        progress)
 {
 	if (self->first_frame) {
 		if (self->current_image != NULL)
@@ -47,15 +47,15 @@ no_transition (GthSlideshow *self,
 
 static void
 push_from_right_transition (GthSlideshow *self,
-			    int           msecs)
+			    double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_x (self->next_image, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
+	clutter_actor_set_x (self->next_image, (float) VALUE_AT_PROGRESS (stage_w, 1.0 - progress) + self->next_geometry.x);
 	if (self->current_image != NULL)
-		clutter_actor_set_x (self->current_image, (float) VALUE_AT_MSECS (- stage_w, msecs) + self->current_geometry.x);
+		clutter_actor_set_x (self->current_image, (float) VALUE_AT_PROGRESS (- stage_w, progress) + self->current_geometry.x);
 
 	if (self->first_frame) {
 		if (self->current_image != NULL)
@@ -67,15 +67,15 @@ push_from_right_transition (GthSlideshow *self,
 
 static void
 push_from_bottom_transition (GthSlideshow *self,
-			     int           msecs)
+			     double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_y (self->next_image, (float) VALUE_AT_MSECS (stage_h, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.y);
+	clutter_actor_set_y (self->next_image, (float) VALUE_AT_PROGRESS (stage_h, 1.0 - progress) + self->next_geometry.y);
 	if (self->current_image != NULL)
-		clutter_actor_set_y (self->current_image, (float) VALUE_AT_MSECS (- stage_h, msecs) + self->current_geometry.y);
+		clutter_actor_set_y (self->current_image, (float) VALUE_AT_PROGRESS (- stage_h, progress) + self->current_geometry.y);
 
 	if (self->first_frame) {
 		if (self->current_image != NULL)
@@ -87,16 +87,16 @@ push_from_bottom_transition (GthSlideshow *self,
 
 static void
 slide_from_right_transition (GthSlideshow *self,
-			     int           msecs)
+			     double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
-	clutter_actor_set_x (self->next_image, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
+	clutter_actor_set_x (self->next_image, (float) VALUE_AT_PROGRESS (stage_w, 1.0 - progress) + self->next_geometry.x);
 
 	if (self->current_image != NULL)
-		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_PROGRESS (255.0, 1.0 - progress));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_PROGRESS (255.0, progress));
 
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
@@ -110,16 +110,16 @@ slide_from_right_transition (GthSlideshow *self,
 
 static void
 slide_from_bottom_transition (GthSlideshow *self,
-			      int           msecs)
+			      double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
-	clutter_actor_set_y (self->next_image, (float) VALUE_AT_MSECS (stage_h, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.y);
+	clutter_actor_set_y (self->next_image, (float) VALUE_AT_PROGRESS (stage_h, 1.0 - progress) + self->next_geometry.y);
 
 	if (self->current_image != NULL)
-		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_PROGRESS (255.0, 1.0 - progress));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_PROGRESS (255.0, progress));
 
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
@@ -133,11 +133,11 @@ slide_from_bottom_transition (GthSlideshow *self,
 
 static void
 fade_transition (GthSlideshow *self,
-		 int           msecs)
+		 double        progress)
 {
 	if (self->current_image != NULL)
-		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_PROGRESS (255.0, 1.0 - progress));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_PROGRESS (255.0, progress));
 
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
@@ -151,9 +151,9 @@ fade_transition (GthSlideshow *self,
 
 static void
 flip_transition (GthSlideshow *self,
-		 int           msecs)
+		 double        progress)
 {
-	if ((float) msecs >= (float) GTH_TRANSITION_DURATION / 2.0) {
+	if (progress >= 0.5) {
 		clutter_actor_show (self->next_image);
 		if (self->current_image != NULL)
 			clutter_actor_hide (self->current_image);
@@ -166,14 +166,14 @@ flip_transition (GthSlideshow *self,
 
 	clutter_actor_set_rotation (self->next_image,
 				    CLUTTER_Y_AXIS,
-				    VALUE_AT_MSECS (180.0, GTH_TRANSITION_DURATION - msecs),
+				    VALUE_AT_PROGRESS (180.0, 1.0 - progress),
 				    0.0,
 				    0.0,
 				    0.0);
 	if (self->current_image != NULL)
 		clutter_actor_set_rotation (self->current_image,
 					    CLUTTER_Y_AXIS,
-					    VALUE_AT_MSECS (180.0, - msecs),
+					    VALUE_AT_PROGRESS (180.0, - progress),
 					    0.0,
 					    0.0,
 					    0.0);
@@ -183,7 +183,6 @@ flip_transition (GthSlideshow *self,
 			clutter_actor_raise (self->next_image, self->current_image);
 			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
 		}
-		clutter_actor_show (self->next_image);
 		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
 	}
 }
@@ -191,14 +190,14 @@ flip_transition (GthSlideshow *self,
 
 static void
 cube_from_right_transition (GthSlideshow *self,
-			    int           msecs)
+			    double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
 	if (self->current_image != NULL) {
-		if (msecs >= GTH_TRANSITION_DURATION / 2)
+		if (progress >= 0.5)
 			clutter_actor_raise (self->next_image, self->current_image);
 		else
 			clutter_actor_raise (self->current_image, self->next_image);
@@ -206,14 +205,14 @@ cube_from_right_transition (GthSlideshow *self,
 
 	clutter_actor_set_rotation (self->next_image,
 				    CLUTTER_Y_AXIS,
-				    VALUE_AT_MSECS (90.0, -msecs) - 270.0,
+				    VALUE_AT_PROGRESS (90.0, - progress) - 270.0,
 				    0.0,
 				    0.0,
 				    - stage_w / 2.0);
 	if (self->current_image != NULL)
 		clutter_actor_set_rotation (self->current_image,
 					    CLUTTER_Y_AXIS,
-					    VALUE_AT_MSECS (90.0, -msecs),
+					    VALUE_AT_PROGRESS (90.0, - progress),
 					    0.0,
 					    0.0,
 					    - stage_w / 2.0);
@@ -229,14 +228,14 @@ cube_from_right_transition (GthSlideshow *self,
 
 static void
 cube_from_bottom_transition (GthSlideshow *self,
-			     int           msecs)
+			     double        progress)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
 	if (self->current_image != NULL) {
-		if (msecs >= GTH_TRANSITION_DURATION / 2)
+		if (progress >= 0.5)
 			clutter_actor_raise (self->next_image, self->current_image);
 		else
 			clutter_actor_raise (self->current_image, self->next_image);
@@ -244,14 +243,14 @@ cube_from_bottom_transition (GthSlideshow *self,
 
 	clutter_actor_set_rotation (self->next_image,
 				    CLUTTER_X_AXIS,
-				    VALUE_AT_MSECS (90.0, msecs) + 270.0,
+				    VALUE_AT_PROGRESS (90.0, progress) + 270.0,
 				    0.0,
 				    0.0,
 				    - stage_w / 2.0);
 	if (self->current_image != NULL)
 		clutter_actor_set_rotation (self->current_image,
 					    CLUTTER_X_AXIS,
-					    VALUE_AT_MSECS (90.0, msecs),
+					    VALUE_AT_PROGRESS (90.0, progress),
 					    0.0,
 					    0.0,
 					    - stage_w / 2.0);
