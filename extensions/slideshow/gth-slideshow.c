@@ -58,6 +58,7 @@ struct _GthSlideshowPrivate {
 	GthSlideshowDirection  direction;
 #if HAVE_CLUTTER
 	ClutterTimeline       *timeline;
+	ClutterAlpha          *alpha;
 	ClutterActor          *image1;
 	ClutterActor          *image2;
 	ClutterActor          *paused_actor;
@@ -875,7 +876,10 @@ animation_frame_cb (ClutterTimeline *timeline,
 		    GthSlideshow    *self)
 {
 	if (self->priv->transition != NULL)
-		gth_transition_frame (self->priv->transition, self, msecs);
+		gth_transition_frame (self->priv->transition,
+				      self,
+				      clutter_alpha_get_alpha (self->priv->alpha));
+
 	if (self->first_frame)
 		self->first_frame = FALSE;
 }
@@ -972,6 +976,7 @@ static void
 clutter_projector_finalize (GthSlideshow *self)
 {
 	_g_object_unref (self->priv->timeline);
+	_g_object_unref (self->priv->alpha);
 }
 
 
@@ -1171,6 +1176,8 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->priv->timeline, "completed", G_CALLBACK (animation_completed_cb), self);
 	g_signal_connect (self->priv->timeline, "new-frame", G_CALLBACK (animation_frame_cb), self);
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
+
+	self->priv->alpha = clutter_alpha_new_full (self->priv->timeline, CLUTTER_EASE_IN_OUT_SINE);
 
 	if (self->priv->pause_pixbuf != NULL)
 		self->priv->paused_actor = gtk_clutter_texture_new_from_pixbuf (self->priv->pause_pixbuf);
