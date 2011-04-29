@@ -38,9 +38,6 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {
-	if (! g_str_equal (mime_type, "*") && ! _g_mime_type_is_image (mime_type))
-		return FALSE;
-
 	return _g_file_attributes_matches_any_v ("general::format,"
 			                         "general::dimensions,"
 						 "image::width,"
@@ -64,9 +61,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 	char             *description;
 	int               width;
 	int               height;
-
-	if (! _g_mime_type_is_image (gth_file_data_get_mime_type (file_data)))
-		return;
+	const char       *mime_type = NULL;
 
 	format_recognized = FALSE;
 
@@ -111,6 +106,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 				format_recognized = TRUE;
 				description = "PNG";
+				mime_type = "image/png";
 			}
 
 #if HAVE_LIBJPEG
@@ -140,6 +136,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				{
 					format_recognized = TRUE;
 					description = "JPEG";
+					mime_type = "image/jpeg";
 
 					if ((orientation == GTH_TRANSFORM_ROTATE_90)
 					     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
@@ -185,6 +182,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 		g_file_info_set_attribute_int32 (file_data->info, "frame::width", width);
 		g_file_info_set_attribute_int32 (file_data->info, "frame::height", height);
+
+		if (mime_type != NULL)
+			gth_file_data_set_mime_type (file_data, mime_type);
 
 		size = g_strdup_printf (_("%d × %d"), width, height);
 		g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
