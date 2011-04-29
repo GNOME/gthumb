@@ -5301,6 +5301,11 @@ _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 }
 
 
+static void _gth_browser_load_file (GthBrowser  *browser,
+				    GthFileData *file_data,
+				    gboolean     view);
+
+
 static void
 file_metadata_ready_cb (GList    *files,
 			GError   *error,
@@ -5309,6 +5314,7 @@ file_metadata_ready_cb (GList    *files,
 	LoadFileData *data = user_data;
 	GthBrowser   *browser = data->browser;
 	GthFileData  *file_data;
+	gboolean      different_mime_type;
 
 	if ((error != NULL) || (files == NULL)) {
 		load_file_data_unref (data);
@@ -5320,6 +5326,8 @@ file_metadata_ready_cb (GList    *files,
 		load_file_data_unref (data);
 		return;
 	}
+
+	different_mime_type = ! g_str_equal (gth_file_data_get_mime_type (browser->priv->current_file), gth_file_data_get_mime_type (file_data));
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
@@ -5346,8 +5354,25 @@ file_metadata_ready_cb (GList    *files,
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 	gth_browser_update_sensitivity (browser);
-	if (browser->priv->viewer_page != NULL)
-		gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
+	if (browser->priv->viewer_page != NULL) {
+		GthViewerPage *basic_viewer_page;
+
+		/* The basic viewer is registered before any other viewer, so
+		 * it's the last one in the viewer_pages list. */
+
+		basic_viewer_page = g_list_last (browser->priv->viewer_pages)->data;
+
+		/* If after reading the metadata we got a different mime type
+		 * and the current viewer is the default file viewer it's likely
+		 * that we have an image with a wrong extension.  Try to
+		 * load the file again to see if the mime type can be viewed by
+		 * a different viewer_page. */
+
+		if (different_mime_type && (G_OBJECT_TYPE (browser->priv->viewer_page) == G_OBJECT_TYPE (basic_viewer_page)))
+			_gth_browser_load_file (browser, data->file_data, data->view);
+		else
+			gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
+	}
 
 	if (browser->priv->location == NULL) {
 		GFile *parent;
@@ -5392,7 +5417,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
-	data = load_file_data_new (browser, browser->priv->current_file, TRUE);
+	data = load_file_data_new (browser, browser->priv->current_file, FALSE);
 	files = g_list_prepend (NULL, browser->priv->current_file->file);
 	_g_query_all_metadata_async (files,
 				     GTH_LIST_DEFAULT,
