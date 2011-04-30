@@ -69,6 +69,7 @@ update_crop_parameters (GthFileToolRotate *self)
 	double    rotation_angle;
 	gboolean  keep_aspect_ratio;
 	double    crop_p1;
+	double    crop_p_min;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -94,14 +95,18 @@ update_crop_parameters (GthFileToolRotate *self)
 
 			_gdk_pixbuf_rotate_get_cropping_parameters (self->priv->src_pixbuf,
 								    rotation_angle,
-								    &self->priv->crop_p1_plus_p2);
+								    &self->priv->crop_p1_plus_p2,
+								    &crop_p_min);
 
 			/* This centers the cropping region in the middle of the rotated image */
 
 			crop_p1 = self->priv->crop_p1_plus_p2 / 2.0;
 
-			gtk_adjustment_set_lower (self->priv->crop_p1_adj, MAX (self->priv->crop_p1_plus_p2 - 1, 0));
-			gtk_adjustment_set_lower (self->priv->crop_p2_adj, MAX (self->priv->crop_p1_plus_p2 - 1, 0));
+			gtk_adjustment_set_lower (self->priv->crop_p1_adj, MAX (crop_p_min, 0.0));
+			gtk_adjustment_set_lower (self->priv->crop_p2_adj, MAX (crop_p_min, 0.0));
+
+			gtk_adjustment_set_upper (self->priv->crop_p1_adj, MIN (self->priv->crop_p1_plus_p2 - crop_p_min, 1.0));
+			gtk_adjustment_set_upper (self->priv->crop_p2_adj, MIN (self->priv->crop_p1_plus_p2 - crop_p_min, 1.0));
 
 			gtk_adjustment_set_value (self->priv->crop_p1_adj, crop_p1);
 		}
@@ -111,8 +116,11 @@ update_crop_parameters (GthFileToolRotate *self)
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), TRUE);
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), TRUE);
 
-			gtk_adjustment_set_lower (self->priv->crop_p1_adj, 0);
-			gtk_adjustment_set_lower (self->priv->crop_p2_adj, 0);
+			gtk_adjustment_set_lower (self->priv->crop_p1_adj, 0.0);
+			gtk_adjustment_set_lower (self->priv->crop_p2_adj, 0.0);
+
+			gtk_adjustment_set_upper (self->priv->crop_p1_adj, 1.0);
+			gtk_adjustment_set_upper (self->priv->crop_p2_adj, 1.0);
 		}
 
 		gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_crop);
