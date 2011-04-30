@@ -30,17 +30,23 @@
 
 #define INTERPOLATE(v00, v10, v01, v11, fx, fy) ((v00) + ((v10) - (v00)) * (fx) + ((v01) - (v00)) * (fy) + ((v00) - (v10) - (v01) + (v11)) * (fx) * (fy))
 
-#define GET_VALUES(r, g, b, x, y) \
+#define GET_VALUES(r, g, b, a, x, y) \
 			if (x >= 0 && x < src_width && y >= 0 && y < src_height) { \
 				p_src2 = p_src + src_rowstride * y + n_channels * x; \
 				r = p_src2[RED_PIX]; \
 				g = p_src2[GREEN_PIX]; \
 				b = p_src2[BLUE_PIX]; \
+				\
+				if (n_channels == 4) \
+					a = p_src2[ALPHA_PIX]; \
+				else \
+					a = A0; \
 			} \
 			else { \
 				r = R0; \
 				g = G0; \
 				b = B0; \
+				a = A0; \
 			}
 
 
@@ -161,6 +167,7 @@ rotate (GdkPixbuf *src_pixbuf,
 	const guchar R0 = 0;
 	const guchar G0 = 0;
 	const guchar B0 = 0;
+	const guchar A0 = 0;
 
 	GdkPixbuf *new_pixbuf;
 
@@ -182,6 +189,7 @@ rotate (GdkPixbuf *src_pixbuf,
 	guchar     r00, r01, r10, r11;
 	guchar     g00, g01, g10, g11;
 	guchar     b00, b01, b10, b11;
+	guchar     a00, a01, a10, a11;
 
 	angle = CLAMP (angle, -90.0, 90.0);
 
@@ -225,7 +233,7 @@ rotate (GdkPixbuf *src_pixbuf,
 
 			if (high_quality) {
 
-				// Bilinear interpolation
+				/* Bilinear interpolation */
 
 				x2min = (int) floor (x2);
 				y2min = (int) floor (y2);
@@ -236,26 +244,32 @@ rotate (GdkPixbuf *src_pixbuf,
 				fx = x2 - x2min;
 				fy = y2 - y2min;
 
-				GET_VALUES (r00, g00, b00, x2min, y2min);
-				GET_VALUES (r01, g01, b01, x2max, y2min);
-				GET_VALUES (r10, g10, b10, x2min, y2max);
-				GET_VALUES (r11, g11, b11, x2max, y2max);
+				GET_VALUES (r00, g00, b00, a00, x2min, y2min);
+				GET_VALUES (r01, g01, b01, a01, x2max, y2min);
+				GET_VALUES (r10, g10, b10, a10, x2min, y2max);
+				GET_VALUES (r11, g11, b11, a11, x2max, y2max);
 
 				p_new2[RED_PIX]   = CLAMP (INTERPOLATE (r00, r01, r10, r11, fx, fy), 0, 255);
 				p_new2[GREEN_PIX] = CLAMP (INTERPOLATE (g00, g01, g10, g11, fx, fy), 0, 255);
 				p_new2[BLUE_PIX]  = CLAMP (INTERPOLATE (b00, b01, b10, b11, fx, fy), 0, 255);
+
+				if (n_channels == 4)
+					p_new2[ALPHA_PIX]  = CLAMP (INTERPOLATE (a00, a01, a10, a11, fx, fy), 0, 255);
 			}
 			else {
-				// Nearest neighbor
+				/* Nearest neighbor */
 
 				x2min = ROUND (x2);
 				y2min = ROUND (y2);
 
-				GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], x2min, y2min);
+				if (n_channels == 4) {
+					GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], p_new2[ALPHA_PIX], x2min, y2min);
+				}
+				else {
+					guchar t;
+					GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], t, x2min, y2min);
+				}
 			}
-
-			if (n_channels == 4)
-				p_new2[ALPHA_PIX] = 255;
 
 			p_new2 += n_channels;
 		}
