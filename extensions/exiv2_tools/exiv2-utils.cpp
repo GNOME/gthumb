@@ -1143,6 +1143,42 @@ exiv2_write_metadata_to_buffer (void      **buffer,
 }
 
 
+extern "C"
+gboolean
+exiv2_clear_metadata (void   **buffer,
+		      gsize   *buffer_size,
+		      GError **error)
+{
+	try {
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) *buffer, *buffer_size);
+		g_assert (image.get() != 0);
+
+		try {
+			image->clearMetadata();
+			image->writeMetadata();
+		}
+		catch (Exiv2::AnyError& e) {
+			g_warning ("%s", e.what());
+		}
+
+		Exiv2::BasicIo &io = image->io();
+		io.open();
+		Exiv2::DataBuf buf = io.read(io.size());
+
+		g_free (*buffer);
+		*buffer = g_memdup (buf.pData_, buf.size_);
+		*buffer_size = buf.size_;
+	}
+	catch (Exiv2::AnyError& e) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
 #define MAX_RATIO_ERROR_TOLERANCE 0.01
 
 

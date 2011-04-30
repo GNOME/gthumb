@@ -44,6 +44,9 @@ gboolean   exiv2_write_metadata_to_buffer   (void           **buffer,
 					     GFileInfo       *info,
 					     GdkPixbuf       *pixbuf, /* optional */
 					     GError         **error);
+gboolean   exiv2_clear_metadata             (void           **buffer,
+					     gsize           *buffer_size,
+					     GError         **error);
 GdkPixbuf *exiv2_generate_thumbnail         (const char      *uri,
 					     const char      *mime_type,
 					     int              size);
