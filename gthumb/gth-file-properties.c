@@ -133,7 +133,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 			g_free (value);
 			value = tmp_value;
 		}
-		tooltip = g_markup_printf_escaped ("%s: %s", _(info->id), value);
+		tooltip = g_markup_printf_escaped ("%s: %s", _(info->display_name), value);
 
 		category = g_hash_table_lookup (category_hash, info->category);
 		if (category == NULL) {
