@@ -298,7 +298,7 @@ _gth_histogram_view_update_info (GthHistogramView *self)
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("median_label")), s);
 	g_free (s);
 
-	s = g_strdup_printf ("%" G_GOFFSET_FORMAT, total);
+	s = g_strdup_printf ("%'" G_GOFFSET_FORMAT, total);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_label")), s);
 	g_free (s);
 
