@@ -15,6 +15,7 @@ icons_DATA = 				\
 	histogram-linear.png		\
 	histogram-logarithmic.png	\
 	image-navigator.png		\
+	map.png				\
 	photobucket.png			\
 	picasaweb.png			\
 	tool-adjust-colors.png		\

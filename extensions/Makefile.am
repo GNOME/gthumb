@@ -43,6 +43,7 @@ SUBDIRS = 			\
 	jpeg_utils		\
 	$(JPEG_TOOLS)		\
 	list_tools		\
+	map_view		\
 	oauth			\
 	pixbuf_savers		\
 	raw_files		\

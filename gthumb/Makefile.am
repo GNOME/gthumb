@@ -265,6 +265,7 @@ gthumb_LDADD =						\
 	$(LIBBRASERO_LIBS)				\
 	$(LIBOPENRAW_LIBS)				\
 	$(LIBSOUP_LIBS)					\
+	$(LIBCHAMPLAIN_LIBS)				\
 	$(NULL)
 
 if RUN_IN_PLACE
@@ -290,6 +291,7 @@ gthumb_CFLAGS =							\
 	$(LIBBRASERO_CFLAGS)					\
 	$(LIBOPENRAW_CFLAGS)					\
 	$(LIBSOUP_CFLAGS)					\
+	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
 	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\

@@ -56,6 +56,7 @@ UNIQUE_REQUIRED=1.1.2
 LIBSOUP_REQUIRED=2.26
 GNOME_KEYRING_REQUIRED=2.28
 LIBBRASERO_REQUIRED=2.28
+LIBCHAMPLAIN_REQUIRED=0.8.0
 
 dnl ===========================================================================
 
@@ -213,6 +214,27 @@ fi
 AC_SUBST(GSTREAMER_LIBS)
 AC_SUBST(GSTREAMER_CFLAGS)
 AM_CONDITIONAL(ENABLE_GSTREAMER, test "x$enable_gstreamer" = xyes)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([libchamplain],
+	      [AS_HELP_STRING([--disable-libchamplain],[do not compile code that uses the libchamplain library])],,
+	      [enable_libchamplain=yes])
+
+if test x$enable_libchamplain = xyes ; then
+	PKG_CHECK_MODULES(LIBCHAMPLAIN,
+			  [champlain-0.8 >= $LIBCHAMPLAIN_REQUIRED
+			   champlain-gtk-0.8 >= $LIBCHAMPLAIN_REQUIRED],
+			  [enable_libchamplain=yes],
+			  [enable_libchamplain=no])
+fi
+if test x$enable_libchamplain = xyes ; then
+	AC_DEFINE(HAVE_LIBCHAMPLAIN, 1, [Define to 1 if libchamplain support is included])
+fi
+
+AC_SUBST(LIBCHAMPLAIN_LIBS)
+AC_SUBST(LIBCHAMPLAIN_CFLAGS)
+AM_CONDITIONAL(ENABLE_LIBCHAMPLAIN, test "x$enable_libchamplain" = xyes)
 
 dnl ===========================================================================
 
@@ -584,6 +606,7 @@ extensions/jpeg_utils/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile
 extensions/list_tools/data/ui/Makefile
+extensions/map_view/Makefile
 extensions/oauth/Makefile
 extensions/oauth/data/Makefile
 extensions/oauth/data/ui/Makefile
@@ -651,4 +674,5 @@ Configuration:
 	Burn disc support    : ${enable_libbrasero}
 	Web albums           : ${enable_web_albums}
 	SM client support    : ${with_smclient}
+	Map support          : ${enable_libchamplain}
 "
