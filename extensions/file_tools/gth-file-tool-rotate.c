@@ -38,10 +38,14 @@ static gpointer parent_class = NULL;
 struct _GthFileToolRotatePrivate {
 	GdkPixbuf        *src_pixbuf;
 	GdkPixbuf        *rotate_pixbuf;
+	gboolean          has_alpha;
 	GtkBuilder       *builder;
 	GtkWidget        *options;
 	GtkAdjustment    *rotation_angle_adj;
 	GtkWidget        *high_quality;
+	GtkWidget        *background_color;
+	GtkWidget        *background_color_button;
+	GtkWidget        *background_transparent;
 	GtkWidget        *enable_guided_crop;
 	gboolean          crop_enabled;
 	GtkWidget        *show_grid;
@@ -242,6 +246,8 @@ apply_cb (gpointer user_data)
 	GtkWidget         *viewer_page;
 	double             rotation_angle;
 	gboolean           high_quality;
+	GdkColor           background_color;
+	guchar             r0, g0, b0, a0;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -254,8 +260,29 @@ apply_cb (gpointer user_data)
 	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
 	high_quality = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->high_quality));
 
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->background_color))) {
+
+		gtk_color_button_get_color (GTK_COLOR_BUTTON (self->priv->background_color_button), &background_color);
+
+		r0 = background_color.red >> 8;
+		g0 = background_color.green >> 8;
+		b0 = background_color.blue >> 8;
+		
+		if (self->priv->has_alpha)
+			a0 = gtk_color_button_get_alpha (GTK_COLOR_BUTTON (self->priv->background_color_button)) >> 8;
+		else
+			a0 = 0;
+	}
+	else {
+		r0 = 0;
+		g0 = 0;
+		b0 = 0;
+		a0 = 0;
+	}
+
 	_g_object_unref (self->priv->rotate_pixbuf);
-	self->priv->rotate_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, high_quality);
+	self->priv->rotate_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, high_quality, r0, g0, b0, a0);
+
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
 
 	update_crop_parameters (self);
@@ -407,6 +434,16 @@ value_changed_cb (GtkAdjustment     *adj,
 
 
 static void
+background_color_changed_cb (GtkAdjustment     *adj,
+		             GthFileToolRotate *self)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_color), TRUE);
+	
+	value_changed_cb (adj, self);
+}
+
+
+static void
 selector_selected_cb (GthImageSelector  *selector,
 		      int                x,
 		      int                y,
@@ -459,6 +496,22 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 							       0.0, -90.0, 90.0, 0.1, 1.0, 1);
 
 	self->priv->high_quality = _gtk_builder_get_widget (self->priv->builder, "high_quality");
+
+	self->priv->background_color = _gtk_builder_get_widget (self->priv->builder, "background_color");
+	self->priv->background_color_button = _gtk_builder_get_widget (self->priv->builder, "background_color_button");
+	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent");
+
+	self->priv->has_alpha = gdk_pixbuf_get_n_channels (self->priv->src_pixbuf) == 4;
+
+	if (self->priv->has_alpha) {
+		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_color_button), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
+	}
+	else {
+		gtk_widget_set_sensitive (GET_WIDGET ("background_transparent"), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_color), TRUE);
+	}
+
 	self->priv->show_grid = _gtk_builder_get_widget (self->priv->builder, "show_grid");
 	self->priv->enable_guided_crop = _gtk_builder_get_widget (self->priv->builder, "enable_guided_crop");
 	self->priv->keep_aspect_ratio = _gtk_builder_get_widget (self->priv->builder, "keep_aspect_ratio");
@@ -520,6 +573,18 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->rotation_angle_adj),
 			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->background_color),
+			  "toggled",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->background_color_button),
+			  "color-set",
+			  G_CALLBACK (background_color_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->background_transparent),
+			  "toggled",
 			  G_CALLBACK (value_changed_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->crop_p1_adj),

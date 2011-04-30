@@ -36,17 +36,13 @@
 				r = p_src2[RED_PIX]; \
 				g = p_src2[GREEN_PIX]; \
 				b = p_src2[BLUE_PIX]; \
-				\
-				if (n_channels == 4) \
-					a = p_src2[ALPHA_PIX]; \
-				else \
-					a = A0; \
+				a = (n_channels == 4) ? p_src2[ALPHA_PIX] : a0; \
 			} \
 			else { \
-				r = R0; \
-				g = G0; \
-				b = B0; \
-				a = A0; \
+				r = r0; \
+				g = g0; \
+				b = b0; \
+				a = a0; \
 			}
 
 
@@ -162,13 +158,12 @@ _gdk_pixbuf_rotate_get_cropping_region (GdkPixbuf *src_pixbuf,
 static GdkPixbuf*
 rotate (GdkPixbuf *src_pixbuf,
 	double     angle,
-	gboolean   high_quality)
+	gboolean   high_quality,
+	guchar     r0,
+	guchar     g0,
+	guchar     b0,
+	guchar     a0)
 {
-	const guchar R0 = 0;
-	const guchar G0 = 0;
-	const guchar B0 = 0;
-	const guchar A0 = 0;
-
 	GdkPixbuf *new_pixbuf;
 
 	double     angle_rad;
@@ -319,7 +314,11 @@ _gdk_pixbuf_rotate_get_align_angle (gboolean vertical,
 GdkPixbuf*
 _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		    double     angle,
-		    gboolean   high_quality)
+		    gboolean   high_quality,
+		    guchar     r0,
+		    guchar     g0,
+		    guchar     b0,
+		    guchar     a0)
 {
 	GdkPixbuf *new_pixbuf;
 
@@ -334,7 +333,7 @@ _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 		new_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	}
 	else {
-		new_pixbuf = rotate (src_pixbuf, -angle, high_quality);
+		new_pixbuf = rotate (src_pixbuf, -angle, high_quality, r0, g0, b0, a0);
 	}
 
 	return new_pixbuf;

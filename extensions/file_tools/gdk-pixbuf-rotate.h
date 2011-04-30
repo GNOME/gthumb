@@ -45,7 +45,11 @@ double _gdk_pixbuf_rotate_get_align_angle (gboolean vertical,
 
 GdkPixbuf* _gdk_pixbuf_rotate (GdkPixbuf *src_pixbuf,
 			       double     angle,
-			       gboolean   high_quality);
+			       gboolean   high_quality,
+			       guchar     r0,
+			       guchar     g0,
+			       guchar     b0,
+			       guchar     a0);
 
 G_END_DECLS
 
