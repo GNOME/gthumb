@@ -95,12 +95,12 @@ decimal_to_string (double value)
 	/* minutes */
 
 	part = floor (value);
-	g_string_append_printf (s, "%.0fʹ", part);
+	g_string_append_printf (s, " %.0fʹ", part);
 	value = (value - part) * 60.0;
 
 	/* seconds */
 
-	g_string_append_printf (s, "%02.3fʺ", value);
+	g_string_append_printf (s, " %02.3fʺ", value);
 
 	return g_string_free (s, FALSE);
 }
