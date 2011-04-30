@@ -36,6 +36,12 @@ extensions/burn_disc/callbacks.h
 extensions/burn_disc/gth-burn-task.c
 extensions/burn_disc/gth-burn-task.h
 extensions/burn_disc/main.c
+[type: gettext/ini]extensions/cairo_io/cairo_io.extension.in.in
+extensions/cairo_io/cairo-io-jpeg.c
+extensions/cairo_io/cairo-io-jpeg.h
+extensions/cairo_io/cairo-io-png.c
+extensions/cairo_io/cairo-io-png.h
+extensions/cairo_io/main.c
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
 extensions/catalogs/callbacks.c
@@ -203,14 +209,21 @@ extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
 extensions/file_manager/preferences.h
+extensions/file_tools/cairo-blur.c
+extensions/file_tools/cairo-blur.h
 extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 extensions/file_tools/data/gthumb_crop_options.schemas.in
 extensions/file_tools/data/gthumb_resize_options.schemas.in
+extensions/file_tools/data/gthumb_rotate_options.schemas.in
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/rotate-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/sharpen-options.ui
 [type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
+extensions/file_tools/gdk-pixbuf-rotate.c
+extensions/file_tools/gdk-pixbuf-rotate.h
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-crop.c
@@ -231,6 +244,8 @@ extensions/file_tools/gth-file-tool-redo.c
 extensions/file_tools/gth-file-tool-redo.h
 extensions/file_tools/gth-file-tool-resize.c
 extensions/file_tools/gth-file-tool-resize.h
+extensions/file_tools/gth-file-tool-rotate.c
+extensions/file_tools/gth-file-tool-rotate.h
 extensions/file_tools/gth-file-tool-rotate-left.c
 extensions/file_tools/gth-file-tool-rotate-left.h
 extensions/file_tools/gth-file-tool-rotate-right.c
@@ -239,8 +254,14 @@ extensions/file_tools/gth-file-tool-save-as.c
 extensions/file_tools/gth-file-tool-save-as.h
 extensions/file_tools/gth-file-tool-save.c
 extensions/file_tools/gth-file-tool-save.h
+extensions/file_tools/gth-file-tool-sharpen.c
+extensions/file_tools/gth-file-tool-sharpen.h
 extensions/file_tools/gth-file-tool-undo.c
 extensions/file_tools/gth-file-tool-undo.h
+extensions/file_tools/gth-image-rotator.c
+extensions/file_tools/gth-image-rotator.h
+extensions/file_tools/gth-transform-resize.c
+extensions/file_tools/gth-transform-resize.h
 extensions/file_tools/main.c
 extensions/file_tools/preferences.h
 [type: gettext/ini]extensions/file_viewer/file_viewer.extension.in.in
@@ -372,6 +393,8 @@ extensions/jpeg_utils/jmemorydest.c
 extensions/jpeg_utils/jmemorydest.h
 extensions/jpeg_utils/jmemorysrc.c
 extensions/jpeg_utils/jmemorysrc.h
+extensions/jpeg_utils/jpeg-info.c
+extensions/jpeg_utils/jpeg-info.h
 extensions/jpeg_utils/jpegint-80.h
 extensions/jpeg_utils/jpegtran.c
 extensions/jpeg_utils/jpegtran.h
@@ -401,6 +424,10 @@ extensions/list_tools/gth-script-task.c
 extensions/list_tools/gth-script-task.h
 [type: gettext/ini]extensions/list_tools/list_tools.extension.in.in
 extensions/list_tools/main.c
+extensions/map_view/gth-map-view.c
+extensions/map_view/gth-map-view.h
+extensions/map_view/main.c
+[type: gettext/ini]extensions/map_view/map_view.extension.in.in
 [type: gettext/glade]extensions/oauth/data/ui/oauth-account-chooser.ui
 [type: gettext/glade]extensions/oauth/data/ui/oauth-account-manager.ui
 [type: gettext/glade]extensions/oauth/data/ui/oauth-ask-authorization.ui
@@ -683,8 +710,10 @@ gthumb/gth-icon-cache.c
 gthumb/gth-icon-cache.h
 gthumb/gth-icon-view.c
 gthumb/gth-icon-view.h
+gthumb/gth-image.c
 gthumb/gth-image-dragger.c
 gthumb/gth-image-dragger.h
+gthumb/gth-image.h
 gthumb/gth-image-history.c
 gthumb/gth-image-history.h
 gthumb/gth-image-loader.c
