@@ -43,8 +43,7 @@ struct _GthFileToolRotatePrivate {
 	GtkWidget        *options;
 	GtkAdjustment    *rotation_angle_adj;
 	GtkWidget        *high_quality;
-	GtkWidget        *background_color;
-	GtkWidget        *background_color_button;
+	GtkWidget        *background_colorbutton;
 	GtkWidget        *background_transparent;
 	GtkWidget        *enable_guided_crop;
 	gboolean          crop_enabled;
@@ -84,11 +83,7 @@ update_crop_parameters (GthFileToolRotate *self)
 	self->priv->crop_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->enable_guided_crop));
 
 	if (self->priv->crop_enabled) {
-		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), TRUE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_label"), TRUE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_hbox"), TRUE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_grid_label"), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->crop_grid), TRUE);
+		gtk_widget_set_sensitive (GET_WIDGET ("crop_options_table"), TRUE);
 
 		rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
 		keep_aspect_ratio = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio));
@@ -131,14 +126,7 @@ update_crop_parameters (GthFileToolRotate *self)
 	}
 	else {
 		gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->keep_aspect_ratio), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_label"), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p1_hbox"), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("crop_grid_label"), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (self->priv->crop_grid), FALSE);
+		gtk_widget_set_sensitive (GET_WIDGET ("crop_options_table"), FALSE);
 	}
 }
 
@@ -260,16 +248,16 @@ apply_cb (gpointer user_data)
 	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
 	high_quality = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->high_quality));
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->background_color))) {
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent))) {
 
-		gtk_color_button_get_color (GTK_COLOR_BUTTON (self->priv->background_color_button), &background_color);
+		gtk_color_button_get_color (GTK_COLOR_BUTTON (self->priv->background_colorbutton), &background_color);
 
 		r0 = background_color.red >> 8;
 		g0 = background_color.green >> 8;
 		b0 = background_color.blue >> 8;
-		
+
 		if (self->priv->has_alpha)
-			a0 = gtk_color_button_get_alpha (GTK_COLOR_BUTTON (self->priv->background_color_button)) >> 8;
+			a0 = gtk_color_button_get_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton)) >> 8;
 		else
 			a0 = 0;
 	}
@@ -437,8 +425,8 @@ static void
 background_color_changed_cb (GtkAdjustment     *adj,
 		             GthFileToolRotate *self)
 {
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_color), TRUE);
-	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), FALSE);
+
 	value_changed_cb (adj, self);
 }
 
@@ -497,19 +485,18 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	self->priv->high_quality = _gtk_builder_get_widget (self->priv->builder, "high_quality");
 
-	self->priv->background_color = _gtk_builder_get_widget (self->priv->builder, "background_color");
-	self->priv->background_color_button = _gtk_builder_get_widget (self->priv->builder, "background_color_button");
-	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent");
+	self->priv->background_colorbutton = _gtk_builder_get_widget (self->priv->builder, "background_colorbutton");
+	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent_checkbutton");
 
 	self->priv->has_alpha = gdk_pixbuf_get_n_channels (self->priv->src_pixbuf) == 4;
 
 	if (self->priv->has_alpha) {
-		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_color_button), TRUE);
+		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton), TRUE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
 	}
 	else {
 		gtk_widget_set_sensitive (GET_WIDGET ("background_transparent"), FALSE);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_color), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), FALSE);
 	}
 
 	self->priv->show_grid = _gtk_builder_get_widget (self->priv->builder, "show_grid");
@@ -575,11 +562,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->background_color),
-			  "toggled",
-			  G_CALLBACK (value_changed_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->background_color_button),
+	g_signal_connect (G_OBJECT (self->priv->background_colorbutton),
 			  "color-set",
 			  G_CALLBACK (background_color_changed_cb),
 			  self);
