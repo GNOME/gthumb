@@ -212,12 +212,43 @@ gth_map_view_finalize (GObject *base)
 
 
 static void
+gth_map_view_realize (GtkWidget *widget)
+{
+	GthMapView *self;
+
+	self = GTH_MAP_VIEW (widget);
+
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	if (! gtk_widget_get_visible (self->priv->no_gps_label))
+		gtk_widget_show (self->priv->embed);
+}
+
+
+static void
+gth_map_view_unrealize (GtkWidget *widget)
+{
+	GthMapView *self;
+
+	self = GTH_MAP_VIEW (widget);
+
+	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	gtk_widget_hide (self->priv->embed);
+}
+
+
+static void
 gth_map_view_class_init (GthMapViewClass *klass)
 {
+	GtkWidgetClass *widget_class;
+
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMapViewPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_map_view_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->realize = gth_map_view_realize;
+	widget_class->unrealize = gth_map_view_unrealize;
 }
 
 
@@ -263,6 +294,8 @@ gth_map_view_init (GthMapView *self)
 	champlain_layer_add_marker (self->priv->marker_layer, CHAMPLAIN_BASE_MARKER (self->priv->marker));
 
 	gtk_widget_show_all (self->priv->embed);
+	gtk_widget_hide (self->priv->embed);
+
 	gtk_box_pack_start (GTK_BOX (self), self->priv->embed, TRUE, TRUE, 0);
 }
 
