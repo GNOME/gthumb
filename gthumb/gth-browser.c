@@ -2278,13 +2278,10 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
-	g_object_ref (browser->priv->file_properties);
-	gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (browser->priv->file_properties)), browser->priv->file_properties);
 	if (page == GTH_BROWSER_PAGE_BROWSER)
-		gtk_paned_pack2 (GTK_PANED (browser->priv->browser_sidebar), browser->priv->file_properties, FALSE, TRUE);
-	else if (page == GTH_BROWSER_PAGE_VIEWER)
-		gtk_container_add (GTK_CONTAINER (browser->priv->viewer_sidebar_alignment), browser->priv->file_properties);
-	g_object_unref (browser->priv->file_properties);
+		gtk_widget_reparent (browser->priv->file_properties, browser->priv->browser_sidebar);
+	else
+		gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_alignment);
 
 	/* update the sidebar state depending on the current visible page */
 
