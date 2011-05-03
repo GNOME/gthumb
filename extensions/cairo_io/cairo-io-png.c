@@ -40,6 +40,7 @@ _cairo_png_data_destroy (CairoPngData *cairo_png_data)
 {
 	png_destroy_read_struct (&cairo_png_data->png_ptr, &cairo_png_data->png_info_ptr, NULL);
 	g_object_unref (cairo_png_data->stream);
+	cairo_surface_destroy (cairo_png_data->surface);
 	g_free (cairo_png_data);
 }
 
@@ -60,7 +61,7 @@ static void
 gerror_warning_func (png_structp     png_ptr,
 		     png_const_charp message)
 {
-	/* we don't care about warnings */
+	/* void: we don't care about warnings */
 }
 
 
@@ -71,15 +72,18 @@ cairo_png_read_data_func (png_structp png_ptr,
 {
 	CairoPngData *cairo_png_data;
 	gssize        n;
+	GError       *error = NULL;
 
 	cairo_png_data = png_get_io_ptr (png_ptr);
 	n = g_input_stream_read (G_INPUT_STREAM (cairo_png_data->stream),
 				 buffer,
 				 size,
 				 cairo_png_data->cancellable,
-				 cairo_png_data->error);
-	if (n < 0)
-		png_error (png_ptr, NULL);
+				 &error);
+	if (n < 0) {
+		png_error (png_ptr, error->message);
+		g_error_free (error);
+	}
 }
 
 
