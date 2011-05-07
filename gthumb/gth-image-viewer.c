@@ -1376,53 +1376,53 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 
 	/* Zoom in */
 
-	gtk_binding_entry_add_signal (binding_set, GDK_plus, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_plus, 0,
 				      "zoom_in", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_equal, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_equal, 0,
 				      "zoom_in", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Add, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Add, 0,
 				      "zoom_in", 0);
 
 	/* Zoom out */
 
-	gtk_binding_entry_add_signal (binding_set, GDK_minus, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_minus, 0,
 				      "zoom_out", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Subtract, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Subtract, 0,
 				      "zoom_out", 0);
 
 	/* Set zoom */
 
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Divide, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Divide, 0,
 				      "set_zoom", 1,
 				      G_TYPE_DOUBLE, 1.0);
-	gtk_binding_entry_add_signal (binding_set, GDK_1, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_1, 0,
 				      "set_zoom", 1,
 				      G_TYPE_DOUBLE, 1.0);
-	gtk_binding_entry_add_signal (binding_set, GDK_z, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_z, 0,
 				      "set_zoom", 1,
 				      G_TYPE_DOUBLE, 1.0);
-	gtk_binding_entry_add_signal (binding_set, GDK_2, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_2, 0,
 				      "set_zoom", 1,
 				      G_TYPE_DOUBLE, 2.0);
-	gtk_binding_entry_add_signal (binding_set, GDK_3, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_3, 0,
 				      "set_zoom", 1,
 				      G_TYPE_DOUBLE, 3.0);
 
 	/* Set fit mode */
 
-	gtk_binding_entry_add_signal (binding_set, GDK_x, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_x, 0,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_SIZE_IF_LARGER);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Multiply, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Multiply, 0,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_SIZE_IF_LARGER);
-	gtk_binding_entry_add_signal (binding_set, GDK_x, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_x, GDK_SHIFT_MASK,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_SIZE);
-	gtk_binding_entry_add_signal (binding_set, GDK_w, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_w, 0,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_WIDTH_IF_LARGER);
-	gtk_binding_entry_add_signal (binding_set, GDK_w, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_w, GDK_SHIFT_MASK,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_WIDTH);
 }

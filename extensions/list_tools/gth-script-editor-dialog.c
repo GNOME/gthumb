@@ -248,8 +248,8 @@ gth_script_editor_dialog_set_script (GthScriptEditorDialog *self,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wait_command_checkbutton")), gth_script_wait_command (script));
 
 		keyval = gth_script_get_shortcut (script);
-		if ((keyval >= GDK_KP_0) && (keyval <= GDK_KP_9))
-			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("shortcut_combobox")), (keyval - GDK_KP_0) + 1);
+		if ((keyval >= GDK_KEY_KP_0) && (keyval <= GDK_KEY_KP_9))
+			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("shortcut_combobox")), (keyval - GDK_KEY_KP_0) + 1);
 		else
 			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("shortcut_combobox")), NO_SHORTCUT);
 	}
@@ -269,11 +269,11 @@ gth_script_editor_dialog_set_script (GthScriptEditorDialog *self,
 		guint      keyval;
 
 		keyval = gth_script_get_shortcut (other_script);
-		if ((keyval >= GDK_KP_0) && (keyval <= GDK_KP_9)) {
+		if ((keyval >= GDK_KEY_KP_0) && (keyval <= GDK_KEY_KP_9)) {
 			if (g_strcmp0 (gth_script_get_id (other_script), self->priv->script_id) == 0)
 				continue;
 
-			path = gtk_tree_path_new_from_indices (keyval - GDK_KP_0 + 1, -1);
+			path = gtk_tree_path_new_from_indices (keyval - GDK_KEY_KP_0 + 1, -1);
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (GET_WIDGET ("shortcut_liststore")), &iter, path);
 			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("shortcut_liststore")), &iter,
 					    SHORTCUT_SENSITIVE_COLUMN, FALSE,
@@ -302,9 +302,9 @@ gth_script_editor_dialog_get_script (GthScriptEditorDialog  *self,
 
 	keyval_index = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("shortcut_combobox")));
 	if ((keyval_index >= 1) && (keyval_index <= 10))
-		keyval = GDK_KP_0 + (keyval_index - 1);
+		keyval = GDK_KEY_KP_0 + (keyval_index - 1);
 	else
-		keyval = GDK_VoidSymbol;
+		keyval = GDK_KEY_VoidSymbol;
 
 	g_object_set (script,
 		      "display-name", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))),
