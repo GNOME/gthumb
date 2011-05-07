@@ -227,12 +227,13 @@ create_control_for_size (GthTestSimple *test)
 
 	/* text operation combo box */
 
-	test->priv->size_op_combo_box = gtk_combo_box_new_text ();
+	test->priv->size_op_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (test->priv->size_op_combo_box);
 
 	op_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (int_op_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->size_op_combo_box), _(int_op_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->size_op_combo_box),
+						_(int_op_data[i].name));
 		if ((int_op_data[i].op == test->priv->op) && (int_op_data[i].negative == test->priv->negative))
 			op_idx = i;
 	}
@@ -264,12 +265,13 @@ create_control_for_size (GthTestSimple *test)
 
 	/* size combo box */
 
-	test->priv->size_combo_box = gtk_combo_box_new_text ();
+	test->priv->size_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (test->priv->size_combo_box);
 
 	size_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (size_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->size_combo_box), _(size_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->size_combo_box),
+						_(size_data[i].name));
 		if (! size_set && ((i == G_N_ELEMENTS (size_data) - 1) || (test->priv->data.i < size_data[i + 1].size))) {
 			char *value;
 
@@ -325,12 +327,13 @@ create_control_for_string (GthTestSimple *test)
 
 	/* text operation combo box */
 
-	test->priv->text_op_combo_box = gtk_combo_box_new_text ();
+	test->priv->text_op_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (test->priv->text_op_combo_box);
 
 	op_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (text_op_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->text_op_combo_box), _(text_op_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->text_op_combo_box),
+						_(text_op_data[i].name));
 		if ((text_op_data[i].op == test->priv->op) && (text_op_data[i].negative == test->priv->negative))
 			op_idx = i;
 	}
@@ -399,12 +402,13 @@ create_control_for_date (GthTestSimple *test)
 
 	/* date operation combo box */
 
-	test->priv->date_op_combo_box = gtk_combo_box_new_text ();
+	test->priv->date_op_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (test->priv->date_op_combo_box);
 
 	op_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (date_op_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->date_op_combo_box), _(date_op_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->date_op_combo_box),
+						_(date_op_data[i].name));
 		if ((date_op_data[i].op == test->priv->op) && (date_op_data[i].negative == test->priv->negative))
 			op_idx = i;
 	}

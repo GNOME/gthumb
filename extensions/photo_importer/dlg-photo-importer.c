@@ -548,7 +548,7 @@ dlg_photo_importer (GthBrowser *browser,
 	general_filter = "file::type::is_media"; /* default value */
 	active_filter = 0;
 
-	data->filter_combobox = gtk_combo_box_new_text ();
+	data->filter_combobox = gtk_combo_box_text_new ();
 	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
 		const char *registered_test_id = scan->data;
 		GthTest    *test;
@@ -564,7 +564,8 @@ dlg_photo_importer (GthBrowser *browser,
 		}
 
 		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));
-		gtk_combo_box_append_text (GTK_COMBO_BOX (data->filter_combobox), gth_test_get_display_name (test));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (data->filter_combobox),
+						gth_test_get_display_name (test));
 		g_object_unref (test);
 	}
 	data->general_tests = g_list_reverse (data->general_tests);

@@ -504,12 +504,12 @@ gth_time_selector_construct (GthTimeSelector *self)
 
 		gth_time_set_hms (dt->time, h, 0, 0, 0);
 		text = gth_datetime_strftime (dt, "%X");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->time_combo_box), text);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->time_combo_box), text);
 		g_free (text);
 
 		gth_time_set_hms (dt->time, h, 30, 0, 0);
 		text = gth_datetime_strftime (dt, "%X");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->time_combo_box), text);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->time_combo_box), text);
 		g_free (text);
 	}
 
