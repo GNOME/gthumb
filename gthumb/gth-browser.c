@@ -2560,8 +2560,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	char          **uris;
 	GList          *file_list;
 
-	/*suggested_action = gdk_drag_context_get_suggested_action (context);*/
-	suggested_action = context->suggested_action;
+	suggested_action = gdk_drag_context_get_suggested_action (context);
 
 	if ((suggested_action == GDK_ACTION_COPY)
 	    || (suggested_action == GDK_ACTION_MOVE)
@@ -2578,9 +2577,13 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 		success = FALSE;
 	}
 
-	if (success && (context->suggested_action == GDK_ACTION_ASK)) {
-		context->action = _gtk_menu_ask_drag_drop_action (tree_view, context->actions, time);
-		success = context->action != 0;
+	if (success && (suggested_action == GDK_ACTION_ASK)) {
+		GdkDragAction action =
+			_gtk_menu_ask_drag_drop_action (tree_view,
+							gdk_drag_context_get_actions (context),
+							time);
+		gdk_drag_status (context, action, time);
+		success = gdk_drag_context_get_selected_action (context) != 0;
 	}
 
 	if (! success) {
@@ -2592,7 +2595,8 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
-		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->action);
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list,
+				 gdk_drag_context_get_selected_action (context));
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
@@ -2623,8 +2627,12 @@ folder_tree_drag_data_get_cb (GtkWidget        *widget,
 	if (file_source == NULL)
 		return;
 
-	if (drag_context->actions && GDK_ACTION_MOVE)
-		drag_context->suggested_action = gth_file_source_can_cut (file_source, file_data->file) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
+	if (gdk_drag_context_get_actions (drag_context) && GDK_ACTION_MOVE) {
+		GdkDragAction action =
+			gth_file_source_can_cut (file_source, file_data->file) ?
+			GDK_ACTION_MOVE : GDK_ACTION_COPY;
+		gdk_drag_status (drag_context, action, time);
+	}
 
 	uris = g_new (char *, 2);
 	uris[0] = g_file_get_uri (file_data->file);
