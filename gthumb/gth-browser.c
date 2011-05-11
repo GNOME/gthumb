@@ -5900,7 +5900,7 @@ hide_mouse_pointer_cb (gpointer data)
 		GtkWidget *widget = scan->data;
 		int        x, y, w, h;
 
-		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h);
+		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h, NULL);
 
 		if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
 			return FALSE;
