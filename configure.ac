@@ -136,7 +136,6 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gio-unix-2.0
 	gtk+-2.0 		>= $GTK_REQUIRED
 	gconf-2.0 		>= $GCONF_REQUIRED
-	unique-1.0		>= $UNIQUE_REQUIRED
 	libpng
 ])
 AC_SUBST(GTHUMB_LIBS)
@@ -156,6 +155,22 @@ M_LIBS="-lm"
 CFLAGS="$SAVE_CFLAGS"
 unset SAVE_CFLAGS
 AC_SUBST(M_LIBS)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([unique],
+	      [AS_HELP_STRING([--disable-unique],[do not compile code that uses the libunique library])],,
+	      [enable_unique=yes])
+
+if test x$enable_unique = xyes ; then
+	PKG_CHECK_MODULES(UNIQUE,
+			  unique-1.0 >= $UNIQUE_REQUIRED,
+			  [enable_unique=yes],
+			  [enable_unique=no])
+fi
+AC_SUBST(UNIQUE_LIBS)
+AC_SUBST(UNIQUE_CFLAGS)
+AM_CONDITIONAL(ENABLE_UNIQUE, test "x$enable_unique" = xyes)
 
 dnl ===========================================================================
 
@@ -663,6 +678,7 @@ Configuration:
 	Debug                : $ENABLE_DEBUG
 	Run in place         : ${enable_run_in_place}
 	Build tests          : $ENABLE_TEST_SUITE
+	Use libunique        : ${enable_unique}
 	Exiv2 support        : ${enable_exiv2}
 	JPEG tools           : ${enable_jpeg}
 	TIFF tools           : ${enable_tiff}

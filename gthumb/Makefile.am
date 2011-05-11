@@ -256,6 +256,7 @@ gthumb_LDADD =						\
 	$(GTHUMB_LIBS)					\
 	$(M_LIBS)					\
 	$(EXIV2_LIBS)					\
+	$(UNIQUE_LIBS)					\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
@@ -283,6 +284,7 @@ endif
 gthumb_CFLAGS =							\
 	$(GTHUMB_CFLAGS)					\
 	$(EXIV2_CFLAGS)						\
+	$(UNIQUE_CFLAGS)					\
 	$(JPEG_CFLAGS)						\
 	$(TIFF_CFLAGS)						\
 	$(CLUTTER_CFLAGS)					\
