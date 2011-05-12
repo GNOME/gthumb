@@ -426,7 +426,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	text = g_strdup_printf (_("%d x %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
-	_gtk_combo_box_text_append_texts (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox),
+	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox),
 				     _("5:4"),
 				     _("4:3 (DVD, Book)"),
 				     _("7:5"),

@@ -301,7 +301,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			data->photoset = NULL;
-			photoset_title = gtk_combo_box_get_active_text (GTK_COMBO_BOX (GET_WIDGET ("photoset_comboboxentry")));
+			photoset_title = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (GET_WIDGET ("photoset_comboboxentry")));
 			if ((photoset_title != NULL) && (g_strcmp0 (photoset_title, "") != 0)) {
 				GList *link;
 
