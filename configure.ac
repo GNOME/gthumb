@@ -460,14 +460,10 @@ AC_ARG_ENABLE([libbrasero],
 
 if test x$enable_libbrasero = xyes ; then
 	PKG_CHECK_MODULES(LIBBRASERO,
-			  [libbrasero-burn3 >= $LIBBRASERO_REQUIRED],
+			  [libbrasero-burn >= $LIBBRASERO_REQUIRED],
 			  [AC_DEFINE(HAVE_LIBBRASERO, 1, [Have libbrasero])
 			   enable_libbrasero=yes],
-			  [PKG_CHECK_MODULES(LIBBRASERO,
-				   	     [libbrasero-burn >= $LIBBRASERO_REQUIRED],
-			  		     [AC_DEFINE(HAVE_LIBBRASERO, 1, [Have libbrasero])
-			   		      enable_libbrasero=yes],
-			  		     [enable_libbrasero=no])])
+			  [enable_libbrasero=no])
 fi
 AC_SUBST(LIBBRASERO_CFLAGS)
 AC_SUBST(LIBBRASERO_LIBS)
