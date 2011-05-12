@@ -73,12 +73,12 @@ preview_area_expose_event_cb (GtkWidget      *widget,
 {
 	GthContactSheetThemeDialog *self = user_data;
 	cairo_t                    *cr;
-	int                         width;
-	int                         height;
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	gdk_drawable_get_size (gtk_widget_get_window (widget), &width, &height);
-	gth_contact_sheet_theme_paint_preview (self->priv->theme, cr, width, height);
+	gth_contact_sheet_theme_paint_preview (self->priv->theme,
+					       cr,
+					       gdk_window_get_width (gtk_widget_get_window (widget)),
+					       gdk_window_get_height (gtk_widget_get_window (widget)));
 	cairo_destroy (cr);
 
 	return TRUE;
