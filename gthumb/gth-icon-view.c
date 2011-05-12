@@ -742,7 +742,7 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 						  icon_view->priv->drag_button,
 						  (GdkEvent *) event);
 			if (icon_view->priv->drag_button == 2)
-				context->suggested_action = GDK_ACTION_ASK;
+				gdk_drag_status (context, GDK_ACTION_ASK, event->time);
 
 			dnd_icon = gtk_icon_view_create_drag_icon (GTK_ICON_VIEW (icon_view), path);
 
