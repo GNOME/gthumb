@@ -57,7 +57,9 @@ int      ClutterInitResult = CLUTTER_INIT_ERROR_UNKNOWN;
 #endif
 
 
+#ifdef HAVE_UNIQUE
 static UniqueApp   *gthumb_app;
+#endif
 static char       **remaining_args;
 static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
 static gboolean     restart = FALSE;
@@ -261,6 +263,9 @@ gth_restore_session (EggSMClient *client)
 }
 
 
+#ifdef HAVE_UNIQUE
+
+
 static void
 show_window (GtkWindow  *window,
 	     const char *startup_id,
@@ -271,8 +276,6 @@ show_window (GtkWindow  *window,
 	gtk_window_present (window);
 }
 
-
-#ifdef HAVE_UNIQUE
 
 static UniqueResponse
 unique_app_message_received_cb (UniqueApp         *unique_app,
@@ -557,11 +560,11 @@ main (int argc, char *argv[])
 #ifdef HAVE_UNIQUE
 	if (! unique_app_is_running (gthumb_app))
 		gtk_main ();
+	g_object_unref (gthumb_app);
 #else
 	gtk_main ();
 #endif
 
-	g_object_unref (gthumb_app);
 	gth_main_release ();
 	gth_pref_release ();
 
