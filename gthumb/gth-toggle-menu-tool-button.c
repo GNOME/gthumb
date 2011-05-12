@@ -497,8 +497,7 @@ menu_position_func (GtkMenu                 *menu,
 			*y -= menu_req.height;
 	}
 	else {
-		/*gdk_window_get_origin (gtk_button_get_event_window (GTK_BUTTON (widget)), x, y);*/
-		gdk_window_get_origin (GTK_BUTTON (widget)->event_window, x, y);
+		gdk_window_get_origin (gtk_button_get_event_window (GTK_BUTTON (widget)), x, y);
 
 		gtk_widget_size_request (widget, &req);
 
