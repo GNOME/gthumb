@@ -723,8 +723,6 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 			GtkTreePath    *path = NULL;
 			GdkDragContext *context;
 			GdkPixmap      *dnd_icon;
-			int             width;
-			int             height;
 			int             n_selected;
 
 			path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view),
@@ -744,21 +742,22 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 						  icon_view->priv->drag_button,
 						  (GdkEvent *) event);
 			if (icon_view->priv->drag_button == 2)
-				context->suggested_action = GDK_ACTION_ASK;
+				gdk_drag_status (context, GDK_ACTION_ASK, event->time);
 
 			dnd_icon = gtk_icon_view_create_drag_icon (GTK_ICON_VIEW (icon_view), path);
-			gdk_drawable_get_size (dnd_icon, &width, &height);
 
 			n_selected =  gth_file_selection_get_n_selected (GTH_FILE_SELECTION (icon_view));
 			if (n_selected >= 1) {
 				const int  offset = 3;
 				int        n_visible;
+				int        width;
+				int        height;
 				int        border;
 				GdkPixbuf *multi_dnd_icon;
 				int        i;
 
 				n_visible = MIN (n_selected, 4);
-				gdk_drawable_get_size (dnd_icon, &width, &height);
+				gdk_pixmap_get_size (dnd_icon, &width, &height);
 				border = n_visible * offset;
 				multi_dnd_icon = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width + border, height + border);
 				gdk_pixbuf_fill (multi_dnd_icon, 0x00000000);

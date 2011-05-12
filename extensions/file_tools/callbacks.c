@@ -57,26 +57,26 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		return NULL;
 
 	switch (event->keyval) {
-	case GDK_h:
+	case GDK_KEY_h:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ENHANCE);
 		break;
-	case GDK_l:
+	case GDK_KEY_l:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_FLIP);
 		break;
-	case GDK_m:
+	case GDK_KEY_m:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_MIRROR);
 		break;
-	case GDK_r:
+	case GDK_KEY_r:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
 		break;
-	case GDK_R:
+	case GDK_KEY_R:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 		break;
-	case GDK_C:
+	case GDK_KEY_C:
 		gth_browser_show_viewer_tools (browser, TRUE);
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_CROP);
 		break;
-	case GDK_S:
+	case GDK_KEY_S:
 		gth_browser_show_viewer_tools (browser, TRUE);
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_RESIZE);
 		break;

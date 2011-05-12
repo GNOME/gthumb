@@ -150,7 +150,6 @@ picasa_account_manager_dialog_init (PicasaAccountManagerDialog *self)
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-account-manager.ui", "picasaweb");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 

@@ -73,12 +73,12 @@ preview_area_expose_event_cb (GtkWidget      *widget,
 {
 	GthContactSheetThemeDialog *self = user_data;
 	cairo_t                    *cr;
-	int                         width;
-	int                         height;
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	gdk_drawable_get_size (gtk_widget_get_window (widget), &width, &height);
-	gth_contact_sheet_theme_paint_preview (self->priv->theme, cr, width, height);
+	gth_contact_sheet_theme_paint_preview (self->priv->theme,
+					       cr,
+					       gdk_window_get_width (gtk_widget_get_window (widget)),
+					       gdk_window_get_height (gtk_widget_get_window (widget)));
 	cairo_destroy (cr);
 
 	return TRUE;
@@ -196,7 +196,6 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Theme Properties"));
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 

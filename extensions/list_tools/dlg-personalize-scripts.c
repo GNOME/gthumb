@@ -137,8 +137,8 @@ get_script_shortcut (GthScript *script)
 	char        *shortcut;
 
 	keyval = gth_script_get_shortcut (script);
-	if ((keyval >= GDK_KP_0) && (keyval <= GDK_KP_9))
-		shortcut = g_strdup_printf ("%c", '0' + (keyval - GDK_KP_0));
+	if ((keyval >= GDK_KEY_KP_0) && (keyval <= GDK_KEY_KP_9))
+		shortcut = g_strdup_printf ("%c", '0' + (keyval - GDK_KEY_KP_0));
 	else
 		shortcut = g_strdup ("");
 

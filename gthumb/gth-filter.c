@@ -345,12 +345,13 @@ create_control_for_size (GthFilter *filter)
 
 	/* size combo box */
 
-	filter->priv->size_combo_box = gtk_combo_box_new_text ();
+	filter->priv->size_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (filter->priv->size_combo_box);
 
 	size_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (size_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (filter->priv->size_combo_box), _(size_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (filter->priv->size_combo_box),
+						_(size_data[i].name));
 		if (! size_set && ((i == G_N_ELEMENTS (size_data) - 1) || (filter->priv->limit < size_data[i + 1].size))) {
 			char *value;
 

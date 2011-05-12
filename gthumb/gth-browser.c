@@ -2560,8 +2560,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	char          **uris;
 	GList          *file_list;
 
-	/*suggested_action = gdk_drag_context_get_suggested_action (context);*/
-	suggested_action = context->suggested_action;
+	suggested_action = gdk_drag_context_get_suggested_action (context);
 
 	if ((suggested_action == GDK_ACTION_COPY)
 	    || (suggested_action == GDK_ACTION_MOVE)
@@ -2578,9 +2577,13 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 		success = FALSE;
 	}
 
-	if (success && (context->suggested_action == GDK_ACTION_ASK)) {
-		context->action = _gtk_menu_ask_drag_drop_action (tree_view, context->actions, time);
-		success = context->action != 0;
+	if (success && (suggested_action == GDK_ACTION_ASK)) {
+		GdkDragAction action =
+			_gtk_menu_ask_drag_drop_action (tree_view,
+							gdk_drag_context_get_actions (context),
+							time);
+		gdk_drag_status (context, action, time);
+		success = gdk_drag_context_get_selected_action (context) != 0;
 	}
 
 	if (! success) {
@@ -2592,7 +2595,8 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
-		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list, context->action);
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list,
+				 gdk_drag_context_get_selected_action (context));
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
@@ -2623,8 +2627,12 @@ folder_tree_drag_data_get_cb (GtkWidget        *widget,
 	if (file_source == NULL)
 		return;
 
-	if (drag_context->actions && GDK_ACTION_MOVE)
-		drag_context->suggested_action = gth_file_source_can_cut (file_source, file_data->file) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
+	if (gdk_drag_context_get_actions (drag_context) && GDK_ACTION_MOVE) {
+		GdkDragAction action =
+			gth_file_source_can_cut (file_source, file_data->file) ?
+			GDK_ACTION_MOVE : GDK_ACTION_COPY;
+		gdk_drag_status (drag_context, action, time);
+	}
 
 	uris = g_new (char *, 2);
 	uris[0] = g_file_get_uri (file_data->file);
@@ -3469,12 +3477,12 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 
 	if ((event->state & modifiers) == 0) {
 		switch (event->keyval) {
-		case GDK_f:
+		case GDK_KEY_f:
 			gth_browser_fullscreen (browser);
 			result = TRUE;
 			break;
 
-		case GDK_e:
+		case GDK_KEY_e:
 			if (browser->priv->viewer_page != NULL) {
 				gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 				gth_browser_show_viewer_tools (GTH_BROWSER (browser), TRUE);
@@ -4969,33 +4977,33 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 	modifiers = gtk_accelerator_get_default_mod_mask ();
 	if ((event->state & modifiers) == 0) {
 		switch (event->keyval) {
-		case GDK_Page_Up:
-		case GDK_BackSpace:
+		case GDK_KEY_Page_Up:
+		case GDK_KEY_BackSpace:
 			gth_browser_show_prev_image (browser, FALSE, FALSE);
 			return TRUE;
 
-		case GDK_Page_Down:
-		case GDK_space:
+		case GDK_KEY_Page_Down:
+		case GDK_KEY_space:
 			gth_browser_show_next_image (browser, FALSE, FALSE);
 			return TRUE;
 
-		case GDK_Home:
+		case GDK_KEY_Home:
 			gth_browser_show_first_image (browser, FALSE, FALSE);
 			return TRUE;
 
-		case GDK_End:
+		case GDK_KEY_End:
 			gth_browser_show_last_image (browser, FALSE, FALSE);
 			return TRUE;
 
-		case GDK_e:
+		case GDK_KEY_e:
 			gth_browser_show_viewer_tools (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Viewer_Tools"));
 			return TRUE;
 
-		case GDK_i:
+		case GDK_KEY_i:
 			gth_browser_toggle_properties_on_screen (GTH_BROWSER (browser));
 			return TRUE;
 
-		case GDK_f:
+		case GDK_KEY_f:
 			gth_browser_fullscreen (browser);
 			break;
 		}

@@ -179,12 +179,13 @@ gth_test_category_real_create_control (GthTest *base)
 
 	/* text operation combo box */
 
-	test->priv->op_combo_box = gtk_combo_box_new_text ();
+	test->priv->op_combo_box = gtk_combo_box_text_new ();
 	gtk_widget_show (test->priv->op_combo_box);
 
 	op_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (category_op_data); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->op_combo_box), _(category_op_data[i].name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->op_combo_box),
+						_(category_op_data[i].name));
 		if ((category_op_data[i].op == test->priv->op) && (category_op_data[i].negative == test->priv->negative))
 			op_idx = i;
 	}
@@ -198,7 +199,7 @@ gth_test_category_real_create_control (GthTest *base)
 	/* text entry */
 
 	test->priv->tag_store = gtk_list_store_new (1, G_TYPE_STRING);
-	test->priv->combo_entry = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (test->priv->tag_store), 0);
+	test->priv->combo_entry = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (test->priv->tag_store));
 	g_object_unref (test->priv->tag_store);
 	update_tag_list (test);
 

@@ -176,7 +176,6 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
   	if (parent != NULL)
     		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
     	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
@@ -191,8 +190,8 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 
 	/**/
 
-  	self->priv->match_type_combobox = gtk_combo_box_new_text ();
-  	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->match_type_combobox),
+  	self->priv->match_type_combobox = gtk_combo_box_text_new ();
+  	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->match_type_combobox),
   				     _("all the following rules"),
   				     _("any of the following rules"),
   				     NULL);
@@ -203,8 +202,8 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 
 	/**/
 
-  	self->priv->limit_object_combobox = gtk_combo_box_new_text ();
-  	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->limit_object_combobox),
+  	self->priv->limit_object_combobox = gtk_combo_box_text_new ();
+  	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->limit_object_combobox),
   				     _("files"),
   				     _("kB"),
   				     _("MB"),
@@ -250,8 +249,8 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 
 	/**/
 
-	self->priv->selection_order_combobox = gtk_combo_box_new_text ();
-  	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->selection_order_combobox),
+	self->priv->selection_order_combobox = gtk_combo_box_text_new ();
+  	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->selection_order_combobox),
   				     _("ascending"),
   				     _("descending"),
   				     NULL);

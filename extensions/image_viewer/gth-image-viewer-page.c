@@ -668,7 +668,8 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 	icon_width = gdk_pixbuf_get_width (icon);
 	icon_height = gdk_pixbuf_get_height (icon);
 
-	gdk_drawable_get_size (gtk_widget_get_window (self->priv->viewer), &image_width, &image_height);
+	image_width = gdk_window_get_width (gtk_widget_get_window (self->priv->viewer));
+	image_height = gdk_window_get_height (gtk_widget_get_window (self->priv->viewer));
 	max_text_width = ((image_width * 3 / 4) - icon_width - (x_padding * 3) - (x_padding * 2));
 
 	pango_layout_set_width (layout, max_text_width * PANGO_SCALE);

@@ -492,7 +492,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 	gtk_widget_show (self->priv->use_time_checkbutton);
 	gtk_box_pack_start (GTK_BOX (time_box), self->priv->use_time_checkbutton, FALSE, FALSE, 0);
 
-	self->priv->time_combo_box = gtk_combo_box_entry_new_text ();
+	self->priv->time_combo_box = gtk_combo_box_text_new_with_entry ();
 	gtk_entry_set_width_chars (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box))), 10);
 	gtk_widget_show (self->priv->time_combo_box);
 	gtk_box_pack_start (GTK_BOX (time_box), self->priv->time_combo_box, FALSE, FALSE, 0);
@@ -504,12 +504,12 @@ gth_time_selector_construct (GthTimeSelector *self)
 
 		gth_time_set_hms (dt->time, h, 0, 0, 0);
 		text = gth_datetime_strftime (dt, "%X");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->time_combo_box), text);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->time_combo_box), text);
 		g_free (text);
 
 		gth_time_set_hms (dt->time, h, 30, 0, 0);
 		text = gth_datetime_strftime (dt, "%X");
-		gtk_combo_box_append_text (GTK_COMBO_BOX (self->priv->time_combo_box), text);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->time_combo_box), text);
 		g_free (text);
 	}
 

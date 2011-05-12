@@ -139,74 +139,14 @@ gedit_message_area_close (GeditMessageArea *message_area)
 				     GTK_RESPONSE_CANCEL);
 }
 
-
-/*
-static void
-gedit_message_area_style_set (GtkWidget *widget,
-			      GtkStyle  *prev_style)
-{
-	GeditMessageArea *message_area = GEDIT_MESSAGE_AREA (widget);
-	GtkWidget        *window;
-	GtkStyle         *style;
-
-	if (message_area->priv->changing_style)
-		return;
-
-	// This is a hack needed to use the tooltip background color
-	window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_widget_set_name (window, "gtk-tooltip");
-	gtk_widget_ensure_style (window);
-	style = gtk_widget_get_style (window);
-
-	message_area->priv->changing_style = TRUE;
-	gtk_widget_set_style (GTK_WIDGET (message_area), style);
-	message_area->priv->changing_style = FALSE;
-
-	gtk_widget_destroy (window);
-
-	gtk_widget_queue_draw (GTK_WIDGET (message_area));
-}
-*/
-
-
-static gboolean
-gedit_message_area_expose (GtkWidget      *widget,
-			   GdkEventExpose *event)
-{
-	/*
-	gtk_paint_box (widget->style,
-		       widget->window,
-		       GTK_STATE_NORMAL,
-		       GTK_SHADOW_OUT,
-		       NULL,
-		       widget,
-		       "infobar",
-		       widget->allocation.x,
-		       widget->allocation.y,
-		       widget->allocation.width,
-		       widget->allocation.height);
-	 */
-
-	if (GTK_WIDGET_CLASS (gedit_message_area_parent_class)->expose_event)
-		GTK_WIDGET_CLASS (gedit_message_area_parent_class)->expose_event (widget, event);
-
-	return FALSE;
-}
-
-
 static void
 gedit_message_area_class_init (GeditMessageAreaClass *klass)
 {
 	GObjectClass   *object_class;
-	GtkWidgetClass *widget_class;
 	GtkBindingSet  *binding_set;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gedit_message_area_finalize;
-
-	widget_class = GTK_WIDGET_CLASS (klass);
-	/*widget_class->style_set = gedit_message_area_style_set;*/
-	widget_class->expose_event = gedit_message_area_expose;
 
 	klass->close = gedit_message_area_close;
 
@@ -231,7 +171,7 @@ gedit_message_area_class_init (GeditMessageAreaClass *klass)
 
 	binding_set = gtk_binding_set_by_class (klass);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "close", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Escape, 0, "close", 0);
 }
 
 

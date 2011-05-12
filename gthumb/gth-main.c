@@ -215,46 +215,6 @@ gth_main_get_type (void)
 }
 
 
-static void
-about_dialog_activate_link_cb (GtkAboutDialog *about,
-			       const char     *link_,
-			       gpointer        data)
-{
-	GError *error = NULL;
-
-	if (! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (about)), link_, GDK_CURRENT_TIME, &error)) {
-		char *title;
-
-		title = g_strdup_printf (_("Unable to show '%s'"), link_);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (about), title, &error);
-
-		g_free (title);
-	}
-}
-
-
-static void
-about_dialog_activate_email_cb (GtkAboutDialog *about,
-			        const char     *link_,
-			        gpointer        data)
-{
-	GError *error = NULL;
-	char   *url;
-
-	url = g_strconcat ("mailto:", link_, NULL);
-	if (! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (about)), url, GDK_CURRENT_TIME, &error)) {
-		char *title;
-
-		title = g_strdup_printf (_("Unable to open '%s'"), link_);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (about), title, &error);
-
-		g_free (title);
-	}
-
-	g_free (url);
-}
-
-
 void
 gth_main_initialize (void)
 {
@@ -271,8 +231,6 @@ gth_main_initialize (void)
 #endif
 
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_ICON_DIR);
-	gtk_about_dialog_set_url_hook (about_dialog_activate_link_cb, NULL, NULL);
-	gtk_about_dialog_set_email_hook (about_dialog_activate_email_cb, NULL, NULL);
 }
 
 

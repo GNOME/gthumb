@@ -443,8 +443,8 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 	self->priv->builder = _gtk_builder_new_from_file ("edit-comment-page.ui", "edit_metadata");
 	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);
 
-	self->priv->date_combobox = gtk_combo_box_new_text ();
-	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->date_combobox),
+	self->priv->date_combobox = gtk_combo_box_text_new ();
+	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->date_combobox),
 				     _("No date"),
 				     _("The following date"),
 				     _("Current date"),

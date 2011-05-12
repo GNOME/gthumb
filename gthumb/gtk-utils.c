@@ -99,7 +99,6 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
@@ -192,7 +191,6 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 12);
@@ -292,7 +290,6 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
@@ -372,7 +369,6 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
@@ -465,7 +461,6 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
@@ -951,13 +946,13 @@ _gtk_combo_box_new_with_texts (const char *first_text,
 	va_list     args;
 	const char *text;
 
-	combo_box = gtk_combo_box_new_text ();
+	combo_box = gtk_combo_box_text_new ();
 
 	va_start (args, first_text);
 
 	text = first_text;
 	while (text != NULL) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combo_box), text);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_box), text);
 		text = va_arg (args, const char *);
 	}
 
@@ -968,8 +963,8 @@ _gtk_combo_box_new_with_texts (const char *first_text,
 
 
 void
-_gtk_combo_box_append_texts (GtkComboBox *combo_box,
-			     const char  *first_text,
+_gtk_combo_box_append_texts (GtkComboBoxText *combo_box,
+			     const char      *first_text,
 			     ...)
 {
 	va_list     args;
@@ -979,7 +974,7 @@ _gtk_combo_box_append_texts (GtkComboBox *combo_box,
 
 	text = first_text;
 	while (text != NULL) {
-		gtk_combo_box_append_text (combo_box, text);
+		gtk_combo_box_text_append_text (combo_box, text);
 		text = va_arg (args, const char *);
 	}
 

@@ -108,7 +108,7 @@ GtkWidget *
 			 		    const char       *name);
 GtkWidget * _gtk_combo_box_new_with_texts  (const char       *first_text,
 					    ...);
-void        _gtk_combo_box_append_texts    (GtkComboBox      *combo_box,
+void        _gtk_combo_box_append_texts    (GtkComboBoxText  *combo_box,
 					    const char       *first_text,
 					    ...);
 GtkWidget * _gtk_image_new_from_xpm_data   (char             *xpm_data[]);

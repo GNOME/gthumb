@@ -23,7 +23,9 @@
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
+#ifdef HAVE_UNIQUE
 #include <unique/unique.h>
+#endif
 #ifdef HAVE_CLUTTER
 #include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
@@ -55,7 +57,9 @@ int      ClutterInitResult = CLUTTER_INIT_ERROR_UNKNOWN;
 #endif
 
 
+#ifdef HAVE_UNIQUE
 static UniqueApp   *gthumb_app;
+#endif
 static char       **remaining_args;
 static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
 static gboolean     restart = FALSE;
@@ -259,6 +263,9 @@ gth_restore_session (EggSMClient *client)
 }
 
 
+#ifdef HAVE_UNIQUE
+
+
 static void
 show_window (GtkWindow  *window,
 	     const char *startup_id,
@@ -334,9 +341,13 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 }
 
 
+#endif
+
+
 static void
 open_browser_window (GFile *location)
 {
+#ifdef HAVE_UNIQUE
 	if (unique_app_is_running (gthumb_app)) {
 		UniqueMessageData *data;
 		char              *uri;
@@ -349,7 +360,11 @@ open_browser_window (GFile *location)
 		g_free (uri);
 		unique_message_data_free (data);
 	}
-	else {
+	else
+
+#endif
+
+	{
 		GtkWidget *window;
 
 		window = gth_browser_new (NULL);
@@ -363,6 +378,7 @@ open_browser_window (GFile *location)
 static void
 import_photos_from_location (GFile *location)
 {
+#ifdef HAVE_UNIQUE
 	if (unique_app_is_running (gthumb_app)) {
 		UniqueMessageData *data;
 
@@ -376,7 +392,11 @@ import_photos_from_location (GFile *location)
 		unique_app_send_message (gthumb_app, COMMAND_IMPORT_PHOTOS, data);
 		unique_message_data_free (data);
 	}
-	else {
+	else
+
+#endif
+
+	{
 		GtkWidget *window;
 
 		window = gth_browser_new (NULL);
@@ -396,9 +416,11 @@ prepare_application (void)
 	GFile       *location;
 	GList       *scan;
 
+#ifdef HAVE_UNIQUE
 	gthumb_app = unique_app_new_with_commands ("org.gnome.gthumb", NULL,
 						   "import-photos", COMMAND_IMPORT_PHOTOS,
 						   NULL);
+#endif
 
 	gth_main_register_default_hooks ();
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
@@ -409,11 +431,13 @@ prepare_application (void)
 	gth_main_activate_extensions ();
 	gth_hook_invoke ("initialize", NULL);
 
+#ifdef HAVE_UNIQUE
 	if (! unique_app_is_running (gthumb_app))
 		g_signal_connect (gthumb_app,
 				  "message-received",
 				  G_CALLBACK (unique_app_message_received_cb),
 				  NULL);
+#endif
 
 	client = egg_sm_client_get ();
 	if (egg_sm_client_is_resumed (client)) {
@@ -533,10 +557,14 @@ main (int argc, char *argv[])
 
 	g_option_context_free (context);
 
+#ifdef HAVE_UNIQUE
 	if (! unique_app_is_running (gthumb_app))
 		gtk_main ();
-
 	g_object_unref (gthumb_app);
+#else
+	gtk_main ();
+#endif
+
 	gth_main_release ();
 	gth_pref_release ();
 
