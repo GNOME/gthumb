@@ -268,27 +268,22 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	gboolean     success = FALSE;
 	char       **uris;
 	GList       *selected_files;
+	GdkDragAction action;
 
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
-	/*
-	if ((gdk_drag_context_get_suggested_action (context) == GDK_ACTION_COPY)
-	    || (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_MOVE))
-	{
-		success = TRUE;
-	}
-	*/
-
-	if ((context->suggested_action == GDK_ACTION_COPY)
-	    || (context->suggested_action == GDK_ACTION_MOVE)
-	    || (context->suggested_action == GDK_ACTION_ASK))
-	{
+	action = gdk_drag_context_get_suggested_action (context);
+	if (action == GDK_ACTION_COPY || action == GDK_ACTION_MOVE) {
 		success = TRUE;
 	}
 
-	if (context->suggested_action == GDK_ACTION_ASK) {
-		context->action = _gtk_menu_ask_drag_drop_action (file_view, context->actions, time);
-		success = context->action != 0;
+	if (action == GDK_ACTION_ASK) {
+		GdkDragAction actions =
+			_gtk_menu_ask_drag_drop_action (file_view,
+							gdk_drag_context_get_actions (context),
+							time);
+		gdk_drag_status (context, actions, time);
+		success = gdk_drag_context_get_selected_action (context) != 0;
 	}
 
 	gtk_drag_finish (context, success, FALSE, time);
@@ -325,8 +320,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 			gboolean       move;
 
 			file_source = gth_browser_get_location_source (browser);
-			/*move = gdk_drag_context_get_action (context) == GDK_ACTION_MOVE;*/
-			move = context->action == GDK_ACTION_MOVE;
+			move = gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE;
 			if (move && ! gth_file_source_can_cut (file_source, (GFile *) selected_files->data)) {
 				GtkWidget *dialog;
 				int        response;
@@ -457,7 +451,7 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 			data->scroll_event = 0;
 		}
 	}
-	else if (context->suggested_action == GDK_ACTION_ASK)
+	else if (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_ASK)
 		gdk_drag_status (context, GDK_ACTION_ASK, time);
 	else
 		gdk_drag_status (context, GDK_ACTION_COPY, time);

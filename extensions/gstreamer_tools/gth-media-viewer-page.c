@@ -751,7 +751,7 @@ remove_fullscreen_toolbar (GthMediaViewerPage *self)
 	if (self->priv->fullscreen_toolbar == NULL)
 		return;
 
-	if (self->priv->mediabar->parent == self->priv->fullscreen_toolbar) {
+	if (gtk_widget_get_parent (self->priv->mediabar) == self->priv->fullscreen_toolbar) {
 		g_object_ref (self->priv->mediabar);
 		gtk_container_remove (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
 		gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
@@ -1139,7 +1139,7 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 		gtk_container_set_border_width (GTK_CONTAINER (self->priv->fullscreen_toolbar), 0);
 	}
 
-	if (self->priv->mediabar->parent == self->priv->area_box) {
+	if (gtk_widget_get_parent (self->priv->mediabar) == self->priv->area_box) {
 		g_object_ref (self->priv->mediabar);
 		gtk_container_remove (GTK_CONTAINER (self->priv->area_box), self->priv->mediabar);
 		gtk_container_add (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);

@@ -604,6 +604,8 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 	int                 text_y;
 	int                 icon_x;
 	int                 icon_y;
+	GtkStyle           *style;
+	PangoFontDescription *font;
 
 	file_info = g_string_new ("");
 
@@ -634,9 +636,12 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 			        n_visibles,
 				g_file_info_get_attribute_string (file_data->info, "standard::display-name"));
 
+	style = gtk_widget_get_style (GTK_WIDGET (self->priv->viewer));
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->viewer), NULL);
+	gtk_style_get (style, PANGO_TYPE_FONT_DESCRIPTION, "font", &font, NULL);
+
 	pango_layout_set_wrap (layout, PANGO_WRAP_WORD);
-	pango_layout_set_font_description (layout, GTK_WIDGET (self->priv->viewer)->style->font_desc);
+	pango_layout_set_font_description (layout, font);
 	pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 
 	if (! pango_parse_markup (file_info->str,
