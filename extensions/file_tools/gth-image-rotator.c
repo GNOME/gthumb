@@ -51,9 +51,6 @@ struct _GthImageRotatorPrivate {
 	gboolean            enable_crop;
 	GdkRectangle        crop_region;
 	GthGridType         grid_type;
-
-	/* FIXME: delete these options */
-
 	GthTransformResize  resize;
 
 	/* utility variables */
@@ -143,15 +140,13 @@ gth_transform_resize (cairo_matrix_t     *matrix,
 static void
 _gth_image_rotator_update_tranformation_matrix (GthImageRotator *self)
 {
-	int    tx, ty;
-	double zoom;
+	int tx, ty;
 
 	self->priv->preview_center.x = self->priv->center.x * self->priv->preview_zoom;
 	self->priv->preview_center.y = self->priv->center.y * self->priv->preview_zoom;
 
 	tx = self->priv->preview_image_area.x + self->priv->preview_center.x;
 	ty = self->priv->preview_image_area.y + self->priv->preview_center.y;
-	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
 
 	cairo_matrix_init_identity (&self->priv->matrix);
 	cairo_matrix_translate (&self->priv->matrix, tx, ty);
@@ -189,7 +184,7 @@ update_image_surface (GthImageRotator *self)
 	width = self->priv->original_width;
 	height = self->priv->original_height;
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
-	max_size = MIN (allocation.width, allocation.height) / 1.2;
+	max_size = MAX (allocation.width, allocation.height) / G_SQRT2 + 2;
 	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
 		preview_image = _cairo_image_surface_scale_to (image, width, height, CAIRO_FILTER_BILINEAR);
 	else
@@ -256,23 +251,33 @@ paint_darker_background (GthImageRotator *self,
 			 GdkEventExpose  *event,
 			 cairo_t         *cr)
 {
+	GdkRectangle crop_region;
+
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+
+	/* the crop_region is not zoomed the clip_area is already zoomed */
+
+	crop_region = self->priv->crop_region;
+	crop_region.x = crop_region.x * self->priv->preview_zoom;
+	crop_region.y = crop_region.y * self->priv->preview_zoom;
+	crop_region.width = crop_region.width * self->priv->preview_zoom;
+	crop_region.height = crop_region.height * self->priv->preview_zoom;
 
 	/* left side */
 
 	cairo_rectangle (cr,
 			 self->priv->clip_area.x,
 			 self->priv->clip_area.y,
-			 self->priv->crop_region.x,
+			 crop_region.x,
 			 self->priv->clip_area.height);
 
 	/* right side */
 
 	cairo_rectangle (cr,
-			 self->priv->clip_area.x + self->priv->crop_region.x + self->priv->crop_region.width,
+			 self->priv->clip_area.x + crop_region.x + crop_region.width,
 			 self->priv->clip_area.y,
-			 self->priv->clip_area.width - self->priv->crop_region.x - self->priv->crop_region.width,
+			 self->priv->clip_area.width - crop_region.x - crop_region.width,
 			 self->priv->clip_area.height);
 
 	/* top */
@@ -281,15 +286,15 @@ paint_darker_background (GthImageRotator *self,
 			 self->priv->clip_area.x,
 			 self->priv->clip_area.y,
 			 self->priv->clip_area.width,
-			 self->priv->crop_region.y);
+			 crop_region.y);
 
 	/* bottom */
 
 	cairo_rectangle (cr,
 			 self->priv->clip_area.x,
-			 self->priv->clip_area.y + self->priv->crop_region.y + self->priv->crop_region.height,
+			 self->priv->clip_area.y + crop_region.y + crop_region.height,
 			 self->priv->clip_area.width,
-			 self->priv->clip_area.height - self->priv->crop_region.y - self->priv->crop_region.height);
+			 self->priv->clip_area.height - crop_region.y - crop_region.height);
 
 	cairo_fill (cr);
 	cairo_restore (cr);
@@ -305,12 +310,14 @@ paint_grid (GthImageRotator *self,
 
 	cairo_save (cr);
 
+	cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
+
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
 	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
 #endif
 	grid = self->priv->crop_region;
-	grid.x += self->priv->clip_area.x;
-	grid.y += self->priv->clip_area.y;
+	grid.x += self->priv->clip_area.x / self->priv->preview_zoom;
+	grid.y += self->priv->clip_area.y / self->priv->preview_zoom;
 	_cairo_paint_grid (cr, &grid, self->priv->grid_type);
 
 	cairo_restore (cr);

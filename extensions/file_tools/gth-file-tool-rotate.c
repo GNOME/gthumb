@@ -540,6 +540,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 				      gdk_pixbuf_get_width (self->priv->src_pixbuf) / 2,
 				      gdk_pixbuf_get_height (self->priv->src_pixbuf) / 2);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
@@ -634,6 +636,8 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), TRUE);
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	_g_clear_object (&self->priv->src_pixbuf);
 	_g_clear_object (&self->priv->rotate_pixbuf);

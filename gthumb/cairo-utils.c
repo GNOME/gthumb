@@ -772,10 +772,18 @@ _cairo_paint_grid (cairo_t      *cr,
 		   GdkRectangle *rectangle,
 		   GthGridType   grid_type)
 {
-	cairo_rectangle (cr, rectangle->x, rectangle->y, rectangle->width, rectangle->height);
+	double ux, uy;
+
+	cairo_save (cr);
+
+	ux = uy = 1.0;
+	cairo_device_to_user_distance (cr, &ux, &uy);
+	cairo_set_line_width (cr, MAX (ux, uy));
+
+	cairo_rectangle (cr, rectangle->x - ux, rectangle->y - uy, rectangle->width + (ux * 2), rectangle->height + (uy * 2));
 	cairo_clip (cr);
 
-	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width - 1, rectangle->height - 1);
+	cairo_rectangle (cr, rectangle->x, rectangle->y, rectangle->width, rectangle->height);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_stroke (cr);
 
@@ -917,4 +925,6 @@ _cairo_paint_grid (cairo_t      *cr,
 		}
 		cairo_stroke (cr);
 	}
+
+	cairo_restore (cr);
 }
