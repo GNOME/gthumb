@@ -124,6 +124,14 @@ typedef enum {
 } GthOverwriteMode;
 
 
+typedef enum {
+	GTH_GRID_NONE = 0,
+	GTH_GRID_THIRDS,
+	GTH_GRID_GOLDEN,
+	GTH_GRID_CENTER,
+	GTH_GRID_UNIFORM
+} GthGridType;
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);

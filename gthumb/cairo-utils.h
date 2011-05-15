@@ -207,5 +207,8 @@ void              _cairo_draw_slide                         (cairo_t           *
 		   	   	   	   	 	     double             image_height,
 		   	   	   	   	 	     GdkColor          *frame_color,
 		   	   	   	   	 	     gboolean           draw_inner_border);
+void              _cairo_paint_grid                          (cairo_t           *cr,
+							     GdkRectangle      *rectangle,
+							     GthGridType        grid_type);
 
 #endif /* CAIRO_UTILS_H */

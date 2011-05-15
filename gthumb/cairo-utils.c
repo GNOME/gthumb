@@ -758,3 +758,163 @@ _cairo_draw_slide (cairo_t  *cr,
 
 	cairo_restore (cr);
 }
+
+
+#define GOLDEN_RATIO        1.6180339887
+#define GOLDER_RATIO_FACTOR (GOLDEN_RATIO / (1.0 + 2.0 * GOLDEN_RATIO))
+#define GRID_STEP_1         10
+#define GRID_STEP_2         (GRID_STEP_1 * 5)
+#define GRID_STEP_3         (GRID_STEP_2 * 2)
+
+
+void
+_cairo_paint_grid (cairo_t      *cr,
+		   GdkRectangle *rectangle,
+		   GthGridType   grid_type)
+{
+	cairo_rectangle (cr, rectangle->x, rectangle->y, rectangle->width, rectangle->height);
+	cairo_clip (cr);
+
+	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width - 1, rectangle->height - 1);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	cairo_stroke (cr);
+
+	if (grid_type == GTH_GRID_NONE)
+		return;
+
+	if (grid_type == GTH_GRID_THIRDS) {
+		int i;
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+		for (i = 1; i < 3; i++) {
+			cairo_move_to (cr, rectangle->x + rectangle->width * i / 3 + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width * i / 3 + 0.5, rectangle->y + rectangle->height - 0.5);
+
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + rectangle->height * i / 3 + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + rectangle->height * i / 3 + 0.5);
+		}
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+		for (i = 1; i < 9; i++) {
+
+			if (i % 3 == 0)
+				continue;
+
+			cairo_move_to (cr, rectangle->x + rectangle->width * i / 9 + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width * i / 9 + 0.5, rectangle->y + rectangle->height - 0.5);
+
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + rectangle->height * i / 9 + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + rectangle->height * i / 9 + 0.5);
+		}
+		cairo_stroke (cr);
+	}
+	else if (grid_type == GTH_GRID_GOLDEN) {
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+
+		int grid_x0, grid_x1, grid_x2, grid_x3;
+	        int grid_y0, grid_y1, grid_y2, grid_y3;
+		int x_delta, y_delta;
+
+		grid_x0 = rectangle->x;
+		grid_x3 = rectangle->x + rectangle->width;
+
+                grid_y0 = rectangle->y;
+                grid_y3 = rectangle->y + rectangle->height;
+
+		x_delta = rectangle->width * GOLDER_RATIO_FACTOR;
+		y_delta = rectangle->height * GOLDER_RATIO_FACTOR;
+
+		grid_x1 = grid_x0 + x_delta;
+		grid_x2 = grid_x3 - x_delta;
+                grid_y1 = grid_y0 + y_delta;
+                grid_y2 = grid_y3 - y_delta;
+
+		cairo_move_to (cr, grid_x1 + 0.5, grid_y0 + 0.5);
+		cairo_line_to (cr, grid_x1 + 0.5, grid_y3 + 0.5);
+
+		if (x_delta < rectangle->width / 2) {
+			cairo_move_to (cr, grid_x2 + 0.5, grid_y0 + 0.5);
+			cairo_line_to (cr, grid_x2 + 0.5, grid_y3 + 0.5);
+		}
+
+		cairo_move_to (cr, grid_x0 + 0.5, grid_y1 + 0.5);
+		cairo_line_to (cr, grid_x3 + 0.5, grid_y1 + 0.5);
+
+		if (y_delta < rectangle->height / 2) {
+			cairo_move_to (cr, grid_x0 + 0.5, grid_y2 + 0.5);
+			cairo_line_to (cr, grid_x3 + 0.5, grid_y2 + 0.5);
+		}
+
+		cairo_stroke (cr);
+	}
+	else if (grid_type == GTH_GRID_CENTER) {
+		int i;
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.60);
+		cairo_move_to (cr, rectangle->x + rectangle->width / 2 + 0.5, rectangle->y + 1.5);
+		cairo_line_to (cr, rectangle->x + rectangle->width / 2 + 0.5, rectangle->y + rectangle->height - 0.5);
+		cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + rectangle->height / 2 + 0.5);
+		cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + rectangle->height / 2 + 0.5);
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+		for (i = 1; i < 4; i++) {
+
+			if (i == 2)
+				continue;
+
+			cairo_move_to (cr, rectangle->x + rectangle->width * i / 4 + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width * i / 4 + 0.5, rectangle->y + rectangle->height - 0.5);
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + rectangle->height * i / 4 + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + rectangle->height * i / 4 + 0.5);
+		}
+		cairo_stroke (cr);
+	}
+	else if (grid_type == GTH_GRID_UNIFORM) {
+
+		int x;
+		int y;
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.40);
+		for (x = GRID_STEP_3; x < rectangle->width; x += GRID_STEP_3) {
+			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+		}
+		for (y = GRID_STEP_3; y < rectangle->height; y += GRID_STEP_3) {
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+		}
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.20);
+		for (x = GRID_STEP_2; x < rectangle->width; x += GRID_STEP_2) {
+			if (x % GRID_STEP_3 == 0)
+				continue;
+			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+		}
+		for (y = GRID_STEP_2; y < rectangle->height; y += GRID_STEP_2) {
+			if (y % GRID_STEP_3 == 0)
+				continue;
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+		}
+		cairo_stroke (cr);
+
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+		for (x = GRID_STEP_1; x < rectangle->width; x += GRID_STEP_1) {
+			if (x % GRID_STEP_2 == 0)
+				continue;
+			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+		}
+		for (y = GRID_STEP_1; y < rectangle->height; y += GRID_STEP_1) {
+			if (y % GRID_STEP_2 == 0)
+				continue;
+			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+		}
+		cairo_stroke (cr);
+	}
+}
