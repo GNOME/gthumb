@@ -43,10 +43,13 @@ struct _GthImageRotatorPrivate {
 
 	GdkPoint            center;
 	double              angle;
-	gboolean            paint_grid;
-	int                 grid_lines;
-	GthTransformResize  resize;
 	cairo_color_t       background_color;
+	GdkRectangle        crop_region;
+	GthGridType         grid_type;
+
+	/* FIXME: delete these options */
+
+	GthTransformResize  resize;
 
 	/* utility variables */
 
@@ -187,85 +190,68 @@ paint_image (GthImageRotator *self,
 
 
 static void
-paint_grid (GthImageRotator *self,
-	    GdkEventExpose  *event,
-	    cairo_t         *cr)
+paint_darker_background (GthImageRotator *self,
+			 GdkEventExpose  *event,
+			 cairo_t         *cr)
 {
-	double ux, uy;
-	double delta;
-	int    n;
-	double grid_x, grid_y;
-	int    i;
-
 	cairo_save (cr);
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 
-	ux = 0.5, uy = 0.5;
-	cairo_device_to_user_distance (cr, &ux, &uy);
-	if (ux < uy)
-	    ux = uy;
-	cairo_set_line_width (cr, ux);
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
+	/* left side */
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-#else
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-#endif
+	cairo_rectangle (cr,
+			 self->priv->clip_area.x,
+			 self->priv->clip_area.y,
+			 self->priv->crop_region.x,
+			 self->priv->clip_area.height);
 
-	delta = self->priv->grid_lines /*(double) self->priv->clip_area.width / (self->priv->grid_lines + 1)*/;
-	n = (double) self->priv->clip_area.width / delta + 0.5;
-	grid_x = self->priv->clip_area.x;
-	grid_y = self->priv->clip_area.y;
-	for (i = 0; i <= n; i++) {
-		cairo_move_to (cr, grid_x + 0.5, grid_y + 0.5);
-		cairo_line_to (cr, grid_x + 0.5, grid_y + self->priv->clip_area.height - 0.5);
-		grid_x += delta;
-	}
+	/* right side */
 
-	delta = self->priv->grid_lines /*(double) self->priv->clip_area.height / (self->priv->grid_lines + 1)*/;
-	n = (double) self->priv->clip_area.height / delta + 0.5;
-	grid_x = self->priv->clip_area.x;
-	grid_y = self->priv->clip_area.y;
-	for (i = 0; i <= n; i++) {
-		cairo_move_to (cr, grid_x + 0.5, grid_y + 0.5);
-		cairo_line_to (cr, grid_x + self->priv->clip_area.width - 0.5, grid_y + 0.5);
-		grid_y += delta;
-	}
-	cairo_stroke (cr);
+	cairo_rectangle (cr,
+			 self->priv->clip_area.x + self->priv->crop_region.x + self->priv->crop_region.width,
+			 self->priv->clip_area.y,
+			 self->priv->clip_area.width - self->priv->crop_region.x - self->priv->crop_region.width,
+			 self->priv->clip_area.height);
 
+	/* top */
+
+	cairo_rectangle (cr,
+			 self->priv->clip_area.x,
+			 self->priv->clip_area.y,
+			 self->priv->clip_area.width,
+			 self->priv->crop_region.y);
+
+	/* bottom */
+
+	cairo_rectangle (cr,
+			 self->priv->clip_area.x,
+			 self->priv->clip_area.y + self->priv->crop_region.y + self->priv->crop_region.height,
+			 self->priv->clip_area.width,
+			 self->priv->clip_area.height - self->priv->crop_region.y - self->priv->crop_region.height);
+
+	cairo_fill (cr);
 	cairo_restore (cr);
 }
 
 
 static void
-paint_center (GthImageRotator *self,
-	      GdkEventExpose  *event,
-	      cairo_t         *cr)
+paint_grid (GthImageRotator *self,
+	    GdkEventExpose  *event,
+	    cairo_t         *cr)
 {
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
+	GdkRectangle grid;
+
+	cairo_save (cr);
 
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-#else
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
 #endif
+	grid = self->priv->crop_region;
+	grid.x += self->priv->clip_area.x;
+	grid.y += self->priv->clip_area.y;
+	_cairo_paint_grid (cr, &grid, self->priv->grid_type);
 
-  	/* rotation center */
-
-	cairo_translate (cr,
-			 self->priv->preview_image_area.x + self->priv->preview_center.x + 0.5,
-			 self->priv->preview_image_area.y + self->priv->preview_center.y + 0.5);
-	cairo_arc (cr, 0.0, 0.0, 10.0, 0.0, 2 * M_PI);
-
-	cairo_move_to (cr, 0.0, - 10.0);
-	cairo_line_to (cr, 0.0, 10.0);
-
-	cairo_move_to (cr, 0.0 - 10.0, 0.0);
-	cairo_line_to (cr, 0.0 + 10.0, 0.0);
-
-	cairo_stroke (cr);
+	cairo_restore (cr);
 }
 
 
@@ -313,15 +299,9 @@ gth_image_rotator_expose (GthImageViewerTool *base,
   			       self->priv->background_color.a);
   	cairo_fill (cr);
 
-  	/* image */
-
 	paint_image (self, cr);
-
-	/* grid */
-
-	if (self->priv->paint_grid)
-		paint_grid (self, event, cr);
-	paint_center (self, event, cr);
+	paint_darker_background (self, event, cr);
+	paint_grid (self, event, cr);
 
 	cairo_restore (cr);
 }
@@ -384,13 +364,16 @@ gth_image_rotator_instance_init (GthImageRotator *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_ROTATOR, GthImageRotatorPrivate);
 	self->priv->preview_image = NULL;
-	self->priv->paint_grid = FALSE;
-	self->priv->grid_lines = 0;
-	self->priv->resize = GTH_TRANSFORM_RESIZE_CLIP;
+	self->priv->grid_type = GTH_GRID_NONE;
+	self->priv->resize = GTH_TRANSFORM_RESIZE_BOUNDING_BOX;
 	self->priv->background_color.r = 0.0;
 	self->priv->background_color.g = 0.0;
 	self->priv->background_color.b = 0.0;
 	self->priv->background_color.a = 1.0;
+	self->priv->crop_region.x = 0;
+	self->priv->crop_region.y = 0;
+	self->priv->crop_region.width = 0;
+	self->priv->crop_region.height = 0;
 }
 
 
@@ -506,6 +489,28 @@ gth_image_rotator_new (GthImageViewer *viewer)
 
 
 void
+gth_image_rotator_set_grid_type (GthImageRotator *self,
+                                 GthGridType      grid_type)
+{
+        if (grid_type == self->priv->grid_type)
+                return;
+
+        self->priv->grid_type = grid_type;
+        gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+        /*g_signal_emit (G_OBJECT (self),
+                       signals[GRID_VISIBILITY_CHANGED],
+                       0);*/
+}
+
+
+GthGridType
+gth_image_rotator_get_grid_type (GthImageRotator *self)
+{
+        return self->priv->grid_type;
+}
+
+
+void
 gth_image_rotator_set_center (GthImageRotator *self,
 			      int              x,
 			      int              y)
@@ -546,16 +551,10 @@ gth_image_rotator_set_angle (GthImageRotator *self,
 }
 
 
-void
-gth_image_rotator_set_grid (GthImageRotator *self,
-			    gboolean         use_grid,
-		     	    int              lines)
+double
+gth_image_rotator_get_angle (GthImageRotator *self)
 {
-	self->priv->paint_grid = use_grid;
-	self->priv->grid_lines = lines;
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
-
-	g_signal_emit (self, signals[CHANGED], 0);
+	return self->priv->angle;
 }
 
 
@@ -565,6 +564,17 @@ gth_image_rotator_set_resize (GthImageRotator    *self,
 {
 	self->priv->resize = resize;
 	_gth_image_rotator_update_tranformation_matrix (self);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	g_signal_emit (self, signals[CHANGED], 0);
+}
+
+
+void
+gth_image_rotator_set_crop_region (GthImageRotator *self,
+				   GdkRectangle    *region)
+{
+	self->priv->crop_region = *region;
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
@@ -611,17 +621,19 @@ gth_image_rotator_get_result (GthImageRotator *self)
 			      &image_area,
 			      &clip_area);
 
-	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, clip_area.width, clip_area.height);
+	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, self->priv->crop_region.width, self->priv->crop_region.height);
 
 	/* set the device offset to make the clip area start from the top left
 	 * corner of the output image */
 
-	cairo_surface_set_device_offset (output, -clip_area.x, -clip_area.y);
+	cairo_surface_set_device_offset (output,
+					 - clip_area.x - self->priv->crop_region.x,
+					 - clip_area.y - self->priv->crop_region.y);
 	cr = cairo_create (output);
 
 	/* paint the background */
 
-  	cairo_rectangle (cr, clip_area.x, clip_area.y, clip_area.width, clip_area.height);
+  	cairo_rectangle (cr, 0, 0, clip_area.width, clip_area.height);
   	cairo_clip_preserve (cr);
   	cairo_set_source_rgba (cr,
   			       self->priv->background_color.r,
@@ -636,8 +648,8 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	cairo_set_source_surface (cr, gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)), image_area.x, image_area.y);
   	cairo_rectangle (cr, image_area.x, image_area.y, image_area.width, image_area.height);
   	cairo_fill (cr);
-  	cairo_surface_set_device_offset (output, 0.0, 0.0);
   	cairo_surface_flush (output);
+  	cairo_surface_set_device_offset (output, 0.0, 0.0);
 
 	cairo_destroy (cr);
 
