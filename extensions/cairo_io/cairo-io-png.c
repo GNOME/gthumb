@@ -126,14 +126,15 @@ _cairo_image_surface_create_from_png (GthFileData   *file_data,
 				      GCancellable  *cancellable,
 				      GError       **error)
 {
-	GthImage      *image;
-	CairoPngData  *cairo_png_data;
-	png_uint_32    width, height;
-	int            bit_depth, color_type, interlace_type;
-	unsigned char *surface_row;
-	int            rowstride;
-	png_bytep     *row_pointers;
-	int            row;
+	GthImage                 *image;
+	CairoPngData             *cairo_png_data;
+	png_uint_32               width, height;
+	int                       bit_depth, color_type, interlace_type;
+	cairo_surface_metadata_t *metadata;
+	unsigned char            *surface_row;
+	int                       rowstride;
+	png_bytep                *row_pointers;
+	int                       row;
 
 	image = gth_image_new ();
 
@@ -184,6 +185,9 @@ _cairo_image_surface_create_from_png (GthFileData   *file_data,
 		_cairo_png_data_destroy (cairo_png_data);
 	        return image;
 	}
+
+	metadata = _cairo_image_surface_get_metadata (cairo_png_data->surface);
+	metadata->has_alpha = (color_type & PNG_COLOR_MASK_ALPHA);
 
 	/* Set the data transformations */
 

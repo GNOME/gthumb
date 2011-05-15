@@ -495,7 +495,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
 	}
 	else {
-		gtk_widget_set_sensitive (GET_WIDGET ("background_transparent"), FALSE);
+		gtk_widget_set_sensitive (self->priv->background_transparent, FALSE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), FALSE);
 	}
 

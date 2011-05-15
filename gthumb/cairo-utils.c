@@ -28,11 +28,6 @@
 const unsigned char cairo_channel[4] = { CAIRO_RED, CAIRO_GREEN, CAIRO_BLUE, CAIRO_ALPHA };
 
 
-typedef struct {
-	gboolean has_alpha;
-} cairo_surface_metadata_t;
-
-
 static cairo_user_data_key_t surface_metadata_key;
 static cairo_user_data_key_t surface_pixels_key;
 
@@ -88,6 +83,21 @@ _cairo_clear_surface (cairo_surface_t  **surface)
 {
 	cairo_surface_destroy (*surface);
 	*surface = NULL;
+}
+
+
+cairo_surface_metadata_t *
+_cairo_image_surface_get_metadata (cairo_surface_t *surface)
+{
+	cairo_surface_metadata_t *metadata;
+
+	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
+	if (metadata == NULL) {
+		metadata = g_new0 (cairo_surface_metadata_t, 1);
+		cairo_surface_set_user_data (surface, &surface_metadata_key, metadata, surface_metadata_free);
+	}
+
+	return metadata;
 }
 
 
@@ -247,9 +257,8 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	s_stride = cairo_image_surface_get_stride (surface);
 	s_pixels = cairo_image_surface_get_data (surface);
 
-	metadata = g_new0 (cairo_surface_metadata_t, 1);
+	metadata = _cairo_image_surface_get_metadata (surface);
 	metadata->has_alpha = (p_n_channels == 4);
-	cairo_surface_set_user_data (surface, &surface_metadata_key, metadata, surface_metadata_free);
 
 	if (p_n_channels == 4) {
 		guchar *s_iter;

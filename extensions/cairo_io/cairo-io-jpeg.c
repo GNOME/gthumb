@@ -156,6 +156,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 	struct error_handler_data      jsrcerr;
 	struct jpeg_decompress_struct  srcinfo;
 	cairo_surface_t               *surface;
+	cairo_surface_metadata_t      *metadata;
 	unsigned char                 *surface_row;
 	JSAMPARRAY                     buffer;
 	int                            buffer_stride;
@@ -246,6 +247,8 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 		return image;
 	}
+	metadata = _cairo_image_surface_get_metadata (surface);
+	metadata->has_alpha = FALSE;
 	cairo_surface_flush (surface);
 	surface_row = cairo_image_surface_get_data (surface) + line_start;
 
