@@ -29,7 +29,6 @@ HEADER_FILES = 				\
 	gth-file-tool-sharpen.h		\
 	gth-file-tool-undo.h		\
 	gth-image-rotator.h		\
-	gth-transform-resize.h		\
 	preferences.h
 
 enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
@@ -78,7 +77,6 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-sharpen.c		\
 	gth-file-tool-undo.c		\
 	gth-image-rotator.c		\
-	gth-transform-resize.c		\
 	main.c
 
 libfile_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

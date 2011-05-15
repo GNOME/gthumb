@@ -25,6 +25,10 @@
 #include "gth-image-rotator.h"
 
 
+#define MIN4(a,b,c,d) MIN(MIN((a),(b)),MIN((c),(d)))
+#define MAX4(a,b,c,d) MAX(MAX((a),(b)),MAX((c),(d)))
+
+
 enum {
 	CHANGED,
 	CENTER_CHANGED,
@@ -44,6 +48,7 @@ struct _GthImageRotatorPrivate {
 	GdkPoint            center;
 	double              angle;
 	cairo_color_t       background_color;
+	gboolean            enable_crop;
 	GdkRectangle        crop_region;
 	GthGridType         grid_type;
 
@@ -75,6 +80,62 @@ static void
 gth_image_rotator_unrealize (GthImageViewerTool *base)
 {
 	/* void */
+}
+
+
+static void
+_cairo_matrix_transform_point (cairo_matrix_t *matrix,
+			       double          x,
+			       double          y,
+			       double         *tx,
+			       double         *ty)
+{
+	*tx = x;
+	*ty = y;
+	cairo_matrix_transform_point (matrix, tx, ty);
+}
+
+
+static void
+gth_transform_resize (cairo_matrix_t     *matrix,
+		      GthTransformResize  resize,
+		      GdkRectangle       *original,
+		      GdkRectangle       *boundary)
+{
+	int x1, y1, x2, y2;
+
+	x1 = original->x;
+	y1 = original->y;
+	x2 = original->x + original->width;
+	y2 = original->y + original->height;
+
+	switch (resize) {
+	case GTH_TRANSFORM_RESIZE_CLIP:
+		/* keep the original size */
+		break;
+
+	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
+		{
+			double dx1, dx2, dx3, dx4;
+			double dy1, dy2, dy3, dy4;
+
+			_cairo_matrix_transform_point (matrix, x1, y1, &dx1, &dy1);
+			_cairo_matrix_transform_point (matrix, x2, y1, &dx2, &dy2);
+			_cairo_matrix_transform_point (matrix, x1, y2, &dx3, &dy3);
+			_cairo_matrix_transform_point (matrix, x2, y2, &dx4, &dy4);
+
+			x1 = (int) floor (MIN4 (dx1, dx2, dx3, dx4));
+			y1 = (int) floor (MIN4 (dy1, dy2, dy3, dy4));
+			x2 = (int) ceil  (MAX4 (dx1, dx2, dx3, dx4));
+			y2 = (int) ceil  (MAX4 (dy1, dy2, dy3, dy4));
+			break;
+		}
+	}
+
+	boundary->x = x1;
+	boundary->y = y1;
+	boundary->width = x2 - x1;
+	boundary->height = y2 - y1;
 }
 
 
@@ -300,8 +361,10 @@ gth_image_rotator_expose (GthImageViewerTool *base,
   	cairo_fill (cr);
 
 	paint_image (self, cr);
-	paint_darker_background (self, event, cr);
-	paint_grid (self, event, cr);
+	if (self->priv->enable_crop) {
+		paint_darker_background (self, event, cr);
+		paint_grid (self, event, cr);
+	}
 
 	cairo_restore (cr);
 }
@@ -370,6 +433,7 @@ gth_image_rotator_instance_init (GthImageRotator *self)
 	self->priv->background_color.g = 0.0;
 	self->priv->background_color.b = 0.0;
 	self->priv->background_color.a = 1.0;
+	self->priv->enable_crop = FALSE;
 	self->priv->crop_region.x = 0;
 	self->priv->crop_region.y = 0;
 	self->priv->crop_region.width = 0;
@@ -574,7 +638,10 @@ void
 gth_image_rotator_set_crop_region (GthImageRotator *self,
 				   GdkRectangle    *region)
 {
-	self->priv->crop_region = *region;
+	self->priv->enable_crop = (region != NULL);
+	if (region != NULL)
+		self->priv->crop_region = *region;
+
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
@@ -621,6 +688,13 @@ gth_image_rotator_get_result (GthImageRotator *self)
 			      &image_area,
 			      &clip_area);
 
+	if (! self->priv->enable_crop) {
+		self->priv->crop_region.x = 0;
+		self->priv->crop_region.y = 0;
+		self->priv->crop_region.width = clip_area.width;
+		self->priv->crop_region.height = clip_area.height;
+	}
+
 	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, self->priv->crop_region.width, self->priv->crop_region.height);
 
 	/* set the device offset to make the clip area start from the top left
@@ -633,7 +707,7 @@ gth_image_rotator_get_result (GthImageRotator *self)
 
 	/* paint the background */
 
-  	cairo_rectangle (cr, 0, 0, clip_area.width, clip_area.height);
+  	cairo_rectangle (cr, clip_area.x, clip_area.y, clip_area.width, clip_area.height);
   	cairo_clip_preserve (cr);
   	cairo_set_source_rgba (cr,
   			       self->priv->background_color.r,

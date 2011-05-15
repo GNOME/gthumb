@@ -25,9 +25,13 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gthumb.h>
-#include "gth-transform-resize.h"
 
 G_BEGIN_DECLS
+
+typedef enum {
+	GTH_TRANSFORM_RESIZE_CLIP,
+	GTH_TRANSFORM_RESIZE_BOUNDING_BOX
+} GthTransformResize;
 
 #define GTH_TYPE_IMAGE_ROTATOR            (gth_image_rotator_get_type ())
 #define GTH_IMAGE_ROTATOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE_ROTATOR, GthImageRotator))
