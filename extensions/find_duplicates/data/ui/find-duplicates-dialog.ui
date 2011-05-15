@@ -21,7 +21,6 @@
     <property name="title" translatable="yes">Search for Duplicates</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox12">
         <property name="visible">True</property>
