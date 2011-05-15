@@ -43,7 +43,6 @@ struct _GthFileToolRotatePrivate {
 	GtkBuilder       *builder;
 	GtkWidget        *options;
 	GtkAdjustment    *rotation_angle_adj;
-	GtkWidget        *high_quality;
 	GtkWidget        *background_colorbutton;
 	GtkWidget        *background_transparent;
 	gboolean          crop_enabled;
@@ -219,7 +218,6 @@ apply_cb (gpointer user_data)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	double             rotation_angle;
-	gboolean           high_quality;
 	GdkColor           background_color;
 	guchar             r0, g0, b0, a0;
 
@@ -232,7 +230,6 @@ apply_cb (gpointer user_data)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 
 	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
-	high_quality = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->high_quality));
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent))) {
 
@@ -256,7 +253,7 @@ apply_cb (gpointer user_data)
 
 	/* FIXME
 	_g_object_unref (self->priv->rotate_pixbuf);
-	self->priv->rotate_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, high_quality, r0, g0, b0, a0);
+	self->priv->rotate_pixbuf = _gdk_pixbuf_rotate (self->priv->src_pixbuf, rotation_angle, TRUE, r0, g0, b0, a0);
 	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
 	*/
 
@@ -496,14 +493,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->rotation_angle_adj = gimp_scale_entry_new (GET_WIDGET ("rotation_angle_hbox"),
 							       GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
 							       0.0, -90.0, 90.0, 0.1, 1.0, 1);
-
-	self->priv->high_quality = _gtk_builder_get_widget (self->priv->builder, "high_quality");
-
 	self->priv->background_colorbutton = _gtk_builder_get_widget (self->priv->builder, "background_colorbutton");
 	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent_checkbutton");
 
 	self->priv->has_alpha = gdk_pixbuf_get_n_channels (self->priv->src_pixbuf) == 4;
-
 	if (self->priv->has_alpha) {
 		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton), TRUE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
@@ -596,10 +589,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (G_OBJECT (self->priv->crop_p2_adj),
 			  "value-changed",
 			  G_CALLBACK (crop_parameters_changed_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->high_quality),
-			  "toggled",
-			  G_CALLBACK (value_changed_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->keep_aspect_ratio),
 			  "toggled",
