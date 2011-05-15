@@ -115,6 +115,7 @@ gth_transform_resize (cairo_matrix_t     *matrix,
 		break;
 
 	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
+	case GTH_TRANSFORM_RESIZE_CROP:
 		{
 			double dx1, dx2, dx3, dx4;
 			double dy1, dy2, dy3, dy4;
