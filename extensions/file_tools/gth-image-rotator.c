@@ -22,6 +22,8 @@
 #include <config.h>
 #include <stdlib.h>
 #include <math.h>
+#include <gthumb.h>
+#include "cairo-rotate.h"
 #include "gth-image-rotator.h"
 
 
@@ -313,7 +315,7 @@ paint_grid (GthImageRotator *self,
 	cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
 
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
+	/*cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);*/
 #endif
 	grid = self->priv->crop_region;
 	grid.x += self->priv->clip_area.x / self->priv->preview_zoom;
@@ -667,8 +669,8 @@ gth_image_rotator_set_background (GthImageRotator *self,
 }
 
 
-cairo_surface_t *
-gth_image_rotator_get_result (GthImageRotator *self)
+static cairo_surface_t *
+gth_image_rotator_get_result_fast (GthImageRotator *self)
 {
 	double           tx, ty;
 	cairo_matrix_t   matrix;
@@ -736,4 +738,58 @@ gth_image_rotator_get_result (GthImageRotator *self)
 	cairo_destroy (cr);
 
 	return output;
+}
+
+
+static cairo_surface_t *
+gth_image_rotator_get_result_high_quality (GthImageRotator *self)
+{
+	cairo_surface_t *rotated;
+	cairo_surface_t *result;
+
+	rotated = _cairo_image_surface_rotate (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
+					       self->priv->angle / G_PI * 180.0,
+					       TRUE,
+					       &self->priv->background_color);
+
+	switch (self->priv->resize) {
+	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
+		self->priv->crop_region.x = 0;
+		self->priv->crop_region.y = 0;
+		self->priv->crop_region.width = cairo_image_surface_get_width (rotated);
+		self->priv->crop_region.height = cairo_image_surface_get_height (rotated);
+		break;
+
+	case GTH_TRANSFORM_RESIZE_CLIP:
+		self->priv->crop_region.x = (cairo_image_surface_get_width (rotated) - self->priv->original_width) / 2;
+		self->priv->crop_region.y = (cairo_image_surface_get_height (rotated) - self->priv->original_height) / 2;
+		self->priv->crop_region.width = self->priv->original_width;
+		self->priv->crop_region.height = self->priv->original_height;
+		break;
+
+	case GTH_TRANSFORM_RESIZE_CROP:
+		/* set by the user */
+		break;
+	}
+
+	result = _cairo_image_surface_copy_subsurface (rotated,
+						       self->priv->crop_region.x,
+						       self->priv->crop_region.y,
+						       self->priv->crop_region.width,
+						       self->priv->crop_region.height);
+
+	cairo_surface_destroy (rotated);
+
+	return result;
+}
+
+
+cairo_surface_t *
+gth_image_rotator_get_result (GthImageRotator *self,
+			      gboolean         high_quality)
+{
+	if (high_quality)
+		return gth_image_rotator_get_result_high_quality (self);
+	else
+		return gth_image_rotator_get_result_fast (self);
 }

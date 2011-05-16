@@ -188,6 +188,7 @@ rotate (cairo_surface_t *image,
 	guchar           b0,
 	guchar           a0)
 {
+	cairo_surface_t *image_with_background;
 	cairo_surface_t *rotated;
 	double           angle_rad;
 	double           cos_angle, sin_angle;
@@ -218,22 +219,53 @@ rotate (cairo_surface_t *image,
 	new_width  = ROUND (      cos_angle  * src_width + fabs(sin_angle) * src_height);
 	new_height = ROUND (fabs (sin_angle) * src_width +      cos_angle  * src_height);
 
+	if (a0 == 0xff) {
+		/* pre-multiply the background color */
+
+		image_with_background = _cairo_image_surface_copy (image);
+		p_src = cairo_image_surface_get_data (image);
+		p_new = cairo_image_surface_get_data (image_with_background);
+		src_rowstride = cairo_image_surface_get_stride (image);
+		new_rowstride = cairo_image_surface_get_stride (image_with_background);
+
+		cairo_surface_flush (image_with_background);
+		for (yi = 0; yi < src_height; yi++) {
+			p_src2 = p_src;
+			p_new2 = p_new;
+			for (xi = 0; xi < src_width; xi++) {
+				a = p_src2[CAIRO_ALPHA];
+				r = p_src2[CAIRO_RED] + _cairo_multiply_alpha (r0, 0xff - a);
+				g = p_src2[CAIRO_GREEN] + _cairo_multiply_alpha (g0, 0xff - a);
+				b = p_src2[CAIRO_BLUE] + _cairo_multiply_alpha (b0, 0xff - a);
+				pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
+				memcpy (p_new2, &pixel, sizeof (guint32));
+
+				p_new2 += 4;
+				p_src2 += 4;
+			}
+			p_src += src_rowstride;
+			p_new += new_rowstride;
+		}
+		cairo_surface_mark_dirty (image_with_background);
+	}
+	else
+		image_with_background = cairo_surface_reference (image);
+
+	/* create the rotated image */
+
 	rotated = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, new_width, new_height);
 
-	p_src = cairo_image_surface_get_data (image);
+	p_src = cairo_image_surface_get_data (image_with_background);
 	p_new = cairo_image_surface_get_data (rotated);
-	src_rowstride = cairo_image_surface_get_stride (image);
+	src_rowstride = cairo_image_surface_get_stride (image_with_background);
 	new_rowstride = cairo_image_surface_get_stride (rotated);
 
 	cairo_surface_flush (rotated);
-
 	for (yi = 0; yi < new_height; yi++) {
 		p_new2 = p_new;
-
 		y = yi - new_height / 2.0;
 
 		for (xi = 0; xi < new_width; xi++) {
-
 			x = xi - new_width / 2.0;
 
 			x2 = cos_angle * x - sin_angle * y + src_width  / 2.0;
@@ -270,7 +302,7 @@ rotate (cairo_surface_t *image,
 				x2min = ROUND (x2);
 				y2min = ROUND (y2);
 
-				GET_VALUES (p_new2[RED_PIX], p_new2[GREEN_PIX], p_new2[BLUE_PIX], p_new2[ALPHA_PIX], x2min, y2min);
+				GET_VALUES (p_new2[CAIRO_RED], p_new2[CAIRO_GREEN], p_new2[CAIRO_BLUE], p_new2[CAIRO_ALPHA], x2min, y2min);
 			}
 
 			p_new2 += 4;
@@ -278,18 +310,19 @@ rotate (cairo_surface_t *image,
 
 		p_new += new_rowstride;
 	}
-
 	cairo_surface_mark_dirty (rotated);
+
+	cairo_surface_destroy (image_with_background);
 
 	return rotated;
 }
 
 
 cairo_surface_t *
-_cairo_image_surface_rotate (cairo_surface_t   *image,
-		    	     double             angle,
-		    	     gboolean           high_quality,
-		    	     cairo_color_255_t *background_color)
+_cairo_image_surface_rotate (cairo_surface_t *image,
+		    	     double           angle,
+		    	     gboolean         high_quality,
+		    	     cairo_color_t   *background_color)
 {
 	cairo_surface_t *rotated;
 	cairo_surface_t *tmp = NULL;
@@ -307,10 +340,10 @@ _cairo_image_surface_rotate (cairo_surface_t   *image,
 		rotated = rotate (image,
 				  -angle,
 				  high_quality,
-				  background_color->r,
-				  background_color->g,
-				  background_color->b,
-				  background_color->a);
+				  background_color->r * 255.0,
+				  background_color->g * 255.0,
+				  background_color->b * 255.0,
+				  background_color->a * 255.0);
 	else
 		rotated = cairo_surface_reference (image);
 

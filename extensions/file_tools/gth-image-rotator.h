@@ -81,7 +81,8 @@ void                  gth_image_rotator_set_crop_region (GthImageRotator       *
 							 GdkRectangle          *region);
 void                  gth_image_rotator_set_background  (GthImageRotator       *self,
 							 cairo_color_t         *color);
-cairo_surface_t *     gth_image_rotator_get_result      (GthImageRotator       *self);
+cairo_surface_t *     gth_image_rotator_get_result      (GthImageRotator       *self,
+							 gboolean               high_quality);
 
 G_END_DECLS
 
