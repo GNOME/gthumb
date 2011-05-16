@@ -787,8 +787,8 @@ gth_image_rotator_get_result_high_quality (GthImageRotator *self)
 	result = _cairo_image_surface_copy_subsurface (rotated,
 						       self->priv->crop_region.x,
 						       self->priv->crop_region.y,
-						       self->priv->crop_region.width,
-						       self->priv->crop_region.height);
+						       MIN (self->priv->crop_region.width, cairo_image_surface_get_width (rotated) - self->priv->crop_region.x),
+						       MIN (self->priv->crop_region.height, cairo_image_surface_get_height (rotated) - self->priv->crop_region.y));
 
 	cairo_surface_destroy (rotated);
 
