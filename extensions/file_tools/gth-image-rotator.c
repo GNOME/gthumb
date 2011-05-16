@@ -314,9 +314,6 @@ paint_grid (GthImageRotator *self,
 
 	cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	/*cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);*/
-#endif
 	grid = self->priv->crop_region;
 	grid.x += self->priv->clip_area.x / self->priv->preview_zoom;
 	grid.y += self->priv->clip_area.y / self->priv->preview_zoom;

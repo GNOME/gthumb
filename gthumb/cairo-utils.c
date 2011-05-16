@@ -780,15 +780,23 @@ _cairo_paint_grid (cairo_t      *cr,
 	cairo_device_to_user_distance (cr, &ux, &uy);
 	cairo_set_line_width (cr, MAX (ux, uy));
 
-	cairo_rectangle (cr, rectangle->x - ux, rectangle->y - uy, rectangle->width + (ux * 2), rectangle->height + (uy * 2));
+	cairo_rectangle (cr, rectangle->x - ux + 0.5, rectangle->y - uy + 0.5, rectangle->width + (ux * 2), rectangle->height + (uy * 2));
 	cairo_clip (cr);
 
-	cairo_rectangle (cr, rectangle->x, rectangle->y, rectangle->width, rectangle->height);
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
+	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
+#endif
+
+	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width, rectangle->height);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_stroke (cr);
 
-	if (grid_type == GTH_GRID_NONE)
+	if (grid_type == GTH_GRID_NONE) {
+		cairo_restore (cr);
 		return;
+	}
+
+	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
 	if (grid_type == GTH_GRID_THIRDS) {
 		int i;

@@ -639,13 +639,16 @@ paint_selection (GthImageSelector *self,
 
 	cairo_save (cr);
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	/*cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);*/
-#endif
+	cairo_rectangle (cr,
+			 selection_area.x + 0.5,
+			 selection_area.y + 0.5,
+			 selection_area.width,
+			 selection_area.height);
+	cairo_clip (cr);
+
 	_cairo_paint_grid (cr, &selection_area, self->priv->grid_type);
 
 	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
-
 	cairo_rectangle (cr,
 			 selection_area.x + 0.5,
 			 selection_area.y + 0.5,
@@ -653,8 +656,8 @@ paint_selection (GthImageSelector *self,
 			 selection_area.height - 1);
 	if ((self->priv->current_area != NULL) && (self->priv->current_area->id != C_SELECTION_AREA))
 		cairo_rectangle (cr,
-				 self->priv->current_area->area.x + self->priv->viewer->image_area.x + 0.5,
-				 self->priv->current_area->area.y + self->priv->viewer->image_area.y + 0.5,
+				 self->priv->current_area->area.x + self->priv->viewer->image_area.x - self->priv->viewer->x_offset + 0.5,
+				 self->priv->current_area->area.y + self->priv->viewer->image_area.y - self->priv->viewer->y_offset + 0.5,
 				 self->priv->current_area->area.width - 1,
 				 self->priv->current_area->area.height - 1);
 
