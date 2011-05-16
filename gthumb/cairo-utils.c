@@ -787,7 +787,7 @@ _cairo_paint_grid (cairo_t      *cr,
 	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
 #endif
 
-	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width, rectangle->height);
+	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width - 0.5, rectangle->height - 0.5);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_stroke (cr);
 
