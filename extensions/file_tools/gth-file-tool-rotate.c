@@ -24,7 +24,7 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "enum-types.h"
-#include "gdk-pixbuf-rotate.h"
+#include "cairo-rotate.h"
 #include "gth-file-tool-rotate.h"
 #include "gth-image-rotator.h"
 
@@ -37,29 +37,28 @@ static gpointer parent_class = NULL;
 
 
 struct _GthFileToolRotatePrivate {
-	GdkPixbuf        *src_pixbuf;
-	GdkPixbuf        *rotate_pixbuf;
-	gboolean          has_alpha;
-	GtkBuilder       *builder;
-	GtkWidget        *options;
-	GtkAdjustment    *rotation_angle_adj;
-	GtkWidget        *background_colorbutton;
-	GtkWidget        *background_transparent;
-	gboolean          crop_enabled;
-	GtkWidget        *show_grid;
-	GtkWidget        *keep_aspect_ratio;
-	GtkAdjustment    *crop_p1_adj;
-	GtkAdjustment    *crop_p2_adj;
-	double            crop_p1_plus_p2;
-	GtkWidget        *crop_grid;
-	GdkRectangle      crop_region;
-	GthImageSelector *selector_crop;
-	GthImageSelector *selector_align;
+	cairo_surface_t    *image;
+	gboolean            has_alpha;
+	GtkBuilder         *builder;
+	GtkWidget          *options;
+	GtkAdjustment      *rotation_angle_adj;
+	GtkWidget          *background_colorbutton;
+	GtkWidget          *background_transparent;
+	gboolean            crop_enabled;
+	GtkWidget          *show_grid;
+	GtkWidget          *keep_aspect_ratio;
+	GtkAdjustment      *crop_p1_adj;
+	GtkAdjustment      *crop_p2_adj;
+	double              crop_p1_plus_p2;
+	GtkWidget          *crop_grid;
+	GdkRectangle        crop_region;
+	GthImageSelector   *selector_crop;
+	GthImageSelector   *selector_align;
 	GthImageViewerTool *rotator;
-	guint             selector_align_direction;
-	guint             selector_align_point;
-	GdkPoint          align_points[2];
-	guint             apply_event;
+	guint               selector_align_direction;
+	guint               selector_align_point;
+	GdkPoint            align_points[2];
+	guint               apply_event;
 };
 
 
@@ -85,10 +84,10 @@ update_crop_parameters (GthFileToolRotate *self)
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), FALSE);
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
 
-			_gdk_pixbuf_rotate_get_cropping_parameters (self->priv->src_pixbuf,
-								    rotation_angle,
-								    &self->priv->crop_p1_plus_p2,
-								    &crop_p_min);
+			_cairo_image_surface_rotate_get_cropping_parameters (self->priv->image,
+								    	     rotation_angle,
+								    	     &self->priv->crop_p1_plus_p2,
+								    	     &crop_p_min);
 
 			/* This centers the cropping region in the middle of the rotated image */
 
@@ -133,11 +132,11 @@ update_crop_region (GthFileToolRotate *self)
 		rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
 		crop_p1 = gtk_adjustment_get_value (self->priv->crop_p1_adj);
 		crop_p2 = gtk_adjustment_get_value (self->priv->crop_p2_adj);
-		_gdk_pixbuf_rotate_get_cropping_region (self->priv->src_pixbuf,
-							rotation_angle,
-							crop_p1,
-							crop_p2,
-							&self->priv->crop_region);
+		_cairo_image_surface_rotate_get_cropping_region (self->priv->image,
+								 rotation_angle,
+								 crop_p1,
+								 crop_p2,
+								 &self->priv->crop_region);
 		gth_image_rotator_set_crop_region (GTH_IMAGE_ROTATOR (self->priv->rotator), &self->priv->crop_region);
 	}
 	else
@@ -167,7 +166,8 @@ align_begin (GthFileToolRotate *self)
 
 	gtk_widget_set_sensitive (self->priv->options, FALSE);
 
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->src_pixbuf, FALSE);
+	/* FIXME
+	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->src_pixbuf, FALSE); */
 
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector_align);
 }
@@ -178,16 +178,14 @@ align_end (GthFileToolRotate *self)
 {
 	GtkWidget *window;
 	GtkWidget *viewer_page;
-	GtkWidget *viewer;
 	double     angle;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 
-	angle = _gdk_pixbuf_rotate_get_align_angle (self->priv->selector_align_direction == 1,
-						    self->priv->align_points[0],
-						    self->priv->align_points[1]),
+	angle = _cairo_image_surface_rotate_get_align_angle (self->priv->selector_align_direction == 1,
+						    	     self->priv->align_points[0],
+						    	     self->priv->align_points[1]),
 
 	self->priv->selector_align_direction = 0;
 	self->priv->selector_align_point = 0;
@@ -198,7 +196,9 @@ align_end (GthFileToolRotate *self)
 
 		/* We already have the pixmap ready */
 
+		/* FIXME
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->rotate_pixbuf, FALSE);
+		*/
 
 		update_crop_parameters (self);
 		update_crop_region (self);
@@ -313,9 +313,13 @@ static void
 apply_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	cairo_surface_t *image;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	double             rotation_angle;
+	GdkColor           color;
+	cairo_color_255_t  background_color;
+	cairo_surface_t   *rotated;
+	cairo_surface_t   *image;
 
 #if 0
 	if (self->priv->rotate_pixbuf != self->priv->src_pixbuf) {
@@ -347,12 +351,31 @@ apply_button_clicked_cb (GtkButton         *button,
 	}
 #endif
 
+	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
+
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (self->priv->background_colorbutton), &color);
+	background_color.r = color.red;
+	background_color.g = color.green;
+	background_color.b = color.blue;
+	background_color.a = gtk_color_button_get_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton));
+
+	rotated = _cairo_image_surface_rotate (self->priv->image, rotation_angle, TRUE, &background_color);
+	if (self->priv->crop_enabled)
+		image = _cairo_image_surface_copy_subsurface (rotated,
+							      self->priv->crop_region.x,
+							      self->priv->crop_region.y,
+							      self->priv->crop_region.width,
+							      self->priv->crop_region.height);
+	else
+		image = cairo_surface_reference (rotated);
+	/*image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator)); FIXME*/
+
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-
-	image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator));
 	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), image, TRUE);
+
 	cairo_surface_destroy (image);
+	cairo_surface_destroy (rotated);
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
@@ -475,15 +498,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	_g_clear_object (&self->priv->src_pixbuf);
-	_g_clear_object (&self->priv->rotate_pixbuf);
+	cairo_surface_destroy (self->priv->image);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
-	if (self->priv->src_pixbuf == NULL)
+	self->priv->image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (self->priv->image == NULL)
 		return NULL;
 
-	self->priv->rotate_pixbuf = g_object_ref (self->priv->src_pixbuf);
+	cairo_surface_reference (self->priv->image);
 
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
 
@@ -496,7 +518,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->background_colorbutton = _gtk_builder_get_widget (self->priv->builder, "background_colorbutton");
 	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent_checkbutton");
 
-	self->priv->has_alpha = gdk_pixbuf_get_n_channels (self->priv->src_pixbuf) == 4;
+	self->priv->has_alpha = _cairo_image_surface_get_has_alpha (self->priv->image);
 	if (self->priv->has_alpha) {
 		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton), TRUE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
@@ -537,8 +559,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	self->priv->rotator = gth_image_rotator_new (GTH_IMAGE_VIEWER (viewer));
 	gth_image_rotator_set_center (GTH_IMAGE_ROTATOR (self->priv->rotator),
-				      gdk_pixbuf_get_width (self->priv->src_pixbuf) / 2,
-				      gdk_pixbuf_get_height (self->priv->src_pixbuf) / 2);
+				      cairo_image_surface_get_width (self->priv->image) / 2,
+				      cairo_image_surface_get_height (self->priv->image) / 2);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
@@ -549,8 +571,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->crop_enabled = TRUE;
 	self->priv->crop_region.x = 0;
 	self->priv->crop_region.y = 0;
-	self->priv->crop_region.width = gdk_pixbuf_get_width (self->priv->src_pixbuf);
-	self->priv->crop_region.height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
+	self->priv->crop_region.width = cairo_image_surface_get_width (self->priv->image);
+	self->priv->crop_region.height = cairo_image_surface_get_height (self->priv->image);
 
 	g_signal_connect (GET_WIDGET ("apply_button"),
 			  "clicked",
@@ -639,8 +661,8 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), TRUE);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
-	_g_clear_object (&self->priv->src_pixbuf);
-	_g_clear_object (&self->priv->rotate_pixbuf);
+	cairo_surface_destroy (self->priv->image);
+	self->priv->image = NULL;
 	_g_clear_object (&self->priv->builder);
 	_g_clear_object (&self->priv->selector_crop);
 	_g_clear_object (&self->priv->selector_align);
@@ -676,8 +698,7 @@ gth_file_tool_rotate_finalize (GObject *object)
 
 	self = (GthFileToolRotate *) object;
 
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->rotate_pixbuf);
+	cairo_surface_destroy (self->priv->image);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
