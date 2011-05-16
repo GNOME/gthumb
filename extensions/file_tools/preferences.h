@@ -43,8 +43,10 @@ G_BEGIN_DECLS
 #define PREF_RESIZE_ASPECT_RATIO_INVERT "/apps/gthumb/ext/resize/aspect_ratio_invert"
 #define PREF_RESIZE_HIGH_QUALITY        "/apps/gthumb/ext/resize/high_quality"
 
-#define PREF_ROTATE_UNIT                "/apps/gthumb/ext/rotate/unit"
-#define PREF_ROTATE_GRID_SIZE           "/apps/gthumb/ext/rotate/grid_size"
+#define PREF_ROTATE_RESIZE              "/apps/gthumb/ext/rotate/resize"
+#define PREF_ROTATE_KEEP_ASPECT_RATIO   "/apps/gthumb/ext/rotate/keep_aspect_ratio"
+#define PREF_ROTATE_GRID_TYPE           "/apps/gthumb/ext/rotate/grid_type"
+#define PREF_ROTATE_BACKGROUND_COLOR    "/apps/gthumb/ext/rotate/background_color"
 
 G_END_DECLS
 

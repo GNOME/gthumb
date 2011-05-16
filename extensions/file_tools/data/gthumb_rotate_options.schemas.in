@@ -2,11 +2,11 @@
     <schemalist>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/resize/unit</key>
-	<applyto>/apps/gthumb/ext/resize/unit</applyto>
+	<key>/schemas/apps/gthumb/ext/rotate/resize</key>
+	<applyto>/apps/gthumb/ext/rotate/resize</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>percentage</default>
+	<default>crop</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>
@@ -14,11 +14,35 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/resize/grid_size</key>
-	<applyto>/apps/gthumb/ext/resize/grid_size</applyto>
+	<key>/schemas/apps/gthumb/ext/rotate/keep_aspect_ratio</key>
+	<applyto>/apps/gthumb/ext/rotate/keep_aspect_ratio</applyto>
 	<owner>gthumb</owner>
-	<type>int</type>
-	<default>15</default>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rotate/grid_type</key>
+	<applyto>/apps/gthumb/ext/rotate/grid_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>thirds</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/rotate/background_color</key>
+	<applyto>/apps/gthumb/ext/rotate/background_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#000</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>

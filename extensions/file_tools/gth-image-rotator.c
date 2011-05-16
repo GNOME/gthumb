@@ -644,6 +644,13 @@ gth_image_rotator_set_resize (GthImageRotator    *self,
 }
 
 
+GthTransformResize
+gth_image_rotator_get_resize (GthImageRotator *self)
+{
+	return self->priv->resize;
+}
+
+
 void
 gth_image_rotator_set_crop_region (GthImageRotator *self,
 				   GdkRectangle    *region)
@@ -666,6 +673,14 @@ gth_image_rotator_set_background (GthImageRotator *self,
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
+}
+
+
+void
+gth_image_rotator_get_background (GthImageRotator *self,
+			          cairo_color_t   *color)
+{
+	*color = self->priv->background_color;
 }
 
 

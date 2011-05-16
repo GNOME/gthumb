@@ -23,13 +23,14 @@
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "cairo-rotate.h"
 #include "enum-types.h"
 #include "gth-file-tool-rotate.h"
 #include "gth-image-rotator.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
-#define APPLY_DELAY 150
 
 
 static gpointer parent_class = NULL;
@@ -40,16 +41,12 @@ struct _GthFileToolRotatePrivate {
 	gboolean            has_alpha;
 	GtkBuilder         *builder;
 	GtkWidget          *options;
+	GtkWidget          *crop_grid;
 	GtkAdjustment      *rotation_angle_adj;
-	GtkWidget          *background_colorbutton;
-	GtkWidget          *background_transparent;
-	gboolean            crop_enabled;
-	GtkWidget          *show_grid;
-	GtkWidget          *keep_aspect_ratio;
 	GtkAdjustment      *crop_p1_adj;
 	GtkAdjustment      *crop_p2_adj;
+	gboolean            crop_enabled;
 	double              crop_p1_plus_p2;
-	GtkWidget          *crop_grid;
 	GdkRectangle        crop_region;
 	GthImageSelector   *selector_crop;
 	GthImageSelector   *selector_align;
@@ -57,8 +54,22 @@ struct _GthFileToolRotatePrivate {
 	guint               selector_align_direction;
 	guint               selector_align_point;
 	GdkPoint            align_points[2];
-	guint               apply_event;
 };
+
+
+static void
+gth_file_tool_rotate_update_sensitivity (GthFileTool *base)
+{
+	GtkWidget *window;
+	GtkWidget *viewer_page;
+
+	window = gth_file_tool_get_window (base);
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
+}
 
 
 static void
@@ -66,7 +77,6 @@ update_crop_parameters (GthFileToolRotate *self)
 {
 	GthTransformResize resize;
 	double             rotation_angle;
-	gboolean           keep_aspect_ratio;
 	double             crop_p1;
 	double             crop_p_min;
 
@@ -77,9 +87,8 @@ update_crop_parameters (GthFileToolRotate *self)
 		gtk_widget_set_sensitive (GET_WIDGET ("crop_options_table"), TRUE);
 
 		rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
-		keep_aspect_ratio = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio));
 
-		if (keep_aspect_ratio) {
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio")))) {
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_label"), FALSE);
 			gtk_widget_set_sensitive (GET_WIDGET ("crop_p2_hbox"), FALSE);
 
@@ -210,19 +219,12 @@ align_end (GthFileToolRotate *self)
 }
 
 
-static gboolean
-apply_cb (gpointer user_data)
+static void
+apply_changes (GthFileToolRotate *self)
 {
-	GthFileToolRotate *self = user_data;
-	double             rotation_angle;
+	/* FIXME
 	cairo_color_t      background_color;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent))) {
+	if (self->priv->background_transparent) {
 		background_color.r = 0.0;
 		background_color.g = 0.0;
 		background_color.b = 0.0;
@@ -237,30 +239,12 @@ apply_cb (gpointer user_data)
 		background_color.b = (double) color.blue / 65535;
 		background_color.a = 1.0;
 	}
-	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
+	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &self->priv->background_color);
+	 */
 
-	rotation_angle = gtk_adjustment_get_value (self->priv->rotation_angle_adj);
-	gth_image_rotator_set_angle (GTH_IMAGE_ROTATOR (self->priv->rotator), rotation_angle);
-
+	gth_image_rotator_set_angle (GTH_IMAGE_ROTATOR (self->priv->rotator), gtk_adjustment_get_value (self->priv->rotation_angle_adj));
 	update_crop_parameters (self);
 	update_crop_region (self);
-
-	return FALSE;
-}
-
-
-static void
-gth_file_tool_rotate_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
 }
 
 
@@ -296,9 +280,9 @@ static void
 apply_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
-	cairo_surface_t  *image;
-	GtkWidget        *window;
-	GtkWidget        *viewer_page;
+	cairo_surface_t *image;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
 
 	image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator), TRUE);
 
@@ -317,11 +301,6 @@ cancel_button_clicked_cb (GtkButton         *button,
 {
 	GtkWidget *window;
 	GtkWidget *viewer_page;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -344,7 +323,7 @@ static void
 crop_parameters_changed_cb (GtkAdjustment     *adj,
 		            GthFileToolRotate *self)
 {
-	if ((adj == self->priv->crop_p1_adj) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_aspect_ratio)))
+	if ((adj == self->priv->crop_p1_adj) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio"))))
 		gtk_adjustment_set_value (self->priv->crop_p2_adj,
 					  self->priv->crop_p1_plus_p2 - gtk_adjustment_get_value (adj));
 	else
@@ -361,27 +340,48 @@ crop_grid_changed_cb (GtkAdjustment     *adj,
 
 
 static void
-value_changed_cb (GtkAdjustment     *adj,
-		  GthFileToolRotate *self)
+rotation_angle_value_changed_cb (GtkAdjustment     *adj,
+				 GthFileToolRotate *self)
 {
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	apply_cb (self);
-	/* FIXME
-	self->priv->apply_event = g_timeout_add (APPLY_DELAY, apply_cb, self);
-	*/
+	apply_changes (self);
 }
 
 
 static void
-background_color_changed_cb (GtkAdjustment     *adj,
-		             GthFileToolRotate *self)
+background_colorbutton_color_set_cb (GtkColorButton    *color_button,
+		             	     GthFileToolRotate *self)
 {
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), FALSE);
-	value_changed_cb (adj, self);
+	GdkColor      color;
+	cairo_color_t background_color;
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("background_transparent_checkbutton")), FALSE);
+
+	gtk_color_button_get_color (color_button, &color);
+	background_color.r = (double) color.red / 65535;
+	background_color.g = (double) color.green / 65535;
+	background_color.b = (double) color.blue / 65535;
+	background_color.a = 1.0;
+	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
+
+	apply_changes (self);
+}
+
+
+static void
+background_transparent_toggled_cb (GtkToggleButton   *toggle_button,
+		             	   GthFileToolRotate *self)
+{
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		cairo_color_t background_color;
+
+		background_color.r = 0.0;
+		background_color.g = 0.0;
+		background_color.b = 0.0;
+		background_color.a = 0.0;
+		gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
+	}
+	else
+		background_colorbutton_color_set_cb (GTK_COLOR_BUTTON (GET_WIDGET ("background_colorbutton")), self);
 }
 
 
@@ -419,6 +419,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
+	char              *color_spec;
+	GdkColor           color;
 	cairo_color_t      background_color;
 
 	self = (GthFileToolRotate *) base;
@@ -445,21 +447,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->rotation_angle_adj = gimp_scale_entry_new (GET_WIDGET ("rotation_angle_hbox"),
 							       GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
 							       0.0, -90.0, 90.0, 0.1, 1.0, 1);
-	self->priv->background_colorbutton = _gtk_builder_get_widget (self->priv->builder, "background_colorbutton");
-	self->priv->background_transparent = _gtk_builder_get_widget (self->priv->builder, "background_transparent_checkbutton");
-
-	self->priv->has_alpha = _cairo_image_surface_get_has_alpha (self->priv->image);
-	if (self->priv->has_alpha) {
-		gtk_color_button_set_use_alpha (GTK_COLOR_BUTTON (self->priv->background_colorbutton), TRUE);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), TRUE);
-	}
-	else {
-		gtk_widget_set_sensitive (self->priv->background_transparent, FALSE);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->background_transparent), FALSE);
-	}
-
-	self->priv->show_grid = _gtk_builder_get_widget (self->priv->builder, "show_grid");
-	self->priv->keep_aspect_ratio = _gtk_builder_get_widget (self->priv->builder, "keep_aspect_ratio");
 
 	self->priv->crop_p1_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p1_hbox"),
 							GTK_LABEL (GET_WIDGET ("crop_p1_label")),
@@ -475,12 +462,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 							       _("Center Lines"),
 							       _("Uniform"),
 							       NULL);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->crop_grid), GTH_GRID_UNIFORM); /* FIXME */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->crop_grid), eel_gconf_get_enum (PREF_ROTATE_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
 	gtk_widget_show (self->priv->crop_grid);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("crop_grid_hbox")), self->priv->crop_grid, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("crop_grid_label")), self->priv->crop_grid);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), GTH_TRANSFORM_RESIZE_CROP); /* FIXME */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), eel_gconf_get_enum (PREF_ROTATE_RESIZE, GTH_TYPE_TRANSFORM_RESIZE, GTH_TRANSFORM_RESIZE_CROP));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio")), eel_gconf_get_boolean (PREF_ROTATE_KEEP_ASPECT_RATIO, TRUE));
 
 	self->priv->selector_crop = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
 	self->priv->selector_align = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_POINT);
@@ -492,11 +481,27 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 				      cairo_image_surface_get_width (self->priv->image) / 2,
 				      cairo_image_surface_get_height (self->priv->image) / 2);
 
-	background_color.r = 0.0;
-	background_color.g = 0.0;
-	background_color.b = 0.0;
-	background_color.a = 0.0;
+	self->priv->has_alpha = _cairo_image_surface_get_has_alpha (self->priv->image);
+	if (self->priv->has_alpha) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("background_transparent_checkbutton")), TRUE);
+	}
+	else {
+		gtk_widget_set_sensitive (GET_WIDGET ("background_transparent_checkbutton"), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("background_transparent_checkbutton")), FALSE);
+	}
+
+	color_spec = eel_gconf_get_string (PREF_ROTATE_BACKGROUND_COLOR, "#000");
+	if (! self->priv->has_alpha && gdk_color_parse (color_spec, &color)) {
+		_gdk_color_to_cairo_color (&color, &background_color);
+	}
+	else {
+		background_color.r = 0.0;
+		background_color.g = 0.0;
+		background_color.b = 0.0;
+		background_color.a = self->priv->has_alpha ? 0.0 : 1.0;
+	}
 	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
+
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
@@ -532,15 +537,15 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->rotation_angle_adj),
 			  "value-changed",
-			  G_CALLBACK (value_changed_cb),
+			  G_CALLBACK (rotation_angle_value_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->background_colorbutton),
+	g_signal_connect (GET_WIDGET ("background_colorbutton"),
 			  "color-set",
-			  G_CALLBACK (background_color_changed_cb),
+			  G_CALLBACK (background_colorbutton_color_set_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->background_transparent),
+	g_signal_connect (GET_WIDGET ("background_transparent_checkbutton"),
 			  "toggled",
-			  G_CALLBACK (value_changed_cb),
+			  G_CALLBACK (background_transparent_toggled_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->crop_p1_adj),
 			  "value-changed",
@@ -550,7 +555,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (crop_parameters_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->keep_aspect_ratio),
+	g_signal_connect (G_OBJECT (GET_WIDGET ("keep_aspect_ratio")),
 			  "toggled",
 			  G_CALLBACK (crop_settings_changed_cb),
 			  self);
@@ -585,9 +590,24 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 	self = (GthFileToolRotate *) base;
 
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
+	if (self->priv->builder != NULL) {
+		cairo_color_t  background_color;
+		GdkColor       color;
+		char          *color_spec;
+
+		/* save the dialog options */
+
+		eel_gconf_set_enum (PREF_ROTATE_RESIZE, GTH_TYPE_TRANSFORM_RESIZE, gth_image_rotator_get_resize (GTH_IMAGE_ROTATOR (self->priv->rotator)));
+		eel_gconf_set_boolean (PREF_ROTATE_KEEP_ASPECT_RATIO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio"))));
+		eel_gconf_set_enum (PREF_ROTATE_GRID_TYPE, GTH_TYPE_GRID_TYPE, gth_image_rotator_get_grid_type (GTH_IMAGE_ROTATOR (self->priv->rotator)));
+
+		gth_image_rotator_get_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
+		color.red = background_color.r * 255.0;
+		color.green = background_color.g * 255.0;
+		color.blue = background_color.b * 255.0;
+		color_spec = gdk_color_to_string (&color);
+		eel_gconf_set_string (PREF_ROTATE_BACKGROUND_COLOR, color_spec);
+		g_free (color_spec);
 	}
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));

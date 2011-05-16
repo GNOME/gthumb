@@ -77,10 +77,13 @@ void                  gth_image_rotator_set_angle       (GthImageRotator       *
 double                gth_image_rotator_get_angle       (GthImageRotator       *rotator);
 void                  gth_image_rotator_set_resize      (GthImageRotator       *self,
 						         GthTransformResize     resize);
+GthTransformResize    gth_image_rotator_get_resize      (GthImageRotator       *self);
 void                  gth_image_rotator_set_crop_region (GthImageRotator       *self,
 							 GdkRectangle          *region);
 void                  gth_image_rotator_set_background  (GthImageRotator       *self,
 							 cairo_color_t         *color);
+void                  gth_image_rotator_get_background  (GthImageRotator       *self,
+		 	 	 	 	 	 cairo_color_t         *color);
 cairo_surface_t *     gth_image_rotator_get_result      (GthImageRotator       *self,
 							 gboolean               high_quality);
 
