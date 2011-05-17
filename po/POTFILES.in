@@ -211,6 +211,8 @@ extensions/file_manager/main.c
 extensions/file_manager/preferences.h
 extensions/file_tools/cairo-blur.c
 extensions/file_tools/cairo-blur.h
+extensions/file_tools/cairo-rotate.c
+extensions/file_tools/cairo-rotate.h
 extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 extensions/file_tools/data/gthumb_crop_options.schemas.in
@@ -222,8 +224,6 @@ extensions/file_tools/data/gthumb_rotate_options.schemas.in
 [type: gettext/glade]extensions/file_tools/data/ui/rotate-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/sharpen-options.ui
 [type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
-extensions/file_tools/gdk-pixbuf-rotate.c
-extensions/file_tools/gdk-pixbuf-rotate.h
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-crop.c
@@ -258,10 +258,10 @@ extensions/file_tools/gth-file-tool-sharpen.c
 extensions/file_tools/gth-file-tool-sharpen.h
 extensions/file_tools/gth-file-tool-undo.c
 extensions/file_tools/gth-file-tool-undo.h
+extensions/file_tools/gth-image-line-tool.c
+extensions/file_tools/gth-image-line-tool.h
 extensions/file_tools/gth-image-rotator.c
 extensions/file_tools/gth-image-rotator.h
-extensions/file_tools/gth-transform-resize.c
-extensions/file_tools/gth-transform-resize.h
 extensions/file_tools/main.c
 extensions/file_tools/preferences.h
 [type: gettext/ini]extensions/file_viewer/file_viewer.extension.in.in
