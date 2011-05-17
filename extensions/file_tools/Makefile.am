@@ -28,6 +28,7 @@ HEADER_FILES = 				\
 	gth-file-tool-save-as.h		\
 	gth-file-tool-sharpen.h		\
 	gth-file-tool-undo.h		\
+	gth-image-line-tool.h		\
 	gth-image-rotator.h		\
 	preferences.h
 
@@ -76,6 +77,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-save-as.c		\
 	gth-file-tool-sharpen.c		\
 	gth-file-tool-undo.c		\
+	gth-image-line-tool.c		\
 	gth-image-rotator.c		\
 	main.c
 
