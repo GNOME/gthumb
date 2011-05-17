@@ -65,7 +65,35 @@ struct _GthImageRotatorPrivate {
 	GdkPoint            preview_center;
 	GdkRectangle        clip_area;
 	cairo_matrix_t      matrix;
+	GthFit              original_fit_mode;
+	gboolean            original_zoom_enabled;
 };
+
+
+static void
+gth_image_rotator_set_viewer (GthImageViewerTool *base,
+			      GthImageViewer     *viewer)
+{
+	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+
+	self->priv->viewer = viewer;
+	self->priv->original_fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (viewer));
+	self->priv->original_zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (viewer));
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
+}
+
+
+static void
+gth_image_rotator_unset_viewer (GthImageViewerTool *base,
+			        GthImageViewer     *viewer)
+{
+	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), self->priv->original_fit_mode);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), self->priv->original_zoom_enabled);
+	self->priv->viewer = NULL;
+}
 
 
 static void
@@ -498,6 +526,8 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 static void
 gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 {
+	iface->set_viewer = gth_image_rotator_set_viewer;
+	iface->unset_viewer = gth_image_rotator_unset_viewer;
 	iface->realize = gth_image_rotator_realize;
 	iface->unrealize = gth_image_rotator_unrealize;
 	iface->size_allocate = gth_image_rotator_size_allocate;
@@ -547,12 +577,11 @@ gth_image_rotator_get_type (void)
 
 
 GthImageViewerTool *
-gth_image_rotator_new (GthImageViewer *viewer)
+gth_image_rotator_new (void)
 {
 	GthImageRotator *rotator;
 
 	rotator = g_object_new (GTH_TYPE_IMAGE_ROTATOR, NULL);
-	rotator->priv->viewer = viewer;
 	rotator->priv->angle = 0.0;
 
 	return GTH_IMAGE_VIEWER_TOOL (rotator);
@@ -589,7 +618,9 @@ gth_image_rotator_set_center (GthImageRotator *self,
 	self->priv->center.x = x;
 	self->priv->center.y = y;
 	_gth_image_rotator_update_tranformation_matrix (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CENTER_CHANGED], 0);
 }
@@ -616,7 +647,9 @@ gth_image_rotator_set_angle (GthImageRotator *self,
 		return;
 	self->priv->angle = radiants;
 	_gth_image_rotator_update_tranformation_matrix (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
 }
@@ -635,7 +668,9 @@ gth_image_rotator_set_resize (GthImageRotator    *self,
 {
 	self->priv->resize = resize;
 	_gth_image_rotator_update_tranformation_matrix (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
 }
@@ -656,7 +691,8 @@ gth_image_rotator_set_crop_region (GthImageRotator *self,
 	if (region != NULL)
 		self->priv->crop_region = *region;
 
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
 }
@@ -667,7 +703,9 @@ gth_image_rotator_set_background (GthImageRotator *self,
 			          cairo_color_t   *color)
 {
 	self->priv->background_color = *color;
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	g_signal_emit (self, signals[CHANGED], 0);
 }

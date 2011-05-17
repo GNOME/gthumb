@@ -25,7 +25,6 @@
 #include <glib.h>
 #include <glib-object.h>
 #include "gth-image-viewer.h"
-#include "gth-image-viewer-tool.h"
 
 G_BEGIN_DECLS
 
@@ -69,8 +68,7 @@ struct _GthImageSelectorClass
 };
 
 GType                 gth_image_selector_get_type             (void);
-GthImageViewerTool *  gth_image_selector_new                  (GthImageViewer   *viewer,
-							       GthSelectorType   type);
+GthImageViewerTool *  gth_image_selector_new                  (GthSelectorType   type);
 gboolean              gth_image_selector_set_selection_x      (GthImageSelector *selector,
 							       int               x);
 gboolean              gth_image_selector_set_selection_y      (GthImageSelector *selector,

@@ -25,6 +25,9 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gth-image.h"
+
+typedef struct _GthImageViewer GthImageViewer;
+
 #include "gth-image-viewer-tool.h"
 
 G_BEGIN_DECLS
@@ -36,7 +39,7 @@ G_BEGIN_DECLS
 #define GTH_IS_IMAGE_VIEWER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_IMAGE_VIEWER))
 #define GTH_IMAGE_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_IMAGE_VIEWER, GthImageViewerClass))
 
-typedef struct _GthImageViewer         GthImageViewer;
+
 typedef struct _GthImageViewerClass    GthImageViewerClass;
 typedef struct _GthImageViewerPrivate  GthImageViewerPrivate;
 

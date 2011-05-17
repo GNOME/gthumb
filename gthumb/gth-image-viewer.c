@@ -1493,7 +1493,7 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 	self->priv->reset_scrollbars = TRUE;
 	self->priv->update_adjustment_values = 0;
 
-	self->priv->tool = gth_image_dragger_new (self);
+	gth_image_viewer_set_tool (self, NULL);
 
 	/* Create the widget. */
 
@@ -1997,7 +1997,7 @@ gth_image_viewer_set_zoom (GthImageViewer *self,
 {
 	GtkAllocation allocation;
 
-	if (! self->priv->zoom_enabled)
+	if (! self->priv->zoom_enabled && ! self->priv->doing_zoom_fit)
 		return;
 
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
@@ -2259,11 +2259,15 @@ void
 gth_image_viewer_set_tool (GthImageViewer     *self,
 			   GthImageViewerTool *tool)
 {
-	_g_object_unref (self->priv->tool);
+	if (self->priv->tool != NULL) {
+		gth_image_viewer_tool_unset_viewer (self->priv->tool, self);
+		g_object_unref (self->priv->tool);
+	}
 	if (tool == NULL)
-		self->priv->tool = gth_image_dragger_new (self);
+		self->priv->tool = gth_image_dragger_new ();
 	else
 		self->priv->tool = g_object_ref (tool);
+	gth_image_viewer_tool_set_viewer (self->priv->tool, self);
 	if (gtk_widget_get_realized (GTK_WIDGET (self)))
 		gth_image_viewer_tool_realize (self->priv->tool);
 	gth_image_viewer_tool_image_changed (self->priv->tool);

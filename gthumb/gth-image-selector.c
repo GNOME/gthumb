@@ -515,6 +515,24 @@ init_selection (GthImageSelector *self)
 
 
 static void
+gth_image_selector_set_viewer (GthImageViewerTool *base,
+			       GthImageViewer     *image_viewer)
+{
+	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
+	self->priv->viewer = image_viewer;
+}
+
+
+static void
+gth_image_selector_unset_viewer (GthImageViewerTool *base,
+		       	         GthImageViewer     *image_viewer)
+{
+	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
+	self->priv->viewer = NULL;
+}
+
+
+static void
 gth_image_selector_realize (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
@@ -1572,6 +1590,8 @@ gth_image_selector_class_init (GthImageSelectorClass *class)
 static void
 gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 {
+	iface->set_viewer = gth_image_selector_set_viewer;
+	iface->unset_viewer = gth_image_selector_unset_viewer;
 	iface->realize = gth_image_selector_realize;
 	iface->unrealize = gth_image_selector_unrealize;
 	iface->size_allocate = gth_image_selector_size_allocate;
@@ -1621,13 +1641,11 @@ gth_image_selector_get_type (void)
 
 
 GthImageViewerTool *
-gth_image_selector_new (GthImageViewer  *viewer,
-			GthSelectorType  type)
+gth_image_selector_new (GthSelectorType type)
 {
 	GthImageSelector *selector;
 
 	selector = g_object_new (GTH_TYPE_IMAGE_SELECTOR, NULL);
-	selector->priv->viewer = viewer;
 	selector->priv->type = type;
 
 	return GTH_IMAGE_VIEWER_TOOL (selector);

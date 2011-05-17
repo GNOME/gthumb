@@ -519,7 +519,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  G_CALLBACK (center_button_clicked_cb),
 			  self);
 
-	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_REGION);
+	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_SELECTOR_TYPE_REGION);
 	gth_image_selector_set_grid_type (self->priv->selector, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->grid_type_combobox)));
 	gth_image_selector_bind_dimensions (self->priv->selector,
 					    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET("bind_dimensions_checkbutton"))),

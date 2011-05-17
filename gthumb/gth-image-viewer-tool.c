@@ -20,7 +20,7 @@
  */
 
 #include <config.h>
-#include "gth-image-viewer-tool.h"
+#include "gth-image-viewer.h"
 
 
 GType
@@ -46,6 +46,22 @@ gth_image_viewer_tool_get_type (void)
 						  0);
 	}
 	return type_id;
+}
+
+
+void
+gth_image_viewer_tool_set_viewer (GthImageViewerTool *self,
+				  GthImageViewer     *viewer)
+{
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->set_viewer (self, viewer);
+}
+
+
+void
+gth_image_viewer_tool_unset_viewer (GthImageViewerTool *self,
+				    GthImageViewer     *viewer)
+{
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->unset_viewer (self, viewer);
 }
 
 

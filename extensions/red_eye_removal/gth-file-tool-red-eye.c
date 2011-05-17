@@ -414,7 +414,7 @@ gth_file_tool_red_eye_get_options (GthFileTool *base)
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	self->priv->original_zoom_change = gth_image_viewer_get_zoom_change (GTH_IMAGE_VIEWER (viewer));
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_CHANGE_KEEP_PREV);
-	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_IMAGE_VIEWER (viewer), GTH_SELECTOR_TYPE_POINT);
+	self->priv->selector = (GthImageSelector *) gth_image_selector_new (GTH_SELECTOR_TYPE_POINT);
 	gth_image_selector_set_mask_visible (self->priv->selector, FALSE);
 	g_signal_connect (self->priv->selector,
 			  "selected",

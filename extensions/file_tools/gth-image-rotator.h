@@ -62,7 +62,7 @@ struct _GthImageRotatorClass
 };
 
 GType                 gth_image_rotator_get_type        (void);
-GthImageViewerTool *  gth_image_rotator_new             (GthImageViewer        *viewer);
+GthImageViewerTool *  gth_image_rotator_new             (void);
 void                  gth_image_rotator_set_grid_type   (GthImageRotator       *self,
                                  	 	 	 GthGridType            grid_type);
 GthGridType           gth_image_rotator_get_grid_type   (GthImageRotator       *self);
