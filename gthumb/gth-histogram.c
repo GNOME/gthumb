@@ -189,15 +189,15 @@ gth_histogram_calculate_for_pixbuf (GthHistogram    *self,
 
 		for (j = 0; j < width; j++) {
 			/* count values for each RGB channel */
-			values[1][pixel[0]] += 1;
-			values[2][pixel[1]] += 1;
-			values[3][pixel[2]] += 1;
+			values[1][pixel[CAIRO_RED]] += 1;
+			values[2][pixel[CAIRO_GREEN]] += 1;
+			values[3][pixel[CAIRO_BLUE]] += 1;
 			if (n_channels > 3)
-				values[4][ pixel[3] ] += 1;
+				values[4][ pixel[CAIRO_ALPHA] ] += 1;
 
 			/* count value for Value channel */
-			max = MAX (pixel[0], pixel[1]);
-			max = MAX (pixel[2], max);
+			max = MAX (pixel[CAIRO_RED], pixel[CAIRO_GREEN]);
+			max = MAX (pixel[CAIRO_BLUE], max);
 			values[0][max] += 1;
 
 			/* track max value for each channel */
@@ -206,7 +206,7 @@ gth_histogram_calculate_for_pixbuf (GthHistogram    *self,
 			values_max[2] = MAX (values_max[2], values[2][pixel[1]]);
 			values_max[3] = MAX (values_max[3], values[3][pixel[2]]);
 			if (n_channels > 3)
-				values_max[4] = MAX (values_max[4], values[4][pixel[3]]);
+				values_max[4] = MAX (values_max[4], values[4][pixel[CAIRO_ALPHA]]);
 
 			pixel += n_channels;
 		}

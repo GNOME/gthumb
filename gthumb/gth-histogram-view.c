@@ -281,7 +281,7 @@ _gth_histogram_view_update_info (GthHistogramView *self)
 
 	if (gth_histogram_view_get_display_mode (self) == GTH_HISTOGRAM_MODE_ALL_CHANNELS) {
 		max = MAX (gth_histogram_get_channel_max (self->priv->histogram, 1), gth_histogram_get_channel_max (self->priv->histogram, 2));
-		max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 2));
+		max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 3));
 	}
 	else
 		max = gth_histogram_get_channel_max (self->priv->histogram, first_channel);
@@ -393,7 +393,7 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 
 	style = gtk_widget_get_style (GTK_WIDGET (self));
 	max = MAX (gth_histogram_get_channel_max (self->priv->histogram, 1), gth_histogram_get_channel_max (self->priv->histogram, 2));
-	max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 2));
+	max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 3));
 	if (max > 0.0)
 		max = convert_to_scale (self->priv->scale_type, max);
 	else
