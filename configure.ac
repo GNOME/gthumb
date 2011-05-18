@@ -233,8 +233,8 @@ AM_CONDITIONAL(ENABLE_GSTREAMER, test "x$enable_gstreamer" = xyes)
 dnl ===========================================================================
 
 AC_ARG_ENABLE([libchamplain],
-	      [AS_HELP_STRING([--disable-libchamplain],[do not compile code that uses the libchamplain library])],,
-	      [enable_libchamplain=yes])
+	      [AS_HELP_STRING([--enable-libchamplain],[compile code that uses the libchamplain library (crashes frequently)])],,
+	      [enable_libchamplain=no])
 
 if test x$enable_libchamplain = xyes ; then
 	PKG_CHECK_MODULES(LIBCHAMPLAIN,

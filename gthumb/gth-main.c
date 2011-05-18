@@ -1229,7 +1229,6 @@ gth_main_activate_extensions (void)
 						"importer",
 						"jpeg_utils",
 						"list_tools",
-						"map_view",
 						"oauth",
 						"photo_importer",
 						"photobucket",
