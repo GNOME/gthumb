@@ -29,11 +29,15 @@
 
 #define MIN4(a,b,c,d) MIN(MIN((a),(b)),MIN((c),(d)))
 #define MAX4(a,b,c,d) MAX(MAX((a),(b)),MAX((c),(d)))
+#define G_2_PI (G_PI * 2)
+#define RAD_TO_DEG(x) ((x) * 180 / G_PI)
+#define DEG_TO_RAD(x) ((x) * G_PI / 180)
 
 
 enum {
 	CHANGED,
 	CENTER_CHANGED,
+	ANGLE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -65,6 +69,10 @@ struct _GthImageRotatorPrivate {
 	GdkPoint            preview_center;
 	GdkRectangle        clip_area;
 	cairo_matrix_t      matrix;
+	gboolean            dragging;
+	double              angle_before_dragging;
+	GdkPoint            drag_p1;
+	GdkPoint            drag_p2;
 	GthFit              original_fit_mode;
 	gboolean            original_zoom_enabled;
 };
@@ -75,12 +83,17 @@ gth_image_rotator_set_viewer (GthImageViewerTool *base,
 			      GthImageViewer     *viewer)
 {
 	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+	GdkCursor       *cursor;
 
 	self->priv->viewer = viewer;
 	self->priv->original_fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (viewer));
 	self->priv->original_zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (viewer));
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
+
+	cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+	gdk_cursor_unref (cursor);
 }
 
 
@@ -352,6 +365,22 @@ paint_grid (GthImageRotator *self,
 
 
 static void
+paint_point (GthImageRotator *self,
+	     GdkEventExpose  *event,
+	     cairo_t         *cr,
+	     GdkPoint        *p)
+{
+	double radius = 10.0;
+
+	cairo_move_to (cr, p->x - radius, p->y - radius);
+	cairo_line_to (cr, p->x + radius, p->y + radius);
+	cairo_move_to (cr, p->x - radius, p->y + radius);
+	cairo_line_to (cr, p->x + radius, p->y - radius);
+	cairo_stroke (cr);
+}
+
+
+static void
 gth_image_rotator_expose (GthImageViewerTool *base,
 			  GdkEventExpose     *event,
 			  cairo_t            *cr)
@@ -401,6 +430,22 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 		paint_grid (self, event, cr);
 	}
 
+	if (self->priv->dragging) {
+		GdkPoint center;
+
+		cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+
+		center.x = self->priv->center.x * self->priv->preview_zoom + self->priv->preview_image_area.x;
+		center.y = self->priv->center.y * self->priv->preview_zoom + self->priv->preview_image_area.y;
+		paint_point (self, event, cr, &center);
+
+		/* used for debugging purposes
+		paint_point (self, event, cr, &self->priv->drag_p1);
+		paint_point (self, event, cr, &self->priv->drag_p2);
+		*/
+	}
+
 	cairo_restore (cr);
 }
 
@@ -409,7 +454,20 @@ static gboolean
 gth_image_rotator_button_release (GthImageViewerTool *base,
 				  GdkEventButton     *event)
 {
-	/* FIXME */
+	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+	GdkCursor       *cursor;
+
+	self->priv->dragging = FALSE;
+	self->priv->drag_p1.x = 0;
+	self->priv->drag_p1.y = 0;
+	self->priv->drag_p2.x = 0;
+	self->priv->drag_p2.y = 0;
+
+	cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+	gdk_cursor_unref (cursor);
+
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	return FALSE;
 }
@@ -426,10 +484,42 @@ gth_image_rotator_button_press (GthImageViewerTool *base,
 
 		x = (event->x - self->priv->preview_image_area.x) / self->priv->preview_zoom;
 		y = (event->y - self->priv->preview_image_area.y) / self->priv->preview_zoom;
-		gth_image_rotator_set_center (self, (int) x, (int) y);
+		g_signal_emit (self, signals[CENTER_CHANGED], 0, (int) x, (int) y);
+	}
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		self->priv->dragging = FALSE;
+		self->priv->drag_p1.x = event->x;
+		self->priv->drag_p1.y = event->y;
 	}
 
 	return FALSE;
+}
+
+
+static double
+get_angle (GdkPoint *p1,
+	   GdkPoint *p2)
+{
+	double a = 0.0;
+	int    x, y;
+
+	x = p2->x - p1->x;
+	y = p2->y - p1->y;
+	if (x >= 0) {
+		if  (y >= 0)
+			a = atan2 (y, x);
+		else
+			a = G_2_PI - atan2 (- y, x);
+	}
+	else {
+		if (y >= 0)
+			a = G_PI - atan2 (y, - x);
+		else
+			a = G_PI + atan2 (- y, - x);
+	}
+
+	return a;
 }
 
 
@@ -437,7 +527,46 @@ static gboolean
 gth_image_rotator_motion_notify (GthImageViewerTool *base,
 				 GdkEventMotion     *event)
 {
-	/* FIXME */
+	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
+
+	if (! self->priv->dragging
+	    && gtk_drag_check_threshold (GTK_WIDGET (self->priv->viewer),
+			    	    	 self->priv->drag_p1.x,
+			    	    	 self->priv->drag_p1.y,
+			    	    	 self->priv->drag_p2.x,
+			    	    	 self->priv->drag_p2.y))
+	{
+		GdkCursor *cursor;
+
+		self->priv->angle_before_dragging = self->priv->angle;
+		self->priv->dragging = TRUE;
+
+		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (self->priv->viewer)), "grabbing");
+		gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+		if (cursor != NULL)
+			gdk_cursor_unref (cursor);
+	}
+
+	if (self->priv->dragging) {
+		GdkPoint center;
+		double   angle1;
+		double   angle2;
+		double   angle;
+
+		self->priv->drag_p2.x = event->x;
+		self->priv->drag_p2.y = event->y;
+
+		center.x = self->priv->center.x * self->priv->preview_zoom + self->priv->preview_image_area.x;
+		center.y = self->priv->center.y * self->priv->preview_zoom + self->priv->preview_image_area.y;
+
+		angle1 = get_angle (&center, &self->priv->drag_p1);
+		angle2 = get_angle (&center, &self->priv->drag_p2);
+		if (angle2 < angle1 - G_PI)
+			angle2 = G_2_PI + angle2;
+		angle = self->priv->angle_before_dragging + (angle2 - angle1);
+
+		g_signal_emit (self, signals[ANGLE_CHANGED], 0, CLAMP (RAD_TO_DEG (angle), -90.0, 90));
+	}
 
 	return FALSE;
 }
@@ -473,6 +602,7 @@ gth_image_rotator_instance_init (GthImageRotator *self)
 	self->priv->crop_region.y = 0;
 	self->priv->crop_region.width = 0;
 	self->priv->crop_region.height = 0;
+	self->priv->dragging = FALSE;
 }
 
 
@@ -517,9 +647,20 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 					 	G_SIGNAL_RUN_LAST,
 					 	G_STRUCT_OFFSET (GthImageRotatorClass, center_changed),
 					 	NULL, NULL,
-					 	g_cclosure_marshal_VOID__VOID,
+					 	gth_marshal_VOID__INT_INT,
 					 	G_TYPE_NONE,
-					 	0);
+					 	2,
+					 	G_TYPE_INT,
+					 	G_TYPE_INT);
+	signals[ANGLE_CHANGED] = g_signal_new ("angle-changed",
+					 	G_TYPE_FROM_CLASS (class),
+					 	G_SIGNAL_RUN_LAST,
+					 	G_STRUCT_OFFSET (GthImageRotatorClass, angle_changed),
+					 	NULL, NULL,
+					 	g_cclosure_marshal_VOID__DOUBLE,
+					 	G_TYPE_NONE,
+					 	1,
+					 	G_TYPE_DOUBLE);
 }
 
 
@@ -596,10 +737,8 @@ gth_image_rotator_set_grid_type (GthImageRotator *self,
                 return;
 
         self->priv->grid_type = grid_type;
-        gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
-        /*g_signal_emit (G_OBJECT (self),
-                       signals[GRID_VISIBILITY_CHANGED],
-                       0);*/
+        if (self->priv->viewer != NULL)
+        	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 }
 
 
@@ -622,7 +761,7 @@ gth_image_rotator_set_center (GthImageRotator *self,
 	if (self->priv->viewer != NULL)
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
-	g_signal_emit (self, signals[CENTER_CHANGED], 0);
+	g_signal_emit (self, signals[CHANGED], 0);
 }
 
 
@@ -642,10 +781,11 @@ gth_image_rotator_set_angle (GthImageRotator *self,
 {
 	double radiants;
 
-	radiants = angle * M_PI / 180.0;
+	radiants = DEG_TO_RAD (angle);
 	if (radiants == self->priv->angle)
 		return;
 	self->priv->angle = radiants;
+
 	_gth_image_rotator_update_tranformation_matrix (self);
 
 	if (self->priv->viewer != NULL)

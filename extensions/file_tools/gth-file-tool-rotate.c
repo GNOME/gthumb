@@ -173,7 +173,7 @@ alignment_changed_cb (GthImageLineTool  *line_tool,
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
 
 	gth_image_line_tool_get_points (line_tool, &p1, &p2);
-	angle = _cairo_image_surface_rotate_get_align_angle (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("alignment_parallel_radiobutton"))), p1, p2);
+	angle = _cairo_image_surface_rotate_get_align_angle (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("alignment_parallel_radiobutton"))), &p1, &p2);
 	gtk_adjustment_set_value (self->priv->rotation_angle_adj, angle);
 }
 
@@ -224,6 +224,9 @@ static void
 reset_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
+	gth_image_rotator_set_center (GTH_IMAGE_ROTATOR (self->priv->rotator),
+				      cairo_image_surface_get_width (self->priv->image) / 2,
+				      cairo_image_surface_get_height (self->priv->image) / 2);
 	gtk_adjustment_set_value (self->priv->rotation_angle_adj, 0.0);
 }
 
@@ -341,6 +344,27 @@ static void
 resize_combobox_changed_cb (GtkComboBox       *combo_box,
 			    GthFileToolRotate *self)
 {
+	update_crop_parameters (self);
+	update_crop_region (self);
+}
+
+
+static void
+rotator_angle_changed_cb (GthImageRotator   *rotator,
+			  double             angle,
+			  GthFileToolRotate *self)
+{
+	gtk_adjustment_set_value (self->priv->rotation_angle_adj, angle);
+}
+
+
+static void
+rotator_center_changed_cb (GthImageRotator   *rotator,
+		  	   int                x,
+		  	   int                y,
+		  	   GthFileToolRotate *self)
+{
+	gth_image_rotator_set_center (rotator, x, y);
 	update_crop_parameters (self);
 	update_crop_region (self);
 }
@@ -494,6 +518,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("resize_combobox"),
 			  "changed",
 			  G_CALLBACK (resize_combobox_changed_cb),
+			  self);
+	g_signal_connect (self->priv->rotator,
+			  "angle-changed",
+			  G_CALLBACK (rotator_angle_changed_cb),
+			  self);
+	g_signal_connect (self->priv->rotator,
+			  "center-changed",
+			  G_CALLBACK (rotator_center_changed_cb),
 			  self);
 
 	update_crop_parameters (self);

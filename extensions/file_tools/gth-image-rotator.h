@@ -58,7 +58,11 @@ struct _GthImageRotatorClass
 	/*< signals >*/
 
 	void (* changed)        (GthImageRotator *rotator);
-	void (* center_changed) (GthImageRotator *rotator);
+	void (* center_changed) (GthImageRotator *rotator,
+				 int              x,
+				 int              y);
+	void (* angle_changed)  (GthImageRotator *rotator,
+				 double           angle);
 };
 
 GType                 gth_image_rotator_get_type        (void);
