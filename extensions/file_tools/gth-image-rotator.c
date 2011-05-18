@@ -563,6 +563,8 @@ gth_image_rotator_motion_notify (GthImageViewerTool *base,
 		angle2 = get_angle (&center, &self->priv->drag_p2);
 		if (angle2 < angle1 - G_PI)
 			angle2 = G_2_PI + angle2;
+		if (angle2 > angle1 + G_PI)
+			angle2 = angle2 - G_2_PI;
 		angle = self->priv->angle_before_dragging + (angle2 - angle1);
 
 		g_signal_emit (self, signals[ANGLE_CHANGED], 0, CLAMP (RAD_TO_DEG (angle), -90.0, 90));
