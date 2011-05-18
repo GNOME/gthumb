@@ -69,6 +69,7 @@ gth_image_line_tool_set_viewer (GthImageViewerTool *base,
 			        GthImageViewer     *viewer)
 {
 	GthImageLineTool *self = GTH_IMAGE_LINE_TOOL (base);
+	GdkCursor        *cursor;
 
 	self->priv->viewer = viewer;
 	self->priv->original_fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (viewer));
@@ -76,6 +77,11 @@ gth_image_line_tool_set_viewer (GthImageViewerTool *base,
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
 	self->priv->first_point_set = FALSE;
+
+	cursor = gdk_cursor_new (GDK_CROSSHAIR);
+	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+
+	gdk_cursor_unref (cursor);
 }
 
 
