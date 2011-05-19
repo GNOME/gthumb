@@ -123,7 +123,7 @@ PUBLIC_HEADER_FILES = 					\
 	$(NULL)
 	
 PRIVATE_HEADER_FILES = 					\
-	dlg-extensions.h				\
+	dlg-preferences-extensions.h			\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
 	gth-browser-ui.h				\
@@ -143,9 +143,9 @@ gthumb_SOURCES = 					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
 	cairo-utils.c					\
-	dlg-extensions.c				\
 	dlg-personalize-filters.c			\
 	dlg-preferences.c				\
+	dlg-preferences-extensions.c			\
 	dlg-sort-order.c				\
 	dom.c						\
 	gconf-utils.c					\

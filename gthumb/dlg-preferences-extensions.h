@@ -24,6 +24,11 @@
 
 #include "gth-browser.h"
 
-void dlg_extensions (GthBrowser *browser);
+void extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
+					       GthBrowser *browser,
+					       GtkBuilder *dialog_builder);
+void extensions__dlg_preferences_apply        (GtkWidget  *dialog,
+		  	  	   	       GthBrowser *browser,
+		  	  	   	       GtkBuilder *dialog_builder);
 
 #endif /* DLG_EXTENSIONS_H */

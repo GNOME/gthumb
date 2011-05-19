@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "dlg-preferences-extensions.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
 #include "pixbuf-io.h"
@@ -59,4 +60,6 @@ gth_main_register_default_types (void)
 {
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_PROPERTIES);
 	gth_main_register_default_file_loader ();
+	gth_hook_add_callback ("dlg-preferences-construct", 9999, G_CALLBACK (extensions__dlg_preferences_construct_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-apply", 9999 /* Must be the last callback */, G_CALLBACK (extensions__dlg_preferences_apply), NULL);
 }

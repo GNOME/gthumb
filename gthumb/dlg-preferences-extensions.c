@@ -36,6 +36,7 @@
 #define EXTENSION_CATEGORY_ENABLED "+"
 #define EXTENSION_CATEGORY_DISABLED "-"
 #define EXTENSION_CATEGORY_SEPARATOR "---"
+#define BROWSER_DATA_KEY "extensions-preference-data"
 
 
 enum {
@@ -86,7 +87,19 @@ typedef struct {
 	GtkTreeModel *model_filter;
 	GSList       *active_extensions;
 	char         *current_category;
-} DialogData;
+} BrowserData;
+
+
+
+static void
+browser_data_free (BrowserData *data)
+{
+	g_slist_foreach (data->active_extensions, (GFunc) g_free, NULL);
+	g_slist_free (data->active_extensions);
+	g_object_unref (data->builder);
+	g_free (data->current_category);
+	g_free (data);
+}
 
 
 static gboolean
@@ -114,65 +127,6 @@ list_equal (GSList *list1,
 	}
 
 	return TRUE;
-}
-
-
-/* called when the main dialog is closed. */
-static void
-destroy_cb (GtkWidget  *widget,
-	    DialogData *data)
-{
-	GSList              *active_extensions;
-	GthExtensionManager *manager;
-	GList               *names;
-	GList               *scan;
-
-	active_extensions = NULL;
-	manager = gth_main_get_default_extension_manager ();
-	names = gth_extension_manager_get_extensions (manager);
-	for (scan = names; scan; scan = scan->next) {
-		char                    *name = scan->data;
-		GthExtensionDescription *description;
-
-		description = gth_extension_manager_get_description (manager, name);
-		if ((description == NULL) || description->mandatory || description->hidden)
-			continue;
-
-		if (gth_extension_description_is_active (description))
-			active_extensions = g_slist_prepend (active_extensions, g_strdup (name));
-	}
-	active_extensions = g_slist_reverse (active_extensions);
-	eel_gconf_set_string_list (PREF_ACTIVE_EXTENSIONS, active_extensions);
-
-	if (! list_equal (active_extensions, data->active_extensions)) {
-		GtkWidget *dialog;
-		int        response;
-
-		dialog = _gtk_message_dialog_new (GTK_WINDOW (data->browser),
-						  GTK_DIALOG_MODAL,
-						  GTK_STOCK_DIALOG_WARNING,
-						  _("Restart required"),
-						  _("You need to restart gthumb for these changes to take effect"),
-						  _("_Continue"), GTK_RESPONSE_CANCEL,
-						  _("_Restart"), GTK_RESPONSE_OK,
-						  NULL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		if (response == GTK_RESPONSE_OK)
-			gth_restart ();
-	}
-
-	gth_browser_set_dialog (data->browser, "extensions", NULL);
-
-	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (active_extensions);
-
-	g_slist_foreach (data->active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (data->active_extensions);
-	g_object_unref (data->builder);
-	g_free (data->current_category);
-	g_free (data);
 }
 
 
@@ -238,7 +192,7 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 				 char                  *path,
                                  gpointer               user_data)
 {
-	DialogData  *data = user_data;
+	BrowserData *data = user_data;
 	GtkTreePath *tree_path;
 	GtkTreeIter  iter;
 
@@ -275,7 +229,7 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 static void
 add_columns (GtkTreeView *treeview,
-	     DialogData  *data)
+	     BrowserData  *data)
 {
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
@@ -283,7 +237,7 @@ add_columns (GtkTreeView *treeview,
 	/* the checkbox column */
 
 	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Use"));
+	/*gtk_tree_view_column_set_title (column, _("Use"));*/
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_signal_connect (renderer,
@@ -299,7 +253,7 @@ add_columns (GtkTreeView *treeview,
 	/* the name column. */
 
 	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Extension"));
+	/*gtk_tree_view_column_set_title (column, _("Extension"));*/
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
@@ -342,7 +296,7 @@ static void
 list_view_selection_changed_cb (GtkTreeSelection *treeselection,
                                 gpointer          user_data)
 {
-	DialogData              *data = user_data;
+	BrowserData             *data = user_data;
 	GtkTreeModel            *model;
 	GtkTreeIter              iter;
 	GthExtensionDescription *description;
@@ -362,7 +316,7 @@ list_view_selection_changed_cb (GtkTreeSelection *treeselection,
 
 
 static void
-reset_original_extension_status (DialogData *data)
+reset_original_extension_status (BrowserData *data)
 {
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
@@ -389,8 +343,8 @@ static void
 category_combobox_changed_cb (GtkComboBox *combo_box,
 			      gpointer     user_data)
 {
-	DialogData  *data = user_data;
-	GtkTreeIter  iter;
+	BrowserData *data = user_data;
+	GtkTreeIter iter;
 
 	if (! gtk_combo_box_get_active_iter (combo_box, &iter))
 		return;
@@ -410,7 +364,7 @@ static void
 about_button_clicked_cb (GtkButton *button,
 			 gpointer   user_data)
 {
-	DialogData              *data = user_data;
+	BrowserData             *data = user_data;
 	GtkTreeModel            *model;
 	GtkTreeIter              iter;
 	GthExtensionDescription *description;
@@ -452,7 +406,7 @@ static void
 preferences_button_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
-	DialogData              *data = user_data;
+	BrowserData             *data = user_data;
 	GtkTreeModel            *model;
 	GtkTreeIter              iter;
 	GthExtensionDescription *description;
@@ -487,7 +441,7 @@ category_model_visible_func (GtkTreeModel *model,
 			     GtkTreeIter  *iter,
 			     gpointer      user_data)
 {
-	DialogData              *data = user_data;
+	BrowserData             *data = user_data;
 	GthExtensionDescription *description;
 	gboolean                 original_status_is_active;
 	gboolean                 visible;
@@ -512,10 +466,15 @@ category_model_visible_func (GtkTreeModel *model,
 }
 
 
+
 void
-dlg_extensions (GthBrowser *browser)
+extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
+					  GthBrowser *browser,
+					  GtkBuilder *dialog_builder)
 {
-	DialogData          *data;
+	BrowserData         *data;
+	GtkWidget           *notebook;
+	GtkWidget           *page;
 	GthExtensionManager *manager;
 	GList               *extensions;
 	GList               *scan;
@@ -523,18 +482,15 @@ dlg_extensions (GthBrowser *browser)
 	GSList              *s_scan;
 	GtkTreePath         *first;
 	int                  i;
+	GtkWidget           *label;
 
-	if (gth_browser_get_dialog (browser, "extensions") != NULL) {
-		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "extensions")));
-		return;
-	}
+	data = g_new0 (BrowserData, 1);
+	data->builder = _gtk_builder_new_from_file ("extensions-preferences.ui", NULL);
+	data->dialog = dialog;
+
+	/* save the active extensions to decide if a restart is needed */
 
 	manager = gth_main_get_default_extension_manager ();
-
-	data = g_new0 (DialogData, 1);
-	data->browser = browser;
-	data->builder = _gtk_builder_new_from_file ("extensions.ui", NULL);
-
 	data->active_extensions = NULL;
 	all_active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
 	for (s_scan = all_active_extensions; s_scan; s_scan = s_scan->next) {
@@ -551,11 +507,9 @@ dlg_extensions (GthBrowser *browser)
 	g_slist_foreach (all_active_extensions, (GFunc) g_free, NULL);
 	g_slist_free (all_active_extensions);
 
-	/* Get the widgets. */
-
-	data->dialog = _gtk_builder_get_widget (data->builder, "extensions_dialog");
-	gth_browser_set_dialog (browser, "extensions", data->dialog);
-	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
+	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
+	page = _gtk_builder_get_widget (data->builder, "preferences_page");
+	gtk_widget_show (page);
 
 	/* Set widgets data. */
 
@@ -564,7 +518,7 @@ dlg_extensions (GthBrowser *browser)
 	data->list_view = gtk_tree_view_new_with_model (data->model_filter);
 	g_object_unref (data->model_filter);
 	g_object_unref (data->list_store);
-        gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->list_view), TRUE);
+        gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->list_view), FALSE);
         gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (data->list_view), TRUE);
 
         add_columns (GTK_TREE_VIEW (data->list_view), data);
@@ -574,7 +528,6 @@ dlg_extensions (GthBrowser *browser)
 	gtk_widget_show (data->list_view);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("extensions_scrolledwindow")), data->list_view);
 
-	manager = gth_main_get_default_extension_manager ();
 	extensions = gth_extension_manager_get_extensions (manager);
 	for (scan = extensions; scan; scan = scan->next) {
 		const char              *name = scan->data;
@@ -627,14 +580,6 @@ dlg_extensions (GthBrowser *browser)
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (destroy_cb),
-			  data);
-	g_signal_connect_swapped (GET_WIDGET ("close_button"),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
 	g_signal_connect (GET_WIDGET ("about_button"),
 			  "clicked",
 			  G_CALLBACK (about_button_clicked_cb),
@@ -656,10 +601,67 @@ dlg_extensions (GthBrowser *browser)
 	gtk_tree_selection_select_path (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)), first);
 	gtk_tree_path_free (first);
 
-	/* run dialog. */
+	/* add the page to the preferences dialog */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
-				      GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
-	gtk_widget_show (data->dialog);
+	label = gtk_label_new (_("Extensions"));
+	gtk_widget_show (label);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+}
+
+
+void
+extensions__dlg_preferences_apply (GtkWidget  *dialog,
+		  	  	   GthBrowser *browser,
+		  	  	   GtkBuilder *dialog_builder)
+{
+	BrowserData         *data;
+	GSList              *active_extensions;
+	GthExtensionManager *manager;
+	GList               *names;
+	GList               *scan;
+
+	data = g_object_get_data (G_OBJECT (dialog), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	active_extensions = NULL;
+	manager = gth_main_get_default_extension_manager ();
+	names = gth_extension_manager_get_extensions (manager);
+	for (scan = names; scan; scan = scan->next) {
+		char                    *name = scan->data;
+		GthExtensionDescription *description;
+
+		description = gth_extension_manager_get_description (manager, name);
+		if ((description == NULL) || description->mandatory || description->hidden)
+			continue;
+
+		if (gth_extension_description_is_active (description))
+			active_extensions = g_slist_prepend (active_extensions, g_strdup (name));
+	}
+	active_extensions = g_slist_reverse (active_extensions);
+	eel_gconf_set_string_list (PREF_ACTIVE_EXTENSIONS, active_extensions);
+
+	if (! list_equal (active_extensions, data->active_extensions)) {
+		GtkWidget *dialog;
+		int        response;
+
+		dialog = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+						  GTK_DIALOG_MODAL,
+						  GTK_STOCK_DIALOG_WARNING,
+						  _("Restart required"),
+						  _("You need to restart gthumb for these changes to take effect"),
+						  _("_Continue"), GTK_RESPONSE_CANCEL,
+						  _("_Restart"), GTK_RESPONSE_OK,
+						  NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		if (response == GTK_RESPONSE_OK)
+			gth_restart ();
+	}
+
+	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
+	g_slist_free (active_extensions);
 }

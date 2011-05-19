@@ -64,7 +64,6 @@ static const char *fixed_ui_info =
 "      <separator/>"
 "      <placeholder name='Edit_Actions'/>"
 "      <separator/>"
-"      <menuitem action='Edit_Extensions'/>"
 "      <menuitem action='Edit_Preferences'/>"
 "    </menu>"
 "    <menu name='View' action='ViewMenu'>"

@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "dlg-extensions.h"
 #include "dlg-personalize-filters.h"
 #include "dlg-preferences.h"
 #include "dlg-sort-order.h"
@@ -115,14 +114,6 @@ gth_browser_activate_action_edit_preferences (GtkAction  *action,
 					      GthBrowser *browser)
 {
 	dlg_preferences (browser);
-}
-
-
-void
-gth_browser_activate_action_edit_extensions (GtkAction  *action,
-					     GthBrowser *browser)
-{
-	dlg_extensions (browser);
 }
 
 
