@@ -37,6 +37,7 @@
 #define EXTENSION_CATEGORY_DISABLED "-"
 #define EXTENSION_CATEGORY_SEPARATOR "---"
 #define BROWSER_DATA_KEY "extensions-preference-data"
+#define CARDINALITY_FORMAT "(%d)"
 
 
 enum {
@@ -51,6 +52,7 @@ enum {
 	CATEGORY_NAME_COLUMN,
 	CATEGORY_ICON_COLUMN,
 	CATEGORY_SEPARATOR_COLUMN,
+	CATEGORY_CARDINALITY_COLUMN,
 	CATEGORY_COLUMNS
 };
 
@@ -87,6 +89,7 @@ typedef struct {
 	GtkTreeModel *model_filter;
 	GSList       *active_extensions;
 	char         *current_category;
+	gboolean      enabled_disabled_cardinality_changed;
 } BrowserData;
 
 
@@ -208,16 +211,22 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 		gtk_tree_model_get (GTK_TREE_MODEL (data->model_filter), &iter, 0, &description, -1);
 		gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (data->model_filter), &child_iter, &iter);
 		if (! gth_extension_description_is_active (description)) {
-			if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error))
+			if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error)) {
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not activate the extension"), &error);
-			else
+			}
+			else {
 				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);
+				data->enabled_disabled_cardinality_changed = TRUE;
+			}
 		}
 		else {
-			if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error))
+			if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error)) {
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not deactivate the extension"), &error);
-			else
+			}
+			else {
 				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);
+				data->enabled_disabled_cardinality_changed = TRUE;
+			}
 		}
 
 		g_object_unref (description);
@@ -237,7 +246,6 @@ add_columns (GtkTreeView *treeview,
 	/* the checkbox column */
 
 	column = gtk_tree_view_column_new ();
-	/*gtk_tree_view_column_set_title (column, _("Use"));*/
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_signal_connect (renderer,
@@ -253,7 +261,6 @@ add_columns (GtkTreeView *treeview,
 	/* the name column. */
 
 	column = gtk_tree_view_column_new ();
-	/*gtk_tree_view_column_set_title (column, _("Extension"));*/
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
@@ -267,6 +274,33 @@ add_columns (GtkTreeView *treeview,
 
         gtk_tree_view_column_set_expand (column, TRUE);
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+}
+
+
+static void
+add_category_combobox_columns (GtkWidget   *combo_box,
+			       BrowserData *data)
+{
+	GtkCellRenderer *renderer;
+
+	/* the name column */
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box),
+					renderer,
+					"text", CATEGORY_NAME_COLUMN,
+					NULL);
+
+	/* the cardinality column */
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "size", 8000, NULL);
+	gtk_cell_layout_pack_end (GTK_CELL_LAYOUT (combo_box), renderer, FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box),
+					renderer,
+					"text", CATEGORY_CARDINALITY_COLUMN,
+					NULL);
 }
 
 
@@ -339,6 +373,121 @@ reset_original_extension_status (BrowserData *data)
 }
 
 
+static int
+get_category_cardinality (BrowserData *data,
+			  const char  *category_name)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
+	int           n;
+
+	tree_model = GTK_TREE_MODEL (data->list_store);
+	n = 0;
+	if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
+		do {
+			GthExtensionDescription *description;
+			gboolean                 original_status_is_active;
+
+			gtk_tree_model_get (tree_model,
+					    &iter,
+					    EXTENSION_DESCRIPTION_COLUMN, &description,
+					    EXTENSION_ORIGINAL_STATUS_COLUMN, &original_status_is_active,
+					    -1);
+
+			if (g_strcmp0 (category_name, EXTENSION_CATEGORY_ALL) == 0)
+				n += 1;
+			else if (g_strcmp0 (category_name, EXTENSION_CATEGORY_ENABLED) == 0)
+				n += original_status_is_active ? 1 : 0;
+			else if (g_strcmp0 (category_name, EXTENSION_CATEGORY_DISABLED) == 0)
+				n += original_status_is_active ? 0 : 1;
+			else if (g_strcmp0 (category_name, description->category) == 0)
+				n += 1;
+		}
+		while (gtk_tree_model_iter_next (tree_model, &iter));
+	}
+
+	return n;
+}
+
+
+static void
+update_enabled_disabled_cardinality (BrowserData *data)
+{
+	GtkTreeModel        *tree_model;
+	GtkTreeIter          iter;
+	GtkTreeRowReference *enabled_iter = NULL;
+	GtkTreeRowReference *disabled_iter = NULL;
+	GtkTreePath         *path;
+
+	if (! data->enabled_disabled_cardinality_changed)
+		return;
+
+	tree_model = GTK_TREE_MODEL (GET_WIDGET ("category_liststore"));
+	if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
+		do {
+			char *category_id;
+
+			gtk_tree_model_get (tree_model,
+					    &iter,
+					    CATEGORY_ID_COLUMN, &category_id,
+					    -1);
+
+			if (g_strcmp0 (category_id, EXTENSION_CATEGORY_ENABLED) == 0) {
+				path = gtk_tree_model_get_path (tree_model, &iter);
+				enabled_iter = gtk_tree_row_reference_new  (tree_model, path);
+				gtk_tree_path_free (path);
+			}
+
+			if (g_strcmp0 (category_id, EXTENSION_CATEGORY_DISABLED) == 0) {
+				path = gtk_tree_model_get_path (tree_model, &iter);
+				disabled_iter = gtk_tree_row_reference_new  (tree_model, path);
+				gtk_tree_path_free (path);
+			}
+
+			g_free (category_id);
+		}
+		while (gtk_tree_model_iter_next (tree_model, &iter));
+	}
+
+	path = gtk_tree_row_reference_get_path (enabled_iter);
+	if (path != NULL) {
+		if (gtk_tree_model_get_iter (tree_model, &iter, path)) {
+			char *s;
+
+			s = g_strdup_printf (CARDINALITY_FORMAT, get_category_cardinality (data, EXTENSION_CATEGORY_ENABLED));
+			gtk_list_store_set (GTK_LIST_STORE (tree_model),
+					    &iter,
+					    CATEGORY_CARDINALITY_COLUMN, s,
+					    -1);
+
+			g_free (s);
+		}
+		gtk_tree_path_free (path);
+	}
+
+	path = gtk_tree_row_reference_get_path (disabled_iter);
+	if (path != NULL) {
+		if (gtk_tree_model_get_iter (tree_model, &iter, path)) {
+			char *s;
+
+			s = g_strdup_printf (CARDINALITY_FORMAT, get_category_cardinality (data, EXTENSION_CATEGORY_DISABLED));
+			gtk_list_store_set (GTK_LIST_STORE (tree_model),
+					    &iter,
+					    CATEGORY_CARDINALITY_COLUMN, s,
+					    -1);
+
+			g_free (s);
+		}
+		gtk_tree_path_free (path);
+	}
+
+	gtk_tree_row_reference_free (enabled_iter);
+	gtk_tree_row_reference_free (disabled_iter);
+
+	data->enabled_disabled_cardinality_changed = FALSE;
+}
+
+
 static void
 category_combobox_changed_cb (GtkComboBox *combo_box,
 			      gpointer     user_data)
@@ -350,6 +499,7 @@ category_combobox_changed_cb (GtkComboBox *combo_box,
 		return;
 
 	reset_original_extension_status (data);
+	update_enabled_disabled_cardinality (data);
 
 	g_free (data->current_category);
 	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("category_liststore")),
@@ -466,7 +616,6 @@ category_model_visible_func (GtkTreeModel *model,
 }
 
 
-
 void
 extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					  GthBrowser *browser,
@@ -487,6 +636,7 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data = g_new0 (BrowserData, 1);
 	data->builder = _gtk_builder_new_from_file ("extensions-preferences.ui", NULL);
 	data->dialog = dialog;
+	data->enabled_disabled_cardinality_changed = FALSE;
 
 	/* save the active extensions to decide if a restart is needed */
 
@@ -513,7 +663,9 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	/* Set widgets data. */
 
-	data->list_store = gtk_list_store_new (EXTENSION_COLUMNS, G_TYPE_OBJECT, G_TYPE_BOOLEAN);
+	data->list_store = gtk_list_store_new (EXTENSION_COLUMNS,
+					       G_TYPE_OBJECT,
+					       G_TYPE_BOOLEAN);
 	data->model_filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (data->list_store), NULL);
 	data->list_view = gtk_tree_view_new_with_model (data->model_filter);
 	g_object_unref (data->model_filter);
@@ -548,9 +700,11 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	/* the category combobox */
 
+	add_category_combobox_columns (GET_WIDGET ("category_combobox"), data);
+
 	data->current_category = g_strdup (EXTENSION_CATEGORY_ALL);
 	for (i = 0; extension_category[i].id != NULL; i++) {
-		GtkTreeIter iter;
+		GtkTreeIter  iter;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("category_liststore")), &iter);
 		if (strcmp (extension_category[i].id, EXTENSION_CATEGORY_SEPARATOR) == 0)
@@ -558,14 +712,21 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					    &iter,
 					    CATEGORY_SEPARATOR_COLUMN, TRUE,
 					    -1);
-		else
+		else {
+			char *cardinality;
+
+			cardinality = g_strdup_printf (CARDINALITY_FORMAT, get_category_cardinality (data, extension_category[i].id));
 			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("category_liststore")),
 					    &iter,
 					    CATEGORY_NAME_COLUMN, _(extension_category[i].name),
 					    CATEGORY_ID_COLUMN, extension_category[i].id,
 					    /* CATEGORY_ICON_COLUMN, extension_category[i].icon, */
 					    CATEGORY_SEPARATOR_COLUMN, FALSE,
+					    CATEGORY_CARDINALITY_COLUMN, cardinality,
 					    -1);
+
+			g_free (cardinality);
+		}
 	}
 	gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (data->model_filter),
 						category_model_visible_func,
