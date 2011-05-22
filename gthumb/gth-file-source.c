@@ -53,7 +53,8 @@ typedef enum {
 	FILE_SOURCE_OP_READ_ATTRIBUTES,
 	FILE_SOURCE_OP_RENAME,
 	FILE_SOURCE_OP_COPY,
-	FILE_SOURCE_OP_REORDER
+	FILE_SOURCE_OP_REORDER,
+	FILE_SOURCE_OP_REMOVE
 } FileSourceOp;
 
 
@@ -130,6 +131,10 @@ typedef struct {
 
 
 typedef struct {
+	GList *file_list;
+} RemoveData;
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
@@ -141,6 +146,7 @@ typedef struct {
 		ReorderData        reorder;
 		WriteMetadataData  write_metadata;
 		ReadMetadataData   read_metadata;
+		RemoveData         remove;
 	} data;
 } FileSourceAsyncOp;
 
@@ -177,6 +183,9 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 	case FILE_SOURCE_OP_REORDER:
 		g_object_unref (async_op->data.copy.destination);
 		_g_object_list_unref (async_op->data.copy.file_list);
+		break;
+	case FILE_SOURCE_OP_REMOVE:
+		_g_object_list_unref (async_op->data.remove.file_list);
 		break;
 	}
 
@@ -369,6 +378,21 @@ gth_file_source_queue_reorder (GthFileSource    *file_source,
 
 
 static void
+gth_file_source_queue_remove (GthFileSource *file_source,
+			      GList         *file_list)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_REMOVE;
+	async_op->data.remove.file_list = _g_file_list_dup (file_list);
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
 gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 {
 	GList             *head;
@@ -447,6 +471,10 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 					 async_op->data.reorder.dest_pos,
 				         async_op->data.reorder.ready_callback,
 					 async_op->data.reorder.data);
+		break;
+	case FILE_SOURCE_OP_REMOVE:
+		gth_file_source_remove (file_source,
+					async_op->data.remove.file_list);
 		break;
 	}
 
@@ -677,6 +705,14 @@ base_reorder (GthFileSource *file_source,
 
 
 static void
+base_remove (GthFileSource *file_source,
+	     GList         *file_list /* GFile list */)
+{
+	/* void */
+}
+
+
+static void
 gth_file_source_finalize (GObject *object)
 {
 	GthFileSource *file_source = GTH_FILE_SOURCE (object);
@@ -716,6 +752,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->monitor_directory = base_monitor_directory;
 	class->is_reorderable = base_is_reorderable;
 	class->reorder = base_reorder;
+	class->remove = base_remove;
 }
 
 
@@ -1182,3 +1219,15 @@ gth_file_source_reorder (GthFileSource *file_source,
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->reorder (file_source, destination, visible_files, files_to_move, dest_pos, callback, data);
 }
 
+
+void
+gth_file_source_remove (GthFileSource *file_source,
+		        GList         *file_list /* GFile list */)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_remove (file_source, file_list);
+		return;
+	}
+	g_cancellable_reset (file_source->priv->cancellable);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, file_list);
+}
