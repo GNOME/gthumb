@@ -25,6 +25,7 @@
 #include <gth-catalog.h>
 #include "dlg-add-to-catalog.h"
 #include "dlg-catalog-properties.h"
+#include "gth-file-source-catalogs.h"
 
 
 void
@@ -46,128 +47,21 @@ gth_browser_activate_action_edit_add_to_catalog (GtkAction  *action,
 }
 
 
-typedef struct {
-	GthBrowser *browser;
-	GList      *file_data_list;
-	GFile      *gio_file;
-	GthCatalog *catalog;
-} RemoveFromCatalogData;
-
-
-static void
-remove_from_catalog_end (GError                *error,
-			 RemoveFromCatalogData *data)
-{
-	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not remove the files from the catalog"), &error);
-
-	g_object_unref (data->catalog);
-	g_object_unref (data->gio_file);
-	_g_object_list_unref (data->file_data_list);
-	g_free (data);
-}
-
-
-static void
-catalog_save_done_cb (void     **buffer,
-		      gsize      count,
-		      GError    *error,
-		      gpointer   user_data)
-{
-	RemoveFromCatalogData *data = user_data;
-
-	if (error == NULL) {
-		GFile *catalog_file;
-		GList *files = NULL;
-		GList *scan;
-
-		catalog_file = gth_catalog_file_from_gio_file (data->gio_file, NULL);
-		for (scan = data->file_data_list; scan; scan = scan->next)
-			files = g_list_prepend (files, ((GthFileData*) scan->data)->file);
-		files = g_list_reverse (files);
-
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    catalog_file,
-					    files,
-					    GTH_MONITOR_EVENT_REMOVED);
-
-		_g_object_list_unref (files);
-		g_object_unref (catalog_file);
-	}
-
-	remove_from_catalog_end (error, data);
-}
-
-
-static void
-catalog_buffer_ready_cb (void     **buffer,
-			 gsize      count,
-			 GError    *error,
-			 gpointer   user_data)
-{
-	RemoveFromCatalogData *data = user_data;
-	GList                 *scan;
-	void                  *catalog_buffer;
-	gsize                  catalog_size;
-
-	if (error != NULL) {
-		remove_from_catalog_end (error, data);
-		return;
-	}
-
-	data->catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", *buffer);
-	if (data->catalog == NULL) {
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
-		remove_from_catalog_end (error, data);
-		return;
-	}
-
-	gth_catalog_load_from_data (data->catalog, *buffer, count, &error);
-	if (error != NULL) {
-		remove_from_catalog_end (error, data);
-		return;
-	}
-
-	for (scan = data->file_data_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		gth_catalog_remove_file (data->catalog, file_data->file);
-	}
-
-	catalog_buffer = gth_catalog_to_data (data->catalog, &catalog_size);
-	if (error != NULL) {
-		remove_from_catalog_end (error, data);
-		return;
-	}
-
-	g_write_file_async (data->gio_file,
-			    catalog_buffer,
-			    catalog_size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    catalog_save_done_cb,
-			    data);
-}
-
-
 void
 gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 						      GthBrowser *browser)
 {
-	RemoveFromCatalogData *data;
-	GList                 *items;
+	GList *items;
+	GList *file_data_list;
 
-	data = g_new0 (RemoveFromCatalogData, 1);
-	data->browser = browser;
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	data->file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	data->gio_file = gth_main_get_gio_file (gth_browser_get_location (browser));
-	g_load_file_async (data->gio_file,
-			   G_PRIORITY_DEFAULT,
-			   NULL,
-			   catalog_buffer_ready_cb,
-			   data);
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
+	gth_catalog_manager_remove_files (GTK_WINDOW (browser),
+					  gth_browser_get_location_data (browser),
+					  file_data_list);
+
+	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 }
 

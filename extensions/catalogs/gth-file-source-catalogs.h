@@ -43,9 +43,12 @@ struct _GthFileSourceCatalogs
 
 struct _GthFileSourceCatalogsClass
 {
-	GthFileSourceClass __parent_class;	
+	GthFileSourceClass __parent_class;
 };
 
 GType gth_file_source_catalogs_get_type (void) G_GNUC_CONST;
+void  gth_catalog_manager_remove_files  (GtkWindow   *parent,
+				  	 GthFileData *location,
+				  	 GList       *file_list /* GthFileData list */);
 
 #endif /* GTH_FILE_SOURCE_CATALOGS_H */

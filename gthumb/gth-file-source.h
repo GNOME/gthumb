@@ -122,6 +122,7 @@ struct _GthFileSourceClass
 					       ReadyCallback         callback,
 					       gpointer              data);
 	void         (*remove)                (GthFileSource        *file_source,
+					       GthFileData          *location,
 					       GList                *file_list, /* GthFileData list */
 					       gboolean              permanently,
 					       GtkWindow            *parent);
@@ -204,6 +205,7 @@ void           gth_file_source_reorder               (GthFileSource        *file
 						      ReadyCallback         callback,
 						      gpointer              data);
 void           gth_file_source_remove                (GthFileSource        *file_source,
+						      GthFileData          *location,
 		       	       	       	       	      GList                *file_list /* GthFileData list */,
 		       	       	       	       	      gboolean              permanently,
 		       	       	       	       	      GtkWindow            *parent);

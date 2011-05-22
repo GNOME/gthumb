@@ -131,9 +131,10 @@ typedef struct {
 
 
 typedef struct {
-	GList     *file_list;
-	gboolean   permanently;
-	GtkWindow *parent;
+	GthFileData *location;
+	GList       *file_list;
+	gboolean     permanently;
+	GtkWindow   *parent;
 } RemoveData;
 
 
@@ -188,6 +189,7 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 		_g_object_list_unref (async_op->data.copy.file_list);
 		break;
 	case FILE_SOURCE_OP_REMOVE:
+		_g_object_unref (async_op->data.remove.location);
 		_g_object_list_unref (async_op->data.remove.file_list);
 		break;
 	}
@@ -382,6 +384,7 @@ gth_file_source_queue_reorder (GthFileSource    *file_source,
 
 static void
 gth_file_source_queue_remove (GthFileSource *file_source,
+			      GthFileData   *location,
 			      GList         *file_list,
 			      gboolean       permanently,
 			      GtkWindow     *parent)
@@ -391,6 +394,7 @@ gth_file_source_queue_remove (GthFileSource *file_source,
 	async_op = g_new0 (FileSourceAsyncOp, 1);
 	async_op->file_source = file_source;
 	async_op->op = FILE_SOURCE_OP_REMOVE;
+	async_op->data.remove.location = gth_file_data_dup (location);
 	async_op->data.remove.file_list = gth_file_data_list_dup (file_list);
 	async_op->data.remove.permanently = permanently;
 	async_op->data.remove.parent = parent;
@@ -481,6 +485,7 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 		break;
 	case FILE_SOURCE_OP_REMOVE:
 		gth_file_source_remove (file_source,
+					async_op->data.remove.location,
 					async_op->data.remove.file_list,
 					async_op->data.remove.permanently,
 					async_op->data.remove.parent);
@@ -715,6 +720,7 @@ base_reorder (GthFileSource *file_source,
 
 static void
 base_remove (GthFileSource *file_source,
+	     GthFileData   *location,
 	     GList         *file_list, /* GFile list */
 	     gboolean       permanently)
 {
@@ -1232,14 +1238,15 @@ gth_file_source_reorder (GthFileSource *file_source,
 
 void
 gth_file_source_remove (GthFileSource *file_source,
+			GthFileData   *location,
 		        GList         *file_list, /* GthFileData list */
 		        gboolean       permanently,
 		        GtkWindow     *parent)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_remove (file_source, file_list, permanently, parent);
+		gth_file_source_queue_remove (file_source, location, file_list, permanently, parent);
 		return;
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, file_list, permanently, parent);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, location, file_list, permanently, parent);
 }

@@ -804,6 +804,7 @@ gth_file_mananger_delete_files (GtkWindow *window,
 
 static void
 gth_file_source_vfs_remove (GthFileSource *file_source,
+			    GthFileData   *location,
 	       	       	    GList         *file_list /* GthFileData list */,
 	       	       	    gboolean       permanently,
 	       	       	    GtkWindow     *parent)

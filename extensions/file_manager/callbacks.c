@@ -1075,6 +1075,7 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 				items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 				file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 				gth_file_source_remove (gth_browser_get_location_source (browser),
+							gth_browser_get_location_data (browser),
 							file_data_list,
 							(event->state & modifiers) == GDK_SHIFT_MASK,
 							GTK_WINDOW (browser));
