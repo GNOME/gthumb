@@ -254,6 +254,16 @@ AM_CONDITIONAL(ENABLE_LIBCHAMPLAIN, test "x$enable_libchamplain" = xyes)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([gnome-3],
+	      [AS_HELP_STRING([--disable-gnome-3],[do not compile code specific to GNOME Desktop version 3.0 or higher])],,
+	      [enable_gnome_3=yes])
+
+if test x$enable_gnome_3 = xyes ; then
+	AC_DEFINE(HAVE_GNOME_3, 1, [Define to 1 if gthumb is intended to be used with GNOME Desktop 3.0 or higher])
+fi
+
+dnl ===========================================================================
+
 IT_PROG_INTLTOOL([0.35.0])
 GETTEXT_PACKAGE=gthumb
 AC_SUBST([GETTEXT_PACKAGE])
@@ -688,4 +698,5 @@ Configuration:
 	Web albums           : ${enable_web_albums}
 	SM client support    : ${with_smclient}
 	Map support          : ${enable_libchamplain}
+	GNOME 3 support      : ${enable_gnome_3}
 "

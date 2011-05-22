@@ -26,6 +26,89 @@
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 
 
+#ifdef HAVE_GNOME_3
+
+
+#define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-control-center background"
+#define DESKTOP_BACKGROUND_SCHEMA "org.gnome.desktop.background"
+#define DESKTOP_BACKGROUND_KEY "picture-uri"
+
+
+static GFile *
+get_current_wallpaper (void)
+{
+	GFile     *file = NULL;
+	GSettings *settings;
+	char      *uri;
+
+	settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+	uri = g_settings_get_string (settings, DESKTOP_BACKGROUND_KEY);
+	if (uri != NULL)
+		file = g_file_new_for_uri (uri);
+
+	g_free (uri);
+	g_object_unref (settings);
+
+	return file;
+}
+
+
+static void
+set_current_wallpaper_file (GFile *file)
+{
+	char *uri;
+
+	uri = g_file_get_uri (file);
+	if (uri != NULL) {
+		GSettings *settings;
+
+		settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+		g_settings_set_string (settings, DESKTOP_BACKGROUND_KEY, uri);
+		g_object_unref (settings);
+	}
+
+	g_free (uri);
+}
+
+
+#else /* ! HAVE_GNOME_DESKTOP_3 */
+
+
+#define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-appearance-properties --show-page=background"
+
+
+static GFile *
+get_current_wallpaper (void)
+{
+	GFile *file = NULL;
+	char  *path;
+
+	path = eel_gconf_get_string ("/desktop/gnome/background/picture_filename", NULL);
+	if (path != NULL) {
+		file = g_file_new_for_path (path);
+		g_free (path);
+	}
+
+	return file;
+}
+
+
+static void
+set_current_wallpaper_file (GFile *file)
+{
+	char *path;
+
+	path = g_file_get_path (file);
+	if (path != NULL)
+		eel_gconf_set_string ("/desktop/gnome/background/picture_filename", path);
+
+	g_free (path);
+}
+
+
+#endif
+
+
 typedef struct {
 	GthBrowser *browser;
 	GFile      *old_file;
@@ -77,17 +160,11 @@ static WallpaperData *
 wallpaper_data_new (GthBrowser *browser)
 {
 	WallpaperData *wdata;
-	char          *path;
+
 
 	wdata = g_new0 (WallpaperData, 1);
 	wdata->browser = browser;
-
-	path = eel_gconf_get_string ("/desktop/gnome/background/picture_filename", NULL);
-	if (path != NULL) {
-		wdata->old_file = g_file_new_for_path (path);
-		g_free (path);
-	}
-
+	wdata->old_file = get_current_wallpaper ();
 	wdata->new_file = get_wallpaper_file ();
 
 	return wdata;
@@ -111,19 +188,6 @@ enum {
 
 
 static void
-set_wallpaper_file (GFile *file)
-{
-	char *path;
-
-	path = g_file_get_path (file);
-	if (path != NULL)
-		eel_gconf_set_string ("/desktop/gnome/background/picture_filename", path);
-
-	g_free (path);
-}
-
-
-static void
 infobar_response_cb (GtkInfoBar *info_bar,
 		     int         response_id,
 		     gpointer    user_data)
@@ -135,13 +199,13 @@ infobar_response_cb (GtkInfoBar *info_bar,
 
 	switch (response_id) {
 	case _RESPONSE_PREFERENCES:
-		if (! g_spawn_command_line_async ("gnome-appearance-properties --show-page=background", &error))
+		if (! g_spawn_command_line_async (DESKTOP_BACKGROUND_PROPERTIES_COMMAND, &error))
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not show the desktop background properties"), &error);
 		break;
 
 	case _RESPONSE_UNDO:
 		if (wdata->old_file != NULL)
-			set_wallpaper_file (wdata->old_file);
+			set_current_wallpaper_file (wdata->old_file);
 		break;
 	}
 
@@ -155,7 +219,7 @@ wallpaper_data_set (WallpaperData *wdata)
 {
 	GtkWidget *infobar;
 
-	set_wallpaper_file (wdata->new_file);
+	set_current_wallpaper_file (wdata->new_file);
 
 	infobar = gth_browser_get_infobar (wdata->browser);
 	gth_info_bar_set_icon (GTH_INFO_BAR (infobar), GTK_STOCK_DIALOG_INFO);
