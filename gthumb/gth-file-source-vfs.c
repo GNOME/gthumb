@@ -23,11 +23,14 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <glib.h>
+#include "gconf-utils.h"
 #include "gth-file-data.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
+#include "gth-preferences.h"
+#include "gtk-utils.h"
 
 #define GTH_MONITOR_N_EVENTS 3
 #define MONITOR_UPDATE_DELAY 500
@@ -609,6 +612,209 @@ gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
 }
 
 
+/* -- gth_file_source_vfs_remove -- */
+
+
+static void
+notify_files_delete (GtkWindow *window,
+		     GList     *files)
+{
+	GFile *parent;
+
+	parent = g_file_get_parent ((GFile*) files->data);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    files,
+				    GTH_MONITOR_EVENT_DELETED);
+
+	g_object_unref (parent);
+}
+
+
+static void
+delete_file_permanently (GtkWindow *window,
+			 GList     *file_list)
+{
+	GList  *files;
+	GError *error = NULL;
+
+	files = gth_file_data_list_to_file_list (file_list);
+	if (! _g_delete_files (files, TRUE, &error))
+		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), &error);
+	else
+		notify_files_delete (window, files);
+
+	_g_object_list_unref (files);
+}
+
+
+static void
+delete_permanently_response_cb (GtkDialog *dialog,
+				int        response_id,
+				gpointer   user_data)
+{
+	GList *file_list = user_data;
+
+	if (response_id == GTK_RESPONSE_YES)
+		delete_file_permanently (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_list);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	_g_object_list_unref (file_list);
+}
+
+
+static void
+trash_files (GtkWindow *window,
+	     GList     *file_list)
+{
+	GList    *scan;
+	gboolean  moved_to_trash = TRUE;
+	GError   *error = NULL;
+
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (! g_file_trash (file_data->file, NULL, &error)) {
+			moved_to_trash = FALSE;
+			if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
+				GtkWidget *d;
+
+				g_clear_error (&error);
+
+				d = _gtk_yesno_dialog_new (window,
+							   GTK_DIALOG_MODAL,
+							   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
+							   GTK_STOCK_CANCEL,
+							   GTK_STOCK_DELETE);
+				g_signal_connect (d,
+						  "response",
+						  G_CALLBACK (delete_permanently_response_cb),
+						  gth_file_data_list_dup (file_list));
+				gtk_widget_show (d);
+
+				break;
+			}
+			_gtk_error_dialog_from_gerror_show (window, _("Could not move the files to the Trash"), &error);
+			break;
+		}
+	}
+
+	if (moved_to_trash) {
+		GList  *files;
+
+		files = gth_file_data_list_to_file_list (file_list);
+		notify_files_delete (window, files);
+
+		_g_object_list_unref (files);
+	}
+}
+
+
+static void
+trash_files_response_cb (GtkDialog *dialog,
+			 int        response_id,
+			 gpointer   user_data)
+{
+	GList *file_list = user_data;
+
+	if (response_id == GTK_RESPONSE_YES)
+		trash_files (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_list);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	_g_object_list_unref (file_list);
+}
+
+
+void
+gth_file_mananger_trash_files (GtkWindow *window,
+			       GList     *file_list /* GthFileData list */)
+{
+	if (eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION)) {
+		int        file_count;
+		char      *prompt;
+		GtkWidget *d;
+
+		file_count = g_list_length (file_list);
+		if (file_count == 1) {
+			GthFileData *file_data = file_list->data;
+			prompt = g_strdup_printf (_("Are you sure you want to move \"%s\" to trash?"), g_file_info_get_display_name (file_data->info));
+		}
+		else
+			prompt = g_strdup_printf (ngettext("Are you sure you want to move to trash "
+							   "the %'d selected file?",
+							   "Are you sure you want to move to trash "
+							   "the %'d selected files?", file_count),
+						  file_count);
+
+		d = _gtk_message_dialog_new (window,
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_DIALOG_QUESTION,
+					     prompt,
+					     NULL,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     _("Mo_ve to Trash"), GTK_RESPONSE_YES,
+					     NULL);
+		g_signal_connect (d, "response",
+				  G_CALLBACK (trash_files_response_cb),
+				  gth_file_data_list_dup (file_list));
+		gtk_widget_show (d);
+
+		g_free (prompt);
+	}
+	else
+		trash_files (window, file_list);
+}
+
+
+void
+gth_file_mananger_delete_files (GtkWindow *window,
+				GList     *file_list /* GthFileData list */)
+{
+	int        file_count;
+	char      *prompt;
+	GtkWidget *d;
+
+	file_list = _g_object_list_ref (file_list);
+	file_count = g_list_length (file_list);
+	if (file_count == 1) {
+		GthFileData *file_data = file_list->data;
+		prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
+	}
+	else
+		prompt = g_strdup_printf (ngettext("Are you sure you want to permanently delete "
+						   "the %'d selected file?",
+						   "Are you sure you want to permanently delete "
+					  	   "the %'d selected files?", file_count),
+					  file_count);
+
+	d = _gtk_message_dialog_new (window,
+				     GTK_DIALOG_MODAL,
+				     GTK_STOCK_DIALOG_QUESTION,
+				     prompt,
+				     _("If you delete a file, it will be permanently lost."),
+				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				     GTK_STOCK_DELETE, GTK_RESPONSE_YES,
+				     NULL);
+	g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
+	gtk_widget_show (d);
+
+	g_free (prompt);
+}
+
+
+static void
+gth_file_source_vfs_remove (GthFileSource *file_source,
+	       	       	    GList         *file_list /* GthFileData list */,
+	       	       	    gboolean       permanently,
+	       	       	    GtkWindow     *parent)
+{
+	if (permanently)
+		gth_file_mananger_delete_files (parent, file_list);
+	else
+		gth_file_mananger_trash_files (parent, file_list);
+}
+
+
 static void
 gth_file_source_vfs_finalize (GObject *object)
 {
@@ -658,6 +864,7 @@ gth_file_source_vfs_class_init (GthFileSourceVfsClass *class)
 	file_source_class->can_cut = gth_file_source_vfs_can_cut;
 	file_source_class->monitor_entry_points = gth_file_source_vfs_monitor_entry_points;
 	file_source_class->monitor_directory = gth_file_source_vfs_monitor_directory;
+	file_source_class->remove = gth_file_source_vfs_remove;
 }
 
 

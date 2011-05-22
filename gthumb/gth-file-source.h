@@ -122,7 +122,9 @@ struct _GthFileSourceClass
 					       ReadyCallback         callback,
 					       gpointer              data);
 	void         (*remove)                (GthFileSource        *file_source,
-					       GList                *file_list /* GFile list */);
+					       GList                *file_list, /* GthFileData list */
+					       gboolean              permanently,
+					       GtkWindow            *parent);
 };
 
 GType          gth_file_source_get_type              (void) G_GNUC_CONST;
@@ -202,7 +204,9 @@ void           gth_file_source_reorder               (GthFileSource        *file
 						      ReadyCallback         callback,
 						      gpointer              data);
 void           gth_file_source_remove                (GthFileSource        *file_source,
-		       	       	       	       	      GList                *file_list /* GFile list */);
+		       	       	       	       	      GList                *file_list /* GthFileData list */,
+		       	       	       	       	      gboolean              permanently,
+		       	       	       	       	      GtkWindow            *parent);
 
 /*< protected >*/
 

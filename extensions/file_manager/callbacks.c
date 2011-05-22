@@ -1070,13 +1070,19 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		break;
 
 	case GDK_Delete:
-		if ((event->state & modifiers) == 0) {
-			gth_browser_activate_action_edit_trash (NULL, browser);
-			result = GINT_TO_POINTER (1);
-		}
-		else if ((event->state & modifiers) == GDK_SHIFT_MASK) {
-			gth_browser_activate_action_edit_delete (NULL, browser);
-			result = GINT_TO_POINTER (1);
+		if (((event->state & modifiers) == 0) || ((event->state & modifiers) == GDK_SHIFT_MASK)) {
+			if (gth_browser_get_location_source (browser) != NULL) {
+				items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+				file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+				gth_file_source_remove (gth_browser_get_location_source (browser),
+							file_data_list,
+							(event->state & modifiers) == GDK_SHIFT_MASK,
+							GTK_WINDOW (browser));
+
+				_g_object_list_unref (file_data_list);
+				_gtk_tree_path_list_free (items);
+				result = GINT_TO_POINTER (1);
+			}
 		}
 		break;
 	}

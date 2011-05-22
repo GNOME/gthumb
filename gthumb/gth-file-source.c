@@ -131,8 +131,11 @@ typedef struct {
 
 
 typedef struct {
-	GList *file_list;
+	GList     *file_list;
+	gboolean   permanently;
+	GtkWindow *parent;
 } RemoveData;
+
 
 typedef struct {
 	GthFileSource *file_source;
@@ -379,14 +382,18 @@ gth_file_source_queue_reorder (GthFileSource    *file_source,
 
 static void
 gth_file_source_queue_remove (GthFileSource *file_source,
-			      GList         *file_list)
+			      GList         *file_list,
+			      gboolean       permanently,
+			      GtkWindow     *parent)
 {
 	FileSourceAsyncOp *async_op;
 
 	async_op = g_new0 (FileSourceAsyncOp, 1);
 	async_op->file_source = file_source;
 	async_op->op = FILE_SOURCE_OP_REMOVE;
-	async_op->data.remove.file_list = _g_file_list_dup (file_list);
+	async_op->data.remove.file_list = gth_file_data_list_dup (file_list);
+	async_op->data.remove.permanently = permanently;
+	async_op->data.remove.parent = parent;
 
 	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
 }
@@ -474,7 +481,9 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 		break;
 	case FILE_SOURCE_OP_REMOVE:
 		gth_file_source_remove (file_source,
-					async_op->data.remove.file_list);
+					async_op->data.remove.file_list,
+					async_op->data.remove.permanently,
+					async_op->data.remove.parent);
 		break;
 	}
 
@@ -706,7 +715,8 @@ base_reorder (GthFileSource *file_source,
 
 static void
 base_remove (GthFileSource *file_source,
-	     GList         *file_list /* GFile list */)
+	     GList         *file_list, /* GFile list */
+	     gboolean       permanently)
 {
 	/* void */
 }
@@ -1222,12 +1232,14 @@ gth_file_source_reorder (GthFileSource *file_source,
 
 void
 gth_file_source_remove (GthFileSource *file_source,
-		        GList         *file_list /* GFile list */)
+		        GList         *file_list, /* GthFileData list */
+		        gboolean       permanently,
+		        GtkWindow     *parent)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_remove (file_source, file_list);
+		gth_file_source_queue_remove (file_source, file_list, permanently, parent);
 		return;
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, file_list);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, file_list, permanently, parent);
 }

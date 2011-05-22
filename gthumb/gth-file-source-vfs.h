@@ -45,10 +45,14 @@ struct _GthFileSourceVfs
 
 struct _GthFileSourceVfsClass
 {
-	GthFileSourceClass __parent_class;	
+	GthFileSourceClass __parent_class;
 };
 
-GType gth_file_source_vfs_get_type (void) G_GNUC_CONST;
+GType gth_file_source_vfs_get_type   (void) G_GNUC_CONST;
+void  gth_file_mananger_trash_files  (GtkWindow *window,
+				      GList     *file_list /* GthFileData list */);
+void  gth_file_mananger_delete_files (GtkWindow *window,
+				      GList     *file_list /* GthFileData list */);
 
 G_END_DECLS
 

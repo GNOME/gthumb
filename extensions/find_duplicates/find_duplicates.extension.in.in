@@ -9,4 +9,4 @@ Category=Browser
 [Loader]
 Type=module
 File=%LIBRARY%
-Requires=catalogs;file_manager
+Requires=catalogs
