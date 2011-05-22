@@ -1795,7 +1795,8 @@ gth_image_selector_set_mask_visible (GthImageSelector *self,
 		return;
 
 	self->priv->mask_visible = visible;
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 	g_signal_emit (G_OBJECT (self),
 		       signals[MASK_VISIBILITY_CHANGED],
 		       0);
@@ -1806,14 +1807,15 @@ void
 gth_image_selector_set_grid_type (GthImageSelector *self,
                                   GthGridType       grid_type)
 {
-        if (grid_type == self->priv->grid_type)
-                return;
+	if (grid_type == self->priv->grid_type)
+		return;
 
-        self->priv->grid_type = grid_type;
-        gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
-        g_signal_emit (G_OBJECT (self),
-                       signals[GRID_VISIBILITY_CHANGED],
-                       0);
+	self->priv->grid_type = grid_type;
+	if (self->priv->viewer != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
+	g_signal_emit (G_OBJECT (self),
+		       signals[GRID_VISIBILITY_CHANGED],
+		       0);
 }
 
 
@@ -1827,7 +1829,7 @@ gth_image_selector_get_mask_visible (GthImageSelector *self)
 GthGridType
 gth_image_selector_get_grid_type (GthImageSelector *self)
 {
-        return self->priv->grid_type;
+	return self->priv->grid_type;
 }
 
 
