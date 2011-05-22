@@ -722,7 +722,8 @@ static void
 base_remove (GthFileSource *file_source,
 	     GthFileData   *location,
 	     GList         *file_list, /* GFile list */
-	     gboolean       permanently)
+	     gboolean       permanently,
+	     GtkWindow     *parent)
 {
 	/* void */
 }
