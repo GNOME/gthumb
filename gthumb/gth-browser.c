@@ -2152,6 +2152,13 @@ _gth_browser_real_close (GthBrowser *browser)
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->order_changed_id);
 
+	/* remove timeouts */
+
+	if (browser->priv->selection_changed_event != 0) {
+		g_source_remove (browser->priv->selection_changed_event);
+		browser->priv->selection_changed_event = 0;
+	}
+
 	/* cancel async operations */
 
 	_gth_browser_cancel (browser, _gth_browser_close_step3, browser);
@@ -2400,10 +2407,6 @@ gth_browser_finalize (GObject *object)
 	GthBrowser *browser = GTH_BROWSER (object);
 
 	if (browser->priv != NULL) {
-		if (browser->priv->selection_changed_event != 0) {
-			g_source_remove (browser->priv->selection_changed_event);
-			browser->priv->selection_changed_event = 0;
-		}
 		_g_object_unref (browser->priv->location_source);
 		_g_object_unref (browser->priv->monitor_location);
 		_g_object_unref (browser->priv->location);
@@ -3373,6 +3376,9 @@ update_selection_cb (gpointer user_data)
 	g_source_remove (browser->priv->selection_changed_event);
 	browser->priv->selection_changed_event = 0;
 
+	if (browser->priv->closing)
+		return FALSE;
+
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
@@ -3407,6 +3413,9 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 				    gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
+
+	if (browser->priv->closing)
+		return;
 
 	if (browser->priv->selection_changed_event != 0)
 		g_source_remove (browser->priv->selection_changed_event);
