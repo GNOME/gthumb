@@ -200,6 +200,7 @@ gth_test_category_real_create_control (GthTest *base)
 
 	test->priv->tag_store = gtk_list_store_new (1, G_TYPE_STRING);
 	test->priv->combo_entry = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (test->priv->tag_store));
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (test->priv->combo_entry), 0);
 	g_object_unref (test->priv->tag_store);
 	update_tag_list (test);
 
