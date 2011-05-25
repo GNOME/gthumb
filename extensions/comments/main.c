@@ -193,6 +193,21 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 			      NULL,
 			      NULL);
 
+		{
+			GFile *parent;
+			GList *list;
+
+			parent = g_file_get_parent (file_data->file);
+			list = g_list_prepend (NULL, file_data->file);
+			gth_monitor_folder_changed (gth_main_get_default_monitor (),
+						    parent,
+						    list,
+						    GTH_MONITOR_EVENT_CHANGED);
+
+			g_list_free (list);
+			g_object_unref (parent);
+		}
+
 		g_free (buffer);
 		g_object_unref (comment_directory);
 		g_object_unref (comment_file);
