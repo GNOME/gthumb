@@ -175,11 +175,16 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 
 	if (write_comment) {
 		GFile *comment_file;
+		GFile *comment_directory;
 		char  *buffer;
 		gsize  size;
 
-		buffer = gth_comment_to_data (comment, &size);
 		comment_file = gth_comment_get_comment_file (file_data->file);
+		comment_directory = g_file_get_parent (comment_file);
+		if (! g_file_query_exists (comment_directory, NULL))
+			g_file_make_directory (comment_directory, NULL, NULL);
+
+		buffer = gth_comment_to_data (comment, &size);
 		g_write_file (comment_file,
 			      FALSE,
 			      G_FILE_CREATE_NONE,
@@ -188,8 +193,9 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 			      NULL,
 			      NULL);
 
-		g_object_unref (comment_file);
 		g_free (buffer);
+		g_object_unref (comment_directory);
+		g_object_unref (comment_file);
 	}
 
 	g_object_unref (comment);
