@@ -1,6 +1,6 @@
 AC_PREREQ(2.63)
 AC_INIT([gthumb],[2.13.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
-AM_INIT_AUTOMAKE([1.9 foreign])
+AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
