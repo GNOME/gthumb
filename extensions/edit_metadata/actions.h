@@ -28,5 +28,6 @@
 
 DEFINE_ACTION(gth_browser_activate_action_edit_metadata)
 DEFINE_ACTION(gth_browser_activate_action_edit_tag_files)
+DEFINE_ACTION(gth_browser_activate_action_tool_delete_metadata)
 
 #endif /* ACTIONS_H */

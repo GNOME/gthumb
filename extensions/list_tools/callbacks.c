@@ -49,6 +49,7 @@ static const char *fixed_ui_info =
 */
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'/>"
+"    <placeholder name='Tools_2'/>"
 "    <separator name='ToolsSeparator'/>"
 "    <placeholder name='Scripts'/>"
 "    <separator name='ScriptsListSeparator'/>"

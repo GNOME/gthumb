@@ -108,3 +108,10 @@ gth_browser_activate_action_edit_tag_files (GtkAction  *action,
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (browser));
 	gtk_window_present (GTK_WINDOW (dialog));
 }
+
+
+void
+gth_browser_activate_action_tool_delete_metadata (GtkAction  *action,
+						  GthBrowser *browser)
+{
+}

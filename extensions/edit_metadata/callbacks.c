@@ -72,6 +72,16 @@ static const char *fixed_ui_info =
 "</ui>";
 
 
+static const char *fixed_ui_file_tools_info =
+"<ui>"
+"  <popup name='ListToolsPopup'>"
+"    <placeholder name='Tools_2'>"
+"      <menuitem name='DeleteMetadata' action='Tool_DeleteMetadata'/>"
+"    </placeholder>"
+"  </popup>"
+"</ui>";
+
+
 static const char *browser_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
@@ -105,7 +115,12 @@ static GtkActionEntry edit_metadata_action_entries[] = {
         { "Edit_QuickTagOther", NULL,
 	  N_("Other..."), NULL,
 	  N_("Choose another tag"),
-	  G_CALLBACK (gth_browser_activate_action_edit_tag_files) }
+	  G_CALLBACK (gth_browser_activate_action_edit_tag_files) },
+
+	{ "Tool_DeleteMetadata", NULL,
+	  N_("Delete Metadata"), NULL,
+	  N_("Delete the embedded and attached metadata of the selected files"),
+	  G_CALLBACK (gth_browser_activate_action_tool_delete_metadata) }
 };
 
 
@@ -158,6 +173,11 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+
+	if (gth_main_extension_is_active ("list_tools") && ! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_file_tools_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
@@ -223,7 +243,6 @@ void
 edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GtkAction   *action;
 	int          n_selected;
 	gboolean     sensitive;
 
@@ -232,9 +251,9 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
-	action = gtk_action_group_get_action (data->actions, "Edit_Metadata");
 	sensitive = (n_selected > 0);
-	g_object_set (action, "sensitive", sensitive, NULL);
+	g_object_set (gtk_action_group_get_action (data->actions, "Edit_Metadata"), "sensitive", sensitive, NULL);
+	g_object_set (gtk_action_group_get_action (data->actions, "Tool_DeleteMetadata"), "sensitive", sensitive, NULL);
 }
 
 

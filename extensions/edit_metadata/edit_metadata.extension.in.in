@@ -10,3 +10,4 @@ Category=Metadata
 [Loader]
 Type=module
 File=%LIBRARY%
+After=list_tools
