@@ -86,8 +86,8 @@ ok_button_clicked (GtkWidget  *button,
 	else if (IS_ACTIVE (GET_WIDGET ("adjust_time_radiobutton"))) {
 		change_type = GTH_CHANGE_ADJUST_TIME;
 		time_adjustment = (HOURS_TO_SECONDS (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_time_h_spinbutton"))))
-				   + MINS_TO_SECONDS (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_timem_spinbutton"))))
-				   + gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_times_spinbutton"))));
+				   + MINS_TO_SECONDS (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_time_m_spinbutton"))))
+				   + gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("adjust_time_s_spinbutton"))));
 		if (gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("adjust_sign_combobox"))) == 1)
 			time_adjustment = -time_adjustment;
 	}
