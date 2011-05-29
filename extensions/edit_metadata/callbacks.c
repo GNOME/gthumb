@@ -119,7 +119,7 @@ static GtkActionEntry edit_metadata_action_entries[] = {
 
 	{ "Tool_DeleteMetadata", NULL,
 	  N_("Delete Metadata"), NULL,
-	  N_("Delete the embedded and attached metadata of the selected files"),
+	  N_("Delete the comment and the embedded metadata of the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_tool_delete_metadata) }
 };
 

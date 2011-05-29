@@ -115,10 +115,31 @@ void
 gth_browser_activate_action_tool_delete_metadata (GtkAction  *action,
 						  GthBrowser *browser)
 {
-	GList   *items;
-	GList   *file_data_list;
-	GList   *file_list;
-	GthTask *task;
+	GtkWidget *dialog;
+	int        result;
+	GList     *items;
+	GList     *file_data_list;
+	GList     *file_list;
+	GthTask   *task;
+
+	dialog =  gtk_message_dialog_new (GTK_WINDOW (browser),
+					  GTK_DIALOG_MODAL,
+					  GTK_MESSAGE_QUESTION,
+					  GTK_BUTTONS_NONE,
+					  _("Are you sure you want to permanently delete the metadata of the selected files?"));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			        GTK_STOCK_DELETE, GTK_RESPONSE_YES,
+			        NULL);
+	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+						  "%s",
+						  _("If you delete the metadata, it will be permanently lost."));
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	if (result != GTK_RESPONSE_YES)
+		return;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
