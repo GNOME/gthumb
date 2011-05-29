@@ -403,7 +403,7 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 	image = gth_image_new_for_pixbuf (pixbuf);
 
-	g_object_unref (pixbuf);
+	_g_object_unref (pixbuf);
 	g_free (path);
 
 	return image;
