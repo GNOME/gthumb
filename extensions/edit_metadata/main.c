@@ -30,6 +30,15 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	/**
+	 * Called to delete a file metadata
+	 *
+	 * @file (GFile *): the file
+	 * @buffer (void **buffer): the file content
+	 * @size (gsize *): the file size
+	 **/
+	gth_hook_register ("delete-metadata", 3);
+
 	gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_COMMENT_PAGE);
 	gth_hook_add_callback ("gth-browser-construct", 7, G_CALLBACK (edit_metadata__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-set-current-page", 5, G_CALLBACK (edit_metadata__gth_browser_set_current_page_cb), NULL);

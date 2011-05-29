@@ -10,6 +10,8 @@ libedit_metadata_la_SOURCES = 		\
 	callbacks.h			\
 	dlg-edit-metadata.c		\
 	dlg-edit-metadata.h		\
+	gth-delete-metadata-task.c	\
+	gth-delete-metadata-task.h	\
 	gth-edit-comment-page.c		\
 	gth-edit-comment-page.h		\
 	gth-edit-metadata-dialog.c	\
