@@ -1151,7 +1151,12 @@ exiv2_clear_metadata (void   **buffer,
 {
 	try {
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) *buffer, *buffer_size);
-		g_assert (image.get() != 0);
+
+		if (image.get() == 0) {
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+			return FALSE;
+		}
 
 		try {
 			image->clearMetadata();

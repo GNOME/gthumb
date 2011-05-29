@@ -68,7 +68,7 @@ get_place_for_test (GthTest        *test,
 }
 
 
-void
+static void
 comments__add_sidecars_cb (GFile  *file,
 			   GList **sidecars)
 {
@@ -76,7 +76,7 @@ comments__add_sidecars_cb (GFile  *file,
 }
 
 
-void
+static void
 comments__read_metadata_ready_cb (GthFileData *file_data,
 				  const char  *attributes)
 {
@@ -217,6 +217,21 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 }
 
 
+static void
+comments__delete_metadata_cb (GFile  *file,
+			      void  **buffer,
+			      gsize  *size)
+{
+	GFile *comment_file;
+
+	comment_file = gth_comment_get_comment_file (file);
+	if (comment_file != NULL) {
+		g_file_delete (comment_file, NULL, NULL);
+		g_object_unref (comment_file);
+	}
+}
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
@@ -248,6 +263,8 @@ gthumb_extension_activate (void)
 
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (comments__add_sidecars_cb), NULL);
 	gth_hook_add_callback ("read-metadata-ready", 10, G_CALLBACK (comments__read_metadata_ready_cb), NULL);
+	if (gth_main_extension_is_active ("edit_metadata"))
+		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (comments__delete_metadata_cb), NULL);
 }
 
 
