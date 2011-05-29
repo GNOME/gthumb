@@ -1242,7 +1242,7 @@ exiv2_generate_thumbnail (const char *uri,
 		double ratio_delta = (image_ratio > thumbnail_ratio) ? (image_ratio - thumbnail_ratio) : (thumbnail_ratio - image_ratio);
 
 		if ((ratio_delta > MAX_RATIO_ERROR_TOLERANCE) /* the tolerance is used because the reduced image can have a slightly different ratio due to rounding errors */
-		    || (MAX (pixbuf_width, pixbuf_height) < (requested_size / 2))) /* if the embedded image is too small compared to the requested size */
+		    || (MAX (pixbuf_width, pixbuf_height) < (requested_size * 0.90))) /* ignore the embedded image if it's too small compared to the requested size */
 		{
 			g_object_unref (pixbuf);
 			return NULL;
