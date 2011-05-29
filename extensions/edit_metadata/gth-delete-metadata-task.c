@@ -72,6 +72,23 @@ write_file_ready_cb (void     **buffer,
 		return;
 	}
 
+	{
+		GFile *file;
+		GFile *parent;
+		GList *list;
+
+		file = self->priv->current->data;
+		parent = g_file_get_parent (file);
+		list = g_list_prepend (NULL, file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    list,
+					    GTH_MONITOR_EVENT_CHANGED);
+
+		g_list_free (list);
+		g_object_unref (parent);
+	}
+
 	transform_next_file (self);
 }
 
