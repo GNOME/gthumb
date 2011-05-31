@@ -90,6 +90,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-pixbuf-saver.h				\
 	gth-preferences.h				\
 	gth-progress-dialog.h				\
+	gth-screensaver.h				\
 	gth-sidebar.h					\
 	gth-statusbar.h					\
 	gth-source-tree.h				\
@@ -215,6 +216,7 @@ gthumb_SOURCES = 					\
 	gth-pixbuf-saver.c				\
 	gth-preferences.c				\
 	gth-progress-dialog.c				\
+	gth-screensaver.c				\
 	gth-sidebar.c					\
 	gth-source-tree.c				\
 	gth-statusbar.c					\

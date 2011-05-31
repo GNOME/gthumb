@@ -83,6 +83,7 @@ struct _GthSlideshowPrivate {
 	guint                  hide_paused_sign;
 	gboolean               animating;
 	gboolean               random_order;
+	GthScreensaver        *screensaver;
 };
 
 
@@ -222,6 +223,11 @@ next_image_cb (gpointer user_data)
 static void
 view_next_image_automatically (GthSlideshow *self)
 {
+	if (self->priv->automatic && ! self->priv->paused)
+		gth_screensaver_inhibit (self->priv->screensaver, GTK_WIDGET (self), _("Playing slideshow"));
+	else
+		gth_screensaver_uninhibit (self->priv->screensaver);
+
 	if (self->priv->automatic) {
 		if (self->priv->next_event != 0)
 			g_source_remove (self->priv->next_event);
@@ -279,6 +285,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
 	self->priv->random_order = FALSE;
 	self->priv->current_pixbuf = NULL;
+	self->priv->screensaver = gth_screensaver_new (NULL);
 
 	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
 	g_signal_connect (self->priv->preloader,
@@ -315,6 +322,8 @@ gth_slideshow_finalize (GObject *object)
 		self->priv->playbin = NULL;
 	}
 #endif
+
+	_g_object_unref (self->priv->screensaver);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }

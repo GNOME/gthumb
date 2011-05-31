@@ -64,6 +64,7 @@ struct _GthMediaViewerPagePrivate {
 	GdkCursor      *cursor;
 	GdkCursor      *cursor_void;
 	gboolean        cursor_visible;
+	GthScreensaver *screensaver;
 };
 
 
@@ -622,11 +623,25 @@ update_progress_cb (gpointer user_data)
 
 
 static void
+set_playing_state (GthMediaViewerPage *self,
+	           gboolean            playing)
+{
+	self->priv->playing = playing;
+	if (self->priv->playing)
+		gth_screensaver_inhibit (self->priv->screensaver,
+					 GTK_WIDGET (self->priv->browser),
+					 _("Playing video"));
+	else
+		gth_screensaver_uninhibit (self->priv->screensaver);
+}
+
+
+static void
 update_play_button (GthMediaViewerPage *self,
 		    GstState            new_state)
 {
 	if (! self->priv->playing && (new_state == GST_STATE_PLAYING)) {
-		self->priv->playing = TRUE;
+		set_playing_state (self, TRUE);
 		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("button_play_image")), GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_widget_set_tooltip_text (GET_WIDGET ("button_play_image"), _("Pause"));
 
@@ -636,7 +651,7 @@ update_play_button (GthMediaViewerPage *self,
 		update_playback_info (self);
 	}
 	else if (self->priv->playing && (new_state != GST_STATE_PLAYING)) {
-		self->priv->playing = FALSE;
+		set_playing_state (self, FALSE);
 		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("button_play_image")), GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_widget_set_tooltip_text (GET_WIDGET ("button_play_image"), _("Play"));
 
@@ -831,8 +846,8 @@ reset_player_state (GthMediaViewerPage *self)
         }
 
 	update_play_button (self, GST_STATE_NULL);
-	self->priv->playing = FALSE;
 	self->priv->rate = 1.0;
+	set_playing_state (self, FALSE);
 }
 
 
@@ -1268,6 +1283,7 @@ gth_media_viewer_page_finalize (GObject *obj)
 	}
 	_g_object_unref (self->priv->icon);
 	_g_object_unref (self->priv->file_data);
+	_g_object_unref (self->priv->screensaver);
 
 	G_OBJECT_CLASS (gth_media_viewer_page_parent_class)->finalize (obj);
 }
@@ -1316,6 +1332,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 	self->priv->video_fps_d = 0;
 	self->priv->icon = NULL;
 	self->priv->cursor_visible = TRUE;
+	self->priv->screensaver = gth_screensaver_new (NULL);
 }
 
 
