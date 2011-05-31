@@ -10,7 +10,7 @@ copy-n-paste/eggsmclient-xsmp.c
 data/gthumb.desktop.in.in
 data/gthumb-import.desktop.in.in
 data/gthumb.schemas.in
-[type: gettext/glade]data/ui/extensions.ui
+[type: gettext/glade]data/ui/extensions-preferences.ui
 [type: gettext/glade]data/ui/filter-editor.ui
 [type: gettext/glade]data/ui/histogram-info.ui
 [type: gettext/glade]data/ui/overwrite-dialog.ui
@@ -133,6 +133,8 @@ extensions/edit_metadata/callbacks.h
 extensions/edit_metadata/dlg-edit-metadata.c
 extensions/edit_metadata/dlg-edit-metadata.h
 [type: gettext/ini]extensions/edit_metadata/edit_metadata.extension.in.in
+extensions/edit_metadata/gth-delete-metadata-task.c
+extensions/edit_metadata/gth-delete-metadata-task.h
 extensions/edit_metadata/gth-edit-comment-page.c
 extensions/edit_metadata/gth-edit-comment-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
@@ -620,11 +622,11 @@ extensions/webalbums/preferences.h
 [type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
 gthumb/cairo-utils.c
 gthumb/cairo-utils.h
-gthumb/dlg-extensions.c
-gthumb/dlg-extensions.h
 gthumb/dlg-personalize-filters.c
 gthumb/dlg-personalize-filters.h
 gthumb/dlg-preferences.c
+gthumb/dlg-preferences-extensions.c
+gthumb/dlg-preferences-extensions.h
 gthumb/dlg-preferences.h
 gthumb/dlg-sort-order.c
 gthumb/dlg-sort-order.h
@@ -769,6 +771,8 @@ gthumb/gth-preferences.c
 gthumb/gth-preferences.h
 gthumb/gth-progress-dialog.c
 gthumb/gth-progress-dialog.h
+gthumb/gth-screensaver.c
+gthumb/gth-screensaver.h
 gthumb/gth-sidebar.c
 gthumb/gth-sidebar.h
 gthumb/gth-source-tree.c
