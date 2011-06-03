@@ -63,16 +63,6 @@ get_idx_from_size (gint size)
 
 
 static void
-destroy_cb (GtkWidget *widget,
-	    DialogData *data)
-{
-	gth_browser_set_dialog (data->browser, "preferences", NULL);
-	g_object_unref (data->builder);
-	g_free (data);
-}
-
-
-static void
 apply_changes (DialogData *data)
 {
 	/* Startup dir. */
@@ -95,10 +85,20 @@ apply_changes (DialogData *data)
 
 
 static void
+destroy_cb (GtkWidget *widget,
+	    DialogData *data)
+{
+	apply_changes (data);
+	gth_browser_set_dialog (data->browser, "preferences", NULL);
+	g_object_unref (data->builder);
+	g_free (data);
+}
+
+
+static void
 close_button_clicked_cb (GtkWidget  *widget,
 			 DialogData *data)
 {
-	apply_changes (data);
 	gtk_widget_destroy (data->dialog);
 }
 
