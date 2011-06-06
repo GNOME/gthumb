@@ -73,9 +73,24 @@ struct _GnomeDesktopThumbnailFactoryPrivate {
 
   GMutex *lock;
 
+#ifdef HAVE_GNOME_3
+
+  GList *thumbnailers;
+  GHashTable *mime_types_map;
+  GList *monitors;
+
+  GSettings *settings;
+  gboolean loaded : 1;
+  gboolean disabled : 1;
+  gchar **disabled_types;
+
+#else /* ! HAVE_GNOME_3 */
+
   GHashTable *scripts_hash;
   guint thumbnailers_notify;
   guint reread_scheduled;
+
+#endif
 };
 
 static const char *appname = "gnome-thumbnail-factory";
@@ -274,44 +289,495 @@ _gdk_pixbuf_new_from_uri_at_scale (const char   *uri,
 }
 
 
-static void
-gnome_desktop_thumbnail_factory_finalize (GObject *object)
+#ifdef HAVE_GNOME_3
+
+
+#define LOAD_BUFFER_SIZE 4096
+
+#define THUMBNAILER_ENTRY_GROUP "Thumbnailer Entry"
+#define THUMBNAILER_EXTENSION   ".thumbnailer"
+
+typedef struct {
+    volatile gint ref_count;
+
+    gchar *path;
+
+    gchar  *try_exec;
+    gchar  *command;
+    gchar **mime_types;
+} Thumbnailer;
+
+static Thumbnailer *
+thumbnailer_ref (Thumbnailer *thumb)
 {
-  GnomeDesktopThumbnailFactory *factory;
-  GnomeDesktopThumbnailFactoryPrivate *priv;
-  GConfClient *client;
+  g_return_val_if_fail (thumb != NULL, NULL);
+  g_return_val_if_fail (thumb->ref_count > 0, NULL);
 
-  factory = GNOME_DESKTOP_THUMBNAIL_FACTORY (object);
-
-  priv = factory->priv;
-
-  if (priv->reread_scheduled != 0) {
-    g_source_remove (priv->reread_scheduled);
-    priv->reread_scheduled = 0;
-  }
-
-  if (priv->thumbnailers_notify != 0) {
-    client = gconf_client_get_default ();
-    gconf_client_notify_remove (client, priv->thumbnailers_notify);
-    priv->thumbnailers_notify = 0;
-    g_object_unref (client);
-  }
-
-  if (priv->scripts_hash)
-    {
-      g_hash_table_destroy (priv->scripts_hash);
-      priv->scripts_hash = NULL;
-    }
-
-  if (priv->lock)
-    {
-      g_mutex_free (priv->lock);
-      priv->lock = NULL;
-    }
-
-  if (G_OBJECT_CLASS (parent_class)->finalize)
-    (* G_OBJECT_CLASS (parent_class)->finalize) (object);
+  g_atomic_int_inc (&thumb->ref_count);
+  return thumb;
 }
+
+static void
+thumbnailer_unref (Thumbnailer *thumb)
+{
+  g_return_if_fail (thumb != NULL);
+  g_return_if_fail (thumb->ref_count > 0);
+
+  if (g_atomic_int_dec_and_test (&thumb->ref_count))
+    {
+      g_free (thumb->path);
+      g_free (thumb->try_exec);
+      g_free (thumb->command);
+      g_strfreev (thumb->mime_types);
+
+      g_slice_free (Thumbnailer, thumb);
+    }
+}
+
+static Thumbnailer *
+thumbnailer_load (Thumbnailer *thumb)
+{
+  GKeyFile *key_file;
+  GError *error = NULL;
+
+  key_file = g_key_file_new ();
+  if (!g_key_file_load_from_file (key_file, thumb->path, 0, &error))
+    {
+      g_warning ("Failed to load thumbnailer from \"%s\": %s\n", thumb->path, error->message);
+      g_error_free (error);
+      thumbnailer_unref (thumb);
+      g_key_file_free (key_file);
+
+      return NULL;
+    }
+
+  if (!g_key_file_has_group (key_file, THUMBNAILER_ENTRY_GROUP))
+    {
+      g_warning ("Invalid thumbnailer: missing group \"%s\"\n", THUMBNAILER_ENTRY_GROUP);
+      thumbnailer_unref (thumb);
+      g_key_file_free (key_file);
+
+      return NULL;
+    }
+
+  thumb->command = g_key_file_get_string (key_file, THUMBNAILER_ENTRY_GROUP, "Exec", NULL);
+  if (!thumb->command)
+    {
+      g_warning ("Invalid thumbnailer: missing Exec key\n");
+      thumbnailer_unref (thumb);
+      g_key_file_free (key_file);
+
+      return NULL;
+    }
+
+  thumb->mime_types = g_key_file_get_string_list (key_file, THUMBNAILER_ENTRY_GROUP, "MimeType", NULL, NULL);
+  if (!thumb->mime_types)
+    {
+      g_warning ("Invalid thumbnailer: missing MimeType key\n");
+      thumbnailer_unref (thumb);
+      g_key_file_free (key_file);
+
+      return NULL;
+    }
+
+  thumb->try_exec = g_key_file_get_string (key_file, THUMBNAILER_ENTRY_GROUP, "TryExec", NULL);
+
+  g_key_file_free (key_file);
+
+  return thumb;
+}
+
+static Thumbnailer *
+thumbnailer_reload (Thumbnailer *thumb)
+{
+  g_return_val_if_fail (thumb != NULL, NULL);
+
+  g_free (thumb->command);
+  thumb->command = NULL;
+  g_strfreev (thumb->mime_types);
+  thumb->mime_types = NULL;
+  g_free (thumb->try_exec);
+  thumb->try_exec = NULL;
+
+  return thumbnailer_load (thumb);
+}
+
+static Thumbnailer *
+thumbnailer_new (const gchar *path)
+{
+  Thumbnailer *thumb;
+
+  thumb = g_slice_new0 (Thumbnailer);
+  thumb->ref_count = 1;
+  thumb->path = g_strdup (path);
+
+  return thumbnailer_load (thumb);
+}
+
+
+static gpointer
+init_thumbnailers_dirs (gpointer data)
+{
+  const gchar * const *data_dirs;
+  gchar **thumbs_dirs;
+  guint i, length;
+
+  data_dirs = g_get_system_data_dirs ();
+  length = g_strv_length ((char **) data_dirs);
+
+  thumbs_dirs = g_new (gchar *, length + 2);
+  thumbs_dirs[0] = g_build_filename (g_get_user_data_dir (), "thumbnailers", NULL);
+  for (i = 0; i < length; i++)
+    thumbs_dirs[i + 1] = g_build_filename (data_dirs[i], "thumbnailers", NULL);
+  thumbs_dirs[length + 1] = NULL;
+
+  return thumbs_dirs;
+}
+
+static const gchar * const *
+get_thumbnailers_dirs (void)
+{
+  static GOnce once_init = G_ONCE_INIT;
+  return g_once (&once_init, init_thumbnailers_dirs, NULL);
+}
+
+
+/* These should be called with the lock held */
+static void
+gnome_desktop_thumbnail_factory_register_mime_types (GnomeDesktopThumbnailFactory *factory,
+                                                     Thumbnailer                  *thumb)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+  gint i;
+
+  for (i = 0; thumb->mime_types[i]; i++)
+    {
+      if (!g_hash_table_lookup (priv->mime_types_map, thumb->mime_types[i]))
+        g_hash_table_insert (priv->mime_types_map,
+                             g_strdup (thumb->mime_types[i]),
+                             thumbnailer_ref (thumb));
+    }
+}
+
+static void
+gnome_desktop_thumbnail_factory_add_thumbnailer (GnomeDesktopThumbnailFactory *factory,
+                                                 Thumbnailer                  *thumb)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+
+  gnome_desktop_thumbnail_factory_register_mime_types (factory, thumb);
+  priv->thumbnailers = g_list_prepend (priv->thumbnailers, thumb);
+}
+
+
+static gboolean
+gnome_desktop_thumbnail_factory_is_disabled (GnomeDesktopThumbnailFactory *factory,
+                                             const gchar                  *mime_type)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+  guint i;
+
+  if (priv->disabled)
+    return TRUE;
+
+  if (!priv->disabled_types)
+    return FALSE;
+
+  for (i = 0; priv->disabled_types[i]; i++)
+    {
+      if (g_strcmp0 (priv->disabled_types[i], mime_type) == 0)
+        return TRUE;
+    }
+
+  return FALSE;
+}
+
+
+static gboolean
+remove_thumbnailer_from_mime_type_map (gchar       *key,
+                                       Thumbnailer *value,
+                                       gchar       *path)
+{
+  return (strcmp (value->path, path) == 0);
+}
+
+
+static void
+update_or_create_thumbnailer (GnomeDesktopThumbnailFactory *factory,
+                              const gchar                  *path)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+  GList *l;
+  Thumbnailer *thumb;
+  gboolean found = FALSE;
+
+  g_mutex_lock (priv->lock);
+
+  for (l = priv->thumbnailers; l && !found; l = g_list_next (l))
+    {
+      thumb = (Thumbnailer *)l->data;
+
+      if (strcmp (thumb->path, path) == 0)
+        {
+          found = TRUE;
+
+          /* First remove the mime_types associated to this thumbnailer */
+          g_hash_table_foreach_remove (priv->mime_types_map,
+                                       (GHRFunc)remove_thumbnailer_from_mime_type_map,
+                                       (gpointer)path);
+          if (!thumbnailer_reload (thumb))
+              priv->thumbnailers = g_list_delete_link (priv->thumbnailers, l);
+          else
+              gnome_desktop_thumbnail_factory_register_mime_types (factory, thumb);
+        }
+    }
+
+  if (!found)
+    {
+      thumb = thumbnailer_new (path);
+      if (thumb)
+        gnome_desktop_thumbnail_factory_add_thumbnailer (factory, thumb);
+    }
+
+  g_mutex_unlock (priv->lock);
+}
+
+
+static void
+remove_thumbnailer (GnomeDesktopThumbnailFactory *factory,
+                    const gchar                  *path)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+  GList *l;
+  Thumbnailer *thumb;
+
+  g_mutex_lock (priv->lock);
+
+  for (l = priv->thumbnailers; l; l = g_list_next (l))
+    {
+      thumb = (Thumbnailer *)l->data;
+
+      if (strcmp (thumb->path, path) == 0)
+        {
+          priv->thumbnailers = g_list_delete_link (priv->thumbnailers, l);
+          g_hash_table_foreach_remove (priv->mime_types_map,
+                                       (GHRFunc)remove_thumbnailer_from_mime_type_map,
+                                       (gpointer)path);
+          thumbnailer_unref (thumb);
+
+          break;
+        }
+    }
+
+  g_mutex_unlock (priv->lock);
+}
+
+
+static void
+thumbnailers_directory_changed (GFileMonitor                 *monitor,
+                                GFile                        *file,
+                                GFile                        *other_file,
+                                GFileMonitorEvent             event_type,
+                                GnomeDesktopThumbnailFactory *factory)
+{
+  gchar *path;
+
+  switch (event_type)
+    {
+    case G_FILE_MONITOR_EVENT_CREATED:
+    case G_FILE_MONITOR_EVENT_CHANGED:
+    case G_FILE_MONITOR_EVENT_DELETED:
+      path = g_file_get_path (file);
+      if (!g_str_has_suffix (path, THUMBNAILER_EXTENSION))
+        {
+          g_free (path);
+          return;
+        }
+
+      if (event_type == G_FILE_MONITOR_EVENT_DELETED)
+        remove_thumbnailer (factory, path);
+      else
+        update_or_create_thumbnailer (factory, path);
+
+      g_free (path);
+      break;
+    default:
+      break;
+    }
+}
+
+
+static void
+gnome_desktop_thumbnail_factory_load_thumbnailers (GnomeDesktopThumbnailFactory *factory)
+{
+  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
+  const gchar * const *dirs;
+  guint i;
+
+  if (priv->loaded)
+    return;
+
+  dirs = get_thumbnailers_dirs ();
+  for (i = 0; dirs[i]; i++)
+    {
+      const gchar *path = dirs[i];
+      GDir *dir;
+      GFile *dir_file;
+      GFileMonitor *monitor;
+      const gchar *dirent;
+
+      dir = g_dir_open (path, 0, NULL);
+      if (!dir)
+        continue;
+
+      /* Monitor dir */
+      dir_file = g_file_new_for_path (path);
+      monitor = g_file_monitor_directory (dir_file,
+                                          G_FILE_MONITOR_NONE,
+                                          NULL, NULL);
+      if (monitor)
+        {
+          g_signal_connect (monitor, "changed",
+                            G_CALLBACK (thumbnailers_directory_changed),
+                            factory);
+          priv->monitors = g_list_prepend (priv->monitors, monitor);
+        }
+      g_object_unref (dir_file);
+
+      while ((dirent = g_dir_read_name (dir)))
+        {
+          Thumbnailer *thumb;
+          gchar       *filename;
+
+          if (!g_str_has_suffix (dirent, THUMBNAILER_EXTENSION))
+            continue;
+
+          filename = g_build_filename (path, dirent, NULL);
+          thumb = thumbnailer_new (filename);
+          g_free (filename);
+
+          if (thumb)
+            gnome_desktop_thumbnail_factory_add_thumbnailer (factory, thumb);
+        }
+
+      g_dir_close (dir);
+    }
+
+  priv->loaded = TRUE;
+}
+
+
+static void
+external_thumbnailers_disabled_all_changed_cb (GSettings                    *settings,
+                                               const gchar                  *key,
+                                               GnomeDesktopThumbnailFactory *factory)
+{
+	g_mutex_lock (factory->priv->lock);
+
+	factory->priv->disabled = g_settings_get_boolean (factory->priv->settings, "disable-all");
+	if (factory->priv->disabled) {
+		g_strfreev (factory->priv->disabled_types);
+		factory->priv->disabled_types = NULL;
+	}
+	else {
+		factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
+		gnome_desktop_thumbnail_factory_load_thumbnailers (factory);
+	}
+
+	g_mutex_unlock (factory->priv->lock);
+}
+
+static void
+external_thumbnailers_disabled_changed_cb (GSettings                    *settings,
+                                           const gchar                  *key,
+                                           GnomeDesktopThumbnailFactory *factory)
+{
+	g_mutex_lock (factory->priv->lock);
+
+	if (factory->priv->disabled)
+		return;
+	g_strfreev (factory->priv->disabled_types);
+	factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
+
+	g_mutex_unlock (factory->priv->lock);
+}
+
+
+static void
+gnome_desktop_thumbnail_factory_init_scripts (GnomeDesktopThumbnailFactory *factory)
+{
+	factory->priv->mime_types_map = g_hash_table_new_full (g_str_hash,
+							       g_str_equal,
+							       (GDestroyNotify)g_free,
+							       (GDestroyNotify)thumbnailer_unref);
+	factory->priv->settings = g_settings_new ("org.gnome.desktop.thumbnailers");
+	factory->priv->disabled = g_settings_get_boolean (factory->priv->settings, "disable-all");
+	if (! factory->priv->disabled)
+		factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
+	g_signal_connect (factory->priv->settings,
+			  "changed::disable-all",
+			  G_CALLBACK (external_thumbnailers_disabled_all_changed_cb),
+			  factory);
+	g_signal_connect (factory->priv->settings,
+			  "changed::disable",
+			  G_CALLBACK (external_thumbnailers_disabled_changed_cb),
+			  factory);
+
+	if (! factory->priv->disabled)
+		gnome_desktop_thumbnail_factory_load_thumbnailers (factory);
+}
+
+
+static void
+gnome_desktop_thumbnail_factory_finalize_scripts (GnomeDesktopThumbnailFactory *factory)
+{
+	if (factory->priv->thumbnailers) {
+		g_list_free_full (factory->priv->thumbnailers, (GDestroyNotify)thumbnailer_unref);
+		factory->priv->thumbnailers = NULL;
+	}
+
+	if (factory->priv->mime_types_map) {
+		g_hash_table_destroy (factory->priv->mime_types_map);
+		factory->priv->mime_types_map = NULL;
+	}
+
+	if (factory->priv->monitors) {
+		g_list_free_full (factory->priv->monitors, (GDestroyNotify)g_object_unref);
+		factory->priv->monitors = NULL;
+	}
+
+	if (factory->priv->disabled_types) {
+		g_strfreev (factory->priv->disabled_types);
+		factory->priv->disabled_types = NULL;
+	}
+
+	if (factory->priv->settings) {
+		g_object_unref (factory->priv->settings);
+		factory->priv->settings = NULL;
+	}
+}
+
+
+static char *
+gnome_desktop_thumbnail_factory_get_script (GnomeDesktopThumbnailFactory *factory,
+					    const char                   *mime_type)
+{
+	char *script = NULL;
+
+	if (!gnome_desktop_thumbnail_factory_is_disabled (factory, mime_type)) {
+		Thumbnailer *thumb;
+
+		thumb = g_hash_table_lookup (factory->priv->mime_types_map, mime_type);
+		if (thumb)
+			script = g_strdup (thumb->command);
+	}
+
+	return script;
+}
+
+
+#else /* ! HAVE_GNOME_3 */
+
 
 /* Must be called on main thread */
 static GHashTable *
@@ -408,6 +874,7 @@ gnome_desktop_thumbnail_factory_reread_scripts (GnomeDesktopThumbnailFactory *fa
   g_mutex_unlock (priv->lock);
 }
 
+
 static gboolean
 reread_idle_callback (gpointer user_data)
 {
@@ -445,33 +912,97 @@ schedule_reread (GConfClient* client,
 
 
 static void
+gnome_desktop_thumbnail_factory_init_scripts (GnomeDesktopThumbnailFactory *factory)
+{
+	GConfClient *client;
+
+	factory->priv->scripts_hash = NULL;
+
+	client = gconf_client_get_default ();
+	gconf_client_add_dir (client,
+			      "/desktop/gnome/thumbnailers",
+			      GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
+
+	gnome_desktop_thumbnail_factory_reread_scripts (factory);
+
+	factory->priv->thumbnailers_notify = gconf_client_notify_add (client, "/desktop/gnome/thumbnailers",
+								      schedule_reread, factory, NULL,
+								      NULL);
+
+	g_object_unref (G_OBJECT (client));
+}
+
+
+static void
+gnome_desktop_thumbnail_factory_finalize_scripts (GnomeDesktopThumbnailFactory *factory)
+{
+	if (factory->priv->scripts_hash) {
+		g_hash_table_destroy (factory->priv->scripts_hash);
+		factory->priv->scripts_hash = NULL;
+	}
+
+	if (factory->priv->reread_scheduled != 0) {
+		g_source_remove (factory->priv->reread_scheduled);
+		factory->priv->reread_scheduled = 0;
+	}
+
+	if (factory->priv->thumbnailers_notify != 0) {
+		GConfClient *client;
+
+		client = gconf_client_get_default ();
+		gconf_client_notify_remove (client, factory->priv->thumbnailers_notify);
+		factory->priv->thumbnailers_notify = 0;
+		g_object_unref (client);
+	}
+}
+
+
+static char *
+gnome_desktop_thumbnail_factory_get_script (GnomeDesktopThumbnailFactory *factory,
+					    const char                   *mime_type)
+{
+	char *script = NULL;
+
+	if (factory->priv->scripts_hash != NULL) {
+		script = g_hash_table_lookup (factory->priv->scripts_hash, mime_type);
+		if (script)
+			script = g_strdup (script);
+	}
+
+	return script;
+}
+
+#endif
+
+
+static void
+gnome_desktop_thumbnail_factory_finalize (GObject *object)
+{
+	GnomeDesktopThumbnailFactory *factory;
+
+	factory = GNOME_DESKTOP_THUMBNAIL_FACTORY (object);
+
+	gnome_desktop_thumbnail_factory_finalize_scripts (factory);
+
+	if (factory->priv->lock) {
+		g_mutex_free (factory->priv->lock);
+		factory->priv->lock = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+
+static void
 gnome_desktop_thumbnail_factory_init (GnomeDesktopThumbnailFactory *factory)
 {
-  GConfClient *client;
-  GnomeDesktopThumbnailFactoryPrivate *priv;
+	factory->priv = GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE (factory);
+	factory->priv->size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
+	factory->priv->lock = g_mutex_new ();
 
-  factory->priv = GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE (factory);
+	gnome_desktop_thumbnail_factory_init_scripts (factory);
 
-  priv = factory->priv;
-
-  priv->size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
-
-  priv->scripts_hash = NULL;
-
-  priv->lock = g_mutex_new ();
-
-  client = gconf_client_get_default ();
-  gconf_client_add_dir (client,
-			"/desktop/gnome/thumbnailers",
-			GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
-
-  gnome_desktop_thumbnail_factory_reread_scripts (factory);
-
-  priv->thumbnailers_notify = gconf_client_notify_add (client, "/desktop/gnome/thumbnailers",
-						       schedule_reread, factory, NULL,
-						       NULL);
-
-  g_object_unref (G_OBJECT (client));
 }
 
 static void
@@ -805,11 +1336,7 @@ gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFacto
 
 	script = NULL;
 	g_mutex_lock (factory->priv->lock);
-	if (factory->priv->scripts_hash != NULL) {
-		script = g_hash_table_lookup (factory->priv->scripts_hash, mime_type);
-		if (script)
-			script = g_strdup (script);
-	}
+	script = gnome_desktop_thumbnail_factory_get_script (factory, mime_type);
 	g_mutex_unlock (factory->priv->lock);
 
 	if (script == NULL) {
