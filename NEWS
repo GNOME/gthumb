@@ -1,3 +1,60 @@
+version 2.13.2
+--------------
+
+        New features and user visible changes:
+
+	* Added a sharpen tool.
+	* Added a tool to rotate images of any degree. (Stefano Pettini) (#627563)
+        * Added "copy image to clipboard" and "paste image from clipboard".
+        * Added a map view to view the geographical position where the picture
+          was taken.
+	* Added tool to delete files metadata.
+	* Disable the screensaver when playing videos or slideshows.
+	* Crop: added ability to maximize and center the selection.
+	* Rename series: added a dialog to edit the filename template.
+	* Resize images: added ability to select the file format.
+	* Slideshow: make the animations smoother.
+	* Moved the extensions activation in the preferences dialog.
+        * Pressing the delete key in a catalog removes the file from the
+          catalog instead of deleting the file from disk (#623620)
+	* Image selector: show the active resize grip.
+	* Red eye removal: exit from the tool only when the ok button is clicked.
+	* Added VIDEO and DESKTOP directories to the entry point list.
+	* Added the entry points to the bookmark menu as well.
+
+        Bugs fixed:
+
+	* Fixed crash when closing a window while the video viewer is active.
+	* Webalbums: fixed progress dialog not showing again after the first
+	  exporting.
+        * Rename series: speed-up dialog appearance. (#645515)
+        * Image selector: maximize the selection size when the pointer is out
+          of the image bounds. (#644346)
+        * Image selector: do not paint the darker background when dragging, in
+          order to speed-up selection moving. (#644344)
+	* Find duplicates: do not allow to select more than a file.
+	* Fixed error when enabling/disabling thumbnails very fast.
+        * Fixed renaming of files when the new name is entered quickly.
+	* Correctly display images with wrong extension name.
+	* Fixed the desktop background setting with GNOME 3.0 or higher.
+        * Fixed adjust-time tool not changing minutes and seconds. (#651297)
+
+	Internal code changes:
+
+	* Use cairo_surface to store data instead of GdkPixbuf to speed-up
+	  image loading and visualization.
+	* Made the libunique library dependency optional.
+	* Ported to GTK+ 2.24 with all deprecated API disabled and GSEAL enabled.
+	* Change 'make dist' to create tar.xz files.
+
+        New or updated application translations:
+
+        * Español (Daniel Mustieles)
+
+        New or updated manual translations:
+
+        * German (Christian Kirbach)
+
 version 2.13.1
 --------------
 
