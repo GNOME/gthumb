@@ -5,21 +5,21 @@
 # This file is distributed under the same license as the gThumb package.
 #
 # Olle Niit <olle@teknet.ee>, 2005-2007
-# Rene Pärts <rene87@hot.ee>, 2010
+# Rene Pärts <rene87@hot.ee>, 2010-2011
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gthumb&component=general\n"
-"POT-Creation-Date: 2010-12-18 12:41+0000\n"
-"PO-Revision-Date: 2010-05-03 17:00+0300\n"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-06-08 20:56+0000\n"
+"PO-Revision-Date: 2011-06-11 16:04+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
-"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -132,17 +132,15 @@ msgstr "Kas kasutada alati musta tagapõhja."
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Kas pärast pildi muutmist lähtestada kerimisriba asukohad"
 
-msgid "Available _extensions:"
-msgstr "Saadaolevad _laiendused:"
-
 msgid "More extensions..."
 msgstr "Veel laiendusi..."
 
-msgid "_Categories:"
-msgstr "_Kategooriad:"
+msgid "Some extensions are configurable."
+msgstr "Mõned laiendid on seadistatavad."
 
-msgid "gthumb Extensions"
-msgstr "GThumb'i laiendused"
+#| msgid "Extensions"
+msgid "_Extensions:"
+msgstr "_Laiendid:"
 
 msgid "Filter _Name:"
 msgstr "Filtri _nimi:"
@@ -156,6 +154,34 @@ msgstr "_Sobivus:"
 
 msgid "selected by"
 msgstr "valitakse"
+
+#| msgid "Media"
+msgid "Mean:"
+msgstr ""
+
+#| msgid "Media"
+msgid "Median:"
+msgstr ""
+
+#. After the colon there is a percentile.
+msgctxt "Pixels"
+msgid "Max:"
+msgstr ""
+
+#. After the colon there is the percentile of selected pixels.
+#| msgid "selected by"
+msgctxt "Pixels"
+msgid "Selected:"
+msgstr "Valitud:"
+
+#. After the colon there is the total number of pixels
+#| msgid "pixels"
+msgid "Pixels:"
+msgstr "Pikslit:"
+
+#. Short for "Standard deviation".  Try to keep it short in the translation.
+msgid "Std dev:"
+msgstr ""
 
 msgid "Do not overwrite _the old file"
 msgstr "Vana faili üle _ei kirjutata"
@@ -278,9 +304,8 @@ msgstr "_Aktiivne kataloog"
 msgid "System settings"
 msgstr "Süsteemi seaded"
 
-#, fuzzy
 msgid "T_humbnails in viewer:"
-msgstr "Pisipildi _suurus:"
+msgstr "_Pisipiltide asukoht vaatajas:"
 
 msgid "Text below icons"
 msgstr "Tekst ikoonide all"
@@ -307,10 +332,10 @@ msgid "gthumb Preferences"
 msgstr "GThumb'i eelistused"
 
 msgid "on the bottom"
-msgstr ""
+msgstr "all"
 
 msgid "on the side"
-msgstr ""
+msgstr "küljel"
 
 msgid "Sort By"
 msgstr "Sortimine"
@@ -390,11 +415,13 @@ msgstr "_Valitud failid"
 msgid "Write to Disc"
 msgstr "Plaadile kirjutamine"
 
-msgid "Could not remove the files from the catalog"
-msgstr "Failide eemaldamine albumist nurjus"
+#, c-format
+msgid "Error interpreting JPEG image file: %s"
+msgstr ""
 
-msgid "Invalid file format"
-msgstr "Vigane failivorming"
+#, c-format
+msgid "Unknown JPEG color space (%d)"
+msgstr ""
 
 msgid "Enter the catalog name: "
 msgstr "Sisesta albumi nimi: "
@@ -414,9 +441,9 @@ msgstr "Albumikogu loomine nurjus"
 msgid "Could not remove the catalog"
 msgstr "Albumi eemaldamine nurjus"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove \"%s\"?"
-msgstr "Kas soovid kindlasti faili \"%s\" lõplikult kustutada?"
+msgstr "Kas soovid kindlasti faili \"%s\" kustutada?"
 
 msgid "_Add to Catalog"
 msgstr "Lisa al_bumisse"
@@ -475,9 +502,8 @@ msgstr "Albumid"
 msgid "Create file collections."
 msgstr "Failikollektsioonide loomine."
 
-#, fuzzy
 msgid "Add to Catalog"
-msgstr "Lisa al_bumisse"
+msgstr "Lisa albumisse"
 
 msgid "C_atalogs:"
 msgstr "Pildi_albumid:"
@@ -524,9 +550,8 @@ msgstr "Valiku tühistamine"
 msgid "Date photo was taken"
 msgstr "Pildistamise kuupeäv"
 
-#, fuzzy
 msgid "File modified date"
-msgstr "Faili _muutmise kuupäev"
+msgstr "Faili muutmise kuupäev"
 
 msgid "Ignore catalogs with a single file"
 msgstr "Üksiku failiga albumeid ignoreeritakse"
@@ -540,9 +565,8 @@ msgstr "Üksikud"
 msgid "Tag"
 msgstr "Silt"
 
-#, fuzzy
 msgid "Tag (embedded)"
-msgstr "Põimitud XMP"
+msgstr "Silt (põimitud)"
 
 msgid "_Group files by:"
 msgstr "Failide _grupeerimine:"
@@ -550,9 +574,8 @@ msgstr "Failide _grupeerimine:"
 msgid "_Include sub-folders"
 msgstr "_Ka alamkataloogidest"
 
-#, fuzzy
 msgid "tag"
-msgstr "Silt"
+msgstr "silt"
 
 msgid "Could not add the files to the catalog"
 msgstr "Pilte pole võimalik albumisse lisada"
@@ -570,8 +593,37 @@ msgid "Tags"
 msgstr "Sildid"
 
 #, c-format
+msgid "The catalog '%s' already exists, do you want to overwrite it?"
+msgstr "Album '%s' on juba olemas. Kas soovid selle üle kirjutada?"
+
+#, c-format
+msgid "The library '%s' already exists, do you want to overwrite it?"
+msgstr "Albumikogu '%s' on juba olemas. Kas soovid selle üle kirjutada?"
+
+#| msgid "Overwrite"
+msgid "Over_write"
+msgstr "_Kirjuta üle"
+
+#| msgid "Could not move the files"
+msgid "Cannot move the files"
+msgstr "Faile ei saa teisaldada"
+
+#| msgid "Could not move the files"
+msgid "Cannot copy the files"
+msgstr "Faile ei saa kopeerida"
+
+msgid "Invalid destination."
+msgstr "Vigane sihtkoht."
+
+#, c-format
 msgid "Copying files to '%s'"
 msgstr "Failide kopeerimine sihtkohta '%s'"
+
+msgid "Could not remove the files from the catalog"
+msgstr "Failide eemaldamine albumist nurjus"
+
+msgid "Invalid file format"
+msgstr "Vigane failivorming"
 
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
@@ -590,10 +642,10 @@ msgid "Change the files date"
 msgstr "Failide kuupäeva muutmine."
 
 msgid "+"
-msgstr ""
+msgstr "+"
 
 msgid "-"
-msgstr ""
+msgstr "-"
 
 msgid "A_djust by"
 msgstr "_Nihuta"
@@ -632,7 +684,7 @@ msgid "hours"
 msgstr "tunni võrra"
 
 msgid "minutes"
-msgstr ""
+msgstr "minutit"
 
 msgid "seconds"
 msgstr "sekundit"
@@ -652,11 +704,251 @@ msgstr "_Sünkroniseeritakse põimitud metaandmetega"
 msgid "Comment"
 msgstr "Kommentaar"
 
+msgid "Title"
+msgstr "Pealkiri"
+
 msgid "Description"
 msgstr "Kirjeldus"
 
 msgid "Place"
 msgstr "Asukoht"
+
+msgid "Date"
+msgstr "Kuupäev"
+
+msgid "Rating"
+msgstr "Hinnang"
+
+msgid "Contact _Sheet"
+msgstr ""
+
+msgid "Contact _Sheet..."
+msgstr ""
+
+msgid "Create a contact sheet"
+msgstr ""
+
+#| msgid "Change _Date..."
+msgid "Image _Wall..."
+msgstr "_Pildisein..."
+
+msgid "Create an image-wall"
+msgstr "Pildiseina loomine"
+
+msgid "Contact Sheet"
+msgstr ""
+
+msgid "Create an index image displaying the thumbnails of the selected files."
+msgstr ""
+
+msgid "     "
+msgstr "     "
+
+#| msgid "Desktop background"
+msgid "Background"
+msgstr "Taust"
+
+msgid "C_olor:"
+msgstr "_Värvi:"
+
+#| msgid "Caption"
+msgid "Caption:"
+msgstr "Pealdis:"
+
+#| msgid "Framerate"
+msgid "Frame"
+msgstr "Raam"
+
+msgid "Inward Shadow"
+msgstr ""
+
+msgid "Outward Shadow"
+msgstr ""
+
+#| msgid "Select All"
+msgid "Select a color"
+msgstr "Vali värvus"
+
+#| msgid "Select None"
+msgid "Select a font"
+msgstr "Vali kirjatüüp"
+
+#| msgid "Show version"
+msgid "Shadow only"
+msgstr "Ainult vari"
+
+#| msgid "Singles"
+msgid "Simple"
+msgstr "Lihtne"
+
+msgid "Simple with shadow"
+msgstr "Lihtne varjuga"
+
+#| msgid "Slideshow"
+msgid "Slide"
+msgstr "Slaid"
+
+#| msgid "Next"
+msgid "Text"
+msgstr "Tekst"
+
+msgid "_Footer:"
+msgstr "_Jalus:"
+
+msgid "_Gradient"
+msgstr ""
+
+msgid "_Header:"
+msgstr "_Päis:"
+
+msgid "_Horizontal:"
+msgstr "_Horisontaalne:"
+
+msgid "_Solid color"
+msgstr "Ü_htlane värv"
+
+#| msgid "_Title:"
+msgid "_Style:"
+msgstr "Laa_d:"
+
+msgid "_Vertical:"
+msgstr "_Vertikaalne:"
+
+msgid "#"
+msgstr "#"
+
+msgid "###"
+msgstr "###"
+
+#. translate only the text in the curly brackets
+#, no-c-format
+msgid "%D{ format }"
+msgstr "%D{ vorming }"
+
+#, no-c-format
+#| msgid "%"
+msgid "%n"
+msgstr "%n"
+
+#, no-c-format
+msgid "%p"
+msgstr "%p"
+
+msgid "All images on a single page"
+msgstr "Kõik pildid ühel lehel"
+
+msgid "Choose destination folder"
+msgstr "Sihtkausta valimine"
+
+msgid "Columns:"
+msgstr "Veerud:"
+
+msgid "Create _HTML image map"
+msgstr ""
+
+#| msgid "Creating the new album"
+msgid "Create a new theme"
+msgstr ""
+
+#| msgid "Delete the selected files"
+msgid "Delete the selected theme"
+msgstr ""
+
+#| msgid "Print the selected images"
+msgid "Edit the selected theme"
+msgstr ""
+
+#| msgid "Filename:"
+msgid "File_name:"
+msgstr "Faili_nimi:"
+
+msgid "Images per page:"
+msgstr "Pilte ühel lehel:"
+
+msgid "Layout"
+msgstr "Paigutus"
+
+msgid "New enumerator digit"
+msgstr "Uus nummerduse arv"
+
+msgid "Re_verse order"
+msgstr "_Vastupidises järjekorras"
+
+msgid "S_ort:"
+msgstr "S_ortimine:"
+
+msgid "Saving"
+msgstr "Salvestamine"
+
+msgid "Special code"
+msgstr "Spetsiaalne kood"
+
+#| msgid "Square"
+msgid "Sq_uared"
+msgstr ""
+
+msgid "The current date"
+msgstr "Tänane kuupäev"
+
+msgid "The current page number"
+msgstr "Käesoleva lehekülje number"
+
+msgid "The total number of pages"
+msgstr "Lehekülgede koguarv"
+
+msgid "Theme"
+msgstr "Teema"
+
+#| msgid "_Thumbnails"
+msgid "Thumbnails"
+msgstr "Pisipildid"
+
+msgid "_All pages with the same size"
+msgstr "_Kõik leheküljed sama suurusega"
+
+msgid "_Destination:"
+msgstr "_Sihtkoht:"
+
+#| msgid "Size:"
+msgid "_Size:"
+msgstr "_Suurus:"
+
+msgid "Image Wall"
+msgstr "Pildisein"
+
+#| msgid "Could not save the filter"
+msgid "Could not save the theme"
+msgstr "Teemat pole võimalik salvestada."
+
+#| msgid "Could not delete the files"
+msgid "Could not delete the theme"
+msgstr "Teemat pole võimalik kustutada"
+
+#| msgid "Converting images"
+msgid "Creating images"
+msgstr "Piltide loomine"
+
+msgid "Generating thumbnails"
+msgstr "Pisipiltide loomine"
+
+#| msgid "year"
+msgid "Header"
+msgstr "Päis"
+
+#| msgid "Faster"
+msgid "Footer"
+msgstr "jalus"
+
+#| msgid "Properties"
+msgid "Theme Properties"
+msgstr "Teema omadused"
+
+msgid "Copy _From"
+msgstr "Kopeeri _asukohast"
+
+#| msgid "New Name"
+msgid "New theme"
+msgstr "Uus teema"
 
 msgid "Convert Format..."
 msgstr "Vormingu muutmine..."
@@ -670,9 +962,6 @@ msgstr "Pildivormingu muutmine"
 msgid "Save images in a different format"
 msgstr "Piltide salvestamine teise vormingusse."
 
-msgid "Choose destination folder"
-msgstr "Sihtkausta valimine"
-
 msgid "Convert Format"
 msgstr "Vormingu teisendamine"
 
@@ -682,15 +971,18 @@ msgstr "Sihtkoht:"
 msgid "New format"
 msgstr "Uus vorming"
 
+#| msgid "The original enumerator"
+msgid "_Use the original image folder"
+msgstr ""
+
 msgid "Converting images"
 msgstr "Piltide teisendamine"
 
 msgid "Could not show the desktop background properties"
 msgstr "Töölaua tausta omadusi ei saa näidata"
 
-#, fuzzy
 msgid "Could not set the desktop background"
-msgstr "Töölaua tausta omadusi ei saa näidata"
+msgstr "Töölaua tausta muutmine ebaõnnestus"
 
 msgid "Set as Desktop Background"
 msgstr "Määra töölaua taustaks"
@@ -701,17 +993,33 @@ msgstr "Pildi määramine töölaua taustapildiks"
 msgid "Desktop background"
 msgstr "Töölaua taust"
 
-#, fuzzy
+#| msgid "Are you sure you want to permanently delete the %'d selected file?"
+#| msgid_plural ""
+#| "Are you sure you want to permanently delete the %'d selected files?"
+msgid ""
+"Are you sure you want to permanently delete the metadata of the selected "
+"files?"
+msgstr ""
+
+#| msgid "If you delete a file, it will be permanently lost."
+msgid "If you delete the metadata, it will be permanently lost."
+msgstr ""
+
 msgid "T_ags"
-msgstr "_Sildid:"
+msgstr "_Sildid"
 
-#, fuzzy
 msgid "Edit the comment and other information of the selected files"
-msgstr "Valitud faili sisaldava kataloogi avamine"
+msgstr "Valitud failide kommentaaride ning muu teabe redigeerimine"
 
-#, fuzzy
 msgid "Choose another tag"
-msgstr "Mõne muu albumi valimine"
+msgstr "Muu sildi valimine"
+
+#| msgid "Metadata"
+msgid "Delete Metadata"
+msgstr "Kustuta metaandmed"
+
+msgid "Delete the comment and the embedded metadata of the selected files"
+msgstr "Valitud failide kommentaari ja põimitud metaandmete kustutamine"
 
 msgid "D_escription:"
 msgstr "Kirj_eldus:"
@@ -758,39 +1066,34 @@ msgstr "Faili loomise kuupäev"
 msgid "Do not modify"
 msgstr "Ei muudeta"
 
-#, fuzzy
 msgid "Save only cha_nged fields"
-msgstr "Salvestada muudatused faili '%s'?"
+msgstr "Ainult _muudetud väljade salvestamine"
 
 #. Translators: the %s symbol in the string is a file name
 #, c-format
 msgid "%s Metadata"
 msgstr "Faili %s metaandmed"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%d file"
 msgid_plural "%d files"
-msgstr[0] "Redigeeri faili"
-msgstr[1] "Redigeeri faili"
+msgstr[0] "%d fail"
+msgstr[1] "%d faili"
 
-#, fuzzy
 msgid "New tag"
-msgstr "_Uus album"
+msgstr "Uus silt"
 
 msgid "Assign Tags"
-msgstr ""
+msgstr "Siltide omistamine"
 
-#, fuzzy
 msgid "Assigning tags to the selected files"
-msgstr "Valitud piltide ümbernimetamine"
+msgstr "Siltide omistamine valitud failidele"
 
-#, fuzzy
 msgid "Writing files"
-msgstr "Failide importimine"
+msgstr "Failide kirjutamine"
 
-#, fuzzy
 msgid "Reading files"
-msgstr "Failide ümbernimetamine"
+msgstr "Failide lugemine"
 
 msgid "Example"
 msgstr "Näide"
@@ -821,9 +1124,6 @@ msgstr "_Linn:"
 
 msgid "_Code:"
 msgstr "_Kood:"
-
-msgid "_Destination:"
-msgstr "_Sihtkoht:"
 
 msgid "_Language:"
 msgstr "_Keel:"
@@ -880,7 +1180,7 @@ msgid "date photo was taken"
 msgstr "pildistamisaja järgi"
 
 msgid "Share"
-msgstr ""
+msgstr "Jaga"
 
 msgid "Face_book..."
 msgstr "Face_book..."
@@ -960,11 +1260,11 @@ msgstr "Ühtegi sobivat faili pole valitud."
 msgid "Could not export the files"
 msgstr "Failide eksportimine nurjus"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
-msgstr[0] "Failide otsimine"
-msgstr[1] "Failide otsimine"
+msgstr[0] "%d fail (%s)"
+msgstr[1] "%d faili (%s)"
 
 #, c-format
 msgid "Export to %s"
@@ -1054,44 +1354,6 @@ msgstr ""
 "Faile ei saa käesolevasse asukohta teisaldada. Alterniivina võib proovida "
 "kopeerimist."
 
-msgid "Could not delete the files"
-msgstr "Faile pole võimalik kustutada"
-
-msgid ""
-"The files cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
-msgstr "Faile pole võimalik prügikasti visata. Kas kustutada need jäädavalt?"
-
-msgid "Could not move the files to the Trash"
-msgstr "Faile pole võimalik prügikasti visata"
-
-#, fuzzy, c-format
-msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr "Kas soovid kindlasti faili \"%s\" lõplikult kustutada?"
-
-#, fuzzy, c-format
-msgid "Are you sure you want to move to trash the %'d selected file?"
-msgid_plural "Are you sure you want to move to trash the %'d selected files?"
-msgstr[0] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
-msgstr[1] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
-
-msgid "Mo_ve to Trash"
-msgstr "Viska _prügikasti"
-
-#, c-format
-msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "Kas soovid kindlasti faili \"%s\" lõplikult kustutada?"
-
-#, c-format
-msgid "Are you sure you want to permanently delete the %'d selected file?"
-msgid_plural ""
-"Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
-msgstr[1] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
-
-msgid "If you delete a file, it will be permanently lost."
-msgstr "Faili kustutamisel kaob see jäädavalt."
-
 msgid "Could not open the location"
 msgstr "Asukohta pole võimalik avada"
 
@@ -1112,17 +1374,24 @@ msgstr ""
 msgid "Could not move the folder to the Trash"
 msgstr "Kataloogi pole võimalik prügikasti visata"
 
+#, c-format
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr "Kas soovid kindlasti faili \"%s\" lõplikult kustutada?"
+
+msgid "If you delete a file, it will be permanently lost."
+msgstr "Faili kustutamisel kaob see jäädavalt."
+
 msgid "Move To"
-msgstr ""
+msgstr "Teisalda asukohta"
 
 msgid "Copy To"
-msgstr ""
+msgstr "Kopeeri asukohta"
 
 msgid "Move"
-msgstr ""
+msgstr "Teisalda"
 
 msgid "Copy"
-msgstr ""
+msgstr "Kopeeri"
 
 msgid "Create _Folder"
 msgstr "Uus _kataloog"
@@ -1135,6 +1404,9 @@ msgstr "D_ubleeri"
 
 msgid "Duplicate the selected files"
 msgstr "Valitud piltide dubleerimine"
+
+msgid "Mo_ve to Trash"
+msgstr "Viska _prügikasti"
 
 msgid "Move the selected files to the Trash"
 msgstr "Valitud failide prügikasti viskamine"
@@ -1155,18 +1427,16 @@ msgid "_Paste Into Folder"
 msgstr "_Aseta kataloogi"
 
 msgid "Copy to..."
-msgstr ""
+msgstr "Kopeeri asukohta..."
 
-#, fuzzy
 msgid "Copy the selected files to another folder"
-msgstr "Valitud failide prügikasti viskamine"
+msgstr "Valitud failide kopeerimine teise kataloogi"
 
 msgid "Move to..."
-msgstr ""
+msgstr "Teisalda asukohta..."
 
-#, fuzzy
 msgid "Move the selected files to another folder"
-msgstr "Valitud failide prügikasti viskamine"
+msgstr "Valitud failide teisaldamine teise kataloogi"
 
 msgid "Could not perform the operation"
 msgstr "Toimingut pole võimalik teostada"
@@ -1209,7 +1479,7 @@ msgstr "_Kollane-Sinine"
 
 #. this is used to separate the dimensions, for example: 120 &#xD7; 250
 msgid "&#xD7;"
-msgstr ""
+msgstr "&#xD7;"
 
 msgid "Aspect ratio"
 msgstr "Proportsioon"
@@ -1217,26 +1487,32 @@ msgstr "Proportsioon"
 msgid "C_rop"
 msgstr "Kä_rbi"
 
+#| msgid "Centered"
+msgid "Center"
+msgstr "Keskel"
+
 msgid "I_nvert aspect ratio"
 msgstr "Proportsioon vastupidine_"
 
 #. after the colon there is a control to select the size in pixels
 msgid "M_ultiple of:"
-msgstr ""
+msgstr "_Kordarv:"
+
+msgid "Maximize"
+msgstr "Maksimiseeri"
 
 msgid "Selection"
 msgstr "Valitud ala"
 
 msgid "_Grid:"
-msgstr ""
+msgstr "_Alusvõrk:"
 
-#, fuzzy
 msgid "_Position:"
-msgstr "Asend:"
+msgstr "_Paigutus:"
 
 #. abbreviation of pixel
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #, no-c-format
 msgid "%"
@@ -1251,23 +1527,20 @@ msgstr "_Kõrgus:"
 msgid "High _quality"
 msgstr "_Kõrgekvaliteediline"
 
-#, fuzzy
 msgid "Information"
-msgstr "Kestvus"
+msgstr "Teave"
 
-#, fuzzy
 msgid "New dimensions:"
-msgstr "Uued mõõtmed"
+msgstr "Uued mõõtmed:"
 
 msgid "Options"
 msgstr "Valikud"
 
-#, fuzzy
 msgid "Original dimensions:"
-msgstr "Algne faililaiend"
+msgstr "Algsed mõõtmed:"
 
 msgid "Scale factor:"
-msgstr ""
+msgstr "Suurendustegur:"
 
 msgid "_Width:"
 msgstr "_Laius:"
@@ -1275,14 +1548,87 @@ msgstr "_Laius:"
 msgid "pixels"
 msgstr "pikslit"
 
+msgid "Align"
+msgstr "Joonda"
+
+msgid "Alignment"
+msgstr "Joondus"
+
+#| msgid "Singles"
+msgid "Angle"
+msgstr "Nurk"
+
+msgid "Bounding box"
+msgstr ""
+
+msgid "Crop borders"
+msgstr ""
+
+msgid ""
+"Draw a line on the image \n"
+"to set the alignment."
+msgstr ""
+
+msgid "Grid:"
+msgstr "Alusvõrk:"
+
+#| msgid "Images"
+msgid "Image size"
+msgstr "Pildi suurus"
+
+#| msgid "Aspect ratio"
+msgid "Keep aspect ratio"
+msgstr "Külgede suhte säilitamine"
+
+#| msgid "Organize"
+msgid "Original size"
+msgstr "Algupärane suurus"
+
+msgid "Parallel"
+msgstr ""
+
+msgid "Perpendicular"
+msgstr ""
+
+msgid "Pick a background color"
+msgstr ""
+
+msgid "Point 1:"
+msgstr ""
+
+msgid "Point 2:"
+msgstr ""
+
+#| msgid "_Reset"
+msgid "Reset"
+msgstr "Lähtesta"
+
+#| msgid "Desktop background"
+msgid "_Background:"
+msgstr "_Taust:"
+
+#| msgid "Transparency _type:"
+msgid "_Transparent"
+msgstr "_Läbipaistev"
+
+#| msgid "_Account:"
+msgid "Amount:"
+msgstr "Kogus:"
+
+msgid "Radius:"
+msgstr "Raadius:"
+
+msgid "Threshold:"
+msgstr "Lävi:"
+
+msgid "_Preview:"
+msgstr "_Eelvaade:"
+
 msgid "Basic tools to modify images."
 msgstr "Põhitööriistad piltide muutmiseks"
 
 msgid "Image tools"
 msgstr "Pildi tööriistad"
-
-msgid "Applying changes"
-msgstr "Muudatuste rakendamine"
 
 msgid "Adjust Colors..."
 msgstr "Kohenda värve..."
@@ -1332,9 +1678,16 @@ msgid "Custom"
 msgstr "Kohandatud"
 
 msgid "Rule of Thirds"
-msgstr ""
+msgstr "Kolmandikureegel"
 
 msgid "Golden Sections"
+msgstr "Kuldlõige"
+
+#| msgid "Centered"
+msgid "Center Lines"
+msgstr "Keskjooned"
+
+msgid "Uniform"
 msgstr ""
 
 msgid "Crop..."
@@ -1343,8 +1696,8 @@ msgstr "Kärbi..."
 msgid "Crop"
 msgstr "Kärpimine"
 
-msgid "Desaturating image"
-msgstr "Värvide eemaldamine"
+msgid "Applying changes"
+msgstr "Muudatuste rakendamine"
 
 msgid "Desaturate"
 msgstr "Eemalda värvid"
@@ -1370,8 +1723,14 @@ msgstr "Pildi histogrammi tasakaalustamine"
 msgid "Flip"
 msgstr "Pööra ümber"
 
+msgid "Flip the image vertically"
+msgstr ""
+
 msgid "Mirror"
 msgstr "Peegelda"
+
+msgid "Mirror the image horizontally"
+msgstr "Pildi peegeldamine rõhtsuunas"
 
 msgid "Negative"
 msgstr "Negatiiv"
@@ -1385,11 +1744,28 @@ msgstr "Mõõtmete muutmine..."
 msgid "Resize"
 msgstr "Mõõtmete muutmine"
 
+#| msgid "Rotate Left"
+msgid "Rotate..."
+msgstr "Pööra..."
+
+#| msgid "Rotate Left"
+msgid "Rotate"
+msgstr "Pööra"
+
+msgid "Freely rotate the image"
+msgstr ""
+
 msgid "Rotate Left"
 msgstr "Pööra vasakule"
 
+msgid "Rotate the image by 90 degrees counterclockwise"
+msgstr "Pildi pööramine 90 kraadi võrra vastupäeva"
+
 msgid "Rotate Right"
 msgstr "Pööra paremale"
+
+msgid "Rotate the image by 90 degrees clockwise"
+msgstr "Pildi pööramine 90 kraadi võrra päripäeva"
 
 msgid "Save As"
 msgstr "Salvesta kui"
@@ -1397,8 +1773,95 @@ msgstr "Salvesta kui"
 msgid "Save"
 msgstr "Salvesta"
 
+msgid "Sharpening image"
+msgstr "Pildi teravustamine"
+
+#| msgid "Enhance Colors"
+msgid "Enhance Focus..."
+msgstr ""
+
+#| msgid "Enhance Colors"
+msgid "Enhance Focus"
+msgstr ""
+
 msgid "Undo"
 msgstr "Unusta"
+
+#| msgid "D_uplicate"
+msgid "Find _Duplicates..."
+msgstr "Otsi _duplikaate..."
+
+#| msgid "Stop loading the current location"
+msgid "Find duplicated files in the current location"
+msgstr "Duplikaatide otsimine käesolevas asukohas"
+
+#| msgid "D_uplicate"
+msgid "Duplicates:"
+msgstr "Duplikaadid:"
+
+#| msgid "Files"
+msgid "Files:"
+msgstr "Failid:"
+
+msgid "No duplicates found."
+msgstr "Duplikaate ei leitud."
+
+msgid "Search for Duplicates"
+msgstr "Duplikaatide otsing"
+
+#| msgid "Select All"
+msgid "Select _All"
+msgstr "Vali _kõik"
+
+#| msgid "Select All"
+msgid "_Unselect All"
+msgstr ""
+
+msgid "_View"
+msgstr "_Vaade"
+
+#| msgid "D_uplicate"
+msgid "Find Duplicates"
+msgstr "Duplikaatide otsing"
+
+msgid "Start _at:"
+msgstr "_Alustatakse:"
+
+#| msgid "Filter"
+msgid "_Filter:"
+msgstr "_Filter:"
+
+#| msgid "Find files"
+msgid "Find duplicated files."
+msgstr "Duplikaatfailide otsimine."
+
+#, c-format
+#| msgid "D_uplicate"
+msgid "%d duplicate"
+msgid_plural "%d duplicates"
+msgstr[0] "%d duplikaat"
+msgstr[1] "%d duplikaati"
+
+#| msgid "Search Result"
+msgid "Search completed"
+msgstr "Otsing lõpetatud"
+
+msgid "Searching for duplicates"
+msgstr "Duplikaatide otsimine"
+
+#, c-format
+msgid "%d file remaining"
+msgid_plural "%d files remaining"
+msgstr[0] ""
+msgstr[1] ""
+
+#| msgid "Getting the album list"
+msgid "Getting the file list"
+msgstr "Failide nimekirja hankimine"
+
+#| msgid "D_uplicate"
+msgid "Duplicates"
+msgstr "Duplikaadid"
 
 msgid "_Flickr..."
 msgstr "_Flickr..."
@@ -1497,7 +1960,6 @@ msgid "Toggle volume"
 msgstr "Lülita heli"
 
 #. this is the separator between current position and duration of a media file
-#, fuzzy
 msgctxt "time"
 msgid "/"
 msgstr "/"
@@ -1516,6 +1978,10 @@ msgstr "Kuvatõmmis"
 
 msgid "Take a screenshot"
 msgstr "Võta kuvatõmmis"
+
+#| msgid "Play audio and video files."
+msgid "Playing video"
+msgstr "Video esitamine"
 
 msgid "Pause"
 msgstr "Paus"
@@ -1565,11 +2031,10 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #, c-format
 msgid "%d × %d"
-msgstr ""
+msgstr "%d × %d"
 
-#, fuzzy
 msgid "Could not print the selected files"
-msgstr "Failide eksportimine nurjus"
+msgstr "Valitud failide printimine nurjus"
 
 msgid "Print the selected images"
 msgstr "Valitud piltide printimine"
@@ -1579,9 +2044,6 @@ msgstr "Keskele"
 
 msgid "Image"
 msgstr "Pilt"
-
-msgid "Images per page:"
-msgstr "Pilte ühel lehel:"
 
 msgid "Left"
 msgstr "Vasakult"
@@ -1595,8 +2057,11 @@ msgstr "Eelvaade"
 msgid "Rotation:"
 msgstr "Pööramine:"
 
-msgid "Select Caption Font"
-msgstr "Pealdise fondi valimine"
+msgid "The event description"
+msgstr "Sündmuse kirjeldus"
+
+msgid "The total number of files"
+msgstr "Piltide koguarv"
 
 msgid "Top"
 msgstr "Ülevalt"
@@ -1604,14 +2069,30 @@ msgstr "Ülevalt"
 msgid "Unit:"
 msgstr "Ühik:"
 
-msgid "_Font:"
-msgstr "_Font:"
+#| msgid "S_how:"
+msgid "_Rows:"
+msgstr "_Veerud:"
 
 msgid "inches"
 msgstr "tolli"
 
 msgid "millimeters"
 msgstr "millimeetrit"
+
+#| msgid "_Font:"
+msgid "Fonts"
+msgstr "Kirjatüübid"
+
+msgid "Select Caption Font"
+msgstr "Pealdise fondi valimine"
+
+#| msgid "Select Caption Font"
+msgid "Select Footer Font"
+msgstr "Jaluse kirjatüübi nimi"
+
+#| msgid "Select Caption Font"
+msgid "Select Header Font"
+msgstr "Päise kirjatüübi nimi"
 
 #, c-format
 msgid "Page %d of %d"
@@ -1620,8 +2101,11 @@ msgstr "Leht %d %d-st"
 msgid "Could not print"
 msgstr "Printimine nurjus"
 
-msgid "Layout"
-msgstr "Paigutus"
+msgid "Images"
+msgstr "Pildid"
+
+msgid "No suitable loader available for this file type"
+msgstr "Sellele failitüübile puudub sobiv laadur"
 
 #. translators: %s is a filename
 #, c-format
@@ -1637,26 +2121,27 @@ msgstr "Piltide printimine ja lehe välimuse valimine"
 msgid "Image print"
 msgstr "Pildi printimine"
 
+#| msgid "Private"
+msgid "Print"
+msgstr "Printimine"
+
 msgid "Rotate the selected images 90° to the right"
 msgstr "Valitud pildi pööramine 90° paremale"
 
 msgid "Rotate the selected images 90° to the left"
 msgstr "Valitud pildi pööramine 90° vasakule"
 
-#, fuzzy
 msgid "Rotate Physically"
-msgstr "_Piltide füüsiline pööramine"
+msgstr "Pööra füüsiliselt"
 
-#, fuzzy
 msgid "Rotate the selected images according to the embedded orientation"
-msgstr "Valitud pildi pööramine 90° paremale"
+msgstr "Valitud piltie pööramine vastavalt põimitud suunale"
 
-#, fuzzy
 msgid "Reset the EXIF Orientation"
-msgstr "Laadi käesolev asukoht uuesti"
+msgstr "Lähtesta EXIF suund"
 
 msgid "Reset the embedded orientation without rotating the images"
-msgstr ""
+msgstr "Põimitud suuna lähtestamine pilte pööramata"
 
 msgid "Image rotation"
 msgstr "Pildi pööramine"
@@ -1703,9 +2188,8 @@ msgstr ""
 "Võimalikud väärtused: actual-size, keep-prev, fit-size, fit-size-if-larger, "
 "fit-width, fit-width-if-larger."
 
-#, fuzzy
 msgid "Whether to resize the window to fit the size of the image"
-msgstr "Akna suuruse muutmine pildile vastavaks"
+msgstr "Kas akna suurust muudetakse vastavalt pildi suurusele või mitte"
 
 msgid "After loading an image:"
 msgstr "Pärast pildi laadimist:"
@@ -1724,6 +2208,24 @@ msgstr "Läbipaistvuse _tüüp:"
 
 msgid "_Zoom quality:"
 msgstr "_Suurenduse kvaliteet:"
+
+msgid "Histogram"
+msgstr "Histogramm"
+
+#| msgid "Image"
+msgid "Copy Image"
+msgstr "Pildi kopeerimine"
+
+msgid "Copy the image to the clipboard"
+msgstr "Pildi kopeerimine lõikepuhvrisse"
+
+#| msgid "Save Image"
+msgid "Paste Image"
+msgstr ""
+
+#| msgid "Remove selected images from the catalog"
+msgid "Paste the image from the clipboard"
+msgstr ""
 
 msgid "In"
 msgstr "Sisse"
@@ -1779,34 +2281,23 @@ msgstr "Võimalikud väärtused: none, file_date, current_date"
 msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
 msgstr "Võimalikud väärtused: yyyymmdd, yyyymm, yyyy"
 
-msgid "Special code"
-msgstr "Spetsiaalne kood"
-
 msgid "The day of the month"
-msgstr ""
+msgstr "Kuupäev"
 
-#, fuzzy
-msgid "The event description"
-msgstr "Kirjeldus"
-
-#, fuzzy
 msgid "The hour"
-msgstr "tunni võrra"
+msgstr "Tunnid"
 
 msgid "The minutes"
-msgstr ""
+msgstr "Minutid"
 
-#, fuzzy
 msgid "The month"
-msgstr "aasta-kuu"
+msgstr "Kuu"
 
-#, fuzzy
 msgid "The seconds"
-msgstr "sekundit"
+msgstr "Sekundid"
 
-#, fuzzy
 msgid "The year"
-msgstr "aasta"
+msgstr "Aasta"
 
 msgid "_Automatic subfolder"
 msgstr "_Automaatne alamkataloog"
@@ -1817,9 +2308,8 @@ msgstr "_Sihtkoht"
 msgid "as _single subfolder"
 msgstr "üksiku _alamkataloogina"
 
-#, fuzzy
 msgid "Invalid Destination"
-msgstr "Sihtkoht:"
+msgstr "Vigane sihtkoht"
 
 #, c-format
 msgid "example: %s"
@@ -1851,6 +2341,9 @@ msgstr "Ühtegi faili ei imporditud"
 
 msgid "The selected files are already present in the destination."
 msgstr "Valitud failid on juba sihtkohas olemas."
+
+msgid "Could not delete the files"
+msgstr "Faile pole võimalik kustutada"
 
 msgid "Delete operation not supported."
 msgstr "Kustutamise toiming ei ole toetatud"
@@ -1928,7 +2421,7 @@ msgid "Quote the text "
 msgstr "Teksti tsitaat"
 
 msgid "Sh_ortcut:"
-msgstr ""
+msgstr "_Kiirklahv:"
 
 msgid "The file basename"
 msgstr "Failinimi"
@@ -1961,7 +2454,7 @@ msgid "Script"
 msgstr "Skript"
 
 msgid "Shortcut"
-msgstr ""
+msgstr "Kiirklahv"
 
 msgid "Show"
 msgstr "Näidatakse"
@@ -1982,11 +2475,11 @@ msgid "Malformed command"
 msgstr "Vigane käsk"
 
 msgid "none"
-msgstr ""
+msgstr "puudub"
 
 #, c-format
 msgid "key %d on the numeric keypad"
-msgstr ""
+msgstr "nupp %d numbriklahvistikul"
 
 #, c-format
 msgid "No name specified"
@@ -2006,75 +2499,96 @@ msgstr "Faililoendi tööriistad"
 msgid "Scripting and batch manipulation of files."
 msgstr "Skriptimine ja failide hulgitöötlus."
 
-msgid "Photobucket..."
+msgctxt "Cardinal point"
+msgid "S"
+msgstr "L"
+
+#| msgid "%N"
+msgctxt "Cardinal point"
+msgid "N"
+msgstr "P"
+
+msgctxt "Cardinal point"
+msgid "W"
+msgstr "L"
+
+#| msgid "%E"
+msgctxt "Cardinal point"
+msgid "E"
+msgstr "I"
+
+msgid "Map"
 msgstr ""
 
-#, fuzzy
-msgid "Upload photos to Photobucket"
-msgstr "Fotode üleslaadimine Facebooki"
+#. No GPS label
+msgid "The geographical position information is not available for this image."
+msgstr ""
 
-#, fuzzy
+msgid "View the photo position on the map"
+msgstr ""
+
+msgid "Photobucket..."
+msgstr "Photobucket..."
+
+msgid "Upload photos to Photobucket"
+msgstr "Fotode üleslaadimine PhotoBucketisse"
+
 msgid "1 megabyte file size"
-msgstr "faili suuruse järgi"
+msgstr "1-megabitine faili suurus"
 
 msgid "15ʺ screen ( 800 x 600 )"
-msgstr ""
+msgstr "15ʺ ekraan ( 800 x 600 )"
 
 msgid "17ʺ screen ( 1024 x 768 )"
-msgstr ""
+msgstr "17ʺ ekraan ( 1024 x 768 )"
 
 msgid "Large ( 640 x 480 )"
-msgstr ""
+msgstr "Suur ( 640 x 480 )"
 
 msgid "Medium ( 320 x 240 )"
-msgstr ""
+msgstr "Keskmine ( 320 x 240 )"
 
 msgid "Small ( 160 x 120 )"
-msgstr ""
+msgstr "Väike ( 160 x 120 )"
 
 msgid "Tiny ( 100 x 75 )"
+msgstr "Tilluke ( 100 x 75 )"
+
+msgid "_Resize to:"
+msgstr "_Suuruse muutmine:"
+
+msgid "_Scramble filenames"
 msgstr ""
 
-#, fuzzy
-msgid "_Resize to:"
-msgstr "Mõõtmete muutmine"
-
-#, fuzzy
-msgid "_Scramble filenames"
-msgstr "Algne failinimi"
-
-#, fuzzy
 msgid "_Container:"
-msgstr "_Jätka"
+msgstr "_Konteiner:"
 
 msgid "Tiny ( 100 × 75 )"
-msgstr ""
+msgstr "Tilluke ( 100 × 75 )"
 
 msgid "Small ( 160 × 120 )"
-msgstr ""
+msgstr "Väike ( 160 × 120 )"
 
 msgid "Medium ( 320 × 240 )"
-msgstr ""
+msgstr "Keskmine ( 320 × 240 )"
 
 msgid "Large ( 640 × 480 )"
-msgstr ""
+msgstr "Suur ( 640 × 480 )"
 
 msgid "15ʺ screen ( 800 × 600 )"
-msgstr ""
+msgstr "15ʺ ekraan ( 800 × 600 )"
 
 msgid "17ʺ screen ( 1024 × 768 )"
-msgstr ""
+msgstr "17ʺ ekraan ( 1024 × 768 )"
 
-#, fuzzy
 msgid "2 megabyte file size"
-msgstr "faili suuruse järgi"
+msgstr "2-megabitine faili suurus"
 
 msgid "PhotoBucket"
-msgstr ""
+msgstr "PhotoBucket"
 
-#, fuzzy
 msgid "Upload images to PhotoBucket"
-msgstr "Fotode üleslaadimine Facebooki"
+msgstr "Piltide üleslaadimine PhotoBucketisse"
 
 msgid "_Removable Device..."
 msgstr "_Eemaldatav seade..."
@@ -2082,11 +2596,9 @@ msgstr "_Eemaldatav seade..."
 msgid "Import photos and other files from a removable device"
 msgstr "Fotode ja muude failide importimine eemaldatavalt seadmelt"
 
-#, fuzzy
 msgid "After importing from a device:"
-msgstr "Eemaldatavalt seadmelt importimine"
+msgstr "Pärast seadmest importimist:"
 
-#, fuzzy
 msgid "_Rotate the images physically"
 msgstr "_Piltide füüsiline pööramine"
 
@@ -2180,11 +2692,23 @@ msgstr "Picasa veebialbum"
 msgid "Upload images to Picasa Web Albums"
 msgstr "Fotode üleslaadimine Picasa veebialbumisse"
 
+#| msgid "Possible values are: high, low."
+msgid "Possible values are: jpeg, jpg."
+msgstr "Võimalikud väärtused: jpeg, jpg."
+
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Võimalikud väärtused: none, deflate, jpeg."
 
+#| msgid "Possible values are: high, low."
+msgid "Possible values are: tiff, tif."
+msgstr "Võimalikud väärtused: tiff, tif."
+
 msgid "Opti_mize"
 msgstr "Opti_meeri"
+
+#| msgid "Default options:"
+msgid "_Default extension:"
+msgstr "_Vaikimisi laiend:"
 
 msgid "_Progressive"
 msgstr "_Progresseeruv"
@@ -2213,17 +2737,11 @@ msgstr "No_rmaalne (deflate)"
 msgid "Resolution"
 msgstr "Eraldusvõime"
 
-msgid "_Horizontal:"
-msgstr "_Horisontaalne:"
-
 msgid "_Loss compression (JPEG)"
 msgstr "_Kadudega pakkimine (JPEG)"
 
 msgid "_No compression"
 msgstr "_Pakkimata"
-
-msgid "_Vertical:"
-msgstr "_Vertikaalne:"
 
 msgid "dpi"
 msgstr "dpi"
@@ -2250,9 +2768,6 @@ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr ""
 "Piltide salvestamine levinud failivormingutesse, nagu näiteks JPEG, PNG ja "
 "TIFF"
-
-msgid "Saving"
-msgstr "Salvestamine"
 
 msgid "Allow to load raw format images."
 msgstr "RAW-vormingus piltide laadimine."
@@ -2288,20 +2803,31 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
+"Võimalikud väärtused kaasavad: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 
-#, fuzzy
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-msgstr "Võimalikud väärtused: none, deflate, jpeg."
+msgstr "Võimalikud väärtused: 0 (none), 1 (lower), 2 (upper)"
+
+msgid "add"
+msgstr "lisa"
+
+#| msgid "Edit"
+msgid "digits"
+msgstr ""
+
+#| msgid "Format"
+msgid "format:"
+msgstr "vorming:"
+
+#| msgid "Preview"
+msgid "remove"
+msgstr "eemalda"
 
 #. translate only the text in the curly brackets
 #, no-c-format
 msgid "%A{ identifier }"
 msgstr "%A{ identifikaator }"
-
-#. translate only the text in the curly brackets
-#, no-c-format
-msgid "%D{ format }"
-msgstr "%D{ vorming }"
 
 #. translate only the text in the curly brackets
 #, no-c-format
@@ -2312,17 +2838,15 @@ msgstr "%M{ vorming }"
 msgid "Cas_e:"
 msgstr "_Tõst:"
 
-msgid "New enumerator digit"
-msgstr "Uus nummerduse arv"
+#| msgid "Edit Filter"
+msgid "Edit template"
+msgstr ""
 
 msgid "Re_verse Order"
 msgstr "_Vastupidises järjekorras"
 
 msgid "Rename"
 msgstr "Ümbernimetamine"
-
-msgid "Start _at:"
-msgstr "_Alustatakse:"
 
 msgid "The digitalization date"
 msgstr "Digitaliseerimise kuupäev"
@@ -2339,14 +2863,47 @@ msgstr "Algne faililaiend"
 msgid "The original filename"
 msgstr "Algne failinimi"
 
-msgid "_Preview:"
-msgstr "_Eelvaade:"
-
 msgid "_Template:"
 msgstr "_Mall:"
 
+#| msgid "New enumerator digit"
+msgid "Enumerator"
+msgstr "Nummerdaja"
+
+#| msgid "The original filename"
+msgid "Original filename"
+msgstr "Algne failinimi"
+
+#| msgid "The original extension"
+msgid "Original extension"
+msgstr "Algne faililaiend"
+
+#| msgid "The original enumerator"
+msgid "Original enumerator"
+msgstr "Algne nummerdus"
+
+#| msgid "The modification date"
+msgid "Modification date"
+msgstr "Muutmise kuupäev"
+
+#| msgid "The digitalization date"
+msgid "Digitalization date"
+msgstr "Digitaliseerimise kuupäev"
+
+#| msgid "A file attribute"
+msgid "File attribute"
+msgstr "Faili atribuut"
+
 msgid "Could not rename the files"
 msgstr "Faile pole võimalik ümber nimetada"
+
+#| msgid "Could not save the filter"
+msgid "Could not save the template"
+msgstr ""
+
+#| msgid "_Template:"
+msgid "Edit Template"
+msgstr ""
 
 msgid "Old Name"
 msgstr "Vana nimi"
@@ -2381,6 +2938,9 @@ msgstr "Valitud piltide mõõtmete muutmine"
 msgid "Possible values: pixels, percentage"
 msgstr "Võimalikud väärtused: pixels, percentage"
 
+msgid "Format"
+msgstr "Vorming"
+
 msgid "New dimensions"
 msgstr "Uued mõõtmed"
 
@@ -2398,6 +2958,10 @@ msgstr "pikslit"
 
 msgid "Resizing images"
 msgstr "Piltide mõõtmete muutmine"
+
+#| msgid "Keep original case"
+msgid "Keep the original format"
+msgstr "Säilitatakse algne formaat"
 
 msgid "Resize images"
 msgstr "Pildi mõõtmete muutmine"
@@ -2430,22 +2994,21 @@ msgstr "kõik järgnevad reeglid"
 msgid "any of the following rules"
 msgstr "vähemalt üks reegel"
 
-msgid "Files found untill now: %"
-msgstr ""
+#, c-format
+msgid "Files found until now: %s"
+msgstr "Faile leitud seni: %s"
 
 msgid "Searching..."
 msgstr "Otsimine..."
 
-#, fuzzy
 msgid "Cancel the operation"
 msgstr "Tühista tegevus"
 
 msgid "File search tool."
 msgstr "Failide otsimise tööriist."
 
-#, fuzzy
 msgid "_Slideshow"
-msgstr "Slaidiesitlus"
+msgstr "_Slaidiesitus"
 
 msgid "View as a slideshow"
 msgstr "Vaata slaidiesitusena"
@@ -2459,9 +3022,8 @@ msgstr "Lisa esitusloendisse faile"
 msgid "Playlist"
 msgstr "Esitusloend"
 
-#, fuzzy
 msgid "R_andom order"
-msgstr "Juhuslik"
+msgstr "_Juhuslikus järjekorras"
 
 msgid "Remove the selected files"
 msgstr "Eemalda valitud failid"
@@ -2478,6 +3040,10 @@ msgstr "_Lõpuni jõudes alustatakse uuesti"
 
 msgid "_Transition effect:"
 msgstr "_Siirdeefekt:"
+
+#| msgid "Slideshow"
+msgid "Playing slideshow"
+msgstr "Slaidiesitus esitamine"
 
 msgid "Choose the files to play"
 msgstr "Esitatavate failide valimine"
@@ -2515,27 +3081,24 @@ msgstr "Kuubiku keeramine alt"
 msgid "View images as a slideshow."
 msgstr "Piltide vaatamine slaidiesitusena."
 
-#, fuzzy
 msgid "_Web Album..."
-msgstr "_Picasa veebialbum..."
+msgstr "_Veebialbum..."
 
-#, fuzzy
 msgid "Create a static web album"
-msgstr "Uue albumi loomine"
+msgstr "Staatilise veebialbumi loomine"
 
-#, fuzzy
 msgid "Click to view the image"
-msgstr "Faili pole võimalik salvestada"
+msgstr "Klõpsa pildi vaatamiseks"
 
 msgid "Go back to the index"
-msgstr ""
+msgstr "Tagasi indekslehele"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Image %d of %d"
-msgstr "Leht %d %d-st"
+msgstr "Pilt %d %d-st"
 
 msgid "Index"
-msgstr ""
+msgstr "Indeksleht"
 
 msgid "Next"
 msgstr "Järgmine"
@@ -2545,160 +3108,117 @@ msgstr "Eelmine"
 
 #, c-format
 msgid "View page %d"
-msgstr ""
+msgstr "Vaata lehekülge %d"
 
-#, fuzzy
 msgid "View the next image"
 msgstr "Vaata järgmist pilti"
 
-#, fuzzy
 msgid "View the next page"
-msgstr "Vaata järgmist pilti"
+msgstr "Vaata järgmist lehekülge"
 
-#, fuzzy
 msgid "View the previous image"
 msgstr "Vaata eelmist pilti"
 
-#, fuzzy
 msgid "View the previous page"
-msgstr "Vaata eelmist pilti"
+msgstr "Vaata eelmist lehekülge"
 
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%I"
-msgstr "%"
+msgstr "%I"
 
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%i"
-msgstr "%"
-
-#, fuzzy, no-c-format
-msgid "%p"
-msgstr "%"
+msgstr "%i"
 
 msgid "Adapts to the window width"
-msgstr ""
+msgstr "Veergude kohandamine vastavalt akna laiusele"
 
 msgid "All images on  a single image"
-msgstr ""
+msgstr "Kõik pildid ühel pildil (?)"
 
-msgid "All images on a single page"
-msgstr ""
-
-msgid "Columns:"
-msgstr ""
-
-#, fuzzy
 msgid "Image Attributes"
-msgstr "Pildi printimine"
+msgstr "Pildi atribuudid"
 
-#, fuzzy
 msgid "Image Page"
-msgstr "Pilte ühel lehel:"
+msgstr "Pildi lehekülg"
 
 msgid "Index Page"
-msgstr ""
-
-#, fuzzy
-msgid "Re_verse order"
-msgstr "_Vastupidises järjekorras"
-
-msgid "S_ort:"
-msgstr ""
+msgstr "Indeksleht"
 
 msgid "Show the description, if available"
-msgstr ""
+msgstr "Võimalusel näidatakse kirjeldust"
 
-#, fuzzy
 msgid "Show the following attributes:"
-msgstr "Muudetavad väärtused:"
-
-#, fuzzy
-msgid "The current date"
-msgstr "Tänane kuupäev"
+msgstr "Näidatakse järgmisi atribuute:"
 
 msgid "The current image number"
-msgstr ""
-
-msgid "The current page number"
-msgstr ""
+msgstr "Käesoleva pildi number"
 
 msgid "The total number of images"
-msgstr ""
+msgstr "Piltide koguarv"
 
-msgid "The total number of pages"
-msgstr ""
-
-msgid "Theme"
-msgstr ""
-
-#, fuzzy
 msgid "Thumbnail Caption"
-msgstr "_Pisipildipaneel"
+msgstr "Pisipildi pealdis"
 
 msgid "Use subfolders to organize files"
-msgstr ""
+msgstr "Failide organiseerimiseks kasutatakse alamkatalooge"
 
-#, fuzzy
 msgid "Web Album"
-msgstr "Uue albumi loomine"
+msgstr "Veebialbum"
 
 msgid "_Adapt to the window width "
-msgstr ""
+msgstr "_Kohanda akna laiusega"
 
-#, fuzzy
 msgid "_Copy originals to destination"
-msgstr "_Vaata sihtkataloogi"
+msgstr "_Originaalid kopeeritakse sihtkohta"
 
-msgid "_Footer:"
-msgstr ""
-
-msgid "_Header:"
-msgstr ""
-
-#, fuzzy
 msgid "_Resize if larger than:"
-msgstr "Pildi mõõtmete muutmine"
+msgstr "_Vähenda, kui suurus ületab:"
 
-#, fuzzy
 msgid "Could not show the destination"
-msgstr "Asukohta pole võimalik avada"
+msgstr "Sihtkoha näitamine ebaõnnestus"
 
 msgid "The album has been created successfully."
-msgstr ""
+msgstr "Albumi loomine oli edukas."
 
-#, fuzzy
 msgid "Saving thumbnails"
-msgstr "Vaata pisipilte"
+msgstr "Pisipiltide salvestamine"
 
 msgid "Saving HTML pages: Images"
-msgstr ""
+msgstr "HTML-lehekülgede salvestamine: pildid"
 
 msgid "Saving HTML pages: Indexes"
-msgstr ""
+msgstr "HTML-lehekülgede salvestamine: indekslehed"
 
-#, fuzzy
 msgid "Saving images"
 msgstr "Piltide salvestamine"
 
-#, fuzzy
 msgid "Copying original images"
-msgstr "Failide kopeerimine"
+msgstr "Originaalpiltide kopeerimine"
 
-#, fuzzy
 msgid "Could not find the style folder"
-msgstr "Kataloogi pole võimalik kustutada"
+msgstr "Stiilikataloogi ei leitud"
 
-#, fuzzy
 msgid "Could not create a temporary folder"
-msgstr "Kausta pole võimalik luua"
+msgstr "Ajutist kataloogi pole võimalik luua"
 
-#, fuzzy
 msgid "Create static web albums."
-msgstr "Uue albumi loomine"
+msgstr "Staatiliste veebialbumite loomine."
 
-#, fuzzy
 msgid "Web Albums"
-msgstr "Picasa veebialbum"
+msgstr "Veebialbumid"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Could not save the filter"
+msgstr "Filtrit pole võimalik salvestada"
+
+msgid "New Filter"
+msgstr "Uue filtri loomine"
+
+msgid "Edit Filter"
+msgstr "Filtri redigeerimine"
 
 msgid "All"
 msgstr "Kõiki"
@@ -2727,6 +3247,16 @@ msgstr "Importijad"
 msgid "Exporters"
 msgstr "Eksportijad"
 
+msgid "Could not activate the extension"
+msgstr "Laiendust pole võimalik aktiveerida"
+
+msgid "Could not deactivate the extension"
+msgstr "Laiendust pole võimalik deaktiveerida"
+
+#. add the page to the preferences dialog
+msgid "Extensions"
+msgstr "Laiendused"
+
 msgid "Restart required"
 msgstr "Vajalik taaskäivitus"
 
@@ -2738,30 +3268,6 @@ msgstr "_Jätka"
 
 msgid "_Restart"
 msgstr "_Taaskäivita"
-
-msgid "Could not activate the extension"
-msgstr "Laiendust pole võimalik aktiveerida"
-
-msgid "Could not deactivate the extension"
-msgstr "Laiendust pole võimalik deaktiveerida"
-
-msgid "Use"
-msgstr "Kasuta"
-
-msgid "Extension"
-msgstr "Laiendus"
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Could not save the filter"
-msgstr "Filtrit pole võimalik salvestada"
-
-msgid "New Filter"
-msgstr "Uue filtri loomine"
-
-msgid "Edit Filter"
-msgstr "Filtri redigeerimine"
 
 #, c-format
 msgid "File _Format: %s"
@@ -2845,6 +3351,10 @@ msgid ""
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
 msgstr ""
+"gthumb on vaba tarkvara. Te võite seda edasi levitada ja/või muuta vastavalt "
+"GNU Üldise Avaliku Litsentsi tingimustele, nagu need on Vaba Tarkvara Fondi "
+"poolt avaldatud; kas Litsentsi versioon number 2 või (vastavalt Teie "
+"valikule) ükskõik milline hilisem versioon."
 
 msgid ""
 "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
@@ -2852,11 +3362,17 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
+"gthumbi levitatakse lootuses, et see on kasulik, kuid ILMA IGASUGUSE "
+"GARANTIITA; isegi KESKMISE/TAVALISE KVALITEEDI GARANTIITA või SOBIVUSELE "
+"TEATUD KINDLAKS EESMÄRGIKS. Üksikasjade suhtes vaata GNU Üldist Avalikku "
+"Litsentsi."
 
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gthumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
+"Koos gthumbiga peaks tulema ka kaasa GNU Üldine Avalik Litsents. Kui ei, "
+"vaata http://www.gnu.org/licenses/."
 
 msgid "An image viewer and browser for GNOME."
 msgstr "GNOME piltide vaataja ja sirvija."
@@ -2864,16 +3380,13 @@ msgstr "GNOME piltide vaataja ja sirvija."
 msgid "translator_credits"
 msgstr ""
 "Olle Niit, 2005-2007\n"
-"Rene Pärts, 2010"
+"Rene Pärts, 2010-2011"
 
 msgid "_File"
 msgstr "_Fail"
 
 msgid "_Edit"
 msgstr "_Redigeerimine"
-
-msgid "_View"
-msgstr "_Vaade"
 
 msgid "_Go"
 msgstr "_Liikumine"
@@ -2904,12 +3417,6 @@ msgstr "Ava uues aknas"
 
 msgid "Edit various preferences"
 msgstr "Redigeeri erinevaid seadeid"
-
-msgid "Extensions"
-msgstr "Laiendused"
-
-msgid "Activate, deactivate and configure the gthumb extensions"
-msgstr "GThumb'i laienduste aktiveerimine, deaktiveerimine ja seadistamine"
 
 msgid "_Sort By..."
 msgstr "_Sortimine..."
@@ -3001,9 +3508,8 @@ msgstr "_Pisipildid"
 msgid "View thumbnails"
 msgstr "Vaata pisipilte"
 
-#, fuzzy
 msgid "_Hidden Files"
-msgstr "Kuva _peidetud failid"
+msgstr "_Peidetud failid"
 
 msgid "Show hidden files and folders"
 msgstr "Peidetud failide ja kaustade näitamine"
@@ -3024,14 +3530,15 @@ msgstr "Ava %s"
 msgid "[modified]"
 msgstr "[muudetud]"
 
+#. manually set name and icon
 msgid "gthumb"
 msgstr "gThumb"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
-msgstr[0] "Ühtegi sobivat faili pole valitud."
-msgstr[1] "Ühtegi sobivat faili pole valitud."
+msgstr[0] "%d fail valitud (%s)"
+msgstr[1] "%d faili valitud (%s)"
 
 #, c-format
 msgid "Could not load the position \"%s\""
@@ -3075,9 +3582,9 @@ msgstr "Sobivat moodulit ei leitud"
 msgid "Could not open the module `%s`: %s"
 msgstr "Moodulit `%s` pole võimalik avada: %s"
 
-#, fuzzy, c-format
+#, c-format
 msgid "The extension '%1$s' is required by the extension '%2$s'"
-msgstr "Laiendust '%s' on vaja laienduse '%s' toimimiseks"
+msgstr "Laiendust '%1$s' on vaja laienduse '%2$s' toimimiseks"
 
 msgid "Home Folder"
 msgstr "Kodukataloog"
@@ -3085,9 +3592,33 @@ msgstr "Kodukataloog"
 msgid "File System"
 msgstr "Failisüsteem"
 
-#, fuzzy
+msgid ""
+"The files cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr "Faile pole võimalik prügikasti visata. Kas kustutada need jäädavalt?"
+
+msgid "Could not move the files to the Trash"
+msgstr "Faile pole võimalik prügikasti visata"
+
+#, c-format
+msgid "Are you sure you want to move \"%s\" to trash?"
+msgstr "Kas soovid kindlasti tõsta faili \"%s\" prügikasti?"
+
+#, c-format
+msgid "Are you sure you want to move to trash the %'d selected file?"
+msgid_plural "Are you sure you want to move to trash the %'d selected files?"
+msgstr[0] "Kas soovid kindlasti tõsta %'d valitud faili prügikasti?"
+msgstr[1] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
+
+#, c-format
+msgid "Are you sure you want to permanently delete the %'d selected file?"
+msgid_plural ""
+"Are you sure you want to permanently delete the %'d selected files?"
+msgstr[0] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
+msgstr[1] "Kas soovid kindlasti %'d valitud faili lõplikult kustutada?"
+
 msgid "Hide the filterbar"
-msgstr "Vaata kaustu"
+msgstr "Peida filtririba"
 
 msgid "kB"
 msgstr "kB"
@@ -3118,16 +3649,40 @@ msgstr "Laadimine..."
 msgid "(Open Parent)"
 msgstr "(ava ülemine kataloog)"
 
-msgid "No suitable loader available for this file type"
-msgstr "Sellele failitüübile puudub sobiv laadur"
+msgid "Linear scale"
+msgstr ""
 
-#, c-format
-msgid "Unable to show '%s'"
-msgstr "'%s' näitamine nurjus"
+msgid "Logarithmic scale"
+msgstr ""
 
-#, c-format
-msgid "Unable to open '%s'"
-msgstr "'%s' avamine nurjus"
+#| msgid "Channels"
+msgid "Channel:"
+msgstr "Kanal:"
+
+#| msgid "Pause"
+msgid "Value"
+msgstr "Väärtus"
+
+#| msgid "Redo"
+msgid "Red"
+msgstr "Punane"
+
+msgid "Green"
+msgstr "Roheline"
+
+msgid "Blue"
+msgstr "Sinine"
+
+msgid "Alpha"
+msgstr "Läbipaistvus"
+
+#| msgid "GB"
+msgid "RGB"
+msgstr "RGB"
+
+#| msgid "Getting file information"
+msgid "Reading file information"
+msgstr "Faili andmete lugemine"
 
 msgid "File"
 msgstr "Fail"
@@ -3144,27 +3699,14 @@ msgstr "Tüüp"
 msgid "Full Name"
 msgstr "Täisnimi"
 
-msgid "Title"
-msgstr "Pealkiri"
-
 msgid "Duration"
 msgstr "Kestvus"
-
-msgid "Format"
-msgstr "Vorming"
-
-msgid "Date"
-msgstr "Kuupäev"
-
-msgid "Rating"
-msgstr "Hinnang"
 
 msgid "file name"
 msgstr "faili nime järgi"
 
-#, fuzzy
 msgid "file path"
-msgstr "Faili asukoht"
+msgstr "faili asukoht"
 
 msgid "file size"
 msgstr "faili suuruse järgi"
@@ -3175,12 +3717,8 @@ msgstr "faili muutmisaja järgi"
 msgid "no sorting"
 msgstr "sorteerimatult"
 
-#, fuzzy
 msgid "dimensions"
-msgstr "Mõõtmed"
-
-msgid "Images"
-msgstr "Pildid"
+msgstr "mõõtmed"
 
 msgid "Media"
 msgstr "Meedia"
@@ -3192,15 +3730,13 @@ msgid "Filename"
 msgstr "Failinimi"
 
 msgid "Title (embedded)"
-msgstr ""
+msgstr "Pealkiri (põimitud)"
 
-#, fuzzy
 msgid "Description (embedded)"
-msgstr "Kirjeldus"
+msgstr "Kirjeldus (põimitud)"
 
-#, fuzzy
 msgid "Could not rename the file"
-msgstr "Faile pole võimalik ümber nimetada"
+msgstr "Faili nime pole võimalik muuta"
 
 msgid "No options available for this file type"
 msgstr "Sellele failitüübile valikud puuduvad"
@@ -3254,6 +3790,10 @@ msgstr "Perekond"
 msgid "is"
 msgstr "on"
 
+#| msgid "Icons only"
+msgid "is only"
+msgstr "on ainult"
+
 msgid "is not"
 msgstr "ei ole"
 
@@ -3292,10 +3832,10 @@ msgid "is equal to"
 msgstr "on"
 
 msgid "is before"
-msgstr ""
+msgstr "on enne"
 
 msgid "is after"
-msgstr ""
+msgstr "on pärast"
 
 msgid "Today"
 msgstr "Täna"
@@ -3311,6 +3851,19 @@ msgstr "Abiteabe kuvamine ebaõnnestus"
 
 msgid "Could not launch the application"
 msgstr "Rakendust pole võimalik käivitada"
+
+msgid "_Copy Here"
+msgstr "_Kopeeri siia"
+
+msgid "_Move Here"
+msgstr "_Tõsta siia"
+
+msgid "_Link Here"
+msgstr "L_ingi siia"
+
+#| msgid "Channels"
+msgid "Cancel"
+msgstr "Katkesta"
 
 msgid "Open a new window"
 msgstr "Uue akna avamine"
@@ -3334,45 +3887,3 @@ msgstr "- Piltide sirvija ja vaataja"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Pildi salvestamiseks \"%s\"-na ei leitud sobivat moodulit"
-
-#~ msgid "Do _not change folder"
-#~ msgstr "Kausta ei _muudeta"
-
-#~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
-#~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
-
-#~ msgid "Edit file metadata"
-#~ msgstr "Faili metaandmete redigeerimine"
-
-#~ msgid "_Preserve original aspect ratio"
-#~ msgstr "Säilitatakse algne _proportsioon"
-
-#~ msgid "Files"
-#~ msgstr "Faile"
-
-#~ msgid "_Overwrite existing files"
-#~ msgstr "_Olemasolevad failid kirjutatakse üle"
-
-#~ msgid "Ask"
-#~ msgstr "Küsi"
-
-#~ msgid "Overwrite"
-#~ msgstr "Kirjuta üle"
-
-#~ msgid "Skip"
-#~ msgstr "Jäta vahele"
-
-#~ msgid "Close"
-#~ msgstr "Sulge"
-
-#~ msgid "file modified date "
-#~ msgstr "faili muutmisaja järgi"
-
-#~ msgid "4 x 3 (Book, DVD)"
-#~ msgstr "4 x 3 (Raamat, DVD)"
-
-#~ msgid "5 x 7"
-#~ msgstr "5 x 7"
-
-#~ msgid "8 x 10"
-#~ msgstr "8 x 10"
