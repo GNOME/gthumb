@@ -131,6 +131,8 @@ static const char *folder_popup_ui_info =
 "      <separator />"
 "      <menuitem action='Folder_Rename'/>"
 "      <separator />"
+"      <menuitem action='Folder_CopyToFolder'/>"
+"      <menuitem action='Folder_MoveToFolder'/>"
 "      <menuitem action='Folder_Trash'/>"
 "      <menuitem action='Folder_Delete'/>"
 "    </placeholder>"
@@ -210,6 +212,15 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Delete"), NULL,
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_folder_delete) },
+	{ "Folder_CopyToFolder", NULL,
+	  N_("Copy to..."), NULL,
+	  N_("Copy the selected folder to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_folder_copy_to_folder) },
+	{ "Folder_MoveToFolder", NULL,
+	  N_("Move to..."), NULL,
+	  N_("Move the selected folder to another folder"),
+	  G_CALLBACK (gth_browser_activate_action_folder_move_to_folder) },
+
 	{ "Tool_CopyToFolder", NULL,
 	  N_("Copy to..."), NULL,
 	  N_("Copy the selected files to another folder"),

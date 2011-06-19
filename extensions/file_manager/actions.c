@@ -750,24 +750,18 @@ copy_complete_cb (GthTask  *task,
 
 static void
 copy_files_to_folder (GthBrowser *browser,
+		      GList      *files,
 		      gboolean    move,
 		      char       *destination_uri,
 		      gboolean    view_destination)
 {
 	GthFileData      *destination_data;
 	GthFileSource    *file_source;
-	GList            *items;
-	GList            *file_list;
-	GList            *files;
 	CopyToFolderData *data;
 	GthTask          *task;
 
 	destination_data = gth_file_data_new_for_uri (destination_uri, NULL);
 	file_source = gth_main_get_file_source (destination_data->file);
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	files = gth_file_data_list_to_file_list (file_list);
 
 	data = g_new0 (CopyToFolderData, 1);
 	data->browser = g_object_ref (browser);
@@ -782,15 +776,14 @@ copy_files_to_folder (GthBrowser *browser,
 			  data);
 	gth_browser_exec_task (browser, task, FALSE);
 
-	_g_object_list_unref (files);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
+
 	g_object_unref (file_source);
 }
 
 
 static void
 copy_to_folder_dialog (GthBrowser *browser,
+		       GList      *files,
 		       gboolean    move)
 {
 	GtkWidget *dialog;
@@ -836,7 +829,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 
 			/* copy / move the files */
 
-			copy_files_to_folder (browser, move, destination_uri, view_destination);
+			copy_files_to_folder (browser, files, move, destination_uri, view_destination);
 		}
 
 		g_free (destination_uri);
@@ -846,11 +839,31 @@ copy_to_folder_dialog (GthBrowser *browser,
 }
 
 
+static void
+copy_selected_files_to_folder (GthBrowser *browser,
+			       gboolean    move)
+{
+	GList *items;
+	GList *file_list;
+	GList *files;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	files = gth_file_data_list_to_file_list (file_list);
+
+	copy_to_folder_dialog (browser, files, move);
+
+	_g_object_list_unref (files);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
 void
 gth_browser_activate_action_tool_copy_to_folder (GtkAction  *action,
 						 GthBrowser *browser)
 {
-	copy_to_folder_dialog (browser, FALSE);
+	copy_selected_files_to_folder (browser, FALSE);
 }
 
 
@@ -858,5 +871,39 @@ void
 gth_browser_activate_action_tool_move_to_folder (GtkAction  *action,
 						 GthBrowser *browser)
 {
-	copy_to_folder_dialog (browser, TRUE);
+	copy_selected_files_to_folder (browser, TRUE);
+}
+
+
+static void
+copy_folder_to_folder (GthBrowser *browser,
+		       gboolean    move)
+{
+	GthFileData *file_data;
+	GList       *files;
+
+	file_data = gth_browser_get_folder_popup_file_data (browser);
+	if (file_data == NULL)
+		return;
+
+	files = g_list_prepend (NULL, g_object_ref (file_data->file));
+	copy_to_folder_dialog (browser, files, move);
+
+	_g_object_list_unref (files);
+}
+
+
+void
+gth_browser_activate_action_folder_copy_to_folder (GtkAction  *action,
+						   GthBrowser *browser)
+{
+	copy_folder_to_folder (browser, FALSE);
+}
+
+
+void
+gth_browser_activate_action_folder_move_to_folder (GtkAction  *action,
+						   GthBrowser *browser)
+{
+	copy_folder_to_folder (browser, TRUE);
 }
