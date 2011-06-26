@@ -330,22 +330,25 @@ static void
 list_view_selection_changed_cb (GtkTreeSelection *treeselection,
                                 gpointer          user_data)
 {
-	BrowserData             *data = user_data;
-	GtkTreeModel            *model;
-	GtkTreeIter              iter;
-	GthExtensionDescription *description;
-	GthExtension            *extension;
+	BrowserData  *data = user_data;
+	GtkTreeModel *model;
+	GtkTreeIter   iter;
+	GthExtension *extension;
+
+	extension = NULL;
 
 	model = GTK_TREE_MODEL (data->model_filter);
-	if (! gtk_tree_selection_get_selected (treeselection, &model, &iter))
-		return;
+	if (gtk_tree_selection_get_selected (treeselection, &model, &iter)) {
+		GthExtensionDescription *description;
 
-	gtk_tree_model_get (model, &iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
+		gtk_tree_model_get (model, &iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
+		extension = gth_extension_description_get_extension (description);
 
-	extension = gth_extension_description_get_extension (description);
+		g_object_unref (description);
+	}
+
+	gtk_widget_set_sensitive (GET_WIDGET ("about_button"), (extension != NULL));
 	gtk_widget_set_sensitive (GET_WIDGET ("preferences_button"), (extension != NULL) && gth_extension_is_configurable (extension));
-
-	g_object_unref (description);
 }
 
 
