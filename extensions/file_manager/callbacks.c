@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "callbacks.h"
 #include "gth-copy-task.h"
 #include "gth-reorder-task.h"
 
@@ -715,6 +716,8 @@ fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		set_action_sensitive (data, "Folder_Delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 		set_action_sensitive (data, "Folder_Trash", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH));
 		set_action_sensitive (data, "Folder_Cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
+
+		fm__gth_browser_update_sensitivity_cb (browser);
 	}
 	else {
 		if (data->folder_popup_merge_id != 0) {

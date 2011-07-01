@@ -28,12 +28,13 @@ void      fm__gth_browser_construct_cb                      (GthBrowser    *brow
 void      fm__gth_browser_update_sensitivity_cb             (GthBrowser    *browser);
 void      fm__gth_browser_set_current_page_cb               (GthBrowser    *browser);
 void      fm__gth_browser_load_location_after_cb            (GthBrowser    *browser,
-						             GFile         *location,
-						             GError        *error);
+							     GthFileData   *location_data,
+							     const GError  *error);
 void      fm__gth_browser_folder_tree_popup_before_cb       (GthBrowser    *browser,
-							     GthFileSource *file_source,
-							     GFile         *folder);
+		     	     	     	     	     	     GthFileSource *file_source,
+		     	     	     	     	     	     GthFileData   *folder);
 void      fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
+							     GthFileData   *destination,
 							     GList         *file_list,
 							     GdkDragAction  action);
 void      fm__gth_browser_selection_changed_cb              (GthBrowser    *browser);
