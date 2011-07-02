@@ -400,7 +400,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	button = gtk_button_new ();
 	image = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (button), image);
-	gtk_widget_show_all (button);
+	gtk_widget_hide (button);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (button, _("Hide the filterbar"));
 	g_signal_connect (G_OBJECT (button),
