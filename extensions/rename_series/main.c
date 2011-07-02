@@ -29,8 +29,7 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (rs__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (rs__gth_browser_update_sensitivity_cb), NULL);
+	gth_hook_add_callback ("gth-browser-file-list-rename", 10, G_CALLBACK (rs__gth_browser_file_list_rename_cb), NULL);
 }
 
 

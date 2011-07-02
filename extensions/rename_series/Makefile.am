@@ -4,8 +4,6 @@ extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = librename_series.la
 
 librename_series_la_SOURCES = 		\
-	actions.c			\
-	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
 	dlg-rename-series.c		\

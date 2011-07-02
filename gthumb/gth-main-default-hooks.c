@@ -158,7 +158,7 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-view-file", 2);
 
 	/**
-	 * Called when the selection changes
+	 * Called when the file list selection changes
 	 *
 	 * @browser (GthBrowser*): the relative window.
 	 **/

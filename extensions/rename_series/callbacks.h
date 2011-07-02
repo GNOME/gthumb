@@ -24,7 +24,6 @@
 
 #include <gthumb.h>
 
-void rs__gth_browser_construct_cb          (GthBrowser *browser);
-void rs__gth_browser_update_sensitivity_cb (GthBrowser *browser);
+void rs__gth_browser_file_list_rename_cb  (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

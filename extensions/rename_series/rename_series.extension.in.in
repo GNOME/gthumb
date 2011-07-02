@@ -9,3 +9,4 @@ Category=List-Tool
 [Loader]
 Type=module
 File=%LIBRARY%
+Requires=file_manager

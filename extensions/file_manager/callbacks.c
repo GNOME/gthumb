@@ -40,6 +40,9 @@ static const char *fixed_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='Edit' action='EditMenu'>"
+"      <placeholder name='Folder_Actions'>"
+"        <menuitem action='Edit_Rename'/>"
+"      </placeholder>"
 "      <placeholder name='Folder_Actions_2'>"
 "        <menuitem action='Edit_Trash'/>"
 "        <menuitem action='Edit_Delete'/>"
@@ -181,6 +184,10 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Delete"), NULL,
 	  N_("Delete the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_delete) },
+	{ "Edit_Rename", NULL,
+	  N_("_Rename"), "F2",
+	  N_("Rename the selected files"),
+	  G_CALLBACK (gth_browser_activate_action_edit_rename) },
 	{ "Folder_OpenInFileManager", NULL,
 	  N_("Open with the _File Manager"), "",
 	  NULL,
@@ -776,6 +783,13 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 }
 
 
+void
+fm__gth_browser_folder_tree_selection_changed_cb (GthBrowser *browser)
+{
+	fm__gth_browser_update_sensitivity_cb (browser);
+}
+
+
 static void
 clipboard_targets_received_cb (GtkClipboard *clipboard,
 			       GdkAtom      *atoms,
@@ -864,9 +878,9 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	set_action_sensitive (data, "File_NewFolder", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
 	*/
 
-	_gth_browser_update_paste_command_sensitivity (browser, NULL);
-
 	_g_object_unref (folder);
+
+	_gth_browser_update_paste_command_sensitivity (browser, NULL);
 }
 
 

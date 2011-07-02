@@ -29,6 +29,13 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	/**
+	 * Called when the rename command is invoked on the file list.
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-file-list-rename", 1);
+
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (fm__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-load-location-after", 10, G_CALLBACK (fm__gth_browser_load_location_after_cb), NULL);
 	gth_hook_add_callback ("gth-browser-set-current-page", 10, G_CALLBACK (fm__gth_browser_set_current_page_cb), NULL);
