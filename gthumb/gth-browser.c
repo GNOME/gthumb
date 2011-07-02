@@ -1517,6 +1517,7 @@ load_data_continue (LoadData *load_data,
 				GthFileData *file_data = scan->data;
 
 				if (g_file_equal (file_data->file, load_data->requested_folder->file)) {
+					gtk_tree_view_collapse_all (GTK_TREE_VIEW (browser->priv->folder_tree));
 					gtk_tree_view_expand_row (GTK_TREE_VIEW (browser->priv->folder_tree), path, FALSE);
 					is_entry_point = TRUE;
 					break;
