@@ -73,7 +73,6 @@ typedef enum {
 } GthAttrImageType;
 
 
-extern int yyparse (void);
 extern GFileInputStream *yy_istream;
 
 static GObjectClass *parent_class = NULL;
@@ -1053,6 +1052,24 @@ header_footer_eval_cb (const GMatchInfo *match_info,
 		g_strfreev (a);
 		g_regex_unref (re);
 	}
+	else if (strcmp (match, "%F") == 0) {
+		GList *link;
+
+		link = g_list_nth (self->priv->file_list, self->priv->image);
+		if (link != NULL) {
+			ImageData *idata = link->data;
+			r = g_strdup (g_file_info_get_display_name (idata->file_data->info));
+		}
+	}
+	else if (strcmp (match, "%C") == 0) {
+		GList *link;
+
+		link = g_list_nth (self->priv->file_list, self->priv->image);
+		if (link != NULL) {
+			ImageData *idata = link->data;
+			r = gth_file_data_get_attribute_as_string (idata->file_data, "general::description");
+		}
+	}
 
 	if (r != NULL)
 		g_string_append (result, r);
@@ -1077,7 +1094,7 @@ get_header_footer_text (GthWebExporter *self,
 	if (g_utf8_strchr (utf8_text,  -1, '%') == NULL)
 		return g_strdup (utf8_text);
 
-	re = g_regex_new ("%[pPiID](\\{[^}]+\\})?", 0, 0, NULL);
+	re = g_regex_new ("%[pPiIDFC](\\{[^}]+\\})?", 0, 0, NULL);
 	new_text = g_regex_replace_eval (re, utf8_text, -1, 0, 0, header_footer_eval_cb, self, NULL);
 	g_regex_unref (re);
 
