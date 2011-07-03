@@ -330,11 +330,13 @@ gth_menu_button_class_init (GthMenuButtonClass *klass)
 static void
 gth_menu_button_init (GthMenuButton *self)
 {
-	guint      image_spacing;
-	GtkWidget *arrow;
-	GtkWidget *arrow_align;
-	GtkWidget *main_box;
-	GtkWidget *box;
+	GtkSettings *settings;
+	gboolean     show_image;
+	guint        image_spacing;
+	GtkWidget   *arrow;
+	GtkWidget   *arrow_align;
+	GtkWidget   *main_box;
+	GtkWidget   *box;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MENU_BUTTON, GthMenuButtonPrivate);
 	self->priv->menu = NULL;
@@ -347,7 +349,13 @@ gth_menu_button_init (GthMenuButton *self)
 	/* icon and label */
 
 	self->priv->icon_widget = gtk_image_new ();
-	gtk_widget_show (self->priv->icon_widget);
+
+	settings = gtk_widget_get_settings (GTK_WIDGET (self));
+	g_object_get (settings, "gtk-button-images", &show_image, NULL);
+	if (show_image)
+		gtk_widget_show (self->priv->icon_widget);
+	else
+		gtk_widget_hide (self->priv->icon_widget);
 
 	self->priv->label_widget = gtk_label_new (NULL);
 	gtk_widget_show (self->priv->label_widget);
