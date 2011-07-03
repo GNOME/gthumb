@@ -5982,7 +5982,10 @@ gth_browser_fullscreen (GthBrowser *browser)
 	}
 
 	if (browser->priv->current_file == NULL)
-		gth_browser_show_first_image (browser, FALSE, FALSE);
+		if (! gth_browser_show_first_image (browser, FALSE, FALSE)) {
+			browser->priv->fullscreen = FALSE;
+			return;
+		}
 
 	_gth_browser_create_fullscreen_toolbar (browser);
 	g_list_free (browser->priv->fullscreen_controls);
@@ -6000,10 +6003,10 @@ gth_browser_fullscreen (GthBrowser *browser)
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 
 	browser->priv->properties_on_screen = FALSE;
-	gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
 
 	gtk_window_fullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
+		gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
 		gth_viewer_page_show (browser->priv->viewer_page);
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
