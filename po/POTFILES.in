@@ -69,12 +69,14 @@ extensions/change_date/actions.h
 extensions/change_date/callbacks.c
 extensions/change_date/callbacks.h
 [type: gettext/ini]extensions/change_date/change_date.extension.in.in
+extensions/change_date/data/gthumb_change_date.schemas.in
 [type: gettext/glade]extensions/change_date/data/ui/change-date.ui
 extensions/change_date/dlg-change-date.c
 extensions/change_date/dlg-change-date.h
 extensions/change_date/gth-change-date-task.c
 extensions/change_date/gth-change-date-task.h
 extensions/change_date/main.c
+extensions/change_date/preferences.h
 [type: gettext/ini]extensions/comments/comments.extension.in.in
 extensions/comments/data/gthumb-comments.schemas.in
 [type: gettext/glade]extensions/comments/data/ui/comments-preferences.ui
