@@ -274,6 +274,7 @@ extensions/find_duplicates/actions.c
 extensions/find_duplicates/actions.h
 extensions/find_duplicates/callbacks.c
 extensions/find_duplicates/callbacks.h
+[type: gettext/glade]extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui
 [type: gettext/glade]extensions/find_duplicates/data/ui/find-duplicates-dialog.ui
 [type: gettext/glade]extensions/find_duplicates/data/ui/find-duplicates.ui
 extensions/find_duplicates/dlg-find-duplicates.c
@@ -281,6 +282,8 @@ extensions/find_duplicates/dlg-find-duplicates.h
 [type: gettext/ini]extensions/find_duplicates/find_duplicates.extension.in.in
 extensions/find_duplicates/gth-find-duplicates.c
 extensions/find_duplicates/gth-find-duplicates.h
+extensions/find_duplicates/gth-folder-chooser-dialog.c
+extensions/find_duplicates/gth-folder-chooser-dialog.h
 extensions/find_duplicates/main.c
 extensions/flicker/actions.c
 extensions/flicker/actions.h
@@ -544,8 +547,6 @@ extensions/red_eye_removal/gth-file-tool-red-eye.c
 extensions/red_eye_removal/gth-file-tool-red-eye.h
 extensions/red_eye_removal/main.c
 [type: gettext/ini]extensions/red_eye_removal/red_eye_removal.extension.in.in
-extensions/rename_series/actions.c
-extensions/rename_series/actions.h
 extensions/rename_series/callbacks.c
 extensions/rename_series/callbacks.h
 extensions/rename_series/data/gthumb_rename_series.schemas.in
