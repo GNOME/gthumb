@@ -750,10 +750,10 @@ select_files_leaving_one (GthFindDuplicates *self,
 
 				switch (selection_type) {
 				case SELECT_LEAVE_NEWEST:
-					is_newest = _g_time_val_cmp (t_file_data, t_newest_file) < 0;
+					is_newest = _g_time_val_cmp (t_file_data, t_newest_file) > 0;
 					break;
 				case SELECT_LEAVE_OLDEST:
-					is_newest = _g_time_val_cmp (t_file_data, t_newest_file) > 0;
+					is_newest = _g_time_val_cmp (t_file_data, t_newest_file) < 0;
 					break;
 				default:
 					break;
