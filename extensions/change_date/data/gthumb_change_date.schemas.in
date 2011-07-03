@@ -1,0 +1,77 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/width</key>
+	<applyto>/apps/gthumb/ext/resize_images/width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>640</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/height</key>
+	<applyto>/apps/gthumb/ext/resize_images/height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>480</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/unit</key>
+	<applyto>/apps/gthumb/ext/resize_images/unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>%</default>
+	<locale name="C">
+	  <short>Possible values: pixels, percentage</short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/keep_aspect_ratio</key>
+	<applyto>/apps/gthumb/ext/resize_images/keep_aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/allow_swap_width_height</key>
+	<applyto>/apps/gthumb/ext/resize_images/allow_swap_width_height</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/resize_images/mime_type</key>
+	<applyto>/apps/gthumb/ext/resize_images/mime_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

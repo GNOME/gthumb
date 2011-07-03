@@ -12,7 +12,8 @@ libchange_date_la_SOURCES = 		\
 	dlg-change-date.h		\
 	gth-change-date-task.c		\
 	gth-change-date-task.h		\
-	main.c
+	main.c				\
+	preferences.h
 
 libchange_date_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libchange_date_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
