@@ -12,6 +12,8 @@ libfind_duplicates_la_SOURCES = 	\
 	dlg-find-duplicates.h		\
 	gth-find-duplicates.c		\
 	gth-find-duplicates.h		\
+	gth-folder-chooser-dialog.c	\
+	gth-folder-chooser-dialog.h	\
 	main.c
 
 libfind_duplicates_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
