@@ -84,6 +84,7 @@ struct _GthFindDuplicatesPrivate
 	GChecksum     *checksum;
 	GInputStream  *file_stream;
 	GHashTable    *duplicated;
+	gulong         folder_changed_id;
 };
 
 
@@ -91,9 +92,10 @@ static gpointer parent_class = NULL;
 
 
 typedef struct {
-	GList   *files;
-	goffset  total_size;
-	int      n_files;
+	GthFileData *file_data;
+	GList       *files;
+	goffset      total_size;
+	int          n_files;
 } DuplicatedData;
 
 
@@ -103,6 +105,7 @@ duplicated_data_new (void)
 	DuplicatedData *d_data;
 
 	d_data = g_new0 (DuplicatedData, 1);
+	d_data->file_data = NULL;
 	d_data->files = 0;
 	d_data->total_size = 0;
 	d_data->n_files = 0;
@@ -115,6 +118,7 @@ static void
 duplicated_data_free (DuplicatedData *d_data)
 {
 	_g_object_list_unref (d_data->files);
+	_g_object_unref (d_data->file_data);
 	g_free (d_data);
 }
 
@@ -126,6 +130,9 @@ gth_find_duplicates_finalize (GObject *object)
 
 	self = GTH_FIND_DUPLICATES (object);
 
+	if (self->priv->folder_changed_id != 0)
+		g_signal_handler_disconnect (gth_main_get_default_monitor (),
+					     self->priv->folder_changed_id);
 	g_object_unref (self->priv->location);
 	_g_object_unref (self->priv->test);
 	_g_object_unref (self->priv->builder);
@@ -181,6 +188,7 @@ gth_find_duplicates_init (GthFindDuplicates *self)
 							g_free,
 							(GDestroyNotify) duplicated_data_free);
 	self->priv->cancellable = g_cancellable_new ();
+	self->priv->folder_changed_id = 0;
 }
 
 
@@ -352,11 +360,25 @@ duplicates_list_view_selection_changed_cb (GthFileView *fileview,
 	update_file_list_selection_info (self);
 
 	_g_object_list_unref (file_data_list);
-
 }
 
 
 static void start_next_checksum (GthFindDuplicates *self);
+
+
+static void
+update_total_duplicates_label (GthFindDuplicates *self)
+{
+	char *size_formatted;
+	char *text;
+
+	size_formatted = g_format_size_for_display (self->priv->duplicates_size);
+	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", self->priv->n_duplicates), self->priv->n_duplicates, size_formatted);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_duplicates_label")), text);
+
+	g_free (text);
+	g_free (size_formatted);
+}
 
 
 static void
@@ -392,39 +414,31 @@ file_input_stream_read_ready_cb (GObject      *source,
 			d_data = duplicated_data_new ();
 			g_hash_table_insert (self->priv->duplicated, g_strdup (checksum), d_data);
 		}
+		if (d_data->file_data == NULL)
+			d_data->file_data = g_object_ref (self->priv->current_file);
 		d_data->files = g_list_prepend (d_data->files, g_object_ref (self->priv->current_file));
 		d_data->n_files += 1;
 		d_data->total_size += g_file_info_get_size (self->priv->current_file->info);
 		if (d_data->n_files > 1) {
-			GthFileData *file_data;
-			char        *text;
-			char        *size_formatted;
-			GList       *list;
+			char  *text;
+			GList *singleton;
 
-			file_data = g_list_last (d_data->files)->data;
 			text = g_strdup_printf (g_dngettext (NULL, "%d duplicate", "%d duplicates", d_data->n_files - 1), d_data->n_files - 1);
-			g_file_info_set_attribute_string (file_data->info,
+			g_file_info_set_attribute_string (d_data->file_data->info,
 							  "find-duplicates::n-duplicates",
 							  text);
 			g_free (text);
 
-			self->priv->n_duplicates += 1;
-			self->priv->duplicates_size += g_file_info_get_size (file_data->info);
-
-			size_formatted = g_format_size_for_display (self->priv->duplicates_size);
-			text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", self->priv->n_duplicates), self->priv->n_duplicates, size_formatted);
-			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_duplicates_label")), text);
-			g_free (text);
-			g_free (size_formatted);
-
-			list = g_list_append (NULL, file_data);
-
+			singleton = g_list_append (NULL, d_data->file_data);
 			if (d_data->n_files == 2)
-				gth_file_list_add_files (GTH_FILE_LIST (self->priv->duplicates_list), list);
+				gth_file_list_add_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
 			else
-				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), list);
+				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+			g_list_free (singleton);
 
-			g_list_free (list);
+			self->priv->n_duplicates += 1;
+			self->priv->duplicates_size += g_file_info_get_size (d_data->file_data->info);
+			update_total_duplicates_label (self);
 		}
 
 		duplicates_list_view_selection_changed_cb (NULL, self);
@@ -471,6 +485,68 @@ read_current_file_ready_cb (GObject      *source,
 
 
 static void
+folder_changed_cb (GthMonitor      *monitor,
+		   GFile           *parent,
+		   GList           *list,
+		   GthMonitorEvent  event,
+		   gpointer         user_data)
+{
+	GthFindDuplicates *self = user_data;
+	GList             *file_scan;
+
+	if (event != GTH_MONITOR_EVENT_DELETED)
+		return;
+
+	for (file_scan = list; file_scan; file_scan = file_scan->next) {
+		GFile *file = file_scan->data;
+		GList *values;
+		GList *scan;
+
+		values = g_hash_table_get_values (self->priv->duplicated);
+		for (scan = values; scan; scan = scan->next) {
+			DuplicatedData *d_data = scan->data;
+			GList          *link;
+			char           *text;
+			GList          *singleton;
+
+			link = gth_file_data_list_find_file (d_data->files, file);
+			if (link == NULL)
+				continue;
+
+			d_data->files = g_list_remove_link (d_data->files, link);
+			d_data->n_files -= 1;
+			d_data->total_size -= g_file_info_get_size (d_data->file_data->info);
+
+			text = g_strdup_printf (g_dngettext (NULL, "%d duplicate", "%d duplicates", d_data->n_files - 1), d_data->n_files - 1);
+			g_file_info_set_attribute_string (d_data->file_data->info,
+							  "find-duplicates::n-duplicates",
+							  text);
+			g_free (text);
+
+			singleton = g_list_append (NULL, d_data->file_data);
+			if (d_data->n_files <= 1)
+				gth_file_list_delete_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+			else
+				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+			g_list_free (singleton);
+
+			self->priv->n_duplicates -= 1;
+			self->priv->duplicates_size -= g_file_info_get_size (d_data->file_data->info);
+			update_total_duplicates_label (self);
+
+			_g_object_list_unref (link);
+		}
+
+		g_list_free (values);
+	}
+
+	duplicates_list_view_selection_changed_cb (NULL, self);
+	update_file_list_sensitivity (self);
+	update_file_list_selection_info (self);
+}
+
+
+static void
 start_next_checksum (GthFindDuplicates *self)
 {
 	GList *link;
@@ -479,6 +555,11 @@ start_next_checksum (GthFindDuplicates *self)
 
 	link = self->priv->files;
 	if (link == NULL) {
+		self->priv->folder_changed_id = g_signal_connect (gth_main_get_default_monitor (),
+								  "folder-changed",
+								  G_CALLBACK (folder_changed_cb),
+								  self);
+
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");

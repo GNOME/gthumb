@@ -616,18 +616,55 @@ gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
 
 
 static void
+parent_table_value_free (gpointer key,
+			 gpointer value,
+			 gpointer user_data)
+{
+	_g_object_list_unref (value);
+}
+
+
+static void
 notify_files_delete (GtkWindow *window,
 		     GList     *files)
 {
-	GFile *parent;
+	GHashTable *parent_table;
+	GList      *scan;
+	GList      *parent_list;
 
-	parent = g_file_get_parent ((GFile*) files->data);
-	gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				    parent,
-				    files,
-				    GTH_MONITOR_EVENT_DELETED);
+	parent_table = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	for (scan = files; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		GFile *parent;
+		GList *children;
 
-	g_object_unref (parent);
+		parent = g_file_get_parent (file);
+		if (parent == NULL)
+			return;
+
+		children = g_hash_table_lookup (parent_table, parent);
+		children = g_list_prepend (children, g_object_ref (file));
+		g_hash_table_replace (parent_table, g_object_ref (parent), children);
+
+		g_object_unref (parent);
+	}
+
+	parent_list = g_hash_table_get_keys (parent_table);
+	for (scan = parent_list; scan; scan = scan->next) {
+		GFile *parent = scan->data;
+		GList *children;
+
+		children = g_hash_table_lookup (parent_table, parent);
+		if (children != NULL)
+			gth_monitor_folder_changed (gth_main_get_default_monitor (),
+						    parent,
+						    children,
+						    GTH_MONITOR_EVENT_DELETED);
+	}
+
+	g_list_free (parent_list);
+	g_hash_table_foreach (parent_table, parent_table_value_free, NULL);
+	g_hash_table_unref (parent_table);
 }
 
 
