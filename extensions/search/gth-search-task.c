@@ -33,6 +33,7 @@ struct _GthSearchTaskPrivate
 	GthSearch     *search;
 	GthTestChain  *test;
 	GFile         *search_catalog;
+	gboolean       show_hidden_files;
 	gboolean       io_operation;
 	GError        *error;
 	gulong         location_ready_id;
@@ -208,6 +209,18 @@ for_each_file_func (GFile     *file,
 }
 
 
+static gboolean
+file_is_visible (GthSearchTask *task,
+		 GFileInfo     *info)
+{
+	if (task->priv->show_hidden_files)
+		return TRUE;
+	else
+		return ! g_file_info_get_is_hidden (info);
+
+}
+
+
 static DirOp
 start_dir_func (GFile      *directory,
 		GFileInfo  *info,
@@ -217,6 +230,9 @@ start_dir_func (GFile      *directory,
 	GthSearchTask *task = user_data;
 	char          *uri;
 	char          *text;
+
+	if (! file_is_visible (task, info))
+		return DIR_OP_SKIP;
 
 	uri = g_file_get_parse_name (directory);
 	text = g_strdup_printf ("Searching in %s", uri);
@@ -294,6 +310,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 		g_object_unref (general_filter);
 	}
 
+	task->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	task->priv->io_operation = TRUE;
 
 	task->priv->file_source = gth_main_get_file_source (gth_search_get_folder (task->priv->search));

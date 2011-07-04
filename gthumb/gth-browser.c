@@ -1429,7 +1429,7 @@ load_data_load_next_folder (LoadData *load_data)
 
 
 static gboolean
-_gth_browser_folder_is_visible (GthBrowser  *browser,
+_gth_browser_file_is_visible (GthBrowser  *browser,
 				GthFileData *file_data)
 {
 	if (browser->priv->show_hidden_files)
@@ -1440,8 +1440,8 @@ _gth_browser_folder_is_visible (GthBrowser  *browser,
 
 
 static GList *
-_gth_browser_get_visible_folders (GthBrowser *browser,
-				  GList      *list)
+_gth_browser_get_visible_files (GthBrowser *browser,
+			        GList      *list)
 {
 	GList *visible_list = NULL;
 	GList *scan;
@@ -1449,7 +1449,7 @@ _gth_browser_get_visible_folders (GthBrowser *browser,
 	for (scan = list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (_gth_browser_folder_is_visible (browser, file_data))
+		if (_gth_browser_file_is_visible (browser, file_data))
 			visible_list = g_list_prepend (visible_list, g_object_ref (file_data));
 	}
 
@@ -1481,7 +1481,7 @@ load_data_continue (LoadData *load_data,
 	}
 
 	loaded_folder = (GFile *) load_data->current->data;
-	files = _gth_browser_get_visible_folders (browser, loaded_files);
+	files = _gth_browser_get_visible_files (browser, loaded_files);
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder, files);
 
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder);
@@ -2858,7 +2858,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 		return;
 	}
 
-	visible_folders = _gth_browser_get_visible_folders (browser, files);
+	visible_folders = _gth_browser_get_visible_files (browser, files);
 
 	if (monitor_data->event == GTH_MONITOR_EVENT_CREATED) {
 		if (monitor_data->update_folder_tree)
