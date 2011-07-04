@@ -62,6 +62,7 @@ struct _GthSlideshowPrivate {
 	ClutterActor          *image1;
 	ClutterActor          *image2;
 	ClutterActor          *paused_actor;
+	guint32                last_button_event_time;
 #endif
 	GdkPixbuf             *current_pixbuf;
 	GtkWidget             *viewer;
@@ -98,6 +99,7 @@ _gth_slideshow_close (GthSlideshow *self)
 
 	browser = self->priv->browser;
 	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
+	self->priv->projector->finalize (self);
 	gtk_widget_destroy (GTK_WIDGET (self));
 
 	if (close_browser)
@@ -313,7 +315,6 @@ gth_slideshow_finalize (GObject *object)
 	_g_object_list_unref (self->priv->transitions);
 	g_rand_free (self->priv->rand);
 	g_strfreev (self->priv->audio_files);
-	self->priv->projector->finalize (self);
 
 #if HAVE_GSTREAMER
 	if (self->priv->playbin != NULL) {
@@ -1039,6 +1040,15 @@ stage_input_cb (ClutterStage *stage,
 		self->priv->hide_cursor_event = g_timeout_add (HIDE_CURSOR_DELAY, hide_cursor_cb, self);
 	}
 	else if (event->type == CLUTTER_BUTTON_PRESS) {
+		guint32 event_time;
+
+		/* avoid a double button_press emission that seems to be a
+		 * clutter bug */
+		event_time = ((ClutterButtonEvent *)event)->time;
+		if (self->priv->last_button_event_time == event_time)
+			return;
+		self->priv->last_button_event_time = event_time;
+
 		switch (clutter_event_get_button (event)) {
 		case 1:
 			_gth_slideshow_load_next_image (self);
@@ -1168,6 +1178,8 @@ clutter_projector_construct (GthSlideshow *self)
 	self->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
 	clutter_stage_hide_cursor (CLUTTER_STAGE (self->stage));
 	clutter_stage_set_color (CLUTTER_STAGE (self->stage), &background_color);
+
+	self->priv->last_button_event_time = 0;
 	g_signal_connect (self->stage, "button-press-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "motion-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "key-press-event", G_CALLBACK (stage_input_cb), self);
