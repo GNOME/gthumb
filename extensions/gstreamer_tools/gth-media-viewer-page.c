@@ -1283,7 +1283,10 @@ gth_media_viewer_page_finalize (GObject *obj)
 	}
 	_g_object_unref (self->priv->icon);
 	_g_object_unref (self->priv->file_data);
-	_g_object_unref (self->priv->screensaver);
+	if (self->priv->screensaver != NULL) {
+		gth_screensaver_uninhibit (self->priv->screensaver);
+		g_object_unref (self->priv->screensaver);
+	}
 
 	G_OBJECT_CLASS (gth_media_viewer_page_parent_class)->finalize (obj);
 }

@@ -51,11 +51,11 @@ gth_screensaver_finalize (GObject *object)
 
 	self = GTH_SCREENSAVER (object);
 
-	gth_screensaver_uninhibit (self);
-
 	g_free (self->priv->app_id);
-	if (self->priv->proxy != NULL)
+	if (self->priv->proxy != NULL) {
 		g_object_unref (self->priv->proxy);
+		self->priv->proxy = NULL;
+	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -215,14 +215,13 @@ org_gnome_session_manager_inhibit_ready_cb (GObject      *source_object,
 	if (value == NULL) {
 		g_warning ("%s\n", error->message);
 		g_clear_error (&error);
-		return;
+	}
+	else {
+		g_variant_get (value, "(u)", &self->priv->cookie);
+		g_variant_unref (value);
 	}
 
-	g_print ("idle inhibited\n");
-
-	g_variant_get (value, "(u)", &self->priv->cookie);
-
-	g_variant_unref (value);
+	g_object_unref (self);
 }
 
 
@@ -251,6 +250,7 @@ gth_screensaver_inhibit (GthScreensaver *self,
 	if (gtk_widget_is_toplevel (toplevel_window))
 		xid = GDK_WINDOW_XID (gtk_widget_get_window (toplevel_window));
 
+	g_object_ref (self);
 	g_dbus_proxy_call (self->priv->proxy,
 			   "Inhibit",
 			   g_variant_new ("(susu)",
@@ -281,12 +281,12 @@ org_gnome_session_manager_uninhibit_ready_cb (GObject      *source_object,
 		g_clear_error (&error);
 	}
 
-	g_print ("idle uninhibited\n");
-
 	self->priv->cookie = 0;
 
 	if (value != NULL)
 		g_variant_unref (value);
+
+	g_object_unref (self);
 }
 
 
@@ -306,6 +306,7 @@ gth_screensaver_uninhibit (GthScreensaver *self)
 		return;
 	}
 
+	g_object_ref (self);
 	g_dbus_proxy_call (self->priv->proxy,
 			   "Uninhibit",
 			   g_variant_new ("(u)", self->priv->cookie),

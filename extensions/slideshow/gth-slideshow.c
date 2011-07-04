@@ -323,7 +323,10 @@ gth_slideshow_finalize (GObject *object)
 	}
 #endif
 
-	_g_object_unref (self->priv->screensaver);
+	if (self->priv->screensaver != NULL) {
+		gth_screensaver_uninhibit (self->priv->screensaver);
+		g_object_unref (self->priv->screensaver);
+	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
