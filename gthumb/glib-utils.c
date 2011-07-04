@@ -1191,6 +1191,7 @@ _g_string_append_for_html (GString    *str,
 				state = 0;
 				break;
 			}
+			break;
 		}
 
 		p = next;

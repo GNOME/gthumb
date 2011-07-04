@@ -86,6 +86,7 @@ typedef struct {
 	GthFileData      *destination;
 	GList            *file_list;
 	gboolean          move;
+	int               destination_position;
 	ProgressCallback  progress_callback;
 	DialogCallback    dialog_callback;
 	ReadyCallback     ready_callback;
@@ -335,6 +336,7 @@ gth_file_source_queue_copy (GthFileSource    *file_source,
 			    GthFileData      *destination,
 			    GList            *file_list,
 			    gboolean          move,
+			    int               destination_position,
 			    ProgressCallback  progress_callback,
 			    DialogCallback    dialog_callback,
 			    ReadyCallback     ready_callback,
@@ -348,6 +350,7 @@ gth_file_source_queue_copy (GthFileSource    *file_source,
 	async_op->data.copy.destination = gth_file_data_dup (destination);
 	async_op->data.copy.file_list = _g_file_list_dup (file_list);
 	async_op->data.copy.move = move;
+	async_op->data.copy.destination_position = destination_position;
 	async_op->data.copy.progress_callback = progress_callback;
 	async_op->data.copy.dialog_callback = dialog_callback;
 	async_op->data.copy.ready_callback = ready_callback;
@@ -469,6 +472,7 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 				      async_op->data.copy.destination,
 				      async_op->data.copy.file_list,
 				      async_op->data.copy.move,
+				      async_op->data.copy.destination_position,
 				      async_op->data.copy.progress_callback,
 				      async_op->data.copy.dialog_callback,
 				      async_op->data.copy.ready_callback,
@@ -1174,17 +1178,18 @@ gth_file_source_copy (GthFileSource    *file_source,
 		      GthFileData      *destination,
 		      GList            *file_list, /* GFile * list */
 		      gboolean          move,
+		      int               destination_position,
 		      ProgressCallback  progress_callback,
 		      DialogCallback    dialog_callback,
 		      ReadyCallback     ready_callback,
 		      gpointer          data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_copy (file_source, destination, file_list, move, progress_callback, dialog_callback, ready_callback, data);
+		gth_file_source_queue_copy (file_source, destination, file_list, move, destination_position, progress_callback, dialog_callback, ready_callback, data);
 		return;
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, move, progress_callback, dialog_callback, ready_callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, move, destination_position, progress_callback, dialog_callback, ready_callback, data);
 }
 
 

@@ -363,13 +363,16 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 
 			if (! cancel) {
 				GthFileSource *location_source;
+				BrowserData   *data;
 				GthTask       *task;
 
 				location_source = gth_main_get_file_source (gth_browser_get_location (browser));
+				data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 				task = gth_copy_task_new (location_source,
 							  gth_browser_get_location_data (browser),
 							  move,
-							  selected_files);
+							  selected_files,
+							  data->drop_pos);
 				gth_browser_exec_task (browser, task, FALSE);
 
 				g_object_unref (task);
@@ -439,17 +442,20 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 	BrowserData *data;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	data->drop_pos = -1;
 
 	if ((gtk_drag_get_source_widget (context) == file_view) && ! gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
-		data->drop_pos = -1;
 		gdk_drag_status (context, 0, time);
 		return FALSE;
 	}
 
-	if ((gtk_drag_get_source_widget (context) == file_view) && gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+	if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
 		GtkAllocation allocation;
 
-		gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		if (gtk_drag_get_source_widget (context) == file_view)
+			gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		else
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
 		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
 
 		gtk_widget_get_allocation (file_view, &allocation);
@@ -775,7 +781,8 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 	task = gth_copy_task_new (file_source,
 				  destination,
 				  (action == GDK_ACTION_MOVE),
-				  file_list);
+				  file_list,
+				  -1);
 	gth_browser_exec_task (browser, task, FALSE);
 
 	g_object_unref (task);

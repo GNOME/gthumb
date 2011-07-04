@@ -198,6 +198,7 @@ typedef struct {
 	int              ref;
 	GthFileSource   *file_source;
 	GFile           *parent;
+	int              position;
 	GthMonitorEvent  event;
 	GthBrowser      *browser;
 	gboolean         update_file_list;
@@ -2843,6 +2844,17 @@ filterbar_close_button_clicked_cb (GthFilterbar *filterbar,
 
 
 static void
+_gth_browser_change_file_list_order (GthBrowser *browser,
+				     int        *new_order)
+{
+	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
+	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
+	gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
+	gth_browser_update_title (browser);
+}
+
+
+static void
 file_attributes_ready_cb (GthFileSource *file_source,
 			  GList         *files,
 			  GError        *error,
@@ -2864,9 +2876,14 @@ file_attributes_ready_cb (GthFileSource *file_source,
 		if (monitor_data->update_folder_tree)
 			gth_folder_tree_add_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, visible_folders);
 		if (monitor_data->update_file_list) {
-			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->file_list), files);
+			if (monitor_data->position >= 0)
+				_gth_browser_set_sort_order (browser,
+							     gth_main_get_sort_type ("general::unsorted"),
+							     FALSE,
+							     FALSE);
+			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->file_list), files, monitor_data->position);
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), files);
-			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
+			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files, monitor_data->position);
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		}
 	}
@@ -2931,6 +2948,7 @@ static void
 folder_changed_cb (GthMonitor      *monitor,
 		   GFile           *parent,
 		   GList           *list,
+		   int              position,
 		   GthMonitorEvent  event,
 		   GthBrowser      *browser)
 {
@@ -2990,6 +3008,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			monitor_data = monitor_event_data_new ();
 			monitor_data->file_source = gth_main_get_file_source (parent);
 			monitor_data->parent = g_file_dup (parent);
+			monitor_data->position = position;
 			monitor_data->event = event;
 			monitor_data->browser = browser;
 			monitor_data->update_file_list = update_file_list;
@@ -3261,15 +3280,8 @@ order_changed_cb (GthMonitor *monitor,
 		  int        *new_order,
 		  GthBrowser *browser)
 {
-	if (browser->priv->location == NULL)
-		return;
-
-	if (g_file_equal (file, browser->priv->location->file)) {
-		g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
-		g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
-		gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
-		gth_browser_update_title (browser);
-	}
+	if ((browser->priv->location != NULL) && g_file_equal (file, browser->priv->location->file))
+		_gth_browser_change_file_list_order (browser, new_order);
 }
 
 

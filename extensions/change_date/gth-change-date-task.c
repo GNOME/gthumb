@@ -139,7 +139,10 @@ update_modification_time (GthChangeDateTask *self)
 
 	monitor = gth_main_get_default_monitor ();
 	files = gth_file_data_list_to_file_list (self->priv->file_list);
-	gth_monitor_folder_changed (monitor, self->priv->location, files, GTH_MONITOR_EVENT_CHANGED);
+	gth_monitor_folder_changed (monitor,
+				    self->priv->location,
+				    files,
+				    GTH_MONITOR_EVENT_CHANGED);
 
 	gth_task_completed (GTH_TASK (self), error);
 

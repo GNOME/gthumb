@@ -28,6 +28,7 @@ struct _GthCopyTaskPrivate {
 	GthFileSource *file_source;
 	GList         *files;
 	gboolean       move;
+	int            destination_position;
 };
 
 
@@ -103,6 +104,7 @@ gth_copy_task_exec (GthTask *task)
 			      self->priv->destination,
 			      self->priv->files,
 			      self->priv->move,
+			      self->priv->destination_position,
 			      copy_progress_cb,
 			      copy_dialog_cb,
 			      copy_done_cb,
@@ -166,7 +168,8 @@ GthTask *
 gth_copy_task_new (GthFileSource *file_source,
 		   GthFileData   *destination,
 		   gboolean       move,
-		   GList         *files)
+		   GList         *files,
+		   int            destination_position)
 {
 	GthCopyTask *self;
 
@@ -176,6 +179,7 @@ gth_copy_task_new (GthFileSource *file_source,
 	self->priv->destination = g_object_ref (destination);
 	self->priv->move = move;
 	self->priv->files = _g_object_list_ref (files);
+	self->priv->destination_position = destination_position;
 
 	return (GthTask *) self;
 }

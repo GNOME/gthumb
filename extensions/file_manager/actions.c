@@ -296,6 +296,8 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 	const char  *raw_data;
 	char       **clipboard_data;
 	int          i;
+	GtkTreePath *path;
+	int          position;
 	GthTask     *task;
 
 	raw_data = (const char *) gtk_selection_data_get_data (selection_data);
@@ -342,10 +344,22 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 		paste_data->cut = FALSE;
 	}
 
+	position = -1;
+	path = gth_file_selection_get_last_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	if (path != NULL) {
+		int *indices;
+
+		indices = gtk_tree_path_get_indices (path);
+		if (indices != NULL)
+			position = indices[0] + 1;
+		gtk_tree_path_free (path);
+	}
+
 	task = gth_copy_task_new (paste_data->file_source,
 				  paste_data->destination,
 				  paste_data->cut,
-				  paste_data->files);
+				  paste_data->files,
+				  position);
 	gth_browser_exec_task (browser, task, FALSE);
 
 	g_object_unref (task);
@@ -797,7 +811,7 @@ copy_files_to_folder (GthBrowser *browser,
 	data->destination = g_file_dup (destination_data->file);
 	data->view_destination = view_destination;
 
-	task = gth_copy_task_new (file_source, destination_data, move, files);
+	task = gth_copy_task_new (file_source, destination_data, move, files, -1);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (copy_complete_cb),

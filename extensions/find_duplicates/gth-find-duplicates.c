@@ -431,7 +431,7 @@ file_input_stream_read_ready_cb (GObject      *source,
 
 			singleton = g_list_append (NULL, d_data->file_data);
 			if (d_data->n_files == 2)
-				gth_file_list_add_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+				gth_file_list_add_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton, -1);
 			else
 				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
 			g_list_free (singleton);
@@ -488,6 +488,7 @@ static void
 folder_changed_cb (GthMonitor      *monitor,
 		   GFile           *parent,
 		   GList           *list,
+		   int              position,
 		   GthMonitorEvent  event,
 		   gpointer         user_data)
 {

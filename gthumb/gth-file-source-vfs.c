@@ -338,6 +338,7 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 			  GthFileData      *destination,
 			  GList            *file_list, /* GFile * list */
 			  gboolean          move,
+			  int               destination_position,
 			  ProgressCallback  progress_callback,
 			  DialogCallback    dialog_callback,
 		          ReadyCallback     ready_callback,

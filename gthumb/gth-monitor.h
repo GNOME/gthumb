@@ -66,6 +66,7 @@ struct _GthMonitorClass
 	void   (*folder_changed)          (GthMonitor      *monitor,
 					   GFile           *parent,
 					   GList           *list,
+					   int              position,
 					   GthMonitorEvent  event);
 	void   (*file_renamed)            (GthMonitor      *monitor,
 					   GFile           *file,
@@ -90,6 +91,10 @@ void          gth_monitor_folder_changed             (GthMonitor      *monitor,
 						      GFile           *parent,
 						      GList           *list, /* GFile list */
 						      GthMonitorEvent  event);
+void          gth_monitor_files_created_with_pos     (GthMonitor      *monitor,
+						      GFile           *parent,
+						      GList           *list, /* GFile list */
+						      int              position);
 void          gth_monitor_file_renamed               (GthMonitor      *monitor,
 						      GFile           *file,
 						      GFile           *new_file);

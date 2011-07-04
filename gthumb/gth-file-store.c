@@ -800,7 +800,8 @@ _gth_file_store_hide_row (GthFileStore *file_store,
 
 static void
 _gth_file_store_update_visibility (GthFileStore *file_store,
-				   GList        *add_queue)
+				   GList        *add_queue,
+				   int           position)
 {
 	GthFileRow **all_rows = NULL;
 	guint        all_rows_n = 0;
@@ -825,11 +826,21 @@ g_print ("UPDATE VISIBILITY\n");
 
 	all_rows_n = file_store->priv->tot_rows + g_list_length (add_queue);
 	all_rows = g_new (GthFileRow *, all_rows_n);
-	for (i = 0; i < file_store->priv->tot_rows; i++)
-		all_rows[i] = _gth_file_row_copy (file_store->priv->all_rows[i]);
 
+	/* append to the end if position is -1 */
+
+	if (position == -1)
+		position = file_store->priv->tot_rows;
+
+	/* insert the new rows at position */
+
+	j = 0;
+	for (i = 0; i < position; i++)
+		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
 	for (scan = add_queue; scan; scan = scan->next)
-		all_rows[i++] = (GthFileRow *) scan->data;
+		all_rows[j++] = (GthFileRow *) scan->data;
+	for (i = position; i < file_store->priv->tot_rows; i++)
+		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
 
 	old_rows_n = file_store->priv->num_rows;
 	old_rows = g_new (GthFileRow *, old_rows_n);
@@ -1070,7 +1081,7 @@ gth_file_store_set_filter (GthFileStore *file_store,
 	else
 		file_store->priv->filter = gth_test_new ();
 
-	_gth_file_store_update_visibility (file_store, NULL);
+	_gth_file_store_update_visibility (file_store, NULL, -1);
 }
 
 
@@ -1397,10 +1408,11 @@ gth_file_store_add (GthFileStore *file_store,
 		    GdkPixbuf    *thumbnail,
 		    gboolean      is_icon,
 		    const char   *metadata,
-		    gboolean      checked)
+		    gboolean      checked,
+		    int           position)
 {
 	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, metadata, checked);
-	gth_file_store_exec_add (file_store);
+	gth_file_store_exec_add (file_store, position);
 }
 
 
@@ -1428,9 +1440,10 @@ gth_file_store_queue_add (GthFileStore *file_store,
 
 
 void
-gth_file_store_exec_add (GthFileStore *file_store)
+gth_file_store_exec_add (GthFileStore *file_store,
+			 int           position)
 {
-	_gth_file_store_update_visibility (file_store, file_store->priv->queue);
+	_gth_file_store_update_visibility (file_store, file_store->priv->queue, position);
 	_gth_file_store_clear_queue (file_store);
 }
 
@@ -1542,7 +1555,7 @@ gth_file_store_exec_set (GthFileStore *file_store)
 	_gth_file_store_list_changed (file_store);
 	_gth_file_store_clear_queue (file_store);
 	if (file_store->priv->update_filter) {
-		_gth_file_store_update_visibility (file_store, NULL);
+		_gth_file_store_update_visibility (file_store, NULL, -1);
 		file_store->priv->update_filter = FALSE;
 	}
 	else if (file_store->priv->check_changed) {
@@ -1596,7 +1609,7 @@ gth_file_store_exec_remove (GthFileStore *file_store)
 	_gth_file_store_compact_rows (file_store);
 	_gth_file_store_clear_queue (file_store);
 
-	_gth_file_store_update_visibility (file_store, NULL);
+	_gth_file_store_update_visibility (file_store, NULL, -1);
 }
 
 

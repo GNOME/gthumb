@@ -658,6 +658,7 @@ typedef struct {
 	GthFileSource    *file_source;
 	GthFileData      *destination;
 	GList            *file_list;
+	int               destination_position;
 	ProgressCallback  progress_callback;
 	DialogCallback    dialog_callback;
 	ReadyCallback     ready_callback;
@@ -687,11 +688,12 @@ copy__catalog_save_done_cb (void     **buffer,
 {
 	CopyOpData *cod = user_data;
 
-	if (error == NULL)
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				            cod->destination->file,
-				            cod->files,
-					    GTH_MONITOR_EVENT_CREATED);
+	if (error == NULL) {
+		gth_monitor_files_created_with_pos (gth_main_get_default_monitor (),
+						    cod->destination->file,
+						    cod->files,
+						    cod->destination_position);
+	}
 
 	cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
 	copy_op_data_free (cod);
@@ -704,6 +706,7 @@ catalog_ready_cb (GObject  *catalog,
 		  gpointer  user_data)
 {
 	CopyOpData *cod = user_data;
+	int         position;
 	GList      *scan;
 	char       *buffer;
 	gsize       size;
@@ -717,8 +720,15 @@ catalog_ready_cb (GObject  *catalog,
 
 	cod->catalog = (GthCatalog *) catalog;
 
-	for (scan = cod->files; scan; scan = scan->next)
-		gth_catalog_insert_file (cod->catalog, (GFile *) scan->data, -1);
+	if (cod->destination_position >= 0)
+		gth_catalog_set_order (cod->catalog, "general::unsorted", FALSE);
+
+	position = cod->destination_position;
+	for (scan = cod->files; scan; scan = scan->next) {
+		gth_catalog_insert_file (cod->catalog, (GFile *) scan->data, position);
+		if (cod->destination_position >= 0) /* always append to the end if destination_position is -1 */
+			position += 1;
+	}
 
 	buffer = gth_catalog_to_data (cod->catalog, &size);
 	gio_file = gth_catalog_file_to_gio_file (cod->destination->file);
@@ -941,6 +951,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			       GthFileData      *destination,
 			       GList            *file_list, /* GFile * list */
 			       gboolean          move,
+			       int               destination_position,
 			       ProgressCallback  progress_callback,
 			       DialogCallback    dialog_callback,
 			       ReadyCallback     ready_callback,
@@ -1007,6 +1018,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 		cod->file_source = g_object_ref (file_source);
 		cod->destination = g_object_ref (destination);
 		cod->file_list = _g_object_list_ref (file_list);
+		cod->destination_position = destination_position;
 		cod->progress_callback = progress_callback;
 		cod->dialog_callback = dialog_callback;
 		cod->ready_callback = ready_callback;

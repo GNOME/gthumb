@@ -78,7 +78,8 @@ GList *           gth_file_list_get_files         (GthFileList          *file_li
 void              gth_file_list_clear             (GthFileList          *file_list,
 					           const char           *message);
 void              gth_file_list_add_files         (GthFileList          *file_list,
-					           GList                *list /* GthFileData */);
+					           GList                *list /* GthFileData */,
+					           int                   position);
 void              gth_file_list_delete_files      (GthFileList          *file_list,
 					           GList                *list /* GFile */);
 void              gth_file_list_update_files      (GthFileList          *file_list,

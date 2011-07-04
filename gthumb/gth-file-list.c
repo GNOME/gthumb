@@ -72,6 +72,7 @@ typedef struct {
 	int                  ival;
 	GFile               *file;
 	GthFileData         *file_data;
+	int                  position;
 } GthFileListOp;
 
 
@@ -986,7 +987,8 @@ _gth_file_list_get_metadata (GthFileList *file_list,
 
 static void
 gfl_add_files (GthFileList *file_list,
-	       GList       *files)
+	       GList       *files,
+	       int          position)
 {
 	GthFileStore *file_store;
 	GList        *scan;
@@ -1038,19 +1040,21 @@ gfl_add_files (GthFileList *file_list,
 	}
 	g_free (cache_base_uri);
 
-	gth_file_store_exec_add (file_store);
+	gth_file_store_exec_add (file_store, position);
 	_gth_file_list_update_pane (file_list);
 }
 
 
 void
 gth_file_list_add_files (GthFileList *file_list,
-			 GList       *files)
+			 GList       *files,
+			 int          position)
 {
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_ADD_FILES);
 	op->file_list = _g_object_list_ref (files);
+	op->position = position;
 	_gth_file_list_queue_op (file_list, op);
 }
 
@@ -1202,7 +1206,7 @@ gfl_set_files (GthFileList *file_list,
 
 	gth_file_store_clear ((GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
 	g_hash_table_remove_all (file_list->priv->thumb_data);
-	gfl_add_files (file_list, files);
+	gfl_add_files (file_list, files, -1);
 }
 
 
@@ -1946,7 +1950,7 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 		gfl_set_files (file_list, op->file_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ADD_FILES:
-		gfl_add_files (file_list, op->file_list);
+		gfl_add_files (file_list, op->file_list, op->position);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_DELETE_FILES:
 		gfl_delete_files (file_list, op->files);

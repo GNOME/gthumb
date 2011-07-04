@@ -103,6 +103,7 @@ struct _GthFileSourceClass
 					       GthFileData          *destination,
 					       GList                *file_list, /* GFile list */
 					       gboolean              move,
+					       int                   destination_position,
 					       ProgressCallback      progress_callback,
 					       DialogCallback        dialog_callback,
 					       ReadyCallback         callback,
@@ -186,6 +187,7 @@ void           gth_file_source_copy                  (GthFileSource        *file
 						      GthFileData          *destination,
 						      GList                *file_list, /* GFile list */
 						      gboolean              move,
+						      int                   destination_position,
 						      ProgressCallback      progress_callback,
 						      DialogCallback        dialog_callback,
 						      ReadyCallback         ready_callback,

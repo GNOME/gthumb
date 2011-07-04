@@ -194,6 +194,7 @@ static void
 monitor_folder_changed_cb (GthMonitor      *monitor,
 			   GFile           *parent,
 			   GList           *list,
+			   int              position,
 			   GthMonitorEvent  event,
 			   gpointer         user_data)
 {
@@ -230,7 +231,7 @@ catalogs__gth_browser_construct_cb (GthBrowser *browser)
 	}
 
 	data->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
-						 "folder_changed",
+						 "folder-changed",
 						 G_CALLBACK (monitor_folder_changed_cb),
 						 data);
 

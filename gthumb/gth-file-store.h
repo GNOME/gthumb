@@ -106,14 +106,16 @@ void            gth_file_store_add               (GthFileStore         *file_sto
 					          GdkPixbuf            *thumbnail,
 					          gboolean              is_icon,
 					          const char           *metadata,
-					          gboolean              checked);
+					          gboolean              checked,
+						  int                   position);
 void            gth_file_store_queue_add         (GthFileStore         *file_store,
 					          GthFileData          *file,
 					          GdkPixbuf            *thumbnail,
 					          gboolean              is_icon,
 					          const char           *metadata,
 					          gboolean              checked);
-void            gth_file_store_exec_add          (GthFileStore         *file_store);
+void            gth_file_store_exec_add          (GthFileStore         *file_store,
+						  int                   position);
 void            gth_file_store_set               (GthFileStore         *file_store,
 					          GtkTreeIter          *iter,
 					          ...);

@@ -126,11 +126,12 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, folder_changed),
 			      NULL, NULL,
-			      gth_marshal_VOID__OBJECT_BOXED_ENUM,
+			      gth_marshal_VOID__OBJECT_BOXED_INT_ENUM,
 			      G_TYPE_NONE,
-			      3,
+			      4,
 			      G_TYPE_OBJECT,
 			      G_TYPE_OBJECT_LIST,
+			      G_TYPE_INT,
 			      GTH_TYPE_MONITOR_EVENT);
 	monitor_signals[FILE_RENAMED] =
 		g_signal_new ("file-renamed",
@@ -282,7 +283,26 @@ gth_monitor_folder_changed (GthMonitor      *monitor,
 		       0,
 		       parent,
 		       list,
+		       -1,
 		       event);
+}
+
+
+void
+gth_monitor_files_created_with_pos (GthMonitor *monitor,
+				    GFile      *parent,
+				    GList      *list, /* GFile list */
+				    int         position)
+{
+	g_return_if_fail (GTH_IS_MONITOR (monitor));
+
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[FOLDER_CONTENT_CHANGED],
+		       0,
+		       parent,
+		       list,
+		       position,
+		       GTH_MONITOR_EVENT_CREATED);
 }
 
 

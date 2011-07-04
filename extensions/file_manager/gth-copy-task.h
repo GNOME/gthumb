@@ -51,7 +51,8 @@ GType         gth_copy_task_get_type     (void);
 GthTask *     gth_copy_task_new          (GthFileSource *file_source,
 					  GthFileData   *destination,
 					  gboolean       move,
-					  GList         *file_list);
+					  GList         *file_list,
+					  int            destination_position);
 
 G_END_DECLS
 

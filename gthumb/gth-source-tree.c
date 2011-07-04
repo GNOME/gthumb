@@ -237,6 +237,7 @@ static void
 monitor_folder_changed_cb (GthMonitor      *monitor,
 			   GFile           *parent,
 			   GList           *list,
+			   int              position,
 			   GthMonitorEvent  event,
 			   GthSourceTree   *source_tree)
 {
