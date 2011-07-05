@@ -47,6 +47,8 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 	gboolean    use_destination;
+	gulong      width_spinbutton_event;
+	gulong      height_spinbutton_event;
 } DialogData;
 
 
@@ -182,7 +184,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 
 static void
-update_sensitivity (DialogData *data)
+update_width_height_properties (DialogData *data)
 {
 	GthUnit unit;
 
@@ -195,8 +197,6 @@ update_sensitivity (DialogData *data)
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), 0);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), 0);
 	}
-
-	gtk_widget_set_sensitive (GET_WIDGET ("keep_ratio_checkbutton"), units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))] != GTH_UNIT_PERCENTAGE);
 }
 
 
@@ -204,7 +204,7 @@ static void
 unit_combobox_changed_cb (GtkComboBox *combobox,
 			  DialogData  *data)
 {
-	update_sensitivity (data);
+	update_width_height_properties (data);
 }
 
 
@@ -216,6 +216,46 @@ use_destination_checkbutton_toggled_cb (GtkToggleButton *button,
 
 	data->use_destination = ! gtk_toggle_button_get_active (button);
 	gtk_widget_set_sensitive (GET_WIDGET ("destination_filechooserbutton"), data->use_destination);
+}
+
+
+static void
+width_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
+				   gpointer       user_data)
+{
+	DialogData *data = user_data;
+	GthUnit     unit;
+
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if (unit != GTH_UNIT_PERCENTAGE)
+		return;
+
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton"))))
+		return;
+
+	g_signal_handler_block (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), gtk_spin_button_get_value (spinbutton));
+	g_signal_handler_unblock (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+}
+
+
+static void
+height_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
+				    gpointer       user_data)
+{
+	DialogData *data = user_data;
+	GthUnit     unit;
+
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if (unit != GTH_UNIT_PERCENTAGE)
+		return;
+
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton"))))
+		return;
+
+	g_signal_handler_block (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), gtk_spin_button_get_value (spinbutton));
+	g_signal_handler_unblock (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
 }
 
 
@@ -250,7 +290,7 @@ dlg_resize_images (GthBrowser *browser,
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
-	update_sensitivity (data);
+	update_width_height_properties (data);
 
 	savers = gth_main_get_type_set ("pixbuf-saver");
 	if (savers != NULL) {
@@ -327,10 +367,19 @@ dlg_resize_images (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (unit_combobox_changed_cb),
 			  data);
-        g_signal_connect (GET_WIDGET ("use_destination_checkbutton"),
-                          "toggled",
-                          G_CALLBACK (use_destination_checkbutton_toggled_cb),
-                          data);
+	g_signal_connect (GET_WIDGET ("use_destination_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (use_destination_checkbutton_toggled_cb),
+			  data);
+
+	data->width_spinbutton_event = g_signal_connect (GET_WIDGET ("width_spinbutton"),
+							 "value-changed",
+							 G_CALLBACK (width_spinbutton_value_changed_cb),
+							 data);
+	data->height_spinbutton_event = g_signal_connect (GET_WIDGET ("height_spinbutton"),
+							  "value-changed",
+							  G_CALLBACK (height_spinbutton_value_changed_cb),
+							  data);
 
 	/* Run dialog. */
 
