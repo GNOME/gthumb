@@ -479,6 +479,8 @@ write_file_to_destination (GthImportTask *self,
 				   FALSE,
 				   (double) (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
 
+		self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
+
 		g_write_file_async (self->priv->destination_file->file,
 				    buffer,
 				    count,
@@ -487,8 +489,6 @@ write_file_to_destination (GthImportTask *self,
 				    gth_task_get_cancellable (GTH_TASK (self)),
 				    write_buffer_ready_cb,
 				    self);
-
-		self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
 	}
 	else
 		g_file_copy_async (file_data->file,
@@ -819,4 +819,69 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;
+}
+
+
+gboolean
+gth_import_task_check_free_space (GFile   *destination,
+				  GList   *files, /* GthFileData list */
+				  GError **error)
+{
+	GFileInfo *info;
+	guint64    free_space;
+	goffset    total_file_size;
+	goffset    max_file_size;
+	goffset    min_free_space;
+	GList     *scan;
+
+	if (files == NULL) {
+		if (error != NULL)
+			*error = g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "%s", _("No file specified."));
+		return FALSE;
+	}
+
+	info = g_file_query_filesystem_info (destination, G_FILE_ATTRIBUTE_FILESYSTEM_FREE, NULL, error);
+	if (info == NULL)
+		return FALSE;
+
+	free_space = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_FILESYSTEM_FREE);
+
+	total_file_size = 0;
+	max_file_size = 0;
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		goffset      file_size = g_file_info_get_size (file_data->info);
+
+		total_file_size += file_size;
+		if (file_size > max_file_size)
+			max_file_size = file_size;
+	}
+
+	min_free_space = total_file_size +
+			 max_file_size +               /* image rotation can require a temporary file */
+			 (total_file_size * 5 / 100);  /* 5% of FS fragmentation */
+
+	if ((free_space < min_free_space) && (error != NULL)) {
+		char *destination_name;
+		char *min_free_space_s;
+		char *free_space_s;
+
+		destination_name = g_file_get_parse_name (destination);
+		min_free_space_s = g_format_size_for_display (min_free_space);
+		free_space_s = g_format_size_for_display (free_space);
+
+		*error = g_error_new (G_IO_ERROR,
+				      G_IO_ERROR_NO_SPACE,
+				      /* Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available. */
+				      _("Not enough free space in '%s'.\n%s of space is required but only %s is available."),
+				      destination_name,
+				      min_free_space_s,
+				      free_space_s);
+
+		g_free (free_space_s);
+		g_free (min_free_space_s);
+		g_free (destination_name);
+	}
+
+	return free_space >= min_free_space;
 }

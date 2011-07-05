@@ -61,6 +61,26 @@ typedef struct {
 } DialogData;
 
 
+static GList *
+get_selected_file_list (DialogData *data)
+{
+	GList     *file_list = NULL;
+	GtkWidget *file_view;
+	GList     *items;
+
+	file_view = gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
+	if (items != NULL)
+		file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), items);
+	else
+		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (file_view))));
+
+	_gtk_tree_path_list_free (items);
+
+	return file_list;
+}
+
+
 static void
 destroy_dialog (gpointer user_data)
 {
@@ -78,8 +98,6 @@ destroy_dialog (gpointer user_data)
 		GthSubfolderType    subfolder_type;
 		GthSubfolderFormat  subfolder_format;
 		char               *custom_format;
-		GtkWidget          *file_view;
-		GList              *items;
 		GList              *file_list;
 
 		destination = gth_import_preferences_get_destination ();
@@ -88,13 +106,7 @@ destroy_dialog (gpointer user_data)
 		subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
 		custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
 
-		file_view = gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
-		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
-		if (items != NULL)
-			file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), items);
-		else
-			file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (file_view))));
-
+		file_list = get_selected_file_list (data);
 		if (file_list != NULL) {
 			char    **tags;
 			GthTask  *task;
@@ -119,7 +131,6 @@ destroy_dialog (gpointer user_data)
 		}
 
 		_g_object_list_unref (file_list);
-		_gtk_tree_path_list_free (items);
 		g_free (custom_format);
 		_g_object_unref (destination);
 	}
@@ -191,6 +202,28 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
+	GList    *file_list;
+	GFile    *destination;
+	GError   *error = NULL;
+	gboolean  import;
+
+	file_list = get_selected_file_list (data);
+	destination = gth_import_preferences_get_destination ();
+	if (! gth_import_task_check_free_space (destination, file_list, &error)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog),
+						    _("Could not import the files"),
+						    &error);
+		import = FALSE;
+	}
+	else
+		import = TRUE;
+
+	_g_object_unref (destination);
+	_g_object_list_unref (file_list);
+
+	if (! import)
+		return;
+
 	data->import = TRUE;
 	close_dialog (NULL, data);
 }

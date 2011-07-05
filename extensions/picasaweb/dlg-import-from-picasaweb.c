@@ -157,6 +157,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 			file_list = get_files_to_download (data);
 			if (file_list != NULL) {
 				GFile               *destination;
+				GError              *error = NULL;
 				gboolean             single_subfolder;
 				GthSubfolderType     subfolder_type;
 				GthSubfolderFormat   subfolder_format;
@@ -166,6 +167,17 @@ import_dialog_response_cb (GtkDialog *dialog,
 				GthTask             *task;
 
 				destination = gth_import_preferences_get_destination ();
+
+				if (! gth_import_task_check_free_space (destination, file_list, &error)) {
+					_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog),
+									    _("Could not import the files"),
+									    &error);
+					_g_object_unref (destination);
+					_g_object_list_unref (file_list);
+					g_object_unref (album);
+					return;
+				}
+
 				subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
 				subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
 				single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
