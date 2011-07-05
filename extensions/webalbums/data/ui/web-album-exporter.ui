@@ -323,6 +323,7 @@
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Footer:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">footer_entry</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -353,6 +354,7 @@
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Header:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">header_entry</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -413,6 +415,7 @@
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Destination:</property>
                                     <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">destination_filechooserbutton</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -449,6 +452,7 @@
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -465,6 +469,7 @@
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -577,8 +582,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="shadow_type">in</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>                            
                             <child>
                               <object class="GtkIconView" id="theme_iconview">
                                 <property name="visible">True</property>
@@ -673,6 +676,7 @@
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">S_ort:</property>
                                 <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">sort_combobox</property>
                               </object>
                               <packing>
                                 <property name="top_attach">2</property>
@@ -736,6 +740,8 @@
                                 <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Columns:</property>
+                                <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">cols_spinbutton</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -874,8 +880,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="shadow_type">in</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>                            
                             <child>
                               <placeholder/>
                             </child>
@@ -964,6 +968,7 @@
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Footer:</property>
                                     <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">image_page_footer_entry</property>
                                   </object>
                                   <packing>
                                     <property name="top_attach">1</property>
@@ -1200,6 +1205,7 @@
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Header:</property>
                                     <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">image_page_header_entry</property>
                                   </object>
                                   <packing>
                                     <property name="x_options">GTK_FILL</property>
@@ -1277,6 +1283,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -1291,6 +1298,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label12">
@@ -1311,8 +1319,6 @@
                                 <property name="height_request">150</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">automatic</property>
-                                <property name="vscrollbar_policy">automatic</property>
                                 <property name="shadow_type">in</property>
                                 <child>
                                   <placeholder/>
