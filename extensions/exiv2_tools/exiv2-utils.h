@@ -35,6 +35,7 @@ gboolean   exiv2_read_metadata_from_buffer  (void            *buffer,
 					     gsize            buffer_size,
 					     GFileInfo       *info,
 					     GError         **error);
+GFile *    exiv2_get_sidecar                (GFile           *file);
 gboolean   exiv2_read_sidecar               (GFile           *file,
 					     GFileInfo       *info);
 gboolean   exiv2_supports_writes            (const char      *mime_type);

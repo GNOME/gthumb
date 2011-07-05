@@ -80,9 +80,7 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	char        *uri;
-	char        *uri_wo_ext;
-	char        *sidecar_uri;
+	GFile       *sidecar;
 	GthFileData *sidecar_file_data;
 
 	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
@@ -95,10 +93,8 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 
 	/* sidecar data */
 
-	uri = g_file_get_uri (file_data->file);
-	uri_wo_ext = _g_uri_remove_extension (uri);
-	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
-	sidecar_file_data = gth_file_data_new_for_uri (sidecar_uri, NULL);
+	sidecar = exiv2_get_sidecar (file_data->file);
+	sidecar_file_data = gth_file_data_new (sidecar, NULL);
 	if (g_file_query_exists (sidecar_file_data->file, NULL)) {
 		gth_file_data_update_info (sidecar_file_data, "time::*");
 		if (g_file_query_exists (sidecar_file_data->file, NULL))
@@ -106,9 +102,7 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 	}
 
 	g_object_unref (sidecar_file_data);
-	g_free (sidecar_uri);
-	g_free (uri_wo_ext);
-	g_free (uri);
+	g_object_unref (sidecar);
 }
 
 

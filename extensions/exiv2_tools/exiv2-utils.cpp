@@ -727,6 +727,28 @@ exiv2_read_metadata_from_buffer (void       *buffer,
 
 
 extern "C"
+GFile *
+exiv2_get_sidecar (GFile *file)
+{
+	char  *uri;
+	char  *uri_wo_ext;
+	char  *sidecar_uri;
+	GFile *sidecar;
+
+	uri = g_file_get_uri (file);
+	uri_wo_ext = _g_uri_remove_extension (uri);
+	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
+	sidecar = g_file_new_for_uri (sidecar_uri);
+
+	g_free (sidecar_uri);
+	g_free (uri_wo_ext);
+	g_free (uri);
+
+	return sidecar;
+}
+
+
+extern "C"
 gboolean
 exiv2_read_sidecar (GFile     *file,
 		    GFileInfo *info)

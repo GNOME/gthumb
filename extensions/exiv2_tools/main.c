@@ -257,6 +257,14 @@ GthFileDataSort exiv2_sort_types[] = {
 };
 
 
+static void
+exiv2_add_sidecars_cb (GFile  *file,
+		       GList **sidecars)
+{
+	*sidecars = g_list_prepend (*sidecars, exiv2_get_sidecar (file));
+}
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
@@ -273,6 +281,7 @@ gthumb_extension_activate (void)
 	if (gth_hook_present ("jpegtran-after"))
 		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
 	gth_hook_add_callback ("generate-thumbnail", 10, G_CALLBACK (exiv2_generate_thumbnail), NULL);
+	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (exiv2_add_sidecars_cb), NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (exiv2_sort_types); i++)
 		gth_main_register_sort_type (&exiv2_sort_types[i]);
