@@ -934,6 +934,9 @@ gth_image_viewer_page_real_can_view (GthViewerPage *base,
 }
 
 
+#define N_PRELOADERS 4
+
+
 static void
 gth_image_viewer_page_real_view (GthViewerPage *base,
 				 GthFileData   *file_data)
@@ -941,9 +944,8 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthImageViewerPage *self;
 	GthFileStore       *file_store;
 	GtkTreeIter         iter;
-	GthFileData        *next_file_data = NULL;
-	GthFileData        *next2_file_data = NULL;
-	GthFileData        *prev_file_data = NULL;
+	GthFileData        *next_file_data[N_PRELOADERS];
+	GthFileData        *prev_file_data[N_PRELOADERS];
 	int                 window_width;
 	int                 window_height;
 
@@ -969,20 +971,24 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
-		GtkTreeIter iter2;
-		GtkTreeIter iter3;
+		GtkTreeIter next_iter;
+		int         i;
 
-		iter2 = iter;
-		if (gth_file_store_get_next_visible (file_store, &iter2))
-			next_file_data = gth_file_store_get_file (file_store, &iter2);
+		next_iter = iter;
+		for (i = 0; i < N_PRELOADERS; i++) {
+			if (gth_file_store_get_next_visible (file_store, &next_iter))
+				next_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
+			else
+				next_file_data[i] = NULL;
+		}
 
-		iter3 = iter2;
-		if (gth_file_store_get_next_visible (file_store, &iter3))
-			next2_file_data = gth_file_store_get_file (file_store, &iter3);
-
-		iter2 = iter;
-		if (gth_file_store_get_prev_visible (file_store, &iter2))
-			prev_file_data = gth_file_store_get_file (file_store, &iter2);
+		next_iter = iter;
+		for (i = 0; i < N_PRELOADERS; i++) {
+			if (gth_file_store_get_prev_visible (file_store, &next_iter))
+				prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
+			else
+				prev_file_data[i] = NULL;
+		}
 	}
 
 	gtk_window_get_size (GTK_WINDOW (self->priv->browser),
@@ -992,9 +998,14 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
 				  (gth_image_prelaoder_get_load_policy (self->priv->preloader) == GTH_LOAD_POLICY_TWO_STEPS) ? MAX (window_width, window_height) : -1,
-				  next_file_data,
-				  next2_file_data,
-				  prev_file_data,
+				  next_file_data[0],
+				  next_file_data[1],
+				  next_file_data[2],
+				  next_file_data[3],
+				  prev_file_data[0],
+				  prev_file_data[1],
+				  prev_file_data[2],
+				  prev_file_data[3],
 				  NULL);
 }
 
