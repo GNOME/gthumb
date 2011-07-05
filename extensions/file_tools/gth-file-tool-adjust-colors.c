@@ -222,7 +222,8 @@ adjust_colors_after (GthAsyncTask *task,
 		cairo_surface_destroy (self->priv->destination);
 		self->priv->destination = cairo_surface_reference (adjust_data->destination);
 
-		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (adjust_data->viewer_page), self->priv->destination, FALSE);
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("preview_checkbutton"))))
+			gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (adjust_data->viewer_page), self->priv->destination, FALSE);
 		gth_histogram_calculate_for_image (self->priv->histogram, self->priv->destination);
 	}
 
@@ -343,10 +344,10 @@ apply_cb (gpointer user_data)
 	adjust_data->color_level[2] = gtk_adjustment_get_value (self->priv->yellow_blue_adj);
 
 	self->priv->image_task = gth_async_task_new (adjust_colors_before,
-						      adjust_colors_exec,
-						      adjust_colors_after,
-						      adjust_data,
-						      adjust_data_free);
+						     adjust_colors_exec,
+						     adjust_colors_after,
+						     adjust_data,
+						     adjust_data_free);
 	gth_browser_exec_task (GTH_BROWSER (window), self->priv->image_task, FALSE);
 
 	return FALSE;
@@ -362,6 +363,23 @@ value_changed_cb (GtkAdjustment           *adj,
 		self->priv->apply_event = 0;
 	}
 	self->priv->apply_event = g_timeout_add (APPLY_DELAY, apply_cb, self);
+}
+
+
+static void
+preview_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
+				gpointer         user_data)
+{
+	GthFileToolAdjustColors *self = user_data;
+	GtkWidget               *window;
+	GtkWidget               *viewer_page;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (gtk_toggle_button_get_active (togglebutton))
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->destination, FALSE);
+	else
+		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->source, FALSE);
 }
 
 
@@ -460,6 +478,10 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	g_signal_connect (G_OBJECT (self->priv->yellow_blue_adj),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (preview_checkbutton_toggled_cb),
 			  self);
 
 	gth_histogram_calculate_for_image (self->priv->histogram, self->priv->source);
