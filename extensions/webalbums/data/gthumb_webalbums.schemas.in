@@ -106,19 +106,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/webalbums/use_subfolders</key>
-	<applyto>/apps/gthumb/ext/webalbums/use_subfolders</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>true</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
 	<key>/schemas/apps/gthumb/ext/webalbums/copy_images</key>
 	<applyto>/apps/gthumb/ext/webalbums/copy_images</applyto>
 	<owner>gthumb</owner>

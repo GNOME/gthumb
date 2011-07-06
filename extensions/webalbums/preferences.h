@@ -34,7 +34,6 @@ G_BEGIN_DECLS
 #define PREF_WEBALBUMS_DIR_HTML_INDEXES         "/apps/gthumb/ext/webalbums/directories/html_indexes"
 #define PREF_WEBALBUMS_DIR_THEME_FILES          "/apps/gthumb/ext/webalbums/directories/theme_files"
 #define PREF_WEBALBUMS_DESTINATION              "/apps/gthumb/ext/webalbums/destination"
-#define PREF_WEBALBUMS_USE_SUBFOLDERS           "/apps/gthumb/ext/webalbums/use_subfolders"
 #define PREF_WEBALBUMS_COPY_IMAGES              "/apps/gthumb/ext/webalbums/copy_images"
 #define PREF_WEBALBUMS_RESIZE_IMAGES            "/apps/gthumb/ext/webalbums/resize_images"
 #define PREF_WEBALBUMS_RESIZE_WIDTH             "/apps/gthumb/ext/webalbums/resize_width"

@@ -111,7 +111,6 @@ ok_clicked_cb (GtkWidget  *widget,
 	eel_gconf_set_path (PREF_WEBALBUMS_DESTINATION, s_value);
 	g_free (s_value);
 
-	eel_gconf_set_boolean (PREF_WEBALBUMS_USE_SUBFOLDERS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_subfolders_checkbutton"))));
 	eel_gconf_set_boolean (PREF_WEBALBUMS_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("copy_images_checkbutton"))));
 	eel_gconf_set_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton"))));
 
@@ -192,7 +191,6 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_web_exporter_set_image_page_footer (GTH_WEB_EXPORTER (task), image_page_footer);
 	gth_web_exporter_set_style (GTH_WEB_EXPORTER (task), theme_name);
 	gth_web_exporter_set_destination (GTH_WEB_EXPORTER (task), destination);
-	gth_web_exporter_set_use_subfolders (GTH_WEB_EXPORTER (task), eel_gconf_get_boolean (PREF_WEBALBUMS_USE_SUBFOLDERS, TRUE));
 	gth_web_exporter_set_copy_images (GTH_WEB_EXPORTER (task), eel_gconf_get_boolean (PREF_WEBALBUMS_COPY_IMAGES, FALSE));
 	gth_web_exporter_set_resize_images (GTH_WEB_EXPORTER (task),
 					    eel_gconf_get_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, FALSE),
@@ -407,7 +405,6 @@ dlg_web_exporter (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_subfolders_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_USE_SUBFOLDERS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("copy_images_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_COPY_IMAGES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton")), eel_gconf_get_boolean (PREF_WEBALBUMS_RESIZE_IMAGES, FALSE));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_WEBALBUMS_IMAGES_PER_INDEX, 12));
