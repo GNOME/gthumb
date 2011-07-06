@@ -27,8 +27,10 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
-#define DEFAULT_WIDTH 640
-#define DEFAULT_HEIGHT 480
+#define DEFAULT_WIDTH_PERCENTAGE 100
+#define DEFAULT_HEIGHT_PERCENTAGE 100
+#define DEFAULT_WIDTH_PIXELS 640
+#define DEFAULT_HEIGHT_PIXELS 480
 
 
 enum {
@@ -49,6 +51,10 @@ typedef struct {
 	gboolean    use_destination;
 	gulong      width_spinbutton_event;
 	gulong      height_spinbutton_event;
+	double      latest_width_in_pixel;
+	double      latest_height_in_pixel;
+	double      latest_width_in_percentage;
+	double      latest_height_in_percentage;
 } DialogData;
 
 
@@ -192,10 +198,24 @@ update_width_height_properties (DialogData *data)
 	if (unit == GTH_UNIT_PERCENTAGE) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), 2);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), 2);
+
+		g_signal_handler_block (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+		g_signal_handler_block (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_percentage);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_percentage);
+		g_signal_handler_unblock (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+		g_signal_handler_unblock (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
 	}
 	else if (unit == GTH_UNIT_PIXELS) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), 0);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), 0);
+
+		g_signal_handler_block (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+		g_signal_handler_block (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_pixel);
+		g_signal_handler_unblock (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
+		g_signal_handler_unblock (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
 	}
 }
 
@@ -204,6 +224,18 @@ static void
 unit_combobox_changed_cb (GtkComboBox *combobox,
 			  DialogData  *data)
 {
+	GthUnit unit;
+
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if (unit == GTH_UNIT_PERCENTAGE) {
+		data->latest_width_in_pixel = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")));
+		data->latest_height_in_pixel = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")));
+	}
+	else if (unit == GTH_UNIT_PIXELS) {
+		data->latest_width_in_percentage = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")));
+		data->latest_height_in_percentage = gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")));
+	}
+
 	update_width_height_properties (data);
 }
 
@@ -266,6 +298,7 @@ dlg_resize_images (GthBrowser *browser,
 	DialogData  *data;
 	GArray      *savers;
 	GthFileData *first_file_data;
+	GthUnit      unit;
 
 	if (gth_browser_get_dialog (browser, "resize_images") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "resize_images")));
@@ -286,10 +319,27 @@ dlg_resize_images (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS));
+	unit = eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), unit);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
+
+	if (unit == GTH_UNIT_PERCENTAGE) {
+		data->latest_width_in_pixel = DEFAULT_WIDTH_PIXELS;
+		data->latest_height_in_pixel = DEFAULT_HEIGHT_PIXELS;
+		data->latest_width_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH_PERCENTAGE);
+		data->latest_height_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT_PERCENTAGE);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_percentage);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_percentage);
+	}
+	else if (unit == GTH_UNIT_PIXELS) {
+		data->latest_width_in_percentage = DEFAULT_WIDTH_PERCENTAGE;
+		data->latest_height_in_percentage = DEFAULT_HEIGHT_PERCENTAGE;
+		data->latest_width_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH_PIXELS);
+		data->latest_height_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT_PIXELS);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_pixel);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
+	}
+
 	update_width_height_properties (data);
 
 	savers = gth_main_get_type_set ("pixbuf-saver");
