@@ -1503,6 +1503,8 @@ gth_image_viewer_page_set_image (GthImageViewerPage *self,
 		gth_image_history_add_image (self->priv->history, image, TRUE);
 	_gth_image_viewer_page_set_image (self, image, TRUE);
 	self->priv->image_changed = TRUE;
+	if (add_to_history)
+		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
 
 
