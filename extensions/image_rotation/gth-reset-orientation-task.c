@@ -28,6 +28,8 @@ struct _GthResetOrientationTaskPrivate {
 	GList         *file_list;
 	GList         *current;
 	GthFileData   *file_data;
+	int            n_image;
+	int            n_images;
 };
 
 
@@ -54,6 +56,7 @@ static void transform_current_file (GthResetOrientationTask *self);
 static void
 transform_next_file (GthResetOrientationTask *self)
 {
+	self->priv->n_image++;
 	self->priv->current = self->priv->current->next;
 	transform_current_file (self);
 }
@@ -104,6 +107,12 @@ file_info_ready_cb (GList    *files,
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = g_object_ref ((GthFileData *) files->data);
 
+	gth_task_progress (GTH_TASK (self),
+			   _("Saving images"),
+			   g_file_info_get_display_name (self->priv->file_data->info),
+			   FALSE,
+			   (double) (self->priv->n_image + 1) / (self->priv->n_images + 1));
+
 	metadata = g_object_new (GTH_TYPE_METADATA, "raw", "1", NULL);
 	g_file_info_set_attribute_object (self->priv->file_data->info, "Exif::Image::Orientation", G_OBJECT (metadata));
 
@@ -151,6 +160,8 @@ gth_reset_orientation_task_exec (GthTask *task)
 
 	self = GTH_RESET_ORIENTATION_TASK (task);
 
+	self->priv->n_images = g_list_length (self->priv->file_list);
+	self->priv->n_image = 0;
 	self->priv->current = self->priv->file_list;
 	transform_current_file (self);
 }
