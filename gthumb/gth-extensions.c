@@ -283,12 +283,16 @@ gth_extension_module_real_activate (GthExtension  *base,
 
 	self = GTH_EXTENSION_MODULE (base);
 
-	if (base->active)
+	if (base->active || base->initialized) {
+		base->active = TRUE;
 		return TRUE;
+	}
 
 	success = gth_extension_module_exec_generic_func (self, "activate", error);
-	if (success)
+	if (success) {
 		base->active = TRUE;
+		base->initialized = TRUE;
+	}
 
 	return success;
 }
