@@ -501,8 +501,6 @@ gth_browser_update_title (GthBrowser *browser)
 			g_string_append (title, _("[modified]"));
 		}
 	}
-	else
-		g_string_append (title, _("gthumb"));
 
 	file_store = gth_browser_get_file_store (browser);
 	browser->priv->n_visibles = gth_file_store_n_visibles (file_store);
@@ -517,6 +515,10 @@ gth_browser_update_title (GthBrowser *browser)
 			g_string_append_printf (title, " (%d/%d)", browser->priv->current_file_position + 1, browser->priv->n_visibles);
 		}
 	}
+
+	if (title->len > 0)
+		g_string_append (title, " - ");
+	g_string_append (title, _("gthumb"));
 
 	gtk_window_set_title (GTK_WINDOW (browser), title->str);
 
