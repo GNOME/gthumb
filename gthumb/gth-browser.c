@@ -565,6 +565,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
 	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_set_action_sensitive (browser, "View_Sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_set_action_sensitive (browser, "View_Reload", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -4793,6 +4794,8 @@ gth_browser_stop (GthBrowser *browser)
 void
 gth_browser_reload (GthBrowser *browser)
 {
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
+		return;
 	gth_browser_go_to (browser, browser->priv->location->file, NULL);
 }
 
