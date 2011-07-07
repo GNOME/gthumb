@@ -446,11 +446,26 @@ static void
 delete_script_cb (GtkButton  *button,
 	          DialogData *data)
 {
+	GtkWidget        *d;
+	int               result;
 	GtkTreeSelection *selection;
 	GtkTreeModel     *model = GTK_TREE_MODEL (data->list_store);
 	GtkTreeIter       iter;
 	GthScript        *script;
 	GthScriptFile    *script_file;
+
+	d = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+				     GTK_DIALOG_MODAL,
+				     GTK_STOCK_DIALOG_QUESTION,
+				     _("Are you sure you want to delete the selected command?"),
+				     NULL,
+				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				     GTK_STOCK_DELETE, GTK_RESPONSE_OK,
+				     NULL);
+	result = gtk_dialog_run (GTK_DIALOG (d));
+	gtk_widget_destroy (d);
+	if (result != GTK_RESPONSE_OK)
+		return;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view));
 	if (! gtk_tree_selection_get_selected (selection, &model, &iter))
