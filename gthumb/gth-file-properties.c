@@ -100,8 +100,10 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 	self = GTH_FILE_PROPERTIES (base);
 	gtk_list_store_clear (self->priv->tree_model);
 
-	if (file_data == NULL)
+	if (file_data == NULL) {
+		gtk_widget_hide (self->priv->comment_win);
 		return;
+	}
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 

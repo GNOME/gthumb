@@ -1461,8 +1461,8 @@ _gth_browser_get_visible_files (GthBrowser *browser,
 }
 
 
-static void _gth_browser_make_file_visible (GthBrowser  *browser,
-					    GthFileData *file_data);
+static gboolean _gth_browser_make_file_visible (GthBrowser  *browser,
+						GthFileData *file_data);
 
 
 static void
@@ -1475,6 +1475,7 @@ load_data_continue (LoadData *load_data,
 	gboolean     loaded_requested_folder;
 	GtkTreePath *path;
 	GthTest     *filter;
+	gboolean     changed_current_location;
 
 	if ((load_data->action != GTH_ACTION_LIST_CHILDREN)
 	    && ! g_file_equal (load_data->requested_folder->file, load_data->browser->priv->location->file))
@@ -1545,21 +1546,26 @@ load_data_continue (LoadData *load_data,
 		break;
 	}
 
+	changed_current_location = FALSE;
 	switch (load_data->action) {
 	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_UP:
 	case GTH_ACTION_VIEW:
+		changed_current_location = TRUE;
+		break;
+	default:
+		break;
+	}
+
+	if (changed_current_location) {
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		g_object_unref (filter);
-		break;
-	default:
-		break;
 	}
 
 	if (load_data->scroll_to_file != NULL) {
@@ -1594,7 +1600,13 @@ load_data_continue (LoadData *load_data,
 				gth_viewer_page_focus (browser->priv->viewer_page);
 			}
 		}
+		else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
+			if (changed_current_location && ! _gth_browser_make_file_visible (browser, browser->priv->current_file))
+				gtk_widget_hide (browser->priv->file_properties) /* FIXME */;
+		}
 	}
+	else if (changed_current_location)
+		gtk_widget_hide (browser->priv->file_properties); /* FIXME */
 
 	if (StartSlideshow) {
 		StartSlideshow = FALSE;
@@ -2301,8 +2313,10 @@ _gth_browser_real_set_current_page (GthWindow *window,
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->file_properties));
 		if (browser->priv->current_file != NULL)
 			_gth_browser_show_properties_in_browser_mode (browser);
-		else
-			gtk_widget_hide (browser->priv->file_properties);
+		else {
+			gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), NULL);
+			gtk_widget_hide (browser->priv->file_properties); /* FIXME */
+		}
 	}
 	else if (page == GTH_BROWSER_PAGE_VIEWER) {
 		if (_gth_browser_get_action_active (browser, "Viewer_Properties")) {
@@ -2947,6 +2961,11 @@ _g_file_list_find_file_or_ancestor (GList *l,
 }
 
 
+static void _gth_browser_load_file (GthBrowser  *browser,
+				    GthFileData *file_data,
+				    gboolean     view);
+
+
 static void
 folder_changed_cb (GthMonitor      *monitor,
 		   GFile           *parent,
@@ -3080,8 +3099,10 @@ folder_changed_cb (GthMonitor      *monitor,
 					}
 					_g_object_unref (new_file);
 				}
-				else
+				else {
 					gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
+					_gth_browser_load_file (browser, NULL, FALSE);
+				}
 			}
 
 			_gth_browser_update_statusbar_list_info (browser);
@@ -3803,7 +3824,7 @@ pref_ui_sidebar_visible_changed (GConfClient *client,
 }
 
 
-static void
+static gboolean
 _gth_browser_make_file_visible (GthBrowser  *browser,
 				GthFileData *file_data)
 {
@@ -3812,11 +3833,11 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	GthVisibility  visibility;
 
 	if (file_data == NULL)
-		return;
+		return FALSE;
 
 	file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), file_data->file);
 	if (file_pos < 0)
-		return;
+		return FALSE;
 
 	/* the main file list */
 
@@ -3878,6 +3899,8 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 		}
 		gth_file_view_scroll_to (GTH_FILE_VIEW (view), file_pos, align);
 	}
+
+	return TRUE;
 }
 
 
@@ -5333,11 +5356,6 @@ _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 }
 
 
-static void _gth_browser_load_file (GthBrowser  *browser,
-				    GthFileData *file_data,
-				    gboolean     view);
-
-
 static void
 file_metadata_ready_cb (GList    *files,
 			GError   *error,
@@ -5474,7 +5492,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 		_g_object_unref (browser->priv->current_file);
 		browser->priv->current_file = NULL;
 
-		gtk_widget_hide (browser->priv->file_properties);
+		/* gtk_widget_hide (browser->priv->file_properties); */ /* FIXME */
 		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), NULL);
 
 		gth_browser_update_statusbar_file_info (browser);
