@@ -944,6 +944,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthImageViewerPage *self;
 	GthFileStore       *file_store;
 	GtkTreeIter         iter;
+	int                 i;
 	GthFileData        *next_file_data[N_PRELOADERS];
 	GthFileData        *prev_file_data[N_PRELOADERS];
 	int                 window_width;
@@ -969,25 +970,27 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	self->priv->file_data = gth_file_data_dup (file_data);
 	self->priv->image_changed = FALSE;
 
+	for (i = 0; i < N_PRELOADERS; i++) {
+		next_file_data[i] = NULL;
+		prev_file_data[i] = NULL;
+	}
+
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
 		GtkTreeIter next_iter;
-		int         i;
 
 		next_iter = iter;
 		for (i = 0; i < N_PRELOADERS; i++) {
-			if (gth_file_store_get_next_visible (file_store, &next_iter))
-				next_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
-			else
-				next_file_data[i] = NULL;
+			if (! gth_file_store_get_next_visible (file_store, &next_iter))
+				break;
+			next_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
 		}
 
 		next_iter = iter;
 		for (i = 0; i < N_PRELOADERS; i++) {
-			if (gth_file_store_get_prev_visible (file_store, &next_iter))
-				prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
-			else
-				prev_file_data[i] = NULL;
+			if (! gth_file_store_get_prev_visible (file_store, &next_iter))
+				break;
+			prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
 		}
 	}
 
