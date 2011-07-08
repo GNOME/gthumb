@@ -1602,11 +1602,11 @@ load_data_continue (LoadData *load_data,
 		}
 		else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
 			if (changed_current_location && ! _gth_browser_make_file_visible (browser, browser->priv->current_file))
-				gtk_widget_hide (browser->priv->file_properties) /* FIXME */;
+				gtk_widget_hide (browser->priv->file_properties);
 		}
 	}
 	else if (changed_current_location)
-		gtk_widget_hide (browser->priv->file_properties); /* FIXME */
+		gtk_widget_hide (browser->priv->file_properties);
 
 	if (StartSlideshow) {
 		StartSlideshow = FALSE;
@@ -2315,7 +2315,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 			_gth_browser_show_properties_in_browser_mode (browser);
 		else {
 			gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), NULL);
-			gtk_widget_hide (browser->priv->file_properties); /* FIXME */
+			gtk_widget_hide (browser->priv->file_properties);
 		}
 	}
 	else if (page == GTH_BROWSER_PAGE_VIEWER) {
@@ -5492,7 +5492,6 @@ _gth_browser_load_file (GthBrowser  *browser,
 		_g_object_unref (browser->priv->current_file);
 		browser->priv->current_file = NULL;
 
-		/* gtk_widget_hide (browser->priv->file_properties); */ /* FIXME */
 		gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), NULL);
 
 		gth_browser_update_statusbar_file_info (browser);
