@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
+#include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-enhance.h"
 #include "gth-file-tool-flip.h"
@@ -39,13 +40,11 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
 {
 	gpointer     result = NULL;
-	guint        modifiers;
 	GtkWidget   *sidebar;
 	GtkWidget   *toolbox;
 	GthFileTool *tool = NULL;
-
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_VIEWER)
-		return NULL;
+	guint        modifiers;
+	GtkWidget   *page;
 
 	sidebar = gth_browser_get_viewer_sidebar (browser);
 	toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (sidebar));
@@ -55,6 +54,16 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	modifiers = gtk_accelerator_get_default_mod_mask ();
 	if (((event->state & modifiers) != 0) && ((event->state & modifiers) != GDK_SHIFT_MASK))
 		return NULL;
+
+	page = gth_browser_get_viewer_page (browser);
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (page))
+		return NULL;
+
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER
+	    && ! gtk_widget_has_focus (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (page))))
+	{
+		return NULL;
+	}
 
 	switch (event->keyval) {
 	case GDK_KEY_h:
@@ -83,6 +92,8 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	}
 
 	if (tool != NULL) {
+		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
+			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 		gth_file_tool_activate (tool);
 		result = GINT_TO_POINTER (1);
 	}
