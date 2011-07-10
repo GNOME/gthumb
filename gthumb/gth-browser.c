@@ -518,7 +518,7 @@ gth_browser_update_title (GthBrowser *browser)
 
 	if (title->len > 0)
 		g_string_append (title, " - ");
-	g_string_append (title, _("gthumb"));
+	g_string_append (title, _("gThumb"));
 
 	gtk_window_set_title (GTK_WINDOW (browser), title->str);
 
