@@ -902,10 +902,7 @@ from_unit_to_pixels (GthMetric unit,
 		value = value * 2.54;
 		break;
 	case GTH_METRIC_MILLIMETERS:
-		value = value;
-		break;
 	case GTH_METRIC_PIXELS:
-		value = value;
 		break;
 	}
 
@@ -922,10 +919,7 @@ from_pixels_to_unit (GthMetric unit,
 		value = value / 2.54;
 		break;
 	case GTH_METRIC_MILLIMETERS:
-		value = value;
-		break;
 	case GTH_METRIC_PIXELS:
-		value = value;
 		break;
 	}
 
