@@ -1559,7 +1559,7 @@ add_non_content_width (GthImageViewerPage *self,
 {
 	int width = 0;
 
-	if ((non_content != NULL) && gtk_widget_get_visible (non_content)) {
+	if ((non_content != NULL) && gtk_widget_get_mapped (non_content)) {
 		GtkAllocation allocation;
 
 		gtk_widget_get_allocation (non_content, &allocation);
@@ -1576,7 +1576,7 @@ add_non_content_height (GthImageViewerPage *self,
 {
 	int height = 0;
 
-	if ((non_content != NULL) && gtk_widget_get_visible (non_content)) {
+	if ((non_content != NULL) && gtk_widget_get_mapped (non_content)) {
 		GtkAllocation allocation;
 
 		gtk_widget_get_allocation (non_content, &allocation);
