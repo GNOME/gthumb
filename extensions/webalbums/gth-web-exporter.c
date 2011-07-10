@@ -2584,10 +2584,10 @@ image_loader_ready_cb (GObject      *source_object,
 	}
 
 	idata = (ImageData *) self->priv->current_file->data;
+	pixbuf = gth_image_get_pixbuf (image);
 
 	/* image */
 
-	pixbuf = gth_image_get_pixbuf (image);
 	idata->image = g_object_ref (pixbuf);
 	if (self->priv->copy_images && self->priv->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
@@ -2597,11 +2597,8 @@ image_loader_ready_cb (GObject      *source_object,
 				         self->priv->resize_max_height,
 				         FALSE))
 		{
-			GdkPixbuf *scaled;
-
-			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->image);
-			idata->image = scaled;
+			idata->image = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 		}
 	}
 
@@ -2622,10 +2619,8 @@ image_loader_ready_cb (GObject      *source_object,
 					     self->priv->preview_max_height,
 					     FALSE))
 		{
-			GdkPixbuf *scaled;
-			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
-			idata->preview = scaled;
+			idata->preview = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 		}
 	}
 
@@ -2643,29 +2638,21 @@ image_loader_ready_cb (GObject      *source_object,
 	/* thumbnail. */
 
 	idata->thumb = g_object_ref (pixbuf);
-	g_object_ref (idata->thumb);
-
 	if ((self->priv->thumb_width > 0) && (self->priv->thumb_height > 0)) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
 		if (self->priv->squared_thumbnails) {
-			GdkPixbuf *squared;
-
-			squared = _gdk_pixbuf_scale_squared (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
-			idata->thumb = squared;
+			idata->thumb = _gdk_pixbuf_scale_squared (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
 		}
 		else if (scale_keeping_ratio (&w, &h,
 					      self->priv->thumb_width,
 					      self->priv->thumb_height,
 					      FALSE))
 		{
-			GdkPixbuf *scaled;
-
-			scaled = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
-			idata->thumb = scaled;
+			idata->thumb = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
 		}
 	}
 
