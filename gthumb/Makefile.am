@@ -276,11 +276,13 @@ ui_dir = $(abs_top_srcdir)/data/ui
 icon_dir = $(abs_top_srcdir)/data/icons
 extensions_ui_dir = $(abs_top_srcdir)/extensions
 extensions_dir = $(abs_top_builddir)/extensions
+applications_dir = $(abs_top_builddir)/data
 else
 ui_dir = $(pkgdatadir)/ui
 icon_dir = $(pkgdatadir)/icons
 extensions_ui_dir = $(pkgdatadir)/ui
 extensions_dir = $(pkglibdir)/extensions
+applications_dir = $(datadir)/applications
 endif
 
 gthumb_CFLAGS =							\
@@ -308,6 +310,7 @@ gthumb_CFLAGS =							\
 	-DGTHUMB_ICON_DIR=\"$(icon_dir)\"			\
 	-DGTHUMB_EXTENSIONS_UI_DIR=\"$(extensions_ui_dir)\"	\
 	-DGTHUMB_EXTENSIONS_DIR=\"$(extensions_dir)\"		\
+	-DGTHUMB_APPLICATIONS_DIR=\"$(applications_dir)\"	\
 	$(NULL)
 
 gth-enum-types.h: $(PUBLIC_HEADER_FILES) $(GLIB_MKENUMS)
