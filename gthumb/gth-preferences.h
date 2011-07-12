@@ -33,6 +33,7 @@ G_BEGIN_DECLS
 #define PREF_GO_TO_LAST_LOCATION            "/apps/gthumb/general/go_to_last_location"
 #define PREF_USE_STARTUP_LOCATION           "/apps/gthumb/general/use_startup_location"
 #define PREF_STARTUP_LOCATION               "/apps/gthumb/general/startup_location"
+#define PREF_STARTUP_CURRENT_FILE           "/apps/gthumb/general/startup_current_file"
 #define PREF_ACTIVE_EXTENSIONS              "/apps/gthumb/general/active_extensions"
 #define PREF_STORE_METADATA_IN_FILES        "/apps/gthumb/general/store_metadata_in_files"
 

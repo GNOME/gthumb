@@ -2085,8 +2085,15 @@ _gth_browser_close_final_step (gpointer user_data)
 
 			uri = g_file_get_uri (browser->priv->location->file);
 			eel_gconf_set_path (PREF_STARTUP_LOCATION, uri);
-
 			g_free (uri);
+
+			if (browser->priv->current_file != NULL) {
+				uri = g_file_get_uri (browser->priv->current_file->file);
+				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, uri);
+				g_free (uri);
+			}
+			else
+				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, NULL);
 		}
 
 		if (browser->priv->default_sort_type != NULL) {

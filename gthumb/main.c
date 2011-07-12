@@ -31,6 +31,7 @@
 #include <clutter-gtk/clutter-gtk.h>
 #endif
 #include "eggsmclient.h"
+#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-data.h"
@@ -345,7 +346,8 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 
 
 static void
-open_browser_window (GFile *location)
+open_browser_window (GFile *location,
+		     GFile *current_file)
 {
 #ifdef HAVE_UNIQUE
 	if (unique_app_is_running (gthumb_app)) {
@@ -370,7 +372,10 @@ open_browser_window (GFile *location)
 		window = gth_browser_new (NULL);
 		if (! StartSlideshow)
 			gtk_window_present (GTK_WINDOW (window));
-		gth_browser_load_location (GTH_BROWSER (window), location);
+		if (current_file != NULL)
+			gth_browser_go_to (GTH_BROWSER (window), location, current_file);
+		else
+			gth_browser_load_location (GTH_BROWSER (window), location);
 	}
 }
 
@@ -457,10 +462,16 @@ prepare_application (void)
 
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
+		char  *current_file_uri;
+		GFile  *current_file;
 
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
-		open_browser_window (location);
+		current_file_uri = eel_gconf_get_path (PREF_STARTUP_CURRENT_FILE, NULL);
+		current_file = g_file_new_for_uri (current_file_uri);
+		open_browser_window (location, current_file);
 
+		g_object_unref (current_file);
+		g_free (current_file_uri);
 		g_object_unref (location);
 
 		return;
@@ -486,17 +497,17 @@ prepare_application (void)
 
 	location = gth_hook_invoke_get ("command-line-files", files);
 	if (location != NULL) {
-		open_browser_window (location);
+		open_browser_window (location, NULL);
 		g_object_unref (location);
 	}
 	else /* Open each file in a new window */
 		for (scan = files; scan; scan = scan->next)
-			open_browser_window ((GFile *) scan->data);
+			open_browser_window ((GFile *) scan->data, NULL);
 
 	/* Open each dir in a new window */
 
 	for (scan = dirs; scan; scan = scan->next)
-		open_browser_window ((GFile *) scan->data);
+		open_browser_window ((GFile *) scan->data, NULL);
 
 	_g_object_list_unref (dirs);
 	_g_object_list_unref (files);
