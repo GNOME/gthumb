@@ -4727,6 +4727,13 @@ gth_browser_get_statusbar (GthBrowser *browser)
 
 
 GtkWidget *
+gth_browser_get_filterbar (GthBrowser *browser)
+{
+	return browser->priv->filterbar;
+}
+
+
+GtkWidget *
 gth_browser_get_file_list (GthBrowser *browser)
 {
 	return browser->priv->file_list;
