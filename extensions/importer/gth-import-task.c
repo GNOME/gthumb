@@ -493,7 +493,7 @@ write_file_to_destination (GthImportTask *self,
 	else
 		g_file_copy_async (file_data->file,
 				   self->priv->destination_file->file,
-				   (replace ? G_FILE_COPY_OVERWRITE : G_FILE_COPY_NONE),
+				   (replace ? G_FILE_COPY_OVERWRITE : G_FILE_COPY_NONE) | G_FILE_COPY_TARGET_DEFAULT_PERMS,
 				   G_PRIORITY_DEFAULT,
 				   gth_task_get_cancellable (GTH_TASK (self)),
 				   copy_non_image_progress_cb,
