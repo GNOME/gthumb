@@ -2093,7 +2093,7 @@ _gth_browser_close_final_step (gpointer user_data)
 				g_free (uri);
 			}
 			else
-				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, NULL);
+				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, "");
 		}
 
 		if (browser->priv->default_sort_type != NULL) {
