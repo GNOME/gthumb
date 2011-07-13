@@ -28,6 +28,9 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+#define IMAGE_RATIO_POSITION 2
+#define SCREEN_RATIO_POSITION 3
+#define PIXELS_UNIT_POSITION 0
 
 
 static gpointer parent_class = NULL;
@@ -200,13 +203,11 @@ high_quality_checkbutton_toggled_cb (GtkToggleButton   *button,
 
 
 static void
-unit_combobox_changed_cb (GtkComboBox       *combobox,
-			  GthFileToolResize *self)
+update_size_spin_buttons_from_unit_value (GthFileToolResize *self)
 {
 	g_signal_handlers_block_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
 	g_signal_handlers_block_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
 
-	self->priv->unit = gtk_combo_box_get_active (combobox);
 	if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
 		double p;
 
@@ -227,6 +228,15 @@ unit_combobox_changed_cb (GtkComboBox       *combobox,
 
 	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
 	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
+}
+
+
+static void
+unit_combobox_changed_cb (GtkComboBox       *combobox,
+			  GthFileToolResize *self)
+{
+	self->priv->unit = gtk_combo_box_get_active (combobox);
+	update_size_spin_buttons_from_unit_value (self);
 
 	selection_width_value_changed_cb (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), self);
 }
@@ -359,6 +369,70 @@ invert_ratio_changed_cb (GtkSpinButton     *spin,
 }
 
 
+static void
+set_image_size (GthFileToolResize *self,
+		int                w,
+		int                h,
+		int                ratio)
+{
+	self->priv->fixed_aspect_ratio = TRUE;
+	self->priv->aspect_ratio = (double) w / h;;
+	self->priv->new_width = w;
+	self->priv->new_height = h;
+	self->priv->unit = GTH_UNIT_PIXELS;
+
+	update_size_spin_buttons_from_unit_value (self);
+
+	g_signal_handlers_block_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("unit_combobox"), self);
+	g_signal_handlers_block_by_data (self->priv->ratio_combobox, self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("invert_ratio_checkbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("ratio_w_spinbutton"), self);
+	g_signal_handlers_block_by_data (GET_WIDGET ("ratio_h_spinbutton"), self);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), PIXELS_UNIT_POSITION);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), ratio);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), FALSE);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), w);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), h);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")), w);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")), h);
+
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_width_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("resize_height_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("unit_combobox"), self);
+	g_signal_handlers_unblock_by_data (self->priv->ratio_combobox, self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("invert_ratio_checkbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("ratio_w_spinbutton"), self);
+	g_signal_handlers_unblock_by_data (GET_WIDGET ("ratio_h_spinbutton"), self);
+
+	update_pixbuf_size (self);
+}
+
+
+static void
+image_size_button_clicked_cb (GtkButton         *button,
+			      GthFileToolResize *self)
+{
+	set_image_size (self,
+			self->priv->original_width,
+			self->priv->original_height,
+			IMAGE_RATIO_POSITION);
+}
+
+
+static void
+screen_size_button_clicked_cb (GtkButton         *button,
+			       GthFileToolResize *self)
+{
+	set_image_size (self,
+			self->priv->screen_width,
+			self->priv->screen_height,
+			SCREEN_RATIO_POSITION);
+}
+
+
 static GtkWidget *
 gth_file_tool_resize_get_options (GthFileTool *base)
 {
@@ -418,9 +492,11 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 
 	self->priv->ratio_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Square"), NULL);
 	text = g_strdup_printf (_("%d x %d (Image)"), self->priv->original_width, self->priv->original_height);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("image_size_label")), text);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
 	text = g_strdup_printf (_("%d x %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("screen_size_label")), text);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
 	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox),
@@ -482,6 +558,14 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("invert_ratio_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (invert_ratio_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("image_size_button"),
+			  "clicked",
+			  G_CALLBACK (image_size_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("screen_size_button"),
+			  "clicked",
+			  G_CALLBACK (screen_size_button_clicked_cb),
 			  self);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), eel_gconf_get_enum (PREF_RESIZE_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, GTH_ASPECT_RATIO_IMAGE));
