@@ -418,6 +418,35 @@ task_dialog_cb (GthTask   *task,
 }
 
 
+static void
+main_dialog_task_progress_cb (GthTask    *task,
+			      const char *description,
+			      const char *details,
+			      gboolean    pulse,
+			      double      fraction,
+			      gpointer    user_data)
+{
+	GthProgressDialog *self = user_data;
+	GString           *title;
+
+	/* set the task description as dialog title if the main window is hidden */
+
+	if (description == NULL)
+		return;
+
+	if ((self->priv->parent != NULL) && gtk_widget_get_mapped (GTK_WIDGET (self->priv->parent)))
+		return;
+
+	title = g_string_new ("");
+	g_string_append (title, description);
+	g_string_append (title, " - ");
+	g_string_append (title, _("gThumb"));
+	gtk_window_set_title (GTK_WINDOW (self), title->str);
+
+	g_string_free (title, TRUE);
+}
+
+
 void
 gth_progress_dialog_add_task (GthProgressDialog *self,
 			      GthTask           *task)
@@ -428,13 +457,21 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 			  "dialog",
 			  G_CALLBACK (task_dialog_cb),
 			  self);
+	g_signal_connect (task,
+			  "progress",
+			  G_CALLBACK (main_dialog_task_progress_cb),
+			  self);
+
+	gtk_window_set_title (GTK_WINDOW (self), "");
 
 	child = gth_task_progress_new (task);
 	gtk_widget_show (child);
 	gtk_box_pack_start (GTK_BOX (self->priv->task_box), child, TRUE, TRUE, 0);
 	gth_task_exec (task, NULL);
 
-	if (self->priv->show_event == 0)
+	if ((self->priv->parent == NULL) || ! gtk_widget_get_mapped (GTK_WIDGET (self->priv->parent)))
+		_show_dialog_cb (self);
+	else if (self->priv->show_event == 0)
 		self->priv->show_event = g_timeout_add (SHOW_DELAY, _show_dialog_cb, self);
 }
 
