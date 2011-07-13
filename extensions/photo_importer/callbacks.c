@@ -110,7 +110,7 @@ import_data_unref (gpointer user_data)
 	ImportData *data = user_data;
 
 	g_object_unref (data->browser);
-	g_object_unref (data->source);
+	_g_object_unref (data->source);
 	g_free (data);
 }
 
@@ -133,7 +133,7 @@ pi__import_photos_cb (GthBrowser *browser,
 
 	data = g_new0 (ImportData, 1);
 	data->browser = g_object_ref (browser);
-	data->source = g_object_ref (source);
+	data->source = _g_object_ref (source);
 	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
 			 import_photos_idle_cb,
 			 data,
