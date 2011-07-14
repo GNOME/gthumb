@@ -60,70 +60,74 @@ static guint mount_removed_event_id = 0;
 
 
 static GList *
-gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
+gth_file_source_vfs_add_special_dir (GList         *list, 
+				     GthFileSource *file_source,
+				     GUserDirectory special_dir)
 {
 	const gchar *path;
+
+	path = g_get_user_special_dir (special_dir);
+	if (path != NULL) {
+		GFile *file;
+		file = g_file_new_for_path (path);
+		if (g_file_query_exists (file, NULL)) {
+			GFileInfo *info;
+			info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+			list = g_list_append (list, gth_file_data_new (file, info));
+			g_object_unref (info);
+		}
+
+		g_object_unref (file);
+	}
+
+	return list;
+}
+
+
+static GList *
+gth_file_source_vfs_add_uri (GList         *list,
+                             GthFileSource *file_source,
+                             const char    *uri,
+			     char          *display_name)
+{
+        GFile       *file;
+        GFileInfo   *info;
+
+        file = g_file_new_for_uri (uri);
+        info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+        g_file_info_set_display_name (info, display_name);
+        list = g_list_append (list, gth_file_data_new (file, info));
+        g_object_unref (info);
+        g_object_unref (file);
+
+        return list;
+}
+
+
+static GList *
+gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
+{
 	GList       *list;
-	GFile       *file;
-	GFileInfo   *info;
 	GList       *mounts;
 	GList       *scan;
 
 	list = NULL;
 
-	file = g_file_new_for_uri (get_home_uri ());
-	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-	g_file_info_set_display_name (info, _("Home Folder"));
-	list = g_list_append (list, gth_file_data_new (file, info));
-	g_object_unref (info);
-	g_object_unref (file);
-
-	path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-	if (path != NULL) {
-		file = g_file_new_for_path (path);
-		if (g_file_query_exists (file, NULL)) {
-			info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-			list = g_list_append (list, gth_file_data_new (file, info));
-			g_object_unref (info);
-		}
-		g_object_unref (file);
-	}
-
-	path = g_get_user_special_dir (G_USER_DIRECTORY_VIDEOS);
-	if (path != NULL) {
-		file = g_file_new_for_path (path);
-		if (g_file_query_exists (file, NULL)) {
-			info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-			list = g_list_append (list, gth_file_data_new (file, info));
-			g_object_unref (info);
-		}
-		g_object_unref (file);
-	}
-
-	path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
-	if (path != NULL) {
-		file = g_file_new_for_path (path);
-		if (g_file_query_exists (file, NULL)) {
-			info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-			list = g_list_append (list, gth_file_data_new (file, info));
-			g_object_unref (info);
-		}
-		g_object_unref (file);
-	}
-
-	file = g_file_new_for_uri ("file:///");
-	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-	g_file_info_set_display_name (info, _("File System"));
-	list = g_list_append (list, gth_file_data_new (file, info));
-	g_object_unref (info);
-	g_object_unref (file);
+	list = gth_file_source_vfs_add_uri (list, file_source, get_home_uri (), _("Home Folder"));
+	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_PICTURES);
+	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_VIDEOS);
+	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DESKTOP);
+	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOCUMENTS);
+        list = gth_file_source_vfs_add_uri (list, file_source, "file:///", _("File System"));
 
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
-		GMount  *mount = scan->data;
-		GIcon   *icon;
-		char    *name;
-		GDrive  *drive;
+		GMount    *mount = scan->data;
+		GIcon     *icon;
+		char      *name;
+		GDrive    *drive;
+		GFile     *file;
+		GFileInfo *info;
 
 		if (g_mount_is_shadowed (mount))
 			continue;
