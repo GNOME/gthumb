@@ -29,48 +29,114 @@
 #include "preferences.h"
 
 
+typedef struct {
+	GthBrowser *browser;
+	GFile      *parent;
+} NewFolderData;
+
+
 static void
-_gth_browser_create_new_folder (GthBrowser *browser,
-				GFile      *parent)
+new_fodler_data_free (NewFolderData *data)
 {
-	char   *folder_name;
-	GError *error = NULL;
-	GFile  *new_folder;
+	g_object_unref (data->parent);
+	g_free (data);
+}
 
-	folder_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
-					       GTK_DIALOG_MODAL,
-					       _("Enter the folder name: "),
-				               "",
-					       1024,
-					       GTK_STOCK_CANCEL,
-					       _("C_reate"));
-	if (folder_name == NULL)
+
+static void
+new_folder_dialog_response_cb (GtkWidget *dialog,
+			       int        response_id,
+			       gpointer   user_data)
+{
+	NewFolderData *data = user_data;
+	char          *name;
+	GFile         *folder;
+	GError        *error = NULL;
+
+	if (response_id != GTK_RESPONSE_OK) {
+		new_fodler_data_free (data);
+		gtk_widget_destroy (dialog);
 		return;
+	}
 
-	new_folder = g_file_get_child_for_display_name (parent, folder_name, &error);
-	if ((new_folder != NULL) && (g_file_make_directory (new_folder, NULL, &error))) {
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
+
+	folder = g_file_get_child_for_display_name (data->parent, name, &error);
+	if ((folder != NULL) && g_file_make_directory (folder, NULL, &error)) {
 		GList       *list;
 		GtkWidget   *folder_tree;
 		GtkTreePath *path;
 
-		list = g_list_prepend (NULL, new_folder);
+		list = g_list_prepend (NULL, folder);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent,
+					    data->parent,
 					    list,
 					    GTH_MONITOR_EVENT_CREATED);
 
-		folder_tree = gth_browser_get_folder_tree (browser);
-		path = gth_folder_tree_get_path (GTH_FOLDER_TREE (folder_tree), parent);
+		folder_tree = gth_browser_get_folder_tree (data->browser);
+		path = gth_folder_tree_get_path (GTH_FOLDER_TREE (folder_tree), data->parent);
 		gth_folder_tree_expand_row (GTH_FOLDER_TREE (folder_tree), path, FALSE);
 
 		gtk_tree_path_free (path);
 		g_list_free (list);
 	}
-	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the folder"), &error);
 
-	_g_object_unref (new_folder);
-	g_free (folder_name);
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("Name already used"));
+		else
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, error->message);
+		g_clear_error (&error);
+	}
+	else {
+		new_fodler_data_free (data);
+		gtk_widget_destroy (dialog);
+	}
+
+	g_object_unref (folder);
+}
+
+
+static void
+_gth_browser_create_new_folder (GthBrowser *browser,
+				GFile      *parent)
+{
+	NewFolderData *data;
+	GtkWidget     *dialog;
+
+	data = g_new0 (NewFolderData, 1);
+	data->browser = browser;
+	data->parent = g_object_ref (parent);
+
+	dialog = gth_request_dialog_new (GTK_WINDOW (browser),
+					 GTK_DIALOG_MODAL,
+					 _("New folder"),
+					 _("Enter the folder name:"),
+					 GTK_STOCK_CANCEL,
+					 _("C_reate"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (new_folder_dialog_response_cb),
+			  data);
+
+	gtk_widget_show (dialog);
 }
 
 
