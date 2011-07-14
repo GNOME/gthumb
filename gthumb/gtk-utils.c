@@ -25,18 +25,15 @@
 #include "gtk-utils.h"
 #include "pixbuf-utils.h"
 
-#define REQUEST_ENTRY_WIDTH 220
+#define REQUEST_ENTRY_WIDTH_IN_CHARS 40
 
 
-static GtkWidget *
-create_button (const char *stock_id,
-	       const char *text)
+GtkWidget *
+_gtk_button_new_from_stock_with_text (const char *stock_id,
+				      const char *text)
 {
 	GtkWidget    *button;
-	GtkWidget    *hbox;
 	GtkWidget    *image;
-	GtkWidget    *label;
-	GtkWidget    *align;
 	const char   *label_text;
 	gboolean      text_is_stock;
 	GtkStockItem  stock_item;
@@ -46,28 +43,20 @@ create_button (const char *stock_id,
 	if (gtk_stock_lookup (text, &stock_item)) {
 		label_text = stock_item.label;
 		text_is_stock = TRUE;
-	} else {
+	}
+	else {
 		label_text = text;
 		text_is_stock = FALSE;
 	}
 
-	if (text_is_stock)
-		image = gtk_image_new_from_stock (text, GTK_ICON_SIZE_BUTTON);
-	else
-		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
-	label = gtk_label_new_with_mnemonic (label_text);
-	hbox = gtk_hbox_new (FALSE, 2);
-	align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+	image = gtk_image_new_from_stock (text_is_stock ? text : stock_id, GTK_ICON_SIZE_BUTTON);
+	gtk_button_set_image (GTK_BUTTON (button), image);
+
+	gtk_button_set_use_underline (GTK_BUTTON (button), TRUE);
+	gtk_button_set_label (GTK_BUTTON (button), label_text);
 
 	gtk_widget_set_can_default (button, TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
-
-	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
-	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), align);
-	gtk_container_add (GTK_CONTAINER (align), hbox);
-
-	gtk_widget_show_all (button);
+	gtk_widget_show (button);
 
 	return button;
 }
@@ -206,7 +195,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	entry = gtk_entry_new ();
-	gtk_widget_set_size_request (entry, REQUEST_ENTRY_WIDTH, -1);
+	gtk_entry_set_width_chars (GTK_ENTRY (entry), REQUEST_ENTRY_WIDTH_IN_CHARS);
 	gtk_entry_set_max_length (GTK_ENTRY (entry), max_length);
 	gtk_entry_set_text (GTK_ENTRY (entry), default_value);
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
@@ -238,14 +227,14 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 
 	/* Add buttons */
 
-	button = create_button (GTK_STOCK_CANCEL, no_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_CANCEL, no_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_CANCEL);
 
 	/**/
 
-	button = create_button (GTK_STOCK_OK, yes_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_OK, yes_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_YES);
@@ -320,14 +309,14 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 
 	/* Add buttons */
 
-	button = create_button (GTK_STOCK_CANCEL, no_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_CANCEL, no_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_CANCEL);
 
 	/**/
 
-	button = create_button (GTK_STOCK_OK, yes_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_OK, yes_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_YES);
@@ -407,14 +396,14 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 
 	/* Add buttons */
 
-	button = create_button (GTK_STOCK_CANCEL, no_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_CANCEL, no_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_CANCEL);
 
 	/**/
 
-	button = create_button (GTK_STOCK_OK, yes_button_text);
+	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_OK, yes_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
 				      GTK_RESPONSE_YES);

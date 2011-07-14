@@ -66,27 +66,44 @@ gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 }
 
 
-void
-gth_browser_activate_action_catalog_new (GtkAction  *action,
-					 GthBrowser *browser)
+static void
+catalog_new_dialog_response_cb (GtkWidget *dialog,
+				int        response_id,
+				gpointer   user_data)
 {
+	GthBrowser    *browser = user_data;
 	char          *name;
 	GthFileData   *selected_parent;
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
+	char          *display_name;
 	GError        *error = NULL;
 	GFile         *gio_file;
 
-	name = _gtk_request_dialog_run (GTK_WINDOW (browser),
-				        GTK_DIALOG_MODAL,
-				        _("Enter the catalog name: "),
-				        "",
-				        1024,
-				        GTK_STOCK_CANCEL,
-				        _("C_reate"));
-	if (name == NULL)
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
 		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
 
 	selected_parent = gth_browser_get_folder_popup_file_data (browser);
 	if (selected_parent != NULL) {
@@ -108,8 +125,129 @@ gth_browser_activate_action_catalog_new (GtkAction  *action,
 
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
-	gio_file = _g_file_create_unique (gio_parent, name, ".catalog", &error);
+	display_name = g_strconcat (name, ".catalog", NULL);
+	gio_file = g_file_get_child_for_display_name (gio_parent, display_name, &error);
 	if (gio_file != NULL) {
+		GFileOutputStream *stream;
+
+		stream = g_file_create (gio_file, G_FILE_CREATE_NONE, NULL, &error);
+		if (stream != NULL) {
+			GFile *file;
+			GList *list;
+
+			file = gth_catalog_file_from_gio_file (gio_file, NULL);
+			list = g_list_prepend (NULL, file);
+			gth_monitor_folder_changed (gth_main_get_default_monitor (),
+						    parent,
+						    list,
+						    GTH_MONITOR_EVENT_CREATED);
+
+			g_list_free (list);
+			g_object_unref (file);
+			g_object_unref (stream);
+		}
+
+		g_object_unref (gio_file);
+	}
+
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("Name already used"));
+		else
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, error->message);
+		g_clear_error (&error);
+	}
+	else
+		gtk_widget_destroy (dialog);
+
+	g_free (display_name);
+	g_object_unref (gio_parent);
+	g_object_unref (file_source);
+	g_free (name);
+}
+
+
+void
+gth_browser_activate_action_catalog_new (GtkAction  *action,
+					 GthBrowser *browser)
+{
+	GtkWidget *dialog;
+
+	dialog = gth_request_dialog_new (GTK_WINDOW (browser),
+					 GTK_DIALOG_MODAL,
+					 _("New catalog"),
+					 _("Enter the catalog name:"),
+					 GTK_STOCK_CANCEL,
+					 _("C_reate"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (catalog_new_dialog_response_cb),
+			  browser);
+
+	gtk_widget_show (dialog);
+}
+
+
+static void
+new_library_dialog_response_cb (GtkWidget *dialog,
+				int        response_id,
+				gpointer   user_data)
+{
+	GthBrowser    *browser = user_data;
+	char          *name;
+	GthFileData   *selected_parent;
+	GFile         *parent;
+	GthFileSource *file_source;
+	GFile         *gio_parent;
+	GError        *error = NULL;
+	GFile         *gio_file;
+
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
+
+	selected_parent = gth_browser_get_folder_popup_file_data (browser);
+	if (selected_parent != NULL) {
+		GthFileSource *file_source;
+		GFileInfo     *info;
+
+		file_source = gth_main_get_file_source (selected_parent->file);
+		info = gth_file_source_get_file_info (file_source, selected_parent->file, GFILE_BASIC_ATTRIBUTES);
+		if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
+			parent = g_file_get_parent (selected_parent->file);
+		else
+			parent = g_file_dup (selected_parent->file);
+
+		g_object_unref (info);
+		g_object_unref (file_source);
+	}
+	else
+		parent = g_file_new_for_uri ("catalog:///");
+
+	file_source = gth_main_get_file_source (parent);
+	gio_parent = gth_file_source_to_gio_file (file_source, parent);
+	gio_file = g_file_get_child_for_display_name (gio_parent, name, &error);
+	if (g_file_make_directory (gio_file, NULL, &error)) {
 		GFile *file;
 		GList *list;
 
@@ -123,12 +261,21 @@ gth_browser_activate_action_catalog_new (GtkAction  *action,
 		g_list_free (list);
 		g_object_unref (file);
 	}
+
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("Name already used"));
+		else
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, error->message);
+		g_clear_error (&error);
+	}
 	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the catalog"), &error);
+		gtk_widget_destroy (dialog);
 
 	g_object_unref (gio_file);
 	g_object_unref (gio_parent);
 	g_object_unref (file_source);
+	g_free (name);
 }
 
 
@@ -136,65 +283,20 @@ void
 gth_browser_activate_action_catalog_new_library (GtkAction  *action,
 						 GthBrowser *browser)
 {
-	char          *name;
-	GthFileData   *selected_parent;
-	GFile         *parent;
-	GthFileSource *file_source;
-	GFile         *gio_parent;
-	GError        *error = NULL;
-	GFile         *gio_file;
+	GtkWidget *dialog;
 
-	name = _gtk_request_dialog_run (GTK_WINDOW (browser),
-				        GTK_DIALOG_MODAL,
-				        _("Enter the library name: "),
-				        "",
-				        1024,
-				        GTK_STOCK_CANCEL,
-				        _("C_reate"));
-	if (name == NULL)
-		return;
+	dialog = gth_request_dialog_new (GTK_WINDOW (browser),
+					 GTK_DIALOG_MODAL,
+					 _("New library"),
+					 _("Enter the library name:"),
+					 GTK_STOCK_CANCEL,
+					 _("C_reate"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (new_library_dialog_response_cb),
+			  browser);
 
-	selected_parent = gth_browser_get_folder_popup_file_data (browser);
-	if (selected_parent != NULL) {
-		GthFileSource *file_source;
-		GFileInfo     *info;
-
-		file_source = gth_main_get_file_source (selected_parent->file);
-		info = gth_file_source_get_file_info (file_source, selected_parent->file, GFILE_BASIC_ATTRIBUTES);
-		if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
-			parent = g_file_get_parent (selected_parent->file);
-		else
-			parent = g_file_dup (selected_parent->file);
-
-		g_object_unref (info);
-		g_object_unref (file_source);
-	}
-	else
-		parent = g_file_new_for_uri ("catalog:///");
-
-	file_source = gth_main_get_file_source (parent);
-	gio_parent = gth_file_source_to_gio_file (file_source, parent);
-	gio_file = _g_directory_create_unique (gio_parent, name, "", &error);
-	if (gio_file != NULL) {
-		GFile *file;
-		GList *list;
-
-		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		list = g_list_prepend (NULL, file);
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent,
-					    list,
-					    GTH_MONITOR_EVENT_CREATED);
-
-		g_list_free (list);
-		g_object_unref (file);
-	}
-	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the library"), &error);
-
-	g_object_unref (gio_file);
-	g_object_unref (gio_parent);
-	g_object_unref (file_source);
+	gtk_widget_show (dialog);
 }
 
 

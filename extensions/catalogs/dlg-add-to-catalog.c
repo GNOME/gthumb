@@ -250,25 +250,42 @@ new_catalog_metadata_ready_cb (GObject  *object,
 
 
 static void
-new_catalog_button_clicked_cb (GtkWidget  *widget,
-		       	       DialogData *data)
+new_catalog_dialog_response_cb (GtkWidget *dialog,
+				int        response_id,
+				gpointer   user_data)
 {
+	DialogData  *data = user_data;
 	char        *name;
 	GthFileData *selected_parent;
 	GFile       *parent;
 	GFile       *gio_parent;
+	char        *display_name;
 	GError      *error = NULL;
 	GFile       *gio_file;
 
-	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
-				        GTK_DIALOG_MODAL,
-				        _("Enter the catalog name: "),
-				        "",
-				        1024,
-				        GTK_STOCK_CANCEL,
-				        _("C_reate"));
-	if (name == NULL)
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
 		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
 
 	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
 	if (selected_parent != NULL) {
@@ -291,33 +308,73 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 	_g_object_unref (data->catalog_source);
 	data->catalog_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (data->catalog_source, parent);
-	gio_file = _g_file_create_unique (gio_parent, name, ".catalog", &error);
+	display_name = g_strconcat (name, ".catalog", NULL);
+	gio_file = g_file_get_child_for_display_name (gio_parent, display_name, &error);
 	if (gio_file != NULL) {
-		GFile *file;
+		GFileOutputStream *stream;
 
-		_g_object_unref (data->new_catalog);
-		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		data->new_catalog = gth_file_data_new (file, NULL);
-		gth_file_source_read_metadata (data->catalog_source,
-					       data->new_catalog,
-					       "*",
-					       new_catalog_metadata_ready_cb,
-					       data);
+		stream = g_file_create (gio_file, G_FILE_CREATE_NONE, NULL, &error);
+		if (stream != NULL) {
+			GFile *file;
 
-		g_object_unref (file);
+			_g_object_unref (data->new_catalog);
+			file = gth_catalog_file_from_gio_file (gio_file, NULL);
+			data->new_catalog = gth_file_data_new (file, NULL);
+			gth_file_source_read_metadata (data->catalog_source,
+						       data->new_catalog,
+						       "*",
+						       new_catalog_metadata_ready_cb,
+						       data);
+
+			g_object_unref (file);
+			g_object_unref (stream);
+		}
+
+		g_object_unref (gio_file);
+	}
+
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("Name already used"));
+		else
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, error->message);
+		g_clear_error (&error);
 	}
 	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the catalog"), &error);
+		gtk_widget_destroy (dialog);
 
-	g_object_unref (gio_file);
+	g_free (display_name);
 	g_object_unref (gio_parent);
 }
 
 
 static void
-new_library_button_clicked_cb (GtkWidget  *widget,
+new_catalog_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
+	GtkWidget *dialog;
+
+	dialog = gth_request_dialog_new (GTK_WINDOW (data->dialog),
+					 GTK_DIALOG_MODAL,
+					 _("New catalog"),
+					 _("Enter the catalog name:"),
+					 GTK_STOCK_CANCEL,
+					 _("C_reate"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (new_catalog_dialog_response_cb),
+			  data);
+
+	gtk_widget_show (dialog);
+}
+
+
+static void
+new_library_dialog_response_cb (GtkWidget *dialog,
+				int        response_id,
+				gpointer   user_data)
+{
+	DialogData    *data = user_data;
 	char          *name;
 	GthFileData   *selected_parent;
 	GFile         *parent;
@@ -326,15 +383,29 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 	GError        *error = NULL;
 	GFile         *gio_file;
 
-	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
-					GTK_DIALOG_MODAL,
-					_("Enter the library name: "),
-					"",
-					1024,
-					GTK_STOCK_CANCEL,
-					_("C_reate"));
-	if (name == NULL)
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
 		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
 
 	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
 	if (selected_parent != NULL) {
@@ -357,7 +428,7 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
 	gio_file = _g_directory_create_unique (gio_parent, name, "", &error);
-	if (gio_file != NULL) {
+	if (g_file_make_directory (gio_file, NULL, &error)) {
 		GFile *file;
 		GList *list;
 
@@ -371,44 +442,42 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 		g_list_free (list);
 		g_object_unref (file);
 	}
+
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("Name already used"));
+		else
+			gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, error->message);
+		g_clear_error (&error);
+	}
 	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the library"), &error);
+		gtk_widget_destroy (dialog);
 
 	g_object_unref (gio_file);
 	g_object_unref (gio_parent);
 	g_object_unref (file_source);
-
-	/*
-
-	selected_catalog = gth_folder_tree_get_selected (GTH_FOLDER_TREE (data->source_tree));
-	parent = get_catalog_parent (selected_catalog->file);
-	new_library = g_file_get_child_for_display_name (parent, name, &error);
-
-	if ((new_library != NULL) && (strchr (display_name, '/') != NULL)) {
-		error = g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), display_name);
-		g_object_unref (new_library);
-		new_library = NULL;
-	}
-
-	if (error == NULL) {
-		GFile *gio_file;
-
-		gio_file = gth_file_source_to_gio_file (data->file_source, new_library);
-		g_file_make_directory (new_library, NULL, &error);
-
-		g_object_unref (gio_file);
-	}
-
-	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create a new library"), &error);
-
-	if (new_library != NULL)
-		g_object_unref (new_library);
-	g_object_unref (parent);
-	g_object_unref (selected_catalog);
 	g_free (name);
+}
 
-	*/
+
+static void
+new_library_button_clicked_cb (GtkWidget  *widget,
+		       	       DialogData *data)
+{
+	GtkWidget *dialog;
+
+	dialog = gth_request_dialog_new (GTK_WINDOW (data->dialog),
+					 GTK_DIALOG_MODAL,
+					 _("New library"),
+					 _("Enter the library name:"),
+					 GTK_STOCK_CANCEL,
+					 _("C_reate"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (new_library_dialog_response_cb),
+			  data);
+
+	gtk_widget_show (dialog);
 }
 
 

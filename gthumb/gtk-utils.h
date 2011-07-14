@@ -28,6 +28,8 @@
 
 G_BEGIN_DECLS
 
+GtkWidget * _gtk_button_new_from_stock_with_text (const char *stock_id,
+				      	      	  const char *text);
 GtkWidget*  _gtk_message_dialog_new        (GtkWindow        *parent,
 					    GtkDialogFlags    flags,
 					    const char       *stock_id,
