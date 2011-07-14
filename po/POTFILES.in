@@ -774,6 +774,8 @@ gthumb/gth-preferences.c
 gthumb/gth-preferences.h
 gthumb/gth-progress-dialog.c
 gthumb/gth-progress-dialog.h
+gthumb/gth-request-dialog.c
+gthumb/gth-request-dialog.h
 gthumb/gth-screensaver.c
 gthumb/gth-screensaver.h
 gthumb/gth-sidebar.c
