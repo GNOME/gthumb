@@ -247,7 +247,7 @@ new_library_dialog_response_cb (GtkWidget *dialog,
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
 	gio_file = g_file_get_child_for_display_name (gio_parent, name, &error);
-	if (g_file_make_directory (gio_file, NULL, &error)) {
+	if ((gio_file != NULL) && g_file_make_directory (gio_file, NULL, &error)) {
 		GFile *file;
 		GList *list;
 
