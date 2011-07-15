@@ -609,7 +609,7 @@ paint_background (GthImageSelector *self,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
-				       CAIRO_FILTER_GOOD);
+				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 
 	/* make the background darker */
 	{
@@ -653,7 +653,7 @@ paint_selection (GthImageSelector *self,
 					       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 					       &selection_area,
 					       event->region,
-					       CAIRO_FILTER_GOOD);
+					       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 
 	cairo_save (cr);
 
@@ -695,7 +695,7 @@ paint_image (GthImageSelector *self,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
 				       event->region,
-				       CAIRO_FILTER_GOOD);
+				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 }
 
 

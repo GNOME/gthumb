@@ -217,6 +217,7 @@ gdouble        gth_image_viewer_get_zoom                 (GthImageViewer     *vi
 void           gth_image_viewer_set_zoom_quality         (GthImageViewer     *viewer,
 							  GthZoomQuality      quality);
 GthZoomQuality gth_image_viewer_get_zoom_quality         (GthImageViewer     *viewer);
+cairo_filter_t gth_image_viewer_get_zoom_quality_filter  (GthImageViewer     *viewer);
 void           gth_image_viewer_set_zoom_change          (GthImageViewer     *viewer,
 							  GthZoomChange       zoom_change);
 GthZoomChange  gth_image_viewer_get_zoom_change          (GthImageViewer     *viewer);

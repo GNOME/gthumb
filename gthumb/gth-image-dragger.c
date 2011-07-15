@@ -155,7 +155,6 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
-	cairo_filter_t   filter;
 
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
@@ -165,14 +164,6 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
-	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
-		filter = CAIRO_FILTER_FAST;
-	else
-		filter = CAIRO_FILTER_BEST;
-
-	if (gth_image_viewer_get_zoom (viewer) == 1.0)
-		filter = CAIRO_FILTER_FAST;
-
 	gth_image_viewer_paint_region (viewer,
 				       cr,
 				       gth_image_viewer_get_current_image (viewer),
@@ -180,7 +171,7 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 				       viewer->y_offset - viewer->image_area.y,
 				       &viewer->image_area,
 				       event->region,
-				       filter);
+				       gth_image_viewer_get_zoom_quality_filter (viewer));
 
 	gth_image_viewer_apply_painters (viewer, event, cr);
 }

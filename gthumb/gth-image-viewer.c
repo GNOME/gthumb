@@ -2030,6 +2030,23 @@ gth_image_viewer_get_zoom_quality (GthImageViewer *self)
 }
 
 
+cairo_filter_t
+gth_image_viewer_get_zoom_quality_filter (GthImageViewer *viewer)
+{
+	cairo_filter_t filter;
+
+	if (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_LOW)
+		filter = CAIRO_FILTER_FAST;
+	else
+		filter = CAIRO_FILTER_BEST;
+
+	if (gth_image_viewer_get_zoom (viewer) == 1.0)
+		filter = CAIRO_FILTER_FAST;
+
+	return filter;
+}
+
+
 void
 gth_image_viewer_set_zoom_change (GthImageViewer *self,
 				  GthZoomChange   zoom_change)
