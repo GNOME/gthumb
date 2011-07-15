@@ -27,5 +27,6 @@
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
 DEFINE_ACTION(gth_window_activate_action_file_close_window)
+DEFINE_ACTION(gth_window_activate_action_file_quit_application)
 
 #endif /* GTH_WINDOW_ACTIONS_CALLBACK_H */

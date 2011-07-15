@@ -21,10 +21,20 @@
 
 #include <config.h>
 #include "gth-window.h"
+#include "main.h"
+
 
 void
 gth_window_activate_action_file_close_window (GtkAction *action,
 					      gpointer   data)
 {
 	gth_window_close ((GthWindow*)data);
+}
+
+
+void
+gth_window_activate_action_file_quit_application (GtkAction *action,
+						  gpointer   data)
+{
+	gth_quit (FALSE);
 }

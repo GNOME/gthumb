@@ -30,7 +30,12 @@ static GtkActionEntry gth_window_action_entries[] = {
 	{ "File_CloseWindow", GTK_STOCK_CLOSE,
 	  NULL, NULL,
 	  N_("Close this window"),
-	  G_CALLBACK (gth_window_activate_action_file_close_window) }
+	  G_CALLBACK (gth_window_activate_action_file_close_window) },
+
+	{ "File_Quit", GTK_STOCK_QUIT,
+	  N_("Close _All Windows"), NULL,
+	  NULL,
+	  G_CALLBACK (gth_window_activate_action_file_quit_application) }
 };
 static guint gth_window_action_entries_size = G_N_ELEMENTS (gth_window_action_entries);
 

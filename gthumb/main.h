@@ -33,7 +33,7 @@ extern gboolean ImportPhotos;
 extern int ClutterInitResult;
 #endif
 
-void gth_restart (void);
+void gth_quit (gboolean restart);
 
 G_END_DECLS
 

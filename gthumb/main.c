@@ -63,7 +63,7 @@ static UniqueApp   *gthumb_app;
 #endif
 static char       **remaining_args;
 static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
-static gboolean     restart = FALSE;
+static gboolean     Restart = FALSE;
 static gboolean     version = FALSE;
 
 
@@ -579,7 +579,7 @@ main (int argc, char *argv[])
 	gth_main_release ();
 	gth_pref_release ();
 
-	if (restart)
+	if (Restart)
 		g_spawn_command_line_async (program_argv0, NULL);
 
 	return 0;
@@ -587,7 +587,7 @@ main (int argc, char *argv[])
 
 
 void
-gth_restart (void)
+gth_quit (gboolean restart)
 {
 	GList *windows;
 	GList *scan;
@@ -597,5 +597,5 @@ gth_restart (void)
 		gth_window_close (GTH_WINDOW (scan->data));
 	g_list_free (windows);
 
-	restart = TRUE;
+	Restart = restart;
 }

@@ -823,7 +823,7 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 		gtk_widget_destroy (dialog);
 
 		if (response == GTK_RESPONSE_OK)
-			gth_restart ();
+			gth_quit (TRUE);
 	}
 
 	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
