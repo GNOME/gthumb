@@ -463,14 +463,17 @@ prepare_application (void)
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
 		char  *current_file_uri;
-		GFile  *current_file;
+		GFile *current_file;
 
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
 		current_file_uri = eel_gconf_get_path (PREF_STARTUP_CURRENT_FILE, NULL);
-		current_file = g_file_new_for_uri (current_file_uri);
+		if (current_file_uri != NULL)
+			current_file = g_file_new_for_uri (current_file_uri);
+		else
+			current_file = NULL;
 		open_browser_window (location, current_file);
 
-		g_object_unref (current_file);
+		_g_object_unref (current_file);
 		g_free (current_file_uri);
 		g_object_unref (location);
 
