@@ -103,7 +103,10 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
 	}
 	else {
-		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
+		if (file_list->next == NULL)
+			gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
+		else
+			gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_CHANGE);
 		gtk_widget_set_sensitive (self->priv->date_combobox, FALSE);
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
 	}
