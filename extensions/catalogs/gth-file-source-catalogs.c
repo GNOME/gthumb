@@ -1280,7 +1280,7 @@ remove_from_catalog_end (GError                *error,
 			 RemoveFromCatalogData *data)
 {
 	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (data->parent, _("Could not remove the files from the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (data->parent, _("Could not remove the files from the catalog"), error);
 
 	g_object_unref (data->catalog);
 	g_object_unref (data->gio_file);

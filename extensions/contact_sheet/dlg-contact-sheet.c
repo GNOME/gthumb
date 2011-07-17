@@ -479,8 +479,10 @@ theme_dialog_response_cb (GtkDialog *dialog,
 						     theme->display_name,
 						     ".cst",
 						     &error);
-		if (theme->file == NULL)
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), &error);
+		if (theme->file == NULL) {
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), error);
+			g_clear_error (&error);
+		}
 
 		g_object_unref (themes_dir);
 		g_free (themes_path);
@@ -490,8 +492,9 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	}
 
 	if (! gth_contact_sheet_theme_to_data (theme, &buffer, &buffer_size, &error)) {
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), error);
+		g_clear_error (&error);
 		g_free (buffer);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), &error);
 		return;
 	}
 
@@ -503,8 +506,9 @@ theme_dialog_response_cb (GtkDialog *dialog,
 			    NULL,
 			    &error))
 	{
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), error);
+		g_clear_error (&error);
 		g_free (buffer);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), &error);
 		return;
 	}
 
@@ -646,8 +650,10 @@ delete_theme_button_clicked_cb (GtkButton *button,
 	if (theme->file != NULL) {
 		GError *error = NULL;
 
-		if (! g_file_delete (theme->file, NULL, &error))
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not delete the theme"), &error);
+		if (! g_file_delete (theme->file, NULL, &error)) {
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not delete the theme"), error);
+			g_clear_error (&error);
+		}
 	}
 
 	gth_contact_sheet_theme_unref (theme);

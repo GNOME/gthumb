@@ -163,7 +163,7 @@ info_ready_cb (GList    *files,
 	GdkPixbuf          *pixbuf;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self), _("Cannot read file information"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self), _("Cannot read file information"), error);
 		return;
 	}
 

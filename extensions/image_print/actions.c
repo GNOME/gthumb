@@ -60,12 +60,15 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 						     &error);
 		_g_object_unref (current_image);
 
-		if (print_job != NULL)
+		if (print_job != NULL) {
 			gth_image_print_job_run (print_job,
 						 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
 						 browser);
-		else
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not print the selected files"), &error);
+		}
+		else {
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not print the selected files"), error);
+			g_clear_error (&error);
+		}
 	}
 
 	_g_object_list_unref (file_list);

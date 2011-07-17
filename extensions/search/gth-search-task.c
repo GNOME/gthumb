@@ -349,7 +349,7 @@ clear_search_result_copy_done_cb (void     **buffer,
 	task->priv->io_operation = FALSE;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (task->priv->browser), _("Could not create the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (task->priv->browser), _("Could not create the catalog"), error);
 		return;
 	}
 

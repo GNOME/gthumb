@@ -63,11 +63,11 @@ _gtk_yesno_dialog_with_checkbutton_new     (GtkWindow        *parent,
 void
 _gtk_error_dialog_from_gerror_run          (GtkWindow        *parent,
 					    const char       *title,
-					    GError          **gerror);
+					    GError           *gerror);
 void
 _gtk_error_dialog_from_gerror_show         (GtkWindow        *parent,
 					    const char       *title,
-					    GError          **gerror);
+					    GError           *gerror);
 void        _gtk_error_dialog_run          (GtkWindow        *parent,
 					    const gchar      *format,
 					    ...) G_GNUC_PRINTF (2, 3);

@@ -67,7 +67,8 @@ remove_cb (GtkWidget  *widget,
 		
 	bookmarks = gth_main_get_default_bookmarks ();
 	if (! g_bookmark_file_remove_item (bookmarks, uri, &error)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not remove the bookmark"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not remove the bookmark"), error);
+		g_clear_error (&error);
 	}
 	gth_main_bookmarks_changed ();
 	

@@ -553,8 +553,7 @@ ok_button_clicked__step2 (GError   *error,
 	GthTask     *task;
 
 	if (error != NULL) {
-		GError *new_error = g_error_copy (error);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not rename the files"), &new_error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not rename the files"), error);
 		return;
 	}
 
@@ -782,7 +781,8 @@ template_editor_dialog_response_cb (GtkDialog *dialog,
 
 	template = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog), &error);
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the template"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the template"), error);
+		g_clear_error (&error);
 		return;
 	}
 

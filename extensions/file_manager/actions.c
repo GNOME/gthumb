@@ -552,7 +552,8 @@ gth_browser_activate_action_folder_open_in_file_manager (GtkAction  *action,
                             gtk_get_current_event_time (),
                             &error))
 	{
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open the location"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open the location"), error);
+		g_clear_error (&error);
 	}
 
 	g_free (uri);
@@ -699,8 +700,10 @@ delete_folder_permanently (GtkWindow        *window,
 
 			gtk_widget_destroy (d);
 		}
-		else
-			_gtk_error_dialog_from_gerror_show (window, _("Could not delete the folder"), &error);
+		else {
+			_gtk_error_dialog_from_gerror_show (window, _("Could not delete the folder"), error);
+			g_clear_error (&error);
+		}
 	}
 	else {
 		GFile *parent;
@@ -765,8 +768,10 @@ gth_browser_activate_action_folder_trash (GtkAction  *action,
 			g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), delete_data);
 			gtk_widget_show (d);
 		}
-		else
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the folder to the Trash"), &error);
+		else {
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the folder to the Trash"), error);
+			g_clear_error (&error);
+		}
 	}
 	else {
 		GFile *parent;

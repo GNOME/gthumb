@@ -61,7 +61,7 @@ screenshot_saved_cb (GthFileData *file_data,
 	GthMediaViewerPage *page = save_data->page;
 
 	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not save the file"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not save the file"), error);
 	else if (save_data->playing_before_screenshot)
 		gst_element_set_state (gth_media_viewer_page_get_playbin (page), GST_STATE_PLAYING);
 

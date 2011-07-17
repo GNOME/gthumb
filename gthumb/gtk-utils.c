@@ -431,23 +431,22 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 void
 _gtk_error_dialog_from_gerror_run (GtkWindow   *parent,
 				   const char  *title,
-				   GError     **gerror)
+				   GError      *gerror)
 {
 	GtkWidget *d;
 
-	g_return_if_fail (*gerror != NULL);
+	g_return_if_fail (gerror != NULL);
 
 	d = _gtk_message_dialog_new (parent,
 				     GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_STOCK_DIALOG_ERROR,
 				     title,
-				     (*gerror)->message,
+				     gerror->message,
 				     GTK_STOCK_OK, GTK_RESPONSE_OK,
 				     NULL);
 	gtk_dialog_run (GTK_DIALOG (d));
 
 	gtk_widget_destroy (d);
-	g_clear_error (gerror);
 }
 
 
@@ -463,7 +462,7 @@ error_dialog_response_cb (GtkDialog *dialog,
 void
 _gtk_error_dialog_from_gerror_show (GtkWindow   *parent,
 				    const char  *title,
-				    GError     **gerror)
+				    GError      *gerror)
 {
 	GtkWidget *d;
 
@@ -471,15 +470,12 @@ _gtk_error_dialog_from_gerror_show (GtkWindow   *parent,
 				     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_STOCK_DIALOG_ERROR,
 				     title,
-				     (gerror != NULL) ? (*gerror)->message : NULL,
+				     (gerror != NULL) ? gerror->message : NULL,
 				     GTK_STOCK_OK, GTK_RESPONSE_OK,
 				     NULL);
 	g_signal_connect (d, "response", G_CALLBACK (error_dialog_response_cb), NULL);
 
 	gtk_window_present (GTK_WINDOW (d));
-
-	if (gerror != NULL)
-		g_clear_error (gerror);
 }
 
 
@@ -992,7 +988,8 @@ _g_launch_command (GtkWidget  *parent,
 
 	app_info = g_app_info_create_from_commandline (command, name, G_APP_INFO_CREATE_SUPPORTS_URIS, &error);
 	if (app_info == NULL) {
-		_gtk_error_dialog_from_gerror_show(GTK_WINDOW (parent), _("Could not launch the application"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (parent), _("Could not launch the application"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -1000,7 +997,8 @@ _g_launch_command (GtkWidget  *parent,
 	gdk_app_launch_context_set_screen (launch_context, gtk_widget_get_screen (parent));
 
 	if (! g_app_info_launch (app_info, files, G_APP_LAUNCH_CONTEXT (launch_context), &error)) {
-		_gtk_error_dialog_from_gerror_show(GTK_WINDOW (parent), _("Could not launch the application"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (parent), _("Could not launch the application"), error);
+		g_clear_error (&error);
 		return;
 	}
 

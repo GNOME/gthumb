@@ -175,7 +175,7 @@ file_source_rename_ready_cb (GObject  *object,
 	GthSourceTree *source_tree = user_data;
 
 	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (source_tree))), _("Could not change name"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (source_tree))), _("Could not change name"), error);
 }
 
 
@@ -196,8 +196,10 @@ source_tree_rename_cb (GthFolderTree *folder_tree,
 	new_basename = g_strconcat (new_name, _g_uri_get_file_extension (uri), NULL);
 	new_file = g_file_get_child_for_display_name (parent, new_basename, &error);
 
-	if (new_file == NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (source_tree))), _("Could not change name"), &error);
+	if (new_file == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (source_tree))), _("Could not change name"), error);
+		g_clear_error (&error);
+	}
 	else
 		gth_file_source_rename (source_tree->priv->file_source, file, new_file, file_source_rename_ready_cb, source_tree);
 

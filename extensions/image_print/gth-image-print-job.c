@@ -1758,7 +1758,8 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 		GError *error = NULL;
 
 		gtk_print_operation_get_error (self->priv->print_operation, &error);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), error);
+		g_clear_error (&error);
 		return;
 	}
 	else if (result == GTK_PRINT_OPERATION_RESULT_APPLY) {
@@ -1920,8 +1921,10 @@ load_image_info_task_completed_cb (GthTask  *task,
 					  self->priv->action,
 					  GTK_WINDOW (self->priv->browser),
 					  &error);
-	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), error);
+		g_clear_error (&error);
+	}
 
 	_g_object_unref (settings);
 }

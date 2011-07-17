@@ -681,8 +681,10 @@ delete_file_permanently (GtkWindow *window,
 	GError *error = NULL;
 
 	files = gth_file_data_list_to_file_list (file_list);
-	if (! _g_delete_files (files, TRUE, &error))
-		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), &error);
+	if (! _g_delete_files (files, TRUE, &error)) {
+		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), error);
+		g_clear_error (&error);
+	}
 	else
 		notify_files_delete (window, files);
 
@@ -736,7 +738,8 @@ trash_files (GtkWindow *window,
 
 				break;
 			}
-			_gtk_error_dialog_from_gerror_show (window, _("Could not move the files to the Trash"), &error);
+			_gtk_error_dialog_from_gerror_show (window, _("Could not move the files to the Trash"), error);
+			g_clear_error (&error);
 			break;
 		}
 	}

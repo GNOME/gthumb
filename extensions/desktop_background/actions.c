@@ -199,8 +199,10 @@ infobar_response_cb (GtkInfoBar *info_bar,
 
 	switch (response_id) {
 	case _RESPONSE_PREFERENCES:
-		if (! g_spawn_command_line_async (DESKTOP_BACKGROUND_PROPERTIES_COMMAND, &error))
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not show the desktop background properties"), &error);
+		if (! g_spawn_command_line_async (DESKTOP_BACKGROUND_PROPERTIES_COMMAND, &error)) {
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not show the desktop background properties"), error);
+			g_clear_error (&error);
+		}
 		break;
 
 	case _RESPONSE_UNDO:
@@ -264,7 +266,7 @@ wallpaper_save_ready_cb (GthFileData *a,
 	WallpaperData *wdata = user_data;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), error);
 		wallpaper_data_free (wdata);
 		return;
 	}
@@ -282,7 +284,8 @@ copy_wallpaper_ready_cb (GObject      *source_object,
 	GError        *error = NULL;
 
 	if (! g_file_copy_finish (G_FILE (source_object), res, &error)) {
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), error);
+		g_clear_error (&error);
 		wallpaper_data_free (wdata);
 		return;
 	}

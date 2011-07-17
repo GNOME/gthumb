@@ -136,7 +136,8 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 
 			new_destination = g_file_get_child_for_display_name (parent, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), &error);
 			if (new_destination == NULL) {
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (dialog), _("Could not rename the file"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (dialog), _("Could not rename the file"), error);
+				g_clear_error (&error);
 				gtk_widget_show (GTK_WIDGET (dialog));
 				gth_task_dialog (GTH_TASK (self), TRUE, GTK_WIDGET (dialog));
 				close_overwrite_dialog = FALSE;

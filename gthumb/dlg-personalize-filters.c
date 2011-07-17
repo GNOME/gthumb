@@ -311,7 +311,8 @@ filter_editor_dialog__response_cb (GtkDialog *dialog,
 
 	filter = gth_filter_editor_dialog_get_filter (GTH_FILTER_EDITOR_DIALOG (dialog), &error);
 	if (filter == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the filter"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the filter"), error);
+		g_clear_error (&error);
 		return;
 	}
 

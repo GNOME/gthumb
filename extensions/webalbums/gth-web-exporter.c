@@ -1809,7 +1809,8 @@ success_dialog_response_cb (GtkDialog *dialog,
 			url = g_file_get_uri (file);
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
 				gth_task_dialog (GTH_TASK (self), TRUE, NULL);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not show the destination"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not show the destination"), error);
+				g_clear_error (&error);
 			}
 
 			g_free (url);

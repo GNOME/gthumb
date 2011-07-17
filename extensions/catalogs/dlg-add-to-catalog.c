@@ -102,7 +102,7 @@ catalog_save_done_cb (void     **buffer,
 	AddData *add_data = user_data;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), error);
 		return;
 	}
 
@@ -133,7 +133,7 @@ catalog_ready_cb (GObject  *catalog,
 	GFile   *gio_file;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), error);
 		return;
 	}
 
@@ -214,7 +214,7 @@ new_catalog_metadata_ready_cb (GObject  *object,
 	GtkTreePath *tree_path;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the catalog"), error);
 		return;
 	}
 

@@ -352,7 +352,8 @@ script_editor_dialog__response_cb (GtkDialog *dialog,
 
 	script = gth_script_editor_dialog_get_script (GTH_SCRIPT_EDITOR_DIALOG (dialog), &error);
 	if (script == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the script"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not save the script"), error);
+		g_clear_error (&error);
 		return;
 	}
 

@@ -136,7 +136,8 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
 				if (data->conn != NULL)
 					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+				g_clear_error (&error);
 			}
 			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 
@@ -188,7 +189,8 @@ post_photos_ready_cb (GObject      *source_object,
 	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -349,7 +351,8 @@ list_albums_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), error);
+		g_clear_error (&error);
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		return;
 	}
@@ -418,7 +421,8 @@ connection_ready_cb (GObject      *source_object,
 		else {
 			if (data->conn != NULL)
 				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+			g_clear_error (&error);
 			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		}
 		return;
@@ -710,7 +714,8 @@ create_album_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -995,7 +1000,8 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), error);
+		g_clear_error (&error);
 		destroy_dialog (data);
 		return;
 	}

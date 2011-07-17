@@ -924,10 +924,12 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 	gdk_app_launch_context_set_screen (context, gtk_widget_get_screen (GTK_WIDGET (browser)));
 	gdk_app_launch_context_set_timestamp (context, 0);
 	gdk_app_launch_context_set_icon (context, g_app_info_get_icon (appinfo));
-	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error))
+	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
 						    _("Could not perform the operation"),
-						    &error);
+						    error);
+		g_clear_error (&error);
+	}
 
 	g_object_unref (context);
 	g_list_free (uris);

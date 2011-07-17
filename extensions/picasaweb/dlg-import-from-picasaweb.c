@@ -171,7 +171,8 @@ import_dialog_response_cb (GtkDialog *dialog,
 				if (! gth_import_task_check_free_space (destination, file_list, &error)) {
 					_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog),
 									    _("Could not import the files"),
-									    &error);
+									    error);
+					g_clear_error (&error);
 					_g_object_unref (destination);
 					_g_object_list_unref (file_list);
 					g_object_unref (album);
@@ -303,7 +304,8 @@ list_albums_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -372,7 +374,8 @@ connection_ready_cb (GObject      *source_object,
 		else {
 			if (data->conn != NULL)
 				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+			g_clear_error (&error);
 			gtk_widget_destroy (data->dialog);
 		}
 		return;
@@ -821,7 +824,8 @@ list_photos_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}

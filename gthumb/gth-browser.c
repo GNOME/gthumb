@@ -1168,7 +1168,8 @@ load_data_done (LoadData *load_data,
 
 	gth_browser_update_sensitivity (browser);
 	title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
-	_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+	_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
+	g_error_free (error);
 
 	g_free (title);
 }
@@ -1740,7 +1741,8 @@ mount_volume_ready_cb (GObject      *source_object,
 		char *title;
 
 		title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (load_data->browser), title, &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (load_data->browser), title, error);
+		g_clear_error (&error);
 
 		g_free (title);
 		load_data_free (load_data);
@@ -1937,7 +1939,7 @@ ask_whether_to_save__file_saved_cb (GthViewerPage *viewer_page,
 
 	error_occurred = error != NULL;
 	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the file"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the file"), error);
 	ask_whether_to_save__done (data, error_occurred);
 }
 
@@ -2787,10 +2789,8 @@ file_source_rename_ready_cb (GObject  *object,
 
 	g_object_unref (object);
 
-	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), &error);
-		return;
-	}
+	if (error != NULL)
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), error);
 }
 
 
@@ -2809,8 +2809,10 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 	uri = g_file_get_uri (file);
 	new_file = g_file_get_child_for_display_name (parent, new_name, &error);
 
-	if (new_file == NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), &error);
+	if (new_file == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), error);
+		g_clear_error (&error);
+	}
 	else {
 		GthFileSource *file_source;
 
@@ -4867,10 +4869,8 @@ background_task_completed_cb (GthTask  *task,
 	if (error == NULL)
 		return;
 
-	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		GError *local_error = g_error_copy (error);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &local_error);
-	}
+	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), error);
 }
 
 
@@ -4903,12 +4903,8 @@ foreground_task_completed_cb (GthTask    *task,
 
 	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
 	gth_browser_update_sensitivity (browser);
-	if (error != NULL) {
-		if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED)) {
-			GError *local_error = g_error_copy (error);
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &local_error);
-		}
-	}
+	if ((error != NULL) && ! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), error);
 
 	g_object_unref (browser->priv->task);
 	browser->priv->task = NULL;
@@ -5726,7 +5722,8 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 
 			title =  file_format (_("Could not load the position \"%s\""), data->location);
 			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
+			g_clear_error (&error);
 
 			g_free (title);
 		}
@@ -5734,7 +5731,6 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 	else if (browser->priv->history == NULL) {
 		GFile *home;
 
-		g_clear_error (&error);
 		home = g_file_new_for_uri (get_home_uri ());
 		gth_browser_load_location (browser, home);
 
@@ -5744,7 +5740,7 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 		char *title;
 
 		title =  file_format (_("Could not load the position \"%s\""), data->location);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
 
 		g_free (title);
 	}
@@ -5770,7 +5766,8 @@ gth_browser_load_location (GthBrowser *browser,
 
 		title =  file_format (_("Could not load the position \"%s\""), data->location);
 		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
+		g_clear_error (&error);
 
 		g_free (title);
 	}

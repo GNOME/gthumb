@@ -112,7 +112,7 @@ load_file_data_task_completed_cb (GthTask  *task,
 	DialogData *data = user_data;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Cannot read file information"), error);
 		gtk_widget_destroy (GTK_WIDGET (data->dialog));
 		return;
 	}

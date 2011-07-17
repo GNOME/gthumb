@@ -607,7 +607,7 @@ done_func (GObject  *object,
 	self->priv->io_operation = FALSE;
 
 	if ((error != NULL) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not perform the operation"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not perform the operation"), error);
 		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
 		return;
 	}

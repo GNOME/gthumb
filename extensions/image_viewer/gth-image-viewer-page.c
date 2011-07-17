@@ -1118,7 +1118,7 @@ image_saved_cb (GthFileData *file_data,
 	if (data->func != NULL)
 		(data->func) ((GthViewerPage *) self, self->priv->file_data, error, data->user_data);
 	else if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not save the file"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not save the file"), error);
 
 	if (! error_occurred) {
 		GFile *folder;

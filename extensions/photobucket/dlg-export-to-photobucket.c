@@ -128,7 +128,8 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
 				if (data->conn != NULL)
 					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+				g_clear_error (&error);
 			}
 
 			gtk_widget_destroy (data->dialog);
@@ -178,7 +179,8 @@ upload_photos_ready_cb (GObject      *source_object,
 	GError     *error = NULL;
 
 	if (! photobucket_service_upload_photos_finish (data->service, result, &error)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -371,7 +373,8 @@ album_list_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -456,7 +459,8 @@ create_album_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -608,7 +612,8 @@ dlg_export_to_photobucket (GthBrowser *browser,
 		GError *error;
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 
 		return;

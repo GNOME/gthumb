@@ -231,7 +231,8 @@ photoset_list_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
@@ -353,7 +354,8 @@ list_photos_ready_cb (GObject      *source_object,
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the photo list"), error);
+		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}

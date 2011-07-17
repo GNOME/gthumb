@@ -77,7 +77,7 @@ catalog_saved_cb (void     **buffer,
 		gth_hook_invoke ("dlg-catalog-properties-saved", data->browser, data->file_data, data->catalog);
 	}
 	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the catalog"), error);
 
 	gtk_widget_destroy (data->dialog);
 }
@@ -163,7 +163,7 @@ catalog_ready_cb (GObject  *object,
 	DialogData *data = user_data;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW(data->browser), _("Could not load the catalog"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW(data->browser), _("Could not load the catalog"), error);
 		gtk_widget_destroy (data->dialog);
 		return;
 	}

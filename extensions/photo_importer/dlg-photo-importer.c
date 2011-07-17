@@ -212,7 +212,8 @@ ok_clicked_cb (GtkWidget  *widget,
 	if (! gth_import_task_check_free_space (destination, file_list, &error)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog),
 						    _("Could not import the files"),
-						    &error);
+						    error);
+		g_clear_error (&error);
 		import = FALSE;
 	}
 	else
@@ -318,7 +319,7 @@ list_ready_cb (GList    *files,
 		gth_file_list_cancel (GTH_FILE_LIST (data->file_list), cancel_done, data);
 	}
 	else if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not load the folder"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not load the folder"), error);
 	}
 	else {
 		_g_object_unref (data->last_source);

@@ -130,7 +130,7 @@ image_buffer_ready_cb (void     **buffer,
 	GdkPixbuf                  *pixbuf;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self), _("Could not load the file"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self), _("Could not load the file"), error);
 		return;
 	}
 

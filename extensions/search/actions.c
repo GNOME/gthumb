@@ -46,7 +46,8 @@ search_editor_dialog__response_cb (GtkDialog *dialog,
 
 	search = gth_search_editor_dialog_get_search (GTH_SEARCH_EDITOR_DIALOG (dialog), &error);
 	if (search == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not perform the search"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (dialog), _("Could not perform the search"), error);
+		g_clear_error (&error);
 		return;
 	}
 
@@ -113,13 +114,14 @@ search_update_buffer_ready_cb (void     **buffer,
 	GthTask    *task;
 
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), error);
 		return;
 	}
 
 	search = gth_search_new_from_data (*buffer, count, &local_error);
 	if (search == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &local_error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), local_error);
+		g_clear_error (&local_error);
 		return;
 	}
 

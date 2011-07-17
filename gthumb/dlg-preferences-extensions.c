@@ -212,7 +212,8 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 		gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (data->model_filter), &child_iter, &iter);
 		if (! gth_extension_description_is_active (description)) {
 			if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error)) {
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not activate the extension"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not activate the extension"), error);
+				g_clear_error (&error);
 			}
 			else {
 				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);
@@ -221,7 +222,8 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 		}
 		else {
 			if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error)) {
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not deactivate the extension"), &error);
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not deactivate the extension"), error);
+				g_clear_error (&error);
 			}
 			else {
 				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);

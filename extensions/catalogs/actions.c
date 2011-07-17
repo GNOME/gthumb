@@ -322,10 +322,10 @@ remove_catalog (GtkWindow   *window,
 		_g_object_list_unref (files);
 		_g_object_unref (parent);
 	}
-	else
-		_gtk_error_dialog_from_gerror_show (window,
-						    _("Could not remove the catalog"),
-						    &error);
+	else {
+		_gtk_error_dialog_from_gerror_show (window, _("Could not remove the catalog"), error);
+		g_clear_error (&error);
+	}
 
 	g_object_unref (gio_file);
 }
