@@ -53,8 +53,10 @@ save_file_data_task_completed_cb (GthTask  *task,
 	GthMonitor *monitor;
 	GList      *scan;
 
+	gth_monitor_resume (gth_main_get_default_monitor ());
+
 	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not save the file metadata"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not save the file metadata"), error);
 		return;
 	}
 
@@ -89,6 +91,8 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 		gtk_widget_destroy (GTK_WIDGET (data->dialog));
 		return;
 	}
+
+	gth_monitor_pause (gth_main_get_default_monitor ());
 
 	gth_edit_metadata_dialog_update_info (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 
