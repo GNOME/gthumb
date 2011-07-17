@@ -31,9 +31,11 @@
 #include "gth-reorder-task.h"
 
 
-#define BROWSER_DATA_KEY "file-manager-browser-data"
-#define URI_LIST_TARGET (gdk_atom_intern_static_string ("text/uri-list"))
-#define SCROLL_TIMEOUT 30 /* autoscroll timeout in milliseconds */
+#define BROWSER_DATA_KEY             "file-manager-browser-data"
+#define URI_LIST_ATOM                (gdk_atom_intern_static_string ("text/uri-list"))
+#define XDND_ACTION_DIRECT_SAVE_ATOM (gdk_atom_intern_static_string ("XdndDirectSave0"))
+#define TEXT_PLAIN_ATOM              (gdk_atom_intern_static_string ("text/plain"))
+#define SCROLL_TIMEOUT               30 /* autoscroll timeout in milliseconds */
 
 
 static const char *fixed_ui_info =
@@ -151,7 +153,8 @@ static GtkTargetEntry reorderable_drag_dest_targets[] = {
 
 
 static GtkTargetEntry non_reorderable_drag_dest_targets[] = {
-        { "text/uri-list", GTK_TARGET_OTHER_WIDGET, 0 }
+        { "text/uri-list", GTK_TARGET_OTHER_WIDGET, 0 },
+        { "XdndDirectSave0", GTK_TARGET_SAME_WIDGET, 1 }
 };
 
 
@@ -283,11 +286,11 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 				  guint             time,
 				  gpointer          user_data)
 {
-	GthBrowser  *browser = user_data;
-	gboolean     success = FALSE;
-	char       **uris;
-	GList       *selected_files;
-	GdkDragAction action;
+	GthBrowser     *browser = user_data;
+	gboolean        success = FALSE;
+	char          **uris;
+	GList          *selected_files;
+	GdkDragAction   action;
 
 	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
@@ -303,6 +306,33 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 							time);
 		gdk_drag_status (context, actions, time);
 		success = gdk_drag_context_get_selected_action (context) != 0;
+	}
+
+	if (gtk_selection_data_get_data_type (selection_data) == XDND_ACTION_DIRECT_SAVE_ATOM) {
+		const guchar *data;
+		int           format;
+		int           length;
+
+		data = gtk_selection_data_get_data (selection_data);
+		format = gtk_selection_data_get_format (selection_data);
+		length = gtk_selection_data_get_length (selection_data);
+
+		if ((format == 8) && (length == 1) && (data[0] == 'S')) {
+			success = TRUE;
+		}
+		else {
+			gdk_property_change (gdk_drag_context_get_dest_window (context),
+					     XDND_ACTION_DIRECT_SAVE_ATOM,
+					     TEXT_PLAIN_ATOM,
+					     8,
+					     GDK_PROP_MODE_REPLACE,
+					     (const guchar *) "",
+					     0);
+			success = FALSE;
+		}
+
+		gtk_drag_finish (context, success, FALSE, time);
+		return;
 	}
 
 	gtk_drag_finish (context, success, FALSE, time);
@@ -394,11 +424,54 @@ gth_file_list_drag_drop (GtkWidget      *widget,
 			 guint           time,
 			 gpointer        user_data)
 {
+	GthBrowser *browser = user_data;
+	int         filename_len;
+	char       *filename;
+
 	g_signal_stop_emission_by_name (widget, "drag-drop");
-	gtk_drag_get_data (widget,
-	                   context,
-	                   URI_LIST_TARGET,
-	                   time);
+
+	if (gdk_property_get (gdk_drag_context_get_source_window (context),
+			      XDND_ACTION_DIRECT_SAVE_ATOM,
+			      TEXT_PLAIN_ATOM,
+			      0,
+			      1024,
+			      FALSE,
+			      NULL,
+			      NULL,
+			      &filename_len,
+			      (guchar **) &filename)
+	    && GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+	{
+		GFile *file;
+		char  *uri;
+
+		filename = g_realloc (filename, filename_len + 1);
+		filename[filename_len] = '\0';
+
+		file = _g_file_append_path (gth_browser_get_location (browser), filename);
+		uri = g_file_get_uri (file);
+		gdk_property_change (gdk_drag_context_get_source_window (context),
+				     XDND_ACTION_DIRECT_SAVE_ATOM,
+				     TEXT_PLAIN_ATOM,
+				     8,
+				     GDK_PROP_MODE_REPLACE,
+				     (const guchar *) uri,
+				     strlen (uri));
+
+		g_free (uri);
+		g_object_unref (file);
+		g_free (filename);
+
+		gtk_drag_get_data (widget,
+		                   context,
+		                   XDND_ACTION_DIRECT_SAVE_ATOM,
+		                   time);
+	}
+	else
+		gtk_drag_get_data (widget,
+				   context,
+				   URI_LIST_ATOM,
+				   time);
 
 	return TRUE;
 }
@@ -440,11 +513,18 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 {
 	GthBrowser  *browser = extra_data;
 	BrowserData *data;
+	GthFileData *location_data;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	data->drop_pos = -1;
 
 	if ((gtk_drag_get_source_widget (context) == file_view) && ! gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+		gdk_drag_status (context, 0, time);
+		return FALSE;
+	}
+
+	location_data = gth_browser_get_location_data (browser);
+	if (! g_file_info_get_attribute_boolean (location_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) {
 		gdk_drag_status (context, 0, time);
 		return FALSE;
 	}
