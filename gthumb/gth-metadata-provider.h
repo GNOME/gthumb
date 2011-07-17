@@ -58,11 +58,13 @@ struct _GthMetadataProviderClass {
 			        char                  **attribute_v);
 	void      (*read)      (GthMetadataProvider    *self,
 		                GthFileData            *file_data,
-		                const char             *attributes);
+		                const char             *attributes,
+		                GCancellable           *cancellable);
 	void      (*write)     (GthMetadataProvider    *self,
 				GthMetadataWriteFlags   flags,
 			        GthFileData            *file_data,
-			        const char             *attributes);
+			        const char             *attributes,
+			        GCancellable           *cancellable);
 };
 
 GType      gth_metadata_provider_get_type   (void);
@@ -74,11 +76,13 @@ gboolean   gth_metadata_provider_can_write  (GthMetadataProvider    *self,
 					     char                  **attribute_v);
 void       gth_metadata_provider_read       (GthMetadataProvider    *self,
 					     GthFileData            *file_data,
-					     const char             *attributes);
+					     const char             *attributes,
+					     GCancellable           *cancellable);
 void       gth_metadata_provider_write      (GthMetadataProvider    *self,
 					     GthMetadataWriteFlags   flags,
 					     GthFileData            *file_data,
-					     const char             *attributes);
+					     const char             *attributes,
+					     GCancellable           *cancellable);
 void       _g_query_metadata_async          (GList                  *files,       /* GthFileData * list */
 					     const char             *attributes,
 					     GCancellable           *cancellable,

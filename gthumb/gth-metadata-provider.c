@@ -53,7 +53,8 @@ gth_metadata_provider_real_can_write (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_real_read (GthMetadataProvider *self,
 				 GthFileData         *file_data,
-				 const char          *attributes)
+				 const char          *attributes,
+				 GCancellable        *cancellable)
 {
 	/* void */
 }
@@ -63,7 +64,8 @@ static void
 gth_metadata_provider_real_write (GthMetadataProvider   *self,
 				  GthMetadataWriteFlags  flags,
 				  GthFileData           *file_data,
-				  const char            *attributes)
+				  const char            *attributes,
+				  GCancellable          *cancellable)
 {
 	/* void */
 }
@@ -125,9 +127,10 @@ gth_metadata_provider_can_write (GthMetadataProvider  *self,
 void
 gth_metadata_provider_read (GthMetadataProvider *self,
 			    GthFileData         *file_data,
-			    const char          *attributes)
+			    const char          *attributes,
+			    GCancellable        *cancellable)
 {
-	GTH_METADATA_PROVIDER_GET_CLASS (self)->read (self, file_data, attributes);
+	GTH_METADATA_PROVIDER_GET_CLASS (self)->read (self, file_data, attributes, cancellable);
 }
 
 
@@ -135,9 +138,10 @@ void
 gth_metadata_provider_write (GthMetadataProvider   *self,
 			     GthMetadataWriteFlags  flags,
 			     GthFileData           *file_data,
-			     const char            *attributes)
+			     const char            *attributes,
+			     GCancellable          *cancellable)
 {
-	GTH_METADATA_PROVIDER_GET_CLASS (self)->write (self, flags, file_data, attributes);
+	GTH_METADATA_PROVIDER_GET_CLASS (self)->write (self, flags, file_data, attributes, cancellable);
 }
 
 
@@ -193,7 +197,7 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 
 			if (gth_metadata_provider_can_read (metadata_provider, gth_file_data_get_mime_type (file_data), qmd->attributes_v))
-				gth_metadata_provider_read (metadata_provider, file_data, qmd->attributes);
+				gth_metadata_provider_read (metadata_provider, file_data, qmd->attributes, cancellable);
 		}
 	}
 
@@ -318,7 +322,7 @@ _g_write_metadata_async_thread (GSimpleAsyncResult *result,
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 
 			if (gth_metadata_provider_can_write (metadata_provider, gth_file_data_get_mime_type (file_data), wmd->attributes_v))
-				gth_metadata_provider_write (metadata_provider, wmd->flags, file_data, wmd->attributes);
+				gth_metadata_provider_write (metadata_provider, wmd->flags, file_data, wmd->attributes, cancellable);
 		}
 	}
 

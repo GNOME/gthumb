@@ -302,8 +302,9 @@ gth_comment_get_comment_file (GFile *file)
 
 
 GthComment *
-gth_comment_new_for_file (GFile   *file,
-			  GError **error)
+gth_comment_new_for_file (GFile         *file,
+			  GCancellable  *cancellable,
+			  GError       **error)
 {
 	GFile       *comment_file;
 	GthComment  *comment;
@@ -317,7 +318,7 @@ gth_comment_new_for_file (GFile   *file,
 	if (comment_file == NULL)
 		return NULL;
 
-	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, NULL, error)) {
+	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, cancellable, error)) {
 		g_object_unref (comment_file);
 		return NULL;
 	}

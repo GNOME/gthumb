@@ -48,7 +48,8 @@ gth_metadata_provider_file_can_read (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_file_read (GthMetadataProvider *self,
 				 GthFileData         *file_data,
-				 const char          *attributes)
+				 const char          *attributes,
+				 GCancellable        *cancellable)
 {
 	GFileAttributeMatcher *matcher;
 	char                  *value;

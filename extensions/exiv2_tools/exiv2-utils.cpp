@@ -663,9 +663,10 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
  */
 extern "C"
 gboolean
-exiv2_read_metadata_from_file (GFile      *file,
-			       GFileInfo  *info,
-			       GError    **error)
+exiv2_read_metadata_from_file (GFile         *file,
+			       GFileInfo     *info,
+			       GCancellable  *cancellable,
+			       GError       **error)
 {
 	try {
 		char *path;

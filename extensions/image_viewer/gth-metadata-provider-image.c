@@ -54,7 +54,8 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_image_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
-				  const char          *attributes)
+				  const char          *attributes,
+				  GCancellable        *cancellable)
 {
 	gboolean          format_recognized;
 	GFileInputStream *stream;
@@ -65,7 +66,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 	format_recognized = FALSE;
 
-	stream = g_file_read (file_data->file, NULL, NULL);
+	stream = g_file_read (file_data->file, cancellable, NULL);
 	if (stream != NULL) {
 		int     buffer_size;
 		guchar *buffer;
@@ -76,7 +77,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		size = g_input_stream_read (G_INPUT_STREAM (stream),
 					    buffer,
 					    buffer_size,
-					    NULL,
+					    cancellable,
 					    NULL);
 		if (size >= 0) {
 			if ((size >= 24)
@@ -120,18 +121,18 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				GthTransform orientation;
 
 				if (g_seekable_can_seek (G_SEEKABLE (stream))) {
-					g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
+					g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL);
 				}
 				else {
 					g_object_unref (stream);
-					stream = g_file_read (file_data->file, NULL, NULL);
+					stream = g_file_read (file_data->file, cancellable, NULL);
 				}
 
 				if (_jpeg_get_image_info (G_INPUT_STREAM (stream),
 							  &width,
 							  &height,
 							  &orientation,
-							  NULL,
+							  cancellable,
 							  NULL))
 				{
 					format_recognized = TRUE;

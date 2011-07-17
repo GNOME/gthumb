@@ -78,7 +78,8 @@ gth_metadata_provider_exiv2_can_write (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
-				  const char          *attributes)
+				  const char          *attributes,
+				  GCancellable        *cancellable)
 {
 	GFile       *sidecar;
 	GthFileData *sidecar_file_data;
@@ -89,15 +90,15 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 	/* this function is executed in a secondary thread, so calling
 	 * slow sync functions is not a problem. */
 
-	exiv2_read_metadata_from_file (file_data->file, file_data->info, NULL);
+	exiv2_read_metadata_from_file (file_data->file, file_data->info, cancellable, NULL);
 
 	/* sidecar data */
 
 	sidecar = exiv2_get_sidecar (file_data->file);
 	sidecar_file_data = gth_file_data_new (sidecar, NULL);
-	if (g_file_query_exists (sidecar_file_data->file, NULL)) {
+	if (g_file_query_exists (sidecar_file_data->file, cancellable)) {
 		gth_file_data_update_info (sidecar_file_data, "time::*");
-		if (g_file_query_exists (sidecar_file_data->file, NULL))
+		if (g_file_query_exists (sidecar_file_data->file, cancellable))
 			exiv2_read_sidecar (sidecar_file_data->file, file_data->info);
 	}
 
@@ -110,7 +111,8 @@ static void
 gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 				   GthMetadataWriteFlags  flags,
 				   GthFileData           *file_data,
-				   const char            *attributes)
+				   const char            *attributes,
+				   GCancellable          *cancellable)
 {
 	void    *buffer = NULL;
 	gsize    size;
@@ -237,7 +239,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 			      G_FILE_CREATE_NONE,
 			      buffer,
 			      size,
-			      NULL,
+			      cancellable,
 			      &error);
 
 		tmp_info = g_file_info_new ();

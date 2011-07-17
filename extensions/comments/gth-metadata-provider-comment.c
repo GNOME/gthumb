@@ -64,7 +64,8 @@ gth_metadata_provider_comment_can_write (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_comment_read (GthMetadataProvider *self,
 				    GthFileData         *file_data,
-				    const char          *attributes)
+				    const char          *attributes,
+				    GCancellable        *cancellable)
 {
 	GthComment            *comment;
 	GFileAttributeMatcher *matcher;
@@ -72,7 +73,7 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	GPtrArray             *categories;
 	char                  *comment_time;
 
-	comment = gth_comment_new_for_file (file_data->file, NULL);
+	comment = gth_comment_new_for_file (file_data->file, cancellable, NULL);
 	if (comment == NULL)
 		return;
 
@@ -135,7 +136,8 @@ static void
 gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 				     GthMetadataWriteFlags  flags,
 				     GthFileData           *file_data,
-				     const char            *attributes)
+				     const char            *attributes,
+				     GCancellable          *cancellable)
 {
 	GthComment    *comment;
 	GthMetadata   *metadata;
@@ -207,7 +209,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 	comment_folder = g_file_get_parent (comment_file);
 
 	g_file_make_directory (comment_folder, NULL, NULL);
-	g_write_file (comment_file, FALSE, 0, data, length, NULL, NULL);
+	g_write_file (comment_file, FALSE, 0, data, length, cancellable, NULL);
 
 	g_object_unref (comment_folder);
 	g_object_unref (comment_file);

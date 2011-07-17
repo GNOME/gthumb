@@ -54,7 +54,8 @@ gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
 static void
 gth_metadata_provider_gstreamer_read (GthMetadataProvider *self,
 				      GthFileData         *file_data,
-				      const char          *attributes)
+				      const char          *attributes,
+				      GCancellable        *cancellable)
 {
 	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "audio/*")
 	    && ! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "video/*"))

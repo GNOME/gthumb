@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 
 gboolean   exiv2_read_metadata_from_file    (GFile           *file,
 					     GFileInfo       *info,
+					     GCancellable    *cancellable,
 					     GError         **error);
 gboolean   exiv2_read_metadata_from_buffer  (void            *buffer,
 					     gsize            buffer_size,
