@@ -45,17 +45,16 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-write_metadata_ready_cb (GObject      *source_object,
-			 GAsyncResult *result,
-			 gpointer      user_data)
+save_file_data_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
 {
 	DialogData *data = user_data;
 	GthMonitor *monitor;
 	GList      *scan;
-	GError     *error = NULL;
 
-	if (! _g_write_metadata_finish (result, &error)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the file metadata"), &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not save the file metadata"), &error);
 		return;
 	}
 
@@ -84,6 +83,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 				   gpointer   user_data)
 {
 	DialogData *data = user_data;
+	GthTask    *task;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (data->dialog));
@@ -91,19 +91,23 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	}
 
 	gth_edit_metadata_dialog_update_info (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
-	_g_write_metadata_async (data->file_list,
-				 GTH_METADATA_WRITE_DEFAULT,
-				 "*",
-				 NULL,
-				 write_metadata_ready_cb,
-				 data);
+
+	task = gth_save_file_data_task_new (data->file_list, "*");
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (save_file_data_task_completed_cb),
+			  data);
+	gth_browser_exec_task (data->browser, task, FALSE);
+
+	g_object_unref (task);
+
 }
 
 
 static void
-info_ready_cb (GList    *files,
-	       GError   *error,
-	       gpointer  user_data)
+load_file_data_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
 {
 	DialogData *data = user_data;
 
@@ -113,7 +117,7 @@ info_ready_cb (GList    *files,
 		return;
 	}
 
-	data->file_list = _g_object_list_ref (files);
+	data->file_list = _g_object_list_ref (gth_load_file_data_task_get_result (GTH_LOAD_FILE_DATA_TASK (task)));
 	gth_edit_metadata_dialog_set_file_list (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
@@ -127,6 +131,7 @@ dlg_edit_metadata (GthBrowser *browser,
 		   GList      *files)
 {
 	DialogData *data;
+	GthTask    *task;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -142,12 +147,12 @@ dlg_edit_metadata (GthBrowser *browser,
 			  G_CALLBACK (edit_metadata_dialog__response_cb),
 			  data);
 
-	/* FIXME: progress dialog ? */
+	task = gth_load_file_data_task_new (data->files, "*");
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (load_file_data_task_completed_cb),
+			  data);
+	gth_browser_exec_task (browser, task, FALSE);
 
-	_g_query_all_metadata_async (data->files,
-				     GTH_LIST_DEFAULT,
-				     "*",
-				     NULL,
-				     info_ready_cb,
-				     data);
+	g_object_unref (task);
 }

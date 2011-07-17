@@ -22,17 +22,16 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
-#include "gth-load-file-data-task.h"
+#include "gth-save-file-data-task.h"
 #include "gth-metadata-provider.h"
 
 
-struct _GthLoadFileDataTaskPrivate {
-	GList *file_list;
+struct _GthSaveFileDataTaskPrivate {
+	GList *file_data_list;
+	char  *attributes;
 	int    n_files;
 	GList *current;
 	int    n_current;
-	char  *attributes;
-	GList *file_data_list;
 };
 
 
@@ -40,13 +39,12 @@ static gpointer parent_class = NULL;
 
 
 static void
-gth_load_file_data_task_finalize (GObject *object)
+gth_save_file_data_task_finalize (GObject *object)
 {
-	GthLoadFileDataTask *self;
+	GthSaveFileDataTask *self;
 
-	self = GTH_LOAD_FILE_DATA_TASK (object);
+	self = GTH_SAVE_FILE_DATA_TASK (object);
 
-	_g_object_list_unref (self->priv->file_list);
 	_g_object_list_unref (self->priv->file_data_list);
 	g_free (self->priv->attributes);
 
@@ -54,40 +52,37 @@ gth_load_file_data_task_finalize (GObject *object)
 }
 
 
-static void load_current_file (GthLoadFileDataTask *self);
+static void save_current_file (GthSaveFileDataTask *self);
 
 
 static void
-load_next_file (GthLoadFileDataTask *self)
+save_next_file (GthSaveFileDataTask *self)
 {
 	self->priv->current = self->priv->current->next;
 	self->priv->n_current++;
-	load_current_file (self);
+	save_current_file (self);
 }
 
 
 static void
-metadata_ready_cb (GList    *files,
-		   GError   *error,
-		   gpointer  user_data)
+write_metadata_ready_cb (GObject      *source_object,
+			 GAsyncResult *result,
+			 gpointer      user_data)
 {
-	GthLoadFileDataTask *self = user_data;
-	GthFileData         *file_data;
+	GthSaveFileDataTask *self = user_data;
+	GError              *error = NULL;
 
-	if (error != NULL) {
+	if (! _g_write_metadata_finish (result, &error)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	file_data = files->data;
-	self->priv->file_data_list = g_list_prepend (self->priv->file_data_list, g_object_ref (file_data));
-
-	load_next_file (self);
+	save_next_file (self);
 }
 
 
 static void
-load_current_file (GthLoadFileDataTask *self)
+save_current_file (GthSaveFileDataTask *self)
 {
 	GFile *file;
 	int    n_remaining;
@@ -95,7 +90,6 @@ load_current_file (GthLoadFileDataTask *self)
 	GList *files;
 
 	if (self->priv->current == NULL) {
-		self->priv->file_data_list = g_list_reverse (self->priv->file_data_list);
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
@@ -105,18 +99,18 @@ load_current_file (GthLoadFileDataTask *self)
 	n_remaining = self->priv->n_files - self->priv->n_current;
 	details = g_strdup_printf (g_dngettext (NULL, "%d file remaining", "%d files remaining", n_remaining), n_remaining);
 	gth_task_progress (GTH_TASK (self),
-			   _("Reading file information"),
+			   _("Saving file information"),
 			   details,
 			   FALSE,
 			   ((double) self->priv->n_current + 0.5) / self->priv->n_files);
 
 	files = g_list_prepend (NULL, file);
-	_g_query_all_metadata_async (files,
-				     GTH_LIST_DEFAULT,
-				     self->priv->attributes,
-				     gth_task_get_cancellable (GTH_TASK (self)),
-				     metadata_ready_cb,
-				     self);
+	_g_write_metadata_async (files,
+				 GTH_METADATA_WRITE_DEFAULT,
+				 self->priv->attributes,
+				 gth_task_get_cancellable (GTH_TASK (self)),
+				 write_metadata_ready_cb,
+				 self);
 
 	g_list_free (files);
 	g_free (details);
@@ -124,63 +118,64 @@ load_current_file (GthLoadFileDataTask *self)
 
 
 static void
-gth_load_file_data_task_exec (GthTask *task)
+gth_save_file_data_task_exec (GthTask *task)
 {
-	GthLoadFileDataTask *self;
+	GthSaveFileDataTask *self;
 
-	g_return_if_fail (GTH_IS_LOAD_FILE_DATA_TASK (task));
+	g_return_if_fail (GTH_IS_SAVE_FILE_DATA_TASK (task));
 
-	self = GTH_LOAD_FILE_DATA_TASK (task);
+	self = GTH_SAVE_FILE_DATA_TASK (task);
 
-	load_current_file (self);
+	save_current_file (self);
 }
 
 
 static void
-gth_load_file_data_task_class_init (GthLoadFileDataTaskClass *klass)
+gth_save_file_data_task_class_init (GthSaveFileDataTaskClass *klass)
 {
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (GthLoadFileDataTaskPrivate));
+	g_type_class_add_private (klass, sizeof (GthSaveFileDataTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_load_file_data_task_finalize;
+	object_class->finalize = gth_save_file_data_task_finalize;
 
 	task_class = GTH_TASK_CLASS (klass);
-	task_class->exec = gth_load_file_data_task_exec;
+	task_class->exec = gth_save_file_data_task_exec;
 }
 
 
 static void
-gth_load_file_data_task_init (GthLoadFileDataTask *self)
+gth_save_file_data_task_init (GthSaveFileDataTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOAD_FILE_DATA_TASK, GthLoadFileDataTaskPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SAVE_FILE_DATA_TASK, GthSaveFileDataTaskPrivate);
 	self->priv->file_data_list = NULL;
+	self->priv->attributes = NULL;
 }
 
 
 GType
-gth_load_file_data_task_get_type (void)
+gth_save_file_data_task_get_type (void)
 {
 	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {
-			sizeof (GthLoadFileDataTaskClass),
+			sizeof (GthSaveFileDataTaskClass),
 			NULL,
 			NULL,
-			(GClassInitFunc) gth_load_file_data_task_class_init,
+			(GClassInitFunc) gth_save_file_data_task_class_init,
 			NULL,
 			NULL,
-			sizeof (GthLoadFileDataTask),
+			sizeof (GthSaveFileDataTask),
 			0,
-			(GInstanceInitFunc) gth_load_file_data_task_init
+			(GInstanceInitFunc) gth_save_file_data_task_init
 		};
 
 		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthLoadFileDataTask",
+					       "GthSaveFileDataTask",
 					       &type_info,
 					       0);
 	}
@@ -190,24 +185,17 @@ gth_load_file_data_task_get_type (void)
 
 
 GthTask *
-gth_load_file_data_task_new (GList      *file_list,
+gth_save_file_data_task_new (GList      *file_list,
 			     const char *attributes)
 {
-	GthLoadFileDataTask *self;
+	GthSaveFileDataTask *self;
 
-	self = (GthLoadFileDataTask *) g_object_new (GTH_TYPE_LOAD_FILE_DATA_TASK, NULL);
-	self->priv->file_list = _g_file_list_dup (file_list);
-	self->priv->n_files = g_list_length (file_list);;
+	self = (GthSaveFileDataTask *) g_object_new (GTH_TYPE_SAVE_FILE_DATA_TASK, NULL);
+	self->priv->file_data_list = gth_file_data_list_dup (file_list);
 	self->priv->attributes = g_strdup (attributes);
-	self->priv->current = self->priv->file_list;
+	self->priv->n_files = g_list_length (self->priv->file_data_list);;
+	self->priv->current = self->priv->file_data_list;
 	self->priv->n_current = 0;
 
 	return (GthTask *) self;
-}
-
-
-GList *
-gth_load_file_data_task_get_result (GthLoadFileDataTask *self)
-{
-	return self->priv->file_data_list;
 }
