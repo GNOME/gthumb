@@ -512,7 +512,7 @@ gth_browser_update_title (GthBrowser *browser)
 		pos = gth_file_store_get_pos (file_store, browser->priv->current_file->file);
 		if (pos >= 0) {
 			browser->priv->current_file_position = pos;
-			g_string_append_printf (title, " (%d/%d)", browser->priv->current_file_position + 1, browser->priv->n_visibles);
+			g_string_append_printf (title, " - %d/%d", browser->priv->current_file_position + 1, browser->priv->n_visibles);
 		}
 	}
 
