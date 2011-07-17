@@ -264,7 +264,6 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	char               **tagv;
 	GList               *tags;
 	GthStringList       *string_list;
-	char                *exif_date;
 	char                *s;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
@@ -313,20 +312,28 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	/* date */
 
-	if (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)) == CURRENT_DATE)
-		exif_date = _g_time_val_to_exif_date (&self->priv->current_date);
-	else
-		exif_date = get_date_from_option (self, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)), info);
-	if (! only_modified_fields || ! gth_file_data_attribute_equal (file_data, "general::datetime", exif_date)) {
-		metadata = g_object_new (GTH_TYPE_METADATA,
-					 "id", "general::datetime",
-					 "raw", exif_date,
-					 "formatted", exif_date,
-					 NULL);
-		g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
-		g_object_unref (metadata);
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)) != NO_CHANGE) {
+		char *exif_date;
+
+		if (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)) == CURRENT_DATE)
+			exif_date = _g_time_val_to_exif_date (&self->priv->current_date);
+		else
+			exif_date = get_date_from_option (self, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)), info);
+		if (! only_modified_fields
+		    || (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox)) == NO_DATE)
+		    || ! gth_file_data_attribute_equal (file_data, "general::datetime", exif_date))
+		{
+			metadata = g_object_new (GTH_TYPE_METADATA,
+						 "id", "general::datetime",
+						 "raw", exif_date,
+						 "formatted", exif_date,
+						 NULL);
+			g_file_info_set_attribute_object (info, "general::datetime", G_OBJECT (metadata));
+			g_object_unref (metadata);
+		}
+
+		g_free (exif_date);
 	}
-	g_free (exif_date);
 
 	/* tags */
 
