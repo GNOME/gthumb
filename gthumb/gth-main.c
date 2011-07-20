@@ -1184,7 +1184,7 @@ gth_main_tags_changed (void)
 GthMonitor *
 gth_main_get_default_monitor (void)
 {
-	if (Main->priv->monitor != NULL)
+	if (G_LIKELY (Main->priv->monitor != NULL))
 		return Main->priv->monitor;
 
 	Main->priv->monitor = gth_monitor_new ();

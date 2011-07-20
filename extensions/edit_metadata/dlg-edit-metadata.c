@@ -53,20 +53,32 @@ save_file_data_task_completed_cb (GthTask  *task,
 	GthMonitor *monitor;
 	GList      *scan;
 
-	gth_monitor_resume (gth_main_get_default_monitor ());
+	monitor = gth_main_get_default_monitor ();
+	for (scan = data->file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		GFile       *parent;
+
+		parent = g_file_get_parent (file_data->file);
+		if (G_LIKELY (parent != NULL)) {
+			gth_monitor_resume (monitor, parent);
+			g_object_unref (parent);
+		}
+	}
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not save the file metadata"), error);
 		return;
 	}
 
-	monitor = gth_main_get_default_monitor ();
 	for (scan = data->file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 		GFile       *parent;
 		GList       *files;
 
 		parent = g_file_get_parent (file_data->file);
+		if (G_UNLIKELY (parent == NULL))
+			continue;
+
 		files = g_list_prepend (NULL, g_object_ref (file_data->file));
 		gth_monitor_folder_changed (monitor, parent, files, GTH_MONITOR_EVENT_CHANGED);
 		gth_monitor_metadata_changed (monitor, file_data);
@@ -85,6 +97,8 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 				   gpointer   user_data)
 {
 	DialogData *data = user_data;
+	GthMonitor *monitor;
+	GList      *scan;
 	GthTask    *task;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -92,7 +106,17 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 		return;
 	}
 
-	gth_monitor_pause (gth_main_get_default_monitor ());
+	monitor = gth_main_get_default_monitor ();
+	for (scan = data->file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		GFile       *parent;
+
+		parent = g_file_get_parent (file_data->file);
+		if (G_LIKELY (parent != NULL)) {
+			gth_monitor_pause (monitor, parent);
+			g_object_unref (parent);
+		}
+	}
 
 	gth_edit_metadata_dialog_update_info (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 

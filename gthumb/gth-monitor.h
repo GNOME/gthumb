@@ -81,8 +81,10 @@ struct _GthMonitorClass
 
 GType         gth_monitor_get_type                   (void);
 GthMonitor *  gth_monitor_new                        (void);
-void          gth_monitor_pause                      (GthMonitor      *monitor);
-void          gth_monitor_resume                     (GthMonitor      *monitor);
+void          gth_monitor_pause                      (GthMonitor      *monitor,
+						      GFile           *file);
+void          gth_monitor_resume                     (GthMonitor      *monitor,
+						      GFile           *file);
 void          gth_monitor_icon_theme_changed         (GthMonitor      *monitor);
 void          gth_monitor_bookmarks_changed          (GthMonitor      *monitor);
 void          gth_monitor_filters_changed            (GthMonitor      *monitor);

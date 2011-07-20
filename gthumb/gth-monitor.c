@@ -45,7 +45,8 @@ enum {
 
 
 struct _GthMonitorPrivateData {
-	gboolean active;
+	gboolean    active;
+	GHashTable *paused_files;
 };
 
 
@@ -56,21 +57,20 @@ static guint monitor_signals[LAST_SIGNAL] = { 0 };
 static void
 gth_monitor_finalize (GObject *object)
 {
-	GthMonitor *monitor = GTH_MONITOR (object);
+	GthMonitor *self = GTH_MONITOR (object);
 
-	if (monitor->priv != NULL) {
-		g_free (monitor->priv);
-		monitor->priv = NULL;
-	}
+	g_hash_table_unref (self->priv->paused_files);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static void
-gth_monitor_init (GthMonitor *monitor)
+gth_monitor_init (GthMonitor *self)
 {
-	monitor->priv = g_new0 (GthMonitorPrivateData, 1);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MONITOR, GthMonitorPrivateData);
+	self->priv->active = TRUE;
+	self->priv->paused_files = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 }
 
 
@@ -80,6 +80,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 	GObjectClass  *gobject_class;
 
 	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (GthMonitorPrivateData));
 
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_monitor_finalize;
@@ -213,72 +214,94 @@ gth_monitor_new (void)
 
 
 void
-gth_monitor_pause (GthMonitor *monitor)
+gth_monitor_pause (GthMonitor *self,
+		   GFile      *file)
 {
-	monitor->priv->active = FALSE;
+	int n;
+
+	g_return_if_fail (file != NULL);
+
+	n = GPOINTER_TO_INT (g_hash_table_lookup (self->priv->paused_files, file));
+	n += 1;
+	g_hash_table_insert (self->priv->paused_files, g_object_ref (file), GINT_TO_POINTER (n));
 }
 
 
 void
-gth_monitor_resume (GthMonitor *monitor)
+gth_monitor_resume (GthMonitor *self,
+		    GFile      *file)
 {
-	monitor->priv->active = TRUE;
+	int n;
+
+	g_return_if_fail (file != NULL);
+
+	n = GPOINTER_TO_INT (g_hash_table_lookup (self->priv->paused_files, file));
+	if (n == 0)
+		return;
+	n -= 1;
+	if (n > 0)
+		g_hash_table_insert (self->priv->paused_files, g_object_ref (file), GINT_TO_POINTER (n));
+	else
+		g_hash_table_remove (self->priv->paused_files, file);
 }
 
 
 void
-gth_monitor_icon_theme_changed (GthMonitor *monitor)
+gth_monitor_icon_theme_changed (GthMonitor *self)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[ICON_THEME_CHANGED],
 		       0);
 }
 
 
 void
-gth_monitor_bookmarks_changed (GthMonitor *monitor)
+gth_monitor_bookmarks_changed (GthMonitor *self)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[BOOKMARKS_CHANGED],
 		       0);
 }
 
 
 void
-gth_monitor_filters_changed (GthMonitor *monitor)
+gth_monitor_filters_changed (GthMonitor *self)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[FILTERS_CHANGED],
 		       0);
 }
 
 
 void
-gth_monitor_tags_changed (GthMonitor *monitor)
+gth_monitor_tags_changed (GthMonitor *self)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[TAGS_CHANGED],
 		       0);
 }
 
 
 void
-gth_monitor_folder_changed (GthMonitor      *monitor,
+gth_monitor_folder_changed (GthMonitor      *self,
 			    GFile           *parent,
 			    GList           *list,
 			    GthMonitorEvent  event)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	if (g_hash_table_lookup (self->priv->paused_files, parent) != NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[FOLDER_CONTENT_CHANGED],
 		       0,
 		       parent,
@@ -289,14 +312,17 @@ gth_monitor_folder_changed (GthMonitor      *monitor,
 
 
 void
-gth_monitor_files_created_with_pos (GthMonitor *monitor,
+gth_monitor_files_created_with_pos (GthMonitor *self,
 				    GFile      *parent,
 				    GList      *list, /* GFile list */
 				    int         position)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	if (g_hash_table_lookup (self->priv->paused_files, parent) != NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[FOLDER_CONTENT_CHANGED],
 		       0,
 		       parent,
@@ -307,13 +333,16 @@ gth_monitor_files_created_with_pos (GthMonitor *monitor,
 
 
 void
-gth_monitor_file_renamed (GthMonitor *monitor,
+gth_monitor_file_renamed (GthMonitor *self,
 			  GFile      *file,
 			  GFile      *new_file)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	if (g_hash_table_lookup (self->priv->paused_files, file) != NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[FILE_RENAMED],
 		       0,
 		       file,
@@ -322,12 +351,15 @@ gth_monitor_file_renamed (GthMonitor *monitor,
 
 
 void
-gth_monitor_metadata_changed (GthMonitor  *monitor,
+gth_monitor_metadata_changed (GthMonitor  *self,
 			      GthFileData *file_data)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	if (g_hash_table_lookup (self->priv->paused_files, file_data->file) != NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[METADATA_CHANGED],
 		       0,
 		       file_data);
@@ -335,24 +367,27 @@ gth_monitor_metadata_changed (GthMonitor  *monitor,
 
 
 void
-gth_monitor_file_entry_points_changed (GthMonitor *monitor)
+gth_monitor_file_entry_points_changed (GthMonitor *self)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[ENTRY_POINTS_CHANGED],
 		       0);
 }
 
 
 void
-gth_monitor_order_changed (GthMonitor *monitor,
+gth_monitor_order_changed (GthMonitor *self,
 			   GFile      *file,
 			   int        *new_order)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (self));
 
-	g_signal_emit (G_OBJECT (monitor),
+	if (g_hash_table_lookup (self->priv->paused_files, file) != NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[ORDER_CHANGED],
 		       0,
 		       file,
