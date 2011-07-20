@@ -142,7 +142,6 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 			"Iptc::Application2::Caption",
 			NULL
 		};
-		int i;
 
 		for (i = 0; tags_to_remove[i] != NULL; i++)
 			g_file_info_remove_attribute (file_data->info, tags_to_remove[i]);
@@ -169,19 +168,8 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 		}
 	}
 	else {
-		const char *tags_to_remove[] = {
-			"Exif::Image::ImageDescription",
-			"Xmp::tiff::ImageDescription",
-			"Iptc::Application2::Headline",
-			"Exif::Photo::UserComment",
-			"Xmp::dc::description",
-			"Iptc::Application2::Caption",
-			NULL
-		};
-		int i;
-
-		for (i = 0; tags_to_remove[i] != NULL; i++)
-			g_file_info_remove_attribute (file_data->info, tags_to_remove[i]);
+		for (i = 0; _DESCRIPTION_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _DESCRIPTION_TAG_NAMES[i]);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");
@@ -220,11 +208,34 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
-		g_object_set (metadata, "value-type", NULL, NULL);
-		g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
+		GthMetadata *xmp_metadata = NULL;
+		GTimeVal     timeval;
+
+		if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval)) {
+			char *xmp_format;
+
+			xmp_metadata = gth_metadata_dup (GTH_METADATA (metadata));
+			xmp_format = _g_time_val_to_xmp_date (&timeval);
+			g_object_set (xmp_metadata, "raw", xmp_format, NULL);
+
+			g_free (xmp_format);
+		}
+
+		for (i = 0; _ORIGINAL_DATE_TAG_NAMES[i] != NULL; i++) {
+			if (g_str_has_prefix (_ORIGINAL_DATE_TAG_NAMES[i], "Xmp::")) {
+				if (xmp_metadata != NULL)
+					g_file_info_set_attribute_object (file_data->info, _ORIGINAL_DATE_TAG_NAMES[i], G_OBJECT (xmp_metadata));
+			}
+			else
+				g_file_info_set_attribute_object (file_data->info, _ORIGINAL_DATE_TAG_NAMES[i], metadata);
+		}
+
+		_g_object_unref (xmp_metadata);
 	}
-	else
-		g_file_info_remove_attribute (file_data->info, "Exif::Image::DateTime");
+	else {
+		for (i = 0; _ORIGINAL_DATE_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _ORIGINAL_DATE_TAG_NAMES[i]);
+	}
 
 	if (exiv2_write_metadata_to_buffer (&buffer,
 					    &size,

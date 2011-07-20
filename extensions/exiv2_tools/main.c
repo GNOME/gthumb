@@ -151,6 +151,7 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Xmp::dc::title", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Xmp::iptc::Location", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Xmp::iptc::Keywords", NULL, "Xmp::Embedded", 0, "XmpBag", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Xmp::exif::DateTimeOriginal", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Iptc::Application2::Headline", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Iptc::Application2::Caption", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },

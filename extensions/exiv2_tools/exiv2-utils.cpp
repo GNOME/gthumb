@@ -500,10 +500,7 @@ set_attributes_from_tagsets (GFileInfo *info)
 	clear_studip_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
 	clear_studip_comments_from_tagset (info, _TITLE_TAG_NAMES);
 
-	set_attribute_from_tagset (info, "general::datetime", _LAST_DATE_TAG_NAMES);
-	if (g_file_info_get_attribute_object (info, "general::datetime") == NULL)
-		set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
-
+	set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
 

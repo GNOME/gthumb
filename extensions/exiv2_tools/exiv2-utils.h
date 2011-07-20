@@ -28,6 +28,10 @@
 
 G_BEGIN_DECLS
 
+extern const char *_LAST_DATE_TAG_NAMES[];
+extern const char *_ORIGINAL_DATE_TAG_NAMES[];
+extern const char *_DESCRIPTION_TAG_NAMES[];
+
 gboolean   exiv2_read_metadata_from_file    (GFile           *file,
 					     GFileInfo       *info,
 					     GCancellable    *cancellable,
