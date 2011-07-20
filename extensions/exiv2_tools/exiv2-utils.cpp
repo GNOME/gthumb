@@ -835,12 +835,12 @@ const char *
 gth_main_get_metadata_type (gpointer    metadata,
 			    const char *attribute)
 {
-	const char      *value_type;
+	const char      *value_type = NULL;
 	GthMetadataInfo *metadatum_info;
 
 	if (GTH_IS_METADATA (metadata)) {
 		value_type = gth_metadata_get_value_type (GTH_METADATA (metadata));
-		if (g_strcmp0 (value_type, "Undefined") == 0)
+		if ((g_strcmp0 (value_type, "Undefined") == 0) || (g_strcmp0 (value_type, "") == 0))
 			value_type = NULL;
 
 		if (value_type != NULL)
