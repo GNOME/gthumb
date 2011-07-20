@@ -118,6 +118,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 	gsize    size;
 	GError  *error = NULL;
 	GObject *metadata;
+	int      i;
 
 	if (((flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) != GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE))
 		return;
