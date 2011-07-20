@@ -547,6 +547,56 @@ _g_time_val_to_exif_date (GTimeVal *time_)
 }
 
 
+static int
+_g_time_get_timezone_offset (struct tm *tm)
+{
+	int offset;
+
+	offset = -timezone;
+#if defined (HAVE_TM_GMTOFF)
+	offset = tm->tm_gmtoff;
+#elif defined (HAVE_TIMEZONE)
+	if (tm->tm_isdst > 0) {
+  #if defined (HAVE_ALTZONE)
+		offset = -altzone;
+  #else /* !defined (HAVE_ALTZONE) */
+		offset = -timezone + 3600;
+  #endif
+	} else
+		offset = -timezone;
+#endif
+
+	return offset;
+}
+
+
+char *
+_g_time_val_to_xmp_date (GTimeVal *time_)
+{
+	time_t     secs;
+	struct tm *tm;
+	int        offset;
+	char      *retval;
+
+	g_return_val_if_fail (time_->tv_usec >= 0 && time_->tv_usec < G_USEC_PER_SEC, NULL);
+
+	secs = time_->tv_sec;
+	tm = localtime (&secs);
+	offset = _g_time_get_timezone_offset (tm);
+	retval = g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02d%+03d:%02d",
+				  tm->tm_year + 1900,
+				  tm->tm_mon + 1,
+				  tm->tm_mday,
+				  tm->tm_hour,
+				  tm->tm_min,
+				  tm->tm_sec,
+				  offset / 3600,
+				  offset % 3600);
+
+	return retval;
+}
+
+
 char *
 _g_time_val_strftime (GTimeVal   *time_,
 		      const char *format)

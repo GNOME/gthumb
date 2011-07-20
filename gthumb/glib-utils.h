@@ -143,6 +143,7 @@ void            _g_time_val_reset                (GTimeVal   *time_);
 gboolean        _g_time_val_from_exif_date       (const char *exif_date,
 						  GTimeVal   *time_);
 char *          _g_time_val_to_exif_date         (GTimeVal   *time_);
+char *          _g_time_val_to_xmp_date          (GTimeVal   *time_);
 char *          _g_time_val_strftime             (GTimeVal   *time_,
 						  const char *format);
 
