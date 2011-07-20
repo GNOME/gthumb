@@ -894,8 +894,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			      GFileInfo             *info,
 			      GdkPixbuf             *pixbuf)
 {
-	char **attributes;
-	int    i;
+	static char  *software_name = NULL;
+	char        **attributes;
+	int           i;
 
 	image->clearMetadata();
 
@@ -954,7 +955,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// Overwrite the software tag
 
-	ed["Exif.Image.Software"] = PACKAGE " " VERSION;
+	if (software_name == NULL)
+		software_name = g_strconcat (g_get_application_name (), " ", VERSION, NULL);
+	ed["Exif.Image.Software"] = software_name;
 
 	// Update the dimension tags with actual image values
 
