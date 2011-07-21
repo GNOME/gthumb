@@ -31,6 +31,7 @@ typedef struct {
 	GtkWidget  *dialog;
 	GList      *files; /* GFile list */
 	GList      *file_list; /* GthFileData list */
+	GList      *parents;
 } DialogData;
 
 
@@ -40,6 +41,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	_g_object_list_unref (data->file_list);
 	_g_object_list_unref (data->files);
+	_g_object_list_unref (data->parents);
 	g_free (data);
 }
 
@@ -54,16 +56,8 @@ save_file_data_task_completed_cb (GthTask  *task,
 	GList      *scan;
 
 	monitor = gth_main_get_default_monitor ();
-	for (scan = data->file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		GFile       *parent;
-
-		parent = g_file_get_parent (file_data->file);
-		if (G_LIKELY (parent != NULL)) {
-			gth_monitor_resume (monitor, parent);
-			g_object_unref (parent);
-		}
-	}
+	for (scan = data->parents; scan; scan = scan->next)
+		gth_monitor_resume (monitor, (GFile *) scan->data);
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not save the file metadata"), error);
@@ -80,7 +74,7 @@ save_file_data_task_completed_cb (GthTask  *task,
 			continue;
 
 		files = g_list_prepend (NULL, g_object_ref (file_data->file));
-		gth_monitor_folder_changed (monitor, parent, files, GTH_MONITOR_EVENT_CHANGED);
+		/*gth_monitor_folder_changed (monitor, parent, files, GTH_MONITOR_EVENT_CHANGED);*/
 		gth_monitor_metadata_changed (monitor, file_data);
 
 		_g_object_list_unref (files);
@@ -98,6 +92,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 {
 	DialogData *data = user_data;
 	GthMonitor *monitor;
+	GHashTable *parents;
 	GList      *scan;
 	GthTask    *task;
 
@@ -106,17 +101,29 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 		return;
 	}
 
-	monitor = gth_main_get_default_monitor ();
+	/* get the parents list */
+
+	parents = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	for (scan = data->file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 		GFile       *parent;
 
 		parent = g_file_get_parent (file_data->file);
 		if (G_LIKELY (parent != NULL)) {
-			gth_monitor_pause (monitor, parent);
+			if (g_hash_table_lookup (parents, parent) == NULL)
+				g_hash_table_insert (parents, g_object_ref (parent), GINT_TO_POINTER (1));
 			g_object_unref (parent);
 		}
 	}
+	data->parents = g_hash_table_get_keys (parents);
+	g_list_foreach (data->parents, (GFunc) g_object_ref, NULL);
+	g_hash_table_unref (parents);
+
+	/* ignore changes to all the parents */
+
+	monitor = gth_main_get_default_monitor ();
+	for (scan = data->parents; scan; scan = scan->next)
+		gth_monitor_pause (monitor, (GFile *) scan->data);
 
 	gth_edit_metadata_dialog_update_info (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 
