@@ -215,9 +215,13 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 		if (_g_time_val_from_exif_date (gth_metadata_get_raw (GTH_METADATA (metadata)), &timeval)) {
 			char *xmp_format;
 
-			xmp_metadata = gth_metadata_dup (GTH_METADATA (metadata));
+			xmp_metadata = gth_metadata_new ();
 			xmp_format = _g_time_val_to_xmp_date (&timeval);
-			g_object_set (xmp_metadata, "raw", xmp_format, NULL);
+			g_object_set (xmp_metadata,
+				      "raw", xmp_format,
+				      "formatted", gth_metadata_get_formatted (GTH_METADATA (metadata)),
+				      "value-type", NULL, /* use the default type as described in extensions/exiv2_tools/main.c */
+				      NULL);
 
 			g_free (xmp_format);
 		}
