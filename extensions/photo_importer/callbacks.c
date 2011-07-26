@@ -39,6 +39,7 @@ static const char *ui_info =
 "      <menu name='Import' action='ImportMenu'>"
 "        <placeholder name='Misc_Actions'>"
 "          <menuitem action='File_ImportFromDevice'/>"
+"          <menuitem action='File_ImportFromFolder'/>"
 "        </placeholder>"
 "      </menu>"
 "    </menu>"
@@ -50,7 +51,11 @@ static GtkActionEntry action_entries[] = {
 	{ "File_ImportFromDevice", "camera-photo",
 	  N_("_Removable Device..."), NULL,
 	  N_("Import photos and other files from a removable device"),
-	  G_CALLBACK (gth_browser_activate_action_import_files) },
+	  G_CALLBACK (gth_browser_activate_action_import_from_device) },
+	{ "File_ImportFromFolder", "folder",
+	  N_("F_older..."), NULL,
+	  N_("Import photos and other files from a folder"),
+	  G_CALLBACK (gth_browser_activate_action_import_from_folder) }
 };
 
 
@@ -120,7 +125,8 @@ import_photos_idle_cb (gpointer user_data)
 {
 	ImportData *data = user_data;
 
-	dlg_photo_importer (data->browser, data->source);
+	dlg_photo_importer_from_device (data->browser, data->source);
+
 	return FALSE;
 }
 

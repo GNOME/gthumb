@@ -27,6 +27,12 @@
 #include "preferences.h"
 
 
+typedef enum {
+	DLG_IMPORTER_SOURCE_TYPE_DEVICE,
+	DLG_IMPORTER_SOURCE_TYPE_FOLDER
+} DlgImporterSourceType;
+
+
 enum {
 	SOURCE_LIST_COLUMN_MOUNT,
 	SOURCE_LIST_COLUMN_ICON,
@@ -39,13 +45,15 @@ enum {
 
 typedef struct {
 	GthBrowser    *browser;
+	DlgImporterSourceType  selector_type;
 	GtkWidget     *dialog;
 	GtkWidget     *preferences_dialog;
 	GtkBuilder    *builder;
 	GFile         *source;
 	GFile         *last_source;
-	GtkListStore  *source_store;
-	GtkWidget     *source_list;
+	GtkListStore  *device_list_store;
+	GtkWidget     *device_chooser;
+	GtkWidget     *folder_chooser;
 	GtkWidget     *file_list;
 	GCancellable  *cancellable;
 	GList         *files;
@@ -243,10 +251,14 @@ update_sensitivity (DialogData *data)
 {
 	gboolean can_import;
 
-	can_import = data->source != NULL;
+	if (data->selector_type == DLG_IMPORTER_SOURCE_TYPE_DEVICE)
+		can_import = data->source != NULL;
+	else
+		can_import = TRUE;
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("source_selector_box"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("tags_box"), can_import);
+	gtk_widget_set_sensitive (GET_WIDGET ("delete_checkbutton"), can_import);
 }
 
 
@@ -375,20 +387,20 @@ load_file_list (DialogData *data)
 
 
 static void
-source_list_changed_cb (GtkWidget  *widget,
-			DialogData *data)
+device_chooser_changed_cb (GtkWidget  *widget,
+			   DialogData *data)
 {
 	GtkTreeIter  iter;
 	GMount      *mount;
 
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->source_list), &iter)) {
+	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->device_chooser), &iter)) {
 		_g_clear_object (&data->source);
 		_g_clear_object (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
 		return;
 	}
 
-	gtk_tree_model_get (GTK_TREE_MODEL (data->source_store), &iter,
+	gtk_tree_model_get (GTK_TREE_MODEL (data->device_list_store), &iter,
 			    SOURCE_LIST_COLUMN_MOUNT, &mount,
 			    -1);
 
@@ -399,6 +411,7 @@ source_list_changed_cb (GtkWidget  *widget,
 		return;
 	}
 
+	_g_object_unref (data->source);
 	data->source = g_mount_get_root (mount);
 	load_file_list (data);
 
@@ -407,13 +420,32 @@ source_list_changed_cb (GtkWidget  *widget,
 
 
 static void
-update_source_list (DialogData *data)
+folder_chooser_file_set_cb (GtkFileChooserButton *widget,
+			    gpointer              user_data)
+{
+	DialogData *data = user_data;
+	GFile      *folder;
+
+	folder = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (widget));
+	if (folder == NULL)
+		return;
+
+	_g_object_unref (data->source);
+	data->source = g_object_ref (folder);;
+	load_file_list (data);
+
+	g_object_unref (folder);
+}
+
+
+static void
+update_device_source_list (DialogData *data)
 {
 	gboolean  source_available = FALSE;
 	GList    *mounts;
 	GList    *scan;
 
-	gtk_list_store_clear (data->source_store);
+	gtk_list_store_clear (data->device_list_store);
 
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
@@ -427,7 +459,7 @@ update_source_list (DialogData *data)
 		if (g_mount_is_shadowed (mount))
 			continue;
 
-		gtk_list_store_append (data->source_store, &iter);
+		gtk_list_store_append (data->device_list_store, &iter);
 
 		root = g_mount_get_root (mount);
 		if (data->source == NULL)
@@ -450,7 +482,7 @@ update_source_list (DialogData *data)
 			g_free (drive_name);
 		}
 
-		gtk_list_store_set (data->source_store, &iter,
+		gtk_list_store_set (data->device_list_store, &iter,
 				    SOURCE_LIST_COLUMN_MOUNT, mount,
 				    SOURCE_LIST_COLUMN_ICON, icon,
 				    SOURCE_LIST_COLUMN_NAME, name,
@@ -458,7 +490,7 @@ update_source_list (DialogData *data)
 
 		if (g_file_equal (data->source, root)) {
 			source_available = TRUE;
-			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->source_list), &iter);
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->device_chooser), &iter);
 		}
 
 		g_free (name);
@@ -480,7 +512,7 @@ static void
 entry_points_changed_cb (GthMonitor *monitor,
 			 DialogData *data)
 {
-	update_source_list (data);
+	update_device_source_list (data);
 }
 
 
@@ -510,9 +542,10 @@ event_entry_changed_cb (GtkEditable *editable,
 }
 
 
-void
-dlg_photo_importer (GthBrowser *browser,
-		    GFile      *source)
+static void
+dlg_photo_importer (GthBrowser            *browser,
+		    GFile                 *source,
+		    DlgImporterSourceType  selector_type)
 {
 	DialogData       *data;
 	GtkCellRenderer  *renderer;
@@ -530,6 +563,7 @@ dlg_photo_importer (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("photo-importer.ui", "photo_importer");
+	data->selector_type = selector_type;
 	data->source = _g_object_ref (source);
 	data->cancellable = g_cancellable_new ();
 	data->vfs_source = g_object_new (GTH_TYPE_FILE_SOURCE_VFS, NULL);
@@ -542,28 +576,48 @@ dlg_photo_importer (GthBrowser *browser,
 	gth_browser_set_dialog (browser, "photo_importer", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
-	data->source_store = gtk_list_store_new (SOURCE_LIST_COLUMNS, G_TYPE_OBJECT, G_TYPE_ICON, G_TYPE_STRING);
-	data->source_list = gtk_combo_box_new_with_model (GTK_TREE_MODEL (data->source_store));
-	gtk_widget_show (data->source_list);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("source_box")), data->source_list, TRUE, TRUE, 0);
+	if (data->selector_type == DLG_IMPORTER_SOURCE_TYPE_DEVICE) {
+		gtk_window_set_title (GTK_WINDOW (data->dialog), _("Import from Removable Device"));
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("source_label")), data->source_list);
+		data->device_list_store = gtk_list_store_new (SOURCE_LIST_COLUMNS, G_TYPE_OBJECT, G_TYPE_ICON, G_TYPE_STRING);
+		data->device_chooser = gtk_combo_box_new_with_model (GTK_TREE_MODEL (data->device_list_store));
+		gtk_widget_show (data->device_chooser);
+		gtk_box_pack_start (GTK_BOX (GET_WIDGET ("source_box")), data->device_chooser, TRUE, TRUE, 0);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("source_label")), data->device_chooser);
 
-	g_object_unref (data->source_store);
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->device_chooser), renderer, FALSE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->device_chooser),
+						renderer,
+						"gicon", SOURCE_LIST_COLUMN_ICON,
+						NULL);
 
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->source_list), renderer, FALSE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->source_list),
-					renderer,
-					"gicon", SOURCE_LIST_COLUMN_ICON,
-					NULL);
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->device_chooser), renderer, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->device_chooser),
+						renderer,
+						"text", SOURCE_LIST_COLUMN_NAME,
+						NULL);
 
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->source_list), renderer, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->source_list),
-					renderer,
-					"text", SOURCE_LIST_COLUMN_NAME,
-					NULL);
+		g_object_unref (data->device_list_store);
+	}
+	else {
+		if (data->source == NULL) {
+			if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+				data->source = _g_object_ref (gth_browser_get_location (browser));
+			if (data->source == NULL)
+				data->source = g_file_new_for_uri (get_home_uri ());
+		}
+
+		gtk_window_set_title (GTK_WINDOW (data->dialog), _("Import from Folder"));
+
+		data->folder_chooser = gtk_file_chooser_button_new (_("Choose a folder"), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("source_label")), data->folder_chooser);
+		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (data->folder_chooser), data->source, NULL);
+		gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (data->folder_chooser), FALSE);
+		gtk_widget_show (data->folder_chooser);
+		gtk_box_pack_start (GTK_BOX (GET_WIDGET ("source_box")), data->folder_chooser, TRUE, TRUE, 0);
+	}
 
 	data->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
 	sort_type = gth_main_get_sort_type ("file::mtime");
@@ -575,8 +629,6 @@ dlg_photo_importer (GthBrowser *browser,
 
 	gtk_widget_show (data->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filelist_box")), data->file_list, TRUE, TRUE, 0);
-
-	/*gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("files_label")), data->file_list);*/
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = "file::type::is_media"; /* default value */
@@ -648,10 +700,16 @@ dlg_photo_importer (GthBrowser *browser,
                           "clicked",
                           G_CALLBACK (help_clicked_cb),
                           data);
-	g_signal_connect (data->source_list,
-			  "changed",
-			  G_CALLBACK (source_list_changed_cb),
-			  data);
+        if (data->selector_type == DLG_IMPORTER_SOURCE_TYPE_DEVICE)
+		g_signal_connect (data->device_chooser,
+				  "changed",
+				  G_CALLBACK (device_chooser_changed_cb),
+				  data);
+        else
+		g_signal_connect (data->folder_chooser,
+				  "selection-changed",
+				  G_CALLBACK (folder_chooser_file_set_cb),
+				  data);
 	g_signal_connect (data->filter_combobox,
 			  "changed",
 			  G_CALLBACK (filter_combobox_changed_cb),
@@ -682,5 +740,24 @@ dlg_photo_importer (GthBrowser *browser,
 	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))));
 
-	update_source_list (data);
+	if (data->selector_type == DLG_IMPORTER_SOURCE_TYPE_DEVICE)
+		update_device_source_list (data);
+	else
+		load_file_list (data);
+}
+
+
+void
+dlg_photo_importer_from_device (GthBrowser *browser,
+				GFile      *source)
+{
+	dlg_photo_importer (browser, source, DLG_IMPORTER_SOURCE_TYPE_DEVICE);
+}
+
+
+void
+dlg_photo_importer_from_folder (GthBrowser *browser,
+				GFile      *source)
+{
+	dlg_photo_importer (browser, source, DLG_IMPORTER_SOURCE_TYPE_FOLDER);
 }

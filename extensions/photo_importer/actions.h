@@ -26,6 +26,7 @@
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-DEFINE_ACTION(gth_browser_activate_action_import_files)
+DEFINE_ACTION(gth_browser_activate_action_import_from_device)
+DEFINE_ACTION(gth_browser_activate_action_import_from_folder)
 
 #endif /* ACTIONS_H */

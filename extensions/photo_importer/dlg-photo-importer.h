@@ -24,7 +24,9 @@
 
 #include <gthumb.h>
 
-void dlg_photo_importer (GthBrowser *browser,
-			 GFile      *source);
+void dlg_photo_importer_from_device (GthBrowser *browser,
+				     GFile      *source);
+void dlg_photo_importer_from_folder (GthBrowser *browser,
+				     GFile      *source);
 
 #endif /* DLG_PHOTO_IMPORTER_H */

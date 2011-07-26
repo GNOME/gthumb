@@ -27,8 +27,63 @@
 
 
 void
-gth_browser_activate_action_import_files (GtkAction  *action,
-					  GthBrowser *browser)
+gth_browser_activate_action_import_from_device (GtkAction  *action,
+						GthBrowser *browser)
 {
-	dlg_photo_importer (browser, NULL);
+	dlg_photo_importer_from_device (browser, NULL);
+}
+
+
+static void
+folder_chooser_response_cb (GtkDialog *dialog,
+			    int        response_id,
+			    gpointer   user_data)
+{
+	GthBrowser *browser = user_data;
+	GFile      *folder;
+
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		return;
+	}
+
+	folder = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+	if (folder != NULL) {
+		dlg_photo_importer_from_folder (browser, folder);
+		g_object_unref (folder);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+void
+gth_browser_activate_action_import_from_folder (GtkAction  *action,
+						GthBrowser *browser)
+{
+	GtkWidget *chooser;
+	GFile     *folder;
+
+	chooser = gtk_file_chooser_dialog_new (_("Choose a folder"),
+					       GTK_WINDOW (browser),
+					       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       _("Import"), GTK_RESPONSE_OK,
+					       NULL);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
+
+	folder = NULL;
+	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+		folder = _g_object_ref (gth_browser_get_location (browser));
+	if (folder == NULL)
+		folder = g_file_new_for_uri (get_home_uri ());
+	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (chooser), folder, NULL);
+
+	g_signal_connect (chooser,
+			  "response",
+			  G_CALLBACK (folder_chooser_response_cb),
+			  browser);
+	gtk_widget_show (chooser);
+
+	_g_object_unref (folder);
 }
