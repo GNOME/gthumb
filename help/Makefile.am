@@ -50,7 +50,7 @@ DOC_PAGES = \
 	import.page \
 	slideshow.page
 	
-DOC_LINGUAS = de el es fr oc sl sv zh_CN
+DOC_LINGUAS = de el es eu fr oc sl sv zh_CN
 
 EXTRA_DIST = album-theme-format.txt
 
