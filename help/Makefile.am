@@ -52,7 +52,7 @@ DOC_PAGES = \
 	slideshow.page \
 	file-copy-move.page
 	
-DOC_LINGUAS = de el es fr oc sl sv zh_CN
+DOC_LINGUAS = de el es eu fr oc sl sv zh_CN
 
 EXTRA_DIST = album-theme-format.txt
 
