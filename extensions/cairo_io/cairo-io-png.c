@@ -24,6 +24,19 @@
 #include <gthumb.h>
 #include "cairo-io-png.h"
 
+/* starting from libpng version 1.5 it is not possible
+ * to access inside the PNG struct directly
+ */
+#define PNG_SETJMP(ptr) setjmp(png_jmpbuf(ptr))
+
+#ifdef PNG_LIBPNG_VER
+#if PNG_LIBPNG_VER < 10500
+#ifdef PNG_SETJMP
+#undef PNG_SETJMP
+#endif
+#define PNG_SETJMP(ptr) setjmp(ptr->jmpbuf)
+#endif
+#endif
 
 typedef struct {
 	GFileInputStream  *stream;
@@ -162,7 +175,7 @@ _cairo_image_surface_create_from_png (GthFileData   *file_data,
 	        return image;
 	}
 
-	if (setjmp (cairo_png_data->png_ptr->jmpbuf)) {
+	if (PNG_SETJMP(cairo_png_data->png_ptr)) {
 		_cairo_png_data_destroy (cairo_png_data);
 	        return image;
 	}
