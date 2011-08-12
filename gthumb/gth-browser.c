@@ -1045,13 +1045,24 @@ get_free_space_ready_cb (GthFileSource *file_source,
 static void
 _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 {
-	if (browser->priv->recalc_location_free_space)
+	if (browser->priv->recalc_location_free_space
+	    && (browser->priv->location_source != NULL)
+	    && (browser->priv->location != NULL))
+	{
 		gth_file_source_get_free_space (browser->priv->location_source,
 						browser->priv->location->file,
 						get_free_space_ready_cb,
 						browser);
-	else
+	}
+	else {
+		if ((browser->priv->location_source == NULL)
+		    || (browser->priv->location == NULL))
+		{
+			g_free (browser->priv->location_free_space);
+			browser->priv->location_free_space = NULL;
+		}
 		_update_statusbar_list_info (browser);
+	}
 }
 
 
