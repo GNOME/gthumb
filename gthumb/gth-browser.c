@@ -162,6 +162,8 @@ struct _GthBrowserPrivateData {
 	guint              selection_changed_event;
 	GthFileData       *folder_popup_file_data;
 	gboolean           properties_on_screen;
+	char              *location_free_space;
+	gboolean           recalc_location_free_space;
 
 	/* fulscreen */
 
@@ -936,40 +938,21 @@ _gth_browser_get_fast_file_type (GthBrowser *browser,
 }
 
 
-
 static void
-get_free_space_ready_cb (GthFileSource *file_source,
-			 guint64        total_size,
-			 guint64        free_space,
-			 GError        *error,
-			 gpointer       data)
+_update_statusbar_list_info (GthBrowser *browser)
 {
-	GthBrowser *browser = data;
-	GList      *file_list;
-	int         n_total;
-	goffset     size_total;
-	GList      *scan;
-	int         n_selected;
-	goffset     size_selected;
-	GList      *selected;
-	char       *size_total_formatted;
-	char       *size_selected_formatted;
-	char       *text_free;
-	char       *text_total;
-	char       *text_selected;
-	GString    *text;
-
-	if (error == NULL) {
-		char *free_space_formatted;
-
-		free_space_formatted = g_format_size_for_display (free_space);
-		text_free = g_strdup_printf (_("%s of free space"), free_space_formatted);
-
-		g_free (free_space_formatted);
-	}
-	else
-		text_free = NULL;
-
+	GList   *file_list;
+	int      n_total;
+	goffset  size_total;
+	GList   *scan;
+	int      n_selected;
+	goffset  size_selected;
+	GList   *selected;
+	char    *size_total_formatted;
+	char    *size_selected_formatted;
+	char    *text_total;
+	char    *text_selected;
+	GString *text;
 
 	/* total */
 
@@ -1012,14 +995,13 @@ get_free_space_ready_cb (GthFileSource *file_source,
 		g_string_append (text, STATUSBAR_SEPARATOR);
 		g_string_append (text, text_selected);
 	}
-	if (text_free != NULL) {
+	if (browser->priv->location_free_space != NULL) {
 		g_string_append (text, STATUSBAR_SEPARATOR);
-		g_string_append (text, text_free);
+		g_string_append (text, browser->priv->location_free_space);
 	}
 	gth_statusbar_set_list_info (GTH_STATUSBAR (browser->priv->statusbar), text->str);
 
 	g_string_free (text, TRUE);
-	g_free (text_free);
 	g_free (text_selected);
 	g_free (text_total);
 	g_free (size_selected_formatted);
@@ -1028,12 +1010,48 @@ get_free_space_ready_cb (GthFileSource *file_source,
 
 
 static void
+get_free_space_ready_cb (GthFileSource *file_source,
+			 guint64        total_size,
+			 guint64        free_space,
+			 GError        *error,
+			 gpointer       data)
+{
+	GthBrowser *browser = data;
+	char       *free_space_text;
+
+	if (error == NULL) {
+		char *free_space_formatted;
+
+		free_space_formatted = g_format_size_for_display (free_space);
+		free_space_text = g_strdup_printf (_("%s of free space"), free_space_formatted);
+
+		g_free (free_space_formatted);
+	}
+	else
+		free_space_text = NULL;
+
+	g_free (browser->priv->location_free_space);
+	browser->priv->location_free_space = NULL;
+	if (free_space_text != NULL)
+		browser->priv->location_free_space = g_strdup (free_space_text);
+	g_free (free_space_text);
+
+	browser->priv->recalc_location_free_space = FALSE;
+
+	_update_statusbar_list_info (browser);
+}
+
+
+static void
 _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 {
-	gth_file_source_get_free_space (browser->priv->location_source,
-					browser->priv->location->file,
-					get_free_space_ready_cb,
-					browser);
+	if (browser->priv->recalc_location_free_space)
+		gth_file_source_get_free_space (browser->priv->location_source,
+						browser->priv->location->file,
+						get_free_space_ready_cb,
+						browser);
+	else
+		_update_statusbar_list_info (browser);
 }
 
 
@@ -1538,6 +1556,7 @@ load_data_continue (LoadData *load_data,
 		return;
 	}
 
+	browser->priv->recalc_location_free_space = TRUE;
 	load_data_done (load_data, NULL);
 
 	switch (load_data->action) {
@@ -2462,6 +2481,9 @@ gth_browser_init (GthBrowser *browser)
 
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 		browser->priv->cnxn_id[i] = 0;
+
+	browser->priv->location_free_space = NULL;
+	browser->priv->recalc_location_free_space = TRUE;
 }
 
 
@@ -2471,6 +2493,7 @@ gth_browser_finalize (GObject *object)
 	GthBrowser *browser = GTH_BROWSER (object);
 
 	if (browser->priv != NULL) {
+		g_free (browser->priv->location_free_space);
 		_g_object_unref (browser->priv->location_source);
 		_g_object_unref (browser->priv->monitor_location);
 		_g_object_unref (browser->priv->location);
@@ -3068,6 +3091,8 @@ folder_changed_cb (GthMonitor      *monitor,
 		MonitorEventData *monitor_data;
 		gboolean          current_file_deleted = FALSE;
 		GthFileData      *new_file = NULL;
+
+		browser->priv->recalc_location_free_space = TRUE;
 
 		switch (event) {
 		case GTH_MONITOR_EVENT_CREATED:
