@@ -936,21 +936,40 @@ _gth_browser_get_fast_file_type (GthBrowser *browser,
 }
 
 
+
 static void
-_gth_browser_update_statusbar_list_info (GthBrowser *browser)
+get_free_space_ready_cb (GthFileSource *file_source,
+			 guint64        total_size,
+			 guint64        free_space,
+			 GError        *error,
+			 gpointer       data)
 {
-	GList   *file_list;
-	int      n_total;
-	goffset  size_total;
-	GList   *scan;
-	int      n_selected;
-	goffset  size_selected;
-	GList   *selected;
-	char    *size_total_formatted;
-	char    *size_selected_formatted;
-	char    *text_total;
-	char    *text_selected;
-	char    *text;
+	GthBrowser *browser = data;
+	GList      *file_list;
+	int         n_total;
+	goffset     size_total;
+	GList      *scan;
+	int         n_selected;
+	goffset     size_selected;
+	GList      *selected;
+	char       *size_total_formatted;
+	char       *size_selected_formatted;
+	char       *text_free;
+	char       *text_total;
+	char       *text_selected;
+	GString    *text;
+
+	if (error == NULL) {
+		char *free_space_formatted;
+
+		free_space_formatted = g_format_size_for_display (free_space);
+		text_free = g_strdup_printf (_("%s of free space"), free_space_formatted);
+
+		g_free (free_space_formatted);
+	}
+	else
+		text_free = NULL;
+
 
 	/* total */
 
@@ -987,17 +1006,34 @@ _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 	size_selected_formatted = g_format_size_for_display (size_selected);
 	text_total = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, size_total_formatted);
 	text_selected = g_strdup_printf (g_dngettext (NULL, "%d file selected (%s)", "%d files selected (%s)", n_selected), n_selected, size_selected_formatted);
-	text = g_strconcat (text_total,
-			    ((n_selected == 0) ? NULL : ", "),
-			    text_selected,
-			    NULL);
-	gth_statusbar_set_list_info (GTH_STATUSBAR (browser->priv->statusbar), text);
 
-	g_free (text);
+	text = g_string_new (text_total);
+	if (n_selected > 0) {
+		g_string_append (text, STATUSBAR_SEPARATOR);
+		g_string_append (text, text_selected);
+	}
+	if (text_free != NULL) {
+		g_string_append (text, STATUSBAR_SEPARATOR);
+		g_string_append (text, text_free);
+	}
+	gth_statusbar_set_list_info (GTH_STATUSBAR (browser->priv->statusbar), text->str);
+
+	g_string_free (text, TRUE);
+	g_free (text_free);
 	g_free (text_selected);
 	g_free (text_total);
 	g_free (size_selected_formatted);
 	g_free (size_total_formatted);
+}
+
+
+static void
+_gth_browser_update_statusbar_list_info (GthBrowser *browser)
+{
+	gth_file_source_get_free_space (browser->priv->location_source,
+					browser->priv->location->file,
+					get_free_space_ready_cb,
+					browser);
 }
 
 

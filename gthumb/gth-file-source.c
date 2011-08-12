@@ -54,7 +54,8 @@ typedef enum {
 	FILE_SOURCE_OP_RENAME,
 	FILE_SOURCE_OP_COPY,
 	FILE_SOURCE_OP_REORDER,
-	FILE_SOURCE_OP_REMOVE
+	FILE_SOURCE_OP_REMOVE,
+	FILE_SOURCE_OP_GET_FREE_SPACE
 } FileSourceOp;
 
 
@@ -140,6 +141,13 @@ typedef struct {
 
 
 typedef struct {
+	GFile              *location;
+	SpaceReadyCallback  callback;
+	gpointer            data;
+} GetFreeSpaceData;
+
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
@@ -152,6 +160,7 @@ typedef struct {
 		WriteMetadataData  write_metadata;
 		ReadMetadataData   read_metadata;
 		RemoveData         remove;
+		GetFreeSpaceData   get_free_space;
 	} data;
 } FileSourceAsyncOp;
 
@@ -192,6 +201,9 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 	case FILE_SOURCE_OP_REMOVE:
 		_g_object_unref (async_op->data.remove.location);
 		_g_object_list_unref (async_op->data.remove.file_list);
+		break;
+	case FILE_SOURCE_OP_GET_FREE_SPACE:
+		_g_object_unref (async_op->data.get_free_space.location);
 		break;
 	}
 
@@ -407,6 +419,25 @@ gth_file_source_queue_remove (GthFileSource *file_source,
 
 
 static void
+gth_file_source_queue_get_free_space (GthFileSource      *file_source,
+				      GFile              *location,
+				      SpaceReadyCallback  callback,
+				      gpointer            data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_GET_FREE_SPACE;
+	async_op->data.get_free_space.location = g_file_dup (location);
+	async_op->data.get_free_space.callback = callback;
+	async_op->data.get_free_space.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
 gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 {
 	GList             *head;
@@ -494,6 +525,13 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 					async_op->data.remove.permanently,
 					async_op->data.remove.parent);
 		break;
+
+	case FILE_SOURCE_OP_GET_FREE_SPACE:
+		gth_file_source_get_free_space (file_source,
+						async_op->data.get_free_space.location,
+						async_op->data.get_free_space.callback,
+						async_op->data.get_free_space.data);
+		break;
 	}
 
 	file_source_async_op_free (async_op);
@@ -578,6 +616,67 @@ base_write_metadata (GthFileSource *file_source,
 		     gpointer       data)
 {
 	object_ready_with_error (file_source, callback, data, NULL);
+}
+
+
+typedef struct {
+	GFile              *location;
+	GthFileSource      *file_source;
+	SpaceReadyCallback  callback;
+	gpointer            data;
+} BaseFreeSpaceData;
+
+
+static void
+get_free_space_ready_cb (GObject      *source_object,
+			 GAsyncResult *res,
+			 gpointer      user_data)
+{
+	BaseFreeSpaceData *free_space_data = user_data;
+	GFileInfo         *info;
+	GError            *error = NULL;
+	guint64            total_size = 0;
+	guint64            free_space = 0;
+
+	info = g_file_query_filesystem_info_finish (free_space_data->location, res, &error);
+	if (info != NULL) {
+		total_size = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_FILESYSTEM_SIZE);
+		free_space = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_FILESYSTEM_FREE);
+		g_object_unref (info);
+	}
+
+	free_space_data->callback (free_space_data->file_source,
+				   total_size,
+				   free_space,
+				   error,
+				   free_space_data->data);
+
+	if (error != NULL)
+		g_error_free (error);
+	g_object_unref (free_space_data->location);
+	g_free (free_space_data);
+}
+
+
+static void
+base_get_free_space (GthFileSource        *file_source,
+		     GFile                *location,
+		     SpaceReadyCallback    callback,
+		     gpointer              data)
+{
+	BaseFreeSpaceData *free_space_data;
+
+	free_space_data = g_new0 (BaseFreeSpaceData, 1);
+	free_space_data->location = g_object_ref (location);
+	free_space_data->file_source = file_source;
+	free_space_data->callback = callback;
+	free_space_data->data = data;
+	g_file_query_filesystem_info_async (location,
+					    G_FILE_ATTRIBUTE_FILESYSTEM_SIZE "," G_FILE_ATTRIBUTE_FILESYSTEM_FREE,
+					    G_PRIORITY_DEFAULT,
+					    file_source->priv->cancellable,
+					    get_free_space_ready_cb,
+					    free_space_data);
 }
 
 
@@ -774,6 +873,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->is_reorderable = base_is_reorderable;
 	class->reorder = base_reorder;
 	class->remove = base_remove;
+	class->get_free_space = base_get_free_space;
 }
 
 
@@ -1255,4 +1355,22 @@ gth_file_source_remove (GthFileSource *file_source,
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, location, file_list, permanently, parent);
+}
+
+
+void
+gth_file_source_get_free_space (GthFileSource      *file_source,
+				GFile              *location,
+				SpaceReadyCallback  callback,
+				gpointer            data)
+{
+	g_return_if_fail (location != NULL);
+	g_return_if_fail (callback != NULL);
+
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_get_free_space (file_source, location, callback, data);
+		return;
+	}
+	g_cancellable_reset (file_source->priv->cancellable);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_free_space (file_source, location, callback, data);
 }

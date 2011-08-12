@@ -102,7 +102,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	image = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (statusbar->priv->stop_button), image);
-	 */
+	*/
 
 	/* Secondary text */
 

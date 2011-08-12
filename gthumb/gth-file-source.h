@@ -43,10 +43,15 @@ typedef struct _GthFileSource         GthFileSource;
 typedef struct _GthFileSourcePrivate  GthFileSourcePrivate;
 typedef struct _GthFileSourceClass    GthFileSourceClass;
 
-typedef void (*ListReady) (GthFileSource *file_source,
-			   GList         *files,
-			   GError        *error,
-			   gpointer       data);
+typedef void (*ListReady)          (GthFileSource *file_source,
+				    GList         *files,
+				    GError        *error,
+				    gpointer       data);
+typedef void (*SpaceReadyCallback) (GthFileSource *file_source,
+				    guint64        total_size,
+				    guint64        free_space,
+				    GError        *error,
+				    gpointer       data);
 
 struct _GthFileSource
 {
@@ -127,6 +132,10 @@ struct _GthFileSourceClass
 					       GList                *file_list, /* GthFileData list */
 					       gboolean              permanently,
 					       GtkWindow            *parent);
+	void         (*get_free_space)        (GthFileSource        *file_source,
+					       GFile                *location,
+					       SpaceReadyCallback    callback,
+					       gpointer              data);
 };
 
 GType          gth_file_source_get_type              (void) G_GNUC_CONST;
@@ -211,6 +220,10 @@ void           gth_file_source_remove                (GthFileSource        *file
 		       	       	       	       	      GList                *file_list /* GthFileData list */,
 		       	       	       	       	      gboolean              permanently,
 		       	       	       	       	      GtkWindow            *parent);
+void           gth_file_source_get_free_space        (GthFileSource        *file_source,
+						      GFile                *location,
+						      SpaceReadyCallback    callback,
+						      gpointer              data);
 
 /*< protected >*/
 
