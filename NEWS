@@ -1,3 +1,83 @@
+version 2.13.3
+--------------
+
+        New features and user visible changes:
+
+        * Added ability to import photos from a folder. This is equivalent to
+          importing from a removable device, with the difference that the
+          user can select a folder instead of a device.  Useful to reorganize
+          by date or tag an old set of photos. (#452764)
+        * Find duplicates: added ability to eliminate all the duplicates at
+          once leaving only the newest or the oldest one. (#342887)
+        * Show the current disk free space in the status bar.
+        * Make the keyboard editing shortcuts work from the file list as well.
+          When the file list or the image viewer are focused the user can use
+          the following shortcuts to activate some editing tools:
+          h: enhance; l: flip; m: mirror; r: rotate right;
+          <shift>r: rotate left; <shift>c: crop; <shift>s: resize.
+        * Resize image: added buttons to set to the original image size or the
+          screen size (#639012)
+        * Added "copy to" and "move to" commands in the folder list as well.
+        * F2 renames the folder if the folder tree is focused (#448588)
+        * Web albums: always use subfolders. removed the relative option from
+          the dialog (#624334)
+        * Allow %F (filename) and %C (comment) in Web Album headers and
+          footers (#166579)
+        * Adjust colors: added a preview check button to compare the image
+          with the original (#566040)
+        * Save and restore the settings in the change date dialog (#451803)
+        * Added Ctrl+Q to close all the windows.
+        * Automatically select the last viewed file on startup if "Go to last
+          visited folder or catalogue" option is active.
+        * Ask confirmation before deleting a command/script (#627475)
+        * Increased the number of preloaded images. preload the next 4 and the
+          previous 4 images, instead of the next 2 and the previous one.
+          (#564017)
+        * Improved insertion of files in catalogs: when using the paste
+          command the files are inserted after the last selected file;
+          when using drag&drop the files are inserted in the current position
+          as when moving files inside a catalog. (#371697)
+        * Added "gThumb" to the window title (#627159)
+
+        Bugs fixed:
+
+        * Do not allow the user to create catalogs with a / in the name (#652482)
+        * Progress dialog: set the task description as dialog title if the
+          main window is hidden (#628769)
+        * Web album: simplified code and fixed a memory leak (#644970)
+        * Fixed crash opening an image from command line (#654241)
+        * Use the FSF web site instead of the address in gthumb.h (#652027)
+        * Disabled refresh in viewer mode (#627183)
+        * Resize tool: reset size to sensible defaults when switching between
+          % and pixels (#622427)
+        * EXIF tags listed more than once when disabling and then re-enabling
+          the EXIF extension (#621454)
+        * Give the focus to the viewer after changing the image (#595575)
+        * Image rotation: show the correct progress fraction and current file
+          name in the progress dialog (#594796)
+        * Copying or moving a file will copy or move its XMP sidecar as well
+          (#581641)
+        * Web albums: fixed hotkeys binding in the main dialog (#575176)
+        * Contact sheet: fixed some hotkey bindings in the main dialog
+          (#575171, #575170)
+        * Resize images: bind width and height if size is expressed in
+          percentage and keep ratio is active (#564827)
+        * Exclude hidden folders from search result when view->hidden files is
+          not active (#502524)
+        * Fixed crash when going fullscreen with no image in the file list
+
+        New or updated application translations:
+
+        * Español (Daniel Mustieles)
+        * Estonian (Rene Pärts)
+        * Hungarian (Gabor Kelemen)
+        * Norwegian/Bokmaal (Kjartan Maraas)
+
+        New or updated manual translations:
+
+        * Basque (Iñaki Larrañaga Murgoitio)
+        * Deutsch (Christian Kirbach)
+
 version 2.13.2
 --------------
 
