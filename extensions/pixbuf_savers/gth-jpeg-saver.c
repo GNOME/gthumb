@@ -246,7 +246,9 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 	volatile int       quality = 85; /* default; must be between 0 and 100 */
 	volatile int       smoothing = 0;
 	volatile gboolean  optimize = FALSE;
+#ifdef HAVE_PROGRESSIVE_JPEG
 	volatile gboolean  progressive = FALSE;
+#endif
 	int                i, j;
 	int                w, h = 0;
 	int                rowstride = 0;
@@ -319,6 +321,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 					return FALSE;
 				}
 			}
+#ifdef HAVE_PROGRESSIVE_JPEG
 			else if (strcmp (*kiter, "progressive") == 0) {
 				if (strcmp (*viter, "yes") == 0)
 					progressive = TRUE;
@@ -333,6 +336,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 					return FALSE;
 				}
 			}
+#endif
 			else {
 				g_warning ("Bad option name '%s' passed to JPEG saver", *kiter);
 				return FALSE;

@@ -413,6 +413,10 @@ int main(int c, char**v) { return 0; }
 fi
 AM_CONDITIONAL(HAVE_LIBJPEG_80, test "x$have_libjpeg_80" = xyes)
 
+AC_CHECK_LIB(jpeg, jpeg_simple_progression,
+             [AC_DEFINE(HAVE_PROGRESSIVE_JPEG, 1, [Define to 1 if libjpeg supports progressive JPEG.])],
+             [AC_MSG_WARN(JPEG library does not support progressive saving.)])
+
 dnl ===========================================================================
 
 AC_ARG_ENABLE([tiff],
