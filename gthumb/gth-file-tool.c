@@ -74,12 +74,8 @@ gth_file_tool_base_destroy_options (GthFileTool *self)
 static void
 gth_file_tool_finalize (GObject *object)
 {
-	GthFileTool *self;
-
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_FILE_TOOL (object));
-
-	self = (GthFileTool *) object;
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);

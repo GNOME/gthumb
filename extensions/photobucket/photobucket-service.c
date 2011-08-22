@@ -418,12 +418,10 @@ upload_photo_ready_cb (SoupSession *session,
 		       gpointer     user_data)
 {
 	PhotobucketService *self = user_data;
-	GSimpleAsyncResult *result;
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 	GthFileData        *file_data;
 
-	result = oauth_connection_get_result (self->priv->conn);
 	if (! photobucket_utils_parse_response (msg, &doc, &error)) {
 		upload_photos_done (self, error);
 		return;

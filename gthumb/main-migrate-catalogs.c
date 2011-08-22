@@ -154,7 +154,7 @@ migration_for_each_file (GFile     *file,
 				char       *s;
 				gboolean    b;
 				int         line_ofs;
-				gboolean    all_keywords;
+				/*gboolean    all_keywords;*/
 				time_t      date;
 				int         date_scope;
 
@@ -255,10 +255,10 @@ migration_for_each_file (GFile     *file,
 
 				n_line++;
 				line_ofs = 0;
-				all_keywords = FALSE;
+				/*all_keywords = FALSE;*/
 				if (lines[n_line][0] != '"') {
 					line_ofs = 1;
-					all_keywords = (*line == '1');
+					/*all_keywords = (*line == '1');*/
 				}
 				copy_unquoted (unquoted, lines[n_line] + line_ofs);
 				s = g_strdup (unquoted);

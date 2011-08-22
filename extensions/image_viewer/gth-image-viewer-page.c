@@ -925,9 +925,6 @@ static gboolean
 gth_image_viewer_page_real_can_view (GthViewerPage *base,
 				     GthFileData   *file_data)
 {
-	GthImageViewerPage *self;
-
-	self = (GthImageViewerPage*) base;
 	g_return_val_if_fail (file_data != NULL, FALSE);
 
 	return _g_mime_type_is_image (gth_file_data_get_mime_type (file_data));

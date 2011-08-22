@@ -51,12 +51,8 @@ static GtkHBoxClass *parent_class = NULL;
 static void
 gth_image_navigator_class_init (GthImageNavigatorClass *class)
 {
-	GObjectClass *object_class;
-
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageNavigatorPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
 }
 
 

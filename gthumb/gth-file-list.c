@@ -1785,7 +1785,6 @@ _gth_file_list_get_visibles (GthFileList *file_list)
 static void
 _gth_file_list_update_next_thumb (GthFileList *file_list)
 {
-	GthFileStore  *file_store;
 	int            pos;
 	int            first_pos;
 	int            last_pos;
@@ -1811,8 +1810,6 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		_gth_file_list_thumbs_completed (file_list);
 		return;
 	}
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
 	/* Find first visible undone. */
 

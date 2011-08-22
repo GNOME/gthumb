@@ -157,7 +157,7 @@ gth_histogram_calculate_for_pixbuf (GthHistogram    *self,
 {
 	int    **values;
 	int     *values_max;
-	int      width, height, has_alpha, n_channels;
+	int      width, height, n_channels;
 	int      rowstride;
 	guchar  *line, *pixel;
 	int      i, j, max;
@@ -174,7 +174,6 @@ gth_histogram_calculate_for_pixbuf (GthHistogram    *self,
 		return;
 	}
 
-	has_alpha  = gdk_pixbuf_get_has_alpha (pixbuf);
 	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 	rowstride  = gdk_pixbuf_get_rowstride (pixbuf);
 	line       = gdk_pixbuf_get_pixels (pixbuf);

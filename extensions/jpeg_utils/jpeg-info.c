@@ -281,13 +281,13 @@ _jpeg_get_image_info (GInputStream  *stream,
 
 		if ((marker_id == 0xc0) || (marker_id == 0xc2)) { /* SOF0 or SOF1 */
 			guint h, l;
-			guint size;
+			/*guint size;*/
 
 			/* size */
 
 			h = _g_input_stream_read_byte (stream, cancellable, error);
 			l = _g_input_stream_read_byte (stream, cancellable, error);
-			size = (h << 8) + l;
+			/*size = (h << 8) + l;*/
 
 			/* data precision */
 

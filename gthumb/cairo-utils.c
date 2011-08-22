@@ -471,7 +471,6 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 	int              line_start;
 	int              line_step;
 	int              pixel_step;
-	int              destination_stride;
 	unsigned char   *p_source_line;
 	unsigned char   *p_destination_line;
 	unsigned char   *p_source;
@@ -498,7 +497,6 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 
 	destination = cairo_image_surface_create (format, destination_width, destination_height);
 	cairo_surface_flush (destination);
-	destination_stride = cairo_image_surface_get_stride (destination);
 	p_source_line = cairo_image_surface_get_data (source);
 	p_destination_line = cairo_image_surface_get_data (destination) + line_start;
 	while (height-- > 0) {

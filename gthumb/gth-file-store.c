@@ -815,7 +815,6 @@ _gth_file_store_update_visibility (GthFileStore *file_store,
 	GthFileData *file;
 	int          j, k;
 	gboolean     row_deleted;
-	gboolean     row_inserted;
 
 
 #ifdef DEBUG_FILE_STORE
@@ -1028,7 +1027,6 @@ g_print ("\n");
 
 	/* add the new files */
 
-	row_inserted = FALSE;
 	for (i = 0; i < new_rows_n; i++) {
 		GtkTreePath *path;
 		GtkTreeIter  iter;
@@ -1055,8 +1053,6 @@ g_print ("  INSERT: %d\n", i);
 		gth_file_store_get_iter (GTK_TREE_MODEL (file_store), &iter, path);
 		gtk_tree_model_row_inserted (GTK_TREE_MODEL (file_store), path, &iter);
 		gtk_tree_path_free (path);
-
-		row_inserted = TRUE;
 	}
 
 	g_signal_emit (file_store, gth_file_store_signals[VISIBILITY_CHANGED], 0);

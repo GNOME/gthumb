@@ -182,9 +182,6 @@ static gboolean
 gth_file_viewer_page_real_can_view (GthViewerPage *base,
 				    GthFileData   *file_data)
 {
-	GthFileViewerPage *self;
-
-	self = (GthFileViewerPage*) base;
 	g_return_val_if_fail (file_data != NULL, FALSE);
 
 	return TRUE;

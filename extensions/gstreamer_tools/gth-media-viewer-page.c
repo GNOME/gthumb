@@ -1044,9 +1044,6 @@ static gboolean
 gth_media_viewer_page_real_can_view (GthViewerPage *base,
 				     GthFileData   *file_data)
 {
-	GthMediaViewerPage *self;
-
-	self = (GthMediaViewerPage*) base;
 	g_return_val_if_fail (file_data != NULL, FALSE);
 
 	return _g_mime_type_is_video (gth_file_data_get_mime_type (file_data)) || _g_mime_type_is_audio (gth_file_data_get_mime_type (file_data));

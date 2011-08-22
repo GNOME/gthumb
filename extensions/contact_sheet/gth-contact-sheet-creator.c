@@ -606,12 +606,10 @@ export (GthContactSheetCreator *self)
 	int        columns;
 	gboolean   first_row;
 	int        page_n = 0;
-	int        page_height;
 	int        header_height;
 	int        footer_height;
 	int        x, y;
 	GList     *scan;
-	ItemData  *item_data;
 	GError    *error = NULL;
 
 	if (self->priv->pixbuf_saver == NULL)
@@ -620,12 +618,10 @@ export (GthContactSheetCreator *self)
 	columns = ((self->priv->page_width - self->priv->theme->col_spacing) / (self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing));
 	first_row = TRUE;
 	begin_page (self, ++page_n);
-	page_height = get_page_height (self, page_n);
 	header_height = get_header_height (self, TRUE);
 	footer_height = get_footer_height (self, TRUE);
 	y = self->priv->theme->col_spacing;
 	scan = self->priv->files;
-	item_data = (ItemData*) scan->data;
 	do {
 		GList *first_item, *last_item;
 		int    i;
@@ -641,10 +637,7 @@ export (GthContactSheetCreator *self)
 				columns = i;
 				break;
 			}
-
 			last_item = scan = scan->next;
-			if (scan != NULL)
-				item_data = (ItemData *) scan->data;
 		}
 
 		if (columns == 0) {
@@ -681,7 +674,6 @@ export (GthContactSheetCreator *self)
 
 			first_row = TRUE;
 			begin_page (self, ++page_n);
-			page_height = get_page_height (self, page_n);
 			header_height = get_header_height (self, TRUE);
 			footer_height = get_footer_height (self, TRUE);
 			y = self->priv->theme->row_spacing;
@@ -809,9 +801,8 @@ compute_pages_size (GthContactSheetCreator *self)
 	self->priv->n_pages = 0;
 	columns = self->priv->columns_per_page;
 	for (scan = self->priv->files; scan != NULL; /* void */) {
-		ItemData *idata = (ItemData *) scan->data;
-		int       page_height;
-		int       r;
+		int page_height;
+		int r;
 
 		page_height = self->priv->theme->row_spacing;
 
@@ -836,10 +827,7 @@ compute_pages_size (GthContactSheetCreator *self)
 					columns = c;
 					break;
 				}
-
 				last_item = scan = scan->next;
-				if (scan != NULL)
-					idata = (ItemData*) scan->data;
 			}
 
 			if (columns == 0)
