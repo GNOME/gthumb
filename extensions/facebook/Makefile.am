@@ -33,7 +33,8 @@ libfacebook_la_SOURCES = 			\
 	facebook-types.h			\
 	facebook-user.c				\
 	facebook-user.h				\
-	main.c
+	main.c					\
+	preferences.h
 
 libfacebook_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libfacebook_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

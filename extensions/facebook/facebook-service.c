@@ -30,11 +30,13 @@
 #include "facebook-service.h"
 #include "facebook-user.h"
 
-#define FACEBOOK_MAX_IMAGE_SIZE 720
+#define FACEBOOK_MIN_IMAGE_SIZE 720
+#define FACEBOOK_MAX_IMAGE_SIZE 2048
 
 typedef struct {
 	FacebookAlbum       *album;
 	GList               *file_list;
+	int                  max_resolution;
 	FacebookVisibility   visibility_level;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
@@ -756,7 +758,9 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		keys = g_hash_table_get_keys (data_set);
 		for (scan = keys; scan; scan = scan->next) {
 			char *key = scan->data;
-			soup_multipart_append_form_string (multipart, key, g_hash_table_lookup (data_set, key));
+			char *value = g_hash_table_lookup (data_set, key);
+			if (value != NULL)
+				soup_multipart_append_form_string (multipart, key, value);
 		}
 
 		g_list_free (keys);
@@ -792,8 +796,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		height = gdk_pixbuf_get_height (pixbuf);
 		if (scale_keeping_ratio (&width,
 					 &height,
-					 FACEBOOK_MAX_IMAGE_SIZE,
-					 FACEBOOK_MAX_IMAGE_SIZE,
+					 self->priv->post_photos->max_resolution,
+					 self->priv->post_photos->max_resolution,
 					 FALSE))
 		{
 			tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (pixbuf, width, height, GDK_INTERP_BILINEAR);
@@ -904,6 +908,7 @@ void
 facebook_service_upload_photos (FacebookService     *self,
 				FacebookAlbum       *album,
 				GList               *file_list, /* GFile list */
+				int                  max_resolution,
 				GCancellable        *cancellable,
 				GAsyncReadyCallback  callback,
 				gpointer             user_data)
@@ -913,6 +918,7 @@ facebook_service_upload_photos (FacebookService     *self,
 	post_photos_data_free (self->priv->post_photos);
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
 	self->priv->post_photos->album = _g_object_ref (album);
+	self->priv->post_photos->max_resolution = CLAMP (max_resolution, FACEBOOK_MIN_IMAGE_SIZE, FACEBOOK_MAX_IMAGE_SIZE);
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;

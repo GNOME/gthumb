@@ -28,6 +28,7 @@
 #include "facebook-album-properties-dialog.h"
 #include "facebook-service.h"
 #include "facebook-user.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
@@ -45,6 +46,12 @@ enum {
 	ALBUM_ICON_COLUMN,
 	ALBUM_TITLE_COLUMN,
 	ALBUM_SIZE_COLUMN
+};
+
+
+enum {
+	RESIZE_DESCRIPTION_COLUMN,
+	RESIZE_SIZE_COLUMN
 };
 
 
@@ -201,6 +208,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 		{
 			GtkTreeIter  iter;
 			GList       *file_list;
+			int          max_resolution;
 
 			gtk_widget_hide (data->dialog);
 			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
@@ -213,10 +221,21 @@ export_dialog_response_cb (GtkDialog *dialog,
 						    -1);
 			}
 
+			max_resolution = 0;
+			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), &iter)) {
+				gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox"))),
+						    &iter,
+						    RESIZE_SIZE_COLUMN, &max_resolution,
+						    -1);
+			}
+
+			eel_gconf_set_integer (PREF_FACEBOOK_MAX_RESOLUTION, max_resolution);
+
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 			facebook_service_upload_photos (data->service,
 						        data->album,
 						        file_list,
+						        max_resolution,
 						        data->cancellable,
 						        upload_photos_ready_cb,
 						        data);
@@ -570,6 +589,34 @@ dlg_export_to_facebook (GthBrowser *browser,
 	title = g_strdup_printf (_("Export to %s"), "Facebook");
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
+
+	{
+		/* set the default resolution */
+
+		int           default_resolution;
+		GtkTreeModel *tree_model;
+		GtkTreeIter   iter;
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), 0);
+
+		default_resolution = eel_gconf_get_integer (PREF_FACEBOOK_MAX_RESOLUTION, 2048);
+		tree_model = (GtkTreeModel *) gtk_builder_get_object (data->builder, "resize_liststore");
+		if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
+			do {
+				int resolution;
+
+				gtk_tree_model_get (tree_model,
+						    &iter,
+						    RESIZE_SIZE_COLUMN, &resolution,
+						    -1);
+				if (resolution == default_resolution)  {
+					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), &iter);
+					break;
+				}
+			}
+			while (gtk_tree_model_iter_next (tree_model, &iter));
+		}
+	}
 
 	/* Set the signals handlers. */
 

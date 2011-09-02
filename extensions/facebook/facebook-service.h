@@ -87,6 +87,7 @@ FacebookAlbum *   facebook_service_create_album_finish        (FacebookService  
 void              facebook_service_upload_photos              (FacebookService      *self,
 							       FacebookAlbum        *album,
 							       GList                *file_list, /* GFile list */
+							       int                   max_resolution,
 							       GCancellable         *cancellable,
 							       GAsyncReadyCallback   callback,
 							       gpointer              user_data);
