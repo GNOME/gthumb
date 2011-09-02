@@ -165,6 +165,7 @@ extensions/facebook/actions.c
 extensions/facebook/actions.h
 extensions/facebook/callbacks.c
 extensions/facebook/callbacks.h
+extensions/facebook/data/gthumb-facebook.schemas.in
 [type: gettext/glade]extensions/facebook/data/ui/export-to-facebook.ui
 [type: gettext/glade]extensions/facebook/data/ui/facebook-account-chooser.ui
 [type: gettext/glade]extensions/facebook/data/ui/facebook-account-manager.ui
@@ -197,6 +198,7 @@ extensions/facebook/facebook-types.h
 extensions/facebook/facebook-user.c
 extensions/facebook/facebook-user.h
 extensions/facebook/main.c
+extensions/facebook/preferences.h
 extensions/file_manager/actions.c
 extensions/file_manager/actions.h
 extensions/file_manager/callbacks.c
