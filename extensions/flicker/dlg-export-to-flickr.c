@@ -56,6 +56,7 @@ typedef struct {
 	GtkWidget            *dialog;
 	GtkWidget            *list_view;
 	GtkWidget            *progress_dialog;
+	GtkWidget            *photoset_combobox;
 	FlickrConnection     *conn;
 	FlickrAuthentication *auth;
 	FlickrService        *service;
@@ -298,14 +299,14 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		{
-			char  *photoset_title;
-			GList *file_list;
+			const char *photoset_title;
+			GList      *file_list;
 
 			gtk_widget_hide (data->dialog);
 			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			data->photoset = NULL;
-			photoset_title = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (GET_WIDGET ("photoset_comboboxentry")));
+			photoset_title = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (data->photoset_combobox))));
 			if ((photoset_title != NULL) && (g_strcmp0 (photoset_title, "") != 0)) {
 				GList *link;
 
@@ -330,7 +331,6 @@ export_dialog_response_cb (GtkDialog *dialog,
 						    data);
 
 			_g_object_list_unref (file_list);
-			g_free (photoset_title);
 		}
 		break;
 
@@ -500,6 +500,37 @@ dlg_export_to_flickr (FlickrServer *server,
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
 
+	{
+		GtkCellLayout   *cell_layout;
+		GtkCellRenderer *renderer;
+
+		data->photoset_combobox = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (GET_WIDGET ("photoset_liststore")));
+		gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (data->photoset_combobox), PHOTOSET_TITLE_COLUMN);
+		gtk_widget_show (data->photoset_combobox);
+		gtk_container_add (GTK_CONTAINER (GET_WIDGET ("photoset_combobox_container")), data->photoset_combobox);
+
+		cell_layout = GTK_CELL_LAYOUT (data->photoset_combobox);
+		gtk_cell_layout_clear (cell_layout);
+
+		renderer = gtk_cell_renderer_pixbuf_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"icon-name", PHOTOSET_ICON_COLUMN,
+						NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"text", PHOTOSET_TITLE_COLUMN,
+						NULL);
+
+		renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+		gtk_cell_layout_set_attributes (cell_layout, renderer,
+						"text", PHOTOSET_N_PHOTOS_COLUMN,
+						NULL);
+	}
+
 	data->file_list = NULL;
 	n_total = 0;
 	total_size = 0;
@@ -552,7 +583,8 @@ dlg_export_to_flickr (FlickrServer *server,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
-	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (GET_WIDGET ("photoset_comboboxentry")))), g_file_info_get_edit_name (data->location->info));
+	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (data->photoset_combobox))), g_file_info_get_edit_name (data->location->info));
+
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
 	title = g_strdup_printf (_("Export to %s"), data->server->name);
