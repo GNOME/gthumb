@@ -793,7 +793,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	uri = g_file_get_uri (file_data->file);
 	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
-					 NULL,
+					 "filename",
 					 _g_uri_get_basename (uri),
 					 gth_file_data_get_mime_type (file_data),
 					 body);
