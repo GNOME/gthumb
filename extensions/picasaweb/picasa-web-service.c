@@ -37,6 +37,7 @@ typedef struct {
 	GList               *current;
 	goffset              total_size;
 	goffset              uploaded_size;
+	goffset              wrote_body_data_size;
 	int                  n_files;
 	int                  uploaded_files;
 } PostPhotosData;
@@ -419,6 +420,37 @@ post_photo_ready_cb (SoupSession *session,
 
 
 static void
+upload_photo_wrote_body_data_cb (SoupMessage *msg,
+                		 SoupBuffer  *chunk,
+                		 gpointer     user_data)
+{
+	PicasaWebService *self = user_data;
+	GthFileData      *file_data;
+	char             *details;
+	double            current_file_fraction;
+
+	if (self->priv->post_photos->current == NULL)
+		return;
+
+	self->priv->post_photos->wrote_body_data_size += chunk->length;
+	if (self->priv->post_photos->wrote_body_data_size > msg->request_body->length)
+		return;
+
+	file_data = self->priv->post_photos->current->data;
+	/* Translators: %s is a filename */
+	details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
+	current_file_fraction = (double) self->priv->post_photos->wrote_body_data_size / msg->request_body->length;
+	gth_task_progress (GTH_TASK (self->priv->conn),
+			   NULL,
+			   details,
+			   FALSE,
+			   (double) (self->priv->post_photos->uploaded_size + (g_file_info_get_size (file_data->info) * current_file_fraction)) / self->priv->post_photos->total_size);
+
+	g_free (details);
+}
+
+
+static void
 post_photo_file_buffer_ready_cb (void     **buffer,
 				 gsize      count,
 				 GError    *error,
@@ -436,7 +468,6 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 	gsize               entry_len;
 	SoupMessageHeaders *headers;
 	SoupBuffer         *body;
-	char               *details;
 	char               *url;
 	SoupMessage        *msg;
 
@@ -516,17 +547,18 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 
 	/* send the file */
 
-	/* Translators: %s is a filename */
-	details = g_strdup_printf (_("Uploading '%s'"), filename);
-	gth_task_progress (GTH_TASK (self->priv->conn), NULL, details, TRUE, 0.0);
-	g_free (details);
-
+	self->priv->post_photos->wrote_body_data_size = 0;
 	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/",
 			   self->priv->user->id,
 			   "/albumid/",
 			   self->priv->post_photos->album->id,
 			   NULL);
 	msg = soup_form_request_new_from_multipart (url, multipart);
+	g_signal_connect (msg,
+			  "wrote-body-data",
+			  (GCallback) upload_photo_wrote_body_data_cb,
+			  self);
+
 	google_connection_send_message (self->priv->conn,
 					msg,
 					self->priv->post_photos->cancellable,

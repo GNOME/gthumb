@@ -840,7 +840,6 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	/* send the file */
 
 	self->priv->post_photos->wrote_body_data_size = 0;
-
 	msg = soup_form_request_new_from_multipart (FACEBOOK_HTTPS_REST_SERVER, multipart);
 	g_signal_connect (msg,
 			  "wrote-body-data",
