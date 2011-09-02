@@ -49,6 +49,7 @@ oauth_connection_error_quark (void)
 struct _OAuthConnectionPrivate
 {
 	SoupSession        *session;
+	SoupMessage        *msg;
 	char               *timestamp;
 	char               *nonce;
 	char               *signature;
@@ -92,7 +93,12 @@ oauth_connection_exec (GthTask *base)
 static void
 oauth_connection_cancelled (GthTask *base)
 {
-	/* void */
+	OAuthConnection *self = OAUTH_CONNECTION (base);
+
+	if ((self->priv->session == NULL) || (self->priv->msg == NULL))
+		return;
+
+	soup_session_cancel_message (self->priv->session, self->priv->msg, SOUP_STATUS_CANCELLED);
 }
 
 
@@ -119,6 +125,7 @@ oauth_connection_init (OAuthConnection *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_CONNECTION, OAuthConnectionPrivate);
 	self->priv->session = NULL;
+	self->priv->msg = NULL;
 	self->priv->timestamp = NULL;
 	self->priv->nonce = NULL;
 	self->priv->signature = NULL;
@@ -206,6 +213,9 @@ oauth_connection_send_message (OAuthConnection     *self,
 							callback,
 							user_data,
 							source_tag);
+
+	self->priv->msg = msg;
+	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
 
 	soup_session_queue_message (self->priv->session,
 				    msg,

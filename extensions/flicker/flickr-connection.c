@@ -48,6 +48,7 @@ flickr_connection_error_quark (void)
 struct _FlickrConnectionPrivate
 {
 	SoupSession        *session;
+	SoupMessage        *msg;
 	char               *frob;
 	char               *token;
 	char               *username;
@@ -91,7 +92,12 @@ flickr_connection_exec (GthTask *base)
 static void
 flickr_connection_cancelled (GthTask *base)
 {
-	/* void */
+	FlickrConnection *self = FLICKR_CONNECTION (base);
+
+	if ((self->priv->session == NULL) || (self->priv->msg == NULL))
+		return;
+
+	soup_session_cancel_message (self->priv->session, self->priv->msg, SOUP_STATUS_CANCELLED);
 }
 
 
@@ -118,6 +124,7 @@ flickr_connection_init (FlickrConnection *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_CONNECTION, FlickrConnectionPrivate);
 	self->priv->session = NULL;
+	self->priv->msg = NULL;
 	self->priv->username = NULL;
 	self->priv->user_id = NULL;
 	self->priv->token = NULL;
@@ -212,6 +219,9 @@ flickr_connection_send_message (FlickrConnection    *self,
 							callback,
 							user_data,
 							source_tag);
+
+	self->priv->msg = msg;
+	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
 
 	soup_session_queue_message (self->priv->session,
 				    msg,

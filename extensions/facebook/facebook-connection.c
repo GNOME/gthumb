@@ -51,6 +51,7 @@ facebook_connection_error_quark (void)
 struct _FacebookConnectionPrivate
 {
 	SoupSession        *session;
+	SoupMessage        *msg;
 	char               *token;
 	char               *secret;
 	char               *session_key;
@@ -96,7 +97,12 @@ facebook_connection_exec (GthTask *base)
 static void
 facebook_connection_cancelled (GthTask *base)
 {
-	/* void */
+	FacebookConnection *self = FACEBOOK_CONNECTION (base);
+
+	if ((self->priv->session == NULL) || (self->priv->msg == NULL))
+		return;
+
+	soup_session_cancel_message (self->priv->session, self->priv->msg, SOUP_STATUS_CANCELLED);
 }
 
 
@@ -123,6 +129,7 @@ facebook_connection_init (FacebookConnection *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FACEBOOK_TYPE_CONNECTION, FacebookConnectionPrivate);
 	self->priv->session = NULL;
+	self->priv->msg = NULL;
 	self->priv->token = NULL;
 	self->priv->secret = NULL;
 	self->priv->session_key = NULL;
@@ -206,6 +213,9 @@ facebook_connection_send_message (FacebookConnection  *self,
 							callback,
 							user_data,
 							source_tag);
+
+	self->priv->msg = msg;
+	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
 
 	soup_session_queue_message (self->priv->session,
 				    msg,

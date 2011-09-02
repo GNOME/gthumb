@@ -49,6 +49,7 @@ struct _GoogleConnectionPrivate
 {
 	char               *service;
 	SoupSession        *session;
+	SoupMessage        *msg;
 	char               *token;
 	char               *challange_url;
 	GCancellable       *cancellable;
@@ -87,7 +88,12 @@ google_connection_exec (GthTask *base)
 static void
 google_connection_cancelled (GthTask *base)
 {
-	/* void */
+	GoogleConnection *self = GOOGLE_CONNECTION (base);
+
+	if ((self->priv->session == NULL) || (self->priv->msg == NULL))
+		return;
+
+	soup_session_cancel_message (self->priv->session, self->priv->msg, SOUP_STATUS_CANCELLED);
 }
 
 
@@ -115,6 +121,7 @@ google_connection_init (GoogleConnection *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GOOGLE_TYPE_CONNECTION, GoogleConnectionPrivate);
 	self->priv->service = NULL;
 	self->priv->session = NULL;
+	self->priv->msg = NULL;
 	self->priv->token = NULL;
 	self->priv->challange_url = NULL;
 	self->priv->cancellable = NULL;
@@ -182,6 +189,9 @@ google_connection_send_message (GoogleConnection    *self,
 							callback,
 							user_data,
 							source_tag);
+
+	self->priv->msg = msg;
+	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
 
 	value = g_strconcat ("GoogleLogin auth=", self->priv->token, NULL);
 	soup_message_headers_replace (msg->request_headers, "Authorization", value);
@@ -372,9 +382,13 @@ google_connection_connect (GoogleConnection    *self,
 		g_hash_table_insert (data_set, "logintoken", self->priv->token);
 	if (challange != NULL)
 		g_hash_table_insert (data_set, "logincaptcha", (char *) challange);
+
 	msg = soup_form_request_new_from_hash ("POST",
 					       "https://www.google.com/accounts/ClientLogin",
 					       data_set);
+	self->priv->msg = msg;
+	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
+
 	soup_session_queue_message (self->priv->session, msg, connect_ready_cb, self);
 
 	g_hash_table_destroy (data_set);
