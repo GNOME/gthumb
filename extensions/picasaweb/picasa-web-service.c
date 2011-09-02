@@ -598,6 +598,7 @@ post_photos_info_ready_cb (GList    *files,
 		           gpointer  user_data)
 {
 	PicasaWebService *self = user_data;
+	GList            *scan;
 
 	if (error != NULL) {
 		post_photos_done (self, error);
@@ -605,6 +606,15 @@ post_photos_info_ready_cb (GList    *files,
 	}
 
 	self->priv->post_photos->file_list = _g_object_list_ref (files);
+	self->priv->post_photos->total_size = 0;
+	self->priv->post_photos->n_files = 0;
+	for (scan = self->priv->post_photos->file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		self->priv->post_photos->total_size += g_file_info_get_size (file_data->info);
+		self->priv->post_photos->n_files += 1;
+	}
+
 	self->priv->post_photos->current = self->priv->post_photos->file_list;
 	picasa_wev_service_post_current_file (self);
 }
@@ -618,8 +628,6 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 			        GAsyncReadyCallback  callback,
 			        gpointer             user_data)
 {
-	GList *scan;
-
 	g_return_if_fail (album != NULL);
 	g_return_if_fail (self->priv->post_photos == NULL);
 
@@ -630,14 +638,6 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;
-	self->priv->post_photos->total_size = 0;
-	self->priv->post_photos->n_files = 0;
-	for (scan = self->priv->post_photos->file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-
-		self->priv->post_photos->total_size += g_file_info_get_size (file_data->info);
-		self->priv->post_photos->n_files += 1;
-	}
 
 	_g_query_all_metadata_async (file_list,
 				     GTH_LIST_DEFAULT,
