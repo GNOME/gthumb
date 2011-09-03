@@ -108,7 +108,7 @@ save_options (GthImportPreferencesDialog *self)
 	GthSubfolderFormat  subfolder_format;
 	const char         *custom_format;
 
-	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	destination = gth_import_preferences_dialog_get_destination (self);
 	if (destination != NULL) {
 		char *uri;
 
@@ -476,7 +476,7 @@ gth_import_preferences_dialog_get_destination_example (GthImportPreferencesDialo
 	GTimeVal            timeval;
 	GFile              *destination_example;
 
-	destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	destination = gth_import_preferences_dialog_get_destination (self);
 	if (destination == NULL)
 		return NULL;
 
