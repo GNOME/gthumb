@@ -50,7 +50,7 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Export_PhotoBucket", "photobucket",
+	{ "File_Export_PhotoBucket", "site-photobucket",
 	  N_("Photobucket..."), NULL,
 	  N_("Upload photos to Photobucket"),
 	  G_CALLBACK (gth_browser_activate_action_export_photobucket) },

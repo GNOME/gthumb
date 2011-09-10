@@ -50,7 +50,7 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Export_Facebook", "facebook",
+	{ "File_Export_Facebook", "site-facebook",
 	  N_("Face_book..."), NULL,
 	  N_("Upload photos to Facebook"),
 	  G_CALLBACK (gth_browser_activate_action_export_facebook) },

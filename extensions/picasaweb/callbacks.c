@@ -55,11 +55,11 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Import_PicasaWeb", "picasaweb",
+	{ "File_Import_PicasaWeb", "site-picasaweb",
 	  N_("_Picasa Web Album..."), NULL,
 	  N_("Download photos from Picasa Web Album"),
 	  G_CALLBACK (gth_browser_activate_action_import_picasaweb) },
-	{ "File_Export_PicasaWeb", "picasaweb",
+	{ "File_Export_PicasaWeb", "site-picasaweb",
 	  N_("_Picasa Web Album..."), NULL,
 	  N_("Upload photos to Picasa Web Album"),
 	  G_CALLBACK (gth_browser_activate_action_export_picasaweb) },
