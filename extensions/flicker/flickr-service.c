@@ -31,6 +31,9 @@
 #include "flickr-user.h"
 
 
+#define IMAGES_PER_PAGE 500
+
+
 typedef struct {
 	FlickrPrivacyType    privacy_level;
 	FlickrSafetyType     safety_level;
@@ -974,16 +977,45 @@ flickr_service_post_photos_finish (FlickrService  *self,
 /* -- flickr_service_list_photos -- */
 
 
+typedef struct {
+	FlickrService       *self;
+	FlickrPhotoset      *photoset;
+	char                *extras;
+	GCancellable        *cancellable;
+	GAsyncReadyCallback  callback;
+	gpointer             user_data;
+	GList               *photos;
+	int                  position;
+} FlickrListPhotosData;
+
+
 static void
-list_photos_ready_cb (SoupSession *session,
-		      SoupMessage *msg,
-		      gpointer     user_data)
+flickr_list_photos_data_free (FlickrListPhotosData *data)
 {
-	FlickrService      *self = user_data;
-	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
-	GError             *error = NULL;
+	_g_object_unref (data->self);
+	_g_object_unref (data->photoset);
+	g_free (data->extras);
+	_g_object_unref (data->cancellable);
+	g_free (data);
+}
+
+
+static void
+flickr_service_list_photoset_page (FlickrListPhotosData *data,
+				   int                   page);
+
+
+static void
+flickr_service_list_photoset_paged_ready_cb (SoupSession *session,
+					     SoupMessage *msg,
+					     gpointer     user_data)
+{
+	FlickrListPhotosData *data = user_data;
+	FlickrService        *self = data->self;
+	GSimpleAsyncResult   *result;
+	SoupBuffer           *body;
+	DomDocument          *doc = NULL;
+	GError               *error = NULL;
 
 	result = flickr_connection_get_result (self->priv->conn);
 
@@ -994,6 +1026,7 @@ list_photos_ready_cb (SoupSession *session,
 						 "%s",
 						 soup_status_get_phrase (msg->status_code));
 		g_simple_async_result_complete_in_idle (result);
+		flickr_list_photos_data_free (data);
 		return;
 	}
 
@@ -1001,39 +1034,105 @@ list_photos_ready_cb (SoupSession *session,
 	if (flickr_utils_parse_response (body, &doc, &error)) {
 		DomElement *response;
 		DomElement *node;
-		GList      *photos = NULL;
+		int         pages = 0;
+		int         page = 0;
 
 		response = DOM_ELEMENT (doc)->first_child;
 		for (node = response->first_child; node; node = node->next_sibling) {
 			if (g_strcmp0 (node->tag_name, "photoset") == 0) {
 				DomElement *child;
-				int         position;
 
-				position = 0;
 				for (child = node->first_child; child; child = child->next_sibling) {
 					if (g_strcmp0 (child->tag_name, "photo") == 0) {
 						FlickrPhoto *photo;
 
-						photo = flickr_photo_new ();
+						photo = flickr_photo_new (self->priv->conn->server);
 						dom_domizable_load_from_element (DOM_DOMIZABLE (photo), child);
-						photo->position = position++;
-						photos = g_list_prepend (photos, photo);
+						photo->position = data->position++;
+						data->photos = g_list_prepend (data->photos, photo);
 					}
 				}
+
+				pages = dom_element_get_attribute_as_int (node, "pages");
+				page = dom_element_get_attribute_as_int (node, "page");
 			}
 		}
 
-		photos = g_list_reverse (photos);
-		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
+		if (page > pages) {
+			g_simple_async_result_set_error (result,
+							 SOUP_HTTP_ERROR,
+							 0,
+							 "%s",
+							 "Invalid data");
+			g_simple_async_result_complete_in_idle (result);
+			flickr_list_photos_data_free (data);
+		}
+		else if (page < pages) {
+			/* read the next page */
+			flickr_service_list_photoset_page (data, page + 1);
+		}
+		else { /* page == pages */
+			data->photos = g_list_reverse (data->photos);
+			g_simple_async_result_set_op_res_gpointer (result,
+								   _g_object_list_ref (data->photos),
+								   (GDestroyNotify) _g_object_list_unref);
+			g_simple_async_result_complete_in_idle (result);
+			flickr_list_photos_data_free (data);
+		}
 
 		g_object_unref (doc);
 	}
-	else
+	else {
 		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_simple_async_result_complete_in_idle (result);
+	}
 
 	soup_buffer_free (body);
+}
+
+
+static void
+flickr_service_list_photoset_page (FlickrListPhotosData *data,
+				   int                   n_page)
+{
+	FlickrService *self = data->self;
+	GHashTable    *data_set;
+	char          *page = NULL;
+	char          *per_page = NULL;
+	SoupMessage   *msg;
+
+	g_return_if_fail (data->photoset != NULL);
+
+	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.photosets.getPhotos");
+	g_hash_table_insert (data_set, "photoset_id", data->photoset->id);
+	if (data->extras != NULL)
+		g_hash_table_insert (data_set, "extras", (char *) data->extras);
+
+	if (n_page > 0) {
+		page = g_strdup_printf ("%d", IMAGES_PER_PAGE);
+		g_hash_table_insert (data_set, "per_page", page);
+
+		per_page = g_strdup_printf ("%d", n_page);
+		g_hash_table_insert (data_set, "page", per_page);
+	}
+
+	flickr_connection_add_api_sig (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
+	flickr_connection_send_message (self->priv->conn,
+					msg,
+					data->cancellable,
+					data->callback,
+					data->user_data,
+					flickr_service_list_photos,
+					flickr_service_list_photoset_paged_ready_cb,
+					data);
+
+	g_free (per_page);
+	g_free (page);
+	g_hash_table_destroy (data_set);
 }
 
 
@@ -1041,47 +1140,23 @@ void
 flickr_service_list_photos (FlickrService       *self,
 			    FlickrPhotoset      *photoset,
 			    const char          *extras,
-			    int                  per_page,
-			    int                  page,
 			    GCancellable        *cancellable,
 			    GAsyncReadyCallback  callback,
 			    gpointer             user_data)
 {
-	GHashTable  *data_set;
-	char        *s;
-	SoupMessage *msg;
+	FlickrListPhotosData *data;
 
-	g_return_if_fail (photoset != NULL);
+	data = g_new0 (FlickrListPhotosData, 1);
+	data->self = _g_object_ref (self);
+	data->photoset = _g_object_ref (photoset);
+	data->extras = g_strdup (extras);
+	data->cancellable = _g_object_ref (cancellable);
+	data->callback = callback;
+	data->user_data = user_data;
+	data->photos = NULL;
+	data->position = 0;
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "flickr.photosets.getPhotos");
-	g_hash_table_insert (data_set, "photoset_id", photoset->id);
-	if (extras != NULL)
-		g_hash_table_insert (data_set, "extras", (char *) extras);
-	if (per_page > 0) {
-		s = g_strdup_printf ("%d", per_page);
-		g_hash_table_insert (data_set, "per_page", s);
-		g_free (s);
-	}
-	if (page > 0) {
-		s = g_strdup_printf ("%d", page);
-		g_hash_table_insert (data_set, "page", s);
-		g_free (s);
-	}
-	flickr_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", self->priv->conn->server->rest_url, data_set);
-	flickr_connection_send_message (self->priv->conn,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					flickr_service_list_photos,
-					list_photos_ready_cb,
-					self);
-
-	g_hash_table_destroy (data_set);
+	flickr_service_list_photoset_page (data, 1);
 }
 
 

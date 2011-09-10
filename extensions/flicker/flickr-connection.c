@@ -215,7 +215,7 @@ flickr_connection_send_message (FlickrConnection    *self,
 	self->priv->cancellable = _g_object_ref (cancellable);
 
 	_g_object_unref (self->priv->result);
-	self->priv->result = g_simple_async_result_new (G_OBJECT (soup_session_cb_data),
+	self->priv->result = g_simple_async_result_new (G_IS_OBJECT (soup_session_cb_data) ? G_OBJECT (soup_session_cb_data) : NULL,
 							callback,
 							user_data,
 							source_tag);

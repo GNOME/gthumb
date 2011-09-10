@@ -407,8 +407,6 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 	flickr_service_list_photos (data->service,
 				    data->photoset,
 				    "original_format, url_sq, url_t, url_s, url_m, url_o",
-				    0,
-				    0,
 				    data->cancellable,
 				    list_photos_ready_cb,
 				    data);

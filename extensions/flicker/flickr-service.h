@@ -112,8 +112,6 @@ GList *           flickr_service_post_photos_finish       (FlickrService        
 void              flickr_service_list_photos              (FlickrService        *self,
 							   FlickrPhotoset       *photoset,
 							   const char           *extras,
-							   int                   per_page,
-							   int                   page,
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
 						           gpointer              user_data);

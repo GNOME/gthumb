@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <stdlib.h>
 #include <string.h>
 #include "dom.h"
 
@@ -307,6 +308,22 @@ dom_element_get_attribute (DomElement *self,
 	g_return_val_if_fail (name != NULL, NULL);
 
 	return (const char*) g_hash_table_lookup (self->attributes, name);
+}
+
+
+int
+dom_element_get_attribute_as_int (DomElement *self,
+				  const char *name)
+{
+	const char *value;
+	int         i;
+
+	i = 0;
+	value = dom_element_get_attribute (self, name);
+	if (value != NULL)
+		i = atoi (value);
+
+	return i;
 }
 
 

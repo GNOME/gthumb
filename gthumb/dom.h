@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #ifndef DOM_H
 #define DOM_H
 
@@ -77,7 +77,7 @@ typedef struct _DomDomizableIface DomDomizableIface;
 struct _DomElement {
 	GInitiallyUnowned parent_instance;
 	DomElementPrivate *priv;
-		
+
 	char       *tag_name;
 	char       *prefix;
 	GHashTable *attributes;
@@ -91,15 +91,15 @@ struct _DomElement {
 
 struct _DomElementClass {
 	GInitiallyUnownedClass parent_class;
-	
-	char * (*dump) (DomElement *self, 
+
+	char * (*dump) (DomElement *self,
 			int         level);
 };
 
 struct _DomTextNode {
 	DomElement parent_instance;
 	DomTextNodePrivate *priv;
-	
+
 	char *data;
 };
 
@@ -118,10 +118,10 @@ struct _DomDocumentClass {
 
 struct _DomDomizableIface {
 	GTypeInterface parent_iface;
-	
-	DomElement * (*create_element)    (DomDomizable *self, 
+
+	DomElement * (*create_element)    (DomDomizable *self,
 					   DomDocument  *doc);
-	void         (*load_from_element) (DomDomizable *self, 
+	void         (*load_from_element) (DomDomizable *self,
 					   DomElement   *e);
 };
 
@@ -130,22 +130,24 @@ GQuark        dom_error_quark                       (void);
 /* DomElement */
 
 GType         dom_element_get_type                  (void);
-void          dom_element_append_child              (DomElement   *self, 
+void          dom_element_append_child              (DomElement   *self,
 					             DomElement   *child);
-const char *  dom_element_get_attribute             (DomElement   *self, 
+const char *  dom_element_get_attribute             (DomElement   *self,
 					             const char   *name);
-gboolean      dom_element_has_attribute             (DomElement   *self, 
+int           dom_element_get_attribute_as_int      (DomElement   *self,
+						     const char   *name);
+gboolean      dom_element_has_attribute             (DomElement   *self,
 					             const char   *name);
 gboolean      dom_element_has_child_nodes           (DomElement   *self);
-void          dom_element_remove_attribute          (DomElement   *self, 
+void          dom_element_remove_attribute          (DomElement   *self,
 					             const char   *name);
-DomElement *  dom_element_remove_child              (DomElement   *self, 
+DomElement *  dom_element_remove_child              (DomElement   *self,
 					             DomElement   *node);
-void          dom_element_replace_child             (DomElement   *self, 
-					             DomElement   *new_child, 
+void          dom_element_replace_child             (DomElement   *self,
+					             DomElement   *new_child,
 					             DomElement   *old_child);
-void          dom_element_set_attribute             (DomElement   *self, 
-					             const char   *name, 
+void          dom_element_set_attribute             (DomElement   *self,
+					             const char   *name,
 					             const char   *value);
 const char *  dom_element_get_inner_text            (DomElement   *self);
 
@@ -157,20 +159,20 @@ GType         dom_text_node_get_type                (void);
 
 GType         dom_document_get_type                 (void);
 DomDocument * dom_document_new                      (void);
-DomElement *  dom_document_create_element           (DomDocument  *self, 
+DomElement *  dom_document_create_element           (DomDocument  *self,
 					             const char   *tag_name,
 					             const char   *first_attr,
 					             ...);
-DomElement *  dom_document_create_text_node         (DomDocument  *self, 
+DomElement *  dom_document_create_text_node         (DomDocument  *self,
 					             const char   *data);
 DomElement *  dom_document_create_element_with_text (DomDocument  *self,
-						     const char   *text, 
+						     const char   *text,
 						     const char   *tag_name,
 						     const char   *first_attr,
 						     ...);
 char *        dom_document_dump                     (DomDocument  *self,
 					             gsize        *len);
-gboolean      dom_document_load                     (DomDocument  *self, 
+gboolean      dom_document_load                     (DomDocument  *self,
 					             const char   *xml,
 					             gssize        len,
 					             GError      **error);
@@ -178,9 +180,9 @@ gboolean      dom_document_load                     (DomDocument  *self,
 /* DomDomizable */
 
 GType         dom_domizable_get_type                (void);
-DomElement *  dom_domizable_create_element          (DomDomizable  *self, 
+DomElement *  dom_domizable_create_element          (DomDomizable  *self,
 					             DomDocument   *doc);
-void          dom_domizable_load_from_element       (DomDomizable  *self, 
+void          dom_domizable_load_from_element       (DomDomizable  *self,
 					             DomElement    *e);
 
 G_END_DECLS
