@@ -211,6 +211,9 @@ gth_image_get_pixbuf (GthImage *image)
 {
 	GdkPixbuf *result = NULL;
 
+	if (image == NULL)
+		return NULL;
+
 	switch (image->priv->format) {
 	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
 		result = _gdk_pixbuf_new_from_cairo_surface (image->priv->data.surface);

@@ -357,10 +357,18 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 	if (original_height != NULL)
 		*original_height = -1;
 
-	if (file_data == NULL)
+	if (file_data == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
 		return NULL;
+	}
 
 	path = g_file_get_path (file_data->file);
+	if (path == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
+	}
 
 	scale_pixbuf = FALSE;
 	original_w = -1;

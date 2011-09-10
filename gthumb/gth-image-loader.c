@@ -421,7 +421,7 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 
 	  load_result = g_simple_async_result_get_op_res_gpointer (simple);
 	  if (image != NULL)
-		  *image = g_object_ref (load_result->image);
+		  *image = _g_object_ref (load_result->image);
 	  if (original_width != NULL)
 	  	  *original_width = load_result->original_width;
 	  if (original_height != NULL)
