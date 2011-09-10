@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include "flickr-types.h"
 
 G_BEGIN_DECLS
 
@@ -62,29 +63,29 @@ struct _FlickrPhotoClass {
 };
 
 GType             flickr_photo_get_type             (void);
-FlickrPhoto *     flickr_photo_new                  (void);
-void              flickr_photo_set_id               (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_secret           (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_server           (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_title            (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_is_primary       (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_url_sq           (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_url_t            (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_url_s            (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_url_m            (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_url_o            (FlickrPhoto *self,
-					             const char  *value);
-void              flickr_photo_set_original_format  (FlickrPhoto *self,
-					             const char  *value);
+FlickrPhoto *     flickr_photo_new                  (FlickrServer *server);
+void              flickr_photo_set_id               (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_secret           (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_server           (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_title            (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_is_primary       (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_url_sq           (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_url_t            (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_url_s            (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_url_m            (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_url_o            (FlickrPhoto  *self,
+					             const char   *value);
+void              flickr_photo_set_original_format  (FlickrPhoto  *self,
+					             const char   *value);
 
 G_END_DECLS
 

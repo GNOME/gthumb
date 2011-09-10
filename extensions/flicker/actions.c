@@ -29,13 +29,26 @@
 
 
 static FlickrServer www_flickr_com = {
-	"Flickr.com",
+	"Flickr",
 	"http://www.flickr.com",
 	"http://www.flickr.com/services/auth/",
 	"http://api.flickr.com/services/rest",
 	"http://api.flickr.com/services/upload/",
 	"8960706ee7f4151e893b11837e9c24ce",
-	"1ff8d1e45c873423"
+	"1ff8d1e45c873423",
+	FALSE
+};
+
+
+static FlickrServer www_23hq_com = {
+	"23",
+	"http://www.23hq.com",
+	"http://www.23hq.com/services/auth/",
+	"http://www.23hq.com/services/rest",
+	"http://www.23hq.com/services/upload/",
+	"8960706ee7f4151e893b11837e9c24ce",
+	"1ff8d1e45c873423",
+	TRUE
 };
 
 
@@ -62,4 +75,30 @@ gth_browser_activate_action_import_flicker (GtkAction  *action,
 					    GthBrowser *browser)
 {
 	dlg_import_from_flickr (&www_flickr_com, browser);
+}
+
+
+void
+gth_browser_activate_action_export_23 (GtkAction  *action,
+				       GthBrowser *browser)
+{
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	if (file_list == NULL)
+		file_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
+	dlg_export_to_flickr (&www_23hq_com, browser, file_list);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_action_import_23 (GtkAction  *action,
+				       GthBrowser *browser)
+{
+	dlg_import_from_flickr (&www_23hq_com, browser);
 }

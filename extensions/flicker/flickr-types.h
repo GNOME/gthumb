@@ -55,6 +55,7 @@ typedef struct {
 	const char *upload_url;
 	const char *api_key;
 	const char *shared_secret;
+	gboolean    automatic_urls;
 } FlickrServer;
 
 #endif /* FLICKR_TYPES_H */

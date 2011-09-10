@@ -1100,16 +1100,37 @@ flickr_service_list_photos_finish (FlickrService  *self,
 /* utilities */
 
 
+/* Used for compatibility with the original Flickr uploader that used
+ * flickr.xml as filename */
+static char *
+get_server_accounts_filename (const char *server_name)
+{
+	char *name;
+	char *filename;
+
+	name = g_ascii_strdown (server_name, -1);
+	filename = g_strconcat (name, ".xml", NULL);
+
+	g_free (name);
+
+	return filename;
+}
+
+
 GList *
-flickr_accounts_load_from_file (void)
+flickr_accounts_load_from_file (const char *server_name)
 {
 	GList       *accounts = NULL;
 	char        *filename;
 	char        *buffer;
+	char        *accounts_filename;
 	gsize        len;
 	DomDocument *doc;
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
+	accounts_filename = get_server_accounts_filename (server_name);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", accounts_filename, NULL);
+	g_free (accounts_filename);
+
 	if (! g_file_get_contents (filename, &buffer, &len, NULL)) {
 		g_free (filename);
 		return NULL;
@@ -1166,7 +1187,8 @@ flickr_accounts_find_default (GList *accounts)
 
 
 void
-flickr_accounts_save_to_file (GList         *accounts,
+flickr_accounts_save_to_file (const char    *server_name,
+			      GList         *accounts,
 			      FlickrAccount *default_account)
 {
 	DomDocument *doc;
@@ -1174,6 +1196,7 @@ flickr_accounts_save_to_file (GList         *accounts,
 	GList       *scan;
 	char        *buffer;
 	gsize        len;
+	char        *accounts_filename;
 	char        *filename;
 	GFile       *file;
 
@@ -1192,8 +1215,9 @@ flickr_accounts_save_to_file (GList         *accounts,
 		dom_element_append_child (root, node);
 	}
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "flickr.xml", NULL);
+	accounts_filename = get_server_accounts_filename (server_name);
+	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", accounts_filename, NULL);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", accounts_filename, NULL);
 	file = g_file_new_for_path (filename);
 	buffer = dom_document_dump (doc, &len);
 	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
@@ -1201,5 +1225,6 @@ flickr_accounts_save_to_file (GList         *accounts,
 	g_free (buffer);
 	g_object_unref (file);
 	g_free (filename);
+	g_free (accounts_filename);
 	g_object_unref (doc);
 }

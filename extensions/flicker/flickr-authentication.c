@@ -161,7 +161,7 @@ flickr_authentication_new (FlickrConnection *conn,
 	self->priv->conn = g_object_ref (conn);
 	self->priv->service = g_object_ref (service);
 	self->priv->cancellable = _g_object_ref (cancellable);
-	self->priv->accounts = flickr_accounts_load_from_file ();
+	self->priv->accounts = flickr_accounts_load_from_file (conn->server->name);
 	self->priv->account = flickr_accounts_find_default (self->priv->accounts);
 	self->priv->browser = browser;
 	self->priv->dialog = dialog;
@@ -254,7 +254,7 @@ upload_status_ready_cb (GObject      *source_object,
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
-	flickr_accounts_save_to_file (self->priv->accounts, self->priv->account);
+	flickr_accounts_save_to_file (self->priv->conn->server->name, self->priv->accounts, self->priv->account);
 
 	g_signal_emit (self, flickr_authentication_signals[READY], 0, user);
 
@@ -693,7 +693,7 @@ account_manager_dialog_response_cb (GtkDialog *dialog,
 		}
 		else
 			g_signal_emit (self, flickr_authentication_signals[ACCOUNTS_CHANGED], 0);
-		flickr_accounts_save_to_file (self->priv->accounts, self->priv->account);
+		flickr_accounts_save_to_file (self->priv->conn->server->name, self->priv->accounts, self->priv->account);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 

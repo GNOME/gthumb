@@ -37,11 +37,13 @@ static const char *ui_info =
 "      <menu name='Import' action='ImportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Import_Flicker'/>"
+"          <menuitem action='File_Import_23'/>"
 "        </placeholder>"
 "      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Export_Flicker'/>"
+"          <menuitem action='File_Export_23'/>"
 "        </placeholder>"
 "      </menu>"
 "    </menu>"
@@ -49,20 +51,29 @@ static const char *ui_info =
 "  <popup name='ExportPopup'>"
 "    <placeholder name='Web_Services'>"
 "      <menuitem action='File_Export_Flicker'/>"
+"      <menuitem action='File_Export_23'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Import_Flicker", "flickr",
+	{ "File_Import_Flicker", "site-flickr",
 	  N_("_Flickr..."), NULL,
 	  N_("Download photos from Flickr"),
 	  G_CALLBACK (gth_browser_activate_action_import_flicker) },
-	{ "File_Export_Flicker", "flickr",
+	{ "File_Export_Flicker", "site-flickr",
 	  N_("_Flickr..."), NULL,
 	  N_("Upload photos to Flickr"),
 	  G_CALLBACK (gth_browser_activate_action_export_flicker) },
+	{ "File_Import_23", "site-twentythree",
+	  N_("_23..."), NULL,
+	  N_("Download photos from 23"),
+	  G_CALLBACK (gth_browser_activate_action_import_23) },
+	{ "File_Export_23", "site-twentythree",
+	  N_("_23..."), NULL,
+	  N_("Upload photos to 23"),
+	  G_CALLBACK (gth_browser_activate_action_export_23) },
 };
 
 
@@ -106,6 +117,10 @@ fl__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_Flicker")), TRUE);
 	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_Flicker")), TRUE);
 	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_Flicker")), TRUE);
+
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_23")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_23")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_23")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

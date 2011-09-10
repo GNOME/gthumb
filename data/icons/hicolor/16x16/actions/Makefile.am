@@ -6,18 +6,19 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 				\
 	browser-mode.png		\
-	facebook.png			\
 	file-catalog.png		\
 	file-library.png		\
 	file-search.png			\
-	flickr.png			\
 	histogram.png			\
 	histogram-linear.png		\
 	histogram-logarithmic.png	\
 	image-navigator.png		\
 	map.png				\
-	photobucket.png			\
-	picasaweb.png			\
+	site-facebook.png		\
+	site-flickr.png			\
+	site-photobucket.png		\
+	site-picasaweb.png		\
+	site-twentythree.png		\
 	tool-adjust-colors.png		\
 	tool-crop.png			\
 	tool-desaturate.png		\

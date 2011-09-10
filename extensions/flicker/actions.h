@@ -28,5 +28,7 @@
 
 DEFINE_ACTION(gth_browser_activate_action_export_flicker)
 DEFINE_ACTION(gth_browser_activate_action_import_flicker)
+DEFINE_ACTION(gth_browser_activate_action_export_23)
+DEFINE_ACTION(gth_browser_activate_action_import_23)
 
 #endif /* ACTIONS_H */

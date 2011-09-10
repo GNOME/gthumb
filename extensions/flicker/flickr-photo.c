@@ -26,6 +26,11 @@
 #include "flickr-photo.h"
 
 
+struct _FlickrPhotoPrivate {
+	FlickrServer *server;
+};
+
+
 static gpointer flickr_photo_parent_class = NULL;
 
 
@@ -49,6 +54,7 @@ static void
 flickr_photo_class_init (FlickrPhotoClass *klass)
 {
 	flickr_photo_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (FlickrPhotoPrivate));
 	G_OBJECT_CLASS (klass)->finalize = flickr_photo_finalize;
 }
 
@@ -113,6 +119,8 @@ flickr_photo_dom_domizable_interface_init (DomDomizableIface *iface)
 static void
 flickr_photo_instance_init (FlickrPhoto *self)
 {
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_PHOTO, FlickrPhotoPrivate);
+	self->priv->server = NULL;
 }
 
 
@@ -152,9 +160,14 @@ flickr_photo_get_type (void)
 
 
 FlickrPhoto *
-flickr_photo_new (void)
+flickr_photo_new (FlickrServer *server)
 {
-	return g_object_new (FLICKR_TYPE_PHOTO, NULL);
+	FlickrPhoto *self;
+
+	self = g_object_new (FLICKR_TYPE_PHOTO, NULL);
+	self->priv->server = server;
+
+	return self;
 }
 
 
@@ -198,11 +211,24 @@ flickr_photo_set_is_primary (FlickrPhoto *self,
 }
 
 
+static char *
+flickr_get_static_url (FlickrPhoto *self,
+		       const char  *subtype)
+{
+	if ((self->priv->server != NULL) && self->priv->server->automatic_urls)
+		return g_strdup_printf ("%s/%s/%s_%s%s.jpg", self->priv->server->url, self->server, self->id, self->secret, subtype);
+	else
+		return NULL;
+}
+
+
 void
 flickr_photo_set_url_sq (FlickrPhoto *self,
 			 const char  *value)
 {
 	_g_strset (&self->url_sq, value);
+	if (self->url_sq == NULL)
+		self->url_sq = flickr_get_static_url (self, "_sq");
 }
 
 
@@ -211,6 +237,8 @@ flickr_photo_set_url_t (FlickrPhoto *self,
 			const char  *value)
 {
 	_g_strset (&self->url_t, value);
+	if (self->url_t == NULL)
+		self->url_t = flickr_get_static_url (self, "_t");
 }
 
 
@@ -219,6 +247,8 @@ flickr_photo_set_url_s (FlickrPhoto *self,
 			const char  *value)
 {
 	_g_strset (&self->url_s, value);
+	if (self->url_s == NULL)
+		self->url_s = flickr_get_static_url (self, "_s");
 }
 
 
@@ -227,6 +257,8 @@ flickr_photo_set_url_m (FlickrPhoto *self,
 			const char  *value)
 {
 	_g_strset (&self->url_m, value);
+	if (self->url_m == NULL)
+		self->url_m = flickr_get_static_url (self, "_m");
 }
 
 
@@ -235,6 +267,17 @@ flickr_photo_set_url_o (FlickrPhoto *self,
 			const char  *value)
 {
 	_g_strset (&self->url_o, value);
+	if (self->url_o == NULL)
+		self->url_o = flickr_get_static_url (self, "");
+
+	if (self->url_o == NULL) {
+		if (self->url_m != NULL)
+			_g_strset (&self->url_o, self->url_m);
+		else if (self->url_s != NULL)
+			_g_strset (&self->url_o, self->url_s);
+		else if (self->url_sq != NULL)
+			_g_strset (&self->url_o, self->url_sq);
+	}
 }
 
 

@@ -123,9 +123,10 @@ GList *           flickr_service_list_photos_finish       (FlickrService        
 
 /* utilities */
 
-GList *          flickr_accounts_load_from_file  (void);
+GList *          flickr_accounts_load_from_file  (const char    *server_name);
 FlickrAccount *  flickr_accounts_find_default    (GList         *accounts);
-void             flickr_accounts_save_to_file    (GList         *accounts,
+void             flickr_accounts_save_to_file    (const char    *server_name,
+						  GList         *accounts,
 						  FlickrAccount *default_account);
 
 #endif /* FLICKR_SERVICE_H */
