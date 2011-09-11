@@ -1,9 +1,15 @@
+FLICKR_EXPORTERS = 		\
+	23hq			\
+	flicker			\
+	$(NULL)	
+	
 EXPORTERS = 			\
 	export_tools		\
 	burn_disc		\
 	contact_sheet		\
 	facebook		\
-	flicker			\
+	flicker_utils		\
+	$(FLICKR_EXPORTERS)	\
 	photobucket		\
 	picasaweb		\
 	webalbums		\

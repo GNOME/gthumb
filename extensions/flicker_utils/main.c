@@ -19,14 +19,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
 
+#include <config.h>
 #include <gtk/gtk.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-DEFINE_ACTION(gth_browser_activate_action_export_flicker)
-DEFINE_ACTION(gth_browser_activate_action_import_flicker)
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
+{
+}
 
-#endif /* ACTIONS_H */
+
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
+}

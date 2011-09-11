@@ -19,14 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+void tt__gth_browser_construct_cb (GthBrowser *browser);
 
-DEFINE_ACTION(gth_browser_activate_action_export_flicker)
-DEFINE_ACTION(gth_browser_activate_action_import_flicker)
-
-#endif /* ACTIONS_H */
+#endif /* CALLBACKS_H */

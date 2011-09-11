@@ -158,7 +158,7 @@ export_completed_with_success (DialogData *data)
 
 	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
 
-	builder = _gtk_builder_new_from_file ("flicker-export-completed.ui", "flicker");
+	builder = _gtk_builder_new_from_file ("flicker-export-completed.ui", "flicker_utils");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
 	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
 	g_signal_connect (dialog,
@@ -496,7 +496,7 @@ dlg_export_to_flickr (FlickrServer *server,
 	data->server = server;
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
-	data->builder = _gtk_builder_new_from_file ("export-to-flickr.ui", "flicker");
+	data->builder = _gtk_builder_new_from_file ("export-to-flickr.ui", "flicker_utils");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
 

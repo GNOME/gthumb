@@ -432,7 +432,7 @@ complete_authorization (FlickrAuthentication *self)
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
-	builder = _gtk_builder_new_from_file ("flicker-complete-authorization.ui", "flicker");
+	builder = _gtk_builder_new_from_file ("flicker-complete-authorization.ui", "flicker_utils");
 	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
 	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->conn->server->name);
 	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
@@ -512,7 +512,7 @@ ask_authorization (FlickrAuthentication *self)
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
 
-	builder = _gtk_builder_new_from_file ("flicker-ask-authorization.ui", "flicker");
+	builder = _gtk_builder_new_from_file ("flicker-ask-authorization.ui", "flicker_utils");
 	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
 	text = g_strdup_printf (_("gthumb requires your authorization to upload the photos to %s"), self->priv->conn->server->name);
 	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->conn->server->name);

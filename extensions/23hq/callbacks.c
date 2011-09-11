@@ -27,7 +27,7 @@
 #include "actions.h"
 
 
-#define BROWSER_DATA_KEY "flicker-browser-data"
+#define BROWSER_DATA_KEY "23hq-browser-data"
 
 
 static const char *ui_info =
@@ -36,33 +36,33 @@ static const char *ui_info =
 "    <menu name='File' action='FileMenu'>"
 "      <menu name='Import' action='ImportMenu'>"
 "        <placeholder name='Web_Services'>"
-"          <menuitem action='File_Import_Flicker'/>"
+"          <menuitem action='File_Import_23'/>"
 "        </placeholder>"
 "      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
-"          <menuitem action='File_Export_Flicker'/>"
+"          <menuitem action='File_Export_23'/>"
 "        </placeholder>"
 "      </menu>"
 "    </menu>"
 "  </menubar>"
 "  <popup name='ExportPopup'>"
 "    <placeholder name='Web_Services'>"
-"      <menuitem action='File_Export_Flicker'/>"
+"      <menuitem action='File_Export_23'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
 
 
 static GtkActionEntry action_entries[] = {
-	{ "File_Import_Flicker", "site-flickr",
-	  N_("_Flickr..."), NULL,
-	  N_("Download photos from Flickr"),
-	  G_CALLBACK (gth_browser_activate_action_import_flicker) },
-	{ "File_Export_Flicker", "site-flickr",
-	  N_("_Flickr..."), NULL,
-	  N_("Upload photos to Flickr"),
-	  G_CALLBACK (gth_browser_activate_action_export_flicker) },
+	{ "File_Import_23", "site-twentythree",
+	  N_("_23..."), NULL,
+	  N_("Download photos from 23"),
+	  G_CALLBACK (gth_browser_activate_action_import_23) },
+	{ "File_Export_23", "site-twentythree",
+	  N_("_23..."), NULL,
+	  N_("Upload photos to 23"),
+	  G_CALLBACK (gth_browser_activate_action_export_23) },
 };
 
 
@@ -79,7 +79,7 @@ browser_data_free (BrowserData *data)
 
 
 void
-fl__gth_browser_construct_cb (GthBrowser *browser)
+tt__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;
@@ -89,7 +89,7 @@ fl__gth_browser_construct_cb (GthBrowser *browser)
 
 	data = g_new0 (BrowserData, 1);
 
-	data->action_group = gtk_action_group_new ("Flicker Actions");
+	data->action_group = gtk_action_group_new ("23HQ Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
 	gtk_action_group_add_actions (data->action_group,
 				      action_entries,
@@ -103,9 +103,9 @@ fl__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_Flicker")), TRUE);
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_Flicker")), TRUE);
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_Flicker")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_23")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_23")), TRUE);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_23")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

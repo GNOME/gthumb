@@ -515,7 +515,7 @@ dlg_import_from_flickr (FlickrServer *server,
 	data->server = server;
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
-	data->builder = _gtk_builder_new_from_file ("import-from-flickr.ui", "flicker");
+	data->builder = _gtk_builder_new_from_file ("import-from-flickr.ui", "flicker_utils");
 	data->dialog = _gtk_builder_get_widget (data->builder, "import_dialog");
 	data->cancellable = g_cancellable_new ();
 

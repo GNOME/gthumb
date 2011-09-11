@@ -601,6 +601,7 @@ data/ui/Makefile
 help/Makefile
 m4/Makefile
 extensions/Makefile
+extensions/23hq/Makefile
 extensions/bookmarks/Makefile
 extensions/bookmarks/data/Makefile
 extensions/bookmarks/data/ui/Makefile
@@ -644,9 +645,10 @@ extensions/file_viewer/Makefile
 extensions/find_duplicates/Makefile
 extensions/find_duplicates/data/Makefile
 extensions/find_duplicates/data/ui/Makefile
+extensions/flicker_utils/Makefile
+extensions/flicker_utils/data/Makefile
+extensions/flicker_utils/data/ui/Makefile
 extensions/flicker/Makefile
-extensions/flicker/data/Makefile
-extensions/flicker/data/ui/Makefile
 extensions/gstreamer_tools/Makefile
 extensions/gstreamer_tools/data/Makefile
 extensions/gstreamer_tools/data/ui/Makefile
