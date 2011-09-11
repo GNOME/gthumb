@@ -34,6 +34,7 @@ static FlickrServer www_flickr_com = {
 	"http://www.flickr.com/services/auth/",
 	"http://api.flickr.com/services/rest",
 	"http://api.flickr.com/services/upload/",
+	"static.flickr.com",
 	"8960706ee7f4151e893b11837e9c24ce",
 	"1ff8d1e45c873423",
 	FALSE
@@ -46,6 +47,7 @@ static FlickrServer www_23hq_com = {
 	"http://www.23hq.com/services/auth/",
 	"http://www.23hq.com/services/rest",
 	"http://www.23hq.com/services/upload/",
+	"www.23hq.com",
 	"8960706ee7f4151e893b11837e9c24ce",
 	"1ff8d1e45c873423",
 	TRUE

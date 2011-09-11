@@ -26,6 +26,17 @@
 #include "flickr-photo.h"
 
 
+char *FlickrUrlSuffix[] = {
+	"_sq",
+	"_s",
+	"_t",
+	"_m",
+	"_z",
+	"_b",
+	"_o"
+};
+
+
 struct _FlickrPhotoPrivate {
 	FlickrServer *server;
 };
@@ -38,13 +49,19 @@ static void
 flickr_photo_finalize (GObject *obj)
 {
 	FlickrPhoto *self;
+	int          i;
 
 	self = FLICKR_PHOTO (obj);
 
 	g_free (self->id);
 	g_free (self->secret);
 	g_free (self->server);
+	g_free (self->farm);
 	g_free (self->title);
+	for (i = 0; i < FLICKR_URLS; i++)
+		g_free (self->url[i]);
+	g_free (self->original_format);
+	g_free (self->mime_type);
 
 	G_OBJECT_CLASS (flickr_photo_parent_class)->finalize (obj);
 }
@@ -61,7 +78,7 @@ flickr_photo_class_init (FlickrPhotoClass *klass)
 
 static DomElement*
 flickr_photo_create_element (DomDomizable *base,
-				DomDocument  *doc)
+			     DomDocument  *doc)
 {
 	FlickrPhoto *self;
 	DomElement  *element;
@@ -98,13 +115,19 @@ flickr_photo_load_from_element (DomDomizable *base,
 	flickr_photo_set_id (self, dom_element_get_attribute (element, "id"));
 	flickr_photo_set_secret (self, dom_element_get_attribute (element, "secret"));
 	flickr_photo_set_server (self, dom_element_get_attribute (element, "server"));
+	flickr_photo_set_farm (self, dom_element_get_attribute (element, "farm"));
 	flickr_photo_set_title (self, dom_element_get_attribute (element, "title"));
 	flickr_photo_set_is_primary (self, dom_element_get_attribute (element, "isprimary"));
-	flickr_photo_set_url_sq (self, dom_element_get_attribute (element, "url_sq"));
-	flickr_photo_set_url_t (self, dom_element_get_attribute (element, "url_t"));
-	flickr_photo_set_url_s (self, dom_element_get_attribute (element, "url_s"));
-	flickr_photo_set_url_m (self, dom_element_get_attribute (element, "url_m"));
-	flickr_photo_set_url_o (self, dom_element_get_attribute (element, "url_o"));
+	flickr_photo_set_original_format (self, dom_element_get_attribute (element, "originalformat"));
+	flickr_photo_set_original_secret (self, dom_element_get_attribute (element, "originalsecret"));
+
+	flickr_photo_set_url (self, FLICKR_URL_SQ, dom_element_get_attribute (element, "url_sq"));
+	flickr_photo_set_url (self, FLICKR_URL_S, dom_element_get_attribute (element, "url_s"));
+	flickr_photo_set_url (self, FLICKR_URL_T, dom_element_get_attribute (element, "url_t"));
+	flickr_photo_set_url (self, FLICKR_URL_M, dom_element_get_attribute (element, "url_m"));
+	flickr_photo_set_url (self, FLICKR_URL_Z, dom_element_get_attribute (element, "url_z"));
+	flickr_photo_set_url (self, FLICKR_URL_B, dom_element_get_attribute (element, "url_b"));
+	flickr_photo_set_url (self, FLICKR_URL_O, dom_element_get_attribute (element, "url_o"));
 }
 
 
@@ -119,8 +142,20 @@ flickr_photo_dom_domizable_interface_init (DomDomizableIface *iface)
 static void
 flickr_photo_instance_init (FlickrPhoto *self)
 {
+	int i;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_PHOTO, FlickrPhotoPrivate);
 	self->priv->server = NULL;
+
+	self->id = NULL;
+	self->secret = NULL;
+	self->server = NULL;
+	self->farm = NULL;
+	self->title = NULL;
+	for (i = 0; i < FLICKR_URLS; i++)
+		self->url[i] = NULL;
+	self->original_format = NULL;
+	self->mime_type = NULL;
 }
 
 
@@ -196,6 +231,14 @@ flickr_photo_set_server (FlickrPhoto *self,
 
 
 void
+flickr_photo_set_farm (FlickrPhoto *self,
+		       const char  *value)
+{
+	_g_strset (&self->farm, value);
+}
+
+
+void
 flickr_photo_set_title (FlickrPhoto *self,
 			const char  *value)
 {
@@ -213,70 +256,65 @@ flickr_photo_set_is_primary (FlickrPhoto *self,
 
 static char *
 flickr_get_static_url (FlickrPhoto *self,
-		       const char  *subtype)
+		       FlickrUrl   size)
 {
-	if ((self->priv->server != NULL) && self->priv->server->automatic_urls)
-		return g_strdup_printf ("%s/%s/%s_%s%s.jpg", self->priv->server->url, self->server, self->id, self->secret, subtype);
-	else
+
+	const char *ext;
+	const char *secret;
+
+	if ((self->priv->server == NULL) || ! self->priv->server->automatic_urls)
 		return NULL;
+
+	secret = self->secret;
+	if (size == FLICKR_URL_O) {
+		if (self->original_secret != NULL)
+			secret = self->original_secret;
+	}
+
+	ext = "jpg";
+	if (size == FLICKR_URL_O) {
+		if (self->original_format != NULL)
+			ext = self->original_format;
+	}
+
+	if (self->farm != NULL)
+		return g_strdup_printf ("http://farm%s.%s/%s/%s_%s%s.%s",
+					self->farm,
+					self->priv->server->static_url,
+					self->server,
+					self->id,
+					secret,
+					FlickrUrlSuffix[size],
+					ext);
+
+	else
+		return g_strdup_printf ("http://%s/%s/%s_%s%s.%s",
+					self->priv->server->static_url,
+					self->server,
+					self->id,
+					secret,
+					FlickrUrlSuffix[size],
+					ext);
 }
 
 
 void
-flickr_photo_set_url_sq (FlickrPhoto *self,
-			 const char  *value)
+flickr_photo_set_url (FlickrPhoto *self,
+		      FlickrUrl    size,
+		      const char  *value)
 {
-	_g_strset (&self->url_sq, value);
-	if (self->url_sq == NULL)
-		self->url_sq = flickr_get_static_url (self, "_sq");
-}
+	_g_strset (&(self->url[size]), value);
+	if (self->url[size] == NULL)
+		self->url[size] = flickr_get_static_url (self, size);
 
-
-void
-flickr_photo_set_url_t (FlickrPhoto *self,
-			const char  *value)
-{
-	_g_strset (&self->url_t, value);
-	if (self->url_t == NULL)
-		self->url_t = flickr_get_static_url (self, "_t");
-}
-
-
-void
-flickr_photo_set_url_s (FlickrPhoto *self,
-			const char  *value)
-{
-	_g_strset (&self->url_s, value);
-	if (self->url_s == NULL)
-		self->url_s = flickr_get_static_url (self, "_s");
-}
-
-
-void
-flickr_photo_set_url_m (FlickrPhoto *self,
-			const char  *value)
-{
-	_g_strset (&self->url_m, value);
-	if (self->url_m == NULL)
-		self->url_m = flickr_get_static_url (self, "_m");
-}
-
-
-void
-flickr_photo_set_url_o (FlickrPhoto *self,
-			const char  *value)
-{
-	_g_strset (&self->url_o, value);
-	if (self->url_o == NULL)
-		self->url_o = flickr_get_static_url (self, "");
-
-	if (self->url_o == NULL) {
-		if (self->url_m != NULL)
-			_g_strset (&self->url_o, self->url_m);
-		else if (self->url_s != NULL)
-			_g_strset (&self->url_o, self->url_s);
-		else if (self->url_sq != NULL)
-			_g_strset (&self->url_o, self->url_sq);
+	if ((size == FLICKR_URL_O) && (self->url[size] == NULL)) {
+		int other_size;
+		for (other_size = FLICKR_URL_O - 1; other_size >= 0; other_size--) {
+			if (self->url[other_size] != NULL) {
+				_g_strset (&(self->url[size]), self->url[other_size]);
+				break;
+			}
+		}
 	}
 }
 
@@ -291,4 +329,12 @@ flickr_photo_set_original_format (FlickrPhoto *self,
 	self->mime_type = NULL;
 	if (self->original_format != NULL)
 		self->mime_type = g_strconcat ("image/", self->original_format, NULL);
+}
+
+
+void
+flickr_photo_set_original_secret (FlickrPhoto *self,
+				  const char  *value)
+{
+	_g_strset (&self->original_secret, value);
 }

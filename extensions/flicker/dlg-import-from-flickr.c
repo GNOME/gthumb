@@ -365,10 +365,10 @@ list_photos_ready_cb (GObject      *source_object,
 		FlickrPhoto *photo = scan->data;
 		GthFileData *file_data;
 
-		if (photo->url_o == NULL)
+		if (photo->url[FLICKR_URL_O] == NULL)
 			continue;
 
-		file_data = gth_file_data_new_for_uri (photo->url_o, (photo->mime_type != NULL) ? photo->mime_type : "image/jpeg");
+		file_data = gth_file_data_new_for_uri (photo->url[FLICKR_URL_O], (photo->mime_type != NULL) ? photo->mime_type : "image/jpeg");
 		g_file_info_set_file_type (file_data->info, G_FILE_TYPE_REGULAR);
 		g_file_info_set_size (file_data->info, FAKE_SIZE); /* set a fake size to make the progress dialog work correctly */
 		g_file_info_set_attribute_object (file_data->info, "flickr::object", G_OBJECT (photo));
@@ -406,7 +406,7 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 	flickr_service_list_photos (data->service,
 				    data->photoset,
-				    "original_format, url_sq, url_t, url_s, url_m, url_o",
+				    "original_format, url_sq, url_t, url_s, url_m, url_z, url_b, url_o",
 				    data->cancellable,
 				    list_photos_ready_cb,
 				    data);
@@ -430,16 +430,16 @@ flickr_thumbnail_loader (GthFileData   *file_data,
 	photo = (FlickrPhoto *) g_file_info_get_attribute_object (file_data->info, "flickr::object");
 	requested_size = gth_thumb_loader_get_requested_size (thumb_loader);
 	if (requested_size == FLICKR_SIZE_SMALL_SQUARE)
-		uri = photo->url_sq;
+		uri = photo->url[FLICKR_URL_SQ];
 	else if (requested_size == FLICKR_SIZE_THUMBNAIL)
-		uri = photo->url_t;
+		uri = photo->url[FLICKR_URL_T];
 	else if (requested_size == FLICKR_SIZE_SMALL)
-		uri = photo->url_s;
+		uri = photo->url[FLICKR_URL_S];
 	else if (requested_size == FLICKR_SIZE_MEDIUM)
-		uri = photo->url_m;
+		uri = photo->url[FLICKR_URL_M];
 
 	if (uri == NULL)
-		uri = photo->url_o;
+		uri = photo->url[FLICKR_URL_O];
 
 	if (uri != NULL) {
 		GFile *file;

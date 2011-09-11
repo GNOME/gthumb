@@ -27,7 +27,7 @@
 #include "flickr-user.h"
 
 
-#undef DEBUG_FLICKR_CONNECTION
+#define DEBUG_FLICKR_CONNECTION 1
 
 
 GQuark

@@ -53,6 +53,7 @@ typedef struct {
 	const char *authentication_url;
 	const char *rest_url;
 	const char *upload_url;
+	const char *static_url;
 	const char *api_key;
 	const char *shared_secret;
 	gboolean    automatic_urls;

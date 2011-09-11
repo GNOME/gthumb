@@ -28,6 +28,17 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	FLICKR_URL_SQ,
+	FLICKR_URL_T,
+	FLICKR_URL_S,
+	FLICKR_URL_M,
+	FLICKR_URL_Z,
+	FLICKR_URL_B,
+	FLICKR_URL_O,
+	FLICKR_URLS
+} FlickrUrl;
+
 #define FLICKR_TYPE_PHOTO            (flickr_photo_get_type ())
 #define FLICKR_PHOTO(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FLICKR_TYPE_PHOTO, FlickrPhoto))
 #define FLICKR_PHOTO_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FLICKR_TYPE_PHOTO, FlickrPhotoClass))
@@ -46,14 +57,12 @@ struct _FlickrPhoto {
 	char            *id;
 	char            *secret;
 	char            *server;
+	char            *farm;
 	char            *title;
 	gboolean         is_primary;
-	char            *url_sq;
-	char            *url_t;
-	char            *url_s;
-	char            *url_m;
-	char            *url_o;
+	char            *url[FLICKR_URLS];
 	char            *original_format;
+	char            *original_secret;
 	char            *mime_type;
 	int              position;
 };
@@ -70,22 +79,19 @@ void              flickr_photo_set_secret           (FlickrPhoto  *self,
 					             const char   *value);
 void              flickr_photo_set_server           (FlickrPhoto  *self,
 					             const char   *value);
+void              flickr_photo_set_farm             (FlickrPhoto  *self,
+					             const char   *value);
 void              flickr_photo_set_title            (FlickrPhoto  *self,
 					             const char   *value);
 void              flickr_photo_set_is_primary       (FlickrPhoto  *self,
 					             const char   *value);
-void              flickr_photo_set_url_sq           (FlickrPhoto  *self,
-					             const char   *value);
-void              flickr_photo_set_url_t            (FlickrPhoto  *self,
-					             const char   *value);
-void              flickr_photo_set_url_s            (FlickrPhoto  *self,
-					             const char   *value);
-void              flickr_photo_set_url_m            (FlickrPhoto  *self,
-					             const char   *value);
-void              flickr_photo_set_url_o            (FlickrPhoto  *self,
+void              flickr_photo_set_url              (FlickrPhoto  *self,
+						     FlickrUrl     size,
 					             const char   *value);
 void              flickr_photo_set_original_format  (FlickrPhoto  *self,
 					             const char   *value);
+void              flickr_photo_set_original_secret  (FlickrPhoto  *self,
+						     const char   *value);
 
 G_END_DECLS
 

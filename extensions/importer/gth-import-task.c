@@ -442,7 +442,7 @@ copy_non_image_progress_cb (goffset  current_num_bytes,
 			   _("Importing files"),
 			   g_file_info_get_display_name (file_data->info),
 			   FALSE,
-			   (double) (self->priv->copied_size + current_num_bytes) / self->priv->tot_size);
+			   CLAMP ((double) (self->priv->copied_size + current_num_bytes) / self->priv->tot_size, 0.0, 1.0));
 }
 
 
