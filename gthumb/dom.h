@@ -185,6 +185,11 @@ DomElement *  dom_domizable_create_element          (DomDomizable  *self,
 void          dom_domizable_load_from_element       (DomDomizable  *self,
 					             DomElement    *e);
 
+/* Utilities */
+
+gboolean      dom_str_equal                         (const char    *a,
+						     const char    *b);
+
 G_END_DECLS
 
 #endif /* DOM_H */

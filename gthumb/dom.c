@@ -791,3 +791,37 @@ dom_domizable_get_type (void)
 	}
 	return dom_domizable_type_id;
 }
+
+
+/* -- Utilities -- */
+
+/* GMarkupParser converts \r into \n, this function compares two strings
+ * treating \r characters as they were equal to \n */
+gboolean
+dom_str_equal (const char *a,
+	       const char *b)
+{
+	const char *ai, *bi;
+
+	if ((a == NULL) && (b == NULL))
+		return TRUE;
+
+	if ((a == NULL) || (b == NULL))
+		return FALSE;
+
+	ai = a;
+	bi = b;
+	while ((*ai != '\0') && (*bi != '\0')) {
+		if (*ai != *bi) {
+			if (! (((*ai == '\r') && (*bi == '\n'))
+			       || ((*ai == '\n') && (*bi == '\r'))))
+			{
+				return FALSE;
+			}
+		}
+		ai++;
+		bi++;
+	}
+
+	return *ai == *bi;
+}
