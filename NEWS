@@ -1,3 +1,19 @@
+version 2.13.90
+---------------
+
+ Bugs fixed:
+
+  * Added ability to import from and export to 23hq.com (#657269)
+  * Web uploaders: update the progress bar during the upload; allow to cancel 
+    an upload.
+  * Fixed selection of the destination folder in the import dialog. 
+    (#657557)
+  * Fixed comment synchronization when a \r character is in the text.
+  * Flickr importer: fixed import of photosets greater then 500 photos. 
+    (#648701)
+  * Facebook uploader: allow to upload high resolution images. (#652216)
+  * Fixed a crash when loading remote images.
+
 version 2.13.3
 --------------
 
