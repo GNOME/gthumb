@@ -34,11 +34,13 @@ static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
+/*
 "      <menu name='Import' action='ImportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Import_23'/>"
 "        </placeholder>"
 "      </menu>"
+*/
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Export_23'/>"
@@ -55,10 +57,12 @@ static const char *ui_info =
 
 
 static GtkActionEntry action_entries[] = {
+	/*
 	{ "File_Import_23", "site-twentythree",
 	  N_("_23..."), NULL,
 	  N_("Download photos from 23"),
 	  G_CALLBACK (gth_browser_activate_action_import_23) },
+	*/
 	{ "File_Export_23", "site-twentythree",
 	  N_("_23..."), NULL,
 	  N_("Upload photos to 23"),
@@ -103,7 +107,7 @@ tt__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_23")), TRUE);
+	/*gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_23")), TRUE);*/
 	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_23")), TRUE);
 	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_23")), TRUE);
 
