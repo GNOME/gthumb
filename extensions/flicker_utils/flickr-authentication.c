@@ -269,7 +269,7 @@ connect_to_server_step2 (FlickrAuthentication *self)
 		start_authorization_process (self);
 		return;
 	}
-	flickr_connection_set_auth_token (self->priv->conn, self->priv->account->token);
+	flickr_connection_set_account (self->priv->conn, self->priv->account);
 	flickr_service_get_upload_status (self->priv->service,
 					  self->priv->cancellable,
 					  upload_status_ready_cb,
@@ -362,22 +362,19 @@ connection_token_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	account = flickr_account_new ();
-	flickr_account_set_username (account, flickr_connection_get_username (self->priv->conn));
-	flickr_account_set_token (account, flickr_connection_get_auth_token (self->priv->conn));
+	account = flickr_connection_get_account (self->priv->conn);
 	set_account (self, account);
-	g_object_unref (account);
 
 #ifdef HAVE_GNOME_KEYRING
 	if (gnome_keyring_is_available ()) {
 		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
 					      NULL,
 					      self->priv->conn->server->name,
-					      flickr_connection_get_auth_token (self->priv->conn),
+					      account->token,
 					      store_password_done_cb,
 					      self,
 					      NULL,
-					      "user", flickr_connection_get_username (self->priv->conn),
+					      "user", account->username,
 					      "server", self->priv->conn->server->url,
 					      "protocol", "http",
 					      NULL);

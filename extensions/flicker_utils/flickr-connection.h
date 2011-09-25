@@ -94,11 +94,9 @@ void                 flickr_connection_get_token          (FlickrConnection     
 gboolean             flickr_connection_get_token_finish   (FlickrConnection      *self,
 							   GAsyncResult          *result,
 							   GError               **error);
-void                 flickr_connection_set_auth_token     (FlickrConnection      *self,
-							   const char            *value);
-const char *         flickr_connection_get_auth_token     (FlickrConnection      *self);
-const char *         flickr_connection_get_username       (FlickrConnection      *self);
-const char *         flickr_connection_get_user_id        (FlickrConnection      *self);
+void                 flickr_connection_set_account        (FlickrConnection      *self,
+							   FlickrAccount         *account);
+FlickrAccount *      flickr_connection_get_account        (FlickrConnection      *self);
 
 /* utilities */
 

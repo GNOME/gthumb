@@ -256,7 +256,7 @@ flickr_photo_set_is_primary (FlickrPhoto *self,
 
 static char *
 flickr_get_static_url (FlickrPhoto *self,
-		       FlickrUrl   size)
+		       FlickrUrl    size)
 {
 
 	const char *ext;
@@ -286,7 +286,6 @@ flickr_get_static_url (FlickrPhoto *self,
 					secret,
 					FlickrUrlSuffix[size],
 					ext);
-
 	else
 		return g_strdup_printf ("http://%s/%s/%s_%s%s.%s",
 					self->priv->server->static_url,

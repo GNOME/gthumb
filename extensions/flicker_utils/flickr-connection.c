@@ -23,6 +23,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "flickr-account.h"
 #include "flickr-connection.h"
 #include "flickr-user.h"
 
@@ -50,9 +51,7 @@ struct _FlickrConnectionPrivate
 	SoupSession        *session;
 	SoupMessage        *msg;
 	char               *frob;
-	char               *token;
-	char               *username;
-	char               *user_id;
+	FlickrAccount      *account;
 	GCancellable       *cancellable;
 	GSimpleAsyncResult *result;
 	GChecksum          *checksum;
@@ -72,9 +71,7 @@ flickr_connection_finalize (GObject *object)
 	g_checksum_free (self->priv->checksum);
 	_g_object_unref (self->priv->result);
 	_g_object_unref (self->priv->cancellable);
-	g_free (self->priv->user_id);
-	g_free (self->priv->username);
-	g_free (self->priv->token);
+	_g_object_unref (self->priv->account);
 	g_free (self->priv->frob);
 	_g_object_unref (self->priv->session);
 
@@ -125,9 +122,7 @@ flickr_connection_init (FlickrConnection *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_CONNECTION, FlickrConnectionPrivate);
 	self->priv->session = NULL;
 	self->priv->msg = NULL;
-	self->priv->username = NULL;
-	self->priv->user_id = NULL;
-	self->priv->token = NULL;
+	self->priv->account = flickr_account_new ();
 	self->priv->frob = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
@@ -253,8 +248,8 @@ flickr_connection_add_api_sig (FlickrConnection *self,
 	GList *scan;
 
 	g_hash_table_insert (data_set, "api_key", (gpointer) self->server->api_key);
-	if (self->priv->token != NULL)
-		g_hash_table_insert (data_set, "auth_token", self->priv->token);
+	if (self->priv->account->token != NULL)
+		g_hash_table_insert (data_set, "auth_token", self->priv->account->token);
 
 	g_checksum_reset (self->priv->checksum);
 	g_checksum_update (self->priv->checksum, (guchar *) self->server->shared_secret, -1);
@@ -325,8 +320,7 @@ flickr_connection_get_frob (FlickrConnection    *self,
 
 	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
 
-	g_free (self->priv->token);
-	self->priv->token = NULL;
+	flickr_account_set_token (self->priv->account, NULL);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "method", "flickr.auth.getFrob");
@@ -436,18 +430,15 @@ connection_token_ready_cb (SoupSession *session,
 				DomElement *node;
 
 				for (node = auth->first_child; node; node = node->next_sibling) {
-					if (g_strcmp0 (node->tag_name, "token") == 0) {
-						self->priv->token = g_strdup (dom_element_get_inner_text (node));
-					}
-					else if (g_strcmp0 (node->tag_name, "user") == 0) {
-						self->priv->username = g_strdup (dom_element_get_attribute (node, "username"));
-						self->priv->user_id = g_strdup (dom_element_get_attribute (node, "nsid"));
-					}
+					if (g_strcmp0 (node->tag_name, "token") == 0)
+						flickr_account_set_token (self->priv->account, dom_element_get_inner_text (node));
+					else if (g_strcmp0 (node->tag_name, "user") == 0)
+						flickr_account_set_username (self->priv->account, dom_element_get_attribute (node, "username"));
 				}
 			}
 		}
 
-		if (self->priv->token == NULL) {
+		if (self->priv->account->token == NULL) {
 			error = g_error_new_literal (FLICKR_CONNECTION_ERROR, 0, _("Unknown error"));
 			g_simple_async_result_set_from_error (self->priv->result, error);
 		}
@@ -476,8 +467,7 @@ flickr_connection_get_token (FlickrConnection    *self,
 
 	gth_task_progress (GTH_TASK (self), _("Connecting to the server"), NULL, TRUE, 0.0);
 
-	g_free (self->priv->token);
-	self->priv->token = NULL;
+	flickr_account_set_token (self->priv->account, NULL);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "method", "flickr.auth.getToken");
@@ -510,34 +500,22 @@ flickr_connection_get_token_finish (FlickrConnection  *self,
 
 
 void
-flickr_connection_set_auth_token (FlickrConnection *self,
-				  const char       *value)
+flickr_connection_set_account (FlickrConnection *self,
+			       FlickrAccount    *account)
 {
-	g_free (self->priv->token);
-	self->priv->token = NULL;
-	if (value != NULL)
-		self->priv->token = g_strdup (value);
+	if (account != NULL) {
+		_g_object_unref (self->priv->account);
+		self->priv->account = _g_object_ref (account);
+	}
+	else
+		flickr_account_reset (self->priv->account);
 }
 
 
-const char *
-flickr_connection_get_auth_token (FlickrConnection *self)
+FlickrAccount *
+flickr_connection_get_account (FlickrConnection *self)
 {
-	return self->priv->token;
-}
-
-
-const char *
-flickr_connection_get_username (FlickrConnection *self)
-{
-	return self->priv->username;
-}
-
-
-const char *
-flickr_connection_get_user_id (FlickrConnection *self)
-{
-	return self->priv->user_id;
+	return self->priv->account;
 }
 
 

@@ -172,6 +172,14 @@ flickr_account_set_token (FlickrAccount *self,
 }
 
 
+void
+flickr_account_reset (FlickrAccount *self)
+{
+	flickr_account_set_username (self, NULL);
+	flickr_account_set_token (self, NULL);
+}
+
+
 int
 flickr_account_cmp (FlickrAccount *a,
 		    FlickrAccount *b)
