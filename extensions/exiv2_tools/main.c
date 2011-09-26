@@ -153,25 +153,25 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Xmp::iptc::Keywords", NULL, "Xmp::Embedded", 0, "XmpBag", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Xmp::exif::DateTimeOriginal", NULL, "Xmp::Embedded", 0, "XmpText", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
-	{ "Iptc::Application2::Headline", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Iptc::Application2::Caption", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Iptc::Application2::LocationName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Iptc::Application2::Keywords", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::Headline", NULL, "Iptc", 1, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::Caption", NULL, "Iptc", 2, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::LocationName", NULL, "Iptc", 3, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Iptc::Application2::Keywords", NULL, "Iptc", 4, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	/* the editable fields specified in the "Other" tab of the "edit metadata" dialog */
 
-	{ "Iptc::Application2::Copyright", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::Credit", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::Byline", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::BylineTitle", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::CountryName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::CountryCode", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::City", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::Language", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::ObjectName", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::Source", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Envelope::Destination", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
-	{ "Iptc::Application2::Urgency", NULL, "Iptc", 0, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Copyright", NULL, "Iptc", 5, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Credit", NULL, "Iptc", 6, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Byline", NULL, "Iptc", 7, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::BylineTitle", NULL, "Iptc", 8, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::CountryName", NULL, "Iptc", 9, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::CountryCode", NULL, "Iptc", 10, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::City", NULL, "Iptc", 11, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Language", NULL, "Iptc", 12, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::ObjectName", NULL, "Iptc", 13, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Source", NULL, "Iptc", 14, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Envelope::Destination", NULL, "Iptc", 15, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
+	{ "Iptc::Application2::Urgency", NULL, "Iptc", 16, "String", GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_PRINT },
 
 	{ NULL, NULL, NULL, 0, NULL, 0 }
 };

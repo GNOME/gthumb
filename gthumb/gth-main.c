@@ -404,6 +404,8 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 
 	for (i = 0; metadata_info[i].id != NULL; i++)
 		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL)) {
+			if (metadata_info[i].sort_order <= 0)
+				metadata_info[i].sort_order = 500;
 			g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
 			g_hash_table_insert (Main->priv->metadata_info_hash, (gpointer) (&metadata_info[i])->id, &metadata_info[i]);
 		}

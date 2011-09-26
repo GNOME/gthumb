@@ -442,7 +442,7 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
-				    NAME_COLUMN, name,
+				    NAME_COLUMN, _(name),
 				    ID_COLUMN, info->id,
 				    SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
 				    USED_COLUMN, TRUE,
