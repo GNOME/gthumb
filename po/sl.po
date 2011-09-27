@@ -5077,10 +5077,10 @@ msgstr "[spremenjeno]"
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
-msgstr[0] "%d izbranih datotek"
-msgstr[1] "%d izbrana datoteka"
-msgstr[2] "%d izbrani datoteki"
-msgstr[3] "%d izbrane datoteke"
+msgstr[0] "%d izbranih datotek (%s)"
+msgstr[1] "%d izbrana datoteka (%s)"
+msgstr[2] "%d izbrani datoteki (%s)"
+msgstr[3] "%d izbrane datoteke (%s)"
 
 #: ../gthumb/gth-browser.c:1026
 #, c-format
