@@ -1,3 +1,17 @@
+version 2.13.91
+---------------
+
+ Bugs fixed:
+
+  * Fixed iptc fields order in the print dialog. (#659820)
+
+ New or updated application translations:
+
+  * Español (Daniel Mustieles)
+  * French (Bruno Brouard)
+  * Norwegian/Bokmaal (Kjartan Maraas)
+  * Slovenian (Matej Urbančič)
+
 version 2.13.90
 ---------------
 
