@@ -5483,8 +5483,10 @@ file_metadata_ready_cb (GList    *files,
 	gth_browser_update_title (browser);
 	gth_browser_update_statusbar_file_info (browser);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
+		_gth_browser_update_statusbar_list_info (browser);
+	}
 	gth_browser_update_sensitivity (browser);
 	if (browser->priv->viewer_page != NULL) {
 		GthViewerPage *basic_viewer_page;
