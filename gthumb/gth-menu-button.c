@@ -453,7 +453,7 @@ gth_menu_button_set_label (GthMenuButton *self,
 }
 
 
-G_CONST_RETURN char *
+const char *
 gth_menu_button_get_label (GthMenuButton *self)
 {
 	g_return_val_if_fail (GTH_IS_MENU_BUTTON (self), NULL);
@@ -504,7 +504,7 @@ gth_menu_button_set_stock_id (GthMenuButton *self,
 }
 
 
-G_CONST_RETURN char *
+const char *
 gth_menu_button_get_stock_id (GthMenuButton *self)
 {
 	char *stock_id;
@@ -530,7 +530,7 @@ gth_menu_button_set_icon_name (GthMenuButton *self,
 }
 
 
-G_CONST_RETURN char *
+const char *
 gth_menu_button_get_icon_name (GthMenuButton *self)
 {
 	const char *icon_name;

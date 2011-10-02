@@ -918,7 +918,7 @@ gth_toggle_menu_tool_button_set_label (GthToggleMenuToolButton *button,
 }
 
 
-G_CONST_RETURN char *
+const char *
 gth_toggle_menu_tool_button_get_label (GthToggleMenuToolButton *button)
 {
 	g_return_val_if_fail (GTH_IS_TOGGLE_MENU_TOOL_BUTTON (button), NULL);
@@ -964,7 +964,7 @@ gth_toggle_menu_tool_button_set_stock_id (GthToggleMenuToolButton *button,
 }
 
 
-G_CONST_RETURN char *
+const char *
 gth_toggle_menu_tool_button_get_stock_id (GthToggleMenuToolButton *button)
 {
 	g_return_val_if_fail (GTH_IS_TOGGLE_MENU_TOOL_BUTTON (button), NULL);
@@ -986,7 +986,7 @@ gth_toggle_menu_tool_button_set_icon_name (GthToggleMenuToolButton *button,
 }
 
 
-G_CONST_RETURN char*
+const char*
 gth_toggle_menu_tool_button_get_icon_name (GthToggleMenuToolButton *button)
 {
 	g_return_val_if_fail (GTH_IS_TOGGLE_MENU_TOOL_BUTTON (button), NULL);

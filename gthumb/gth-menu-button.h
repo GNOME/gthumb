@@ -58,16 +58,16 @@ GtkWidget *             gth_menu_button_new               (void);
 GtkWidget *             gth_menu_button_new_from_stock    (const char    *stock_id);
 void                    gth_menu_button_set_label         (GthMenuButton *button,
 							   const char    *label);
-G_CONST_RETURN char *   gth_menu_button_get_label         (GthMenuButton *button);
+const char *            gth_menu_button_get_label         (GthMenuButton *button);
 void                    gth_menu_button_set_use_underline (GthMenuButton *button,
 							   gboolean       use_underline);
 gboolean                gth_menu_button_get_use_underline (GthMenuButton *button);
 void                    gth_menu_button_set_stock_id      (GthMenuButton *button,
 							   const char    *stock_id);
-G_CONST_RETURN char *   gth_menu_button_get_stock_id      (GthMenuButton *button);
+const char *            gth_menu_button_get_stock_id      (GthMenuButton *button);
 void                    gth_menu_button_set_icon_name     (GthMenuButton *button,
 							   const char    *icon_name);
-G_CONST_RETURN char *   gth_menu_button_get_icon_name     (GthMenuButton *button);
+const char *            gth_menu_button_get_icon_name     (GthMenuButton *button);
 void                    gth_menu_button_set_menu          (GthMenuButton *button,
 							   GtkWidget     *menu);
 GtkWidget *             gth_menu_button_get_menu          (GthMenuButton *button);

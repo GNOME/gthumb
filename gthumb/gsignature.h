@@ -41,7 +41,7 @@ void                   g_signature_reset       (GSignature       *signature);
 void                   g_signature_update      (GSignature       *signature,
                                                 const guchar     *data,
                                                 gssize            length);
-G_CONST_RETURN gchar * g_signature_get_string  (GSignature       *signature);
+const gchar *          g_signature_get_string  (GSignature       *signature);
 void                   g_signature_get_value   (GSignature       *signature,
 						guint8           *buffer,
 						gsize            *buffer_len);

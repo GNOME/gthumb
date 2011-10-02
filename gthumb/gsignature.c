@@ -141,7 +141,7 @@ g_signature_update (GSignature   *signature,
 }
 
 
-G_CONST_RETURN gchar *
+const gchar *
 g_signature_get_string (GSignature *signature)
 {
 	guint8 *internal_digest;
