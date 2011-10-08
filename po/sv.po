@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 21:19+0100\n"
-"PO-Revision-Date: 2011-03-06 21:18+0100\n"
+"POT-Creation-Date: 2011-10-08 19:38+0200\n"
+"PO-Revision-Date: 2011-10-08 19:37+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -573,6 +573,7 @@ msgstr "Ogiltigt filformat"
 
 #: ../extensions/catalogs/actions.c:189
 #: ../extensions/catalogs/dlg-add-to-catalog.c:265
+#, fuzzy
 msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
@@ -592,6 +593,7 @@ msgstr "Kunde inte skapa albumet"
 
 #: ../extensions/catalogs/actions.c:255
 #: ../extensions/catalogs/dlg-add-to-catalog.c:331
+#, fuzzy
 msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
@@ -713,7 +715,7 @@ msgid "_New Catalog"
 msgstr "_Nytt album"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/webalbums/gth-web-exporter.c:1833
+#: ../extensions/webalbums/gth-web-exporter.c:1834
 msgid "_View the destination"
 msgstr "_Visa målet"
 
@@ -1066,9 +1068,8 @@ msgid "Cannot read file information"
 msgstr "Kan inte läsa filinformation"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
-#, fuzzy
 msgid "Allow to edit files metadata."
-msgstr "Kunde inte flytta bilden:"
+msgstr "Tillåt att redigera metadata för filer."
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Edit metadata"
@@ -1134,14 +1135,12 @@ msgid "Assigning tags to the selected files"
 msgstr "Tilldela taggar till den markerade mappen"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:113
-#, fuzzy
 msgid "Writing files"
-msgstr "Importerar filer"
+msgstr "Skrivning av filer"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:130
-#, fuzzy
 msgid "Reading files"
-msgstr "Byter namn på filer"
+msgstr "Läsning av filer"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
 msgid "Example"
@@ -1266,9 +1265,8 @@ msgid "date photo was taken"
 msgstr "datumet då fotot togs"
 
 #: ../extensions/export_tools/callbacks.c:59
-#, fuzzy
 msgid "Share"
-msgstr "Kvadratiskt"
+msgstr "Dela"
 
 #: ../extensions/facebook/callbacks.c:54
 msgid "Face_book..."
@@ -1347,9 +1345,8 @@ msgid "Public photos"
 msgstr "Publika foton"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-#, fuzzy
 msgid "_Location:"
-msgstr "_Plats"
+msgstr "_Plats:"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
@@ -1386,10 +1383,9 @@ msgstr ""
 #: ../extensions/flicker/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1832
-#, fuzzy
+#: ../extensions/webalbums/gth-web-exporter.c:1833
 msgid "_Open in the Browser"
-msgstr "Öppna i nytt fönster"
+msgstr "_Öppna i webbläsaren"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:121
 #: ../extensions/facebook/dlg-export-to-facebook.c:312
@@ -1575,9 +1571,8 @@ msgstr "Hämtar albumlistan"
 #: ../extensions/flicker/flickr-service.c:609
 #: ../extensions/photobucket/photobucket-service.c:344
 #: ../extensions/picasaweb/picasa-web-service.c:328
-#, fuzzy
 msgid "Creating the new album"
-msgstr "Skapa _webbalbum..."
+msgstr "Skapar nya albumet"
 
 #: ../extensions/facebook/facebook-service.c:610
 #: ../extensions/flicker/flickr-service.c:659
@@ -1612,8 +1607,9 @@ msgid "Getting the photo list"
 msgstr "Hämtar fotolistan"
 
 #: ../extensions/file_manager/actions.c:41
+#, fuzzy
 msgid "Enter the folder name: "
-msgstr "Ange mappnamnet: "
+msgstr "Ange mappnamnet:"
 
 #: ../extensions/file_manager/actions.c:69
 msgid "Could not create the folder"
@@ -1692,24 +1688,22 @@ msgid "Could not open the location"
 msgstr "Kunde inte öppna platsen"
 
 #: ../extensions/file_manager/actions.c:746
-#, fuzzy
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr ""
-"Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
+"Mappen är inte tom. Vill du ta bort mappen och dess innehåll permanent?"
 
 #: ../extensions/file_manager/actions.c:762
 msgid "Could not delete the folder"
 msgstr "Kunde inte ta bort mappen"
 
 #: ../extensions/file_manager/actions.c:821
-#, fuzzy
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
-"Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
+"Mappen kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
 #: ../extensions/file_manager/actions.c:828
 msgid "Could not move the folder to the Trash"
@@ -1730,9 +1724,8 @@ msgid "D_uplicate"
 msgstr "_Duplicera"
 
 #: ../extensions/file_manager/callbacks.c:165
-#, fuzzy
 msgid "Duplicate the selected files"
-msgstr "Duplicera de markerade bilderna"
+msgstr "Duplicera de markerade filerna"
 
 #: ../extensions/file_manager/callbacks.c:169
 msgid "Move the selected files to the Trash"
@@ -1761,8 +1754,8 @@ msgstr "_Byt namn"
 msgid "_Paste Into Folder"
 msgstr "Klistra _in i mapp"
 
-#: ../extensions/file_manager/callbacks.c:869 ../gthumb/gth-browser.c:4618
-#: ../gthumb/gth-browser.c:4655
+#: ../extensions/file_manager/callbacks.c:869 ../gthumb/gth-browser.c:4642
+#: ../gthumb/gth-browser.c:4679
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
 
@@ -2094,14 +2087,12 @@ msgid "_Flickr..."
 msgstr "_Flickr..."
 
 #: ../extensions/flicker/callbacks.c:60
-#, fuzzy
 msgid "Download photos from Flickr"
-msgstr "Skicka upp filer till Flickr"
+msgstr "Hämta foton från Flickr"
 
 #: ../extensions/flicker/callbacks.c:64
-#, fuzzy
 msgid "Upload photos to Flickr"
-msgstr "Skicka upp filer till Flickr"
+msgstr "Skicka upp foton till Flickr"
 
 #: ../extensions/flicker/data/ui/export-to-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
@@ -2185,7 +2176,7 @@ msgstr "Skicka upp bilder till Flickr"
 
 #: ../extensions/gstreamer_tools/actions.c:64
 #: ../extensions/image_viewer/gth-image-viewer-page.c:838
-#: ../gthumb/gth-browser.c:1881
+#: ../gthumb/gth-browser.c:1888
 msgid "Could not save the file"
 msgstr "Kunde inte spara filen"
 
@@ -2331,15 +2322,14 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1034
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:77
 #: ../extensions/webalbums/dlg-web-exporter.c:408
-#: ../extensions/webalbums/gth-web-exporter.c:2435
+#: ../extensions/webalbums/gth-web-exporter.c:2436
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
 
 #: ../extensions/image_print/actions.c:67
-#, fuzzy
 msgid "Could not print the selected files"
-msgstr "Kunde inte exportera filerna"
+msgstr "Kunde inte skriva ut markerade filer"
 
 #: ../extensions/image_print/callbacks.c:54
 msgid "Print the selected images"
@@ -2424,7 +2414,7 @@ msgid "Loading \"%s\""
 msgstr "Läser in \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:156
-#: ../extensions/webalbums/gth-web-exporter.c:2784
+#: ../extensions/webalbums/gth-web-exporter.c:2785
 msgid "Loading images"
 msgstr "Läser in bilder"
 
@@ -2448,9 +2438,8 @@ msgid "Rotate the selected images 90° to the left"
 msgstr "Flytta de markerade bilderna till papperskorgen"
 
 #: ../extensions/image_rotation/callbacks.c:59
-#, fuzzy
 msgid "Rotate Physically"
-msgstr "_Rotera bilder fysiskt"
+msgstr "Rotera fysiskt"
 
 #: ../extensions/image_rotation/callbacks.c:60
 #, fuzzy
@@ -2458,18 +2447,16 @@ msgid "Rotate the selected images according to the embedded orientation"
 msgstr "Flytta de markerade bilderna till papperskorgen"
 
 #: ../extensions/image_rotation/callbacks.c:64
-#, fuzzy
 msgid "Reset the EXIF Orientation"
-msgstr "Nollställ Exif-orienteringstaggar"
+msgstr "Nollställ Exif-orientering"
 
 #: ../extensions/image_rotation/callbacks.c:65
 msgid "Reset the embedded orientation without rotating the images"
 msgstr ""
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
-#, fuzzy
 msgid "Image rotation"
-msgstr "Bildtext"
+msgstr "Bildrotation"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
 #, fuzzy
@@ -2594,9 +2581,8 @@ msgid "_Fit Window to Image"
 msgstr "_Anpassa fönster till bild"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:201
-#, fuzzy
 msgid "Resize the window to the size of the image"
-msgstr "Återanvänd detta fönster för att visa andra bilder"
+msgstr "Ändra storlek på fönstret till storleken för bilden"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
 msgid "Basic image viewing."
@@ -2713,9 +2699,8 @@ msgid "Importing files"
 msgstr "Importerar filer"
 
 #: ../extensions/importer/gth-import-task.c:594
-#, fuzzy
 msgid "No file imported"
-msgstr "Visa filegenskaper"
+msgstr "Ingen fil importerades"
 
 #: ../extensions/importer/gth-import-task.c:595
 msgid "The selected files are already present in the destination."
@@ -2727,9 +2712,8 @@ msgid "Delete operation not supported."
 msgstr "Filtypen stöds inte %s"
 
 #: ../extensions/importer/gth-import-task.c:700
-#, fuzzy
 msgid "Last imported"
-msgstr "Senast ändrad"
+msgstr "Senast importerad"
 
 #: ../extensions/list_tools/callbacks.c:64 ../gthumb/gth-filterbar.c:303
 msgid "Personalize..."
@@ -2975,9 +2959,8 @@ msgid "Tiny ( 100 x 75 )"
 msgstr "Mycket liten ( 100 x 75 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
-#, fuzzy
 msgid "_Resize to:"
-msgstr "_Nollställ"
+msgstr "Än_dra storlek till:"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
 #, fuzzy
@@ -3023,9 +3006,8 @@ msgid "PhotoBucket"
 msgstr "PhotoBucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:2
-#, fuzzy
 msgid "Upload images to PhotoBucket"
-msgstr "Skicka upp filer till Flickr"
+msgstr "Skicka upp bilder till PhotoBucket"
 
 #: ../extensions/photo_importer/callbacks.c:51
 msgid "_Removable Device..."
@@ -3041,9 +3023,8 @@ msgid "After importing from a device:"
 msgstr "Importera från flyttbar enhet"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
-#, fuzzy
 msgid "_Rotate the images physically"
-msgstr "_Rotera bilder fysiskt"
+msgstr "_Rotera bilderna fysiskt"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 msgid "Import from Removable Device"
@@ -3056,9 +3037,8 @@ msgid "S_how:"
 msgstr "V_isa:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#, fuzzy
 msgid "_Delete the imported files from the source"
-msgstr "_Ta bort importerade bilder från kameran"
+msgstr "_Ta bort importerade bilder från källan"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
@@ -3079,7 +3059,7 @@ msgid "Could not load the folder"
 msgstr "Kunde inte läsa in mappen"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:318
-#: ../gthumb/gth-browser.c:1794
+#: ../gthumb/gth-browser.c:1801
 msgid "Getting folder listing..."
 msgstr "Hämtar mapplistning..."
 
@@ -3314,9 +3294,8 @@ msgid ""
 msgstr ""
 
 #: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
-#, fuzzy
 msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-msgstr "Möjliga värden är: original, lower, upper."
+msgstr "Möjliga värden är: 0 (ingen), 1 (lägre), 2 (övre)"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
@@ -3364,9 +3343,8 @@ msgid "The digitalization date"
 msgstr ""
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:20
-#, fuzzy
 msgid "The modification date"
-msgstr "efter filens ändringstid"
+msgstr "Ändringsdatumet"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 #, fuzzy
@@ -3513,8 +3491,9 @@ msgid "any of the following rules"
 msgstr "<b>Ändra följande värden:</b>"
 
 #: ../extensions/search/gth-search-task.c:178
+#, fuzzy
 msgid "Files found untill now: %"
-msgstr ""
+msgstr "Filer hittade tills nu: %s"
 
 #: ../extensions/search/gth-search-task.c:251
 msgid "Searching..."
@@ -3746,7 +3725,6 @@ msgid "Show the following attributes:"
 msgstr "Visa följande attribut:"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-#, fuzzy
 msgid "The current date"
 msgstr "Aktuellt datum"
 
@@ -3756,9 +3734,8 @@ msgid "The current image number"
 msgstr "Efter aktuellt datum och tid"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-#, fuzzy
 msgid "The current page number"
-msgstr "Efter aktuellt datum och tid"
+msgstr "Aktuellt sidnummer"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The total number of images"
@@ -3810,38 +3787,38 @@ msgstr "_Ändra storlek om större än:"
 msgid "Could not show the destination"
 msgstr "Kunde inte öppna platsen"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1829
+#: ../extensions/webalbums/gth-web-exporter.c:1830
 msgid "The album has been created successfully."
-msgstr ""
+msgstr "Albumet har skapats."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2095
-#: ../extensions/webalbums/gth-web-exporter.c:2122
+#: ../extensions/webalbums/gth-web-exporter.c:2096
+#: ../extensions/webalbums/gth-web-exporter.c:2123
 msgid "Saving thumbnails"
 msgstr "Sparar miniatyrbilder"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2150
+#: ../extensions/webalbums/gth-web-exporter.c:2151
 msgid "Saving HTML pages: Images"
 msgstr "Sparar HTML-sidor: Bilder"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2208
+#: ../extensions/webalbums/gth-web-exporter.c:2209
 msgid "Saving HTML pages: Indexes"
 msgstr "Sparar HTML-sidor: Index"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2328
-#: ../extensions/webalbums/gth-web-exporter.c:2412
+#: ../extensions/webalbums/gth-web-exporter.c:2329
+#: ../extensions/webalbums/gth-web-exporter.c:2413
 msgid "Saving images"
 msgstr "Sparar bilder"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2491
+#: ../extensions/webalbums/gth-web-exporter.c:2492
 msgid "Copying original images"
 msgstr "Kopierar ursprungliga bilder"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3027
+#: ../extensions/webalbums/gth-web-exporter.c:3028
 #, fuzzy
 msgid "Could not find the style folder"
 msgstr "Kunde inte hitta papperskorgen"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3060
+#: ../extensions/webalbums/gth-web-exporter.c:3061
 msgid "Could not create a temporary folder"
 msgstr "Kunde inte skapa temporär mapp"
 
@@ -4165,15 +4142,15 @@ msgstr "Växla till helskärmsläge"
 msgid "Leave Fullscreen"
 msgstr "Lämna helskärmsläget"
 
-#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3352
+#: ../gthumb/gth-browser-actions-entries.h:131 ../gthumb/gth-browser.c:3376
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3373
+#: ../gthumb/gth-browser-actions-entries.h:136 ../gthumb/gth-browser.c:3397
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3394
+#: ../gthumb/gth-browser-actions-entries.h:141 ../gthumb/gth-browser.c:3418
 msgid "Go up one level"
 msgstr "Gå upp en nivå"
 
@@ -4288,55 +4265,55 @@ msgstr "[ändrad]"
 msgid "gthumb"
 msgstr "gthumb"
 
-#: ../gthumb/gth-browser.c:1118 ../gthumb/gth-browser.c:1685
-#: ../gthumb/gth-browser.c:5447 ../gthumb/gth-browser.c:5466
-#: ../gthumb/gth-browser.c:5491
+#: ../gthumb/gth-browser.c:1118 ../gthumb/gth-browser.c:1692
+#: ../gthumb/gth-browser.c:5456 ../gthumb/gth-browser.c:5475
+#: ../gthumb/gth-browser.c:5500
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Kunde inte läsa in positionen \"%s\""
 
-#: ../gthumb/gth-browser.c:1778 ../gthumb/gth-browser.c:1805
+#: ../gthumb/gth-browser.c:1785 ../gthumb/gth-browser.c:1812
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Ingen lämplig modul hittades för %s"
 
-#: ../gthumb/gth-browser.c:1923
+#: ../gthumb/gth-browser.c:1930
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Spara ändringar i filen \"%s\"?"
 
-#: ../gthumb/gth-browser.c:1928
+#: ../gthumb/gth-browser.c:1935
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Om du inte sparar kommer ändringarna i filen att gå förlorade för alltid."
 
-#: ../gthumb/gth-browser.c:1929
+#: ../gthumb/gth-browser.c:1936
 msgid "Do _Not Save"
 msgstr "Spara _inte"
 
-#: ../gthumb/gth-browser.c:2617 ../gthumb/gth-browser.c:2639
+#: ../gthumb/gth-browser.c:2641 ../gthumb/gth-browser.c:2663
 #: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
 msgid "Could not change name"
 msgstr "Kunde inte ändra namnet"
 
-#: ../gthumb/gth-browser.c:3036 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3060 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Ändrad"
 
-#: ../gthumb/gth-browser.c:3353 ../gthumb/gth-browser.c:3374
+#: ../gthumb/gth-browser.c:3377 ../gthumb/gth-browser.c:3398
 msgid "View the list of visited locations"
 msgstr "Visa listan över besökta platser"
 
-#: ../gthumb/gth-browser.c:3395
+#: ../gthumb/gth-browser.c:3419
 msgid "View the list of upper locations"
 msgstr "Visa listan över övre platser"
 
-#: ../gthumb/gth-browser.c:5448
+#: ../gthumb/gth-browser.c:5457
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: ../gthumb/gth-browser.c:5492
+#: ../gthumb/gth-browser.c:5501
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -4512,9 +4489,8 @@ msgid "Description (embedded)"
 msgstr "Beskrivning"
 
 #: ../gthumb/gth-pixbuf-list-task.c:139
-#, fuzzy
 msgid "Could not rename the file"
-msgstr "Kunde inte byta namn på filerna"
+msgstr "Kunde inte byta namn på filen"
 
 #: ../gthumb/gth-pixbuf-saver.c:34
 msgid "No options available for this file type"
@@ -4643,9 +4619,8 @@ msgid "is before"
 msgstr ""
 
 #: ../gthumb/gth-test-simple.c:63
-#, fuzzy
 msgid "is after"
-msgstr "är större än"
+msgstr "är efter"
 
 #: ../gthumb/gth-time-selector.c:471
 msgid "Today"
@@ -4659,11 +4634,11 @@ msgstr "Nu"
 msgid "Close this window"
 msgstr "Stäng det här fönstret"
 
-#: ../gthumb/gtk-utils.c:802
+#: ../gthumb/gtk-utils.c:800
 msgid "Could not display help"
 msgstr "Kunde inte visa hjälp"
 
-#: ../gthumb/gtk-utils.c:1089 ../gthumb/gtk-utils.c:1097
+#: ../gthumb/gtk-utils.c:1087 ../gthumb/gtk-utils.c:1095
 msgid "Could not launch the application"
 msgstr "Kunde inte starta programmet"
 
@@ -4698,6 +4673,10 @@ msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #, fuzzy
+#~ msgid "_Extensions:"
+#~ msgstr "Tillägg"
+
+#, fuzzy
 #~ msgid "Median:"
 #~ msgstr "Media"
 
@@ -4706,9 +4685,32 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Selected:"
 #~ msgstr "_Markerade taggar:"
 
-#, fuzzy
 #~ msgid "Pixels:"
-#~ msgstr "Bild_punkter"
+#~ msgstr "Bildpunkter:"
+
+#~ msgid "23"
+#~ msgstr "23"
+
+#, fuzzy
+#~ msgid "Upload images to 23hq.com"
+#~ msgstr "Skicka upp bilder till Facebook"
+
+#~ msgid "_23..."
+#~ msgstr "_23..."
+
+#, fuzzy
+#~ msgid "Upload photos to 23"
+#~ msgstr "Skicka upp filer till Flickr"
+
+#~ msgid "Name already used"
+#~ msgstr "Namnet används redan"
+
+#, fuzzy
+#~ msgid "New catalog"
+#~ msgstr "_Nytt album"
+
+#~ msgid "New library"
+#~ msgstr "Nytt bibliotek"
 
 #, fuzzy
 #~ msgid "The catalog '%s' already exists, do you want to overwrite it?"
@@ -4738,6 +4740,10 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "minutes"
 #~ msgstr "minuter"
+
+#, fuzzy
+#~ msgid "Create a contact sheet"
+#~ msgstr "Skapa ett nytt tema"
 
 #~ msgid "Image _Wall..."
 #~ msgstr "Bild_vägg..."
@@ -4796,6 +4802,12 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "_Solid color"
 #~ msgstr "_Helfärgad"
 
+#~ msgid "#"
+#~ msgstr "#"
+
+#~ msgid "###"
+#~ msgstr "###"
+
 #~ msgid "%n"
 #~ msgstr "%n"
 
@@ -4832,21 +4844,17 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Image Wall"
 #~ msgstr "Bildvägg"
 
-#, fuzzy
 #~ msgid "Could not save the theme"
-#~ msgstr "Kunde inte spara filtret"
+#~ msgstr "Kunde inte spara temat"
 
-#, fuzzy
 #~ msgid "Could not delete the theme"
-#~ msgstr "Kunde inte ta bort filerna"
+#~ msgstr "Kunde inte ta bort temat"
 
-#, fuzzy
 #~ msgid "Creating images"
-#~ msgstr "Skapar bild: %s.%s"
+#~ msgstr "Skapar bilder"
 
-#, fuzzy
 #~ msgid "Generating thumbnails"
-#~ msgstr "Sparar miniatyrbilder"
+#~ msgstr "Genererar miniatyrbilder"
 
 #~ msgid "Header"
 #~ msgstr "Sidhuvud"
@@ -4854,9 +4862,8 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Footer"
 #~ msgstr "Sidfot"
 
-#, fuzzy
 #~ msgid "Theme Properties"
-#~ msgstr "Egenskaper"
+#~ msgstr "Temaegenskaper"
 
 #~ msgid "Copy _From"
 #~ msgstr "Kopiera _från"
@@ -4867,6 +4874,45 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #, fuzzy
 #~ msgid "_Use the original image folder"
 #~ msgstr "_Behåll ursprungliga filnamn"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to permanently delete the metadata of the selected "
+#~ "files?"
+#~ msgstr "Är du säker på att du vill permanent ta bort \"%s\"?"
+
+#, fuzzy
+#~ msgid "If you delete the metadata, it will be permanently lost."
+#~ msgstr "Om du tar bort en fil så kommer den förloras för alltid."
+
+#~ msgid "Delete Metadata"
+#~ msgstr "Ta bort metadata"
+
+#, fuzzy
+#~ msgid "Delete the comment and the embedded metadata of the selected files"
+#~ msgstr "Gå till mappen som innehåller den markerade filen"
+
+#~ msgid "1024 x 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 x 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 x 1600"
+#~ msgstr "1600 x 1600"
+
+#~ msgid "2048 x 2048"
+#~ msgstr "2048 x 2048"
+
+#~ msgid "720 x 720"
+#~ msgstr "720 x 720"
+
+#, fuzzy
+#~ msgid "Resize the images if larger then this size"
+#~ msgstr "_Ändra storlek om större än:"
+
+#~ msgid "New folder"
+#~ msgstr "Ny mapp"
 
 #~ msgid "Move To"
 #~ msgstr "Flytta till"
@@ -4883,52 +4929,137 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Copy to..."
 #~ msgstr "Kopiera till..."
 
-#, fuzzy
-#~ msgid "Copy the selected files to another folder"
-#~ msgstr "Flytta de markerade filerna till papperskorgen"
+#~ msgid "Copy the selected folder to another folder"
+#~ msgstr "Kopiera markerad mapp till en annan mapp"
 
 #~ msgid "Move to..."
 #~ msgstr "Flytta till..."
 
-#, fuzzy
+#~ msgid "Move the selected folder to another folder"
+#~ msgstr "Flytta markerad mapp till en annan mapp"
+
+#~ msgid "Copy the selected files to another folder"
+#~ msgstr "Kopiera de markerade filerna till en annan mapp"
+
 #~ msgid "Move the selected files to another folder"
-#~ msgstr "Flytta de markerade filerna till papperskorgen"
+#~ msgstr "Flytta de markerade filerna till en annan mapp"
+
+#~ msgid "_Preview"
+#~ msgstr "_Förhandsgranska"
+
+#~ msgid "Center"
+#~ msgstr "Centrera"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximera"
+
+#, fuzzy
+#~ msgid "Set the image size to this value"
+#~ msgstr "Ställ in bilden som skrivbordsbakgrund"
+
+#~ msgid "Align"
+#~ msgstr "Justera"
+
+#~ msgid "Alignment"
+#~ msgstr "Justering"
+
+#~ msgid "Angle"
+#~ msgstr "Vinkel"
+
+#~ msgid "Grid:"
+#~ msgstr "Rutnät:"
+
+#~ msgid "Image size"
+#~ msgstr "Bildstorlek"
+
+#~ msgid "Keep aspect ratio"
+#~ msgstr "Behåll aspektförhållande"
+
+#~ msgid "Original size"
+#~ msgstr "Ursprunglig storlek"
+
+#~ msgid "Pick a background color"
+#~ msgstr "Välj en bakgrundsfärg"
+
+#~ msgid "Reset"
+#~ msgstr "Återställ"
+
+#~ msgid "_Background:"
+#~ msgstr "_Bakgrund:"
+
+#~ msgid "_Transparent"
+#~ msgstr "_Genomskinlig"
+
+#~ msgid "Amount:"
+#~ msgstr "Mängd:"
+
+#~ msgid "Radius:"
+#~ msgstr "Radie:"
+
+#~ msgid "Threshold:"
+#~ msgstr "Tröskelvärde:"
 
 #, fuzzy
 #~ msgid "Center Lines"
 #~ msgstr "Centrerad"
 
+#~ msgid "Flip the image vertically"
+#~ msgstr "Vänd bilden vertikalt"
+
+#~ msgid "Mirror the image horizontally"
+#~ msgstr "Spegla bilden horisontellt"
+
+#~ msgid "Rotate..."
+#~ msgstr "Rotera..."
+
+#~ msgid "Rotate"
+#~ msgstr "Rotera"
+
+#~ msgid "Freely rotate the image"
+#~ msgstr "Rotera bilden manuellt"
+
 #, fuzzy
+#~ msgid "Rotate the image by 90 degrees counterclockwise"
+#~ msgstr "Rotera bilden 90 grader motsols"
+
+#, fuzzy
+#~ msgid "Rotate the image by 90 degrees clockwise"
+#~ msgstr "Rotera bilden 90 grader medsols"
+
+#, fuzzy
+#~ msgid "Sharpening image"
+#~ msgstr "Sparar bilder"
+
+#~ msgid "Enhance Focus..."
+#~ msgstr "Förbättra fokus..."
+
+#~ msgid "Enhance Focus"
+#~ msgstr "Förbättra fokus"
+
 #~ msgid "Find _Duplicates..."
-#~ msgstr "Hittade dubletter:"
+#~ msgstr "Hitta _dubletter..."
 
 #, fuzzy
 #~ msgid "Find duplicated files in the current location"
 #~ msgstr "Stoppa inläsning av aktuell plats"
 
-#, fuzzy
+#~ msgid "_Folders:"
+#~ msgstr "_Mappar:"
+
 #~ msgid "Duplicates:"
-#~ msgstr "Dubletter"
+#~ msgstr "Dubletter:"
 
 #~ msgid "Files:"
 #~ msgstr "Filer:"
 
-#, fuzzy
 #~ msgid "No duplicates found."
-#~ msgstr "Hittade dubletter:"
+#~ msgstr "Inga dubletter hittades."
 
 #~ msgid "Search for Duplicates"
 #~ msgstr "Sök efter dubletter"
 
-#~ msgid "Select _All"
-#~ msgstr "Markera _allt"
-
-#~ msgid "_Unselect All"
-#~ msgstr "Avmarkera a_llt"
-
-#, fuzzy
 #~ msgid "Find Duplicates"
-#~ msgstr "Hittade dubletter:"
+#~ msgstr "Hitta dubletter"
 
 #~ msgid "_Filter:"
 #~ msgstr "_Filter:"
@@ -4937,18 +5068,33 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Find duplicated files."
 #~ msgstr "Hittade dubletter:"
 
+#, fuzzy
+#~ msgid "leave the newest duplicates"
+#~ msgstr "_Spara den nya filen som:"
+
+#, fuzzy
+#~ msgid "leave the oldest duplicates"
+#~ msgstr "Sök efter dubletter"
+
+#~ msgid "by folder..."
+#~ msgstr "efter mapp..."
+
+#~ msgid "all files"
+#~ msgstr "alla filer"
+
+#~ msgid "no file"
+#~ msgstr "ingen fil"
+
 #~ msgid "%d duplicate"
 #~ msgid_plural "%d duplicates"
 #~ msgstr[0] "%d dublett"
 #~ msgstr[1] "%d dubletter"
 
-#, fuzzy
 #~ msgid "Search completed"
-#~ msgstr "Sök efter dubletter"
+#~ msgstr "Sökningen är färdig"
 
-#, fuzzy
 #~ msgid "Searching for duplicates"
-#~ msgstr "Sök efter dubletter"
+#~ msgstr "Söker efter dubletter"
 
 #~ msgid "%d file remaining"
 #~ msgid_plural "%d files remaining"
@@ -4961,6 +5107,14 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "Duplicates"
 #~ msgstr "Dubletter"
+
+#, fuzzy
+#~ msgid "Select"
+#~ msgstr "Markering"
+
+#, fuzzy
+#~ msgid "Playing video"
+#~ msgstr "Spela upp ljud- och videofiler."
 
 #~ msgid "The total number of files"
 #~ msgstr "Totala antalet filer"
@@ -4982,6 +5136,67 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Histogram"
 #~ msgstr "Histogram"
 
+#~ msgid "Copy Image"
+#~ msgstr "Kopiera bild"
+
+#~ msgid "Copy the image to the clipboard"
+#~ msgstr "Kopiera bilden till urklipp"
+
+#~ msgid "Paste Image"
+#~ msgstr "Klistra in bild"
+
+#~ msgid "Paste the image from the clipboard"
+#~ msgstr "Klistra in bilden från urklipp"
+
+#~ msgid "No file specified."
+#~ msgstr "Ingen fil angiven."
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete the selected command?"
+#~ msgstr "Är du säker på att du vill permanent ta bort \"%s\"?"
+
+#~ msgctxt "Cardinal point"
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgctxt "Cardinal point"
+#~ msgid "N"
+#~ msgstr "N"
+
+#~ msgctxt "Cardinal point"
+#~ msgid "W"
+#~ msgstr "V"
+
+#~ msgctxt "Cardinal point"
+#~ msgid "E"
+#~ msgstr "Ö"
+
+#~ msgid "Map"
+#~ msgstr "Karta"
+
+#~ msgid ""
+#~ "The geographical position information is not available for this image."
+#~ msgstr ""
+#~ "Den geografiska positionsinformation är inte tillgänglig för denna bild."
+
+#~ msgid "View the photo position on the map"
+#~ msgstr "Visa fotots position på kartan"
+
+#~ msgid "Import"
+#~ msgstr "Importera"
+
+#~ msgid "F_older..."
+#~ msgstr "Ma_pp..."
+
+#~ msgid "Import photos and other files from a folder"
+#~ msgstr "Importera foton och andra filer från en mapp"
+
+#~ msgid "Could not import the files"
+#~ msgstr "Kunde inte importera filerna"
+
+#~ msgid "Import from Folder"
+#~ msgstr "Importera från mapp"
+
 #~ msgid "Possible values are: jpeg, jpg."
 #~ msgstr "Möjliga värden är: jpeg, jpg."
 
@@ -4992,11 +5207,73 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "_Default extension:"
 #~ msgstr "Standardalternativ:"
 
+#~ msgid "add"
+#~ msgstr "lägg till"
+
+#~ msgid "digits"
+#~ msgstr "siffror"
+
+#~ msgid "format:"
+#~ msgstr "format:"
+
+#~ msgid "remove"
+#~ msgstr "ta bort"
+
+#~ msgid "Edit template"
+#~ msgstr "Redigera mall"
+
 #, fuzzy
+#~ msgid "Original filename"
+#~ msgstr "_Behåll ursprungliga filnamn"
+
+#, fuzzy
+#~ msgid "Original extension"
+#~ msgstr "Avgör på filändelse"
+
+#, fuzzy
+#~ msgid "Original enumerator"
+#~ msgstr "_Behåll ursprungliga filnamn"
+
+#, fuzzy
+#~ msgid "Modification date"
+#~ msgstr "efter filens ändringstid"
+
+#, fuzzy
+#~ msgid "Digitalization date"
+#~ msgstr "Datum för skapande av bilden"
+
+#, fuzzy
+#~ msgid "File attribute"
+#~ msgstr "Ett filattribut"
+
+#, fuzzy
+#~ msgid "Could not save the template"
+#~ msgstr "Kunde inte spara filtret"
+
+#~ msgid "Edit Template"
+#~ msgstr "Redigera mall"
+
+#~ msgid "Keep the original format"
+#~ msgstr "Behåll ursprungligt format"
+
+#, fuzzy
+#~ msgid "Playing slideshow"
+#~ msgstr "Bildspel"
+
+#~ msgid "%C"
+#~ msgstr "%C"
+
+#, fuzzy
+#~ msgid "The file comment"
+#~ msgstr "Sök_väg till filen"
+
 #~ msgid "%d file selected (%s)"
 #~ msgid_plural "%d files selected (%s)"
-#~ msgstr[0] "%d fil (%s)"
-#~ msgstr[1] "%d filer (%s)"
+#~ msgstr[0] "%d fil markerad (%s)"
+#~ msgstr[1] "%d filer markerade (%s)"
+
+#~ msgid "%s of free space"
+#~ msgstr "%s ledigt utrymme"
 
 #~ msgid "Linear scale"
 #~ msgstr "Linjär skalning"
@@ -5026,8 +5303,18 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgstr "RGB"
 
 #, fuzzy
+#~ msgid "Reading file information"
+#~ msgstr "Hämtar filinformation"
+
+#, fuzzy
+#~ msgid "Saving file information"
+#~ msgstr "Hämtar filinformation"
+
 #~ msgid "is only"
-#~ msgstr "Endast ikoner"
+#~ msgstr "är endast"
+
+#~ msgid "Close _All Windows"
+#~ msgstr "Stäng _alla fönster"
 
 #~ msgid "_Copy Here"
 #~ msgstr "_Kopiera hit"
@@ -5040,6 +5327,12 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "Cancel"
 #~ msgstr "Avbryt"
+
+#~ msgid "Select _All"
+#~ msgstr "Markera _allt"
+
+#~ msgid "_Unselect All"
+#~ msgstr "Avmarkera a_llt"
 
 #~ msgid "Do _not change folder"
 #~ msgstr "Byt _inte mapp"
@@ -5065,14 +5358,8 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "gtk-new"
 #~ msgstr "Ny"
 
-#~ msgid "gtk-remove"
-#~ msgstr "Ta bort"
-
 #~ msgid "Paolo Bacchilega <paobac@src.gnome.org>"
 #~ msgstr "Paolo Bacchilega <paobac@src.gnome.org>"
-
-#~ msgid "gtk-add"
-#~ msgstr "Lägg till"
 
 #~ msgid "Edit file metadata"
 #~ msgstr "Redigera filens metadata"
@@ -5137,9 +5424,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "180&#xB0;"
 #~ msgstr "180&#xB0;"
-
-#~ msgid "2"
-#~ msgstr "2"
 
 #~ msgid "270&#xB0;"
 #~ msgstr "270&#xB0;"
@@ -5211,9 +5495,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "New Image:"
 #~ msgstr "Ny bild:"
 
-#~ msgid "Open Images"
-#~ msgstr "Öppna bilder"
-
 #~ msgid "Overwrite Image"
 #~ msgstr "Skriv över bild"
 
@@ -5234,9 +5515,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr "<small>Klicka på \"Hjälp\" för information om formatkoder.</small>"
-
-#~ msgid "Delete selected images from the camera"
-#~ msgstr "Ta bort de markerade bilderna från kameran"
 
 #~ msgid ""
 #~ "If valuable photos have been deleted accidently, download the excellent "
@@ -5353,9 +5631,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "_Hue:"
 #~ msgstr "_Nyans:"
 
-#~ msgid "_Keep aspect ratio"
-#~ msgstr "_Behåll aspektförhållande"
-
 #~ msgid "_Levels:"
 #~ msgstr "_Nivåer:"
 
@@ -5440,9 +5715,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "_Draw frame"
 #~ msgstr "_Rita ram"
-
-#~ msgid "_Image size:"
-#~ msgstr "_Bildstorlek:"
 
 #~ msgid "by name"
 #~ msgstr "efter namn"
@@ -5868,9 +6140,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Image c_reation date"
 #~ msgstr "Datum för s_kapande av bilden"
 
-#~ msgid "Mirror image horizontally (left-right)"
-#~ msgstr "Spegla bilden horisontellt (vänster-höger)"
-
 #~ msgid "Mirror image vertically (top-bottom)"
 #~ msgstr "Spegla bilden vertikalt (överkant-underkant)"
 
@@ -5882,12 +6151,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "Rotate Images"
 #~ msgstr "Rotera bilder"
-
-#~ msgid "Rotate image 90 degrees clockwise"
-#~ msgstr "Rotera bilden 90 grader medsols"
-
-#~ msgid "Rotate image 90 degrees counter-clockwise"
-#~ msgstr "Rotera bilden 90 grader motsols"
 
 #~ msgid "Search terminated, no duplicates found."
 #~ msgstr "Sökningen avslutad, inga dubletter hittades."
@@ -5933,29 +6196,17 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "title|Scale Images"
 #~ msgstr "Skala bilder"
 
-#~ msgid "1024 x 1024"
-#~ msgstr "1024 × 1024"
-
 #~ msgid "1024 x 768"
 #~ msgstr "1024 × 768"
 
-#~ msgid "1280 x 1280"
-#~ msgstr "1280 × 1280"
-
 #~ msgid "1280 x 960"
 #~ msgstr "1280 × 960"
-
-#~ msgid "320 x 200"
-#~ msgstr "320 × 200"
 
 #~ msgid "320 x 320"
 #~ msgstr "320 × 320"
 
 #~ msgid "640 x 640"
 #~ msgstr "640 × 640"
-
-#~ msgid "800 x 600"
-#~ msgstr "800 × 600"
 
 #~ msgid "800 x 800"
 #~ msgstr "800 × 800"
@@ -6318,9 +6569,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "The selected catalog will be removed, are you sure?"
 #~ msgstr "Det markerade albumet kommer att tas bort. Är du säker?"
 
-#~ msgid "New Library"
-#~ msgstr "Nytt bibliotek"
-
 #~ msgid "Could not rename the folder \"%s\": %s"
 #~ msgstr "Kunde inte byta namn på mappen \"%s\": %s"
 
@@ -6390,14 +6638,8 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Write selection to CD"
 #~ msgstr "Skriv urval till cd"
 
-#~ msgid "_Rename..."
-#~ msgstr "_Byt namn..."
-
 #~ msgid "Move this image to the Trash"
 #~ msgstr "Flytta denna bild till papperskorgen"
-
-#~ msgid "Copy this image to another location"
-#~ msgstr "Kopiera denna bild till en annan plats"
 
 #~ msgid "Move this image to another location"
 #~ msgstr "Flytta denna bild till en annan plats"
@@ -6489,9 +6731,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 #~ msgid "Assign tags to the current folder"
 #~ msgstr "Tilldela taggar till den aktuella mappen"
 
-#~ msgid "_New Folder..."
-#~ msgstr "_Ny mapp..."
-
 #~ msgid "Go to the home folder"
 #~ msgstr "Gå till hemmappen"
 
@@ -6575,9 +6814,6 @@ msgstr "Kunde inte hitta en lämplig modul för att spara bilden som \"%s\""
 
 #~ msgid "View As List"
 #~ msgstr "Visa som lista"
-
-#~ msgid "_Folders"
-#~ msgstr "_Mappar"
 
 #~ msgid "_Catalogs"
 #~ msgstr "_Album"
