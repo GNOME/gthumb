@@ -6,7 +6,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([configure.ac])
 
-GTHUMB_API_VERSION=2.12
+GTHUMB_API_VERSION=2.14
 AC_SUBST([GTHUMB_API_VERSION])
 
 if test -z "$enable_maintainer_mode"; then
