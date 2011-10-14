@@ -166,9 +166,6 @@ preloader_needs_to_load (Preloader *preloader)
 static gboolean
 preloader_needs_second_step (Preloader *preloader)
 {
-	if (preloader->self->priv->load_policy != GTH_LOAD_POLICY_TWO_STEPS)
-		return FALSE;
-
 	return ((preloader->token == preloader->self->priv->token)
 		&& ! preloader->error
 		&& (preloader->requested_size != -1)
@@ -680,6 +677,9 @@ assign_loaders (LoadData *load_data)
 		preloader = self->priv->loader[k];
 		preloader_set_file_data (preloader, file_data);
 		preloader->requested_size = (file_data == load_data->requested) ? load_data->requested_size  : -1;
+		/* force the use of the single step policy if the file is not local, in order to speed-up loading. */
+		if (! g_file_is_native (file_data->file))
+			preloader->requested_size = -1;
 		preloader->token = load_data->token;
 
 		if (file_data == load_data->requested) {
