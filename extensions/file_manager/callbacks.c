@@ -1172,7 +1172,7 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	modifiers = gtk_accelerator_get_default_mod_mask ();
 
 	switch (event->keyval) {
-	case GDK_g:
+	case GDK_KEY_g:
 		if ((event->state & modifiers) == 0) {
 			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -1186,7 +1186,7 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		}
 		break;
 
-	case GDK_Delete:
+	case GDK_KEY_Delete:
 		if (((event->state & modifiers) == 0) || ((event->state & modifiers) == GDK_SHIFT_MASK)) {
 			if (gth_browser_get_location_source (browser) != NULL) {
 				items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));

@@ -641,35 +641,35 @@ viewer_event_cb (GtkWidget    *widget,
 	}
 	else if (event->type == GDK_KEY_PRESS) {
 		switch (((GdkEventKey *) event)->keyval) {
-		case GDK_F5:
+		case GDK_KEY_F5:
 			_gth_slideshow_close (self);
 			break;
 		}
 	}
 	else if (event->type == GDK_KEY_RELEASE) {
 		switch (((GdkEventKey *) event)->keyval) {
-		case GDK_Escape:
-		case GDK_q:
+		case GDK_KEY_Escape:
+		case GDK_KEY_q:
 			_gth_slideshow_close (self);
 			break;
-		case GDK_p:
+		case GDK_KEY_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
 
-		case GDK_space:
-		case GDK_Down:
-		case GDK_Right:
-		case GDK_Page_Down:
+		case GDK_KEY_space:
+		case GDK_KEY_Down:
+		case GDK_KEY_Right:
+		case GDK_KEY_Page_Down:
 			if (self->priv->paused)
 				_gth_slideshow_toggle_pause (self);
 			else
 				_gth_slideshow_load_next_image (self);
 			break;
 
-		case GDK_BackSpace:
-		case GDK_Up:
-		case GDK_Left:
-		case GDK_Page_Up:
+		case GDK_KEY_BackSpace:
+		case GDK_KEY_Up:
+		case GDK_KEY_Left:
+		case GDK_KEY_Page_Up:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}

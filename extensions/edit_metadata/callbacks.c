@@ -383,7 +383,7 @@ edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		return NULL;
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
-	case GDK_c:
+	case GDK_KEY_c:
 		gth_browser_activate_action_edit_metadata (NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;

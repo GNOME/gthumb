@@ -85,7 +85,7 @@ _gdk_keyval_from_name (const gchar *keyval_name)
 	if (keyval_name != NULL)
 		return gdk_keyval_from_name (keyval_name);
 	else
-		return GDK_VoidSymbol;
+		return GDK_KEY_VoidSymbol;
 }
 
 
@@ -311,7 +311,7 @@ gth_script_class_init (GthScriptClass *klass)
 							    "The keyboard shortcut to activate the script",
 							    0,
 							    G_MAXUINT,
-							    GDK_VoidSymbol,
+							    GDK_KEY_VoidSymbol,
 							    G_PARAM_READWRITE));
 }
 

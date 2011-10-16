@@ -1331,45 +1331,45 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 
 	/* For scrolling */
 
-	gtk_binding_entry_add_signal (binding_set, GDK_Right, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Right, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_RIGHT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Left, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Left, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_LEFT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Down, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Down, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_DOWN);
-	gtk_binding_entry_add_signal (binding_set, GDK_Up, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Up, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_UP);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_Right, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Right, GDK_SHIFT_MASK,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_RIGHT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Left, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Left, GDK_SHIFT_MASK,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_LEFT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Down, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Down, GDK_SHIFT_MASK,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_DOWN);
-	gtk_binding_entry_add_signal (binding_set, GDK_Up, GDK_SHIFT_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Up, GDK_SHIFT_MASK,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_UP);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_Page_Down, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Down, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_DOWN);
-	gtk_binding_entry_add_signal (binding_set, GDK_Page_Up, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Up, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_UP);

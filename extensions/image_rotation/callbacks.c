@@ -143,12 +143,12 @@ ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	gpointer result = NULL;
 
 	switch (event->keyval) {
-	case GDK_bracketright:
+	case GDK_KEY_bracketright:
 		gth_browser_activate_action_tool_rotate_right (NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 
-	case GDK_bracketleft:
+	case GDK_KEY_bracketleft:
 		gth_browser_activate_action_tool_rotate_left (NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;

@@ -554,9 +554,9 @@ gth_icon_view_class_init (GthIconViewClass *klass)
 
 	binding_set = gtk_binding_set_by_class (klass);
 
-	gtk_icon_view_add_move_binding (binding_set, GDK_Right, 0,
+	gtk_icon_view_add_move_binding (binding_set, GDK_KEY_Right, 0,
 					GTK_MOVEMENT_LOGICAL_POSITIONS, 1);
-	gtk_icon_view_add_move_binding (binding_set, GDK_Left, 0,
+	gtk_icon_view_add_move_binding (binding_set, GDK_KEY_Left, 0,
 					GTK_MOVEMENT_LOGICAL_POSITIONS, -1);
 }
 

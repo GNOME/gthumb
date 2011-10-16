@@ -232,17 +232,17 @@ popup_window_event_cb (GtkWidget *widget,
 
 	case GDK_KEY_PRESS:
 		switch (event->key.keyval) {
-		case GDK_plus:
-		case GDK_minus:
-		case GDK_1:
+		case GDK_KEY_plus:
+		case GDK_KEY_minus:
+		case GDK_KEY_1:
 			switch (event->key.keyval) {
-			case GDK_plus:
+			case GDK_KEY_plus:
 				gth_image_viewer_zoom_in (viewer);
 				break;
-			case GDK_minus:
+			case GDK_KEY_minus:
 				gth_image_viewer_zoom_out (viewer);
 				break;
-			case GDK_1:
+			case GDK_KEY_1:
 				gth_image_viewer_set_zoom (viewer, 1.0);
 				break;
 			}

@@ -370,7 +370,7 @@ calendar_popup_key_press_event_cb (GtkWidget   *widget,
 	GthTimeSelector *self = user_data;
 
 	switch (event->keyval) {
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		hide_calendar_popup (self);
 		break;
 
