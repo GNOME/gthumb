@@ -159,6 +159,7 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 
 	switch (transformation) {
 	case GTH_TRANSFORM_NONE:
+	default:
 		transform = JXFORM_NONE;
 		break;
 	case GTH_TRANSFORM_FLIP_H:

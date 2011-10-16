@@ -581,7 +581,7 @@ histogram_view_scroll_event_cb (GtkWidget      *widget,
 				gpointer        user_data)
 {
 	GthHistogramView *self = user_data;
-	int               channel;
+	int               channel = 0;
 
 	if (self->priv->histogram == NULL)
 		return FALSE;
