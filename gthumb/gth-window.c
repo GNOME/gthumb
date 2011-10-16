@@ -67,6 +67,7 @@ gth_window_set_n_pages (GthWindow *self,
 	gtk_container_add (GTK_CONTAINER (self), self->priv->table);
 
 	self->priv->notebook = gtk_notebook_new ();
+	gtk_style_context_remove_class (gtk_widget_get_style_context (self->priv->notebook), GTK_STYLE_CLASS_NOTEBOOK);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (self->priv->notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (self->priv->notebook), FALSE);
 	gtk_widget_show (self->priv->notebook);
@@ -318,6 +319,7 @@ gth_window_attach_toolbar (GthWindow *window,
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
 	_gtk_container_remove_children (GTK_CONTAINER (window->priv->toolbars[page]), NULL, NULL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (child), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 	gtk_container_add (GTK_CONTAINER (window->priv->toolbars[page]), child);
 }
 
