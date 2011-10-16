@@ -1035,12 +1035,11 @@ preview_draw_cb (GtkWidget *widget,
 		 gpointer   user_data)
 {
 	GthImagePrintJob *self = user_data;
-	cairo_t          *cr;
 	GtkAllocation     allocation;
 	PangoLayout      *pango_layout;
 
-	g_return_if_fail (GTH_IS_IMAGE_PRINT_JOB (self));
-	g_return_if_fail ((self->priv->page_setup != NULL) && GTK_IS_PAGE_SETUP (self->priv->page_setup));
+	g_return_val_if_fail (GTH_IS_IMAGE_PRINT_JOB (self), FALSE);
+	g_return_val_if_fail ((self->priv->page_setup != NULL) && GTK_IS_PAGE_SETUP (self->priv->page_setup), FALSE);
 
 	/* paint the paper */
 

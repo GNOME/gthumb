@@ -1154,10 +1154,10 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 		      float      page_increment,
 		      int        digits)
 {
-	GtkWidget *hbox;
-	GtkWidget *scale;
-	GtkWidget *spinbutton;
-	GtkObject *adj;
+	GtkAdjustment *adj;
+	GtkWidget     *spinbutton;
+	GtkWidget     *scale;
+	GtkWidget     *hbox;
 
 	adj = gtk_adjustment_new (value, lower, upper,
 				  step_increment, page_increment,

@@ -179,9 +179,6 @@ video_area_draw_cb (GtkWidget *widget,
 	GtkAllocation       allocation;
 	GtkStyleContext    *style_context;
 
-	if (event->count > 0)
-		return FALSE;
-
 	if (self->priv->xwin_assigned && self->priv->has_video)
 		return FALSE;
 
@@ -219,7 +216,7 @@ video_area_draw_cb (GtkWidget *widget,
 	}
 	else
 		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	gdk_cairo_region (cr, event->region);
+	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 
 	if (self->priv->icon != NULL) {

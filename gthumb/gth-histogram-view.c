@@ -408,7 +408,6 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		int      max_c;
 		int      y;
 		double   value;
-		GdkRGBA  color;
 
 		value_r = gth_histogram_get_value (self->priv->histogram, 1, i);
 		value_g = gth_histogram_get_value (self->priv->histogram, 2, i);
@@ -465,7 +464,7 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		 * painted in black. */
 
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (GTK_WIDGET (self))]);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 		value = gth_histogram_get_value (self->priv->histogram, min_c, i);
 		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
 		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);

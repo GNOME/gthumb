@@ -196,9 +196,8 @@ paint_image (GthImageLineTool *self,
 
 
 static void
-gth_image_line_tool_expose (GthImageViewerTool *base,
-			    GdkEventExpose     *event,
-			    cairo_t            *cr)
+gth_image_line_tool_draw (GthImageViewerTool *base,
+			  cairo_t            *cr)
 {
 	GthImageLineTool *self = GTH_IMAGE_LINE_TOOL (base);
 
@@ -206,13 +205,6 @@ gth_image_line_tool_expose (GthImageViewerTool *base,
 		return;
 
 	cairo_save (cr);
-
-  	cairo_rectangle (cr,
-  			 event->area.x,
-  			 event->area.y,
-  			 event->area.width,
-  			 event->area.height);
-  	cairo_clip (cr);
 
 	paint_image (self, cr);
 
@@ -350,7 +342,7 @@ gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToolIface *ifac
 	iface->size_allocate = gth_image_line_tool_size_allocate;
 	iface->map = gth_image_line_tool_map;
 	iface->unmap = gth_image_line_tool_unmap;
-	iface->expose = gth_image_line_tool_expose;
+	iface->draw = gth_image_line_tool_draw;
 	iface->button_press = gth_image_line_tool_button_press;
 	iface->button_release = gth_image_line_tool_button_release;
 	iface->motion_notify = gth_image_line_tool_motion_notify;

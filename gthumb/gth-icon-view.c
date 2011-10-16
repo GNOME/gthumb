@@ -754,8 +754,6 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 			if (n_selected >= 1) {
 				const int  offset = 3;
 				int        n_visible;
-				int        width;
-				int        height;
 				int        border;
 				GdkPixbuf *dnd_icon;
 				GdkPixbuf *multi_dnd_icon;

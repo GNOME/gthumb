@@ -158,13 +158,13 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 
 
 static void
-gth_cell_renderer_thumbnail_get_size (GtkCellRenderer       *cell,
-				      GtkWidget             *widget,
-				      cairo_rectangle_int_t *cell_area,
-				      int                   *x_offset,
-				      int                   *y_offset,
-				      int                   *width,
-				      int                   *height)
+gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
+				      GtkWidget          *widget,
+				      const GdkRectangle *cell_area,
+				      int                *x_offset,
+				      int                *y_offset,
+				      int                *width,
+				      int                *height)
 {
 	GthCellRendererThumbnail *self;
 	int   image_width;
@@ -226,13 +226,12 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer       *cell,
 
 
 static void
-gth_cell_renderer_thumbnail_render (GtkCellRenderer       *cell,
-				    cairo_t               *cr,
-				    GtkWidget             *widget,
-				    cairo_rectangle_int_t *background_area,
-				    cairo_rectangle_int_t *cell_area,
-				    cairo_rectangle_int_t *expose_area,
-				    GtkCellRendererState   flags)
+gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
+				    cairo_t              *cr,
+				    GtkWidget            *widget,
+				    const GdkRectangle   *background_area,
+				    const GdkRectangle   *cell_area,
+				    GtkCellRendererState  flags)
 {
 	GthCellRendererThumbnail *self;
 	GtkStyleContext          *style_context;

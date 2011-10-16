@@ -134,11 +134,9 @@ gedit_message_area_class_init (GeditMessageAreaClass *klass)
 	GtkBindingSet  *binding_set;
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gedit_message_area_finalize;
+	g_type_class_add_private (object_class, sizeof(GeditMessageAreaPrivate));
 
 	klass->close = gedit_message_area_close;
-
-	g_type_class_add_private (object_class, sizeof(GeditMessageAreaPrivate));
 
 	signals[RESPONSE] = g_signal_new ("response",
 					  G_OBJECT_CLASS_TYPE (klass),

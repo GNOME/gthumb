@@ -269,8 +269,6 @@ gthumb_application_activate_cb (GApplication *application,
 		gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
 		gtk_widget_show (window);
 	}
-
-	return res;
 }
 
 

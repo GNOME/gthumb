@@ -880,41 +880,41 @@ scroll_to (GthImageViewer *self,
 
 	{
 		cairo_rectangle_int_t  area;
-		GdkRegion             *region;
+		cairo_region_t        *region;
 
 		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + delta_x;
 		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + delta_y;
 		area.width = gdk_width - abs (delta_x);
 		area.height = gdk_height - abs (delta_y);
-		region = gdk_region_rectangle (&area);
+		region = cairo_region_create_rectangle (&area);
 		gdk_window_move_region (window, region, -delta_x, -delta_y);
 
-		gdk_region_destroy (region);
+		cairo_region_destroy (region);
 	}
 
 	/* invalidate the exposed areas */
 
 	{
-		GdkRegion             *region;
+		cairo_region_t        *region;
 		cairo_rectangle_int_t  area;
 
-		region = gdk_region_new ();
+		region = cairo_region_create ();
 
 		area.x = self->priv->frame_border;
 		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_height - delta_y;
 		area.width = gdk_width;
 		area.height = abs (delta_y);
-		gdk_region_union_with_rect (region, &area);
+		cairo_region_union_rectangle (region, &area);
 
 		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + gdk_width - delta_x;
 		area.y = self->priv->frame_border;
 		area.width = abs (delta_x);
 		area.height = gdk_height;
-		gdk_region_union_with_rect (region, &area);
+		cairo_region_union_rectangle (region, &area);
 
 		gdk_window_invalidate_region (window, region, TRUE);
 
-		gdk_region_destroy (region);
+		cairo_region_destroy (region);
 	}
 
 	gdk_window_process_updates (window, TRUE);
@@ -2558,38 +2558,26 @@ gth_image_viewer_paint_region (GthImageViewer        *self,
 			       int                    src_x,
 			       int                    src_y,
 			       cairo_rectangle_int_t *pixbuf_area,
-			       GdkRegion             *region,
+			       cairo_region_t        *region,
 			       cairo_filter_t         filter)
 {
-	cairo_rectangle_int_t *rects;
-	int                    n_rects;
-	int                    i;
-
 	cairo_save (cr);
 
 	gdk_cairo_rectangle (cr, pixbuf_area);
 	cairo_clip (cr);
 
-	gdk_region_get_rectangles (region, &rects, &n_rects);
-	for (i = 0; i < n_rects; i++) {
-		cairo_rectangle_int_t paint_area;
-
-		if (gdk_rectangle_intersect (pixbuf_area, &rects[i], &paint_area))
-			gth_image_viewer_paint (self,
-						cr,
-						surface,
-						src_x + paint_area.x,
-						src_y + paint_area.y,
-						paint_area.x,
-						paint_area.y,
-						paint_area.width,
-						paint_area.height,
-						filter);
-	}
+	gth_image_viewer_paint (self,
+				cr,
+				surface,
+				src_x + pixbuf_area->x,
+				src_y + pixbuf_area->y,
+				pixbuf_area->x,
+				pixbuf_area->y,
+				pixbuf_area->width,
+				pixbuf_area->height,
+				filter);
 
 	cairo_restore (cr);
-
-	g_free (rects);
 }
 
 

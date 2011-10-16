@@ -310,7 +310,7 @@ void           gth_image_viewer_paint_region             (GthImageViewer        
 							  int                    src_x,
 							  int                    src_y,
 							  cairo_rectangle_int_t *pixbuf_area,
-							  GdkRegion             *region,
+							  cairo_region_t        *region,
 							  cairo_filter_t         filter);
 void           gth_image_viewer_paint_background         (GthImageViewer        *self,
 				   	   	          cairo_t               *cr);

@@ -237,9 +237,6 @@ gth_empty_list_draw (GtkWidget *widget,
 	GtkStyleContext *style_context;
 	GdkRGBA          color;
 	
-	if (event->window != self->priv->bin_window)
-		return FALSE;
-
 	if (self->priv->text == NULL)
 		return TRUE;
 

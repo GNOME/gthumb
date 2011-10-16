@@ -291,7 +291,6 @@ paint_image (GthImageRotator *self,
 
 static void
 paint_darker_background (GthImageRotator *self,
-			 GdkEventExpose  *event,
 			 cairo_t         *cr)
 {
 	cairo_rectangle_int_t crop_region;
@@ -346,7 +345,6 @@ paint_darker_background (GthImageRotator *self,
 
 static void
 paint_grid (GthImageRotator *self,
-	    GdkEventExpose  *event,
 	    cairo_t         *cr)
 {
 	cairo_rectangle_int_t grid;
@@ -366,7 +364,6 @@ paint_grid (GthImageRotator *self,
 
 static void
 paint_point (GthImageRotator *self,
-	     GdkEventExpose  *event,
 	     cairo_t         *cr,
 	     GdkPoint        *p)
 {
@@ -381,28 +378,24 @@ paint_point (GthImageRotator *self,
 
 
 static void
-gth_image_rotator_expose (GthImageViewerTool *base,
-			  GdkEventExpose     *event,
-			  cairo_t            *cr)
+gth_image_rotator_draw (GthImageViewerTool *base,
+			cairo_t            *cr)
 {
 	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
-	GtkStyle        *style;
+	GtkStyleContext *style_context;
+	GdkRGBA          color;
 	GtkAllocation    allocation;
 
 	cairo_save (cr);
 
-  	cairo_rectangle (cr,
-  			 event->area.x,
-  			 event->area.y,
-  			 event->area.width,
-  			 event->area.height);
-  	cairo_clip (cr);
-
   	/* background */
 
-	style = gtk_widget_get_style (GTK_WIDGET (self->priv->viewer));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->viewer));
+	gtk_style_context_get_background_color (style_context,
+						gtk_widget_get_state (GTK_WIDGET (self->priv->viewer)),
+						&color);
+	gdk_cairo_set_source_rgba (cr, &color);
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
-	gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 
@@ -426,8 +419,8 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 
 	paint_image (self, cr);
 	if (self->priv->enable_crop) {
-		paint_darker_background (self, event, cr);
-		paint_grid (self, event, cr);
+		paint_darker_background (self, cr);
+		paint_grid (self, cr);
 	}
 
 	if (self->priv->dragging) {
@@ -438,11 +431,11 @@ gth_image_rotator_expose (GthImageViewerTool *base,
 
 		center.x = self->priv->center.x * self->priv->preview_zoom + self->priv->preview_image_area.x;
 		center.y = self->priv->center.y * self->priv->preview_zoom + self->priv->preview_image_area.y;
-		paint_point (self, event, cr, &center);
+		paint_point (self, cr, &center);
 
 		/* used for debugging purposes
-		paint_point (self, event, cr, &self->priv->drag_p1);
-		paint_point (self, event, cr, &self->priv->drag_p2);
+		paint_point (self, cr, &self->priv->drag_p1);
+		paint_point (self, cr, &self->priv->drag_p2);
 		*/
 	}
 
@@ -676,7 +669,7 @@ gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 	iface->size_allocate = gth_image_rotator_size_allocate;
 	iface->map = gth_image_rotator_map;
 	iface->unmap = gth_image_rotator_unmap;
-	iface->expose = gth_image_rotator_expose;
+	iface->draw = gth_image_rotator_draw;
 	iface->button_press = gth_image_rotator_button_press;
 	iface->button_release = gth_image_rotator_button_release;
 	iface->motion_notify = gth_image_rotator_motion_notify;
