@@ -285,7 +285,7 @@ nav_window_grab_pointer (NavigatorPopup *nav_popup)
 			   gtk_widget_get_window (nav_popup->preview),
 			  cursor,
 			  0);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	/* Capture keyboard events. */
 

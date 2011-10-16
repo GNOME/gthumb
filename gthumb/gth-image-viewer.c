@@ -161,10 +161,10 @@ gth_image_viewer_finalize (GObject *object)
 		g_source_remove (self->priv->anim_id);
 
 	if (self->priv->cursor != NULL)
-		gdk_cursor_unref (self->priv->cursor);
+		g_object_unref (self->priv->cursor);
 
 	if (self->priv->cursor_void != NULL)
-		gdk_cursor_unref (self->priv->cursor_void);
+		g_object_unref (self->priv->cursor_void);
 
 	if (self->hadj != NULL) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
@@ -400,11 +400,11 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 	self = GTH_IMAGE_VIEWER (widget);
 
 	if (self->priv->cursor) {
-		gdk_cursor_unref (self->priv->cursor);
+		g_object_unref (self->priv->cursor);
 		self->priv->cursor = NULL;
 	}
 	if (self->priv->cursor_void) {
-		gdk_cursor_unref (self->priv->cursor_void);
+		g_object_unref (self->priv->cursor_void);
 		self->priv->cursor_void = NULL;
 	}
 
@@ -2476,16 +2476,16 @@ gth_image_viewer_set_cursor (GthImageViewer *self,
 			     GdkCursor      *cursor)
 {
 	if (cursor != NULL)
-		gdk_cursor_ref (cursor);
+		g_object_ref (cursor);
 
 	if (self->priv->cursor != NULL) {
-		gdk_cursor_unref (self->priv->cursor);
+		g_object_unref (self->priv->cursor);
 		self->priv->cursor = NULL;
 	}
 	if (cursor != NULL)
 		self->priv->cursor = cursor;
 	else
-		self->priv->cursor = gdk_cursor_ref (self->priv->cursor_void);
+		self->priv->cursor = g_object_ref (self->priv->cursor_void);
 
 	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
 		return;

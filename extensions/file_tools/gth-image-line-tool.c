@@ -81,7 +81,7 @@ gth_image_line_tool_set_viewer (GthImageViewerTool *base,
 	cursor = gdk_cursor_new (GDK_CROSSHAIR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
 
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 }
 
 

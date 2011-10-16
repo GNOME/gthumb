@@ -216,7 +216,7 @@ burn_content_to_disc (GthBurnTask *task)
 
 	cursor = gdk_cursor_new (GDK_WATCH);
 	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (task->priv->browser)), cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	if (! initialized) {
 		brasero_media_library_start ();

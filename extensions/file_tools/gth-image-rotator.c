@@ -93,7 +93,7 @@ gth_image_rotator_set_viewer (GthImageViewerTool *base,
 
 	cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 }
 
 
@@ -465,7 +465,7 @@ gth_image_rotator_button_release (GthImageViewerTool *base,
 
 	cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
@@ -544,7 +544,7 @@ gth_image_rotator_motion_notify (GthImageViewerTool *base,
 		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (self->priv->viewer)), "grabbing");
 		gth_image_viewer_set_cursor (self->priv->viewer, cursor);
 		if (cursor != NULL)
-			gdk_cursor_unref (cursor);
+			g_object_unref (cursor);
 	}
 
 	if (self->priv->dragging) {

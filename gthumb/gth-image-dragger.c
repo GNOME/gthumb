@@ -105,7 +105,7 @@ _gth_image_dragger_update_cursor (GthImageDragger *self)
 	cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
 
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 }
 
 
@@ -206,7 +206,7 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 					   event->time);
 
 		if (cursor != NULL)
-			gdk_cursor_unref (cursor);
+			g_object_unref (cursor);
 
 		if (retval != 0)
 			return FALSE;

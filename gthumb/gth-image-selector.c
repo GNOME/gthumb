@@ -80,7 +80,7 @@ event_area_unref (EventArea *event_area)
 		return;
 
 	if (event_area->cursor != NULL)
-		gdk_cursor_unref (event_area->cursor);
+		g_object_unref (event_area->cursor);
 	g_free (event_area);
 }
 
@@ -564,7 +564,7 @@ gth_image_selector_unrealize (GthImageViewerTool *base)
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
 	if (self->priv->default_cursor != NULL) {
-		gdk_cursor_unref (self->priv->default_cursor);
+		g_object_unref (self->priv->default_cursor);
 		self->priv->default_cursor = NULL;
 	}
 

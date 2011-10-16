@@ -156,12 +156,12 @@ video_area_unrealize_cb (GtkWidget *widget,
 	GthMediaViewerPage *self = user_data;
 
 	if (self->priv->cursor) {
-		gdk_cursor_unref (self->priv->cursor);
+		g_object_unref (self->priv->cursor);
 		self->priv->cursor = NULL;
 	}
 
 	if (self->priv->cursor_void) {
-		gdk_cursor_unref (self->priv->cursor_void);
+		g_object_unref (self->priv->cursor_void);
 		self->priv->cursor_void = NULL;
 	}
 
