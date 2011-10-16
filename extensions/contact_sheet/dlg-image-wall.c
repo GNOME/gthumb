@@ -203,10 +203,13 @@ entry_help_icon_press_cb (GtkEntry             *entry,
 			  gpointer              user_data)
 {
 	DialogData *data = user_data;
-	GtkWidget  *help_box;
+	GtkWidget  *help_box = NULL;
 
 	if (GTK_WIDGET (entry) == GET_WIDGET ("template_entry"))
 		help_box = GET_WIDGET ("template_help_table");
+
+	if (help_box == NULL)
+		return;
 
 	if (gtk_widget_get_visible (help_box))
 		gtk_widget_hide (help_box);

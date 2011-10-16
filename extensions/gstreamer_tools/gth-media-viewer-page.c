@@ -529,7 +529,7 @@ static int
 get_nearest_rate (double rate)
 {
 	int    min_idx = -1;
-	double min_delta;
+	double min_delta = 0;
 	int    i;
 
 	for (i = 0; i < G_N_ELEMENTS (default_rates); i++) {
