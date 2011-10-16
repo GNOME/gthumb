@@ -157,13 +157,13 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 
 
 static void
-gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
-				      GtkWidget       *widget,
-				      cairo_rectangle_int_t    *cell_area,
-				      int             *x_offset,
-				      int             *y_offset,
-				      int             *width,
-				      int             *height)
+gth_cell_renderer_thumbnail_get_size (GtkCellRenderer       *cell,
+				      GtkWidget             *widget,
+				      cairo_rectangle_int_t *cell_area,
+				      int                   *x_offset,
+				      int                   *y_offset,
+				      int                   *width,
+				      int                   *height)
 {
 	GthCellRendererThumbnail *self;
 	int   image_width;
@@ -225,20 +225,20 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 
 
 static void
-gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
-				    GdkWindow            *window,
-				    GtkWidget            *widget,
-				    cairo_rectangle_int_t         *background_area,
-				    cairo_rectangle_int_t         *cell_area,
-				    cairo_rectangle_int_t         *expose_area,
-				    GtkCellRendererState  flags)
+gth_cell_renderer_thumbnail_render (GtkCellRenderer       *cell,
+				    GdkWindow             *window,
+				    GtkWidget             *widget,
+				    cairo_rectangle_int_t *background_area,
+				    cairo_rectangle_int_t *cell_area,
+				    cairo_rectangle_int_t *expose_area,
+				    GtkCellRendererState   flags)
 {
 	GthCellRendererThumbnail *self;
 	GtkStyle                 *style;
 	GtkStateType              state;
-	cairo_rectangle_int_t              thumb_rect;
-	cairo_rectangle_int_t              draw_rect;
-	cairo_rectangle_int_t              image_rect;
+	cairo_rectangle_int_t     thumb_rect;
+	cairo_rectangle_int_t     draw_rect;
+	cairo_rectangle_int_t     image_rect;
 	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
 	int                       xpad;

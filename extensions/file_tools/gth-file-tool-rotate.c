@@ -38,18 +38,18 @@ static gpointer parent_class = NULL;
 
 
 struct _GthFileToolRotatePrivate {
-	cairo_surface_t    *image;
-	gboolean            has_alpha;
-	GtkBuilder         *builder;
-	GtkWidget          *crop_grid;
-	GtkAdjustment      *rotation_angle_adj;
-	GtkAdjustment      *crop_p1_adj;
-	GtkAdjustment      *crop_p2_adj;
-	gboolean            crop_enabled;
-	double              crop_p1_plus_p2;
-	cairo_rectangle_int_t        crop_region;
-	GthImageViewerTool *alignment;
-	GthImageViewerTool *rotator;
+	cairo_surface_t       *image;
+	gboolean               has_alpha;
+	GtkBuilder            *builder;
+	GtkWidget             *crop_grid;
+	GtkAdjustment         *rotation_angle_adj;
+	GtkAdjustment         *crop_p1_adj;
+	GtkAdjustment         *crop_p2_adj;
+	gboolean               crop_enabled;
+	double                 crop_p1_plus_p2;
+	cairo_rectangle_int_t  crop_region;
+	GthImageViewerTool    *alignment;
+	GthImageViewerTool    *rotator;
 };
 
 

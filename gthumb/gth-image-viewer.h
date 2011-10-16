@@ -105,23 +105,23 @@ struct _GthImageViewer
 
 	/*< protected, used by the tools >*/
 
-	cairo_rectangle_int_t   image_area;
-	int            x_offset;           /* Scroll offsets. */
-	int            y_offset;
-	gboolean       pressed;
-	int            event_x_start;
-	int            event_y_start;
-	int            event_x_prev;
-	int            event_y_prev;
-	gboolean       dragging;
-	int            drag_x_start;
-	int            drag_y_start;
-	int            drag_x_prev;
-	int            drag_y_prev;
-	int            drag_x;
-	int            drag_y;
-	GtkAdjustment *vadj;
-	GtkAdjustment *hadj;
+	cairo_rectangle_int_t  image_area;
+	int                    x_offset;           /* Scroll offsets. */
+	int                    y_offset;
+	gboolean               pressed;
+	int                    event_x_start;
+	int                    event_y_start;
+	int                    event_x_prev;
+	int                    event_y_prev;
+	gboolean               dragging;
+	int                    drag_x_start;
+	int                    drag_y_start;
+	int                    drag_x_prev;
+	int                    drag_y_prev;
+	int                    drag_x;
+	int                    drag_y;
+	GtkAdjustment         *vadj;
+	GtkAdjustment         *hadj;
 };
 
 
@@ -157,169 +157,169 @@ GtkWidget*     gth_image_viewer_new                      (void);
 
 /* viewer content. */
 
-void           gth_image_viewer_set_animation            (GthImageViewer     *viewer,
-							  GdkPixbufAnimation *animation,
-							  int                 original_width,
-							  int                 original_height);
-void           gth_image_viewer_set_pixbuf               (GthImageViewer     *viewer,
-							  GdkPixbuf          *pixbuf,
-							  int                 original_width,
-							  int                 original_height);
-void           gth_image_viewer_set_surface              (GthImageViewer     *viewer,
-							  cairo_surface_t    *surface,
-							  int                 original_width,
-							  int                 original_height);
-void           gth_image_viewer_set_image                (GthImageViewer     *viewer,
-							  GthImage           *image,
-							  int                 original_width,
-							  int                 original_height);
-void           gth_image_viewer_set_better_quality       (GthImageViewer     *viewer,
-						          GthImage           *image,
-							  int                 original_width,
-							  int                 original_height);
-void           gth_image_viewer_set_void                 (GthImageViewer     *viewer);
-gboolean       gth_image_viewer_is_void                  (GthImageViewer     *viewer);
-void           gth_image_viewer_update_view              (GthImageViewer     *viewer);
-void           gth_image_viewer_add_painter              (GthImageViewer     *viewer,
+void           gth_image_viewer_set_animation            (GthImageViewer        *viewer,
+							  GdkPixbufAnimation    *animation,
+							  int                    original_width,
+							  int                    original_height);
+void           gth_image_viewer_set_pixbuf               (GthImageViewer        *viewer,
+							  GdkPixbuf             *pixbuf,
+							  int                    original_width,
+							  int                    original_height);
+void           gth_image_viewer_set_surface              (GthImageViewer        *viewer,
+							  cairo_surface_t       *surface,
+							  int                    original_width,
+							  int                    original_height);
+void           gth_image_viewer_set_image                (GthImageViewer        *viewer,
+							  GthImage              *image,
+							  int                    original_width,
+							  int                    original_height);
+void           gth_image_viewer_set_better_quality       (GthImageViewer        *viewer,
+						          GthImage              *image,
+							  int                    original_width,
+							  int                    original_height);
+void           gth_image_viewer_set_void                 (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_is_void                  (GthImageViewer        *viewer);
+void           gth_image_viewer_update_view              (GthImageViewer        *viewer);
+void           gth_image_viewer_add_painter              (GthImageViewer        *viewer,
 							  GthImageViewerPaintFunc
-							  	  	      func,
-							  gpointer            user_data);
-void           gth_image_viewer_remove_painter           (GthImageViewer     *viewer,
+							  	  	         func,
+							  gpointer               user_data);
+void           gth_image_viewer_remove_painter           (GthImageViewer        *viewer,
 							  GthImageViewerPaintFunc
-							  	  	      func,
-							  gpointer            user_data);
+							  	  	         func,
+							  gpointer               user_data);
 
 /* image info. */
 
-int            gth_image_viewer_get_image_width          (GthImageViewer     *viewer);
-int            gth_image_viewer_get_image_height         (GthImageViewer     *viewer);
-gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer     *viewer);
-GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer     *viewer);
+int            gth_image_viewer_get_image_width          (GthImageViewer        *viewer);
+int            gth_image_viewer_get_image_height         (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_get_has_alpha            (GthImageViewer        *viewer);
+GdkPixbuf *    gth_image_viewer_get_current_pixbuf       (GthImageViewer        *viewer);
 cairo_surface_t *
-	       gth_image_viewer_get_current_image        (GthImageViewer     *viewer);
-void           gth_image_viewer_get_original_size        (GthImageViewer     *viewer,
-				    	    	    	  int                *width,
-				    	    	    	  int                *height);
+	       gth_image_viewer_get_current_image        (GthImageViewer        *viewer);
+void           gth_image_viewer_get_original_size        (GthImageViewer        *viewer,
+				    	    	    	  int                   *width,
+				    	    	    	  int                   *height);
 
 /* animation. */
 
-void           gth_image_viewer_start_animation          (GthImageViewer     *viewer);
-void           gth_image_viewer_stop_animation           (GthImageViewer     *viewer);
-void           gth_image_viewer_step_animation           (GthImageViewer     *viewer);
-gboolean       gth_image_viewer_is_animation             (GthImageViewer     *viewer);
-gboolean       gth_image_viewer_is_playing_animation     (GthImageViewer     *viewer);
+void           gth_image_viewer_start_animation          (GthImageViewer        *viewer);
+void           gth_image_viewer_stop_animation           (GthImageViewer        *viewer);
+void           gth_image_viewer_step_animation           (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_is_animation             (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_is_playing_animation     (GthImageViewer        *viewer);
 
 /* zoom. */
 
-void           gth_image_viewer_set_zoom                 (GthImageViewer     *viewer,
-							  gdouble             zoom);
-gdouble        gth_image_viewer_get_zoom                 (GthImageViewer     *viewer);
-void           gth_image_viewer_set_zoom_quality         (GthImageViewer     *viewer,
-							  GthZoomQuality      quality);
-GthZoomQuality gth_image_viewer_get_zoom_quality         (GthImageViewer     *viewer);
-cairo_filter_t gth_image_viewer_get_zoom_quality_filter  (GthImageViewer     *viewer);
-void           gth_image_viewer_set_zoom_change          (GthImageViewer     *viewer,
-							  GthZoomChange       zoom_change);
-GthZoomChange  gth_image_viewer_get_zoom_change          (GthImageViewer     *viewer);
-void           gth_image_viewer_zoom_in                  (GthImageViewer     *viewer);
-void           gth_image_viewer_zoom_out                 (GthImageViewer     *viewer);
-void           gth_image_viewer_set_fit_mode             (GthImageViewer     *viewer,
-							  GthFit              fit_mode);
-GthFit         gth_image_viewer_get_fit_mode             (GthImageViewer     *viewer);
-void           gth_image_viewer_set_zoom_enabled         (GthImageViewer     *viewer,
-							  gboolean            value);
-gboolean       gth_image_viewer_get_zoom_enabled         (GthImageViewer     *viewer);
-void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer     *viewer,
-							  gboolean            value);
+void           gth_image_viewer_set_zoom                 (GthImageViewer        *viewer,
+							  gdouble                zoom);
+gdouble        gth_image_viewer_get_zoom                 (GthImageViewer        *viewer);
+void           gth_image_viewer_set_zoom_quality         (GthImageViewer        *viewer,
+							  GthZoomQuality         quality);
+GthZoomQuality gth_image_viewer_get_zoom_quality         (GthImageViewer        *viewer);
+cairo_filter_t gth_image_viewer_get_zoom_quality_filter  (GthImageViewer        *viewer);
+void           gth_image_viewer_set_zoom_change          (GthImageViewer        *viewer,
+							  GthZoomChange          zoom_change);
+GthZoomChange  gth_image_viewer_get_zoom_change          (GthImageViewer        *viewer);
+void           gth_image_viewer_zoom_in                  (GthImageViewer        *viewer);
+void           gth_image_viewer_zoom_out                 (GthImageViewer        *viewer);
+void           gth_image_viewer_set_fit_mode             (GthImageViewer        *viewer,
+							  GthFit                 fit_mode);
+GthFit         gth_image_viewer_get_fit_mode             (GthImageViewer        *viewer);
+void           gth_image_viewer_set_zoom_enabled         (GthImageViewer        *viewer,
+							  gboolean               value);
+gboolean       gth_image_viewer_get_zoom_enabled         (GthImageViewer        *viewer);
+void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer        *viewer,
+							  gboolean               value);
 
 /* visualization options. */
 
-void           gth_image_viewer_set_transp_type          (GthImageViewer     *viewer,
-							  GthTranspType       transp_type);
-GthTranspType  gth_image_viewer_get_transp_type          (GthImageViewer     *viewer);
-void           gth_image_viewer_set_check_type           (GthImageViewer     *viewer,
-							  GthCheckType        check_type);
-GthCheckType   gth_image_viewer_get_check_type           (GthImageViewer     *viewer);
-void           gth_image_viewer_set_check_size           (GthImageViewer     *view,
-							  GthCheckSize        check_size);
-GthCheckSize   gth_image_viewer_get_check_size           (GthImageViewer     *viewer);
+void           gth_image_viewer_set_transp_type          (GthImageViewer        *viewer,
+							  GthTranspType          transp_type);
+GthTranspType  gth_image_viewer_get_transp_type          (GthImageViewer        *viewer);
+void           gth_image_viewer_set_check_type           (GthImageViewer        *viewer,
+							  GthCheckType           check_type);
+GthCheckType   gth_image_viewer_get_check_type           (GthImageViewer        *viewer);
+void           gth_image_viewer_set_check_size           (GthImageViewer        *view,
+							  GthCheckSize           check_size);
+GthCheckSize   gth_image_viewer_get_check_size           (GthImageViewer        *viewer);
 
 /* misc. */
 
-void           gth_image_viewer_clicked                  (GthImageViewer     *viewer);
-void           gth_image_viewer_set_size_request         (GthImageViewer     *viewer,
-							  int                 width,
-							  int                 height);
-void           gth_image_viewer_set_black_background     (GthImageViewer     *viewer,
-							  gboolean            set_black);
-gboolean       gth_image_viewer_is_black_background      (GthImageViewer     *viewer);
-void           gth_image_viewer_get_adjustments          (GthImageViewer     *self,
-							  GtkAdjustment     **hadj,
-							  GtkAdjustment     **vadj);
-void           gth_image_viewer_set_tool                 (GthImageViewer     *viewer,
-							  GthImageViewerTool *tool);
+void           gth_image_viewer_clicked                  (GthImageViewer        *viewer);
+void           gth_image_viewer_set_size_request         (GthImageViewer        *viewer,
+							  int                    width,
+							  int                    height);
+void           gth_image_viewer_set_black_background     (GthImageViewer        *viewer,
+							  gboolean               set_black);
+gboolean       gth_image_viewer_is_black_background      (GthImageViewer        *viewer);
+void           gth_image_viewer_get_adjustments          (GthImageViewer        *self,
+							  GtkAdjustment        **hadj,
+							  GtkAdjustment        **vadj);
+void           gth_image_viewer_set_tool                 (GthImageViewer        *viewer,
+							  GthImageViewerTool    *tool);
 
 /* Scrolling. */
 
-void           gth_image_viewer_scroll_to                (GthImageViewer     *viewer,
-							  int                 x_offset,
-							  int                 y_offset);
-void           gth_image_viewer_scroll_step_x            (GthImageViewer     *viewer,
-							  gboolean            increment);
-void           gth_image_viewer_scroll_step_y            (GthImageViewer     *viewer,
-							  gboolean            increment);
-void           gth_image_viewer_scroll_page_x            (GthImageViewer     *viewer,
-							  gboolean            increment);
-void           gth_image_viewer_scroll_page_y            (GthImageViewer     *viewer,
-							  gboolean            increment);
-void           gth_image_viewer_get_scroll_offset        (GthImageViewer     *viewer,
-							  int                *x,
-							  int                *y);
-void           gth_image_viewer_set_reset_scrollbars     (GthImageViewer     *viewer,
-  							  gboolean            reset);
-gboolean       gth_image_viewer_get_reset_scrollbars     (GthImageViewer     *viewer);
+void           gth_image_viewer_scroll_to                (GthImageViewer        *viewer,
+							  int                    x_offset,
+							  int                    y_offset);
+void           gth_image_viewer_scroll_step_x            (GthImageViewer        *viewer,
+							  gboolean               increment);
+void           gth_image_viewer_scroll_step_y            (GthImageViewer        *viewer,
+							  gboolean               increment);
+void           gth_image_viewer_scroll_page_x            (GthImageViewer        *viewer,
+							  gboolean               increment);
+void           gth_image_viewer_scroll_page_y            (GthImageViewer        *viewer,
+							  gboolean               increment);
+void           gth_image_viewer_get_scroll_offset        (GthImageViewer        *viewer,
+							  int                   *x,
+							  int                   *y);
+void           gth_image_viewer_set_reset_scrollbars     (GthImageViewer        *viewer,
+  							  gboolean               reset);
+gboolean       gth_image_viewer_get_reset_scrollbars     (GthImageViewer        *viewer);
 
 /* Cursor. */
 
-void           gth_image_viewer_show_cursor              (GthImageViewer     *viewer);
-void           gth_image_viewer_hide_cursor              (GthImageViewer     *viewer);
-void           gth_image_viewer_set_cursor               (GthImageViewer     *viewer,
-							  GdkCursor          *cursor);
-gboolean       gth_image_viewer_is_cursor_visible        (GthImageViewer     *viewer);
+void           gth_image_viewer_show_cursor              (GthImageViewer        *viewer);
+void           gth_image_viewer_hide_cursor              (GthImageViewer        *viewer);
+void           gth_image_viewer_set_cursor               (GthImageViewer        *viewer,
+							  GdkCursor             *cursor);
+gboolean       gth_image_viewer_is_cursor_visible        (GthImageViewer        *viewer);
 
 /* Frame. */
 
-void           gth_image_viewer_show_frame               (GthImageViewer     *viewer);
-void           gth_image_viewer_hide_frame               (GthImageViewer     *viewer);
-gboolean       gth_image_viewer_is_frame_visible         (GthImageViewer     *viewer);
+void           gth_image_viewer_show_frame               (GthImageViewer        *viewer);
+void           gth_image_viewer_hide_frame               (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_is_frame_visible         (GthImageViewer        *viewer);
 
 /*< protected, used by the tools >*/
 
-void           gth_image_viewer_paint                    (GthImageViewer     *viewer,
-							  cairo_t            *cr,
-							  cairo_surface_t    *surface,
-							  int                 src_x,
-							  int                 src_y,
-							  int                 dest_x,
-							  int                 dest_y,
-							  int                 width,
-							  int                 height,
-							  cairo_filter_t      filter);
-void           gth_image_viewer_paint_region             (GthImageViewer     *viewer,
-							  cairo_t            *cr,
-							  cairo_surface_t    *surface,
-							  int                 src_x,
-							  int                 src_y,
-							  cairo_rectangle_int_t       *pixbuf_area,
-							  GdkRegion          *region,
-							  cairo_filter_t      filter);
-void           gth_image_viewer_paint_background         (GthImageViewer     *self,
-				   	   	          cairo_t            *cr);
-void           gth_image_viewer_apply_painters           (GthImageViewer     *image_viewer,
-							  GdkEventExpose     *event,
-							  cairo_t            *cr);
-void           gth_image_viewer_crop_area                (GthImageViewer     *viewer,
-							  cairo_rectangle_int_t       *area);
+void           gth_image_viewer_paint                    (GthImageViewer        *viewer,
+							  cairo_t               *cr,
+							  cairo_surface_t       *surface,
+							  int                    src_x,
+							  int                    src_y,
+							  int                    dest_x,
+							  int                    dest_y,
+							  int                    width,
+							  int                    height,
+							  cairo_filter_t         filter);
+void           gth_image_viewer_paint_region             (GthImageViewer        *viewer,
+							  cairo_t               *cr,
+							  cairo_surface_t       *surface,
+							  int                    src_x,
+							  int                    src_y,
+							  cairo_rectangle_int_t *pixbuf_area,
+							  GdkRegion             *region,
+							  cairo_filter_t         filter);
+void           gth_image_viewer_paint_background         (GthImageViewer        *self,
+				   	   	          cairo_t               *cr);
+void           gth_image_viewer_apply_painters           (GthImageViewer        *image_viewer,
+							  GdkEventExpose        *event,
+							  cairo_t               *cr);
+void           gth_image_viewer_crop_area                (GthImageViewer        *viewer,
+							  cairo_rectangle_int_t *area);
 
 G_END_DECLS
 

@@ -85,11 +85,11 @@ _cairo_image_surface_rotate_get_cropping_parameters (cairo_surface_t *image,
 
 
 void
-_cairo_image_surface_rotate_get_cropping_region (cairo_surface_t *image,
-						 double           angle,
-						 double           p1,
-						 double           p2,
-						 cairo_rectangle_int_t    *region)
+_cairo_image_surface_rotate_get_cropping_region (cairo_surface_t       *image,
+						 double                 angle,
+						 double                 p1,
+						 double                 p2,
+						 cairo_rectangle_int_t *region)
 {
 	double angle_rad;
 	double cos_angle, sin_angle;

@@ -83,7 +83,7 @@ void                  gth_image_rotator_set_resize      (GthImageRotator       *
 						         GthTransformResize     resize);
 GthTransformResize    gth_image_rotator_get_resize      (GthImageRotator       *self);
 void                  gth_image_rotator_set_crop_region (GthImageRotator       *self,
-							 cairo_rectangle_int_t          *region);
+							 cairo_rectangle_int_t *region);
 void                  gth_image_rotator_set_background  (GthImageRotator       *self,
 							 cairo_color_t         *color);
 void                  gth_image_rotator_get_background  (GthImageRotator       *self,

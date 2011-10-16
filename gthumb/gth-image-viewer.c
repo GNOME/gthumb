@@ -864,7 +864,7 @@ scroll_to (GthImageViewer *self,
 	self->y_offset = *y_offset;
 
 	if (self->priv->painters != NULL) {
-		cairo_rectangle_int_t  area;
+		cairo_rectangle_int_t area;
 
 		area.x = 0;
 		area.y = 0;
@@ -880,7 +880,7 @@ scroll_to (GthImageViewer *self,
 
 	{
 		cairo_rectangle_int_t  area;
-		GdkRegion    *region;
+		GdkRegion             *region;
 
 		area.x = (delta_x < 0) ? self->priv->frame_border : self->priv->frame_border + delta_x;
 		area.y = (delta_y < 0) ? self->priv->frame_border : self->priv->frame_border + delta_y;
@@ -895,7 +895,7 @@ scroll_to (GthImageViewer *self,
 	/* invalidate the exposed areas */
 
 	{
-		GdkRegion    *region;
+		GdkRegion             *region;
 		cairo_rectangle_int_t  area;
 
 		region = gdk_region_new ();
@@ -2524,18 +2524,18 @@ gth_image_viewer_paint (GthImageViewer  *self,
 
 
 void
-gth_image_viewer_paint_region (GthImageViewer  *self,
-			       cairo_t         *cr,
-			       cairo_surface_t *surface,
-			       int              src_x,
-			       int              src_y,
-			       cairo_rectangle_int_t    *pixbuf_area,
-			       GdkRegion       *region,
-			       cairo_filter_t   filter)
+gth_image_viewer_paint_region (GthImageViewer        *self,
+			       cairo_t               *cr,
+			       cairo_surface_t       *surface,
+			       int                    src_x,
+			       int                    src_y,
+			       cairo_rectangle_int_t *pixbuf_area,
+			       GdkRegion             *region,
+			       cairo_filter_t         filter)
 {
 	cairo_rectangle_int_t *rects;
-	int           n_rects;
-	int           i;
+	int                    n_rects;
+	int                    i;
 
 	cairo_save (cr);
 
@@ -2734,8 +2734,8 @@ gth_image_viewer_apply_painters (GthImageViewer *self,
 
 
 void
-gth_image_viewer_crop_area (GthImageViewer *self,
-			    cairo_rectangle_int_t   *area)
+gth_image_viewer_crop_area (GthImageViewer        *self,
+			    cairo_rectangle_int_t *area)
 {
 	GtkWidget     *widget = GTK_WIDGET (self);
 	GtkAllocation  allocation;

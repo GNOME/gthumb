@@ -28,22 +28,22 @@
 
 G_BEGIN_DECLS
 
-void               _cairo_image_surface_rotate_get_cropping_parameters (cairo_surface_t   *image,
-					   				double             angle,
-					   				double            *p1_plus_p2,
-					   				double            *p_min);
-void               _cairo_image_surface_rotate_get_cropping_region     (cairo_surface_t   *image,
-									double             angle,
-									double             p1,
-									double             p2,
-									cairo_rectangle_int_t      *region);
-double             _cairo_image_surface_rotate_get_align_angle         (gboolean           vertical,
-					   	   	  	  	GdkPoint          *p1,
-					   	   	  	  	GdkPoint          *p2);
-cairo_surface_t *  _cairo_image_surface_rotate                         (cairo_surface_t   *image,
-		    	     	     	     	     	     	        double             angle,
-		    	     	     	     	     	     	        gboolean           high_quality,
-		    	     	     	     	     	     	        cairo_color_t     *background_color);
+void               _cairo_image_surface_rotate_get_cropping_parameters (cairo_surface_t       *image,
+					   				double                 angle,
+					   				double                *p1_plus_p2,
+					   				double                *p_min);
+void               _cairo_image_surface_rotate_get_cropping_region     (cairo_surface_t       *image,
+									double                 angle,
+									double                 p1,
+									double                 p2,
+									cairo_rectangle_int_t *region);
+double             _cairo_image_surface_rotate_get_align_angle         (gboolean               vertical,
+					   	   	  	  	GdkPoint              *p1,
+					   	   	  	  	GdkPoint              *p2);
+cairo_surface_t *  _cairo_image_surface_rotate                         (cairo_surface_t       *image,
+		    	     	     	     	     	     	        double                 angle,
+		    	     	     	     	     	     	        gboolean               high_quality,
+		    	     	     	     	     	     	        cairo_color_t         *background_color);
 
 G_END_DECLS
 

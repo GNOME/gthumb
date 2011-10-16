@@ -47,34 +47,34 @@ static gpointer parent_class = NULL;
 
 
 struct _GthImageRotatorPrivate {
-	GthImageViewer     *viewer;
+	GthImageViewer        *viewer;
 
 	/* options */
 
-	GdkPoint            center;
-	double              angle;
-	cairo_color_t       background_color;
-	gboolean            enable_crop;
-	cairo_rectangle_int_t        crop_region;
-	GthGridType         grid_type;
-	GthTransformResize  resize;
+	GdkPoint               center;
+	double                 angle;
+	cairo_color_t          background_color;
+	gboolean               enable_crop;
+	cairo_rectangle_int_t  crop_region;
+	GthGridType            grid_type;
+	GthTransformResize     resize;
 
 	/* utility variables */
 
-	int                 original_width;
-	int                 original_height;
-	double              preview_zoom;
-	cairo_surface_t    *preview_image;
-	cairo_rectangle_int_t        preview_image_area;
-	GdkPoint            preview_center;
-	cairo_rectangle_int_t        clip_area;
-	cairo_matrix_t      matrix;
-	gboolean            dragging;
-	double              angle_before_dragging;
-	GdkPoint            drag_p1;
-	GdkPoint            drag_p2;
-	GthFit              original_fit_mode;
-	gboolean            original_zoom_enabled;
+	int                    original_width;
+	int                    original_height;
+	double                 preview_zoom;
+	cairo_surface_t       *preview_image;
+	cairo_rectangle_int_t  preview_image_area;
+	GdkPoint               preview_center;
+	cairo_rectangle_int_t  clip_area;
+	cairo_matrix_t         matrix;
+	gboolean               dragging;
+	double                 angle_before_dragging;
+	GdkPoint               drag_p1;
+	GdkPoint               drag_p2;
+	GthFit                 original_fit_mode;
+	gboolean               original_zoom_enabled;
 };
 
 
@@ -137,10 +137,10 @@ _cairo_matrix_transform_point (cairo_matrix_t *matrix,
 
 
 static void
-gth_transform_resize (cairo_matrix_t     *matrix,
-		      GthTransformResize  resize,
-		      cairo_rectangle_int_t       *original,
-		      cairo_rectangle_int_t       *boundary)
+gth_transform_resize (cairo_matrix_t        *matrix,
+		      GthTransformResize     resize,
+		      cairo_rectangle_int_t *original,
+		      cairo_rectangle_int_t *boundary)
 {
 	int x1, y1, x2, y2;
 
@@ -826,8 +826,8 @@ gth_image_rotator_get_resize (GthImageRotator *self)
 
 
 void
-gth_image_rotator_set_crop_region (GthImageRotator *self,
-				   cairo_rectangle_int_t    *region)
+gth_image_rotator_set_crop_region (GthImageRotator       *self,
+				   cairo_rectangle_int_t *region)
 {
 	self->priv->enable_crop = (region != NULL);
 	if (region != NULL)
@@ -864,12 +864,12 @@ gth_image_rotator_get_background (GthImageRotator *self,
 static cairo_surface_t *
 gth_image_rotator_get_result_fast (GthImageRotator *self)
 {
-	double           tx, ty;
-	cairo_matrix_t   matrix;
-	cairo_rectangle_int_t     image_area;
-	cairo_rectangle_int_t     clip_area;
-	cairo_surface_t *output;
-	cairo_t         *cr;
+	double                 tx, ty;
+	cairo_matrix_t         matrix;
+	cairo_rectangle_int_t  image_area;
+	cairo_rectangle_int_t  clip_area;
+	cairo_surface_t       *output;
+	cairo_t               *cr;
 
 	/* compute the transformation matrix and the clip area */
 

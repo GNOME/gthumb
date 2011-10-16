@@ -41,26 +41,26 @@ static gpointer parent_class = NULL;
 
 
 struct _GthImageLineToolPrivate {
-	GthImageViewer     *viewer;
+	GthImageViewer        *viewer;
 
 	/* options */
 
-	GdkPoint            p1;
-	GdkPoint            p2;
+	GdkPoint               p1;
+	GdkPoint               p2;
 
 	/* utility variables */
 
-	int                 original_width;
-	int                 original_height;
-	double              preview_zoom;
-	cairo_surface_t    *preview_image;
-	cairo_rectangle_int_t        preview_image_area;
-	GdkPoint            preview_center;
-	cairo_rectangle_int_t        clip_area;
-	cairo_matrix_t      matrix;
-	gboolean            first_point_set;
-	GthFit              original_fit_mode;
-	gboolean            original_zoom_enabled;
+	int                    original_width;
+	int                    original_height;
+	double                 preview_zoom;
+	cairo_surface_t       *preview_image;
+	cairo_rectangle_int_t  preview_image_area;
+	GdkPoint               preview_center;
+	cairo_rectangle_int_t  clip_area;
+	cairo_matrix_t         matrix;
+	gboolean               first_point_set;
+	GthFit                 original_fit_mode;
+	gboolean               original_zoom_enabled;
 };
 
 

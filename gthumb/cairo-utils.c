@@ -766,9 +766,9 @@ _cairo_draw_slide (cairo_t  *cr,
 
 
 void
-_cairo_paint_grid (cairo_t      *cr,
+_cairo_paint_grid (cairo_t               *cr,
 		   cairo_rectangle_int_t *rectangle,
-		   GthGridType   grid_type)
+		   GthGridType            grid_type)
 {
 	double ux, uy;
 

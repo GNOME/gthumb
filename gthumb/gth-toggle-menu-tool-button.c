@@ -455,15 +455,15 @@ menu_position_func (GtkMenu                 *menu,
                     gboolean                *push_in,
                     GthToggleMenuToolButton *button)
 {
-	GtkWidget        *widget = GTK_WIDGET (button);
-	GtkRequisition    req;
-	GtkRequisition    menu_req;
-	GtkOrientation    orientation;
-	GtkTextDirection  direction;
-	cairo_rectangle_int_t      monitor;
-	int               monitor_num;
-	GdkScreen        *screen;
-	GtkAllocation     allocation;
+	GtkWidget             *widget = GTK_WIDGET (button);
+	GtkRequisition         req;
+	GtkRequisition         menu_req;
+	GtkOrientation         orientation;
+	GtkTextDirection       direction;
+	cairo_rectangle_int_t  monitor;
+	int                    monitor_num;
+	GdkScreen             *screen;
+	GtkAllocation          allocation;
 
 	gtk_widget_size_request (GTK_WIDGET (button->priv->menu), &menu_req);
 

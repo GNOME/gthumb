@@ -36,10 +36,10 @@
 
 
 typedef struct {
-	int           ref_count;
-	int           id;
+	int                    ref_count;
+	int                    id;
 	cairo_rectangle_int_t  area;
-	GdkCursor    *cursor;
+	GdkCursor             *cursor;
 } EventArea;
 
 
@@ -190,41 +190,41 @@ static gpointer parent_class = NULL;
 
 
 struct _GthImageSelectorPrivate {
-	GthImageViewer  *viewer;
-	GthSelectorType  type;
+	GthImageViewer         *viewer;
+	GthSelectorType         type;
 
-	cairo_surface_t *surface;
-	cairo_rectangle_int_t     surface_area;
+	cairo_surface_t        *surface;
+	cairo_rectangle_int_t   surface_area;
 
-	gboolean         use_ratio;
-	double           ratio;
-	gboolean         mask_visible;
-	GthGridType      grid_type;
-	gboolean         active;
-	gboolean         bind_dimensions;
-	int              bind_factor;
+	gboolean                use_ratio;
+	double                  ratio;
+	gboolean                mask_visible;
+	GthGridType             grid_type;
+	gboolean                active;
+	gboolean                bind_dimensions;
+	int                     bind_factor;
 
-	cairo_rectangle_int_t     drag_start_selection_area;
-	cairo_rectangle_int_t     selection_area;
-	cairo_rectangle_int_t     selection;
+	cairo_rectangle_int_t   drag_start_selection_area;
+	cairo_rectangle_int_t   selection_area;
+	cairo_rectangle_int_t   selection;
 
-	GdkCursor       *default_cursor;
-	GdkCursor       *current_cursor;
-	GList           *event_list;
-	EventArea       *current_area;
+	GdkCursor              *default_cursor;
+	GdkCursor              *current_cursor;
+	GList                  *event_list;
+	EventArea              *current_area;
 
-	guint            timer_id; 	    /* Timeout ID for
-					     * autoscrolling */
-	double           x_value_diff;      /* Change the adjustment value
-					     * by this
-					     * amount when autoscrolling */
-	double           y_value_diff;
+	guint                   timer_id; 	    /* Timeout ID for
+	 	 	 	 	 	     * autoscrolling */
+	double                  x_value_diff;       /* Change the adjustment value
+	 	 	 	 	 	     * by this
+	 	 	 	 	 	     * amount when autoscrolling */
+	double                  y_value_diff;
 };
 
 
 static gboolean
-point_in_rectangle (int          x,
-		    int          y,
+point_in_rectangle (int                   x,
+		    int                   y,
 		    cairo_rectangle_int_t rect)
 {
 	return ((x >= rect.x)
@@ -265,9 +265,9 @@ real_to_selector (GthImageSelector *self,
 
 
 static void
-convert_to_selection_area (GthImageSelector *self,
-			   cairo_rectangle_int_t      real_area,
-			   cairo_rectangle_int_t     *selection_area)
+convert_to_selection_area (GthImageSelector      *self,
+			   cairo_rectangle_int_t  real_area,
+			   cairo_rectangle_int_t *selection_area)
 {
 	selection_area->x = real_to_selector (self, real_area.x);
 	selection_area->y = real_to_selector (self, real_area.y);
@@ -307,7 +307,7 @@ get_event_area_from_position (GthImageSelector *self,
 	GList *scan;
 
 	for (scan = self->priv->event_list; scan; scan = scan->next) {
-		EventArea    *event_area = scan->data;
+		EventArea             *event_area = scan->data;
 		cairo_rectangle_int_t  widget_area;
 
 		widget_area = event_area->area;
@@ -424,8 +424,8 @@ update_event_areas (GthImageSelector *self)
 
 
 static void
-queue_draw (GthImageSelector *self,
-	    cairo_rectangle_int_t      area)
+queue_draw (GthImageSelector      *self,
+	    cairo_rectangle_int_t  area)
 {
 	if (! gtk_widget_get_realized (GTK_WIDGET (self->priv->viewer)))
 		return;
@@ -447,9 +447,9 @@ selection_changed (GthImageSelector *self)
 
 
 static void
-set_selection_area (GthImageSelector *self,
-		    cairo_rectangle_int_t      new_selection,
-		    gboolean          force_update)
+set_selection_area (GthImageSelector      *self,
+		    cairo_rectangle_int_t  new_selection,
+		    gboolean               force_update)
 {
 	cairo_rectangle_int_t old_selection_area;
 	cairo_rectangle_int_t dirty_region;
@@ -467,9 +467,9 @@ set_selection_area (GthImageSelector *self,
 
 
 static void
-set_selection (GthImageSelector *self,
-	       cairo_rectangle_int_t      new_selection,
-	       gboolean          force_update)
+set_selection (GthImageSelector      *self,
+	       cairo_rectangle_int_t  new_selection,
+	       gboolean               force_update)
 {
 	cairo_rectangle_int_t new_area;
 
@@ -614,8 +614,8 @@ paint_background (GthImageSelector *self,
 	/* make the background darker */
 	{
 		cairo_rectangle_int_t *rects;
-		int           n_rects;
-		int           i;
+		int                    n_rects;
+		int                    i;
 
 		gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
 		cairo_clip (cr);
@@ -732,9 +732,9 @@ selector_to_real (GthImageSelector *self,
 
 
 static void
-convert_to_real_selection (GthImageSelector *self,
-			   cairo_rectangle_int_t      selection_area,
-			   cairo_rectangle_int_t     *real_area)
+convert_to_real_selection (GthImageSelector      *self,
+			   cairo_rectangle_int_t  selection_area,
+			   cairo_rectangle_int_t *real_area)
 {
 	real_area->x = selector_to_real (self, selection_area.x);
 	real_area->y = selector_to_real (self, selection_area.y);
@@ -796,8 +796,8 @@ gth_image_selector_button_release (GthImageViewerTool *base,
 static void
 grow_upward (cairo_rectangle_int_t *bound,
 	     cairo_rectangle_int_t *r,
-	     int           dy,
-	     gboolean      check)
+	     int                    dy,
+	     gboolean               check)
 {
 	if (check && (r->y + dy < 0))
 		dy = -r->y;
@@ -809,8 +809,8 @@ grow_upward (cairo_rectangle_int_t *bound,
 static void
 grow_downward (cairo_rectangle_int_t *bound,
 	       cairo_rectangle_int_t *r,
-	       int           dy,
-	       gboolean      check)
+	       int                    dy,
+	       gboolean               check)
 {
 	if (check && (r->y + r->height + dy > bound->height))
 		dy = bound->height - (r->y + r->height);
@@ -821,8 +821,8 @@ grow_downward (cairo_rectangle_int_t *bound,
 static void
 grow_leftward (cairo_rectangle_int_t *bound,
 	       cairo_rectangle_int_t *r,
-	       int           dx,
-	       gboolean      check)
+	       int                    dx,
+	       gboolean               check)
 {
 	if (check && (r->x + dx < 0))
 		dx = -r->x;
@@ -834,8 +834,8 @@ grow_leftward (cairo_rectangle_int_t *bound,
 static void
 grow_rightward (cairo_rectangle_int_t *bound,
 		cairo_rectangle_int_t *r,
-		int           dx,
-		gboolean      check)
+		int                    dx,
+		gboolean               check)
 {
 	if (check && (r->x + r->width + dx > bound->width))
 		dx = bound->width - (r->x + r->width);
@@ -879,8 +879,8 @@ bind_dimension (int dimension,
 
 
 static gboolean
-check_and_set_new_selection (GthImageSelector *self,
-			     cairo_rectangle_int_t      new_selection)
+check_and_set_new_selection (GthImageSelector      *self,
+			     cairo_rectangle_int_t  new_selection)
 {
 	new_selection.width = MAX (0, new_selection.width);
 	new_selection.height = MAX (0, new_selection.height);
@@ -977,12 +977,12 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 static void
 update_mouse_selection (GthImageSelector *self)
 {
-	gboolean          check = ! self->priv->use_ratio;
-	int               dx, dy;
-	cairo_rectangle_int_t      new_selection, tmp;
-	int               semiplane;
-	GthEventAreaType  area_type = self->priv->current_area->id;
-	EventArea        *event_area;
+	gboolean               check = ! self->priv->use_ratio;
+	int                    dx, dy;
+	cairo_rectangle_int_t  new_selection, tmp;
+	int                    semiplane;
+	GthEventAreaType       area_type = self->priv->current_area->id;
+	EventArea             *event_area;
 
 	dx = selector_to_real (self, self->priv->viewer->drag_x - self->priv->viewer->drag_x_start);
 	dy = selector_to_real (self, self->priv->viewer->drag_y - self->priv->viewer->drag_y_start);
@@ -1491,8 +1491,8 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 static void
 gth_image_selector_zoom_changed (GthImageViewerTool *base)
 {
-	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
-	cairo_rectangle_int_t      selection;
+	GthImageSelector      *self = GTH_IMAGE_SELECTOR (base);
+	cairo_rectangle_int_t  selection;
 
 	gth_image_selector_get_selection (self, &selection);
 	set_selection (self, selection, TRUE);
@@ -1719,16 +1719,16 @@ gth_image_selector_set_selection_height (GthImageSelector *self,
 
 
 void
-gth_image_selector_set_selection (GthImageSelector *self,
-				  cairo_rectangle_int_t      selection)
+gth_image_selector_set_selection (GthImageSelector      *self,
+				  cairo_rectangle_int_t  selection)
 {
 	set_selection (self, selection, FALSE);
 }
 
 
 void
-gth_image_selector_get_selection (GthImageSelector *self,
-				  cairo_rectangle_int_t     *selection)
+gth_image_selector_get_selection (GthImageSelector      *self,
+				  cairo_rectangle_int_t *selection)
 {
 	selection->x = MAX (self->priv->selection.x, 0);
 	selection->y = MAX (self->priv->selection.y, 0);

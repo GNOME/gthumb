@@ -68,38 +68,38 @@ struct _GthImageSelectorClass
 };
 
 GType                 gth_image_selector_get_type             (void);
-GthImageViewerTool *  gth_image_selector_new                  (GthSelectorType   type);
-gboolean              gth_image_selector_set_selection_x      (GthImageSelector *selector,
-							       int               x);
-gboolean              gth_image_selector_set_selection_y      (GthImageSelector *selector,
-							       int               y);
-gboolean              gth_image_selector_set_selection_pos    (GthImageSelector *selector,
-							       int               x,
-							       int               y);
-gboolean              gth_image_selector_set_selection_width  (GthImageSelector *selector,
-							       int               width);
-gboolean              gth_image_selector_set_selection_height (GthImageSelector *selector,
-							       int               height);
-void                  gth_image_selector_set_selection        (GthImageSelector *selector,
-							       cairo_rectangle_int_t      selection);
-void                  gth_image_selector_get_selection        (GthImageSelector *selector,
-							       cairo_rectangle_int_t     *selection);
-void                  gth_image_selector_set_ratio            (GthImageSelector *selector,
-							       gboolean          use_ratio,
-							       double            ratio,
-							       gboolean          swap_x_and_y_to_start);
-double                gth_image_selector_get_ratio            (GthImageSelector *selector);
-gboolean              gth_image_selector_get_use_ratio        (GthImageSelector *selector);
-void                  gth_image_selector_set_mask_visible     (GthImageSelector *selector,
-							       gboolean          visible);
-gboolean              gth_image_selector_get_mask_visible     (GthImageSelector *selector);
-void                  gth_image_selector_set_grid_type        (GthImageSelector *selector,
-                                                               GthGridType       grid_type);
-GthGridType           gth_image_selector_get_grid_type        (GthImageSelector *selector);
-void                  gth_image_selector_bind_dimensions      (GthImageSelector *selector,
-							       gboolean          bind,
-							       int               factor);
-void                  gth_image_selector_center               (GthImageSelector *selector);
+GthImageViewerTool *  gth_image_selector_new                  (GthSelectorType        type);
+gboolean              gth_image_selector_set_selection_x      (GthImageSelector      *selector,
+							       int                    x);
+gboolean              gth_image_selector_set_selection_y      (GthImageSelector      *selector,
+							       int                    y);
+gboolean              gth_image_selector_set_selection_pos    (GthImageSelector      *selector,
+							       int                    x,
+							       int                    y);
+gboolean              gth_image_selector_set_selection_width  (GthImageSelector      *selector,
+							       int                    width);
+gboolean              gth_image_selector_set_selection_height (GthImageSelector      *selector,
+							       int                    height);
+void                  gth_image_selector_set_selection        (GthImageSelector      *selector,
+							       cairo_rectangle_int_t  selection);
+void                  gth_image_selector_get_selection        (GthImageSelector      *selector,
+							       cairo_rectangle_int_t *selection);
+void                  gth_image_selector_set_ratio            (GthImageSelector      *selector,
+							       gboolean               use_ratio,
+							       double                 ratio,
+							       gboolean               swap_x_and_y_to_start);
+double                gth_image_selector_get_ratio            (GthImageSelector      *selector);
+gboolean              gth_image_selector_get_use_ratio        (GthImageSelector      *selector);
+void                  gth_image_selector_set_mask_visible     (GthImageSelector      *selector,
+							       gboolean               visible);
+gboolean              gth_image_selector_get_mask_visible     (GthImageSelector      *selector);
+void                  gth_image_selector_set_grid_type        (GthImageSelector      *selector,
+                                                               GthGridType            grid_type);
+GthGridType           gth_image_selector_get_grid_type        (GthImageSelector      *selector);
+void                  gth_image_selector_bind_dimensions      (GthImageSelector      *selector,
+							       gboolean               bind,
+							       int                    factor);
+void                  gth_image_selector_center               (GthImageSelector      *selector);
 
 G_END_DECLS
 

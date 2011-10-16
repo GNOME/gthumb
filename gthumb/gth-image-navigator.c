@@ -96,16 +96,16 @@ gth_image_navigator_get_type (void)
 
 
 typedef struct {
-	GthImageViewer  *viewer;
-	int              x_root, y_root;
-	GtkWidget       *popup_win;
-	GtkWidget       *preview;
-	cairo_surface_t *image;
-	int              image_width, image_height;
-	int              window_max_width, window_max_height;
-	int              popup_x, popup_y, popup_width, popup_height;
-	cairo_rectangle_int_t     visible_area;
-	double           zoom_factor;
+	GthImageViewer        *viewer;
+	int                    x_root, y_root;
+	GtkWidget             *popup_win;
+	GtkWidget             *preview;
+	cairo_surface_t       *image;
+	int                    image_width, image_height;
+	int                    window_max_width, window_max_height;
+	int                    popup_x, popup_y, popup_width, popup_height;
+	cairo_rectangle_int_t  visible_area;
+	double                 zoom_factor;
 } NavigatorPopup;
 
 

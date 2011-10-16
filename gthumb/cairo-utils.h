@@ -132,83 +132,83 @@ extern const unsigned char cairo_channel[4];
 
 /* math */
 
-int                _cairo_multiply_alpha                    (int                color,
-							     int                alpha);
+int                _cairo_multiply_alpha                    (int                    color,
+							     int                    alpha);
 
 /* colors */
 
-void               _gdk_color_to_cairo_color                (GdkColor          *g_color,
-							     cairo_color_t     *c_color);
-void               _gdk_color_to_cairo_color_255            (GdkColor          *g_color,
-			         	 	 	     cairo_color_255_t *c_color);
+void               _gdk_color_to_cairo_color                (GdkColor              *g_color,
+							     cairo_color_t         *c_color);
+void               _gdk_color_to_cairo_color_255            (GdkColor              *g_color,
+			         	 	 	     cairo_color_255_t     *c_color);
 
 
 /* surface */
 
-void               _cairo_clear_surface                     (cairo_surface_t  **surface);
+void               _cairo_clear_surface                     (cairo_surface_t      **surface);
 cairo_surface_metadata_t *
-		   _cairo_image_surface_get_metadata       (cairo_surface_t   *surface);
-gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t   *surface);
-cairo_surface_t *  _cairo_image_surface_copy                (cairo_surface_t   *surface);
-cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t   *surface,
-				      	      	      	     int                src_x,
-				      	      	      	     int                src_y,
-				      	      	      	     int                width,
-				      	      	      	     int                height);
-cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf         *pixbuf);
-cairo_surface_t *  _cairo_image_surface_create_compatible   (cairo_surface_t   *surface);
-cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t   *surface,
-							     int                width,
-							     int                height,
-							     cairo_filter_t     filter);
-void               _cairo_image_surface_transform_get_steps (cairo_format_t     format,
-							     int                width,
-							     int                height,
-							     GthTransform       transform,
-							     int               *destination_width_p,
-							     int               *destination_height_p,
-							     int               *line_start_p,
-							     int               *line_step_p,
-							     int               *pixel_step_p);
-cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t   *surface,
-							     GthTransform       transform);
+		   _cairo_image_surface_get_metadata       (cairo_surface_t        *surface);
+gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);
+cairo_surface_t *  _cairo_image_surface_copy                (cairo_surface_t       *surface);
+cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t       *surface,
+				      	      	      	     int                    src_x,
+				      	      	      	     int                    src_y,
+				      	      	      	     int                    width,
+				      	      	      	     int                    height);
+cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf             *pixbuf);
+cairo_surface_t *  _cairo_image_surface_create_compatible   (cairo_surface_t       *surface);
+cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t       *surface,
+							     int                    width,
+							     int                    height,
+							     cairo_filter_t         filter);
+void               _cairo_image_surface_transform_get_steps (cairo_format_t         format,
+							     int                    width,
+							     int                    height,
+							     GthTransform           transform,
+							     int                   *destination_width_p,
+							     int                   *destination_height_p,
+							     int                   *line_start_p,
+							     int                   *line_step_p,
+							     int                   *pixel_step_p);
+cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t       *surface,
+							     GthTransform           transform);
 
 /* paint / draw */
 
-void              _cairo_paint_full_gradient                (cairo_surface_t   *surface,
-				 	 	 	     GdkColor          *h_color1,
-				 	 	 	     GdkColor          *h_color2,
-				 	 	 	     GdkColor          *v_color1,
-				 	 	 	     GdkColor          *v_color2);
-void              _cairo_draw_rounded_box                   (cairo_t           *cr,
-			 	 	 	 	     double             x,
-			 	 	 	 	     double             y,
-			 	 	 	 	     double             w,
-			 	 	 	 	     double             h,
-			 	 	 	 	     double             r);
-void              _cairo_draw_drop_shadow                   (cairo_t           *cr,
- 	 	 	 	 	 	 	     double             x,
- 	 	 	 	 	 	 	     double             y,
- 	 	 	 	 	 	 	     double             w,
- 	 	 	 	 	 	 	     double             h,
- 	 	 	 	 	 	 	     double             r);
-void              _cairo_draw_frame                         (cairo_t           *cr,
- 	 	 	 	 	 	 	     double             x,
- 	 	 	 	 	 	 	     double             y,
- 	 	 	 	 	 	 	     double             w,
- 	 	 	 	 	 	 	     double             h,
- 	 	 	 	 	 	 	     double             r);
-void              _cairo_draw_slide                         (cairo_t           *cr,
-		   	   	   	   	 	     double             frame_x,
-		   	   	   	   	 	     double             frame_y,
-		   	   	   	   	 	     double             frame_width,
-		   	   	   	   	 	     double             frame_height,
-		   	   	   	   	 	     double             image_width,
-		   	   	   	   	 	     double             image_height,
-		   	   	   	   	 	     GdkColor          *frame_color,
-		   	   	   	   	 	     gboolean           draw_inner_border);
-void              _cairo_paint_grid                          (cairo_t           *cr,
-							     cairo_rectangle_int_t      *rectangle,
-							     GthGridType        grid_type);
+void              _cairo_paint_full_gradient                (cairo_surface_t       *surface,
+				 	 	 	     GdkColor              *h_color1,
+				 	 	 	     GdkColor              *h_color2,
+				 	 	 	     GdkColor              *v_color1,
+				 	 	 	     GdkColor              *v_color2);
+void              _cairo_draw_rounded_box                   (cairo_t               *cr,
+			 	 	 	 	     double                 x,
+			 	 	 	 	     double                 y,
+			 	 	 	 	     double                 w,
+			 	 	 	 	     double                 h,
+			 	 	 	 	     double                 r);
+void              _cairo_draw_drop_shadow                   (cairo_t               *cr,
+ 	 	 	 	 	 	 	     double                 x,
+ 	 	 	 	 	 	 	     double                 y,
+ 	 	 	 	 	 	 	     double                 w,
+ 	 	 	 	 	 	 	     double                 h,
+ 	 	 	 	 	 	 	     double                 r);
+void              _cairo_draw_frame                         (cairo_t               *cr,
+ 	 	 	 	 	 	 	     double                 x,
+ 	 	 	 	 	 	 	     double                 y,
+ 	 	 	 	 	 	 	     double                 w,
+ 	 	 	 	 	 	 	     double                 h,
+ 	 	 	 	 	 	 	     double                 r);
+void              _cairo_draw_slide                         (cairo_t               *cr,
+		   	   	   	   	 	     double                 frame_x,
+		   	   	   	   	 	     double                 frame_y,
+		   	   	   	   	 	     double                 frame_width,
+		   	   	   	   	 	     double                 frame_height,
+		   	   	   	   	 	     double                 image_width,
+		   	   	   	   	 	     double                 image_height,
+		   	   	   	   	 	     GdkColor              *frame_color,
+		   	   	   	   	 	     gboolean               draw_inner_border);
+void              _cairo_paint_grid                          (cairo_t              *cr,
+							     cairo_rectangle_int_t *rectangle,
+							     GthGridType            grid_type);
 
 #endif /* CAIRO_UTILS_H */

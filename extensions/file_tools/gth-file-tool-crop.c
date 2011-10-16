@@ -76,12 +76,12 @@ static void
 crop_button_clicked_cb (GtkButton       *button,
 			GthFileToolCrop *self)
 {
-	cairo_rectangle_int_t     selection;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	GtkWidget       *viewer;
-	cairo_surface_t *old_image;
-	cairo_surface_t *new_image;
+	cairo_rectangle_int_t  selection;
+	GtkWidget             *window;
+	GtkWidget             *viewer_page;
+	GtkWidget             *viewer;
+	cairo_surface_t       *old_image;
+	cairo_surface_t       *new_image;
 
 	gth_image_selector_get_selection (self->priv->selector, &selection);
 	if ((selection.width == 0) || (selection.height == 0))
@@ -157,7 +157,7 @@ selector_selection_changed_cb (GthImageSelector *selector,
 			       GthFileToolCrop  *self)
 {
 	cairo_rectangle_int_t selection;
-	int          min, max;
+	int                   min, max;
 
 	gth_image_selector_get_selection (selector, &selection);
 
