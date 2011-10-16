@@ -414,7 +414,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	cairo_fill (cr);
 
 	_g_object_unref (colorized);
-	cairo_destroy (cr);
 }
 
 
