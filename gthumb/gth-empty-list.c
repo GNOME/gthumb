@@ -98,12 +98,12 @@ gth_empty_list_get_property (GObject    *object,
 static void
 gth_empty_list_realize (GtkWidget *widget)
 {
-	GthEmptyList  *self;
-	GtkAllocation  allocation;
-	GdkWindowAttr  attributes;
-	int            attributes_mask;
-	GdkWindow     *window;
-	GtkStyle      *style;
+	GthEmptyList    *self;
+	GtkAllocation    allocation;
+	GdkWindowAttr    attributes;
+	int              attributes_mask;
+	GdkWindow       *window;
+	GtkStyleContext *style_context;
 
 	g_return_if_fail (GTH_IS_EMPTY_LIST (widget));
 	self = (GthEmptyList*) widget;
@@ -153,11 +153,9 @@ gth_empty_list_realize (GtkWidget *widget)
 
 	/* Style */
 
-	style = gtk_widget_get_style (widget);
-	style = gtk_style_attach (style, window);
-	gtk_widget_set_style (widget, style);
-	gdk_window_set_background (window, &style->base[gtk_widget_get_state (widget)]);
-	gdk_window_set_background (self->priv->bin_window, &style->base[gtk_widget_get_state (widget)]);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_set_background (style_context, window);
+	gtk_style_context_set_background (style_context, self->priv->bin_window);
 	
 	/* 'No Image' message Layout */
 
@@ -166,7 +164,6 @@ gth_empty_list_realize (GtkWidget *widget)
 
 	self->priv->layout = gtk_widget_create_pango_layout (widget, NULL);
 	pango_layout_set_wrap (self->priv->layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_font_description (self->priv->layout, style->font_desc);
 	pango_layout_set_alignment (self->priv->layout, PANGO_ALIGN_CENTER);
 }
 
@@ -234,11 +231,11 @@ static gboolean
 gth_empty_list_draw (GtkWidget *widget,
 		     cairo_t   *cr)
 {
-	GthEmptyList   *self = (GthEmptyList*) widget;
-	GtkAllocation   allocation;
-	PangoRectangle  bounds;
-	GtkStyle       *style;
-	cairo_t        *cr;
+	GthEmptyList    *self = (GthEmptyList*) widget;
+	GtkAllocation    allocation;
+	PangoRectangle   bounds;
+	GtkStyleContext *style_context;
+	GdkRGBA          color;
 	
 	if (event->window != self->priv->bin_window)
 		return FALSE;
@@ -251,22 +248,21 @@ gth_empty_list_draw (GtkWidget *widget,
 	pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
 	pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
 
+	style_context = gtk_widget_get_style_context (widget);
+	pango_layout_set_font_description (self->priv->layout, gtk_style_context_get_font (style_context, gtk_widget_get_state (widget)));
+	gtk_style_context_get_color (style_context, gtk_widget_get_state (widget), &color);
+	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
 	pango_cairo_layout_path (cr, self->priv->layout);
-	style = gtk_widget_get_style (widget);
-	gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
+
 	cairo_fill (cr);
 
 	if (gtk_widget_has_focus (widget)) {
-		gtk_paint_focus (style,
-				 self->priv->bin_window,
-				 gtk_widget_get_state (widget),
-				 &event->area,
-				 widget,
-				 NULL,
-				 1, 1,
-				 allocation.width - 2,
-				 allocation.height - 2);
+		gtk_render_focus (style_context,
+				  cr,
+				  1, 1,
+				  allocation.width - 2,
+				  allocation.height - 2);
 	}
 
 	return TRUE;

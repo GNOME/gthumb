@@ -182,6 +182,16 @@ gth_window_real_set_current_page (GthWindow *window,
 
 
 static void
+gth_window_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
+					   GTHUMB_ICON_DIR);
+}
+
+
+static void
 gth_window_class_init (GthWindowClass *klass)
 {
 	GObjectClass   *gobject_class;
@@ -196,6 +206,7 @@ gth_window_class_init (GthWindowClass *klass)
 
 	widget_class = (GtkWidgetClass*) klass;
 	widget_class->delete_event = gth_window_delete_event;
+	widget_class->realize = gth_window_realize;
 
 	klass->close = gth_window_real_close;
 	klass->set_current_page = gth_window_real_set_current_page;

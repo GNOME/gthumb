@@ -465,7 +465,7 @@ menu_position_func (GtkMenu                 *menu,
 	GdkScreen             *screen;
 	GtkAllocation          allocation;
 
-	gtk_widget_size_request (GTK_WIDGET (button->priv->menu), &menu_req);
+	gtk_widget_get_preferred_size (GTK_WIDGET (button->priv->menu), &menu_req, NULL);
 
 	orientation = gtk_tool_item_get_orientation (GTK_TOOL_ITEM (button));
 	direction = gtk_widget_get_direction (widget);
@@ -498,7 +498,7 @@ menu_position_func (GtkMenu                 *menu,
 	}
 	else {
 		gdk_window_get_origin (gtk_button_get_event_window (GTK_BUTTON (widget)), x, y);
-		gtk_widget_size_request (widget, &req);
+		gtk_widget_get_preferred_size (widget, &req, NULL);
 
 		if (direction == GTK_TEXT_DIR_LTR)
 			*x += allocation.width;

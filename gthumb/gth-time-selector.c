@@ -106,8 +106,9 @@ static void
 hide_calendar_popup (GthTimeSelector *self)
 {
 	gtk_grab_remove (self->priv->calendar_popup);
-	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	/*gdk_keyboard_ungrab (GDK_CURRENT_TIME);*/
+	gdk_device_ungrab (gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window (self->priv->calendar_popup)))),
+			   GDK_CURRENT_TIME);
 	gtk_widget_hide (self->priv->calendar_popup);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), FALSE);
@@ -126,7 +127,7 @@ show_calendar_popup (GthTimeSelector *self)
 	gint                   monitor_num;
 	cairo_rectangle_int_t  monitor;
 
-	gtk_widget_size_request (self->priv->popup_box, &popup_req);
+	gtk_widget_get_preferred_size (self->priv->popup_box, &popup_req, NULL);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), TRUE);
 
@@ -152,18 +153,19 @@ show_calendar_popup (GthTimeSelector *self)
 	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y);
 	gtk_widget_show (self->priv->calendar_popup);
 
-	gdk_keyboard_grab (gtk_widget_get_window (self->priv->calendar_popup), TRUE, GDK_CURRENT_TIME);
+	/*gdk_keyboard_grab (gtk_widget_get_window (self->priv->calendar_popup), TRUE, GDK_CURRENT_TIME);*/
 	gtk_grab_add (self->priv->calendar_popup);
-	gdk_pointer_grab (gtk_widget_get_window (self->priv->calendar_popup),
-			  TRUE,
-			  (GDK_BUTTON_PRESS_MASK
-			   | GDK_BUTTON_RELEASE_MASK
-			   | GDK_POINTER_MOTION_HINT_MASK
-			   | GDK_BUTTON_MOTION_MASK
-			   | GDK_EXTENSION_EVENTS_ALL),
-			  NULL,
-			  NULL,
-			  GDK_CURRENT_TIME);
+	gdk_device_grab (gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window (self->priv->calendar_popup)))),
+			 gtk_widget_get_window (self->priv->calendar_popup),
+			 GDK_OWNERSHIP_WINDOW,
+			 TRUE,
+			 (GDK_BUTTON_PRESS_MASK
+			  | GDK_BUTTON_RELEASE_MASK
+			  | GDK_POINTER_MOTION_HINT_MASK
+			  | GDK_BUTTON_MOTION_MASK
+			  | GDK_EXTENSION_EVENTS_ALL),
+			 NULL,
+			 GDK_CURRENT_TIME);
 	gtk_widget_grab_focus (self->priv->calendar);
 }
 

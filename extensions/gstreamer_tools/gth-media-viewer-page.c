@@ -177,7 +177,7 @@ video_area_draw_cb (GtkWidget *widget,
 {
 	GthMediaViewerPage *self = user_data;
 	GtkAllocation       allocation;
-	GtkStyle           *style;
+	GtkStyleContext    *style_context;
 
 	if (event->count > 0)
 		return FALSE;
@@ -186,7 +186,7 @@ video_area_draw_cb (GtkWidget *widget,
 		return FALSE;
 
 	gtk_widget_get_allocation (widget, &allocation);
-	style = gtk_widget_get_style (widget);
+	style_context = gtk_widget_get_style_context (widget);
 
 	if (self->priv->icon == NULL) {
 		char  *type;
@@ -209,10 +209,16 @@ video_area_draw_cb (GtkWidget *widget,
 		g_free (type);
 	}
 
-	if (self->priv->has_video)
-		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	if (! self->priv->has_video) {
+		GdkRGBA color;
+
+		gtk_style_context_get_background_color (style_context,
+							gtk_widget_get_state (widget),
+							&color);
+		gdk_cairo_set_source_rgba (cr, &color);
+	}
 	else
-		gdk_cairo_set_source_color (cr, &style->text[gtk_widget_get_state (widget)]);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 	gdk_cairo_region (cr, event->region);
 	cairo_fill (cr);
 
@@ -222,6 +228,7 @@ video_area_draw_cb (GtkWidget *widget,
 		int            icon_x, icon_y;
 		PangoRectangle logical_rect;
 		int            x, y;
+		GdkRGBA        color;
 
 		icon_w = gdk_pixbuf_get_width (self->priv->icon);
 		icon_h = gdk_pixbuf_get_height (self->priv->icon);
@@ -241,8 +248,10 @@ video_area_draw_cb (GtkWidget *widget,
 		cairo_fill (cr);
 
 		cairo_move_to (cr, x, y);
+		pango_layout_set_font_description (self->priv->caption_layout, gtk_style_context_get_font (style_context, gtk_widget_get_state (widget)));
 		pango_cairo_layout_path (cr, self->priv->caption_layout);
-		gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
+		gtk_style_context_get_color (style_context, gtk_widget_get_state (widget), &color);
+		gdk_cairo_set_source_rgba (cr, &color);
 		cairo_fill (cr);
 	}
 

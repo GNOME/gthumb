@@ -386,12 +386,10 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 			 cairo_t          *cr,
 			 GtkAllocation    *allocation)
 {
-	GtkStyle *style;
-	double    max;
-	double    step;
-	int       i;
+	double max;
+	double step;
+	int    i;
 
-	style = gtk_widget_get_style (GTK_WIDGET (self));
 	max = MAX (gth_histogram_get_channel_max (self->priv->histogram, 1), gth_histogram_get_channel_max (self->priv->histogram, 2));
 	max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 3));
 	if (max > 0.0)
@@ -402,14 +400,15 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 	step = (double) (allocation->width - 1) / 256.0;
 	cairo_set_line_width (cr, 0.5);
 	for (i = 0; i <= 255; i++) {
-		double value_r;
-		double value_g;
-		double value_b;
-		int    min_c;
-		int    mid_c;
-		int    max_c;
-		int    y;
-		double value;
+		double   value_r;
+		double   value_g;
+		double   value_b;
+		int      min_c;
+		int      mid_c;
+		int      max_c;
+		int      y;
+		double   value;
+		GdkRGBA  color;
 
 		value_r = gth_histogram_get_value (self->priv->histogram, 1, i);
 		value_g = gth_histogram_get_value (self->priv->histogram, 2, i);
@@ -480,14 +479,17 @@ gth_histogram_paint_grid (GthHistogramView *self,
 			  cairo_t          *cr,
 			  GtkAllocation    *allocation)
 {
-	GtkStyle *style;
-	double    grid_step;
-	int       i;
+	GdkRGBA color;
+	double  grid_step;
+	int     i;
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-	style = gtk_widget_get_style (GTK_WIDGET (self));
-	gdk_cairo_set_source_color (cr, &style->dark[gtk_widget_get_state (GTK_WIDGET (self))]);
+	gtk_style_context_get_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
+				     gtk_widget_get_state (GTK_WIDGET (self)),
+				     &color);
+	_gdk_rgba_darker (&color, &color);
+	gdk_cairo_set_source_rgba (cr, &color);
 
 	cairo_set_line_width (cr, 0.5);
 	cairo_rectangle (cr, 0.5, 0.5, allocation->width, allocation->height);
@@ -511,14 +513,16 @@ gth_histogram_paint_selection (GthHistogramView *self,
 			       cairo_t          *cr,
 			       GtkAllocation    *allocation)
 {
-	GtkStyle *style;
-	double    step;
+	GdkRGBA color;
+	double  step;
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	cairo_set_line_width (cr, 0.5);
 
-	style = gtk_widget_get_style (GTK_WIDGET (self));
-	gdk_cairo_set_source_color (cr, &style->base[GTK_STATE_SELECTED]);
+	gtk_style_context_get_background_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
+						GTK_STATE_SELECTED,
+						&color);
+	gdk_cairo_set_source_rgba (cr, &color);
 
 	step = (double) allocation->width / 256.0;
 	cairo_rectangle (cr,
@@ -537,7 +541,7 @@ histogram_view_draw_cb (GtkWidget *widget,
 {
 	GthHistogramView *self = user_data;
 	GtkAllocation     allocation;
-	GtkStyle         *style;
+	GdkRGBA           color;
 
 	if (GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw != NULL)
 		GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw (widget, cr);
@@ -546,9 +550,10 @@ histogram_view_draw_cb (GtkWidget *widget,
 	allocation.width--;
 	allocation.height--;
 
-	style = gtk_widget_get_style (widget);
-
-	gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
+	gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
+						gtk_widget_get_state (widget),
+						&color);
+	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 	cairo_fill (cr);
 

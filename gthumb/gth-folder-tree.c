@@ -455,7 +455,6 @@ button_press_cb (GtkWidget      *widget,
 		GtkTreeSelection *selection;
 		int               start_pos;
 		int               width;
-		GValue            value = { 0, };
 		int               expander_size;
 		int               horizontal_separator;
 
@@ -481,19 +480,10 @@ button_press_cb (GtkWidget      *widget,
 			width = 0;
 		}
 
-		g_value_init (&value, G_TYPE_INT);
-		gtk_style_get_style_property (gtk_widget_get_style (GTK_WIDGET (folder_tree)),
-					      GTK_TYPE_TREE_VIEW,
-					      "expander-size",
-					      &value);
-		expander_size = g_value_get_int (&value);
-
-		gtk_style_get_style_property (gtk_widget_get_style (GTK_WIDGET (folder_tree)),
-					      GTK_TYPE_TREE_VIEW,
-					      "horizontal-separator",
-					      &value);
-		horizontal_separator = g_value_get_int (&value);
-
+		gtk_style_context_get_style (gtk_widget_get_style_context (GTK_WIDGET (folder_tree)),
+					     "expander-size", &expander_size,
+					     "horizontal-separator", &horizontal_separator,
+					     NULL);
 		start_pos += (gtk_tree_path_get_depth (path) - 1) * (expander_size + (horizontal_separator * 2));
 
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
@@ -1104,7 +1094,7 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 		GtkTreeIter  iter;
 
 		sort_key = g_utf8_collate_key_for_filename (PARENT_URI, -1);
-		pixbuf = gtk_widget_render_icon (GTK_WIDGET (folder_tree), GTK_STOCK_GO_UP, GTK_ICON_SIZE_MENU, "folder-list");
+		pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (folder_tree), GTK_STOCK_GO_UP, GTK_ICON_SIZE_MENU);
 
 		gtk_tree_store_append (folder_tree->priv->tree_store, &iter, NULL);
 		gtk_tree_store_set (folder_tree->priv->tree_store, &iter,

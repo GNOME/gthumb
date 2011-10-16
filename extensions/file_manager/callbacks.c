@@ -1000,8 +1000,7 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
 	g_return_if_fail (G_IS_APP_INFO (appinfo));
 
-	context = gdk_app_launch_context_new ();
-	gdk_app_launch_context_set_screen (context, gtk_widget_get_screen (GTK_WIDGET (browser)));
+	context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (browser)));
 	gdk_app_launch_context_set_timestamp (context, 0);
 	gdk_app_launch_context_set_icon (context, g_app_info_get_icon (appinfo));
 	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error)) {

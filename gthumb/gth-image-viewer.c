@@ -30,6 +30,7 @@
 #include "gth-image-dragger.h"
 #include "gth-image-viewer.h"
 #include "gth-marshal.h"
+#include "gtk-utils.h"
 #include "glib-utils.h"
 #include "pixbuf-utils.h"
 
@@ -326,7 +327,6 @@ gth_image_viewer_realize (GtkWidget *widget)
 	GdkWindowAttr   attributes;
 	int             attributes_mask;
 	GdkWindow      *window;
-	GtkStyle       *style;
 
 	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
 
@@ -360,10 +360,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 	gtk_widget_set_window (widget, window);
 	gdk_window_set_user_data (window, self);
 
-	style = gtk_widget_get_style (widget);
-	style = gtk_style_attach (style, window);
-	gtk_style_set_background (style, window, GTK_STATE_NORMAL);
-	gtk_widget_set_style (widget, style);
+	gtk_style_context_set_background (gtk_widget_get_style_context (widget), window);
 
 	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	self->priv->cursor_void = gdk_cursor_new_for_display (gtk_widget_get_display (widget), GDK_BLANK_CURSOR);
@@ -373,15 +370,16 @@ gth_image_viewer_realize (GtkWidget *widget)
 		gdk_window_set_cursor (window, self->priv->cursor_void);
 
 	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GdkColor color;
-		guint    base_color;
+		GdkRGBA color;
+		guint   base_color;
 
-		color = style->bg[GTK_STATE_NORMAL];
+		gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
+							GTK_STATE_NORMAL,
+							&color);
 		base_color = (0xFF000000
 			      | (to_255 (color.red) << 16)
 			      | (to_255 (color.green) << 8)
 			      | (to_255 (color.blue) << 0));
-
 		self->priv->check_color1 = base_color;
 		self->priv->check_color2 = base_color;
 	}
@@ -999,12 +997,12 @@ gth_image_viewer_style_set (GtkWidget *widget,
 	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
 
 	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GtkStyle *style;
-		GdkColor  color;
-		guint     base_color;
+		GdkRGBA color;
+		guint   base_color;
 
-		style = gtk_widget_get_style (GTK_WIDGET (self));
-		color = style->bg[GTK_STATE_NORMAL];
+		gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
+							GTK_STATE_NORMAL,
+							&color);
 		base_color = (0xFF000000
 			      | (to_255 (color.red) << 16)
 			      | (to_255 (color.green) << 8)
@@ -1493,7 +1491,7 @@ halt_animation (GthImageViewer *self)
 
 
 static void
-gth_image_viewer_instance_init (GthImageViewer *self)
+gth_image_viewer_init (GthImageViewer *self)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	gtk_widget_set_double_buffered (GTK_WIDGET (self), TRUE);
@@ -1568,32 +1566,10 @@ gth_image_viewer_instance_init (GthImageViewer *self)
 }
 
 
-GType
-gth_image_viewer_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageViewerClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_viewer_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageViewer),
-			0,
-			(GInstanceInitFunc) gth_image_viewer_instance_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_WIDGET,
-					       "GthImageViewer",
-					       &type_info,
-					       0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
+			 gth_image_viewer,
+			 GTK_TYPE_WIDGET,
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 
 GtkWidget*
@@ -2180,16 +2156,16 @@ void
 gth_image_viewer_set_transp_type (GthImageViewer *self,
 				  GthTranspType   transp_type)
 {
-	GtkStyle *style;
-	GdkColor  color;
-	guint     base_color;
+	GdkRGBA color;
+	guint   base_color;
 
 	g_return_if_fail (self != NULL);
 
 	self->priv->transp_type = transp_type;
 
-	style = gtk_widget_get_style (GTK_WIDGET (self));
-	color = style->bg[GTK_STATE_NORMAL];
+	gtk_style_context_get_background_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
+						GTK_STATE_NORMAL,
+						&color);
 	base_color = (0xFF000000
 		      | (to_255 (color.red) << 16)
 		      | (to_255 (color.green) << 8)
@@ -2286,7 +2262,7 @@ gth_image_viewer_set_size_request (GthImageViewer *self,
 
 	requisition.width = width;
 	requisition.height = height;
-	gtk_widget_size_request (GTK_WIDGET (self), &requisition);
+	gtk_widget_get_preferred_size (GTK_WIDGET (self), &requisition, NULL);
 
 	gtk_widget_queue_resize (GTK_WIDGET (self));
 }
@@ -2621,16 +2597,15 @@ void
 gth_image_viewer_paint_background (GthImageViewer *self,
 				   cairo_t        *cr)
 {
-	GtkAllocation   allocation;
-	int             gdk_width;
-	int             gdk_height;
-	GtkStyle       *style;
+	GtkAllocation    allocation;
+	int              gdk_width;
+	int              gdk_height;
+	GtkStyleContext *style_context;
 
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	gdk_width = allocation.width - self->priv->frame_border2;
 	gdk_height = allocation.height - self->priv->frame_border2;
-
-	style = gtk_widget_get_style (GTK_WIDGET (self));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 
 	if ((self->image_area.x > self->priv->frame_border)
 	    || (self->image_area.y > self->priv->frame_border)
@@ -2639,10 +2614,15 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 	{
 		int rx, ry, rw, rh;
 
-		if (self->priv->black_bg)
+		if (self->priv->black_bg) {
 			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-		else
-			gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+		}
+		else {
+			GdkRGBA color;
+
+			gtk_style_context_get_background_color (style_context, GTK_STATE_NORMAL, &color);
+			gdk_cairo_set_source_rgba (cr, &color);
+		}
 
 		if (gth_image_viewer_get_current_image (self) == NULL) {
 			cairo_rectangle (cr,
@@ -2700,13 +2680,24 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 	if ((self->priv->frame_border > 0)
 	    && (gth_image_viewer_get_current_image (self) != NULL))
 	{
+		GdkRGBA darker_color;
+		GdkRGBA lighter_color;
+
+		gtk_style_context_get_color (style_context,
+					     gtk_widget_get_state (GTK_WIDGET (self)),
+					     &darker_color);
+		_gdk_rgba_darker (&darker_color, &darker_color);
+		gtk_style_context_get_color (style_context,
+					     gtk_widget_get_state (GTK_WIDGET (self)),
+					     &lighter_color);
+		_gdk_rgba_lighter (&lighter_color, &lighter_color);
 
 		/* bottom and right side */
 
 		if (self->priv->black_bg)
 			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 		else
-			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_rgba (cr, &lighter_color);
 
 		cairo_move_to (cr,
 			       self->image_area.x + self->image_area.width + 0.5,
@@ -2722,7 +2713,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		/* top and left side */
 
 		if (! self->priv->black_bg)
-			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_rgba (cr, &darker_color);
 
 		cairo_move_to (cr,
 			       self->image_area.x - 1 + 0.5,

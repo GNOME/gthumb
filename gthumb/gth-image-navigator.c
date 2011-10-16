@@ -205,8 +205,9 @@ popup_window_event_cb (GtkWidget *widget,
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE:
 		/* Release keyboard focus. */
-		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
-		gtk_grab_remove (nav_popup->popup_win);
+		/*gdk_keyboard_ungrab (GDK_CURRENT_TIME);*/
+		/*gtk_grab_remove (nav_popup->popup_win);*/
+		gdk_device_ungrab (gdk_event_get_device (event), ((GdkEventButton *)event)->time);
 
 		gtk_widget_destroy (nav_popup->popup_win);
 		cairo_surface_destroy (nav_popup->image);
@@ -269,27 +270,29 @@ popup_window_event_cb (GtkWidget *widget,
 
 
 static void
-nav_window_grab_pointer (NavigatorPopup *nav_popup)
+nav_window_grab_pointer (NavigatorPopup *nav_popup,
+			 GdkDevice      *device)
 {
 	GdkCursor *cursor;
 
 	gtk_grab_add (nav_popup->popup_win);
 
-	cursor = gdk_cursor_new (GDK_FLEUR);
-	gdk_pointer_grab (gtk_widget_get_window (nav_popup->popup_win),
-			  TRUE,
-			  (GDK_BUTTON_RELEASE_MASK
-			   | GDK_POINTER_MOTION_HINT_MASK
-			   | GDK_BUTTON_MOTION_MASK
-			   | GDK_EXTENSION_EVENTS_ALL),
-			   gtk_widget_get_window (nav_popup->preview),
-			  cursor,
-			  0);
+	cursor = gdk_cursor_new_for_display (gtk_widget_get_display (GTK_WIDGET (nav_popup->viewer)), GDK_FLEUR);
+	gdk_device_grab (device,
+			 gtk_widget_get_window (nav_popup->popup_win),
+			 GDK_OWNERSHIP_WINDOW,
+			 TRUE,
+			 (GDK_BUTTON_RELEASE_MASK
+			  | GDK_POINTER_MOTION_HINT_MASK
+			  | GDK_BUTTON_MOTION_MASK
+			  | GDK_EXTENSION_EVENTS_ALL),
+			 cursor,
+			 0);
 	g_object_unref (cursor);
 
 	/* Capture keyboard events. */
 
-	gdk_keyboard_grab (gtk_widget_get_window (nav_popup->popup_win), TRUE, GDK_CURRENT_TIME);
+	/*gdk_keyboard_grab (gtk_widget_get_window (nav_popup->popup_win), TRUE, GDK_CURRENT_TIME);*/
         gtk_widget_grab_focus (nav_popup->popup_win);
 }
 
@@ -400,7 +403,7 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 
 	gtk_widget_show_all (nav_popup->popup_win);
 
-	nav_window_grab_pointer (nav_popup);
+	nav_window_grab_pointer (nav_popup, gdk_event_get_device ((GdkEvent *) event));
 }
 
 
@@ -464,7 +467,8 @@ gth_image_navigator_construct (GthImageNavigator *self,
 	self->priv->viewer_vscr = gtk_vscrollbar_new (vadj);
 
 	self->priv->navigator_event_area = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (self->priv->navigator_event_area), gtk_image_new_from_icon_name ("image-navigator", GTK_ICON_SIZE_MENU));
+	gtk_container_add (GTK_CONTAINER (self->priv->navigator_event_area),
+			   gtk_image_new_from_icon_name ("image-navigator", GTK_ICON_SIZE_MENU));
 
 	g_signal_connect (G_OBJECT (self->priv->navigator_event_area),
 			  "button_press_event",

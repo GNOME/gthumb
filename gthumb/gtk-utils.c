@@ -993,9 +993,7 @@ _g_launch_command (GtkWidget  *parent,
 		return;
 	}
 
-	launch_context = gdk_app_launch_context_new ();
-	gdk_app_launch_context_set_screen (launch_context, gtk_widget_get_screen (parent));
-
+	launch_context = gdk_display_get_app_launch_context (gtk_widget_get_display (parent));
 	if (! g_app_info_launch (app_info, files, G_APP_LAUNCH_CONTEXT (launch_context), &error)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (parent), _("Could not launch the application"), error);
 		g_clear_error (&error);
@@ -1184,4 +1182,41 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 		gtk_label_set_mnemonic_widget (label, scale);
 
 	return (GtkAdjustment *) adj;
+}
+
+
+static gboolean
+_gdk_rgba_shade (GdkRGBA *color,
+		 GdkRGBA *result,
+		 gdouble  factor)
+{
+	GtkSymbolicColor *sym_color;
+	GtkSymbolicColor *sym_result;
+	gboolean          retval;
+
+	sym_color = gtk_symbolic_color_new_literal (color);
+	sym_result = gtk_symbolic_color_new_shade (sym_color, factor);
+
+	retval = gtk_symbolic_color_resolve (sym_result, NULL, result);
+
+	gtk_symbolic_color_unref (sym_result);
+	gtk_symbolic_color_unref (sym_color);
+
+	return retval;
+}
+
+
+gboolean
+_gdk_rgba_darker (GdkRGBA *color,
+		  GdkRGBA *result)
+{
+	return _gdk_rgba_shade (color, result, 1.2);
+}
+
+
+gboolean
+_gdk_rgba_lighter (GdkRGBA *color,
+		   GdkRGBA *result)
+{
+	return _gdk_rgba_shade (color, result, 0.8);
 }

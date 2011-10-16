@@ -192,23 +192,24 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 		return FALSE;
 
 	if ((event->button == 1) && ! viewer->dragging) {
-		GdkCursor *cursor;
-		int        retval;
+		GdkCursor     *cursor;
+		GdkGrabStatus  retval;
 
 		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (widget), "grabbing");
-		retval = gdk_pointer_grab (gtk_widget_get_window (widget),
-					   FALSE,
-					   (GDK_POINTER_MOTION_MASK
-					    | GDK_POINTER_MOTION_HINT_MASK
-					    | GDK_BUTTON_RELEASE_MASK),
-					   NULL,
-					   cursor,
-					   event->time);
+		retval = gdk_device_grab (event->device,
+					  gtk_widget_get_window (widget),
+					  GDK_OWNERSHIP_WINDOW,
+					  FALSE,
+					  (GDK_POINTER_MOTION_MASK
+					   | GDK_POINTER_MOTION_HINT_MASK
+					   | GDK_BUTTON_RELEASE_MASK),
+					  cursor,
+					  event->time);
 
 		if (cursor != NULL)
 			g_object_unref (cursor);
 
-		if (retval != 0)
+		if (retval != GDK_GRAB_SUCCESS)
 			return FALSE;
 
 		viewer->pressed = TRUE;
@@ -235,7 +236,7 @@ gth_image_dragger_button_release (GthImageViewerTool *self,
 	viewer = dragger->priv->viewer;
 
 	if (viewer->dragging)
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event->device, event->time);
 
 	return TRUE;
 }
