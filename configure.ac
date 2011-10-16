@@ -49,10 +49,9 @@ GTK_REQUIRED=3.2.0
 GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
-CLUTTER_GTK_REQUIRED=0.10.0
+CLUTTER_GTK_REQUIRED=1.0.0
 GSTREAMER_REQUIRED=0.10
 OPENRAW_REQUIRED=0.0.8
-UNIQUE_REQUIRED=1.1.2
 LIBSOUP_REQUIRED=2.26
 GNOME_KEYRING_REQUIRED=2.28
 LIBBRASERO_REQUIRED=2.28
@@ -159,22 +158,6 @@ AC_SUBST(M_LIBS)
 
 dnl ===========================================================================
 
-AC_ARG_ENABLE([unique],
-	      [AS_HELP_STRING([--disable-unique],[do not compile code that uses the libunique library])],,
-	      [enable_unique=yes])
-
-if test x$enable_unique = xyes ; then
-	PKG_CHECK_MODULES(UNIQUE,
-			  unique-1.0 >= $UNIQUE_REQUIRED,
-			  [enable_unique=yes],
-			  [enable_unique=no])
-fi
-AC_SUBST(UNIQUE_LIBS)
-AC_SUBST(UNIQUE_CFLAGS)
-AM_CONDITIONAL(ENABLE_UNIQUE, test "x$enable_unique" = xyes)
-
-dnl ===========================================================================
-
 AC_ARG_ENABLE([exiv2],
 	      [AS_HELP_STRING([--disable-exiv2],[do not compile code that uses the exiv2 library])],,
 	      [enable_exiv2=yes])
@@ -201,7 +184,7 @@ AC_ARG_ENABLE([clutter],
 if test x$enable_clutter = xyes ; then
 	PKG_CHECK_MODULES(CLUTTER,
 			  [clutter-1.0 >= $CLUTTER_REQUIRED
-			   clutter-gtk-0.10 >= $CLUTTER_GTK_REQUIRED],
+			   clutter-gtk-1.0 >= $CLUTTER_GTK_REQUIRED],
 			  [enable_clutter=yes],
 			  [enable_clutter=no])
 fi

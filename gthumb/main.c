@@ -23,9 +23,6 @@
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
-#ifdef HAVE_UNIQUE
-#include <unique/unique.h>
-#endif
 #ifdef HAVE_CLUTTER
 #include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
@@ -41,14 +38,6 @@
 #include "main-migrate.h"
 
 
-enum {
-	COMMAND_UNUSED,
-	COMMAND_FULLSCREEN,
-	COMMAND_IMPORT_PHOTOS,
-	COMMAND_SLIDESHOW
-};
-
-
 gboolean NewWindow = FALSE;
 gboolean StartInFullscreen = FALSE;
 gboolean StartSlideshow = FALSE;
@@ -58,13 +47,11 @@ int      ClutterInitResult = CLUTTER_INIT_ERROR_UNKNOWN;
 #endif
 
 
-#ifdef HAVE_UNIQUE
-static UniqueApp   *gthumb_app;
-#endif
-static char       **remaining_args;
-static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
-static gboolean     Restart = FALSE;
-static gboolean     version = FALSE;
+static GtkApplication  *gthumb_application;
+static char           **remaining_args;
+static const char      *program_argv0; /* argv[0] from main(); used as the command to restart the program */
+static gboolean         Restart = FALSE;
+static gboolean         version = FALSE;
 
 
 static const GOptionEntry options[] = {
@@ -253,10 +240,11 @@ gth_restore_session (EggSMClient *client)
 		g_assert (location != NULL);
 
 		window = gth_browser_new (NULL);
+		gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 		gtk_widget_show (window);
 
 		file = g_file_new_for_uri (location);
-		gth_browser_load_location(GTH_BROWSER (window), file);
+		gth_browser_load_location (GTH_BROWSER (window), file);
 
 		g_object_unref (file);
 		g_free (location);
@@ -264,191 +252,100 @@ gth_restore_session (EggSMClient *client)
 }
 
 
-#ifdef HAVE_UNIQUE
-
-
 static void
-show_window (GtkWindow  *window,
-	     const char *startup_id,
-	     GdkScreen  *screen)
+gthumb_application_activate_cb (GApplication *application,
+				gpointer      user_data)
 {
-	gtk_window_set_startup_id (window, startup_id);
-	gtk_window_set_screen (window, screen);
-	gtk_window_present (window);
-}
+	GList     *list;
+	GtkWidget *window;
 
-
-static UniqueResponse
-unique_app_message_received_cb (UniqueApp         *unique_app,
-				UniqueCommand      command,
-				UniqueMessageData *message,
-				guint              time_,
-				gpointer           user_data)
-{
-	UniqueResponse  res;
-	char           *uri;
-	GFile          *location = NULL;
-	GtkWidget      *window = NULL;
-
-	res = UNIQUE_RESPONSE_OK;
-
-	switch (command) {
-	case UNIQUE_OPEN:
-	case UNIQUE_NEW:
-		if (command == UNIQUE_OPEN)
-			window = gth_window_get_current_window ();
-
-		if (window == NULL)
-			window = gth_browser_new (NULL);
-
-		show_window (GTK_WINDOW (window),
-			     unique_message_data_get_startup_id (message),
-			     unique_message_data_get_screen (message));
-
-		uri = unique_message_data_get_text (message);
-		location = g_file_new_for_uri (uri);
-		gth_browser_load_location (GTH_BROWSER (window), location);
-
-		g_object_unref (location);
-		g_free (uri);
-		break;
-
-	case COMMAND_IMPORT_PHOTOS:
+	list = gtk_application_get_windows (GTK_APPLICATION (application));
+	if (list != NULL) {
 		window = gth_window_get_current_window ();
-		if (window == NULL)
-			window = gth_browser_new (NULL);
-
-		uri = unique_message_data_get_text (message);
-		if ((uri != NULL) && (strcmp (uri, "") != 0))
-			location = g_file_new_for_uri (uri);
-		gth_hook_invoke ("import-photos", window, location, NULL);
-
-		_g_object_unref (location);
-		g_free (uri);
-		break;
-
-	case COMMAND_SLIDESHOW:
-		window = gth_window_get_current_window ();
-		if (window == NULL)
-			window = gth_browser_new (NULL);
-		gth_hook_invoke ("slideshow", window, NULL);
-
-	default:
-		res = UNIQUE_RESPONSE_PASSTHROUGH;
-		break;
+		gtk_window_present (GTK_WINDOW (window));
+	}
+	else {
+		window = gth_browser_new (NULL);
+		gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
+		gtk_widget_show (window);
 	}
 
 	return res;
 }
 
 
-#endif
-
-
 static void
 open_browser_window (GFile *location,
 		     GFile *current_file)
 {
-#ifdef HAVE_UNIQUE
-	if (unique_app_is_running (gthumb_app)) {
-		UniqueMessageData *data;
-		char              *uri;
+	GtkWidget *window;
 
-		data = unique_message_data_new ();
-		uri = g_file_get_uri (location);
-		unique_message_data_set_text (data, uri, -1);
-		unique_app_send_message (gthumb_app, NewWindow ? UNIQUE_NEW : UNIQUE_OPEN, data);
-
-		g_free (uri);
-		unique_message_data_free (data);
-	}
-	else
-
-#endif
-
-	{
-		GtkWidget *window;
-
-		window = gth_browser_new (NULL);
-		if (! StartSlideshow)
-			gtk_window_present (GTK_WINDOW (window));
-		if (current_file != NULL)
-			gth_browser_go_to (GTH_BROWSER (window), location, current_file);
-		else
-			gth_browser_load_location (GTH_BROWSER (window), location);
-	}
+	window = gth_browser_new (NULL);
+	gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
+	if (! StartSlideshow)
+		gtk_window_present (GTK_WINDOW (window));
+	gth_browser_load_location (GTH_BROWSER (window), location);
 }
 
 
 static void
 import_photos_from_location (GFile *location)
 {
-#ifdef HAVE_UNIQUE
-	if (unique_app_is_running (gthumb_app)) {
-		UniqueMessageData *data;
+	GtkWidget *window;
 
-		data = unique_message_data_new ();
-		if (location != NULL) {
-			char *uri;
-			uri = g_file_get_uri (location);
-			unique_message_data_set_text (data, uri, -1);
-			g_free (uri);
-		}
-		unique_app_send_message (gthumb_app, COMMAND_IMPORT_PHOTOS, data);
-		unique_message_data_free (data);
-	}
-	else
-
-#endif
-
-	{
-		GtkWidget *window;
-
-		window = gth_browser_new (NULL);
-		gth_hook_invoke ("import-photos", window, location, NULL);
-	}
+	window = gth_browser_new (NULL);
+	gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
+	gth_hook_invoke ("import-photos", window, location, NULL);
 }
 
 
-static void
-prepare_application (void)
+static int
+gthumb_application_command_line_cb (GApplication            *application,
+				    GApplicationCommandLine *command_line,
+				    gpointer                 user_data)
 {
-	EggSMClient *client = NULL;
-	const char  *arg;
-	int          i;
-	GList       *files;
-	GList       *dirs;
-	GFile       *location;
-	GList       *scan;
+	char           **argv;
+	int              argc;
+	GOptionContext  *context;
+	GError          *error = NULL;
+	const char      *arg;
+	int              i;
+	GList           *files;
+	GList           *dirs;
+	GFile           *location;
+	GList           *scan;
 
-#ifdef HAVE_UNIQUE
-	gthumb_app = unique_app_new_with_commands ("org.gnome.gthumb", NULL,
-						   "import-photos", COMMAND_IMPORT_PHOTOS,
-						   NULL);
+	argv = g_application_command_line_get_arguments (command_line, &argc);
+
+	/* command line options */
+
+	context = g_option_context_new (N_("- Image browser and viewer"));
+	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
+	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+	g_option_context_add_group (context, gtk_get_option_group (TRUE));
+	g_option_context_add_group (context, egg_sm_client_get_option_group ());
+#ifdef HAVE_CLUTTER
+	g_option_context_add_group (context, cogl_get_option_group ());
+	g_option_context_add_group (context, clutter_get_option_group_without_init ());
 #endif
-
-	gth_main_register_default_hooks ();
-	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
-	gth_main_register_default_sort_types ();
-	gth_main_register_default_tests ();
-	gth_main_register_default_types ();
-	gth_main_register_default_metadata ();
-	gth_main_activate_extensions ();
-	gth_hook_invoke ("initialize", NULL);
-
-#ifdef HAVE_UNIQUE
-	if (! unique_app_is_running (gthumb_app))
-		g_signal_connect (gthumb_app,
-				  "message-received",
-				  G_CALLBACK (unique_app_message_received_cb),
-				  NULL);
-#endif
-
-	client = egg_sm_client_get ();
-	if (egg_sm_client_is_resumed (client)) {
-		gth_restore_session (client);
-		return;
+	if (! g_option_context_parse (context, &argc, &argv, &error)) {
+		g_critical ("Failed to parse arguments: %s", error->message);
+		g_error_free (error);
+		g_option_context_free (context);
+		return EXIT_FAILURE;
 	}
+
+	if (version) {
+		g_printf ("%s %s, Copyright © 2001-2010 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
+		g_option_context_free (context);
+		return 0;
+	 }
+
+#ifdef HAVE_CLUTTER
+	ClutterInitResult = gtk_clutter_init (NULL, NULL);
+#endif
+
+	g_option_context_free (context);
 
 	if (ImportPhotos) {
 		GFile *location = NULL;
@@ -457,7 +354,7 @@ prepare_application (void)
 			location = g_file_new_for_commandline_arg (remaining_args[0]);
 		import_photos_from_location (location);
 
-		return;
+		return 0;
 	}
 
 	if (remaining_args == NULL) { /* No location specified. */
@@ -477,7 +374,7 @@ prepare_application (void)
 		g_free (current_file_uri);
 		g_object_unref (location);
 
-		return;
+		return 0;
 	}
 
 	/* At least a location was specified */
@@ -514,14 +411,63 @@ prepare_application (void)
 
 	_g_object_list_unref (dirs);
 	_g_object_list_unref (files);
+
+	return 0;
+}
+
+
+static void
+gthumb_application_startup_cb (GApplication *application,
+			       gpointer      user_data)
+{
+	EggSMClient *client = NULL;
+
+	gth_session_manager_init ();
+	gth_pref_initialize ();
+	migrate_data ();
+	gth_main_initialize ();
+	gth_main_register_default_hooks ();
+	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
+	gth_main_register_default_sort_types ();
+	gth_main_register_default_tests ();
+	gth_main_register_default_types ();
+	gth_main_register_default_metadata ();
+	gth_main_activate_extensions ();
+	gth_hook_invoke ("initialize", NULL);
+
+	client = egg_sm_client_get ();
+	if (egg_sm_client_is_resumed (client))
+		gth_restore_session (client);
+}
+
+
+static GApplication *
+prepare_application (void)
+{
+	gthumb_application = gtk_application_new ("org.gnome.gthumb",
+						  G_APPLICATION_HANDLES_COMMAND_LINE);
+	g_signal_connect (gthumb_application,
+			  "activate",
+			  G_CALLBACK (gthumb_application_activate_cb),
+			  NULL);
+	g_signal_connect (gthumb_application,
+			  "command-line",
+			  G_CALLBACK (gthumb_application_command_line_cb),
+			  NULL);
+	g_signal_connect (gthumb_application,
+			  "startup",
+			  G_CALLBACK (gthumb_application_startup_cb),
+			  NULL);
+
+	return G_APPLICATION (gthumb_application);
 }
 
 
 int
 main (int argc, char *argv[])
 {
-	GOptionContext *context;
-	GError         *error = NULL;
+	GApplication *app;
+	int           status;
 
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
@@ -534,58 +480,19 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	/* command line options */
+	app = prepare_application ();
+	status = g_application_run (app, argc, argv);
+	if (! g_application_get_is_remote (app)) {
+		gth_main_release ();
+		gth_pref_release ();
+	 }
 
-	context = g_option_context_new (N_("- Image browser and viewer"));
-	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
-	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-	g_option_context_add_group (context, gtk_get_option_group (TRUE));
-	g_option_context_add_group (context, egg_sm_client_get_option_group ());
-#ifdef HAVE_CLUTTER
-	g_option_context_add_group (context, cogl_get_option_group ());
-	g_option_context_add_group (context, clutter_get_option_group_without_init ());
-#endif
-	if (! g_option_context_parse (context, &argc, &argv, &error)) {
-		g_critical ("Failed to parse arguments: %s", error->message);
-		g_error_free (error);
-		g_option_context_free (context);
-		return EXIT_FAILURE;
-	}
-
-	if (version) {
-		g_printf ("%s %s, Copyright © 2001-2010 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
-		return 0;
-	}
-
-#ifdef HAVE_CLUTTER
-	ClutterInitResult = gtk_clutter_init (NULL, NULL);
-#endif
-
-	/* other initializations */
-
-	gth_session_manager_init ();
-	gth_pref_initialize ();
-	migrate_data ();
-	gth_main_initialize ();
-	prepare_application ();
-
-	g_option_context_free (context);
-
-#ifdef HAVE_UNIQUE
-	if (! unique_app_is_running (gthumb_app))
-		gtk_main ();
-	g_object_unref (gthumb_app);
-#else
-	gtk_main ();
-#endif
-
-	gth_main_release ();
-	gth_pref_release ();
+	g_object_unref (app);
 
 	if (Restart)
 		g_spawn_command_line_async (program_argv0, NULL);
 
-	return 0;
+	return status;
 }
 
 
