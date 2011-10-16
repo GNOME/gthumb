@@ -36,11 +36,11 @@ static gpointer parent_class = NULL;
 
 
 struct _GthMapViewPrivate {
-	GtkWidget      *no_gps_label;
-	GtkWidget      *embed;
-	ChamplainView  *map_view;
-	ChamplainLayer *marker_layer;
-	ClutterActor   *marker;
+	GtkWidget            *no_gps_label;
+	GtkWidget            *embed;
+	ChamplainView        *map_view;
+	ChamplainMarkerLayer *marker_layer;
+	ClutterActor         *marker;
 };
 
 
@@ -177,10 +177,10 @@ gth_map_view_real_set_file (GthPropertyView *base,
 		gtk_widget_show (self->priv->embed);
 
 		position = decimal_coordinates_to_string (latitude, longitude);
-		champlain_marker_set_text (CHAMPLAIN_MARKER (self->priv->marker), position);
+		champlain_label_set_text (CHAMPLAIN_LABEL (self->priv->marker), position);
 		g_free (position);
 
-		champlain_base_marker_set_position (CHAMPLAIN_BASE_MARKER (self->priv->marker), latitude, longitude);
+		champlain_location_set_location (CHAMPLAIN_LOCATION (self->priv->marker), latitude, longitude);
 		champlain_view_center_on (CHAMPLAIN_VIEW (self->priv->map_view), latitude, longitude);
 	}
 	else {
@@ -280,18 +280,18 @@ gth_map_view_init (GthMapView *self)
 	self->priv->map_view = gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (self->priv->embed));
 	g_object_set (G_OBJECT (self->priv->map_view),
 		      "reactive", TRUE,
-		      "scroll-mode", CHAMPLAIN_SCROLL_MODE_KINETIC,
 		      "zoom-level", 5,
 		      "show-scale", TRUE,
+		      "kinetic-mode", TRUE,
 		      NULL);
 
-	self->priv->marker_layer = champlain_layer_new ();
-	champlain_view_add_layer (self->priv->map_view, self->priv->marker_layer);
-	champlain_layer_show (self->priv->marker_layer);
+	self->priv->marker_layer = champlain_marker_layer_new ();
+	champlain_view_add_layer (self->priv->map_view, CHAMPLAIN_LAYER (self->priv->marker_layer));
+	clutter_actor_show (CLUTTER_ACTOR (self->priv->marker_layer));
 
-	self->priv->marker = champlain_marker_new_with_text ("", "Sans 10", NULL, NULL);
+	self->priv->marker = champlain_label_new_with_text ("", "Sans 10", NULL, NULL);
 	clutter_actor_show (self->priv->marker);
-	champlain_layer_add_marker (self->priv->marker_layer, CHAMPLAIN_BASE_MARKER (self->priv->marker));
+	champlain_marker_layer_add_marker (self->priv->marker_layer, CHAMPLAIN_MARKER (self->priv->marker));
 
 	gtk_widget_show_all (self->priv->embed);
 	gtk_widget_hide (self->priv->embed);

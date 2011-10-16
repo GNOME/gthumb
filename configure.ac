@@ -55,7 +55,7 @@ OPENRAW_REQUIRED=0.0.8
 LIBSOUP_REQUIRED=2.26
 GNOME_KEYRING_REQUIRED=2.28
 LIBBRASERO_REQUIRED=2.28
-LIBCHAMPLAIN_REQUIRED=0.8.0
+LIBCHAMPLAIN_REQUIRED=0.12.0
 
 dnl ===========================================================================
 
@@ -222,8 +222,8 @@ AC_ARG_ENABLE([libchamplain],
 
 if test x$enable_libchamplain = xyes ; then
 	PKG_CHECK_MODULES(LIBCHAMPLAIN,
-			  [champlain-0.8 >= $LIBCHAMPLAIN_REQUIRED
-			   champlain-gtk-0.8 >= $LIBCHAMPLAIN_REQUIRED],
+			  [champlain-0.12 >= $LIBCHAMPLAIN_REQUIRED
+			   champlain-gtk-0.12 >= $LIBCHAMPLAIN_REQUIRED],
 			  [enable_libchamplain=yes],
 			  [enable_libchamplain=no])
 fi
