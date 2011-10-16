@@ -392,7 +392,7 @@ gth_burn_task_exec (GthTask *base)
 	task->priv->builder = _gtk_builder_new_from_file ("burn-source-selector.ui", "burn_disc");
 	task->priv->dialog = gtk_dialog_new_with_buttons (_("Write to Disc"),
 							  GTK_WINDOW (task->priv->browser),
-							  GTK_DIALOG_NO_SEPARATOR,
+							  0,
 							  GTK_STOCK_HELP, GTK_RESPONSE_HELP,
 							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							  GTK_STOCK_OK, GTK_RESPONSE_OK,
