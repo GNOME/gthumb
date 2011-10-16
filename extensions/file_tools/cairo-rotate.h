@@ -36,7 +36,7 @@ void               _cairo_image_surface_rotate_get_cropping_region     (cairo_su
 									double             angle,
 									double             p1,
 									double             p2,
-									GdkRectangle      *region);
+									cairo_rectangle_int_t      *region);
 double             _cairo_image_surface_rotate_get_align_angle         (gboolean           vertical,
 					   	   	  	  	GdkPoint          *p1,
 					   	   	  	  	GdkPoint          *p2);

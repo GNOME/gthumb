@@ -54,9 +54,9 @@ struct _GthImageLineToolPrivate {
 	int                 original_height;
 	double              preview_zoom;
 	cairo_surface_t    *preview_image;
-	GdkRectangle        preview_image_area;
+	cairo_rectangle_int_t        preview_image_area;
 	GdkPoint            preview_center;
-	GdkRectangle        clip_area;
+	cairo_rectangle_int_t        clip_area;
 	cairo_matrix_t      matrix;
 	gboolean            first_point_set;
 	GthFit              original_fit_mode;

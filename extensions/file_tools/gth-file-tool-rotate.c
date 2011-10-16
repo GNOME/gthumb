@@ -47,7 +47,7 @@ struct _GthFileToolRotatePrivate {
 	GtkAdjustment      *crop_p2_adj;
 	gboolean            crop_enabled;
 	double              crop_p1_plus_p2;
-	GdkRectangle        crop_region;
+	cairo_rectangle_int_t        crop_region;
 	GthImageViewerTool *alignment;
 	GthImageViewerTool *rotator;
 };

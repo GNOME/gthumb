@@ -89,7 +89,7 @@ _cairo_image_surface_rotate_get_cropping_region (cairo_surface_t *image,
 						 double           angle,
 						 double           p1,
 						 double           p2,
-						 GdkRectangle    *region)
+						 cairo_rectangle_int_t    *region)
 {
 	double angle_rad;
 	double cos_angle, sin_angle;

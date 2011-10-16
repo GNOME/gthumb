@@ -105,7 +105,7 @@ struct _GthImageViewer
 
 	/*< protected, used by the tools >*/
 
-	GdkRectangle   image_area;
+	cairo_rectangle_int_t   image_area;
 	int            x_offset;           /* Scroll offsets. */
 	int            y_offset;
 	gboolean       pressed;
@@ -310,7 +310,7 @@ void           gth_image_viewer_paint_region             (GthImageViewer     *vi
 							  cairo_surface_t    *surface,
 							  int                 src_x,
 							  int                 src_y,
-							  GdkRectangle       *pixbuf_area,
+							  cairo_rectangle_int_t       *pixbuf_area,
 							  GdkRegion          *region,
 							  cairo_filter_t      filter);
 void           gth_image_viewer_paint_background         (GthImageViewer     *self,
@@ -319,7 +319,7 @@ void           gth_image_viewer_apply_painters           (GthImageViewer     *im
 							  GdkEventExpose     *event,
 							  cairo_t            *cr);
 void           gth_image_viewer_crop_area                (GthImageViewer     *viewer,
-							  GdkRectangle       *area);
+							  cairo_rectangle_int_t       *area);
 
 G_END_DECLS
 

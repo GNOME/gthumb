@@ -92,8 +92,8 @@ void                   gth_contact_sheet_theme_paint_background  (GthContactShee
 								  int                    height);
 void                   gth_contact_sheet_theme_paint_frame       (GthContactSheetTheme  *theme,
 								  cairo_t               *cr,
-								  GdkRectangle          *frame_rect,
-								  GdkRectangle          *image_rect);
+								  cairo_rectangle_int_t          *frame_rect,
+								  cairo_rectangle_int_t          *image_rect);
 void                   gth_contact_sheet_theme_paint_preview     (GthContactSheetTheme  *theme,
 								  cairo_t               *cr,
 								  int                    width,

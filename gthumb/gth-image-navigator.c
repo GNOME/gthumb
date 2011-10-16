@@ -104,7 +104,7 @@ typedef struct {
 	int              image_width, image_height;
 	int              window_max_width, window_max_height;
 	int              popup_x, popup_y, popup_width, popup_height;
-	GdkRectangle     visible_area;
+	cairo_rectangle_int_t     visible_area;
 	double           zoom_factor;
 } NavigatorPopup;
 

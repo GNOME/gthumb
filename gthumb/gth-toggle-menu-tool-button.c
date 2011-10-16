@@ -460,7 +460,7 @@ menu_position_func (GtkMenu                 *menu,
 	GtkRequisition    menu_req;
 	GtkOrientation    orientation;
 	GtkTextDirection  direction;
-	GdkRectangle      monitor;
+	cairo_rectangle_int_t      monitor;
 	int               monitor_num;
 	GdkScreen        *screen;
 	GtkAllocation     allocation;

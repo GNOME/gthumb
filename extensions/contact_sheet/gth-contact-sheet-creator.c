@@ -544,8 +544,8 @@ paint_footer (GthContactSheetCreator *self,
 
 static void
 paint_frame (GthContactSheetCreator *self,
-	     GdkRectangle           *frame_rect,
-	     GdkRectangle           *image_rect,
+	     cairo_rectangle_int_t           *frame_rect,
+	     cairo_rectangle_int_t           *image_rect,
 	     GthFileData            *file_data)
 {
 	gth_contact_sheet_theme_paint_frame (self->priv->theme, self->priv->cr, frame_rect, image_rect);
@@ -589,7 +589,7 @@ paint_frame (GthContactSheetCreator *self,
 
 static void
 paint_image (GthContactSheetCreator *self,
-	     GdkRectangle           *image_rect,
+	     cairo_rectangle_int_t           *image_rect,
 	     GdkPixbuf              *image)
 {
 	cairo_save (self->priv->cr);
@@ -705,7 +705,7 @@ export (GthContactSheetCreator *self)
 			ItemData     *row_item = scan_row->data;
 			int           frame_width;
 			int           frame_height;
-			GdkRectangle  frame_rect;
+			cairo_rectangle_int_t  frame_rect;
 			int           text_y;
 			int           i;
 
@@ -721,7 +721,7 @@ export (GthContactSheetCreator *self)
 			if (row_item->thumbnail != NULL) {
 				int          thumbnail_width;
 				int          thumbnail_height;
-				GdkRectangle image_rect;
+				cairo_rectangle_int_t image_rect;
 
 				thumbnail_width = gdk_pixbuf_get_width (row_item->thumbnail);
 				thumbnail_height = gdk_pixbuf_get_height (row_item->thumbnail);

@@ -124,7 +124,7 @@ show_calendar_popup (GthTimeSelector *self)
 	int             selector_height;
 	GdkScreen      *screen;
 	gint            monitor_num;
-	GdkRectangle    monitor;
+	cairo_rectangle_int_t    monitor;
 
 	gtk_widget_size_request (self->priv->popup_box, &popup_req);
 
@@ -339,7 +339,7 @@ calendar_popup_button_press_event_cb (GtkWidget      *widget,
 				      gpointer        user_data)
 {
 	GthTimeSelector *self = user_data;
-	GdkRectangle     popup_area;
+	cairo_rectangle_int_t     popup_area;
 
 	gdk_window_get_geometry (gtk_widget_get_window (self->priv->calendar_popup),
 				 &popup_area.x,

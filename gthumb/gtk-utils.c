@@ -901,7 +901,7 @@ _gtk_widget_get_screen_size (GtkWidget *widget,
 			     int       *height)
 {
 	GdkScreen    *screen;
-	GdkRectangle  geometry;
+	cairo_rectangle_int_t  geometry;
 
 	screen = gtk_widget_get_screen (widget);
 	gdk_screen_get_monitor_geometry (screen,

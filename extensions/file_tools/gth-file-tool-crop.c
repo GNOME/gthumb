@@ -76,7 +76,7 @@ static void
 crop_button_clicked_cb (GtkButton       *button,
 			GthFileToolCrop *self)
 {
-	GdkRectangle     selection;
+	cairo_rectangle_int_t     selection;
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 	GtkWidget       *viewer;
@@ -156,7 +156,7 @@ static void
 selector_selection_changed_cb (GthImageSelector *selector,
 			       GthFileToolCrop  *self)
 {
-	GdkRectangle selection;
+	cairo_rectangle_int_t selection;
 	int          min, max;
 
 	gth_image_selector_get_selection (selector, &selection);

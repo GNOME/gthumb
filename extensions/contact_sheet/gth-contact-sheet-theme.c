@@ -277,8 +277,8 @@ gth_contact_sheet_theme_paint_background (GthContactSheetTheme *theme,
 void
 gth_contact_sheet_theme_paint_frame (GthContactSheetTheme *theme,
 				     cairo_t              *cr,
-				     GdkRectangle         *frame_rect,
-				     GdkRectangle         *image_rect)
+				     cairo_rectangle_int_t         *frame_rect,
+				     cairo_rectangle_int_t         *image_rect)
 {
 	int width;
 
@@ -487,10 +487,10 @@ paint_text (GthContactSheetTheme  *theme,
 static void
 paint_thumbnail (GthContactSheetTheme  *theme,
 		 cairo_t               *cr,
-		 GdkRectangle          *image_rect,
+		 cairo_rectangle_int_t          *image_rect,
 		 double                 font_scale)
 {
-	GdkRectangle frame_rect;
+	cairo_rectangle_int_t frame_rect;
 
 	/* frame */
 
@@ -537,7 +537,7 @@ gth_contact_sheet_theme_paint_preview (GthContactSheetTheme  *theme,
 				       int                    height)
 {
 	double       font_scale;
-	GdkRectangle image_rect;
+	cairo_rectangle_int_t image_rect;
 
 	if (height < 200)
 		font_scale = height / 200.0;

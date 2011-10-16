@@ -55,7 +55,7 @@ struct _GthImageRotatorPrivate {
 	double              angle;
 	cairo_color_t       background_color;
 	gboolean            enable_crop;
-	GdkRectangle        crop_region;
+	cairo_rectangle_int_t        crop_region;
 	GthGridType         grid_type;
 	GthTransformResize  resize;
 
@@ -65,9 +65,9 @@ struct _GthImageRotatorPrivate {
 	int                 original_height;
 	double              preview_zoom;
 	cairo_surface_t    *preview_image;
-	GdkRectangle        preview_image_area;
+	cairo_rectangle_int_t        preview_image_area;
 	GdkPoint            preview_center;
-	GdkRectangle        clip_area;
+	cairo_rectangle_int_t        clip_area;
 	cairo_matrix_t      matrix;
 	gboolean            dragging;
 	double              angle_before_dragging;
@@ -139,8 +139,8 @@ _cairo_matrix_transform_point (cairo_matrix_t *matrix,
 static void
 gth_transform_resize (cairo_matrix_t     *matrix,
 		      GthTransformResize  resize,
-		      GdkRectangle       *original,
-		      GdkRectangle       *boundary)
+		      cairo_rectangle_int_t       *original,
+		      cairo_rectangle_int_t       *boundary)
 {
 	int x1, y1, x2, y2;
 
@@ -294,7 +294,7 @@ paint_darker_background (GthImageRotator *self,
 			 GdkEventExpose  *event,
 			 cairo_t         *cr)
 {
-	GdkRectangle crop_region;
+	cairo_rectangle_int_t crop_region;
 
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
@@ -349,7 +349,7 @@ paint_grid (GthImageRotator *self,
 	    GdkEventExpose  *event,
 	    cairo_t         *cr)
 {
-	GdkRectangle grid;
+	cairo_rectangle_int_t grid;
 
 	cairo_save (cr);
 
@@ -827,7 +827,7 @@ gth_image_rotator_get_resize (GthImageRotator *self)
 
 void
 gth_image_rotator_set_crop_region (GthImageRotator *self,
-				   GdkRectangle    *region)
+				   cairo_rectangle_int_t    *region)
 {
 	self->priv->enable_crop = (region != NULL);
 	if (region != NULL)
@@ -866,8 +866,8 @@ gth_image_rotator_get_result_fast (GthImageRotator *self)
 {
 	double           tx, ty;
 	cairo_matrix_t   matrix;
-	GdkRectangle     image_area;
-	GdkRectangle     clip_area;
+	cairo_rectangle_int_t     image_area;
+	cairo_rectangle_int_t     clip_area;
 	cairo_surface_t *output;
 	cairo_t         *cr;
 

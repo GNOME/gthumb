@@ -38,7 +38,7 @@
 typedef struct {
 	int           ref_count;
 	int           id;
-	GdkRectangle  area;
+	cairo_rectangle_int_t  area;
 	GdkCursor    *cursor;
 } EventArea;
 
@@ -194,7 +194,7 @@ struct _GthImageSelectorPrivate {
 	GthSelectorType  type;
 
 	cairo_surface_t *surface;
-	GdkRectangle     surface_area;
+	cairo_rectangle_int_t     surface_area;
 
 	gboolean         use_ratio;
 	double           ratio;
@@ -204,9 +204,9 @@ struct _GthImageSelectorPrivate {
 	gboolean         bind_dimensions;
 	int              bind_factor;
 
-	GdkRectangle     drag_start_selection_area;
-	GdkRectangle     selection_area;
-	GdkRectangle     selection;
+	cairo_rectangle_int_t     drag_start_selection_area;
+	cairo_rectangle_int_t     selection_area;
+	cairo_rectangle_int_t     selection;
 
 	GdkCursor       *default_cursor;
 	GdkCursor       *current_cursor;
@@ -225,7 +225,7 @@ struct _GthImageSelectorPrivate {
 static gboolean
 point_in_rectangle (int          x,
 		    int          y,
-		    GdkRectangle rect)
+		    cairo_rectangle_int_t rect)
 {
 	return ((x >= rect.x)
 		&& (x <= rect.x + rect.width)
@@ -235,8 +235,8 @@ point_in_rectangle (int          x,
 
 
 static gboolean
-rectangle_in_rectangle (GdkRectangle r1,
-			GdkRectangle r2)
+rectangle_in_rectangle (cairo_rectangle_int_t r1,
+			cairo_rectangle_int_t r2)
 {
 	return (point_in_rectangle (r1.x, r1.y, r2)
 		&& point_in_rectangle (r1.x + r1.width,
@@ -246,8 +246,8 @@ rectangle_in_rectangle (GdkRectangle r1,
 
 
 static gboolean
-rectangle_equal (GdkRectangle r1,
-		 GdkRectangle r2)
+rectangle_equal (cairo_rectangle_int_t r1,
+		 cairo_rectangle_int_t r2)
 {
 	return ((r1.x == r2.x)
 		&& (r1.y == r2.y)
@@ -266,8 +266,8 @@ real_to_selector (GthImageSelector *self,
 
 static void
 convert_to_selection_area (GthImageSelector *self,
-			   GdkRectangle      real_area,
-			   GdkRectangle     *selection_area)
+			   cairo_rectangle_int_t      real_area,
+			   cairo_rectangle_int_t     *selection_area)
 {
 	selection_area->x = real_to_selector (self, real_area.x);
 	selection_area->y = real_to_selector (self, real_area.y);
@@ -308,7 +308,7 @@ get_event_area_from_position (GthImageSelector *self,
 
 	for (scan = self->priv->event_list; scan; scan = scan->next) {
 		EventArea    *event_area = scan->data;
-		GdkRectangle  widget_area;
+		cairo_rectangle_int_t  widget_area;
 
 		widget_area = event_area->area;
 		widget_area.x += self->priv->viewer->image_area.x;
@@ -425,7 +425,7 @@ update_event_areas (GthImageSelector *self)
 
 static void
 queue_draw (GthImageSelector *self,
-	    GdkRectangle      area)
+	    cairo_rectangle_int_t      area)
 {
 	if (! gtk_widget_get_realized (GTK_WIDGET (self->priv->viewer)))
 		return;
@@ -448,11 +448,11 @@ selection_changed (GthImageSelector *self)
 
 static void
 set_selection_area (GthImageSelector *self,
-		    GdkRectangle      new_selection,
+		    cairo_rectangle_int_t      new_selection,
 		    gboolean          force_update)
 {
-	GdkRectangle old_selection_area;
-	GdkRectangle dirty_region;
+	cairo_rectangle_int_t old_selection_area;
+	cairo_rectangle_int_t dirty_region;
 
 	if (! force_update && rectangle_equal (self->priv->selection_area, new_selection))
 		return;
@@ -468,10 +468,10 @@ set_selection_area (GthImageSelector *self,
 
 static void
 set_selection (GthImageSelector *self,
-	       GdkRectangle      new_selection,
+	       cairo_rectangle_int_t      new_selection,
 	       gboolean          force_update)
 {
-	GdkRectangle new_area;
+	cairo_rectangle_int_t new_area;
 
 	if (! force_update && rectangle_equal (self->priv->selection, new_selection))
 		return;
@@ -485,7 +485,7 @@ set_selection (GthImageSelector *self,
 static void
 init_selection (GthImageSelector *self)
 {
-	GdkRectangle area;
+	cairo_rectangle_int_t area;
 
 	/*
 	if (! self->priv->use_ratio) {
@@ -613,7 +613,7 @@ paint_background (GthImageSelector *self,
 
 	/* make the background darker */
 	{
-		GdkRectangle *rects;
+		cairo_rectangle_int_t *rects;
 		int           n_rects;
 		int           i;
 
@@ -622,7 +622,7 @@ paint_background (GthImageSelector *self,
 		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 		gdk_region_get_rectangles (event->region, &rects, &n_rects);
 		for (i = 0; i < n_rects; i++) {
-			GdkRectangle paint_area;
+			cairo_rectangle_int_t paint_area;
 
 			if (gdk_rectangle_intersect (&self->priv->viewer->image_area, &rects[i], &paint_area))
 				cairo_rectangle (cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
@@ -639,7 +639,7 @@ paint_selection (GthImageSelector *self,
 		 GdkEventExpose   *event,
 		 cairo_t          *cr)
 {
-	GdkRectangle selection_area;
+	cairo_rectangle_int_t selection_area;
 
 	selection_area = self->priv->selection_area;
 	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
@@ -733,8 +733,8 @@ selector_to_real (GthImageSelector *self,
 
 static void
 convert_to_real_selection (GthImageSelector *self,
-			   GdkRectangle      selection_area,
-			   GdkRectangle     *real_area)
+			   cairo_rectangle_int_t      selection_area,
+			   cairo_rectangle_int_t     *real_area)
 {
 	real_area->x = selector_to_real (self, selection_area.x);
 	real_area->y = selector_to_real (self, selection_area.y);
@@ -794,8 +794,8 @@ gth_image_selector_button_release (GthImageViewerTool *base,
 
 
 static void
-grow_upward (GdkRectangle *bound,
-	     GdkRectangle *r,
+grow_upward (cairo_rectangle_int_t *bound,
+	     cairo_rectangle_int_t *r,
 	     int           dy,
 	     gboolean      check)
 {
@@ -807,8 +807,8 @@ grow_upward (GdkRectangle *bound,
 
 
 static void
-grow_downward (GdkRectangle *bound,
-	       GdkRectangle *r,
+grow_downward (cairo_rectangle_int_t *bound,
+	       cairo_rectangle_int_t *r,
 	       int           dy,
 	       gboolean      check)
 {
@@ -819,8 +819,8 @@ grow_downward (GdkRectangle *bound,
 
 
 static void
-grow_leftward (GdkRectangle *bound,
-	       GdkRectangle *r,
+grow_leftward (cairo_rectangle_int_t *bound,
+	       cairo_rectangle_int_t *r,
 	       int           dx,
 	       gboolean      check)
 {
@@ -832,8 +832,8 @@ grow_leftward (GdkRectangle *bound,
 
 
 static void
-grow_rightward (GdkRectangle *bound,
-		GdkRectangle *r,
+grow_rightward (cairo_rectangle_int_t *bound,
+		cairo_rectangle_int_t *r,
 		int           dx,
 		gboolean      check)
 {
@@ -880,7 +880,7 @@ bind_dimension (int dimension,
 
 static gboolean
 check_and_set_new_selection (GthImageSelector *self,
-			     GdkRectangle      new_selection)
+			     cairo_rectangle_int_t      new_selection)
 {
 	new_selection.width = MAX (0, new_selection.width);
 	new_selection.height = MAX (0, new_selection.height);
@@ -941,7 +941,7 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 	y = event->y + self->priv->viewer->y_offset;
 
 	if (self->priv->current_area == NULL) {
-		GdkRectangle new_selection;
+		cairo_rectangle_int_t new_selection;
 
 		new_selection.x = selector_to_real (self, x - self->priv->viewer->image_area.x);
 		new_selection.y = selector_to_real (self, y - self->priv->viewer->image_area.y);
@@ -979,7 +979,7 @@ update_mouse_selection (GthImageSelector *self)
 {
 	gboolean          check = ! self->priv->use_ratio;
 	int               dx, dy;
-	GdkRectangle      new_selection, tmp;
+	cairo_rectangle_int_t      new_selection, tmp;
 	int               semiplane;
 	GthEventAreaType  area_type = self->priv->current_area->id;
 	EventArea        *event_area;
@@ -1492,7 +1492,7 @@ static void
 gth_image_selector_zoom_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
-	GdkRectangle      selection;
+	cairo_rectangle_int_t      selection;
 
 	gth_image_selector_get_selection (self, &selection);
 	set_selection (self, selection, TRUE);
@@ -1656,7 +1656,7 @@ gboolean
 gth_image_selector_set_selection_x (GthImageSelector *self,
 				    int               x)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.x = x;
@@ -1668,7 +1668,7 @@ gboolean
 gth_image_selector_set_selection_y (GthImageSelector *self,
 				    int               y)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.y = y;
@@ -1681,7 +1681,7 @@ gth_image_selector_set_selection_pos (GthImageSelector *self,
 				      int               x,
 				      int               y)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.x = x;
@@ -1694,7 +1694,7 @@ gboolean
 gth_image_selector_set_selection_width (GthImageSelector *self,
 					int               width)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.width = width;
@@ -1708,7 +1708,7 @@ gboolean
 gth_image_selector_set_selection_height (GthImageSelector *self,
 					 int               height)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.height = height;
@@ -1720,7 +1720,7 @@ gth_image_selector_set_selection_height (GthImageSelector *self,
 
 void
 gth_image_selector_set_selection (GthImageSelector *self,
-				  GdkRectangle      selection)
+				  cairo_rectangle_int_t      selection)
 {
 	set_selection (self, selection, FALSE);
 }
@@ -1728,7 +1728,7 @@ gth_image_selector_set_selection (GthImageSelector *self,
 
 void
 gth_image_selector_get_selection (GthImageSelector *self,
-				  GdkRectangle     *selection)
+				  cairo_rectangle_int_t     *selection)
 {
 	selection->x = MAX (self->priv->selection.x, 0);
 	selection->y = MAX (self->priv->selection.y, 0);
@@ -1846,7 +1846,7 @@ gth_image_selector_bind_dimensions (GthImageSelector *self,
 void
 gth_image_selector_center (GthImageSelector *self)
 {
-	GdkRectangle new_selection;
+	cairo_rectangle_int_t new_selection;
 
 	new_selection = self->priv->selection;
 	new_selection.x = (self->priv->surface_area.width - new_selection.width) / 2;

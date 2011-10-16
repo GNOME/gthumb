@@ -159,7 +159,7 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 static void
 gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 				      GtkWidget       *widget,
-				      GdkRectangle    *cell_area,
+				      cairo_rectangle_int_t    *cell_area,
 				      int             *x_offset,
 				      int             *y_offset,
 				      int             *width,
@@ -228,17 +228,17 @@ static void
 gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 				    GdkWindow            *window,
 				    GtkWidget            *widget,
-				    GdkRectangle         *background_area,
-				    GdkRectangle         *cell_area,
-				    GdkRectangle         *expose_area,
+				    cairo_rectangle_int_t         *background_area,
+				    cairo_rectangle_int_t         *cell_area,
+				    cairo_rectangle_int_t         *expose_area,
 				    GtkCellRendererState  flags)
 {
 	GthCellRendererThumbnail *self;
 	GtkStyle                 *style;
 	GtkStateType              state;
-	GdkRectangle              thumb_rect;
-	GdkRectangle              draw_rect;
-	GdkRectangle              image_rect;
+	cairo_rectangle_int_t              thumb_rect;
+	cairo_rectangle_int_t              draw_rect;
+	cairo_rectangle_int_t              image_rect;
 	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
 	int                       xpad;
@@ -309,7 +309,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 		/* ...else draw a frame with a drop-shadow effect */
 
-		GdkRectangle frame_rect;
+		cairo_rectangle_int_t frame_rect;
 
 		if (state == GTK_STATE_ACTIVE)
 			state = GTK_STATE_SELECTED;
