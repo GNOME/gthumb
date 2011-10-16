@@ -297,11 +297,11 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
                 		   int       *natural_width)
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
-	int          xthickness;
+	GtkBorder    padding;
 	GtkWidget   *vscrollbar;
 
-	xthickness = gtk_widget_get_style (file_list->priv->scrolled_window)->xthickness;
-	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + xthickness * 2;
+	gtk_style_context_get_padding  (gtk_widget_get_style_context (file_list->priv->scrolled_window), GTK_STATE_FLAG_NORMAL, &padding);
+	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + padding.left + padding.right;
 
 	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
 	if (gtk_widget_get_visible (vscrollbar)) {
@@ -326,10 +326,10 @@ gth_file_list_get_preferred_height (GtkWidget *widget,
                 		    int       *natural_height)
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
-	int          ythickness;
+	GtkBorder    padding;
 
-	ythickness = gtk_widget_get_style (file_list->priv->scrolled_window)->ythickness;
-	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + ythickness * 2;
+	gtk_style_context_get_padding  (gtk_widget_get_style_context (file_list->priv->scrolled_window), GTK_STATE_FLAG_NORMAL, &padding);
+	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + padding.top + padding.bottom;
 	*natural_height = *minimum_height;
 }
 
