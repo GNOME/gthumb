@@ -1,12 +1,12 @@
 AC_PREREQ(2.63)
-AC_INIT([gthumb],[2.13.91],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb],[2.90.0],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
 AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([configure.ac])
 
-GTHUMB_API_VERSION=2.14
+GTHUMB_API_VERSION=2.90
 AC_SUBST([GTHUMB_API_VERSION])
 
 if test -z "$enable_maintainer_mode"; then
@@ -45,7 +45,7 @@ GNOME_CXX_WARNINGS
 GTHUMB_EXTENSION_RULES
 
 GLIB_REQUIRED=2.28.0
-GTK_REQUIRED=2.24.0
+GTK_REQUIRED=3.2.0
 GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
@@ -125,7 +125,7 @@ AM_CONDITIONAL(BUILD_TEST_SUITE, test "x$ENABLE_TEST_SUITE" = xyes)
 
 dnl ===========================================================================
 
-PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= $GTK_REQUIRED])
+PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_REQUIRED])
 AC_SUBST([GTK_CFLAGS])
 AC_SUBST([GTK_LIBS])
 
@@ -134,7 +134,7 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gthread-2.0
 	gmodule-2.0
 	gio-unix-2.0
-	gtk+-2.0 		>= $GTK_REQUIRED
+	gtk+-3.0 		>= $GTK_REQUIRED
 	gconf-2.0 		>= $GCONF_REQUIRED
 	libpng
         ice
