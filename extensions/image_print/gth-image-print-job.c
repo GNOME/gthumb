@@ -1029,10 +1029,10 @@ gth_image_print_job_update_image_preview (GthImagePrintJob *self,
 }
 
 
-static void
-preview_expose_event_cb (GtkWidget      *widget,
-			 GdkEventExpose *event,
-			 gpointer        user_data)
+static gboolean
+preview_draw_cb (GtkWidget *widget,
+		 cairo_t   *cr,
+		 gpointer   user_data)
 {
 	GthImagePrintJob *self = user_data;
 	cairo_t          *cr;
@@ -1041,8 +1041,6 @@ preview_expose_event_cb (GtkWidget      *widget,
 
 	g_return_if_fail (GTH_IS_IMAGE_PRINT_JOB (self));
 	g_return_if_fail ((self->priv->page_setup != NULL) && GTK_IS_PAGE_SETUP (self->priv->page_setup));
-
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 
 	/* paint the paper */
 
@@ -1065,7 +1063,8 @@ preview_expose_event_cb (GtkWidget      *widget,
 				   TRUE);
 
 	g_object_unref (pango_layout);
-	cairo_destroy (cr);
+
+	return TRUE;
 }
 
 
@@ -1517,8 +1516,8 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS));
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
-			  "expose_event",
-	                  G_CALLBACK (preview_expose_event_cb),
+			  "draw",
+			  G_CALLBACK (preview_draw_cb),
 	                  self);
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "motion-notify-event",

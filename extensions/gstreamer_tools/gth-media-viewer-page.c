@@ -171,14 +171,13 @@ video_area_unrealize_cb (GtkWidget *widget,
 
 
 static gboolean
-video_area_expose_event_cb (GtkWidget      *widget,
-			    GdkEventExpose *event,
-			    gpointer        user_data)
+video_area_draw_cb (GtkWidget *widget,
+		    cairo_t   *cr,
+		    gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
 	GtkAllocation       allocation;
 	GtkStyle           *style;
-	cairo_t            *cr;
 
 	if (event->count > 0)
 		return FALSE;
@@ -210,9 +209,6 @@ video_area_expose_event_cb (GtkWidget      *widget,
 		g_free (type);
 	}
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	gdk_cairo_region (cr, event->region);
-	cairo_clip (cr);
 	if (self->priv->has_video)
 		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 	else
@@ -249,8 +245,6 @@ video_area_expose_event_cb (GtkWidget      *widget,
 		gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
 		cairo_fill (cr);
 	}
-
-	cairo_destroy (cr);
 
 	return TRUE;
 }
@@ -714,8 +708,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 			  G_CALLBACK (video_area_unrealize_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->area),
-			  "expose_event",
-			  G_CALLBACK (video_area_expose_event_cb),
+			  "draw",
+			  G_CALLBACK (video_area_draw_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "button_press_event",

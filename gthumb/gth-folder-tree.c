@@ -532,11 +532,11 @@ motion_notify_event_cb (GtkWidget      *widget,
 						 event->x,
 						 event->y))
 		{
-			GtkTreePath    *path = NULL;
-			GdkDragContext *context;
-			int             cell_x;
-			int             cell_y;
-			GdkPixmap      *dnd_icon;
+			GtkTreePath     *path = NULL;
+			GdkDragContext  *context;
+			int              cell_x;
+			int              cell_y;
+			cairo_surface_t *dnd_surface;
 
 			if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (folder_tree),
 							     event->x,
@@ -560,15 +560,10 @@ motion_notify_event_cb (GtkWidget      *widget,
 						  1,
 						  (GdkEvent *) event);
 
-			dnd_icon = gtk_tree_view_create_row_drag_icon (GTK_TREE_VIEW (folder_tree), path);
-			gtk_drag_set_icon_pixmap (context,
-						  gdk_drawable_get_colormap (dnd_icon),
-						  dnd_icon,
-						  NULL,
-						  cell_x,
-						  cell_y);
+			dnd_surface = gtk_tree_view_create_row_drag_icon (GTK_TREE_VIEW (folder_tree), path);
+			gtk_drag_set_icon_surface (context, dnd_surface);
 
-			g_object_unref (dnd_icon);
+			cairo_surface_destroy (dnd_surface);
 			gtk_tree_path_free (path);
 		}
 

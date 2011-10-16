@@ -599,7 +599,6 @@ gth_image_selector_unmap (GthImageViewerTool *base)
 
 static void
 paint_background (GthImageSelector *self,
-		  GdkEventExpose   *event,
 		  cairo_t          *cr)
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
@@ -608,35 +607,21 @@ paint_background (GthImageSelector *self,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
-				       event->region,
+				       NULL,
 				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 
 	/* make the background darker */
-	{
-		cairo_rectangle_int_t *rects;
-		int                    n_rects;
-		int                    i;
 
-		gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
-		cairo_clip (cr);
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
-		gdk_region_get_rectangles (event->region, &rects, &n_rects);
-		for (i = 0; i < n_rects; i++) {
-			cairo_rectangle_int_t paint_area;
-
-			if (gdk_rectangle_intersect (&self->priv->viewer->image_area, &rects[i], &paint_area))
-				cairo_rectangle (cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
-		}
-		cairo_fill (cr);
-
-		g_free (rects);
-	}
+	cairo_save (cr);
+	gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+	cairo_fill (cr);
+	cairo_restore (cr);
 }
 
 
 static void
 paint_selection (GthImageSelector *self,
-		 GdkEventExpose   *event,
 		 cairo_t          *cr)
 {
 	cairo_rectangle_int_t selection_area;
@@ -652,7 +637,7 @@ paint_selection (GthImageSelector *self,
 					       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 					       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 					       &selection_area,
-					       event->region,
+					       NULL,
 					       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 
 	cairo_save (cr);
@@ -685,7 +670,6 @@ paint_selection (GthImageSelector *self,
 
 static void
 paint_image (GthImageSelector *self,
-	     GdkEventExpose   *event,
 	     cairo_t          *cr)
 {
 	gth_image_viewer_paint_region (self->priv->viewer,
@@ -694,15 +678,14 @@ paint_image (GthImageSelector *self,
 				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
 				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
 				       &self->priv->viewer->image_area,
-				       event->region,
+				       NULL,
 				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 }
 
 
 static void
-gth_image_selector_expose (GthImageViewerTool *base,
-			   GdkEventExpose     *event,
-			   cairo_t            *cr)
+gth_image_selector_draw (GthImageViewerTool *base,
+			 cairo_t            *cr)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -713,13 +696,13 @@ gth_image_selector_expose (GthImageViewerTool *base,
 
 	if (self->priv->mask_visible) {
 		if (self->priv->viewer->dragging)
-			paint_image (self, event, cr);
+			paint_image (self, cr);
 		else
-			paint_background (self, event, cr);
-		paint_selection (self, event, cr);
+			paint_background (self, cr);
+		paint_selection (self, cr);
 	}
 	else
-		paint_image (self, event, cr);
+		paint_image (self, cr);
 }
 
 
@@ -1597,7 +1580,7 @@ gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface
 	iface->size_allocate = gth_image_selector_size_allocate;
 	iface->map = gth_image_selector_map;
 	iface->unmap = gth_image_selector_unmap;
-	iface->expose = gth_image_selector_expose;
+	iface->draw = gth_image_selector_draw;
 	iface->button_press = gth_image_selector_button_press;
 	iface->button_release = gth_image_selector_button_release;
 	iface->motion_notify = gth_image_selector_motion_notify;

@@ -47,7 +47,6 @@ typedef struct _GthImageViewerPrivate  GthImageViewerPrivate;
 #define GTH_IMAGE_VIEWER_FRAME_BORDER2   (GTH_IMAGE_VIEWER_FRAME_BORDER * 2)
 
 typedef void (*GthImageViewerPaintFunc) (GthImageViewer *image_viewer,
-					 GdkEventExpose *event,
 					 cairo_t        *cr,
 					 gpointer        user_data);
 
@@ -316,7 +315,6 @@ void           gth_image_viewer_paint_region             (GthImageViewer        
 void           gth_image_viewer_paint_background         (GthImageViewer        *self,
 				   	   	          cairo_t               *cr);
 void           gth_image_viewer_apply_painters           (GthImageViewer        *image_viewer,
-							  GdkEventExpose        *event,
 							  cairo_t               *cr);
 void           gth_image_viewer_crop_area                (GthImageViewer        *viewer,
 							  cairo_rectangle_int_t *area);

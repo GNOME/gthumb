@@ -4144,6 +4144,8 @@ _gth_browser_construct (GthBrowser *browser)
 		gtk_window_set_default_size (GTK_WINDOW (browser), width, height);
 	}
 
+	gtk_window_set_has_resize_grip (GTK_WINDOW (browser), TRUE);
+
 	/* ui actions */
 
 	browser->priv->actions = gtk_action_group_new ("Actions");
@@ -4287,7 +4289,6 @@ _gth_browser_construct (GthBrowser *browser)
 	/* statusbar */
 
 	browser->priv->statusbar = gth_statusbar_new ();
-	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (browser->priv->statusbar), TRUE);
 	browser->priv->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (browser->priv->statusbar), "gth_help_message");
 	_gth_browser_set_statusbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
 	gth_window_attach (GTH_WINDOW (browser), browser->priv->statusbar, GTH_WINDOW_STATUSBAR);
@@ -6029,7 +6030,7 @@ hide_mouse_pointer_cb (gpointer data)
 		GtkWidget *widget = scan->data;
 		int        x, y, w, h;
 
-		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h, NULL);
+		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h);
 
 		if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
 			return FALSE;

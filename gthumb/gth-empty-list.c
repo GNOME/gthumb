@@ -121,12 +121,10 @@ gth_empty_list_realize (GtkWidget *widget)
 	attributes.height      = allocation.height;
 	attributes.wclass      = GDK_INPUT_OUTPUT;
 	attributes.visual      = gtk_widget_get_visual (widget);
-	attributes.colormap    = gtk_widget_get_colormap (widget);
 	attributes.event_mask  = GDK_VISIBILITY_NOTIFY_MASK;
 	attributes_mask        = (GDK_WA_X
 				  | GDK_WA_Y
-				  | GDK_WA_VISUAL
-				  | GDK_WA_COLORMAP);
+				  | GDK_WA_VISUAL);
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 			         &attributes,
 			         attributes_mask);
@@ -233,8 +231,8 @@ gth_empty_list_size_allocate (GtkWidget     *widget,
 
 
 static gboolean
-gth_empty_list_expose_event (GtkWidget      *widget,
-		             GdkEventExpose *event)
+gth_empty_list_draw (GtkWidget *widget,
+		     cairo_t   *cr)
 {
 	GthEmptyList   *self = (GthEmptyList*) widget;
 	GtkAllocation   allocation;
@@ -253,7 +251,6 @@ gth_empty_list_expose_event (GtkWidget      *widget,
 	pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
 	pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
 
-	cr = gdk_cairo_create (self->priv->bin_window);
 	cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
 	pango_cairo_layout_path (cr, self->priv->layout);
 	style = gtk_widget_get_style (widget);
@@ -272,9 +269,7 @@ gth_empty_list_expose_event (GtkWidget      *widget,
 				 allocation.height - 2);
 	}
 
-	cairo_destroy (cr);
-
-	return FALSE;
+	return TRUE;
 }
 
 
@@ -311,7 +306,7 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	widget_class->map = gth_empty_list_map;
 	widget_class->unmap = gth_empty_list_unmap;
 	widget_class->size_allocate = gth_empty_list_size_allocate;
-	widget_class->expose_event = gth_empty_list_expose_event;
+	widget_class->draw = gth_empty_list_draw;
 	widget_class->button_press_event = gth_empty_list_button_press;
 	
 	/* properties */

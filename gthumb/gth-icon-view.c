@@ -720,10 +720,12 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 						 event->x,
 						 event->y))
 		{
-			GtkTreePath    *path = NULL;
-			GdkDragContext *context;
-			GdkPixmap      *dnd_icon;
-			int             n_selected;
+			GtkTreePath     *path = NULL;
+			GdkDragContext  *context;
+			cairo_surface_t *dnd_surface;
+			int              width;
+			int              height;
+			int              n_selected;
 
 			path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (icon_view),
 							      event->x,
@@ -744,39 +746,42 @@ icon_view_motion_notify_event_cb (GtkWidget      *widget,
 			if (icon_view->priv->drag_button == 2)
 				gdk_drag_status (context, GDK_ACTION_ASK, event->time);
 
-			dnd_icon = gtk_icon_view_create_drag_icon (GTK_ICON_VIEW (icon_view), path);
+			dnd_surface = gtk_icon_view_create_drag_icon (GTK_ICON_VIEW (icon_view), path);
+			width = cairo_image_surface_get_width (dnd_surface);
+			height = cairo_image_surface_get_height (dnd_surface);
 
-			n_selected =  gth_file_selection_get_n_selected (GTH_FILE_SELECTION (icon_view));
+			n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (icon_view));
 			if (n_selected >= 1) {
 				const int  offset = 3;
 				int        n_visible;
 				int        width;
 				int        height;
 				int        border;
+				GdkPixbuf *dnd_icon;
 				GdkPixbuf *multi_dnd_icon;
 				int        i;
 
+				dnd_icon = gdk_pixbuf_get_from_surface (dnd_surface, 0, 0, width, height);
+
 				n_visible = MIN (n_selected, 4);
-				gdk_pixmap_get_size (dnd_icon, &width, &height);
 				border = n_visible * offset;
 				multi_dnd_icon = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width + border, height + border);
 				gdk_pixbuf_fill (multi_dnd_icon, 0x00000000);
 				for (i = n_visible - 1; i >= 0; i--)
-					gdk_pixbuf_get_from_drawable (multi_dnd_icon,
-								      dnd_icon,
-								      gdk_drawable_get_colormap (dnd_icon),
-								      0, 0,
-								      i * offset, i * offset,
-								      width, height);
+					gdk_pixbuf_copy_area (dnd_icon,
+							      0, 0,
+							      width, height,
+							      multi_dnd_icon,
+							      i * offset, i * offset);
 				gtk_drag_set_icon_pixbuf (context,
 							  multi_dnd_icon,
 							  width / 4,
 							  height / 4);
 
 				g_object_unref (multi_dnd_icon);
+				g_object_unref (dnd_icon);
 			}
 
-			g_object_unref (dnd_icon);
 			gtk_tree_path_free (path);
 		}
 

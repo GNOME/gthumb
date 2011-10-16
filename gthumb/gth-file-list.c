@@ -279,41 +279,58 @@ gth_file_list_finalize (GObject *object)
 }
 
 
-static void
-gth_file_list_size_request (GtkWidget      *widget,
-			    GtkRequisition *requisition)
+static GtkSizeRequestMode
+gth_file_list_get_request_mode (GtkWidget *widget)
 {
-	GthFileList *file_list;
+	GthFileList *file_list = GTH_FILE_LIST (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
+		return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+	else
+		return GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT;
+}
 
-	file_list = GTH_FILE_LIST (widget);
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
-		int        xthickness;
-		GtkWidget *vscrollbar;
+static void
+gth_file_list_get_preferred_width (GtkWidget *widget,
+                		   int       *minimum_width,
+                		   int       *natural_width)
+{
+	GthFileList *file_list = GTH_FILE_LIST (widget);
+	int          xthickness;
+	GtkWidget   *vscrollbar;
 
-		xthickness = gtk_widget_get_style (file_list->priv->scrolled_window)->xthickness;
-		requisition->width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + xthickness * 2;
+	xthickness = gtk_widget_get_style (file_list->priv->scrolled_window)->xthickness;
+	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + xthickness * 2;
 
-		vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
-		if (gtk_widget_get_visible (vscrollbar)) {
-			GtkRequisition vscrollbar_requisition;
-			int            scrollbar_spacing;
+	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
+	if (gtk_widget_get_visible (vscrollbar)) {
+		int vscrollbar_minimum_width;
+		int vscrollbar_natural_width;
+		int scrollbar_spacing;
 
-			gtk_widget_size_request (vscrollbar, &vscrollbar_requisition);
-			gtk_widget_style_get (file_list->priv->scrolled_window,
-					      "scrollbar-spacing", &scrollbar_spacing,
-					      NULL);
-			requisition->width += vscrollbar_requisition.width + scrollbar_spacing;
-		}
-	}
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) {
-		int ythickness;
+		gtk_widget_get_preferred_width (vscrollbar, &vscrollbar_minimum_width, &vscrollbar_natural_width);
+		gtk_widget_style_get (file_list->priv->scrolled_window,
+				      "scrollbar-spacing", &scrollbar_spacing,
+				      NULL);
+		*minimum_width += vscrollbar_minimum_width + scrollbar_spacing;
+	 }
 
-		ythickness = gtk_widget_get_style (file_list->priv->scrolled_window)->ythickness;
-		requisition->height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + ythickness * 2;
-	}
+	*natural_width = *minimum_width;
+}
+
+
+static void
+gth_file_list_get_preferred_height (GtkWidget *widget,
+                		    int       *minimum_height,
+                		    int       *natural_height)
+{
+	GthFileList *file_list = GTH_FILE_LIST (widget);
+	int          ythickness;
+
+	ythickness = gtk_widget_get_style (file_list->priv->scrolled_window)->ythickness;
+	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + ythickness * 2;
+	*natural_height = *minimum_height;
 }
 
 
@@ -329,7 +346,9 @@ gth_file_list_class_init (GthFileListClass *class)
 	object_class->finalize = gth_file_list_finalize;
 
 	widget_class = (GtkWidgetClass*) class;
-	widget_class->size_request = gth_file_list_size_request;
+	widget_class->get_request_mode = gth_file_list_get_request_mode;
+	widget_class->get_preferred_width = gth_file_list_get_preferred_width;
+	widget_class->get_preferred_height = gth_file_list_get_preferred_height;
 }
 
 

@@ -67,19 +67,16 @@ gth_contact_sheet_theme_dialog_class_init (GthContactSheetThemeDialogClass *klas
 
 
 static gboolean
-preview_area_expose_event_cb (GtkWidget      *widget,
-			      GdkEventExpose *event,
-			      gpointer        user_data)
+preview_area_draw_cb (GtkWidget *widget,
+		      cairo_t   *cr,
+		      gpointer   user_data)
 {
 	GthContactSheetThemeDialog *self = user_data;
-	cairo_t                    *cr;
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 	gth_contact_sheet_theme_paint_preview (self->priv->theme,
 					       cr,
 					       gdk_window_get_width (gtk_widget_get_window (widget)),
 					       gdk_window_get_height (gtk_widget_get_window (widget)));
-	cairo_destroy (cr);
 
 	return TRUE;
 }
@@ -229,8 +226,8 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
 	g_signal_connect (GET_WIDGET ("preview_area"),
-			  "expose_event",
-			  G_CALLBACK (preview_area_expose_event_cb),
+			  "draw",
+			  G_CALLBACK (preview_area_draw_cb),
 			  self);
 	g_signal_connect_swapped (GET_WIDGET ("solid_color_radiobutton"),
 			  	  "toggled",

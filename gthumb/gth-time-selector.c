@@ -345,8 +345,7 @@ calendar_popup_button_press_event_cb (GtkWidget      *widget,
 				 &popup_area.x,
 				 &popup_area.y,
 				 &popup_area.width,
-				 &popup_area.height,
-				 NULL);
+				 &popup_area.height);
 
 	/*g_print ("(%.0f, %.0f) <==> (%d, %d)[%d, %d]\n", event->x_root, event->y_root,  popup_area.x,  popup_area.y, popup_area.width, popup_area.height);*/
 

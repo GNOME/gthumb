@@ -531,22 +531,22 @@ gth_histogram_paint_selection (GthHistogramView *self,
 
 
 static gboolean
-histogram_view_expose_event_cb (GtkWidget      *widget,
-				GdkEventExpose *event,
-				gpointer        user_data)
+histogram_view_draw_cb (GtkWidget *widget,
+			cairo_t   *cr,
+			gpointer   user_data)
 {
 	GthHistogramView *self = user_data;
 	GtkAllocation     allocation;
 	GtkStyle         *style;
-	cairo_t          *cr;
+
+	if (GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw != NULL)
+		GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw (widget, cr);
 
 	gtk_widget_get_allocation (widget, &allocation);
 	allocation.width--;
 	allocation.height--;
 
 	style = gtk_widget_get_style (widget);
-
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 
 	gdk_cairo_set_source_color (cr, &style->base[gtk_widget_get_state (widget)]);
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
@@ -570,8 +570,6 @@ histogram_view_expose_event_cb (GtkWidget      *widget,
 		else
 			gth_histogram_paint_channel (self, cr, self->priv->current_channel, &allocation);
 	}
-
-	cairo_destroy (cr);
 
 	return TRUE;
 }
@@ -919,8 +917,8 @@ gth_histogram_view_instance_init (GthHistogramView *self)
 	gtk_container_add (GTK_CONTAINER (view_frame), self->priv->histogram_view);
 
 	g_signal_connect (self->priv->histogram_view,
-			  "expose-event",
-			  G_CALLBACK (histogram_view_expose_event_cb),
+			  "draw",
+			  G_CALLBACK (histogram_view_draw_cb),
 			  self);
 	g_signal_connect (self->priv->histogram_view,
 			  "scroll-event",

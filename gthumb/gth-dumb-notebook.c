@@ -49,32 +49,136 @@ gth_dumb_notebook_finalize (GObject *object)
 }
 
 
+static GtkSizeRequestMode
+gth_dumb_notebook_get_request_mode (GtkWidget *widget)
+{
+	return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+}
+
+
 static void
-gth_dumb_notebook_size_request (GtkWidget      *widget,
-				GtkRequisition *requisition)
+gth_dumb_notebook_get_preferred_height (GtkWidget *widget,
+                			int       *minimum_height,
+                			int       *natural_height)
 {
 	GthDumbNotebook *dumb_notebook = GTH_DUMB_NOTEBOOK (widget);
 	GList           *scan;
-	GtkRequisition   child_requisition;
 	int              border_width;
-	
-	requisition->width = 0;
-  	requisition->height = 0;
-  
+
+	*minimum_height = 0;
+	*natural_height = 0;
+
 	for (scan = dumb_notebook->priv->children; scan; scan = scan->next) {
 		GtkWidget *child = scan->data;
+		int        child_minimum_height;
+		int        child_natural_height;
 		
 		if (! gtk_widget_get_visible (child))
                         continue;
-                        
-		gtk_widget_size_request (child, &child_requisition);
-		requisition->width = MAX (requisition->width, child_requisition.width);
-		requisition->height = MAX (requisition->height, child_requisition.height);
+
+		gtk_widget_get_preferred_height (child, &child_minimum_height, &child_natural_height);
+		*minimum_height = MAX (*minimum_height, child_minimum_height);
+		*natural_height = MAX (*natural_height, child_natural_height);
 	}
 	
 	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
-	requisition->width += border_width * 2;
-  	requisition->height += border_width * 2;
+	*minimum_height += border_width * 2;
+	*natural_height += border_width * 2;
+}
+
+
+static void
+gth_dumb_notebook_get_preferred_width_for_height (GtkWidget *widget,
+                				  int        height,
+                				  int       *minimum_width,
+                				  int       *natural_width)
+{
+	GthDumbNotebook *dumb_notebook = GTH_DUMB_NOTEBOOK (widget);
+	GList           *scan;
+	int              border_width;
+
+	*minimum_width = 0;
+	*natural_width = 0;
+
+	for (scan = dumb_notebook->priv->children; scan; scan = scan->next) {
+		GtkWidget *child = scan->data;
+		int        child_minimum_width;
+		int        child_natural_width;
+
+		if (! gtk_widget_get_visible (child))
+                        continue;
+
+		gtk_widget_get_preferred_width_for_height (child, height, &child_minimum_width, &child_natural_width);
+		*minimum_width = MAX (*minimum_width, child_minimum_width);
+		*natural_width = MAX (*natural_width, child_natural_width);
+	}
+
+	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
+	*minimum_width += border_width * 2;
+	*natural_width += border_width * 2;
+}
+
+
+static void
+gth_dumb_notebook_get_preferred_width (GtkWidget *widget,
+                		       int       *minimum_width,
+                		       int       *natural_width)
+{
+	GthDumbNotebook *dumb_notebook = GTH_DUMB_NOTEBOOK (widget);
+	GList           *scan;
+	int              border_width;
+
+	*minimum_width = 0;
+	*natural_width = 0;
+
+	for (scan = dumb_notebook->priv->children; scan; scan = scan->next) {
+		GtkWidget *child = scan->data;
+		int        child_minimum_width;
+		int        child_natural_width;
+
+		if (! gtk_widget_get_visible (child))
+                        continue;
+
+		gtk_widget_get_preferred_width (child, &child_minimum_width, &child_natural_width);
+		*minimum_width = MAX (*minimum_width, child_minimum_width);
+		*natural_width = MAX (*natural_width, child_natural_width);
+	}
+
+	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
+	*minimum_width += border_width * 2;
+	*natural_width += border_width * 2;
+}
+
+
+static void
+gth_dumb_notebook_get_preferred_height_for_width (GtkWidget *widget,
+                				  int        width,
+                				  int       *minimum_height,
+                				  int       *natural_height)
+{
+	GthDumbNotebook *dumb_notebook = GTH_DUMB_NOTEBOOK (widget);
+	GList           *scan;
+	int              border_width;
+
+	*minimum_height = 0;
+	*natural_height = 0;
+
+	for (scan = dumb_notebook->priv->children; scan; scan = scan->next) {
+		GtkWidget *child = scan->data;
+		int        child_minimum_height;
+		int        child_natural_height;
+
+		if (! gtk_widget_get_visible (child))
+                        continue;
+
+		gtk_widget_get_preferred_height_for_width (child, width, &child_minimum_height, &child_natural_height);
+		*minimum_height = MAX (*minimum_height, child_minimum_height);
+		*natural_height = MAX (*natural_height, child_natural_height);
+	}
+
+	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
+	*minimum_height += border_width * 2;
+	*natural_height += border_width * 2;
 }
 
 
@@ -104,18 +208,18 @@ gth_dumb_notebook_size_allocate (GtkWidget     *widget,
 }
 
 
-static int
-gth_dumb_notebook_expose (GtkWidget      *widget,
-			  GdkEventExpose *event)
+static gboolean
+gth_dumb_notebook_draw (GtkWidget *widget,
+			cairo_t   *cr)
 {
 	GthDumbNotebook *dumb_notebook = GTH_DUMB_NOTEBOOK (widget);
 	
-	if (dumb_notebook->priv->current != NULL)
-		 gtk_container_propagate_expose (GTK_CONTAINER (dumb_notebook),
-						 dumb_notebook->priv->current,
-						 event);
-				 
-	return FALSE;
+	if (dumb_notebook->priv->current == NULL)
+		return FALSE;
+
+	gtk_widget_draw (dumb_notebook->priv->current, cr);
+
+	return TRUE;
 }
 
 
@@ -186,9 +290,13 @@ gth_dumb_notebook_class_init (GthDumbNotebookClass *klass)
 	gobject_class->finalize = gth_dumb_notebook_finalize;
 	
 	widget_class = GTK_WIDGET_CLASS (klass);
-	widget_class->size_request = gth_dumb_notebook_size_request;
+	widget_class->get_request_mode = gth_dumb_notebook_get_request_mode;
+	widget_class->get_preferred_height = gth_dumb_notebook_get_preferred_height;
+	widget_class->get_preferred_width_for_height = gth_dumb_notebook_get_preferred_width_for_height;
+	widget_class->get_preferred_width = gth_dumb_notebook_get_preferred_width;
+	widget_class->get_preferred_height_for_width = gth_dumb_notebook_get_preferred_height_for_width;
 	widget_class->size_allocate = gth_dumb_notebook_size_allocate;
-	widget_class->expose_event = gth_dumb_notebook_expose;
+	widget_class->draw = gth_dumb_notebook_draw;
 
 	container_class = GTK_CONTAINER_CLASS (klass);
 	container_class->add = gth_dumb_notebook_add;

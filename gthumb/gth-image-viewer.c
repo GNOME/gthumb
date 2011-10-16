@@ -49,6 +49,15 @@
 
 
 enum {
+   PROP_0,
+   PROP_HADJUSTMENT,
+   PROP_VADJUSTMENT,
+   PROP_HSCROLL_POLICY,
+   PROP_VSCROLL_POLICY
+};
+
+
+enum {
 	CLICKED,
 	ZOOM_IN,
 	ZOOM_OUT,
@@ -62,6 +71,9 @@ enum {
 
 
 struct _GthImageViewerPrivate {
+	GtkScrollablePolicy     hscroll_policy;
+	GtkScrollablePolicy     vscroll_policy;
+
 	cairo_surface_t        *surface;
 	GdkPixbufAnimation     *animation;
 	int                     original_width;
@@ -329,7 +341,6 @@ gth_image_viewer_realize (GtkWidget *widget)
 	attributes.height      = allocation.height;
 	attributes.wclass      = GDK_INPUT_OUTPUT;
 	attributes.visual      = gtk_widget_get_visual (widget);
-	attributes.colormap    = gtk_widget_get_colormap (widget);
 	attributes.event_mask  = (gtk_widget_get_events (widget)
 				  | GDK_EXPOSURE_MASK
 				  | GDK_BUTTON_PRESS_MASK
@@ -341,8 +352,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 
 	attributes_mask        = (GDK_WA_X
 				  | GDK_WA_Y
-				  | GDK_WA_VISUAL
-				  | GDK_WA_COLORMAP);
+				  | GDK_WA_VISUAL);
 
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 				 &attributes,
@@ -670,7 +680,7 @@ gth_image_viewer_key_press (GtkWidget   *widget,
 {
 	gboolean handled;
 
-	handled = gtk_bindings_activate (GTK_OBJECT (widget),
+	handled = gtk_bindings_activate (G_OBJECT (widget),
 					 event->keyval,
 					 event->state);
 	if (handled)
@@ -729,32 +739,24 @@ queue_animation_frame_change (GthImageViewer *self)
 }
 
 
-static int
-gth_image_viewer_expose (GtkWidget      *widget,
-			 GdkEventExpose *event)
+static gboolean
+gth_image_viewer_draw (GtkWidget *widget,
+		       cairo_t   *cr)
 {
 	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
-	cairo_t        *cr;
 
-	/* create the cairo context and set some default values */
+	/* set the default values of the cairo context */
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 
-	/* clip to the exposed area */
-
-	gdk_cairo_region (cr, event->region);
-	cairo_clip (cr);
-
 	/* delegate the rest to the tool  */
 
-	gth_image_viewer_tool_expose (self->priv->tool, event, cr);
-	cairo_destroy (cr);
+	gth_image_viewer_tool_draw (self->priv->tool, cr);
 
 	queue_animation_frame_change (self);
 
-	return FALSE;
+	return TRUE;
 }
 
 
@@ -826,7 +828,7 @@ scroll_to (GthImageViewer *self,
 	   int            *x_offset,
 	   int            *y_offset)
 {
-	GdkDrawable   *drawable;
+	GdkWindow     *window;
 	GtkAllocation  allocation;
 	int            width, height;
 	int            delta_x, delta_y;
@@ -839,7 +841,7 @@ scroll_to (GthImageViewer *self,
 
 	_gth_image_viewer_get_zoomed_size (self, &width, &height);
 
-	drawable = gtk_widget_get_window (GTK_WIDGET (self));
+	window = gtk_widget_get_window (GTK_WIDGET (self));
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 	gdk_width = allocation.width - self->priv->frame_border2;
 	gdk_height = allocation.height - self->priv->frame_border2;
@@ -870,8 +872,8 @@ scroll_to (GthImageViewer *self,
 		area.y = 0;
 		area.width = allocation.width;
 		area.height = allocation.height;
-		gdk_window_invalidate_rect (drawable, &area, FALSE);
-		gdk_window_process_updates (drawable, FALSE);
+		gdk_window_invalidate_rect (window, &area, TRUE);
+		gdk_window_process_updates (window, TRUE);
 
 		return;
 	}
@@ -887,7 +889,7 @@ scroll_to (GthImageViewer *self,
 		area.width = gdk_width - abs (delta_x);
 		area.height = gdk_height - abs (delta_y);
 		region = gdk_region_rectangle (&area);
-		gdk_window_move_region (drawable, region, -delta_x, -delta_y);
+		gdk_window_move_region (window, region, -delta_x, -delta_y);
 
 		gdk_region_destroy (region);
 	}
@@ -912,12 +914,12 @@ scroll_to (GthImageViewer *self,
 		area.height = gdk_height;
 		gdk_region_union_with_rect (region, &area);
 
-		gdk_window_invalidate_region (drawable, region, FALSE);
+		gdk_window_invalidate_region (window, region, TRUE);
 
 		gdk_region_destroy (region);
 	}
 
-	gdk_window_process_updates (drawable, TRUE);
+	gdk_window_process_updates (window, TRUE);
 }
 
 
@@ -1102,41 +1104,18 @@ vadj_value_changed (GtkAdjustment  *adj,
 
 
 static void
-set_scroll_adjustments (GtkWidget     *widget,
-			GtkAdjustment *hadj,
-			GtkAdjustment *vadj)
+_gth_image_viewer_set_hadjustment (GthImageViewer *self,
+				   GtkAdjustment  *hadj)
 {
-	GthImageViewer *self;
-
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
-
-	self = GTH_IMAGE_VIEWER (widget);
-
 	if (hadj != NULL)
 		g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
 	else
-		hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
-							   0.0, 0.0, 0.0));
-
-	if (vadj != NULL)
-		g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
-	else
-		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
-							   0.0, 0.0, 0.0));
+		hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
 
 	if ((self->hadj != NULL) && (self->hadj != hadj)) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj),
-						      self);
+		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
 		g_object_unref (self->hadj);
-
 		self->hadj = NULL;
-	}
-
-	if ((self->vadj != NULL) && (self->vadj != vadj)) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
-		g_object_unref (self->vadj);
-		self->vadj = NULL;
 	}
 
 	if (self->hadj != hadj) {
@@ -1148,6 +1127,23 @@ set_scroll_adjustments (GtkWidget     *widget,
 				  "value_changed",
 				  G_CALLBACK (hadj_value_changed),
 				  self);
+	}
+}
+
+
+static void
+_gth_image_viewer_set_vadjustment (GthImageViewer *self,
+				   GtkAdjustment  *vadj)
+{
+	if (vadj != NULL)
+		g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
+	else
+		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+
+	if ((self->vadj != NULL) && (self->vadj != vadj)) {
+		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
+		g_object_unref (self->vadj);
+		self->vadj = NULL;
 	}
 
 	if (self->vadj != vadj) {
@@ -1197,6 +1193,64 @@ gth_image_viewer_set_zoom__key_binding (GthImageViewer *self,
 
 
 static void
+gth_image_viewer_get_property (GObject     *object,
+			       guint        prop_id,
+			       GValue      *value,
+			       GParamSpec  *pspec)
+{
+	GthImageViewer *self = GTH_IMAGE_VIEWER (object);
+
+	switch (prop_id) {
+	case PROP_HADJUSTMENT:
+		g_value_set_object (value, self->hadj);
+		break;
+	case PROP_VADJUSTMENT:
+		g_value_set_object (value, self->vadj);
+		break;
+	case PROP_HSCROLL_POLICY:
+		g_value_set_enum (value, self->priv->hscroll_policy);
+		break;
+	case PROP_VSCROLL_POLICY:
+		g_value_set_enum (value, self->priv->vscroll_policy);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+
+static void
+gth_image_viewer_set_property (GObject      *object,
+			       guint         prop_id,
+			       const GValue *value,
+			       GParamSpec   *pspec)
+{
+	GthImageViewer *self = GTH_IMAGE_VIEWER (object);
+
+	switch (prop_id) {
+	case PROP_HADJUSTMENT:
+		_gth_image_viewer_set_hadjustment (self, (GtkAdjustment *) g_value_get_object (value));
+		break;
+	case PROP_VADJUSTMENT:
+		_gth_image_viewer_set_vadjustment (self, (GtkAdjustment *) g_value_get_object (value));
+		break;
+	case PROP_HSCROLL_POLICY:
+		self->priv->hscroll_policy = g_value_get_enum (value);
+		gtk_widget_queue_resize (GTK_WIDGET (self));
+		break;
+	case PROP_VSCROLL_POLICY:
+		self->priv->vscroll_policy = g_value_get_enum (value);
+		gtk_widget_queue_resize (GTK_WIDGET (self));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+
+static void
 gth_image_viewer_class_init (GthImageViewerClass *class)
 {
 	GObjectClass   *gobject_class;
@@ -1206,8 +1260,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageViewerPrivate));
 
-	widget_class = (GtkWidgetClass*) class;
-	gobject_class = (GObjectClass*) class;
+	/* signals */
 
 	gth_image_viewer_signals[CLICKED] =
 		g_signal_new ("clicked",
@@ -1274,18 +1327,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	class->set_scroll_adjustments = set_scroll_adjustments;
-	widget_class->set_scroll_adjustments_signal =
-		g_signal_new ("set_scroll_adjustments",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthImageViewerClass, set_scroll_adjustments),
-			      NULL, NULL,
-			      gth_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE,
-			      2,
-			      GTK_TYPE_ADJUSTMENT,
-			      GTK_TYPE_ADJUSTMENT);
 	gth_image_viewer_signals[SCROLL] =
 		g_signal_new ("scroll",
 			      G_TYPE_FROM_CLASS (class),
@@ -1298,24 +1339,28 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      GTK_TYPE_SCROLL_TYPE,
 			      GTK_TYPE_SCROLL_TYPE);
 
-	gobject_class->finalize = gth_image_viewer_finalize;
+	/**/
 
-	widget_class->realize         = gth_image_viewer_realize;
-	widget_class->unrealize       = gth_image_viewer_unrealize;
-	widget_class->map             = gth_image_viewer_map;
-	widget_class->unmap           = gth_image_viewer_unmap;
-	widget_class->size_allocate   = gth_image_viewer_size_allocate;
-	widget_class->focus_in_event  = gth_image_viewer_focus_in;
+	gobject_class = (GObjectClass*) class;
+	gobject_class->finalize = gth_image_viewer_finalize;
+	gobject_class->set_property = gth_image_viewer_set_property;
+	gobject_class->get_property = gth_image_viewer_get_property;
+
+	widget_class = (GtkWidgetClass*) class;
+	widget_class->realize = gth_image_viewer_realize;
+	widget_class->unrealize = gth_image_viewer_unrealize;
+	widget_class->map = gth_image_viewer_map;
+	widget_class->unmap = gth_image_viewer_unmap;
+	widget_class->size_allocate = gth_image_viewer_size_allocate;
+	widget_class->focus_in_event = gth_image_viewer_focus_in;
 	widget_class->focus_out_event = gth_image_viewer_focus_out;
 	widget_class->key_press_event = gth_image_viewer_key_press;
-
-	widget_class->expose_event         = gth_image_viewer_expose;
-	widget_class->button_press_event   = gth_image_viewer_button_press;
+	widget_class->draw = gth_image_viewer_draw;
+	widget_class->button_press_event = gth_image_viewer_button_press;
 	widget_class->button_release_event = gth_image_viewer_button_release;
-	widget_class->motion_notify_event  = gth_image_viewer_motion_notify;
-
+	widget_class->motion_notify_event = gth_image_viewer_motion_notify;
 	widget_class->scroll_event = gth_image_viewer_scroll_event;
-	widget_class->style_set    = gth_image_viewer_style_set;
+	widget_class->style_set = gth_image_viewer_style_set;
 
 	class->clicked      = NULL;
 	class->zoom_changed = NULL;
@@ -1324,6 +1369,13 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	class->zoom_out     = gth_image_viewer_zoom_out__key_binding;
 	class->set_zoom     = gth_image_viewer_set_zoom__key_binding;
 	class->set_fit_mode = gth_image_viewer_set_fit_mode__key_binding;
+
+	/* GtkScrollable interface */
+
+	g_object_class_override_property (gobject_class, PROP_HADJUSTMENT, "hadjustment");
+	g_object_class_override_property (gobject_class, PROP_VADJUSTMENT, "vadjustment");
+	g_object_class_override_property (gobject_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (gobject_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	/* Add key bindings */
 
@@ -2718,7 +2770,6 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 
 void
 gth_image_viewer_apply_painters (GthImageViewer *self,
-				 GdkEventExpose *event,
 				 cairo_t        *cr)
 {
 	GList *scan;
@@ -2727,7 +2778,7 @@ gth_image_viewer_apply_painters (GthImageViewer *self,
 		PainterData *painter_data = scan->data;
 
 		cairo_save (cr);
-		painter_data->func (self, event, cr, painter_data->user_data);
+		painter_data->func (self, cr, painter_data->user_data);
 		cairo_restore (cr);
 	}
 }

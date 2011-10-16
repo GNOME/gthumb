@@ -149,9 +149,8 @@ gth_image_dragger_unmap (GthImageViewerTool *base)
 
 
 static void
-gth_image_dragger_expose (GthImageViewerTool *self,
-			  GdkEventExpose     *event,
-		          cairo_t            *cr)
+gth_image_dragger_draw (GthImageViewerTool *self,
+		        cairo_t            *cr)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -170,10 +169,10 @@ gth_image_dragger_expose (GthImageViewerTool *self,
 				       viewer->x_offset - viewer->image_area.x,
 				       viewer->y_offset - viewer->image_area.y,
 				       &viewer->image_area,
-				       event->region,
+				       NULL,
 				       gth_image_viewer_get_zoom_quality_filter (viewer));
 
-	gth_image_viewer_apply_painters (viewer, event, cr);
+	gth_image_viewer_apply_painters (viewer, cr);
 }
 
 
@@ -292,7 +291,7 @@ gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 	iface->size_allocate = gth_image_dragger_size_allocate;
 	iface->map = gth_image_dragger_map;
 	iface->unmap = gth_image_dragger_unmap;
-	iface->expose = gth_image_dragger_expose;
+	iface->draw = gth_image_dragger_draw;
 	iface->button_press = gth_image_dragger_button_press;
 	iface->button_release = gth_image_dragger_button_release;
 	iface->motion_notify = gth_image_dragger_motion_notify;

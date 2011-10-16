@@ -572,7 +572,6 @@ pref_viewer_shrink_wrap_changed (GConfClient *client,
 
 static void
 paint_comment_over_image_func (GthImageViewer *image_viewer,
-			       GdkEventExpose *event,
 			       cairo_t        *cr,
 			       gpointer        user_data)
 {

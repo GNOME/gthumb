@@ -498,7 +498,6 @@ menu_position_func (GtkMenu                 *menu,
 	}
 	else {
 		gdk_window_get_origin (gtk_button_get_event_window (GTK_BUTTON (widget)), x, y);
-
 		gtk_widget_size_request (widget, &req);
 
 		if (direction == GTK_TEXT_DIR_LTR)
@@ -578,7 +577,7 @@ real_button_button_press_event_cb (GtkWidget               *widget,
 
 
 static void
-gth_toggle_menu_tool_button_destroy (GtkObject *object)
+gth_toggle_menu_tool_button_finalize (GObject *object)
 {
 	GthToggleMenuToolButton *button;
 
@@ -594,7 +593,7 @@ gth_toggle_menu_tool_button_destroy (GtkObject *object)
 		button->priv->toggle_button = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
@@ -662,7 +661,6 @@ static void
 gth_toggle_menu_tool_button_class_init (GthToggleMenuToolButtonClass *klass)
 {
 	GObjectClass     *object_class;
-	GtkObjectClass   *gtk_object_class;
 	GtkWidgetClass   *widget_class;
 	GtkToolItemClass *tool_item_class;
 
@@ -670,11 +668,9 @@ gth_toggle_menu_tool_button_class_init (GthToggleMenuToolButtonClass *klass)
 	g_type_class_add_private (klass, sizeof (GthToggleMenuToolButtonPrivate));
 
 	object_class = (GObjectClass *) klass;
+	object_class->finalize = gth_toggle_menu_tool_button_finalize;
 	object_class->set_property = gth_toggle_menu_tool_button_set_property;
 	object_class->get_property = gth_toggle_menu_tool_button_get_property;
-
-	gtk_object_class = (GtkObjectClass *) klass;
-	gtk_object_class->destroy = gth_toggle_menu_tool_button_destroy;
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->state_changed = gth_toggle_menu_tool_button_state_changed;

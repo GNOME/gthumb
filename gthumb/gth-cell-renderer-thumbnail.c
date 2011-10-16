@@ -226,7 +226,7 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer       *cell,
 
 static void
 gth_cell_renderer_thumbnail_render (GtkCellRenderer       *cell,
-				    GdkWindow             *window,
+				    cairo_t               *cr,
 				    GtkWidget             *widget,
 				    cairo_rectangle_int_t *background_area,
 				    cairo_rectangle_int_t *cell_area,
@@ -239,7 +239,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer       *cell,
 	cairo_rectangle_int_t     thumb_rect;
 	cairo_rectangle_int_t     draw_rect;
 	cairo_rectangle_int_t     image_rect;
-	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
 	int                       xpad;
 	int                       ypad;
@@ -265,13 +264,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer       *cell,
 	thumb_rect.width  -= xpad * 2;
 	thumb_rect.height -= ypad * 2;
 
-	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect)
-	    || ! gdk_rectangle_intersect (expose_area, &thumb_rect, &draw_rect))
-	{
+	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect))
 		return;
-	}
-
-	cr = gdk_cairo_create (window);
 
 	image_rect.width = gdk_pixbuf_get_width (pixbuf);
 	image_rect.height = gdk_pixbuf_get_height (pixbuf);

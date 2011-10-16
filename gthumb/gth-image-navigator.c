@@ -295,21 +295,14 @@ nav_window_grab_pointer (NavigatorPopup *nav_popup)
 
 
 static gboolean
-navigator_popup_expose_event_cb (GtkWidget      *widget,
-				 GdkEventExpose *event,
-				 NavigatorPopup *nav_popup)
+navigator_popup_draw_cb (GtkWidget      *widget,
+			 cairo_t        *cr,
+			 NavigatorPopup *nav_popup)
 {
-	cairo_t *cr;
-
 	if (nav_popup->image == NULL)
 		return FALSE;
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-	gdk_cairo_region (cr, event->region);
-	cairo_clip (cr);
-
 
 	cairo_save (cr);
 	cairo_set_source_surface (cr, nav_popup->image, 0, 0);
@@ -350,8 +343,6 @@ navigator_popup_expose_event_cb (GtkWidget      *widget,
 		cairo_restore (cr);
 	}
 
-	cairo_destroy (cr);
-
 	return TRUE;
 }
 
@@ -384,8 +375,8 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 	nav_popup->preview = gtk_drawing_area_new ();
 	gtk_container_add (GTK_CONTAINER (in_frame), nav_popup->preview);
 	g_signal_connect (G_OBJECT (nav_popup->preview),
-			  "expose_event",
-			  G_CALLBACK (navigator_popup_expose_event_cb),
+			  "draw",
+			  G_CALLBACK (navigator_popup_draw_cb),
 			  nav_popup);
 
 	nav_popup->x_root = event->x_root;

@@ -71,17 +71,6 @@ static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE(GeditMessageArea, gedit_message_area, GTK_TYPE_HBOX)
 
-
-static void
-gedit_message_area_finalize (GObject *object)
-{
-	/*
-	GeditMessageArea *message_area = GEDIT_MESSAGE_AREA (object);
-	*/
-
-	G_OBJECT_CLASS (gedit_message_area_parent_class)->finalize (object);
-}
-
 static ResponseData *
 get_response_data (GtkWidget *widget,
 		   gboolean   create)
@@ -89,8 +78,7 @@ get_response_data (GtkWidget *widget,
 	ResponseData *ad = g_object_get_data (G_OBJECT (widget),
                                        	      "gedit-message-area-response-data");
 
-	if (ad == NULL && create)
-	{
+	if (ad == NULL && create) {
 		ad = g_new (ResponseData, 1);
 
 		g_object_set_data_full (G_OBJECT (widget),
