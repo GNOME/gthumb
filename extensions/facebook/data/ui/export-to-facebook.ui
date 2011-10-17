@@ -285,7 +285,7 @@
                       <object class="GtkLabel" id="label4">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Resize the images if larger then this size</property>
+                        <property name="tooltip_text" translatable="yes">Resize the images if larger than this size</property>
                         <property name="label" translatable="yes">_Resize to:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">resize_combobox</property>
