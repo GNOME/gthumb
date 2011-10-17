@@ -160,7 +160,7 @@
                       <object class="GtkLabel" id="label3">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">%U</property>
+                        <property name="label">%U</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -174,7 +174,7 @@
                       <object class="GtkLabel" id="label5">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">%F</property>
+                        <property name="label">%F</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -188,7 +188,7 @@
                       <object class="GtkLabel" id="label6">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">%B</property>
+                        <property name="label">%B</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -202,7 +202,7 @@
                       <object class="GtkLabel" id="label7">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">%P</property>
+                        <property name="label">%P</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>

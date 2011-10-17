@@ -171,7 +171,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">%p</property>
+                                    <property name="label">%p</property>
                                     <attributes>
                                       <attribute name="size" value="8000"/>
                                     </attributes>
@@ -989,7 +989,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">%i</property>
+                                        <property name="label">%i</property>
                                         <attributes>
                                           <attribute name="size" value="8000"/>
                                         </attributes>
@@ -1004,7 +1004,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">%I</property>
+                                        <property name="label">%I</property>
                                         <attributes>
                                           <attribute name="size" value="8000"/>
                                         </attributes>
@@ -1113,7 +1113,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">%F</property>
+                                        <property name="label">%F</property>
                                         <attributes>
                                           <attribute name="size" value="8000"/>
                                         </attributes>
@@ -1162,7 +1162,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">%C</property>
+                                        <property name="label">%C</property>
                                         <attributes>
                                           <attribute name="size" value="8000"/>
                                         </attributes>
