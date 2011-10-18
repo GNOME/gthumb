@@ -281,7 +281,6 @@ gth_map_view_init (GthMapView *self)
 	g_object_set (G_OBJECT (self->priv->map_view),
 		      "reactive", TRUE,
 		      "zoom-level", 5,
-		      "show-scale", TRUE,
 		      "kinetic-mode", TRUE,
 		      NULL);
 
