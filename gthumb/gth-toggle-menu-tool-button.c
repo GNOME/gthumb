@@ -360,9 +360,9 @@ gth_toggle_menu_tool_button_update_icon_spacing (GthToggleMenuToolButton *button
 
 
 static void
-gth_toggle_menu_tool_button_style_set (GtkWidget *widget,
-				       GtkStyle  *prev_style)
+gth_toggle_menu_tool_button_style_updated (GtkWidget *widget)
 {
+	GTK_WIDGET_CLASS (parent_class)->style_updated (widget);
 	gth_toggle_menu_tool_button_update_icon_spacing (GTH_TOGGLE_MENU_TOOL_BUTTON (widget));
 }
 
@@ -674,7 +674,7 @@ gth_toggle_menu_tool_button_class_init (GthToggleMenuToolButtonClass *klass)
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->state_changed = gth_toggle_menu_tool_button_state_changed;
-	widget_class->style_set = gth_toggle_menu_tool_button_style_set;
+	widget_class->style_updated = gth_toggle_menu_tool_button_style_updated;
 
 	tool_item_class = (GtkToolItemClass *) klass;
 	tool_item_class->create_menu_proxy = gth_toggle_menu_tool_button_create_menu_proxy;

@@ -989,12 +989,11 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 
 
 static void
-gth_image_viewer_style_set (GtkWidget *widget,
-			    GtkStyle  *previous_style)
+gth_image_viewer_style_updated (GtkWidget *widget)
 {
 	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
+	GTK_WIDGET_CLASS (parent_class)->style_updated (widget);
 
 	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
 		GdkRGBA color;
@@ -1358,7 +1357,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	widget_class->button_release_event = gth_image_viewer_button_release;
 	widget_class->motion_notify_event = gth_image_viewer_motion_notify;
 	widget_class->scroll_event = gth_image_viewer_scroll_event;
-	widget_class->style_set = gth_image_viewer_style_set;
+	widget_class->style_updated = gth_image_viewer_style_updated;
 
 	class->clicked      = NULL;
 	class->zoom_changed = NULL;
