@@ -52,9 +52,9 @@ CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=1.0.0
 GSTREAMER_REQUIRED=0.10
 OPENRAW_REQUIRED=0.0.8
-LIBSOUP_REQUIRED=2.26
-GNOME_KEYRING_REQUIRED=2.28
-LIBBRASERO_REQUIRED=2.28
+LIBSOUP_REQUIRED=2.36
+GNOME_KEYRING_REQUIRED=3.2.0
+LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
 
 dnl ===========================================================================
@@ -491,7 +491,7 @@ AC_ARG_ENABLE([libbrasero],
 
 if test x$enable_libbrasero = xyes ; then
 	PKG_CHECK_MODULES(LIBBRASERO,
-			  [libbrasero-burn >= $LIBBRASERO_REQUIRED],
+			  [libbrasero-burn3 >= $LIBBRASERO_REQUIRED],
 			  [AC_DEFINE(HAVE_LIBBRASERO, 1, [Have libbrasero])
 			   enable_libbrasero=yes],
 			  [enable_libbrasero=no])
