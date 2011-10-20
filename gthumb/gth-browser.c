@@ -4081,6 +4081,7 @@ static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
 {
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (browser))), GTHUMB_ICON_DIR);
 	gth_hook_invoke ("gth-browser-realize", browser);
 
 	return FALSE;

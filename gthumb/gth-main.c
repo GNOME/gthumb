@@ -229,8 +229,6 @@ gth_main_initialize (void)
 	g_set_application_name (_("gThumb"));
 	gtk_window_set_default_icon_name ("gthumb");
 #endif
-
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_ICON_DIR);
 }
 
 
