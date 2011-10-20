@@ -4188,7 +4188,6 @@ _gth_browser_construct (GthBrowser *browser)
 
 	browser->priv->viewer_toolbar = gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->viewer_toolbar), TRUE);
-	gtk_widget_show (browser->priv->viewer_toolbar);
 	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_toolbar);
 
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Prev")), TRUE);
