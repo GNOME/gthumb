@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb docs master\n"
-"POT-Creation-Date: 2011-10-20 07:07+0000\n"
-"PO-Revision-Date: 2011-10-21 12:14+0100\n"
+"POT-Creation-Date: 2011-10-21 10:21+0000\n"
+"PO-Revision-Date: 2011-10-21 12:35+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgid ""
 "the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
 "guiseq> dialog."
 msgstr ""
-"Die Überblendeffekte und die Anzeigedauer jedes Bildes können im Dialog "
+"Die Überblendeffekte und die Anzeigedauer jedes Bildes können im Dialog "
 "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>Diaschau</gui></"
 "guiseq> angepasst werden."
 
@@ -128,16 +128,16 @@ msgid ""
 "transition effects are enabled. If you experience such difficulties, set the "
 "<gui>Transition effect</gui> preference to <gui>None</gui>."
 msgstr ""
-"Einige Grafikkarten und Treiber können Probleme mit Überblendeffekten "
-"bekommen und sogar abstürzen. Wenn Sie solchen Problemen begegnen, dann "
-"setzen Sie die Einstellung <gui>Übergangseffekt</gui> auf <gui>Keinen</gui>."
+"Einige Grafikkarten und Treiber können Probleme mit Überblendeffekten "
+"bekommen und sogar abstürzen. Wenn Sie solchen Problemen begegnen, dann "
+"setzen Sie die Einstellung <gui>Übergangseffekt</gui> auf <gui>Keinen</gui>."
 
 #: C/slideshow.page:23(p)
 msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</key>, "
 "<key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
-"Sie können manuell zum nächsten Bild durch Drücken von <key>Pfeiltaste "
+"Sie können manuell zum nächsten Bild durch Drücken von <key>Pfeiltaste "
 "runter</key>, <key>Rechtspfeil</key>, <key>Bild ab</key> oder der "
 "<key>Leertaste</key> gelangen."
 
@@ -146,13 +146,13 @@ msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
-"Sie können zum vorigen Bild durch Drücken von <key>Pfeiltaste hoch</key>, "
+"Sie können zum vorigen Bild durch Drücken von <key>Pfeiltaste hoch</key>, "
 "<key>Linkspfeil</key> oder <key>Bild auf</key> gelangen."
 
 #: C/slideshow.page:30(p)
 msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
 msgstr ""
-"Sie können die Diaschau durch Drücken von <key>p</key> anhalten oder "
+"Sie können die Diaschau durch Drücken von <key>p</key> anhalten oder "
 "fortsetzen."
 
 #: C/slideshow.page:32(p)
@@ -197,7 +197,7 @@ msgstr ""
 "Auf den meisten Systemen wird <app>gThumb</app> automatisch den Import-Dialog "
 "öffnen, sobald eine Digitalkamera mit dem Rechner verbunden wird oder eine "
 "Speicherkarte mit Fotos in einen Kartenleser gesteckt wird. Die geschieht, "
-"weil es als Handler für die MIME-Typen x-content/image-dcf und x-content/"
+"weil es als Handler für die MIME-Typen x-content/image-dcf und x-content/"
 "image-picturecd registriert ist."
 
 #: C/import.page:16(p)
@@ -205,8 +205,8 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import "
 "From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
-"Um den Import-Dialog manuell zu starten, wählen Sie <guiseq><gui>Datei</"
-"gui><gui>Importieren von</gui><gui>Tragbares Gerät</gui></guiseq>."
+"Um den Import-Dialog manuell zu starten, wählen Sie <guiseq><gui>Datei</"
+"gui><gui>Importieren von</gui><gui>Tragbares Gerät</gui></guiseq>."
 
 #: C/import.page:20(title)
 msgid "The Import Dialog"
@@ -220,11 +220,11 @@ msgid ""
 "and drag the mouse over the desired photos.) If no photos are explicitly "
 "selected, all will be imported."
 msgstr ""
-"Der Importdialog zeigt Vorschaubilder der auf dem gewählten Gerät "
-"vorliegenden Fotos. Der Benutzer kann ein oder mehrere Fotos mit den üblichen "
+"Der Importdialog zeigt Vorschaubilder der auf dem gewählten Gerät "
+"vorliegenden Fotos. Der Benutzer kann ein oder mehrere Fotos mit den üblichen "
 "Tastatur- und Maustechniken importieren (wie z.B. Strg+Mausklick zum "
-"Hinzufügen eines Fotos zur Auswahl, Einfassen von Fotos mit gedrückter linker "
-"Maustaste etc.). Wenn explizit keine Fotos ausgewählt sind, so werden alle "
+"Hinzufügen eines Fotos zur Auswahl, Einfassen von Fotos mit gedrückter linker "
+"Maustaste etc.). Wenn explizit keine Fotos ausgewählt sind, so werden alle "
 "importiert."
 
 #: C/import.page:30(p)
@@ -233,25 +233,25 @@ msgid ""
 "<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
 "control to see the predefined tags."
 msgstr ""
-"Schlagwörter können bei Bedarf mit importierten Fotos mit Hilfe des "
-"Auswahlfeldes <gui>Schlagwörter</gui> unter dem Vorschau-Fenster verknüpft "
+"Schlagwörter können bei Bedarf mit importierten Fotos mit Hilfe des "
+"Auswahlfeldes <gui>Schlagwörter</gui> unter dem Vorschau-Fenster verknüpft "
 "werden. Klicken Sie auf den entsprechenden Knopf mit Pfeil nach unten, um die "
-"voreingestellten Schlagwörter einzusehen."
+"voreingestellten Schlagwörter einzusehen."
 
 #: C/import.page:34(p)
 msgid ""
 "An event name may also be optionally associated with the photos. This event "
 "name can be used to generate an automatic subfolder name (possibly "
-"incorporating a date) as described below. For example, if the base destinator "
-"folder is \"/photos\", and you enter \"Wedding-Jennifer\" in the <gui>Event</"
-"gui> field, you can configure generation of automatic subfolders like \"/"
-"photos/2010-07-31, Wedding-Jennifer\"."
+"incorporating a date) as described below. For example, if the base "
+"destination folder is \"/photos\", and you enter \"Wedding-Jennifer\" in the "
+"<gui>Event</gui> field, you can configure generation of automatic subfolders "
+"like \"/photos/2010-07-31, Wedding-Jennifer\"."
 msgstr ""
-"Ein Name für ein Ereignis kann ebenfalls optional mit den Fotos verknüpft "
+"Ein Name für ein Ereignis kann ebenfalls optional mit den Fotos verknüpft "
 "werden. Dieser Ereignisname kann zum automatischen Erstellen eines "
 "Unterordnernamens (ggfs. mit einem Datum im Namen) wie unten beschrieben "
-"genutzt werden. Wenn zum Beispiel der Zielordner »Fotos« wäre und Sie "
-"»Hochzeit Jennifer« in das Textfeld <gui>Ereignis</gui> eingeben, dann können "
+"genutzt werden. Wenn zum Beispiel der Zielordner »Fotos« wäre und Sie "
+"»Hochzeit Jennifer« in das Textfeld <gui>Ereignis</gui> eingeben, dann können "
 "Sie die automatische Erstellung von Unterordnern etwa mit dem Namen »/"
 "Fotos/31.7.2010, Hochzeit Jennifer« einstellen."
 
@@ -268,11 +268,11 @@ msgid ""
 "<gui>Destination</gui> folder). To generate automatic subfolders, select "
 "<gui>Automatic subfolder</gui>."
 msgstr ""
-"Wie zuvor erwähnt können Unterordner für importierte Fotos automatisch auf "
+"Wie zuvor erwähnt, können Unterordner für importierte Fotos automatisch auf "
 "Basis von Ereignisnamen oder Kalenderdatum erstellt werden. Dies wird durch "
 "einen Klick auf den Zielordnernamen im Dialog zum Importieren festgelegt. "
-"Dadurch wird ein zweiter Dialog geöffnet, in dem der Basisordner (der "
-"<gui>Speicherort</gui>) für die importierten Fotos gewählt wird. Wählen Sie "
+"Dadurch wird ein zweiter Dialog geöffnet, in dem der Basisordner (der "
+"<gui>Speicherort</gui>) für die importierten Fotos gewählt wird. Wählen Sie "
 "<gui>Automatischer Unterordner</gui>, um automatisch Unterordner erstellen zu "
 "lassen."
 
@@ -288,13 +288,13 @@ msgid ""
 "subfolders under them, or all subfolders can be at the same level in the "
 "filesystem, with the year and name both the folder name."
 msgstr ""
-"Sie können entweder das <gui>Dateidatum</gui> oder das <gui>aktuelle Datum</"
-"gui> als Basis für den Namen des Unterordners verwenden (Das <gui>Dateidatum</"
+"Sie können entweder das <gui>Dateidatum</gui> oder das <gui>aktuelle Datum</"
+"gui> als Basis für den Namen des Unterordners verwenden (Das <gui>Dateidatum</"
 "gui> untersucht die Metadaten der Datei zur Bestimmung des Aufnahmedatums). "
-"Eine Reihe von üblichen Datumsformaten steht zur Auswahl (zum Beispiel "
+"Eine Reihe von üblichen Datumsformaten steht zur Auswahl (zum Beispiel "
 "<gui>Jahr-Monat</gui>). Das Ankreuzfeld <gui>als einzelner Unterordner</gui> "
 "legt fest, ob eine tiefe oder flache Ordner-Hierarchie angelegt wird. Zum "
-"Beispiel kann es für die Einstellung <gui>Jahr-Monat</gui> einen Unterordner "
+"Beispiel kann es für die Einstellung <gui>Jahr-Monat</gui> einen Unterordner "
 "mit der Jahreszahl und einen weiteren innerhalb mit dem Monat geben, oder es "
 "kann nur einen mit Monat und Jahreszahl im Ordnernamen geben."
 
@@ -307,7 +307,7 @@ msgid ""
 "main import dialog."
 msgstr ""
 "Es ist nicht zwingend, die vordefinierten Datumsformate zu verwenden. Wenn "
-"Sie <gui>Eigenes Format</gui> wählen, können Sie voreingestellte "
+"Sie <gui>Eigenes Format</gui> wählen, können Sie voreingestellte "
 "Datumsformatangaben verwenden. Klicken Sie auf das Hilfesymbol rechts im "
 "Eingabefeld für das Datumsformat, um eine Liste der Formatangaben einzusehen. "
 "»%E« ist eine spezielle Angabe, die den <gui>Ereignisnamen</gui> aus dem "
@@ -316,7 +316,7 @@ msgstr ""
 #: C/import.page:67(p)
 msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
 msgstr ""
-"Lesen Sie auch <link xref=\"gthumb-date-formats\"/> für weitere "
+"Lesen Sie auch <link xref=\"gthumb-date-formats\"/> für weitere "
 "Datumsformatangaben."
 
 #: C/import.page:69(p)
@@ -327,7 +327,7 @@ msgid ""
 msgstr ""
 "Wenn Sie automatische Benennung der Unterordner verwenden, dann zeigt das "
 "Feld <gui>Speicherort</gui> im Import-Dialog den automatisch erzeugten Anteil "
-"des Ordnernamens in rot. Für auf Datum basierende Formate wird eventuell ein "
+"des Ordnernamens in rot. Für auf Datum basierende Formate wird eventuell ein "
 "Scheinteil in rot dargestellt."
 
 #: C/import.page:74(title)
@@ -356,8 +356,8 @@ msgid ""
 "To remove or rearrange bookmarks in a different order use the "
 "<guiseq><gui>Bookmarks</gui><gui>Edit Bookmarks</gui></guiseq> command."
 msgstr ""
-"Wählen Sie <guiseq><gui>Lesezeichen</gui><gui>Lesezeichen bearbeiten</gui></"
-"guiseq>, um Lesezeichen zu löschen oder neu zu sortieren."
+"Wählen Sie <guiseq><gui>Lesezeichen</gui><gui>Lesezeichen bearbeiten</gui></"
+"guiseq>, um Lesezeichen zu löschen oder neu zu sortieren."
 
 #: C/bookmarks.page:16(p)
 msgid ""
@@ -367,7 +367,7 @@ msgid ""
 msgstr ""
 "<guiseq><gui>Lesezeichen</gui><gui>Systemlesezeichen</gui></guiseq> bietet "
 "Zugriff auf die Systemlesezeichen, welche in <app>Nautilus</app> oder dem "
-"Dateiwähler-Dialog festgelegt wurden, welcher von den meisten Gnome-"
+"Dateiwähler-Dialog festgelegt wurden, welcher von den meisten GNOME-"
 "Anwendungen eingesetzt wird."
 
 #: C/wallpaper.page:6(title)
@@ -383,11 +383,11 @@ msgid ""
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
 "Um ein Bild als Arbeitsflächenhintergrund festzulegen, klicken Sie mit der "
-"rechten Maustaste auf das Bild und wählen Sie <guiseq><gui>Als "
-"Arbeitsflächenhintergrund verwenden</gui></guiseq> aus dem Einblend-Menü. Der "
-"Arbeitsflächenhintergrund wird sich daraufhin ändern und der Dialog zum "
-"Erscheinungsbild von GNOME wird geöffnet. Sie können mit diesem Dialog "
-"Anpassungen an den Einstellungen für das Hintergrundbild (Position, "
+"rechten Maustaste auf das Bild und wählen Sie <guiseq><gui>Als "
+"Arbeitsflächenhintergrund verwenden</gui></guiseq> aus dem Einblend-Menü. Der "
+"Arbeitsflächenhintergrund wird sich daraufhin ändern und der Dialog zum "
+"Erscheinungsbild von GNOME wird geöffnet. Sie können mit diesem Dialog "
+"Anpassungen an den Einstellungen für das Hintergrundbild (Position, "
 "Streckung, Kacheln usw.) vornehmen."
 
 #: C/sharing-social.page:6(title)
@@ -401,7 +401,7 @@ msgid ""
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
 "gThumb verfügt über eine Reihe von Erweiterungen zum Übertragen von Fotos zu "
-"Webseiten verschiedener »soziale Netzwerke«. Als Voreinstellung sind die "
+"Webseiten verschiedener »sozialer Netzwerke«. Als Voreinstellung sind die "
 "Übertragungen zu Facebook, Flickr, Picasa und Photobucket aktiviert."
 
 #: C/sharing-social.page:13(p)
@@ -484,7 +484,7 @@ msgid ""
 "The optical disk writing process will then commence, or the ISO file will be "
 "written, completing the process."
 msgstr ""
-"Der nächste Dialog legt das Zielmedium oder den Namen des ISO-Abbildes fest. "
+"Der nächste Dialog legt das Zielmedium oder den Namen des ISO-Abbildes fest. "
 "Klicken Sie anschließend auf <gui>Abbild erstellen</gui>, um den Vorgang zu "
 "starten. Der optische Schreibvorgang beginnt bzw. wird dann die ISO-Datei "
 "geschrieben."
@@ -495,7 +495,7 @@ msgstr "Tastenkombinationen"
 
 #: C/shortcuts.page:10(title)
 msgid "Viewing and hiding parts of the user interface"
-msgstr "Anzeigen und verbergen von Teilen der grafischen Oberflächen"
+msgstr "Anzeigen und verbergen von Teilen der grafischen Oberflächen"
 
 #: C/shortcuts.page:14(p) C/shortcuts.page:91(p) C/shortcuts.page:270(p)
 #: C/shortcuts.page:495(p)
@@ -566,7 +566,7 @@ msgstr "Schließt den Betrachter oder den Vollbildmodus."
 
 #: C/shortcuts.page:87(title)
 msgid "Editing shortcuts for the browser and viewer"
-msgstr "Tastenkombinationen für Bildbetrachter und Browser bearbeiten"
+msgstr "Tastenkombinationen für Bildbetrachter und Browser bearbeiten"
 
 #: C/shortcuts.page:100(key)
 msgid "e"
@@ -575,7 +575,7 @@ msgstr "E"
 #: C/shortcuts.page:104(p)
 msgid "Edit the image. Opens the viewer and shows the editing tools."
 msgstr ""
-"Das Bild bearbeiten. Es wird der Betrachter geöffnet und die "
+"Das Bild bearbeiten. Es wird der Betrachter geöffnet und die "
 "Bearbeitungswerkzeuge angezeigt."
 
 #: C/shortcuts.page:110(key)
@@ -584,7 +584,7 @@ msgstr "G"
 
 #: C/shortcuts.page:114(p)
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr "Das Bild mit dem GNU Image Manipulation Program (GIMP) öffnen."
+msgstr "Das Bild mit dem GNU Image Manipulation Program (GIMP) öffnen."
 
 #: C/shortcuts.page:120(key)
 msgid "F2"
@@ -609,7 +609,7 @@ msgstr "]"
 #: C/shortcuts.page:144(p)
 msgid "Rotate right, losslessly if possible. The file is saved automatically."
 msgstr ""
-"Im Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
+"Im Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
 "automatisch gespeichert."
 
 #: C/shortcuts.page:150(key)
@@ -619,7 +619,7 @@ msgstr "["
 #: C/shortcuts.page:154(p)
 msgid "Rotate left, losslessly if possible. The file is saved automatically."
 msgstr ""
-"Gegen den Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
+"Gegen den Uhrzeigersinn nach Möglichkeit verlustfrei drehen. Die Datei wird "
 "automatisch gespeichert."
 
 #: C/shortcuts.page:160(key) C/shortcuts.page:170(key)
@@ -641,7 +641,7 @@ msgstr "Die gewählten Bilder dauerhaft löschen."
 
 #: C/shortcuts.page:182(title)
 msgid "Editing shortcuts for the viewer mode only"
-msgstr "Tastenkombinationen nur für den Ansichtsmodus bearbeiten"
+msgstr "Tastenkombinationen nur für den Ansichtsmodus bearbeiten"
 
 #: C/shortcuts.page:186(p)
 msgid "Keyboard Shortcut (Case Sensitive)"
@@ -717,7 +717,7 @@ msgstr "Das nächste Bild zeigen."
 
 #: C/shortcuts.page:288(p)
 msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr "<key>Löschtaste</key> oder <key>Bild auf</key>"
+msgstr "<key>Löschtaste</key> oder <key>Bild auf</key>"
 
 #: C/shortcuts.page:293(p)
 msgid "View the previous image."
@@ -846,7 +846,7 @@ msgstr "Rechtspfeil"
 
 #: C/shortcuts.page:471(p)
 msgid "Go forward (after going back to a folder)."
-msgstr "Vorwärts gehen (nach vorhergehendem rückwärts gehen)"
+msgstr "Vorwärts gehen (nach vorhergehendem rückwärts gehen)"
 
 #: C/shortcuts.page:479(key)
 msgid "Up"
@@ -909,7 +909,7 @@ msgid ""
 "To print the current image in the viewer mode, use <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
-"Um das aktuelle Bild im Ansichtsmodus zu drucken, wählen Sie bitte "
+"Um das aktuelle Bild im Ansichtsmodus zu drucken, wählen Sie bitte "
 "<guiseq><gui>Datei</gui><gui>Drucken</gui></guiseq> oder <keyseq><key>Strg</"
 "key><key>p</key></keyseq>."
 
@@ -929,14 +929,14 @@ msgid ""
 "print dialog."
 msgstr ""
 "Der zu verwendende Drucker kann im Reiter <gui>Allgemein</gui> im Druckdialog "
-"ausgewählt werden."
+"ausgewählt werden."
 
 #: C/printing.page:21(p)
 msgid ""
 "The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
 msgstr ""
 "Der zu verwendende Papiertyp kann im Reiter <gui>Seite einrichten</gui> "
-"ausgewählt werden."
+"ausgewählt werden."
 
 #: C/printing.page:24(p)
 msgid ""
@@ -988,7 +988,7 @@ msgstr ""
 "Sie können festlegen, welche Dateitypen in der Browseransicht angezeigt "
 "werden sollen, indem Sie den Dialog <guiseq><gui>Ansicht</gui><gui>Filter</"
 "gui></guiseq> verwenden. Per Voreinstellung werden alle Medien-Dateien (wie "
-"Bilder, Filme und Audio) angezeigt, aber dies kann nach Ihren Wünschen "
+"Bilder, Filme und Audio) angezeigt, aber dies kann nach Ihren Wünschen "
 "angepasst werden."
 
 #: C/filtering.page:15(title)
@@ -1011,8 +1011,8 @@ msgid ""
 "view:"
 msgstr ""
 "Durch Aktivieren von <gui>Dateiname</gui> unter <gui>Andere Filter</gui> wird "
-"die Möglichkeit des Filterns nach Dateinamen der Filterleiste unten in der "
-"Browseransicht hinzugefügt:"
+"die Möglichkeit des Filterns nach Dateinamen der Filterleiste unten in der "
+"Browseransicht hinzugefügt:"
 
 #: C/filtering.page:28(title)
 msgid "Browser Filter Bar"
@@ -1024,7 +1024,7 @@ msgid ""
 "files with \"gen\" in the filename. The matching is case-insensitive."
 msgstr ""
 "In der Abbildung oben ist der Dateinamen-Filter so konfiguriert, dass nur "
-"Dateien angezeigt werden, deren Name »gen« enthält. Die Suche berücksichtigt "
+"Dateien angezeigt werden, deren Name »gen« enthält. Die Suche berücksichtigt "
 "nicht Groß-/Kleinschreibung."
 
 #: C/sorting.page:7(title)
@@ -1062,7 +1062,7 @@ msgid ""
 "Moving the mouse will activate a popup control panel briefly. This can be "
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
-"Durch verschieben der Maus wird kurzzeitig eine Bedienleiste angezeigt. Diese "
+"Durch Verschieben der Maus wird kurzzeitig eine Bedienleiste angezeigt. Diese "
 "können Sie zum Blättern zum nächsten oder vorigen Bild verwenden oder die "
 "Vergrößerungsstufe einstellen."
 
@@ -1071,7 +1071,7 @@ msgid ""
 "You can also advance to the next image by pressing <key>PageDown</key> or "
 "<key>Space</key>."
 msgstr ""
-"Sie können auch manuell zum nächsten Bild durch Drücken von <key>Bild ab</"
+"Sie können auch manuell zum nächsten Bild durch Drücken von <key>Bild ab</"
 "key> oder der <key>Leertaste</key> gelangen."
 
 #: C/fullscreen.page:21(p)
@@ -1079,7 +1079,7 @@ msgid ""
 "You can go back to the previous image by pressing <key>PageUp</key> or "
 "<key>Backspace</key>."
 msgstr ""
-"Sie können zurück zum vorigen Bild durch Drücken von <key>Bild auf</key> oder "
+"Sie können zurück zum vorigen Bild durch Drücken von <key>Bild auf</key> oder "
 "der <key>Leertaste</key> gelangen."
 
 #: C/fullscreen.page:24(p)
@@ -1184,10 +1184,10 @@ msgid ""
 "are implemented as extensions and are supplied with the standard "
 "distribution. Users may write (and share) additional extensions."
 msgstr ""
-"<app>gThumb</app> besitzt ein System für Plugins von Erweiterungen. Einige "
+"<app>gThumb</app> besitzt ein System für Plugins von Erweiterungen. Einige "
 "grundlegende Funktionsmerkmale sind als Erweiterungen implementiert und "
-"werden mit Standard-Distributionen ausgeliefert. Benutzer können weitere "
-"Erweiterungen erstellen (und der Allgemeinheit zur Verfügung stellen)."
+"werden mit Standard-Distributionen ausgeliefert. Benutzer können weitere "
+"Erweiterungen erstellen (und der Allgemeinheit zur Verfügung stellen)."
 
 #: C/extensions.page:12(p)
 msgid ""
@@ -1208,7 +1208,7 @@ msgid ""
 msgstr ""
 "Dieses Handbuch ist unter der Annahme geschrieben worden, dass grundlegende "
 "Erweiterungen aktiviert sind. Falls ein Funktionsmerkmal zu fehlen scheint, "
-"so prüfen Sie bitte, welche Erweiterungen tatsächlich aktiviert sind."
+"so prüfen Sie bitte, welche Erweiterungen tatsächlich aktiviert sind."
 
 #: C/extensions.page:20(p)
 msgid ""
@@ -1217,8 +1217,8 @@ msgid ""
 "development information. An example extension is provided in the source code, "
 "which you can base your own extension on."
 msgstr ""
-"Wenn Sie eigene Erweiterungen erstellen möchten, so besuchen Sie bitte <link "
-"href=\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</link> für "
+"Wenn Sie eigene Erweiterungen erstellen möchten, so besuchen Sie bitte <link "
+"href=\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</link> für "
 "weitere Informationen zum Entwickeln. Eine Beispiel-Erweiterung ist im "
 "Quellcode der Software enthalten, auf die Sie Ihre Erweiterung aufbauen "
 "können."
@@ -1285,7 +1285,7 @@ msgstr "Größe ändern und Beschneiden"
 #: C/edit-resize-crop.page:12(p)
 msgid "Two tools are provided to resize and crop images."
 msgstr ""
-"Zwei Werkzeuge werden zum Ändern der Größe und Beschneiden mitgeliefert."
+"Zwei Werkzeuge werden zum Ändern der Größe und Beschneiden mitgeliefert."
 
 #: C/edit-resize-crop.page:15(gui)
 msgid "Resize"
@@ -1335,7 +1335,7 @@ msgstr "Drehungen und Spiegelungen"
 #: C/edit-rotate.page:12(p)
 msgid "Several tools are provided to manipulate the orientation of images."
 msgstr ""
-"Verschiedene Werkzeuge werden zum Ändern der Orientierung von Bildern "
+"Verschiedene Werkzeuge werden zum Ändern der Orientierung von Bildern "
 "mitgeliefert."
 
 #: C/edit-rotate.page:17(gui)
