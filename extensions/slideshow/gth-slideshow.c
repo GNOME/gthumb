@@ -694,7 +694,6 @@ hide_paused_sign_cb (gpointer user_data)
 
 static void
 default_projector_pause_painter (GthImageViewer *image_viewer,
-				 GdkEventExpose *event,
 				 cairo_t        *cr,
 				 gpointer        user_data)
 {
@@ -964,7 +963,7 @@ clutter_projector_image_ready (GthSlideshow *self,
 		texture = self->priv->image1;
 	else
 		texture = self->priv->image2;
-	gtk_clutter_texture_set_from_pixbuf (GTK_CLUTTER_TEXTURE (texture), image, NULL);
+	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (texture), image, NULL);
 
 	self->next_geometry.x = 0;
 	self->next_geometry.y = 0;
@@ -1147,7 +1146,7 @@ adapt_image_size_to_stage_size (GthSlideshow *self)
 		texture = self->priv->image1;
 	else
 		texture = self->priv->image2;
-	gtk_clutter_texture_set_from_pixbuf (GTK_CLUTTER_TEXTURE (texture), image, NULL);
+	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (texture), image, NULL);
 
 	self->current_geometry.x = 0;
 	self->current_geometry.y = 0;
@@ -1203,17 +1202,12 @@ clutter_projector_construct (GthSlideshow *self)
 
 	self->priv->alpha = clutter_alpha_new_full (self->priv->timeline, CLUTTER_EASE_IN_OUT_SINE);
 
-	self->priv->paused_actor = gtk_clutter_texture_new ();
 	if (self->priv->pause_pixbuf != NULL)
-		gtk_clutter_texture_set_from_pixbuf (GTK_CLUTTER_TEXTURE (self->priv->paused_actor),
-				 	 	     self->priv->pause_pixbuf,
-				 	 	     NULL);
+		self->priv->paused_actor = gtk_clutter_texture_new_from_pixbuf (self->priv->pause_pixbuf);
 	else
-		gtk_clutter_texture_set_from_stock (GTK_CLUTTER_TEXTURE (self->priv->paused_actor),
-						    GTK_WIDGET (self),
-						    GTK_STOCK_MEDIA_PAUSE,
-						    GTK_ICON_SIZE_DIALOG,
-						    NULL);
+		self->priv->paused_actor = gtk_clutter_texture_new_from_stock (GTK_WIDGET (self),
+						    	    	    	       GTK_STOCK_MEDIA_PAUSE,
+						    	    	    	       GTK_ICON_SIZE_DIALOG);
 	clutter_actor_hide (self->priv->paused_actor);
 	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->paused_actor);
 
