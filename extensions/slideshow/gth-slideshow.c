@@ -694,7 +694,6 @@ hide_paused_sign_cb (gpointer user_data)
 
 static void
 default_projector_pause_painter (GthImageViewer *image_viewer,
-				 GdkEventExpose *event,
 				 cairo_t        *cr,
 				 gpointer        user_data)
 {
