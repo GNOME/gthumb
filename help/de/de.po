@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb docs master\n"
 "POT-Creation-Date: 2011-10-21 10:21+0000\n"
-"PO-Revision-Date: 2011-10-21 12:35+0100\n"
+"PO-Revision-Date: 2011-10-21 13:20+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/import.page:21(None)
 msgid "@@image: 'figures/import.png'; md5=aab2ba4d889d170b219c554294d69b0f"
-msgstr ""
+msgstr "translated"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -172,7 +172,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/import-pref-auto-folder.png'; "
 "md5=0a41de83da83b762e37f3962a7e4c042"
-msgstr ""
+msgstr "translated"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -180,7 +180,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/import-pref-custom-format.png'; "
 "md5=989ca536c873ec926a4a71c876004b9f"
-msgstr ""
+msgstr "translated"
 
 #: C/import.page:8(title)
 msgid "Importing From a Camera"
@@ -965,14 +965,14 @@ msgstr "Klicken Sie auf den Knopf <gui>Drucken</gui>, sobald Sie fertig sind."
 #: C/filtering.page:17(None)
 msgid ""
 "@@image: 'figures/general-filter.png'; md5=818fcb0f12da6496f3c72699f12beb28"
-msgstr ""
+msgstr "translated"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/filtering.page:30(None)
 msgid ""
 "@@image: 'figures/specific-filter.png'; md5=e7036e5b958301c6acb3ab5e4a618bbe"
-msgstr ""
+msgstr "translated"
 
 #: C/filtering.page:7(title)
 msgid "Filtering Files"
@@ -1097,7 +1097,7 @@ msgstr ""
 #: C/viewer.page:23(None) C/thumbnail-pane.page:21(None)
 msgid ""
 "@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d64"
-msgstr ""
+msgstr "translated"
 
 #: C/viewer.page:6(title)
 msgid "Opening an Image"
@@ -1896,7 +1896,7 @@ msgstr "Für JPEG-Bilder wird verlustlose Drehung angewendet, falls möglich."
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/browser.page:13(None)
 msgid "@@image: 'figures/main-win.png'; md5=93cf84bd05a153ab61951ae12bbe3f26"
-msgstr ""
+msgstr "translated"
 
 #: C/browser.page:6(title)
 msgid "Browsing Your Files"
