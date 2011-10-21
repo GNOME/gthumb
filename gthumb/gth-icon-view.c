@@ -333,7 +333,7 @@ gth_icon_view_update_attributes (GthFileView     *self,
 {
 	g_object_set (thumbnail_renderer,
 		      "size", thumb_size,
-		      "yalign", 1.0,
+		      "yalign", 0.0,
 		      NULL);
 	g_object_set (text_renderer,
 		      "yalign", 0.0,
