@@ -2607,7 +2607,9 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		else {
 			GdkRGBA color;
 
-			gtk_style_context_get_background_color (style_context, GTK_STATE_NORMAL, &color);
+			gtk_style_context_get_background_color (style_context,
+								gtk_widget_get_state (GTK_WIDGET (self)),
+								&color);
 			gdk_cairo_set_source_rgba (cr, &color);
 		}
 
@@ -2667,17 +2669,15 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 	if ((self->priv->frame_border > 0)
 	    && (gth_image_viewer_get_current_image (self) != NULL))
 	{
+		GdkRGBA background_color;
 		GdkRGBA darker_color;
 		GdkRGBA lighter_color;
 
-		gtk_style_context_get_color (style_context,
-					     gtk_widget_get_state (GTK_WIDGET (self)),
-					     &darker_color);
-		_gdk_rgba_darker (&darker_color, &darker_color);
-		gtk_style_context_get_color (style_context,
-					     gtk_widget_get_state (GTK_WIDGET (self)),
-					     &lighter_color);
-		_gdk_rgba_lighter (&lighter_color, &lighter_color);
+		gtk_style_context_get_background_color (style_context,
+							gtk_widget_get_state (GTK_WIDGET (self)),
+							&background_color);
+		_gdk_rgba_darker (&background_color, &darker_color);
+		_gdk_rgba_lighter (&background_color, &lighter_color);
 
 		/* bottom and right side */
 
