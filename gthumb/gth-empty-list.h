@@ -42,12 +42,12 @@ typedef struct _GthEmptyListClass GthEmptyListClass;
 typedef struct _GthEmptyListPrivate GthEmptyListPrivate;
 
 struct _GthEmptyList {
-	GtkVBox parent_instance;
+	GtkScrolledWindow parent_instance;
 	GthEmptyListPrivate * priv;
 };
 
 struct _GthEmptyListClass {
-	GtkVBoxClass parent_class;
+	GtkScrolledWindowClass parent_class;
 };
 
 GType        gth_empty_list_get_type  (void);

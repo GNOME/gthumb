@@ -39,15 +39,7 @@ static gpointer parent_class = NULL;
 static void 
 gth_empty_list_finalize (GObject *obj) 
 {
-	GthEmptyList *self;
-	
-	self = GTH_EMPTY_LIST (obj);
-	
-	if (self->priv != NULL) { 
-		g_free (self->priv->text);
-		g_free (self->priv);
-	}
-	
+	g_free (GTH_EMPTY_LIST (obj)->priv->text);
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -67,7 +59,9 @@ gth_empty_list_set_property (GObject      *object,
 		g_free (self->priv->text);
 		self->priv->text = g_value_dup_string (value);
 		gtk_widget_queue_resize (GTK_WIDGET (self));
+		g_object_notify (object, "text");
 		break;
+
 	default:
 		break;
 	}
@@ -88,6 +82,7 @@ gth_empty_list_get_property (GObject    *object,
 	case PROP_TEXT:
 		g_value_set_string (value, self->priv->text);
 		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -237,32 +232,46 @@ gth_empty_list_draw (GtkWidget *widget,
 	GtkStyleContext *style_context;
 	GdkRGBA          color;
 	
-	if (self->priv->text == NULL)
-		return TRUE;
+	style_context = gtk_widget_get_style_context (widget);
 
 	gtk_widget_get_allocation (widget, &allocation);
-	pango_layout_set_width (self->priv->layout, allocation.width * PANGO_SCALE);
-	pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
-	pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
+	gtk_render_frame (style_context, cr,
+			  allocation.x,
+			  allocation.y,
+			  allocation.width,
+			  allocation.height);
 
-	style_context = gtk_widget_get_style_context (widget);
-	pango_layout_set_font_description (self->priv->layout, gtk_style_context_get_font (style_context, gtk_widget_get_state (widget)));
-	gtk_style_context_get_color (style_context, gtk_widget_get_state (widget), &color);
-	gdk_cairo_set_source_rgba (cr, &color);
-	cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
-	pango_cairo_layout_path (cr, self->priv->layout);
-
-	cairo_fill (cr);
-
-	if (gtk_widget_has_focus (widget)) {
-		gtk_render_focus (style_context,
-				  cr,
-				  1, 1,
-				  allocation.width - 2,
-				  allocation.height - 2);
+	if (self->priv->text != NULL) {
+		pango_layout_set_width (self->priv->layout, allocation.width * PANGO_SCALE);
+		pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
+		pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
+		pango_layout_set_font_description (self->priv->layout, gtk_style_context_get_font (style_context, gtk_widget_get_state (widget)));
+		gtk_style_context_get_color (style_context, gtk_widget_get_state (widget), &color);
+		gdk_cairo_set_source_rgba (cr, &color);
+		cairo_move_to (cr, 0, (allocation.height - bounds.height) / 2);
+		pango_cairo_layout_path (cr, self->priv->layout);
+		cairo_fill (cr);
 	}
 
-	return TRUE;
+	/*
+	if (gtk_widget_has_focus (widget)) {
+		GtkStateFlags state;
+		GtkBorder     padding;
+		GtkBorder     border;
+
+		state = gtk_widget_get_state_flags (widget);
+		gtk_style_context_get_padding (style_context, state, &padding);
+		gtk_style_context_get_border (style_context, state, &border);
+		gtk_render_focus (style_context,
+				  cr,
+				  padding.left + border.left,
+				  padding.top + border.top,
+				  allocation.width - (padding.left + padding.right + border.left + border.right),
+				  allocation.height - (padding.top + padding.bottom + border.top + border.bottom));
+	}
+	*/
+
+	return FALSE;
 }
 
 
@@ -286,7 +295,9 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 	
-	parent_class = g_type_class_peek_parent (klass);	
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthEmptyListPrivate));
+
 	object_class = (GObjectClass*) (klass);
 	widget_class = (GtkWidgetClass*) klass;
 	
@@ -310,15 +321,22 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
                                                               "Text",
                                                               "The text to display",
                                                               NULL,
-                                                              G_PARAM_READWRITE));   
+                                                              G_PARAM_READABLE | G_PARAM_WRITABLE));
 }
 
 
 static void 
 gth_empty_list_instance_init (GthEmptyList *self) 
 {
+	GtkStyleContext *style_context;
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_FRAME);
+
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
-	self->priv = g_new0 (GthEmptyListPrivate, 1);
+
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
 }
 
 
@@ -340,7 +358,7 @@ gth_empty_list_get_type (void)
 			(GInstanceInitFunc) gth_empty_list_instance_init, 
 			NULL 
 		};
-		type = g_type_register_static (GTK_TYPE_VBOX, 
+		type = g_type_register_static (GTK_TYPE_SCROLLED_WINDOW,
 					       "GthEmptyList", 
 					       &g_define_type_info, 
 					       0);
