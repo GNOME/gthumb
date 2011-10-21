@@ -1185,11 +1185,11 @@ clutter_projector_construct (GthSlideshow *self)
 	g_signal_connect (self->stage, "key-press-event", G_CALLBACK (stage_input_cb), self);
 	g_signal_connect (self->stage, "key-release-event", G_CALLBACK (stage_input_cb), self);
 
-	self->priv->image1 = clutter_texture_new ();
+	self->priv->image1 = gtk_clutter_texture_new ();
 	clutter_actor_hide (self->priv->image1);
 	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image1);
 
-	self->priv->image2 = clutter_texture_new ();
+	self->priv->image2 = gtk_clutter_texture_new ();
 	clutter_actor_hide (self->priv->image2);
 	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image2);
 
