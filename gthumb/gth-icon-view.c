@@ -311,7 +311,14 @@ gth_icon_view_add_renderer (GthFileView             *self,
 			    GthFileViewRendererType  renderer_type,
 			    GtkCellRenderer         *renderer)
 {
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self), renderer, FALSE);
+	GtkCellArea *cell_area;
+
+	g_object_get (self, "cell-area", &cell_area, NULL);
+	gtk_cell_area_box_pack_start (GTK_CELL_AREA_BOX (cell_area),
+				      renderer,
+				      FALSE,
+				      FALSE,
+				      TRUE);
 
 	return GTK_CELL_LAYOUT (self);
 }
@@ -481,7 +488,7 @@ gth_icon_view_real_get_n_selected (GthFileSelection *base)
 GtkWidget *
 gth_icon_view_new (void)
 {
-	return g_object_new (GTH_TYPE_ICON_VIEW, NULL);
+	return gth_icon_view_new_with_model (NULL);
 }
 
 
