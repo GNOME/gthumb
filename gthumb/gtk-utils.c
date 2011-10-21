@@ -1210,7 +1210,7 @@ gboolean
 _gdk_rgba_darker (GdkRGBA *color,
 		  GdkRGBA *result)
 {
-	return _gdk_rgba_shade (color, result, 1.2);
+	return _gdk_rgba_shade (color, result, 0.8);
 }
 
 
@@ -1218,5 +1218,5 @@ gboolean
 _gdk_rgba_lighter (GdkRGBA *color,
 		   GdkRGBA *result)
 {
-	return _gdk_rgba_shade (color, result, 0.8);
+	return _gdk_rgba_shade (color, result, 1.2);
 }

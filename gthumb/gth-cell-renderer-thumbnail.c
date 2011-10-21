@@ -218,8 +218,8 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
 		}
 
 		if (y_offset != NULL) {
-			 *y_offset = yalign * (cell_area->height - calc_height);
-			 *y_offset = MAX (*y_offset, 0);
+			*y_offset = yalign * (cell_area->height - calc_height);
+			*y_offset = MAX (*y_offset, 0);
 		}
 	}
 }
@@ -231,18 +231,17 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 				    GtkWidget            *widget,
 				    const GdkRectangle   *background_area,
 				    const GdkRectangle   *cell_area,
-				    GtkCellRendererState  flags)
+				    GtkCellRendererState  cell_state)
 {
 	GthCellRendererThumbnail *self;
 	GtkStyleContext          *style_context;
-	GtkStateType              state;
+	GtkStateFlags             state;
 	cairo_rectangle_int_t     thumb_rect;
 	cairo_rectangle_int_t     draw_rect;
 	cairo_rectangle_int_t     image_rect;
 	GdkPixbuf                *pixbuf;
 	int                       xpad;
 	int                       ypad;
-	GdkPixbuf                *colorized = NULL;
 	int                       border;
 
 	self = (GthCellRendererThumbnail *) cell;
@@ -273,21 +272,19 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) * .5;
 
 	style_context = gtk_widget_get_style_context (widget);
-
-	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
-		state = gtk_widget_has_focus (widget) ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
-	else
-		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
+	gtk_style_context_save (style_context);
+	gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+	state = cell_state;
 
 	if (self->priv->is_icon || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
-		GdkRGBA color;
+		GdkRGBA background_color;
 
 		/* use a gray rounded box for icons or when the original size
 		 * is smaller than the thumbnail size... */
 
-		gtk_style_context_get_background_color (style_context, state, &color);
-		_gdk_rgba_lighter (&color, &color);
-		gdk_cairo_set_source_rgba (cr, &color);
+		gtk_style_context_get_background_color (style_context, state, &background_color);
+		gdk_cairo_set_source_rgba (cr, &background_color);
 
 		_cairo_draw_rounded_box (cr,
 					 thumb_rect.x,
@@ -303,17 +300,13 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 		cairo_rectangle_int_t frame_rect;
 		GdkRGBA               background_color;
-		GdkRGBA               color;
 		GdkRGBA               lighter_color;
 		GdkRGBA               darker_color;
 
-		if (state == GTK_STATE_ACTIVE)
-			state = GTK_STATE_SELECTED;
-
+		gdk_rgba_parse (&background_color, "#edeceb");
 		gtk_style_context_get_background_color (style_context, state, &background_color);
-		gtk_style_context_get_color (style_context, state, &color);
-		_gdk_rgba_lighter (&color, &lighter_color);
-		_gdk_rgba_darker (&color, &darker_color);
+		_gdk_rgba_darker (&background_color, &lighter_color);
+		_gdk_rgba_darker (&lighter_color, &darker_color);
 
 		if (self->priv->fixed_size && _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
 			frame_rect.width = self->priv->size; /*image_rect.width*/
@@ -357,7 +350,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 						 1);
 			cairo_fill_preserve (cr);
 
-			if (state == GTK_STATE_SELECTED)
+			if (state == GTK_STATE_FLAG_SELECTED)
 				gdk_cairo_set_source_rgba (cr, &darker_color);
 			else
 				gdk_cairo_set_source_rgba (cr, &lighter_color);
@@ -396,24 +389,21 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		cairo_identity_matrix (cr);
 	}
 
-	if (! self->priv->checked || ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0)) {
-		GdkRGBA  rgba_color;
-		GdkColor color;
-
-		gtk_style_context_get_background_color (style_context, state, &rgba_color);
-		color.pixel = 0;
-		color.red = rgba_color.red;
-		color.green = rgba_color.green;
-		color.blue = rgba_color.blue;
-		colorized = _gdk_pixbuf_colorize (pixbuf, &color, self->priv->checked ? 1.0 : 0.33);
-		pixbuf = colorized;
-	}
-
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, image_rect.x, image_rect.y);
 	cairo_rectangle (cr, image_rect.x, image_rect.y, image_rect.width, image_rect.height);
 	cairo_fill (cr);
 
-	_g_object_unref (colorized);
+	if (! self->priv->checked || ((cell_state & GTK_CELL_RENDERER_SELECTED) != 0)) {
+		GdkRGBA color;
+
+		state = gtk_cell_renderer_get_state (cell, widget, cell_state);
+		gtk_style_context_get_background_color (style_context, state, &color);
+		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.33);
+		cairo_rectangle (cr, thumb_rect.x, thumb_rect.y, thumb_rect.width, thumb_rect.height);
+		cairo_fill (cr);
+	}
+
+	gtk_style_context_restore (style_context);
 }
 
 

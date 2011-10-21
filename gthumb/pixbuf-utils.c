@@ -341,8 +341,7 @@ _gdk_pixbuf_colorshift (GdkPixbuf *dest,
  * modified for gthumb */
 GdkPixbuf *
 _gdk_pixbuf_colorize (GdkPixbuf *src,
-		      GdkColor  *new_color,
-		      gdouble    alpha)
+		      GdkRGBA   *new_color)
 {
 	gint i, j;
 	gint width, height, has_alpha, src_row_stride, dst_row_stride;
@@ -379,9 +378,9 @@ _gdk_pixbuf_colorize (GdkPixbuf *src,
 			*pixdest++ = (*pixsrc++ * green_value) >> 8;
 			*pixdest++ = (*pixsrc++ * blue_value) >> 8;
 			if (has_alpha)
-				*pixdest++ = (*pixsrc++ * alpha);
+				*pixdest++ = (*pixsrc++ * new_color->alpha);
 			else
-				*pixdest++ = (255 * alpha);
+				*pixdest++ = (255 * new_color->alpha);
 		}
 	}
 

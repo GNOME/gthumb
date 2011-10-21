@@ -52,8 +52,7 @@ void        _gdk_pixbuf_colorshift             (GdkPixbuf       *dest,
 					        GdkPixbuf       *src,
 					        int              shift);
 GdkPixbuf * _gdk_pixbuf_colorize               (GdkPixbuf       *src,
-			 	 	        GdkColor        *new_color,
-			 	 	        gdouble          alpha);
+						GdkRGBA         *new_color);
 void        _gdk_pixbuf_vertical_gradient      (GdkPixbuf       *pixbuf,
 					        guint32          color1,
 					        guint32          color2);
