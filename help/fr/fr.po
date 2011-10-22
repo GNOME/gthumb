@@ -1,10 +1,9 @@
 # French translation of gthumb documentation.
-# Copyright (C) 2007-2010 Free Software Foundation, Inc.
+# Copyright (C) 2007-2011 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb
 # documentation package.
 #
-#
-# Claude Paroz <claude@2xlibre.net>, 2007.
+# Claude Paroz <claude@2xlibre.net>, 2007,2011.
 # Laurent Coudeur <laurentc@iol.ie>, 2010.
 # Bruno Brouard <annoa.b@gmail.com>, 2007,2010.
 #
@@ -12,14 +11,91 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.help\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-22 17:47+0000\n"
-"PO-Revision-Date: 2010-10-18 20:36+0200\n"
-"Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
+"POT-Creation-Date: 2011-10-15 17:34+0000\n"
+"PO-Revision-Date: 2011-10-22 22:06+0200\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: C/file-copy-move.page:6(title)
+msgid "Copying and Moving Files"
+msgstr "Copie et déplacement de fichiers"
+
+#: C/file-copy-move.page:8(p)
+msgid "There are three ways to copy or move files in <app>gThumb</app>."
+msgstr ""
+"Il y a trois façons de copier ou de déplacer des fichiers dans <app>gThumb</app>."
+
+#: C/file-copy-move.page:12(title)
+msgid "Cut and Paste"
+msgstr "Couper et coller"
+
+#: C/file-copy-move.page:13(p)
+msgid ""
+"To copy a file in the browser view, use <guiseq><gui>Edit</gui><gui>Copy</"
+"gui></guiseq>, or press <keyseq><key>Ctrl</key><key>C</key></keyseq>. To "
+"move a file, use <guiseq><gui>Edit</gui><gui>Cut</gui></guiseq>, or press "
+"<keyseq><key>Ctrl</key><key>X</key></keyseq>. Then navigate to the "
+"destination folder using the folder tree. Use <guiseq><gui>Edit</"
+"gui><gui>Paste</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>V</key></"
+"keyseq>, to complete the file transfer."
+msgstr ""
+"Pour copier un fichier dans le navigateur, choisissez <guiseq><gui>Édition</gui>"
+"<gui>Copier</gui></guiseq> ou appuyez sur <keyseq><key>Ctrl</key><key>C</key></keyseq>."
+" Pour déplacer un fichier, choisissez <guiseq><gui>Édition</gui>"
+"<gui>Couper</gui></guiseq> ou appuyez sur <keyseq><key>Ctrl</key><key>X</key></keyseq>. "
+"Placez-vous ensuite dans le dossier de destination dans l'arborescence. Choisissez "
+"<guiseq><gui>Édition</gui><gui>Coller</gui></guiseq> ou appuyez sur <keyseq><key>Ctrl</key>"
+"<key>V</key></keyseq> pour terminer le transfert du fichier."
+
+#: C/file-copy-move.page:26(title)
+msgid "Drag and Drop"
+msgstr "Glisser-déposer"
+
+#: C/file-copy-move.page:27(p)
+msgid ""
+"To copy a file to another folder, simply drag the file (with a sustained "
+"left-mouse click) to the destination folder visible in the folder tree. To "
+"move a file, hold down the <key>Shift</key> key while dragging."
+msgstr ""
+"Pour copier un fichier vers un autre dossier, faites simplement glisser le "
+"fichier (par un clic gauche non relâché) vers le dossier de destination "
+"visible dans l'arborescence des dossiers. Pour déplacer un fichier, appuyez "
+"sur la touche <key>Maj</key> tout en effectuant le glisser-déposer."
+
+#: C/file-copy-move.page:31(p)
+msgid ""
+"You can also use the middle mouse button to drag files. In this case, "
+"<app>gThumb</app> will ask you if you wish to copy the files, move the "
+"files, or cancel the operation."
+msgstr ""
+"Il est aussi possible d'utiliser le bouton central de la souris pour faire "
+"glisser des fichiers. Dans ce cas, <app>gThumb</app> demande si vous voulez "
+"copier les fichiers, les déplacer ou annuler l'opération."
+
+#: C/file-copy-move.page:37(title)
+msgid "File Copy / Move Dialog"
+msgstr "Boîte de dialogue de copie/déplacement de fichier"
+
+#: C/file-copy-move.page:38(p)
+msgid ""
+"Select the files to be transferred, right-click on the selection, and choose "
+"<guiseq><gui>Copy to...</gui></guiseq> or <guiseq><gui>Move to...</gui></"
+"guiseq>. This will open a folder-selection dialog, where you can choose the "
+"destination folder. At the bottom of the dialog, you can enable the "
+"<guiseq><gui>View the destination</gui></guiseq> option if you want to go to "
+"the destination folder after the file transfer is complete."
+msgstr ""
+"Choisissez les fichiers à transférer, faites un clic droit sur la sélection "
+"puis choisissez <guiseq><gui>Copier vers…</gui></guiseq> ou <guiseq><gui>"
+"Déplacer vers…</gui></guiseq>. Cela ouvre une boîte de dialogue de sélection "
+"de dossier qui permet de choisir le dossier de destination. Au bas de cette "
+"boîte de dialogue, vous pouvez activer l'option <guiseq><gui>Afficher la "
+"destination</gui></guiseq> si vous souhaitez aller dans le dossier de "
+"destination après la fin du transfert de fichier."
 
 #: C/slideshow.page:7(title)
 msgid "Automatic Slideshow"
@@ -319,6 +395,65 @@ msgstr ""
 "cette boîte de dialogue pour faire des ajustements aux paramètres du fond "
 "d'écran (positionnement, étirement, mosaïque, etc)."
 
+#: C/sharing-social.page:6(title)
+msgid "Uploading to Photo-Sharing Web Sites"
+msgstr "Envoi de photos sur des sites Web de partage"
+
+#: C/sharing-social.page:7(p)
+msgid ""
+"gThumb is provided with a number of extensions for uploading photos to "
+"various \"social media\" web sites. By default, uploaders for Facebook, "
+"Flickr, Picasa, and Photobucket are enabled."
+msgstr ""
+"gThumb possède un certain nombre d'extensions pour envoyer des photos "
+"sur divers sites Web de réseaux sociaux. Par défaut, les extensions pour "
+"Facebook, Flickr, Picasa et Photobucket sont activés."
+
+#: C/sharing-social.page:13(p)
+msgid ""
+"To upload a series of photos, select the images in the browser view, and "
+"click the <gui>Share</gui> button in the toolbar. Select the appropriate web "
+"site from the menu that appears."
+msgstr ""
+"Pour envoyer une série de photos, choisissez les images dans le navigateur et "
+"cliquez sur le bouton <gui>Partager</gui> de la barre d'outils. Choisissez le "
+"site Web souhaité dans le menu qui apparaît."
+
+#: C/sharing-social.page:17(p)
+msgid ""
+"You may be prompted for additional information specific to the destination "
+"site, like an album name. You may also be prompted for your user name and "
+"password for the site. It may be necessary for gThumb to open a web browser, "
+"where you complete the required authentication steps. Once you have "
+"completed the required authentication steps in the browser, return to gThumb "
+"and continue the upload."
+msgstr ""
+"Il se peut que vous deviez renseigner des informations supplémentaires spécifiques "
+"au site de destination, comme par exemple un nom d'album ou vos nom d'utilisateur et "
+"mot de passe pour se connecter au site. Il peut arriver que gThumb doive ouvrir un "
+"navigateur Web pour que vous puissiez effectuer la phase d'authentification. Lorsque "
+"celle-ci est terminée, revenez dans gThumb pour continuer l'envoi des photos."
+
+#: C/sharing-social.page:26(p)
+msgid ""
+"If you do not see the expected upload sites in the <gui>Share</gui> menu, "
+"check that the appropriate exporter extensions are enabled in "
+"<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
+msgstr ""
+"Si le site souhaité ne se trouve pas dans le menu <gui>Partager</gui>, "
+"vérifiez que l'extension correspondante est bien activée dans <guiseq><gui>"
+"Édition</gui><gui>Extensions</gui></guiseq>."
+
+#: C/sharing-social.page:31(p)
+msgid ""
+"For some sites, gThumb also supports downloading photos from the site into "
+"gThumb. See the <guiseq><gui>File</gui><gui>Import From</gui></guiseq> menu "
+"for the available download options."
+msgstr ""
+"Pour certains sites, gThumb est aussi capable de télécharger les photos du "
+"site dans gThumb. Examinez le menu <guiseq><gui>Fichier</gui><gui>Importer "
+"depuis</gui></guiseq> pour connaître les options de téléchargement disponibles."
+
 #: C/sharing-disc.page:6(title)
 msgid "Creating a CD/DVD/ISO"
 msgstr "Création d'un CD/DVD/ISO"
@@ -326,7 +461,7 @@ msgstr "Création d'un CD/DVD/ISO"
 #: C/sharing-disc.page:7(p)
 msgid ""
 "To write a series of files to an optical disk (CD or DVD), or to create an "
-"ISO disk image file, use the <guiseq><gui>File </gui><gui>Export To</"
+"ISO disk image file, use the <guiseq><gui>File</gui><gui>Export To</"
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
 "Pour enregistrer une série de fichiers sur un disque optique (CD ou DVD) ou "
@@ -573,7 +708,7 @@ msgid "Viewer shortcuts"
 msgstr "Raccourcis clavier du visionneur"
 
 #: C/shortcuts.page:278(p)
-msgid "<key>Space</key>or <key>Page Down</key>"
+msgid "<key>Space</key> or <key>Page Down</key>"
 msgstr "<key>Espace</key> ou <key>Page bas</key>"
 
 #: C/shortcuts.page:283(p)
@@ -581,7 +716,7 @@ msgid "View the next image."
 msgstr "Affiche l'image suivante."
 
 #: C/shortcuts.page:288(p)
-msgid "<key>Backspace</key>or <key>Page Up</key>"
+msgid "<key>Backspace</key> or <key>Page Up</key>"
 msgstr "<key>Retour Arrière</key> ou <key>Page Haut</key>"
 
 #: C/shortcuts.page:293(p)
@@ -614,7 +749,7 @@ msgstr "Ajoute l'emplacement actuel aux signets."
 
 # note: missing space
 #: C/shortcuts.page:331(p)
-msgid "<key>+</key>or <key>=</key>"
+msgid "<key>+</key> or <key>=</key>"
 msgstr "<key>+</key> ou <key>=</key>"
 
 #: C/shortcuts.page:336(p)
@@ -630,15 +765,15 @@ msgid "Zoom out."
 msgstr "Zoom arrière."
 
 #: C/shortcuts.page:351(p)
-msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
-msgstr "<key>1</key>ou <key>z</key>ou <key>/ (pavé numérique)</key>"
+msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
+msgstr "<key>1</key> ou <key>z</key> ou <key>/ (pavé numérique)</key>"
 
 #: C/shortcuts.page:357(p)
 msgid "Actual size."
 msgstr "Taille réelle."
 
 #: C/shortcuts.page:362(p)
-msgid "<key>x</key>or <key>* (numeric keypad)</key>"
+msgid "<key>x</key> or <key>* (numeric keypad)</key>"
 msgstr "<key>x</key> ou <key>*</key> (pavé numérique)"
 
 #: C/shortcuts.page:367(p)
@@ -778,10 +913,9 @@ msgstr ""
 "<guiseq><gui>Fichier</gui><gui>Imprimer</gui></guiseq> ou <keyseq><key>Ctrl</"
 "key><key>p</key></keyseq>."
 
-# Note Typo missing e "on" should be "one"
 #: C/printing.page:13(p)
 msgid ""
-"To print on or more images from the browser mode, select the desired images "
+"To print one or more images from the browser mode, select the desired images "
 "and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
@@ -902,11 +1036,10 @@ msgstr ""
 msgid "Sorting Files"
 msgstr "Tri des fichiers"
 
-# note typo in source "desird" instead of "desired"
 #: C/sorting.page:9(p)
 msgid ""
 "Use the <guiseq><gui>View</gui><gui>Sort By</gui></guiseq> menu to select "
-"the desird file-sorting method for the browser view. Files can be sorted on "
+"the desired file-sorting method for the browser view. Files can be sorted on "
 "the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
@@ -1357,9 +1490,9 @@ msgstr ""
 
 #: C/edit-save-undo-redo.page:20(p)
 msgid ""
-"If you exit the editing mode (by pressing <key>Esc</key>or the <gui>View the "
-"Folders</gui> toolbar button), or navigate away from the current image, you "
-"will be prompted to save or discard your changes."
+"If you exit the editing mode (by pressing <key>Esc</key> or the <gui>View "
+"the Folders</gui> toolbar button), or navigate away from the current image, "
+"you will be prompted to save or discard your changes."
 msgstr ""
 "Si vous quittez l'éditeur (en appuyant sur <key>Échap</key> ou sur le bouton "
 "<gui>Afficher les dossiers</gui> de la barre d'outils) ou si vous changez "
@@ -1552,12 +1685,11 @@ msgstr ""
 "<guiseq><gui>Affichage</gui><gui>Panneau des vignettes</gui></guiseq> ou "
 "avec la touche<key>F8</key>."
 
-# note this is in the general tab not the browser
 #: C/thumbnail-pane.page:14(p)
 msgid ""
 "The thumbnail pane may be positioned along the bottom of the main image, or "
 "along the side. This is controlled by the settings in <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Browser</gui><gui>Thumbnails in Viewer</gui></"
+"gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></"
 "guiseq>."
 msgstr ""
 "Le volet des vignettes peut être placé en bas de l'image principale ou sur "
@@ -1672,10 +1804,9 @@ msgstr "TODO: la documentation doit être complétée ici."
 msgid "Changing Dates"
 msgstr "Modification de dates"
 
-# note: two "the" in source
 #: C/batch-change-date.page:8(p)
 msgid ""
-"To change the the file modification times, the comment dates, or the Exif "
+"To change the file modification times, the comment dates, or the Exif "
 "DateTimeOriginal tags of multiple files, select the files in the browser "
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select "
 "<guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
@@ -2700,5 +2831,5 @@ msgstr "Référence"
 msgid "translator-credits"
 msgstr ""
 "Bruno Brouard <annoa.b@gmail.com>, 2007,2010\n"
-"Claude Paroz <claude@2xlibre.net>, 2007\n"
+"Claude Paroz <claude@2xlibre.net>, 2007,2011\n"
 "Laurent Coudeur <laurentc@iol.ie>, 2010"
