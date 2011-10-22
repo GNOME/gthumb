@@ -35,6 +35,16 @@
 
 static const char *fixed_ui_info =
 "<ui>"
+"  <toolbar name='ToolBar'>"
+"    <placeholder name='Edit_Actions_2'>"
+"      <toolitem action='ListTools'/>"
+"    </placeholder>"
+"  </toolbar>"
+"  <toolbar name='ViewerToolBar'>"
+"    <placeholder name='Edit_Actions_2'>"
+"      <toolitem action='ListTools'/>"
+"    </placeholder>"
+"  </toolbar>"
 /*
 "  <popup name='FileListPopup'>"
 "    <placeholder name='Open_Actions'>"
@@ -211,8 +221,8 @@ void
 list_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
+	GtkAction   *action;
 	GError      *error = NULL;
-	GtkToolItem *tool_item;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -224,6 +234,18 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 				      action_entries,
 				      G_N_ELEMENTS (action_entries),
 				      browser);
+
+	/* tools menu action */
+
+	action = g_object_new (GTH_TYPE_TOGGLE_MENU_ACTION,
+			       "name", "ListTools",
+			       "stock-id", GTK_STOCK_EXECUTE,
+			       "label", _("Tools"),
+			       "tooltip",  _("Batch tools for multiple files"),
+			       "is-important", TRUE,
+			       NULL);
+	gtk_action_group_add_action (data->action_group, action);
+
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
@@ -231,29 +253,8 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	/* tools menu button */
-
-	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON,
-				  "stock-id", GTK_STOCK_EXECUTE,
-				  "label", _("Tools"),
-				  NULL);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
-	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
-					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), tool_item, -1);
-
-	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON,
-				  "stock-id", GTK_STOCK_EXECUTE,
-				  "label", _("Tools"),
-				  NULL);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
-	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
-					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_viewer_toolbar (browser)), tool_item, 9);
+	g_object_set (action, "menu",  gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"), NULL);
+	g_object_unref (action);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 

@@ -21,6 +21,7 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
+#include "gth-toggle-menu-action.h"
 #include "gth-toggle-menu-tool-button.h"
 
 #define MENU_ID "gth-toggle-menu-tool-button-menu-id"
@@ -803,6 +804,20 @@ gth_toggle_menu_tool_button_update (GtkActivatable *activatable,
 		gth_toggle_menu_tool_button_set_active (button, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 		gtk_action_unblock_activate (action);
 	}
+	else if ((strcmp (property_name, "menu") == 0) && GTH_IS_TOGGLE_MENU_ACTION (action)) {
+		gth_toggle_menu_tool_button_set_menu (button, gth_toggle_menu_action_get_menu (GTH_TOGGLE_MENU_ACTION (action)));
+	}
+	else if (gtk_activatable_get_use_action_appearance (activatable)) {
+		if (strcmp (property_name, "label") == 0) {
+			gth_toggle_menu_tool_button_set_label (button, gtk_action_get_label (action));
+		}
+		else if (strcmp (property_name, "stock-id") == 0) {
+			gth_toggle_menu_tool_button_set_stock_id (button, gtk_action_get_stock_id (action));
+		}
+		else if (strcmp (property_name, "icon-name") == 0) {
+			gth_toggle_menu_tool_button_set_icon_name (button, gtk_action_get_icon_name (action));
+		}
+	}
 }
 
 
@@ -822,6 +837,15 @@ gth_toggle_menu_tool_button_sync_action_properties (GtkActivatable *activatable,
 	gtk_action_block_activate (action);
 	gth_toggle_menu_tool_button_set_active (button, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 	gtk_action_unblock_activate (action);
+
+	if (GTH_IS_TOGGLE_MENU_ACTION (action))
+		gth_toggle_menu_tool_button_set_menu (button, gth_toggle_menu_action_get_menu (GTH_TOGGLE_MENU_ACTION (action)));
+
+	if (gtk_activatable_get_use_action_appearance (activatable)) {
+		gth_toggle_menu_tool_button_set_label (button, gtk_action_get_label (action));
+		gth_toggle_menu_tool_button_set_stock_id (button, gtk_action_get_stock_id (action));
+		gth_toggle_menu_tool_button_set_icon_name (button, gtk_action_get_icon_name (action));
+	}
 }
 
 

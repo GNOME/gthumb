@@ -27,8 +27,16 @@
 #include "callbacks.h"
 
 
+#define BROWSER_DATA_KEY "export-tools-browser-data"
+
+
 static const char *ui_info =
 "<ui>"
+"  <toolbar name='ToolBar'>"
+"    <placeholder name='Edit_Actions_2'>"
+"      <toolitem action='ExportTools'/>"
+"    </placeholder>"
+"  </toolbar>"
 "  <popup name='ExportPopup'>"
 "    <placeholder name='Web_Services'/>"
 "    <separator/>"
@@ -37,14 +45,46 @@ static const char *ui_info =
 "</ui>";
 
 
+typedef struct {
+	GthBrowser     *browser;
+	GtkActionGroup *action_group;
+} BrowserData;
+
+
+static void
+browser_data_free (BrowserData *data)
+{
+	g_free (data);
+}
+
+
 void
 export_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
+	BrowserData *data;
+	GtkAction   *action;
 	GError      *error = NULL;
 	guint        merge_id;
-	GtkToolItem *tool_item;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	data = g_new0 (BrowserData, 1);
+	data->browser = browser;
+	data->action_group = gtk_action_group_new ("Export Tools Actions");
+	gtk_action_group_set_translation_domain (data->action_group, NULL);
+
+	/* tools menu action */
+
+	action = g_object_new (GTH_TYPE_TOGGLE_MENU_ACTION,
+			       "name", "ExportTools",
+			       "icon-name", "share",
+			       "label", _("Share"),
+			       /*"tooltip",  _("Export files"),*/
+			       "is-important", TRUE,
+			       NULL);
+	gtk_action_group_add_action (data->action_group, action);
+
+	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
 	merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), ui_info, -1, &error);
 	if (merge_id == 0) {
@@ -52,16 +92,8 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	/* export tools menu button */
+	g_object_set (action, "menu",  gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup"), NULL);
+	g_object_unref (action);
 
-	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON,
-				  "icon-name", "share",
-				  "label", _("Share"),
-				  NULL);
-	/*gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Export files"));*/
-	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item),
-					      gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup"));
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), tool_item, -1);
+	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

@@ -115,6 +115,7 @@ static const char *fixed_ui_info =
 "    <placeholder name='BrowserCommands'/>"
 "    <separator/>"
 "    <placeholder name='Edit_Actions'/>"
+"    <placeholder name='Edit_Actions_2'/>"
 "  </toolbar>"
 
 "  <toolbar name='ViewerToolBar'>"
@@ -126,6 +127,7 @@ static const char *fixed_ui_info =
 "    <placeholder name='ViewerCommands'/>"
 "    <separator/>"
 "    <placeholder name='Edit_Actions'/>"
+"    <placeholder name='Edit_Actions_2'/>"
 "    <separator expand='true'/>"
 "    <placeholder name='ViewerCommandsSecondary'/>"
 "    <toolitem action='Viewer_Properties'/>"
@@ -140,6 +142,7 @@ static const char *fixed_ui_info =
 "    <placeholder name='ViewerCommands'/>"
 "    <separator/>"
 "    <placeholder name='Edit_Actions'/>"
+"    <placeholder name='Edit_Actions_2'/>"
 "    <separator expand='true'/>"
 "    <placeholder name='ViewerCommandsSecondary'/>"
 "    <toolitem action='Viewer_Properties'/>"
