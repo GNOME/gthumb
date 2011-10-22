@@ -48,10 +48,11 @@ static const char *fixed_ui_info =
 "</ui>";
 
 
-static GtkActionEntry action_entries[] = {
+static GthActionEntryExt action_entries[] = {
 	{ "File_Print", GTK_STOCK_PRINT,
 	  NULL, "<control>P",
 	  N_("Print the selected images"),
+	  GTH_ACTION_FLAG_IS_IMPORTANT,
 	  G_CALLBACK (gth_browser_activate_action_file_print) },
 };
 
@@ -81,10 +82,10 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->action_group = gtk_action_group_new ("Image Print Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
+	_gtk_action_group_add_actions_with_flags (data->action_group,
+						  action_entries,
+						  G_N_ELEMENTS (action_entries),
+						  browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
 	data->fixed_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error);
@@ -92,7 +93,6 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 		g_warning ("building ui failed: %s", error->message);
 		g_error_free (error);
 	}
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/Export_Actions/File_Print")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

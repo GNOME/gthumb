@@ -25,8 +25,9 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "gth-stock.h"
+#include "gtk-utils.h"
 
-static GtkActionEntry gth_browser_action_entries[] = {
+static GthActionEntryExt gth_browser_action_entries[] = {
 	{ "FileMenu", NULL, N_("_File") },
 	{ "EditMenu", NULL, N_("_Edit") },
 	{ "ViewMenu", NULL, N_("_View") },
@@ -39,134 +40,159 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "File_NewWindow", "window-new",
 	  N_("New _Window"), "<control>N",
 	  N_("Open another window"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_file_new_window) },
 
 	{ "File_Open", GTK_STOCK_OPEN,
 	  NULL, NULL,
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_file_open) },
 
 	{ "File_Save", GTK_STOCK_SAVE,
 	  NULL, "<control>S",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_file_save) },
 
 	{ "File_SaveAs", GTK_STOCK_SAVE_AS,
 	  NULL, NULL,
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_file_save_as) },
 
 	{ "File_Revert", GTK_STOCK_REVERT_TO_SAVED,
 	  NULL, "F4",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_file_revert) },
 
 	{ "Folder_Open", GTK_STOCK_OPEN,
 	  N_("Open"), "",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_folder_open) },
 
 	{ "Folder_OpenInNewWindow", NULL,
 	  N_("Open in New Window"), "",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_folder_open_in_new_window) },
 
 	{ "Edit_Preferences", GTK_STOCK_PREFERENCES,
 	  NULL, NULL,
 	  N_("Edit various preferences"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_edit_preferences) },
 
 	{ "Edit_SelectAll", GTK_STOCK_SELECT_ALL,
 	  NULL, NULL,
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_edit_select_all) },
 
 	{ "View_Sort_By", NULL,
 	  N_("_Sort By..."), NULL,
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_sort_by) },
 
 	{ "View_Filters", NULL,
 	  N_("_Filter..."), NULL,
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_filter) },
 
 	{ "View_Stop", GTK_STOCK_STOP,
 	  NULL, "Escape",
 	  N_("Stop loading the current location"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_stop) },
 
 	{ "View_Reload", GTK_STOCK_REFRESH,
 	  NULL, "<control>R",
 	  N_("Reload the current location"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_reload) },
 
 	{ "View_Prev", GTK_STOCK_GO_UP,
 	  N_("Previous"), NULL,
 	  N_("View previous image"),
+	  GTH_ACTION_FLAG_IS_IMPORTANT,
 	  G_CALLBACK (gth_browser_activate_action_view_prev) },
 
 	{ "View_Next", GTK_STOCK_GO_DOWN,
 	  N_("Next"), NULL,
 	  N_("View next image"),
+	  GTH_ACTION_FLAG_IS_IMPORTANT,
 	  G_CALLBACK (gth_browser_activate_action_view_next) },
 
 	{ "View_Fullscreen", GTK_STOCK_FULLSCREEN,
 	  NULL, "F11",
 	  N_("Switch to fullscreen"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
 
 	{ "View_Leave_Fullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
 	  NULL, NULL,
 	  N_("Leave Fullscreen"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
 
 	{ "Go_Back", GTK_STOCK_GO_BACK,
 	  NULL, "<alt>Left",
 	  N_("Go to the previous visited location"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_back) },
 
 	{ "Go_Forward", GTK_STOCK_GO_FORWARD,
 	  NULL, "<alt>Right",
 	  N_("Go to the next visited location"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_forward) },
 
 	{ "Go_Up", GTK_STOCK_GO_UP,
 	  NULL, "<alt>Up",
 	  N_("Go up one level"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_up) },
 
 	{ "Go_Home", NULL,
 	  NULL, "<alt>Home",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_home) },
 
 	{ "Go_Clear_History", GTK_STOCK_CLEAR,
 	  N_("_Delete History"), NULL,
 	  N_("Delete the list of visited locations"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_clear_history) },
 
 	{ "View_BrowserMode", GTH_STOCK_BROWSER_MODE,
 	  N_("Browser"), "Escape",
 	  N_("View the folders"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_browser_mode) },
 
 	{ "Help_About", GTK_STOCK_ABOUT,
 	  NULL, NULL,
 	  N_("Show information about gthumb"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_help_about) },
 
 	{ "Help_Help", GTK_STOCK_HELP,
 	  N_("Contents"), "F1",
 	  N_("Display the gthumb Manual"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_help_help) },
 
 	{ "Help_Shortcuts", NULL,
 	  N_("_Keyboard Shortcuts"), NULL,
 	  " ",
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_help_shortcuts) },
 };
-static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
 
 
 static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
@@ -216,6 +242,5 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_viewer_tools),
 	  FALSE },
 };
-static guint gth_browser_action_toggle_entries_size = G_N_ELEMENTS (gth_browser_action_toggle_entries);
 
 #endif /* GTH_BROWSER_ACTION_ENTRIES_H */

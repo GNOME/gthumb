@@ -44,25 +44,29 @@ static const char *fixed_ui_info =
 "</ui>";
 
 
-static GtkActionEntry action_entries[] = {
+static GthActionEntryExt action_entries[] = {
 	{ "Tool_RotateRight", "object-rotate-right",
 	  N_("Rotate Right"), "<control><alt>R",
 	  N_("Rotate the selected images 90° to the right"),
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
 	  G_CALLBACK (gth_browser_activate_action_tool_rotate_right) },
 
 	{ "Tool_RotateLeft", "object-rotate-left",
 	  N_("Rotate Left"), "<control><alt>L",
 	  N_("Rotate the selected images 90° to the left"),
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
 	  G_CALLBACK (gth_browser_activate_action_tool_rotate_left) },
 
 	{ "Tool_ApplyOrientation", NULL,
 	  N_("Rotate Physically"), NULL,
 	  N_("Rotate the selected images according to the embedded orientation"),
+	  0,
 	  G_CALLBACK (gth_browser_activate_action_tool_apply_orientation) },
 
 	{ "Tool_ResetOrientation", NULL,
 	  N_("Reset the EXIF Orientation"), NULL,
 	  N_("Reset the embedded orientation without rotating the images"),
+	  0,
 	  G_CALLBACK (gth_browser_activate_action_tool_reset_orientation) }
 };
 
@@ -90,19 +94,16 @@ ir__gth_browser_construct_cb (GthBrowser *browser)
 	data = g_new0 (BrowserData, 1);
 	data->action_group = gtk_action_group_new ("Image Rotation Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
+	_gtk_action_group_add_actions_with_flags (data->action_group,
+						  action_entries,
+						  G_N_ELEMENTS (action_entries),
+						  browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_clear_error (&error);
 	}
-
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Tools/RotateRight")), TRUE);
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Tools/RotateLeft")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

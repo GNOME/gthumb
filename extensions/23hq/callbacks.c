@@ -56,16 +56,18 @@ static const char *ui_info =
 "</ui>";
 
 
-static GtkActionEntry action_entries[] = {
+static GthActionEntryExt action_entries[] = {
 	/*
 	{ "File_Import_23", "site-twentythree",
 	  N_("_23..."), NULL,
 	  N_("Download photos from 23"),
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
 	  G_CALLBACK (gth_browser_activate_action_import_23) },
 	*/
 	{ "File_Export_23", "site-twentythree",
 	  N_("_23..."), NULL,
 	  N_("Upload photos to 23"),
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
 	  G_CALLBACK (gth_browser_activate_action_export_23) },
 };
 
@@ -95,10 +97,10 @@ tt__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->action_group = gtk_action_group_new ("23HQ Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
+	_gtk_action_group_add_actions_with_flags (data->action_group,
+						  action_entries,
+						  G_N_ELEMENTS (action_entries),
+						  browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
 	merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), ui_info, -1, &error);
@@ -106,10 +108,6 @@ tt__gth_browser_construct_cb (GthBrowser *browser)
 		g_warning ("building ui failed: %s", error->message);
 		g_clear_error (&error);
 	}
-
-	/*gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Import/Web_Services/File_Import_23")), TRUE);*/
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/MenuBar/File/Export/Web_Services/File_Export_23")), TRUE);
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup/Web_Services/File_Export_23")), TRUE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

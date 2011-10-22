@@ -28,15 +28,36 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_ACTION_FLAG_NONE              = 0,
+	GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE = 1 << 0,
+	GTH_ACTION_FLAG_IS_IMPORTANT      = 1 << 1
+} GthActionFlags;
+
+typedef struct {
+	const char     *name;
+	const char     *stock_id;
+	const char     *label;
+	const char     *accelerator;
+	const char     *tooltip;
+	GthActionFlags  flags;
+	GCallback       callback;
+} GthActionEntryExt;
+
+void            _gtk_action_group_add_actions_with_flags   (GtkActionGroup   *action_group,
+							    const GthActionEntryExt
+									     *entries,
+							    guint             n_entries,
+							    gpointer          user_data);
 GtkWidget *     _gtk_button_new_from_stock_with_text       (const char       *stock_id,
 							    const char       *text);
 GtkWidget *     _gtk_message_dialog_new                    (GtkWindow        *parent,
-					    	    	    GtkDialogFlags    flags,
-					    	    	    const char       *stock_id,
-					    	    	    const char       *message,
-					    	    	    const char       *secondary_message,
-					    	    	    const char       *first_button_text,
-					    	    	    ...);
+							    GtkDialogFlags    flags,
+							    const char       *stock_id,
+							    const char       *message,
+							    const char       *secondary_message,
+							    const char       *first_button_text,
+							    ...);
 GtkWidget *     _gtk_message_dialog_with_checkbutton_new   (GtkWindow        *parent,
 			 				    GtkDialogFlags    flags,
 			 				    const char       *stock_id,

@@ -28,6 +28,57 @@
 #define REQUEST_ENTRY_WIDTH_IN_CHARS 40
 
 
+void
+_gtk_action_group_add_actions_with_flags (GtkActionGroup          *action_group,
+					  const GthActionEntryExt *entries,
+					  guint                    n_entries,
+					  gpointer                 user_data)
+{
+	guint i;
+
+	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
+
+	for (i = 0; i < n_entries; i++) {
+		GtkAction  *action;
+		const char *label;
+		const char *tooltip;
+
+		label = gtk_action_group_translate_string (action_group, entries[i].label);
+		tooltip = gtk_action_group_translate_string (action_group, entries[i].tooltip);
+
+		action = gtk_action_new (entries[i].name,
+					 label,
+					 tooltip,
+					 NULL);
+
+		if (entries[i].stock_id) {
+			g_object_set (action, "stock-id", entries[i].stock_id, NULL);
+			if (gtk_icon_theme_has_icon (gtk_icon_theme_get_default (), entries[i].stock_id))
+				g_object_set (action, "icon-name", entries[i].stock_id, NULL);
+		}
+
+		if (entries[i].callback) {
+			GClosure *closure;
+
+			closure = g_cclosure_new (entries[i].callback, user_data, NULL);
+			g_signal_connect_closure (action, "activate", closure, FALSE);
+		}
+
+		gtk_action_group_add_action_with_accel (action_group,
+							action,
+							entries[i].accelerator);
+
+		if (entries[i].flags & GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE)
+			gtk_action_set_always_show_image (action, TRUE);
+
+		if (entries[i].flags & GTH_ACTION_FLAG_IS_IMPORTANT)
+			gtk_action_set_is_important (action, TRUE);
+
+		g_object_unref (action);
+	}
+}
+
+
 GtkWidget *
 _gtk_button_new_from_stock_with_text (const char *stock_id,
 				      const char *text)

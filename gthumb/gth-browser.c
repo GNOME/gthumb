@@ -4153,15 +4153,15 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_action_group_set_translation_domain (browser->priv->actions, NULL);
 	gtk_action_group_add_actions (browser->priv->actions,
 				      gth_window_action_entries,
-				      gth_window_action_entries_size,
+				      G_N_ELEMENTS (gth_window_action_entries),
 				      browser);
-	gtk_action_group_add_actions (browser->priv->actions,
-				      gth_browser_action_entries,
-				      gth_browser_action_entries_size,
-				      browser);
+	_gtk_action_group_add_actions_with_flags (browser->priv->actions,
+						  gth_browser_action_entries,
+						  G_N_ELEMENTS (gth_browser_action_entries),
+						  browser);
 	gtk_action_group_add_toggle_actions (browser->priv->actions,
 					     gth_browser_action_toggle_entries,
-					     gth_browser_action_toggle_entries_size,
+					     G_N_ELEMENTS (gth_browser_action_toggle_entries),
 					     browser);
 
 	browser->priv->ui = gtk_ui_manager_new ();
@@ -4189,11 +4189,6 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->viewer_toolbar = gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->viewer_toolbar), TRUE);
 	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_toolbar);
-
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Prev")), TRUE);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Next")), TRUE);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Prev")), TRUE);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Next")), TRUE);
 
 	/* content */
 

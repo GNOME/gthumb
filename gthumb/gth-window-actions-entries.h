@@ -37,6 +37,5 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_window_activate_action_file_quit_application) }
 };
-static guint gth_window_action_entries_size = G_N_ELEMENTS (gth_window_action_entries);
 
 #endif /* GTH_WINDOW_ACTION_ENTRIES_H */

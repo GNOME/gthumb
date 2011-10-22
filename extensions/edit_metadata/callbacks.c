@@ -104,22 +104,25 @@ static const char *viewer_ui_info =
 "</ui>";
 
 
-static GtkActionEntry edit_metadata_action_entries[] = {
+static GthActionEntryExt edit_metadata_action_entries[] = {
 	{ "Edit_QuickTag", "tag", N_("T_ags") },
 
 	{ "Edit_Metadata", GTK_STOCK_EDIT,
 	  N_("Comment"), "<control>M",
 	  N_("Edit the comment and other information of the selected files"),
+	  GTH_ACTION_FLAG_IS_IMPORTANT,
 	  G_CALLBACK (gth_browser_activate_action_edit_metadata) },
 
         { "Edit_QuickTagOther", NULL,
 	  N_("Other..."), NULL,
 	  N_("Choose another tag"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_edit_tag_files) },
 
 	{ "Tool_DeleteMetadata", NULL,
 	  N_("Delete Metadata"), NULL,
 	  N_("Delete the comment and the embedded metadata of the selected files"),
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_tool_delete_metadata) }
 };
 
@@ -166,10 +169,10 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->actions = gtk_action_group_new ("Edit Metadata Actions");
 	gtk_action_group_set_translation_domain (data->actions, NULL);
-	gtk_action_group_add_actions (data->actions,
-				      edit_metadata_action_entries,
-				      G_N_ELEMENTS (edit_metadata_action_entries),
-				      browser);
+	_gtk_action_group_add_actions_with_flags (data->actions,
+						  edit_metadata_action_entries,
+						  G_N_ELEMENTS (edit_metadata_action_entries),
+						  browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
@@ -181,8 +184,6 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/Fullscreen_ToolBar/Edit_Actions/Edit_Metadata")), TRUE);
 
 	data->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
 						 "tags-changed",
@@ -215,7 +216,6 @@ edit_metadata__gth_browser_set_current_page_cb (GthBrowser *browser)
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/Edit_Actions/Edit_Metadata")), TRUE);
 		break;
 
 	case GTH_BROWSER_PAGE_VIEWER:
@@ -230,7 +230,6 @@ edit_metadata__gth_browser_set_current_page_cb (GthBrowser *browser)
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ViewerToolBar/Edit_Actions/Edit_Metadata")), TRUE);
 		break;
 
 	default:
