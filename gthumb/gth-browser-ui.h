@@ -107,6 +107,9 @@ static const char *fixed_ui_info =
 "  </menubar>"
 
 "  <toolbar name='ToolBar'>"
+"    <toolitem action='Toolbar_Go_Back'/>"
+"    <toolitem action='Toolbar_Go_Forward'/>"
+"    <toolitem action='Toolbar_Go_Up'/>"
 "    <toolitem action='View_Stop'/>"
 "    <separator/>"
 "    <placeholder name='Export_Actions'/>"

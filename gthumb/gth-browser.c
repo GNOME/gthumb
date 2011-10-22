@@ -48,6 +48,7 @@
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
+#include "gth-menu-action.h"
 #include "gth-metadata-provider.h"
 #include "gth-preferences.h"
 #include "gth-progress-dialog.h"
@@ -61,9 +62,6 @@
 #include "main.h"
 
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
-#define GO_BACK_HISTORY_POPUP "/GoBackHistoryPopup"
-#define GO_FORWARD_HISTORY_POPUP "/GoForwardHistoryPopup"
-#define GO_PARENT_POPUP "/GoParentPopup"
 #define MAX_HISTORY_LENGTH 15
 #define GCONF_NOTIFICATIONS 13
 #define DEF_SIDEBAR_WIDTH 255
@@ -185,6 +183,9 @@ struct _GthBrowserPrivateData {
 
 	GList             *history;
 	GList             *history_current;
+	GtkWidget         *back_history_menu;
+	GtkWidget         *forward_history_menu;
+	GtkWidget         *go_parent_menu;
 };
 
 
@@ -455,7 +456,7 @@ _gth_browser_update_parent_list (GthBrowser *browser)
 	int        i;
 	GFile     *parent;
 
-	menu = gtk_ui_manager_get_widget (browser->priv->ui, GO_PARENT_POPUP);
+	menu = browser->priv->go_parent_menu;
 	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
 
 	if (browser->priv->location == NULL)
@@ -707,7 +708,7 @@ _gth_browser_update_history_list (GthBrowser *browser)
 
 	/* Update the back history menu. */
 
-	menu = gtk_ui_manager_get_widget (browser->priv->ui, GO_BACK_HISTORY_POPUP);
+	menu = browser->priv->back_history_menu;
 	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
 
 	if ((browser->priv->history != NULL)
@@ -732,7 +733,7 @@ _gth_browser_update_history_list (GthBrowser *browser)
 
 	/* Update the forward history menu. */
 
-	menu = gtk_ui_manager_get_widget (browser->priv->ui, GO_FORWARD_HISTORY_POPUP);
+	menu = browser->priv->forward_history_menu;
 	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
 
 	if ((browser->priv->history != NULL)
@@ -2517,6 +2518,10 @@ gth_browser_finalize (GObject *object)
 		g_hash_table_unref (browser->priv->named_dialogs);
 		g_free (browser->priv->list_attributes);
 		_g_object_unref (browser->priv->folder_popup_file_data);
+		_g_object_unref (browser->priv->back_history_menu);
+		_g_object_unref (browser->priv->forward_history_menu);
+		_g_object_unref (browser->priv->go_parent_menu);
+
 		g_free (browser->priv);
 		browser->priv = NULL;
 	}
@@ -3630,76 +3635,64 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 
 
 static void
-add_browser_toolbar_menu_buttons (GthBrowser *browser)
+_gth_browser_add_custom_actions (GthBrowser     *browser,
+				 GtkActionGroup *actions)
 {
-	int          tool_pos;
-	GtkToolItem *tool_item;
-	GtkAction   *action;
+	GtkAction *action;
 
-	tool_pos = 0;
+	/* Go Back */
 
-	/* toolbar back button */
-
-	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
-				       gtk_ui_manager_get_widget (browser->priv->ui, GO_BACK_HISTORY_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go to the previous visited location"));
-	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of visited locations"));
-
-	action = gtk_action_new ("Toolbar_Go_Back", NULL, NULL, GTK_STOCK_GO_BACK);
-	g_object_set (action, "is_important", TRUE, NULL);
+	browser->priv->back_history_menu = gtk_menu_new ();
+	action = g_object_new (GTH_TYPE_MENU_ACTION,
+			       "name", "Toolbar_Go_Back",
+			       "stock-id", GTK_STOCK_GO_BACK,
+			       "button-tooltip", _("Go to the previous visited location"),
+			       "arrow-tooltip", _("View the list of visited locations"),
+			       "is-important", TRUE,
+			       "menu", browser->priv->back_history_menu,
+			       NULL);
 	g_signal_connect (action,
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_back),
 			  browser);
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
-	gtk_action_group_add_action (browser->priv->actions, action);
+	gtk_action_group_add_action (actions, action);
+	g_object_unref (action);
 
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (browser->priv->browser_toolbar), tool_item, tool_pos++);
+	/* Go Forward */
 
-	/* toolbar forward button */
-
-	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
-				       gtk_ui_manager_get_widget (browser->priv->ui, GO_FORWARD_HISTORY_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go to the next visited location"));
-	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of visited locations"));
-
-	action = gtk_action_new ("Toolbar_Go_Forward", NULL, NULL, GTK_STOCK_GO_FORWARD);
-	g_object_set (action, "is_important", TRUE, NULL);
+	browser->priv->forward_history_menu = gtk_menu_new ();
+	action = g_object_new (GTH_TYPE_MENU_ACTION,
+			       "name", "Toolbar_Go_Forward",
+			       "stock-id", GTK_STOCK_GO_FORWARD,
+			       "button-tooltip", _("Go to the next visited location"),
+			       "arrow-tooltip", _("View the list of visited locations"),
+			       "is-important", TRUE,
+			       "menu", browser->priv->forward_history_menu,
+			       NULL);
 	g_signal_connect (action,
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_forward),
 			  browser);
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
-	gtk_action_group_add_action (browser->priv->actions, action);
+	gtk_action_group_add_action (actions, action);
+	g_object_unref (action);
 
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (browser->priv->browser_toolbar), tool_item, tool_pos++);
+	/* Go Up */
 
-	/* toolbar up button */
-
-	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_UP);
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
-				       gtk_ui_manager_get_widget (browser->priv->ui, GO_PARENT_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go up one level"));
-	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of upper locations"));
-
-	action = gtk_action_new ("Toolbar_Go_Up", NULL, NULL, GTK_STOCK_GO_UP);
-	g_object_set (action, "is_important", FALSE, NULL);
+	browser->priv->go_parent_menu = gtk_menu_new ();
+	action = g_object_new (GTH_TYPE_MENU_ACTION,
+			       "name", "Toolbar_Go_Up",
+			       "stock-id", GTK_STOCK_GO_UP,
+			       "button-tooltip", _("Go up one level"),
+			       "arrow-tooltip", _("View the list of upper locations"),
+			       "is-important", FALSE,
+			       "menu", browser->priv->go_parent_menu,
+			       NULL);
 	g_signal_connect (action,
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_up),
 			  browser);
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
-	gtk_action_group_add_action (browser->priv->actions, action);
-
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (browser->priv->browser_toolbar), tool_item, tool_pos++);
+	gtk_action_group_add_action (actions, action);
+	g_object_unref (action);
 }
 
 
@@ -4163,6 +4156,7 @@ _gth_browser_construct (GthBrowser *browser)
 					     gth_browser_action_toggle_entries,
 					     G_N_ELEMENTS (gth_browser_action_toggle_entries),
 					     browser);
+	_gth_browser_add_custom_actions (browser, browser->priv->actions);
 
 	browser->priv->ui = gtk_ui_manager_new ();
 	g_signal_connect (browser->priv->ui,
@@ -4274,7 +4268,6 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->browser_toolbar = gtk_ui_manager_get_widget (browser->priv->ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->browser_toolbar), TRUE);
 	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_toolbar);
-	add_browser_toolbar_menu_buttons (browser);
 
 	/* infobar */
 
