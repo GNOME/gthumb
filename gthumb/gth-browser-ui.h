@@ -115,7 +115,9 @@ static const char *fixed_ui_info =
 "    <placeholder name='Export_Actions'/>"
 "    <placeholder name='SourceCommands'/>"
 "    <separator/>"
-"    <placeholder name='BrowserCommands'/>"
+"    <placeholder name='BrowserCommands'>"
+"      <toolitem action='View_Fullscreen'/>"
+"    </placeholder>"
 "    <separator/>"
 "    <placeholder name='Edit_Actions'/>"
 "    <placeholder name='Edit_Actions_2'/>"
@@ -230,11 +232,6 @@ static const char *browser_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
-"  <toolbar name='ToolBar'>"
-"    <placeholder name='BrowserCommands'>"
-"      <toolitem action='View_Fullscreen'/>"
-"    </placeholder>"
-"  </toolbar>"
 "</ui>";
 
 
