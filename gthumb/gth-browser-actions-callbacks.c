@@ -103,8 +103,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 {
 	GtkWidget *window;
 
-	window = gth_browser_new (NULL);
-	gth_browser_go_to (GTH_BROWSER (window), gth_browser_get_location (browser), NULL);
+	window = gth_browser_new (gth_browser_get_location (browser));
 	gtk_window_present (GTK_WINDOW (window));
 }
 
@@ -296,9 +295,8 @@ gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 	if (file_data == NULL)
 		return;
 
-	new_browser = gth_browser_new (NULL);
+	new_browser = gth_browser_new (file_data->file);
 	gtk_window_present (GTK_WINDOW (new_browser));
-	gth_browser_load_location (GTH_BROWSER (new_browser), file_data->file);
 
 	g_object_unref (file_data);
 }

@@ -126,6 +126,7 @@ struct _GthBrowserPrivateData {
 
 	/* Browser data */
 
+	GFile             *first_location;
 	guint              help_message_cid;
 	gulong             folder_changed_id;
 	gulong             file_renamed_id;
@@ -2505,6 +2506,7 @@ gth_browser_finalize (GObject *object)
 	GthBrowser *browser = GTH_BROWSER (object);
 
 	if (browser->priv != NULL) {
+		_g_object_unref (browser->priv->first_location);
 		g_free (browser->priv->location_free_space);
 		_g_object_unref (browser->priv->location_source);
 		_g_object_unref (browser->priv->monitor_location);
@@ -3704,6 +3706,8 @@ _gth_browser_construct_step2 (gpointer data)
 	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
 	_gth_browser_monitor_entry_points (browser);
 	gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
+
+	gth_browser_go_to (browser, browser->priv->first_location, NULL);
 }
 
 
@@ -4092,7 +4096,8 @@ _gth_browser_unrealize (GtkWidget *browser,
 
 
 static void
-_gth_browser_construct (GthBrowser *browser)
+_gth_browser_construct (GthBrowser *browser,
+			GFile      *location)
 {
 	GError         *error = NULL;
 	GtkWidget      *vbox;
@@ -4102,6 +4107,11 @@ _gth_browser_construct (GthBrowser *browser)
 	char           *general_filter;
 	char           *caption;
 	int             i;
+
+	if (location != NULL)
+		browser->priv->first_location = g_object_ref (location);
+	else
+		browser->priv->first_location = g_file_new_for_uri (gth_pref_get_startup_location ());
 
 	{
 		int width;
@@ -4591,21 +4601,15 @@ _gth_browser_construct (GthBrowser *browser)
 
 
 GtkWidget *
-gth_browser_new (const char *uri)
+gth_browser_new (GFile *location)
 {
 	GthBrowser *browser;
 
-	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, "n-pages", GTH_BROWSER_N_PAGES, NULL);
-	_gth_browser_construct (browser);
+	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER,
+					      "n-pages", GTH_BROWSER_N_PAGES,
+					      NULL);
+	_gth_browser_construct (browser, location);
 	browser_list = g_list_prepend (browser_list, browser);
-
-	if (uri != NULL) {
-		GFile *location;
-
-		location = g_file_new_for_uri ((uri != NULL) ? uri : gth_pref_get_startup_location ());
-		gth_browser_go_to (browser, location, NULL);
-		g_object_unref (location);
-	}
 
 	return (GtkWidget*) browser;
 }

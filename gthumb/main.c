@@ -239,12 +239,10 @@ gth_restore_session (EggSMClient *client)
 
 		g_assert (location != NULL);
 
-		window = gth_browser_new (NULL);
+		file = g_file_new_for_uri (location);
+		window = gth_browser_new (file);
 		gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 		gtk_widget_show (window);
-
-		file = g_file_new_for_uri (location);
-		gth_browser_load_location (GTH_BROWSER (window), file);
 
 		g_object_unref (file);
 		g_free (location);
@@ -278,11 +276,10 @@ open_browser_window (GFile *location,
 {
 	GtkWidget *window;
 
-	window = gth_browser_new (NULL);
+	window = gth_browser_new (location);
 	gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 	if (! StartSlideshow)
 		gtk_window_present (GTK_WINDOW (window));
-	gth_browser_load_location (GTH_BROWSER (window), location);
 }
 
 
