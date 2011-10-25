@@ -176,35 +176,35 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::title");
 	if (metadata != NULL) {
 		g_object_set (metadata, "value-type", NULL, NULL);
-		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::title", metadata);
-		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
+		for (i = 0; _TITLE_TAG_NAMES[i] != NULL; i++)
+			g_file_info_set_attribute_object (file_data->info, _TITLE_TAG_NAMES[i], metadata);
 	}
 	else {
-		g_file_info_remove_attribute (file_data->info, "Xmp::dc::title");
-		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::Headline");
+		for (i = 0; _TITLE_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _TITLE_TAG_NAMES[i]);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::location");
 	if (metadata != NULL) {
 		g_object_set (metadata, "value-type", NULL, NULL);
-		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Location", metadata);
-		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::LocationName", metadata);
+		for (i = 0; _LOCATION_TAG_NAMES[i] != NULL; i++)
+			g_file_info_set_attribute_object (file_data->info, _LOCATION_TAG_NAMES[i], metadata);
 	}
 	else {
-		g_file_info_remove_attribute (file_data->info, "Xmp::iptc::Location");
-		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::LocationName");
+		for (i = 0; _LOCATION_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _LOCATION_TAG_NAMES[i]);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (metadata != NULL) {
 		if (GTH_IS_METADATA (metadata))
 			g_object_set (metadata, "value-type", NULL, NULL);
-		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", metadata);
-		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", metadata);
+		for (i = 0; _KEYWORDS_TAG_NAMES[i] != NULL; i++)
+			g_file_info_set_attribute_object (file_data->info, _KEYWORDS_TAG_NAMES[i], metadata);
 	}
 	else {
-		g_file_info_remove_attribute (file_data->info, "Xmp::iptc::Keywords");
-		g_file_info_remove_attribute (file_data->info, "Iptc::Application2::Keywords");
+		for (i = 0; _KEYWORDS_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _KEYWORDS_TAG_NAMES[i]);
 	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
