@@ -41,6 +41,11 @@ static const char *fixed_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
+"  <toolbar name='ToolBar'>"
+"    <placeholder name='Edit_Actions'>"
+"      <toolitem action='Edit_Metadata'/>"
+"    </placeholder>"
+"  </toolbar>"
 "  <toolbar name='ViewerToolBar'>"
 "    <placeholder name='Edit_Actions'>"
 "      <toolitem action='Edit_Metadata'/>"
@@ -82,16 +87,6 @@ static const char *fixed_ui_file_tools_info =
 "</ui>";
 
 
-static const char *browser_ui_info =
-"<ui>"
-"  <toolbar name='ToolBar'>"
-"    <placeholder name='Edit_Actions'>"
-"      <toolitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </toolbar>"
-"</ui>";
-
-
 static const char *viewer_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
@@ -130,7 +125,6 @@ static GthActionEntryExt edit_metadata_action_entries[] = {
 typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *actions;
-	guint           browser_ui_merge_id;
 	guint           viewer_ui_merge_id;
 	gboolean        tag_menu_loaded;
 	guint           monitor_events;
@@ -209,20 +203,9 @@ edit_metadata__gth_browser_set_current_page_cb (GthBrowser *browser)
 			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->viewer_ui_merge_id);
 			data->viewer_ui_merge_id = 0;
 		}
-		if (data->browser_ui_merge_id != 0)
-			return;
-		data->browser_ui_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), browser_ui_info, -1, &error);
-		if (data->browser_ui_merge_id == 0) {
-			g_warning ("ui building failed: %s", error->message);
-			g_clear_error (&error);
-		}
 		break;
 
 	case GTH_BROWSER_PAGE_VIEWER:
-		if (data->browser_ui_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->browser_ui_merge_id);
-			data->browser_ui_merge_id = 0;
-		}
 		if (data->viewer_ui_merge_id != 0)
 			return;
 		data->viewer_ui_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), viewer_ui_info, -1, &error);
