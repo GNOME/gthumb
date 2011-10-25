@@ -29,6 +29,7 @@
 struct _GthToggleMenuToolButtonPrivate {
 	guint      active : 1;
 	guint      use_underline : 1;
+	guint      contents_invalid : 1;
 	char      *stock_id;
 	char      *icon_name;
 	char      *label_text;
@@ -119,6 +120,8 @@ gth_toggle_menu_tool_button_construct_contents (GtkToolItem *tool_item)
 	guint                    icon_spacing;
 	GtkOrientation           text_orientation = GTK_ORIENTATION_HORIZONTAL;
 	GtkSizeGroup            *size_group = NULL;
+
+	button->priv->contents_invalid = FALSE;
 
 	gtk_widget_style_get (GTK_WIDGET (tool_item),
 			      "icon-spacing", &icon_spacing,
@@ -436,6 +439,20 @@ gth_toggle_menu_tool_button_get_property (GObject    *object,
 }
 
 
+static void
+gth_toggle_menu_tool_button_property_notify (GObject    *object,
+            				     GParamSpec *pspec)
+{
+	GthToggleMenuToolButton *button = GTH_TOGGLE_MENU_TOOL_BUTTON (object);
+
+	if (button->priv->contents_invalid || strcmp ("is-important", pspec->name) == 0)
+		gth_toggle_menu_tool_button_construct_contents (GTK_TOOL_ITEM (object));
+
+	if (G_OBJECT_CLASS (parent_class)->notify)
+		G_OBJECT_CLASS (parent_class)->notify (object, pspec);
+}
+
+
 /* Callback for the "deactivate" signal on the pop-up menu.
  * This is used so that we unset the state of the toggle button
  * when the pop-up menu disappears.
@@ -672,6 +689,7 @@ gth_toggle_menu_tool_button_class_init (GthToggleMenuToolButtonClass *klass)
 	object_class->finalize = gth_toggle_menu_tool_button_finalize;
 	object_class->set_property = gth_toggle_menu_tool_button_set_property;
 	object_class->get_property = gth_toggle_menu_tool_button_get_property;
+	object_class->notify = gth_toggle_menu_tool_button_property_notify;
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->state_changed = gth_toggle_menu_tool_button_state_changed;
@@ -766,6 +784,7 @@ gth_toggle_menu_tool_button_init (GthToggleMenuToolButton *button)
 {
 	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (button, GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON, GthToggleMenuToolButtonPrivate);
 	button->priv->menu = NULL;
+	button->priv->contents_invalid = TRUE;
 
 	button->priv->toggle_button = gtk_toggle_button_new ();
 	gtk_button_set_focus_on_click (GTK_BUTTON (button->priv->toggle_button), FALSE);
