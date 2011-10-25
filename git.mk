@@ -40,7 +40,7 @@
 # build dir.
 #
 # This file knows how to handle autoconf, automake, libtool, gtk-doc,
-# gnome-doc-utils, intltool.
+# gnome-doc-utils, mallard, intltool, gsettings.
 #
 #
 # KNOWN ISSUES:
@@ -52,6 +52,10 @@
 #   And add those files to git.  See vte/gnome-pty-helper/git.mk for
 #   example.
 #
+# ChangeLog
+#
+# - 2010-12-06 Add support for Mallard docs
+# - 2010-12-06 Start this change log
 
 git-all: git-mk-install
 
@@ -93,16 +97,24 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 				xml html \
 			; do echo /$$x; done; \
 		fi; \
-		if test "x$(DOC_MODULE)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
+		if test "x$(DOC_MODULE)$(DOC_ID)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
 			for x in \
 				$(_DOC_C_DOCS) \
 				$(_DOC_LC_DOCS) \
 				$(_DOC_OMF_ALL) \
 				$(_DOC_DSK_ALL) \
 				$(_DOC_HTML_ALL) \
+				$(_DOC_MOFILES) \
 				$(_DOC_POFILES) \
+				$(DOC_H_FILE) \
 				"*/.xml2po.mo" \
 				"*/*.omf.out" \
+			; do echo /$$x; done; \
+		fi; \
+		if test "x$(gsettings_SCHEMAS)" = x; then :; else \
+			for x in \
+				$(gsettings_SCHEMAS:.xml=.valid) \
+				$(gsettings__enum_file) \
 			; do echo /$$x; done; \
 		fi; \
 		if test -f $(srcdir)/po/Makefile.in.in; then \
@@ -159,6 +171,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 			"*.bak" \
 			"*~" \
 			".*.sw[nop]" \
+			".dirstamp" \
 		; do echo /$$x; done; \
 	} | \
 	sed "s@^/`echo "$(srcdir)" | sed 's/\(.\)/[\1]/g'`/@/@" | \
