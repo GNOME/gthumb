@@ -2305,10 +2305,12 @@ _gth_browser_update_viewer_ui (GthBrowser *browser,
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
+		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
 	}
 	else if (browser->priv->viewer_ui_merge_id != 0) {
 		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->viewer_ui_merge_id);
 		browser->priv->viewer_ui_merge_id = 0;
+		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
 	}
 
 	if (browser->priv->viewer_page != NULL) {
@@ -2334,10 +2336,12 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
+		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
 	}
 	else if (browser->priv->browser_ui_merge_id != 0) {
 		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->browser_ui_merge_id);
 		browser->priv->browser_ui_merge_id = 0;
+		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
 	}
 }
 
