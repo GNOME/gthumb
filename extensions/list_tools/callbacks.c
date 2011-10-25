@@ -89,7 +89,8 @@ typedef struct {
 static void
 browser_data_free (BrowserData *data)
 {
-	g_signal_handler_disconnect (gth_script_file_get (), data->scripts_changed_id);
+	if (data->scripts_changed_id != 0)
+		g_signal_handler_disconnect (gth_script_file_get (), data->scripts_changed_id);
 	g_free (data);
 }
 
