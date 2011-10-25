@@ -7,5 +7,6 @@ Version=%VERSION%
 Category=List-Tool
 
 [Loader]
+Requires=image_viewer
 Type=module
 File=%LIBRARY%
