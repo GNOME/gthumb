@@ -340,8 +340,6 @@ dlg_resize_images (GthBrowser *browser,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
 	}
 
-	update_width_height_properties (data);
-
 	savers = gth_main_get_type_set ("pixbuf-saver");
 	if (savers != NULL) {
 		GtkListStore *list_store;
@@ -432,6 +430,8 @@ dlg_resize_images (GthBrowser *browser,
 							  data);
 
 	/* Run dialog. */
+
+	update_width_height_properties (data);
 
         if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
         	gtk_widget_hide (GET_WIDGET ("use_destination_checkbutton"));
