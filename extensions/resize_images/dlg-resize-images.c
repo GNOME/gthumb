@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/image_viewer/gth-metadata-provider-image.h>
 #include "dlg-resize-images.h"
 #include "preferences.h"
 
@@ -55,6 +56,8 @@ typedef struct {
 	double      latest_height_in_pixel;
 	double      latest_width_in_percentage;
 	double      latest_height_in_percentage;
+	gboolean    known_ratio;
+	double      ratio;
 } DialogData;
 
 
@@ -256,17 +259,24 @@ width_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 				   gpointer       user_data)
 {
 	DialogData *data = user_data;
+	double      ratio;
 	GthUnit     unit;
-
-	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
-	if (unit != GTH_UNIT_PERCENTAGE)
-		return;
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton"))))
 		return;
 
+	ratio = 0.0;
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if ((unit == GTH_UNIT_PIXELS) && data->known_ratio)
+		ratio = 1.0 / data->ratio;
+	else if (unit == GTH_UNIT_PERCENTAGE)
+		ratio = 1.0;
+
+	if (ratio == 0.0)
+		return;
+
 	g_signal_handler_block (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), gtk_spin_button_get_value (spinbutton));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), ratio * gtk_spin_button_get_value (spinbutton));
 	g_signal_handler_unblock (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
 }
 
@@ -276,17 +286,24 @@ height_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 				    gpointer       user_data)
 {
 	DialogData *data = user_data;
+	double      ratio;
 	GthUnit     unit;
-
-	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
-	if (unit != GTH_UNIT_PERCENTAGE)
-		return;
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton"))))
 		return;
 
+	ratio = 0.0;
+	unit = units[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")))];
+	if ((unit == GTH_UNIT_PIXELS) && data->known_ratio)
+		ratio = data->ratio;
+	else if (unit == GTH_UNIT_PERCENTAGE)
+		ratio = 1.0;
+
+	if (ratio == 0.0)
+		return;
+
 	g_signal_handler_block (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), gtk_spin_button_get_value (spinbutton));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), ratio * gtk_spin_button_get_value (spinbutton));
 	g_signal_handler_unblock (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
 }
 
@@ -299,6 +316,8 @@ dlg_resize_images (GthBrowser *browser,
 	GArray      *savers;
 	GthFileData *first_file_data;
 	GthUnit      unit;
+	int          default_width_in_pixels;
+	int          default_height_in_pixels;
 
 	if (gth_browser_get_dialog (browser, "resize_images") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "resize_images")));
@@ -319,13 +338,44 @@ dlg_resize_images (GthBrowser *browser,
 
 	/* Set widgets data. */
 
+	first_file_data = (GthFileData *) data->file_list->data;
+	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
+				   first_file_data->file,
+				   NULL);
+
 	unit = eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), unit);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
 
+	default_width_in_pixels = DEFAULT_WIDTH_PIXELS;
+	default_height_in_pixels = DEFAULT_HEIGHT_PIXELS;
+
+	if (data->file_list->next == NULL) {
+		GthMetadataProvider *provider;
+		int                  width;
+		int                  height;
+
+		provider = g_object_new (GTH_TYPE_METADATA_PROVIDER_IMAGE, NULL);
+		gth_metadata_provider_read (provider,
+					    first_file_data,
+					    "image::width,image::height",
+					    NULL);
+		width = g_file_info_get_attribute_int32 (first_file_data->info, "image::width");
+		height = g_file_info_get_attribute_int32 (first_file_data->info, "image::height");
+
+		if ((width > 0) && (height > 0)) {
+			data->known_ratio = TRUE;
+			data->ratio = (double) width / height;
+			default_width_in_pixels = width;
+			default_height_in_pixels = height;
+		}
+
+		g_object_unref (provider);
+	}
+
 	if (unit == GTH_UNIT_PERCENTAGE) {
-		data->latest_width_in_pixel = DEFAULT_WIDTH_PIXELS;
-		data->latest_height_in_pixel = DEFAULT_HEIGHT_PIXELS;
+		data->latest_width_in_pixel = default_width_in_pixels;
+		data->latest_height_in_pixel = default_height_in_pixels;
 		data->latest_width_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH_PERCENTAGE);
 		data->latest_height_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT_PERCENTAGE);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_percentage);
@@ -334,8 +384,8 @@ dlg_resize_images (GthBrowser *browser,
 	else if (unit == GTH_UNIT_PIXELS) {
 		data->latest_width_in_percentage = DEFAULT_WIDTH_PERCENTAGE;
 		data->latest_height_in_percentage = DEFAULT_HEIGHT_PERCENTAGE;
-		data->latest_width_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH_PIXELS);
-		data->latest_height_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT_PIXELS);
+		data->latest_width_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, default_width_in_pixels);
+		data->latest_height_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, default_height_in_pixels);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_pixel);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
 	}
@@ -387,11 +437,6 @@ dlg_resize_images (GthBrowser *browser,
 		gth_icon_cache_free (icon_cache);
 		g_free (default_mime_type);
 	}
-
-	first_file_data = (GthFileData *) data->file_list->data;
-	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
-				   first_file_data->file,
-				   NULL);
 
 	/* Set the signals handlers. */
 

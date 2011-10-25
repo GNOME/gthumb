@@ -15,7 +15,7 @@ libresize_images_la_SOURCES = 		\
 
 libresize_images_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libresize_images_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libresize_images_la_LIBADD = $(GTHUMB_LIBS)
+libresize_images_la_LIBADD = $(GTHUMB_LIBS) ../image_viewer/libimage_viewer.la
 libresize_images_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
