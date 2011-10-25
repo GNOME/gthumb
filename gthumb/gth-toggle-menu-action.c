@@ -37,7 +37,10 @@ static gpointer parent_class = NULL;
 
 
 struct _GthToggleMenuActionPrivate {
-	GtkWidget *menu;
+	GtkWidget       *menu;
+	GthShowMenuFunc  show_menu_func;
+	gpointer         show_menu_data;
+	GDestroyNotify   show_menu_data_destroy;
 };
 
 
@@ -45,7 +48,8 @@ static void
 gth_toggle_menu_action_init (GthToggleMenuAction *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TOGGLE_MENU_ACTION, GthToggleMenuActionPrivate);
-	self->priv->menu = NULL;
+	self->priv->menu = gtk_menu_new ();
+	g_object_ref_sink (self->priv->menu);
 }
 
 
@@ -92,6 +96,47 @@ gth_toggle_menu_action_get_property (GObject    *object,
 
 
 static void
+tool_item_show_menu_cb (GthToggleMenuToolButton *button,
+			gpointer                 user_data)
+{
+	GthToggleMenuAction *self = user_data;
+
+	self->priv->show_menu_func (GTK_ACTION (self), self->priv->show_menu_data);
+}
+
+
+static GtkWidget *
+gth_toggle_menu_action_create_tool_item (GtkAction *action)
+{
+	GthToggleMenuAction *self = GTH_TOGGLE_MENU_ACTION (action);
+	GtkWidget           *tool_item;
+
+	tool_item = g_object_new (GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON, NULL);
+	if (self->priv->show_menu_func != NULL)
+		g_signal_connect (tool_item,
+				  "show_menu",
+				  G_CALLBACK (tool_item_show_menu_cb),
+				  self);
+
+	return tool_item;
+}
+
+
+static void
+gth_toggle_menu_action_finalize (GObject *base)
+{
+	GthToggleMenuAction *self = GTH_TOGGLE_MENU_ACTION (base);
+
+	if (self->priv->show_menu_data_destroy != NULL)
+		self->priv->show_menu_data_destroy (self->priv->show_menu_data);
+	if (self->priv->menu != NULL)
+		g_object_unref (self->priv->menu);
+
+	G_OBJECT_CLASS (parent_class)->finalize (base);
+}
+
+
+static void
 gth_toggle_menu_action_class_init (GthToggleMenuActionClass *klass)
 {
 	GObjectClass   *object_class;
@@ -103,9 +148,11 @@ gth_toggle_menu_action_class_init (GthToggleMenuActionClass *klass)
 	object_class = (GObjectClass *) klass;
 	object_class->set_property = gth_toggle_menu_action_set_property;
 	object_class->get_property = gth_toggle_menu_action_get_property;
+	object_class->finalize = gth_toggle_menu_action_finalize;
 
 	action_class = (GtkActionClass *) klass;
 	action_class->toolbar_item_type = GTH_TYPE_TOGGLE_MENU_TOOL_BUTTON;
+	action_class->create_tool_item = gth_toggle_menu_action_create_tool_item;
 
 	/* properties */
 
@@ -120,6 +167,20 @@ gth_toggle_menu_action_class_init (GthToggleMenuActionClass *klass)
 
 
 G_DEFINE_TYPE (GthToggleMenuAction, gth_toggle_menu_action, GTK_TYPE_TOGGLE_ACTION)
+
+
+void
+gth_toggle_menu_action_set_show_menu_func (GthToggleMenuAction *self,
+					   GthShowMenuFunc      func,
+					   gpointer             data,
+					   GDestroyNotify       destroy)
+{
+	self->priv->show_menu_func = func;
+	if (self->priv->show_menu_data_destroy != NULL)
+		self->priv->show_menu_data_destroy (self->priv->show_menu_data);
+	self->priv->show_menu_data = data;
+	self->priv->show_menu_data_destroy = destroy;
+}
 
 
 GtkWidget *

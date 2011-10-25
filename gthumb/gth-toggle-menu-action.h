@@ -26,6 +26,9 @@
 
 G_BEGIN_DECLS
 
+typedef void (*GthShowMenuFunc) (GtkAction *action,
+				 gpointer   user_data);
+
 #define GTH_TYPE_TOGGLE_MENU_ACTION            (gth_toggle_menu_action_get_type ())
 #define GTH_TOGGLE_MENU_ACTION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_TOGGLE_MENU_ACTION, GthToggleMenuAction))
 #define GTH_TOGGLE_MENU_ACTION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_TOGGLE_MENU_ACTION, GthToggleMenuActionClass))
@@ -46,8 +49,12 @@ struct _GthToggleMenuActionClass {
 	GtkToggleActionClass parent_class;
 };
 
-GType       gth_toggle_menu_action_get_type (void) G_GNUC_CONST;
-GtkWidget * gth_toggle_menu_action_get_menu (GthToggleMenuAction *action);
+GType       gth_toggle_menu_action_get_type           (void) G_GNUC_CONST;
+void        gth_toggle_menu_action_set_show_menu_func (GthToggleMenuAction *action,
+						       GthShowMenuFunc      func,
+						       gpointer             data,
+						       GDestroyNotify       destroy);
+GtkWidget * gth_toggle_menu_action_get_menu           (GthToggleMenuAction *action);
 
 G_END_DECLS
 

@@ -48,6 +48,7 @@ static const char *ui_info =
 typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *action_group;
+	gboolean        menu_initialized;
 } BrowserData;
 
 
@@ -55,6 +56,23 @@ static void
 browser_data_free (BrowserData *data)
 {
 	g_free (data);
+}
+
+
+static void
+export_tools_show_menu_func (GtkAction *action,
+			     gpointer   user_data)
+{
+	BrowserData *data = user_data;
+	GtkWidget   *menu;
+
+	if (data->menu_initialized)
+		return;
+
+	data->menu_initialized = TRUE;
+
+	menu = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ExportPopup");
+	g_object_set (action, "menu", menu, NULL);
 }
 
 
@@ -82,7 +100,12 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 			       /*"tooltip",  _("Export files"),*/
 			       "is-important", TRUE,
 			       NULL);
+	gth_toggle_menu_action_set_show_menu_func (GTH_TOGGLE_MENU_ACTION (action),
+						   export_tools_show_menu_func,
+						   data,
+						   NULL);
 	gtk_action_group_add_action (data->action_group, action);
+	g_object_unref (action);
 
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
@@ -91,9 +114,6 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 		g_warning ("building ui failed: %s", error->message);
 		g_clear_error (&error);
 	}
-
-	g_object_set (action, "menu",  gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ExportPopup"), NULL);
-	g_object_unref (action);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

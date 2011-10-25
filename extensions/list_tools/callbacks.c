@@ -82,6 +82,7 @@ typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *action_group;
 	gulong          scripts_changed_id;
+	gboolean        menu_initialized;
 } BrowserData;
 
 
@@ -217,6 +218,29 @@ scripts_changed_cb (GthScriptFile *script_file,
 }
 
 
+static void
+list_tools_show_menu_func (GtkAction *action,
+		           gpointer   user_data)
+{
+	BrowserData *data = user_data;
+	GtkWidget   *menu;
+
+	if (data->menu_initialized)
+		return;
+
+	data->menu_initialized = TRUE;
+
+	menu = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup");
+	g_object_set (action, "menu", menu, NULL);
+	update_scripts_menu (data);
+
+	data->scripts_changed_id = g_signal_connect (gth_script_file_get (),
+				                     "changed",
+				                     G_CALLBACK (scripts_changed_cb),
+				                     data);
+}
+
+
 void
 list_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -244,7 +268,12 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 			       "tooltip",  _("Batch tools for multiple files"),
 			       "is-important", TRUE,
 			       NULL);
+	gth_toggle_menu_action_set_show_menu_func (GTH_TOGGLE_MENU_ACTION (action),
+						   list_tools_show_menu_func,
+						   data,
+						   NULL);
 	gtk_action_group_add_action (data->action_group, action);
+	g_object_unref (action);
 
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
 
@@ -253,16 +282,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 		g_clear_error (&error);
 	}
 
-	g_object_set (action, "menu",  gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"), NULL);
-	g_object_unref (action);
-
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
-
-	update_scripts_menu (data);
-	data->scripts_changed_id = g_signal_connect (gth_script_file_get (),
-				                     "changed",
-				                     G_CALLBACK (scripts_changed_cb),
-				                     data);
 }
 
 
