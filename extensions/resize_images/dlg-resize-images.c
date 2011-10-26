@@ -276,7 +276,8 @@ width_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 		return;
 
 	g_signal_handler_block (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), ratio * gtk_spin_button_get_value (spinbutton));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")),
+				   ratio * gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton"))));
 	g_signal_handler_unblock (GET_WIDGET ("height_spinbutton"), data->height_spinbutton_event);
 }
 
@@ -303,7 +304,8 @@ height_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 		return;
 
 	g_signal_handler_block (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), ratio * gtk_spin_button_get_value (spinbutton));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")),
+				   ratio * gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton"))));
 	g_signal_handler_unblock (GET_WIDGET ("width_spinbutton"), data->width_spinbutton_event);
 }
 
@@ -477,6 +479,7 @@ dlg_resize_images (GthBrowser *browser,
 	/* Run dialog. */
 
 	update_width_height_properties (data);
+	width_spinbutton_value_changed_cb (NULL, data);
 
         if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
         	gtk_widget_hide (GET_WIDGET ("use_destination_checkbutton"));
