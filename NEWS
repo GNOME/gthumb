@@ -1,3 +1,30 @@
+version 2.14.0
+---------------
+
+ Bugs fixed:
+
+  * Resize images: when resinging a single image update the second dimension 
+    if the ratio is fixed. (#662397)
+  * Faster image loading if the file is not local (#655471)
+  * File selection not updated in status bar when using thumbnail side
+    panel (#660430)
+
+ New or updated application translations:
+
+  * Czech (Marek Černocký)
+  * Esperanto (Kristjan SCHMIDT)
+  * French (Claude Paroz)
+  * German (Mario Blättermann)
+  * Indonesian (Andika Triwidada)
+  * Japanese (Takeshi AIHANA)
+  * Slovenian Translation (Matej Urbančič)
+  * Swedish (Daniel Nylander)
+
+ New or updated manual translations:
+
+  * Deutsch (Mario Blättermann)
+  * French (Claude Paroz)
+
 version 2.13.91
 ---------------
 
