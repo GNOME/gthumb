@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb master\n"
+"Project-Id-Version: gthumb gthumb-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-13 19:04+0900\n"
-"PO-Revision-Date: 2011-10-13 18:54+0900\n"
+"POT-Creation-Date: 2011-10-27 07:23+0900\n"
+"PO-Revision-Date: 2011-10-27 07:22+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <takeshi.aihana@gmail.com>\n"
 "Language: ja\n"
@@ -352,9 +352,9 @@ msgstr "可能ならば、ファイル内にメタデータを埋め込む(_S)"
 
 #: ../data/ui/preferences.ui.h:17
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "全般"
@@ -1067,13 +1067,13 @@ msgid "Title"
 msgstr "タイトル"
 
 #: ../extensions/comments/main.c:40 ../extensions/comments/main.c:245
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:19
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:11
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:11
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "説明"
@@ -1157,234 +1157,209 @@ msgid "_Gradient"
 msgstr "グラデーション(_G)"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
-msgid "     "
-msgstr "     "
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
 msgid "_Horizontal:"
 msgstr "水平方向(_H):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "_Vertical:"
 msgstr "垂直方向(_V):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
 msgid "Select a color"
 msgstr "色の選択"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
 msgid "Frame"
 msgstr "フレーム"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
 msgid "_Style:"
 msgstr "スタイル(_S):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
 msgid "C_olor:"
 msgstr "色(_O):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Text"
 msgstr "文字列"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "_Header:"
 msgstr "ヘッダ(_H):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
 msgid "Select a font"
 msgstr "フォントの選択"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "_Footer:"
 msgstr "フッタ(_F):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:23
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:38
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
 msgid "Caption:"
 msgstr "見出し:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
-#, no-c-format
-msgid "%p"
-msgstr "%p"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
-#, no-c-format
-msgid "%n"
-msgstr "%n"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
 msgid "The current page number"
 msgstr "現在のページ番号"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "The total number of pages"
 msgstr "ページの総数"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
 #: ../extensions/image_print/data/ui/print-layout.ui.h:10
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "Special code"
 msgstr "特別な記号"
 
 #. translate only the text in the curly brackets
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ フォーマット }"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:15
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 msgid "The current date"
 msgstr "今日の日付"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "_Destination:"
 msgstr "格納場所(_D):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:4
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 msgid "Choose destination folder"
 msgstr "保存先のフォルダの選択"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 msgid "File_name:"
 msgstr "ファイル名(_N):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
-msgid "###"
-msgstr "###"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
-msgid "#"
-msgstr "#"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:7
 msgid "New enumerator digit"
 msgstr "通番の数字"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
 msgid "Create _HTML image map"
 msgstr "HTML の画像マップを生成する(_H)"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "保存先"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
 msgid "Create a new theme"
 msgstr "新しいテーマを生成します"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
 msgid "Edit the selected theme"
 msgstr "選択したテーマを編集します"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
 msgid "Delete the selected theme"
 msgstr "選択したテーマを削除します"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
 msgid "Theme"
 msgstr "テーマ"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
 msgid "Columns:"
 msgstr "横に並べる数:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "Images per page:"
 msgstr "１ページ当たりの画像数:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "All images on a single page"
 msgstr "全ての画像を１ページにまとめる"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 msgid "_All pages with the same size"
 msgstr "全てのページで同じサイズにする(_A)"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
 #: ../extensions/image_print/data/ui/print-layout.ui.h:18
 msgid "Layout"
 msgstr "レイアウト"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
 msgid "S_ort:"
 msgstr "並び替え(_O):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:35
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
 msgid "Re_verse order"
 msgstr "逆順にする(_V)"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:36
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 msgid "_Size:"
 msgstr "サイズ(_S):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:37
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
 msgid "Sq_uared"
 msgstr "矩形にする(_U)"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:39
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
 msgid "Thumbnails"
 msgstr "サムネイル"
 
@@ -1678,8 +1653,8 @@ msgid "_Language:"
 msgstr "言語(_L):"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
-msgid "State/Provence:"
-msgstr "州:"
+msgid "State/Province:"
+msgstr "都道府県:"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
@@ -1786,7 +1761,7 @@ msgid "Add a new album"
 msgstr "新しいアルバムを追加します"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-msgid "Resize the images if larger then this size"
+msgid "Resize the images if larger than this size"
 msgstr "次よりも大きい場合はサイズを変更する"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
@@ -3050,7 +3025,7 @@ msgid "Artist"
 msgstr "アーティスト"
 
 #: ../extensions/gstreamer_tools/main.c:40
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
 msgstr "アルバム"
 
@@ -3584,94 +3559,72 @@ msgstr "端末から実行する (SHELL スクリプト)"
 msgid "Sh_ortcut:"
 msgstr "ショートカット(_O):"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
-#, no-c-format
-msgid "%U"
-msgstr "%U"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
-#, no-c-format
-msgid "%F"
-msgstr "%F"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:11
-#, no-c-format
-msgid "%B"
-msgstr "%B"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
-#, no-c-format
-msgid "%P"
-msgstr "%P"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
 msgid "The file uri"
 msgstr "ファイルの URI"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
 msgid "The file path"
 msgstr "ファイルのパス"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:16
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
 msgid "The file basename"
 msgstr "ファイル名からパスを除いたもの"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:17
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:9
 msgid "The parent folder path"
 msgstr "親フォルダのパス"
 
 #. Translate only 'message' and 'default_value'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #, no-c-format
 msgid "%ask{ message }{ default value }"
 msgstr "%ask{ メッセージ }{ デフォルト値 }"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
 msgstr "入力を促す"
 
 #. Translate only 'attribute name'
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
 #, no-c-format
 msgid "%attr{ attribute name }"
 msgstr "%attr{ 属性名 }"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:19
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 msgid "A file attribute"
 msgstr "ファイルの属性"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
 #, no-c-format
 msgid "%N"
 msgstr "%N"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
 msgstr "ファイル名からパスと拡張子を除いたもの"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #, no-c-format
 msgid "%E"
 msgstr "%E"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file extension"
 msgstr "ファイルの拡張子"
 
 #. Translate only 'text'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
 #, no-c-format
 msgid "%quote{ text }"
 msgstr "%quote{ 文字列 }"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "Quote the text "
 msgstr "文字列を引用する"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "_Command:"
 msgstr "コマンド(_C):"
 
@@ -4194,7 +4147,7 @@ msgid "Edit template"
 msgstr "テンプレートの編集"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:8
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
 msgid "The original filename"
 msgstr "オリジナルのファイル名"
 
@@ -4340,11 +4293,11 @@ msgstr "フォーマット"
 msgid "pixel"
 msgstr "ピクセル"
 
-#: ../extensions/resize_images/dlg-resize-images.c:163
+#: ../extensions/resize_images/dlg-resize-images.c:166
 msgid "Resizing images"
 msgstr "画像サイズの変更中"
 
-#: ../extensions/resize_images/dlg-resize-images.c:358
+#: ../extensions/resize_images/dlg-resize-images.c:408
 msgid "Keep the original format"
 msgstr "オリジナルと同じ形式にする"
 
@@ -4578,66 +4531,56 @@ msgstr "ウィンドウの幅に合わせる"
 msgid "Web Album"
 msgstr "ウェブ・アルバム"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#, no-c-format
+msgid "%P"
+msgstr "%P"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Copy originals to destination"
 msgstr "元の画像を格納場所へコピーする(_C)"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "_Resize if larger than:"
 msgstr "次よりも大きい場合はサイズを変更する(_R):"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "_Adapt to the window width "
 msgstr "ウィンドウの幅に合わせる(_A)"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
 msgid "Index Page"
 msgstr "目次のページ"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 msgid "Thumbnail Caption"
 msgstr "サムネイルの見出し"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
-#, no-c-format
-msgid "%i"
-msgstr "%i"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-#, no-c-format
-msgid "%I"
-msgstr "%I"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
 msgid "The current image number"
 msgstr "現在の通し番号"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The total number of images"
 msgstr "画像の総数"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "The file comment"
 msgstr "ファイルのコメント"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:45
-#, no-c-format
-msgid "%C"
-msgstr "%C"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:46
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 msgid "Image Page"
 msgstr "画像のページ"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:47
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
 msgid "Show the description, if available"
 msgstr "可能ならば、説明を表示する"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:48
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
 msgid "Show the following attributes:"
 msgstr "次の属性値を表示する:"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:49
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
 msgid "Image Attributes"
 msgstr "画像の属性値"
 
