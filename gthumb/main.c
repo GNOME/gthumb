@@ -339,11 +339,7 @@ gthumb_application_command_line_cb (GApplication            *application,
 		g_printf ("%s %s, Copyright © 2001-2010 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
 		g_option_context_free (context);
 		return 0;
-	 }
-
-#ifdef HAVE_CLUTTER
-	ClutterInitResult = gtk_clutter_init (NULL, NULL);
-#endif
+	}
 
 	g_option_context_free (context);
 
@@ -476,6 +472,10 @@ main (int argc, char *argv[])
 
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
+
+#ifdef HAVE_CLUTTER
+	ClutterInitResult = gtk_clutter_init (NULL, NULL);
+#endif
 
 	program_argv0 = argv[0];
 
