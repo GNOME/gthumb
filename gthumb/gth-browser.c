@@ -4613,6 +4613,7 @@ gth_browser_new (GFile *location)
 					      "n-pages", GTH_BROWSER_N_PAGES,
 					      NULL);
 	_gth_browser_construct (browser, location);
+	gtk_window_set_application (GTK_WINDOW (browser), GThumb_Application);
 	browser_list = g_list_prepend (browser_list, browser);
 
 	return (GtkWidget*) browser;

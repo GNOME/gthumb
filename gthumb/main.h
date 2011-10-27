@@ -33,6 +33,8 @@ extern gboolean ImportPhotos;
 extern int ClutterInitResult;
 #endif
 
+extern GtkApplication *GThumb_Application;
+
 void gth_quit (gboolean restart);
 
 G_END_DECLS

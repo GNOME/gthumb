@@ -49,11 +49,11 @@ int      ClutterInitResult = CLUTTER_INIT_ERROR_UNKNOWN;
 #endif
 
 
-static GtkApplication  *gthumb_application;
-static char           **remaining_args;
-static const char      *program_argv0; /* argv[0] from main(); used as the command to restart the program */
-static gboolean         Restart = FALSE;
-static gboolean         version = FALSE;
+GtkApplication     *GThumb_Application;
+static char       **remaining_args;
+static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
+static gboolean     Restart = FALSE;
+static gboolean     version = FALSE;
 
 
 static const GOptionEntry options[] = {
@@ -245,7 +245,6 @@ gth_restore_session (EggSMClient *client)
 
 		file = g_file_new_for_uri (location);
 		window = gth_browser_new (file);
-		gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 		gtk_widget_show (window);
 
 		g_object_unref (file);
@@ -271,7 +270,6 @@ gthumb_application_activate_cb (GApplication *application,
 	}
 	else {
 		window = gth_browser_new (NULL);
-		gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
 		gtk_widget_show (window);
 	}
 }
@@ -284,7 +282,6 @@ open_browser_window (GFile *location,
 	GtkWidget *window;
 
 	window = gth_browser_new (location);
-	gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 	if (! StartSlideshow)
 		gtk_window_present (GTK_WINDOW (window));
 }
@@ -296,7 +293,6 @@ import_photos_from_location (GFile *location)
 	GtkWidget *window;
 
 	window = gth_browser_new (NULL);
-	gtk_window_set_application (GTK_WINDOW (window), gthumb_application);
 	gth_hook_invoke ("import-photos", window, location, NULL);
 }
 
