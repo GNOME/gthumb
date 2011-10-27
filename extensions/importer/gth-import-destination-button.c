@@ -102,9 +102,9 @@ gth_import_destination_button_class_init (GthImportDestinationButtonClass *klass
 
 
 static void
-subfolder_label_state_changed_cb (GtkWidget   *widget,
-				  GtkStateType state,
-				  gpointer     user_data)
+subfolder_label_state_changed_cb (GtkWidget     *widget,
+				  GtkStateFlags  flags,
+				  gpointer       user_data)
 {
 	_update_subfolder_label_color (GTH_IMPORT_DESTINATION_BUTTON (user_data));
 }
@@ -142,8 +142,8 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 	gtk_box_pack_start (GTK_BOX (label_box), self->priv->subfolder_label, TRUE, TRUE, 0);
 
 	g_signal_connect (self->priv->subfolder_label,
-			  "state-changed",
-			  G_CALLBACK (subfolder_label_state_changed_cb),
+			  "state-flags-changed",
+			  G_CALLBACK (subfolder_label_state_flags_changed_cb),
 			  self);
 }
 
