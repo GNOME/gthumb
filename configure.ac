@@ -136,7 +136,6 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gtk+-3.0 		>= $GTK_REQUIRED
 	gconf-2.0 		>= $GCONF_REQUIRED
 	libpng
-        ice
 ])
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
@@ -542,7 +541,7 @@ if test "$with_smclient" != "no"; then
   AC_DEFINE([WITH_SMCLIENT],[1],[Define if smclient is enabled])
 
   case "$with_smclient" in
-    xsmp) SMCLIENT_PKGS="sm >= 1.0.0" ;;
+    xsmp) SMCLIENT_PKGS="sm >= 1.0.0 ice" ;;
     *) SMCLIENT_PKGS="" ;;
   esac
 
