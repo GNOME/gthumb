@@ -36,59 +36,273 @@
 #define POPUP_MAX_HEIGHT    112
 
 
-struct _GthImageNavigatorPrivate {
-	GthImageViewer *viewer;
-	GtkWidget      *viewer_vscr;
-	GtkWidget      *viewer_hscr;
-	GtkWidget      *navigator_event_area;
-	gboolean        scrollbars_visible;
+/* Properties */
+enum {
+        PROP_0,
+        PROP_VIEWER
 };
 
 
-static GtkHBoxClass *parent_class = NULL;
+struct _GthImageNavigatorPrivate {
+	GtkWidget *viewer;
+	GtkWidget *vscrollbar;
+	GtkWidget *hscrollbar;
+	GtkWidget *navigator_event_area;
+	gboolean   automatic_scrollbars;
+	gboolean   scrollbars_visible;
+};
+
+
+static gpointer parent_class = NULL;
 
 
 static void
-gth_image_navigator_class_init (GthImageNavigatorClass *class)
+_gth_image_navigator_set_viewer (GthImageNavigator *self,
+			         GtkWidget         *viewer)
 {
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (GthImageNavigatorPrivate));
+	if (self->priv->viewer == viewer)
+		return;
+
+	if (self->priv->viewer != NULL)
+		gtk_container_remove (GTK_CONTAINER (self), self->priv->viewer);
+
+	if (viewer == NULL)
+		return;
+
+	gtk_container_add (GTK_CONTAINER (self), viewer);
+	gtk_range_set_adjustment (GTK_RANGE (self->priv->hscrollbar), gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (viewer)));
+	gtk_range_set_adjustment (GTK_RANGE (self->priv->vscrollbar), gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (viewer)));
+
+	g_object_notify (G_OBJECT (self), "viewer");
 }
 
 
 static void
-gth_image_navigator_init (GthImageNavigator *self)
+gth_image_navigator_set_property (GObject      *object,
+				  guint         property_id,
+				  const GValue *value,
+				  GParamSpec   *pspec)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE ((self), GTH_TYPE_IMAGE_NAVIGATOR, GthImageNavigatorPrivate);
-	self->priv->scrollbars_visible = TRUE;
+	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (object);
+
+	switch (property_id) {
+	case PROP_VIEWER:
+		_gth_image_navigator_set_viewer (self, g_value_get_object (value));
+		break;
+
+	default:
+		break;
+	}
 }
 
 
-GType
-gth_image_navigator_get_type (void)
+static void
+gth_image_navigator_get_property (GObject    *object,
+				  guint       property_id,
+				  GValue     *value,
+				  GParamSpec *pspec)
 {
-	static GType type = 0;
+	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (object);
 
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageNavigatorClass),
-                        NULL,
-                        NULL,
-                        (GClassInitFunc) gth_image_navigator_class_init,
-                        NULL,
-                        NULL,
-                        sizeof (GthImageNavigator),
-                        0,
-                        (GInstanceInitFunc) gth_image_navigator_init
-                };
+	switch (property_id) {
+	case PROP_VIEWER:
+		g_value_set_object (value, self->priv->viewer);
+		break;
 
-                type = g_type_register_static (GTK_TYPE_HBOX,
-                                               "GthImageNavigator",
-                                               &type_info,
-                                               0);
-        }
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
-        return type;
+
+
+static void
+gth_image_navigator_size_allocate (GtkWidget     *widget,
+				   GtkAllocation *allocation)
+{
+	GthImageNavigator *self = (GthImageNavigator *) widget;
+	gboolean           needs_scrollbars;
+	GtkAllocation      viewer_allocation;
+
+	gtk_widget_set_allocation (widget, allocation);
+
+	needs_scrollbars = self->priv->automatic_scrollbars && gth_image_viewer_needs_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), allocation);
+	if (self->priv->scrollbars_visible != needs_scrollbars) {
+		self->priv->scrollbars_visible = needs_scrollbars;
+		gtk_widget_set_child_visible (self->priv->vscrollbar, self->priv->scrollbars_visible);
+		gtk_widget_set_child_visible (self->priv->hscrollbar, self->priv->scrollbars_visible);
+		gtk_widget_set_child_visible (self->priv->navigator_event_area, self->priv->scrollbars_visible);
+	}
+
+	viewer_allocation = *allocation;
+	if (self->priv->scrollbars_visible) {
+		GtkRequisition vscrollbar_requisition;
+		GtkRequisition hscrollbar_requisition;
+		GtkAllocation  child_allocation;
+
+		gtk_widget_get_preferred_size (self->priv->vscrollbar, &vscrollbar_requisition, NULL);
+		gtk_widget_get_preferred_size (self->priv->hscrollbar, &hscrollbar_requisition, NULL);
+
+		viewer_allocation.width -= vscrollbar_requisition.width;
+		viewer_allocation.height -= hscrollbar_requisition.height;
+
+		/* vertical scrollbar */
+
+		child_allocation.x = allocation->x + allocation->width - vscrollbar_requisition.width;
+		child_allocation.y = allocation->y;
+		child_allocation.width = vscrollbar_requisition.width;
+		child_allocation.height = allocation->height - hscrollbar_requisition.height;
+		gtk_widget_size_allocate (self->priv->vscrollbar, &child_allocation);
+
+		/* horizontal scrollbar */
+
+		child_allocation.x = allocation->x;
+		child_allocation.y = allocation->y + allocation->height - hscrollbar_requisition.height;
+		child_allocation.width = allocation->width - vscrollbar_requisition.width;
+		child_allocation.height = hscrollbar_requisition.height;
+		gtk_widget_size_allocate (self->priv->hscrollbar, &child_allocation);
+
+		/* event area */
+
+		child_allocation.x = allocation->x + allocation->width - vscrollbar_requisition.width;
+		child_allocation.y = allocation->y + allocation->height - hscrollbar_requisition.height;
+		child_allocation.width = vscrollbar_requisition.width;
+		child_allocation.height = hscrollbar_requisition.height;
+		gtk_widget_size_allocate (self->priv->navigator_event_area, &child_allocation);
+	}
+	gtk_widget_size_allocate (self->priv->viewer, &viewer_allocation);
+}
+
+
+typedef struct {
+	GtkWidget *container;
+	cairo_t   *cr;
+} DrawData;
+
+
+
+static void
+gth_image_navigator_draw_child (GtkWidget *child,
+                                gpointer   user_data)
+{
+	DrawData *data = user_data;
+
+	if (gtk_widget_get_child_visible (child))
+		gtk_container_propagate_draw (GTK_CONTAINER (data->container),
+					      child,
+					      data->cr);
+}
+
+
+static gboolean
+gth_image_navigator_draw (GtkWidget *widget,
+			  cairo_t   *cr)
+{
+	DrawData data;
+
+	data.container = widget;
+	data.cr = cr;
+	gtk_container_forall (GTK_CONTAINER (widget),
+			      gth_image_navigator_draw_child,
+			      &data);
+
+	return FALSE;
+}
+
+
+static void
+gth_image_navigator_add (GtkContainer *container,
+			 GtkWidget    *widget)
+{
+	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (container);
+
+	if (self->priv->viewer != NULL) {
+		g_warning ("Attempt to add a second widget to a GthImageNavigator");
+		return;
+	}
+
+	gtk_widget_set_parent (widget, GTK_WIDGET (container));
+	self->priv->viewer = widget;
+}
+
+
+static void
+gth_image_navigator_remove (GtkContainer *container,
+			    GtkWidget    *widget)
+{
+	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (container);
+	gboolean           widget_was_visible;
+
+	g_return_if_fail (self->priv->viewer == widget);
+
+	widget_was_visible = gtk_widget_get_visible (widget);
+	gtk_widget_unparent (widget);
+	self->priv->viewer = NULL;
+
+	if (widget_was_visible && gtk_widget_get_visible (GTK_WIDGET (container)))
+		gtk_widget_queue_resize (GTK_WIDGET (container));
+}
+
+
+static void
+gth_image_navigator_forall (GtkContainer *container,
+			    gboolean      include_internals,
+			    GtkCallback   callback,
+			    gpointer      callback_data)
+{
+	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (container);
+
+	(* callback) (GTK_WIDGET (self->priv->viewer), callback_data);
+	if (include_internals) {
+		(* callback) (self->priv->hscrollbar, callback_data);
+		(* callback) (self->priv->vscrollbar, callback_data);
+		(* callback) (self->priv->navigator_event_area, callback_data);
+	}
+}
+
+
+static GType
+gth_image_navigator_child_type (GtkContainer *container)
+{
+	return GTK_TYPE_WIDGET;
+}
+
+
+static void
+gth_image_navigator_class_init (GthImageNavigatorClass *klass)
+{
+	GObjectClass      *object_class;
+	GtkWidgetClass    *widget_class;
+	GtkContainerClass *container_class;
+
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthImageNavigatorPrivate));
+
+	object_class = (GObjectClass *) klass;
+	object_class->set_property = gth_image_navigator_set_property;
+	object_class->get_property = gth_image_navigator_get_property;
+
+	widget_class = (GtkWidgetClass *) klass;
+	widget_class->size_allocate = gth_image_navigator_size_allocate;
+	widget_class->draw = gth_image_navigator_draw;
+
+	container_class = (GtkContainerClass *) klass;
+	container_class->add = gth_image_navigator_add;
+	container_class->remove = gth_image_navigator_remove;
+	container_class->forall = gth_image_navigator_forall;
+	container_class->child_type = gth_image_navigator_child_type;
+	gtk_container_class_handle_border_width (container_class);
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_VIEWER,
+					 g_param_spec_object ("viewer",
+                                                              "Viewer",
+                                                              "The image viewer to use",
+                                                              GTH_TYPE_IMAGE_VIEWER,
+                                                              G_PARAM_READWRITE));
 }
 
 
@@ -353,17 +567,18 @@ navigator_popup_draw_cb (GtkWidget      *widget,
 static void
 navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 					    GdkEventButton *event,
-					    GthImageViewer *viewer)
+					    gpointer        user_data)
 {
-	NavigatorPopup *nav_popup;
-	GtkWidget      *out_frame;
-	GtkWidget      *in_frame;
+	GthImageNavigator *self = user_data;
+	NavigatorPopup    *nav_popup;
+	GtkWidget         *out_frame;
+	GtkWidget         *in_frame;
 
-	if (gth_image_viewer_is_void (viewer))
+	if ((self->priv->viewer == NULL) || gth_image_viewer_is_void (GTH_IMAGE_VIEWER (self->priv->viewer)))
 		return;
 
 	nav_popup = g_new0 (NavigatorPopup, 1);
-	nav_popup->viewer = viewer;
+	nav_popup->viewer = GTH_IMAGE_VIEWER (self->priv->viewer);
 	nav_popup->popup_win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_wmclass (GTK_WINDOW (nav_popup->popup_win), "", "gthumb_navigator");
 
@@ -384,8 +599,8 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 
 	nav_popup->x_root = event->x_root;
 	nav_popup->y_root = event->y_root;
-	nav_popup->image_width = gth_image_viewer_get_image_width (viewer);
-	nav_popup->image_height = gth_image_viewer_get_image_height (viewer);
+	nav_popup->image_width = gth_image_viewer_get_image_width (GTH_IMAGE_VIEWER (self->priv->viewer));
+	nav_popup->image_height = gth_image_viewer_get_image_height (GTH_IMAGE_VIEWER (self->priv->viewer));
 	update_popup_geometry (nav_popup);
 
 	g_signal_connect (G_OBJECT (nav_popup->popup_win),
@@ -407,114 +622,61 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 }
 
 
-static gboolean
-image_viewer_size_changed_cb (GtkWidget         *widget,
-			      GthImageNavigator *self)
-{
-	GtkAdjustment *vadj;
-	GtkAdjustment *hadj;
-	double         h_page_size;
-	double         v_page_size;
-	double         h_upper;
-	double         v_upper;
-	gboolean       hide_vscr;
-	gboolean       hide_hscr;
-
-	gth_image_viewer_get_adjustments (self->priv->viewer, &hadj, &vadj);
-
-	g_return_val_if_fail (hadj != NULL, FALSE);
-	g_return_val_if_fail (vadj != NULL, FALSE);
-
-	h_page_size = gtk_adjustment_get_page_size (hadj);
-	v_page_size = gtk_adjustment_get_page_size (vadj);
-	h_upper = gtk_adjustment_get_upper (hadj);
-	v_upper = gtk_adjustment_get_upper (vadj);
-	hide_vscr = (v_page_size == 0) || (v_upper <= v_page_size);
-	hide_hscr = (h_page_size == 0) || (h_upper <= h_page_size);
-
-	if (! self->priv->scrollbars_visible || (hide_vscr && hide_hscr)) {
-		gtk_widget_hide (self->priv->viewer_vscr);
-		gtk_widget_hide (self->priv->viewer_hscr);
-		gtk_widget_hide (self->priv->navigator_event_area);
-	}
-	else {
-		gtk_widget_show (self->priv->viewer_vscr);
-		gtk_widget_show (self->priv->viewer_hscr);
-		gtk_widget_show (self->priv->navigator_event_area);
-	}
-
-	return TRUE;
-}
-
-
 static void
-gth_image_navigator_construct (GthImageNavigator *self,
-			       GthImageViewer    *viewer)
+gth_image_navigator_init (GthImageNavigator *self)
 {
-	GtkAdjustment *vadj = NULL;
-	GtkAdjustment *hadj = NULL;
-	GtkWidget     *hbox;
-	GtkWidget     *table;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE ((self), GTH_TYPE_IMAGE_NAVIGATOR, GthImageNavigatorPrivate);
 
-	self->priv->viewer = viewer;
-	g_signal_connect (G_OBJECT (self->priv->viewer),
-			  "size_changed",
-			  G_CALLBACK (image_viewer_size_changed_cb),
-			  self);
+	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
+	gtk_container_set_reallocate_redraws (GTK_CONTAINER (self), TRUE);
+	gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
 
-	gth_image_viewer_get_adjustments (self->priv->viewer, &hadj, &vadj);
-	self->priv->viewer_hscr = gtk_hscrollbar_new (hadj);
-	self->priv->viewer_vscr = gtk_vscrollbar_new (vadj);
+	self->priv->automatic_scrollbars = TRUE;
+	self->priv->scrollbars_visible = FALSE;
+
+	/* horizonal scrollbar */
+
+	self->priv->hscrollbar = gtk_scrollbar_new (GTK_ORIENTATION_HORIZONTAL, NULL);
+	gtk_widget_set_parent (self->priv->hscrollbar, GTK_WIDGET (self));
+
+	/* vertical scrollbar */
+
+	self->priv->vscrollbar = gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL, NULL);
+	gtk_widget_set_parent (self->priv->vscrollbar, GTK_WIDGET (self));
+
+	/* navigator event area */
 
 	self->priv->navigator_event_area = gtk_event_box_new ();
+	gtk_widget_set_parent (GTK_WIDGET (self->priv->navigator_event_area), GTK_WIDGET (self));
 	gtk_container_add (GTK_CONTAINER (self->priv->navigator_event_area),
 			   gtk_image_new_from_icon_name ("image-navigator", GTK_ICON_SIZE_MENU));
-
 	g_signal_connect (G_OBJECT (self->priv->navigator_event_area),
 			  "button_press_event",
 			  G_CALLBACK (navigator_event_area_button_press_event_cb),
-			  self->priv->viewer);
+			  self);
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (hbox), GTK_WIDGET (self->priv->viewer));
-
-	table = gtk_table_new (2, 2, FALSE);
-	gtk_table_attach (GTK_TABLE (table), hbox, 0, 1, 0, 1,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), self->priv->viewer_vscr, 1, 2, 0, 1,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), self->priv->viewer_hscr, 0, 1, 1, 2,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), self->priv->navigator_event_area, 1, 2, 1, 2,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-	gtk_widget_show_all (table);
-
-	gtk_container_add (GTK_CONTAINER (self), table);
+	gtk_widget_show (self->priv->hscrollbar);
+	gtk_widget_show (self->priv->vscrollbar);
+	gtk_widget_show (self->priv->navigator_event_area);
 }
+
+
+G_DEFINE_TYPE(GthImageNavigator, gth_image_navigator, GTK_TYPE_CONTAINER)
 
 
 GtkWidget *
 gth_image_navigator_new (GthImageViewer *viewer)
 {
-	GthImageNavigator *self;
-
 	g_return_val_if_fail (viewer != NULL, NULL);
-
-	self = g_object_new (GTH_TYPE_IMAGE_NAVIGATOR, NULL);
-	gth_image_navigator_construct (self, viewer);
-
-	return (GtkWidget*) self;
+	return (GtkWidget *) g_object_new (GTH_TYPE_IMAGE_NAVIGATOR, "viewer", viewer, NULL);
 }
 
 
 void
-gth_image_navigator_set_scrollbars_visible (GthImageNavigator *self,
-				            gboolean           visible)
+gth_image_navigator_set_automatic_scrollbars (GthImageNavigator *self,
+				              gboolean           automatic)
 {
-	self->priv->scrollbars_visible = visible;
-	image_viewer_size_changed_cb (NULL, self);
+	self->priv->automatic_scrollbars = automatic;
+	gtk_widget_queue_resize (self->priv->viewer);
 }

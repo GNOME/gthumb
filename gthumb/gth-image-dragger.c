@@ -261,8 +261,8 @@ gth_image_dragger_motion_notify (GthImageViewerTool *self,
 		return FALSE;
 
 	gth_image_viewer_scroll_to (viewer,
-				    viewer->x_offset + viewer->event_x_prev - event->x,
-				    viewer->y_offset + viewer->event_y_prev - event->y);
+				    viewer->drag_x_start - event->x,
+				    viewer->drag_y_start - event->y);
 
 	return TRUE;
 }

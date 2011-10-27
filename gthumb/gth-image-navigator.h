@@ -39,18 +39,18 @@ typedef struct _GthImageNavigatorClass   GthImageNavigatorClass;
 typedef struct _GthImageNavigatorPrivate GthImageNavigatorPrivate;
 
 struct _GthImageNavigator {
-	GtkHBox __parent;
+	GtkContainer __parent;
 	GthImageNavigatorPrivate *priv;
 };
 
 struct _GthImageNavigatorClass {
-	GtkHBoxClass __parent;
+	GtkContainerClass __parent;
 };
 
-GType        gth_image_navigator_get_type               (void);
-GtkWidget *  gth_image_navigator_new                    (GthImageViewer    *viewer);
-void         gth_image_navigator_set_scrollbars_visible (GthImageNavigator *window,
-						         gboolean           visible);
+GType        gth_image_navigator_get_type                 (void);
+GtkWidget *  gth_image_navigator_new                      (GthImageViewer    *viewer);
+void         gth_image_navigator_set_automatic_scrollbars (GthImageNavigator *window,
+						           gboolean           automatic);
 
 G_END_DECLS
 

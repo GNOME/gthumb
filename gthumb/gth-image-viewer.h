@@ -132,10 +132,6 @@ struct _GthImageViewerClass
 
 	void (* clicked)                (GthImageViewer     *viewer);
 	void (* zoom_changed)           (GthImageViewer     *viewer);
-	void (* size_changed)           (GthImageViewer     *viewer);
-	void (* set_scroll_adjustments) (GtkWidget          *widget,
-					 GtkAdjustment      *hadj,
-					 GtkAdjustment      *vadj);
 
 	/* -- Key binding signals -- */
 
@@ -178,7 +174,6 @@ void           gth_image_viewer_set_better_quality       (GthImageViewer        
 							  int                    original_height);
 void           gth_image_viewer_set_void                 (GthImageViewer        *viewer);
 gboolean       gth_image_viewer_is_void                  (GthImageViewer        *viewer);
-void           gth_image_viewer_update_view              (GthImageViewer        *viewer);
 void           gth_image_viewer_add_painter              (GthImageViewer        *viewer,
 							  GthImageViewerPaintFunc
 							  	  	         func,
@@ -246,15 +241,9 @@ GthCheckSize   gth_image_viewer_get_check_size           (GthImageViewer        
 /* misc. */
 
 void           gth_image_viewer_clicked                  (GthImageViewer        *viewer);
-void           gth_image_viewer_set_size_request         (GthImageViewer        *viewer,
-							  int                    width,
-							  int                    height);
 void           gth_image_viewer_set_black_background     (GthImageViewer        *viewer,
 							  gboolean               set_black);
 gboolean       gth_image_viewer_is_black_background      (GthImageViewer        *viewer);
-void           gth_image_viewer_get_adjustments          (GthImageViewer        *self,
-							  GtkAdjustment        **hadj,
-							  GtkAdjustment        **vadj);
 void           gth_image_viewer_set_tool                 (GthImageViewer        *viewer,
 							  GthImageViewerTool    *tool);
 
@@ -277,6 +266,8 @@ void           gth_image_viewer_get_scroll_offset        (GthImageViewer        
 void           gth_image_viewer_set_reset_scrollbars     (GthImageViewer        *viewer,
   							  gboolean               reset);
 gboolean       gth_image_viewer_get_reset_scrollbars     (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_needs_scrollbars         (GthImageViewer        *viewer,
+							  GtkAllocation         *allocation);
 
 /* Cursor. */
 
