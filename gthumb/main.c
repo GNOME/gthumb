@@ -276,8 +276,7 @@ gthumb_application_activate_cb (GApplication *application,
 
 
 static void
-open_browser_window (GFile *location,
-		     GFile *current_file)
+open_browser_window (GFile *location)
 {
 	GtkWidget *window;
 
@@ -355,19 +354,10 @@ gthumb_application_command_line_cb (GApplication            *application,
 
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
-		char  *current_file_uri;
-		GFile *current_file;
 
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
-		current_file_uri = eel_gconf_get_path (PREF_STARTUP_CURRENT_FILE, NULL);
-		if (current_file_uri != NULL)
-			current_file = g_file_new_for_uri (current_file_uri);
-		else
-			current_file = NULL;
-		open_browser_window (location, current_file);
+		open_browser_window (location);
 
-		_g_object_unref (current_file);
-		g_free (current_file_uri);
 		g_object_unref (location);
 
 		return 0;
@@ -393,17 +383,17 @@ gthumb_application_command_line_cb (GApplication            *application,
 
 	location = gth_hook_invoke_get ("command-line-files", files);
 	if (location != NULL) {
-		open_browser_window (location, NULL);
+		open_browser_window (location);
 		g_object_unref (location);
 	}
 	else /* Open each file in a new window */
 		for (scan = files; scan; scan = scan->next)
-			open_browser_window ((GFile *) scan->data, NULL);
+			open_browser_window ((GFile *) scan->data);
 
 	/* Open each dir in a new window */
 
 	for (scan = dirs; scan; scan = scan->next)
-		open_browser_window ((GFile *) scan->data, NULL);
+		open_browser_window ((GFile *) scan->data);
 
 	_g_object_list_unref (dirs);
 	_g_object_list_unref (files);
@@ -490,7 +480,7 @@ main (int argc, char *argv[])
 	if (! g_application_get_is_remote (app)) {
 		gth_main_release ();
 		gth_pref_release ();
-	 }
+	}
 
 	g_object_unref (app);
 
