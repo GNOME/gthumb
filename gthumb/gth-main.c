@@ -41,7 +41,9 @@
 #include <gdk/gdkx.h>
 #endif
 
+#ifdef USE_SMCLIENT
 #include "eggsmclient.h"
+#endif
 #include "eggdesktopfile.h"
 
 static GStaticMutex register_mutex = G_STATIC_MUTEX_INIT;

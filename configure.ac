@@ -527,7 +527,7 @@ GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
 
 AC_MSG_CHECKING([which smclient backend to use])
 AC_ARG_WITH([smclient],
-  [AS_HELP_STRING([--with-smclient-backend=no|xsmp|win32],
+  [AS_HELP_STRING([--with-smclient=no|xsmp|win32],
 		  [Setting smclient backend (default:auto)])],
   [],
   [case "$GDK_TARGET" in
@@ -549,6 +549,7 @@ if test "$with_smclient" != "no"; then
   PKG_CHECK_MODULES([SMCLIENT],[$SMCLIENT_PKGS])
   AC_SUBST([SMCLIENT_CFLAGS])
   AC_SUBST([SMCLIENT_LIBS])
+  AC_DEFINE(USE_SMCLIENT, 1, [Use a session menager])
 fi
 
 AM_CONDITIONAL([WITH_SMCLIENT],[test "$with_smclient" != "no"])

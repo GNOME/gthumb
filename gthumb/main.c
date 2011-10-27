@@ -27,7 +27,9 @@
 #include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
 #endif
+#ifdef USE_SMCLIENT
 #include "eggsmclient.h"
+#endif
 #include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
@@ -89,6 +91,8 @@ migrate_data (void)
 	migrate_catalogs_from_2_10 ();
 }
 
+
+#ifdef USE_SMCLIENT
 
 static void
 gth_save_state (EggSMClient *client,
@@ -250,6 +254,9 @@ gth_restore_session (EggSMClient *client)
 }
 
 
+#endif
+
+
 static void
 gthumb_application_activate_cb (GApplication *application,
 				gpointer      user_data)
@@ -318,7 +325,9 @@ gthumb_application_command_line_cb (GApplication            *application,
 	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));
+#ifdef USE_SMCLIENT
 	g_option_context_add_group (context, egg_sm_client_get_option_group ());
+#endif
 #ifdef HAVE_CLUTTER
 	g_option_context_add_group (context, cogl_get_option_group ());
 	g_option_context_add_group (context, clutter_get_option_group_without_init ());
@@ -415,9 +424,11 @@ static void
 gthumb_application_startup_cb (GApplication *application,
 			       gpointer      user_data)
 {
+#ifdef USE_SMCLIENT
 	EggSMClient *client = NULL;
 
 	gth_session_manager_init ();
+#endif
 	gth_pref_initialize ();
 	migrate_data ();
 	gth_main_initialize ();
@@ -430,31 +441,34 @@ gthumb_application_startup_cb (GApplication *application,
 	gth_main_activate_extensions ();
 	gth_hook_invoke ("initialize", NULL);
 
+#ifdef USE_SMCLIENT
 	client = egg_sm_client_get ();
 	if (egg_sm_client_is_resumed (client))
 		gth_restore_session (client);
+#endif
 }
 
 
 static GApplication *
 prepare_application (void)
 {
-	gthumb_application = gtk_application_new ("org.gnome.gthumb",
+	GThumb_Application = gtk_application_new ("org.gnome.gthumb",
 						  G_APPLICATION_HANDLES_COMMAND_LINE);
-	g_signal_connect (gthumb_application,
+	g_signal_connect (GThumb_Application,
 			  "activate",
 			  G_CALLBACK (gthumb_application_activate_cb),
 			  NULL);
-	g_signal_connect (gthumb_application,
+	g_signal_connect (GThumb_Application,
 			  "command-line",
 			  G_CALLBACK (gthumb_application_command_line_cb),
 			  NULL);
-	g_signal_connect (gthumb_application,
+	g_signal_connect (GThumb_Application,
 			  "startup",
 			  G_CALLBACK (gthumb_application_startup_cb),
 			  NULL);
+	g_application_set_inactivity_timeout (G_APPLICATION (GThumb_Application), 10000);
 
-	return G_APPLICATION (gthumb_application);
+	return G_APPLICATION (GThumb_Application);
 }
 
 
