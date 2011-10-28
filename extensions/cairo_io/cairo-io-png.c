@@ -30,7 +30,7 @@
 #define PNG_SETJMP(ptr) setjmp(png_jmpbuf(ptr))
 
 #ifdef PNG_LIBPNG_VER
-#if PNG_LIBPNG_VER < 10500
+#if PNG_LIBPNG_VER < 10400
 #ifdef PNG_SETJMP
 #undef PNG_SETJMP
 #endif
