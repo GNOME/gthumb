@@ -526,14 +526,16 @@ GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
 
 AC_MSG_CHECKING([which smclient backend to use])
 AC_ARG_WITH([smclient],
-  [AS_HELP_STRING([--with-smclient=no|xsmp|win32],
-		  [Setting smclient backend (default:auto)])],
-  [],
-  [case "$GDK_TARGET" in
+  [AS_HELP_STRING([--with-smclient=no|auto|xsmp],
+		  [Setting smclient backend (default:no)])],,
+		  [with_smclient=no])
+
+if test "$with_smclient" == "auto"; then
+  case "$GDK_TARGET" in
     x11) with_smclient=xsmp ;;
-    win32) with_smclient=$GDK_TARGET ;;
     *) with_smclient=no ;;
-   esac])
+  esac
+fi
 
 AC_MSG_RESULT([$with_smclient])
 
