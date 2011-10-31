@@ -40,13 +40,13 @@ typedef struct _GthLocationChooserClass    GthLocationChooserClass;
 
 struct _GthLocationChooser
 {
-	GtkHBox __parent;
+	GtkBox __parent;
 	GthLocationChooserPrivate *priv;
 };
 
 struct _GthLocationChooserClass
 {
-	GtkHBoxClass __parent_class;
+	GtkBoxClass __parent_class;
 
 	/* -- Signals -- */
 
