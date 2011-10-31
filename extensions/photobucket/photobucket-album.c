@@ -82,7 +82,7 @@ photobucket_album_load_from_element (DomDomizable *base,
 
 
 static void
-photobucket_album_dom_domizable_interface_init (DomDomizableIface *iface)
+photobucket_album_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = photobucket_album_create_element;
 	iface->load_from_element = photobucket_album_load_from_element;

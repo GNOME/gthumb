@@ -203,7 +203,7 @@ picasa_web_photo_load_from_element (DomDomizable *base,
 
 
 static void
-picasa_web_photo_dom_domizable_interface_init (DomDomizableIface *iface)
+picasa_web_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = picasa_web_photo_create_element;
 	iface->load_from_element = picasa_web_photo_load_from_element;

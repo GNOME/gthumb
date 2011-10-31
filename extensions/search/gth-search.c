@@ -36,7 +36,7 @@ struct _GthSearchPrivate {
 
 
 static gpointer           *parent_class = NULL;
-static DomDomizableIface  *dom_domizable_parent_iface = NULL;
+static DomDomizableInterface  *dom_domizable_parent_iface = NULL;
 static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
 
 
@@ -207,7 +207,7 @@ gth_search_class_init (GthSearchClass *class)
 
 
 static void
-gth_search_dom_domizable_interface_init (DomDomizableIface *iface)
+gth_search_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	dom_domizable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->create_element = gth_search_real_create_element;

@@ -123,7 +123,7 @@ flickr_photoset_load_from_element (DomDomizable *base,
 
 
 static void
-flickr_photoset_dom_domizable_interface_init (DomDomizableIface *iface)
+flickr_photoset_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = flickr_photoset_create_element;
 	iface->load_from_element = flickr_photoset_load_from_element;

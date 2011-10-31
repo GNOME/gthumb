@@ -226,7 +226,7 @@ gth_comment_real_load_from_element (DomDomizable *base,
 
 
 static void
-gth_comment_dom_domizable_interface_init (DomDomizableIface *iface)
+gth_comment_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = gth_comment_real_create_element;
 	iface->load_from_element = gth_comment_real_load_from_element;

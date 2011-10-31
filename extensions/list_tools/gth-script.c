@@ -317,7 +317,7 @@ gth_script_class_init (GthScriptClass *klass)
 
 
 static void
-gth_script_dom_domizable_interface_init (DomDomizableIface *iface)
+gth_script_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = gth_script_real_create_element;
 	iface->load_from_element = gth_script_real_load_from_element;

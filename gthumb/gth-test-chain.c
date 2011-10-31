@@ -37,7 +37,7 @@ struct _GthTestChainPrivate
 
 
 static GthTestClass *parent_class = NULL;
-static DomDomizableIface *dom_domizable_parent_iface = NULL;
+static DomDomizableInterface *dom_domizable_parent_iface = NULL;
 static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
 
 
@@ -214,7 +214,7 @@ gth_test_chain_class_init (GthTestChainClass *class)
 
 
 static void
-gth_test_chain_dom_domizable_interface_init (DomDomizableIface * iface)
+gth_test_chain_dom_domizable_interface_init (DomDomizableInterface * iface)
 {
 	dom_domizable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->create_element = gth_test_chain_real_create_element;

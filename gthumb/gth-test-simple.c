@@ -113,7 +113,7 @@ struct _GthTestSimplePrivate
 
 
 static GthTestClass *parent_class = NULL;
-static DomDomizableIface* dom_domizable_parent_iface = NULL;
+static DomDomizableInterface* dom_domizable_parent_iface = NULL;
 static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
 
 
@@ -1125,7 +1125,7 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
 
 
 static void
-gth_test_simple_dom_domizable_interface_init (DomDomizableIface * iface)
+gth_test_simple_dom_domizable_interface_init (DomDomizableInterface * iface)
 {
 	dom_domizable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->create_element = gth_test_simple_real_create_element;

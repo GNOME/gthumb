@@ -132,7 +132,7 @@ flickr_photo_load_from_element (DomDomizable *base,
 
 
 static void
-flickr_photo_dom_domizable_interface_init (DomDomizableIface *iface)
+flickr_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = flickr_photo_create_element;
 	iface->load_from_element = flickr_photo_load_from_element;

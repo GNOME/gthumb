@@ -69,10 +69,10 @@ typedef struct _DomDocumentPrivate DomDocumentPrivate;
 #define DOM_TYPE_DOMIZABLE               (dom_domizable_get_type ())
 #define DOM_DOMIZABLE(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), DOM_TYPE_DOMIZABLE, DomDomizable))
 #define DOM_IS_DOMIZABLE(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), DOM_TYPE_DOMIZABLE))
-#define DOM_DOMIZABLE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), DOM_TYPE_DOMIZABLE, DomDomizableIface))
+#define DOM_DOMIZABLE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), DOM_TYPE_DOMIZABLE, DomDomizableInterface))
 
 typedef struct _DomDomizable DomDomizable;
-typedef struct _DomDomizableIface DomDomizableIface;
+typedef struct _DomDomizableInterface DomDomizableInterface;
 
 struct _DomElement {
 	GInitiallyUnowned parent_instance;
@@ -116,7 +116,7 @@ struct _DomDocumentClass {
 	DomElementClass parent_class;
 };
 
-struct _DomDomizableIface {
+struct _DomDomizableInterface {
 	GTypeInterface parent_iface;
 
 	DomElement * (*create_element)    (DomDomizable *self,

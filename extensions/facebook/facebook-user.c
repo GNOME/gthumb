@@ -91,7 +91,7 @@ facebook_user_load_from_element (DomDomizable *base,
 
 
 static void
-facebook_user_dom_domizable_interface_init (DomDomizableIface *iface)
+facebook_user_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = facebook_user_create_element;
 	iface->load_from_element = facebook_user_load_from_element;

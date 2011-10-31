@@ -35,11 +35,6 @@ struct _DomDocumentPrivate {
 };
 
 
-static gpointer dom_element_parent_class = NULL;
-static gpointer dom_text_node_parent_class = NULL;
-static gpointer dom_document_parent_class = NULL;
-
-
 GQuark
 dom_error_quark (void)
 {
@@ -101,6 +96,9 @@ _g_xml_tag_is_special (const char *tag_name)
 
 
 /* -- DomElement -- */
+
+
+G_DEFINE_TYPE (DomElement, dom_element, G_TYPE_INITIALLY_UNOWNED)
 
 
 static void
@@ -186,7 +184,7 @@ dom_element_real_dump (DomElement *self,
 
 
 static void
-dom_element_instance_init (DomElement *self)
+dom_element_init (DomElement *self)
 {
 	self->tag_name = NULL;
 	self->prefix = NULL;
@@ -224,32 +222,6 @@ dom_element_class_init (DomElementClass *klass)
 	dom_element_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = dom_element_finalize;
 	DOM_ELEMENT_CLASS (klass)->dump = dom_element_real_dump;
-}
-
-
-GType
-dom_element_get_type (void)
-{
-	static GType dom_element_type_id = 0;
-	if (dom_element_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (DomElementClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) dom_element_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (DomElement),
-			0,
-			(GInstanceInitFunc) dom_element_instance_init,
-			NULL
-		};
-		dom_element_type_id = g_type_register_static (G_TYPE_INITIALLY_UNOWNED,
-							      "DomElement",
-							      &g_define_type_info,
-							      0);
-	}
-	return dom_element_type_id;
 }
 
 
@@ -417,6 +389,9 @@ dom_element_get_inner_text (DomElement *self)
 /* -- DomTextNode -- */
 
 
+G_DEFINE_TYPE (DomTextNode, dom_text_node, DOM_TYPE_ELEMENT)
+
+
 static char *
 dom_text_node_real_dump (DomElement *base,
 			 int         level)
@@ -450,36 +425,10 @@ dom_text_node_class_init (DomTextNodeClass *klass)
 
 
 static void
-dom_text_node_instance_init (DomTextNode *self)
+dom_text_node_init (DomTextNode *self)
 {
 	DOM_ELEMENT (self)->tag_name = g_strdup (XML_TEXT_NODE_TAG_NAME);
 	self->data = NULL;
-}
-
-
-GType
-dom_text_node_get_type (void)
-{
-	static GType dom_text_node_type_id = 0;
-	if (dom_text_node_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (DomTextNodeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) dom_text_node_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (DomTextNode),
-			0,
-			(GInstanceInitFunc) dom_text_node_instance_init,
-			NULL
-		};
-		dom_text_node_type_id = g_type_register_static (DOM_TYPE_ELEMENT,
-								"DomTextNode",
-								&g_define_type_info,
-								0);
-	}
-	return dom_text_node_type_id;
 }
 
 
@@ -496,6 +445,9 @@ dom_text_node_new (const char *a_data)
 
 
 /* -- DomDocument -- */
+
+
+G_DEFINE_TYPE (DomDocument, dom_document, DOM_TYPE_ELEMENT)
 
 
 static void
@@ -523,38 +475,12 @@ dom_document_class_init (DomDocumentClass *klass)
 
 
 static void
-dom_document_instance_init (DomDocument *self)
+dom_document_init (DomDocument *self)
 {
 	DOM_ELEMENT (self)->tag_name = g_strdup (XML_DOCUMENT_TAG_NAME);
 
 	self->priv = g_new0 (DomDocumentPrivate, 1);
 	self->priv->open_nodes = g_queue_new ();
-}
-
-
-GType
-dom_document_get_type (void)
-{
-	static GType dom_document_type_id = 0;
-	if (dom_document_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (DomDocumentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) dom_document_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (DomDocument),
-			0,
-			(GInstanceInitFunc) dom_document_instance_init,
-			NULL
-		};
-		dom_document_type_id = g_type_register_static (DOM_TYPE_ELEMENT,
-							       "DomDocument",
-							       &g_define_type_info,
-							       0);
-	}
-	return dom_document_type_id;
 }
 
 
@@ -751,6 +677,16 @@ dom_document_load (DomDocument  *self,
 /* -- DomDomizable -- */
 
 
+G_DEFINE_INTERFACE (DomDomizable, dom_domizable, 0)
+
+
+static void
+dom_domizable_default_init (DomDomizableInterface *iface)
+{
+	/* void */
+}
+
+
 DomElement *
 dom_domizable_create_element (DomDomizable *self,
 			      DomDocument  *doc)
@@ -767,33 +703,8 @@ dom_domizable_load_from_element (DomDomizable *self,
 }
 
 
-GType
-dom_domizable_get_type (void)
-{
-	static GType dom_domizable_type_id = 0;
-	if (dom_domizable_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (DomDomizableIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		dom_domizable_type_id = g_type_register_static (G_TYPE_INTERFACE,
-								"DomDomizable",
-								&g_define_type_info,
-								0);
-	}
-	return dom_domizable_type_id;
-}
-
-
 /* -- Utilities -- */
+
 
 /* GMarkupParser converts \r into \n, this function compares two strings
  * treating \r characters as they were equal to \n */

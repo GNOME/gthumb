@@ -458,7 +458,7 @@ gth_filter_class_init (GthFilterClass *klass)
 
 
 static void
-gth_filter_dom_domizable_interface_init (DomDomizableIface *iface)
+gth_filter_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = gth_filter_real_create_element;
 	iface->load_from_element = gth_filter_real_load_from_element;

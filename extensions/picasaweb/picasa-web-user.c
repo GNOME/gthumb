@@ -123,7 +123,7 @@ picasa_web_user_load_from_element (DomDomizable *base,
 
 
 static void
-picasa_web_user_dom_domizable_interface_init (DomDomizableIface *iface)
+picasa_web_user_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = picasa_web_user_create_element;
 	iface->load_from_element = picasa_web_user_load_from_element;
