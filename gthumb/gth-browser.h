@@ -38,9 +38,9 @@ G_BEGIN_DECLS
 #define GTH_IS_BROWSER_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_BROWSER))
 #define GTH_BROWSER_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_BROWSER, GthBrowserClass))
 
-typedef struct _GthBrowser            GthBrowser;
-typedef struct _GthBrowserClass       GthBrowserClass;
-typedef struct _GthBrowserPrivateData GthBrowserPrivateData;
+typedef struct _GthBrowser        GthBrowser;
+typedef struct _GthBrowserClass   GthBrowserClass;
+typedef struct _GthBrowserPrivate GthBrowserPrivate;
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -63,7 +63,7 @@ typedef enum {
 struct _GthBrowser
 {
 	GthWindow __parent;
-	GthBrowserPrivateData *priv;
+	GthBrowserPrivate *priv;
 };
 
 struct _GthBrowserClass

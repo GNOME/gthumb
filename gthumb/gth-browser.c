@@ -82,7 +82,7 @@ enum {
 	LAST_SIGNAL
 };
 
-struct _GthBrowserPrivateData {
+struct _GthBrowserPrivate {
 	/* UI staff */
 
 	GtkUIManager      *ui;
@@ -192,7 +192,6 @@ struct _GthBrowserPrivateData {
 
 static GthWindowClass *parent_class = NULL;
 static guint gth_browser_signals[LAST_SIGNAL] = { 0 };
-static GList *browser_list = NULL;
 
 
 /* -- monitor_event_data -- */
@@ -2096,8 +2095,7 @@ _gth_browser_close_final_step (gpointer user_data)
 	GthBrowser *browser = user_data;
 	gboolean    last_window;
 
-	browser_list = g_list_remove (browser_list, browser);
-	last_window = gth_window_get_n_windows () == 1;
+	last_window = g_list_length (gtk_application_get_windows (gtk_window_get_application (GTK_WINDOW (browser)))) == 1;
 
 	/* Save visualization options only if the window is not maximized. */
 
@@ -2487,67 +2485,45 @@ _gth_browser_set_current_page (GthWindow *window,
 
 
 static void
-gth_browser_init (GthBrowser *browser)
-{
-	int i;
-
-	browser->priv = g_new0 (GthBrowserPrivateData, 1);
-	browser->priv->menu_icon_cache = gth_icon_cache_new_for_widget (GTK_WIDGET (browser), GTK_ICON_SIZE_MENU);
-	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
-	browser->priv->selection_changed_event = 0;
-
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		browser->priv->cnxn_id[i] = 0;
-
-	browser->priv->location_free_space = NULL;
-	browser->priv->recalc_location_free_space = TRUE;
-}
-
-
-static void
 gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
-	if (browser->priv != NULL) {
-		_g_object_unref (browser->priv->first_location);
-		g_free (browser->priv->location_free_space);
-		_g_object_unref (browser->priv->location_source);
-		_g_object_unref (browser->priv->monitor_location);
-		_g_object_unref (browser->priv->location);
-		_g_object_unref (browser->priv->current_file);
-		_g_object_unref (browser->priv->viewer_page);
-		_g_object_unref (browser->priv->image_preloader);
-		_g_object_list_unref (browser->priv->viewer_pages);
-		_g_object_list_unref (browser->priv->history);
-		gth_icon_cache_free (browser->priv->menu_icon_cache);
-		g_hash_table_unref (browser->priv->named_dialogs);
-		g_free (browser->priv->list_attributes);
-		_g_object_unref (browser->priv->folder_popup_file_data);
-		_g_object_unref (browser->priv->back_history_menu);
-		_g_object_unref (browser->priv->forward_history_menu);
-		_g_object_unref (browser->priv->go_parent_menu);
-
-		g_free (browser->priv);
-		browser->priv = NULL;
-	}
+	_g_object_unref (browser->priv->first_location);
+	g_free (browser->priv->location_free_space);
+	_g_object_unref (browser->priv->location_source);
+	_g_object_unref (browser->priv->monitor_location);
+	_g_object_unref (browser->priv->location);
+	_g_object_unref (browser->priv->current_file);
+	_g_object_unref (browser->priv->viewer_page);
+	_g_object_unref (browser->priv->image_preloader);
+	_g_object_list_unref (browser->priv->viewer_pages);
+	_g_object_list_unref (browser->priv->history);
+	gth_icon_cache_free (browser->priv->menu_icon_cache);
+	g_hash_table_unref (browser->priv->named_dialogs);
+	g_free (browser->priv->list_attributes);
+	_g_object_unref (browser->priv->folder_popup_file_data);
+	_g_object_unref (browser->priv->back_history_menu);
+	_g_object_unref (browser->priv->forward_history_menu);
+	_g_object_unref (browser->priv->go_parent_menu);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static void
-gth_browser_class_init (GthBrowserClass *class)
+gth_browser_class_init (GthBrowserClass *klass)
 {
 	GObjectClass   *gobject_class;
 	GthWindowClass *window_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthBrowserPrivate));
 
-	gobject_class = G_OBJECT_CLASS (class);
+	gobject_class = G_OBJECT_CLASS (klass);
 	gobject_class->finalize = gth_browser_finalize;
 
-	window_class = GTH_WINDOW_CLASS (class);
+	window_class = GTH_WINDOW_CLASS (klass);
 	window_class->close = _gth_browser_close;
 	window_class->set_current_page = _gth_browser_set_current_page;
 
@@ -2555,7 +2531,7 @@ gth_browser_class_init (GthBrowserClass *class)
 
 	gth_browser_signals[LOCATION_READY] =
 		g_signal_new ("location-ready",
-			      G_TYPE_FROM_CLASS (class),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthBrowserClass, location_ready),
 			      NULL, NULL,
@@ -2564,34 +2540,6 @@ gth_browser_class_init (GthBrowserClass *class)
 			      2,
 			      G_TYPE_OBJECT,
 			      G_TYPE_BOOLEAN);
-}
-
-
-GType
-gth_browser_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthBrowserClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_browser_class_init,
-			NULL,
-			NULL,
-			sizeof (GthBrowser),
-			0,
-			(GInstanceInitFunc) gth_browser_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_WINDOW,
-					       "GthBrowser",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 
@@ -3707,9 +3655,11 @@ _gth_browser_construct_step2 (gpointer data)
 {
 	GthBrowser *browser = data;
 
-	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
+	_gth_browser_update_entry_point_list (browser);
 	_gth_browser_monitor_entry_points (browser);
 	gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
+
+	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
 
 	gth_browser_load_location (browser, browser->priv->first_location);
 }
@@ -4082,7 +4032,6 @@ static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
 {
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (browser))), GTHUMB_ICON_DIR);
 	gth_hook_invoke ("gth-browser-realize", browser);
 
 	return FALSE;
@@ -4100,8 +4049,7 @@ _gth_browser_unrealize (GtkWidget *browser,
 
 
 static void
-_gth_browser_construct (GthBrowser *browser,
-			GFile      *location)
+gth_browser_init (GthBrowser *browser)
 {
 	GError         *error = NULL;
 	GtkWidget      *vbox;
@@ -4112,10 +4060,60 @@ _gth_browser_construct (GthBrowser *browser,
 	char           *caption;
 	int             i;
 
-	if (location != NULL)
-		browser->priv->first_location = g_object_ref (location);
-	else
-		browser->priv->first_location = g_file_new_for_uri (gth_pref_get_startup_location ());
+	g_object_set (browser, "n-pages", GTH_BROWSER_N_PAGES, NULL);
+
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, GTH_TYPE_BROWSER, GthBrowserPrivate);
+	browser->priv->viewer_pages = NULL;
+	browser->priv->viewer_page = NULL;
+	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_TWO_STEPS, 10);
+	browser->priv->progress_dialog = NULL;
+	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < GTH_BROWSER_N_PAGES; i++)
+		browser->priv->toolbar_menu_buttons[i] = NULL;
+	browser->priv->browser_ui_merge_id = 0;
+	browser->priv->viewer_ui_merge_id = 0;
+	browser->priv->first_location = NULL;
+	browser->priv->location = NULL;
+	browser->priv->current_file = NULL;
+	browser->priv->location_source = NULL;
+	browser->priv->n_visibles = 0;
+	browser->priv->current_file_position = -1;
+	browser->priv->monitor_location = NULL;
+	browser->priv->activity_ref = 0;
+	browser->priv->menu_icon_cache = gth_icon_cache_new_for_widget (GTK_WIDGET (browser), GTK_ICON_SIZE_MENU);
+	browser->priv->current_sort_type = NULL;
+	browser->priv->current_sort_inverse = FALSE;
+	browser->priv->default_sort_type = NULL;
+	browser->priv->default_sort_inverse = FALSE;
+	browser->priv->show_hidden_files = FALSE;
+	browser->priv->fast_file_type = FALSE;
+	browser->priv->closing = FALSE;
+	browser->priv->task = NULL;
+	browser->priv->task_completed = 0;
+	browser->priv->task_progress = 0;
+	browser->priv->background_tasks = NULL;
+	browser->priv->load_data_queue = NULL;
+	browser->priv->load_file_data_queue = NULL;
+	browser->priv->load_file_timeout = 0;
+	browser->priv->list_attributes = NULL;
+	browser->priv->constructed = FALSE;
+	browser->priv->selection_changed_event = 0;
+	browser->priv->folder_popup_file_data = NULL;
+	browser->priv->properties_on_screen = FALSE;
+	browser->priv->location_free_space = NULL;
+	browser->priv->recalc_location_free_space = TRUE;
+	browser->priv->fullscreen = FALSE;
+	browser->priv->fullscreen_toolbar = NULL;
+	browser->priv->fullscreen_controls = NULL;
+	browser->priv->hide_mouse_timeout = 0;
+	browser->priv->motion_signal = 0;
+	browser->priv->last_mouse_x = 0.0;
+	browser->priv->last_mouse_y = 0.0;
+	browser->priv->history = NULL;
+	browser->priv->history_current = NULL;
+	browser->priv->back_history_menu = NULL;
+	browser->priv->forward_history_menu = NULL;
+	browser->priv->go_parent_menu = NULL;
 
 	{
 		int width;
@@ -4491,10 +4489,6 @@ _gth_browser_construct (GthBrowser *browser,
 			  G_CALLBACK (filterbar_close_button_clicked_cb),
 			  browser);
 
-	/* the image preloader */
-
-	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_TWO_STEPS, 10);
-
 	/**/
 
 	browser->priv->folder_changed_id =
@@ -4531,7 +4525,6 @@ _gth_browser_construct (GthBrowser *browser,
 
 	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
 	_gth_browser_update_toolbar_style (browser);
-	_gth_browser_update_entry_point_list (browser);
 
 	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", browser->priv->show_hidden_files);
@@ -4597,11 +4590,11 @@ _gth_browser_construct (GthBrowser *browser,
 					   pref_thumbnail_caption_changed,
 					   browser);
 
-	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
 	browser->priv->constructed = TRUE;
-
-	call_when_idle (_gth_browser_construct_step2, browser);
 }
+
+
+G_DEFINE_TYPE(GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
 
 GtkWidget *
@@ -4609,12 +4602,12 @@ gth_browser_new (GFile *location)
 {
 	GthBrowser *browser;
 
-	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER,
-					      "n-pages", GTH_BROWSER_N_PAGES,
-					      NULL);
-	_gth_browser_construct (browser, location);
-	gtk_window_set_application (GTK_WINDOW (browser), GThumb_Application);
-	browser_list = g_list_prepend (browser_list, browser);
+	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, NULL);
+	if (location != NULL)
+		browser->priv->first_location = g_object_ref (location);
+	else
+		browser->priv->first_location = g_file_new_for_uri (gth_pref_get_startup_location ());
+	call_when_idle (_gth_browser_construct_step2, browser);
 
 	return (GtkWidget*) browser;
 }
