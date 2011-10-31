@@ -347,6 +347,8 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	data = g_new0 (BrowserData, 1);
+	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+
 	data->browser = browser;
 
 	data->actions = gtk_action_group_new ("Bookmarks Actions");
@@ -370,10 +372,6 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 							  "entry-points-changed",
 							  G_CALLBACK (entry_points_changed_cb),
 							  data);
-
-	_gth_browser_update_entry_point_list (browser);
-
-	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
 
 
@@ -381,19 +379,5 @@ void
 bookmarks__gth_browser_construct_idle_callback_cb (GthBrowser *browser)
 {
 	_gth_browser_update_bookmark_list (browser);
-}
-
-
-void
-bookmarks__gth_browser_update_sensitivity_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-	/*GtkAction   *action;*/
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	/*action = gtk_action_group_get_action (data->actions, "Edit_AddToCatalog");
-	sensitive = n_selected > 0;
-	g_object_set (action, "sensitive", sensitive, NULL);*/
+	_gth_browser_update_entry_point_list (browser);
 }
