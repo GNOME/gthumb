@@ -24,16 +24,11 @@
 
 G_BEGIN_DECLS
 
-extern gboolean NewWindow;
-extern gboolean StartInFullscreen;
-extern gboolean StartSlideshow;
-extern gboolean ImportPhotos;
-
-#ifdef HAVE_CLUTTER
-extern int ClutterInitResult;
-#endif
-
-extern GtkApplication *GThumb_Application;
+extern GtkApplication *Main_Application;
+extern gboolean        NewWindow;
+extern gboolean        StartInFullscreen;
+extern gboolean        StartSlideshow;
+extern gboolean        ImportPhotos;
 
 void gth_quit (gboolean restart);
 

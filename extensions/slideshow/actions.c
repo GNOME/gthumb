@@ -73,7 +73,7 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	projector = NULL;
 
 #ifdef HAVE_CLUTTER
-	if (ClutterInitResult == CLUTTER_INIT_SUCCESS)
+	if (gtk_clutter_init (NULL, NULL) == CLUTTER_INIT_SUCCESS)
 		projector = &clutter_projector;
 #endif /* HAVE_CLUTTER */
 

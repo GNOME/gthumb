@@ -23,18 +23,15 @@
 #include <gtk/gtk.h>
 #include "gth-window.h"
 #include "gtk-utils.h"
-
-
-#define GTH_WINDOW_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_WINDOW, GthWindowPrivate))
+#include "main.h"
 
 enum  {
-	GTH_WINDOW_DUMMY_PROPERTY,
-	GTH_WINDOW_N_PAGES
+	PROP_0,
+	PROP_N_PAGES
 };
 
 
 static GtkWindowClass *parent_class = NULL;
-static GList *window_list = NULL;
 
 
 struct _GthWindowPrivate {
@@ -57,6 +54,11 @@ gth_window_set_n_pages (GthWindow *self,
 			int        n_pages)
 {
 	int i;
+
+	if (self->priv->n_pages != 0) {
+		g_critical ("The number of pages of a GthWindow can be set only once.");
+		return;
+	}
 
 	self->priv->n_pages = n_pages;
 
@@ -117,8 +119,29 @@ gth_window_set_property (GObject      *object,
 	self = GTH_WINDOW (object);
 
 	switch (property_id) {
-	case GTH_WINDOW_N_PAGES:
+	case PROP_N_PAGES:
 		gth_window_set_n_pages (self, g_value_get_int (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
+gth_window_get_property (GObject    *object,
+		         guint       property_id,
+		         GValue     *value,
+		         GParamSpec *pspec)
+{
+	GthWindow *self;
+
+        self = GTH_WINDOW (object);
+
+	switch (property_id) {
+	case PROP_N_PAGES:
+		g_value_set_int (value, self->priv->n_pages);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -136,12 +159,7 @@ gth_window_finalize (GObject *object)
 	g_free (window->priv->contents);
 	g_free (window->priv->window_size);
 
-	window_list = g_list_remove (window_list, window);
-
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-
-	if (window_list == NULL)
-		gtk_main_quit ();
 }
 
 
@@ -202,6 +220,7 @@ gth_window_class_init (GthWindowClass *klass)
 
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->set_property = gth_window_set_property;
+	gobject_class->get_property = gth_window_get_property;
 	gobject_class->finalize = gth_window_finalize;
 
 	widget_class = (GtkWidgetClass*) klass;
@@ -212,21 +231,21 @@ gth_window_class_init (GthWindowClass *klass)
 	klass->set_current_page = gth_window_real_set_current_page;
 
 	g_object_class_install_property (G_OBJECT_CLASS (klass),
-					 GTH_WINDOW_N_PAGES,
+					 PROP_N_PAGES,
 					 g_param_spec_int ("n-pages",
 							   "n-pages",
 							   "n-pages",
 							   0,
 							   G_MAXINT,
 							   1,
-							   G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+							   G_PARAM_READWRITE));
 }
 
 
 static void
 gth_window_init (GthWindow *window)
 {
-	window->priv = GTH_WINDOW_GET_PRIVATE (window);
+	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, GTH_TYPE_WINDOW, GthWindowPrivate);
 	window->priv->table = NULL;
 	window->priv->contents = NULL;
 	window->priv->n_pages = 0;
@@ -236,36 +255,11 @@ gth_window_init (GthWindow *window)
 	window->priv->infobar = NULL;
 	window->priv->statusbar = NULL;
 
-	window_list = g_list_prepend (window_list, window);
+	gtk_window_set_application (GTK_WINDOW (window), Main_Application);
 }
 
 
-GType
-gth_window_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthWindowClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_window_class_init,
-			NULL,
-			NULL,
-			sizeof (GthWindow),
-			0,
-			(GInstanceInitFunc) gth_window_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_WINDOW,
-					       "GthWindow",
-					       &type_info,
-					       0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE(GthWindow, gth_window, GTK_TYPE_WINDOW)
 
 
 void
@@ -494,28 +488,4 @@ gth_window_get_page_size (GthWindow *window,
 		*height = window->priv->window_size[page].height;
 
 	return TRUE;
-}
-
-
-int
-gth_window_get_n_windows (void)
-{
-	return g_list_length (window_list);
-}
-
-
-GList *
-gth_window_get_window_list (void)
-{
-	return window_list;
-}
-
-
-GtkWidget *
-gth_window_get_current_window (void)
-{
-	if ((window_list == NULL) || (g_list_length (window_list) > 1))
-		return NULL;
-	else
-		return (GtkWidget *) window_list->data;
 }

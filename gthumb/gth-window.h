@@ -98,12 +98,6 @@ gboolean       gth_window_get_page_size      (GthWindow     *window,
 void           gth_window_clear_saved_size   (GthWindow     *window,
       	      	      	      	      	      int            page);
 
-/**/
-
-int            gth_window_get_n_windows      (void);
-GList *        gth_window_get_window_list    (void);
-GtkWidget *    gth_window_get_current_window (void);
-
 G_END_DECLS
 
 #endif /* GTH_WINDOW_H */

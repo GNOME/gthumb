@@ -41,10 +41,6 @@
 #include <gdk/gdkx.h>
 #endif
 
-#ifdef USE_SMCLIENT
-#include "eggsmclient.h"
-#endif
-#include "eggdesktopfile.h"
 
 static GStaticMutex register_mutex = G_STATIC_MUTEX_INIT;
 
@@ -222,15 +218,8 @@ gth_main_initialize (void)
 {
 	if (Main != NULL)
 		return;
-	Main = (GthMain*) g_object_new (GTH_TYPE_MAIN, NULL);
 
-#ifdef GDK_WINDOWING_X11
-	egg_set_desktop_file (GTHUMB_APPLICATIONS_DIR "/gthumb.desktop");
-#else
-	/* manually set name and icon */
-	g_set_application_name (_("gThumb"));
-	gtk_window_set_default_icon_name ("gthumb");
-#endif
+	Main = (GthMain*) g_object_new (GTH_TYPE_MAIN, NULL);
 }
 
 
