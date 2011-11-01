@@ -3720,9 +3720,9 @@ pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
 
 	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
-		viewer_thumbnails_pane = gtk_vpaned_new ();
+		viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	else
-		viewer_thumbnails_pane = gtk_hpaned_new ();
+		viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 
 	child1 = gtk_paned_get_child1 (GTK_PANED (browser->priv->viewer_thumbnails_pane));
 	child2 = gtk_paned_get_child2 (GTK_PANED (browser->priv->viewer_thumbnails_pane));
@@ -4200,13 +4200,13 @@ gth_browser_init (GthBrowser *browser)
 
 	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
-		browser->priv->viewer_thumbnails_pane = gtk_vpaned_new ();
+		browser->priv->viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	else
-		browser->priv->viewer_thumbnails_pane = gtk_hpaned_new ();
+		browser->priv->viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
-	browser->priv->viewer_sidebar_pane = gtk_hpaned_new ();
+	browser->priv->viewer_sidebar_pane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_pane, -1, MIN_VIEWER_SIZE);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
@@ -4295,13 +4295,13 @@ gth_browser_init (GthBrowser *browser)
 
 	/* main content */
 
-	browser->priv->browser_container = gtk_hpaned_new ();
+	browser->priv->browser_container = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_show (browser->priv->browser_container);
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_container);
 
 	/* the browser sidebar */
 
-	browser->priv->browser_sidebar = gtk_vpaned_new ();
+	browser->priv->browser_sidebar = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_set_size_request (browser->priv->browser_sidebar, eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH), -1);
 	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);

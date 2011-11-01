@@ -332,7 +332,7 @@ gth_file_properties_init (GthFileProperties *self)
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 
-	vpaned = gtk_vpaned_new ();
+	vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show (vpaned);
 	gtk_box_pack_start (GTK_BOX (self), vpaned, TRUE, TRUE, 0);
 
