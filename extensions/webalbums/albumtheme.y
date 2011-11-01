@@ -26,7 +26,7 @@
 #include "albumtheme-private.h"
 
 int   gth_albumtheme_yylex   ();
-void  gth_albumtheme_yyerror (char *fmt, ...);
+void  gth_albumtheme_yyerror (const char *fmt, ...);
 int   gth_albumtheme_yywrap  (void);
 
 #define YY_NO_UNPUT
@@ -451,7 +451,7 @@ gth_albumtheme_yywrap (void)
 
 
 void
-gth_albumtheme_yyerror (char *fmt, ...)
+gth_albumtheme_yyerror (const char *fmt, ...)
 {
 	va_list ap;
 
