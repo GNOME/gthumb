@@ -187,7 +187,7 @@ gth_test_category_real_create_control (GthTest *base)
 
 	test = (GthTestCategory *) base;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* text operation combo box */
 

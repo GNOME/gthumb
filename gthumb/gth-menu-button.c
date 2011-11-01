@@ -374,11 +374,11 @@ gth_menu_button_init (GthMenuButton *self)
 
 	/* box */
 
-	main_box = gtk_hbox_new (FALSE, image_spacing);
+	main_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, image_spacing);
 	gtk_widget_show (main_box);
 	gtk_container_add (GTK_CONTAINER (self), main_box);
 
-	box = gtk_hbox_new (FALSE, image_spacing);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, image_spacing);
 	gtk_widget_show (box);
 	gtk_box_pack_start (GTK_BOX (box), self->priv->icon_widget, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (box), self->priv->label_widget, TRUE, TRUE, 0);

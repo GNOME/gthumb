@@ -235,7 +235,7 @@ create_control_for_size (GthTestSimple *test)
 	int        i, op_idx, size_idx;
 	gboolean   size_set = FALSE;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* text operation combo box */
 
@@ -335,7 +335,7 @@ create_control_for_string (GthTestSimple *test)
 	GtkWidget *control;
 	int        i, op_idx;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* text operation combo box */
 
@@ -410,7 +410,7 @@ create_control_for_date (GthTestSimple *test)
 	GtkWidget *control;
 	int        i, op_idx;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* date operation combo box */
 

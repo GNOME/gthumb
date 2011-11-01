@@ -167,7 +167,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
-	hbox = gtk_hbox_new (FALSE, 18);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 18);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
@@ -239,7 +239,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
@@ -318,7 +318,7 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
@@ -424,7 +424,7 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
-	hbox = gtk_hbox_new (FALSE, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
@@ -1222,7 +1222,7 @@ gimp_scale_entry_new (GtkWidget *parent_box,
 	gtk_scale_set_draw_value (GTK_SCALE (scale), FALSE);
 	gtk_scale_set_digits (GTK_SCALE (scale), digits);
 
-	hbox = gtk_hbox_new (FALSE, 5);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_box_pack_start (GTK_BOX (hbox), scale, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), spinbutton, FALSE, FALSE, 0);
 

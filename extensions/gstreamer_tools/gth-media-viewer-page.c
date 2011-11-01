@@ -696,7 +696,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
 
-	self->priv->area_box = gtk_vbox_new (FALSE, 0);
+	self->priv->area_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	/* video area */
 

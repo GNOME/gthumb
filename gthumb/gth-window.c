@@ -87,17 +87,17 @@ gth_window_set_n_pages (GthWindow *self,
 	for (i = 0; i < n_pages; i++) {
 		GtkWidget *page;
 
-		page = gtk_vbox_new (FALSE, 0);
+		page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 		gtk_widget_show (page);
 		gtk_notebook_append_page (GTK_NOTEBOOK (self->priv->notebook),
 					  page,
 					  NULL);
 
-		self->priv->toolbars[i] = gtk_hbox_new (FALSE, 0);
+		self->priv->toolbars[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_widget_show (self->priv->toolbars[i]);
 		gtk_box_pack_start (GTK_BOX (page), self->priv->toolbars[i], FALSE, FALSE, 0);
 
-		self->priv->contents[i] = gtk_hbox_new (FALSE, 0);
+		self->priv->contents[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_widget_show (self->priv->contents[i]);
 		gtk_box_pack_start (GTK_BOX (page), self->priv->contents[i], TRUE, TRUE, 0);
 	}

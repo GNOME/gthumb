@@ -392,7 +392,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 
 	/* test control box */
 
-	filterbar->priv->control_box = gtk_hbox_new (FALSE, 0);
+	filterbar->priv->control_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (filterbar->priv->control_box);
 
 	/* close button */

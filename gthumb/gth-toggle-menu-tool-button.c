@@ -292,14 +292,14 @@ gth_toggle_menu_tool_button_construct_contents (GtkToolItem *tool_item)
 	if (size_group != NULL)
 		gtk_size_group_add_widget (size_group, arrow_align);
 
-	main_box = gtk_hbox_new (FALSE, icon_spacing);
+	main_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, icon_spacing);
 	gtk_widget_show (main_box);
 	gtk_container_add (GTK_CONTAINER (button->priv->toggle_button), main_box);
 
 	if (style == GTK_TOOLBAR_BOTH_HORIZ)
-		box = gtk_hbox_new (FALSE, icon_spacing);
+		box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, icon_spacing);
 	else
-		box = gtk_vbox_new (FALSE, icon_spacing);
+		box = gtk_box_new (GTK_ORIENTATION_VERTICAL, icon_spacing);
 	gtk_widget_show (box);
 
 	gtk_box_pack_start (GTK_BOX (main_box), box, TRUE, TRUE, 0);

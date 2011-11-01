@@ -414,7 +414,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 
 	g_object_set (self, "spacing", 6, NULL);
 
-	box = gtk_hbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (box);
 	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
 
@@ -448,7 +448,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 	gtk_widget_show (frame);
 	gtk_container_add (GTK_CONTAINER (self->priv->calendar_popup), frame);
 
-	box = gtk_vbox_new (FALSE, 6);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
 	gtk_widget_show (box);
 	gtk_container_add (GTK_CONTAINER (frame), box);
@@ -466,7 +466,8 @@ gth_time_selector_construct (GthTimeSelector *self)
 					  G_CALLBACK (calendar_day_selected_cb),
 					  self);
 
-	button_box = gtk_hbox_new (TRUE, 6);
+	button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_set_homogeneous (GTK_BOX (button_box), TRUE);
 	gtk_widget_show (button_box);
 	gtk_box_pack_start (GTK_BOX (box), button_box, FALSE, FALSE, 0);
 
@@ -486,7 +487,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  G_CALLBACK (now_button_clicked_cb),
 			  self);
 
-	time_box = gtk_hbox_new (FALSE, 0);
+	time_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (time_box);
 	gtk_box_pack_start (GTK_BOX (self), time_box, FALSE, FALSE, 0);
 

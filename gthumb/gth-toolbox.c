@@ -141,21 +141,21 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_widget_show (scrolled);
 	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), scrolled, NULL);
 
-	toolbox->priv->box = gtk_vbox_new (FALSE, 0);
+	toolbox->priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_set_spacing (GTK_BOX (toolbox->priv->box), 0);
 	gtk_widget_show (toolbox->priv->box);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled), toolbox->priv->box);
 
 	/* tool options page */
 
-	options_box = gtk_vbox_new (FALSE, 0);
+	options_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (options_box);
 	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), options_box, NULL);
 
 	header_align = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_alignment_set_padding (GTK_ALIGNMENT (header_align), 5, 5, 0, 0);
 
-	options_header = gtk_hbox_new (FALSE, 6);
+	options_header = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (options_header);
 	gtk_container_add (GTK_CONTAINER (header_align), options_header);
 

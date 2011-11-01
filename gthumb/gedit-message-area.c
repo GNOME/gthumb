@@ -170,11 +170,11 @@ gedit_message_area_init (GeditMessageArea *message_area)
 
 	message_area->priv = GEDIT_MESSAGE_AREA_GET_PRIVATE (message_area);
 
-	message_area->priv->main_hbox = gtk_hbox_new (FALSE, 3); /* FIXME: use style properties */
+	message_area->priv->main_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3); /* FIXME: use style properties */
 	gtk_widget_show (message_area->priv->main_hbox);
 	gtk_container_set_border_width (GTK_CONTAINER (message_area->priv->main_hbox), 3); /* FIXME: use style properties */
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 	gtk_box_pack_end (GTK_BOX (message_area->priv->main_hbox),
 			  vbox,
@@ -182,7 +182,7 @@ gedit_message_area_init (GeditMessageArea *message_area)
 			  FALSE,
 			  0);
 
-	message_area->priv->action_area = gtk_hbox_new (FALSE, 3); /* FIXME: use style properties */
+	message_area->priv->action_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3); /* FIXME: use style properties */
 	gtk_widget_show (message_area->priv->action_area);
 	gtk_box_pack_end (GTK_BOX (vbox),
 			  message_area->priv->action_area,

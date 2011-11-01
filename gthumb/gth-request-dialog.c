@@ -127,8 +127,8 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 	gtk_label_set_line_wrap (GTK_LABEL (self->priv->info_label), TRUE);
 	gtk_container_add (GTK_CONTAINER (gtk_info_bar_get_content_area (GTK_INFO_BAR (self->priv->infobar))), self->priv->info_label);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-	vbox = gtk_vbox_new (FALSE, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	gtk_box_set_spacing (GTK_BOX (hbox), 12);

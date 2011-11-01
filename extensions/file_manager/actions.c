@@ -915,7 +915,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
 
-	box = gtk_vbox_new (FALSE, 6);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
 	gtk_widget_show (box);
 

@@ -240,7 +240,7 @@ gth_test_selector_construct (GthTestSelector *self,
 
 	/* test control box */
 
-	self->priv->control_box = gtk_hbox_new (FALSE, 0);
+	self->priv->control_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (self->priv->control_box);
 
 	/**/
@@ -269,10 +269,10 @@ gth_test_selector_construct (GthTestSelector *self,
 
 	/**/
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 
-	hbox = gtk_hbox_new (FALSE, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (hbox);
 
 	gtk_box_pack_start (GTK_BOX (hbox), self->priv->test_combo_box, FALSE, FALSE, 0);

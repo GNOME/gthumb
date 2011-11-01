@@ -166,7 +166,7 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
 		return;
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (_gtk_builder_get_widget (builder, "general_vbox")), vbox, FALSE, FALSE, 0);
 

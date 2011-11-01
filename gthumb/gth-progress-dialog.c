@@ -108,7 +108,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	self->task_completed = 0;
 	self->pulse_event = 0;
 
-	vbox = gtk_vbox_new (FALSE, 3);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (self), vbox, TRUE, TRUE, 0);
@@ -133,7 +133,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_widget_show (self->details_label);
 	gtk_box_pack_start (GTK_BOX (vbox), self->details_label, FALSE, FALSE, 0);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (self), vbox, FALSE, FALSE, 0);
 
@@ -298,7 +298,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-	self->priv->task_box = gtk_vbox_new (FALSE, 6);
+	self->priv->task_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (self->priv->task_box);
 	gtk_container_set_border_width (GTK_CONTAINER (self->priv->task_box), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->task_box, FALSE, FALSE, 0);

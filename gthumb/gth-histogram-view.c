@@ -788,13 +788,13 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	/* topbar */
 
-	box = gtk_hbox_new (FALSE, 6);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (box);
 	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
 
 	/* linear / logarithmic buttons */
 
-	sub_box = gtk_hbox_new (FALSE, 0);
+	sub_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (sub_box);
 	gtk_box_pack_end (GTK_BOX (box), sub_box, FALSE, FALSE, 0);
 
@@ -824,7 +824,7 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	/* channel selector */
 
-	sub_box = gtk_hbox_new (FALSE, 6);
+	sub_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (sub_box);
 	gtk_box_pack_start (GTK_BOX (box), sub_box, FALSE, FALSE, 0);
 

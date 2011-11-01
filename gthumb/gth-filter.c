@@ -261,7 +261,7 @@ create_control_for_files (GthFilter *filter)
 	GtkWidget *label;
 	char      *value;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* limit label */
 
@@ -333,7 +333,7 @@ create_control_for_size (GthFilter *filter)
 	int        i, size_idx;
 	gboolean   size_set = FALSE;
 
-	control = gtk_hbox_new (FALSE, 6);
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	/* limit label */
 

@@ -4308,7 +4308,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the box that contains the location and the folder list.  */
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, TRUE);
 
@@ -4409,7 +4409,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the box that contains the file list and the filter bar.  */
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_container), vbox, TRUE, TRUE);
 

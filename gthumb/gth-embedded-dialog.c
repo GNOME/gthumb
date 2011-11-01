@@ -52,14 +52,14 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMBEDDED_DIALOG, GthEmbeddedDialogPrivate);
 
-	hbox_content = gtk_hbox_new (FALSE, 8);
+	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
 	gtk_widget_show (hbox_content);
 
 	self->priv->icon_image = image = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (hbox_content), image, FALSE, FALSE, 0);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.5);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (hbox_content), vbox, TRUE, TRUE, 0);
 

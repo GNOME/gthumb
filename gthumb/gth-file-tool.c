@@ -148,7 +148,7 @@ gth_file_tool_construct (GthFileTool *self,
 	self->priv->options_title = options_title;
 	self->priv->separator = separator;
 
-	hbox = gtk_hbox_new (FALSE, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
 	icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
 	gtk_widget_show (icon);

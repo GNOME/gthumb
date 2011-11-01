@@ -62,7 +62,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 
 	/* Progress info */
 
-	statusbar->priv->progress_box = gtk_vbox_new (FALSE, 0);
+	statusbar->priv->progress_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_hide (statusbar->priv->progress_box);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->progress_box, FALSE, FALSE, 0);
 
@@ -70,7 +70,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_widget_show (separator);
 	gtk_box_pack_start (GTK_BOX (statusbar->priv->progress_box), separator, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new (FALSE, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start (GTK_BOX (statusbar->priv->progress_box), hbox, FALSE, FALSE, 0);
 
@@ -78,7 +78,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_widget_show (statusbar->priv->progress_label);
 	gtk_box_pack_start (GTK_BOX (hbox), statusbar->priv->progress_label, TRUE, TRUE, 0);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_set_homogeneous (GTK_BOX (vbox), TRUE);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);

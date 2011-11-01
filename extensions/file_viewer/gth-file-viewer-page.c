@@ -107,11 +107,12 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->viewer = gtk_event_box_new ();
 	gtk_widget_show (self->priv->viewer);
 
-	vbox1 = gtk_vbox_new (TRUE, 0);
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_set_homogeneous (GTK_BOX (vbox1), TRUE);
 	gtk_widget_show (vbox1);
 	gtk_container_add (GTK_CONTAINER (self->priv->viewer), vbox1);
 
-	vbox2 = gtk_vbox_new (FALSE, 6);
+	vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (vbox2);
 	gtk_box_pack_start (GTK_BOX (vbox1), vbox2, FALSE, FALSE, 0);
 

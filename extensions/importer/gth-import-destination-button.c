@@ -117,7 +117,7 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_DESTINATION_BUTTON, GthImportDestinationButtonPrivate);
 
-	box = gtk_hbox_new (FALSE, 6);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (box);
 	gtk_container_add (GTK_CONTAINER (self), box);
 
@@ -125,7 +125,7 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 	gtk_widget_show (self->priv->destination_icon);
 	gtk_box_pack_start (GTK_BOX (box), self->priv->destination_icon, FALSE, FALSE, 0);
 
-	label_box = gtk_hbox_new (FALSE, 0);
+	label_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (label_box);
 	gtk_box_pack_start (GTK_BOX (box), label_box, TRUE, TRUE, 0);
 
