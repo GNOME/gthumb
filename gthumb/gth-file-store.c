@@ -204,13 +204,8 @@ gth_file_store_finalize (GObject *object)
 
 	file_store = GTH_FILE_STORE (object);
 
-	if (file_store->priv != NULL) {
-		_gth_file_store_free_rows (file_store);
-		if (file_store->priv->filter != NULL)
-			g_object_unref (file_store->priv->filter);
-		g_free (file_store->priv);
-		file_store->priv = NULL;
-	}
+	_gth_file_store_free_rows (file_store);
+	_g_object_unref (file_store->priv->filter);
 
 	G_OBJECT_CLASS (gth_file_store_parent_class)->finalize (object);
 }
