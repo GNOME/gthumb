@@ -114,7 +114,7 @@ struct _GthMainPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
+G_DEFINE_TYPE (GthMain, gth_main, G_TYPE_OBJECT)
 
 
 static void
@@ -153,7 +153,7 @@ gth_main_finalize (GObject *object)
 		gth_main->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_main_parent_class)->finalize (object);
 }
 
 
@@ -162,9 +162,7 @@ gth_main_class_init (GthMainClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_main_finalize;
 }
 
@@ -182,34 +180,6 @@ gth_main_init (GthMain *main)
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->metadata_info_sorted = FALSE;
-}
-
-
-GType
-gth_main_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMainClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_main_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMain),
-			0,
-			(GInstanceInitFunc) gth_main_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthMain",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -29,6 +29,9 @@
 #include "photobucket-service.h"
 
 
+G_DEFINE_TYPE (PhotobucketService, photobucket_service, G_TYPE_OBJECT)
+
+
 typedef struct {
 	PhotobucketAccount  *account;
 	PhotobucketAlbum    *album;
@@ -67,9 +70,6 @@ struct _PhotobucketServicePrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 photobucket_service_finalize (GObject *object)
 {
@@ -80,7 +80,7 @@ photobucket_service_finalize (GObject *object)
 	_g_object_unref (self->priv->conn);
 	post_photos_data_free (self->priv->post_photos);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (photobucket_service_parent_class)->finalize (object);
 }
 
 
@@ -89,7 +89,6 @@ photobucket_service_class_init (PhotobucketServiceClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (PhotobucketServicePrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -103,34 +102,6 @@ photobucket_service_init (PhotobucketService *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOBUCKET_TYPE_SERVICE, PhotobucketServicePrivate);
 	self->priv->conn = NULL;
 	self->priv->post_photos = NULL;
-}
-
-
-GType
-photobucket_service_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (PhotobucketServiceClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) photobucket_service_class_init,
-			NULL,
-			NULL,
-			sizeof (PhotobucketService),
-			0,
-			(GInstanceInitFunc) photobucket_service_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "PhotobucketService",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -33,7 +33,7 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFolderChooserDialog, gth_folder_chooser_dialog, GTK_TYPE_DIALOG)
 
 
 struct _GthFolderChooserDialogPrivate {
@@ -50,7 +50,7 @@ gth_folder_chooser_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_folder_chooser_dialog_parent_class)->finalize (object);
 }
 
 
@@ -59,7 +59,6 @@ gth_folder_chooser_dialog_class_init (GthFolderChooserDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFolderChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -122,34 +121,6 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 			       GTK_STOCK_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
-}
-
-
-GType
-gth_folder_chooser_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFolderChooserDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_folder_chooser_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFolderChooserDialog),
-			0,
-			(GInstanceInitFunc) gth_folder_chooser_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthFolderChooserDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

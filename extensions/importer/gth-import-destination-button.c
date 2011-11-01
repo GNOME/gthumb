@@ -24,7 +24,7 @@
 #include "gth-import-destination-button.h"
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthImportDestinationButton, gth_import_destination_button, GTK_TYPE_BUTTON)
 
 
 struct _GthImportDestinationButtonPrivate {
@@ -83,7 +83,7 @@ _update_subfolder_label_color (GthImportDestinationButton *self)
 static void
 gth_import_destination_button_realize (GtkWidget *widget)
 {
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (gth_import_destination_button_parent_class)->realize (widget);
 	_update_subfolder_label_color (GTH_IMPORT_DESTINATION_BUTTON (widget));
 }
 
@@ -93,7 +93,6 @@ gth_import_destination_button_class_init (GthImportDestinationButtonClass *klass
 {
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImportDestinationButtonPrivate));
 
 	widget_class = (GtkWidgetClass*) klass;
@@ -145,34 +144,6 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 			  "state-flags-changed",
 			  G_CALLBACK (subfolder_label_state_flags_changed_cb),
 			  self);
-}
-
-
-GType
-gth_import_destination_button_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImportDestinationButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_import_destination_button_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthImportDestinationButton),
-			0,
-			(GInstanceInitFunc) gth_import_destination_button_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_BUTTON,
-					       "GthImportDestinationButton",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

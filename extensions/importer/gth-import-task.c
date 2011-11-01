@@ -31,6 +31,9 @@
 #define IMPORTED_KEY "imported"
 
 
+G_DEFINE_TYPE (GthImportTask, gth_import_task, GTH_TYPE_TASK)
+
+
 struct _GthImportTaskPrivate {
 	GthBrowser          *browser;
 	GList               *files;
@@ -62,9 +65,6 @@ struct _GthImportTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 gth_import_task_finalize (GObject *object)
 {
@@ -88,7 +88,7 @@ gth_import_task_finalize (GObject *object)
 	_g_object_unref (self->priv->imported_catalog);
 	g_object_unref (self->priv->browser);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_import_task_parent_class)->finalize (object);
 }
 
 
@@ -731,7 +731,6 @@ gth_import_task_class_init (GthImportTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImportTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -753,34 +752,6 @@ gth_import_task_init (GthImportTask *self)
 							  g_object_unref,
 							  NULL);
 	self->priv->buffer = NULL;
-}
-
-
-GType
-gth_import_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImportTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_import_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImportTask),
-			0,
-			(GInstanceInitFunc) gth_import_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthImportTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

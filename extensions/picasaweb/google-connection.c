@@ -30,6 +30,9 @@
 #define GTHUMB_SOURCE ("GNOME-" PACKAGE "-" VERSION)
 
 
+G_DEFINE_TYPE (GoogleConnection, google_connection, GTH_TYPE_TASK)
+
+
 GQuark
 google_connection_error_quark (void)
 {
@@ -57,9 +60,6 @@ struct _GoogleConnectionPrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 google_connection_finalize (GObject *object)
 {
@@ -74,7 +74,7 @@ google_connection_finalize (GObject *object)
 	_g_object_unref (self->priv->session);
 	g_free (self->priv->service);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (google_connection_parent_class)->finalize (object);
 }
 
 
@@ -103,7 +103,6 @@ google_connection_class_init (GoogleConnectionClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GoogleConnectionPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -126,34 +125,6 @@ google_connection_init (GoogleConnection *self)
 	self->priv->challange_url = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
-}
-
-
-GType
-google_connection_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GoogleConnectionClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) google_connection_class_init,
-			NULL,
-			NULL,
-			sizeof (GoogleConnection),
-			0,
-			(GInstanceInitFunc) google_connection_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GoogleConnection",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

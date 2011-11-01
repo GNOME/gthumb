@@ -39,7 +39,7 @@ struct _GthImagePrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthImage, gth_image, G_TYPE_OBJECT)
 
 
 static void
@@ -76,7 +76,7 @@ gth_image_finalize (GObject *object)
 	_gth_image_free_data (GTH_IMAGE (object));
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
 }
 
 
@@ -85,7 +85,6 @@ gth_image_class_init (GthImageClass *class)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImagePrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -94,39 +93,11 @@ gth_image_class_init (GthImageClass *class)
 
 
 static void
-gth_image_instance_init (GthImage *self)
+gth_image_init (GthImage *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE, GthImagePrivate);
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
-}
-
-
-GType
-gth_image_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImage),
-			0,
-			(GInstanceInitFunc) gth_image_instance_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImage",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

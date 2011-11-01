@@ -34,12 +34,12 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _FacebookAccountChooserDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE (FacebookAccountChooserDialog, facebook_account_chooser_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -51,7 +51,7 @@ facebook_account_chooser_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_account_chooser_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ facebook_account_chooser_dialog_class_init (FacebookAccountChooserDialogClass *k
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FacebookAccountChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -160,34 +159,6 @@ facebook_account_chooser_dialog_init (FacebookAccountChooserDialog *self)
 			       GTK_STOCK_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
-}
-
-
-GType
-facebook_account_chooser_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookAccountChooserDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_account_chooser_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookAccountChooserDialog),
-			0,
-			(GInstanceInitFunc) facebook_account_chooser_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FacebookAccountChooserDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

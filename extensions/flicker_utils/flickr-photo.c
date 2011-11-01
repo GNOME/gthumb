@@ -42,7 +42,14 @@ struct _FlickrPhotoPrivate {
 };
 
 
-static gpointer flickr_photo_parent_class = NULL;
+static void flickr_photo_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FlickrPhoto,
+			 flickr_photo,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        flickr_photo_dom_domizable_interface_init))
 
 
 static void
@@ -70,7 +77,6 @@ flickr_photo_finalize (GObject *obj)
 static void
 flickr_photo_class_init (FlickrPhotoClass *klass)
 {
-	flickr_photo_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FlickrPhotoPrivate));
 	G_OBJECT_CLASS (klass)->finalize = flickr_photo_finalize;
 }
@@ -140,7 +146,7 @@ flickr_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-flickr_photo_instance_init (FlickrPhoto *self)
+flickr_photo_init (FlickrPhoto *self)
 {
 	int i;
 
@@ -156,41 +162,6 @@ flickr_photo_instance_init (FlickrPhoto *self)
 		self->url[i] = NULL;
 	self->original_format = NULL;
 	self->mime_type = NULL;
-}
-
-
-GType
-flickr_photo_get_type (void)
-{
-	static GType flickr_photo_type_id = 0;
-
-	if (flickr_photo_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrPhotoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_photo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrPhoto),
-			0,
-			(GInstanceInitFunc) flickr_photo_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) flickr_photo_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		flickr_photo_type_id = g_type_register_static (G_TYPE_OBJECT,
-								  "FlickrPhoto",
-								  &g_define_type_info,
-								  0);
-		g_type_add_interface_static (flickr_photo_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return flickr_photo_type_id;
 }
 
 

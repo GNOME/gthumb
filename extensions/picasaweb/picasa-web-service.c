@@ -28,6 +28,9 @@
 #include "picasa-web-service.h"
 
 
+G_DEFINE_TYPE (PicasaWebService, picasa_web_service, G_TYPE_OBJECT)
+
+
 typedef struct {
 	PicasaWebAlbum      *album;
 	GList               *file_list;
@@ -63,9 +66,6 @@ struct _PicasaWebServicePrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 picasa_web_service_finalize (GObject *object)
 {
@@ -77,7 +77,7 @@ picasa_web_service_finalize (GObject *object)
 	_g_object_unref (self->priv->user);
 	post_photos_data_free (self->priv->post_photos);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (picasa_web_service_parent_class)->finalize (object);
 }
 
 
@@ -86,7 +86,6 @@ picasa_web_service_class_init (PicasaWebServiceClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (PicasaWebServicePrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -101,34 +100,6 @@ picasa_web_service_init (PicasaWebService *self)
 	self->priv->conn = NULL;
 	self->priv->user = NULL;
 	self->priv->post_photos = NULL;
-}
-
-
-GType
-picasa_web_service_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (PicasaWebServiceClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) picasa_web_service_class_init,
-			NULL,
-			NULL,
-			sizeof (PicasaWebService),
-			0,
-			(GInstanceInitFunc) picasa_web_service_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "PicasaWebService",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

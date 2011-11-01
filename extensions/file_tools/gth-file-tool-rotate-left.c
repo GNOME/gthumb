@@ -26,6 +26,9 @@
 #include "gth-file-tool-rotate-left.h"
 
 
+G_DEFINE_TYPE (GthFileToolRotateLeft, gth_file_tool_rotate_left, GTH_TYPE_FILE_TOOL)
+
+
 static void
 gth_file_tool_rotate_left_activate (GthFileTool *base)
 {
@@ -68,38 +71,19 @@ gth_file_tool_rotate_left_update_sensitivity (GthFileTool *base)
 
 
 static void
-gth_file_tool_rotate_left_instance_init (GthFileToolRotateLeft *self)
+gth_file_tool_rotate_left_class_init (GthFileToolRotateLeftClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate-270", _("Rotate Left"), NULL, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Rotate the image by 90 degrees counterclockwise"));
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = (GthFileToolClass *) klass;
+	file_tool_class->update_sensitivity = gth_file_tool_rotate_left_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_rotate_left_activate;
 }
 
 
 static void
-gth_file_tool_rotate_left_class_init (GthFileToolClass *klass)
+gth_file_tool_rotate_left_init (GthFileToolRotateLeft *self)
 {
-	klass->update_sensitivity = gth_file_tool_rotate_left_update_sensitivity;
-	klass->activate = gth_file_tool_rotate_left_activate;
-}
-
-
-GType
-gth_file_tool_rotate_left_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolRotateLeftClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_rotate_left_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolRotateLeft),
-			0,
-			(GInstanceInitFunc) gth_file_tool_rotate_left_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolRotateLeft", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate-270", _("Rotate Left"), NULL, FALSE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Rotate the image by 90 degrees counterclockwise"));
 }

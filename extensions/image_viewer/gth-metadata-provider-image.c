@@ -30,7 +30,10 @@
 #include "gth-metadata-provider-image.h"
 
 
-static GthMetadataProviderClass *parent_class = NULL;
+#define BUFFER_SIZE 32
+
+
+G_DEFINE_TYPE (GthMetadataProviderImage, gth_metadata_provider_image, GTH_TYPE_METADATA_PROVIDER)
 
 
 static gboolean
@@ -46,9 +49,6 @@ gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
 						 "frame::height",
 					         attribute_v);
 }
-
-
-#define BUFFER_SIZE 32
 
 
 static void
@@ -198,36 +198,16 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 static void
 gth_metadata_provider_image_class_init (GthMetadataProviderImageClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GthMetadataProviderClass *metadata_provider_class;
 
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_image_can_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_image_read;
+	metadata_provider_class = GTH_METADATA_PROVIDER_CLASS (klass);
+	metadata_provider_class->can_read = gth_metadata_provider_image_can_read;
+	metadata_provider_class->read = gth_metadata_provider_image_read;
 }
 
 
-GType
-gth_metadata_provider_image_get_type (void)
+static void
+gth_metadata_provider_image_init (GthMetadataProviderImage *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMetadataProviderImageClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_provider_image_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataProviderImage),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
-					       "GthMetadataProviderImage",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	/* void */
 }

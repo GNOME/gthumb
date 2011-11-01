@@ -30,7 +30,6 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_file_tool_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -41,6 +40,9 @@ struct _GthFileToolPrivate {
 	const char *options_title;
 	gboolean    separator;
 };
+
+
+G_DEFINE_TYPE (GthFileTool, gth_file_tool, GTK_TYPE_BUTTON)
 
 
 static void
@@ -78,7 +80,7 @@ gth_file_tool_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_FILE_TOOL (object));
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_parent_class)->finalize (object);
 }
 
 
@@ -87,7 +89,6 @@ gth_file_tool_class_init (GthFileToolClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFileToolPrivate));
 
 	gobject_class = (GObjectClass*) klass;
@@ -120,7 +121,7 @@ gth_file_tool_class_init (GthFileToolClass *klass)
 
 
 static void
-gth_file_tool_instance_init (GthFileTool *self)
+gth_file_tool_init (GthFileTool *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL, GthFileToolPrivate);
 	self->priv->icon_name = NULL;
@@ -128,28 +129,6 @@ gth_file_tool_instance_init (GthFileTool *self)
 	self->priv->options_title = NULL;
 
 	gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);
-}
-
-
-GType
-gth_file_tool_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileTool),
-			0,
-			(GInstanceInitFunc) gth_file_tool_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTK_TYPE_BUTTON, "GthFileTool", &g_define_type_info, 0);
-	}
-	return type_id;
 }
 
 

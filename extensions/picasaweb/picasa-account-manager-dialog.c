@@ -28,13 +28,13 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+G_DEFINE_TYPE (PicasaAccountManagerDialog, picasa_account_manager_dialog, GTK_TYPE_DIALOG)
+
+
 enum {
 	ACCOUNT_DATA_COLUMN,
 	ACCOUNT_NAME_COLUMN,
 };
-
-
-static gpointer parent_class = NULL;
 
 
 struct _PicasaAccountManagerDialogPrivate {
@@ -51,7 +51,7 @@ picasa_account_manager_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (picasa_account_manager_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ picasa_account_manager_dialog_class_init (PicasaAccountManagerDialogClass *klass
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (PicasaAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -178,34 +177,6 @@ picasa_account_manager_dialog_init (PicasaAccountManagerDialog *self)
 			  "clicked",
 			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
-}
-
-
-GType
-picasa_account_manager_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PicasaAccountManagerDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) picasa_account_manager_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PicasaAccountManagerDialog),
-			0,
-			(GInstanceInitFunc) picasa_account_manager_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "PicasaAccountManagerDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

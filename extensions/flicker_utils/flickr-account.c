@@ -29,7 +29,14 @@
 #include "flickr-account.h"
 
 
-static gpointer flickr_account_parent_class = NULL;
+static void flickr_account_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FlickrAccount,
+			 flickr_account,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        flickr_account_dom_domizable_interface_init))
 
 
 static void
@@ -49,7 +56,6 @@ flickr_account_finalize (GObject *obj)
 static void
 flickr_account_class_init (FlickrAccountClass *klass)
 {
-	flickr_account_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = flickr_account_finalize;
 }
 
@@ -109,43 +115,9 @@ flickr_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-flickr_account_instance_init (FlickrAccount *self)
+flickr_account_init (FlickrAccount *self)
 {
-}
-
-
-GType
-flickr_account_get_type (void)
-{
-	static GType flickr_account_type_id = 0;
-
-	if (flickr_account_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrAccountClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_account_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrAccount),
-			0,
-			(GInstanceInitFunc) flickr_account_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) flickr_account_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		flickr_account_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FlickrAccount",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (flickr_account_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return flickr_account_type_id;
+	/* void */
 }
 
 

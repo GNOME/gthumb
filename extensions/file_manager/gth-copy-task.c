@@ -32,7 +32,7 @@ struct _GthCopyTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthCopyTask, gth_copy_task, GTH_TYPE_TASK)
 
 
 static void
@@ -46,7 +46,7 @@ gth_copy_task_finalize (GObject *object)
 	_g_object_unref (self->priv->file_source);
 	_g_object_unref (self->priv->destination);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_copy_task_parent_class)->finalize (object);
 }
 
 
@@ -118,7 +118,6 @@ gth_copy_task_class_init (GthCopyTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthCopyTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -133,34 +132,6 @@ static void
 gth_copy_task_init (GthCopyTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COPY_TASK, GthCopyTaskPrivate);
-}
-
-
-GType
-gth_copy_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthCopyTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_copy_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthCopyTask),
-			0,
-			(GInstanceInitFunc) gth_copy_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthCopyTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

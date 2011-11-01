@@ -26,7 +26,14 @@
 #include "photobucket-photo.h"
 
 
-static gpointer photobucket_photo_parent_class = NULL;
+static void photobucket_photo_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (PhotobucketPhoto,
+			 photobucket_photo,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        photobucket_photo_dom_domizable_interface_init))
 
 
 static void
@@ -50,14 +57,13 @@ photobucket_photo_finalize (GObject *obj)
 static void
 photobucket_photo_class_init (PhotobucketPhotoClass *klass)
 {
-	photobucket_photo_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = photobucket_photo_finalize;
 }
 
 
 static DomElement*
 photobucket_photo_create_element (DomDomizable *base,
-				DomDocument  *doc)
+				  DomDocument  *doc)
 {
 	PhotobucketPhoto *self;
 	DomElement  *element;
@@ -119,43 +125,9 @@ photobucket_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-photobucket_photo_instance_init (PhotobucketPhoto *self)
+photobucket_photo_init (PhotobucketPhoto *self)
 {
-}
-
-
-GType
-photobucket_photo_get_type (void)
-{
-	static GType photobucket_photo_type_id = 0;
-
-	if (photobucket_photo_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PhotobucketPhotoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) photobucket_photo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PhotobucketPhoto),
-			0,
-			(GInstanceInitFunc) photobucket_photo_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) photobucket_photo_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		photobucket_photo_type_id = g_type_register_static (G_TYPE_OBJECT,
-								    "PhotobucketPhoto",
-								    &g_define_type_info,
-								    0);
-		g_type_add_interface_static (photobucket_photo_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return photobucket_photo_type_id;
+	/* void */
 }
 
 

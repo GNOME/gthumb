@@ -25,7 +25,7 @@
 #include "gth-pixbuf-saver.h"
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthPixbufSaver, gth_pixbuf_saver, G_TYPE_OBJECT)
 
 
 static GtkWidget *
@@ -65,8 +65,6 @@ base_save_pixbuf (GthPixbufSaver  *self,
 static void
 gth_pixbuf_saver_class_init (GthPixbufSaverClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
-
 	klass->id = "";
 	klass->display_name = "";
 	klass->get_control = base_get_control;
@@ -76,31 +74,10 @@ gth_pixbuf_saver_class_init (GthPixbufSaverClass *klass)
 }
 
 
-GType
-gth_pixbuf_saver_get_type (void)
+static void
+gth_pixbuf_saver_init (GthPixbufSaver *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthPixbufSaverClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_pixbuf_saver_class_init,
-			NULL,
-			NULL,
-			sizeof (GthPixbufSaver),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthPixbufSaver",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	/* void */
 }
 
 

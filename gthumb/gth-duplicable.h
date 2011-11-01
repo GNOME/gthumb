@@ -30,12 +30,12 @@ G_BEGIN_DECLS
 #define GTH_TYPE_DUPLICABLE               (gth_duplicable_get_type ())
 #define GTH_DUPLICABLE(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_DUPLICABLE, GthDuplicable))
 #define GTH_IS_DUPLICABLE(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_DUPLICABLE))
-#define GTH_DUPLICABLE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_DUPLICABLE, GthDuplicableIface))
+#define GTH_DUPLICABLE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_DUPLICABLE, GthDuplicableInterface))
 
 typedef struct _GthDuplicable GthDuplicable;
-typedef struct _GthDuplicableIface GthDuplicableIface;
+typedef struct _GthDuplicableInterface GthDuplicableInterface;
 
-struct _GthDuplicableIface {
+struct _GthDuplicableInterface {
 	GTypeInterface parent_iface;
 	
 	GObject * (*duplicate) (GthDuplicable *self);

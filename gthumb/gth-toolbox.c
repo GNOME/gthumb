@@ -27,9 +27,6 @@
 #include "gtk-utils.h"
 
 
-#define GTH_TOOLBOX_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_TOOLBOX, GthToolboxPrivate))
-
-
 enum {
 	GTH_TOOLBOX_LIST_PAGE = 0,
 	GTH_TOOLBOX_OPTIONS_PAGE
@@ -42,9 +39,6 @@ enum  {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthToolboxPrivate {
 	char      *name;
 	GtkWidget *box;
@@ -53,6 +47,9 @@ struct _GthToolboxPrivate {
 	GtkWidget *options_title;
 	GtkWidget *active_tool;
 };
+
+
+G_DEFINE_TYPE (GthToolbox, gth_toolbox, GTK_TYPE_NOTEBOOK)
 
 
 static void
@@ -97,7 +94,7 @@ gth_toolbox_finalize (GObject *object)
 
 	g_free (self->priv->name);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_toolbox_parent_class)->finalize (object);
 }
 
 
@@ -106,7 +103,6 @@ gth_toolbox_class_init (GthToolboxClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthToolboxPrivate));
 
 	gobject_class = (GObjectClass*) klass;
@@ -131,7 +127,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 	GtkWidget *options_header;
 	GtkWidget *header_align;
 
-	toolbox->priv = GTH_TOOLBOX_GET_PRIVATE (toolbox);
+	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (toolbox), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (toolbox), FALSE);
 
@@ -180,34 +176,6 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
-}
-
-
-GType
-gth_toolbox_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthToolboxClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_toolbox_class_init,
-			NULL,
-			NULL,
-			sizeof (GthToolbox),
-			0,
-			(GInstanceInitFunc) gth_toolbox_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_NOTEBOOK,
-					       "GthToolbox",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

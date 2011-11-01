@@ -26,6 +26,9 @@
 #include "gth-file-tool-equalize.h"
 
 
+G_DEFINE_TYPE (GthFileToolEqualize, gth_file_tool_equalize, GTH_TYPE_FILE_TOOL)
+
+
 typedef struct {
 	GtkWidget        *viewer_page;
 	cairo_surface_t  *source;
@@ -256,38 +259,19 @@ gth_file_tool_equalize_update_sensitivity (GthFileTool *base)
 
 
 static void
-gth_file_tool_equalize_instance_init (GthFileToolEqualize *self)
+gth_file_tool_equalize_class_init (GthFileToolEqualizeClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "histogram", _("Equalize"), NULL, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Equalize image histogram"));
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_equalize_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_equalize_activate;
 }
 
 
 static void
-gth_file_tool_equalize_class_init (GthFileToolClass *klass)
+gth_file_tool_equalize_init (GthFileToolEqualize *self)
 {
-	klass->update_sensitivity = gth_file_tool_equalize_update_sensitivity;
-	klass->activate = gth_file_tool_equalize_activate;
-}
-
-
-GType
-gth_file_tool_equalize_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolEqualizeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_equalize_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolEqualize),
-			0,
-			(GInstanceInitFunc) gth_file_tool_equalize_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolEqualize", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "histogram", _("Equalize"), NULL, FALSE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Equalize image histogram"));
 }

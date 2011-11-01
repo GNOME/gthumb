@@ -39,7 +39,7 @@ struct _GthFileSourcePrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
+G_DEFINE_TYPE (GthFileSource, gth_file_source, G_TYPE_OBJECT)
 
 
 /* -- queue -- */
@@ -846,7 +846,7 @@ gth_file_source_finalize (GObject *object)
 		file_source->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_source_parent_class)->finalize (object);
 }
 
 
@@ -855,10 +855,9 @@ gth_file_source_class_init (GthFileSourceClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_file_source_finalize;
+
 	class->get_entry_points = base_get_entry_points;
 	class->get_current_list = base_get_current_list;
 	class->to_gio_file = base_to_gio_file;
@@ -882,34 +881,6 @@ gth_file_source_init (GthFileSource *file_source)
 {
 	file_source->priv = g_new0 (GthFileSourcePrivate, 1);
 	file_source->priv->cancellable = g_cancellable_new ();
-}
-
-
-GType
-gth_file_source_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFileSourceClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_source_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileSource),
-			0,
-			(GInstanceInitFunc) gth_file_source_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthFileSource",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

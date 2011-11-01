@@ -26,7 +26,7 @@
 #include "gth-metadata-provider-gstreamer.h"
 
 
-static GthMetadataProviderClass *parent_class = NULL;
+G_DEFINE_TYPE (GthMetadataProviderGstreamer, gth_metadata_provider_gstreamer, GTH_TYPE_METADATA_PROVIDER)
 
 
 static gboolean
@@ -73,36 +73,16 @@ gth_metadata_provider_gstreamer_read (GthMetadataProvider *self,
 static void
 gth_metadata_provider_gstreamer_class_init (GthMetadataProviderGstreamerClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GthMetadataProviderClass *metadata_provider_class;
 
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_gstreamer_can_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_gstreamer_read;
+	metadata_provider_class = GTH_METADATA_PROVIDER_CLASS (klass);
+	metadata_provider_class->can_read = gth_metadata_provider_gstreamer_can_read;
+	metadata_provider_class->read = gth_metadata_provider_gstreamer_read;
 }
 
 
-GType
-gth_metadata_provider_gstreamer_get_type (void)
+static void
+gth_metadata_provider_gstreamer_init (GthMetadataProviderGstreamer *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMetadataProviderGstreamerClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_provider_gstreamer_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataProviderGstreamer),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
-					       "GthMetadataProviderGstreamer",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	/* void */
 }

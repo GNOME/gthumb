@@ -23,6 +23,9 @@
 #include "gth-rename-task.h"
 
 
+G_DEFINE_TYPE (GthRenameTask, gth_rename_task, GTH_TYPE_TASK)
+
+
 struct _GthRenameTaskPrivate {
 	GList                 *old_files;
 	GList                 *new_files;
@@ -34,9 +37,6 @@ struct _GthRenameTaskPrivate {
 	GFile                 *destination;
 	GthOverwriteResponse   default_response;
 };
-
-
-static gpointer parent_class = NULL;
 
 
 static void
@@ -51,7 +51,7 @@ gth_rename_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->old_files);
 	_g_object_list_unref (self->priv->new_files);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_rename_task_parent_class)->finalize (object);
 }
 
 
@@ -246,7 +246,6 @@ gth_rename_task_class_init (GthRenameTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthRenameTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -262,34 +261,6 @@ gth_rename_task_init (GthRenameTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_RENAME_TASK, GthRenameTaskPrivate);
 	self->priv->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
-}
-
-
-GType
-gth_rename_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthRenameTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_rename_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthRenameTask),
-			0,
-			(GInstanceInitFunc) gth_rename_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthRenameTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

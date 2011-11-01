@@ -26,7 +26,14 @@
 #include "facebook-photo.h"
 
 
-static gpointer facebook_photo_parent_class = NULL;
+static void facebook_photo_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FacebookPhoto,
+			 facebook_photo,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        facebook_photo_dom_domizable_interface_init))
 
 
 static void
@@ -48,7 +55,6 @@ facebook_photo_finalize (GObject *obj)
 static void
 facebook_photo_class_init (FacebookPhotoClass *klass)
 {
-	facebook_photo_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = facebook_photo_finalize;
 }
 
@@ -111,43 +117,9 @@ facebook_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-facebook_photo_instance_init (FacebookPhoto *self)
+facebook_photo_init (FacebookPhoto *self)
 {
-}
-
-
-GType
-facebook_photo_get_type (void)
-{
-	static GType facebook_photo_type_id = 0;
-
-	if (facebook_photo_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookPhotoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_photo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookPhoto),
-			0,
-			(GInstanceInitFunc) facebook_photo_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) facebook_photo_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		facebook_photo_type_id = g_type_register_static (G_TYPE_OBJECT,
-								  "FacebookPhoto",
-								  &g_define_type_info,
-								  0);
-		g_type_add_interface_static (facebook_photo_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return facebook_photo_type_id;
+	/* void */
 }
 
 

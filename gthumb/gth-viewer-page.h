@@ -31,17 +31,17 @@ G_BEGIN_DECLS
 #define GTH_TYPE_VIEWER_PAGE (gth_viewer_page_get_type ())
 #define GTH_VIEWER_PAGE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_VIEWER_PAGE, GthViewerPage))
 #define GTH_IS_VIEWER_PAGE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_VIEWER_PAGE))
-#define GTH_VIEWER_PAGE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_VIEWER_PAGE, GthViewerPageIface))
+#define GTH_VIEWER_PAGE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_VIEWER_PAGE, GthViewerPageInterface))
 
 typedef struct _GthViewerPage GthViewerPage;
-typedef struct _GthViewerPageIface GthViewerPageIface;
+typedef struct _GthViewerPageInterface GthViewerPageInterface;
 
 typedef void (*FileSavedFunc)  (GthViewerPage *viewer_page,
 				GthFileData   *file_data,
 				GError        *error,
 				gpointer       user_data);
 
-struct _GthViewerPageIface {
+struct _GthViewerPageInterface {
 	GTypeInterface parent_iface;
 
 	/*< virtual functions >*/

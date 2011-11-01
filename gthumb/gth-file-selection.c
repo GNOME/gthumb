@@ -31,8 +31,11 @@ enum {
 static guint gth_file_selection_signals[LAST_SIGNAL] = { 0 };
 
 
+G_DEFINE_INTERFACE (GthFileSelection, gth_file_selection, 0)
+
+
 static void
-gth_file_selection_base_init (gpointer g_class)
+gth_file_selection_default_init (GthFileSelectionInterface *iface)
 {
 	static gboolean initialized = FALSE;
 
@@ -41,40 +44,12 @@ gth_file_selection_base_init (gpointer g_class)
 			g_signal_new ("file-selection-changed",
 				      GTH_TYPE_FILE_SELECTION,
 				      G_SIGNAL_RUN_LAST,
-				      G_STRUCT_OFFSET (GthFileSelectionIface, file_selection_changed),
+				      G_STRUCT_OFFSET (GthFileSelectionInterface, file_selection_changed),
 				      NULL, NULL,
 				      g_cclosure_marshal_VOID__VOID,
 				      G_TYPE_NONE, 0);
 		initialized = TRUE;
 	}
-}
-
-
-GType
-gth_file_selection_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileSelectionIface),
-			(GBaseInitFunc) gth_file_selection_base_init,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (G_TYPE_INTERFACE,
-					       "GthFileSelection",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

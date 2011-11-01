@@ -28,9 +28,6 @@
 #include "gth-string-list.h"
 
 
-#define GTH_FILE_DATA_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_DATA, GthFileDataPrivate))
-
-
 const char *FileDataDigitalizationTags[] = {
 	"Exif::Photo::DateTimeOriginal",
 	"Xmp::exif::DateTimeOriginal",
@@ -51,7 +48,15 @@ struct _GthFileDataPrivate {
 	char     *sort_key;
 };
 
-static gpointer gth_file_data_parent_class = NULL;
+
+static void gth_file_data_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileData,
+			 gth_file_data,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+					 	gth_file_data_gth_duplicable_interface_init))
 
 
 static void
@@ -59,10 +64,8 @@ gth_file_data_finalize (GObject *obj)
 {
 	GthFileData *self = GTH_FILE_DATA (obj);
 
-	if (self->file != NULL)
-		g_object_unref (self->file);
-	if (self->info != NULL)
-		g_object_unref (self->info);
+	_g_object_unref (self->file);
+	_g_object_unref (self->info);
 	g_free (self->priv->sort_key);
 
 	G_OBJECT_CLASS (gth_file_data_parent_class)->finalize (obj);
@@ -72,18 +75,9 @@ gth_file_data_finalize (GObject *obj)
 static void
 gth_file_data_class_init (GthFileDataClass *klass)
 {
-	gth_file_data_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFileDataPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_file_data_finalize;
-}
-
-
-static void
-gth_file_data_instance_init (GthFileData *self)
-{
-	self->priv = GTH_FILE_DATA_GET_PRIVATE (self);
-	self->priv->dtime.tv_sec = 0;
 }
 
 
@@ -95,40 +89,20 @@ gth_file_data_real_duplicate (GthDuplicable *base)
 
 
 static void
-gth_file_data_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_file_data_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	iface->duplicate = gth_file_data_real_duplicate;
 }
 
 
-GType
-gth_file_data_get_type (void)
+static void
+gth_file_data_init (GthFileData *self)
 {
-	static GType gth_file_data_type_id = 0;
-
-	if (gth_file_data_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileDataClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_data_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileData),
-			0,
-			(GInstanceInitFunc) gth_file_data_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_file_data_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		gth_file_data_type_id = g_type_register_static (G_TYPE_OBJECT, "GthFileData", &g_define_type_info, 0);
-		g_type_add_interface_static (gth_file_data_type_id, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-	return gth_file_data_type_id;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_DATA, GthFileDataPrivate);
+	self->priv->dtime.tv_sec = 0;
+	self->priv->sort_key = NULL;
+	self->file = NULL;
+	self->info = NULL;
 }
 
 

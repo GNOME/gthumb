@@ -48,8 +48,6 @@ enum {
 	CHANNEL_COLUMN_SENSITIVE
 };
 
-static gpointer gth_histogram_view_parent_class = NULL;
-
 
 struct _GthHistogramViewPrivate {
 	GthHistogram        *histogram;
@@ -68,6 +66,9 @@ struct _GthHistogramViewPrivate {
 	guchar               tmp_selection_start;
 	guchar               tmp_selection_end;
 };
+
+
+G_DEFINE_TYPE (GthHistogramView, gth_histogram_view, GTK_TYPE_VBOX)
 
 
 static void
@@ -148,7 +149,6 @@ gth_histogram_view_class_init (GthHistogramViewClass *klass)
 {
 	GObjectClass   *object_class;
 
-	gth_histogram_view_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthHistogramViewPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -764,7 +764,7 @@ self_notify_scale_type_cb (GObject    *gobject,
 
 
 static void
-gth_histogram_view_instance_init (GthHistogramView *self)
+gth_histogram_view_init (GthHistogramView *self)
 {
 	GtkWidget       *box;
 	GtkWidget       *sub_box;
@@ -966,28 +966,6 @@ gth_histogram_view_instance_init (GthHistogramView *self)
 
 	gth_histogram_view_set_display_mode (self, GTH_HISTOGRAM_MODE_ALL_CHANNELS);
 	gth_histogram_view_set_scale_type (self, GTH_HISTOGRAM_SCALE_LINEAR);
-}
-
-
-GType
-gth_histogram_view_get_type (void) {
-	static GType gth_histogram_view_type_id = 0;
-	if (gth_histogram_view_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthHistogramViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_histogram_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthHistogramView),
-			0,
-			(GInstanceInitFunc) gth_histogram_view_instance_init,
-			NULL
-		};
-		gth_histogram_view_type_id = g_type_register_static (GTK_TYPE_VBOX, "GthHistogramView", &g_define_type_info, 0);
-	}
-	return gth_histogram_view_type_id;
 }
 
 

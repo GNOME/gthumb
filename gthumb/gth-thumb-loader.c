@@ -72,7 +72,7 @@ enum {
 };
 
 
-static GObjectClass *parent_class = NULL;
+G_DEFINE_TYPE (GthThumbLoader, gth_thumb_loader, G_TYPE_OBJECT)
 
 
 static void
@@ -84,7 +84,7 @@ gth_thumb_loader_finalize (GObject *object)
 	_g_object_unref (self->priv->iloader);
 	_g_object_unref (self->priv->tloader);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_thumb_loader_parent_class)->finalize (object);
 }
 
 
@@ -93,7 +93,6 @@ gth_thumb_loader_class_init (GthThumbLoaderClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthThumbLoaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -108,34 +107,6 @@ gth_thumb_loader_init (GthThumbLoader *self)
 	self->priv->use_cache = TRUE;
 	self->priv->save_thumbnails = TRUE;
 	self->priv->max_file_size = 0;
-}
-
-
-GType
-gth_thumb_loader_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthThumbLoaderClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_thumb_loader_class_init,
-			NULL,
-			NULL,
-			sizeof (GthThumbLoader),
-			0,
-			(GInstanceInitFunc) gth_thumb_loader_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthThumbLoader",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

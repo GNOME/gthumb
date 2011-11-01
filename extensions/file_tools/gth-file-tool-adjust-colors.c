@@ -30,7 +30,7 @@
 #define APPLY_DELAY 150
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileToolAdjustColors, gth_file_tool_adjust_colors, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolAdjustColorsPrivate {
@@ -519,7 +519,7 @@ gth_file_tool_adjust_colors_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_adjust_colors_instance_init (GthFileToolAdjustColors *self)
+gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
 	self->priv->histogram = gth_histogram_new ();
@@ -544,8 +544,7 @@ gth_file_tool_adjust_colors_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->histogram);
 
-	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_adjust_colors_parent_class)->finalize (object);
 }
 
 
@@ -555,7 +554,6 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *class)
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthFileToolAdjustColorsPrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -566,26 +564,4 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *class)
 	file_tool_class->activate = gth_file_tool_adjust_colors_activate;
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
-}
-
-
-GType
-gth_file_tool_adjust_colors_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolAdjustColorsClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_adjust_colors_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolAdjustColors),
-			0,
-			(GInstanceInitFunc) gth_file_tool_adjust_colors_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolAdjustColors", &g_define_type_info, 0);
-	}
-	return type_id;
 }

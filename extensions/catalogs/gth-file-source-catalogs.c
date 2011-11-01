@@ -37,7 +37,7 @@ struct _GthFileSourceCatalogsPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileSourceCatalogs, gth_file_source_catalogs, GTH_TYPE_FILE_SOURCE)
 
 
 static GList *
@@ -1416,7 +1416,7 @@ gth_file_source_catalogs_finalize (GObject *object)
 		catalogs->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_source_catalogs_parent_class)->finalize (object);
 }
 
 
@@ -1426,11 +1426,10 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	GObjectClass       *object_class;
 	GthFileSourceClass *file_source_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-	file_source_class = (GthFileSourceClass*) class;
-
 	object_class->finalize = gth_file_source_catalogs_finalize;
+
+	file_source_class = (GthFileSourceClass*) class;
 	file_source_class->get_entry_points = get_entry_points;
 	file_source_class->to_gio_file = gth_file_source_catalogs_to_gio_file;
 	file_source_class->get_file_info = gth_file_source_catalogs_get_file_info;
@@ -1453,32 +1452,4 @@ gth_file_source_catalogs_init (GthFileSourceCatalogs *catalogs)
 
 	catalogs->priv = g_new0 (GthFileSourceCatalogsPrivate, 1);
 	catalogs->priv->catalog = gth_catalog_new ();
-}
-
-
-GType
-gth_file_source_catalogs_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFileSourceCatalogsClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_source_catalogs_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileSourceCatalogs),
-			0,
-			(GInstanceInitFunc) gth_file_source_catalogs_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_FILE_SOURCE,
-					       "GthFileSourceCatalogs",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }

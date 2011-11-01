@@ -32,7 +32,7 @@
 /* -- gth_extension --  */
 
 
-static gpointer gth_extension_parent_class = NULL;
+G_DEFINE_TYPE (GthExtension, gth_extension, G_TYPE_OBJECT)
 
 
 static gboolean
@@ -89,8 +89,6 @@ gth_extension_base_configure (GthExtension *self,
 static void
 gth_extension_class_init (GthExtensionClass *klass)
 {
-	gth_extension_parent_class = g_type_class_peek_parent (klass);
-
 	klass->open = gth_extension_base_open;
 	klass->close = gth_extension_base_close;
 	klass->activate = gth_extension_base_activate;
@@ -101,33 +99,10 @@ gth_extension_class_init (GthExtensionClass *klass)
 
 
 static void
-gth_extension_instance_init (GthExtension *self)
+gth_extension_init (GthExtension *self)
 {
 	self->initialized = FALSE;
 	self->active = FALSE;
-}
-
-
-GType
-gth_extension_get_type (void)
-{
-	static GType gth_extension_type_id = 0;
-	if (gth_extension_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthExtensionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_extension_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthExtension),
-			0,
-			(GInstanceInitFunc) gth_extension_instance_init,
-			NULL
-		};
-		gth_extension_type_id = g_type_register_static (G_TYPE_OBJECT, "GthExtension", &g_define_type_info, 0);
-	}
-	return gth_extension_type_id;
 }
 
 
@@ -194,7 +169,7 @@ struct _GthExtensionModulePrivate {
 };
 
 
-static gpointer gth_extension_module_parent_class = NULL;
+G_DEFINE_TYPE (GthExtensionModule, gth_extension_module, GTH_TYPE_EXTENSION)
 
 
 static gboolean
@@ -379,7 +354,6 @@ gth_extension_module_class_init (GthExtensionModuleClass *klass)
 {
 	GthExtensionClass *elc;
 
-	gth_extension_module_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthExtensionModulePrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_module_finalize;
@@ -395,32 +369,9 @@ gth_extension_module_class_init (GthExtensionModuleClass *klass)
 
 
 static void
-gth_extension_module_instance_init (GthExtensionModule *self)
+gth_extension_module_init (GthExtensionModule *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_MODULE, GthExtensionModulePrivate);
-}
-
-
-GType
-gth_extension_module_get_type (void)
-{
-	static GType gth_extension_module_type_id = 0;
-	if (gth_extension_module_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthExtensionModuleClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_extension_module_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthExtensionModule),
-			0,
-			(GInstanceInitFunc) gth_extension_module_instance_init,
-			NULL
-		};
-		gth_extension_module_type_id = g_type_register_static (GTH_TYPE_EXTENSION, "GthExtensionModule", &g_define_type_info, 0);
-	}
-	return gth_extension_module_type_id;
 }
 
 
@@ -445,7 +396,7 @@ struct _GthExtensionDescriptionPrivate {
 };
 
 
-static gpointer gth_extension_description_parent_class = NULL;
+G_DEFINE_TYPE (GthExtensionDescription, gth_extension_description, G_TYPE_OBJECT)
 
 
 static void
@@ -477,42 +428,17 @@ gth_extension_description_finalize (GObject *obj)
 static void
 gth_extension_description_class_init (GthExtensionDescriptionClass *klass)
 {
-	gth_extension_description_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthExtensionDescriptionPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_description_finalize;
 }
 
 
 static void
-gth_extension_description_instance_init (GthExtensionDescription *self)
+gth_extension_description_init (GthExtensionDescription *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_DESCRIPTION, GthExtensionDescriptionPrivate);
 	self->priv->opened = FALSE;
 	self->priv->extension = NULL;
-}
-
-
-GType
-gth_extension_description_get_type (void)
-{
-	static GType gth_extension_description_type_id = 0;
-	if (gth_extension_description_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthExtensionDescriptionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_extension_description_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthExtensionDescription),
-			0,
-			(GInstanceInitFunc) gth_extension_description_instance_init,
-			NULL
-		};
-		gth_extension_description_type_id = g_type_register_static (G_TYPE_OBJECT, "GthExtensionDescription", &g_define_type_info, 0);
-	}
-	return gth_extension_description_type_id;
 }
 
 
@@ -586,12 +512,12 @@ gth_extension_description_get_extension (GthExtensionDescription *desc)
 /* -- gth_extension_manager --  */
 
 
-static gpointer gth_extension_manager_parent_class = NULL;
-
-
 struct _GthExtensionManagerPrivate {
 	GHashTable *extensions;
 };
+
+
+G_DEFINE_TYPE (GthExtensionManager, gth_extension_manager, G_TYPE_OBJECT)
 
 
 static void
@@ -611,40 +537,16 @@ gth_extension_manager_finalize (GObject *obj)
 static void
 gth_extension_manager_class_init (GthExtensionManagerClass *klass)
 {
-	gth_extension_manager_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthExtensionManagerPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_manager_finalize;
 }
 
 
 static void
-gth_extension_manager_instance_init (GthExtensionManager *self)
+gth_extension_manager_init (GthExtensionManager *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_MANAGER, GthExtensionManagerPrivate);
 	self->priv->extensions = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-}
-
-
-GType
-gth_extension_manager_get_type (void) {
-	static GType gth_extension_manager_type_id = 0;
-	if (gth_extension_manager_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthExtensionManagerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_extension_manager_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthExtensionManager),
-			0,
-			(GInstanceInitFunc) gth_extension_manager_instance_init,
-			NULL
-		};
-		gth_extension_manager_type_id = g_type_register_static (G_TYPE_OBJECT, "GthExtensionManager", &g_define_type_info, 0);
-	}
-	return gth_extension_manager_type_id;
 }
 
 

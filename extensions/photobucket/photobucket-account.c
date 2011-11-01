@@ -26,7 +26,14 @@
 #include "photobucket-account.h"
 
 
-static gpointer photobucket_account_parent_class = NULL;
+static void photobucket_account_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (PhotobucketAccount,
+			 photobucket_account,
+			 OAUTH_TYPE_ACCOUNT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        photobucket_account_dom_domizable_interface_init))
 
 
 static void
@@ -47,7 +54,6 @@ photobucket_account_finalize (GObject *obj)
 static void
 photobucket_account_class_init (PhotobucketAccountClass *klass)
 {
-	photobucket_account_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = photobucket_account_finalize;
 }
 
@@ -113,48 +119,13 @@ photobucket_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-photobucket_account_instance_init (PhotobucketAccount *self)
+photobucket_account_init (PhotobucketAccount *self)
 {
 	self->subdomain = NULL;
 	self->home_url = NULL;
 	self->album_url = NULL;
 	self->is_premium = FALSE;
 	self->is_public = TRUE;
-}
-
-
-GType
-photobucket_account_get_type (void)
-{
-	static GType photobucket_account_type_id = 0;
-
-	if (photobucket_account_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PhotobucketAccountClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) photobucket_account_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PhotobucketAccount),
-			0,
-			(GInstanceInitFunc) photobucket_account_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) photobucket_account_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		photobucket_account_type_id = g_type_register_static (OAUTH_TYPE_ACCOUNT,
-								      "PhotobucketAccount",
-								      &g_define_type_info,
-								      0);
-		g_type_add_interface_static (photobucket_account_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return photobucket_account_type_id;
 }
 
 

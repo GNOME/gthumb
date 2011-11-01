@@ -39,9 +39,6 @@ enum {
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthFilterEditorDialogPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *match_type_combobox;
@@ -51,6 +48,9 @@ struct _GthFilterEditorDialogPrivate {
   	char       *filter_id;
   	gboolean    filter_visible;
 };
+
+
+G_DEFINE_TYPE (GthFilterEditorDialog, gth_filter_editor_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -67,7 +67,7 @@ gth_filter_editor_dialog_finalize (GObject *object)
 		dialog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_filter_editor_dialog_parent_class)->finalize (object);
 }
 
 
@@ -76,9 +76,7 @@ gth_filter_editor_dialog_class_init (GthFilterEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_filter_editor_dialog_finalize;
 }
 
@@ -87,34 +85,6 @@ static void
 gth_filter_editor_dialog_init (GthFilterEditorDialog *dialog)
 {
 	dialog->priv = g_new0 (GthFilterEditorDialogPrivate, 1);
-}
-
-
-GType
-gth_filter_editor_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthFilterEditorDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_filter_editor_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFilterEditorDialog),
-			0,
-			(GInstanceInitFunc) gth_filter_editor_dialog_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthFilterEditorDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

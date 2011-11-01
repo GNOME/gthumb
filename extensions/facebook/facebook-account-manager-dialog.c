@@ -34,12 +34,12 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _FacebookAccountManagerDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE (FacebookAccountManagerDialog, facebook_account_manager_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -51,7 +51,7 @@ facebook_account_manager_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_account_manager_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ facebook_account_manager_dialog_class_init (FacebookAccountManagerDialogClass *k
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FacebookAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -157,34 +156,6 @@ facebook_account_manager_dialog_init (FacebookAccountManagerDialog *self)
 			  "clicked",
 			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
-}
-
-
-GType
-facebook_account_manager_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookAccountManagerDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_account_manager_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookAccountManagerDialog),
-			0,
-			(GInstanceInitFunc) facebook_account_manager_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FacebookAccountManagerDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -54,9 +54,19 @@ enum {
 	PROP_MENU
 };
 
-static gpointer parent_class = NULL;
+
 static GtkActivatableIface *parent_activatable_iface;
 static int signals[LAST_SIGNAL];
+
+
+static void gth_toggle_menu_tool_button_gtk_activable_interface_init (GtkActivatableIface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthToggleMenuToolButton,
+			 gth_toggle_menu_tool_button,
+			 GTK_TYPE_TOOL_ITEM,
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_ACTIVATABLE,
+					 	gth_toggle_menu_tool_button_gtk_activable_interface_init))
 
 
 gchar *
@@ -366,7 +376,7 @@ gth_toggle_menu_tool_button_update_icon_spacing (GthToggleMenuToolButton *button
 static void
 gth_toggle_menu_tool_button_style_updated (GtkWidget *widget)
 {
-	GTK_WIDGET_CLASS (parent_class)->style_updated (widget);
+	GTK_WIDGET_CLASS (gth_toggle_menu_tool_button_parent_class)->style_updated (widget);
 	gth_toggle_menu_tool_button_update_icon_spacing (GTH_TOGGLE_MENU_TOOL_BUTTON (widget));
 }
 
@@ -448,8 +458,8 @@ gth_toggle_menu_tool_button_property_notify (GObject    *object,
 	if (button->priv->contents_invalid || strcmp ("is-important", pspec->name) == 0)
 		gth_toggle_menu_tool_button_construct_contents (GTK_TOOL_ITEM (object));
 
-	if (G_OBJECT_CLASS (parent_class)->notify)
-		G_OBJECT_CLASS (parent_class)->notify (object, pspec);
+	if (G_OBJECT_CLASS (gth_toggle_menu_tool_button_parent_class)->notify)
+		G_OBJECT_CLASS (gth_toggle_menu_tool_button_parent_class)->notify (object, pspec);
 }
 
 
@@ -611,7 +621,7 @@ gth_toggle_menu_tool_button_finalize (GObject *object)
 		button->priv->toggle_button = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_toggle_menu_tool_button_parent_class)->finalize (object);
 }
 
 
@@ -682,7 +692,6 @@ gth_toggle_menu_tool_button_class_init (GthToggleMenuToolButtonClass *klass)
 	GtkWidgetClass   *widget_class;
 	GtkToolItemClass *tool_item_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthToggleMenuToolButtonPrivate));
 
 	object_class = (GObjectClass *) klass;
@@ -874,40 +883,6 @@ gth_toggle_menu_tool_button_gtk_activable_interface_init (GtkActivatableIface *i
 	parent_activatable_iface = g_type_interface_peek_parent (iface);
 	iface->update = gth_toggle_menu_tool_button_update;
 	iface->sync_action_properties = gth_toggle_menu_tool_button_sync_action_properties;
-}
-
-
-GType
-gth_toggle_menu_tool_button_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthToggleMenuToolButtonClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_toggle_menu_tool_button_class_init,
-			NULL,
-			NULL,
-			sizeof (GthToggleMenuToolButton),
-			0,
-			(GInstanceInitFunc) gth_toggle_menu_tool_button_init
-		};
-		static const GInterfaceInfo gtk_activable_info = {
-			(GInterfaceInitFunc) gth_toggle_menu_tool_button_gtk_activable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (GTK_TYPE_TOOL_ITEM,
-					       "GthToggleMenuToolButton",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTK_TYPE_ACTIVATABLE, &gtk_activable_info);
-	}
-
-        return type;
 }
 
 

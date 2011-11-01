@@ -50,8 +50,10 @@ struct _GthMonitorPrivateData {
 };
 
 
-static GObjectClass *parent_class = NULL;
 static guint monitor_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthMonitor, gth_monitor, G_TYPE_OBJECT)
 
 
 static void
@@ -61,7 +63,7 @@ gth_monitor_finalize (GObject *object)
 
 	g_hash_table_unref (self->priv->paused_files);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_monitor_parent_class)->finalize (object);
 }
 
 
@@ -79,7 +81,6 @@ gth_monitor_class_init (GthMonitorClass *class)
 {
 	GObjectClass  *gobject_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthMonitorPrivateData));
 
 	gobject_class = (GObjectClass*) class;
@@ -175,34 +176,6 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      2,
 			      G_TYPE_OBJECT,
 			      G_TYPE_POINTER);
-}
-
-
-GType
-gth_monitor_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMonitorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_monitor_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMonitor),
-			0,
-			(GInstanceInitFunc) gth_monitor_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthMonitor",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

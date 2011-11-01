@@ -59,7 +59,7 @@ struct _GthOrganizeTaskPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthOrganizeTask, gth_organize_task, GTH_TYPE_TASK)
 
 
 static void
@@ -77,7 +77,7 @@ gth_organize_task_finalize (GObject *object)
 	g_object_unref (self->priv->icon_pixbuf);
 	g_object_unref (self->priv->filter);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_organize_task_parent_class)->finalize (object);
 }
 
 
@@ -628,7 +628,6 @@ gth_organize_task_class_init (GthOrganizeTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthOrganizeTaskPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -834,34 +833,6 @@ gth_organize_task_init (GthOrganizeTask *self)
 			  "clicked",
 			  G_CALLBACK (select_none_button_clicked_cb),
 			  self);
-}
-
-
-GType
-gth_organize_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthOrganizeTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_organize_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthOrganizeTask),
-			0,
-			(GInstanceInitFunc) gth_organize_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthOrganizeTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

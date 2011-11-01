@@ -30,7 +30,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileToolCrop, gth_file_tool_crop, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolCropPrivate {
@@ -589,7 +589,7 @@ gth_file_tool_crop_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_crop_instance_init (GthFileToolCrop *self)
+gth_file_tool_crop_init (GthFileToolCrop *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-crop", _("Crop..."), _("Crop"), FALSE);
@@ -610,7 +610,7 @@ gth_file_tool_crop_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_crop_parent_class)->finalize (object);
 }
 
 
@@ -620,7 +620,6 @@ gth_file_tool_crop_class_init (GthFileToolCropClass *class)
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthFileToolCropPrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -631,26 +630,4 @@ gth_file_tool_crop_class_init (GthFileToolCropClass *class)
 	file_tool_class->activate = gth_file_tool_crop_activate;
 	file_tool_class->get_options = gth_file_tool_crop_get_options;
 	file_tool_class->destroy_options = gth_file_tool_crop_destroy_options;
-}
-
-
-GType
-gth_file_tool_crop_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolCropClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_crop_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolCrop),
-			0,
-			(GInstanceInitFunc) gth_file_tool_crop_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolCrop", &g_define_type_info, 0);
-	}
-	return type_id;
 }

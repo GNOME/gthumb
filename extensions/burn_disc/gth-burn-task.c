@@ -51,7 +51,7 @@ struct _GthBurnTaskPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthBurnTask, gth_burn_task, GTH_TYPE_TASK)
 
 
 static void
@@ -64,7 +64,7 @@ free_file_list_from_content (gpointer key,
 
 
 static void
-gth_task_finalize (GObject *object)
+gth_burn_task_finalize (GObject *object)
 {
 	GthBurnTask *task;
 
@@ -88,7 +88,7 @@ gth_task_finalize (GObject *object)
 		task->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_burn_task_parent_class)->finalize (object);
 }
 
 
@@ -426,10 +426,8 @@ gth_burn_task_class_init (GthBurnTaskClass *class)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (class);
-
 	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_task_finalize;
+	object_class->finalize = gth_burn_task_finalize;
 
 	task_class = (GthTaskClass*) class;
 	task_class->exec = gth_burn_task_exec;
@@ -444,34 +442,6 @@ gth_burn_task_init (GthBurnTask *task)
 	task->priv->content = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	task->priv->parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_path_free);
 	task->priv->builder = NULL;
-}
-
-
-GType
-gth_burn_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthBurnTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_burn_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthBurnTask),
-			0,
-			(GInstanceInitFunc) gth_burn_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthBurnTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

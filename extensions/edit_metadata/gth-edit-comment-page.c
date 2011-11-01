@@ -41,9 +41,6 @@ typedef enum {
 } DateOption;
 
 
-static gpointer gth_edit_comment_page_parent_class = NULL;
-
-
 struct _GthEditCommentPagePrivate {
 	GFileInfo  *info;
 	GtkBuilder *builder;
@@ -52,6 +49,16 @@ struct _GthEditCommentPagePrivate {
 	GtkWidget  *tags_entry;
 	GTimeVal    current_date;
 };
+
+
+static void gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthEditCommentPage,
+			 gth_edit_comment_page,
+			 GTK_TYPE_VBOX,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_METADATA_PAGE,
+					 	gth_edit_comment_page_gth_edit_comment_page_interface_init))
 
 
 void
@@ -498,43 +505,9 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 
 
 static void
-gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageIface *iface)
+gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageInterface *iface)
 {
 	iface->set_file_list = gth_edit_comment_page_real_set_file_list;
 	iface->update_info = gth_edit_comment_page_real_update_info;
 	iface->get_name = gth_edit_comment_page_real_get_name;
-}
-
-
-GType
-gth_edit_comment_page_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthEditCommentPageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_edit_comment_page_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthEditCommentPage),
-			0,
-			(GInstanceInitFunc) gth_edit_comment_page_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_edit_comment_page_info = {
-			(GInterfaceInitFunc) gth_edit_comment_page_gth_edit_comment_page_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthEditCommentPage",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_EDIT_METADATA_PAGE, &gth_edit_comment_page_info);
-	}
-
-	return type;
 }

@@ -34,7 +34,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileToolRotate, gth_file_tool_rotate, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolRotatePrivate {
@@ -589,16 +589,6 @@ gth_file_tool_rotate_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_rotate_instance_init (GthFileToolRotate *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
-
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Freely rotate the image"));
-}
-
-
-static void
 gth_file_tool_rotate_finalize (GObject *object)
 {
 	GthFileToolRotate *self;
@@ -612,23 +602,22 @@ gth_file_tool_rotate_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_rotate_parent_class)->finalize (object);
 }
 
 
 static void
-gth_file_tool_rotate_class_init (GthFileToolRotateClass *class)
+gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 {
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (GthFileToolRotatePrivate));
+	g_type_class_add_private (klass, sizeof (GthFileToolRotatePrivate));
 
-	gobject_class = (GObjectClass*) class;
+	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_rotate_finalize;
 
-	file_tool_class = (GthFileToolClass *) class;
+	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->update_sensitivity = gth_file_tool_rotate_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_rotate_activate;
 	file_tool_class->get_options = gth_file_tool_rotate_get_options;
@@ -636,23 +625,11 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *class)
 }
 
 
-GType
-gth_file_tool_rotate_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolRotateClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_rotate_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolRotate),
-			0,
-			(GInstanceInitFunc) gth_file_tool_rotate_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolRotate", &g_define_type_info, 0);
-	}
-	return type_id;
+static void
+gth_file_tool_rotate_init (GthFileToolRotate *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
+
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Freely rotate the image"));
 }

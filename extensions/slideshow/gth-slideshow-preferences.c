@@ -25,6 +25,9 @@
 #include "gth-transition.h"
 
 
+G_DEFINE_TYPE (GthSlideshowPreferences, gth_slideshow_preferences, GTK_TYPE_VBOX)
+
+
 enum {
 	TRANSITION_COLUMN_ID,
 	TRANSITION_COLUMN_DISPLAY_NAME
@@ -44,25 +47,13 @@ struct _GthSlideshowPreferencesPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-
-
-static void
-gth_slideshow_preferences_init (GthSlideshowPreferences *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW_PREFERENCES, GthSlideshowPreferencesPrivate);
-	self->priv->builder = NULL;
-}
-
-
 static void
 gth_slideshow_preferences_finalize (GObject *object)
 {
 	GthSlideshowPreferences *self = GTH_SLIDESHOW_PREFERENCES (object);
 
 	g_object_unref (self->priv->builder);
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_slideshow_preferences_parent_class)->finalize (object);
 }
 
 
@@ -71,7 +62,6 @@ gth_slideshow_preferences_class_init (GthSlideshowPreferencesClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthSlideshowPreferencesPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -79,33 +69,12 @@ gth_slideshow_preferences_class_init (GthSlideshowPreferencesClass *klass)
 }
 
 
-GType
-gth_slideshow_preferences_get_type (void)
+static void
+gth_slideshow_preferences_init (GthSlideshowPreferences *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthSlideshowPreferencesClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_slideshow_preferences_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSlideshowPreferences),
-			0,
-			(GInstanceInitFunc) gth_slideshow_preferences_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthSlideshowPreferences",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW_PREFERENCES, GthSlideshowPreferencesPrivate);
+	self->priv->builder = NULL;
 }
-
 
 
 static void

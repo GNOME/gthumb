@@ -58,7 +58,7 @@ struct _GthCellRendererThumbnailPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthCellRendererThumbnail, gth_cell_renderer_thumbnail, GTK_TYPE_CELL_RENDERER)
 
 
 static void
@@ -68,14 +68,10 @@ gth_cell_renderer_thumbnail_finalize (GObject *object)
 
 	cell_renderer = GTH_CELL_RENDERER_THUMBNAIL (object);
 
-	if (cell_renderer->priv != NULL) {
-		_g_object_unref (cell_renderer->priv->thumbnail);
-		_g_object_unref (cell_renderer->priv->file);
-		g_free (cell_renderer->priv);
-		cell_renderer->priv = NULL;
-	}
+	_g_object_unref (cell_renderer->priv->thumbnail);
+	_g_object_unref (cell_renderer->priv->file);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_cell_renderer_thumbnail_parent_class)->finalize (object);
 }
 
 
@@ -167,12 +163,12 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
 				      int                *height)
 {
 	GthCellRendererThumbnail *self;
-	int   image_width;
-	int   image_height;
-	int   calc_width;
-	int   calc_height;
-	int   xpad;
-	int   ypad;
+	int                       image_width;
+	int                       image_height;
+	int                       calc_width;
+	int                       calc_height;
+	int                       xpad;
+	int                       ypad;
 
 	self = (GthCellRendererThumbnail *) cell;
 
@@ -413,13 +409,14 @@ gth_cell_renderer_thumbnail_class_init (GthCellRendererThumbnailClass *klass)
 	GObjectClass         *object_class;
 	GtkCellRendererClass *cell_renderer;
 
-	parent_class = g_type_class_peek_parent (klass);
-	object_class = G_OBJECT_CLASS (klass);
-	cell_renderer = GTK_CELL_RENDERER_CLASS (klass);
+	g_type_class_add_private (klass, sizeof (GthCellRendererThumbnailPrivate));
 
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_cell_renderer_thumbnail_finalize;
 	object_class->get_property = gth_cell_renderer_thumbnail_get_property;
 	object_class->set_property = gth_cell_renderer_thumbnail_set_property;
+
+	cell_renderer = GTK_CELL_RENDERER_CLASS (klass);
 	cell_renderer->get_size = gth_cell_renderer_thumbnail_get_size;
 	cell_renderer->render = gth_cell_renderer_thumbnail_render;
 
@@ -482,36 +479,14 @@ gth_cell_renderer_thumbnail_class_init (GthCellRendererThumbnailClass *klass)
 static void
 gth_cell_renderer_thumbnail_init (GthCellRendererThumbnail *self)
 {
-	self->priv = g_new0 (GthCellRendererThumbnailPrivate, 1);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CELL_RENDERER_THUMBNAIL, GthCellRendererThumbnailPrivate);
 	self->priv->size = DEFAULT_THUMBNAIL_SIZE;
+	self->priv->is_icon = FALSE;
+	self->priv->thumbnail = NULL;
+	self->priv->file = NULL;
 	self->priv->checked = TRUE;
-}
-
-
-GType
-gth_cell_renderer_thumbnail_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		GTypeInfo type_info = {
-			sizeof (GthCellRendererThumbnailClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_cell_renderer_thumbnail_class_init,
-			NULL,
-			NULL,
-			sizeof (GthCellRendererThumbnail),
-			0,
-			(GInstanceInitFunc) gth_cell_renderer_thumbnail_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
-					       "GthCellRendererThumbnail",
-					       &type_info,
-					       0);
-	}
-	return type;
+	self->priv->selected = FALSE;
+	self->priv->fixed_size = TRUE;
 }
 
 

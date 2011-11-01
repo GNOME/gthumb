@@ -26,7 +26,14 @@
 #include "facebook-album.h"
 
 
-static gpointer facebook_album_parent_class = NULL;
+static void facebook_album_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FacebookAlbum,
+			 facebook_album,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        facebook_album_dom_domizable_interface_init))
 
 
 static void
@@ -49,7 +56,6 @@ facebook_album_finalize (GObject *obj)
 static void
 facebook_album_class_init (FacebookAlbumClass *klass)
 {
-	facebook_album_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = facebook_album_finalize;
 }
 
@@ -149,7 +155,7 @@ facebook_album_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-facebook_album_instance_init (FacebookAlbum *self)
+facebook_album_init (FacebookAlbum *self)
 {
 	self->id = NULL;
 	self->name = NULL;
@@ -158,41 +164,6 @@ facebook_album_instance_init (FacebookAlbum *self)
 	self->link = NULL;
 	self->size = 0;
 	self->visibility = FACEBOOK_VISIBILITY_SELF;
-}
-
-
-GType
-facebook_album_get_type (void)
-{
-	static GType facebook_album_type_id = 0;
-
-	if (facebook_album_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookAlbumClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_album_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookAlbum),
-			0,
-			(GInstanceInitFunc) facebook_album_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) facebook_album_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		facebook_album_type_id = g_type_register_static (G_TYPE_OBJECT,
-								 "FacebookAlbum",
-								 &g_define_type_info,
-								 0);
-		g_type_add_interface_static (facebook_album_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return facebook_album_type_id;
 }
 
 

@@ -63,8 +63,10 @@ struct _GthFilterbarPrivate
 };
 
 
-static GtkHBoxClass *parent_class = NULL;
 static guint gth_filterbar_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthFilterbar, gth_filterbar, GTK_TYPE_HBOX)
 
 
 static void
@@ -82,7 +84,7 @@ gth_filterbar_finalize (GObject *object)
 		filterbar->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_filterbar_parent_class)->finalize (object);
 }
 
 
@@ -90,8 +92,6 @@ static void
 gth_filterbar_class_init (GthFilterbarClass *class)
 {
 	GObjectClass   *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_filterbar_finalize;
@@ -426,34 +426,6 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->test_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->control_box, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (filterbar), button, FALSE, FALSE, 0);
-}
-
-
-GType
-gth_filterbar_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFilterbarClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_filterbar_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFilterbar),
-			0,
-			(GInstanceInitFunc) gth_filterbar_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_HBOX,
-					       "GthFilterbar",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

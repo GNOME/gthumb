@@ -24,6 +24,9 @@
 #include "gth-file-tool-save-as.h"
 
 
+G_DEFINE_TYPE (GthFileToolSaveAs, gth_file_tool_save_as, GTH_TYPE_FILE_TOOL)
+
+
 static void
 gth_file_tool_save_as_update_sensitivity (GthFileTool *base)
 {
@@ -51,37 +54,18 @@ gth_file_tool_save_as_activate (GthFileTool *tool)
 
 
 static void
-gth_file_tool_save_as_instance_init (GthFileToolSaveAs *self)
+gth_file_tool_save_as_class_init (GthFileToolSaveAsClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_SAVE_AS, _("Save As"), NULL, FALSE);
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = (GthFileToolClass *) klass;
+	file_tool_class->update_sensitivity = gth_file_tool_save_as_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_save_as_activate;
 }
 
 
 static void
-gth_file_tool_save_as_class_init (GthFileToolClass *klass)
+gth_file_tool_save_as_init (GthFileToolSaveAs *self)
 {
-	klass->update_sensitivity = gth_file_tool_save_as_update_sensitivity;
-	klass->activate = gth_file_tool_save_as_activate;
-}
-
-
-GType
-gth_file_tool_save_as_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolSaveAsClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_save_as_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolSaveAs),
-			0,
-			(GInstanceInitFunc) gth_file_tool_save_as_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolSaveAs", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_SAVE_AS, _("Save As"), NULL, FALSE);
 }

@@ -26,7 +26,14 @@
 #include "flickr-photoset.h"
 
 
-static gpointer flickr_photoset_parent_class = NULL;
+static void flickr_photoset_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FlickrPhotoset,
+			 flickr_photoset,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        flickr_photoset_dom_domizable_interface_init))
 
 
 static void
@@ -51,7 +58,6 @@ flickr_photoset_finalize (GObject *obj)
 static void
 flickr_photoset_class_init (FlickrPhotosetClass *klass)
 {
-	flickr_photoset_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = flickr_photoset_finalize;
 }
 
@@ -131,7 +137,7 @@ flickr_photoset_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-flickr_photoset_instance_init (FlickrPhotoset *self)
+flickr_photoset_init (FlickrPhotoset *self)
 {
 	self->id = NULL;
 	self->title = NULL;
@@ -141,41 +147,6 @@ flickr_photoset_instance_init (FlickrPhotoset *self)
 	self->server = NULL;
 	self->farm = NULL;
 	self->url = NULL;
-}
-
-
-GType
-flickr_photoset_get_type (void)
-{
-	static GType flickr_photoset_type_id = 0;
-
-	if (flickr_photoset_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrPhotosetClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_photoset_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrPhotoset),
-			0,
-			(GInstanceInitFunc) flickr_photoset_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) flickr_photoset_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		flickr_photoset_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FlickrPhotoset",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (flickr_photoset_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return flickr_photoset_type_id;
 }
 
 

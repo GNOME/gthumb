@@ -53,8 +53,10 @@ struct _FlickrAuthenticationPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
 static guint flickr_authentication_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (FlickrAuthentication, flickr_authentication, G_TYPE_OBJECT)
 
 
 static void
@@ -69,7 +71,7 @@ flickr_authentication_finalize (GObject *object)
 	_g_object_list_unref (self->priv->accounts);
 	_g_object_unref (self->priv->account);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (flickr_authentication_parent_class)->finalize (object);
 }
 
 
@@ -78,7 +80,6 @@ flickr_authentication_class_init (FlickrAuthenticationClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (FlickrAuthenticationPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -115,34 +116,6 @@ flickr_authentication_init (FlickrAuthentication *self)
 	self->priv->conn = NULL;
 	self->priv->accounts = NULL;
 	self->priv->account = NULL;
-}
-
-
-GType
-flickr_authentication_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) flickr_authentication_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTask),
-			0,
-			(GInstanceInitFunc) flickr_authentication_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "FlickrAuthentication",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

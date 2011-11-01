@@ -28,6 +28,19 @@
 #define SEARCH_FORMAT "1.0"
 
 
+static void gth_search_dom_domizable_interface_init (DomDomizableInterface *iface);
+static void gth_search_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthSearch,
+			 gth_search,
+			 GTH_TYPE_CATALOG,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        gth_search_dom_domizable_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+		        		        gth_search_gth_duplicable_interface_init))
+
+
 struct _GthSearchPrivate {
 	GFile        *folder;
 	gboolean      recursive;
@@ -35,9 +48,8 @@ struct _GthSearchPrivate {
 };
 
 
-static gpointer           *parent_class = NULL;
 static DomDomizableInterface  *dom_domizable_parent_iface = NULL;
-static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
+static GthDuplicableInterface *gth_duplicable_parent_iface = NULL;
 
 
 static DomElement *
@@ -60,7 +72,7 @@ gth_search_read_from_doc (GthCatalog *base,
 	g_return_if_fail (DOM_IS_ELEMENT (root));
 
 	self = GTH_SEARCH (base);
-	GTH_CATALOG_CLASS (parent_class)->read_from_doc (GTH_CATALOG (self), root);
+	GTH_CATALOG_CLASS (gth_search_parent_class)->read_from_doc (GTH_CATALOG (self), root);
 
 	gth_search_set_test (self, NULL);
 	for (node = root->first_child; node; node = node->next_sibling) {
@@ -108,7 +120,7 @@ gth_search_write_to_doc (GthCatalog  *catalog,
 			 DomDocument *doc,
 			 DomElement  *root)
 {
-	GTH_CATALOG_CLASS (parent_class)->write_to_doc (catalog, doc, root);
+	GTH_CATALOG_CLASS (gth_search_parent_class)->write_to_doc (catalog, doc, root);
 	_gth_search_write_to_doc (GTH_SEARCH (catalog), doc, root);
 }
 
@@ -184,7 +196,7 @@ gth_search_finalize (GObject *object)
 		search->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_search_parent_class)->finalize (object);
 }
 
 
@@ -194,8 +206,6 @@ gth_search_class_init (GthSearchClass *class)
 	GObjectClass    *object_class;
 	GthCatalogClass *catalog_class;
 	
-	parent_class = g_type_class_peek_parent (class);
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_search_finalize;
 	
@@ -216,7 +226,7 @@ gth_search_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-gth_search_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_search_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	gth_duplicable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->duplicate = gth_search_real_duplicate;
@@ -227,46 +237,6 @@ static void
 gth_search_init (GthSearch *search)
 {
 	search->priv = g_new0 (GthSearchPrivate, 1);
-}
-
-
-GType
-gth_search_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthSearchClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_search_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSearch),
-			0,
-			(GInstanceInitFunc) gth_search_init
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) gth_search_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_search_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_CATALOG,
-					       "GthSearch",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-        return type;
 }
 
 

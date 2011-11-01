@@ -28,7 +28,7 @@ struct _GthDeleteTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthDeleteTask, gth_delete_task, GTH_TYPE_TASK)
 
 
 static void
@@ -40,7 +40,7 @@ gth_delete_task_finalize (GObject *object)
 
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_delete_task_parent_class)->finalize (object);
 }
 
 
@@ -76,7 +76,6 @@ gth_delete_task_class_init (GthDeleteTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthDeleteTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -91,34 +90,6 @@ static void
 gth_delete_task_init (GthDeleteTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DELETE_TASK, GthDeleteTaskPrivate);
-}
-
-
-GType
-gth_delete_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthDeleteTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_delete_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthDeleteTask),
-			0,
-			(GInstanceInitFunc) gth_delete_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthDeleteTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -26,7 +26,14 @@
 #include "flickr-user.h"
 
 
-static gpointer flickr_user_parent_class = NULL;
+static void flickr_user_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FlickrUser,
+			 flickr_user,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        flickr_user_dom_domizable_interface_init))
 
 
 static void
@@ -46,12 +53,11 @@ flickr_user_finalize (GObject *obj)
 static void
 flickr_user_class_init (FlickrUserClass *klass)
 {
-	flickr_user_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = flickr_user_finalize;
 }
 
 
-static DomElement*
+static DomElement *
 flickr_user_create_element (DomDomizable *base,
 			    DomDocument  *doc)
 {
@@ -113,45 +119,10 @@ flickr_user_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-flickr_user_instance_init (FlickrUser *self)
+flickr_user_init (FlickrUser *self)
 {
 	self->id = NULL;
 	self->username = NULL;
-}
-
-
-GType
-flickr_user_get_type (void)
-{
-	static GType flickr_user_type_id = 0;
-
-	if (flickr_user_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrUserClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_user_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrUser),
-			0,
-			(GInstanceInitFunc) flickr_user_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) flickr_user_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		flickr_user_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FlickrUser",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (flickr_user_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return flickr_user_type_id;
 }
 
 

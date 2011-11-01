@@ -31,7 +31,14 @@ struct _GthImageDraggerPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+static void gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageDragger,
+			 gth_image_dragger,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+					        gth_image_dragger_gth_image_tool_interface_init))
 
 
 static void
@@ -41,7 +48,7 @@ gth_image_dragger_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_IMAGE_DRAGGER (object));
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_dragger_parent_class)->finalize (object);
 }
 
 
@@ -50,7 +57,6 @@ gth_image_dragger_class_init (GthImageDraggerClass *class)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageDraggerPrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -59,7 +65,7 @@ gth_image_dragger_class_init (GthImageDraggerClass *class)
 
 
 static void
-gth_image_dragger_instance_init (GthImageDragger *dragger)
+gth_image_dragger_init (GthImageDragger *dragger)
 {
 	dragger->priv = G_TYPE_INSTANCE_GET_PRIVATE (dragger, GTH_TYPE_IMAGE_DRAGGER, GthImageDraggerPrivate);
 }
@@ -283,7 +289,7 @@ gth_image_dragger_zoom_changed (GthImageViewerTool *self)
 
 
 static void
-gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
+gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolInterface *iface)
 {
 	iface->set_viewer = gth_image_dragger_set_viewer;
 	iface->unset_viewer = gth_image_dragger_unset_viewer;
@@ -298,40 +304,6 @@ gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 	iface->motion_notify = gth_image_dragger_motion_notify;
 	iface->image_changed = gth_image_dragger_image_changed;
 	iface->zoom_changed = gth_image_dragger_zoom_changed;
-}
-
-
-GType
-gth_image_dragger_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageDraggerClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_dragger_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageDragger),
-			0,
-			(GInstanceInitFunc) gth_image_dragger_instance_init
-		};
-		static const GInterfaceInfo gth_image_tool_info = {
-			(GInterfaceInitFunc) gth_image_dragger_gth_image_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageDragger",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
-	}
-
-	return type;
 }
 
 

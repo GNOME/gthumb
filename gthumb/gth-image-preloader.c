@@ -81,8 +81,10 @@ struct _GthImagePreloaderPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_image_preloader_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthImagePreloader, gth_image_preloader, G_TYPE_OBJECT)
 
 
 /* -- Preloader -- */
@@ -226,7 +228,7 @@ gth_image_preloader_finalize (GObject *object)
 	_g_object_unref (self->priv->requested_file);
 	g_object_unref (self->priv->cancellable);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_preloader_parent_class)->finalize (object);
 }
 
 
@@ -235,7 +237,6 @@ gth_image_preloader_class_init (GthImagePreloaderClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImagePreloaderPrivate));
 
 	gth_image_preloader_signals[REQUESTED_READY] =
@@ -283,34 +284,6 @@ gth_image_preloader_init (GthImagePreloader *self)
 	self->priv->load_policy = GTH_LOAD_POLICY_ONE_STEP;
 	self->priv->cancellable = g_cancellable_new ();
 	self->priv->token = 0;
-}
-
-
-GType
-gth_image_preloader_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImagePreloaderClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_preloader_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImagePreloader),
-			0,
-			(GInstanceInitFunc) gth_image_preloader_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImagePreloader",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

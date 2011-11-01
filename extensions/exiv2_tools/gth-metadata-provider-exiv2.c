@@ -28,7 +28,7 @@
 #include "gth-metadata-provider-exiv2.h"
 
 
-static GthMetadataProviderClass *parent_class = NULL;
+G_DEFINE_TYPE (GthMetadataProviderExiv2, gth_metadata_provider_exiv2, GTH_TYPE_METADATA_PROVIDER)
 
 
 static gboolean
@@ -283,38 +283,18 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 static void
 gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GthMetadataProviderClass *mp_class;
 
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_exiv2_can_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_exiv2_can_write;
-	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_exiv2_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_exiv2_write;
+	mp_class = GTH_METADATA_PROVIDER_CLASS (klass);
+	mp_class->can_read = gth_metadata_provider_exiv2_can_read;
+	mp_class->can_write = gth_metadata_provider_exiv2_can_write;
+	mp_class->read = gth_metadata_provider_exiv2_read;
+	mp_class->write = gth_metadata_provider_exiv2_write;
 }
 
 
-GType
-gth_metadata_provider_exiv2_get_type (void)
+static void
+gth_metadata_provider_exiv2_init (GthMetadataProviderExiv2 *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMetadataProviderExiv2Class),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_provider_exiv2_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataProviderExiv2),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
-					       "GthMetadataProviderExiv2",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	/* void */
 }

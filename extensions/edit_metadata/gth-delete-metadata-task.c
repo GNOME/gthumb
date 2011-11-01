@@ -31,7 +31,7 @@ struct _GthDeleteMetadataTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthDeleteMetadataTask, gth_delete_metadata_task, GTH_TYPE_TASK)
 
 
 static void
@@ -44,7 +44,7 @@ gth_delete_metadata_task_finalize (GObject *object)
 	_g_object_unref (self->priv->file_data);
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_delete_metadata_task_parent_class)->finalize (object);
 }
 
 
@@ -165,7 +165,6 @@ gth_delete_metadata_task_class_init (GthDeleteMetadataTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthDeleteMetadataTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -181,34 +180,6 @@ gth_delete_metadata_task_init (GthDeleteMetadataTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DELETE_METADATA_TASK, GthDeleteMetadataTaskPrivate);
 	self->priv->file_data = NULL;
-}
-
-
-GType
-gth_delete_metadata_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthDeleteMetadataTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_delete_metadata_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthDeleteMetadataTask),
-			0,
-			(GInstanceInitFunc) gth_delete_metadata_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthDeleteMetadataTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -32,7 +32,7 @@ struct _GthReorderTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthReorderTask, gth_reorder_task, GTH_TYPE_TASK)
 
 
 static void
@@ -47,7 +47,7 @@ gth_reorder_task_finalize (GObject *object)
 	_g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->file_source);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_reorder_task_parent_class)->finalize (object);
 }
 
 
@@ -92,7 +92,6 @@ gth_reorder_task_class_init (GthReorderTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthReorderTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -108,34 +107,6 @@ static void
 gth_reorder_task_init (GthReorderTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_REORDER_TASK, GthReorderTaskPrivate);
-}
-
-
-GType
-gth_reorder_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthReorderTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_reorder_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthReorderTask),
-			0,
-			(GInstanceInitFunc) gth_reorder_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthReorderTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

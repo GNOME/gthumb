@@ -35,7 +35,7 @@ typedef struct {
 } Format;
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileChooserDialog, gth_file_chooser_dialog, GTK_TYPE_FILE_CHOOSER_DIALOG)
 
 
 struct _GthFileChooserDialogPrivate {
@@ -54,7 +54,7 @@ gth_file_chooser_dialog_finalize (GObject *object)
 	g_list_foreach (self->priv->supported_formats, (GFunc) g_free, NULL);
 	g_list_free (self->priv->supported_formats);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_chooser_dialog_parent_class)->finalize (object);
 }
 
 
@@ -63,7 +63,6 @@ gth_file_chooser_dialog_class_init (GthFileChooserDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthFileChooserDialogPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -76,34 +75,6 @@ gth_file_chooser_dialog_init (GthFileChooserDialog *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_CHOOSER_DIALOG, GthFileChooserDialogPrivate);
 	self->priv->supported_formats = NULL;
-}
-
-
-GType
-gth_file_chooser_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthFileChooserDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_chooser_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileChooserDialog),
-			0,
-			(GInstanceInitFunc) gth_file_chooser_dialog_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_FILE_CHOOSER_DIALOG,
-					       "GthFileChooserDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

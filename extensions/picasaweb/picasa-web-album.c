@@ -26,7 +26,14 @@
 #include "picasa-web-album.h"
 
 
-static gpointer picasa_web_album_parent_class = NULL;
+static void picasa_web_album_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (PicasaWebAlbum,
+			 picasa_web_album,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        picasa_web_album_dom_domizable_interface_init))
 
 
 static void
@@ -48,7 +55,6 @@ picasa_web_album_finalize (GObject *obj)
 static void
 picasa_web_album_class_init (PicasaWebAlbumClass *klass)
 {
-	picasa_web_album_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = picasa_web_album_finalize;
 }
 
@@ -178,43 +184,9 @@ picasa_web_album_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-picasa_web_album_instance_init (PicasaWebAlbum *self)
+picasa_web_album_init (PicasaWebAlbum *self)
 {
-}
-
-
-GType
-picasa_web_album_get_type (void)
-{
-	static GType picasa_web_album_type_id = 0;
-
-	if (picasa_web_album_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PicasaWebAlbumClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) picasa_web_album_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PicasaWebAlbum),
-			0,
-			(GInstanceInitFunc) picasa_web_album_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) picasa_web_album_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		picasa_web_album_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "PicasaWebAlbum",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (picasa_web_album_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return picasa_web_album_type_id;
+	/* void */
 }
 
 

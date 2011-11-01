@@ -31,8 +31,11 @@ enum {
 static guint gth_file_view_signals[LAST_SIGNAL] = { 0 };
 
 
+G_DEFINE_INTERFACE (GthFileView, gth_file_view, 0)
+
+
 static void
-gth_file_view_base_init (gpointer g_class)
+gth_file_view_default_init (GthFileViewInterface *iface)
 {
 	static gboolean initialized = FALSE;
 
@@ -41,41 +44,13 @@ gth_file_view_base_init (gpointer g_class)
 			g_signal_new ("file-activated",
 				      GTH_TYPE_FILE_VIEW,
 				      G_SIGNAL_RUN_LAST,
-				      G_STRUCT_OFFSET (GthFileViewIface, file_activated),
+				      G_STRUCT_OFFSET (GthFileViewInterface, file_activated),
 				      NULL, NULL,
 				      g_cclosure_marshal_VOID__BOXED,
 				      G_TYPE_NONE, 1,
 				      GTK_TYPE_TREE_PATH);
 		initialized = TRUE;
 	}
-}
-
-
-GType
-gth_file_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileViewIface),
-			(GBaseInitFunc) gth_file_view_base_init,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (G_TYPE_INTERFACE,
-					       "GthFileView",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

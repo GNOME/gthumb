@@ -29,7 +29,14 @@
 #include "oauth-account.h"
 
 
-static gpointer oauth_account_parent_class = NULL;
+static void oauth_account_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (OAuthAccount,
+			 oauth_account,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        oauth_account_dom_domizable_interface_init))
 
 
 static void
@@ -50,7 +57,6 @@ oauth_account_finalize (GObject *obj)
 static void
 oauth_account_class_init (OAuthAccountClass *klass)
 {
-	oauth_account_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = oauth_account_finalize;
 }
 
@@ -110,43 +116,9 @@ oauth_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-oauth_account_instance_init (OAuthAccount *self)
+oauth_account_init (OAuthAccount *self)
 {
-}
-
-
-GType
-oauth_account_get_type (void)
-{
-	static GType oauth_account_type_id = 0;
-
-	if (oauth_account_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (OAuthAccountClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) oauth_account_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (OAuthAccount),
-			0,
-			(GInstanceInitFunc) oauth_account_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) oauth_account_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		oauth_account_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "OAuthAccount",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (oauth_account_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return oauth_account_type_id;
+	/* void */
 }
 
 

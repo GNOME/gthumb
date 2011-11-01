@@ -52,8 +52,10 @@ struct _GthTestSelectorPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_test_selector_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthTestSelector, gth_test_selector, GTK_TYPE_HBOX)
 
 
 static void
@@ -70,15 +72,13 @@ gth_test_selector_finalize (GObject *object)
 		selector->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_test_selector_parent_class)->finalize (object);
 }
 
 
 static void
 gth_test_selector_class_init (GthTestSelectorClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
-
 	G_OBJECT_CLASS (klass)->finalize = gth_test_selector_finalize;
 
 	/* signals */
@@ -105,36 +105,9 @@ gth_test_selector_class_init (GthTestSelectorClass *klass)
 
 
 static void
-gth_test_selector_instance_init (GthTestSelector *self)
+gth_test_selector_init (GthTestSelector *self)
 {
 	self->priv = g_new0 (GthTestSelectorPrivate, 1);
-}
-
-
-GType
-gth_test_selector_get_type (void)
-{
-	static GType type_id = 0;
-
-	if (type_id == 0) {
-		static const GTypeInfo type_info = {
-			sizeof (GthTestSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_test_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthTestSelector),
-			0,
-			(GInstanceInitFunc) gth_test_selector_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTK_TYPE_HBOX,
-						  "GthTestSelector",
-						  &type_info,
-						  0);
-	}
-	return type_id;
 }
 
 

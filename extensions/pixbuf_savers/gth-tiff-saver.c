@@ -30,22 +30,13 @@
 #include "preferences.h"
 
 
+G_DEFINE_TYPE (GthTiffSaver, gth_tiff_saver, GTH_TYPE_PIXBUF_SAVER)
+
+
 struct _GthTiffSaverPrivate {
 	GtkBuilder *builder;
 	char       *default_ext;
 };
-
-
-static gpointer parent_class = NULL;
-
-
-static void
-gth_tiff_saver_init (GthTiffSaver *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIFF_SAVER, GthTiffSaverPrivate);
-	self->priv->builder = NULL;
-	self->priv->default_ext = NULL;
-}
 
 
 static void
@@ -56,7 +47,7 @@ gth_tiff_saver_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_tiff_saver_parent_class)->finalize (object);
 }
 
 
@@ -70,6 +61,7 @@ gth_tiff_saver_get_default_ext (GthPixbufSaver *base)
 
 	return self->priv->default_ext;
 }
+
 
 static GtkWidget *
 gth_tiff_saver_get_control (GthPixbufSaver *base)
@@ -531,7 +523,6 @@ gth_tiff_saver_class_init (GthTiffSaverClass *klass)
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTiffSaverPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -550,29 +541,10 @@ gth_tiff_saver_class_init (GthTiffSaverClass *klass)
 }
 
 
-GType
-gth_tiff_saver_get_type (void)
+static void
+gth_tiff_saver_init (GthTiffSaver *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTiffSaverClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_tiff_saver_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTiffSaver),
-			0,
-			(GInstanceInitFunc) gth_tiff_saver_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_PIXBUF_SAVER,
-					       "GthTiffSaver",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIFF_SAVER, GthTiffSaverPrivate);
+	self->priv->builder = NULL;
+	self->priv->default_ext = NULL;
 }

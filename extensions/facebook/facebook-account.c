@@ -29,7 +29,14 @@
 #include "facebook-account.h"
 
 
-static gpointer facebook_account_parent_class = NULL;
+static void facebook_account_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FacebookAccount,
+			 facebook_account,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        facebook_account_dom_domizable_interface_init))
 
 
 static void
@@ -51,7 +58,6 @@ facebook_account_finalize (GObject *obj)
 static void
 facebook_account_class_init (FacebookAccountClass *klass)
 {
-	facebook_account_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = facebook_account_finalize;
 }
 
@@ -118,48 +124,13 @@ facebook_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-facebook_account_instance_init (FacebookAccount *self)
+facebook_account_init (FacebookAccount *self)
 {
 	self->user_id = NULL;
 	self->username = NULL;
 	self->session_key = NULL;
 	self->secret = NULL;
 	self->is_default = FALSE;
-}
-
-
-GType
-facebook_account_get_type (void)
-{
-	static GType facebook_account_type_id = 0;
-
-	if (facebook_account_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookAccountClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_account_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookAccount),
-			0,
-			(GInstanceInitFunc) facebook_account_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) facebook_account_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		facebook_account_type_id = g_type_register_static (G_TYPE_OBJECT,
-								   "FacebookAccount",
-								   &g_define_type_info,
-								   0);
-		g_type_add_interface_static (facebook_account_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return facebook_account_type_id;
 }
 
 

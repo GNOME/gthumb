@@ -38,7 +38,7 @@ struct _GthSourceTreePrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthSourceTree, gth_source_tree, GTH_TYPE_FOLDER_TREE)
 
 
 /* -- monitor_event_data -- */
@@ -335,7 +335,7 @@ gth_source_tree_finalize (GObject *object)
 		source_tree->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_source_tree_parent_class)->finalize (object);
 }
 
 
@@ -344,38 +344,8 @@ gth_source_tree_class_init (GthSourceTreeClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	gobject_class = G_OBJECT_CLASS (klass);
-
 	gobject_class->finalize = gth_source_tree_finalize;
-}
-
-
-GType
-gth_source_tree_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthSourceTreeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_source_tree_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthSourceTree),
-			0,
-			(GInstanceInitFunc) gth_source_tree_init,
-			NULL
-		};
-		type = g_type_register_static (GTH_TYPE_FOLDER_TREE,
-					       "GthSourceTree",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

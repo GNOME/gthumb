@@ -26,8 +26,18 @@
 #include "gth-image-viewer-page.h"
 #include "preferences.h"
 
-#define GTH_IMAGE_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate))
+
 #define GCONF_NOTIFICATIONS 8
+
+
+static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageViewerPage,
+			 gth_image_viewer_page,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
+					        gth_viewer_page_interface_init))
 
 
 struct _GthImageViewerPagePrivate {
@@ -50,7 +60,6 @@ struct _GthImageViewerPagePrivate {
 	gboolean           can_paste;
 };
 
-static gpointer gth_image_viewer_page_parent_class = NULL;
 
 static const char *image_viewer_ui_info =
 "<ui>"
@@ -1391,7 +1400,7 @@ gth_image_viewer_page_class_init (GthImageViewerPageClass *klass)
 
 
 static void
-gth_viewer_page_interface_init (GthViewerPageIface *iface)
+gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 {
 	iface->activate = gth_image_viewer_page_real_activate;
 	iface->deactivate = gth_image_viewer_page_real_deactivate;
@@ -1413,42 +1422,14 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 
 
 static void
-gth_image_viewer_page_instance_init (GthImageViewerPage *self)
+gth_image_viewer_page_init (GthImageViewerPage *self)
 {
-	self->priv = GTH_IMAGE_VIEWER_PAGE_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate);
 	self->priv->history = gth_image_history_new ();
 	self->priv->shrink_wrap = FALSE;
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;
 	self->priv->can_paste = FALSE;
-}
-
-
-GType
-gth_image_viewer_page_get_type (void) {
-	static GType gth_image_viewer_page_type_id = 0;
-	if (gth_image_viewer_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImageViewerPageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_image_viewer_page_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthImageViewerPage),
-			0,
-			(GInstanceInitFunc) gth_image_viewer_page_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_viewer_page_info = {
-			(GInterfaceInitFunc) gth_viewer_page_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		gth_image_viewer_page_type_id = g_type_register_static (G_TYPE_OBJECT, "GthImageViewerPage", &g_define_type_info, 0);
-		g_type_add_interface_static (gth_image_viewer_page_type_id, GTH_TYPE_VIEWER_PAGE, &gth_viewer_page_info);
-	}
-	return gth_image_viewer_page_type_id;
 }
 
 

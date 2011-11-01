@@ -50,9 +50,6 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthFilePropertiesPrivate {
 	GtkWidget     *tree_view;
 	GtkWidget     *comment_view;
@@ -60,6 +57,19 @@ struct _GthFilePropertiesPrivate {
 	GtkListStore  *tree_model;
 	GtkWidget     *popup_menu;
 };
+
+
+static void gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
+static void gth_file_properties_gth_property_view_interface_init (GthPropertyViewInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileProperties,
+			 gth_file_properties,
+			 GTK_TYPE_VBOX,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
+					 	gth_file_properties_gth_multipage_child_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+		        		 	gth_file_properties_gth_property_view_interface_init))
 
 
 static char *
@@ -219,14 +229,13 @@ gth_file_properties_finalize (GObject *base)
 	if (self->priv->popup_menu != NULL)
 		gtk_widget_destroy (self->priv->popup_menu);
 
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_file_properties_parent_class)->finalize (base);
 }
 
 
 static void
 gth_file_properties_class_init (GthFilePropertiesClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFilePropertiesPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_file_properties_finalize;
@@ -427,7 +436,7 @@ gth_file_properties_init (GthFileProperties *self)
 
 
 static void
-gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildIface *iface)
+gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
 {
 	iface->get_name = gth_file_properties_real_get_name;
 	iface->get_icon = gth_file_properties_real_get_icon;
@@ -435,47 +444,7 @@ gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildIface *
 
 
 static void
-gth_file_properties_gth_property_view_interface_init (GthPropertyViewIface *iface)
+gth_file_properties_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
 	iface->set_file = gth_file_properties_real_set_file;
-}
-
-
-GType
-gth_file_properties_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFilePropertiesClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_properties_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileProperties),
-			0,
-			(GInstanceInitFunc) gth_file_properties_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_multipage_child_info = {
-			(GInterfaceInitFunc) gth_file_properties_gth_multipage_child_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_property_view_info = {
-			(GInterfaceInitFunc) gth_file_properties_gth_property_view_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthFileProperties",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_MULTIPAGE_CHILD, &gth_multipage_child_info);
-		g_type_add_interface_static (type, GTH_TYPE_PROPERTY_VIEW, &gth_property_view_info);
-	}
-
-	return type;
 }

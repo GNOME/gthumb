@@ -27,7 +27,7 @@
 #include "gth-search-editor-dialog.h"
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthSearchEditorDialog, gth_search_editor_dialog, GTK_TYPE_DIALOG)
 
 
 struct _GthSearchEditorDialogPrivate {
@@ -47,7 +47,7 @@ gth_search_editor_dialog_finalize (GObject *object)
 		dialog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_search_editor_dialog_parent_class)->finalize (object);
 }
 
 static void
@@ -55,9 +55,7 @@ gth_search_editor_dialog_class_init (GthSearchEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_search_editor_dialog_finalize;
 }
 
@@ -66,34 +64,6 @@ static void
 gth_search_editor_dialog_init (GthSearchEditorDialog *dialog)
 {
 	dialog->priv = g_new0 (GthSearchEditorDialogPrivate, 1);
-}
-
-
-GType
-gth_search_editor_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthSearchEditorDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_search_editor_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSearchEditorDialog),
-			0,
-			(GInstanceInitFunc) gth_search_editor_dialog_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthSearchEditorDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

@@ -42,10 +42,13 @@ struct _GthScriptFilePrivate
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_script_file_signals[LAST_SIGNAL] = { 0 };
 
+
 static GType gth_script_file_get_type (void);
+
+
+G_DEFINE_TYPE (GthScriptFile, gth_script_file, G_TYPE_OBJECT)
 
 
 static void
@@ -54,10 +57,9 @@ gth_script_file_finalize (GObject *object)
 	GthScriptFile *self;
 
 	self = GTH_SCRIPT_FILE (object);
-
 	_g_object_list_unref (self->priv->items);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_script_file_parent_class)->finalize (object);
 }
 
 
@@ -66,7 +68,6 @@ gth_script_file_class_init (GthScriptFileClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthScriptFilePrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -90,34 +91,6 @@ gth_script_file_init (GthScriptFile *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCRIPT_FILE, GthScriptFilePrivate);
 	self->priv->items = NULL;
 	self->priv->loaded = FALSE;
-}
-
-
-static GType
-gth_script_file_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthScriptFileClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_script_file_class_init,
-			NULL,
-			NULL,
-			sizeof (GthScriptFile),
-			0,
-			(GInstanceInitFunc) gth_script_file_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthScriptFile",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

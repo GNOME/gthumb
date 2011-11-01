@@ -30,7 +30,8 @@
 #define DEFAULT_THUMB_SIZE 128
 #define DEFAULT_FONT "Sans 12"
 
-static GObjectClass *parent_class = NULL;
+
+G_DEFINE_TYPE (GthContactSheetCreator, gth_contact_sheet_creator, GTH_TYPE_TASK)
 
 
 typedef struct {
@@ -1048,7 +1049,7 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	g_free (self->priv->header);
 	_g_object_list_unref (self->priv->gfile_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_contact_sheet_creator_parent_class)->finalize (object);
 }
 
 
@@ -1058,7 +1059,6 @@ gth_contact_sheet_creator_class_init (GthContactSheetCreatorClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthContactSheetCreatorPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -1104,34 +1104,6 @@ gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 	self->priv->thumb_width = DEFAULT_THUMB_SIZE;
 	self->priv->thumb_height = DEFAULT_THUMB_SIZE;
 	self->priv->thumbnail_caption = NULL;
-}
-
-
-GType
-gth_contact_sheet_creator_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthContactSheetCreatorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_contact_sheet_creator_class_init,
-			NULL,
-			NULL,
-			sizeof (GthContactSheetCreator),
-			0,
-			(GInstanceInitFunc) gth_contact_sheet_creator_init
-                };
-
-                type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthContactSheetCreator",
-					       &type_info,
-					       0);
-        }
-
-	return type;
 }
 
 

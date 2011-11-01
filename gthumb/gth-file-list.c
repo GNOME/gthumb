@@ -253,7 +253,7 @@ _gth_file_list_queue_op (GthFileList   *file_list,
 /* -- gth_file_list -- */
 
 
-static GtkHBoxClass *parent_class = NULL;
+G_DEFINE_TYPE (GthFileList, gth_file_list, GTK_TYPE_VBOX)
 
 
 static void
@@ -275,7 +275,7 @@ gth_file_list_finalize (GObject *object)
 		file_list->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_list_parent_class)->finalize (object);
 }
 
 
@@ -314,7 +314,7 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
 				      "scrollbar-spacing", &scrollbar_spacing,
 				      NULL);
 		*minimum_width += vscrollbar_minimum_width + scrollbar_spacing;
-	 }
+	}
 
 	*natural_width = *minimum_width;
 }
@@ -339,8 +339,6 @@ gth_file_list_class_init (GthFileListClass *class)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_list_finalize;
@@ -776,34 +774,6 @@ gth_file_list_construct (GthFileList     *file_list,
 	gtk_box_pack_start (GTK_BOX (file_list), file_list->priv->notebook, TRUE, TRUE, 0);
 
 	gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_MESSAGE);
-}
-
-
-GType
-gth_file_list_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFileListClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_list_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileList),
-			0,
-			(GInstanceInitFunc) gth_file_list_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthFileList",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

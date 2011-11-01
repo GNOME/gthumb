@@ -33,7 +33,7 @@
 #define DEFAULT_THRESHOLD 0.0
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFileToolSharpen, gth_file_tool_sharpen, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolSharpenPrivate {
@@ -409,19 +409,6 @@ gth_file_tool_sharpen_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_sharpen_instance_init (GthFileToolSharpen *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_SHARPEN, GthFileToolSharpenPrivate);
-	self->priv->source = NULL;
-	self->priv->destination = NULL;
-	self->priv->builder = NULL;
-	self->priv->show_preview = TRUE;
-
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Enhance Focus..."), _("Enhance Focus"), FALSE);
-}
-
-
-static void
 gth_file_tool_sharpen_finalize (GObject *object)
 {
 	GthFileToolSharpen *self;
@@ -436,7 +423,7 @@ gth_file_tool_sharpen_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_sharpen_parent_class)->finalize (object);
 }
 
 
@@ -446,7 +433,6 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFileToolSharpenPrivate));
 
 	gobject_class = (GObjectClass*) klass;
@@ -460,23 +446,14 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 }
 
 
-GType
-gth_file_tool_sharpen_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolSharpenClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_sharpen_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolSharpen),
-			0,
-			(GInstanceInitFunc) gth_file_tool_sharpen_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolSharpen", &g_define_type_info, 0);
-	}
-	return type_id;
+static void
+gth_file_tool_sharpen_init (GthFileToolSharpen *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_SHARPEN, GthFileToolSharpenPrivate);
+	self->priv->source = NULL;
+	self->priv->destination = NULL;
+	self->priv->builder = NULL;
+	self->priv->show_preview = TRUE;
+
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Enhance Focus..."), _("Enhance Focus"), FALSE);
 }

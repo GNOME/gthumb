@@ -32,8 +32,11 @@ enum {
 static guint gth_viewer_page_signals[LAST_SIGNAL] = { 0 };
 
 
+G_DEFINE_INTERFACE (GthViewerPage, gth_viewer_page, 0)
+
+
 static void
-gth_viewer_page_base_init (gpointer g_iface)
+gth_viewer_page_default_init (GthViewerPageInterface *iface)
 {
 	static gboolean initialized = FALSE;
 
@@ -44,7 +47,7 @@ gth_viewer_page_base_init (gpointer g_iface)
 	            g_signal_new ("file-loaded",
 	        		  GTH_TYPE_VIEWER_PAGE,
 	                          G_SIGNAL_RUN_LAST,
-	                          G_STRUCT_OFFSET (GthViewerPageIface, file_loaded),
+	                          G_STRUCT_OFFSET (GthViewerPageInterface, file_loaded),
 	                          NULL, NULL,
 	                          gth_marshal_VOID__OBJECT_BOOLEAN,
 	                          G_TYPE_NONE,
@@ -53,28 +56,6 @@ gth_viewer_page_base_init (gpointer g_iface)
 	                          G_TYPE_BOOLEAN);
 
 	initialized = TRUE;
-}
-
-
-GType
-gth_viewer_page_get_type (void) {
-	static GType gth_viewer_page_type_id = 0;
-	if (gth_viewer_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthViewerPageIface),
-			(GBaseInitFunc) gth_viewer_page_base_init,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_viewer_page_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthViewerPage", &g_define_type_info, 0);
-	}
-	return gth_viewer_page_type_id;
 }
 
 

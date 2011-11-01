@@ -29,12 +29,12 @@ G_BEGIN_DECLS
 #define GTH_TYPE_IMAGE_VIEWER_TOOL               (gth_image_viewer_tool_get_type ())
 #define GTH_IMAGE_VIEWER_TOOL(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE_VIEWER_TOOL, GthImageViewerTool))
 #define GTH_IS_IMAGE_VIEWER_TOOL(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_IMAGE_VIEWER_TOOL))
-#define GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_IMAGE_VIEWER_TOOL, GthImageViewerToolIface))
+#define GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_IMAGE_VIEWER_TOOL, GthImageViewerToolInterface))
 
 typedef struct _GthImageViewerTool GthImageViewerTool;
-typedef struct _GthImageViewerToolIface GthImageViewerToolIface;
+typedef struct _GthImageViewerToolInterface GthImageViewerToolInterface;
 
-struct _GthImageViewerToolIface {
+struct _GthImageViewerToolInterface {
 	GTypeInterface parent_iface;
 
 	void      (*set_viewer)     (GthImageViewerTool   *self,

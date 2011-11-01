@@ -25,6 +25,9 @@
 #include "gth-file-tool-undo.h"
 
 
+G_DEFINE_TYPE (GthFileToolUndo, gth_file_tool_undo, GTH_TYPE_FILE_TOOL)
+
+
 static void
 gth_file_tool_undo_update_sensitivity (GthFileTool *base)
 {
@@ -56,37 +59,18 @@ gth_file_tool_undo_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_undo_instance_init (GthFileToolUndo *self)
+gth_file_tool_undo_class_init (GthFileToolUndoClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "undo", _("Undo"), _("Undo"), TRUE);
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = (GthFileToolClass *) klass;
+	file_tool_class->update_sensitivity = gth_file_tool_undo_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_undo_activate;
 }
 
 
 static void
-gth_file_tool_undo_class_init (GthFileToolClass *klass)
+gth_file_tool_undo_init (GthFileToolUndo *self)
 {
-	klass->update_sensitivity = gth_file_tool_undo_update_sensitivity;
-	klass->activate = gth_file_tool_undo_activate;
-}
-
-
-GType
-gth_file_tool_undo_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolUndoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_undo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolUndo),
-			0,
-			(GInstanceInitFunc) gth_file_tool_undo_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolUndo", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "undo", _("Undo"), _("Undo"), TRUE);
 }

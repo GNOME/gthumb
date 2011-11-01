@@ -32,7 +32,6 @@
 static const double RED_FACTOR = 0.5133333;
 static const double GREEN_FACTOR  = 1.0;
 static const double BLUE_FACTOR =  0.1933333;
-static gpointer parent_class = NULL;
 
 
 struct _GthFileToolRedEyePrivate {
@@ -43,6 +42,9 @@ struct _GthFileToolRedEyePrivate {
 	GdkPixbuf        *new_pixbuf;
 	char             *is_red;
 };
+
+
+G_DEFINE_TYPE (GthFileToolRedEye, gth_file_tool_red_eye, GTH_TYPE_FILE_TOOL)
 
 
 static void
@@ -461,17 +463,6 @@ gth_file_tool_red_eye_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_red_eye_instance_init (GthFileToolRedEye *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RED_EYE, GthFileToolRedEyePrivate);
-	self->priv->new_pixbuf = NULL;
-	self->priv->is_red = NULL;
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-red-eye", _("Red Eye Removal..."), _("Red Eye Removal"), FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Remove the red eye effect caused by camera flashes"));
-}
-
-
-static void
 gth_file_tool_red_eye_finalize (GObject *object)
 {
 	GthFileToolRedEye *self;
@@ -487,7 +478,7 @@ gth_file_tool_red_eye_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_tool_red_eye_parent_class)->finalize (object);
 }
 
 
@@ -497,7 +488,6 @@ gth_file_tool_red_eye_class_init (GthFileToolRedEyeClass *class)
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthFileToolRedEyePrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -511,23 +501,12 @@ gth_file_tool_red_eye_class_init (GthFileToolRedEyeClass *class)
 }
 
 
-GType
-gth_file_tool_red_eye_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolRedEyeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_red_eye_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolRedEye),
-			0,
-			(GInstanceInitFunc) gth_file_tool_red_eye_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolRedEye", &g_define_type_info, 0);
-	}
-	return type_id;
+static void
+gth_file_tool_red_eye_init (GthFileToolRedEye *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RED_EYE, GthFileToolRedEyePrivate);
+	self->priv->new_pixbuf = NULL;
+	self->priv->is_red = NULL;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-red-eye", _("Red Eye Removal..."), _("Red Eye Removal"), FALSE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Remove the red eye effect caused by camera flashes"));
 }

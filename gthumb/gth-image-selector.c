@@ -186,7 +186,6 @@ enum {
 
 
 static guint signals[LAST_SIGNAL] = { 0 };
-static gpointer parent_class = NULL;
 
 
 struct _GthImageSelectorPrivate {
@@ -220,6 +219,16 @@ struct _GthImageSelectorPrivate {
 	 	 	 	 	 	     * amount when autoscrolling */
 	double                  y_value_diff;
 };
+
+
+static void gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageSelector,
+			 gth_image_selector,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+					 	gth_image_selector_gth_image_tool_interface_init))
 
 
 static gboolean
@@ -1484,7 +1493,7 @@ gth_image_selector_zoom_changed (GthImageViewerTool *base)
 
 
 static void
-gth_image_selector_instance_init (GthImageSelector *self)
+gth_image_selector_init (GthImageSelector *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SELECTOR, GthImageSelectorPrivate);
 
@@ -1509,7 +1518,7 @@ gth_image_selector_finalize (GObject *object)
 	cairo_surface_destroy (self->priv->surface);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_selector_parent_class)->finalize (object);
 }
 
 
@@ -1518,7 +1527,6 @@ gth_image_selector_class_init (GthImageSelectorClass *class)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageSelectorPrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -1572,7 +1580,7 @@ gth_image_selector_class_init (GthImageSelectorClass *class)
 
 
 static void
-gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
+gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolInterface *iface)
 {
 	iface->set_viewer = gth_image_selector_set_viewer;
 	iface->unset_viewer = gth_image_selector_unset_viewer;
@@ -1587,40 +1595,6 @@ gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface
 	iface->motion_notify = gth_image_selector_motion_notify;
 	iface->image_changed = gth_image_selector_image_changed;
 	iface->zoom_changed = gth_image_selector_zoom_changed;
-}
-
-
-GType
-gth_image_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageSelectorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_selector_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageSelector),
-			0,
-			(GInstanceInitFunc) gth_image_selector_instance_init
-		};
-		static const GInterfaceInfo gth_image_tool_info = {
-			(GInterfaceInitFunc) gth_image_selector_gth_image_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageSelector",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
-	}
-
-	return type;
 }
 
 

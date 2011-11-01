@@ -75,7 +75,17 @@ struct _GthFileStorePrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
+static void gtk_tree_model_interface_init (GtkTreeModelIface *iface);
+static void gtk_tree_drag_source_interface_init (GtkTreeDragSourceIface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileStore,
+			 gth_file_store,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL,
+					        gtk_tree_model_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_DRAG_SOURCE,
+		        		 	gtk_tree_drag_source_interface_init))
 
 
 static GthFileRow *
@@ -202,23 +212,23 @@ gth_file_store_finalize (GObject *object)
 		file_store->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_store_parent_class)->finalize (object);
 }
 
 
 static void
-gth_file_store_class_init (GthFileStoreClass *class)
+gth_file_store_class_init (GthFileStoreClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (klass, sizeof (GthFileStorePrivate));
 
-	object_class = (GObjectClass*) class;
+	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_file_store_finalize;
 
 	gth_file_store_signals[CHECK_CHANGED] =
 		g_signal_new ("check_changed",
-			      G_TYPE_FROM_CLASS (class),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthFileStoreClass, check_changed),
 			      NULL, NULL,
@@ -227,7 +237,7 @@ gth_file_store_class_init (GthFileStoreClass *class)
 			      0);
 	gth_file_store_signals[VISIBILITY_CHANGED] =
 		g_signal_new ("visibility_changed",
-			      G_TYPE_FROM_CLASS (class),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthFileStoreClass, visibility_changed),
 			      NULL, NULL,
@@ -240,12 +250,20 @@ gth_file_store_class_init (GthFileStoreClass *class)
 static void
 gth_file_store_init (GthFileStore *file_store)
 {
-	file_store->priv = g_new0 (GthFileStorePrivate, 1);
+	file_store->priv = G_TYPE_INSTANCE_GET_PRIVATE (file_store, GTH_TYPE_FILE_STORE, GthFileStorePrivate);
+	file_store->priv->all_rows = NULL;
 	file_store->priv->rows = NULL;
 	file_store->priv->size = 0;
+	file_store->priv->tot_rows = 0;
 	file_store->priv->num_rows = 0;
 	file_store->priv->stamp = g_random_int ();
+	file_store->priv->load_thumbs = FALSE;
 	file_store->priv->filter = gth_test_new ();
+	file_store->priv->queue = NULL;
+	file_store->priv->cmp_func = NULL;
+	file_store->priv->inverse_sort = FALSE;
+	file_store->priv->update_filter = FALSE;
+	file_store->priv->check_changed = FALSE;
 
 	if (column_type[0] == G_TYPE_INVALID) {
 		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
@@ -576,7 +594,7 @@ gth_file_store_drag_data_delete (GtkTreeDragSource *drag_source,
 
 
 static void
-gtk_tree_model_iface_init (GtkTreeModelIface *iface)
+gtk_tree_model_interface_init (GtkTreeModelIface *iface)
 {
 	iface->get_flags       = gth_file_store_get_flags;
 	iface->get_n_columns   = gth_file_store_get_n_columns;
@@ -594,48 +612,11 @@ gtk_tree_model_iface_init (GtkTreeModelIface *iface)
 
 
 static void
-gtk_tree_drag_source_iface_init (GtkTreeDragSourceIface *iface)
+gtk_tree_drag_source_interface_init (GtkTreeDragSourceIface *iface)
 {
 	iface->row_draggable = gth_file_store_row_draggable;
 	iface->drag_data_get = gth_file_store_drag_data_get;
 	iface->drag_data_delete = gth_file_store_drag_data_delete;
-}
-
-
-GType
-gth_file_store_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFileStoreClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_store_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileStore),
-			0,
-			(GInstanceInitFunc) gth_file_store_init
-		};
-		static const GInterfaceInfo gtk_tree_model_info = {
-			(GInterfaceInitFunc) gtk_tree_model_iface_init,
-			NULL,
-			NULL
-		};
-		static const GInterfaceInfo gtk_tree_drag_source_info = {
-			(GInterfaceInitFunc) gtk_tree_drag_source_iface_init,
-			NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT, "GthFileStore", &type_info, 0);
-		g_type_add_interface_static (type, GTK_TYPE_TREE_MODEL, &gtk_tree_model_info);
-		g_type_add_interface_static (type, GTK_TYPE_TREE_DRAG_SOURCE, &gtk_tree_drag_source_info);
-	}
-
-	return type;
 }
 
 

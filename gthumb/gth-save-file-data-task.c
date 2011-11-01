@@ -35,7 +35,7 @@ struct _GthSaveFileDataTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthSaveFileDataTask, gth_save_file_data_task, GTH_TYPE_TASK)
 
 
 static void
@@ -48,7 +48,7 @@ gth_save_file_data_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->file_data_list);
 	g_free (self->priv->attributes);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_save_file_data_task_parent_class)->finalize (object);
 }
 
 
@@ -136,7 +136,6 @@ gth_save_file_data_task_class_init (GthSaveFileDataTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthSaveFileDataTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -153,34 +152,6 @@ gth_save_file_data_task_init (GthSaveFileDataTask *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SAVE_FILE_DATA_TASK, GthSaveFileDataTaskPrivate);
 	self->priv->file_data_list = NULL;
 	self->priv->attributes = NULL;
-}
-
-
-GType
-gth_save_file_data_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthSaveFileDataTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_save_file_data_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSaveFileDataTask),
-			0,
-			(GInstanceInitFunc) gth_save_file_data_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthSaveFileDataTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

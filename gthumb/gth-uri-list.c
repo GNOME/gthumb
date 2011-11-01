@@ -51,8 +51,10 @@ struct _GthUriListPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint uri_list_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthUriList, gth_uri_list, GTK_TYPE_TREE_VIEW)
 
 
 static void
@@ -171,7 +173,7 @@ gth_uri_list_finalize (GObject *object)
 		uri_list->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_uri_list_parent_class)->finalize (object);
 }
 
 
@@ -180,7 +182,6 @@ gth_uri_list_class_init (GthUriListClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	gobject_class = G_OBJECT_CLASS (klass);
 
 	gobject_class->finalize = gth_uri_list_finalize;
@@ -194,34 +195,6 @@ gth_uri_list_class_init (GthUriListClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-}
-
-
-GType
-gth_uri_list_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthUriListClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_uri_list_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthUriList),
-			0,
-			(GInstanceInitFunc) gth_uri_list_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_TREE_VIEW,
-					       "GthUriList",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

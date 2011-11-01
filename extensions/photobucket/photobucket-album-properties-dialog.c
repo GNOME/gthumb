@@ -27,15 +27,15 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+G_DEFINE_TYPE (PhotobucketAlbumPropertiesDialog, photobucket_album_properties_dialog, GTK_TYPE_DIALOG)
+
+
 enum {
 	ALBUM_DATA_COLUMN,
 	ALBUM_ICON_COLUMN,
 	ALBUM_TITLE_COLUMN,
 	ALBUM_N_PHOTOS_COLUMN
 };
-
-
-static gpointer parent_class = NULL;
 
 
 struct _PhotobucketAlbumPropertiesDialogPrivate {
@@ -51,7 +51,7 @@ photobucket_album_properties_dialog_finalize (GObject *object)
 	self = PHOTOBUCKET_ALBUM_PROPERTIES_DIALOG (object);
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (photobucket_album_properties_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ photobucket_album_properties_dialog_class_init (PhotobucketAlbumPropertiesDialog
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (PhotobucketAlbumPropertiesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -115,34 +114,6 @@ photobucket_album_properties_dialog_init (PhotobucketAlbumPropertiesDialog *self
 						"text", ALBUM_N_PHOTOS_COLUMN,
 						NULL);
 	}
-}
-
-
-GType
-photobucket_album_properties_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PhotobucketAlbumPropertiesDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) photobucket_album_properties_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PhotobucketAlbumPropertiesDialog),
-			0,
-			(GInstanceInitFunc) photobucket_album_properties_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "PhotobucketAlbumPropertiesDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

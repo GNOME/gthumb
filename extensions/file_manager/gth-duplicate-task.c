@@ -30,7 +30,7 @@ struct _GthDuplicateTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthDuplicateTask, gth_duplicate_task, GTH_TYPE_TASK)
 
 
 static void
@@ -43,7 +43,7 @@ gth_duplicate_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->destination);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_duplicate_task_parent_class)->finalize (object);
 }
 
 
@@ -56,6 +56,7 @@ copy_progress_cb (GObject    *object,
 		  gpointer    user_data)
 {
 	GthDuplicateTask *self = user_data;
+
 	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
 }
 
@@ -153,7 +154,6 @@ gth_duplicate_task_class_init (GthDuplicateTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthDuplicateTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -169,34 +169,6 @@ gth_duplicate_task_init (GthDuplicateTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DUPLICATE_TASK, GthDuplicateTaskPrivate);
 	self->priv->destination = NULL;
-}
-
-
-GType
-gth_duplicate_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthDuplicateTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_duplicate_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthDuplicateTask),
-			0,
-			(GInstanceInitFunc) gth_duplicate_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthDuplicateTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

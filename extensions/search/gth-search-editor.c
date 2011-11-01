@@ -29,7 +29,7 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthSearchEditor, gth_search_editor, GTK_TYPE_VBOX)
 
 
 struct _GthSearchEditorPrivate {
@@ -52,7 +52,7 @@ gth_search_editor_finalize (GObject *object)
 		dialog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_search_editor_parent_class)->finalize (object);
 }
 
 static void
@@ -60,9 +60,7 @@ gth_search_editor_class_init (GthSearchEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_search_editor_finalize;
 }
 
@@ -71,34 +69,6 @@ static void
 gth_search_editor_init (GthSearchEditor *dialog)
 {
 	dialog->priv = g_new0 (GthSearchEditorPrivate, 1);
-}
-
-
-GType
-gth_search_editor_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthSearchEditorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_search_editor_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSearchEditor),
-			0,
-			(GInstanceInitFunc) gth_search_editor_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthSearchEditor",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

@@ -71,7 +71,7 @@ struct _FacebookServicePrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (FacebookService, facebook_service, G_TYPE_OBJECT)
 
 
 static void
@@ -85,7 +85,7 @@ facebook_service_finalize (GObject *object)
 	_g_object_unref (self->priv->user);
 	post_photos_data_free (self->priv->post_photos);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_service_parent_class)->finalize (object);
 }
 
 
@@ -94,7 +94,6 @@ facebook_service_class_init (FacebookServiceClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FacebookServicePrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -109,34 +108,6 @@ facebook_service_init (FacebookService *self)
 	self->priv->conn = NULL;
 	self->priv->user = NULL;
 	self->priv->post_photos = NULL;
-}
-
-
-GType
-facebook_service_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (FacebookServiceClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) facebook_service_class_init,
-			NULL,
-			NULL,
-			sizeof (FacebookService),
-			0,
-			(GInstanceInitFunc) facebook_service_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "FacebookService",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

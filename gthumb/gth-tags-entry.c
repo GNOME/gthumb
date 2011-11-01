@@ -79,8 +79,10 @@ struct _GthTagsEntryPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthTagsEntry, gth_tags_entry, GTK_TYPE_VBOX)
 
 
 static void
@@ -97,7 +99,7 @@ gth_tags_entry_finalize (GObject *obj)
 	g_strfreev (self->priv->tags);
 	g_strfreev (self->priv->expanded_list.last_used);
 
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (gth_tags_entry_parent_class)->finalize (obj);
 }
 
 
@@ -116,7 +118,6 @@ gth_tags_entry_class_init (GthTagsEntryClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTagsEntryPrivate));
 
 	object_class = (GObjectClass*) (klass);
@@ -668,7 +669,7 @@ expand_button_toggled_cb (GtkToggleButton *button,
 
 
 static void
-gth_tags_entry_instance_init (GthTagsEntry *self)
+gth_tags_entry_init (GthTagsEntry *self)
 {
 	GtkWidget         *hbox;
 	GtkTreeViewColumn *column;
@@ -783,34 +784,6 @@ gth_tags_entry_instance_init (GthTagsEntry *self)
 			  "notify::text",
 			  G_CALLBACK (text_changed_cb),
 			  self);
-}
-
-
-GType
-gth_tags_entry_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthTagsEntryClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_tags_entry_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTagsEntry),
-			0,
-			(GInstanceInitFunc) gth_tags_entry_instance_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthTagsEntry",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

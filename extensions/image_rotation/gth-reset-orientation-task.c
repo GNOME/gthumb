@@ -23,6 +23,9 @@
 #include "gth-reset-orientation-task.h"
 
 
+G_DEFINE_TYPE (GthResetOrientationTask, gth_reset_orientation_task, GTH_TYPE_TASK)
+
+
 struct _GthResetOrientationTaskPrivate {
 	GthBrowser    *browser;
 	GList         *file_list;
@@ -31,9 +34,6 @@ struct _GthResetOrientationTaskPrivate {
 	int            n_image;
 	int            n_images;
 };
-
-
-static gpointer parent_class = NULL;
 
 
 static void
@@ -46,7 +46,7 @@ gth_reset_orientation_task_finalize (GObject *object)
 	_g_object_unref (self->priv->file_data);
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_reset_orientation_task_parent_class)->finalize (object);
 }
 
 
@@ -173,7 +173,6 @@ gth_reset_orientation_task_class_init (GthResetOrientationTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthResetOrientationTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -189,34 +188,6 @@ gth_reset_orientation_task_init (GthResetOrientationTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_RESET_ORIENTATION_TASK, GthResetOrientationTaskPrivate);
 	self->priv->file_data = NULL;
-}
-
-
-GType
-gth_reset_orientation_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthResetOrientationTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_reset_orientation_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthResetOrientationTask),
-			0,
-			(GInstanceInitFunc) gth_reset_orientation_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthResetOrientationTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

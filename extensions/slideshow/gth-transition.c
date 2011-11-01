@@ -23,6 +23,9 @@
 #include "gth-transition.h"
 
 
+G_DEFINE_TYPE (GthTransition, gth_transition, G_TYPE_OBJECT)
+
+
 /* Properties */
 enum {
         PROP_0,
@@ -39,19 +42,6 @@ struct _GthTransitionPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-
-
-static void
-gth_transition_init (GthTransition *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSITION, GthTransitionPrivate);
-	self->priv->id = g_strdup ("");
-	self->priv->display_name = g_strdup ("");
-	self->priv->frame_func = NULL;
-}
-
-
 static void
 gth_transition_finalize (GObject *object)
 {
@@ -60,7 +50,7 @@ gth_transition_finalize (GObject *object)
 	g_free (self->priv->id);
 	g_free (self->priv->display_name);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_transition_parent_class)->finalize (object);
 }
 
 
@@ -129,7 +119,6 @@ gth_transition_class_init (GthTransitionClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTransitionPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -160,31 +149,13 @@ gth_transition_class_init (GthTransitionClass *klass)
 }
 
 
-GType
-gth_transition_get_type (void)
+static void
+gth_transition_init (GthTransition *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTransitionClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_transition_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTransition),
-			0,
-			(GInstanceInitFunc) gth_transition_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthTransition",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSITION, GthTransitionPrivate);
+	self->priv->id = g_strdup ("");
+	self->priv->display_name = g_strdup ("");
+	self->priv->frame_func = NULL;
 }
 
 

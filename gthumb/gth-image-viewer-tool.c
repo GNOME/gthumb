@@ -23,29 +23,13 @@
 #include "gth-image-viewer.h"
 
 
-GType
-gth_image_viewer_tool_get_type (void)
+G_DEFINE_INTERFACE (GthImageViewerTool, gth_image_viewer_tool, 0)
+
+
+static void
+gth_image_viewer_tool_default_init (GthImageViewerToolInterface *iface)
 {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImageViewerToolIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		type_id = g_type_register_static (G_TYPE_INTERFACE,
-						  "GthImageViewerTool",
-						  &g_define_type_info,
-						  0);
-	}
-	return type_id;
+	/* void */
 }
 
 

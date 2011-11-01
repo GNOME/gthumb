@@ -59,7 +59,17 @@ struct _GthFilterPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+static void gth_filter_dom_domizable_interface_init (DomDomizableInterface *iface);
+static void gth_filter_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFilter,
+			 gth_filter,
+			 GTH_TYPE_TEST,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					 	gth_filter_dom_domizable_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+		        		 	gth_filter_gth_duplicable_interface_init))
 
 
 static DomElement*
@@ -170,7 +180,7 @@ gth_filter_set_file_list (GthTest *test,
 {
 	GthFilter *filter = GTH_FILTER (test);
 
-	GTH_TEST_CLASS (parent_class)->set_file_list (test, files);
+	GTH_TEST_CLASS (gth_filter_parent_class)->set_file_list (test, files);
 
 	if ((filter->priv->limit_type != GTH_LIMIT_TYPE_NONE)
 	    && (filter->priv->sort_name != NULL)
@@ -433,7 +443,7 @@ gth_filter_finalize (GObject *object)
 
 	_g_object_unref (filter->priv->test);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_filter_parent_class)->finalize (object);
 }
 
 
@@ -443,7 +453,6 @@ gth_filter_class_init (GthFilterClass *klass)
 	GObjectClass *object_class;
 	GthTestClass *test_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFilterPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -466,7 +475,7 @@ gth_filter_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-gth_filter_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_filter_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	iface->duplicate = gth_filter_real_duplicate;
 }
@@ -481,46 +490,6 @@ gth_filter_init (GthFilter *filter)
 	filter->priv->limit = 0;
 	filter->priv->sort_name = NULL;
 	filter->priv->sort_direction = GTK_SORT_ASCENDING;
-}
-
-
-GType
-gth_filter_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthFilterClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_filter_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFilter),
-			0,
-			(GInstanceInitFunc) gth_filter_init
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) gth_filter_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_filter_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_TEST,
-					       "GthFilter",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-        return type;
 }
 
 

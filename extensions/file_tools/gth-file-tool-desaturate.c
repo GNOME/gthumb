@@ -25,6 +25,9 @@
 #include "gth-file-tool-desaturate.h"
 
 
+G_DEFINE_TYPE (GthFileToolDesaturate, gth_file_tool_desaturate, GTH_TYPE_FILE_TOOL)
+
+
 typedef struct {
 	GtkWidget       *viewer_page;
 	cairo_surface_t *source;
@@ -184,37 +187,18 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_desaturate_instance_init (GthFileToolDesaturate *self)
+gth_file_tool_desaturate_class_init (GthFileToolDesaturateClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-desaturate", _("Desaturate"), _("Desaturate"), FALSE);
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_desaturate_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_desaturate_activate;
 }
 
 
 static void
-gth_file_tool_desaturate_class_init (GthFileToolClass *klass)
+gth_file_tool_desaturate_init (GthFileToolDesaturate *self)
 {
-	klass->update_sensitivity = gth_file_tool_desaturate_update_sensitivity;
-	klass->activate = gth_file_tool_desaturate_activate;
-}
-
-
-GType
-gth_file_tool_desaturate_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolDesaturateClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_desaturate_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolDesaturate),
-			0,
-			(GInstanceInitFunc) gth_file_tool_desaturate_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolDesaturate", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-desaturate", _("Desaturate"), _("Desaturate"), FALSE);
 }

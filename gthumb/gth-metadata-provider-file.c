@@ -25,10 +25,7 @@
 #include "gth-metadata-provider-file.h"
 
 
-#define GTH_METADATA_PROVIDER_FILE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_METADATA_PROVIDER_COMMENT, GthMetadataProviderFilePrivate))
-
-
-static GthMetadataProviderClass *parent_class = NULL;
+G_DEFINE_TYPE (GthMetadataProviderFile, gth_metadata_provider_file, GTH_TYPE_METADATA_PROVIDER)
 
 
 static gboolean
@@ -82,36 +79,11 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 static void
 gth_metadata_provider_file_class_init (GthMetadataProviderFileClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
-
 	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_file_can_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_file_read;
 }
 
-
-GType
-gth_metadata_provider_file_get_type (void)
+static void
+gth_metadata_provider_file_init (GthMetadataProviderFile *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMetadataProviderFileClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_provider_file_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataProviderFile),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
-					       "GthMetadataProviderFile",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }

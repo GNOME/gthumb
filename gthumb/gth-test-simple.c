@@ -112,9 +112,21 @@ struct _GthTestSimplePrivate
 };
 
 
-static GthTestClass *parent_class = NULL;
 static DomDomizableInterface* dom_domizable_parent_iface = NULL;
-static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
+static GthDuplicableInterface *gth_duplicable_parent_iface = NULL;
+
+
+static void gth_test_simple_dom_domizable_interface_init (DomDomizableInterface * iface);
+static void gth_test_simple_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTestSimple,
+			 gth_test_simple,
+			 GTH_TYPE_TEST,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					 	gth_test_simple_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+					 	gth_test_simple_gth_duplicable_interface_init))
 
 
 static void
@@ -158,7 +170,7 @@ gth_test_simple_finalize (GObject *object)
 		test->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_test_simple_parent_class)->finalize (object);
 }
 
 
@@ -1056,13 +1068,12 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
 	GObjectClass *object_class;
 	GthTestClass *test_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-	test_class = (GthTestClass *) class;
-
 	object_class->set_property = gth_test_simple_set_property;
 	object_class->get_property = gth_test_simple_get_property;
 	object_class->finalize = gth_test_simple_finalize;
+
+	test_class = (GthTestClass *) class;
 	test_class->create_control = gth_test_simple_real_create_control;
 	test_class->update_from_control = gth_test_simple_real_update_from_control;
 	test_class->match = gth_test_simple_real_match;
@@ -1134,7 +1145,7 @@ gth_test_simple_dom_domizable_interface_init (DomDomizableInterface * iface)
 
 
 static void
-gth_test_simple_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_test_simple_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	gth_duplicable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->duplicate = gth_test_simple_real_duplicate;
@@ -1145,46 +1156,6 @@ static void
 gth_test_simple_init (GthTestSimple *test)
 {
 	test->priv = g_new0 (GthTestSimplePrivate, 1);
-}
-
-
-GType
-gth_test_simple_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthTestSimpleClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_test_simple_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTestSimple),
-			0,
-			(GInstanceInitFunc) gth_test_simple_init
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) gth_test_simple_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_test_simple_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_TEST,
-					       "GthTestSimple",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-        return type;
 }
 
 

@@ -46,8 +46,11 @@ enum {
 	PROP_MENU
 };
 
-static gpointer parent_class = NULL;
+
 static int signals[LAST_SIGNAL];
+
+
+G_DEFINE_TYPE (GthMenuButton, gth_menu_button, GTK_TYPE_TOGGLE_BUTTON)
 
 
 static void
@@ -253,7 +256,6 @@ gth_menu_button_class_init (GthMenuButtonClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMenuButtonPrivate));
 
 	object_class = (GObjectClass *) klass;
@@ -394,33 +396,6 @@ gth_menu_button_init (GthMenuButton *self)
 			  "button-press-event",
 		          G_CALLBACK (toggle_button_press_event_cb),
 		          self);
-}
-
-
-GType
-gth_menu_button_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthMenuButtonClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_menu_button_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMenuButton),
-			0,
-			(GInstanceInitFunc) gth_menu_button_init
-		};
-		type = g_type_register_static (GTK_TYPE_TOGGLE_BUTTON,
-					       "GthMenuButton",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

@@ -24,10 +24,7 @@
 #include "gth-edit-metadata-dialog.h"
 
 
-#define GTH_EDIT_METADATA_DIALOG_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_EDIT_METADATA_DIALOG, GthEditMetadataDialogPrivate))
-
-
-static gpointer gth_edit_metadata_dialog_parent_class = NULL;
+G_DEFINE_TYPE (GthEditMetadataDialog,  gth_edit_metadata_dialog, GTK_TYPE_DIALOG)
 
 
 struct _GthEditMetadataDialogPrivate {
@@ -39,52 +36,18 @@ struct _GthEditMetadataDialogPrivate {
 static void
 gth_edit_metadata_dialog_class_init (GthEditMetadataDialogClass *klass)
 {
-	gth_edit_metadata_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthEditMetadataDialogPrivate));
 }
 
 
 static void
-gth_edit_metadata_dialog_init (GthEditMetadataDialog *edit_metadata_dialog)
-{
-	edit_metadata_dialog->priv = GTH_EDIT_METADATA_DIALOG_GET_PRIVATE (edit_metadata_dialog);
-}
-
-
-GType
-gth_edit_metadata_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthEditMetadataDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_edit_metadata_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthEditMetadataDialog),
-			0,
-			(GInstanceInitFunc) gth_edit_metadata_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthEditMetadataDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
-}
-
-
-static void
-gth_edit_metadata_dialog_construct (GthEditMetadataDialog *self)
+gth_edit_metadata_dialog_init (GthEditMetadataDialog *self)
 {
 	GtkWidget *vbox;
 	GArray    *pages;
 	int        i;
+
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_METADATA_DIALOG, GthEditMetadataDialogPrivate);
 
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
@@ -132,12 +95,7 @@ gth_edit_metadata_dialog_construct (GthEditMetadataDialog *self)
 GtkWidget *
 gth_edit_metadata_dialog_new (void)
 {
-	GthEditMetadataDialog *self;
-
-	self = g_object_new (GTH_TYPE_EDIT_METADATA_DIALOG, NULL);
-	gth_edit_metadata_dialog_construct (self);
-
-	return (GtkWidget *) self;
+	return g_object_new (GTH_TYPE_EDIT_METADATA_DIALOG, NULL);
 }
 
 
@@ -204,25 +162,13 @@ gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *dialog,
 /* -- gth_edit_metadata_dialog_page -- */
 
 
-GType
-gth_edit_metadata_page_get_type (void) {
-	static GType gth_edit_metadata_page_type_id = 0;
-	if (gth_edit_metadata_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthEditMetadataPageIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_edit_metadata_page_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthEditMetadataPageIface", &g_define_type_info, 0);
-	}
-	return gth_edit_metadata_page_type_id;
+G_DEFINE_INTERFACE (GthEditMetadataPage, gth_edit_metadata_page, 0)
+
+
+static void
+gth_edit_metadata_page_default_init (GthEditMetadataPageInterface *iface)
+{
+	/* void */
 }
 
 

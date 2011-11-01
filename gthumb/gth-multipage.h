@@ -36,7 +36,7 @@ G_BEGIN_DECLS
 #define GTH_TYPE_MULTIPAGE_CHILD               (gth_multipage_child_get_type ())
 #define GTH_MULTIPAGE_CHILD(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_MULTIPAGE_CHILD, GthMultipageChild))
 #define GTH_IS_MULTIPAGE_CHILD(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_MULTIPAGE_CHILD))
-#define GTH_MULTIPAGE_CHILD_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_MULTIPAGE_CHILD, GthMultipageChildIface))
+#define GTH_MULTIPAGE_CHILD_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_MULTIPAGE_CHILD, GthMultipageChildInterface))
 
 typedef struct _GthMultipage        GthMultipage;
 typedef struct _GthMultipageClass   GthMultipageClass;
@@ -56,9 +56,9 @@ struct _GthMultipageClass
 };
 
 typedef struct _GthMultipageChild GthMultipageChild;
-typedef struct _GthMultipageChildIface GthMultipageChildIface;
+typedef struct _GthMultipageChildInterface GthMultipageChildInterface;
 
-struct _GthMultipageChildIface {
+struct _GthMultipageChildInterface {
 	GTypeInterface parent_iface;
 	const char *  (*get_name)  (GthMultipageChild *self);
 	const char *  (*get_icon)  (GthMultipageChild *self);

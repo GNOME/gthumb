@@ -58,7 +58,7 @@ struct _FlickrConnectionPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (FlickrConnection, flickr_connection, GTH_TYPE_TASK)
 
 
 static void
@@ -75,7 +75,7 @@ flickr_connection_finalize (GObject *object)
 	g_free (self->priv->frob);
 	_g_object_unref (self->priv->session);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (flickr_connection_parent_class)->finalize (object);
 }
 
 
@@ -104,7 +104,6 @@ flickr_connection_class_init (FlickrConnectionClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FlickrConnectionPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -127,34 +126,6 @@ flickr_connection_init (FlickrConnection *self)
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
 	self->priv->checksum = g_checksum_new (G_CHECKSUM_MD5);
-}
-
-
-GType
-flickr_connection_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (FlickrConnectionClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) flickr_connection_class_init,
-			NULL,
-			NULL,
-			sizeof (FlickrConnection),
-			0,
-			(GInstanceInitFunc) flickr_connection_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "FlickrConnection",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

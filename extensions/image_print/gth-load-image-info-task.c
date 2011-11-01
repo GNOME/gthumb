@@ -32,7 +32,7 @@ struct _GthLoadImageInfoTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthLoadImageInfoTask, gth_load_image_info_task, GTH_TYPE_TASK)
 
 
 static void
@@ -49,7 +49,7 @@ gth_load_image_info_task_finalize (GObject *object)
 	g_free (self->priv->attributes);
 	g_object_unref (self->priv->loader);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_load_image_info_task_parent_class)->finalize (object);
 }
 
 
@@ -209,7 +209,6 @@ gth_load_image_info_task_class_init (GthLoadImageInfoTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthLoadImageInfoTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -226,34 +225,6 @@ gth_load_image_info_task_init (GthLoadImageInfoTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOAD_IMAGE_INFO_TASK, GthLoadImageInfoTaskPrivate);
 	self->priv->loader = gth_image_loader_new (NULL, NULL);
-}
-
-
-GType
-gth_load_image_info_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthLoadImageInfoTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_load_image_info_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthLoadImageInfoTask),
-			0,
-			(GInstanceInitFunc) gth_load_image_info_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthLoadImageInfoTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

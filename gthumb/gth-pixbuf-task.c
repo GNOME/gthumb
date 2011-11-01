@@ -34,7 +34,7 @@ struct _GthPixbufTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthPixbufTask, gth_pixbuf_task, GTH_TYPE_ASYNC_TASK)
 
 
 static void
@@ -64,7 +64,7 @@ gth_pixbuf_task_finalize (GObject *object)
 	if (self->priv->destroy_data_func != NULL)
 		(*self->priv->destroy_data_func) (self->data);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_pixbuf_task_parent_class)->finalize (object);
 }
 
 
@@ -180,7 +180,6 @@ gth_pixbuf_task_class_init (GthPixbufTaskClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthPixbufTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -207,34 +206,6 @@ gth_pixbuf_task_init (GthPixbufTask *self)
 	self->dest_pixel = NULL;
 	self->ltr = TRUE;
 	self->line = 0;
-}
-
-
-GType
-gth_pixbuf_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthPixbufTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_pixbuf_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthPixbufTask),
-			0,
-			(GInstanceInitFunc) gth_pixbuf_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_ASYNC_TASK,
-					       "GthPixbufTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

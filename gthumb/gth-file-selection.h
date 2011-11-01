@@ -31,12 +31,12 @@ G_BEGIN_DECLS
 #define GTH_TYPE_FILE_SELECTION               (gth_file_selection_get_type ())
 #define GTH_FILE_SELECTION(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_SELECTION, GthFileSelection))
 #define GTH_IS_FILE_SELECTION(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_FILE_SELECTION))
-#define GTH_FILE_SELECTION_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_FILE_SELECTION, GthFileSelectionIface))
+#define GTH_FILE_SELECTION_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_FILE_SELECTION, GthFileSelectionInterface))
 
 typedef struct _GthFileSelection GthFileSelection;
-typedef struct _GthFileSelectionIface GthFileSelectionIface;
+typedef struct _GthFileSelectionInterface GthFileSelectionInterface;
 
-struct _GthFileSelectionIface {
+struct _GthFileSelectionInterface {
 	GTypeInterface parent_iface;
 
 	/*< signals >*/

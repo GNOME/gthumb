@@ -41,7 +41,7 @@ struct _GthScreensaverPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthScreensaver, gth_screensaver, G_TYPE_OBJECT)
 
 
 static void
@@ -52,12 +52,10 @@ gth_screensaver_finalize (GObject *object)
 	self = GTH_SCREENSAVER (object);
 
 	g_free (self->priv->app_id);
-	if (self->priv->proxy != NULL) {
+	if (self->priv->proxy != NULL)
 		g_object_unref (self->priv->proxy);
-		self->priv->proxy = NULL;
-	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_screensaver_parent_class)->finalize (object);
 }
 
 
@@ -108,7 +106,6 @@ gth_screensaver_class_init (GthScreensaverClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthScreensaverPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -135,34 +132,6 @@ gth_screensaver_init (GthScreensaver *self)
 	self->priv->app_id = NULL;
 	self->priv->cookie = 0;
 	self->priv->proxy = NULL;
-}
-
-
-GType
-gth_screensaver_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthScreensaverClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_screensaver_class_init,
-			NULL,
-			NULL,
-			sizeof (GthScreensaver),
-			0,
-			(GInstanceInitFunc) gth_screensaver_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthScreensaver",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

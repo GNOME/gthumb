@@ -23,34 +23,18 @@
 #include "gth-duplicable.h"
 
 
-GObject * 
-gth_duplicable_duplicate (GthDuplicable *self) 
+G_DEFINE_INTERFACE (GthDuplicable, gth_duplicable, 0)
+
+
+static void
+gth_duplicable_default_init (GthDuplicableInterface *iface)
 {
-	return GTH_DUPLICABLE_GET_INTERFACE (self)->duplicate (self);
+	/* void */
 }
 
 
-GType 
-gth_duplicable_get_type (void) 
+GObject *
+gth_duplicable_duplicate (GthDuplicable *self)
 {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthDuplicableIface), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) NULL, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			0, 
-			0, 
-			(GInstanceInitFunc) NULL, 
-			NULL 
-		};
-		type_id = g_type_register_static (G_TYPE_INTERFACE, 
-						  "GthDuplicable", 
-						  &g_define_type_info, 
-						  0);
-	}
-	return type_id;
+	return GTH_DUPLICABLE_GET_INTERFACE (self)->duplicate (self);
 }

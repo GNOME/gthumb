@@ -25,6 +25,9 @@
 #include "gth-file-tool-negative.h"
 
 
+G_DEFINE_TYPE (GthFileToolNegative, gth_file_tool_negative, GTH_TYPE_FILE_TOOL)
+
+
 typedef struct {
 	GtkWidget       *viewer_page;
 	cairo_surface_t *source;
@@ -178,37 +181,18 @@ gth_file_tool_negative_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_negative_instance_init (GthFileToolNegative *self)
+gth_file_tool_negative_class_init (GthFileToolNegativeClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-invert", _("Negative"), _("Negative"), FALSE);
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_negative_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_negative_activate;
 }
 
 
 static void
-gth_file_tool_negative_class_init (GthFileToolClass *klass)
+gth_file_tool_negative_init (GthFileToolNegative *self)
 {
-	klass->update_sensitivity = gth_file_tool_negative_update_sensitivity;
-	klass->activate = gth_file_tool_negative_activate;
-}
-
-
-GType
-gth_file_tool_negative_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolNegativeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_negative_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolNegative),
-			0,
-			(GInstanceInitFunc) gth_file_tool_negative_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolNegative", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-invert", _("Negative"), _("Negative"), FALSE);
 }

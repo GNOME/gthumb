@@ -38,6 +38,9 @@
 #define DEFAULT_DELAY 2000
 
 
+G_DEFINE_TYPE (GthSlideshow, gth_slideshow, GTK_TYPE_WINDOW)
+
+
 typedef enum {
 	GTH_SLIDESHOW_DIRECTION_FORWARD,
 	GTH_SLIDESHOW_DIRECTION_BACKWARD
@@ -86,9 +89,6 @@ struct _GthSlideshowPrivate {
 	gboolean               random_order;
 	GthScreensaver        *screensaver;
 };
-
-
-static gpointer parent_class = NULL;
 
 
 static void
@@ -269,35 +269,6 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 
 
 static void
-gth_slideshow_init (GthSlideshow *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW, GthSlideshowPrivate);
-	self->priv->file_list = NULL;
-	self->priv->next_event = 0;
-	self->priv->delay = DEFAULT_DELAY;
-	self->priv->automatic = FALSE;
-	self->priv->wrap_around = FALSE;
-	self->priv->transitions = NULL;
-	self->priv->n_transitions = 0;
-	self->priv->rand = g_rand_new ();
-	self->priv->first_show = TRUE;
-	self->priv->audio_files = NULL;
-	self->priv->paused = FALSE;
-	self->priv->animating = FALSE;
-	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
-	self->priv->random_order = FALSE;
-	self->priv->current_pixbuf = NULL;
-	self->priv->screensaver = gth_screensaver_new (NULL);
-
-	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
-	g_signal_connect (self->priv->preloader,
-			  "requested_ready",
-			  G_CALLBACK (image_preloader_requested_ready_cb),
-			  self);
-}
-
-
-static void
 gth_slideshow_finalize (GObject *object)
 {
 	GthSlideshow *self = GTH_SLIDESHOW (object);
@@ -329,7 +300,7 @@ gth_slideshow_finalize (GObject *object)
 		g_object_unref (self->priv->screensaver);
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_slideshow_parent_class)->finalize (object);
 }
 
 
@@ -338,39 +309,10 @@ gth_slideshow_class_init (GthSlideshowClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthSlideshowPrivate));
 
 	gobject_class = G_OBJECT_CLASS (klass);
 	gobject_class->finalize = gth_slideshow_finalize;
-}
-
-
-GType
-gth_slideshow_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthSlideshowClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_slideshow_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSlideshow),
-			0,
-			(GInstanceInitFunc) gth_slideshow_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_WINDOW,
-					       "GthSlideshow",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 
@@ -463,6 +405,35 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 
 	_gth_slideshow_reset_current (self);
 	_gth_slideshow_load_current_image (self);
+}
+
+
+static void
+gth_slideshow_init (GthSlideshow *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW, GthSlideshowPrivate);
+	self->priv->file_list = NULL;
+	self->priv->next_event = 0;
+	self->priv->delay = DEFAULT_DELAY;
+	self->priv->automatic = FALSE;
+	self->priv->wrap_around = FALSE;
+	self->priv->transitions = NULL;
+	self->priv->n_transitions = 0;
+	self->priv->rand = g_rand_new ();
+	self->priv->first_show = TRUE;
+	self->priv->audio_files = NULL;
+	self->priv->paused = FALSE;
+	self->priv->animating = FALSE;
+	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
+	self->priv->random_order = FALSE;
+	self->priv->current_pixbuf = NULL;
+	self->priv->screensaver = gth_screensaver_new (NULL);
+
+	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
+	g_signal_connect (self->priv->preloader,
+			  "requested_ready",
+			  G_CALLBACK (image_preloader_requested_ready_cb),
+			  self);
 }
 
 

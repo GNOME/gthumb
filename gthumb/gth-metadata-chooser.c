@@ -57,14 +57,15 @@ struct _GthMetadataChooserPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_metadata_chooser_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthMetadataChooser, gth_metadata_chooser, GTK_TYPE_TREE_VIEW)
 
 
 static void
 gth_metadata_chooser_class_init (GthMetadataChooserClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMetadataChooserPrivate));
 
 	/* signals */
@@ -293,7 +294,7 @@ row_inserted_cb (GtkTreeModel *tree_model,
 
 
 static void
-gth_metadata_chooser_instance_init (GthMetadataChooser *self)
+gth_metadata_chooser_init (GthMetadataChooser *self)
 {
 	GtkListStore      *store;
 	GtkTreeViewColumn *column;
@@ -355,34 +356,6 @@ gth_metadata_chooser_instance_init (GthMetadataChooser *self)
                                              NULL);
         gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self), column);
-}
-
-
-GType
-gth_metadata_chooser_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMetadataChooserClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_chooser_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataChooser),
-			0,
-			(GInstanceInitFunc) gth_metadata_chooser_instance_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_TREE_VIEW,
-					       "GthMetadataChooser",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

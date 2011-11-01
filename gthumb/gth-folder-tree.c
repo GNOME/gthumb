@@ -93,8 +93,10 @@ struct _GthFolderTreePrivate
 };
 
 
-static gpointer parent_class = NULL;
-static guint    gth_folder_tree_signals[LAST_SIGNAL] = { 0 };
+static guint gth_folder_tree_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthFolderTree, gth_folder_tree, GTK_TYPE_TREE_VIEW)
 
 
 static void
@@ -116,7 +118,7 @@ gth_folder_tree_finalize (GObject *object)
 		folder_tree->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_folder_tree_parent_class)->finalize (object);
 }
 
 
@@ -125,8 +127,6 @@ gth_folder_tree_class_init (GthFolderTreeClass *class)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_folder_tree_finalize;
@@ -1027,34 +1027,6 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 	folder_tree->priv->drag_started = FALSE;
 	folder_tree->priv->drag_target_list = NULL;
 	gth_folder_tree_construct (folder_tree);
-}
-
-
-GType
-gth_folder_tree_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFolderTreeClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_folder_tree_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFolderTree),
-			0,
-			(GInstanceInitFunc) gth_folder_tree_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_TREE_VIEW,
-					       "GthFolderTree",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

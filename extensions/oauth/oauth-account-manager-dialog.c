@@ -28,13 +28,13 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+G_DEFINE_TYPE (OAuthAccountManagerDialog, oauth_account_manager_dialog, GTK_TYPE_DIALOG)
+
+
 enum {
 	ACCOUNT_DATA_COLUMN,
 	ACCOUNT_NAME_COLUMN,
 };
-
-
-static gpointer parent_class = NULL;
 
 
 struct _OAuthAccountManagerDialogPrivate {
@@ -51,7 +51,7 @@ oauth_account_manager_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (oauth_account_manager_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ oauth_account_manager_dialog_class_init (OAuthAccountManagerDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (OAuthAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -157,34 +156,6 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 			  "clicked",
 			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
-}
-
-
-GType
-oauth_account_manager_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (OAuthAccountManagerDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) oauth_account_manager_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (OAuthAccountManagerDialog),
-			0,
-			(GInstanceInitFunc) oauth_account_manager_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "OAuthAccountManagerDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

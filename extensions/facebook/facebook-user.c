@@ -26,7 +26,14 @@
 #include "facebook-user.h"
 
 
-static gpointer facebook_user_parent_class = NULL;
+static void facebook_user_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (FacebookUser,
+			 facebook_user,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        facebook_user_dom_domizable_interface_init))
 
 
 static void
@@ -99,45 +106,10 @@ facebook_user_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-facebook_user_instance_init (FacebookUser *self)
+facebook_user_init (FacebookUser *self)
 {
 	self->id = NULL;
 	self->username = NULL;
-}
-
-
-GType
-facebook_user_get_type (void)
-{
-	static GType facebook_user_type_id = 0;
-
-	if (facebook_user_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookUserClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_user_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookUser),
-			0,
-			(GInstanceInitFunc) facebook_user_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) facebook_user_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		facebook_user_type_id = g_type_register_static (G_TYPE_OBJECT,
-								"FacebookUser",
-								&g_define_type_info,
-								0);
-		g_type_add_interface_static (facebook_user_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return facebook_user_type_id;
 }
 
 

@@ -26,7 +26,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthContactSheetThemeDialog, gth_contact_sheet_theme_dialog, GTK_TYPE_DIALOG)
 
 
 struct _GthContactSheetThemeDialogPrivate {
@@ -49,7 +49,7 @@ gth_contact_sheet_theme_dialog_finalize (GObject *object)
 	gth_contact_sheet_theme_unref (self->priv->theme);
 	gth_contact_sheet_theme_list_free (self->priv->all_themes);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_contact_sheet_theme_dialog_parent_class)->finalize (object);
 }
 
 
@@ -58,7 +58,6 @@ gth_contact_sheet_theme_dialog_class_init (GthContactSheetThemeDialogClass *klas
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthContactSheetThemeDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -305,34 +304,6 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 			  "clicked",
 			  G_CALLBACK (v_gradient_swap_button_clicked_cb),
 			  self);
-}
-
-
-GType
-gth_contact_sheet_theme_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthContactSheetThemeDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_contact_sheet_theme_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthContactSheetThemeDialog),
-			0,
-			(GInstanceInitFunc) gth_contact_sheet_theme_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthContactSheetThemeDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

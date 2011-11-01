@@ -63,7 +63,7 @@ struct _FacebookConnectionPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (FacebookConnection, facebook_connection, GTH_TYPE_TASK)
 
 
 static void
@@ -83,7 +83,7 @@ facebook_connection_finalize (GObject *object)
 	g_free (self->priv->token);
 	_g_object_unref (self->priv->session);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_connection_parent_class)->finalize (object);
 }
 
 
@@ -112,7 +112,6 @@ facebook_connection_class_init (FacebookConnectionClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FacebookConnectionPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -138,34 +137,6 @@ facebook_connection_init (FacebookConnection *self)
 	self->priv->result = NULL;
 	self->priv->checksum = g_checksum_new (G_CHECKSUM_MD5);
 	self->priv->call_id = NULL;
-}
-
-
-GType
-facebook_connection_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (FacebookConnectionClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) facebook_connection_class_init,
-			NULL,
-			NULL,
-			sizeof (FacebookConnection),
-			0,
-			(GInstanceInitFunc) facebook_connection_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "FacebookConnection",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -52,8 +52,10 @@ struct _GthTimeSelectorPrivate
 };
 
 
-static GtkHBoxClass *parent_class = NULL;
 static guint gth_time_selector_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthTimeSelector, gth_time_selector, GTK_TYPE_HBOX);
 
 
 static void
@@ -66,16 +68,15 @@ gth_time_selector_finalize (GObject *object)
 	gtk_widget_destroy (self->priv->calendar_popup);
 	gth_datetime_free (self->priv->date_time);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_time_selector_parent_class)->finalize (object);
 }
 
 
 static void
 gth_time_selector_class_init (GthTimeSelectorClass *class)
 {
-	GObjectClass   *object_class;
+	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthTimeSelectorPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -530,34 +531,6 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  self);
 
 	gth_datetime_free (dt);
-}
-
-
-GType
-gth_time_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTimeSelectorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_time_selector_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTimeSelector),
-			0,
-			(GInstanceInitFunc) gth_time_selector_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_HBOX,
-					       "GthTimeSelector",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

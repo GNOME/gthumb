@@ -43,7 +43,17 @@ enum {
 
 
 static guint signals[LAST_SIGNAL] = { 0 };
-static gpointer parent_class = NULL;
+
+
+static void gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageRotator,
+			 gth_image_rotator,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+					        gth_image_rotator_gth_image_tool_interface_init))
+
 
 
 struct _GthImageRotatorPrivate {
@@ -582,26 +592,6 @@ gth_image_rotator_zoom_changed (GthImageViewerTool *base)
 
 
 static void
-gth_image_rotator_instance_init (GthImageRotator *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_ROTATOR, GthImageRotatorPrivate);
-	self->priv->preview_image = NULL;
-	self->priv->grid_type = GTH_GRID_NONE;
-	self->priv->resize = GTH_TRANSFORM_RESIZE_BOUNDING_BOX;
-	self->priv->background_color.r = 0.0;
-	self->priv->background_color.g = 0.0;
-	self->priv->background_color.b = 0.0;
-	self->priv->background_color.a = 1.0;
-	self->priv->enable_crop = FALSE;
-	self->priv->crop_region.x = 0;
-	self->priv->crop_region.y = 0;
-	self->priv->crop_region.width = 0;
-	self->priv->crop_region.height = 0;
-	self->priv->dragging = FALSE;
-}
-
-
-static void
 gth_image_rotator_finalize (GObject *object)
 {
 	GthImageRotator *self;
@@ -614,7 +604,7 @@ gth_image_rotator_finalize (GObject *object)
 		cairo_surface_destroy (self->priv->preview_image);
 
 	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_rotator_parent_class)->finalize (object);
 }
 
 
@@ -623,7 +613,6 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 {
 	GObjectClass *gobject_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageRotatorPrivate));
 
 	gobject_class = (GObjectClass*) class;
@@ -660,7 +649,7 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 
 
 static void
-gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
+gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolInterface *iface)
 {
 	iface->set_viewer = gth_image_rotator_set_viewer;
 	iface->unset_viewer = gth_image_rotator_unset_viewer;
@@ -678,37 +667,23 @@ gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 }
 
 
-GType
-gth_image_rotator_get_type (void)
+static void
+gth_image_rotator_init (GthImageRotator *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageRotatorClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_rotator_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageRotator),
-			0,
-			(GInstanceInitFunc) gth_image_rotator_instance_init
-		};
-		static const GInterfaceInfo gth_image_tool_info = {
-			(GInterfaceInitFunc) gth_image_rotator_gth_image_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageRotator",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_ROTATOR, GthImageRotatorPrivate);
+	self->priv->preview_image = NULL;
+	self->priv->grid_type = GTH_GRID_NONE;
+	self->priv->resize = GTH_TRANSFORM_RESIZE_BOUNDING_BOX;
+	self->priv->background_color.r = 0.0;
+	self->priv->background_color.g = 0.0;
+	self->priv->background_color.b = 0.0;
+	self->priv->background_color.a = 1.0;
+	self->priv->enable_crop = FALSE;
+	self->priv->crop_region.x = 0;
+	self->priv->crop_region.y = 0;
+	self->priv->crop_region.width = 0;
+	self->priv->crop_region.height = 0;
+	self->priv->dragging = FALSE;
 }
 
 

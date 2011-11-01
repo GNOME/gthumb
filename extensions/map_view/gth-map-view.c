@@ -32,7 +32,16 @@
 #define LABEL_MAX_WIDTH 200
 
 
-static gpointer parent_class = NULL;
+static void gth_map_view_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
+static void gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (GthMapView,
+			 gth_map_view,
+			 GTK_TYPE_VBOX,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
+					        gth_map_view_gth_multipage_child_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+		        		        gth_map_view_gth_property_view_interface_init))
 
 
 struct _GthMapViewPrivate {
@@ -207,7 +216,7 @@ gth_map_view_real_get_icon (GthMultipageChild *self)
 static void
 gth_map_view_finalize (GObject *base)
 {
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_map_view_parent_class)->finalize (base);
 }
 
 
@@ -218,7 +227,7 @@ gth_map_view_realize (GtkWidget *widget)
 
 	self = GTH_MAP_VIEW (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (gth_map_view_parent_class)->realize (widget);
 	if (! gtk_widget_get_visible (self->priv->no_gps_label))
 		gtk_widget_show (self->priv->embed);
 }
@@ -231,7 +240,7 @@ gth_map_view_unrealize (GtkWidget *widget)
 
 	self = GTH_MAP_VIEW (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	GTK_WIDGET_CLASS (gth_map_view_parent_class)->unrealize (widget);
 	gtk_widget_hide (self->priv->embed);
 }
 
@@ -241,7 +250,6 @@ gth_map_view_class_init (GthMapViewClass *klass)
 {
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMapViewPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_map_view_finalize;
@@ -300,7 +308,7 @@ gth_map_view_init (GthMapView *self)
 
 
 static void
-gth_map_view_gth_multipage_child_interface_init (GthMultipageChildIface *iface)
+gth_map_view_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
 {
 	iface->get_name = gth_map_view_real_get_name;
 	iface->get_icon = gth_map_view_real_get_icon;
@@ -308,47 +316,7 @@ gth_map_view_gth_multipage_child_interface_init (GthMultipageChildIface *iface)
 
 
 static void
-gth_map_view_gth_property_view_interface_init (GthPropertyViewIface *iface)
+gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
 	iface->set_file = gth_map_view_real_set_file;
-}
-
-
-GType
-gth_map_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMapViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_map_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthMapView),
-			0,
-			(GInstanceInitFunc) gth_map_view_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_multipage_child_info = {
-			(GInterfaceInitFunc) gth_map_view_gth_multipage_child_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_property_view_info = {
-			(GInterfaceInitFunc) gth_map_view_gth_property_view_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthMapView",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_MULTIPAGE_CHILD, &gth_multipage_child_info);
-		g_type_add_interface_static (type, GTH_TYPE_PROPERTY_VIEW, &gth_property_view_info);
-	}
-
-	return type;
 }

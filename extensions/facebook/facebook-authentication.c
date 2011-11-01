@@ -54,8 +54,10 @@ struct _FacebookAuthenticationPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
 static guint facebook_authentication_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (FacebookAuthentication, facebook_authentication, G_TYPE_OBJECT)
 
 
 static void
@@ -70,7 +72,7 @@ facebook_authentication_finalize (GObject *object)
 	_g_object_list_unref (self->priv->accounts);
 	_g_object_unref (self->priv->account);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_authentication_parent_class)->finalize (object);
 }
 
 
@@ -79,7 +81,6 @@ facebook_authentication_class_init (FacebookAuthenticationClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (FacebookAuthenticationPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -116,34 +117,6 @@ facebook_authentication_init (FacebookAuthentication *self)
 	self->priv->conn = NULL;
 	self->priv->accounts = NULL;
 	self->priv->account = NULL;
-}
-
-
-GType
-facebook_authentication_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) facebook_authentication_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTask),
-			0,
-			(GInstanceInitFunc) facebook_authentication_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "FacebookAuthentication",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

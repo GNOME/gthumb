@@ -30,6 +30,9 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+G_DEFINE_TYPE (GthImportPreferencesDialog, gth_import_preferences_dialog, GTK_TYPE_DIALOG)
+
+
 /* Signals */
 enum {
 	DESTINATION_CHANGED,
@@ -37,7 +40,6 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
@@ -60,7 +62,7 @@ gth_import_preferences_dialog_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->event);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_import_preferences_dialog_parent_class)->finalize (object);
 }
 
 
@@ -69,7 +71,6 @@ gth_import_preferences_dialog_class_init (GthImportPreferencesDialogClass *klass
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImportPreferencesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -408,34 +409,6 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 			  self);
 
 	g_object_unref (destination);
-}
-
-
-GType
-gth_import_preferences_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImportPreferencesDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_import_preferences_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthImportPreferencesDialog),
-			0,
-			(GInstanceInitFunc) gth_import_preferences_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthImportPreferencesDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

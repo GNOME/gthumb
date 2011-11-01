@@ -29,7 +29,7 @@
 #define CHECK_THREAD_RATE 5
 
 
-static gpointer gth_metadata_provider_parent_class = NULL;
+G_DEFINE_TYPE (GthMetadataProvider, gth_metadata_provider, G_TYPE_OBJECT)
 
 
 static gboolean
@@ -74,8 +74,6 @@ gth_metadata_provider_real_write (GthMetadataProvider   *self,
 static void
 gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 {
-	gth_metadata_provider_parent_class = g_type_class_peek_parent (klass);
-
 	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_real_can_read;
 	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_real_can_write;
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_real_read;
@@ -83,26 +81,10 @@ gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 }
 
 
-GType
-gth_metadata_provider_get_type (void)
+static void
+gth_metadata_provider_init (GthMetadataProvider *self)
 {
-	static GType gth_metadata_provider_type_id = 0;
-	if (gth_metadata_provider_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMetadataProviderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_metadata_provider_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthMetadataProvider),
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_metadata_provider_type_id = g_type_register_static (G_TYPE_OBJECT, "GthMetadataProvider", &g_define_type_info, 0);
-	}
-	return gth_metadata_provider_type_id;
+	/* void */
 }
 
 

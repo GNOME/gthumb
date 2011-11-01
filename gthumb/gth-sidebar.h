@@ -37,7 +37,7 @@ G_BEGIN_DECLS
 #define GTH_TYPE_PROPERTY_VIEW               (gth_property_view_get_type ())
 #define GTH_PROPERTY_VIEW(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyView))
 #define GTH_IS_PROPERTY_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_PROPERTY_VIEW))
-#define GTH_PROPERTY_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyViewIface))
+#define GTH_PROPERTY_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyViewInterface))
 
 typedef struct _GthSidebar        GthSidebar;
 typedef struct _GthSidebarClass   GthSidebarClass;
@@ -55,9 +55,9 @@ struct _GthSidebarClass
 };
 
 typedef struct _GthPropertyView GthPropertyView;
-typedef struct _GthPropertyViewIface GthPropertyViewIface;
+typedef struct _GthPropertyViewInterface GthPropertyViewInterface;
 
-struct _GthPropertyViewIface {
+struct _GthPropertyViewInterface {
 	GTypeInterface parent_iface;
 	void  (*set_file)  (GthPropertyView *self,
 			    GthFileData     *file_data);

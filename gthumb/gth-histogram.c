@@ -39,8 +39,10 @@ struct _GthHistogramPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_histogram_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE (GthHistogram, gth_histogram, G_TYPE_OBJECT)
 
 
 static void
@@ -56,7 +58,7 @@ gth_histogram_finalize (GObject *object)
 	g_free (self->priv->values);
 	g_free (self->priv->values_max);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_histogram_parent_class)->finalize (object);
 }
 
 
@@ -65,7 +67,6 @@ gth_histogram_class_init (GthHistogramClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthHistogramPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -95,33 +96,6 @@ gth_histogram_init (GthHistogram *self)
 	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		self->priv->values[i] = g_new0 (int, 256);
 	self->priv->values_max = g_new0 (int, GTH_HISTOGRAM_N_CHANNELS + 1);
-}
-
-
-GType
-gth_histogram_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthHistogramClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_histogram_class_init,
-			NULL,
-			NULL,
-			sizeof (GthHistogram),
-			0,
-			(GInstanceInitFunc) gth_histogram_init
-		};
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthHistogram",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

@@ -58,7 +58,8 @@ struct _GthTaskProgressClass {
 	GtkHBoxClass parent_class;
 };
 
-static gpointer gth_task_progress_parent_class = NULL;
+
+G_DEFINE_TYPE (GthTaskProgress, gth_task_progress, GTK_TYPE_HBOX)
 
 
 static void
@@ -150,34 +151,6 @@ gth_task_progress_init (GthTaskProgress *self)
 }
 
 
-GType
-gth_task_progress_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthTaskProgressClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_task_progress_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthTaskProgress),
-			0,
-			(GInstanceInitFunc) gth_task_progress_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_HBOX,
-					       "GthTaskProgress",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
-}
-
-
 static gboolean
 task_pulse_cb (gpointer user_data)
 {
@@ -266,15 +239,15 @@ gth_task_progress_new (GthTask *task)
 /* -- gth_progress_dialog -- */
 
 
-static gpointer gth_progress_dialog_parent_class = NULL;
-
-
 struct _GthProgressDialogPrivate {
 	GtkWindow *parent;
 	GtkWidget *task_box;
 	gulong     show_event;
 	gboolean   custom_dialog_opened;
 };
+
+
+G_DEFINE_TYPE (GthProgressDialog, gth_progress_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -332,34 +305,6 @@ gth_progress_dialog_init (GthProgressDialog *self)
 
 	g_signal_connect (self, "response", G_CALLBACK (progress_dialog_response_cb), self);
 	g_signal_connect (self, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), self);
-}
-
-
-GType
-gth_progress_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthProgressDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_progress_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthProgressDialog),
-			0,
-			(GInstanceInitFunc) gth_progress_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthProgressDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

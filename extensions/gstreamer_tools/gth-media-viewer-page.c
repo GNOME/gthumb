@@ -31,9 +31,18 @@
 #include "gth-media-viewer-page.h"
 
 
-#define GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate))
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define PROGRESS_DELAY 500
+
+
+static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthMediaViewerPage,
+			 gth_media_viewer_page,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
+					 	gth_viewer_page_interface_init))
 
 
 struct _GthMediaViewerPagePrivate {
@@ -68,7 +77,6 @@ struct _GthMediaViewerPagePrivate {
 };
 
 
-static gpointer gth_media_viewer_page_parent_class = NULL;
 static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0, 1.50, 2.0, 3.0, 4.0, 8.0, 16.0, 32.0 };
 
 
@@ -1300,7 +1308,7 @@ gth_media_viewer_page_class_init (GthMediaViewerPageClass *klass)
 
 
 static void
-gth_viewer_page_interface_init (GthViewerPageIface *iface)
+gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 {
 	iface->activate = gth_media_viewer_page_real_activate;
 	iface->deactivate = gth_media_viewer_page_real_deactivate;
@@ -1321,9 +1329,9 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 
 
 static void
-gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
+gth_media_viewer_page_init (GthMediaViewerPage *self)
 {
-	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate);
 	self->priv->update_progress_id = 0;
 	self->priv->xwin_assigned = FALSE;
 	self->priv->has_video = FALSE;
@@ -1333,34 +1341,6 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 	self->priv->icon = NULL;
 	self->priv->cursor_visible = TRUE;
 	self->priv->screensaver = gth_screensaver_new (NULL);
-}
-
-
-GType
-gth_media_viewer_page_get_type (void) {
-	static GType gth_media_viewer_page_type_id = 0;
-	if (gth_media_viewer_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMediaViewerPageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_media_viewer_page_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthMediaViewerPage),
-			0,
-			(GInstanceInitFunc) gth_media_viewer_page_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_viewer_page_info = {
-			(GInterfaceInitFunc) gth_viewer_page_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		gth_media_viewer_page_type_id = g_type_register_static (G_TYPE_OBJECT, "GthMediaViewerPage", &g_define_type_info, 0);
-		g_type_add_interface_static (gth_media_viewer_page_type_id, GTH_TYPE_VIEWER_PAGE, &gth_viewer_page_info);
-	}
-	return gth_media_viewer_page_type_id;
 }
 
 

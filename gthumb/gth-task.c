@@ -42,7 +42,6 @@ struct _GthTaskPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
 static guint gth_task_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -51,6 +50,9 @@ gth_task_error_quark (void)
 {
 	return g_quark_from_static_string ("gth-task-error-quark");
 }
+
+
+G_DEFINE_TYPE (GthTask, gth_task, G_TYPE_OBJECT)
 
 
 static void
@@ -65,21 +67,21 @@ gth_task_finalize (GObject *object)
 		g_object_unref (task->priv->cancellable);
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_task_parent_class)->finalize (object);
 }
 
 
 static void
 base_exec (GthTask *task)
 {
-	/*gth_task_completed (task, NULL);*/
+	/* void */
 }
 
 
 static void
 base_cancelled (GthTask *task)
 {
-	/*gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));*/
+	/* void */
 }
 
 
@@ -88,7 +90,6 @@ gth_task_class_init (GthTaskClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthTaskPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -145,34 +146,6 @@ gth_task_init (GthTask *self)
 	self->priv->running = FALSE;
 	self->priv->cancellable = NULL;
 	self->priv->cancellable_cancelled = 0;
-}
-
-
-GType
-gth_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTask),
-			0,
-			(GInstanceInitFunc) gth_task_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

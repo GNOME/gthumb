@@ -34,7 +34,7 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (FlickrAccountManagerDialog, flickr_account_manager_dialog, GTK_TYPE_DIALOG)
 
 
 struct _FlickrAccountManagerDialogPrivate {
@@ -51,7 +51,7 @@ flickr_account_manager_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (flickr_account_manager_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ flickr_account_manager_dialog_class_init (FlickrAccountManagerDialogClass *klass
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FlickrAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -157,34 +156,6 @@ flickr_account_manager_dialog_init (FlickrAccountManagerDialog *self)
 			  "clicked",
 			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
-}
-
-
-GType
-flickr_account_manager_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrAccountManagerDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_account_manager_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrAccountManagerDialog),
-			0,
-			(GInstanceInitFunc) flickr_account_manager_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FlickrAccountManagerDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

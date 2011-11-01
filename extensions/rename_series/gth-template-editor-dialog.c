@@ -30,7 +30,7 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthTemplateEditorDialog, gth_template_editor_dialog, GTK_TYPE_DIALOG)
 
 
 struct _GthTemplateEditorDialogPrivate {
@@ -55,7 +55,7 @@ gth_template_editor_dialog_finalize (GObject *object)
 		dialog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_template_editor_dialog_parent_class)->finalize (object);
 }
 
 
@@ -64,9 +64,7 @@ gth_template_editor_dialog_class_init (GthTemplateEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_template_editor_dialog_finalize;
 }
 
@@ -76,34 +74,6 @@ gth_template_editor_dialog_init (GthTemplateEditorDialog *dialog)
 {
 	dialog->priv = g_new0 (GthTemplateEditorDialogPrivate, 1);
 	dialog->priv->re = NULL;
-}
-
-
-GType
-gth_template_editor_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthTemplateEditorDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_template_editor_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTemplateEditorDialog),
-			0,
-			(GInstanceInitFunc) gth_template_editor_dialog_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthTemplateEditorDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

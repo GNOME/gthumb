@@ -33,7 +33,7 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthImagePrintJob, gth_image_print_job, G_TYPE_OBJECT)
 
 
 struct _GthImagePrintJobPrivate {
@@ -114,7 +114,7 @@ gth_image_print_job_finalize (GObject *base)
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->event_name);
 
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_image_print_job_parent_class)->finalize (base);
 }
 
 
@@ -123,7 +123,6 @@ gth_image_print_job_class_init (GthImagePrintJobClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImagePrintJobPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -155,34 +154,6 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->printing = FALSE;
-}
-
-
-GType
-gth_image_print_job_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthImagePrintJobClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_print_job_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImagePrintJob),
-			0,
-			(GInstanceInitFunc) gth_image_print_job_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImagePrintJob",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

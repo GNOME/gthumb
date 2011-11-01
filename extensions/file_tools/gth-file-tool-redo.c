@@ -25,6 +25,9 @@
 #include "gth-file-tool-redo.h"
 
 
+G_DEFINE_TYPE (GthFileToolRedo, gth_file_tool_redo, GTH_TYPE_FILE_TOOL)
+
+
 static void
 gth_file_tool_redo_update_sensitivity (GthFileTool *base)
 {
@@ -37,7 +40,6 @@ gth_file_tool_redo_update_sensitivity (GthFileTool *base)
 		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (base), gth_image_history_can_redo (gth_image_viewer_page_get_history (GTH_IMAGE_VIEWER_PAGE (viewer_page))));
-
 }
 
 
@@ -57,37 +59,18 @@ gth_file_tool_redo_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_redo_instance_init (GthFileToolRedo *self)
+gth_file_tool_redo_class_init (GthFileToolRedoClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "redo", _("Redo"), _("Redo"), FALSE);
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_redo_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_redo_activate;
 }
 
 
 static void
-gth_file_tool_redo_class_init (GthFileToolClass *klass)
+gth_file_tool_redo_init (GthFileToolRedo *self)
 {
-	klass->update_sensitivity = gth_file_tool_redo_update_sensitivity;
-	klass->activate = gth_file_tool_redo_activate;
-}
-
-
-GType
-gth_file_tool_redo_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolRedoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_redo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolRedo),
-			0,
-			(GInstanceInitFunc) gth_file_tool_redo_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolRedo", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "redo", _("Redo"), _("Redo"), FALSE);
 }

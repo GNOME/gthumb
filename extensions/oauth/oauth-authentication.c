@@ -34,6 +34,9 @@
 #define OAUTH_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 1
 
 
+G_DEFINE_TYPE (OAuthAuthentication, oauth_authentication, G_TYPE_OBJECT)
+
+
 /* Signals */
 enum {
 	READY,
@@ -52,7 +55,6 @@ struct _OAuthAuthenticationPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
 static guint oauth_authentication_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -67,7 +69,7 @@ oauth_authentication_finalize (GObject *object)
 	_g_object_list_unref (self->priv->accounts);
 	_g_object_unref (self->priv->account);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (oauth_authentication_parent_class)->finalize (object);
 }
 
 
@@ -76,7 +78,6 @@ oauth_authentication_class_init (OAuthAuthenticationClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (OAuthAuthenticationPrivate));
 
 	object_class = (GObjectClass*) class;
@@ -112,34 +113,6 @@ oauth_authentication_init (OAuthAuthentication *self)
 	self->priv->conn = NULL;
 	self->priv->accounts = NULL;
 	self->priv->account = NULL;
-}
-
-
-GType
-oauth_authentication_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) oauth_authentication_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTask),
-			0,
-			(GInstanceInitFunc) oauth_authentication_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "OAuthAuthentication",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

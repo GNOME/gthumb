@@ -35,22 +35,13 @@
 #include "preferences.h"
 
 
+G_DEFINE_TYPE (GthJpegSaver, gth_jpeg_saver, GTH_TYPE_PIXBUF_SAVER)
+
+
 struct _GthJpegSaverPrivate {
 	GtkBuilder *builder;
 	char       *default_ext;
 };
-
-
-static gpointer parent_class = NULL;
-
-
-static void
-gth_jpeg_saver_init (GthJpegSaver *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_JPEG_SAVER, GthJpegSaverPrivate);
-	self->priv->builder = NULL;
-	self->priv->default_ext = NULL;
-}
 
 
 static void
@@ -61,7 +52,7 @@ gth_jpeg_saver_finalize (GObject *object)
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_jpeg_saver_parent_class)->finalize (object);
 }
 
 
@@ -516,7 +507,6 @@ gth_jpeg_saver_class_init (GthJpegSaverClass *klass)
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthJpegSaverPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -535,29 +525,10 @@ gth_jpeg_saver_class_init (GthJpegSaverClass *klass)
 }
 
 
-GType
-gth_jpeg_saver_get_type (void)
+static void
+gth_jpeg_saver_init (GthJpegSaver *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthJpegSaverClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_jpeg_saver_class_init,
-			NULL,
-			NULL,
-			sizeof (GthJpegSaver),
-			0,
-			(GInstanceInitFunc) gth_jpeg_saver_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_PIXBUF_SAVER,
-					       "GthJpegSaver",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_JPEG_SAVER, GthJpegSaverPrivate);
+	self->priv->builder = NULL;
+	self->priv->default_ext = NULL;
 }

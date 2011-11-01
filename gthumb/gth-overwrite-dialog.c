@@ -33,9 +33,6 @@
 #define PREVIEW_SIZE 256
 
 
-static gpointer gth_overwrite_dialog_parent_class = NULL;
-
-
 struct _GthOverwriteDialogPrivate {
 	GtkBuilder     *builder;
 	GFile          *source;
@@ -48,6 +45,9 @@ struct _GthOverwriteDialogPrivate {
 	GthImageLoader *old_image_loader;
 	GthImageLoader *new_image_loader;
 };
+
+
+G_DEFINE_TYPE (GthOverwriteDialog, gth_overwrite_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -73,9 +73,7 @@ gth_overwrite_dialog_finalize (GObject *object)
 static void
 gth_overwrite_dialog_class_init (GthOverwriteDialogClass *klass)
 {
-	gth_overwrite_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthOverwriteDialogPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_overwrite_dialog_finalize;
 }
 
@@ -86,34 +84,6 @@ gth_overwrite_dialog_init (GthOverwriteDialog *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_OVERWRITE_DIALOG, GthOverwriteDialogPrivate);
 	self->priv->source_data = NULL;
 	self->priv->destination_data = NULL;
-}
-
-
-GType
-gth_overwrite_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthOverwriteDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_overwrite_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthOverwriteDialog),
-			0,
-			(GInstanceInitFunc) gth_overwrite_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthOverwriteDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

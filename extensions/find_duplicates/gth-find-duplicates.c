@@ -88,7 +88,7 @@ struct _GthFindDuplicatesPrivate
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthFindDuplicates, gth_find_duplicates, G_TYPE_OBJECT)
 
 
 typedef struct {
@@ -149,7 +149,7 @@ gth_find_duplicates_finalize (GObject *object)
 	_g_object_unref (self->priv->file_stream);
 	g_hash_table_unref (self->priv->duplicated);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_find_duplicates_parent_class)->finalize (object);
 }
 
 
@@ -158,7 +158,6 @@ gth_find_duplicates_class_init (GthFindDuplicatesClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFindDuplicatesPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -189,34 +188,6 @@ gth_find_duplicates_init (GthFindDuplicates *self)
 							(GDestroyNotify) duplicated_data_free);
 	self->priv->cancellable = g_cancellable_new ();
 	self->priv->folder_changed_id = 0;
-}
-
-
-GType
-gth_find_duplicates_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFindDuplicatesClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_find_duplicates_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFindDuplicates),
-			0,
-			(GInstanceInitFunc) gth_find_duplicates_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthFindDuplicates",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

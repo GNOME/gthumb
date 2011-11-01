@@ -25,6 +25,19 @@
 #include "gth-script.h"
 
 
+static void gth_script_dom_domizable_interface_init (DomDomizableInterface *iface);
+static void gth_script_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthScript,
+			 gth_script,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        gth_script_dom_domizable_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+		        		        gth_script_gth_duplicable_interface_init))
+
+
 enum {
         PROP_0,
         PROP_ID,
@@ -48,9 +61,6 @@ struct _GthScriptPrivate {
 	gboolean  wait_command;
 	guint     shortcut;
 };
-
-
-static gpointer *parent_class = NULL;
 
 
 static DomElement*
@@ -139,12 +149,11 @@ gth_script_finalize (GObject *base)
 	GthScript *self;
 
 	self = GTH_SCRIPT (base);
-
 	g_free (self->priv->id);
 	g_free (self->priv->display_name);
 	g_free (self->priv->command);
 
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_script_parent_class)->finalize (base);
 }
 
 
@@ -245,7 +254,6 @@ gth_script_class_init (GthScriptClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthScriptPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -325,7 +333,7 @@ gth_script_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-gth_script_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_script_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	iface->duplicate = gth_script_real_duplicate;
 }
@@ -338,46 +346,6 @@ gth_script_init (GthScript *self)
 	self->priv->id = NULL;
 	self->priv->display_name = NULL;
 	self->priv->command = NULL;
-}
-
-
-GType
-gth_script_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthScriptClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_script_class_init,
-			NULL,
-			NULL,
-			sizeof (GthScript),
-			0,
-			(GInstanceInitFunc) gth_script_init
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) gth_script_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_script_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthScript",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-        return type;
 }
 
 

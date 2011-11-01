@@ -26,6 +26,9 @@
 #include "gth-file-tool-enhance.h"
 
 
+G_DEFINE_TYPE (GthFileToolEnhance, gth_file_tool_enhance, GTH_TYPE_FILE_TOOL)
+
+
 typedef struct {
 	double gamma[GTH_HISTOGRAM_N_CHANNELS];
 	double low_input[GTH_HISTOGRAM_N_CHANNELS];
@@ -334,7 +337,7 @@ gth_file_tool_enhance_update_sensitivity (GthFileTool *base)
 
 
 static void
-gth_file_tool_enhance_instance_init (GthFileToolEnhance *self)
+gth_file_tool_enhance_init (GthFileToolEnhance *self)
 {
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-enhance", _("Enhance Colors"), NULL, TRUE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));
@@ -342,30 +345,11 @@ gth_file_tool_enhance_instance_init (GthFileToolEnhance *self)
 
 
 static void
-gth_file_tool_enhance_class_init (GthFileToolClass *klass)
+gth_file_tool_enhance_class_init (GthFileToolEnhanceClass *klass)
 {
-	klass->update_sensitivity = gth_file_tool_enhance_update_sensitivity;
-	klass->activate = gth_file_tool_enhance_activate;
-}
+	GthFileToolClass *file_tool_class;
 
-
-GType
-gth_file_tool_enhance_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolEnhanceClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_enhance_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolEnhance),
-			0,
-			(GInstanceInitFunc) gth_file_tool_enhance_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolEnhance", &g_define_type_info, 0);
-	}
-	return type_id;
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_enhance_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_enhance_activate;
 }

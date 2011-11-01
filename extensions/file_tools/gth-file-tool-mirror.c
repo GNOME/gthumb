@@ -26,6 +26,9 @@
 #include "gth-file-tool-mirror.h"
 
 
+G_DEFINE_TYPE (GthFileToolMirror, gth_file_tool_mirror, GTH_TYPE_FILE_TOOL)
+
+
 static void
 gth_file_tool_mirror_activate (GthFileTool *base)
 {
@@ -68,38 +71,19 @@ gth_file_tool_mirror_update_sensitivity (GthFileTool *base)
 
 
 static void
-gth_file_tool_mirror_instance_init (GthFileToolMirror *self)
+gth_file_tool_mirror_class_init (GthFileToolMirrorClass *klass)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-mirror", _("Mirror"), NULL, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Mirror the image horizontally"));
+	GthFileToolClass *file_tool_class;
+
+	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
+	file_tool_class->update_sensitivity = gth_file_tool_mirror_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_mirror_activate;
 }
 
 
 static void
-gth_file_tool_mirror_class_init (GthFileToolClass *klass)
+gth_file_tool_mirror_init (GthFileToolMirror *self)
 {
-	klass->update_sensitivity = gth_file_tool_mirror_update_sensitivity;
-	klass->activate = gth_file_tool_mirror_activate;
-}
-
-
-GType
-gth_file_tool_mirror_get_type (void) {
-	static GType type_id = 0;
-	if (type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolMirrorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_tool_mirror_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileToolMirror),
-			0,
-			(GInstanceInitFunc) gth_file_tool_mirror_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolMirror", &g_define_type_info, 0);
-	}
-	return type_id;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-mirror", _("Mirror"), NULL, FALSE);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Mirror the image horizontally"));
 }

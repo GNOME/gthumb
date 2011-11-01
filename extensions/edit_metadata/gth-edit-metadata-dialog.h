@@ -37,7 +37,7 @@ G_BEGIN_DECLS
 #define GTH_TYPE_EDIT_METADATA_PAGE               (gth_edit_metadata_page_get_type ())
 #define GTH_EDIT_METADATA_PAGE(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_EDIT_METADATA_PAGE, GthEditMetadataPage))
 #define GTH_IS_EDIT_METADATA_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_EDIT_METADATA_PAGE))
-#define GTH_EDIT_METADATA_PAGE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_EDIT_METADATA_PAGE, GthEditMetadataPageIface))
+#define GTH_EDIT_METADATA_PAGE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_EDIT_METADATA_PAGE, GthEditMetadataPageInterface))
 
 typedef struct _GthEditMetadataDialog GthEditMetadataDialog;
 typedef struct _GthEditMetadataDialogClass GthEditMetadataDialogClass;
@@ -53,9 +53,9 @@ struct _GthEditMetadataDialogClass {
 };
 
 typedef struct _GthEditMetadataPage GthEditMetadataPage;
-typedef struct _GthEditMetadataPageIface GthEditMetadataPageIface;
+typedef struct _GthEditMetadataPageInterface GthEditMetadataPageInterface;
 
-struct _GthEditMetadataPageIface {
+struct _GthEditMetadataPageInterface {
 	GTypeInterface parent_iface;
 	void         (*set_file_list) (GthEditMetadataPage *self,
 				       GList               *file_list /* GthFileData list */);

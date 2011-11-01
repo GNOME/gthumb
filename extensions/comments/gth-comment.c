@@ -26,7 +26,6 @@
 
 
 #define COMMENT_VERSION "3.0"
-#define GTH_COMMENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_COMMENT, GthCommentPrivate))
 
 
 struct _GthCommentPrivate { /* All strings in utf8 format. */
@@ -41,7 +40,18 @@ struct _GthCommentPrivate { /* All strings in utf8 format. */
 	gboolean    utf8;
 };
 
-static gpointer gth_comment_parent_class = NULL;
+
+static void gth_comment_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+static void gth_comment_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthComment,
+			 gth_comment,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+					 	gth_comment_gth_duplicable_interface_init)
+		         G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+		        		 	gth_comment_dom_domizable_interface_init))
 
 
 static void
@@ -82,17 +92,15 @@ gth_comment_finalize (GObject *obj)
 static void
 gth_comment_class_init (GthCommentClass *klass)
 {
-	gth_comment_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthCommentPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_comment_finalize;
 }
 
 
 static void
-gth_comment_instance_init (GthComment *self)
+gth_comment_init (GthComment *self)
 {
-	self->priv = GTH_COMMENT_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COMMENT, GthCommentPrivate);
 	self->priv->caption = NULL;
 	self->priv->note = NULL;
 	self->priv->place = NULL;
@@ -111,7 +119,7 @@ gth_comment_real_duplicate (GthDuplicable *base)
 
 
 static void
-gth_comment_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_comment_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	iface->duplicate = gth_comment_real_duplicate;
 }
@@ -230,43 +238,6 @@ gth_comment_dom_domizable_interface_init (DomDomizableInterface *iface)
 {
 	iface->create_element = gth_comment_real_create_element;
 	iface->load_from_element = gth_comment_real_load_from_element;
-}
-
-
-GType
-gth_comment_get_type (void)
-{
-	static GType gth_comment_type_id = 0;
-
-	if (gth_comment_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthCommentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_comment_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthComment),
-			0,
-			(GInstanceInitFunc) gth_comment_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_comment_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) gth_comment_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		gth_comment_type_id = g_type_register_static (G_TYPE_OBJECT, "GthComment", &g_define_type_info, 0);
-		g_type_add_interface_static (gth_comment_type_id, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-		g_type_add_interface_static (gth_comment_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return gth_comment_type_id;
 }
 
 

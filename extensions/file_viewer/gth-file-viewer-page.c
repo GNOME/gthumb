@@ -45,7 +45,14 @@ struct _GthFileViewerPagePrivate {
 };
 
 
-static gpointer gth_file_viewer_page_parent_class = NULL;
+static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileViewerPage,
+			 gth_file_viewer_page,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
+					 	gth_viewer_page_interface_init))
 
 
 static gboolean
@@ -330,15 +337,13 @@ gth_file_viewer_page_finalize (GObject *obj)
 static void
 gth_file_viewer_page_class_init (GthFileViewerPageClass *klass)
 {
-	gth_file_viewer_page_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthFileViewerPagePrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_file_viewer_page_finalize;
 }
 
 
 static void
-gth_viewer_page_interface_init (GthViewerPageIface *iface)
+gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 {
 	iface->activate = gth_file_viewer_page_real_activate;
 	iface->deactivate = gth_file_viewer_page_real_deactivate;
@@ -356,36 +361,9 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 
 
 static void
-gth_file_viewer_page_instance_init (GthFileViewerPage *self)
+gth_file_viewer_page_init (GthFileViewerPage *self)
 {
 	self->priv = GTH_FILE_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->thumb_loader = NULL;
 	self->priv->file_data = NULL;
-}
-
-
-GType gth_file_viewer_page_get_type (void) {
-	static GType gth_file_viewer_page_type_id = 0;
-	if (gth_file_viewer_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileViewerPageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_file_viewer_page_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthFileViewerPage),
-			0,
-			(GInstanceInitFunc) gth_file_viewer_page_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_viewer_page_info = {
-			(GInterfaceInitFunc) gth_viewer_page_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		gth_file_viewer_page_type_id = g_type_register_static (G_TYPE_OBJECT, "GthFileViewerPage", &g_define_type_info, 0);
-		g_type_add_interface_static (gth_file_viewer_page_type_id, GTH_TYPE_VIEWER_PAGE, &gth_viewer_page_info);
-	}
-	return gth_file_viewer_page_type_id;
 }

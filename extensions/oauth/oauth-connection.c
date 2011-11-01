@@ -31,6 +31,9 @@
 #define OAUTH_SIGNATURE_METHOD "HMAC-SHA1"
 
 
+G_DEFINE_TYPE (OAuthConnection, oauth_connection, GTH_TYPE_TASK)
+
+
 GQuark
 oauth_connection_error_quark (void)
 {
@@ -60,9 +63,6 @@ struct _OAuthConnectionPrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 oauth_connection_finalize (GObject *object)
 {
@@ -79,7 +79,7 @@ oauth_connection_finalize (GObject *object)
 	g_free (self->priv->timestamp);
 	_g_object_unref (self->priv->session);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (oauth_connection_parent_class)->finalize (object);
 }
 
 
@@ -108,7 +108,6 @@ oauth_connection_class_init (OAuthConnectionClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (OAuthConnectionPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -133,34 +132,6 @@ oauth_connection_init (OAuthConnection *self)
 	self->priv->token_secret = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
-}
-
-
-GType
-oauth_connection_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (OAuthConnectionClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) oauth_connection_class_init,
-			NULL,
-			NULL,
-			sizeof (OAuthConnection),
-			0,
-			(GInstanceInitFunc) oauth_connection_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "OAuthConnection",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

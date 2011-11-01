@@ -42,13 +42,13 @@ struct _GthImageLoaderPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthImageLoader, gth_image_loader, G_TYPE_OBJECT)
 
 
 static void
 gth_image_loader_finalize (GObject *object)
 {
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_loader_parent_class)->finalize (object);
 }
 
 
@@ -57,7 +57,6 @@ gth_image_loader_class_init (GthImageLoaderClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageLoaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -74,34 +73,6 @@ gth_image_loader_init (GthImageLoader *self)
 	self->priv->loader_func = NULL;
 	self->priv->loader_data = NULL;
 	self->priv->preferred_format = GTH_IMAGE_FORMAT_GDK_PIXBUF;
-}
-
-
-GType
-gth_image_loader_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageLoaderClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_loader_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageLoader),
-			0,
-			(GInstanceInitFunc) gth_image_loader_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageLoader",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

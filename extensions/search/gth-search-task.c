@@ -27,6 +27,9 @@
 #include "gth-search-task.h"
 
 
+G_DEFINE_TYPE (GthSearchTask, gth_search_task, GTH_TYPE_TASK)
+
+
 struct _GthSearchTaskPrivate
 {
 	GthBrowser    *browser;
@@ -43,9 +46,6 @@ struct _GthSearchTaskPrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 browser_unref_cb (gpointer  data,
 		  GObject  *browser)
@@ -55,7 +55,7 @@ browser_unref_cb (gpointer  data,
 
 
 static void
-gth_task_finalize (GObject *object)
+gth_search_task_finalize (GObject *object)
 {
 	GthSearchTask *task;
 
@@ -72,7 +72,7 @@ gth_task_finalize (GObject *object)
 		task->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_search_task_parent_class)->finalize (object);
 }
 
 
@@ -419,10 +419,8 @@ gth_search_task_class_init (GthSearchTaskClass *class)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (class);
-
 	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_task_finalize;
+	object_class->finalize = gth_search_task_finalize;
 
 	task_class = (GthTaskClass*) class;
 	task_class->exec = gth_search_task_exec;
@@ -434,34 +432,6 @@ static void
 gth_search_task_init (GthSearchTask *task)
 {
 	task->priv = g_new0 (GthSearchTaskPrivate, 1);
-}
-
-
-GType
-gth_search_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthSearchTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_search_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSearchTask),
-			0,
-			(GInstanceInitFunc) gth_search_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthSearchTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

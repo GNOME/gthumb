@@ -40,7 +40,6 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_multipage_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -51,10 +50,12 @@ struct _GthMultipagePrivate {
 };
 
 
+G_DEFINE_TYPE (GthMultipage, gth_multipage, GTK_TYPE_VBOX)
+
+
 static void
 gth_multipage_class_init (GthMultipageClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMultipagePrivate));
 
 	/* signals */
@@ -136,34 +137,6 @@ gth_multipage_init (GthMultipage *multipage)
 }
 
 
-GType
-gth_multipage_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMultipageClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_multipage_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMultipage),
-			0,
-			(GInstanceInitFunc) gth_multipage_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthMultipage",
-					       &type_info,
-					       0);
-	}
-
-	return type;
-}
-
-
 GtkWidget *
 gth_multipage_new (void)
 {
@@ -213,25 +186,13 @@ gth_multipage_get_current (GthMultipage *multipage)
 /* -- gth_multipage_child -- */
 
 
-GType
-gth_multipage_child_get_type (void) {
-	static GType gth_multipage_child_type_id = 0;
-	if (gth_multipage_child_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMultipageChildIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_multipage_child_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthMultipageChild", &g_define_type_info, 0);
-	}
-	return gth_multipage_child_type_id;
+G_DEFINE_INTERFACE (GthMultipageChild, gth_multipage_child, 0)
+
+
+static void
+gth_multipage_child_default_init (GthMultipageChildInterface *iface)
+{
+	/* void */
 }
 
 

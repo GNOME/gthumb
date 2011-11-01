@@ -41,7 +41,8 @@ struct _GthMetadataPrivate {
 	char *value_type;
 };
 
-static gpointer gth_metadata_parent_class = NULL;
+
+G_DEFINE_TYPE (GthMetadata, gth_metadata, G_TYPE_OBJECT)
 
 
 static void
@@ -128,7 +129,6 @@ gth_metadata_finalize (GObject *obj)
 static void
 gth_metadata_class_init (GthMetadataClass *klass)
 {
-	gth_metadata_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMetadataPrivate));
 
 	G_OBJECT_CLASS (klass)->get_property = gth_metadata_get_property;
@@ -174,7 +174,7 @@ gth_metadata_class_init (GthMetadataClass *klass)
 
 
 static void
-gth_metadata_instance_init (GthMetadata *self)
+gth_metadata_init (GthMetadata *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA, GthMetadataPrivate);
 	self->priv->id = NULL;
@@ -182,30 +182,6 @@ gth_metadata_instance_init (GthMetadata *self)
 	self->priv->raw = NULL;
 	self->priv->formatted = NULL;
 	self->priv->value_type = NULL;
-}
-
-
-GType
-gth_metadata_get_type (void)
-{
-	static GType gth_metadata_type_id = 0;
-
-	if (gth_metadata_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthMetadataClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_metadata_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthMetadata),
-			0,
-			(GInstanceInitFunc) gth_metadata_instance_init,
-			NULL
-		};
-		gth_metadata_type_id = g_type_register_static (G_TYPE_OBJECT, "GthMetadata", &g_define_type_info, 0);
-	}
-	return gth_metadata_type_id;
 }
 
 

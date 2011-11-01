@@ -33,14 +33,15 @@ struct _GthEmptyListPrivate {
 	PangoLayout *layout;
 };
 
-static gpointer parent_class = NULL;
+
+G_DEFINE_TYPE (GthEmptyList, gth_empty_list, GTK_TYPE_SCROLLED_WINDOW)
 
 
 static void 
 gth_empty_list_finalize (GObject *obj) 
 {
 	g_free (GTH_EMPTY_LIST (obj)->priv->text);
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (gth_empty_list_parent_class)->finalize (obj);
 }
 
 
@@ -181,7 +182,7 @@ gth_empty_list_unrealize (GtkWidget *widget)
 		self->priv->layout = NULL;
 	}
 
-	(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
+	(* GTK_WIDGET_CLASS (gth_empty_list_parent_class)->unrealize) (widget);
 }
 
 
@@ -295,16 +296,14 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 	
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthEmptyListPrivate));
 
 	object_class = (GObjectClass*) (klass);
-	widget_class = (GtkWidgetClass*) klass;
-	
 	object_class->set_property = gth_empty_list_set_property;
 	object_class->get_property = gth_empty_list_get_property;
 	object_class->finalize = gth_empty_list_finalize;
 	
+	widget_class = (GtkWidgetClass*) klass;
 	widget_class->realize = gth_empty_list_realize;
 	widget_class->unrealize = gth_empty_list_unrealize;
 	widget_class->map = gth_empty_list_map;
@@ -326,45 +325,17 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 
 
 static void 
-gth_empty_list_instance_init (GthEmptyList *self) 
+gth_empty_list_init (GthEmptyList *self)
 {
 	GtkStyleContext *style_context;
+
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
 
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_FRAME);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
-
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
-}
-
-
-GType 
-gth_empty_list_get_type (void) 
-{
-	static GType type = 0;
-	
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthEmptyListClass), 
-			NULL, 
-			NULL, 
-			(GClassInitFunc) gth_empty_list_class_init, 
-			NULL, 
-			NULL, 
-			sizeof (GthEmptyList), 
-			0, 
-			(GInstanceInitFunc) gth_empty_list_instance_init, 
-			NULL 
-		};
-		type = g_type_register_static (GTK_TYPE_SCROLLED_WINDOW,
-					       "GthEmptyList", 
-					       &g_define_type_info, 
-					       0);
-	}
-	
-	return type;
 }
 
 

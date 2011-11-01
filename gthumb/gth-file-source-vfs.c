@@ -53,10 +53,12 @@ struct _GthFileSourceVfsPrivate
 };
 
 
-static GthFileSourceClass *parent_class = NULL;
 static guint mount_changed_event_id = 0;
 static guint mount_added_event_id = 0;
 static guint mount_removed_event_id = 0;
+
+
+G_DEFINE_TYPE (GthFileSourceVfs, gth_file_source_vfs, GTH_TYPE_FILE_SOURCE)
 
 
 static GList *
@@ -887,7 +889,7 @@ gth_file_source_vfs_finalize (GObject *object)
 		file_source_vfs->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_file_source_vfs_parent_class)->finalize (object);
 }
 
 
@@ -897,11 +899,10 @@ gth_file_source_vfs_class_init (GthFileSourceVfsClass *class)
 	GObjectClass       *object_class;
 	GthFileSourceClass *file_source_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-	file_source_class = (GthFileSourceClass*) class;
-
 	object_class->finalize = gth_file_source_vfs_finalize;
+
+	file_source_class = (GthFileSourceClass*) class;
 	file_source_class->get_entry_points = gth_file_source_vfs_get_entry_points;
 	file_source_class->to_gio_file = gth_file_source_vfs_to_gio_file;
 	file_source_class->get_file_info = gth_file_source_vfs_get_file_info;
@@ -925,32 +926,4 @@ gth_file_source_vfs_init (GthFileSourceVfs *file_source)
 	file_source->priv->monitors = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, g_object_unref);
 	for (i = 0; i < GTH_MONITOR_N_EVENTS; i++)
 		file_source->priv->monitor_queue[i] = NULL;
-}
-
-
-GType
-gth_file_source_vfs_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthFileSourceVfsClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_file_source_vfs_class_init,
-			NULL,
-			NULL,
-			sizeof (GthFileSourceVfs),
-			0,
-			(GInstanceInitFunc) gth_file_source_vfs_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_FILE_SOURCE,
-					       "GthFileSourceVfs",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }

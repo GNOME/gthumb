@@ -26,11 +26,21 @@
 #include "gth-image-histogram.h"
 #include "gth-image-viewer-page.h"
 
-#define GTH_IMAGE_HISTOGRAM_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate))
+
 #define MIN_HISTOGRAM_HEIGHT 250
 
 
-static gpointer parent_class = NULL;
+static void gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
+static void gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
+			 gth_image_histogram,
+			 GTK_TYPE_VBOX,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
+					        gth_image_histogram_gth_multipage_child_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+		        		        gth_image_histogram_gth_property_view_interface_init))
 
 
 struct _GthImageHistogramPrivate {
@@ -88,24 +98,37 @@ gth_image_histogram_finalize (GObject *base)
 	GthImageHistogram *self = GTH_IMAGE_HISTOGRAM (base);
 
 	g_object_unref (self->priv->histogram);
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_image_histogram_parent_class)->finalize (base);
 }
 
 
 static void
 gth_image_histogram_class_init (GthImageHistogramClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImageHistogramPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_image_histogram_finalize;
+}
+
+
+static void
+gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
+{
+	iface->get_name = gth_image_histogram_real_get_name;
+	iface->get_icon = gth_image_histogram_real_get_icon;
+}
+
+
+static void
+gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface)
+{
+	iface->set_file = gth_image_histogram_real_set_file;
 }
 
 
 static void
 gth_image_histogram_init (GthImageHistogram *self)
 {
-	self->priv = GTH_IMAGE_HISTOGRAM_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate);
 	self->priv->histogram = gth_histogram_new ();
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
@@ -116,59 +139,4 @@ gth_image_histogram_init (GthImageHistogram *self)
 	gtk_widget_set_size_request (self->priv->histogram_view, -1, MIN_HISTOGRAM_HEIGHT);
 	gtk_widget_show (self->priv->histogram_view);
 	gtk_box_pack_start (GTK_BOX (self), self->priv->histogram_view, FALSE, FALSE, 0);
-}
-
-
-static void
-gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildIface *iface)
-{
-	iface->get_name = gth_image_histogram_real_get_name;
-	iface->get_icon = gth_image_histogram_real_get_icon;
-}
-
-
-static void
-gth_image_histogram_gth_property_view_interface_init (GthPropertyViewIface *iface)
-{
-	iface->set_file = gth_image_histogram_real_set_file;
-}
-
-
-GType
-gth_image_histogram_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImageHistogramClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_image_histogram_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthImageHistogram),
-			0,
-			(GInstanceInitFunc) gth_image_histogram_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_multipage_child_info = {
-			(GInterfaceInitFunc) gth_image_histogram_gth_multipage_child_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_property_view_info = {
-			(GInterfaceInitFunc) gth_image_histogram_gth_property_view_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_VBOX,
-					       "GthImageHistogram",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_MULTIPAGE_CHILD, &gth_multipage_child_info);
-		g_type_add_interface_static (type, GTH_TYPE_PROPERTY_VIEW, &gth_property_view_info);
-	}
-
-	return type;
 }

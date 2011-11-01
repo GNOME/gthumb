@@ -26,19 +26,12 @@
 #include "preferences.h"
 
 
+G_DEFINE_TYPE (GthPngSaver, gth_png_saver, GTH_TYPE_PIXBUF_SAVER)
+
+
 struct _GthPngSaverPrivate {
 	GtkBuilder *builder;
 };
-
-
-static gpointer parent_class = NULL;
-
-
-static void
-gth_png_saver_init (GthPngSaver *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PNG_SAVER, GthPngSaverPrivate);
-}
 
 
 static void
@@ -47,7 +40,7 @@ gth_png_saver_finalize (GObject *object)
 	GthPngSaver *self = GTH_PNG_SAVER (object);
 
 	_g_object_unref (self->priv->builder);
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_png_saver_parent_class)->finalize (object);
 }
 
 
@@ -134,7 +127,6 @@ gth_png_saver_class_init (GthPngSaverClass *klass)
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthPngSaverPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -153,29 +145,8 @@ gth_png_saver_class_init (GthPngSaverClass *klass)
 }
 
 
-GType
-gth_png_saver_get_type (void)
+static void
+gth_png_saver_init (GthPngSaver *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthPngSaverClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_png_saver_class_init,
-			NULL,
-			NULL,
-			sizeof (GthPngSaver),
-			0,
-			(GInstanceInitFunc) gth_png_saver_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_PIXBUF_SAVER,
-					       "GthPngSaver",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PNG_SAVER, GthPngSaverPrivate);
 }

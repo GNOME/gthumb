@@ -34,9 +34,21 @@ struct _GthListViewPrivate {
 };
 
 
-static gpointer               parent_class = NULL;
-static GthFileViewIface      *gth_list_view_gth_file_view_parent_iface = NULL;
-static GthFileSelectionIface *gth_list_view_gth_file_selection_parent_iface = NULL;
+static GthFileViewInterface      *gth_list_view_gth_file_view_parent_iface = NULL;
+static GthFileSelectionInterface *gth_list_view_gth_file_selection_parent_iface = NULL;
+
+
+static void gth_list_view_gth_file_view_interface_init (GthFileViewInterface *iface);
+static void gth_list_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthListView,
+			 gth_list_view,
+			 GTK_TYPE_TREE_VIEW,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_VIEW,
+					 	gth_list_view_gth_file_view_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_SELECTION,
+		        		 	gth_list_view_gth_file_selection_interface_init))
 
 
 void
@@ -499,26 +511,9 @@ gth_list_view_new_with_model (GtkTreeModel *model)
 
 
 static void
-gth_list_view_finalize (GObject *object)
-{
-	/*GthListView *self = GTH_LIST_VIEW (object);*/
-
-	/* FIXME */
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static void
 gth_list_view_class_init (GthListViewClass *klass)
 {
-	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthListViewPrivate));
-
-	object_class = (GObjectClass*) klass;
-	object_class->finalize = gth_list_view_finalize;
 }
 
 
@@ -568,7 +563,7 @@ gth_list_view_init (GthListView *list_view)
 
 
 static void
-gth_list_view_gth_file_view_interface_init (GthFileViewIface *iface)
+gth_list_view_gth_file_view_interface_init (GthFileViewInterface *iface)
 {
 	gth_list_view_gth_file_view_parent_iface = g_type_interface_peek_parent (iface);
 	iface->set_model = gth_list_view_real_set_model;
@@ -594,7 +589,7 @@ gth_list_view_gth_file_view_interface_init (GthFileViewIface *iface)
 
 
 static void
-gth_list_view_gth_file_selection_interface_init (GthFileSelectionIface *iface)
+gth_list_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface)
 {
 	gth_list_view_gth_file_selection_parent_iface = g_type_interface_peek_parent (iface);
 	iface->set_selection_mode = gth_list_view_real_set_selection_mode;
@@ -607,44 +602,4 @@ gth_list_view_gth_file_selection_interface_init (GthFileSelectionIface *iface)
 	iface->get_first_selected = gth_list_view_real_get_first_selected;
 	iface->get_last_selected = gth_list_view_real_get_last_selected;
 	iface->get_n_selected = gth_list_view_real_get_n_selected;
-}
-
-
-GType
-gth_list_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthListViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_list_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthListView),
-			0,
-			(GInstanceInitFunc) gth_list_view_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_file_view_info = {
-			(GInterfaceInitFunc) gth_list_view_gth_file_view_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_file_selection_info = {
-			(GInterfaceInitFunc) gth_list_view_gth_file_selection_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_TREE_VIEW,
-					       "GthListView",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_FILE_VIEW, &gth_file_view_info);
-		g_type_add_interface_static (type, GTH_TYPE_FILE_SELECTION, &gth_file_selection_info);
-	}
-
-	return type;
 }

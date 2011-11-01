@@ -31,7 +31,8 @@
 #define NO_SHORTCUT 0
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthScriptEditorDialog, gth_script_editor_dialog, GTK_TYPE_DIALOG)
+
 
 enum {
 	SHORTCUT_NAME_COLUMN = 0,
@@ -63,7 +64,7 @@ gth_script_editor_dialog_finalize (GObject *object)
 		dialog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_script_editor_dialog_parent_class)->finalize (object);
 }
 
 
@@ -72,9 +73,7 @@ gth_script_editor_dialog_class_init (GthScriptEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_script_editor_dialog_finalize;
 }
 
@@ -84,34 +83,6 @@ gth_script_editor_dialog_init (GthScriptEditorDialog *dialog)
 {
 	dialog->priv = g_new0 (GthScriptEditorDialogPrivate, 1);
 	dialog->priv->help_visible = FALSE;
-}
-
-
-GType
-gth_script_editor_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthScriptEditorDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_script_editor_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthScriptEditorDialog),
-			0,
-			(GInstanceInitFunc) gth_script_editor_dialog_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthScriptEditorDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

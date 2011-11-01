@@ -51,9 +51,21 @@ struct _GthIconViewPrivate {
 };
 
 
-static gpointer               parent_class = NULL;
-static GthFileViewIface      *gth_icon_view_gth_file_view_parent_iface = NULL;
-static GthFileSelectionIface *gth_icon_view_gth_file_selection_parent_iface = NULL;
+static GthFileViewInterface      *gth_icon_view_gth_file_view_parent_iface = NULL;
+static GthFileSelectionInterface *gth_icon_view_gth_file_selection_parent_iface = NULL;
+
+
+static void gth_icon_view_gth_file_view_interface_init (GthFileViewInterface *iface);
+static void gth_icon_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthIconView,
+			 gth_icon_view,
+			 GTK_TYPE_ICON_VIEW,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_VIEW,
+					 	gth_icon_view_gth_file_view_interface_init)
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_SELECTION,
+		        		 	gth_icon_view_gth_file_selection_interface_init))
 
 
 void
@@ -540,7 +552,7 @@ gth_icon_view_finalize (GObject *object)
 		self->priv->drag_target_list = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_icon_view_parent_class)->finalize (object);
 }
 
 
@@ -551,7 +563,6 @@ gth_icon_view_class_init (GthIconViewClass *klass)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet  *binding_set;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthIconViewPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -888,7 +899,7 @@ gth_icon_view_init (GthIconView *icon_view)
 
 
 static void
-gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
+gth_icon_view_gth_file_view_interface_init (GthFileViewInterface *iface)
 {
 	gth_icon_view_gth_file_view_parent_iface = g_type_interface_peek_parent (iface);
 	iface->set_model = gth_icon_view_real_set_model;
@@ -914,7 +925,7 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 
 
 static void
-gth_icon_view_gth_file_selection_interface_init (GthFileSelectionIface *iface)
+gth_icon_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface)
 {
 	gth_icon_view_gth_file_selection_parent_iface = g_type_interface_peek_parent (iface);
 	iface->set_selection_mode = gth_icon_view_real_set_selection_mode;
@@ -927,44 +938,4 @@ gth_icon_view_gth_file_selection_interface_init (GthFileSelectionIface *iface)
 	iface->get_first_selected = gth_icon_view_real_get_first_selected;
 	iface->get_last_selected = gth_icon_view_real_get_last_selected;
 	iface->get_n_selected = gth_icon_view_real_get_n_selected;
-}
-
-
-GType
-gth_icon_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthIconViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_icon_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthIconView),
-			0,
-			(GInstanceInitFunc) gth_icon_view_init,
-			NULL
-		};
-		static const GInterfaceInfo gth_file_view_info = {
-			(GInterfaceInitFunc) gth_icon_view_gth_file_view_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo gth_file_selection_info = {
-			(GInterfaceInitFunc) gth_icon_view_gth_file_selection_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_ICON_VIEW,
-					       "GthIconView",
-					       &g_define_type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_FILE_VIEW, &gth_file_view_info);
-		g_type_add_interface_static (type, GTH_TYPE_FILE_SELECTION, &gth_file_selection_info);
-	}
-
-	return type;
 }

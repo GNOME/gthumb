@@ -23,6 +23,9 @@
 #include "gth-script-task.h"
 
 
+G_DEFINE_TYPE (GthScriptTask, gth_script_task, GTH_TYPE_TASK)
+
+
 struct _GthScriptTaskPrivate {
 	GthScript *script;
 	GtkWindow *parent;
@@ -35,20 +38,16 @@ struct _GthScriptTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 gth_script_task_finalize (GObject *object)
 {
 	GthScriptTask *self;
 
 	self = GTH_SCRIPT_TASK (object);
-
 	g_object_unref (self->priv->script);
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_script_task_parent_class)->finalize (object);
 }
 
 
@@ -257,7 +256,6 @@ gth_script_task_class_init (GthScriptTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthScriptTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -274,34 +272,6 @@ gth_script_task_init (GthScriptTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCRIPT_TASK, GthScriptTaskPrivate);
 	self->priv->pid = 0;
-}
-
-
-GType
-gth_script_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthScriptTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_script_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthScriptTask),
-			0,
-			(GInstanceInitFunc) gth_script_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthScriptTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

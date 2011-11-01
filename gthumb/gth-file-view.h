@@ -31,10 +31,10 @@ G_BEGIN_DECLS
 #define GTH_TYPE_FILE_VIEW               (gth_file_view_get_type ())
 #define GTH_FILE_VIEW(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_VIEW, GthFileView))
 #define GTH_IS_FILE_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_FILE_VIEW))
-#define GTH_FILE_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_FILE_VIEW, GthFileViewIface))
+#define GTH_FILE_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_FILE_VIEW, GthFileViewInterface))
 
 typedef struct _GthFileView GthFileView;
-typedef struct _GthFileViewIface GthFileViewIface;
+typedef struct _GthFileViewInterface GthFileViewInterface;
 
 #define THUMBNAIL_BORDER (8 * 2)
 
@@ -52,7 +52,7 @@ typedef enum {
 	GTH_FILE_VIEW_RENDERER_TEXT
 } GthFileViewRendererType;
 
-struct _GthFileViewIface {
+struct _GthFileViewInterface {
 	GTypeInterface parent_iface;
 
 	/*< signals >*/

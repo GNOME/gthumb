@@ -24,9 +24,6 @@
 #include "gth-embedded-dialog.h"
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthEmbeddedDialogPrivate {
 	GtkWidget *icon_image;
 	GtkWidget *primary_text_label;
@@ -34,68 +31,18 @@ struct _GthEmbeddedDialogPrivate {
 };
 
 
-static void
-gth_embedded_dialog_finalize (GObject *object)
-{
-	GthEmbeddedDialog *dialog;
+G_DEFINE_TYPE (GthEmbeddedDialog, gth_embedded_dialog, GEDIT_TYPE_MESSAGE_AREA)
 
-	dialog = GTH_EMBEDDED_DIALOG (object);
-
-	if (dialog->priv != NULL)
-		dialog->priv = NULL;
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
 
 static void
-gth_embedded_dialog_class_init (GthEmbeddedDialogClass *class)
+gth_embedded_dialog_class_init (GthEmbeddedDialogClass *klass)
 {
-	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
-
-	object_class->finalize = gth_embedded_dialog_finalize;
+	g_type_class_add_private (klass, sizeof (GthEmbeddedDialogPrivate));
 }
 
 
 static void
-gth_embedded_dialog_init (GthEmbeddedDialog *dialog)
-{
-	dialog->priv = g_new0 (GthEmbeddedDialogPrivate, 1);
-}
-
-
-GType
-gth_embedded_dialog_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthEmbeddedDialogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_embedded_dialog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthEmbeddedDialog),
-			0,
-			(GInstanceInitFunc) gth_embedded_dialog_init
-		};
-
-		type = g_type_register_static (GEDIT_TYPE_MESSAGE_AREA,
-					       "GthEmbeddedDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
-}
-
-
-static void
-gth_embedded_dialog_construct (GthEmbeddedDialog *self)
+gth_embedded_dialog_init (GthEmbeddedDialog *self)
 {
 	GtkWidget *hbox_content;
 	GtkWidget *image;
@@ -103,6 +50,8 @@ gth_embedded_dialog_construct (GthEmbeddedDialog *self)
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
 	
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMBEDDED_DIALOG, GthEmbeddedDialogPrivate);
+
 	hbox_content = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox_content);
 
@@ -140,12 +89,7 @@ gth_embedded_dialog_construct (GthEmbeddedDialog *self)
 GtkWidget *
 gth_embedded_dialog_new (void)
 {
-	GthEmbeddedDialog *self;
-
-	self = g_object_new (GTH_TYPE_EMBEDDED_DIALOG, NULL);
-	gth_embedded_dialog_construct (self);
-	
-	return (GtkWidget *) self;
+	return g_object_new (GTH_TYPE_EMBEDDED_DIALOG, NULL);
 }
 
 

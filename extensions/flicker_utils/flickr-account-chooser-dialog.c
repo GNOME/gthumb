@@ -34,7 +34,7 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (FlickrAccountChooserDialog, flickr_account_chooser_dialog, GTK_TYPE_DIALOG)
 
 
 struct _FlickrAccountChooserDialogPrivate {
@@ -51,7 +51,7 @@ flickr_account_chooser_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (flickr_account_chooser_dialog_parent_class)->finalize (object);
 }
 
 
@@ -60,7 +60,6 @@ flickr_account_chooser_dialog_class_init (FlickrAccountChooserDialogClass *klass
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FlickrAccountChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -160,34 +159,6 @@ flickr_account_chooser_dialog_init (FlickrAccountChooserDialog *self)
 			       GTK_STOCK_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
-}
-
-
-GType
-flickr_account_chooser_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FlickrAccountChooserDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) flickr_account_chooser_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FlickrAccountChooserDialog),
-			0,
-			(GInstanceInitFunc) flickr_account_chooser_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FlickrAccountChooserDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

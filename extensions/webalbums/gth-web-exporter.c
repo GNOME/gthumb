@@ -53,6 +53,9 @@
 #define DEFAULT_WEB_DIR_THEME_FILES  "theme"
 
 
+G_DEFINE_TYPE (GthWebExporter, gth_web_exporter, GTH_TYPE_TASK)
+
+
 typedef enum {
 	GTH_TEMPLATE_TYPE_INDEX,
 	GTH_TEMPLATE_TYPE_IMAGE,
@@ -75,7 +78,6 @@ typedef enum {
 
 extern GFileInputStream *yy_istream;
 
-static GObjectClass *parent_class = NULL;
 
 typedef struct {
 	GthFileData *file_data;
@@ -3100,7 +3102,7 @@ gth_web_exporter_finalize (GObject *object)
 	}
 	_g_object_list_unref (self->priv->gfile_list);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_web_exporter_parent_class)->finalize (object);
 }
 
 
@@ -3110,7 +3112,6 @@ gth_web_exporter_class_init (GthWebExporterClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthWebExporterPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -3163,34 +3164,6 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->interrupted = FALSE;
 	self->priv->iloader = gth_image_loader_new (NULL, NULL);
 	self->priv->error = NULL;
-}
-
-
-GType
-gth_web_exporter_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthWebExporterClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_web_exporter_class_init,
-			NULL,
-			NULL,
-			sizeof (GthWebExporter),
-			0,
-			(GInstanceInitFunc) gth_web_exporter_init
-                };
-
-                type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthWebExporter",
-					       &type_info,
-					       0);
-        }
-
-	return type;
 }
 
 

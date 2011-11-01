@@ -28,14 +28,14 @@
 #define REQUEST_ENTRY_WIDTH_IN_CHARS 40
 
 
-static gpointer gth_request_dialog_parent_class = NULL;
-
-
 struct _GthRequestDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *infobar;
 	GtkWidget *info_label;
 };
+
+
+G_DEFINE_TYPE (GthRequestDialog, gth_request_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -64,34 +64,6 @@ gth_request_dialog_init (GthRequestDialog *self)
 
 	gtk_window_set_title (GTK_WINDOW (self), "");
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-}
-
-
-GType
-gth_request_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthRequestDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_request_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthRequestDialog),
-			0,
-			(GInstanceInitFunc) gth_request_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthRequestDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

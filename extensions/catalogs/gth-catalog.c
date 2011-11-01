@@ -44,7 +44,7 @@ struct _GthCatalogPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthCatalog, gth_catalog, G_TYPE_OBJECT)
 
 
 static void
@@ -66,7 +66,7 @@ gth_catalog_finalize (GObject *object)
 		catalog->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_catalog_parent_class)->finalize (object);
 }
 
 
@@ -232,9 +232,7 @@ gth_catalog_class_init (GthCatalogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GObjectClass*) class;
-
 	object_class->finalize = gth_catalog_finalize;
 
 	class->create_root = base_create_root;
@@ -250,34 +248,6 @@ gth_catalog_init (GthCatalog *catalog)
 	catalog->priv = g_new0 (GthCatalogPrivate, 1);
 	catalog->priv->date_time = gth_datetime_new ();
 	catalog->priv->file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, NULL, NULL);
-}
-
-
-GType
-gth_catalog_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthCatalogClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_catalog_class_init,
-			NULL,
-			NULL,
-			sizeof (GthCatalog),
-			0,
-			(GInstanceInitFunc) gth_catalog_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthCatalog",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

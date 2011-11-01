@@ -33,12 +33,12 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthTagChooserDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE (GthTagChooserDialog, gth_tag_chooser_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -50,7 +50,7 @@ gth_tag_chooser_dialog_finalize (GObject *object)
 
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_tag_chooser_dialog_parent_class)->finalize (object);
 }
 
 
@@ -59,7 +59,6 @@ gth_tag_chooser_dialog_class_init (GthTagChooserDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTagChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -265,34 +264,6 @@ gth_tag_chooser_dialog_init (GthTagChooserDialog *self)
 	}
 
 	g_strfreev (tags);
-}
-
-
-GType
-gth_tag_chooser_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthTagChooserDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_tag_chooser_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthTagChooserDialog),
-			0,
-			(GInstanceInitFunc) gth_tag_chooser_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "GthTagChooserDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

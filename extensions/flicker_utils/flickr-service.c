@@ -34,6 +34,9 @@
 #define IMAGES_PER_PAGE 500
 
 
+G_DEFINE_TYPE (FlickrService, flickr_service, G_TYPE_OBJECT)
+
+
 typedef struct {
 	FlickrPrivacyType    privacy_level;
 	FlickrSafetyType     safety_level;
@@ -97,9 +100,6 @@ struct _FlickrServicePrivate
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 flickr_service_finalize (GObject *object)
 {
@@ -112,7 +112,7 @@ flickr_service_finalize (GObject *object)
 	post_photos_data_free (self->priv->post_photos);
 	add_photos_data_free (self->priv->add_photos);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (flickr_service_parent_class)->finalize (object);
 }
 
 
@@ -121,7 +121,6 @@ flickr_service_class_init (FlickrServiceClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FlickrServicePrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -136,34 +135,6 @@ flickr_service_init (FlickrService *self)
 	self->priv->conn = NULL;
 	self->priv->user = NULL;
 	self->priv->post_photos = NULL;
-}
-
-
-GType
-flickr_service_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (FlickrServiceClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) flickr_service_class_init,
-			NULL,
-			NULL,
-			sizeof (FlickrService),
-			0,
-			(GInstanceInitFunc) flickr_service_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "FlickrService",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

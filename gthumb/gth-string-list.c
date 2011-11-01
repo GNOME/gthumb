@@ -28,12 +28,12 @@ struct _GthStringListPrivate {
 	GList *list;
 };
 
-#define GTH_STRING_LIST_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_STRING_LIST, GthStringListPrivate))
-static gpointer gth_string_list_parent_class = NULL;
+
+G_DEFINE_TYPE (GthStringList, gth_string_list, G_TYPE_OBJECT)
 
 
 static void
-gth_string_list_finalize (GObject* obj)
+gth_string_list_finalize (GObject *obj)
 {
 	GthStringList *self;
 
@@ -46,38 +46,17 @@ gth_string_list_finalize (GObject* obj)
 
 
 static void
-gth_string_list_class_init (GthStringListClass * klass)
+gth_string_list_class_init (GthStringListClass *klass)
 {
-	gth_string_list_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthStringListPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_string_list_finalize;
 }
 
 
-static void gth_string_list_instance_init (GthStringList * self) {
-	self->priv = GTH_STRING_LIST_GET_PRIVATE (self);
-}
-
-
-GType gth_string_list_get_type (void) {
-	static GType gth_string_list_type_id = 0;
-	if (gth_string_list_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthStringListClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_string_list_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthStringList),
-			0,
-			(GInstanceInitFunc) gth_string_list_instance_init,
-			NULL
-		};
-		gth_string_list_type_id = g_type_register_static (G_TYPE_OBJECT, "GthStringList", &g_define_type_info, 0);
-	}
-	return gth_string_list_type_id;
+static void
+gth_string_list_init (GthStringList *self) {
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_STRING_LIST, GthStringListPrivate);
+	self->priv->list = NULL;
 }
 
 

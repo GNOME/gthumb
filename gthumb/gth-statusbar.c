@@ -24,12 +24,6 @@
 #include "gth-statusbar.h"
 
 
-#define GTH_STATUSBAR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_STATUSBAR, GthStatusbarPrivate))
-
-
-static gpointer gth_statusbar_parent_class = NULL;
-
-
 struct _GthStatusbarPrivate {
 	guint      list_info_cid;
 	GtkWidget *primary_text;
@@ -43,10 +37,12 @@ struct _GthStatusbarPrivate {
 };
 
 
+G_DEFINE_TYPE (GthStatusbar, gth_statusbar, GTK_TYPE_STATUSBAR)
+
+
 static void
 gth_statusbar_class_init (GthStatusbarClass *klass)
 {
-	gth_statusbar_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthStatusbarPrivate));
 }
 
@@ -61,7 +57,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 
 	gtk_box_set_spacing (GTK_BOX (statusbar), 0);
 
-	statusbar->priv = GTH_STATUSBAR_GET_PRIVATE (statusbar);
+	statusbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (statusbar, GTH_TYPE_STATUSBAR, GthStatusbarPrivate);
 	statusbar->priv->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "gth_list_info");
 
 	/* Progress info */
@@ -126,34 +122,6 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->primary_text_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (statusbar->priv->primary_text_frame), statusbar->priv->primary_text);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->primary_text_frame, FALSE, FALSE, 0);
-}
-
-
-GType
-gth_statusbar_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthStatusbarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_statusbar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthStatusbar),
-			0,
-			(GInstanceInitFunc) gth_statusbar_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_STATUSBAR,
-					       "GthStatusbar",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

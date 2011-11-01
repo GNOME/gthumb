@@ -49,7 +49,7 @@ struct _GthPixbufListTaskPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthPixbufListTask, gth_pixbuf_list_task, GTH_TYPE_TASK)
 
 
 static void
@@ -70,7 +70,7 @@ gth_pixbuf_list_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->destination_file_data);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_pixbuf_list_task_parent_class)->finalize (object);
 }
 
 
@@ -470,7 +470,6 @@ gth_pixbuf_list_task_class_init (GthPixbufListTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthPixbufListTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -490,34 +489,6 @@ gth_pixbuf_list_task_init (GthPixbufListTask *self)
 	self->priv->destination_folder = NULL;
 	self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 	self->priv->mime_type = NULL;
-}
-
-
-GType
-gth_pixbuf_list_task_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthPixbufListTaskClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_pixbuf_list_task_class_init,
-			NULL,
-			NULL,
-			sizeof (GthPixbufListTask),
-			0,
-			(GInstanceInitFunc) gth_pixbuf_list_task_init
-		};
-
-		type = g_type_register_static (GTH_TYPE_TASK,
-					       "GthPixbufListTask",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

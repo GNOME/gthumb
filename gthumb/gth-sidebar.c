@@ -38,15 +38,15 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthSidebarPrivate {
 	GtkWidget   *properties;
 	GtkWidget   *toolbox;
 	gboolean    *dirty;
 	GthFileData *file_data;
 };
+
+
+G_DEFINE_TYPE (GthSidebar, gth_sidebar, GTK_TYPE_NOTEBOOK)
 
 
 static void
@@ -57,7 +57,7 @@ gth_sidebar_finalize (GObject *object)
 	g_free (sidebar->priv->dirty);
 	_g_object_unref (sidebar->priv->file_data);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_sidebar_parent_class)->finalize (object);
 }
 
 
@@ -101,7 +101,6 @@ gth_sidebar_class_init (GthSidebarClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthSidebarPrivate));
 
 	object_class = (GObjectClass *) klass;
@@ -118,34 +117,6 @@ gth_sidebar_init (GthSidebar *sidebar)
 
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (sidebar), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (sidebar), FALSE);
-}
-
-
-GType
-gth_sidebar_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthSidebarClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_sidebar_class_init,
-			NULL,
-			NULL,
-			sizeof (GthSidebar),
-			0,
-			(GInstanceInitFunc) gth_sidebar_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_NOTEBOOK,
-					       "GthSidebar",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 
@@ -291,25 +262,13 @@ gth_sidebar_update_sensitivity (GthSidebar *sidebar)
 /* -- gth_property_view -- */
 
 
-GType
-gth_property_view_get_type (void) {
-	static GType gth_property_view_type_id = 0;
-	if (gth_property_view_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthPropertyViewIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_property_view_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthPropertyView", &g_define_type_info, 0);
-	}
-	return gth_property_view_type_id;
+G_DEFINE_INTERFACE (GthPropertyView, gth_property_view, 0)
+
+
+static void
+gth_property_view_default_init (GthPropertyViewInterface *iface)
+{
+	/* void */
 }
 
 

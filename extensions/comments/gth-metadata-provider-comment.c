@@ -26,7 +26,7 @@
 #include "gth-metadata-provider-comment.h"
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthMetadataProviderComment, gth_metadata_provider_comment, GTH_TYPE_METADATA_PROVIDER)
 
 
 static gboolean
@@ -221,38 +221,17 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 static void
 gth_metadata_provider_comment_class_init (GthMetadataProviderCommentClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GthMetadataProviderClass *mp_class;
 
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_read = gth_metadata_provider_comment_can_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->can_write = gth_metadata_provider_comment_can_write;
-	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_comment_read;
-	GTH_METADATA_PROVIDER_CLASS (klass)->write = gth_metadata_provider_comment_write;
+	mp_class = GTH_METADATA_PROVIDER_CLASS (klass);
+	mp_class->can_read = gth_metadata_provider_comment_can_read;
+	mp_class->can_write = gth_metadata_provider_comment_can_write;
+	mp_class->read = gth_metadata_provider_comment_read;
+	mp_class->write = gth_metadata_provider_comment_write;
 }
 
-
-GType
-gth_metadata_provider_comment_get_type (void)
+static void
+gth_metadata_provider_comment_init (GthMetadataProviderComment *self)
 {
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthMetadataProviderCommentClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_metadata_provider_comment_class_init,
-			NULL,
-			NULL,
-			sizeof (GthMetadataProviderComment),
-			0,
-			(GInstanceInitFunc) NULL
-		};
-
-		type = g_type_register_static (GTH_TYPE_METADATA_PROVIDER,
-					       "GthMetadataProviderComment",
-					       &type_info,
-					       0);
-	}
-
-	return type;
+	/* void */
 }

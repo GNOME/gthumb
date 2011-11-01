@@ -36,10 +36,6 @@ enum {
 };
 
 
-static guint signals[LAST_SIGNAL] = { 0 };
-static gpointer parent_class = NULL;
-
-
 struct _GthImageLineToolPrivate {
 	GthImageViewer        *viewer;
 
@@ -62,6 +58,19 @@ struct _GthImageLineToolPrivate {
 	GthFit                 original_fit_mode;
 	gboolean               original_zoom_enabled;
 };
+
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+
+static void gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageLineTool,
+			 gth_image_line_tool,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+					        gth_image_line_tool_gth_image_tool_interface_init))
 
 
 static void
@@ -285,55 +294,7 @@ gth_image_line_tool_zoom_changed (GthImageViewerTool *base)
 
 
 static void
-gth_image_line_tool_instance_init (GthImageLineTool *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LINE_TOOL, GthImageLineToolPrivate);
-	self->priv->preview_image = NULL;
-	self->priv->first_point_set = FALSE;
-}
-
-
-static void
-gth_image_line_tool_finalize (GObject *object)
-{
-	GthImageLineTool *self;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GTH_IS_IMAGE_LINE_TOOL (object));
-
-	self = (GthImageLineTool *) object;
-	if (self->priv->preview_image != NULL)
-		cairo_surface_destroy (self->priv->preview_image);
-
-	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-
-static void
-gth_image_line_tool_class_init (GthImageLineToolClass *class)
-{
-	GObjectClass *gobject_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (GthImageLineToolPrivate));
-
-	gobject_class = (GObjectClass*) class;
-	gobject_class->finalize = gth_image_line_tool_finalize;
-
-	signals[CHANGED] = g_signal_new ("changed",
-					 G_TYPE_FROM_CLASS (class),
-					 G_SIGNAL_RUN_LAST,
-					 G_STRUCT_OFFSET (GthImageLineToolClass, changed),
-					 NULL, NULL,
-					 g_cclosure_marshal_VOID__VOID,
-					 G_TYPE_NONE,
-					 0);
-}
-
-
-static void
-gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
+gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToolInterface *iface)
 {
 	iface->set_viewer = gth_image_line_tool_set_viewer;
 	iface->unset_viewer = gth_image_line_tool_unset_viewer;
@@ -351,37 +312,50 @@ gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToolIface *ifac
 }
 
 
-GType
-gth_image_line_tool_get_type (void)
+static void
+gth_image_line_tool_finalize (GObject *object)
 {
-	static GType type = 0;
+	GthImageLineTool *self;
 
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageLineToolClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_line_tool_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageLineTool),
-			0,
-			(GInstanceInitFunc) gth_image_line_tool_instance_init
-		};
-		static const GInterfaceInfo gth_image_tool_info = {
-			(GInterfaceInitFunc) gth_image_line_tool_gth_image_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GTH_IS_IMAGE_LINE_TOOL (object));
 
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageLineTool",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
-	}
+	self = (GthImageLineTool *) object;
+	if (self->priv->preview_image != NULL)
+		cairo_surface_destroy (self->priv->preview_image);
 
-	return type;
+	/* Chain up */
+	G_OBJECT_CLASS (gth_image_line_tool_parent_class)->finalize (object);
+}
+
+
+static void
+gth_image_line_tool_class_init (GthImageLineToolClass *class)
+{
+	GObjectClass *gobject_class;
+
+	g_type_class_add_private (class, sizeof (GthImageLineToolPrivate));
+
+	gobject_class = (GObjectClass*) class;
+	gobject_class->finalize = gth_image_line_tool_finalize;
+
+	signals[CHANGED] = g_signal_new ("changed",
+					 G_TYPE_FROM_CLASS (class),
+					 G_SIGNAL_RUN_LAST,
+					 G_STRUCT_OFFSET (GthImageLineToolClass, changed),
+					 NULL, NULL,
+					 g_cclosure_marshal_VOID__VOID,
+					 G_TYPE_NONE,
+					 0);
+}
+
+
+static void
+gth_image_line_tool_init (GthImageLineTool *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LINE_TOOL, GthImageLineToolPrivate);
+	self->priv->preview_image = NULL;
+	self->priv->first_point_set = FALSE;
 }
 
 

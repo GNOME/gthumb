@@ -27,12 +27,12 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-static gpointer parent_class = NULL;
-
-
 struct _FacebookAlbumPropertiesDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE (FacebookAlbumPropertiesDialog, facebook_album_properties_dialog, GTK_TYPE_DIALOG)
 
 
 static void
@@ -43,7 +43,7 @@ facebook_album_properties_dialog_finalize (GObject *object)
 	self = FACEBOOK_ALBUM_PROPERTIES_DIALOG (object);
 	_g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (facebook_album_properties_dialog_parent_class)->finalize (object);
 }
 
 
@@ -52,7 +52,6 @@ facebook_album_properties_dialog_class_init (FacebookAlbumPropertiesDialogClass 
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (FacebookAlbumPropertiesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -81,34 +80,6 @@ facebook_album_properties_dialog_init (FacebookAlbumPropertiesDialog *self)
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
-}
-
-
-GType
-facebook_album_properties_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (FacebookAlbumPropertiesDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) facebook_album_properties_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (FacebookAlbumPropertiesDialog),
-			0,
-			(GInstanceInitFunc) facebook_album_properties_dialog_init,
-			NULL
-		};
-		type = g_type_register_static (GTK_TYPE_DIALOG,
-					       "FacebookAlbumPropertiesDialog",
-					       &g_define_type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

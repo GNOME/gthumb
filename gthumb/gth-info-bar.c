@@ -24,9 +24,6 @@
 #include "gth-info-bar.h"
 
 
-static gpointer parent_class = NULL;
-
-
 struct _GthInfoBarPrivate {
 	GtkWidget *icon_image;
 	GtkWidget *primary_text_label;
@@ -34,10 +31,12 @@ struct _GthInfoBarPrivate {
 };
 
 
+G_DEFINE_TYPE (GthInfoBar, gth_info_bar, GTK_TYPE_INFO_BAR)
+
+
 static void
 gth_info_bar_class_init (GthInfoBarClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthInfoBarPrivate));
 }
 
@@ -46,34 +45,6 @@ static void
 gth_info_bar_init (GthInfoBar *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_INFO_BAR, GthInfoBarPrivate);
-}
-
-
-GType
-gth_info_bar_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthInfoBarClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_info_bar_class_init,
-			NULL,
-			NULL,
-			sizeof (GthInfoBar),
-			0,
-			(GInstanceInitFunc) gth_info_bar_init
-		};
-
-		type = g_type_register_static (GTK_TYPE_INFO_BAR,
-					       "GthEmbeddedEditorDialog",
-					       &type_info,
-					       0);
-	}
-
-        return type;
 }
 
 

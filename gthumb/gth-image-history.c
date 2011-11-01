@@ -26,6 +26,9 @@
 #define MAX_UNDO_HISTORY_LEN 5
 
 
+G_DEFINE_TYPE (GthImageHistory, gth_image_history, G_TYPE_OBJECT)
+
+
 /* GthImageData */
 
 
@@ -94,8 +97,7 @@ enum {
 };
 
 
-static gpointer parent_class = NULL;
-static guint    gth_image_history_signals[LAST_SIGNAL] = { 0 };
+static guint gth_image_history_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
@@ -112,7 +114,7 @@ gth_image_history_finalize (GObject *object)
 		history->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_history_parent_class)->finalize (object);
 }
 
 
@@ -120,8 +122,6 @@ static void
 gth_image_history_class_init (GthImageHistoryClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gth_image_history_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -141,34 +141,6 @@ static void
 gth_image_history_init (GthImageHistory *history)
 {
 	history->priv = g_new0 (GthImageHistoryPrivate, 1);
-}
-
-
-GType
-gth_image_history_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo type_info = {
-			sizeof (GthImageHistoryClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_image_history_class_init,
-			NULL,
-			NULL,
-			sizeof (GthImageHistory),
-			0,
-			(GInstanceInitFunc) gth_image_history_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthImageHistory",
-					       &type_info,
-					       0);
-	}
-
-	return type;
 }
 
 

@@ -28,6 +28,9 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
+G_DEFINE_TYPE (GthTemplateSelector, gth_template_selector, GTK_TYPE_HBOX)
+
+
 enum {
 	TYPE_DATA_COLUMN,
 	TYPE_NAME_COLUMN,
@@ -59,9 +62,7 @@ struct _GthTemplateSelectorPrivate {
 };
 
 static char * Date_Formats[] = { "%Y-%m-%d--%H.%M.%S", "%Y-%m-%d", "%x %X", "%x", NULL };
-
-static gpointer parent_class = NULL;
-static guint gth_template_selector_signals[LAST_SIGNAL] = { 0 };
+static guint  gth_template_selector_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
@@ -77,15 +78,13 @@ gth_template_selector_finalize (GObject *object)
 		selector->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_template_selector_parent_class)->finalize (object);
 }
 
 
 static void
 gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
-
 	G_OBJECT_CLASS (klass)->finalize = gth_template_selector_finalize;
 
 	/* signals */
@@ -112,37 +111,10 @@ gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 
 
 static void
-gth_template_selector_instance_init (GthTemplateSelector *self)
+gth_template_selector_init (GthTemplateSelector *self)
 {
 	self->priv = g_new0 (GthTemplateSelectorPrivate, 1);
 	self->priv->builder = NULL;
-}
-
-
-GType
-gth_template_selector_get_type (void)
-{
-	static GType type_id = 0;
-
-	if (type_id == 0) {
-		static const GTypeInfo type_info = {
-			sizeof (GthTemplateSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_template_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (GthTemplateSelector),
-			0,
-			(GInstanceInitFunc) gth_template_selector_instance_init,
-			NULL
-		};
-		type_id = g_type_register_static (GTK_TYPE_HBOX,
-						  "GthTemplateSelector",
-						  &type_info,
-						  0);
-	}
-	return type_id;
 }
 
 

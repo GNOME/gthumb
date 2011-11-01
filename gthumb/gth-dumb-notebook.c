@@ -32,7 +32,7 @@ struct _GthDumbNotebookPrivate {
 };
 
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (GthDumbNotebook, gth_dumb_notebook, GTK_TYPE_CONTAINER)
 
 
 static void
@@ -45,7 +45,7 @@ gth_dumb_notebook_finalize (GObject *object)
 		dumb_notebook->priv = NULL;
 	}
 	
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_dumb_notebook_parent_class)->finalize (object);
 }
 
 
@@ -284,8 +284,6 @@ gth_dumb_notebook_class_init (GthDumbNotebookClass *klass)
 	GtkWidgetClass    *widget_class;
 	GtkContainerClass *container_class;
 	
-	parent_class = g_type_class_peek_parent (klass);
-
 	gobject_class = G_OBJECT_CLASS (klass);
 	gobject_class->finalize = gth_dumb_notebook_finalize;
 	
@@ -313,34 +311,6 @@ gth_dumb_notebook_init (GthDumbNotebook *notebook)
 	
 	notebook->priv = g_new0 (GthDumbNotebookPrivate, 1);
 	notebook->priv->n_children = 0;	
-}
-
-
-GType 
-gth_dumb_notebook_get_type (void) 
-{
-	static GType type = 0;
-	
-	if (type == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthDumbNotebookClass), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) gth_dumb_notebook_class_init, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			sizeof (GthDumbNotebook), 
-			0, 
-			(GInstanceInitFunc) gth_dumb_notebook_init, 
-			NULL 
-		};
-		type = g_type_register_static (GTK_TYPE_CONTAINER, 
-					       "GthDumbNotebook", 
-					       &g_define_type_info, 
-					       0);
-	}
-	
-	return type;
 }
 
 

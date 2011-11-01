@@ -52,8 +52,7 @@ struct _GthTestPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
+static GthDuplicableInterface *gth_duplicable_parent_iface = NULL;
 static guint gth_test_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -62,6 +61,16 @@ gth_test_error_quark (void)
 {
 	return g_quark_from_static_string ("gth-test-error-quark");
 }
+
+
+static void gth_test_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTest,
+		         gth_test,
+		         G_TYPE_OBJECT,
+		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+		        		        gth_test_gth_duplicable_interface_init))
 
 
 static void
@@ -75,7 +84,7 @@ gth_test_finalize (GObject *object)
 	g_free (self->priv->display_name);
 	g_free (self->files);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_test_parent_class)->finalize (object);
 }
 
 
@@ -104,6 +113,7 @@ base_update_from_control (GthTest   *self,
 static void
 base_reset (GthTest *self)
 {
+	/* void */
 }
 
 
@@ -256,7 +266,6 @@ gth_test_class_init (GthTestClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthTestPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -318,7 +327,7 @@ gth_test_class_init (GthTestClass *klass)
 
 
 static void
-gth_test_gth_duplicable_interface_init (GthDuplicableIface *iface)
+gth_test_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 {
 	gth_duplicable_parent_iface = g_type_interface_peek_parent (iface);
 	iface->duplicate = gth_test_real_duplicate;
@@ -333,40 +342,6 @@ gth_test_init (GthTest *self)
 	self->priv->attributes = g_strdup ("");
 	self->priv->display_name = g_strdup ("");
 	self->priv->visible = FALSE;
-}
-
-
-GType
-gth_test_get_type (void)
-{
-        static GType type = 0;
-
-        if (! type) {
-                GTypeInfo type_info = {
-			sizeof (GthTestClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) gth_test_class_init,
-			NULL,
-			NULL,
-			sizeof (GthTest),
-			0,
-			(GInstanceInitFunc) gth_test_init
-		};
-		static const GInterfaceInfo gth_duplicable_info = {
-			(GInterfaceInitFunc) gth_test_gth_duplicable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthTest",
-					       &type_info,
-					       0);
-		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
-	}
-
-        return type;
 }
 
 

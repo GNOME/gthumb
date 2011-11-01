@@ -26,7 +26,14 @@
 #include "picasa-web-photo.h"
 
 
-static gpointer picasa_web_photo_parent_class = NULL;
+static void picasa_web_photo_dom_domizable_interface_init (DomDomizableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (PicasaWebPhoto,
+			 picasa_web_photo,
+			 G_TYPE_OBJECT,
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+					        picasa_web_photo_dom_domizable_interface_init))
 
 
 static void
@@ -51,14 +58,13 @@ picasa_web_photo_finalize (GObject *obj)
 static void
 picasa_web_photo_class_init (PicasaWebPhotoClass *klass)
 {
-	picasa_web_photo_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = picasa_web_photo_finalize;
 }
 
 
-static DomElement*
+static DomElement *
 picasa_web_photo_create_element (DomDomizable *base,
-				DomDocument  *doc)
+				 DomDocument  *doc)
 {
 	PicasaWebPhoto *self;
 	DomElement     *element;
@@ -124,7 +130,7 @@ picasa_web_photo_create_element (DomDomizable *base,
 
 static void
 picasa_web_photo_load_from_element (DomDomizable *base,
-				   DomElement   *element)
+				    DomElement   *element)
 {
 	PicasaWebPhoto *self;
 	DomElement     *node;
@@ -211,43 +217,9 @@ picasa_web_photo_dom_domizable_interface_init (DomDomizableInterface *iface)
 
 
 static void
-picasa_web_photo_instance_init (PicasaWebPhoto *self)
+picasa_web_photo_init (PicasaWebPhoto *self)
 {
-}
-
-
-GType
-picasa_web_photo_get_type (void)
-{
-	static GType picasa_web_photo_type_id = 0;
-
-	if (picasa_web_photo_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (PicasaWebPhotoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) picasa_web_photo_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			sizeof (PicasaWebPhoto),
-			0,
-			(GInstanceInitFunc) picasa_web_photo_instance_init,
-			NULL
-		};
-		static const GInterfaceInfo dom_domizable_info = {
-			(GInterfaceInitFunc) picasa_web_photo_dom_domizable_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		picasa_web_photo_type_id = g_type_register_static (G_TYPE_OBJECT,
-								  "PicasaWebPhoto",
-								  &g_define_type_info,
-								  0);
-		g_type_add_interface_static (picasa_web_photo_type_id, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
-	}
-
-	return picasa_web_photo_type_id;
+	/* void */
 }
 
 
