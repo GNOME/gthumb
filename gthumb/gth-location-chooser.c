@@ -37,6 +37,9 @@
 #define MIN_WIDTH 200
 
 
+G_DEFINE_TYPE (GthLocationChooser, gth_location_chooser, GTK_TYPE_BOX)
+
+
 enum {
 	ITEM_TYPE_NONE,
 	ITEM_TYPE_SEPARATOR,
@@ -70,7 +73,6 @@ struct _GthLocationChooserPrivate
 };
 
 
-static GtkHBoxClass *parent_class = NULL;
 static guint gth_location_chooser_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -91,7 +93,7 @@ gth_location_chooser_finalize (GObject *object)
 	if (self->priv->location != NULL)
 		g_object_unref (self->priv->location);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_location_chooser_parent_class)->finalize (object);
 }
 
 
@@ -281,7 +283,7 @@ gth_location_chooser_realize (GtkWidget *widget)
 {
 	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->realize (widget);
 	self->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))),
 						     _gtk_icon_get_pixel_size (GTK_WIDGET (self), GTK_ICON_SIZE_MENU));
 	entry_points_changed_cb (NULL, self);
@@ -294,7 +296,7 @@ gth_location_chooser_unrealize (GtkWidget *widget)
 	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
 
 	gth_icon_cache_free (self->priv->icon_cache);
-	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->unrealize (widget);
 }
 
 
@@ -304,7 +306,6 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthLocationChooserPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -402,9 +403,6 @@ gth_location_chooser_init (GthLocationChooser *self)
 					  G_CALLBACK (entry_points_changed_cb),
 					  self);
 }
-
-
-G_DEFINE_TYPE(GthLocationChooser, gth_location_chooser, GTK_TYPE_BOX)
 
 
 GtkWidget *

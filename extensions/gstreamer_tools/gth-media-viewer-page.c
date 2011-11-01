@@ -1300,7 +1300,6 @@ gth_media_viewer_page_finalize (GObject *obj)
 static void
 gth_media_viewer_page_class_init (GthMediaViewerPageClass *klass)
 {
-	gth_media_viewer_page_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMediaViewerPagePrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_media_viewer_page_finalize;

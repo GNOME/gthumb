@@ -49,6 +49,12 @@
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
 
 
+G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
+			 gth_image_viewer,
+			 GTK_TYPE_WIDGET,
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+
+
 enum {
 	PROP_0,
 	PROP_HADJUSTMENT,
@@ -125,7 +131,6 @@ struct _GthImageViewerPrivate {
 };
 
 
-static gpointer parent_class = NULL;
 static guint gth_image_viewer_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -177,7 +182,7 @@ gth_image_viewer_finalize (GObject *object)
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_cairo_clear_surface (&self->priv->surface);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_viewer_parent_class)->finalize (object);
 }
 
 
@@ -436,7 +441,7 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 
 	gth_image_viewer_tool_unrealize (self->priv->tool);
 
-	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+	GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->unrealize (widget);
 }
 
 
@@ -447,7 +452,7 @@ gth_image_viewer_map (GtkWidget *widget)
 
 	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
 
-	GTK_WIDGET_CLASS (parent_class)->map (widget);
+	GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->map (widget);
 
 	self = GTH_IMAGE_VIEWER (widget);
 	gth_image_viewer_tool_map (self->priv->tool);
@@ -464,7 +469,7 @@ gth_image_viewer_unmap (GtkWidget *widget)
 	self = GTH_IMAGE_VIEWER (widget);
 	gth_image_viewer_tool_unmap (self->priv->tool);
 
-	GTK_WIDGET_CLASS (parent_class)->unmap (widget);
+	GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->unmap (widget);
 }
 
 
@@ -698,8 +703,8 @@ gth_image_viewer_key_press (GtkWidget   *widget,
 	if (handled)
 		return TRUE;
 
-	if (GTK_WIDGET_CLASS (parent_class)->key_press_event &&
-	    GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event))
+	if (GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->key_press_event &&
+	    GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->key_press_event (widget, event))
 		return TRUE;
 
 	return FALSE;
@@ -998,7 +1003,7 @@ gth_image_viewer_style_updated (GtkWidget *widget)
 {
 	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->style_updated (widget);
+	GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->style_updated (widget);
 
 	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
 		GdkRGBA color;
@@ -1251,7 +1256,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet  *binding_set;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthImageViewerPrivate));
 
 	/* signals */
@@ -1554,13 +1558,7 @@ gth_image_viewer_init (GthImageViewer *self)
 }
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
-			 gth_image_viewer,
-			 GTK_TYPE_WIDGET,
-                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
-
-
-GtkWidget*
+GtkWidget *
 gth_image_viewer_new (void)
 {
 	return GTK_WIDGET (g_object_new (GTH_TYPE_IMAGE_VIEWER, NULL));

@@ -500,8 +500,6 @@ gth_application_class_init (GthApplicationClass *klass)
 	GObjectClass      *object_class;
 	GApplicationClass *application_class;
 
-	gth_application_parent_class = g_type_class_peek_parent (klass);
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_application_finalize;
 

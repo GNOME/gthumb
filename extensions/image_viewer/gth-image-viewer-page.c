@@ -1392,7 +1392,6 @@ gth_image_viewer_page_finalize (GObject *obj)
 static void
 gth_image_viewer_page_class_init (GthImageViewerPageClass *klass)
 {
-	gth_image_viewer_page_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImageViewerPagePrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_image_viewer_page_finalize;

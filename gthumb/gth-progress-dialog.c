@@ -83,7 +83,6 @@ gth_task_progress_finalize (GObject *base)
 static void
 gth_task_progress_class_init (GthTaskProgressClass *klass)
 {
-	gth_task_progress_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = gth_task_progress_finalize;
 }
 
@@ -267,7 +266,6 @@ gth_progress_dialog_finalize (GObject *base)
 static void
 gth_progress_dialog_class_init (GthProgressDialogClass *klass)
 {
-	gth_progress_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthProgressDialogPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_progress_dialog_finalize;

@@ -53,7 +53,6 @@ facebook_user_finalize (GObject *obj)
 static void
 facebook_user_class_init (FacebookUserClass *klass)
 {
-	facebook_user_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = facebook_user_finalize;
 }
 

@@ -26,14 +26,14 @@
 #include "gth-toggle-menu-tool-button.h"
 
 
+G_DEFINE_TYPE (GthToggleMenuAction, gth_toggle_menu_action, GTK_TYPE_TOGGLE_ACTION)
+
+
 /* Properties */
 enum {
         PROP_0,
         PROP_MENU
 };
-
-
-static gpointer parent_class = NULL;
 
 
 struct _GthToggleMenuActionPrivate {
@@ -132,7 +132,7 @@ gth_toggle_menu_action_finalize (GObject *base)
 	if (self->priv->menu != NULL)
 		g_object_unref (self->priv->menu);
 
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_toggle_menu_action_parent_class)->finalize (base);
 }
 
 
@@ -142,7 +142,6 @@ gth_toggle_menu_action_class_init (GthToggleMenuActionClass *klass)
 	GObjectClass   *object_class;
 	GtkActionClass *action_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthToggleMenuActionPrivate));
 
 	object_class = (GObjectClass *) klass;
@@ -164,9 +163,6 @@ gth_toggle_menu_action_class_init (GthToggleMenuActionClass *klass)
                                                               GTK_TYPE_MENU,
                                                               G_PARAM_READWRITE));
 }
-
-
-G_DEFINE_TYPE (GthToggleMenuAction, gth_toggle_menu_action, GTK_TYPE_TOGGLE_ACTION)
 
 
 void

@@ -25,13 +25,14 @@
 #include "gtk-utils.h"
 #include "main.h"
 
+
+G_DEFINE_TYPE (GthWindow, gth_window, GTK_TYPE_WINDOW)
+
+
 enum  {
 	PROP_0,
 	PROP_N_PAGES
 };
-
-
-static GtkWindowClass *parent_class = NULL;
 
 
 struct _GthWindowPrivate {
@@ -159,7 +160,7 @@ gth_window_finalize (GObject *object)
 	g_free (window->priv->contents);
 	g_free (window->priv->window_size);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_window_parent_class)->finalize (object);
 }
 
 
@@ -202,7 +203,7 @@ gth_window_real_set_current_page (GthWindow *window,
 static void
 gth_window_realize (GtkWidget *widget)
 {
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (gth_window_parent_class)->realize (widget);
 
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
 					   GTHUMB_ICON_DIR);
@@ -215,7 +216,6 @@ gth_window_class_init (GthWindowClass *klass)
 	GObjectClass   *gobject_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthWindowPrivate));
 
 	gobject_class = (GObjectClass*) klass;
@@ -257,9 +257,6 @@ gth_window_init (GthWindow *window)
 
 	gtk_window_set_application (GTK_WINDOW (window), Main_Application);
 }
-
-
-G_DEFINE_TYPE(GthWindow, gth_window, GTK_TYPE_WINDOW)
 
 
 void

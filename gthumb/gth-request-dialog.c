@@ -50,7 +50,6 @@ gth_request_dialog_finalize (GObject *base)
 static void
 gth_request_dialog_class_init (GthRequestDialogClass *klass)
 {
-	gth_request_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthRequestDialogPrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_request_dialog_finalize;

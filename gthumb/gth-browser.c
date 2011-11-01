@@ -77,6 +77,9 @@
 #define STATUSBAR_SEPARATOR " · "
 
 
+G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
+
+
 enum {
 	LOCATION_READY,
 	LAST_SIGNAL
@@ -190,7 +193,6 @@ struct _GthBrowserPrivate {
 };
 
 
-static GthWindowClass *parent_class = NULL;
 static guint gth_browser_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -2371,7 +2373,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	if (page == prev_page)
 		return;
 
-	GTH_WINDOW_CLASS (parent_class)->set_current_page (window, page);
+	GTH_WINDOW_CLASS (gth_browser_parent_class)->set_current_page (window, page);
 
 	/* update the ui commands */
 
@@ -2507,7 +2509,7 @@ gth_browser_finalize (GObject *object)
 	_g_object_unref (browser->priv->forward_history_menu);
 	_g_object_unref (browser->priv->go_parent_menu);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
 }
 
 
@@ -2517,7 +2519,6 @@ gth_browser_class_init (GthBrowserClass *klass)
 	GObjectClass   *gobject_class;
 	GthWindowClass *window_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthBrowserPrivate));
 
 	gobject_class = G_OBJECT_CLASS (klass);
@@ -4592,9 +4593,6 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->constructed = TRUE;
 }
-
-
-G_DEFINE_TYPE(GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
 
 GtkWidget *

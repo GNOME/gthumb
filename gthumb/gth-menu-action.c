@@ -25,6 +25,9 @@
 #include "gth-menu-action.h"
 
 
+G_DEFINE_TYPE (GthMenuAction, gth_menu_action, GTK_TYPE_ACTION)
+
+
 /* Properties */
 enum {
         PROP_0,
@@ -32,9 +35,6 @@ enum {
         PROP_ARROW_TOOLTIP,
         PROP_MENU
 };
-
-
-static gpointer parent_class = NULL;
 
 
 struct _GthMenuActionPrivate {
@@ -121,7 +121,7 @@ gth_menu_action_finalize (GObject *base)
 	g_free (self->priv->arrow_tooltip);
 	g_free (self->priv->button_tooltip);
 
-	G_OBJECT_CLASS (parent_class)->finalize (base);
+	G_OBJECT_CLASS (gth_menu_action_parent_class)->finalize (base);
 }
 
 
@@ -147,7 +147,6 @@ gth_menu_action_class_init (GthMenuActionClass *klass)
 	GObjectClass   *object_class;
 	GtkActionClass *action_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthMenuActionPrivate));
 
 	object_class = (GObjectClass*) klass;
@@ -183,6 +182,3 @@ gth_menu_action_class_init (GthMenuActionClass *klass)
                                                               GTK_TYPE_MENU,
                                                               G_PARAM_READWRITE));
 }
-
-
-G_DEFINE_TYPE (GthMenuAction, gth_menu_action, GTK_TYPE_ACTION)

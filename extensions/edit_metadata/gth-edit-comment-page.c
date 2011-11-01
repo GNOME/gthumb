@@ -418,7 +418,6 @@ gth_edit_comment_page_finalize (GObject *object)
 static void
 gth_edit_comment_page_class_init (GthEditCommentPageClass *klass)
 {
-	gth_edit_comment_page_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthEditCommentPagePrivate));
 
 	G_OBJECT_CLASS (klass)->finalize = gth_edit_comment_page_finalize;

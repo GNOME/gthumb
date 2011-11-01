@@ -219,7 +219,6 @@ dom_element_finalize (GObject *obj)
 static void
 dom_element_class_init (DomElementClass *klass)
 {
-	dom_element_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = dom_element_finalize;
 	DOM_ELEMENT_CLASS (klass)->dump = dom_element_real_dump;
 }
@@ -418,7 +417,6 @@ dom_text_node_finalize (GObject *obj)
 static void
 dom_text_node_class_init (DomTextNodeClass *klass)
 {
-	dom_text_node_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = dom_text_node_finalize;
 	DOM_ELEMENT_CLASS (klass)->dump = dom_text_node_real_dump;
 }
@@ -469,7 +467,6 @@ dom_document_finalize (GObject *obj)
 static void
 dom_document_class_init (DomDocumentClass *klass)
 {
-	dom_document_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = dom_document_finalize;
 }
 

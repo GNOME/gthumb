@@ -53,9 +53,6 @@ struct _GthImageNavigatorPrivate {
 };
 
 
-static gpointer parent_class = NULL;
-
-
 static void
 _gth_image_navigator_set_viewer (GthImageNavigator *self,
 			         GtkWidget         *viewer)
@@ -276,7 +273,6 @@ gth_image_navigator_class_init (GthImageNavigatorClass *klass)
 	GtkWidgetClass    *widget_class;
 	GtkContainerClass *container_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthImageNavigatorPrivate));
 
 	object_class = (GObjectClass *) klass;
