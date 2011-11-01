@@ -322,6 +322,7 @@ gth_window_attach_toolbar (GthWindow *window,
 
 	_gtk_container_remove_children (GTK_CONTAINER (window->priv->toolbars[page]), NULL, NULL);
 	gtk_style_context_add_class (gtk_widget_get_style_context (child), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+	gtk_widget_set_hexpand (child, TRUE);
 	gtk_container_add (GTK_CONTAINER (window->priv->toolbars[page]), child);
 }
 
@@ -338,6 +339,7 @@ gth_window_attach_content (GthWindow *window,
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
 	_gtk_container_remove_children (GTK_CONTAINER (window->priv->contents[page]), NULL, NULL);
+	gtk_widget_set_hexpand (child, TRUE);
 	gtk_container_add (GTK_CONTAINER (window->priv->contents[page]), child);
 }
 
