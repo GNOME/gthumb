@@ -270,7 +270,7 @@ video_area_button_press_cb (GtkWidget          *widget,
 			    GthMediaViewerPage *self)
 {
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1) ) {
-		gtk_button_clicked (GTK_BUTTON (GET_WIDGET ("button_play")));
+		gtk_button_clicked (GTK_BUTTON (GET_WIDGET ("play_button")));
 		return TRUE;
 	}
 
@@ -349,9 +349,9 @@ update_current_position_bar (GthMediaViewerPage *self,
 		*/
 
         	if (update_progressbar) {
-			g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
-			gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
-			g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
+			g_signal_handlers_block_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
+			gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
+			g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
         	}
 
         	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
@@ -391,7 +391,7 @@ position_value_changed_cb (GtkAdjustment *adjustment,
 
 
 static char *
-hscale_volume_format_value_cb (GtkScale *scale,
+volume_scale_format_value_cb (GtkScale *scale,
 			       double    value,
 			       gpointer  user_data)
 {
@@ -400,7 +400,7 @@ hscale_volume_format_value_cb (GtkScale *scale,
 
 
 static gboolean
-hscale_position_change_value_cb (GtkRange      *range,
+position_scale_change_value_cb (GtkRange      *range,
 				 GtkScrollType  scroll,
 				 gdouble        value,
 				 gpointer       user_data)
@@ -417,7 +417,7 @@ hscale_position_change_value_cb (GtkRange      *range,
 
 
 static gboolean
-hscale_position_button_release_event_cb (GtkWidget      *widget,
+position_scale_button_release_event_cb (GtkWidget      *widget,
 					 GdkEventButton *event,
 					 gpointer        user_data)
 {
@@ -460,7 +460,7 @@ update_player_rate (GthMediaViewerPage *self)
 	if (! self->priv->playing)
 		return;
 
-	current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position"))) / 100.0 * self->priv->duration);
+	current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
 	if (! gst_element_seek (self->priv->playbin,
 				self->priv->rate,
 			        GST_FORMAT_TIME,
@@ -476,7 +476,7 @@ update_player_rate (GthMediaViewerPage *self)
 
 
 static void
-button_play_clicked_cb (GtkButton *button,
+play_button_clicked_cb (GtkButton *button,
 			gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
@@ -498,7 +498,7 @@ button_play_clicked_cb (GtkButton *button,
 		else {
 			gint64 current_value;
 
-			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position"))) / 100.0 * self->priv->duration);
+			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
 			gst_element_seek (self->priv->playbin,
 					  self->priv->rate,
 					  GST_FORMAT_TIME,
@@ -516,7 +516,7 @@ button_play_clicked_cb (GtkButton *button,
 
 
 static void
-togglebutton_volume_toggled_cb (GtkToggleButton *button,
+volume_togglebutton_toggled_cb (GtkToggleButton *button,
 				gpointer         user_data)
 {
 	GthMediaViewerPage *self = user_data;
@@ -555,7 +555,7 @@ get_nearest_rate (double rate)
 
 
 static void
-button_play_slower_clicked_cb (GtkButton *button,
+play_slower_button_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
@@ -572,7 +572,7 @@ button_play_slower_clicked_cb (GtkButton *button,
 
 
 static void
-button_play_faster_clicked_cb (GtkButton *button,
+play_faster_button_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
@@ -597,18 +597,19 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 		return;
 
 	g_object_get (self->priv->playbin, "volume", &volume, NULL);
-	if (volume == 0.0)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("togglebutton_volume_image")), "audio-volume-muted", GTK_ICON_SIZE_BUTTON);
-	else if (volume < 3.3)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("togglebutton_volume_image")), "audio-volume-low", GTK_ICON_SIZE_BUTTON);
-	else if (volume < 6.6)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("togglebutton_volume_image")), "audio-volume-medium", GTK_ICON_SIZE_BUTTON);
-	else
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("togglebutton_volume_image")), "audio-volume-high", GTK_ICON_SIZE_BUTTON);
 
-	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_volume"), volume_value_changed_cb, self);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_volume")), volume * 100.0);
-	g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_volume"), volume_value_changed_cb, self);
+	if (volume == 0.0)
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-muted", GTK_ICON_SIZE_BUTTON);
+	else if (volume < 0.33)
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-low", GTK_ICON_SIZE_BUTTON);
+	else if (volume < 0.66)
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-medium", GTK_ICON_SIZE_BUTTON);
+	else
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-high", GTK_ICON_SIZE_BUTTON);
+
+	g_signal_handlers_block_by_func(GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), volume * 100.0);
+	g_signal_handlers_unblock_by_func(GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 }
 
 
@@ -650,8 +651,8 @@ update_play_button (GthMediaViewerPage *self,
 {
 	if (! self->priv->playing && (new_state == GST_STATE_PLAYING)) {
 		set_playing_state (self, TRUE);
-		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("button_play_image")), GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_LARGE_TOOLBAR);
-		gtk_widget_set_tooltip_text (GET_WIDGET ("button_play_image"), _("Pause"));
+		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("play_button_image")), GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_widget_set_tooltip_text (GET_WIDGET ("play_button_image"), _("Pause"));
 
 		if (self->priv->update_progress_id == 0)
 			self->priv->update_progress_id = gdk_threads_add_timeout (PROGRESS_DELAY, update_progress_cb, self);
@@ -660,8 +661,8 @@ update_play_button (GthMediaViewerPage *self,
 	}
 	else if (self->priv->playing && (new_state != GST_STATE_PLAYING)) {
 		set_playing_state (self, FALSE);
-		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("button_play_image")), GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_LARGE_TOOLBAR);
-		gtk_widget_set_tooltip_text (GET_WIDGET ("button_play_image"), _("Play"));
+		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("play_button_image")), GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_widget_set_tooltip_text (GET_WIDGET ("play_button_image"), _("Play"));
 
 		if (self->priv->update_progress_id != 0) {
 			 g_source_remove (self->priv->update_progress_id);
@@ -696,8 +697,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
 
-	self->priv->area_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-
 	/* video area */
 
 	self->priv->area = gtk_drawing_area_new ();
@@ -711,7 +710,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 						  | GDK_BUTTON_MOTION_MASK));
 	gtk_widget_set_can_focus (self->priv->area, TRUE);
 	gtk_widget_show (self->priv->area);
-	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "realize",
@@ -747,18 +745,20 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer_tools");
 	self->priv->mediabar = GET_WIDGET ("mediabar");
 	gtk_widget_show (self->priv->mediabar);
+
+	g_signal_connect (GET_WIDGET ("volume_adjustment"), "value-changed", G_CALLBACK (volume_value_changed_cb), self);
+	g_signal_connect (GET_WIDGET ("position_adjustment"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
+	g_signal_connect (GET_WIDGET ("volume_scale"), "format-value", G_CALLBACK (volume_scale_format_value_cb), self);
+	g_signal_connect (GET_WIDGET ("position_scale"), "change-value", G_CALLBACK (position_scale_change_value_cb), self);
+	g_signal_connect (GET_WIDGET ("position_scale"), "button-release-event", G_CALLBACK (position_scale_button_release_event_cb), self);
+	g_signal_connect (GET_WIDGET ("play_button"), "clicked", G_CALLBACK (play_button_clicked_cb), self);
+	g_signal_connect (GET_WIDGET ("volume_togglebutton"), "toggled", G_CALLBACK (volume_togglebutton_toggled_cb), self);
+	g_signal_connect (GET_WIDGET ("play_slower_button"), "clicked", G_CALLBACK (play_slower_button_clicked_cb), self);
+	g_signal_connect (GET_WIDGET ("play_faster_button"), "clicked", G_CALLBACK (play_faster_button_clicked_cb), self);
+
+	self->priv->area_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
-
-	g_signal_connect (GET_WIDGET ("adjustment_volume"), "value-changed", G_CALLBACK (volume_value_changed_cb), self);
-	g_signal_connect (GET_WIDGET ("adjustment_position"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
-	g_signal_connect (GET_WIDGET ("hscale_volume"), "format-value", G_CALLBACK (hscale_volume_format_value_cb), self);
-	g_signal_connect (GET_WIDGET ("hscale_position"), "change-value", G_CALLBACK (hscale_position_change_value_cb), self);
-	g_signal_connect (GET_WIDGET ("hscale_position"), "button-release-event", G_CALLBACK (hscale_position_button_release_event_cb), self);
-	g_signal_connect (GET_WIDGET ("button_play"), "clicked", G_CALLBACK (button_play_clicked_cb), self);
-	g_signal_connect (GET_WIDGET ("togglebutton_volume"), "toggled", G_CALLBACK (togglebutton_volume_toggled_cb), self);
-	g_signal_connect (GET_WIDGET ("button_play_slower"), "clicked", G_CALLBACK (button_play_slower_clicked_cb), self);
-	g_signal_connect (GET_WIDGET ("button_play_faster"), "clicked", G_CALLBACK (button_play_faster_clicked_cb), self);
-
 	gtk_widget_show (self->priv->area_box);
 	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
@@ -968,7 +968,7 @@ bus_message_cb (GstBus     *bus,
 	case GST_MESSAGE_BUFFERING: {
 		int percent = 0;
 		gst_message_parse_buffering (message, &percent);
-		g_print ("Buffering (%%%u percent done)", percent);
+		/* g_print ("Buffering (%%%u percent done)", percent); */
 		break;
 	}
 
@@ -1106,9 +1106,9 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	/**/
 
 	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
-	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), 0.0);
-	g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
+	g_signal_handlers_block_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), 0.0);
+	g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
 	reset_player_state (self);
 
 	if (self->priv->playbin == NULL)
@@ -1214,9 +1214,6 @@ static void
 gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage *) base;
-
-	/*gtk_widget_set_sensitive (GET_WIDGET ("button_play_slower"), self->priv->playing);
-	gtk_widget_set_sensitive (GET_WIDGET ("button_play_faster"), self->priv->playing);*/
 
 	gtk_widget_set_sensitive (GET_WIDGET ("volume_box"), self->priv->has_audio);
 	set_action_sensitive (self, "MediaViewer_Screenshot", self->priv->has_video);
