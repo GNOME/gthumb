@@ -89,38 +89,13 @@ _g_object_list_unref (GList *list)
 }
 
 
-GType
-g_object_list_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0)
-		type = g_boxed_type_register_static ("GObjectList",
-						     (GBoxedCopyFunc) _g_object_list_ref,
-						     (GBoxedFreeFunc) _g_object_list_unref);
-
-	return type;
-}
+typedef GList GObjectList;
 
 
-#if NEED_G_TYPE_ERROR
-
-
-GType
-g_error_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0)
-		type = g_boxed_type_register_static ("GError",
-						     (GBoxedCopyFunc) g_error_copy,
-						     (GBoxedFreeFunc) g_error_free);
-
-	return type;
-}
-
-
-#endif
+G_DEFINE_BOXED_TYPE (GObjectList,
+		     g_object_list,
+		     (GBoxedCopyFunc) _g_object_list_ref,
+		     (GBoxedFreeFunc) _g_object_list_unref)
 
 
 GEnumValue *
@@ -1473,18 +1448,13 @@ _g_string_list_to_strv (GList *string_list)
 }
 
 
-GType
-g_string_list_get_type (void)
-{
-	static GType type = 0;
+typedef GList GStringList;
 
-	if (type == 0)
-		type = g_boxed_type_register_static ("GStringList",
-						     (GBoxedCopyFunc) _g_string_list_dup,
-						     (GBoxedFreeFunc) _g_string_list_free);
 
-	return type;
-}
+G_DEFINE_BOXED_TYPE (GStringList,
+		     g_string_list,
+		     (GBoxedCopyFunc) _g_string_list_dup,
+		     (GBoxedFreeFunc) _g_string_list_free)
 
 
 GList *
