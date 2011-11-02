@@ -613,13 +613,13 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 	g_object_get (self->priv->playbin, "volume", &volume, NULL);
 
 	if (volume == 0.0)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-muted", GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-muted-symbolic", GTK_ICON_SIZE_BUTTON);
 	else if (volume < 0.33)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-low", GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-low-symbolic", GTK_ICON_SIZE_BUTTON);
 	else if (volume < 0.66)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-medium", GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-medium-symbolic", GTK_ICON_SIZE_BUTTON);
 	else
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-high", GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-high-symbolic", GTK_ICON_SIZE_BUTTON);
 
 	g_signal_handlers_block_by_func(GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), volume * 100.0);
@@ -665,7 +665,7 @@ update_play_button (GthMediaViewerPage *self,
 {
 	if (! self->priv->playing && (new_state == GST_STATE_PLAYING)) {
 		set_playing_state (self, TRUE);
-		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("play_button_image")), GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_button_image")), "media-playback-pause-symbolic", GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_widget_set_tooltip_text (GET_WIDGET ("play_button_image"), _("Pause"));
 
 		if (self->priv->update_progress_id == 0)
@@ -675,7 +675,7 @@ update_play_button (GthMediaViewerPage *self,
 	}
 	else if (self->priv->playing && (new_state != GST_STATE_PLAYING)) {
 		set_playing_state (self, FALSE);
-		gtk_image_set_from_stock (GTK_IMAGE (GET_WIDGET ("play_button_image")), GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_button_image")), "media-playback-start-symbolic", GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_widget_set_tooltip_text (GET_WIDGET ("play_button_image"), _("Play"));
 
 		if (self->priv->update_progress_id != 0) {

@@ -32,7 +32,7 @@
               <object class="GtkImage" id="image1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-media-rewind</property>
+                <property name="icon_name">media-seek-backward-symbolic</property>
                 <property name="icon-size">2</property>
               </object>
             </child>
@@ -56,7 +56,7 @@
               <object class="GtkImage" id="play_button_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-media-play</property>
+                <property name="icon_name">media-playback-start-symbolic</property>
                 <property name="icon-size">3</property>
               </object>
             </child>
@@ -80,7 +80,7 @@
               <object class="GtkImage" id="image3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-media-forward</property>
+                <property name="icon_name">media-seek-forward-symbolic</property>
                 <property name="icon-size">2</property>
               </object>
             </child>
@@ -213,7 +213,7 @@
               <object class="GtkImage" id="volume_togglebutton_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="icon_name">audio-volume-high</property>
+                <property name="icon_name">audio-volume-high-symbolic</property>
               </object>
             </child>
           </object>
