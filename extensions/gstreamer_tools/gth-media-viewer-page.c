@@ -417,11 +417,36 @@ position_scale_change_value_cb (GtkRange      *range,
 
 
 static gboolean
+position_scale_button_press_event_cb (GtkWidget      *widget,
+				      GdkEventButton *event,
+				      gpointer        user_data)
+{
+	/* In a video player when clicking on the progress bar the user expect
+	 * to jump to the specified position directly instead of scrolling one
+	 * page up or down as happens by default in Gtk+.  The button 2
+	 * behavior is what we want by default for button 1. */
+
+	if (event->button == 1)
+		event->button = 2;
+	else if (event->button == 2)
+		event->button = 1;
+
+	return FALSE;
+}
+
+
+static gboolean
 position_scale_button_release_event_cb (GtkWidget      *widget,
 					 GdkEventButton *event,
 					 gpointer        user_data)
 {
 	GthMediaViewerPage *self = user_data;
+
+	/* Swap button 1 and 2 behaviors, see position_scale_button_press_event_cb */
+	if (event->button == 1)
+		event->button = 2;
+	else if (event->button == 2)
+		event->button = 1;
 
 	if (self->priv->playing)
 		self->priv->block_next_jump = TRUE;
@@ -750,6 +775,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("position_adjustment"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
 	g_signal_connect (GET_WIDGET ("volume_scale"), "format-value", G_CALLBACK (volume_scale_format_value_cb), self);
 	g_signal_connect (GET_WIDGET ("position_scale"), "change-value", G_CALLBACK (position_scale_change_value_cb), self);
+	g_signal_connect (GET_WIDGET ("position_scale"), "button-press-event", G_CALLBACK (position_scale_button_press_event_cb), self);
 	g_signal_connect (GET_WIDGET ("position_scale"), "button-release-event", G_CALLBACK (position_scale_button_release_event_cb), self);
 	g_signal_connect (GET_WIDGET ("play_button"), "clicked", G_CALLBACK (play_button_clicked_cb), self);
 	g_signal_connect (GET_WIDGET ("volume_togglebutton"), "toggled", G_CALLBACK (volume_togglebutton_toggled_cb), self);
