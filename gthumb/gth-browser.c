@@ -2385,6 +2385,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
+	gtk_widget_unrealize (browser->priv->file_properties);
 	if (page == GTH_BROWSER_PAGE_BROWSER)
 		gtk_widget_reparent (browser->priv->file_properties, browser->priv->browser_sidebar);
 	else
