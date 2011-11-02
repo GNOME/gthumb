@@ -69,7 +69,8 @@ struct _GthLocationChooserPrivate
 	GthIconCache  *icon_cache;
 	GthFileSource *file_source;
 	gulong         entry_points_changed_id;
-	guint          update_list_id;
+	guint          update_entry_list_id;
+	guint          update_location_list_id;
 };
 
 
@@ -83,8 +84,10 @@ gth_location_chooser_finalize (GObject *object)
 
 	self = GTH_LOCATION_CHOOSER (object);
 
-	if (self->priv->update_list_id != 0)
-		g_source_remove (self->priv->update_list_id);
+	if (self->priv->update_location_list_id != 0)
+		g_source_remove (self->priv->update_location_list_id);
+	if (self->priv->update_entry_list_id != 0)
+		g_source_remove (self->priv->update_entry_list_id);
 	if (self->priv->entry_points_changed_id != 0)
 		g_signal_handler_disconnect (gth_main_get_default_monitor (),
 					     self->priv->entry_points_changed_id);
@@ -216,7 +219,7 @@ update_entry_point_list (GthLocationChooser *self)
 	GList *entry_points;
 	GList *scan;
 
-	self->priv->update_list_id = 0;
+	self->priv->update_entry_list_id = 0;
 
 	if (! get_nth_separator_pos (self, 1, &first_position))
 		return;
@@ -272,9 +275,126 @@ static void
 entry_points_changed_cb (GthMonitor         *monitor,
 			 GthLocationChooser *self)
 {
-	if (self->priv->update_list_id != 0)
+	if (self->priv->update_entry_list_id != 0)
 		return;
-	self->priv->update_list_id = call_when_idle ((DataFunc) update_entry_point_list, self);
+	self->priv->update_entry_list_id = call_when_idle ((DataFunc) update_entry_point_list, self);
+}
+
+
+static gboolean
+delete_current_file_entries (GthLocationChooser *self)
+{
+	gboolean    found = FALSE;
+	GtkTreeIter iter;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), &iter))
+		return FALSE;
+
+	do {
+		int item_type = ITEM_TYPE_NONE;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
+				    &iter,
+				    TYPE_COLUMN, &item_type,
+				    -1);
+		if (item_type == ITEM_TYPE_SEPARATOR)
+			break;
+	}
+	while (gtk_tree_store_remove (self->priv->model, &iter));
+
+	return found;
+}
+
+
+static gboolean
+get_iter_from_current_file_entries (GthLocationChooser *self,
+				    GFile              *file,
+				    GtkTreeIter        *iter)
+{
+	gboolean  found = FALSE;
+	char     *uri;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), iter))
+		return FALSE;
+
+	uri = g_file_get_uri (file);
+	do {
+		int   item_type = ITEM_TYPE_NONE;
+		char *list_uri;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
+				    iter,
+				    TYPE_COLUMN, &item_type,
+				    URI_COLUMN, &list_uri,
+				    -1);
+		if (item_type == ITEM_TYPE_SEPARATOR)
+			break;
+		if (same_uri (uri, list_uri)) {
+			found = TRUE;
+			g_free (list_uri);
+			break;
+		}
+		g_free (list_uri);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->model), iter));
+
+	g_free (uri);
+
+	return found;
+}
+
+
+static void
+update_location_list (gpointer user_data)
+{
+	GthLocationChooser *self = user_data;
+	GtkTreeIter         iter;
+
+	self->priv->update_location_list_id = 0;
+
+	if (self->priv->location == NULL)
+		return;
+
+	if (get_iter_from_current_file_entries (self, self->priv->location, &iter)) {
+		g_signal_handlers_block_by_func (self->priv->combo, combo_changed_cb, self);
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (self->priv->combo), &iter);
+		g_signal_handlers_unblock_by_func (self->priv->combo, combo_changed_cb, self);
+	}
+	else {
+		GList *list;
+		GList *scan;
+		int    position = 0;
+
+		delete_current_file_entries (self);
+
+		list = gth_file_source_get_current_list (self->priv->file_source, self->priv->location);
+		for (scan = list; scan; scan = scan->next) {
+			GFile     *file = scan->data;
+			GFileInfo *info;
+
+			info = gth_file_source_get_file_info (self->priv->file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+			if (info == NULL)
+				continue;
+			add_file_source_entries (self,
+						 file,
+						 g_file_info_get_display_name (info),
+						 g_file_info_get_icon (info),
+						 position++,
+						 TRUE,
+						 ITEM_TYPE_LOCATION);
+
+			g_object_unref (info);
+		}
+	}
+}
+
+
+static void
+current_location_changed (GthLocationChooser *self)
+{
+	if (self->priv->update_location_list_id != 0)
+		return;
+	self->priv->update_location_list_id = call_when_idle ((DataFunc) update_location_list, self);
 }
 
 
@@ -287,6 +407,7 @@ gth_location_chooser_realize (GtkWidget *widget)
 	self->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))),
 						     _gtk_icon_get_pixel_size (GTK_WIDGET (self), GTK_ICON_SIZE_MENU));
 	entry_points_changed_cb (NULL, self);
+	current_location_changed (self);
 }
 
 
@@ -296,6 +417,8 @@ gth_location_chooser_unrealize (GtkWidget *widget)
 	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
 
 	gth_icon_cache_free (self->priv->icon_cache);
+	self->priv->icon_cache = NULL;
+
 	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->unrealize (widget);
 }
 
@@ -412,74 +535,11 @@ gth_location_chooser_new (void)
 }
 
 
-static gboolean
-delete_current_file_entries (GthLocationChooser *self)
-{
-	gboolean    found = FALSE;
-	GtkTreeIter iter;
-
-	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), &iter))
-		return FALSE;
-
-	do {
-		int item_type = ITEM_TYPE_NONE;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
-				    &iter,
-				    TYPE_COLUMN, &item_type,
-				    -1);
-		if (item_type == ITEM_TYPE_SEPARATOR)
-			break;
-	}
-	while (gtk_tree_store_remove (self->priv->model, &iter));
-
-	return found;
-}
-
-
-static gboolean
-get_iter_from_current_file_entries (GthLocationChooser *self,
-				    GFile              *file,
-				    GtkTreeIter        *iter)
-{
-	gboolean  found = FALSE;
-	char     *uri;
-
-	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), iter))
-		return FALSE;
-
-	uri = g_file_get_uri (file);
-	do {
-		int   item_type = ITEM_TYPE_NONE;
-		char *list_uri;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
-				    iter,
-				    TYPE_COLUMN, &item_type,
-				    URI_COLUMN, &list_uri,
-				    -1);
-		if (item_type == ITEM_TYPE_SEPARATOR)
-			break;
-		if (same_uri (uri, list_uri)) {
-			found = TRUE;
-			g_free (list_uri);
-			break;
-		}
-		g_free (list_uri);
-	}
-	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->model), iter));
-
-	g_free (uri);
-
-	return found;
-}
-
-
 void
 gth_location_chooser_set_current (GthLocationChooser *self,
 				  GFile              *file)
 {
-	GtkTreeIter iter;
+
 
 	if (self->priv->file_source != NULL)
 		g_object_unref (self->priv->file_source);
@@ -495,37 +555,8 @@ gth_location_chooser_set_current (GthLocationChooser *self,
 		g_object_unref (self->priv->location);
 	self->priv->location = g_file_dup (file);
 
-	if (get_iter_from_current_file_entries (self, self->priv->location, &iter)) {
-		g_signal_handlers_block_by_func (self->priv->combo, combo_changed_cb, self);
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (self->priv->combo), &iter);
-		g_signal_handlers_unblock_by_func (self->priv->combo, combo_changed_cb, self);
-	}
-	else {
-		GList *list;
-		GList *scan;
-		int    position = 0;
-
-		delete_current_file_entries (self);
-
-		list = gth_file_source_get_current_list (self->priv->file_source, self->priv->location);
-		for (scan = list; scan; scan = scan->next) {
-			GFile     *file = scan->data;
-			GFileInfo *info;
-
-			info = gth_file_source_get_file_info (self->priv->file_source, file, GFILE_DISPLAY_ATTRIBUTES);
-			if (info == NULL)
-				continue;
-			add_file_source_entries (self,
-						 file,
-						 g_file_info_get_display_name (info),
-						 g_file_info_get_icon (info),
-						 position++,
-						 TRUE,
-						 ITEM_TYPE_LOCATION);
-
-			g_object_unref (info);
-		}
-	}
+	if (gtk_widget_get_realized (GTK_WIDGET (self)))
+		current_location_changed (self);
 
 	g_signal_emit (G_OBJECT (self), gth_location_chooser_signals[CHANGED], 0);
 }
