@@ -11,11 +11,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb\n"
+"Project-Id-Version: gthumb 2.14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-09-25 10:19+0000\n"
-"PO-Revision-Date: 2011-10-03 23:17+0200\n"
+"POT-Creation-Date: 2011-10-20 07:06+0000\n"
+"PO-Revision-Date: 2011-11-02 20:10+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,6 @@ msgid "Some extensions are configurable."
 msgstr "U některých rozšíření můžete měnit nastavení."
 
 #: ../data/ui/extensions-preferences.ui.h:3
-#| msgid "Extensions"
 msgid "_Extensions:"
 msgstr "Rozšíř_ení:"
 
@@ -212,12 +211,10 @@ msgid "selected by"
 msgstr "vybraných podle"
 
 #: ../data/ui/histogram-info.ui.h:1
-#| msgid "Media"
 msgid "Mean:"
 msgstr "Stř. hodnota:"
 
 #: ../data/ui/histogram-info.ui.h:2
-#| msgid "Media"
 msgid "Median:"
 msgstr "Medián:"
 
@@ -229,14 +226,12 @@ msgstr "Maximum:"
 
 #. After the colon there is the percentile of selected pixels.
 #: ../data/ui/histogram-info.ui.h:6
-#| msgid "selected by"
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Vybráno:"
 
 #. After the colon there is the total number of pixels
 #: ../data/ui/histogram-info.ui.h:8
-#| msgid "pixels"
 msgid "Pixels:"
 msgstr "Pixelů:"
 
@@ -368,9 +363,9 @@ msgstr "Podle chování Nautilu"
 
 #: ../data/ui/preferences.ui.h:16
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "Obecné"
@@ -392,7 +387,7 @@ msgid "Keep previous zoom"
 msgstr "Ponechat předchozí přiblížení"
 
 #: ../data/ui/preferences.ui.h:21
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
 #: ../extensions/file_tools/gth-file-tool-crop.c:422
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
 #: ../extensions/file_tools/gth-file-tool-resize.c:493
@@ -488,7 +483,6 @@ msgid "23"
 msgstr "23"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:2
-#| msgid "Upload images to Facebook"
 msgid "Upload images to 23hq.com"
 msgstr "Odesílání obrázků na 23hq.com."
 
@@ -497,7 +491,6 @@ msgid "_23..."
 msgstr "_23…"
 
 #: ../extensions/23hq/callbacks.c:68
-#| msgid "Upload photos to Flickr"
 msgid "Upload photos to 23"
 msgstr "Odeslat fotografie do služby 23"
 
@@ -659,13 +652,11 @@ msgstr "Název je již použit"
 
 #: ../extensions/catalogs/actions.c:178
 #: ../extensions/catalogs/dlg-add-to-catalog.c:359
-#| msgid "_New Catalog"
 msgid "New catalog"
 msgstr "Nový katalog"
 
 #: ../extensions/catalogs/actions.c:179
 #: ../extensions/catalogs/dlg-add-to-catalog.c:360
-#| msgid "Enter the catalog name: "
 msgid "Enter the catalog name:"
 msgstr "Zadejte název katalogu:"
 
@@ -678,13 +669,11 @@ msgstr "_Vytvořit"
 
 #: ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:471
-#| msgid "New _Library"
 msgid "New library"
 msgstr "Nová knihovna"
 
 #: ../extensions/catalogs/actions.c:291
 #: ../extensions/catalogs/dlg-add-to-catalog.c:472
-#| msgid "Enter the library name: "
 msgid "Enter the library name:"
 msgstr "Zadejte název knihovny:"
 
@@ -821,10 +810,10 @@ msgid "_Date:"
 msgstr "_Datum:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
@@ -942,22 +931,18 @@ msgid "The library '%s' already exists, do you want to overwrite it?"
 msgstr "Knihovna „%s“ již existuje, chcete ji přepsat?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:858
-#| msgid "Overwrite"
 msgid "Over_write"
 msgstr "_Přepsat"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:976
-#| msgid "Could not move the files"
 msgid "Cannot move the files"
 msgstr "Nelze přesunout soubory"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:978
-#| msgid "Could not move the files"
 msgid "Cannot copy the files"
 msgstr "Nelze zkopírovat soubory"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:983
-#| msgid "Invalid Destination"
 msgid "Invalid destination."
 msgstr "Neplatný cíl."
 
@@ -1062,7 +1047,6 @@ msgid "hours"
 msgstr "hodin"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:15
-#| msgid "The minutes"
 msgid "minutes"
 msgstr "minut"
 
@@ -1098,13 +1082,13 @@ msgid "Title"
 msgstr "Název"
 
 #: ../extensions/comments/main.c:40 ../extensions/comments/main.c:245
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:16
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "Popis"
@@ -1135,7 +1119,6 @@ msgid "Create a contact sheet"
 msgstr "Vytvořit kontaktní otisk"
 
 #: ../extensions/contact_sheet/callbacks.c:65
-#| msgid "Change _Date..."
 msgid "Image _Wall..."
 msgstr "Stěna s o_brázky…"
 
@@ -1144,341 +1127,288 @@ msgid "Create an image-wall"
 msgstr "Vytvořit stěnu s obrázky"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
 msgid "Contact Sheet"
 msgstr "Kontaktní otisk"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
-#| msgid "Edit the comment and other information of the selected files"
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr "Vytváření indexu obrázků v podobě náhledů vybraných souborů."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-msgid "     "
-msgstr "     "
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
-#| msgid "Desktop background"
 msgid "Background"
 msgstr "Pozadí"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
-#| msgid "_Footer:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
 msgid "C_olor:"
 msgstr "_Barva:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:1
-#| msgid "Caption"
 msgid "Caption:"
 msgstr "Titulek:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
-#| msgid "Framerate"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
 msgid "Frame"
 msgstr "Rámeček"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
 msgid "Inward Shadow"
 msgstr "Vnitřní stín"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 msgid "Outward Shadow"
 msgstr "Vnější stín"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
-#| msgid "Select All"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 msgid "Select a color"
 msgstr "Výběr barvy"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
-#| msgid "Select None"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
 msgid "Select a font"
 msgstr "Výběr písma"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
-#| msgid "Show version"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
 msgid "Shadow only"
 msgstr "Pouze stín"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
-#| msgid "Singles"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
 msgid "Simple"
 msgstr "Jednoduchý"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
 msgid "Simple with shadow"
 msgstr "Jednoduchý se stínem"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
-#| msgid "Slideshow"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
 msgid "Slide"
 msgstr "Diarámeček"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
 #: ../extensions/rename_series/dlg-rename-series.c:63
-#| msgid "Next"
 msgid "Text"
 msgstr "Text"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:37
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
 #: ../extensions/image_print/data/ui/print-layout.ui.h:26
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:47
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
 msgid "_Footer:"
 msgstr "Zá_patí:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
 msgid "_Gradient"
 msgstr "Přecho_d"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:38
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-layout.ui.h:27
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:48
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
 msgid "_Header:"
 msgstr "Zá_hlaví:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
 msgid "_Horizontal:"
 msgstr "Vo_dorovně:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
 msgid "_Solid color"
 msgstr "P_lná barva"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#| msgid "_Title:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
 msgid "_Style:"
 msgstr "_Styl:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:23
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "_Vertical:"
 msgstr "S_visle:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-msgid "#"
-msgstr "#"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
-msgid "###"
-msgstr "###"
-
 #. translate only the text in the curly brackets
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ formát }"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
-#, no-c-format
-#| msgid "%"
-msgid "%n"
-msgstr "%n"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-#, no-c-format
-msgid "%p"
-msgstr "%p"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 msgid "All images on a single page"
 msgstr "Všechny obrázky na jedné stránce"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:6
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:10
 msgid "Choose destination folder"
 msgstr "Vyberte cílovou složku"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
 msgid "Columns:"
 msgstr "Sloupců:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 msgid "Create _HTML image map"
 msgstr "Vytvořit obrázkovou mapu _HTML"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
-#| msgid "Creating the new album"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 msgid "Create a new theme"
 msgstr "Vytvořit nový motiv"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
-#| msgid "Delete the selected files"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
 msgid "Delete the selected theme"
 msgstr "Smazat vybraný motiv"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#| msgid "Print the selected images"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
 msgid "Edit the selected theme"
 msgstr "Upravit vybraný motiv"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#| msgid "Filename:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
 msgid "File_name:"
 msgstr "_Název souboru:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Images per page:"
 msgstr "Obrázků na stránku:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
 msgid "Layout"
 msgstr "Rozvržení"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "New enumerator digit"
 msgstr "Číslice čítače nového"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 msgid "Re_verse order"
 msgstr "_Obrácené pořadí"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "S_ort:"
 msgstr "Řadit p_odle:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
 #: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Ukládání"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
 #: ../extensions/image_print/data/ui/print-layout.ui.h:17
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:20
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 msgid "Special code"
 msgstr "Speciální kód"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
-#| msgid "Square"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
 msgid "Sq_uared"
 msgstr "Čtvere_cový"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
 #: ../extensions/image_print/data/ui/print-layout.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
 msgid "The current date"
 msgstr "Aktuální datum"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
 msgid "The current page number"
 msgstr "Číslo aktuální stránky"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 #: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:40
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
 msgid "The total number of pages"
 msgstr "Celkový počet stránek"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 msgid "Theme"
 msgstr "Motiv"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
-#| msgid "_Thumbnails"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
 msgid "Thumbnails"
 msgstr "Náhledy"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:35
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
 msgid "_All pages with the same size"
 msgstr "Vš_echny stránky ve stejné velikosti"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:36
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:46
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 msgid "_Destination:"
 msgstr "_Cíl:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:39
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
-#| msgid "Size:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
 msgid "_Size:"
 msgstr "Veliko_st:"
 
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#| msgid "Image Page"
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
 msgid "Image Wall"
 msgstr "Stěna s obrázky"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:483
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:495
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:509
-#| msgid "Could not save the filter"
 msgid "Could not save the theme"
 msgstr "Nelze uložit motiv"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:654
-#| msgid "Could not delete the files"
 msgid "Could not delete the theme"
 msgstr "Nelze smazat motiv"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
-#| msgid "Converting images"
 msgid "Creating images"
 msgstr "Vytvářejí se obrázky"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
-#| msgid "Saving thumbnails"
 msgid "Generating thumbnails"
 msgstr "Generují se náhledy"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:32
-#| msgid "_Header:"
 msgid "Header"
 msgstr "Záhlaví"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:33
-#| msgid "_Footer:"
 msgid "Footer"
 msgstr "Zápatí"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:197
-#| msgid "Properties"
 msgid "Theme Properties"
 msgstr "Vlastnosti motivu"
 
@@ -1487,7 +1417,6 @@ msgid "Copy _From"
 msgstr "Kopírova_t z"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:348
-#| msgid "New Name"
 msgid "New theme"
 msgstr "Nový motiv"
 
@@ -1522,7 +1451,6 @@ msgstr "Nový formát"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:10
-#| msgid "The original enumerator"
 msgid "_Use the original image folder"
 msgstr "Po_užít původní složku obrázku"
 
@@ -1553,16 +1481,12 @@ msgid "Desktop background"
 msgstr "Pozadí pracovní plochy"
 
 #: ../extensions/edit_metadata/actions.c:129
-#| msgid "Are you sure you want to permanently delete the %'d selected file?"
-#| msgid_plural ""
-#| "Are you sure you want to permanently delete the %'d selected files?"
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
 msgstr "Opravdu chcete trvale smazat metadata vybraných souborů?"
 
 #: ../extensions/edit_metadata/actions.c:136
-#| msgid "If you delete a file, it will be permanently lost."
 msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Když metadata smažete, nepůjde to již vrátit zpět."
 
@@ -1579,12 +1503,10 @@ msgid "Choose another tag"
 msgstr "Zvolit jiný štítek"
 
 #: ../extensions/edit_metadata/callbacks.c:121
-#| msgid "Metadata"
 msgid "Delete Metadata"
 msgstr "Smazat metadata"
 
 #: ../extensions/edit_metadata/callbacks.c:122
-#| msgid "Edit the comment and other information of the selected files"
 msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr "Smazat komentář a další vložená metadata u vybraných souborů"
 
@@ -1720,7 +1642,7 @@ msgid "Cr_edit:"
 msgstr "Zprostř_edkovatel:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-msgid "State/Provence:"
+msgid "State/Province:"
 msgstr "Stát/region:"
 
 # Překlad vychází z Wikipedie: http://cs.wikipedia.org/wiki/IPTC
@@ -1865,9 +1787,8 @@ msgid "Export to Flickr"
 msgstr "Export na Flickr"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
-#| msgid "_Resize if larger than:"
-msgid "Resize the images if larger then this size"
-msgstr "Změnit velikost, když je větší než tato"
+msgid "Resize the images if larger than this size"
+msgstr "Změnit velikost obrázku, když je větší než tato"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
@@ -2186,12 +2107,10 @@ msgid "Getting the photo list"
 msgstr "Získává se seznam fotografií"
 
 #: ../extensions/file_manager/actions.c:130
-#| msgid "New format"
 msgid "New folder"
 msgstr "Nová složka"
 
 #: ../extensions/file_manager/actions.c:131
-#| msgid "Enter the folder name: "
 msgid "Enter the folder name:"
 msgstr "Zadejte název složky:"
 
@@ -2259,7 +2178,6 @@ msgid "Move"
 msgstr "Přesunout"
 
 #: ../extensions/file_manager/actions.c:911
-#| msgid "Crop"
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -2321,33 +2239,27 @@ msgstr "V_ložit do složky"
 
 #: ../extensions/file_manager/callbacks.c:227
 #: ../extensions/file_manager/callbacks.c:236
-#| msgid "Crop..."
 msgid "Copy to..."
 msgstr "Kopírovat do…"
 
 #: ../extensions/file_manager/callbacks.c:228
-#| msgid "Move the selected files to the Trash"
 msgid "Copy the selected folder to another folder"
 msgstr "Kopírovat vybranou složku do jiné složky"
 
 #: ../extensions/file_manager/callbacks.c:231
 #: ../extensions/file_manager/callbacks.c:240
-#| msgid "More extensions..."
 msgid "Move to..."
 msgstr "Přesunout do…"
 
 #: ../extensions/file_manager/callbacks.c:232
-#| msgid "Move the selected files to the Trash"
 msgid "Move the selected folder to another folder"
 msgstr "Přesunout vybranou složku do jiné složky"
 
 #: ../extensions/file_manager/callbacks.c:237
-#| msgid "Move the selected files to the Trash"
 msgid "Copy the selected files to another folder"
 msgstr "Kopírovat vybrané soubory do jiné složky"
 
 #: ../extensions/file_manager/callbacks.c:241
-#| msgid "Move the selected files to the Trash"
 msgid "Move the selected files to another folder"
 msgstr "Přesunout vybrané soubory do jiné složky"
 
@@ -2394,7 +2306,6 @@ msgid "_Magenta-Green:"
 msgstr "Purpurová - _Zelená:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
-#| msgid "_Preview:"
 msgid "_Preview"
 msgstr "Ná_hled"
 
@@ -2426,7 +2337,6 @@ msgid "C_rop"
 msgstr "_Oříznout"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:5
-#| msgid "Centered"
 msgid "Center"
 msgstr "Vystředit"
 
@@ -2499,7 +2409,6 @@ msgid "Scale factor:"
 msgstr "Poměr změny velikosti:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
-#| msgid "Set the image as desktop background"
 msgid "Set the image size to this value"
 msgstr "Nastavit velikost obrázku na tuto hodnotu"
 
@@ -2522,7 +2431,6 @@ msgid "Alignment"
 msgstr "Vyrovnání"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
-#| msgid "Singles"
 msgid "Angle"
 msgstr "Úhel"
 
@@ -2543,22 +2451,18 @@ msgstr ""
 "vůči které jej chcete vyrovnat."
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
-#| msgid "_Grid:"
 msgid "Grid:"
 msgstr "Mřížka:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
-#| msgid "Images"
 msgid "Image size"
 msgstr "Velikost obrázku"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
-#| msgid "Aspect ratio"
 msgid "Keep aspect ratio"
 msgstr "Zachovat poměr stran"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
-#| msgid "Organize"
 msgid "Original size"
 msgstr "Původní velikost"
 
@@ -2583,22 +2487,18 @@ msgid "Point 2:"
 msgstr "Bod 2:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
-#| msgid "_Reset"
 msgid "Reset"
 msgstr "Vynulovat"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
-#| msgid "Desktop background"
 msgid "_Background:"
 msgstr "_Pozadí:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
-#| msgid "Transparency _type:"
 msgid "_Transparent"
 msgstr "Průh_ledné"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-#| msgid "_Account:"
 msgid "Amount:"
 msgstr "Míra:"
 
@@ -2711,7 +2611,6 @@ msgstr "Zlatý řez"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:451
 #: ../extensions/file_tools/gth-file-tool-rotate.c:417
-#| msgid "Centered"
 msgid "Center Lines"
 msgstr "Středové čáry"
 
@@ -2766,7 +2665,6 @@ msgid "Flip"
 msgstr "Překlopit"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:74
-#| msgid "_Rotate the images physically"
 msgid "Flip the image vertically"
 msgstr "Překlopit obrázek svisle"
 
@@ -2775,7 +2673,6 @@ msgid "Mirror"
 msgstr "Zrcadlit"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:74
-#| msgid "_Rotate the images physically"
 msgid "Mirror the image horizontally"
 msgstr "Zrcadlit obrázek vodorovně"
 
@@ -2796,17 +2693,14 @@ msgid "Resize"
 msgstr "Změna velikosti"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:596
-#| msgid "Rotate Left"
 msgid "Rotate..."
 msgstr "Otočit…"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:596
-#| msgid "Rotate Left"
 msgid "Rotate"
 msgstr "Otočení"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:597
-#| msgid "Click to view the image"
 msgid "Freely rotate the image"
 msgstr "Volně otočit obrázek"
 
@@ -2825,7 +2719,6 @@ msgid "Rotate Right"
 msgstr "Otočit doprava"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:74
-#| msgid "_Rotate the images physically"
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Otočit obrázek o 90 stupňů po směru hodinových ručiček"
 
@@ -2838,17 +2731,14 @@ msgid "Save"
 msgstr "Uložit"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:100
-#| msgid "Saving images"
 msgid "Sharpening image"
 msgstr "Doostřuje se obrázek"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:420
-#| msgid "Enhance Colors"
 msgid "Enhance Focus..."
 msgstr "Zvýšit ostrost…"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:420
-#| msgid "Enhance Colors"
 msgid "Enhance Focus"
 msgstr "Zvýšení ostrosti"
 
@@ -2857,27 +2747,22 @@ msgid "Undo"
 msgstr "Zpět"
 
 #: ../extensions/find_duplicates/callbacks.c:48
-#| msgid "D_uplicate"
 msgid "Find _Duplicates..."
 msgstr "Najít duplicity…"
 
 #: ../extensions/find_duplicates/callbacks.c:49
-#| msgid "Stop loading the current location"
 msgid "Find duplicated files in the current location"
 msgstr "Hledat duplicitní soubory v současném umístění"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
-#| msgid "_Footer:"
 msgid "_Folders:"
 msgstr "_Složky:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
-#| msgid "D_uplicate"
 msgid "Duplicates:"
 msgstr "Duplicity:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-#| msgid "Files"
 msgid "Files:"
 msgstr "Soubory:"
 
@@ -2896,7 +2781,6 @@ msgstr "Zo_brazit"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
-#| msgid "D_uplicate"
 msgid "Find Duplicates"
 msgstr "Hledání duplicit"
 
@@ -2907,22 +2791,18 @@ msgid "Start _at:"
 msgstr "Z_ačít od:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
-#| msgid "Filter"
 msgid "_Filter:"
 msgstr "_Filtr:"
 
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:2
-#| msgid "Find files"
 msgid "Find duplicated files."
 msgstr "Hledání duplicitních souborů."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:53
-#| msgid "_Save the new file as:"
 msgid "leave the newest duplicates"
 msgstr "nechat nejnovější duplikát"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:54
-#| msgid "Change the files date"
 msgid "leave the oldest duplicates"
 msgstr "nechat nejstarší duplikát"
 
@@ -2931,20 +2811,16 @@ msgid "by folder..."
 msgstr "podle složky…"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:56
-#| msgid "All Files"
 msgid "all files"
 msgstr "všechny soubory"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:57
-#| msgid "%d file"
-#| msgid_plural "%d files"
 msgid "no file"
 msgstr "žádný soubor"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:426
 #: ../extensions/find_duplicates/gth-find-duplicates.c:521
 #, c-format
-#| msgid "D_uplicate"
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d duplicita"
@@ -2952,7 +2828,6 @@ msgstr[1] "%d duplicity"
 msgstr[2] "%d duplicit"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:565
-#| msgid "Search Result"
 msgid "Search completed"
 msgstr "Hledání dokončeno"
 
@@ -2971,17 +2846,14 @@ msgstr[1] "Zbývají %d soubory"
 msgstr[2] "Zbývá %d souborů"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:663
-#| msgid "Getting the album list"
 msgid "Getting the file list"
 msgstr "Získává se seznam souborů"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:769
-#| msgid "D_uplicate"
 msgid "Duplicates"
 msgstr "Duplicity"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:1023
-#| msgid "Selection"
 msgid "Select"
 msgstr "Vybrat"
 
@@ -3154,7 +3026,6 @@ msgid "Take a screenshot"
 msgstr "Pořídit snímek obrazovky"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:633
-#| msgid "Play audio and video files."
 msgid "Playing video"
 msgstr "Přehrávání videa"
 
@@ -3177,7 +3048,7 @@ msgid "Artist"
 msgstr "Umělec"
 
 #: ../extensions/gstreamer_tools/main.c:40
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "Album"
 msgstr "Album"
 
@@ -3273,7 +3144,6 @@ msgid "The event description"
 msgstr "Popis události"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:21
-#| msgid "The total number of images"
 msgid "The total number of files"
 msgstr "Celkový počet souborů"
 
@@ -3286,7 +3156,6 @@ msgid "Unit:"
 msgstr "Jednotky:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:28
-#| msgid "S_how:"
 msgid "_Rows:"
 msgstr "Řá_dků:"
 
@@ -3299,7 +3168,6 @@ msgid "millimeters"
 msgstr "milimetry"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
-#| msgid "_Font:"
 msgid "Fonts"
 msgstr "Písma"
 
@@ -3308,12 +3176,10 @@ msgid "Select Caption Font"
 msgstr "Výběr písma titulku"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-#| msgid "Select Caption Font"
 msgid "Select Footer Font"
 msgstr "Výběr písma zápatí"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#| msgid "Select Caption Font"
 msgid "Select Header Font"
 msgstr "Výběr písma záhlaví"
 
@@ -3361,7 +3227,6 @@ msgid "Image print"
 msgstr "Tisk obrázku"
 
 #: ../extensions/image_print/preferences.c:76
-#| msgid "Private"
 msgid "Print"
 msgstr "Tisk"
 
@@ -3483,7 +3348,6 @@ msgid "Histogram"
 msgstr "Histogram"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:192
-#| msgid "Image"
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
@@ -3492,12 +3356,10 @@ msgid "Copy the image to the clipboard"
 msgstr "Kopírovat obrázek do schránky"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:197
-#| msgid "Save Image"
 msgid "Paste Image"
 msgstr "Vložit obrázek"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:198
-#| msgid "Remove selected images from the catalog"
 msgid "Paste the image from the clipboard"
 msgstr "Vložit obrázek ze schránky"
 
@@ -3673,7 +3535,6 @@ msgid "Last imported"
 msgstr "Naposledy importováno"
 
 #: ../extensions/importer/gth-import-task.c:839
-#| msgid "No name specified"
 msgid "No file specified."
 msgstr "Není zadán žádný soubor."
 
@@ -3715,108 +3576,86 @@ msgstr "Příkazy"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:2
 #, no-c-format
-msgid "%B"
-msgstr "%B"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#, no-c-format
 msgid "%E"
 msgstr "%E"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
-#, no-c-format
-msgid "%F"
-msgstr "%F"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:4
 #, no-c-format
 msgid "%N"
 msgstr "%N"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
-#, no-c-format
-msgid "%P"
-msgstr "%P"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:12
-#, no-c-format
-msgid "%U"
-msgstr "%U"
-
 #. Translate only 'message' and 'default_value'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
 #, no-c-format
 msgid "%ask{ message }{ default value }"
 msgstr "%ask{ zpráva }{ výchozí hodnota }"
 
 #. Translate only 'attribute name'
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
 #, no-c-format
 msgid "%attr{ attribute name }"
 msgstr "%attr{ název atributu }"
 
 #. Translate only 'text'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:13
 #, no-c-format
 msgid "%quote{ text }"
 msgstr "%quote{ text }"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 msgid "A file attribute"
 msgstr "Atribut souboru"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
 msgstr "Dotaz na vstupní hodnotu"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:17
 msgid "E_xecute command once for every file"
 msgstr "P_rovést příkaz samostatně pro každý soubor"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
 msgid "Quote the text "
 msgstr "Text do uvozovek"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:19
 msgid "Sh_ortcut:"
 msgstr "Kláves_ová zkratka:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
 msgid "The file basename"
 msgstr "Základní název souboru"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
 msgstr "Základní název souboru bez přípony"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
 msgid "The file extension"
 msgstr "Přípona souboru"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 msgid "The file path"
 msgstr "Cesta k souboru"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file uri"
 msgstr "URI souboru"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
 msgid "The parent folder path"
 msgstr "Cesta k rodičovské složce"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
 msgid "_Command:"
 msgstr "Pří_kaz:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "_Terminal command (shell script)"
 msgstr "_Terminálový příkaz (skript shellu)"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "_Wait for the command to finish"
 msgstr "Ček_at na dokončení příkazu"
 
@@ -3846,9 +3685,6 @@ msgid "Edit Command"
 msgstr "Upravit příkaz"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:461
-#| msgid "Are you sure you want to permanently delete the %'d selected file?"
-#| msgid_plural ""
-#| "Are you sure you want to permanently delete the %'d selected files?"
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Opravdu chcete smazat vybraný příkaz?"
 
@@ -3896,7 +3732,6 @@ msgid "S"
 msgstr "J"
 
 #: ../extensions/map_view/gth-map-view.c:121
-#| msgid "%N"
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "S"
@@ -3907,7 +3742,6 @@ msgid "W"
 msgstr "Z"
 
 #: ../extensions/map_view/gth-map-view.c:123
-#| msgid "%E"
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "V"
@@ -4009,7 +3843,6 @@ msgid "Upload images to PhotoBucket"
 msgstr "Odesílání obrázků na PhotoBucket"
 
 #: ../extensions/photo_importer/actions.c:71
-#| msgid "_Import"
 msgid "Import"
 msgstr "Import"
 
@@ -4022,12 +3855,10 @@ msgid "Import photos and other files from a removable device"
 msgstr "Importovat fotografie a jiné soubory z výměnného zařízení"
 
 #: ../extensions/photo_importer/callbacks.c:56
-#| msgid "_Filter..."
 msgid "F_older..."
 msgstr "Sl_ožka…"
 
 #: ../extensions/photo_importer/callbacks.c:57
-#| msgid "Import photos and other files from a removable device"
 msgid "Import photos and other files from a folder"
 msgstr "Importovat fotografie a jiné soubory ze složky"
 
@@ -4059,7 +3890,6 @@ msgstr "Š_títky:"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:222
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:173
-#| msgid "Could not export the files"
 msgid "Could not import the files"
 msgstr "Nelze importovat soubory"
 
@@ -4087,7 +3917,6 @@ msgid "Import from Removable Device"
 msgstr "Import z výměnného zařízení"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:612
-#| msgid "Import from %s"
 msgid "Import from Folder"
 msgstr "Import ze složky"
 
@@ -4175,7 +4004,6 @@ msgid "Upload images to Picasa Web Albums"
 msgstr "Odesílání obrázků do webových alb Picasa."
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
-#| msgid "Possible values are: high, low."
 msgid "Possible values are: jpeg, jpg."
 msgstr "Možné hodnoty jsou: jpeg, jpg."
 
@@ -4184,7 +4012,6 @@ msgid "Possible values are: none, deflate, jpeg."
 msgstr "Možné hodnoty jsou: none, deflate, jpeg."
 
 #: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:3
-#| msgid "Possible values are: high, low."
 msgid "Possible values are: tiff, tif."
 msgstr "Možné hodnoty jsou: tiff, tif."
 
@@ -4194,7 +4021,6 @@ msgstr "Opti_malizovat"
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
-#| msgid "Default options:"
 msgid "_Default extension:"
 msgstr "_Výchozí přípona:"
 
@@ -4330,17 +4156,14 @@ msgid "add"
 msgstr "Přidat"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:2
-#| msgid "Edit"
 msgid "digits"
 msgstr "číslic"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:3
-#| msgid "Format"
 msgid "format:"
 msgstr "formát:"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:4
-#| msgid "Preview"
 msgid "remove"
 msgstr "Odebrat"
 
@@ -4362,7 +4185,6 @@ msgid "Cas_e:"
 msgstr "V_elikost písmen:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:14
-#| msgid "Edit Filter"
 msgid "Edit template"
 msgstr "Upravit šablonu"
 
@@ -4391,7 +4213,7 @@ msgid "The original extension"
 msgstr "Původní přípona"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "The original filename"
 msgstr "Původní název souboru"
 
@@ -4400,37 +4222,30 @@ msgid "_Template:"
 msgstr "Ša_blona:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:64
-#| msgid "New enumerator digit"
 msgid "Enumerator"
 msgstr "Čítač"
 
 #: ../extensions/rename_series/dlg-rename-series.c:65
-#| msgid "The original filename"
 msgid "Original filename"
 msgstr "Původní název souboru"
 
 #: ../extensions/rename_series/dlg-rename-series.c:66
-#| msgid "The original extension"
 msgid "Original extension"
 msgstr "Původní přípona"
 
 #: ../extensions/rename_series/dlg-rename-series.c:67
-#| msgid "The original enumerator"
 msgid "Original enumerator"
 msgstr "Čítač původního"
 
 #: ../extensions/rename_series/dlg-rename-series.c:68
-#| msgid "The modification date"
 msgid "Modification date"
 msgstr "Datum změny"
 
 #: ../extensions/rename_series/dlg-rename-series.c:69
-#| msgid "The digitalization date"
 msgid "Digitalization date"
 msgstr "Datum digitalizace"
 
 #: ../extensions/rename_series/dlg-rename-series.c:70
-#| msgid "A file attribute"
 msgid "File attribute"
 msgstr "Atribut souboru"
 
@@ -4440,12 +4255,10 @@ msgid "Could not rename the files"
 msgstr "Nelze přejmenovat soubory"
 
 #: ../extensions/rename_series/dlg-rename-series.c:784
-#| msgid "Could not save the filter"
 msgid "Could not save the template"
 msgstr "Nelze uložit šablonu"
 
 #: ../extensions/rename_series/dlg-rename-series.c:802
-#| msgid "_Template:"
 msgid "Edit Template"
 msgstr "Úprava šablony"
 
@@ -4519,7 +4332,6 @@ msgid "Resizing images"
 msgstr "Mění se velikost obrázků"
 
 #: ../extensions/resize_images/dlg-resize-images.c:358
-#| msgid "Keep original case"
 msgid "Keep the original format"
 msgstr "Zachovat původní formát"
 
@@ -4570,7 +4382,6 @@ msgstr "libovolné z následujících pravidel"
 
 #: ../extensions/search/gth-search-task.c:181
 #, c-format
-#| msgid "Files found untill now: %"
 msgid "Files found until now: %s"
 msgstr "Doposud nalezené soubory: %s"
 
@@ -4635,7 +4446,6 @@ msgid "_Transition effect:"
 msgstr "_Přechodový efekt:"
 
 #: ../extensions/slideshow/gth-slideshow.c:229
-#| msgid "Slideshow"
 msgid "Playing slideshow"
 msgstr "Promítání snímků"
 
@@ -4743,80 +4553,68 @@ msgstr "Zobrazit předchozí obrázek"
 msgid "View the previous page"
 msgstr "Zobrazit předchozí stránku"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
-#| msgid "%"
-msgid "%C"
-msgstr "%C"
+msgid "%P"
+msgstr "%P"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
-#, no-c-format
-msgid "%I"
-msgstr "%I"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
-#, no-c-format
-msgid "%i"
-msgstr "%i"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
 msgid "Adapts to the window width"
 msgstr "Přizpůsobovat šířce okna"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "All images on  a single image"
 msgstr "Všechny obrázky v jednom obrázku"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "Image Attributes"
 msgstr "Atributy obrázku"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "Image Page"
 msgstr "Stránka s obrázky"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "Index Page"
 msgstr "Stránka s indexem"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Show the description, if available"
 msgstr "Zobrazit popis, pokud je k dispozici"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
 msgid "Show the following attributes:"
 msgstr "Zobrazit následující atributy:"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
 msgid "The current image number"
 msgstr "Číslo aktuálního obrázku"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-#| msgid "The file path"
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "The file comment"
 msgstr "Komentář souboru"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "The total number of images"
 msgstr "Celkový počet obrázků"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
 msgid "Thumbnail Caption"
 msgstr "Titulek náhledu"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "Web Album"
 msgstr "Webové album"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:44
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
 msgid "_Adapt to the window width "
 msgstr "_Přizpůsobit šířce okna"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:45
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "_Copy originals to destination"
 msgstr "_Kopírovat originály do cíle"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:49
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
 msgid "_Resize if larger than:"
 msgstr "Z_menšit, je-li větší než:"
 
@@ -5277,8 +5075,6 @@ msgstr "[změněno]"
 
 #: ../gthumb/gth-browser.c:991
 #, c-format
-#| msgid "%d file (%s)"
-#| msgid_plural "%d files (%s)"
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "Vybrán %d soubor (%s)"
@@ -5287,13 +5083,12 @@ msgstr[2] "Vybráno %d souborů (%s)"
 
 #: ../gthumb/gth-browser.c:1026
 #, c-format
-#| msgid "Free space:"
 msgid "%s of free space"
 msgstr "%s volného místa"
 
 #: ../gthumb/gth-browser.c:1235 ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5795 ../gthumb/gth-browser.c:5814
-#: ../gthumb/gth-browser.c:5839
+#: ../gthumb/gth-browser.c:5797 ../gthumb/gth-browser.c:5816
+#: ../gthumb/gth-browser.c:5841
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -5333,12 +5128,12 @@ msgstr "Zobrazit seznam navštívených míst"
 msgid "View the list of upper locations"
 msgstr "Zobrazit seznam nadřízených míst"
 
-#: ../gthumb/gth-browser.c:5796
+#: ../gthumb/gth-browser.c:5798
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:5840
+#: ../gthumb/gth-browser.c:5842
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -5350,7 +5145,6 @@ msgstr "Nelze otevřít modul „%s“: %s"
 
 #: ../gthumb/gth-extensions.c:831
 #, c-format
-#| msgid "The extension '%s' is required by the extension '%s'"
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "Rozšíření „%1$s“ je vyžadováno rozšířením „%2$s“"
 
@@ -5448,17 +5242,14 @@ msgid "Logarithmic scale"
 msgstr "Logaritmické měřítko"
 
 #: ../gthumb/gth-histogram-view.c:832
-#| msgid "Channels"
 msgid "Channel:"
 msgstr "Kanál:"
 
 #: ../gthumb/gth-histogram-view.c:864
-#| msgid "Pause"
 msgid "Value"
 msgstr "Hodnota"
 
 #: ../gthumb/gth-histogram-view.c:870
-#| msgid "Redo"
 msgid "Red"
 msgstr "Červená"
 
@@ -5475,12 +5266,10 @@ msgid "Alpha"
 msgstr "Průhlednost"
 
 #: ../gthumb/gth-histogram-view.c:895
-#| msgid "GB"
 msgid "RGB"
 msgstr "RGB"
 
 #: ../gthumb/gth-load-file-data-task.c:108
-#| msgid "Getting file information"
 msgid "Reading file information"
 msgstr "Čtou se informace o souboru"
 
@@ -5566,7 +5355,6 @@ msgid "Cancel operation"
 msgstr "Zrušit operaci"
 
 #: ../gthumb/gth-save-file-data-task.c:102
-#| msgid "Getting file information"
 msgid "Saving file information"
 msgstr "Ukládají se informace o souboru"
 
@@ -5633,7 +5421,6 @@ msgid "is"
 msgstr "je"
 
 #: ../gthumb/gth-test-category.c:47
-#| msgid "Icons only"
 msgid "is only"
 msgstr "je pouze"
 
@@ -5710,7 +5497,6 @@ msgid "Close this window"
 msgstr "Zavřít toto okno"
 
 #: ../gthumb/gth-window-actions-entries.h:36
-#| msgid "Close this window"
 msgid "Close _All Windows"
 msgstr "Zavřít všechn_a okna"
 
@@ -5735,7 +5521,6 @@ msgid "_Link Here"
 msgstr "Vytvořit zde _odkaz"
 
 #: ../gthumb/gtk-utils.c:1122
-#| msgid "Channels"
 msgid "Cancel"
 msgstr "Zrušit"
 
