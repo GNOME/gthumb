@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include "dlg-personalize-filters.h"
@@ -166,6 +167,7 @@ struct _GthBrowserPrivate {
 	gboolean           properties_on_screen;
 	char              *location_free_space;
 	gboolean           recalc_location_free_space;
+	gboolean           shrink_wrap_viewer;
 
 	/* fulscreen */
 
@@ -4115,6 +4117,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->back_history_menu = NULL;
 	browser->priv->forward_history_menu = NULL;
 	browser->priv->go_parent_menu = NULL;
+	browser->priv->shrink_wrap_viewer = FALSE;
 
 	{
 		int width;
@@ -4529,6 +4532,9 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", browser->priv->show_hidden_files);
+
+	browser->priv->shrink_wrap_viewer = eel_gconf_get_boolean (PREF_SHRINK_WRAP_VIEWER, FALSE);
+	_gth_browser_set_action_active (browser, "View_ShrinkWrap", browser->priv->shrink_wrap_viewer);
 
 	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
@@ -5453,6 +5459,9 @@ file_metadata_ready_cb (GList    *files,
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
+	if (browser->priv->shrink_wrap_viewer)
+		gth_browser_set_shrink_wrap_viewer (browser, TRUE);
+
 	if ((gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
 	    && ! gtk_widget_get_visible (browser->priv->file_properties))
 	{
@@ -5726,6 +5735,90 @@ gth_browser_show_viewer_tools (GthBrowser *browser,
 	}
 	else
 		gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
+}
+
+
+void
+gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
+				    gboolean    value)
+{
+	int        width;
+	int        height;
+	double     ratio;
+	int        other_width;
+	int        other_height;
+	GdkScreen *screen;
+	int        max_width;
+	int        max_height;
+
+	browser->priv->shrink_wrap_viewer = value;
+	eel_gconf_set_boolean (PREF_SHRINK_WRAP_VIEWER, browser->priv->shrink_wrap_viewer);
+
+	if (browser->priv->viewer_page == NULL)
+		return;
+
+	if (! browser->priv->shrink_wrap_viewer) {
+		if (gth_window_get_page_size (GTH_WINDOW (browser),
+					      GTH_BROWSER_PAGE_BROWSER,
+					      &width,
+					      &height))
+		{
+			gth_window_save_page_size (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, width, height);
+			gth_window_apply_saved_size (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+		}
+		else
+			gth_window_clear_saved_size (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+		gth_viewer_page_shrink_wrap (browser->priv->viewer_page, FALSE, NULL, NULL);
+
+		return;
+	}
+
+	if (browser->priv->current_file == NULL)
+		return;
+
+	width = g_file_info_get_attribute_int32 (browser->priv->current_file->info, "frame::width");
+	height = g_file_info_get_attribute_int32 (browser->priv->current_file->info, "frame::height");
+	if ((width <= 0) || (height <= 0))
+		return;
+
+	ratio = (double) width / height;
+
+	other_width = 0;
+	other_height = 0;
+	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_MENUBAR));
+	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_TOOLBAR));
+	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_STATUSBAR));
+	other_height += _gtk_widget_get_allocated_height (gth_browser_get_viewer_toolbar (browser));
+	if (eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL) == GTK_ORIENTATION_HORIZONTAL)
+		other_height += _gtk_widget_get_allocated_height (gth_browser_get_thumbnail_list (browser));
+	else
+		other_width += _gtk_widget_get_allocated_width (gth_browser_get_thumbnail_list (browser));
+	other_width += _gtk_widget_get_allocated_width (gth_browser_get_viewer_sidebar (browser));
+	other_width += 2;
+	other_height += 2;
+
+	gth_viewer_page_shrink_wrap (browser->priv->viewer_page, TRUE, &other_width, &other_height);
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+	max_width = round ((double) gdk_screen_get_width (screen) * 8.5 / 10.0);
+	max_height = round ((double) gdk_screen_get_height (screen) * 8.5 / 10.0);
+
+	if (width + other_width > max_width) {
+		width = max_width - other_width;
+		height = width / ratio;
+	}
+
+	if (height + other_height > max_height) {
+		height = max_height - other_height;
+		width = height * ratio;
+	}
+
+	gth_window_save_page_size (GTH_WINDOW (browser),
+				   GTH_BROWSER_PAGE_VIEWER,
+				   width + other_width,
+				   height + other_height);
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+		gth_window_apply_saved_size (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 }
 
 

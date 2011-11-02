@@ -74,6 +74,10 @@ struct _GthViewerPageInterface {
 					  GthFileData   *file_data);
 	void      (*show_properties)     (GthViewerPage *self,
 					  gboolean       show);
+	void      (*shrink_wrap)         (GthViewerPage *self,
+					  gboolean       show,
+					  int           *other_width,
+					  int           *other_height);
 
 	/*< signals >*/
 
@@ -111,6 +115,10 @@ void         gth_viewer_page_update_info         (GthViewerPage  *self,
 		  	  	  	  	  GthFileData    *file_data);
 void         gth_viewer_page_show_properties     (GthViewerPage  *self,
 						  gboolean        show);
+void         gth_viewer_page_shrink_wrap         (GthViewerPage  *self,
+						  gboolean        show,
+						  int            *other_width,
+						  int            *other_height);
 void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  GthFileData    *file_data,
 						  gboolean        success);

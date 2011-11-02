@@ -27,7 +27,7 @@
 #include "preferences.h"
 
 
-#define GCONF_NOTIFICATIONS 8
+#define GCONF_NOTIFICATIONS 7
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -55,7 +55,6 @@ struct _GthImageViewerPagePrivate {
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
 	gboolean           image_changed;
-	gboolean           shrink_wrap;
 	GFile             *last_loaded;
 	gboolean           can_paste;
 };
@@ -71,11 +70,6 @@ static const char *image_viewer_ui_info =
 "        <separator />"
 "        <menuitem action='ImageViewer_Edit_Copy_Image'/>"
 "        <menuitem action='ImageViewer_Edit_Paste_Image'/>"
-"      </placeholder>"
-"    </menu>"
-"    <menu name='View' action='ViewMenu'>"
-"      <placeholder name='View_Actions'>"
-"        <menuitem action='ImageViewer_View_ShrinkWrap'/>"
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
@@ -178,14 +172,6 @@ image_viewer_activate_action_edit_paste_image (GtkAction          *action,
 }
 
 
-static void
-image_viewer_activate_action_view_shrink_wrap (GtkAction          *action,
-					       GthImageViewerPage *self)
-{
-	eel_gconf_set_boolean (PREF_VIEWER_SHRINK_WRAP, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
 static GtkActionEntry image_viewer_action_entries[] = {
 	{ "ImageViewer_Edit_Undo", GTK_STOCK_UNDO,
 	  NULL, "<control>z",
@@ -231,15 +217,6 @@ static GtkActionEntry image_viewer_action_entries[] = {
 	  N_("Width"), "",
 	  N_("Zoom to fit width"),
 	  G_CALLBACK (image_viewer_activate_action_view_zoom_fit_width) },
-};
-
-
-static GtkToggleActionEntry image_viewer_toggle_action_entries[] = {
-	{ "ImageViewer_View_ShrinkWrap", NULL,
-	  N_("_Fit Window to Image"), "<control>e",
-	  N_("Resize the window to the size of the image"),
-	  G_CALLBACK (image_viewer_activate_action_view_shrink_wrap),
-	  FALSE }
 };
 
 
@@ -435,8 +412,6 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    original_width,
 				    original_height);
 
-	if (self->priv->shrink_wrap)
-		gth_image_viewer_page_shrink_wrap (self, TRUE);
 	gth_image_history_clear (self->priv->history);
 	gth_image_history_add_image (self->priv->history,
 				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
@@ -558,18 +533,6 @@ pref_reset_scrollbars_changed (GConfClient *client,
 	GthImageViewerPage *self = user_data;
 
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
-}
-
-
-static void
-pref_viewer_shrink_wrap_changed (GConfClient *client,
-				 guint        cnxn_id,
-				 GConfEntry  *entry,
-				 gpointer     user_data)
-{
-	GthImageViewerPage *self = user_data;
-
-	gth_image_viewer_page_shrink_wrap (self, eel_gconf_get_boolean (PREF_VIEWER_SHRINK_WRAP, FALSE));
 }
 
 
@@ -724,7 +687,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
-	GtkAction          *action;
 	int                 i;
 
 	self = (GthImageViewerPage*) base;
@@ -737,10 +699,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				      image_viewer_action_entries,
 				      G_N_ELEMENTS (image_viewer_action_entries),
 				      self);
-	gtk_action_group_add_toggle_actions (self->priv->actions,
-					     image_viewer_toggle_action_entries,
-					     G_N_ELEMENTS (image_viewer_toggle_action_entries),
-					     self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
@@ -761,11 +719,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_SIZE, GTH_TYPE_CHECK_SIZE, GTH_CHECK_SIZE_MEDIUM));
 	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
-
-	self->priv->shrink_wrap = eel_gconf_get_boolean (PREF_VIEWER_SHRINK_WRAP, FALSE);
-	action = gtk_action_group_get_action (self->priv->actions, "ImageViewer_View_ShrinkWrap");
-	if (action != NULL)
-		g_object_set (action, "active", self->priv->shrink_wrap, NULL);
 
 	gtk_widget_show (self->priv->viewer);
 
@@ -847,11 +800,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_RESET_SCROLLBARS,
 					   pref_reset_scrollbars_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_VIEWER_SHRINK_WRAP,
-					   pref_viewer_shrink_wrap_changed,
 					   self);
 }
 
@@ -1375,6 +1323,17 @@ gth_image_viewer_page_real_show_properties (GthViewerPage *base,
 
 
 static void
+gth_image_viewer_page_real_shrink_wrap (GthViewerPage *base,
+					gboolean       activate,
+					int           *other_width,
+					int           *other_height)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
+}
+
+
+static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
 	GthImageViewerPage *self;
@@ -1417,6 +1376,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->revert = gth_image_viewer_page_real_revert;
 	iface->update_info = gth_image_viewer_page_real_update_info;
 	iface->show_properties = gth_image_viewer_page_real_show_properties;
+	iface->shrink_wrap = gth_image_viewer_page_real_shrink_wrap;
 }
 
 
@@ -1425,7 +1385,6 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate);
 	self->priv->history = gth_image_history_new ();
-	self->priv->shrink_wrap = FALSE;
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;
 	self->priv->can_paste = FALSE;
@@ -1520,122 +1479,6 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 		return;
 
 	_gth_image_viewer_page_set_image (self, last_image->image, last_image->unsaved);
-}
-
-
-static int
-add_non_content_width (GthImageViewerPage *self,
-		       GtkWidget          *non_content)
-{
-	int width = 0;
-
-	if ((non_content != NULL) && gtk_widget_get_mapped (non_content)) {
-		GtkAllocation allocation;
-
-		gtk_widget_get_allocation (non_content, &allocation);
-		width = allocation.width;
-	}
-
-	return width;
-}
-
-
-static int
-add_non_content_height (GthImageViewerPage *self,
-			GtkWidget          *non_content)
-{
-	int height = 0;
-
-	if ((non_content != NULL) && gtk_widget_get_mapped (non_content)) {
-		GtkAllocation allocation;
-
-		gtk_widget_get_allocation (non_content, &allocation);
-		height = allocation.height;
-	}
-
-	return height;
-}
-
-
-void
-gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self,
-				   gboolean            activate)
-{
-	GthFileData *file_data;
-	int          width;
-	int          height;
-	double       ratio;
-	int          other_width;
-	int          other_height;
-	GdkScreen   *screen;
-	int          max_width;
-	int          max_height;
-
-	self->priv->shrink_wrap = activate;
-	if (! self->priv->shrink_wrap) {
-		int width;
-		int height;
-
-		if (gth_window_get_page_size (GTH_WINDOW (self->priv->browser),
-					      GTH_BROWSER_PAGE_BROWSER,
-					      &width,
-					      &height))
-		{
-			gth_window_save_page_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER, width, height);
-			gth_window_apply_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
-		}
-		else
-			gth_window_clear_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
-		gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
-
-		return;
-	}
-
-	file_data = gth_browser_get_current_file (self->priv->browser);
-	if (file_data == NULL)
-		return;
-
-	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer), &width, &height);
-	if ((width <= 0) || (height <= 0))
-		return;
-
-	ratio = (double) width / height;
-
-	other_width = 0;
-	other_height = 0;
-	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_MENUBAR));
-	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_TOOLBAR));
-	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_STATUSBAR));
-	other_height += add_non_content_height (self, gth_browser_get_viewer_toolbar (self->priv->browser));
-	if (eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL) == GTK_ORIENTATION_HORIZONTAL)
-		other_height += add_non_content_height (self, gth_browser_get_thumbnail_list (self->priv->browser));
-	else
-		other_width += add_non_content_width (self, gth_browser_get_thumbnail_list (self->priv->browser));
-	other_width += add_non_content_width (self, gth_browser_get_viewer_sidebar (self->priv->browser));
-	other_width += 2;
-	other_height += 2;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
-	max_width = round ((double) gdk_screen_get_width (screen) * 8.5 / 10.0);
-	max_height = round ((double) gdk_screen_get_height (screen) * 8.5 / 10.0);
-
-	if (width + other_width > max_width) {
-		width = max_width - other_width;
-		height = width / ratio;
-	}
-
-	if (height + other_height > max_height) {
-		height = max_height - other_height;
-		width = height * ratio;
-	}
-
-	gth_window_save_page_size (GTH_WINDOW (self->priv->browser),
-				   GTH_BROWSER_PAGE_VIEWER,
-				   width + other_width,
-				   height + other_height);
-	if (gth_window_get_current_page (GTH_WINDOW (self->priv->browser)) == GTH_BROWSER_PAGE_VIEWER)
-		gth_window_apply_saved_size (GTH_WINDOW (self->priv->browser), GTH_BROWSER_PAGE_VIEWER);
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
 }
 
 

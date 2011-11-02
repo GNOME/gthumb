@@ -241,6 +241,11 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  N_("Edit file"),
 	  G_CALLBACK (gth_browser_activate_action_viewer_tools),
 	  FALSE },
+	{ "View_ShrinkWrap", NULL,
+	  N_("_Fit Window to Image"), "<control>e",
+	  N_("Resize the window to the size of the image"),
+	  G_CALLBACK (gth_browser_activate_action_view_shrink_wrap),
+	  FALSE },
 };
 
 #endif /* GTH_BROWSER_ACTION_ENTRIES_H */

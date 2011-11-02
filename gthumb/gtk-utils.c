@@ -964,6 +964,36 @@ _gtk_widget_get_screen_size (GtkWidget *widget,
 }
 
 
+int
+_gtk_widget_get_allocated_width (GtkWidget *widget)
+{
+	int width = 0;
+
+	if ((widget != NULL) && gtk_widget_get_mapped (widget)) {
+		width = gtk_widget_get_allocated_width (widget);
+		width += gtk_widget_get_margin_left (widget);
+		width += gtk_widget_get_margin_right (widget);
+	}
+
+	return width;
+}
+
+
+int
+_gtk_widget_get_allocated_height (GtkWidget *widget)
+{
+	int height = 0;
+
+	if ((widget != NULL) && gtk_widget_get_mapped (widget)) {
+		height = gtk_widget_get_allocated_height (widget);
+		height += gtk_widget_get_margin_top (widget);
+		height += gtk_widget_get_margin_bottom (widget);
+	}
+
+	return height;
+}
+
+
 void
 _gtk_tree_path_list_free (GList *list)
 {

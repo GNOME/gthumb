@@ -125,6 +125,8 @@ GtkWidget *     _gtk_image_new_from_inline                 (const guint8     *da
 void            _gtk_widget_get_screen_size                (GtkWidget        *widget,
 					    	    	    int              *width,
 					    	    	    int              *height);
+int             _gtk_widget_get_allocated_width            (GtkWidget        *widget);
+int             _gtk_widget_get_allocated_height           (GtkWidget        *widget);
 void            _gtk_tree_path_list_free                   (GList            *list);
 int             _gtk_paned_get_position2                   (GtkPaned         *paned);
 void            _gtk_paned_set_position2                   (GtkPaned         *paned,

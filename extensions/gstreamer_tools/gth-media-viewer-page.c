@@ -1282,6 +1282,20 @@ gth_media_viewer_page_real_update_info (GthViewerPage *base,
 
 
 static void
+gth_media_viewer_page_real_shrink_wrap (GthViewerPage *base,
+					gboolean       value,
+					int           *other_width,
+					int           *other_height)
+{
+	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
+
+	if (! value || (other_width == NULL) || (other_height == NULL))
+		return;
+	*other_height += _gtk_widget_get_allocated_height (self->priv->mediabar);
+}
+
+
+static void
 gth_media_viewer_page_finalize (GObject *obj)
 {
 	GthMediaViewerPage *self;
@@ -1336,6 +1350,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->save_as = gth_media_viewer_page_real_save_as;
 	iface->revert = gth_media_viewer_page_real_revert;
 	iface->update_info = gth_media_viewer_page_real_update_info;
+	iface->shrink_wrap = gth_media_viewer_page_real_shrink_wrap;
 }
 
 

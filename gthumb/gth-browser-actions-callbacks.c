@@ -333,6 +333,14 @@ gth_browser_activate_action_viewer_tools (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_view_shrink_wrap (GtkAction  *action,
+					      GthBrowser *browser)
+{
+	gth_browser_set_shrink_wrap_viewer (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
+
+
+void
 gth_browser_activate_action_edit_select_all (GtkAction  *action,
 				 	     GthBrowser *browser)
 {

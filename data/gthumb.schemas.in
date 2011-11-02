@@ -238,7 +238,7 @@
 	  <long> Possible values are: list, thumbnails.
 	  </long>
 	</locale>
-      </schema>
+      </schema>		
 
       <!-- Viewer -->
 
@@ -333,6 +333,19 @@
 	  </long>
 	</locale>
       </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/shrink_wrap</key>
+	<applyto>/apps/gthumb/viewer/shrink_wrap</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Whether to resize the window to fit the size of the image
+	  </long>
+	</locale>
+      </schema>	
 
       <!-- UI -->
 

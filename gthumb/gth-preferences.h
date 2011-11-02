@@ -59,6 +59,7 @@ G_BEGIN_DECLS
 #define PREF_CHECK_TYPE                     "/apps/gthumb/viewer/check_type"
 #define PREF_CHECK_SIZE                     "/apps/gthumb/viewer/check_size"
 #define PREF_BLACK_BACKGROUND               "/apps/gthumb/viewer/black_background"
+#define PREF_SHRINK_WRAP_VIEWER             "/apps/gthumb/viewer/shrink_wrap"
 
 #define PREF_UI_TOOLBAR_STYLE               "/apps/gthumb/ui/toolbar_style"
 #define PREF_UI_WINDOW_WIDTH                "/apps/gthumb/ui/window_width"

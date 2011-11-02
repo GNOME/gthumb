@@ -60,8 +60,6 @@ void               gth_image_viewer_page_undo              (GthImageViewerPage *
 void               gth_image_viewer_page_redo              (GthImageViewerPage *page);
 GthImageHistory *  gth_image_viewer_page_get_history       (GthImageViewerPage *self);
 void               gth_image_viewer_page_reset             (GthImageViewerPage *self);
-void               gth_image_viewer_page_shrink_wrap       (GthImageViewerPage *self,
-		   	   	   	   	   	    gboolean            activate);
 void               gth_image_viewer_page_copy_image        (GthImageViewerPage *self);
 void               gth_image_viewer_page_paste_image       (GthImageViewerPage *self);
 

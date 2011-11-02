@@ -64,5 +64,6 @@ DEFINE_ACTION(gth_browser_activate_action_view_next)
 DEFINE_ACTION(gth_browser_activate_action_view_prev)
 DEFINE_ACTION(gth_browser_activate_action_viewer_properties)
 DEFINE_ACTION(gth_browser_activate_action_viewer_tools)
+DEFINE_ACTION(gth_browser_activate_action_view_shrink_wrap)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */
