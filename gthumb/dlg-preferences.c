@@ -41,8 +41,6 @@ typedef struct {
 	GthBrowser *browser;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
-	GtkWidget  *toolbar_style_combobox;
-	GtkWidget  *thumbnail_size_combobox;
 	GtkWidget  *thumbnail_caption_chooser;
 } DialogData;
 
@@ -146,7 +144,7 @@ static void
 toolbar_style_changed_cb (GtkWidget  *widget,
 			  DialogData *data)
 {
-	eel_gconf_set_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->toolbar_style_combobox)));
+	eel_gconf_set_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("toolbar_style_combobox"))));
 }
 
 
@@ -178,7 +176,7 @@ static void
 thumbnail_size_changed_cb (GtkWidget  *widget,
 			   DialogData *data)
 {
-	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (data->thumbnail_size_combobox))]);
+	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")))]);
 }
 
 
@@ -226,11 +224,6 @@ dlg_preferences (GthBrowser *browser)
 	eel_gconf_preload_cache ("/apps/gthumb/browser", GCONF_CLIENT_PRELOAD_ONELEVEL);
 	eel_gconf_preload_cache ("/apps/gthumb/ui", GCONF_CLIENT_PRELOAD_ONELEVEL);
 
-	/* Set widgets data. */
-
-	data->toolbar_style_combobox = _gtk_combo_box_new_with_texts (_("System settings"), _("Text below icons"), _("Text beside icons"), _("Icons only"), _("Text only"), NULL);
-	data->thumbnail_size_combobox = _gtk_combo_box_new_with_texts ("48", "64", "85", "95", "112", "128", "164", "200", "256", NULL);
-
 	/* caption list */
 
 	data->thumbnail_caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_FILE_LIST);
@@ -240,14 +233,6 @@ dlg_preferences (GthBrowser *browser)
 	current_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), current_caption);
 	g_free (current_caption);
-
-	gtk_widget_show (data->toolbar_style_combobox);
-	gtk_widget_show (data->thumbnail_size_combobox);
-
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("toolbar_style_combobox_box")), data->toolbar_style_combobox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("thumbnail_size_box")), data->thumbnail_size_combobox, FALSE, FALSE, 0);
-
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("size_label")), data->thumbnail_size_combobox);
 
 	/* * general */
 
@@ -284,14 +269,14 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("confirm_deletion_checkbutton")), eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_to_save_checkbutton")), eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->toolbar_style_combobox), eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("toolbar_style_combobox")), eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnails_pane_orient_combobox")), eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("embed_metadata_checkbutton")), eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE));
 
 	/* * browser */
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->thumbnail_size_combobox), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEFAULT_THUMBNAIL_SIZE)));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEFAULT_THUMBNAIL_SIZE)));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("slow_mime_type_checkbutton")), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, DEFAULT_FAST_FILE_TYPE));
 
 	gth_hook_invoke ("dlg-preferences-construct", data->dialog, data->browser, data->builder);
@@ -313,7 +298,7 @@ dlg_preferences (GthBrowser *browser)
 
 	/* general */
 
-	g_signal_connect (G_OBJECT (data->toolbar_style_combobox),
+	g_signal_connect (G_OBJECT (GET_WIDGET ("toolbar_style_combobox")),
 			  "changed",
 			  G_CALLBACK (toolbar_style_changed_cb),
 			  data);
@@ -340,7 +325,7 @@ dlg_preferences (GthBrowser *browser)
 
 	/* browser */
 
-	g_signal_connect (G_OBJECT (data->thumbnail_size_combobox),
+	g_signal_connect (G_OBJECT (GET_WIDGET ("thumbnail_size_combobox")),
 			  "changed",
 			  G_CALLBACK (thumbnail_size_changed_cb),
 			  data);
