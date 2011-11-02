@@ -2026,7 +2026,8 @@ _g_file_get_icon (GFile *file)
 				       NULL);
 	if (file_info != NULL)
 		icon = (GIcon*) g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON);
-	else
+
+	if (icon == NULL)
 		icon = g_themed_icon_new ("file");
 
 	return icon;
