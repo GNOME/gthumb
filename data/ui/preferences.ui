@@ -18,6 +18,7 @@
             <child>
               <object class="GtkButton" id="help_button">
                 <property name="label">gtk-help</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -34,6 +35,7 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -220,6 +222,7 @@
                             <child>
                               <object class="GtkRadioButton" id="go_to_last_location_radiobutton">
                                 <property name="label" translatable="yes">Go to last _visited location</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -243,6 +246,7 @@
                                 <child>
                                   <object class="GtkRadioButton" id="use_startup_location_radiobutton">
                                     <property name="label" translatable="yes">Go to this _folder:</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -286,6 +290,7 @@
                                 <child>
                                   <object class="GtkButton" id="set_to_current_button">
                                     <property name="label" translatable="yes">Set to C_urrent</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -349,6 +354,7 @@
                             <child>
                               <object class="GtkCheckButton" id="confirm_deletion_checkbutton">
                                 <property name="label" translatable="yes">As_k confirmation before deleting files or catalogs</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -366,6 +372,7 @@
                             <child>
                               <object class="GtkCheckButton" id="ask_to_save_checkbutton">
                                 <property name="label" translatable="yes">Ask whether to save _modified files</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -383,6 +390,7 @@
                             <child>
                               <object class="GtkCheckButton" id="embed_metadata_checkbutton">
                                 <property name="label" translatable="yes">_Store metadata inside files if possible</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -508,6 +516,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Thumbnail _size:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">thumbnail_size_combobox</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -558,6 +568,7 @@
                             <child>
                               <object class="GtkCheckButton" id="slow_mime_type_checkbutton">
                                 <property name="label" translatable="yes">D_etermine image type from content (slower)</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
