@@ -164,6 +164,7 @@ _gth_file_row_copy (GthFileRow *row)
 }
 
 
+G_GNUC_UNUSED
 static void
 _gth_file_row_ref (GthFileRow *row)
 {
@@ -302,7 +303,7 @@ gth_file_store_init (GthFileStore *file_store)
 static GtkTreeModelFlags
 gth_file_store_get_flags (GtkTreeModel *tree_model)
 {
-	return GTK_TREE_MODEL_LIST_ONLY /* | GTK_TREE_MODEL_ITERS_PERSIST*/;
+	return GTK_TREE_MODEL_LIST_ONLY;
 }
 
 
@@ -567,44 +568,6 @@ gth_file_store_iter_parent (GtkTreeModel *tree_model,
 }
 
 
-static void
-gth_file_store_ref_node (GtkTreeModel *tree_model,
-			 GtkTreeIter  *iter)
-{
-	GthFileStore *file_store;
-	GthFileRow   *row;
-
-	if ((iter == NULL) || (iter->user_data == NULL))
-		return;
-
-	file_store = (GthFileStore *) tree_model;
-
-	g_return_if_fail (VALID_ITER (iter, file_store));
-
-	row = (GthFileRow*) iter->user_data;
-	_gth_file_row_ref (row);
-}
-
-
-static void
-gth_file_store_unref_node (GtkTreeModel *tree_model,
-			   GtkTreeIter  *iter)
-{
-	GthFileStore *file_store;
-	GthFileRow   *row;
-
-	if ((iter == NULL) || (iter->user_data == NULL))
-		return;
-
-	file_store = (GthFileStore *) tree_model;
-
-	g_return_if_fail (VALID_ITER (iter, file_store));
-
-	row = (GthFileRow*) iter->user_data;
-	_gth_file_row_unref (row);
-}
-
-
 static gboolean
 gth_file_store_row_draggable (GtkTreeDragSource *drag_source,
                               GtkTreePath       *path)
@@ -694,8 +657,6 @@ gtk_tree_model_interface_init (GtkTreeModelIface *iface)
 	iface->iter_n_children = gth_file_store_iter_n_children;
 	iface->iter_nth_child  = gth_file_store_iter_nth_child;
 	iface->iter_parent     = gth_file_store_iter_parent;
-	iface->ref_node        = gth_file_store_ref_node;
-	iface->unref_node      = gth_file_store_unref_node;
 }
 
 
