@@ -135,9 +135,13 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 		self->priv->is_icon = g_value_get_boolean (value);
 		break;
 	case PROP_THUMBNAIL:
+		if (self->priv->thumbnail != NULL)
+			g_object_unref (self->priv->thumbnail);
 		self->priv->thumbnail = g_value_dup_object (value);
 		break;
 	case PROP_FILE:
+		if (self->priv->file != NULL)
+			g_object_unref (self->priv->file);
 		self->priv->file = g_value_dup_object (value);
 		break;
 	case PROP_CHECKED:
@@ -254,10 +258,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 					      &thumb_rect.width,
 					      &thumb_rect.height);
 
-	pixbuf = self->priv->thumbnail;
-	if (pixbuf == NULL)
-		return;
-
 	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
 
 	thumb_rect.x += cell_area->x + xpad;
@@ -272,6 +272,12 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	}
 
 	cr = gdk_cairo_create (window);
+
+	pixbuf = self->priv->thumbnail;
+	if (pixbuf == NULL)
+		return;
+
+	g_object_ref (pixbuf);
 
 	image_rect.width = gdk_pixbuf_get_width (pixbuf);
 	image_rect.height = gdk_pixbuf_get_height (pixbuf);
@@ -405,6 +411,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	cairo_fill (cr);
 
 	_g_object_unref (colorized);
+	g_object_unref (pixbuf);
 	cairo_destroy (cr);
 }
 
