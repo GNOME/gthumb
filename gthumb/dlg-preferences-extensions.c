@@ -266,7 +266,7 @@ add_columns (GtkTreeView *treeview,
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_BUTTON, NULL);
+	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_BUTTON, "xpad", 6, NULL);
 	gtk_tree_view_column_set_cell_data_func (column, renderer, extension_icon_data_func_cb, data, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
