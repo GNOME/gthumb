@@ -33,6 +33,7 @@
 enum {
 	CHECK_CHANGED,
 	VISIBILITY_CHANGED,
+	THUMBNAIL_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -239,6 +240,15 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
+	gth_file_store_signals[THUMBNAIL_CHANGED] =
+			g_signal_new ("thumbnail-changed",
+				      G_TYPE_FROM_CLASS (klass),
+				      G_SIGNAL_RUN_LAST,
+				      G_STRUCT_OFFSET (GthFileStoreClass, thumbnail_changed),
+				      NULL, NULL,
+				      g_cclosure_marshal_VOID__VOID,
+				      G_TYPE_NONE,
+				      0);
 }
 
 
@@ -655,23 +665,6 @@ _gth_file_store_get_files (GthFileStore *file_store)
 	}
 
 	return  g_list_reverse (files);
-}
-
-
-static void
-_gth_file_store_row_changed (GthFileStore *file_store,
-			     GthFileRow   *row)
-{
-	GtkTreePath *path;
-	GtkTreeIter  iter;
-
-	path = gtk_tree_path_new ();
-	gtk_tree_path_append_index (path, row->pos);
-	gth_file_store_get_iter (GTK_TREE_MODEL (file_store), &iter, path);
-
-	gtk_tree_model_row_changed (GTK_TREE_MODEL (file_store), path, &iter);
-
-	gtk_tree_path_free (path);
 }
 
 
@@ -1507,6 +1500,25 @@ gth_file_store_queue_set (GthFileStore *file_store,
 
 
 static void
+_gth_file_store_row_changed (GthFileStore *file_store,
+			     GthFileRow   *row)
+{
+	GtkTreePath *path;
+	GtkTreeIter  iter;
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, row->pos);
+
+	iter.stamp = file_store->priv->stamp;
+	iter.user_data = row;
+
+	gtk_tree_model_row_changed (GTK_TREE_MODEL (file_store), path, &iter);
+
+	gtk_tree_path_free (path);
+}
+
+
+static void
 _gth_file_store_list_changed (GthFileStore *file_store)
 {
 	int i;
@@ -1524,8 +1536,19 @@ _gth_file_store_list_changed (GthFileStore *file_store)
 void
 gth_file_store_exec_set (GthFileStore *file_store)
 {
-	_gth_file_store_list_changed (file_store);
+	/* This is an speed optimization.  When the thumbnails are updated in
+	 * the store the visibility doesn't need to be updated, so we avoid to
+	 * emit the 'row-changed' signal for each row, which causes the
+	 * GtkIconView to invalidate the size of all the items, and instead
+	 * emit a single 'thumbnail-changed' signal that can be used to just
+	 * redraw GtkIconView (as done in gth-file-list.c). */
+	if (file_store->priv->update_filter || file_store->priv->check_changed)
+		_gth_file_store_list_changed (file_store);
+	else
+		g_signal_emit (file_store, gth_file_store_signals[THUMBNAIL_CHANGED], 0, NULL);
+
 	_gth_file_store_clear_queue (file_store);
+
 	if (file_store->priv->update_filter) {
 		_gth_file_store_update_visibility (file_store, NULL, -1);
 		file_store->priv->update_filter = FALSE;
