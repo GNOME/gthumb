@@ -32,7 +32,9 @@ icons_DATA = 				\
 	tool-rotate.png			\
 	tool-rotate-270.png		\
 	tool-rotate-90.png		\
-	tool-sharpen.png
+	tool-sharpen.png		\
+	zoom-fit-height.png		\
+	zoom-fit-width.png
 
 EXTRA_DIST = $(icons_DATA)	
 
