@@ -31,7 +31,7 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
-#define DEFAULT_ICON "application-x-executable"
+#define DEFAULT_ICON "application-extension"
 #define EXTENSION_CATEGORY_ALL "*"
 #define EXTENSION_CATEGORY_ENABLED "+"
 #define EXTENSION_CATEGORY_DISABLED "-"

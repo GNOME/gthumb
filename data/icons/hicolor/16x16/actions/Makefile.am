@@ -13,6 +13,7 @@ icons_DATA = 				\
 	histogram-linear.png		\
 	histogram-logarithmic.png	\
 	image-navigator.png		\
+	application-extension.png	\
 	map.png				\
 	site-facebook.png		\
 	site-flickr.png			\
