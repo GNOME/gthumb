@@ -625,8 +625,6 @@ gth_image_navigator_init (GthImageNavigator *self)
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 	gtk_container_set_reallocate_redraws (GTK_CONTAINER (self), TRUE);
-	gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
-	gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
 
 	self->priv->automatic_scrollbars = TRUE;
 	self->priv->scrollbars_visible = FALSE;

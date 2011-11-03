@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.24"/>
+  <object class="GtkAdjustment" id="ratio_h_adjustment">
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="ratio_w_adjustment">
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="resize_height_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="resize_width_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+  </object>
   <object class="GtkAlignment" id="options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -146,6 +164,7 @@
                                 <property name="left_attach">2</property>
                                 <property name="right_attach">3</property>
                                 <property name="x_options">GTK_FILL</property>
+                                <property name="y_options">GTK_FILL</property>
                               </packing>
                             </child>
                             <child>
@@ -153,7 +172,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -166,6 +185,7 @@
                             <property name="layout_style">spread</property>
                             <child>
                               <object class="GtkButton" id="image_size_button">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -191,6 +211,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="screen_size_button">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -217,7 +238,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
@@ -330,6 +351,7 @@
                         <child>
                           <object class="GtkCheckButton" id="invert_ratio_checkbutton">
                             <property name="label" translatable="yes">I_nvert aspect ratio</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -384,6 +406,7 @@
                         <child>
                           <object class="GtkCheckButton" id="high_quality_checkbutton">
                             <property name="label" translatable="yes">High _quality</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -426,7 +449,7 @@
                 <property name="can_focus">False</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
@@ -460,6 +483,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -476,6 +500,7 @@
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -491,6 +516,7 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -508,6 +534,7 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -524,6 +551,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -541,6 +569,7 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                       </object>
@@ -554,7 +583,7 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">4</property>
               </packing>
@@ -587,6 +616,7 @@
             <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -603,6 +633,7 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -625,24 +656,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="ratio_h_adjustment">
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="ratio_w_adjustment">
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="resize_height_adjustment">
-    <property name="lower">1</property>
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="resize_width_adjustment">
-    <property name="lower">1</property>
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
   </object>
   <object class="GtkListStore" id="unit_liststore">
     <columns>
