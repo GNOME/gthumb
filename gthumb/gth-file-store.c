@@ -43,6 +43,8 @@ static guint gth_file_store_signals[LAST_SIGNAL] = { 0 };
 
 
 typedef struct {
+	int          ref_count;
+
 	GthFileData *file_data;
 	GdkPixbuf   *thumbnail;
 	gboolean     is_icon;
@@ -92,7 +94,12 @@ G_DEFINE_TYPE_WITH_CODE (GthFileStore,
 static GthFileRow *
 _gth_file_row_new (void)
 {
-	return g_new0 (GthFileRow, 1);
+	GthFileRow *row;
+
+	row = g_new0 (GthFileRow, 1);
+	row->ref_count = 1;
+
+	return row;
 }
 
 
@@ -158,8 +165,18 @@ _gth_file_row_copy (GthFileRow *row)
 
 
 static void
-_gth_file_row_free (GthFileRow *row)
+_gth_file_row_ref (GthFileRow *row)
 {
+	row->ref_count++;
+}
+
+
+static void
+_gth_file_row_unref (GthFileRow *row)
+{
+	if (--row->ref_count > 0)
+		return;
+
 	if (row->file_data != NULL)
 		g_object_unref (row->file_data);
 	if (row->thumbnail != NULL)
@@ -183,7 +200,7 @@ _gth_file_store_free_rows (GthFileStore *file_store)
 	int i;
 
 	for (i = 0; i < file_store->priv->tot_rows; i++)
-		_gth_file_row_free (file_store->priv->all_rows[i]);
+		_gth_file_row_unref (file_store->priv->all_rows[i]);
 	g_free (file_store->priv->all_rows);
 	file_store->priv->all_rows = NULL;
 	file_store->priv->tot_rows = 0;
@@ -285,7 +302,7 @@ gth_file_store_init (GthFileStore *file_store)
 static GtkTreeModelFlags
 gth_file_store_get_flags (GtkTreeModel *tree_model)
 {
-	return GTK_TREE_MODEL_LIST_ONLY /*| GTK_TREE_MODEL_ITERS_PERSIST*/;
+	return GTK_TREE_MODEL_LIST_ONLY /* | GTK_TREE_MODEL_ITERS_PERSIST*/;
 }
 
 
@@ -435,6 +452,31 @@ gth_file_store_iter_next (GtkTreeModel  *tree_model,
 
 
 static gboolean
+gth_file_store_iter_previous (GtkTreeModel *tree_model,
+			      GtkTreeIter  *iter)
+{
+	GthFileStore *file_store;
+	GthFileRow   *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return FALSE;
+
+	file_store = (GthFileStore *) tree_model;
+
+	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
+
+	row = (GthFileRow*) iter->user_data;
+	if (row->pos == 0)
+		return FALSE;
+
+	iter->stamp = file_store->priv->stamp;
+	iter->user_data = file_store->priv->rows[row->pos - 1];
+
+	return TRUE;
+}
+
+
+static gboolean
 gth_file_store_iter_children (GtkTreeModel *tree_model,
 			      GtkTreeIter  *iter,
 			      GtkTreeIter  *parent)
@@ -525,6 +567,44 @@ gth_file_store_iter_parent (GtkTreeModel *tree_model,
 }
 
 
+static void
+gth_file_store_ref_node (GtkTreeModel *tree_model,
+			 GtkTreeIter  *iter)
+{
+	GthFileStore *file_store;
+	GthFileRow   *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return;
+
+	file_store = (GthFileStore *) tree_model;
+
+	g_return_if_fail (VALID_ITER (iter, file_store));
+
+	row = (GthFileRow*) iter->user_data;
+	_gth_file_row_ref (row);
+}
+
+
+static void
+gth_file_store_unref_node (GtkTreeModel *tree_model,
+			   GtkTreeIter  *iter)
+{
+	GthFileStore *file_store;
+	GthFileRow   *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return;
+
+	file_store = (GthFileStore *) tree_model;
+
+	g_return_if_fail (VALID_ITER (iter, file_store));
+
+	row = (GthFileRow*) iter->user_data;
+	_gth_file_row_unref (row);
+}
+
+
 static gboolean
 gth_file_store_row_draggable (GtkTreeDragSource *drag_source,
                               GtkTreePath       *path)
@@ -608,11 +688,14 @@ gtk_tree_model_interface_init (GtkTreeModelIface *iface)
 	iface->get_path        = gth_file_store_get_path;
 	iface->get_value       = gth_file_store_get_value;
 	iface->iter_next       = gth_file_store_iter_next;
+	iface->iter_previous   = gth_file_store_iter_previous;
 	iface->iter_children   = gth_file_store_iter_children;
 	iface->iter_has_child  = gth_file_store_iter_has_child;
 	iface->iter_n_children = gth_file_store_iter_n_children;
 	iface->iter_nth_child  = gth_file_store_iter_nth_child;
 	iface->iter_parent     = gth_file_store_iter_parent;
+	iface->ref_node        = gth_file_store_ref_node;
+	iface->unref_node      = gth_file_store_unref_node;
 }
 
 
@@ -976,7 +1059,7 @@ g_print ("\n");
 	_gth_file_store_increment_stamp (file_store);
 
 	for (i = 0; i < file_store->priv->tot_rows; i++)
-		_gth_file_row_free (file_store->priv->all_rows[i]);
+		_gth_file_row_unref (file_store->priv->all_rows[i]);
 	g_free (file_store->priv->all_rows);
 	file_store->priv->all_rows = all_rows;
 	file_store->priv->tot_rows = all_rows_n;
@@ -1425,7 +1508,7 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
 
   	row = (GthFileRow*) iter->user_data;
 
-  	column = va_arg (var_args, int);
+ 	column = va_arg (var_args, int);
   	while (column != -1) {
   		GthFileData *file_data;
   		GdkPixbuf   *thumbnail;
@@ -1599,7 +1682,7 @@ gth_file_store_exec_remove (GthFileStore *file_store)
 			_gth_file_store_hide_row (file_store, row);
 
 		file_store->priv->all_rows[row->abs_pos] = NULL;
-		_gth_file_row_free (row);
+		_gth_file_row_unref (row);
 	}
 	_gth_file_store_compact_rows (file_store);
 	_gth_file_store_clear_queue (file_store);
