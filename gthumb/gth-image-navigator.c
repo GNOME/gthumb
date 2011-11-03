@@ -652,7 +652,7 @@ gth_image_navigator_init (GthImageNavigator *self)
 
 	gtk_widget_show (self->priv->hscrollbar);
 	gtk_widget_show (self->priv->vscrollbar);
-	gtk_widget_show (self->priv->navigator_event_area);
+	gtk_widget_show_all (self->priv->navigator_event_area);
 }
 
 
