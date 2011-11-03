@@ -282,12 +282,7 @@ gth_file_list_finalize (GObject *object)
 static GtkSizeRequestMode
 gth_file_list_get_request_mode (GtkWidget *widget)
 {
-	GthFileList *file_list = GTH_FILE_LIST (widget);
-
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
-		return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
-	else
-		return GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT;
+	return GTK_SIZE_REQUEST_CONSTANT_SIZE;
 }
 
 
@@ -297,11 +292,10 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
                 		   int       *natural_width)
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
-	GtkBorder    padding;
 	GtkWidget   *vscrollbar;
 
-	gtk_style_context_get_padding  (gtk_widget_get_style_context (file_list->priv->scrolled_window), GTK_STATE_FLAG_NORMAL, &padding);
-	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + padding.left + padding.right;
+	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2);
+	*natural_width = *minimum_width;
 
 	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
 	if (gtk_widget_get_visible (vscrollbar)) {
@@ -313,10 +307,10 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
 		gtk_widget_style_get (file_list->priv->scrolled_window,
 				      "scrollbar-spacing", &scrollbar_spacing,
 				      NULL);
-		*minimum_width += vscrollbar_minimum_width + scrollbar_spacing;
-	}
 
-	*natural_width = *minimum_width;
+		*minimum_width += vscrollbar_minimum_width + scrollbar_spacing;
+		*natural_width += vscrollbar_natural_width + scrollbar_spacing;
+	}
 }
 
 
@@ -326,10 +320,8 @@ gth_file_list_get_preferred_height (GtkWidget *widget,
                 		    int       *natural_height)
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
-	GtkBorder    padding;
 
-	gtk_style_context_get_padding  (gtk_widget_get_style_context (file_list->priv->scrolled_window), GTK_STATE_FLAG_NORMAL, &padding);
-	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2) + padding.top + padding.bottom;
+	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2);
 	*natural_height = *minimum_height;
 }
 
@@ -557,10 +549,22 @@ checkbox_toggled_cb (GtkCellRendererToggle *cell_renderer,
 static void
 _gth_file_list_update_orientation (GthFileList *file_list)
 {
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)
+	GtkPolicyType hscrollbar_policy;
+	GtkPolicyType vscrollbar_policy;
+
+	hscrollbar_policy = GTK_POLICY_AUTOMATIC;
+	vscrollbar_policy = GTK_POLICY_AUTOMATIC;
+
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
 		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_VERTICAL);
+		vscrollbar_policy = GTK_POLICY_ALWAYS;
+	}
 	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
 		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_HORIZONTAL);
+
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
+					hscrollbar_policy,
+					vscrollbar_policy);
 }
 
 
@@ -633,19 +637,14 @@ gth_file_list_construct (GthFileList     *file_list,
 	/* the message pane */
 
 	viewport = gtk_viewport_new (NULL, NULL);
-	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport),
-				      GTK_SHADOW_ETCHED_IN);
+	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport), GTK_SHADOW_ETCHED_IN);
 
 	file_list->priv->message = gth_empty_list_new (_(EMPTY));
 
 	/* the file view */
 
 	file_list->priv->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
-					     GTK_SHADOW_ETCHED_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window), GTK_SHADOW_ETCHED_IN);
 
 	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
 	g_signal_connect (G_OBJECT (file_list->priv->vadj),
