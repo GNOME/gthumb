@@ -132,6 +132,8 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 		self->priv->is_icon = g_value_get_boolean (value);
 		break;
 	case PROP_THUMBNAIL:
+		if (self->priv->thumbnail != NULL)
+			g_object_unref (self->priv->thumbnail);
 		self->priv->thumbnail = g_value_dup_object (value);
 		break;
 	case PROP_FILE:
@@ -248,10 +250,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 					      &thumb_rect.width,
 					      &thumb_rect.height);
 
-	pixbuf = self->priv->thumbnail;
-	if (pixbuf == NULL)
-		return;
-
 	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
 
 	thumb_rect.x += cell_area->x + xpad;
@@ -261,6 +259,12 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect))
 		return;
+
+	pixbuf = self->priv->thumbnail;
+	if (pixbuf == NULL)
+		return;
+
+	g_object_ref (pixbuf);
 
 	image_rect.width = gdk_pixbuf_get_width (pixbuf);
 	image_rect.height = gdk_pixbuf_get_height (pixbuf);
@@ -400,6 +404,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	}
 
 	gtk_style_context_restore (style_context);
+	g_object_unref (pixbuf);
 }
 
 
