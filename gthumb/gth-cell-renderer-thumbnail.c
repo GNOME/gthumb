@@ -165,44 +165,18 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
 				      int                *height)
 {
 	GthCellRendererThumbnail *self;
-	int                       image_width;
-	int                       image_height;
-	int                       calc_width;
-	int                       calc_height;
 	int                       xpad;
 	int                       ypad;
+	int                       calc_width;
+	int                       calc_height;
 
 	self = (GthCellRendererThumbnail *) cell;
 
-	if (self->priv->thumbnail != NULL) {
-		image_width = gdk_pixbuf_get_width (self->priv->thumbnail);
-		image_height = gdk_pixbuf_get_height (self->priv->thumbnail);
-	}
-	else {
-		image_width = 0;
-		image_height = 0;
-	}
-
 	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
-
-	if (self->priv->is_icon
-	    || self->priv->fixed_size
-	    || (self->priv->thumbnail == NULL)
-	    || ((image_width < self->priv->size) && (image_height < self->priv->size)))
-	{
-		calc_width  = (int) (xpad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
-		calc_height = (int) (ypad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
-	}
-	else {
-		calc_width  = (int) (xpad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
-		calc_height = (int) (ypad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
-	}
-
-	if (width != NULL)
-		*width = calc_width;
-
-	if (height != NULL)
-		*height = calc_height;
+	calc_width  = (int) (xpad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
+	calc_height = (int) (ypad * 2) + (THUMBNAIL_BORDER * 2) + self->priv->size;
+	if (width != NULL) *width = calc_width;
+	if (height != NULL) *height = calc_height;
 
 	if (cell_area != NULL) {
 		float xalign;
@@ -210,15 +184,12 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
 
 		gtk_cell_renderer_get_alignment (cell, &xalign, &yalign);
 
-		if (x_offset != NULL) {
-			*x_offset = xalign * (cell_area->width - calc_width);
-			*x_offset = MAX (*x_offset, 0);
-		}
-
-		if (y_offset != NULL) {
-			*y_offset = yalign * (cell_area->height - calc_height);
-			*y_offset = MAX (*y_offset, 0);
-		}
+		if (x_offset != NULL) *x_offset = MAX (xalign * (cell_area->width - calc_width), 0);
+		if (y_offset != NULL) *y_offset = MAX (yalign * (cell_area->height - calc_height), 0);
+	}
+	else {
+		if (x_offset) *x_offset = 0;
+		if (y_offset) *y_offset = 0;
 	}
 }
 
@@ -308,7 +279,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		_gdk_rgba_darker (&background_color, &lighter_color);
 		_gdk_rgba_darker (&lighter_color, &darker_color);
 
-		if (self->priv->fixed_size && _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
+		if (self->priv->fixed_size && (self->priv->file != NULL) && _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
 			frame_rect.width = self->priv->size; /*image_rect.width*/
 			frame_rect.height = self->priv->size; /*image_rect.height*/
 			frame_rect.x = thumb_rect.x + (thumb_rect.width - frame_rect.width) * .5; /*cell_area->x + xpad + THUMBNAIL_BORDER - 1;*/
