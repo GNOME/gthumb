@@ -137,6 +137,8 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 		self->priv->thumbnail = g_value_dup_object (value);
 		break;
 	case PROP_FILE:
+		if (self->priv->file != NULL)
+			g_object_unref (self->priv->file);
 		self->priv->file = g_value_dup_object (value);
 		break;
 	case PROP_CHECKED:
