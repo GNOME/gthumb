@@ -131,10 +131,10 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (toolbox), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (toolbox), FALSE);
 
-	/* tools vbox page */
+	/* tool list page */
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
@@ -172,7 +172,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_box_pack_start (GTK_BOX (options_box), header_align, FALSE, FALSE, 0);
 
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
