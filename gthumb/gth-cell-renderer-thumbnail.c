@@ -245,6 +245,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	GdkRectangle              image_rect;
 	cairo_t                  *cr;
 	GdkPixbuf                *pixbuf;
+	GdkPixbuf                *original_pixbuf;
 	int                       xpad;
 	int                       ypad;
 	GdkPixbuf                *colorized = NULL;
@@ -273,7 +274,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 	cr = gdk_cairo_create (window);
 
-	pixbuf = self->priv->thumbnail;
+	pixbuf = original_pixbuf = self->priv->thumbnail;
 	if (pixbuf == NULL)
 		return;
 
@@ -411,7 +412,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	cairo_fill (cr);
 
 	_g_object_unref (colorized);
-	g_object_unref (pixbuf);
+	g_object_unref (original_pixbuf);
 	cairo_destroy (cr);
 }
 
@@ -494,6 +495,8 @@ gth_cell_renderer_thumbnail_init (GthCellRendererThumbnail *self)
 	self->priv = g_new0 (GthCellRendererThumbnailPrivate, 1);
 	self->priv->size = DEFAULT_THUMBNAIL_SIZE;
 	self->priv->checked = TRUE;
+	self->priv->file = NULL;
+	self->priv->thumbnail = NULL;
 }
 
 
