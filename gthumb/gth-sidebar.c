@@ -125,6 +125,9 @@ _gth_sidebar_add_property_views (GthSidebar *sidebar)
 	int     i;
 
 	children = gth_main_get_type_set ("file-properties");
+	if (children == NULL)
+		return;
+
 	for (i = 0; i < children->len; i++) {
 		GType      child_type;
 		GtkWidget *child;
