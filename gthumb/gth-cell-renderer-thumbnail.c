@@ -157,6 +157,13 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 }
 
 
+static GtkSizeRequestMode
+gth_cell_renderer_thumbnail_get_request_mode (GtkCellRenderer *cell)
+{
+	return GTK_SIZE_REQUEST_CONSTANT_SIZE;
+}
+
+
 static void
 gth_cell_renderer_thumbnail_get_size (GtkCellRenderer    *cell,
 				      GtkWidget          *widget,
@@ -395,6 +402,7 @@ gth_cell_renderer_thumbnail_class_init (GthCellRendererThumbnailClass *klass)
 	object_class->set_property = gth_cell_renderer_thumbnail_set_property;
 
 	cell_renderer = GTK_CELL_RENDERER_CLASS (klass);
+	cell_renderer->get_request_mode = gth_cell_renderer_thumbnail_get_request_mode;
 	cell_renderer->get_size = gth_cell_renderer_thumbnail_get_size;
 	cell_renderer->render = gth_cell_renderer_thumbnail_render;
 
