@@ -54,6 +54,7 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        has_video;
 	gboolean        has_audio;
 	gulong          update_progress_id;
+	guint           set_to_pause_id;
 	gdouble         rate;
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
@@ -1055,8 +1056,10 @@ set_to_paused (gpointer user_data)
 {
 	GthMediaViewerPage *self = user_data;
 
+	self->priv->set_to_pause_id = 0;
 	if (self->priv->playbin != NULL)
 		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+
 	return FALSE;
 }
 
@@ -1112,7 +1115,9 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	uri = g_file_get_uri (self->priv->file_data->file);
 	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
 
-	gdk_threads_add_idle (set_to_paused, self);
+	if (self->priv->set_to_pause_id != 0)
+		g_source_remove (self->priv->set_to_pause_id);
+	self->priv->set_to_pause_id = gdk_threads_add_idle (set_to_paused, self);
 
 	g_free (uri);
 }
@@ -1270,6 +1275,11 @@ gth_media_viewer_page_finalize (GObject *obj)
 
 	self = GTH_MEDIA_VIEWER_PAGE (obj);
 
+	if (self->priv->set_to_pause_id != 0) {
+		g_source_remove (self->priv->set_to_pause_id);
+		self->priv->set_to_pause_id = 0;
+	}
+
         if (self->priv->update_progress_id != 0) {
                 g_source_remove (self->priv->update_progress_id);
                 self->priv->update_progress_id = 0;
@@ -1327,6 +1337,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 {
 	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->update_progress_id = 0;
+	self->priv->set_to_pause_id = 0;
 	self->priv->xwin_assigned = FALSE;
 	self->priv->has_video = FALSE;
 	self->priv->has_audio = FALSE;
