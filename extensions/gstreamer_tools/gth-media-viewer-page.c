@@ -1112,6 +1112,8 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	self->priv->file_data = gth_file_data_dup (file_data);
 
 	self->priv->duration = 0;
+	self->priv->has_audio = FALSE;
+	self->priv->has_video = FALSE;
 
 	_g_object_unref (self->priv->icon);
 	self->priv->icon = NULL;
