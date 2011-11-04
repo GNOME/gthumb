@@ -580,7 +580,7 @@ histogram_view_draw_cb (GtkWidget *widget,
 
 		inner_allocation.x = padding.left;
 		inner_allocation.y = padding.top;
-		inner_allocation.width = allocation.width - (padding.right + padding.left) + 1;
+		inner_allocation.width = allocation.width - (padding.right + padding.left);
 		inner_allocation.height = allocation.height - (padding.top + padding.bottom);
 
 		if ((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
