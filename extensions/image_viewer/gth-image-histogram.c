@@ -27,7 +27,7 @@
 #include "gth-image-viewer-page.h"
 
 
-#define MIN_HISTOGRAM_HEIGHT 250
+#define MIN_HISTOGRAM_HEIGHT 280
 
 
 static void gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);

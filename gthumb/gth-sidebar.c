@@ -90,8 +90,6 @@ _gth_sidebar_update_current_child (GthSidebar *sidebar)
 
 		sidebar->priv->dirty[current] = FALSE;
 		gth_property_view_set_file (GTH_PROPERTY_VIEW (current_child), sidebar->priv->file_data);
-
-		g_list_free (children);
 	}
 }
 
@@ -219,8 +217,6 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 		sidebar->priv->dirty[i] = FALSE;
 		gth_property_view_set_file (GTH_PROPERTY_VIEW (child), sidebar->priv->file_data);
 	}
-
-	g_list_free (children);
 }
 
 

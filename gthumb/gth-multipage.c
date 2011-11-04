@@ -47,6 +47,7 @@ struct _GthMultipagePrivate {
 	GtkListStore *model;
 	GtkWidget    *combobox;
 	GtkWidget    *notebook;
+	GList        *children;
 };
 
 
@@ -78,7 +79,8 @@ combobox_changed_cb (GtkComboBox *widget,
 {
 	GthMultipage *multipage = user_data;
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (multipage->priv->notebook), gtk_combo_box_get_active (GTK_COMBO_BOX (multipage->priv->combobox)));
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (multipage->priv->notebook),
+				       gtk_combo_box_get_active (GTK_COMBO_BOX (multipage->priv->combobox)));
 	g_signal_emit (G_OBJECT (multipage), gth_multipage_signals[CHANGED], 0);
 }
 
@@ -89,6 +91,7 @@ gth_multipage_init (GthMultipage *multipage)
 	GtkCellRenderer *renderer;
 
 	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
+	multipage->priv->children = NULL;
 
 	gtk_box_set_spacing (GTK_BOX (multipage), 6);
 
@@ -148,10 +151,16 @@ void
 gth_multipage_add_child (GthMultipage      *multipage,
 			 GthMultipageChild *child)
 {
-	GtkTreeIter iter;
+	GtkWidget   *box;
+	GtkTreeIter  iter;
 
+	multipage->priv->children = g_list_append (multipage->priv->children, child);
+
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (child), TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (child));
-	gtk_notebook_append_page (GTK_NOTEBOOK (multipage->priv->notebook), GTK_WIDGET (child), NULL);
+	gtk_widget_show (box);
+	gtk_notebook_append_page (GTK_NOTEBOOK (multipage->priv->notebook), box, NULL);
 
 	gtk_list_store_append (GTK_LIST_STORE (multipage->priv->model), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (multipage->priv->model), &iter,
@@ -164,7 +173,7 @@ gth_multipage_add_child (GthMultipage      *multipage,
 GList *
 gth_multipage_get_children (GthMultipage *multipage)
 {
-	return gtk_container_get_children (GTK_CONTAINER (multipage->priv->notebook));
+	return multipage->priv->children;
 }
 
 

@@ -220,6 +220,7 @@ _gth_histogram_view_update_info (GthHistogramView *self)
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_label")), "");
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("selected_label")), "");
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("max_label")), "");
+
 		return;
 	}
 
@@ -342,6 +343,7 @@ _cairo_set_source_color_from_channel (cairo_t *cr,
 
 static void
 gth_histogram_paint_channel (GthHistogramView *self,
+			     GtkStyleContext  *style_context,
 			     cairo_t          *cr,
 			     int               channel,
 			     GtkAllocation    *allocation)
@@ -366,16 +368,20 @@ gth_histogram_paint_channel (GthHistogramView *self,
 	else
 		max = 1.0;
 
-	step = (double) (allocation->width - 1) / 256.0;
+	step = (double) allocation->width / 256.0;
 	cairo_set_line_width (cr, 0.5);
 	for (i = 0; i <= 255; i++) {
 		double value;
 		int    y;
 
 		value = gth_histogram_get_value (self->priv->histogram, channel, i);
-		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
+		y = CLAMP ((int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max, 0, allocation->height);
 
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
+		cairo_rectangle (cr,
+				 allocation->x + (i * step) + 0.5,
+				 allocation->y + allocation->height - y + 0.5,
+				 step,
+				 y);
 	}
 	cairo_fill (cr);
 }
@@ -383,6 +389,7 @@ gth_histogram_paint_channel (GthHistogramView *self,
 
 static void
 gth_histogram_paint_rgb (GthHistogramView *self,
+			 GtkStyleContext  *style_context,
 			 cairo_t          *cr,
 			 GtkAllocation    *allocation)
 {
@@ -397,7 +404,7 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 	else
 		max = 1.0;
 
-	step = (double) (allocation->width - 1) / 256.0;
+	step = (double) allocation->width / 256.0;
 	cairo_set_line_width (cr, 0.5);
 	for (i = 0; i <= 255; i++) {
 		double   value_r;
@@ -447,8 +454,12 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 		_cairo_set_source_color_from_channel (cr, max_c);
 		value = gth_histogram_get_value (self->priv->histogram, max_c, i);
-		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
+		y = CLAMP ((int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max, 0, allocation->height);
+		cairo_rectangle (cr,
+				 allocation->x + (i * step) + 0.5,
+				 allocation->y + allocation->height - y + 0.5,
+				 step,
+				 y);
 		cairo_fill (cr);
 
 		/* use the ADD operator for the middle value */
@@ -456,18 +467,32 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		cairo_set_operator (cr, CAIRO_OPERATOR_ADD);
 		_cairo_set_source_color_from_channel (cr, mid_c);
 		value = gth_histogram_get_value (self->priv->histogram, mid_c, i);
-		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
+		y = CLAMP ((int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max, 0, allocation->height);
+		cairo_rectangle (cr,
+				 allocation->x + (i * step) + 0.5,
+				 allocation->y + allocation->height - y + 0.5,
+				 step,
+				 y);
 		cairo_fill (cr);
 
 		/* the minimum value is shared by all the channels and is
-		 * painted in black. */
+		 * painted in white if inside the selection, otherwise in black. */
 
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		if (((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
+		    && (i >= self->priv->selection_start) && (i <= self->priv->selection_end))
+		{
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		}
+		else
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 		value = gth_histogram_get_value (self->priv->histogram, min_c, i);
-		y = (int) ((allocation->height - 1) * convert_to_scale (self->priv->scale_type, value)) / max;
-		cairo_rectangle (cr, (i * step) + 0.5, allocation->height - y - 0.5, step, allocation->height);
+		y = CLAMP ((int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max, 0, allocation->height);
+		cairo_rectangle (cr,
+				 allocation->x + (i * step) + 0.5,
+				 allocation->y + allocation->height - y + 0.5,
+				 step,
+				 y);
 		cairo_fill (cr);
 	}
 }
@@ -475,6 +500,7 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 
 static void
 gth_histogram_paint_grid (GthHistogramView *self,
+			  GtkStyleContext  *style_context,
 			  cairo_t          *cr,
 			  GtkAllocation    *allocation)
 {
@@ -482,33 +508,28 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	double  grid_step;
 	int     i;
 
-	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-
-	gtk_style_context_get_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
-				     gtk_widget_get_state (GTK_WIDGET (self)),
-				     &color);
-	_gdk_rgba_darker (&color, &color);
+	gtk_style_context_get_border_color (style_context,
+					    gtk_widget_get_state (GTK_WIDGET (self)),
+					    &color);
 	gdk_cairo_set_source_rgba (cr, &color);
-
 	cairo_set_line_width (cr, 0.5);
-	cairo_rectangle (cr, 0.5, 0.5, allocation->width, allocation->height);
-	cairo_stroke (cr);
 
 	grid_step = 256.0 / 5;
 	for (i = 1; i < 5; i++) {
 		int x;
 
 		x = (i * grid_step) * ((double) allocation->width / 256.0);
-
-		cairo_move_to (cr, x + 0.5, 0);
-		cairo_line_to (cr, x + 0.5, allocation->height);
+		cairo_move_to (cr, allocation->x + x + 0.5, allocation->y);
+		cairo_line_to (cr, allocation->x + x + 0.5, allocation->y + allocation->height);
 	}
+
 	cairo_stroke (cr);
 }
 
 
 static void
 gth_histogram_paint_selection (GthHistogramView *self,
+			       GtkStyleContext  *style_context,
 			       cairo_t          *cr,
 			       GtkAllocation    *allocation)
 {
@@ -518,16 +539,14 @@ gth_histogram_paint_selection (GthHistogramView *self,
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	cairo_set_line_width (cr, 0.5);
 
-	gtk_style_context_get_background_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
-						GTK_STATE_SELECTED,
-						&color);
+	gtk_style_context_get_background_color (style_context, GTK_STATE_SELECTED | GTK_STATE_FOCUSED, &color);
 	gdk_cairo_set_source_rgba (cr, &color);
 
 	step = (double) allocation->width / 256.0;
 	cairo_rectangle (cr,
-			 self->priv->selection_start * step,
-			 0,
-			 (self->priv->selection_end - self->priv->selection_start)  * step,
+			 allocation->x + self->priv->selection_start * step,
+			 allocation->y,
+			 (self->priv->selection_end - self->priv->selection_start) * step,
 			 allocation->height);
 	cairo_fill (cr);
 }
@@ -540,40 +559,42 @@ histogram_view_draw_cb (GtkWidget *widget,
 {
 	GthHistogramView *self = user_data;
 	GtkAllocation     allocation;
-	GdkRGBA           color;
+	GtkStyleContext  *style_context;
 
-	if (GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw != NULL)
-		GTK_WIDGET_CLASS (gth_histogram_view_parent_class)->draw (widget, cr);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
 
 	gtk_widget_get_allocation (widget, &allocation);
-	allocation.width--;
-	allocation.height--;
+	gtk_render_background (style_context, cr, 0, 0, allocation.width, allocation.height);
 
-	gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
-						gtk_widget_get_state (widget),
-						&color);
-	gdk_cairo_set_source_rgba (cr, &color);
-	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
-	cairo_fill (cr);
-
-	if ((self->priv->histogram == NULL)
-	    || ((int) self->priv->current_channel > gth_histogram_get_nchannels (self->priv->histogram)))
+	if ((self->priv->histogram != NULL)
+	    && ((int) self->priv->current_channel <= gth_histogram_get_nchannels (self->priv->histogram)))
 	{
-		gtk_widget_set_sensitive (self->priv->histogram_view, FALSE);
-	}
-	else {
-		gtk_widget_set_sensitive (self->priv->histogram_view, TRUE);
-
-		if ((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
-			gth_histogram_paint_selection (self, cr, &allocation);
+		GtkBorder     padding;
+		GtkAllocation inner_allocation;
 
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-		gth_histogram_paint_grid (self, cr, &allocation);
+
+		gtk_style_context_get_padding (style_context, gtk_widget_get_state (widget), &padding);
+
+		inner_allocation.x = padding.left;
+		inner_allocation.y = padding.top;
+		inner_allocation.width = allocation.width - (padding.right + padding.left) + 1;
+		inner_allocation.height = allocation.height - (padding.top + padding.bottom);
+
+		if ((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
+			gth_histogram_paint_selection (self, style_context, cr, &inner_allocation);
+
+		gth_histogram_paint_grid (self, style_context, cr, &inner_allocation);
+
 		if (self->priv->display_mode == GTH_HISTOGRAM_MODE_ALL_CHANNELS)
-			gth_histogram_paint_rgb (self, cr, &allocation);
+			gth_histogram_paint_rgb (self, style_context, cr, &inner_allocation);
 		else
-			gth_histogram_paint_channel (self, cr, self->priv->current_channel, &allocation);
+			gth_histogram_paint_channel (self, style_context, cr, self->priv->current_channel, &inner_allocation);
 	}
+
+	gtk_style_context_restore (style_context);
 
 	return TRUE;
 }
@@ -770,7 +791,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	GtkWidget       *sub_box;
 	PangoAttrList   *attr_list;
 	GtkWidget       *label;
-	GtkWidget       *view_frame;
+	GtkWidget       *view_container;
 	GtkListStore    *channel_model;
 	GtkCellRenderer *renderer;
 	GtkTreeIter      iter;
@@ -785,6 +806,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	self->priv->selection_end = 255;
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
+	gtk_widget_set_vexpand (GTK_WIDGET (self), FALSE);
 
 	/* topbar */
 
@@ -910,15 +932,15 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	/* histogram view */
 
-	view_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (view_frame), GTK_SHADOW_IN);
-	gtk_widget_show (view_frame);
-	gtk_box_pack_start (GTK_BOX (self), view_frame, TRUE, TRUE, 0);
+	view_container = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (view_container), GTK_SHADOW_IN);
+	gtk_widget_show (view_container);
+	gtk_box_pack_start (GTK_BOX (self), view_container, TRUE, TRUE, 0);
 
 	self->priv->histogram_view = gtk_drawing_area_new ();
 	gtk_widget_add_events (self->priv->histogram_view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_STRUCTURE_MASK);
 	gtk_widget_show (self->priv->histogram_view);
-	gtk_container_add (GTK_CONTAINER (view_frame), self->priv->histogram_view);
+	gtk_container_add (GTK_CONTAINER (view_container), self->priv->histogram_view);
 
 	g_signal_connect (self->priv->histogram_view,
 			  "draw",
@@ -977,13 +999,25 @@ gth_histogram_view_new (GthHistogram *histogram)
 
 
 static void
-update_channel_combo_box_sensitivity (GthHistogramView *self)
+update_sensitivity (GthHistogramView *self)
 {
 	gboolean     has_alpha;
 	GtkTreePath *path;
 	GtkTreeIter  iter;
 
-	has_alpha = gth_histogram_get_nchannels (self->priv->histogram) > 3;
+	/* view */
+
+	if ((self->priv->histogram == NULL)
+	    || ((int) self->priv->current_channel > gth_histogram_get_nchannels (self->priv->histogram)))
+	{
+		gtk_widget_set_sensitive (self->priv->histogram_view, FALSE);
+	}
+	else
+		gtk_widget_set_sensitive (self->priv->histogram_view, TRUE);
+
+	/* channel combobox */
+
+	has_alpha = (self->priv->histogram != NULL) && (gth_histogram_get_nchannels (self->priv->histogram) > 3);
 	path = gtk_tree_path_new_from_indices (GTH_HISTOGRAM_CHANNEL_ALPHA, -1);
 	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (self->priv->channel_combo_box))),
 				     &iter,
@@ -1005,7 +1039,7 @@ histogram_changed_cb (GthHistogram *histogram,
 {
 	GthHistogramView *self = user_data;
 
-	update_channel_combo_box_sensitivity (self);
+	update_sensitivity (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 
 	if (gtk_widget_get_visible (GET_WIDGET ("histogram_info")))
@@ -1029,14 +1063,14 @@ gth_histogram_view_set_histogram (GthHistogramView *self,
 		self->priv->histogram = NULL;
 	}
 
-	if (histogram == NULL)
-		return;
-
-	self->priv->histogram = g_object_ref (histogram);
-	self->priv->histogram_changed_event = g_signal_connect (self->priv->histogram, "changed", G_CALLBACK (histogram_changed_cb), self);
+	if (histogram != NULL) {
+		self->priv->histogram = g_object_ref (histogram);
+		self->priv->histogram_changed_event = g_signal_connect (self->priv->histogram, "changed", G_CALLBACK (histogram_changed_cb), self);
+	}
 
 	g_object_notify (G_OBJECT (self), "histogram");
 
+	update_sensitivity (self);
 	if (gtk_widget_get_visible (GET_WIDGET ("histogram_info")))
 		_gth_histogram_view_update_info (self);
 }

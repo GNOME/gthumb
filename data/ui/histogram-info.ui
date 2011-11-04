@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
   <object class="GtkHBox" id="histogram_info">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">3</property>
     <property name="homogeneous">True</property>
     <child>
       <object class="GtkTable" id="table1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="n_rows">3</property>
         <property name="n_columns">2</property>
         <property name="column_spacing">6</property>
@@ -16,6 +17,7 @@
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes">Mean:</property>
             <attributes>
@@ -25,11 +27,13 @@
           </object>
           <packing>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="mean_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">5</property>
             <attributes>
@@ -40,11 +44,13 @@
             <property name="left_attach">1</property>
             <property name="right_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes" comments="Short for &quot;Standard deviation&quot;.  Try to keep it short in the translation.">Std dev:</property>
             <attributes>
@@ -56,11 +62,13 @@
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes">Median:</property>
             <attributes>
@@ -72,11 +80,13 @@
             <property name="top_attach">2</property>
             <property name="bottom_attach">3</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="std_dev_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">5</property>
             <attributes>
@@ -89,11 +99,13 @@
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="median_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">5</property>
             <attributes>
@@ -106,6 +118,7 @@
             <property name="top_attach">2</property>
             <property name="bottom_attach">3</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
       </object>
@@ -118,6 +131,7 @@
     <child>
       <object class="GtkTable" id="table2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="n_rows">3</property>
         <property name="n_columns">2</property>
         <property name="column_spacing">6</property>
@@ -125,6 +139,7 @@
         <child>
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes" comments="After the colon there is the total number of pixels">Pixels:</property>
             <attributes>
@@ -134,11 +149,13 @@
           </object>
           <packing>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="total_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">10</property>
             <attributes>
@@ -149,11 +166,13 @@
             <property name="left_attach">1</property>
             <property name="right_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes" context="Pixels" comments="After the colon there is a percentile.">Max:</property>
             <attributes>
@@ -165,11 +184,13 @@
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="max_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">10</property>
             <attributes>
@@ -182,11 +203,13 @@
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="label7">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">1</property>
             <property name="label" translatable="yes" context="Pixels" comments="After the colon there is the percentile of selected pixels.">Selected:</property>
             <attributes>
@@ -198,11 +221,13 @@
             <property name="top_attach">2</property>
             <property name="bottom_attach">3</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="selected_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="width_chars">10</property>
             <attributes>
@@ -215,6 +240,7 @@
             <property name="top_attach">2</property>
             <property name="bottom_attach">3</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
       </object>
