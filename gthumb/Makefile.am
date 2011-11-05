@@ -37,6 +37,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
 	gth-browser.h					\
+	gth-cell-renderer-caption.h			\
 	gth-cell-renderer-thumbnail.h			\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
@@ -161,6 +162,7 @@ gthumb_SOURCES = 					\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
+	gth-cell-renderer-caption.c			\
 	gth-cell-renderer-thumbnail.c			\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\

@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "gconf-utils.h"
 #include "glib-utils.h"
+#include "gth-cell-renderer-caption.h"
 #include "gth-cell-renderer-thumbnail.h"
 #include "gth-dumb-notebook.h"
 #include "gth-empty-list.h"
@@ -127,9 +128,8 @@ struct _GthFileListPrivateData
 	GList           *queue; /* list of GthFileListOp */
 	GList           *jobs; /* list of ThumbnailJob */
 	GtkCellRenderer *thumbnail_renderer;
-	GtkCellRenderer *text_renderer;
+	GtkCellRenderer *caption_renderer;
 	GtkCellRenderer *checkbox_renderer;
-	char           **caption_attributes_v;
 	gboolean         cancelling;
 	guint            update_event;
 	gboolean         visibility_changed;
@@ -269,7 +269,6 @@ gth_file_list_finalize (GObject *object)
 		g_hash_table_unref (file_list->priv->thumb_data);
 		if (file_list->priv->icon_cache != NULL)
 			gth_icon_cache_free (file_list->priv->icon_cache);
-		g_strfreev (file_list->priv->caption_attributes_v);
 
 		g_free (file_list->priv);
 		file_list->priv = NULL;
@@ -387,7 +386,6 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->thumb_size = DEFAULT_THUMBNAIL_SIZE;
 	file_list->priv->ignore_hidden_thumbs = FALSE;
 	file_list->priv->load_thumbs = TRUE;
-	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
 	file_list->priv->cancelling = FALSE;
 	file_list->priv->update_event = 0;
 	file_list->priv->visibles = NULL;
@@ -747,23 +745,22 @@ gth_file_list_construct (GthFileList     *file_list,
 					       "checked",
 					       GTH_FILE_STORE_CHECKED_COLUMN);
 
-	/* text */
+	/* caption */
 
-	file_list->priv->text_renderer = renderer = gtk_cell_renderer_text_new ();
+	file_list->priv->caption_renderer = renderer = gth_cell_renderer_caption_new ();
 
 	cell_layout = gth_file_view_add_renderer (GTH_FILE_VIEW (file_list->priv->view),
 						  GTH_FILE_VIEW_RENDERER_TEXT,
-						  file_list->priv->text_renderer);
+						  file_list->priv->caption_renderer);
 	gtk_cell_layout_set_attributes (cell_layout,
 					renderer,
-					"text", GTH_FILE_STORE_METADATA_COLUMN,
-					"visible", GTH_FILE_STORE_METADATA_VISIBLE_COLUMN,
+					"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
 					NULL);
 
 	gth_file_view_update_attributes (GTH_FILE_VIEW (file_list->priv->view),
 					 file_list->priv->checkbox_renderer,
 					 file_list->priv->thumbnail_renderer,
-					 file_list->priv->text_renderer,
+					 file_list->priv->caption_renderer,
 					 file_list->priv->thumb_size);
 
 	_gth_file_list_set_type (file_list, list_type);
@@ -909,6 +906,7 @@ gfl_clear_list (GthFileList *file_list,
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	gth_cell_renderer_caption_clear_cache (GTH_CELL_RENDERER_CAPTION (file_list->priv->caption_renderer));
 	gth_file_store_clear (file_store);
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 
@@ -946,46 +944,6 @@ _gth_file_list_update_pane (GthFileList *file_list)
 }
 
 
-#define MAX_TEXT_LENGTH 70
-
-
-static GString *
-_gth_file_list_get_metadata (GthFileList *file_list,
-			     GthFileData *file_data)
-{
-	GString *metadata;
-	int      i;
-
-	metadata = g_string_new (NULL);
-	for (i = 0; file_list->priv->caption_attributes_v[i] != NULL; i++) {
-		char *value;
-
-		value = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attributes_v[i]);
-		if (value != NULL) {
-			if (metadata->len > 0)
-				g_string_append (metadata, "\n");
-			if (gth_file_view_truncate_metadata (GTH_FILE_VIEW (file_list->priv->view))
-			    && g_utf8_strlen (value, -1) > MAX_TEXT_LENGTH)
-			{
-				char *tmp;
-
-				tmp = g_strdup (value);
-				g_utf8_strncpy (tmp, value, MAX_TEXT_LENGTH);
-				g_free (value);
-				value = g_strdup_printf ("%s […]", tmp);
-
-				g_free (tmp);
-			}
-			g_string_append (metadata, value);
-		}
-
-		g_free (value);
-	}
-
-	return metadata;
-}
-
-
 static void
 gfl_add_files (GthFileList *file_list,
 	       GList       *files,
@@ -1004,7 +962,6 @@ gfl_add_files (GthFileList *file_list,
 		ThumbData   *thumb_data;
 		GIcon       *icon;
 		GdkPixbuf   *pixbuf = NULL;
-		GString     *metadata;
 
 		if (g_file_info_get_file_type (file_data->info) != G_FILE_TYPE_REGULAR)
 			continue;
@@ -1025,18 +982,14 @@ gfl_add_files (GthFileList *file_list,
 
 		icon = g_file_info_get_icon (file_data->info);
 		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
-		metadata = _gth_file_list_get_metadata (file_list, file_data);
 		gth_file_store_queue_add (file_store,
 					  file_data,
 					  pixbuf,
 					  TRUE,
-					  metadata->str,
 					  TRUE);
 
-		g_string_free (metadata, TRUE);
 		if (pixbuf != NULL)
 			g_object_unref (pixbuf);
-
 		g_free (uri);
 	}
 	g_free (cache_base_uri);
@@ -1119,18 +1072,11 @@ gfl_update_files (GthFileList *file_list,
 		thumb_data->thumb_loaded = FALSE;
 		thumb_data->thumb_created = FALSE;
 
-		if (gth_file_store_find (file_store, file_data->file, &iter)) {
-			GString *metadata;
-
-			metadata = _gth_file_list_get_metadata (file_list, file_data);
+		if (gth_file_store_find (file_store, file_data->file, &iter))
 			gth_file_store_queue_set (file_store,
 						  &iter,
 						  GTH_FILE_STORE_FILE_DATA_COLUMN, file_data,
-						  GTH_FILE_STORE_METADATA_COLUMN, metadata->str,
 						  -1);
-
-			g_string_free (metadata, TRUE);
-		}
 	}
 	gth_file_store_exec_set (file_store);
 	_gth_file_list_update_pane (file_list);
@@ -1160,7 +1106,6 @@ gfl_rename_file (GthFileList *file_list,
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	if (gth_file_store_find (file_store, file, &iter)) {
 		ThumbData *thumb_data;
-		GString   *metadata;
 
 		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file);
 		g_assert (thumb_data != NULL);
@@ -1170,14 +1115,10 @@ gfl_rename_file (GthFileList *file_list,
 				     thumb_data_ref (thumb_data));
 		g_hash_table_remove (file_list->priv->thumb_data, file);
 
-		metadata = _gth_file_list_get_metadata (file_list, file_data);
 		gth_file_store_set (file_store,
 				    &iter,
 				    GTH_FILE_STORE_FILE_DATA_COLUMN, file_data,
-				    GTH_FILE_STORE_METADATA_COLUMN, metadata->str,
 				    -1);
-
-		g_string_free (metadata, TRUE);
 	}
 	_gth_file_list_update_pane (file_list);
 }
@@ -1205,6 +1146,7 @@ gfl_set_files (GthFileList *file_list,
 	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
+	gth_cell_renderer_caption_clear_cache (GTH_CELL_RENDERER_CAPTION (file_list->priv->caption_renderer));
 	gth_file_store_clear ((GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 	gfl_add_files (file_list, files, -1);
@@ -1391,7 +1333,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	gth_file_view_update_attributes (GTH_FILE_VIEW (file_list->priv->view),
 					 file_list->priv->checkbox_renderer,
 					 file_list->priv->thumbnail_renderer,
-					 file_list->priv->text_renderer,
+					 file_list->priv->caption_renderer,
 					 file_list->priv->thumb_size);
 
 	_gth_file_list_update_orientation (file_list);
@@ -1402,38 +1344,10 @@ void
 gth_file_list_set_caption (GthFileList *file_list,
 			   const char  *attributes)
 {
-	GthFileStore *file_store;
-	GtkTreeIter   iter;
-	gboolean      metadata_visible;
-
-	g_strfreev (file_list->priv->caption_attributes_v);
-	file_list->priv->caption_attributes_v = g_strsplit (attributes, ",", -1);
-
-	metadata_visible = (strcmp (file_list->priv->caption_attributes_v[0], "none") != 0);
-	g_object_set (file_list->priv->text_renderer,
-		      "visible", metadata_visible,
-		      "height", metadata_visible ? -1 : 0,
+	g_object_set (file_list->priv->caption_renderer,
+		      "file-attributes", attributes,
 		      NULL);
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	if (gth_file_store_get_first (file_store, &iter)) {
-		do {
-			GthFileData *file_data;
-			GString     *metadata;
-
-			file_data = gth_file_store_get_file (file_store, &iter);
-			metadata = _gth_file_list_get_metadata (file_list, file_data);
-			gth_file_store_queue_set (file_store,
-						  &iter,
-						  GTH_FILE_STORE_METADATA_COLUMN, metadata->str,
-						  -1);
-
-			g_string_free (metadata, TRUE);
-		}
-		while (gth_file_store_get_next (file_store, &iter));
-
-		gth_file_store_exec_set (file_store);
-	}
+	gtk_widget_queue_resize (file_list->priv->view);
 }
 
 

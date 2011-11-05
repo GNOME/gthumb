@@ -348,12 +348,7 @@ gth_icon_view_update_attributes (GthFileView     *self,
 		      "yalign", 0.0,
 		      NULL);
 	g_object_set (text_renderer,
-		      "xalign", 0.5,
-		      "yalign", 0.0,
-		      "alignment", PANGO_ALIGN_CENTER,
 		      "width", thumb_size + THUMBNAIL_BORDER,
-		      "wrap-mode", PANGO_WRAP_WORD_CHAR,
-		      "wrap-width", thumb_size + THUMBNAIL_BORDER,
 		      NULL);
 }
 

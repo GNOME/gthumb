@@ -48,7 +48,6 @@ typedef struct {
 	GthFileData *file_data;
 	GdkPixbuf   *thumbnail;
 	gboolean     is_icon;
-	char        *metadata;
 	gboolean     checked;
 
 	/*< private >*/
@@ -129,21 +128,6 @@ _gth_file_row_set_thumbnail (GthFileRow *row,
 }
 
 
-static void
-_gth_file_row_set_metadata (GthFileRow *row,
-			    const char *metadata)
-{
-	if (metadata == NULL)
-		return;
-
-	if (metadata == row->metadata)
-		return;
-
-	g_free (row->metadata);
-	row->metadata = g_strdup (metadata);
-}
-
-
 GthFileRow *
 _gth_file_row_copy (GthFileRow *row)
 {
@@ -152,7 +136,6 @@ _gth_file_row_copy (GthFileRow *row)
 	row2 = _gth_file_row_new ();
 	_gth_file_row_set_file (row2, row->file_data);
 	_gth_file_row_set_thumbnail (row2, row->thumbnail);
-	_gth_file_row_set_metadata (row2, row->metadata);
 	row2->is_icon = row->is_icon;
 	row2->checked = row->checked;
 	row2->pos = row->pos;
@@ -182,7 +165,6 @@ _gth_file_row_unref (GthFileRow *row)
 		g_object_unref (row->file_data);
 	if (row->thumbnail != NULL)
 		g_object_unref (row->thumbnail);
-	g_free (row->metadata);
 	g_free (row);
 }
 
@@ -293,8 +275,6 @@ gth_file_store_init (GthFileStore *file_store)
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GDK_TYPE_PIXBUF;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
 		column_type[GTH_FILE_STORE_FILENAME_COLUMN] = G_TYPE_STRING;
-		column_type[GTH_FILE_STORE_METADATA_COLUMN] = G_TYPE_STRING;
-		column_type[GTH_FILE_STORE_METADATA_VISIBLE_COLUMN] = G_TYPE_BOOLEAN;
 		column_type[GTH_FILE_STORE_CHECKED_COLUMN] = G_TYPE_BOOLEAN;
 	}
 }
@@ -410,14 +390,6 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	case GTH_FILE_STORE_FILENAME_COLUMN:
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (value, g_file_info_get_display_name (row->file_data->info));
-		break;
-	case GTH_FILE_STORE_METADATA_COLUMN:
-		g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (value, row->metadata);
-		break;
-	case GTH_FILE_STORE_METADATA_VISIBLE_COLUMN:
-		g_value_init (value, G_TYPE_BOOLEAN);
-		g_value_set_boolean (value, (row->metadata != NULL) && ! g_str_equal (row->metadata, ""));
 		break;
 	case GTH_FILE_STORE_CHECKED_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
@@ -1416,11 +1388,10 @@ gth_file_store_add (GthFileStore *file_store,
 		    GthFileData  *file,
 		    GdkPixbuf    *thumbnail,
 		    gboolean      is_icon,
-		    const char   *metadata,
 		    gboolean      checked,
 		    int           position)
 {
-	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, metadata, checked);
+	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, checked);
 	gth_file_store_exec_add (file_store, position);
 }
 
@@ -1430,7 +1401,6 @@ gth_file_store_queue_add (GthFileStore *file_store,
 			  GthFileData  *file,
 			  GdkPixbuf    *thumbnail,
 			  gboolean      is_icon,
-			  const char   *metadata,
 			  gboolean      checked)
 {
 	GthFileRow *row;
@@ -1440,7 +1410,6 @@ gth_file_store_queue_add (GthFileStore *file_store,
 	row = _gth_file_row_new ();
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
-	_gth_file_row_set_metadata (row, metadata);
 	row->is_icon = is_icon;
 	row->checked = checked;
 
@@ -1473,7 +1442,6 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   	while (column != -1) {
   		GthFileData *file_data;
   		GdkPixbuf   *thumbnail;
-  		const char  *metadata;
 
   		switch (column) {
   		case GTH_FILE_STORE_FILE_DATA_COLUMN:
@@ -1492,13 +1460,6 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   		case GTH_FILE_STORE_IS_ICON_COLUMN:
   			row->is_icon = va_arg (var_args, gboolean);
   			row->changed = TRUE;
-  			break;
-  		case GTH_FILE_STORE_METADATA_COLUMN:
-  			metadata = va_arg (var_args, const char *);
-  			_gth_file_row_set_metadata (row, metadata);
-  			row->changed = TRUE;
-  			break;
-  		case GTH_FILE_STORE_METADATA_VISIBLE_COLUMN:
   			break;
   		case GTH_FILE_STORE_CHECKED_COLUMN:
   			row->checked = va_arg (var_args, gboolean);

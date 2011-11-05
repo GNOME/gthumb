@@ -44,8 +44,6 @@ enum {
 	GTH_FILE_STORE_THUMBNAIL_COLUMN,
 	GTH_FILE_STORE_IS_ICON_COLUMN,
 	GTH_FILE_STORE_FILENAME_COLUMN,
-	GTH_FILE_STORE_METADATA_COLUMN,
-	GTH_FILE_STORE_METADATA_VISIBLE_COLUMN,
 	GTH_FILE_STORE_CHECKED_COLUMN,
 	GTH_FILE_STORE_N_COLUMNS
 };
@@ -106,14 +104,12 @@ void            gth_file_store_add               (GthFileStore         *file_sto
 					          GthFileData          *file,
 					          GdkPixbuf            *thumbnail,
 					          gboolean              is_icon,
-					          const char           *metadata,
 					          gboolean              checked,
 						  int                   position);
 void            gth_file_store_queue_add         (GthFileStore         *file_store,
 					          GthFileData          *file,
 					          GdkPixbuf            *thumbnail,
 					          gboolean              is_icon,
-					          const char           *metadata,
 					          gboolean              checked);
 void            gth_file_store_exec_add          (GthFileStore         *file_store,
 						  int                   position);
