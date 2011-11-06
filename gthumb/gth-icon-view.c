@@ -352,7 +352,7 @@ gth_icon_view_update_attributes (GthFileView     *self,
 		      NULL);
 	gtk_cell_renderer_set_fixed_size (thumbnail_renderer, thumb_size + THUMBNAIL_BORDER, thumb_size + THUMBNAIL_BORDER);
 	gtk_cell_renderer_set_fixed_size (text_renderer, thumb_size + THUMBNAIL_BORDER, -1);
-	gtk_icon_view_set_item_width (GTK_ICON_VIEW (self), thumb_size + THUMBNAIL_BORDER);
+	gtk_icon_view_set_item_width (GTK_ICON_VIEW (self), thumb_size + THUMBNAIL_BORDER + 1);
 }
 
 
