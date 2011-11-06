@@ -4157,6 +4157,12 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_window_set_has_resize_grip (GTK_WINDOW (browser), TRUE);
 
+	/* realize the widget before adding the ui to get the icons from the icon theme */
+
+	g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
+	g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
+	gtk_widget_realize (GTK_WIDGET (browser));
+
 	/* ui actions */
 
 	browser->priv->actions = gtk_action_group_new ("Actions");
@@ -4540,9 +4546,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	gth_hook_invoke ("gth-browser-construct", browser);
-
-	g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
-	g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
 
 	performance (DEBUG_INFO, "window initialized");
 
