@@ -137,7 +137,9 @@ gth_histogram_view_finalize (GObject *obj)
 
 	self = GTH_HISTOGRAM_VIEW (obj);
 
-	gth_histogram_view_set_histogram (self, NULL);
+	if (self->priv->histogram_changed_event != 0)
+		g_signal_handler_disconnect (self->priv->histogram, self->priv->histogram_changed_event);
+	_g_object_unref (self->priv->histogram);
 	_g_object_unref (self->priv->builder);
 
 	G_OBJECT_CLASS (gth_histogram_view_parent_class)->finalize (obj);
