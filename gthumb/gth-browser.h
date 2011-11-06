@@ -76,14 +76,15 @@ struct _GthBrowserClass
 };
 
 GType            gth_browser_get_type               (void);
-GtkWidget *      gth_browser_new                    (GFile            *location);
+GtkWidget *      gth_browser_new                    (GFile            *location,
+						     GFile            *file_to_select);
 GFile *          gth_browser_get_location           (GthBrowser       *browser);
 GthFileData *    gth_browser_get_location_data      (GthBrowser       *browser);
 GthFileData *    gth_browser_get_current_file       (GthBrowser       *browser);
 gboolean         gth_browser_get_file_modified      (GthBrowser       *browser);
 void             gth_browser_go_to                  (GthBrowser       *browser,
 						     GFile            *location,
-						     GFile            *scroll_to_file);
+						     GFile            *file_to_select);
 void             gth_browser_go_back                (GthBrowser       *browser,
 						     int               steps);
 void             gth_browser_go_forward             (GthBrowser       *browser,

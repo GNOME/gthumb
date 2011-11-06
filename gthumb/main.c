@@ -84,11 +84,12 @@ static const GOptionEntry options[] = {
 
 
 static void
-open_browser_window (GFile *location)
+open_browser_window (GFile *location,
+		     GFile *file_to_select)
 {
 	GtkWidget *window;
 
-	window = gth_browser_new (location);
+	window = gth_browser_new (location, file_to_select);
 	if (! StartSlideshow)
 		gtk_window_present (GTK_WINDOW (window));
 }
@@ -99,7 +100,7 @@ import_photos_from_location (GFile *location)
 {
 	GtkWidget *window;
 
-	window = gth_browser_new (NULL);
+	window = gth_browser_new (NULL, NULL);
 	gth_hook_invoke ("import-photos", window, location, NULL);
 }
 
@@ -246,7 +247,7 @@ restore_session (EggSMClient *client)
 		g_assert (location != NULL);
 
 		file = g_file_new_for_uri (location);
-		window = gth_browser_new (file);
+		window = gth_browser_new (file, NULL);
 		gtk_widget_show (window);
 
 		g_object_unref (file);
@@ -406,11 +407,21 @@ gth_application_command_line (GApplication            *application,
 
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
+		char  *file_to_select_uri;
+		GFile *file_to_select;
 
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
-		open_browser_window (location);
+		file_to_select_uri = eel_gconf_get_path (PREF_STARTUP_CURRENT_FILE, NULL);
+		if (file_to_select_uri != NULL)
+			file_to_select = g_file_new_for_uri (file_to_select_uri);
+		else
+			file_to_select = NULL;
+
+		open_browser_window (location, file_to_select);
 		gdk_notify_startup_complete ();
 
+		_g_object_unref (file_to_select);
+		g_free (file_to_select_uri);
 		g_object_unref (location);
 
 		return 0;
@@ -436,17 +447,17 @@ gth_application_command_line (GApplication            *application,
 
 	location = gth_hook_invoke_get ("command-line-files", files);
 	if (location != NULL) {
-		open_browser_window (location);
+		open_browser_window (location, NULL);
 		g_object_unref (location);
 	}
 	else /* Open each file in a new window */
 		for (scan = files; scan; scan = scan->next)
-			open_browser_window ((GFile *) scan->data);
+			open_browser_window ((GFile *) scan->data, NULL);
 
 	/* Open each dir in a new window */
 
 	for (scan = dirs; scan; scan = scan->next)
-		open_browser_window ((GFile *) scan->data);
+		open_browser_window ((GFile *) scan->data, NULL);
 
 	gdk_notify_startup_complete ();
 

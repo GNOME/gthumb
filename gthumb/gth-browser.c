@@ -130,7 +130,6 @@ struct _GthBrowserPrivate {
 
 	/* Browser data */
 
-	GFile             *first_location;
 	guint              help_message_cid;
 	gulong             folder_changed_id;
 	gulong             file_renamed_id;
@@ -162,6 +161,7 @@ struct _GthBrowserPrivate {
 	guint              load_file_timeout;
 	char              *list_attributes;
 	gboolean           constructed;
+	guint              construct_step2_event;
 	guint              selection_changed_event;
 	GthFileData       *folder_popup_file_data;
 	gboolean           properties_on_screen;
@@ -1075,7 +1075,7 @@ typedef struct {
 	GthBrowser    *browser;
 	GthFileData   *requested_folder;
 	GFile         *requested_folder_parent;
-	GFile         *scroll_to_file;
+	GFile         *file_to_select;
 	GthAction      action;
 	gboolean       automatic;
 	GList         *list;
@@ -1089,7 +1089,7 @@ typedef struct {
 static LoadData *
 load_data_new (GthBrowser *browser,
 	       GFile      *location,
-	       GFile      *scroll_to_file,
+	       GFile      *file_to_select,
 	       GthAction   action,
 	       gboolean    automatic,
 	       GFile      *entry_point)
@@ -1101,10 +1101,10 @@ load_data_new (GthBrowser *browser,
 	load_data->browser = browser;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
 	load_data->requested_folder_parent = g_file_get_parent (load_data->requested_folder->file);
-	if (scroll_to_file != NULL)
-		load_data->scroll_to_file = g_file_dup (scroll_to_file);
+	if (file_to_select != NULL)
+		load_data->file_to_select = g_file_dup (file_to_select);
 	else if (browser->priv->current_file != NULL)
-		load_data->scroll_to_file = g_file_dup (browser->priv->current_file->file);
+		load_data->file_to_select = g_file_dup (browser->priv->current_file->file);
 	load_data->action = action;
 	load_data->automatic = automatic;
 	load_data->cancellable = g_cancellable_new ();
@@ -1142,7 +1142,7 @@ load_data_free (LoadData *data)
 
 	g_object_unref (data->requested_folder);
 	_g_object_unref (data->requested_folder_parent);
-	_g_object_unref (data->scroll_to_file);
+	_g_object_unref (data->file_to_select);
 	_g_object_unref (data->file_source);
 	_g_object_list_unref (data->list);
 	_g_object_unref (data->entry_point);
@@ -1151,7 +1151,7 @@ load_data_free (LoadData *data)
 }
 
 
-static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *scroll_to_file, GthAction action, gboolean automatic);
+static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *file_to_select, GthAction action, gboolean automatic);
 
 
 static char *
@@ -1640,10 +1640,10 @@ load_data_continue (LoadData *load_data,
 		g_object_unref (filter);
 	}
 
-	if (load_data->scroll_to_file != NULL) {
+	if (load_data->file_to_select != NULL) {
 		int pos;
 
-		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), load_data->scroll_to_file);
+		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), load_data->file_to_select);
 		if (pos >= 0) {
 			GtkWidget *file_view;
 
@@ -1827,7 +1827,7 @@ mount_volume_ready_cb (GObject      *source_object,
 	_gth_browser_update_entry_point_list (load_data->browser);
 	_gth_browser_load (load_data->browser,
 			   load_data->requested_folder->file,
-			   load_data->scroll_to_file,
+			   load_data->file_to_select,
 			   load_data->action,
 			   load_data->automatic);
 
@@ -1846,7 +1846,7 @@ _gth_browser_hide_infobar (GthBrowser *browser)
 static void
 _gth_browser_load (GthBrowser *browser,
 		   GFile      *location,
-		   GFile      *scroll_to_file,
+		   GFile      *file_to_select,
 		   GthAction   action,
 		   gboolean    automatic)
 {
@@ -1876,7 +1876,7 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	entry_point = get_nearest_entry_point (location);
-	load_data = load_data_new (browser, location, scroll_to_file, action, automatic, entry_point);
+	load_data = load_data_new (browser, location, file_to_select, action, automatic, entry_point);
 
 	if (entry_point == NULL) {
 		GMountOperation *mount_op;
@@ -2250,6 +2250,11 @@ _gth_browser_real_close (GthBrowser *browser)
 
 	/* remove timeouts */
 
+	if (browser->priv->construct_step2_event != 0) {
+		g_source_remove (browser->priv->construct_step2_event);
+		browser->priv->construct_step2_event = 0;
+	}
+
 	if (browser->priv->selection_changed_event != 0) {
 		g_source_remove (browser->priv->selection_changed_event);
 		browser->priv->selection_changed_event = 0;
@@ -2494,7 +2499,6 @@ gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
-	_g_object_unref (browser->priv->first_location);
 	g_free (browser->priv->location_free_space);
 	_g_object_unref (browser->priv->location_source);
 	_g_object_unref (browser->priv->monitor_location);
@@ -3654,10 +3658,31 @@ _gth_browser_add_custom_actions (GthBrowser     *browser,
 }
 
 
+typedef struct {
+	GthBrowser *browser;
+	GFile      *location;
+	GFile      *file_to_select;
+} NewWindowData;
+
+
 static void
-_gth_browser_construct_step2 (gpointer data)
+new_window_data_free (gpointer user_data)
 {
-	GthBrowser *browser = data;
+	NewWindowData *data = user_data;
+
+	_g_object_unref (data->location);
+	_g_object_unref (data->file_to_select);
+	g_free (data);
+}
+
+
+static void
+_gth_browser_construct_step2 (gpointer user_data)
+{
+	NewWindowData *data = user_data;
+	GthBrowser    *browser = data->browser;
+
+	browser->priv->construct_step2_event = 0;
 
 	_gth_browser_update_entry_point_list (browser);
 	_gth_browser_monitor_entry_points (browser);
@@ -3665,7 +3690,12 @@ _gth_browser_construct_step2 (gpointer data)
 
 	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
 
-	gth_browser_load_location (browser, browser->priv->first_location);
+	if (data->file_to_select != NULL)
+		gth_browser_go_to (browser, data->location, data->file_to_select);
+	else
+		gth_browser_load_location (browser, data->location);
+
+	new_window_data_free (data);
 }
 
 
@@ -4076,7 +4106,6 @@ gth_browser_init (GthBrowser *browser)
 		browser->priv->toolbar_menu_buttons[i] = NULL;
 	browser->priv->browser_ui_merge_id = 0;
 	browser->priv->viewer_ui_merge_id = 0;
-	browser->priv->first_location = NULL;
 	browser->priv->location = NULL;
 	browser->priv->current_file = NULL;
 	browser->priv->location_source = NULL;
@@ -4606,16 +4635,22 @@ gth_browser_init (GthBrowser *browser)
 
 
 GtkWidget *
-gth_browser_new (GFile *location)
+gth_browser_new (GFile *location,
+		 GFile *file_to_select)
 {
-	GthBrowser *browser;
+	GthBrowser    *browser;
+	NewWindowData *data;
 
 	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, NULL);
-	if (location != NULL)
-		browser->priv->first_location = g_object_ref (location);
-	else
-		browser->priv->first_location = g_file_new_for_uri (gth_pref_get_startup_location ());
-	call_when_idle (_gth_browser_construct_step2, browser);
+
+	data = g_new0 (NewWindowData, 1);
+	data->browser = browser;
+	data->location = _g_object_ref (location);
+	if (data->location == NULL)
+		data->location = g_file_new_for_uri (gth_pref_get_startup_location ());
+	data->file_to_select = _g_object_ref (file_to_select);
+
+	browser->priv->construct_step2_event = call_when_idle (_gth_browser_construct_step2, data);
 
 	return (GtkWidget*) browser;
 }
@@ -4655,10 +4690,10 @@ gth_browser_get_file_modified (GthBrowser *browser)
 void
 gth_browser_go_to (GthBrowser *browser,
 		   GFile      *location,
-		   GFile      *scroll_to_file)
+		   GFile      *file_to_select)
 {
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-	_gth_browser_load (browser, location, scroll_to_file, GTH_ACTION_GO_TO, FALSE);
+	_gth_browser_load (browser, location, file_to_select, GTH_ACTION_GO_TO, FALSE);
 }
 
 
