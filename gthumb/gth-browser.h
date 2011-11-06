@@ -166,6 +166,7 @@ void             gth_browser_show_viewer_tools      (GthBrowser       *browser,
 						     gboolean          show);
 void             gth_browser_set_shrink_wrap_viewer (GthBrowser       *browser,
 						     gboolean          value);
+gboolean         gth_browser_get_shrink_wrap_viewer (GthBrowser       *browser);
 void             gth_browser_load_location          (GthBrowser       *browser,
 						     GFile            *location);
 void             gth_browser_enable_thumbnails      (GthBrowser       *browser,

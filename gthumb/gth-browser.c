@@ -5498,9 +5498,6 @@ file_metadata_ready_cb (GList    *files,
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
-	if (browser->priv->shrink_wrap_viewer)
-		gth_browser_set_shrink_wrap_viewer (browser, TRUE);
-
 	if ((gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
 	    && ! gtk_widget_get_visible (browser->priv->file_properties))
 	{
@@ -5587,6 +5584,17 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 	}
 
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
+
+	if (browser->priv->shrink_wrap_viewer) {
+		/* the frame::[width|height] properties have been set by the
+		 * viewer, copy them in the current file. */
+
+		g_file_info_set_attribute_int32 (browser->priv->current_file->info, "frame::width",
+						 g_file_info_get_attribute_int32 (file_data->info, "frame::width"));
+		g_file_info_set_attribute_int32 (browser->priv->current_file->info, "frame::height",
+						 g_file_info_get_attribute_int32 (file_data->info, "frame::height"));
+		gth_browser_set_shrink_wrap_viewer (browser, TRUE);
+	}
 
 	data = load_file_data_new (browser, browser->priv->current_file, FALSE);
 	files = g_list_prepend (NULL, browser->priv->current_file->file);
@@ -5858,6 +5866,13 @@ gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
 				   height + other_height);
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 		gth_window_apply_saved_size (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+}
+
+
+gboolean
+gth_browser_get_shrink_wrap_viewer (GthBrowser *browser)
+{
+	return browser->priv->shrink_wrap_viewer;
 }
 
 

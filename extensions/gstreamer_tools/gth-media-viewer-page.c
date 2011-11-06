@@ -67,6 +67,7 @@ struct _GthMediaViewerPagePrivate {
 	gdouble         rate;
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
+	gulong          video_window_xid;
 	gboolean        xwin_assigned;
 	GdkPixbuf      *icon;
 	PangoLayout    *caption_layout;
@@ -145,6 +146,7 @@ video_area_realize_cb (GtkWidget *widget,
 {
 	GthMediaViewerPage *self = user_data;
 
+	self->priv->video_window_xid = GDK_WINDOW_XID (gtk_widget_get_window (widget));
 	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	self->priv->cursor_void = gdk_cursor_new_for_display (gtk_widget_get_display (self->priv->area), GDK_BLANK_CURSOR);
 	if (self->priv->cursor_visible)
@@ -163,6 +165,9 @@ video_area_unrealize_cb (GtkWidget *widget,
 			 gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
+
+	self->priv->video_window_xid = 0;
+	self->priv->xwin_assigned = FALSE;
 
 	if (self->priv->cursor) {
 		g_object_unref (self->priv->cursor);
@@ -761,16 +766,46 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->mediabar = GET_WIDGET ("mediabar");
 	gtk_widget_show (self->priv->mediabar);
 
-	g_signal_connect (GET_WIDGET ("volume_adjustment"), "value-changed", G_CALLBACK (volume_value_changed_cb), self);
-	g_signal_connect (GET_WIDGET ("position_adjustment"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
-	g_signal_connect (GET_WIDGET ("volume_scale"), "format-value", G_CALLBACK (volume_scale_format_value_cb), self);
-	g_signal_connect (GET_WIDGET ("position_scale"), "change-value", G_CALLBACK (position_scale_change_value_cb), self);
-	g_signal_connect (GET_WIDGET ("position_scale"), "button-press-event", G_CALLBACK (position_scale_button_press_event_cb), self);
-	g_signal_connect (GET_WIDGET ("position_scale"), "button-release-event", G_CALLBACK (position_scale_button_release_event_cb), self);
-	g_signal_connect (GET_WIDGET ("play_button"), "clicked", G_CALLBACK (play_button_clicked_cb), self);
-	g_signal_connect (GET_WIDGET ("volume_togglebutton"), "toggled", G_CALLBACK (volume_togglebutton_toggled_cb), self);
-	g_signal_connect (GET_WIDGET ("play_slower_button"), "clicked", G_CALLBACK (play_slower_button_clicked_cb), self);
-	g_signal_connect (GET_WIDGET ("play_faster_button"), "clicked", G_CALLBACK (play_faster_button_clicked_cb), self);
+	g_signal_connect (GET_WIDGET ("volume_adjustment"),
+			  "value-changed",
+			  G_CALLBACK (volume_value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_adjustment"),
+			  "value-changed",
+			  G_CALLBACK (position_value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("volume_scale"),
+			  "format-value",
+			  G_CALLBACK (volume_scale_format_value_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "change-value",
+			  G_CALLBACK (position_scale_change_value_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "button-press-event",
+			  G_CALLBACK (position_scale_button_press_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "button-release-event",
+			  G_CALLBACK (position_scale_button_release_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_button"),
+			  "clicked",
+			  G_CALLBACK (play_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("volume_togglebutton"),
+			  "toggled",
+			  G_CALLBACK (volume_togglebutton_toggled_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_slower_button"),
+			  "clicked",
+			  G_CALLBACK (play_slower_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_faster_button"),
+			  "clicked",
+			  G_CALLBACK (play_faster_button_clicked_cb),
+			  self);
 
 	self->priv->area_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
@@ -778,8 +813,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->area_box);
 	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
-	gtk_widget_realize (self->priv->area);
-	gdk_window_ensure_native (gtk_widget_get_window (self->priv->area));
+	gtk_widget_realize (self->priv->area_box);
+
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
 
@@ -841,8 +876,6 @@ set_playbin_window (GstBus             *bus,
 		    GstMessage         *message,
 		    GthMediaViewerPage *self)
 {
-	GstXOverlay *image_sink;
-
 	/* ignore anything but 'prepare-xwindow-id' element messages */
 
 	if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
@@ -850,10 +883,17 @@ set_playbin_window (GstBus             *bus,
 	if (! gst_structure_has_name (message->structure, "prepare-xwindow-id"))
 		return GST_BUS_PASS;
 
-	image_sink = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
-	gst_x_overlay_set_xwindow_id (image_sink, GDK_WINDOW_XID (gtk_widget_get_window (self->priv->area)));
-	g_object_set (image_sink, "force-aspect-ratio", TRUE, NULL);
-	self->priv->xwin_assigned = TRUE;
+	if (self->priv->video_window_xid != 0) {
+		GstXOverlay *xoverlay;
+
+		xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
+		gst_x_overlay_set_window_handle (xoverlay, self->priv->video_window_xid);
+		self->priv->xwin_assigned = TRUE;
+
+		g_object_set (xoverlay, "force-aspect-ratio", TRUE, NULL);
+	}
+	else
+		g_warning ("Should have obtained video_window_xid by now!");
 
 	gst_message_unref (message);
 
@@ -919,9 +959,16 @@ update_stream_info (GthMediaViewerPage *self)
 
 		if ((caps = gst_pad_get_negotiated_caps (videopad)) != NULL) {
 			GstStructure *structure;
+			int           video_width;
+			int           video_height;
 
 			structure = gst_caps_get_structure (caps, 0);
 			gst_structure_get_fraction (structure, "framerate", &self->priv->video_fps_n, &self->priv->video_fps_d);
+			gst_structure_get_int (structure, "width", &video_width);
+			gst_structure_get_int (structure, "height", &video_height);
+
+			g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::width", video_width);
+			g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::height", video_height);
 
 			gst_caps_unref (caps);
 		}
@@ -960,6 +1007,7 @@ bus_message_cb (GstBus     *bus,
 		if ((old_state == GST_STATE_READY) && (new_state == GST_STATE_PAUSED)) {
 			update_stream_info (self);
 			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
+			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
 		}
 		if ((old_state == GST_STATE_READY) || (new_state == GST_STATE_PAUSED))
 			update_volume_from_playbin (self);
@@ -985,6 +1033,10 @@ bus_message_cb (GstBus     *bus,
 		int percent = 0;
 		gst_message_parse_buffering (message, &percent);
 		/* g_print ("Buffering (%%%u percent done)", percent); */
+		break;
+
+	case GST_MESSAGE_ERROR:
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, FALSE);
 		break;
 	}
 
@@ -1125,7 +1177,6 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 
 	/**/
 
-	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
 	g_signal_handlers_block_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), 0.0);
 	g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
@@ -1372,6 +1423,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate);
 	self->priv->update_progress_id = 0;
 	self->priv->set_to_pause_id = 0;
+	self->priv->video_window_xid = 0;
 	self->priv->xwin_assigned = FALSE;
 	self->priv->has_video = FALSE;
 	self->priv->has_audio = FALSE;
