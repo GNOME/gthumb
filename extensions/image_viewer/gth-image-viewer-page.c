@@ -417,12 +417,19 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
 				     FALSE);
 
+	if ((original_width == -1) || (original_height == -1))
+		/* In this case the image was loaded at its original size,
+		 * so we get the original size from the image surface size. */
+		gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+						    &original_width,
+						    &original_height);
 	g_file_info_set_attribute_int32 (self->priv->file_data->info,
 					 "frame::width",
-					 gth_image_viewer_get_image_width (GTH_IMAGE_VIEWER (self->priv->viewer)));
+					 original_width);
 	g_file_info_set_attribute_int32 (self->priv->file_data->info,
 					 "frame::height",
-					 gth_image_viewer_get_image_height (GTH_IMAGE_VIEWER (self->priv->viewer)));
+					 original_height);
+
 	gth_image_viewer_page_file_loaded (self, TRUE);
 }
 
