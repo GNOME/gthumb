@@ -150,7 +150,7 @@ _gth_cell_renderer_caption_update_text (GthCellRendererCaption *self)
 			}
 
 			escaped = g_markup_escape_text (value, -1);
-			g_string_append_printf (metadata, "<span%s>%s</span>", (odd ? ODD_ROW_ATTR_STYLE : EVEN_ROW_ATTR_STYLE), value);
+			g_string_append_printf (metadata, "<span%s>%s</span>", (odd ? ODD_ROW_ATTR_STYLE : EVEN_ROW_ATTR_STYLE), escaped);
 
 			g_free (escaped);
 		}
