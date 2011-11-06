@@ -274,7 +274,6 @@ gth_file_store_init (GthFileStore *file_store)
 		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GDK_TYPE_PIXBUF;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
-		column_type[GTH_FILE_STORE_FILENAME_COLUMN] = G_TYPE_STRING;
 		column_type[GTH_FILE_STORE_CHECKED_COLUMN] = G_TYPE_BOOLEAN;
 	}
 }
@@ -386,10 +385,6 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	case GTH_FILE_STORE_IS_ICON_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
 		g_value_set_boolean (value, row->is_icon);
-		break;
-	case GTH_FILE_STORE_FILENAME_COLUMN:
-		g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (value, g_file_info_get_display_name (row->file_data->info));
 		break;
 	case GTH_FILE_STORE_CHECKED_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
