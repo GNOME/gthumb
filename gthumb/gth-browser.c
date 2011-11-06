@@ -76,7 +76,8 @@
 #define MIN_SIDEBAR_SIZE 100
 #define MIN_VIEWER_SIZE 256
 #define STATUSBAR_SEPARATOR " · "
-
+#define SHIRNK_WRAP_WIDTH_OFFSET 100
+#define SHIRNK_WRAP_HEIGHT_OFFSET 125
 
 G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
@@ -5847,8 +5848,8 @@ gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
 	gth_viewer_page_shrink_wrap (browser->priv->viewer_page, TRUE, &other_width, &other_height);
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-	max_width = round ((double) gdk_screen_get_width (screen) * 8.5 / 10.0);
-	max_height = round ((double) gdk_screen_get_height (screen) * 8.5 / 10.0);
+	max_width = gdk_screen_get_width (screen) - SHIRNK_WRAP_WIDTH_OFFSET;
+	max_height = gdk_screen_get_height (screen)- SHIRNK_WRAP_HEIGHT_OFFSET;
 
 	if (width + other_width > max_width) {
 		width = max_width - other_width;
