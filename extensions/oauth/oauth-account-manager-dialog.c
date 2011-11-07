@@ -126,7 +126,7 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 	GtkWidget *content;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogPrivate);
-	self->priv->builder = _gtk_builder_new_from_file ("flicker-account-manager.ui", "flicker");
+	self->priv->builder = _gtk_builder_new_from_file ("oauth-account-manager.ui", "oauth");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
