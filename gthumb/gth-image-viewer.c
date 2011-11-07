@@ -2347,21 +2347,65 @@ gth_image_viewer_get_reset_scrollbars (GthImageViewer *self)
 }
 
 
-gboolean
+void
 gth_image_viewer_needs_scrollbars (GthImageViewer *self,
-				   GtkAllocation  *allocation)
+				   GtkAllocation  *allocation,
+				   GtkWidget      *hscrollbar,
+				   GtkWidget      *vscrollbar,
+				   gboolean       *hscrollbar_visible_p,
+				   gboolean       *vscrollbar_visible_p)
 {
-	int    visible_width;
-	int    visible_height;
-	double zoom_level;
-	int    zoomed_width;
-	int    zoomed_height;
+	double   zoom_level;
+	int      zoomed_width;
+	int      zoomed_height;
+	int      visible_width;
+	int      visible_height;
+	gboolean hscrollbar_visible;
+	gboolean vscrollbar_visible;
 
 	zoom_level = get_zoom_level_for_allocation (self, allocation);
 	_gth_image_viewer_get_zoomed_size_for_zoom (self, &zoomed_width, &zoomed_height, zoom_level);
 	_gth_image_viewer_get_visible_area_size_for_allocation (self, &visible_width, &visible_height, allocation);
 
-	return ((zoomed_width > visible_width) || (zoomed_height > visible_height));
+	hscrollbar_visible = (zoomed_width > visible_width);
+	vscrollbar_visible = (zoomed_height > visible_height);
+
+	switch (self->priv->fit) {
+	case GTH_FIT_SIZE:
+	case GTH_FIT_SIZE_IF_LARGER:
+		hscrollbar_visible = FALSE;
+		vscrollbar_visible = FALSE;
+		break;
+
+	case GTH_FIT_WIDTH:
+	case GTH_FIT_WIDTH_IF_LARGER:
+		hscrollbar_visible = FALSE;
+		break;
+
+	case GTH_FIT_NONE:
+		if (hscrollbar_visible != vscrollbar_visible) {
+			if (vscrollbar_visible) {
+				GtkRequisition vscrollbar_requisition;
+
+				gtk_widget_get_preferred_size (vscrollbar, &vscrollbar_requisition, NULL);
+				visible_width -= vscrollbar_requisition.width;
+				hscrollbar_visible = (zoomed_width > visible_width);
+			}
+			else if (hscrollbar_visible) {
+				GtkRequisition hscrollbar_requisition;
+
+				gtk_widget_get_preferred_size (hscrollbar, &hscrollbar_requisition, NULL);
+				visible_height -= hscrollbar_requisition.height;
+				vscrollbar_visible = (zoomed_height > visible_height);
+			}
+		}
+		break;
+	}
+
+	if (hscrollbar_visible_p != NULL)
+		*hscrollbar_visible_p = hscrollbar_visible;
+	if (vscrollbar_visible_p != NULL)
+		*vscrollbar_visible_p = vscrollbar_visible;
 }
 
 

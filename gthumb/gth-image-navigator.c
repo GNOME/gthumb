@@ -49,7 +49,8 @@ struct _GthImageNavigatorPrivate {
 	GtkWidget *hscrollbar;
 	GtkWidget *navigator_event_area;
 	gboolean   automatic_scrollbars;
-	gboolean   scrollbars_visible;
+	gboolean   hscrollbar_visible;
+	gboolean   vscrollbar_visible;
 };
 
 
@@ -119,21 +120,37 @@ gth_image_navigator_size_allocate (GtkWidget     *widget,
 				   GtkAllocation *allocation)
 {
 	GthImageNavigator *self = (GthImageNavigator *) widget;
-	gboolean           needs_scrollbars;
+	gboolean           hscrollbar_visible;
+	gboolean           vscrollbar_visible;
 	GtkAllocation      viewer_allocation;
 
 	gtk_widget_set_allocation (widget, allocation);
 
-	needs_scrollbars = self->priv->automatic_scrollbars && gth_image_viewer_needs_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), allocation);
-	if (self->priv->scrollbars_visible != needs_scrollbars) {
-		self->priv->scrollbars_visible = needs_scrollbars;
-		gtk_widget_set_child_visible (self->priv->vscrollbar, self->priv->scrollbars_visible);
-		gtk_widget_set_child_visible (self->priv->hscrollbar, self->priv->scrollbars_visible);
-		gtk_widget_set_child_visible (self->priv->navigator_event_area, self->priv->scrollbars_visible);
+	if (self->priv->automatic_scrollbars) {
+		gth_image_viewer_needs_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
+						   allocation,
+						   self->priv->hscrollbar,
+						   self->priv->vscrollbar,
+						   &hscrollbar_visible,
+						   &vscrollbar_visible);
+
+		if (self->priv->vscrollbar_visible != vscrollbar_visible)
+			self->priv->vscrollbar_visible = vscrollbar_visible;
+
+		if (self->priv->hscrollbar_visible != hscrollbar_visible)
+			self->priv->hscrollbar_visible = hscrollbar_visible;
+	}
+	else {
+		self->priv->vscrollbar_visible = FALSE;
+		self->priv->hscrollbar_visible = FALSE;
 	}
 
+	gtk_widget_set_child_visible (self->priv->vscrollbar, self->priv->vscrollbar_visible);
+	gtk_widget_set_child_visible (self->priv->hscrollbar, self->priv->hscrollbar_visible);
+	gtk_widget_set_child_visible (self->priv->navigator_event_area, self->priv->hscrollbar_visible || self->priv->vscrollbar_visible);
+
 	viewer_allocation = *allocation;
-	if (self->priv->scrollbars_visible) {
+	if (self->priv->hscrollbar_visible || self->priv->vscrollbar_visible) {
 		GtkRequisition vscrollbar_requisition;
 		GtkRequisition hscrollbar_requisition;
 		GtkAllocation  child_allocation;
@@ -141,24 +158,29 @@ gth_image_navigator_size_allocate (GtkWidget     *widget,
 		gtk_widget_get_preferred_size (self->priv->vscrollbar, &vscrollbar_requisition, NULL);
 		gtk_widget_get_preferred_size (self->priv->hscrollbar, &hscrollbar_requisition, NULL);
 
-		viewer_allocation.width -= vscrollbar_requisition.width;
-		viewer_allocation.height -= hscrollbar_requisition.height;
+		if (self->priv->vscrollbar_visible) {
+			viewer_allocation.width -= vscrollbar_requisition.width;
 
-		/* vertical scrollbar */
+			/* vertical scrollbar */
 
-		child_allocation.x = allocation->x + allocation->width - vscrollbar_requisition.width;
-		child_allocation.y = allocation->y;
-		child_allocation.width = vscrollbar_requisition.width;
-		child_allocation.height = allocation->height - hscrollbar_requisition.height;
-		gtk_widget_size_allocate (self->priv->vscrollbar, &child_allocation);
+			child_allocation.x = allocation->x + allocation->width - vscrollbar_requisition.width;
+			child_allocation.y = allocation->y;
+			child_allocation.width = vscrollbar_requisition.width;
+			child_allocation.height = allocation->height - hscrollbar_requisition.height;
+			gtk_widget_size_allocate (self->priv->vscrollbar, &child_allocation);
+		}
 
-		/* horizontal scrollbar */
+		if (self->priv->hscrollbar_visible) {
+			viewer_allocation.height -= hscrollbar_requisition.height;
 
-		child_allocation.x = allocation->x;
-		child_allocation.y = allocation->y + allocation->height - hscrollbar_requisition.height;
-		child_allocation.width = allocation->width - vscrollbar_requisition.width;
-		child_allocation.height = hscrollbar_requisition.height;
-		gtk_widget_size_allocate (self->priv->hscrollbar, &child_allocation);
+			/* horizontal scrollbar */
+
+			child_allocation.x = allocation->x;
+			child_allocation.y = allocation->y + allocation->height - hscrollbar_requisition.height;
+			child_allocation.width = allocation->width - vscrollbar_requisition.width;
+			child_allocation.height = hscrollbar_requisition.height;
+			gtk_widget_size_allocate (self->priv->hscrollbar, &child_allocation);
+		}
 
 		/* event area */
 
@@ -168,6 +190,7 @@ gth_image_navigator_size_allocate (GtkWidget     *widget,
 		child_allocation.height = hscrollbar_requisition.height;
 		gtk_widget_size_allocate (self->priv->navigator_event_area, &child_allocation);
 	}
+
 	gtk_widget_size_allocate (self->priv->viewer, &viewer_allocation);
 }
 
@@ -176,7 +199,6 @@ typedef struct {
 	GtkWidget *container;
 	cairo_t   *cr;
 } DrawData;
-
 
 
 static void
@@ -627,7 +649,8 @@ gth_image_navigator_init (GthImageNavigator *self)
 	gtk_container_set_reallocate_redraws (GTK_CONTAINER (self), TRUE);
 
 	self->priv->automatic_scrollbars = TRUE;
-	self->priv->scrollbars_visible = FALSE;
+	self->priv->hscrollbar_visible = FALSE;
+	self->priv->vscrollbar_visible = FALSE;
 
 	/* horizonal scrollbar */
 

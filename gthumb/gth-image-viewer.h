@@ -266,8 +266,12 @@ void           gth_image_viewer_get_scroll_offset        (GthImageViewer        
 void           gth_image_viewer_set_reset_scrollbars     (GthImageViewer        *viewer,
   							  gboolean               reset);
 gboolean       gth_image_viewer_get_reset_scrollbars     (GthImageViewer        *viewer);
-gboolean       gth_image_viewer_needs_scrollbars         (GthImageViewer        *viewer,
-							  GtkAllocation         *allocation);
+void           gth_image_viewer_needs_scrollbars         (GthImageViewer        *self,
+							  GtkAllocation         *allocation,
+							  GtkWidget             *hscrollbar,
+							  GtkWidget             *vscrollbar,
+							  gboolean              *hscrollbar_visible,
+							  gboolean              *vscrollbar_visible);
 
 /* Cursor. */
 
