@@ -113,7 +113,7 @@ oauth_account_chooser_dialog_init (OAuthAccountChooserDialog *self)
 	GtkWidget *content;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialogPrivate);
-	self->priv->builder = _gtk_builder_new_from_file ("flicker-account-chooser.ui", "flicker");
+	self->priv->builder = _gtk_builder_new_from_file ("oauth-account-chooser.ui", "oauth");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
