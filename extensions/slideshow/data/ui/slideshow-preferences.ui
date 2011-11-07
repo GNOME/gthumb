@@ -33,9 +33,11 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkCheckButton" id="personalize_checkbutton">
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
+                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
                 <child>
                   <object class="GtkLabel" id="label3">
@@ -125,6 +127,7 @@
                     <child>
                       <object class="GtkCheckButton" id="automatic_checkbutton">
                         <property name="label" translatable="yes" comments="This is the first part of the phrase &quot;change automatically, every x seconds&quot;, where x is an input control that let the user choose a value.">_Change automatically, every</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -186,6 +189,7 @@
                 <child>
                   <object class="GtkCheckButton" id="wrap_around_checkbutton">
                     <property name="label" translatable="yes">_Restart when finished</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -203,6 +207,7 @@
                 <child>
                   <object class="GtkCheckButton" id="random_order_checkbutton">
                     <property name="label" translatable="yes">R_andom order</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -316,6 +321,7 @@
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkButton" id="add_file_button">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -337,6 +343,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="remove_file_button">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>

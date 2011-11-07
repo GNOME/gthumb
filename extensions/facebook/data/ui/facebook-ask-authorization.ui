@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <object class="GtkImage" id="button_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-dialog-authentication</property>
+  </object>
   <object class="GtkMessageDialog" id="ask_authorization_messagedialog">
+    <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -11,19 +16,24 @@
     <property name="message_type">other</property>
     <property name="image">icon_image</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -35,9 +45,11 @@
             <child>
               <object class="GtkButton" id="authorize_button">
                 <property name="label" translatable="yes">_Authorize...</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="image">button_image</property>
                 <property name="use_underline">True</property>
               </object>
@@ -50,6 +62,7 @@
           </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="pack_type">end</property>
             <property name="position">0</property>
           </packing>
@@ -61,12 +74,9 @@
       <action-widget response="-5">authorize_button</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkImage" id="button_image">
-    <property name="visible">True</property>
-    <property name="stock">gtk-dialog-authentication</property>
-  </object>
   <object class="GtkImage" id="icon_image">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="yalign">0</property>
     <property name="stock">gtk-dialog-authentication</property>
     <property name="icon-size">6</property>
