@@ -3569,10 +3569,8 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 			break;
 
 		case GDK_KEY_e:
-			if (browser->priv->viewer_page != NULL) {
-				gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+			if (browser->priv->viewer_page != NULL)
 				gth_browser_show_viewer_tools (GTH_BROWSER (browser), TRUE);
-			}
 			result = TRUE;
 			break;
 
