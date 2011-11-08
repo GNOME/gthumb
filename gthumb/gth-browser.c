@@ -1673,13 +1673,7 @@ load_data_continue (LoadData *load_data,
 				gth_viewer_page_focus (browser->priv->viewer_page);
 			}
 		}
-		else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
-			if (changed_current_location && ! _gth_browser_make_file_visible (browser, browser->priv->current_file))
-				gth_browser_show_file_properties (browser, FALSE);
-		}
 	}
-	else if (changed_current_location)
-		gth_browser_show_file_properties (browser, FALSE);
 
 	if (StartSlideshow) {
 		StartSlideshow = FALSE;
@@ -2392,12 +2386,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	if (page == GTH_BROWSER_PAGE_BROWSER) {
 		gth_browser_show_viewer_tools (browser, FALSE);
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->file_properties));
-		if (browser->priv->current_file != NULL)
-			gth_browser_show_file_properties (browser, TRUE);
-		else {
-			gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), NULL);
-			gth_browser_show_file_properties (browser, FALSE);
-		}
+		gth_browser_show_file_properties (browser, _gth_browser_get_action_active (browser, "Browser_Properties"));
 	}
 	else if (page == GTH_BROWSER_PAGE_VIEWER) {
 		if (_gth_browser_get_action_active (browser, "Viewer_Properties")) {
@@ -3574,6 +3563,11 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 			result = TRUE;
 			break;
 
+		case GDK_KEY_i:
+			gth_browser_show_file_properties (GTH_BROWSER (browser), ! _gth_browser_get_action_active (browser, "Browser_Properties"));
+			result = TRUE;
+			break;
+
 		default:
 			break;
 		}
@@ -4552,7 +4546,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
 
 	_gth_browser_set_sidebar_visibility (browser, eel_gconf_get_boolean (PREF_UI_SIDEBAR_VISIBLE, TRUE));
-
 	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
 	_gth_browser_update_toolbar_style (browser);
 
@@ -4563,6 +4556,7 @@ gth_browser_init (GthBrowser *browser)
 	_gth_browser_set_action_active (browser, "View_ShrinkWrap", browser->priv->shrink_wrap_viewer);
 
 	_gth_browser_set_action_sensitive (browser, "Viewer_Tools", FALSE);
+	gth_browser_show_file_properties (browser, eel_gconf_get_boolean (PREF_UI_PROPERTIES_VISIBLE, TRUE));
 
 	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
@@ -5497,22 +5491,6 @@ file_metadata_ready_cb (GList    *files,
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
-	if ((gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
-	    && ! gtk_widget_get_visible (browser->priv->file_properties))
-	{
-		gth_browser_show_file_properties (browser, TRUE);
-
-		if (browser->priv->location != NULL) {
-			GtkTreePath *path;
-
-			path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
-			if (path != NULL) {
-				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);
-				gtk_tree_path_free (path);
-			}
-		}
-	}
-
 	gth_browser_update_title (browser);
 	gth_browser_update_statusbar_file_info (browser);
 	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
@@ -5752,10 +5730,12 @@ gth_browser_load_file (GthBrowser  *browser,
 
 void
 gth_browser_show_file_properties (GthBrowser *browser,
-				    gboolean    show)
+				  gboolean    show)
 {
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_BROWSER:
+	case GTH_WINDOW_PAGE_UNDEFINED: /* when called from gth_browser_init */
+		eel_gconf_set_boolean (PREF_UI_PROPERTIES_VISIBLE, show);
 		_gth_browser_set_action_active (browser, "Browser_Properties", show);
 		if (show) {
 			GtkAllocation allocation;

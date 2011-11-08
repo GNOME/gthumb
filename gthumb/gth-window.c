@@ -249,7 +249,7 @@ gth_window_init (GthWindow *window)
 	window->priv->table = NULL;
 	window->priv->contents = NULL;
 	window->priv->n_pages = 0;
-	window->priv->current_page = -1;
+	window->priv->current_page = GTH_WINDOW_PAGE_UNDEFINED;
 	window->priv->menubar = NULL;
 	window->priv->toolbar = NULL;
 	window->priv->infobar = NULL;

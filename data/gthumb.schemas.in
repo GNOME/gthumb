@@ -454,6 +454,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ui/properties_visible</key>
+	<applyto>/apps/gthumb/ui/properties_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ui/thumbnail_list_visible</key>
 	<applyto>/apps/gthumb/ui/thumbnail_list_visible</applyto>
 	<owner>gthumb</owner>

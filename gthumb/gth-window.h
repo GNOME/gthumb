@@ -26,6 +26,8 @@
 
 G_BEGIN_DECLS
 
+#define GTH_WINDOW_PAGE_UNDEFINED -1
+
 typedef enum { /*< skip >*/
 	GTH_WINDOW_MENUBAR,
 	GTH_WINDOW_TOOLBAR,
