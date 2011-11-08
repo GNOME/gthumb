@@ -46,7 +46,8 @@ struct _GthImageViewerPagePrivate {
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
 	GtkActionGroup    *actions;
-	guint              merge_id;
+	guint              viewer_merge_id;
+	guint              browser_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
 	gulong             requested_ready_id;
@@ -81,9 +82,6 @@ static const char *image_viewer_ui_info =
 "      <toolitem action='ImageViewer_View_ZoomFit'/>"
 "      <toolitem action='ImageViewer_View_ZoomFitWidth'/>"
 "    </placeholder>"
-"    <placeholder name='ViewerCommandsSecondary'>"
-"      <toolitem action='Viewer_Tools'/>"
-"    </placeholder>"
 "  </toolbar>"
 "  <toolbar name='Fullscreen_ToolBar'>"
 "    <placeholder name='ViewerCommands'>"
@@ -92,9 +90,6 @@ static const char *image_viewer_ui_info =
 "      <toolitem action='ImageViewer_View_Zoom100'/>"
 "      <toolitem action='ImageViewer_View_ZoomFit'/>"
 "      <toolitem action='ImageViewer_View_ZoomFitWidth'/>"
-"    </placeholder>"
-"    <placeholder name='ViewerCommandsSecondary'>"
-"      <toolitem action='Viewer_Tools'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
@@ -701,6 +696,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
+	GtkAction          *action;
 	int                 i;
 
 	self = (GthImageViewerPage*) base;
@@ -714,6 +710,9 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				      G_N_ELEMENTS (image_viewer_action_entries),
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
+
+	action = gtk_action_group_get_action (gth_browser_get_actions (browser), "Viewer_Tools");
+	g_object_set (action, "sensitive", TRUE, NULL);
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 	self->priv->requested_ready_id = g_signal_connect (G_OBJECT (self->priv->preloader),
@@ -822,6 +821,7 @@ static void
 gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
+	GtkAction          *action;
 	int                 i;
 
 	self = (GthImageViewerPage*) base;
@@ -833,6 +833,14 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 			eel_gconf_notification_remove (self->priv->cnxn_id[i]);
 
 	/**/
+
+	action = gtk_action_group_get_action (gth_browser_get_actions (self->priv->browser), "Viewer_Tools");
+	g_object_set (action, "sensitive", FALSE, NULL);
+
+	if (self->priv->browser_merge_id != 0) {
+		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->browser_merge_id);
+		self->priv->browser_merge_id = 0;
+	}
 
 	gtk_ui_manager_remove_action_group (gth_browser_get_ui_manager (self->priv->browser), self->priv->actions);
 	g_object_unref (self->priv->actions);
@@ -858,11 +866,11 @@ gth_image_viewer_page_real_show (GthViewerPage *base)
 
 	self = (GthImageViewerPage*) base;
 
-	if (self->priv->merge_id != 0)
+	if (self->priv->viewer_merge_id != 0)
 		return;
 
-	self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), image_viewer_ui_info, -1, &error);
-	if (self->priv->merge_id == 0) {
+	self->priv->viewer_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), image_viewer_ui_info, -1, &error);
+	if (self->priv->viewer_merge_id == 0) {
 		g_warning ("ui building failed: %s", error->message);
 		g_error_free (error);
 	}
@@ -878,9 +886,9 @@ gth_image_viewer_page_real_hide (GthViewerPage *base)
 
 	self = (GthImageViewerPage*) base;
 
-	if (self->priv->merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
-		self->priv->merge_id = 0;
+	if (self->priv->viewer_merge_id != 0) {
+		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->viewer_merge_id);
+		self->priv->viewer_merge_id = 0;
 	}
 }
 
@@ -1405,6 +1413,8 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;
 	self->priv->can_paste = FALSE;
+	self->priv->viewer_merge_id = 0;
+	self->priv->browser_merge_id = 0;
 }
 
 

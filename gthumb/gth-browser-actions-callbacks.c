@@ -320,7 +320,7 @@ void
 gth_browser_activate_action_viewer_properties (GtkAction  *action,
 						GthBrowser *browser)
 {
-	gth_browser_show_viewer_properties (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	gth_browser_show_file_properties (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 

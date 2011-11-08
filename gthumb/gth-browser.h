@@ -101,6 +101,7 @@ void             gth_browser_set_dialog             (GthBrowser       *browser,
 GtkWidget *      gth_browser_get_dialog             (GthBrowser       *browser,
 						     const char       *dialog_name);
 GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
+GtkActionGroup * gth_browser_get_actions            (GthBrowser       *browser);
 GthIconCache *   gth_browser_get_menu_icon_cache    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
@@ -160,7 +161,7 @@ void             gth_browser_update_sensitivity     (GthBrowser       *browser);
 void             gth_browser_update_extra_widget    (GthBrowser       *browser);
 void             gth_browser_update_statusbar_file_info
 						    (GthBrowser       *browser);
-void             gth_browser_show_viewer_properties (GthBrowser       *browser,
+void             gth_browser_show_file_properties (GthBrowser       *browser,
 						     gboolean          show);
 void             gth_browser_show_viewer_tools      (GthBrowser       *browser,
 						     gboolean          show);
