@@ -689,7 +689,7 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	{
 		if (data->properties_button == NULL) {
 			data->properties_button = gtk_button_new ();
-			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON));
+			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU));
 			g_object_add_weak_pointer (G_OBJECT (data->properties_button), (gpointer *)&data->properties_button);
 			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
 			gtk_widget_set_tooltip_text (data->properties_button, _("Catalog Properties"));
