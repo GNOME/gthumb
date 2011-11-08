@@ -394,6 +394,7 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 		gth_slideshow_preferences_set_audio (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences),
 						     g_value_hash_get_stringv (catalog->attributes, "slideshow::playlist"));
 
+	gtk_container_set_border_width (GTK_CONTAINER (slideshow_preferences), 12);
 	gtk_widget_show (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_checkbutton"));
 	gtk_widget_hide (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "slideshow_label"));
 	gtk_widget_show (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "playlist_box"));

@@ -90,6 +90,7 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 
 	page = _gtk_builder_get_widget (data->builder, "preferences_page");
+	g_object_set_data (G_OBJECT (page), "extension-name", "image_viewer");
 	gtk_widget_show (page);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("change_zoom_combobox")), eel_gconf_get_enum (PREF_ZOOM_CHANGE, GTH_TYPE_ZOOM_CHANGE, GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER));
