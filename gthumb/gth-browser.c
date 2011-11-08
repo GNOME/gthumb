@@ -77,6 +77,7 @@
 #define STATUSBAR_SEPARATOR " · "
 #define SHIRNK_WRAP_WIDTH_OFFSET 100
 #define SHIRNK_WRAP_HEIGHT_OFFSET 125
+#define FILE_PROPERTIES_MINIMUM_HEIGHT 100
 
 G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
@@ -2371,8 +2372,15 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
 	gtk_widget_unrealize (browser->priv->file_properties);
-	if (page == GTH_BROWSER_PAGE_BROWSER)
+	if (page == GTH_BROWSER_PAGE_BROWSER) {
 		gtk_widget_reparent (browser->priv->file_properties, browser->priv->browser_sidebar);
+		/* restore the child properties that gtk_widget_reparent doesn't preserve. */
+		gtk_container_child_set (GTK_CONTAINER (browser->priv->browser_sidebar),
+					 browser->priv->file_properties,
+					 "resize", TRUE,
+					 "shrink", FALSE,
+					 NULL);
+	}
 	else
 		gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_alignment);
 
@@ -4328,8 +4336,9 @@ gth_browser_init (GthBrowser *browser)
 	/* the box that contains the location and the folder list.  */
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_size_request (vbox, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_show (vbox);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, FALSE);
 
 	/* the location combobox */
 
@@ -4423,8 +4432,9 @@ gth_browser_init (GthBrowser *browser)
 	/* the file property box */
 
 	browser->priv->file_properties = gth_sidebar_new ("file-tools");
+	gtk_widget_set_size_request (browser->priv->file_properties, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_hide (browser->priv->file_properties);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_sidebar), browser->priv->file_properties, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_sidebar), browser->priv->file_properties, FALSE, FALSE);
 
 	/* the box that contains the file list and the filter bar.  */
 
@@ -4508,7 +4518,7 @@ gth_browser_init (GthBrowser *browser)
 			  G_CALLBACK (filterbar_close_button_clicked_cb),
 			  browser);
 
-	/**/
+	/* monitor signals */
 
 	browser->priv->folder_changed_id =
 		g_signal_connect (gth_main_get_default_monitor (),
@@ -5733,11 +5743,13 @@ gth_browser_show_file_properties (GthBrowser *browser,
 		eel_gconf_set_boolean (PREF_UI_PROPERTIES_VISIBLE, show);
 		_gth_browser_set_action_active (browser, "Browser_Properties", show);
 		if (show) {
-			GtkAllocation allocation;
+			if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_WINDOW_PAGE_UNDEFINED) {
+				GtkAllocation allocation;
 
-			gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
-			gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
-			gtk_widget_show (browser->priv->file_properties);
+				gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
+				gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
+				gtk_widget_show (browser->priv->file_properties);
+			}
 		}
 		else
 			gtk_widget_hide (browser->priv->file_properties);
