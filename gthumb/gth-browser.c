@@ -67,7 +67,6 @@
 #define GCONF_NOTIFICATIONS 13
 #define DEF_SIDEBAR_WIDTH 255
 #define DEF_VIEWER_SIDEBAR_WIDTH 285
-#define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
@@ -2133,10 +2132,6 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_get_allocation (browser->priv->viewer_sidebar_alignment, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
 			eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, allocation.width);
-
-		gtk_widget_get_allocation (browser->priv->file_properties, &allocation);
-		if (allocation.height > MIN_SIDEBAR_SIZE)
-			eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, allocation.height);
 	}
 
 	/**/

@@ -493,19 +493,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ui/properties_height</key>
-	<applyto>/apps/gthumb/ui/properties_height</applyto>
-	<owner>gthumb</owner>
-	<type>int</type>
-	<default>250</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
 	<key>/schemas/apps/gthumb/ui/comment_height</key>
 	<applyto>/apps/gthumb/ui/comment_height</applyto>
 	<owner>gthumb</owner>

@@ -72,7 +72,6 @@ G_BEGIN_DECLS
 #define PREF_UI_THUMBNAIL_LIST_VISIBLE      "/apps/gthumb/ui/thumbnail_list_visible"
 #define PREF_UI_BROWSER_SIDEBAR_WIDTH       "/apps/gthumb/ui/browser_sidebar_width"
 #define PREF_UI_VIEWER_SIDEBAR_WIDTH        "/apps/gthumb/ui/viewer_sidebar_width"
-#define PREF_UI_PROPERTIES_HEIGHT           "/apps/gthumb/ui/properties_height"
 #define PREF_UI_COMMENT_HEIGHT              "/apps/gthumb/ui/comment_height"
 #define PREF_UI_VIEWER_THUMBNAILS_ORIENT    "/apps/gthumb/ui/viewer_thumbnails_orientation"
 
