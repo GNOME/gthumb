@@ -26,17 +26,28 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkComboBoxText" id="change_zoom_combobox">
+                  <object class="GtkBox" id="box2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <items>
-                      <item translatable="yes">Set to actual size</item>
-                      <item translatable="yes">Keep previous zoom</item>
-                      <item translatable="yes">Fit to window</item>
-                      <item translatable="yes">Fit to window if larger</item>
-                      <item translatable="yes">Fit to width</item>
-                      <item translatable="yes">Fit to width if larger</item>
-                    </items>
+                    <child>
+                      <object class="GtkComboBoxText" id="change_zoom_combobox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <items>
+                          <item translatable="yes">Set to actual size</item>
+                          <item translatable="yes">Keep previous zoom</item>
+                          <item translatable="yes">Fit to window</item>
+                          <item translatable="yes">Fit to window if larger</item>
+                          <item translatable="yes">Fit to width</item>
+                          <item translatable="yes">Fit to width if larger</item>
+                        </items>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -47,6 +58,7 @@
                 <child>
                   <object class="GtkCheckButton" id="toggle_reset_scrollbars">
                     <property name="label" translatable="yes">Reset scrollbar positions</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -100,8 +112,6 @@
                 <property name="can_focus">False</property>
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">6</property>
-                <property name="n_rows">2</property>
-                <property name="n_columns">2</property>
                 <child>
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
@@ -122,6 +132,7 @@
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">Transparency _type:</property>
                     <property name="use_underline">True</property>
                     <property name="mnemonic_widget">transp_type_combobox</property>
