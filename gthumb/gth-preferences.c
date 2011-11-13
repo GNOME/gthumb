@@ -61,7 +61,17 @@ gth_pref_initialize (void)
 	{
 		char *startup_location;
 
-		startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
+		startup_location = _g_settings_get_uri (settings, PREF_BROWSER_STARTUP_LOCATION);
+		if (startup_location == NULL) {
+			GFile *file;
+
+			file = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_PICTURES));
+			startup_location = g_file_get_uri (file);
+
+			g_object_unref (file);
+		}
+		if (startup_location == NULL)
+			startup_location = g_strdup (get_home_uri ());
 		gth_pref_set_startup_location (startup_location);
 
 		g_free (startup_location);
