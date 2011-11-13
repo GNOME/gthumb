@@ -54,6 +54,7 @@ struct _GthMediaViewerPagePrivate {
 	GtkBuilder     *builder;
 	GtkWidget      *area;
 	GtkWidget      *area_box;
+	gboolean        visible;
 	gboolean        playing;
 	gboolean        paused;
 	gdouble         last_volume;
@@ -1004,6 +1005,11 @@ bus_message_cb (GstBus     *bus,
 
 		update_current_position_bar (self, TRUE);
 
+		if ((old_state == GST_STATE_NULL) && (new_state == GST_STATE_READY) && (pending_state != GST_STATE_PAUSED)) {
+			update_stream_info (self);
+			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
+			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
+		}
 		if ((old_state == GST_STATE_READY) && (new_state == GST_STATE_PAUSED)) {
 			update_stream_info (self);
 			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
@@ -1056,25 +1062,9 @@ playbin_notify_volume_cb (GObject    *playbin,
 
 
 static void
-gth_media_viewer_page_real_show (GthViewerPage *base)
+create_playbin (GthMediaViewerPage *self)
 {
-	GthMediaViewerPage *self;
-	GError             *error = NULL;
-	GstBus             *bus;
-	char               *uri;
-
-	self = (GthMediaViewerPage*) base;
-
-	if (self->priv->merge_id != 0)
-		return;
-
-	self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), media_viewer_ui_info, -1, &error);
-	if (self->priv->merge_id == 0) {
-		g_warning ("ui building failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+	GstBus *bus;
 
 	if (self->priv->playbin != NULL)
 		return;
@@ -1088,14 +1078,36 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 	gst_bus_add_signal_watch (bus);
 	g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
 
-	if (self->priv->file_data == NULL)
-		return;
+}
 
-	uri = g_file_get_uri (self->priv->file_data->file);
-	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
-	gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 
-	g_free (uri);
+static void
+gth_media_viewer_page_real_show (GthViewerPage *base)
+{
+	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
+	GError             *error = NULL;
+
+	self->priv->visible = TRUE;
+
+	if (self->priv->merge_id == 0) {
+		self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), media_viewer_ui_info, -1, &error);
+		if (self->priv->merge_id == 0) {
+			g_warning ("ui building failed: %s", error->message);
+			g_error_free (error);
+		}
+	}
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+
+	create_playbin (self);
+	if (self->priv->file_data != NULL) {
+		char *uri;
+
+		uri = g_file_get_uri (self->priv->file_data->file);
+		g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+
+		g_free (uri);
+	}
 }
 
 
@@ -1105,6 +1117,8 @@ gth_media_viewer_page_real_hide (GthViewerPage *base)
 	GthMediaViewerPage *self;
 
 	self = (GthMediaViewerPage*) base;
+
+	self->priv->visible = FALSE;
 
 	if (self->priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
@@ -1133,7 +1147,7 @@ set_to_paused (gpointer user_data)
 
 	self->priv->set_to_pause_id = 0;
 	if (self->priv->playbin != NULL)
-		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+		gst_element_set_state (self->priv->playbin, self->priv->visible ? GST_STATE_PLAYING : GST_STATE_READY);
 
 	return FALSE;
 }
@@ -1182,6 +1196,7 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
 	reset_player_state (self);
 
+	create_playbin (self);
 	if (self->priv->playbin == NULL)
 		return;
 
@@ -1432,6 +1447,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->icon = NULL;
 	self->priv->cursor_visible = TRUE;
 	self->priv->screensaver = gth_screensaver_new (NULL);
+	self->priv->visible = FALSE;
 }
 
 
