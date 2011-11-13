@@ -51,7 +51,7 @@
 #include <jpeglib.h>
 
 
-typedef enum {
+typedef enum { /*< skip >*/
 	JXFORM_NONE,		/* no transformation */
 	JXFORM_FLIP_H,		/* horizontal flip */
 	JXFORM_FLIP_V,		/* vertical flip */
@@ -131,7 +131,7 @@ void jtransform_execute_transformation (j_decompress_ptr     srcinfo,
  * Support for copying optional markers from source to destination file.
  */
 
-typedef enum {
+typedef enum { /*< skip >*/
 	JCOPYOPT_NONE,		/* copy no optional markers */
 	JCOPYOPT_COMMENTS,	/* copy only comment (COM) markers */
 	JCOPYOPT_ALL		/* copy all optional markers */

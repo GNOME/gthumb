@@ -96,7 +96,7 @@
  * Codes for supported types of image transformations.
  */
 
-typedef enum {
+typedef enum { /*< skip >*/
 	JXFORM_NONE,		/* no transformation */
 	JXFORM_FLIP_H,		/* horizontal flip */
 	JXFORM_FLIP_V,		/* vertical flip */
@@ -112,7 +112,7 @@ typedef enum {
  * positive, or negative.  (Negative width or height makes no sense, though.)
  */
 
-typedef enum {
+typedef enum { /*< skip >*/
 	JCROP_UNSET,
 	JCROP_POS,
 	JCROP_NEG
@@ -196,7 +196,7 @@ EXTERN(boolean) jtransform_perfect_transform
  * Support for copying optional markers from source to destination file.
  */
 
-typedef enum {
+typedef enum { /*< skip >*/
 	JCOPYOPT_NONE,		/* copy no optional markers */
 	JCOPYOPT_COMMENTS,	/* copy only comment (COM) markers */
 	JCOPYOPT_ALL		/* copy all optional markers */
