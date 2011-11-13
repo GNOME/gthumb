@@ -1133,6 +1133,49 @@ _g_strv_find (char       **v,
 }
 
 
+char **
+_g_strv_prepend (char       **str_array,
+                 const char  *str)
+{
+	char **result;
+	int    i;
+	int    j;
+
+	result = g_new (char *, g_strv_length (str_array) + 1);
+	i = 0;
+	result[i++] = g_strdup (str);
+	for (j = 0; str_array[j] != NULL; j++)
+		result[i++] = g_strdup (str_array[j]);
+	result[i] = NULL;
+
+	return result;
+}
+
+
+gboolean
+_g_strv_remove (char       **str_array,
+                const char  *str)
+{
+	int i;
+	int j;
+
+	if (str == NULL)
+		return FALSE;
+
+	for (i = 0; str_array[i] != NULL; i++)
+		if (strcmp (str_array[i], str) == 0)
+			break;
+
+	if (str_array[i] == NULL)
+		return FALSE;
+
+	for (j = i; str_array[j] != NULL; j++)
+		str_array[j] = str_array[j + 1];
+
+	return TRUE;
+}
+
+
 char *
 _g_str_remove_suffix (const char *s,
 		      const char *suffix)
@@ -2696,6 +2739,81 @@ _g_mime_type_is_audio (const char *mime_type)
 }
 
 
+char *
+_g_settings_get_uri (GSettings  *settings,
+		     const char *key)
+{
+	char *value;
+	char *uri;
+
+	value = g_settings_get_string (settings, key);
+	if ((value == NULL) || (strcmp (value, "") == 0)) {
+		g_free (value);
+		return NULL;
+	}
+
+	uri = _g_replace (value, "~", g_get_home_dir ());
+	g_free (value);
+
+	return uri;
+}
+
+
+void
+_g_settings_set_uri (GSettings  *settings,
+		     const char *key,
+		     const char *uri)
+{
+	char *value;
+
+	value = _g_replace (uri, g_get_home_dir (), "~");
+	g_settings_set_string (settings, key, value);
+
+	g_free (value);
+}
+
+
+void
+_g_settings_set_string_list (GSettings  *settings,
+			     const char *key,
+			     GList      *list)
+{
+	int     len;
+	char  **strv;
+	int     i;
+	GList  *scan;
+
+	len = g_list_length (list);
+	strv = g_new (char *, len + 1);
+	for (i = 0, scan = list; scan; scan = scan->next)
+		strv[i++] = scan->data;
+	strv[i] = NULL;
+
+	g_settings_set_strv (settings, key, (const char *const *) strv);
+
+	g_free (strv);
+}
+
+
+GList *
+_g_settings_get_string_list (GSettings  *settings,
+			     const char *key)
+{
+	char **strv;
+	int    i;
+	GList *list;
+
+	strv = g_settings_get_strv (settings, key);
+	list = NULL;
+	for (i = 0; strv[i] != NULL; i++)
+		list = g_list_prepend (list, g_strdup (strv[i]));
+
+	g_strfreev (strv);
+
+	return g_list_reverse (list);
+}
+
+
 /* this is totem_time_to_string renamed, thanks to the authors :) */
 char *
 _g_format_duration_for_display (gint64 msecs)
@@ -2727,4 +2845,14 @@ _g_format_duration_for_display (gint64 msecs)
          * "%d" if your locale uses localized digits.
          */
         return g_strdup_printf (C_("short time format", "%d:%02d"), min, sec);
+}
+
+
+GList *
+_g_list_prepend_link (GList *list,
+		      GList *link)
+{
+	link->next = list;
+	if (list != NULL) list->prev = link;
+	return link;
 }

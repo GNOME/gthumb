@@ -175,9 +175,9 @@ char *          _g_utf8_replace                  (const char  *string,
 						  const char  *replacement);
 char *          _g_utf8_strndup                  (const char  *str,
 						  gsize        n);
-char **         _g_utf8_strsplit                 (const char *string,
-						  const char *delimiter,
-						  int         max_tokens);
+char **         _g_utf8_strsplit                 (const char  *string,
+						  const char  *delimiter,
+						  int          max_tokens);
 char *          _g_utf8_strstrip                 (const char  *str);
 gboolean        _g_utf8_all_spaces               (const char  *utf8_string);
 char *          _g_utf8_remove_extension         (const char  *str);
@@ -186,15 +186,19 @@ GList *         _g_list_insert_list_before       (GList       *list1,
 						  GList       *list2);
 const char *    get_static_string                (const char  *s);
 char *          _g_rand_string                   (int          len);
-int             _g_strv_find                     (char        **v,
-						  const char   *s);
-char *          _g_str_remove_suffix             (const char   *s,
-						  const char   *suffix);
-void            _g_string_append_for_html        (GString      *str,
-						  const char   *text,
-						  gssize        length);
-char *          _g_escape_for_html               (const char   *text,
-						  gssize        length);
+int             _g_strv_find                     (char       **v,
+						  const char  *s);
+char **         _g_strv_prepend                  (char       **str_array,
+						  const char  *str);
+gboolean        _g_strv_remove                   (char       **str_array,
+						  const char  *str);
+char *          _g_str_remove_suffix             (const char  *s,
+						  const char  *suffix);
+void            _g_string_append_for_html        (GString     *str,
+						  const char  *text,
+						  gssize       length);
+char *          _g_escape_for_html               (const char  *text,
+						  gssize       length);
 
 /* Array utils*/
 
@@ -296,9 +300,24 @@ gboolean        _g_mime_type_is_image            (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);
 
+/* GSettings utils */
+
+char *          _g_settings_get_uri              (GSettings  *settings,
+						  const char *key);
+void            _g_settings_set_uri              (GSettings  *settings,
+						  const char *key,
+						  const char *uri);
+void            _g_settings_set_string_list      (GSettings  *settings,
+						  const char *key,
+						  GList      *list);
+GList *         _g_settings_get_string_list      (GSettings  *settings,
+		  	  	  	  	  const char *key);
+
 /* Other */
 
-char *          _g_format_duration_for_display   (gint64 msecs);
+char *          _g_format_duration_for_display   (gint64      msecs);
+GList *         _g_list_prepend_link             (GList      *list,
+						  GList      *link);
 
 G_END_DECLS
 
