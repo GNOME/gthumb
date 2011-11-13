@@ -26,15 +26,6 @@
 
 G_BEGIN_DECLS
 
-/*
-#define RC_DIR                    ".gnome2/gthumb"
-#define RC_CATALOG_DIR            ".gnome2/gthumb/collections"
-#define RC_COMMENTS_DIR           ".gnome2/gthumb/comments"
-#define RC_BOOKMARKS_FILE         ".gnome2/gthumb/bookmarks"
-#define RC_HISTORY_FILE           ".gnome2/gthumb/history"
-#define RC_CATEGORIES_FILE        ".gnome2/gthumb/categories"
-#define RC_REMOTE_CACHE_DIR       ".gnome2/gthumb/remote_cache"
-*/
 
 #define BOOKMARKS_FILE "bookmarks.xbel"
 #define FILTERS_FILE   "filters.xml"
@@ -132,6 +123,7 @@ typedef enum {
 	GTH_GRID_UNIFORM
 } GthGridType;
 
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);
@@ -147,6 +139,7 @@ typedef void (*ProgressCallback) (GObject    *object,
 typedef void (*DialogCallback)   (gboolean    opened,
 				  GtkWidget  *dialog,
 				  gpointer    user_data);
+
 
 G_END_DECLS
 
