@@ -8,6 +8,7 @@ for f in $files; do
 	case $f in
         build/*) ;;
 	*.ui) echo "[type: gettext/glade]$f" ;;
+	*.extension.in.in) echo "[type: gettext/ini]$f" ;;
 	*) echo $f
 	esac
 done
