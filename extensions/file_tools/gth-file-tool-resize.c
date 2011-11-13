@@ -37,6 +37,7 @@ G_DEFINE_TYPE (GthFileToolResize, gth_file_tool_resize, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolResizePrivate {
+	GSettings       *settings;
 	cairo_surface_t *original_image;
 	cairo_surface_t *new_image;
 	GtkBuilder      *builder;
@@ -463,8 +464,8 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	self->priv->new_image = NULL;
 	self->priv->new_width = self->priv->original_width;
 	self->priv->new_height = self->priv->original_height;
-	self->priv->filter = eel_gconf_get_boolean (PREF_RESIZE_HIGH_QUALITY, TRUE) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
-	self->priv->unit = eel_gconf_get_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PERCENTAGE);
+	self->priv->filter = g_settings_get_boolean (self->priv->settings, PREF_RESIZE_HIGH_QUALITY) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
+	self->priv->unit = g_settings_get_enum (self->priv->settings, PREF_RESIZE_UNIT);
 	self->priv->builder = _gtk_builder_new_from_file ("resize-options.ui", "file_tools");
 
 	update_dimensione_info_label (self,
@@ -479,14 +480,18 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	if (self->priv->unit == GTH_UNIT_PIXELS) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 0);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 0);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), eel_gconf_get_float (PREF_RESIZE_WIDTH, self->priv->original_width));
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), eel_gconf_get_float (PREF_RESIZE_HEIGHT, self->priv->original_height));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")),
+					   g_settings_get_double (self->priv->settings, PREF_RESIZE_WIDTH));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")),
+					   g_settings_get_double (self->priv->settings, PREF_RESIZE_HEIGHT));
 	}
 	else if (self->priv->unit == GTH_UNIT_PERCENTAGE) {
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), 2);
 		gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), 2);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), eel_gconf_get_float (PREF_RESIZE_WIDTH, 100.0));
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), eel_gconf_get_float (PREF_RESIZE_HEIGHT, 100.0));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")),
+					   g_settings_get_double (self->priv->settings, PREF_RESIZE_WIDTH));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")),
+					   g_settings_get_double (self->priv->settings, PREF_RESIZE_HEIGHT));
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 
@@ -513,11 +518,15 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")), self->priv->filter != CAIRO_FILTER_NEAREST);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_ASPECT_RATIO_INVERT, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")),
+				      self->priv->filter != CAIRO_FILTER_NEAREST);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")),
+				      g_settings_get_boolean (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_INVERT));
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")), MAX (eel_gconf_get_integer (PREF_RESIZE_ASPECT_RATIO_WIDTH, 1), 1));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")), MAX (eel_gconf_get_integer (PREF_RESIZE_ASPECT_RATIO_HEIGHT, 1), 1));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton")),
+				   MAX (g_settings_get_int (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_WIDTH), 1));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton")),
+				   MAX (g_settings_get_int (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_HEIGHT), 1));
 
 	g_signal_connect (GET_WIDGET ("resize_button"),
 			  "clicked",
@@ -568,7 +577,8 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 			  G_CALLBACK (screen_size_button_clicked_cb),
 			  self);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), eel_gconf_get_enum (PREF_RESIZE_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, GTH_ASPECT_RATIO_IMAGE));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox),
+				  g_settings_get_enum (self->priv->settings, PREF_RESIZE_ASPECT_RATIO));
 
 	return options;
 }
@@ -590,14 +600,14 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 		/* save the dialog options */
 
 		unit = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")));
-		eel_gconf_set_enum (PREF_RESIZE_UNIT, GTH_TYPE_UNIT, unit);
-		eel_gconf_set_float (PREF_RESIZE_WIDTH, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton"))));
-		eel_gconf_set_float (PREF_RESIZE_HEIGHT, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton"))));
-		eel_gconf_set_integer (PREF_RESIZE_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
-		eel_gconf_set_integer (PREF_RESIZE_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
-		eel_gconf_set_enum (PREF_RESIZE_ASPECT_RATIO, GTH_TYPE_ASPECT_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
-		eel_gconf_set_boolean (PREF_RESIZE_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
-		eel_gconf_set_boolean (PREF_RESIZE_HIGH_QUALITY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton"))));
+		g_settings_set_enum (self->priv->settings, PREF_RESIZE_UNIT, unit);
+		g_settings_set_double (self->priv->settings, PREF_RESIZE_WIDTH, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton"))));
+		g_settings_set_double (self->priv->settings, PREF_RESIZE_HEIGHT, (float) gtk_spin_button_get_value (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton"))));
+		g_settings_set_int (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_w_spinbutton"))));
+		g_settings_set_int (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("ratio_h_spinbutton"))));
+		g_settings_set_enum (self->priv->settings, PREF_RESIZE_ASPECT_RATIO, gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->ratio_combobox)));
+		g_settings_set_boolean (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_INVERT, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton"))));
+		g_settings_set_boolean (self->priv->settings, PREF_RESIZE_HIGH_QUALITY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton"))));
 
 		/* destroy the options data */
 
@@ -636,6 +646,7 @@ gth_file_tool_resize_finalize (GObject *object)
 	cairo_surface_destroy (self->priv->new_image);
 	cairo_surface_destroy (self->priv->original_image);
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->settings);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_file_tool_resize_parent_class)->finalize (object);
@@ -665,5 +676,6 @@ static void
 gth_file_tool_resize_init (GthFileToolResize *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RESIZE, GthFileToolResizePrivate);
+	self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), FALSE);
 }

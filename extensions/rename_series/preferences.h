@@ -24,11 +24,23 @@
 
 G_BEGIN_DECLS
 
-#define  PREF_RENAME_SERIES_TEMPLATE      "/apps/gthumb/ext/rename_series/template"
-#define  PREF_RENAME_SERIES_START_AT      "/apps/gthumb/ext/rename_series/start_at"
-#define  PREF_RENAME_SERIES_SORT_BY       "/apps/gthumb/ext/rename_series/sort_by"
-#define  PREF_RENAME_SERIES_REVERSE_ORDER "/apps/gthumb/ext/rename_series/reverse_order"
-#define  PREF_RENAME_SERIES_CHANGE_CASE   "/apps/gthumb/ext/rename_series/change_case"
+typedef enum {
+	GTH_CHANGE_CASE_NONE = 0,
+	GTH_CHANGE_CASE_LOWER,
+	GTH_CHANGE_CASE_UPPER,
+} GthChangeCase;
+
+/* schema */
+
+#define GTHUMB_RENAME_SERIES_SCHEMA        GTHUMB_SCHEMA ".rename-series"
+
+/* keys */
+
+#define  PREF_RENAME_SERIES_TEMPLATE       "template"
+#define  PREF_RENAME_SERIES_START_AT       "start-at"
+#define  PREF_RENAME_SERIES_SORT_BY        "sort-by"
+#define  PREF_RENAME_SERIES_REVERSE_ORDER  "reverse-order"
+#define  PREF_RENAME_SERIES_CHANGE_CASE    "change-case"
 
 G_END_DECLS
 

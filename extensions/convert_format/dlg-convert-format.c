@@ -39,6 +39,7 @@ enum {
 
 typedef struct {
 	GthBrowser *browser;
+	GSettings  *settings;
 	GList      *file_list;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
@@ -52,6 +53,7 @@ dialog_destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "convert_format", NULL);
 
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	g_free (data);
@@ -86,7 +88,7 @@ ok_button_clicked_cb (GtkWidget  *widget,
 	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("mime_type_liststore")), &iter,
 			    MIME_TYPE_COLUMN_TYPE, &mime_type,
 			    -1);
-	eel_gconf_set_string (PREF_CONVERT_FORMAT_MIME_TYPE, mime_type);
+	g_settings_set_string (data->settings, PREF_CONVERT_FORMAT_MIME_TYPE, mime_type);
 
 	convert_task = gth_pixbuf_task_new (_("Converting images"),
 					    TRUE,
@@ -144,6 +146,7 @@ dlg_convert_format (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("convert-format.ui", "convert_format");
+	data->settings = g_settings_new (GTHUMB_CONVERT_FORMAT_SCHEMA);
 	data->file_list = gth_file_data_list_dup (file_list);
 	data->use_destination = TRUE;
 
@@ -162,7 +165,7 @@ dlg_convert_format (GthBrowser *browser,
 		GtkListStore *list_store;
 		int           i;
 
-		default_mime_type = eel_gconf_get_string (PREF_CONVERT_FORMAT_MIME_TYPE, DEFAULT_MIME_TYPE);
+		default_mime_type = g_settings_get_string (data->settings, PREF_CONVERT_FORMAT_MIME_TYPE);
 		icon_cache = gth_icon_cache_new_for_widget (data->dialog, GTK_ICON_SIZE_MENU);
 		list_store = (GtkListStore *) GET_WIDGET ("mime_type_liststore");
 		for (i = 0; i < savers->len; i++) {

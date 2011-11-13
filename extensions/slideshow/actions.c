@@ -32,6 +32,7 @@ void
 gth_browser_activate_action_view_slideshow (GtkAction  *action,
 					    GthBrowser *browser)
 {
+	GSettings    *settings;
 	GList        *items;
 	GList        *file_list;
 	GList        *filtered_list;
@@ -64,11 +65,13 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 		return;
 	}
 
+	settings = g_settings_new (GTHUMB_SLIDESHOW_SCHEMA);
+
 	location = gth_browser_get_location_data (browser);
 	if (g_file_info_get_attribute_boolean (location->info, "slideshow::personalize"))
 		transition_id = g_strdup (g_file_info_get_attribute_string (location->info, "slideshow::transition"));
 	else
-		transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+		transition_id = g_settings_get_string (settings, PREF_SLIDESHOW_TRANSITION);
 
 	projector = NULL;
 
@@ -89,10 +92,10 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 		gth_slideshow_set_random_order (GTH_SLIDESHOW (slideshow), g_file_info_get_attribute_boolean (location->info, "slideshow::random-order"));
 	}
 	else {
-		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), (guint) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)));
-		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE));
-		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
-		gth_slideshow_set_random_order (GTH_SLIDESHOW (slideshow), eel_gconf_get_boolean (PREF_SLIDESHOW_RANDOM_ORDER, FALSE));
+		gth_slideshow_set_delay (GTH_SLIDESHOW (slideshow), (guint) (1000.0 * g_settings_get_double (settings, PREF_SLIDESHOW_CHANGE_DELAY)));
+		gth_slideshow_set_automatic (GTH_SLIDESHOW (slideshow), g_settings_get_boolean (settings, PREF_SLIDESHOW_AUTOMATIC));
+		gth_slideshow_set_wrap_around (GTH_SLIDESHOW (slideshow), g_settings_get_boolean (settings, PREF_SLIDESHOW_WRAP_AROUND));
+		gth_slideshow_set_random_order (GTH_SLIDESHOW (slideshow), g_settings_get_boolean (settings, PREF_SLIDESHOW_RANDOM_ORDER));
 	}
 
 	if (g_file_info_get_attribute_status (location->info, "slideshow::playlist") == G_FILE_ATTRIBUTE_STATUS_SET)
@@ -129,6 +132,7 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	gtk_window_present (GTK_WINDOW (slideshow));
 
 	_g_object_list_unref (transitions);
+	g_object_unref (settings);
 	g_free (transition_id);
 	_g_object_list_unref (filtered_list);
 	_g_object_list_unref (file_list);

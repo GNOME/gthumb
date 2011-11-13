@@ -605,12 +605,15 @@ import_current_file (GthImportTask *self)
 			gtk_widget_show (d);
 		}
 		else {
+			GSettings *settings;
+
 			if ((self->priv->subfolder_type != GTH_SUBFOLDER_TYPE_NONE) && (self->priv->imported_catalog != NULL))
 				gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
 			else
 				gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
 
-			if (self->priv->delete_not_supported && eel_gconf_get_boolean (PREF_IMPORT_WARN_DELETE_UNSUPPORTED, TRUE)) {
+			settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
+			if (self->priv->delete_not_supported && g_settings_get_boolean (settings, PREF_IMPORTER_WARN_DELETE_UNSUPPORTED)) {
 				GtkWidget *d;
 
 				d =  _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
@@ -625,8 +628,10 @@ import_current_file (GthImportTask *self)
 						  NULL);
 				gtk_widget_show (d);
 
-				eel_gconf_set_boolean (PREF_IMPORT_WARN_DELETE_UNSUPPORTED, FALSE);
+				g_settings_set_boolean (settings, PREF_IMPORTER_WARN_DELETE_UNSUPPORTED, FALSE);
 			}
+
+			g_object_unref (settings);
 		}
 
 		gth_task_completed (GTH_TASK (self), NULL);

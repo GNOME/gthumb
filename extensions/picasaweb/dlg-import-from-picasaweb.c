@@ -158,6 +158,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 			if (file_list != NULL) {
 				GFile               *destination;
 				GError              *error = NULL;
+				GSettings           *settings;
 				gboolean             single_subfolder;
 				GthSubfolderType     subfolder_type;
 				GthSubfolderFormat   subfolder_format;
@@ -179,10 +180,11 @@ import_dialog_response_cb (GtkDialog *dialog,
 					return;
 				}
 
-				subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
-				subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
-				single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
-				custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
+				settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
+				subfolder_type = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_TYPE);
+				subfolder_format = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_FORMAT);
+				single_subfolder = g_settings_get_boolean (settings, PREF_IMPORTER_SUBFOLDER_SINGLE);
+				custom_format = g_settings_get_string (settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
 
 				tags = g_strsplit ((album->keywords != NULL ? album->keywords : ""), ",", -1);
 				for (i = 0; tags[i] != NULL; i++)
@@ -205,6 +207,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 				g_object_unref (task);
 				g_strfreev (tags);
+				g_object_unref (settings);
 				_g_object_unref (destination);
 			}
 

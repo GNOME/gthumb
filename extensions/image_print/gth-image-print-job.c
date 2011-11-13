@@ -37,6 +37,7 @@ G_DEFINE_TYPE (GthImagePrintJob, gth_image_print_job, G_TYPE_OBJECT)
 
 
 struct _GthImagePrintJobPrivate {
+	GSettings          *settings;
 	GtkPrintOperationAction  action;
 	GthBrowser         *browser;
 	GtkPrintOperation  *print_operation;
@@ -113,6 +114,7 @@ gth_image_print_job_finalize (GObject *base)
 	_g_object_unref (self->priv->print_operation);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->event_name);
+	_g_object_unref (self->priv->settings);
 
 	G_OBJECT_CLASS (gth_image_print_job_parent_class)->finalize (base);
 }
@@ -134,23 +136,24 @@ static void
 gth_image_print_job_init (GthImagePrintJob *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_PRINT_JOB, GthImagePrintJobPrivate);
+	self->priv->settings = g_settings_new (GTHUMB_IMAGE_PRINT_SCHEMA);
 	self->priv->event_name = NULL;
 	self->priv->builder = NULL;
 	self->priv->task = NULL;
 	self->priv->page_setup = NULL;
 	self->priv->current_page = 0;
-	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
-	self->priv->caption_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_CAPTION_FONT_NAME);
-	self->priv->header_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_HEADER_FONT_NAME, DEFAULT_HEADER_FONT_NAME);
-	self->priv->footer_font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FOOTER_FONT_NAME, DEFAULT_FOOTER_FONT_NAME);
+	self->priv->caption_attributes = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_CAPTION);
+	self->priv->caption_font_name = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_FONT_NAME);
+	self->priv->header_font_name = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_HEADER_FONT_NAME);
+	self->priv->footer_font_name = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_FOOTER_FONT_NAME);
 	self->priv->selected = NULL;
-	self->priv->n_rows = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_ROWS, 1);
-	self->priv->n_columns = eel_gconf_get_integer (PREF_IMAGE_PRINT_N_COLUMNS, 1);
-	self->priv->unit = eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS);
+	self->priv->n_rows = g_settings_get_int (self->priv->settings, PREF_IMAGE_PRINT_N_ROWS);
+	self->priv->n_columns = g_settings_get_int (self->priv->settings, PREF_IMAGE_PRINT_N_COLUMNS);
+	self->priv->unit = g_settings_get_enum (self->priv->settings, PREF_IMAGE_PRINT_UNIT);
 	self->priv->header_rectangle.height = 0;
 	self->priv->footer_rectangle.height = 0;
-	self->priv->header_template = eel_gconf_get_string (PREF_IMAGE_PRINT_HEADER, DEFAULT_HEADER);
-	self->priv->footer_template = eel_gconf_get_string (PREF_IMAGE_PRINT_FOOTER, DEFAULT_FOOTER);
+	self->priv->header_template = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_HEADER);
+	self->priv->footer_template = g_settings_get_string (self->priv->settings, PREF_IMAGE_PRINT_FOOTER);
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->printing = FALSE;
@@ -1238,7 +1241,7 @@ caption_chooser_changed_cb (GthMetadataChooser *chooser,
 	reload_required = attribute_list_reload_required (self->priv->caption_attributes, new_caption_attributes);
 	g_free (self->priv->caption_attributes);
 	self->priv->caption_attributes = new_caption_attributes;
-	eel_gconf_set_string (PREF_IMAGE_PRINT_CAPTION, self->priv->caption_attributes);
+	g_settings_set_string (self->priv->settings, PREF_IMAGE_PRINT_CAPTION, self->priv->caption_attributes);
 
 	if (reload_required)
 		gth_image_print_job_load_metadata (self);
@@ -1483,7 +1486,8 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rows_spinbutton")), self->priv->n_rows);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("columns_spinbutton")), self->priv->n_columns);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), eel_gconf_get_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, GTH_METRIC_PIXELS));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")),
+				  g_settings_get_enum (self->priv->settings, PREF_IMAGE_PRINT_UNIT));
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "draw",
@@ -1634,11 +1638,11 @@ operation_custom_widget_apply_cb (GtkPrintOperation *operation,
 {
 	GthImagePrintJob *self = user_data;
 
-	eel_gconf_set_integer (PREF_IMAGE_PRINT_N_ROWS, self->priv->n_rows);
-	eel_gconf_set_integer (PREF_IMAGE_PRINT_N_COLUMNS, self->priv->n_columns);
-	eel_gconf_set_enum (PREF_IMAGE_PRINT_UNIT, GTH_TYPE_METRIC, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox"))));
-	eel_gconf_set_string (PREF_IMAGE_PRINT_HEADER, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry"))));
-	eel_gconf_set_string (PREF_IMAGE_PRINT_FOOTER, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry"))));
+	g_settings_set_int (self->priv->settings, PREF_IMAGE_PRINT_N_ROWS, self->priv->n_rows);
+	g_settings_set_int (self->priv->settings, PREF_IMAGE_PRINT_N_COLUMNS, self->priv->n_columns);
+	g_settings_set_enum (self->priv->settings, PREF_IMAGE_PRINT_UNIT, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox"))));
+	g_settings_set_string (self->priv->settings, PREF_IMAGE_PRINT_HEADER, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry"))));
+	g_settings_set_string (self->priv->settings, PREF_IMAGE_PRINT_FOOTER, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry"))));
 }
 
 

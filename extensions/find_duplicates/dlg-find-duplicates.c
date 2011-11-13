@@ -78,6 +78,7 @@ void
 dlg_find_duplicates (GthBrowser *browser)
 {
 	DialogData *data;
+	GSettings  *settings;
 	GtkWidget  *file_chooser;
 	GList      *tests;
 	char       *general_filter;
@@ -95,6 +96,8 @@ dlg_find_duplicates (GthBrowser *browser)
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("find-duplicates.ui", "find_duplicates");
 
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+
 	/* Get the widgets. */
 
 	data->dialog = _gtk_builder_get_widget (data->builder, "find_duplicates_dialog");
@@ -110,7 +113,7 @@ dlg_find_duplicates (GthBrowser *browser)
 		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_chooser), get_home_uri ());
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
-	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
+	general_filter = g_settings_get_string (settings, PREF_BROWSER_GENERAL_FILTER);
 	active_filter = 0;
 	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
 		const char  *registered_test_id = scan->data;
@@ -141,6 +144,7 @@ dlg_find_duplicates (GthBrowser *browser)
 
 	g_free (general_filter);
 	_g_string_list_free (tests);
+	g_object_unref (settings);
 
 	/* Set the signals handlers. */
 
@@ -162,7 +166,6 @@ dlg_find_duplicates (GthBrowser *browser)
 				  G_OBJECT (data->dialog));
 
 	/* Run dialog. */
-
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);

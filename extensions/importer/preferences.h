@@ -26,12 +26,18 @@
 
 G_BEGIN_DECLS
 
-#define PREF_IMPORT_DESTINATION             "/apps/gthumb/ext/importer/destination"
-#define PREF_IMPORT_SUBFOLDER_TYPE          "/apps/gthumb/ext/importer/subfolder_type"
-#define PREF_IMPORT_SUBFOLDER_FORMAT        "/apps/gthumb/ext/importer/subfolder_format"
-#define PREF_IMPORT_SUBFOLDER_SINGLE        "/apps/gthumb/ext/importer/subfolder_single"
-#define PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT "/apps/gthumb/ext/importer/subfolder_custom_format"
-#define PREF_IMPORT_WARN_DELETE_UNSUPPORTED "/apps/gthumb/ext/importer/warn_delete_unsupported"
+/* schemas */
+
+#define GTHUMB_IMPORTER_SCHEMA                 GTHUMB_SCHEMA ".importer"
+
+/* keys: viewer */
+
+#define PREF_IMPORTER_DESTINATION              "destination"
+#define PREF_IMPORTER_SUBFOLDER_TYPE           "subfolder-type"
+#define PREF_IMPORTER_SUBFOLDER_FORMAT         "subfolder-format"
+#define PREF_IMPORTER_SUBFOLDER_SINGLE         "subfolder-single"
+#define PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT  "subfolder-custom-format"
+#define PREF_IMPORTER_WARN_DELETE_UNSUPPORTED  "warn-delete-unsupported"
 
 G_END_DECLS
 

@@ -22,6 +22,12 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#define  PREF_COMMENTS_SYNCHRONIZE "/apps/gthumb/ext/comments/synchronize"
+/* schema */
+
+#define GTHUMB_COMMENTS_SCHEMA     GTHUMB_SCHEMA ".comments"
+
+/* keys */
+
+#define PREF_COMMENTS_SYNCHRONIZE  "synchronize"
 
 #endif /* PREFERENCES_H */

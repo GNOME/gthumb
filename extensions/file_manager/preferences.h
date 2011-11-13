@@ -24,8 +24,14 @@
 
 G_BEGIN_DECLS
 
-#define  PREF_FILE_MANAGER_COPY_LAST_FOLDER      "/apps/gthumb/ext/file_manager/copy_move/last_folder"
-#define  PREF_FILE_MANAGER_COPY_VIEW_DESTINATION "/apps/gthumb/ext/file_manager/copy_move/view_destination"
+/* schema */
+
+#define GTHUMB_FILE_MANAGER_SCHEMA              GTHUMB_SCHEMA ".file-manager"
+
+/* keys */
+
+#define PREF_FILE_MANAGER_COPY_LAST_FOLDER      "last-folder"
+#define PREF_FILE_MANAGER_COPY_VIEW_DESTINATION "view-destination"
 
 G_END_DECLS
 

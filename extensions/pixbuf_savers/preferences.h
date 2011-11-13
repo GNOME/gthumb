@@ -32,17 +32,36 @@ typedef enum {
 } GthTiffCompression;
 
 
-#define  PREF_JPEG_DEFAULT_EXT          "/apps/gthumb/save_options/jpeg/default_ext"
-#define  PREF_JPEG_QUALITY              "/apps/gthumb/save_options/jpeg/quality"
-#define  PREF_JPEG_SMOOTHING            "/apps/gthumb/save_options/jpeg/smoothing"
-#define  PREF_JPEG_OPTIMIZE             "/apps/gthumb/save_options/jpeg/optimize"
-#define  PREF_JPEG_PROGRESSIVE          "/apps/gthumb/save_options/jpeg/progressive"
-#define  PREF_PNG_COMPRESSION_LEVEL     "/apps/gthumb/save_options/png/compression_level"
-#define  PREF_TGA_RLE_COMPRESSION       "/apps/gthumb/save_options/tga/rle_compression"
-#define  PREF_TIFF_DEFAULT_EXT          "/apps/gthumb/save_options/tiff/default_ext"
-#define  PREF_TIFF_COMPRESSION          "/apps/gthumb/save_options/tiff/compression"
-#define  PREF_TIFF_HORIZONTAL_RES       "/apps/gthumb/save_options/tiff/horizontal_resolution"
-#define  PREF_TIFF_VERTICAL_RES         "/apps/gthumb/save_options/tiff/vertical_resolution"
+/* schemas */
+
+#define GTHUMB_PIXBUF_SAVERS              GTHUMB_SCHEMA ".pixbuf-savers"
+#define GTHUMB_PIXBUF_SAVERS_JPEG_SCHEMA  GTHUMB_PIXBUF_SAVERS ".jpeg"
+#define GTHUMB_PIXBUF_SAVERS_PNG_SCHEMA   GTHUMB_PIXBUF_SAVERS ".png"
+#define GTHUMB_PIXBUF_SAVERS_TGA_SCHEMA   GTHUMB_PIXBUF_SAVERS ".tga"
+#define GTHUMB_PIXBUF_SAVERS_TIFF_SCHEMA  GTHUMB_PIXBUF_SAVERS ".tiff"
+
+/* keys: jpeg */
+
+#define  PREF_JPEG_DEFAULT_EXT            "default-ext"
+#define  PREF_JPEG_QUALITY                "quality"
+#define  PREF_JPEG_SMOOTHING              "smoothing"
+#define  PREF_JPEG_OPTIMIZE               "optimize"
+#define  PREF_JPEG_PROGRESSIVE            "progressive"
+
+/* keys: png */
+
+#define  PREF_PNG_COMPRESSION_LEVEL       "compression-level"
+
+/* keys: tga */
+
+#define  PREF_TGA_RLE_COMPRESSION         "rle-compression"
+
+/* keys: tiff */
+
+#define  PREF_TIFF_DEFAULT_EXT            "default-ext"
+#define  PREF_TIFF_COMPRESSION            "compression"
+#define  PREF_TIFF_HORIZONTAL_RES         "horizontal-resolution"
+#define  PREF_TIFF_VERTICAL_RES           "vertical-resolution"
 
 
 void so__dlg_preferences_construct_cb (GtkWidget  *dialog,

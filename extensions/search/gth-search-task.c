@@ -253,6 +253,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 {
 	GtkWidget          *button;
 	EmbeddedDialogData *dialog_data;
+	GSettings          *settings;
 	GString            *attributes;
 	const char         *test_attributes;
 
@@ -310,13 +311,15 @@ browser_location_ready_cb (GthBrowser    *browser,
 		g_object_unref (general_filter);
 	}
 
-	task->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+
+	task->priv->show_hidden_files = g_settings_get_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
 	task->priv->io_operation = TRUE;
 
 	task->priv->file_source = gth_main_get_file_source (gth_search_get_folder (task->priv->search));
 	gth_file_source_set_cancellable (task->priv->file_source, gth_task_get_cancellable (GTH_TASK (task)));
 
-	attributes = g_string_new (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	attributes = g_string_new (g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
 	test_attributes = gth_test_get_attributes (GTH_TEST (task->priv->test));
 	if (test_attributes[0] != '\0') {
 		g_string_append (attributes, ",");
@@ -332,6 +335,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 					done_func,
 					task);
 
+	g_object_unref (settings);
 	g_string_free (attributes, TRUE);
 }
 

@@ -60,6 +60,7 @@ typedef struct {
 	GthFileData            *location;
 	GList                  *file_list;
 	GtkBuilder             *builder;
+	GSettings              *settings;
 	GtkWidget              *dialog;
 	GtkWidget              *list_view;
 	GtkWidget              *progress_dialog;
@@ -89,6 +90,7 @@ destroy_dialog (DialogData *data)
 	_g_object_unref (data->service);
 	_g_object_unref (data->auth);
 	_g_object_unref (data->conn);
+	_g_object_unref (data->settings);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -229,7 +231,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 						    -1);
 			}
 
-			eel_gconf_set_integer (PREF_FACEBOOK_MAX_RESOLUTION, max_resolution);
+			g_settings_set_int (data->settings, PREF_FACEBOOK_MAX_RESOLUTION, max_resolution);
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 			facebook_service_upload_photos (data->service,
@@ -497,6 +499,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
+	data->settings = g_settings_new (GTHUMB_FACEBOOK_SCHEMA);
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-facebook.ui", "facebook");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
@@ -599,7 +602,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 
 		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), 0);
 
-		default_resolution = eel_gconf_get_integer (PREF_FACEBOOK_MAX_RESOLUTION, 2048);
+		default_resolution = g_settings_get_int (data->settings, PREF_FACEBOOK_MAX_RESOLUTION);
 		tree_model = (GtkTreeModel *) gtk_builder_get_object (data->builder, "resize_liststore");
 		if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
 			do {

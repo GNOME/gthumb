@@ -46,6 +46,7 @@ GthUnit units[] = { GTH_UNIT_PIXELS, GTH_UNIT_PERCENTAGE };
 
 typedef struct {
 	GthBrowser *browser;
+	GSettings  *settings;
 	GList      *file_list;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
@@ -76,6 +77,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "resize_images", NULL);
 
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	g_free (data);
@@ -157,11 +159,11 @@ ok_clicked_cb (GtkWidget  *widget,
 			    MIME_TYPE_COLUMN_TYPE, &mime_type,
 			    -1);
 
-	eel_gconf_set_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, resize_data->width);
-	eel_gconf_set_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, resize_data->height);
-	eel_gconf_set_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, resize_data->unit);
-	eel_gconf_set_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, resize_data->keep_aspect_ratio);
-	eel_gconf_set_string (PREF_RESIZE_IMAGES_MIME_TYPE, mime_type ? mime_type : "");
+	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_SERIES_WIDTH, resize_data->width);
+	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_SERIES_HEIGHT, resize_data->height);
+	g_settings_set_enum (data->settings, PREF_RESIZE_IMAGES_UNIT, resize_data->unit);
+	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_KEEP_RATIO, resize_data->keep_aspect_ratio);
+	g_settings_set_string (data->settings, PREF_RESIZE_IMAGES_MIME_TYPE, mime_type ? mime_type : "");
 
 	resize_task = gth_pixbuf_task_new (_("Resizing images"),
 					   TRUE,
@@ -329,6 +331,7 @@ dlg_resize_images (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("resize-images.ui", "resize_images");
+	data->settings = g_settings_new (GTHUMB_RESIZE_IMAGES_SCHEMA);
 	data->file_list = gth_file_data_list_dup (file_list);
 	data->use_destination = TRUE;
 
@@ -345,9 +348,10 @@ dlg_resize_images (GthBrowser *browser,
 				   first_file_data->file,
 				   NULL);
 
-	unit = eel_gconf_get_enum (PREF_RESIZE_IMAGES_UNIT, GTH_TYPE_UNIT, GTH_UNIT_PIXELS);
+	unit = g_settings_get_enum (data->settings, PREF_RESIZE_IMAGES_UNIT);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), unit);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")), eel_gconf_get_boolean (PREF_RESIZE_IMAGES_KEEP_RATIO, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_ratio_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_RESIZE_IMAGES_KEEP_RATIO));
 
 	default_width_in_pixels = DEFAULT_WIDTH_PIXELS;
 	default_height_in_pixels = DEFAULT_HEIGHT_PIXELS;
@@ -378,16 +382,16 @@ dlg_resize_images (GthBrowser *browser,
 	if (unit == GTH_UNIT_PERCENTAGE) {
 		data->latest_width_in_pixel = default_width_in_pixels;
 		data->latest_height_in_pixel = default_height_in_pixels;
-		data->latest_width_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, DEFAULT_WIDTH_PERCENTAGE);
-		data->latest_height_in_percentage = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, DEFAULT_HEIGHT_PERCENTAGE);
+		data->latest_width_in_percentage = g_settings_get_int (data->settings, PREF_RESIZE_IMAGES_SERIES_WIDTH);
+		data->latest_height_in_percentage = g_settings_get_int (data->settings, PREF_RESIZE_IMAGES_SERIES_HEIGHT);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_percentage);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_percentage);
 	}
 	else if (unit == GTH_UNIT_PIXELS) {
 		data->latest_width_in_percentage = DEFAULT_WIDTH_PERCENTAGE;
 		data->latest_height_in_percentage = DEFAULT_HEIGHT_PERCENTAGE;
-		data->latest_width_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_WIDTH, default_width_in_pixels);
-		data->latest_height_in_pixel = eel_gconf_get_integer (PREF_RESIZE_IMAGES_SERIES_HEIGHT, default_height_in_pixels);
+		data->latest_width_in_pixel = g_settings_get_int (data->settings, PREF_RESIZE_IMAGES_SERIES_WIDTH);
+		data->latest_height_in_pixel = g_settings_get_int (data->settings, PREF_RESIZE_IMAGES_SERIES_HEIGHT);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("width_spinbutton")), data->latest_width_in_pixel);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
 	}
@@ -409,7 +413,7 @@ dlg_resize_images (GthBrowser *browser,
 				    -1);
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("mime_type_combobox")), &iter);
 
-		default_mime_type = eel_gconf_get_string (PREF_RESIZE_IMAGES_MIME_TYPE, "");
+		default_mime_type = g_settings_get_string (data->settings, PREF_RESIZE_IMAGES_MIME_TYPE);
 		icon_cache = gth_icon_cache_new_for_widget (data->dialog, GTK_ICON_SIZE_MENU);
 
 		for (i = 0; i < savers->len; i++) {

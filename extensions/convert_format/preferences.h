@@ -26,7 +26,13 @@
 
 G_BEGIN_DECLS
 
-#define  PREF_CONVERT_FORMAT_MIME_TYPE  "/apps/gthumb/ext/convert_format/mime_type"
+/* schema */
+
+#define GTHUMB_CONVERT_FORMAT_SCHEMA   GTHUMB_SCHEMA ".convert-format"
+
+/* keys */
+
+#define PREF_CONVERT_FORMAT_MIME_TYPE  "mime_type"
 
 G_END_DECLS
 

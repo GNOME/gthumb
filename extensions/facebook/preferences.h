@@ -22,6 +22,12 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#define  PREF_FACEBOOK_MAX_RESOLUTION "/apps/gthumb/ext/facebook/max_resolution"
+/* schema */
+
+#define GTHUMB_FACEBOOK_SCHEMA       GTHUMB_SCHEMA ".facebook"
+
+/* keys */
+
+#define PREF_FACEBOOK_MAX_RESOLUTION "max-resolution"
 
 #endif /* PREFERENCES_H */

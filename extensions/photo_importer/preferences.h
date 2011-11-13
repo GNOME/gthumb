@@ -26,8 +26,14 @@
 
 G_BEGIN_DECLS
 
-#define PREF_PHOTO_IMPORT_DELETE               "/apps/gthumb/ext/photo_importer/delete_from_device"
-#define PREF_PHOTO_IMPORT_ADJUST_ORIENTATION   "/apps/gthumb/ext/photo_importer/adjust_orientation"
+/* schemas */
+
+#define GTHUMB_PHOTO_IMPORTER_SCHEMA             GTHUMB_SCHEMA ".photo-importer"
+
+/* keys: viewer */
+
+#define PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE   "delete-from-device"
+#define PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION   "adjust-orientation"
 
 G_END_DECLS
 

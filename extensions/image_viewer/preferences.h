@@ -24,14 +24,19 @@
 
 #include <gthumb.h>
 
-#define  PREF_VIEWER_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
-#define  PREF_VIEWER_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
-#define  PREF_VIEWER_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
-#define  PREF_VIEWER_RESET_SCROLLBARS       "/apps/gthumb/viewer/reset_scrollbars"
-#define  PREF_VIEWER_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
-#define  PREF_VIEWER_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
-#define  PREF_VIEWER_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
-#define  PREF_VIEWER_SHRINK_WRAP            "/apps/gthumb/viewer/shrink_wrap"
+/* schema */
+
+#define GTHUMB_IMAGE_VIEWER_SCHEMA          GTHUMB_SCHEMA ".image-viewer"
+
+/* keys */
+
+#define PREF_IMAGE_VIEWER_ZOOM_QUALITY      "zoom-quality"
+#define PREF_IMAGE_VIEWER_ZOOM_CHANGE       "zoom-change"
+#define PREF_IMAGE_VIEWER_TRANSP_TYPE       "transparency-type"
+#define PREF_IMAGE_VIEWER_RESET_SCROLLBARS  "reset-scrollbars"
+#define PREF_IMAGE_VIEWER_CHECK_TYPE        "check-type"
+#define PREF_IMAGE_VIEWER_CHECK_SIZE        "check-size"
+#define PREF_IMAGE_VIEWER_BLACK_BACKGROUND  "black-background"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

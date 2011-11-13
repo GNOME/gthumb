@@ -34,6 +34,7 @@ G_DEFINE_TYPE (GthTiffSaver, gth_tiff_saver, GTH_TYPE_PIXBUF_SAVER)
 
 
 struct _GthTiffSaverPrivate {
+	GSettings  *settings;
 	GtkBuilder *builder;
 	char       *default_ext;
 };
@@ -44,6 +45,7 @@ gth_tiff_saver_finalize (GObject *object)
 {
 	GthTiffSaver *self = GTH_TIFF_SAVER (object);
 
+	_g_object_unref (self->priv->settings);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
@@ -57,7 +59,7 @@ gth_tiff_saver_get_default_ext (GthPixbufSaver *base)
 	GthTiffSaver *self = GTH_TIFF_SAVER (base);
 
 	if (self->priv->default_ext == NULL)
-		self->priv->default_ext = eel_gconf_get_string (PREF_TIFF_DEFAULT_EXT, "tiff");
+		self->priv->default_ext = g_settings_get_string (self->priv->settings, PREF_TIFF_DEFAULT_EXT);
 
 	return self->priv->default_ext;
 }
@@ -93,7 +95,7 @@ gth_tiff_saver_get_control (GthPixbufSaver *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "tiff_default_extension_combobox")), active_idx);
 	g_strfreev (extensions);
 
-	compression_type = eel_gconf_get_enum (PREF_TIFF_COMPRESSION, GTH_TYPE_TIFF_COMPRESSION, GTH_TIFF_COMPRESSION_DEFLATE);
+	compression_type = g_settings_get_enum (self->priv->settings, PREF_TIFF_COMPRESSION);
 	switch (compression_type) {
 	case GTH_TIFF_COMPRESSION_NONE:
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_comp_none_radiobutton")), TRUE);
@@ -106,8 +108,10 @@ gth_tiff_saver_get_control (GthPixbufSaver *base)
 		break;
 	}
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_hdpi_spinbutton")), eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES, 72));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_vdpi_spinbutton")), eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES, 72));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_hdpi_spinbutton")),
+				   g_settings_get_int (self->priv->settings, PREF_TIFF_HORIZONTAL_RES));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_vdpi_spinbutton")),
+				   g_settings_get_int (self->priv->settings, PREF_TIFF_VERTICAL_RES));
 
 	return _gtk_builder_get_widget (self->priv->builder, "tiff_options");
 
@@ -134,7 +138,7 @@ gth_tiff_saver_save_options (GthPixbufSaver *base)
 				    &iter,
 				    0, &self->priv->default_ext,
 				    -1);
-		eel_gconf_set_string (PREF_TIFF_DEFAULT_EXT, self->priv->default_ext);
+		g_settings_set_string (self->priv->settings, PREF_TIFF_DEFAULT_EXT, self->priv->default_ext);
 	}
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_comp_none_radiobutton"))))
@@ -143,10 +147,10 @@ gth_tiff_saver_save_options (GthPixbufSaver *base)
 		compression_type = GTH_TIFF_COMPRESSION_DEFLATE;
 	else
 		compression_type = GTH_TIFF_COMPRESSION_JPEG;
-	eel_gconf_set_enum (PREF_TIFF_COMPRESSION, GTH_TYPE_TIFF_COMPRESSION, compression_type);
+	g_settings_set_enum (self->priv->settings, PREF_TIFF_COMPRESSION, compression_type);
 
-	eel_gconf_set_integer (PREF_TIFF_HORIZONTAL_RES, (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_hdpi_spinbutton"))));
-	eel_gconf_set_integer (PREF_TIFF_VERTICAL_RES, (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_vdpi_spinbutton"))));
+	g_settings_set_int (self->priv->settings, PREF_TIFF_HORIZONTAL_RES, (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_hdpi_spinbutton"))));
+	g_settings_set_int (self->priv->settings, PREF_TIFF_VERTICAL_RES, (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tiff_vdpi_spinbutton"))));
 
 #endif /* HAVE_LIBTIFF */
 }
@@ -449,7 +453,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_tiff_saver_save_pixbuf (GthPixbufSaver  *self,
+gth_tiff_saver_save_pixbuf (GthPixbufSaver  *base,
 			    GdkPixbuf       *pixbuf,
 			    char           **buffer,
 			    gsize           *buffer_size,
@@ -457,27 +461,27 @@ gth_tiff_saver_save_pixbuf (GthPixbufSaver  *self,
 			    GError         **error)
 {
 #ifdef HAVE_LIBTIFF
-
-	char     **option_keys;
-	char     **option_values;
-	int        i = -1;
-	int        i_value;
-	gboolean   result;
+	GthTiffSaver  *self = GTH_TIFF_SAVER (base);
+	char         **option_keys;
+	char         **option_values;
+	int            i = -1;
+	int            i_value;
+	gboolean       result;
 
 	option_keys = g_malloc (sizeof (char *) * 4);
 	option_values = g_malloc (sizeof (char *) * 4);
 
 	i++;
 	option_keys[i] = g_strdup ("compression");;
-	option_values[i] = eel_gconf_get_string (PREF_TIFF_COMPRESSION, "deflate");
+	option_values[i] = g_settings_get_string (self->priv->settings, PREF_TIFF_COMPRESSION);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES, 72);
+	i_value = g_settings_get_int (self->priv->settings, PREF_TIFF_VERTICAL_RES);
 	option_keys[i] = g_strdup ("vertical dpi");;
 	option_values[i] = g_strdup_printf ("%d", i_value);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES, 72);
+	i_value = g_settings_get_int (self->priv->settings, PREF_TIFF_HORIZONTAL_RES);
 	option_keys[i] = g_strdup ("horizontal dpi");;
 	option_values[i] = g_strdup_printf ("%d", i_value);
 
@@ -545,6 +549,7 @@ static void
 gth_tiff_saver_init (GthTiffSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIFF_SAVER, GthTiffSaverPrivate);
+	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_TIFF_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;
 }

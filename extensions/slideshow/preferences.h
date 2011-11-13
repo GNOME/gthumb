@@ -24,11 +24,17 @@
 
 #include <gthumb.h>
 
-#define  PREF_SLIDESHOW_CHANGE_DELAY     "/apps/gthumb/ext/slideshow/change_delay"
-#define  PREF_SLIDESHOW_WRAP_AROUND      "/apps/gthumb/ext/slideshow/wrap_around"
-#define  PREF_SLIDESHOW_AUTOMATIC        "/apps/gthumb/ext/slideshow/automatic"
-#define  PREF_SLIDESHOW_TRANSITION       "/apps/gthumb/ext/slideshow/transition"
-#define  PREF_SLIDESHOW_RANDOM_ORDER     "/apps/gthumb/ext/slideshow/random-order"
+/* schema */
+
+#define GTHUMB_SLIDESHOW_SCHEMA          GTHUMB_SCHEMA ".slideshow"
+
+/* keys */
+
+#define  PREF_SLIDESHOW_CHANGE_DELAY     "change-delay"
+#define  PREF_SLIDESHOW_WRAP_AROUND      "wrap-around"
+#define  PREF_SLIDESHOW_AUTOMATIC        "automatic"
+#define  PREF_SLIDESHOW_TRANSITION       "transition"
+#define  PREF_SLIDESHOW_RANDOM_ORDER     "random-order"
 
 #define  DEFAULT_TRANSITION "random"
 

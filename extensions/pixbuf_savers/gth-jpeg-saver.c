@@ -40,6 +40,7 @@ G_DEFINE_TYPE (GthJpegSaver, gth_jpeg_saver, GTH_TYPE_PIXBUF_SAVER)
 
 struct _GthJpegSaverPrivate {
 	GtkBuilder *builder;
+	GSettings  *settings;
 	char       *default_ext;
 };
 
@@ -49,6 +50,7 @@ gth_jpeg_saver_finalize (GObject *object)
 {
 	GthJpegSaver *self = GTH_JPEG_SAVER (object);
 
+	_g_object_unref (self->priv->settings);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
@@ -62,7 +64,7 @@ gth_jpeg_saver_get_default_ext (GthPixbufSaver *base)
 	GthJpegSaver *self = GTH_JPEG_SAVER (base);
 
 	if (self->priv->default_ext == NULL)
-		self->priv->default_ext = eel_gconf_get_string (PREF_JPEG_DEFAULT_EXT, "jpeg");
+		self->priv->default_ext = g_settings_get_string (self->priv->settings, PREF_JPEG_DEFAULT_EXT);
 
 	return self->priv->default_ext;
 }
@@ -96,13 +98,13 @@ gth_jpeg_saver_get_control (GthPixbufSaver *base)
 	g_strfreev (extensions);
 
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_quality_adjustment")),
-				  eel_gconf_get_integer (PREF_JPEG_QUALITY, 85));
+				  g_settings_get_int (self->priv->settings, PREF_JPEG_QUALITY));
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_smooth_adjustment")),
-				  eel_gconf_get_integer (PREF_JPEG_SMOOTHING, 0));
+				  g_settings_get_int (self->priv->settings, PREF_JPEG_SMOOTHING));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_optimize_checkbutton")),
-				      eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE, TRUE));
+				      g_settings_get_boolean (self->priv->settings, PREF_JPEG_OPTIMIZE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_progressive_checkbutton")),
-				      eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE, FALSE));
+				      g_settings_get_boolean (self->priv->settings, PREF_JPEG_PROGRESSIVE));
 
 	return _gtk_builder_get_widget (self->priv->builder, "jpeg_options");
 }
@@ -120,12 +122,12 @@ gth_jpeg_saver_save_options (GthPixbufSaver *base)
 				    &iter,
 				    0, &self->priv->default_ext,
 				    -1);
-		eel_gconf_set_string (PREF_JPEG_DEFAULT_EXT, self->priv->default_ext);
+		g_settings_set_string (self->priv->settings, PREF_JPEG_DEFAULT_EXT, self->priv->default_ext);
 	}
-	eel_gconf_set_integer (PREF_JPEG_QUALITY, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_quality_adjustment"))));
-	eel_gconf_set_integer (PREF_JPEG_SMOOTHING, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_smooth_adjustment"))));
-	eel_gconf_set_boolean (PREF_JPEG_OPTIMIZE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_optimize_checkbutton"))));
-	eel_gconf_set_boolean (PREF_JPEG_PROGRESSIVE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_progressive_checkbutton"))));
+	g_settings_set_int (self->priv->settings, PREF_JPEG_QUALITY, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_quality_adjustment"))));
+	g_settings_set_int (self->priv->settings, PREF_JPEG_SMOOTHING, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "jpeg_smooth_adjustment"))));
+	g_settings_set_boolean (self->priv->settings, PREF_JPEG_OPTIMIZE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_optimize_checkbutton"))));
+	g_settings_set_boolean (self->priv->settings, PREF_JPEG_PROGRESSIVE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "jpeg_progressive_checkbutton"))));
 }
 
 
@@ -427,7 +429,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_jpeg_saver_save_pixbuf (GthPixbufSaver  *self,
+gth_jpeg_saver_save_pixbuf (GthPixbufSaver  *base,
 			    GdkPixbuf       *pixbuf,
 			    char           **buffer,
 			    gsize           *buffer_size,
@@ -435,33 +437,33 @@ gth_jpeg_saver_save_pixbuf (GthPixbufSaver  *self,
 			    GError         **error)
 {
 #ifdef HAVE_LIBJPEG
-
-	char     **option_keys;
-	char     **option_values;
-	int        i = -1;
-	int        i_value;
-	gboolean   result;
+	GthJpegSaver  *self = GTH_JPEG_SAVER (base);
+	char         **option_keys;
+	char         **option_values;
+	int            i = -1;
+	int            i_value;
+	gboolean       result;
 
 	option_keys = g_malloc (sizeof (char *) * 5);
 	option_values = g_malloc (sizeof (char *) * 5);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_JPEG_QUALITY, 85);
+	i_value = g_settings_get_int (self->priv->settings, PREF_JPEG_QUALITY);
 	option_keys[i] = g_strdup ("quality");
 	option_values[i] = g_strdup_printf ("%d", i_value);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_JPEG_SMOOTHING, 0);
+	i_value = g_settings_get_int (self->priv->settings, PREF_JPEG_SMOOTHING);
 	option_keys[i] = g_strdup ("smooth");
 	option_values[i] = g_strdup_printf ("%d", i_value);
 
 	i++;
-	i_value = eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE, TRUE);
+	i_value = g_settings_get_boolean (self->priv->settings, PREF_JPEG_OPTIMIZE);
 	option_keys[i] = g_strdup ("optimize");
 	option_values[i] = g_strdup (i_value != 0 ? "yes" : "no");
 
 	i++;
-	i_value = eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE, TRUE);
+	i_value = g_settings_get_boolean (self->priv->settings, PREF_JPEG_PROGRESSIVE);
 	option_keys[i] = g_strdup ("progressive");
 	option_values[i] = g_strdup (i_value != 0 ? "yes" : "no");
 
@@ -529,6 +531,7 @@ static void
 gth_jpeg_saver_init (GthJpegSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_JPEG_SAVER, GthJpegSaverPrivate);
+	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_JPEG_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;
 }

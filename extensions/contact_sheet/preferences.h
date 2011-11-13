@@ -26,32 +26,41 @@
 
 G_BEGIN_DECLS
 
-#define PREF_CONTACT_SHEET_HEADER                   "/apps/gthumb/ext/contact_sheet/header"
-#define PREF_CONTACT_SHEET_FOOTER                   "/apps/gthumb/ext/contact_sheet/footer"
-#define PREF_CONTACT_SHEET_DESTINATION              "/apps/gthumb/ext/contact_sheet/destination"
-#define PREF_CONTACT_SHEET_TEMPLATE                 "/apps/gthumb/ext/contact_sheet/template"
-#define PREF_CONTACT_SHEET_MIME_TYPE                "/apps/gthumb/ext/contact_sheet/mime_type"
-#define PREF_CONTACT_SHEET_HTML_IMAGE_MAP           "/apps/gthumb/ext/contact_sheet/html_image_map"
-#define PREF_CONTACT_SHEET_THEME                    "/apps/gthumb/ext/contact_sheet/theme"
-#define PREF_CONTACT_SHEET_IMAGES_PER_PAGE          "/apps/gthumb/ext/contact_sheet/images_per_page"
-#define PREF_CONTACT_SHEET_SINGLE_PAGE              "/apps/gthumb/ext/contact_sheet/single_page"
-#define PREF_CONTACT_SHEET_COLUMNS                  "/apps/gthumb/ext/contact_sheet/columns"
-#define PREF_CONTACT_SHEET_SORT_TYPE                "/apps/gthumb/ext/contact_sheet/sort_type"
-#define PREF_CONTACT_SHEET_SORT_INVERSE             "/apps/gthumb/ext/contact_sheet/sort_inverse"
-#define PREF_CONTACT_SHEET_SAME_SIZE                "/apps/gthumb/ext/contact_sheet/same_size"
-#define PREF_CONTACT_SHEET_THUMBNAIL_SIZE           "/apps/gthumb/ext/contact_sheet/thumbnail_size"
-#define PREF_CONTACT_SHEET_SQUARED_THUMBNAIL        "/apps/gthumb/ext/contact_sheet/squared_thumbnail"
-#define PREF_CONTACT_SHEET_THUMBNAIL_CAPTION        "/apps/gthumb/ext/contact_sheet/thumbnail_caption"
+/* schemas */
 
-#define PREF_IMAGE_WALL_DESTINATION                 "/apps/gthumb/ext/image_wall/destination"
-#define PREF_IMAGE_WALL_TEMPLATE                    "/apps/gthumb/ext/image_wall/template"
-#define PREF_IMAGE_WALL_MIME_TYPE                   "/apps/gthumb/ext/image_wall/mime_type"
-#define PREF_IMAGE_WALL_IMAGES_PER_PAGE             "/apps/gthumb/ext/image_wall/images_per_page"
-#define PREF_IMAGE_WALL_SINGLE_PAGE                 "/apps/gthumb/ext/image_wall/single_page"
-#define PREF_IMAGE_WALL_COLUMNS                     "/apps/gthumb/ext/image_wall/columns"
-#define PREF_IMAGE_WALL_SORT_TYPE                   "/apps/gthumb/ext/image_wall/sort_type"
-#define PREF_IMAGE_WALL_SORT_INVERSE                "/apps/gthumb/ext/image_wall/sort_inverse"
-#define PREF_IMAGE_WALL_THUMBNAIL_SIZE              "/apps/gthumb/ext/image_wall/thumbnail_size"
+#define GTHUMB_CONTACT_SHEET_SCHEMA                 GTHUMB_SCHEMA ".contact-sheet.contact-sheet"
+#define GTHUMB_IMAGE_WALL_SCHEMA                    GTHUMB_SCHEMA ".contact-sheet.image-wall"
+
+/* keys: contact sheet */
+
+#define PREF_CONTACT_SHEET_HEADER                   "header"
+#define PREF_CONTACT_SHEET_FOOTER                   "footer"
+#define PREF_CONTACT_SHEET_DESTINATION              "destination"
+#define PREF_CONTACT_SHEET_TEMPLATE                 "template"
+#define PREF_CONTACT_SHEET_MIME_TYPE                "mime-type"
+#define PREF_CONTACT_SHEET_HTML_IMAGE_MAP           "html-image-map"
+#define PREF_CONTACT_SHEET_THEME                    "theme"
+#define PREF_CONTACT_SHEET_IMAGES_PER_PAGE          "images-per-page"
+#define PREF_CONTACT_SHEET_SINGLE_PAGE              "single-page"
+#define PREF_CONTACT_SHEET_COLUMNS                  "columns"
+#define PREF_CONTACT_SHEET_SORT_TYPE                "sort-type"
+#define PREF_CONTACT_SHEET_SORT_INVERSE             "sort-inverse"
+#define PREF_CONTACT_SHEET_SAME_SIZE                "same-size"
+#define PREF_CONTACT_SHEET_THUMBNAIL_SIZE           "thumbnail-size"
+#define PREF_CONTACT_SHEET_SQUARED_THUMBNAIL        "squared-thumbnail"
+#define PREF_CONTACT_SHEET_THUMBNAIL_CAPTION        "thumbnail-caption"
+
+/* keys: image wall */
+
+#define PREF_IMAGE_WALL_DESTINATION                 "destination"
+#define PREF_IMAGE_WALL_TEMPLATE                    "template"
+#define PREF_IMAGE_WALL_MIME_TYPE                   "mime-type"
+#define PREF_IMAGE_WALL_IMAGES_PER_PAGE             "images-per-page"
+#define PREF_IMAGE_WALL_SINGLE_PAGE                 "single-page"
+#define PREF_IMAGE_WALL_COLUMNS                     "columns"
+#define PREF_IMAGE_WALL_SORT_TYPE                   "sort-type"
+#define PREF_IMAGE_WALL_SORT_INVERSE                "sort-inverse"
+#define PREF_IMAGE_WALL_THUMBNAIL_SIZE              "thumbnail_size"
 
 G_END_DECLS
 

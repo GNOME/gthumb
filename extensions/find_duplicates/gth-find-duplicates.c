@@ -959,10 +959,13 @@ gth_find_duplicates_exec (GthBrowser *browser,
 		     	  const char *filter)
 {
 	GthFindDuplicates *self;
+	GSettings         *settings;
 	const char        *test_attributes;
 	int                i;
 
 	self = (GthFindDuplicates *) g_object_new (GTH_TYPE_FIND_DUPLICATES, NULL);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 
 	self->priv->browser = browser;
 	self->priv->location = g_object_ref (location);
@@ -973,7 +976,7 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	self->priv->file_source = gth_main_get_file_source (self->priv->location);
 	gth_file_source_set_cancellable (self->priv->file_source, self->priv->cancellable);
 
-	self->priv->attributes = g_string_new (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	self->priv->attributes = g_string_new (g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
 	g_string_append (self->priv->attributes, ",gth::file::display-size");
 	test_attributes = gth_test_get_attributes (self->priv->test);
 	if (test_attributes[0] != '\0') {
@@ -1011,6 +1014,8 @@ gth_find_duplicates_exec (GthBrowser *browser,
 		gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->select_menu), menu_item);
 	}
 	gth_menu_button_set_menu (GTH_MENU_BUTTON (self->priv->select_button), self->priv->select_menu);
+
+	g_object_unref (settings);
 
 	g_signal_connect (GET_WIDGET ("find_duplicates_dialog"),
 			  "destroy",

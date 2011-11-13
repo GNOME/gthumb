@@ -28,16 +28,19 @@
 GFile *
 gth_import_preferences_get_destination (void)
 {
-	char  *last_destination;
-	GFile *folder;
+	GSettings *settings;
+	char      *last_destination;
+	GFile     *folder;
 
-	last_destination = eel_gconf_get_string (PREF_IMPORT_DESTINATION, NULL);
+	settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
+	last_destination = g_settings_get_string (settings, PREF_IMPORTER_DESTINATION);
 	if ((last_destination == NULL) || (*last_destination == 0))
 		folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_PICTURES));
 	else
 		folder = g_file_new_for_uri (last_destination);
 
 	g_free (last_destination);
+	g_object_unref (settings);
 
 	return folder;
 }

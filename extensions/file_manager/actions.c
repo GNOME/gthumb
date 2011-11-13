@@ -899,10 +899,13 @@ copy_to_folder_dialog (GthBrowser *browser,
 		       GList      *files,
 		       gboolean    move)
 {
+	GSettings *settings;
 	GtkWidget *dialog;
 	char      *start_uri;
 	GtkWidget *box;
 	GtkWidget *view_destination_button;
+
+	settings = g_settings_new (GTHUMB_FILE_MANAGER_SCHEMA);
 
 	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
 					      NULL,
@@ -911,7 +914,11 @@ copy_to_folder_dialog (GthBrowser *browser,
 					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
 					      NULL);
 
-	start_uri = eel_gconf_get_string (PREF_FILE_MANAGER_COPY_LAST_FOLDER, get_home_uri ());
+	start_uri = g_settings_get_string (settings, PREF_FILE_MANAGER_COPY_LAST_FOLDER);
+	if ((start_uri == NULL) || (strcmp (start_uri, "") == 0)) {
+		g_free (start_uri);
+		start_uri = g_strdup (get_home_uri ());
+	}
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
 
@@ -921,7 +928,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 
 	view_destination_button = gtk_check_button_new_with_mnemonic (_("_View the destination"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view_destination_button),
-				      eel_gconf_get_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, TRUE));
+				      g_settings_get_boolean (settings, PREF_FILE_MANAGER_COPY_VIEW_DESTINATION));
 	gtk_widget_show (view_destination_button);
 	gtk_box_pack_start (GTK_BOX (box), view_destination_button, FALSE, FALSE, 0);
 
@@ -937,8 +944,8 @@ copy_to_folder_dialog (GthBrowser *browser,
 			/* save the options */
 
 			view_destination = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view_destination_button));
-			eel_gconf_set_boolean (PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, view_destination);
-			eel_gconf_set_string (PREF_FILE_MANAGER_COPY_LAST_FOLDER, destination_uri);
+			g_settings_set_boolean (settings, PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, view_destination);
+			g_settings_set_string (settings, PREF_FILE_MANAGER_COPY_LAST_FOLDER, destination_uri);
 
 			/* copy / move the files */
 
@@ -949,6 +956,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 	}
 
 	gtk_widget_destroy (dialog);
+	g_object_unref (settings);
 }
 
 

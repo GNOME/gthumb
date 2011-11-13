@@ -26,34 +26,44 @@
 
 G_BEGIN_DECLS
 
-#define PREF_WEBALBUMS_INDEX_FILE               "/apps/gthumb/ext/webalbums/index_file"
-#define PREF_WEBALBUMS_DIR_PREVIEWS             "/apps/gthumb/ext/webalbums/directories/previews"
-#define PREF_WEBALBUMS_DIR_THUMBNAILS           "/apps/gthumb/ext/webalbums/directories/thumbnails"
-#define PREF_WEBALBUMS_DIR_IMAGES               "/apps/gthumb/ext/webalbums/directories/images"
-#define PREF_WEBALBUMS_DIR_HTML_IMAGES          "/apps/gthumb/ext/webalbums/directories/html_images"
-#define PREF_WEBALBUMS_DIR_HTML_INDEXES         "/apps/gthumb/ext/webalbums/directories/html_indexes"
-#define PREF_WEBALBUMS_DIR_THEME_FILES          "/apps/gthumb/ext/webalbums/directories/theme_files"
-#define PREF_WEBALBUMS_DESTINATION              "/apps/gthumb/ext/webalbums/destination"
-#define PREF_WEBALBUMS_COPY_IMAGES              "/apps/gthumb/ext/webalbums/copy_images"
-#define PREF_WEBALBUMS_RESIZE_IMAGES            "/apps/gthumb/ext/webalbums/resize_images"
-#define PREF_WEBALBUMS_RESIZE_WIDTH             "/apps/gthumb/ext/webalbums/resize_width"
-#define PREF_WEBALBUMS_RESIZE_HEIGHT            "/apps/gthumb/ext/webalbums/resize_height"
-#define PREF_WEBALBUMS_IMAGES_PER_INDEX         "/apps/gthumb/ext/webalbums/images_per_index"
-#define PREF_WEBALBUMS_SINGLE_INDEX             "/apps/gthumb/ext/webalbums/single_index"
-#define PREF_WEBALBUMS_COLUMNS                  "/apps/gthumb/ext/webalbums/columns"
-#define PREF_WEBALBUMS_ADAPT_TO_WIDTH           "/apps/gthumb/ext/webalbums/adapt_to_width"
-#define PREF_WEBALBUMS_SORT_TYPE                "/apps/gthumb/ext/webalbums/sort_type"
-#define PREF_WEBALBUMS_SORT_INVERSE             "/apps/gthumb/ext/webalbums/sort_inverse"
-#define PREF_WEBALBUMS_HEADER                   "/apps/gthumb/ext/webalbums/header"
-#define PREF_WEBALBUMS_FOOTER                   "/apps/gthumb/ext/webalbums/footer"
-#define PREF_WEBALBUMS_IMAGE_PAGE_HEADER        "/apps/gthumb/ext/webalbums/image_page_header"
-#define PREF_WEBALBUMS_IMAGE_PAGE_FOOTER        "/apps/gthumb/ext/webalbums/image_page_footer"
-#define PREF_WEBALBUMS_THEME                    "/apps/gthumb/ext/webalbums/theme"
-#define PREF_WEBALBUMS_ENABLE_THUMBNAIL_CAPTION "/apps/gthumb/ext/webalbums/enable_thumbnail_caption"
-#define PREF_WEBALBUMS_THUMBNAIL_CAPTION        "/apps/gthumb/ext/webalbums/thumbnail_caption"
-#define PREF_WEBALBUMS_ENABLE_IMAGE_DESCRIPTION "/apps/gthumb/ext/webalbums/enable_image_description"
-#define PREF_WEBALBUMS_ENABLE_IMAGE_ATTRIBUTES  "/apps/gthumb/ext/webalbums/enable_image_attributes"
-#define PREF_WEBALBUMS_IMAGE_ATTRIBUTES         "/apps/gthumb/ext/webalbums/image_attributes"
+/* schemas */
+
+#define GTHUMB_WEBALBUMS_SCHEMA                 GTHUMB_SCHEMA ".webalbums"
+#define GTHUMB_WEBALBUMS_DIRECTORIES_SCHEMA     GTHUMB_WEBALBUMS_SCHEMA ".directories"
+
+/* keys: webalbums */
+
+#define PREF_WEBALBUMS_INDEX_FILE               "index-file"
+#define PREF_WEBALBUMS_DESTINATION              "destination"
+#define PREF_WEBALBUMS_COPY_IMAGES              "copy-images"
+#define PREF_WEBALBUMS_RESIZE_IMAGES            "resize-images"
+#define PREF_WEBALBUMS_RESIZE_WIDTH             "resize-width"
+#define PREF_WEBALBUMS_RESIZE_HEIGHT            "resize-height"
+#define PREF_WEBALBUMS_IMAGES_PER_INDEX         "images-per-index"
+#define PREF_WEBALBUMS_SINGLE_INDEX             "single-index"
+#define PREF_WEBALBUMS_COLUMNS                  "columns"
+#define PREF_WEBALBUMS_ADAPT_TO_WIDTH           "adapt-to-width"
+#define PREF_WEBALBUMS_SORT_TYPE                "sort-type"
+#define PREF_WEBALBUMS_SORT_INVERSE             "sort-inverse"
+#define PREF_WEBALBUMS_HEADER                   "header"
+#define PREF_WEBALBUMS_FOOTER                   "footer"
+#define PREF_WEBALBUMS_IMAGE_PAGE_HEADER        "image-page-header"
+#define PREF_WEBALBUMS_IMAGE_PAGE_FOOTER        "image-page-footer"
+#define PREF_WEBALBUMS_THEME                    "theme"
+#define PREF_WEBALBUMS_ENABLE_THUMBNAIL_CAPTION "enable-thumbnail-caption"
+#define PREF_WEBALBUMS_THUMBNAIL_CAPTION        "thumbnail-caption"
+#define PREF_WEBALBUMS_ENABLE_IMAGE_DESCRIPTION "enable-image-description"
+#define PREF_WEBALBUMS_ENABLE_IMAGE_ATTRIBUTES  "enable-image-attributes"
+#define PREF_WEBALBUMS_IMAGE_ATTRIBUTES         "image-attributes"
+
+/* keys: webalbums directories */
+
+#define PREF_WEBALBUMS_DIR_PREVIEWS             "previews"
+#define PREF_WEBALBUMS_DIR_THUMBNAILS           "thumbnails"
+#define PREF_WEBALBUMS_DIR_IMAGES               "images"
+#define PREF_WEBALBUMS_DIR_HTML_IMAGES          "html-images"
+#define PREF_WEBALBUMS_DIR_HTML_INDEXES         "html-indexes"
+#define PREF_WEBALBUMS_DIR_THEME_FILES          "theme-files"
 
 G_END_DECLS
 

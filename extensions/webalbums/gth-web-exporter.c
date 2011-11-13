@@ -40,18 +40,6 @@
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
 
-/* Default subdirectories.
- * - Used as fallback when gconf values are empty or not accessible
- * - Please keep in sync with values in gthumb.schemas.in
- */
-
-#define DEFAULT_WEB_DIR_PREVIEWS     "previews"
-#define DEFAULT_WEB_DIR_THUMBNAILS   "thumbnails"
-#define DEFAULT_WEB_DIR_IMAGES       "images"
-#define DEFAULT_WEB_DIR_HTML_IMAGES  "html"
-#define DEFAULT_WEB_DIR_HTML_INDEXES "html"
-#define DEFAULT_WEB_DIR_THEME_FILES  "theme"
-
 
 G_DEFINE_TYPE (GthWebExporter, gth_web_exporter, GTH_TYPE_TASK)
 
@@ -2920,6 +2908,7 @@ gth_web_exporter_exec (GthTask *task)
 {
 	GthWebExporter *self;
 	GError         *error = NULL;
+	GSettings      *settings;
 	GString        *required_attributes;
 
 	g_return_if_fail (GTH_IS_WEB_EXPORTER (task));
@@ -2956,15 +2945,20 @@ gth_web_exporter_exec (GthTask *task)
 	if (self->priv->images_per_index % self->priv->columns_per_page > 0)
 		self->priv->rows_per_page++;
 
-	/* get index file name and subdirs from gconf (hidden prefs) */
+	/* get index file name and sub-directories (hidden preferences) */
 
-	self->priv->index_file = eel_gconf_get_string (PREF_WEBALBUMS_INDEX_FILE, DEFAULT_INDEX_FILE);
-	self->priv->directories.previews = eel_gconf_get_string (PREF_WEBALBUMS_DIR_PREVIEWS, DEFAULT_WEB_DIR_PREVIEWS);
-	self->priv->directories.thumbnails = eel_gconf_get_string (PREF_WEBALBUMS_DIR_THUMBNAILS, DEFAULT_WEB_DIR_THUMBNAILS);
-	self->priv->directories.images = eel_gconf_get_string (PREF_WEBALBUMS_DIR_IMAGES, DEFAULT_WEB_DIR_IMAGES);
-	self->priv->directories.html_images = eel_gconf_get_string (PREF_WEBALBUMS_DIR_HTML_IMAGES, DEFAULT_WEB_DIR_HTML_IMAGES);
-	self->priv->directories.html_indexes = eel_gconf_get_string (PREF_WEBALBUMS_DIR_HTML_INDEXES, DEFAULT_WEB_DIR_HTML_INDEXES);
-	self->priv->directories.theme_files = eel_gconf_get_string (PREF_WEBALBUMS_DIR_THEME_FILES, DEFAULT_WEB_DIR_THEME_FILES);
+	settings = g_settings_new (GTHUMB_WEBALBUMS_SCHEMA);
+	self->priv->index_file = g_settings_get_string (settings, PREF_WEBALBUMS_INDEX_FILE);
+	g_object_unref (settings);
+
+	settings = g_settings_new (GTHUMB_WEBALBUMS_DIRECTORIES_SCHEMA);
+	self->priv->directories.previews = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_PREVIEWS);
+	self->priv->directories.thumbnails = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_THUMBNAILS);
+	self->priv->directories.images = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_IMAGES);
+	self->priv->directories.html_images = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_HTML_IMAGES);
+	self->priv->directories.html_indexes = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_HTML_INDEXES);
+	self->priv->directories.theme_files = g_settings_get_string (settings, PREF_WEBALBUMS_DIR_THEME_FILES);
+	g_object_unref (settings);
 
 	/* create a tmp dir */
 

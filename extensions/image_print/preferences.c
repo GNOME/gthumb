@@ -31,6 +31,7 @@
 
 typedef struct {
 	GtkBuilder *builder;
+	GSettings  *settings;
 } BrowserData;
 
 
@@ -38,6 +39,7 @@ static void
 browser_data_free (BrowserData *data)
 {
 	g_object_unref (data->builder);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -55,21 +57,22 @@ ip__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	data = g_new0 (BrowserData, 1);
 	data->builder = _gtk_builder_new_from_file ("print-preferences.ui", "image_print");
+	data->settings = g_settings_new (GTHUMB_IMAGE_PRINT_SCHEMA);
 
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 
 	page = _gtk_builder_get_widget (data->builder, "preferences_page");
 	gtk_widget_show (page);
 
-	font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, DEFAULT_CAPTION_FONT_NAME);
+	font_name = g_settings_get_string (data->settings, PREF_IMAGE_PRINT_FONT_NAME);
 	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton")), font_name);
 	g_free (font_name);
 
-	font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_HEADER_FONT_NAME, DEFAULT_HEADER_FONT_NAME);
+	font_name = g_settings_get_string (data->settings, PREF_IMAGE_PRINT_HEADER_FONT_NAME);
 	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontbutton")), font_name);
 	g_free (font_name);
 
-	font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FOOTER_FONT_NAME, DEFAULT_FOOTER_FONT_NAME);
+	font_name = g_settings_get_string (data->settings, PREF_IMAGE_PRINT_FOOTER_FONT_NAME);
 	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontbutton")), font_name);
 	g_free (font_name);
 
@@ -91,7 +94,7 @@ ip__dlg_preferences_apply_cb (GtkWidget  *dialog,
 	data = g_object_get_data (G_OBJECT (dialog), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);
 
-	eel_gconf_set_string (PREF_IMAGE_PRINT_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton"))));
-	eel_gconf_set_string (PREF_IMAGE_PRINT_HEADER_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontbutton"))));
-	eel_gconf_set_string (PREF_IMAGE_PRINT_FOOTER_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontbutton"))));
+	g_settings_set_string (data->settings, PREF_IMAGE_PRINT_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton"))));
+	g_settings_set_string (data->settings, PREF_IMAGE_PRINT_HEADER_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontbutton"))));
+	g_settings_set_string (data->settings, PREF_IMAGE_PRINT_FOOTER_FONT_NAME, gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontbutton"))));
 }

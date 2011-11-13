@@ -22,6 +22,12 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#define  PREF_PICASAWEB_SYNCHRONIZE "/apps/gthumb/ext/picasaweb/synchronize"
+/* schema */
+
+#define GTHUMB_PICASAWEB_SCHEMA     GTHUMB_SCHEMA ".picasaweb"
+
+/* keys */
+
+#define  PREF_PICASAWEB_SYNCHRONIZE "synchronize"
 
 #endif /* PREFERENCES_H */

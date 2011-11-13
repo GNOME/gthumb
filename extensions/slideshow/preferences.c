@@ -31,6 +31,7 @@
 
 
 typedef struct {
+	GSettings *settings;
 	GtkWidget *preferences_page;
 } BrowserData;
 
@@ -38,6 +39,7 @@ typedef struct {
 static void
 browser_data_free (BrowserData *data)
 {
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -50,7 +52,7 @@ transition_combobox_changed_cb (GtkComboBox *combo_box,
 
 	transition_id = gth_slideshow_preferences_get_transition_id (GTH_SLIDESHOW_PREFERENCES (data->preferences_page));
 	if (transition_id != NULL)
-		eel_gconf_set_string (PREF_SLIDESHOW_TRANSITION, transition_id);
+		g_settings_set_string (data->settings, PREF_SLIDESHOW_TRANSITION, transition_id);
 
 	g_free (transition_id);
 }
@@ -60,7 +62,7 @@ static void
 automatic_checkbutton_toggled_cb (GtkToggleButton *button,
 				  BrowserData     *data)
 {
-	eel_gconf_set_boolean (PREF_SLIDESHOW_AUTOMATIC, gtk_toggle_button_get_active (button));
+	g_settings_set_boolean (data->settings, PREF_SLIDESHOW_AUTOMATIC, gtk_toggle_button_get_active (button));
 }
 
 
@@ -68,7 +70,7 @@ static void
 wrap_around_checkbutton_toggled_cb (GtkToggleButton *button,
 				    BrowserData     *data)
 {
-	eel_gconf_set_boolean (PREF_SLIDESHOW_WRAP_AROUND, gtk_toggle_button_get_active (button));
+	g_settings_set_boolean (data->settings, PREF_SLIDESHOW_WRAP_AROUND, gtk_toggle_button_get_active (button));
 }
 
 
@@ -76,7 +78,7 @@ static void
 random_order_checkbutton_toggled_cb (GtkToggleButton *button,
 				     BrowserData     *data)
 {
-	eel_gconf_set_boolean (PREF_SLIDESHOW_RANDOM_ORDER, gtk_toggle_button_get_active (button));
+	g_settings_set_boolean (data->settings, PREF_SLIDESHOW_RANDOM_ORDER, gtk_toggle_button_get_active (button));
 }
 
 
@@ -84,7 +86,7 @@ static void
 change_delay_spinbutton_value_changed_cb (GtkSpinButton *spinbutton,
 				          BrowserData   *data)
 {
-	eel_gconf_set_float (PREF_SLIDESHOW_CHANGE_DELAY, gtk_spin_button_get_value (spinbutton));
+	g_settings_set_double (data->settings, PREF_SLIDESHOW_CHANGE_DELAY, gtk_spin_button_get_value (spinbutton));
 }
 
 
@@ -101,12 +103,14 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 
 	data = g_new0 (BrowserData, 1);
-	current_transition = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+	data->settings = g_settings_new (GTHUMB_SLIDESHOW_SCHEMA);
+
+	current_transition = g_settings_get_string (data->settings, PREF_SLIDESHOW_TRANSITION);
 	data->preferences_page = gth_slideshow_preferences_new (current_transition,
-							        eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
-							        (int) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)),
-							        eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE),
-							        eel_gconf_get_boolean (PREF_SLIDESHOW_RANDOM_ORDER, FALSE));
+							        g_settings_get_boolean (data->settings, PREF_SLIDESHOW_AUTOMATIC),
+							        (int) (1000.0 * g_settings_get_double (data->settings, PREF_SLIDESHOW_CHANGE_DELAY)),
+							        g_settings_get_boolean (data->settings, PREF_SLIDESHOW_WRAP_AROUND),
+							        g_settings_get_boolean (data->settings, PREF_SLIDESHOW_RANDOM_ORDER));
 	gtk_widget_show (data->preferences_page);
 	g_free (current_transition);
 

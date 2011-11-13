@@ -27,6 +27,7 @@
 
 typedef struct {
 	GtkBuilder *builder;
+	GSettings  *settings;
 	GtkWidget  *dialog;
 } DialogData;
 
@@ -36,6 +37,7 @@ destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->builder);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -44,7 +46,9 @@ static void
 sync_checkbutton_clicked_cb (GtkWidget  *widget,
 			     DialogData *data)
 {
-	eel_gconf_set_boolean (PREF_COMMENTS_SYNCHRONIZE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "sync_checkbutton"))));
+	g_settings_set_boolean (data->settings,
+			        PREF_COMMENTS_SYNCHRONIZE,
+			        gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "sync_checkbutton"))));
 }
 
 
@@ -55,6 +59,7 @@ dlg_comments_preferences (GtkWindow *parent)
 	
 	data = g_new0 (DialogData, 1);
 	data->builder = _gtk_builder_new_from_file ("comments-preferences.ui", "comments");
+	data->settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
 
 	/* Get the widgets. */
 
@@ -62,7 +67,8 @@ dlg_comments_preferences (GtkWindow *parent)
 
 	/* Set widgets data. */
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "sync_checkbutton")), eel_gconf_get_boolean (PREF_COMMENTS_SYNCHRONIZE, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "sync_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_COMMENTS_SYNCHRONIZE));
 
 	/* Set the signals handlers. */
 	

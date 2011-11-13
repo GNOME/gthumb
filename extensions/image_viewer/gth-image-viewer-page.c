@@ -27,9 +27,6 @@
 #include "preferences.h"
 
 
-#define GCONF_NOTIFICATIONS 7
-
-
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
 
 
@@ -42,6 +39,7 @@ G_DEFINE_TYPE_WITH_CODE (GthImageViewerPage,
 
 struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
+	GSettings         *settings;
 	GtkWidget         *image_navigator;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
@@ -52,7 +50,6 @@ struct _GthImageViewerPagePrivate {
 	GthFileData       *file_data;
 	gulong             requested_ready_id;
 	gulong             original_size_ready_id;
-	guint              cnxn_id[GCONF_NOTIFICATIONS];
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
 	gboolean           image_changed;
@@ -456,92 +453,92 @@ image_preloader_original_size_ready_cb (GthImagePreloader  *preloader,
 
 
 static void
-pref_zoom_quality_changed (GConfClient *client,
-			   guint        cnxn_id,
-			   GConfEntry  *entry,
-			   gpointer     user_data)
+pref_zoom_quality_changed (GSettings *settings,
+			   char      *key,
+			   gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_HIGH));
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
+					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_zoom_change_changed (GConfClient *client,
-			  guint        cnxn_id,
-			  GConfEntry  *entry,
-			  gpointer     user_data)
+pref_zoom_change_changed (GSettings *settings,
+		   	  char      *key,
+		   	  gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_ZOOM_CHANGE, GTH_TYPE_ZOOM_CHANGE, GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER));
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
+					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_transp_type_changed (GConfClient *client,
-			  guint        cnxn_id,
-			  GConfEntry  *entry,
-			  gpointer     user_data)
+pref_transp_type_changed (GSettings *settings,
+			  char      *key,
+			  gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_TRANSP_TYPE, GTH_TYPE_TRANSP_TYPE, GTH_TRANSP_TYPE_NONE));
+	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer),
+					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_check_type_changed (GConfClient *client,
-			 guint        cnxn_id,
-			 GConfEntry  *entry,
-			 gpointer     user_data)
+pref_check_type_changed (GSettings *settings,
+		   	 char      *key,
+		   	 gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_TYPE, GTH_TYPE_CHECK_TYPE, GTH_CHECK_TYPE_MIDTONE));
+	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer),
+					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_TYPE));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_check_size_changed (GConfClient *client,
-			 guint        cnxn_id,
-			 GConfEntry  *entry,
-			 gpointer     user_data)
+pref_check_size_changed (GSettings *settings,
+		   	 char      *key,
+		   	 gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_SIZE, GTH_TYPE_CHECK_SIZE, GTH_CHECK_SIZE_MEDIUM));
+	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_SIZE));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_black_background_changed (GConfClient *client,
-			       guint        cnxn_id,
-			       GConfEntry  *entry,
-			       gpointer     user_data)
+pref_black_background_changed (GSettings *settings,
+		   	       char      *key,
+		   	       gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
+	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
+					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
 	gtk_widget_queue_draw (self->priv->viewer);
 }
 
 
 static void
-pref_reset_scrollbars_changed (GConfClient *client,
-			       guint        cnxn_id,
-			       GConfEntry  *entry,
-			       gpointer     user_data)
+pref_reset_scrollbars_changed (GSettings *settings,
+		   	       char      *key,
+		   	       gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
 
-	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
+	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
+					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
 }
 
 
@@ -697,7 +694,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 {
 	GthImageViewerPage *self;
 	GtkAction          *action;
-	int                 i;
 
 	self = (GthImageViewerPage*) base;
 
@@ -725,13 +721,20 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							       self);
 
 	self->priv->viewer = gth_image_viewer_new ();
-	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_ZOOM_QUALITY, GTH_TYPE_ZOOM_QUALITY, GTH_ZOOM_QUALITY_HIGH));
-	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_ZOOM_CHANGE, GTH_TYPE_ZOOM_CHANGE, GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER));
-	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_TRANSP_TYPE, GTH_TYPE_TRANSP_TYPE, GTH_TRANSP_TYPE_NONE));
-	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_TYPE, GTH_TYPE_CHECK_TYPE, GTH_CHECK_TYPE_MIDTONE));
-	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_enum (PREF_CHECK_SIZE, GTH_TYPE_CHECK_SIZE, GTH_CHECK_SIZE_MEDIUM));
-	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
-	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
+					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
+					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
+	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer),
+					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE));
+	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer),
+					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_TYPE));
+	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_SIZE));
+	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
+					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
+	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
+					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
 
 	gtk_widget_show (self->priv->viewer);
 
@@ -774,46 +777,36 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gth_browser_set_viewer_widget (browser, self->priv->image_navigator);
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
-	/* gconf notifications */
+	/* settings notifications */
 
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		self->priv->cnxn_id[i] = 0;
-
-	i = 0;
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_ZOOM_QUALITY,
-					   pref_zoom_quality_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_ZOOM_CHANGE,
-					   pref_zoom_change_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_TRANSP_TYPE,
-					   pref_transp_type_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_CHECK_TYPE,
-					   pref_check_type_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_CHECK_SIZE,
-					   pref_check_size_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_BLACK_BACKGROUND,
-					   pref_black_background_changed,
-					   self);
-
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_RESET_SCROLLBARS,
-					   pref_reset_scrollbars_changed,
-					   self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_ZOOM_QUALITY,
+			  G_CALLBACK (pref_zoom_quality_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_ZOOM_CHANGE,
+			  G_CALLBACK (pref_zoom_change_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_TRANSP_TYPE,
+			  G_CALLBACK (pref_transp_type_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_CHECK_TYPE,
+			  G_CALLBACK (pref_check_type_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_CHECK_SIZE,
+			  G_CALLBACK (pref_check_size_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_BLACK_BACKGROUND,
+			  G_CALLBACK (pref_black_background_changed),
+			  browser);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
+			  G_CALLBACK (pref_reset_scrollbars_changed),
+			  browser);
 }
 
 
@@ -822,17 +815,8 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
 	GtkAction          *action;
-	int                 i;
 
 	self = (GthImageViewerPage*) base;
-
-	/* remove gconf notifications */
-
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (self->priv->cnxn_id[i] != 0)
-			eel_gconf_notification_remove (self->priv->cnxn_id[i]);
-
-	/**/
 
 	action = gtk_action_group_get_action (gth_browser_get_actions (self->priv->browser), "Viewer_Tools");
 	g_object_set (action, "sensitive", FALSE, NULL);
@@ -1007,7 +991,8 @@ gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 	}
 	else {
 		gth_image_navigator_set_automatic_scrollbars (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), TRUE);
-		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
+		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
+						       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
 	}
 }
 
@@ -1365,6 +1350,7 @@ gth_image_viewer_page_finalize (GObject *obj)
 
 	self = GTH_IMAGE_VIEWER_PAGE (obj);
 
+	g_object_unref (self->priv->settings);
 	g_object_unref (self->priv->history);
 	_g_object_unref (self->priv->file_data);
 	_g_object_unref (self->priv->last_loaded);
@@ -1409,6 +1395,7 @@ static void
 gth_image_viewer_page_init (GthImageViewerPage *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate);
+	self->priv->settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
 	self->priv->history = gth_image_history_new ();
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;

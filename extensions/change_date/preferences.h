@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2011 Free Software Foundation, Inc.
+ *  Copyright © 2011 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,16 +26,22 @@
 
 G_BEGIN_DECLS
 
-#define  PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE          "/apps/gthumb/ext/change_date/set_last_modified_date"
-#define  PREF_CHANGE_DATE_SET_COMMENT_DATE		  "/apps/gthumb/ext/change_date/set_comment_date"
-#define  PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG   "/apps/gthumb/ext/change_date/set_exif_datetimeoriginal_tag"
-#define  PREF_CHANGE_DATE_TO_FOLLOWING_DATE               "/apps/gthumb/ext/change_date/to_following_date"
-#define  PREF_CHANGE_DATE_DATE                            "/apps/gthumb/ext/change_date/date"
-#define  PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE           "/apps/gthumb/ext/change_date/to_file_modified_date"
-#define  PREF_CHANGE_DATE_TO_FILE_CREATION_DATE           "/apps/gthumb/ext/change_date/to_file_creation_date"
-#define  PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE          "/apps/gthumb/ext/change_date/to_photo_original_date"
-#define  PREF_CHANGE_DATE_ADJUST_TIME                     "/apps/gthumb/ext/change_date/adjust_time"
-#define  PREF_CHANGE_DATE_TIME_ADJUSTMENT                 "/apps/gthumb/ext/change_date/time_adjustment"
+/* schema */
+
+#define GTHUMB_CHANGE_DATE_SCHEMA                        GTHUMB_SCHEMA ".change-date"
+
+/* keys */
+
+#define PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE          "set-last-modified-date"
+#define PREF_CHANGE_DATE_SET_COMMENT_DATE		 "set-comment-date"
+#define PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG   "set-exif-datetimeoriginal-tag"
+#define PREF_CHANGE_DATE_TO_FOLLOWING_DATE               "to-following-date"
+#define PREF_CHANGE_DATE_DATE                            "date"
+#define PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE           "to-file-modified-date"
+#define PREF_CHANGE_DATE_TO_FILE_CREATION_DATE           "to-file-creation-date"
+#define PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE          "to-photo-original-date"
+#define PREF_CHANGE_DATE_ADJUST_TIME                     "adjust-time"
+#define PREF_CHANGE_DATE_TIME_ADJUSTMENT                 "time-adjustment"
 
 G_END_DECLS
 

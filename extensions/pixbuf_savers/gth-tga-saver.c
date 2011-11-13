@@ -31,6 +31,7 @@ G_DEFINE_TYPE (GthTgaSaver, gth_tga_saver, GTH_TYPE_PIXBUF_SAVER)
 
 struct _GthTgaSaverPrivate {
 	GtkBuilder *builder;
+	GSettings  *settings;
 };
 
 
@@ -40,6 +41,7 @@ gth_tga_saver_finalize (GObject *object)
 	GthTgaSaver *self = GTH_TGA_SAVER (object);
 
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->settings);
 	G_OBJECT_CLASS (gth_tga_saver_parent_class)->finalize (object);
 }
 
@@ -53,7 +55,7 @@ gth_tga_saver_get_control (GthPixbufSaver *base)
 		self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "pixbuf_savers");
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton")),
-				      eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION, TRUE));
+				      g_settings_get_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION));
 
 	return _gtk_builder_get_widget (self->priv->builder, "tga_options");
 }
@@ -64,7 +66,7 @@ gth_tga_saver_save_options (GthPixbufSaver *base)
 {
 	GthTgaSaver *self = GTH_TGA_SAVER (base);
 
-	eel_gconf_set_boolean (PREF_TGA_RLE_COMPRESSION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton"))));
+	g_settings_set_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton"))));
 }
 
 
@@ -313,18 +315,19 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_tga_saver_save_pixbuf (GthPixbufSaver  *self,
+gth_tga_saver_save_pixbuf (GthPixbufSaver  *base,
 			   GdkPixbuf       *pixbuf,
 			   char           **buffer,
 			   gsize           *buffer_size,
 			   const char      *mime_type,
 			   GError         **error)
 {
-	char      *pixbuf_type;
-	char     **option_keys;
-	char     **option_values;
-	int        i = -1;
-	gboolean   result;
+	GthTgaSaver  *self = GTH_TGA_SAVER (base);
+	char         *pixbuf_type;
+	char        **option_keys;
+	char        **option_values;
+	int           i = -1;
+	gboolean      result;
 
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
@@ -333,7 +336,7 @@ gth_tga_saver_save_pixbuf (GthPixbufSaver  *self,
 
 	i++;
 	option_keys[i] = g_strdup ("compression");
-	option_values[i] = g_strdup (eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION, TRUE) ? "rle" : "none");
+	option_values[i] = g_strdup (g_settings_get_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION) ? "rle" : "none");
 
 	i++;
 	option_keys[i] = NULL;
@@ -382,4 +385,5 @@ static void
 gth_tga_saver_init (GthTgaSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TGA_SAVER, GthTgaSaverPrivate);
+	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_TGA_SCHEMA);
 }

@@ -49,6 +49,7 @@ typedef struct {
 	GtkWidget     *dialog;
 	GtkWidget     *preferences_dialog;
 	GtkBuilder    *builder;
+	GSettings     *settings;
 	GFile         *source;
 	GFile         *last_source;
 	GtkListStore  *device_list_store;
@@ -98,9 +99,10 @@ destroy_dialog (gpointer user_data)
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->entry_points_changed_id);
 
 	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
-	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
+	g_settings_set_boolean (data->settings, PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE, delete_imported);
 
 	if (data->import) {
+		GSettings          *importer_settings;
 		GFile              *destination;
 		gboolean            single_subfolder;
 		GthSubfolderType    subfolder_type;
@@ -108,11 +110,12 @@ destroy_dialog (gpointer user_data)
 		char               *custom_format;
 		GList              *file_list;
 
+		importer_settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 		destination = gth_import_preferences_get_destination ();
-		single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
-		subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
-		subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
-		custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
+		single_subfolder = g_settings_get_boolean (importer_settings, PREF_IMPORTER_SUBFOLDER_SINGLE);
+		subfolder_type = g_settings_get_enum (importer_settings, PREF_IMPORTER_SUBFOLDER_TYPE);
+		subfolder_format = g_settings_get_enum (importer_settings, PREF_IMPORTER_SUBFOLDER_FORMAT);
+		custom_format = g_settings_get_string (importer_settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
 
 		file_list = get_selected_file_list (data);
 		if (file_list != NULL) {
@@ -131,7 +134,7 @@ destroy_dialog (gpointer user_data)
 						    tags,
 						    delete_imported,
 						    FALSE,
-						    eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, FALSE));
+						    g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION));
 			gth_browser_exec_task (data->browser, task, FALSE);
 
 			g_strfreev (tags);
@@ -141,12 +144,14 @@ destroy_dialog (gpointer user_data)
 		_g_object_list_unref (file_list);
 		g_free (custom_format);
 		_g_object_unref (destination);
+		g_object_unref (importer_settings);
 	}
 
 	gtk_widget_destroy (data->dialog);
 	gth_browser_set_dialog (data->browser, "photo_importer", NULL);
 
 	g_object_unref (data->vfs_source);
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	_g_object_unref (data->source);
 	_g_object_unref (data->last_source);
@@ -563,6 +568,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("photo-importer.ui", "photo_importer");
+	data->settings = g_settings_new (GTHUMB_PHOTO_IMPORTER_SCHEMA);
 	data->selector_type = selector_type;
 	data->source = _g_object_ref (source);
 	data->cancellable = g_cancellable_new ();
@@ -670,7 +676,8 @@ dlg_photo_importer (GthBrowser            *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_box")), data->tags_entry, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), data->tags_entry);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE));
 
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));

@@ -36,6 +36,7 @@
 
 typedef struct {
 	GthBrowser         *browser;
+	GSettings          *settings;
 	GthMediaViewerPage *page;
 	gboolean            playing_before_screenshot;
 	GdkPixbuf          *pixbuf;
@@ -48,6 +49,7 @@ save_date_free (SaveData *save_data)
 {
 	_g_object_unref (save_data->file_data);
 	_g_object_unref (save_data->pixbuf);
+	_g_object_unref (save_data->settings);
 	g_free (save_data);
 }
 
@@ -94,7 +96,7 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 	folder = g_file_get_parent (file);
 	folder_uri = g_file_get_uri (folder);
-	eel_gconf_set_string (PREF_GSTREAMER_SCREESHOT_LOCATION, folder_uri);
+	g_settings_set_string (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, folder_uri);
 
 	save_data->file_data = gth_file_data_new (file, NULL);
 	gth_file_data_set_mime_type (save_data->file_data, mime_type);
@@ -137,7 +139,7 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 		char        *display_name;
 		int          attempt;
 
-		last_uri = eel_gconf_get_string (PREF_GSTREAMER_SCREESHOT_LOCATION, "~");
+		last_uri = g_settings_get_string (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION);
 		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0))
 			last_folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
 		else
@@ -196,6 +198,7 @@ media_viewer_activate_action_screenshot (GtkAction          *action,
 
 	save_data = g_new0 (SaveData, 1);
 	save_data->browser = gth_media_viewer_page_get_browser (page);
+	save_data->settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
 	save_data->page = page;
 	save_data->playing_before_screenshot = gth_media_viewer_page_is_playing (page);
 

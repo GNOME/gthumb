@@ -47,6 +47,7 @@ enum {
 
 typedef struct {
 	GthBrowser *browser;
+	GSettings  *settings;
 	GList      *file_list;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
@@ -75,6 +76,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "image_wall", NULL);
 	_g_object_list_unref (data->file_list);
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -111,11 +113,11 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	s_value = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
 	destination = g_file_new_for_uri (s_value);
-	eel_gconf_set_path (PREF_IMAGE_WALL_DESTINATION, s_value);
+	_g_settings_set_uri (data->settings, PREF_IMAGE_WALL_DESTINATION, s_value);
 	g_free (s_value);
 
 	template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-	eel_gconf_set_string (PREF_IMAGE_WALL_TEMPLATE, template);
+	g_settings_set_string (data->settings, PREF_IMAGE_WALL_TEMPLATE, template);
 
 	mime_type = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), &iter)) {
@@ -124,31 +126,31 @@ ok_clicked_cb (GtkWidget  *widget,
 				    FILE_TYPE_COLUMN_MIME_TYPE, &mime_type,
 				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, &file_extension,
 				    -1);
-		eel_gconf_set_string (PREF_IMAGE_WALL_MIME_TYPE, mime_type);
+		g_settings_set_string (data->settings, PREF_IMAGE_WALL_MIME_TYPE, mime_type);
 	}
 
 	images_per_index = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")));
-	eel_gconf_set_integer (PREF_IMAGE_WALL_IMAGES_PER_PAGE, images_per_index);
+	g_settings_set_int (data->settings, PREF_IMAGE_WALL_IMAGES_PER_PAGE, images_per_index);
 
 	single_page = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")));
-	eel_gconf_set_boolean (PREF_IMAGE_WALL_SINGLE_PAGE, single_page);
+	g_settings_set_boolean (data->settings, PREF_IMAGE_WALL_SINGLE_PAGE, single_page);
 
 	columns = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")));
-	eel_gconf_set_integer (PREF_IMAGE_WALL_COLUMNS, columns);
+	g_settings_set_int (data->settings, PREF_IMAGE_WALL_COLUMNS, columns);
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("sort_liststore")),
 				    &iter,
 				    SORT_TYPE_COLUMN_DATA, &sort_type,
 				    -1);
-		eel_gconf_set_string (PREF_IMAGE_WALL_SORT_TYPE, sort_type->name);
+		g_settings_set_string (data->settings, PREF_IMAGE_WALL_SORT_TYPE, sort_type->name);
 	}
 
 	sort_inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")));
-	eel_gconf_set_boolean (PREF_IMAGE_WALL_SORT_INVERSE, sort_inverse);
+	g_settings_set_boolean (data->settings, PREF_IMAGE_WALL_SORT_INVERSE, sort_inverse);
 
 	thumbnail_size = thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")))];
-	eel_gconf_set_integer (PREF_IMAGE_WALL_THUMBNAIL_SIZE, thumbnail_size);
+	g_settings_set_int (data->settings, PREF_IMAGE_WALL_THUMBNAIL_SIZE, thumbnail_size);
 
 	theme = gth_contact_sheet_theme_new ();
 	theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID;
@@ -241,6 +243,7 @@ dlg_image_wall (GthBrowser *browser,
 	data->browser = browser;
 	data->file_list = _g_object_list_ref (file_list);
 	data->builder = _gtk_builder_new_from_file ("image-wall.ui", "contact_sheet");
+	data->settings = g_settings_new (GTHUMB_IMAGE_WALL_SCHEMA);
 
 	data->dialog = _gtk_builder_get_widget (data->builder, "image_wall_dialog");
 	gth_browser_set_dialog (browser, "image_wall", data->dialog);
@@ -248,7 +251,7 @@ dlg_image_wall (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	s_value = eel_gconf_get_path (PREF_IMAGE_WALL_DESTINATION, NULL);
+	s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_DESTINATION);
 	if (s_value == NULL) {
 		GFile *location = gth_browser_get_location (data->browser);
 		if (location != NULL)
@@ -259,11 +262,11 @@ dlg_image_wall (GthBrowser *browser,
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
 	g_free (s_value);
 
-	s_value = eel_gconf_get_path (PREF_IMAGE_WALL_TEMPLATE, NULL);
+	s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_TEMPLATE);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), s_value);
 	g_free (s_value);
 
-	default_mime_type = eel_gconf_get_string (PREF_IMAGE_WALL_MIME_TYPE, "image/jpeg");
+	default_mime_type = g_settings_get_string (data->settings, PREF_IMAGE_WALL_MIME_TYPE);
 	active_index = 0;
 	savers = gth_main_get_type_set ("pixbuf-saver");
 	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
@@ -287,11 +290,14 @@ dlg_image_wall (GthBrowser *browser,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), active_index);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_IMAGE_WALL_IMAGES_PER_PAGE, 25));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), eel_gconf_get_boolean (PREF_IMAGE_WALL_SINGLE_PAGE, FALSE));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_IMAGE_WALL_COLUMNS, 5));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")),
+				   g_settings_get_int (data->settings, PREF_IMAGE_WALL_IMAGES_PER_PAGE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_IMAGE_WALL_SINGLE_PAGE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")),
+				   g_settings_get_int (data->settings, PREF_IMAGE_WALL_COLUMNS));
 
-	default_sort_type = eel_gconf_get_string (PREF_IMAGE_WALL_SORT_TYPE, "general::unsorted");
+	default_sort_type = g_settings_get_string (data->settings, PREF_IMAGE_WALL_SORT_TYPE);
 	active_index = 0;
 	sort_types = gth_main_get_all_sort_types ();
 	for (i = 0, scan = sort_types; scan; scan = scan->next, i++) {
@@ -311,7 +317,8 @@ dlg_image_wall (GthBrowser *browser,
 	g_free (default_sort_type);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), active_index);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_IMAGE_WALL_SORT_INVERSE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_IMAGE_WALL_SORT_INVERSE));
 
 	for (i = 0; i < thumb_sizes; i++) {
 		char        *name;
@@ -327,7 +334,8 @@ dlg_image_wall (GthBrowser *browser,
 
 		g_free (name);
 	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")), get_idx_from_size (eel_gconf_get_integer (PREF_IMAGE_WALL_THUMBNAIL_SIZE, 128)));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")),
+				  get_idx_from_size (g_settings_get_int (data->settings, PREF_IMAGE_WALL_THUMBNAIL_SIZE)));
 
 	update_sensitivity (data);
 

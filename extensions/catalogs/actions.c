@@ -351,10 +351,12 @@ gth_browser_activate_action_catalog_remove (GtkAction  *action,
 					    GthBrowser *browser)
 {
 	GthFileData *file_data;
+	GSettings   *settings;
 
 	file_data = gth_browser_get_folder_popup_file_data (browser);
 
-	if (eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION)) {
+	settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
+	if (g_settings_get_boolean (settings, PREF_MSG_CONFIRM_DELETION)) {
 		char      *prompt;
 		GtkWidget *d;
 
@@ -376,6 +378,8 @@ gth_browser_activate_action_catalog_remove (GtkAction  *action,
 		remove_catalog (GTK_WINDOW (browser), file_data);
 		g_object_unref (file_data);
 	}
+
+	g_object_unref (settings);
 }
 
 

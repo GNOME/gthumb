@@ -38,6 +38,7 @@ G_DEFINE_TYPE (GthFileToolRotate, gth_file_tool_rotate, GTH_TYPE_FILE_TOOL)
 
 
 struct _GthFileToolRotatePrivate {
+	GSettings             *settings;
 	cairo_surface_t       *image;
 	gboolean               has_alpha;
 	GtkBuilder            *builder;
@@ -417,14 +418,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 							       _("Center Lines"),
 							       _("Uniform"),
 							       NULL);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->crop_grid), eel_gconf_get_enum (PREF_ROTATE_GRID_TYPE, GTH_TYPE_GRID_TYPE, GTH_GRID_THIRDS));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->crop_grid), g_settings_get_enum (self->priv->settings, PREF_ROTATE_GRID_TYPE));
 	gtk_widget_show (self->priv->crop_grid);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("crop_grid_hbox")), self->priv->crop_grid, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("crop_grid_label")), self->priv->crop_grid);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), eel_gconf_get_enum (PREF_ROTATE_RESIZE, GTH_TYPE_TRANSFORM_RESIZE, GTH_TRANSFORM_RESIZE_CROP));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), g_settings_get_enum (self->priv->settings, PREF_ROTATE_RESIZE));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio")), eel_gconf_get_boolean (PREF_ROTATE_KEEP_ASPECT_RATIO, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio")), g_settings_get_boolean (self->priv->settings, PREF_ROTATE_KEEP_ASPECT_RATIO));
 
 	self->priv->alignment = gth_image_line_tool_new ();
 
@@ -442,7 +443,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("background_transparent_checkbutton")), FALSE);
 	}
 
-	color_spec = eel_gconf_get_string (PREF_ROTATE_BACKGROUND_COLOR, "#000");
+	color_spec = g_settings_get_string (self->priv->settings, PREF_ROTATE_BACKGROUND_COLOR);
 	if (! self->priv->has_alpha && gdk_color_parse (color_spec, &color)) {
 		_gdk_color_to_cairo_color (&color, &background_color);
 	}
@@ -553,16 +554,16 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 		/* save the dialog options */
 
-		eel_gconf_set_enum (PREF_ROTATE_RESIZE, GTH_TYPE_TRANSFORM_RESIZE, gth_image_rotator_get_resize (GTH_IMAGE_ROTATOR (self->priv->rotator)));
-		eel_gconf_set_boolean (PREF_ROTATE_KEEP_ASPECT_RATIO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio"))));
-		eel_gconf_set_enum (PREF_ROTATE_GRID_TYPE, GTH_TYPE_GRID_TYPE, gth_image_rotator_get_grid_type (GTH_IMAGE_ROTATOR (self->priv->rotator)));
+		g_settings_set_enum (self->priv->settings, PREF_ROTATE_RESIZE, gth_image_rotator_get_resize (GTH_IMAGE_ROTATOR (self->priv->rotator)));
+		g_settings_set_boolean (self->priv->settings, PREF_ROTATE_KEEP_ASPECT_RATIO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_aspect_ratio"))));
+		g_settings_set_enum (self->priv->settings, PREF_ROTATE_GRID_TYPE, gth_image_rotator_get_grid_type (GTH_IMAGE_ROTATOR (self->priv->rotator)));
 
 		gth_image_rotator_get_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
 		color.red = background_color.r * 255.0;
 		color.green = background_color.g * 255.0;
 		color.blue = background_color.b * 255.0;
 		color_spec = gdk_color_to_string (&color);
-		eel_gconf_set_string (PREF_ROTATE_BACKGROUND_COLOR, color_spec);
+		g_settings_set_string (self->priv->settings, PREF_ROTATE_BACKGROUND_COLOR, color_spec);
 		g_free (color_spec);
 	}
 
@@ -600,6 +601,7 @@ gth_file_tool_rotate_finalize (GObject *object)
 
 	cairo_surface_destroy (self->priv->image);
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->settings);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_file_tool_rotate_parent_class)->finalize (object);
@@ -629,6 +631,7 @@ static void
 gth_file_tool_rotate_init (GthFileToolRotate *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
+	self->priv->settings = g_settings_new (GTHUMB_ROTATE_SCHEMA);
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Freely rotate the image"));

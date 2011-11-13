@@ -31,12 +31,6 @@
 
 
 enum {
-	GTH_CHANGE_CASE_NONE = 0,
-	GTH_CHANGE_CASE_LOWER,
-	GTH_CHANGE_CASE_UPPER,
-};
-
-enum {
 	SORT_DATA_COLUMN,
 	SORT_NAME_COLUMN,
 	SORT_NUM_COLUMNS
@@ -73,6 +67,7 @@ static GthTemplateCode Rename_Special_Codes[] = {
 
 typedef struct {
 	GthBrowser    *browser;
+	GSettings     *settings;
 	GList         *file_list;
 	GList         *file_data_list;
 	GList         *new_file_list;
@@ -114,6 +109,7 @@ destroy_dialog (DialogData *data)
 	_g_object_list_unref (data->file_list);
 	_g_string_list_free (data->new_names_list);
 	g_list_free (data->new_file_list);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -560,9 +556,9 @@ ok_button_clicked__step2 (GError   *error,
 	/* -- save preferences -- */
 
 	if (data->file_list->next != NULL)
-		eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
+		g_settings_set_string (data->settings, PREF_RENAME_SERIES_TEMPLATE, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
 
-	eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton"))));
+	g_settings_set_int (data->settings, PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton"))));
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_combobox), &iter)) {
 		GthFileDataSort *sort_type;
@@ -571,11 +567,11 @@ ok_button_clicked__step2 (GError   *error,
 				    &iter,
 				    SORT_DATA_COLUMN, &sort_type,
 				    -1);
-		eel_gconf_set_string (PREF_RENAME_SERIES_SORT_BY, sort_type->name);
+		g_settings_set_string (data->settings, PREF_RENAME_SERIES_SORT_BY, sort_type->name);
 	}
 
-	eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE_ORDER, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton"))));
-	eel_gconf_set_integer (PREF_RENAME_SERIES_CHANGE_CASE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->change_case_combobox)));
+	g_settings_set_boolean (data->settings, PREF_RENAME_SERIES_REVERSE_ORDER, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton"))));
+	g_settings_set_enum (data->settings, PREF_RENAME_SERIES_CHANGE_CASE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->change_case_combobox)));
 
 	/* -- prepare and exec rename task -- */
 
@@ -834,6 +830,7 @@ dlg_rename_series (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("rename-series.ui", "rename_series");
+	data->settings = g_settings_new (GTHUMB_RENAME_SERIES_SCHEMA);
 	data->file_list = _g_file_list_dup (file_list);
 	data->first_update = TRUE;
 	data->template_changed = TRUE;
@@ -882,9 +879,10 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), data->list_view);
 
 	if (data->file_list->next != NULL)
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, DEFAULT_TEMPLATE));
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")),
+				    g_settings_get_string (data->settings, PREF_RENAME_SERIES_TEMPLATE));
 
-	start_at = eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, DEFAULT_START_AT);
+	start_at = g_settings_get_int (data->settings, PREF_RENAME_SERIES_START_AT);
 	if (start_at < 0)
 		start_at = DEFAULT_START_AT;
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")),  start_at * 1.0);
@@ -903,7 +901,7 @@ dlg_rename_series (GthBrowser *browser,
 					"text", SORT_NAME_COLUMN,
 					NULL);
 
-	sort_by = eel_gconf_get_string (PREF_RENAME_SERIES_SORT_BY, DEFAULT_SORT_BY);
+	sort_by = g_settings_get_string (data->settings, PREF_RENAME_SERIES_SORT_BY);
 	found = FALSE;
 
 	sort_types = gth_main_get_all_sort_types ();
@@ -934,11 +932,12 @@ dlg_rename_series (GthBrowser *browser,
 
 	/* reverse order */
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE_ORDER, DEFAULT_REVERSE_ORDER));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_RENAME_SERIES_REVERSE_ORDER));
 
 	/* change case */
 
-	change_case = eel_gconf_get_integer (PREF_RENAME_SERIES_CHANGE_CASE, DEFAULT_CHANGE_CASE);
+	change_case = g_settings_get_enum (data->settings, PREF_RENAME_SERIES_CHANGE_CASE);
 	if ((change_case < GTH_CHANGE_CASE_NONE) || (change_case > GTH_CHANGE_CASE_UPPER))
 		change_case = DEFAULT_CHANGE_CASE;
 

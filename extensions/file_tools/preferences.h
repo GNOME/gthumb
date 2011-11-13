@@ -19,35 +19,47 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef FILE_TOOLS_PREFERENCES_H
+#define FILE_TOOLS_PREFERENCES_H
 
 #include <gthumb.h>
 
 G_BEGIN_DECLS
 
-#define PREF_CROP_GRID_TYPE             "/apps/gthumb/ext/crop/grid_type"
-#define PREF_CROP_ASPECT_RATIO          "/apps/gthumb/ext/crop/aspect_ratio"
-#define PREF_CROP_ASPECT_RATIO_INVERT   "/apps/gthumb/ext/crop/aspect_ratio_invert"
-#define PREF_CROP_ASPECT_RATIO_WIDTH    "/apps/gthumb/ext/crop/aspect_ratio_width"
-#define PREF_CROP_ASPECT_RATIO_HEIGHT   "/apps/gthumb/ext/crop/aspect_ratio_height"
-#define PREF_CROP_BIND_DIMENSIONS       "/apps/gthumb/ext/crop/bind_dimensions"
-#define PREF_CROP_BIND_FACTOR           "/apps/gthumb/ext/crop/bind_factor"
+/* schemas */
 
-#define PREF_RESIZE_UNIT                "/apps/gthumb/ext/resize/unit"
-#define PREF_RESIZE_WIDTH               "/apps/gthumb/ext/resize/width"
-#define PREF_RESIZE_HEIGHT              "/apps/gthumb/ext/resize/height"
-#define PREF_RESIZE_ASPECT_RATIO_WIDTH  "/apps/gthumb/ext/resize/aspect_ratio_width"
-#define PREF_RESIZE_ASPECT_RATIO_HEIGHT "/apps/gthumb/ext/resize/aspect_ratio_height"
-#define PREF_RESIZE_ASPECT_RATIO        "/apps/gthumb/ext/resize/aspect_ratio"
-#define PREF_RESIZE_ASPECT_RATIO_INVERT "/apps/gthumb/ext/resize/aspect_ratio_invert"
-#define PREF_RESIZE_HIGH_QUALITY        "/apps/gthumb/ext/resize/high_quality"
+#define GTHUMB_CROP_SCHEMA              GTHUMB_SCHEMA ".crop"
+#define GTHUMB_RESIZE_SCHEMA            GTHUMB_SCHEMA ".resize"
+#define GTHUMB_ROTATE_SCHEMA            GTHUMB_SCHEMA ".rotate"
 
-#define PREF_ROTATE_RESIZE              "/apps/gthumb/ext/rotate/resize"
-#define PREF_ROTATE_KEEP_ASPECT_RATIO   "/apps/gthumb/ext/rotate/keep_aspect_ratio"
-#define PREF_ROTATE_GRID_TYPE           "/apps/gthumb/ext/rotate/grid_type"
-#define PREF_ROTATE_BACKGROUND_COLOR    "/apps/gthumb/ext/rotate/background_color"
+/* keys: crop */
+
+#define PREF_CROP_GRID_TYPE             "grid-type"
+#define PREF_CROP_ASPECT_RATIO          "aspect-ratio"
+#define PREF_CROP_ASPECT_RATIO_INVERT   "aspect-ratio-invert"
+#define PREF_CROP_ASPECT_RATIO_WIDTH    "aspect-ratio-width"
+#define PREF_CROP_ASPECT_RATIO_HEIGHT   "aspect-ratio-height"
+#define PREF_CROP_BIND_DIMENSIONS       "bind-dimensions"
+#define PREF_CROP_BIND_FACTOR           "bind-factor"
+
+/* keys: resize */
+
+#define PREF_RESIZE_UNIT                "unit"
+#define PREF_RESIZE_WIDTH               "width"
+#define PREF_RESIZE_HEIGHT              "height"
+#define PREF_RESIZE_ASPECT_RATIO_WIDTH  "aspect-ratio-width"
+#define PREF_RESIZE_ASPECT_RATIO_HEIGHT "aspect-ratio-height"
+#define PREF_RESIZE_ASPECT_RATIO        "aspect-ratio"
+#define PREF_RESIZE_ASPECT_RATIO_INVERT "aspect-ratio-invert"
+#define PREF_RESIZE_HIGH_QUALITY        "high-quality"
+
+/* keys: rotate */
+
+#define PREF_ROTATE_RESIZE              "resize"
+#define PREF_ROTATE_KEEP_ASPECT_RATIO   "keep-aspect-ratio"
+#define PREF_ROTATE_GRID_TYPE           "grid-type"
+#define PREF_ROTATE_BACKGROUND_COLOR    "background-color"
 
 G_END_DECLS
 
-#endif /* PREFERENCES_H */
+#endif /* FILE_TOOLS_PREFERENCES_H */

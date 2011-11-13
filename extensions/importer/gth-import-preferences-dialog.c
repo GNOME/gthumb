@@ -45,6 +45,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 struct _GthImportPreferencesDialogPrivate {
 	GtkBuilder *builder;
+	GSettings  *settings;
 	GtkWidget  *subfolder_type_list;
 	GtkWidget  *subfolder_format_list;
 	char       *event;
@@ -59,6 +60,7 @@ gth_import_preferences_dialog_finalize (GObject *object)
 
 	self = GTH_IMPORT_PREFERENCES_DIALOG (object);
 
+	_g_object_unref (self->priv->settings);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->event);
 
@@ -114,22 +116,22 @@ save_options (GthImportPreferencesDialog *self)
 		char *uri;
 
 		uri = g_file_get_uri (destination);
-		eel_gconf_set_string (PREF_IMPORT_DESTINATION, uri);
+		g_settings_set_string (self->priv->settings, PREF_IMPORTER_DESTINATION, uri);
 
 		g_free (uri);
 	}
 
 	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
-	eel_gconf_set_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, single_subfolder);
+	g_settings_set_boolean (self->priv->settings, PREF_IMPORTER_SUBFOLDER_SINGLE, single_subfolder);
 
 	subfolder_type = get_subfolder_type (self);
-	eel_gconf_set_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, subfolder_type);
+	g_settings_set_enum (self->priv->settings, PREF_IMPORTER_SUBFOLDER_TYPE, subfolder_type);
 
 	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->subfolder_format_list));
-	eel_gconf_set_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, subfolder_format);
+	g_settings_set_enum (self->priv->settings, PREF_IMPORTER_SUBFOLDER_FORMAT, subfolder_format);
 
 	custom_format = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")));
-	eel_gconf_set_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, custom_format);
+	g_settings_set_string (self->priv->settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT, custom_format);
 
 	_g_object_unref (destination);
 }
@@ -310,6 +312,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_PREFERENCES_DIALOG, GthImportPreferencesDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("import-preferences.ui", "importer");
+	self->priv->settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 	self->priv->help_visible = FALSE;
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
@@ -353,13 +356,16 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
 						  destination,
 						  NULL);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE));
-	subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")),
+				      g_settings_get_boolean (self->priv->settings, PREF_IMPORTER_SUBFOLDER_SINGLE));
+	subfolder_type = g_settings_get_enum (self->priv->settings, PREF_IMPORTER_SUBFOLDER_TYPE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("autosubfolder_checkbutton")), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->subfolder_type_list), (subfolder_type == 0) ? 0 : subfolder_type - 1);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->subfolder_format_list), eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->subfolder_type_list),
+				  (subfolder_type == 0) ? 0 : subfolder_type - 1);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->subfolder_format_list),
+				  g_settings_get_enum (self->priv->settings, PREF_IMPORTER_SUBFOLDER_FORMAT));
 
-	custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
+	custom_format = g_settings_get_string (self->priv->settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
 	if (custom_format != NULL) {
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("custom_format_entry")), custom_format);
 		g_free (custom_format);

@@ -145,6 +145,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 			file_list = get_files_to_download (data);
 			if (file_list != NULL) {
+				GSettings           *settings;
 				GFile               *destination;
 				gboolean             single_subfolder;
 				GthSubfolderType     subfolder_type;
@@ -152,11 +153,12 @@ import_dialog_response_cb (GtkDialog *dialog,
 				char                *custom_format;
 				GthTask             *task;
 
+				settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 				destination = gth_import_preferences_get_destination ();
-				subfolder_type = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
-				subfolder_format = eel_gconf_get_enum (PREF_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD);
-				single_subfolder = eel_gconf_get_boolean (PREF_IMPORT_SUBFOLDER_SINGLE, FALSE);
-				custom_format = eel_gconf_get_string (PREF_IMPORT_SUBFOLDER_CUSTOM_FORMAT, "");
+				subfolder_type = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_TYPE);
+				subfolder_format = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_FORMAT);
+				single_subfolder = g_settings_get_boolean (settings, PREF_IMPORTER_SUBFOLDER_SINGLE);
+				custom_format = g_settings_get_string (settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
 
 				task = gth_import_task_new (data->browser,
 							    file_list,
@@ -175,6 +177,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 				g_object_unref (task);
 				_g_object_unref (destination);
+				g_object_unref (settings);
 			}
 
 			_g_object_list_unref (file_list);

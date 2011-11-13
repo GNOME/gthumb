@@ -31,6 +31,7 @@ G_DEFINE_TYPE (GthPngSaver, gth_png_saver, GTH_TYPE_PIXBUF_SAVER)
 
 struct _GthPngSaverPrivate {
 	GtkBuilder *builder;
+	GSettings  *settings;
 };
 
 
@@ -40,6 +41,7 @@ gth_png_saver_finalize (GObject *object)
 	GthPngSaver *self = GTH_PNG_SAVER (object);
 
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->settings);
 	G_OBJECT_CLASS (gth_png_saver_parent_class)->finalize (object);
 }
 
@@ -53,7 +55,7 @@ gth_png_saver_get_control (GthPixbufSaver *base)
 		self->priv->builder = _gtk_builder_new_from_file ("png-options.ui", "pixbuf_savers");
 
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "png_compression_adjustment")),
-				  eel_gconf_get_integer (PREF_PNG_COMPRESSION_LEVEL, 6));
+				  g_settings_get_int (self->priv->settings, PREF_PNG_COMPRESSION_LEVEL));
 
 	return _gtk_builder_get_widget (self->priv->builder, "png_options");
 }
@@ -64,7 +66,7 @@ gth_png_saver_save_options (GthPixbufSaver *base)
 {
 	GthPngSaver *self = GTH_PNG_SAVER (base);
 
-	eel_gconf_set_integer (PREF_PNG_COMPRESSION_LEVEL, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "png_compression_adjustment"))));
+	g_settings_set_int (self->priv->settings, PREF_PNG_COMPRESSION_LEVEL, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "png_compression_adjustment"))));
 }
 
 
@@ -77,19 +79,20 @@ gth_png_saver_can_save (GthPixbufSaver *self,
 
 
 static gboolean
-gth_png_saver_save_pixbuf (GthPixbufSaver  *self,
+gth_png_saver_save_pixbuf (GthPixbufSaver  *base,
 			   GdkPixbuf       *pixbuf,
 			   char           **buffer,
 			   gsize           *buffer_size,
 			   const char      *mime_type,
 			   GError         **error)
 {
-	char      *pixbuf_type;
-	char     **option_keys;
-	char     **option_values;
-	int        i = -1;
-	int        i_value;
-	gboolean   result;
+	GthPngSaver  *self = GTH_PNG_SAVER (base);
+	char         *pixbuf_type;
+	char        **option_keys;
+	char        **option_values;
+	int           i = -1;
+	int           i_value;
+	gboolean      result;
 
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
@@ -97,7 +100,7 @@ gth_png_saver_save_pixbuf (GthPixbufSaver  *self,
 	option_values = g_malloc (sizeof (char *) * 2);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_PNG_COMPRESSION_LEVEL, 6);
+	i_value = g_settings_get_int (self->priv->settings, PREF_PNG_COMPRESSION_LEVEL);
 	option_keys[i] = g_strdup ("compression");;
 	option_values[i] = g_strdup_printf ("%d", i_value);
 
@@ -149,4 +152,5 @@ static void
 gth_png_saver_init (GthPngSaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PNG_SAVER, GthPngSaverPrivate);
+	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_PNG_SCHEMA);
 }

@@ -80,7 +80,10 @@ static void
 comments__read_metadata_ready_cb (GthFileData *file_data,
 				  const char  *attributes)
 {
-	gboolean       write_comment = FALSE;
+	GSettings     *settings;
+	gboolean       store_metadata_in_files;
+	gboolean       synchronize;
+	gboolean       write_comment;
 	GthMetadata   *metadata;
 	GthStringList *comment_categories;
 	GList         *scan;
@@ -88,8 +91,12 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 	GthComment    *comment;
 	GthStringList *categories;
 
-	if (! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE)) {
-		/* if PREF_STORE_METADATA_IN_FILES is false, avoid to
+	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
+	store_metadata_in_files = g_settings_get_boolean (settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
+	g_object_unref (settings);
+
+	if (! store_metadata_in_files) {
+		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is false, avoid to
 		 * synchronize the .comment metadata because the embedded
 		 * metadata is likely to be out-of-date.
 		 * Give priority to the .comment metadata which, if present,
@@ -100,8 +107,14 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 		return;
 	}
 
-	if (! eel_gconf_get_boolean (PREF_COMMENTS_SYNCHRONIZE, TRUE))
+	settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
+	synchronize = g_settings_get_boolean (settings, PREF_COMMENTS_SYNCHRONIZE);
+	g_object_unref (settings);
+
+	if (! synchronize)
 		return;
+
+	write_comment = FALSE;
 
 	comment = gth_comment_new ();
 	gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));

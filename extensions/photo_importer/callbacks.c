@@ -155,12 +155,14 @@ pi__import_photos_cb (GthBrowser *browser,
 
 typedef struct {
 	GtkBuilder *builder;
+	GSettings  *settings;
 } PreferencesData;
 
 
 static void
 preferences_data_free (PreferencesData *data)
 {
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -170,7 +172,7 @@ static void
 adjust_orientation_checkbutton_toggled_cb (GtkToggleButton *button,
 					   PreferencesData *data)
 {
-	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, gtk_toggle_button_get_active (button));
+	g_settings_set_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION, gtk_toggle_button_get_active (button));
 }
 
 
@@ -186,6 +188,7 @@ pi__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	data = g_new0 (PreferencesData, 1);
 	data->builder = _gtk_builder_new_from_file("photo-importer-options.ui", "photo_importer");
+	data->settings = g_settings_new (GTHUMB_PHOTO_IMPORTER_SCHEMA);
 
 	general_vbox = _gtk_builder_get_widget (dialog_builder, "general_vbox");
 	importer_options = _gtk_builder_get_widget (data->builder, "importer_options");
@@ -200,7 +203,7 @@ pi__dlg_preferences_construct_cb (GtkWidget  *dialog,
 			       _gtk_container_get_n_children (GTK_CONTAINER (general_vbox)) - 2);
 
 	widget = _gtk_builder_get_widget (data->builder, "adjust_orientation_checkbutton");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION));
 	g_signal_connect (widget,
 			  "toggled",
 			  G_CALLBACK (adjust_orientation_checkbutton_toggled_cb),

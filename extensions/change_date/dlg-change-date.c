@@ -35,6 +35,7 @@
 typedef struct {
 	GthBrowser *browser;
 	GtkBuilder *builder;
+	GSettings  *settings;
 	GtkWidget  *dialog;
 	GtkWidget  *date_selector;
 	GList      *file_list;
@@ -46,6 +47,7 @@ dialog_destroy_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
 	_g_object_list_unref (data->file_list);
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -95,23 +97,23 @@ ok_button_clicked (GtkWidget  *button,
 
 	/* save the preferences */
 
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE, (change_fields & GTH_CHANGE_LAST_MODIFIED_DATE) == GTH_CHANGE_LAST_MODIFIED_DATE);
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_SET_COMMENT_DATE, (change_fields & GTH_CHANGE_COMMENT_DATE) == GTH_CHANGE_COMMENT_DATE);
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG, (change_fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) == GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE, (change_fields & GTH_CHANGE_LAST_MODIFIED_DATE) == GTH_CHANGE_LAST_MODIFIED_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_COMMENT_DATE, (change_fields & GTH_CHANGE_COMMENT_DATE) == GTH_CHANGE_COMMENT_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG, (change_fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) == GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG);
 
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_TO_FOLLOWING_DATE, change_type == GTH_CHANGE_TO_FOLLOWING_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_TO_FOLLOWING_DATE, change_type == GTH_CHANGE_TO_FOLLOWING_DATE);
 	if (change_type == GTH_CHANGE_TO_FOLLOWING_DATE) {
 		char *s;
 		s = gth_datetime_to_exif_date (date_time);
-		eel_gconf_set_string (PREF_CHANGE_DATE_DATE, s);
+		g_settings_set_string (data->settings, PREF_CHANGE_DATE_DATE, s);
 		g_free (s);
 	}
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE, change_type == GTH_CHANGE_TO_FILE_MODIFIED_DATE);
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_TO_FILE_CREATION_DATE, change_type == GTH_CHANGE_TO_FILE_CREATION_DATE);
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE, change_type == GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE);
-	eel_gconf_set_boolean (PREF_CHANGE_DATE_ADJUST_TIME, change_type == GTH_CHANGE_ADJUST_TIME);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE, change_type == GTH_CHANGE_TO_FILE_MODIFIED_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_TO_FILE_CREATION_DATE, change_type == GTH_CHANGE_TO_FILE_CREATION_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE, change_type == GTH_CHANGE_TO_PHOTO_ORIGINAL_DATE);
+	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_ADJUST_TIME, change_type == GTH_CHANGE_ADJUST_TIME);
 	if (change_type == GTH_CHANGE_ADJUST_TIME)
-		eel_gconf_set_integer (PREF_CHANGE_DATE_TIME_ADJUSTMENT, time_adjustment);
+		g_settings_set_int (data->settings, PREF_CHANGE_DATE_TIME_ADJUSTMENT, time_adjustment);
 
 	/* exec the task */
 
@@ -177,6 +179,7 @@ dlg_change_date (GthBrowser *browser,
 	data->browser = browser;
 	data->file_list = _g_object_list_ref (file_list);
 	data->builder = _gtk_builder_new_from_file ("change-date.ui", "change_date");
+	data->settings = g_settings_new (GTHUMB_CHANGE_DATE_SCHEMA);
 
 	/* Get the widgets. */
 
@@ -188,17 +191,21 @@ dlg_change_date (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_last_modified_checkbutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_comment_checkbutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_SET_COMMENT_DATE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_datetimeoriginal_checkbutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_last_modified_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_comment_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_COMMENT_DATE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_datetimeoriginal_checkbutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_following_date_radiobutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_TO_FOLLOWING_DATE, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_following_date_radiobutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_TO_FOLLOWING_DATE));
 
 	datetime = gth_datetime_new ();
 	g_get_current_time (&timeval);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_following_date_radiobutton")))) {
 		char *s;
-		s = eel_gconf_get_string (PREF_CHANGE_DATE_DATE, "");
+		s = g_settings_get_string (data->settings, PREF_CHANGE_DATE_DATE);
 		if (strcmp (s, "") != 0)
 			gth_datetime_from_exif_date (datetime, s);
 		else
@@ -210,10 +217,14 @@ dlg_change_date (GthBrowser *browser,
 	gth_time_selector_set_value (GTH_TIME_SELECTOR (data->date_selector), datetime);
 	gth_datetime_free (datetime);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_last_modified_date_radiobutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_creation_date_radiobutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_TO_FILE_CREATION_DATE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_photo_original_date_radiobutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_time_radiobutton")), eel_gconf_get_boolean (PREF_CHANGE_DATE_ADJUST_TIME, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_last_modified_date_radiobutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_creation_date_radiobutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_TO_FILE_CREATION_DATE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_photo_original_date_radiobutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_TO_PHOTO_ORIGINAL_DATE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_time_radiobutton")),
+				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_ADJUST_TIME));
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_time_radiobutton")))) {
 		int adjustement;
 		int sign;
@@ -221,7 +232,7 @@ dlg_change_date (GthBrowser *browser,
 		int minutes;
 		int seconds;
 
-		adjustement = eel_gconf_get_integer (PREF_CHANGE_DATE_TIME_ADJUSTMENT, 0);
+		adjustement = g_settings_get_int (data->settings, PREF_CHANGE_DATE_TIME_ADJUSTMENT);
 		if (adjustement < 0) {
 			sign = -1;
 			adjustement = - adjustement;

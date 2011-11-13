@@ -88,8 +88,7 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 
 	/* If the user disabled the warning dialog trim the image */
 
-	/*
-	 * FIXME
+	/* FIXME
 	 if (! eel_gconf_get_boolean (PREF_MSG_JPEG_MCU_WARNING, TRUE)) {
 		if (done_func != NULL)
 			done_func (JPEG_MCU_ACTION_TRIM, done_data);

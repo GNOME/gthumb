@@ -114,13 +114,19 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 				   const char            *attributes,
 				   GCancellable          *cancellable)
 {
-	void    *buffer = NULL;
-	gsize    size;
-	GError  *error = NULL;
-	GObject *metadata;
-	int      i;
+	GSettings *settings;
+	gboolean   store_metadata_in_files;
+	void      *buffer = NULL;
+	gsize      size;
+	GError    *error = NULL;
+	GObject   *metadata;
+	int        i;
 
-	if (((flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) != GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! eel_gconf_get_boolean (PREF_STORE_METADATA_IN_FILES, TRUE))
+	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
+	store_metadata_in_files = g_settings_get_boolean (settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
+	g_object_unref (settings);
+
+	if (((flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) != GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! store_metadata_in_files)
 		return;
 
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))

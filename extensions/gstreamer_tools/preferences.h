@@ -22,6 +22,12 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#define  PREF_GSTREAMER_SCREESHOT_LOCATION "/apps/gthumb/ext/gstreamer/screenshot_location"
+/* schema */
+
+#define GTHUMB_GSTREAMER_TOOLS_SCHEMA            GTHUMB_SCHEMA ".gstreamer-tools"
+
+/* keys */
+
+#define  PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION "screenshot-location"
 
 #endif /* PREFERENCES_H */

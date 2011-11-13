@@ -29,8 +29,6 @@
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
 #define STRING_IS_VOID(x) (((x) == NULL) || (*(x) == 0))
-#define DEFAULT_CONTACT_SHEET_THEME "default"
-#define DEFAULT_CONTACT_SHEET_THUMBNAIL_CAPTION ("general::datetime,general::dimensions,gth::file::display-size")
 #define PREVIEW_SIZE 112
 
 enum {
@@ -56,6 +54,7 @@ enum {
 
 typedef struct {
 	GthBrowser *browser;
+	GSettings  *settings;
 	GList      *file_list;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
@@ -85,6 +84,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	gth_browser_set_dialog (data->browser, "contact_sheet", NULL);
 	_g_object_list_unref (data->file_list);
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -153,18 +153,18 @@ ok_clicked_cb (GtkWidget  *widget,
 	/* save the options */
 
 	header = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry")));
-	eel_gconf_set_string (PREF_CONTACT_SHEET_HEADER, header);
+	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_HEADER, header);
 
 	footer = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry")));
-	eel_gconf_set_string (PREF_CONTACT_SHEET_FOOTER, footer);
+	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_FOOTER, footer);
 
 	s_value = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
 	destination = g_file_new_for_uri (s_value);
-	eel_gconf_set_path (PREF_CONTACT_SHEET_DESTINATION, s_value);
+	_g_settings_set_uri (data->settings, PREF_CONTACT_SHEET_DESTINATION, s_value);
 	g_free (s_value);
 
 	template = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-	eel_gconf_set_string (PREF_CONTACT_SHEET_TEMPLATE, template);
+	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_TEMPLATE, template);
 
 	mime_type = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), &iter)) {
@@ -173,48 +173,48 @@ ok_clicked_cb (GtkWidget  *widget,
 				    FILE_TYPE_COLUMN_MIME_TYPE, &mime_type,
 				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, &file_extension,
 				    -1);
-		eel_gconf_set_string (PREF_CONTACT_SHEET_MIME_TYPE, mime_type);
+		g_settings_set_string (data->settings, PREF_CONTACT_SHEET_MIME_TYPE, mime_type);
 	}
 
 	create_image_map = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_map_checkbutton")));
-	eel_gconf_set_boolean (PREF_CONTACT_SHEET_HTML_IMAGE_MAP, create_image_map);
+	g_settings_set_boolean (data->settings, PREF_CONTACT_SHEET_HTML_IMAGE_MAP, create_image_map);
 
 	theme = get_selected_theme (data);
 	g_return_if_fail (theme != NULL);
 	theme_name = g_file_get_basename (theme->file);
-	eel_gconf_set_string (PREF_CONTACT_SHEET_THEME, theme_name);
+	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_THEME, theme_name);
 
 	images_per_index = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")));
-	eel_gconf_set_integer (PREF_CONTACT_SHEET_IMAGES_PER_PAGE, images_per_index);
+	g_settings_set_int (data->settings, PREF_CONTACT_SHEET_IMAGES_PER_PAGE, images_per_index);
 
 	single_page = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")));
-	eel_gconf_set_boolean (PREF_CONTACT_SHEET_SINGLE_PAGE, single_page);
+	g_settings_set_boolean (data->settings, PREF_CONTACT_SHEET_SINGLE_PAGE, single_page);
 
 	columns = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")));
-	eel_gconf_set_integer (PREF_CONTACT_SHEET_COLUMNS, columns);
+	g_settings_set_int (data->settings, PREF_CONTACT_SHEET_COLUMNS, columns);
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("sort_liststore")),
 				    &iter,
 				    SORT_TYPE_COLUMN_DATA, &sort_type,
 				    -1);
-		eel_gconf_set_string (PREF_CONTACT_SHEET_SORT_TYPE, sort_type->name);
+		g_settings_set_string (data->settings, PREF_CONTACT_SHEET_SORT_TYPE, sort_type->name);
 	}
 
 	sort_inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")));
-	eel_gconf_set_boolean (PREF_CONTACT_SHEET_SORT_INVERSE, sort_inverse);
+	g_settings_set_boolean (data->settings, PREF_CONTACT_SHEET_SORT_INVERSE, sort_inverse);
 
 	same_size = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("same_size_checkbutton")));
-	eel_gconf_set_boolean (PREF_CONTACT_SHEET_SAME_SIZE, same_size);
+	g_settings_set_boolean (data->settings, PREF_CONTACT_SHEET_SAME_SIZE, same_size);
 
 	thumbnail_size = thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")))];
-	eel_gconf_set_integer (PREF_CONTACT_SHEET_THUMBNAIL_SIZE, thumbnail_size);
+	g_settings_set_int (data->settings, PREF_CONTACT_SHEET_THUMBNAIL_SIZE, thumbnail_size);
 
 	squared_thumbnail = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("squared_thumbnail_checkbutton")));
-	eel_gconf_set_boolean (PREF_CONTACT_SHEET_SQUARED_THUMBNAIL, squared_thumbnail);
+	g_settings_set_boolean (data->settings, PREF_CONTACT_SHEET_SQUARED_THUMBNAIL, squared_thumbnail);
 
 	thumbnail_caption = gth_metadata_chooser_get_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser));
-	eel_gconf_set_string (PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, thumbnail_caption);
+	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, thumbnail_caption);
 
 	/* exec the task */
 
@@ -402,7 +402,7 @@ load_themes (DialogData *data)
 				     (PREVIEW_SIZE + col_spacing * 2));
 	gtk_widget_realize (GET_WIDGET ("theme_iconview"));
 
-	default_theme = eel_gconf_get_string (PREF_CONTACT_SHEET_THEME, DEFAULT_CONTACT_SHEET_THEME);
+	default_theme = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_THEME);
 	model = GTK_TREE_MODEL (GET_WIDGET ("theme_liststore"));
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
 		gboolean theme_selected = FALSE;
@@ -699,6 +699,7 @@ dlg_contact_sheet (GthBrowser *browser,
 	data->browser = browser;
 	data->file_list = _g_object_list_ref (file_list);
 	data->builder = _gtk_builder_new_from_file ("contact-sheet.ui", "contact_sheet");
+	data->settings = g_settings_new (GTHUMB_CONTACT_SHEET_SCHEMA);
 
 	data->dialog = _gtk_builder_get_widget (data->builder, "contact_sheet_dialog");
 	gth_browser_set_dialog (browser, "contact_sheet", data->dialog);
@@ -713,11 +714,11 @@ dlg_contact_sheet (GthBrowser *browser,
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
 			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
 
-	s_value = eel_gconf_get_string (PREF_CONTACT_SHEET_FOOTER, "");
+	s_value = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_FOOTER);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
 	g_free (s_value);
 
-	s_value = eel_gconf_get_path (PREF_CONTACT_SHEET_DESTINATION, NULL);
+	s_value = _g_settings_get_uri (data->settings, PREF_CONTACT_SHEET_DESTINATION);
 	if (s_value == NULL) {
 		GFile *location = gth_browser_get_location (data->browser);
 		if (location != NULL)
@@ -728,11 +729,11 @@ dlg_contact_sheet (GthBrowser *browser,
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
 	g_free (s_value);
 
-	s_value = eel_gconf_get_path (PREF_CONTACT_SHEET_TEMPLATE, NULL);
+	s_value = _g_settings_get_uri (data->settings, PREF_CONTACT_SHEET_TEMPLATE);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), s_value);
 	g_free (s_value);
 
-	default_mime_type = eel_gconf_get_string (PREF_CONTACT_SHEET_MIME_TYPE, "image/jpeg");
+	default_mime_type = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_MIME_TYPE);
 	active_index = 0;
 	savers = gth_main_get_type_set ("pixbuf-saver");
 	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
@@ -756,19 +757,19 @@ dlg_contact_sheet (GthBrowser *browser,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), active_index);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(GET_WIDGET("image_map_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_HTML_IMAGE_MAP, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(GET_WIDGET("image_map_checkbutton")), g_settings_get_boolean (data->settings, PREF_CONTACT_SHEET_HTML_IMAGE_MAP));
 
 	load_themes (data);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("theme_liststore")),
 					      THEME_COLUMN_DISPLAY_NAME,
 					      GTK_SORT_ASCENDING);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), eel_gconf_get_integer (PREF_CONTACT_SHEET_IMAGES_PER_PAGE, 25));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SINGLE_PAGE, FALSE));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), eel_gconf_get_integer (PREF_CONTACT_SHEET_COLUMNS, 5));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("same_size_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SAME_SIZE, FALSE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton")), g_settings_get_int (data->settings, PREF_CONTACT_SHEET_IMAGES_PER_PAGE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton")), g_settings_get_boolean (data->settings, PREF_CONTACT_SHEET_SINGLE_PAGE));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")), g_settings_get_int (data->settings, PREF_CONTACT_SHEET_COLUMNS));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("same_size_checkbutton")), g_settings_get_boolean (data->settings, PREF_CONTACT_SHEET_SAME_SIZE));
 
-	default_sort_type = eel_gconf_get_string (PREF_CONTACT_SHEET_SORT_TYPE, "general::unsorted");
+	default_sort_type = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_SORT_TYPE);
 	active_index = 0;
 	sort_types = gth_main_get_all_sort_types ();
 	for (i = 0, scan = sort_types; scan; scan = scan->next, i++) {
@@ -788,7 +789,7 @@ dlg_contact_sheet (GthBrowser *browser,
 	g_free (default_sort_type);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), active_index);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SORT_INVERSE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton")), g_settings_get_boolean (data->settings, PREF_CONTACT_SHEET_SORT_INVERSE));
 
 	for (i = 0; i < thumb_sizes; i++) {
 		char        *name;
@@ -804,10 +805,10 @@ dlg_contact_sheet (GthBrowser *browser,
 
 		g_free (name);
 	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")), get_idx_from_size (eel_gconf_get_integer (PREF_CONTACT_SHEET_THUMBNAIL_SIZE, 128)));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("squared_thumbnail_checkbutton")), eel_gconf_get_boolean (PREF_CONTACT_SHEET_SQUARED_THUMBNAIL, FALSE));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")), get_idx_from_size (g_settings_get_int (data->settings, PREF_CONTACT_SHEET_THUMBNAIL_SIZE)));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("squared_thumbnail_checkbutton")), g_settings_get_boolean (data->settings, PREF_CONTACT_SHEET_SQUARED_THUMBNAIL));
 
-	caption = eel_gconf_get_string (PREF_CONTACT_SHEET_THUMBNAIL_CAPTION, DEFAULT_CONTACT_SHEET_THUMBNAIL_CAPTION);
+	caption = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_THUMBNAIL_CAPTION);
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), caption);
 	g_free (caption);
 

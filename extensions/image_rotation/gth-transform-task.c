@@ -212,7 +212,7 @@ static void
 gth_transform_task_init (GthTransformTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSFORM_TASK, GthTransformTaskPrivate);
-	self->priv->default_action = JPEG_MCU_ACTION_ABORT; /* FIXME: save a gconf value for this */
+	self->priv->default_action = JPEG_MCU_ACTION_ABORT;
 	self->priv->file_data = NULL;
 }
 

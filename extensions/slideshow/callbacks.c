@@ -368,17 +368,20 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 	if (! g_value_hash_is_set (catalog->attributes, "slideshow::personalize")
 	    || ! g_value_hash_get_boolean (catalog->attributes, "slideshow::personalize"))
 	{
-		char *current_transition;
+		GSettings *settings;
+		char      *current_transition;
 
-		current_transition = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
+		settings = g_settings_new (GTHUMB_SLIDESHOW_SCHEMA);
+		current_transition = g_settings_get_string (settings, PREF_SLIDESHOW_TRANSITION);
 		slideshow_preferences = gth_slideshow_preferences_new (current_transition,
-								       eel_gconf_get_boolean (PREF_SLIDESHOW_AUTOMATIC, TRUE),
-								       (int) (1000.0 * eel_gconf_get_float (PREF_SLIDESHOW_CHANGE_DELAY, 5.0)),
-								       eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE),
-								       eel_gconf_get_boolean (PREF_SLIDESHOW_RANDOM_ORDER, FALSE));
+								       g_settings_get_boolean (settings, PREF_SLIDESHOW_AUTOMATIC),
+								       (int) (1000.0 * g_settings_get_double (settings, PREF_SLIDESHOW_CHANGE_DELAY)),
+								       g_settings_get_boolean (settings, PREF_SLIDESHOW_WRAP_AROUND),
+								       g_settings_get_boolean (settings, PREF_SLIDESHOW_RANDOM_ORDER));
 		gtk_widget_set_sensitive (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "personalize_box"), FALSE);
 
 		g_free (current_transition);
+		g_object_unref (settings);
 	}
 	else {
 		slideshow_preferences = gth_slideshow_preferences_new (g_value_hash_get_string (catalog->attributes, "slideshow::transition"),
