@@ -75,7 +75,6 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_THUMBNAIL_LIST_VISIBLE   "thumbnail-list-visible"
 #define PREF_BROWSER_BROWSER_SIDEBAR_WIDTH    "browser-sidebar-width"
 #define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"
-#define PREF_BROWSER_COMMENT_HEIGHT           "comment-height"
 #define PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT "viewer-thumbnails-orientation"
 #define PREF_BROWSER_SHRINK_WRAP_VIEWER       "shrink-wrap-viewer"
 

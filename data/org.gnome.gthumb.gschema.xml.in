@@ -125,9 +125,6 @@
     <key name="viewer-sidebar-width" type="i">
       <default>285</default>
     </key>
-    <key name="comment-height" type="i">
-      <default>128</default>
-    </key>
     <key name="viewer-thumbnails-orientation" enum="org.gnome.gthumb.GtkOrientation">
       <default>'horizontal'</default>
     </key>

@@ -22,7 +22,6 @@ statusbar-visible = /apps/gthumb/ui/statusbar_visible
 filterbar-visible = /apps/gthumb/ui/filterbar_visible
 sidebar-visible = /apps/gthumb/ui/sidebar_visible
 thumbnail-list-visible = /apps/gthumb/ui/thumbnail_list_visible
-comment-height = /apps/gthumb/ui/comment_height
 viewer-thumbnails-orientation = /apps/gthumb/ui/viewer_thumbnails_orientation
 
 [org.gnome.gthumb.change-date]
