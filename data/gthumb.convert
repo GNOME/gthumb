@@ -1,0 +1,86 @@
+[org.gnome.gthumb.browser]
+go-to-last-location = /apps/gthumb/general/go_to_last_location
+use-startup-location = /apps/gthumb/general/use_startup_location
+startup-location = /apps/gthumb/general/startup_location
+startup-current-file = /apps/gthumb/general/startup_current_file
+general-filter = /apps/gthumb/browser/general_filter
+show-hidden-files = /apps/gthumb/browser/show_hidden_files
+show-thumbnails = /apps/gthumb/browser/show_thumbnails
+fast-file-type = /apps/gthumb/browser/fast_file_type
+save-thumbnails = /apps/gthumb/browser/save_thumbnails
+thumbnail-size = /apps/gthumb/browser/thumbnail_size
+thumbnail-limit = /apps/gthumb/browser/thumbnail_limit
+thumbnail-caption = /apps/gthumb/browser/thumbnail_caption
+sort-type = /apps/gthumb/browser/sort_type
+sort-inverse = /apps/gthumb/browser/sort_inverse
+toolbar-style = /apps/gthumb/ui/toolbar_style
+window-width = /apps/gthumb/ui/window_width
+window-height = /apps/gthumb/ui/window_height
+image-pane-visible = /apps/gthumb/ui/image_pane_visible
+toolbar-visible = /apps/gthumb/ui/toolbar_visible
+statusbar-visible = /apps/gthumb/ui/statusbar_visible
+filterbar-visible = /apps/gthumb/ui/filterbar_visible
+sidebar-visible = /apps/gthumb/ui/sidebar_visible
+thumbnail-list-visible = /apps/gthumb/ui/thumbnail_list_visible
+comment-height = /apps/gthumb/ui/comment_height
+viewer-thumbnails-orientation = /apps/gthumb/ui/viewer_thumbnails_orientation
+
+[org.gnome.gthumb.comments]
+synchronize = /apps/gthumb/ext/comments/synchronize
+
+[org.gnome.gthumb.data-migration]
+catalogs-2-10 = /apps/gthumb/data_migration/catalogs_2_10
+
+[org.gnome.gthumb.dialogs.messages]
+cannot-move-to-trash = /apps/gthumb/dialogs/messages/cannot_move_to_trash
+save-modified-image = /apps/gthumb/dialogs/messages/save_modified_image
+confirm-deletion = /apps/gthumb/dialogs/messages/confirm_deletion
+
+[org.gnome.gthumb.dialogs.add-to-catalog]
+view = /apps/gthumb/general/add_to_catalog/view
+
+[org.gnome.gthumb.general]
+active-extensions = /apps/gthumb/general/active_extensions
+store-metadata-in-files = /apps/gthumb/general/store_metadata_in_files
+
+[org.gnome.gthumb.gstreamer-tools]
+screenshot-location = /apps/gthumb/ext/gstreamer/screenshot_location
+
+[org.gnome.gthumb.image-print]
+caption = /apps/gthumb/ext/image_print/caption
+font-name = /apps/gthumb/ext/image_print/font_name
+header-font-name = /apps/gthumb/ext/image_print/header_font_name
+footer-font-name = /apps/gthumb/ext/image_print/footer_font_name
+header = /apps/gthumb/ext/image_print/header
+footer = /apps/gthumb/ext/image_print/footer
+n-rows = /apps/gthumb/ext/image_print/n_rows
+n-columns = /apps/gthumb/ext/image_print/n_columns
+unit = /apps/gthumb/ext/image_print/unit
+
+[org.gnome.gthumb.image-viewer]
+zoom-quality = /apps/gthumb/viewer/zoom_quality
+zoom-change = /apps/gthumb/viewer/zoom_change
+transparency-type = /apps/gthumb/viewer/transparency_type
+reset-scrollbars = /apps/gthumb/viewer/reset_scrollbars
+check-type = /apps/gthumb/viewer/check_type
+check-size = /apps/gthumb/viewer/check_siz
+black-background = /apps/gthumb/viewer/black_background
+
+[org.gnome.gthumb.importer]
+destination = /apps/gthumb/ext/importer/destination
+subfolder-type = /apps/gthumb/ext/importer/subfolder_type
+subfolder-format = /apps/gthumb/ext/importer/subfolder_format
+subfolder-single = /apps/gthumb/ext/importer/subfolder_single
+subfolder-custom-format = /apps/gthumb/ext/importer/subfolder_custom_format
+warn-delete-unsupported = /apps/gthumb/ext/importer/warn_delete_unsupported
+
+[org.gnome.gthumb.photo-importer]
+delete-from-device = /apps/gthumb/ext/photo_importer/delete_from_device
+adjust-orientation = /apps/gthumb/ext/photo_importer/adjust_orientation
+
+[org.gnome.gthumb.slideshow]
+change-delay = /apps/gthumb/ext/slideshow/change_delay
+wrap-around = /apps/gthumb/ext/slideshow/wrap_around
+automatic = /apps/gthumb/ext/slideshow/automatic
+transition = /apps/gthumb/ext/slideshow/transition
+random-order = /apps/gthumb/ext/slideshow/random-order
