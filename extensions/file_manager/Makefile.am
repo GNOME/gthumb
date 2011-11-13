@@ -1,5 +1,3 @@
-SUBDIRS = data
-
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libfile_manager.la
 
