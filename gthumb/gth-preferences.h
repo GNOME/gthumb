@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2009 Free Software Foundation, Inc.
+ *  Copyright © 2001-2011 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,83 +28,89 @@
 
 G_BEGIN_DECLS
 
-#define PREF_DESKTOP_ICON_THEME             "/desktop/gnome/file_views/icon_theme"
+/* schemas */
 
-#define PREF_GO_TO_LAST_LOCATION            "/apps/gthumb/general/go_to_last_location"
-#define PREF_USE_STARTUP_LOCATION           "/apps/gthumb/general/use_startup_location"
-#define PREF_STARTUP_LOCATION               "/apps/gthumb/general/startup_location"
-#define PREF_STARTUP_CURRENT_FILE           "/apps/gthumb/general/startup_current_file"
-#define PREF_ACTIVE_EXTENSIONS              "/apps/gthumb/general/active_extensions"
-#define PREF_STORE_METADATA_IN_FILES        "/apps/gthumb/general/store_metadata_in_files"
+#define GTHUMB_SCHEMA                         "org.gnome.gthumb"
+#define GTHUMB_GENERAL_SCHEMA                 GTHUMB_SCHEMA ".general"
+#define GTHUMB_DATA_MIGRATION_SCHEMA          GTHUMB_SCHEMA ".data-migration"
+#define GTHUMB_BROWSER_SCHEMA                 GTHUMB_SCHEMA ".browser"
+#define GTHUMB_DIALOGS_SCHEMA                 GTHUMB_SCHEMA ".dialogs"
+#define GTHUMB_MESSAGES_SCHEMA                GTHUMB_DIALOGS_SCHEMA ".messages"
+#define GTHUMB_ADD_TO_CATALOG_SCHEMA          GTHUMB_DIALOGS_SCHEMA ".add-to-catalog"
 
-#define PREF_DATA_MIGRATION_CATALOGS_2_10   "/apps/gthumb/data_migration/catalogs_2_10"
+/* keys: general */
 
-#define PREF_GENERAL_FILTER                 "/apps/gthumb/browser/general_filter"
-#define PREF_SHOW_HIDDEN_FILES              "/apps/gthumb/browser/show_hidden_files"
-#define PREF_SHOW_THUMBNAILS                "/apps/gthumb/browser/show_thumbnails"
-#define PREF_FAST_FILE_TYPE                 "/apps/gthumb/browser/fast_file_type"
-#define PREF_SAVE_THUMBNAILS                "/apps/gthumb/browser/save_thumbnails"
-#define PREF_THUMBNAIL_SIZE                 "/apps/gthumb/browser/thumbnail_size"
-#define PREF_THUMBNAIL_LIMIT                "/apps/gthumb/browser/thumbnail_limit"
-#define PREF_THUMBNAIL_CAPTION              "/apps/gthumb/browser/thumbnail_caption"
-#define PREF_CLICK_POLICY                   "/apps/gthumb/browser/click_policy"
-#define PREF_SORT_TYPE                      "/apps/gthumb/browser/sort_type"
-#define PREF_SORT_INVERSE                   "/apps/gthumb/browser/sort_inverse"
-#define PREF_VIEW_AS                        "/apps/gthumb/browser/view_as"
+#define PREF_GENERAL_ACTIVE_EXTENSIONS        "active-extensions"
+#define PREF_GENERAL_STORE_METADATA_IN_FILES  "store-metadata-in-files"
 
-#define PREF_ZOOM_QUALITY                   "/apps/gthumb/viewer/zoom_quality"
-#define PREF_ZOOM_CHANGE                    "/apps/gthumb/viewer/zoom_change"
-#define PREF_TRANSP_TYPE                    "/apps/gthumb/viewer/transparency_type"
-#define PREF_RESET_SCROLLBARS               "/apps/gthumb/viewer/reset_scrollbars"
-#define PREF_CHECK_TYPE                     "/apps/gthumb/viewer/check_type"
-#define PREF_CHECK_SIZE                     "/apps/gthumb/viewer/check_size"
-#define PREF_BLACK_BACKGROUND               "/apps/gthumb/viewer/black_background"
-#define PREF_SHRINK_WRAP_VIEWER             "/apps/gthumb/viewer/shrink_wrap"
+/* keys: dada migration */
 
-#define PREF_UI_TOOLBAR_STYLE               "/apps/gthumb/ui/toolbar_style"
-#define PREF_UI_WINDOW_WIDTH                "/apps/gthumb/ui/window_width"
-#define PREF_UI_WINDOW_HEIGHT               "/apps/gthumb/ui/window_height"
-#define PREF_UI_TOOLBAR_VISIBLE             "/apps/gthumb/ui/toolbar_visible"
-#define PREF_UI_STATUSBAR_VISIBLE           "/apps/gthumb/ui/statusbar_visible"
-#define PREF_UI_FILTERBAR_VISIBLE           "/apps/gthumb/ui/filterbar_visible"
-#define PREF_UI_SIDEBAR_VISIBLE             "/apps/gthumb/ui/sidebar_visible"
-#define PREF_UI_PROPERTIES_VISIBLE          "/apps/gthumb/ui/properties_visible"
-#define PREF_UI_THUMBNAIL_LIST_VISIBLE      "/apps/gthumb/ui/thumbnail_list_visible"
-#define PREF_UI_BROWSER_SIDEBAR_WIDTH       "/apps/gthumb/ui/browser_sidebar_width"
-#define PREF_UI_VIEWER_SIDEBAR_WIDTH        "/apps/gthumb/ui/viewer_sidebar_width"
-#define PREF_UI_COMMENT_HEIGHT              "/apps/gthumb/ui/comment_height"
-#define PREF_UI_VIEWER_THUMBNAILS_ORIENT    "/apps/gthumb/ui/viewer_thumbnails_orientation"
+#define PREF_DATA_MIGRATION_CATALOGS_2_10     "catalogs-2-10"
 
-#define PREF_ADD_TO_CATALOG_LAST_CATALOG    "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
-#define PREF_ADD_TO_CATALOG_VIEW            "/apps/gthumb/dialogs/add_to_catalog/view"
+/* keys: browser */
 
-#define PREF_MSG_CANNOT_MOVE_TO_TRASH       "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
-#define PREF_MSG_SAVE_MODIFIED_IMAGE        "/apps/gthumb/dialogs/messages/save_modified_image"
-#define PREF_MSG_CONFIRM_DELETION           "/apps/gthumb/dialogs/messages/confirm_deletion"
+#define PREF_BROWSER_GO_TO_LAST_LOCATION      "go-to-last-location"
+#define PREF_BROWSER_USE_STARTUP_LOCATION     "use-startup-location"
+#define PREF_BROWSER_STARTUP_LOCATION         "startup-location"
+#define PREF_BROWSER_STARTUP_CURRENT_FILE     "startup-current-file"
+#define PREF_BROWSER_GENERAL_FILTER           "general-filter"
+#define PREF_BROWSER_SHOW_HIDDEN_FILES        "show-hidden-files"
+#define PREF_BROWSER_SHOW_THUMBNAILS          "show-thumbnails"
+#define PREF_BROWSER_FAST_FILE_TYPE           "fast-file-type"
+#define PREF_BROWSER_SAVE_THUMBNAILS          "save-thumbnails"
+#define PREF_BROWSER_THUMBNAIL_SIZE           "thumbnail-size"
+#define PREF_BROWSER_THUMBNAIL_LIMIT          "thumbnail-limit"
+#define PREF_BROWSER_THUMBNAIL_CAPTION        "thumbnail-caption"
+#define PREF_BROWSER_CLICK_POLICY             "click-policy"
+#define PREF_BROWSER_SORT_TYPE                "sort-type"
+#define PREF_BROWSER_SORT_INVERSE             "sort-inverse"
+#define PREF_BROWSER_TOOLBAR_STYLE            "toolbar-style"
+#define PREF_BROWSER_WINDOW_WIDTH             "window-width"
+#define PREF_BROWSER_WINDOW_HEIGHT            "window-height"
+#define PREF_BROWSER_TOOLBAR_VISIBLE          "toolbar-visible"
+#define PREF_BROWSER_STATUSBAR_VISIBLE        "statusbar-visible"
+#define PREF_BROWSER_FILTERBAR_VISIBLE        "filterbar-visible"
+#define PREF_BROWSER_SIDEBAR_VISIBLE          "sidebar-visible"
+#define PREF_BROWSER_PROPERTIES_VISIBLE       "properties-visible"
+#define PREF_BROWSER_THUMBNAIL_LIST_VISIBLE   "thumbnail-list-visible"
+#define PREF_BROWSER_BROWSER_SIDEBAR_WIDTH    "browser-sidebar-width"
+#define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"
+#define PREF_BROWSER_COMMENT_HEIGHT           "comment-height"
+#define PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT "viewer-thumbnails-orientation"
+#define PREF_BROWSER_SHRINK_WRAP_VIEWER       "shrink-wrap-viewer"
 
-/* default values */
+/* keys: add to catalog */
 
-#define DEFAULT_GENERAL_FILTER "file::type::is_media"
-#define DEFAULT_THUMBNAIL_CAPTION "comment::note,comment::time"
-#define DEFAULT_UI_WINDOW_WIDTH 690
-#define DEFAULT_UI_WINDOW_HEIGHT 460
-#define DEFAULT_FAST_FILE_TYPE TRUE
-#define DEFAULT_THUMBNAIL_SIZE 128
-#define DEFAULT_CONFIRM_DELETION TRUE
-#define DEFAULT_MSG_SAVE_MODIFIED_IMAGE TRUE
-#define DEFAULT_MSG_CONFIRM_DELETION TRUE
+#define PREF_ADD_TO_CATALOG_LAST_CATALOG      "last-catalog"
+#define PREF_ADD_TO_CATALOG_VIEW              "view"
 
-void             gth_pref_initialize                   (void);
-void             gth_pref_release                      (void);
-void             gth_pref_set_startup_location         (const char *location);
-const char *     gth_pref_get_startup_location         (void);
-const char *     gth_pref_get_wallpaper_filename       (void);
-const char *     gth_pref_get_wallpaper_options        (void);
-GthToolbarStyle  gth_pref_get_real_toolbar_style       (void);
-void             gth_pref_save_window_geometry         (GtkWindow  *window,
-							 const char *dialog);
-void             gth_pref_restore_window_geometry      (GtkWindow  *window,
-							const char *dialog);
+/* keys: messages */
+
+#define PREF_MSG_CANNOT_MOVE_TO_TRASH         "cannot-move-to-trash"
+#define PREF_MSG_SAVE_MODIFIED_IMAGE          "save-modified-image"
+#define PREF_MSG_CONFIRM_DELETION             "confirm-deletion"
+
+/* foreign schemas */
+
+#define GNOME_DESKTOP_BACKGROUND_SCHEMA       "org.gnome.desktop.background"
+#define PREF_BACKGROUND_PICTURE_URI           "picture-uri"
+#define PREF_BACKGROUND_PICTURE_OPTIONS       "picture-options"
+
+#define GNOME_DESKTOP_INTERFACE_SCHEMA        "org.gnome.desktop.interface"
+
+/* utility functions */
+
+void             gth_pref_initialize              (void);
+void             gth_pref_release                 (void);
+void             gth_pref_set_startup_location    (const char *location);
+const char *     gth_pref_get_startup_location    (void);
+const char *     gth_pref_get_wallpaper_filename  (void);
+const char *     gth_pref_get_wallpaper_options   (void);
+GthToolbarStyle  gth_pref_get_real_toolbar_style  (void);
+void             gth_pref_save_window_geometry    (GtkWindow  *window,
+                               	       	       	   const char *schema);
+void             gth_pref_restore_window_geometry (GtkWindow  *window,
+						   const char *schema);
 
 G_END_DECLS
 
