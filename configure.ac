@@ -42,11 +42,11 @@ GNOME_DOC_INIT
 GNOME_MAINTAINER_MODE_DEFINES
 GNOME_COMPILE_WARNINGS([maximum])
 GNOME_CXX_WARNINGS
+GLIB_GSETTINGS
 GTHUMB_EXTENSION_RULES
 
 GLIB_REQUIRED=2.28.0
 GTK_REQUIRED=3.2.0
-GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=1.0.0
@@ -134,7 +134,6 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gmodule-2.0
 	gio-unix-2.0
 	gtk+-3.0 		>= $GTK_REQUIRED
-	gconf-2.0 		>= $GCONF_REQUIRED
 	libpng
 ])
 AC_SUBST(GTHUMB_LIBS)
@@ -247,14 +246,6 @@ if test "x${prefix}" = "xNONE"; then
 else
 	AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale", [Locale directory])
 fi
-
-dnl ===========================================================================
-
-AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
-if test x"$GCONFTOOL" = xno; then
-	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
-fi
-AM_GCONF_SOURCE_2
 
 dnl ===========================================================================
 
