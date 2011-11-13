@@ -22,12 +22,9 @@
 #include <string.h>
 #include <math.h>
 #include <gio/gio.h>
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-enum-types.h"
 #include "gth-preferences.h"
-
-#define DIALOG_KEY_PREFIX "/apps/gthumb/dialogs/"
 
 
 typedef struct {
@@ -37,20 +34,30 @@ typedef struct {
 } GthPreferences;
 
 
-static GthPreferences *Preferences;
+static GthPreferences *Preferences = NULL;
 
 
 void
 gth_pref_initialize (void)
 {
-	Preferences = g_new0 (GthPreferences, 1);
+	GSettings *settings;
 
-	Preferences->wallpaper_filename = eel_gconf_get_string ("/desktop/gnome/background/picture_filename", NULL);
-	Preferences->wallpaper_options = eel_gconf_get_string ("/desktop/gnome/background/picture_options", NULL);
+	if (Preferences == NULL)
+		Preferences = g_new0 (GthPreferences, 1);
 
+	/* desktop background */
+
+	settings = g_settings_new (GNOME_DESKTOP_BACKGROUND_SCHEMA);
+	Preferences->wallpaper_filename = g_settings_get_string(settings, PREF_BACKGROUND_PICTURE_URI);
+	Preferences->wallpaper_options = g_settings_get_string(settings, PREF_BACKGROUND_PICTURE_OPTIONS);
+	g_object_unref (settings);
+
+	/* startup location */
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	Preferences->startup_location = NULL;
-	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE) ||
-	    eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, FALSE))
+	if (g_settings_get_boolean (settings, PREF_BROWSER_USE_STARTUP_LOCATION)
+	    || g_settings_get_boolean (settings, PREF_BROWSER_GO_TO_LAST_LOCATION))
 	{
 		char *startup_location;
 
@@ -71,18 +78,21 @@ gth_pref_initialize (void)
 		g_free (current_uri);
 		g_free (current_dir);
 	}
-
-	eel_gconf_monitor_add ("/apps/gthumb");
+	g_object_unref (settings);
 }
 
 
 void
 gth_pref_release (void)
 {
+	if (Preferences == NULL)
+		return;
+
 	g_free (Preferences->wallpaper_filename);
 	g_free (Preferences->wallpaper_options);
 	g_free (Preferences->startup_location);
 	g_free (Preferences);
+	Preferences = NULL;
 }
 
 
@@ -120,45 +130,36 @@ gth_pref_get_wallpaper_options (void)
 }
 
 
-static void
-_gth_pref_dialog_property_set_int (const char *dialog_name,
-				   const char *property,
-				   int         value)
-{
-	char *key;
-
-	key = g_strconcat (DIALOG_KEY_PREFIX, dialog_name, "/", property, NULL);
-	eel_gconf_set_integer (key, value);
-	g_free (key);
-}
-
-
 GthToolbarStyle
 gth_pref_get_real_toolbar_style (void)
 {
-	GthToolbarStyle toolbar_style;
+	GSettings       *settings;
+	GthToolbarStyle  toolbar_style;
 
-	toolbar_style = eel_gconf_get_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, GTH_TOOLBAR_STYLE_SYSTEM);
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	toolbar_style = g_settings_get_enum (settings, PREF_BROWSER_TOOLBAR_STYLE);
 	if (toolbar_style == GTH_TOOLBAR_STYLE_SYSTEM) {
 		char *system_style;
 
-		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style", "system");
+		toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW; /* default value */
 
-		if (system_style == NULL)
+		g_object_unref (settings);
+		settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
+
+		system_style = g_settings_get_string (settings, "toolbar-style");
+		if (g_strcmp0 (system_style, "both") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
-		else if (strcmp (system_style, "both") == 0)
-			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
-		else if (strcmp (system_style, "both-horiz") == 0)
+		else if (g_strcmp0 (system_style, "both-horiz") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BESIDE;
-		else if (strcmp (system_style, "icons") == 0)
+		else if (g_strcmp0 (system_style, "icons") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_ICONS;
-		else if (strcmp (system_style, "text") == 0)
+		else if (g_strcmp0 (system_style, "text") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT;
-		else
-			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 
 		g_free (system_style);
 	}
+
+	g_object_unref (settings);
 
 	return toolbar_style;
 }
@@ -166,49 +167,37 @@ gth_pref_get_real_toolbar_style (void)
 
 void
 gth_pref_save_window_geometry (GtkWindow  *window,
-			       const char *dialog_name)
+                               const char *schema)
 {
-	int x, y, width, height;
+        GSettings *settings;
+        int        width;
+        int        height;
 
-	gtk_window_get_position (window, &x, &y);
-	_gth_pref_dialog_property_set_int (dialog_name, "x", x);
-	_gth_pref_dialog_property_set_int (dialog_name, "y", y);
+        settings = g_settings_new (schema);
 
-	gtk_window_get_size (window, &width, &height);
-	_gth_pref_dialog_property_set_int (dialog_name, "width", width);
-	_gth_pref_dialog_property_set_int (dialog_name, "height", height);
-}
+        gtk_window_get_size (window, &width, &height);
+        g_settings_set_int (settings, "width", width);
+        g_settings_set_int (settings, "height", height);
 
-
-static int
-_gth_pref_dialog_property_get_int (const char *dialog_name,
-				   const char *property)
-{
-	char *key;
-	int   value;
-
-	key = g_strconcat (DIALOG_KEY_PREFIX, dialog_name, "/", property, NULL);
-	value = eel_gconf_get_integer (key, -1);
-	g_free (key);
-
-	return value;
+        g_object_unref (settings);
 }
 
 
 void
 gth_pref_restore_window_geometry (GtkWindow  *window,
-				  const char *dialog_name)
+                                  const char *schema)
 {
-	int x, y, width, height;
+        GSettings *settings;
+        int        width;
+        int        height;
 
-	x = _gth_pref_dialog_property_get_int (dialog_name, "x");
-	y = _gth_pref_dialog_property_get_int (dialog_name, "y");
-	width = _gth_pref_dialog_property_get_int (dialog_name, "width");
-	height = _gth_pref_dialog_property_get_int (dialog_name, "height");
+        settings = g_settings_new (schema);
 
-	if ((width != -1) && (height != 1))
-		gtk_window_set_default_size (window, width, height);
-	if ((x != -1) && (y != 1))
-		gtk_window_move (window, x, y);
-	gtk_window_present (window);
+        width = g_settings_get_int (settings, "width");
+        height = g_settings_get_int (settings, "height");
+        if ((width != -1) && (height != 1))
+                gtk_window_set_default_size (window, width, height);
+        gtk_window_present (window);
+
+        g_object_unref (settings);
 }

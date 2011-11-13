@@ -58,8 +58,6 @@
 #include <png.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
 #include <glib/gstdio.h>
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include "gnome-desktop-thumbnail.h"

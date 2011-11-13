@@ -22,7 +22,6 @@
 #include <config.h>
 #include <string.h>
 #include "dom.h"
-#include "gconf-utils.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
 #include "gth-time.h"
@@ -33,14 +32,29 @@
 #define MAX_LINE_LENGTH 4096
 
 
+typedef struct {
+	GSettings *settings;
+	GFile     *collections_dir;
+} MigrationData;
+
+
+static void
+migration_data_free (MigrationData *data)
+{
+	_g_object_unref (data->collections_dir);
+	_g_object_unref (data->settings);
+	g_free (data);
+}
+
+
 static void
 migration_done (GError   *error,
 		gpointer  user_data)
 {
-	GFile *collections_dir = user_data;
+	MigrationData *data = user_data;
 
-	eel_gconf_set_boolean (PREF_DATA_MIGRATION_CATALOGS_2_10, TRUE);
-	g_object_unref (collections_dir);
+	g_settings_set_boolean (data->settings, PREF_DATA_MIGRATION_CATALOGS_2_10, TRUE);
+	migration_data_free (data);
 }
 
 
@@ -60,22 +74,22 @@ migration_for_each_file (GFile     *file,
 			 GFileInfo *info,
 			 gpointer   user_data)
 {
-	GFile       *collections_dir = user_data;
-	char         *buffer;
-	gsize         buffer_size;
-	GError       *error = NULL;
-	DomDocument  *document;
-	char         *extension;
-	char         *new_buffer;
-	gsize         new_buffer_size;
-	char         *catalogs_path;
-	char         *relative_path;
-	char         *tmp_path;
-	char         *full_path_no_ext;
-	char         *full_path;
-	GFile        *catalog_file;
-	GFile        *catalog_dir;
-	char         *catalog_dir_path;
+	MigrationData *data = user_data;
+	char          *buffer;
+	gsize          buffer_size;
+	GError        *error = NULL;
+	DomDocument   *document;
+	char          *extension;
+	char          *new_buffer;
+	gsize          new_buffer_size;
+	char          *catalogs_path;
+	char          *relative_path;
+	char          *tmp_path;
+	char          *full_path_no_ext;
+	char          *full_path;
+	GFile         *catalog_file;
+	GFile         *catalog_dir;
+	char          *catalog_dir_path;
 
 	if (g_file_info_get_file_type (info) != G_FILE_TYPE_REGULAR)
 		return;
@@ -415,7 +429,7 @@ migration_for_each_file (GFile     *file,
 	new_buffer = dom_document_dump (document, &new_buffer_size);
 
 	catalogs_path = gth_user_dir_get_file (GTH_DIR_DATA, "gthumb", "catalogs", NULL);
-	relative_path = g_file_get_relative_path (collections_dir, file);
+	relative_path = g_file_get_relative_path (data->collections_dir, file);
 	tmp_path = g_strconcat (catalogs_path, G_DIR_SEPARATOR_S, relative_path, NULL);
 	full_path_no_ext = _g_uri_remove_extension (tmp_path);
 	full_path = g_strconcat (full_path_no_ext, extension, NULL);
@@ -468,16 +482,21 @@ migration_start_dir (GFile      *directory,
 void
 migrate_catalogs_from_2_10 (void)
 {
-	GFile *home_dir;
-	GFile *collections_dir;
+	MigrationData *data;
+	GFile         *home_dir;
 
-	if (eel_gconf_get_boolean (PREF_DATA_MIGRATION_CATALOGS_2_10, FALSE))
+	data = g_new0 (MigrationData, 1);
+	data->settings = g_settings_new (GTHUMB_DATA_MIGRATION_SCHEMA);
+
+	if (g_settings_get_boolean (data->settings, PREF_DATA_MIGRATION_CATALOGS_2_10)) {
+		migration_data_free (data);
 		return;
+	}
 
 	home_dir = g_file_new_for_path (g_get_home_dir ());
-	collections_dir = _g_file_get_child (home_dir, ".gnome2", "gthumb", "collections", NULL);
+	data->collections_dir = _g_file_get_child (home_dir, ".gnome2", "gthumb", "collections", NULL);
 
-	g_directory_foreach_child (collections_dir,
+	g_directory_foreach_child (data->collections_dir,
 				   TRUE,
 				   TRUE,
 				   "standard::name,standard::type",
@@ -485,7 +504,7 @@ migrate_catalogs_from_2_10 (void)
 				   migration_start_dir,
 				   migration_for_each_file,
 				   migration_done,
-				   collections_dir);
+				   data);
 
 	g_object_unref (home_dir);
 }

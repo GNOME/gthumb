@@ -28,7 +28,6 @@ PUBLIC_HEADER_FILES = 					\
 	dom.h						\
 	egg-macros.h					\
 	eggfileformatchooser.h				\
-	gconf-utils.h					\
 	gedit-message-area.h				\
 	gio-utils.h					\
 	glib-utils.h					\
@@ -154,7 +153,6 @@ gthumb_SOURCES = 					\
 	dlg-preferences-extensions.c			\
 	dlg-sort-order.c				\
 	dom.c						\
-	gconf-utils.c					\
 	gio-utils.c					\
 	glib-utils.c					\
 	gsignature.c					\

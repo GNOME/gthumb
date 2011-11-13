@@ -23,7 +23,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <glib.h>
-#include "gconf-utils.h"
 #include "gth-file-data.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
@@ -776,7 +775,10 @@ void
 gth_file_mananger_trash_files (GtkWindow *window,
 			       GList     *file_list /* GthFileData list */)
 {
-	if (eel_gconf_get_boolean (PREF_MSG_CONFIRM_DELETION, DEFAULT_MSG_CONFIRM_DELETION)) {
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
+	if (g_settings_get_boolean (settings, PREF_MSG_CONFIRM_DELETION)) {
 		int        file_count;
 		char      *prompt;
 		GtkWidget *d;
@@ -784,7 +786,8 @@ gth_file_mananger_trash_files (GtkWindow *window,
 		file_count = g_list_length (file_list);
 		if (file_count == 1) {
 			GthFileData *file_data = file_list->data;
-			prompt = g_strdup_printf (_("Are you sure you want to move \"%s\" to trash?"), g_file_info_get_display_name (file_data->info));
+			prompt = g_strdup_printf (_("Are you sure you want to move \"%s\" to trash?"),
+						  g_file_info_get_display_name (file_data->info));
 		}
 		else
 			prompt = g_strdup_printf (ngettext("Are you sure you want to move to trash "
@@ -810,6 +813,8 @@ gth_file_mananger_trash_files (GtkWindow *window,
 	}
 	else
 		trash_files (window, file_list);
+
+	g_object_unref (settings);
 }
 
 

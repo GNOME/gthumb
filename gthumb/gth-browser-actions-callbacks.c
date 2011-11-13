@@ -24,7 +24,6 @@
 #include "dlg-personalize-filters.h"
 #include "dlg-preferences.h"
 #include "dlg-sort-order.h"
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-list.h"
@@ -200,7 +199,12 @@ void
 gth_browser_activate_action_view_toolbar (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_TOOLBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+	g_object_unref (settings);
 }
 
 
@@ -208,7 +212,12 @@ void
 gth_browser_activate_action_view_show_hidden_files (GtkAction  *action,
 						    GthBrowser *browser)
 {
-	eel_gconf_set_boolean (PREF_SHOW_HIDDEN_FILES, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+	g_object_unref (settings);
 }
 
 
@@ -216,7 +225,12 @@ void
 gth_browser_activate_action_view_statusbar (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+	g_object_unref (settings);
 }
 
 
@@ -224,7 +238,12 @@ void
 gth_browser_activate_action_view_sidebar (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	eel_gconf_set_boolean (PREF_UI_SIDEBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_SIDEBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+	g_object_unref (settings);
 }
 
 
@@ -232,7 +251,12 @@ void
 gth_browser_activate_action_view_thumbnail_list (GtkAction  *action,
 						 GthBrowser *browser)
 {
-	eel_gconf_set_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+	g_object_unref (settings);
 }
 
 

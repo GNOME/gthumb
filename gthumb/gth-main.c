@@ -25,7 +25,6 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gobject/gvaluecollector.h>
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-duplicable.h"
 #include "gth-filter.h"
@@ -745,12 +744,16 @@ gth_main_get_pixbuf_saver (const char *mime_type)
 GthTest *
 gth_main_get_general_filter (void)
 {
-	char    *filter_name;
-	GthTest *filter;
+	GSettings *settings;
+	char      *filter_name;
+	GthTest   *filter;
 
-	filter_name = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
-	filter =  gth_main_get_registered_object (GTH_TYPE_TEST, filter_name);
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	filter_name = g_settings_get_string (settings, PREF_BROWSER_GENERAL_FILTER);
+	filter = gth_main_get_registered_object (GTH_TYPE_TEST, filter_name);
+
 	g_free (filter_name);
+	g_object_unref (settings);
 
 	return filter;
 }
@@ -1204,11 +1207,13 @@ gth_main_activate_extensions (void)
 						"slideshow",
 						"webalbums",
 						NULL };
-	int                  i;
-	GError              *error = NULL;
-	GSList              *active_extensions;
-	GthExtensionManager *manager;
-	GSList              *scan;
+	int                   i;
+	GError               *error = NULL;
+	GSettings            *settings;
+	char                **active_extensions;
+	GList                *ordered_extensions;
+	GthExtensionManager  *manager;
+	GList                *scan;
 
 	if (Main->priv->extension_manager == NULL)
 		Main->priv->extension_manager = gth_extension_manager_new ();
@@ -1220,27 +1225,20 @@ gth_main_activate_extensions (void)
 		}
 	}
 
-	active_extensions = eel_gconf_get_string_list_with_error (PREF_ACTIVE_EXTENSIONS, &error);
-	if ((error != NULL)
-	    || ((active_extensions != NULL)
-	        && (active_extensions->next == NULL)
-	        && (g_strcmp0 (active_extensions->data, "default") == 0)))
+	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
+	active_extensions = g_settings_get_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS);
+	if ((active_extensions != NULL)
+	     && (active_extensions[1] == NULL)
+	     && (g_strcmp0 (active_extensions[0], "default") == 0))
 	{
-		g_clear_error (&error);
-		g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
-		g_slist_free (active_extensions);
-
-		active_extensions = NULL;
-		for (i = 0; default_extensions[i] != NULL; i++)
-			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
-
-		eel_gconf_set_string_list (PREF_ACTIVE_EXTENSIONS, active_extensions);
+		g_strfreev (active_extensions);
+		active_extensions = g_strdupv ((char **) default_extensions);
+		g_settings_set_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS, (const char *const *) active_extensions);
 	}
-	active_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
+	ordered_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
 
 	manager = gth_main_get_default_extension_manager ();
-
-	for (scan = active_extensions; scan; scan = scan->next) {
+	for (scan = ordered_extensions; scan; scan = scan->next) {
 		char                    *name = scan->data;
 		GthExtensionDescription *description;
 		GError                  *error = NULL;
@@ -1255,8 +1253,8 @@ gth_main_activate_extensions (void)
 		}
 	}
 
-	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (active_extensions);
+	_g_string_list_free (ordered_extensions);
+	g_strfreev (active_extensions);
 }
 
 

@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include "dlg-personalize-filters.h"
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gth-browser.h"
@@ -64,10 +63,6 @@
 
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
 #define MAX_HISTORY_LENGTH 15
-#define GCONF_NOTIFICATIONS 13
-#define DEF_SIDEBAR_WIDTH 255
-#define DEF_VIEWER_SIDEBAR_WIDTH 285
-#define DEF_THUMBNAIL_SIZE 128
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
@@ -145,7 +140,6 @@ struct _GthBrowserPrivate {
 	GFile             *monitor_location;
 	gboolean           activity_ref;
 	GthIconCache      *menu_icon_cache;
-	guint              cnxn_id[GCONF_NOTIFICATIONS];
 	GthFileDataSort   *current_sort_type;
 	gboolean           current_sort_inverse;
 	GthFileDataSort   *default_sort_type;
@@ -169,6 +163,12 @@ struct _GthBrowserPrivate {
 	char              *location_free_space;
 	gboolean           recalc_location_free_space;
 	gboolean           shrink_wrap_viewer;
+
+	/* settings */
+
+	GSettings         *browser_settings;
+	GSettings         *messages_settings;
+	GSettings         *desktop_interface_settings;
 
 	/* fulscreen */
 
@@ -1323,7 +1323,7 @@ _gth_browser_get_list_attributes (GthBrowser *browser,
 
 	/* attributes required for the thumbnail caption */
 
-	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
+	thumbnail_caption = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_CAPTION);
 	if ((thumbnail_caption[0] != '\0') && (strcmp (thumbnail_caption, "none") != 0)) {
 		g_string_append (attributes, ",");
 		g_string_append (attributes, thumbnail_caption);
@@ -2121,18 +2121,18 @@ _gth_browser_close_final_step (gpointer user_data)
 								     &height);
 
 			if (size_set) {
-				eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
-				eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+				g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH, width);
+				g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT, height);
 			}
 		}
 
 		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
-			eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, allocation.width);
+			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, allocation.width);
 
 		gtk_widget_get_allocation (browser->priv->viewer_sidebar_alignment, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
-			eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, allocation.width);
+			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR_WIDTH, allocation.width);
 	}
 
 	/**/
@@ -2142,27 +2142,27 @@ _gth_browser_close_final_step (gpointer user_data)
 	gth_hook_invoke ("gth-browser-close", browser);
 
 	if (gtk_widget_get_realized (GTK_WIDGET (browser)) && last_window) {
-		if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE)
+		if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_GO_TO_LAST_LOCATION)
 		    && (browser->priv->location != NULL))
 		{
 			char *uri;
 
 			uri = g_file_get_uri (browser->priv->location->file);
-			eel_gconf_set_path (PREF_STARTUP_LOCATION, uri);
+			_g_settings_set_uri (browser->priv->browser_settings, PREF_BROWSER_STARTUP_LOCATION, uri);
 			g_free (uri);
 
 			if (browser->priv->current_file != NULL) {
 				uri = g_file_get_uri (browser->priv->current_file->file);
-				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, uri);
+				_g_settings_set_uri (browser->priv->browser_settings, PREF_BROWSER_STARTUP_CURRENT_FILE, uri);
 				g_free (uri);
 			}
 			else
-				eel_gconf_set_path (PREF_STARTUP_CURRENT_FILE, "");
+				_g_settings_set_uri (browser->priv->browser_settings, PREF_BROWSER_STARTUP_CURRENT_FILE, "");
 		}
 
 		if (browser->priv->default_sort_type != NULL) {
-			eel_gconf_set_string (PREF_SORT_TYPE, browser->priv->default_sort_type->name);
-			eel_gconf_set_boolean (PREF_SORT_INVERSE, browser->priv->default_sort_inverse);
+			g_settings_set_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE, browser->priv->default_sort_type->name);
+			g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE, browser->priv->default_sort_inverse);
 		}
 
 		gth_hook_invoke ("gth-browser-close-last-window", browser);
@@ -2214,18 +2214,16 @@ static void _gth_browser_cancel (GthBrowser *browser,
 static void
 _gth_browser_real_close (GthBrowser *browser)
 {
-	int i;
-
 	if (browser->priv->closing)
 		return;
 
 	browser->priv->closing = TRUE;
 
-	/* remove gconf notifications */
+	/* disconnect from the settings */
 
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (browser->priv->cnxn_id[i] != 0)
-			eel_gconf_notification_remove (browser->priv->cnxn_id[i]);
+	g_signal_handlers_disconnect_by_data (browser->priv->browser_settings, browser);
+	g_signal_handlers_disconnect_by_data (browser->priv->messages_settings, browser);
+	g_signal_handlers_disconnect_by_data (browser->priv->desktop_interface_settings, browser);
 
 	/* disconnect from the monitor */
 
@@ -2278,7 +2276,7 @@ _gth_browser_close (GthWindow *window)
 		return;
 	}
 
-	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	if (g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
 		gth_browser_ask_whether_to_save (browser,
@@ -2466,7 +2464,7 @@ _gth_browser_set_current_page (GthWindow *window,
 	if (page == gth_window_get_current_page (window))
 		return;
 
-	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	if (g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
 		gth_browser_ask_whether_to_save (browser,
@@ -2483,6 +2481,9 @@ gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
+	_g_object_unref (&browser->priv->browser_settings);
+	_g_object_unref (&browser->priv->messages_settings);
+	_g_object_unref (&browser->priv->desktop_interface_settings);
 	g_free (browser->priv->location_free_space);
 	_g_object_unref (browser->priv->location_source);
 	_g_object_unref (browser->priv->monitor_location);
@@ -3342,10 +3343,9 @@ order_changed_cb (GthMonitor *monitor,
 
 
 static void
-pref_general_filter_changed (GConfClient *client,
-			     guint        cnxn_id,
-			     GConfEntry  *entry,
-			     gpointer     user_data)
+pref_general_filter_changed (GSettings  *settings,
+			     const char *key,
+			     gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 	GthTest    *filter;
@@ -3693,7 +3693,6 @@ _gth_browser_update_toolbar_style (GthBrowser *browser)
 	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
 
 	toolbar_style = gth_pref_get_real_toolbar_style ();
-
 	switch (toolbar_style) {
 	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
 		prop = GTK_TOOLBAR_BOTH;
@@ -3717,10 +3716,9 @@ _gth_browser_update_toolbar_style (GthBrowser *browser)
 
 
 static void
-pref_ui_toolbar_style_changed (GConfClient *client,
-			       guint        cnxn_id,
-			       GConfEntry  *entry,
-			       gpointer     user_data)
+pref_ui_toolbar_style_changed (GSettings  *settings,
+			       const char *key,
+			       gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 	_gth_browser_update_toolbar_style (browser);
@@ -3728,10 +3726,9 @@ pref_ui_toolbar_style_changed (GConfClient *client,
 
 
 static void
-pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
-					  guint        cnxn_id,
-					  GConfEntry  *entry,
-					  gpointer     user_data)
+pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
+					  const char *key,
+					  gpointer    user_data)
 {
 	GthBrowser     *browser = user_data;
 	GtkOrientation  viewer_thumbnails_orientation;
@@ -3739,7 +3736,7 @@ pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
 	GtkWidget      *child1;
 	GtkWidget      *child2;
 
-	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
+	viewer_thumbnails_orientation = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
 		viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	else
@@ -3811,18 +3808,17 @@ _gth_browser_set_toolbar_visibility (GthBrowser *browser,
 
 
 static void
-pref_ui_toolbar_visible_changed (GConfClient *client,
-				 guint        cnxn_id,
-				 GConfEntry  *entry,
-				 gpointer     user_data)
+pref_ui_toolbar_visible_changed (GSettings  *settings,
+				 const char *key,
+				 gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
-	_gth_browser_set_toolbar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	_gth_browser_set_toolbar_visibility (browser, g_settings_get_boolean (settings, key));
 }
 
 
 static void
-_gth_browser_set_statusbar_visibility  (GthBrowser *browser,
+_gth_browser_set_statusbar_visibility (GthBrowser *browser,
 				       gboolean    visible)
 {
 	g_return_if_fail (browser != NULL);
@@ -3836,13 +3832,12 @@ _gth_browser_set_statusbar_visibility  (GthBrowser *browser,
 
 
 static void
-pref_ui_statusbar_visible_changed (GConfClient *client,
-				   guint        cnxn_id,
-				   GConfEntry  *entry,
-				   gpointer     user_data)
+pref_ui_statusbar_visible_changed (GSettings  *settings,
+				   const char *key,
+				   gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
-	_gth_browser_set_statusbar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	_gth_browser_set_statusbar_visibility (browser, g_settings_get_boolean (settings, key));
 }
 
 
@@ -3857,7 +3852,8 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 		GtkAllocation allocation;
 
 		gtk_widget_show (browser->priv->browser_sidebar);
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container), eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH));
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container),
+				        g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
 		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
 	}
@@ -3867,13 +3863,12 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 
 
 static void
-pref_ui_sidebar_visible_changed (GConfClient *client,
-				 guint        cnxn_id,
-				 GConfEntry  *entry,
-				 gpointer     user_data)
+pref_ui_sidebar_visible_changed (GSettings  *settings,
+				 const char *key,
+				 gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
-	_gth_browser_set_sidebar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	_gth_browser_set_sidebar_visibility (browser, g_settings_get_boolean (settings, key));
 }
 
 
@@ -3974,26 +3969,24 @@ _gth_browser_set_thumbnail_list_visibility (GthBrowser *browser,
 
 
 static void
-pref_ui_thumbnail_list_visible_changed (GConfClient *client,
-					guint        cnxn_id,
-					GConfEntry  *entry,
-					gpointer     user_data)
+pref_ui_thumbnail_list_visible_changed (GSettings  *settings,
+					const char *key,
+					gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
-	_gth_browser_set_thumbnail_list_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	_gth_browser_set_thumbnail_list_visibility (browser, g_settings_get_boolean (settings, key));
 }
 
 
 static void
-pref_show_hidden_files_changed (GConfClient *client,
-				guint        cnxn_id,
-				GConfEntry  *entry,
-				gpointer     user_data)
+pref_show_hidden_files_changed (GSettings  *settings,
+				const char *key,
+				gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 	gboolean    show_hidden_files;
 
-	show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	show_hidden_files = g_settings_get_boolean (settings, key);
 	if (show_hidden_files == browser->priv->show_hidden_files)
 		return;
 
@@ -4005,41 +3998,38 @@ pref_show_hidden_files_changed (GConfClient *client,
 
 
 static void
-pref_fast_file_type_changed (GConfClient *client,
-			     guint        cnxn_id,
-			     GConfEntry  *entry,
-			     gpointer     user_data)
+pref_fast_file_type_changed (GSettings  *settings,
+			     const char *key,
+			     gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 
-	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	browser->priv->fast_file_type = g_settings_get_boolean (settings, key);
 	gth_browser_reload (browser);
 }
 
 
 static void
-pref_thumbnail_size_changed (GConfClient *client,
-			     guint        cnxn_id,
-			     GConfEntry  *entry,
-			     gpointer     user_data)
+pref_thumbnail_size_changed (GSettings  *settings,
+			     const char *key,
+			     gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), g_settings_get_int (settings, key));
 	gth_browser_reload (browser);
 }
 
 
 static void
-pref_thumbnail_caption_changed (GConfClient *client,
-			        guint        cnxn_id,
-			        GConfEntry  *entry,
-			        gpointer     user_data)
+pref_thumbnail_caption_changed (GSettings  *settings,
+				const char *key,
+				gpointer    user_data)
 {
 	GthBrowser *browser = user_data;
 	char       *caption;
 
-	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
+	caption = g_settings_get_string (settings, key);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 
 	if (_gth_browser_reload_required (browser))
@@ -4135,13 +4125,16 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->forward_history_menu = NULL;
 	browser->priv->go_parent_menu = NULL;
 	browser->priv->shrink_wrap_viewer = FALSE;
+	browser->priv->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	browser->priv->messages_settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
+	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 
 	{
 		int width;
 		int height;
 
-		width = eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, 0);
-		height = eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, 0);
+		width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH);
+		height = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT);
 
 		if ((width == 0) || (height == 0)) {
 			GdkScreen *screen;
@@ -4225,7 +4218,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* content */
 
-	viewer_thumbnails_orientation = eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL);
+	viewer_thumbnails_orientation = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
 		browser->priv->viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	else
@@ -4247,7 +4240,7 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_widget_set_size_request (browser->priv->viewer_sidebar_alignment, DEF_VIEWER_SIDEBAR_WIDTH, -1);
+	gtk_widget_set_size_request (browser->priv->viewer_sidebar_alignment, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (gth_icon_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
@@ -4258,7 +4251,7 @@ gth_browser_init (GthBrowser *browser)
 		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 	else
 		gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
-	_gth_browser_set_thumbnail_list_visibility (browser, eel_gconf_get_boolean (PREF_UI_THUMBNAIL_LIST_VISIBLE, TRUE));
+	_gth_browser_set_thumbnail_list_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE));
 
 	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list)),
 			  "file-selection-changed",
@@ -4317,7 +4310,7 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->statusbar = gth_statusbar_new ();
 	browser->priv->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (browser->priv->statusbar), "gth_help_message");
-	_gth_browser_set_statusbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
+	_gth_browser_set_statusbar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_STATUSBAR_VISIBLE));
 	gth_window_attach (GTH_WINDOW (browser), browser->priv->statusbar, GTH_WINDOW_STATUSBAR);
 
 	/* main content */
@@ -4329,7 +4322,7 @@ gth_browser_init (GthBrowser *browser)
 	/* the browser sidebar */
 
 	browser->priv->browser_sidebar = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_widget_set_size_request (browser->priv->browser_sidebar, eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH), -1);
+	gtk_widget_set_size_request (browser->priv->browser_sidebar, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
 	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
 
@@ -4457,11 +4450,12 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
 	gth_browser_set_sort_order (browser,
-				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
-				    eel_gconf_get_boolean (PREF_SORT_INVERSE, FALSE));
-	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
-	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
+				    gth_main_get_sort_type (g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE)),
+				    g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE));
+	gth_browser_enable_thumbnails (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS));
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list),
+				      g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE));
+	caption = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_CAPTION);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 
 	g_free (caption);
@@ -4498,11 +4492,11 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the filter bar */
 
-	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
+	general_filter = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_GENERAL_FILTER);
 	browser->priv->filterbar = gth_filterbar_new (general_filter);
 	g_free (general_filter);
 
-	gth_browser_show_filterbar (browser, eel_gconf_get_boolean (PREF_UI_FILTERBAR_VISIBLE, TRUE));
+	gth_browser_show_filterbar (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FILTERBAR_VISIBLE));
 	gtk_box_pack_end (GTK_BOX (vbox), browser->priv->filterbar, FALSE, FALSE, 0);
 
 	g_signal_connect (browser->priv->filterbar,
@@ -4550,76 +4544,75 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
 
-	_gth_browser_set_sidebar_visibility (browser, eel_gconf_get_boolean (PREF_UI_SIDEBAR_VISIBLE, TRUE));
-	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
+	_gth_browser_set_sidebar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_VISIBLE));
+	_gth_browser_set_toolbar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_TOOLBAR_VISIBLE));
 	_gth_browser_update_toolbar_style (browser);
 
-	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	browser->priv->show_hidden_files = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
 	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", browser->priv->show_hidden_files);
 
-	browser->priv->shrink_wrap_viewer = eel_gconf_get_boolean (PREF_SHRINK_WRAP_VIEWER, FALSE);
+	browser->priv->shrink_wrap_viewer = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHRINK_WRAP_VIEWER);
 	_gth_browser_set_action_active (browser, "View_ShrinkWrap", browser->priv->shrink_wrap_viewer);
 
 	_gth_browser_set_action_sensitive (browser, "Viewer_Tools", FALSE);
-	gth_browser_show_file_properties (browser, eel_gconf_get_boolean (PREF_UI_PROPERTIES_VISIBLE, TRUE));
+	gth_browser_show_file_properties (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE));
 
-	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	browser->priv->fast_file_type = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FAST_FILE_TYPE);
 
 	gth_hook_invoke ("gth-browser-construct", browser);
 
 	performance (DEBUG_INFO, "window initialized");
 
-	/* gconf notifications */
+	/* settings notifications */
 
-	i = 0;
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_GENERAL_FILTER,
-					   pref_general_filter_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_TOOLBAR_STYLE,
-					   pref_ui_toolbar_style_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_VIEWER_THUMBNAILS_ORIENT,
-					   pref_ui_viewer_thumbnails_orient_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   "/desktop/gnome/interface/toolbar_style",
-					   pref_ui_toolbar_style_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_TOOLBAR_VISIBLE,
-					   pref_ui_toolbar_visible_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_STATUSBAR_VISIBLE,
-					   pref_ui_statusbar_visible_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_SIDEBAR_VISIBLE,
-					   pref_ui_sidebar_visible_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_THUMBNAIL_LIST_VISIBLE,
-					   pref_ui_thumbnail_list_visible_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_SHOW_HIDDEN_FILES,
-					   pref_show_hidden_files_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_FAST_FILE_TYPE,
-					   pref_fast_file_type_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_THUMBNAIL_SIZE,
-					   pref_thumbnail_size_changed,
-					   browser);
-	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_THUMBNAIL_CAPTION,
-					   pref_thumbnail_caption_changed,
-					   browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_GENERAL_FILTER,
+			  G_CALLBACK (pref_general_filter_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_TOOLBAR_STYLE,
+			  G_CALLBACK (pref_ui_toolbar_style_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT,
+			  G_CALLBACK (pref_ui_viewer_thumbnails_orient_changed),
+			  browser);
+	g_signal_connect (browser->priv->desktop_interface_settings,
+			  "changed::" PREF_BROWSER_TOOLBAR_STYLE,
+			  G_CALLBACK (pref_ui_toolbar_style_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_TOOLBAR_VISIBLE,
+			  G_CALLBACK (pref_ui_toolbar_visible_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_STATUSBAR_VISIBLE,
+			  G_CALLBACK (pref_ui_statusbar_visible_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_SIDEBAR_VISIBLE,
+			  G_CALLBACK (pref_ui_sidebar_visible_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_THUMBNAIL_LIST_VISIBLE,
+			  G_CALLBACK (pref_ui_thumbnail_list_visible_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_SHOW_HIDDEN_FILES,
+			  G_CALLBACK (pref_show_hidden_files_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_FAST_FILE_TYPE,
+			  G_CALLBACK (pref_fast_file_type_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_THUMBNAIL_SIZE,
+			  G_CALLBACK (pref_thumbnail_size_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_THUMBNAIL_CAPTION,
+			  G_CALLBACK (pref_thumbnail_caption_changed),
+			  browser);
 
 	browser->priv->constructed = TRUE;
 }
@@ -5684,7 +5677,7 @@ load_file_delayed_cb (gpointer user_data)
 		browser->priv->load_file_timeout = 0;
 	}
 
-	if (eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, DEFAULT_MSG_SAVE_MODIFIED_IMAGE)
+	if (g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE)
 	    && gth_browser_get_file_modified (browser))
 	{
 		load_file_data_ref (data);
@@ -5740,7 +5733,7 @@ gth_browser_show_file_properties (GthBrowser *browser,
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_BROWSER:
 	case GTH_WINDOW_PAGE_UNDEFINED: /* when called from gth_browser_init */
-		eel_gconf_set_boolean (PREF_UI_PROPERTIES_VISIBLE, show);
+		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE, show);
 		_gth_browser_set_action_active (browser, "Browser_Properties", show);
 		if (show) {
 			if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_WINDOW_PAGE_UNDEFINED) {
@@ -5806,7 +5799,7 @@ gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
 	int        max_height;
 
 	browser->priv->shrink_wrap_viewer = value;
-	eel_gconf_set_boolean (PREF_SHRINK_WRAP_VIEWER, browser->priv->shrink_wrap_viewer);
+	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SHRINK_WRAP_VIEWER, browser->priv->shrink_wrap_viewer);
 
 	if (browser->priv->viewer_page == NULL)
 		return;
@@ -5843,7 +5836,7 @@ gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
 	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_TOOLBAR));
 	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_STATUSBAR));
 	other_height += _gtk_widget_get_allocated_height (gth_browser_get_viewer_toolbar (browser));
-	if (eel_gconf_get_enum (PREF_UI_VIEWER_THUMBNAILS_ORIENT, GTK_TYPE_ORIENTATION, GTK_ORIENTATION_HORIZONTAL) == GTK_ORIENTATION_HORIZONTAL)
+	if (g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT) == GTK_ORIENTATION_HORIZONTAL)
 		other_height += _gtk_widget_get_allocated_height (gth_browser_get_thumbnail_list (browser));
 	else
 		other_width += _gtk_widget_get_allocated_width (gth_browser_get_thumbnail_list (browser));
@@ -6099,7 +6092,7 @@ gth_browser_enable_thumbnails (GthBrowser *browser,
 {
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->file_list), show);
 	_gth_browser_set_action_active (browser, "View_Thumbnails", show);
-	eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, show);
+	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS, show);
 }
 
 
@@ -6112,7 +6105,7 @@ gth_browser_show_filterbar (GthBrowser *browser,
 	else
 		gtk_widget_hide (browser->priv->filterbar);
 	_gth_browser_set_action_active (browser, "View_Filterbar", show);
-	eel_gconf_set_boolean (PREF_UI_FILTERBAR_VISIBLE, show);
+	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_FILTERBAR_VISIBLE, show);
 }
 
 

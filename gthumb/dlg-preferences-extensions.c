@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-main.h"
@@ -83,11 +82,12 @@ static ExtensionCategory extension_category[] = {
 typedef struct {
 	GthBrowser   *browser;
 	GtkBuilder   *builder;
+	GSettings    *settings;
 	GtkWidget    *dialog;
 	GtkWidget    *list_view;
 	GtkListStore *list_store;
 	GtkTreeModel *model_filter;
-	GSList       *active_extensions;
+	GList        *active_extensions;
 	char         *current_category;
 	gboolean      enabled_disabled_cardinality_changed;
 } BrowserData;
@@ -97,8 +97,9 @@ typedef struct {
 static void
 browser_data_free (BrowserData *data)
 {
-	g_slist_foreach (data->active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (data->active_extensions);
+	g_list_foreach (data->active_extensions, (GFunc) g_free, NULL);
+	g_list_free (data->active_extensions);
+	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data->current_category);
 	g_free (data);
@@ -106,17 +107,17 @@ browser_data_free (BrowserData *data)
 
 
 static gboolean
-list_equal (GSList *list1,
-	    GSList *list2)
+list_equal (GList *list1,
+	    GList *list2)
 {
-	GSList *sscan1;
+	GList *sscan1;
 
-	if (g_slist_length (list1) != g_slist_length (list2))
+	if (g_list_length (list1) != g_list_length (list2))
 		return FALSE;
 
 	for (sscan1 = list1; sscan1; sscan1 = sscan1->next) {
-		char   *name1 = sscan1->data;
-		GSList *sscan2;
+		char  *name1 = sscan1->data;
+		GList *sscan2;
 
 		for (sscan2 = list2; sscan2; sscan2 = sscan2->next) {
 			char *name2 = sscan2->data;
@@ -626,20 +627,20 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					  GthBrowser *browser,
 					  GtkBuilder *dialog_builder)
 {
-	BrowserData         *data;
-	GtkWidget           *notebook;
-	GtkWidget           *page;
-	GthExtensionManager *manager;
-	GList               *extensions;
-	GList               *scan;
-	GSList              *all_active_extensions;
-	GSList              *s_scan;
-	GtkTreePath         *first;
-	int                  i;
-	GtkWidget           *label;
+	BrowserData          *data;
+	GtkWidget            *notebook;
+	GtkWidget            *page;
+	GthExtensionManager  *manager;
+	GList                *extensions;
+	GList                *scan;
+	char                **all_active_extensions;
+	int                   i;
+	GtkTreePath          *first;
+	GtkWidget            *label;
 
 	data = g_new0 (BrowserData, 1);
 	data->builder = _gtk_builder_new_from_file ("extensions-preferences.ui", NULL);
+	data->settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
 	data->dialog = dialog;
 	data->enabled_disabled_cardinality_changed = FALSE;
 
@@ -647,20 +648,19 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	manager = gth_main_get_default_extension_manager ();
 	data->active_extensions = NULL;
-	all_active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
-	for (s_scan = all_active_extensions; s_scan; s_scan = s_scan->next) {
-		char                    *name = s_scan->data;
+	all_active_extensions = g_settings_get_strv (data->settings, PREF_GENERAL_ACTIVE_EXTENSIONS);
+	for (i = 0; all_active_extensions[i] != NULL; i++) {
+		char                    *name = all_active_extensions[i];
 		GthExtensionDescription *description;
 
 		description = gth_extension_manager_get_description (manager, name);
 		if ((description == NULL) || description->mandatory || description->hidden)
 			continue;
 
-		data->active_extensions = g_slist_prepend (data->active_extensions, g_strdup (name));
+		data->active_extensions = g_list_prepend (data->active_extensions, g_strdup (name));
 	}
-	data->active_extensions = g_slist_reverse (data->active_extensions);
-	g_slist_foreach (all_active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (all_active_extensions);
+	data->active_extensions = g_list_reverse (data->active_extensions);
+	g_strfreev (all_active_extensions);
 
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 	page = _gtk_builder_get_widget (data->builder, "preferences_page");
@@ -784,7 +784,7 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 		  	  	   GtkBuilder *dialog_builder)
 {
 	BrowserData         *data;
-	GSList              *active_extensions;
+	GList               *active_extensions;
 	GthExtensionManager *manager;
 	GList               *names;
 	GList               *scan;
@@ -804,10 +804,10 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 			continue;
 
 		if (gth_extension_description_is_active (description))
-			active_extensions = g_slist_prepend (active_extensions, g_strdup (name));
+			active_extensions = g_list_prepend (active_extensions, g_strdup (name));
 	}
-	active_extensions = g_slist_reverse (active_extensions);
-	eel_gconf_set_string_list (PREF_ACTIVE_EXTENSIONS, active_extensions);
+	active_extensions = g_list_reverse (active_extensions);
+	_g_settings_set_string_list (data->settings, PREF_GENERAL_ACTIVE_EXTENSIONS, active_extensions);
 
 	if (! list_equal (active_extensions, data->active_extensions)) {
 		GtkWidget *dialog;
@@ -828,6 +828,6 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 			gth_quit (TRUE);
 	}
 
-	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
-	g_slist_free (active_extensions);
+	g_list_foreach (active_extensions, (GFunc) g_free, NULL);
+	g_list_free (active_extensions);
 }

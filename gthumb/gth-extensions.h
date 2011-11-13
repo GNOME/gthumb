@@ -174,8 +174,9 @@ gboolean                   gth_extension_manager_is_active         (GthExtension
 GList *                    gth_extension_manager_get_extensions    (GthExtensionManager  *manager);
 GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager  *manager,
 								    const char           *extension_name);
-GSList *                   gth_extension_manager_order_extensions  (GthExtensionManager  *manager,
-								    GSList               *extensions);
+GList *                    gth_extension_manager_order_extensions  (GthExtensionManager  *manager,
+								    char                **extensions);
+
 G_END_DECLS
 
 #endif

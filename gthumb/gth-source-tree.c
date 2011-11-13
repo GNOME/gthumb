@@ -22,7 +22,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gth-icon-cache.h"
@@ -124,11 +123,16 @@ static void
 load_data_run (LoadData  *load_data,
 	       ListReady  func)
 {
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	gth_file_source_list (load_data->file_source,
 			      load_data->folder,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 			      func,
 			      load_data);
+
+	g_object_unref (settings);
 }
 
 
@@ -250,6 +254,9 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 	    || ((path != NULL) && gtk_tree_view_row_expanded (GTK_TREE_VIEW (source_tree), path)))
 	{
 		MonitorEventData *monitor_data;
+		GSettings        *settings;
+
+		settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 
 		switch (event) {
 		case GTH_MONITOR_EVENT_CREATED:
@@ -260,7 +267,7 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 			monitor_data->source_tree = source_tree;
 			gth_file_source_read_attributes (source_tree->priv->file_source,
 						 	 list,
-						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+						 	 g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 						 	 file_attributes_ready_cb,
 						 	 monitor_data);
 			break;
@@ -270,6 +277,8 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 			gth_folder_tree_delete_children (GTH_FOLDER_TREE (source_tree), parent, list);
 			break;
 		}
+
+		g_object_unref (settings);
 	}
 
 	gtk_tree_path_free (path);

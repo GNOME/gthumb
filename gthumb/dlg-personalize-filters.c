@@ -22,7 +22,6 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "dlg-personalize-filters.h"
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-filter-editor-dialog.h"
 #include "gth-main.h"
@@ -46,6 +45,7 @@ enum {
 typedef struct {
 	GthBrowser   *browser;
 	GtkBuilder   *builder;
+	GSettings    *settings;
 	GtkWidget    *dialog;
 	GtkWidget    *list_view;
 	GtkWidget    *general_filter_combobox;
@@ -69,6 +69,7 @@ destroy_cb (GtkWidget  *widget,
 
 	_g_string_list_free (data->general_tests);
 	g_object_unref (data->builder);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -489,7 +490,7 @@ general_filter_changed_cb (GtkComboBox *widget,
 	int         idx;
 
 	idx = gtk_combo_box_get_active (widget);
-	eel_gconf_set_string (PREF_GENERAL_FILTER, g_list_nth (data->general_tests, idx)->data);
+	g_settings_set_string (data->settings, PREF_BROWSER_GENERAL_FILTER, g_list_nth (data->general_tests, idx)->data);
 }
 
 
@@ -510,6 +511,7 @@ dlg_personalize_filters (GthBrowser *browser)
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("personalize-filters.ui", NULL);
+	data->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 
 	/* Get the widgets. */
 
@@ -520,7 +522,7 @@ dlg_personalize_filters (GthBrowser *browser)
 	/* Set widgets data. */
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
-	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
+	general_filter = g_settings_get_string (data->settings, PREF_BROWSER_GENERAL_FILTER);
 	active_filter = 0;
 
 	data->general_filter_combobox = gtk_combo_box_text_new ();

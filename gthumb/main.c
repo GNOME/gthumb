@@ -34,7 +34,6 @@
 #  include "eggsmclient.h"
 #endif
 #include "eggdesktopfile.h"
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-data.h"
@@ -406,12 +405,14 @@ gth_application_command_line (GApplication            *application,
 	}
 
 	if (remaining_args == NULL) { /* No location specified. */
-		GFile *location;
-		char  *file_to_select_uri;
-		GFile *file_to_select;
+		GFile     *location;
+		GSettings *settings;
+		char      *file_to_select_uri;
+		GFile     *file_to_select;
 
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
-		file_to_select_uri = eel_gconf_get_path (PREF_STARTUP_CURRENT_FILE, NULL);
+		settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+		file_to_select_uri = _g_settings_get_uri (settings, PREF_BROWSER_STARTUP_CURRENT_FILE);
 		if (file_to_select_uri != NULL)
 			file_to_select = g_file_new_for_uri (file_to_select_uri);
 		else
@@ -422,6 +423,7 @@ gth_application_command_line (GApplication            *application,
 
 		_g_object_unref (file_to_select);
 		g_free (file_to_select_uri);
+		g_object_unref (settings);
 		g_object_unref (location);
 
 		return 0;

@@ -23,7 +23,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-cell-renderer-caption.h"
 #include "gth-cell-renderer-thumbnail.h"
@@ -108,6 +107,7 @@ enum {
 
 struct _GthFileListPrivateData
 {
+	GSettings       *settings;
 	GthFileListType  type;
 	GtkAdjustment   *vadj;
 	GtkWidget       *notebook;
@@ -269,6 +269,7 @@ gth_file_list_finalize (GObject *object)
 		g_hash_table_unref (file_list->priv->thumb_data);
 		if (file_list->priv->icon_cache != NULL)
 			gth_icon_cache_free (file_list->priv->icon_cache);
+		g_object_unref (file_list->priv->settings);
 
 		g_free (file_list->priv);
 		file_list->priv = NULL;
@@ -382,8 +383,9 @@ static void
 gth_file_list_init (GthFileList *file_list)
 {
 	file_list->priv = g_new0 (GthFileListPrivateData, 1);
+	file_list->priv->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	file_list->priv->thumb_data = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, (GDestroyNotify) thumb_data_unref);
-	file_list->priv->thumb_size = DEFAULT_THUMBNAIL_SIZE;
+	file_list->priv->thumb_size = g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_SIZE);
 	file_list->priv->ignore_hidden_thumbs = FALSE;
 	file_list->priv->load_thumbs = TRUE;
 	file_list->priv->cancelling = FALSE;
@@ -1142,8 +1144,10 @@ static void
 gfl_set_files (GthFileList *file_list,
 	       GList       *files)
 {
-	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
-	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,
+					      g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader,
+					    g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
 	gth_cell_renderer_caption_clear_cache (GTH_CELL_RENDERER_CAPTION (file_list->priv->caption_renderer));
@@ -1259,8 +1263,10 @@ gfl_enable_thumbs (GthFileList *file_list,
 	GthFileStore *file_store;
 	GtkTreeIter   iter;
 
-	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
-	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,
+					      g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader,
+					    g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 
 	file_list->priv->load_thumbs = enable;
 
@@ -1324,8 +1330,10 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	file_list->priv->thumb_size = size;
 
 	gth_thumb_loader_set_requested_size (file_list->priv->thumb_loader, size);
-	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
-	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,
+					      g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader,
+					    g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);
