@@ -73,8 +73,6 @@ struct _GnomeDesktopThumbnailFactoryPrivate {
 
   GMutex *lock;
 
-#ifdef HAVE_GNOME_3
-
   GList *thumbnailers;
   GHashTable *mime_types_map;
   GList *monitors;
@@ -83,14 +81,6 @@ struct _GnomeDesktopThumbnailFactoryPrivate {
   gboolean loaded : 1;
   gboolean disabled : 1;
   gchar **disabled_types;
-
-#else /* ! HAVE_GNOME_3 */
-
-  GHashTable *scripts_hash;
-  guint thumbnailers_notify;
-  guint reread_scheduled;
-
-#endif
 };
 
 static const char *appname = "gnome-thumbnail-factory";
@@ -287,10 +277,6 @@ _gdk_pixbuf_new_from_uri_at_scale (const char   *uri,
 
 	return pixbuf;
 }
-
-
-#ifdef HAVE_GNOME_3
-
 
 #define LOAD_BUFFER_SIZE 4096
 
@@ -774,205 +760,6 @@ gnome_desktop_thumbnail_factory_get_script (GnomeDesktopThumbnailFactory *factor
 
 	return script;
 }
-
-
-#else /* ! HAVE_GNOME_3 */
-
-
-/* Must be called on main thread */
-static GHashTable *
-read_scripts (void)
-{
-  GHashTable *scripts_hash;
-  GConfClient *client;
-  GSList *subdirs, *l;
-  char *subdir, *enable, *escape, *commandkey, *command, *mimetype;
-
-  client = gconf_client_get_default ();
-
-  if (gconf_client_get_bool (client,
-			     "/desktop/gnome/thumbnailers/disable_all",
-			     NULL))
-    {
-      g_object_unref (G_OBJECT (client));
-      return NULL;
-    }
-
-  scripts_hash = g_hash_table_new_full (g_str_hash,
-					g_str_equal,
-					g_free, g_free);
-
-
-  subdirs = gconf_client_all_dirs (client, "/desktop/gnome/thumbnailers", NULL);
-
-  for (l = subdirs; l != NULL; l = l->next)
-    {
-      subdir = l->data;
-
-      enable = g_strdup_printf ("%s/enable", subdir);
-      if (gconf_client_get_bool (client,
-				 enable,
-				 NULL))
-	{
-	  commandkey = g_strdup_printf ("%s/command", subdir);
-	  command = gconf_client_get_string (client, commandkey, NULL);
-	  g_free (commandkey);
-
-	  if (command != NULL) {
-	    mimetype = strrchr (subdir, '/');
-	    if (mimetype != NULL)
-	      {
-		mimetype++; /* skip past slash */
-
-		/* Convert '@' to slash in mimetype */
-		escape = strchr (mimetype, '@');
-		if (escape != NULL)
-		  *escape = '/';
-
-		/* Convert any remaining '@' to '+' in mimetype */
-		while ((escape = strchr (mimetype, '@')) != NULL)
-                  *escape = '+';
-
-		g_hash_table_insert (scripts_hash,
-				     g_strdup (mimetype), command);
-	      }
-	    else
-	      {
-		g_free (command);
-	      }
-	  }
-	}
-      g_free (enable);
-
-      g_free (subdir);
-    }
-
-  g_slist_free(subdirs);
-
-  g_object_unref (G_OBJECT (client));
-
-  return scripts_hash;
-}
-
-
-/* Must be called on main thread */
-static void
-gnome_desktop_thumbnail_factory_reread_scripts (GnomeDesktopThumbnailFactory *factory)
-{
-  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
-  GHashTable *scripts_hash;
-
-  scripts_hash = read_scripts ();
-
-  g_mutex_lock (priv->lock);
-
-  if (priv->scripts_hash != NULL)
-    g_hash_table_destroy (priv->scripts_hash);
-
-  priv->scripts_hash = scripts_hash;
-
-  g_mutex_unlock (priv->lock);
-}
-
-
-static gboolean
-reread_idle_callback (gpointer user_data)
-{
-  GnomeDesktopThumbnailFactory *factory = user_data;
-  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
-
-  gnome_desktop_thumbnail_factory_reread_scripts (factory);
-
-  g_mutex_lock (priv->lock);
-  priv->reread_scheduled = 0;
-  g_mutex_unlock (priv->lock);
-
-  return FALSE;
-}
-
-static void
-schedule_reread (GConfClient* client,
-		 guint cnxn_id,
-		 GConfEntry *entry,
-		 gpointer user_data)
-{
-  GnomeDesktopThumbnailFactory *factory = user_data;
-  GnomeDesktopThumbnailFactoryPrivate *priv = factory->priv;
-
-  g_mutex_lock (priv->lock);
-
-  if (priv->reread_scheduled == 0)
-    {
-      priv->reread_scheduled = g_idle_add (reread_idle_callback,
-					   factory);
-    }
-
-  g_mutex_unlock (priv->lock);
-}
-
-
-static void
-gnome_desktop_thumbnail_factory_init_scripts (GnomeDesktopThumbnailFactory *factory)
-{
-	GConfClient *client;
-
-	factory->priv->scripts_hash = NULL;
-
-	client = gconf_client_get_default ();
-	gconf_client_add_dir (client,
-			      "/desktop/gnome/thumbnailers",
-			      GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
-
-	gnome_desktop_thumbnail_factory_reread_scripts (factory);
-
-	factory->priv->thumbnailers_notify = gconf_client_notify_add (client, "/desktop/gnome/thumbnailers",
-								      schedule_reread, factory, NULL,
-								      NULL);
-
-	g_object_unref (G_OBJECT (client));
-}
-
-
-static void
-gnome_desktop_thumbnail_factory_finalize_scripts (GnomeDesktopThumbnailFactory *factory)
-{
-	if (factory->priv->scripts_hash) {
-		g_hash_table_destroy (factory->priv->scripts_hash);
-		factory->priv->scripts_hash = NULL;
-	}
-
-	if (factory->priv->reread_scheduled != 0) {
-		g_source_remove (factory->priv->reread_scheduled);
-		factory->priv->reread_scheduled = 0;
-	}
-
-	if (factory->priv->thumbnailers_notify != 0) {
-		GConfClient *client;
-
-		client = gconf_client_get_default ();
-		gconf_client_notify_remove (client, factory->priv->thumbnailers_notify);
-		factory->priv->thumbnailers_notify = 0;
-		g_object_unref (client);
-	}
-}
-
-
-static char *
-gnome_desktop_thumbnail_factory_get_script (GnomeDesktopThumbnailFactory *factory,
-					    const char                   *mime_type)
-{
-	char *script = NULL;
-
-	if (factory->priv->scripts_hash != NULL) {
-		script = g_hash_table_lookup (factory->priv->scripts_hash, mime_type);
-		if (script)
-			script = g_strdup (script);
-	}
-
-	return script;
-}
-
-#endif
 
 
 static void

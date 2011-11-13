@@ -26,9 +26,6 @@
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 
 
-#ifdef HAVE_GNOME_3
-
-
 #define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-control-center background"
 #define DESKTOP_BACKGROUND_SCHEMA "org.gnome.desktop.background"
 #define DESKTOP_BACKGROUND_KEY "picture-uri"
@@ -69,44 +66,6 @@ set_current_wallpaper_file (GFile *file)
 
 	g_free (uri);
 }
-
-
-#else /* ! HAVE_GNOME_DESKTOP_3 */
-
-
-#define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-appearance-properties --show-page=background"
-
-
-static GFile *
-get_current_wallpaper (void)
-{
-	GFile *file = NULL;
-	char  *path;
-
-	path = eel_gconf_get_string ("/desktop/gnome/background/picture_filename", NULL);
-	if (path != NULL) {
-		file = g_file_new_for_path (path);
-		g_free (path);
-	}
-
-	return file;
-}
-
-
-static void
-set_current_wallpaper_file (GFile *file)
-{
-	char *path;
-
-	path = g_file_get_path (file);
-	if (path != NULL)
-		eel_gconf_set_string ("/desktop/gnome/background/picture_filename", path);
-
-	g_free (path);
-}
-
-
-#endif
 
 
 typedef struct {
