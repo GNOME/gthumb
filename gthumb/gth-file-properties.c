@@ -32,7 +32,8 @@
 
 #define GTH_FILE_PROPERTIES_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_PROPERTIES, GthFilePropertiesPrivate))
 #define FONT_SCALE (0.85)
-#define COMMENT_HEIGHT 100
+#define MIN_HEIGHT 100
+#define COMMENT_DEFAULT_HEIGHT 100
 #define CATEGORY_SIZE 1000
 #define MAX_ATTRIBUTE_LENGTH 128
 
@@ -340,7 +341,8 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
 	gtk_widget_show (scrolled_win);
-	gtk_paned_pack1 (GTK_PANED (vpaned), scrolled_win, TRUE, TRUE);
+	gtk_widget_set_size_request (scrolled_win, -1, MIN_HEIGHT);
+	gtk_paned_pack1 (GTK_PANED (vpaned), scrolled_win, TRUE, FALSE);
 
 	self->priv->tree_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);
@@ -423,13 +425,13 @@ gth_file_properties_init (GthFileProperties *self)
 	self->priv->comment_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_SHADOW_ETCHED_IN);
-	gtk_paned_pack2 (GTK_PANED (vpaned), self->priv->comment_win, FALSE, TRUE);
+	gtk_widget_set_size_request (self->priv->comment_win, -1, COMMENT_DEFAULT_HEIGHT);
+	gtk_paned_pack2 (GTK_PANED (vpaned), self->priv->comment_win, FALSE, FALSE);
 
 	self->priv->comment_view = gtk_text_view_new ();
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (self->priv->comment_view), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (self->priv->comment_view), GTK_WRAP_WORD);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self->priv->comment_view), TRUE);
-	gtk_widget_set_size_request (self->priv->comment_view, -1, COMMENT_HEIGHT);
 	gtk_widget_show (self->priv->comment_view);
 	gtk_container_add (GTK_CONTAINER (self->priv->comment_win), self->priv->comment_view);
 }
