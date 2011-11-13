@@ -4,8 +4,8 @@
       <!-- contact sheet -->
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/header</key>
-	<applyto>/apps/gthumb/ext/image_wall/header</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/header</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/header</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>
@@ -17,8 +17,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/footer</key>
-	<applyto>/apps/gthumb/ext/image_wall/footer</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/footer</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/footer</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>
@@ -30,8 +30,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/destination</key>
-	<applyto>/apps/gthumb/ext/image_wall/destination</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/destination</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/destination</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>
@@ -43,8 +43,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/template</key>
-	<applyto>/apps/gthumb/ext/image_wall/template</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/template</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/template</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>###</default>
@@ -56,8 +56,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/mime_type</key>
-	<applyto>/apps/gthumb/ext/image_wall/mime_type</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/mime_type</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/mime_type</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>image/jpeg</default>
@@ -69,8 +69,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/html_image_map</key>
-	<applyto>/apps/gthumb/ext/image_wall/html_image_map</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/html_image_map</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/html_image_map</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
@@ -82,8 +82,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/theme</key>
-	<applyto>/apps/gthumb/ext/image_wall/theme</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/theme</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/theme</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>default.cst</default>
@@ -95,8 +95,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/images_per_page</key>
-	<applyto>/apps/gthumb/ext/image_wall/images_per_page</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/images_per_page</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/images_per_page</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
 	<default>25</default>
@@ -108,8 +108,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/single_page</key>
-	<applyto>/apps/gthumb/ext/image_wall/single_page</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/single_page</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/single_page</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
@@ -121,8 +121,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/columns</key>
-	<applyto>/apps/gthumb/ext/image_wall/columns</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/columns</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/columns</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
 	<default>5</default>
@@ -134,8 +134,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/sort_type</key>
-	<applyto>/apps/gthumb/ext/image_wall/sort_type</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/sort_type</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/sort_type</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>general::unsorted</default>
@@ -147,8 +147,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/sort_inverse</key>
-	<applyto>/apps/gthumb/ext/image_wall/sort_inverse</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/sort_inverse</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/sort_inverse</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
@@ -160,8 +160,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/same_size</key>
-	<applyto>/apps/gthumb/ext/image_wall/same_size</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/same_size</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/same_size</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>true</default>
@@ -173,8 +173,8 @@
       </schema>
       
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/thumbnail_size</key>
-	<applyto>/apps/gthumb/ext/image_wall/thumbnail_size</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/thumbnail_size</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/thumbnail_size</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
 	<default>128</default>
@@ -186,8 +186,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/squared_thumbnail</key>
-	<applyto>/apps/gthumb/ext/image_wall/squared_thumbnail</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/squared_thumbnail</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/squared_thumbnail</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
@@ -199,8 +199,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/image_wall/thumbnail_caption</key>
-	<applyto>/apps/gthumb/ext/image_wall/thumbnail_caption</applyto>
+	<key>/schemas/apps/gthumb/ext/contact_sheet/thumbnail_caption</key>
+	<applyto>/apps/gthumb/ext/contact_sheet/thumbnail_caption</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>
