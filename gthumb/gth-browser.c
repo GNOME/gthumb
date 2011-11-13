@@ -4136,23 +4136,28 @@ gth_browser_init (GthBrowser *browser)
 		width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH);
 		height = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT);
 
+		/* find a suitable size for the window */
 		if ((width == 0) || (height == 0)) {
 			GdkScreen *screen;
 			int        max_width;
 			int        max_height;
 			int        sidebar_width;
 			int        thumb_size;
+			int        thumb_spacing;
+			int        default_columns_of_thumbnails;
 			int        n_cols;
 
 			screen = gtk_widget_get_screen (GTK_WIDGET (browser));
 			max_width = gdk_screen_get_width (screen) * 5 / 6;
-			max_height = gdk_screen_get_height (screen) * 2 / 3;
+			max_height = gdk_screen_get_height (screen) * 3 / 4;
 
-			sidebar_width = eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH) + 10;
-			thumb_size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE) + 40;
+			sidebar_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH) + 10;
+			thumb_size = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE);
+			thumb_spacing = 40;
+			default_columns_of_thumbnails = 5;
 
-			for (n_cols = 4; n_cols >= 1; n_cols--) {
-				width = sidebar_width + 40 + (n_cols * thumb_size);
+			for (n_cols = default_columns_of_thumbnails; n_cols >= 1; n_cols--) {
+				width = sidebar_width + (thumb_spacing + 20) + (n_cols * (thumb_size + thumb_spacing));
 				if (width < max_width)
 					break;
 			}
