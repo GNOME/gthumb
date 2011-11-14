@@ -562,6 +562,7 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 	GtkWidget       *viewer;
+	GSettings       *viewer_settings;
 
 	self = (GthFileToolCrop *) base;
 
@@ -588,8 +589,13 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+
+	/* restore the zoom quality */
+	viewer_settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer),
-					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
+					   g_settings_get_enum (viewer_settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
+
+	g_object_unref (viewer_settings);
 }
 
 
