@@ -589,9 +589,12 @@ gth_browser_update_extra_widget (GthBrowser *browser)
 {
 	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (browser->priv->list_extra_widget));
 	if (g_file_info_get_icon (browser->priv->location->info) != NULL)
-		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_icon (browser->priv->location->info), GTK_ICON_SIZE_BUTTON);
+		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget),
+					       g_file_info_get_icon (browser->priv->location->info),
+					       GTK_ICON_SIZE_MENU);
 	if (g_file_info_get_display_name (browser->priv->location->info) != NULL)
-		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), g_file_info_get_display_name (browser->priv->location->info));
+		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget),
+						      g_file_info_get_display_name (browser->priv->location->info));
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
 
