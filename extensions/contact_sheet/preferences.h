@@ -60,7 +60,7 @@ G_BEGIN_DECLS
 #define PREF_IMAGE_WALL_COLUMNS                     "columns"
 #define PREF_IMAGE_WALL_SORT_TYPE                   "sort-type"
 #define PREF_IMAGE_WALL_SORT_INVERSE                "sort-inverse"
-#define PREF_IMAGE_WALL_THUMBNAIL_SIZE              "thumbnail_size"
+#define PREF_IMAGE_WALL_THUMBNAIL_SIZE              "thumbnail-size"
 
 G_END_DECLS
 

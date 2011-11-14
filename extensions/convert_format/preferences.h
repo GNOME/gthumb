@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 
 /* keys */
 
-#define PREF_CONVERT_FORMAT_MIME_TYPE  "mime_type"
+#define PREF_CONVERT_FORMAT_MIME_TYPE  "mime-type"
 
 G_END_DECLS
 
