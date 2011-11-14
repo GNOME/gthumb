@@ -782,31 +782,31 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_ZOOM_QUALITY,
 			  G_CALLBACK (pref_zoom_quality_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_ZOOM_CHANGE,
 			  G_CALLBACK (pref_zoom_change_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_TRANSP_TYPE,
 			  G_CALLBACK (pref_transp_type_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_CHECK_TYPE,
 			  G_CALLBACK (pref_check_type_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_CHECK_SIZE,
 			  G_CALLBACK (pref_check_size_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_BLACK_BACKGROUND,
 			  G_CALLBACK (pref_black_background_changed),
-			  browser);
+			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
 			  G_CALLBACK (pref_reset_scrollbars_changed),
-			  browser);
+			  self);
 }
 
 
