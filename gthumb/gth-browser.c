@@ -4062,6 +4062,8 @@ _gth_browser_unrealize (GtkWidget *browser,
 static void
 gth_browser_init (GthBrowser *browser)
 {
+	int             window_width;
+	int             window_height;
 	GError         *error = NULL;
 	GtkWidget      *vbox;
 	GtkWidget      *scrolled_window;
@@ -4129,45 +4131,40 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->messages_settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 
-	{
-		int width;
-		int height;
+	/* find a suitable size for the window */
 
-		width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH);
-		height = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT);
+	window_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH);
+	window_height = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT);
 
-		/* find a suitable size for the window */
-		if ((width == 0) || (height == 0)) {
-			GdkScreen *screen;
-			int        max_width;
-			int        max_height;
-			int        sidebar_width;
-			int        thumb_size;
-			int        thumb_spacing;
-			int        default_columns_of_thumbnails;
-			int        n_cols;
+	if ((window_width == 0) || (window_height == 0)) {
+		GdkScreen *screen;
+		int        max_width;
+		int        max_height;
+		int        sidebar_width;
+		int        thumb_size;
+		int        thumb_spacing;
+		int        default_columns_of_thumbnails;
+		int        n_cols;
 
-			screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-			max_width = gdk_screen_get_width (screen) * 5 / 6;
-			max_height = gdk_screen_get_height (screen) * 3 / 4;
+		screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+		max_width = gdk_screen_get_width (screen) * 5 / 6;
+		max_height = gdk_screen_get_height (screen) * 3 / 4;
 
-			sidebar_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH) + 10;
-			thumb_size = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE);
-			thumb_spacing = 40;
-			default_columns_of_thumbnails = 5;
+		sidebar_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH) + 10;
+		thumb_size = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE);
+		thumb_spacing = 40;
+		default_columns_of_thumbnails = 5;
 
-			for (n_cols = default_columns_of_thumbnails; n_cols >= 1; n_cols--) {
-				width = sidebar_width + (thumb_spacing + 20) + (n_cols * (thumb_size + thumb_spacing));
-				if (width < max_width)
-					break;
-			}
-			if (n_cols == 0)
-				width = max_width;
-			height = max_height;
+		for (n_cols = default_columns_of_thumbnails; n_cols >= 1; n_cols--) {
+			window_width = sidebar_width + (thumb_spacing + 20) + (n_cols * (thumb_size + thumb_spacing));
+			if (window_width < max_width)
+				break;
 		}
-
-		gtk_window_set_default_size (GTK_WINDOW (browser), width, height);
+		if (n_cols == 0)
+			window_width = max_width;
+		window_height = max_height;
 	}
+	gtk_window_set_default_size (GTK_WINDOW (browser), window_width, window_height);
 
 	gtk_window_set_has_resize_grip (GTK_WINDOW (browser), TRUE);
 
