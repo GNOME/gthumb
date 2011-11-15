@@ -99,7 +99,7 @@ gth_window_set_n_pages (GthWindow *self,
 		gtk_box_pack_start (GTK_BOX (page), self->priv->toolbars[i], FALSE, FALSE, 0);
 
 		self->priv->contents[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_widget_show (self->priv->contents[i]);
+		gtk_widget_hide (self->priv->contents[i]);
 		gtk_box_pack_start (GTK_BOX (page), self->priv->contents[i], TRUE, TRUE, 0);
 	}
 
