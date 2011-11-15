@@ -26,6 +26,7 @@
 #include "dlg-personalize-filters.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
+#include "gth-auto-paned.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
 #include "gth-browser-actions-entries.h"
@@ -3852,13 +3853,9 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 
 	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
 	if (visible) {
-		GtkAllocation allocation;
-
 		gtk_widget_show (browser->priv->browser_sidebar);
 		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container),
 				        g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
-		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
 	}
 	else
 		gtk_widget_hide (browser->priv->browser_sidebar);
@@ -4329,9 +4326,8 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the browser sidebar */
 
-	browser->priv->browser_sidebar = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+	browser->priv->browser_sidebar = gth_auto_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_set_size_request (browser->priv->browser_sidebar, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
-	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
 
 	/* the box that contains the location and the folder list.  */
@@ -5744,13 +5740,8 @@ gth_browser_show_file_properties (GthBrowser *browser,
 		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE, show);
 		_gth_browser_set_action_active (browser, "Browser_Properties", show);
 		if (show) {
-			if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_WINDOW_PAGE_UNDEFINED) {
-				GtkAllocation allocation;
-
-				gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
-				gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), allocation.height / 2);
+			if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_WINDOW_PAGE_UNDEFINED)
 				gtk_widget_show (browser->priv->file_properties);
-			}
 		}
 		else
 			gtk_widget_hide (browser->priv->file_properties);
