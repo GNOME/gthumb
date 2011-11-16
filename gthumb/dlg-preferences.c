@@ -163,6 +163,14 @@ thumbnails_pane_orientation_changed_cb (GtkWidget  *widget,
 
 
 static void
+file_properties_position_combobox_changed_cb (GtkWidget  *widget,
+					      DialogData *data)
+{
+	g_settings_set_boolean (data->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_properties_position_combobox"))) == 1);
+}
+
+
+static void
 confirm_deletion_toggled_cb (GtkToggleButton *button,
 			     DialogData      *data)
 {
@@ -291,6 +299,8 @@ dlg_preferences (GthBrowser *browser)
 				  get_idx_from_size (g_settings_get_int (data->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE)));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("slow_mime_type_checkbutton")),
 				      ! g_settings_get_boolean (data->browser_settings, PREF_BROWSER_FAST_FILE_TYPE));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("file_properties_position_combobox")),
+				  g_settings_get_boolean (data->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT) ? 1 : 0);
 
 	gth_hook_invoke ("dlg-preferences-construct", data->dialog, data->browser, data->builder);
 
@@ -318,6 +328,10 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (GET_WIDGET ("thumbnails_pane_orient_combobox"),
 			  "changed",
 			  G_CALLBACK (thumbnails_pane_orientation_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("file_properties_position_combobox"),
+			  "changed",
+			  G_CALLBACK (file_properties_position_combobox_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("use_startup_location_radiobutton")),
 			  "toggled",

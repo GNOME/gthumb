@@ -88,7 +88,7 @@
     </key>
     <key name="sort-inverse" type="b">
       <default>false</default>
-    </key>   
+    </key>
     <key name="toolbar-style" enum="org.gnome.gthumb.GthToolbarStyle">
       <default>'system'</default>
     </key>
@@ -115,6 +115,9 @@
     </key>
     <key name="properties-visible" type="b">
       <default>true</default>
+    </key>
+    <key name="properties-on-the-right" type="b">
+      <default>false</default>
     </key>
     <key name="thumbnail-list-visible" type="b">
       <default>true</default>

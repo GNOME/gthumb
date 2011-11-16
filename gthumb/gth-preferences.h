@@ -72,6 +72,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_FILTERBAR_VISIBLE        "filterbar-visible"
 #define PREF_BROWSER_SIDEBAR_VISIBLE          "sidebar-visible"
 #define PREF_BROWSER_PROPERTIES_VISIBLE       "properties-visible"
+#define PREF_BROWSER_PROPERTIES_ON_THE_RIGHT  "properties-on-the-right"
 #define PREF_BROWSER_THUMBNAIL_LIST_VISIBLE   "thumbnail-list-visible"
 #define PREF_BROWSER_BROWSER_SIDEBAR_WIDTH    "browser-sidebar-width"
 #define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"

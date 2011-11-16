@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkListStore" id="file_properties_position_liststore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">below the folder list</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">on the right</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="preferences_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -18,7 +32,6 @@
             <child>
               <object class="GtkButton" id="help_button">
                 <property name="label">gtk-help</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -35,7 +48,6 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -167,10 +179,39 @@
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkLabel" id="label10">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">File _properties in browser:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">file_properties_position_combobox</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="width">1</property>
+                                    <property name="height">1</property>
+                                  </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkComboBox" id="file_properties_position_combobox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="model">file_properties_position_liststore</property>
+                                    <child>
+                                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                      <attributes>
+                                        <attribute name="text">0</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="width">1</property>
+                                    <property name="height">1</property>
+                                  </packing>
                                 </child>
                               </object>
                               <packing>
@@ -222,7 +263,6 @@
                             <child>
                               <object class="GtkRadioButton" id="go_to_last_location_radiobutton">
                                 <property name="label" translatable="yes">Go to last _visited location</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -246,7 +286,6 @@
                                 <child>
                                   <object class="GtkRadioButton" id="use_startup_location_radiobutton">
                                     <property name="label" translatable="yes">Go to this _folder:</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -290,7 +329,6 @@
                                 <child>
                                   <object class="GtkButton" id="set_to_current_button">
                                     <property name="label" translatable="yes">Set to C_urrent</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -354,7 +392,6 @@
                             <child>
                               <object class="GtkCheckButton" id="confirm_deletion_checkbutton">
                                 <property name="label" translatable="yes">As_k confirmation before deleting files or catalogs</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -372,7 +409,6 @@
                             <child>
                               <object class="GtkCheckButton" id="ask_to_save_checkbutton">
                                 <property name="label" translatable="yes">Ask whether to save _modified files</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -390,7 +426,6 @@
                             <child>
                               <object class="GtkCheckButton" id="embed_metadata_checkbutton">
                                 <property name="label" translatable="yes">_Store metadata inside files if possible</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -568,7 +603,6 @@
                             <child>
                               <object class="GtkCheckButton" id="slow_mime_type_checkbutton">
                                 <property name="label" translatable="yes">D_etermine image type from content (slower)</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>

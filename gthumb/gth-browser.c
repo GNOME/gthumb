@@ -91,7 +91,8 @@ struct _GthBrowserPrivate {
 	GtkWidget         *infobar;
 	GtkWidget         *statusbar;
 	GtkWidget         *browser_toolbar;
-	GtkWidget         *browser_container;
+	GtkWidget         *browser_right_container;
+	GtkWidget         *browser_left_container;
 	GtkWidget         *browser_sidebar;
 	GtkWidget         *location_chooser_container;
 	GtkWidget         *location_chooser;
@@ -164,6 +165,7 @@ struct _GthBrowserPrivate {
 	char              *location_free_space;
 	gboolean           recalc_location_free_space;
 	gboolean           shrink_wrap_viewer;
+	gboolean           file_properties_on_the_right;
 
 	/* settings */
 
@@ -2350,6 +2352,16 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 /* --- _gth_browser_set_current_page --- */
 
 
+static GtkWidget *
+_gth_browser_get_browser_file_properties_container (GthBrowser *browser)
+{
+	if (browser->priv->file_properties_on_the_right)
+		return browser->priv->browser_right_container;
+	else
+		return browser->priv->browser_sidebar;
+}
+
+
 static void
 _gth_browser_real_set_current_page (GthWindow *window,
 				    int        page)
@@ -2375,11 +2387,14 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	gtk_widget_unrealize (browser->priv->file_properties);
 	if (page == GTH_BROWSER_PAGE_BROWSER) {
-		gtk_widget_reparent (browser->priv->file_properties, browser->priv->browser_sidebar);
+		GtkWidget *file_properties_parent;
+
+		file_properties_parent = _gth_browser_get_browser_file_properties_container (browser);
+		gtk_widget_reparent (browser->priv->file_properties, file_properties_parent);
 		/* restore the child properties that gtk_widget_reparent doesn't preserve. */
-		gtk_container_child_set (GTK_CONTAINER (browser->priv->browser_sidebar),
+		gtk_container_child_set (GTK_CONTAINER (file_properties_parent),
 					 browser->priv->file_properties,
-					 "resize", TRUE,
+					 "resize", ! browser->priv->file_properties_on_the_right,
 					 "shrink", FALSE,
 					 NULL);
 	}
@@ -3730,6 +3745,33 @@ pref_ui_toolbar_style_changed (GSettings  *settings,
 
 
 static void
+pref_browser_properties_on_the_right_changed (GSettings  *settings,
+					      const char *key,
+					      gpointer    user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *old_parent;
+	GtkWidget  *new_parent;
+
+	old_parent = _gth_browser_get_browser_file_properties_container (browser);
+	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
+	new_parent = _gth_browser_get_browser_file_properties_container (browser);
+
+	if (old_parent == new_parent)
+		return;
+
+	gtk_widget_unrealize (browser->priv->file_properties);
+	gtk_widget_reparent (browser->priv->file_properties, new_parent);
+	/* restore the child properties that gtk_widget_reparent doesn't preserve. */
+	gtk_container_child_set (GTK_CONTAINER (new_parent),
+				 browser->priv->file_properties,
+				 "resize", ! browser->priv->file_properties_on_the_right,
+				 "shrink", FALSE,
+				 NULL);
+}
+
+
+static void
 pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 					  const char *key,
 					  gpointer    user_data)
@@ -3854,7 +3896,7 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
 	if (visible) {
 		gtk_widget_show (browser->priv->browser_sidebar);
-		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container),
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_left_container),
 				        g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	}
 	else
@@ -4130,6 +4172,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	browser->priv->messages_settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
+	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
 
 	/* find a suitable size for the window */
 
@@ -4317,15 +4360,19 @@ gth_browser_init (GthBrowser *browser)
 
 	/* main content */
 
-	browser->priv->browser_container = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_widget_show (browser->priv->browser_container);
-	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_container);
+	browser->priv->browser_right_container = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_show (browser->priv->browser_right_container);
+	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_right_container);
+
+	browser->priv->browser_left_container = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_show (browser->priv->browser_left_container);
+	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_right_container), browser->priv->browser_left_container, TRUE, TRUE);
 
 	/* the browser sidebar */
 
 	browser->priv->browser_sidebar = gth_auto_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_set_size_request (browser->priv->browser_sidebar, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_left_container), browser->priv->browser_sidebar, FALSE, TRUE);
 
 	/* the box that contains the location and the folder list.  */
 
@@ -4428,13 +4475,16 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->file_properties = gth_sidebar_new ("file-tools");
 	gtk_widget_set_size_request (browser->priv->file_properties, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_hide (browser->priv->file_properties);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_sidebar), browser->priv->file_properties, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (_gth_browser_get_browser_file_properties_container (browser)),
+			 browser->priv->file_properties,
+			 ! browser->priv->file_properties_on_the_right,
+			 FALSE);
 
 	/* the box that contains the file list and the filter bar.  */
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_container), vbox, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_left_container), vbox, TRUE, TRUE);
 
 	/* the list extra widget container */
 
@@ -4577,6 +4627,10 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT,
 			  G_CALLBACK (pref_ui_viewer_thumbnails_orient_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_PROPERTIES_ON_THE_RIGHT,
+			  G_CALLBACK (pref_browser_properties_on_the_right_changed),
 			  browser);
 	g_signal_connect (browser->priv->desktop_interface_settings,
 			  "changed::" PREF_BROWSER_TOOLBAR_STYLE,
