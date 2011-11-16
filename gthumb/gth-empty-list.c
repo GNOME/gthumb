@@ -230,38 +230,6 @@ gth_empty_list_draw (GtkWidget *widget,
 		cairo_fill (cr);
 	}
 
-	/*
-	if (gtk_widget_has_focus (widget)) {
-		GtkStateFlags state;
-		GtkBorder     padding;
-		GtkBorder     border;
-
-		state = gtk_widget_get_state_flags (widget);
-		gtk_style_context_get_padding (style_context, state, &padding);
-		gtk_style_context_get_border (style_context, state, &border);
-		gtk_render_focus (style_context,
-				  cr,
-				  padding.left + border.left,
-				  padding.top + border.top,
-				  allocation.width - (padding.left + padding.right + border.left + border.right),
-				  allocation.height - (padding.top + padding.bottom + border.top + border.bottom));
-	}
-	*/
-
-	return FALSE;
-}
-
-
-static int
-gth_empty_list_button_press (GtkWidget      *widget,
-			     GdkEventButton *event)
-{
-	GthEmptyList *self = (GthEmptyList*) widget;
-
-	if (event->window == self->priv->bin_window)
-		if (! gtk_widget_has_focus (widget))
-			gtk_widget_grab_focus (widget);
-	
 	return FALSE;
 }
 
@@ -286,7 +254,6 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	widget_class->unmap = gth_empty_list_unmap;
 	widget_class->size_allocate = gth_empty_list_size_allocate;
 	widget_class->draw = gth_empty_list_draw;
-	widget_class->button_press_event = gth_empty_list_button_press;
 	
 	/* properties */
 	
@@ -311,7 +278,7 @@ gth_empty_list_init (GthEmptyList *self)
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_FRAME);
 
-	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 }
 
 
