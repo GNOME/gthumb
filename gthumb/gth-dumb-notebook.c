@@ -245,12 +245,16 @@ gth_dumb_notebook_remove (GtkContainer *container,
 	if (g_list_find (notebook->priv->children, child) == NULL)
 		return;
 
-	gtk_widget_freeze_child_notify (child);
+	g_object_ref (child);
+	gtk_widget_unparent (child);
 
-	notebook->priv->children = g_list_remove (notebook->priv->children, child);
+	/* do not modify the children list during destruction otherwise
+	 * gtk_container_forall doesn't work correctly. */
+	if (! gtk_widget_in_destruction (GTK_WIDGET (container)))
+		notebook->priv->children = g_list_remove (notebook->priv->children, child);
 	notebook->priv->n_children--;
 
-	gtk_widget_thaw_child_notify (child);
+	g_object_unref (child);
 }
 
 
