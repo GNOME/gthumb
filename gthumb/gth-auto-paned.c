@@ -33,6 +33,13 @@ struct _GthAutoPanedPrivate {
 };
 
 
+static gboolean
+_gtk_widget_get_visible (GtkWidget *widget)
+{
+	return (widget != NULL) && gtk_widget_get_visible (widget);
+}
+
+
 static void
 gth_auto_paned_size_allocate (GtkWidget     *widget,
 			 GtkAllocation *allocation)
@@ -46,12 +53,12 @@ gth_auto_paned_size_allocate (GtkWidget     *widget,
 	child2 = gtk_paned_get_child2 (GTK_PANED (self));
 
 	reset_position = FALSE;
-	if ((self->priv->child1_visible != gtk_widget_get_visible (child1))
-	    || (self->priv->child2_visible != gtk_widget_get_visible (child2)))
+	if ((self->priv->child1_visible != _gtk_widget_get_visible (child1))
+	    || (self->priv->child2_visible != _gtk_widget_get_visible (child2)))
 	{
 		reset_position = TRUE;
-		self->priv->child1_visible = gtk_widget_get_visible (child1);
-		self->priv->child2_visible = gtk_widget_get_visible (child2);
+		self->priv->child1_visible = _gtk_widget_get_visible (child1);
+		self->priv->child2_visible = _gtk_widget_get_visible (child2);
 	}
 
 	if (reset_position) {
