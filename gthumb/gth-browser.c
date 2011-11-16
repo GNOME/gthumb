@@ -94,8 +94,6 @@ struct _GthBrowserPrivate {
 	GtkWidget         *browser_right_container;
 	GtkWidget         *browser_left_container;
 	GtkWidget         *browser_sidebar;
-	GtkWidget         *location_chooser_container;
-	GtkWidget         *location_chooser;
 	GtkWidget         *folder_tree;
 	GtkWidget         *history_list_popup_menu;
 	GtkWidget         *folder_popup;
@@ -617,10 +615,6 @@ _gth_browser_set_location (GthBrowser  *browser,
 	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
 	gth_browser_update_extra_widget (browser);
-
-	g_signal_handlers_block_by_data (browser->priv->location_chooser, browser);
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (browser->priv->location_chooser), browser->priv->location->file);
-	g_signal_handlers_unblock_by_data (browser->priv->location_chooser, browser);
 }
 
 
@@ -2868,14 +2862,6 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 
 
 static void
-location_changed_cb (GthLocationChooser *chooser,
-		     GthBrowser         *browser)
-{
-	gth_browser_go_to (browser, gth_location_chooser_get_current (chooser), NULL);
-}
-
-
-static void
 filterbar_changed_cb (GthFilterbar *filterbar,
 		      GthBrowser   *browser)
 {
@@ -4380,22 +4366,6 @@ gth_browser_init (GthBrowser *browser)
 	gtk_widget_set_size_request (vbox, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_show (vbox);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, FALSE);
-
-	/* the location combobox */
-
-	browser->priv->location_chooser_container = gtk_alignment_new (0, 0.5, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->location_chooser_container), 4, 4, 0, 0);
-	gtk_widget_show (browser->priv->location_chooser_container);
-	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->location_chooser_container, FALSE, FALSE, 0);
-
-	browser->priv->location_chooser = gth_location_chooser_new ();
-	gtk_widget_show (browser->priv->location_chooser);
-	gtk_container_add (GTK_CONTAINER (browser->priv->location_chooser_container), browser->priv->location_chooser);
-
-	g_signal_connect (browser->priv->location_chooser,
-			  "changed",
-			  G_CALLBACK (location_changed_cb),
-			  browser);
 
 	/* the folder list */
 
