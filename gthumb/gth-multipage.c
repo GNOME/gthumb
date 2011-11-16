@@ -86,6 +86,37 @@ combobox_changed_cb (GtkComboBox *widget,
 
 
 static void
+multipage_realize_cb (GtkWidget *widget,
+		      gpointer   user_data)
+{
+	GthMultipage *multipage = user_data;
+	GtkWidget    *orientable_parent;
+
+	orientable_parent = gtk_widget_get_parent (widget);
+	while ((orientable_parent != NULL ) && ! GTK_IS_ORIENTABLE (orientable_parent)) {
+		orientable_parent = gtk_widget_get_parent (orientable_parent);
+	}
+
+	if (orientable_parent == NULL)
+		return;
+
+	switch (gtk_orientable_get_orientation (GTK_ORIENTABLE (orientable_parent))) {
+	case GTK_ORIENTATION_HORIZONTAL:
+		gtk_box_set_spacing (GTK_BOX (multipage), 0);
+		gtk_widget_set_margin_top (multipage->priv->combobox, 4);
+		gtk_widget_set_margin_bottom (multipage->priv->combobox, 4);
+		break;
+
+	case GTK_ORIENTATION_VERTICAL:
+		gtk_box_set_spacing (GTK_BOX (multipage), 6);
+		gtk_widget_set_margin_top (multipage->priv->combobox, 0);
+		gtk_widget_set_margin_bottom (multipage->priv->combobox, 0);
+		break;
+	}
+}
+
+
+static void
 gth_multipage_init (GthMultipage *multipage)
 {
 	GtkCellRenderer *renderer;
@@ -93,8 +124,10 @@ gth_multipage_init (GthMultipage *multipage)
 	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
 	multipage->priv->children = NULL;
 
-	gtk_box_set_spacing (GTK_BOX (multipage), 6);
-
+	g_signal_connect (multipage,
+			  "realize",
+			  G_CALLBACK (multipage_realize_cb),
+			  multipage);
 	multipage->priv->model = gtk_list_store_new (N_COLUMNS,
 						     G_TYPE_STRING,
 						     G_TYPE_STRING);

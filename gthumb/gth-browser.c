@@ -4384,7 +4384,7 @@ gth_browser_init (GthBrowser *browser)
 	/* the location combobox */
 
 	browser->priv->location_chooser_container = gtk_alignment_new (0, 0.5, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->location_chooser_container), 0, 4, 0, 0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->location_chooser_container), 4, 4, 0, 0);
 	gtk_widget_show (browser->priv->location_chooser_container);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->location_chooser_container, FALSE, FALSE, 0);
 
