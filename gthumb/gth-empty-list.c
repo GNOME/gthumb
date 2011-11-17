@@ -206,12 +206,16 @@ gth_empty_list_draw (GtkWidget *widget,
 	GtkStyleContext *style_context;
 	GtkAllocation    allocation;
 
+	if (! gtk_cairo_should_draw_window (cr, gtk_widget_get_window (widget)))
+		return FALSE;
+
 	style_context = gtk_widget_get_style_context (widget);
 
 	gtk_widget_get_allocation (widget, &allocation);
+
 	gtk_render_frame (style_context, cr,
-			  allocation.x,
-			  allocation.y,
+			  0,
+			  0,
 			  allocation.width,
 			  allocation.height);
 
@@ -272,7 +276,11 @@ gth_empty_list_init (GthEmptyList *self)
 {
 	GtkStyleContext *style_context;
 
+	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
+	self->priv->layout = NULL;
+	self->priv->text = NULL;
 
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
