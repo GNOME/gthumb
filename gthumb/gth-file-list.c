@@ -617,8 +617,8 @@ file_store_rows_reordered_cb (GtkTreeModel *tree_model,
 
 
 static void
-file_store_thumnail_changed_cb (GthFileStore *file_store,
-				gpointer       user_data)
+file_store_thumbnail_changed_cb (GthFileStore *file_store,
+				 gpointer      user_data)
 {
 	GthFileList *file_list = user_data;
 	gtk_widget_queue_draw (file_list->priv->view);
@@ -680,7 +680,7 @@ gth_file_list_construct (GthFileList     *file_list,
 			  file_list);
 	g_signal_connect (model,
 			  "thumbnail-changed",
-			  G_CALLBACK (file_store_thumnail_changed_cb),
+			  G_CALLBACK (file_store_thumbnail_changed_cb),
 			  file_list);
 
 	if (enable_drag_drop) {
