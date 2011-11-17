@@ -328,6 +328,21 @@ set_zoom (GthImageViewer *self,
 
 
 static void
+set_zoom_centered_at (GthImageViewer *self,
+		      double          zoom_level,
+		      gboolean        zoom_to_fit,
+		      int             center_x,
+		      int             center_y)
+{
+	set_zoom (self, zoom_level, center_x, center_y);
+
+	/* reset zoom_fit unless we are performing a zoom to fit. */
+	if (! zoom_to_fit)
+		self->priv->fit = GTH_FIT_NONE;
+}
+
+
+static void
 set_zoom_centered (GthImageViewer *self,
 		   gdouble         zoom_level,
 		   gboolean        zoom_to_fit,
@@ -337,11 +352,7 @@ set_zoom_centered (GthImageViewer *self,
 	int visible_height;
 
 	_gth_image_viewer_get_visible_area_size_for_allocation (self, &visible_width, &visible_height, allocation);
-	set_zoom (self, zoom_level, visible_width / 2, visible_height / 2);
-
-	/* reset zoom_fit unless we are performing a zoom to fit. */
-	if (! zoom_to_fit)
-		self->priv->fit = GTH_FIT_NONE;
+	set_zoom_centered_at (self, zoom_level, zoom_to_fit, visible_width / 2, visible_height / 2);
 }
 
 
@@ -960,41 +971,57 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 			       GdkEventScroll *event)
 {
 	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
-	GtkAdjustment  *adj;
 	gdouble         new_value = 0.0;
+	gboolean        retval = FALSE;
 
 	g_return_val_if_fail (GTH_IS_IMAGE_VIEWER (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
+	/* Control + Scroll-Up / Control + Scroll-Down ==> Zoom In / Zoom Out */
+
 	if (event->state & GDK_CONTROL_MASK) {
-		if (event->direction == GDK_SCROLL_UP) {
-			set_zoom (self,
-				  get_next_zoom (self->priv->zoom_level),
-				  (int) event->x,
-				  (int) event->y);
-			return TRUE;
+		if  (self->priv->zoom_enabled) {
+			double new_zoom_level;
+
+			switch (event->direction) {
+			case GDK_SCROLL_UP:
+			case GDK_SCROLL_DOWN:
+				if (event->direction == GDK_SCROLL_UP)
+					new_zoom_level = get_next_zoom (self->priv->zoom_level);
+				else
+					new_zoom_level = get_prev_zoom (self->priv->zoom_level);
+				set_zoom_centered_at (self, new_zoom_level, FALSE, (int) event->x, (int) event->y);
+				gtk_widget_queue_resize (GTK_WIDGET (self));
+				retval = TRUE;
+				break;
+
+			default:
+				break;
+			}
 		}
-		if (event->direction == GDK_SCROLL_DOWN) {
-			set_zoom (self,
-				  get_prev_zoom (self->priv->zoom_level),
-				  (int) event->x,
-				  (int) event->y);
-			return TRUE;
-		}
+
+		return retval;
 	}
 
-	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN)
-		return FALSE;
+	/* Scroll Left / Scroll Right ==> Scroll the image horizontally */
 
-	adj = self->hadj;
-	if (event->direction == GDK_SCROLL_LEFT)
-		new_value = gtk_adjustment_get_value (adj) - gtk_adjustment_get_page_increment (adj) / 2;
-	else if (event->direction == GDK_SCROLL_RIGHT)
-		new_value = gtk_adjustment_get_value (adj) + gtk_adjustment_get_page_increment (adj) / 2;
-	new_value = CLAMP (new_value, gtk_adjustment_get_lower (adj), gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
-	gtk_adjustment_set_value (adj, new_value);
+	switch (event->direction) {
+	case GDK_SCROLL_LEFT:
+	case GDK_SCROLL_RIGHT:
+		if (event->direction == GDK_SCROLL_LEFT)
+			new_value = gtk_adjustment_get_value (self->hadj) - gtk_adjustment_get_page_increment (self->hadj) / 2;
+		else
+			new_value = gtk_adjustment_get_value (self->hadj) + gtk_adjustment_get_page_increment (self->hadj) / 2;
+		new_value = CLAMP (new_value, gtk_adjustment_get_lower (self->hadj), gtk_adjustment_get_upper (self->hadj) - gtk_adjustment_get_page_size (self->hadj));
+		gtk_adjustment_set_value (self->hadj, new_value);
+		retval = TRUE;
+		break;
 
-	return TRUE;
+	default:
+		break;
+	}
+
+	return retval;
 }
 
 
