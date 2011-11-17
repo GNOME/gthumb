@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-14 22:59+0000\n"
-"PO-Revision-Date: 2011-11-16 23:31+0900\n"
-"Last-Translator: OKANO Takayoshi <kano@na.rim.or.jp>\n"
+"POT-Creation-Date: 2011-11-16 22:11+0000\n"
+"PO-Revision-Date: 2011-11-17 02:20+0900\n"
+"Last-Translator: Jiro Matsuzawa <jmatsuzawa@src.gnome.org>\n"
 "Language-Team: Japanese <takeshi.aihana@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,9 +94,8 @@ msgid "View and organize your images"
 msgstr "画像を表示し管理するツールです"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../data/gthumb-import.desktop.in.in.h:3
-#: ../gthumb/gth-browser.c:529 ../gthumb/gth-progress-dialog.c:386
-#: ../gthumb/main.c:287
+#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:530
+#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:287
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -109,6 +108,10 @@ msgid "Import the photos on your camera card"
 msgstr "お使いのカメラや IC メモリにある写真を取り込みます"
 
 #: ../data/gthumb-import.desktop.in.in.h:2
+msgid "Import with gThumb"
+msgstr ""
+
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "Photo Import Tool"
 msgstr "写真を取り込むツール"
 
@@ -306,9 +309,13 @@ msgstr "起動時に開くフォルダの選択"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "D_etermine image type from content (slower)"
-msgstr "画像の内容から種類を判断する (低速)(_D)"
+msgstr "画像の内容から種類を判断する (低速)(_E)"
 
 #: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:9
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:400
@@ -317,50 +324,62 @@ msgstr "画像の内容から種類を判断する (低速)(_D)"
 msgid "General"
 msgstr "全般"
 
-#: ../data/ui/preferences.ui.h:9
+#: ../data/ui/preferences.ui.h:10
 msgid "Go to last _visited location"
 msgstr "次に訪れた場所へ移動する(_V)"
 
-#: ../data/ui/preferences.ui.h:10
+#: ../data/ui/preferences.ui.h:11
 msgid "Go to this _folder:"
 msgstr "次のフォルダへ移動する(_F):"
 
-#: ../data/ui/preferences.ui.h:11
+#: ../data/ui/preferences.ui.h:12
 msgid "On startup:"
 msgstr "起動時:"
 
-#: ../data/ui/preferences.ui.h:12
+#: ../data/ui/preferences.ui.h:13
 #: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:198
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Other"
 msgstr "その他"
 
-#: ../data/ui/preferences.ui.h:13
+#: ../data/ui/preferences.ui.h:14
 msgid "Set to C_urrent"
 msgstr "現在の場所をセットする(_U)"
 
-#: ../data/ui/preferences.ui.h:14
+#: ../data/ui/preferences.ui.h:15
 msgid "T_humbnails in viewer:"
 msgstr "サムネイルの一覧(_H):"
 
-#: ../data/ui/preferences.ui.h:15
+#: ../data/ui/preferences.ui.h:16
 msgid "Thumbnail _size:"
 msgstr "サムネイルのサイズ(_S):"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:17
 msgid "_Store metadata inside files if possible"
 msgstr "可能ならば、ファイル内にメタデータを埋め込む(_S)"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:18
 msgid "_Toolbar style:"
 msgstr "ツールバーのスタイル(_T):"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:19
+#, fuzzy
+#| msgid "View the folders"
+msgid "below the folder list"
+msgstr "フォルダを表示します"
+
+#: ../data/ui/preferences.ui.h:20
 #, fuzzy
 #| msgid "gthumb Preferences"
 msgid "gThumb Preferences"
 msgstr "gThumb の設定"
+
+#: ../data/ui/preferences.ui.h:21
+#, fuzzy
+#| msgid "on the side"
+msgid "on the right"
+msgstr "ウィンドウの横側"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -1843,7 +1862,7 @@ msgstr "ファイルをエキスポートできませんでした"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
-#: ../gthumb/gth-browser.c:999
+#: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2164,7 +2183,7 @@ msgstr "選択したファイルを別のフォルダへ移動します"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4978 ../gthumb/gth-browser.c:5012
+#: ../gthumb/gth-browser.c:4995 ../gthumb/gth-browser.c:5029
 msgid "Could not perform the operation"
 msgstr "処理を実行できませんでした"
 
@@ -2846,7 +2865,7 @@ msgstr "%s からのインポート"
 
 #: ../extensions/gstreamer_tools/actions.c:66
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1075
-#: ../gthumb/gth-browser.c:2011
+#: ../gthumb/gth-browser.c:2008
 msgid "Could not save the file"
 msgstr "ファイルを保存できませんでした"
 
@@ -3489,7 +3508,7 @@ msgstr "コマンド(_C):"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "_Terminal command (shell script)"
-msgstr "端末から実行する (SHELL スクリプト)"
+msgstr "端末から実行する (SHELL スクリプト)(_T)"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "_Wait for the command to finish"
@@ -3739,7 +3758,7 @@ msgid "Could not load the folder"
 msgstr "フォルダを読み込めませんでした"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:1924
+#: ../gthumb/gth-browser.c:1921
 msgid "Getting folder listing..."
 msgstr "フォルダの一覧を取得してます..."
 
@@ -3801,7 +3820,7 @@ msgstr ""
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
 msgid "_E-Mail:"
-msgstr "E-メール:"
+msgstr "E-メール(_E):"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:3
 msgid "_Password:"
@@ -4703,7 +4722,7 @@ msgstr "次で開く(_W)"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
 msgid "I_mport From"
-msgstr "インポート(_I)"
+msgstr "インポート(_M)"
 
 #: ../gthumb/gth-browser-actions-entries.h:38
 msgid "E_xport To"
@@ -4711,7 +4730,7 @@ msgstr "エキスポート(_X)"
 
 #: ../gthumb/gth-browser-actions-entries.h:41
 msgid "New _Window"
-msgstr "新しいウィンドウ(_N)"
+msgstr "新しいウィンドウ(_W)"
 
 #: ../gthumb/gth-browser-actions-entries.h:42
 msgid "Open another window"
@@ -4761,19 +4780,19 @@ msgstr "フルスクリーン表示に切り替えます"
 msgid "Leave Fullscreen"
 msgstr "フルスクリーン表示を解除します"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3601
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3603
 msgid "Go to the previous visited location"
 msgstr "前に訪れた場所へジャンプします"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3619
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3621
 msgid "Go to the next visited location"
 msgstr "次に訪れた場所へジャンプします"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3637
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3639
 msgid "Go up one level"
 msgstr "一つ上の場所に上がります"
 
-#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:676
+#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:673
 msgid "_Delete History"
 msgstr "履歴の削除(_D)"
 
@@ -4878,75 +4897,75 @@ msgstr "画像に合わせる(_F)"
 msgid "Resize the window to the size of the image"
 msgstr "画像のサイズに合わせてウィンドウの大きさを変更します"
 
-#: ../gthumb/gth-browser.c:369
+#: ../gthumb/gth-browser.c:370
 #, c-format
 msgid "Open %s"
 msgstr "%s を開きます"
 
-#: ../gthumb/gth-browser.c:509
+#: ../gthumb/gth-browser.c:510
 msgid "[modified]"
 msgstr "[変更済]"
 
-#: ../gthumb/gth-browser.c:1000
+#: ../gthumb/gth-browser.c:997
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d個のファイルを選択しました (%s)"
 msgstr[1] "%d個のファイルを選択しました(%s)"
 
-#: ../gthumb/gth-browser.c:1035
+#: ../gthumb/gth-browser.c:1032
 #, c-format
 msgid "%s of free space"
 msgstr "%sの空き"
 
-#: ../gthumb/gth-browser.c:1244 ../gthumb/gth-browser.c:1812
-#: ../gthumb/gth-browser.c:5941 ../gthumb/gth-browser.c:5960
-#: ../gthumb/gth-browser.c:5985
+#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:5953 ../gthumb/gth-browser.c:5972
+#: ../gthumb/gth-browser.c:5997
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "\"%s\" を読み込めませんでした"
 
-#: ../gthumb/gth-browser.c:1908 ../gthumb/gth-browser.c:1935
+#: ../gthumb/gth-browser.c:1905 ../gthumb/gth-browser.c:1932
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "%s に適したモジュールではありませんでした"
 
-#: ../gthumb/gth-browser.c:2055
+#: ../gthumb/gth-browser.c:2052
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "'%s' の変更点を保存しますか？"
 
-#: ../gthumb/gth-browser.c:2060
+#: ../gthumb/gth-browser.c:2057
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "保存しないと、そのファイルに対する変更点は完全に失われます。"
 
-#: ../gthumb/gth-browser.c:2061
+#: ../gthumb/gth-browser.c:2058
 msgid "Do _Not Save"
 msgstr "保存しない(_N)"
 
-#: ../gthumb/gth-browser.c:2818 ../gthumb/gth-browser.c:2838
+#: ../gthumb/gth-browser.c:2828 ../gthumb/gth-browser.c:2848
 #: ../gthumb/gth-source-tree.c:182 ../gthumb/gth-source-tree.c:204
 msgid "Could not change name"
 msgstr "名前を変更できませんでした"
 
-#: ../gthumb/gth-browser.c:3283 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3285 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "修正日時"
 
-#: ../gthumb/gth-browser.c:3602 ../gthumb/gth-browser.c:3620
+#: ../gthumb/gth-browser.c:3604 ../gthumb/gth-browser.c:3622
 msgid "View the list of visited locations"
 msgstr "最近訪れた場所の一覧を表示します"
 
-#: ../gthumb/gth-browser.c:3638
+#: ../gthumb/gth-browser.c:3640
 msgid "View the list of upper locations"
 msgstr "上にある場所の一覧を表示します"
 
-#: ../gthumb/gth-browser.c:5942
+#: ../gthumb/gth-browser.c:5954
 #, c-format
 msgid "File type not supported"
 msgstr "サポートしていない種類のファイルです"
 
-#: ../gthumb/gth-browser.c:5986
+#: ../gthumb/gth-browser.c:5998
 #, c-format
 msgid "No suitable module found"
 msgstr "妥当なモジュールが見つかりませんでした"
@@ -5322,7 +5341,7 @@ msgstr "アプリケーションを起動できませんでした"
 
 #: ../gthumb/gtk-utils.c:978
 msgid "_Copy Here"
-msgstr "ここへコピーする(C)"
+msgstr "ここへコピーする(_C)"
 
 #: ../gthumb/gtk-utils.c:983
 msgid "_Move Here"
@@ -5401,9 +5420,6 @@ msgstr "画像を \"%s\" として保存するのに適したモジュールが�
 
 #~ msgid "on the bottom"
 #~ msgstr "ウィンドウの下側"
-
-#~ msgid "on the side"
-#~ msgstr "ウィンドウの横側"
 
 #~ msgid "System settings"
 #~ msgstr "デスクトップ設定に従う"
