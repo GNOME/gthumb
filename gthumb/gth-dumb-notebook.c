@@ -239,22 +239,19 @@ gth_dumb_notebook_remove (GtkContainer *container,
 			  GtkWidget    *child)
 {
 	GthDumbNotebook *notebook;
+	GList           *link;
 
 	notebook = GTH_DUMB_NOTEBOOK (container);
 
-	if (g_list_find (notebook->priv->children, child) == NULL)
+	link = g_list_find (notebook->priv->children, child);
+	if (link == NULL)
 		return;
 
-	g_object_ref (child);
 	gtk_widget_unparent (child);
 
-	/* do not modify the children list during destruction otherwise
-	 * gtk_container_forall doesn't work correctly. */
-	if (! gtk_widget_in_destruction (GTK_WIDGET (container)))
-		notebook->priv->children = g_list_remove (notebook->priv->children, child);
+	notebook->priv->children = g_list_remove_link (notebook->priv->children, link);
 	notebook->priv->n_children--;
-
-	g_object_unref (child);
+	g_list_free (link);
 }
 
 
@@ -269,8 +266,12 @@ gth_dumb_notebook_forall (GtkContainer *container,
 	
 	notebook = GTH_DUMB_NOTEBOOK (container);
 	
-	for (scan = notebook->priv->children; scan; scan = scan->next) 
-		(* callback) (scan->data, callback_data);
+	for (scan = notebook->priv->children; scan; /* void */) {
+		GtkWidget *child = scan->data;
+
+		scan = scan->next;
+		(* callback) (child, callback_data);
+	}
 }
 
 
