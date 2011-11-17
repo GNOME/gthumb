@@ -631,7 +631,6 @@ gth_file_list_construct (GthFileList     *file_list,
 			 GthFileListType  list_type,
 			 gboolean         enable_drag_drop)
 {
-	GtkWidget       *viewport;
 	GtkCellRenderer *renderer;
 	GthFileStore    *model;
 	GtkCellLayout   *cell_layout;
@@ -644,9 +643,6 @@ gth_file_list_construct (GthFileList     *file_list,
 	file_list->priv->notebook = gth_dumb_notebook_new ();
 
 	/* the message pane */
-
-	viewport = gtk_viewport_new (NULL, NULL);
-	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport), GTK_SHADOW_ETCHED_IN);
 
 	file_list->priv->message = gth_empty_list_new (_(EMPTY));
 
@@ -776,10 +772,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), file_list->priv->scrolled_window);
 
 	gtk_widget_show (file_list->priv->message);
-	gtk_container_add (GTK_CONTAINER (viewport), file_list->priv->message);
-
-	gtk_widget_show (viewport);
-	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), viewport);
+	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), file_list->priv->message);
 
 	gtk_widget_show (file_list->priv->notebook);
 	gtk_box_pack_start (GTK_BOX (file_list), file_list->priv->notebook, TRUE, TRUE, 0);
