@@ -683,7 +683,8 @@ exiv2_read_metadata_from_file (GFile         *file,
 				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
 			return FALSE;
 		}
-
+		// Set the log level to only show errors (and suppress warnings, informational and debug messages)
+		Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
 		exiv2_read_metadata (image, info);
 	}
 	catch (Exiv2::AnyError& e) {
