@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-07 16:33+0000\n"
-"PO-Revision-Date: 2011-11-07 18:18+0100\n"
+"POT-Creation-Date: 2011-11-17 17:53+0000\n"
+"PO-Revision-Date: 2011-11-21 10:48+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -101,9 +101,8 @@ msgid "View and organize your images"
 msgstr "Prohlížejte a organizujte své obrázky"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../data/gthumb-import.desktop.in.in.h:3
-#: ../gthumb/gth-browser.c:529 ../gthumb/gth-progress-dialog.c:386
-#: ../gthumb/main.c:288
+#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:530
+#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:287
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -116,6 +115,10 @@ msgid "Import the photos on your camera card"
 msgstr "Importovat fotografií z karty vašeho fotoaparátu"
 
 #: ../data/gthumb-import.desktop.in.in.h:2
+msgid "Import with gThumb"
+msgstr "Import pomocí gThumb"
+
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "Photo Import Tool"
 msgstr "Nástroj pro import fotografií"
 
@@ -123,7 +126,7 @@ msgstr "Nástroj pro import fotografií"
 msgid "gThumb Photo Import Tool"
 msgstr "Nástroj pro import fotografií gThumb"
 
-#: ../data/gthumb.schemas.in.h:1
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
@@ -131,62 +134,40 @@ msgstr ""
 "Pro obrázky překračující tuto velikost (v bajtech) nebudou tvořeny náhledy. "
 "Použijte 0, pokud chcete generovat náhledy všech obrázků."
 
-#: ../data/gthumb.schemas.in.h:2
-msgid ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
-msgstr ""
-"Možné hodnoty jsou: actual_size (skutečná velikost), fit (přizpůsobit), "
-"keep_prev (zachovat předchozí), fit_if_larger (přizpůsobit, když je větší), "
-"fit_width_if_larger (přizpůsobit šířku, když je větší)."
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+msgid "Whether to resize the window to fit the size of the image"
+msgstr "Zda změnit velikost okna, aby odpovídalo velikosti obrázku"
 
-#: ../data/gthumb.schemas.in.h:3
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
-msgid "Possible values are: high, low."
-msgstr "Možné hodnoty jsou: high (vysoká), low (nízká)."
-
-#: ../data/gthumb.schemas.in.h:4
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:3
-msgid "Possible values are: light, midtone, dark."
-msgstr ""
-"Možné hodnoty jsou: light (světlé), midtone (střední tóny), dark (tmavé)."
-
-#: ../data/gthumb.schemas.in.h:5
-msgid "Possible values are: list, thumbnails."
-msgstr "Možné hodnoty jsou: list (seznam), thumbnails (náhledy)."
-
-#: ../data/gthumb.schemas.in.h:6
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
-msgid "Possible values are: small, medium, large."
-msgstr "Možné hodnoty jsou: small (malé), medium (střední), large (velké)."
-
-#: ../data/gthumb.schemas.in.h:7
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Možné hodnoty jsou: system (podle systému), text_below (text pod), "
-"text_beside (text vedle), text_only (pouze text), icons_only (pouze ikony)."
-
-#: ../data/gthumb.schemas.in.h:8
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
 msgid "Possible values are: white, black, checked, none."
 msgstr ""
 "Možné hodnoty jsou: white (bíle), black (černě), checked (kostkovaně), none "
 "(nijak)."
 
-#: ../data/gthumb.schemas.in.h:9
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:6
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to always use a black background."
 msgstr "Zda pokaždé používat černé pozadí."
 
-#: ../data/gthumb.schemas.in.h:10
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:7
-msgid "Whether to reset the scrollbar positions after changing image"
-msgstr "Zda nastavit pozice posuvníků na začátek po změně obrázku"
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
+msgid "Whether to reset the scrollbars position after changing image"
+msgstr "Zda po změně obrázku nastavit pozice posuvníků na začátek"
 
-#: ../data/gthumb.schemas.in.h:11
-msgid "Whether to resize the window to fit the size of the image"
-msgstr "Zda změnit velikost okna, aby odpovídalo velikosti obrázku"
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
+msgid "Possible values are: jpeg, jpg."
+msgstr "Možné hodnoty jsou: jpeg, jpg."
+
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:2
+msgid "Possible values are: tiff, tif."
+msgstr "Možné hodnoty jsou: tiff, tif."
+
+#: ../data/org.gnome.gthumb.rename-series.gschema.xml.in.h:1
+msgid ""
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
+msgstr ""
+"Možné hodnoty zahrnují: general::unsorted (obecné, neseřazené), file::name "
+"(název souboru), file::size (velikost souboru), file::mtime (čas souboru), "
+"exif::photo::datetimeoriginal (čas pořízení fotografie podle exif)"
 
 #: ../data/ui/extensions-preferences.ui.h:1
 msgid "More extensions..."
@@ -319,7 +300,7 @@ msgstr "Žádat _potvrzení před odstraněním souborů nebo katalogů"
 msgid "Ask whether to save _modified files"
 msgstr "Ptát se, zda ukládat z_měněné soubory"
 
-#: ../data/ui/preferences.ui.h:4 ../gthumb/dlg-preferences-extensions.c:72
+#: ../data/ui/preferences.ui.h:4 ../gthumb/dlg-preferences-extensions.c:71
 #: ../gthumb/gth-browser-actions-entries.h:173
 msgid "Browser"
 msgstr "Prohlížeč"
@@ -339,6 +320,10 @@ msgid "D_etermine image type from content (slower)"
 msgstr "_Určit typ obrázku podle jeho obsahu (pomalejší)"
 
 #: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr "Vlastnosti souboru v _prohlížeči:"
+
+#: ../data/ui/preferences.ui.h:9
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:400
@@ -347,49 +332,56 @@ msgstr "_Určit typ obrázku podle jeho obsahu (pomalejší)"
 msgid "General"
 msgstr "Obecné"
 
-#: ../data/ui/preferences.ui.h:9
+#: ../data/ui/preferences.ui.h:10
 msgid "Go to last _visited location"
 msgstr "Přejít na poslední na_vštívené místo"
 
-#: ../data/ui/preferences.ui.h:10
+#: ../data/ui/preferences.ui.h:11
 msgid "Go to this _folder:"
 msgstr "Přejít do této s_ložky:"
 
-#: ../data/ui/preferences.ui.h:11
+#: ../data/ui/preferences.ui.h:12
 msgid "On startup:"
 msgstr "Při spuštění:"
 
-#: ../data/ui/preferences.ui.h:12
+#: ../data/ui/preferences.ui.h:13
 #: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:198
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Other"
 msgstr "Ostatní"
 
-#: ../data/ui/preferences.ui.h:13
+#: ../data/ui/preferences.ui.h:14
 msgid "Set to C_urrent"
 msgstr "Nastavit na _aktuální"
 
-#: ../data/ui/preferences.ui.h:14
+#: ../data/ui/preferences.ui.h:15
 msgid "T_humbnails in viewer:"
 msgstr "Ná_hledy v zobrazovači:"
 
-#: ../data/ui/preferences.ui.h:15
+#: ../data/ui/preferences.ui.h:16
 msgid "Thumbnail _size:"
 msgstr "Veliko_st náhledu:"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:17
 msgid "_Store metadata inside files if possible"
 msgstr "Pokud je to možné, uchovávat metadata v _souborech"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:18
 msgid "_Toolbar style:"
 msgstr "Styl liš_ty nástrojů:"
 
-#: ../data/ui/preferences.ui.h:18
-#| msgid "gthumb Preferences"
+#: ../data/ui/preferences.ui.h:19
+msgid "below the folder list"
+msgstr "pod seznamem složek"
+
+#: ../data/ui/preferences.ui.h:20
 msgid "gThumb Preferences"
 msgstr "Předvolby gThumb"
+
+#: ../data/ui/preferences.ui.h:21
+msgid "on the right"
+msgstr "napravo"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -537,7 +529,7 @@ msgstr "_Vybrané soubory"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
-#: ../extensions/burn_disc/gth-burn-task.c:393
+#: ../extensions/burn_disc/gth-burn-task.c:397
 msgid "Write to Disc"
 msgstr "Zapsat na disk"
 
@@ -607,7 +599,7 @@ msgstr "Zadejte název knihovny:"
 msgid "Could not remove the catalog"
 msgstr "Nelze odstranit katalog"
 
-#: ../extensions/catalogs/actions.c:361
+#: ../extensions/catalogs/actions.c:363
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Opravdu chcete odstranit „%s“?"
@@ -669,9 +661,9 @@ msgstr "Příkazový řádek"
 
 #: ../extensions/catalogs/callbacks.c:497
 #: ../extensions/catalogs/callbacks.c:502
-#: ../extensions/photo_importer/dlg-photo-importer.c:359
-#: ../extensions/photo_importer/dlg-photo-importer.c:399
-#: ../gthumb/gth-file-list.c:46 ../gthumb/gth-folder-tree.c:859
+#: ../extensions/photo_importer/dlg-photo-importer.c:364
+#: ../extensions/photo_importer/dlg-photo-importer.c:404
+#: ../gthumb/gth-file-list.c:45 ../gthumb/gth-folder-tree.c:859
 msgid "(Empty)"
 msgstr "(Prázdné)"
 
@@ -716,8 +708,8 @@ msgid "_New Catalog"
 msgstr "_Nový katalog"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:922
-#: ../extensions/webalbums/gth-web-exporter.c:1854
+#: ../extensions/file_manager/actions.c:929
+#: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Zobrazit cíl"
 
@@ -726,7 +718,7 @@ msgid "Catalog"
 msgstr "Katalog"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
-#: ../gthumb/gth-file-properties.c:211
+#: ../gthumb/gth-file-properties.c:212
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -794,7 +786,7 @@ msgid "Singles"
 msgstr "Jednotlivé"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
-#: ../extensions/comments/main.c:261
+#: ../extensions/comments/main.c:274
 msgid "Tag"
 msgstr "Štítek"
 
@@ -823,7 +815,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Nelze přidat soubory do katalogu"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:217
-#: ../extensions/search/gth-search-task.c:352
+#: ../extensions/search/gth-search-task.c:356
 msgid "Could not create the catalog"
 msgstr "Nelze vytvořit katalog"
 
@@ -911,11 +903,6 @@ msgstr "Změna data"
 msgid "Change the files date"
 msgstr "Změna data u souborů."
 
-#: ../extensions/change_date/data/gthumb_change_date.schemas.in.h:1
-#: ../extensions/resize_images/data/gthumb_resize_images.schemas.in.h:1
-msgid "Possible values: pixels, percentage"
-msgstr "Možné hodnoty jsou: pixels (pixely), percentage (procenta)."
-
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
 msgid "+"
 msgstr "+"
@@ -990,7 +977,7 @@ msgid "Comments and tags"
 msgstr "Komentáře a štítky"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:315
+#: ../extensions/importer/gth-import-preferences-dialog.c:318
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -1007,7 +994,7 @@ msgstr "Komentář"
 msgid "Title"
 msgstr "Název"
 
-#: ../extensions/comments/main.c:40 ../extensions/comments/main.c:245
+#: ../extensions/comments/main.c:40 ../extensions/comments/main.c:258
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
@@ -1019,7 +1006,7 @@ msgstr "Název"
 msgid "Description"
 msgstr "Popis"
 
-#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:253
+#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:266
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Umístění"
@@ -1084,10 +1071,10 @@ msgid "Inward Shadow"
 msgstr "Vnitřní stín"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
-#: ../extensions/file_tools/gth-file-tool-crop.c:422
-#: ../extensions/file_tools/gth-file-tool-crop.c:448
-#: ../extensions/file_tools/gth-file-tool-resize.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:414
+#: ../extensions/file_tools/gth-file-tool-crop.c:424
+#: ../extensions/file_tools/gth-file-tool-crop.c:454
+#: ../extensions/file_tools/gth-file-tool-resize.c:498
+#: ../extensions/file_tools/gth-file-tool-rotate.c:415
 #: ../extensions/slideshow/main.c:277
 msgid "None"
 msgstr "Nic"
@@ -1121,7 +1108,7 @@ msgid "Slide"
 msgstr "Diarámeček"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
-#: ../extensions/rename_series/dlg-rename-series.c:63
+#: ../extensions/rename_series/dlg-rename-series.c:57
 msgid "Text"
 msgstr "Text"
 
@@ -1389,16 +1376,16 @@ msgstr "Nový formát"
 msgid "_Use the original image folder"
 msgstr "Po_užít původní složku obrázku"
 
-#: ../extensions/convert_format/dlg-convert-format.c:91
+#: ../extensions/convert_format/dlg-convert-format.c:93
 msgid "Converting images"
 msgstr "Převádí se obrázky"
 
-#: ../extensions/desktop_background/actions.c:203
+#: ../extensions/desktop_background/actions.c:162
 msgid "Could not show the desktop background properties"
 msgstr "Nelze zobrazit vlastnosti pozadí pracovní plochy"
 
-#: ../extensions/desktop_background/actions.c:269
-#: ../extensions/desktop_background/actions.c:287
+#: ../extensions/desktop_background/actions.c:228
+#: ../extensions/desktop_background/actions.c:246
 msgid "Could not set the desktop background"
 msgstr "Nelze nastavit pozadí pracovní plochy"
 
@@ -1494,7 +1481,7 @@ msgid "The following date"
 msgstr "Následující datum"
 
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:475
-#: ../extensions/importer/gth-import-preferences-dialog.c:328
+#: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
 msgstr "Dnešní datum"
 
@@ -1521,7 +1508,7 @@ msgid "%s Metadata"
 msgstr "Metadata %s"
 
 #: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:123
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:332
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1814,34 +1801,34 @@ msgstr "Soubory úspěšně odeslány na server."
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1853
+#: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
 msgstr "_Otevřít v prohlížeči"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:128
-#: ../extensions/facebook/dlg-export-to-facebook.c:333
+#: ../extensions/facebook/dlg-export-to-facebook.c:130
+#: ../extensions/facebook/dlg-export-to-facebook.c:335
 #: ../extensions/facebook/facebook-authentication.c:192
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:399
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:234
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:237
 #: ../extensions/flicker_utils/flickr-authentication.c:191
 #: ../extensions/oauth/oauth-authentication.c:187
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:376
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:139
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:424
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:377
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:380
 msgid "Could not connect to the server"
 msgstr "Nelze se připojit k serveru"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:180
+#: ../extensions/facebook/dlg-export-to-facebook.c:182
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:182
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:192
 msgid "Could not upload the files"
 msgstr "Nelze odeslat soubory"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:410
+#: ../extensions/facebook/dlg-export-to-facebook.c:412
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:223
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:462
@@ -1849,34 +1836,34 @@ msgstr "Nelze odeslat soubory"
 msgid "Could not create the album"
 msgstr "Nelze vytvořit album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:479
+#: ../extensions/facebook/dlg-export-to-facebook.c:481
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:534
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:783
 msgid "New Album"
 msgstr "Nové album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:558
+#: ../extensions/facebook/dlg-export-to-facebook.c:561
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:557
-#: ../extensions/image_print/gth-image-print-job.c:1785
+#: ../extensions/image_print/gth-image-print-job.c:1789
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1002
 msgid "No valid file selected."
 msgstr "Není vybrán žádný platný soubor."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:559
+#: ../extensions/facebook/dlg-export-to-facebook.c:562
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:558
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:615
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1003
 msgid "Could not export the files"
 msgstr "Nelze exportovat soubory"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:567
+#: ../extensions/facebook/dlg-export-to-facebook.c:570
 #: ../extensions/find_duplicates/gth-find-duplicates.c:255
 #: ../extensions/find_duplicates/gth-find-duplicates.c:347
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:566
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:800
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
 #: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file (%s)"
@@ -1885,7 +1872,7 @@ msgstr[0] "%d soubor (%s)"
 msgstr[1] "%d soubory (%s)"
 msgstr[2] "%d souborů (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:589
+#: ../extensions/facebook/dlg-export-to-facebook.c:592
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:643
 #, c-format
@@ -1936,7 +1923,7 @@ msgstr ""
 #: ../extensions/flicker_utils/flickr-authentication.c:588
 #: ../extensions/oauth/oauth-authentication.c:605
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:820
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:681
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:684
 msgid "Choose Account"
 msgstr "Vybrat účet"
 
@@ -1944,7 +1931,7 @@ msgstr "Vybrat účet"
 #: ../extensions/flicker_utils/flickr-authentication.c:697
 #: ../extensions/oauth/oauth-authentication.c:714
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:881
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:742
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:745
 msgid "Edit Accounts"
 msgstr "Upravit účty"
 
@@ -2090,29 +2077,29 @@ msgid "Could not move the folder to the Trash"
 msgstr "Nelze přesunout složku do koše"
 
 #: ../extensions/file_manager/actions.c:808
-#: ../gthumb/gth-file-source-vfs.c:828
+#: ../gthumb/gth-file-source-vfs.c:833
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Opravdu chcete trvale smazat „%s“?"
 
 #: ../extensions/file_manager/actions.c:818
-#: ../gthumb/gth-file-source-vfs.c:841
+#: ../gthumb/gth-file-source-vfs.c:846
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Když soubor smažete, nepůjde to již vrátit zpět."
 
-#: ../extensions/file_manager/actions.c:907
+#: ../extensions/file_manager/actions.c:910
 msgid "Move To"
 msgstr "Přesun do"
 
-#: ../extensions/file_manager/actions.c:907
+#: ../extensions/file_manager/actions.c:910
 msgid "Copy To"
 msgstr "Kopírování do"
 
-#: ../extensions/file_manager/actions.c:911
+#: ../extensions/file_manager/actions.c:914
 msgid "Move"
 msgstr "Přesunout"
 
-#: ../extensions/file_manager/actions.c:911
+#: ../extensions/file_manager/actions.c:914
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -2136,7 +2123,7 @@ msgstr "Duplikovat vybrané soubory"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
-#: ../gthumb/gth-file-source-vfs.c:802
+#: ../gthumb/gth-file-source-vfs.c:805
 msgid "Mo_ve to Trash"
 msgstr "Přesunout do _koše"
 
@@ -2200,7 +2187,7 @@ msgstr "Přesunout vybrané soubory do jiné složky"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4980 ../gthumb/gth-browser.c:5014
+#: ../gthumb/gth-browser.c:4995 ../gthumb/gth-browser.c:5029
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
 
@@ -2470,95 +2457,95 @@ msgstr "Úprava barev"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Změnit jas, kontrast, sytost a úroveň gamy obrázku"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:422
-#: ../extensions/file_tools/gth-file-tool-resize.c:493
+#: ../extensions/file_tools/gth-file-tool-crop.c:424
+#: ../extensions/file_tools/gth-file-tool-resize.c:498
 msgid "Square"
 msgstr "Čtverec"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:423
-#: ../extensions/file_tools/gth-file-tool-resize.c:494
+#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-resize.c:499
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Obrázek)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:426
-#: ../extensions/file_tools/gth-file-tool-resize.c:498
+#: ../extensions/file_tools/gth-file-tool-crop.c:428
+#: ../extensions/file_tools/gth-file-tool-resize.c:503
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (Obrazovka)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:430
-#: ../extensions/file_tools/gth-file-tool-resize.c:503
+#: ../extensions/file_tools/gth-file-tool-crop.c:432
+#: ../extensions/file_tools/gth-file-tool-resize.c:508
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:431
-#: ../extensions/file_tools/gth-file-tool-resize.c:504
+#: ../extensions/file_tools/gth-file-tool-crop.c:433
+#: ../extensions/file_tools/gth-file-tool-resize.c:509
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, kniha)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:432
-#: ../extensions/file_tools/gth-file-tool-resize.c:505
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:510
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:433
-#: ../extensions/file_tools/gth-file-tool-resize.c:506
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:511
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Pohlednice)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:434
-#: ../extensions/file_tools/gth-file-tool-resize.c:507
+#: ../extensions/file_tools/gth-file-tool-crop.c:436
+#: ../extensions/file_tools/gth-file-tool-resize.c:512
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:435
-#: ../extensions/file_tools/gth-file-tool-resize.c:508
+#: ../extensions/file_tools/gth-file-tool-crop.c:437
+#: ../extensions/file_tools/gth-file-tool-resize.c:513
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:436
-#: ../extensions/file_tools/gth-file-tool-resize.c:509
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:514
 msgid "1.85:1"
 msgstr "1,85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:437
-#: ../extensions/file_tools/gth-file-tool-resize.c:510
+#: ../extensions/file_tools/gth-file-tool-crop.c:439
+#: ../extensions/file_tools/gth-file-tool-resize.c:515
 msgid "2.39:1"
 msgstr "2,39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:438
-#: ../extensions/file_tools/gth-file-tool-resize.c:511
+#: ../extensions/file_tools/gth-file-tool-crop.c:440
+#: ../extensions/file_tools/gth-file-tool-resize.c:516
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
 #: ../extensions/rename_series/gth-template-selector.c:232
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:449
-#: ../extensions/file_tools/gth-file-tool-rotate.c:415
+#: ../extensions/file_tools/gth-file-tool-crop.c:455
+#: ../extensions/file_tools/gth-file-tool-rotate.c:416
 msgid "Rule of Thirds"
 msgstr "Pravidlo třetin"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:450
-#: ../extensions/file_tools/gth-file-tool-rotate.c:416
+#: ../extensions/file_tools/gth-file-tool-crop.c:456
+#: ../extensions/file_tools/gth-file-tool-rotate.c:417
 msgid "Golden Sections"
 msgstr "Zlatý řez"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:451
-#: ../extensions/file_tools/gth-file-tool-rotate.c:417
+#: ../extensions/file_tools/gth-file-tool-crop.c:457
+#: ../extensions/file_tools/gth-file-tool-rotate.c:418
 msgid "Center Lines"
 msgstr "Středové čáry"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:452
-#: ../extensions/file_tools/gth-file-tool-rotate.c:418
+#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-rotate.c:419
 msgid "Uniform"
 msgstr "Rovnoměrná"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:595
+#: ../extensions/file_tools/gth-file-tool-crop.c:614
 msgid "Crop..."
 msgstr "Oříznout…"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:595
+#: ../extensions/file_tools/gth-file-tool-crop.c:614
 msgid "Crop"
 msgstr "Oříznutí"
 
@@ -2619,23 +2606,23 @@ msgstr "Negativ"
 msgid "Redo"
 msgstr "Znovu"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:668
+#: ../extensions/file_tools/gth-file-tool-resize.c:680
 msgid "Resize..."
 msgstr "Změnit velikost…"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:668
+#: ../extensions/file_tools/gth-file-tool-resize.c:680
 msgid "Resize"
 msgstr "Změna velikosti"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:633
+#: ../extensions/file_tools/gth-file-tool-rotate.c:636
 msgid "Rotate..."
 msgstr "Otočit…"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:633
+#: ../extensions/file_tools/gth-file-tool-rotate.c:636
 msgid "Rotate"
 msgstr "Otočení"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:634
+#: ../extensions/file_tools/gth-file-tool-rotate.c:637
 msgid "Freely rotate the image"
 msgstr "Volně otočit obrázek"
 
@@ -2788,7 +2775,7 @@ msgstr "Získává se seznam souborů"
 msgid "Duplicates"
 msgstr "Duplicity"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:994
+#: ../extensions/find_duplicates/gth-find-duplicates.c:997
 msgid "Select"
 msgstr "Vybrat"
 
@@ -2865,39 +2852,39 @@ msgstr "_Ochrana:"
 msgid "_Import"
 msgstr "_Import"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:357
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:827
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:360
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:830
 msgid "Could not get the photo list"
 msgstr "Nelze získat seznam fotografií"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:394
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:559
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:861
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1024
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:562
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1027
 msgid "No album selected"
 msgstr "Není vybráno žádné album"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:577
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:580
 #, c-format
 msgid "Import from %s"
 msgstr "Importovat z %s"
 
-#: ../extensions/gstreamer_tools/actions.c:64
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1082
-#: ../gthumb/gth-browser.c:2014
+#: ../extensions/gstreamer_tools/actions.c:66
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1075
+#: ../gthumb/gth-browser.c:2008
 msgid "Could not save the file"
 msgstr "Nelze uložit soubor"
 
-#: ../extensions/gstreamer_tools/actions.c:124
+#: ../extensions/gstreamer_tools/actions.c:126
 msgid "Could not take a screenshot"
 msgstr "Nelze pořídit snímek obrazovky"
 
-#: ../extensions/gstreamer_tools/actions.c:130
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1230
+#: ../extensions/gstreamer_tools/actions.c:132
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1223
 msgid "Save Image"
 msgstr "Uložení obrázku"
 
-#: ../extensions/gstreamer_tools/actions.c:150
+#: ../extensions/gstreamer_tools/actions.c:152
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
@@ -2915,7 +2902,7 @@ msgid "Faster"
 msgstr "Rychleji"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:685
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
 msgid "Play"
 msgstr "Přehrát"
 
@@ -2933,7 +2920,7 @@ msgstr "Změnit hlasitost"
 
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
 #: ../extensions/photo_importer/actions.c:67
-#: ../extensions/photo_importer/dlg-photo-importer.c:614
+#: ../extensions/photo_importer/dlg-photo-importer.c:620
 msgid "Choose a folder"
 msgstr "Vybrat složku"
 
@@ -2945,19 +2932,19 @@ msgstr "Podpora zvuku/videa"
 msgid "Play audio and video files."
 msgstr "Přehrávání zvukových a video souborů."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:103
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:105
 msgid "Take a screenshot"
 msgstr "Pořídit snímek obrazovky"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:662
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:663
 msgid "Playing video"
 msgstr "Přehrávání videa"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:675
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:676
 msgid "Pause"
 msgstr "Pozastavit"
 
@@ -2999,7 +2986,7 @@ msgstr "Snímková rychlost"
 
 #: ../extensions/gstreamer_tools/main.c:46
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
-#: ../extensions/image_viewer/gth-image-viewer-page.c:217
+#: ../extensions/image_viewer/gth-image-viewer-page.c:209
 msgid "Width"
 msgstr "Šířka"
 
@@ -3026,10 +3013,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1285
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1278
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:190
-#: ../extensions/webalbums/dlg-web-exporter.c:429
-#: ../extensions/webalbums/gth-web-exporter.c:2458
+#: ../extensions/webalbums/dlg-web-exporter.c:442
+#: ../extensions/webalbums/gth-web-exporter.c:2446
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3111,24 +3098,24 @@ msgstr "Výběr písma zápatí"
 msgid "Select Header Font"
 msgstr "Výběr písma záhlaví"
 
-#: ../extensions/image_print/gth-image-print-job.c:968
+#: ../extensions/image_print/gth-image-print-job.c:971
 #: ../extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Strana %d z %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1730
-#: ../extensions/image_print/gth-image-print-job.c:1857
-#: ../extensions/image_print/gth-image-print-job.c:1894
+#: ../extensions/image_print/gth-image-print-job.c:1734
+#: ../extensions/image_print/gth-image-print-job.c:1861
+#: ../extensions/image_print/gth-image-print-job.c:1898
 msgid "Could not print"
 msgstr "Nelze tisknout"
 
-#: ../extensions/image_print/gth-image-print-job.c:1792
+#: ../extensions/image_print/gth-image-print-job.c:1796
 #: ../gthumb/gth-main-default-tests.c:204
 msgid "Images"
 msgstr "Obrázky"
 
-#: ../extensions/image_print/gth-image-print-job.c:1859
+#: ../extensions/image_print/gth-image-print-job.c:1863
 #: ../gthumb/gth-image-loader.c:204 ../gthumb/gth-image-loader.c:277
 msgid "No suitable loader available for this file type"
 msgstr ""
@@ -3142,7 +3129,7 @@ msgid "Loading \"%s\""
 msgstr "Načítá se „%s“"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2697
+#: ../extensions/webalbums/gth-web-exporter.c:2685
 msgid "Loading images"
 msgstr "Načítají se obrázky"
 
@@ -3154,7 +3141,7 @@ msgstr "Umožňuje tisk obrázků volbou rozvržení stránky."
 msgid "Image print"
 msgstr "Tisk obrázku"
 
-#: ../extensions/image_print/preferences.c:76
+#: ../extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Tisk"
 
@@ -3185,8 +3172,8 @@ msgstr "Vynulovat vložené informace o orientaci, aniž by se obrázek otáčel
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2351
-#: ../extensions/webalbums/gth-web-exporter.c:2435
+#: ../extensions/webalbums/gth-web-exporter.c:2339
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
@@ -3198,12 +3185,12 @@ msgstr "Otočení obrázku"
 msgid "Rotate images without data loss."
 msgstr "Otáčení obrázků beze ztráty kvality."
 
-#: ../extensions/image_rotation/rotation-utils.c:118
+#: ../extensions/image_rotation/rotation-utils.c:117
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Problém při transformaci obrázku: %s"
 
-#: ../extensions/image_rotation/rotation-utils.c:123
+#: ../extensions/image_rotation/rotation-utils.c:122
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -3226,22 +3213,13 @@ msgstr ""
 "Můžete také odstranit problematické okrajové pixely. Tento režim dává v "
 "praxi nejlepší výsledky, transformace již ale není bezeztrátová."
 
-#: ../extensions/image_rotation/rotation-utils.c:129
+#: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
 msgstr "Oříznou_t"
 
-#: ../extensions/image_rotation/rotation-utils.c:131
+#: ../extensions/image_rotation/rotation-utils.c:130
 msgid "_Accept distortion"
 msgstr "Souhl_asit se zkreslením"
-
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
-msgid ""
-"Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, "
-"fit-width, fit-width-if-larger."
-msgstr ""
-"Možné hodnoty jsou: actual_size (současná velikost), fit (přizpůsobit), "
-"keep_prev (zachovat předchozí), fit_if_larger (přizpůsobit, když je větší), "
-"fit_width_if_larger (přizpůsobit šířku, když je větší)."
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "After loading an image:"
@@ -3263,55 +3241,55 @@ msgstr "K_valita přibližování:"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:187
+#: ../extensions/image_viewer/gth-image-viewer-page.c:179
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:188
+#: ../extensions/image_viewer/gth-image-viewer-page.c:180
 msgid "Copy the image to the clipboard"
 msgstr "Kopírovat obrázek do schránky"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:192
+#: ../extensions/image_viewer/gth-image-viewer-page.c:184
 msgid "Paste Image"
 msgstr "Vložit obrázek"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:193
+#: ../extensions/image_viewer/gth-image-viewer-page.c:185
 msgid "Paste the image from the clipboard"
 msgstr "Vložit obrázek ze schránky"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:197
+#: ../extensions/image_viewer/gth-image-viewer-page.c:189
 msgid "In"
 msgstr "Přiblížit"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:198
+#: ../extensions/image_viewer/gth-image-viewer-page.c:190
 msgid "Zoom in"
 msgstr "Přiblížit"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:202
+#: ../extensions/image_viewer/gth-image-viewer-page.c:194
 msgid "Out"
 msgstr "Oddálit"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:203
+#: ../extensions/image_viewer/gth-image-viewer-page.c:195
 msgid "Zoom out"
 msgstr "Oddálit"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:207
+#: ../extensions/image_viewer/gth-image-viewer-page.c:199
 msgid "1:1"
 msgstr "1:1"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:208
+#: ../extensions/image_viewer/gth-image-viewer-page.c:200
 msgid "Actual size"
 msgstr "Skutečná velikost"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:212
+#: ../extensions/image_viewer/gth-image-viewer-page.c:204
 msgid "Fit"
 msgstr "Přizpůsobit"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:213
+#: ../extensions/image_viewer/gth-image-viewer-page.c:205
 msgid "Zoom to fit window"
 msgstr "Přizpůsobit velikosti okna"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:218
+#: ../extensions/image_viewer/gth-image-viewer-page.c:210
 msgid "Zoom to fit width"
 msgstr "Přizpůsobit šířce okna"
 
@@ -3323,21 +3301,9 @@ msgstr "Základní prohlížení obrázků."
 msgid "Image viewer"
 msgstr "Zobrazovač obrázků"
 
-#: ../extensions/image_viewer/preferences.c:117
+#: ../extensions/image_viewer/preferences.c:125
 msgid "Viewer"
 msgstr "Zobrazovač"
-
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-msgid "Possible values are: none, file_date, current_date"
-msgstr ""
-"Možné hodnoty jsou: none (nic), file_data (datum souboru), current_data "
-"(dnešní datum)"
-
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr ""
-"Možné hodnoty jsou: yyyymmdd, yyyymm, yyyy (yyyy představuje rok, mm měsíc a "
-"dd den)"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
 msgid "The day of the month"
@@ -3379,37 +3345,37 @@ msgstr "jako jednotlivé pod_složky"
 msgid "Invalid Destination"
 msgstr "Neplatný cíl"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:196
+#: ../extensions/importer/gth-import-preferences-dialog.c:198
 #, c-format
 msgid "example: %s"
 msgstr "příklad: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:327
+#: ../extensions/importer/gth-import-preferences-dialog.c:330
 msgid "File date"
 msgstr "Datum souboru"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:337
+#: ../extensions/importer/gth-import-preferences-dialog.c:340
 msgid "year-month-day"
 msgstr "rok-měsíc-den"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:338
+#: ../extensions/importer/gth-import-preferences-dialog.c:341
 msgid "year-month"
 msgstr "rok-měsíc"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:339
+#: ../extensions/importer/gth-import-preferences-dialog.c:342
 msgid "year"
 msgstr "rok"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:340
+#: ../extensions/importer/gth-import-preferences-dialog.c:343
 msgid "custom format"
 msgstr "vlastní formát"
 
 #: ../extensions/importer/gth-import-task.c:442
 #: ../extensions/importer/gth-import-task.c:477
-#: ../extensions/importer/gth-import-task.c:643
+#: ../extensions/importer/gth-import-task.c:648
 msgid "Importing files"
 msgstr "Importují se soubory"
 
@@ -3421,25 +3387,25 @@ msgstr "Nebyl importován žádný soubor"
 msgid "The selected files are already present in the destination."
 msgstr "Vybrané soubory se již v cíli vyskytují."
 
-#: ../extensions/importer/gth-import-task.c:619
-#: ../gthumb/gth-file-source-vfs.c:687
+#: ../extensions/importer/gth-import-task.c:622
+#: ../gthumb/gth-file-source-vfs.c:686
 msgid "Could not delete the files"
 msgstr "Nelze smazat soubory"
 
-#: ../extensions/importer/gth-import-task.c:620
+#: ../extensions/importer/gth-import-task.c:623
 msgid "Delete operation not supported."
 msgstr "Operace mazání není podporována."
 
-#: ../extensions/importer/gth-import-task.c:704
+#: ../extensions/importer/gth-import-task.c:709
 msgid "Last imported"
 msgstr "Naposledy importováno"
 
-#: ../extensions/importer/gth-import-task.c:810
+#: ../extensions/importer/gth-import-task.c:815
 msgid "No file specified."
 msgstr "Není zadán žádný soubor."
 
 #. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
-#: ../extensions/importer/gth-import-task.c:847
+#: ../extensions/importer/gth-import-task.c:852
 #, c-format
 msgid ""
 "Not enough free space in '%s'.\n"
@@ -3566,7 +3532,7 @@ msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:285
-#: ../gthumb/dlg-personalize-filters.c:251
+#: ../gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Zobrazit"
 
@@ -3591,9 +3557,9 @@ msgid "Enter a value:"
 msgstr "Zadejte hodnotu:"
 
 #: ../extensions/list_tools/gth-script.c:745
+#: ../extensions/webalbums/gth-web-exporter.c:560
 #: ../extensions/webalbums/gth-web-exporter.c:572
-#: ../extensions/webalbums/gth-web-exporter.c:584
-#: ../extensions/webalbums/gth-web-exporter.c:592
+#: ../extensions/webalbums/gth-web-exporter.c:580
 msgid "Malformed command"
 msgstr "Nesprávně zadaný přikaz"
 
@@ -3786,35 +3752,35 @@ msgstr "_Událost:"
 msgid "_Tags:"
 msgstr "Š_títky:"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:222
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:173
+#: ../extensions/photo_importer/dlg-photo-importer.c:227
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:174
 msgid "Could not import the files"
 msgstr "Nelze importovat soubory"
 
 #. translators: %d is the number of files, %s the total size
-#: ../extensions/photo_importer/dlg-photo-importer.c:294
+#: ../extensions/photo_importer/dlg-photo-importer.c:299
 #, c-format
 msgid "Files to import: %d (%s)"
 msgstr "Soubory k importu: %d (%s)"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:334
+#: ../extensions/photo_importer/dlg-photo-importer.c:339
 msgid "Could not load the folder"
 msgstr "Nelze načíst složku"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:364
-#: ../gthumb/gth-browser.c:1927
+#: ../extensions/photo_importer/dlg-photo-importer.c:369
+#: ../gthumb/gth-browser.c:1921
 msgid "Getting folder listing..."
 msgstr "Získává se výpis složky…"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:410
+#: ../extensions/photo_importer/dlg-photo-importer.c:415
 msgid "Empty"
 msgstr "Prázdné"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:580
+#: ../extensions/photo_importer/dlg-photo-importer.c:586
 msgid "Import from Removable Device"
 msgstr "Import z výměnného zařízení"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:612
+#: ../extensions/photo_importer/dlg-photo-importer.c:618
 msgid "Import from Folder"
 msgstr "Import ze složky"
 
@@ -3875,17 +3841,17 @@ msgid "Public"
 msgstr "Veřejné"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:354
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:307
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:310
 msgid "Could not get the album list"
 msgstr "Nelze získat seznam alb"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:438
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:391
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:394
 msgid "Picasa Web Album"
 msgstr "Webové album Picasa"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:525
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:478
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:481
 msgid "Account"
 msgstr "Účet"
 
@@ -3900,18 +3866,6 @@ msgstr "Webová alba Picasa"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Odesílání obrázků do webových alb Picasa."
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
-msgid "Possible values are: jpeg, jpg."
-msgstr "Možné hodnoty jsou: jpeg, jpg."
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:2
-msgid "Possible values are: none, deflate, jpeg."
-msgstr "Možné hodnoty jsou: none, deflate, jpeg."
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:3
-msgid "Possible values are: tiff, tif."
-msgstr "Možné hodnoty jsou: tiff, tif."
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:1
 msgid "Opti_mize"
@@ -3970,24 +3924,24 @@ msgstr "_Bez komprimace"
 msgid "dpi"
 msgstr "dpi"
 
-#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:517
+#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:519
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/pixbuf_savers/gth-png-saver.c:137
+#: ../extensions/pixbuf_savers/gth-png-saver.c:140
 msgid "PNG"
 msgstr "PNG"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:284
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:286
 #: ../gthumb/gth-buffer-data.c:84
 msgid "Insufficient memory"
 msgstr "Nedostatek paměti"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:370
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:373
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/pixbuf_savers/gth-tiff-saver.c:533
+#: ../extensions/pixbuf_savers/gth-tiff-saver.c:537
 msgid "TIFF"
 msgstr "TIFF"
 
@@ -4034,20 +3988,6 @@ msgstr "Odstranění červených očí"
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Nástroj na odstranění efektu červených očí z fotografie."
-
-#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:1
-msgid ""
-"Possible values include: general::unsorted, file::name, file::size, file::"
-"mtime, exif::photo::datetimeoriginal"
-msgstr ""
-"Možné hodnoty zahrnují: general::unsorted (obecné, neseřazené), file::name "
-"(název souboru), file::size (velikost souboru), file::mtime (čas souboru), "
-"exif::photo::datetimeoriginal (čas pořízení fotografie podle exif)"
-
-#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
-msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-msgstr ""
-"Možné hodnoty jsou: 0 (beze změny), 1 (malá písmena), 2 (velká písmena)"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
 msgid "add"
@@ -4119,64 +4059,64 @@ msgstr "Původní název souboru"
 msgid "_Template:"
 msgstr "Ša_blona:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:64
+#: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
 msgstr "Čítač"
 
-#: ../extensions/rename_series/dlg-rename-series.c:65
+#: ../extensions/rename_series/dlg-rename-series.c:59
 msgid "Original filename"
 msgstr "Původní název souboru"
 
-#: ../extensions/rename_series/dlg-rename-series.c:66
+#: ../extensions/rename_series/dlg-rename-series.c:60
 msgid "Original extension"
 msgstr "Původní přípona"
 
-#: ../extensions/rename_series/dlg-rename-series.c:67
+#: ../extensions/rename_series/dlg-rename-series.c:61
 msgid "Original enumerator"
 msgstr "Čítač původního"
 
-#: ../extensions/rename_series/dlg-rename-series.c:68
+#: ../extensions/rename_series/dlg-rename-series.c:62
 msgid "Modification date"
 msgstr "Datum změny"
 
-#: ../extensions/rename_series/dlg-rename-series.c:69
+#: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
 msgstr "Datum digitalizace"
 
-#: ../extensions/rename_series/dlg-rename-series.c:70
+#: ../extensions/rename_series/dlg-rename-series.c:64
 msgid "File attribute"
 msgstr "Atribut souboru"
 
-#: ../extensions/rename_series/dlg-rename-series.c:556
-#: ../extensions/rename_series/dlg-rename-series.c:687
+#: ../extensions/rename_series/dlg-rename-series.c:552
+#: ../extensions/rename_series/dlg-rename-series.c:683
 msgid "Could not rename the files"
 msgstr "Nelze přejmenovat soubory"
 
-#: ../extensions/rename_series/dlg-rename-series.c:784
+#: ../extensions/rename_series/dlg-rename-series.c:780
 msgid "Could not save the template"
 msgstr "Nelze uložit šablonu"
 
-#: ../extensions/rename_series/dlg-rename-series.c:802
+#: ../extensions/rename_series/dlg-rename-series.c:798
 msgid "Edit Template"
 msgstr "Úprava šablony"
 
-#: ../extensions/rename_series/dlg-rename-series.c:859
+#: ../extensions/rename_series/dlg-rename-series.c:856
 msgid "Old Name"
 msgstr "Starý název"
 
-#: ../extensions/rename_series/dlg-rename-series.c:870
+#: ../extensions/rename_series/dlg-rename-series.c:867
 msgid "New Name"
 msgstr "Nový název"
 
-#: ../extensions/rename_series/dlg-rename-series.c:945
+#: ../extensions/rename_series/dlg-rename-series.c:944
 msgid "Keep original case"
 msgstr "Zachovat původní velikost písmen"
 
-#: ../extensions/rename_series/dlg-rename-series.c:946
+#: ../extensions/rename_series/dlg-rename-series.c:945
 msgid "Convert to lower-case"
 msgstr "Převést na malá písmena"
 
-#: ../extensions/rename_series/dlg-rename-series.c:947
+#: ../extensions/rename_series/dlg-rename-series.c:946
 msgid "Convert to upper-case"
 msgstr "Převést na velká písmena"
 
@@ -4225,11 +4165,11 @@ msgstr "Zachovat _původní poměr stran"
 msgid "pixel"
 msgstr "bodů"
 
-#: ../extensions/resize_images/dlg-resize-images.c:166
+#: ../extensions/resize_images/dlg-resize-images.c:168
 msgid "Resizing images"
 msgstr "Mění se velikost obrázků"
 
-#: ../extensions/resize_images/dlg-resize-images.c:408
+#: ../extensions/resize_images/dlg-resize-images.c:412
 msgid "Keep the original format"
 msgstr "Zachovat původní formát"
 
@@ -4283,11 +4223,11 @@ msgstr "libovolné z následujících pravidel"
 msgid "Files found until now: %s"
 msgstr "Doposud nalezené soubory: %s"
 
-#: ../extensions/search/gth-search-task.c:270
+#: ../extensions/search/gth-search-task.c:271
 msgid "Searching..."
 msgstr "Hledá se…"
 
-#: ../extensions/search/gth-search-task.c:276
+#: ../extensions/search/gth-search-task.c:277
 msgid "Cancel the operation"
 msgstr "Zrušit operaci"
 
@@ -4303,9 +4243,9 @@ msgstr "Promítání _snímků"
 msgid "View as a slideshow"
 msgstr "Zobrazit jako promítání snímků"
 
-#: ../extensions/slideshow/callbacks.c:406
+#: ../extensions/slideshow/callbacks.c:410
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
-#: ../extensions/slideshow/preferences.c:138
+#: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Promítání snímků"
@@ -4516,36 +4456,36 @@ msgstr "_Kopírovat originály do cíle"
 msgid "_Resize if larger than:"
 msgstr "Z_menšit, je-li větší než:"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1814
+#: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
 msgstr "Nelze zobrazit cíl"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1850
+#: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
 msgstr "Album bylo úspěšně vytvořeno."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2118
-#: ../extensions/webalbums/gth-web-exporter.c:2145
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2133
 msgid "Saving thumbnails"
 msgstr "Ukládají se náhledy"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2173
+#: ../extensions/webalbums/gth-web-exporter.c:2161
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2231
+#: ../extensions/webalbums/gth-web-exporter.c:2219
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2514
+#: ../extensions/webalbums/gth-web-exporter.c:2502
 msgid "Copying original images"
 msgstr "Kopírování originálních obrázků"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2940
+#: ../extensions/webalbums/gth-web-exporter.c:2929
 msgid "Could not find the style folder"
 msgstr "Nelze najít složku se styly"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2973
+#: ../extensions/webalbums/gth-web-exporter.c:2967
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
@@ -4557,63 +4497,63 @@ msgstr "Vytváření statických webových alb."
 msgid "Web Albums"
 msgstr "Webová alba"
 
-#: ../gthumb/dlg-personalize-filters.c:236
+#: ../gthumb/dlg-personalize-filters.c:237
 msgid "Filter"
 msgstr "Filtr"
 
-#: ../gthumb/dlg-personalize-filters.c:314
+#: ../gthumb/dlg-personalize-filters.c:315
 msgid "Could not save the filter"
 msgstr "Nelze uložit filtr"
 
-#: ../gthumb/dlg-personalize-filters.c:357
+#: ../gthumb/dlg-personalize-filters.c:358
 msgid "New Filter"
 msgstr "Nový filtr"
 
-#: ../gthumb/dlg-personalize-filters.c:386
+#: ../gthumb/dlg-personalize-filters.c:387
 msgid "Edit Filter"
 msgstr "Upravit filtr"
 
-#: ../gthumb/dlg-preferences-extensions.c:68 ../gthumb/gth-filterbar.c:269
+#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:269
 msgid "All"
 msgstr "Vše"
 
-#: ../gthumb/dlg-preferences-extensions.c:69
+#: ../gthumb/dlg-preferences-extensions.c:68
 msgid "Enabled"
 msgstr "Povolená"
 
-#: ../gthumb/dlg-preferences-extensions.c:70
+#: ../gthumb/dlg-preferences-extensions.c:69
 msgid "Disabled"
 msgstr "Zakázaná"
 
-#: ../gthumb/dlg-preferences-extensions.c:73
+#: ../gthumb/dlg-preferences-extensions.c:72
 msgid "Viewers"
 msgstr "Zobrazovače"
 
-#: ../gthumb/dlg-preferences-extensions.c:74
+#: ../gthumb/dlg-preferences-extensions.c:73
 msgid "Metadata"
 msgstr "Metadata"
 
-#: ../gthumb/dlg-preferences-extensions.c:75
+#: ../gthumb/dlg-preferences-extensions.c:74
 msgid "File tools"
 msgstr "Práce se soubory"
 
-#: ../gthumb/dlg-preferences-extensions.c:76
+#: ../gthumb/dlg-preferences-extensions.c:75
 msgid "List tools"
 msgstr "Práce se seznamy"
 
-#: ../gthumb/dlg-preferences-extensions.c:77
+#: ../gthumb/dlg-preferences-extensions.c:76
 msgid "Importers"
 msgstr "Importování"
 
-#: ../gthumb/dlg-preferences-extensions.c:78
+#: ../gthumb/dlg-preferences-extensions.c:77
 msgid "Exporters"
 msgstr "Exportování"
 
-#: ../gthumb/dlg-preferences-extensions.c:215
+#: ../gthumb/dlg-preferences-extensions.c:216
 msgid "Could not activate the extension"
 msgstr "Nelze aktivovat rozšíření"
 
-#: ../gthumb/dlg-preferences-extensions.c:225
+#: ../gthumb/dlg-preferences-extensions.c:226
 msgid "Could not deactivate the extension"
 msgstr "Nelze deaktivovat rozšíření"
 
@@ -4712,7 +4652,7 @@ msgstr "Získávají se informace o souboru"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2720
+#: ../gthumb/glib-utils.c:2838
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4724,13 +4664,13 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2729
+#: ../gthumb/glib-utils.c:2847
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:367
+#: ../gthumb/gth-browser-actions-callbacks.c:391
 msgid ""
 "gthumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4742,7 +4682,7 @@ msgstr ""
 "Software Foundation, a to buď ve verzi 2 této licence nebo (dle vaší volby) "
 "v libovolné novější verzi."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:371
+#: ../gthumb/gth-browser-actions-callbacks.c:395
 msgid ""
 "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4753,7 +4693,7 @@ msgstr ""
 "bez předpokládané záruky na PRODEJNOST nebo VHODNOST PRO KONKRÉTNÍ ÚČEL. "
 "Více podrobností najdete přímo v licenci GNU General Public License."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:375
+#: ../gthumb/gth-browser-actions-callbacks.c:399
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gthumb.  If not, see http://www.gnu.org/licenses/."
@@ -4762,11 +4702,11 @@ msgstr ""
 "License. Pokud se tak nestalo, podívejte se na <http://www.gnu.org/licenses/"
 ">."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:394
+#: ../gthumb/gth-browser-actions-callbacks.c:418
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:397
+#: ../gthumb/gth-browser-actions-callbacks.c:421
 msgid "translator_credits"
 msgstr ""
 "Michal Bukovjan <bukm@centrum.cz>\n"
@@ -4854,15 +4794,15 @@ msgstr "Přepnout na celou obrazovku"
 msgid "Leave Fullscreen"
 msgstr "Opustit celou obrazovku"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3612
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3603
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3630
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3621
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3648
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3639
 msgid "Go up one level"
 msgstr "Přejít o úroveň výše"
 
@@ -4951,31 +4891,32 @@ msgid "Show hidden files and folders"
 msgstr "Zobrazit skryté soubory a složky"
 
 #: ../gthumb/gth-browser-actions-entries.h:236
+#: ../gthumb/gth-browser-actions-entries.h:241
 msgid "View file properties"
 msgstr "Zobrazit vlastnosti souboru"
 
-#: ../gthumb/gth-browser-actions-entries.h:240
+#: ../gthumb/gth-browser-actions-entries.h:245
 msgid "Edit"
 msgstr "Upravit"
 
-#: ../gthumb/gth-browser-actions-entries.h:241
+#: ../gthumb/gth-browser-actions-entries.h:246
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser-actions-entries.h:245
+#: ../gthumb/gth-browser-actions-entries.h:250
 msgid "_Fit Window to Image"
 msgstr "_Přizpůsobit okno obrázku"
 
-#: ../gthumb/gth-browser-actions-entries.h:246
+#: ../gthumb/gth-browser-actions-entries.h:251
 msgid "Resize the window to the size of the image"
 msgstr "Změnit velikost okna, aby odpovídalo velikosti obrázku"
 
-#: ../gthumb/gth-browser.c:369
+#: ../gthumb/gth-browser.c:370
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
 
-#: ../gthumb/gth-browser.c:509
+#: ../gthumb/gth-browser.c:510
 msgid "[modified]"
 msgstr "[změněno]"
 
@@ -4992,54 +4933,54 @@ msgstr[2] "Vybráno %d souborů (%s)"
 msgid "%s of free space"
 msgstr "%s volného místa"
 
-#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1815
-#: ../gthumb/gth-browser.c:5934 ../gthumb/gth-browser.c:5953
-#: ../gthumb/gth-browser.c:5978
+#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:5953 ../gthumb/gth-browser.c:5972
+#: ../gthumb/gth-browser.c:5997
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
 
-#: ../gthumb/gth-browser.c:1911 ../gthumb/gth-browser.c:1938
+#: ../gthumb/gth-browser.c:1905 ../gthumb/gth-browser.c:1932
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nenalezen žádný použitelný modul pro %s"
 
-#: ../gthumb/gth-browser.c:2058
+#: ../gthumb/gth-browser.c:2052
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Uložit změny do souboru „%s“?"
 
-#: ../gthumb/gth-browser.c:2063
+#: ../gthumb/gth-browser.c:2057
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 
-#: ../gthumb/gth-browser.c:2064
+#: ../gthumb/gth-browser.c:2058
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:2831 ../gthumb/gth-browser.c:2851
-#: ../gthumb/gth-source-tree.c:178 ../gthumb/gth-source-tree.c:200
+#: ../gthumb/gth-browser.c:2828 ../gthumb/gth-browser.c:2848
+#: ../gthumb/gth-source-tree.c:182 ../gthumb/gth-source-tree.c:204
 msgid "Could not change name"
 msgstr "Nelze změnit název"
 
-#: ../gthumb/gth-browser.c:3296 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3285 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:3613 ../gthumb/gth-browser.c:3631
+#: ../gthumb/gth-browser.c:3604 ../gthumb/gth-browser.c:3622
 msgid "View the list of visited locations"
 msgstr "Zobrazit seznam navštívených míst"
 
-#: ../gthumb/gth-browser.c:3649
+#: ../gthumb/gth-browser.c:3640
 msgid "View the list of upper locations"
 msgstr "Zobrazit seznam nadřízených míst"
 
-#: ../gthumb/gth-browser.c:5935
+#: ../gthumb/gth-browser.c:5954
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:5979
+#: ../gthumb/gth-browser.c:5998
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -5054,30 +4995,30 @@ msgstr "Nelze otevřít modul „%s“: %s"
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "Rozšíření „%1$s“ je vyžadováno rozšířením „%2$s“"
 
-#: ../gthumb/gth-file-source-vfs.c:118
+#: ../gthumb/gth-file-source-vfs.c:117
 msgid "Home Folder"
 msgstr "Domovská složka"
 
-#: ../gthumb/gth-file-source-vfs.c:123
+#: ../gthumb/gth-file-source-vfs.c:122
 msgid "File System"
 msgstr "Systém souborů"
 
-#: ../gthumb/gth-file-source-vfs.c:732
+#: ../gthumb/gth-file-source-vfs.c:731
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Soubory nelze přesunout do koše. Chcete je odstranit natrvalo?"
 
-#: ../gthumb/gth-file-source-vfs.c:743
+#: ../gthumb/gth-file-source-vfs.c:742
 msgid "Could not move the files to the Trash"
 msgstr "Soubory nelze přesunout do koše"
 
-#: ../gthumb/gth-file-source-vfs.c:787
+#: ../gthumb/gth-file-source-vfs.c:789
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Opravdu chcete „%s“ přesunout do koše?"
 
-#: ../gthumb/gth-file-source-vfs.c:790
+#: ../gthumb/gth-file-source-vfs.c:793
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -5085,7 +5026,7 @@ msgstr[0] "Opravdu chcete %'d vybraný soubor přesunout do koše?"
 msgstr[1] "Opravdu chcete %'d vybrané soubory přesunout do koše?"
 msgstr[2] "Opravdu chcete %'d vybraných souborů přesunout do koše?"
 
-#: ../gthumb/gth-file-source-vfs.c:831
+#: ../gthumb/gth-file-source-vfs.c:836
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5406,51 +5347,51 @@ msgstr "Zavřít toto okno"
 msgid "Close _All Windows"
 msgstr "Zavřít všechn_a okna"
 
-#: ../gthumb/gtk-utils.c:755
+#: ../gthumb/gtk-utils.c:551
 msgid "Could not display help"
 msgstr "Nelze zobrazit nápovědu"
 
-#: ../gthumb/gtk-utils.c:1072 ../gthumb/gtk-utils.c:1079
+#: ../gthumb/gtk-utils.c:868 ../gthumb/gtk-utils.c:875
 msgid "Could not launch the application"
 msgstr "Nelze spustit aplikaci"
 
-#: ../gthumb/gtk-utils.c:1182
+#: ../gthumb/gtk-utils.c:978
 msgid "_Copy Here"
 msgstr "_Kopírovat sem"
 
-#: ../gthumb/gtk-utils.c:1187
+#: ../gthumb/gtk-utils.c:983
 msgid "_Move Here"
 msgstr "Přesunout se_m"
 
-#: ../gthumb/gtk-utils.c:1192
+#: ../gthumb/gtk-utils.c:988
 msgid "_Link Here"
 msgstr "Vytvořit zde _odkaz"
 
-#: ../gthumb/gtk-utils.c:1201
+#: ../gthumb/gtk-utils.c:997
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../gthumb/main.c:60
+#: ../gthumb/main.c:59
 msgid "Open a new window"
 msgstr "Otevřít nové okno"
 
-#: ../gthumb/main.c:64
+#: ../gthumb/main.c:63
 msgid "Start in fullscreen mode"
 msgstr "Začít v režimu celé obrazovky"
 
-#: ../gthumb/main.c:68
+#: ../gthumb/main.c:67
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít promítání snímků"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:71
 msgid "Automatically import digital camera photos"
 msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:75
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
-#: ../gthumb/main.c:318
+#: ../gthumb/main.c:317
 msgid "- Image browser and viewer"
 msgstr "- prohlížeč obrázků"
 
