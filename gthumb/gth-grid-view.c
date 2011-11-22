@@ -1069,7 +1069,7 @@ _cairo_film_pattern_create (void)
 		filename = g_build_filename (GTHUMB_DATADIR, "filmholes.png", NULL);
 		surface = cairo_image_surface_create_from_png (filename);
 		film_pattern = cairo_pattern_create_for_surface (surface);
-		cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_FAST);
+		cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_GOOD);
 		cairo_pattern_set_extend (film_pattern, CAIRO_EXTEND_REPEAT);
 
 		cairo_surface_destroy (surface);
@@ -1209,9 +1209,10 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 	if (! item->is_icon && item->is_video) {
 		cairo_pattern_t *pattern;
-		int              x;
+		double           x;
+		double           film_scale;
 		cairo_matrix_t   matrix;
-		int              film_strip = 9;
+		double           film_strip;
 
 		frame_rect = item->thumbnail_area;
 
@@ -1238,8 +1239,17 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		/* left film strip */
 
 		pattern = _cairo_film_pattern_create ();
+
+		if (grid_view->priv->thumbnail_size > 128)
+			film_scale = 256.0 / grid_view->priv->thumbnail_size;
+		else
+			film_scale = 128.0 / grid_view->priv->thumbnail_size;
+		film_strip = 9.0 / film_scale;
+
 		x = frame_rect.x;
-		cairo_matrix_init_translate (&matrix, -frame_rect.x, -item->pixbuf_area.y);
+		cairo_matrix_init_identity (&matrix);
+		cairo_matrix_scale (&matrix, film_scale, film_scale);
+		cairo_matrix_translate (&matrix, -frame_rect.x, -item->pixbuf_area.y);
 		cairo_pattern_set_matrix (pattern, &matrix);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr,
@@ -1252,7 +1262,9 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		/* right film strip */
 
 		x = frame_rect.x + item->pixbuf_area.width - film_strip;
-		cairo_matrix_init_translate (&matrix, -x, -item->pixbuf_area.y);
+		cairo_matrix_init_identity (&matrix);
+		cairo_matrix_scale (&matrix, film_scale, film_scale);
+		cairo_matrix_translate (&matrix, -x, -item->pixbuf_area.y);
 		cairo_pattern_set_matrix (pattern, &matrix);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr,
