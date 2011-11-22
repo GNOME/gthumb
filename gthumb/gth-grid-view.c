@@ -649,7 +649,7 @@ _gth_grid_view_update_item_size (GthGridView     *self,
 	item->area.width = self->priv->cell_size;
 	item->area.height = self->priv->cell_padding + thumbnail_size;
 
-	if (self->priv->update_caption_height || item->update_caption_height) {
+	if ((self->priv->caption_layout != NULL) && (self->priv->update_caption_height || item->update_caption_height)) {
 		if ((item->caption != NULL) && (g_strcmp0 (item->caption, "") != 0)) {
 			pango_layout_set_markup (self->priv->caption_layout, item->caption, -1);
 			pango_layout_get_pixel_size (self->priv->caption_layout, NULL, &item->caption_area.height);
