@@ -297,7 +297,7 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
 		*natural_width += border * 2;
 
 	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
-	if (gtk_widget_get_visible (vscrollbar)) {
+	if (gtk_widget_get_visible (vscrollbar) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)) {
 		int vscrollbar_minimum_width;
 		int vscrollbar_natural_width;
 		int scrollbar_spacing;
@@ -678,20 +678,6 @@ gth_file_list_set_type (GthFileList     *file_list,
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_SINGLE);
 	else
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
-
-
-#if 0 /* FIXME */
-	g_object_set (file_list->priv->checkbox_renderer,
-		      "visible", ((file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER) || (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)),
-		      NULL);
-
-	/* use the fixed size for horizontal sidebars to view a single row at
-	 * a time. */
-
-	g_object_set (file_list->priv->thumbnail_renderer,
-		      "fixed_size", TRUE /* (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) */,
-		      NULL);
-#endif
 
 	_gth_file_list_update_orientation (file_list);
 }
