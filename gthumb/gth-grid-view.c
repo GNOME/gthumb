@@ -1084,6 +1084,9 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	GdkPixbuf             *pixbuf;
 	GtkStyleContext       *style_context;
 	cairo_rectangle_int_t  frame_rect;
+	GdkRGBA                background_color;
+	GdkRGBA                lighter_color;
+	GdkRGBA                darker_color;
 
 	pixbuf = item->thumbnail;
 	if (pixbuf == NULL)
@@ -1121,18 +1124,14 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_fill (cr);
 	}
 
+	gdk_rgba_parse (&background_color, "#edeceb");
+	gtk_style_context_get_background_color (style_context, item_state, &background_color);
+	_gdk_rgba_darker (&background_color, &lighter_color);
+	_gdk_rgba_darker (&lighter_color, &darker_color);
+
 	if (! item->is_icon && _g_mime_type_is_image (gth_file_data_get_mime_type (item->file_data))) {
 
 		/* ...draw a frame with a drop-shadow effect */
-
-		GdkRGBA               background_color;
-		GdkRGBA               lighter_color;
-		GdkRGBA               darker_color;
-
-		gdk_rgba_parse (&background_color, "#edeceb");
-		gtk_style_context_get_background_color (style_context, item_state, &background_color);
-		_gdk_rgba_darker (&background_color, &lighter_color);
-		_gdk_rgba_darker (&lighter_color, &darker_color);
 
 		cairo_translate (cr, 0.5, 0.5);
 		cairo_set_line_width (cr, 0.5);
@@ -1209,6 +1208,16 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		frame_rect.y = item->thumbnail_area.y + grid_view->priv->thumbnail_border;
 		frame_rect.width = item->pixbuf_area.width;
 		frame_rect.height = item->thumbnail_area.height - (grid_view->priv->thumbnail_border * 2);
+
+		/* the drop shadow */
+
+		gdk_cairo_set_source_rgba (cr, &darker_color);
+		cairo_rectangle (cr,
+				 frame_rect.x + 2,
+				 frame_rect.y + 2,
+				 frame_rect.width,
+				 frame_rect.height);
+		cairo_fill (cr);
 
 		/* dark background */
 
