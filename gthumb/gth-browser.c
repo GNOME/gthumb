@@ -2494,9 +2494,9 @@ gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
-	_g_object_unref (&browser->priv->browser_settings);
-	_g_object_unref (&browser->priv->messages_settings);
-	_g_object_unref (&browser->priv->desktop_interface_settings);
+	_g_object_unref (browser->priv->browser_settings);
+	_g_object_unref (browser->priv->messages_settings);
+	_g_object_unref (browser->priv->desktop_interface_settings);
 	g_free (browser->priv->location_free_space);
 	_g_object_unref (browser->priv->location_source);
 	_g_object_unref (browser->priv->monitor_location);
