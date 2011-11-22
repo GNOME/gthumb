@@ -624,14 +624,6 @@ gth_grid_view_get_preferred_height (GtkWidget *widget,
 }
 
 
-static void
-_gth_grid_view_queue_draw (GthGridView *self)
-{
-	if (self->priv->bin_window != NULL)
-		gdk_window_invalidate_rect (self->priv->bin_window, NULL, FALSE);
-}
-
-
 /* -- grid layout -- */
 
 
@@ -1496,7 +1488,7 @@ gth_grid_view_focus_in (GtkWidget     *widget,
 	_gth_grid_view_keep_focus_consistent (self);
 	if ((self->priv->focused_item == -1) && (self->priv->n_items > 0))
 		gth_file_view_set_cursor (GTH_FILE_VIEW (self), 0);
-	_gth_grid_view_queue_draw (self);
+	gtk_widget_queue_draw (widget);
 
 	return TRUE;
 }
@@ -1570,7 +1562,7 @@ gth_grid_view_key_release (GtkWidget   *widget,
 		self->priv->multi_selecting_with_keyboard = FALSE;
 	}
 
-	_gth_grid_view_queue_draw (self);
+	gtk_widget_queue_draw (widget);
 
 	if ((GTK_WIDGET_CLASS (gth_grid_view_parent_class)->key_press_event != NULL)
 	    && GTK_WIDGET_CLASS (gth_grid_view_parent_class)->key_press_event (widget, event))
