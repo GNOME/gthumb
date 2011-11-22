@@ -650,16 +650,16 @@ _gth_grid_view_update_item_size (GthGridView     *self,
 		if ((item->caption != NULL) && (g_strcmp0 (item->caption, "") != 0)) {
 			pango_layout_set_markup (self->priv->caption_layout, item->caption, -1);
 			pango_layout_get_pixel_size (self->priv->caption_layout, NULL, &item->caption_area.height);
+			item->caption_area.height += self->priv->caption_padding * 2;
 		}
+		else
+			item->caption_area.height = 0;
+
 		item->update_caption_height = FALSE;
 	}
 
-	if ((item->caption != NULL) && (g_strcmp0 (item->caption, "") != 0)) {
-		item->caption_area.height += self->priv->caption_padding * 2;
+	if (item->caption_area.height > 0)
 		item->area.height += self->priv->caption_spacing + item->caption_area.height;
-	}
-	else
-		item->caption_area.height = 0;
 
 	item->area.height += self->priv->cell_padding;
 }
@@ -884,6 +884,7 @@ _gth_grid_view_relayout_from_line (GthGridView *self,
 
 	self->priv->dirty_layout = FALSE;
 	self->priv->update_caption_height = FALSE;
+	self->priv->relayout_from_line = -1;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
@@ -894,12 +895,12 @@ _gth_grid_view_relayout_cb (gpointer data)
 {
 	GthGridView *self = data;
 
-	if (self->priv->layout_timeout != 0)
+	if (self->priv->layout_timeout != 0) {
 		g_source_remove (self->priv->layout_timeout);
+		self->priv->layout_timeout = 0;
+	}
 
 	_gth_grid_view_relayout_from_line (self, self->priv->relayout_from_line);
-
-	self->priv->layout_timeout = 0;
 
 	return FALSE;
 }
@@ -909,7 +910,10 @@ static void
 _gth_grid_view_queue_relayout_from_line (GthGridView *self,
 					 int          line)
 {
-	self->priv->relayout_from_line = MIN (line, self->priv->relayout_from_line);
+	if (self->priv->relayout_from_line != -1)
+		self->priv->relayout_from_line = MIN (line, self->priv->relayout_from_line);
+	else
+		self->priv->relayout_from_line = line;
 
 	if (self->priv->frozen_layout) {
 		self->priv->dirty_layout = TRUE;
@@ -3614,7 +3618,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->dirty_layout = FALSE;
 	self->priv->frozen_layout = 0;
 	self->priv->layout_timeout = 0;
-	self->priv->relayout_from_line = 0;
+	self->priv->relayout_from_line = -1;
 	self->priv->update_caption_height = TRUE;
 	self->priv->width = 0;
 	self->priv->height = 0;
