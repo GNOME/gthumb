@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-file-store.h"
+#include "gth-marshal.h"
 
 
 #undef  DEBUG_FILE_STORE
@@ -246,9 +247,11 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 				      G_SIGNAL_RUN_LAST,
 				      G_STRUCT_OFFSET (GthFileStoreClass, thumbnail_changed),
 				      NULL, NULL,
-				      g_cclosure_marshal_VOID__VOID,
+				      gth_marshal_VOID__BOXED_BOXED,
 				      G_TYPE_NONE,
-				      0);
+				      2,
+				      GTK_TYPE_TREE_PATH,
+				      GTK_TYPE_TREE_ITER);
 }
 
 
@@ -1533,6 +1536,40 @@ _gth_file_store_list_changed (GthFileStore *file_store)
 }
 
 
+static void
+_gth_file_store_thumbnail_changed (GthFileStore *file_store,
+				   GthFileRow   *row)
+{
+	GtkTreePath *path;
+	GtkTreeIter  iter;
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, row->pos);
+
+	iter.stamp = file_store->priv->stamp;
+	iter.user_data = row;
+
+	g_signal_emit (file_store, gth_file_store_signals[THUMBNAIL_CHANGED], 0, path, &iter);
+
+	gtk_tree_path_free (path);
+}
+
+
+static void
+_gth_file_store_thumbnails_changed (GthFileStore *file_store)
+{
+	int i;
+
+	for (i = 0; i < file_store->priv->num_rows; i++) {
+		GthFileRow *row = file_store->priv->rows[i];
+
+		if (row->visible && row->changed)
+			_gth_file_store_thumbnail_changed (file_store, row);
+		row->changed = FALSE;
+	}
+}
+
+
 void
 gth_file_store_exec_set (GthFileStore *file_store)
 {
@@ -1541,11 +1578,11 @@ gth_file_store_exec_set (GthFileStore *file_store)
 	 * emit the 'row-changed' signal for each row, which causes the
 	 * GtkIconView to invalidate the size of all the items, and instead
 	 * emit a single 'thumbnail-changed' signal that can be used to just
-	 * redraw GtkIconView (as done in gth-file-list.c). */
+	 * redraw the GthFileView. */
 	if (file_store->priv->update_filter || file_store->priv->check_changed)
 		_gth_file_store_list_changed (file_store);
 	else
-		g_signal_emit (file_store, gth_file_store_signals[THUMBNAIL_CHANGED], 0, NULL);
+		_gth_file_store_thumbnails_changed (file_store);
 
 	_gth_file_store_clear_queue (file_store);
 

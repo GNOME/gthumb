@@ -56,6 +56,18 @@ _cairo_multiply_alpha (int color,
 }
 
 
+gboolean
+_cairo_rectangle_contains_point (cairo_rectangle_int_t *rect,
+			 	 int                    x,
+			 	 int                    y)
+{
+	return ((x >= rect->x)
+		&& (y >= rect->y)
+		&& (x <= rect->x + rect->width)
+		&& (y <= rect->y + rect->height));
+}
+
+
 void
 _gdk_color_to_cairo_color (GdkColor      *g_color,
 			   cairo_color_t *c_color)

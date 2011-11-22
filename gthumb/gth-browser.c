@@ -41,11 +41,10 @@
 #include "gth-filter.h"
 #include "gth-filterbar.h"
 #include "gth-folder-tree.h"
+#include "gth-grid-view.h"
 #include "gth-icon-cache.h"
-#include "gth-icon-view.h"
 #include "gth-info-bar.h"
 #include "gth-image-preloader.h"
-#include "gth-list-view.h"
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
@@ -1651,6 +1650,7 @@ load_data_continue (LoadData *load_data,
 			file_view = gth_browser_get_file_list_view (browser);
 			gth_file_view_scroll_to (GTH_FILE_VIEW (file_view), pos, 0.5);
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
+			gth_file_view_set_cursor (GTH_FILE_VIEW (file_view), pos);
 		}
 	}
 	gth_browser_update_sensitivity (browser);
@@ -3406,6 +3406,7 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 		if ((pos >= 0) && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_view), pos)) {
 			gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
+			gth_file_view_set_cursor (GTH_FILE_VIEW (file_view), pos);
 		}
 		gth_file_list_popup_menu (browser, event);
 
@@ -3420,6 +3421,7 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 		if ((pos >= 0) && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_view), pos)) {
 			gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
+			gth_file_view_set_cursor (GTH_FILE_VIEW (file_view), pos);
 		}
 		return TRUE;
 	}
@@ -4274,9 +4276,9 @@ gth_browser_init (GthBrowser *browser)
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_alignment, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
-	browser->priv->thumbnail_list = gth_file_list_new (gth_icon_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
+	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
-	gth_file_view_set_spacing (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
+	gth_grid_view_set_cell_spacing (GTH_GRID_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
 		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
@@ -4469,7 +4471,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the file list */
 
-	browser->priv->file_list = gth_file_list_new (gth_icon_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
+	browser->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE)),
 				    g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE));

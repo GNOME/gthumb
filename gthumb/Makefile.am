@@ -37,8 +37,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
 	gth-browser.h					\
-	gth-cell-renderer-caption.h			\
-	gth-cell-renderer-thumbnail.h			\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
 	gth-embedded-dialog.h				\
@@ -60,11 +58,11 @@ PUBLIC_HEADER_FILES = 					\
 	gth-filter-editor-dialog.h			\
 	gth-filter-file.h				\
 	gth-folder-tree.h				\
+	gth-grid-view.h					\
 	gth-histogram.h					\
 	gth-histogram-view.h				\
 	gth-hook.h					\
 	gth-icon-cache.h				\
-	gth-icon-view.h					\
 	gth-image.h					\
 	gth-image-dragger.h				\
 	gth-image-history.h				\
@@ -75,7 +73,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
 	gth-info-bar.h					\
-	gth-list-view.h					\
 	gth-load-file-data-task.h			\
 	gth-location-chooser.h				\
 	gth-main.h					\
@@ -162,8 +159,6 @@ gthumb_SOURCES = 					\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
-	gth-cell-renderer-caption.c			\
-	gth-cell-renderer-thumbnail.c			\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
 	gth-embedded-dialog.c				\
@@ -185,11 +180,11 @@ gthumb_SOURCES = 					\
 	gth-filter-editor-dialog.c			\
 	gth-filter-file.c				\
 	gth-folder-tree.c				\
+	gth-grid-view.c					\
 	gth-histogram.c					\
 	gth-histogram-view.c				\
 	gth-hook.c					\
 	gth-icon-cache.c				\
-	gth-icon-view.c					\
 	gth-image.c					\
 	gth-image-dragger.c				\
 	gth-image-history.c				\
@@ -200,7 +195,6 @@ gthumb_SOURCES = 					\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
 	gth-info-bar.c					\
-	gth-list-view.c					\
 	gth-load-file-data-task.c			\
 	gth-location-chooser.c				\
 	gth-main.c					\
@@ -282,12 +276,14 @@ gthumb_LDADD =						\
 	$(NULL)
 
 if RUN_IN_PLACE
-ui_dir = $(abs_top_srcdir)/data/ui
-icon_dir = $(abs_top_srcdir)/data/icons
+data_dir = $(abs_top_srcdir)/data
+ui_dir = $(data_dir)/ui
+icon_dir = $(data_dir)/icons
 extensions_ui_dir = $(abs_top_srcdir)/extensions
 extensions_dir = $(abs_top_builddir)/extensions
 applications_dir = $(abs_top_builddir)/data
 else
+data_dir = $(datadir)
 ui_dir = $(pkgdatadir)/ui
 icon_dir = $(pkgdatadir)/icons
 extensions_ui_dir = $(pkgdatadir)/ui
@@ -313,7 +309,7 @@ gthumb_CFLAGS =							\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"   		\
-	-DGTHUMB_DATADIR=\"$(datadir)\"         		\
+	-DGTHUMB_DATADIR=\"$(data_dir)\"         		\
 	-DGTHUMB_LIBDIR=\"$(libdir)\" 				\
 	-DGTHUMB_PKGDATADIR=\"$(pkgdatadir)\"			\
 	-DGTHUMB_UI_DIR=\"$(ui_dir)\"				\

@@ -59,7 +59,9 @@ struct _GthFileStoreClass
 
 	void (*visibility_changed) (GthFileStore *self);
 	void (*check_changed)      (GthFileStore *self);
-	void (*thumbnail_changed)  (GthFileStore *self);
+	void (*thumbnail_changed)  (GtkTreeModel *tree_model,
+		      	    	    GtkTreePath  *path,
+		      	    	    GtkTreeIter  *iter);
 };
 
 GType           gth_file_store_get_type          (void) G_GNUC_CONST;

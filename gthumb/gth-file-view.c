@@ -19,10 +19,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include "gth-file-view.h"
 
 
+#define DEFAULT_THUMBNAIL_SIZE 128
+
+
 enum {
+	CURSOR_CHANGED,
 	FILE_ACTIVATED,
 	LAST_SIGNAL
 };
@@ -37,20 +42,50 @@ G_DEFINE_INTERFACE (GthFileView, gth_file_view, 0)
 static void
 gth_file_view_default_init (GthFileViewInterface *iface)
 {
-	static gboolean initialized = FALSE;
+	/* signals */
 
-	if (! initialized) {
-		gth_file_view_signals[FILE_ACTIVATED] =
-			g_signal_new ("file-activated",
-				      GTH_TYPE_FILE_VIEW,
-				      G_SIGNAL_RUN_LAST,
-				      G_STRUCT_OFFSET (GthFileViewInterface, file_activated),
-				      NULL, NULL,
-				      g_cclosure_marshal_VOID__BOXED,
-				      G_TYPE_NONE, 1,
-				      GTK_TYPE_TREE_PATH);
-		initialized = TRUE;
-	}
+	gth_file_view_signals[CURSOR_CHANGED] =
+		g_signal_new ("cursor-changed",
+			      GTH_TYPE_FILE_VIEW,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileViewInterface, cursor_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
+
+	gth_file_view_signals[FILE_ACTIVATED] =
+		g_signal_new ("file-activated",
+			      GTH_TYPE_FILE_VIEW,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileViewInterface, file_activated),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__BOXED,
+			      G_TYPE_NONE, 1,
+			      GTK_TYPE_TREE_PATH);
+
+	/* properties */
+
+	g_object_interface_install_property (iface,
+					     g_param_spec_string ("caption",
+							     	  "Caption",
+							     	  "The file attributes to view in the caption",
+							     	  "none",
+							     	  G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
+	g_object_interface_install_property (iface,
+					     g_param_spec_object ("model",
+							     	  "Data Store",
+							     	  "The data to view",
+							     	  GTK_TYPE_TREE_MODEL,
+							     	  G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
+	g_object_interface_install_property (iface,
+					     g_param_spec_int ("thumbnail-size",
+							       "Thumbnail size",
+							       "The max width and height of the thumbnails",
+							       0,
+							       G_MAXINT32,
+							       DEFAULT_THUMBNAIL_SIZE,
+							       G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
 }
 
 
@@ -58,14 +93,68 @@ void
 gth_file_view_set_model (GthFileView  *self,
 		         GtkTreeModel *model)
 {
-	GTH_FILE_VIEW_GET_INTERFACE (self)->set_model (self, model);
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	g_object_set (self, "model", model, NULL);
 }
 
 
 GtkTreeModel *
 gth_file_view_get_model (GthFileView *self)
 {
-	return GTH_FILE_VIEW_GET_INTERFACE (self)->get_model (self);
+	GtkTreeModel *model;
+
+	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), NULL);
+
+	g_object_get (self, "model", &model, NULL);
+
+	return model;
+}
+
+
+void
+gth_file_view_set_caption (GthFileView *self,
+			   const char  *attributes)
+{
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	g_object_set (self, "caption", attributes, NULL);
+}
+
+
+char *
+gth_file_view_get_caption (GthFileView *self)
+{
+	char *attributes;
+
+	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), NULL);
+
+	g_object_get (self, "caption", &attributes, NULL);
+
+	return attributes;
+}
+
+
+void
+gth_file_view_set_thumbnail_size (GthFileView *self,
+				  int          value)
+{
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	g_object_set (self, "thumbnail-size", value, NULL);
+}
+
+
+gboolean
+gth_file_view_get_thumbnail_size (GthFileView *self)
+{
+	int value;
+
+	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), FALSE);
+
+	g_object_get (self, "thumbnail-size", &value, NULL);
+
+	return value;
 }
 
 
@@ -113,7 +202,14 @@ void
 gth_file_view_activated (GthFileView *self,
 			 int          pos)
 {
-	GTH_FILE_VIEW_GET_INTERFACE (self)->activated (self, pos);
+	GtkTreePath *path;
+
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	path = gtk_tree_path_new_from_indices (pos, -1);
+	g_signal_emit (self, gth_file_view_signals[FILE_ACTIVATED], 0, path);
+
+	gtk_tree_path_free (path);
 }
 
 
@@ -121,7 +217,9 @@ void
 gth_file_view_set_cursor (GthFileView *self,
 			  int          pos)
 {
-	GTH_FILE_VIEW_GET_INTERFACE (self)->set_cursor (self, pos);
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	g_signal_emit (self, gth_file_view_signals[CURSOR_CHANGED], 0, pos);
 }
 
 
@@ -129,14 +227,6 @@ int
 gth_file_view_get_cursor (GthFileView *self)
 {
 	return GTH_FILE_VIEW_GET_INTERFACE (self)->get_cursor (self);
-}
-
-
-void
-gth_file_view_set_spacing (GthFileView *self,
-			   int          spacing)
-{
-	GTH_FILE_VIEW_GET_INTERFACE (self)->set_spacing (self, spacing);
 }
 
 
@@ -187,36 +277,9 @@ gth_file_view_set_drag_dest_pos (GthFileView    *self,
 }
 
 
-GtkCellLayout *
-gth_file_view_add_renderer (GthFileView             *self,
-			    GthFileViewRendererType  renderer_type,
-			    GtkCellRenderer         *renderer)
-{
-	return GTH_FILE_VIEW_GET_INTERFACE (self)->add_renderer (self, renderer_type, renderer);
-}
-
-
 void
-gth_file_view_update_attributes (GthFileView     *self,
-				 GtkCellRenderer *checkbox_renderer,
-				 GtkCellRenderer *thumbnail_renderer,
-				 GtkCellRenderer *text_renderer,
-				 int              thumb_size)
+gth_file_view_get_drag_dest_pos (GthFileView *self,
+				 int         *pos)
 {
-	GTH_FILE_VIEW_GET_INTERFACE (self)->update_attributes (self, checkbox_renderer, thumbnail_renderer, text_renderer, thumb_size);
-}
-
-
-gboolean
-gth_file_view_truncate_metadata (GthFileView *self)
-{
-	return GTH_FILE_VIEW_GET_INTERFACE (self)->truncate_metadata (self);
-}
-
-
-void
-gth_file_view_activate_file (GthFileView *self,
-			     GtkTreePath *path)
-{
-	g_signal_emit (self, gth_file_view_signals[FILE_ACTIVATED], 0, path);
+	GTH_FILE_VIEW_GET_INTERFACE (self)->get_drag_dest_pos (self, pos);
 }
