@@ -310,28 +310,31 @@ gth_application_startup (GApplication *application)
 
 
 static GOptionContext *
-gth_application_create_option_context (gboolean is_local)
+gth_application_create_option_context (void)
 {
 	GOptionContext *context;
+	static gsize    initialized = FALSE;
 
 	context = g_option_context_new (N_("- Image browser and viewer"));
 	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
+	g_option_context_set_ignore_unknown_options (context, TRUE);
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-	if (is_local)
-		return context;
 
-	g_option_context_add_group (context, gtk_get_option_group (TRUE));
+	if (g_once_init_enter (&initialized)) {
+		g_option_context_add_group (context, gtk_get_option_group (TRUE));
 #ifdef USE_SMCLIENT
-	g_option_context_add_group (context, egg_sm_client_get_option_group ());
-#endif
-#ifdef HAVE_GSTREAMER
-	g_option_context_add_group (context, gst_init_get_option_group ());
+		g_option_context_add_group (context, egg_sm_client_get_option_group ());
 #endif
 #ifdef HAVE_CLUTTER
-	g_option_context_add_group (context, cogl_get_option_group ());
-	g_option_context_add_group (context, clutter_get_option_group_without_init ());
-	g_option_context_add_group (context, gtk_clutter_get_option_group ());
+		g_option_context_add_group (context, cogl_get_option_group ());
+		g_option_context_add_group (context, clutter_get_option_group_without_init ());
+		g_option_context_add_group (context, gtk_clutter_get_option_group ());
 #endif
+#ifdef HAVE_GSTREAMER
+		g_option_context_add_group (context, gst_init_get_option_group ());
+#endif
+		g_once_init_leave (&initialized, TRUE);
+	}
 
 	return context;
 }
@@ -356,7 +359,7 @@ gth_application_command_line (GApplication            *application,
 
 	/* parse command line options */
 
-	context = gth_application_create_option_context (FALSE);
+	context = gth_application_create_option_context ();
 	if (! g_option_context_parse (context, &argc, &argv, &error)) {
 		g_critical ("Failed to parse arguments: %s", error->message);
 		g_error_free (error);
@@ -486,8 +489,7 @@ gth_application_local_command_line (GApplication   *application,
 
         *exit_status = 0;
 
-        context = gth_application_create_option_context (TRUE);
-        g_option_context_set_ignore_unknown_options (context, TRUE);
+        context = gth_application_create_option_context ();
 	if (! g_option_context_parse (context, &local_argc, &local_argv, &error)) {
 		*exit_status = EXIT_FAILURE;
 		g_critical ("Failed to parse arguments: %s", error->message);
@@ -556,12 +558,10 @@ main (int argc, char *argv[])
 
 	Main_Application = gth_application_new ();
 	status = g_application_run (G_APPLICATION (Main_Application), argc, argv);
-	if (! g_application_get_is_remote (G_APPLICATION (Main_Application))) {
-		gth_main_release ();
-		gth_pref_release ();
-	}
+
+	gth_main_release ();
+	gth_pref_release ();
 	g_object_unref (Main_Application);
-	Main_Application = NULL;
 
 	/* restart if requested by the user */
 
