@@ -873,7 +873,6 @@ gfl_add_files (GthFileList *file_list,
 		gth_file_store_queue_add (file_store,
 					  file_data,
 					  pixbuf,
-					  TRUE,
 					  TRUE);
 
 		if (pixbuf != NULL)
