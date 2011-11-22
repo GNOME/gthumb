@@ -102,15 +102,16 @@ typedef struct {
 	guint                  ref;
 	GthFileData           *file_data;
 	GdkPixbuf             *thumbnail;
-	gboolean               is_icon;
-	gboolean               checked;
+	gboolean               is_icon : 1;
 	char                  *caption;
+	gboolean               is_image : 1;
+	gboolean               is_video : 1;
 
 	/* item state */
 
 	GtkStateFlags          state;
 	GtkStateFlags          tmp_state;
-	gboolean               update_caption_height;
+	gboolean               update_caption_height : 1;
 
 	/* geometry info */
 
@@ -210,6 +211,9 @@ gth_grid_view_item_set_file_data (GthGridViewItem *item,
 {
 	_g_object_unref (item->file_data);
 	item->file_data = _g_object_ref (file_data);
+
+	item->is_video = (item->file_data != NULL) ? _g_mime_type_is_video (gth_file_data_get_mime_type (item->file_data)) : FALSE;
+	item->is_image = (item->file_data != NULL) ? _g_mime_type_is_image (gth_file_data_get_mime_type (item->file_data)) : FALSE;
 }
 
 
@@ -635,16 +639,23 @@ static void
 _gth_grid_view_update_item_size (GthGridView     *self,
 				 GthGridViewItem *item)
 {
-	int width;
+	int thumbnail_size;
 
-	width = self->priv->cell_size - (self->priv->cell_padding * 2);
-	item->thumbnail_area.width = width;
-	item->thumbnail_area.height = width;
+	thumbnail_size = self->priv->cell_size - (self->priv->cell_padding * 2);
 
-	item->caption_area.width = width;
+	if (! item->is_icon && item->is_video) {
+		item->thumbnail_area.width = item->pixbuf_area.width;
+		item->thumbnail_area.height = thumbnail_size - (self->priv->thumbnail_border * 2);
+	}
+	else {
+		item->thumbnail_area.width = thumbnail_size;
+		item->thumbnail_area.height = thumbnail_size;
+	}
+
+	item->caption_area.width = thumbnail_size;
 
 	item->area.width = self->priv->cell_size;
-	item->area.height = self->priv->cell_padding + item->thumbnail_area.height;
+	item->area.height = self->priv->cell_padding + thumbnail_size;
 
 	if (self->priv->update_caption_height || item->update_caption_height) {
 		if ((item->caption != NULL) && (g_strcmp0 (item->caption, "") != 0)) {
@@ -674,8 +685,14 @@ _gth_grid_view_place_item_at (GthGridView     *self,
 	item->area.x = x;
 	item->area.y = y;
 
-	item->thumbnail_area.x = item->area.x + self->priv->cell_padding;
-	item->thumbnail_area.y = item->area.y + self->priv->cell_padding;
+	if (! item->is_icon && item->is_video) {
+		item->thumbnail_area.x = item->area.x + self->priv->cell_padding + self->priv->thumbnail_border;
+		item->thumbnail_area.y = item->area.y + self->priv->cell_padding + self->priv->thumbnail_border;
+	}
+	else {
+		item->thumbnail_area.x = item->area.x + self->priv->cell_padding;
+		item->thumbnail_area.y = item->area.y + self->priv->cell_padding;
+	}
 
 	item->pixbuf_area.x = item->thumbnail_area.x + ((item->thumbnail_area.width - item->pixbuf_area.width) / 2);
 	item->pixbuf_area.y = item->thumbnail_area.y + ((item->thumbnail_area.height - item->pixbuf_area.height) / 2);
@@ -1105,7 +1122,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	if (item->is_icon
 	    || ((item->pixbuf_area.width < grid_view->priv->thumbnail_size) && (item->pixbuf_area.height < grid_view->priv->thumbnail_size))
             || (item->file_data == NULL)
-            || ! (_g_mime_type_is_image (gth_file_data_get_mime_type (item->file_data)) || (item_state & GTK_STATE_FLAG_SELECTED) || (item_state == GTK_STATE_FLAG_NORMAL)))
+            || ! (item->is_image || (item_state & GTK_STATE_FLAG_SELECTED) || (item_state == GTK_STATE_FLAG_NORMAL)))
 	{
 		GdkRGBA background_color;
 
@@ -1129,7 +1146,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	_gdk_rgba_darker (&background_color, &lighter_color);
 	_gdk_rgba_darker (&lighter_color, &darker_color);
 
-	if (! item->is_icon && _g_mime_type_is_image (gth_file_data_get_mime_type (item->file_data))) {
+	if (! item->is_icon && item->is_image) {
 
 		/* ...draw a frame with a drop-shadow effect */
 
@@ -1198,16 +1215,13 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_identity_matrix (cr);
 	}
 
-	if (! item->is_icon && _g_mime_type_is_video (gth_file_data_get_mime_type (item->file_data))) {
+	if (! item->is_icon && item->is_video) {
 		cairo_pattern_t *pattern;
 		int              x;
 		cairo_matrix_t   matrix;
 		int              film_strip = 9;
 
-		frame_rect.x = item->pixbuf_area.x;
-		frame_rect.y = item->thumbnail_area.y + grid_view->priv->thumbnail_border;
-		frame_rect.width = item->pixbuf_area.width;
-		frame_rect.height = item->thumbnail_area.height - (grid_view->priv->thumbnail_border * 2);
+		frame_rect = item->thumbnail_area;
 
 		/* the drop shadow */
 
@@ -1233,7 +1247,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		pattern = _cairo_film_pattern_create ();
 		x = frame_rect.x;
-		cairo_matrix_init_translate (&matrix, -frame_rect.x, -frame_rect.y);
+		cairo_matrix_init_translate (&matrix, -frame_rect.x, -item->pixbuf_area.y);
 		cairo_pattern_set_matrix (pattern, &matrix);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr,
@@ -1246,7 +1260,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		/* right film strip */
 
 		x = frame_rect.x + item->pixbuf_area.width - film_strip;
-		cairo_matrix_init_translate (&matrix, -x, -frame_rect.y);
+		cairo_matrix_init_translate (&matrix, -x, -item->pixbuf_area.y);
 		cairo_pattern_set_matrix (pattern, &matrix);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr,
@@ -2083,6 +2097,8 @@ model_thumbnail_changed_cb (GtkTreeModel *tree_model,
 	gth_grid_view_item_set_thumbnail (item, thumbnail);
 	item->is_icon = is_icon;
 
+	_gth_grid_view_update_item_size (self, item);
+	_gth_grid_view_place_item_at (self, item, item->area.x, item->area.y);
 	_gth_grid_view_queue_draw_item (self, item);
 
 	g_object_unref (thumbnail);
