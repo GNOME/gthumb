@@ -171,6 +171,14 @@ file_properties_position_combobox_changed_cb (GtkWidget  *widget,
 
 
 static void
+reuse_active_window_checkbutton_toggled_cb (GtkToggleButton *button,
+					    DialogData      *data)
+{
+	g_settings_set_boolean (data->browser_settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reuse_active_window_checkbutton"))));
+}
+
+
+static void
 confirm_deletion_toggled_cb (GtkToggleButton *button,
 			     DialogData      *data)
 {
@@ -281,6 +289,8 @@ dlg_preferences (GthBrowser *browser)
 	g_object_unref (file_source);
 	g_free (startup_location);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reuse_active_window_checkbutton")),
+				      g_settings_get_boolean (data->browser_settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("confirm_deletion_checkbutton")),
 				      g_settings_get_boolean (data->messages_settings, PREF_MSG_CONFIRM_DELETION));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_to_save_checkbutton")),
@@ -340,6 +350,10 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (GET_WIDGET ("set_to_current_button")),
 			  "clicked",
 			  G_CALLBACK (set_to_current_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("reuse_active_window_checkbutton")),
+			  "toggled",
+			  G_CALLBACK (reuse_active_window_checkbutton_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("confirm_deletion_checkbutton")),
 			  "toggled",
