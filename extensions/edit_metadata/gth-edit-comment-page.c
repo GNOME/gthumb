@@ -493,7 +493,7 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 
 	self->priv->tags_entry = gth_tags_entry_new ();
 	gtk_widget_show (self->priv->tags_entry);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), self->priv->tags_entry);
 
 	g_signal_connect (self->priv->tags_entry,
