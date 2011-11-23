@@ -86,9 +86,28 @@ static void
 open_browser_window (GFile *location,
 		     GFile *file_to_select)
 {
+	GSettings *settings;
+	gboolean   reuse_active_window;
 	GtkWidget *window;
 
-	window = gth_browser_new (location, file_to_select);
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	reuse_active_window = g_settings_get_boolean (settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW);
+	g_object_unref (settings);
+
+	window = NULL;
+	if (reuse_active_window) {
+		GList *windows = gtk_application_get_windows (Main_Application);
+		if (windows != NULL)
+			window = windows->data;
+	}
+
+	if (window == NULL)
+		window = gth_browser_new (location, file_to_select);
+	else if (file_to_select != NULL)
+		gth_browser_go_to (GTH_BROWSER (window), location, file_to_select);
+	else
+		gth_browser_load_location (GTH_BROWSER (window), location);
+
 	if (! StartSlideshow)
 		gtk_window_present (GTK_WINDOW (window));
 }

@@ -670,6 +670,8 @@ void
 gth_file_list_set_type (GthFileList     *file_list,
 			GthFileListType  list_type)
 {
+	g_return_if_fail (GTH_IS_FILE_LIST (file_list));
+
 	file_list->priv->type = list_type;
 
 	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))

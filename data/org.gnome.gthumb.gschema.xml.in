@@ -134,7 +134,11 @@
     <key name="shrink-wrap-viewer" type="b">
       <default>false</default>
       <_description>Whether to resize the window to fit the size of the image</_description>
-    </key>     
+    </key>
+    <key name="reuse-active-window" type="b">
+      <default>false</default>
+      <_description>Open files in the active window</_description>
+    </key>
   </schema>
   
   <schema id="org.gnome.gthumb.dialogs" path="/org/gnome/gthumb/dialogs/">
