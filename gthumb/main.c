@@ -83,18 +83,25 @@ static const GOptionEntry options[] = {
 
 
 static void
-open_browser_window (GFile *location,
-		     GFile *file_to_select)
+open_browser_window (GFile    *location,
+		     GFile    *file_to_select,
+		     gboolean  force_new_window)
 {
-	GSettings *settings;
 	gboolean   reuse_active_window;
 	GtkWidget *window;
 
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	reuse_active_window = g_settings_get_boolean (settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW);
-	g_object_unref (settings);
+	if (! force_new_window) {
+		GSettings *settings;
+
+		settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+		reuse_active_window = g_settings_get_boolean (settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW);
+		g_object_unref (settings);
+	}
+	else
+		reuse_active_window = FALSE;
 
 	window = NULL;
+
 	if (reuse_active_window) {
 		GList *windows = gtk_application_get_windows (Main_Application);
 		if (windows != NULL)
@@ -372,6 +379,7 @@ gth_application_command_line (GApplication            *application,
 	GList           *files;
 	GList           *dirs;
 	GFile           *location;
+	gboolean         singleton;
 	GList           *scan;
 
 	argv = g_application_command_line_get_arguments (command_line, &argc);
@@ -440,7 +448,7 @@ gth_application_command_line (GApplication            *application,
 		else
 			file_to_select = NULL;
 
-		open_browser_window (location, file_to_select);
+		open_browser_window (location, file_to_select, TRUE);
 		gdk_notify_startup_complete ();
 
 		_g_object_unref (file_to_select);
@@ -471,17 +479,22 @@ gth_application_command_line (GApplication            *application,
 
 	location = gth_hook_invoke_get ("command-line-files", files);
 	if (location != NULL) {
-		open_browser_window (location, NULL);
+		open_browser_window (location, NULL, FALSE);
 		g_object_unref (location);
 	}
-	else /* Open each file in a new window */
+	else {
+		/* Open each file in a new window */
+
+		singleton = (files != NULL) && (files->next == NULL);
 		for (scan = files; scan; scan = scan->next)
-			open_browser_window ((GFile *) scan->data, NULL);
+			open_browser_window ((GFile *) scan->data, NULL, ! singleton);
+	}
 
 	/* Open each dir in a new window */
 
+	singleton = (dirs != NULL) && (dirs->next == NULL);
 	for (scan = dirs; scan; scan = scan->next)
-		open_browser_window ((GFile *) scan->data, NULL);
+		open_browser_window ((GFile *) scan->data, NULL, ! singleton);
 
 	gdk_notify_startup_complete ();
 
