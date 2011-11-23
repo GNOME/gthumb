@@ -86,7 +86,7 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_preferences) },
 
 	{ "Edit_SelectAll", GTK_STOCK_SELECT_ALL,
-	  NULL, NULL,
+	  NULL, "<control>A",
 	  NULL,
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_edit_select_all) },

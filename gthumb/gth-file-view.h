@@ -36,8 +36,6 @@ G_BEGIN_DECLS
 typedef struct _GthFileView GthFileView;
 typedef struct _GthFileViewInterface GthFileViewInterface;
 
-#define THUMBNAIL_BORDER (8 * 2)
-
 typedef enum  {
 	GTH_VISIBILITY_NONE,
 	GTH_VISIBILITY_FULL,
@@ -57,14 +55,13 @@ struct _GthFileViewInterface {
 
 	/*< signals >*/
 
+	void            (*cursor_changed)                (GthFileView              *self,
+							  int                       pos);
 	void            (*file_activated)                (GthFileView              *self,
-					     	     	  GtkTreePath              *path);
+					     	     	  int                       pos);
 
 	/*< virtual functions >*/
 
-	void            (*set_model)                     (GthFileView              *self,
-							  GtkTreeModel             *model);
-	GtkTreeModel *  (*get_model)                     (GthFileView              *self);
 	void            (*scroll_to)                     (GthFileView              *self,
 							  int                       pos,
 							  double                    yalign);
@@ -75,13 +72,7 @@ struct _GthFileViewInterface {
 							  int                       y);
 	int             (*get_first_visible)             (GthFileView              *self);
 	int             (*get_last_visible)              (GthFileView              *self);
-	void            (*activated)                     (GthFileView              *self,
-							  int                       pos);
-	void            (*set_cursor)                    (GthFileView              *self,
-							  int                       pos);
 	int             (*get_cursor)                    (GthFileView              *self);
-	void            (*set_spacing)                   (GthFileView              *self,
-							  int                       spacing);
 	void            (*enable_drag_source)            (GthFileView              *self,
 							  GdkModifierType           start_button_mask,
 							  const GtkTargetEntry     *targets,
@@ -99,21 +90,21 @@ struct _GthFileViewInterface {
 							  int                       y,
 							  guint                     time,
 			                      	          int                      *pos);
-	GtkCellLayout * (*add_renderer)                  (GthFileView              *self,
-							  GthFileViewRendererType   renderer_type,
-							  GtkCellRenderer          *renderer);
-	void            (*update_attributes)             (GthFileView              *self,
-							  GtkCellRenderer          *checkbox_renderer,
-							  GtkCellRenderer          *thumbnail_renderer,
-							  GtkCellRenderer          *text_renderer,
-							  int                       thumb_size);
-	gboolean        (*truncate_metadata)             (GthFileView              *self);
+	void            (*get_drag_dest_pos)             (GthFileView             *self,
+							  int                     *pos);
+
 };
 
 GType           gth_file_view_get_type           (void);
 void            gth_file_view_set_model          (GthFileView             *self,
 					 	  GtkTreeModel            *model);
 GtkTreeModel *  gth_file_view_get_model          (GthFileView             *self);
+void            gth_file_view_set_caption        (GthFileView             *self,
+						  const char              *attributes);
+char *          gth_file_view_get_caption        (GthFileView             *self);
+void            gth_file_view_set_thumbnail_size (GthFileView             *self,
+						  int                      value);
+gboolean        gth_file_view_get_thumbnail_size (GthFileView             *self);
 void            gth_file_view_scroll_to          (GthFileView             *self,
 						  int                      pos,
 						  double                   yalign);
@@ -129,8 +120,6 @@ void            gth_file_view_activated          (GthFileView             *self,
 void            gth_file_view_set_cursor         (GthFileView             *self,
 						  int                      pos);
 int             gth_file_view_get_cursor         (GthFileView             *self);
-void            gth_file_view_set_spacing        (GthFileView             *self,
-						  int                      spacing);
 void            gth_file_view_enable_drag_source (GthFileView             *self,
 				      		  GdkModifierType          start_button_mask,
 				      		  const GtkTargetEntry    *targets,
@@ -148,17 +137,8 @@ void            gth_file_view_set_drag_dest_pos  (GthFileView             *self,
 			                          int                      y,
 			                          guint                    time,
 				                  int                     *pos);
-GtkCellLayout * gth_file_view_add_renderer       (GthFileView             *self,
-						  GthFileViewRendererType  renderer_type,
-						  GtkCellRenderer         *renderer);
-void            gth_file_view_update_attributes  (GthFileView              *self,
-						  GtkCellRenderer          *checkbox_renderer,
-						  GtkCellRenderer          *thumbnail_renderer,
-						  GtkCellRenderer          *text_renderer,
-						  int                       thumb_size);
-gboolean        gth_file_view_truncate_metadata  (GthFileView              *self);
-void            gth_file_view_activate_file      (GthFileView              *self,
-						  GtkTreePath              *path);
+void            gth_file_view_get_drag_dest_pos  (GthFileView             *self,
+						  int                     *pos);
 
 G_END_DECLS
 

@@ -24,8 +24,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
-#include "gth-cell-renderer-caption.h"
-#include "gth-cell-renderer-thumbnail.h"
 #include "gth-dumb-notebook.h"
 #include "gth-empty-list.h"
 #include "gth-file-list.h"
@@ -127,9 +125,6 @@ struct _GthFileListPrivateData
 	guint            restart_thumb_update;
 	GList           *queue; /* list of GthFileListOp */
 	GList           *jobs; /* list of ThumbnailJob */
-	GtkCellRenderer *thumbnail_renderer;
-	GtkCellRenderer *caption_renderer;
-	GtkCellRenderer *checkbox_renderer;
 	gboolean         cancelling;
 	guint            update_event;
 	gboolean         visibility_changed;
@@ -253,7 +248,7 @@ _gth_file_list_queue_op (GthFileList   *file_list,
 /* -- gth_file_list -- */
 
 
-G_DEFINE_TYPE (GthFileList, gth_file_list, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthFileList, gth_file_list, GTK_TYPE_BOX)
 
 
 static void
@@ -293,12 +288,16 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
 	GtkWidget   *vscrollbar;
+	const int    border = 1;
 
-	*minimum_width = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2);
-	*natural_width = *minimum_width;
+	gtk_widget_get_preferred_width (file_list->priv->view, minimum_width, natural_width);
+	if (minimum_width)
+		*minimum_width += border * 2;
+	if (natural_width)
+		*natural_width += border * 2;
 
 	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
-	if (gtk_widget_get_visible (vscrollbar)) {
+	if (gtk_widget_get_visible (vscrollbar) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)) {
 		int vscrollbar_minimum_width;
 		int vscrollbar_natural_width;
 		int scrollbar_spacing;
@@ -320,9 +319,13 @@ gth_file_list_get_preferred_height (GtkWidget *widget,
                 		    int       *natural_height)
 {
 	GthFileList *file_list = GTH_FILE_LIST (widget);
+	const int    border = 1;
 
-	*minimum_height = file_list->priv->thumb_size + (THUMBNAIL_BORDER * 2);
-	*natural_height = *minimum_height;
+	gtk_widget_get_preferred_height (file_list->priv->view, minimum_height, natural_height);
+	if (minimum_height)
+		*minimum_height += border * 2;
+	if (natural_height)
+		*natural_height += border * 2;
 }
 
 
@@ -516,37 +519,6 @@ file_view_drag_data_get_cb (GtkWidget        *widget,
 
 
 static void
-checkbox_toggled_cb (GtkCellRendererToggle *cell_renderer,
-                     char                  *path,
-                     gpointer               user_data)
-{
-	GthFileList  *file_list = user_data;
-	GtkTreePath  *tpath;
-	GthFileStore *file_store;
-	GtkTreeIter   iter;
-
-	tpath = gtk_tree_path_new_from_string (path);
-	if (tpath == NULL)
-		return;
-
-	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, tpath)) {
-		gboolean checked;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (file_store), &iter,
-				    GTH_FILE_STORE_CHECKED_COLUMN, &checked,
-				    -1);
-		gth_file_store_set (file_store,
-				    &iter,
-				    GTH_FILE_STORE_CHECKED_COLUMN, ! checked,
-				    -1);
-	}
-
-	gtk_tree_path_free (tpath);
-}
-
-
-static void
 _gth_file_list_update_orientation (GthFileList *file_list)
 {
 	GtkPolicyType hscrollbar_policy;
@@ -565,34 +537,6 @@ _gth_file_list_update_orientation (GthFileList *file_list)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
 					hscrollbar_policy,
 					vscrollbar_policy);
-}
-
-
-static void
-_gth_file_list_set_type (GthFileList     *file_list,
-		 	 GthFileListType  list_type)
-{
-	file_list->priv->type = list_type;
-
-	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))
-		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
-	else if ((file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR))
-		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_SINGLE);
-	else
-		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
-
-	g_object_set (file_list->priv->checkbox_renderer,
-		      "visible", ((file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER) || (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)),
-		      NULL);
-
-	/* use the fixed size for horizontal sidebars to view a single row at
-	 * a time. */
-
-	g_object_set (file_list->priv->thumbnail_renderer,
-		      "fixed_size", TRUE /* (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) */,
-		      NULL);
-
-	_gth_file_list_update_orientation (file_list);
 }
 
 
@@ -617,23 +561,12 @@ file_store_rows_reordered_cb (GtkTreeModel *tree_model,
 
 
 static void
-file_store_thumbnail_changed_cb (GthFileStore *file_store,
-				 gpointer      user_data)
-{
-	GthFileList *file_list = user_data;
-	gtk_widget_queue_draw (file_list->priv->view);
-}
-
-
-static void
 gth_file_list_construct (GthFileList     *file_list,
 			 GtkWidget       *file_view,
 			 GthFileListType  list_type,
 			 gboolean         enable_drag_drop)
 {
-	GtkCellRenderer *renderer;
-	GthFileStore    *model;
-	GtkCellLayout   *cell_layout;
+	GthFileStore *model;
 
 	file_list->priv->thumb_loader = gth_thumb_loader_new (file_list->priv->thumb_size);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), file_list->priv->thumb_size / 2);
@@ -674,10 +607,6 @@ gth_file_list_construct (GthFileList     *file_list,
 			  "rows-reordered",
 			  G_CALLBACK (file_store_rows_reordered_cb),
 			  file_list);
-	g_signal_connect (model,
-			  "thumbnail-changed",
-			  G_CALLBACK (file_store_thumbnail_changed_cb),
-			  file_list);
 
 	if (enable_drag_drop) {
 		GtkTargetList  *target_list;
@@ -703,65 +632,7 @@ gth_file_list_construct (GthFileList     *file_list,
 				  file_list);
 	}
 
-	/* checkbox */
-
-	file_list->priv->checkbox_renderer = renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (file_list->priv->checkbox_renderer,
-			  "toggled",
-			  G_CALLBACK (checkbox_toggled_cb),
-			  file_list);
-
-	cell_layout = gth_file_view_add_renderer (GTH_FILE_VIEW (file_list->priv->view),
-						  GTH_FILE_VIEW_RENDERER_CHECKBOX,
-						  file_list->priv->checkbox_renderer);
-	gtk_cell_layout_set_attributes (cell_layout,
-					renderer,
-					"active", GTH_FILE_STORE_CHECKED_COLUMN,
-					NULL);
-
-	/* thumbnail */
-
-	file_list->priv->thumbnail_renderer = renderer = gth_cell_renderer_thumbnail_new ();
-
-	cell_layout = gth_file_view_add_renderer (GTH_FILE_VIEW (file_list->priv->view),
-						  GTH_FILE_VIEW_RENDERER_THUMBNAIL,
-						  file_list->priv->thumbnail_renderer);
-	gtk_cell_layout_set_attributes (cell_layout,
-					renderer,
-					"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
-					"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
-					"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
-					NULL);
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER)
-		gtk_cell_layout_add_attribute (cell_layout,
-					       renderer,
-					       "selected",
-					       GTH_FILE_STORE_CHECKED_COLUMN);
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)
-		gtk_cell_layout_add_attribute (cell_layout,
-					       renderer,
-					       "checked",
-					       GTH_FILE_STORE_CHECKED_COLUMN);
-
-	/* caption */
-
-	file_list->priv->caption_renderer = renderer = gth_cell_renderer_caption_new ();
-
-	cell_layout = gth_file_view_add_renderer (GTH_FILE_VIEW (file_list->priv->view),
-						  GTH_FILE_VIEW_RENDERER_TEXT,
-						  file_list->priv->caption_renderer);
-	gtk_cell_layout_set_attributes (cell_layout,
-					renderer,
-					"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
-					NULL);
-
-	gth_file_view_update_attributes (GTH_FILE_VIEW (file_list->priv->view),
-					 file_list->priv->checkbox_renderer,
-					 file_list->priv->thumbnail_renderer,
-					 file_list->priv->caption_renderer,
-					 file_list->priv->thumb_size);
-
-	_gth_file_list_set_type (file_list, list_type);
+	gth_file_list_set_type (file_list, list_type);
 
 	/* pack the widgets together */
 
@@ -781,7 +652,7 @@ gth_file_list_construct (GthFileList     *file_list,
 }
 
 
-GtkWidget*
+GtkWidget *
 gth_file_list_new (GtkWidget       *file_view,
 		   GthFileListType  list_type,
 		   gboolean         enable_drag_drop)
@@ -799,7 +670,16 @@ void
 gth_file_list_set_type (GthFileList     *file_list,
 			GthFileListType  list_type)
 {
-	_gth_file_list_set_type (file_list, list_type);
+	file_list->priv->type = list_type;
+
+	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
+	else if ((file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR))
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_SINGLE);
+	else
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
+
+	_gth_file_list_update_orientation (file_list);
 }
 
 
@@ -901,7 +781,6 @@ gfl_clear_list (GthFileList *file_list,
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	gth_cell_renderer_caption_clear_cache (GTH_CELL_RENDERER_CAPTION (file_list->priv->caption_renderer));
 	gth_file_store_clear (file_store);
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 
@@ -980,7 +859,6 @@ gfl_add_files (GthFileList *file_list,
 		gth_file_store_queue_add (file_store,
 					  file_data,
 					  pixbuf,
-					  TRUE,
 					  TRUE);
 
 		if (pixbuf != NULL)
@@ -1137,13 +1015,10 @@ static void
 gfl_set_files (GthFileList *file_list,
 	       GList       *files)
 {
-	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,
-					      g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
-	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader,
-					    g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader, g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
-	gth_cell_renderer_caption_clear_cache (GTH_CELL_RENDERER_CAPTION (file_list->priv->caption_renderer));
 	gth_file_store_clear ((GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 	gfl_add_files (file_list, files, -1);
@@ -1323,19 +1198,13 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	file_list->priv->thumb_size = size;
 
 	gth_thumb_loader_set_requested_size (file_list->priv->thumb_loader, size);
-	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,
-					      g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
-	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader,
-					    g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
+	gth_thumb_loader_set_save_thumbnails (file_list->priv->thumb_loader,  g_settings_get_boolean (file_list->priv->settings, PREF_BROWSER_SAVE_THUMBNAILS));
+	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);
 
-	gth_file_view_update_attributes (GTH_FILE_VIEW (file_list->priv->view),
-					 file_list->priv->checkbox_renderer,
-					 file_list->priv->thumbnail_renderer,
-					 file_list->priv->caption_renderer,
-					 file_list->priv->thumb_size);
+	gth_file_view_set_thumbnail_size (GTH_FILE_VIEW (file_list->priv->view), file_list->priv->thumb_size);
 
 	_gth_file_list_update_orientation (file_list);
 }
@@ -1345,10 +1214,7 @@ void
 gth_file_list_set_caption (GthFileList *file_list,
 			   const char  *attributes)
 {
-	g_object_set (file_list->priv->caption_renderer,
-		      "file-attributes", attributes,
-		      NULL);
-	gtk_widget_queue_resize (file_list->priv->view);
+	gth_file_view_set_caption (GTH_FILE_VIEW (file_list->priv->view), attributes);
 }
 
 
@@ -2035,4 +1901,3 @@ gth_file_list_prev_file (GthFileList *file_list,
 
 	return (scan != NULL) ? pos : -1;
 }
-

@@ -53,12 +53,12 @@ typedef struct _GthFileListClass        GthFileListClass;
 typedef struct _GthFileListPrivateData  GthFileListPrivateData;
 
 struct _GthFileList {
-	GtkVBox __parent;
+	GtkBox __parent;
 	GthFileListPrivateData *priv;
 };
 
 struct _GthFileListClass {
-	GtkVBoxClass __parent;
+	GtkBoxClass __parent;
 };
 
 GType             gth_file_list_get_type          (void);

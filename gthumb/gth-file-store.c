@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-file-store.h"
+#include "gth-marshal.h"
 
 
 #undef  DEBUG_FILE_STORE
@@ -31,7 +32,6 @@
 
 
 enum {
-	CHECK_CHANGED,
 	VISIBILITY_CHANGED,
 	THUMBNAIL_CHANGED,
 	LAST_SIGNAL
@@ -48,7 +48,6 @@ typedef struct {
 	GthFileData *file_data;
 	GdkPixbuf   *thumbnail;
 	gboolean     is_icon;
-	gboolean     checked;
 
 	/*< private >*/
 
@@ -73,7 +72,6 @@ struct _GthFileStorePrivate
 	GthFileDataCompFunc  cmp_func;
 	gboolean             inverse_sort;
 	gboolean             update_filter;
-	gboolean             check_changed;
 };
 
 
@@ -137,7 +135,6 @@ _gth_file_row_copy (GthFileRow *row)
 	_gth_file_row_set_file (row2, row->file_data);
 	_gth_file_row_set_thumbnail (row2, row->thumbnail);
 	row2->is_icon = row->is_icon;
-	row2->checked = row->checked;
 	row2->pos = row->pos;
 	row2->abs_pos = row->abs_pos;
 	row2->visible = row->visible;
@@ -222,15 +219,6 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_file_store_finalize;
 
-	gth_file_store_signals[CHECK_CHANGED] =
-		g_signal_new ("check_changed",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthFileStoreClass, check_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
 	gth_file_store_signals[VISIBILITY_CHANGED] =
 		g_signal_new ("visibility_changed",
 			      G_TYPE_FROM_CLASS (klass),
@@ -246,9 +234,11 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 				      G_SIGNAL_RUN_LAST,
 				      G_STRUCT_OFFSET (GthFileStoreClass, thumbnail_changed),
 				      NULL, NULL,
-				      g_cclosure_marshal_VOID__VOID,
+				      gth_marshal_VOID__BOXED_BOXED,
 				      G_TYPE_NONE,
-				      0);
+				      2,
+				      GTK_TYPE_TREE_PATH,
+				      GTK_TYPE_TREE_ITER);
 }
 
 
@@ -268,13 +258,11 @@ gth_file_store_init (GthFileStore *file_store)
 	file_store->priv->cmp_func = NULL;
 	file_store->priv->inverse_sort = FALSE;
 	file_store->priv->update_filter = FALSE;
-	file_store->priv->check_changed = FALSE;
 
 	if (column_type[0] == G_TYPE_INVALID) {
 		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GDK_TYPE_PIXBUF;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
-		column_type[GTH_FILE_STORE_CHECKED_COLUMN] = G_TYPE_BOOLEAN;
 	}
 }
 
@@ -385,10 +373,6 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	case GTH_FILE_STORE_IS_ICON_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
 		g_value_set_boolean (value, row->is_icon);
-		break;
-	case GTH_FILE_STORE_CHECKED_COLUMN:
-		g_value_init (value, G_TYPE_BOOLEAN);
-		g_value_set_boolean (value, row->checked);
 		break;
 	}
 }
@@ -1036,7 +1020,6 @@ g_print ("  INSERT: %d\n", i);
 	}
 
 	g_signal_emit (file_store, gth_file_store_signals[VISIBILITY_CHANGED], 0);
-	g_signal_emit (file_store, gth_file_store_signals[CHECK_CHANGED], 0);
 
 	g_free (new_rows);
 	g_free (old_rows);
@@ -1143,40 +1126,6 @@ int
 gth_file_store_n_visibles (GthFileStore *file_store)
 {
 	return file_store->priv->num_rows;
-}
-
-
-GList *
-gth_file_store_get_checked (GthFileStore *file_store)
-{
-	GList *list = NULL;
-	int    i;
-
-	for (i = 0; i < file_store->priv->num_rows; i++) {
-		GthFileRow *row = file_store->priv->rows[i];
-
-		if ((row != NULL) && row->checked)
-			list = g_list_prepend (list, g_object_ref (file_store->priv->rows[i]->file_data));
-	}
-
-	return g_list_reverse (list);
-}
-
-
-int
-gth_file_store_get_n_checked (GthFileStore *file_store)
-{
-	int n = 0;
-	int i;
-
-	for (i = 0; i < file_store->priv->num_rows; i++) {
-		GthFileRow *row = file_store->priv->rows[i];
-
-		if ((row != NULL) && row->checked)
-			n++;
-	}
-
-	return n;
 }
 
 
@@ -1383,10 +1332,9 @@ gth_file_store_add (GthFileStore *file_store,
 		    GthFileData  *file,
 		    GdkPixbuf    *thumbnail,
 		    gboolean      is_icon,
-		    gboolean      checked,
 		    int           position)
 {
-	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, checked);
+	gth_file_store_queue_add (file_store, file, thumbnail, is_icon);
 	gth_file_store_exec_add (file_store, position);
 }
 
@@ -1395,8 +1343,7 @@ void
 gth_file_store_queue_add (GthFileStore *file_store,
 			  GthFileData  *file,
 			  GdkPixbuf    *thumbnail,
-			  gboolean      is_icon,
-			  gboolean      checked)
+			  gboolean      is_icon)
 {
 	GthFileRow *row;
 
@@ -1406,7 +1353,6 @@ gth_file_store_queue_add (GthFileStore *file_store,
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
 	row->is_icon = is_icon;
-	row->checked = checked;
 
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, row);
 }
@@ -1455,11 +1401,6 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   		case GTH_FILE_STORE_IS_ICON_COLUMN:
   			row->is_icon = va_arg (var_args, gboolean);
   			row->changed = TRUE;
-  			break;
-  		case GTH_FILE_STORE_CHECKED_COLUMN:
-  			row->checked = va_arg (var_args, gboolean);
-  			row->changed = TRUE;
-  			file_store->priv->check_changed = TRUE;
   			break;
   		default:
   			g_warning ("%s: Invalid column number %d added to iter (remember to end your list of columns with a -1)", G_STRLOC, column);
@@ -1533,6 +1474,40 @@ _gth_file_store_list_changed (GthFileStore *file_store)
 }
 
 
+static void
+_gth_file_store_thumbnail_changed (GthFileStore *file_store,
+				   GthFileRow   *row)
+{
+	GtkTreePath *path;
+	GtkTreeIter  iter;
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, row->pos);
+
+	iter.stamp = file_store->priv->stamp;
+	iter.user_data = row;
+
+	g_signal_emit (file_store, gth_file_store_signals[THUMBNAIL_CHANGED], 0, path, &iter);
+
+	gtk_tree_path_free (path);
+}
+
+
+static void
+_gth_file_store_thumbnails_changed (GthFileStore *file_store)
+{
+	int i;
+
+	for (i = 0; i < file_store->priv->num_rows; i++) {
+		GthFileRow *row = file_store->priv->rows[i];
+
+		if (row->visible && row->changed)
+			_gth_file_store_thumbnail_changed (file_store, row);
+		row->changed = FALSE;
+	}
+}
+
+
 void
 gth_file_store_exec_set (GthFileStore *file_store)
 {
@@ -1541,21 +1516,17 @@ gth_file_store_exec_set (GthFileStore *file_store)
 	 * emit the 'row-changed' signal for each row, which causes the
 	 * GtkIconView to invalidate the size of all the items, and instead
 	 * emit a single 'thumbnail-changed' signal that can be used to just
-	 * redraw GtkIconView (as done in gth-file-list.c). */
-	if (file_store->priv->update_filter || file_store->priv->check_changed)
+	 * redraw the GthFileView. */
+	if (file_store->priv->update_filter)
 		_gth_file_store_list_changed (file_store);
 	else
-		g_signal_emit (file_store, gth_file_store_signals[THUMBNAIL_CHANGED], 0, NULL);
+		_gth_file_store_thumbnails_changed (file_store);
 
 	_gth_file_store_clear_queue (file_store);
 
 	if (file_store->priv->update_filter) {
 		_gth_file_store_update_visibility (file_store, NULL, -1);
 		file_store->priv->update_filter = FALSE;
-	}
-	else if (file_store->priv->check_changed) {
-		g_signal_emit (file_store, gth_file_store_signals[CHECK_CHANGED], 0);
-		file_store->priv->check_changed = FALSE;
 	}
 }
 

@@ -134,6 +134,9 @@ extern const unsigned char cairo_channel[4];
 
 int                _cairo_multiply_alpha                    (int                    color,
 							     int                    alpha);
+gboolean           _cairo_rectangle_contains_point          (cairo_rectangle_int_t *rect,
+			 	 	 	 	     int                    x,
+			 	 	 	 	     int                    y);
 
 /* colors */
 
@@ -147,7 +150,7 @@ void               _gdk_color_to_cairo_color_255            (GdkColor           
 
 void               _cairo_clear_surface                     (cairo_surface_t      **surface);
 cairo_surface_metadata_t *
-		   _cairo_image_surface_get_metadata       (cairo_surface_t        *surface);
+		   _cairo_image_surface_get_metadata        (cairo_surface_t       *surface);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);
 cairo_surface_t *  _cairo_image_surface_copy                (cairo_surface_t       *surface);
 cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t       *surface,

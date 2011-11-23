@@ -43,7 +43,6 @@ enum {
 	GTH_FILE_STORE_FILE_DATA_COLUMN,
 	GTH_FILE_STORE_THUMBNAIL_COLUMN,
 	GTH_FILE_STORE_IS_ICON_COLUMN,
-	GTH_FILE_STORE_CHECKED_COLUMN,
 	GTH_FILE_STORE_N_COLUMNS
 };
 
@@ -58,8 +57,9 @@ struct _GthFileStoreClass
 	GObjectClass __parent_class;
 
 	void (*visibility_changed) (GthFileStore *self);
-	void (*check_changed)      (GthFileStore *self);
-	void (*thumbnail_changed)  (GthFileStore *self);
+	void (*thumbnail_changed)  (GtkTreeModel *tree_model,
+		      	    	    GtkTreePath  *path,
+		      	    	    GtkTreeIter  *iter);
 };
 
 GType           gth_file_store_get_type          (void) G_GNUC_CONST;
@@ -73,8 +73,6 @@ GList *         gth_file_store_get_all           (GthFileStore         *file_sto
 int             gth_file_store_n_files           (GthFileStore         *file_store);
 GList *         gth_file_store_get_visibles      (GthFileStore         *file_store);
 int             gth_file_store_n_visibles        (GthFileStore         *file_store);
-GList *         gth_file_store_get_checked       (GthFileStore         *file_store);
-int             gth_file_store_get_n_checked     (GthFileStore         *file_store);
 GthFileData *   gth_file_store_get_file          (GthFileStore         *file_store,
 					          GtkTreeIter          *iter);
 gboolean        gth_file_store_find              (GthFileStore         *file_store,
@@ -103,13 +101,11 @@ void            gth_file_store_add               (GthFileStore         *file_sto
 					          GthFileData          *file,
 					          GdkPixbuf            *thumbnail,
 					          gboolean              is_icon,
-					          gboolean              checked,
 						  int                   position);
 void            gth_file_store_queue_add         (GthFileStore         *file_store,
 					          GthFileData          *file,
 					          GdkPixbuf            *thumbnail,
-					          gboolean              is_icon,
-					          gboolean              checked);
+					          gboolean              is_icon);
 void            gth_file_store_exec_add          (GthFileStore         *file_store,
 						  int                   position);
 void            gth_file_store_set               (GthFileStore         *file_store,
