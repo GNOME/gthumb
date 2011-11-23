@@ -669,10 +669,6 @@ gthumb/gth-browser.h
 gthumb/gth-browser-ui.h
 gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
-gthumb/gth-cell-renderer-caption.c
-gthumb/gth-cell-renderer-caption.h
-gthumb/gth-cell-renderer-thumbnail.c
-gthumb/gth-cell-renderer-thumbnail.h
 gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
@@ -723,8 +719,6 @@ gthumb/gth-hook.c
 gthumb/gth-hook.h
 gthumb/gth-icon-cache.c
 gthumb/gth-icon-cache.h
-gthumb/gth-icon-view.c
-gthumb/gth-icon-view.h
 gthumb/gth-image.c
 gthumb/gth-image-dragger.c
 gthumb/gth-image-dragger.h
@@ -745,8 +739,6 @@ gthumb/gth-image-viewer-tool.c
 gthumb/gth-image-viewer-tool.h
 gthumb/gth-info-bar.c
 gthumb/gth-info-bar.h
-gthumb/gth-list-view.c
-gthumb/gth-list-view.h
 gthumb/gth-load-file-data-task.c
 gthumb/gth-load-file-data-task.h
 gthumb/gth-location-chooser.c
