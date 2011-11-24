@@ -138,8 +138,6 @@ struct _GthGridViewPrivate {
 	int                    focused_item;
 	int                    first_focused_item;  /* Used to do multiple selection with the keyboard. */
 
-	guint                  dirty_layout : 1;    /* Whether the layout needs to be updated */
-	guint                  frozen_layout;
 	guint                  layout_timeout;
 	int                    relayout_from_line;
 	guint                  update_caption_height : 1;
@@ -891,7 +889,6 @@ _gth_grid_view_relayout_from_line (GthGridView *self,
 				    line * gth_grid_view_get_items_per_line (self),
 				    y);
 
-	self->priv->dirty_layout = FALSE;
 	self->priv->update_caption_height = FALSE;
 	self->priv->relayout_from_line = -1;
 
@@ -923,11 +920,6 @@ _gth_grid_view_queue_relayout_from_line (GthGridView *self,
 		self->priv->relayout_from_line = MIN (line, self->priv->relayout_from_line);
 	else
 		self->priv->relayout_from_line = line;
-
-	if (self->priv->frozen_layout) {
-		self->priv->dirty_layout = TRUE;
-		return;
-	}
 
 	if (self->priv->layout_timeout == 0)
 		self->priv->layout_timeout = g_timeout_add (LAYOUT_DELAY,
@@ -978,8 +970,6 @@ gth_grid_view_size_allocate (GtkWidget     *widget,
 		if (old_cells_per_line != gth_grid_view_get_items_per_line (self))
 			_gth_grid_view_queue_relayout (self);
 	}
-	else
-		self->priv->dirty_layout = TRUE;
 
 	_gth_grid_view_configure_hadjustment (self);
 	_gth_grid_view_configure_vadjustment (self);
@@ -3643,8 +3633,6 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->selection = NULL;
 	self->priv->focused_item = -1;
 	self->priv->first_focused_item = -1;
-	self->priv->dirty_layout = FALSE;
-	self->priv->frozen_layout = 0;
 	self->priv->layout_timeout = 0;
 	self->priv->relayout_from_line = -1;
 	self->priv->update_caption_height = TRUE;
