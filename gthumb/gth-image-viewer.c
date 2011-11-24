@@ -34,13 +34,6 @@
 #include "glib-utils.h"
 #include "pixbuf-utils.h"
 
-#define COLOR_GRAY_00   0x00000000
-#define COLOR_GRAY_33   0x00333333
-#define COLOR_GRAY_66   0x00666666
-#define COLOR_GRAY_99   0x00999999
-#define COLOR_GRAY_CC   0x00cccccc
-#define COLOR_GRAY_FF   0x00ffffff
-
 
 #define DRAG_THRESHOLD  1     /* When dragging the image ignores movements
 			       * smaller than this value. */
@@ -101,8 +94,7 @@ struct _GthImageViewerPrivate {
 	GthTranspType           transp_type;
 	GthCheckType            check_type;
 	int                     check_size;
-	guint32                 check_color1;
-	guint32                 check_color2;
+	cairo_pattern_t        *checked_pattern;
 
 	GthImageViewerTool     *tool;
 
@@ -356,13 +348,6 @@ set_zoom_centered (GthImageViewer *self,
 }
 
 
-static int
-to_255 (int v)
-{
-	return v * 255 / 65535;
-}
-
-
 static void
 gth_image_viewer_realize (GtkWidget *widget)
 {
@@ -413,21 +398,6 @@ gth_image_viewer_realize (GtkWidget *widget)
 	else
 		gdk_window_set_cursor (window, self->priv->cursor_void);
 
-	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GdkRGBA color;
-		guint   base_color;
-
-		gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
-							GTK_STATE_NORMAL,
-							&color);
-		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16)
-			      | (to_255 (color.green) << 8)
-			      | (to_255 (color.blue) << 0));
-		self->priv->check_color1 = base_color;
-		self->priv->check_color2 = base_color;
-	}
-
 	gth_image_viewer_tool_realize (self->priv->tool);
 }
 
@@ -448,6 +418,11 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 	if (self->priv->cursor_void) {
 		g_object_unref (self->priv->cursor_void);
 		self->priv->cursor_void = NULL;
+	}
+
+	if (self->priv->checked_pattern != NULL) {
+		cairo_pattern_destroy (self->priv->checked_pattern);
+		self->priv->checked_pattern = NULL;
 	}
 
 	gth_image_viewer_tool_unrealize (self->priv->tool);
@@ -1032,20 +1007,9 @@ gth_image_viewer_style_updated (GtkWidget *widget)
 
 	GTK_WIDGET_CLASS (gth_image_viewer_parent_class)->style_updated (widget);
 
-	if (self->priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GdkRGBA color;
-		guint   base_color;
-
-		gtk_style_context_get_background_color (gtk_widget_get_style_context (widget),
-							GTK_STATE_NORMAL,
-							&color);
-		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16)
-			      | (to_255 (color.green) << 8)
-			      | (to_255 (color.blue) << 0));
-
-		self->priv->check_color1 = base_color;
-		self->priv->check_color2 = base_color;
+	if (self->priv->checked_pattern != NULL) {
+		cairo_pattern_destroy (self->priv->checked_pattern);
+		self->priv->checked_pattern = NULL;
 	}
 }
 
@@ -1523,8 +1487,7 @@ gth_image_viewer_init (GthImageViewer *self)
 
 	self->priv->check_type = GTH_CHECK_TYPE_MIDTONE;
 	self->priv->check_size = GTH_CHECK_SIZE_LARGE;
-	self->priv->check_color1 = COLOR_GRAY_66;
-	self->priv->check_color2 = COLOR_GRAY_99;
+	self->priv->checked_pattern = NULL;
 
 	self->priv->is_animation = FALSE;
 	self->priv->play_animation = TRUE;
@@ -2126,6 +2089,8 @@ void
 gth_image_viewer_set_zoom_enabled (GthImageViewer *self,
 				   gboolean        value)
 {
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (self));
+
 	self->priv->zoom_enabled = value;
 }
 
@@ -2141,6 +2106,8 @@ void
 gth_image_viewer_enable_zoom_with_keys (GthImageViewer *self,
 					gboolean        value)
 {
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (self));
+
 	self->priv->enable_zoom_with_keys = value;
 }
 
@@ -2149,55 +2116,13 @@ void
 gth_image_viewer_set_transp_type (GthImageViewer *self,
 				  GthTranspType   transp_type)
 {
-	GdkRGBA color;
-	guint   base_color;
-
-	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (self));
 
 	self->priv->transp_type = transp_type;
 
-	gtk_style_context_get_background_color (gtk_widget_get_style_context (GTK_WIDGET (self)),
-						GTK_STATE_NORMAL,
-						&color);
-	base_color = (0xFF000000
-		      | (to_255 (color.red) << 16)
-		      | (to_255 (color.green) << 8)
-		      | (to_255 (color.blue) << 0));
-
-	switch (transp_type) {
-	case GTH_TRANSP_TYPE_BLACK:
-		self->priv->check_color1 = COLOR_GRAY_00;
-		self->priv->check_color2 = COLOR_GRAY_00;
-		break;
-
-	case GTH_TRANSP_TYPE_NONE:
-		self->priv->check_color1 = base_color;
-		self->priv->check_color2 = base_color;
-		break;
-
-	case GTH_TRANSP_TYPE_WHITE:
-		self->priv->check_color1 = COLOR_GRAY_FF;
-		self->priv->check_color2 = COLOR_GRAY_FF;
-		break;
-
-	case GTH_TRANSP_TYPE_CHECKED:
-		switch (self->priv->check_type) {
-		case GTH_CHECK_TYPE_DARK:
-			self->priv->check_color1 = COLOR_GRAY_00;
-			self->priv->check_color2 = COLOR_GRAY_33;
-			break;
-
-		case GTH_CHECK_TYPE_MIDTONE:
-			self->priv->check_color1 = COLOR_GRAY_66;
-			self->priv->check_color2 = COLOR_GRAY_99;
-			break;
-
-		case GTH_CHECK_TYPE_LIGHT:
-			self->priv->check_color1 = COLOR_GRAY_CC;
-			self->priv->check_color2 = COLOR_GRAY_FF;
-			break;
-		}
-		break;
+	if (self->priv->checked_pattern != NULL) {
+		cairo_pattern_destroy (self->priv->checked_pattern);
+		self->priv->checked_pattern = NULL;
 	}
 }
 
@@ -2213,7 +2138,13 @@ void
 gth_image_viewer_set_check_type (GthImageViewer *self,
 				 GthCheckType    check_type)
 {
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (self));
+
 	self->priv->check_type = check_type;
+	if (self->priv->checked_pattern != NULL) {
+		cairo_pattern_destroy (self->priv->checked_pattern);
+		self->priv->checked_pattern = NULL;
+	}
 }
 
 
@@ -2229,6 +2160,11 @@ gth_image_viewer_set_check_size (GthImageViewer *self,
 				 GthCheckSize    check_size)
 {
 	self->priv->check_size = check_size;
+
+	if (self->priv->checked_pattern != NULL) {
+		cairo_pattern_destroy (self->priv->checked_pattern);
+		self->priv->checked_pattern = NULL;
+	}
 }
 
 
@@ -2731,8 +2667,9 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 
 		/* Draw the background for the transparency */
 
-		switch (self->priv->transp_type) {
-		case GTH_TRANSP_TYPE_BLACK:
+		if ((self->priv->transp_type == GTH_TRANSP_TYPE_BLACK)
+		    || ((self->priv->transp_type == GTH_TRANSP_TYPE_NONE) && self->priv->black_bg))
+		{
 			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 			cairo_rectangle (cr,
 					 self->image_area.x + 0.5,
@@ -2740,9 +2677,8 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 					 self->image_area.width,
 					 self->image_area.height);
 			cairo_fill (cr);
-			break;
-
-		case GTH_TRANSP_TYPE_WHITE:
+		}
+		else if (self->priv->transp_type == GTH_TRANSP_TYPE_WHITE) {
 			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 			cairo_rectangle (cr,
 					 self->image_area.x + 0.5,
@@ -2750,10 +2686,59 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 					 self->image_area.width,
 					 self->image_area.height);
 			cairo_fill (cr);
-			break;
+		}
+		else if (self->priv->transp_type == GTH_TRANSP_TYPE_CHECKED) {
+			if (self->priv->checked_pattern == NULL) {
+				cairo_surface_t *surface;
+				cairo_t         *cr_surface;
+				double           color1;
+				double           color2;
 
-		default:
-			break;
+				surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, self->priv->check_size * 2, self->priv->check_size * 2);
+				cr_surface = cairo_create (surface);
+
+		                switch (self->priv->check_type) {
+		                case GTH_CHECK_TYPE_DARK:
+		                        color1 = 0.0;
+		                        color2 = 0.2;
+		                        break;
+
+		                case GTH_CHECK_TYPE_MIDTONE:
+		                        color1 = 0.4;
+		                        color2 = 0.6;
+		                        break;
+
+		                case GTH_CHECK_TYPE_LIGHT:
+		                        color1 = 0.8;
+		                        color2 = 1.0;
+		                        break;
+		                }
+
+				cairo_set_source_rgb (cr_surface, color1, color1, color1);
+				cairo_rectangle (cr_surface, 0, 0, self->priv->check_size, self->priv->check_size);
+				cairo_rectangle (cr_surface, self->priv->check_size, self->priv->check_size, self->priv->check_size, self->priv->check_size);
+				cairo_fill (cr_surface);
+
+				cairo_set_source_rgb (cr_surface, color2, color2, color2);
+				cairo_rectangle (cr_surface, self->priv->check_size, 0, self->priv->check_size, self->priv->check_size);
+				cairo_rectangle (cr_surface, 0, self->priv->check_size, self->priv->check_size, self->priv->check_size);
+				cairo_fill (cr_surface);
+
+				cairo_surface_flush (surface);
+
+				self->priv->checked_pattern = cairo_pattern_create_for_surface (surface);
+				cairo_pattern_set_extend (self->priv->checked_pattern, CAIRO_EXTEND_REPEAT);
+
+				cairo_destroy (cr_surface);
+			}
+
+			cairo_set_source (cr, self->priv->checked_pattern);
+			cairo_rectangle (cr,
+					 self->image_area.x + 0.5,
+					 self->image_area.y + 0.5,
+					 self->image_area.width,
+					 self->image_area.height);
+			cairo_fill (cr);
 		}
 	}
 }
