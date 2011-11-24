@@ -35,10 +35,12 @@
 
 typedef struct _GthMetadataProviderExiv2         GthMetadataProviderExiv2;
 typedef struct _GthMetadataProviderExiv2Class    GthMetadataProviderExiv2Class;
+typedef struct _GthMetadataProviderExiv2Private  GthMetadataProviderExiv2Private;
 
 struct _GthMetadataProviderExiv2
 {
 	GthMetadataProvider __parent;
+	GthMetadataProviderExiv2Private *priv;
 };
 
 struct _GthMetadataProviderExiv2Class

@@ -28,7 +28,25 @@
 #include "gth-metadata-provider-exiv2.h"
 
 
+struct _GthMetadataProviderExiv2Private {
+	GSettings *general_settings;
+};
+
+
 G_DEFINE_TYPE (GthMetadataProviderExiv2, gth_metadata_provider_exiv2, GTH_TYPE_METADATA_PROVIDER)
+
+
+static void
+gth_metadata_provider_exiv2_finalize (GObject *object)
+{
+	GthMetadataProviderExiv2 *self;
+
+	self = GTH_METADATA_PROVIDER_EXIV2 (object);
+
+	_g_object_unref (self->priv->general_settings);
+
+	G_OBJECT_CLASS (gth_metadata_provider_exiv2_parent_class)->finalize (object);
+}
 
 
 static gboolean
@@ -108,25 +126,23 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 
 
 static void
-gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
+gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 				   GthMetadataWriteFlags  flags,
 				   GthFileData           *file_data,
 				   const char            *attributes,
 				   GCancellable          *cancellable)
 {
-	GSettings *settings;
-	gboolean   store_metadata_in_files;
-	void      *buffer = NULL;
-	gsize      size;
-	GError    *error = NULL;
-	GObject   *metadata;
-	int        i;
+	GthMetadataProviderExiv2 *self = GTH_METADATA_PROVIDER_EXIV2 (base);
+	void                     *buffer = NULL;
+	gsize                     size;
+	GError                   *error = NULL;
+	GObject                  *metadata;
+	int                       i;
 
-	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
-	store_metadata_in_files = g_settings_get_boolean (settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
-	g_object_unref (settings);
+	if (self->priv->general_settings == NULL)
+		self->priv->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
 
-	if (((flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) != GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! store_metadata_in_files)
+	if (! (flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
 		return;
 
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
@@ -289,7 +305,13 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *self,
 static void
 gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 {
+	GObjectClass             *object_class;
 	GthMetadataProviderClass *mp_class;
+
+	g_type_class_add_private (klass, sizeof (GthMetadataProviderExiv2Private));
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = gth_metadata_provider_exiv2_finalize;
 
 	mp_class = GTH_METADATA_PROVIDER_CLASS (klass);
 	mp_class->can_read = gth_metadata_provider_exiv2_can_read;
@@ -302,5 +324,6 @@ gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 static void
 gth_metadata_provider_exiv2_init (GthMetadataProviderExiv2 *self)
 {
-	/* void */
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA_PROVIDER_EXIV2, GthMetadataProviderExiv2Private);
+	self->priv->general_settings = NULL;
 }
