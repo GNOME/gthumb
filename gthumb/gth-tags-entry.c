@@ -753,6 +753,10 @@ gth_tags_entry_init (GthTagsEntry *self)
 
 	/* the name column. */
 
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	g_object_set (renderer, "icon-name", "tag", NULL);
+
 	renderer = gtk_cell_renderer_text_new ();
         gtk_tree_view_column_pack_start (column, renderer, TRUE);
         gtk_tree_view_column_set_attributes (column, renderer,
