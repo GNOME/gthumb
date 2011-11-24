@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-17 17:53+0000\n"
-"PO-Revision-Date: 2011-11-21 10:48+0100\n"
+"POT-Creation-Date: 2011-11-23 22:15+0000\n"
+"PO-Revision-Date: 2011-11-24 16:20+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -101,8 +101,8 @@ msgid "View and organize your images"
 msgstr "Prohlížejte a organizujte své obrázky"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:530
-#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:287
+#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:529
+#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -135,6 +135,10 @@ msgstr ""
 "Použijte 0, pokud chcete generovat náhledy všech obrázků."
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+msgid "Open files in the active window"
+msgstr "Otevřít soubory v aktivním okně"
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Whether to resize the window to fit the size of the image"
 msgstr "Zda změnit velikost okna, aby odpovídalo velikosti obrázku"
 
@@ -364,22 +368,26 @@ msgid "Thumbnail _size:"
 msgstr "Veliko_st náhledu:"
 
 #: ../data/ui/preferences.ui.h:17
+msgid "_Reuse the active window to open files"
+msgstr "Zno_vu použít aktivní okno k otevření souborů"
+
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "Pokud je to možné, uchovávat metadata v _souborech"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:19
 msgid "_Toolbar style:"
 msgstr "Styl liš_ty nástrojů:"
 
-#: ../data/ui/preferences.ui.h:19
+#: ../data/ui/preferences.ui.h:20
 msgid "below the folder list"
 msgstr "pod seznamem složek"
 
-#: ../data/ui/preferences.ui.h:20
+#: ../data/ui/preferences.ui.h:21
 msgid "gThumb Preferences"
 msgstr "Předvolby gThumb"
 
-#: ../data/ui/preferences.ui.h:21
+#: ../data/ui/preferences.ui.h:22
 msgid "on the right"
 msgstr "napravo"
 
@@ -663,7 +671,7 @@ msgstr "Příkazový řádek"
 #: ../extensions/catalogs/callbacks.c:502
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:45 ../gthumb/gth-folder-tree.c:859
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:859
 msgid "(Empty)"
 msgstr "(Prázdné)"
 
@@ -876,8 +884,8 @@ msgstr "Nelze odstranit vybrané soubory z katalogu"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1341
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:711
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1214
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Neplatný formát souboru"
@@ -1864,7 +1872,7 @@ msgstr "Nelze exportovat soubory"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
-#: ../gthumb/gth-browser.c:996
+#: ../gthumb/gth-browser.c:995
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1872,9 +1880,9 @@ msgstr[0] "%d soubor (%s)"
 msgstr[1] "%d soubory (%s)"
 msgstr[2] "%d souborů (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:592
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:643
+#: ../extensions/facebook/dlg-export-to-facebook.c:591
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:589
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:642
 #, c-format
 msgid "Export to %s"
 msgstr "Export do %s"
@@ -2187,7 +2195,7 @@ msgstr "Přesunout vybrané soubory do jiné složky"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4995 ../gthumb/gth-browser.c:5029
+#: ../gthumb/gth-browser.c:4997 ../gthumb/gth-browser.c:5031
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
 
@@ -2858,13 +2866,13 @@ msgid "Could not get the photo list"
 msgstr "Nelze získat seznam fotografií"
 
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:562
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1027
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1026
 msgid "No album selected"
 msgstr "Není vybráno žádné album"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:580
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
 msgstr "Importovat z %s"
@@ -4794,19 +4802,19 @@ msgstr "Přepnout na celou obrazovku"
 msgid "Leave Fullscreen"
 msgstr "Opustit celou obrazovku"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3603
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3605
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3621
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3623
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3639
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3641
 msgid "Go up one level"
 msgstr "Přejít o úroveň výše"
 
-#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:673
+#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:672
 msgid "_Delete History"
 msgstr "O_dstranit historii"
 
@@ -4911,16 +4919,16 @@ msgstr "_Přizpůsobit okno obrázku"
 msgid "Resize the window to the size of the image"
 msgstr "Změnit velikost okna, aby odpovídalo velikosti obrázku"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:369
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
 
-#: ../gthumb/gth-browser.c:510
+#: ../gthumb/gth-browser.c:509
 msgid "[modified]"
 msgstr "[změněno]"
 
-#: ../gthumb/gth-browser.c:997
+#: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4928,14 +4936,14 @@ msgstr[0] "Vybrán %d soubor (%s)"
 msgstr[1] "Vybrány %d soubory (%s)"
 msgstr[2] "Vybráno %d souborů (%s)"
 
-#: ../gthumb/gth-browser.c:1032
+#: ../gthumb/gth-browser.c:1031
 #, c-format
 msgid "%s of free space"
 msgstr "%s volného místa"
 
-#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5953 ../gthumb/gth-browser.c:5972
-#: ../gthumb/gth-browser.c:5997
+#: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:5955 ../gthumb/gth-browser.c:5974
+#: ../gthumb/gth-browser.c:5999
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4967,20 +4975,20 @@ msgstr "Nelze změnit název"
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:3604 ../gthumb/gth-browser.c:3622
+#: ../gthumb/gth-browser.c:3606 ../gthumb/gth-browser.c:3624
 msgid "View the list of visited locations"
 msgstr "Zobrazit seznam navštívených míst"
 
-#: ../gthumb/gth-browser.c:3640
+#: ../gthumb/gth-browser.c:3642
 msgid "View the list of upper locations"
 msgstr "Zobrazit seznam nadřízených míst"
 
-#: ../gthumb/gth-browser.c:5954
+#: ../gthumb/gth-browser.c:5956
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:5998
+#: ../gthumb/gth-browser.c:6000
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -5391,7 +5399,7 @@ msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
-#: ../gthumb/main.c:317
+#: ../gthumb/main.c:344
 msgid "- Image browser and viewer"
 msgstr "- prohlížeč obrázků"
 
