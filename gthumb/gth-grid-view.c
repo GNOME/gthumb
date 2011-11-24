@@ -2258,6 +2258,43 @@ gth_grid_view_get_at_position (GthFileView *file_view,
 
 
 static void
+_gth_grid_view_make_item_fully_visible (GthGridView *self,
+					int          pos)
+{
+	GthVisibility visibility;
+
+	visibility = gth_grid_view_get_visibility (GTH_FILE_VIEW (self), pos);
+	if (visibility != GTH_VISIBILITY_FULL) {
+		double y_alignment = -1.0;
+
+		switch (visibility) {
+		case GTH_VISIBILITY_NONE:
+			y_alignment = 0.5;
+			break;
+
+		case GTH_VISIBILITY_PARTIAL_TOP:
+			y_alignment = 0.0;
+			break;
+
+		case GTH_VISIBILITY_PARTIAL_BOTTOM:
+			y_alignment = 1.0;
+			break;
+
+		case GTH_VISIBILITY_PARTIAL:
+		case GTH_VISIBILITY_FULL:
+			y_alignment = -1.0;
+			break;
+		}
+
+		if (y_alignment >= 0.0)
+			gth_grid_view_scroll_to (GTH_FILE_VIEW (self),
+						 pos,
+						 y_alignment);
+	}
+}
+
+
+static void
 gth_grid_view_cursor_changed (GthFileView *file_view,
 			      int          pos)
 {
@@ -2285,6 +2322,8 @@ gth_grid_view_cursor_changed (GthFileView *file_view,
 	new_item = link->data;
 	new_item->state |= GTK_STATE_FLAG_FOCUSED | GTK_STATE_FLAG_ACTIVE;
 	_gth_grid_view_queue_draw_item (self, new_item);
+
+	_gth_grid_view_make_item_fully_visible (self, self->priv->focused_item);
 }
 
 
@@ -2653,10 +2692,10 @@ gth_grid_view_button_press (GtkWidget      *widget,
 
 static gboolean
 gth_grid_view_item_is_inside_area (GthGridViewItem *item,
-				 int              x1,
-				 int              y1,
-				 int              x2,
-				 int              y2)
+				   int              x1,
+				   int              y1,
+				   int              x2,
+				   int              y2)
 {
 	GdkRectangle area;
 	GdkRectangle item_area;
@@ -3148,60 +3187,6 @@ gth_grid_view_move_cursor (GthGridView        *self,
 			gdk_beep ();
 		}
 		next_focused_item = CLAMP (next_focused_item, 0, self->priv->n_items - 1);
-	}
-
-	if ((dir == GTH_CURSOR_MOVE_UP)
-	    || (dir == GTH_CURSOR_MOVE_DOWN)
-	    || (dir == GTH_CURSOR_MOVE_PAGE_UP)
-	    || (dir == GTH_CURSOR_MOVE_PAGE_DOWN)
-	    || (dir == GTH_CURSOR_MOVE_BEGIN)
-	    || (dir == GTH_CURSOR_MOVE_END))
-	{	/* Vertical movement. */
-		GthVisibility visibility;
-
-		visibility = gth_grid_view_get_visibility (GTH_FILE_VIEW (self), next_focused_item);
-		if (visibility != GTH_VISIBILITY_FULL) {
-			gboolean upward;
-
-			upward = ((dir == GTH_CURSOR_MOVE_UP)
-				  || (dir == GTH_CURSOR_MOVE_PAGE_UP)
-				  || (dir == GTH_CURSOR_MOVE_BEGIN));
-			gth_grid_view_scroll_to (GTH_FILE_VIEW (self),
-					         next_focused_item,
-					         upward ? 0.0 : 1.0);
-		}
-	}
-	else {
-		GthVisibility visibility;
-
-		visibility = gth_grid_view_get_visibility (GTH_FILE_VIEW (self), next_focused_item);
-		if (visibility != GTH_VISIBILITY_FULL) {
-			double offset = -1.0;
-
-			switch (visibility) {
-			case GTH_VISIBILITY_NONE:
-				offset = 0.5;
-				break;
-
-			case GTH_VISIBILITY_PARTIAL_TOP:
-				offset = 0.0;
-				break;
-
-			case GTH_VISIBILITY_PARTIAL_BOTTOM:
-				offset = 1.0;
-				break;
-
-			case GTH_VISIBILITY_PARTIAL:
-			case GTH_VISIBILITY_FULL:
-				offset = -1.0;
-				break;
-			}
-
-			if (offset >= 0.0)
-				gth_grid_view_scroll_to (GTH_FILE_VIEW (self),
-							 next_focused_item,
-							 offset);
-		}
 	}
 
 	if (sel_change == GTH_SELECTION_SET_CURSOR) {
