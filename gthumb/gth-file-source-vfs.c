@@ -218,6 +218,8 @@ fec__done_func (GError   *error,
 {
 	GthFileSourceVfs *file_source_vfs = user_data;
 
+	performance (DEBUG_INFO, "gth_file_source_vfs_for_each_child end");
+
 	gth_file_source_set_active (GTH_FILE_SOURCE (file_source_vfs), FALSE);
 	file_source_vfs->priv->ready_func (G_OBJECT (file_source_vfs),
 					   error,
@@ -293,6 +295,8 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 	gth_file_source_set_active (file_source, TRUE);
 	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
 	g_hash_table_remove_all (file_source_vfs->priv->hidden_files);
+
+	performance (DEBUG_INFO, "gth_file_source_vfs_for_each_child start");
 
 	file_source_vfs->priv->start_dir_func = start_dir_func;
 	file_source_vfs->priv->for_each_file_func = for_each_file_func;

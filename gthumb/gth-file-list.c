@@ -829,6 +829,8 @@ gfl_add_files (GthFileList *file_list,
 	GList        *scan;
 	char         *cache_base_uri;
 
+	performance (DEBUG_INFO, "gfl_add_files start");
+
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
 	cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
@@ -871,6 +873,8 @@ gfl_add_files (GthFileList *file_list,
 
 	gth_file_store_exec_add (file_store, position);
 	_gth_file_list_update_pane (file_list);
+
+	performance (DEBUG_INFO, "gfl_add_files end");
 }
 
 

@@ -929,11 +929,10 @@ _gth_grid_view_queue_relayout_from_line (GthGridView *self,
 		return;
 	}
 
-	if (self->priv->layout_timeout != 0)
-		g_source_remove (self->priv->layout_timeout);
-	self->priv->layout_timeout = g_timeout_add (LAYOUT_DELAY,
-						    _gth_grid_view_relayout_cb,
-						    self);
+	if (self->priv->layout_timeout == 0)
+		self->priv->layout_timeout = g_timeout_add (LAYOUT_DELAY,
+							    _gth_grid_view_relayout_cb,
+							    self);
 }
 
 

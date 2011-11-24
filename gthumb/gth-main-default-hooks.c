@@ -210,7 +210,7 @@ gth_main_register_default_hooks (void)
 	 * Called after a file metadata has been read.  Used to syncronize
 	 * embedded metadata with the .comment file.
 	 *
-	 * @file_data (GthFileData *): the file
+	 * @file_list (GList *): list of GthFileData
 	 * @attributes (const char *): the attributes read for the file
 	 */
 	gth_hook_register ("read-metadata-ready", 2);
