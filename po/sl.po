@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-10-22 20:08+0000\n"
-"PO-Revision-Date: 2011-10-23 19:06+0100\n"
+"POT-Creation-Date: 2011-11-24 16:31+0000\n"
+"PO-Revision-Date: 2011-11-25 20:47+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -22,66 +22,71 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../copy-n-paste/eggdesktopfile.c:164
+#: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
 msgstr "Datoteka ni veljavna datoteka .desktop"
 
-#: ../copy-n-paste/eggdesktopfile.c:187
+#. translators: 'Version' is from a desktop file, and
+#. * should not be translated. '%s' would probably be a
+#. * version number.
+#: ../copy-n-paste/eggdesktopfile.c:191
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
 msgstr "Neznana različica datoteke namizja '%s'"
 
-#: ../copy-n-paste/eggdesktopfile.c:957
+#: ../copy-n-paste/eggdesktopfile.c:974
 #, c-format
 msgid "Starting %s"
 msgstr "Zaganjanje %s"
 
-#: ../copy-n-paste/eggdesktopfile.c:1099
+#: ../copy-n-paste/eggdesktopfile.c:1116
 #, c-format
 msgid "Application does not accept documents on command line"
 msgstr "Program ne sprejme dokumentov preko ukazne vrstice"
 
-#: ../copy-n-paste/eggdesktopfile.c:1167
+#: ../copy-n-paste/eggdesktopfile.c:1184
 #, c-format
 msgid "Unrecognized launch option: %d"
 msgstr "Nepoznana možnost zagona: %d"
 
-#: ../copy-n-paste/eggdesktopfile.c:1372
+#. translators: The 'Type=Link' string is found in a
+#. * desktop file, and should not be translated.
+#: ../copy-n-paste/eggdesktopfile.c:1391
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr "Ni mogoče poslati URI-ja dokumenta na vnos predmeta namizja 'Vrsta=Povezava'"
 
-#: ../copy-n-paste/eggdesktopfile.c:1391
+#: ../copy-n-paste/eggdesktopfile.c:1412
 #, c-format
 msgid "Not a launchable item"
 msgstr "Ni izvedljiv predmet"
 
-#: ../copy-n-paste/eggsmclient.c:225
+#: ../copy-n-paste/eggsmclient.c:226
 msgid "Disable connection to session manager"
 msgstr "Onemogoči povezavo z upravljalnikom seje"
 
-#: ../copy-n-paste/eggsmclient.c:228
+#: ../copy-n-paste/eggsmclient.c:229
 msgid "Specify file containing saved configuration"
 msgstr "Navedite datoteko s shranjenimi nastavitvami"
 
-#: ../copy-n-paste/eggsmclient.c:228
+#: ../copy-n-paste/eggsmclient.c:229
 msgid "FILE"
 msgstr "DATOTEKA"
 
-#: ../copy-n-paste/eggsmclient.c:231
+#: ../copy-n-paste/eggsmclient.c:232
 msgid "Specify session management ID"
 msgstr "Navedite ID upravljalnika seje"
 
-#: ../copy-n-paste/eggsmclient.c:231
+#: ../copy-n-paste/eggsmclient.c:232
 msgid "ID"
 msgstr "ID"
 
-#: ../copy-n-paste/eggsmclient.c:252
+#: ../copy-n-paste/eggsmclient.c:253
 msgid "Session management options:"
 msgstr "Možnosti upravljanja seje:"
 
-#: ../copy-n-paste/eggsmclient.c:253
+#: ../copy-n-paste/eggsmclient.c:254
 msgid "Show session management options"
 msgstr "Prikaži možnosti upravljanja seje"
 
@@ -95,10 +100,9 @@ msgstr "Oglejte in uredite svoje slike"
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:3
-#: ../data/gthumb-import.desktop.in.in.h:3
-#: ../gthumb/gth-browser.c:523
-#: ../gthumb/gth-main.c:229
-#: ../gthumb/gth-progress-dialog.c:443
+#: ../gthumb/gth-browser.c:529
+#: ../gthumb/gth-progress-dialog.c:386
+#: ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -111,6 +115,10 @@ msgid "Import the photos on your camera card"
 msgstr "Uvozi fotografij s kartice digitalnega fotoaparata"
 
 #: ../data/gthumb-import.desktop.in.in.h:2
+msgid "Import with gThumb"
+msgstr "Uvozi s programom gThumb"
+
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "Photo Import Tool"
 msgstr "Orodje za uvoz fotografij"
 
@@ -118,51 +126,41 @@ msgstr "Orodje za uvoz fotografij"
 msgid "gThumb Photo Import Tool"
 msgstr "gThumb orodje za uvoz fotografij"
 
-#: ../data/gthumb.schemas.in.h:1
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
 msgstr "Slike nad to velikostjo (v bajtih) bodo bile brez sličic. V primeru, da želite ustvariti sličice za vse slike, uporabite vrednost 0."
 
-#: ../data/gthumb.schemas.in.h:2
-msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
-msgstr "Mogoče vrednosti so: dejanska_velikost, prilagodi, obdrži_prejšnje, prilagodi_če_večje, prilagodi_širino_če_večje."
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+msgid "Open files in the active window"
+msgstr "Odpri datoteke v dejavnem oknu"
 
-#: ../data/gthumb.schemas.in.h:3
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:2
-msgid "Possible values are: high, low."
-msgstr "Mogoči vrednosti sta: visoko, nizko."
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
+msgid "Whether to resize the window to fit the size of the image"
+msgstr "Ali naj bo velikost okna spremenjena do prilagajanja velikosti slike"
 
-#: ../data/gthumb.schemas.in.h:4
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:3
-msgid "Possible values are: light, midtone, dark."
-msgstr "Mogoče vrednosti so: svetlo, srednje, temno."
-
-#: ../data/gthumb.schemas.in.h:5
-msgid "Possible values are: list, thumbnails."
-msgstr "Mogoči vrednosti sta: seznam, sličice."
-
-#: ../data/gthumb.schemas.in.h:6
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:4
-msgid "Possible values are: small, medium, large."
-msgstr "Mogoče vrednosti so: majhno, srednje, veliko."
-
-#: ../data/gthumb.schemas.in.h:7
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Mogoče vrednosti so: sistem, besedilo_spodaj, besedilo_poleg, samo_besedilo, samo_ikone."
-
-#: ../data/gthumb.schemas.in.h:8
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:5
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
 msgid "Possible values are: white, black, checked, none."
 msgstr "Mogoče vrednosti so: bela, črna, šahovnica, brez."
 
-#: ../data/gthumb.schemas.in.h:9
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:6
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to always use a black background."
 msgstr "Ali naj bo vedno uporabljeno črno ozadje."
 
-#: ../data/gthumb.schemas.in.h:10
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:7
-msgid "Whether to reset the scrollbar positions after changing image"
-msgstr "Ali naj bodo položaji drsnika po spremembi slike ponastavljeni"
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
+msgid "Whether to reset the scrollbars position after changing image"
+msgstr "Ali naj se položaji drsnika po spremembi slike ponastavi"
+
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
+msgid "Possible values are: jpeg, jpg."
+msgstr "Mogoči vrednosti sta jpg in jpeg."
+
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:2
+msgid "Possible values are: tiff, tif."
+msgstr "Mogoči vrednosti sta tif in tiff."
+
+#: ../data/org.gnome.gthumb.rename-series.gschema.xml.in.h:1
+msgid "Possible values include: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal"
+msgstr "Mogoče vrednosti vključujejo: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal"
 
 #: ../data/ui/extensions-preferences.ui.h:1
 msgid "More extensions..."
@@ -182,8 +180,8 @@ msgstr "Ime _filtra:"
 
 #. limit label
 #: ../data/ui/filter-editor.ui.h:2
-#: ../gthumb/gth-filter.c:258
-#: ../gthumb/gth-filter.c:330
+#: ../gthumb/gth-filter.c:268
+#: ../gthumb/gth-filter.c:340
 msgid "_Limit to"
 msgstr "_Omeji na"
 
@@ -259,7 +257,7 @@ msgid "Overwrite the old file with the new one?"
 msgstr "Ali naj bo stara datoteka prepisana z novo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:16
 msgid "Size:"
 msgstr "Velikost:"
@@ -285,184 +283,104 @@ msgid "_Other filters:"
 msgstr "_Drugi filtri:"
 
 #: ../data/ui/preferences.ui.h:1
-msgid "Activate items with a double click"
-msgstr "Zaženi predmete z dvojnim klikom miške"
-
-#: ../data/ui/preferences.ui.h:2
-msgid "Activate items with a single click"
-msgstr "Zaženi predmete z enojnim klikom miške"
-
-#: ../data/ui/preferences.ui.h:3
 msgid "Appearance"
 msgstr "Videz"
 
-#: ../data/ui/preferences.ui.h:4
+#: ../data/ui/preferences.ui.h:2
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Pred izbrisom slik ali katalogov _vprašaj za potrditev"
 
-#: ../data/ui/preferences.ui.h:5
+#: ../data/ui/preferences.ui.h:3
 msgid "Ask whether to save _modified files"
 msgstr "Vprašaj ali naj bodo _spremenjene datoteke shranjene"
 
-#: ../data/ui/preferences.ui.h:6
-#: ../extensions/image_viewer/preferences.c:111
-msgid "Black"
-msgstr "Črna"
-
-#: ../data/ui/preferences.ui.h:7
-#: ../gthumb/dlg-preferences-extensions.c:72
-#: ../gthumb/gth-browser-actions-entries.h:150
+#: ../data/ui/preferences.ui.h:4
+#: ../gthumb/dlg-preferences-extensions.c:71
+#: ../gthumb/gth-browser-actions-entries.h:173
 msgid "Browser"
 msgstr "Brskalnik"
 
-#: ../data/ui/preferences.ui.h:8
+#: ../data/ui/preferences.ui.h:5
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
 msgid "Caption"
 msgstr "Naslov"
 
-#: ../data/ui/preferences.ui.h:9
-#: ../extensions/image_viewer/preferences.c:112
-msgid "Checked"
-msgstr "Preverjeno"
-
-#: ../data/ui/preferences.ui.h:10
+#: ../data/ui/preferences.ui.h:6
 msgid "Choose startup folder"
 msgstr "Izbor zagonske mape"
 
-#: ../data/ui/preferences.ui.h:11
+#: ../data/ui/preferences.ui.h:7
 msgid "D_etermine image type from content (slower)"
 msgstr "_Določi vrsto slike iz vsebine (počasneje) "
 
-#: ../data/ui/preferences.ui.h:12
-#: ../extensions/image_viewer/preferences.c:101
-msgid "Fit to width if larger"
-msgstr "Prilagodi velikost širini, če je večja"
+#: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr "Lastnosti _datoteke v brskalniku:"
 
-#: ../data/ui/preferences.ui.h:13
-#: ../extensions/image_viewer/preferences.c:98
-msgid "Fit to window"
-msgstr "Prilagodi oknu"
-
-#: ../data/ui/preferences.ui.h:14
-#: ../extensions/image_viewer/preferences.c:99
-msgid "Fit to window if larger"
-msgstr "Prilagodi velikost oknu, če je večja"
-
-#: ../data/ui/preferences.ui.h:15
-msgid "Follow Nautilus behaviour"
-msgstr "Sledi obnašanju Nautilusa"
-
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:9
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:393
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:400
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "Splošno"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:10
 msgid "Go to last _visited location"
 msgstr "Pojdi na _zadnje obiskano mesto"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:11
 msgid "Go to this _folder:"
 msgstr "Pojdi v to _mapo:"
 
-#: ../data/ui/preferences.ui.h:19
-#: ../gthumb/dlg-preferences.c:231
-msgid "Icons only"
-msgstr "Le ikone"
-
-#: ../data/ui/preferences.ui.h:20
-#: ../extensions/image_viewer/preferences.c:97
-msgid "Keep previous zoom"
-msgstr "Ohrani predhodno približanje"
-
-#: ../data/ui/preferences.ui.h:21
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
-#: ../extensions/file_tools/gth-file-tool-crop.c:422
-#: ../extensions/file_tools/gth-file-tool-crop.c:448
-#: ../extensions/file_tools/gth-file-tool-resize.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:414
-#: ../extensions/image_viewer/preferences.c:110
-#: ../extensions/slideshow/main.c:277
-msgid "None"
-msgstr "Brez"
-
-#: ../data/ui/preferences.ui.h:22
+#: ../data/ui/preferences.ui.h:12
 msgid "On startup:"
 msgstr "Ob zagonu:"
 
-#: ../data/ui/preferences.ui.h:23
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:192
+#: ../data/ui/preferences.ui.h:13
+#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:198
 #: ../extensions/gstreamer_tools/main.c:33
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Other"
 msgstr "Ostalo"
 
-#: ../data/ui/preferences.ui.h:24
-msgid "Set image to actual size"
-msgstr "Nastavi sliko na dejansko velikost"
-
-#: ../data/ui/preferences.ui.h:25
+#: ../data/ui/preferences.ui.h:14
 msgid "Set to C_urrent"
 msgstr "Nastavi na t_retnuno"
 
-#. Set widgets data.
-#: ../data/ui/preferences.ui.h:26
-#: ../gthumb/dlg-preferences.c:231
-msgid "System settings"
-msgstr "Sistemske nastavitve"
-
-#: ../data/ui/preferences.ui.h:27
+#: ../data/ui/preferences.ui.h:15
 msgid "T_humbnails in viewer:"
 msgstr "S_ličice v pregledovalniku:"
 
-#: ../data/ui/preferences.ui.h:28
-#: ../gthumb/dlg-preferences.c:231
-msgid "Text below icons"
-msgstr "Besedilo pod ikonami"
-
-#: ../data/ui/preferences.ui.h:29
-#: ../gthumb/dlg-preferences.c:231
-msgid "Text beside icons"
-msgstr "Besedilo ob ikonah"
-
-#: ../data/ui/preferences.ui.h:30
-#: ../gthumb/dlg-preferences.c:231
-msgid "Text only"
-msgstr "Le besedilo"
-
-#: ../data/ui/preferences.ui.h:31
+#: ../data/ui/preferences.ui.h:16
 msgid "Thumbnail _size:"
 msgstr "_Velikost sličic:"
 
-#: ../data/ui/preferences.ui.h:32
-#: ../extensions/image_viewer/preferences.c:109
-msgid "White"
-msgstr "Bela"
+#: ../data/ui/preferences.ui.h:17
+msgid "_Reuse the active window to open files"
+msgstr "_Uporabi dejavno okno za odpiranje datotek"
 
-#: ../data/ui/preferences.ui.h:33
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "_Shrani metapodatke znotraj datotek, če je mogoče"
 
-#: ../data/ui/preferences.ui.h:34
+#: ../data/ui/preferences.ui.h:19
 msgid "_Toolbar style:"
 msgstr "_Slog orodne vrstice:"
 
-#: ../data/ui/preferences.ui.h:35
-msgid "gthumb Preferences"
+#: ../data/ui/preferences.ui.h:20
+msgid "below the folder list"
+msgstr "pod seznamom map"
+
+#: ../data/ui/preferences.ui.h:21
+msgid "gThumb Preferences"
 msgstr "Možnosti gThumb "
 
-#: ../data/ui/preferences.ui.h:36
-msgid "on the bottom"
-msgstr "na dnu"
-
-#: ../data/ui/preferences.ui.h:37
-msgid "on the side"
-msgstr "na strani"
+#: ../data/ui/preferences.ui.h:22
+msgid "on the right"
+msgstr "na desni strani"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -485,11 +403,11 @@ msgstr "23"
 msgid "Upload images to 23hq.com"
 msgstr "Pošlje slike na spletni album 23hq.com"
 
-#: ../extensions/23hq/callbacks.c:67
+#: ../extensions/23hq/callbacks.c:68
 msgid "_23..."
 msgstr "_23..."
 
-#: ../extensions/23hq/callbacks.c:68
+#: ../extensions/23hq/callbacks.c:69
 msgid "Upload photos to 23"
 msgstr "Pošiljanje fotografij na 23"
 
@@ -610,7 +528,7 @@ msgstr "_Izbrane datoteke"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
-#: ../extensions/burn_disc/gth-burn-task.c:393
+#: ../extensions/burn_disc/gth-burn-task.c:397
 msgid "Write to Disc"
 msgstr "Zapiši na disk"
 
@@ -629,8 +547,8 @@ msgstr "Neznan barvni prostor zapisa JPEG (%d)"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:274
 #: ../extensions/catalogs/dlg-add-to-catalog.c:394
 #: ../extensions/file_manager/actions.c:65
-#: ../extensions/list_tools/gth-script-editor-dialog.c:319
-#: ../gthumb/gth-filter-editor-dialog.c:491
+#: ../extensions/list_tools/gth-script-editor-dialog.c:290
+#: ../gthumb/gth-filter-editor-dialog.c:461
 #, c-format
 msgid "No name specified"
 msgstr "Ime ni določeno"
@@ -684,7 +602,7 @@ msgstr "Ime knjižnice:"
 msgid "Could not remove the catalog"
 msgstr "Kataloga ni mogoče odstraniti"
 
-#: ../extensions/catalogs/actions.c:361
+#: ../extensions/catalogs/actions.c:363
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Ali ste prepričani, da želite odstraniti \"%s\"?"
@@ -702,8 +620,8 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Gre v mapo, ki vsebuje izbrano datoteko"
 
 #: ../extensions/catalogs/callbacks.c:110
-#: ../extensions/edit_metadata/callbacks.c:116
-#: ../extensions/picasaweb/picasa-account-properties-dialog.c:86
+#: ../extensions/edit_metadata/callbacks.c:112
+#: ../extensions/picasaweb/picasa-account-properties-dialog.c:85
 msgid "Other..."
 msgstr "Ostalo ..."
 
@@ -746,10 +664,10 @@ msgstr "Ukazna vrstica"
 
 #: ../extensions/catalogs/callbacks.c:497
 #: ../extensions/catalogs/callbacks.c:502
-#: ../extensions/photo_importer/dlg-photo-importer.c:359
-#: ../extensions/photo_importer/dlg-photo-importer.c:399
-#: ../gthumb/gth-file-list.c:45
-#: ../gthumb/gth-folder-tree.c:874
+#: ../extensions/photo_importer/dlg-photo-importer.c:364
+#: ../extensions/photo_importer/dlg-photo-importer.c:404
+#: ../gthumb/gth-file-list.c:43
+#: ../gthumb/gth-folder-tree.c:859
 msgid "(Empty)"
 msgstr "(Prazno)"
 
@@ -766,10 +684,10 @@ msgid "Automatically organize files by date"
 msgstr "Samodejno organiziraj datoteke po datumu"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
-#: ../extensions/catalogs/gth-catalog.c:641
-#: ../extensions/catalogs/gth-catalog.c:690
-#: ../extensions/catalogs/gth-catalog.c:1047
-#: ../extensions/catalogs/gth-catalog.c:1048
+#: ../extensions/catalogs/gth-catalog.c:611
+#: ../extensions/catalogs/gth-catalog.c:660
+#: ../extensions/catalogs/gth-catalog.c:1017
+#: ../extensions/catalogs/gth-catalog.c:1018
 msgid "Catalogs"
 msgstr "Katalogi"
 
@@ -794,8 +712,8 @@ msgid "_New Catalog"
 msgstr "_Nov katalog"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:922
-#: ../extensions/webalbums/gth-web-exporter.c:1852
+#: ../extensions/file_manager/actions.c:929
+#: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Pogled cilja"
 
@@ -804,7 +722,7 @@ msgid "Catalog"
 msgstr "Katalog"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
-#: ../gthumb/gth-file-properties.c:201
+#: ../gthumb/gth-file-properties.c:212
 msgid "Properties"
 msgstr "Lastnosti"
 
@@ -849,7 +767,7 @@ msgid "Select None"
 msgstr "Brez izbora"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:470
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:476
 #: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
@@ -872,7 +790,7 @@ msgid "Singles"
 msgstr "Posamezne"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
-#: ../extensions/comments/main.c:261
+#: ../extensions/comments/main.c:280
 msgid "Tag"
 msgstr "Oznaka"
 
@@ -901,7 +819,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Datotek ni mogoče dodati v katalog"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:217
-#: ../extensions/search/gth-search-task.c:352
+#: ../extensions/search/gth-search-task.c:356
 msgid "Could not create the catalog"
 msgstr "Kataloga ni mogoče ustvariti"
 
@@ -917,7 +835,7 @@ msgstr "Kataloga ni mogoče naložiti"
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr "Datoteke bodo organizirane v kataloge. Nobena datoteka ne bo premaknjena na disku."
 
-#: ../extensions/catalogs/gth-catalog.c:1145
+#: ../extensions/catalogs/gth-catalog.c:1115
 #: ../extensions/comments/main.c:43
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
@@ -961,9 +879,9 @@ msgstr "Ni mogoče odstraniti datotek iz kataloga"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1341
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:711
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1214
-#: ../extensions/search/gth-search.c:295
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
+#: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Neveljavna vrsta datoteke"
 
@@ -987,11 +905,6 @@ msgstr "Spremeni datum"
 #: ../extensions/change_date/change_date.extension.in.in.h:2
 msgid "Change the files date"
 msgstr "Spremeni datum datotek"
-
-#: ../extensions/change_date/data/gthumb_change_date.schemas.in.h:1
-#: ../extensions/resize_images/data/gthumb_resize_images.schemas.in.h:1
-msgid "Possible values: pixels, percentage"
-msgstr "Mogoči vrednosti sta: točke, odstotek"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
 msgid "+"
@@ -1067,7 +980,7 @@ msgid "Comments and tags"
 msgstr "Opombe in oznake"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/importer/gth-import-preferences-dialog.c:314
+#: ../extensions/importer/gth-import-preferences-dialog.c:318
 msgid "Preferences"
 msgstr "Možnosti"
 
@@ -1076,7 +989,7 @@ msgid "_Synchronize with the embedded metadata"
 msgstr "_Uskladi z vloženimi metapodatki"
 
 #: ../extensions/comments/main.c:33
-#: ../extensions/edit_metadata/callbacks.c:111
+#: ../extensions/edit_metadata/callbacks.c:106
 msgid "Comment"
 msgstr "Opomba"
 
@@ -1086,7 +999,7 @@ msgid "Title"
 msgstr "Naslov"
 
 #: ../extensions/comments/main.c:40
-#: ../extensions/comments/main.c:245
+#: ../extensions/comments/main.c:264
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
@@ -1099,7 +1012,7 @@ msgid "Description"
 msgstr "Opis"
 
 #: ../extensions/comments/main.c:41
-#: ../extensions/comments/main.c:253
+#: ../extensions/comments/main.c:272
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Mesto"
@@ -1165,6 +1078,15 @@ msgstr "Okvir"
 msgid "Inward Shadow"
 msgstr "Notranja senca"
 
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+#: ../extensions/file_tools/gth-file-tool-crop.c:424
+#: ../extensions/file_tools/gth-file-tool-crop.c:454
+#: ../extensions/file_tools/gth-file-tool-resize.c:498
+#: ../extensions/file_tools/gth-file-tool-rotate.c:415
+#: ../extensions/slideshow/main.c:277
+msgid "None"
+msgstr "Brez"
+
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 msgid "Outward Shadow"
 msgstr "Zunanja senca"
@@ -1194,7 +1116,7 @@ msgid "Slide"
 msgstr "Prosojnica"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
-#: ../extensions/rename_series/dlg-rename-series.c:63
+#: ../extensions/rename_series/dlg-rename-series.c:57
 msgid "Text"
 msgstr "Besedilo"
 
@@ -1390,21 +1312,21 @@ msgstr "_Velikost:"
 msgid "Image Wall"
 msgstr "Stena slike"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:483
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:495
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:509
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:486
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:498
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:512
 msgid "Could not save the theme"
 msgstr "Teme ni mogoče shraniti"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:654
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:657
 msgid "Could not delete the theme"
 msgstr "Teme ni mogoče izbrisati"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:248
 msgid "Creating images"
 msgstr "Ustvarjanje slik"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:897
 msgid "Generating thumbnails"
 msgstr "Ustvarjanje sličic"
 
@@ -1416,15 +1338,15 @@ msgstr "Glava"
 msgid "Footer"
 msgstr "Noga"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:197
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
 msgid "Theme Properties"
 msgstr "Lastnosti teme"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:212
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:208
 msgid "Copy _From"
 msgstr "Kopiraj _iz"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:348
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:316
 msgid "New theme"
 msgstr "Nova tema"
 
@@ -1462,16 +1384,16 @@ msgstr "Nova vrsta datoteke"
 msgid "_Use the original image folder"
 msgstr "Uporabi _privzeto mapo slik"
 
-#: ../extensions/convert_format/dlg-convert-format.c:91
+#: ../extensions/convert_format/dlg-convert-format.c:93
 msgid "Converting images"
 msgstr "Pretvarjanje slik"
 
-#: ../extensions/desktop_background/actions.c:203
+#: ../extensions/desktop_background/actions.c:162
 msgid "Could not show the desktop background properties"
 msgstr "Lastnosti ozadja namizja ni mogoče pokazati"
 
-#: ../extensions/desktop_background/actions.c:269
-#: ../extensions/desktop_background/actions.c:287
+#: ../extensions/desktop_background/actions.c:228
+#: ../extensions/desktop_background/actions.c:246
 msgid "Could not set the desktop background"
 msgstr "Ozadja namizja ni mogoče nastaviti"
 
@@ -1496,23 +1418,23 @@ msgstr "Ali ste prepričani, da želite trajno izbrisati metapodatke izbranih da
 msgid "If you delete the metadata, it will be permanently lost."
 msgstr "V primeru, da metapodatke izbrišete, bo ti trajno izgubljeni."
 
-#: ../extensions/edit_metadata/callbacks.c:108
+#: ../extensions/edit_metadata/callbacks.c:103
 msgid "T_ags"
 msgstr "Ozn_ake"
 
-#: ../extensions/edit_metadata/callbacks.c:112
+#: ../extensions/edit_metadata/callbacks.c:107
 msgid "Edit the comment and other information of the selected files"
 msgstr "Uredi opombe in druge podatke izbranih datotek"
 
-#: ../extensions/edit_metadata/callbacks.c:117
+#: ../extensions/edit_metadata/callbacks.c:113
 msgid "Choose another tag"
 msgstr "Izberite drugo oznako"
 
-#: ../extensions/edit_metadata/callbacks.c:121
+#: ../extensions/edit_metadata/callbacks.c:118
 msgid "Delete Metadata"
 msgstr "Izbriši metapodatke"
 
-#: ../extensions/edit_metadata/callbacks.c:122
+#: ../extensions/edit_metadata/callbacks.c:119
 msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr "Izbriši opombe in druge vstavljene metapodatke izbranih datotek"
 
@@ -1544,7 +1466,7 @@ msgid "Could not save the file metadata"
 msgstr "Metapodatkov datoteke ni mogoče shraniti"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:150
-#: ../gthumb/gth-overwrite-dialog.c:166
+#: ../gthumb/gth-overwrite-dialog.c:136
 msgid "Cannot read file information"
 msgstr "Ni mogoče prebrati podatkov o datoteki"
 
@@ -1556,43 +1478,43 @@ msgstr "Dovoli urejanje metapodatkov datotek."
 msgid "Edit metadata"
 msgstr "Urejanje metapodatkov"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:467
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:473
 msgid "No date"
 msgstr "Brez datuma"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:468
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:474
 msgid "The following date"
 msgstr "Naslednji datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:469
-#: ../extensions/importer/gth-import-preferences-dialog.c:327
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:475
+#: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
 msgstr "Trenutni datum"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:471
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:477
 msgid "Last modified date"
 msgstr "Datum zadnje spremembe"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:472
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:478
 msgid "File creation date"
 msgstr "Datum ustvaritve datoteke"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:473
+#: ../extensions/edit_metadata/gth-edit-comment-page.c:479
 msgid "Do not modify"
 msgstr "Ne spreminjaj"
 
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:105
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:68
 msgid "Save only cha_nged fields"
 msgstr "Shrani le spre_menjena polja"
 
 #. Translators: the %s symbol in the string is a file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:161
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:119
 #, c-format
 msgid "%s Metadata"
 msgstr "Metapodatki %s"
 
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:165
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:332
+#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:123
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1601,11 +1523,11 @@ msgstr[1] "%d datoteka"
 msgstr[2] "%d datoteki"
 msgstr[3] "%d datoteke"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:81
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:80
 msgid "New tag"
 msgstr "Nova oznaka"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:223
+#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:222
 msgid "Assign Tags"
 msgstr "Dodeli oznake"
 
@@ -1735,7 +1657,7 @@ msgstr "Pripet XMP"
 msgid "date photo was taken"
 msgstr "datum zajema fotografije"
 
-#: ../extensions/export_tools/callbacks.c:59
+#: ../extensions/export_tools/callbacks.c:99
 msgid "Share"
 msgstr "Souporaba"
 
@@ -1866,9 +1788,9 @@ msgid "C_ontinue"
 msgstr "_Nadaljuj"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
-#: ../extensions/facebook/facebook-authentication.c:499
-#: ../extensions/flicker_utils/flickr-authentication.c:435
-#: ../extensions/oauth/oauth-authentication.c:450
+#: ../extensions/facebook/facebook-authentication.c:472
+#: ../extensions/flicker_utils/flickr-authentication.c:408
+#: ../extensions/oauth/oauth-authentication.c:423
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Ko boste končali, kliknite na gumb 'Nadaljuj' spodaj."
 
@@ -1883,34 +1805,34 @@ msgstr "Datoteke so bile uspešno poslane na strežnik."
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1851
+#: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
 msgstr "_Odpri v brskalniku"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:128
-#: ../extensions/facebook/dlg-export-to-facebook.c:333
-#: ../extensions/facebook/facebook-authentication.c:219
+#: ../extensions/facebook/dlg-export-to-facebook.c:130
+#: ../extensions/facebook/dlg-export-to-facebook.c:335
+#: ../extensions/facebook/facebook-authentication.c:192
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:399
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:234
-#: ../extensions/flicker_utils/flickr-authentication.c:218
-#: ../extensions/oauth/oauth-authentication.c:214
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:237
+#: ../extensions/flicker_utils/flickr-authentication.c:191
+#: ../extensions/oauth/oauth-authentication.c:187
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:376
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:139
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:424
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:377
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:380
 msgid "Could not connect to the server"
 msgstr "Ni se mogoče povezati s strežnikom"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:180
+#: ../extensions/facebook/dlg-export-to-facebook.c:182
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:182
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:192
 msgid "Could not upload the files"
 msgstr "Datotek ni mogoče poslati"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:410
+#: ../extensions/facebook/dlg-export-to-facebook.c:412
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:223
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:462
@@ -1918,35 +1840,35 @@ msgstr "Datotek ni mogoče poslati"
 msgid "Could not create the album"
 msgstr "Albuma ni mogoče ustvariti"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:479
+#: ../extensions/facebook/dlg-export-to-facebook.c:481
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:534
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:783
 msgid "New Album"
 msgstr "Nov album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:558
+#: ../extensions/facebook/dlg-export-to-facebook.c:561
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:557
-#: ../extensions/image_print/gth-image-print-job.c:1816
+#: ../extensions/image_print/gth-image-print-job.c:1789
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1002
 msgid "No valid file selected."
 msgstr "Nobena veljavna datoteka ni izbrana."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:559
+#: ../extensions/facebook/dlg-export-to-facebook.c:562
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:558
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:615
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1003
 msgid "Could not export the files"
 msgstr "Datotek ni mogoče izvoziti"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:567
-#: ../extensions/find_duplicates/gth-find-duplicates.c:284
-#: ../extensions/find_duplicates/gth-find-duplicates.c:376
+#: ../extensions/facebook/dlg-export-to-facebook.c:570
+#: ../extensions/find_duplicates/gth-find-duplicates.c:255
+#: ../extensions/find_duplicates/gth-find-duplicates.c:347
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:566
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:800
-#: ../gthumb/gth-browser.c:990
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
+#: ../gthumb/gth-browser.c:995
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1955,71 +1877,71 @@ msgstr[1] "%d datoteka (%s)"
 msgstr[2] "%d datoteki (%s)"
 msgstr[3] "%d datoteke (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:589
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:643
+#: ../extensions/facebook/dlg-export-to-facebook.c:591
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:589
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:642
 #, c-format
 msgid "Export to %s"
 msgstr "Izvozi v %s"
 
-#: ../extensions/facebook/facebook-account-chooser-dialog.c:229
-#: ../extensions/flicker_utils/flickr-account-chooser-dialog.c:229
-#: ../extensions/oauth/oauth-account-chooser-dialog.c:229
+#: ../extensions/facebook/facebook-account-chooser-dialog.c:200
+#: ../extensions/flicker_utils/flickr-account-chooser-dialog.c:200
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:200
 msgid "New authentication..."
 msgstr "Nova overitev ..."
 
-#: ../extensions/facebook/facebook-authentication.c:221
-#: ../extensions/flicker_utils/flickr-authentication.c:220
-#: ../extensions/oauth/oauth-authentication.c:216
+#: ../extensions/facebook/facebook-authentication.c:194
+#: ../extensions/flicker_utils/flickr-authentication.c:193
+#: ../extensions/oauth/oauth-authentication.c:189
 msgid "Choose _Account..."
 msgstr "Izberi _račun ..."
 
-#: ../extensions/facebook/facebook-authentication.c:498
-#: ../extensions/flicker_utils/flickr-authentication.c:434
-#: ../extensions/oauth/oauth-authentication.c:449
+#: ../extensions/facebook/facebook-authentication.c:471
+#: ../extensions/flicker_utils/flickr-authentication.c:407
+#: ../extensions/oauth/oauth-authentication.c:422
 #, c-format
 msgid "Return to this window when you have finished the authorization process on %s"
 msgstr "Vrnite se v to okno, ko boste končali opravilo pooblastitve na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:583
-#: ../extensions/flicker_utils/flickr-authentication.c:514
-#: ../extensions/oauth/oauth-authentication.c:529
+#: ../extensions/facebook/facebook-authentication.c:556
+#: ../extensions/flicker_utils/flickr-authentication.c:487
+#: ../extensions/oauth/oauth-authentication.c:502
 #, c-format
 msgid "gthumb requires your authorization to upload the photos to %s"
 msgstr "gthumb zahteva vašo pooblastitev za pošiljanje fotografij na %s"
 
-#: ../extensions/facebook/facebook-authentication.c:584
-#: ../extensions/flicker_utils/flickr-authentication.c:515
-#: ../extensions/oauth/oauth-authentication.c:530
+#: ../extensions/facebook/facebook-authentication.c:557
+#: ../extensions/flicker_utils/flickr-authentication.c:488
+#: ../extensions/oauth/oauth-authentication.c:503
 #, c-format
 msgid "Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."
 msgstr "Kliknite 'Pooblasti' za odprtje spletnega brskalnika in pooblastite gthumb za pošiljanje fotografij na %s. Ko boste končali, se vrnite v to okno za dokončanje pooblastitve."
 
-#: ../extensions/facebook/facebook-authentication.c:679
-#: ../extensions/flicker_utils/flickr-authentication.c:615
-#: ../extensions/oauth/oauth-authentication.c:632
+#: ../extensions/facebook/facebook-authentication.c:652
+#: ../extensions/flicker_utils/flickr-authentication.c:588
+#: ../extensions/oauth/oauth-authentication.c:605
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:820
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:681
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:684
 msgid "Choose Account"
 msgstr "Izbor računa"
 
-#: ../extensions/facebook/facebook-authentication.c:788
-#: ../extensions/flicker_utils/flickr-authentication.c:724
-#: ../extensions/oauth/oauth-authentication.c:741
+#: ../extensions/facebook/facebook-authentication.c:761
+#: ../extensions/flicker_utils/flickr-authentication.c:697
+#: ../extensions/oauth/oauth-authentication.c:714
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:881
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:742
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:745
 msgid "Edit Accounts"
 msgstr "Urejanje računov"
 
-#: ../extensions/facebook/facebook-connection.c:304
-#: ../extensions/facebook/facebook-connection.c:464
-#: ../extensions/facebook/facebook-service.c:191
-#: ../extensions/facebook/facebook-service.c:294
-#: ../extensions/facebook/facebook-service.c:497
-#: ../extensions/flicker_utils/flickr-connection.c:295
-#: ../extensions/flicker_utils/flickr-connection.c:442
-#: ../extensions/flicker_utils/flickr-service.c:224
-#: ../extensions/flicker_utils/flickr-service.c:427
+#: ../extensions/facebook/facebook-connection.c:275
+#: ../extensions/facebook/facebook-connection.c:435
+#: ../extensions/facebook/facebook-service.c:162
+#: ../extensions/facebook/facebook-service.c:265
+#: ../extensions/facebook/facebook-service.c:468
+#: ../extensions/flicker_utils/flickr-connection.c:266
+#: ../extensions/flicker_utils/flickr-connection.c:413
+#: ../extensions/flicker_utils/flickr-service.c:195
+#: ../extensions/flicker_utils/flickr-service.c:398
 #: ../extensions/photobucket/photobucket-consumer.c:74
 #: ../extensions/photobucket/photobucket-consumer.c:79
 #: ../extensions/photobucket/photobucket-consumer.c:115
@@ -2027,17 +1949,17 @@ msgstr "Urejanje računov"
 msgid "Unknown error"
 msgstr "Neznana napaka"
 
-#: ../extensions/facebook/facebook-connection.c:339
-#: ../extensions/facebook/facebook-connection.c:490
-#: ../extensions/facebook/facebook-service.c:217
-#: ../extensions/facebook/facebook-service.c:319
-#: ../extensions/flicker_utils/flickr-connection.c:321
-#: ../extensions/flicker_utils/flickr-connection.c:468
-#: ../extensions/flicker_utils/flickr-service.c:248
-#: ../extensions/oauth/oauth-connection.c:385
-#: ../extensions/oauth/oauth-connection.c:460
-#: ../extensions/oauth/oauth-connection.c:564
-#: ../extensions/picasaweb/google-connection.c:373
+#: ../extensions/facebook/facebook-connection.c:310
+#: ../extensions/facebook/facebook-connection.c:461
+#: ../extensions/facebook/facebook-service.c:188
+#: ../extensions/facebook/facebook-service.c:290
+#: ../extensions/flicker_utils/flickr-connection.c:292
+#: ../extensions/flicker_utils/flickr-connection.c:439
+#: ../extensions/flicker_utils/flickr-service.c:219
+#: ../extensions/oauth/oauth-connection.c:356
+#: ../extensions/oauth/oauth-connection.c:431
+#: ../extensions/oauth/oauth-connection.c:535
+#: ../extensions/picasaweb/google-connection.c:344
 msgid "Connecting to the server"
 msgstr "Povezovanje s strežnikom"
 
@@ -2049,58 +1971,58 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Pošiljanje fotografij na Facebook"
 
-#: ../extensions/facebook/facebook-service.c:217
-#: ../extensions/facebook/facebook-service.c:319
-#: ../extensions/flicker_utils/flickr-service.c:248
-#: ../extensions/oauth/oauth-connection.c:385
-#: ../extensions/oauth/oauth-connection.c:460
-#: ../extensions/oauth/oauth-connection.c:564
+#: ../extensions/facebook/facebook-service.c:188
+#: ../extensions/facebook/facebook-service.c:290
+#: ../extensions/flicker_utils/flickr-service.c:219
+#: ../extensions/oauth/oauth-connection.c:356
+#: ../extensions/oauth/oauth-connection.c:431
+#: ../extensions/oauth/oauth-connection.c:535
 msgid "Getting account information"
 msgstr "Pridobivanje podrobnosti računa"
 
-#: ../extensions/facebook/facebook-service.c:425
-#: ../extensions/flicker_utils/flickr-service.c:352
-#: ../extensions/photobucket/photobucket-service.c:236
-#: ../extensions/picasaweb/picasa-web-service.c:238
+#: ../extensions/facebook/facebook-service.c:396
+#: ../extensions/flicker_utils/flickr-service.c:323
+#: ../extensions/photobucket/photobucket-service.c:207
+#: ../extensions/picasaweb/picasa-web-service.c:209
 msgid "Getting the album list"
 msgstr "Pridobivanje seznama albumov"
 
-#: ../extensions/facebook/facebook-service.c:554
-#: ../extensions/flicker_utils/flickr-service.c:455
-#: ../extensions/flicker_utils/flickr-service.c:575
-#: ../extensions/flicker_utils/flickr-service.c:613
-#: ../extensions/photobucket/photobucket-service.c:345
-#: ../extensions/picasaweb/picasa-web-service.c:329
+#: ../extensions/facebook/facebook-service.c:525
+#: ../extensions/flicker_utils/flickr-service.c:426
+#: ../extensions/flicker_utils/flickr-service.c:546
+#: ../extensions/flicker_utils/flickr-service.c:584
+#: ../extensions/photobucket/photobucket-service.c:316
+#: ../extensions/picasaweb/picasa-web-service.c:300
 msgid "Creating the new album"
 msgstr "Ustvarjanje novega albuma"
 
-#: ../extensions/facebook/facebook-service.c:613
-#: ../extensions/flicker_utils/flickr-service.c:663
-#: ../extensions/photobucket/photobucket-service.c:402
-#: ../extensions/picasaweb/picasa-web-service.c:386
+#: ../extensions/facebook/facebook-service.c:584
+#: ../extensions/flicker_utils/flickr-service.c:634
+#: ../extensions/photobucket/photobucket-service.c:373
+#: ../extensions/picasaweb/picasa-web-service.c:357
 #, c-format
 msgid "Could not upload '%s': %s"
 msgstr "Ni mogoče poslati '%s': %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:699
-#: ../extensions/flicker_utils/flickr-service.c:774
-#: ../extensions/photobucket/photobucket-service.c:459
-#: ../extensions/picasaweb/picasa-web-service.c:441
+#: ../extensions/facebook/facebook-service.c:670
+#: ../extensions/flicker_utils/flickr-service.c:745
+#: ../extensions/photobucket/photobucket-service.c:430
+#: ../extensions/picasaweb/picasa-web-service.c:412
 #, c-format
 msgid "Uploading '%s'"
 msgstr "Pošiljanje '%s'"
 
-#: ../extensions/facebook/facebook-service.c:915
-#: ../extensions/flicker_utils/flickr-service.c:943
-#: ../extensions/photobucket/photobucket-service.c:628
-#: ../extensions/picasaweb/picasa-web-service.c:634
+#: ../extensions/facebook/facebook-service.c:886
+#: ../extensions/flicker_utils/flickr-service.c:914
+#: ../extensions/photobucket/photobucket-service.c:599
+#: ../extensions/picasaweb/picasa-web-service.c:605
 msgid "Uploading the files to the server"
 msgstr "Pošiljanje datotek na strežnik"
 
-#: ../extensions/facebook/facebook-service.c:1032
-#: ../extensions/flicker_utils/flickr-service.c:1106
-#: ../extensions/picasaweb/picasa-web-service.c:747
+#: ../extensions/facebook/facebook-service.c:1003
+#: ../extensions/flicker_utils/flickr-service.c:1077
+#: ../extensions/picasaweb/picasa-web-service.c:718
 msgid "Getting the photo list"
 msgstr "Pridobivanje seznama fotografij"
 
@@ -2145,29 +2067,29 @@ msgid "Could not move the folder to the Trash"
 msgstr "Datoteke ni mogoče premakniti v smeti"
 
 #: ../extensions/file_manager/actions.c:808
-#: ../gthumb/gth-file-source-vfs.c:826
+#: ../gthumb/gth-file-source-vfs.c:837
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Ali ste prepričani, da želite trajno izbrisati \"%s\"?"
 
 #: ../extensions/file_manager/actions.c:818
-#: ../gthumb/gth-file-source-vfs.c:839
+#: ../gthumb/gth-file-source-vfs.c:850
 msgid "If you delete a file, it will be permanently lost."
 msgstr "V primeru da izbrišete datoteko, bo trajno izgubljena."
 
-#: ../extensions/file_manager/actions.c:907
+#: ../extensions/file_manager/actions.c:910
 msgid "Move To"
 msgstr "Premakni v"
 
-#: ../extensions/file_manager/actions.c:907
+#: ../extensions/file_manager/actions.c:910
 msgid "Copy To"
 msgstr "Kopiraj v"
 
-#: ../extensions/file_manager/actions.c:911
+#: ../extensions/file_manager/actions.c:914
 msgid "Move"
 msgstr "Premakni"
 
-#: ../extensions/file_manager/actions.c:911
+#: ../extensions/file_manager/actions.c:914
 msgid "Copy"
 msgstr "Kopiraj"
 
@@ -2191,7 +2113,7 @@ msgstr "Podvoji izbrane datoteke"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
-#: ../gthumb/gth-file-source-vfs.c:800
+#: ../gthumb/gth-file-source-vfs.c:809
 msgid "Mo_ve to Trash"
 msgstr "Pr_emakni v smeti"
 
@@ -2253,10 +2175,10 @@ msgstr "Kopiraj izbrane datoteke v drugo mapo"
 msgid "Move the selected files to another folder"
 msgstr "Premakni izbrane datoteke v drugo mapo"
 
-#: ../extensions/file_manager/callbacks.c:1009
-#: ../extensions/find_duplicates/gth-find-duplicates.c:610
-#: ../gthumb/gth-browser.c:4945
-#: ../gthumb/gth-browser.c:4979
+#: ../extensions/file_manager/callbacks.c:1008
+#: ../extensions/find_duplicates/gth-find-duplicates.c:581
+#: ../gthumb/gth-browser.c:4997
+#: ../gthumb/gth-browser.c:5031
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -2313,55 +2235,55 @@ msgstr "_Nasičenost:"
 msgid "_Yellow-Blue:"
 msgstr "_Rumeno-Modra:"
 
-#. this is used to separate the dimensions, for example: 120 &#xD7; 250
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
-msgid "&#xD7;"
-msgstr "&#xD7;"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:3
 msgid "Aspect ratio"
 msgstr "Razmerje velikosti"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
 msgid "C_rop"
 msgstr "_Obreži"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 msgid "Center"
 msgstr "Sredinsko"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "I_nvert aspect ratio"
 msgstr "_Obrni razmerje velikosti"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 msgid "M_ultiple of:"
 msgstr "Ve_čkratnik števila:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Maximize"
 msgstr "Razpni"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Izbira"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 msgid "_Grid:"
 msgstr "_Mreža:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
 msgid "_Position:"
 msgstr "_Položaj:"
 
 #. abbreviation of pixel
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
 msgid "px"
 msgstr "točk"
+
+#. this is used to separate the dimensions, for example: 120 × 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
+msgid "×"
+msgstr "×"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:2
@@ -2526,198 +2448,198 @@ msgstr "Prilagajanje barv"
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Spremeni svetlost, kontrast, nasičenje in gama raven slike"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:422
-#: ../extensions/file_tools/gth-file-tool-resize.c:493
+#: ../extensions/file_tools/gth-file-tool-crop.c:424
+#: ../extensions/file_tools/gth-file-tool-resize.c:498
 msgid "Square"
 msgstr "Kvadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:423
-#: ../extensions/file_tools/gth-file-tool-resize.c:494
+#: ../extensions/file_tools/gth-file-tool-crop.c:425
+#: ../extensions/file_tools/gth-file-tool-resize.c:499
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (slika)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:426
-#: ../extensions/file_tools/gth-file-tool-resize.c:498
+#: ../extensions/file_tools/gth-file-tool-crop.c:428
+#: ../extensions/file_tools/gth-file-tool-resize.c:503
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (zaslon)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:430
-#: ../extensions/file_tools/gth-file-tool-resize.c:503
+#: ../extensions/file_tools/gth-file-tool-crop.c:432
+#: ../extensions/file_tools/gth-file-tool-resize.c:508
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:431
-#: ../extensions/file_tools/gth-file-tool-resize.c:504
+#: ../extensions/file_tools/gth-file-tool-crop.c:433
+#: ../extensions/file_tools/gth-file-tool-resize.c:509
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (knjiga, DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:432
-#: ../extensions/file_tools/gth-file-tool-resize.c:505
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:510
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:433
-#: ../extensions/file_tools/gth-file-tool-resize.c:506
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:511
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Razglednica)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:434
-#: ../extensions/file_tools/gth-file-tool-resize.c:507
+#: ../extensions/file_tools/gth-file-tool-crop.c:436
+#: ../extensions/file_tools/gth-file-tool-resize.c:512
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:435
-#: ../extensions/file_tools/gth-file-tool-resize.c:508
+#: ../extensions/file_tools/gth-file-tool-crop.c:437
+#: ../extensions/file_tools/gth-file-tool-resize.c:513
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:436
-#: ../extensions/file_tools/gth-file-tool-resize.c:509
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:514
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:437
-#: ../extensions/file_tools/gth-file-tool-resize.c:510
+#: ../extensions/file_tools/gth-file-tool-crop.c:439
+#: ../extensions/file_tools/gth-file-tool-resize.c:515
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:438
-#: ../extensions/file_tools/gth-file-tool-resize.c:511
+#: ../extensions/file_tools/gth-file-tool-crop.c:440
+#: ../extensions/file_tools/gth-file-tool-resize.c:516
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
-#: ../extensions/rename_series/gth-template-selector.c:260
+#: ../extensions/rename_series/gth-template-selector.c:232
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:449
-#: ../extensions/file_tools/gth-file-tool-rotate.c:415
+#: ../extensions/file_tools/gth-file-tool-crop.c:455
+#: ../extensions/file_tools/gth-file-tool-rotate.c:416
 msgid "Rule of Thirds"
 msgstr "Pravilo tretjin"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:450
-#: ../extensions/file_tools/gth-file-tool-rotate.c:416
+#: ../extensions/file_tools/gth-file-tool-crop.c:456
+#: ../extensions/file_tools/gth-file-tool-rotate.c:417
 msgid "Golden Sections"
 msgstr "Zlati rezi"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:451
-#: ../extensions/file_tools/gth-file-tool-rotate.c:417
+#: ../extensions/file_tools/gth-file-tool-crop.c:457
+#: ../extensions/file_tools/gth-file-tool-rotate.c:418
 msgid "Center Lines"
 msgstr "Sredinske črte"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:452
-#: ../extensions/file_tools/gth-file-tool-rotate.c:418
+#: ../extensions/file_tools/gth-file-tool-crop.c:458
+#: ../extensions/file_tools/gth-file-tool-rotate.c:419
 msgid "Uniform"
 msgstr "Enotno"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:595
+#: ../extensions/file_tools/gth-file-tool-crop.c:614
 msgid "Crop..."
 msgstr "Obreži ..."
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:595
+#: ../extensions/file_tools/gth-file-tool-crop.c:614
 msgid "Crop"
 msgstr "Obreži"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:65
-#: ../extensions/file_tools/gth-file-tool-negative.c:65
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:68
+#: ../extensions/file_tools/gth-file-tool-negative.c:68
 msgid "Applying changes"
 msgstr "Uveljavljanje sprememb"
 
-#: ../extensions/file_tools/gth-file-tool-desaturate.c:189
+#: ../extensions/file_tools/gth-file-tool-desaturate.c:203
 msgid "Desaturate"
 msgstr "Zmanjšaj nasičenje"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:116
+#: ../extensions/file_tools/gth-file-tool-enhance.c:119
 msgid "White balance correction"
 msgstr "Popravljanje ravnotežja bele barve"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:339
+#: ../extensions/file_tools/gth-file-tool-enhance.c:342
 msgid "Enhance Colors"
 msgstr "Izboljšaj barve"
 
-#: ../extensions/file_tools/gth-file-tool-enhance.c:340
+#: ../extensions/file_tools/gth-file-tool-enhance.c:343
 msgid "Automatic white balance correction"
 msgstr "Samodejno popravi ravnotežje bele barve"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:83
+#: ../extensions/file_tools/gth-file-tool-equalize.c:86
 msgid "Equalizing image histogram"
 msgstr "Uravnavanje histograma slike"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:261
+#: ../extensions/file_tools/gth-file-tool-equalize.c:275
 msgid "Equalize"
 msgstr "Uravnavanje"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:262
+#: ../extensions/file_tools/gth-file-tool-equalize.c:276
 msgid "Equalize image histogram"
 msgstr "Uravna histogram slike"
 
-#: ../extensions/file_tools/gth-file-tool-flip.c:73
+#: ../extensions/file_tools/gth-file-tool-flip.c:87
 msgid "Flip"
 msgstr "Obrni"
 
-#: ../extensions/file_tools/gth-file-tool-flip.c:74
+#: ../extensions/file_tools/gth-file-tool-flip.c:88
 msgid "Flip the image vertically"
 msgstr "Zrcali sliko navpično"
 
-#: ../extensions/file_tools/gth-file-tool-mirror.c:73
+#: ../extensions/file_tools/gth-file-tool-mirror.c:87
 msgid "Mirror"
 msgstr "Zrcaljenje"
 
-#: ../extensions/file_tools/gth-file-tool-mirror.c:74
+#: ../extensions/file_tools/gth-file-tool-mirror.c:88
 msgid "Mirror the image horizontally"
 msgstr "Zrcali sliko vodoravno"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:183
+#: ../extensions/file_tools/gth-file-tool-negative.c:197
 msgid "Negative"
 msgstr "Negativ"
 
-#: ../extensions/file_tools/gth-file-tool-redo.c:62
+#: ../extensions/file_tools/gth-file-tool-redo.c:75
 msgid "Redo"
 msgstr "Uveljavi"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:630
+#: ../extensions/file_tools/gth-file-tool-resize.c:680
 msgid "Resize..."
 msgstr "Spremeni velikost ..."
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:630
+#: ../extensions/file_tools/gth-file-tool-resize.c:680
 msgid "Resize"
 msgstr "Spremeni velikost"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:596
+#: ../extensions/file_tools/gth-file-tool-rotate.c:636
 msgid "Rotate..."
 msgstr "Zavrti ..."
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:596
+#: ../extensions/file_tools/gth-file-tool-rotate.c:636
 msgid "Rotate"
 msgstr "Zavrti"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:597
+#: ../extensions/file_tools/gth-file-tool-rotate.c:637
 msgid "Freely rotate the image"
 msgstr "Prosto zavrti sliko"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-left.c:73
-#: ../extensions/image_rotation/callbacks.c:54
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:87
+#: ../extensions/image_rotation/callbacks.c:55
 msgid "Rotate Left"
 msgstr "Zavrti levo"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-left.c:74
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:88
 msgid "Rotate the image by 90 degrees counterclockwise"
 msgstr "Zavrti sliko za 90 stopinj v levo"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-right.c:73
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:87
 #: ../extensions/image_rotation/callbacks.c:49
 msgid "Rotate Right"
 msgstr "Zavrti desno"
 
-#: ../extensions/file_tools/gth-file-tool-rotate-right.c:74
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:88
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Zavrti sliko za 90 stopinj v desno"
 
-#: ../extensions/file_tools/gth-file-tool-save-as.c:56
+#: ../extensions/file_tools/gth-file-tool-save-as.c:70
 msgid "Save As"
 msgstr "Shrani kot"
 
-#: ../extensions/file_tools/gth-file-tool-save.c:52
+#: ../extensions/file_tools/gth-file-tool-save.c:66
 msgid "Save"
 msgstr "Shrani"
 
@@ -2725,15 +2647,15 @@ msgstr "Shrani"
 msgid "Sharpening image"
 msgstr "Ostrenje slike"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:420
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:458
 msgid "Enhance Focus..."
 msgstr "Izboljšaj žarišče ..."
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:420
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:458
 msgid "Enhance Focus"
 msgstr "Izboljšaj žarišče"
 
-#: ../extensions/file_tools/gth-file-tool-undo.c:61
+#: ../extensions/file_tools/gth-file-tool-undo.c:75
 msgid "Undo"
 msgstr "Razveljavi"
 
@@ -2766,7 +2688,7 @@ msgid "Search for Duplicates"
 msgstr "Iskanje dvojnikov"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
-#: ../gthumb/gth-browser-actions-entries.h:32
+#: ../gthumb/gth-browser-actions-entries.h:33
 msgid "_View"
 msgstr "_Pogled"
 
@@ -2809,8 +2731,8 @@ msgstr "vse datoteke"
 msgid "no file"
 msgstr "brez datotek"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:426
-#: ../extensions/find_duplicates/gth-find-duplicates.c:521
+#: ../extensions/find_duplicates/gth-find-duplicates.c:397
+#: ../extensions/find_duplicates/gth-find-duplicates.c:492
 #, c-format
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
@@ -2819,15 +2741,15 @@ msgstr[1] "%d dvojnik"
 msgstr[2] "%d dvojnika"
 msgstr[3] "%d dvojniki"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:565
+#: ../extensions/find_duplicates/gth-find-duplicates.c:536
 msgid "Search completed"
 msgstr "Iskanje je končano"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:577
+#: ../extensions/find_duplicates/gth-find-duplicates.c:548
 msgid "Searching for duplicates"
 msgstr "Iskanje podvojenih datotek"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:580
+#: ../extensions/find_duplicates/gth-find-duplicates.c:551
 #: ../gthumb/gth-load-file-data-task.c:106
 #: ../gthumb/gth-save-file-data-task.c:100
 #, c-format
@@ -2838,20 +2760,20 @@ msgstr[1] "%d preostala datoteka"
 msgstr[2] "%d preostali datoteki"
 msgstr[3] "%d preostale datoteke"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:663
+#: ../extensions/find_duplicates/gth-find-duplicates.c:634
 msgid "Getting the file list"
 msgstr "Pridobivanje seznama datotek"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:769
+#: ../extensions/find_duplicates/gth-find-duplicates.c:740
 msgid "Duplicates"
 msgstr "Podvojeno"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:1023
+#: ../extensions/find_duplicates/gth-find-duplicates.c:997
 msgid "Select"
 msgstr "Izberi"
 
 #: ../extensions/flicker/callbacks.c:59
-#: ../extensions/flicker/callbacks.c:63
+#: ../extensions/flicker/callbacks.c:64
 msgid "_Flickr..."
 msgstr "_Flickr ..."
 
@@ -2859,7 +2781,7 @@ msgstr "_Flickr ..."
 msgid "Download photos from Flickr"
 msgstr "Prejemanje fotografij s Flickr"
 
-#: ../extensions/flicker/callbacks.c:64
+#: ../extensions/flicker/callbacks.c:65
 msgid "Upload photos to Flickr"
 msgstr "Pošiljanje fotografij na Flickr"
 
@@ -2924,82 +2846,75 @@ msgstr "_Varnost:"
 msgid "_Import"
 msgstr "_Uvoz "
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:357
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:827
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:360
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:830
 msgid "Could not get the photo list"
 msgstr "Ni mogoče dobiti seznama fotografij"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:394
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:559
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:861
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1024
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1026
 msgid "No album selected"
 msgstr "Noben album ni izbran"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:577
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
 msgstr "Uvozi iz %s"
 
-#: ../extensions/gstreamer_tools/actions.c:64
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1118
+#: ../extensions/gstreamer_tools/actions.c:66
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1075
 #: ../gthumb/gth-browser.c:2008
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
-#: ../extensions/gstreamer_tools/actions.c:124
+#: ../extensions/gstreamer_tools/actions.c:126
 msgid "Could not take a screenshot"
 msgstr "Ni mogoče zajeti zaslonske slike"
 
-#: ../extensions/gstreamer_tools/actions.c:130
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1266
+#: ../extensions/gstreamer_tools/actions.c:132
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1223
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: ../extensions/gstreamer_tools/actions.c:150
+#: ../extensions/gstreamer_tools/actions.c:152
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Zaslonska slika"
 
-#. this is an empty time
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
 msgid "--:--"
 msgstr "--:--"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
 msgid "Change volume level"
 msgstr "Spremeni raven glasnosti"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
 msgid "Faster"
 msgstr "Hitreje"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:656
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
 msgid "Play"
 msgstr "Predvajaj"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
 msgid "Slower"
 msgstr "Počasneje"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Time:"
 msgstr "Čas:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
 msgid "Toggle volume"
 msgstr "Preklopi glasnost"
 
-#. this is the separator between current position and duration of a media file
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
-msgctxt "time"
-msgid "/"
-msgstr "/"
-
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
 #: ../extensions/photo_importer/actions.c:67
-#: ../extensions/photo_importer/dlg-photo-importer.c:614
+#: ../extensions/photo_importer/dlg-photo-importer.c:620
 msgid "Choose a folder"
 msgstr "Izbor mape"
 
@@ -3011,19 +2926,19 @@ msgstr "Podpora zvoka/videa"
 msgid "Play audio and video files."
 msgstr "Predvajanje zvočnih in video datotek."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:93
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
 msgid "Screenshot"
 msgstr "Zaslonska slika"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:94
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:105
 msgid "Take a screenshot"
 msgstr "Zajemi zaslonsko sliko"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:633
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:663
 msgid "Playing video"
 msgstr "Predvajanje video datotek"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:646
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:676
 msgid "Pause"
 msgstr "Premor"
 
@@ -3065,7 +2980,7 @@ msgstr "Hitrost sličic"
 
 #: ../extensions/gstreamer_tools/main.c:46
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
-#: ../extensions/image_viewer/gth-image-viewer-page.c:222
+#: ../extensions/image_viewer/gth-image-viewer-page.c:209
 msgid "Width"
 msgstr "Širina"
 
@@ -3092,10 +3007,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1318
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1278
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:190
-#: ../extensions/webalbums/dlg-web-exporter.c:429
-#: ../extensions/webalbums/gth-web-exporter.c:2456
+#: ../extensions/webalbums/dlg-web-exporter.c:442
+#: ../extensions/webalbums/gth-web-exporter.c:2446
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3177,26 +3092,26 @@ msgstr "Izbor pisave noge"
 msgid "Select Header Font"
 msgstr "Izbor pisave glave"
 
-#: ../extensions/image_print/gth-image-print-job.c:997
+#: ../extensions/image_print/gth-image-print-job.c:971
 #: ../extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stran %d od %d"
 
-#: ../extensions/image_print/gth-image-print-job.c:1761
-#: ../extensions/image_print/gth-image-print-job.c:1888
-#: ../extensions/image_print/gth-image-print-job.c:1925
+#: ../extensions/image_print/gth-image-print-job.c:1734
+#: ../extensions/image_print/gth-image-print-job.c:1861
+#: ../extensions/image_print/gth-image-print-job.c:1898
 msgid "Could not print"
 msgstr "Ni mogoče natisniti"
 
-#: ../extensions/image_print/gth-image-print-job.c:1823
+#: ../extensions/image_print/gth-image-print-job.c:1796
 #: ../gthumb/gth-main-default-tests.c:204
 msgid "Images"
 msgstr "Slike"
 
-#: ../extensions/image_print/gth-image-print-job.c:1890
-#: ../gthumb/gth-image-loader.c:233
-#: ../gthumb/gth-image-loader.c:306
+#: ../extensions/image_print/gth-image-print-job.c:1863
+#: ../gthumb/gth-image-loader.c:204
+#: ../gthumb/gth-image-loader.c:277
 msgid "No suitable loader available for this file type"
 msgstr "Za to vrsto datotek ni primernega nalagalnika"
 
@@ -3207,7 +3122,7 @@ msgid "Loading \"%s\""
 msgstr "Nalaganje \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2695
+#: ../extensions/webalbums/gth-web-exporter.c:2685
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -3219,7 +3134,7 @@ msgstr "Dovoli tisk slik z izbiro postavitve strani."
 msgid "Image print"
 msgstr "Natisni sliko"
 
-#: ../extensions/image_print/preferences.c:76
+#: ../extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Natisni"
 
@@ -3227,30 +3142,30 @@ msgstr "Natisni"
 msgid "Rotate the selected images 90° to the right"
 msgstr "Zavrti izbrane slike za 90° desno"
 
-#: ../extensions/image_rotation/callbacks.c:55
+#: ../extensions/image_rotation/callbacks.c:56
 msgid "Rotate the selected images 90° to the left"
 msgstr "Zavrti izbrane slike za 90° levo"
 
-#: ../extensions/image_rotation/callbacks.c:59
+#: ../extensions/image_rotation/callbacks.c:61
 msgid "Rotate Physically"
 msgstr "Fizično zavrti"
 
-#: ../extensions/image_rotation/callbacks.c:60
+#: ../extensions/image_rotation/callbacks.c:62
 msgid "Rotate the selected images according to the embedded orientation"
 msgstr "Zavrti izbrane slike glede na vključeno usmerjenost"
 
-#: ../extensions/image_rotation/callbacks.c:64
+#: ../extensions/image_rotation/callbacks.c:67
 msgid "Reset the EXIF Orientation"
 msgstr "Ponastavi usmerjenost EXIF"
 
-#: ../extensions/image_rotation/callbacks.c:65
+#: ../extensions/image_rotation/callbacks.c:68
 msgid "Reset the embedded orientation without rotating the images"
 msgstr "Ponastavi vključeno usmerjenost brez vrtenja slik"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2349
-#: ../extensions/webalbums/gth-web-exporter.c:2433
+#: ../extensions/webalbums/gth-web-exporter.c:2339
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Shranjevanje slik"
 
@@ -3262,12 +3177,12 @@ msgstr "Vrtenje slik"
 msgid "Rotate images without data loss."
 msgstr "Zavrti slike brez izgube kakovosti."
 
-#: ../extensions/image_rotation/rotation-utils.c:118
+#: ../extensions/image_rotation/rotation-utils.c:117
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Napaka med preoblikovanjem slike: %s"
 
-#: ../extensions/image_rotation/rotation-utils.c:123
+#: ../extensions/image_rotation/rotation-utils.c:122
 msgid ""
 "This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
@@ -3281,109 +3196,85 @@ msgstr ""
 "\n"
 "Moteče robne točke lahko zavržete (ali obrežete). V praksi ta način daje najboljše rezultate, toda preoblikovanje ni več strogo brez izgub."
 
-#: ../extensions/image_rotation/rotation-utils.c:129
+#: ../extensions/image_rotation/rotation-utils.c:128
 msgid "_Trim"
 msgstr "_Robljenje"
 
-#: ../extensions/image_rotation/rotation-utils.c:131
+#: ../extensions/image_rotation/rotation-utils.c:130
 msgid "_Accept distortion"
 msgstr "_Sprejmi počpačenje"
-
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:1
-msgid "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-larger, fit-width, fit-width-if-larger."
-msgstr "Mogoče vrednosti so: dejanska-velikost, prilagodi, obdrži-prejšnje, prilagodi-če-večje, prilagodi-širino-če-večje."
-
-#: ../extensions/image_viewer/data/gthumb-image-viewer.schemas.in.h:8
-msgid "Whether to resize the window to fit the size of the image"
-msgstr "Ali naj bo velikost okna spremenjena do prilagajanja velikosti slike"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "After loading an image:"
 msgstr "Po nalaganju slike:"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-msgid "High"
-msgstr "Visoka"
-
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-msgid "Low"
-msgstr "Nizka"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Reset scrollbar positions"
 msgstr "Ponastavi položaje drsnikov"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 msgid "Transparency _type:"
 msgstr "_Vrsta prozornosti:"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "_Zoom quality:"
 msgstr "_Kakovost približanja:"
 
-#: ../extensions/image_viewer/gth-image-histogram.c:74
+#: ../extensions/image_viewer/gth-image-histogram.c:84
 msgid "Histogram"
 msgstr "Histogram"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:192
+#: ../extensions/image_viewer/gth-image-viewer-page.c:179
 msgid "Copy Image"
 msgstr "Kopiraj sliko"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:193
+#: ../extensions/image_viewer/gth-image-viewer-page.c:180
 msgid "Copy the image to the clipboard"
 msgstr "Kopiraj sliko v odložišče"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:197
+#: ../extensions/image_viewer/gth-image-viewer-page.c:184
 msgid "Paste Image"
 msgstr "Prilepi sliko"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:198
+#: ../extensions/image_viewer/gth-image-viewer-page.c:185
 msgid "Paste the image from the clipboard"
 msgstr "Prilepi sliko iz odložišča"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:202
+#: ../extensions/image_viewer/gth-image-viewer-page.c:189
 msgid "In"
 msgstr "Povečaj"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:203
+#: ../extensions/image_viewer/gth-image-viewer-page.c:190
 msgid "Zoom in"
 msgstr "Povečaj"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:207
+#: ../extensions/image_viewer/gth-image-viewer-page.c:194
 msgid "Out"
 msgstr "Pomanjšaj"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:208
+#: ../extensions/image_viewer/gth-image-viewer-page.c:195
 msgid "Zoom out"
 msgstr "Pomanjšaj"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:212
+#: ../extensions/image_viewer/gth-image-viewer-page.c:199
 msgid "1:1"
 msgstr "1:1"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:213
+#: ../extensions/image_viewer/gth-image-viewer-page.c:200
 msgid "Actual size"
 msgstr "Dejanska velikost"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:217
+#: ../extensions/image_viewer/gth-image-viewer-page.c:204
 msgid "Fit"
 msgstr "Prilagodi"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:218
+#: ../extensions/image_viewer/gth-image-viewer-page.c:205
 msgid "Zoom to fit window"
 msgstr "Prilagodi velikost oknu"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:223
+#: ../extensions/image_viewer/gth-image-viewer-page.c:210
 msgid "Zoom to fit width"
 msgstr "Prilagodi velikost širini"
-
-#: ../extensions/image_viewer/gth-image-viewer-page.c:230
-msgid "_Fit Window to Image"
-msgstr "_Prilagodi okno sliki"
-
-#: ../extensions/image_viewer/gth-image-viewer-page.c:231
-msgid "Resize the window to the size of the image"
-msgstr "Spremeni velikost okna na velikost slike"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
 msgid "Basic image viewing."
@@ -3393,25 +3284,9 @@ msgstr "Osnoven pogled slik."
 msgid "Image viewer"
 msgstr "Pregledovalnik slik"
 
-#: ../extensions/image_viewer/preferences.c:96
-msgid "Set to actual size"
-msgstr "Nastavi sliko na dejansko velikost"
-
-#: ../extensions/image_viewer/preferences.c:100
-msgid "Fit to width"
-msgstr "Prilagodi širini"
-
-#: ../extensions/image_viewer/preferences.c:137
+#: ../extensions/image_viewer/preferences.c:125
 msgid "Viewer"
 msgstr "Pregledovalnik"
-
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:1
-msgid "Possible values are: none, file_date, current_date"
-msgstr "Mogoče vrednosti so: brez, datum_datoteke, trenutni_datum"
-
-#: ../extensions/importer/data/gthumb-importer.schemas.in.h:2
-msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-msgstr "Mogoče vrednosti so: yyyymmdd, yyyymm, yyyy"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
 msgid "The day of the month"
@@ -3449,41 +3324,41 @@ msgstr "_Cilj"
 msgid "as _single subfolder"
 msgstr "kot _ena podmapa"
 
-#: ../extensions/importer/gth-import-destination-button.c:212
+#: ../extensions/importer/gth-import-destination-button.c:183
 msgid "Invalid Destination"
 msgstr "Neveljaven cilj"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:195
+#: ../extensions/importer/gth-import-preferences-dialog.c:198
 #, c-format
 msgid "example: %s"
 msgstr "primer: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:326
+#: ../extensions/importer/gth-import-preferences-dialog.c:330
 msgid "File date"
 msgstr "Datum datoteke"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:336
+#: ../extensions/importer/gth-import-preferences-dialog.c:340
 msgid "year-month-day"
 msgstr "leto-mesec-dan"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:337
+#: ../extensions/importer/gth-import-preferences-dialog.c:341
 msgid "year-month"
 msgstr "leto-mesec"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:338
+#: ../extensions/importer/gth-import-preferences-dialog.c:342
 msgid "year"
 msgstr "leto"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:339
+#: ../extensions/importer/gth-import-preferences-dialog.c:343
 msgid "custom format"
 msgstr "oblika po meri"
 
 #: ../extensions/importer/gth-import-task.c:442
 #: ../extensions/importer/gth-import-task.c:477
-#: ../extensions/importer/gth-import-task.c:643
+#: ../extensions/importer/gth-import-task.c:648
 msgid "Importing files"
 msgstr "Uvažanje datotek"
 
@@ -3495,25 +3370,25 @@ msgstr "Nobena datoteka ni bila uvožena"
 msgid "The selected files are already present in the destination."
 msgstr "Izbrane datoteke so že prisotne na cilju."
 
-#: ../extensions/importer/gth-import-task.c:619
-#: ../gthumb/gth-file-source-vfs.c:685
+#: ../extensions/importer/gth-import-task.c:622
+#: ../gthumb/gth-file-source-vfs.c:690
 msgid "Could not delete the files"
 msgstr "Datotek ni mogoče izbrisati"
 
-#: ../extensions/importer/gth-import-task.c:620
+#: ../extensions/importer/gth-import-task.c:623
 msgid "Delete operation not supported."
 msgstr "Dejanje izbrisa ni podprto."
 
-#: ../extensions/importer/gth-import-task.c:704
+#: ../extensions/importer/gth-import-task.c:709
 msgid "Last imported"
 msgstr "Zadnjič uvoženo"
 
-#: ../extensions/importer/gth-import-task.c:839
+#: ../extensions/importer/gth-import-task.c:815
 msgid "No file specified."
 msgstr "Ni določene datoteke."
 
 #. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
-#: ../extensions/importer/gth-import-task.c:876
+#: ../extensions/importer/gth-import-task.c:852
 #, c-format
 msgid ""
 "Not enough free space in '%s'.\n"
@@ -3522,18 +3397,16 @@ msgstr ""
 "Ni dovolj prostora v mapi '%s'.\n"
 "Zahtevano je %s prostora, na voljo pa ga je le %s."
 
-#: ../extensions/list_tools/callbacks.c:65
+#: ../extensions/list_tools/callbacks.c:75
 #: ../gthumb/gth-filterbar.c:303
 msgid "Personalize..."
 msgstr "Ukaz po meri ..."
 
-#: ../extensions/list_tools/callbacks.c:238
-#: ../extensions/list_tools/callbacks.c:249
+#: ../extensions/list_tools/callbacks.c:319
 msgid "Tools"
 msgstr "Orodja"
 
-#: ../extensions/list_tools/callbacks.c:240
-#: ../extensions/list_tools/callbacks.c:251
+#: ../extensions/list_tools/callbacks.c:320
 msgid "Batch tools for multiple files"
 msgstr "Paketna slikovna orodja"
 
@@ -3643,7 +3516,7 @@ msgid "Shortcut"
 msgstr "Bližnjica"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:285
-#: ../gthumb/dlg-personalize-filters.c:251
+#: ../gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Pokaži"
 
@@ -3663,32 +3536,32 @@ msgstr "Uredi ukaz"
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Ali ste prepričani, da želite izbrisati izbran ukaz?"
 
-#: ../extensions/list_tools/gth-script.c:642
+#: ../extensions/list_tools/gth-script.c:610
 msgid "Enter a value:"
 msgstr "Vnesite vrednost:"
 
-#: ../extensions/list_tools/gth-script.c:777
-#: ../extensions/webalbums/gth-web-exporter.c:570
-#: ../extensions/webalbums/gth-web-exporter.c:582
-#: ../extensions/webalbums/gth-web-exporter.c:590
+#: ../extensions/list_tools/gth-script.c:745
+#: ../extensions/webalbums/gth-web-exporter.c:560
+#: ../extensions/webalbums/gth-web-exporter.c:572
+#: ../extensions/webalbums/gth-web-exporter.c:580
 msgid "Malformed command"
 msgstr "Slabo oblikovan ukaz"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:176
+#: ../extensions/list_tools/gth-script-editor-dialog.c:147
 msgid "none"
 msgstr "brez"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:182
+#: ../extensions/list_tools/gth-script-editor-dialog.c:153
 #, c-format
 msgid "key %d on the numeric keypad"
 msgstr "tipka %d na številčni tipkovnici"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:325
+#: ../extensions/list_tools/gth-script-editor-dialog.c:296
 #, c-format
 msgid "No command specified"
 msgstr "Ukaz ni določen"
 
-#: ../extensions/list_tools/gth-script-task.c:84
+#: ../extensions/list_tools/gth-script-task.c:83
 #, c-format
 msgid "Command exited abnormally with status %d"
 msgstr "Ukaz je končal nepravilno s stanjem %d"
@@ -3701,33 +3574,33 @@ msgstr "Orodja seznama datotek"
 msgid "Scripting and batch manipulation of files."
 msgstr "Skripti in paketno upravljanje datotek."
 
-#: ../extensions/map_view/gth-map-view.c:121
+#: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "J"
 
-#: ../extensions/map_view/gth-map-view.c:121
+#: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "S"
 
-#: ../extensions/map_view/gth-map-view.c:123
+#: ../extensions/map_view/gth-map-view.c:132
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "Z"
 
-#: ../extensions/map_view/gth-map-view.c:123
+#: ../extensions/map_view/gth-map-view.c:132
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "V"
 
-#: ../extensions/map_view/gth-map-view.c:196
+#: ../extensions/map_view/gth-map-view.c:205
 #: ../extensions/map_view/map_view.extension.in.in.h:1
 msgid "Map"
 msgstr "Zemljevid"
 
 #. No GPS label
-#: ../extensions/map_view/gth-map-view.c:265
+#: ../extensions/map_view/gth-map-view.c:273
 msgid "The geographical position information is not available for this image."
 msgstr "Podatki zemljepisne lega za to sliko niso na voljo."
 
@@ -3862,35 +3735,35 @@ msgstr "_Dogodek:"
 msgid "_Tags:"
 msgstr "O_znake:"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:222
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:173
+#: ../extensions/photo_importer/dlg-photo-importer.c:227
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:174
 msgid "Could not import the files"
 msgstr "Datotek ni mogoče uvoziti"
 
 #. translators: %d is the number of files, %s the total size
-#: ../extensions/photo_importer/dlg-photo-importer.c:294
+#: ../extensions/photo_importer/dlg-photo-importer.c:299
 #, c-format
 msgid "Files to import: %d (%s)"
 msgstr "Datoteke za uvoz: %d (%s)"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:334
+#: ../extensions/photo_importer/dlg-photo-importer.c:339
 msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:364
+#: ../extensions/photo_importer/dlg-photo-importer.c:369
 #: ../gthumb/gth-browser.c:1921
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:410
+#: ../extensions/photo_importer/dlg-photo-importer.c:415
 msgid "Empty"
 msgstr "Prazno"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:580
+#: ../extensions/photo_importer/dlg-photo-importer.c:586
 msgid "Import from Removable Device"
 msgstr "Uvozi z odstranljive naprave"
 
-#: ../extensions/photo_importer/dlg-photo-importer.c:612
+#: ../extensions/photo_importer/dlg-photo-importer.c:618
 msgid "Import from Folder"
 msgstr "Uvozi iz mape"
 
@@ -3903,7 +3776,7 @@ msgid "Import photos from removable devices."
 msgstr "Uvozi fotografije z odstranljivih naprav."
 
 #: ../extensions/picasaweb/callbacks.c:59
-#: ../extensions/picasaweb/callbacks.c:63
+#: ../extensions/picasaweb/callbacks.c:64
 msgid "_Picasa Web Album..."
 msgstr "Spletni album _Picasa ..."
 
@@ -3911,7 +3784,7 @@ msgstr "Spletni album _Picasa ..."
 msgid "Download photos from Picasa Web Album"
 msgstr "Prejmi fotografije s spletnega albuma Picasa"
 
-#: ../extensions/picasaweb/callbacks.c:64
+#: ../extensions/picasaweb/callbacks.c:65
 msgid "Upload photos to Picasa Web Album"
 msgstr "Pošlji fotografije na spletni album Picasa"
 
@@ -3948,21 +3821,21 @@ msgid "Public"
 msgstr "Javno"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:354
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:307
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:310
 msgid "Could not get the album list"
 msgstr "Ni mogoče dobiti seznama albumov"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:438
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:391
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:394
 msgid "Picasa Web Album"
 msgstr "Spletni album Picasa"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:525
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:478
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:481
 msgid "Account"
 msgstr "Račun"
 
-#: ../extensions/picasaweb/picasa-account-properties-dialog.c:133
+#: ../extensions/picasaweb/picasa-account-properties-dialog.c:104
 msgid "Could not load the file"
 msgstr "Ni mogoče naložiti datoteke"
 
@@ -3973,18 +3846,6 @@ msgstr "Picasa spletni albumi"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Pošlje slike na Picasa spletne albume"
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:1
-msgid "Possible values are: jpeg, jpg."
-msgstr "Mogoči vrednosti sta jpg in jpeg."
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:2
-msgid "Possible values are: none, deflate, jpeg."
-msgstr "Mogoče vrednosti so brez, stisnjeno in jpeg."
-
-#: ../extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in.h:3
-msgid "Possible values are: tiff, tif."
-msgstr "Mogoči vrednosti sta tif in tiff."
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:1
 msgid "Opti_mize"
@@ -4043,24 +3904,24 @@ msgstr "_Brez stiskanja"
 msgid "dpi"
 msgstr "dpi"
 
-#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:527
+#: ../extensions/pixbuf_savers/gth-jpeg-saver.c:519
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/pixbuf_savers/gth-png-saver.c:145
+#: ../extensions/pixbuf_savers/gth-png-saver.c:140
 msgid "PNG"
 msgstr "PNG"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:291
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:286
 #: ../gthumb/gth-buffer-data.c:84
 msgid "Insufficient memory"
 msgstr "Nezadostna količina pomnilnika"
 
-#: ../extensions/pixbuf_savers/gth-tga-saver.c:378
+#: ../extensions/pixbuf_savers/gth-tga-saver.c:373
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/pixbuf_savers/gth-tiff-saver.c:542
+#: ../extensions/pixbuf_savers/gth-tiff-saver.c:537
 msgid "TIFF"
 msgstr "TIFF"
 
@@ -4088,15 +3949,15 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:469
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:510
 msgid "Red Eye Removal..."
 msgstr "Odstranjevanje rdečih oči ..."
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:469
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:510
 msgid "Red Eye Removal"
 msgstr "Odstranjevanje rdečih oči"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:511
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Odstrani učinek rdečih oči, ki ga povzročijo bliskavice"
 
@@ -4107,14 +3968,6 @@ msgstr "Odstranjevanje rdečih oči"
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Orodje za odstranjevanje učinka rdečih oči s fotografije."
-
-#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:1
-msgid "Possible values include: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal"
-msgstr "Mogoče vrednosti vključujejo: general::unsorted, file::name, file::size, file::mtime, exif::photo::datetimeoriginal"
-
-#: ../extensions/rename_series/data/gthumb_rename_series.schemas.in.h:2
-msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-msgstr "Mogoče vrednosti: 0 (brez), 1 (nižje), 2 (višje)"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
 msgid "add"
@@ -4186,64 +4039,64 @@ msgstr "Izvirno ime datoteke"
 msgid "_Template:"
 msgstr "_Predloga:"
 
-#: ../extensions/rename_series/dlg-rename-series.c:64
+#: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
 msgstr "Števec"
 
-#: ../extensions/rename_series/dlg-rename-series.c:65
+#: ../extensions/rename_series/dlg-rename-series.c:59
 msgid "Original filename"
 msgstr "Izvirno ime datoteke"
 
-#: ../extensions/rename_series/dlg-rename-series.c:66
+#: ../extensions/rename_series/dlg-rename-series.c:60
 msgid "Original extension"
 msgstr "Izvirna pripona"
 
-#: ../extensions/rename_series/dlg-rename-series.c:67
+#: ../extensions/rename_series/dlg-rename-series.c:61
 msgid "Original enumerator"
 msgstr "Izvirni števec"
 
-#: ../extensions/rename_series/dlg-rename-series.c:68
+#: ../extensions/rename_series/dlg-rename-series.c:62
 msgid "Modification date"
 msgstr "Datum spremembe"
 
-#: ../extensions/rename_series/dlg-rename-series.c:69
+#: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
 msgstr "Datum digitalizacije"
 
-#: ../extensions/rename_series/dlg-rename-series.c:70
+#: ../extensions/rename_series/dlg-rename-series.c:64
 msgid "File attribute"
 msgstr "Atribut datoteke"
 
-#: ../extensions/rename_series/dlg-rename-series.c:556
-#: ../extensions/rename_series/dlg-rename-series.c:687
+#: ../extensions/rename_series/dlg-rename-series.c:552
+#: ../extensions/rename_series/dlg-rename-series.c:683
 msgid "Could not rename the files"
 msgstr "Ni mogoče preimenovati datotek"
 
-#: ../extensions/rename_series/dlg-rename-series.c:784
+#: ../extensions/rename_series/dlg-rename-series.c:780
 msgid "Could not save the template"
 msgstr "Predloge ni mogoče shraniti"
 
-#: ../extensions/rename_series/dlg-rename-series.c:802
+#: ../extensions/rename_series/dlg-rename-series.c:798
 msgid "Edit Template"
 msgstr "Uredi predlogo"
 
-#: ../extensions/rename_series/dlg-rename-series.c:859
+#: ../extensions/rename_series/dlg-rename-series.c:856
 msgid "Old Name"
 msgstr "Staro ime"
 
-#: ../extensions/rename_series/dlg-rename-series.c:870
+#: ../extensions/rename_series/dlg-rename-series.c:867
 msgid "New Name"
 msgstr "Novo ime"
 
-#: ../extensions/rename_series/dlg-rename-series.c:945
+#: ../extensions/rename_series/dlg-rename-series.c:944
 msgid "Keep original case"
 msgstr "Ohrani izvirno velikost"
 
-#: ../extensions/rename_series/dlg-rename-series.c:946
+#: ../extensions/rename_series/dlg-rename-series.c:945
 msgid "Convert to lower-case"
 msgstr "Pretvori v male črke"
 
-#: ../extensions/rename_series/dlg-rename-series.c:947
+#: ../extensions/rename_series/dlg-rename-series.c:946
 msgid "Convert to upper-case"
 msgstr "Pretvori v velike črke"
 
@@ -4292,11 +4145,11 @@ msgstr "_Ohrani izvirno razmerje velikosti"
 msgid "pixel"
 msgstr "točka"
 
-#: ../extensions/resize_images/dlg-resize-images.c:163
+#: ../extensions/resize_images/dlg-resize-images.c:168
 msgid "Resizing images"
 msgstr "Spreminjanje v"
 
-#: ../extensions/resize_images/dlg-resize-images.c:358
+#: ../extensions/resize_images/dlg-resize-images.c:412
 msgid "Keep the original format"
 msgstr "Ohrani izvirni zapis"
 
@@ -4326,23 +4179,23 @@ msgstr "Poišči"
 msgid "Find files"
 msgstr "Najdi datoteke"
 
-#: ../extensions/search/callbacks.c:133
+#: ../extensions/search/callbacks.c:132
 msgid "Search again"
 msgstr "Poišči znova"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: ../extensions/search/callbacks.c:175
+#: ../extensions/search/callbacks.c:174
 #: ../extensions/search/search.extension.in.in.h:2
 msgid "Search"
 msgstr "Poišči"
 
-#: ../extensions/search/gth-search-editor.c:138
-#: ../gthumb/gth-filter-editor-dialog.c:195
+#: ../extensions/search/gth-search-editor.c:108
+#: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
 msgstr "vsa naslednja pravila"
 
-#: ../extensions/search/gth-search-editor.c:139
-#: ../gthumb/gth-filter-editor-dialog.c:196
+#: ../extensions/search/gth-search-editor.c:109
+#: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
 msgstr "katerokoli od naslednjih pravil"
 
@@ -4351,11 +4204,11 @@ msgstr "katerokoli od naslednjih pravil"
 msgid "Files found until now: %s"
 msgstr "Do sedaj najdene datoteke: %s"
 
-#: ../extensions/search/gth-search-task.c:270
+#: ../extensions/search/gth-search-task.c:271
 msgid "Searching..."
 msgstr "Iskanje ..."
 
-#: ../extensions/search/gth-search-task.c:276
+#: ../extensions/search/gth-search-task.c:277
 msgid "Cancel the operation"
 msgstr "Prekliči opravilo"
 
@@ -4371,9 +4224,9 @@ msgstr "_Predstavitev"
 msgid "View as a slideshow"
 msgstr "Poglej kot predstavitev"
 
-#: ../extensions/slideshow/callbacks.c:406
+#: ../extensions/slideshow/callbacks.c:410
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
-#: ../extensions/slideshow/preferences.c:138
+#: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Predstavitev"
@@ -4415,15 +4268,15 @@ msgstr "Učinek _prehoda:"
 msgid "Playing slideshow"
 msgstr "Predvajanje predstavitve"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:214
+#: ../extensions/slideshow/gth-slideshow-preferences.c:183
 msgid "Choose the files to play"
 msgstr "Izbor datotek za predvajanje"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:223
+#: ../extensions/slideshow/gth-slideshow-preferences.c:192
 msgid "Audio files"
 msgstr "Zvočne datoteke"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:289
+#: ../extensions/slideshow/gth-slideshow-preferences.c:258
 msgid "Random"
 msgstr "Naključno"
 
@@ -4489,12 +4342,12 @@ msgid "Index"
 msgstr "Kazalo"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:30
-#: ../gthumb/gth-browser-actions-entries.h:110
+#: ../gthumb/gth-browser-actions-entries.h:125
 msgid "Next"
 msgstr "Naslednja"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:32
-#: ../gthumb/gth-browser-actions-entries.h:105
+#: ../gthumb/gth-browser-actions-entries.h:119
 msgid "Previous"
 msgstr "Predhodna"
 
@@ -4584,36 +4437,36 @@ msgstr "_Kopiraj izvirnike na cilj"
 msgid "_Resize if larger than:"
 msgstr "_Spremeni velikost, če je večja kot:"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1812
+#: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
 msgstr "Ni mogoče pokazati cilja"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1848
+#: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
 msgstr "Album je bil uspešno ustvarjen."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2116
-#: ../extensions/webalbums/gth-web-exporter.c:2143
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2133
 msgid "Saving thumbnails"
 msgstr "Shranjevanje sličic"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2171
+#: ../extensions/webalbums/gth-web-exporter.c:2161
 msgid "Saving HTML pages: Images"
 msgstr "Shranjevanje strani HTML: slike"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2229
+#: ../extensions/webalbums/gth-web-exporter.c:2219
 msgid "Saving HTML pages: Indexes"
 msgstr "Shranjevanje strani HTML: kazala"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2512
+#: ../extensions/webalbums/gth-web-exporter.c:2502
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2938
+#: ../extensions/webalbums/gth-web-exporter.c:2929
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2971
+#: ../extensions/webalbums/gth-web-exporter.c:2967
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -4625,64 +4478,64 @@ msgstr "Ustvari statične spletne albume."
 msgid "Web Albums"
 msgstr "Spletni albumi"
 
-#: ../gthumb/dlg-personalize-filters.c:236
+#: ../gthumb/dlg-personalize-filters.c:237
 msgid "Filter"
 msgstr "Filter"
 
-#: ../gthumb/dlg-personalize-filters.c:314
+#: ../gthumb/dlg-personalize-filters.c:315
 msgid "Could not save the filter"
 msgstr "Filtra ni mogoče shraniti"
 
-#: ../gthumb/dlg-personalize-filters.c:357
+#: ../gthumb/dlg-personalize-filters.c:358
 msgid "New Filter"
 msgstr "Nov filter"
 
-#: ../gthumb/dlg-personalize-filters.c:386
+#: ../gthumb/dlg-personalize-filters.c:387
 msgid "Edit Filter"
 msgstr "Uredi filter"
 
-#: ../gthumb/dlg-preferences-extensions.c:68
+#: ../gthumb/dlg-preferences-extensions.c:67
 #: ../gthumb/gth-filterbar.c:269
 msgid "All"
 msgstr "Vse"
 
-#: ../gthumb/dlg-preferences-extensions.c:69
+#: ../gthumb/dlg-preferences-extensions.c:68
 msgid "Enabled"
 msgstr "Omogočeno"
 
-#: ../gthumb/dlg-preferences-extensions.c:70
+#: ../gthumb/dlg-preferences-extensions.c:69
 msgid "Disabled"
 msgstr "Onemogočeno"
 
-#: ../gthumb/dlg-preferences-extensions.c:73
+#: ../gthumb/dlg-preferences-extensions.c:72
 msgid "Viewers"
 msgstr "Pregledovalniki"
 
-#: ../gthumb/dlg-preferences-extensions.c:74
+#: ../gthumb/dlg-preferences-extensions.c:73
 msgid "Metadata"
 msgstr "Metapodatki"
 
-#: ../gthumb/dlg-preferences-extensions.c:75
+#: ../gthumb/dlg-preferences-extensions.c:74
 msgid "File tools"
 msgstr "Datotečna orodja"
 
-#: ../gthumb/dlg-preferences-extensions.c:76
+#: ../gthumb/dlg-preferences-extensions.c:75
 msgid "List tools"
 msgstr "Orodja seznama"
 
-#: ../gthumb/dlg-preferences-extensions.c:77
+#: ../gthumb/dlg-preferences-extensions.c:76
 msgid "Importers"
 msgstr "Uvozniki"
 
-#: ../gthumb/dlg-preferences-extensions.c:78
+#: ../gthumb/dlg-preferences-extensions.c:77
 msgid "Exporters"
 msgstr "Izvozniki"
 
-#: ../gthumb/dlg-preferences-extensions.c:215
+#: ../gthumb/dlg-preferences-extensions.c:216
 msgid "Could not activate the extension"
 msgstr "Ni mogoče omogočiti razširitve"
 
-#: ../gthumb/dlg-preferences-extensions.c:225
+#: ../gthumb/dlg-preferences-extensions.c:226
 msgid "Could not deactivate the extension"
 msgstr "Ni mogoče onemogočiti razširitve"
 
@@ -4776,7 +4629,7 @@ msgstr "Pridobivanje podrobnosti datoteke"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2749
+#: ../gthumb/glib-utils.c:2838
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4788,236 +4641,245 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2758
+#: ../gthumb/glib-utils.c:2847
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:361
+#: ../gthumb/gth-browser-actions-callbacks.c:391
 msgid "gthumb is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version."
 msgstr "gthumb je prosta programska oprema; program lahko razširjate in/ali spreminjate pod pogoji Splošnega dovoljenja GNU (GNU General PublicLicense), kot ga je objavila ustanova Free Software Foundation; bodisi različice 2 ali (po vaši izbiri) katerekoli poznejše različice."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:365
+#: ../gthumb/gth-browser-actions-callbacks.c:395
 msgid "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
 msgstr "gthumb se razširja v upanju, da bo uporaben, vendar BREZ VSAKRŠNEGA JAMSTVA; tudi brez posredne zagotovitve CENOVNE VREDNOSTI ali PRIMERNOSTI ZA DOLOČEN NAMEN.  Za podrobnosti glejte besedilo GNU General Public License."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:369
+#: ../gthumb/gth-browser-actions-callbacks.c:399
 msgid "You should have received a copy of the GNU General Public License along with gthumb.  If not, see http://www.gnu.org/licenses/."
 msgstr "Skupaj s programom bi morali dobiti tudi kopijo GNU splošne javne licence. V primeru, da je niste, si oglejte http://www.gnu.org/licenses/."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:388
+#: ../gthumb/gth-browser-actions-callbacks.c:418
 msgid "An image viewer and browser for GNOME."
 msgstr "Brskalnik in pregledovalnik slik za GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:391
+#: ../gthumb/gth-browser-actions-callbacks.c:421
 msgid "translator_credits"
 msgstr ""
 "Matej Urbančič, <mateju@svn.gnome.org>\n"
 "Andrej Žnidaršič, <andrej.znidarsic@gmail.com>"
 
-#: ../gthumb/gth-browser-actions-entries.h:30
+#: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
 msgstr "_Datoteka"
 
-#: ../gthumb/gth-browser-actions-entries.h:31
+#: ../gthumb/gth-browser-actions-entries.h:32
 msgid "_Edit"
 msgstr "_Uredi"
 
-#: ../gthumb/gth-browser-actions-entries.h:33
+#: ../gthumb/gth-browser-actions-entries.h:34
 msgid "_Go"
 msgstr "P_ojdi"
 
-#: ../gthumb/gth-browser-actions-entries.h:34
+#: ../gthumb/gth-browser-actions-entries.h:35
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: ../gthumb/gth-browser-actions-entries.h:35
+#: ../gthumb/gth-browser-actions-entries.h:36
 msgid "Open _With"
 msgstr "Odpri _z"
 
-#: ../gthumb/gth-browser-actions-entries.h:36
+#: ../gthumb/gth-browser-actions-entries.h:37
 msgid "I_mport From"
 msgstr "U_vozi iz"
 
-#: ../gthumb/gth-browser-actions-entries.h:37
+#: ../gthumb/gth-browser-actions-entries.h:38
 msgid "E_xport To"
 msgstr "_Izvozi v"
 
-#: ../gthumb/gth-browser-actions-entries.h:40
+#: ../gthumb/gth-browser-actions-entries.h:41
 msgid "New _Window"
 msgstr "No_vo okno"
 
-#: ../gthumb/gth-browser-actions-entries.h:41
+#: ../gthumb/gth-browser-actions-entries.h:42
 msgid "Open another window"
 msgstr "Odpri novo okno"
 
-#: ../gthumb/gth-browser-actions-entries.h:65
+#: ../gthumb/gth-browser-actions-entries.h:71
 msgid "Open"
 msgstr "Odpri"
 
-#: ../gthumb/gth-browser-actions-entries.h:70
+#: ../gthumb/gth-browser-actions-entries.h:77
 msgid "Open in New Window"
 msgstr "Odpri v novem oknu"
 
-#: ../gthumb/gth-browser-actions-entries.h:76
+#: ../gthumb/gth-browser-actions-entries.h:84
 msgid "Edit various preferences"
 msgstr "Urejanje različnih možnosti"
 
-#: ../gthumb/gth-browser-actions-entries.h:85
+#: ../gthumb/gth-browser-actions-entries.h:95
 msgid "_Sort By..."
 msgstr "_Razvrsti po ..."
 
-#: ../gthumb/gth-browser-actions-entries.h:90
+#: ../gthumb/gth-browser-actions-entries.h:101
 msgid "_Filter..."
 msgstr "_Filter ..."
 
-#: ../gthumb/gth-browser-actions-entries.h:96
+#: ../gthumb/gth-browser-actions-entries.h:108
 msgid "Stop loading the current location"
 msgstr "Zaustavi nalaganje trenutnega mesta"
 
-#: ../gthumb/gth-browser-actions-entries.h:101
+#: ../gthumb/gth-browser-actions-entries.h:114
 msgid "Reload the current location"
 msgstr "Ponovno naloži trenutno mesto"
 
-#: ../gthumb/gth-browser-actions-entries.h:106
+#: ../gthumb/gth-browser-actions-entries.h:120
 msgid "View previous image"
 msgstr "Pogled predhodne slike"
 
-#: ../gthumb/gth-browser-actions-entries.h:111
+#: ../gthumb/gth-browser-actions-entries.h:126
 msgid "View next image"
 msgstr "Pogled naslednje slike"
 
-#: ../gthumb/gth-browser-actions-entries.h:116
+#: ../gthumb/gth-browser-actions-entries.h:132
 msgid "Switch to fullscreen"
 msgstr "Preklopi na cel zaslon"
 
-#: ../gthumb/gth-browser-actions-entries.h:121
+#: ../gthumb/gth-browser-actions-entries.h:138
 msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
-#: ../gthumb/gth-browser-actions-entries.h:126
-#: ../gthumb/gth-browser.c:3647
+#: ../gthumb/gth-browser-actions-entries.h:144
+#: ../gthumb/gth-browser.c:3605
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
-#: ../gthumb/gth-browser-actions-entries.h:131
-#: ../gthumb/gth-browser.c:3668
+#: ../gthumb/gth-browser-actions-entries.h:150
+#: ../gthumb/gth-browser.c:3623
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
-#: ../gthumb/gth-browser-actions-entries.h:136
-#: ../gthumb/gth-browser.c:3689
+#: ../gthumb/gth-browser-actions-entries.h:156
+#: ../gthumb/gth-browser.c:3641
 msgid "Go up one level"
 msgstr "Pojdi eno raven višje"
 
-#: ../gthumb/gth-browser-actions-entries.h:145
-#: ../gthumb/gth-browser.c:667
+#: ../gthumb/gth-browser-actions-entries.h:167
+#: ../gthumb/gth-browser.c:672
 msgid "_Delete History"
 msgstr "_Izbriši zgodovino"
 
-#: ../gthumb/gth-browser-actions-entries.h:146
+#: ../gthumb/gth-browser-actions-entries.h:168
 msgid "Delete the list of visited locations"
 msgstr "Izbriše seznam obiskanih mest"
 
-#: ../gthumb/gth-browser-actions-entries.h:151
+#: ../gthumb/gth-browser-actions-entries.h:174
 msgid "View the folders"
 msgstr "Pogled map"
 
-#: ../gthumb/gth-browser-actions-entries.h:156
+#: ../gthumb/gth-browser-actions-entries.h:180
 msgid "Show information about gthumb"
 msgstr "Prikaže podrobnosti programa gthumb"
 
-#: ../gthumb/gth-browser-actions-entries.h:160
+#: ../gthumb/gth-browser-actions-entries.h:185
 msgid "Contents"
 msgstr "Vsebina"
 
-#: ../gthumb/gth-browser-actions-entries.h:161
+#: ../gthumb/gth-browser-actions-entries.h:186
 msgid "Display the gthumb Manual"
 msgstr "Prikaže priročnik gThumb"
 
-#: ../gthumb/gth-browser-actions-entries.h:165
+#: ../gthumb/gth-browser-actions-entries.h:191
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: ../gthumb/gth-browser-actions-entries.h:174
+#: ../gthumb/gth-browser-actions-entries.h:200
 msgid "_Toolbar"
 msgstr "_Orodna vrstica"
 
-#: ../gthumb/gth-browser-actions-entries.h:175
+#: ../gthumb/gth-browser-actions-entries.h:201
 msgid "View or hide the toolbar of this window"
 msgstr "Pokaže ali skrije orodno vrstico tega okna"
 
-#: ../gthumb/gth-browser-actions-entries.h:179
+#: ../gthumb/gth-browser-actions-entries.h:205
 msgid "_Statusbar"
 msgstr "_Vrstica stanja"
 
-#: ../gthumb/gth-browser-actions-entries.h:180
+#: ../gthumb/gth-browser-actions-entries.h:206
 msgid "View or hide the statusbar of this window"
 msgstr "Pokaže ali skrije vrstico stanja tega okna"
 
-#: ../gthumb/gth-browser-actions-entries.h:184
+#: ../gthumb/gth-browser-actions-entries.h:210
 msgid "_Filterbar"
 msgstr "Vrstica _filtra"
 
-#: ../gthumb/gth-browser-actions-entries.h:185
+#: ../gthumb/gth-browser-actions-entries.h:211
 msgid "View or hide the filterbar of this window"
 msgstr "Pokaže ali skrije filtrirno vrstico tega okna"
 
-#: ../gthumb/gth-browser-actions-entries.h:189
+#: ../gthumb/gth-browser-actions-entries.h:215
 msgid "_Sidebar"
 msgstr "_Stranska vrstica"
 
-#: ../gthumb/gth-browser-actions-entries.h:190
+#: ../gthumb/gth-browser-actions-entries.h:216
 msgid "View or hide the sidebar of this window"
 msgstr "Pokaže ali skrije stransko vrstico tega okna"
 
-#: ../gthumb/gth-browser-actions-entries.h:194
+#: ../gthumb/gth-browser-actions-entries.h:220
 msgid "_Thumbnail Pane"
 msgstr "Pladenj s_ličic"
 
-#: ../gthumb/gth-browser-actions-entries.h:195
+#: ../gthumb/gth-browser-actions-entries.h:221
 msgid "View or hide the thumbnail pane in viewer mode"
 msgstr "Pokaže ali skrije pladenj sličic v načinu pregledovalnika"
 
-#: ../gthumb/gth-browser-actions-entries.h:199
+#: ../gthumb/gth-browser-actions-entries.h:225
 msgid "_Thumbnails"
 msgstr "_Sličice"
 
-#: ../gthumb/gth-browser-actions-entries.h:200
+#: ../gthumb/gth-browser-actions-entries.h:226
 msgid "View thumbnails"
 msgstr "Pogled sličic"
 
-#: ../gthumb/gth-browser-actions-entries.h:204
+#: ../gthumb/gth-browser-actions-entries.h:230
 msgid "_Hidden Files"
 msgstr "_Skrite datoteke"
 
-#: ../gthumb/gth-browser-actions-entries.h:205
+#: ../gthumb/gth-browser-actions-entries.h:231
 msgid "Show hidden files and folders"
 msgstr "Pokaže skrite datoteke in mape"
 
-#: ../gthumb/gth-browser-actions-entries.h:210
+#: ../gthumb/gth-browser-actions-entries.h:236
+#: ../gthumb/gth-browser-actions-entries.h:241
 msgid "View file properties"
 msgstr "Pogled lastnosti datoteke"
 
-#: ../gthumb/gth-browser-actions-entries.h:214
+#: ../gthumb/gth-browser-actions-entries.h:245
 msgid "Edit"
 msgstr "Uredi"
 
-#: ../gthumb/gth-browser-actions-entries.h:215
+#: ../gthumb/gth-browser-actions-entries.h:246
 msgid "Edit file"
 msgstr "Uredi datoteko"
 
-#: ../gthumb/gth-browser.c:363
+#: ../gthumb/gth-browser-actions-entries.h:250
+msgid "_Fit Window to Image"
+msgstr "_Prilagodi okno sliki"
+
+#: ../gthumb/gth-browser-actions-entries.h:251
+msgid "Resize the window to the size of the image"
+msgstr "Spremeni velikost okna na velikost slike"
+
+#: ../gthumb/gth-browser.c:369
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
 
-#: ../gthumb/gth-browser.c:503
+#: ../gthumb/gth-browser.c:509
 msgid "[modified]"
 msgstr "[spremenjeno]"
 
-#: ../gthumb/gth-browser.c:991
+#: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5026,16 +4888,16 @@ msgstr[1] "%d izbrana datoteka (%s)"
 msgstr[2] "%d izbrani datoteki (%s)"
 msgstr[3] "%d izbrane datoteke (%s)"
 
-#: ../gthumb/gth-browser.c:1026
+#: ../gthumb/gth-browser.c:1031
 #, c-format
 msgid "%s of free space"
 msgstr "%s neporabljenega prostora"
 
-#: ../gthumb/gth-browser.c:1235
+#: ../gthumb/gth-browser.c:1240
 #: ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5797
-#: ../gthumb/gth-browser.c:5816
-#: ../gthumb/gth-browser.c:5841
+#: ../gthumb/gth-browser.c:5955
+#: ../gthumb/gth-browser.c:5974
+#: ../gthumb/gth-browser.c:5999
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ni mogoče naložiti položaja  \"%s\""
@@ -5059,69 +4921,69 @@ msgstr "V primeru, da sprememb ne shranite, bodo trajno izgubljene."
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2863
-#: ../gthumb/gth-browser.c:2883
-#: ../gthumb/gth-source-tree.c:178
-#: ../gthumb/gth-source-tree.c:200
+#: ../gthumb/gth-browser.c:2828
+#: ../gthumb/gth-browser.c:2848
+#: ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-source-tree.c:204
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:3328
+#: ../gthumb/gth-browser.c:3285
 #: ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3648
-#: ../gthumb/gth-browser.c:3669
+#: ../gthumb/gth-browser.c:3606
+#: ../gthumb/gth-browser.c:3624
 msgid "View the list of visited locations"
 msgstr "Pogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3690
+#: ../gthumb/gth-browser.c:3642
 msgid "View the list of upper locations"
 msgstr "Pogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5798
+#: ../gthumb/gth-browser.c:5956
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5842
+#: ../gthumb/gth-browser.c:6000
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
 
-#: ../gthumb/gth-extensions.c:228
+#: ../gthumb/gth-extensions.c:203
 #, c-format
 msgid "Could not open the module `%s`: %s"
 msgstr "Ni mogoče odpreti modula `%s`: %s"
 
-#: ../gthumb/gth-extensions.c:831
+#: ../gthumb/gth-extensions.c:733
 #, c-format
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "Razširitev '%2$s' zahteva nameščeno tudi razširitev '%1$s'."
 
-#: ../gthumb/gth-file-source-vfs.c:116
+#: ../gthumb/gth-file-source-vfs.c:117
 msgid "Home Folder"
 msgstr "Domača mapa"
 
-#: ../gthumb/gth-file-source-vfs.c:121
+#: ../gthumb/gth-file-source-vfs.c:122
 msgid "File System"
 msgstr "Datotečni sistem"
 
-#: ../gthumb/gth-file-source-vfs.c:730
+#: ../gthumb/gth-file-source-vfs.c:735
 msgid "The files cannot be moved to the Trash. Do you want to delete them permanently?"
 msgstr "Datotek ni mogoče premakniti v smeti. Ali jih želite trajno izbrisati?"
 
-#: ../gthumb/gth-file-source-vfs.c:741
+#: ../gthumb/gth-file-source-vfs.c:746
 msgid "Could not move the files to the Trash"
 msgstr "Datotek ni mogoče premakniti v smeti"
 
-#: ../gthumb/gth-file-source-vfs.c:785
+#: ../gthumb/gth-file-source-vfs.c:793
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Ali ste prepričani, da želite premakniti \"%s\" v smeti?"
 
-#: ../gthumb/gth-file-source-vfs.c:788
+#: ../gthumb/gth-file-source-vfs.c:797
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -5130,7 +4992,7 @@ msgstr[1] "Ali ste prepričani, da želite %'d izbrano datoteko premakniti v sme
 msgstr[2] "Ali ste prepričani, da želite %'d izbrani datoteki premakniti v smeti?"
 msgstr[3] "Ali ste prepričani, da želite %'d izbrane datoteke premakniti v smeti?"
 
-#: ../gthumb/gth-file-source-vfs.c:829
+#: ../gthumb/gth-file-source-vfs.c:840
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
@@ -5144,83 +5006,83 @@ msgid "Hide the filterbar"
 msgstr "Skrij vrstico filtra"
 
 #: ../gthumb/gth-filter.c:43
-#: ../gthumb/gth-filter-editor-dialog.c:208
+#: ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:75
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44
-#: ../gthumb/gth-filter-editor-dialog.c:209
+#: ../gthumb/gth-filter-editor-dialog.c:179
 #: ../gthumb/gth-test-simple.c:76
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45
-#: ../gthumb/gth-filter-editor-dialog.c:210
+#: ../gthumb/gth-filter-editor-dialog.c:180
 #: ../gthumb/gth-test-simple.c:77
 msgid "GB"
 msgstr "GB"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:279
-#: ../gthumb/gth-filter-editor-dialog.c:207
+#: ../gthumb/gth-filter.c:289
+#: ../gthumb/gth-filter-editor-dialog.c:177
 msgid "files"
 msgstr "datoteke"
 
-#: ../gthumb/gth-filter-editor-dialog.c:254
+#: ../gthumb/gth-filter-editor-dialog.c:224
 msgid "ascending"
 msgstr "naraščajoče"
 
-#: ../gthumb/gth-filter-editor-dialog.c:255
+#: ../gthumb/gth-filter-editor-dialog.c:225
 msgid "descending"
 msgstr "padajoče"
 
-#: ../gthumb/gth-filter-editor-dialog.c:545
+#: ../gthumb/gth-filter-editor-dialog.c:515
 #, c-format
 msgid "No limit specified"
 msgstr "Omejitev ni navedena"
 
-#: ../gthumb/gth-folder-tree.c:848
+#: ../gthumb/gth-folder-tree.c:833
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
-#: ../gthumb/gth-folder-tree.c:1119
+#: ../gthumb/gth-folder-tree.c:1076
 msgid "(Open Parent)"
 msgstr "(Odpri nadrejeno)"
 
-#: ../gthumb/gth-histogram-view.c:800
+#: ../gthumb/gth-histogram-view.c:826
 msgid "Linear scale"
 msgstr "Linearna skala"
 
-#: ../gthumb/gth-histogram-view.c:812
+#: ../gthumb/gth-histogram-view.c:838
 msgid "Logarithmic scale"
 msgstr "Logaritmska skala"
 
-#: ../gthumb/gth-histogram-view.c:832
+#: ../gthumb/gth-histogram-view.c:858
 msgid "Channel:"
 msgstr "Kanal:"
 
-#: ../gthumb/gth-histogram-view.c:864
+#: ../gthumb/gth-histogram-view.c:890
 msgid "Value"
 msgstr "Vrednost"
 
-#: ../gthumb/gth-histogram-view.c:870
+#: ../gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Rdeča"
 
-#: ../gthumb/gth-histogram-view.c:876
+#: ../gthumb/gth-histogram-view.c:902
 msgid "Green"
 msgstr "Zelena"
 
-#: ../gthumb/gth-histogram-view.c:882
+#: ../gthumb/gth-histogram-view.c:908
 msgid "Blue"
 msgstr "Modra"
 
-#: ../gthumb/gth-histogram-view.c:888
+#: ../gthumb/gth-histogram-view.c:914
 msgid "Alpha"
 msgstr "Alfa"
 
-#: ../gthumb/gth-histogram-view.c:895
+#: ../gthumb/gth-histogram-view.c:921
 msgid "RGB"
 msgstr "RGB"
 
@@ -5313,12 +5175,12 @@ msgstr "Prekliči opravilo"
 msgid "Saving file information"
 msgstr "Shranjevanje podrobnosti datoteke"
 
-#: ../gthumb/gth-tags-entry.c:373
+#: ../gthumb/gth-tags-entry.c:374
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Ustvari oznako «%s»"
 
-#: ../gthumb/gth-tags-entry.c:719
+#: ../gthumb/gth-tags-entry.c:720
 msgid "Show all the tags"
 msgstr "Pokaži vse oznake"
 
@@ -5386,20 +5248,20 @@ msgstr "je le"
 msgid "is not"
 msgstr "ni"
 
-#: ../gthumb/gth-test-category.c:374
-#: ../gthumb/gth-test-simple.c:800
-#: ../gthumb/gth-test-simple.c:826
-#: ../gthumb/gth-test-simple.c:847
-#: ../gthumb/gth-test-simple.c:873
+#: ../gthumb/gth-test-category.c:386
+#: ../gthumb/gth-test-simple.c:812
+#: ../gthumb/gth-test-simple.c:838
+#: ../gthumb/gth-test-simple.c:859
+#: ../gthumb/gth-test-simple.c:885
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "Preizkusna definicija ni končana"
 
-#: ../gthumb/gth-test-selector.c:278
+#: ../gthumb/gth-test-selector.c:251
 msgid "Add a new rule"
 msgstr "Dodaj novo pravilo"
 
-#: ../gthumb/gth-test-selector.c:289
+#: ../gthumb/gth-test-selector.c:262
 msgid "Remove this rule"
 msgstr "Odstrani to pravilo"
 
@@ -5443,11 +5305,11 @@ msgstr "je pred"
 msgid "is after"
 msgstr "je po"
 
-#: ../gthumb/gth-time-selector.c:471
+#: ../gthumb/gth-time-selector.c:474
 msgid "Today"
 msgstr "Danes"
 
-#: ../gthumb/gth-time-selector.c:479
+#: ../gthumb/gth-time-selector.c:482
 msgid "Now"
 msgstr "Sedaj"
 
@@ -5459,53 +5321,52 @@ msgstr "Zapre to okno"
 msgid "Close _All Windows"
 msgstr "Zapri _vsa okna"
 
-#: ../gthumb/gtk-utils.c:704
+#: ../gthumb/gtk-utils.c:551
 msgid "Could not display help"
 msgstr "Pomoči ni mogoče prikazati"
 
-#: ../gthumb/gtk-utils.c:991
-#: ../gthumb/gtk-utils.c:1000
+#: ../gthumb/gtk-utils.c:868
+#: ../gthumb/gtk-utils.c:875
 msgid "Could not launch the application"
 msgstr "Programa ni mogoče zagnati"
 
-#: ../gthumb/gtk-utils.c:1103
+#: ../gthumb/gtk-utils.c:978
 msgid "_Copy Here"
 msgstr "_Kopiraj sem"
 
-#: ../gthumb/gtk-utils.c:1108
+#: ../gthumb/gtk-utils.c:983
 msgid "_Move Here"
 msgstr "_Premakni sem"
 
-#: ../gthumb/gtk-utils.c:1113
+#: ../gthumb/gtk-utils.c:988
 msgid "_Link Here"
 msgstr "_Poveži sem"
 
-#: ../gthumb/gtk-utils.c:1122
+#: ../gthumb/gtk-utils.c:997
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../gthumb/main.c:72
+#: ../gthumb/main.c:59
 msgid "Open a new window"
 msgstr "Odpri novo okno"
 
-#: ../gthumb/main.c:76
+#: ../gthumb/main.c:63
 msgid "Start in fullscreen mode"
 msgstr "Zaženi v celozaslonskem načinu"
 
-#: ../gthumb/main.c:80
+#: ../gthumb/main.c:67
 msgid "Automatically start a slideshow"
 msgstr "Samodejno začni predstavitev"
 
-#: ../gthumb/main.c:84
+#: ../gthumb/main.c:71
 msgid "Automatically import digital camera photos"
 msgstr "Samodejno uvozi fotografije iz digitalnega fotoaparata"
 
-#: ../gthumb/main.c:88
+#: ../gthumb/main.c:75
 msgid "Show version"
 msgstr "Pokaži različico"
 
-#. command line options
-#: ../gthumb/main.c:539
+#: ../gthumb/main.c:344
 msgid "- Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
 
@@ -5513,6 +5374,124 @@ msgstr "- Brskalnik in pregledovalnik slik"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
+
+#~ msgid ""
+#~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+#~ "fit_width_if_larger."
+#~ msgstr ""
+#~ "Mogoče vrednosti so: dejanska_velikost, prilagodi, obdrži_prejšnje, "
+#~ "prilagodi_če_večje, prilagodi_širino_če_večje."
+
+#~ msgid "Possible values are: high, low."
+#~ msgstr "Mogoči vrednosti sta: visoko, nizko."
+
+#~ msgid "Possible values are: light, midtone, dark."
+#~ msgstr "Mogoče vrednosti so: svetlo, srednje, temno."
+
+#~ msgid "Possible values are: list, thumbnails."
+#~ msgstr "Mogoči vrednosti sta: seznam, sličice."
+
+#~ msgid "Possible values are: small, medium, large."
+#~ msgstr "Mogoče vrednosti so: majhno, srednje, veliko."
+
+#~ msgid ""
+#~ "Possible values are: system, text_below, text_beside, text_only, "
+#~ "icons_only."
+#~ msgstr ""
+#~ "Mogoče vrednosti so: sistem, besedilo_spodaj, besedilo_poleg, "
+#~ "samo_besedilo, samo_ikone."
+
+#~ msgid "Activate items with a double click"
+#~ msgstr "Zaženi predmete z dvojnim klikom miške"
+
+#~ msgid "Activate items with a single click"
+#~ msgstr "Zaženi predmete z enojnim klikom miške"
+
+#~ msgid "Black"
+#~ msgstr "Črna"
+
+#~ msgid "Checked"
+#~ msgstr "Preverjeno"
+
+#~ msgid "Fit to width if larger"
+#~ msgstr "Prilagodi velikost širini, če je večja"
+
+#~ msgid "Fit to window"
+#~ msgstr "Prilagodi oknu"
+
+#~ msgid "Fit to window if larger"
+#~ msgstr "Prilagodi velikost oknu, če je večja"
+
+#~ msgid "Follow Nautilus behaviour"
+#~ msgstr "Sledi obnašanju Nautilusa"
+
+#~ msgid "Icons only"
+#~ msgstr "Le ikone"
+
+#~ msgid "Keep previous zoom"
+#~ msgstr "Ohrani predhodno približanje"
+
+#~ msgid "Set image to actual size"
+#~ msgstr "Nastavi sliko na dejansko velikost"
+
+#~ msgid "System settings"
+#~ msgstr "Sistemske nastavitve"
+
+#~ msgid "Text below icons"
+#~ msgstr "Besedilo pod ikonami"
+
+#~ msgid "Text beside icons"
+#~ msgstr "Besedilo ob ikonah"
+
+#~ msgid "Text only"
+#~ msgstr "Le besedilo"
+
+#~ msgid "White"
+#~ msgstr "Bela"
+
+#~ msgid "on the bottom"
+#~ msgstr "na dnu"
+
+#~ msgid "Possible values: pixels, percentage"
+#~ msgstr "Mogoči vrednosti sta: točke, odstotek"
+
+#~ msgid "&#xD7;"
+#~ msgstr "&#xD7;"
+#~ msgctxt "time"
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid ""
+#~ "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-"
+#~ "larger, fit-width, fit-width-if-larger."
+#~ msgstr ""
+#~ "Mogoče vrednosti so: dejanska-velikost, prilagodi, obdrži-prejšnje, "
+#~ "prilagodi-če-večje, prilagodi-širino-če-večje."
+
+#~ msgid "High"
+#~ msgstr "Visoka"
+
+#~ msgid "Low"
+#~ msgstr "Nizka"
+
+#~ msgid "Set to actual size"
+#~ msgstr "Nastavi sliko na dejansko velikost"
+
+#~ msgid "Fit to width"
+#~ msgstr "Prilagodi širini"
+
+#~ msgid "Possible values are: none, file_date, current_date"
+#~ msgstr "Mogoče vrednosti so: brez, datum_datoteke, trenutni_datum"
+
+#~ msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
+#~ msgstr "Mogoče vrednosti so: yyyymmdd, yyyymm, yyyy"
+
+#~ msgid "Possible values are: none, deflate, jpeg."
+#~ msgstr "Mogoče vrednosti so brez, stisnjeno in jpeg."
+
+#~ msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
+#~ msgstr "Mogoče vrednosti: 0 (brez), 1 (nižje), 2 (višje)"
 
 #~ msgid "     "
 #~ msgstr "     "
