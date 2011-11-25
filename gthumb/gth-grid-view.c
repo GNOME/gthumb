@@ -1487,8 +1487,6 @@ gth_grid_view_focus_in (GtkWidget     *widget,
 	GthGridView *self = GTH_GRID_VIEW (widget);
 
 	_gth_grid_view_keep_focus_consistent (self);
-	if ((self->priv->focused_item == -1) && (self->priv->n_items > 0))
-		gth_file_view_set_cursor (GTH_FILE_VIEW (self), 0);
 	gtk_widget_queue_draw (widget);
 
 	return TRUE;
