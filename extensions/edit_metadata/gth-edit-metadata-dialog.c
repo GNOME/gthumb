@@ -54,7 +54,8 @@ gth_edit_metadata_dialog_init (GthEditMetadataDialog *self)
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_APPLY);
+	gtk_dialog_add_button (GTK_DIALOG (self), _("Sa_ve and Close"), GTK_RESPONSE_OK);
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
@@ -108,9 +109,6 @@ gth_edit_metadata_dialog_set_file_list (GthEditMetadataDialog *dialog,
 	GList *pages;
 	GList *scan;
 
-	if (file_list == NULL)
-		return;
-
 	n_files = g_list_length (file_list);
 	if (n_files == 1) {
 		GthFileData *file_data = file_list->data;
@@ -130,6 +128,13 @@ gth_edit_metadata_dialog_set_file_list (GthEditMetadataDialog *dialog,
 	pages = gtk_container_get_children (GTK_CONTAINER (dialog->priv->notebook));
 	for (scan = pages; scan; scan = scan->next)
 		gth_edit_metadata_page_set_file_list (GTH_EDIT_METADATA_PAGE (scan->data), file_list);
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
+					   GTK_RESPONSE_APPLY,
+					   n_files > 0);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
+					   GTK_RESPONSE_OK,
+					   n_files > 0);
 
 	g_list_free (pages);
 	g_free (title);

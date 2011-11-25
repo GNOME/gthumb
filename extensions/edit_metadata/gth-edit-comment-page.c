@@ -110,7 +110,7 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
 	}
 	else {
-		if (file_list->next == NULL)
+		if ((file_list != NULL) && (file_list->next == NULL))
 			gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
 		else
 			gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_CHANGE);
@@ -144,7 +144,10 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 
 	no_provider = TRUE;
 
-	if (file_list->next == NULL) {
+	if (file_list == NULL) {
+		file_data = gth_file_data_new (NULL, NULL);
+	}
+	else if (file_list->next == NULL) {
 		GthFileData *first = file_list->data;
 		file_data = gth_file_data_new (first->file, first->info);
 	}

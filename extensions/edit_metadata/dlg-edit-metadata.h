@@ -24,7 +24,6 @@
 
 #include <gthumb.h>
 
-void dlg_edit_metadata (GthBrowser *browser,
-			GList      *files /* GFile list */);
+void dlg_edit_metadata (GthBrowser *browser);
 
 #endif /* DLG_EDIT_METADATA_H */
