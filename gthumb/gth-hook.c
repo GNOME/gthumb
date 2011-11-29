@@ -235,13 +235,13 @@ gth_hook_invoke (const char *name,
 	hook = GET_HOOK (name);
 	marshal_data = g_new0 (gpointer, hook->n_args);
 
-	if (first_data != NULL)
+	if (hook->n_args > 0) {
 		marshal_data[i++] = first_data;
-
-	va_start (args, first_data);
-	while (i < hook->n_args)
-		marshal_data[i++] = va_arg (args, gpointer);
-	va_end (args);
+		va_start (args, first_data);
+		while (i < hook->n_args)
+			marshal_data[i++] = va_arg (args, gpointer);
+		va_end (args);
+	}
 
 	switch (hook->n_args) {
 	case 0:
@@ -351,11 +351,13 @@ gth_hook_invoke_get (const char *name,
 	marshal_data = g_new0 (gpointer, hook->n_args + 1);
 	marshal_data[hook->n_args] = NULL;
 
-	va_start (args, first_data);
-	marshal_data[i++] = first_data;
-	while (i < hook->n_args)
-		marshal_data[i++] = va_arg (args, gpointer);
-	va_end (args);
+	if (hook->n_args > 0) {
+		marshal_data[i++] = first_data;
+		va_start (args, first_data);
+		while (i < hook->n_args)
+			marshal_data[i++] = va_arg (args, gpointer);
+		va_end (args);
+	}
 
 	switch (hook->n_args) {
 	case 0:
