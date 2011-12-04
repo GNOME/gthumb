@@ -1,3 +1,22 @@
+version 2.14.1
+--------------
+
+ Bugs fixed:
+
+  * Fixed infinite reloading of some images when selected in the file
+    list. 
+  * Fixed export to Photobucket.
+  * Fixed crash when no file properties view is registered.
+  * Fixed crash when closing the media viewer very quickly.
+  * Fixed some memory leaks.
+
+ New or updated application translations:
+
+  * Czech (Marek Černocký)
+  * Español; Castellano (Jorge González)
+  * Japanese (Takeshi AIHANA)
+  * Polish (Piotr Drąg)
+
 version 2.14.0
 ---------------
 
