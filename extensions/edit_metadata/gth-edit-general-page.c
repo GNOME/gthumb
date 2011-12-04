@@ -22,11 +22,10 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
-#include "gth-edit-comment-page.h"
-#include "gth-edit-metadata-dialog.h"
+#include "gth-edit-comment-dialog.h"
+#include "gth-edit-general-page.h"
 
 
-#define GTH_EDIT_COMMENT_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_EDIT_COMMENT_PAGE, GthEditCommentPagePrivate))
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
@@ -41,7 +40,7 @@ typedef enum {
 } DateOption;
 
 
-struct _GthEditCommentPagePrivate {
+struct _GthEditGeneralPagePrivate {
 	GFileInfo  *info;
 	GtkBuilder *builder;
 	GtkWidget  *date_combobox;
@@ -51,21 +50,21 @@ struct _GthEditCommentPagePrivate {
 };
 
 
-static void gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageInterface *iface);
+static void gth_edit_general_page_gth_edit_general_page_interface_init (GthEditCommentPageInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthEditCommentPage,
-			 gth_edit_comment_page,
+G_DEFINE_TYPE_WITH_CODE (GthEditGeneralPage,
+			 gth_edit_general_page,
 			 GTK_TYPE_VBOX,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_METADATA_PAGE,
-					 	gth_edit_comment_page_gth_edit_comment_page_interface_init))
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_COMMENT_PAGE,
+					 	gth_edit_general_page_gth_edit_general_page_interface_init))
 
 
 void
-gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
-		 			  GList               *file_list)
+gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
+		 			  GList              *file_list)
 {
-	GthEditCommentPage  *self;
+	GthEditGeneralPage  *self;
 	GtkTextBuffer       *buffer;
 	GthMetadata         *metadata;
 	GthStringList       *tags;
@@ -74,7 +73,7 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 	GthFileData         *file_data;
 	const char          *mime_type;
 
-	self = GTH_EDIT_COMMENT_PAGE (base);
+	self = GTH_EDIT_GENERAL_PAGE (base);
 
 	_g_object_unref (self->priv->info);
 	self->priv->info = gth_file_data_list_get_common_info (file_list, "general::description,general::title,general::location,general::datetime,general::tags,general::rating");
@@ -123,12 +122,12 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 		char *value;
 
 		value = gth_string_list_join (tags, ",");
-		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), value);
+		gth_tags_entry_set_tags_from_text (GTH_TAGS_ENTRY (self->priv->tags_entry), value);
 
 		g_free (value);
 	}
 	else
-		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), NULL);
+		gth_tags_entry_set_tags_from_text (GTH_TAGS_ENTRY (self->priv->tags_entry), NULL);
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::rating");
 	if (metadata != NULL) {
@@ -198,7 +197,7 @@ gth_edit_comment_page_real_set_file_list (GthEditMetadataPage *base,
 
 
 static char *
-get_date_from_option (GthEditCommentPage *self,
+get_date_from_option (GthEditGeneralPage *self,
 		      DateOption          option,
 		      GFileInfo          *info)
 {
@@ -259,24 +258,24 @@ get_date_from_option (GthEditCommentPage *self,
 
 
 void
-gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
-					GFileInfo           *info,
-					gboolean             only_modified_fields)
+gth_edit_general_page_real_update_info (GthEditCommentPage *base,
+					GFileInfo          *info,
+					gboolean            only_modified_fields)
 {
-	GthEditCommentPage  *self;
-	GthFileData         *file_data;
-	GtkTextBuffer       *buffer;
-	GtkTextIter          start;
-	GtkTextIter          end;
-	char                *text;
-	GthMetadata         *metadata;
-	int                  i;
-	char               **tagv;
-	GList               *tags;
-	GthStringList       *string_list;
-	char                *s;
+	GthEditGeneralPage  *self;
+	GthFileData            *file_data;
+	GtkTextBuffer          *buffer;
+	GtkTextIter             start;
+	GtkTextIter             end;
+	char                   *text;
+	GthMetadata            *metadata;
+	int                     i;
+	char                  **tagv;
+	GList                  *tags;
+	GthStringList          *string_list;
+	char                   *s;
 
-	self = GTH_EDIT_COMMENT_PAGE (base);
+	self = GTH_EDIT_GENERAL_PAGE (base);
 
 	file_data = gth_file_data_new (NULL, self->priv->info);
 
@@ -325,9 +324,11 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->date_combobox))) {
 	case NO_CHANGE:
 		break;
+
 	case NO_DATE:
 		g_file_info_remove_attribute (info, "general::datetime");
 		break;
+
 	default:
 		{
 			char *exif_date;
@@ -398,32 +399,32 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 
 const char *
-gth_edit_comment_page_real_get_name (GthEditMetadataPage *self)
+gth_edit_general_page_real_get_name (GthEditCommentPage *self)
 {
 	return _("General");
 }
 
 
 static void
-gth_edit_comment_page_finalize (GObject *object)
+gth_edit_general_page_finalize (GObject *object)
 {
-	GthEditCommentPage *self;
+	GthEditGeneralPage *self;
 
-	self = GTH_EDIT_COMMENT_PAGE (object);
+	self = GTH_EDIT_GENERAL_PAGE (object);
 
 	_g_object_unref (self->priv->info);
 	g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (gth_edit_comment_page_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_edit_general_page_parent_class)->finalize (object);
 }
 
 
 static void
-gth_edit_comment_page_class_init (GthEditCommentPageClass *klass)
+gth_edit_general_page_class_init (GthEditGeneralPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthEditCommentPagePrivate));
+	g_type_class_add_private (klass, sizeof (GthEditGeneralPagePrivate));
 
-	G_OBJECT_CLASS (klass)->finalize = gth_edit_comment_page_finalize;
+	G_OBJECT_CLASS (klass)->finalize = gth_edit_general_page_finalize;
 }
 
 
@@ -431,7 +432,7 @@ static void
 date_combobox_changed_cb (GtkComboBox *widget,
 			  gpointer     user_data)
 {
-	GthEditCommentPage *self = user_data;
+	GthEditGeneralPage *self = user_data;
 	char               *value;
 
 	value = get_date_from_option (self, gtk_combo_box_get_active (widget), self->priv->info);
@@ -444,7 +445,7 @@ date_combobox_changed_cb (GtkComboBox *widget,
 
 static void
 tags_entry_list_collapsed_cb (GthTagsEntry *widget,
-			      gpointer     user_data)
+			      gpointer      user_data)
 {
 	GtkWidget *toplevel;
 	int        width;
@@ -461,9 +462,9 @@ tags_entry_list_collapsed_cb (GthTagsEntry *widget,
 
 
 static void
-gth_edit_comment_page_init (GthEditCommentPage *self)
+gth_edit_general_page_init (GthEditGeneralPage *self)
 {
-	self->priv = GTH_EDIT_COMMENT_PAGE_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_GENERAL_PAGE, GthEditGeneralPagePrivate);
 	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
@@ -507,9 +508,9 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 
 
 static void
-gth_edit_comment_page_gth_edit_comment_page_interface_init (GthEditMetadataPageInterface *iface)
+gth_edit_general_page_gth_edit_general_page_interface_init (GthEditCommentPageInterface *iface)
 {
-	iface->set_file_list = gth_edit_comment_page_real_set_file_list;
-	iface->update_info = gth_edit_comment_page_real_update_info;
-	iface->get_name = gth_edit_comment_page_real_get_name;
+	iface->set_file_list = gth_edit_general_page_real_set_file_list;
+	iface->update_info = gth_edit_general_page_real_update_info;
+	iface->get_name = gth_edit_general_page_real_get_name;
 }

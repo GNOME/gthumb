@@ -38,6 +38,7 @@ enum {
 
 enum {
 	EXPANDED_LIST_USED_COLUMN,
+	EXPANDED_LIST_INCONSISTENT_COLUMN,
 	EXPANDED_LIST_SEPARATOR_COLUMN,
 	EXPANDED_LIST_NAME_COLUMN,
 	EXPANDED_LIST_N_COLUMNS
@@ -55,6 +56,7 @@ typedef struct {
 	char     *name;
 	gboolean  used;
 	gboolean  suggested;
+	gboolean  inconsistent;
 } TagData;
 
 
@@ -70,12 +72,14 @@ struct _GthTagsEntryPrivate {
 	GtkWidget           *entry;
 	GtkWidget           *expand_button;
 	ExpandedList         expanded_list;
+	gboolean             expanded;
 	char               **tags;
 	GtkEntryCompletion  *completion;
 	GtkListStore        *completion_store;
 	char                *new_tag;
 	gboolean             action_create;
 	gulong               monitor_event;
+	GHashTable          *inconsistent;
 };
 
 
@@ -98,6 +102,7 @@ gth_tags_entry_finalize (GObject *obj)
 	g_object_unref (self->priv->completion);
 	g_strfreev (self->priv->tags);
 	g_strfreev (self->priv->expanded_list.last_used);
+	g_hash_table_unref (self->priv->inconsistent);
 
 	G_OBJECT_CLASS (gth_tags_entry_parent_class)->finalize (obj);
 }
@@ -240,9 +245,12 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		tag_data[i]->name = g_strdup (all_tags[i]);
 		tag_data[i]->suggested = FALSE;
 		tag_data[i]->used = FALSE;
+		tag_data[i]->inconsistent = (g_hash_table_lookup (self->priv->inconsistent, tag_data[i]->name) != NULL);
 		for (j = 0; ! tag_data[i]->used && (used_tags[j] != NULL); j++)
-			if (g_utf8_collate (tag_data[i]->name, used_tags[j]) == 0)
+			if (g_utf8_collate (tag_data[i]->name, used_tags[j]) == 0) {
 				tag_data[i]->used = TRUE;
+				tag_data[i]->inconsistent = FALSE;
+			}
 
 		if (! tag_data[i]->used)
 			for (j = 0; ! tag_data[i]->suggested && (self->priv->expanded_list.last_used[j] != NULL); j++)
@@ -273,6 +281,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
 				    EXPANDED_LIST_USED_COLUMN, TRUE,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
 				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
 				    -1);
@@ -282,6 +291,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, FALSE,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
 				    EXPANDED_LIST_NAME_COLUMN, "",
 				    -1);
@@ -301,6 +311,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
 				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
 				    -1);
@@ -310,6 +321,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, FALSE,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
 				    EXPANDED_LIST_NAME_COLUMN, "",
 				    -1);
@@ -326,6 +338,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
 				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
 				    -1);
@@ -618,14 +631,21 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 
 	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (self->priv->expanded_list.tree_view));
 	if (gtk_tree_model_get_iter (tree_model, &iter, tpath)) {
-		gboolean used;
+		char     *tag;
+		gboolean  used;
 
 		gtk_tree_model_get (tree_model, &iter,
+				    EXPANDED_LIST_NAME_COLUMN, &tag,
 				    EXPANDED_LIST_USED_COLUMN, &used,
 				    -1);
+
+		g_hash_table_remove (self->priv->inconsistent, tag);
 		gtk_list_store_set (GTK_LIST_STORE (tree_model), &iter,
 				    EXPANDED_LIST_USED_COLUMN, ! used,
+				    EXPANDED_LIST_INCONSISTENT_COLUMN, FALSE,
 				    -1);
+
+		g_free (tag);
 	}
 
 	update_entry_from_expanded_list (self);
@@ -679,6 +699,8 @@ gth_tags_entry_init (GthTagsEntry *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
+	self->priv->expanded = FALSE;
+	self->priv->inconsistent = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	gtk_box_set_spacing (GTK_BOX (self), 3);
 
@@ -729,7 +751,11 @@ gth_tags_entry_init (GthTagsEntry *self)
 
 	/* expanded list, the treeview */
 
-	self->priv->expanded_list.store = gtk_list_store_new (EXPANDED_LIST_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING);
+	self->priv->expanded_list.store = gtk_list_store_new (EXPANDED_LIST_N_COLUMNS,
+							      G_TYPE_BOOLEAN,
+							      G_TYPE_BOOLEAN,
+							      G_TYPE_BOOLEAN,
+							      G_TYPE_STRING);
 	self->priv->expanded_list.tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (self->priv->expanded_list.store));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->expanded_list.tree_view), FALSE);
 	gtk_tree_view_set_row_separator_func (GTK_TREE_VIEW (self->priv->expanded_list.tree_view),
@@ -749,6 +775,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
 					     "active", EXPANDED_LIST_USED_COLUMN,
+					     "inconsistent", EXPANDED_LIST_INCONSISTENT_COLUMN,
 					     NULL);
 
 	/* the name column. */
@@ -804,6 +831,72 @@ gth_tags_entry_new (void)
 }
 
 
+void
+gth_tags_entry_set_expanded (GthTagsEntry *self,
+			     gboolean      expanded)
+{
+	g_return_if_fail (GTH_IS_TAGS_ENTRY (self));
+
+	self->priv->expanded = expanded;
+	gtk_widget_set_size_request (self->priv->expanded_list.container, -1, self->priv->expanded ? -1 : EXPANDED_LIST_HEIGHT);
+	gtk_widget_set_visible (self->priv->expand_button, ! expanded);
+	gtk_widget_set_visible (self->priv->expanded_list.container, expanded || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->expand_button)));
+}
+
+
+gboolean
+gth_tags_entry_get_expanded (GthTagsEntry *self)
+{
+	g_return_val_if_fail (GTH_IS_TAGS_ENTRY (self), FALSE);
+	return self->priv->expanded;
+}
+
+
+void
+gth_tags_entry_set_tags (GthTagsEntry  *self,
+			 char         **tags)
+{
+	GthTagsFile *tags_file;
+	int          i;
+	gboolean     global_tags_changed = FALSE;
+	char        *s;
+
+	if ((tags == NULL) || (tags[0] == NULL)) {
+		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), "");
+		return;
+	}
+
+	tags_file = gth_main_get_default_tag_file ();
+	for (i = 0; tags[i] != NULL; i++)
+		if (gth_tags_file_add (tags_file, tags[i]))
+			global_tags_changed = TRUE;
+	if (global_tags_changed)
+		gth_main_tags_changed ();
+
+	s = g_strjoinv (", ", tags);
+	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), s);
+	g_free (s);
+}
+
+
+void
+gth_tags_entry_set_tags_from_text (GthTagsEntry *self,
+				   const char   *text)
+{
+	char **tags;
+
+	if ((text == NULL) || (strcmp (text, "") == 0)) {
+		gth_tags_entry_set_tags (self, NULL);
+		return;
+	}
+
+	tags = g_strsplit (text, ",", -1);
+	gth_tags_entry_set_tags (self, tags);
+
+	g_strfreev (tags);
+}
+
+
 char **
 gth_tags_entry_get_tags (GthTagsEntry *self,
 			 gboolean      update_globals)
@@ -840,45 +933,49 @@ gth_tags_entry_get_tags (GthTagsEntry *self,
 
 
 void
-gth_tags_entry_set_tags (GthTagsEntry  *self,
-			 char         **tags)
+gth_tags_entry_set_tag_list (GthTagsEntry *self,
+			     GList        *checked,
+			     GList        *inconsistent)
 {
-	GthTagsFile *tags_file;
-	int          i;
-	gboolean     global_tags_changed = FALSE;
-	char        *s;
+	GString *str;
+	GList   *scan;
 
-	if ((tags == NULL) || (tags[0] == NULL)) {
-		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), "");
-		return;
+	g_hash_table_remove_all (self->priv->inconsistent);
+	for (scan = inconsistent; scan; scan = scan->next)
+		g_hash_table_insert (self->priv->inconsistent, g_strdup (scan->data), GINT_TO_POINTER (1));
+
+	str = g_string_new ("");
+	for (scan = checked; scan; scan = scan->next) {
+		if (scan != checked)
+			g_string_append (str, ", ");
+		g_string_append (str, (char *) scan->data);
 	}
+	gth_tags_entry_set_tags_from_text (self, str->str);
 
-	tags_file = gth_main_get_default_tag_file ();
-	for (i = 0; tags[i] != NULL; i++)
-		if (gth_tags_file_add (tags_file, tags[i]))
-			global_tags_changed = TRUE;
-	if (global_tags_changed)
-		gth_main_tags_changed ();
+	if (checked == NULL)
+		update_expanded_list_from_entry (self);
 
-	s = g_strjoinv (", ", tags);
-	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), s);
-	g_free (s);
+	g_string_free (str, TRUE);
 }
 
 
 void
-gth_tags_entry_set_text (GthTagsEntry *self,
-			 const char   *text)
+gth_tags_entry_get_tag_list (GthTagsEntry  *self,
+		             gboolean       update_globals,
+			     GList        **checked,
+			     GList        **inconsistent)
 {
-	char **tags;
+	if (checked != NULL) {
+		char **tags_v;
+		int    i;
 
-	if ((text == NULL) || (strcmp (text, "") == 0)) {
-		gth_tags_entry_set_tags (self, NULL);
-		return;
+		tags_v = gth_tags_entry_get_tags (self, update_globals);
+		*checked = NULL;
+		for (i = 0; tags_v[i] != NULL; i++)
+			*checked = g_list_prepend (*checked, g_strdup (tags_v[i]));
+		*checked = g_list_reverse (*checked);
 	}
 
-	tags = g_strsplit (text, ",", -1);
-	gth_tags_entry_set_tags (self, tags);
-
-	g_strfreev (tags);
+	if (inconsistent != NULL)
+		*inconsistent = g_hash_table_get_keys (self->priv->inconsistent);
 }

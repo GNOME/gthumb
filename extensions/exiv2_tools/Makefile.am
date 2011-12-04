@@ -8,8 +8,8 @@ extension_LTLIBRARIES = libexiv2_tools.la
 libexiv2_tools_la_SOURCES = 		\
 	exiv2-utils.h			\
 	exiv2-utils.cpp			\
-	gth-edit-exiv2-page.c		\
-	gth-edit-exiv2-page.h		\
+	gth-edit-iptc-page.c		\
+	gth-edit-iptc-page.h		\
 	gth-metadata-provider-exiv2.c	\
 	gth-metadata-provider-exiv2.h	\
 	main.c

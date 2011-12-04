@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jpegtran.h>
-#include "gth-edit-exiv2-page.h"
+#include "gth-edit-iptc-page.h"
 #include "gth-metadata-provider-exiv2.h"
 #include "exiv2-utils.h"
 
@@ -275,7 +275,7 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_info_v (exiv2_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_EXIV2);
 	if (gth_main_extension_is_active ("edit_metadata")) {
-		gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_EXIV2_PAGE);
+		gth_main_register_type ("edit-comment-dialog-page", GTH_TYPE_EDIT_IPTC_PAGE);
 		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (exiv2_delete_metadata_cb), NULL);
 	}
 	gth_hook_add_callback ("save-pixbuf", 10, G_CALLBACK (exiv2_write_metadata), NULL);

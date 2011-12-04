@@ -24,6 +24,8 @@
 
 #include <gthumb.h>
 
-void dlg_edit_metadata (GthBrowser *browser);
+void dlg_edit_metadata (GthBrowser *browser,
+			GType       dialog_type,
+			const char *dialog_name);
 
 #endif /* DLG_EDIT_METADATA_H */

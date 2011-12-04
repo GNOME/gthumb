@@ -26,14 +26,14 @@
 #include "gth-edit-metadata-dialog.h"
 
 
-#define UPDATE_SELECTION_DELAY    300
-#define EDIT_METADATA_DIALOG_NAME "dlg-edit-metadata"
+#define UPDATE_SELECTION_DELAY 300
 
 
 typedef struct {
 	int         ref;
 	GthBrowser *browser;
 	GtkWidget  *dialog;
+	char       *dialog_name;
 	GList      *file_list; /* GthFileData list */
 	GList      *parents;
 	gboolean    never_shown;
@@ -80,9 +80,10 @@ dialog_data_unref (DialogData *data)
 	}
 	cancel_file_list_loading (data);
 
-	gth_browser_set_dialog (data->browser, EDIT_METADATA_DIALOG_NAME, NULL);
+	gth_browser_set_dialog (data->browser, data->dialog_name, NULL);
 	gtk_widget_destroy (data->dialog);
 
+	g_free (data->dialog_name);
 	_g_object_list_unref (data->file_list);
 	_g_object_list_unref (data->parents);
 	g_free (data);
@@ -148,6 +149,11 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	GHashTable *parents;
 	GList      *scan;
 	GthTask    *task;
+
+	if (response == GTK_RESPONSE_HELP) {
+		show_help_dialog (GTK_WINDOW (dialog), data->dialog_name);
+		return;
+	}
 
 	if ((response != GTK_RESPONSE_OK) && (response != GTK_RESPONSE_APPLY)) {
 		cancel_file_list_loading (data);
@@ -234,6 +240,7 @@ loader_completed_cb (GthTask  *task,
 
 	_g_object_list_unref (data->file_list);
 	data->file_list = _g_object_list_ref (gth_load_file_data_task_get_result (GTH_LOAD_FILE_DATA_TASK (task)));
+
 	gth_edit_metadata_dialog_set_file_list (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
@@ -293,22 +300,25 @@ file_selection_changed_cb (GthFileSelection *self,
 
 
 void
-dlg_edit_metadata (GthBrowser *browser)
+dlg_edit_metadata (GthBrowser *browser,
+		   GType       dialog_type,
+		   const char *dialog_name)
 {
 	DialogData *data;
 
-	if (gth_browser_get_dialog (browser, EDIT_METADATA_DIALOG_NAME)) {
-		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, EDIT_METADATA_DIALOG_NAME)));
+	if (gth_browser_get_dialog (browser, dialog_name)) {
+		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, dialog_name)));
 		return;
 	}
 
 	data = g_new0 (DialogData, 1);
 	data->ref = 1;
 	data->browser = browser;
-	data->dialog = gth_edit_metadata_dialog_new ();
+	data->dialog = g_object_new (dialog_type, 0);
+	data->dialog_name = g_strdup (dialog_name);
 	data->never_shown = TRUE;
 
-	gth_browser_set_dialog (browser, EDIT_METADATA_DIALOG_NAME, data->dialog);
+	gth_browser_set_dialog (browser, data->dialog_name, data->dialog);
 
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "delete-event",

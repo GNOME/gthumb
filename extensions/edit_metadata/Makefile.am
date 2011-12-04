@@ -12,12 +12,14 @@ libedit_metadata_la_SOURCES = 		\
 	dlg-edit-metadata.h		\
 	gth-delete-metadata-task.c	\
 	gth-delete-metadata-task.h	\
-	gth-edit-comment-page.c		\
-	gth-edit-comment-page.h		\
+	gth-edit-comment-dialog.c	\
+	gth-edit-comment-dialog.h	\
+	gth-edit-general-page.c		\
+	gth-edit-general-page.h		\
 	gth-edit-metadata-dialog.c	\
 	gth-edit-metadata-dialog.h	\
-	gth-tag-chooser-dialog.c	\
-	gth-tag-chooser-dialog.h	\
+	gth-edit-tags-dialog.c		\
+	gth-edit-tags-dialog.h		\
 	gth-tag-task.c			\
 	gth-tag-task.h			\
 	main.c

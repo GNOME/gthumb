@@ -786,7 +786,7 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 	BrowserData         *data;
 	GList               *active_extensions;
 	GthExtensionManager *manager;
-	GList               *names;
+	GList               *extension_names;
 	GList               *scan;
 
 	data = g_object_get_data (G_OBJECT (dialog), BROWSER_DATA_KEY);
@@ -794,17 +794,17 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 
 	active_extensions = NULL;
 	manager = gth_main_get_default_extension_manager ();
-	names = gth_extension_manager_get_extensions (manager);
-	for (scan = names; scan; scan = scan->next) {
-		char                    *name = scan->data;
+	extension_names = gth_extension_manager_get_extensions (manager);
+	for (scan = extension_names; scan; scan = scan->next) {
+		char                    *extension_name = scan->data;
 		GthExtensionDescription *description;
 
-		description = gth_extension_manager_get_description (manager, name);
+		description = gth_extension_manager_get_description (manager, extension_name);
 		if ((description == NULL) || description->mandatory || description->hidden)
 			continue;
 
 		if (gth_extension_description_is_active (description))
-			active_extensions = g_list_prepend (active_extensions, g_strdup (name));
+			active_extensions = g_list_prepend (active_extensions, g_strdup (extension_name));
 	}
 	active_extensions = g_list_reverse (active_extensions);
 	_g_settings_set_string_list (data->settings, PREF_GENERAL_ACTIVE_EXTENSIONS, active_extensions);
@@ -830,4 +830,5 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 
 	g_list_foreach (active_extensions, (GFunc) g_free, NULL);
 	g_list_free (active_extensions);
+	g_list_free (extension_names);
 }

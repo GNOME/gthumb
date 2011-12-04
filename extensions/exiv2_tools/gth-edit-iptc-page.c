@@ -22,25 +22,25 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
-#include <extensions/edit_metadata/gth-edit-metadata-dialog.h>
+#include <extensions/edit_metadata/gth-edit-comment-dialog.h>
 #include "exiv2-utils.h"
-#include "gth-edit-exiv2-page.h"
+#include "gth-edit-iptc-page.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-static void gth_edit_exiv2_page_gth_edit_exiv2_page_interface_init (GthEditMetadataPageInterface *iface);
+static void gth_edit_iptc_page_gth_edit_comment_page_interface_init (GthEditCommentPageInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthEditExiv2Page,
-			 gth_edit_exiv2_page,
+G_DEFINE_TYPE_WITH_CODE (GthEditIptcPage,
+			 gth_edit_iptc_page,
 			 GTK_TYPE_VBOX,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_METADATA_PAGE,
-					        gth_edit_exiv2_page_gth_edit_exiv2_page_interface_init))
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_COMMENT_PAGE,
+					        gth_edit_iptc_page_gth_edit_comment_page_interface_init))
 
 
-struct _GthEditExiv2PagePrivate {
+struct _GthEditIptcPagePrivate {
 	GtkBuilder *builder;
 	gboolean    supported;
 	GFileInfo  *info;
@@ -48,7 +48,7 @@ struct _GthEditExiv2PagePrivate {
 
 
 static void
-set_entry_value (GthEditExiv2Page *self,
+set_entry_value (GthEditIptcPage *self,
 		 GFileInfo        *info,
 		 const char       *attribute,
 		 const char       *widget_id)
@@ -64,14 +64,14 @@ set_entry_value (GthEditExiv2Page *self,
 
 
 void
-gth_edit_exiv2_page_real_set_file_list (GthEditMetadataPage *base,
-		 		        GList               *file_data_list)
+gth_edit_iptc_page_real_set_file_list (GthEditCommentPage *base,
+		 		        GList              *file_data_list)
 {
-	GthEditExiv2Page *self;
+	GthEditIptcPage *self;
 	GList            *scan;
 	GthMetadata      *metadata;
 
-	self = GTH_EDIT_EXIV2_PAGE (base);
+	self = GTH_EDIT_IPTC_PAGE (base);
 
 	self->priv->supported = TRUE;
 	for (scan = file_data_list; self->priv->supported && scan; scan = scan->next) {
@@ -117,7 +117,7 @@ gth_edit_exiv2_page_real_set_file_list (GthEditMetadataPage *base,
 
 
 static void
-set_attribute_from_entry (GthEditExiv2Page *self,
+set_attribute_from_entry (GthEditIptcPage *self,
 			  GFileInfo        *info,
 			  GthFileData      *file_data,
 			  gboolean          only_modified_fields,
@@ -142,16 +142,16 @@ set_attribute_from_entry (GthEditExiv2Page *self,
 
 
 void
-gth_edit_exiv2_page_real_update_info (GthEditMetadataPage *base,
-				      GFileInfo           *info,
-				      gboolean             only_modified_fields)
+gth_edit_iptc_page_real_update_info (GthEditCommentPage *base,
+				      GFileInfo          *info,
+				      gboolean            only_modified_fields)
 {
-	GthEditExiv2Page *self;
+	GthEditIptcPage *self;
 	GthFileData      *file_data;
 	double            v;
 	char             *s;
 
-	self = GTH_EDIT_EXIV2_PAGE (base);
+	self = GTH_EDIT_IPTC_PAGE (base);
 
 	if (! self->priv->supported)
 		return;
@@ -193,38 +193,38 @@ gth_edit_exiv2_page_real_update_info (GthEditMetadataPage *base,
 
 
 const char *
-gth_edit_exiv2_page_real_get_name (GthEditMetadataPage *self)
+gth_edit_iptc_page_real_get_name (GthEditCommentPage *self)
 {
 	return _("Other");
 }
 
 
 static void
-gth_edit_exiv2_page_finalize (GObject *object)
+gth_edit_iptc_page_finalize (GObject *object)
 {
-	GthEditExiv2Page *self;
+	GthEditIptcPage *self;
 
-	self = GTH_EDIT_EXIV2_PAGE (object);
+	self = GTH_EDIT_IPTC_PAGE (object);
 
 	_g_object_unref (self->priv->info);
 	g_object_unref (self->priv->builder);
 
-	G_OBJECT_CLASS (gth_edit_exiv2_page_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_edit_iptc_page_parent_class)->finalize (object);
 }
 
 
 static void
-gth_edit_exiv2_page_class_init (GthEditExiv2PageClass *klass)
+gth_edit_iptc_page_class_init (GthEditIptcPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthEditExiv2PagePrivate));
-	G_OBJECT_CLASS (klass)->finalize = gth_edit_exiv2_page_finalize;
+	g_type_class_add_private (klass, sizeof (GthEditIptcPagePrivate));
+	G_OBJECT_CLASS (klass)->finalize = gth_edit_iptc_page_finalize;
 }
 
 
 static void
-gth_edit_exiv2_page_init (GthEditExiv2Page *self)
+gth_edit_iptc_page_init (GthEditIptcPage *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_EXIV2_PAGE, GthEditExiv2PagePrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_IPTC_PAGE, GthEditIptcPagePrivate);
 	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
@@ -235,9 +235,9 @@ gth_edit_exiv2_page_init (GthEditExiv2Page *self)
 
 
 static void
-gth_edit_exiv2_page_gth_edit_exiv2_page_interface_init (GthEditMetadataPageInterface *iface)
+gth_edit_iptc_page_gth_edit_comment_page_interface_init (GthEditCommentPageInterface *iface)
 {
-	iface->set_file_list = gth_edit_exiv2_page_real_set_file_list;
-	iface->update_info = gth_edit_exiv2_page_real_update_info;
-	iface->get_name = gth_edit_exiv2_page_real_get_name;
+	iface->set_file_list = gth_edit_iptc_page_real_set_file_list;
+	iface->update_info = gth_edit_iptc_page_real_update_info;
+	iface->get_name = gth_edit_iptc_page_real_get_name;
 }

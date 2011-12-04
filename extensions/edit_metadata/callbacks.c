@@ -58,19 +58,13 @@ static const char *fixed_ui_info =
 "  </toolbar>"
 "  <popup name='FileListPopup'>"
 "    <placeholder name='File_LastActions'>"
-"      <menu action='Edit_QuickTag'>"
-"        <separator name='TagListSeparator'/>"
-"        <menuitem action='Edit_QuickTagOther'/>"
-"      </menu>"
+"      <menuitem action='Edit_Tags'/>"
 "      <menuitem action='Edit_Metadata'/>"
 "    </placeholder>"
 "  </popup>"
 "  <popup name='FilePopup'>"
 "    <placeholder name='File_LastActions'>"
-"      <menu action='Edit_QuickTag'>"
-"        <separator name='TagListSeparator'/>"
-"        <menuitem action='Edit_QuickTagOther'/>"
-"      </menu>"
+"      <menuitem action='Edit_Tags'/>"
 "      <menuitem action='Edit_Metadata'/>"
 "    </placeholder>"
 "  </popup>"
@@ -106,13 +100,13 @@ static GthActionEntryExt edit_metadata_action_entries[] = {
 	  N_("Comment"), "<control>M",
 	  N_("Edit the comment and other information of the selected files"),
 	  GTH_ACTION_FLAG_IS_IMPORTANT,
-	  G_CALLBACK (gth_browser_activate_action_edit_metadata) },
+	  G_CALLBACK (gth_browser_activate_action_edit_comment) },
 
-        { "Edit_QuickTagOther", NULL,
-	  N_("Other..."), NULL,
-	  N_("Choose another tag"),
+        { "Edit_Tags", "tag",
+	  N_("Tags"), NULL,
+	  N_("Set the tags of the selected files"),
 	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_edit_tag_files) },
+	  G_CALLBACK (gth_browser_activate_action_edit_tags) },
 
 	{ "Tool_DeleteMetadata", NULL,
 	  N_("Delete Metadata"), NULL,
@@ -126,27 +120,13 @@ typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *actions;
 	guint           viewer_ui_merge_id;
-	gboolean        tag_menu_loaded;
-	guint           monitor_events;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
-	if (data->monitor_events != 0) {
-		g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_events);
-		data->monitor_events = 0;
-	}
 	g_free (data);
-}
-
-
-static void
-monitor_tags_changed_cb (GthMonitor  *monitor,
-			 BrowserData *data)
-{
-	data->tag_menu_loaded = FALSE;
 }
 
 
@@ -178,11 +158,6 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-
-	data->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
-						 "tags-changed",
-						 G_CALLBACK (monitor_tags_changed_cb),
-						 data);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
@@ -239,120 +214,6 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 }
 
 
-static void
-tag_item_activate_cb (GtkMenuItem *menuitem,
-		      gpointer     user_data)
-{
-	GthBrowser  *browser = user_data;
-	GList       *items;
-	GList       *file_data_list;
-	GList       *file_list;
-	char        *tag;
-	char       **tags;
-	GthTask     *task;
-
-	if (gtk_menu_item_get_submenu (menuitem) != NULL)
-		return;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	file_list = gth_file_data_list_to_file_list (file_data_list);
-
-	tag = g_object_get_data (G_OBJECT (menuitem), "tag");
-	tags = g_new0 (char *, 2);
-	tags[0] = g_strdup (tag);
-	tags[1] = NULL;
-
-	task = gth_tag_task_new (file_list, tags);
-	gth_browser_exec_task (browser, task, FALSE);
-
-	g_object_unref (task);
-	g_strfreev (tags);
-	_g_object_list_unref (file_list);
-	_g_object_list_unref (file_data_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static void
-insert_tag_menu_item (BrowserData *data,
-		      GtkWidget   *menu,
-		      const char  *tag,
-		      int          pos)
-{
-	GtkWidget *item;
-	GtkWidget *image;
-
-	item = gtk_image_menu_item_new_with_label (tag);
-	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (item), TRUE);
-
-	image = gtk_image_new_from_icon_name ("tag", GTK_ICON_SIZE_MENU);
-	gtk_widget_show (image);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
-	gtk_widget_show (item);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, pos);
-	g_object_set_data_full (G_OBJECT (item), "tag", g_strdup (tag), g_free);
-	g_signal_connect (item, "activate", G_CALLBACK (tag_item_activate_cb), data->browser);
-}
-
-
-static void
-update_tag_menu (BrowserData *data)
-{
-	GtkWidget   *list_menu;
-	GtkWidget   *file_menu;
-	GtkWidget   *separator;
-	char       **tags;
-	int          i;
-
-	list_menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/FileListPopup/File_LastActions/Edit_QuickTag")));
-	separator = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/FileListPopup/File_LastActions/Edit_QuickTag/TagListSeparator");
-	_gtk_container_remove_children (GTK_CONTAINER (list_menu), NULL, separator);
-
-	file_menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/FilePopup/File_LastActions/Edit_QuickTag")));
-	separator = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/FilePopup/File_LastActions/Edit_QuickTag/TagListSeparator");
-	_gtk_container_remove_children (GTK_CONTAINER (file_menu), NULL, separator);
-
-	tags = g_strdupv (gth_tags_file_get_tags (gth_main_get_default_tag_file ()));
-	for (i = 0; tags[i] != NULL; i++) {
-		insert_tag_menu_item (data, list_menu, tags[i], i);
-		insert_tag_menu_item (data, file_menu, tags[i], i);
-	}
-
-	g_strfreev (tags);
-}
-
-
-void
-edit_metadata__gth_browser_file_list_popup_before_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	if (! data->tag_menu_loaded) {
-		data->tag_menu_loaded = TRUE;
-		update_tag_menu (data);
-	}
-}
-
-
-void
-edit_metadata__gth_browser_file_popup_before_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	if (! data->tag_menu_loaded) {
-		data->tag_menu_loaded = TRUE;
-		update_tag_menu (data);
-	}
-}
-
-
 gpointer
 edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						   GdkEventKey *event)
@@ -366,11 +227,15 @@ edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_KEY_c:
-		gth_browser_activate_action_edit_metadata (NULL, browser);
+		gth_browser_activate_action_edit_comment (NULL, browser);
+		result = GINT_TO_POINTER (1);
+		break;
+
+	case GDK_KEY_t:
+		gth_browser_activate_action_edit_tags (NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 	}
 
 	return result;
 }
-

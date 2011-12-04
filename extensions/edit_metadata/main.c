@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
-#include "gth-edit-comment-page.h"
+#include "gth-edit-general-page.h"
 
 
 G_MODULE_EXPORT void
@@ -39,12 +39,10 @@ gthumb_extension_activate (void)
 	 **/
 	gth_hook_register ("delete-metadata", 3);
 
-	gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_COMMENT_PAGE);
+	gth_main_register_type ("edit-comment-dialog-page", GTH_TYPE_EDIT_GENERAL_PAGE);
 	gth_hook_add_callback ("gth-browser-construct", 7, G_CALLBACK (edit_metadata__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-set-current-page", 5, G_CALLBACK (edit_metadata__gth_browser_set_current_page_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (edit_metadata__gth_browser_update_sensitivity_cb), NULL);
-	gth_hook_add_callback ("gth-browser-file-list-popup-before", 5, G_CALLBACK (edit_metadata__gth_browser_file_list_popup_before_cb), NULL);
-	gth_hook_add_callback ("gth-browser-file-popup-before", 5, G_CALLBACK (edit_metadata__gth_browser_file_popup_before_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (edit_metadata__gth_browser_file_list_key_press_cb), NULL);
 }
 
