@@ -162,12 +162,14 @@ extensions/edit_metadata/dlg-edit-metadata.h
 [type: gettext/ini]extensions/edit_metadata/edit_metadata.extension.in.in
 extensions/edit_metadata/gth-delete-metadata-task.c
 extensions/edit_metadata/gth-delete-metadata-task.h
-extensions/edit_metadata/gth-edit-comment-page.c
-extensions/edit_metadata/gth-edit-comment-page.h
+extensions/edit_metadata/gth-edit-comment-dialog.c
+extensions/edit_metadata/gth-edit-comment-dialog.h
+extensions/edit_metadata/gth-edit-general-page.c
+extensions/edit_metadata/gth-edit-general-page.h
 extensions/edit_metadata/gth-edit-metadata-dialog.c
 extensions/edit_metadata/gth-edit-metadata-dialog.h
-extensions/edit_metadata/gth-tag-chooser-dialog.c
-extensions/edit_metadata/gth-tag-chooser-dialog.h
+extensions/edit_metadata/gth-edit-tags-dialog.c
+extensions/edit_metadata/gth-edit-tags-dialog.h
 extensions/edit_metadata/gth-tag-task.c
 extensions/edit_metadata/gth-tag-task.h
 extensions/edit_metadata/main.c
@@ -177,8 +179,8 @@ extensions/example/src/main.c
 [type: gettext/ini]extensions/exiv2_tools/exiv2_tools.extension.in.in
 extensions/exiv2_tools/exiv2-utils.cpp
 extensions/exiv2_tools/exiv2-utils.h
-extensions/exiv2_tools/gth-edit-exiv2-page.c
-extensions/exiv2_tools/gth-edit-exiv2-page.h
+extensions/exiv2_tools/gth-edit-iptc-page.c
+extensions/exiv2_tools/gth-edit-iptc-page.h
 extensions/exiv2_tools/gth-metadata-provider-exiv2.c
 extensions/exiv2_tools/gth-metadata-provider-exiv2.h
 extensions/exiv2_tools/main.c
