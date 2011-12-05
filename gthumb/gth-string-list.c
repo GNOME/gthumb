@@ -113,6 +113,8 @@ gth_string_list_new_from_ptr_array (GPtrArray *array)
 GList *
 gth_string_list_get_list (GthStringList *list)
 {
+	if (list == NULL)
+		return NULL;
 	return list->priv->list;
 }
 
