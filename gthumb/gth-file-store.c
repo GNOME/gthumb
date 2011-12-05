@@ -47,14 +47,14 @@ typedef struct {
 
 	GthFileData *file_data;
 	GdkPixbuf   *thumbnail;
-	gboolean     is_icon;
+	gboolean     is_icon : 1;
 
 	/*< private >*/
 
 	guint        pos;
 	guint        abs_pos;
-	gboolean     visible;
-	gboolean     changed;
+	gboolean     visible : 1;
+	gboolean     changed : 1;
 } GthFileRow;
 
 
@@ -70,8 +70,8 @@ struct _GthFileStorePrivate
 	GthTest             *filter;
 	GList               *queue;
 	GthFileDataCompFunc  cmp_func;
-	gboolean             inverse_sort;
-	gboolean             update_filter;
+	gboolean             inverse_sort : 1;
+	gboolean             update_filter : 1;
 };
 
 
