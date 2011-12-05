@@ -243,13 +243,14 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 		tag_data[i] = g_new0 (TagData, 1);
 		tag_data[i]->name = g_strdup (all_tags[i]);
-		tag_data[i]->suggested = FALSE;
 		tag_data[i]->used = FALSE;
 		tag_data[i]->inconsistent = (g_hash_table_lookup (self->priv->inconsistent, tag_data[i]->name) != NULL);
+		tag_data[i]->suggested = tag_data[i]->inconsistent;
 		for (j = 0; ! tag_data[i]->used && (used_tags[j] != NULL); j++)
 			if (g_utf8_collate (tag_data[i]->name, used_tags[j]) == 0) {
 				tag_data[i]->used = TRUE;
 				tag_data[i]->inconsistent = FALSE;
+				tag_data[i]->suggested = FALSE;
 			}
 
 		if (! tag_data[i]->used)
