@@ -6,23 +6,23 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-17 17:53+0000\n"
-"PO-Revision-Date: 2011-11-20 10:34+0100\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-11-23 22:15+0000\n"
+"PO-Revision-Date: 2011-12-05 17:22+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
@@ -102,8 +102,8 @@ msgid "View and organize your images"
 msgstr "Muestre y organice sus imágenes"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:530
-#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:287
+#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:529
+#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -136,6 +136,11 @@ msgstr ""
 "0 si quiere generar miniaturas para todas las imágenes"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+#| msgid "Open another window"
+msgid "Open files in the active window"
+msgstr "Abrir archivos en la ventana activa"
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Whether to resize the window to fit the size of the image"
 msgstr "Indica si redimensionar la ventana al tamaño de la imagen"
 
@@ -364,24 +369,27 @@ msgid "Thumbnail _size:"
 msgstr "Tamaño de las miniat_uras:"
 
 #: ../data/ui/preferences.ui.h:17
+#| msgid "Resize the window to the size of the image"
+msgid "_Reuse the active window to open files"
+msgstr "_Reutilizar la ventana activa para abrir archivos"
+
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "Guardas los _metadatos dentro de los archivos si es posible"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:19
 msgid "_Toolbar style:"
 msgstr "Es_tilo de la barra de herramientas:"
 
-#: ../data/ui/preferences.ui.h:19
-#| msgid "View the folders"
+#: ../data/ui/preferences.ui.h:20
 msgid "below the folder list"
 msgstr "bajo la lista de carpetas"
 
-#: ../data/ui/preferences.ui.h:20
+#: ../data/ui/preferences.ui.h:21
 msgid "gThumb Preferences"
 msgstr "Preferencias de gThumb"
 
-#: ../data/ui/preferences.ui.h:21
-#| msgid "on the side"
+#: ../data/ui/preferences.ui.h:22
 msgid "on the right"
 msgstr "a la derecha"
 
@@ -665,7 +673,7 @@ msgstr "Línea de comandos"
 #: ../extensions/catalogs/callbacks.c:502
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:45 ../gthumb/gth-folder-tree.c:859
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:859
 msgid "(Empty)"
 msgstr "(Vacío)"
 
@@ -878,8 +886,8 @@ msgstr "No se pudieron quitar los archivos del catálogo"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1341
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:711
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1214
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
@@ -1868,16 +1876,16 @@ msgstr "No se pudieron exportar los archivos"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
-#: ../gthumb/gth-browser.c:996
+#: ../gthumb/gth-browser.c:995
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d archivo (%s)"
 msgstr[1] "%d archivos (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:592
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:643
+#: ../extensions/facebook/dlg-export-to-facebook.c:591
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:589
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:642
 #, c-format
 msgid "Export to %s"
 msgstr "Exportar a %s"
@@ -2194,7 +2202,7 @@ msgstr "Mover los archivos seleccionados a otra carpeta"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4995 ../gthumb/gth-browser.c:5029
+#: ../gthumb/gth-browser.c:4997 ../gthumb/gth-browser.c:5031
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2863,13 +2871,13 @@ msgid "Could not get the photo list"
 msgstr "No se pudo obtener la lista de fotos"
 
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:562
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1027
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1026
 msgid "No album selected"
 msgstr "No se seleccionó ningún álbum"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:580
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
 msgstr "Importar desde %s"
@@ -4612,12 +4620,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para "
-"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
+"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4802,19 +4810,19 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3603
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3605
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3621
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3623
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3639
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3641
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
-#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:673
+#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:672
 msgid "_Delete History"
 msgstr "_Borrar histórico"
 
@@ -4919,30 +4927,30 @@ msgstr "_Ajustar ventana a la imagen"
 msgid "Resize the window to the size of the image"
 msgstr "Redimensionar la ventana al tamaño de la imagen"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:369
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../gthumb/gth-browser.c:510
+#: ../gthumb/gth-browser.c:509
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../gthumb/gth-browser.c:997
+#: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
-#: ../gthumb/gth-browser.c:1032
+#: ../gthumb/gth-browser.c:1031
 #, c-format
 msgid "%s of free space"
 msgstr "%s de espacio libre"
 
-#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5953 ../gthumb/gth-browser.c:5972
-#: ../gthumb/gth-browser.c:5997
+#: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:5955 ../gthumb/gth-browser.c:5974
+#: ../gthumb/gth-browser.c:5999
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4974,20 +4982,20 @@ msgstr "No se pudo cambiar el nombre"
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3604 ../gthumb/gth-browser.c:3622
+#: ../gthumb/gth-browser.c:3606 ../gthumb/gth-browser.c:3624
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3640
+#: ../gthumb/gth-browser.c:3642
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5954
+#: ../gthumb/gth-browser.c:5956
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5998
+#: ../gthumb/gth-browser.c:6000
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -5403,7 +5411,7 @@ msgstr "Importar automáticamente fotos de la cámara digital"
 msgid "Show version"
 msgstr "Mostrar versión"
 
-#: ../gthumb/main.c:317
+#: ../gthumb/main.c:344
 msgid "- Image browser and viewer"
 msgstr "- Explorador de imágenes y visor"
 
@@ -5417,8 +5425,8 @@ msgstr ""
 #~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 #~ "fit_width_if_larger."
 #~ msgstr ""
-#~ "Los valores posibles son: «actual_size», «fit», «keep_prev», "
-#~ "«fit_if_larger», «fit_width_if_larger»."
+#~ "Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
+#~ "«fit_width_if_larger»."
 
 #~ msgid "Possible values are: high, low."
 #~ msgstr "Los valores posibles son: «high», «low»."
@@ -5436,8 +5444,8 @@ msgstr ""
 #~ "Possible values are: system, text_below, text_beside, text_only, "
 #~ "icons_only."
 #~ msgstr ""
-#~ "Los valores posibles son: «system», «text_below», «text_beside», "
-#~ "«text_only», «icons_only»."
+#~ "Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
+#~ "«icons_only»."
 
 #~ msgid "Possible values: pixels, percentage"
 #~ msgstr "Valores posibles: «pixels», «percentage»."
@@ -5446,8 +5454,8 @@ msgstr ""
 #~ "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-"
 #~ "larger, fit-width, fit-width-if-larger."
 #~ msgstr ""
-#~ "Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-"
-#~ "size-if-larger», «fit-width», «fit-width-if-larger»."
+#~ "Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
+#~ "if-larger», «fit-width», «fit-width-if-larger»."
 
 #~ msgid "Possible values are: none, file_date, current_date"
 #~ msgstr "Los valores posibles son: «none», «file_date», «current_date»"
@@ -5833,8 +5841,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
-#~ "</small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+#~ "small>"
 
 #~ msgid ""
 #~ "If valuable photos have been deleted accidently, download the excellent "
@@ -6470,8 +6478,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts "
-#~ "0-9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts 0-"
+#~ "9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -6644,8 +6652,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
-#~ "«exifdate», «comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
+#~ "«comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -6658,8 +6666,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
-#~ "«4x6», «5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
+#~ "«5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: skip, rename, ask, overwrite."
 #~ msgstr "Los valores posibles son: «skip», «rename», «ask», «overwrite»."
@@ -6811,8 +6819,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
+#~ "diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6854,8 +6862,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
+#~ "diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
