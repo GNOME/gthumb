@@ -371,6 +371,9 @@ _gth_grid_view_free_items (GthGridView *self)
 	g_list_foreach (self->priv->items, (GFunc) gth_grid_view_item_unref, NULL);
 	g_list_free (self->priv->items);
 	self->priv->items = NULL;
+
+	g_list_free (self->priv->selection);
+	self->priv->selection = NULL;
 }
 
 
@@ -1956,11 +1959,30 @@ model_row_deleted_cb (GtkTreeModel *tree_model,
 	GthGridView *self = user_data;
 	int          pos;
 	GList       *link;
+	GList       *scan;
+	GList       *selected_link;
 
 	pos = gtk_tree_path_get_indices (path)[0];
 	link = g_list_nth (self->priv->items, pos);
 	self->priv->items = g_list_remove_link (self->priv->items, link);
 	self->priv->n_items--;
+
+	/* update the selection */
+
+	selected_link = NULL;
+	for (scan = self->priv->selection; scan; scan = scan->next) {
+		int selected_pos = GPOINTER_TO_INT (scan->data);
+		if (selected_pos > pos)
+			scan->data = GINT_TO_POINTER (selected_pos - 1);
+		else if (selected_pos == pos)
+			selected_link = scan;
+	}
+	if (selected_link != NULL) {
+		self->priv->selection = g_list_remove_link (self->priv->selection, selected_link);
+		g_list_free (selected_link);
+	}
+
+	/* relayout from the minimum changed position */
 
 	_gth_grid_view_keep_focus_consistent (self);
 	_gth_grid_view_queue_relayout_from_position (self, pos);
@@ -1982,6 +2004,7 @@ model_row_inserted_cb (GtkTreeModel *tree_model,
 	gboolean         is_icon;
 	GthGridViewItem *item;
 	int              pos;
+	GList           *scan;
 
 	gtk_tree_model_get (tree_model,
 			    iter,
@@ -1997,6 +2020,16 @@ model_row_inserted_cb (GtkTreeModel *tree_model,
 	pos = gtk_tree_path_get_indices (path)[0];
 	self->priv->items = g_list_insert (self->priv->items, item, pos);
 	self->priv->n_items++;
+
+	/* update the selection */
+
+	for (scan = self->priv->selection; scan; scan = scan->next) {
+		int selected_pos = GPOINTER_TO_INT (scan->data);
+		if (selected_pos >= pos)
+			scan->data = GINT_TO_POINTER (selected_pos + 1);
+	}
+
+	/* relayout from the minimum changed position */
 
 	_gth_grid_view_queue_relayout_from_position (self, pos);
 
