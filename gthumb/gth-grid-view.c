@@ -467,161 +467,138 @@ gth_grid_view_unmap (GtkWidget *widget)
 }
 
 
-static void _gth_grid_view_queue_relayout (GthGridView *self);
+/* -- _gth_grid_view_make_item_fully_visible -- */
 
 
 static void
-gth_grid_view_realize (GtkWidget *widget)
+gth_grid_view_scroll_to (GthFileView *file_view,
+			 int          pos,
+			 double       yalign)
 {
-	GthGridView     *self;
-	GtkAllocation    allocation;
-	GdkWindowAttr    attributes;
-	int              attributes_mask;
-	GdkWindow       *window;
-	GtkStyleContext *style_context;
+	GthGridView *self = GTH_GRID_VIEW (file_view);
+	int          n_line;
+	int          y;
+	int          i;
+	GList       *line;
 
-	self = GTH_GRID_VIEW (widget);
+	g_return_if_fail ((pos >= 0) && (pos < self->priv->n_items));
+	g_return_if_fail ((yalign >= 0.0) && (yalign <= 1.0));
 
-	gtk_widget_set_realized (widget, TRUE);
-	gtk_widget_get_allocation (widget, &allocation);
-
-	/* view window */
-
-	attributes.window_type = GDK_WINDOW_CHILD;
-	attributes.x           = allocation.x;
-	attributes.y           = allocation.y;
-	attributes.width       = allocation.width;
-	attributes.height      = allocation.height;
-	attributes.wclass      = GDK_INPUT_OUTPUT;
-	attributes.visual      = gtk_widget_get_visual (widget);
-	attributes.event_mask  = GDK_VISIBILITY_NOTIFY_MASK;
-	attributes_mask        = (GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL);
-	window = gdk_window_new (gtk_widget_get_parent_window (widget),
-				 &attributes,
-				 attributes_mask);
-	gtk_widget_set_window (widget, window);
-	gdk_window_set_user_data (window, widget);
-
-	/* bin window */
-
-	attributes.x = 0;
-	attributes.y = 0;
-	attributes.width = MAX (self->priv->width, allocation.width);
-	attributes.height = MAX (self->priv->height, allocation.height);
-	attributes.event_mask = (GDK_EXPOSURE_MASK
-				 | GDK_SCROLL_MASK
-				 | GDK_POINTER_MOTION_MASK
-				 | GDK_ENTER_NOTIFY_MASK
-				 | GDK_LEAVE_NOTIFY_MASK
-				 | GDK_BUTTON_PRESS_MASK
-				 | GDK_BUTTON_RELEASE_MASK
-				 | gtk_widget_get_events (widget));
-
-	self->priv->bin_window = gdk_window_new (gtk_widget_get_window (widget),
-						 &attributes,
-						 attributes_mask);
-	gdk_window_set_user_data (self->priv->bin_window, widget);
-
-	/* style */
-
-	style_context = gtk_widget_get_style_context (widget);
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_set_background (style_context, self->priv->bin_window);
-	gtk_style_context_restore (style_context);
-
-	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, NULL);
-	pango_layout_set_wrap (self->priv->caption_layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
-	pango_layout_set_spacing (self->priv->caption_layout, CAPTION_LINE_SPACING);
-
-	/**/
-
-	gdk_window_show (self->priv->bin_window);
-	_gth_grid_view_queue_relayout (self);
-}
-
-
-static void
-gth_grid_view_unrealize (GtkWidget *widget)
-{
-	GthGridView *self;
-
-	self = GTH_GRID_VIEW (widget);
-
-	gdk_window_set_user_data (self->priv->bin_window, NULL);
-	gdk_window_destroy (self->priv->bin_window);
-	self->priv->bin_window = NULL;
-
-	g_object_unref (self->priv->caption_layout);
-	self->priv->caption_layout = NULL;
-
-	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->unrealize (widget);
-}
-
-
-static void
-_gth_grid_view_update_background (GthGridView *self)
-{
-	GtkWidget       *widget = GTK_WIDGET (self);
-	GtkStyleContext *style_context;
-
-	if (! gtk_widget_get_realized (widget))
+	if (self->priv->lines == NULL)
 		return;
 
-	style_context = gtk_widget_get_style_context (widget);
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_set_background (style_context, gtk_widget_get_window (widget));
-	gtk_style_context_set_background (style_context, self->priv->bin_window);
-	gtk_style_context_restore (style_context);
+	n_line = pos / gth_grid_view_get_items_per_line (self);
+	y = self->priv->cell_spacing;
+	for (i = 0, line = self->priv->lines;
+	     (i < n_line) && (line != NULL);
+	     i++, line = line->next)
+	{
+		y += GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
+	}
+
+	if (line != NULL) {
+		int    h;
+		double value;
+
+		h = gtk_widget_get_allocated_height (GTK_WIDGET (self)) - GTH_GRID_VIEW_LINE (line->data)->height - self->priv->cell_spacing;
+		value = CLAMP ((y - (h * yalign) - (1.0 - yalign) * self->priv->cell_spacing),
+			       0.0,
+			       gtk_adjustment_get_upper (self->priv->vadjustment) - gtk_adjustment_get_page_size (self->priv->vadjustment));
+		gtk_adjustment_set_value (self->priv->vadjustment, value);
+	}
+}
+
+
+static GthVisibility
+gth_grid_view_get_visibility (GthFileView *file_view,
+			      int          pos)
+{
+	GthGridView *self = GTH_GRID_VIEW (file_view);
+	int          cell_top;
+	int          line_n;
+	int          i;
+	GList       *line;
+	int          cell_bottom;
+	int          window_top;
+	int          window_bottom;
+
+	g_return_val_if_fail ((pos >= 0) && (pos < self->priv->n_items), GTH_VISIBILITY_NONE);
+
+	if (self->priv->lines == NULL)
+		return GTH_VISIBILITY_NONE;
+
+	cell_top = self->priv->cell_spacing;
+	line_n = pos / gth_grid_view_get_items_per_line (self);
+	for (i = 0, line = self->priv->lines;
+	     (i < line_n) && (line != NULL);
+	     i++, line = line->next)
+	{
+		cell_top += GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
+	}
+
+	if (line == NULL)
+		return GTH_VISIBILITY_NONE;
+
+	cell_bottom = cell_top + GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
+	window_top = gtk_adjustment_get_value (self->priv->vadjustment);
+	window_bottom = window_top + gtk_widget_get_allocated_height (GTK_WIDGET (self));
+
+	if (cell_bottom < window_top)
+		return GTH_VISIBILITY_NONE;
+
+	if (cell_top > window_bottom)
+		return GTH_VISIBILITY_NONE;
+
+	if ((cell_top >= window_top) && (cell_bottom <= window_bottom))
+		return GTH_VISIBILITY_FULL;
+
+	if ((cell_top < window_top) && (cell_bottom >= window_top))
+		return GTH_VISIBILITY_PARTIAL_TOP;
+
+	if ((cell_top <= window_bottom) && (cell_bottom > window_bottom))
+		return GTH_VISIBILITY_PARTIAL_BOTTOM;
+
+	return GTH_VISIBILITY_PARTIAL;
 }
 
 
 static void
-gth_grid_view_state_flags_changed (GtkWidget     *widget,
-                                   GtkStateFlags  previous_state)
+_gth_grid_view_make_item_fully_visible (GthGridView *self,
+					int          pos)
 {
-	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
-	gtk_widget_queue_draw (widget);
-}
+	GthVisibility visibility;
 
+	if (pos < 0)
+		return;
 
-static void
-gth_grid_view_style_updated (GtkWidget *widget)
-{
-	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->style_updated (widget);
+	visibility = gth_grid_view_get_visibility (GTH_FILE_VIEW (self), pos);
+	if (visibility != GTH_VISIBILITY_FULL) {
+		double y_alignment = -1.0;
 
-	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
-	gtk_widget_queue_resize (widget);
-}
+		switch (visibility) {
+		case GTH_VISIBILITY_NONE:
+			y_alignment = 0.5;
+			break;
 
+		case GTH_VISIBILITY_PARTIAL_TOP:
+			y_alignment = 0.0;
+			break;
 
-static void
-gth_grid_view_get_preferred_width (GtkWidget *widget,
-                                   int       *minimum,
-                                   int       *natural)
-{
-	GthGridView *self = GTH_GRID_VIEW (widget);
+		case GTH_VISIBILITY_PARTIAL_BOTTOM:
+			y_alignment = 1.0;
+			break;
 
-	if (minimum != NULL)
-		*minimum = self->priv->cell_size;
-	if (natural != NULL)
-		*natural = *minimum;
-}
+		case GTH_VISIBILITY_PARTIAL:
+		case GTH_VISIBILITY_FULL:
+			y_alignment = -1.0;
+			break;
+		}
 
-
-static void
-gth_grid_view_get_preferred_height (GtkWidget *widget,
-                                    int       *minimum,
-                                    int       *natural)
-{
-	GthGridView *self = GTH_GRID_VIEW (widget);
-
-	if (minimum != NULL)
-		*minimum = self->priv->cell_size;
-	if (natural != NULL)
-		*natural = *minimum;
+		if (y_alignment >= 0.0)
+			gth_grid_view_scroll_to (GTH_FILE_VIEW (self),
+						 pos,
+						 y_alignment);
+	}
 }
 
 
@@ -943,6 +920,160 @@ _gth_grid_view_queue_relayout_from_position (GthGridView *self,
 					     int          pos)
 {
 	_gth_grid_view_queue_relayout_from_line (self, pos / gth_grid_view_get_items_per_line (self));
+}
+
+
+static void
+gth_grid_view_realize (GtkWidget *widget)
+{
+	GthGridView     *self;
+	GtkAllocation    allocation;
+	GdkWindowAttr    attributes;
+	int              attributes_mask;
+	GdkWindow       *window;
+	GtkStyleContext *style_context;
+
+	self = GTH_GRID_VIEW (widget);
+
+	gtk_widget_set_realized (widget, TRUE);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	/* view window */
+
+	attributes.window_type = GDK_WINDOW_CHILD;
+	attributes.x           = allocation.x;
+	attributes.y           = allocation.y;
+	attributes.width       = allocation.width;
+	attributes.height      = allocation.height;
+	attributes.wclass      = GDK_INPUT_OUTPUT;
+	attributes.visual      = gtk_widget_get_visual (widget);
+	attributes.event_mask  = GDK_VISIBILITY_NOTIFY_MASK;
+	attributes_mask        = (GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL);
+	window = gdk_window_new (gtk_widget_get_parent_window (widget),
+				 &attributes,
+				 attributes_mask);
+	gtk_widget_set_window (widget, window);
+	gdk_window_set_user_data (window, widget);
+
+	/* bin window */
+
+	attributes.x = 0;
+	attributes.y = 0;
+	attributes.width = MAX (self->priv->width, allocation.width);
+	attributes.height = MAX (self->priv->height, allocation.height);
+	attributes.event_mask = (GDK_EXPOSURE_MASK
+				 | GDK_SCROLL_MASK
+				 | GDK_POINTER_MOTION_MASK
+				 | GDK_ENTER_NOTIFY_MASK
+				 | GDK_LEAVE_NOTIFY_MASK
+				 | GDK_BUTTON_PRESS_MASK
+				 | GDK_BUTTON_RELEASE_MASK
+				 | gtk_widget_get_events (widget));
+
+	self->priv->bin_window = gdk_window_new (gtk_widget_get_window (widget),
+						 &attributes,
+						 attributes_mask);
+	gdk_window_set_user_data (self->priv->bin_window, widget);
+
+	/* style */
+
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_set_background (style_context, self->priv->bin_window);
+	gtk_style_context_restore (style_context);
+
+	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, NULL);
+	pango_layout_set_wrap (self->priv->caption_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_spacing (self->priv->caption_layout, CAPTION_LINE_SPACING);
+
+	/**/
+
+	gdk_window_show (self->priv->bin_window);
+}
+
+
+static void
+gth_grid_view_unrealize (GtkWidget *widget)
+{
+	GthGridView *self;
+
+	self = GTH_GRID_VIEW (widget);
+
+	gdk_window_set_user_data (self->priv->bin_window, NULL);
+	gdk_window_destroy (self->priv->bin_window);
+	self->priv->bin_window = NULL;
+
+	g_object_unref (self->priv->caption_layout);
+	self->priv->caption_layout = NULL;
+
+	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->unrealize (widget);
+}
+
+
+static void
+_gth_grid_view_update_background (GthGridView *self)
+{
+	GtkWidget       *widget = GTK_WIDGET (self);
+	GtkStyleContext *style_context;
+
+	if (! gtk_widget_get_realized (widget))
+		return;
+
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_set_background (style_context, gtk_widget_get_window (widget));
+	gtk_style_context_set_background (style_context, self->priv->bin_window);
+	gtk_style_context_restore (style_context);
+}
+
+
+static void
+gth_grid_view_state_flags_changed (GtkWidget     *widget,
+                                   GtkStateFlags  previous_state)
+{
+	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
+	gtk_widget_queue_draw (widget);
+}
+
+
+static void
+gth_grid_view_style_updated (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->style_updated (widget);
+
+	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
+	gtk_widget_queue_resize (widget);
+}
+
+
+static void
+gth_grid_view_get_preferred_width (GtkWidget *widget,
+                                   int       *minimum,
+                                   int       *natural)
+{
+	GthGridView *self = GTH_GRID_VIEW (widget);
+
+	if (minimum != NULL)
+		*minimum = self->priv->cell_size;
+	if (natural != NULL)
+		*natural = *minimum;
+}
+
+
+static void
+gth_grid_view_get_preferred_height (GtkWidget *widget,
+                                    int       *minimum,
+                                    int       *natural)
+{
+	GthGridView *self = GTH_GRID_VIEW (widget);
+
+	if (minimum != NULL)
+		*minimum = self->priv->cell_size;
+	if (natural != NULL)
+		*natural = *minimum;
 }
 
 
@@ -2170,98 +2301,6 @@ gth_grid_view_set_model (GthFileView  *file_view,
 }
 
 
-static void
-gth_grid_view_scroll_to (GthFileView *file_view,
-			 int          pos,
-			 double       yalign)
-{
-	GthGridView *self = GTH_GRID_VIEW (file_view);
-	int          n_line;
-	int          y;
-	int          i;
-	GList       *line;
-
-	g_return_if_fail ((pos >= 0) && (pos < self->priv->n_items));
-	g_return_if_fail ((yalign >= 0.0) && (yalign <= 1.0));
-
-	if (self->priv->lines == NULL)
-		return;
-
-	n_line = pos / gth_grid_view_get_items_per_line (self);
-	y = self->priv->cell_spacing;
-	for (i = 0, line = self->priv->lines;
-	     (i < n_line) && (line != NULL);
-	     i++, line = line->next)
-	{
-		y += GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
-	}
-
-	if (line != NULL) {
-		int    h;
-		double value;
-
-		h = gtk_widget_get_allocated_height (GTK_WIDGET (self)) - GTH_GRID_VIEW_LINE (line->data)->height - self->priv->cell_spacing;
-		value = CLAMP ((y - (h * yalign) - (1.0 - yalign) * self->priv->cell_spacing),
-			       0.0,
-			       gtk_adjustment_get_upper (self->priv->vadjustment) - gtk_adjustment_get_page_size (self->priv->vadjustment));
-		gtk_adjustment_set_value (self->priv->vadjustment, value);
-	}
-}
-
-
-static GthVisibility
-gth_grid_view_get_visibility (GthFileView *file_view,
-			      int          pos)
-{
-	GthGridView *self = GTH_GRID_VIEW (file_view);
-	int          cell_top;
-	int          line_n;
-	int          i;
-	GList       *line;
-	int          cell_bottom;
-	int          window_top;
-	int          window_bottom;
-
-	g_return_val_if_fail ((pos >= 0) && (pos < self->priv->n_items), GTH_VISIBILITY_NONE);
-
-	if (self->priv->lines == NULL)
-		return GTH_VISIBILITY_NONE;
-
-	cell_top = self->priv->cell_spacing;
-	line_n = pos / gth_grid_view_get_items_per_line (self);
-	for (i = 0, line = self->priv->lines;
-	     (i < line_n) && (line != NULL);
-	     i++, line = line->next)
-	{
-		cell_top += GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
-	}
-
-	if (line == NULL)
-		return GTH_VISIBILITY_NONE;
-
-	cell_bottom = cell_top + GTH_GRID_VIEW_LINE (line->data)->height + self->priv->cell_spacing;
-	window_top = gtk_adjustment_get_value (self->priv->vadjustment);
-	window_bottom = window_top + gtk_widget_get_allocated_height (GTK_WIDGET (self));
-
-	if (cell_bottom < window_top)
-		return GTH_VISIBILITY_NONE;
-
-	if (cell_top > window_bottom)
-		return GTH_VISIBILITY_NONE;
-
-	if ((cell_top >= window_top) && (cell_bottom <= window_bottom))
-		return GTH_VISIBILITY_FULL;
-
-	if ((cell_top < window_top) && (cell_bottom >= window_top))
-		return GTH_VISIBILITY_PARTIAL_TOP;
-
-	if ((cell_top <= window_bottom) && (cell_bottom > window_bottom))
-		return GTH_VISIBILITY_PARTIAL_BOTTOM;
-
-	return GTH_VISIBILITY_PARTIAL;
-}
-
-
 static int
 gth_grid_view_get_at_position (GthFileView *file_view,
 			       int          x,
@@ -2285,43 +2324,6 @@ gth_grid_view_get_at_position (GthFileView *file_view,
 	}
 
 	return -1;
-}
-
-
-static void
-_gth_grid_view_make_item_fully_visible (GthGridView *self,
-					int          pos)
-{
-	GthVisibility visibility;
-
-	visibility = gth_grid_view_get_visibility (GTH_FILE_VIEW (self), pos);
-	if (visibility != GTH_VISIBILITY_FULL) {
-		double y_alignment = -1.0;
-
-		switch (visibility) {
-		case GTH_VISIBILITY_NONE:
-			y_alignment = 0.5;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_TOP:
-			y_alignment = 0.0;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_BOTTOM:
-			y_alignment = 1.0;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL:
-		case GTH_VISIBILITY_FULL:
-			y_alignment = -1.0;
-			break;
-		}
-
-		if (y_alignment >= 0.0)
-			gth_grid_view_scroll_to (GTH_FILE_VIEW (self),
-						 pos,
-						 y_alignment);
-	}
 }
 
 
