@@ -100,6 +100,8 @@ void              gth_file_list_set_thumb_size    (GthFileList          *file_li
 					           int                   size);
 void              gth_file_list_set_caption       (GthFileList          *file_list,
 					           const char           *attribute);
+void              gth_file_list_make_file_visible (GthFileList          *file_list,
+						   GFile                *file);
 GtkWidget *       gth_file_list_get_view          (GthFileList          *file_list);
 GtkWidget *       gth_file_list_get_empty_view    (GthFileList          *file_list);
 GtkAdjustment *   gth_file_list_get_vadjustment   (GthFileList          *file_list);

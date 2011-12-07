@@ -1640,19 +1640,9 @@ load_data_continue (LoadData *load_data,
 		g_object_unref (filter);
 	}
 
-	if (load_data->file_to_select != NULL) {
-		int pos;
+	if (load_data->file_to_select != NULL)
+		gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
 
-		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), load_data->file_to_select);
-		if (pos >= 0) {
-			GtkWidget *file_view;
-
-			file_view = gth_browser_get_file_list_view (browser);
-			gth_file_view_scroll_to (GTH_FILE_VIEW (file_view), pos, 0.5);
-			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
-			gth_file_view_set_cursor (GTH_FILE_VIEW (file_view), pos);
-		}
-	}
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
@@ -3123,18 +3113,9 @@ folder_changed_cb (GthMonitor      *monitor,
 				if (new_file != NULL) {
 					if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 						gth_browser_load_file (browser, new_file, FALSE);
-					else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
-						int file_pos;
+					else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
+						gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), new_file->file);
 
-						file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), new_file->file);
-						if (file_pos >= 0) {
-							GtkWidget *view;
-
-							view = gth_browser_get_file_list_view (browser);
-							gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
-							gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
-						}
-					}
 					_g_object_unref (new_file);
 				}
 				else {
@@ -3906,9 +3887,8 @@ static gboolean
 _gth_browser_make_file_visible (GthBrowser  *browser,
 				GthFileData *file_data)
 {
-	int            file_pos;
-	GtkWidget     *view;
-	GthVisibility  visibility;
+	int        file_pos;
+	GtkWidget *view;
 
 	if (file_data == NULL)
 		return FALSE;
@@ -3926,27 +3906,6 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
 	gth_hook_invoke ("gth-browser-selection-changed", browser);
 	g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
-	visibility = gth_file_view_get_visibility (GTH_FILE_VIEW (view), file_pos);
-	if (visibility != GTH_VISIBILITY_FULL) {
-		double align = 0.0;
-
-		switch (visibility) {
-		case GTH_VISIBILITY_NONE:
-		case GTH_VISIBILITY_FULL:
-		case GTH_VISIBILITY_PARTIAL:
-			align = 0.5;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_TOP:
-			align = 0.0;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_BOTTOM:
-			align = 1.0;
-			break;
-		}
-		gth_file_view_scroll_to (GTH_FILE_VIEW (view), file_pos, align);
-	}
 
 	/* the thumbnail list in viewer mode */
 
@@ -3956,27 +3915,6 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
 	gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
 	g_signal_handlers_unblock_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
-	visibility = gth_file_view_get_visibility (GTH_FILE_VIEW (view), file_pos);
-	if (visibility != GTH_VISIBILITY_FULL) {
-		double align = 0.0;
-
-		switch (visibility) {
-		case GTH_VISIBILITY_NONE:
-		case GTH_VISIBILITY_FULL:
-		case GTH_VISIBILITY_PARTIAL:
-			align = 0.5;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_TOP:
-			align = 0.0;
-			break;
-
-		case GTH_VISIBILITY_PARTIAL_BOTTOM:
-			align = 1.0;
-			break;
-		}
-		gth_file_view_scroll_to (GTH_FILE_VIEW (view), file_pos, align);
-	}
 
 	return TRUE;
 }

@@ -53,8 +53,8 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_SET_FILTER,
 	GTH_FILE_LIST_OP_TYPE_SET_SORT_FUNC,
 	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS,
-	GTH_FILE_LIST_OP_TYPE_RENAME_FILE
-	/*GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE,*/
+	GTH_FILE_LIST_OP_TYPE_RENAME_FILE,
+	GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE
 } GthFileListOpType;
 
 
@@ -173,6 +173,9 @@ gth_file_list_op_free (GthFileListOp *op)
 	case GTH_FILE_LIST_OP_TYPE_RENAME_FILE:
 		g_object_unref (op->file);
 		g_object_unref (op->file_data);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE:
+		g_object_unref (op->file);
 		break;
 	default:
 		break;
@@ -1224,6 +1227,32 @@ gth_file_list_set_caption (GthFileList *file_list,
 }
 
 
+static void
+gfl_make_file_visible (GthFileList *file_list,
+		       GFile       *file)
+{
+	int pos;
+
+	pos = gth_file_store_get_pos ((GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)), file);
+	if (pos >= 0) {
+		gth_file_selection_select (GTH_FILE_SELECTION (file_list->priv->view), pos);
+		gth_file_view_set_cursor (GTH_FILE_VIEW (file_list->priv->view), pos);
+	}
+}
+
+
+void
+gth_file_list_make_file_visible (GthFileList *file_list,
+				 GFile       *file)
+{
+	GthFileListOp *op;
+
+	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE);
+	op->file = g_object_ref (file);
+	_gth_file_list_queue_op (file_list, op);
+}
+
+
 GtkWidget *
 gth_file_list_get_view (GthFileList *file_list)
 {
@@ -1758,6 +1787,9 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_RENAME_FILE:
 		gfl_rename_file (file_list, op->file, op->file_data);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE:
+		gfl_make_file_visible (file_list, op->file);
 		break;
 	default:
 		exec_next_op = FALSE;
