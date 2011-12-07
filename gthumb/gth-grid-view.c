@@ -67,9 +67,12 @@ G_DEFINE_TYPE_WITH_CODE (GthGridView,
 
 
 enum {
+	SELECT_ALL,
+	UNSELECT_ALL,
 	MOVE_CURSOR,
-	SET_CURSOR_SELECTION,
-	TOGGLE_CURSOR_SELECTION,
+	SELECT_CURSOR_ITEM,
+	TOGGLE_CURSOR_ITEM,
+	ACTIVATE_CURSOR_ITEM,
 	LAST_SIGNAL
 };
 
@@ -3247,7 +3250,7 @@ gth_grid_view_move_cursor (GthGridView        *self,
 
 
 static gboolean
-gth_grid_view_set_cursor_selection (GthGridView *self)
+gth_grid_view_select_cursor_item (GthGridView *self)
 {
 	GthGridViewItem *item;
 
@@ -3268,7 +3271,7 @@ gth_grid_view_set_cursor_selection (GthGridView *self)
 
 
 static gboolean
-gth_grid_view_toggle_cursor_selection (GthGridView *self)
+gth_grid_view_toggle_cursor_item (GthGridView *self)
 {
 	GList           *link;
 	GthGridViewItem *item;
@@ -3284,8 +3287,21 @@ gth_grid_view_toggle_cursor_selection (GthGridView *self)
 		_gth_grid_view_unselect_item (self, self->priv->focused_item);
 	else
 		_gth_grid_view_select_item (self, self->priv->focused_item);
+	_gth_grid_view_emit_selection_changed (self);
 
 	return TRUE;
+}
+
+
+static gboolean
+gth_grid_view_activate_cursor_item (GthGridView *self)
+{
+	if (self->priv->focused_item >= 0) {
+		gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->focused_item);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 
@@ -3526,12 +3542,39 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	widget_class->button_release_event = gth_grid_view_button_release;
 	widget_class->motion_notify_event = gth_grid_view_motion_notify;
 
+	grid_view_class->select_all = gth_grid_view_select_all;
+	grid_view_class->unselect_all = gth_grid_view_unselect_all;
+	grid_view_class->toggle_cursor_item = gth_grid_view_toggle_cursor_item;
+	grid_view_class->select_cursor_item = gth_grid_view_select_cursor_item;
 	grid_view_class->move_cursor = gth_grid_view_move_cursor;
-	grid_view_class->set_cursor_selection = gth_grid_view_set_cursor_selection;
-	grid_view_class->toggle_cursor_selection = gth_grid_view_toggle_cursor_selection;
+	grid_view_class->activate_cursor_item = gth_grid_view_activate_cursor_item;
 
 	/* Signals */
 
+	grid_view_signals[SELECT_ALL] =
+		g_signal_new ("select-all",
+			      G_TYPE_FROM_CLASS (gobject_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (GthGridViewClass, select_all),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+	grid_view_signals[UNSELECT_ALL] =
+		g_signal_new ("unselect-all",
+			      G_TYPE_FROM_CLASS (gobject_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (GthGridViewClass, unselect_all),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+	grid_view_signals[ACTIVATE_CURSOR_ITEM] =
+		g_signal_new ("activate-cursor-item",
+			      G_TYPE_FROM_CLASS (gobject_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (GthGridViewClass, activate_cursor_item),
+			      NULL, NULL,
+			      gth_marshal_BOOLEAN__VOID,
+			      G_TYPE_BOOLEAN, 0);
 	grid_view_signals[MOVE_CURSOR] =
 		g_signal_new ("move-cursor",
 			      G_TYPE_FROM_CLASS (gobject_class),
@@ -3542,19 +3585,19 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 			      G_TYPE_BOOLEAN, 2,
 			      GTH_TYPE_CURSOR_MOVEMENT,
 			      GTH_TYPE_SELECTION_CHANGE);
-	grid_view_signals[SET_CURSOR_SELECTION] =
-		g_signal_new ("set-cursor-selection",
+	grid_view_signals[SELECT_CURSOR_ITEM] =
+		g_signal_new ("select-cursor-item",
 			      G_TYPE_FROM_CLASS (gobject_class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (GthGridViewClass, set_cursor_selection),
+			      G_STRUCT_OFFSET (GthGridViewClass, select_cursor_item),
 			      NULL, NULL,
 			      gth_marshal_BOOLEAN__VOID,
 			      G_TYPE_BOOLEAN, 0);
-	grid_view_signals[TOGGLE_CURSOR_SELECTION] =
-		g_signal_new ("toggle-cursor-selection",
+	grid_view_signals[TOGGLE_CURSOR_ITEM] =
+		g_signal_new ("toggle-cursor-item",
 			      G_TYPE_FROM_CLASS (gobject_class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (GthGridViewClass, toggle_cursor_selection),
+			      G_STRUCT_OFFSET (GthGridViewClass, toggle_cursor_item),
 			      NULL, NULL,
 			      gth_marshal_BOOLEAN__VOID,
 			      G_TYPE_BOOLEAN, 0);
@@ -3598,17 +3641,31 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_End, GTH_CURSOR_MOVE_END);
 
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_space, 0,
-				      "set-cursor-selection", 0);
+				      "select-cursor-item", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Space, 0,
+				      "select-cursor-item", 0);
+
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_space, GDK_CONTROL_MASK,
-				      "toggle-cursor-selection", 0);
+				      "toggle-cursor-item", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Space, GDK_CONTROL_MASK,
+				      "toggle-cursor-item", 0);
+
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK,
 				      "select-all", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_slash, GDK_CONTROL_MASK,
 				      "select-all", 0);
+
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_A, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
 				      "unselect-all", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_backslash, GDK_CONTROL_MASK,
 				      "unselect-all", 0);
+
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Return, 0,
+				      "activate-cursor-item", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_ISO_Enter, 0,
+				      "activate-cursor-item", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter, 0,
+				      "activate-cursor-item", 0);
 }
 
 

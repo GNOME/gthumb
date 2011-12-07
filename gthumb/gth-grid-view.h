@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "typedefs.h"
+#include "gth-file-selection.h"
 
 G_BEGIN_DECLS
 
@@ -76,11 +77,14 @@ struct _GthGridViewClass {
 
         /*< key binding signals >*/
 
+	void     (* select_all)               (GthFileSelection   *grid_view);
+	void     (* unselect_all)             (GthFileSelection   *grid_view);
+	gboolean (* select_cursor_item)       (GthGridView        *grid_view);
+	gboolean (* toggle_cursor_item)       (GthGridView        *grid_view);
         gboolean (* move_cursor)              (GthGridView        *grid_view,
 					       GthCursorMovement   dir,
 					       GthSelectionChange  sel_change);
-	gboolean (* set_cursor_selection)     (GthGridView        *grid_view);
-	gboolean (* toggle_cursor_selection)  (GthGridView        *grid_view);
+	gboolean (* activate_cursor_item)     (GthGridView        *grid_view);
 };
 
 GType          gth_grid_view_get_type              (void);
