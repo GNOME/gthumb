@@ -137,6 +137,7 @@ struct _GthGridViewPrivate {
 	GList                 *selection;
 	int                    focused_item;
 	int                    first_focused_item;  /* Used to do multiple selection with the keyboard. */
+	guint                  make_focused_visible : 1;
 
 	guint                  layout_timeout;
 	int                    relayout_from_line;
@@ -888,6 +889,11 @@ _gth_grid_view_relayout_cb (gpointer data)
 
 	_gth_grid_view_relayout_from_line (self, self->priv->relayout_from_line);
 
+	if (self->priv->make_focused_visible) {
+		self->priv->make_focused_visible = FALSE;
+		_gth_grid_view_make_item_fully_visible (self, self->priv->focused_item);
+	}
+
 	return FALSE;
 }
 
@@ -900,6 +906,9 @@ _gth_grid_view_queue_relayout_from_line (GthGridView *self,
 		self->priv->relayout_from_line = MIN (line, self->priv->relayout_from_line);
 	else
 		self->priv->relayout_from_line = line;
+
+	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
+		return;
 
 	if (self->priv->layout_timeout == 0)
 		self->priv->layout_timeout = g_timeout_add (LAYOUT_DELAY,
@@ -2356,6 +2365,7 @@ gth_grid_view_cursor_changed (GthFileView *file_view,
 	new_item->state |= GTK_STATE_FLAG_FOCUSED | GTK_STATE_FLAG_ACTIVE;
 	_gth_grid_view_queue_draw_item (self, new_item);
 
+	self->priv->make_focused_visible = TRUE;
 	_gth_grid_view_make_item_fully_visible (self, self->priv->focused_item);
 }
 
@@ -3651,6 +3661,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->selection = NULL;
 	self->priv->focused_item = -1;
 	self->priv->first_focused_item = -1;
+	self->priv->make_focused_visible = FALSE;
 	self->priv->layout_timeout = 0;
 	self->priv->relayout_from_line = -1;
 	self->priv->update_caption_height = TRUE;
