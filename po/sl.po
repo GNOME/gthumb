@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-24 16:31+0000\n"
-"PO-Revision-Date: 2011-11-25 20:47+0100\n"
+"POT-Creation-Date: 2011-12-08 10:56+0000\n"
+"PO-Revision-Date: 2011-12-08 21:58+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -321,7 +321,7 @@ msgstr "Lastnosti _datoteke v brskalniku:"
 #: ../data/ui/preferences.ui.h:9
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:400
+#: ../extensions/edit_metadata/gth-edit-general-page.c:404
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
@@ -340,7 +340,7 @@ msgid "On startup:"
 msgstr "Ob zagonu:"
 
 #: ../data/ui/preferences.ui.h:13
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:198
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Other"
@@ -620,7 +620,6 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Gre v mapo, ki vsebuje izbrano datoteko"
 
 #: ../extensions/catalogs/callbacks.c:110
-#: ../extensions/edit_metadata/callbacks.c:112
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:85
 msgid "Other..."
 msgstr "Ostalo ..."
@@ -767,7 +766,7 @@ msgid "Select None"
 msgstr "Brez izbora"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:476
+#: ../extensions/edit_metadata/gth-edit-general-page.c:480
 #: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
@@ -837,6 +836,7 @@ msgstr "Datoteke bodo organizirane v kataloge. Nobena datoteka ne bo premaknjena
 
 #: ../extensions/catalogs/gth-catalog.c:1115
 #: ../extensions/comments/main.c:43
+#: ../extensions/edit_metadata/callbacks.c:106
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
 msgstr "Oznake"
@@ -989,7 +989,7 @@ msgid "_Synchronize with the embedded metadata"
 msgstr "_Uskladi z vloženimi metapodatki"
 
 #: ../extensions/comments/main.c:33
-#: ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/edit_metadata/callbacks.c:100
 msgid "Comment"
 msgstr "Opomba"
 
@@ -1410,31 +1410,31 @@ msgstr "Nastavi sliko za ozadje namizja"
 msgid "Desktop background"
 msgstr "Ozadje namizja"
 
-#: ../extensions/edit_metadata/actions.c:129
+#: ../extensions/edit_metadata/actions.c:66
 msgid "Are you sure you want to permanently delete the metadata of the selected files?"
 msgstr "Ali ste prepričani, da želite trajno izbrisati metapodatke izbranih datotek?"
 
-#: ../extensions/edit_metadata/actions.c:136
+#: ../extensions/edit_metadata/actions.c:73
 msgid "If you delete the metadata, it will be permanently lost."
 msgstr "V primeru, da metapodatke izbrišete, bo ti trajno izgubljeni."
 
-#: ../extensions/edit_metadata/callbacks.c:103
+#: ../extensions/edit_metadata/callbacks.c:97
 msgid "T_ags"
 msgstr "Ozn_ake"
 
-#: ../extensions/edit_metadata/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:101
 msgid "Edit the comment and other information of the selected files"
 msgstr "Uredi opombe in druge podatke izbranih datotek"
 
-#: ../extensions/edit_metadata/callbacks.c:113
-msgid "Choose another tag"
-msgstr "Izberite drugo oznako"
+#: ../extensions/edit_metadata/callbacks.c:107
+msgid "Set the tags of the selected files"
+msgstr "Dodeljevanje oznak izbranim datotekam"
 
-#: ../extensions/edit_metadata/callbacks.c:118
+#: ../extensions/edit_metadata/callbacks.c:112
 msgid "Delete Metadata"
 msgstr "Izbriši metapodatke"
 
-#: ../extensions/edit_metadata/callbacks.c:119
+#: ../extensions/edit_metadata/callbacks.c:113
 msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr "Izbriši opombe in druge vstavljene metapodatke izbranih datotek"
 
@@ -1461,11 +1461,11 @@ msgstr "_Ocena:"
 msgid "_Title:"
 msgstr "_Naslov:"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:63
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:121
 msgid "Could not save the file metadata"
 msgstr "Metapodatkov datoteke ni mogoče shraniti"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:150
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:234
 #: ../gthumb/gth-overwrite-dialog.c:136
 msgid "Cannot read file information"
 msgstr "Ni mogoče prebrati podatkov o datoteki"
@@ -1478,42 +1478,14 @@ msgstr "Dovoli urejanje metapodatkov datotek."
 msgid "Edit metadata"
 msgstr "Urejanje metapodatkov"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:473
-msgid "No date"
-msgstr "Brez datuma"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:474
-msgid "The following date"
-msgstr "Naslednji datum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:475
-#: ../extensions/importer/gth-import-preferences-dialog.c:331
-msgid "Current date"
-msgstr "Trenutni datum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:477
-msgid "Last modified date"
-msgstr "Datum zadnje spremembe"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:478
-msgid "File creation date"
-msgstr "Datum ustvaritve datoteke"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:479
-msgid "Do not modify"
-msgstr "Ne spreminjaj"
-
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:68
-msgid "Save only cha_nged fields"
-msgstr "Shrani le spre_menjena polja"
-
 #. Translators: the %s symbol in the string is a file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:119
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
 #, c-format
 msgid "%s Metadata"
 msgstr "Metapodatki %s"
 
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:123
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:97
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
@@ -1523,11 +1495,47 @@ msgstr[1] "%d datoteka"
 msgstr[2] "%d datoteki"
 msgstr[3] "%d datoteke"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:80
-msgid "New tag"
-msgstr "Nova oznaka"
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:263
+msgid "Sa_ve and Close"
+msgstr "S_hrani in zapri"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:222
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:156
+msgid "Save only cha_nged fields"
+msgstr "Shrani le spre_menjena polja"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:477
+msgid "No date"
+msgstr "Brez datuma"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:478
+msgid "The following date"
+msgstr "Naslednji datum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:479
+#: ../extensions/importer/gth-import-preferences-dialog.c:331
+msgid "Current date"
+msgstr "Trenutni datum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:481
+msgid "Last modified date"
+msgstr "Datum zadnje spremembe"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:482
+msgid "File creation date"
+msgstr "Datum ustvaritve datoteke"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:483
+msgid "Do not modify"
+msgstr "Ne spreminjaj"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:94
+#, c-format
+msgid "%s Tags"
+msgstr "Oznake %s"
+
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:255
 msgid "Assign Tags"
 msgstr "Dodeli oznake"
 
@@ -2177,8 +2185,8 @@ msgstr "Premakni izbrane datoteke v drugo mapo"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4997
-#: ../gthumb/gth-browser.c:5031
+#: ../gthumb/gth-browser.c:4935
+#: ../gthumb/gth-browser.c:4969
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
 
@@ -2865,7 +2873,7 @@ msgstr "Uvozi iz %s"
 
 #: ../extensions/gstreamer_tools/actions.c:66
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1075
-#: ../gthumb/gth-browser.c:2008
+#: ../gthumb/gth-browser.c:1998
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
@@ -3751,7 +3759,7 @@ msgid "Could not load the folder"
 msgstr "Mape ni mogoče naložiti"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:1921
+#: ../gthumb/gth-browser.c:1911
 msgid "Getting folder listing..."
 msgstr "Pridobivanje seznama map ..."
 
@@ -4750,17 +4758,17 @@ msgid "Leave Fullscreen"
 msgstr "Zapusti celozaslonski način"
 
 #: ../gthumb/gth-browser-actions-entries.h:144
-#: ../gthumb/gth-browser.c:3605
+#: ../gthumb/gth-browser.c:3586
 msgid "Go to the previous visited location"
 msgstr "Pojdi na predhodno obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:150
-#: ../gthumb/gth-browser.c:3623
+#: ../gthumb/gth-browser.c:3604
 msgid "Go to the next visited location"
 msgstr "Pojdi na naslednje obiskano mesto"
 
 #: ../gthumb/gth-browser-actions-entries.h:156
-#: ../gthumb/gth-browser.c:3641
+#: ../gthumb/gth-browser.c:3622
 msgid "Go up one level"
 msgstr "Pojdi eno raven višje"
 
@@ -4894,60 +4902,60 @@ msgid "%s of free space"
 msgstr "%s neporabljenega prostora"
 
 #: ../gthumb/gth-browser.c:1240
-#: ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5955
-#: ../gthumb/gth-browser.c:5974
-#: ../gthumb/gth-browser.c:5999
+#: ../gthumb/gth-browser.c:1799
+#: ../gthumb/gth-browser.c:5893
+#: ../gthumb/gth-browser.c:5912
+#: ../gthumb/gth-browser.c:5937
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ni mogoče naložiti položaja  \"%s\""
 
-#: ../gthumb/gth-browser.c:1905
-#: ../gthumb/gth-browser.c:1932
+#: ../gthumb/gth-browser.c:1895
+#: ../gthumb/gth-browser.c:1922
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Primernega modula za %s ni bilo mogoče najti"
 
-#: ../gthumb/gth-browser.c:2052
+#: ../gthumb/gth-browser.c:2042
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Ali naj bodo spremembe datoteke '%s' shranjene?"
 
-#: ../gthumb/gth-browser.c:2057
+#: ../gthumb/gth-browser.c:2047
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "V primeru, da sprememb ne shranite, bodo trajno izgubljene."
 
-#: ../gthumb/gth-browser.c:2058
+#: ../gthumb/gth-browser.c:2048
 msgid "Do _Not Save"
 msgstr "_Ne shrani"
 
-#: ../gthumb/gth-browser.c:2828
-#: ../gthumb/gth-browser.c:2848
+#: ../gthumb/gth-browser.c:2818
+#: ../gthumb/gth-browser.c:2838
 #: ../gthumb/gth-source-tree.c:182
 #: ../gthumb/gth-source-tree.c:204
 msgid "Could not change name"
 msgstr "Ni mogoče spremeniti imena"
 
-#: ../gthumb/gth-browser.c:3285
+#: ../gthumb/gth-browser.c:3266
 #: ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: ../gthumb/gth-browser.c:3606
-#: ../gthumb/gth-browser.c:3624
+#: ../gthumb/gth-browser.c:3587
+#: ../gthumb/gth-browser.c:3605
 msgid "View the list of visited locations"
 msgstr "Pogled seznama obiskanih mest"
 
-#: ../gthumb/gth-browser.c:3642
+#: ../gthumb/gth-browser.c:3623
 msgid "View the list of upper locations"
 msgstr "Pogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5956
+#: ../gthumb/gth-browser.c:5894
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:6000
+#: ../gthumb/gth-browser.c:5938
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -5175,12 +5183,12 @@ msgstr "Prekliči opravilo"
 msgid "Saving file information"
 msgstr "Shranjevanje podrobnosti datoteke"
 
-#: ../gthumb/gth-tags-entry.c:374
+#: ../gthumb/gth-tags-entry.c:388
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Ustvari oznako «%s»"
 
-#: ../gthumb/gth-tags-entry.c:720
+#: ../gthumb/gth-tags-entry.c:743
 msgid "Show all the tags"
 msgstr "Pokaži vse oznake"
 
@@ -5374,6 +5382,12 @@ msgstr "- Brskalnik in pregledovalnik slik"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
+
+#~ msgid "Choose another tag"
+#~ msgstr "Izberite drugo oznako"
+
+#~ msgid "New tag"
+#~ msgstr "Nova oznaka"
 
 #~ msgid ""
 #~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
@@ -6338,9 +6352,6 @@ msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
 
 #~ msgid "Came_ra Model"
 #~ msgstr "Model _fotoaparata"
-
-#~ msgid "Da_te and Time"
-#~ msgstr "D_atum in čas"
 
 #~ msgid "Exposure _time"
 #~ msgstr "Čas o_svetlitve"
