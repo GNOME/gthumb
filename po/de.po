@@ -1545,7 +1545,7 @@ msgstr "Nicht ändern"
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:94
 #, c-format
 msgid "%s Tags"
-msgstr "Schlagwörter für %"
+msgstr "Schlagwörter für %s"
 
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:255
 msgid "Assign Tags"
