@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-16 22:11+0000\n"
-"PO-Revision-Date: 2011-11-18 20:09+0100\n"
+"POT-Creation-Date: 2011-12-05 21:01+0000\n"
+"PO-Revision-Date: 2011-12-08 11:51+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,8 +104,8 @@ msgid "View and organize your images"
 msgstr "Ihre Bilder betrachten und katalogisieren"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:530
-#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:287
+#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:529
+#: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -139,6 +139,10 @@ msgstr ""
 "Vorschaubilder erzeugt."
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+msgid "Open files in the active window"
+msgstr "Dateien im aktiven Fenster öffnen"
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Whether to resize the window to fit the size of the image"
 msgstr ""
 "Legt fest, ob die Größe des Fensters an die Bildgröße angepasst werden soll"
@@ -332,7 +336,7 @@ msgstr "Datei_eigenschaften im Browser:"
 #: ../data/ui/preferences.ui.h:9
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:400
+#: ../extensions/edit_metadata/gth-edit-general-page.c:404
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
@@ -351,7 +355,7 @@ msgid "On startup:"
 msgstr "Beim Start:"
 
 #: ../data/ui/preferences.ui.h:13
-#: ../extensions/exiv2_tools/gth-edit-exiv2-page.c:198
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Other"
@@ -370,22 +374,26 @@ msgid "Thumbnail _size:"
 msgstr "_Vorschaubildgröße:"
 
 #: ../data/ui/preferences.ui.h:17
+msgid "_Reuse the active window to open files"
+msgstr "Das aktive Fenster zum Öffnen von Dateien wiede_rverwenden"
+
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "Metadaten in Dateien _speichern, wenn möglich"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:19
 msgid "_Toolbar style:"
 msgstr "_Werkzeugleisten-Stil:"
 
-#: ../data/ui/preferences.ui.h:19
+#: ../data/ui/preferences.ui.h:20
 msgid "below the folder list"
 msgstr "Unterhalb der Ordnerliste"
 
-#: ../data/ui/preferences.ui.h:20
+#: ../data/ui/preferences.ui.h:21
 msgid "gThumb Preferences"
 msgstr "gThumb-Einstellungen"
 
-#: ../data/ui/preferences.ui.h:21
+#: ../data/ui/preferences.ui.h:22
 msgid "on the right"
 msgstr "auf der rechten Seite"
 
@@ -623,7 +631,6 @@ msgid "Go to the folder that contains the selected file"
 msgstr "Zum Ordner gehen, der die gewählte Datei enthält"
 
 #: ../extensions/catalogs/callbacks.c:110
-#: ../extensions/edit_metadata/callbacks.c:112
 #: ../extensions/picasaweb/picasa-account-properties-dialog.c:85
 msgid "Other..."
 msgstr "Andere …"
@@ -669,7 +676,7 @@ msgstr "Befehlszeile"
 #: ../extensions/catalogs/callbacks.c:502
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:45 ../gthumb/gth-folder-tree.c:859
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:859
 msgid "(Empty)"
 msgstr "(Leer)"
 
@@ -769,7 +776,7 @@ msgid "Select None"
 msgstr "Nichts auswählen"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:476
+#: ../extensions/edit_metadata/gth-edit-general-page.c:480
 #: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
@@ -792,7 +799,7 @@ msgid "Singles"
 msgstr "Einzelne"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:7
-#: ../extensions/comments/main.c:274
+#: ../extensions/comments/main.c:280
 msgid "Tag"
 msgstr "Schlagwort"
 
@@ -840,6 +847,7 @@ msgstr ""
 "Datei verschoben."
 
 #: ../extensions/catalogs/gth-catalog.c:1115 ../extensions/comments/main.c:43
+#: ../extensions/edit_metadata/callbacks.c:106
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
 msgstr "Schlagwörter"
@@ -882,8 +890,8 @@ msgstr "Die gewählten Bilder konnten nicht aus dem Katalog entfernt werden"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1341
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:674
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:711
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1214
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Ungültiges Dateiformat"
@@ -991,7 +999,7 @@ msgstr "Einstellungen"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Mit den eingebetteten Metadaten _abgleichen"
 
-#: ../extensions/comments/main.c:33 ../extensions/edit_metadata/callbacks.c:106
+#: ../extensions/comments/main.c:33 ../extensions/edit_metadata/callbacks.c:100
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -999,7 +1007,7 @@ msgstr "Kommentar"
 msgid "Title"
 msgstr "Titel"
 
-#: ../extensions/comments/main.c:40 ../extensions/comments/main.c:258
+#: ../extensions/comments/main.c:40 ../extensions/comments/main.c:264
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
@@ -1011,7 +1019,7 @@ msgstr "Titel"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:266
+#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:272
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Ort"
@@ -1412,34 +1420,34 @@ msgstr "Das Bild als Arbeitsflächenhintergrund verwenden"
 msgid "Desktop background"
 msgstr "Arbeitsflächenhintergrund"
 
-#: ../extensions/edit_metadata/actions.c:129
+#: ../extensions/edit_metadata/actions.c:66
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
 msgstr ""
 "Sollen die Metadaten der ausgewählten Dateien unwiderruflich gelöscht werden?"
 
-#: ../extensions/edit_metadata/actions.c:136
+#: ../extensions/edit_metadata/actions.c:73
 msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Wenn Sie die Metadaten löschen, gehen diese für Sie dauerhaft verloren."
 
-#: ../extensions/edit_metadata/callbacks.c:103
+#: ../extensions/edit_metadata/callbacks.c:97
 msgid "T_ags"
 msgstr "Schl_agwörter"
 
-#: ../extensions/edit_metadata/callbacks.c:107
+#: ../extensions/edit_metadata/callbacks.c:101
 msgid "Edit the comment and other information of the selected files"
 msgstr "Den Kommentar und andere Informationen der gewählten Felder bearbeiten"
 
-#: ../extensions/edit_metadata/callbacks.c:113
-msgid "Choose another tag"
-msgstr "Wählen Sie ein anderes Schlagwort"
+#: ../extensions/edit_metadata/callbacks.c:107
+msgid "Set the tags of the selected files"
+msgstr "Den gewählten Dateien Schlagwörter zuweisen"
 
-#: ../extensions/edit_metadata/callbacks.c:118
+#: ../extensions/edit_metadata/callbacks.c:112
 msgid "Delete Metadata"
 msgstr "Metadaten löschen"
 
-#: ../extensions/edit_metadata/callbacks.c:119
+#: ../extensions/edit_metadata/callbacks.c:113
 msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr ""
 "Den Kommentar und die eingebetteten Metadaten der gewählten Dateien bearbeiten"
@@ -1467,11 +1475,11 @@ msgstr "Bewe_rtung:"
 msgid "_Title:"
 msgstr "_Titel:"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:63
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:121
 msgid "Could not save the file metadata"
 msgstr "Metadaten der Datei konnten nicht gespeichert werden"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:150
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:234
 #: ../gthumb/gth-overwrite-dialog.c:136
 msgid "Cannot read file information"
 msgstr "Dateiinformation konnte nicht gelesen werden"
@@ -1484,42 +1492,14 @@ msgstr "Bearbeitung der Metadaten der Datei ermöglichen."
 msgid "Edit metadata"
 msgstr "Metadaten bearbeiten"
 
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:473
-msgid "No date"
-msgstr "Kein Datum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:474
-msgid "The following date"
-msgstr "Folgendes Datum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:475
-#: ../extensions/importer/gth-import-preferences-dialog.c:331
-msgid "Current date"
-msgstr "Heutiges Datum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:477
-msgid "Last modified date"
-msgstr "Letztes Änderungsdatum"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:478
-msgid "File creation date"
-msgstr "Erstellungsdatum der Datei"
-
-#: ../extensions/edit_metadata/gth-edit-comment-page.c:479
-msgid "Do not modify"
-msgstr "Nicht ändern"
-
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:68
-msgid "Save only cha_nged fields"
-msgstr "Nur _veränderte Felder speichern"
-
 #. Translators: the %s symbol in the string is a file name
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:119
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
 #, c-format
 msgid "%s Metadata"
 msgstr "Metadaten zu %s"
 
-#: ../extensions/edit_metadata/gth-edit-metadata-dialog.c:123
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:97
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
@@ -1527,11 +1507,47 @@ msgid_plural "%d files"
 msgstr[0] "%d Datei"
 msgstr[1] "%d Dateien"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:80
-msgid "New tag"
-msgstr "Neues Schlagwort"
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:263
+msgid "Sa_ve and Close"
+msgstr "S_peichern und schließen"
 
-#: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:222
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:156
+msgid "Save only cha_nged fields"
+msgstr "Nur _veränderte Felder speichern"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:477
+msgid "No date"
+msgstr "Kein Datum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:478
+msgid "The following date"
+msgstr "Folgendes Datum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:479
+#: ../extensions/importer/gth-import-preferences-dialog.c:331
+msgid "Current date"
+msgstr "Heutiges Datum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:481
+msgid "Last modified date"
+msgstr "Letztes Änderungsdatum"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:482
+msgid "File creation date"
+msgstr "Erstellungsdatum der Datei"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:483
+msgid "Do not modify"
+msgstr "Nicht ändern"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:94
+#, c-format
+msgid "%s Tags"
+msgstr "Schlagwörter für %"
+
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:255
 msgid "Assign Tags"
 msgstr "Schlagworte zuweisen"
 
@@ -1873,16 +1889,16 @@ msgstr "Die Dateien konnten nicht exportiert werden"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:623
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1010
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
-#: ../gthumb/gth-browser.c:996
+#: ../gthumb/gth-browser.c:995
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d Datei (%s)"
 msgstr[1] "%d Dateien (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:592
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:643
+#: ../extensions/facebook/dlg-export-to-facebook.c:591
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:589
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:642
 #, c-format
 msgid "Export to %s"
 msgstr "Exportieren nach %s"
@@ -2090,12 +2106,12 @@ msgstr ""
 msgid "Could not move the folder to the Trash"
 msgstr "Der Ordner konnte nicht in den Müll verschoben werden"
 
-#: ../extensions/file_manager/actions.c:808 ../gthumb/gth-file-source-vfs.c:833
+#: ../extensions/file_manager/actions.c:808 ../gthumb/gth-file-source-vfs.c:837
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: ../extensions/file_manager/actions.c:818 ../gthumb/gth-file-source-vfs.c:846
+#: ../extensions/file_manager/actions.c:818 ../gthumb/gth-file-source-vfs.c:850
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
@@ -2135,7 +2151,7 @@ msgstr "Gewählte Dateien duplizieren"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
-#: ../gthumb/gth-file-source-vfs.c:805
+#: ../gthumb/gth-file-source-vfs.c:809
 msgid "Mo_ve to Trash"
 msgstr "In den _Müll verschieben"
 
@@ -2199,7 +2215,7 @@ msgstr "Die gewählten Dateien in einen anderen Ordner verschieben"
 
 #: ../extensions/file_manager/callbacks.c:1008
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4995 ../gthumb/gth-browser.c:5029
+#: ../gthumb/gth-browser.c:4997 ../gthumb/gth-browser.c:5031
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -2872,13 +2888,13 @@ msgid "Could not get the photo list"
 msgstr "Fotoliste konnten nicht geholt werden"
 
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:562
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1027
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1026
 msgid "No album selected"
 msgstr "Keine Album ausgewählt"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:580
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
 msgstr "Importieren von %s"
@@ -3404,7 +3420,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
 #: ../extensions/importer/gth-import-task.c:622
-#: ../gthumb/gth-file-source-vfs.c:686
+#: ../gthumb/gth-file-source-vfs.c:690
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
@@ -4820,19 +4836,19 @@ msgstr "In den Vollbildmodus wechseln"
 msgid "Leave Fullscreen"
 msgstr "Vollbild verlassen"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3603
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3605
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3621
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3623
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3639
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3641
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
-#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:673
+#: ../gthumb/gth-browser-actions-entries.h:167 ../gthumb/gth-browser.c:672
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
@@ -4937,30 +4953,30 @@ msgstr "Bild auf die Fenstergr_öße anpassen"
 msgid "Resize the window to the size of the image"
 msgstr "Die Größe des Fensters an die Bildgröße anpassen"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:369
 #, c-format
 msgid "Open %s"
 msgstr "%s öffnen"
 
-#: ../gthumb/gth-browser.c:510
+#: ../gthumb/gth-browser.c:509
 msgid "[modified]"
 msgstr "[geändert]"
 
-#: ../gthumb/gth-browser.c:997
+#: ../gthumb/gth-browser.c:996
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d Datei ausgewählt (%s)"
 msgstr[1] "%d Dateien ausgewählt (%s)"
 
-#: ../gthumb/gth-browser.c:1032
+#: ../gthumb/gth-browser.c:1031
 #, c-format
 msgid "%s of free space"
 msgstr "%s des freien Platzes"
 
-#: ../gthumb/gth-browser.c:1241 ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5953 ../gthumb/gth-browser.c:5972
-#: ../gthumb/gth-browser.c:5997
+#: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1809
+#: ../gthumb/gth-browser.c:5955 ../gthumb/gth-browser.c:5974
+#: ../gthumb/gth-browser.c:5999
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4994,20 +5010,20 @@ msgstr "Name konnte nicht geändert werden"
 msgid "Modified"
 msgstr "Geändert"
 
-#: ../gthumb/gth-browser.c:3604 ../gthumb/gth-browser.c:3622
+#: ../gthumb/gth-browser.c:3606 ../gthumb/gth-browser.c:3624
 msgid "View the list of visited locations"
 msgstr "Die Liste besuchter Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:3640
+#: ../gthumb/gth-browser.c:3642
 msgid "View the list of upper locations"
 msgstr "Die Liste der oberen Orte anzeigen"
 
-#: ../gthumb/gth-browser.c:5954
+#: ../gthumb/gth-browser.c:5956
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:5998
+#: ../gthumb/gth-browser.c:6000
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -5030,7 +5046,7 @@ msgstr "Persönlicher Ordner"
 msgid "File System"
 msgstr "Dateisystem"
 
-#: ../gthumb/gth-file-source-vfs.c:731
+#: ../gthumb/gth-file-source-vfs.c:735
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5038,23 +5054,23 @@ msgstr ""
 "Die Dateien können nicht in den Müll verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:742
+#: ../gthumb/gth-file-source-vfs.c:746
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Müll verschoben werden"
 
-#: ../gthumb/gth-file-source-vfs.c:789
+#: ../gthumb/gth-file-source-vfs.c:793
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Soll »%s« wirklich in den Müll verschoben werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:793
+#: ../gthumb/gth-file-source-vfs.c:797
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 msgstr[0] "Soll %'d ausgewählte Datei in den Müll verschoben werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien in den Müll verschoben werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:836
+#: ../gthumb/gth-file-source-vfs.c:840
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5232,12 +5248,12 @@ msgstr "Vorgang abbrechen"
 msgid "Saving file information"
 msgstr "Dateiinformationen werden gespeichert"
 
-#: ../gthumb/gth-tags-entry.c:374
+#: ../gthumb/gth-tags-entry.c:388
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Schlagwort »%s« anlegen"
 
-#: ../gthumb/gth-tags-entry.c:720
+#: ../gthumb/gth-tags-entry.c:743
 msgid "Show all the tags"
 msgstr "Alle Schlagwörter zeigen"
 
@@ -5418,7 +5434,7 @@ msgstr "Fotos von Digitalkameras automatisch importieren"
 msgid "Show version"
 msgstr "Version anzeigen"
 
-#: ../gthumb/main.c:317
+#: ../gthumb/main.c:344
 msgid "- Image browser and viewer"
 msgstr "- Bildbrowser und Betrachter"
 
@@ -5429,3 +5445,8 @@ msgstr ""
 "Es konnte kein passendes Modul zum Speichern des Bildes als »%s« gefunden "
 "werden"
 
+#~ msgid "Choose another tag"
+#~ msgstr "Wählen Sie ein anderes Schlagwort"
+
+#~ msgid "New tag"
+#~ msgstr "Neues Schlagwort"
