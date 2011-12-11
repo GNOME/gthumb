@@ -432,6 +432,7 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 		GFile *gio_new_file;
 		char  *data;
 		gsize  size;
+		GFileOutputStream *fstream;
 
 		uri = g_file_get_uri (file);
 		clean_name = _g_filename_clear_for_file (edit_name);
@@ -442,21 +443,28 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 
 		gio_new_file = gth_catalog_file_to_gio_file (new_file);
 		data = gth_catalog_to_data (catalog, &size);
-		if (g_write_file (gio_new_file,
-				  FALSE,
-				  G_FILE_CREATE_NONE,
-				  data,
-				  size,
-				  gth_file_source_get_cancellable (file_source),
-				  &error))
-		{
-			GFile *gio_old_file;
+		fstream = g_file_create (gio_new_file,
+					 G_FILE_CREATE_NONE,
+					 gth_file_source_get_cancellable (file_source),
+					 &error);
+		if (fstream != NULL) {
+		     if (g_output_stream_write_all (G_OUTPUT_STREAM (fstream),
+						    data,
+						    size,
+						    NULL,
+						    gth_file_source_get_cancellable (file_source),
+						    &error))
+		     {
+			     GFile *gio_old_file;
 
-			gio_old_file = gth_catalog_file_to_gio_file (file);
-			if (g_file_delete (gio_old_file, gth_file_source_get_cancellable (file_source), &error))
-				gth_monitor_file_renamed (gth_main_get_default_monitor (), file, new_file);
+			     gio_old_file = gth_catalog_file_to_gio_file (file);
+			     if (g_file_delete (gio_old_file, gth_file_source_get_cancellable (file_source), &error))
+				     gth_monitor_file_renamed (gth_main_get_default_monitor (), file, new_file);
 
-			g_object_unref (gio_old_file);
+			     g_object_unref (gio_old_file);
+		     }
+
+		     g_object_unref (fstream);
 		}
 
 		g_free (data);
