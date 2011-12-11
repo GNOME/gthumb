@@ -2870,29 +2870,10 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 		       const char    *new_name,
 		       GthBrowser    *browser)
 {
-	GFile  *parent;
-	char   *uri;
-	GFile  *new_file;
-	GError *error = NULL;
+	GthFileSource *file_source;
 
-	parent = g_file_get_parent (file);
-	uri = g_file_get_uri (file);
-	new_file = g_file_get_child_for_display_name (parent, new_name, &error);
-
-	if (new_file == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not change name"), error);
-		g_clear_error (&error);
-	}
-	else {
-		GthFileSource *file_source;
-
-		file_source = gth_main_get_file_source (file);
-		gth_file_source_rename (file_source, file, new_file, file_source_rename_ready_cb, browser);
-	}
-
-	g_object_unref (new_file);
-	g_free (uri);
-	g_object_unref (parent);
+	file_source = gth_main_get_file_source (file);
+	gth_file_source_rename (file_source, file, new_name, file_source_rename_ready_cb, browser);
 }
 
 

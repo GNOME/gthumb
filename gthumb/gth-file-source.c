@@ -77,7 +77,7 @@ typedef struct {
 
 typedef struct {
 	GFile         *file;
-	GFile         *new_file;
+	char          *edit_name;
 	ReadyCallback  callback;
 	gpointer       data;
 } RenameData;
@@ -188,7 +188,7 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 		break;
 	case FILE_SOURCE_OP_RENAME:
 		g_object_unref (async_op->data.rename.file);
-		g_object_unref (async_op->data.rename.new_file);
+		g_free (async_op->data.rename.edit_name);
 		break;
 	case FILE_SOURCE_OP_COPY:
 		g_object_unref (async_op->data.copy.destination);
@@ -325,7 +325,7 @@ gth_file_source_queue_read_attributes (GthFileSource *file_source,
 static void
 gth_file_source_queue_rename (GthFileSource *file_source,
 			      GFile         *file,
-			      GFile         *new_file,
+			      const char    *edit_name,
 			      ReadyCallback  callback,
 			      gpointer       data)
 {
@@ -335,7 +335,7 @@ gth_file_source_queue_rename (GthFileSource *file_source,
 	async_op->file_source = file_source;
 	async_op->op = FILE_SOURCE_OP_RENAME;
 	async_op->data.rename.file = g_file_dup (file);
-	async_op->data.rename.new_file = g_file_dup (new_file);
+	async_op->data.rename.edit_name = g_strdup (edit_name);
 	async_op->data.rename.callback = callback;
 	async_op->data.rename.data = data;
 
@@ -494,7 +494,7 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 	case FILE_SOURCE_OP_RENAME:
 		gth_file_source_rename (file_source,
 					async_op->data.rename.file,
-					async_op->data.rename.new_file,
+					async_op->data.rename.edit_name,
 					async_op->data.rename.callback,
 					async_op->data.rename.data);
 		break;
@@ -753,18 +753,34 @@ base_read_metadata (GthFileSource *file_source,
 static void
 base_rename (GthFileSource *file_source,
 	     GFile         *file,
-	     GFile         *new_file,
+	     const char    *edit_name,
 	     ReadyCallback  callback,
 	     gpointer       data)
 {
+	GFile  *parent;
+	GFile  *new_file;
 	GFile  *source;
 	GFile  *destination;
 	GError *error = NULL;
 
+	parent = g_file_get_parent (file);
+	new_file = g_file_get_child_for_display_name (parent, edit_name, &error);
+	if (new_file == NULL) {
+		object_ready_with_error (file_source, callback, data, error);
+		return;
+	}
+
 	source = gth_file_source_to_gio_file (file_source, file);
 	destination = gth_file_source_to_gio_file (file_source, new_file);
 
-	if (g_file_move (source, destination, 0, NULL, NULL, NULL, &error)) {
+	if (g_file_move (source,
+			 destination,
+			 0,
+			 gth_file_source_get_cancellable (file_source),
+			 NULL,
+			 NULL,
+			 &error))
+	{
 		GthMonitor *monitor;
 
 		monitor = gth_main_get_default_monitor ();
@@ -1260,16 +1276,16 @@ gth_file_source_read_attributes (GthFileSource  *file_source,
 void
 gth_file_source_rename (GthFileSource  *file_source,
 			GFile          *file,
-			GFile          *new_file,
+			const char     *edit_name,
 			ReadyCallback   ready_callback,
 			gpointer        data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_rename (file_source, file, new_file, ready_callback, data);
+		gth_file_source_queue_rename (file_source, file, edit_name, ready_callback, data);
 		return;
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, new_file, ready_callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, edit_name, ready_callback, data);
 }
 
 

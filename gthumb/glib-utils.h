@@ -238,6 +238,7 @@ const char *    _g_uri_remove_host               (const char *uri);
 char *          _g_uri_get_host                  (const char *uri);
 char *          _g_uri_get_relative_path         (const char *uri,
 						  const char *base);
+char *          _g_filename_clear_for_file       (const char *display_name);
 
 /* GIO utils */
 

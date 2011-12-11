@@ -101,7 +101,7 @@ struct _GthFileSourceClass
 					       gpointer              data);
 	void         (*rename)                (GthFileSource        *file_source,
 					       GFile                *file,
-					       GFile                *new_file,
+					       const char           *edit_name,
 					       ReadyCallback         callback,
 					       gpointer              data);
 	void         (*copy)                  (GthFileSource        *file_source,
@@ -189,7 +189,7 @@ void           gth_file_source_read_attributes       (GthFileSource        *file
 						      gpointer              data);
 void           gth_file_source_rename                (GthFileSource        *file_source,
 						      GFile                *file,
-						      GFile                *new_file,
+						      const char           *edit_name,
 						      ReadyCallback         ready_callback,
 						      gpointer              data);
 void           gth_file_source_copy                  (GthFileSource        *file_source,
