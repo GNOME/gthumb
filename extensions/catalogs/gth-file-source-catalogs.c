@@ -498,10 +498,15 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 		}
 	}
 
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		g_clear_error (&error);
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_EXISTS, _("Name already used"));
+	}
+
 	object_ready_with_error (file_source, callback, data, error);
 
 	_g_object_unref (new_file);
-	g_object_unref (catalog);
+	_g_object_unref (catalog);
 }
 
 
