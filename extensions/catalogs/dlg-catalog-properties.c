@@ -83,13 +83,6 @@ catalog_saved_cb (void     **buffer,
 }
 
 
-static char *
-clear_name_for_file (const char *display_name)
-{
-	return _g_utf8_replace (display_name, "/", "_");
-}
-
-
 static void
 save_button_clicked_cb (GtkButton  *button,
 			DialogData *data)
@@ -108,7 +101,7 @@ save_button_clicked_cb (GtkButton  *button,
 
 		parent = g_file_get_parent (data->original_file);
 		uri = g_file_get_uri (data->original_file);
-		clean_name = clear_name_for_file (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
+		clean_name = _g_filename_clear_for_file (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
 		display_name = g_strconcat (clean_name, _g_uri_get_file_extension (uri), NULL);
 		new_file = g_file_get_child_for_display_name (parent, display_name, NULL);
 		if ((new_file != NULL) && ! g_file_equal (new_file, data->original_file))

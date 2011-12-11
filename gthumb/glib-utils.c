@@ -1867,6 +1867,13 @@ _g_uri_get_relative_path (const char *uri,
 }
 
 
+char *
+_g_filename_clear_for_file (const char *display_name)
+{
+	return _g_utf8_replace (display_name, "/", "_");
+}
+
+
 /* GIO utils */
 
 

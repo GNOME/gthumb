@@ -211,6 +211,10 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 	GthFileData   *file_data;
 	char          *name;
 
+	g_object_set (folder_tree->priv->text_renderer,
+		      "editable", FALSE,
+		      NULL);
+
 	tree_path = gtk_tree_path_new_from_string (path);
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 				       &iter,
@@ -237,6 +241,49 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 
 
 static void
+text_renderer_editing_started_cb (GtkCellRenderer *cell,
+				  GtkCellEditable *editable,
+				  const char      *path,
+				  gpointer         user_data)
+{
+	GthFolderTree *folder_tree = user_data;
+	GtkTreePath   *tree_path;
+	GtkTreeIter    iter;
+	GthFileData   *file_data;
+
+	tree_path = gtk_tree_path_new_from_string (path);
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (folder_tree->priv->tree_store),
+				       &iter,
+				       tree_path))
+	{
+		gtk_tree_path_free (tree_path);
+		return;
+	}
+	gtk_tree_path_free (tree_path);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
+			    &iter,
+			    COLUMN_FILE_DATA, &file_data,
+			    -1);
+
+	if (GTK_IS_ENTRY (editable))
+	      gtk_entry_set_text (GTK_ENTRY (editable), g_file_info_get_edit_name (file_data->info));
+}
+
+
+static void
+text_renderer_editing_canceled_cb (GtkCellRenderer *renderer,
+				    gpointer         user_data)
+{
+	GthFolderTree *folder_tree = user_data;
+
+	g_object_set (folder_tree->priv->text_renderer,
+		      "editable", FALSE,
+		      NULL);
+}
+
+
+static void
 add_columns (GthFolderTree *folder_tree,
 	     GtkTreeView   *treeview)
 {
@@ -252,13 +299,20 @@ add_columns (GthFolderTree *folder_tree,
 					     NULL);
 
 	folder_tree->priv->text_renderer = renderer = gtk_cell_renderer_text_new ();
-	g_object_set (G_OBJECT (renderer),
+	g_object_set (renderer,
 		      "ellipsize", PANGO_ELLIPSIZE_END,
-		      "editable", TRUE,
 		      NULL);
 	g_signal_connect (folder_tree->priv->text_renderer,
 			  "edited",
 			  G_CALLBACK (text_renderer_edited_cb),
+			  folder_tree);
+	g_signal_connect (folder_tree->priv->text_renderer,
+			  "editing-started",
+			  G_CALLBACK (text_renderer_editing_started_cb),
+			  folder_tree);
+	g_signal_connect (folder_tree->priv->text_renderer,
+			  "editing-canceled",
+			  G_CALLBACK (text_renderer_editing_canceled_cb),
 			  folder_tree);
 
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
@@ -452,12 +506,6 @@ button_press_cb (GtkWidget      *widget,
 		_g_object_unref (file_data);
  	}
 	else if ((event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
-		GtkTreeSelection *selection;
-		int               start_pos;
-		int               width;
-		int               expander_size;
-		int               horizontal_separator;
-
 		/* This can be the start of a dragging action. */
 
 		if (! (event->state & GDK_CONTROL_MASK)
@@ -468,27 +516,6 @@ button_press_cb (GtkWidget      *widget,
 			folder_tree->priv->drag_start_x = event->x;
 			folder_tree->priv->drag_start_y = event->y;
 		}
-
-		/**/
-
-		if (! gtk_tree_view_column_cell_get_position (column,
-							      folder_tree->priv->text_renderer,
-							      &start_pos,
-							      &width))
-		{
-			start_pos = 0;
-			width = 0;
-		}
-
-		gtk_style_context_get_style (gtk_widget_get_style_context (GTK_WIDGET (folder_tree)),
-					     "expander-size", &expander_size,
-					     "horizontal-separator", &horizontal_separator,
-					     NULL);
-		start_pos += (gtk_tree_path_get_depth (path) - 1) * (expander_size + (horizontal_separator * 2));
-
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-		if ((cell_x > start_pos) && gtk_tree_selection_iter_is_selected (selection, &iter))
-			 retval = TRUE;
 	}
 	else if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
 		if (! gtk_tree_view_row_expanded (GTK_TREE_VIEW (folder_tree), path))
@@ -604,9 +631,6 @@ selection_changed_cb (GtkTreeSelection *selection,
 		return FALSE;
 
 	selected_path = gtk_tree_model_get_path (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter);
-
-	/*if (! gtk_tree_view_row_expanded (GTK_TREE_VIEW (folder_tree), selected_path))
-		gtk_tree_view_expand_row (GTK_TREE_VIEW (folder_tree), selected_path, FALSE);*/
 
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &iter,
@@ -1421,10 +1445,30 @@ gth_folder_tree_update_child (GthFolderTree *folder_tree,
 			      GFile         *old_file,
 			      GthFileData   *file_data)
 {
-	GtkTreeIter iter;
+	GtkTreeIter old_file_iter;
+	GtkTreeIter new_file_iter;
 
-	if (gth_folder_tree_get_iter (folder_tree, old_file, &iter, NULL))
-		_gth_folder_tree_set_file_data (folder_tree, &iter, file_data);
+	if (! gth_folder_tree_get_iter (folder_tree, old_file, &old_file_iter, NULL))
+		return;
+
+	if (gth_folder_tree_get_iter (folder_tree, file_data->file, &new_file_iter, NULL)) {
+		GFile *parent;
+		GList *files;
+
+		/* the new file is already present, remove the old file */
+
+		parent = g_file_get_parent (old_file);
+		files = g_list_prepend (NULL, g_object_ref (old_file));
+		gth_folder_tree_delete_children (folder_tree, parent, files);
+		_g_object_list_unref (files);
+		g_object_unref (parent);
+
+		/* update the data old of the new file */
+
+		_gth_folder_tree_set_file_data (folder_tree, &new_file_iter, file_data);
+	}
+	else
+		_gth_folder_tree_set_file_data (folder_tree, &old_file_iter, file_data);
 }
 
 
@@ -1474,10 +1518,11 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 	if (! gth_folder_tree_get_iter (folder_tree, file, &iter, NULL))
 		return;
 
+	g_object_set (folder_tree->priv->text_renderer,
+		      "editable", TRUE,
+		      NULL);
+
 	tree_path = gtk_tree_model_get_path (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter);
-	gtk_tree_view_expand_to_path (GTK_TREE_VIEW (folder_tree), tree_path);
-	gtk_tree_view_collapse_row (GTK_TREE_VIEW (folder_tree), tree_path);
-	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (folder_tree), tree_path, NULL, TRUE, 0.5, 0.0);
 	tree_column = gtk_tree_view_get_column (GTK_TREE_VIEW (folder_tree), 0);
 	gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree),
 				  tree_path,

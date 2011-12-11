@@ -410,6 +410,93 @@ gth_file_source_catalogs_read_metadata (GthFileSource *file_source,
 }
 
 
+static void
+gth_file_source_catalogs_rename (GthFileSource *file_source,
+				 GFile         *file,
+				 const char    *edit_name,
+				 ReadyCallback  callback,
+				 gpointer       data)
+{
+	GFile      *parent;
+	GFile      *new_file;
+	GthCatalog *catalog;
+	GError     *error = NULL;
+
+	parent = g_file_get_parent (file);
+
+	catalog = gth_catalog_load_from_file (file);
+	if (catalog != NULL) {
+		char  *uri;
+		char  *clean_name;
+		char  *name;
+		GFile *gio_new_file;
+		char  *data;
+		gsize  size;
+
+		uri = g_file_get_uri (file);
+		clean_name = _g_filename_clear_for_file (edit_name);
+		name = g_strconcat (clean_name, _g_uri_get_file_extension (uri), NULL);
+		new_file = g_file_get_child_for_display_name (parent, name, &error);
+		gth_catalog_set_file (catalog, new_file);
+		gth_catalog_set_name (catalog, edit_name);
+
+		gio_new_file = gth_catalog_file_to_gio_file (new_file);
+		data = gth_catalog_to_data (catalog, &size);
+		if (g_write_file (gio_new_file,
+				  FALSE,
+				  G_FILE_CREATE_NONE,
+				  data,
+				  size,
+				  gth_file_source_get_cancellable (file_source),
+				  &error))
+		{
+			GFile *gio_old_file;
+
+			gio_old_file = gth_catalog_file_to_gio_file (file);
+			if (g_file_delete (gio_old_file, gth_file_source_get_cancellable (file_source), &error))
+				gth_monitor_file_renamed (gth_main_get_default_monitor (), file, new_file);
+
+			g_object_unref (gio_old_file);
+		}
+
+		g_free (data);
+		g_object_unref (gio_new_file);
+		g_free (clean_name);
+		g_free (name);
+		g_free (uri);
+	}
+	else {
+		new_file = g_file_get_child_for_display_name (parent, edit_name, &error);
+		if (new_file != NULL) {
+			GFile *gio_file;
+			GFile *gio_new_file;
+
+			gio_file = gth_file_source_to_gio_file (file_source, file);
+			gio_new_file = gth_file_source_to_gio_file (file_source, new_file);
+
+			if (g_file_move (gio_file,
+					 gio_new_file,
+					 0,
+					 gth_file_source_get_cancellable (file_source),
+					 NULL,
+					 NULL,
+					 &error))
+			{
+				gth_monitor_file_renamed (gth_main_get_default_monitor (), file, new_file);
+			}
+
+			g_object_unref (gio_new_file);
+			g_object_unref (gio_file);
+		}
+	}
+
+	object_ready_with_error (file_source, callback, data, error);
+
+	_g_object_unref (new_file);
+	g_object_unref (catalog);
+}
+
+
 /* -- gth_file_source_catalogs_for_each_child -- */
 
 
@@ -1436,6 +1523,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->get_file_data = gth_file_source_catalogs_get_file_data;
 	file_source_class->write_metadata = gth_file_source_catalogs_write_metadata;
 	file_source_class->read_metadata = gth_file_source_catalogs_read_metadata;
+	file_source_class->rename = gth_file_source_catalogs_rename;
 	file_source_class->for_each_child = gth_file_source_catalogs_for_each_child;
 	file_source_class->copy = gth_file_source_catalogs_copy;
 	file_source_class->can_cut = gth_file_source_catalogs_can_cut;
