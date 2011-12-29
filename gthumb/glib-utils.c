@@ -525,9 +525,8 @@ _g_time_val_to_exif_date (GTimeVal *time_)
 static int
 _g_time_get_timezone_offset (struct tm *tm)
 {
-	int offset;
+	int offset = 0;
 
-	offset = -timezone;
 #if defined (HAVE_TM_GMTOFF)
 	offset = tm->tm_gmtoff;
 #elif defined (HAVE_TIMEZONE)
