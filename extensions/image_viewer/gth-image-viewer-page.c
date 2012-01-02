@@ -1042,10 +1042,20 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 
 typedef struct {
 	GthImageViewerPage *self;
+	GthFileData        *file_to_save;
 	GthFileData        *original_file;
 	FileSavedFunc       func;
 	gpointer            user_data;
 } SaveData;
+
+
+static void
+save_data_free (SaveData *data)
+{
+	g_object_unref (data->file_to_save);
+	g_object_unref (data->original_file);
+	g_free (data);
+}
 
 
 static void
@@ -1060,17 +1070,12 @@ image_saved_cb (GthFileData *file_data,
 	error_occurred = error != NULL;
 
 	if (error_occurred) {
-		GthFileData *current_file;
-
-		current_file = gth_browser_get_current_file (self->priv->browser);
-		if (current_file != NULL) {
-			gth_file_data_set_file (current_file, data->original_file->file);
-			g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
-		}
+		gth_file_data_set_file (data->file_to_save, data->original_file->file);
+		g_file_info_set_attribute_boolean (data->file_to_save->info, "gth::file::is-modified", FALSE);
 	}
 
 	if (data->func != NULL)
-		(data->func) ((GthViewerPage *) self, self->priv->file_data, error, data->user_data);
+		(data->func) ((GthViewerPage *) self, data->file_to_save, error, data->user_data);
 	else if (error != NULL)
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not save the file"), error);
 
@@ -1078,8 +1083,8 @@ image_saved_cb (GthFileData *file_data,
 		GFile *folder;
 		GList *file_list;
 
-		folder = g_file_get_parent (self->priv->file_data->file);
-		file_list = g_list_prepend (NULL, g_object_ref (self->priv->file_data->file));
+		folder = g_file_get_parent (data->file_to_save->file);
+		file_list = g_list_prepend (NULL, g_object_ref (data->file_to_save->file));
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    folder,
 					    file_list,
@@ -1089,8 +1094,7 @@ image_saved_cb (GthFileData *file_data,
 		g_object_unref (folder);
 	}
 
-	g_object_unref (data->original_file);
-	g_free (data);
+	save_data_free (data);
 }
 
 
@@ -1117,14 +1121,20 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 		mime_type = gth_file_data_get_mime_type (self->priv->file_data);
 
 	current_file = gth_browser_get_current_file (self->priv->browser);
+	if (current_file == NULL)
+		return;
+
+	data->file_to_save = g_object_ref (current_file);
 	data->original_file = gth_file_data_dup (current_file);
 	if (file != NULL)
-		gth_file_data_set_file (current_file, file);
+		gth_file_data_set_file (data->file_to_save, file);
 
 	/* save the value of 'gth::file::is-modified' into 'gth::file::image-changed'
 	 * to allow the exiv2 metadata writer to not change some fields if the
 	 * content wasn't modified. */
-	g_file_info_set_attribute_boolean (current_file->info, "gth::file::image-changed", g_file_info_get_attribute_boolean (current_file->info, "gth::file::is-modified"));
+	g_file_info_set_attribute_boolean (data->file_to_save->info,
+					   "gth::file::image-changed",
+					   g_file_info_get_attribute_boolean (data->file_to_save->info, "gth::file::is-modified"));
 
 	/* the 'gth::file::is-modified' attribute must be set to false before
 	 * saving the file to avoid a scenario where the user is asked whether
@@ -1135,11 +1145,11 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	 * (see file_attributes_ready_cb in gth-browser.c) and if it has been
 	 * modified ('gth::file::is-modified' is TRUE) the user is asked if he
 	 * wants to save (see load_file_delayed_cb in gth-browser.c). */
-	g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
+	g_file_info_set_attribute_boolean (data->file_to_save->info, "gth::file::is-modified", FALSE);
 
 	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
 	_gdk_pixbuf_save_async (pixbuf,
-			        current_file,
+				data->file_to_save,
 			        mime_type,
 			        TRUE,
 				image_saved_cb,
