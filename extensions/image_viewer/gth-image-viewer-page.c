@@ -1120,6 +1120,21 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	data->original_file = gth_file_data_dup (current_file);
 	if (file != NULL)
 		gth_file_data_set_file (current_file, file);
+
+	/* save the value of 'gth::file::is-modified' into 'gth::file::image-changed'
+	 * to allow the exiv2 metadata writer to not change some fields if the
+	 * content wasn't modified. */
+	g_file_info_set_attribute_boolean (current_file->info, "gth::file::image-changed", g_file_info_get_attribute_boolean (current_file->info, "gth::file::is-modified"));
+
+	/* the 'gth::file::is-modified' attribute must be set to false before
+	 * saving the file to avoid a scenario where the user is asked whether
+	 * he wants to save the file after saving it.
+	 * This is because when a file is modified in the current folder the
+	 * folder_changed_cb function in gth-browser.c is called automatically
+	 * and if the current file has been modified it is reloaded
+	 * (see file_attributes_ready_cb in gth-browser.c) and if it has been
+	 * modified ('gth::file::is-modified' is TRUE) the user is asked if he
+	 * wants to save (see load_file_delayed_cb in gth-browser.c). */
 	g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
 
 	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));

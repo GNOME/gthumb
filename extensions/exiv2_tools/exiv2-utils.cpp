@@ -954,11 +954,13 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
 	mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
 
-	// Overwrite the software tag
+	// Overwrite the software tag if the image content was modified
 
-	if (software_name == NULL)
-		software_name = g_strconcat (g_get_application_name (), " ", VERSION, NULL);
-	ed["Exif.Image.Software"] = software_name;
+	if (g_file_info_get_attribute_boolean (info, "gth::file::image-changed")) {
+		if (software_name == NULL)
+			software_name = g_strconcat (g_get_application_name (), " ", VERSION, NULL);
+		ed["Exif.Image.Software"] = software_name;
+	}
 
 	// Update the dimension tags with actual image values
 
