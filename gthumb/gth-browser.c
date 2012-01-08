@@ -4192,7 +4192,7 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_widget_set_size_request (browser->priv->viewer_sidebar_alignment, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
+	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_sidebar_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
@@ -4272,16 +4272,16 @@ gth_browser_init (GthBrowser *browser)
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_right_container);
 
 	browser->priv->browser_left_container = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_paned_set_position (GTK_PANED (browser->priv->browser_left_container), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	gtk_widget_show (browser->priv->browser_left_container);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_right_container), browser->priv->browser_left_container, TRUE, TRUE);
 
 	/* the browser sidebar */
 
 	browser->priv->browser_sidebar = gth_auto_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_widget_set_size_request (browser->priv->browser_sidebar, g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH), -1);
-	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_left_container), browser->priv->browser_sidebar, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_left_container), browser->priv->browser_sidebar, FALSE, FALSE);
 
-	/* the box that contains the location and the folder list.  */
+	/* the box that contains the folder list.  */
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_set_size_request (vbox, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
