@@ -24,14 +24,6 @@ sidebar-visible = /apps/gthumb/ui/sidebar_visible
 thumbnail-list-visible = /apps/gthumb/ui/thumbnail_list_visible
 viewer-thumbnails-orientation = /apps/gthumb/ui/viewer_thumbnails_orientation
 
-[org.gnome.gthumb.change-date]
-width = /apps/gthumb/ext/resize_images/width
-height = /apps/gthumb/ext/resize_images/height
-unit = /apps/gthumb/ext/resize_images/unit
-keep-aspect-ratio = /apps/gthumb/ext/resize_images/keep_aspect_ratio
-allow-swap-width-height = /apps/gthumb/ext/resize_images/allow_swap_width_height
-mime-type = /apps/gthumb/ext/resize_images/mime_type
-
 [org.gnome.gthumb.contact-sheet.contact-sheet]
 header = /apps/gthumb/ext/contact_sheet/header
 footer = /apps/gthumb/ext/contact_sheet/footer
@@ -142,7 +134,7 @@ quality = /apps/gthumb/save_options/jpeg/quality
 smoothing = /apps/gthumb/save_options/jpeg/smoothing
 optimize = /apps/gthumb/save_options/jpeg/optimize
 progressive = /apps/gthumb/save_options/jpeg/progressive
-    
+
 [org.gnome.gthumb.pixbuf-savers.png]
 compression-level = /apps/gthumb/save_options/png/compression_level
 
