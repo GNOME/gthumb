@@ -789,7 +789,7 @@ self_notify_scale_type_cb (GObject    *gobject,
 static void
 gth_histogram_view_init (GthHistogramView *self)
 {
-	GtkWidget       *box;
+	GtkWidget       *topbar_box;
 	GtkWidget       *sub_box;
 	PangoAttrList   *attr_list;
 	GtkWidget       *label;
@@ -813,15 +813,14 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	/* topbar */
 
-	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_widget_show (box);
-	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
+	topbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_show (topbar_box);
 
 	/* linear / logarithmic buttons */
 
 	sub_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (sub_box);
-	gtk_box_pack_end (GTK_BOX (box), sub_box, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (topbar_box), sub_box, FALSE, FALSE, 0);
 
 	self->priv->linear_histogram_button = gtk_toggle_button_new ();
 	gtk_widget_set_tooltip_text (self->priv->linear_histogram_button, _("Linear scale"));
@@ -851,7 +850,7 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	sub_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (sub_box);
-	gtk_box_pack_start (GTK_BOX (box), sub_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (topbar_box), sub_box, FALSE, FALSE, 0);
 
 	attr_list = pango_attr_list_new ();
 	pango_attr_list_insert (attr_list, pango_attr_size_new (PANGO_SCALE * 8));
@@ -937,8 +936,8 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	view_container = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (view_container), GTK_SHADOW_IN);
+	gtk_widget_set_vexpand (view_container, TRUE);
 	gtk_widget_show (view_container);
-	gtk_box_pack_start (GTK_BOX (self), view_container, TRUE, TRUE, 0);
 
 	self->priv->histogram_view = gtk_drawing_area_new ();
 	gtk_widget_add_events (self->priv->histogram_view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_STRUCTURE_MASK);
@@ -968,9 +967,13 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	/* histogram info */
 
-	box = GET_WIDGET ("histogram_info");
-	gtk_widget_hide (box);
-	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
+	gtk_widget_set_vexpand (GET_WIDGET ("histogram_info"), FALSE);
+
+	/* pack the widget */
+
+	gtk_box_pack_start (GTK_BOX (self), topbar_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (self), view_container, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (self), GET_WIDGET ("histogram_info"), FALSE, FALSE, 0);
 
 	/* update widgets when a property changes */
 
