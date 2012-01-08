@@ -2,47 +2,11 @@
     <schemalist>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/width</key>
-	<applyto>/apps/gthumb/ext/resize_images/width</applyto>
-	<owner>gthumb</owner>
-	<type>int</type>
-	<default>640</default>
-	<locale name="C">
-	  <short></short>
-	  <long></long>
-	</locale>
-      </schema>
-
-      <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/height</key>
-	<applyto>/apps/gthumb/ext/resize_images/height</applyto>
-	<owner>gthumb</owner>
-	<type>int</type>
-	<default>480</default>
-	<locale name="C">
-	  <short></short>
-	  <long></long>
-	</locale>
-      </schema>
-
-      <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/unit</key>
-	<applyto>/apps/gthumb/ext/resize_images/unit</applyto>
-	<owner>gthumb</owner>
-	<type>string</type>
-	<default>%</default>
-	<locale name="C">
-	  <short>Possible values: pixels, percentage</short>
-	  <long></long>
-	</locale>
-      </schema>
-
-      <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/keep_aspect_ratio</key>
-	<applyto>/apps/gthumb/ext/resize_images/keep_aspect_ratio</applyto>
+	<key>/schemas/apps/gthumb/ext/change_date/set_last_modified_date</key>
+	<applyto>/apps/gthumb/ext/change_date/set_last_modified_date</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>true</default>
+	<default>false</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>
@@ -50,11 +14,11 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/allow_swap_width_height</key>
-	<applyto>/apps/gthumb/ext/resize_images/allow_swap_width_height</applyto>
+	<key>/schemas/apps/gthumb/ext/change_date/set_comment_date</key>
+	<applyto>/apps/gthumb/ext/change_date/set_comment_date</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>true</default>
+	<default>false</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>
@@ -62,11 +26,95 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/ext/resize_images/mime_type</key>
-	<applyto>/apps/gthumb/ext/resize_images/mime_type</applyto>
+	<key>/schemas/apps/gthumb/ext/change_date/set_exif_datetimeoriginal_tag</key>
+	<applyto>/apps/gthumb/ext/change_date/set_exif_datetimeoriginal_tag</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/to_following_date</key>
+	<applyto>/apps/gthumb/ext/change_date/to_following_date</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/date</key>
+	<applyto>/apps/gthumb/ext/change_date/date</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/to_file_modified_date</key>
+	<applyto>/apps/gthumb/ext/change_date/to_file_modified_date</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/to_file_creation_date</key>
+	<applyto>/apps/gthumb/ext/change_date/to_file_creation_date</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/to_photo_original_date</key>
+	<applyto>/apps/gthumb/ext/change_date/to_photo_original_date</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/adjust_time</key>
+	<applyto>/apps/gthumb/ext/change_date/adjust_time</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long></long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/change_date/time_adjustment</key>
+	<applyto>/apps/gthumb/ext/change_date/time_adjustment</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>
