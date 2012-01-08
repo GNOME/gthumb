@@ -38,12 +38,12 @@ typedef struct _GthImageHistogramClass GthImageHistogramClass;
 typedef struct _GthImageHistogramPrivate GthImageHistogramPrivate;
 
 struct _GthImageHistogram {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthImageHistogramPrivate *priv;
 };
 
 struct _GthImageHistogramClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType gth_image_histogram_get_type (void);

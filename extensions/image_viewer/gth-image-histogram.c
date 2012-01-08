@@ -36,7 +36,7 @@ static void gth_image_histogram_gth_property_view_interface_init (GthPropertyVie
 
 G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
 			 gth_image_histogram,
-			 GTK_TYPE_VBOX,
+			 GTK_TYPE_BOX,
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
 					        gth_image_histogram_gth_multipage_child_interface_init)
 		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
@@ -131,6 +131,7 @@ gth_image_histogram_init (GthImageHistogram *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate);
 	self->priv->histogram = gth_histogram_new ();
 
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
 

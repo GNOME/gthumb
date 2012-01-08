@@ -68,7 +68,7 @@ struct _GthHistogramViewPrivate {
 };
 
 
-G_DEFINE_TYPE (GthHistogramView, gth_histogram_view, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthHistogramView, gth_histogram_view, GTK_TYPE_BOX)
 
 
 static void
@@ -807,6 +807,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	self->priv->selection_start = 0;
 	self->priv->selection_end = 255;
 
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_widget_set_vexpand (GTK_WIDGET (self), FALSE);
 

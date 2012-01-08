@@ -50,12 +50,12 @@ typedef enum {
 } GthHistogramScale;
 
 struct _GthHistogramView {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthHistogramViewPrivate *priv;
 };
 
 struct _GthHistogramViewClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType              gth_histogram_view_get_type              (void);
