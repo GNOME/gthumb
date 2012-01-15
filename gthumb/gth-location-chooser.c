@@ -56,6 +56,13 @@ enum {
 	N_COLUMNS
 };
 
+
+enum {
+        PROP_0,
+        PROP_SHOW_ENTRY_POINTS,
+        PROP_RELIEF
+};
+
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -63,18 +70,69 @@ enum {
 
 struct _GthLocationChooserPrivate
 {
-	GtkWidget     *combo;
-	GtkTreeStore  *model;
-	GFile         *location;
-	GthIconCache  *icon_cache;
-	GthFileSource *file_source;
-	gulong         entry_points_changed_id;
-	guint          update_entry_list_id;
-	guint          update_location_list_id;
+	GtkWidget      *combo;
+	GtkWidget      *arrow;
+	GtkTreeStore   *model;
+	GFile          *location;
+	GthIconCache   *icon_cache;
+	GthFileSource  *file_source;
+	gulong          entry_points_changed_id;
+	guint           update_entry_list_id;
+	guint           update_location_list_id;
+	gboolean        show_entry_points;
+	GtkReliefStyle  relief;
 };
 
 
 static guint gth_location_chooser_signals[LAST_SIGNAL] = { 0 };
+
+
+
+static void
+gth_location_chooser_set_property (GObject      *object,
+				   guint         property_id,
+				   const GValue *value,
+				   GParamSpec   *pspec)
+{
+	GthLocationChooser *self;
+
+	self = GTH_LOCATION_CHOOSER (object);
+
+	switch (property_id) {
+	case PROP_SHOW_ENTRY_POINTS:
+		gth_location_chooser_set_show_entry_points (self, g_value_get_boolean (value));
+		break;
+	case PROP_RELIEF:
+		gth_location_chooser_set_relief (self, g_value_get_enum (value));
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
+gth_location_chooser_get_property (GObject    *object,
+				   guint       property_id,
+				   GValue     *value,
+				   GParamSpec *pspec)
+{
+	GthLocationChooser *self;
+
+	self = GTH_LOCATION_CHOOSER (object);
+
+	switch (property_id) {
+	case PROP_SHOW_ENTRY_POINTS:
+		g_value_set_boolean (value, self->priv->show_entry_points);
+		break;
+	case PROP_RELIEF:
+		g_value_set_enum (value, self->priv->relief);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 
 static void
@@ -211,15 +269,10 @@ add_file_source_entries (GthLocationChooser *self,
 
 
 static void
-update_entry_point_list (GthLocationChooser *self)
+clear_entry_point_list (GthLocationChooser *self)
 {
-	int    first_position;
-	int    i;
-	int    position;
-	GList *entry_points;
-	GList *scan;
-
-	self->priv->update_entry_list_id = 0;
+	int first_position;
+	int i;
 
 	if (! get_nth_separator_pos (self, 1, &first_position))
 		return;
@@ -233,6 +286,37 @@ update_entry_point_list (GthLocationChooser *self)
 			gtk_tree_store_remove (self->priv->model, &iter);
 		else
 			break;
+
+		gtk_tree_path_free (path);
+	}
+}
+
+
+static void
+update_entry_point_list (GthLocationChooser *self)
+{
+	int    first_position;
+	int    position;
+	GList *entry_points;
+	GList *scan;
+
+	self->priv->update_entry_list_id = 0;
+
+	clear_entry_point_list (self);
+
+	if (! get_nth_separator_pos (self, 1, &first_position)) {
+		GtkTreeIter  iter;
+		GtkTreePath *path;
+
+		gtk_tree_store_append (self->priv->model, &iter, NULL);
+		gtk_tree_store_set (self->priv->model, &iter,
+				    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
+				    -1);
+
+		path = gtk_tree_model_get_path (GTK_TREE_MODEL (self->priv->model), &iter);
+		if (path == NULL)
+			return;
+		first_position = gtk_tree_path_get_indices(path)[0];
 
 		gtk_tree_path_free (path);
 	}
@@ -275,6 +359,8 @@ static void
 entry_points_changed_cb (GthMonitor         *monitor,
 			 GthLocationChooser *self)
 {
+	if (! self->priv->show_entry_points)
+		return;
 	if (self->priv->update_entry_list_id != 0)
 		return;
 	self->priv->update_entry_list_id = call_when_idle ((DataFunc) update_entry_point_list, self);
@@ -432,12 +518,35 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 	g_type_class_add_private (klass, sizeof (GthLocationChooserPrivate));
 
 	object_class = (GObjectClass*) klass;
+	object_class->set_property = gth_location_chooser_set_property;
+	object_class->get_property = gth_location_chooser_get_property;
 	object_class->finalize = gth_location_chooser_finalize;
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->grab_focus = gth_location_chooser_grab_focus;
 	widget_class->realize = gth_location_chooser_realize;
 	widget_class->unrealize = gth_location_chooser_unrealize;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_SHOW_ENTRY_POINTS,
+					 g_param_spec_boolean ("show-entry-points",
+                                                               "Show entry points",
+                                                               "Whether to show the entry points in the list",
+                                                               TRUE,
+                                                               G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class,
+					 PROP_RELIEF,
+					 g_param_spec_enum ("relief",
+							    "Border relief",
+							    "The border relief style",
+							    GTK_TYPE_RELIEF_STYLE,
+							    GTK_RELIEF_NORMAL,
+							    G_PARAM_READWRITE));
+
+	/* signals */
 
 	gth_location_chooser_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -452,16 +561,29 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 
 
 static void
+get_combo_box_button (GtkWidget *widget,
+		      gpointer   data)
+{
+	GtkWidget **p_child = data;
+
+	if (GTK_IS_BUTTON (widget))
+		*p_child = widget;
+}
+
+static void
 gth_location_chooser_init (GthLocationChooser *self)
 {
 	GtkCellRenderer *renderer;
-	GtkTreeIter      iter;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOCATION_CHOOSER, GthLocationChooserPrivate);
 	self->priv->icon_cache = NULL;
+	self->priv->entry_points_changed_id = 0;
+	self->priv->arrow = NULL;
+	self->priv->show_entry_points = TRUE;
+	self->priv->relief = GTK_RELIEF_NORMAL;
 
 	self->priv->model = gtk_tree_store_new (N_COLUMNS,
 						GDK_TYPE_PIXBUF,
@@ -508,23 +630,6 @@ gth_location_chooser_init (GthLocationChooser *self)
 
 	gtk_widget_show (self->priv->combo);
 	gtk_box_pack_start (GTK_BOX (self), self->priv->combo, TRUE, TRUE, 0);
-
-	/* Add standard items. */
-
-	/* separator #1 */
-
-	gtk_tree_store_append (self->priv->model, &iter, NULL);
-	gtk_tree_store_set (self->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-			    -1);
-
-	/**/
-
-	self->priv->entry_points_changed_id =
-			g_signal_connect (gth_main_get_default_monitor (),
-					  "entry-points-changed",
-					  G_CALLBACK (entry_points_changed_cb),
-					  self);
 }
 
 
@@ -532,6 +637,116 @@ GtkWidget *
 gth_location_chooser_new (void)
 {
 	return GTK_WIDGET (g_object_new (GTH_TYPE_LOCATION_CHOOSER, NULL));
+}
+
+
+/* -- gth_location_chooser_set_relief -- */
+
+
+static void
+get_combo_box_arrow (GtkWidget *widget,
+		      gpointer   data)
+{
+	GtkWidget **p_child = data;
+
+	if (GTK_IS_ARROW (widget))
+		*p_child = widget;
+}
+
+
+static gboolean
+show_combo_box_arrow (GthLocationChooser *self)
+{
+	if (self->priv->relief == GTK_RELIEF_NONE)
+		gtk_widget_show (self->priv->arrow);
+
+	return FALSE;
+}
+
+
+static gboolean
+hide_combo_box_arrow (GthLocationChooser *self)
+{
+	if (self->priv->relief == GTK_RELIEF_NONE)
+		gtk_widget_hide (self->priv->arrow);
+
+	return FALSE;
+}
+
+
+void
+gth_location_chooser_set_relief (GthLocationChooser *self,
+				 GtkReliefStyle      value)
+{
+	GtkWidget *button;
+
+	if (self->priv->relief == value)
+		return;
+
+	self->priv->relief = value;
+
+	button = NULL;
+	gtk_container_forall (GTK_CONTAINER (self->priv->combo), get_combo_box_button, &button);
+	if (button != NULL) {
+		gtk_button_set_relief (GTK_BUTTON (button), self->priv->relief);
+
+		/* show the arrow only when the pointer is over the combo_box */
+
+		if (self->priv->arrow == NULL) {
+			gtk_container_forall (GTK_CONTAINER (gtk_bin_get_child (GTK_BIN (button))), get_combo_box_arrow, &self->priv->arrow);
+			g_signal_connect_swapped (button,
+					  	  "enter-notify-event",
+					  	  G_CALLBACK (show_combo_box_arrow),
+					  	  self);
+			g_signal_connect_swapped (button,
+					  	  "leave-notify-event",
+					  	  G_CALLBACK (hide_combo_box_arrow),
+					  	  self);
+		}
+
+		gtk_widget_set_visible (self->priv->arrow, self->priv->relief != GTK_RELIEF_NONE);
+	}
+
+	g_object_notify (G_OBJECT (self), "relief");
+}
+
+
+GtkReliefStyle
+gth_location_chooser_get_relief (GthLocationChooser *self)
+{
+	return self->priv->relief;
+}
+
+
+void
+gth_location_chooser_set_show_entry_points (GthLocationChooser *self,
+					    gboolean            value)
+{
+	self->priv->show_entry_points = value;
+
+	if (self->priv->show_entry_points) {
+		if (self->priv->entry_points_changed_id == 0)
+			self->priv->entry_points_changed_id =
+					g_signal_connect (gth_main_get_default_monitor (),
+							  "entry-points-changed",
+							  G_CALLBACK (entry_points_changed_cb),
+							  self);
+		entry_points_changed_cb (NULL, self);
+	}
+	else {
+		if (self->priv->entry_points_changed_id != 0)
+			g_source_remove (self->priv->entry_points_changed_id);
+		clear_entry_point_list (self);
+	}
+
+	g_object_notify (G_OBJECT (self), "show-entry-points");
+}
+
+
+gboolean
+gth_location_chooser_get_show_entry_points (GthLocationChooser *self)
+{
+	return self->priv->show_entry_points;
 }
 
 

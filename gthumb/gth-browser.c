@@ -588,13 +588,7 @@ void
 gth_browser_update_extra_widget (GthBrowser *browser)
 {
 	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (browser->priv->list_extra_widget));
-	if (g_file_info_get_icon (browser->priv->location->info) != NULL)
-		gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget),
-					       g_file_info_get_icon (browser->priv->location->info),
-					       GTK_ICON_SIZE_MENU);
-	if (g_file_info_get_display_name (browser->priv->location->info) != NULL)
-		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget),
-						      g_file_info_get_display_name (browser->priv->location->info));
+	gth_embedded_dialog_set_from_file (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), browser->priv->location->file);
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
 
@@ -603,6 +597,8 @@ static void
 _gth_browser_set_location (GthBrowser  *browser,
 			   GthFileData *location)
 {
+	GtkWidget *location_chooser;
+
 	if (location == NULL)
 		return;
 
@@ -614,6 +610,11 @@ _gth_browser_set_location (GthBrowser  *browser,
 	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
 	gth_browser_update_extra_widget (browser);
+
+	location_chooser = gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget));
+	g_signal_handlers_block_by_data (location_chooser, browser);
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (location_chooser), browser->priv->location->file);
+	g_signal_handlers_unblock_by_data (location_chooser, browser);
 }
 
 
@@ -3352,6 +3353,14 @@ gth_file_list_popup_menu (GthBrowser     *browser,
 }
 
 
+static void
+location_chooser_changed_cb (GthLocationChooser *chooser,
+			     gpointer            user_data)
+{
+	gth_browser_go_to (GTH_BROWSER (user_data), gth_location_chooser_get_current (chooser), NULL);
+}
+
+
 static gboolean
 gth_file_list_button_press_cb  (GtkWidget      *widget,
 				GdkEventButton *event,
@@ -4387,6 +4396,11 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->list_extra_widget = gth_embedded_dialog_new ();
 	gtk_widget_show (browser->priv->list_extra_widget);
 	gtk_container_add (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
+
+	g_signal_connect (gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget)),
+			  "changed",
+			  G_CALLBACK (location_chooser_changed_cb),
+			  browser);
 
 	/* the file list */
 

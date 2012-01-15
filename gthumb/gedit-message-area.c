@@ -172,7 +172,10 @@ gedit_message_area_init (GeditMessageArea *message_area)
 
 	message_area->priv->main_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3); /* FIXME: use style properties */
 	gtk_widget_show (message_area->priv->main_hbox);
-	gtk_container_set_border_width (GTK_CONTAINER (message_area->priv->main_hbox), 3); /* FIXME: use style properties */
+	gtk_container_set_border_width (GTK_CONTAINER (message_area->priv->main_hbox), 0); /* FIXME: use style properties */
+	gtk_widget_set_margin_top (message_area->priv->main_hbox, 3);
+	gtk_widget_set_margin_bottom (message_area->priv->main_hbox, 3);
+	gtk_widget_set_margin_right (message_area->priv->main_hbox, 3);
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);

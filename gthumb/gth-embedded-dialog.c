@@ -22,12 +22,15 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "gth-embedded-dialog.h"
+#include "gth-location-chooser.h"
 
 
 struct _GthEmbeddedDialogPrivate {
 	GtkWidget *icon_image;
 	GtkWidget *primary_text_label;
 	GtkWidget *secondary_text_label;
+	GtkWidget *info_box;
+	GtkWidget *location_chooser;
 };
 
 
@@ -55,13 +58,16 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
 	gtk_widget_show (hbox_content);
 
+	self->priv->info_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
+	gtk_box_pack_start (GTK_BOX (hbox_content), self->priv->info_box, TRUE, TRUE, 0);
+
 	self->priv->icon_image = image = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (hbox_content), image, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (self->priv->info_box), image, FALSE, FALSE, 0);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.5);
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (hbox_content), vbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (self->priv->info_box), vbox, TRUE, TRUE, 0);
 
 	self->priv->primary_text_label = primary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), primary_label, TRUE, TRUE, 0);
@@ -82,6 +88,12 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	gtk_label_set_ellipsize (GTK_LABEL (secondary_label), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (secondary_label), 0, 0.5);
 	
+	self->priv->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
+						     "show-entry-points", FALSE,
+						     "relief", GTK_RELIEF_NONE,
+						     NULL);
+	gtk_box_pack_start (GTK_BOX (hbox_content), self->priv->location_chooser, FALSE, FALSE, 0);
+
 	gedit_message_area_set_contents (GEDIT_MESSAGE_AREA (self), hbox_content);
 }
 
@@ -94,51 +106,54 @@ gth_embedded_dialog_new (void)
 
 
 void
-gth_embedded_dialog_set_icon (GthEmbeddedDialog *dialog,
+gth_embedded_dialog_set_icon (GthEmbeddedDialog *self,
 			      const char        *icon_stock_id,
 			      GtkIconSize        size)
 {
 	if (icon_stock_id == NULL) {
-		gtk_widget_hide (dialog->priv->icon_image);
+		gtk_widget_hide (self->priv->icon_image);
 		return;
 	}
 
-	gtk_image_set_from_stock (GTK_IMAGE (dialog->priv->icon_image), icon_stock_id, size);
-	gtk_widget_show (dialog->priv->icon_image);
+	gtk_image_set_from_stock (GTK_IMAGE (self->priv->icon_image), icon_stock_id, size);
+	gtk_widget_show (self->priv->icon_image);
 }
 
 
 void
-gth_embedded_dialog_set_gicon (GthEmbeddedDialog *dialog,
+gth_embedded_dialog_set_gicon (GthEmbeddedDialog *self,
 			       GIcon             *icon,
 			       GtkIconSize        size)
 {
 	if (icon == NULL) {
-		gtk_widget_hide (dialog->priv->icon_image);
+		gtk_widget_hide (self->priv->icon_image);
 		return;
 	}
 
-	gtk_image_set_from_gicon (GTK_IMAGE (dialog->priv->icon_image), icon, size);
-	gtk_widget_show (dialog->priv->icon_image);
+	gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon_image), icon, size);
+	gtk_widget_show (self->priv->icon_image);
 }
 
 
 void
-gth_embedded_dialog_set_primary_text (GthEmbeddedDialog *dialog,
+gth_embedded_dialog_set_primary_text (GthEmbeddedDialog *self,
 				      const char        *text)
 {
 	char *escaped;
 	char *markup;
 
+	gtk_widget_hide (self->priv->location_chooser);
+	gtk_widget_show (self->priv->info_box);
+
 	if (text == NULL) {
-		gtk_widget_hide (dialog->priv->primary_text_label);
+		gtk_widget_hide (self->priv->primary_text_label);
 		return;
 	}
 	
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<b>%s</b>", escaped);
-	gtk_label_set_markup (GTK_LABEL (dialog->priv->primary_text_label), markup);
-	gtk_widget_show (dialog->priv->primary_text_label);
+	gtk_label_set_markup (GTK_LABEL (self->priv->primary_text_label), markup);
+	gtk_widget_show (self->priv->primary_text_label);
 	
 	g_free (markup);
 	g_free (escaped);
@@ -146,22 +161,39 @@ gth_embedded_dialog_set_primary_text (GthEmbeddedDialog *dialog,
 
 
 void
-gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *dialog,
+gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *self,
 					const char        *text)
 {
 	char *escaped;
 	char *markup;
 
 	if (text == NULL) {
-		gtk_widget_hide (dialog->priv->secondary_text_label);
+		gtk_widget_hide (self->priv->secondary_text_label);
 		return;
 	}
 	
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<small>%s</small>", escaped);
-	gtk_label_set_markup (GTK_LABEL (dialog->priv->secondary_text_label), markup);
-	gtk_widget_show (dialog->priv->secondary_text_label);
+	gtk_label_set_markup (GTK_LABEL (self->priv->secondary_text_label), markup);
+	gtk_widget_show (self->priv->secondary_text_label);
 	
 	g_free (markup);
 	g_free (escaped);
+}
+
+
+void
+gth_embedded_dialog_set_from_file (GthEmbeddedDialog *self,
+				   GFile             *file)
+{
+	gtk_widget_hide (self->priv->info_box);
+	gtk_widget_show (self->priv->location_chooser);
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), file);
+}
+
+
+GtkWidget *
+gth_embedded_dialog_get_chooser (GthEmbeddedDialog *self)
+{
+	return self->priv->location_chooser;
 }

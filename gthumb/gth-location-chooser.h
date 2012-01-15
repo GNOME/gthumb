@@ -53,13 +53,19 @@ struct _GthLocationChooserClass
         void (* changed) (GthLocationChooser *loc);
 };
 
-GType            gth_location_chooser_get_type         (void) G_GNUC_CONST;
-GtkWidget *      gth_location_chooser_new              (void);
-void             gth_location_chooser_set_current      (GthLocationChooser *chooser,
-							GFile              *location);
-GFile *          gth_location_chooser_get_current      (GthLocationChooser *chooser);
-GthFileSource *  gth_location_chooser_get_file_source  (GthLocationChooser *chooser);
-void             gth_location_chooser_open_other       (GthLocationChooser *chooser);
+GType            gth_location_chooser_get_type               (void) G_GNUC_CONST;
+GtkWidget *      gth_location_chooser_new                    (void);
+void             gth_location_chooser_set_relief             (GthLocationChooser *chooser,
+							      GtkReliefStyle      value);
+GtkReliefStyle   gth_location_chooser_get_relief             (GthLocationChooser *chooser);
+void             gth_location_chooser_set_show_entry_points  (GthLocationChooser *chooser,
+							      gboolean            value);
+gboolean         gth_location_chooser_get_show_entry_points  (GthLocationChooser *chooser);
+void             gth_location_chooser_set_current            (GthLocationChooser *chooser,
+							      GFile              *location);
+GFile *          gth_location_chooser_get_current            (GthLocationChooser *chooser);
+GthFileSource *  gth_location_chooser_get_file_source        (GthLocationChooser *chooser);
+void             gth_location_chooser_open_other             (GthLocationChooser *chooser);
 
 G_END_DECLS
 

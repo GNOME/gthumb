@@ -99,7 +99,10 @@ gth_search_editor_construct (GthSearchEditor *self,
     	gtk_container_set_border_width (GTK_CONTAINER (content), 0);
   	gtk_box_pack_start (GTK_BOX (self), content, TRUE, TRUE, 0);
 
-	self->priv->location_chooser = gth_location_chooser_new ();
+	self->priv->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
+						     "show-entry-points", TRUE,
+						     "relief", GTK_RELIEF_NORMAL,
+						     NULL);
 	gtk_widget_show (self->priv->location_chooser);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("location_box")), self->priv->location_chooser, TRUE, TRUE, 0);
 

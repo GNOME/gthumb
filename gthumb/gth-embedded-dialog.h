@@ -61,6 +61,9 @@ void          gth_embedded_dialog_set_primary_text   (GthEmbeddedDialog *dialog,
 						      const char        *primary_text);
 void          gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *dialog,
 						      const char        *secondary_text);
+void          gth_embedded_dialog_set_from_file      (GthEmbeddedDialog *dialog,
+						      GFile             *file);
+GtkWidget *   gth_embedded_dialog_get_chooser        (GthEmbeddedDialog *dialog);
 
 G_END_DECLS
 
