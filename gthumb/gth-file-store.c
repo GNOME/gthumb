@@ -775,10 +775,12 @@ _gth_file_store_update_visibility (GthFileStore *file_store,
 	guint        new_rows_n = 0;
 	int          i;
 	GList       *files;
+	GHashTable  *files_index;
 	GList       *scan;
 	GthFileData *file;
 	int          j, k;
 	gboolean     row_deleted;
+	GHashTable  *new_rows_index;
 
 
 #ifdef DEBUG_FILE_STORE
@@ -819,11 +821,18 @@ g_print ("UPDATE VISIBILITY\n");
 
 	_gth_file_store_sort (file_store, all_rows, all_rows_n);
 
+	/* store the new_rows file positions in an hash table for
+	 * faster searching. */
+	files_index = g_hash_table_new (g_direct_hash, g_direct_equal);
 	files = NULL;
 	for (i = 0; i < all_rows_n; i++) {
 		GthFileRow *row = all_rows[i];
 
 		row->abs_pos = i;
+		/* store i + 1 instead of i to distinguish when a file is
+		 * present and when the file is in the first position.
+		 * (g_hash_table_lookup returns NULL if the file is not present) */
+		g_hash_table_insert (files_index, row->file_data, GINT_TO_POINTER (i + 1));
 		files = g_list_prepend (files, g_object_ref (row->file_data));
 	}
 	files = g_list_reverse (files);
@@ -831,21 +840,16 @@ g_print ("UPDATE VISIBILITY\n");
 	new_rows_n = 0;
 	gth_test_set_file_list (file_store->priv->filter, files);
 	while ((file = gth_test_get_next (file_store->priv->filter)) != NULL) {
-		GthFileRow *row = NULL;
+		i = GPOINTER_TO_INT (g_hash_table_lookup (files_index, file));
+		g_assert (i != 0);
+		i--; /* in files_index (i + 1) was stored, see above. */
 
-		for (i = 0; i < all_rows_n; i++) {
-			row = all_rows[i];
-			if (row->file_data == file)
-				break;
-		}
-
-		g_assert (i < all_rows_n);
-
-		row->visible = TRUE;
+		all_rows[i]->visible = TRUE;
 		new_rows_n++;
 	}
 
 	_g_object_list_unref (files);
+	g_hash_table_unref (files_index);
 
 	/* create the new visible rows array */
 
@@ -864,15 +868,18 @@ g_print ("UPDATE VISIBILITY\n");
 
 	/* hide filtered out files */
 
+	/* store the new_rows file positions in an hash table for
+	 * faster searching. */
+	new_rows_index = g_hash_table_new (g_direct_hash, g_direct_equal);
+	for (j = 0; j < new_rows_n; j++)
+		g_hash_table_insert (new_rows_index, new_rows[j]->file_data, GINT_TO_POINTER (j + 1));
+
 	row_deleted = FALSE;
 	for (i = old_rows_n - 1; i >= 0; i--) {
 		/* search old_rows[i] in new_rows */
 
-		for (j = 0; j < new_rows_n; j++)
-			if (old_rows[i]->file_data == new_rows[j]->file_data)
-				break;
-
-		if (j < new_rows_n)
+		j = GPOINTER_TO_INT (g_hash_table_lookup (new_rows_index, old_rows[i]->file_data));
+		if (j > 0)
 			continue;
 
 		/* old_rows[i] is not present in new_rows, emit a deleted
@@ -887,6 +894,8 @@ g_print ("  DELETE: %d\n", old_rows[i]->pos);
 		old_rows[i] = NULL;
 		row_deleted = TRUE;
 	}
+
+	g_hash_table_unref (new_rows_index);
 
 	/* compact the old visible rows array if needed */
 
@@ -906,21 +915,26 @@ g_print ("  DELETE: %d\n", old_rows[i]->pos);
 	 * Reorder the two arrays according to the new_rows order */
 
 	if (old_rows_n > 0) {
+		GHashTable *old_rows_index;
 		gboolean    order_changed;
 		int        *new_order;
 		GthFileRow *tmp_row;
+
+		/* store the old_rows file positions in an hash table for
+		 * faster searching. */
+		old_rows_index = g_hash_table_new (g_direct_hash, g_direct_equal);
+		for (j = 0; j < old_rows_n; j++)
+			g_hash_table_insert (old_rows_index, old_rows[j]->file_data, GINT_TO_POINTER (j + 1));
 
 		order_changed = FALSE;
 		new_order = g_new0 (int, old_rows_n);
 		for (i = 0, k = 0; i < new_rows_n; i++) {
 			/* search new_rows[i] in old_rows */
 
-			for (j = 0; j < old_rows_n; j++)
-				if (new_rows[i]->file_data == old_rows[j]->file_data)
-					break;
-
-			if (j >= old_rows_n)
+			j = GPOINTER_TO_INT (g_hash_table_lookup (old_rows_index, new_rows[i]->file_data));
+			if (j == 0)
 				continue;
+			j--; /* in old_rows_index we stored j+1, decrement to get the real position */
 
 			/* old_rows[j] == new_rows[i] */
 
@@ -964,6 +978,7 @@ g_print ("\n");
 		}
 
 		g_free (new_order);
+		g_hash_table_unref (old_rows_index);
 	}
 
 	/* set the new state */
