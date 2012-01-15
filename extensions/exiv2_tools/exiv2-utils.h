@@ -34,6 +34,7 @@ extern const char *_DESCRIPTION_TAG_NAMES[];
 extern const char *_TITLE_TAG_NAMES[];
 extern const char *_LOCATION_TAG_NAMES[];
 extern const char *_KEYWORDS_TAG_NAMES[];
+extern const char *_RATING_TAG_NAMES[];
 
 gboolean   exiv2_read_metadata_from_file    (GFile           *file,
 					     GFileInfo       *info,

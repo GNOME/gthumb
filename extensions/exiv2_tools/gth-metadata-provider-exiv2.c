@@ -229,6 +229,18 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 			g_file_info_remove_attribute (file_data->info, _KEYWORDS_TAG_NAMES[i]);
 	}
 
+	metadata = g_file_info_get_attribute_object (file_data->info, "general::rating");
+	if (metadata != NULL) {
+		if (GTH_IS_METADATA (metadata))
+			g_object_set (metadata, "value-type", NULL, NULL);
+		for (i = 0; _RATING_TAG_NAMES[i] != NULL; i++)
+			g_file_info_set_attribute_object (file_data->info, _RATING_TAG_NAMES[i], metadata);
+	}
+	else {
+		for (i = 0; _RATING_TAG_NAMES[i] != NULL; i++)
+			g_file_info_remove_attribute (file_data->info, _RATING_TAG_NAMES[i]);
+	}
+
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
 		GthMetadata *xmp_metadata = NULL;

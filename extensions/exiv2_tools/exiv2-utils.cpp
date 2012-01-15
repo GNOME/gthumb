@@ -170,6 +170,12 @@ const char *_KEYWORDS_TAG_NAMES[] = {
 	NULL
 };
 
+const char *_RATING_TAG_NAMES[] = {
+	"Xmp::xmp::Rating",
+	NULL
+};
+
+
 /* Some evil camera fill in the ImageDescription or UserComment fields
    with useless fluff. Try to filter these out, so they do not show up
    as comments */
@@ -525,6 +531,7 @@ set_attributes_from_tagsets (GFileInfo *info)
 
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
+	set_attribute_from_tagset (info, "general::rating", _RATING_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
 }
