@@ -214,11 +214,10 @@ adjust_colors_after (GthAsyncTask *task,
 		     GError       *error,
 		     gpointer      user_data)
 {
-	AdjustData *adjust_data = user_data;
+	AdjustData              *adjust_data = user_data;
+	GthFileToolAdjustColors *self = adjust_data->self;
 
 	if (error == NULL) {
-		GthFileToolAdjustColors *self = adjust_data->self;
-
 		cairo_surface_destroy (self->priv->destination);
 		self->priv->destination = cairo_surface_reference (adjust_data->destination);
 
@@ -228,6 +227,10 @@ adjust_colors_after (GthAsyncTask *task,
 	}
 
 	pixbuf_cache_free (adjust_data->cache);
+
+	if (self->priv->image_task == GTH_TASK (task))
+		self->priv->image_task = NULL;
+	g_object_unref (task);
 }
 
 
