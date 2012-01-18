@@ -609,11 +609,10 @@ _gth_browser_set_location (GthBrowser  *browser,
 	gth_browser_update_title (browser);
 	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
-	gth_browser_update_extra_widget (browser);
 
 	location_chooser = gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget));
 	g_signal_handlers_block_by_data (location_chooser, browser);
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (location_chooser), browser->priv->location->file);
+	gth_browser_update_extra_widget (browser);
 	g_signal_handlers_unblock_by_data (location_chooser, browser);
 }
 
