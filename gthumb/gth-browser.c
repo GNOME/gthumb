@@ -3766,14 +3766,10 @@ pref_ui_viewer_thumbnails_orient_changed (GConfClient *client,
 	gtk_container_remove (GTK_CONTAINER (browser->priv->viewer_thumbnails_pane), child2);
 
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) {
-		browser->priv->viewer_sidebar_pane = child2;
-		browser->priv->thumbnail_list = child1;
 		gtk_paned_pack1 (GTK_PANED (viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
 		gtk_paned_pack2 (GTK_PANED (viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 	}
 	else {
-		browser->priv->viewer_sidebar_pane = child1;
-		browser->priv->thumbnail_list = child2;
 		gtk_paned_pack1 (GTK_PANED (viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 		gtk_paned_pack2 (GTK_PANED (viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
 	}
