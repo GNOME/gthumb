@@ -5,15 +5,15 @@
 # Francesco Marletta <francesco.marletta@tiscali.it>, 2003, 2004, 2005, 2006, 2007, 2008, 2009.
 # Luca Ferretti <elle.uca@libero.it>, 2009.
 # Milo Casagrande <milo@ubuntu.com>, 2010.
-# Gianvito Cavasoli <gianvito@gmx.it>, 2011.
+# Gianvito Cavasoli <gianvito@gmx.it>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-13 18:49+0000\n"
-"PO-Revision-Date: 2011-12-16 14:58+0100\n"
+"POT-Creation-Date: 2012-01-19 21:32+0000\n"
+"PO-Revision-Date: 2012-01-13 21:24+0100\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
 "Language-Team: Italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -230,10 +230,10 @@ msgstr "Selezionato:"
 msgid "Pixels:"
 msgstr "Pixel:"
 
-#. Short for "Standard deviation".  Try to keep it short in the translation.
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
 #: ../data/ui/histogram-info.ui.h:10
 msgid "Std dev:"
-msgstr "Deviazione standard:"
+msgstr "Dev. standard:"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
 msgid "Do not overwrite _the old file"
@@ -883,10 +883,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Non è possibile rimuovere i file dal catalogo"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1441
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:674
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:681
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:690
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:719
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1224
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Formato di file non valido"
@@ -1664,7 +1664,7 @@ msgstr "Incorporato XMP"
 msgid "XMP Attached"
 msgstr "Allegato XMP"
 
-#: ../extensions/exiv2_tools/main.c:255
+#: ../extensions/exiv2_tools/main.c:256
 msgid "date photo was taken"
 msgstr "data di scatto della foto"
 
@@ -2206,7 +2206,7 @@ msgstr "Sposta i file selezionati in un'altra cartella"
 
 #: ../extensions/file_manager/callbacks.c:1003
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4916 ../gthumb/gth-browser.c:4950
+#: ../gthumb/gth-browser.c:4925 ../gthumb/gth-browser.c:4959
 msgid "Could not perform the operation"
 msgstr "Impossibile eseguire l'operazione"
 
@@ -2464,15 +2464,15 @@ msgstr "Strumenti di base per modificare le immagini."
 msgid "Image tools"
 msgstr "Strumenti per le immagini"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors..."
 msgstr "Aggiusta i colori..."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors"
 msgstr "Aggiusta i colori"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:531
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr ""
 "Cambio di luminosità, contrasto, saturazione e livello gamma dell'immagine"
@@ -2888,7 +2888,7 @@ msgid "Import from %s"
 msgstr "Importa da %s"
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1075
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1080
 #: ../gthumb/gth-browser.c:1998
 msgid "Could not save the file"
 msgstr "Impossibile salvare il file"
@@ -2898,7 +2898,7 @@ msgid "Could not take a screenshot"
 msgstr "Impossibile catturare una schermata"
 
 #: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1223
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1248
 msgid "Save Image"
 msgstr "Salva l'immagine"
 
@@ -3031,7 +3031,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1278
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:190
 #: ../extensions/webalbums/dlg-web-exporter.c:442
 #: ../extensions/webalbums/gth-web-exporter.c:2446
@@ -4230,12 +4230,12 @@ msgstr "Cerca di nuovo"
 msgid "Search"
 msgstr "Cerca"
 
-#: ../extensions/search/gth-search-editor.c:108
+#: ../extensions/search/gth-search-editor.c:111
 #: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
 msgstr "tutte le regole seguenti"
 
-#: ../extensions/search/gth-search-editor.c:109
+#: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
 msgstr "una qualsiasi delle regole seguenti"
@@ -4629,13 +4629,13 @@ msgstr "Estensioni"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
 "Il programma non è stato in grado di trovare il formato di file che si vuole "
-"usare per «%s». Assicurarsi di usare un'estensione conosciuta per questo "
-"file oppure scegliere manualmente un formato di file dall'elenco sottostante."
+"usare per «%s». Assicurarsi di usare un'estensione conosciuta per questo file "
+"oppure scegliere manualmente un formato di file dall'elenco sottostante."
 
 #: ../gthumb/eggfileformatchooser.c:688
 msgid "File format not recognized"
@@ -4675,7 +4675,7 @@ msgstr "Recupero informazioni file"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2845
+#: ../gthumb/glib-utils.c:2844
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4687,7 +4687,7 @@ msgstr "%d.%02d.%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2854
+#: ../gthumb/glib-utils.c:2853
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4817,15 +4817,15 @@ msgstr "Passa a schermo intero"
 msgid "Leave Fullscreen"
 msgstr "Finestra normale"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3567
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3575
 msgid "Go to the previous visited location"
 msgstr "Va alla precedente posizione visitata"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3585
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3593
 msgid "Go to the next visited location"
 msgstr "Va alla successiva posizione visitata"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3603
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3611
 msgid "Go up one level"
 msgstr "Sale di un livello"
 
@@ -4958,8 +4958,8 @@ msgid "%s of free space"
 msgstr "%s di spazio libero"
 
 #: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1799
-#: ../gthumb/gth-browser.c:5874 ../gthumb/gth-browser.c:5893
-#: ../gthumb/gth-browser.c:5918
+#: ../gthumb/gth-browser.c:5883 ../gthumb/gth-browser.c:5902
+#: ../gthumb/gth-browser.c:5927
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Impossibile caricare la posizione «%s»"
@@ -4990,20 +4990,20 @@ msgstr "Impossibile cambiare il nome"
 msgid "Modified"
 msgstr "Modificato"
 
-#: ../gthumb/gth-browser.c:3568 ../gthumb/gth-browser.c:3586
+#: ../gthumb/gth-browser.c:3576 ../gthumb/gth-browser.c:3594
 msgid "View the list of visited locations"
 msgstr "Visualizza l'elenco delle posizioni visitate"
 
-#: ../gthumb/gth-browser.c:3604
+#: ../gthumb/gth-browser.c:3612
 msgid "View the list of upper locations"
 msgstr "Visualizza l'elenco delle posizioni superiori"
 
-#: ../gthumb/gth-browser.c:5875
+#: ../gthumb/gth-browser.c:5884
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo di file non supportato"
 
-#: ../gthumb/gth-browser.c:5919
+#: ../gthumb/gth-browser.c:5928
 #, c-format
 msgid "No suitable module found"
 msgstr "Nessun modulo idoneo trovato"
