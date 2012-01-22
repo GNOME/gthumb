@@ -12,9 +12,15 @@ libcairo_io_la_SOURCES +=	\
 	cairo-io-png.h
 endif
 
-libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
+if ENABLE_LIBRSVG
+libcairo_io_la_SOURCES +=	\
+	cairo-io-svg.c		\
+	cairo-io-svg.h
+endif
+
+libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) $(LIBRSVG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
 libcairo_io_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libcairo_io_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS)
+libcairo_io_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(LIBRSVG_LIBS)
 if ENABLE_JPEG_TOOLS
 libcairo_io_la_LIBADD += ../jpeg_utils/libjpeg_utils.la
 endif

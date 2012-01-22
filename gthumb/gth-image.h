@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8;	 indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  *  GThumb
@@ -56,6 +56,12 @@ struct _GthImage
 struct _GthImageClass
 {
 	GObjectClass __parent_class;
+
+	gboolean  (*get_is_zoomable)  (GthImage *image);
+	gboolean  (*set_zoom)         (GthImage *image,
+				       double    zoom,
+				       int      *original_width,
+				       int      *original_height);
 };
 
 
@@ -68,19 +74,24 @@ typedef GthImage * (*GthImageLoaderFunc) (GthFileData   *file_data,
 					  GError       **error);
 
 
-GType                 gth_image_get_type              (void);
-GthImage *            gth_image_new                   (void);
-GthImage *            gth_image_new_for_pixbuf        (GdkPixbuf          *value);
-void                  gth_image_set_cairo_surface     (GthImage           *image,
-						       cairo_surface_t    *value);
-cairo_surface_t *     gth_image_get_cairo_surface     (GthImage           *image);
-void                  gth_image_set_pixbuf            (GthImage           *image,
-						       GdkPixbuf          *value);
-GdkPixbuf *           gth_image_get_pixbuf            (GthImage           *image);
-void                  gth_image_set_pixbuf_animation  (GthImage           *image,
-						       GdkPixbufAnimation *value);
-GdkPixbufAnimation *  gth_image_get_pixbuf_animation  (GthImage           *image);
-gboolean              gth_image_is_animation          (GthImage           *image);
+GType                 gth_image_get_type                    (void);
+GthImage *            gth_image_new                         (void);
+GthImage *            gth_image_new_for_pixbuf              (GdkPixbuf          *value);
+void                  gth_image_set_cairo_surface           (GthImage           *image,
+						             cairo_surface_t    *value);
+cairo_surface_t *     gth_image_get_cairo_surface           (GthImage           *image);
+gboolean              gth_image_get_is_zoomable             (GthImage           *image);
+gboolean              gth_image_set_zoom                    (GthImage           *image,
+							     double              zoom,
+							     int                *original_width,
+							     int                *original_height);
+void                  gth_image_set_pixbuf                  (GthImage           *image,
+						             GdkPixbuf          *value);
+GdkPixbuf *           gth_image_get_pixbuf                  (GthImage           *image);
+void                  gth_image_set_pixbuf_animation        (GthImage           *image,
+						             GdkPixbufAnimation *value);
+GdkPixbufAnimation *  gth_image_get_pixbuf_animation        (GthImage           *image);
+gboolean              gth_image_is_animation                (GthImage           *image);
 
 G_END_DECLS
 

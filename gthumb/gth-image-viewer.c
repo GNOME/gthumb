@@ -73,6 +73,7 @@ struct _GthImageViewerPrivate {
 	GtkScrollablePolicy     hscroll_policy;
 	GtkScrollablePolicy     vscroll_policy;
 
+	GthImage               *image;
 	cairo_surface_t        *surface;
 	GdkPixbufAnimation     *animation;
 	int                     original_width;
@@ -169,6 +170,7 @@ gth_image_viewer_finalize (GObject *object)
 
 	g_list_foreach (self->priv->painters, (GFunc) painter_data_free, NULL);
 
+	_g_clear_object (&self->priv->image);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 	_cairo_clear_surface (&self->priv->iter_surface);
@@ -287,6 +289,13 @@ _gth_image_viewer_update_image_area (GthImageViewer *self)
 }
 
 
+static void _set_surface (GthImageViewer  *self,
+			  cairo_surface_t *surface,
+			  int              original_width,
+			  int              original_height,
+			  gboolean         better_quality);
+
+
 static void
 set_zoom (GthImageViewer *self,
 	  gdouble         zoom_level,
@@ -298,6 +307,29 @@ set_zoom (GthImageViewer *self,
 	gdouble zoom_ratio;
 
 	g_return_if_fail (self != NULL);
+
+	if (gth_image_get_is_zoomable (self->priv->image)) {
+		int original_width;
+		int original_height;
+
+		if (gth_image_set_zoom (self->priv->image,
+				        zoom_level,
+				        &original_width,
+				        &original_height))
+		{
+			cairo_surface_t *surface;
+
+			surface = gth_image_get_cairo_surface (self->priv->image);
+			if (surface != NULL) {
+				_set_surface (self,
+					      surface,
+					      original_width,
+					      original_height,
+					      TRUE);
+				cairo_surface_destroy (surface);
+			}
+		}
+	}
 
 	/* try to keep the center of the view visible. */
 	_gth_image_viewer_get_visible_area_size (self, &visible_width, &visible_height);
@@ -1638,6 +1670,7 @@ _set_animation (GthImageViewer     *self,
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
+	_g_clear_object (&self->priv->image);
 
 	self->priv->animation = _g_object_ref (animation);
 	self->priv->is_void = (self->priv->animation == NULL);
@@ -1732,29 +1765,40 @@ gth_image_viewer_set_surface (GthImageViewer  *self,
 			      int              original_width,
 			      int              original_height)
 {
+	_g_clear_object (&self->priv->image);
 	_set_surface (self, surface, original_width, original_height, FALSE);
 }
 
 
 void
-gth_image_viewer_set_image (GthImageViewer *viewer,
+gth_image_viewer_set_image (GthImageViewer *self,
 			    GthImage       *image,
 			    int             original_width,
 			    int             original_height)
 {
+	if (self->priv->image != image)
+		_g_clear_object (&self->priv->image);
+
 	if (gth_image_is_animation (image)) {
 		GdkPixbufAnimation *animation;
 
 		animation = gth_image_get_pixbuf_animation (image);
-		gth_image_viewer_set_animation (viewer,	animation, original_width, original_height);
+		gth_image_viewer_set_animation (self,	animation, original_width, original_height);
 
 		g_object_unref (animation);
 	}
 	else {
 		cairo_surface_t *surface;
 
+		if (gth_image_get_is_zoomable (image)) {
+			self->priv->image = g_object_ref (image);
+			gth_image_set_zoom (self->priv->image,
+					    self->priv->zoom_level,
+					    &original_width,
+					    &original_height);
+		}
 		surface = gth_image_get_cairo_surface (image);
-		gth_image_viewer_set_surface (viewer, surface, original_width, original_height);
+		_set_surface (self, surface, original_width, original_height, FALSE);
 
 		cairo_surface_destroy (surface);
 	}
@@ -1770,6 +1814,7 @@ gth_image_viewer_set_void (GthImageViewer *self)
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
+	_g_clear_object (&self->priv->image);
 
 	self->priv->is_void = TRUE;
 	self->priv->is_animation = FALSE;

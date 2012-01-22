@@ -56,6 +56,7 @@ LIBSOUP_REQUIRED=2.36
 GNOME_KEYRING_REQUIRED=3.2.0
 LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
+LIBRSVG_REQUIRED=2.34.0
 
 dnl ===========================================================================
 
@@ -427,6 +428,25 @@ AC_MSG_RESULT($enable_libopenraw)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([librsvg],
+	      [AS_HELP_STRING([--disable-librsvg],[do not compile code that uses the librsvg library [default=yes]])],,
+	      [enable_librsvg=yes])
+
+if test x$enable_librsvg = xyes ; then
+	PKG_CHECK_MODULES(LIBRSVG,
+			  librsvg-2.0 >= $LIBRSVG_REQUIRED,
+			  [enable_librsvg=yes],
+			  [enable_librsvg=no])
+	if test "x$enable_librsvg" = "xyes"; then
+		AC_DEFINE(HAVE_LIBRSVG, 1, [Define to 1 if librsvg support is included])
+	fi			  
+fi
+AC_SUBST(LIBRSVG_LIBS)
+AC_SUBST(LIBRSVG_CFLAGS)
+AM_CONDITIONAL(ENABLE_LIBRSVG, test "x$enable_librsvg" = xyes)
+
+dnl ===========================================================================
+
 AC_ARG_ENABLE([gnome-keyring],
 	      [AS_HELP_STRING([--disable-gnome-keyring],[do not compile code that uses the gnome-keyring library])],,
 	      [enable_gnome_keyring=yes])
@@ -704,4 +724,5 @@ Configuration:
 	Web albums           : ${enable_web_albums}
 	SM client support    : ${with_smclient}
 	Map support          : ${enable_libchamplain}
+	SVG support          : ${enable_librsvg}
 "

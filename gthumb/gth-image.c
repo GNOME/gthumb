@@ -80,15 +80,35 @@ gth_image_finalize (GObject *object)
 }
 
 
+static gboolean
+base_get_is_zoomable (GthImage *image)
+{
+	return FALSE;
+}
+
+
+static gboolean
+base_set_zoom (GthImage *image,
+	       double    zoom,
+	       int      *original_width,
+	       int      *original_height)
+{
+	return FALSE;
+}
+
+
 static void
-gth_image_class_init (GthImageClass *class)
+gth_image_class_init (GthImageClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (class, sizeof (GthImagePrivate));
+	g_type_class_add_private (klass, sizeof (GthImagePrivate));
 
-	gobject_class = (GObjectClass*) class;
+	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_finalize;
+
+	klass->get_is_zoomable = base_get_is_zoomable;
+	klass->set_zoom = base_set_zoom;
 }
 
 
@@ -161,6 +181,26 @@ gth_image_get_cairo_surface (GthImage *image)
 	}
 
 	return result;
+}
+
+
+gboolean
+gth_image_get_is_zoomable (GthImage *self)
+{
+	if (self == NULL)
+		return FALSE;
+	else
+		return GTH_IMAGE_GET_CLASS (self)->get_is_zoomable (self);
+}
+
+
+gboolean
+gth_image_set_zoom (GthImage *self,
+		    double    zoom,
+		    int      *original_width,
+		    int      *original_height)
+{
+	return GTH_IMAGE_GET_CLASS (self)->set_zoom (self, zoom, original_width, original_height);
 }
 
 

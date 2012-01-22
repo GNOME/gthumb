@@ -24,6 +24,7 @@
 #include <gthumb.h>
 #include "cairo-io-jpeg.h"
 #include "cairo-io-png.h"
+#include "cairo-io-svg.h"
 
 
 G_MODULE_EXPORT void
@@ -39,6 +40,12 @@ gthumb_extension_activate (void)
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/png",
 					     NULL);
+#ifdef HAVE_LIBRSVG
+	gth_main_register_image_loader_func (_cairo_image_surface_create_from_svg,
+					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
+					     "image/svg+xml",
+					     NULL);
+#endif
 }
 
 
