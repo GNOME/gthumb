@@ -617,8 +617,9 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 
 	nav_popup->x_root = event->x_root;
 	nav_popup->y_root = event->y_root;
-	nav_popup->image_width = gth_image_viewer_get_image_width (GTH_IMAGE_VIEWER (self->priv->viewer));
-	nav_popup->image_height = gth_image_viewer_get_image_height (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+					    &nav_popup->image_width,
+					    &nav_popup->image_height);
 	update_popup_geometry (nav_popup);
 
 	g_signal_connect (G_OBJECT (nav_popup->popup_win),
