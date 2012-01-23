@@ -1,3 +1,17 @@
+version 2.14.2
+--------------
+
+ Bugs fixed:
+
+  * Fixed memory leak in 'Adjust Colors'. (#667931)
+  * Fixed renaming of folders and catalogs.
+  * Fixed names of the gconf keys for the 'change date' tool.
+  * Fixed possible crash on startup.
+
+ New or updated application translations:
+
+  * German (Christian Kirbach)
+
 version 2.14.1
 --------------
 
