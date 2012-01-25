@@ -990,8 +990,8 @@ _update_statusbar_list_info (GthBrowser *browser)
 
 	/**/
 
-	size_total_formatted = g_format_size_for_display (size_total);
-	size_selected_formatted = g_format_size_for_display (size_selected);
+	size_total_formatted = g_format_size (size_total);
+	size_selected_formatted = g_format_size (size_selected);
 	text_total = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, size_total_formatted);
 	text_selected = g_strdup_printf (g_dngettext (NULL, "%d file selected (%s)", "%d files selected (%s)", n_selected), n_selected, size_selected_formatted);
 
@@ -1027,7 +1027,7 @@ get_free_space_ready_cb (GthFileSource *file_source,
 	if (error == NULL) {
 		char *free_space_formatted;
 
-		free_space_formatted = g_format_size_for_display (free_space);
+		free_space_formatted = g_format_size (free_space);
 		free_space_text = g_strdup_printf (_("%s of free space"), free_space_formatted);
 
 		g_free (free_space_formatted);

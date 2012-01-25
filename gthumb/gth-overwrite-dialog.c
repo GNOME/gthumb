@@ -144,7 +144,7 @@ info_ready_cb (GList    *files,
 
 		gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_filename_label")), g_file_info_get_display_name (self->priv->source_data->info));
 
-		text = g_format_size_for_display (g_file_info_get_size (self->priv->source_data->info));
+		text = g_format_size (g_file_info_get_size (self->priv->source_data->info));
 		gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_size_label")), text);
 		g_free (text);
 
@@ -190,7 +190,7 @@ info_ready_cb (GList    *files,
 
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_filename_label")), g_file_info_get_display_name (self->priv->destination_data->info));
 
-	text = g_format_size_for_display (g_file_info_get_size (self->priv->destination_data->info));
+	text = g_format_size (g_file_info_get_size (self->priv->destination_data->info));
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_size_label")), text);
 	g_free (text);
 

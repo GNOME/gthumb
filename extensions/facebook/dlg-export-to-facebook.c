@@ -566,7 +566,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 		return;
 	}
 
-	total_size_formatted = g_format_size_for_display (total_size);
+	total_size_formatted = g_format_size (total_size);
 	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, total_size_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text);
 	g_free (text);

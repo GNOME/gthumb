@@ -1349,8 +1349,8 @@ copy_file_progress_cb (goffset  current_num_bytes,
 	if (copy_file_data->progress_callback == NULL)
 		return;
 
-	s1 = g_format_size_for_display (copy_file_data->copied_size + current_num_bytes);
-	s2 = g_format_size_for_display (copy_file_data->tot_size);
+	s1 = g_format_size (copy_file_data->copied_size + current_num_bytes);
+	s2 = g_format_size (copy_file_data->tot_size);
 	/* For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB */
 	details = g_strdup_printf (_("%s of %s"), s1, s2);
 

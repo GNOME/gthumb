@@ -55,7 +55,7 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 
 	matcher = g_file_attribute_matcher_new (attributes);
 
-	value = g_format_size_for_display (g_file_info_get_size (file_data->info));
+	value = g_format_size (g_file_info_get_size (file_data->info));
 	g_file_info_set_attribute_string (file_data->info, "gth::file::display-size", value);
 	g_free (value);
 

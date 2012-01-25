@@ -1381,7 +1381,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 		case GTH_TAG_FILE_SIZE:
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
-			line = g_format_size_for_display (g_file_info_get_size (idata->file_data->info));
+			line = g_format_size (g_file_info_get_size (idata->file_data->info));
 			write_markup_escape_line (ostream, line, error);
 			break;
 

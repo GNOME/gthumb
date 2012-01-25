@@ -294,7 +294,7 @@ update_status (DialogData *data)
 		size += g_file_info_get_size (file_data->info);
 		n_selected += 1;
 	}
-	ssize = g_format_size_for_display (size);
+	ssize = g_format_size (size);
 	/* translators: %d is the number of files, %s the total size */
 	status = g_strdup_printf (_("Files to import: %d (%s)"), n_selected, ssize);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("status_label")), status);

@@ -251,7 +251,7 @@ update_file_list_selection_info (GthFindDuplicates *self)
 		while (gtk_tree_model_iter_next (model, &iter));
 	}
 
-	size_formatted = g_format_size_for_display (total_size);
+	size_formatted = g_format_size (total_size);
 	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_files), n_files, size_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_files_label")), text);
 
@@ -343,7 +343,7 @@ update_total_duplicates_label (GthFindDuplicates *self)
 	char *size_formatted;
 	char *text;
 
-	size_formatted = g_format_size_for_display (self->priv->duplicates_size);
+	size_formatted = g_format_size (self->priv->duplicates_size);
 	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", self->priv->n_duplicates), self->priv->n_duplicates, size_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("total_duplicates_label")), text);
 

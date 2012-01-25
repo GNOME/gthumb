@@ -262,7 +262,7 @@ update_album_list (DialogData *data)
 		PicasaWebAlbum *album = scan->data;
 		char           *used_bytes;
 
-		used_bytes = g_format_size_for_display (album->used_bytes);
+		used_bytes = g_format_size (album->used_bytes);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
@@ -799,7 +799,7 @@ update_selection_status (DialogData *data)
 		size_selected += g_file_info_get_size (file_data->info);
 	}
 
-	size_selected_formatted = g_format_size_for_display (size_selected);
+	size_selected_formatted = g_format_size (size_selected);
 	text_selected = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_selected), n_selected, size_selected_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text_selected);
 

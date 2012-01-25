@@ -843,8 +843,8 @@ gth_import_task_check_free_space (GFile   *destination,
 		char *free_space_s;
 
 		destination_name = g_file_get_parse_name (destination);
-		min_free_space_s = g_format_size_for_display (min_free_space);
-		free_space_s = g_format_size_for_display (free_space);
+		min_free_space_s = g_format_size (min_free_space);
+		free_space_s = g_format_size (free_space);
 
 		*error = g_error_new (G_IO_ERROR,
 				      G_IO_ERROR_NO_SPACE,

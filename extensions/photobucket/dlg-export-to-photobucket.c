@@ -280,7 +280,7 @@ update_account_list (DialogData *data)
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
 
-	free_space = g_format_size_for_display ((data->account->megabytes_allowed - data->account->megabytes_used) * (1024 * 1024));
+	free_space = g_format_size ((data->account->megabytes_allowed - data->account->megabytes_used) * (1024 * 1024));
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("free_space_label")), free_space);
 	g_free (free_space);
 
@@ -619,7 +619,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 		return;
 	}
 
-	total_size_formatted = g_format_size_for_display (total_size);
+	total_size_formatted = g_format_size (total_size);
 	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, total_size_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text);
 	g_free (text);

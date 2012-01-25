@@ -289,7 +289,7 @@ update_album_list (DialogData *data)
 
 	g_return_if_fail (data->user != NULL);
 
-	free_space = g_format_size_for_display (data->user->quota_limit - data->user->quota_current);
+	free_space = g_format_size (data->user->quota_limit - data->user->quota_current);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("free_space_label")), free_space);
 	g_free (free_space);
 
@@ -300,7 +300,7 @@ update_album_list (DialogData *data)
 		char           *used_bytes;
 
 		n_photos_remaining = g_strdup_printf ("%d", album->n_photos_remaining);
-		used_bytes = g_format_size_for_display (album->used_bytes);
+		used_bytes = g_format_size (album->used_bytes);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
@@ -1006,7 +1006,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 		return;
 	}
 
-	total_size_formatted = g_format_size_for_display (total_size);
+	total_size_formatted = g_format_size (total_size);
 	text = g_strdup_printf (g_dngettext (NULL, "%d file (%s)", "%d files (%s)", n_total), n_total, total_size_formatted);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("images_info_label")), text);
 	g_free (text);
