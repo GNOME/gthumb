@@ -43,11 +43,13 @@ enum {
 
 
 typedef struct {
+	int                 ref;
 	GthImagePreloader  *self;
 	GthFileData        *file_data;
 	int                 requested_size;
 	gboolean            loaded;
 	gboolean            error;
+	gboolean	    canceled;
 	GthImageLoader     *loader;
 	GthImage           *image;
 	int                 original_width;
@@ -96,10 +98,12 @@ preloader_new (GthImagePreloader *self)
 	Preloader *preloader;
 
 	preloader = g_new0 (Preloader, 1);
+	preloader->ref = 1;
 	preloader->self = self;
 	preloader->file_data = NULL;
 	preloader->loaded = FALSE;
 	preloader->error = FALSE;
+	preloader->canceled = FALSE;
 	preloader->loader = gth_image_loader_new (NULL, NULL);
 	gth_image_loader_set_preferred_format (preloader->loader, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
 	preloader->image = NULL;
@@ -110,10 +114,20 @@ preloader_new (GthImagePreloader *self)
 }
 
 
+static Preloader *
+preloader_ref (Preloader *preloader)
+{
+	preloader->ref++;
+	return preloader;
+}
+
+
 static void
-preloader_free (Preloader *preloader)
+preloader_unref (Preloader *preloader)
 {
 	if (preloader == NULL)
+		return;
+	if (--preloader->ref > 0)
 		return;
 	_g_object_unref (preloader->image);
 	_g_object_unref (preloader->loader);
@@ -221,7 +235,8 @@ gth_image_preloader_finalize (GObject *object)
 	}
 
 	for (i = 0; i < self->priv->n_preloaders; i++) {
-		preloader_free (self->priv->loader[i]);
+		self->priv->loader[i]->canceled = TRUE;
+		preloader_unref (self->priv->loader[i]);
 		self->priv->loader[i] = NULL;
 	}
 	g_free (self->priv->loader);
@@ -354,6 +369,7 @@ typedef struct {
 static void
 load_request_free (LoadRequest *load_request)
 {
+	preloader_unref (load_request->preloader);
 	g_object_unref (load_request->file_data);
 	g_free (load_request);
 }
@@ -373,6 +389,11 @@ image_loader_ready_cb (GObject      *source_object,
 	GError             *error = NULL;
 	gboolean            success;
 	int                 interval;
+
+	if (preloader->canceled) {
+		load_request_free (load_request);
+		return;
+	}
 
 	self->priv->current = -1;
 
@@ -501,7 +522,7 @@ start_next_loader (GthImagePreloader *self)
 		preloader->image = NULL;
 
 		load_request = g_new0 (LoadRequest, 1);
-		load_request->preloader = preloader;
+		load_request->preloader = preloader_ref (preloader);
 		load_request->file_data = g_object_ref (preloader->file_data);
 		load_request->requested_size = preloader->requested_size;
 
