@@ -389,6 +389,8 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 				    GError             *error,
 				    GthImageViewerPage *self)
 {
+	if (image == NULL)
+		return;
 	if (! _g_file_equal (requested->file, self->priv->file_data->file))
 		return;
 
