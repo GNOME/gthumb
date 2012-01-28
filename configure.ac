@@ -136,6 +136,7 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gio-unix-2.0
 	gtk+-3.0 		>= $GTK_REQUIRED
 	libpng
+	zlib
 ])
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
