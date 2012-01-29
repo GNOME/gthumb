@@ -22,7 +22,9 @@ libedit_metadata_la_SOURCES = 		\
 	gth-edit-tags-dialog.h		\
 	gth-tag-task.c			\
 	gth-tag-task.h			\
-	main.c
+	main.c				\
+	utils.c				\
+	utils.h
 
 libedit_metadata_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libedit_metadata_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

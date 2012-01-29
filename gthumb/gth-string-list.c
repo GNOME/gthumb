@@ -187,3 +187,17 @@ gth_string_list_append (GthStringList *list1,
 		if (! g_list_find_custom (list1->priv->list, scan->data, (GCompareFunc) strcmp))
 			list1->priv->list = g_list_append (list1->priv->list, g_strdup (scan->data));
 }
+
+
+GHashTable *
+_g_hash_table_from_string_list (GthStringList *list)
+{
+	GHashTable *h;
+	GList      *scan;
+
+	h = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	for (scan = gth_string_list_get_list (list); scan; scan = scan->next)
+		g_hash_table_insert (h, g_strdup (scan->data), GINT_TO_POINTER (1));
+
+	return h;
+}

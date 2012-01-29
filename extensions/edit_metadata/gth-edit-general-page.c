@@ -24,6 +24,7 @@
 #include <gio/gio.h>
 #include "gth-edit-comment-dialog.h"
 #include "gth-edit-general-page.h"
+#include "utils.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
@@ -67,8 +68,11 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 	GthEditGeneralPage  *self;
 	GtkTextBuffer       *buffer;
 	GthMetadata         *metadata;
-	GthStringList       *tags;
 	GthMetadataProvider *provider;
+	GHashTable          *common_tags;
+	GHashTable          *no_common_tags;
+	GList               *common_tags_list;
+	GList               *no_common_tags_list;
 	gboolean             no_provider;
 	GthFileData         *file_data;
 	const char          *mime_type;
@@ -129,17 +133,17 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 
 	/* tags */
 
-	tags = (GthStringList *) g_file_info_get_attribute_object (self->priv->info, "general::tags");
-	if (tags != NULL) {
-		char *value;
+	utils_get_common_tags (file_list, &common_tags, &no_common_tags);
+	common_tags_list = g_hash_table_get_keys (common_tags);
+	no_common_tags_list = g_hash_table_get_keys (no_common_tags);
+	gth_tags_entry_set_tag_list (GTH_TAGS_ENTRY (self->priv->tags_entry),
+				     common_tags_list,
+				     no_common_tags_list);
 
-		value = gth_string_list_join (tags, ",");
-		gth_tags_entry_set_tags_from_text (GTH_TAGS_ENTRY (self->priv->tags_entry), value);
-
-		g_free (value);
-	}
-	else
-		gth_tags_entry_set_tags_from_text (GTH_TAGS_ENTRY (self->priv->tags_entry), NULL);
+	g_list_free (no_common_tags_list);
+	g_list_free (common_tags_list);
+	g_hash_table_unref (no_common_tags);
+	g_hash_table_unref (common_tags);
 
 	/* rating */
 
@@ -282,17 +286,13 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 					gboolean            only_modified_fields)
 {
 	GthEditGeneralPage  *self;
-	GthFileData            *file_data;
-	GtkTextBuffer          *buffer;
-	GtkTextIter             start;
-	GtkTextIter             end;
-	char                   *text;
-	GthMetadata            *metadata;
-	int                     i;
-	char                  **tagv;
-	GList                  *tags;
-	GthStringList          *string_list;
-	char                   *s;
+	GthFileData         *file_data;
+	GtkTextBuffer       *buffer;
+	GtkTextIter          start;
+	GtkTextIter          end;
+	char                *text;
+	GthMetadata         *metadata;
+	char                *s;
 
 	self = GTH_EDIT_GENERAL_PAGE (base);
 
@@ -376,20 +376,73 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 
 	/* tags */
 
-	tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry), TRUE);
-	tags = NULL;
-	for (i = 0; tagv[i] != NULL; i++)
-		tags = g_list_prepend (tags, tagv[i]);
-	tags = g_list_reverse (tags);
-	if (tags != NULL)
-		string_list = gth_string_list_new (tags);
-	else
-		string_list = NULL;
-	if (! only_modified_fields || ! gth_file_data_attribute_equal_string_list (file_data, "general::tags", string_list)) {
+	if (only_modified_fields) {
+		GList       *checked_tags;
+		GList       *inconsistent_tags;
+		GList       *new_tags;
+		GHashTable  *old_tags;
+		GList       *scan_tags;
+
+		gth_tags_entry_get_tag_list (GTH_TAGS_ENTRY (self->priv->tags_entry),
+					     TRUE,
+					     &checked_tags,
+					     &inconsistent_tags);
+
+		new_tags = _g_string_list_dup (checked_tags);
+
+		/* keep the inconsistent tags */
+
+		old_tags = _g_hash_table_from_string_list ((GthStringList *) g_file_info_get_attribute_object (info, "general::tags"));
+		for (scan_tags = inconsistent_tags; scan_tags; scan_tags = scan_tags->next) {
+			char *inconsistent_tag = scan_tags->data;
+
+			if (g_hash_table_lookup (old_tags, inconsistent_tag) != NULL)
+				new_tags = g_list_prepend (new_tags, g_strdup (inconsistent_tag));
+		}
+		g_hash_table_unref (old_tags);
+
+		/* update the general::tags attribute */
+
+		if (new_tags != NULL) {
+			GthStringList *file_tags;
+
+			new_tags = g_list_sort (new_tags, (GCompareFunc) g_strcmp0);
+			file_tags = gth_string_list_new (new_tags);
+			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (file_tags));
+
+			_g_object_unref (file_tags);
+			_g_string_list_free (new_tags);
+		}
+		else
+			g_file_info_remove_attribute (info, "general::tags");
+
+		g_list_free (inconsistent_tags);
+		_g_string_list_free (checked_tags);
+	}
+	else {
+		char          **tagv;
+		GList          *tags;
+		int             i;
+		GthStringList  *string_list;
+
+		tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry), TRUE);
+		tags = NULL;
+		for (i = 0; tagv[i] != NULL; i++)
+			tags = g_list_prepend (tags, tagv[i]);
+		tags = g_list_reverse (tags);
+		if (tags != NULL)
+			string_list = gth_string_list_new (tags);
+		else
+			string_list = NULL;
+
 		if (string_list != NULL)
 			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
 		else
 			g_file_info_remove_attribute (info, "general::tags");
+
+		_g_object_unref (string_list);
+		g_list_free (tags);
+		g_strfreev (tagv);
 	}
 
 	/* rating */
@@ -410,9 +463,6 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 	}
 
 	g_free (s);
-	_g_object_unref (string_list);
-	g_strfreev (tagv);
-	g_list_free (tags);
 	g_object_unref (file_data);
 }
 

@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include "gth-edit-metadata-dialog.h"
 #include "gth-edit-tags-dialog.h"
+#include "utils.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
@@ -56,17 +57,6 @@ gth_edit_tags_dialog_finalize (GObject *object)
 }
 
 
-static gboolean
-remove_tag_if_not_present (gpointer key,
-                	   gpointer value,
-                	   gpointer user_data)
-{
-	GthStringList *file_tags = user_data;
-
-	return g_list_find_custom (gth_string_list_get_list (file_tags), key, (GCompareFunc) g_strcmp0) == NULL;
-}
-
-
 static void
 gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 				    GList                 *file_list)
@@ -74,12 +64,8 @@ gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 	GthEditTagsDialog *self = GTH_EDIT_TAGS_DIALOG (base);
 	int                n_files;
 	char              *title;
-	GList             *scan;
-	GHashTable        *all_tags;
 	GHashTable        *common_tags;
 	GHashTable        *no_common_tags;
-	GList             *all_tags_list;
-	GList             *scan_tags;
 	GList             *common_tags_list;
 	GList             *no_common_tags_list;
 
@@ -101,48 +87,7 @@ gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 
 	/* update the tag entry */
 
-	all_tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	common_tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData   *file_data = scan->data;
-		GthStringList *file_tags;
-
-		file_tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
-		if (file_tags != NULL) {
-			GList *scan_tags;
-
-			for (scan_tags = gth_string_list_get_list (file_tags);
-			     scan_tags != NULL;
-			     scan_tags = scan_tags->next)
-			{
-				char *tag = scan_tags->data;
-
-				/* update the all tags set */
-
-				if (g_hash_table_lookup (all_tags, tag) == NULL)
-					g_hash_table_insert (all_tags, g_strdup (tag), GINT_TO_POINTER (1));
-
-				/* update the common tags set */
-
-				if (scan == file_list)
-					g_hash_table_insert (common_tags, g_strdup (tag), GINT_TO_POINTER (1));
-				else
-					g_hash_table_foreach_remove (common_tags, remove_tag_if_not_present, file_tags);
-			}
-		}
-		else
-			g_hash_table_remove_all (common_tags);
-	}
-
-	no_common_tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	all_tags_list = g_hash_table_get_keys (all_tags);
-	for (scan_tags = all_tags_list; scan_tags; scan_tags = scan_tags->next) {
-		char *tag = scan_tags->data;
-
-		if (g_hash_table_lookup (common_tags, tag) == NULL)
-			g_hash_table_insert (no_common_tags, g_strdup (tag), GINT_TO_POINTER (1));
-	}
-
+	utils_get_common_tags (file_list, &common_tags, &no_common_tags);
 	common_tags_list = g_hash_table_get_keys (common_tags);
 	no_common_tags_list = g_hash_table_get_keys (no_common_tags);
 	gth_tags_entry_set_tag_list (GTH_TAGS_ENTRY (self->priv->tags_entry),
@@ -151,24 +96,8 @@ gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 
 	g_list_free (no_common_tags_list);
 	g_list_free (common_tags_list);
-	g_list_free (all_tags_list);
 	g_hash_table_unref (no_common_tags);
 	g_hash_table_unref (common_tags);
-	g_hash_table_unref (all_tags);
-}
-
-
-static GHashTable *
-_g_hash_table_from_string_list (GthStringList *list)
-{
-	GHashTable *h;
-	GList      *scan;
-
-	h = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	for (scan = gth_string_list_get_list (list); scan; scan = scan->next)
-		g_hash_table_insert (h, g_strdup (scan->data), GINT_TO_POINTER (1));
-
-	return h;
 }
 
 

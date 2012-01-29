@@ -61,6 +61,10 @@ gboolean          gth_string_list_equal               (GthStringList  *list1,
 void              gth_string_list_append              (GthStringList  *list1,
 		       	       	       	       	       GthStringList  *list2);
 
+/* utilities */
+
+GHashTable *      _g_hash_table_from_string_list      (GthStringList *list);
+
 G_END_DECLS
 
 #endif /* GTH_STRING_LIST_H */
