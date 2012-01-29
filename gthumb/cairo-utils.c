@@ -603,17 +603,6 @@ _cairo_draw_rounded_box (cairo_t *cr,
 	if (r == 0) {
 		cairo_rectangle (cr, x, y, w, h);
 	}
-	else if (r == 1) {
-		cairo_move_to (cr, x + 1, y);
-		cairo_rel_line_to (cr, w - 2, 0);
-		cairo_rel_line_to (cr, 1, 1);
-		cairo_rel_line_to (cr, 0, h - 2);
-		cairo_rel_line_to (cr, -1, 1);
-		cairo_rel_line_to (cr, - (w - 2), 0);
-		cairo_rel_line_to (cr, -1, -1);
-		cairo_rel_line_to (cr, 0, - (h - 2));
-		cairo_rel_line_to (cr, 1, -1);
-	}
 	else {
 		cairo_move_to (cr, x, y + r);
 		if (r > 0)
