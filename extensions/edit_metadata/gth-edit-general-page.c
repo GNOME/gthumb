@@ -75,8 +75,12 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 
 	self = GTH_EDIT_GENERAL_PAGE (base);
 
+	/* get the metadata common to the seleted files */
+
 	_g_object_unref (self->priv->info);
 	self->priv->info = gth_file_data_list_get_common_info (file_list, "general::description,general::title,general::location,general::datetime,general::tags,general::rating");
+
+	/* description */
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::description");
@@ -90,17 +94,23 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 	else
 		gtk_text_buffer_set_text (buffer, "", -1);
 
+	/* title */
+
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::title");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), gth_metadata_get_formatted (metadata));
 	else
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("title_entry")), "");
 
+	/* location */
+
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::location");
 	if (metadata != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), gth_metadata_get_formatted (metadata));
 	else
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("place_entry")), "");
+
+	/* date */
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::datetime");
 	if (metadata != NULL) {
@@ -117,6 +127,8 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
 	}
 
+	/* tags */
+
 	tags = (GthStringList *) g_file_info_get_attribute_object (self->priv->info, "general::tags");
 	if (tags != NULL) {
 		char *value;
@@ -129,6 +141,8 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 	else
 		gth_tags_entry_set_tags_from_text (GTH_TAGS_ENTRY (self->priv->tags_entry), NULL);
 
+	/* rating */
+
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->info, "general::rating");
 	if (metadata != NULL) {
 		int v;
@@ -140,6 +154,9 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("rating_spinbutton")), 0);
 
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
+
+	/* set a widget insensitive if there is no way to save the relative
+	 * metadata */
 
 	no_provider = TRUE;
 
@@ -186,6 +203,8 @@ gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 	if (no_provider && (provider != NULL))
 		no_provider = FALSE;
 	_g_object_unref (provider);
+
+	/* hide the whole page if no metadata can be saved */
 
 	if (no_provider)
 		gtk_widget_hide (GTK_WIDGET (self));
