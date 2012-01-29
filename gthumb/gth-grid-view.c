@@ -50,6 +50,7 @@
 #define SCROLL_DELAY               30
 #define LAYOUT_DELAY               20
 #define MAX_DELTA_FOR_SCROLLING    1024.0
+#define RUBBERBAND_BORDER          2
 
 
 static void gth_grid_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
@@ -2832,13 +2833,14 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 
 		/* invalidate the border as well */
 		cairo_region_get_extents (common_region, &common_region_extents);
-		common_region_extents.x += 2;
-		common_region_extents.y += 2;
-		common_region_extents.width -= 4;
-		common_region_extents.height -= 4;
+		common_region_extents.x += RUBBERBAND_BORDER;
+		common_region_extents.y += RUBBERBAND_BORDER;
+		common_region_extents.width -= RUBBERBAND_BORDER * 2;
+		common_region_extents.height -= RUBBERBAND_BORDER * 2;
 
 		cairo_region_subtract_rectangle (invalid_region, &common_region_extents);
 	}
+
 	gdk_window_invalidate_region (self->priv->bin_window, invalid_region, FALSE);
 
 	cairo_region_destroy (common_region);
