@@ -50,6 +50,7 @@
 #define SCROLL_DELAY               30
 #define LAYOUT_DELAY               20
 #define MAX_DELTA_FOR_SCROLLING    1024.0
+#define RUBBERBAND_BORDER          2
 
 
 static void gth_grid_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
@@ -1268,6 +1269,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_fill (cr);
 	}
 
+	gdk_rgba_parse (&background_color, "#edeceb");
 	gtk_style_context_get_background_color (style_context, item_state, &background_color);
 	_gdk_rgba_darker (&background_color, &lighter_color);
 	_gdk_rgba_darker (&lighter_color, &darker_color);
@@ -1418,7 +1420,10 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_fill (cr);
 
 	if (item_state & GTK_STATE_FLAG_SELECTED) {
-		cairo_set_source_rgba (cr, background_color.red, background_color.green, background_color.blue, 0.33);
+		GdkRGBA color;
+
+		gtk_style_context_get_background_color (style_context, item_state, &color);
+		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.33);
 		cairo_rectangle (cr,
 				 frame_rect.x,
 				 frame_rect.y,
@@ -1593,6 +1598,7 @@ gth_grid_view_draw (GtkWidget *widget,
 
 	cairo_save (cr);
 	gtk_cairo_transform_to_window (cr, widget, self->priv->bin_window);
+	cairo_set_line_width (cr, 1.0);
 
 	for (i = first_visible, scan = g_list_nth (self->priv->items, first_visible);
 	     (i <= last_visible) && scan;
@@ -2772,6 +2778,7 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 	cairo_region_t        *invalid_region;
 	int                    x1, y1, x2, y2;
 	GtkAllocation          allocation;
+	cairo_region_t        *common_region;
 	gboolean               additive;
 	gboolean               invert;
 	int                    min_y, max_y;
@@ -2818,6 +2825,27 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 	invalid_region = cairo_region_create_rectangle (&old_selection_area);
 	cairo_region_union_rectangle (invalid_region, &self->priv->selection_area);
 
+	common_region = cairo_region_create_rectangle (&old_selection_area);
+	cairo_region_intersect_rectangle (common_region, &self->priv->selection_area);
+
+	if (! cairo_region_is_empty (common_region)) {
+		cairo_rectangle_int_t common_region_extents;
+
+		/* invalidate the border as well */
+		cairo_region_get_extents (common_region, &common_region_extents);
+		common_region_extents.x += RUBBERBAND_BORDER;
+		common_region_extents.y += RUBBERBAND_BORDER;
+		common_region_extents.width -= RUBBERBAND_BORDER * 2;
+		common_region_extents.height -= RUBBERBAND_BORDER * 2;
+
+		cairo_region_subtract_rectangle (invalid_region, &common_region_extents);
+	}
+
+	gdk_window_invalidate_region (self->priv->bin_window, invalid_region, FALSE);
+
+	cairo_region_destroy (common_region);
+	cairo_region_destroy (invalid_region);
+
 	/* select or unselect images as appropriate */
 
 	additive = self->priv->sel_state & GDK_SHIFT_MASK;
@@ -2836,6 +2864,8 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 
 	if (end != NULL)
 		end = end->next;
+
+	gdk_window_freeze_updates (self->priv->bin_window);
 
 	x1 = self->priv->selection_area.x;
 	y1 = self->priv->selection_area.y;
@@ -2863,13 +2893,9 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 		}
 		else if (selection_changed)
 			_gth_grid_view_set_item_selected (self, (item->tmp_state & GTK_STATE_FLAG_SELECTED), i);
-
-		if (gdk_rectangle_intersect (&self->priv->selection_area, &item->area, NULL))
-			cairo_region_union_rectangle (invalid_region, &item->area);
 	}
 
-	gdk_window_invalidate_region (self->priv->bin_window, invalid_region, FALSE);
-	cairo_region_destroy (invalid_region);
+	gdk_window_thaw_updates (self->priv->bin_window);
 
 	_gth_grid_view_emit_selection_changed (self);
 }
