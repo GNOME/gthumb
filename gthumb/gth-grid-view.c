@@ -1131,7 +1131,7 @@ get_first_visible_at_offset (GthGridView *self,
 	GList *scan;
 	int    pos;
 
-	if (self->priv->n_items == 0)
+	if ((self->priv->n_items == 0) || (self->priv->lines == NULL))
 		return -1;
 
 	n_line = 0;
@@ -1162,7 +1162,7 @@ get_last_visible_at_offset (GthGridView *self,
 	GList *scan;
 	int    pos;
 
-	if (self->priv->n_items == 0)
+	if ((self->priv->n_items == 0) || (self->priv->lines == NULL))
 		return -1;
 
 	n_line = 0;
