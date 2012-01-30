@@ -32,6 +32,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 #include <exiv2/xmp.hpp>
 #include <gthumb.h>
 #include "exiv2-utils.h"
