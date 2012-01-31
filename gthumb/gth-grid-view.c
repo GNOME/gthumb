@@ -673,7 +673,7 @@ _gth_grid_view_place_item_at (GthGridView     *self,
 	item->pixbuf_area.y = item->thumbnail_area.y + ((item->thumbnail_area.height - item->pixbuf_area.height) / 2);
 
 	item->caption_area.x = item->area.x + self->priv->cell_padding;
-	item->caption_area.y = item->area.y + self->priv->cell_padding + item->thumbnail_area.height + self->priv->caption_spacing;
+	item->caption_area.y = item->area.y + self->priv->cell_size - self->priv->cell_padding + self->priv->caption_spacing;
 }
 
 
