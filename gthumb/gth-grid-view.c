@@ -51,6 +51,8 @@
 #define LAYOUT_DELAY               20
 #define MAX_DELTA_FOR_SCROLLING    1024.0
 #define RUBBERBAND_BORDER          2
+#define STEP_INCREMENT             0.10
+#define PAGE_INCREMENT             0.33
 
 
 static void gth_grid_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
@@ -740,8 +742,8 @@ _gth_grid_view_configure_hadjustment (GthGridView *self)
 				  value,
 				  0.0,
 				  MAX (page_size, self->priv->width),
-				  0.1 * page_size,
-				  0.5 * page_size,
+				  STEP_INCREMENT * page_size,
+				  PAGE_INCREMENT * page_size,
 				  page_size);
 }
 
@@ -764,8 +766,8 @@ _gth_grid_view_configure_vadjustment (GthGridView *self)
 				  value,
 				  0.0,
 				  MAX (page_size, self->priv->height),
-				  0.1 * page_size,
-				  0.5 * page_size,
+				  STEP_INCREMENT * page_size,
+				  PAGE_INCREMENT * page_size,
 				  page_size);
 }
 
