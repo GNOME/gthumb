@@ -70,8 +70,9 @@ gth_file_source_vfs_add_special_dir (GList         *list,
 	path = g_get_user_special_dir (special_dir);
 	if (path != NULL) {
 		GFile *file;
+
 		file = g_file_new_for_path (path);
-		if (g_file_query_exists (file, NULL)) {
+		if ((gth_file_data_list_find_file (list, file) == NULL) && g_file_query_exists (file, NULL)) {
 			GFileInfo *info;
 			info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
 			list = g_list_append (list, gth_file_data_new (file, info));
@@ -87,21 +88,24 @@ gth_file_source_vfs_add_special_dir (GList         *list,
 
 static GList *
 gth_file_source_vfs_add_uri (GList         *list,
-                             GthFileSource *file_source,
-                             const char    *uri,
+			     GthFileSource *file_source,
+			     const char    *uri,
 			     char          *display_name)
 {
-        GFile       *file;
-        GFileInfo   *info;
+	GFile *file;
 
-        file = g_file_new_for_uri (uri);
-        info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-        g_file_info_set_display_name (info, display_name);
-        list = g_list_append (list, gth_file_data_new (file, info));
-        g_object_unref (info);
-        g_object_unref (file);
+	file = g_file_new_for_uri (uri);
+	if (gth_file_data_list_find_file (list, file) == NULL) {
+		GFileInfo *info;
 
-        return list;
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+		g_file_info_set_display_name (info, display_name);
+		list = g_list_append (list, gth_file_data_new (file, info));
+		g_object_unref (info);
+	}
+	g_object_unref (file);
+
+	return list;
 }
 
 
