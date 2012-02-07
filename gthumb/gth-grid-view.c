@@ -2695,10 +2695,15 @@ gth_grid_view_button_press (GtkWidget      *widget,
 	else if ((pos != -1) && (event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
 		/* This can be the start of a dragging action. */
 
-		self->priv->dragging = TRUE;
-		self->priv->drag_button = 1;
-		self->priv->drag_start_x = event->x;
-		self->priv->drag_start_y = event->y;
+		if (! (event->state & GDK_CONTROL_MASK)
+		    && ! (event->state & GDK_SHIFT_MASK)
+		    && self->priv->drag_source_enabled)
+		{
+			self->priv->dragging = TRUE;
+			self->priv->drag_button = 1;
+			self->priv->drag_start_x = event->x;
+			self->priv->drag_start_y = event->y;
+		}
 
 		if (self->priv->selection_mode != GTK_SELECTION_NONE) {
 			GthGridViewItem *item;

@@ -3380,7 +3380,7 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 		}
 		gth_file_list_popup_menu (browser, event);
 
-		return TRUE;
+		return FALSE;
 	}
 	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 2)) {
 		GtkWidget *file_view;
@@ -3393,7 +3393,7 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
 			gth_file_view_set_cursor (GTH_FILE_VIEW (file_view), pos);
 		}
-		return TRUE;
+		return FALSE;
 	}
 	else if ((event->type == GDK_2BUTTON_PRESS) && (event->button == 2)) {
 		gth_browser_fullscreen (browser);
