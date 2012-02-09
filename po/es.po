@@ -7,15 +7,15 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-05 21:01+0000\n"
-"PO-Revision-Date: 2011-12-06 20:11+0100\n"
+"POT-Creation-Date: 2012-02-07 19:08+0000\n"
+"PO-Revision-Date: 2012-02-09 11:31+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,39 +93,39 @@ msgstr "Opciones de gestión de la sesión:"
 msgid "Show session management options"
 msgstr "Mostrar las opciones de gestión de la sesión"
 
-#: ../data/gthumb.desktop.in.in.h:1
-msgid "Image Viewer"
-msgstr "Visor de imágenes"
-
-#: ../data/gthumb.desktop.in.in.h:2
-msgid "View and organize your images"
-msgstr "Muestre y organice sus imágenes"
-
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:529
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:529
 #: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../data/gthumb.desktop.in.in.h:4
+#: ../data/gthumb.desktop.in.in.h:2
+msgid "Image Viewer"
+msgstr "Visor de imágenes"
+
+#: ../data/gthumb.desktop.in.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "Visor de imágenes gThumb"
 
-#: ../data/gthumb-import.desktop.in.in.h:1
-msgid "Import the photos on your camera card"
-msgstr "Importar las fotos de la tarjeta de su cámara"
+#: ../data/gthumb.desktop.in.in.h:4
+msgid "View and organize your images"
+msgstr "Muestre y organice sus imágenes"
 
-#: ../data/gthumb-import.desktop.in.in.h:2
+#: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import with gThumb"
 msgstr "Importar con gThumb"
 
-#: ../data/gthumb-import.desktop.in.in.h:3
+#: ../data/gthumb-import.desktop.in.in.h:2
 msgid "Photo Import Tool"
 msgstr "Herramienta para importar fotos"
 
-#: ../data/gthumb-import.desktop.in.in.h:4
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "gThumb Photo Import Tool"
 msgstr "Herramienta de gThumb para importar fotos"
+
+#: ../data/gthumb-import.desktop.in.in.h:4
+msgid "Import the photos on your camera card"
+msgstr "Importar las fotos de la tarjeta de su cámara"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid ""
@@ -136,26 +136,26 @@ msgstr ""
 "0 si quiere generar miniaturas para todas las imágenes"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
-msgid "Open files in the active window"
-msgstr "Abrir archivos en la ventana activa"
-
-#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Whether to resize the window to fit the size of the image"
 msgstr "Indica si redimensionar la ventana al tamaño de la imagen"
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
+msgid "Open files in the active window"
+msgstr "Abrir archivos en la ventana activa"
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
 msgid "Possible values are: white, black, checked, none."
 msgstr "Los valores posibles son: «white», «black», «checked», «none»."
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
-msgid "Whether to always use a black background."
-msgstr "Indica si se debe usar siempre fondo negro."
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
 "Indica si se deben restaurar las posiciones de la barras de desplazamiento "
 "tras cambiar la imagen"
+
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
+msgid "Whether to always use a black background."
+msgstr "Indica si se debe usar siempre fondo negro."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -174,31 +174,31 @@ msgstr ""
 "file::mtime, exif::photo::datetimeoriginal"
 
 #: ../data/ui/extensions-preferences.ui.h:1
+msgid "_Extensions:"
+msgstr "_Extensiones:"
+
+#: ../data/ui/extensions-preferences.ui.h:2
 msgid "More extensions..."
 msgstr "Más extensiones…"
 
-#: ../data/ui/extensions-preferences.ui.h:2
+#: ../data/ui/extensions-preferences.ui.h:3
 msgid "Some extensions are configurable."
 msgstr "Algunas extensiones son configurables"
-
-#: ../data/ui/extensions-preferences.ui.h:3
-msgid "_Extensions:"
-msgstr "_Extensiones:"
 
 #: ../data/ui/filter-editor.ui.h:1
 msgid "Filter _Name:"
 msgstr "Nombre del filt_ro:"
 
-#. limit label
-#: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:268
-#: ../gthumb/gth-filter.c:340
-msgid "_Limit to"
-msgstr "_Limitar a"
-
-#: ../data/ui/filter-editor.ui.h:3
+#: ../data/ui/filter-editor.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:3
 msgid "_Match"
 msgstr "C_oincide"
+
+#. limit label
+#: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:268
+#: ../gthumb/gth-filter.c:340
+msgid "_Limit to"
+msgstr "_Limitar a"
 
 #: ../data/ui/filter-editor.ui.h:4
 msgid "selected by"
@@ -208,69 +208,69 @@ msgstr "seleccionados por"
 msgid "Mean:"
 msgstr "Media:"
 
-#: ../data/ui/histogram-info.ui.h:2
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
+#: ../data/ui/histogram-info.ui.h:3
+msgid "Std dev:"
+msgstr "Desv. Est.:"
+
+#: ../data/ui/histogram-info.ui.h:4
 msgid "Median:"
 msgstr "Mediana:"
 
+#. After the colon there is the total number of pixels
+#: ../data/ui/histogram-info.ui.h:6
+msgid "Pixels:"
+msgstr "Píxeles:"
+
 #. After the colon there is a percentile.
-#: ../data/ui/histogram-info.ui.h:4
+#: ../data/ui/histogram-info.ui.h:8
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "Máx:"
 
 #. After the colon there is the percentile of selected pixels.
-#: ../data/ui/histogram-info.ui.h:6
+#: ../data/ui/histogram-info.ui.h:10
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Seleccionados:"
 
-#. After the colon there is the total number of pixels
-#: ../data/ui/histogram-info.ui.h:8
-msgid "Pixels:"
-msgstr "Píxeles:"
-
-#. Short for "Standard deviation".  Try to keep it short in the translation.
-#: ../data/ui/histogram-info.ui.h:10
-msgid "Std dev:"
-msgstr "Desv. Est.:"
-
 #: ../data/ui/overwrite-dialog.ui.h:1
-msgid "Do not overwrite _the old file"
-msgstr "No sobreescribir el archivo an_tiguo"
-
-#: ../data/ui/overwrite-dialog.ui.h:2
-msgid "Filename:"
-msgstr "Nombre del archivo:"
-
-#: ../data/ui/overwrite-dialog.ui.h:3
-msgid "Modified:"
-msgstr "Modificado:"
-
-#: ../data/ui/overwrite-dialog.ui.h:4
-msgid "New File:"
-msgstr "Archivo nuevo:"
-
-#: ../data/ui/overwrite-dialog.ui.h:5
-msgid "Old File:"
-msgstr "Archivo antiguo:"
-
-#: ../data/ui/overwrite-dialog.ui.h:6
-msgid "Over_write the old file"
-msgstr "Sob_reescribir el archivo antiguo"
-
-#: ../data/ui/overwrite-dialog.ui.h:7
-msgid "Overwrite _all files"
-msgstr "Sobreescribir _todos los archivos"
-
-#: ../data/ui/overwrite-dialog.ui.h:8
 msgid "Overwrite the old file with the new one?"
 msgstr "¿Sobreescribir el archivo anterior con el nuevo?"
 
-#: ../data/ui/overwrite-dialog.ui.h:9
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
-#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../data/ui/overwrite-dialog.ui.h:2
+msgid "Old File:"
+msgstr "Archivo antiguo:"
+
+#: ../data/ui/overwrite-dialog.ui.h:3
+msgid "Filename:"
+msgstr "Nombre del archivo:"
+
+#: ../data/ui/overwrite-dialog.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/image_print/data/ui/print-layout.ui.h:23
 msgid "Size:"
 msgstr "Tamaño:"
+
+#: ../data/ui/overwrite-dialog.ui.h:5
+msgid "Modified:"
+msgstr "Modificado:"
+
+#: ../data/ui/overwrite-dialog.ui.h:6
+msgid "New File:"
+msgstr "Archivo nuevo:"
+
+#: ../data/ui/overwrite-dialog.ui.h:7
+msgid "Over_write the old file"
+msgstr "Sob_reescribir el archivo antiguo"
+
+#: ../data/ui/overwrite-dialog.ui.h:8
+msgid "Do not overwrite _the old file"
+msgstr "No sobreescribir el archivo an_tiguo"
+
+#: ../data/ui/overwrite-dialog.ui.h:9
+msgid "Overwrite _all files"
+msgstr "Sobreescribir _todos los archivos"
 
 #: ../data/ui/overwrite-dialog.ui.h:10
 msgid "_Do not overwrite any file"
@@ -293,116 +293,181 @@ msgid "_Other filters:"
 msgstr "_otros filtros:"
 
 #: ../data/ui/preferences.ui.h:1
-msgid "Appearance"
-msgstr "Apariencia"
+msgid "below the folder list"
+msgstr "bajo la lista de carpetas"
 
 #: ../data/ui/preferences.ui.h:2
-msgid "As_k confirmation before deleting files or catalogs"
-msgstr "Solicitar co_nfirmación antes de borrar archivos o catálogos"
+msgid "on the right"
+msgstr "a la derecha"
 
 #: ../data/ui/preferences.ui.h:3
-msgid "Ask whether to save _modified files"
-msgstr "Preguntar si se deben guardar los archivos _modificados"
+msgid "gThumb Preferences"
+msgstr "Preferencias de gThumb"
 
-#: ../data/ui/preferences.ui.h:4 ../gthumb/dlg-preferences-extensions.c:71
-#: ../gthumb/gth-browser-actions-entries.h:173
-msgid "Browser"
-msgstr "Navegador"
+#: ../data/ui/preferences.ui.h:4
+msgid "_Toolbar style:"
+msgstr "Es_tilo de la barra de herramientas:"
 
 #: ../data/ui/preferences.ui.h:5
-#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: ../extensions/image_print/data/ui/print-layout.ui.h:4
-msgid "Caption"
-msgstr "Descripción"
+msgid "T_humbnails in viewer:"
+msgstr "Miniaturas en el visor:"
 
 #: ../data/ui/preferences.ui.h:6
-msgid "Choose startup folder"
-msgstr "Elija la carpeta de inicio"
+msgid "System settings"
+msgstr "Configuración del sistema"
 
 #: ../data/ui/preferences.ui.h:7
-msgid "D_etermine image type from content (slower)"
-msgstr "De_terminar el tipo de imagen por su contenido (lento)"
+msgid "Text below icons"
+msgstr "Texto debajo de los iconos"
 
 #: ../data/ui/preferences.ui.h:8
+msgid "Text beside icons"
+msgstr "Texto junto a los iconos"
+
+#: ../data/ui/preferences.ui.h:9
+msgid "Icons only"
+msgstr "Sólo iconos"
+
+#: ../data/ui/preferences.ui.h:10
+msgid "Text only"
+msgstr "Sólo texto"
+
+#: ../data/ui/preferences.ui.h:11
+msgid "on the bottom"
+msgstr "abajo"
+
+#: ../data/ui/preferences.ui.h:12
+#| msgid "on the right"
+msgid "on the side"
+msgstr "en el lateral"
+
+#: ../data/ui/preferences.ui.h:13
 msgid "File _properties in browser:"
 msgstr "_Propiedades del archivo en el examinador:"
 
-#: ../data/ui/preferences.ui.h:9
+#: ../data/ui/preferences.ui.h:14
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: ../data/ui/preferences.ui.h:15
+msgid "Go to last _visited location"
+msgstr "Ir a la última _ubicación visitada"
+
+#: ../data/ui/preferences.ui.h:16
+msgid "Go to this _folder:"
+msgstr "Ir a esta _carpeta:"
+
+#: ../data/ui/preferences.ui.h:17
+msgid "Choose startup folder"
+msgstr "Elija la carpeta de inicio"
+
+#: ../data/ui/preferences.ui.h:18
+msgid "Set to C_urrent"
+msgstr "Establecer al act_ual"
+
+#: ../data/ui/preferences.ui.h:19
+msgid "_Reuse the active window to open files"
+msgstr "_Reutilizar la ventana activa para abrir archivos"
+
+#: ../data/ui/preferences.ui.h:20
+msgid "On startup:"
+msgstr "Al iniciar:"
+
+#: ../data/ui/preferences.ui.h:21
+msgid "As_k confirmation before deleting files or catalogs"
+msgstr "Solicitar co_nfirmación antes de borrar archivos o catálogos"
+
+#: ../data/ui/preferences.ui.h:22
+msgid "Ask whether to save _modified files"
+msgstr "Preguntar si se deben guardar los archivos _modificados"
+
+#: ../data/ui/preferences.ui.h:23
+msgid "_Store metadata inside files if possible"
+msgstr "Guardas los _metadatos dentro de los archivos si es posible"
+
+#: ../data/ui/preferences.ui.h:24
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: ../extensions/gstreamer_tools/main.c:33
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:17
+msgid "Other"
+msgstr "Otro"
+
+#: ../data/ui/preferences.ui.h:25
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
-#: ../extensions/edit_metadata/gth-edit-general-page.c:404
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/edit_metadata/gth-edit-general-page.c:473
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "General"
 
-#: ../data/ui/preferences.ui.h:10
-msgid "Go to last _visited location"
-msgstr "Ir a la última _ubicación visitada"
+#: ../data/ui/preferences.ui.h:26
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+msgid "Caption"
+msgstr "Descripción"
 
-#: ../data/ui/preferences.ui.h:11
-msgid "Go to this _folder:"
-msgstr "Ir a esta _carpeta:"
-
-#: ../data/ui/preferences.ui.h:12
-msgid "On startup:"
-msgstr "Al iniciar:"
-
-#: ../data/ui/preferences.ui.h:13
-#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
-#: ../extensions/gstreamer_tools/main.c:33
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-msgid "Other"
-msgstr "Otro"
-
-#: ../data/ui/preferences.ui.h:14
-msgid "Set to C_urrent"
-msgstr "Establecer al act_ual"
-
-#: ../data/ui/preferences.ui.h:15
-msgid "T_humbnails in viewer:"
-msgstr "Miniaturas en el visor:"
-
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:27
 msgid "Thumbnail _size:"
 msgstr "Tamaño de las miniat_uras:"
 
-#: ../data/ui/preferences.ui.h:17
-msgid "_Reuse the active window to open files"
-msgstr "_Reutilizar la ventana activa para abrir archivos"
+#: ../data/ui/preferences.ui.h:28
+msgid "48"
+msgstr "48"
 
-#: ../data/ui/preferences.ui.h:18
-msgid "_Store metadata inside files if possible"
-msgstr "Guardas los _metadatos dentro de los archivos si es posible"
+#: ../data/ui/preferences.ui.h:29
+msgid "64"
+msgstr "64"
 
-#: ../data/ui/preferences.ui.h:19
-msgid "_Toolbar style:"
-msgstr "Es_tilo de la barra de herramientas:"
+#: ../data/ui/preferences.ui.h:30
+msgid "85"
+msgstr "85"
 
-#: ../data/ui/preferences.ui.h:20
-msgid "below the folder list"
-msgstr "bajo la lista de carpetas"
+#: ../data/ui/preferences.ui.h:31
+msgid "95"
+msgstr "95"
 
-#: ../data/ui/preferences.ui.h:21
-msgid "gThumb Preferences"
-msgstr "Preferencias de gThumb"
+#: ../data/ui/preferences.ui.h:32
+msgid "112"
+msgstr "112"
 
-#: ../data/ui/preferences.ui.h:22
-msgid "on the right"
-msgstr "a la derecha"
+#: ../data/ui/preferences.ui.h:33
+msgid "128"
+msgstr "128"
+
+#: ../data/ui/preferences.ui.h:34
+msgid "164"
+msgstr "164"
+
+#: ../data/ui/preferences.ui.h:35
+msgid "200"
+msgstr "200"
+
+#: ../data/ui/preferences.ui.h:36
+msgid "256"
+msgstr "256"
+
+#: ../data/ui/preferences.ui.h:37
+msgid "D_etermine image type from content (slower)"
+msgstr "De_terminar el tipo de imagen por su contenido (lento)"
+
+#: ../data/ui/preferences.ui.h:38 ../gthumb/dlg-preferences-extensions.c:71
+#: ../gthumb/gth-browser-actions-entries.h:173
+msgid "Browser"
+msgstr "Navegador"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
 msgstr "Ordenar por"
 
 #: ../data/ui/sort-order.ui.h:2
-msgid "_Inverse order"
-msgstr "Orden in_verso"
-
-#: ../data/ui/sort-order.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:4
 msgid "_Sort by:"
 msgstr "Or_denar por:"
+
+#: ../data/ui/sort-order.ui.h:3
+msgid "_Inverse order"
+msgstr "Orden in_verso"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:1
 msgid "23"
@@ -421,13 +486,13 @@ msgid "Upload photos to 23"
 msgstr "Subir fotos a 23"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-msgid "Add bookmarks support."
-msgstr "_Añadir soporte para marcadores."
-
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "Bookmarks"
 msgstr "Marcadores"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
+msgid "Add bookmarks support."
+msgstr "_Añadir soporte para marcadores."
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
@@ -488,12 +553,12 @@ msgid "_Bookmarks:"
 msgstr "_Marcadores:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-msgid "_Location"
-msgstr "_Ubicación"
-
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "_Nombre"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+msgid "_Location"
+msgstr "_Ubicación"
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:70
 msgid "Could not remove the bookmark"
@@ -528,12 +593,12 @@ msgid "Current folder and its s_ub-folders"
 msgstr "La carpeta actual y sus s_ubcarpetas"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
-msgid "Source"
-msgstr "Origen"
-
-#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
 msgid "_Selected files"
 msgstr "Archivos _seleccionados"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
+msgid "Source"
+msgstr "Origen"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
@@ -572,6 +637,7 @@ msgstr "Nombre no válido. Los siguientes caracteres no están permitidos: %s"
 #: ../extensions/catalogs/actions.c:155 ../extensions/catalogs/actions.c:267
 #: ../extensions/catalogs/dlg-add-to-catalog.c:338
 #: ../extensions/catalogs/dlg-add-to-catalog.c:448
+#: ../extensions/catalogs/gth-file-source-catalogs.c:503
 #: ../extensions/file_manager/actions.c:103
 msgid "Name already used"
 msgstr "El nombre  ya está en uso"
@@ -670,19 +736,19 @@ msgstr "Línea de comandos"
 #: ../extensions/catalogs/callbacks.c:502
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:859
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
 msgid "(Empty)"
 msgstr "(Vacío)"
 
-#: ../extensions/catalogs/callbacks.c:695
+#: ../extensions/catalogs/callbacks.c:697
 msgid "Catalog Properties"
 msgstr "Propiedades del catálogo"
 
-#: ../extensions/catalogs/callbacks.c:709
+#: ../extensions/catalogs/callbacks.c:711
 msgid "Organize"
 msgstr "Organizar"
 
-#: ../extensions/catalogs/callbacks.c:710
+#: ../extensions/catalogs/callbacks.c:712
 msgid "Automatically organize files by date"
 msgstr "Organizar los archivos automáticamente por fecha"
 
@@ -707,12 +773,12 @@ msgid "C_atalogs:"
 msgstr "C_atálogos:"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
-msgid "New _Library"
-msgstr "_Biblioteca nueva"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "Catálogo _nuevo"
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+msgid "New _Library"
+msgstr "_Biblioteca nueva"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 #: ../extensions/file_manager/actions.c:929
@@ -721,56 +787,56 @@ msgid "_View the destination"
 msgstr "_Ver el destino"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-msgid "Catalog"
-msgstr "Catálogo"
-
-#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../gthumb/gth-file-properties.c:212
 msgid "Properties"
 msgstr "Propiedades"
 
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+msgid "_Name:"
+msgstr "_Nombre:"
+
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:4
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
 msgid "_Date:"
 msgstr "_Fecha:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
-#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
-msgid "_Name:"
-msgstr "_Nombre:"
+msgid "Catalog"
+msgstr "Catálogo"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
-msgid "Catalog _Preview:"
-msgstr "_Vista previa del catálogo:"
-
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
-msgid "Organization:"
-msgstr "Organización:"
-
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
 msgid "Organize Files"
 msgstr "Organizar archivos"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organizing files"
 msgstr "Organizando archivos"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
+msgid "Organization:"
+msgstr "Organización:"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
 msgid "Select None"
 msgstr "No seleccionar nada"
 
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+msgid "Catalog _Preview:"
+msgstr "_Vista previa del catálogo:"
+
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-general-page.c:480
+#: ../extensions/edit_metadata/gth-edit-general-page.c:549
 #: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "Fecha en que se tomó la foto"
@@ -781,40 +847,40 @@ msgid "File modified date"
 msgstr "Fecha de modificación del archivo"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
-msgid "Ignore catalogs with a single file"
-msgstr "Ignorar catálogos con un único archivo"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-msgid "Put single files in the catalog:"
-msgstr "Poner archivos sueltos en el catálogo:"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
-msgid "Singles"
-msgstr "Simples"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 #: ../extensions/comments/main.c:280
 msgid "Tag"
 msgstr "Etiqueta"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+msgid "tag"
+msgstr "etiqueta"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 #: ../gthumb/gth-main-default-tests.c:284
 msgid "Tag (embedded)"
 msgstr "Etiqueta (empotrada)"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 msgid "_Group files by:"
 msgstr "Ag_rupar archivos por:"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
-#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:2
 msgid "_Include sub-folders"
 msgstr "_Incluir sub-carpetas"
 
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+msgid "Ignore catalogs with a single file"
+msgstr "Ignorar catálogos con un único archivo"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
+msgid "Put single files in the catalog:"
+msgstr "Poner archivos sueltos en el catálogo:"
+
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:11
-msgid "tag"
-msgstr "etiqueta"
+msgid "Singles"
+msgstr "Simples"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:105
 #: ../extensions/catalogs/dlg-add-to-catalog.c:136
@@ -830,7 +896,7 @@ msgstr "No se pudo crear el catálogo"
 msgid "Could not save the catalog"
 msgstr "No se pudo guardar el catálogo"
 
-#: ../extensions/catalogs/dlg-catalog-properties.c:166
+#: ../extensions/catalogs/dlg-catalog-properties.c:159
 msgid "Could not load the catalog"
 msgstr "No se pudo cargar el catálogo"
 
@@ -846,46 +912,46 @@ msgstr ""
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:848
+#: ../extensions/catalogs/gth-file-source-catalogs.c:948
 #, c-format
 msgid "The catalog '%s' already exists, do you want to overwrite it?"
 msgstr "El catálogo «%s» ya existe. ¿Quiere sobreescribirlo?"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:850
+#: ../extensions/catalogs/gth-file-source-catalogs.c:950
 #, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
 msgstr "La biblioteca «%s» ya existe. ¿Quiere sobreescribirla?"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:858
+#: ../extensions/catalogs/gth-file-source-catalogs.c:958
 msgid "Over_write"
 msgstr "Sobr_eescribir"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:976
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1076
 msgid "Cannot move the files"
 msgstr "No se pueden mover los archivos"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:978
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1078
 msgid "Cannot copy the files"
 msgstr "No se pueden mover los archivos"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:983
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1083
 msgid "Invalid destination."
 msgstr "Destino no válido."
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:1030
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1130
 #, c-format
 msgid "Copying files to '%s'"
 msgstr "Copiando archivos a «%s»"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:1283
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1383
 msgid "Could not remove the files from the catalog"
 msgstr "No se pudieron quitar los archivos del catálogo"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:1341
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:674
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1215
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1441
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:682
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:691
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:720
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1225
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
@@ -912,77 +978,77 @@ msgid "Change the files date"
 msgstr "Cambiar la fecha de los archivos"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-msgid "+"
-msgstr "+"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:2
-msgid "-"
-msgstr "-"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:3
-msgid "A_djust by"
-msgstr "Aju_star por"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change Date"
 msgstr "Cambiar fecha"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#: ../extensions/change_date/data/ui/change-date.ui.h:2
 msgid "Change the following values:"
 msgstr "Cambiar los siguientes siguientes:"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:3
+msgid "_Last modified date"
+msgstr "_Última fecha de modificación"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:4
+msgid "Co_mment date"
+msgstr "Fecha del co_mentario"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
+msgid "Exif DateTimeOriginal tag"
+msgstr "Etiqueta EXIF de fecha y hora originales"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:6
 msgid "Change to:"
 msgstr "Cambiar a:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:7
-msgid "Co_mment date"
-msgstr "Fecha del co_mentario"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:8
-msgid "Date p_hoto was taken"
-msgstr "Fecha en que se _tomó la foto"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:9
-msgid "Exif DateTimeOriginal tag"
-msgstr "Etiqueta EXIF de fecha y hora originales"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:10
-msgid "File _modified date"
-msgstr "Fecha de _modificación del archivo"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:11
-msgid "File c_reation date"
-msgstr "Fecha de c_reación del archivo"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "The _following date:"
 msgstr "La s_iguiente fecha:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:13
-msgid "_Last modified date"
-msgstr "_Última fecha de modificación"
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
+msgid "File _modified date"
+msgstr "Fecha de _modificación del archivo"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:14
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
+msgid "File c_reation date"
+msgstr "Fecha de c_reación del archivo"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
+msgid "Date p_hoto was taken"
+msgstr "Fecha en que se _tomó la foto"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
+msgid "A_djust by"
+msgstr "Aju_star por"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "hours"
 msgstr "horas"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:15
+#: ../extensions/change_date/data/ui/change-date.ui.h:13
 msgid "minutes"
 msgstr "minutos"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:16
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+#: ../extensions/change_date/data/ui/change-date.ui.h:14
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
 msgid "seconds"
 msgstr "segundos"
 
-#: ../extensions/comments/comments.extension.in.in.h:1
-msgid "Add comments and tags to any file type."
-msgstr "Añadir comentarios y etiquetas a cualquier tipo de archivo."
+#: ../extensions/change_date/data/ui/change-date.ui.h:15
+msgid "+"
+msgstr "+"
 
-#: ../extensions/comments/comments.extension.in.in.h:2
+#: ../extensions/change_date/data/ui/change-date.ui.h:16
+msgid "-"
+msgstr "-"
+
+#: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
 msgstr "Comentarios y etiquetas"
+
+#: ../extensions/comments/comments.extension.in.in.h:2
+msgid "Add comments and tags to any file type."
+msgstr "Añadir comentarios y etiquetas a cualquier tipo de archivo."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
@@ -1003,13 +1069,13 @@ msgid "Title"
 msgstr "Título"
 
 #: ../extensions/comments/main.c:40 ../extensions/comments/main.c:264
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
-#: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:16
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "Descripción"
@@ -1048,7 +1114,7 @@ msgid "Create an image-wall"
 msgstr "Crear un mural de fotos"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
 msgid "Contact Sheet"
 msgstr "Hoja de contacto"
 
@@ -1059,258 +1125,259 @@ msgstr ""
 "seleccionados."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-msgid "Background"
-msgstr "Fondo"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
-msgid "C_olor:"
-msgstr "C_olor:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
-msgid "Caption:"
-msgstr "Descripción:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
-msgid "Frame"
-msgstr "Marco"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
-msgid "Inward Shadow"
-msgstr "Sombra hacia adentro"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
 #: ../extensions/file_tools/gth-file-tool-crop.c:424
 #: ../extensions/file_tools/gth-file-tool-crop.c:454
 #: ../extensions/file_tools/gth-file-tool-resize.c:498
 #: ../extensions/file_tools/gth-file-tool-rotate.c:415
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:14
 #: ../extensions/slideshow/main.c:277
 msgid "None"
 msgstr "Ninguna"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
+msgid "Simple"
+msgstr "Simple"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+msgid "Simple with shadow"
+msgstr "Simple con sombra"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
+msgid "Shadow only"
+msgstr "Sólo sombra"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
+msgid "Slide"
+msgstr "Diapositiva"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+msgid "Inward Shadow"
+msgstr "Sombra hacia adentro"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 msgid "Outward Shadow"
 msgstr "Sombra hacia afuera"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
+msgid "Background"
+msgstr "Fondo"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+msgid "_Solid color"
+msgstr "Color _sólido"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
+msgid "_Gradient"
+msgstr "_Gradiente"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
+msgid "_Horizontal:"
+msgstr "_Horizontal:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
+msgid "_Vertical:"
+msgstr "_Vertical:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
 msgid "Select a color"
 msgstr "Seleccionar un color"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
-msgid "Select a font"
-msgstr "Seleccionar una tipografía"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+msgid "Frame"
+msgstr "Marco"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
-msgid "Shadow only"
-msgstr "Sólo sombra"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
+msgid "_Style:"
+msgstr "E_stilo:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
-msgid "Simple"
-msgstr "Simple"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+msgid "C_olor:"
+msgstr "C_olor:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
-msgid "Simple with shadow"
-msgstr "Simple con sombra"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
-msgid "Slide"
-msgstr "Diapositiva"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/rename_series/dlg-rename-series.c:57
 msgid "Text"
 msgstr "Texto"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
-#: ../extensions/image_print/data/ui/print-layout.ui.h:26
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-msgid "_Footer:"
-msgstr "_Pie:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
-msgid "_Gradient"
-msgstr "_Gradiente"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
-#: ../extensions/image_print/data/ui/print-layout.ui.h:27
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#: ../extensions/image_print/data/ui/print-layout.ui.h:3
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "_Header:"
 msgstr "Cab_ecera:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
-msgid "_Horizontal:"
-msgstr "_Horizontal:"
-
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
-msgid "_Solid color"
-msgstr "Color _sólido"
+msgid "Select a font"
+msgstr "Seleccionar una tipografía"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
-msgid "_Style:"
-msgstr "E_stilo:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
+#: ../extensions/image_print/data/ui/print-layout.ui.h:4
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+msgid "_Footer:"
+msgstr "_Pie:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
-msgid "_Vertical:"
-msgstr "_Vertical:"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+msgid "Caption:"
+msgstr "Descripción:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
+#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
+msgid "The current page number"
+msgstr "El número de la página actual"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
+#: ../extensions/image_print/data/ui/print-layout.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+msgid "The total number of pages"
+msgstr "El número total de páginas"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
+msgid "Special code"
+msgstr "Código especial"
 
 #. translate only the text in the curly brackets
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
-#: ../extensions/image_print/data/ui/print-layout.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
+#: ../extensions/image_print/data/ui/print-layout.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ formato }"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
-msgid "All images on a single page"
-msgstr "Todas las imágenes en una sola página"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:6
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:10
-msgid "Choose destination folder"
-msgstr "seleccionar la carpeta de destino"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
-#: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
-msgid "Columns:"
-msgstr "Columnas:"
-
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
-msgid "Create _HTML image map"
-msgstr "Crear un mapa de imagen para un _HTML"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
-msgid "Create a new theme"
-msgstr "Crear un tema nuevo"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
-msgid "Delete the selected theme"
-msgstr "Eliminar el tema seleccionado"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
-msgid "Edit the selected theme"
-msgstr "Editar el tema seleccionado"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
-msgid "File_name:"
-msgstr "_Nombre del archivo:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
-msgid "Images per page:"
-msgstr "Imágenes por página:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_print/data/ui/print-layout.ui.h:11
-msgid "Layout"
-msgstr "Distribución"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
-msgid "New enumerator digit"
-msgstr "Nuevo dígito enumerador"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
-msgid "Re_verse order"
-msgstr "Orden in_verso"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
-msgid "S_ort:"
-msgstr "_Orden:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
-msgid "Saving"
-msgstr "Guardando"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/image_print/data/ui/print-layout.ui.h:17
-#: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:20
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
-msgid "Special code"
-msgstr "Código especial"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
-msgid "Sq_uared"
-msgstr "C_uadrado"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/image_print/data/ui/print-layout.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 msgid "The current date"
 msgstr "La fecha actual"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
-#: ../extensions/image_print/data/ui/print-layout.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
-msgid "The current page number"
-msgstr "El número de la página actual"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
-#: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-msgid "The total number of pages"
-msgstr "El número total de páginas"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
-msgid "Theme"
-msgstr "Tema"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
-msgid "Thumbnails"
-msgstr "Miniaturas"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
-msgid "_All pages with the same size"
-msgstr "Tod_as las páginas con el mismo tamaño"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "_Destination:"
 msgstr "_Destino:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:4
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+msgid "Choose destination folder"
+msgstr "seleccionar la carpeta de destino"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+msgid "File_name:"
+msgstr "_Nombre del archivo:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
+msgid "New enumerator digit"
+msgstr "Nuevo dígito enumerador"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+msgid "Create _HTML image map"
+msgstr "Crear un mapa de imagen para un _HTML"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/pixbuf_savers/preferences.c:134
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+msgid "Saving"
+msgstr "Guardando"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+msgid "Create a new theme"
+msgstr "Crear un tema nuevo"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+msgid "Edit the selected theme"
+msgstr "Editar el tema seleccionado"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+msgid "Delete the selected theme"
+msgstr "Eliminar el tema seleccionado"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+msgid "Theme"
+msgstr "Tema"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+msgid "Columns:"
+msgstr "Columnas:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+msgid "Images per page:"
+msgstr "Imágenes por página:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+msgid "All images on a single page"
+msgstr "Todas las imágenes en una sola página"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+msgid "_All pages with the same size"
+msgstr "Tod_as las páginas con el mismo tamaño"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
+#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+msgid "Layout"
+msgstr "Distribución"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+msgid "S_ort:"
+msgstr "_Orden:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+msgid "Re_verse order"
+msgstr "Orden in_verso"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 msgid "_Size:"
 msgstr "_Tamaño:"
 
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+msgid "Sq_uared"
+msgstr "C_uadrado"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+msgid "Thumbnails"
+msgstr "Miniaturas"
+
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
 msgid "Image Wall"
 msgstr "Mural de fotos"
 
@@ -1368,21 +1435,21 @@ msgstr "Convertir formato"
 msgid "Save images in a different format"
 msgstr "Guardar las imágenes en un formato diferente"
 
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:2
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 msgid "Convert Format"
 msgstr "Convertir formato"
 
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:3
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
-msgid "Destination"
-msgstr "Destino"
-
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:4
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:2
 msgid "New format"
 msgstr "Formato nuevo"
 
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:3
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+msgid "Destination"
+msgstr "Destino"
+
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "_Use the original image folder"
 msgstr "_Usar la carpeta de imágenes original"
 
@@ -1433,7 +1500,6 @@ msgid "Edit the comment and other information of the selected files"
 msgstr "Editar el comentario y otra información de los archivos seleccionados"
 
 #: ../extensions/edit_metadata/callbacks.c:107
-#| msgid "Delete the selected files"
 msgid "Set the tags of the selected files"
 msgstr "Establecer las etiquetas de los archivos seleccionados"
 
@@ -1448,19 +1514,19 @@ msgstr ""
 "seleccionados"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
 msgid "D_escription:"
 msgstr "D_escripción:"
 
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
+msgid "_Place:"
+msgstr "_Lugar:"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
 #: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "E_tiquetas:"
-
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
-msgid "_Place:"
-msgstr "_Lugar:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
 msgid "_Rating:"
@@ -1480,12 +1546,12 @@ msgid "Cannot read file information"
 msgstr "No se puede leer la información del archivo"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
-msgid "Allow to edit files metadata."
-msgstr "Permitir la edición de los metadatos de los archivos."
-
-#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Edit metadata"
 msgstr "Editar metadatos"
+
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
+msgid "Allow to edit files metadata."
+msgstr "Permitir la edición de los metadatos de los archivos."
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
@@ -1494,7 +1560,7 @@ msgid "%s Metadata"
 msgstr "Metadatos de %s"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:97
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
@@ -1503,8 +1569,7 @@ msgstr[0] "%d archivo"
 msgstr[1] "%d archivos"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:263
-#| msgid "Da_te and Time"
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:192
 msgid "Sa_ve and Close"
 msgstr "_Guardar y cerrar"
 
@@ -1512,39 +1577,38 @@ msgstr "_Guardar y cerrar"
 msgid "Save only cha_nged fields"
 msgstr "Guardar sólo ca_mpos alterados"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:477
+#: ../extensions/edit_metadata/gth-edit-general-page.c:546
 msgid "No date"
 msgstr "Sin fecha"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:478
+#: ../extensions/edit_metadata/gth-edit-general-page.c:547
 msgid "The following date"
 msgstr "La siguiente fecha"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:479
+#: ../extensions/edit_metadata/gth-edit-general-page.c:548
 #: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
 msgstr "Fecha actual"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:481
+#: ../extensions/edit_metadata/gth-edit-general-page.c:550
 msgid "Last modified date"
 msgstr "Última fecha de modificación"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:482
+#: ../extensions/edit_metadata/gth-edit-general-page.c:551
 msgid "File creation date"
 msgstr "Fecha de creación del archivo"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:483
+#: ../extensions/edit_metadata/gth-edit-general-page.c:552
 msgid "Do not modify"
 msgstr "No modificar"
 
 #. Translators: the %s symbol in the string is a file name
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:94
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
 #, c-format
-#| msgid "Tags"
 msgid "%s Tags"
 msgstr "%s etiquetas"
 
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:255
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:184
 msgid "Assign Tags"
 msgstr "Asignar etiquetas"
 
@@ -1570,53 +1634,53 @@ msgid "Extension example."
 msgstr "Extensión de ejemplo."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
-msgid "Byline _Title:"
-msgstr "_Título por línea:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
 msgstr "_Derecho:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "Co_untry:"
 msgstr "_País:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
+msgid "_Code:"
+msgstr "_Codi_go:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
 msgid "Cr_edit:"
 msgstr "Crédi_tos:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-msgid "State/Province:"
-msgstr "Estado/Provincia:"
-
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
-msgid "_Byline:"
-msgstr "_Firmante:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
-msgid "_City:"
-msgstr "_Ciudad:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
-msgid "_Code:"
-msgstr "_Codi_go:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
-msgid "_Language:"
-msgstr "_Idioma:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-msgid "_Object Name:"
-msgstr "N_ombre del objeto:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
 msgid "_Source:"
 msgstr "_Origen:"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_Urgency:"
 msgstr "_Urgencia:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+msgid "_Object Name:"
+msgstr "N_ombre del objeto:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+msgid "Byline _Title:"
+msgstr "_Título por línea:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+msgid "_Byline:"
+msgstr "_Firmante:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+msgid "_City:"
+msgstr "_Ciudad:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+msgid "_Language:"
+msgstr "_Idioma:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
+msgid "State/Province:"
+msgstr "Estado/Provincia:"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
@@ -1670,7 +1734,7 @@ msgstr "XMP empotrado"
 msgid "XMP Attached"
 msgstr "XMP adjunto"
 
-#: ../extensions/exiv2_tools/main.c:255
+#: ../extensions/exiv2_tools/main.c:256
 msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
@@ -1687,76 +1751,76 @@ msgid "Upload photos to Facebook"
 msgstr "Subir fotos a Facebook"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-msgid "1024 x 1024"
-msgstr "1024 x 1024"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
-msgid "1280 x 1280"
-msgstr "1280 x 1280"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
-msgid "1600 x 1600"
-msgstr "1600 x 1600"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
-msgid "2048 x 2048"
-msgstr "2048 x 2048"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
-msgid "720 x 720"
-msgstr "720 x 720"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
-msgid "A_lbum:"
-msgstr "Á_lbum:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
-msgid "Add a new album"
-msgstr "Añadir un álbum nuevo"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "Edit accounts"
-msgstr "Editar cuentas"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
 msgid "Export to Flickr"
 msgstr "Exportar a Flickr"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
-msgid "Resize the images if larger than this size"
-msgstr "Redimensionar las imágenes si son más grandes que este tamaño"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-msgid "_Account:"
-msgstr "C_uenta:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
-msgid "_Resize to:"
-msgstr "_Redimensionar a:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "_Upload"
 msgstr "Su_bir"
 
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+msgid "_Account:"
+msgstr "C_uenta:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
+msgid "Edit accounts"
+msgstr "Editar cuentas"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
+msgid "A_lbum:"
+msgstr "Á_lbum:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+msgid "Add a new album"
+msgstr "Añadir un álbum nuevo"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
+msgid "Resize the images if larger than this size"
+msgstr "Redimensionar las imágenes si son más grandes que este tamaño"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+msgid "_Resize to:"
+msgstr "_Redimensionar a:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
+msgid "720 x 720"
+msgstr "720 x 720"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
+msgid "1600 x 1600"
+msgstr "1600 x 1600"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
+msgid "2048 x 2048"
+msgstr "2048 x 2048"
+
 #: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-account-chooser.ui.h:1
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
 #: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 #: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
 msgid "A_ccount:"
 msgstr "C_uenta:"
@@ -1768,29 +1832,29 @@ msgstr "C_uenta:"
 msgid "A_ccounts:"
 msgstr "Cue_ntas:"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
-msgid "Private"
-msgstr "Privado"
-
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
-msgid "Private photos, visible to friends"
-msgstr "Fotos privadas, visibles para los amigos"
-
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
 msgid "Public photos"
 msgstr "Fotos públicas"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-msgid "_Location:"
-msgstr "_Lugar:"
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
+msgid "Private photos, visible to friends"
+msgstr "Fotos privadas, visibles para los amigos"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
+msgid "Private"
+msgstr "Privado"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
 msgid "_Visibility:"
 msgstr "_Visibilidad:"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
+msgid "_Location:"
+msgstr "_Lugar:"
 
 #: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-ask-authorization.ui.h:1
@@ -1799,17 +1863,17 @@ msgid "_Authorize..."
 msgstr "Autorizar…"
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-complete-authorization.ui.h:1
-#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
-msgid "C_ontinue"
-msgstr "Continuar"
-
-#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
 #: ../extensions/facebook/facebook-authentication.c:472
 #: ../extensions/flicker_utils/flickr-authentication.c:408
 #: ../extensions/oauth/oauth-authentication.c:423
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Cuando haya terminado, pulse el botón «Continuar»."
+
+#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
+#: ../extensions/flicker_utils/data/ui/flicker-complete-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "Continuar"
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:1
@@ -2059,13 +2123,13 @@ msgstr "Introduzca el nombre de la carpeta:"
 
 #: ../extensions/file_manager/actions.c:397
 #: ../extensions/file_manager/callbacks.c:380
-#: ../extensions/file_manager/callbacks.c:847
+#: ../extensions/file_manager/callbacks.c:842
 msgid "Could not move the files"
 msgstr "No se pudieron mover los archivos"
 
 #: ../extensions/file_manager/actions.c:398
 #: ../extensions/file_manager/callbacks.c:381
-#: ../extensions/file_manager/callbacks.c:848
+#: ../extensions/file_manager/callbacks.c:843
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -2101,13 +2165,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "No se pudo mover la carpeta a la papelera"
 
 #: ../extensions/file_manager/actions.c:808
-#: ../gthumb/gth-file-source-vfs.c:837
+#: ../gthumb/gth-file-source-vfs.c:841
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
 #: ../extensions/file_manager/actions.c:818
-#: ../gthumb/gth-file-source-vfs.c:850
+#: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
@@ -2147,7 +2211,7 @@ msgstr "Duplicar los archivos seleccionados"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
-#: ../gthumb/gth-file-source-vfs.c:809
+#: ../gthumb/gth-file-source-vfs.c:813
 msgid "Mo_ve to Trash"
 msgstr "Mo_ver a la papelera"
 
@@ -2167,7 +2231,7 @@ msgstr "Eliminar los archivos seleccionados"
 
 #: ../extensions/file_manager/callbacks.c:191
 #: ../extensions/file_manager/callbacks.c:203
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:2
 msgid "_Rename"
 msgstr "_Renombrar"
 
@@ -2209,9 +2273,9 @@ msgstr "Copiar los archivos seleccionados a otra carpeta"
 msgid "Move the selected files to another folder"
 msgstr "Mover los archivos seleccionados a otra carpeta"
 
-#: ../extensions/file_manager/callbacks.c:1008
+#: ../extensions/file_manager/callbacks.c:1003
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4997 ../gthumb/gth-browser.c:5031
+#: ../gthumb/gth-browser.c:4925 ../gthumb/gth-browser.c:4959
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
 
@@ -2228,167 +2292,191 @@ msgid "Deleting files"
 msgstr "Eliminando archivos"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-msgid "B_rightness:"
-msgstr "_Brillo:"
+msgid "_Preview"
+msgstr "_Vista previa"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
-msgid "Color Levels"
-msgstr "Niveles de color"
+msgid "B_rightness:"
+msgstr "_Brillo:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:3
 msgid "Con_trast:"
 msgstr "Con_traste:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:4
-msgid "Cyan-_Red:"
-msgstr "Cian-_rojo:"
+msgid "_Saturation:"
+msgstr "_Saturación:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
 msgid "G_amma:"
 msgstr "_Gamma:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:6
+msgid "Cyan-_Red:"
+msgstr "Cian-_rojo:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
 msgid "_Magenta-Green:"
 msgstr "_Magenta-verde:"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
-msgid "_Preview"
-msgstr "_Vista previa"
-
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:8
+msgid "_Yellow-Blue:"
+msgstr "A_marillo-azul:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
+msgid "Color Levels"
+msgstr "Niveles de color"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
 msgid "_Reset"
 msgstr "_Reiniciar"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
-msgid "_Saturation:"
-msgstr "_Saturación:"
-
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
-msgid "_Yellow-Blue:"
-msgstr "A_marillo-azul:"
-
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
-msgid "Aspect ratio"
-msgstr "Proporción de aspecto"
+msgid "_Position:"
+msgstr "_Posición:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
-msgid "C_rop"
-msgstr "Recor_tar"
+#. this is used to separate the dimensions, for example: 120 × 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+msgid "×"
+msgstr "×"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+msgid "_Grid:"
+msgstr "_Rejilla:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+msgid "Maximize"
+msgstr "Maximizar"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Center"
 msgstr "Centrar"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "Selection"
+msgstr "Selección"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
 msgid "I_nvert aspect ratio"
 msgstr "I_nvertir la proporción de la imagen"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
 msgid "M_ultiple of:"
 msgstr "_Múltiple de:"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-msgid "Maximize"
-msgstr "Maximizar"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
-msgid "Selection"
-msgstr "Selección"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
-msgid "_Grid:"
-msgstr "_Rejilla:"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
-msgid "_Position:"
-msgstr "_Posición:"
 
 #. abbreviation of pixel
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:13
 msgid "px"
 msgstr "px"
 
-#. this is used to separate the dimensions, for example: 120 × 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+msgid "Aspect ratio"
+msgstr "Proporción de aspecto"
+
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:15
-msgid "×"
-msgstr "×"
+msgid "C_rop"
+msgstr "Recor_tar"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
+msgid "_Width:"
+msgstr "A_ncho:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
+msgid "Heigh_t:"
+msgstr "Al_tura:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
+msgid "Set the image size to this value"
+msgstr "Establecer el tamaño de la imagen a este valor"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:4
 #: ../gthumb/gth-main-default-metadata.c:47
 msgid "Dimensions"
 msgstr "Dimensiones"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
-msgid "Heigh_t:"
-msgstr "Al_tura:"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "High _quality"
 msgstr "Alta _calidad"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
-msgid "New dimensions:"
-msgstr "Dimensiones nuevas:"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:11
 msgid "Options"
 msgstr "Opciones"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 msgid "Original dimensions:"
 msgstr "Dimensiones originales:"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Scale factor:"
 msgstr "Factor de escala:"
 
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "New dimensions:"
+msgstr "Dimensiones nuevas:"
+
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
-msgid "Set the image size to this value"
-msgstr "Establecer el tamaño de la imagen a este valor"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
-msgid "_Width:"
-msgstr "A_ncho:"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
-#: ../extensions/image_print/data/ui/print-layout.ui.h:31
+#: ../extensions/image_print/data/ui/print-layout.ui.h:29
 msgid "pixels"
 msgstr "píxeles"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
 msgid "Align"
 msgstr "Alinear"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
-msgid "Alignment"
-msgstr "Alineación"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
 msgid "Angle"
 msgstr "Angulo"
 
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
+msgid "Point 1:"
+msgstr "Punto 1:"
+
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:4
-msgid "Bounding box"
-msgstr "Cuadro delimitador"
+msgid "Point 2:"
+msgstr "Punto 2:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
-msgid "Crop borders"
-msgstr "Recortar bordes"
+msgid "Keep aspect ratio"
+msgstr "Mantener proporción de aspecto"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
+msgid "Image size"
+msgstr "Tamaño de la imagen"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:7
+msgid "Grid:"
+msgstr "Cuadrícula:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
+msgid "Pick a background color"
+msgstr "Escoger un color de fondo"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
+msgid "_Transparent"
+msgstr "_Transparente"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
+msgid "_Background:"
+msgstr "_Fondo:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
+msgid "Reset"
+msgstr "Restablecer"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
@@ -2396,88 +2484,64 @@ msgstr ""
 "Dibujar una línea en la imagen \n"
 "para establecer la alineación."
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
-msgid "Grid:"
-msgstr "Cuadrícula:"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
-msgid "Image size"
-msgstr "Tamaño de la imagen"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
-msgid "Keep aspect ratio"
-msgstr "Mantener proporción de aspecto"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
-msgid "Original size"
-msgstr "Tamaño original"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
 msgid "Parallel"
 msgstr "Paralelo"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:14
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
 msgid "Perpendicular"
 msgstr "Perpendicular"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
-msgid "Pick a background color"
-msgstr "Escoger un color de fondo"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
-msgid "Point 1:"
-msgstr "Punto 1:"
-
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
-msgid "Point 2:"
-msgstr "Punto 2:"
+msgid "Alignment"
+msgstr "Alineación"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
-msgid "Reset"
-msgstr "Restablecer"
+msgid "Original size"
+msgstr "Tamaño original"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
-msgid "_Background:"
-msgstr "_Fondo:"
+msgid "Bounding box"
+msgstr "Cuadro delimitador"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
-msgid "_Transparent"
-msgstr "_Transparente"
+msgid "Crop borders"
+msgstr "Recortar bordes"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-msgid "Amount:"
-msgstr "Cantidad:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
-msgid "Radius:"
-msgstr "Radio:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:3
-msgid "Threshold:"
-msgstr "Umbral:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:4
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
 msgid "_Preview:"
 msgstr "_Vista previa:"
 
-#: ../extensions/file_tools/file_tools.extension.in.in.h:1
-msgid "Basic tools to modify images."
-msgstr "Herramientas básicas para modificar imágenes."
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
+msgid "Threshold:"
+msgstr "Umbral:"
 
-#: ../extensions/file_tools/file_tools.extension.in.in.h:2
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:3
+msgid "Radius:"
+msgstr "Radio:"
+
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:4
+msgid "Amount:"
+msgstr "Cantidad:"
+
+#: ../extensions/file_tools/file_tools.extension.in.in.h:1
 msgid "Image tools"
 msgstr "Herramientas de imagen"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/file_tools.extension.in.in.h:2
+msgid "Basic tools to modify images."
+msgstr "Herramientas básicas para modificar imágenes."
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors..."
 msgstr "Ajustar colores…"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors"
 msgstr "Ajustar colores"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:531
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
@@ -2540,7 +2604,7 @@ msgstr "2.39:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:440
 #: ../extensions/file_tools/gth-file-tool-resize.c:516
-#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:232
 msgid "Custom"
 msgstr "Personalizado"
@@ -2705,25 +2769,25 @@ msgid "_Folders:"
 msgstr "_Carpetas"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
-msgid "Duplicates:"
-msgstr "Duplicados:"
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-msgid "Files:"
-msgstr "Archivos:"
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
-msgid "No duplicates found."
-msgstr "No se encontraron duplicados."
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
 msgid "Search for Duplicates"
 msgstr "Buscar duplicados"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
+msgid "Duplicates:"
+msgstr "Duplicados:"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+msgid "Files:"
+msgstr "Archivos:"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
 #: ../gthumb/gth-browser-actions-entries.h:33
 msgid "_View"
 msgstr "_Ver"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
+msgid "No duplicates found."
+msgstr "No se encontraron duplicados."
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
@@ -2731,12 +2795,12 @@ msgid "Find Duplicates"
 msgstr "Buscar duplicados"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "Iniciar _en:"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
 msgid "_Filter:"
 msgstr "_Filtro:"
 
@@ -2821,56 +2885,56 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "Subir imágenes a Flickr"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Free space:"
 msgstr "Espacio libre:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
-msgid "Hi_de from public searches"
-msgstr "Ocul_tar de las búsquedas públicas"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
-msgid "Moderate content"
-msgstr "Moderar contenido"
-
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:5
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 msgid "Ph_otoset:"
 msgstr "Conjunt_o de fotos:"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:6
-msgid "Private photos"
-msgstr "Fotos privadas"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
-msgid "Private photos, visible to family"
-msgstr "Fotos privadas, visibles para la familia"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
-msgid "Private photos, visible to family and friends"
-msgstr "Fotos privadas, visibles para la familia y los amigos"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
-msgid "Restricted content"
-msgstr "Contenido restringido"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
-msgid "Safe content"
-msgstr "Contenido seguro"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
 msgid "_Privacy:"
 msgstr "_Privacidad:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
+msgid "Hi_de from public searches"
+msgstr "Ocul_tar de las búsquedas públicas"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
 msgid "_Safety:"
 msgstr "_Seguridad:"
 
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to family and friends"
+msgstr "Fotos privadas, visibles para la familia y los amigos"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
+msgid "Private photos, visible to family"
+msgstr "Fotos privadas, visibles para la familia"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
+msgid "Private photos"
+msgstr "Fotos privadas"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
+msgid "Safe content"
+msgstr "Contenido seguro"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+msgid "Moderate content"
+msgstr "Moderar contenido"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
+msgid "Restricted content"
+msgstr "Contenido restringido"
+
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "_Import"
 msgstr "_Importar"
 
@@ -2892,8 +2956,8 @@ msgid "Import from %s"
 msgstr "Importar desde %s"
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1075
-#: ../gthumb/gth-browser.c:2008
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1080
+#: ../gthumb/gth-browser.c:1998
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2902,7 +2966,7 @@ msgid "Could not take a screenshot"
 msgstr "No se pudo hacer la captura de pantalla"
 
 #: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1223
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1248
 msgid "Save Image"
 msgstr "Guardar imagen"
 
@@ -2912,35 +2976,35 @@ msgid "Screenshot"
 msgstr "Captura de pantalla"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-msgid "--:--"
-msgstr "--:--"
+msgid "Slower"
+msgstr "Más lento"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-msgid "Change volume level"
-msgstr "Cambiar el nivel del volumen"
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
+msgid "Play"
+msgstr "Reproducir"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
 msgid "Faster"
 msgstr "Más rápido"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
-msgid "Play"
-msgstr "Reproducir"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
-msgid "Slower"
-msgstr "Más lento"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Time:"
 msgstr "Hora:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
+msgid "--:--"
+msgstr "--:--"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Toggle volume"
 msgstr "Modificar volumen"
 
-#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+msgid "Change volume level"
+msgstr "Cambiar el nivel del volumen"
+
+#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
 #: ../extensions/photo_importer/actions.c:67
 #: ../extensions/photo_importer/dlg-photo-importer.c:620
 msgid "Choose a folder"
@@ -2985,7 +3049,7 @@ msgid "Artist"
 msgstr "Artista"
 
 #: ../extensions/gstreamer_tools/main.c:40
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
 msgstr "Álbum"
 
@@ -3007,13 +3071,13 @@ msgid "Framerate"
 msgstr "Tasa de fotogramas:"
 
 #: ../extensions/gstreamer_tools/main.c:46
-#: ../extensions/image_print/data/ui/print-layout.ui.h:25
+#: ../extensions/image_print/data/ui/print-layout.ui.h:24
 #: ../extensions/image_viewer/gth-image-viewer-page.c:209
 msgid "Width"
 msgstr "Anchura"
 
 #: ../extensions/gstreamer_tools/main.c:47
-#: ../extensions/image_print/data/ui/print-layout.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:25
 msgid "Height"
 msgstr "Altura"
 
@@ -3035,7 +3099,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1278
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:190
 #: ../extensions/webalbums/dlg-web-exporter.c:442
 #: ../extensions/webalbums/gth-web-exporter.c:2446
@@ -3051,74 +3115,74 @@ msgstr "No se pudieron imprimir los archivos seleccionados"
 msgid "Print the selected images"
 msgstr "Imprimir las imágenes seleccionadas"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Centered"
 msgstr "Centrado"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:10
-msgid "Image"
-msgstr "Imagen"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:12
-msgid "Left"
-msgstr "Izquierda"
-
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
-msgid "Position:"
-msgstr "Posición:"
+msgid "The total number of files"
+msgstr "El número total de archivos"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
-msgid "Preview"
-msgstr "Vista previa"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:15
-msgid "Rotation:"
-msgstr "Rotación:"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:20
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The event description"
 msgstr "La descripción del evento"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:21
-msgid "The total number of files"
-msgstr "El número total de archivos"
+#: ../extensions/image_print/data/ui/print-layout.ui.h:17
+msgid "_Rows:"
+msgstr "_Filas:"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+#: ../extensions/image_print/data/ui/print-layout.ui.h:19
+msgid "Image"
+msgstr "Imagen"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:20
+msgid "Position:"
+msgstr "Posición:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:21
+msgid "Left"
+msgstr "Izquierda"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:22
 msgid "Top"
 msgstr "Arriba"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:24
+#: ../extensions/image_print/data/ui/print-layout.ui.h:26
+msgid "Rotation:"
+msgstr "Rotación:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:27
 msgid "Unit:"
 msgstr "Unidad:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:28
-msgid "_Rows:"
-msgstr "_Filas:"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:29
-msgid "inches"
-msgstr "pulgadas"
+msgid "Preview"
+msgstr "Vista previa"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:30
 msgid "millimeters"
 msgstr "milímetros"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
-msgid "Fonts"
-msgstr "Tipografías"
-
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
-msgid "Select Caption Font"
-msgstr "Seleccionar la tipografía del título"
+#: ../extensions/image_print/data/ui/print-layout.ui.h:31
+msgid "inches"
+msgstr "pulgadas"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-msgid "Select Footer Font"
-msgstr "Seleccionar la tipografía del pie"
+msgid "Select Caption Font"
+msgstr "Seleccionar la tipografía del título"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Header Font"
 msgstr "Seleccionar la tipografía de la cabecera"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
+msgid "Select Footer Font"
+msgstr "Seleccionar la tipografía del pie"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
+msgid "Fonts"
+msgstr "Tipografías"
 
 #: ../extensions/image_print/gth-image-print-job.c:971
 #: ../extensions/webalbums/data/albumthemes/text.h:31
@@ -3154,12 +3218,12 @@ msgid "Loading images"
 msgstr "Cargando las imágenes"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
-msgid "Allow to print images choosing the page layout."
-msgstr "Permitir imprimir imágenes seleccionando la orientación de la página."
-
-#: ../extensions/image_print/image_print.extension.in.in.h:2
 msgid "Image print"
 msgstr "Impresión de la imagen"
+
+#: ../extensions/image_print/image_print.extension.in.in.h:2
+msgid "Allow to print images choosing the page layout."
+msgstr "Permitir imprimir imágenes seleccionando la orientación de la página."
 
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
@@ -3243,20 +3307,64 @@ msgid "_Accept distortion"
 msgstr "_Aceptar distorsión"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-msgid "After loading an image:"
-msgstr "Después de cargar una imagen:"
+msgid "Set to actual size"
+msgstr "Establecer al tamaño actual"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+msgid "Keep previous zoom"
+msgstr "Mantener la ampliación anterior"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
+msgid "Fit to window"
+msgstr "Ajustar a la ventana"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+msgid "Fit to window if larger"
+msgstr "Ajustar a la ventana si es mayor"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+msgid "Fit to width"
+msgstr "Ajustar a la anchura"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+msgid "Fit to width if larger"
+msgstr "Ajustar a la anchura si es mayor"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
 msgid "Reset scrollbar positions"
 msgstr "Restaurar las posiciones de las barras de desplazamiento"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+msgid "After loading an image:"
+msgstr "Después de cargar una imagen:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
+msgid "_Zoom quality:"
+msgstr "Calidad de la _ampliación:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
 msgid "Transparency _type:"
 msgstr "Tipo de _transparencia:"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-msgid "_Zoom quality:"
-msgstr "Calidad de la _ampliación:"
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
+msgid "High"
+msgstr "Alta"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:12
+msgid "Low"
+msgstr "Baja"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:13
+msgid "White"
+msgstr "Blanco"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:15
+msgid "Black"
+msgstr "Negro"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:16
+msgid "Checked"
+msgstr "Cuadriculado"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:84
 msgid "Histogram"
@@ -3315,52 +3423,52 @@ msgid "Zoom to fit width"
 msgstr "Ampliar hasta ajustarse a la anchura"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
-msgid "Basic image viewing."
-msgstr "Vista básica de la imagen."
-
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
 msgid "Image viewer"
 msgstr "Visor de imágenes"
+
+#: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
+msgid "Basic image viewing."
+msgstr "Vista básica de la imagen."
 
 #: ../extensions/image_viewer/preferences.c:125
 msgid "Viewer"
 msgstr "Visor"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:3
-msgid "The day of the month"
-msgstr "El día del mes"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:5
-msgid "The hour"
-msgstr "La hora"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:6
-msgid "The minutes"
-msgstr "Los minutos"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:7
-msgid "The month"
-msgstr "El mes"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:8
-msgid "The seconds"
-msgstr "Los segundos"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:9
-msgid "The year"
-msgstr "El año"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:10
-msgid "_Automatic subfolder"
-msgstr "Subcarpeta _automática"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:11
+#: ../extensions/importer/data/ui/import-preferences.ui.h:1
 msgid "_Destination"
 msgstr "_Destino"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:12
+#: ../extensions/importer/data/ui/import-preferences.ui.h:2
+msgid "_Automatic subfolder"
+msgstr "Subcarpeta _automática"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:3
 msgid "as _single subfolder"
 msgstr "como una sola subca_rpeta"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:7
+msgid "The year"
+msgstr "El año"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:8
+msgid "The month"
+msgstr "El mes"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:9
+msgid "The day of the month"
+msgstr "El día del mes"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:10
+msgid "The hour"
+msgstr "La hora"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:11
+msgid "The minutes"
+msgstr "Los minutos"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:12
+msgid "The seconds"
+msgstr "Los segundos"
 
 #: ../extensions/importer/gth-import-destination-button.c:183
 msgid "Invalid Destination"
@@ -3409,7 +3517,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Los archivos seleccionados ya existen en el destino."
 
 #: ../extensions/importer/gth-import-task.c:622
-#: ../gthumb/gth-file-source-vfs.c:690
+#: ../gthumb/gth-file-source-vfs.c:694
 msgid "Could not delete the files"
 msgstr "No se pudieron eliminar los archivos"
 
@@ -3452,97 +3560,97 @@ msgid "_Skip"
 msgstr "_Omitir"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
-msgid "Co_mmands:"
-msgstr "Co_mandos:"
-
-#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
 msgid "Commands"
 msgstr "Comandos"
 
+#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
+msgid "Co_mmands:"
+msgstr "Co_mandos:"
+
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:2
-#, no-c-format
-msgid "%E"
-msgstr "%E"
+msgid "_Wait for the command to finish"
+msgstr "_Esperar a que el comando termine"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:3
+msgid "E_xecute command once for every file"
+msgstr "_Ejecutar el comando una vez por cada archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#, no-c-format
-msgid "%N"
-msgstr "%N"
+msgid "_Terminal command (shell script)"
+msgstr "_Terminal de comandos (shell script)"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:5
+msgid "Sh_ortcut:"
+msgstr "A_tajo:"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
+msgid "The file uri"
+msgstr "El URI del archivo"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
+msgid "The file path"
+msgstr "La ruta del archivo"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
+msgid "The file basename"
+msgstr "El nombre base del archivo"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:9
+msgid "The parent folder path"
+msgstr "La ruta de la carpeta padre"
 
 #. Translate only 'message' and 'default_value'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #, no-c-format
 msgid "%ask{ message }{ default value }"
 msgstr "%ask{ mensaje }{ valor predeterminado }"
-
-#. Translate only 'attribute name'
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
-#, no-c-format
-msgid "%attr{ attribute name }"
-msgstr "%attr{ nombre del atributo }"
-
-#. Translate only 'text'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:13
-#, no-c-format
-msgid "%quote{ text }"
-msgstr "%quote{ texto }"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-msgid "A file attribute"
-msgstr "El atributo de un archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
 msgstr "Pedir un valor de entrada"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:17
-msgid "E_xecute command once for every file"
-msgstr "_Ejecutar el comando una vez por cada archivo"
-
+#. Translate only 'attribute name'
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:18
-msgid "Quote the text "
-msgstr "Entrecomillar el texto "
+#, no-c-format
+msgid "%attr{ attribute name }"
+msgstr "%attr{ nombre del atributo }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:19
-msgid "Sh_ortcut:"
-msgstr "A_tajo:"
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+msgid "A file attribute"
+msgstr "El atributo de un archivo"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
-msgid "The file basename"
-msgstr "El nombre base del archivo"
+#, no-c-format
+msgid "%N"
+msgstr "%N"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
 msgstr "El nombre del archivo sin extensión"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
+#, no-c-format
+msgid "%E"
+msgstr "%E"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file extension"
 msgstr "La extensión del archivo"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
-msgid "The file path"
-msgstr "La ruta del archivo"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
-msgid "The file uri"
-msgstr "El URI del archivo"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
-msgid "The parent folder path"
-msgstr "La ruta de la carpeta padre"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
-msgid "_Command:"
-msgstr "Coman_do:"
+#. Translate only 'text'.
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#, no-c-format
+msgid "%quote{ text }"
+msgstr "%quote{ texto }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
-msgid "_Terminal command (shell script)"
-msgstr "_Terminal de comandos (shell script)"
+msgid "Quote the text "
+msgstr "Entrecomillar el texto "
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
-msgid "_Wait for the command to finish"
-msgstr "_Esperar a que el comando termine"
+msgid "_Command:"
+msgstr "Coman_do:"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:257
 msgid "Script"
@@ -3656,39 +3764,39 @@ msgid "Upload photos to Photobucket"
 msgstr "Subir fotos a Photobucket"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
+msgid "Tiny ( 100 x 75 )"
+msgstr "Diminuta (100 x 75)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
+msgid "Small ( 160 x 120 )"
+msgstr "Pequeña (160 x 120)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
+msgid "Medium ( 320 x 240 )"
+msgstr "Mediana (320 x 240)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
+msgid "Large ( 640 x 480 )"
+msgstr "Grande (640 x 480)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr "Pantalla de 15\" (800 x 600)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr "Pantalla de 17\" (1024 x 768)"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:297
 msgid "1 megabyte file size"
 msgstr "tamaño de archivo de 1 megabyte"
 
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-msgid "15ʺ screen ( 800 x 600 )"
-msgstr "Pantalla de 15\" (800 x 600)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-msgid "17ʺ screen ( 1024 x 768 )"
-msgstr "Pantalla de 17\" (1024 x 768)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
-msgid "Large ( 640 x 480 )"
-msgstr "Grande (640 x 480)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
-msgid "Medium ( 320 x 240 )"
-msgstr "Mediana (320 x 240)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
-msgid "Small ( 160 x 120 )"
-msgstr "Pequeña (160 x 120)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
-msgid "Tiny ( 100 x 75 )"
-msgstr "Diminuta (100 x 75)"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
 msgid "_Scramble filenames"
 msgstr "Me_zclar nombres de archivos"
 
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 msgid "_Container:"
 msgstr "Contened_or:"
 
@@ -3749,30 +3857,30 @@ msgid "Import photos and other files from a folder"
 msgstr "Importar fotos y otros archivos desde una carpeta"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
-msgid "After importing from a device:"
-msgstr "Después de importar desde un dispositivo:"
-
-#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "_Rotate the images physically"
 msgstr "_Rotar las imágenes físicamente"
 
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+msgid "After importing from a device:"
+msgstr "Después de importar desde un dispositivo:"
+
 #. view label
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../gthumb/gth-filterbar.c:413
 msgid "S_how:"
 msgstr "M_ostrar:"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
-msgid "_Delete the imported files from the source"
-msgstr "_Borrar los archivos importados del origen"
-
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+msgid "_Tags:"
+msgstr "_Etiquetas:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "_Evento:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-msgid "_Tags:"
-msgstr "_Etiquetas:"
+msgid "_Delete the imported files from the source"
+msgstr "_Borrar los archivos importados del origen"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:174
@@ -3790,7 +3898,7 @@ msgid "Could not load the folder"
 msgstr "No se pudo abrir la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:1921
+#: ../gthumb/gth-browser.c:1911
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas…"
 
@@ -3827,23 +3935,27 @@ msgstr "Descargar fotos de un álbum web de Picasa"
 msgid "Upload photos to Picasa Web Album"
 msgstr "Subir fotos a álbum web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 msgid "Export to Picasa Web Albums"
 msgstr "Exportar a álbumes web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Albums:"
 msgstr "Álbu_mes"
 
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
 msgid "Import from Picasa Web Album"
 msgstr "Importar de álbumes web de Picasa"
 
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 msgid "_Album:"
 msgstr "Á_lbum:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
+msgid "_E-Mail:"
+msgstr "Correo-_e:"
+
+#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
 msgid ""
 "Type the characters you see in the picture below. Letters are not case-"
 "sensitive."
@@ -3851,15 +3963,11 @@ msgstr ""
 "Escriba los caracteres que ve en la siguiente imagen. No es sensible a la "
 "capitalización."
 
-#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
-msgid "_E-Mail:"
-msgstr "Correo-_e:"
-
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:3
 msgid "_Password:"
 msgstr "Contrase_ña:"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "Public"
 msgstr "Público"
 
@@ -3891,25 +3999,25 @@ msgid "Upload images to Picasa Web Albums"
 msgstr "Subir imágenes a álbumes web Picasa"
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:1
-msgid "Opti_mize"
-msgstr "Opti_mizar"
-
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
 msgid "_Default extension:"
 msgstr "Extensión pre_determinada:"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
-msgid "_Progressive"
-msgstr "_Progresivo"
-
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
 msgid "_Quality:"
 msgstr "_Calidad:"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:5
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
 msgid "_Smoothing:"
 msgstr "_Suavizado:"
+
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
+msgid "Opti_mize"
+msgstr "Opti_mizar"
+
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:5
+msgid "_Progressive"
+msgstr "_Progresivo"
 
 #: ../extensions/pixbuf_savers/data/ui/png-options.ui.h:1
 msgid "Compression _level:"
@@ -3923,29 +4031,29 @@ msgstr "Opciones predeterminadas:"
 msgid "_RLE compression"
 msgstr "Compresión _RLE"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
-msgid "Compression"
-msgstr "Compresión"
-
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:2
-msgid "No_rmal (Deflate)"
-msgstr "No_rmal (sin compresión)"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
-msgid "Resolution"
-msgstr "Resolución"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
-msgid "_Loss compression (JPEG)"
-msgstr "C_ompresión con pérdida (JPEG)"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
 msgid "_No compression"
 msgstr "_Sin compresión"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
+msgid "No_rmal (Deflate)"
+msgstr "No_rmal (sin compresión)"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+msgid "_Loss compression (JPEG)"
+msgstr "C_ompresión con pérdida (JPEG)"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
+msgid "Compression"
+msgstr "Compresión"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "dpi"
 msgstr "dpi"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
+msgid "Resolution"
+msgstr "Resolución"
 
 #: ../extensions/pixbuf_savers/gth-jpeg-saver.c:519
 msgid "JPEG"
@@ -3977,18 +4085,18 @@ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr "Guardar imágenes en formatos comunes tales como JPEG, PNG y TIFF"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
-msgid "Allow to load raw format images."
-msgstr "Permitir cargar imágenes en formato raw."
-
-#: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Raw format support"
 msgstr "Soporte para formato raw"
 
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+#: ../extensions/raw_files/raw_files.extension.in.in.h:2
+msgid "Allow to load raw format images."
+msgstr "Permitir cargar imágenes en formato raw."
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "_X:"
 msgstr "_X:"
 
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -4013,74 +4121,74 @@ msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Herramienta para eliminar el efecto ojos rojos de una foto."
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
-msgid "add"
-msgstr "añadir"
-
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
 msgid "digits"
 msgstr "dígitos"
 
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
 msgid "format:"
 msgstr "formato:"
 
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
 msgid "remove"
 msgstr "quitar"
 
-#. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
-#, no-c-format
-msgid "%A{ identifier }"
-msgstr "%A{ identificador }"
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+msgid "add"
+msgstr "añadir"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
+msgid "Rename"
+msgstr "Renombrar"
+
+#. Translators: this is the text case (upper or lower case).
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+msgid "Cas_e:"
+msgstr "Capi_talización:"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:7
+msgid "Edit template"
+msgstr "Editar plantilla"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+msgid "The original filename"
+msgstr "El nombre original del archivo"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
+msgid "The original extension"
+msgstr "La extensión original"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+msgid "The original enumerator"
+msgstr "El enumerador original"
 
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #, no-c-format
 msgid "%M{ format }"
 msgstr "%M{ formato }"
 
-#. Translators: this is the text case (upper or lower case).
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
-msgid "Cas_e:"
-msgstr "Capi_talización:"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
-msgid "Edit template"
-msgstr "Editar plantilla"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
-msgid "Re_verse Order"
-msgstr "Orden in_verso"
-
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-msgid "Rename"
-msgstr "Renombrar"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
-msgid "The digitalization date"
-msgstr "La fecha de la digitalización"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The modification date"
 msgstr "La fecha de modificación"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
-msgid "The original enumerator"
-msgstr "El enumerador original"
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+msgid "The digitalization date"
+msgstr "La fecha de la digitalización"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
-msgid "The original extension"
-msgstr "La extensión original"
-
+#. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
-msgid "The original filename"
-msgstr "El nombre original del archivo"
+#, no-c-format
+msgid "%A{ identifier }"
+msgstr "%A{ identificador }"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Template:"
 msgstr "Plan_tilla:"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+msgid "Re_verse Order"
+msgstr "Orden in_verso"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
@@ -4163,28 +4271,28 @@ msgstr "Redimensionar imágenes…"
 msgid "Resize the selected images"
 msgstr "Redimensionar las imágenes seleccionadas"
 
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:1
+msgid "Resize Images"
+msgstr "Redimensionar imágenes"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:2
+msgid "New dimensions"
+msgstr "Dimensiones nuevas"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+msgid "_Height:"
+msgstr "A_ltura:"
+
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+msgid "_Preserve original aspect ratios"
+msgstr "Man_tener la proporción de aspecto original"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:49
 msgid "Format"
 msgstr "Formato"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
-msgid "New dimensions"
-msgstr "Dimensiones nuevas"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-msgid "Resize Images"
-msgstr "Redimensionar imágenes"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-msgid "_Height:"
-msgstr "A_ltura:"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
-msgid "_Preserve original aspect ratios"
-msgstr "Man_tener la proporción de aspecto original"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "pixel"
 msgstr "píxel"
 
@@ -4227,16 +4335,16 @@ msgstr "Buscar de nuevo"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:174
-#: ../extensions/search/search.extension.in.in.h:2
+#: ../extensions/search/search.extension.in.in.h:1
 msgid "Search"
 msgstr "Buscar"
 
-#: ../extensions/search/gth-search-editor.c:108
+#: ../extensions/search/gth-search-editor.c:111
 #: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
 msgstr "todas las siguientes reglas"
 
-#: ../extensions/search/gth-search-editor.c:109
+#: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
 msgstr "cualquiera de las siguientes reglas"
@@ -4254,7 +4362,7 @@ msgstr "Buscando…"
 msgid "Cancel the operation"
 msgstr "Cancelar la operación"
 
-#: ../extensions/search/search.extension.in.in.h:1
+#: ../extensions/search/search.extension.in.in.h:2
 msgid "File search tool."
 msgstr "Herramienta de búsqueda de archivos."
 
@@ -4267,44 +4375,44 @@ msgid "View as a slideshow"
 msgstr "Ver como diapositivas"
 
 #: ../extensions/slideshow/callbacks.c:410
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "Mostrar diapositivas"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
-msgid "Add files to the playlist"
-msgstr "Añadir archivos a la lista de reproducción"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
-msgid "Playlist"
-msgstr "Lista de reproducción"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
-msgid "R_andom order"
-msgstr "Orden alea_torio"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-msgid "Remove the selected files"
-msgstr "Quitar los archivos seleccionados"
-
-#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
-msgid "_Change automatically, every"
-msgstr "_Cambiar automáticamente, cada"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "_Personalize"
 msgstr "_Personalizar"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
+msgid "_Transition effect:"
+msgstr "Efecto de _transición:"
+
+#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+msgid "_Change automatically, every"
+msgstr "_Cambiar automáticamente, cada"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Restart when finished"
 msgstr "Reinicia_r al finalizar"
 
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
+msgid "R_andom order"
+msgstr "Orden alea_torio"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+msgid "Playlist"
+msgstr "Lista de reproducción"
+
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
-msgid "_Transition effect:"
-msgstr "Efecto de _transición:"
+msgid "Add files to the playlist"
+msgstr "Añadir archivos a la lista de reproducción"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "Remove the selected files"
+msgstr "Quitar los archivos seleccionados"
 
 #: ../extensions/slideshow/gth-slideshow.c:229
 msgid "Playing slideshow"
@@ -4414,70 +4522,70 @@ msgstr "Ver la imagen anterior"
 msgid "View the previous page"
 msgstr "Ver la página anterior"
 
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
+msgid "All images on  a single image"
+msgstr "Todas las imágenes en una sola imagen"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
+msgid "Adapts to the window width"
+msgstr "Adaptarse a la anchura de la ventana"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+msgid "Web Album"
+msgstr "Álbum web"
+
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
 msgid "%P"
 msgstr "%P"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
-msgid "Adapts to the window width"
-msgstr "Adaptarse a la anchura de la ventana"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
-msgid "All images on  a single image"
-msgstr "Todas las imágenes en una sola imagen"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
-msgid "Image Attributes"
-msgstr "Atributos de la imagen"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-msgid "Image Page"
-msgstr "Página de imagen"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
-msgid "Index Page"
-msgstr "Página índice"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
-msgid "Show the description, if available"
-msgstr "Mostrar la descripción, si está disponible"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
-msgid "Show the following attributes:"
-msgstr "Mostrar los siguientes atributos:"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
-msgid "The current image number"
-msgstr "El número de la imagen actual"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
-msgid "The file comment"
-msgstr "El comentario del archivo"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
-msgid "The total number of images"
-msgstr "El número total de imágenes"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-msgid "Thumbnail Caption"
-msgstr "Descripción de miniaturas"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
-msgid "Web Album"
-msgstr "Álbum web"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-msgid "_Adapt to the window width "
-msgstr "A_daptarse a la anchura de la ventana"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Copy originals to destination"
 msgstr "_Copiar originales al destino"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "_Resize if larger than:"
 msgstr "Red_imensionar si son más grandes que:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+msgid "_Adapt to the window width "
+msgstr "A_daptarse a la anchura de la ventana"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+msgid "Index Page"
+msgstr "Página índice"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+msgid "Thumbnail Caption"
+msgstr "Descripción de miniaturas"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+msgid "The current image number"
+msgstr "El número de la imagen actual"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+msgid "The total number of images"
+msgstr "El número total de imágenes"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+msgid "The file comment"
+msgstr "El comentario del archivo"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+msgid "Image Page"
+msgstr "Página de imagen"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+msgid "Show the description, if available"
+msgstr "Mostrar la descripción, si está disponible"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+msgid "Show the following attributes:"
+msgstr "Mostrar los siguientes atributos:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+msgid "Image Attributes"
+msgstr "Atributos de la imagen"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
@@ -4513,12 +4621,12 @@ msgid "Could not create a temporary folder"
 msgstr "No se pudo crear una carpeta temporal"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
-msgid "Create static web albums."
-msgstr "Creando álbumes web estáticos."
-
-#: ../extensions/webalbums/webalbums.extension.in.in.h:2
 msgid "Web Albums"
 msgstr "Álbumes web"
+
+#: ../extensions/webalbums/webalbums.extension.in.in.h:2
+msgid "Create static web albums."
+msgstr "Creando álbumes web estáticos."
 
 #: ../gthumb/dlg-personalize-filters.c:237
 msgid "Filter"
@@ -4629,12 +4737,12 @@ msgstr "Extensión(es)"
 #: ../gthumb/eggfileformatchooser.c:681
 #, c-format
 msgid ""
-"The program was not able to find out the file format you want to use for `"
-"%s'. Please make sure to use a known extension for that file or manually "
+"The program was not able to find out the file format you want to use for `%"
+"s'. Please make sure to use a known extension for that file or manually "
 "choose a file format from the list below."
 msgstr ""
-"El programa no pudo encontrar el formato de archivo que quiere usar para "
-"«%s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
+"El programa no pudo encontrar el formato de archivo que quiere usar para «%"
+"s». Asegúrese de usar una extensión de archivo conocida para el archivo o "
 "elija manualmente un formato de archivo de la lista de abajo."
 
 #: ../gthumb/eggfileformatchooser.c:688
@@ -4675,7 +4783,7 @@ msgstr "Obteniendo información del archivo"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2838
+#: ../gthumb/glib-utils.c:2844
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4687,7 +4795,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:2847
+#: ../gthumb/glib-utils.c:2853
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4819,15 +4927,15 @@ msgstr "Cambiar a pantalla completa"
 msgid "Leave Fullscreen"
 msgstr "Salir de «Pantalla completa»"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3605
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3575
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3623
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3593
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3641
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3611
 msgid "Go up one level"
 msgstr "Subir un nivel"
 
@@ -4957,54 +5065,53 @@ msgstr[1] "%d archivos seleccionados (%s)"
 msgid "%s of free space"
 msgstr "%s de espacio libre"
 
-#: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5955 ../gthumb/gth-browser.c:5974
-#: ../gthumb/gth-browser.c:5999
+#: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1799
+#: ../gthumb/gth-browser.c:5883 ../gthumb/gth-browser.c:5902
+#: ../gthumb/gth-browser.c:5927
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
 
-#: ../gthumb/gth-browser.c:1905 ../gthumb/gth-browser.c:1932
+#: ../gthumb/gth-browser.c:1895 ../gthumb/gth-browser.c:1922
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:2052
+#: ../gthumb/gth-browser.c:2042
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:2057
+#: ../gthumb/gth-browser.c:2047
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:2058
+#: ../gthumb/gth-browser.c:2048
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2828 ../gthumb/gth-browser.c:2848
-#: ../gthumb/gth-source-tree.c:182 ../gthumb/gth-source-tree.c:204
+#: ../gthumb/gth-browser.c:2818 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3285 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3247 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:3606 ../gthumb/gth-browser.c:3624
+#: ../gthumb/gth-browser.c:3576 ../gthumb/gth-browser.c:3594
 msgid "View the list of visited locations"
 msgstr "Ver la lista de lugares visitados"
 
-#: ../gthumb/gth-browser.c:3642
+#: ../gthumb/gth-browser.c:3612
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5956
+#: ../gthumb/gth-browser.c:5884
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:6000
+#: ../gthumb/gth-browser.c:5928
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -5019,15 +5126,15 @@ msgstr "No se pudo abrir el módulo «%s»: %s"
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "La extensión «%2$s» requiere la extensión «%1$s»"
 
-#: ../gthumb/gth-file-source-vfs.c:117
+#: ../gthumb/gth-file-source-vfs.c:121
 msgid "Home Folder"
 msgstr "Carpeta personal"
 
-#: ../gthumb/gth-file-source-vfs.c:122
+#: ../gthumb/gth-file-source-vfs.c:126
 msgid "File System"
 msgstr "Sistema de archivos"
 
-#: ../gthumb/gth-file-source-vfs.c:735
+#: ../gthumb/gth-file-source-vfs.c:739
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5035,16 +5142,16 @@ msgstr ""
 "No se pueden mover los archivos a la papelera. ¿Quiere eliminarlos "
 "permanentemente?"
 
-#: ../gthumb/gth-file-source-vfs.c:746
+#: ../gthumb/gth-file-source-vfs.c:750
 msgid "Could not move the files to the Trash"
 msgstr "No se pudieron mover los archivos a la papelera"
 
-#: ../gthumb/gth-file-source-vfs.c:793
+#: ../gthumb/gth-file-source-vfs.c:797
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "¿Seguro que quiere mover «%s» a la papelera?"
 
-#: ../gthumb/gth-file-source-vfs.c:797
+#: ../gthumb/gth-file-source-vfs.c:801
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -5052,7 +5159,7 @@ msgstr[0] "¿Seguro que quiere mover a la papelera el archivo seleccionado?"
 msgstr[1] ""
 "¿Seguro que quiere mover a la papelera los %'d archivos seleccionados?"
 
-#: ../gthumb/gth-file-source-vfs.c:840
+#: ../gthumb/gth-file-source-vfs.c:844
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5101,11 +5208,11 @@ msgstr "descendiente"
 msgid "No limit specified"
 msgstr "No se especificó ningún límite"
 
-#: ../gthumb/gth-folder-tree.c:833
+#: ../gthumb/gth-folder-tree.c:857
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../gthumb/gth-folder-tree.c:1076
+#: ../gthumb/gth-folder-tree.c:1100
 msgid "(Open Parent)"
 msgstr "(Abrir padre)"
 
@@ -5440,8 +5547,8 @@ msgstr ""
 #~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 #~ "fit_width_if_larger."
 #~ msgstr ""
-#~ "Los valores posibles son: «actual_size», «fit», «keep_prev», "
-#~ "«fit_if_larger», «fit_width_if_larger»."
+#~ "Los valores posibles son: «actual_size», «fit», «keep_prev», «fit_if_larger», "
+#~ "«fit_width_if_larger»."
 
 #~ msgid "Possible values are: high, low."
 #~ msgstr "Los valores posibles son: «high», «low»."
@@ -5459,8 +5566,8 @@ msgstr ""
 #~ "Possible values are: system, text_below, text_beside, text_only, "
 #~ "icons_only."
 #~ msgstr ""
-#~ "Los valores posibles son: «system», «text_below», «text_beside», "
-#~ "«text_only», «icons_only»."
+#~ "Los valores posibles son: «system», «text_below», «text_beside», «text_only», "
+#~ "«icons_only»."
 
 #~ msgid "Possible values: pixels, percentage"
 #~ msgstr "Valores posibles: «pixels», «percentage»."
@@ -5469,8 +5576,8 @@ msgstr ""
 #~ "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-"
 #~ "larger, fit-width, fit-width-if-larger."
 #~ msgstr ""
-#~ "Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-"
-#~ "size-if-larger», «fit-width», «fit-width-if-larger»."
+#~ "Los valores posibles son: «actual_size», «keep-prev», «fit-size», «fit-size-"
+#~ "if-larger», «fit-width», «fit-width-if-larger»."
 
 #~ msgid "Possible values are: none, file_date, current_date"
 #~ msgstr "Los valores posibles son: «none», «file_date», «current_date»"
@@ -5490,50 +5597,11 @@ msgstr ""
 #~ msgid "Activate items with a single click"
 #~ msgstr "Activar elementos con una sola pulsación"
 
-#~ msgid "Black"
-#~ msgstr "Negro"
-
-#~ msgid "Checked"
-#~ msgstr "Cuadriculado"
-
-#~ msgid "Fit to width if larger"
-#~ msgstr "Ajustar a la anchura si es mayor"
-
-#~ msgid "Fit to window"
-#~ msgstr "Ajustar a la ventana"
-
-#~ msgid "Fit to window if larger"
-#~ msgstr "Ajustar a la ventana si es mayor"
-
 #~ msgid "Follow Nautilus behaviour"
 #~ msgstr "Seguir el comportamiento de Nautilus"
 
-#~ msgid "Icons only"
-#~ msgstr "Sólo iconos"
-
-#~ msgid "Keep previous zoom"
-#~ msgstr "Mantener la ampliación anterior"
-
 #~ msgid "Set image to actual size"
 #~ msgstr "Mostrar la imagen con su tamaño normal"
-
-#~ msgid "System settings"
-#~ msgstr "Configuración del sistema"
-
-#~ msgid "Text below icons"
-#~ msgstr "Texto debajo de los iconos"
-
-#~ msgid "Text beside icons"
-#~ msgstr "Texto junto a los iconos"
-
-#~ msgid "Text only"
-#~ msgstr "Sólo texto"
-
-#~ msgid "White"
-#~ msgstr "Blanco"
-
-#~ msgid "on the bottom"
-#~ msgstr "abajo"
 
 #~ msgid "&#xD7;"
 #~ msgstr "&#xD7;"
@@ -5541,18 +5609,6 @@ msgstr ""
 #~ msgctxt "time"
 #~ msgid "/"
 #~ msgstr "/"
-
-#~ msgid "High"
-#~ msgstr "Alta"
-
-#~ msgid "Low"
-#~ msgstr "Baja"
-
-#~ msgid "Set to actual size"
-#~ msgstr "Establecer al tamaño actual"
-
-#~ msgid "Fit to width"
-#~ msgstr "Ajustar a la anchura"
 
 #~ msgid "     "
 #~ msgstr "     "
@@ -5720,33 +5776,6 @@ msgstr ""
 #~ msgid "Upload to Flickr"
 #~ msgstr "Subir a Flickr"
 
-#~ msgid "112"
-#~ msgstr "112"
-
-#~ msgid "128"
-#~ msgstr "128"
-
-#~ msgid "164"
-#~ msgstr "164"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "256"
-#~ msgstr "256"
-
-#~ msgid "48"
-#~ msgstr "48"
-
-#~ msgid "64"
-#~ msgstr "64"
-
-#~ msgid "85"
-#~ msgstr "85"
-
-#~ msgid "95"
-#~ msgstr "95"
-
 #~ msgid "_Crop"
 #~ msgstr "_Recortar"
 
@@ -5856,8 +5885,8 @@ msgstr ""
 
 #~ msgid "<small>Click \"Help\" for format code information.</small>"
 #~ msgstr ""
-#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato."
-#~ "</small>"
+#~ "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+#~ "small>"
 
 #~ msgid ""
 #~ "If valuable photos have been deleted accidently, download the excellent "
@@ -6493,8 +6522,8 @@ msgstr ""
 #~ msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts "
-#~ "0-9.\n"
+#~ "The number keys on the numeric keypad can be associated with scripts 0-"
+#~ "9.\n"
 #~ "All scripts can be launched from the Scripts menu."
 #~ msgstr ""
 #~ "La teclas numéricas del teclado numérico se puede asociar a scripts 0-9 \n"
@@ -6664,8 +6693,8 @@ msgstr ""
 #~ msgid ""
 #~ "Possible values are: none, name, path, size, time, exifdate, comment."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «name», «path», «size», «time», "
-#~ "«exifdate», «comment»."
+#~ "Los valores posibles son: «none», «name», «path», «size», «time», «exifdate», "
+#~ "«comment»."
 
 #~ msgid ""
 #~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
@@ -6678,8 +6707,8 @@ msgstr ""
 #~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 #~ "custom."
 #~ msgstr ""
-#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», "
-#~ "«4x6», «5x7», «8x10», «custom»."
+#~ "Los valores posibles son: «none», «square», «image», «display», «4x3», «4x6», "
+#~ "«5x7», «8x10», «custom»."
 
 #~ msgid "Possible values are: skip, rename, ask, overwrite."
 #~ msgstr "Los valores posibles son: «skip», «rename», «ask», «overwrite»."
@@ -6831,8 +6860,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \"/\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «/». Use un nombre "
+#~ "diferente."
 
 #~ msgid "Edit with GIMP"
 #~ msgstr "Editar con GIMP"
@@ -6874,8 +6903,8 @@ msgstr ""
 #~ "The name \"%s\" is not valid because it contains the character \",\". "
 #~ "Please use a different name."
 #~ msgstr ""
-#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un "
-#~ "nombre diferente."
+#~ "El nombre «%s» no es válido porque contiene el carácter «,». Use un nombre "
+#~ "diferente."
 
 #~ msgid "The tag \"%s\" is already present. Please use a different name."
 #~ msgstr "La etiqueta «%s» ya está presente. Use un nombre diferente."
