@@ -1206,6 +1206,7 @@ gth_main_activate_extensions (void)
 						"search",
 						"slideshow",
 						"webalbums",
+						"work_queues",
 						NULL };
 	int                   i;
 	GError               *error = NULL;
