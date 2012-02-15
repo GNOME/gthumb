@@ -1549,7 +1549,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 static void
 gth_file_source_catalogs_init (GthFileSourceCatalogs *catalogs)
 {
-	gth_file_source_add_scheme (GTH_FILE_SOURCE (catalogs), "catalog://");
+	gth_file_source_add_scheme (GTH_FILE_SOURCE (catalogs), "catalog");
 
 	catalogs->priv = g_new0 (GthFileSourceCatalogsPrivate, 1);
 	catalogs->priv->catalog = gth_catalog_new ();
