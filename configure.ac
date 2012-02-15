@@ -712,7 +712,6 @@ Configuration:
 	Debug                : $ENABLE_DEBUG
 	Run in place         : ${enable_run_in_place}
 	Build tests          : $ENABLE_TEST_SUITE
-	Use libunique        : ${enable_unique}
 	Exiv2 support        : ${enable_exiv2}
 	JPEG tools           : ${enable_jpeg}
 	TIFF tools           : ${enable_tiff}
