@@ -5831,7 +5831,7 @@ gth_browser_get_shrink_wrap_viewer (GthBrowser *browser)
 
 typedef struct {
 	GthFileSource *file_source;
-	GFile         *location;
+	GthFileData   *location_data;
 	GthBrowser    *browser;
 } LoadLocationData;
 
@@ -5839,48 +5839,44 @@ typedef struct {
 static void
 load_location_data_free (LoadLocationData *data)
 {
-	g_object_unref (data->location);
+	g_object_unref (data->location_data);
 	g_object_unref (data->file_source);
 	g_free (data);
 }
 
 
 static void
-load_file_attributes_ready_cb (GthFileSource *file_source,
-			       GList         *files,
-			       GError        *error,
-			       gpointer       user_data)
+load_file_attributes_ready_cb (GObject  *object,
+			       GError   *error,
+			       gpointer  user_data)
 {
 	LoadLocationData *data = user_data;
 	GthBrowser       *browser = data->browser;
 
 	if (error == NULL) {
-		GthFileData *file_data;
-
-		file_data = files->data;
-		if (g_file_info_get_file_type (file_data->info) == G_FILE_TYPE_REGULAR) {
+		if (g_file_info_get_file_type (data->location_data->info) == G_FILE_TYPE_REGULAR) {
 			GFile *parent;
 
-			parent = g_file_get_parent (file_data->file);
+			parent = g_file_get_parent (data->location_data->file);
 			if ((browser->priv->location != NULL) && ! g_file_equal (parent, browser->priv->location->file)) {
 				/* set location to NULL to force a folder reload */
 				_g_object_unref (browser->priv->location);
 				browser->priv->location = NULL;
 			}
 
-			gth_browser_load_file (browser, file_data, TRUE);
+			gth_browser_load_file (browser, data->location_data, TRUE);
 
 			g_object_unref (parent);
 		}
-		else if (g_file_info_get_file_type (file_data->info) == G_FILE_TYPE_DIRECTORY) {
+		else if (g_file_info_get_file_type (data->location_data->info) == G_FILE_TYPE_DIRECTORY) {
 			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-			gth_browser_go_to (browser, file_data->file, NULL);
+			gth_browser_go_to (browser, data->location_data->file, NULL);
 		}
 		else {
 			char   *title;
 			GError *error;
 
-			title =  file_format (_("Could not load the position \"%s\""), data->location);
+			title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
 			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
 			g_clear_error (&error);
@@ -5899,7 +5895,7 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 	else {
 		char *title;
 
-		title =  file_format (_("Could not load the position \"%s\""), data->location);
+		title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
 
 		g_free (title);
@@ -5914,17 +5910,16 @@ gth_browser_load_location (GthBrowser *browser,
 		  	   GFile      *location)
 {
 	LoadLocationData *data;
-	GList            *list;
 
 	data = g_new0 (LoadLocationData, 1);
 	data->browser = browser;
-	data->location = g_object_ref (location);
-	data->file_source = gth_main_get_file_source (data->location);
+	data->location_data = gth_file_data_new (location, NULL);
+	data->file_source = gth_main_get_file_source (data->location_data->file);
 	if (data->file_source == NULL) {
 		char   *title;
 		GError *error;
 
-		title =  file_format (_("Could not load the position \"%s\""), data->location);
+		title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
 		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), title, error);
 		g_clear_error (&error);
@@ -5932,14 +5927,11 @@ gth_browser_load_location (GthBrowser *browser,
 		g_free (title);
 	}
 
-	list = g_list_prepend (NULL, g_object_ref (data->location));
-	gth_file_source_read_attributes (data->file_source,
-					 list,
-					 GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
-					 load_file_attributes_ready_cb,
-					 data);
-
-	_g_object_list_unref (list);
+	gth_file_source_read_metadata (data->file_source,
+				       data->location_data,
+				       GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
+				       load_file_attributes_ready_cb,
+				       data);
 }
 
 
