@@ -531,6 +531,11 @@ gth_browser_activate_action_edit_rename (GtkAction  *action,
 		gth_hook_invoke ("gth-browser-file-list-rename", browser);
 		return;
 	}
+
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
+		gth_hook_invoke ("gth-browser-file-list-rename", browser);
+		return;
+	}
 }
 
 
