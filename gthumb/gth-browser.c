@@ -5118,7 +5118,10 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 		}
 	}
 
-	return gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
+	if (gtk_widget_get_realized (browser->priv->file_list))
+		return gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
+	else
+		return FALSE;
 }
 
 
