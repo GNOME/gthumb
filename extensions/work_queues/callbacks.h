@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include <gthumb.h>
 
+void      work_queues__gth_browser_construct_cb           (GthBrowser *browser);
 gpointer  work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 							   GdkEventKey *event);
 

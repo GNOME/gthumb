@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,6 +27,76 @@
 #include "actions.h"
 #include "gth-file-source-work-queues.h"
 #include "gth-queue-manager.h"
+
+
+#define BROWSER_DATA_KEY "work-queues-browser-data"
+
+
+static const char *fixed_ui_info =
+"<ui>"
+"  <accelerator action=\"Go_Queue_1\" />"
+"  <accelerator action=\"Go_Queue_2\" />"
+"  <accelerator action=\"Go_Queue_3\" />"
+"</ui>";
+
+
+static GtkActionEntry work_queues_action_entries[] = {
+	{ "Go_Queue_1", NULL,
+	  NULL, "<control>1",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_go_queue_1) },
+	{ "Go_Queue_2", NULL,
+	  NULL, "<control>2",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_go_queue_2) },
+	{ "Go_Queue_3", NULL,
+	  NULL, "<control>3",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_go_queue_3) }
+
+};
+static guint work_queues_action_entries_size = G_N_ELEMENTS (work_queues_action_entries);
+
+
+typedef struct {
+	GthBrowser     *browser;
+	GtkActionGroup *actions;
+} BrowserData;
+
+
+static void
+browser_data_free (BrowserData *data)
+{
+	g_free (data);
+}
+
+
+void
+work_queues__gth_browser_construct_cb (GthBrowser *browser)
+{
+	BrowserData *data;
+	GError      *error = NULL;
+
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	data = g_new0 (BrowserData, 1);
+	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+
+	data->browser = browser;
+
+	data->actions = gtk_action_group_new ("Work Queues Actions");
+	gtk_action_group_set_translation_domain (data->actions, NULL);
+	gtk_action_group_add_actions (data->actions,
+				      work_queues_action_entries,
+				      work_queues_action_entries_size,
+				      browser);
+	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
+
+	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+}
 
 
 static void
@@ -62,16 +132,15 @@ work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	guint    modifiers;
 
 	modifiers = gtk_accelerator_get_default_mod_mask ();
-	if ((event->state & modifiers) != GDK_MOD1_MASK)
-		return NULL;
-
-	switch (gdk_keyval_to_lower (event->keyval)) {
-	case GDK_KEY_1:
-	case GDK_KEY_2:
-	case GDK_KEY_3:
-		gth_browser_activate_action_add_to_work_queue (browser, gdk_keyval_to_lower (event->keyval) - GDK_KEY_1 + 1);
-		result = GINT_TO_POINTER (1);
-		break;
+	if ((event->state & modifiers) == GDK_MOD1_MASK) {
+		switch (gdk_keyval_to_lower (event->keyval)) {
+		case GDK_KEY_1:
+		case GDK_KEY_2:
+		case GDK_KEY_3:
+			gth_browser_activate_action_add_to_work_queue (browser, gdk_keyval_to_lower (event->keyval) - GDK_KEY_1 + 1);
+			result = GINT_TO_POINTER (1);
+			break;
+		}
 	}
 
 	return result;

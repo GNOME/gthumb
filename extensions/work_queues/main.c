@@ -31,6 +31,7 @@ G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_WORK_QUEUES);
+	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (work_queues__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (work_queues__gth_browser_file_list_key_press_cb), NULL);
 }
 

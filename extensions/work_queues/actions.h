@@ -26,5 +26,8 @@
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
+DEFINE_ACTION(gth_browser_activate_action_go_queue_1)
+DEFINE_ACTION(gth_browser_activate_action_go_queue_2)
+DEFINE_ACTION(gth_browser_activate_action_go_queue_3)
 
 #endif /* ACTIONS_H */

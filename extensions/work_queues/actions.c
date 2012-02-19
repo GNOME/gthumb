@@ -22,3 +22,43 @@
 
 #include <config.h>
 #include <gthumb.h>
+
+
+static void
+gth_browser_activate_action_show_work_queue (GthBrowser *browser,
+					     int         n_queue)
+{
+	char  *uri;
+	GFile *location;
+
+	uri = g_strdup_printf ("queue:///%d", n_queue);
+	location = g_file_new_for_uri (uri);
+	gth_browser_load_location (browser, location);
+
+	g_free (uri);
+	g_object_unref (location);
+}
+
+
+void
+gth_browser_activate_action_go_queue_1 (GtkAction  *action,
+					GthBrowser *browser)
+{
+	gth_browser_activate_action_show_work_queue (browser, 1);
+}
+
+
+void
+gth_browser_activate_action_go_queue_2 (GtkAction  *action,
+					GthBrowser *browser)
+{
+	gth_browser_activate_action_show_work_queue (browser, 2);
+}
+
+
+void
+gth_browser_activate_action_go_queue_3 (GtkAction  *action,
+					GthBrowser *browser)
+{
+	gth_browser_activate_action_show_work_queue (browser, 3);
+}
