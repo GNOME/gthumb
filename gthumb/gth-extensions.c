@@ -639,7 +639,10 @@ gth_extension_manager_open (GthExtensionManager  *manager,
 	GthExtensionDescription *description;
 
 	description = g_hash_table_lookup (manager->priv->extensions, extension_name);
-	g_return_val_if_fail (description != NULL, FALSE);
+	if (description == NULL) {
+		*error = g_error_new_literal (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, "Extension not found");
+		return FALSE;
+	}
 
 	if (description->priv->opened)
 		return TRUE;
