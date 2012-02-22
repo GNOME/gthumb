@@ -572,6 +572,11 @@ gth_extension_manager_load_extensions (GthExtensionManager *self)
 
 	extensions_dir = g_file_new_for_path (GTHUMB_EXTENSIONS_DIR);
 	enumerator = g_file_enumerate_children (extensions_dir, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
+	if (enumerator == NULL) {
+		g_critical ("Could not find the extensions folder: %s", g_file_get_uri (extensions_dir));
+		abort ();
+	}
+
 	while ((info = g_file_enumerator_next_file (enumerator, NULL, NULL)) != NULL) {
 		const char              *name;
 		GFile                   *ext_file;
