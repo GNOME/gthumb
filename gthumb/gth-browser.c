@@ -795,7 +795,7 @@ _gth_browser_add_to_history (GthBrowser *browser,
 	if (file == NULL)
 		return;
 
-	if ((browser->priv->history_current == NULL) || ! g_file_equal (file, browser->priv->history_current->data)) {
+	if ((browser->priv->history_current == NULL) || ! _g_file_equal_uris (file, browser->priv->history_current->data)) {
 		GList *scan;
 
 		/* remove all the occurrences of file from the history */
