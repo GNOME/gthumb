@@ -145,3 +145,29 @@ work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	return result;
 }
+
+
+void
+work_queues__gth_browser_update_extra_widget_cb (GthBrowser *browser)
+{
+	GthFileData *location_data;
+	GtkWidget   *extra_widget;
+	int          n_queue;
+	char        *msg;
+
+	location_data = gth_browser_get_location_data (browser);
+	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/queue"))
+		return;
+
+	n_queue = g_file_info_get_attribute_int32 (location_data->info, "gthumb::n-queue");
+	extra_widget = gth_browser_get_list_extra_widget (browser);
+	gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_icon (location_data->info), GTK_ICON_SIZE_DIALOG);
+	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_display_name (location_data->info));
+	if (n_queue > 0)
+		msg = g_strdup_printf (_("Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."), n_queue, n_queue);
+	else
+		msg = NULL;
+	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (extra_widget), msg);
+
+	g_free (msg);
+}

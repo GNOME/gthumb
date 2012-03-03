@@ -24,8 +24,9 @@
 
 #include <gthumb.h>
 
-void      work_queues__gth_browser_construct_cb           (GthBrowser *browser);
+void      work_queues__gth_browser_construct_cb           (GthBrowser  *browser);
 gpointer  work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 							   GdkEventKey *event);
+void      work_queues__gth_browser_update_extra_widget_cb (GthBrowser  *browser);
 
 #endif /* CALLBACKS_H */
