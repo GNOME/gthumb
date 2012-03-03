@@ -223,12 +223,13 @@ gth_queue_manager_update_file_info (GFile     *file,
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME, FALSE);
+	g_file_info_set_attribute_int32 (info, "gthumb::n-queue", n_queue);
 	if (n_queue > 0) {
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-		display_name = g_strdup_printf (_("Queue %d"), n_queue);
+		display_name = g_strdup_printf (_("Selection %d"), n_queue);
 	}
 	else if (n_queue == 0)
-		display_name = g_strdup (_("Work Queues"));
+		display_name = g_strdup (_("Selections"));
 	else
 		display_name = g_strdup ("???");
 	g_file_info_set_display_name (info, display_name);
