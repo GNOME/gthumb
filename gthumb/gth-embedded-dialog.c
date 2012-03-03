@@ -49,38 +49,42 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 {
 	GtkWidget *hbox_content;
 	GtkWidget *image;
-	GtkWidget *vbox;
+	GtkWidget *to_center_labels_box;
+	GtkWidget *label_box;
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
 	
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMBEDDED_DIALOG, GthEmbeddedDialogPrivate);
 
-	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
+	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (hbox_content);
 
-	self->priv->info_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
+	self->priv->info_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (hbox_content), self->priv->info_box, TRUE, TRUE, 0);
 
 	self->priv->icon_image = image = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (self->priv->info_box), image, FALSE, FALSE, 0);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.5);
 
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (self->priv->info_box), vbox, TRUE, TRUE, 0);
+	to_center_labels_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (to_center_labels_box);
+	gtk_box_pack_start (GTK_BOX (self->priv->info_box), to_center_labels_box, TRUE, TRUE, 0);
+
+	label_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_widget_show (label_box);
+	gtk_box_pack_start (GTK_BOX (to_center_labels_box), label_box, TRUE, FALSE, 0);
 
 	self->priv->primary_text_label = primary_label = gtk_label_new (NULL);
-	gtk_box_pack_start (GTK_BOX (vbox), primary_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (label_box), primary_label, FALSE, FALSE, 0);
 	gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (primary_label), TRUE);
 	gtk_label_set_ellipsize (GTK_LABEL (primary_label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
-	gtk_misc_set_padding (GTK_MISC (primary_label), 0, 6);
 	gtk_widget_set_can_focus (primary_label, TRUE);
 	gtk_label_set_selectable (GTK_LABEL (primary_label), TRUE);
 	
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
-	gtk_box_pack_start (GTK_BOX (vbox), secondary_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (label_box), secondary_label, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (secondary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (secondary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (secondary_label), TRUE);
