@@ -1,3 +1,61 @@
+version 2.90.1
+--------------
+
+ New features and user visible changes:
+
+  * High quality zoom for SVG images. Requires librsvg. 
+  * Comment and tags dialogs: allow to save the metadata without closing the 
+    dialog.
+  * Added option to reuse the active window when opening files from an
+    external application.
+  * Allow to hide/show the file properties pane.
+  * Allow to change the position of the file properties in browser mode.  
+  * Save the image keyworks in the Xmp.dc.subject tag as well.
+  * Save the Exif.Image.Software tag only if the content was modified.
+  * Sync the rating with the Xmp.xmp.Rating tag.
+  * Video viewer: jump to the specified position when clicking on the progress 
+    bar.
+  * Video viewer: use symbolic icons for the play button and the volume control.
+  * Make the 'shrink wrap' command work for the video viewer as well.
+  * Image viewer: hide the horizontal scrollbar in 'fit width' mode.
+  * Image viewer: implemented the checked transparency.
+  * Show the Edit button in browser mode as well.
+  * Moved the location chooser above the file list.
+  * Preferences: show the slideshow preferences in the viewer tab to save some 
+    horizontal space.
+  * Use the PICTURES special dir as the default startup location.
+  
+ Internal code changes:
+  
+  * Ported to Gtk+ 3
+  * Ported from GConf to GSettings. Automatically convert the GConf values.
+  * Ported from libunique to GtkApplication.
+  * Ported to libchamplain version 0.12.
+  * Removed use of deprecated functions.
+  * Use the G_DEFINE_* macros to define GObject classes.
+  * Added a custom widget to display the thumbnail list instead of GtkIconView.
+  
+ New or updated application translations:
+
+  * Czech (Marek Černocký)
+  * Español (Daniel Mustieles)
+  * Esperanto (Kristjan SCHMIDT)
+  * French (Claude Paroz)
+  * German (Christian Kirbach)
+  * Indonesian Translation (Andika Triwidada)
+  * Italiano (Gianvito Cavasoli)
+  * Japanese (Jiro Matsuzawa)
+  * Polish (Piotr Drąg)
+  * Russian (Yuri Myasoedov)
+  * Slovenian Translation (Matej Urbančič)
+  * Swedish (Daniel Nylander)
+
+ New or updated manual translations:
+
+  * Deutsch (Mario Blättermann)
+  * Español (Daniel Mustieles)
+  * French (Claude Paroz)
+
 version 2.13.91
 ---------------
 
