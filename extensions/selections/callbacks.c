@@ -34,24 +34,62 @@
 
 static const char *fixed_ui_info =
 "<ui>"
+"  <popup name='FileListPopup'>"
+"    <placeholder name='Folder_Actions2'>"
+"      <menu action='Edit_AddToSelection'>"
+"        <menuitem action='Edit_AddToSelection_1'/>"
+"        <menuitem action='Edit_AddToSelection_2'/>"
+"        <menuitem action='Edit_AddToSelection_3'/>"
+"      </menu>"
+"    </placeholder>"
+"  </popup>"
+"  <popup name='FilePopup'>"
+"    <placeholder name='Folder_Actions2'>"
+"      <menu action='Edit_AddToSelection'>"
+"        <menuitem action='Edit_AddToSelection_1'/>"
+"        <menuitem action='Edit_AddToSelection_2'/>"
+"        <menuitem action='Edit_AddToSelection_3'/>"
+"      </menu>"
+"    </placeholder>"
+"  </popup>"
 "  <accelerator action=\"Go_Selection_1\" />"
 "  <accelerator action=\"Go_Selection_2\" />"
 "  <accelerator action=\"Go_Selection_3\" />"
 "</ui>";
 
 
-static GtkActionEntry selections_action_entries[] = {
+static GthActionEntryExt selections_action_entries[] = {
+	{ "Edit_AddToSelection", GTK_STOCK_ADD, N_("Add to _Selection") },
+
+	{ "Edit_AddToSelection_1", "selection1",
+	  N_("Selection 1"), NULL,
+	  NULL,
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
+	  G_CALLBACK (gth_browser_activate_action_add_to_selection_1) },
+	{ "Edit_AddToSelection_2", "selection2",
+	  N_("Selection 2"), NULL,
+	  NULL,
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
+	  G_CALLBACK (gth_browser_activate_action_add_to_selection_2) },
+	{ "Edit_AddToSelection_3", "selection3",
+	  N_("Selection 3"), NULL,
+	  NULL,
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
+	  G_CALLBACK (gth_browser_activate_action_add_to_selection_3) },
 	{ "Go_Selection_1", NULL,
 	  NULL, "<control>1",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_selection_1) },
 	{ "Go_Selection_2", NULL,
 	  NULL, "<control>2",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_selection_2) },
 	{ "Go_Selection_3", NULL,
 	  NULL, "<control>3",
 	  NULL,
+	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_selection_3) }
 
 };
@@ -86,41 +124,16 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->actions = gtk_action_group_new ("Selections Actions");
 	gtk_action_group_set_translation_domain (data->actions, NULL);
-	gtk_action_group_add_actions (data->actions,
-				      selections_action_entries,
-				      selections_action_entries_size,
-				      browser);
+	_gtk_action_group_add_actions_with_flags (data->actions,
+						  selections_action_entries,
+						  selections_action_entries_size,
+						  browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-}
-
-
-static void
-gth_browser_activate_action_add_to_selection (GthBrowser *browser,
-					      int         n_selection)
-{
-	char  *uri;
-	GFile *folder;
-	GList *items;
-	GList *file_list = NULL;
-	GList *files;
-
-	uri = g_strdup_printf ("selection:///%d", n_selection);
-	folder = g_file_new_for_uri (uri);
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	files = gth_file_data_list_to_file_list (file_list);
-	gth_selections_manager_add_files (folder, files, -1);
-
-	_g_object_list_unref (files);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-	g_object_unref (folder);
-	g_free (uri);
 }
 
 

@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include "gth-selections-manager.h"
 
 
 static void
@@ -61,4 +62,52 @@ gth_browser_activate_action_go_selection_3 (GtkAction  *action,
 					    GthBrowser *browser)
 {
 	gth_browser_activate_action_show_selection (browser, 3);
+}
+
+
+void
+gth_browser_activate_action_add_to_selection (GthBrowser *browser,
+					      int         n_selection)
+{
+	char  *uri;
+	GFile *folder;
+	GList *items;
+	GList *file_list = NULL;
+	GList *files;
+
+	uri = g_strdup_printf ("selection:///%d", n_selection);
+	folder = g_file_new_for_uri (uri);
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	files = gth_file_data_list_to_file_list (file_list);
+	gth_selections_manager_add_files (folder, files, -1);
+
+	_g_object_list_unref (files);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+	g_object_unref (folder);
+	g_free (uri);
+}
+
+
+void
+gth_browser_activate_action_add_to_selection_1 (GtkAction  *action,
+						GthBrowser *browser)
+{
+	gth_browser_activate_action_add_to_selection (browser, 1);
+}
+
+void
+gth_browser_activate_action_add_to_selection_2 (GtkAction  *action,
+						GthBrowser *browser)
+{
+	gth_browser_activate_action_add_to_selection (browser, 2);
+}
+
+
+void
+gth_browser_activate_action_add_to_selection_3 (GtkAction  *action,
+						GthBrowser *browser)
+{
+	gth_browser_activate_action_add_to_selection (browser, 3);
 }
