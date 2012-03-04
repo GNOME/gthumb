@@ -212,29 +212,41 @@ gth_queue_manager_update_file_info (GFile     *file,
 				    GFileInfo *info)
 {
 	int   n_queue;
-	char *display_name;
+	char *name;
 
 	n_queue = _g_file_get_n_queue (file);
 
 	g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
 	g_file_info_set_content_type (info, "gthumb/queue");
-	g_file_info_set_icon (info, g_themed_icon_new ("work-queue"));
+
 	g_file_info_set_sort_order (info, n_queue);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME, FALSE);
 	g_file_info_set_attribute_int32 (info, "gthumb::n-queue", n_queue);
+
+	/* icon */
+
+	if (n_queue > 0) {
+		name = g_strdup_printf ("selection%d", n_queue);
+		g_file_info_set_icon (info, g_themed_icon_new (name));
+		g_free (name);
+	}
+	else
+		g_file_info_set_icon (info, g_themed_icon_new ("selection"));
+
+	/* display name */
+
 	if (n_queue > 0) {
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-		display_name = g_strdup_printf (_("Selection %d"), n_queue);
+		name = g_strdup_printf (_("Selection %d"), n_queue);
 	}
 	else if (n_queue == 0)
-		display_name = g_strdup (_("Selections"));
+		name = g_strdup (_("Selections"));
 	else
-		display_name = g_strdup ("???");
-	g_file_info_set_display_name (info, display_name);
-
-	g_free (display_name);
+		name = g_strdup ("???");
+	g_file_info_set_display_name (info, name);
+	g_free (name);
 }
 
 

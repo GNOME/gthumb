@@ -9,7 +9,11 @@ icons_DATA = 			\
 	file-catalog.png	\
 	file-library.png	\
 	file-search.png		\
-	palette.png		
+	palette.png		\
+	selection.png		\
+	selection1.png		\
+	selection2.png		\
+	selection3.png
 
 EXTRA_DIST = $(icons_DATA)	
 
