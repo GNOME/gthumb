@@ -15,6 +15,10 @@ icons_DATA = 				\
 	image-navigator.png		\
 	application-extension.png	\
 	map.png				\
+	selection.png			\
+	selection1.png			\
+	selection2.png			\
+	selection3.png			\
 	site-facebook.png		\
 	site-flickr.png			\
 	site-photobucket.png		\

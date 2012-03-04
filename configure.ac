@@ -684,6 +684,7 @@ extensions/resize_images/data/ui/Makefile
 extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile
+extensions/selections/Makefile
 extensions/slideshow/Makefile
 extensions/slideshow/data/Makefile
 extensions/slideshow/data/ui/Makefile
@@ -712,7 +713,6 @@ Configuration:
 	Debug                : $ENABLE_DEBUG
 	Run in place         : ${enable_run_in_place}
 	Build tests          : $ENABLE_TEST_SUITE
-	Use libunique        : ${enable_unique}
 	Exiv2 support        : ${enable_exiv2}
 	JPEG tools           : ${enable_jpeg}
 	TIFF tools           : ${enable_tiff}
