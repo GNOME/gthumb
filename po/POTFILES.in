@@ -608,6 +608,8 @@ extensions/search/gth-search-task.c
 extensions/search/gth-search-task.h
 extensions/search/main.c
 [type: gettext/ini]extensions/search/search.extension.in.in
+extensions/selections/callbacks.c
+extensions/selections/gth-selections-manager.c
 extensions/slideshow/actions.c
 extensions/slideshow/actions.h
 extensions/slideshow/callbacks.c
