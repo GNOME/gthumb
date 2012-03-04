@@ -77,7 +77,7 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	self->priv->primary_text_label = primary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (label_box), primary_label, FALSE, FALSE, 0);
 	gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
-	gtk_label_set_line_wrap (GTK_LABEL (primary_label), TRUE);
+	gtk_label_set_line_wrap (GTK_LABEL (primary_label), FALSE);
 	gtk_label_set_ellipsize (GTK_LABEL (primary_label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
 	gtk_widget_set_can_focus (primary_label, TRUE);
@@ -87,7 +87,7 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	gtk_box_pack_start (GTK_BOX (label_box), secondary_label, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (secondary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (secondary_label), TRUE);
-	gtk_label_set_line_wrap (GTK_LABEL (secondary_label), TRUE);
+	gtk_label_set_line_wrap (GTK_LABEL (secondary_label), FALSE);
 	gtk_label_set_selectable (GTK_LABEL (secondary_label), TRUE);
 	gtk_label_set_ellipsize (GTK_LABEL (secondary_label), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (secondary_label), 0, 0.5);
