@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,15 +19,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+void      selections__gth_browser_construct_cb           (GthBrowser  *browser);
+gpointer  selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+							  GdkEventKey *event);
+void      selections__gth_browser_update_extra_widget_cb (GthBrowser  *browser);
 
-DEFINE_ACTION(gth_browser_activate_action_go_queue_1)
-DEFINE_ACTION(gth_browser_activate_action_go_queue_2)
-DEFINE_ACTION(gth_browser_activate_action_go_queue_3)
-
-#endif /* ACTIONS_H */
+#endif /* CALLBACKS_H */

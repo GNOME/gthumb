@@ -25,13 +25,13 @@
 
 
 static void
-gth_browser_activate_action_show_work_queue (GthBrowser *browser,
-					     int         n_queue)
+gth_browser_activate_action_show_selection (GthBrowser *browser,
+					    int         n_selection)
 {
 	char  *uri;
 	GFile *location;
 
-	uri = g_strdup_printf ("queue:///%d", n_queue);
+	uri = g_strdup_printf ("selection:///%d", n_selection);
 	location = g_file_new_for_uri (uri);
 	gth_browser_load_location (browser, location);
 
@@ -41,24 +41,24 @@ gth_browser_activate_action_show_work_queue (GthBrowser *browser,
 
 
 void
-gth_browser_activate_action_go_queue_1 (GtkAction  *action,
-					GthBrowser *browser)
+gth_browser_activate_action_go_selection_1 (GtkAction  *action,
+					    GthBrowser *browser)
 {
-	gth_browser_activate_action_show_work_queue (browser, 1);
+	gth_browser_activate_action_show_selection (browser, 1);
 }
 
 
 void
-gth_browser_activate_action_go_queue_2 (GtkAction  *action,
-					GthBrowser *browser)
+gth_browser_activate_action_go_selection_2 (GtkAction  *action,
+					    GthBrowser *browser)
 {
-	gth_browser_activate_action_show_work_queue (browser, 2);
+	gth_browser_activate_action_show_selection (browser, 2);
 }
 
 
 void
-gth_browser_activate_action_go_queue_3 (GtkAction  *action,
-					GthBrowser *browser)
+gth_browser_activate_action_go_selection_3 (GtkAction  *action,
+					    GthBrowser *browser)
 {
-	gth_browser_activate_action_show_work_queue (browser, 3);
+	gth_browser_activate_action_show_selection (browser, 3);
 }

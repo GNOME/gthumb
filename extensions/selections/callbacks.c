@@ -25,37 +25,37 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
-#include "gth-file-source-work-queues.h"
-#include "gth-queue-manager.h"
+#include "gth-file-source-selections.h"
+#include "gth-selections-manager.h"
 
 
-#define BROWSER_DATA_KEY "work-queues-browser-data"
+#define BROWSER_DATA_KEY "selections-browser-data"
 
 
 static const char *fixed_ui_info =
 "<ui>"
-"  <accelerator action=\"Go_Queue_1\" />"
-"  <accelerator action=\"Go_Queue_2\" />"
-"  <accelerator action=\"Go_Queue_3\" />"
+"  <accelerator action=\"Go_Selection_1\" />"
+"  <accelerator action=\"Go_Selection_2\" />"
+"  <accelerator action=\"Go_Selection_3\" />"
 "</ui>";
 
 
-static GtkActionEntry work_queues_action_entries[] = {
-	{ "Go_Queue_1", NULL,
+static GtkActionEntry selections_action_entries[] = {
+	{ "Go_Selection_1", NULL,
 	  NULL, "<control>1",
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_go_queue_1) },
-	{ "Go_Queue_2", NULL,
+	  G_CALLBACK (gth_browser_activate_action_go_selection_1) },
+	{ "Go_Selection_2", NULL,
 	  NULL, "<control>2",
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_go_queue_2) },
-	{ "Go_Queue_3", NULL,
+	  G_CALLBACK (gth_browser_activate_action_go_selection_2) },
+	{ "Go_Selection_3", NULL,
 	  NULL, "<control>3",
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_go_queue_3) }
+	  G_CALLBACK (gth_browser_activate_action_go_selection_3) }
 
 };
-static guint work_queues_action_entries_size = G_N_ELEMENTS (work_queues_action_entries);
+static guint selections_action_entries_size = G_N_ELEMENTS (selections_action_entries);
 
 
 typedef struct {
@@ -72,7 +72,7 @@ browser_data_free (BrowserData *data)
 
 
 void
-work_queues__gth_browser_construct_cb (GthBrowser *browser)
+selections__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;
@@ -84,11 +84,11 @@ work_queues__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->browser = browser;
 
-	data->actions = gtk_action_group_new ("Work Queues Actions");
+	data->actions = gtk_action_group_new ("Selections Actions");
 	gtk_action_group_set_translation_domain (data->actions, NULL);
 	gtk_action_group_add_actions (data->actions,
-				      work_queues_action_entries,
-				      work_queues_action_entries_size,
+				      selections_action_entries,
+				      selections_action_entries_size,
 				      browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
 
@@ -100,8 +100,8 @@ work_queues__gth_browser_construct_cb (GthBrowser *browser)
 
 
 static void
-gth_browser_activate_action_add_to_work_queue (GthBrowser *browser,
-					       int         n_queue)
+gth_browser_activate_action_add_to_selection (GthBrowser *browser,
+					      int         n_selection)
 {
 	char  *uri;
 	GFile *folder;
@@ -109,12 +109,12 @@ gth_browser_activate_action_add_to_work_queue (GthBrowser *browser,
 	GList *file_list = NULL;
 	GList *files;
 
-	uri = g_strdup_printf ("queue:///%d", n_queue);
+	uri = g_strdup_printf ("selection:///%d", n_selection);
 	folder = g_file_new_for_uri (uri);
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	files = gth_file_data_list_to_file_list (file_list);
-	gth_queue_manager_add_files (folder, files, -1);
+	gth_selections_manager_add_files (folder, files, -1);
 
 	_g_object_list_unref (files);
 	_g_object_list_unref (file_list);
@@ -125,8 +125,8 @@ gth_browser_activate_action_add_to_work_queue (GthBrowser *browser,
 
 
 gpointer
-work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-						 GdkEventKey *event)
+selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+						GdkEventKey *event)
 {
 	gpointer result = NULL;
 	guint    modifiers;
@@ -137,7 +137,7 @@ work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_1:
 		case GDK_KEY_2:
 		case GDK_KEY_3:
-			gth_browser_activate_action_add_to_work_queue (browser, gdk_keyval_to_lower (event->keyval) - GDK_KEY_1 + 1);
+			gth_browser_activate_action_add_to_selection (browser, gdk_keyval_to_lower (event->keyval) - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}
@@ -148,23 +148,23 @@ work_queues__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 
 void
-work_queues__gth_browser_update_extra_widget_cb (GthBrowser *browser)
+selections__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 {
 	GthFileData *location_data;
 	GtkWidget   *extra_widget;
-	int          n_queue;
+	int          n_selection;
 	char        *msg;
 
 	location_data = gth_browser_get_location_data (browser);
-	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/queue"))
+	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/selection"))
 		return;
 
-	n_queue = g_file_info_get_attribute_int32 (location_data->info, "gthumb::n-queue");
+	n_selection = g_file_info_get_attribute_int32 (location_data->info, "gthumb::n-selection");
 	extra_widget = gth_browser_get_list_extra_widget (browser);
 	gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_icon (location_data->info), GTK_ICON_SIZE_DIALOG);
 	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_display_name (location_data->info));
-	if (n_queue > 0)
-		msg = g_strdup_printf (_("Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."), n_queue, n_queue);
+	if (n_selection > 0)
+		msg = g_strdup_printf (_("Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."), n_selection, n_selection);
 	else
 		msg = NULL;
 	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (extra_widget), msg);

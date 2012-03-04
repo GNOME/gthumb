@@ -684,6 +684,7 @@ extensions/resize_images/data/ui/Makefile
 extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile
+extensions/selections/Makefile
 extensions/slideshow/Makefile
 extensions/slideshow/data/Makefile
 extensions/slideshow/data/ui/Makefile
@@ -695,7 +696,6 @@ extensions/webalbums/data/albumthemes/ClassicClips/Makefile
 extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
-extensions/work_queues/Makefile
 gthumb/Makefile
 po/Makefile.in
 tests/Makefile

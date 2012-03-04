@@ -1204,9 +1204,9 @@ gth_main_activate_extensions (void)
 						"rename_series",
 						"resize_images",
 						"search",
+						"selections",
 						"slideshow",
 						"webalbums",
-						"work_queues",
 						NULL };
 	int                   i;
 	GError               *error = NULL;

@@ -24,36 +24,36 @@
 #include <glib/gi18n.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include "gth-queue-manager.h"
+#include "gth-selections-manager.h"
 
 
-#define N_QUEUES 3
+#define N_SELECTIONS 3
 
 
-struct _GthQueueManagerPrivate {
-	GList  *files[N_QUEUES];
+struct _GthSelectionsManagerPrivate {
+	GList  *files[N_SELECTIONS];
 	GMutex *mutex;
 };
 
 
-G_DEFINE_TYPE (GthQueueManager,
-	       gth_queue_manager,
+G_DEFINE_TYPE (GthSelectionsManager,
+	       gth_selections_manager,
 	       G_TYPE_OBJECT)
 
 
-static GthQueueManager *the_manager = NULL;
+static GthSelectionsManager *the_manager = NULL;
 
 
 static GObject *
-gth_queue_manager_constructor (GType                  type,
-			       guint                  n_construct_params,
-			       GObjectConstructParam *construct_params)
+gth_selections_manager_constructor (GType                  type,
+				    guint                  n_construct_params,
+				    GObjectConstructParam *construct_params)
 {
 	static GObject *object = NULL;
 
 	if (the_manager == NULL) {
-		object = G_OBJECT_CLASS (gth_queue_manager_parent_class)->constructor (type, n_construct_params, construct_params);
-		the_manager = GTH_QUEUE_MANAGER (object);
+		object = G_OBJECT_CLASS (gth_selections_manager_parent_class)->constructor (type, n_construct_params, construct_params);
+		the_manager = GTH_SELECTIONS_MANAGER (object);
 	}
 	else
 		object =  G_OBJECT (the_manager);
@@ -63,57 +63,57 @@ gth_queue_manager_constructor (GType                  type,
 
 
 static void
-gth_queue_manager_finalize (GObject *object)
+gth_selections_manager_finalize (GObject *object)
 {
-	GthQueueManager *self;
-	int              i;
+	GthSelectionsManager *self;
+	int                   i;
 
-	self = GTH_QUEUE_MANAGER (object);
+	self = GTH_SELECTIONS_MANAGER (object);
 
-	for (i = 0; i < N_QUEUES; i++)
+	for (i = 0; i < N_SELECTIONS; i++)
 		_g_object_list_unref (self->priv->files[i]);
 	g_mutex_free (self->priv->mutex);
 
-	G_OBJECT_CLASS (gth_queue_manager_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_selections_manager_parent_class)->finalize (object);
 }
 
 
 static void
-gth_queue_manager_class_init (GthQueueManagerClass *klass)
+gth_selections_manager_class_init (GthSelectionsManagerClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthQueueManagerPrivate));
+	g_type_class_add_private (klass, sizeof (GthSelectionsManagerPrivate));
 
 	object_class = (GObjectClass*) klass;
-	object_class->constructor = gth_queue_manager_constructor;
-	object_class->finalize = gth_queue_manager_finalize;
+	object_class->constructor = gth_selections_manager_constructor;
+	object_class->finalize = gth_selections_manager_finalize;
 }
 
 static void
-gth_queue_manager_init (GthQueueManager *self)
+gth_selections_manager_init (GthSelectionsManager *self)
 {
 	int i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_QUEUE_MANAGER, GthQueueManagerPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManagerPrivate);
 	self->priv->mutex = g_mutex_new ();
-	for (i = 0; i < N_QUEUES; i++)
+	for (i = 0; i < N_SELECTIONS; i++)
 		self->priv->files[i] = NULL;
 }
 
 
-static GthQueueManager *
-gth_queue_manager_get_default (void)
+static GthSelectionsManager *
+gth_selections_manager_get_default (void)
 {
-	return (GthQueueManager*) g_object_new (GTH_TYPE_QUEUE_MANAGER, NULL);
+	return (GthSelectionsManager*) g_object_new (GTH_TYPE_SELECTIONS_MANAGER, NULL);
 }
 
 
-/* -- gth_queue_manager_for_each_child -- */
+/* -- gth_selections_manager_for_each_child -- */
 
 
 typedef struct {
-	GthQueueManager      *queue_manager;
+	GthSelectionsManager *selections_manager;
 	GList                *files;
 	GList                *current_file;
 	char                 *attributes;
@@ -135,8 +135,8 @@ fec_data_free (ForEachChildData *data)
 
 
 static void
-queue_manager_fec_done (ForEachChildData *data,
-			GError           *error)
+selections_manager_fec_done (ForEachChildData *data,
+			     GError           *error)
 {
 	if (data->ready_callback != NULL)
 		data->ready_callback (NULL, error, data->user_data);
@@ -163,7 +163,7 @@ fec__file_info_ready_cb (GObject      *source_object,
 
 	data->current_file = data->current_file->next;
 	if (data->current_file == NULL) {
-		queue_manager_fec_done (data, NULL);
+		selections_manager_fec_done (data, NULL);
 		return;
 	}
 
@@ -179,27 +179,27 @@ fec__file_info_ready_cb (GObject      *source_object,
 
 
 static void
-queue_manager_fec_done_cb (GObject  *object,
-			   GError   *error,
-			   gpointer  user_data)
+selections_manager_fec_done_cb (GObject  *object,
+				GError   *error,
+				gpointer  user_data)
 {
-	queue_manager_fec_done (user_data, NULL);
+	selections_manager_fec_done (user_data, NULL);
 }
 
 
 static int
-_g_file_get_n_queue (GFile *file)
+_g_file_get_n_selection (GFile *file)
 {
 	char *uri;
 	int   n = -1;
 
 	uri = g_file_get_uri (file);
-	if (! g_str_has_prefix (uri, "queue:///"))
+	if (! g_str_has_prefix (uri, "selection:///"))
 		n = -1;
-	else if (strcmp (uri, "queue:///") == 0)
+	else if (strcmp (uri, "selection:///") == 0)
 		n = 0;
 	else
-		n = atoi (uri + strlen ("queue:///"));
+		n = atoi (uri + strlen ("selection:///"));
 
 	g_free (uri);
 
@@ -208,27 +208,27 @@ _g_file_get_n_queue (GFile *file)
 
 
 void
-gth_queue_manager_update_file_info (GFile     *file,
-				    GFileInfo *info)
+gth_selections_manager_update_file_info (GFile     *file,
+					 GFileInfo *info)
 {
-	int   n_queue;
+	int   n_selection;
 	char *name;
 
-	n_queue = _g_file_get_n_queue (file);
+	n_selection = _g_file_get_n_selection (file);
 
 	g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
-	g_file_info_set_content_type (info, "gthumb/queue");
+	g_file_info_set_content_type (info, "gthumb/selection");
 
-	g_file_info_set_sort_order (info, n_queue);
+	g_file_info_set_sort_order (info, n_selection);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME, FALSE);
-	g_file_info_set_attribute_int32 (info, "gthumb::n-queue", n_queue);
+	g_file_info_set_attribute_int32 (info, "gthumb::n-selection", n_selection);
 
 	/* icon */
 
-	if (n_queue > 0) {
-		name = g_strdup_printf ("selection%d", n_queue);
+	if (n_selection > 0) {
+		name = g_strdup_printf ("selection%d", n_selection);
 		g_file_info_set_icon (info, g_themed_icon_new (name));
 		g_free (name);
 	}
@@ -237,11 +237,11 @@ gth_queue_manager_update_file_info (GFile     *file,
 
 	/* display name */
 
-	if (n_queue > 0) {
+	if (n_selection > 0) {
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
-		name = g_strdup_printf (_("Selection %d"), n_queue);
+		name = g_strdup_printf (_("Selection %d"), n_selection);
 	}
-	else if (n_queue == 0)
+	else if (n_selection == 0)
 		name = g_strdup (_("Selections"));
 	else
 		name = g_strdup ("???");
@@ -251,20 +251,20 @@ gth_queue_manager_update_file_info (GFile     *file,
 
 
 static void
-_gth_queue_manager_for_each_queue (gpointer user_data)
+_gth_selections_manager_for_each_selection (gpointer user_data)
 {
 	ForEachChildData *data = user_data;
 	int               i;
 
-	for (i = 0; i < N_QUEUES; i++) {
+	for (i = 0; i < N_SELECTIONS; i++) {
 		char      *uri;
 		GFile     *file;
 		GFileInfo *info;
 
-		uri = g_strdup_printf ("queue:///%d", i + 1);
+		uri = g_strdup_printf ("selection:///%d", i + 1);
 		file = g_file_new_for_uri (uri);
 		info = g_file_info_new ();
-		gth_queue_manager_update_file_info (file, info);
+		gth_selections_manager_update_file_info (file, info);
 		data->for_each_file_func (file, info, data->user_data);
 
 		g_object_unref (info);
@@ -272,7 +272,7 @@ _gth_queue_manager_for_each_queue (gpointer user_data)
 		g_free (uri);
 	}
 
-	object_ready_with_error (data->queue_manager,
+	object_ready_with_error (data->selections_manager,
 				 data->ready_callback,
 				 data->user_data,
 				 NULL);
@@ -281,25 +281,25 @@ _gth_queue_manager_for_each_queue (gpointer user_data)
 
 
 void
-gth_queue_manager_for_each_child (GFile                *folder,
-				  const char           *attributes,
-				  GCancellable         *cancellable,
-				  ForEachChildCallback  for_each_file_func,
-				  ReadyCallback         ready_callback,
-				  gpointer              user_data)
+gth_selections_manager_for_each_child (GFile                *folder,
+				       const char           *attributes,
+				       GCancellable         *cancellable,
+				       ForEachChildCallback  for_each_file_func,
+				       ReadyCallback         ready_callback,
+				       gpointer              user_data)
 {
-	GthQueueManager  *self;
-	int               n_queue;
-	ForEachChildData *data;
+	GthSelectionsManager *self;
+	int                   n_selection;
+	ForEachChildData     *data;
 
-	self = gth_queue_manager_get_default ();
-	n_queue = _g_file_get_n_queue (folder);
+	self = gth_selections_manager_get_default ();
+	n_selection = _g_file_get_n_selection (folder);
 
 	g_mutex_lock (self->priv->mutex);
 	data = g_new0 (ForEachChildData, 1);
-	data->queue_manager = self;
-	if (n_queue > 0)
-		data->files = _g_object_list_ref (self->priv->files[n_queue - 1]);
+	data->selections_manager = self;
+	if (n_selection > 0)
+		data->files = _g_object_list_ref (self->priv->files[n_selection - 1]);
 	data->current_file = data->files;
 	data->attributes = g_strdup (attributes);
 	data->cancellable = _g_object_ref(cancellable);
@@ -308,8 +308,8 @@ gth_queue_manager_for_each_child (GFile                *folder,
 	data->user_data = user_data;
 	g_mutex_unlock (self->priv->mutex);
 
-	if (n_queue == 0) {
-		call_when_idle (_gth_queue_manager_for_each_queue, data);
+	if (n_selection == 0) {
+		call_when_idle (_gth_selections_manager_for_each_selection, data);
 	}
 	else if (data->current_file != NULL)
 		g_file_query_info_async ((GFile *) data->current_file->data,
@@ -320,32 +320,32 @@ gth_queue_manager_for_each_child (GFile                *folder,
 					 fec__file_info_ready_cb,
 					 data);
 	else
-		object_ready_with_error (NULL, queue_manager_fec_done_cb, data, NULL);
+		object_ready_with_error (NULL, selections_manager_fec_done_cb, data, NULL);
 }
 
 
 gboolean
-gth_queue_manager_add_files (GFile *folder,
-			     GList *file_list, /* GFile list */
-			     int    destination_position)
+gth_selections_manager_add_files (GFile *folder,
+				  GList *file_list, /* GFile list */
+				  int    destination_position)
 {
-	GthQueueManager *self;
-	int              n_queue;
-	GList           *new_list;
-	GList           *link;
+	GthSelectionsManager *self;
+	int                   n_selection;
+	GList                *new_list;
+	GList                *link;
 
-	if (! g_file_has_uri_scheme (folder, "queue"))
+	if (! g_file_has_uri_scheme (folder, "selection"))
 		return FALSE;
 
-	self = gth_queue_manager_get_default ();
-	n_queue = _g_file_get_n_queue (folder);
-	if (n_queue <= 0)
+	self = gth_selections_manager_get_default ();
+	n_selection = _g_file_get_n_selection (folder);
+	if (n_selection <= 0)
 		return FALSE;
 
 	g_mutex_lock (self->priv->mutex);
 
 	new_list = _g_file_list_dup (file_list);
-	link = g_list_nth (self->priv->files[n_queue - 1], destination_position);
+	link = g_list_nth (self->priv->files[n_selection - 1], destination_position);
 	if (link != NULL) {
 		GList *last_new;
 
@@ -360,7 +360,7 @@ gth_queue_manager_add_files (GFile *folder,
 		link->prev = last_new;
 	}
 	else
-		self->priv->files[n_queue - 1] = g_list_concat (self->priv->files[n_queue - 1], new_list);
+		self->priv->files[n_selection - 1] = g_list_concat (self->priv->files[n_selection - 1], new_list);
 
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
@@ -374,18 +374,18 @@ gth_queue_manager_add_files (GFile *folder,
 
 
 void
-gth_queue_manager_remove_files (GFile *folder,
-				GList *file_list)
+gth_selections_manager_remove_files (GFile *folder,
+				     GList *file_list)
 {
-	GthQueueManager *self;
-	int              n_queue;
-	GHashTable      *files_to_remove;
-	GList           *scan;
-	GList           *new_list;
+	GthSelectionsManager *self;
+	int                   n_selection;
+	GHashTable           *files_to_remove;
+	GList                *scan;
+	GList                *new_list;
 
-	self = gth_queue_manager_get_default ();
-	n_queue = _g_file_get_n_queue (folder);
-	if (n_queue <= 0)
+	self = gth_selections_manager_get_default ();
+	n_selection = _g_file_get_n_selection (folder);
+	if (n_selection <= 0)
 		return;
 
 	g_mutex_lock (self->priv->mutex);
@@ -395,7 +395,7 @@ gth_queue_manager_remove_files (GFile *folder,
 		g_hash_table_insert (files_to_remove, scan->data, GINT_TO_POINTER (1));
 
 	new_list = NULL;
-	for (scan = self->priv->files[n_queue - 1]; scan; scan = scan->next) {
+	for (scan = self->priv->files[n_selection - 1]; scan; scan = scan->next) {
 		GFile *file = scan->data;
 
 		if (g_hash_table_lookup (files_to_remove, file))
@@ -407,8 +407,8 @@ gth_queue_manager_remove_files (GFile *folder,
 
 	g_hash_table_unref (files_to_remove);
 
-	_g_object_list_unref (self->priv->files[n_queue - 1]);
-	self->priv->files[n_queue - 1] = new_list;
+	_g_object_list_unref (self->priv->files[n_selection - 1]);
+	self->priv->files[n_selection - 1] = new_list;
 
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
@@ -420,10 +420,10 @@ gth_queue_manager_remove_files (GFile *folder,
 
 
 void
-gth_queue_manager_reorder (GFile *folder,
-			   GList *visible_files, /* GFile list */
-			   GList *files_to_move, /* GFile list */
-			   int    dest_pos)
+gth_selections_manager_reorder (GFile *folder,
+				GList *visible_files, /* GFile list */
+				GList *files_to_move, /* GFile list */
+				int    dest_pos)
 {
 	/* FIXME */
 }

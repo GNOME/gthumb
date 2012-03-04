@@ -56,8 +56,8 @@ SUBDIRS = 			\
 	rename_series 		\
 	resize_images		\
 	search			\
+	selections		\
 	slideshow		\
-	work_queues		\
 	$(EXPORTERS)		\
 	$(IMPORTERS)		\
 	$(OTHER_TOOLS)		\
