@@ -91,7 +91,7 @@ cs__gth_browser_construct_cb (GthBrowser *browser)
 
 	data = g_new0 (BrowserData, 1);
 
-	data->action_group = gtk_action_group_new ("Web Albums Actions");
+	data->action_group = gtk_action_group_new ("Contact Sheet Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
 	gtk_action_group_add_actions (data->action_group,
 				      action_entries,
