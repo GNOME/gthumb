@@ -144,7 +144,7 @@ extension_description_data_func_cb (GtkTreeViewColumn *tree_column,
 	GthExtensionDescription *description;
 	char                    *text;
 
-	gtk_tree_model_get (tree_model, iter, 0, &description, -1);
+	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 
 	text = g_markup_printf_escaped ("<b>%s</b>\n<small>%s</small>", description->name, description->description);
 	g_object_set (G_OBJECT (cell), "markup", text, NULL);
@@ -164,7 +164,7 @@ extension_icon_data_func_cb (GtkTreeViewColumn *tree_column,
 {
 	GthExtensionDescription *description;
 
-	gtk_tree_model_get (tree_model, iter, 0, &description, -1);
+	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 	if (description->icon_name != NULL)
 		g_object_set (G_OBJECT (cell), "icon-name", description->icon_name, NULL);
 	else
@@ -184,7 +184,7 @@ extension_active_data_func_cb (GtkTreeViewColumn *tree_column,
 {
 	GthExtensionDescription *description;
 
-	gtk_tree_model_get (tree_model, iter, 0, &description, -1);
+	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 	g_object_set (G_OBJECT (cell), "active", gth_extension_description_is_active (description), NULL);
 
 	g_object_unref (description);
@@ -209,7 +209,7 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 		GError                  *error = NULL;
 		GtkTreeIter              child_iter;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (data->model_filter), &iter, 0, &description, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (data->model_filter), &iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 		gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (data->model_filter), &child_iter, &iter);
 		if (! gth_extension_description_is_active (description)) {
 			if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error)) {
@@ -217,7 +217,7 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 				g_clear_error (&error);
 			}
 			else {
-				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);
+				gtk_list_store_set (data->list_store, &child_iter, EXTENSION_DESCRIPTION_COLUMN, description, -1);
 				data->enabled_disabled_cardinality_changed = TRUE;
 			}
 		}
@@ -227,7 +227,7 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 				g_clear_error (&error);
 			}
 			else {
-				gtk_list_store_set (data->list_store, &child_iter, 0, description, -1);
+				gtk_list_store_set (data->list_store, &child_iter, EXTENSION_DESCRIPTION_COLUMN, description, -1);
 				data->enabled_disabled_cardinality_changed = TRUE;
 			}
 		}
@@ -317,8 +317,8 @@ extension_compare_func (GtkTreeModel *tree_model,
 	GthExtensionDescription *description_b;
 	int                      result;
 
-	gtk_tree_model_get (tree_model, iter_a, 0, &description_a, -1);
-	gtk_tree_model_get (tree_model, iter_b, 0, &description_b, -1);
+	gtk_tree_model_get (tree_model, iter_a, EXTENSION_DESCRIPTION_COLUMN, &description_a, -1);
+	gtk_tree_model_get (tree_model, iter_b, EXTENSION_DESCRIPTION_COLUMN, &description_b, -1);
 
 	result = strcmp (description_a->name, description_b->name);
 
@@ -530,7 +530,7 @@ about_button_clicked_cb (GtkButton *button,
 	if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)), &model, &iter))
 		return;
 
-	gtk_tree_model_get (model, &iter, 0, &description, -1);
+	gtk_tree_model_get (model, &iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 
 	dialog = gtk_about_dialog_new ();
 	if (description->name != NULL)
@@ -572,7 +572,7 @@ preferences_button_clicked_cb (GtkButton *button,
 	if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)), &model, &iter))
 		return;
 
-	gtk_tree_model_get (model, &iter, 0, &description, -1);
+	gtk_tree_model_get (model, &iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
 	extension = gth_extension_description_get_extension (description);
 	gth_extension_configure (extension, GTK_WINDOW (data->dialog));
 
