@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-02-07 19:08+0000\n"
-"PO-Revision-Date: 2012-02-09 11:31+0100\n"
+"POT-Creation-Date: 2012-03-04 21:26+0000\n"
+"PO-Revision-Date: 2012-03-05 10:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -337,7 +337,6 @@ msgid "on the bottom"
 msgstr "abajo"
 
 #: ../data/ui/preferences.ui.h:12
-#| msgid "on the right"
 msgid "on the side"
 msgstr "en el lateral"
 
@@ -781,7 +780,7 @@ msgid "New _Library"
 msgstr "_Biblioteca nueva"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:929
+#: ../extensions/file_manager/actions.c:934
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Ver el destino"
@@ -2137,11 +2136,11 @@ msgstr ""
 "No se pueden mover los archivos a la ubicación actual, como alternativa "
 "puede elegir copiarlos."
 
-#: ../extensions/file_manager/actions.c:555
+#: ../extensions/file_manager/actions.c:560
 msgid "Could not open the location"
 msgstr "No se pudo abrir la ubicación"
 
-#: ../extensions/file_manager/actions.c:688
+#: ../extensions/file_manager/actions.c:693
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -2149,45 +2148,45 @@ msgstr ""
 "La carpeta no está vacía. ¿Quiere borrar la carpeta y su contenido "
 "permanentemente?"
 
-#: ../extensions/file_manager/actions.c:704
+#: ../extensions/file_manager/actions.c:709
 msgid "Could not delete the folder"
 msgstr "No se pudo eliminar la carpeta"
 
-#: ../extensions/file_manager/actions.c:765
+#: ../extensions/file_manager/actions.c:770
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
 "No se puede mover la carpeta a la papelera. ¿Quiere borrarla permanentemente?"
 
-#: ../extensions/file_manager/actions.c:772
+#: ../extensions/file_manager/actions.c:777
 msgid "Could not move the folder to the Trash"
 msgstr "No se pudo mover la carpeta a la papelera"
 
-#: ../extensions/file_manager/actions.c:808
+#: ../extensions/file_manager/actions.c:813
 #: ../gthumb/gth-file-source-vfs.c:841
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
-#: ../extensions/file_manager/actions.c:818
+#: ../extensions/file_manager/actions.c:823
 #: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
-#: ../extensions/file_manager/actions.c:910
+#: ../extensions/file_manager/actions.c:915
 msgid "Move To"
 msgstr "Mover a"
 
-#: ../extensions/file_manager/actions.c:910
+#: ../extensions/file_manager/actions.c:915
 msgid "Copy To"
 msgstr "Copiar a"
 
-#: ../extensions/file_manager/actions.c:914
+#: ../extensions/file_manager/actions.c:919
 msgid "Move"
 msgstr "Mover"
 
-#: ../extensions/file_manager/actions.c:914
+#: ../extensions/file_manager/actions.c:919
 msgid "Copy"
 msgstr "Copiar"
 
@@ -4366,6 +4365,45 @@ msgstr "Cancelar la operación"
 msgid "File search tool."
 msgstr "Herramienta de búsqueda de archivos."
 
+#: ../extensions/selections/callbacks.c:62
+#| msgid "Selection"
+msgid "Add to _Selection"
+msgstr "Añadir a _selección"
+
+#: ../extensions/selections/callbacks.c:65
+#| msgid "Selection"
+msgid "Selection 1"
+msgstr "Selección 1"
+
+#: ../extensions/selections/callbacks.c:70
+#| msgid "Selection"
+msgid "Selection 2"
+msgstr "Selección 2"
+
+#: ../extensions/selections/callbacks.c:75
+#| msgid "Selection"
+msgid "Selection 3"
+msgstr "Selección 3"
+
+#: ../extensions/selections/callbacks.c:180
+#, c-format
+msgid ""
+"Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+msgstr ""
+"Use Alt+%d para añadir archivos a esta selección, Ctrl+%d para ver esta "
+"selección."
+
+#: ../extensions/selections/gth-selections-manager.c:242
+#, c-format
+#| msgid "Selection"
+msgid "Selection %d"
+msgstr "Selección %d"
+
+#: ../extensions/selections/gth-selections-manager.c:245
+#| msgid "Selection"
+msgid "Selections"
+msgstr "Selecciones"
+
 #: ../extensions/slideshow/callbacks.c:56
 msgid "_Slideshow"
 msgstr "Mo_strar diapositivas"
@@ -5066,8 +5104,8 @@ msgid "%s of free space"
 msgstr "%s de espacio libre"
 
 #: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1799
-#: ../gthumb/gth-browser.c:5883 ../gthumb/gth-browser.c:5902
-#: ../gthumb/gth-browser.c:5927
+#: ../gthumb/gth-browser.c:5882 ../gthumb/gth-browser.c:5901
+#: ../gthumb/gth-browser.c:5925
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -5106,12 +5144,12 @@ msgstr "Ver la lista de lugares visitados"
 msgid "View the list of upper locations"
 msgstr "Ver la lista de lugares anteriores"
 
-#: ../gthumb/gth-browser.c:5884
+#: ../gthumb/gth-browser.c:5883
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5928
+#: ../gthumb/gth-browser.c:5926
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -5121,7 +5159,7 @@ msgstr "No se encontró un modulo adecuado"
 msgid "Could not open the module `%s`: %s"
 msgstr "No se pudo abrir el módulo «%s»: %s"
 
-#: ../gthumb/gth-extensions.c:733
+#: ../gthumb/gth-extensions.c:741
 #, c-format
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "La extensión «%2$s» requiere la extensión «%1$s»"
