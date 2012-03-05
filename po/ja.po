@@ -1,21 +1,22 @@
 # gthumb ja.po.
-# Copyright (C) 2001-2007,2009-2011 Free Software Foundation, Inc.
+# Copyright (C) 2001-2007,2009-2012 Free Software Foundation, Inc.
 # Takeshi AIHANA <takeshi.aihana@gmail.com>, 2001-2007,2009-2011.
+# Jiro Matsuzawa <jmatsuzawa@src.gnome.org>, 2012
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-01-08 13:15+0000\n"
-"PO-Revision-Date: 2012-01-01 19:55+0900\n"
+"POT-Creation-Date: 2012-03-04 21:26+0000\n"
+"PO-Revision-Date: 2012-02-19 19:03+0900\n"
 "Last-Translator: Jiro Matsuzawa <jmatsuzawa@src.gnome.org>\n"
 "Language-Team: Japanese <takeshi.aihana@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
@@ -59,7 +60,7 @@ msgstr "起動可能なアイテムではありません"
 
 #: ../copy-n-paste/eggsmclient.c:226
 msgid "Disable connection to session manager"
-msgstr "セッション・マネージャーに接続しない"
+msgstr "セッションマネージャーに接続しない"
 
 #: ../copy-n-paste/eggsmclient.c:229
 msgid "Specify file containing saved configuration"
@@ -85,39 +86,39 @@ msgstr "セッション管理のオプション:"
 msgid "Show session management options"
 msgstr "セッション管理のオプションを表示する"
 
-#: ../data/gthumb.desktop.in.in.h:1
-msgid "Image Viewer"
-msgstr "画像ビューアー"
-
-#: ../data/gthumb.desktop.in.in.h:2
-msgid "View and organize your images"
-msgstr "画像を表示し管理するツールです"
-
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:3 ../gthumb/gth-browser.c:529
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:529
 #: ../gthumb/gth-progress-dialog.c:386 ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../data/gthumb.desktop.in.in.h:4
+#: ../data/gthumb.desktop.in.in.h:2
+msgid "Image Viewer"
+msgstr "画像ビューアー"
+
+#: ../data/gthumb.desktop.in.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "gThumb 画像ビューアー"
 
-#: ../data/gthumb-import.desktop.in.in.h:1
-msgid "Import the photos on your camera card"
-msgstr "お使いのカメラや IC メモリにある写真を取り込みます"
+#: ../data/gthumb.desktop.in.in.h:4
+msgid "View and organize your images"
+msgstr "画像を表示し管理するツールです"
 
-#: ../data/gthumb-import.desktop.in.in.h:2
+#: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import with gThumb"
 msgstr ""
 
-#: ../data/gthumb-import.desktop.in.in.h:3
+#: ../data/gthumb-import.desktop.in.in.h:2
 msgid "Photo Import Tool"
 msgstr "写真を取り込むツール"
 
-#: ../data/gthumb-import.desktop.in.in.h:4
+#: ../data/gthumb-import.desktop.in.in.h:3
 msgid "gThumb Photo Import Tool"
-msgstr "gThumb フォト・インポート・ツール"
+msgstr "gThumb フォトインポートツール"
+
+#: ../data/gthumb-import.desktop.in.in.h:4
+msgid "Import the photos on your camera card"
+msgstr "お使いのカメラや IC メモリにある写真を取り込みます"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid ""
@@ -128,28 +129,26 @@ msgstr ""
 "をサムネイル表示する場合は 0 を指定して下さい。"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "Open another window"
-msgid "Open files in the active window"
-msgstr "別のウィンドウを開きます"
-
-#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Whether to resize the window to fit the size of the image"
 msgstr "画像のサイズに合わせてウィンドウの大きさを変更するかどうかです。"
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:3
+msgid "Open files in the active window"
+msgstr "使用中のウィンドウでファイルを開きます"
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
 msgid "Possible values are: white, black, checked, none."
 msgstr "設定可能な値: white、black、checked、none"
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
-msgid "Whether to always use a black background."
-msgstr "常に背景を黒色にするかどうかを設定します。"
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
 #, fuzzy
 #| msgid "Whether to reset the scrollbar positions after changing image"
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "画像を変更した後にスクロールバーの位置をリセットするかどうかです。"
+
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
+msgid "Whether to always use a black background."
+msgstr "常に背景を黒色にするかどうかを設定します。"
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -168,31 +167,31 @@ msgstr ""
 "photo::datetimeoriginal"
 
 #: ../data/ui/extensions-preferences.ui.h:1
+msgid "_Extensions:"
+msgstr "拡張機能(_E):"
+
+#: ../data/ui/extensions-preferences.ui.h:2
 msgid "More extensions..."
 msgstr "その他の拡張機能..."
 
-#: ../data/ui/extensions-preferences.ui.h:2
+#: ../data/ui/extensions-preferences.ui.h:3
 msgid "Some extensions are configurable."
 msgstr "いくつかの拡張機能は設定変更が可能です。"
-
-#: ../data/ui/extensions-preferences.ui.h:3
-msgid "_Extensions:"
-msgstr "拡張機能(_E):"
 
 #: ../data/ui/filter-editor.ui.h:1
 msgid "Filter _Name:"
 msgstr "フィルターの名前(_N):"
 
-#. limit label
-#: ../data/ui/filter-editor.ui.h:2 ../gthumb/gth-filter.c:268
-#: ../gthumb/gth-filter.c:340
-msgid "_Limit to"
-msgstr "次に制限する(_L):"
-
-#: ../data/ui/filter-editor.ui.h:3
+#: ../data/ui/filter-editor.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:3
 msgid "_Match"
 msgstr "次を満足するもの(_M): "
+
+#. limit label
+#: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:268
+#: ../gthumb/gth-filter.c:340
+msgid "_Limit to"
+msgstr "次に制限する(_L):"
 
 #: ../data/ui/filter-editor.ui.h:4
 msgid "selected by"
@@ -202,69 +201,69 @@ msgstr " 次の条件で選択する:"
 msgid "Mean:"
 msgstr "平均:"
 
-#: ../data/ui/histogram-info.ui.h:2
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
+#: ../data/ui/histogram-info.ui.h:3
+msgid "Std dev:"
+msgstr "標準偏差:"
+
+#: ../data/ui/histogram-info.ui.h:4
 msgid "Median:"
 msgstr "中央値:"
 
+#. After the colon there is the total number of pixels
+#: ../data/ui/histogram-info.ui.h:6
+msgid "Pixels:"
+msgstr "ピクセル数:"
+
 #. After the colon there is a percentile.
-#: ../data/ui/histogram-info.ui.h:4
+#: ../data/ui/histogram-info.ui.h:8
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "最大値:"
 
 #. After the colon there is the percentile of selected pixels.
-#: ../data/ui/histogram-info.ui.h:6
+#: ../data/ui/histogram-info.ui.h:10
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "選択値:"
 
-#. After the colon there is the total number of pixels
-#: ../data/ui/histogram-info.ui.h:8
-msgid "Pixels:"
-msgstr "ピクセル数:"
-
-#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
-#: ../data/ui/histogram-info.ui.h:10
-msgid "Std dev:"
-msgstr "標準偏差:"
-
 #: ../data/ui/overwrite-dialog.ui.h:1
-msgid "Do not overwrite _the old file"
-msgstr "古い画像を上書きしない(_T)"
+msgid "Overwrite the old file with the new one?"
+msgstr "新しいファイルで古いファイルを上書きしますか?"
 
 #: ../data/ui/overwrite-dialog.ui.h:2
-msgid "Filename:"
-msgstr "ファイル名:"
-
-#: ../data/ui/overwrite-dialog.ui.h:3
-msgid "Modified:"
-msgstr "修正日時:"
-
-#: ../data/ui/overwrite-dialog.ui.h:4
-msgid "New File:"
-msgstr "新しいファイル"
-
-#: ../data/ui/overwrite-dialog.ui.h:5
 msgid "Old File:"
 msgstr "古いファイル"
 
+#: ../data/ui/overwrite-dialog.ui.h:3
+msgid "Filename:"
+msgstr "ファイル名:"
+
+#: ../data/ui/overwrite-dialog.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+msgid "Size:"
+msgstr "サイズ:"
+
+#: ../data/ui/overwrite-dialog.ui.h:5
+msgid "Modified:"
+msgstr "修正日時:"
+
 #: ../data/ui/overwrite-dialog.ui.h:6
+msgid "New File:"
+msgstr "新しいファイル"
+
+#: ../data/ui/overwrite-dialog.ui.h:7
 msgid "Over_write the old file"
 msgstr "古いファイルを上書きする(_W)"
 
-#: ../data/ui/overwrite-dialog.ui.h:7
-msgid "Overwrite _all files"
-msgstr "全てのファイルを上書きする(_A)"
-
 #: ../data/ui/overwrite-dialog.ui.h:8
-msgid "Overwrite the old file with the new one?"
-msgstr "新しいファイルで古いファイル上書きしますか？"
+msgid "Do not overwrite _the old file"
+msgstr "古い画像を上書きしない(_T)"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
-#: ../extensions/image_print/data/ui/print-layout.ui.h:16
-msgid "Size:"
-msgstr "サイズ:"
+msgid "Overwrite _all files"
+msgstr "全てのファイルを上書きする(_A)"
 
 #: ../data/ui/overwrite-dialog.ui.h:10
 msgid "_Do not overwrite any file"
@@ -287,124 +286,180 @@ msgid "_Other filters:"
 msgstr "その他のフィルター(_O):"
 
 #: ../data/ui/preferences.ui.h:1
+msgid "below the folder list"
+msgstr "フォルダーの一覧の下"
+
+#: ../data/ui/preferences.ui.h:2
+msgid "on the right"
+msgstr "右側"
+
+#: ../data/ui/preferences.ui.h:3
+msgid "gThumb Preferences"
+msgstr "gThumb の設定"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "_Toolbar style:"
+msgstr "ツールバーのスタイル(_T):"
+
+#: ../data/ui/preferences.ui.h:5
+msgid "T_humbnails in viewer:"
+msgstr "サムネイルの表示位置(_H):"
+
+#: ../data/ui/preferences.ui.h:6
+msgid "System settings"
+msgstr "デスクトップ設定に従う"
+
+#: ../data/ui/preferences.ui.h:7
+msgid "Text below icons"
+msgstr "アイコンの下にラベル"
+
+#: ../data/ui/preferences.ui.h:8
+msgid "Text beside icons"
+msgstr "アイコンの横にラベル"
+
+#: ../data/ui/preferences.ui.h:9
+msgid "Icons only"
+msgstr "アイコンのみ"
+
+#: ../data/ui/preferences.ui.h:10
+msgid "Text only"
+msgstr "ラベルのみ"
+
+#: ../data/ui/preferences.ui.h:11
+msgid "on the bottom"
+msgstr "下側"
+
+#: ../data/ui/preferences.ui.h:12
+msgid "on the side"
+msgstr "横側"
+
+#: ../data/ui/preferences.ui.h:13
+msgid "File _properties in browser:"
+msgstr "ブラウザーでのプロパティ表示位置(_P):"
+
+#: ../data/ui/preferences.ui.h:14
 msgid "Appearance"
 msgstr "外観"
 
-#: ../data/ui/preferences.ui.h:2
-msgid "As_k confirmation before deleting files or catalogs"
-msgstr "ファイルまたはカタログを削除する前に確認する(_K)"
+#: ../data/ui/preferences.ui.h:15
+msgid "Go to last _visited location"
+msgstr "直前に訪れた場所へ移動する(_V)"
 
-#: ../data/ui/preferences.ui.h:3
-msgid "Ask whether to save _modified files"
-msgstr "変更したファイルを保存するか確認する(_M)"
+#: ../data/ui/preferences.ui.h:16
+msgid "Go to this _folder:"
+msgstr "次のフォルダーへ移動する(_F):"
 
-#: ../data/ui/preferences.ui.h:4 ../gthumb/dlg-preferences-extensions.c:71
-#: ../gthumb/gth-browser-actions-entries.h:173
-msgid "Browser"
-msgstr "ブラウザー"
-
-#: ../data/ui/preferences.ui.h:5
-#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: ../extensions/image_print/data/ui/print-layout.ui.h:4
-msgid "Caption"
-msgstr "表示する見出し"
-
-#: ../data/ui/preferences.ui.h:6
+#: ../data/ui/preferences.ui.h:17
 msgid "Choose startup folder"
 msgstr "起動時に開くフォルダーの選択"
 
-#: ../data/ui/preferences.ui.h:7
-msgid "D_etermine image type from content (slower)"
-msgstr "画像の内容から種類を判断する (低速)(_E)"
+#: ../data/ui/preferences.ui.h:18
+msgid "Set to C_urrent"
+msgstr "現在の場所をセットする(_U)"
 
-#: ../data/ui/preferences.ui.h:8
-msgid "File _properties in browser:"
-msgstr ""
+#: ../data/ui/preferences.ui.h:19
+msgid "_Reuse the active window to open files"
+msgstr "使用中のウィンドウでファイルを開く(_R)"
 
-#: ../data/ui/preferences.ui.h:9
+#: ../data/ui/preferences.ui.h:20
+msgid "On startup:"
+msgstr "起動時:"
+
+#: ../data/ui/preferences.ui.h:21
+msgid "As_k confirmation before deleting files or catalogs"
+msgstr "ファイルまたはカタログを削除する前に確認する(_K)"
+
+#: ../data/ui/preferences.ui.h:22
+msgid "Ask whether to save _modified files"
+msgstr "変更したファイルを保存するか確認する(_M)"
+
+#: ../data/ui/preferences.ui.h:23
+msgid "_Store metadata inside files if possible"
+msgstr "可能ならば、ファイル内にメタデータを埋め込む(_S)"
+
+#: ../data/ui/preferences.ui.h:24
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: ../extensions/gstreamer_tools/main.c:33
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:17
+msgid "Other"
+msgstr "その他"
+
+#: ../data/ui/preferences.ui.h:25
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
-#: ../extensions/edit_metadata/gth-edit-general-page.c:404
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/edit_metadata/gth-edit-general-page.c:473
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "全般"
 
-#: ../data/ui/preferences.ui.h:10
-msgid "Go to last _visited location"
-msgstr "次に訪れた場所へ移動する(_V)"
+#: ../data/ui/preferences.ui.h:26
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+msgid "Caption"
+msgstr "表示するプロパティ"
 
-#: ../data/ui/preferences.ui.h:11
-msgid "Go to this _folder:"
-msgstr "次のフォルダーへ移動する(_F):"
-
-#: ../data/ui/preferences.ui.h:12
-msgid "On startup:"
-msgstr "起動時:"
-
-#: ../data/ui/preferences.ui.h:13
-#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
-#: ../extensions/gstreamer_tools/main.c:33
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-msgid "Other"
-msgstr "その他"
-
-#: ../data/ui/preferences.ui.h:14
-msgid "Set to C_urrent"
-msgstr "現在の場所をセットする(_U)"
-
-#: ../data/ui/preferences.ui.h:15
-msgid "T_humbnails in viewer:"
-msgstr "サムネイルの一覧(_H):"
-
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:27
 msgid "Thumbnail _size:"
 msgstr "サムネイルのサイズ(_S):"
 
-#: ../data/ui/preferences.ui.h:17
-#, fuzzy
-#| msgid "Resize the window to the size of the image"
-msgid "_Reuse the active window to open files"
-msgstr "画像のサイズに合わせてウィンドウの大きさを変更します"
+#: ../data/ui/preferences.ui.h:28
+msgid "48"
+msgstr "48"
 
-#: ../data/ui/preferences.ui.h:18
-msgid "_Store metadata inside files if possible"
-msgstr "可能ならば、ファイル内にメタデータを埋め込む(_S)"
+#: ../data/ui/preferences.ui.h:29
+msgid "64"
+msgstr "64"
 
-#: ../data/ui/preferences.ui.h:19
-msgid "_Toolbar style:"
-msgstr "ツールバーのスタイル(_T):"
+#: ../data/ui/preferences.ui.h:30
+msgid "85"
+msgstr "85"
 
-#: ../data/ui/preferences.ui.h:20
-#, fuzzy
-#| msgid "View the folders"
-msgid "below the folder list"
-msgstr "フォルダーを表示します"
+#: ../data/ui/preferences.ui.h:31
+msgid "95"
+msgstr "95"
 
-#: ../data/ui/preferences.ui.h:21
-#, fuzzy
-#| msgid "gthumb Preferences"
-msgid "gThumb Preferences"
-msgstr "gThumb の設定"
+#: ../data/ui/preferences.ui.h:32
+msgid "112"
+msgstr "112"
 
-#: ../data/ui/preferences.ui.h:22
-#, fuzzy
-#| msgid "on the side"
-msgid "on the right"
-msgstr "ウィンドウの横側"
+#: ../data/ui/preferences.ui.h:33
+msgid "128"
+msgstr "128"
+
+#: ../data/ui/preferences.ui.h:34
+msgid "164"
+msgstr "164"
+
+#: ../data/ui/preferences.ui.h:35
+msgid "200"
+msgstr "200"
+
+#: ../data/ui/preferences.ui.h:36
+msgid "256"
+msgstr "256"
+
+#: ../data/ui/preferences.ui.h:37
+msgid "D_etermine image type from content (slower)"
+msgstr "画像の内容から種類を判断する (低速)(_E)"
+
+#: ../data/ui/preferences.ui.h:38 ../gthumb/dlg-preferences-extensions.c:71
+#: ../gthumb/gth-browser-actions-entries.h:173
+msgid "Browser"
+msgstr "ブラウザー"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
-msgstr "並び替え"
+msgstr "並べ替え"
 
 #: ../data/ui/sort-order.ui.h:2
-msgid "_Inverse order"
-msgstr "逆順にする(_I)"
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:4
+msgid "_Sort by:"
+msgstr "並べ替え順序(_S): "
 
 #: ../data/ui/sort-order.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
-msgid "_Sort by:"
-msgstr "次で並び替える(_S): "
+msgid "_Inverse order"
+msgstr "逆順にする(_I)"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:1
 msgid "23"
@@ -423,13 +478,13 @@ msgid "Upload photos to 23"
 msgstr "写真を 23 へアップロードします"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-msgid "Add bookmarks support."
-msgstr "ブックマークの機能を追加します"
-
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "Bookmarks"
 msgstr "ブックマーク"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
+msgid "Add bookmarks support."
+msgstr "ブックマークの機能を追加します"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
@@ -490,12 +545,12 @@ msgid "_Bookmarks:"
 msgstr "ブックマーク(_B):"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-msgid "_Location"
-msgstr "場所(_L)"
-
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "名前(_N)"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+msgid "_Location"
+msgstr "場所(_L)"
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:70
 msgid "Could not remove the bookmark"
@@ -530,12 +585,12 @@ msgid "Current folder and its s_ub-folders"
 msgstr "このフォルダーとそのサブフォルダー(_U)"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
-msgid "Source"
-msgstr "書き込むファイル"
-
-#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
 msgid "_Selected files"
 msgstr "選択したファイル(_S)"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
+msgid "Source"
+msgstr "書き込むファイル"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
@@ -613,7 +668,7 @@ msgstr "カタログを削除できませんでした"
 #: ../extensions/catalogs/actions.c:363
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
-msgstr "本当に \"%s\" を削除しますか？"
+msgstr "本当に \"%s\" を削除しますか?"
 
 #: ../extensions/catalogs/callbacks.c:102
 msgid "_Add to Catalog"
@@ -675,7 +730,7 @@ msgstr "コマンドライン"
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
 #: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
 msgid "(Empty)"
-msgstr "(空です)"
+msgstr "(ファイルなし)"
 
 #: ../extensions/catalogs/callbacks.c:697
 msgid "Catalog Properties"
@@ -710,70 +765,70 @@ msgid "C_atalogs:"
 msgstr "カタログ(_A):"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
-msgid "New _Library"
-msgstr "新しいライブラリ(_L)"
-
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "新しいカタログ(_N)"
 
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+msgid "New _Library"
+msgstr "新しいライブラリ(_L)"
+
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:929
+#: ../extensions/file_manager/actions.c:934
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "送り先のフォルダーを表示する(_V)"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-msgid "Catalog"
-msgstr "カタログ"
-
-#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../gthumb/gth-file-properties.c:212
 msgid "Properties"
 msgstr "プロパティ"
 
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+msgid "_Name:"
+msgstr "名前(_N):"
+
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:4
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
 msgid "_Date:"
 msgstr "日付(_D):"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
-#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
-msgid "_Name:"
-msgstr "名前(_N):"
+msgid "Catalog"
+msgstr "カタログ"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
-msgid "Catalog _Preview:"
-msgstr "カタログのプレビュー(_P):"
-
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
-msgid "Organization:"
-msgstr "整理した結果:"
-
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
 msgid "Organize Files"
 msgstr "ファイルの整理"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organizing files"
 msgstr "ファイルの整理中"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
+msgid "Organization:"
+msgstr "整理した結果:"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
 msgid "Select All"
 msgstr "全て選択"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
 msgid "Select None"
 msgstr "選択の解除"
 
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+msgid "Catalog _Preview:"
+msgstr "カタログのプレビュー(_P):"
+
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-general-page.c:480
+#: ../extensions/edit_metadata/gth-edit-general-page.c:549
 #: ../gthumb/gth-main-default-tests.c:264
 msgid "Date photo was taken"
 msgstr "写真の撮影日"
@@ -784,40 +839,40 @@ msgid "File modified date"
 msgstr "ファイルの変更日時"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
-msgid "Ignore catalogs with a single file"
-msgstr "１個しかファイルのないカタログは無視する"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-msgid "Put single files in the catalog:"
-msgstr "１個のカタログに１個のファイルを格納する:"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
-msgid "Singles"
-msgstr "単体"
-
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 #: ../extensions/comments/main.c:280
 msgid "Tag"
 msgstr "タグ"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+msgid "tag"
+msgstr "tag"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 #: ../gthumb/gth-main-default-tests.c:284
 msgid "Tag (embedded)"
 msgstr "(埋め込まれた) タグ"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:7
 msgid "_Group files by:"
 msgstr "次でグループ化する(_G):"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
-#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:8
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:2
 msgid "_Include sub-folders"
-msgstr "サブ・フォルダーも含める(_I)"
+msgstr "サブフォルダーも含める(_I)"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:9
+msgid "Ignore catalogs with a single file"
+msgstr "１個しかファイルのないカタログは無視する"
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:10
+msgid "Put single files in the catalog:"
+msgstr "１個のカタログに１個のファイルを格納する:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:11
-msgid "tag"
-msgstr "tag"
+msgid "Singles"
+msgstr "単体"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:105
 #: ../extensions/catalogs/dlg-add-to-catalog.c:136
@@ -851,12 +906,12 @@ msgstr "タグ"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:948
 #, c-format
 msgid "The catalog '%s' already exists, do you want to overwrite it?"
-msgstr "次のカタログは既に存在していますが上書きしますか？: '%s'"
+msgstr "次のカタログは既に存在していますが上書きしますか?: '%s'"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:950
 #, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
-msgstr "次のライブラリは既に存在していますが上書きしますか？: '%s'"
+msgstr "次のライブラリは既に存在していますが上書きしますか?: '%s'"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:958
 msgid "Over_write"
@@ -884,10 +939,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "カタログからファイルを削除できませんでした"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1441
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:674
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:683
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:712
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1217
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:682
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:691
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:720
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1225
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "ファイル形式が間違っています"
@@ -914,78 +969,78 @@ msgid "Change the files date"
 msgstr "ファイルの日付を変更します"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-msgid "+"
-msgstr "次を足す"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:2
-msgid "-"
-msgstr "次を引く"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:3
-msgid "A_djust by"
-msgstr "調整する(_D):"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change Date"
 msgstr "日付の変更"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:5
+#: ../extensions/change_date/data/ui/change-date.ui.h:2
 msgid "Change the following values:"
 msgstr "変更するデータ:"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:3
+msgid "_Last modified date"
+msgstr "更新日時(_L)"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:4
+msgid "Co_mment date"
+msgstr "コメントの日時(_M)"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
+msgid "Exif DateTimeOriginal tag"
+msgstr "EXIF の DateTimeOriginal タグの日時"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:6
 msgid "Change to:"
 msgstr "変更の詳細:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:7
-msgid "Co_mment date"
-msgstr "コメントの日時(_M)"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:8
-msgid "Date p_hoto was taken"
-msgstr "写真を撮った日時(_H)"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:9
-msgid "Exif DateTimeOriginal tag"
-msgstr "EXIF の DateTimeOriginal タグの日時"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:10
-msgid "File _modified date"
-msgstr "ファイルの最終修正日時(_M)"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:11
-msgid "File c_reation date"
-msgstr "ファイルの生成日時(_R)"
-
-#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "The _following date:"
 msgstr "日付を指定する(_F):"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:13
-msgid "_Last modified date"
-msgstr "最終修正日時(_L)"
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
+msgid "File _modified date"
+msgstr "ファイルの更新日時(_M)"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
+msgid "File c_reation date"
+msgstr "ファイルの生成日時(_R)"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
+msgid "Date p_hoto was taken"
+msgstr "写真を撮った日時(_H)"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
+msgid "A_djust by"
+msgstr "調整する(_D):"
 
 # 上にある "Adjust by" の訳語と連携するため空文字にしている
-#: ../extensions/change_date/data/ui/change-date.ui.h:14
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "hours"
 msgstr "時間"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:15
+#: ../extensions/change_date/data/ui/change-date.ui.h:13
 msgid "minutes"
 msgstr "分"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:16
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+#: ../extensions/change_date/data/ui/change-date.ui.h:14
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
 msgid "seconds"
 msgstr "秒間"
 
-#: ../extensions/comments/comments.extension.in.in.h:1
-msgid "Add comments and tags to any file type."
-msgstr "いろいろな種類のファイルにコメントやタグを追加します"
+#: ../extensions/change_date/data/ui/change-date.ui.h:15
+msgid "+"
+msgstr "次を足す"
 
-#: ../extensions/comments/comments.extension.in.in.h:2
+#: ../extensions/change_date/data/ui/change-date.ui.h:16
+msgid "-"
+msgstr "次を引く"
+
+#: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
 msgstr "コメントとタグ"
+
+#: ../extensions/comments/comments.extension.in.in.h:2
+msgid "Add comments and tags to any file type."
+msgstr "いろいろな種類のファイルにコメントやタグを追加します"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
@@ -1006,13 +1061,13 @@ msgid "Title"
 msgstr "タイトル"
 
 #: ../extensions/comments/main.c:40 ../extensions/comments/main.c:264
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
-#: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:16
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "説明"
@@ -1032,288 +1087,289 @@ msgstr "評価"
 
 #: ../extensions/contact_sheet/callbacks.c:59
 msgid "Contact _Sheet"
-msgstr "コンタクト・シート(_S)"
+msgstr "コンタクトシート(_S)"
 
 #: ../extensions/contact_sheet/callbacks.c:61
 msgid "Contact _Sheet..."
-msgstr "コンタクト・シート(_S)..."
+msgstr "コンタクトシート(_S)..."
 
 #: ../extensions/contact_sheet/callbacks.c:62
 msgid "Create a contact sheet"
-msgstr "コンタクト・シートを生成します"
+msgstr "コンタクトシートを生成します"
 
 #: ../extensions/contact_sheet/callbacks.c:65
 msgid "Image _Wall..."
-msgstr "イメージ・ウォール(_W)..."
+msgstr "イメージウォール(_W)..."
 
 #: ../extensions/contact_sheet/callbacks.c:66
 msgid "Create an image-wall"
-msgstr "イメージ・ウォールを生成します"
+msgstr "イメージウォールを生成します"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
 msgid "Contact Sheet"
-msgstr "コンタクト・シート"
+msgstr "コンタクトシート"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr "選択したファイルのサムネイルを表示するインデックス用の画像を生成します"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-msgid "Background"
-msgstr "背景"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
-msgid "C_olor:"
-msgstr "色(_O):"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
-msgid "Caption:"
-msgstr "見出し:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
-msgid "Frame"
-msgstr "フレーム"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
-msgid "Inward Shadow"
-msgstr "内向きの影付き"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
 #: ../extensions/file_tools/gth-file-tool-crop.c:424
 #: ../extensions/file_tools/gth-file-tool-crop.c:454
 #: ../extensions/file_tools/gth-file-tool-resize.c:498
 #: ../extensions/file_tools/gth-file-tool-rotate.c:415
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:14
 #: ../extensions/slideshow/main.c:277
 msgid "None"
 msgstr "なし"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
+msgid "Simple"
+msgstr "シンプル"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+msgid "Simple with shadow"
+msgstr "シンプル (影付き)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
+msgid "Shadow only"
+msgstr "影だけ"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
+msgid "Slide"
+msgstr "スライド"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+msgid "Inward Shadow"
+msgstr "内向きの影付き"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 msgid "Outward Shadow"
 msgstr "外向きの影付き"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
+msgid "Background"
+msgstr "背景"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+msgid "_Solid color"
+msgstr "単色(_S)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
+msgid "_Gradient"
+msgstr "グラデーション(_G)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
+msgid "_Horizontal:"
+msgstr "水平方向(_H):"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
+msgid "_Vertical:"
+msgstr "垂直方向(_V):"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
 msgid "Select a color"
 msgstr "色の選択"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
-msgid "Select a font"
-msgstr "フォントの選択"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+msgid "Frame"
+msgstr "フレーム"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
-msgid "Shadow only"
-msgstr "影だけ"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
+msgid "_Style:"
+msgstr "スタイル(_S):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
-msgid "Simple"
-msgstr "シンプル"
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+msgid "C_olor:"
+msgstr "色(_O):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
-msgid "Simple with shadow"
-msgstr "シンプル (影付き)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
-msgid "Slide"
-msgstr "スライド"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/rename_series/dlg-rename-series.c:57
 msgid "Text"
 msgstr "文字列"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
-#: ../extensions/image_print/data/ui/print-layout.ui.h:26
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-msgid "_Footer:"
-msgstr "フッター(_F):"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
-msgid "_Gradient"
-msgstr "グラデーション(_G)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
-#: ../extensions/image_print/data/ui/print-layout.ui.h:27
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#: ../extensions/image_print/data/ui/print-layout.ui.h:3
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "_Header:"
 msgstr "ヘッダー(_H):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
-msgid "_Horizontal:"
-msgstr "水平方向(_H):"
-
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
-msgid "_Solid color"
-msgstr "単色(_S)"
+msgid "Select a font"
+msgstr "フォントの選択"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
-msgid "_Style:"
-msgstr "スタイル(_S):"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
+#: ../extensions/image_print/data/ui/print-layout.ui.h:4
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+msgid "_Footer:"
+msgstr "フッター(_F):"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
-msgid "_Vertical:"
-msgstr "垂直方向(_V):"
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+msgid "Caption:"
+msgstr "見出し:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
+#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
+msgid "The current page number"
+msgstr "現在のページ番号"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
+#: ../extensions/image_print/data/ui/print-layout.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+msgid "The total number of pages"
+msgstr "ページの総数"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
+msgid "Special code"
+msgstr "特別な記号"
 
 #. translate only the text in the curly brackets
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
-#: ../extensions/image_print/data/ui/print-layout.ui.h:3
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
+#: ../extensions/image_print/data/ui/print-layout.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ フォーマット }"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
-msgid "All images on a single page"
-msgstr "全ての画像を１ページにまとめる"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:6
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:10
-msgid "Choose destination folder"
-msgstr "保存先のフォルダーの選択"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
-#: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
-msgid "Columns:"
-msgstr "横に並べる数:"
-
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
-msgid "Create _HTML image map"
-msgstr "HTML の画像マップを生成する(_H)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
-msgid "Create a new theme"
-msgstr "新しいテーマを生成します"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
-msgid "Delete the selected theme"
-msgstr "選択したテーマを削除します"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
-msgid "Edit the selected theme"
-msgstr "選択したテーマを編集します"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
-msgid "File_name:"
-msgstr "ファイル名(_N):"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
-msgid "Images per page:"
-msgstr "１ページ当たりの画像数:"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_print/data/ui/print-layout.ui.h:11
-msgid "Layout"
-msgstr "レイアウト"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:15
-msgid "New enumerator digit"
-msgstr "通番の数字"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
-msgid "Re_verse order"
-msgstr "逆順にする(_V)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
-msgid "S_ort:"
-msgstr "並び替え(_O):"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
-msgid "Saving"
-msgstr "保存先"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/image_print/data/ui/print-layout.ui.h:17
-#: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:20
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
-msgid "Special code"
-msgstr "特別な記号"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
-msgid "Sq_uared"
-msgstr "矩形にする(_U)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/image_print/data/ui/print-layout.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 msgid "The current date"
 msgstr "今日の日付"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
-#: ../extensions/image_print/data/ui/print-layout.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
-msgid "The current page number"
-msgstr "現在のページ番号"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
-#: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-msgid "The total number of pages"
-msgstr "ページの総数"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
-msgid "Theme"
-msgstr "テーマ"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
-msgid "Thumbnails"
-msgstr "サムネイル"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
-msgid "_All pages with the same size"
-msgstr "全てのページで同じサイズにする(_A)"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "_Destination:"
 msgstr "格納場所(_D):"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:4
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+msgid "Choose destination folder"
+msgstr "保存先のフォルダーの選択"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+msgid "File_name:"
+msgstr "ファイル名(_N):"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
+msgid "New enumerator digit"
+msgstr "通番の数字"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+msgid "Create _HTML image map"
+msgstr "HTML の画像マップを生成する(_H)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/pixbuf_savers/preferences.c:134
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+msgid "Saving"
+msgstr "保存先"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+msgid "Create a new theme"
+msgstr "新しいテーマを生成します"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+msgid "Edit the selected theme"
+msgstr "選択したテーマを編集します"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+msgid "Delete the selected theme"
+msgstr "選択したテーマを削除します"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+msgid "Theme"
+msgstr "テーマ"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+msgid "Columns:"
+msgstr "横に並べる数:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+msgid "Images per page:"
+msgstr "１ページ当たりの画像数:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+msgid "All images on a single page"
+msgstr "全ての画像を１ページにまとめる"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+msgid "_All pages with the same size"
+msgstr "全てのページで同じサイズにする(_A)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
+#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+msgid "Layout"
+msgstr "レイアウト"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+msgid "S_ort:"
+msgstr "並べ替え(_O):"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+msgid "Re_verse order"
+msgstr "逆順にする(_V)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 msgid "_Size:"
 msgstr "サイズ(_S):"
 
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+msgid "Sq_uared"
+msgstr "矩形にする(_U)"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+msgid "Thumbnails"
+msgstr "サムネイル"
+
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
 msgid "Image Wall"
-msgstr "イメージ・ウォール"
+msgstr "イメージウォール"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:486
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:498
@@ -1369,21 +1425,21 @@ msgstr "フォーマットの変換"
 msgid "Save images in a different format"
 msgstr "画像をいろいろなフォーマットで保存します"
 
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:2
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 msgid "Convert Format"
 msgstr "フォーマットの変換"
 
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:3
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
-msgid "Destination"
-msgstr "変換後の格納先"
-
-#: ../extensions/convert_format/data/ui/convert-format.ui.h:4
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:2
 msgid "New format"
 msgstr "新しいフォーマット"
 
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:3
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+msgid "Destination"
+msgstr "変換後の格納先"
+
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "_Use the original image folder"
 msgstr "元の画像フォルダーを使う(_U)"
 
@@ -1417,7 +1473,7 @@ msgstr "デスクトップの背景"
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
-msgstr "本当に選択したファイルのメタ・データを完全に消去しますか？"
+msgstr "本当に選択したファイルのメタデータを完全に消去しますか?"
 
 #: ../extensions/edit_metadata/actions.c:73
 msgid "If you delete the metadata, it will be permanently lost."
@@ -1446,19 +1502,19 @@ msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr "選択したファイルのコメントや埋め込まれているメタデータを削除します"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
 msgid "D_escription:"
 msgstr "説明(_E):"
 
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
+msgid "_Place:"
+msgstr "場所(_P):"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
 #: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "タグ(_A):"
-
-#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
-msgid "_Place:"
-msgstr "場所(_P):"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
 msgid "_Rating:"
@@ -1478,12 +1534,12 @@ msgid "Cannot read file information"
 msgstr "ファイル情報を読み込めません"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
-msgid "Allow to edit files metadata."
-msgstr "ファイルのメタデータを編集できるようにします"
-
-#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Edit metadata"
 msgstr "メタデータの編集"
+
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
+msgid "Allow to edit files metadata."
+msgstr "ファイルのメタデータを編集できるようにします"
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
@@ -1492,56 +1548,55 @@ msgid "%s Metadata"
 msgstr "%s のメタデータ"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:97
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d個のファイル"
-msgstr[1] "%d個のファイル"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:263
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:192
 msgid "Sa_ve and Close"
-msgstr ""
+msgstr "保存して閉じる(_V)"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:156
 msgid "Save only cha_nged fields"
 msgstr "変更のある項目だけ保存する(_N)"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:477
+#: ../extensions/edit_metadata/gth-edit-general-page.c:546
 msgid "No date"
 msgstr "日付なし"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:478
+#: ../extensions/edit_metadata/gth-edit-general-page.c:547
 msgid "The following date"
 msgstr "指定する"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:479
+#: ../extensions/edit_metadata/gth-edit-general-page.c:548
 #: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
 msgstr "今日"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:481
+#: ../extensions/edit_metadata/gth-edit-general-page.c:550
 msgid "Last modified date"
-msgstr "最終修正日時"
+msgstr "更新日時"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:482
+#: ../extensions/edit_metadata/gth-edit-general-page.c:551
 msgid "File creation date"
 msgstr "ファイルの生成日"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:483
+#: ../extensions/edit_metadata/gth-edit-general-page.c:552
 msgid "Do not modify"
 msgstr "変更しない"
 
 #. Translators: the %s symbol in the string is a file name
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:94
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
 #, fuzzy, c-format
 #| msgid "Tags"
 msgid "%s Tags"
 msgstr "タグ"
 
-#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:255
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:184
 msgid "Assign Tags"
 msgstr "タグの割当て"
 
@@ -1567,55 +1622,55 @@ msgid "Extension example."
 msgstr "拡張機能のサンプルです"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
-msgid "Byline _Title:"
-msgstr "署名のタイトル(_T):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
 msgstr "著作権(_O):"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "Co_untry:"
 msgstr "国(_U):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
+msgid "_Code:"
+msgstr "国コード(_C):"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
 msgid "Cr_edit:"
 msgstr "クレジット(_E):"
 
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
+msgid "_Source:"
+msgstr "ソース(_S):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
+msgid "_Urgency:"
+msgstr "緊急度(_U):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+msgid "_Object Name:"
+msgstr "オブジェクト名(_O):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+msgid "Byline _Title:"
+msgstr "署名のタイトル(_T):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+msgid "_Byline:"
+msgstr "署名(_B):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+msgid "_City:"
+msgstr "都市(_C):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+msgid "_Language:"
+msgstr "言語(_L):"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
 #, fuzzy
 #| msgid "State/Provence:"
 msgid "State/Province:"
 msgstr "州:"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
-msgid "_Byline:"
-msgstr "署名(_B):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
-msgid "_City:"
-msgstr "都市(_C):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
-msgid "_Code:"
-msgstr "国コード(_C):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
-msgid "_Language:"
-msgstr "言語(_L):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-msgid "_Object Name:"
-msgstr "オブジェクト名(_O):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
-msgid "_Source:"
-msgstr "ソース(_S):"
-
-#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
-msgid "_Urgency:"
-msgstr "緊急度(_U):"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
@@ -1669,7 +1724,7 @@ msgstr "埋め込みの XMP"
 msgid "XMP Attached"
 msgstr "添付された XMP"
 
-#: ../extensions/exiv2_tools/main.c:255
+#: ../extensions/exiv2_tools/main.c:256
 msgid "date photo was taken"
 msgstr "撮影日"
 
@@ -1679,85 +1734,85 @@ msgstr "共有する"
 
 #: ../extensions/facebook/callbacks.c:54
 msgid "Face_book..."
-msgstr "フェイスブック(_B)..."
+msgstr "Facebook(_B)..."
 
 #: ../extensions/facebook/callbacks.c:55
 msgid "Upload photos to Facebook"
-msgstr "写真をフェイスブックへアップロードします"
+msgstr "写真を Facebook へアップロードします"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-msgid "1024 x 1024"
-msgstr "1024 x 1024"
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
+msgid "Export to Flickr"
+msgstr "Flickr へのエクスポート"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
-msgid "1280 x 1280"
-msgstr "1280 x 1280"
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
+msgid "_Upload"
+msgstr "アップロード(_U)"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
-msgid "1600 x 1600"
-msgstr "1600 x 1600"
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+msgid "_Account:"
+msgstr "アカウント(_A):"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
-msgid "2048 x 2048"
-msgstr "2048 x 2048"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
-msgid "720 x 720"
-msgstr "720 x 720"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
-msgid "A_lbum:"
-msgstr "アルバム(_L):"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
-msgid "Add a new album"
-msgstr "新しいアルバムを追加します"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Edit accounts"
 msgstr "アカウントを編集します"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
-msgid "Export to Flickr"
-msgstr "Flickr へのエキスポート"
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
+msgid "A_lbum:"
+msgstr "アルバム(_L):"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+msgid "Add a new album"
+msgstr "新しいアルバムを追加します"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
 #, fuzzy
 #| msgid "Resize the images if larger then this size"
 msgid "Resize the images if larger than this size"
 msgstr "次よりも大きい場合はサイズを変更する"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-msgid "_Account:"
-msgstr "アカウント(_A):"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
 msgid "_Resize to:"
 msgstr "サイズを変更する(_R):"
 
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
+msgid "720 x 720"
+msgstr "720 x 720"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
+msgid "1600 x 1600"
+msgstr "1600 x 1600"
+
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
-msgid "_Upload"
-msgstr "アップロード(_U)"
+msgid "2048 x 2048"
+msgstr "2048 x 2048"
 
 #: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-account-chooser.ui.h:1
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
 #: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 #: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
 msgid "A_ccount:"
 msgstr "アカウント(_C):"
@@ -1769,29 +1824,29 @@ msgstr "アカウント(_C):"
 msgid "A_ccounts:"
 msgstr "アカウントの一覧(_C):"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
-msgid "Private"
-msgstr "プライベート"
-
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
-msgid "Private photos, visible to friends"
-msgstr "プライベートな写真 (友人限定)"
-
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
 msgid "Public photos"
 msgstr "一般公開"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-msgid "_Location:"
-msgstr "場所(_L):"
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
+msgid "Private photos, visible to friends"
+msgstr "プライベートな写真 (友人限定)"
 
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
+msgid "Private"
+msgstr "プライベート"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
 msgid "_Visibility:"
 msgstr "公開レベル(_V):"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
+msgid "_Location:"
+msgstr "場所(_L):"
 
 #: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-ask-authorization.ui.h:1
@@ -1800,17 +1855,17 @@ msgid "_Authorize..."
 msgstr "認証する(_A)..."
 
 #: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-complete-authorization.ui.h:1
-#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
-msgid "C_ontinue"
-msgstr "続行する(_O)"
-
-#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
 #: ../extensions/facebook/facebook-authentication.c:472
 #: ../extensions/flicker_utils/flickr-authentication.c:408
 #: ../extensions/oauth/oauth-authentication.c:423
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "完了したら、この下にある [続行する] ボタンをクリックして下さい。"
+
+#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
+#: ../extensions/flicker_utils/data/ui/flicker-complete-authorization.ui.h:1
+#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
+msgid "C_ontinue"
+msgstr "続行する(_O)"
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:1
@@ -1877,7 +1932,7 @@ msgstr "妥当なファイルを選択して下さい。"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:615
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1003
 msgid "Could not export the files"
-msgstr "ファイルをエキスポートできませんでした"
+msgstr "ファイルをエクスポートできませんでした"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:570
 #: ../extensions/find_duplicates/gth-find-duplicates.c:255
@@ -1891,14 +1946,13 @@ msgstr "ファイルをエキスポートできませんでした"
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d個のファイル (%s)"
-msgstr[1] "%d個のファイル (%s)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:591
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:589
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:642
 #, c-format
 msgid "Export to %s"
-msgstr "%s へのエキスポート"
+msgstr "%s へのエクスポート"
 
 #: ../extensions/facebook/facebook-account-chooser-dialog.c:200
 #: ../extensions/flicker_utils/flickr-account-chooser-dialog.c:200
@@ -1936,9 +1990,9 @@ msgid ""
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"[認証する] をクリックしてウェブ・ブラウザーを開き、写真を %s へアップロードす"
-"るために認証を実施して下さい (完了したら、このウィンドウに戻って認証を完了さ"
-"せて下さい)"
+"[認証する] をクリックしてウェブブラウザーを開き、写真を %s へアップロードする"
+"ために認証を実施して下さい (完了したら、このウィンドウに戻って認証を完了させ"
+"て下さい)"
 
 #: ../extensions/facebook/facebook-authentication.c:652
 #: ../extensions/flicker_utils/flickr-authentication.c:588
@@ -1988,11 +2042,11 @@ msgstr "サーバーへ接続中"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
-msgstr "フェイスブック"
+msgstr "Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
 msgid "Upload images to Facebook"
-msgstr "画像をフェイスブックへアップロードします"
+msgstr "画像を Facebook へアップロードします"
 
 #: ../extensions/facebook/facebook-service.c:188
 #: ../extensions/facebook/facebook-service.c:290
@@ -2071,57 +2125,57 @@ msgid ""
 "to copy them."
 msgstr "この場所にファイルを移動できませんが、コピーは可能です。"
 
-#: ../extensions/file_manager/actions.c:555
+#: ../extensions/file_manager/actions.c:560
 msgid "Could not open the location"
 msgstr "その場所をオープンできませんでした"
 
-#: ../extensions/file_manager/actions.c:688
+#: ../extensions/file_manager/actions.c:693
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr ""
-"そのフォルダーは空ですが、そのフォルダーとその中身を完全に消去しますか？"
+"そのフォルダーは空ではありませんが、そのフォルダーとその中身を完全に消去しま"
+"すか?"
 
-#: ../extensions/file_manager/actions.c:704
+#: ../extensions/file_manager/actions.c:709
 msgid "Could not delete the folder"
 msgstr "フォルダーを削除できませんでした"
 
-#: ../extensions/file_manager/actions.c:765
+#: ../extensions/file_manager/actions.c:770
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr ""
-"そのフォルダーをゴミ箱へ移動できませんが、代わりにそれらを完全に消去します"
-"か？"
+"そのフォルダーをゴミ箱へ移動できませんが、代わりにそれらを完全に消去しますか?"
 
-#: ../extensions/file_manager/actions.c:772
+#: ../extensions/file_manager/actions.c:777
 msgid "Could not move the folder to the Trash"
 msgstr "フォルダーをゴミ箱へ移動できませんでした"
 
-#: ../extensions/file_manager/actions.c:808
-#: ../gthumb/gth-file-source-vfs.c:837
+#: ../extensions/file_manager/actions.c:813
+#: ../gthumb/gth-file-source-vfs.c:841
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "本当に \"%s\" を完全に消去しますか？"
+msgstr "本当に \"%s\" を完全に消去しますか?"
 
-#: ../extensions/file_manager/actions.c:818
-#: ../gthumb/gth-file-source-vfs.c:850
+#: ../extensions/file_manager/actions.c:823
+#: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
 msgstr "ファイルを削除すると元に戻すことはできません。"
 
-#: ../extensions/file_manager/actions.c:910
+#: ../extensions/file_manager/actions.c:915
 msgid "Move To"
 msgstr "移動先の選択"
 
-#: ../extensions/file_manager/actions.c:910
+#: ../extensions/file_manager/actions.c:915
 msgid "Copy To"
 msgstr "コピー先の選択"
 
-#: ../extensions/file_manager/actions.c:914
+#: ../extensions/file_manager/actions.c:919
 msgid "Move"
 msgstr "移動する"
 
-#: ../extensions/file_manager/actions.c:914
+#: ../extensions/file_manager/actions.c:919
 msgid "Copy"
 msgstr "コピーする"
 
@@ -2145,7 +2199,7 @@ msgstr "選択したファイルの複製を作成します"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
-#: ../gthumb/gth-file-source-vfs.c:809
+#: ../gthumb/gth-file-source-vfs.c:813
 msgid "Mo_ve to Trash"
 msgstr "ゴミ箱へ移動する(_V)"
 
@@ -2165,7 +2219,7 @@ msgstr "選択したファイルを削除します"
 
 #: ../extensions/file_manager/callbacks.c:191
 #: ../extensions/file_manager/callbacks.c:203
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:2
 msgid "_Rename"
 msgstr "ファイル名の変更(_R)"
 
@@ -2175,7 +2229,7 @@ msgstr "選択したファイルの名前を変更します"
 
 #: ../extensions/file_manager/callbacks.c:195
 msgid "Open with the _File Manager"
-msgstr "ファイル・マネージャーで開く(_F)"
+msgstr "ファイルマネージャーで開く(_F)"
 
 #: ../extensions/file_manager/callbacks.c:215
 msgid "_Paste Into Folder"
@@ -2209,184 +2263,208 @@ msgstr "選択したファイルを別のフォルダーへ移動します"
 
 #: ../extensions/file_manager/callbacks.c:1003
 #: ../extensions/find_duplicates/gth-find-duplicates.c:581
-#: ../gthumb/gth-browser.c:4916 ../gthumb/gth-browser.c:4950
+#: ../gthumb/gth-browser.c:4925 ../gthumb/gth-browser.c:4959
 msgid "Could not perform the operation"
 msgstr "処理を実行できませんでした"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:1
 msgid "File manager"
-msgstr "ファイル・マネージャー"
+msgstr "ファイルマネージャー"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 msgid "File manager operations."
-msgstr "ファイル・マネージャーの操作を提供します"
+msgstr "ファイルマネージャーの操作を提供します"
 
 #: ../extensions/file_manager/gth-delete-task.c:62
 msgid "Deleting files"
 msgstr "ファイルの削除中"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-msgid "B_rightness:"
-msgstr "輝度(_R):"
+msgid "_Preview"
+msgstr "プレビュー(_P)"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
-msgid "Color Levels"
-msgstr "色のレベル"
+msgid "B_rightness:"
+msgstr "輝度(_R):"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:3
 msgid "Con_trast:"
 msgstr "コントラスト(_T):"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:4
-msgid "Cyan-_Red:"
-msgstr "シアン-赤(_R):"
+msgid "_Saturation:"
+msgstr "彩度(_S):"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
 msgid "G_amma:"
 msgstr "ガンマ(_A):"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:6
+msgid "Cyan-_Red:"
+msgstr "シアン-赤(_R):"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
 msgid "_Magenta-Green:"
 msgstr "マジェンタ-緑(_M):"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
-msgid "_Preview"
-msgstr "プレビュー(_P)"
-
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:8
+msgid "_Yellow-Blue:"
+msgstr "黄-青(_Y):"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
+msgid "Color Levels"
+msgstr "色のレベル"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
 msgid "_Reset"
 msgstr "元に戻す(_R)"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
-msgid "_Saturation:"
-msgstr "彩度(_S):"
-
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
-msgid "_Yellow-Blue:"
-msgstr "黄-青(_Y):"
-
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
-msgid "Aspect ratio"
-msgstr "縦横比"
+msgid "_Position:"
+msgstr "位置(_P):"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
-msgid "C_rop"
-msgstr "切りつめる(_R)"
+#. this is used to separate the dimensions, for example: 120 × 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+msgid "×"
+msgstr "×"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+msgid "_Grid:"
+msgstr "格子(_G):"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+msgid "Maximize"
+msgstr "最大化"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Center"
 msgstr "中央"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "Selection"
+msgstr "選択範囲"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
 msgid "I_nvert aspect ratio"
 msgstr "縦横比を反転させる(_N)"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
 msgid "M_ultiple of:"
 msgstr "次の整数倍(_U): "
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-msgid "Maximize"
-msgstr "最大化"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
-msgid "Selection"
-msgstr "選択範囲"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
-msgid "_Grid:"
-msgstr "格子(_G):"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:11
-msgid "_Position:"
-msgstr "位置(_P):"
 
 #. abbreviation of pixel
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:13
 msgid "px"
 msgstr "ピクセル毎"
 
-#. this is used to separate the dimensions, for example: 120 × 250
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+msgid "Aspect ratio"
+msgstr "縦横比"
+
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:15
-msgid "×"
-msgstr ""
+msgid "C_rop"
+msgstr "切りつめる(_R)"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
+msgid "_Width:"
+msgstr "幅(_W):"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
+msgid "Heigh_t:"
+msgstr "高さ(_T):"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
+msgid "Set the image size to this value"
+msgstr "画像のサイズをこの値にします"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:4
 #: ../gthumb/gth-main-default-metadata.c:47
 msgid "Dimensions"
 msgstr "画像の寸法"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
-msgid "Heigh_t:"
-msgstr "高さ(_T):"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 msgid "High _quality"
 msgstr "高品質を維持する(_Q)"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
-msgid "New dimensions:"
-msgstr "新しい寸法:"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:11
 msgid "Options"
 msgstr "オプション"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 msgid "Original dimensions:"
 msgstr "オリジナルの寸法:"
 
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Scale factor:"
 msgstr "倍率:"
 
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "New dimensions:"
+msgstr "新しい寸法:"
+
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
-msgid "Set the image size to this value"
-msgstr "画像のサイズをこの値にします"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
-msgid "_Width:"
-msgstr "幅(_W):"
-
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
-#: ../extensions/image_print/data/ui/print-layout.ui.h:31
+#: ../extensions/image_print/data/ui/print-layout.ui.h:29
 msgid "pixels"
 msgstr "ピクセル"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
 msgid "Align"
 msgstr "配置"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
-msgid "Alignment"
-msgstr "配置"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
 msgid "Angle"
 msgstr "角度"
 
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
+msgid "Point 1:"
+msgstr "ポイント１:"
+
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:4
-msgid "Bounding box"
-msgstr "連続した矩形"
+msgid "Point 2:"
+msgstr "ポイント２:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
-msgid "Crop borders"
-msgstr "境界線を切り詰める"
+msgid "Keep aspect ratio"
+msgstr "オリジナルの縦横比を保持する"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
+msgid "Image size"
+msgstr "画像のサイズ"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:7
+msgid "Grid:"
+msgstr "格子:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
+msgid "Pick a background color"
+msgstr "背景色の取得"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
+msgid "_Transparent"
+msgstr "透明な背景にする(_T)"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
+msgid "_Background:"
+msgstr "背景色(_B):"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
+msgid "Reset"
+msgstr "元に戻す"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
@@ -2394,90 +2472,66 @@ msgstr ""
 "位置を調整するために\n"
 "画像に線を描画します"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
-msgid "Grid:"
-msgstr "格子:"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
-msgid "Image size"
-msgstr "画像のサイズ"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
-msgid "Keep aspect ratio"
-msgstr "オリジナルの縦横比を保持する"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
-msgid "Original size"
-msgstr "オリジナルのサイズ"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
 msgid "Parallel"
 msgstr "平行に移動する"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:14
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
 msgid "Perpendicular"
 msgstr "垂直に移動する"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
-msgid "Pick a background color"
-msgstr "背景色の取得"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
-msgid "Point 1:"
-msgstr "ポイント１:"
-
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
-msgid "Point 2:"
-msgstr "ポイント２:"
+msgid "Alignment"
+msgstr "配置"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
-msgid "Reset"
-msgstr "元に戻す"
+msgid "Original size"
+msgstr "オリジナルのサイズ"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
-msgid "_Background:"
-msgstr "背景色(_B):"
+msgid "Bounding box"
+msgstr "連続した矩形"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
-msgid "_Transparent"
-msgstr "透明な背景にする(_T)"
+msgid "Crop borders"
+msgstr "境界線を切り詰める"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-msgid "Amount:"
-msgstr "量:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
-msgid "Radius:"
-msgstr "半径:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:3
-msgid "Threshold:"
-msgstr "しきい値:"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:4
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
 msgid "_Preview:"
 msgstr "プレビュー(_P):"
 
-#: ../extensions/file_tools/file_tools.extension.in.in.h:1
-msgid "Basic tools to modify images."
-msgstr "画像を変更するための基本ツールを提供します"
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
+msgid "Threshold:"
+msgstr "しきい値:"
 
-#: ../extensions/file_tools/file_tools.extension.in.in.h:2
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:3
+msgid "Radius:"
+msgstr "半径:"
+
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:4
+msgid "Amount:"
+msgstr "量:"
+
+#: ../extensions/file_tools/file_tools.extension.in.in.h:1
 msgid "Image tools"
 msgstr "画像の修正"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/file_tools.extension.in.in.h:2
+msgid "Basic tools to modify images."
+msgstr "画像を変更するための基本ツールを提供します"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors..."
 msgstr "色の調整...."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:527
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:530
 msgid "Adjust Colors"
 msgstr "色の調整"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:531
 msgid "Change brightness, contrast, saturation and gamma level of the image"
-msgstr "画像の輝度やコントラスト、彩度、ガンマ・レベルを変更します"
+msgstr "画像の輝度やコントラスト、彩度、ガンマレベルを変更します"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:424
 #: ../extensions/file_tools/gth-file-tool-resize.c:498
@@ -2538,7 +2592,7 @@ msgstr "2.39:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:440
 #: ../extensions/file_tools/gth-file-tool-resize.c:516
-#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:232
 msgid "Custom"
 msgstr "指定する"
@@ -2582,7 +2636,7 @@ msgstr "脱色"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:119
 msgid "White balance correction"
-msgstr "ホワイト・バランスの補正中"
+msgstr "ホワイトバランスの補正中"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:342
 msgid "Enhance Colors"
@@ -2590,7 +2644,7 @@ msgstr "色を鮮やかにする"
 
 #: ../extensions/file_tools/gth-file-tool-enhance.c:343
 msgid "Automatic white balance correction"
-msgstr "自動的にホワイト・バランスを補正します"
+msgstr "自動的にホワイトバランスを補正します"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:86
 msgid "Equalizing image histogram"
@@ -2703,25 +2757,25 @@ msgid "_Folders:"
 msgstr "フォルダーの一覧(_F):"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
-msgid "Duplicates:"
-msgstr "重複の候補:"
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-msgid "Files:"
-msgstr "ファイルの一覧:"
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
-msgid "No duplicates found."
-msgstr "重複したファイルは見つかりませんでした"
-
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
 msgid "Search for Duplicates"
 msgstr "重複したファイルの検索"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
+msgid "Duplicates:"
+msgstr "重複の候補:"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+msgid "Files:"
+msgstr "ファイルの一覧:"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
 #: ../gthumb/gth-browser-actions-entries.h:33
 msgid "_View"
 msgstr "表示(_V)"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
+msgid "No duplicates found."
+msgstr "重複したファイルは見つかりませんでした"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
@@ -2729,12 +2783,12 @@ msgid "Find Duplicates"
 msgstr "重複したファイルの検索"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "開始(_A):"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
 msgid "_Filter:"
 msgstr "フィルター(_F):"
 
@@ -2768,7 +2822,6 @@ msgstr "なし"
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d個あり"
-msgstr[1] "%d個あり"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:536
 msgid "Search completed"
@@ -2785,7 +2838,6 @@ msgstr "検索中です"
 msgid "%d file remaining"
 msgid_plural "%d files remaining"
 msgstr[0] "残り%d個"
-msgstr[1] "残り%d個"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:634
 msgid "Getting the file list"
@@ -2819,56 +2871,56 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "画像を Flickr へアップロードします"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
 msgid "Free space:"
 msgstr "空き容量:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
-msgid "Hi_de from public searches"
-msgstr "一般公開の検索から外す(_D)"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
-msgid "Moderate content"
-msgstr "モデレートが決定したコンテンツ"
-
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:5
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 msgid "Ph_otoset:"
 msgstr "フォトセット(_O):"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:6
-msgid "Private photos"
-msgstr "プライベートな写真"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
-msgid "Private photos, visible to family"
-msgstr "プライベートな写真 (家族限定)"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
-msgid "Private photos, visible to family and friends"
-msgstr "プライベートな写真 (家族と友人限定)"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
-msgid "Restricted content"
-msgstr "制限ありのコンテンツ"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
-msgid "Safe content"
-msgstr "安全なコンテンツ"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
 msgid "_Privacy:"
 msgstr "プライバシー(_P):"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
+msgid "Hi_de from public searches"
+msgstr "一般公開の検索から外す(_D)"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
 msgid "_Safety:"
 msgstr "セーフティ(_S):"
 
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
+msgid "Private photos, visible to family and friends"
+msgstr "プライベートな写真 (家族と友人限定)"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
+msgid "Private photos, visible to family"
+msgstr "プライベートな写真 (家族限定)"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
+msgid "Private photos"
+msgstr "プライベートな写真"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
+msgid "Safe content"
+msgstr "安全なコンテンツ"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+msgid "Moderate content"
+msgstr "モデレートが決定したコンテンツ"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
+msgid "Restricted content"
+msgstr "制限ありのコンテンツ"
+
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "_Import"
 msgstr "インポート(_I)"
 
@@ -2910,35 +2962,35 @@ msgid "Screenshot"
 msgstr "Screenshot"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-msgid "--:--"
-msgstr "--:--"
+msgid "Slower"
+msgstr "遅くします"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-msgid "Change volume level"
-msgstr "音量のレベルを変更します"
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
+msgid "Play"
+msgstr "再生します"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
 msgid "Faster"
 msgstr "早くします"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:686
-msgid "Play"
-msgstr "再生します"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
-msgid "Slower"
-msgstr "遅くします"
-
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Time:"
 msgstr "時間:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
+msgid "--:--"
+msgstr "--:--"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Toggle volume"
 msgstr "ミュートを ON/OFF します"
 
-#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:1
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+msgid "Change volume level"
+msgstr "音量のレベルを変更します"
+
+#: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
 #: ../extensions/photo_importer/actions.c:67
 #: ../extensions/photo_importer/dlg-photo-importer.c:620
 msgid "Choose a folder"
@@ -2983,7 +3035,7 @@ msgid "Artist"
 msgstr "アーティスト"
 
 #: ../extensions/gstreamer_tools/main.c:40
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
 msgstr "アルバム"
 
@@ -3005,13 +3057,13 @@ msgid "Framerate"
 msgstr "フレームレート"
 
 #: ../extensions/gstreamer_tools/main.c:46
-#: ../extensions/image_print/data/ui/print-layout.ui.h:25
+#: ../extensions/image_print/data/ui/print-layout.ui.h:24
 #: ../extensions/image_viewer/gth-image-viewer-page.c:209
 msgid "Width"
 msgstr "幅"
 
 #: ../extensions/gstreamer_tools/main.c:47
-#: ../extensions/image_print/data/ui/print-layout.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:25
 msgid "Height"
 msgstr "高さ"
 
@@ -3049,74 +3101,74 @@ msgstr "選択したファイルを印刷できませんでした"
 msgid "Print the selected images"
 msgstr "選択した画像を印刷します"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Centered"
 msgstr "中央に配置する"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:10
-msgid "Image"
-msgstr "画像"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:12
-msgid "Left"
-msgstr "左側"
-
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
-msgid "Position:"
-msgstr "位置:"
+msgid "The total number of files"
+msgstr "ファイルの総数"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
-msgid "Preview"
-msgstr "プレビュー"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:15
-msgid "Rotation:"
-msgstr "回転:"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:20
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The event description"
 msgstr "イベント名"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:21
-msgid "The total number of files"
-msgstr "ファイルの総数"
+#: ../extensions/image_print/data/ui/print-layout.ui.h:17
+msgid "_Rows:"
+msgstr "縦に並べる数(_R):"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+#: ../extensions/image_print/data/ui/print-layout.ui.h:19
+msgid "Image"
+msgstr "画像"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:20
+msgid "Position:"
+msgstr "位置:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:21
+msgid "Left"
+msgstr "左側"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:22
 msgid "Top"
 msgstr "上側"
 
-#: ../extensions/image_print/data/ui/print-layout.ui.h:24
+#: ../extensions/image_print/data/ui/print-layout.ui.h:26
+msgid "Rotation:"
+msgstr "回転:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:27
 msgid "Unit:"
 msgstr "単位:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:28
-msgid "_Rows:"
-msgstr "縦に並べる数(_R):"
-
-#: ../extensions/image_print/data/ui/print-layout.ui.h:29
-msgid "inches"
-msgstr "インチ"
+msgid "Preview"
+msgstr "プレビュー"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:30
 msgid "millimeters"
 msgstr "ミリ"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
-msgid "Fonts"
-msgstr "フォント"
-
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
-msgid "Select Caption Font"
-msgstr "見出しのフォント"
+#: ../extensions/image_print/data/ui/print-layout.ui.h:31
+msgid "inches"
+msgstr "インチ"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-msgid "Select Footer Font"
-msgstr "フッターのフォント"
+msgid "Select Caption Font"
+msgstr "見出しのフォント"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Header Font"
 msgstr "ヘッダーのフォント"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
+msgid "Select Footer Font"
+msgstr "フッターのフォント"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
+msgid "Fonts"
+msgstr "フォント"
 
 #: ../extensions/image_print/gth-image-print-job.c:971
 #: ../extensions/webalbums/data/albumthemes/text.h:31
@@ -3152,12 +3204,12 @@ msgid "Loading images"
 msgstr "画像の読み込み中"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
-msgid "Allow to print images choosing the page layout."
-msgstr "ページのレイアウトを選択しながら画像を印刷できるようにします"
-
-#: ../extensions/image_print/image_print.extension.in.in.h:2
 msgid "Image print"
 msgstr "画像の印刷"
+
+#: ../extensions/image_print/image_print.extension.in.in.h:2
+msgid "Allow to print images choosing the page layout."
+msgstr "ページのレイアウトを選択しながら画像を印刷できるようにします"
 
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
@@ -3239,20 +3291,64 @@ msgid "_Accept distortion"
 msgstr "歪みを受け入れる(_A)"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-msgid "After loading an image:"
-msgstr "画像を読み込んだ後:"
+msgid "Set to actual size"
+msgstr "オリジナルのサイズにする"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+msgid "Keep previous zoom"
+msgstr "前と同じ拡大率にする"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
+msgid "Fit to window"
+msgstr "ウィンドウに合わせる"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+msgid "Fit to window if larger"
+msgstr "ウィンドウサイズよりも大きい場合はウィンドウに合わせる"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+msgid "Fit to width"
+msgstr "幅に合わせる"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+msgid "Fit to width if larger"
+msgstr "ウィンドウサイズよりも大きい場合は幅に合わせる"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
 msgid "Reset scrollbar positions"
 msgstr "スクロールバーの位置をリセットする"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+msgid "After loading an image:"
+msgstr "画像を読み込んだ後:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
+msgid "_Zoom quality:"
+msgstr "ズーム時の品質(_Z)"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
 msgid "Transparency _type:"
 msgstr "透明な背景の種類(_T):"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-msgid "_Zoom quality:"
-msgstr "ズーム時の品質(_Z)"
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
+msgid "High"
+msgstr "高品質"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:12
+msgid "Low"
+msgstr "低品質"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:13
+msgid "White"
+msgstr "白色"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:15
+msgid "Black"
+msgstr "黒色"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:16
+msgid "Checked"
+msgstr "格子縞"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:84
 msgid "Histogram"
@@ -3311,52 +3407,52 @@ msgid "Zoom to fit width"
 msgstr "ウィンドウの幅に合わせてズームします"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
-msgid "Basic image viewing."
-msgstr "画像の基本的なビューアー機能です"
-
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
 msgid "Image viewer"
 msgstr "画像ビューアー"
+
+#: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
+msgid "Basic image viewing."
+msgstr "画像の基本的なビューアー機能です"
 
 #: ../extensions/image_viewer/preferences.c:125
 msgid "Viewer"
 msgstr "ビューアー"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:3
-msgid "The day of the month"
-msgstr "月内の通算日"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:5
-msgid "The hour"
-msgstr "時"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:6
-msgid "The minutes"
-msgstr "分"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:7
-msgid "The month"
-msgstr "月"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:8
-msgid "The seconds"
-msgstr "秒"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:9
-msgid "The year"
-msgstr "年"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:10
-msgid "_Automatic subfolder"
-msgstr "自動的にサブフォルダーを作成する(_A)"
-
-#: ../extensions/importer/data/ui/import-preferences.ui.h:11
+#: ../extensions/importer/data/ui/import-preferences.ui.h:1
 msgid "_Destination"
 msgstr "格納場所(_D)"
 
-#: ../extensions/importer/data/ui/import-preferences.ui.h:12
+#: ../extensions/importer/data/ui/import-preferences.ui.h:2
+msgid "_Automatic subfolder"
+msgstr "自動的にサブフォルダーを作成する(_A)"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:3
 msgid "as _single subfolder"
 msgstr "単一のサブフォルダーにする(_S)"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:7
+msgid "The year"
+msgstr "年"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:8
+msgid "The month"
+msgstr "月"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:9
+msgid "The day of the month"
+msgstr "月内の通算日"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:10
+msgid "The hour"
+msgstr "時"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:11
+msgid "The minutes"
+msgstr "分"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:12
+msgid "The seconds"
+msgstr "秒"
 
 #: ../extensions/importer/gth-import-destination-button.c:183
 msgid "Invalid Destination"
@@ -3405,7 +3501,7 @@ msgid "The selected files are already present in the destination."
 msgstr "選択したファイルは既に格納場所に存在していました。"
 
 #: ../extensions/importer/gth-import-task.c:622
-#: ../gthumb/gth-file-source-vfs.c:690
+#: ../gthumb/gth-file-source-vfs.c:694
 msgid "Could not delete the files"
 msgstr "このファイルを削除できませんでした"
 
@@ -3448,97 +3544,97 @@ msgid "_Skip"
 msgstr "何もしない(_S)"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
-msgid "Co_mmands:"
-msgstr "コマンド(_M):"
-
-#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
 msgid "Commands"
 msgstr "コマンドの一覧"
 
+#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
+msgid "Co_mmands:"
+msgstr "コマンド(_M):"
+
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:2
-#, no-c-format
-msgid "%E"
-msgstr "%E"
+msgid "_Wait for the command to finish"
+msgstr "コマンドが完了するまで待機する(_W)"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:3
+msgid "E_xecute command once for every file"
+msgstr "ファイル毎に１回だけコマンドを実行する(_X)"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#, no-c-format
-msgid "%N"
-msgstr "%N"
+msgid "_Terminal command (shell script)"
+msgstr "端末から実行する (シェルスクリプト)(_T)"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:5
+msgid "Sh_ortcut:"
+msgstr "ショートカット(_O):"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
+msgid "The file uri"
+msgstr "ファイルの URI"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
+msgid "The file path"
+msgstr "ファイルのパス"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
+msgid "The file basename"
+msgstr "ファイル名からパスを除いたもの"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:9
+msgid "The parent folder path"
+msgstr "親フォルダーのパス"
 
 #. Translate only 'message' and 'default_value'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #, no-c-format
 msgid "%ask{ message }{ default value }"
 msgstr "%ask{ メッセージ }{ デフォルト値 }"
-
-#. Translate only 'attribute name'
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
-#, no-c-format
-msgid "%attr{ attribute name }"
-msgstr "%attr{ 属性名 }"
-
-#. Translate only 'text'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:13
-#, no-c-format
-msgid "%quote{ text }"
-msgstr "%quote{ 文字列 }"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-msgid "A file attribute"
-msgstr "ファイルの属性"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
 msgstr "入力を促す"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:17
-msgid "E_xecute command once for every file"
-msgstr "ファイル毎に１回だけコマンドを実行する(_X)"
-
+#. Translate only 'attribute name'
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:18
-msgid "Quote the text "
-msgstr "文字列を引用する"
+#, no-c-format
+msgid "%attr{ attribute name }"
+msgstr "%attr{ 属性名 }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:19
-msgid "Sh_ortcut:"
-msgstr "ショートカット(_O):"
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+msgid "A file attribute"
+msgstr "ファイルの属性"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
-msgid "The file basename"
-msgstr "ファイル名からパスを除いたもの"
+#, no-c-format
+msgid "%N"
+msgstr "%N"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
 msgstr "ファイル名からパスと拡張子を除いたもの"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
+#, no-c-format
+msgid "%E"
+msgstr "%E"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file extension"
 msgstr "ファイルの拡張子"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
-msgid "The file path"
-msgstr "ファイルのパス"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
-msgid "The file uri"
-msgstr "ファイルの URI"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
-msgid "The parent folder path"
-msgstr "親フォルダーのパス"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
-msgid "_Command:"
-msgstr "コマンド(_C):"
+#. Translate only 'text'.
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#, no-c-format
+msgid "%quote{ text }"
+msgstr "%quote{ 文字列 }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
-msgid "_Terminal command (shell script)"
-msgstr "端末から実行する (SHELL スクリプト)(_T)"
+msgid "Quote the text "
+msgstr "文字列を引用する"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
-msgid "_Wait for the command to finish"
-msgstr "コマンドが完了するまで待機する(_W)"
+msgid "_Command:"
+msgstr "コマンド(_C):"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:257
 msgid "Script"
@@ -3567,7 +3663,7 @@ msgstr "コマンドの編集"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:461
 msgid "Are you sure you want to delete the selected command?"
-msgstr "本当に選択したコマンドを削除しますか？"
+msgstr "本当に選択したコマンドを削除しますか?"
 
 #: ../extensions/list_tools/gth-script.c:610
 msgid "Enter a value:"
@@ -3650,39 +3746,39 @@ msgid "Upload photos to Photobucket"
 msgstr "写真を Photobucket へアップロードします"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
+msgid "Tiny ( 100 x 75 )"
+msgstr "極小 ( 100 x 75 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
+msgid "Small ( 160 x 120 )"
+msgstr "小さい ( 160 x 120 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
+msgid "Medium ( 320 x 240 )"
+msgstr "中ぐらい ( 320 x 240 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
+msgid "Large ( 640 x 480 )"
+msgstr "大きい ( 640 x 480 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr "15ʺ の画面 ( 800 x 600 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr "17ʺ の画面 ( 1024 x 768 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:297
 msgid "1 megabyte file size"
 msgstr "1 Mバイトのファイル"
 
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-msgid "15ʺ screen ( 800 x 600 )"
-msgstr "15ʺ の画面 ( 800 x 600 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-msgid "17ʺ screen ( 1024 x 768 )"
-msgstr "17ʺ の画面 ( 1024 x 768 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
-msgid "Large ( 640 x 480 )"
-msgstr "大きい ( 640 x 480 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
-msgid "Medium ( 320 x 240 )"
-msgstr "中ぐらい ( 320 x 240 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
-msgid "Small ( 160 x 120 )"
-msgstr "小さい ( 160 x 120 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
-msgid "Tiny ( 100 x 75 )"
-msgstr "極小 ( 100 x 75 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
 msgid "_Scramble filenames"
 msgstr "ランダムなファイル名にする(_S)"
 
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 msgid "_Container:"
 msgstr "コンテナー(_C):"
 
@@ -3728,11 +3824,11 @@ msgstr "インポート"
 
 #: ../extensions/photo_importer/callbacks.c:52
 msgid "_Removable Device..."
-msgstr "リムーバブル・デバイス(_R)..."
+msgstr "リムーバブルデバイス(_R)..."
 
 #: ../extensions/photo_importer/callbacks.c:53
 msgid "Import photos and other files from a removable device"
-msgstr "リムーバブル・デバイスから写真などをダウンロードします"
+msgstr "リムーバブルデバイスから写真などをダウンロードします"
 
 #: ../extensions/photo_importer/callbacks.c:56
 msgid "F_older..."
@@ -3743,30 +3839,30 @@ msgid "Import photos and other files from a folder"
 msgstr "フォルダーから写真やその他のファイルをインポートします"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
-msgid "After importing from a device:"
-msgstr "デバイスからインポートした後:"
-
-#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "_Rotate the images physically"
 msgstr "画像を物理的に回転する(_R)"
 
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+msgid "After importing from a device:"
+msgstr "デバイスからインポートした後:"
+
 #. view label
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../gthumb/gth-filterbar.c:413
 msgid "S_how:"
 msgstr "フィルター(_H):"
 
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
-msgid "_Delete the imported files from the source"
-msgstr "インポートした画像をソースから削除する(_D)"
-
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+msgid "_Tags:"
+msgstr "タグ(_T):"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "イベント(_E):"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-msgid "_Tags:"
-msgstr "タグ(_T):"
+msgid "_Delete the imported files from the source"
+msgstr "インポートした画像をソースから削除する(_D)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:174
@@ -3786,7 +3882,7 @@ msgstr "フォルダーを読み込めませんでした"
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
 #: ../gthumb/gth-browser.c:1911
 msgid "Getting folder listing..."
-msgstr "フォルダーの一覧を取得してます..."
+msgstr "フォルダーの一覧を取得しています..."
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:415
 msgid "Empty"
@@ -3794,7 +3890,7 @@ msgstr "空です"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:586
 msgid "Import from Removable Device"
-msgstr "リムーバブル・デバイスからのインポート"
+msgstr "リムーバブルデバイスからのインポート"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:618
 msgid "Import from Folder"
@@ -3806,53 +3902,53 @@ msgstr "写真のインポート"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
 msgid "Import photos from removable devices."
-msgstr "リムーバブル・デバイスから写真をインポートします"
+msgstr "リムーバブルデバイスから写真をインポートします"
 
 #: ../extensions/picasaweb/callbacks.c:59
 #: ../extensions/picasaweb/callbacks.c:64
 msgid "_Picasa Web Album..."
-msgstr "Picasa ウェブ・アルバム(_P)..."
+msgstr "Picasa ウェブアルバム(_P)..."
 
 #: ../extensions/picasaweb/callbacks.c:60
 msgid "Download photos from Picasa Web Album"
-msgstr "写真を Picasa ウェブ・アルバムからダウンロードします"
+msgstr "写真を Picasa ウェブアルバムからダウンロードします"
 
 #: ../extensions/picasaweb/callbacks.c:65
 msgid "Upload photos to Picasa Web Album"
-msgstr "写真を Picasa ウェブ・アルバムへアップロードします"
+msgstr "写真を Picasa ウェブアルバムへアップロードします"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 msgid "Export to Picasa Web Albums"
-msgstr "Picasa ウェブ・アルバムへのエキスポート"
+msgstr "Picasa ウェブアルバムへのエクスポート"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Albums:"
 msgstr "アルバムの一覧(_A):"
 
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
 msgid "Import from Picasa Web Album"
-msgstr "Picasa ウェブ・アルバムからのインポート"
+msgstr "Picasa ウェブアルバムからのインポート"
 
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
 msgid "_Album:"
 msgstr "アルバム(_A):"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
+msgid "_E-Mail:"
+msgstr "E-メール(_E):"
+
+#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
 msgid ""
 "Type the characters you see in the picture below. Letters are not case-"
 "sensitive."
 msgstr ""
 "下の画像に表示されている文字を入力して下さい (大/小文字は区別しません)。"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
-msgid "_E-Mail:"
-msgstr "E-メール(_E):"
-
 #: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:3
 msgid "_Password:"
 msgstr "パスワード(_P):"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "Public"
 msgstr "一般公開"
 
@@ -3864,7 +3960,7 @@ msgstr "アルバムの一覧を取得できませんでした"
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:438
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:394
 msgid "Picasa Web Album"
-msgstr "Picasa ウェブ・アルバム"
+msgstr "Picasa ウェブアルバム"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:525
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:481
@@ -3877,32 +3973,32 @@ msgstr "ファイルを読み込めませんでした"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
 msgid "Picasa Web Albums"
-msgstr "Picasa ウェブ・アルバム"
+msgstr "Picasa ウェブアルバム"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
-msgstr "画像を Picasa のウェブ・アルバムへアップロードします"
+msgstr "画像を Picasa のウェブアルバムへアップロードします"
 
 #: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:1
-msgid "Opti_mize"
-msgstr "最適化する(_M)"
-
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
 msgid "_Default extension:"
 msgstr "デフォルトの拡張子(_D):"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
-msgid "_Progressive"
-msgstr "プログレッシブを有効にする(_P)"
-
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:2
 msgid "_Quality:"
 msgstr "品質の度合い(_Q):"
 
-#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:5
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:3
 msgid "_Smoothing:"
 msgstr "平滑化の度合い(_S):"
+
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:4
+msgid "Opti_mize"
+msgstr "最適化する(_M)"
+
+#: ../extensions/pixbuf_savers/data/ui/jpeg-options.ui.h:5
+msgid "_Progressive"
+msgstr "プログレッシブを有効にする(_P)"
 
 #: ../extensions/pixbuf_savers/data/ui/png-options.ui.h:1
 msgid "Compression _level:"
@@ -3916,29 +4012,29 @@ msgstr "デフォルトのオプション:"
 msgid "_RLE compression"
 msgstr "RLE で圧縮する(_R)"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:1
-msgid "Compression"
-msgstr "圧縮"
-
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:2
-msgid "No_rmal (Deflate)"
-msgstr "標準(収縮)(_R)"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
-msgid "Resolution"
-msgstr "解像度"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:6
-msgid "_Loss compression (JPEG)"
-msgstr "低圧縮(JPEG)(_L)"
-
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:7
 msgid "_No compression"
 msgstr "圧縮しない(_N)"
 
-#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:3
+msgid "No_rmal (Deflate)"
+msgstr "標準(収縮)(_R)"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:4
+msgid "_Loss compression (JPEG)"
+msgstr "低圧縮(JPEG)(_L)"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
+msgid "Compression"
+msgstr "圧縮"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "dpi"
 msgstr "dpi"
+
+#: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:9
+msgid "Resolution"
+msgstr "解像度"
 
 #: ../extensions/pixbuf_savers/gth-jpeg-saver.c:519
 msgid "JPEG"
@@ -3970,18 +4066,18 @@ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
 msgstr "JPEG や PNG や TIFF のような共通ファイルで画像を保存します"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
-msgid "Allow to load raw format images."
-msgstr "Raw フォーマットの画像を読み込めるようにします"
-
-#: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Raw format support"
 msgstr "Raw フォーマットのサポート"
 
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+#: ../extensions/raw_files/raw_files.extension.in.in.h:2
+msgid "Allow to load raw format images."
+msgstr "Raw フォーマットの画像を読み込めるようにします"
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "_X:"
 msgstr "Ｘ位置(_X):"
 
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
 msgid "_Y:"
 msgstr "Ｙ位置(_Y):"
 
@@ -4006,74 +4102,74 @@ msgid "Tool to remove the red-eye effect from a photo."
 msgstr "写真から赤目の効果を取り除くツールです"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
-msgid "add"
-msgstr "追加します"
-
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
 msgid "digits"
 msgstr "桁"
 
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
 msgid "format:"
 msgstr "書式:"
 
-#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
 msgid "remove"
 msgstr "削除します"
 
-#. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
-#, no-c-format
-msgid "%A{ identifier }"
-msgstr "%A{ 属性の識別子 }"
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+msgid "add"
+msgstr "追加します"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
+msgid "Rename"
+msgstr "名前の変更"
+
+#. Translators: this is the text case (upper or lower case).
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+msgid "Cas_e:"
+msgstr "大/小文字(_E):"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:7
+msgid "Edit template"
+msgstr "テンプレートの編集"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+msgid "The original filename"
+msgstr "オリジナルのファイル名"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
+msgid "The original extension"
+msgstr "オリジナルの拡張子"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+msgid "The original enumerator"
+msgstr "オリジナルが持つ通番"
 
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #, no-c-format
 msgid "%M{ format }"
 msgstr "%M{ フォーマット }"
 
-#. Translators: this is the text case (upper or lower case).
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
-msgid "Cas_e:"
-msgstr "大/小文字(_E):"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:14
-msgid "Edit template"
-msgstr "テンプレートの編集"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
-msgid "Re_verse Order"
-msgstr "逆順にする(_V)"
-
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-msgid "Rename"
-msgstr "名前の変更"
+msgid "The modification date"
+msgstr "更新日時"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The digitalization date"
 msgstr "EXIF の日時"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
-msgid "The modification date"
-msgstr "最終修正日時"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
-msgid "The original enumerator"
-msgstr "オリジナルが持つ通番"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
-msgid "The original extension"
-msgstr "オリジナルの拡張子"
-
+#. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
-msgid "The original filename"
-msgstr "オリジナルのファイル名"
+#, no-c-format
+msgid "%A{ identifier }"
+msgstr "%A{ 属性の識別子 }"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Template:"
 msgstr "テンプレート(_T):"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+msgid "Re_verse Order"
+msgstr "逆順にする(_V)"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
@@ -4093,7 +4189,7 @@ msgstr "オリジナルが持つ通番"
 
 #: ../extensions/rename_series/dlg-rename-series.c:62
 msgid "Modification date"
-msgstr "最終修正日時"
+msgstr "更新日時"
 
 #: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
@@ -4156,28 +4252,28 @@ msgstr "画像の寸法を変更する..."
 msgid "Resize the selected images"
 msgstr "選択した画像の寸法を変更します"
 
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:1
+msgid "Resize Images"
+msgstr "画像の寸法の変更"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:2
+msgid "New dimensions"
+msgstr "新しい寸法"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+msgid "_Height:"
+msgstr "高さ(_H):"
+
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+msgid "_Preserve original aspect ratios"
+msgstr "オリジナルの縦横比を保持する(_P)"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:49
 msgid "Format"
 msgstr "フォーマット"
 
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
-msgid "New dimensions"
-msgstr "新しい寸法"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-msgid "Resize Images"
-msgstr "画像の寸法の変更"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-msgid "_Height:"
-msgstr "高さ(_H):"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
-msgid "_Preserve original aspect ratios"
-msgstr "オリジナルの縦横比を保持する(_P)"
-
-#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
 msgid "pixel"
 msgstr "ピクセル"
 
@@ -4220,16 +4316,16 @@ msgstr "もう一度検索します"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:174
-#: ../extensions/search/search.extension.in.in.h:2
+#: ../extensions/search/search.extension.in.in.h:1
 msgid "Search"
 msgstr "検索"
 
-#: ../extensions/search/gth-search-editor.c:108
+#: ../extensions/search/gth-search-editor.c:111
 #: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
 msgstr "以下の条件の全て"
 
-#: ../extensions/search/gth-search-editor.c:109
+#: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
 msgstr "以下の条件のいずれか"
@@ -4247,9 +4343,51 @@ msgstr "検索中..."
 msgid "Cancel the operation"
 msgstr "操作をキャンセルします"
 
-#: ../extensions/search/search.extension.in.in.h:1
+#: ../extensions/search/search.extension.in.in.h:2
 msgid "File search tool."
 msgstr "ファイルを検索するツールです"
+
+#: ../extensions/selections/callbacks.c:62
+#, fuzzy
+#| msgid "Selection"
+msgid "Add to _Selection"
+msgstr "選択範囲"
+
+#: ../extensions/selections/callbacks.c:65
+#, fuzzy
+#| msgid "Selection"
+msgid "Selection 1"
+msgstr "選択範囲"
+
+#: ../extensions/selections/callbacks.c:70
+#, fuzzy
+#| msgid "Selection"
+msgid "Selection 2"
+msgstr "選択範囲"
+
+#: ../extensions/selections/callbacks.c:75
+#, fuzzy
+#| msgid "Selection"
+msgid "Selection 3"
+msgstr "選択範囲"
+
+#: ../extensions/selections/callbacks.c:180
+#, c-format
+msgid ""
+"Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+msgstr ""
+
+#: ../extensions/selections/gth-selections-manager.c:242
+#, fuzzy, c-format
+#| msgid "Selection"
+msgid "Selection %d"
+msgstr "選択範囲"
+
+#: ../extensions/selections/gth-selections-manager.c:245
+#, fuzzy
+#| msgid "Selection"
+msgid "Selections"
+msgstr "選択範囲"
 
 #: ../extensions/slideshow/callbacks.c:56
 msgid "_Slideshow"
@@ -4260,44 +4398,44 @@ msgid "View as a slideshow"
 msgstr "スライドショーで表示します"
 
 #: ../extensions/slideshow/callbacks.c:410
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
 msgid "Slideshow"
 msgstr "スライドショー"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
-msgid "Add files to the playlist"
-msgstr "ファイルを演奏一覧に追加します"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
-msgid "Playlist"
-msgstr "演奏一覧"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
-msgid "R_andom order"
-msgstr "遷移の順番をランダムにする(_A)"
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:4
-msgid "Remove the selected files"
-msgstr "選択したファイルを演奏一覧から削除します"
-
-#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
-msgid "_Change automatically, every"
-msgstr "次の周期で自動的に遷移する(_C): "
-
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "_Personalize"
 msgstr "個人専用の設定(_P)"
 
-#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
+msgid "_Transition effect:"
+msgstr "遷移時の効果(_T):"
+
+#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+msgid "_Change automatically, every"
+msgstr "次の周期で自動的に遷移する(_C): "
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Restart when finished"
 msgstr "遷移をループさせる(_R)"
 
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
+msgid "R_andom order"
+msgstr "遷移の順番をランダムにする(_A)"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+msgid "Playlist"
+msgstr "演奏一覧"
+
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
-msgid "_Transition effect:"
-msgstr "遷移時の効果(_T):"
+msgid "Add files to the playlist"
+msgstr "ファイルを演奏一覧に追加します"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "Remove the selected files"
+msgstr "選択したファイルを演奏一覧から削除します"
 
 #: ../extensions/slideshow/gth-slideshow.c:229
 msgid "Playing slideshow"
@@ -4333,7 +4471,7 @@ msgstr "下から滑り込ませる"
 
 #: ../extensions/slideshow/main.c:307
 msgid "Fade in"
-msgstr "フェード・イン"
+msgstr "フェードイン"
 
 #: ../extensions/slideshow/main.c:313
 msgid "Flip page"
@@ -4353,11 +4491,11 @@ msgstr "画像をスライドショーで表示します"
 
 #: ../extensions/webalbums/callbacks.c:71
 msgid "_Web Album..."
-msgstr "ウェブ・アルバム(_W)..."
+msgstr "ウェブアルバム(_W)..."
 
 #: ../extensions/webalbums/callbacks.c:72
 msgid "Create a static web album"
-msgstr "ローカルのウェブ・アルバムを作成します"
+msgstr "ローカルのウェブアルバムを作成します"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
 msgid "Click to view the image"
@@ -4407,70 +4545,70 @@ msgstr "前の画像を表示します"
 msgid "View the previous page"
 msgstr "前のページを表示します"
 
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
+msgid "All images on  a single image"
+msgstr "全ての画像を１つの画像にまとめる"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
+msgid "Adapts to the window width"
+msgstr "ウィンドウの幅に合わせる"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+msgid "Web Album"
+msgstr "ウェブアルバム"
+
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
 msgid "%P"
 msgstr "%P"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
-msgid "Adapts to the window width"
-msgstr "ウィンドウの幅に合わせる"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
-msgid "All images on  a single image"
-msgstr "全ての画像を１つの画像にまとめる"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
-msgid "Image Attributes"
-msgstr "画像の属性値"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-msgid "Image Page"
-msgstr "画像のページ"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
-msgid "Index Page"
-msgstr "目次のページ"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
-msgid "Show the description, if available"
-msgstr "可能ならば、説明を表示する"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
-msgid "Show the following attributes:"
-msgstr "次の属性値を表示する:"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
-msgid "The current image number"
-msgstr "現在の通し番号"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
-msgid "The file comment"
-msgstr "ファイルのコメント"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
-msgid "The total number of images"
-msgstr "画像の総数"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-msgid "Thumbnail Caption"
-msgstr "サムネイルの見出し"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
-msgid "Web Album"
-msgstr "ウェブ・アルバム"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-msgid "_Adapt to the window width "
-msgstr "ウィンドウの幅に合わせる(_A)"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Copy originals to destination"
 msgstr "元の画像を格納場所へコピーする(_C)"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "_Resize if larger than:"
 msgstr "次よりも大きい場合はサイズを変更する(_R):"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+msgid "_Adapt to the window width "
+msgstr "ウィンドウの幅に合わせる(_A)"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+msgid "Index Page"
+msgstr "目次のページ"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+msgid "Thumbnail Caption"
+msgstr "サムネイルの見出し"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+msgid "The current image number"
+msgstr "現在の通し番号"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+msgid "The total number of images"
+msgstr "画像の総数"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+msgid "The file comment"
+msgstr "ファイルのコメント"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+msgid "Image Page"
+msgstr "画像のページ"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+msgid "Show the description, if available"
+msgstr "可能ならば、説明を表示する"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+msgid "Show the following attributes:"
+msgstr "次の属性値を表示する:"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+msgid "Image Attributes"
+msgstr "画像の属性値"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
@@ -4506,12 +4644,12 @@ msgid "Could not create a temporary folder"
 msgstr "作業フォルダーを作成できませんでした"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
-msgid "Create static web albums."
-msgstr "ローカルのウェブ・アルバムを作成します"
+msgid "Web Albums"
+msgstr "ウェブアルバム"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:2
-msgid "Web Albums"
-msgstr "ウェブ・アルバム"
+msgid "Create static web albums."
+msgstr "ローカルのウェブアルバムを作成します"
 
 #: ../gthumb/dlg-personalize-filters.c:237
 msgid "Filter"
@@ -4563,7 +4701,7 @@ msgstr "インポート系"
 
 #: ../gthumb/dlg-preferences-extensions.c:77
 msgid "Exporters"
-msgstr "エキスポート系"
+msgstr "エクスポート系"
 
 #: ../gthumb/dlg-preferences-extensions.c:216
 msgid "Could not activate the extension"
@@ -4724,6 +4862,7 @@ msgstr "GNOME 向けの画像ビューアー/画像ブラウザーです。"
 msgid "translator_credits"
 msgstr ""
 "相花 毅 <takeshi.aihana@gmail.com>\n"
+"松澤 二郎 <jmatsuzawa@src.gnome.org>\n"
 "日本GNOMEユーザー会 http://www.gnome.gr.jp"
 
 #: ../gthumb/gth-browser-actions-entries.h:31
@@ -4752,7 +4891,7 @@ msgstr "インポート(_M)"
 
 #: ../gthumb/gth-browser-actions-entries.h:38
 msgid "E_xport To"
-msgstr "エキスポート(_X)"
+msgstr "エクスポート(_X)"
 
 #: ../gthumb/gth-browser-actions-entries.h:41
 msgid "New _Window"
@@ -4776,7 +4915,7 @@ msgstr "gThumb の設定を変更します"
 
 #: ../gthumb/gth-browser-actions-entries.h:95
 msgid "_Sort By..."
-msgstr "並び替え(_S)..."
+msgstr "並べ替え(_S)..."
 
 #: ../gthumb/gth-browser-actions-entries.h:101
 msgid "_Filter..."
@@ -4806,15 +4945,15 @@ msgstr "フルスクリーン表示に切り替えます"
 msgid "Leave Fullscreen"
 msgstr "フルスクリーン表示を解除します"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3567
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3575
 msgid "Go to the previous visited location"
 msgstr "前に訪れた場所へジャンプします"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3585
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3593
 msgid "Go to the next visited location"
 msgstr "次に訪れた場所へジャンプします"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3603
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3611
 msgid "Go up one level"
 msgstr "一つ上の場所に上がります"
 
@@ -4937,7 +5076,6 @@ msgstr "[変更済]"
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d個のファイルを選択しました (%s)"
-msgstr[1] "%d個のファイルを選択しました(%s)"
 
 #: ../gthumb/gth-browser.c:1031
 #, c-format
@@ -4945,8 +5083,8 @@ msgid "%s of free space"
 msgstr "%sの空き"
 
 #: ../gthumb/gth-browser.c:1240 ../gthumb/gth-browser.c:1799
-#: ../gthumb/gth-browser.c:5874 ../gthumb/gth-browser.c:5893
-#: ../gthumb/gth-browser.c:5918
+#: ../gthumb/gth-browser.c:5882 ../gthumb/gth-browser.c:5901
+#: ../gthumb/gth-browser.c:5925
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "\"%s\" を読み込めませんでした"
@@ -4959,7 +5097,7 @@ msgstr "%s に適したモジュールではありませんでした"
 #: ../gthumb/gth-browser.c:2042
 #, c-format
 msgid "Save changes to file '%s'?"
-msgstr "'%s' の変更点を保存しますか？"
+msgstr "'%s' の変更点を保存しますか?"
 
 #: ../gthumb/gth-browser.c:2047
 msgid "If you don't save, changes to the file will be permanently lost."
@@ -4975,22 +5113,22 @@ msgstr "名前を変更できませんでした"
 
 #: ../gthumb/gth-browser.c:3247 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
-msgstr "修正日時"
+msgstr "更新日時"
 
-#: ../gthumb/gth-browser.c:3568 ../gthumb/gth-browser.c:3586
+#: ../gthumb/gth-browser.c:3576 ../gthumb/gth-browser.c:3594
 msgid "View the list of visited locations"
 msgstr "最近訪れた場所の一覧を表示します"
 
-#: ../gthumb/gth-browser.c:3604
+#: ../gthumb/gth-browser.c:3612
 msgid "View the list of upper locations"
 msgstr "上にある場所の一覧を表示します"
 
-#: ../gthumb/gth-browser.c:5875
+#: ../gthumb/gth-browser.c:5883
 #, c-format
 msgid "File type not supported"
 msgstr "サポートしていない種類のファイルです"
 
-#: ../gthumb/gth-browser.c:5919
+#: ../gthumb/gth-browser.c:5926
 #, c-format
 msgid "No suitable module found"
 msgstr "妥当なモジュールが見つかりませんでした"
@@ -5000,49 +5138,47 @@ msgstr "妥当なモジュールが見つかりませんでした"
 msgid "Could not open the module `%s`: %s"
 msgstr "'%s' というモジュールをオープンできませんでした: %s"
 
-#: ../gthumb/gth-extensions.c:733
+#: ../gthumb/gth-extensions.c:741
 #, c-format
 msgid "The extension '%1$s' is required by the extension '%2$s'"
 msgstr "拡張機能の '%2$s' にはこの '%1$s' が必要です。"
 
-#: ../gthumb/gth-file-source-vfs.c:117
+#: ../gthumb/gth-file-source-vfs.c:121
 msgid "Home Folder"
-msgstr "ホーム・フォルダー"
+msgstr "ホームフォルダー"
 
-#: ../gthumb/gth-file-source-vfs.c:122
+#: ../gthumb/gth-file-source-vfs.c:126
 msgid "File System"
-msgstr "ファイル・システム"
+msgstr "ファイルシステム"
 
-#: ../gthumb/gth-file-source-vfs.c:735
+#: ../gthumb/gth-file-source-vfs.c:739
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"ファイルをゴミ箱へ移動できませんが、代わりにそれらを完全に消去しますか？"
+"ファイルをゴミ箱へ移動できませんが、代わりにそれらを完全に消去しますか?"
 
-#: ../gthumb/gth-file-source-vfs.c:746
+#: ../gthumb/gth-file-source-vfs.c:750
 msgid "Could not move the files to the Trash"
 msgstr "ファイルをゴミ箱へ移動できませんでした"
 
-#: ../gthumb/gth-file-source-vfs.c:793
+#: ../gthumb/gth-file-source-vfs.c:797
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr "本当に \"%s\" をゴミ箱に移動しますか？"
+msgstr "本当に \"%s\" をゴミ箱に移動しますか?"
 
-#: ../gthumb/gth-file-source-vfs.c:797
+#: ../gthumb/gth-file-source-vfs.c:801
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
-msgstr[0] "本当に選択した%'d個のファイルをゴミ箱へ移動しますか？"
-msgstr[1] "本当に選択した%'d個のファイルをゴミ箱へ移動しますか？"
+msgstr[0] "本当に選択した%'d個のファイルをゴミ箱へ移動しますか?"
 
-#: ../gthumb/gth-file-source-vfs.c:840
+#: ../gthumb/gth-file-source-vfs.c:844
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] "本当に選択した%'d個のファイルを完全に消去しますか？"
-msgstr[1] "本当に選択した%'d個のファイルを完全に消去しますか？"
+msgstr[0] "本当に選択した%'d個のファイルを完全に消去しますか?"
 
 #: ../gthumb/gth-filterbar.c:405
 msgid "Hide the filterbar"
@@ -5051,17 +5187,17 @@ msgstr "フィルターバーを隠します"
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:75
 msgid "kB"
-msgstr "Kバイト"
+msgstr "KB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
 #: ../gthumb/gth-test-simple.c:76
 msgid "MB"
-msgstr "Mバイト"
+msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
 #: ../gthumb/gth-test-simple.c:77
 msgid "GB"
-msgstr "Gバイト"
+msgstr "GB"
 
 #. "files" label
 #: ../gthumb/gth-filter.c:289 ../gthumb/gth-filter-editor-dialog.c:177
@@ -5103,7 +5239,7 @@ msgstr "チャンネル:"
 
 #: ../gthumb/gth-histogram-view.c:890
 msgid "Value"
-msgstr "値"
+msgstr "明度"
 
 #: ../gthumb/gth-histogram-view.c:896
 msgid "Red"
@@ -5152,7 +5288,7 @@ msgstr "絶対パス名"
 
 #: ../gthumb/gth-main-default-metadata.c:48
 msgid "Duration"
-msgstr "彩度"
+msgstr "再生時間"
 
 #: ../gthumb/gth-main-default-sort-types.c:131
 msgid "file name"
@@ -5168,11 +5304,11 @@ msgstr "サイズ"
 
 #: ../gthumb/gth-main-default-sort-types.c:134
 msgid "file modified date"
-msgstr "最終修正日時"
+msgstr "更新日時"
 
 #: ../gthumb/gth-main-default-sort-types.c:135
 msgid "no sorting"
-msgstr "並び替えない"
+msgstr "並べ替えない"
 
 #: ../gthumb/gth-main-default-sort-types.c:136
 msgid "dimensions"
@@ -5346,7 +5482,7 @@ msgstr "今日"
 
 #: ../gthumb/gth-time-selector.c:482
 msgid "Now"
-msgstr "今すぐ"
+msgstr "現在日時"
 
 #: ../gthumb/gth-window-actions-entries.h:32
 msgid "Close this window"
@@ -5394,7 +5530,7 @@ msgstr "自動的にスライドショーを起動する"
 
 #: ../gthumb/main.c:71
 msgid "Automatically import digital camera photos"
-msgstr "自動的にディジタル・カメラの写真をインポートする"
+msgstr "自動的にデジタルカメラの写真をインポートする"
 
 #: ../gthumb/main.c:75
 msgid "Show version"
@@ -5449,47 +5585,8 @@ msgstr "画像を \"%s\" として保存するのに適したモジュールが�
 #~ msgid "Activate items with a double click"
 #~ msgstr "ダブル・クリックで有効にする"
 
-#~ msgid "on the bottom"
-#~ msgstr "ウィンドウの下側"
-
-#~ msgid "System settings"
-#~ msgstr "デスクトップ設定に従う"
-
-#~ msgid "Text below icons"
-#~ msgstr "アイコンの下にラベル"
-
-#~ msgid "Text beside icons"
-#~ msgstr "アイコンの横にラベル"
-
-#~ msgid "Icons only"
-#~ msgstr "アイコンのみ"
-
-#~ msgid "Text only"
-#~ msgstr "ラベルのみ"
-
-#~ msgid "White"
-#~ msgstr "白色"
-
-#~ msgid "Black"
-#~ msgstr "黒色"
-
-#~ msgid "Checked"
-#~ msgstr "格子縞"
-
-#~ msgid "Keep previous zoom"
-#~ msgstr "前と同じ拡大率にする"
-
-#~ msgid "Fit to window"
-#~ msgstr "ウィンドウに合わせる"
-
-#~ msgid "Fit to window if larger"
-#~ msgstr "ウィンドウ・サイズよりも大きい場合はウィンドウに合わせる"
-
 #~ msgid "Set image to actual size"
 #~ msgstr "オリジナルのサイズにする"
-
-#~ msgid "Fit to width if larger"
-#~ msgstr "ウィンドウ・サイズよりも大きい場合は幅に合わせる"
 
 #~ msgid "Possible values: pixels, percentage"
 #~ msgstr "設定可能な値: pixels、percentage"
@@ -5522,18 +5619,6 @@ msgstr "画像を \"%s\" として保存するのに適したモジュールが�
 #~ msgstr ""
 #~ "設定可能な値: actual-size、keep-prev、fit-size、fit-size-if-larger、fit-"
 #~ "width、fit-width-if-larger"
-
-#~ msgid "High"
-#~ msgstr "高品質"
-
-#~ msgid "Low"
-#~ msgstr "低品質"
-
-#~ msgid "Set to actual size"
-#~ msgstr "オリジナルのサイズにする"
-
-#~ msgid "Fit to width"
-#~ msgstr "幅に合わせる"
 
 #~ msgid "Possible values are: none, file_date, current_date"
 #~ msgstr "設定可能な値: none、file_date、current_date"
