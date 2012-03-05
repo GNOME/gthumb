@@ -1,5 +1,5 @@
 SUBDIRS = hicolor
 
-EXTRA_DIST =  selection.png
+EXTRA_DIST = selection.svg
 
 -include $(top_srcdir)/git.mk
