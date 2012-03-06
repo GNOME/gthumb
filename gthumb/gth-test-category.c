@@ -92,7 +92,6 @@ gth_test_category_finalize (GObject *object)
 			g_signal_handler_disconnect (gth_main_get_default_monitor (), test->priv->monitor_events);
 			test->priv->monitor_events = 0;
 		}
-		_g_object_unref (test->priv->tag_store);
 		g_free (test->priv->category);
 		g_free (test->priv);
 		test->priv = NULL;
@@ -214,6 +213,7 @@ gth_test_category_real_create_control (GthTest *base)
 	test->priv->tag_store = gtk_list_store_new (1, G_TYPE_STRING);
 	test->priv->combo_entry = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (test->priv->tag_store));
 	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (test->priv->combo_entry), 0);
+	g_object_unref (test->priv->tag_store);
 	update_tag_list (test);
 
 	test->priv->text_entry = gtk_bin_get_child (GTK_BIN (test->priv->combo_entry));
@@ -265,7 +265,7 @@ gth_test_category_real_match (GthTest     *test,
 		GList         *list, *scan;
 		char          *test_category_casefolded;
 
-		string_list = GTH_STRING_LIST (g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category))));
+		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category)));
 		if (string_list != NULL)
 			list = gth_string_list_get_list (string_list);
 		else
@@ -449,7 +449,6 @@ gth_test_category_init (GthTestCategory *test)
 {
 	test->priv = g_new0 (GthTestCategoryPrivate, 1);
 	test->priv->monitor_events = 0;
-	test->priv->tag_store = NULL;
 }
 
 
