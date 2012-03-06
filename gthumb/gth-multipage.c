@@ -51,7 +51,7 @@ struct _GthMultipagePrivate {
 };
 
 
-G_DEFINE_TYPE (GthMultipage, gth_multipage, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthMultipage, gth_multipage, GTK_TYPE_BOX)
 
 
 static void
@@ -123,6 +123,8 @@ gth_multipage_init (GthMultipage *multipage)
 
 	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
 	multipage->priv->children = NULL;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (multipage), GTK_ORIENTATION_VERTICAL);
 
 	g_signal_connect (multipage,
 			  "realize",

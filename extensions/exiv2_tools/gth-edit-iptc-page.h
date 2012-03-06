@@ -39,13 +39,13 @@ typedef struct _GthEditIptcPageClass    GthEditIptcPageClass;
 
 struct _GthEditIptcPage
 {
-	GtkVBox __parent;
+	GtkBox __parent;
 	GthEditIptcPagePrivate *priv;
 };
 
 struct _GthEditIptcPageClass
 {
-	GtkVBoxClass __parent_class;	
+	GtkBoxClass __parent_class;
 };
 
 GType gth_edit_iptc_page_get_type (void) G_GNUC_CONST;

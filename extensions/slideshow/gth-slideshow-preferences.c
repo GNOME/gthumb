@@ -25,7 +25,7 @@
 #include "gth-transition.h"
 
 
-G_DEFINE_TYPE (GthSlideshowPreferences, gth_slideshow_preferences, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthSlideshowPreferences, gth_slideshow_preferences, GTK_TYPE_BOX)
 
 
 enum {
@@ -74,6 +74,7 @@ gth_slideshow_preferences_init (GthSlideshowPreferences *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW_PREFERENCES, GthSlideshowPreferencesPrivate);
 	self->priv->builder = NULL;
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 }
 
 

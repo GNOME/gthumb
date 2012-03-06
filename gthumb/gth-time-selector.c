@@ -55,7 +55,7 @@ struct _GthTimeSelectorPrivate
 static guint gth_time_selector_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTimeSelector, gth_time_selector, GTK_TYPE_HBOX);
+G_DEFINE_TYPE (GthTimeSelector, gth_time_selector, GTK_TYPE_BOX);
 
 
 static void
@@ -100,6 +100,8 @@ gth_time_selector_init (GthTimeSelector *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIME_SELECTOR, GthTimeSelectorPrivate);
 	self->priv->date_time = gth_datetime_new ();
 	self->priv->use_time = TRUE;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 }
 
 

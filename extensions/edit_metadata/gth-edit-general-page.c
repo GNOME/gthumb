@@ -56,7 +56,7 @@ static void gth_edit_general_page_gth_edit_general_page_interface_init (GthEditC
 
 G_DEFINE_TYPE_WITH_CODE (GthEditGeneralPage,
 			 gth_edit_general_page,
-			 GTK_TYPE_VBOX,
+			 GTK_TYPE_BOX,
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_COMMENT_PAGE,
 					 	gth_edit_general_page_gth_edit_general_page_interface_init))
 
@@ -537,6 +537,7 @@ gth_edit_general_page_init (GthEditGeneralPage *self)
 	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 
 	self->priv->builder = _gtk_builder_new_from_file ("edit-comment-page.ui", "edit_metadata");
 	gtk_box_pack_start (GTK_BOX (self), _gtk_builder_get_widget (self->priv->builder, "content"), TRUE, TRUE, 0);

@@ -53,7 +53,7 @@ typedef struct _GeditMessageArea GeditMessageArea;
 
 struct _GeditMessageArea 
 {
-	GtkHBox parent;
+	GtkBox parent;
 
 	/*< private >*/
 	GeditMessageAreaPrivate *priv;
@@ -66,7 +66,7 @@ typedef struct _GeditMessageAreaClass GeditMessageAreaClass;
 
 struct _GeditMessageAreaClass 
 {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Signals */
 	void (* response) (GeditMessageArea *message_area, gint response_id);

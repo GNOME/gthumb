@@ -28,7 +28,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthTemplateSelector, gth_template_selector, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GthTemplateSelector, gth_template_selector, GTK_TYPE_BOX)
 
 
 enum {
@@ -115,6 +115,8 @@ gth_template_selector_init (GthTemplateSelector *self)
 {
 	self->priv = g_new0 (GthTemplateSelectorPrivate, 1);
 	self->priv->builder = NULL;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 }
 
 

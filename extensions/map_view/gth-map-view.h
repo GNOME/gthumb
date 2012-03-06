@@ -38,12 +38,12 @@ typedef struct _GthMapViewClass GthMapViewClass;
 typedef struct _GthMapViewPrivate GthMapViewPrivate;
 
 struct _GthMapView {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthMapViewPrivate *priv;
 };
 
 struct _GthMapViewClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType gth_map_view_get_type (void);

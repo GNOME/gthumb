@@ -43,7 +43,7 @@ typedef struct _GthTaskProgress GthTaskProgress;
 typedef struct _GthTaskProgressClass GthTaskProgressClass;
 
 struct _GthTaskProgress {
-	GtkHBox    parent_instance;
+	GtkBox    parent_instance;
 	GthTask   *task;
 	GtkWidget *description_label;
 	GtkWidget *details_label;
@@ -55,11 +55,11 @@ struct _GthTaskProgress {
 };
 
 struct _GthTaskProgressClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 
-G_DEFINE_TYPE (GthTaskProgress, gth_task_progress, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GthTaskProgress, gth_task_progress, GTK_TYPE_BOX)
 
 
 static void
@@ -101,6 +101,8 @@ gth_task_progress_init (GthTaskProgress *self)
 	GtkWidget     *vbox;
 	PangoAttrList *attr_list;
 	GtkWidget     *image;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
 	self->task = NULL;
 	self->task_progress = 0;

@@ -40,13 +40,13 @@ typedef struct _GthFilterbarClass    GthFilterbarClass;
 
 struct _GthFilterbar
 {
-	GtkHBox __parent;
+	GtkBox __parent;
 	GthFilterbarPrivate *priv;
 };
 
 struct _GthFilterbarClass
 {
-	GtkHBoxClass __parent_class;
+	GtkBoxClass __parent_class;
 
 	/* -- Signals -- */
 

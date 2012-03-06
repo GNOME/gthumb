@@ -250,7 +250,7 @@ _gth_toolbox_add_children (GthToolbox *toolbox)
 		if (gth_file_tool_has_separator (GTH_FILE_TOOL (child))) {
 			GtkWidget *separator;
 
-			separator = gtk_hseparator_new ();
+			separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 			gtk_widget_show (separator);
 			gtk_box_pack_start (GTK_BOX (toolbox->priv->box), separator, FALSE, FALSE, 0);
 		}

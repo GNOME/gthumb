@@ -52,12 +52,12 @@ typedef struct _GthTemplateSelectorClass   GthTemplateSelectorClass;
 typedef struct _GthTemplateSelectorPrivate GthTemplateSelectorPrivate;
 
 struct _GthTemplateSelector {
-	GtkHBox parent_instance;
+	GtkBox parent_instance;
 	GthTemplateSelectorPrivate *priv;
 };
 
 struct _GthTemplateSelectorClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	void (*add_template)    (GthTemplateSelector *selector);
 	void (*remove_template) (GthTemplateSelector *selector);

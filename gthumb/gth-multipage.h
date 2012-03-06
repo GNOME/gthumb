@@ -44,13 +44,13 @@ typedef struct _GthMultipagePrivate GthMultipagePrivate;
 
 struct _GthMultipage
 {
-	GtkVBox __parent;
+	GtkBox __parent;
 	GthMultipagePrivate *priv;
 };
 
 struct _GthMultipageClass
 {
-	GtkVBoxClass __parent_class;
+	GtkBoxClass __parent_class;
 
 	void  (*changed) (GthMultipage *self);
 };

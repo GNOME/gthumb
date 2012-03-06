@@ -66,7 +66,7 @@ struct _GthFilterbarPrivate
 static guint gth_filterbar_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthFilterbar, gth_filterbar, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GthFilterbar, gth_filterbar, GTK_TYPE_BOX)
 
 
 static void
@@ -130,6 +130,7 @@ static void
 gth_filterbar_init (GthFilterbar *filterbar)
 {
 	filterbar->priv = g_new0 (GthFilterbarPrivate, 1);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (filterbar), GTK_ORIENTATION_HORIZONTAL);
 }
 
 

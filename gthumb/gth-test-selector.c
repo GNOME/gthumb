@@ -55,7 +55,7 @@ struct _GthTestSelectorPrivate {
 static guint gth_test_selector_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTestSelector, gth_test_selector, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (GthTestSelector, gth_test_selector, GTK_TYPE_BOX)
 
 
 static void
@@ -108,6 +108,7 @@ static void
 gth_test_selector_init (GthTestSelector *self)
 {
 	self->priv = g_new0 (GthTestSelectorPrivate, 1);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 }
 
 

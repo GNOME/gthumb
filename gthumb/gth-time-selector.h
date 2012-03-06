@@ -40,13 +40,13 @@ typedef struct _GthTimeSelectorClass    GthTimeSelectorClass;
 
 struct _GthTimeSelector
 {
-	GtkHBox __parent;
+	GtkBox __parent;
 	GthTimeSelectorPrivate *priv;
 };
 
 struct _GthTimeSelectorClass
 {
-	GtkHBoxClass __parent_class;
+	GtkBoxClass __parent_class;
 
 	/* -- Signals -- */
 

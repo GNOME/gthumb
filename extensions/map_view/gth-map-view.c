@@ -37,7 +37,7 @@ static void gth_map_view_gth_property_view_interface_init (GthPropertyViewInterf
 
 G_DEFINE_TYPE_WITH_CODE (GthMapView,
 			 gth_map_view,
-			 GTK_TYPE_VBOX,
+			 GTK_TYPE_BOX,
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
 					        gth_map_view_gth_multipage_child_interface_init)
 		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
@@ -267,6 +267,7 @@ gth_map_view_init (GthMapView *self)
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 
 	/* No GPS label */
 

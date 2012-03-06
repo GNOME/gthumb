@@ -38,12 +38,12 @@ typedef struct _GthTagsEntryClass GthTagsEntryClass;
 typedef struct _GthTagsEntryPrivate GthTagsEntryPrivate;
 
 struct _GthTagsEntry {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthTagsEntryPrivate *priv;
 };
 
 struct _GthTagsEntryClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/*< signals >*/
 

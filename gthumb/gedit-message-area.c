@@ -69,7 +69,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE(GeditMessageArea, gedit_message_area, GTK_TYPE_HBOX)
+G_DEFINE_TYPE(GeditMessageArea, gedit_message_area, GTK_TYPE_BOX)
 
 static ResponseData *
 get_response_data (GtkWidget *widget,
@@ -166,6 +166,7 @@ gedit_message_area_init (GeditMessageArea *message_area)
 {
 	GtkWidget *vbox;
 
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (message_area), GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_push_composite_child ();
 
 	message_area->priv = GEDIT_MESSAGE_AREA_GET_PRIVATE (message_area);

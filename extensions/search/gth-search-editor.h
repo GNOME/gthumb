@@ -37,12 +37,12 @@ typedef struct _GthSearchEditorClass   GthSearchEditorClass;
 typedef struct _GthSearchEditorPrivate GthSearchEditorPrivate;
 
 struct _GthSearchEditor {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthSearchEditorPrivate *priv;
 };
 
 struct _GthSearchEditorClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType       gth_search_editor_get_type   (void);

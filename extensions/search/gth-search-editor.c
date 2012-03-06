@@ -29,7 +29,7 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-G_DEFINE_TYPE (GthSearchEditor, gth_search_editor, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthSearchEditor, gth_search_editor, GTK_TYPE_BOX)
 
 
 struct _GthSearchEditorPrivate {
@@ -69,6 +69,7 @@ static void
 gth_search_editor_init (GthSearchEditor *dialog)
 {
 	dialog->priv = g_new0 (GthSearchEditorPrivate, 1);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (dialog), GTK_ORIENTATION_VERTICAL);
 }
 
 

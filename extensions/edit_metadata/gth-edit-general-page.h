@@ -39,13 +39,13 @@ typedef struct _GthEditGeneralPageClass    GthEditGeneralPageClass;
 
 struct _GthEditGeneralPage
 {
-	GtkVBox __parent;
+	GtkBox __parent;
 	GthEditGeneralPagePrivate *priv;
 };
 
 struct _GthEditGeneralPageClass
 {
-	GtkVBoxClass __parent_class;	
+	GtkBoxClass __parent_class;
 };
 
 GType gth_edit_general_page_get_type (void) G_GNUC_CONST;

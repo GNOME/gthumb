@@ -39,12 +39,12 @@ typedef struct _GthTestSelectorClass   GthTestSelectorClass;
 typedef struct _GthTestSelectorPrivate GthTestSelectorPrivate;
 
 struct _GthTestSelector {
-	GtkHBox parent_instance;
+	GtkBox parent_instance;
 	GthTestSelectorPrivate * priv;
 };
 
 struct _GthTestSelectorClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 	
 	void (*add_test)    (GthTestSelector *selector);
 	void (*remove_test) (GthTestSelector *selector);

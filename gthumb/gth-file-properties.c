@@ -66,7 +66,7 @@ static void gth_file_properties_gth_property_view_interface_init (GthPropertyVie
 
 G_DEFINE_TYPE_WITH_CODE (GthFileProperties,
 			 gth_file_properties,
-			 GTK_TYPE_VBOX,
+			 GTK_TYPE_BOX,
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
 					 	gth_file_properties_gth_multipage_child_interface_init)
 		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
@@ -331,6 +331,7 @@ gth_file_properties_init (GthFileProperties *self)
 
 	self->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (self);
 
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 
 	vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);

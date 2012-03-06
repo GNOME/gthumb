@@ -39,12 +39,12 @@ typedef struct _GthFilePropertiesClass GthFilePropertiesClass;
 typedef struct _GthFilePropertiesPrivate GthFilePropertiesPrivate;
 
 struct _GthFileProperties {
-	GtkVBox parent_instance;
+	GtkBox parent_instance;
 	GthFilePropertiesPrivate *priv;
 };
 
 struct _GthFilePropertiesClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType gth_file_properties_get_type (void);

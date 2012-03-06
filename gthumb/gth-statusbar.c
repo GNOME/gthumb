@@ -66,7 +66,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_widget_hide (statusbar->priv->progress_box);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->progress_box, FALSE, FALSE, 0);
 
-	separator = gtk_hseparator_new ();
+	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_show (separator);
 	gtk_box_pack_start (GTK_BOX (statusbar->priv->progress_box), separator, FALSE, FALSE, 0);
 

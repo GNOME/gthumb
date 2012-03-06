@@ -39,13 +39,13 @@ typedef struct _GthSlideshowPreferencesPrivate  GthSlideshowPreferencesPrivate;
 
 struct _GthSlideshowPreferences
 {
-	GtkVBox __parent;
+	GtkBox __parent;
 	GthSlideshowPreferencesPrivate *priv;
 };
 
 struct _GthSlideshowPreferencesClass
 {
-	GtkVBoxClass __parent_class;
+	GtkBoxClass __parent_class;
 };
 
 GType         gth_slideshow_preferences_get_type           (void);

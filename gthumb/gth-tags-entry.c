@@ -86,7 +86,7 @@ struct _GthTagsEntryPrivate {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTagsEntry, gth_tags_entry, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GthTagsEntry, gth_tags_entry, GTK_TYPE_BOX)
 
 
 static void
@@ -697,6 +697,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	GtkCellRenderer   *renderer;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
