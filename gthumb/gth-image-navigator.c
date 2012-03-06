@@ -520,8 +520,7 @@ nav_window_grab_pointer (NavigatorPopup *nav_popup,
 			 TRUE,
 			 (GDK_BUTTON_RELEASE_MASK
 			  | GDK_POINTER_MOTION_HINT_MASK
-			  | GDK_BUTTON_MOTION_MASK
-			  | GDK_EXTENSION_EVENTS_ALL),
+			  | GDK_BUTTON_MOTION_MASK),
 			 cursor,
 			 0);
 	g_object_unref (cursor);

@@ -165,8 +165,7 @@ show_calendar_popup (GthTimeSelector *self)
 			 (GDK_BUTTON_PRESS_MASK
 			  | GDK_BUTTON_RELEASE_MASK
 			  | GDK_POINTER_MOTION_HINT_MASK
-			  | GDK_BUTTON_MOTION_MASK
-			  | GDK_EXTENSION_EVENTS_ALL),
+			  | GDK_BUTTON_MOTION_MASK),
 			 NULL,
 			 GDK_CURRENT_TIME);
 	gtk_widget_grab_focus (self->priv->calendar);
