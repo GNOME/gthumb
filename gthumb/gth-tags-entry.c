@@ -886,6 +886,7 @@ gth_tags_entry_set_tags_from_text (GthTagsEntry *self,
 				   const char   *text)
 {
 	char **tags;
+	int    i;
 
 	if ((text == NULL) || (strcmp (text, "") == 0)) {
 		gth_tags_entry_set_tags (self, NULL);
@@ -893,6 +894,8 @@ gth_tags_entry_set_tags_from_text (GthTagsEntry *self,
 	}
 
 	tags = g_strsplit (text, ",", -1);
+	for (i = 0; tags[i] != NULL; i++)
+		tags[i] = g_strstrip (tags[i]);
 	gth_tags_entry_set_tags (self, tags);
 
 	g_strfreev (tags);
