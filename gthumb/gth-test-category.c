@@ -162,7 +162,10 @@ static void
 monitor_tags_changed_cb (GthMonitor *monitor,
 		 	 gpointer    user_data)
 {
-	update_tag_list (GTH_TEST_CATEGORY (user_data));
+	GthTestCategory *test = user_data;
+
+	if (test->priv->tag_store != NULL)
+		update_tag_list (test);
 }
 
 
@@ -176,6 +179,10 @@ gth_test_category_real_create_control (GthTest *base)
 	test = (GthTestCategory *) base;
 
 	control = gtk_hbox_new (FALSE, 6);
+	g_signal_connect (control,
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &test->priv->tag_store);
 
 	/* text operation combo box */
 
@@ -226,10 +233,11 @@ gth_test_category_real_create_control (GthTest *base)
 			  "changed",
 			  G_CALLBACK (combo_entry_changed_cb),
 			  test);
-	test->priv->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
-						       "tags-changed",
-						       G_CALLBACK (monitor_tags_changed_cb),
-						       test);
+	if (test->priv->monitor_events == 0)
+		test->priv->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
+							       "tags-changed",
+							       G_CALLBACK (monitor_tags_changed_cb),
+							       test);
 	/**/
 
 	gtk_box_pack_start (GTK_BOX (control), test->priv->op_combo_box, FALSE, FALSE, 0);
