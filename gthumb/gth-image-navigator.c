@@ -448,7 +448,11 @@ popup_window_event_cb (GtkWidget *widget,
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		gdk_window_get_pointer (gtk_widget_get_window (widget), &mx, &my, &mask);
+		gdk_window_get_device_position (gtk_widget_get_window (widget),
+						gdk_event_get_device (event),
+						&mx,
+						&my,
+						&mask);
 
 		get_visible_area_origin_as_double (nav_popup, mx, my, &x, &y);
 		nav_popup->visible_area.x = (int) x;

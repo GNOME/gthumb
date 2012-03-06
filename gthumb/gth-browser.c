@@ -6098,14 +6098,25 @@ _gth_browser_create_fullscreen_toolbar (GthBrowser *browser)
 }
 
 
+typedef struct {
+	GthBrowser *browser;
+	GdkDevice  *device;
+} HideMouseData;
+
+
 static gboolean
 hide_mouse_pointer_cb (gpointer data)
 {
-	GthBrowser *browser = data;
-	int         px, py;
-	GList      *scan;
+	HideMouseData *hmdata = data;
+	GthBrowser    *browser = hmdata->browser;
+	int            px, py;
+	GList         *scan;
 
-	gdk_window_get_pointer (gtk_widget_get_window (GTK_WIDGET (browser)), &px, &py, 0);
+	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (browser)),
+					hmdata->device,
+					&px,
+					&py,
+					0);
 	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next) {
 		GtkWidget *widget = scan->data;
 		int        x, y, w, h;
@@ -6133,7 +6144,8 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 				   GdkEventMotion *event,
 				   gpointer        data)
 {
-	GthBrowser *browser = data;
+	GthBrowser    *browser = data;
+	HideMouseData *hmdata;
 
 	if (browser->priv->last_mouse_x == 0.0)
 		browser->priv->last_mouse_x = event->x;
@@ -6160,9 +6172,15 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 
 	if (browser->priv->hide_mouse_timeout != 0)
 		g_source_remove (browser->priv->hide_mouse_timeout);
-	browser->priv->hide_mouse_timeout = g_timeout_add (HIDE_MOUSE_DELAY,
-							   hide_mouse_pointer_cb,
-							   browser);
+
+	hmdata = g_new0 (HideMouseData, 1);
+	hmdata->browser = browser;
+	hmdata->device = event->device;
+	browser->priv->hide_mouse_timeout = g_timeout_add_full (G_PRIORITY_DEFAULT,
+								HIDE_MOUSE_DELAY,
+							   	hide_mouse_pointer_cb,
+							   	hmdata,
+							   	g_free);
 
 	browser->priv->last_mouse_x = event->x;
 	browser->priv->last_mouse_y = event->y;
