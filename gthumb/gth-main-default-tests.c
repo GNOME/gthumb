@@ -188,6 +188,42 @@ get_original_date_for_test (GthTest        *test,
 }
 
 
+static gint64
+get_embedded_title_for_test (GthTest        *test,
+			     GthFileData    *file,
+			     gconstpointer  *data,
+			     GDestroyNotify *data_destroy_func)
+{
+	GthMetadata *metadata;
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file->info, "general::title");
+	if (metadata != NULL)
+		*data = gth_metadata_get_formatted (metadata);
+	else
+		*data = NULL;
+
+	return 0;
+}
+
+
+static gint64
+get_embedded_description_for_test (GthTest        *test,
+				   GthFileData    *file,
+				   gconstpointer  *data,
+				   GDestroyNotify *data_destroy_func)
+{
+	GthMetadata *metadata;
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file->info, "general::description");
+	if (metadata != NULL)
+		*data = gth_metadata_get_formatted (metadata);
+	else
+		*data = NULL;
+
+	return 0;
+}
+
+
 void
 gth_main_register_default_tests (void)
 {
@@ -267,15 +303,19 @@ gth_main_register_default_tests (void)
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::title",
-				  GTH_TYPE_TEST_CATEGORY,
+				  GTH_TYPE_TEST_SIMPLE,
 				  "attributes", "general::title",
 				  "display-name", _("Title (embedded)"),
+				  "data-type", GTH_TEST_DATA_TYPE_STRING,
+				  "get-data-func", get_embedded_title_for_test,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::description",
-				  GTH_TYPE_TEST_CATEGORY,
+				  GTH_TYPE_TEST_SIMPLE,
 				  "attributes", "general::description",
 				  "display-name", _("Description (embedded)"),
+				  "data-type", GTH_TEST_DATA_TYPE_STRING,
+				  "get-data-func", get_embedded_description_for_test,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::tags",
