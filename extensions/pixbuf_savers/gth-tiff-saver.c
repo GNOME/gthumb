@@ -117,7 +117,7 @@ gth_tiff_saver_get_control (GthPixbufSaver *base)
 
 #else /* ! HAVE_LIBTIFF */
 
-	return GTH_PIXBUF_SAVER_CLASS (parent_class)->get_control (base);
+	return GTH_PIXBUF_SAVER_CLASS (gth_tiff_saver_parent_class)->get_control (base);
 
 #endif /* HAVE_LIBTIFF */
 }
