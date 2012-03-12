@@ -2,14 +2,14 @@ extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcairo_io.la
 
 libcairo_io_la_SOURCES = 	\
+	cairo-io-png.c		\
+	cairo-io-png.h		\
 	main.c
 
 if ENABLE_JPEG_TOOLS
 libcairo_io_la_SOURCES +=	\
 	cairo-io-jpeg.c		\
-	cairo-io-jpeg.h		\
-	cairo-io-png.c		\
-	cairo-io-png.h
+	cairo-io-jpeg.h
 endif
 
 if ENABLE_LIBRSVG
