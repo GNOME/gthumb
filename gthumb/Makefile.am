@@ -273,6 +273,7 @@ gthumb_LDADD =						\
 	$(LIBOPENRAW_LIBS)				\
 	$(LIBSOUP_LIBS)					\
 	$(LIBCHAMPLAIN_LIBS)				\
+	$(LIBRSVG_LIBS)					\
 	$(NULL)
 
 if RUN_IN_PLACE
