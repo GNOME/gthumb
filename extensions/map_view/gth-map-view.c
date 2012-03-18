@@ -263,6 +263,8 @@ gth_map_view_class_init (GthMapViewClass *klass)
 static void
 gth_map_view_init (GthMapView *self)
 {
+	ClutterActor *scale;
+
 	self->priv = GTH_MAP_VIEW_GET_PRIVATE (self);
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
@@ -290,8 +292,16 @@ gth_map_view_init (GthMapView *self)
 	g_object_set (G_OBJECT (self->priv->map_view),
 		      "reactive", TRUE,
 		      "zoom-level", 5,
+		      "zoom-on-double-click", TRUE,
 		      "kinetic-mode", TRUE,
 		      NULL);
+
+	scale = champlain_scale_new ();
+	champlain_scale_connect_view (CHAMPLAIN_SCALE (scale), self->priv->map_view);
+	champlain_view_bin_layout_add (self->priv->map_view,
+				       scale,
+				       CLUTTER_BIN_ALIGNMENT_START,
+				       CLUTTER_BIN_ALIGNMENT_END);
 
 	self->priv->marker_layer = champlain_marker_layer_new ();
 	champlain_view_add_layer (self->priv->map_view, CHAMPLAIN_LAYER (self->priv->marker_layer));
