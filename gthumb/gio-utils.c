@@ -1138,13 +1138,8 @@ copy_file__delete_source (CopyFileData *copy_file_data)
 {
 	GError *error = NULL;
 
-	if (! copy_file_data->move) {
-		copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
-		copy_file_data_free (copy_file_data);
-		return;
-	}
-
-	g_file_delete (copy_file_data->source->file, copy_file_data->cancellable, &error);
+	if (copy_file_data->move)
+		g_file_delete (copy_file_data->source->file, copy_file_data->cancellable, &error);
 
 	copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
 	copy_file_data_free (copy_file_data);
@@ -1506,7 +1501,7 @@ typedef struct {
 
 	GList                *files;  /* GthFileData list */
 	GList                *current;
-	GList                *copied_files; /* GFile list */
+	GList                *copied_directories; /* GFile list */
 	GFile                *source_base;
 	GFile                *current_destination;
 
@@ -1542,7 +1537,7 @@ copy_data_free (CopyData *copy_data)
 	_g_object_list_unref (copy_data->destination_sidecars);
 	_g_object_list_unref (copy_data->source_sidecars);
 	_g_object_unref (copy_data->current_destination);
-	_g_object_list_unref (copy_data->copied_files);
+	_g_object_list_unref (copy_data->copied_directories);
 	_g_object_list_unref (copy_data->files);
 	_g_object_unref (copy_data->source_base);
 	g_hash_table_destroy (copy_data->source_hash);
@@ -1553,24 +1548,9 @@ copy_data_free (CopyData *copy_data)
 
 
 static void
-copy_data__delete_source (CopyData *copy_data)
+copy_data__done (CopyData *copy_data,
+		 GError   *error)
 {
-	GError *error = NULL;
-	GList  *scan;
-
-	if (! copy_data->move) {
-		copy_data->done_callback (NULL, copy_data->user_data);
-		copy_data_free (copy_data);
-		return;
-	}
-
-	for (scan = copy_data->copied_files; scan; scan = scan->next) {
-		GFile *file = scan->data;
-
-		if (! g_file_delete (file, copy_data->cancellable, &error))
-			break;
-	}
-
 	copy_data->done_callback (error, copy_data->user_data);
 	copy_data_free (copy_data);
 }
@@ -1598,12 +1578,18 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 	CopyData *copy_data = user_data;
 
 	if (error == NULL) {
-		GthFileData *source = (GthFileData *) copy_data->current->data;
-		copy_data->copied_files = g_list_prepend (copy_data->copied_files, g_file_dup (source->file));
+		/* save the correctly copied directories in order to delete
+		 * them after moving their content. */
+		if (copy_data->move) {
+			GthFileData *source;
+
+			source = (GthFileData *) copy_data->current->data;
+			if (g_file_info_get_file_type (source->info) == G_FILE_TYPE_DIRECTORY)
+				copy_data->copied_directories = g_list_prepend (copy_data->copied_directories, g_file_dup (source->file));
+		}
 	}
 	else if ((response == GTH_OVERWRITE_RESPONSE_ALWAYS_NO) || ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
+		copy_data__done (copy_data, error);
 		return;
 	}
 
@@ -1613,19 +1599,53 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 
 
 static void
+copy_data__delete_source_directories (CopyData *copy_data)
+{
+	GError *error = NULL;
+
+	if (copy_data->move) {
+		GList *scan;
+
+		for (scan = copy_data->copied_directories; scan; scan = scan->next) {
+			GFile *file = scan->data;
+
+			if (! g_file_delete (file, copy_data->cancellable, &error))
+				break;
+		}
+	}
+
+	copy_data__done (copy_data, error);
+}
+
+
+static void
 copy_data__copy_current_file (CopyData *copy_data)
 {
-	GthFileData    *source;
-	GFile          *destination;
-	GFileCopyFlags  flags;
+	GthFileData *source;
+	gboolean     explicitly_requested;
+	GFile       *destination;
 
 	if (copy_data->current == NULL) {
-		copy_data__delete_source (copy_data);
+		copy_data__delete_source_directories (copy_data);
 		return;
 	}
 
 	source = (GthFileData *) copy_data->current->data;
-	if (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL) {
+	explicitly_requested = (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL);
+
+	/* Ignore non-existent files that weren't explicitly requested,
+	 * they are children of some requested directory and if they don't
+	 * exist anymore they have been already moved to the destination
+	 * because they are metadata of other files. */
+	if (! explicitly_requested) {
+		if (! g_file_query_exists (source->file, copy_data->cancellable)) {
+			call_when_idle ((DataFunc) copy_data__copy_next_file, copy_data);
+			return;
+		}
+	}
+
+	/* compute the destination */
+	if (explicitly_requested) {
 		_g_object_unref (copy_data->source_base);
 		copy_data->source_base = g_file_get_parent (source->file);
 	}
@@ -1637,14 +1657,10 @@ copy_data__copy_current_file (CopyData *copy_data)
 		return;
 	}
 
-	flags = copy_data->flags;
-	if ((flags & G_FILE_COPY_ALL_METADATA) && (g_hash_table_lookup (copy_data->source_hash, source->file) == NULL))
-		flags = flags ^ G_FILE_COPY_ALL_METADATA;
-
 	_g_copy_file_async_private (source,
 				    destination,
-				    FALSE,
-				    flags,
+				    copy_data->move,
+				    copy_data->flags,
 				    copy_data->default_response,
 				    copy_data->io_priority,
 				    copy_data->tot_size,
@@ -1671,8 +1687,7 @@ copy_files__sources_info_ready_cb (GList    *files,
 	GList    *scan;
 
 	if (error != NULL) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
+		copy_data__done (copy_data, error);
 		return;
 	}
 
@@ -1724,6 +1739,7 @@ _g_copy_files_async (GList                *sources, /* GFile list */
 	copy_data->user_data = user_data;
 	copy_data->default_response = default_response;
 
+	/* save the explicitly requested files */
 	copy_data->source_hash = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
 	for (scan = sources; scan; scan = scan->next)
 		g_hash_table_insert (copy_data->source_hash, g_object_ref (scan->data), GINT_TO_POINTER (1));
@@ -1736,6 +1752,8 @@ _g_copy_files_async (GList                *sources, /* GFile list */
 					      0.0,
 					      copy_data->progress_callback_data);
 
+	/* for each directory in 'source' this query will add all of its content
+	 * to the file list. */
 	_g_query_info_async (sources,
 			     GTH_LIST_RECURSIVE,
 			     "standard::name,standard::display-name,standard::type,standard::size",
