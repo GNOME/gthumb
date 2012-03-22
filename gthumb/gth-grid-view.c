@@ -1006,6 +1006,7 @@ gth_grid_view_realize (GtkWidget *widget)
 	/**/
 
 	gdk_window_show (self->priv->bin_window);
+	_gth_grid_view_queue_relayout (self);
 }
 
 
