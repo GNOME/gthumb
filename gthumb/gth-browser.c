@@ -5442,6 +5442,7 @@ file_metadata_ready_cb (GList    *files,
 		return;
 	}
 
+	/* the mime type can be different for example when a jpeg image has a .png extension */
 	different_mime_type = ! g_str_equal (gth_file_data_get_mime_type (browser->priv->current_file), gth_file_data_get_mime_type (file_data));
 
 	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
@@ -5475,6 +5476,8 @@ file_metadata_ready_cb (GList    *files,
 			gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
 	}
 
+	/* location is NULL if the file has been loaded because requested
+	 * from the command line */
 	if (browser->priv->location == NULL) {
 		GFile *parent;
 
