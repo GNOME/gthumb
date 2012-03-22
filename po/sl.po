@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-05 21:45+0000\n"
-"PO-Revision-Date: 2012-03-06 12:48+0100\n"
+"POT-Creation-Date: 2012-03-22 18:30+0000\n"
+"PO-Revision-Date: 2012-03-22 19:51+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -93,7 +93,7 @@ msgstr "Prikaži možnosti upravljanja seje"
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1
 #: ../gthumb/gth-browser.c:529
-#: ../gthumb/gth-progress-dialog.c:386
+#: ../gthumb/gth-progress-dialog.c:388
 #: ../gthumb/main.c:313
 msgid "gThumb"
 msgstr "gThumb"
@@ -509,6 +509,7 @@ msgstr "Doda podporo zaznamkom."
 #: ../extensions/rename_series/rename_series.extension.in.in.h:3
 #: ../extensions/resize_images/resize_images.extension.in.in.h:3
 #: ../extensions/search/search.extension.in.in.h:3
+#: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
 msgid "gthumb development team"
@@ -831,18 +832,18 @@ msgid "Catalog _Preview:"
 msgstr "_Predogled kataloga:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-#: ../extensions/edit_metadata/gth-edit-general-page.c:549
-#: ../gthumb/gth-main-default-tests.c:264
+#: ../extensions/edit_metadata/gth-edit-general-page.c:550
+#: ../gthumb/gth-main-default-tests.c:300
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-#: ../gthumb/gth-main-default-tests.c:256
+#: ../gthumb/gth-main-default-tests.c:292
 msgid "File modified date"
 msgstr "Datum spremembe datoteke"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
-#: ../extensions/comments/main.c:280
+#: ../extensions/comments/main.c:159
 msgid "Tag"
 msgstr "Oznaka"
 
@@ -851,7 +852,7 @@ msgid "tag"
 msgstr "oznaka"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-tests.c:324
 msgid "Tag (embedded)"
 msgstr "Oznaka (vključena)"
 
@@ -900,7 +901,7 @@ msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr "Datoteke bodo organizirane v kataloge. Nobena datoteka ne bo premaknjena na disku."
 
 #: ../extensions/catalogs/gth-catalog.c:1115
-#: ../extensions/comments/main.c:43
+#: ../extensions/comments/main.c:44
 #: ../extensions/edit_metadata/callbacks.c:106
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
@@ -1036,6 +1037,14 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
+#: ../extensions/comments/callbacks.c:46
+msgid "Import Embedded Metadata"
+msgstr "Uvozi vstavljene metapodatke"
+
+#: ../extensions/comments/callbacks.c:47
+msgid "Import the metadata stored inside files into the gThumb comment system"
+msgstr "Uvozi metapodatke, ki so shranjeni v datotekah v sistem opomb programa gThumb"
+
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
 msgstr "Opombe in oznake"
@@ -1053,18 +1062,18 @@ msgstr "Možnosti"
 msgid "_Synchronize with the embedded metadata"
 msgstr "_Uskladi z vloženimi metapodatki"
 
-#: ../extensions/comments/main.c:33
+#: ../extensions/comments/main.c:34
 #: ../extensions/edit_metadata/callbacks.c:100
 msgid "Comment"
 msgstr "Opomba"
 
-#: ../extensions/comments/main.c:39
+#: ../extensions/comments/main.c:40
 #: ../gthumb/gth-main-default-metadata.c:46
 msgid "Title"
 msgstr "Naslov"
 
-#: ../extensions/comments/main.c:40
-#: ../extensions/comments/main.c:264
+#: ../extensions/comments/main.c:41
+#: ../extensions/comments/main.c:143
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
@@ -1076,18 +1085,18 @@ msgstr "Naslov"
 msgid "Description"
 msgstr "Opis"
 
-#: ../extensions/comments/main.c:41
-#: ../extensions/comments/main.c:272
+#: ../extensions/comments/main.c:42
+#: ../extensions/comments/main.c:151
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Mesto"
 
-#: ../extensions/comments/main.c:42
+#: ../extensions/comments/main.c:43
 #: ../gthumb/gth-main-default-metadata.c:51
 msgid "Date"
 msgstr "Datum"
 
-#: ../extensions/comments/main.c:44
+#: ../extensions/comments/main.c:45
 #: ../gthumb/gth-main-default-metadata.c:54
 msgid "Rating"
 msgstr "Ocena"
@@ -1570,28 +1579,28 @@ msgstr "S_hrani in zapri"
 msgid "Save only cha_nged fields"
 msgstr "Shrani le spre_menjena polja"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:546
+#: ../extensions/edit_metadata/gth-edit-general-page.c:547
 msgid "No date"
 msgstr "Brez datuma"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:547
+#: ../extensions/edit_metadata/gth-edit-general-page.c:548
 msgid "The following date"
 msgstr "Naslednji datum"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:548
+#: ../extensions/edit_metadata/gth-edit-general-page.c:549
 #: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
 msgstr "Trenutni datum"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:550
+#: ../extensions/edit_metadata/gth-edit-general-page.c:551
 msgid "Last modified date"
 msgstr "Datum zadnje spremembe"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:551
+#: ../extensions/edit_metadata/gth-edit-general-page.c:552
 msgid "File creation date"
 msgstr "Datum ustvaritve datoteke"
 
-#: ../extensions/edit_metadata/gth-edit-general-page.c:552
+#: ../extensions/edit_metadata/gth-edit-general-page.c:553
 msgid "Do not modify"
 msgstr "Ne spreminjaj"
 
@@ -2582,7 +2591,7 @@ msgstr "2.39:1"
 #: ../extensions/file_tools/gth-file-tool-crop.c:440
 #: ../extensions/file_tools/gth-file-tool-resize.c:516
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
-#: ../extensions/rename_series/gth-template-selector.c:232
+#: ../extensions/rename_series/gth-template-selector.c:234
 msgid "Custom"
 msgstr "Po meri"
 
@@ -3017,12 +3026,12 @@ msgid "Pause"
 msgstr "Premor"
 
 #: ../extensions/gstreamer_tools/main.c:31
-#: ../gthumb/gth-main-default-tests.c:211
+#: ../gthumb/gth-main-default-tests.c:247
 msgid "Video"
 msgstr "Video"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:218
+#: ../gthumb/gth-main-default-tests.c:254
 msgid "Audio"
 msgstr "Zvok"
 
@@ -3179,7 +3188,7 @@ msgid "Could not print"
 msgstr "Ni mogoče natisniti"
 
 #: ../extensions/image_print/gth-image-print-job.c:1796
-#: ../gthumb/gth-main-default-tests.c:204
+#: ../gthumb/gth-main-default-tests.c:240
 msgid "Images"
 msgstr "Slike"
 
@@ -3515,16 +3524,16 @@ msgstr ""
 "Ni dovolj prostora v mapi '%s'.\n"
 "Zahtevano je %s prostora, na voljo pa ga je le %s."
 
-#: ../extensions/list_tools/callbacks.c:75
-#: ../gthumb/gth-filterbar.c:303
+#: ../extensions/list_tools/callbacks.c:76
+#: ../gthumb/gth-filterbar.c:304
 msgid "Personalize..."
 msgstr "Ukaz po meri ..."
 
-#: ../extensions/list_tools/callbacks.c:319
+#: ../extensions/list_tools/callbacks.c:320
 msgid "Tools"
 msgstr "Orodja"
 
-#: ../extensions/list_tools/callbacks.c:320
+#: ../extensions/list_tools/callbacks.c:321
 msgid "Batch tools for multiple files"
 msgstr "Paketna slikovna orodja"
 
@@ -3718,7 +3727,7 @@ msgid "Map"
 msgstr "Zemljevid"
 
 #. No GPS label
-#: ../extensions/map_view/gth-map-view.c:273
+#: ../extensions/map_view/gth-map-view.c:276
 msgid "The geographical position information is not available for this image."
 msgstr "Podatki zemljepisne lega za to sliko niso na voljo."
 
@@ -3837,7 +3846,7 @@ msgstr "Po uvažanju z naprave:"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:413
+#: ../gthumb/gth-filterbar.c:414
 msgid "S_how:"
 msgstr "_Pokaži:"
 
@@ -4307,12 +4316,12 @@ msgstr "Poišči znova"
 msgid "Search"
 msgstr "Poišči"
 
-#: ../extensions/search/gth-search-editor.c:111
+#: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
 msgstr "vsa naslednja pravila"
 
-#: ../extensions/search/gth-search-editor.c:112
+#: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
 msgstr "katerokoli od naslednjih pravil"
@@ -4361,8 +4370,13 @@ msgid "Selection %d"
 msgstr "Izbor %d"
 
 #: ../extensions/selections/gth-selections-manager.c:245
+#: ../extensions/selections/selections.extension.in.in.h:1
 msgid "Selections"
 msgstr "Izbori"
+
+#: ../extensions/selections/selections.extension.in.in.h:2
+msgid "Advanced file selection."
+msgstr "Napredna izbira datotek"
 
 #: ../extensions/slideshow/callbacks.c:56
 msgid "_Slideshow"
@@ -4416,15 +4430,15 @@ msgstr "Odstrani izbrane datoteke"
 msgid "Playing slideshow"
 msgstr "Predvajanje predstavitve"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:183
+#: ../extensions/slideshow/gth-slideshow-preferences.c:184
 msgid "Choose the files to play"
 msgstr "Izbor datotek za predvajanje"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:192
+#: ../extensions/slideshow/gth-slideshow-preferences.c:193
 msgid "Audio files"
 msgstr "Zvočne datoteke"
 
-#: ../extensions/slideshow/gth-slideshow-preferences.c:258
+#: ../extensions/slideshow/gth-slideshow-preferences.c:259
 msgid "Random"
 msgstr "Naključno"
 
@@ -4643,7 +4657,7 @@ msgid "Edit Filter"
 msgstr "Uredi filter"
 
 #: ../gthumb/dlg-preferences-extensions.c:67
-#: ../gthumb/gth-filterbar.c:269
+#: ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Vse"
 
@@ -4714,7 +4728,7 @@ msgid "File _Format: %s"
 msgstr "_Vrsta datoteke: %s"
 
 #: ../gthumb/eggfileformatchooser.c:397
-#: ../gthumb/gth-main-default-tests.c:197
+#: ../gthumb/gth-main-default-tests.c:233
 msgid "All Files"
 msgstr "Vse datoteke"
 
@@ -4744,30 +4758,30 @@ msgid "File format not recognized"
 msgstr "Vrsta datoteka ni bila prepoznana"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1355
+#: ../gthumb/gio-utils.c:1350
 #, c-format
 msgid "%s of %s"
 msgstr "%s od %s"
 
-#: ../gthumb/gio-utils.c:1390
+#: ../gthumb/gio-utils.c:1385
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Premikanje \"%s\" v \"%s\""
 
-#: ../gthumb/gio-utils.c:1392
+#: ../gthumb/gio-utils.c:1387
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Kopiranje \"%s\" v \"%s\""
 
-#: ../gthumb/gio-utils.c:1733
+#: ../gthumb/gio-utils.c:1749
 msgid "Moving files"
 msgstr "Premikanje datotek"
 
-#: ../gthumb/gio-utils.c:1733
+#: ../gthumb/gio-utils.c:1749
 msgid "Copying files"
 msgstr "Kopiranje datotek"
 
-#: ../gthumb/gio-utils.c:1734
+#: ../gthumb/gio-utils.c:1750
 msgid "Getting file information"
 msgstr "Pridobivanje podrobnosti datoteke"
 
@@ -5043,9 +5057,9 @@ msgstr "%s neporabljenega prostora"
 
 #: ../gthumb/gth-browser.c:1240
 #: ../gthumb/gth-browser.c:1799
-#: ../gthumb/gth-browser.c:5882
-#: ../gthumb/gth-browser.c:5901
-#: ../gthumb/gth-browser.c:5925
+#: ../gthumb/gth-browser.c:5885
+#: ../gthumb/gth-browser.c:5904
+#: ../gthumb/gth-browser.c:5928
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ni mogoče naložiti položaja  \"%s\""
@@ -5088,12 +5102,12 @@ msgstr "Pogled seznama obiskanih mest"
 msgid "View the list of upper locations"
 msgstr "Pogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:5883
+#: ../gthumb/gth-browser.c:5886
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:5926
+#: ../gthumb/gth-browser.c:5929
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -5147,7 +5161,7 @@ msgstr[1] "Ali ste prepričani, da želite trajno izbrisati %'d izbrano datoteko
 msgstr[2] "Ali ste prepričani, da želite trajno izbrisati %'d izbrani datoteki?"
 msgstr[3] "Ali ste prepričani, da želite trajno izbrisati %'d izbrane datoteke?"
 
-#: ../gthumb/gth-filterbar.c:405
+#: ../gthumb/gth-filterbar.c:406
 msgid "Hide the filterbar"
 msgstr "Skrij vrstico filtra"
 
@@ -5245,7 +5259,7 @@ msgid "Name"
 msgstr "Ime"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:248
+#: ../gthumb/gth-main-default-tests.c:284
 msgid "Size"
 msgstr "Velikost"
 
@@ -5285,23 +5299,23 @@ msgstr "brez razvrščanja"
 msgid "dimensions"
 msgstr "mere"
 
-#: ../gthumb/gth-main-default-tests.c:225
+#: ../gthumb/gth-main-default-tests.c:261
 msgid "Media"
 msgstr "Večpredstavnostna datoteka"
 
-#: ../gthumb/gth-main-default-tests.c:232
+#: ../gthumb/gth-main-default-tests.c:268
 msgid "Text Files"
 msgstr "Besedilne datoteke"
 
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:276
 msgid "Filename"
 msgstr "Ime datoteke"
 
-#: ../gthumb/gth-main-default-tests.c:272
+#: ../gthumb/gth-main-default-tests.c:308
 msgid "Title (embedded)"
 msgstr "Naslov (vključen)"
 
-#: ../gthumb/gth-main-default-tests.c:278
+#: ../gthumb/gth-main-default-tests.c:316
 msgid "Description (embedded)"
 msgstr "Opis (vključen)"
 
@@ -5313,7 +5327,7 @@ msgstr "Datoteke ni mogoče preimenovati"
 msgid "No options available for this file type"
 msgstr "Za to vrsto datotek ni razpoložljivih možnosti"
 
-#: ../gthumb/gth-progress-dialog.c:142
+#: ../gthumb/gth-progress-dialog.c:144
 msgid "Cancel operation"
 msgstr "Prekliči opravilo"
 
@@ -5326,7 +5340,7 @@ msgstr "Shranjevanje podrobnosti datoteke"
 msgid "Create tag «%s»"
 msgstr "Ustvari oznako «%s»"
 
-#: ../gthumb/gth-tags-entry.c:743
+#: ../gthumb/gth-tags-entry.c:744
 msgid "Show all the tags"
 msgstr "Pokaži vse oznake"
 
@@ -5394,7 +5408,7 @@ msgstr "je le"
 msgid "is not"
 msgstr "ni"
 
-#: ../gthumb/gth-test-category.c:386
+#: ../gthumb/gth-test-category.c:394
 #: ../gthumb/gth-test-simple.c:812
 #: ../gthumb/gth-test-simple.c:838
 #: ../gthumb/gth-test-simple.c:859
@@ -5403,11 +5417,11 @@ msgstr "ni"
 msgid "The test definition is incomplete"
 msgstr "Preizkusna definicija ni končana"
 
-#: ../gthumb/gth-test-selector.c:251
+#: ../gthumb/gth-test-selector.c:252
 msgid "Add a new rule"
 msgstr "Dodaj novo pravilo"
 
-#: ../gthumb/gth-test-selector.c:262
+#: ../gthumb/gth-test-selector.c:263
 msgid "Remove this rule"
 msgstr "Odstrani to pravilo"
 
@@ -5451,11 +5465,11 @@ msgstr "je pred"
 msgid "is after"
 msgstr "je po"
 
-#: ../gthumb/gth-time-selector.c:474
+#: ../gthumb/gth-time-selector.c:475
 msgid "Today"
 msgstr "Danes"
 
-#: ../gthumb/gth-time-selector.c:482
+#: ../gthumb/gth-time-selector.c:483
 msgid "Now"
 msgstr "Sedaj"
 
@@ -5520,3 +5534,4 @@ msgstr "- Brskalnik in pregledovalnik slik"
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
+
