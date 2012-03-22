@@ -82,5 +82,6 @@ GDate *           gth_comment_get_date                   (GthComment    *comment
 GthTime *         gth_comment_get_time_of_day            (GthComment    *comment);
 char *            gth_comment_get_time_as_exif_format    (GthComment    *comment);
 void              gth_comment_update_general_attributes  (GthFileData   *file_data);
+void              gth_comment_synchronize_metadata       (GList         *file_list /* GthFileData list */);
 
 #endif /* GTH_COMMENT_H */

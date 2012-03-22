@@ -70,6 +70,8 @@ extensions/cairo_io/cairo-io-jpeg.c
 extensions/cairo_io/cairo-io-jpeg.h
 extensions/cairo_io/cairo-io-png.c
 extensions/cairo_io/cairo-io-png.h
+extensions/cairo_io/cairo-io-svg.c
+extensions/cairo_io/cairo-io-svg.h
 extensions/cairo_io/main.c
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
@@ -105,12 +107,18 @@ extensions/change_date/gth-change-date-task.c
 extensions/change_date/gth-change-date-task.h
 extensions/change_date/main.c
 extensions/change_date/preferences.h
+extensions/comments/actions.c
+extensions/comments/actions.h
+extensions/comments/callbacks.c
+extensions/comments/callbacks.h
 [type: gettext/ini]extensions/comments/comments.extension.in.in
 [type: gettext/glade]extensions/comments/data/ui/comments-preferences.ui
 extensions/comments/dlg-comments-preferences.c
 extensions/comments/dlg-comments-preferences.h
 extensions/comments/gth-comment.c
 extensions/comments/gth-comment.h
+extensions/comments/gth-import-metadata-task.c
+extensions/comments/gth-import-metadata-task.h
 extensions/comments/gth-metadata-provider-comment.c
 extensions/comments/gth-metadata-provider-comment.h
 extensions/comments/main.c
@@ -173,6 +181,8 @@ extensions/edit_metadata/gth-edit-tags-dialog.h
 extensions/edit_metadata/gth-tag-task.c
 extensions/edit_metadata/gth-tag-task.h
 extensions/edit_metadata/main.c
+extensions/edit_metadata/utils.c
+extensions/edit_metadata/utils.h
 [type: gettext/ini]extensions/example/src/example.extension.in.in
 extensions/example/src/main.c
 [type: gettext/glade]extensions/exiv2_tools/data/ui/edit-exiv2-page.ui
@@ -608,8 +618,16 @@ extensions/search/gth-search-task.c
 extensions/search/gth-search-task.h
 extensions/search/main.c
 [type: gettext/ini]extensions/search/search.extension.in.in
+extensions/selections/actions.c
+extensions/selections/actions.h
 extensions/selections/callbacks.c
+extensions/selections/callbacks.h
+extensions/selections/gth-file-source-selections.c
+extensions/selections/gth-file-source-selections.h
 extensions/selections/gth-selections-manager.c
+extensions/selections/gth-selections-manager.h
+extensions/selections/main.c
+[type: gettext/ini]extensions/selections/selections.extension.in.in
 extensions/slideshow/actions.c
 extensions/slideshow/actions.h
 extensions/slideshow/callbacks.c

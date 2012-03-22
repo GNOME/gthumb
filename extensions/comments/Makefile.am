@@ -4,10 +4,16 @@ extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libcomments.la
 
 libcomments_la_SOURCES = 			\
+	actions.c				\
+	actions.h				\
+	callbacks.c				\
+	callbacks.h				\
 	dlg-comments-preferences.c		\
 	dlg-comments-preferences.h		\
 	gth-comment.c				\
 	gth-comment.h				\
+	gth-import-metadata-task.c		\
+	gth-import-metadata-task.h		\
 	gth-metadata-provider-comment.c		\
 	gth-metadata-provider-comment.h		\
 	main.c					\

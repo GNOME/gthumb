@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "callbacks.h"
 #include "dlg-comments-preferences.h"
 #include "gth-comment.h"
 #include "gth-metadata-provider-comment.h"
@@ -82,7 +83,6 @@ comments__read_metadata_ready_cb (GList      *file_list,
 {
 	GSettings *settings;
 	gboolean   store_metadata_in_files;
-	GList     *scan;
 	gboolean   synchronize;
 
 	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
@@ -90,6 +90,8 @@ comments__read_metadata_ready_cb (GList      *file_list,
 	g_object_unref (settings);
 
 	if (! store_metadata_in_files) {
+		GList *scan;
+
 		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is false, avoid to
 		 * synchronize the .comment metadata because the embedded
 		 * metadata is likely to be out-of-date.
@@ -109,130 +111,7 @@ comments__read_metadata_ready_cb (GList      *file_list,
 	if (! synchronize)
 		return;
 
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData   *file_data = scan->data;
-		gboolean       write_comment;
-		GthMetadata   *metadata;
-		GthStringList *comment_categories;
-		GList         *scan;
-		const char    *text;
-		GthComment    *comment;
-		GthStringList *categories;
-
-		write_comment = FALSE;
-
-		comment = gth_comment_new ();
-		gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
-		gth_comment_set_caption (comment, g_file_info_get_attribute_string (file_data->info, "comment::caption"));
-		gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
-		if (metadata != NULL)
-			gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
-
-		comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
-		if (comment_categories != NULL)
-			for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next)
-				gth_comment_add_category (comment, (char *) scan->data);
-
-		gth_comment_set_rating (comment, g_file_info_get_attribute_int32 (file_data->info, "comment::rating"));
-
-		/* sync embedded data and .comment data if required */
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
-		if (metadata != NULL) {
-			text = g_file_info_get_attribute_string (file_data->info, "comment::note");
-			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-				gth_comment_set_note (comment, gth_metadata_get_formatted (metadata));
-				write_comment = TRUE;
-			}
-		}
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::title");
-		if (metadata != NULL) {
-			text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
-			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-				gth_comment_set_caption (comment, gth_metadata_get_formatted (metadata));
-				write_comment = TRUE;
-			}
-		}
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::location");
-		if (metadata != NULL) {
-			text = g_file_info_get_attribute_string (file_data->info, "comment::place");
-			if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-				gth_comment_set_place (comment, gth_metadata_get_formatted (metadata));
-				write_comment = TRUE;
-			}
-		}
-
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
-		if (metadata != NULL) {
-			text = gth_metadata_get_raw (metadata);
-			metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
-			if (metadata != NULL) {
-				if (! dom_str_equal (gth_metadata_get_raw (metadata), text)) {
-					gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
-					write_comment = TRUE;
-				}
-			}
-		}
-
-		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
-		if (categories != NULL) {
-			comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
-			if (! gth_string_list_equal (categories, comment_categories)) {
-				GList *scan;
-
-				gth_comment_clear_categories (comment);
-				for (scan = gth_string_list_get_list (categories); scan; scan = scan->next)
-					gth_comment_add_category (comment, scan->data);
-				write_comment = TRUE;
-			}
-		}
-
-		if (write_comment) {
-			GFile *comment_file;
-			GFile *comment_directory;
-			char  *buffer;
-			gsize  size;
-
-			comment_file = gth_comment_get_comment_file (file_data->file);
-			comment_directory = g_file_get_parent (comment_file);
-			if (! g_file_query_exists (comment_directory, NULL))
-				g_file_make_directory (comment_directory, NULL, NULL);
-
-			buffer = gth_comment_to_data (comment, &size);
-			g_write_file (comment_file,
-				      FALSE,
-				      G_FILE_CREATE_NONE,
-				      buffer,
-				      size,
-				      NULL,
-				      NULL);
-
-			{
-				GFile *parent;
-				GList *list;
-
-				parent = g_file_get_parent (file_data->file);
-				list = g_list_prepend (NULL, file_data->file);
-				gth_monitor_folder_changed (gth_main_get_default_monitor (),
-							    parent,
-							    list,
-							    GTH_MONITOR_EVENT_CHANGED);
-
-				g_list_free (list);
-				g_object_unref (parent);
-			}
-
-			g_free (buffer);
-			g_object_unref (comment_directory);
-			g_object_unref (comment_file);
-		}
-
-		g_object_unref (comment);
-	}
+	gth_comment_synchronize_metadata (file_list);
 }
 
 
@@ -284,6 +163,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("read-metadata-ready", 10, G_CALLBACK (comments__read_metadata_ready_cb), NULL);
 	if (gth_main_extension_is_active ("edit_metadata"))
 		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (comments__delete_metadata_cb), NULL);
+	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (comments__gth_browser_construct_cb), NULL);
 }
 
 
