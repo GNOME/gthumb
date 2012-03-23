@@ -25,6 +25,9 @@
     <key name="view-destination" type="b">
       <default>true</default>
     </key>
+    <key name="copy-destination-history" type="as">
+      <default>[]</default>
+    </key>
   </schema>
 
 </schemalist>

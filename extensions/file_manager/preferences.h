@@ -32,6 +32,7 @@ G_BEGIN_DECLS
 
 #define PREF_FILE_MANAGER_COPY_LAST_FOLDER      "last-folder"
 #define PREF_FILE_MANAGER_COPY_VIEW_DESTINATION "view-destination"
+#define PREF_FILE_MANAGER_COPY_HISTORY          "copy-destination-history"
 
 G_END_DECLS
 

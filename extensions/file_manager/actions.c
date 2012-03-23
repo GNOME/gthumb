@@ -29,6 +29,9 @@
 #include "preferences.h"
 
 
+#define MAX_HISTORY_LENGTH 10
+
+
 typedef struct {
 	GthBrowser *browser;
 	GFile      *parent;
@@ -907,13 +910,15 @@ copy_to_folder_dialog (GthBrowser *browser,
 	GSettings *settings;
 	GtkWidget *dialog;
 	char      *start_uri;
+	GList     *history;
+	GList     *scan;
 	GtkWidget *box;
 	GtkWidget *view_destination_button;
 
 	settings = g_settings_new (GTHUMB_FILE_MANAGER_SCHEMA);
 
 	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
-					      NULL,
+					      GTK_WINDOW (browser),
 					      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
@@ -926,6 +931,12 @@ copy_to_folder_dialog (GthBrowser *browser,
 	}
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
+
+	history = _g_settings_get_string_list (settings, PREF_FILE_MANAGER_COPY_HISTORY);
+	for (scan = history; scan; scan = scan->next) {
+		char *uri = scan->data;
+		gtk_file_chooser_add_shortcut_folder_uri (GTK_FILE_CHOOSER (dialog), uri, NULL);
+	}
 
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
@@ -952,6 +963,17 @@ copy_to_folder_dialog (GthBrowser *browser,
 			g_settings_set_boolean (settings, PREF_FILE_MANAGER_COPY_VIEW_DESTINATION, view_destination);
 			g_settings_set_string (settings, PREF_FILE_MANAGER_COPY_LAST_FOLDER, destination_uri);
 
+			/* save the destination in the history list, prevent
+			 * the list from growing without limit.  */
+
+			history = g_list_prepend (history, g_strdup (destination_uri));
+			while (g_list_length (history) > MAX_HISTORY_LENGTH) {
+				GList *link = g_list_last (history);
+				history = g_list_remove_link (history, link);
+				_g_string_list_free (link);
+			}
+			_g_settings_set_string_list (settings, PREF_FILE_MANAGER_COPY_HISTORY, history);
+
 			/* copy / move the files */
 
 			copy_files_to_folder (browser, files, move, destination_uri, view_destination);
@@ -960,6 +982,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 		g_free (destination_uri);
 	}
 
+	_g_string_list_free (history);
 	gtk_widget_destroy (dialog);
 	g_object_unref (settings);
 }
