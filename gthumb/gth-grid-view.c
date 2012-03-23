@@ -508,9 +508,9 @@ gth_grid_view_scroll_to (GthFileView *file_view,
 		double value;
 
 		h = gtk_widget_get_allocated_height (GTK_WIDGET (self)) - GTH_GRID_VIEW_LINE (line->data)->height - self->priv->cell_spacing;
-		value = CLAMP ((y - (h * yalign) - (1.0 - yalign) * self->priv->cell_spacing),
+		value = CLAMP ((y - (h * yalign) - ((1.0 - yalign) * self->priv->cell_spacing)),
 			       0.0,
-			       gtk_adjustment_get_upper (self->priv->vadjustment) - gtk_adjustment_get_page_size (self->priv->vadjustment));
+			       self->priv->height - gtk_widget_get_allocated_height (GTK_WIDGET (self)));
 		gtk_adjustment_set_value (self->priv->vadjustment, value);
 	}
 }
