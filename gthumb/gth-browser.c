@@ -798,7 +798,17 @@ _gth_browser_add_to_history (GthBrowser *browser,
 	if ((browser->priv->history_current == NULL) || ! _g_file_equal_uris (file, browser->priv->history_current->data)) {
 		GList *scan;
 
-		/* remove all the occurrences of file from the history */
+		/* remove all files after the current position */
+		for (scan = browser->priv->history; scan && (scan != browser->priv->history_current); /* void */) {
+			GList *next = scan->next;
+
+			browser->priv->history = g_list_remove_link (browser->priv->history, scan);
+			_g_object_list_unref (scan);
+
+			scan = next;
+		}
+
+		/* remove all the occurrences of 'file' from the history */
 		for (scan = browser->priv->history; scan; /* void */) {
 			GList *next = scan->next;
 			GFile *file_in_history = scan->data;
