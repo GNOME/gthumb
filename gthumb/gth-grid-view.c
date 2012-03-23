@@ -144,6 +144,7 @@ struct _GthGridViewPrivate {
 	int                    focused_item;
 	int                    first_focused_item;  /* Used to do multiple selection with the keyboard. */
 	guint                  make_focused_visible : 1;
+	guint                  needs_relayout : 1;
 
 	guint                  layout_timeout;
 	int                    relayout_from_line;
@@ -860,8 +861,10 @@ _gth_grid_view_relayout_from_line (GthGridView *self,
 	int    y;
 	GList *scan;
 
-	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
+	if (! gtk_widget_get_realized (GTK_WIDGET (self))) {
+		self->priv->needs_relayout = TRUE;
 		return;
+	}
 
 	if (self->priv->update_caption_height)
 		pango_layout_set_width (self->priv->caption_layout,
@@ -878,6 +881,7 @@ _gth_grid_view_relayout_from_line (GthGridView *self,
 
 	self->priv->update_caption_height = FALSE;
 	self->priv->relayout_from_line = -1;
+	self->priv->needs_relayout = FALSE;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
@@ -913,8 +917,10 @@ _gth_grid_view_queue_relayout_from_line (GthGridView *self,
 	else
 		self->priv->relayout_from_line = line;
 
-	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
+	if (! gtk_widget_get_realized (GTK_WIDGET (self))) {
+		self->priv->needs_relayout = TRUE;
 		return;
+	}
 
 	if (self->priv->layout_timeout == 0)
 		self->priv->layout_timeout = g_timeout_add (LAYOUT_DELAY,
@@ -1006,7 +1012,7 @@ gth_grid_view_realize (GtkWidget *widget)
 	/**/
 
 	gdk_window_show (self->priv->bin_window);
-	_gth_grid_view_queue_relayout (self);
+	self->priv->needs_relayout = TRUE;
 }
 
 
@@ -1117,7 +1123,7 @@ gth_grid_view_size_allocate (GtkWidget     *widget,
 				   MAX (self->priv->width, allocation->width),
 				   MAX (self->priv->height, allocation->height));
 
-		if (old_cells_per_line != gth_grid_view_get_items_per_line (self))
+		if (self->priv->needs_relayout || (old_cells_per_line != gth_grid_view_get_items_per_line (self)))
 			_gth_grid_view_queue_relayout (self);
 	}
 
@@ -3729,6 +3735,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->focused_item = -1;
 	self->priv->first_focused_item = -1;
 	self->priv->make_focused_visible = FALSE;
+	self->priv->needs_relayout = FALSE;
 	self->priv->layout_timeout = 0;
 	self->priv->relayout_from_line = -1;
 	self->priv->update_caption_height = TRUE;
@@ -3810,5 +3817,5 @@ gth_grid_view_get_items_per_line (GthGridView *self)
 {
 	g_return_val_if_fail (GTH_IS_GRID_VIEW (self), 0);
 
-	return MAX (/* gtk_widget_get_allocated_width (GTK_WIDGET (self))*/ self->priv->width / (self->priv->cell_size + self->priv->cell_spacing), 1);
+	return MAX (self->priv->width / (self->priv->cell_size + self->priv->cell_spacing), 1);
 }
