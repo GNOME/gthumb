@@ -201,9 +201,10 @@ for_each_child_data_free (ForEachChildData *fec)
 		return;
 
 	g_object_unref (fec->base_directory);
-	if (fec->already_visited)
+	if (fec->already_visited != NULL)
 		g_hash_table_destroy (fec->already_visited);
 	clear_child_data (&(fec->current));
+	g_free (fec->attributes);
 	if (fec->to_visit != NULL) {
 		g_list_foreach (fec->to_visit, (GFunc) child_data_free, NULL);
 		g_list_free (fec->to_visit);

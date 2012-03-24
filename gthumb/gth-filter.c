@@ -137,6 +137,8 @@ gth_filter_real_load_from_element (DomDomizable *base,
 			test = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
 			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
 			gth_filter_set_test (self, GTH_TEST_CHAIN (test));
+
+			g_object_unref (test);
 		}
 		else if (g_strcmp0 (node->tag_name, "limit") == 0) {
 			gth_filter_set_limit (self,

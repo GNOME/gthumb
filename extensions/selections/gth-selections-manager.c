@@ -228,12 +228,20 @@ gth_selections_manager_update_file_info (GFile     *file,
 	/* icon */
 
 	if (n_selection > 0) {
+		GIcon *icon;
+
 		name = g_strdup_printf ("selection%d", n_selection);
-		g_file_info_set_icon (info, g_themed_icon_new (name));
+		icon = g_themed_icon_new (name);
+		g_file_info_set_icon (info, icon);
+
+		g_object_unref (icon);
 		g_free (name);
 	}
-	else
-		g_file_info_set_icon (info, g_themed_icon_new ("selection"));
+	else {
+		GIcon *icon = g_themed_icon_new ("selection");
+		g_file_info_set_icon (info, icon);
+		g_object_unref (icon);
+	}
 
 	/* display name */
 

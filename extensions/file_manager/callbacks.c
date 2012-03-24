@@ -1105,7 +1105,7 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 	gtk_widget_show (openwith_item);
 
 	g_hash_table_destroy (used_apps);
-	g_list_free (appinfo_list);
+	_g_object_list_unref (appinfo_list);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }

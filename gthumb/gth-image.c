@@ -231,7 +231,7 @@ gth_image_get_pixbuf (GthImage *image)
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF:
-		result = g_object_ref (image->priv->data.pixbuf);
+		result = _g_object_ref (image->priv->data.pixbuf);
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION:
@@ -283,7 +283,8 @@ gth_image_get_pixbuf_animation (GthImage *image)
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF:
-		result = gdk_pixbuf_non_anim_new (image->priv->data.pixbuf);
+		if (image->priv->data.pixbuf != NULL)
+			result = gdk_pixbuf_non_anim_new (image->priv->data.pixbuf);
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION:

@@ -482,7 +482,7 @@ _g_icon_get_pixbuf (GIcon        *icon,
 	pixbuf = NULL;
 	if (G_IS_THEMED_ICON (icon))
 		pixbuf = get_themed_icon_pixbuf (G_THEMED_ICON (icon), size, theme);
-	if (G_IS_FILE_ICON (icon))
+	else if (G_IS_FILE_ICON (icon))
 		pixbuf = get_file_icon_pixbuf (G_FILE_ICON (icon), size);
 
 	if (pixbuf == NULL)

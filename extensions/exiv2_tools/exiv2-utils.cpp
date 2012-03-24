@@ -392,7 +392,6 @@ set_attribute_from_metadata (GFileInfo  *info,
 			     const char *attribute,
 			     GObject    *metadata)
 {
-	char *key;
 	char *description;
 	char *formatted_value;
 	char *raw_value;
@@ -402,7 +401,6 @@ set_attribute_from_metadata (GFileInfo  *info,
 		return;
 
 	g_object_get (metadata,
-		      "id", &key,
 		      "description", &description,
 		      "formatted", &formatted_value,
 		      "raw", &raw_value,
@@ -416,6 +414,11 @@ set_attribute_from_metadata (GFileInfo  *info,
 		       raw_value,
 		       NULL,
 		       type_name);
+
+	g_free (description);
+	g_free (formatted_value);
+	g_free (raw_value);
+	g_free (type_name);
 }
 
 

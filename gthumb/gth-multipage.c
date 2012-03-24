@@ -55,9 +55,27 @@ G_DEFINE_TYPE (GthMultipage, gth_multipage, GTK_TYPE_BOX)
 
 
 static void
+gth_multipage_finalize (GObject *object)
+{
+	GthMultipage *multipage;
+
+	multipage = GTH_MULTIPAGE (object);
+
+	g_list_free (multipage->priv->children);
+
+	G_OBJECT_CLASS (gth_multipage_parent_class)->finalize (object);
+}
+
+
+static void
 gth_multipage_class_init (GthMultipageClass *klass)
 {
+	GObjectClass *object_class;
+
 	g_type_class_add_private (klass, sizeof (GthMultipagePrivate));
+
+	object_class = (GObjectClass*) klass;
+	object_class->finalize = gth_multipage_finalize;
 
 	/* signals */
 

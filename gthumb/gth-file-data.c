@@ -548,6 +548,8 @@ gth_file_data_list_get_common_info (GList      *file_data_list,
 
 		if (first_value == NULL)
 			g_file_info_remove_attribute (info, attribute);
+
+		g_free (first_value);
 	}
 
 	g_strfreev (attributes_v);

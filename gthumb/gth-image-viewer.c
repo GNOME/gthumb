@@ -169,6 +169,7 @@ gth_image_viewer_finalize (GObject *object)
 	}
 
 	g_list_foreach (self->priv->painters, (GFunc) painter_data_free, NULL);
+	_g_object_unref (self->priv->tool);
 
 	_g_clear_object (&self->priv->image);
 	_g_clear_object (&self->priv->animation);

@@ -1923,8 +1923,10 @@ _g_file_get_display_name (GFile *file)
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);
-	if (file_info != NULL)
+	if (file_info != NULL) {
 		name = g_strdup (g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME));
+		g_object_unref (file_info);
+	}
 	else
 		name = g_file_get_parse_name (file);
 
@@ -2073,8 +2075,10 @@ _g_file_get_icon (GFile *file)
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);
-	if (file_info != NULL)
-		icon = (GIcon*) g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON);
+	if (file_info != NULL) {
+		icon = (GIcon*) g_object_ref (g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON));
+		g_object_unref (file_info);
+	}
 
 	if (icon == NULL)
 		icon = g_themed_icon_new ("file");

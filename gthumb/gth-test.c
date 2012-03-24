@@ -81,6 +81,7 @@ gth_test_finalize (GObject *object)
 	self = GTH_TEST (object);
 
 	g_free (self->priv->id);
+	g_free (self->priv->attributes);
 	g_free (self->priv->display_name);
 	g_free (self->files);
 

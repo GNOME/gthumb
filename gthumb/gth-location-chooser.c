@@ -471,6 +471,8 @@ update_location_list (gpointer user_data)
 
 			g_object_unref (info);
 		}
+
+		_g_object_list_unref (list);
 	}
 }
 

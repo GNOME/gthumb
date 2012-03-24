@@ -3330,6 +3330,7 @@ pref_general_filter_changed (GSettings  *settings,
 	filter = _gth_browser_get_file_filter (browser);
 	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
+
 	g_object_unref (filter);
 }
 
@@ -4033,6 +4034,7 @@ gth_browser_init (GthBrowser *browser)
 	GtkWidget      *menubar;
 	GtkOrientation  viewer_thumbnails_orientation;
 	char           *general_filter;
+	char           *sort_type;
 	char           *caption;
 	int             i;
 
@@ -4410,8 +4412,9 @@ gth_browser_init (GthBrowser *browser)
 	/* the file list */
 
 	browser->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
+	sort_type = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE);
 	gth_browser_set_sort_order (browser,
-				    gth_main_get_sort_type (g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE)),
+				    gth_main_get_sort_type (sort_type),
 				    g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE));
 	gth_browser_enable_thumbnails (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list),
@@ -4420,6 +4423,7 @@ gth_browser_init (GthBrowser *browser)
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 
 	g_free (caption);
+	g_free (sort_type);
 
 	gtk_widget_show (browser->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->file_list, TRUE, TRUE, 0);
