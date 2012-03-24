@@ -209,6 +209,8 @@ update_view_from_data (GthTimeSelector *self)
 			text = gth_datetime_strftime (self->priv->date_time, "%X");
 			entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
 			gtk_entry_set_text (GTK_ENTRY (entry), text);
+
+			g_free (text);
 		}
 		else {
 			GtkWidget *entry;

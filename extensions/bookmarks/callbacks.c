@@ -138,8 +138,10 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 
 		line = g_strsplit (lines[i], " ", 2);
 		uri = line[0];
-		if (uri == NULL)
+		if (uri == NULL) {
+			g_strfreev (line);
 			continue;
+		}
 
 		file = g_file_new_for_uri (uri);
 		icon = _g_file_get_icon (file);
@@ -159,7 +161,7 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 						      -1);
 
 		g_free (name);
-		g_object_unref (icon);
+		_g_object_unref (icon);
 		g_object_unref (file);
 		g_strfreev (line);
 	}

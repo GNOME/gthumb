@@ -50,6 +50,7 @@ typedef struct {
 
 	/*< private >*/
 
+	guint        ref_count;
 	guint        pos;
 	guint        abs_pos;
 	gboolean     visible;
@@ -81,7 +82,12 @@ static GObjectClass *parent_class = NULL;
 static GthFileRow *
 _gth_file_row_new (void)
 {
-	return g_new0 (GthFileRow, 1);
+	GthFileRow *row;
+
+	row = g_new0 (GthFileRow, 1);
+	row->ref_count = 1;
+
+	return row;
 }
 
 
@@ -146,9 +152,20 @@ _gth_file_row_copy (GthFileRow *row)
 }
 
 
-static void
-_gth_file_row_free (GthFileRow *row)
+static GthFileRow *
+_gth_file_row_ref (GthFileRow *row)
 {
+	row->ref_count++;
+	return row;
+}
+
+
+static void
+_gth_file_row_unref (GthFileRow *row)
+{
+	if (--row->ref_count > 0)
+		return;
+
 	if (row->file_data != NULL)
 		g_object_unref (row->file_data);
 	if (row->thumbnail != NULL)
@@ -161,6 +178,7 @@ _gth_file_row_free (GthFileRow *row)
 static void
 _gth_file_store_clear_queue (GthFileStore *file_store)
 {
+	g_list_foreach (file_store->priv->queue, (GFunc) _gth_file_row_unref, NULL);
 	g_list_free (file_store->priv->queue);
 	file_store->priv->queue = NULL;
 }
@@ -172,7 +190,7 @@ _gth_file_store_free_rows (GthFileStore *file_store)
 	int i;
 
 	for (i = 0; i < file_store->priv->tot_rows; i++)
-		_gth_file_row_free (file_store->priv->all_rows[i]);
+		_gth_file_row_unref (file_store->priv->all_rows[i]);
 	g_free (file_store->priv->all_rows);
 	file_store->priv->all_rows = NULL;
 	file_store->priv->tot_rows = 0;
@@ -837,7 +855,7 @@ g_print ("UPDATE VISIBILITY\n");
 	for (i = 0; i < position; i++)
 		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
 	for (scan = add_queue; scan; scan = scan->next)
-		all_rows[j++] = (GthFileRow *) scan->data;
+		all_rows[j++] = _gth_file_row_ref ((GthFileRow *) scan->data);
 	for (i = position; i < file_store->priv->tot_rows; i++)
 		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
 
@@ -1007,7 +1025,7 @@ g_print ("\n");
 	_gth_file_store_increment_stamp (file_store);
 
 	for (i = 0; i < file_store->priv->tot_rows; i++)
-		_gth_file_row_free (file_store->priv->all_rows[i]);
+		_gth_file_row_unref (file_store->priv->all_rows[i]);
 	g_free (file_store->priv->all_rows);
 	file_store->priv->all_rows = all_rows;
 	file_store->priv->tot_rows = all_rows_n;
@@ -1580,7 +1598,7 @@ gth_file_store_queue_remove (GthFileStore *file_store,
 
   	row = (GthFileRow*) iter->user_data;
 
-	file_store->priv->queue = g_list_prepend (file_store->priv->queue, file_store->priv->all_rows[row->abs_pos]);
+	file_store->priv->queue = g_list_prepend (file_store->priv->queue, _gth_file_row_ref (file_store->priv->all_rows[row->abs_pos]));
 }
 
 
@@ -1600,7 +1618,7 @@ gth_file_store_exec_remove (GthFileStore *file_store)
 			_gth_file_store_hide_row (file_store, row);
 
 		file_store->priv->all_rows[row->abs_pos] = NULL;
-		_gth_file_row_free (row);
+		_gth_file_row_unref (row);
 	}
 	_gth_file_store_compact_rows (file_store);
 	_gth_file_store_clear_queue (file_store);

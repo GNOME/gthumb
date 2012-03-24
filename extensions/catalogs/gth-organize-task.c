@@ -541,7 +541,7 @@ static void
 gth_organize_task_exec (GthTask *base)
 {
 	GthOrganizeTask *self;
-	const char      *attributes;
+	const char      *attributes = NULL;
 
 	self = GTH_ORGANIZE_TASK (base);
 

@@ -245,6 +245,7 @@ _cairo_image_surface_create_from_png (GthFileData   *file_data,
 	if (cairo_surface_status (cairo_png_data->surface) == CAIRO_STATUS_SUCCESS)
 		gth_image_set_cairo_surface (image, cairo_png_data->surface);
 
+	g_free (row_pointers);
 	_cairo_png_data_destroy (cairo_png_data);
 
 	return image;

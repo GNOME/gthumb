@@ -361,7 +361,9 @@ load_data_unref (LoadData *load_data)
 {
 	g_object_unref (load_data->thumb_loader);
 	g_object_unref (load_data->file_data);
+	_g_object_unref (load_data->simple);
 	_g_object_unref (load_data->cancellable);
+	g_free (load_data->thumbnailer_tmpfile);
 	g_free (load_data);
 }
 
@@ -835,6 +837,7 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 
 			g_error_free (error);
 			g_free (uri);
+			g_object_unref (simple);
 
 			return;
 		}
@@ -855,6 +858,7 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		g_simple_async_result_complete_in_idle (simple);
 
 		g_error_free (error);
+		g_object_unref (simple);
 
 		return;
 	}

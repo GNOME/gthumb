@@ -53,6 +53,8 @@ gth_tags_file_new (void)
 void
 gth_tags_file_free (GthTagsFile *tags)
 {
+	if (tags == NULL)
+		return;
 	_g_string_list_free (tags->items);
 	g_strfreev (tags->tags);
 	g_free (tags);

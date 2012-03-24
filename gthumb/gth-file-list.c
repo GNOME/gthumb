@@ -1593,6 +1593,7 @@ thumbnail_job_ready_cb (GObject      *source_object,
 	if ((! success && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 	    || file_list->priv->cancelling)
 	{
+		_g_object_unref (pixbuf);
 		thumbnail_job_free (job);
 		return;
 	}

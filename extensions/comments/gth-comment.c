@@ -346,6 +346,7 @@ gth_comment_new_for_file (GFile         *file,
 		comment = NULL;
 	}
 
+	g_object_unref (doc);
 	g_free (buffer);
 	g_free (zipped_buffer);
 

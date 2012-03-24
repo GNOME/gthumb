@@ -233,17 +233,18 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
 
+	if (error != NULL) {
+		_g_object_unref (image);
+		g_simple_async_result_set_from_error (result, error);
+		g_error_free (error);
+		return;
+	}
+
 	load_result = g_new0 (LoadResult, 1);
 	load_result->image = image;
 	load_result->original_width = original_width;
 	load_result->original_height = original_height;
-
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
-	else
-		g_simple_async_result_set_op_res_gpointer (result, load_result, (GDestroyNotify) load_result_unref);
+	g_simple_async_result_set_op_res_gpointer (result, load_result, (GDestroyNotify) load_result_unref);
 }
 
 

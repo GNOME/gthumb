@@ -146,10 +146,11 @@ gth_main_finalize (GObject *object)
 
 		if (gth_main->priv->bookmarks != NULL)
 			g_bookmark_file_free (gth_main->priv->bookmarks);
-		if (gth_main->priv->monitor != NULL)
-			g_object_unref (gth_main->priv->monitor);
-		if (gth_main->priv->extension_manager != NULL)
-			g_object_unref (gth_main->priv->extension_manager);
+
+		_g_object_unref (gth_main->priv->monitor);
+		_g_object_unref (gth_main->priv->extension_manager);
+		gth_filter_file_free (gth_main->priv->filters);
+		gth_tags_file_free (gth_main->priv->tags);
 
 		g_free (gth_main->priv);
 		gth_main->priv = NULL;
@@ -815,7 +816,6 @@ gth_main_add_general_filter (GthTest *original_filter)
 
 		new_chain = gth_test_chain_new (GTH_MATCH_TYPE_ALL, NULL);
 		gth_test_chain_add_test (GTH_TEST_CHAIN (new_chain), test);
-		g_object_unref (test);
 
 		if (strncmp (gth_test_get_id (test), "file::type::", 12) != 0) {
 			GthTest *file_type_filter;
@@ -827,6 +827,7 @@ gth_main_add_general_filter (GthTest *original_filter)
 		gth_filter_set_test (filter, GTH_TEST_CHAIN (new_chain));
 		g_object_unref (new_chain);
 
+		g_object_unref (test);
 		test = (GthTest*) filter;
 	}
 	else {
@@ -1361,7 +1362,7 @@ attribute_list_reload_required (const char *old_attributes,
 				}
 			}
 
-		g_object_ref (provider);
+		g_object_unref (provider);
 	}
 
 	/*

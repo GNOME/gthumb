@@ -672,6 +672,8 @@ get_display_name (GFile       *file,
 		}
 	}
 
+	g_free (basename);
+
 	return g_string_free (display_name, FALSE);
 }
 
@@ -705,6 +707,8 @@ get_edit_name (GFile       *file,
 			g_string_append (display_name, name);
 	}
 
+	g_free (basename);
+
 	return g_string_free (display_name, FALSE);
 }
 
@@ -725,6 +729,8 @@ update_standard_attributes (GFile       *file,
 		sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
 		sort_order = atoi (sort_order_s);
 		g_file_info_set_sort_order (info, sort_order);
+
+		g_free (sort_order_s);
 	}
 	else if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
 		g_file_info_set_sort_order (info, 99999999);
@@ -852,6 +858,7 @@ gth_catalog_file_to_gio_file (GFile *file)
 			full_uri = g_strconcat (base_uri, part ? "/" : NULL, part, NULL);
 			gio_file = g_file_new_for_uri (full_uri);
 
+			g_free (full_uri);
 			g_free (base_uri);
 			g_object_unref (base);
 		}
@@ -1188,7 +1195,8 @@ gth_catalog_save (GthCatalog *catalog)
 	gio_file = gth_catalog_file_to_gio_file (file);
 
 	gio_parent = g_file_get_parent (gio_file);
-	g_file_make_directory_with_parents (gio_parent, NULL, NULL);
+	if (gio_parent != NULL)
+		g_file_make_directory_with_parents (gio_parent, NULL, NULL);
 	data = gth_catalog_to_data (catalog, &size);
 	if (! g_write_file (gio_file,
 			    FALSE,
@@ -1228,6 +1236,6 @@ gth_catalog_save (GthCatalog *catalog)
 	}
 
 	g_free (data);
-	g_object_unref (gio_parent);
+	_g_object_unref (gio_parent);
 	g_object_unref (gio_file);
 }

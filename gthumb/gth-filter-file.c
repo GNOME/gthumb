@@ -53,6 +53,8 @@ gth_filter_file_new (void)
 void
 gth_filter_file_free (GthFilterFile *filters)
 {
+	if (filters == NULL)
+		return;
 	_g_object_list_unref (filters->items);
 	g_free (filters);
 }

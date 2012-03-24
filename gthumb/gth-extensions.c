@@ -526,8 +526,11 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 
 	key_file = g_key_file_new ();
 	file_path = g_file_get_path (file);
-	if (! g_key_file_load_from_file (key_file, file_path, G_KEY_FILE_NONE, NULL))
+	if (! g_key_file_load_from_file (key_file, file_path, G_KEY_FILE_NONE, NULL)) {
+		g_free (file_path);
+		g_key_file_free (key_file);
 		return FALSE;
+	}
 
 	basename = g_file_get_basename (file);
 	desc->id = _g_uri_remove_extension (basename);
@@ -933,6 +936,7 @@ gth_extension_manager_order_extensions (GthExtensionManager *manager,
 				ordered = slink;
 			}
 		}
+		g_list_free (dependencies);
 
 		extensions = g_slist_remove_link (extensions, scan);
 		scan->next = ordered;

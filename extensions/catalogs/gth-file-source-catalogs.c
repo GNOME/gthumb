@@ -71,14 +71,16 @@ update_file_info (GthFileSource *file_source,
 		  GFile         *catalog_file,
 		  GFileInfo     *info)
 {
-	char *uri;
+	char  *uri;
+	GIcon *icon = NULL;
 
 	uri = g_file_get_uri (catalog_file);
 
 	if (g_str_has_suffix (uri, ".gqv") || g_str_has_suffix (uri, ".catalog")) {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
 		g_file_info_set_content_type (info, "gthumb/catalog");
-		g_file_info_set_icon (info, g_themed_icon_new ("file-catalog"));
+		icon = g_themed_icon_new ("file-catalog");
+		g_file_info_set_icon (info, icon);
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
 		gth_catalog_update_standard_attributes (catalog_file, info);
@@ -86,7 +88,8 @@ update_file_info (GthFileSource *file_source,
 	else if (g_str_has_suffix (uri, ".search")) {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
 		g_file_info_set_content_type (info, "gthumb/search");
-		g_file_info_set_icon (info, g_themed_icon_new ("file-search"));
+		icon = g_themed_icon_new ("file-search");
+		g_file_info_set_icon (info, icon);
 		g_file_info_set_sort_order (info, 1);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", TRUE);
 		gth_catalog_update_standard_attributes (catalog_file, info);
@@ -94,12 +97,14 @@ update_file_info (GthFileSource *file_source,
 	else {
 		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
 		g_file_info_set_content_type (info, "gthumb/library");
-		g_file_info_set_icon (info, g_themed_icon_new ("file-library"));
+		icon = g_themed_icon_new ("file-library");
+		g_file_info_set_icon (info, icon);
 		g_file_info_set_sort_order (info, 0);
 		g_file_info_set_attribute_boolean (info, "gthumb::no-child", FALSE);
 		gth_catalog_update_standard_attributes (catalog_file, info);
 	}
 
+	_g_object_unref (icon);
 	g_free (uri);
 }
 

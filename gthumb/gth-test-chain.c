@@ -52,6 +52,7 @@ gth_test_chain_finalize (GObject *object)
 		_g_object_list_unref (test->priv->tests);
 		if (test->priv->attributes != NULL)
 			g_string_free (test->priv->attributes, TRUE);
+		g_free (test->priv);
 		test->priv = NULL;
 	}
 

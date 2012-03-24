@@ -540,6 +540,8 @@ gth_location_chooser_set_current (GthLocationChooser *chooser,
 
 			g_object_unref (info);
 		}
+
+		_g_object_list_unref (list);
 	}
 
 	g_signal_emit (G_OBJECT (chooser), gth_location_chooser_signals[CHANGED], 0);
