@@ -1083,7 +1083,10 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
-		g_object_set_data (G_OBJECT (menu_item), "appinfo", appinfo);
+		g_object_set_data_full (G_OBJECT (menu_item),
+					"appinfo",
+					g_object_ref (appinfo),
+					g_object_unref);
 		g_signal_connect (menu_item,
 				  "activate",
 				  G_CALLBACK (activate_open_with_application_item),
