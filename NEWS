@@ -1,3 +1,28 @@
+version 2.90.2
+--------------
+
+ New features and user visible changes:
+
+  * Added a Location dialog to enter the path to display.
+  * Copy/Move dialog: save the list of the last 10 choosed folders.
+  * Added a tool to import the embedded metadata in the gThumb comment
+    system.
+  * Map view: added a scale on the map.
+
+ Bugs fixed:
+
+  * Thumbnail pane stays empty until directory change. (#672184)
+  * Always compile the cairo png loader. (#671940)
+  * Fixed compilation when libtiff is not available. (#671892)
+  * Fixed error when compiling with gtk+ 3.3.18. (#671451)
+  * Show "Moving" instead of "Copying" when moving a file.
+  * Fixed some performance issues when updating thumbnails.
+  * Fixed many memory leaks.
+
+ New or updated application translations:
+
+  * Slovenian Translation (Matej Urbančič)
+
 version 2.90.1
 --------------
 
