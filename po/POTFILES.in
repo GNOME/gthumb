@@ -36,6 +36,7 @@ data/org.gnome.gthumb.webalbums.gschema.xml.in
 [type: gettext/glade]data/ui/extensions-preferences.ui
 [type: gettext/glade]data/ui/filter-editor.ui
 [type: gettext/glade]data/ui/histogram-info.ui
+[type: gettext/glade]data/ui/location.ui
 [type: gettext/glade]data/ui/overwrite-dialog.ui
 [type: gettext/glade]data/ui/personalize-filters.ui
 [type: gettext/glade]data/ui/preferences.ui
@@ -660,6 +661,8 @@ extensions/webalbums/preferences.h
 [type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
 gthumb/cairo-utils.c
 gthumb/cairo-utils.h
+gthumb/dlg-location.c
+gthumb/dlg-location.h
 gthumb/dlg-personalize-filters.c
 gthumb/dlg-personalize-filters.h
 gthumb/dlg-preferences.c
