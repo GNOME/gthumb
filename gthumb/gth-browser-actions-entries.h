@@ -157,6 +157,12 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_up) },
 
+	{ "Go_Location", NULL,
+	  N_("_Location..."), "<control>L",
+	  N_("Specify a location to open"),
+	  GTH_ACTION_FLAG_NONE,
+	  G_CALLBACK (gth_browser_activate_action_go_location) },
+
 	{ "Go_Home", NULL,
 	  NULL, "<alt>Home",
 	  NULL,

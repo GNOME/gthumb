@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "dlg-location.h"
 #include "dlg-personalize-filters.h"
 #include "dlg-preferences.h"
 #include "dlg-sort-order.h"
@@ -136,6 +137,14 @@ gth_browser_activate_action_go_up (GtkAction  *action,
 				   GthBrowser *browser)
 {
 	gth_browser_go_up (browser, 1);
+}
+
+
+void
+gth_browser_activate_action_go_location (GtkAction  *action,
+					 GthBrowser *browser)
+{
+	dlg_location (browser);
 }
 
 

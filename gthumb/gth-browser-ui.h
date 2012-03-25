@@ -90,6 +90,7 @@ static const char *fixed_ui_info =
 "      <menuitem action='Go_Back'/>"
 "      <menuitem action='Go_Forward'/>"
 "      <menuitem action='Go_Up'/>"
+"      <menuitem action='Go_Location'/>"
 "      <separator name='BeforeEntryPointList'/>"
 "      <placeholder name='EntryPointList'/>"
 "      <separator name='EntryPointListSeparator'/>"

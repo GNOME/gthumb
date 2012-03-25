@@ -859,7 +859,7 @@ _gth_browser_update_entry_point_list (GthBrowser *browser)
 	separator2 = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/EntryPointListSeparator");
 	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
 
-	position = 5;
+	position = 6;
 	entry_points = gth_main_get_all_entry_points ();
 	for (scan = entry_points; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
