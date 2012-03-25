@@ -1,3 +1,20 @@
+version 2.14.3
+--------------
+
+ Bugs fixed:
+
+  * Do not show duplicate entries in the sidebar and bookmarks menu.
+    (#669367)
+  * Fixed filtering by embedded title and description.
+  * Fixed crash when opening the comment dialog.
+  * Fixed many memory leaks.
+  * Fixed file renaming in viewer mode. (#670392)
+  * Fixed some compiler warnings. (#668947)
+
+ New or updated application translations:
+
+  * Swedish (Daniel Nylander)
+
 version 2.14.2
 --------------
 
