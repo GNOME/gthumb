@@ -571,7 +571,6 @@ file_store_visibility_changed_cb (GthFileStore *file_store,
 				  GthFileList  *file_list)
 {
 	file_list->priv->visibility_changed = TRUE;
-	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 }
 
 
@@ -585,7 +584,6 @@ file_store_rows_reordered_cb (GtkTreeModel *tree_model,
 	GthFileList *file_list = user_data;
 
 	file_list->priv->visibility_changed = TRUE;
-	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 }
 
 
@@ -1620,6 +1618,7 @@ _gth_file_list_get_visibles (GthFileList *file_list)
 		_g_object_list_unref (file_list->priv->visibles);
 		file_list->priv->visibles = gth_file_store_get_visibles ((GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
 		file_list->priv->visibility_changed = FALSE;
+		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 	}
 
 	return file_list->priv->visibles;
@@ -1664,6 +1663,11 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 		while (scan && (pos <= file_list->priv->thumbnailer_state.last_visible)) {
 			file_data = scan->data;
 			thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
+			if (thumb_data == NULL) {
+				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
+				return FALSE;
+			}
+
 			if (! thumb_data->thumb_loaded && can_create_file_thumbnail (file_data, thumb_data, current_time, young_file_found)) {
 				/* found a thumbnail to load */
 				file_list->priv->thumbnailer_state.current_item = scan;
@@ -1691,6 +1695,10 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 
 			file_data = scan->data;
 			thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
+			if (thumb_data == NULL) {
+				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
+				return FALSE;
+			}
 
 			if (pos <= file_list->priv->thumbnailer_state.last_visible + N_VIEWAHEAD)
 				requested_action_performed = thumb_data->thumb_loaded;
@@ -1724,6 +1732,10 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 
 			file_data = scan->data;
 			thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
+			if (thumb_data == NULL) {
+				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
+				return FALSE;
+			}
 
 			if (pos >= file_list->priv->thumbnailer_state.first_visibile - N_VIEWAHEAD)
 				requested_action_performed = thumb_data->thumb_loaded;
