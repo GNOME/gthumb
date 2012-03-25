@@ -545,15 +545,6 @@ update_completion_list (GthTagsEntry *self)
 	g_strfreev (self->priv->tags);
 	self->priv->tags = g_strdupv (gth_tags_file_get_tags (tags));
 
-	for (i = 0; self->priv->tags[i] != NULL; i++) {
-		GtkTreeIter iter;
-
-		gtk_list_store_append (self->priv->completion_store, &iter);
-		gtk_list_store_set (self->priv->completion_store, &iter,
-				    COMPLETION_NAME_COLUMN, self->priv->tags[i],
-				    -1);
-	}
-
 	gtk_list_store_clear (self->priv->completion_store);
 	for (i = 0; self->priv->tags[i] != NULL; i++) {
 		GtkTreeIter iter;
