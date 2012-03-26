@@ -313,6 +313,8 @@ update_completion_list (DialogData *data)
 
 	uri = get_location_uri (data, &has_scheme, NULL);
 	if (uri == NULL) {
+		_g_object_unref (data->last_folder);
+		data->last_folder = NULL;
 		gtk_list_store_clear (data->completion_store);
 		return;
 	}
