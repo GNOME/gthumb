@@ -137,11 +137,8 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		if (value != NULL) {
 			char *tmp_value;
 
-			if (g_utf8_strlen (value, -1) > MAX_ATTRIBUTE_LENGTH) {
-				g_utf8_strncpy (value, value, MAX_ATTRIBUTE_LENGTH - 3);
+			if (g_utf8_strlen (value, -1) > MAX_ATTRIBUTE_LENGTH)
 				g_utf8_strncpy (g_utf8_offset_to_pointer (value, MAX_ATTRIBUTE_LENGTH - 3), "...", 3);
-			}
-
 			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
