@@ -235,6 +235,16 @@ gth_selections_manager_update_file_info (GFile     *file,
 		name = g_strdup ("???");
 	g_file_info_set_display_name (info, name);
 	g_free (name);
+
+	/* name */
+
+	if (n_selection > 0)
+		name = g_strdup_printf ("%d", n_selection);
+	else
+		name = g_strdup ("");
+	g_file_info_set_name (info, name);
+
+	g_free (name);
 }
 
 
