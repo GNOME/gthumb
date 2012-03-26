@@ -187,26 +187,6 @@ selections_manager_fec_done_cb (GObject  *object,
 }
 
 
-static int
-_g_file_get_n_selection (GFile *file)
-{
-	char *uri;
-	int   n = -1;
-
-	uri = g_file_get_uri (file);
-	if (! g_str_has_prefix (uri, "selection:///"))
-		n = -1;
-	else if (strcmp (uri, "selection:///") == 0)
-		n = 0;
-	else
-		n = atoi (uri + strlen ("selection:///"));
-
-	g_free (uri);
-
-	return n;
-}
-
-
 void
 gth_selections_manager_update_file_info (GFile     *file,
 					 GFileInfo *info)
@@ -434,4 +414,27 @@ gth_selections_manager_reorder (GFile *folder,
 				int    dest_pos)
 {
 	/* FIXME */
+}
+
+
+int
+_g_file_get_n_selection (GFile *file)
+{
+	char *uri;
+	int   n = -1;
+
+	uri = g_file_get_uri (file);
+	if (! g_str_has_prefix (uri, "selection:///"))
+		n = -1;
+	else if (strcmp (uri, "selection:///") == 0)
+		n = 0;
+	else
+		n = atoi (uri + strlen ("selection:///"));
+
+	g_free (uri);
+
+	if (n > N_SELECTIONS)
+		n = -1;
+
+	return n;
 }

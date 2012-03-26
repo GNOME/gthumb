@@ -129,6 +129,15 @@ gth_file_source_selections_read_metadata (GthFileSource *file_source,
 					  ReadyCallback  callback,
 					  gpointer       user_data)
 {
+	int n_selection;
+
+	n_selection = _g_file_get_n_selection (file_data->file);
+	if (n_selection < 0) {
+		GError *error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_FOUND, "Invalid location." /* FIXME: mark as translatable after string freeze */);
+		object_ready_with_error (file_source, callback, user_data, error);
+		return;
+	}
+
 	update_file_info (file_source, file_data->file, file_data->info);
 	object_ready_with_error (file_source, callback, user_data, NULL);
 }

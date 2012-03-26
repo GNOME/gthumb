@@ -68,6 +68,10 @@ void     gth_selections_manager_reorder          (GFile                *folder,
 void     gth_selections_manager_update_file_info (GFile                *file,
 						  GFileInfo            *info);
 
+/* utilities */
+
+int      _g_file_get_n_selection                 (GFile                *file);
+
 G_END_DECLS
 
 #endif /* GTH_SELECTIONS_MANAGER_H */
