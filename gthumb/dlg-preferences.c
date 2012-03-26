@@ -107,7 +107,7 @@ static void
 help_button_clicked_cb (GtkWidget  *widget,
 			DialogData *data)
 {
-	show_help_dialog (GTK_WINDOW (data->dialog), "preferences");
+	show_help_dialog (GTK_WINDOW (data->dialog), NULL);
 }
 
 
