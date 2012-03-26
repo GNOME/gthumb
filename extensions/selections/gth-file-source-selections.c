@@ -118,6 +118,11 @@ gth_file_source_selections_write_metadata (GthFileSource *file_source,
 					   ReadyCallback  callback,
 					   gpointer       user_data)
 {
+	if (_g_file_attributes_matches_any (attributes, "sort::*"))
+		gth_selections_manager_set_sort_type (file_data->file,
+						      g_file_info_get_attribute_string (file_data->info, "sort::type"),
+						      g_file_info_get_attribute_boolean (file_data->info, "sort::inverse"));
+
 	object_ready_with_error (file_source, callback, user_data, NULL);
 }
 

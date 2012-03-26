@@ -184,6 +184,12 @@ char *          _g_utf8_remove_extension         (const char  *str);
 GList *         _g_list_insert_list_before       (GList       *list1,
 						  GList       *sibling,
 						  GList       *list2);
+void            _g_list_reorder                  (GList       *all_files,
+						  GList       *visible_files,
+						  GList       *files_to_move,
+						  int          dest_pos,
+						  int        **new_order_p,
+						  GList      **new_file_list_p);
 const char *    get_static_string                (const char  *s);
 char *          _g_rand_string                   (int          len);
 int             _g_strv_find                     (char       **v,

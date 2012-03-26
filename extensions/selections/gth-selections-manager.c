@@ -31,8 +31,10 @@
 
 
 struct _GthSelectionsManagerPrivate {
-	GList  *files[N_SELECTIONS];
-	GMutex *mutex;
+	GList    *files[N_SELECTIONS];
+	char     *order[N_SELECTIONS];
+	gboolean  order_inverse[N_SELECTIONS];
+	GMutex   *mutex;
 };
 
 
@@ -70,8 +72,10 @@ gth_selections_manager_finalize (GObject *object)
 
 	self = GTH_SELECTIONS_MANAGER (object);
 
-	for (i = 0; i < N_SELECTIONS; i++)
+	for (i = 0; i < N_SELECTIONS; i++) {
 		_g_object_list_unref (self->priv->files[i]);
+		g_free (self->priv->order[i]);
+	}
 	g_mutex_free (self->priv->mutex);
 
 	G_OBJECT_CLASS (gth_selections_manager_parent_class)->finalize (object);
@@ -97,8 +101,11 @@ gth_selections_manager_init (GthSelectionsManager *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManagerPrivate);
 	self->priv->mutex = g_mutex_new ();
-	for (i = 0; i < N_SELECTIONS; i++)
+	for (i = 0; i < N_SELECTIONS; i++) {
 		self->priv->files[i] = NULL;
+		self->priv->order[i] = NULL;
+		self->priv->order_inverse[i] = FALSE;
+	}
 }
 
 
@@ -201,6 +208,8 @@ gth_selections_manager_update_file_info (GFile     *file,
 
 	g_file_info_set_sort_order (info, n_selection);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
+	if (n_selection > 0)
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE, TRUE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
 	g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME, FALSE);
 	g_file_info_set_attribute_int32 (info, "gthumb::n-selection", n_selection);
@@ -245,6 +254,23 @@ gth_selections_manager_update_file_info (GFile     *file,
 	g_file_info_set_name (info, name);
 
 	g_free (name);
+
+	/* sort order */
+
+	if (n_selection > 0) {
+		GthSelectionsManager *self;
+
+		self = gth_selections_manager_get_default ();
+
+		if (self->priv->order[n_selection] != NULL) {
+			g_file_info_set_attribute_string (info, "sort::type", self->priv->order[n_selection - 1]);
+			g_file_info_set_attribute_boolean (info, "sort::inverse", self->priv->order_inverse[n_selection - 1]);
+		}
+		else {
+			g_file_info_remove_attribute (info, "sort::type");
+			g_file_info_remove_attribute (info, "sort::inverse");
+		}
+	}
 }
 
 
@@ -423,7 +449,60 @@ gth_selections_manager_reorder (GFile *folder,
 				GList *files_to_move, /* GFile list */
 				int    dest_pos)
 {
-	/* FIXME */
+	GthSelectionsManager *self;
+	int                   n_selection;
+	int                  *new_order;
+	GList                *new_file_list;
+
+	n_selection = _g_file_get_n_selection (folder);
+	if (n_selection <= 0)
+		return;
+
+	self = gth_selections_manager_get_default ();
+
+	/* reorder the file list */
+
+	g_mutex_lock (self->priv->mutex);
+	_g_list_reorder (self->priv->files[n_selection - 1],
+			 visible_files,
+			 files_to_move,
+			 dest_pos,
+			 &new_order,
+			 &new_file_list);
+	_g_object_list_unref (self->priv->files[n_selection - 1]);
+	self->priv->files[n_selection - 1] = new_file_list;
+	g_mutex_unlock (self->priv->mutex);
+
+	gth_selections_manager_set_sort_type (folder, "general::unsorted", FALSE);
+
+	gth_monitor_order_changed (gth_main_get_default_monitor (),
+				   folder,
+				   new_order);
+
+	g_free (new_order);
+}
+
+
+void
+gth_selections_manager_set_sort_type (GFile      *folder,
+				      const char *sort_type,
+				      gboolean    sort_inverse)
+{
+	GthSelectionsManager *self;
+	int                   n_selection;
+
+	n_selection = _g_file_get_n_selection (folder);
+	if (n_selection <= 0)
+		return;
+
+	self = gth_selections_manager_get_default ();
+	g_mutex_lock (self->priv->mutex);
+
+	g_free (self->priv->order[n_selection - 1]);
+	self->priv->order[n_selection - 1] = g_strdup (sort_type);
+	self->priv->order_inverse[n_selection - 1] = sort_inverse;
+
+	g_mutex_unlock (self->priv->mutex);
 }
 
 

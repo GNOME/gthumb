@@ -65,6 +65,9 @@ void     gth_selections_manager_reorder          (GFile                *folder,
 						  GList                *visible_files, /* GFile list */
 						  GList                *files_to_move, /* GFile list */
 						  int                   dest_pos);
+void     gth_selections_manager_set_sort_type    (GFile                *folder,
+						  const char           *sort_type,
+						  gboolean              sort_inverse);
 void     gth_selections_manager_update_file_info (GFile                *file,
 						  GFileInfo            *info);
 

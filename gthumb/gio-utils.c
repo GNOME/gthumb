@@ -183,7 +183,7 @@ typedef struct {
 	ChildData            *current;
 	GHashTable           *already_visited;
 	GList                *to_visit;
-	const char           *attributes;
+	char                 *attributes;
 	GCancellable         *cancellable;
 	GFileEnumerator      *enumerator;
 	GError               *error;
