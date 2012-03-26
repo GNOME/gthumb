@@ -215,23 +215,34 @@ ok_button_clicked_cb (GtkWidget  *widget,
 }
 
 
-
 static int
 file_data_compare_by_name (gconstpointer  a,
 			   gconstpointer  b)
 {
 	GthFileData *fa = (GthFileData *) a;
 	GthFileData *fb = (GthFileData *) b;
-	char        *sa;
-	char        *sb;
+	const char  *namea;
+	const char  *nameb;
 	int          result;
 
-	sa = g_utf8_collate_key_for_filename (g_file_info_get_name (fa->info), -1);
-	sb = g_utf8_collate_key_for_filename (g_file_info_get_name (fb->info), -1);
-	result = strcmp (sa, sb);
+	namea = g_file_info_get_name (fa->info);
+	nameb = g_file_info_get_name (fb->info);
+	if ((namea == NULL) || (nameb == NULL)) {
+		if ((namea == NULL) && (nameb == NULL))
+			return 0;
+		else if (namea == NULL)
+			return -1;
+		else
+			return 1;
+	}
+	else {
+		char *sa = g_utf8_collate_key_for_filename (namea, -1);
+		char *sb = g_utf8_collate_key_for_filename (nameb, -1);
+		result = strcmp (sa, sb);
 
-	g_free (sa);
-	g_free (sb);
+		g_free (sa);
+		g_free (sb);
+	}
 
 	return result;
 }
