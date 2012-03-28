@@ -36,7 +36,7 @@ enum {
 
 struct _GthScreensaverPrivate {
 	char       *app_id;
-	guint       cookie;
+	guint32     cookie;
 	GDBusProxy *proxy;
 };
 
@@ -262,10 +262,13 @@ org_gnome_session_manager_uninhibit_ready_cb (GObject      *source_object,
 void
 gth_screensaver_uninhibit (GthScreensaver *self)
 {
-	GError *error = NULL;
+	GError  *error = NULL;
+	guint32  cookie;
 
 	if (self->priv->cookie == 0)
 		return;
+	cookie = self->priv->cookie;
+	self->priv->cookie = 0;
 
 	_gth_screensaver_create_sm_proxy (self, &error);
 
@@ -278,7 +281,7 @@ gth_screensaver_uninhibit (GthScreensaver *self)
 	g_object_ref (self);
 	g_dbus_proxy_call (self->priv->proxy,
 			   "Uninhibit",
-			   g_variant_new ("(u)", self->priv->cookie),
+			   g_variant_new ("(u)", cookie),
 			   G_DBUS_CALL_FLAGS_NONE,
 			   G_MAXINT,
 			   NULL,
