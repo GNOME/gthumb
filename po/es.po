@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-28 10:36+0000\n"
+"POT-Creation-Date: 2012-03-28 16:29+0000\n"
 "PO-Revision-Date: 2012-03-28 18:26+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -4996,12 +4996,10 @@ msgid "Go up one level"
 msgstr "Subir un nivel"
 
 #: ../gthumb/gth-browser-actions-entries.h:161
-#| msgid "_Location"
 msgid "_Location..."
 msgstr "_Ubicación…"
 
 #: ../gthumb/gth-browser-actions-entries.h:162
-#| msgid "Specify a location to visit"
 msgid "Specify a location to open"
 msgstr "Especificar una ubicación que abrir"
 
@@ -5242,12 +5240,12 @@ msgstr "kB"
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
 #: ../gthumb/gth-test-simple.c:76
 msgid "MB"
-msgstr "MiB"
+msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
 #: ../gthumb/gth-test-simple.c:77
 msgid "GB"
-msgstr "GiB"
+msgstr "GB"
 
 #. "files" label
 #: ../gthumb/gth-filter.c:291 ../gthumb/gth-filter-editor-dialog.c:177
