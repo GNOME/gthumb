@@ -4271,7 +4271,7 @@ msgstr "Přejmenování série souborů."
 
 #: ../extensions/resize_images/callbacks.c:45
 msgid "Resize Images..."
-msgstr "Změnit velikost obrázku…"
+msgstr "Změnit velikost obrázků…"
 
 #: ../extensions/resize_images/callbacks.c:46
 msgid "Resize the selected images"
