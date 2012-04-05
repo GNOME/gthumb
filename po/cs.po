@@ -4902,7 +4902,7 @@ msgstr "_Soubor"
 
 #: ../gthumb/gth-browser-actions-entries.h:32
 msgid "_Edit"
-msgstr "Ú_pravy"
+msgstr "_Upravit"
 
 #: ../gthumb/gth-browser-actions-entries.h:34
 msgid "_Go"
