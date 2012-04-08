@@ -699,7 +699,7 @@ msgstr "Vrstica filtra brskalnika"
 
 #: C/filtering.page:33(p)
 msgid "In the above figure, the filename filter has been configured to show only files with \"gen\" in the filename. The matching is case-insensitive."
-msgstr "Na zgornji sliki je bil filter imen datotek nastavljen le za prikaz datotek z \"gen\"\ v imenu datoteke. Ujemanje ni občutljivo na velikost črk."
+msgstr "Na zgornji sliki je bil filter imen datotek nastavljen le za prikaz datotek z \"gen\" v imenu datoteke. Ujemanje ni občutljivo na velikost črk."
 
 #: C/sorting.page:7(title)
 #| msgid "Browsing Folders"
