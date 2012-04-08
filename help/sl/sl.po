@@ -7,10 +7,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb manual\n"
-"POT-Creation-Date: 2010-09-26 16:07+0000\n"
+"POT-Creation-Date: 2012-04-08 08:50+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,6 +19,42 @@ msgstr ""
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+#: C/file-copy-move.page:6(title)
+msgid "Copying and Moving Files"
+msgstr "Kopiranje in premik datotek"
+
+#: C/file-copy-move.page:8(p)
+msgid "There are three ways to copy or move files in <app>gThumb</app>."
+msgstr "Obstajajo trije načini za kopiranje ali premik datotek v programu <app>gThumb</app>."
+
+#: C/file-copy-move.page:12(title)
+msgid "Cut and Paste"
+msgstr "Izrez in lepljenje"
+
+#: C/file-copy-move.page:13(p)
+msgid "To copy a file in the browser view, use <guiseq><gui>Edit</gui><gui>Copy</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>C</key></keyseq>. To move a file, use <guiseq><gui>Edit</gui><gui>Cut</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>X</key></keyseq>. Then navigate to the destination folder using the folder tree. Use <guiseq><gui>Edit</gui><gui>Paste</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>V</key></keyseq>, to complete the file transfer."
+msgstr "Za kopiranje datoteke v pogledu brskalnika uporabite <guiseq><gui>Uredi</gui><gui>Kopiraj</gui></guiseq> ali pritisnite <keyseq><key>Ctrl</key><key>C</key></keyseq>. Za premik datoteke uporabite <guiseq><gui>Uredi</gui><gui>Izreži</gui></guiseq> ali pritisnite <keyseq><key>Ctrl</key><key>X</key></keyseq>. Nato krmarite v ciljno mapo z uporabo drevesa map. Uporabite <guiseq><gui>Uredi</gui><gui>Prilepi</gui></guiseq> ali pritisnite <keyseq><key>Ctrl</key><key>V</key></keyseq> za dokončanje prenosa datotek."
+
+#: C/file-copy-move.page:26(title)
+msgid "Drag and Drop"
+msgstr "Povleci in spusti"
+
+#: C/file-copy-move.page:27(p)
+msgid "To copy a file to another folder, simply drag the file (with a sustained left-mouse click) to the destination folder visible in the folder tree. To move a file, hold down the <key>Shift</key> key while dragging."
+msgstr "Za kopiranje datoteke v drugo mapo povlecite datoteko (z zadržanim levim miškinim klikom) v ciljno mapo, ki je vidna v drevesu map. Za premik datoteke držite tipko <key>Shift</key> medtem ko vlečete."
+
+#: C/file-copy-move.page:31(p)
+msgid "You can also use the middle mouse button to drag files. In this case, <app>gThumb</app> will ask you if you wish to copy the files, move the files, or cancel the operation."
+msgstr "Za vlečenje datotek lahko uporabite srednji miškin klik. V tem primeru vas bo <app>gThumb</app> vprašal, če želite datoteke kopirati, premakniti ali preklicati opravilo."
+
+#: C/file-copy-move.page:37(title)
+msgid "File Copy / Move Dialog"
+msgstr "Pogovorno okno kopiranja/premikanja"
+
+#: C/file-copy-move.page:38(p)
+msgid "Select the files to be transferred, right-click on the selection, and choose <guiseq><gui>Copy to...</gui></guiseq> or <guiseq><gui>Move to...</gui></guiseq>. This will open a folder-selection dialog, where you can choose the destination folder. At the bottom of the dialog, you can enable the <guiseq><gui>View the destination</gui></guiseq> option if you want to go to the destination folder after the file transfer is complete."
+msgstr "Izberite datoteke za prenos, desno kliknite izbiro in izberite <guiseq><gui>Kopiraj na ...</gui></guiseq> ali <guiseq><gui>Premakni na ...</gui></guiseq>. To bo odprlo pogovorno okno izbire mape, kjer lahko izberete ciljno mapo. Na dnu pogovornega okna lahko omogočite možnost <guiseq><gui>Ogled cilja</gui></guiseq>, če želite po končanem prenosu iti v ciljno mapo."
 
 #: C/slideshow.page:7(title)
 msgid "Automatic Slideshow"
@@ -40,10 +77,6 @@ msgid "You can advance manually to the next image by pressing <key>Down Arrow</k
 msgstr "Na naslednjo sliko lahko napredujete ročno s pritiskom na <key>Puščica navzdol</key>, <key>Puščica navzgor</key>, <key>Stran navzdol</key> ali <key>Preslednica</key>. "
 
 #: C/slideshow.page:27(p)
-#| msgid ""
-#| "You can go back to the previous image by clicking the "
-#| "<guibutton>Previous</guibutton> button, or by pressing <keycap>Backspace</"
-#| "keycap> or <keycap>Page Up</keycap>."
 msgid "You can go back to the previous image by pressing <key>Up Arrow</key>, <key>Left Arrow</key> or <key>Page Up</key>."
 msgstr "Nazaj k prejšnji sliki greste lahko s pritiskom na <key>Puščica navzgor</key>, <key>Leva puščica</key> ali <key>Stran navzgor</key>. "
 
@@ -53,7 +86,7 @@ msgstr "Premor ali nadaljevanje predstavitve lahko dosežete s pritiskom na tipk
 
 #: C/slideshow.page:32(p)
 msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
-msgstr "Za končanje predstavitve pritisnite <key>Ubežno tipko</key> ali <key>F5</key>."
+msgstr "Za končanje predstavitve pritisnite <key>Esc</key> ali <key>F5</key>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -74,7 +107,6 @@ msgid "@@image: 'figures/import-pref-custom-format.png'; md5=989ca536c873ec926a4
 msgstr "@@image: 'figures/import-pref-custom-format.png'; md5=989ca536c873ec926a4a71c876004b9f"
 
 #: C/import.page:8(title)
-#| msgid "To Import Photos from a Digital Camera"
 msgid "Importing From a Camera"
 msgstr "Uvažanje fotografij z digitalnega fotoaparata"
 
@@ -99,8 +131,8 @@ msgid "Tags may optionally be associated with the imported photos, using the <gu
 msgstr "Oznake je mogoče izbirno povezati z uvoženimi fotografijami z uporabo nadzornika <gui>Oznake</gui> pod oknom sličic. Kliknite spustni nadzornik za ogled pred-določenih oznak."
 
 #: C/import.page:34(p)
-msgid "An event name may also be optionally associated with the photos. This event name can be used to generate an automatic subfolder name (possibly incorporating a date) as described below. For example, if the base destinator folder is \"/photos\", and you enter \"Wedding-Jennifer\" in the <gui>Event</gui> field, you can configure generation of automatic subfolders like \"/photos/2010-07-31, Wedding-Jennifer\"."
-msgstr "Izbirno je s fotografijami mogoče povezati ime dogodka. Ime dogodka je mogoče uporabiti za ustvarjanje samodejnega imena podmape (ki lahko vključuje datum) kot je opisano spodaj. Na primer, če je osnovna cilja mapa \"/fotografije\" in v polje <gui>Dogodki</gui> vnesete \"Poroka-Brigita\"  lahko nastavite ustvarjanje samodejnih podmap kot \"fotografije/2010-07-31, Poroka-Brigita\"."
+msgid "An event name may also be optionally associated with the photos. This event name can be used to generate an automatic subfolder name (possibly incorporating a date) as described below. For example, if the base destination folder is \"/photos\", and you enter \"Wedding-Jennifer\" in the <gui>Event</gui> field, you can configure generation of automatic subfolders like \"/photos/2010-07-31, Wedding-Jennifer\"."
+msgstr "Izbirno je s fotografijami mogoče povezati ime dogodka. Ime dogodka je mogoče uporabiti za ustvarjanje samodejnega imena podmape (ki lahko vključuje datum) kot je opisano spodaj. Na primer, če je osnovna cilja mapa \"/fotografije\" in v polje <gui>Dogodki</gui> vnesete \"Poroka-Brigita\"  lahko nastavite ustvarjanje samodejnih podmap kot \"fotografije/2012-09-15, Poroka-Brigita\"."
 
 #: C/import.page:42(title)
 msgid "Standard Date-Based Subfolders"
@@ -135,15 +167,6 @@ msgid "Using Bookmarks"
 msgstr "Uporaba zaznamkov"
 
 #: C/bookmarks.page:8(p)
-#| msgid ""
-#| "Frequently used folders can be added to the bookmark list for rapid "
-#| "access. Just go to the folder you want to add to the bookmarks and press "
-#| "<keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>D</keycap></"
-#| "keycombo> or use the command <menuchoice><guimenu>Bookmarks</"
-#| "guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>. To remove "
-#| "or rearrange bookmarks in a different order use the "
-#| "<menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</"
-#| "guimenuitem></menuchoice> command."
 msgid "Frequently-used folders can be added to the bookmark list for rapid access. To add the current folder to the bookmark list, press <keyseq><key>Ctrl</key><key>D</key></keyseq> or use the command <guiseq><gui>Bookmarks</gui><gui>Add Bookmark</gui></guiseq>."
 msgstr "Pogosto uporabljene mape lahko dodate na seznam zaznamkov za hiter dostop. Za dodajanje trenutne mape na seznam zaznamkov pritisnite <keyseq><key>Ctrl</key><key>D</key></keyseq> ali uporabite ukaz <guiseq><gui>Zaznamki</gui><gui>Dodaj zaznamek</gui></guiseq>."
 
@@ -156,7 +179,6 @@ msgid "<guiseq><gui>Bookmarks</gui><gui>System Bookmarks</gui></guiseq> provides
 msgstr "<guiseq><gui>Zaznamki</gui><gui>Sistemski zaznamki</gui></guiseq> zagotavlja dostop do sistemskih zaznamkov, ki so bili določeni v <app>Nautilusu</app ali v izbirniku datotek, ki ga uporablja večina programov Gnome."
 
 #: C/wallpaper.page:6(title)
-#| msgid "To Set the Desktop Wallpaper"
 msgid "Desktop Wallpaper"
 msgstr "Slika ozadja namizja"
 
@@ -164,12 +186,36 @@ msgstr "Slika ozadja namizja"
 msgid "To set an image as the system desktop wallpaper, right-click on the image and select <guiseq><gui>Set as Desktop Background</gui></guiseq> from the pop-up menu. The desktop background will change, and the Gnome Appearance Preferences dialog will appear. You can use this dialog to make adjustments to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr "Za nastavitev slike kot ozadja namizja sistema, desno kliknite na sliko in v pojavnem meniju izberite <guiseq><gui>Nastavi kot ozadje namizja</gui></guiseq>. Ozadje namizja se bo spremenilo in pojavilo se bo pogovorno okno Možnosti videza Gnome. To pogovorno okno lahko uporabite za prilagoditve nastavitev ozadja (položaj, raztezanje, razpostavljanje, itd. )."
 
+#: C/sharing-social.page:6(title)
+msgid "Uploading to Photo-Sharing Web Sites"
+msgstr "Pošiljanje na spletišča za deljenje fotografij"
+
+#: C/sharing-social.page:7(p)
+msgid "gThumb is provided with a number of extensions for uploading photos to various \"social media\" web sites. By default, uploaders for Facebook, Flickr, Picasa, and Photobucket are enabled."
+msgstr "gThumb zagotavlja številne razširitve za pošiljanje fotografij na različna spletišča \"družabnih medijev\". Privzeto je omogočeno pošiljanje na Facebook, Flickr, Picasa in Photobucket."
+
+#: C/sharing-social.page:13(p)
+msgid "To upload a series of photos, select the images in the browser view, and click the <gui>Share</gui> button in the toolbar. Select the appropriate web site from the menu that appears."
+msgstr "Za pošiljanje zaporedja fotografij izberite slike v pogledu brskalnika in kliknite na gumb <gui>Souporaba</gui> v orodni vrstici. Izberite ustrezno spletišče iz menija, ki se pojavi."
+
+#: C/sharing-social.page:17(p)
+msgid "You may be prompted for additional information specific to the destination site, like an album name. You may also be prompted for your user name and password for the site. It may be necessary for gThumb to open a web browser, where you complete the required authentication steps. Once you have completed the required authentication steps in the browser, return to gThumb and continue the upload."
+msgstr "Pozvani boste k vnosu dodatnih podatkov določenih za ciljno stran kot je ime albuma. Morda boste pozvani tudi k vnosu uporabniškega imena in gesla za spletišča. Morda bo gThumb moral odpreti spletni brskalnik, kjer boste dokončali zahtevane korake overitve. Ko ste korake overitve dokončali v brskalniku, se vrnite v gThumb in nadaljujte s pošiljanjem. "
+
+#: C/sharing-social.page:26(p)
+msgid "If you do not see the expected upload sites in the <gui>Share</gui> menu, check that the appropriate exporter extensions are enabled in <guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
+msgstr "Če pričakovanih spletišč pošiljanja ne vidite v meniju <gui>Souporaba</gui>, preverite da so ustrezne razširitve izvoza omogočene v <guiseq><gui>Uredi</gui><gui>Razširitve</gui></guiseq>."
+
+#: C/sharing-social.page:31(p)
+msgid "For some sites, gThumb also supports downloading photos from the site into gThumb. See the <guiseq><gui>File</gui><gui>Import From</gui></guiseq> menu for the available download options."
+msgstr "Za nekatera spletišča gThumb podpira tudi prejemanje fotografij s spletišča v gThumb. Oglejte si meni <guiseq><gui>Datoteka</gui><gui>Uvozi iz</gui></guiseq> za razpoložljive možnosti prejema."
+
 #: C/sharing-disc.page:6(title)
 msgid "Creating a CD/DVD/ISO"
 msgstr "Ustvarjanje CD-jev/DVD-jev/ISO-jev"
 
 #: C/sharing-disc.page:7(p)
-msgid "To write a series of files to an optical disk (CD or DVD), or to create an ISO disk image file, use the <guiseq><gui>File </gui><gui>Export To</gui><gui>Optical Disc</gui></guiseq> menu item."
+msgid "To write a series of files to an optical disk (CD or DVD), or to create an ISO disk image file, use the <guiseq><gui>File</gui><gui>Export To</gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr "Za zapis datotek na optični disk (CD ali DVD) ali za ustvarjanje datoteke odtisa diska ISO uporabite predmet menija <guiseq><gui>Datoteka</gui><gui>Izvozi v</gui><gui>Optični disk</gui></guiseq>."
 
 #: C/sharing-disc.page:13(p)
@@ -181,7 +227,6 @@ msgid "The next dialog will select the destination disk, or the ISO file to save
 msgstr "V naslednjem pogovornem oknu boste lahko izbrali cilj disk ali datoteko ISO za shranjevanje. Ko boste pripravljeni za dokončanje opravila, kliknite <gui>Ustvari odtis</gui>. Nato se bo začelo opravilo zapisovanja optičnega diska ali pa bo zapisana datoteka ISO."
 
 #: C/shortcuts.page:7(title)
-#| msgid "Keyboard Shortcut"
 msgid "Keyboard Shortcuts"
 msgstr "Tipkovne bližnjice"
 
@@ -234,7 +279,6 @@ msgid "<key>F11</key> or <key>f</key>"
 msgstr "<key>F11</key> ali <key>f</key>"
 
 #: C/shortcuts.page:58(p)
-#| msgid "Exit the fullscreen mode."
 msgid "Toggles the fullscreen mode."
 msgstr "Preklopi celozaslonski način."
 
@@ -257,7 +301,6 @@ msgid "Esc"
 msgstr "Esc"
 
 #: C/shortcuts.page:78(p)
-#| msgid "Exit the fullscreen mode."
 msgid "Closes the viewer or fullscreen mode."
 msgstr "Zapre pregledovalnik ali celozaslonski način."
 
@@ -286,19 +329,14 @@ msgid "F2"
 msgstr "F2"
 
 #: C/shortcuts.page:124(p)
-#| msgid "Resize the image."
 msgid "Rename the image."
 msgstr "Preimenujte sliko."
 
 #: C/shortcuts.page:129(p)
-#| msgid ""
-#| "<keycombo><keycap>+</keycap></keycombo> or <keycombo><keycap>=</keycap></"
-#| "keycombo>"
 msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
 msgstr "<key>c</key> ali <keyseq><key>Ctrl</key><key>m</key></keyseq>"
 
 #: C/shortcuts.page:134(p)
-#| msgid "Add a comment to the selected images."
 msgid "Add comments or metadata to an image."
 msgstr "Doda opombe ali metapodatke sliki."
 
@@ -324,7 +362,6 @@ msgid "Delete"
 msgstr "Izbriši"
 
 #: C/shortcuts.page:164(p)
-#| msgid "the number of the selected images and their size."
 msgid "Move the selected files to the Trash."
 msgstr "Premakne izbrane datoteke v smeti."
 
@@ -335,7 +372,6 @@ msgid "Shift"
 msgstr "Dvigalka"
 
 #: C/shortcuts.page:174(p)
-#| msgid "Delete the selected images."
 msgid "Delete the selected files permanently."
 msgstr "Trajno izbriše izbrane slike."
 
@@ -344,17 +380,14 @@ msgid "Editing shortcuts for the viewer mode only"
 msgstr "Urejanje bližnjic le za način pregledovalnika"
 
 #: C/shortcuts.page:186(p)
-#| msgid "Keyboard Shortcut"
 msgid "Keyboard Shortcut (Case Sensitive)"
 msgstr "Tipkovne bližnjice (občutljive na velikost črk)"
 
 #: C/shortcuts.page:195(key)
-#| msgid "%h"
 msgid "h"
 msgstr "h"
 
 #: C/shortcuts.page:199(p)
-#| msgid "Enhance"
 msgid "Enhance colors."
 msgstr "Izboljša barve."
 
@@ -363,7 +396,6 @@ msgid "l"
 msgstr "l"
 
 #: C/shortcuts.page:209(p)
-#| msgid "Flip the image."
 msgid "Flip image."
 msgstr "Obrne sliko."
 
@@ -372,7 +404,6 @@ msgid "m"
 msgstr "m"
 
 #: C/shortcuts.page:219(p)
-#| msgid "Mirror the image."
 msgid "Mirror image."
 msgstr "Zrcali sliko."
 
@@ -381,47 +412,39 @@ msgid "r"
 msgstr "r"
 
 #: C/shortcuts.page:229(p)
-#| msgid "Rotate Right"
 msgid "Rotate right."
 msgstr "Vrtenje desno."
 
 #: C/shortcuts.page:235(key)
-#| msgid "%R"
 msgid "R"
 msgstr "R"
 
 #: C/shortcuts.page:239(p)
-#| msgid "Rotate Left"
 msgid "Rotate left."
 msgstr "Vrtenje levo."
 
 #: C/shortcuts.page:245(key)
-#| msgid "%C"
 msgid "C"
 msgstr "C"
 
 #: C/shortcuts.page:249(p)
-#| msgid "Crop the image."
 msgid "Crop image."
 msgstr "Obreže sliko."
 
 #: C/shortcuts.page:255(key)
-#| msgid "%S"
 msgid "S"
 msgstr "S"
 
 #: C/shortcuts.page:259(p)
-#| msgid "Resize the image."
 msgid "Resize image."
 msgstr "Spremenite velikost slike."
 
 #: C/shortcuts.page:266(title)
-#| msgid "Other keyboard shortcuts."
 msgid "Viewer shortcuts"
 msgstr "Bližnjice pregledovalnika"
 
 #: C/shortcuts.page:278(p)
-msgid "<key>Space</key>or <key>Page Down</key>"
+msgid "<key>Space</key> or <key>Page Down</key>"
 msgstr "<key>Preslednica</key>ali <key>Stran navzdol</key>"
 
 #: C/shortcuts.page:283(p)
@@ -429,7 +452,7 @@ msgid "View the next image."
 msgstr "Ogled naslednje slike."
 
 #: C/shortcuts.page:288(p)
-msgid "<key>Backspace</key>or <key>Page Up</key>"
+msgid "<key>Backspace</key> or <key>Page Up</key>"
 msgstr "<key>Povratna stipka</key>ali <key>Stran navzgor</key>"
 
 #: C/shortcuts.page:293(p)
@@ -463,8 +486,8 @@ msgid "Add the current location to the bookmarks."
 msgstr "Doda trenutno mesto med zaznamke."
 
 #: C/shortcuts.page:331(p)
-msgid "<key>+</key>or <key>=</key>"
-msgstr "<key>+</key>ali <key>=</key>"
+msgid "<key>+</key> or <key>=</key>"
+msgstr "<key>+</key> ali <key>=</key>"
 
 #: C/shortcuts.page:336(p)
 msgid "Zoom in."
@@ -479,10 +502,7 @@ msgid "Zoom out."
 msgstr "Oddalji."
 
 #: C/shortcuts.page:351(p)
-#| msgid ""
-#| "<keycombo><keycap>x</keycap></keycombo> or <keycombo><keycap>* (numeric "
-#| "keypad)</keycap></keycombo>"
-msgid "<key>1</key>or <key>z</key>or <key>/ (numeric keypad)</key>"
+msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
 msgstr "<key>1</key> ali <key>z</key> ali <key>/ (številčna tipkovnica)</key>"
 
 #: C/shortcuts.page:357(p)
@@ -490,11 +510,8 @@ msgid "Actual size."
 msgstr "Dejanska velikost."
 
 #: C/shortcuts.page:362(p)
-#| msgid ""
-#| "<keycombo><keycap>x</keycap></keycombo> or <keycombo><keycap>* (numeric "
-#| "keypad)</keycap></keycombo>"
-msgid "<key>x</key>or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> ali <key>* (številčna tipkovnica)</key>"
+msgid "<key>x</key> or <key>* (numeric keypad)</key>"
+msgstr "<key>x</key> or <key>* (Številčna tipkovnica)</key>"
 
 #: C/shortcuts.page:367(p)
 msgid "Zoom to fit (scales down only, does not magnify)"
@@ -522,7 +539,6 @@ msgid "Scroll the image faster."
 msgstr "Hitrejše drsanje po sliki."
 
 #: C/shortcuts.page:410(title)
-#| msgid "Browser Tab"
 msgid "Browser Navigation"
 msgstr "Krmarjenje brskalnika"
 
@@ -557,12 +573,10 @@ msgid "Alt"
 msgstr "Alt"
 
 #: C/shortcuts.page:457(key)
-#| msgid "Arrows"
 msgid "Left Arrow"
 msgstr "Leva puščica"
 
 #: C/shortcuts.page:461(p)
-#| msgid "Go to the previously visited folder."
 msgid "Go back to the previously viewed folder."
 msgstr "Gre v predhodno videno mapo."
 
@@ -575,7 +589,6 @@ msgid "Go forward (after going back to a folder)."
 msgstr "Pojdi naprej (po koraku nazaj v mapo)."
 
 #: C/shortcuts.page:479(key)
-#| msgid "p"
 msgid "Up"
 msgstr "Navzgor"
 
@@ -584,7 +597,6 @@ msgid "Go up one level."
 msgstr "Gre eno raven navzgor."
 
 #: C/shortcuts.page:491(title)
-#| msgid "Show comments"
 msgid "Slideshow controls"
 msgstr "Nadzor predstavitve"
 
@@ -593,22 +605,18 @@ msgid "F5"
 msgstr "F5"
 
 #: C/shortcuts.page:508(p)
-#| msgid "Start/Stop the slideshow."
 msgid "Start a slideshow."
 msgstr "Začne predstavitev."
 
 #: C/shortcuts.page:514(key)
-#| msgid "Place"
 msgid "Space"
 msgstr "Presledek"
 
 #: C/shortcuts.page:518(p)
-#| msgid "Pause/Resume a slideshow."
 msgid "Pause/Unpause the slideshow."
 msgstr "Premor ali nadaljevanje predstavitve."
 
 #: C/shortcuts.page:528(p)
-#| msgid "Start/Stop the slideshow."
 msgid "Close the slideshow."
 msgstr "Zapre predstavitev."
 
@@ -617,7 +625,6 @@ msgid "<key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Pušlčica navzdol</key> ali <key>Puščica desno</key> ali <key>Stran navzdol</key>"
 
 #: C/shortcuts.page:538(p)
-#| msgid "View the next image."
 msgid "Load the next image."
 msgstr "Naloži naslednjo sliko."
 
@@ -626,12 +633,10 @@ msgid "<key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Puščica navzgor</key> ali <key>Puščica levo</key> ali  <key>Stran navzgor</key>"
 
 #: C/shortcuts.page:548(p)
-#| msgid "View the previous image."
 msgid "Load the previous image."
 msgstr "Naloži predhodno sliko."
 
 #: C/printing.page:7(title)
-#| msgid "Finding Images"
 msgid "Printing Images"
 msgstr "Tiskanje slik"
 
@@ -640,7 +645,7 @@ msgid "To print the current image in the viewer mode, use <guiseq><gui>File</gui
 msgstr "Za tiskanje trenutne slike v načinu pregledovalnika uporabite <guiseq><gui>Datoteka</gui><gui>Natisni</gui></guiseq> ali <keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
 #: C/printing.page:13(p)
-msgid "To print on or more images from the browser mode, select the desired images and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></keyseq>."
+msgid "To print one or more images from the browser mode, select the desired images and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr "Za tiskanje več slik v načinu pregledovalnika izberite želene slike in nato uporabite <guiseq><gui>Datoteka</gui><gui>Natisni</gui></guiseq> ali <keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
 #: C/printing.page:18(p)
@@ -693,7 +698,6 @@ msgid "Also, by enabling <gui>Filename</gui> in <gui>Other Filters</gui>, a filt
 msgstr "Z omogočitvijo <gui>Ime datoteke</gui> v <gui>Drugi filtri</gui> je v vrstico filtra na dnu pogleda brskalnika dodana zmožnost filtriranja z imenom datoteke:"
 
 #: C/filtering.page:28(title)
-#| msgid "Filter Bar"
 msgid "Browser Filter Bar"
 msgstr "Vrstica filtra brskalnika"
 
@@ -702,16 +706,14 @@ msgid "In the above figure, the filename filter has been configured to show only
 msgstr "Na zgornji sliki je bil filter imen datotek nastavljen le za prikaz datotek z \"gen\" v imenu datoteke. Ujemanje ni občutljivo na velikost črk."
 
 #: C/sorting.page:7(title)
-#| msgid "Browsing Folders"
 msgid "Sorting Files"
 msgstr "Razvrščanje datotek "
 
 #: C/sorting.page:9(p)
-msgid "Use the <guiseq><gui>View</gui><gui>Sort By</gui></guiseq> menu to select the desird file-sorting method for the browser view. Files can be sorted on the basis of their name, the file size, the file modification date, or the date the photo was taken."
+msgid "Use the <guiseq><gui>View</gui><gui>Sort By</gui></guiseq> menu to select the desired file-sorting method for the browser view. Files can be sorted on the basis of their name, the file size, the file modification date, or the date the photo was taken."
 msgstr "Za izbiro želenega načina razvrščanja datotek v pogledu brskalnika uporabite meni <guiseq><gui>Pogled</gui><gui>Razvrsti po</gui></guiseq>. Datoteke je mogoče razvrstiti po njihovemu imenu, velikosti datotek, datumu spremembe datotek ali dneva zajema fotografije."
 
 #: C/fullscreen.page:8(title)
-#| msgid "Available in Fullscreen Mode"
 msgid "Manual Fullscreen Mode"
 msgstr "Ročni celozaslonski način"
 
@@ -724,18 +726,10 @@ msgid "Moving the mouse will activate a popup control panel briefly. This can be
 msgstr "Premikanje miške bo za kratek čas omogočilo nadzorno ploščo pojavnih oken. Uporabiti jo je mogoče za krmarjenje do naslednje ali predhodne slike ali spremembo ravni približanja."
 
 #: C/fullscreen.page:18(p)
-#| msgid ""
-#| "You can advance to the next image by clicking the <guibutton>Next</"
-#| "guibutton> button, or by pressing <keycap>Space</keycap> or <keycap>Page "
-#| "Down</keycap>."
 msgid "You can also advance to the next image by pressing <key>PageDown</key> or <key>Space</key>."
 msgstr "K naslednji sliki greste lahko s pritiskom na <keycap>Preslednico</keycap> ali <keycap>Stran dol</keycap>"
 
 #: C/fullscreen.page:21(p)
-#| msgid ""
-#| "You can go back to the previous image by clicking the "
-#| "<guibutton>Previous</guibutton> button, or by pressing <keycap>Backspace</"
-#| "keycap> or <keycap>Page Up</keycap>."
 msgid "You can go back to the previous image by pressing <key>PageUp</key> or <key>Backspace</key>."
 msgstr "Nazaj k prejšnji sliki greste lahko s klikom na gumb <key>Stran gor</guibutton> ali <keycap>Vračalko</keycap>. "
 
@@ -745,7 +739,7 @@ msgstr "To je mogoče uporabiti za podporo ročno nadzorovane predstavitve."
 
 #: C/fullscreen.page:27(p)
 msgid "To exit the fullscreen mode, press <key>f</key> or <key>Escape</key>."
-msgstr "Za končanje celozaslonskega načina pritisnite <key>f</key> ali <key>Ubežno tipko</key>."
+msgstr "Za končanje celozaslonskega načina pritisnite <key>f</key> ali <key>Esc</key>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -755,34 +749,22 @@ msgid "@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d
 msgstr "@@image: 'figures/thumbnail-pane.png'; md5=af28541956094195dac6bc0e11624d64"
 
 #: C/viewer.page:6(title)
-#| msgid "Opening Images"
 msgid "Opening an Image"
 msgstr "Odpiranje slik"
 
 #: C/viewer.page:8(p)
-#| msgid ""
-#| "The browser view shows the images in the current folder or catalog. "
-#| "Single-clicking an image will enable the Information Sidebar for that "
-#| "image. Double-clicking an image will open it in the viewer mode. Double-"
-#| "clicking with the middle mouse button will load the image in fullscreen "
-#| "viewer mode."
 msgid "The browser view shows the images in the current folder or catalog (see <link xref=\"gthumb-browser-view\"/>). Double-clicking an image (or pressing <key>Return</key>) in the browser will open it in the viewer mode."
 msgstr "Pogled brskalnika pokaže slike v trenutni mapi ali katalogu (oglejte si <link xref=\"gthumb-browser-view\"/>). Dvoklik na sliko (ali pritisk na <key>Vnosno tipko</key>) jo bo odprl v načinu pregledovalnika."
 
 #: C/viewer.page:13(p)
-#| msgid ""
-#| "Pressing <keycap>Escape</keycap> will exit the viewer mode, and return "
-#| "the user to the browser mode. A toolbar button (<guibutton>View the "
-#| "folders</guibutton>) is also provided for this purpose."
 msgid "Pressing <key>Escape</key> will exit the viewer mode, and return the user to the browser mode. A toolbar button (<gui>View the folders</gui>) is also provided for this purpose."
-msgstr "Pritisk na <keycap>Ubežno tipko</keycap> bo končal način pregledovalnika in vrnil uporabnika v način brskalnika. Gumb orodne vrstice (<gui>Ogled map</gui>) je na voljo za ta namen."
+msgstr "Pritisk na <key>Esc</key> bo končal način pregledovalnika in vrnil uporabnika v način brskalnika. Gumb orodne vrstice (<gui>Ogled map</gui>) je na voljo za ta namen."
 
 #: C/viewer.page:17(p)
 msgid "A <link xref=\"gthumb-thumbnail-pane\"/> may be displayed in the viewer mode, if desired."
 msgstr "V načinu pregledovalnika je mogoče prikazati <link xref=\"gthumb-thumbnail-pane\"/>."
 
 #: C/viewer.page:21(title)
-#| msgid "View/Hide the thumbnails."
 msgid "Viewer Mode with Thumbnail Pane"
 msgstr "Način pregledovanja s pladnjem sličic."
 
@@ -834,7 +816,6 @@ msgid "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 msgstr "@@image: 'figures/palette.png'; md5=32835e7d77efd9833244ca80a4adb48e"
 
 #: C/edit-redeye.page:6(title)
-#| msgid "Redeye Removal"
 msgid "Red Eye Removal"
 msgstr "Odstranitev rdečih oči"
 
@@ -848,7 +829,7 @@ msgstr "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Z
 
 #: C/edit-redeye.page:11(p)
 msgid "<app>gThumb</app> provides a <gui>Red Eye Removal</gui> tool. To remove a red eye, position the mouse pointer over the red eye and click on it. <app>gThumb</app> will attempt to remove the red region and replace it with a more natural-looking gray region. If the results do not look correct, press <key>Escape</key> and click on the <gui>Undo</gui> item."
-msgstr "<app>gThumb</app> zagotavlja orodje <gui>odstranjevanja rdečih oči</gui>. Za odstranitev rdečega očesa postavite miškin kazalec nad rdeče oko in kliknite nanj. <app>gThumb</app> bo poskusil odstraniti rdeče področje in ga zamenjati s sivim področjem bolj naravnega videza. V primeru, da rezultati niso videti pravilno, pritisnite <key>Ubežno tipko</key> in kliknite na predmet <gui>Razveljavi</gui>."
+msgstr "<app>gThumb</app> zagotavlja orodje <gui>odstranjevanja rdečih oči</gui>. Za odstranitev rdečega očesa postavite miškin kazalec nad rdeče oko in kliknite nanj. <app>gThumb</app> bo poskusil odstraniti rdeče področje in ga zamenjati s sivim področjem bolj naravnega videza. V primeru, da rezultati niso videti pravilno, pritisnite <key>Esc</key> in kliknite na predmet <gui>Razveljavi</gui>."
 
 #: C/edit-redeye.page:18(p)
 msgid "This tool works best when there is a high color contrast between the red eye and the surrounding facial area. It does not work well for \"orange eye\" sometimes seen in photos of children, or if the surrounding skin has a reddish tinge. This tool could use improvement - if you are fiendishly clever, love matrix algebra and open source software, please <link href=\"http://live.gnome.org/gthumb/development\">submit a patch!</link>"
@@ -911,7 +892,6 @@ msgid "Rotate Right"
 msgstr "Vrtenje desno"
 
 #: C/edit-rotate.page:28(p)
-#| msgid "Rotate the image 90 degrees clockwise."
 msgid "This rotates the image clockwise."
 msgstr "Zavrti sliko za v smeri urinega kazalca."
 
@@ -920,7 +900,6 @@ msgid "Rotate Left"
 msgstr "Vrtenje levo"
 
 #: C/edit-rotate.page:32(p)
-#| msgid "Rotate the image 90 degrees counter-clockwise."
 msgid "This rotates the image counter-clockwise."
 msgstr "Zavrti sliko za v nasprotni smeri urinega kazalca."
 
@@ -937,7 +916,6 @@ msgid "Several tools are provided to manipulate the colors in images."
 msgstr "Za upravljanje barv v slikah je na voljo več orodij."
 
 #: C/edit-colors.page:17(gui)
-#| msgid "Enhance"
 msgid "Enhance Colors"
 msgstr "Izboljšaj barve"
 
@@ -954,7 +932,6 @@ msgid "This tool provides manual color adjustments. Adjustments to the gamma, br
 msgstr "To orodje zagotavlja ročne prilagoditve barve. Mogoče je prilagoditi gamo, svetlost, kontrast, nasičenje in ravnotežje sinje/rdeče, škrlatne/zelene in rumene/modre barve."
 
 #: C/edit-colors.page:29(gui)
-#| msgid "Equalize Histogram"
 msgid "Equalize"
 msgstr "Izenači histogram"
 
@@ -991,18 +968,14 @@ msgid "A modified image may be saved by pressing <gui>Save</gui>. To save the mo
 msgstr "Spremenjeno sliko je mogoče shraniti s pritiskom na <gui>Shrani</gui>. Za shranjevanje spremenjene slike na novo mesto in puščanje nespremenjene izvorne slike uporabite <gui>Shrani kot</gui>."
 
 #: C/edit-save-undo-redo.page:20(p)
-msgid "If you exit the editing mode (by pressing <key>Esc</key>or the <gui>View the Folders</gui> toolbar button), or navigate away from the current image, you will be prompted to save or discard your changes."
-msgstr "V primeru, da končate način urejanje (s pritiskom <key>Ubežne tipke</key> ali gumba orodne vrstice <gui>Ogled map</map>) ali krmarite vstran od trenutne slike, boste bili pozvani k shranjevanju svojih sprememb. "
+msgid "If you exit the editing mode (by pressing <key>Esc</key> or the <gui>View the Folders</gui> toolbar button), or navigate away from the current image, you will be prompted to save or discard your changes."
+msgstr "V primeru, da končate način urejanja (s pritiskom <key>Esc</key> ali gumba orodne vrstice <gui>Ogled map</map>) ali krmarite vstran od trenutne slike, boste bili pozvani k shranjevanju ali zavrzitvi svojih sprememb. "
 
 #: C/rename-series.page:8(title)
 msgid "Renaming Files"
 msgstr "Preimenovanje datotek"
 
 #: C/rename-series.page:10(p)
-#| msgid ""
-#| "To rename one or more images using a name template, choose "
-#| "<menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></"
-#| "menuchoice>."
 msgid "To rename one or more images using a name template, select the files in the browser and choose <guiseq><gui>Edit</gui><gui>Rename</gui></guiseq>, or press <key>F2</key>."
 msgstr "Za preimenovanje ene ali več slik z uporabo predloge imen izberite <guiseq><gui>Uredi</gui><gui>Preimenuj</gui></guiseq>."
 
@@ -1028,9 +1001,6 @@ msgid "%F"
 msgstr "%F"
 
 #: C/rename-series.page:52(p)
-#| msgid ""
-#| "This symbol will be replaced with the image original name, excluding the "
-#| "extension."
 msgid "This symbol will be replaced with the file's original name, excluding the original extension."
 msgstr "Ta simbol bo bil zamenjan z izvirnim imenom datoteke brez pripone."
 
@@ -1040,8 +1010,6 @@ msgid "%E"
 msgstr "%E"
 
 #: C/rename-series.page:63(p)
-#| msgid ""
-#| "This symbol will be replaced with the image original filename extension."
 msgid "This symbol will be replaced with the file's original filename extension."
 msgstr "Ta simbol bo bil zamenjan s pripono izvirnega imena slikovne datoteke."
 
@@ -1086,7 +1054,6 @@ msgid "The list at the bottom of the dialog displays how the filenames will be r
 msgstr "Seznam na dnu pogovornega okna prikazuje kako bodo preimenovana imena datotek."
 
 #: C/rename-series.page:133(p)
-#| msgid "To rename the images click on <guibutton>Rename</guibutton>."
 msgid "To rename the images click on <gui>Rename</gui>."
 msgstr "Za preimenovanje slik kliknite na <gui>Preimenuj</gui>."
 
@@ -1103,8 +1070,8 @@ msgid "When an image has been opened in the <app>gThumb</app> viewer, the user h
 msgstr "Ko je bila slika odprta v pregledovalniku <app>gThumb</app>, ima uporabnik možnost omogočenja ali onemogočenja pladnja sličic, ki druge slike v mapi prikazuje kot sličice. Zmožnost je mogoče preklopiti z ukazom <guiseq><gui>Pogled</gui><gui>Pladenj sličic</gui></guiseq> ali s pritiskom na <key>F8</key>."
 
 #: C/thumbnail-pane.page:14(p)
-msgid "The thumbnail pane may be positioned along the bottom of the main image, or along the side. This is controlled by the settings in <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Browser</gui><gui>Thumbnails in Viewer</gui></guiseq>."
-msgstr "Pladenj sličic je mogoče postaviti na dno ali na stran glavne slike. To je mogoče spremeniti v nastavitvah v <guiseq><gui>Uredi</gui><gui>Možnosti</gui><gui>Brskalnik</gui><gui>Sličice v pregledovalniku</gui></guiseq>."
+msgid "The thumbnail pane may be positioned along the bottom of the main image, or along the side. This is controlled by the settings in <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></guiseq>."
+msgstr "Pladenj sličic je mogoče postaviti na dno ali na stran glavne slike. To je mogoče spremeniti v nastavitvah v <guiseq><gui>Uredi</gui><gui>Možnosti</gui><gui>Splošno</gui><gui>Sličice v pregledovalniku</gui></guiseq>."
 
 #: C/thumbnail-pane.page:19(title)
 msgid "Thumbnail Pane, Along Bottom of Main Image"
@@ -1151,12 +1118,11 @@ msgid "TODO: further documentation is need here."
 msgstr "TODO:tukaj je treba napisati dodatno dokumentacijo."
 
 #: C/batch-change-date.page:6(title)
-#| msgid "To Change Images Date"
 msgid "Changing Dates"
 msgstr "Spreminjanje datumov"
 
 #: C/batch-change-date.page:8(p)
-msgid "To change the the file modification times, the comment dates, or the Exif DateTimeOriginal tags of multiple files, select the files in the browser view. Then click the <gui>Tools</gui> button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
+msgid "To change the file modification times, the comment dates, or the Exif DateTimeOriginal tags of multiple files, select the files in the browser view. Then click the <gui>Tools</gui> button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
 msgstr "Za spremembo časov sprememb datotek, datumov opomb ali oznake Exif DatumČasIzvora več datotek, izberite datoteke v pogledu brskalnika. Nato kliknite na gumb <gui>Orodja</gui> v glavni orodni vrstici iz izberite <guiseq><gui>Orodja</gui><gui>Spremeni datum</gui></guiseq>."
 
 #: C/batch-change-date.page:13(p)
@@ -1164,7 +1130,6 @@ msgid "Select the desired date options, and click <gui>Execute</gui> to complete
 msgstr "Izberite želene možnosti datuma in kliknite <gui>Izvedi</gui> za dokončanje opravila."
 
 #: C/batch-resize.page:6(title)
-#| msgid "Opening Images"
 msgid "Resizing Images"
 msgstr "Spreminjanje velikosti slik"
 
@@ -1177,15 +1142,10 @@ msgid "Then select the desired maximum output dimensions, or the desired percent
 msgstr "Izberite želene največje mere izhoda ali želeno velikost v odstotkih in ciljno mapo. Kliknite <gui>Izvedi</gui> za dokončanje opravila."
 
 #: C/batch-convert-format.page:6(title)
-#| msgid "To Convert the Image Format"
 msgid "Converting File Formats"
 msgstr "Pretvarjanje vrste slik"
 
 #: C/batch-convert-format.page:8(p)
-#| msgid ""
-#| "To convert the image format, select the images you want to convert and "
-#| "choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert Format</"
-#| "guimenuitem></menuchoice>."
 msgid "To convert one or more images into a new file format, select the images in the browser view. Then click the <gui>Tools</gui> button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Convert Format</gui></guiseq>."
 msgstr "Za pretvorbo ene ali več slik v drugo vrsto izberite slike, ki jih želite pretvoriti in izberite gumb <gui>Orodja</gui> in izberite <guiseq><gui>Orodja</gui></gui>Pretvori vrsto datoteke</gui></guiseq>."
 
@@ -1212,13 +1172,10 @@ msgid "@@image: 'figures/main-win.png'; md5=93cf84bd05a153ab61951ae12bbe3f26"
 msgstr "@@image: 'figures/main-win.png'; md5=93cf84bd05a153ab61951ae12bbe3f26"
 
 #: C/browser.page:6(title)
-#| msgid "Browsing Folders"
 msgid "Browsing Your Files"
 msgstr "Brskanje po vaših datotekah "
 
 #: C/browser.page:8(p)
-#| msgid ""
-#| "You can start <application>gThumb</application> in the following ways:"
 msgid "When you start <app>gThumb</app> the following window is displayed:"
 msgstr "Ob zagonu <application>gThumb</application> je prikazano naslednje okno:"
 
@@ -1235,9 +1192,6 @@ msgid "Menubar"
 msgstr "Menijska vrstica"
 
 #: C/browser.page:21(p)
-#| msgid ""
-#| "The menus on the menubar contain all of the commands that you can use in "
-#| "<application>gThumb</application>"
 msgid "The menus on the menubar contain all of the commands that you can use in <app>gThumb</app>"
 msgstr "Meniji v menijski vrstici vsebujejo vse ukaze, ki jih lahko uporabite v <app>gThumb-u</app>"
 
@@ -1286,7 +1240,6 @@ msgid "Statusbar"
 msgstr "Vrstica stanja"
 
 #: C/browser.page:58(p)
-#| msgid "On the statusbar you can read: <placeholder-1/>"
 msgid "On the statusbar you can read:"
 msgstr "V vrstici stanja lahko preberete:"
 
@@ -1319,25 +1272,14 @@ msgid "An image filtering tool is provided just below the browser view. This can
 msgstr "Orodje za filtriranje slik je tik pod pogledom brskalnika. Mogoče ga je uporabiti za filtriranje prikazanih slik. Pogled brskalnika je mogoče omejiti na datoteke določene velikosti, datuma, vzorca imena ali drugih značilnosti."
 
 #: C/introduction.page:6(title)
-#| msgid "gThumb"
 msgid "About gThumb"
 msgstr "O gThumb"
 
 #: C/introduction.page:8(p)
-#| msgid ""
-#| "<application>gThumb</application> is an image viewer and browser written "
-#| "for the GNOME environment. It lets you browse your hard disk, showing you "
-#| "thumbnails of image files and view single images of many different "
-#| "formats."
 msgid "<app>gThumb</app> is an image viewer and browser written for the GNOME environment. It lets you browse your hard disk, showing you thumbnails of image files and view single images of many different formats."
 msgstr "<app>gThumb</app> je pregledovalnik in brskalnik slik napisan za okolje GNOME. Omogoča vam brskanje po vašem trdem disku, prikaz sličic datotek slik in ogled posameznih slik veliko različnih vrst."
 
 #: C/introduction.page:13(p)
-#| msgid ""
-#| "gThumb supports the most common graphics formats, including JPEG, GIF, "
-#| "TIF, and PNG. gThumb will also display other less common image types if "
-#| "the supporting libraries are installed, including TGA, ICO, BMP, XPM, and "
-#| "others."
 msgid "<app>gThumb</app> supports the most common graphics formats, including JPEG, GIF, TIF, and PNG. <app>gThumb</app> will also display other less common image types if the supporting libraries are installed, including TGA, ICO, BMP, XPM, and others."
 msgstr "<app>gThumb</app> podpira najbolj pogoste vrste grafičnih datotek vključno z JPEG, GIF, TIF in PNG. <app>gThumb</app> bo prikazal tudi druge manj pogoste vrste slik, če so nameščene podporne knjižnice, vključno z TGA, ICO, BMP, XPM in drugimi."
 
@@ -1346,41 +1288,22 @@ msgid "Some support for RAW image types is included, especially if the dcraw pro
 msgstr "Vključene je nekaj podpore za vrste slik RAW, posebno če je na vašem sistemu nameščen program dcraw."
 
 #: C/introduction.page:21(p)
-#| msgid ""
-#| "<application>gThumb</application> not only lets you view image files but "
-#| "has many other features such as adding comments to images, organizing "
-#| "images into catalogs, printing images, slideshows, setting your desktop "
-#| "background, and more."
 msgid "<app>gThumb</app> not only lets you view image files but has many other features such as adding comments to images, organizing images into catalogs, printing images, slideshows, setting your desktop background, and more."
 msgstr "<application>gThumb</application> vam omogoča ne le ogled datotek slik, amapk tudi druge zmožnosti kot je dodajanje opomb slikam, organizacijo slik v kataloge, tiskanje slik, predstavitve, nastavitev ozadja vašega namizja in več."
 
 #: C/introduction.page:26(p)
-#| msgid ""
-#| "<application>gThumb</application> includes a tool to import photos from "
-#| "attached cameras and memory card readers."
 msgid "<app>gThumb</app> includes a tool to import photos from attached cameras and memory card readers."
 msgstr "<application>gThumb</application> vključuje orodje za uvoz fotografij iz priklopljenih fotoaparatov in bralnikov spominskih kartic."
 
 #: C/introduction.page:29(p)
-#| msgid ""
-#| "<application>gThumb</application> can read EXIF, XMP, and IPTC metadata "
-#| "that is commonly embedded in files."
 msgid "<app>gThumb</app> can read EXIF, XMP, and IPTC metadata that is commonly embedded in files."
 msgstr "<application>gThumb</application> lahko bere metapodatke EXIF, XMP in IPTC, ki so pogosto vstavljeni v datoteke."
 
 #: C/introduction.page:32(p)
-#| msgid ""
-#| "<application>gThumb</application> provides a systems of extensions (or "
-#| "plug-ins), to allow users to extend the functionality of "
-#| "<application>gThumb</application>."
 msgid "<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow users to extend the functionality of <app>gThumb</app>."
 msgstr "<application>gThumb</application> zagotavlja sisteme razširitev (ali vstavkov), ki uporabnikom omogoča razširitev zmožnosti <application>gThumb-a</application>."
 
 #: C/introduction.page:34(p)
-#| msgid ""
-#| "More information about these extensions, and about gThumb generally, is "
-#| "available at <ulink url=\"http://live.gnome.org/gthumb\">http://live."
-#| "gnome.org/gthumb</ulink>."
 msgid "More information about these extensions, and about <app>gThumb</app> generally, is available at <link href=\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</link>."
 msgstr "Več podrobnosti o teh razširitvah in o gThumb-u na splošno je na voljo na <ulink url=\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</ulink>."
 
@@ -1864,15 +1787,14 @@ msgid "mjc@avtechpulse.com"
 msgstr "mjc@avtechpulse.com"
 
 #: C/index.page:20(title)
-msgid "<app>gThumb</app>Help"
-msgstr "<app>gThumb</app>Pomoč"
+msgid "gThumb Help"
+msgstr "Pomoč gThumb"
 
 #: C/index.page:23(title)
 msgid "Welcome"
 msgstr "Dobrodošli"
 
 #: C/index.page:27(title)
-#| msgid "To View an Image Comment"
 msgid "File Management"
 msgstr "Upravljanje datotek"
 
@@ -1885,7 +1807,6 @@ msgid "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Nu
 msgstr "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Za izboljšanje posameznih fotografij so na voljo številna orodja za urejanje. Do trenutka shranjevanja fotografije sta na voljo možnosti uveljavi in razveljavi. Za dostop do orodij urejanja odprite sliko in nato kliknite na gumb orodne vrstice <gui>Uredi datoteko</gui> (ikona palete) ali pritisnite <keyseq><key>e</key></keyseq>."
 
 #: C/index.page:42(title)
-#| msgid "Advanced Tools"
 msgid "Batch Tools"
 msgstr "Paketna orodja"
 
@@ -1894,7 +1815,6 @@ msgid "Batch tools are provided to modify multiple images simultaneously. Change
 msgstr "Paketna orodja omogočajo spremembo več slik hkrati. Spremembe so zapisane nemudoma in jih ni mogoče razveljaviti."
 
 #: C/index.page:49(title)
-#| msgid "Slide Shows"
 msgid "Slideshows"
 msgstr "Diapredstavitve"
 
@@ -1907,17 +1827,14 @@ msgid "Sharing"
 msgstr "Souporaba"
 
 #: C/index.page:61(title)
-#| msgid "Organize Button"
 msgid "Organizing"
 msgstr "Organizacija"
 
 #: C/index.page:65(title)
-#| msgid "Other"
 msgid "Other Tools"
 msgstr "Druga orodja"
 
 #: C/index.page:69(title)
-#| msgid "Preferences"
 msgid "Reference"
 msgstr "Referenca"
 
@@ -1995,8 +1912,8 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "UNDERSTANDING THAT: <placeholder-1/>"
 #~ msgstr ""
 #~ "DOKUMENT IN SPREMENJENE RAZLIČICE DOKUMENTA SO ZAGOTOVLJENE POD POGOJI "
-#~ "GNU FREE DOCUMENTATION LICENSE Z NADALJNJIM RAZUMEVANJEM DA: <placeholder-"
-#~ "1/>"
+#~ "GNU FREE DOCUMENTATION LICENSE Z NADALJNJIM RAZUMEVANJEM DA: "
+#~ "<placeholder-1/>"
 
 #~ msgid "Paolo"
 #~ msgstr "Paolo"
@@ -2329,8 +2246,8 @@ msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010"
 #~ "To copy a folder to a different location, perform the following steps: "
 #~ "<placeholder-1/>"
 #~ msgstr ""
-#~ "Za kopiranje mape na drugo mesto izvedite naslednje korake: <placeholder-"
-#~ "1/>"
+#~ "Za kopiranje mape na drugo mesto izvedite naslednje korake: "
+#~ "<placeholder-1/>"
 
 #~ msgid "To Move a Folder"
 #~ msgstr "Za premik mape"
