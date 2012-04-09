@@ -340,7 +340,7 @@ gth_monitor_metadata_changed (GthMonitor  *self,
 
 
 void
-gth_monitor_file_entry_points_changed (GthMonitor *self)
+gth_monitor_entry_points_changed (GthMonitor *self)
 {
 	g_return_if_fail (GTH_IS_MONITOR (self));
 

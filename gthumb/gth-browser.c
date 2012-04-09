@@ -1817,7 +1817,7 @@ mount_volume_ready_cb (GObject      *source_object,
 
 	/* try to load again */
 
-	gth_monitor_file_entry_points_changed (gth_main_get_default_monitor());
+	gth_monitor_entry_points_changed (gth_main_get_default_monitor());
 
 	_gth_browser_update_entry_point_list (load_data->browser);
 	_gth_browser_load (load_data->browser,
