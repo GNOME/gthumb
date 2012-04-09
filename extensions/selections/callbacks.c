@@ -58,8 +58,29 @@ static const char *fixed_ui_info =
 "</ui>";
 
 
+static const char *vfs_ui_info =
+"<ui>"
+"  <popup name='FileListPopup'>"
+"    <placeholder name='Open_Actions'>"
+"      <menuitem action='Go_FileContainer'/>"
+"    </placeholder>"
+"  </popup>"
+"  <popup name='FilePopup'>"
+"    <placeholder name='Open_Actions'>"
+"      <menuitem action='Go_FileContainer'/>"
+"    </placeholder>"
+"  </popup>"
+"</ui>";
+
+
 static GthActionEntryExt selections_action_entries[] = {
 	{ "Edit_AddToSelection", GTK_STOCK_ADD, N_("Add to _Selection") },
+
+        { "Go_FileContainer", GTK_STOCK_JUMP_TO,
+          N_("Open _Folder"), "<alt>End",
+          N_("Go to the folder that contains the selected file"),
+       	  GTH_ACTION_FLAG_NONE,
+          G_CALLBACK (gth_browser_activate_action_selection_go_to_container) },
 
 	{ "Edit_AddToSelection_1", "selection1",
 	  N_("Selection 1"), NULL,
@@ -99,6 +120,7 @@ static guint selections_action_entries_size = G_N_ELEMENTS (selections_action_en
 typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *actions;
+	guint           vfs_merge_id;
 } BrowserData;
 
 
@@ -170,6 +192,38 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	}
 
 	return result;
+}
+
+
+void
+selections__gth_browser_load_location_after_cb (GthBrowser   *browser,
+						GthFileData  *location_data,
+						const GError *error)
+{
+	BrowserData *data;
+
+	if ((location_data == NULL) || (error != NULL))
+		return;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	if (GTH_IS_FILE_SOURCE_SELECTIONS (gth_browser_get_location_source (browser))) {
+		if (data->vfs_merge_id == 0) {
+			GError *error = NULL;
+
+			data->vfs_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), vfs_ui_info, -1, &error);
+			if (data->vfs_merge_id == 0) {
+				g_message ("building menus failed: %s", error->message);
+				g_error_free (error);
+			}
+		}
+	}
+	else {
+		if (data->vfs_merge_id != 0) {
+			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
+			data->vfs_merge_id = 0;
+		}
+	}
 }
 
 

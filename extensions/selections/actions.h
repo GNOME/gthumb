@@ -37,5 +37,6 @@ DEFINE_ACTION(gth_browser_activate_action_go_selection_3)
 DEFINE_ACTION(gth_browser_activate_action_add_to_selection_1)
 DEFINE_ACTION(gth_browser_activate_action_add_to_selection_2)
 DEFINE_ACTION(gth_browser_activate_action_add_to_selection_3)
+DEFINE_ACTION(gth_browser_activate_action_selection_go_to_container)
 
 #endif /* ACTIONS_H */

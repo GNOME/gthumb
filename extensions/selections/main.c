@@ -33,6 +33,7 @@ gthumb_extension_activate (void)
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_SELECTIONS);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (selections__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (selections__gth_browser_file_list_key_press_cb), NULL);
+	gth_hook_add_callback ("gth-browser-load-location-after", 10, G_CALLBACK (selections__gth_browser_load_location_after_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-extra-widget", 20, G_CALLBACK (selections__gth_browser_update_extra_widget_cb), NULL);
 }
 
