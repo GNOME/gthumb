@@ -625,6 +625,8 @@ extensions/selections/callbacks.c
 extensions/selections/callbacks.h
 extensions/selections/gth-file-source-selections.c
 extensions/selections/gth-file-source-selections.h
+extensions/selections/gth-metadata-provider-selections.c
+extensions/selections/gth-metadata-provider-selections.h
 extensions/selections/gth-selections-manager.c
 extensions/selections/gth-selections-manager.h
 extensions/selections/main.c
