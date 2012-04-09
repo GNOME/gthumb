@@ -1,3 +1,32 @@
+version 2.90.3
+--------------
+
+ New features and user visible changes:
+
+  * Selections: fixed reordering of files; added command Alt+Shift+n to remove
+    files from selection n; added a command to open the original folder; show
+    an emblem when a file is added to a selection.
+
+ Bugs fixed:
+
+  * Require exiv2 version 0.21. since the code uses Exiv2::LogMsg (#673711)
+  * Removed potentially dangerous strncpy (#672866)
+  * Fixed possible crash when changing directory quickly.
+  * Fixed possible crash after closing the context menu in the folder tree.
+  * Fixed run-time warning when uninhibiting the screensaver.
+
+ New or updated application translations:
+
+  * Czech (Marek Černocký)
+  * Español (Daniel Mustieles)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Slovenian (Matej Urbančič)
+
+ New or updated manual translations:
+
+  * Slovenian Translation (Andrej Žnidaršič)
+
 version 2.90.2
 --------------
 
