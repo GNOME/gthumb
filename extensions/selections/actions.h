@@ -26,8 +26,10 @@
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-void gth_browser_activate_action_add_to_selection (GthBrowser *browser,
-						   int         n_selection);
+void gth_browser_activate_action_add_to_selection      (GthBrowser *browser,
+						        int         n_selection);
+void gth_browser_activate_action_remove_from_selection (GthBrowser *browser,
+						        int         n_selection);
 
 DEFINE_ACTION(gth_browser_activate_action_go_selection_1)
 DEFINE_ACTION(gth_browser_activate_action_go_selection_2)
