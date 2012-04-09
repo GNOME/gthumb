@@ -38,6 +38,7 @@ enum {
 	FOLDER_CONTENT_CHANGED,
 	FILE_RENAMED,
 	METADATA_CHANGED,
+	EMBLEMS_CHANGED,
 	ENTRY_POINTS_CHANGED,
 	ORDER_CHANGED,
 	LAST_SIGNAL
@@ -156,6 +157,16 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_OBJECT);
+	monitor_signals[EMBLEMS_CHANGED] =
+		g_signal_new ("emblems-changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthMonitorClass, emblems_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__BOXED,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_OBJECT_LIST);
 	monitor_signals[ENTRY_POINTS_CHANGED] =
 		g_signal_new ("entry-points-changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -336,6 +347,36 @@ gth_monitor_metadata_changed (GthMonitor  *self,
 		       monitor_signals[METADATA_CHANGED],
 		       0,
 		       file_data);
+}
+
+
+void
+gth_monitor_emblems_changed (GthMonitor *self,
+			     GList      *list /* GFile list */)
+{
+	GList *changed_list = NULL;
+	GList *scan;
+
+	/* ignore paused files */
+	for (scan = list; scan; scan = scan->next) {
+		GFile *file = scan->data;
+
+		if (g_hash_table_lookup (self->priv->paused_files, file) != NULL)
+			continue;
+
+		changed_list = g_list_prepend (changed_list, g_object_ref (file));
+	}
+	changed_list = g_list_reverse (changed_list);
+
+	if (changed_list == NULL)
+		return;
+
+	g_signal_emit (G_OBJECT (self),
+		       monitor_signals[EMBLEMS_CHANGED],
+		       0,
+		       changed_list);
+
+	_g_object_list_unref (changed_list);
 }
 
 

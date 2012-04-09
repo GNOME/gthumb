@@ -27,14 +27,12 @@
 #include "gth-selections-manager.h"
 
 
-#define N_SELECTIONS 3
-
-
 struct _GthSelectionsManagerPrivate {
-	GList    *files[N_SELECTIONS];
-	char     *order[N_SELECTIONS];
-	gboolean  order_inverse[N_SELECTIONS];
-	GMutex   *mutex;
+	GList      *files[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
+	GHashTable *files_hash[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
+	char       *order[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
+	gboolean    order_inverse[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
+	GMutex     *mutex;
 };
 
 
@@ -72,8 +70,9 @@ gth_selections_manager_finalize (GObject *object)
 
 	self = GTH_SELECTIONS_MANAGER (object);
 
-	for (i = 0; i < N_SELECTIONS; i++) {
+	for (i = 0; i < GTH_SELECTIONS_MANAGER_N_SELECTIONS; i++) {
 		_g_object_list_unref (self->priv->files[i]);
+		g_hash_table_unref (self->priv->files_hash[i]);
 		g_free (self->priv->order[i]);
 	}
 	g_mutex_free (self->priv->mutex);
@@ -101,8 +100,9 @@ gth_selections_manager_init (GthSelectionsManager *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManagerPrivate);
 	self->priv->mutex = g_mutex_new ();
-	for (i = 0; i < N_SELECTIONS; i++) {
+	for (i = 0; i < GTH_SELECTIONS_MANAGER_N_SELECTIONS; i++) {
 		self->priv->files[i] = NULL;
+		self->priv->files_hash[i] = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
 		self->priv->order[i] = NULL;
 		self->priv->order_inverse[i] = FALSE;
 	}
@@ -280,7 +280,7 @@ _gth_selections_manager_for_each_selection (gpointer user_data)
 	ForEachChildData *data = user_data;
 	int               i;
 
-	for (i = 0; i < N_SELECTIONS; i++) {
+	for (i = 0; i < GTH_SELECTIONS_MANAGER_N_SELECTIONS; i++) {
 		char      *uri;
 		GFile     *file;
 		GFileInfo *info;
@@ -356,6 +356,7 @@ gth_selections_manager_add_files (GFile *folder,
 	GthSelectionsManager *self;
 	int                   n_selection;
 	GList                *new_list;
+	GList                *scan;
 	GList                *link;
 
 	if (! g_file_has_uri_scheme (folder, "selection"))
@@ -369,6 +370,10 @@ gth_selections_manager_add_files (GFile *folder,
 	g_mutex_lock (self->priv->mutex);
 
 	new_list = _g_file_list_dup (file_list);
+
+	for (scan = new_list; scan; scan = scan->next)
+		g_hash_table_insert (self->priv->files_hash[n_selection - 1], scan->data, GINT_TO_POINTER (1));
+
 	link = g_list_nth (self->priv->files[n_selection - 1], destination_position);
 	if (link != NULL) {
 		GList *last_new;
@@ -386,6 +391,7 @@ gth_selections_manager_add_files (GFile *folder,
 	else
 		self->priv->files[n_selection - 1] = g_list_concat (self->priv->files[n_selection - 1], new_list);
 
+	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
 				    file_list,
@@ -415,8 +421,10 @@ gth_selections_manager_remove_files (GFile *folder,
 	g_mutex_lock (self->priv->mutex);
 
 	files_to_remove = g_hash_table_new (g_file_hash, (GEqualFunc) g_file_equal);
-	for (scan = file_list; scan; scan = scan->next)
+	for (scan = file_list; scan; scan = scan->next) {
 		g_hash_table_insert (files_to_remove, scan->data, GINT_TO_POINTER (1));
+		g_hash_table_remove (self->priv->files_hash[n_selection - 1], scan->data);
+	}
 
 	new_list = NULL;
 	for (scan = self->priv->files[n_selection - 1]; scan; scan = scan->next) {
@@ -438,6 +446,7 @@ gth_selections_manager_remove_files (GFile *folder,
 				    folder,
 				    file_list,
 				    GTH_MONITOR_EVENT_REMOVED);
+	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
 
 	g_mutex_unlock (self->priv->mutex);
 }
@@ -506,6 +515,27 @@ gth_selections_manager_set_sort_type (GFile      *folder,
 }
 
 
+gboolean
+gth_selections_manager_file_exists (int    n_selection,
+				    GFile *file)
+{
+	GthSelectionsManager *self;
+	gboolean             result;
+
+	if ((n_selection <= 0) || (n_selection > GTH_SELECTIONS_MANAGER_N_SELECTIONS))
+		return FALSE;
+
+	self = gth_selections_manager_get_default ();
+	g_mutex_lock (self->priv->mutex);
+
+	result = (g_hash_table_lookup (self->priv->files_hash[n_selection - 1], file) != NULL);
+
+	g_mutex_unlock (self->priv->mutex);
+
+	return result;
+}
+
+
 int
 _g_file_get_n_selection (GFile *file)
 {
@@ -522,7 +552,7 @@ _g_file_get_n_selection (GFile *file)
 
 	g_free (uri);
 
-	if (n > N_SELECTIONS)
+	if (n > GTH_SELECTIONS_MANAGER_N_SELECTIONS)
 		n = -1;
 
 	return n;

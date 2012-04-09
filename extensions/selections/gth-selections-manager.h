@@ -28,6 +28,8 @@
 
 G_BEGIN_DECLS
 
+#define GTH_SELECTIONS_MANAGER_N_SELECTIONS 3
+
 #define GTH_TYPE_SELECTIONS_MANAGER         (gth_selections_manager_get_type ())
 #define GTH_SELECTIONS_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManager))
 #define GTH_SELECTIONS_MANAGER_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManagerClass))
@@ -70,6 +72,8 @@ void     gth_selections_manager_set_sort_type    (GFile                *folder,
 						  gboolean              sort_inverse);
 void     gth_selections_manager_update_file_info (GFile                *file,
 						  GFileInfo            *info);
+gboolean gth_selections_manager_file_exists      (int                   n_selection,
+						  GFile                *file);
 
 /* utilities */
 

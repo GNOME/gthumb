@@ -24,6 +24,7 @@
 #include "glib-utils.h"
 #include "gth-file-store.h"
 #include "gth-marshal.h"
+#include "gth-string-list.h"
 
 
 #undef  DEBUG_FILE_STORE
@@ -264,6 +265,7 @@ gth_file_store_init (GthFileStore *file_store)
 		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GDK_TYPE_PIXBUF;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
+		column_type[GTH_FILE_STORE_EMBLEMS_COLUMN] = GTH_TYPE_STRING_LIST;
 	}
 }
 
@@ -374,6 +376,10 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	case GTH_FILE_STORE_IS_ICON_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
 		g_value_set_boolean (value, row->is_icon);
+		break;
+	case GTH_FILE_STORE_EMBLEMS_COLUMN:
+		g_value_init (value, G_TYPE_STRING);
+		g_value_set_object (value, g_file_info_get_attribute_object (row->file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS));
 		break;
 	}
 }
@@ -1397,8 +1403,9 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
 
  	column = va_arg (var_args, int);
   	while (column != -1) {
-  		GthFileData *file_data;
-  		GdkPixbuf   *thumbnail;
+  		GthFileData   *file_data;
+  		GdkPixbuf     *thumbnail;
+  		GthStringList *string_list;
 
   		switch (column) {
   		case GTH_FILE_STORE_FILE_DATA_COLUMN:
@@ -1416,6 +1423,11 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   			break;
   		case GTH_FILE_STORE_IS_ICON_COLUMN:
   			row->is_icon = va_arg (var_args, gboolean);
+  			row->changed = TRUE;
+  			break;
+  		case GTH_FILE_STORE_EMBLEMS_COLUMN:
+  			string_list = va_arg (var_args, GthStringList *);
+  			g_file_info_set_attribute_object (row->file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS, G_OBJECT (string_list));
   			row->changed = TRUE;
   			break;
   		default:

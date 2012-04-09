@@ -129,6 +129,7 @@ struct _GthBrowserPrivate {
 	gulong             folder_changed_id;
 	gulong             file_renamed_id;
 	gulong             metadata_changed_id;
+	gulong             emblems_changed_id;
 	gulong             entry_points_changed_id;
 	gulong             order_changed_id;
 	GthFileData       *location;
@@ -1339,6 +1340,13 @@ _gth_browser_get_list_attributes (GthBrowser *browser,
 		g_free (thumbnail_caption);
 	}
 
+	/* other attributes */
+
+	g_string_append (attributes, ",");
+	g_string_append (attributes, GTH_FILE_ATTRIBUTE_EMBLEMS);
+
+	/* save in a variable to avoid recalculation */
+
 	browser->priv->list_attributes = g_string_free (attributes, FALSE);
 
 	return browser->priv->list_attributes;
@@ -2233,6 +2241,8 @@ _gth_browser_real_close (GthBrowser *browser)
 				     browser->priv->file_renamed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->metadata_changed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (),
+				     browser->priv->emblems_changed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->entry_points_changed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
@@ -3298,6 +3308,64 @@ metadata_changed_cb (GthMonitor  *monitor,
 		gth_browser_update_title (browser);
 		gth_browser_update_sensitivity (browser);
 	}
+}
+
+
+typedef struct {
+	GthBrowser    *browser;
+	GthFileSource *file_source;
+	GList         *files;
+} EmblemsData;
+
+
+static void
+emblems_data_free (EmblemsData *data)
+{
+	_g_object_list_unref (data->files);
+	g_object_unref (data->file_source);
+	g_free (data);
+}
+
+
+static void
+emblems_attributes_ready_cb (GthFileSource *file_source,
+			     GList         *files,
+			     GError        *error,
+			     gpointer       user_data)
+{
+	EmblemsData *data = user_data;
+
+	if (error == NULL) {
+		GthBrowser *browser = data->browser;
+
+		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->file_list), files);
+		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
+	}
+
+	emblems_data_free (data);
+}
+
+
+static void
+emblems_changed_cb (GthMonitor  *monitor,
+		    GList       *files, /* GFile list */
+		    GthBrowser  *browser)
+{
+	EmblemsData *data;
+
+	if (browser->priv->location_source == NULL)
+		return;
+
+	data = g_new0 (EmblemsData, 1);
+	data->browser = browser;
+	data->file_source = g_object_ref (browser->priv->location_source);
+	data->files = _g_object_list_ref (files);
+
+	gth_file_source_read_attributes (browser->priv->location_source,
+					 files,
+					 GTH_FILE_ATTRIBUTE_EMBLEMS,
+					 emblems_attributes_ready_cb,
+					 data);
 }
 
 
@@ -4494,6 +4562,11 @@ gth_browser_init (GthBrowser *browser)
 		g_signal_connect (gth_main_get_default_monitor (),
 				  "metadata-changed",
 				  G_CALLBACK (metadata_changed_cb),
+				  browser);
+	browser->priv->emblems_changed_id =
+		g_signal_connect (gth_main_get_default_monitor (),
+				  "emblems-changed",
+				  G_CALLBACK (emblems_changed_cb),
 				  browser);
 	browser->priv->entry_points_changed_id =
 		g_signal_connect (gth_main_get_default_monitor (),

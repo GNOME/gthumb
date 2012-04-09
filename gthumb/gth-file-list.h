@@ -84,6 +84,8 @@ void              gth_file_list_delete_files      (GthFileList          *file_li
 					           GList                *list /* GFile */);
 void              gth_file_list_update_files      (GthFileList          *file_list,
 					           GList                *list /* GthFileData */);
+void              gth_file_list_update_emblems    (GthFileList          *file_list,
+					           GList                *list /* GthFileData */);
 void              gth_file_list_rename_file       (GthFileList          *file_list,
 					           GFile                *file,
 					           GthFileData          *file_data);

@@ -53,6 +53,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "general::tags", N_("Tags"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::rating", N_("Rating"), "general", 19, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 
+	{ "gth::file::emblems", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::height", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "frame::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },

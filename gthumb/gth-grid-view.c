@@ -33,6 +33,7 @@
 #include "gth-file-selection.h"
 #include "gth-file-store.h"
 #include "gth-file-view.h"
+#include "gth-icon-cache.h"
 #include "gth-grid-view.h"
 #include "gth-marshal.h"
 #include "gth-enum-types.h"
@@ -205,6 +206,8 @@ struct _GthGridViewPrivate {
 	char                  *caption_attributes;
 	char                 **caption_attributes_v;
 	PangoLayout           *caption_layout;
+
+	GthIconCache          *icon_cache;
 };
 
 
@@ -1030,6 +1033,9 @@ gth_grid_view_unrealize (GtkWidget *widget)
 	g_object_unref (self->priv->caption_layout);
 	self->priv->caption_layout = NULL;
 
+	gth_icon_cache_free (self->priv->icon_cache);
+	self->priv->icon_cache = NULL;
+
 	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->unrealize (widget);
 }
 
@@ -1483,6 +1489,51 @@ _gth_grid_view_item_draw_caption (GthGridViewItem *item,
 }
 
 
+#define EMBLEM_SIZE 16
+
+
+static void
+_gth_grid_view_item_draw_emblems (GthGridViewItem *item,
+				  cairo_t         *cr,
+				  GtkWidget       *widget,
+				  GtkStateFlags    item_state,
+				  GthGridView     *grid_view)
+{
+	GthStringList *emblems;
+	GList         *scan;
+	int            emblem_offset;
+
+	cairo_save (cr);
+
+	emblem_offset = 0;
+	emblems = (GthStringList *) g_file_info_get_attribute_object (item->file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS);
+	for (scan = gth_string_list_get_list (emblems); scan; scan = scan->next) {
+		char      *emblem = scan->data;
+		GIcon     *icon;
+		GdkPixbuf *pixbuf;
+
+		if (grid_view->priv->icon_cache == NULL)
+			grid_view->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (grid_view))), EMBLEM_SIZE);
+
+		icon = g_themed_icon_new (emblem);
+		pixbuf = gth_icon_cache_get_pixbuf (grid_view->priv->icon_cache, icon);
+		if (pixbuf != NULL) {
+			gdk_cairo_set_source_pixbuf (cr, pixbuf, item->thumbnail_area.x + emblem_offset + 1, item->thumbnail_area.y + 1);
+			cairo_rectangle (cr, item->thumbnail_area.x + emblem_offset + 1, item->thumbnail_area.y + 1, gdk_pixbuf_get_width (pixbuf), gdk_pixbuf_get_height (pixbuf));
+			cairo_fill (cr);
+
+			g_object_unref (pixbuf);
+
+			emblem_offset += EMBLEM_SIZE + (EMBLEM_SIZE / 2);
+		}
+
+		g_object_unref (icon);
+	}
+
+	cairo_restore (cr);
+}
+
+
 static void
 _gth_grid_view_draw_item (GthGridView     *self,
 			  GthGridViewItem *item,
@@ -1518,6 +1569,7 @@ _gth_grid_view_draw_item (GthGridView     *self,
 
 	_gth_grid_view_item_draw_thumbnail (item, cr, GTK_WIDGET (self), item_state, self);
 	_gth_grid_view_item_draw_caption (item, cr, GTK_WIDGET (self), item_state, self->priv->caption_layout, self);
+	_gth_grid_view_item_draw_emblems (item, cr, GTK_WIDGET (self), item_state, self);
 }
 
 
@@ -3786,6 +3838,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->caption_attributes = NULL;
 	self->priv->caption_attributes_v = NULL;
 	self->priv->caption_layout = NULL;
+	self->priv->icon_cache = NULL;
 
 	_gth_grid_view_set_hadjustment (self, gtk_adjustment_new (0.0, 1.0, 0.0, 0.1, 1.0, 1.0));
 	_gth_grid_view_set_vadjustment (self, gtk_adjustment_new (0.0, 1.0, 0.0, 0.1, 1.0, 1.0));

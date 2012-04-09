@@ -49,6 +49,7 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_CLEAR_FILES,
 	GTH_FILE_LIST_OP_TYPE_ADD_FILES,
 	GTH_FILE_LIST_OP_TYPE_UPDATE_FILES,
+	GTH_FILE_LIST_OP_TYPE_UPDATE_EMBLEMS,
 	GTH_FILE_LIST_OP_TYPE_DELETE_FILES,
 	GTH_FILE_LIST_OP_TYPE_SET_FILTER,
 	GTH_FILE_LIST_OP_TYPE_SET_SORT_FUNC,
@@ -181,6 +182,7 @@ gth_file_list_op_free (GthFileListOp *op)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ADD_FILES:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_FILES:
+	case GTH_FILE_LIST_OP_TYPE_UPDATE_EMBLEMS:
 		_g_object_list_unref (op->file_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_DELETE_FILES:
@@ -996,6 +998,45 @@ gth_file_list_update_files (GthFileList *file_list,
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_UPDATE_FILES);
+	op->file_list = _g_object_list_ref (files);
+	_gth_file_list_queue_op (file_list, op);
+}
+
+
+static void
+gfl_update_emblems (GthFileList *file_list,
+		    GList       *files)
+{
+	GthFileStore *file_store;
+	GList        *scan;
+
+	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		ThumbData   *thumb_data;
+		GtkTreeIter  iter;
+
+		thumb_data = g_hash_table_lookup (file_list->priv->thumb_data, file_data->file);
+		if (thumb_data == NULL)
+			continue;
+
+		if (gth_file_store_find (file_store, file_data->file, &iter))
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_EMBLEMS_COLUMN, g_file_info_get_attribute_object (file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS),
+						  -1);
+	}
+	gth_file_store_exec_set (file_store);
+}
+
+
+void
+gth_file_list_update_emblems (GthFileList *file_list,
+			      GList       *files /* GthFileData */)
+{
+	GthFileListOp *op;
+
+	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_UPDATE_EMBLEMS);
 	op->file_list = _g_object_list_ref (files);
 	_gth_file_list_queue_op (file_list, op);
 }
@@ -1857,6 +1898,9 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_FILES:
 		gfl_update_files (file_list, op->file_list);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_UPDATE_EMBLEMS:
+		gfl_update_emblems (file_list, op->file_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS:
 		gfl_enable_thumbs (file_list, op->ival);

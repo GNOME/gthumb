@@ -1,15 +1,17 @@
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libselections.la
 
-libselections_la_SOURCES = 		\
-	actions.c			\
-	actions.h			\
-	callbacks.c			\
-	callbacks.h			\
-	gth-file-source-selections.c 	\
-	gth-file-source-selections.h	\
-	gth-selections-manager.c	\
-	gth-selections-manager.h	\
+libselections_la_SOURCES = 			\
+	actions.c				\
+	actions.h				\
+	callbacks.c				\
+	callbacks.h				\
+	gth-file-source-selections.c 		\
+	gth-file-source-selections.h		\
+	gth-metadata-provider-selections.c	\
+	gth-metadata-provider-selections.h	\
+	gth-selections-manager.c		\
+	gth-selections-manager.h		\
 	main.c
 
 libselections_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
