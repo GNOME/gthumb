@@ -67,17 +67,14 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 				    const char          *attributes,
 				    GCancellable        *cancellable)
 {
-	GthComment            *comment;
-	GFileAttributeMatcher *matcher;
-	const char            *value;
-	GPtrArray             *categories;
-	char                  *comment_time;
+	GthComment *comment;
+	const char *value;
+	GPtrArray  *categories;
+	char       *comment_time;
 
 	comment = gth_comment_new_for_file (file_data->file, cancellable, NULL);
 	if (comment == NULL)
 		return;
-
-	matcher = g_file_attribute_matcher_new (attributes);
 
 	value = gth_comment_get_note (comment);
 	if (value != NULL)
@@ -127,7 +124,6 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 	gth_comment_update_general_attributes (file_data);
 
-	g_file_attribute_matcher_unref (matcher);
 	g_object_unref (comment);
 }
 
