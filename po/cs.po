@@ -4108,7 +4108,7 @@ msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:510
 msgid "Red Eye Removal..."
-msgstr "Odstranění če_rvených očí…"
+msgstr "Odstranit červené oči…"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:510
 msgid "Red Eye Removal"
