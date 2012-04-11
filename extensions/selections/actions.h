@@ -26,6 +26,8 @@
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
+void gth_browser_activate_action_show_selection        (GthBrowser *browser,
+							int         n_selection);
 void gth_browser_activate_action_add_to_selection      (GthBrowser *browser,
 						        int         n_selection);
 void gth_browser_activate_action_remove_from_selection (GthBrowser *browser,

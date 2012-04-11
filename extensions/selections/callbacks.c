@@ -159,6 +159,33 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 }
 
 
+static guint
+get_numeric_keyval (GthBrowser  *browser,
+		    GdkEventKey *event)
+{
+	guint keyval;
+
+	gdk_keymap_translate_keyboard_state (gdk_keymap_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser))),
+					     event->hardware_keycode,
+	                                     event->state & ~GDK_SHIFT_MASK,
+	                                     event->group,
+	                                     &keyval,
+	                                     NULL, NULL, NULL);
+
+	/* This fixes the keyboard shortcuts for French keyboards (and
+	 * maybe others as well) where the number keys are shifted. */
+	if ((keyval < GDK_KEY_1) || (keyval > GDK_KEY_3))
+		gdk_keymap_translate_keyboard_state (gdk_keymap_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser))),
+						     event->hardware_keycode,
+		                                     event->state | GDK_SHIFT_MASK,
+		                                     event->group,
+		                                     &keyval,
+		                                     NULL, NULL, NULL);
+
+	return keyval;
+}
+
+
 gpointer
 selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
@@ -167,16 +194,12 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	guint    modifiers;
 
 	modifiers = gtk_accelerator_get_default_mod_mask ();
-	if (((event->state & modifiers) == GDK_MOD1_MASK) || ((event->state & modifiers) == (GDK_SHIFT_MASK|GDK_MOD1_MASK))) {
+	if (((event->state & modifiers) == GDK_MOD1_MASK)
+	    || ((event->state & modifiers) == (GDK_SHIFT_MASK|GDK_MOD1_MASK)))
+	{
 		guint keyval;
 
-		gdk_keymap_translate_keyboard_state (gdk_keymap_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser))),
-						     event->hardware_keycode,
-		                                     event->state & ~GDK_SHIFT_MASK,
-		                                     event->group,
-		                                     &keyval,
-		                                     NULL, NULL, NULL);
-
+		keyval = get_numeric_keyval (browser, event);
 		switch (keyval) {
 		case GDK_KEY_1:
 		case GDK_KEY_2:
@@ -186,6 +209,21 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 				gth_browser_activate_action_remove_from_selection (browser, keyval - GDK_KEY_1 + 1);
 			else /* Alt+n => add to selection n */
 				gth_browser_activate_action_add_to_selection (browser, keyval - GDK_KEY_1 + 1);
+			result = GINT_TO_POINTER (1);
+			break;
+		}
+	}
+
+	if ((event->state & modifiers) == GDK_CONTROL_MASK) {
+		guint keyval;
+
+		keyval = get_numeric_keyval (browser, event);
+		switch (keyval) {
+		case GDK_KEY_1:
+		case GDK_KEY_2:
+		case GDK_KEY_3:
+			/* Control+n => go to selection n */
+			gth_browser_activate_action_show_selection (browser, keyval - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}

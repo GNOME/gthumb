@@ -25,7 +25,7 @@
 #include "gth-selections-manager.h"
 
 
-static void
+void
 gth_browser_activate_action_show_selection (GthBrowser *browser,
 					    int         n_selection)
 {

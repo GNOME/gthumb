@@ -163,7 +163,7 @@ gth_empty_list_unrealize (GtkWidget *widget)
 		self->priv->layout = NULL;
 	}
 
-	(* GTK_WIDGET_CLASS (gth_empty_list_parent_class)->unrealize) (widget);
+	GTK_WIDGET_CLASS (gth_empty_list_parent_class)->unrealize (widget);
 }
 
 
