@@ -1656,6 +1656,9 @@ load_data_continue (LoadData *load_data,
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		g_object_unref (filter);
+
+		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
+			gtk_widget_grab_focus (browser->priv->file_list);
 	}
 
 	if (load_data->file_to_select != NULL)
@@ -2449,7 +2452,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	/* set the focus */
 
 	if (page == GTH_BROWSER_PAGE_BROWSER)
-		gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
+		gtk_widget_grab_focus (browser->priv->file_list);
 	else if (page == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
@@ -3730,7 +3733,6 @@ _gth_browser_construct_step2 (gpointer user_data)
 
 	_gth_browser_update_entry_point_list (browser);
 	_gth_browser_monitor_entry_points (browser);
-	gtk_widget_grab_focus (gth_browser_get_file_list_view (browser));
 
 	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
 

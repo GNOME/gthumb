@@ -211,6 +211,32 @@ gth_dumb_notebook_draw (GtkWidget *widget,
 
 
 static void
+_gth_dumb_notebook_grab_focus_child (GthDumbNotebook *notebook)
+{
+	GtkWidget *child;
+
+	child = notebook->priv->current;
+	if (child == NULL)
+		return;
+
+	if (GTK_IS_SCROLLED_WINDOW (notebook->priv->current)) {
+		GList *list = gtk_container_get_children (GTK_CONTAINER (notebook->priv->current));
+		if (list != NULL)
+			child = list->data;
+	}
+
+	gtk_widget_grab_focus (child);
+}
+
+
+static void
+gth_dumb_notebook_grab_focus (GtkWidget *widget)
+{
+	_gth_dumb_notebook_grab_focus_child (GTH_DUMB_NOTEBOOK (widget));
+}
+
+
+static void
 gth_dumb_notebook_add (GtkContainer *container,
 		       GtkWidget    *child)
 {
@@ -300,6 +326,7 @@ gth_dumb_notebook_class_init (GthDumbNotebookClass *klass)
 	widget_class->get_preferred_height_for_width = gth_dumb_notebook_get_preferred_height_for_width;
 	widget_class->size_allocate = gth_dumb_notebook_size_allocate;
 	widget_class->draw = gth_dumb_notebook_draw;
+	widget_class->grab_focus = gth_dumb_notebook_grab_focus;
 
 	container_class = GTK_CONTAINER_CLASS (klass);
 	container_class->add = gth_dumb_notebook_add;
@@ -313,6 +340,7 @@ static void
 gth_dumb_notebook_init (GthDumbNotebook *notebook) 
 {
 	gtk_widget_set_has_window (GTK_WIDGET (notebook), FALSE);
+	gtk_widget_set_can_focus (GTK_WIDGET (notebook), TRUE);
 	
 	notebook->priv = g_new0 (GthDumbNotebookPrivate, 1);
 	notebook->priv->n_children = 0;	
@@ -331,11 +359,14 @@ void
 gth_dumb_notebook_show_child (GthDumbNotebook *notebook,
 			      int              pos)
 {
-	GList *link;
+	GList    *link;
+	gboolean  current_is_focus;
 	
 	link = g_list_nth (notebook->priv->children, pos);
 	if (link == NULL)
 		return;
+
+	current_is_focus = (notebook->priv->current != NULL) && gtk_widget_has_focus (notebook->priv->current);
 
 	if (notebook->priv->current != link->data)
 		gtk_widget_set_child_visible (notebook->priv->current, FALSE);
@@ -343,6 +374,8 @@ gth_dumb_notebook_show_child (GthDumbNotebook *notebook,
 	notebook->priv->current_pos = pos;
 	notebook->priv->current = link->data;
 	gtk_widget_set_child_visible (notebook->priv->current, TRUE);
+	if (current_is_focus)
+		_gth_dumb_notebook_grab_focus_child (notebook);
 
 	gtk_widget_queue_resize (GTK_WIDGET (notebook));
 }

@@ -354,6 +354,15 @@ gth_file_list_get_preferred_height (GtkWidget *widget,
 
 
 static void
+gth_file_list_grab_focus (GtkWidget *widget)
+{
+	GthFileList *file_list = GTH_FILE_LIST (widget);
+
+	gtk_widget_grab_focus (file_list->priv->notebook);
+}
+
+
+static void
 gth_file_list_class_init (GthFileListClass *class)
 {
 	GObjectClass   *object_class;
@@ -366,6 +375,7 @@ gth_file_list_class_init (GthFileListClass *class)
 	widget_class->get_request_mode = gth_file_list_get_request_mode;
 	widget_class->get_preferred_width = gth_file_list_get_preferred_width;
 	widget_class->get_preferred_height = gth_file_list_get_preferred_height;
+	widget_class->grab_focus = gth_file_list_grab_focus;
 }
 
 
