@@ -152,7 +152,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 			gtk_list_store_set (self->priv->tree_model, &iter,
 					    WEIGHT_COLUMN, PANGO_WEIGHT_BOLD,
 					    ID_COLUMN, category->id,
-					    DISPLAY_NAME_COLUMN, category->display_name,
+					    DISPLAY_NAME_COLUMN, _(category->display_name),
 					    POS_COLUMN, category->sort_order * CATEGORY_SIZE,
 					    -1);
 			g_hash_table_insert (category_hash, g_strdup (info->category), category);

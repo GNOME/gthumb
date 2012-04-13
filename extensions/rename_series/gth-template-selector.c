@@ -267,7 +267,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 			gtk_tree_store_set (tree_store,
 					    &iter,
 					    ATTRIBUTE_ID_COLUMN, category->id,
-					    ATTRIBUTE_NAME_COLUMN, category->display_name,
+					    ATTRIBUTE_NAME_COLUMN, _(category->display_name),
 					    ATTRIBUTE_SORT_ORDER_COLUMN, category->sort_order,
 					    -1);
 
