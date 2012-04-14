@@ -47,7 +47,7 @@ MAINTAINERCLEANFILES = 			\
 	$(srcdir)/ChangeLog 		\
 	`find "$(srcdir)" -type f -name Makefile.in -print`
 
-GITIGNOREFILES = build .autotools .cdt* .cproject .project .settings/
+GITIGNOREFILES = build .autotools .cdt* .cproject .project .settings/ *.patch
 
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
 
