@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-13 08:23+0000\n"
-"PO-Revision-Date: 2012-04-14 15:32+0900\n"
-"Last-Translator: Ritsuko Sato <satoritsu@gmail.com>\n"
+"POT-Creation-Date: 2012-04-14 18:17+0000\n"
+"PO-Revision-Date: 2012-04-15 14:17+0900\n"
+"Last-Translator: OKANO Takayoshi <kano@na.rim.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3330,7 +3330,7 @@ msgstr "画像を読み込んだ後:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
 msgid "_Zoom quality:"
-msgstr "ズーム時の品質(_Z)"
+msgstr "ズーム時の品質(_Z):"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
 msgid "Transparency _type:"
