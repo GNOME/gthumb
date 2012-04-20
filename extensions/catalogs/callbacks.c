@@ -155,6 +155,7 @@ typedef struct {
 	guint           folder_popup_merge_id;
 	guint           vfs_merge_id;
 	gboolean        catalog_menu_loaded;
+	guint           n_top_catalogs;
 	guint           monitor_events;
 	GtkWidget      *properties_button;
 	GtkWidget      *organize_button;
@@ -216,6 +217,7 @@ catalogs__gth_browser_construct_cb (GthBrowser *browser)
 
 	data = g_new0 (BrowserData, 1);
 	data->browser = browser;
+	data->n_top_catalogs = 0;
 
 	data->actions = gtk_action_group_new ("Catalog Actions");
 	gtk_action_group_set_translation_domain (data->actions, NULL);
@@ -426,6 +428,20 @@ insert_menu_item (CatalogListData *list_data,
 
 
 static void
+update_commands_visibility (BrowserData *data)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (data->actions, "Edit_QuickAddToCatalog");
+	gtk_action_set_visible (action, (data->n_top_catalogs > 0));
+
+	action = gtk_action_group_get_action (data->actions, "Edit_AddToCatalog");
+	gtk_action_set_visible (action, (data->n_top_catalogs == 0));
+}
+
+
+
+static void
 catalog_list_ready (GthFileSource *file_source,
 		    GList         *files,
 		    GError        *error,
@@ -471,25 +487,8 @@ catalog_list_ready (GthFileSource *file_source,
 
 	root = g_file_new_for_uri ("catalog:///");
 	if (g_file_equal (list_data->root, root)) {
-		GtkUIManager *ui;
-
-		ui = gth_browser_get_ui_manager (list_data->data->browser);
-		if (ordered != NULL) {
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FileListPopup/Folder_Actions2/Edit_QuickAddToCatalog"));
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FileListPopup/Folder_Actions2/Edit_QuickAddToCatalog/CatalogListSeparator"));
-			gtk_widget_hide (gtk_ui_manager_get_widget (ui, "/FileListPopup/Folder_Actions2/Edit_AddToCatalog"));
-
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FilePopup/Folder_Actions2/Edit_QuickAddToCatalog"));
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FilePopup/Folder_Actions2/Edit_QuickAddToCatalog/CatalogListSeparator"));
-			gtk_widget_hide (gtk_ui_manager_get_widget (ui, "/FilePopup/Folder_Actions2/Edit_AddToCatalog"));
-		}
-		else {
-			gtk_widget_hide (gtk_ui_manager_get_widget (ui, "/FileListPopup/Folder_Actions2/Edit_QuickAddToCatalog"));
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FileListPopup/Folder_Actions2/Edit_AddToCatalog"));
-
-			gtk_widget_hide (gtk_ui_manager_get_widget (ui, "/FilePopup/Folder_Actions2/Edit_QuickAddToCatalog"));
-			gtk_widget_show (gtk_ui_manager_get_widget (ui, "/FilePopup/Folder_Actions2/Edit_AddToCatalog"));
-		}
+		list_data->data->n_top_catalogs = g_list_length (ordered);
+		update_commands_visibility (list_data->data);
 	}
 	else if (ordered == NULL) {
 		GtkWidget *item;
@@ -564,6 +563,8 @@ catalogs__gth_browser_file_list_popup_before_cb (GthBrowser *browser)
 		data->catalog_menu_loaded = TRUE;
 		update_catalog_menu (data);
 	}
+	else
+		update_commands_visibility (data);
 }
 
 
@@ -579,6 +580,8 @@ catalogs__gth_browser_file_popup_before_cb (GthBrowser *browser)
 		data->catalog_menu_loaded = TRUE;
 		update_catalog_menu (data);
 	}
+	else
+		update_commands_visibility (data);
 }
 
 
