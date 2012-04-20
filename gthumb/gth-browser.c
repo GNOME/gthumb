@@ -1597,7 +1597,6 @@ load_data_continue (LoadData *load_data,
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_UP:
 	case GTH_ACTION_VIEW:
-	case GTH_ACTION_LIST_CHILDREN:
 		if (path != NULL) {
 			GList    *entry_points;
 			GList    *scan;
@@ -1617,15 +1616,13 @@ load_data_continue (LoadData *load_data,
 				}
 			}
 
-			if (load_data->action != GTH_ACTION_LIST_CHILDREN) {
-				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree),
-							      path,
-							      NULL,
-							      is_entry_point,
-							      0.0,
-							      0.0);
-				gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
-			}
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree),
+						      path,
+						      NULL,
+						      is_entry_point,
+						      0.0,
+						      0.0);
+			gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
 
 			_g_object_list_unref (entry_points);
 		}
