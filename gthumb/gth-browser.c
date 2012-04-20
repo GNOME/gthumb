@@ -1198,11 +1198,6 @@ load_data_done (LoadData *load_data,
 		g_free (uri);
 	}
 
-	if (error == NULL) {
-		_g_object_unref (browser->priv->location_source);
-		browser->priv->location_source = g_object_ref (load_data->file_source);
-	}
-
 	/* moving the "gth-browser-load-location-after" after the
 	 * LOCATION_READY signal emition can brake the extensions */
 
@@ -1212,6 +1207,10 @@ load_data_done (LoadData *load_data,
 	    || (load_data->action == GTH_ACTION_GO_UP)
 	    || (load_data->action == GTH_ACTION_VIEW))
 	{
+		if (error == NULL) {
+			_g_object_unref (browser->priv->location_source);
+			browser->priv->location_source = g_object_ref (load_data->file_source);
+		}
 		gth_browser_update_extra_widget (browser);
 		gth_hook_invoke ("gth-browser-load-location-after", browser, browser->priv->location, error);
 	}
