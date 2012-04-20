@@ -1561,7 +1561,6 @@ load_data_continue (LoadData *load_data,
 	GFile       *loaded_folder;
 	gboolean     loaded_requested_folder;
 	GtkTreePath *path;
-	GthTest     *filter;
 	gboolean     changed_current_location;
 
 	if ((load_data->action != GTH_ACTION_LIST_CHILDREN)
@@ -1645,6 +1644,8 @@ load_data_continue (LoadData *load_data,
 	}
 
 	if (changed_current_location) {
+		GthTest *filter;
+
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
@@ -1654,41 +1655,43 @@ load_data_continue (LoadData *load_data,
 
 		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
 			gtk_widget_grab_focus (browser->priv->file_list);
-	}
 
-	if (load_data->file_to_select != NULL)
-		gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
+		if (load_data->file_to_select != NULL)
+			gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
 
-	gth_browser_update_sensitivity (browser);
-	_gth_browser_update_statusbar_list_info (browser);
+		gth_browser_update_sensitivity (browser);
+		_gth_browser_update_statusbar_list_info (browser);
 
-	if (browser->priv->monitor_location != NULL)
-		g_object_unref (browser->priv->monitor_location);
-	browser->priv->monitor_location = g_file_dup (browser->priv->location->file);
-	gth_file_source_monitor_directory (browser->priv->location_source,
-					   browser->priv->monitor_location,
-					   TRUE);
+		g_assert (browser->priv->location_source != NULL);
 
-	if (browser->priv->current_file != NULL) {
-		gth_browser_update_title (browser);
-		gth_browser_update_statusbar_file_info (browser);
-		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
-			_gth_browser_make_file_visible (browser, browser->priv->current_file);
-			if (browser->priv->viewer_page != NULL) {
-				gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
-				gth_viewer_page_focus (browser->priv->viewer_page);
+		if (browser->priv->monitor_location != NULL)
+			g_object_unref (browser->priv->monitor_location);
+		browser->priv->monitor_location = g_file_dup (browser->priv->location->file);
+		gth_file_source_monitor_directory (browser->priv->location_source,
+						   browser->priv->monitor_location,
+						   TRUE);
+
+		if (browser->priv->current_file != NULL) {
+			gth_browser_update_title (browser);
+			gth_browser_update_statusbar_file_info (browser);
+			if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
+				_gth_browser_make_file_visible (browser, browser->priv->current_file);
+				if (browser->priv->viewer_page != NULL) {
+					gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
+					gth_viewer_page_focus (browser->priv->viewer_page);
+				}
 			}
 		}
-	}
 
-	if (StartSlideshow) {
-		StartSlideshow = FALSE;
-		gth_hook_invoke ("slideshow", browser);
-	}
+		if (StartSlideshow) {
+			StartSlideshow = FALSE;
+			gth_hook_invoke ("slideshow", browser);
+		}
 
-	if (StartInFullscreen) {
-		StartInFullscreen = FALSE;
-		gth_browser_fullscreen (browser);
+		if (StartInFullscreen) {
+			StartInFullscreen = FALSE;
+			gth_browser_fullscreen (browser);
+		}
 	}
 
 	if (path != NULL)
