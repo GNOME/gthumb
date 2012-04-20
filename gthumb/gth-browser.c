@@ -1207,7 +1207,6 @@ load_data_done (LoadData *load_data,
 	 * LOCATION_READY signal emition can brake the extensions */
 
 	if ((load_data->action == GTH_ACTION_GO_TO)
-	    || (load_data->action == GTH_ACTION_GO_INTO)
 	    || (load_data->action == GTH_ACTION_GO_BACK)
 	    || (load_data->action == GTH_ACTION_GO_FORWARD)
 	    || (load_data->action == GTH_ACTION_GO_UP)
@@ -1864,7 +1863,6 @@ _gth_browser_load (GthBrowser *browser,
 
 	switch (action) {
 	case GTH_ACTION_GO_TO:
-	case GTH_ACTION_GO_INTO:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_UP:
@@ -1898,7 +1896,6 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	if ((load_data->action == GTH_ACTION_GO_TO)
-	    || (load_data->action == GTH_ACTION_GO_INTO)
 	    || (load_data->action == GTH_ACTION_GO_BACK)
 	    || (load_data->action == GTH_ACTION_GO_FORWARD)
 	    || (load_data->action == GTH_ACTION_GO_UP)
@@ -1949,7 +1946,6 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	switch (load_data->action) {
-	case GTH_ACTION_GO_INTO:
 	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_VIEW:
 		_gth_browser_set_location_from_file (browser, load_data->requested_folder->file);

@@ -52,7 +52,6 @@ typedef enum { /*< skip >*/
 
 typedef enum {
 	GTH_ACTION_GO_TO,
-	GTH_ACTION_GO_INTO,
 	GTH_ACTION_GO_BACK,
 	GTH_ACTION_GO_FORWARD,
 	GTH_ACTION_GO_UP,
