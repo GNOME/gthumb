@@ -60,7 +60,10 @@ endif
 
 libcontact_sheet_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb -DCONTACT_SHEET_DATADIR=\"$(contact_sheet_datadir)\"
 libcontact_sheet_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libcontact_sheet_la_LIBADD = $(GTHUMB_LIBS) ../image_rotation/libimage_rotation.la ../export_tools/libexport_tools.la
+libcontact_sheet_la_LIBADD = $(GTHUMB_LIBS) ../export_tools/libexport_tools.la
+if ENABLE_JPEG_TOOLS
+libcontact_sheet_la_LIBADD += ../image_rotation/libimage_rotation.la
+endif
 libcontact_sheet_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

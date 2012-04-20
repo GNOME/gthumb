@@ -1,3 +1,5 @@
+if ENABLE_JPEG_TOOLS
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libimage_rotation.la
 
@@ -23,12 +25,13 @@ libimage_rotation_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 extensioninidir = $(extensiondir)
 extensionini_in_files = image_rotation.extension.in.in
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
+DISTCLEANFILES = $(extensionini_DATA)
+
+endif
 
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
 EXTRA_DIST = $(extensionini_in_files) 
-
-DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk

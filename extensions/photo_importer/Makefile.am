@@ -15,7 +15,10 @@ libphoto_importer_la_SOURCES = 		\
 	
 libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphoto_importer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libphoto_importer_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../image_rotation/libimage_rotation.la ../importer/libimporter.la 
+libphoto_importer_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../importer/libimporter.la
+if ENABLE_JPEG_TOOLS
+libphoto_importer_la_LIBADD += ../image_rotation/libimage_rotation.la
+endif 
 libphoto_importer_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

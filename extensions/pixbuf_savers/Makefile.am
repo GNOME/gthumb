@@ -1,3 +1,5 @@
+if ENABLE_JPEG_TOOLS
+
 SUBDIRS = data
 
 extensiondir = $(pkglibdir)/extensions
@@ -53,16 +55,18 @@ libpixbuf_savers_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 extensioninidir = $(extensiondir)
 extensionini_in_files = pixbuf_savers.extension.in.in
 extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
-
-@GTHUMB_EXTENSION_IN_RULE@
-@GTHUMB_EXTENSION_RULE@
-
-EXTRA_DIST = $(extensionini_in_files) 
 DISTCLEANFILES = $(extensionini_DATA)
 BUILT_SOURCES = $(ENUM_TYPES)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(CLEANFILES)
+
+endif
+
+@GTHUMB_EXTENSION_IN_RULE@
+@GTHUMB_EXTENSION_RULE@
+
+EXTRA_DIST = $(extensionini_in_files) 
 
 -include $(top_srcdir)/git.mk

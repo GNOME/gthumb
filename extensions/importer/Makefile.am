@@ -45,9 +45,12 @@ libimporter_la_SOURCES = 			\
 	main.c					\
 	utils.c
 
-libimporter_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libimporter_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
 libimporter_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libimporter_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la ../image_rotation/libimage_rotation.la
+libimporter_la_LIBADD = $(GTHUMB_LIBS) ../catalogs/libcatalogs.la
+if ENABLE_JPEG_TOOLS
+libimporter_la_LIBADD += ../image_rotation/libimage_rotation.la
+endif
 if ENABLE_EXIV2
 libimporter_la_LIBADD += ../exiv2_tools/libexiv2_tools.la
 endif
