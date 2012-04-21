@@ -8,6 +8,7 @@ Icon=brasero
 Category=Exporter
 
 [Loader]
-Requires=export_tools
 Type=module
 File=%LIBRARY%
+API=%GTHUMB_API_VERSION%
+Requires=export_tools

@@ -448,11 +448,20 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 {
 	GKeyFile *key_file;
 	char     *file_path;
+	char     *api;
 	char     *basename;
 
 	key_file = g_key_file_new ();
 	file_path = g_file_get_path (file);
 	if (! g_key_file_load_from_file (key_file, file_path, G_KEY_FILE_NONE, NULL)) {
+		g_free (file_path);
+		g_key_file_free (key_file);
+		return FALSE;
+	}
+
+	api = g_key_file_get_string (key_file, "Loader", "API", NULL);
+	if (g_strcmp0 (api, GTHUMB_API_VERSION) != 0) {
+		g_free (api);
 		g_free (file_path);
 		g_key_file_free (key_file);
 		return FALSE;
@@ -476,6 +485,7 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	desc->loader_after = g_key_file_get_string_list (key_file, "Loader", "After", NULL, NULL);
 
 	g_free (basename);
+	g_free (api);
 	g_free (file_path);
 	g_key_file_free (key_file);
 

@@ -78,7 +78,7 @@ dnl like the INTLTOOL_XML_RULE does for xml files
 GTHUMB_EXTENSION_RULE='%.extension: %.extension.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
 AC_SUBST(GTHUMB_EXTENSION_RULE)
 
-GTHUMB_EXTENSION_IN_RULE='%.extension.in: %.extension.in.in $(extension_LTLIBRARIES) ; sed -e "s|%LIBRARY%|`. ./$(extension_LTLIBRARIES) && echo $$dlname`|" -e "s|%VERSION%|$(VERSION)|" $< > [$]@'
+GTHUMB_EXTENSION_IN_RULE='%.extension.in: %.extension.in.in $(extension_LTLIBRARIES) ; sed -e "s|%LIBRARY%|`. ./$(extension_LTLIBRARIES) && echo $$dlname`|" -e "s|%VERSION%|$(VERSION)|" -e "s|%GTHUMB_API_VERSION%|$(GTHUMB_API_VERSION)|" $< > [$]@'
 AC_SUBST(GTHUMB_EXTENSION_IN_RULE)
 
 ])
