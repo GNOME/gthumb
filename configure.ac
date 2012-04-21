@@ -1,13 +1,24 @@
+m4_define([gthumb_major_version], [2])
+m4_define([gthumb_minor_version], [90])
+m4_define([gthumb_micro_version], [3])
+m4_define([gthumb_version],
+          [gthumb_major_version.gthumb_minor_version.gthumb_micro_version])
+m4_define([gthumb_api_version],
+          [gthumb_major_version.gthumb_minor_version])
+                    
 AC_PREREQ(2.63)
-AC_INIT([gthumb],[2.90.3],[http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb])
+AC_INIT([gthumb], [gthumb_version], 
+        [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb],
+        [gthumb])
 AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([configure.ac])
 
-GTHUMB_API_VERSION=2.90
+GTHUMB_API_VERSION=gthumb_api_version
 AC_SUBST([GTHUMB_API_VERSION])
+AC_DEFINE_UNQUOTED([GTHUMB_API_VERSION],["$GTHUMB_API_VERSION"],[gThumb API version])
 
 if test -z "$enable_maintainer_mode"; then
   enable_maintainer_mode=yes
