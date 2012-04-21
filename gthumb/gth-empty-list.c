@@ -163,7 +163,9 @@ gth_empty_list_unrealize (GtkWidget *widget)
 		self->priv->layout = NULL;
 	}
 
-	GTK_WIDGET_CLASS (gth_empty_list_parent_class)->unrealize (widget);
+	/* note the use of g_type_class_peek_parent to skip GtkScrolledWindow::unrealize */
+
+	GTK_WIDGET_CLASS (g_type_class_peek_parent (gth_empty_list_parent_class))->unrealize (widget);
 }
 
 
