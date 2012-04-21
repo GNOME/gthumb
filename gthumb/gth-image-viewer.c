@@ -410,6 +410,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 				  | GDK_POINTER_MOTION_MASK
 				  | GDK_POINTER_MOTION_HINT_MASK
 				  | GDK_BUTTON_MOTION_MASK
+				  | GDK_SCROLL_MASK
 				  | GDK_STRUCTURE_MASK);
 
 	attributes_mask        = (GDK_WA_X
