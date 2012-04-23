@@ -728,7 +728,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 						  | GDK_BUTTON_RELEASE_MASK
 						  | GDK_POINTER_MOTION_MASK
 						  | GDK_POINTER_MOTION_HINT_MASK
-						  | GDK_BUTTON_MOTION_MASK));
+						  | GDK_BUTTON_MOTION_MASK
+						  | GDK_SCROLL_MASK));
 	gtk_widget_set_can_focus (self->priv->area, TRUE);
 	gtk_widget_show (self->priv->area);
 

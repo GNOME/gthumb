@@ -105,6 +105,7 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->thumb_loader = gth_thumb_loader_new (128);
 
 	self->priv->viewer = gtk_event_box_new ();
+	gtk_widget_add_events (self->priv->viewer, GDK_SCROLL_MASK);
 	gtk_widget_show (self->priv->viewer);
 
 	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
