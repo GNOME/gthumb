@@ -359,11 +359,10 @@ set_zoom_centered_at (GthImageViewer *self,
 		      int             center_x,
 		      int             center_y)
 {
-	set_zoom (self, zoom_level, center_x, center_y);
-
 	/* reset zoom_fit unless we are performing a zoom to fit. */
 	if (! zoom_to_fit)
 		self->priv->fit = GTH_FIT_NONE;
+	set_zoom (self, zoom_level, center_x, center_y);
 }
 
 
