@@ -97,6 +97,7 @@ void          gth_folder_tree_reset_loaded       (GthFolderTree        *folder_t
 void          gth_folder_tree_expand_row         (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path,
 						  gboolean              open_all);
+void          gth_folder_tree_collapse_all       (GthFolderTree        *folder_tree);
 void          gth_folder_tree_select_path        (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path);
 GFile *       gth_folder_tree_get_root           (GthFolderTree        *folder_tree);

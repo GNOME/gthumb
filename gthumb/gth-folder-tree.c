@@ -1603,6 +1603,18 @@ gth_folder_tree_expand_row (GthFolderTree *folder_tree,
 }
 
 
+void
+gth_folder_tree_collapse_all (GthFolderTree *folder_tree)
+{
+	GtkTreeSelection *selection;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	g_signal_handlers_block_by_func (selection, selection_changed_cb, folder_tree);
+	gtk_tree_view_collapse_all (GTK_TREE_VIEW (folder_tree));
+	g_signal_handlers_unblock_by_func (selection, selection_changed_cb, folder_tree);
+}
+
+
 GthFileData *
 gth_folder_tree_get_file (GthFolderTree *folder_tree,
 			  GtkTreePath   *path)
