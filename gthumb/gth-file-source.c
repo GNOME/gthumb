@@ -1300,6 +1300,8 @@ gth_file_source_monitor_directory (GthFileSource *file_source,
 				   GFile         *file,
 				   gboolean       activate)
 {
+	g_return_if_fail (file != NULL);
+
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->monitor_directory (file_source, file, activate);
 }
 
