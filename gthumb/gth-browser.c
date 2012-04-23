@@ -1866,12 +1866,10 @@ _gth_browser_load (GthBrowser *browser,
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_UP:
 	case GTH_ACTION_VIEW:
-		if (browser->priv->location_source != NULL) {
-			if (browser->priv->monitor_location != NULL)
-				gth_file_source_monitor_directory (browser->priv->location_source,
-								   browser->priv->monitor_location,
-								   FALSE);
-			_g_clear_object (&browser->priv->location_source);
+		if ((browser->priv->location_source != NULL) && (browser->priv->monitor_location != NULL)) {
+			gth_file_source_monitor_directory (browser->priv->location_source,
+							   browser->priv->monitor_location,
+							   FALSE);
 			_g_clear_object (&browser->priv->monitor_location);
 		}
 		break;
