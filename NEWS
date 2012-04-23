@@ -1,3 +1,22 @@
+version 3.0.0
+-------------
+
+ Bugs fixed:
+
+  * Metadata category names WON'T show translated strings (Jiro
+    Matsuzawa) (#674033)
+  * Selections: fixed keyboard shortcuts for some keyboard layouts. (#673872)
+  * Fixed compilation without libjpeg.
+  * Ignore extensions with a different API version.
+  * Fixed file navigation with the mouse wheel with Gtk+ 3.4.0 or greater.
+  * Fixed possible crash when changing location.
+
+ New or updated application translations:
+
+  * Czech (Marek Černocký)
+  * Japanese (OKANO Takayoshi)
+  * Norwegian/Bokmaal (Kjartan Maraas)
+
 version 2.90.3
 --------------
 
