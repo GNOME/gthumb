@@ -148,6 +148,7 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gtk+-3.0 		>= $GTK_REQUIRED
 	libpng
 	zlib
+	gsettings-desktop-schemas
 ])
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
