@@ -5138,6 +5138,9 @@ gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 	if (event->state & GDK_CONTROL_MASK)
 		return FALSE;
 
+	if ((event->direction != GDK_SCROLL_UP) && (event->direction != GDK_SCROLL_DOWN))
+		return FALSE;
+
 	if (event->direction == GDK_SCROLL_UP)
 		gth_browser_show_prev_image (browser, FALSE, FALSE);
 	else

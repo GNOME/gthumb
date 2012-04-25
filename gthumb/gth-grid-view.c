@@ -1789,11 +1789,8 @@ gth_grid_view_scroll_event (GtkWidget      *widget,
 	gdouble        new_value;
 	double         step;
 
-	if (event->direction != GDK_SCROLL_UP &&
-	    event->direction != GDK_SCROLL_DOWN)
-	{
+	if ((event->direction != GDK_SCROLL_UP) && (event->direction != GDK_SCROLL_DOWN))
 		return FALSE;
-	}
 
 	adj = GTH_GRID_VIEW (widget)->priv->vadjustment;
 
