@@ -29,16 +29,20 @@ enum  {
 	GTH_METADATA_ID,
 	GTH_METADATA_DESCRIPTION,
 	GTH_METADATA_RAW,
+	GTH_METADATA_STRING_LIST,
 	GTH_METADATA_FORMATTED,
 	GTH_METADATA_VALUE_TYPE
 };
 
+
 struct _GthMetadataPrivate {
-	char *id;
-	char *description;
-	char *raw;
-	char *formatted;
-	char *value_type;
+	GthMetadataType  data_type;
+	char            *id;
+	char            *description;
+	char            *raw;
+	GthStringList   *list;
+	char            *formatted;
+	char            *value_type;
 };
 
 static gpointer gth_metadata_parent_class = NULL;
@@ -62,6 +66,9 @@ gth_metadata_get_property (GObject    *object,
 		break;
 	case GTH_METADATA_RAW:
 		g_value_set_string (value, self->priv->raw);
+		break;
+	case GTH_METADATA_STRING_LIST:
+		g_value_set_object (value, self->priv->list);
 		break;
 	case GTH_METADATA_FORMATTED:
 		g_value_set_string (value, self->priv->formatted);
@@ -95,6 +102,11 @@ gth_metadata_set_property (GObject      *object,
 	case GTH_METADATA_RAW:
 		_g_strset (&self->priv->raw, g_value_get_string (value));
 		break;
+	case GTH_METADATA_STRING_LIST:
+		_g_object_unref (&self->priv->list);
+		self->priv->list = gth_string_list_new (gth_string_list_get_list (GTH_STRING_LIST (g_value_get_object (value))));
+		self->priv->data_type = (self->priv->list != NULL) ? GTH_METADATA_TYPE_STRING_LIST : GTH_METADATA_TYPE_STRING;
+		break;
 	case GTH_METADATA_FORMATTED:
 		_g_strset (&self->priv->formatted, g_value_get_string (value));
 		break;
@@ -118,6 +130,7 @@ gth_metadata_finalize (GObject *obj)
 	g_free (self->priv->id);
 	g_free (self->priv->description);
 	g_free (self->priv->raw);
+	_g_object_unref (self->priv->list);
 	g_free (self->priv->formatted);
 	g_free (self->priv->value_type);
 
@@ -157,6 +170,13 @@ gth_metadata_class_init (GthMetadataClass *klass)
 					 		      NULL,
 					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass),
+					 GTH_METADATA_STRING_LIST,
+					 g_param_spec_object ("string-list",
+					 		      "String list",
+					 		      "Metadata value as a list of strings (if available)",
+					 		      GTH_TYPE_STRING_LIST,
+					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass),
 					 GTH_METADATA_FORMATTED,
 					 g_param_spec_string ("formatted",
 					 		      "Formatted value",
@@ -167,7 +187,7 @@ gth_metadata_class_init (GthMetadataClass *klass)
 					 GTH_METADATA_VALUE_TYPE,
 					 g_param_spec_string ("value-type",
 					 		      "Type",
-					 		      "Metadata type",
+					 		      "Metadata type description",
 					 		      NULL,
 					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 }
@@ -177,9 +197,11 @@ static void
 gth_metadata_instance_init (GthMetadata *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA, GthMetadataPrivate);
+	self->priv->data_type = GTH_METADATA_TYPE_STRING;
 	self->priv->id = NULL;
 	self->priv->description = NULL;
 	self->priv->raw = NULL;
+	self->priv->list = NULL;
 	self->priv->formatted = NULL;
 	self->priv->value_type = NULL;
 }
@@ -216,6 +238,13 @@ gth_metadata_new (void)
 }
 
 
+GthMetadataType
+gth_metadata_get_data_type (GthMetadata *metadata)
+{
+	return metadata->priv->data_type;
+}
+
+
 const char *
 gth_metadata_get_id (GthMetadata *metadata)
 {
@@ -227,6 +256,16 @@ const char *
 gth_metadata_get_raw (GthMetadata *metadata)
 {
 	return metadata->priv->raw;
+}
+
+
+GthStringList *
+gth_metadata_get_string_list (GthMetadata *metadata)
+{
+	if (metadata->priv->data_type == GTH_METADATA_TYPE_STRING_LIST)
+		return metadata->priv->list;
+	else
+		return NULL;
 }
 
 
@@ -254,6 +293,7 @@ gth_metadata_dup (GthMetadata *metadata)
 		      "id", metadata->priv->id,
 		      "description", metadata->priv->description,
 		      "raw", metadata->priv->raw,
+		      "string-list", metadata->priv->list,
 		      "formatted", metadata->priv->formatted,
 		      "value-type", metadata->priv->value_type,
 		      NULL);
