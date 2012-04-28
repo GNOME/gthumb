@@ -103,7 +103,7 @@ gth_metadata_set_property (GObject      *object,
 		_g_strset (&self->priv->raw, g_value_get_string (value));
 		break;
 	case GTH_METADATA_STRING_LIST:
-		_g_object_unref (&self->priv->list);
+		_g_object_unref (self->priv->list);
 		self->priv->list = gth_string_list_new (gth_string_list_get_list (GTH_STRING_LIST (g_value_get_object (value))));
 		self->priv->data_type = (self->priv->list != NULL) ? GTH_METADATA_TYPE_STRING_LIST : GTH_METADATA_TYPE_STRING;
 		break;
