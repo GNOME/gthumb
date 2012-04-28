@@ -78,20 +78,21 @@ struct _GthMetadataClass {
 	GObjectClass parent_class;
 };
 
-GType             gth_metadata_get_type        (void);
-GthMetadata *     gth_metadata_new             (void);
-GthMetadataType   gth_metadata_get_data_type   (GthMetadata     *metadata);
-const char *      gth_metadata_get_id          (GthMetadata     *metadata);
-const char *      gth_metadata_get_raw         (GthMetadata     *metadata);
-GthStringList *   gth_metadata_get_string_list (GthMetadata     *metadata);
-const char *      gth_metadata_get_formatted   (GthMetadata     *metadata);
-const char *      gth_metadata_get_value_type  (GthMetadata     *metadata);
-GthMetadata *     gth_metadata_dup             (GthMetadata     *metadata);
-GthMetadataInfo * gth_metadata_info_dup        (GthMetadataInfo *info);
-void              set_attribute_from_string    (GFileInfo       *info,
-						const char      *key,
-						const char      *raw,
-						const char      *formatted);
+GType             gth_metadata_get_type             (void);
+GthMetadata *     gth_metadata_new                  (void);
+GthMetadata *     gth_metadata_new_for_string_list  (GthStringList   *list);
+GthMetadataType   gth_metadata_get_data_type        (GthMetadata     *metadata);
+const char *      gth_metadata_get_id               (GthMetadata     *metadata);
+const char *      gth_metadata_get_raw              (GthMetadata     *metadata);
+GthStringList *   gth_metadata_get_string_list      (GthMetadata     *metadata);
+const char *      gth_metadata_get_formatted        (GthMetadata     *metadata);
+const char *      gth_metadata_get_value_type       (GthMetadata     *metadata);
+GthMetadata *     gth_metadata_dup                  (GthMetadata     *metadata);
+GthMetadataInfo * gth_metadata_info_dup             (GthMetadataInfo *info);
+void              set_attribute_from_string         (GFileInfo       *info,
+						     const char      *key,
+						     const char      *raw,
+						     const char      *formatted);
 
 G_END_DECLS
 

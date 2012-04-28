@@ -628,7 +628,8 @@ gth_comment_synchronize_metadata (GList *file_list)
 		if (metadata != NULL)
 			gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
 
-		comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+		comment_categories = gth_metadata_get_string_list (metadata);
 		if (comment_categories != NULL)
 			for (scan = gth_string_list_get_list (comment_categories); scan; scan = scan->next)
 				gth_comment_add_category (comment, (char *) scan->data);
@@ -676,9 +677,11 @@ gth_comment_synchronize_metadata (GList *file_list)
 			}
 		}
 
-		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		categories = gth_metadata_get_string_list (metadata);
 		if (categories != NULL) {
-			comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+			comment_categories = gth_metadata_get_string_list (metadata);
 			if (! gth_string_list_equal (categories, comment_categories)) {
 				GList *scan;
 

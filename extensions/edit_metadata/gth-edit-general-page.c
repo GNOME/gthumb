@@ -392,7 +392,8 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 
 		/* keep the inconsistent tags */
 
-		old_tags = _g_hash_table_from_string_list ((GthStringList *) g_file_info_get_attribute_object (info, "general::tags"));
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (info, "general::tags");
+		old_tags = _g_hash_table_from_string_list (gth_metadata_get_string_list (metadata));
 		for (scan_tags = inconsistent_tags; scan_tags; scan_tags = scan_tags->next) {
 			char *inconsistent_tag = scan_tags->data;
 
@@ -405,12 +406,15 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 
 		if (new_tags != NULL) {
 			GthStringList *file_tags;
+			GthMetadata   *metadata;
 
 			new_tags = g_list_sort (new_tags, (GCompareFunc) g_strcmp0);
 			file_tags = gth_string_list_new (new_tags);
-			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (file_tags));
+			metadata = gth_metadata_new_for_string_list (file_tags);
+			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (metadata));
 
-			_g_object_unref (file_tags);
+			g_object_unref (metadata);
+			g_object_unref (file_tags);
 			_g_string_list_free (new_tags);
 		}
 		else
@@ -435,8 +439,12 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 		else
 			string_list = NULL;
 
-		if (string_list != NULL)
-			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (string_list));
+		if (string_list != NULL) {
+			metadata = gth_metadata_new_for_string_list (string_list);
+			g_file_info_set_attribute_object (info, "general::tags", G_OBJECT (metadata));
+
+			g_object_unref (metadata);
+		}
 		else
 			g_file_info_remove_attribute (info, "general::tags");
 

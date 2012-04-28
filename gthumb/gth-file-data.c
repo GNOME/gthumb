@@ -495,8 +495,16 @@ gth_file_data_get_attribute_as_string (GthFileData *file_data,
 	switch (g_file_info_get_attribute_type (file_data->info, id)) {
 	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
 		obj = g_file_info_get_attribute_object (file_data->info, id);
-		if (GTH_IS_METADATA (obj))
-			value = g_strdup (gth_metadata_get_formatted (GTH_METADATA (obj)));
+		if (GTH_IS_METADATA (obj)) {
+			switch (gth_metadata_get_data_type (GTH_METADATA (obj))) {
+			case GTH_METADATA_TYPE_STRING:
+				value = g_strdup (gth_metadata_get_formatted (GTH_METADATA (obj)));
+				break;
+			case GTH_METADATA_TYPE_STRING_LIST:
+				value = gth_string_list_join (GTH_STRING_LIST (gth_metadata_get_string_list (GTH_METADATA (obj))), " ");
+				break;
+			}
+		}
 		else if (GTH_IS_STRING_LIST (obj))
 			value = gth_string_list_join (GTH_STRING_LIST (obj), " ");
 		else
@@ -617,8 +625,15 @@ gth_file_data_attribute_equal_string_list (GthFileData    *file_data,
 					   const char     *attribute,
 					   GthStringList  *value)
 {
-	GObject *obj;
+	GthStringList *list;
+	GObject       *obj;
 
+	list = NULL;
 	obj = g_file_info_get_attribute_object (file_data->info, attribute);
-	return gth_string_list_equal (GTH_STRING_LIST (obj), value);
+	if (GTH_IS_METADATA (obj))
+		list = gth_metadata_get_string_list (GTH_METADATA (obj));
+	else if (GTH_IS_STRING_LIST (obj))
+		list = (GthStringList *) obj;
+
+	return gth_string_list_equal (list, value);
 }

@@ -98,17 +98,21 @@ info_ready_cb (GList    *files,
 	self->priv->file_data_list = _g_object_list_ref (files);
 	for (scan = self->priv->file_data_list; scan; scan = scan->next) {
 		GthFileData   *file_data = scan->data;
+		GthMetadata   *metadata;
 		GthStringList *original_tags;
 		GthStringList *new_tags;
 
-		original_tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		original_tags = gth_metadata_get_string_list (metadata);
 
 		new_tags = gth_string_list_new (NULL);
 		gth_string_list_append (new_tags, original_tags);
 		gth_string_list_append (new_tags, self->priv->tags);
 
-		g_file_info_set_attribute_object (file_data->info, "general::tags", G_OBJECT (new_tags));
+		metadata = gth_metadata_new_for_string_list (new_tags);
+		g_file_info_set_attribute_object (file_data->info, "general::tags", G_OBJECT (metadata));
 
+		g_object_unref (metadata);
 		g_object_unref (new_tags);
 	}
 

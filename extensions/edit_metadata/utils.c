@@ -50,9 +50,11 @@ utils_get_common_tags (GList       *file_list, /* GthFileData list */
 	common_tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	for (scan = file_list; scan; scan = scan->next) {
 		GthFileData   *file_data = scan->data;
+		GthMetadata   *metadata;
 		GthStringList *file_tags;
 
-		file_tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+		file_tags = gth_metadata_get_string_list (metadata);
 		if (file_tags != NULL) {
 			for (scan_tags = gth_string_list_get_list (file_tags);
 			     scan_tags != NULL;

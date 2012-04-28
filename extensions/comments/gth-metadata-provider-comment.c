@@ -95,12 +95,15 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 	categories = gth_comment_get_categories (comment);
 	if (categories->len > 0) {
-		GObject *value;
+		GthStringList *list;
+		GthMetadata   *metadata;
 
-		value = (GObject *) gth_string_list_new_from_ptr_array (categories);
-		g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
+		list =  gth_string_list_new_from_ptr_array (categories);
+		metadata = gth_metadata_new_for_string_list (list);
+		g_file_info_set_attribute_object (file_data->info, "comment::categories", G_OBJECT (metadata));
 
-		g_object_unref (value);
+		g_object_unref (metadata);
+		g_object_unref (list);
 	}
 	else
 		g_file_info_remove_attribute (file_data->info, "comment::categories");
@@ -180,7 +183,8 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 
 	/* keywords */
 
-	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::tags");
+	categories = gth_metadata_get_string_list (metadata);
 	if (categories != NULL) {
 		GList *list;
 		GList *scan;

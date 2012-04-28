@@ -475,8 +475,8 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 					  dom_document_create_element_with_text (doc, value, "gphoto:location", NULL));
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
-	if ((metadata != NULL) && GTH_IS_STRING_LIST (metadata))
-		value = gth_string_list_join (GTH_STRING_LIST (metadata), ", ");
+	if (metadata != NULL)
+		value = gth_string_list_join (GTH_STRING_LIST (gth_metadata_get_string_list (GTH_METADATA (metadata))), ", ");
 	if (value != NULL) {
 		DomElement *group;
 

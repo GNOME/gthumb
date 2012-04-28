@@ -214,6 +214,13 @@ gth_metadata_new (void)
 }
 
 
+GthMetadata *
+gth_metadata_new_for_string_list (GthStringList *list)
+{
+	return g_object_new (GTH_TYPE_METADATA, "string-list", list, NULL);
+}
+
+
 GthMetadataType
 gth_metadata_get_data_type (GthMetadata *metadata)
 {
@@ -238,6 +245,8 @@ gth_metadata_get_raw (GthMetadata *metadata)
 GthStringList *
 gth_metadata_get_string_list (GthMetadata *metadata)
 {
+	if (metadata == NULL)
+		return NULL;
 	if (metadata->priv->data_type == GTH_METADATA_TYPE_STRING_LIST)
 		return metadata->priv->list;
 	else

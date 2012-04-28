@@ -454,7 +454,6 @@ for_each_file_func (GFile     *file,
 	GthFileData     *file_data;
 	char            *catalog_key;
 	GObject         *metadata;
-	GthStringList   *categories;
 	GTimeVal         timeval;
 	GthCatalog      *catalog;
 
@@ -492,13 +491,15 @@ for_each_file_func (GFile     *file,
 	case GTH_GROUP_POLICY_TAG:
 	case GTH_GROUP_POLICY_TAG_EMBEDDED:
 		if (self->priv->group_policy == GTH_GROUP_POLICY_TAG)
-			categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+			metadata = g_file_info_get_attribute_object (file_data->info, "comment::categories");
 		else
-			categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "general::tags");
-		if (categories != NULL) {
-			GList *list;
-			GList *scan;
+			metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
+		if ((metadata != NULL) && GTH_IS_METADATA (metadata)) {
+			GthStringList *categories;
+			GList         *list;
+			GList         *scan;
 
+			categories = gth_metadata_get_string_list (GTH_METADATA (metadata));
 			list = gth_string_list_get_list (categories);
 			for (scan = list; scan; scan = scan->next) {
 				char *tag = (char *) scan->data;

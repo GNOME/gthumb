@@ -60,6 +60,8 @@ gboolean          gth_string_list_equal               (GthStringList  *list1,
 						       GthStringList  *list2);
 void              gth_string_list_append              (GthStringList  *list1,
 		       	       	       	       	       GthStringList  *list2);
+void              gth_string_list_concat              (GthStringList  *list1,
+		       	       	       	       	       GthStringList  *list2);
 
 /* utilities */
 

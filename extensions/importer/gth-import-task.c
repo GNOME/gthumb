@@ -209,6 +209,7 @@ transformation_ready_cb (GError   *error,
 {
 	GthImportTask *self = user_data;
 	GthStringList *tag_list;
+	GthMetadata   *metadata;
 	GList         *file_list;
 
 	if ((error != NULL) && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -222,7 +223,8 @@ transformation_ready_cb (GError   *error,
 	}
 
 	tag_list = gth_string_list_new_from_strv (self->priv->tags);
-	g_file_info_set_attribute_object (self->priv->destination_file->info, "comment::categories", G_OBJECT (tag_list));
+	metadata = gth_metadata_new_for_string_list (tag_list);
+	g_file_info_set_attribute_object (self->priv->destination_file->info, "comment::categories", G_OBJECT (metadata));
 	file_list = g_list_prepend (NULL, self->priv->destination_file);
 	_g_write_metadata_async (file_list,
 				 GTH_METADATA_WRITE_DEFAULT,
@@ -232,6 +234,7 @@ transformation_ready_cb (GError   *error,
 				 self);
 
 	g_list_free (file_list);
+	g_object_unref (metadata);
 	g_object_unref (tag_list);
 }
 

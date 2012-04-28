@@ -798,8 +798,8 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 
 		tags = NULL;
 		metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
-		if ((metadata != NULL) && GTH_IS_STRING_LIST (metadata))
-			tags = gth_string_list_join (GTH_STRING_LIST (metadata), " ");
+		if (metadata != NULL)
+			tags = gth_string_list_join (GTH_STRING_LIST (gth_metadata_get_string_list (GTH_METADATA (metadata))), " ");
 		if (tags != NULL)
 			g_hash_table_insert (data_set, "tags", tags);
 

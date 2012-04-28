@@ -269,15 +269,18 @@ gth_test_category_real_match (GthTest     *test,
         test_category = GTH_TEST_CATEGORY (test);
 
 	if (test_category->priv->category != NULL) {
-		GthStringList *string_list;
+		GthMetadata   *metadata;
 		GList         *list, *scan;
 		char          *test_category_casefolded;
 
-		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category)));
-		if (string_list != NULL)
+		list = NULL;
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category)));
+		if ((metadata != NULL) && GTH_IS_METADATA (metadata)) {
+			GthStringList *string_list;
+
+			string_list = gth_metadata_get_string_list (metadata);
 			list = gth_string_list_get_list (string_list);
-		else
-			list = NULL;
+		}
 
 		if (test_category->priv->op == GTH_TEST_OP_CONTAINS_ONLY) {
 			if ((list == NULL) || (list->next != NULL))
