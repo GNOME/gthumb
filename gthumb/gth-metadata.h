@@ -25,8 +25,14 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
+#include "gth-string-list.h"
 
 G_BEGIN_DECLS
+
+typedef enum {
+	GTH_METADATA_TYPE_STRING,
+	GTH_METADATA_TYPE_STRING_LIST
+} GthMetadataType;
 
 typedef struct {
 	const char *id;
@@ -74,8 +80,10 @@ struct _GthMetadataClass {
 
 GType             gth_metadata_get_type        (void);
 GthMetadata *     gth_metadata_new             (void);
+GthMetadataType   gth_metadata_get_data_type   (GthMetadata     *metadata);
 const char *      gth_metadata_get_id          (GthMetadata     *metadata);
 const char *      gth_metadata_get_raw         (GthMetadata     *metadata);
+GthStringList *   gth_metadata_get_string_list (GthMetadata     *metadata);
 const char *      gth_metadata_get_formatted   (GthMetadata     *metadata);
 const char *      gth_metadata_get_value_type  (GthMetadata     *metadata);
 GthMetadata *     gth_metadata_dup             (GthMetadata     *metadata);
